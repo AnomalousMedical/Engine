@@ -39,7 +39,7 @@ namespace OgrePlugin
             {
                 //This is pretty tricky, the pointer is technically from the RenderTarget class, 
                 //but we know its a RenderWindow so its safe to pass here
-                RenderWindow_getWindowHandleStr(OgreRenderTarget, stringRetriever.StringCallback);
+                RenderWindow_getWindowHandleStr(OgreRenderTarget, stringRetriever.StringCallback, stringRetriever.Handle);
                 return stringRetriever.retrieveString();
             }
             return null;
@@ -83,7 +83,7 @@ namespace OgrePlugin
         private static extern void RenderWindow_windowMovedOrResized(IntPtr renderWindow);
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
-        private static extern void RenderWindow_getWindowHandleStr(IntPtr renderWindow, StringRetriever.Callback stringCb);
+        private static extern void RenderWindow_getWindowHandleStr(IntPtr renderWindow, StringRetriever.Callback stringCb, IntPtr handle);
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void RenderWindow_setFullscreen(IntPtr renderWindow, bool fullscreen, uint width, uint height);

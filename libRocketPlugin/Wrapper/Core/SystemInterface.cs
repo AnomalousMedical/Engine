@@ -16,9 +16,11 @@ namespace libRocketPlugin
 
         public String JoinPath(String documentPath, String path)
         {
-            StringRetriever sr = new StringRetriever();
-            SystemInterface_JoinPath(Ptr, documentPath, path, sr.StringCallback);
-            return sr.retrieveString();
+            using (StringRetriever sr = new StringRetriever())
+            {
+                SystemInterface_JoinPath(Ptr, documentPath, path, sr.StringCallback, sr.Handle);
+                return sr.retrieveString();
+            }
         }
 
         internal IntPtr Ptr
@@ -32,7 +34,7 @@ namespace libRocketPlugin
         #region PInvoke
 
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void SystemInterface_JoinPath(IntPtr systemInterface, String documentPath, String path, StringRetriever.Callback stringCallback);
+        private static extern void SystemInterface_JoinPath(IntPtr systemInterface, String documentPath, String path, StringRetriever.Callback stringCallback, IntPtr handle);
 
         #endregion
     }

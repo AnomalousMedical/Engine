@@ -71,17 +71,17 @@ extern "C" _AnomalousExport void Element_RemoveProperty(Rocket::Core::Element* e
 	element->RemoveProperty(name);
 }
 
-extern "C" _AnomalousExport void Element_GetPropertyString(Rocket::Core::Element* element, String name, StringRetrieverCallback strRetriever)
+extern "C" _AnomalousExport void Element_GetPropertyString(Rocket::Core::Element* element, String name, StringRetrieverCallback strRetriever, void* handle)
 {
 	const Rocket::Core::Property* prop = element->GetProperty(name);
 	if(prop != NULL)
 	{
 		Rocket::Core::String propString = prop->ToString();
-		strRetriever(propString.CString());
+		strRetriever(propString.CString(), handle);
 	}
 	else
 	{
-		strRetriever(NULL);
+		strRetriever(NULL, handle);
 	}
 }
 
@@ -98,17 +98,17 @@ extern "C" _AnomalousExport const Rocket::Core::Variant* Element_GetPropertyVari
 	}
 }
 
-extern "C" _AnomalousExport void Element_GetLocalPropertyString(Rocket::Core::Element* element, String name, StringRetrieverCallback strRetriever)
+extern "C" _AnomalousExport void Element_GetLocalPropertyString(Rocket::Core::Element* element, String name, StringRetrieverCallback strRetriever, void* handle)
 {
 	const Rocket::Core::Property* prop = element->GetLocalProperty(name);
 	if(prop != NULL)
 	{
 		Rocket::Core::String propString = prop->ToString();
-		strRetriever(propString.CString());
+		strRetriever(propString.CString(), handle);
 	}
 	else
 	{
-		strRetriever(NULL);
+		strRetriever(NULL, handle);
 	}
 }
 
@@ -170,13 +170,13 @@ extern "C" _AnomalousExport void Element_RemoveAttribute(Rocket::Core::Element* 
 
 //void SetAttributes(const ElementAttributes* attributes);
 
-extern "C" _AnomalousExport bool Element_IterateAttributes(Rocket::Core::Element* element, int& index, StringRetrieverCallback keyRetrieve, StringRetrieverCallback valueRetrieve)
+extern "C" _AnomalousExport bool Element_IterateAttributes(Rocket::Core::Element* element, int& index, StringRetrieverCallback keyRetrieve, StringRetrieverCallback valueRetrieve, void* keyHandle, void* valueHandle)
 {
 	Rocket::Core::String rktKey;
 	Rocket::Core::String rktValue;
 	bool retVal = element->IterateAttributes(index, rktKey, rktValue);
-	keyRetrieve(rktKey.CString());
-	valueRetrieve(rktValue.CString());
+	keyRetrieve(rktKey.CString(), keyHandle);
+	valueRetrieve(rktValue.CString(), valueHandle);
 	return retVal;
 }
 
@@ -336,11 +336,11 @@ extern "C" _AnomalousExport int Element_GetNumChildren(Rocket::Core::Element* el
 	return element->GetNumChildren(include_non_dom_elements);
 }
 
-extern "C" _AnomalousExport void Element_GetInnerRML(Rocket::Core::Element* element, StringRetrieverCallback retrieve)
+extern "C" _AnomalousExport void Element_GetInnerRML(Rocket::Core::Element* element, StringRetrieverCallback retrieve, void* handle)
 {
 	Rocket::Core::String str;
 	element->GetInnerRML(str);
-	retrieve(str.CString());
+	retrieve(str.CString(), handle);
 }
 
 extern "C" _AnomalousExport void Element_SetInnerRML(Rocket::Core::Element* element, String rml)
@@ -410,11 +410,11 @@ extern "C" _AnomalousExport void Element_GetElementsByTagName(Rocket::Core::Elem
 	element->GetElementsByTagName(elements->elementList, tag);
 }
 
-extern "C" _AnomalousExport void Element_GetElementRML(Rocket::Core::Element* element, StringRetrieverCallback retrieve)
+extern "C" _AnomalousExport void Element_GetElementRML(Rocket::Core::Element* element, StringRetrieverCallback retrieve, void* handle)
 {
 	Rocket::Core::String str;
 	element->GetElementRML(str);
-	retrieve(str.CString());
+	retrieve(str.CString(), handle);
 }
 
 extern "C" _AnomalousExport void Element_GetElementsWithAttribute(Rocket::Core::Element* root_element, ElementListIter* elementListIter, String attribute)

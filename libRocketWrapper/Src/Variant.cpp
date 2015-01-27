@@ -75,9 +75,9 @@ extern "C" _AnomalousExport Rocket::Core::word Variant_Get_Word(Rocket::Core::Va
 	return variant->Get<Rocket::Core::word>();
 }
 
-extern "C" _AnomalousExport void Variant_Get_String(Rocket::Core::Variant* variant, StringRetrieverCallback stringCb)
+extern "C" _AnomalousExport void Variant_Get_String(Rocket::Core::Variant* variant, StringRetrieverCallback stringCb, void* handle)
 {
-	stringCb(variant->Get<Rocket::Core::String>().CString());
+	stringCb(variant->Get<Rocket::Core::String>().CString(), handle);
 }
 
 extern "C" _AnomalousExport Color Variant_Get_Color(Rocket::Core::Variant* variant)

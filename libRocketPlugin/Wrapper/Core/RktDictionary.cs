@@ -11,7 +11,6 @@ namespace libRocketPlugin
     public class RktDictionary : RocketNativeObject, IEnumerable<RktEntry>
     {
         private VariantWrapped pooledVariant = new VariantWrapped();
-        StringRetriever stringRetriever = new StringRetriever();
         private RktDictionaryIterator iterator;
 
         internal RktDictionary()
@@ -85,12 +84,15 @@ namespace libRocketPlugin
 
         internal bool Iterate(ref int pos, out String key, out Variant value)
         {
-            IntPtr variantPtr = IntPtr.Zero;
-            bool retVal = Dictionary_Iterate(ptr, ref pos, stringRetriever.StringCallback, ref variantPtr);
-            key = stringRetriever.retrieveString();
-            pooledVariant.changePointer(variantPtr);
-            value = pooledVariant;
-            return retVal;
+            using (StringRetriever stringRetriever = new StringRetriever())
+            {
+                IntPtr variantPtr = IntPtr.Zero;
+                bool retVal = Dictionary_Iterate(ptr, ref pos, stringRetriever.StringCallback, ref variantPtr, stringRetriever.Handle);
+                key = stringRetriever.retrieveString();
+                pooledVariant.changePointer(variantPtr);
+                value = pooledVariant;
+                return retVal;
+            }
         }
 
         public IEnumerator<RktEntry> GetEnumerator()
@@ -118,7 +120,7 @@ namespace libRocketPlugin
 
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Dictionary_Iterate(IntPtr dictionary, ref int pos, StringRetriever.Callback keyCb, ref IntPtr value);
+        private static extern bool Dictionary_Iterate(IntPtr dictionary, ref int pos, StringRetriever.Callback keyCb, ref IntPtr value, IntPtr handle);
 
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]

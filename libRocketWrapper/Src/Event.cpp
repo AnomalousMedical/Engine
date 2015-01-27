@@ -25,9 +25,9 @@ extern "C" _AnomalousExport Rocket::Core::Element* Event_GetTargetElement(Rocket
 	return evt->GetTargetElement();
 }
 
-extern "C" _AnomalousExport void Event_GetType(Rocket::Core::Event* evt, StringRetrieverCallback stringCb)
+extern "C" _AnomalousExport void Event_GetType(Rocket::Core::Event* evt, StringRetrieverCallback stringCb, void* handle)
 {
-	stringCb(evt->GetType().CString());
+	stringCb(evt->GetType().CString(), handle);
 }
 
 extern "C" _AnomalousExport bool Event_IsPropagating(Rocket::Core::Event* evt)
@@ -71,7 +71,7 @@ extern "C" _AnomalousExport int Event_GetParameter_Int(Rocket::Core::Event* evt,
 	return evt->GetParameter<int>(key, default_value);
 }
 
-extern "C" _AnomalousExport void Event_GetParameter_String(Rocket::Core::Event* evt, String key, StringRetrieverCallback setString)
+extern "C" _AnomalousExport void Event_GetParameter_String(Rocket::Core::Event* evt, String key, StringRetrieverCallback setString, void* handle)
 {
 	//This allows us to prevent marshaling of the default value.
 	static Rocket::Core::String reservedDefaultString = "_NULL!";
@@ -79,7 +79,7 @@ extern "C" _AnomalousExport void Event_GetParameter_String(Rocket::Core::Event* 
 	const Rocket::Core::String& retrieved = evt->GetParameter<Rocket::Core::String>(key, reservedDefaultString);
 	if(retrieved != reservedDefaultString)
 	{
-		setString(retrieved.CString());
+		setString(retrieved.CString(), handle);
 	}
 }
 

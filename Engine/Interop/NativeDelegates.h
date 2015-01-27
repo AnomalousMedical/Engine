@@ -33,7 +33,7 @@
 //Typedef for common NativeAction
 typedef void(*NativeAction)(HANDLE_FIRST_ARG);
 
-//Typedef for StringRetriever callback function
-typedef void(*StringRetrieverCallback)(const char* value);
+//Typedef for StringRetriever callback function, these always have handles
+typedef void(*StringRetrieverCallback)(const char* value, void* handle);
 
-typedef void(*UnicodeStringRetrieverCallback)(const unsigned short* value);
+typedef void(*UnicodeStringRetrieverCallback)(const unsigned short* value, void* handle);

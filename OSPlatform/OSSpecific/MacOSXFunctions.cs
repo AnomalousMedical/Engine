@@ -34,9 +34,11 @@ namespace Anomalous.OSPlatform
         {
             get
             {
-                StringRetriever sr = new StringRetriever();
-                MacPlatformConfig_getLocalUserDocumentsFolder(sr.StringCallback);
-                return sr.retrieveString();
+                using (StringRetriever sr = new StringRetriever())
+                {
+                    MacPlatformConfig_getLocalUserDocumentsFolder(sr.StringCallback, sr.Handle);
+                    return sr.retrieveString();
+                }
             }
         }
 
@@ -44,9 +46,11 @@ namespace Anomalous.OSPlatform
         {
             get
             {
-                StringRetriever sr = new StringRetriever();
-                MacPlatformConfig_getLocalDataFolder(sr.StringCallback);
-                return sr.retrieveString();
+                using (StringRetriever sr = new StringRetriever())
+                {
+                    MacPlatformConfig_getLocalDataFolder(sr.StringCallback, sr.Handle);
+                    return sr.retrieveString();
+                }
             }
         }
 
@@ -54,9 +58,11 @@ namespace Anomalous.OSPlatform
         {
             get
             {
-                StringRetriever sr = new StringRetriever();
-                MacPlatformConfig_getLocalPrivateDataFolder(sr.StringCallback);
-                return sr.retrieveString();
+                using (StringRetriever sr = new StringRetriever())
+                {
+                    MacPlatformConfig_getLocalPrivateDataFolder(sr.StringCallback, sr.Handle);
+                    return sr.retrieveString();
+                }
             }
         }
 
@@ -67,13 +73,13 @@ namespace Anomalous.OSPlatform
         private static unsafe extern bool CertificateValidator_ValidateSSLCertificate(byte* certBytes, uint certBytesLength, [MarshalAs(UnmanagedType.LPWStr)] String url);
 
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static unsafe extern void MacPlatformConfig_getLocalUserDocumentsFolder(StringRetriever.Callback retrieve);
+        private static unsafe extern void MacPlatformConfig_getLocalUserDocumentsFolder(StringRetriever.Callback retrieve, IntPtr handle);
 
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static unsafe extern void MacPlatformConfig_getLocalDataFolder(StringRetriever.Callback retrieve);
+        private static unsafe extern void MacPlatformConfig_getLocalDataFolder(StringRetriever.Callback retrieve, IntPtr handle);
 
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static unsafe extern void MacPlatformConfig_getLocalPrivateDataFolder(StringRetriever.Callback retrieve);
+        private static unsafe extern void MacPlatformConfig_getLocalPrivateDataFolder(StringRetriever.Callback retrieve, IntPtr handle);
 
         #endregion
     }

@@ -20,7 +20,7 @@ namespace libRocketPlugin
         {
             get
             {
-                ElementFormControl_GetValue(ptr, stringRetriever.StringCallback);
+                ElementFormControl_GetValue(ptr, stringRetriever.StringCallback, stringRetriever.Handle);
                 return stringRetriever.retrieveString();
             }
             set
@@ -32,7 +32,7 @@ namespace libRocketPlugin
         #region PInvoke
 
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void ElementFormControl_GetValue(IntPtr elementFormControl, StringRetriever.Callback retrieve);
+        private static extern void ElementFormControl_GetValue(IntPtr elementFormControl, StringRetriever.Callback retrieve, IntPtr handle);
 
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ElementFormControl_SetValue(IntPtr elementFormControl, String value);

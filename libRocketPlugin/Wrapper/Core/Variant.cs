@@ -133,7 +133,7 @@ namespace libRocketPlugin
         {
             get
             {
-                Variant_Get_String(ptr, stringRetriever.StringCallback);
+                Variant_Get_String(ptr, stringRetriever.StringCallback, stringRetriever.Handle);
                 return stringRetriever.retrieveString();
             }
             set
@@ -190,7 +190,7 @@ namespace libRocketPlugin
         private static extern ushort Variant_Get_Word(IntPtr variant);
 
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void Variant_Get_String(IntPtr variant, StringRetriever.Callback stringCb);
+        private static extern void Variant_Get_String(IntPtr variant, StringRetriever.Callback stringCb, IntPtr handle);
 
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern Color Variant_Get_Color(IntPtr variant);

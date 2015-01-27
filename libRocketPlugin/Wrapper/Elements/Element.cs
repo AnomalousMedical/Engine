@@ -41,7 +41,7 @@ namespace libRocketPlugin
 
         public String GetPropertyString(String name)
         {
-            Element_GetPropertyString(ptr, name, stringRetriever.StringCallback);
+            Element_GetPropertyString(ptr, name, stringRetriever.StringCallback, stringRetriever.Handle);
             return stringRetriever.retrieveString();
         }
 
@@ -52,7 +52,7 @@ namespace libRocketPlugin
 
         public String GetLocalPropertyString(String name)
         {
-            Element_GetLocalPropertyString(ptr, name, stringRetriever.StringCallback);
+            Element_GetLocalPropertyString(ptr, name, stringRetriever.StringCallback, stringRetriever.Handle);
             return stringRetriever.retrieveString();
         }
 
@@ -93,7 +93,7 @@ namespace libRocketPlugin
 
         public bool IterateAttributes(ref int index, out String name, out String value)
         {
-            bool retVal = Element_IterateAttributes(ptr, ref index, stringRetriever.StringCallback, stringRetriever2.StringCallback);
+            bool retVal = Element_IterateAttributes(ptr, ref index, stringRetriever.StringCallback, stringRetriever2.StringCallback, stringRetriever.Handle, stringRetriever2.Handle);
             name = stringRetriever.retrieveString();
             value = stringRetriever2.retrieveString();
             return retVal;
@@ -459,7 +459,7 @@ namespace libRocketPlugin
         {
             get
             {
-                Element_GetInnerRML(ptr, stringRetriever.StringCallback);
+                Element_GetInnerRML(ptr, stringRetriever.StringCallback, stringRetriever.Handle);
                 return stringRetriever.retrieveString();
             }
             set
@@ -472,7 +472,7 @@ namespace libRocketPlugin
         {
             get
             {
-                Element_GetElementRML(ptr, stringRetriever.StringCallback);
+                Element_GetElementRML(ptr, stringRetriever.StringCallback, stringRetriever.Handle);
                 return stringRetriever.retrieveString();
             }
         }
@@ -522,13 +522,13 @@ namespace libRocketPlugin
         private static extern void Element_RemoveProperty(IntPtr element, String name);
 
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void Element_GetPropertyString(IntPtr element, String name, StringRetriever.Callback strRetriever);
+        private static extern void Element_GetPropertyString(IntPtr element, String name, StringRetriever.Callback strRetriever, IntPtr handle);
 
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetPropertyVariant(IntPtr element, String name);
 
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void Element_GetLocalPropertyString(IntPtr element, String name, StringRetriever.Callback strRetriever);
+        private static extern void Element_GetLocalPropertyString(IntPtr element, String name, StringRetriever.Callback strRetriever, IntPtr handle);
 
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Element_GetLocalPropertyVariant(IntPtr element, String name);
@@ -548,7 +548,7 @@ namespace libRocketPlugin
         
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Element_IterateAttributes(IntPtr element, ref int index, StringRetriever.Callback keyRetrieve, StringRetriever.Callback valueRetrieve);
+        private static extern bool Element_IterateAttributes(IntPtr element, ref int index, StringRetriever.Callback keyRetrieve, StringRetriever.Callback valueRetrieve, IntPtr keyHandle, IntPtr valueHandle);
         
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern int Element_GetNumAttributes(IntPtr element);
@@ -641,7 +641,7 @@ namespace libRocketPlugin
         private static extern int Element_GetNumChildren(IntPtr element, bool include_non_dom_elements/* = false*/);
 
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void Element_GetInnerRML(IntPtr element, StringRetriever.Callback retrieve);
+        private static extern void Element_GetInnerRML(IntPtr element, StringRetriever.Callback retrieve, IntPtr handle);
 
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_SetInnerRML(IntPtr element, String rml);
@@ -688,7 +688,7 @@ namespace libRocketPlugin
         private static extern void Element_GetElementsByTagName(IntPtr element, IntPtr elements, String tag);
 
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void Element_GetElementRML(IntPtr element, StringRetriever.Callback retrieve);
+        private static extern void Element_GetElementRML(IntPtr element, StringRetriever.Callback retrieve, IntPtr handle);
 
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_GetElementsWithAttribute(IntPtr root_element, IntPtr elementListIter, String attribute);

@@ -15,11 +15,11 @@ extern "C" _AnomalousExport bool Dictionary_Remove(Rocket::Core::Dictionary* dic
 	return dictionary->Remove(key);
 }
 
-extern "C" _AnomalousExport bool Dictionary_Iterate(Rocket::Core::Dictionary* dictionary, int &pos, StringRetrieverCallback keyCb, Rocket::Core::Variant* &value)
+extern "C" _AnomalousExport bool Dictionary_Iterate(Rocket::Core::Dictionary* dictionary, int &pos, StringRetrieverCallback keyCb, Rocket::Core::Variant* &value, void* handle)
 {
 	Rocket::Core::String rktKey;
 	bool retVal = dictionary->Iterate(pos, rktKey, value);
-	keyCb(rktKey.CString());
+	keyCb(rktKey.CString(), handle);
 	return retVal;
 }
 

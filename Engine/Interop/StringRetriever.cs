@@ -12,24 +12,34 @@ namespace Anomalous.Interop
     /// class you can set the value using a callback before the native string is
     /// freed. Note that this could cause threading issues if multiple threads
     /// try to access strings at once, but it is up to the user to determine how
-    /// this should be handed.
+    /// this should be handed. This class is also disposable, so if you are creating
+    /// a non static instance you must make sure to dispose it or you will leak GCHandles
+    /// in AOT mode. Instances are also reusable, so it is valid to create these as static
+    /// fields and the GCHandle leak won't matter since they are living for the lifetime
+    /// of the program anyway.
     /// </summary>
     /// <remarks>
     /// The following prototype is in the NativeDelegates.h file. It supports AOT
-    /// mode in that file.
+    /// mode through the handle and this should always be provided in the P/Invoke 
+    /// signature.
     /// <code>
-    /// typedef void (*StringRetrieverCallback)(String value);
+    /// typedef void(*StringRetrieverCallback)(const char* value, void* handle)
     /// </code>
     /// </remarks>
-    public class StringRetriever
+    public class StringRetriever : IDisposable
     {
-        private Callback callback;
         private String currentString;
         private bool gotString = false;
+        private CallbackHandler callbackHandler;
 
         public StringRetriever()
         {
-            callback = new Callback(setNativeString);
+            callbackHandler = new CallbackHandler(this);
+        }
+
+        public void Dispose()
+        {
+            callbackHandler.Dispose();
         }
 
         public String retrieveString()
@@ -52,7 +62,15 @@ namespace Anomalous.Interop
             get
             {
                 gotString = false;
-                return callback;
+                return callbackHandler.StringCallback;
+            }
+        }
+
+        public IntPtr Handle
+        {
+            get
+            {
+                return callbackHandler.Handle;
             }
         }
 
@@ -62,11 +80,86 @@ namespace Anomalous.Interop
             currentString = value;
         }
 
-        #region PInvoke
-
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void Callback(String value);
+        public delegate void Callback(String value, IntPtr instanceHandle);
 
-        #endregion
+#if FULL_AOT_COMPILE
+        class CallbackHandler : IDisposable
+        {
+            private static Callback callback;
+
+            static CallbackHandler()
+            {
+                callback = new Callback(setNativeString);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(Callback))]
+            private static void setNativeString(String value, IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as StringRetriever).setNativeString(value);
+            }
+
+            private GCHandle handle;
+
+            public CallbackHandler(StringRetriever obj)
+            {
+                handle = GCHandle.Alloc(obj);
+            }
+
+            public void Dispose()
+            {
+                handle.Free();
+            }
+
+            public Callback StringCallback
+            {
+                get
+                {
+                    return callback;
+                }
+            }
+
+            public IntPtr Handle
+            {
+                get
+                {
+                    return GCHandle.ToIntPtr(handle);
+                }
+            }
+        }
+#else 
+        class CallbackHandler : IDisposable
+        {
+            private Callback callback;
+
+            public CallbackHandler(StringRetriever obj)
+            {
+                callback = new Callback(obj.setNativeString);
+            }
+
+            public void Dispose()
+            {
+                
+            }
+
+            public Callback StringCallback
+            {
+                get
+                {
+                    return callback;
+                }
+            }
+
+            public IntPtr Handle
+            {
+                get
+                {
+                    return IntPtr.Zero;
+                }
+            }
+        }
+#endif
+
     }
 }

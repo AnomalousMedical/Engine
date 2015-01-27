@@ -10,7 +10,6 @@ namespace libRocketPlugin
 {
     public class Event : RocketNativeObject
     {
-        private StringRetriever stringRetriever = new StringRetriever();
         private RktDictionary parameters = new RktDictionary();
 
         public enum EventPhase
@@ -65,8 +64,11 @@ namespace libRocketPlugin
         {
             get
             {
-                Event_GetType(ptr, stringRetriever.StringCallback);
-                return stringRetriever.retrieveString();
+                using (StringRetriever stringRetriever = new StringRetriever())
+                {
+                    Event_GetType(ptr, stringRetriever.StringCallback, stringRetriever.Handle);
+                    return stringRetriever.retrieveString();
+                }
             }
         }
 
@@ -113,14 +115,17 @@ namespace libRocketPlugin
 
         public String GetParameter(String key, String default_value)
         {
-            Event_GetParameter_String(ptr, key, stringRetriever.StringCallback);
-            if (stringRetriever.GotString)
+            using (StringRetriever stringRetriever = new StringRetriever())
             {
-                return stringRetriever.retrieveString();
-            }
-            else
-            {
-                return default_value;
+                Event_GetParameter_String(ptr, key, stringRetriever.StringCallback, stringRetriever.Handle);
+                if (stringRetriever.GotString)
+                {
+                    return stringRetriever.retrieveString();
+                }
+                else
+                {
+                    return default_value;
+                }
             }
         }
 
@@ -153,7 +158,7 @@ namespace libRocketPlugin
         private static extern IntPtr Event_GetTargetElement(IntPtr evt);
 
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void Event_GetType(IntPtr evt, StringRetriever.Callback stringCb);
+        private static extern void Event_GetType(IntPtr evt, StringRetriever.Callback stringCb, IntPtr handle);
 
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
@@ -178,7 +183,7 @@ namespace libRocketPlugin
         private static extern int Event_GetParameter_Int(IntPtr evt, String key, int default_value);
 
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void Event_GetParameter_String(IntPtr evt, String key, StringRetriever.Callback setString);
+        private static extern void Event_GetParameter_String(IntPtr evt, String key, StringRetriever.Callback setString, IntPtr handle);
 
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern ushort Event_GetParameter_Word(IntPtr evt, String key, ushort default_value);

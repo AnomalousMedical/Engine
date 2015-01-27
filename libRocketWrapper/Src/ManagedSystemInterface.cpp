@@ -107,11 +107,11 @@ extern "C" _AnomalousExport void ManagedSystemInterface_Delete(ManagedSystemInte
 	delete systemInterface;
 }
 
-extern "C" _AnomalousExport void SystemInterface_JoinPath(Rocket::Core::SystemInterface* systemInterface, String documentPath, String path, StringRetrieverCallback stringCallback)
+extern "C" _AnomalousExport void SystemInterface_JoinPath(Rocket::Core::SystemInterface* systemInterface, String documentPath, String path, StringRetrieverCallback stringCallback, void* handle)
 {
 	Rocket::Core::String result;
 	systemInterface->JoinPath(result, documentPath, path);
-	stringCallback(result.CString());
+	stringCallback(result.CString(), handle);
 }
 
 extern "C" _AnomalousExport void ManagedSystemInterface_AddRootPath(ManagedSystemInterface* systemInterface, String rootPath)
