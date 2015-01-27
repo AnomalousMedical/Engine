@@ -357,7 +357,7 @@ namespace BulletPlugin
 
             public IntPtr create(BulletScene obj, BulletSceneDefinition definition)
             {
-                managedTickCallback = new ManagedTickCallback(managedTickCallbackFunc);
+                managedTickCallback = new ManagedTickCallback(obj.managedTickCallbackFunc);
                 fixed (BulletSceneInfo* info = &definition.sceneInfo)
                 {
                     return BulletScene_CreateBulletScene(info, managedTickCallback);
