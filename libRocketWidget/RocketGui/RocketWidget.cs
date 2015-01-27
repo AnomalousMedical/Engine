@@ -18,7 +18,7 @@ namespace Anomalous.libRocketWidget
 
         private const String RTT_BASE_NAME = "__RocketRTT{0}_{1}";
         private const int MAX_TEXTURE_SIZE_POW2 = 4096;
-        private const int MIN_TEXTURE_SIZE_POW2 = 2;
+        private const int MIN_TEXTURE_SIZE_POW2 = 32;
 
         private SceneManager sceneManager;
         private Camera camera;
