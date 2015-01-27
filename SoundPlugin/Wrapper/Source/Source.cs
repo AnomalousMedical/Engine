@@ -11,14 +11,19 @@ namespace SoundPlugin
 
     public class Source : SoundPluginObject
     {
-        private SourceFinishedCallback finishedCB;
+        private CallbackHandler callbackHandler;
         public event SourceFinishedDelegate PlaybackFinished;
 
         internal Source(IntPtr source)
             : base(source)
         {
-            finishedCB = finished;
-            Source_setFinishedCallback(Pointer, finishedCB);
+            callbackHandler = new CallbackHandler(this);
+        }
+
+        internal override void delete()
+        {
+            base.delete();
+            callbackHandler.Dispose();
         }
 
         public bool playSound(Sound sound)
@@ -307,7 +312,11 @@ namespace SoundPlugin
         #region PInvoke
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate void SourceFinishedCallback(IntPtr source);
+        delegate void SourceFinishedCallback(IntPtr source
+#if FULL_AOT_COMPILE
+, IntPtr instanceHandle
+#endif
+);
 
         [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
@@ -341,7 +350,11 @@ namespace SoundPlugin
         private static extern float Source_getPlaybackPosition(IntPtr source);
 
         [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
-        private static extern void Source_setFinishedCallback(IntPtr source, SourceFinishedCallback callback);
+        private static extern void Source_setFinishedCallback(IntPtr source, SourceFinishedCallback callback
+#if FULL_AOT_COMPILE
+, IntPtr instanceHandle
+#endif
+);
 
         [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Source_setPitch(IntPtr source, float value);
@@ -427,6 +440,54 @@ namespace SoundPlugin
         [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Source_getSourceRelative(IntPtr source);
+
+#if FULL_AOT_COMPILE
+        class CallbackHandler : IDisposable
+        {
+            private static SourceFinishedCallback finishedCB;
+
+            static CallbackHandler()
+            {
+                finishedCB = finished;
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(SourceFinishedCallback))]
+            private static void finished(IntPtr source, IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as Source).finished(source);
+            }
+
+            private GCHandle handle;
+
+            public CallbackHandler(Source obj)
+            {
+                handle = GCHandle.Alloc(obj);
+                Source_setFinishedCallback(obj.Pointer, finishedCB, GCHandle.ToIntPtr(handle));
+            }
+
+            public void Dispose()
+            {
+                handle.Free();
+            }
+        }
+#else
+        class CallbackHandler : IDisposable
+        {
+            private SourceFinishedCallback finishedCB;
+
+            public CallbackHandler(Source obj)
+            {
+                finishedCB = obj.finished;
+                Source_setFinishedCallback(obj.Pointer, finishedCB);
+            }
+
+            public void Dispose()
+            {
+
+            }
+        }
+#endif
 
         #endregion
     }

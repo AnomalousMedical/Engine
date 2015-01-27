@@ -149,7 +149,7 @@ void Source::finished()
 
 	if(finishedCallback != NULL)
 	{
-		finishedCallback(this);
+		finishedCallback(this PASS_HANDLE_ARG);
 	}
 	currentSound = NULL;
 	sourceManager->_removePlayingSource(this);
@@ -347,7 +347,7 @@ extern "C" _AnomalousExport bool Source_getSourceRelative(Source* source)
 	return source->getSourceRelative();
 }
 
-extern "C" _AnomalousExport void Source_setFinishedCallback(Source* source, SourceFinishedCallback callback)
+extern "C" _AnomalousExport void Source_setFinishedCallback(Source* source, SourceFinishedCallback callback HANDLE_ARG)
 {
-	source->setFinishedCallback(callback);
+	source->setFinishedCallback(callback PASS_HANDLE_ARG);
 }

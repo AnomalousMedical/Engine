@@ -5,7 +5,7 @@
 namespace SoundWrapper
 {
 
-typedef void (*SourceFinishedCallback)(Source* source);
+typedef void (*SourceFinishedCallback)(Source* source HANDLE_ARG);
 
 class SourceManager;
 class Sound;
@@ -18,6 +18,7 @@ private:
 	SourceManager* sourceManager;
 	Sound* currentSound;
 	SourceFinishedCallback finishedCallback;
+	HANDLE_INSTANCE
 
 public:
 	Source(ALuint sourceID, SourceManager* sourceManager);
@@ -220,9 +221,10 @@ public:
 		return returnVal;
 	}
 
-	void setFinishedCallback(SourceFinishedCallback callback)
+	void setFinishedCallback(SourceFinishedCallback callback HANDLE_ARG)
 	{
 		finishedCallback = callback;
+		ASSIGN_HANDLE
 	}
 
 	//Internal do not create wrapper
