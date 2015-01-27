@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "../Include/MotionState.h"
 
-MotionState::MotionState(SetXformCallback xformCallback, ContactCallback contactStartedCallback, ContactCallback contactEndedCallback, ContactCallback contactContinuesCallback, float maxContactDistance, const Vector3* initialTrans, const Quaternion* initialRot)
+MotionState::MotionState(SetXformCallback xformCallback, ContactCallback contactStartedCallback, ContactCallback contactEndedCallback, ContactCallback contactContinuesCallback, float maxContactDistance, const Vector3* initialTrans, const Quaternion* initialRot HANDLE_ARG)
 :xformCallback(xformCallback),
 contactStartedCallback(contactStartedCallback),
 contactEndedCallback(contactEndedCallback),
@@ -10,6 +10,7 @@ maxContactDistance(maxContactDistance),
 hasContactStartedCallback(false),
 hasContactEndedCallback(false),
 hasContactContinuesCallback(false)
+ASSIGN_HANDLE_INITIALIZER
 {
 	transform.setIdentity();
 	transform.setOrigin(initialTrans->toBullet());
@@ -29,12 +30,12 @@ void MotionState::setWorldTransform (const btTransform &worldTrans)
 {
 	btQuaternion rot;
 	worldTrans.getBasis().getRotation(rot);
-	xformCallback(worldTrans.getOrigin(), rot);
+	xformCallback(worldTrans.getOrigin(), rot PASS_HANDLE_ARG);
 }
 
-extern "C" _AnomalousExport MotionState* MotionState_Create(SetXformCallback xformCallback, ContactCallback contactStartedCallback,	ContactCallback contactEndedCallback, ContactCallback contactContinuesCallback, float maxContactDistance, const Vector3* initialTrans, const Quaternion* initialRot)
+extern "C" _AnomalousExport MotionState* MotionState_Create(SetXformCallback xformCallback, ContactCallback contactStartedCallback,	ContactCallback contactEndedCallback, ContactCallback contactContinuesCallback, float maxContactDistance, const Vector3* initialTrans, const Quaternion* initialRot HANDLE_ARG)
 {
-	return new MotionState(xformCallback, contactStartedCallback, contactEndedCallback, contactContinuesCallback, maxContactDistance, initialTrans, initialRot);
+	return new MotionState(xformCallback, contactStartedCallback, contactEndedCallback, contactContinuesCallback, maxContactDistance, initialTrans, initialRot PASS_HANDLE_ARG);
 }
 
 extern "C" _AnomalousExport void MotionState_Delete(MotionState* instance)

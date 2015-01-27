@@ -9,26 +9,20 @@ namespace BulletPlugin
 {
     class MotionState : IDisposable
     {
-        private SetXformCallback xformCallback;
-        private ContactCallback contactStartedCallback;
-        private ContactCallback contactEndedCallback;
-        private ContactCallback contactContinuesCallback;
         internal IntPtr motionState;
         private ContactInfo contactInfo = new ContactInfo();
         protected RigidBody rigidBody;
 
         private bool positionUpdated = false;
+        private CallbackHandler callbackHandler;
         protected Vector3 localTranslation;
         protected Quaternion localRotation;
 
         public MotionState(RigidBody rigidBody, float maxContactDistance, ref Vector3 initialTrans, ref Quaternion initialRot)
         {
             this.rigidBody = rigidBody;
-            xformCallback = new SetXformCallback(motionStateCallback);
-            contactStartedCallback = new ContactCallback(contactStartedCallbackFunc);
-            contactEndedCallback = new ContactCallback(contactEndedCallbackFunc);
-            contactContinuesCallback = new ContactCallback(contactContinuesCallbackFunc);
-            motionState = MotionState_Create(xformCallback, contactStartedCallback, contactEndedCallback, contactContinuesCallback, maxContactDistance, ref initialTrans, ref initialRot);
+            callbackHandler = new CallbackHandler();
+            motionState = callbackHandler.create(this, maxContactDistance, ref initialTrans, ref initialRot);
             localTranslation = initialTrans;
             localRotation = initialRot;
         }
@@ -39,10 +33,7 @@ namespace BulletPlugin
             {
                 MotionState_Delete(motionState);
                 motionState = IntPtr.Zero;
-                xformCallback = null;
-                contactStartedCallback = null;
-                contactEndedCallback = null;
-                contactContinuesCallback = null;
+                callbackHandler.Dispose();
             }
         }
 
@@ -222,13 +213,25 @@ namespace BulletPlugin
 
         //MotionState
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate void SetXformCallback(ref Vector3 trans, ref Quaternion rot);
+        delegate void SetXformCallback(ref Vector3 trans, ref Quaternion rot
+#if FULL_AOT_COMPILE
+, IntPtr instanceHandle
+#endif
+);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate void ContactCallback(IntPtr contact, IntPtr sourceBody, IntPtr otherBody, bool isBodyA);
+        delegate void ContactCallback(IntPtr contact, IntPtr sourceBody, IntPtr otherBody, bool isBodyA
+#if FULL_AOT_COMPILE
+, IntPtr instanceHandle
+#endif
+);
 
         [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr MotionState_Create(SetXformCallback xformCallback, ContactCallback contactStartedCallback, ContactCallback contactEndedCallback, ContactCallback contactContinuesCallback, float maxContactDistance, ref Vector3 initialTrans, ref Quaternion initialRot);
+        private static extern IntPtr MotionState_Create(SetXformCallback xformCallback, ContactCallback contactStartedCallback, ContactCallback contactEndedCallback, ContactCallback contactContinuesCallback, float maxContactDistance, ref Vector3 initialTrans, ref Quaternion initialRot
+#if FULL_AOT_COMPILE
+, IntPtr instanceHandle
+#endif
+);
 
         [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void MotionState_Delete(IntPtr instance);
@@ -247,5 +250,89 @@ namespace BulletPlugin
 
         [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern float MotionState_getMaxContactDistance(IntPtr instance);
+
+#if FULL_AOT_COMPILE
+        class CallbackHandler : IDisposable
+        {
+            private static SetXformCallback xformCallback;
+            private static ContactCallback contactStartedCallback;
+            private static ContactCallback contactEndedCallback;
+            private static ContactCallback contactContinuesCallback;
+
+            static CallbackHandler()
+            {
+                xformCallback = new SetXformCallback(motionStateCallback);
+                contactStartedCallback = new ContactCallback(contactStartedCallbackFunc);
+                contactEndedCallback = new ContactCallback(contactEndedCallbackFunc);
+                contactContinuesCallback = new ContactCallback(contactContinuesCallbackFunc);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(SetXformCallback))]
+            private static void motionStateCallback(ref Vector3 trans, ref Quaternion rot, IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as MotionState).motionStateCallback(ref trans, ref rot);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(ContactCallback))]
+            private static void contactStartedCallbackFunc(IntPtr contact, IntPtr sourceBody, IntPtr otherBody, bool isBodyA, IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as MotionState).contactStartedCallbackFunc(contact, sourceBody, otherBody, isBodyA);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(ContactCallback))]
+            private static void contactEndedCallbackFunc(IntPtr contact, IntPtr sourceBody, IntPtr otherBody, bool isBodyA, IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as MotionState).contactEndedCallbackFunc(contact, sourceBody, otherBody, isBodyA);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(ContactCallback))]
+            private static void contactContinuesCallbackFunc(IntPtr contact, IntPtr sourceBody, IntPtr otherBody, bool isBodyA, IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as MotionState).contactContinuesCallbackFunc(contact, sourceBody, otherBody, isBodyA);
+            }
+
+            private GCHandle handle;
+
+            public IntPtr create(MotionState obj, float maxContactDistance, ref Vector3 initialTrans, ref Quaternion initialRot)
+            {
+                handle = GCHandle.Alloc(obj);
+                return MotionState_Create(xformCallback, contactStartedCallback, contactEndedCallback, contactContinuesCallback, maxContactDistance, ref initialTrans, ref initialRot, GCHandle.ToIntPtr(handle));
+            }
+
+            public void Dispose()
+            {
+                handle.Free();
+            }
+        }
+#else
+        class CallbackHandler : IDisposable
+        {
+            private SetXformCallback xformCallback;
+            private ContactCallback contactStartedCallback;
+            private ContactCallback contactEndedCallback;
+            private ContactCallback contactContinuesCallback;
+
+            public IntPtr create(MotionState obj, float maxContactDistance, ref Vector3 initialTrans, ref Quaternion initialRot)
+            {
+                xformCallback = new SetXformCallback(obj.motionStateCallback);
+                contactStartedCallback = new ContactCallback(obj.contactStartedCallbackFunc);
+                contactEndedCallback = new ContactCallback(obj.contactEndedCallbackFunc);
+                contactContinuesCallback = new ContactCallback(obj.contactContinuesCallbackFunc);
+                return MotionState_Create(xformCallback, contactStartedCallback, contactEndedCallback, contactContinuesCallback, maxContactDistance, ref initialTrans, ref initialRot);
+            }
+
+            public void Dispose()
+            {
+                xformCallback = null;
+                contactStartedCallback = null;
+                contactEndedCallback = null;
+                contactContinuesCallback = null;
+            }
+        }
+#endif
     }
 }

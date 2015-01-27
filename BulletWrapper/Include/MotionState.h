@@ -2,8 +2,8 @@
 
 class ContactInfo;
 
-typedef void (*SetXformCallback)(const Vector3& trans, const Quaternion& rot);
-typedef void (*ContactCallback)(ContactInfo* contact, btRigidBody* sourceBody, btRigidBody* otherBody, bool isBodyA);
+typedef void (*SetXformCallback)(const Vector3& trans, const Quaternion& rot HANDLE_ARG);
+typedef void (*ContactCallback)(ContactInfo* contact, btRigidBody* sourceBody, btRigidBody* otherBody, bool isBodyA HANDLE_ARG);
 
 class MotionState : public btMotionState
 {
@@ -14,9 +14,10 @@ private:
 	ContactCallback contactContinuesCallback;
 	
 	btTransform transform;
+	HANDLE_INSTANCE
 
 public:
-	MotionState(SetXformCallback xformCallback, ContactCallback contactStartedCallback,	ContactCallback contactEndedCallback, ContactCallback contactContinuesCallback, float maxContactDistance, const Vector3* initialTrans, const Quaternion* initialRot);
+	MotionState(SetXformCallback xformCallback, ContactCallback contactStartedCallback,	ContactCallback contactEndedCallback, ContactCallback contactContinuesCallback, float maxContactDistance, const Vector3* initialTrans, const Quaternion* initialRot HANDLE_ARG);
 
 	virtual ~MotionState(void);
 
@@ -28,7 +29,7 @@ public:
 	{
 		if(hasContactStartedCallback)
 		{
-			contactStartedCallback(contact, sourceBody, otherBody, isBodyA);
+			contactStartedCallback(contact, sourceBody, otherBody, isBodyA PASS_HANDLE_ARG);
 		}
 	}
 
@@ -36,7 +37,7 @@ public:
 	{
 		if(hasContactEndedCallback)
 		{
-			contactEndedCallback(contact, sourceBody, otherBody, isBodyA);
+			contactEndedCallback(contact, sourceBody, otherBody, isBodyA PASS_HANDLE_ARG);
 		}
 	}
 
@@ -44,7 +45,7 @@ public:
 	{
 		if(hasContactContinuesCallback)
 		{
-			contactContinuesCallback(contact, sourceBody, otherBody, isBodyA);
+			contactContinuesCallback(contact, sourceBody, otherBody, isBodyA PASS_HANDLE_ARG);
 		}
 	}
 
