@@ -49,7 +49,7 @@ void checkOpenAL(const char* hint)
 //Log add listener function
 using namespace SoundWrapper;
 
-extern "C" _AnomalousExport void NativeLog_addLogListener(NativeLogListener* logListener)
+extern "C" _AnomalousExport void SoundWrapper_NativeLog_addLogListener(NativeLogListener* logListener)
 {
 	logger.addListener(logListener);
 }

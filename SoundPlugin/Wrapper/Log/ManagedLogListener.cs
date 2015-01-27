@@ -16,12 +16,12 @@ namespace SoundPlugin
         {
             callbackHandler = new CallbackHandler();
             managedLogListener = callbackHandler.create(this);
-            NativeLog_addLogListener(managedLogListener);
+            SoundWrapper_NativeLog_addLogListener(managedLogListener);
         }
 
         public void Dispose()
         {
-            ManagedLogListener_destroy(managedLogListener);
+            SoundWrapper_ManagedLogListener_destroy(managedLogListener);
             callbackHandler.Dispose();
         }
 
@@ -40,17 +40,17 @@ namespace SoundPlugin
 );
 
         [DllImport(SoundPluginInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr ManagedLogListener_create(LogMessageDelegate logDelegate
+        private static extern IntPtr SoundWrapper_ManagedLogListener_create(LogMessageDelegate logDelegate
 #if FULL_AOT_COMPILE
 , IntPtr instanceHandle
 #endif
 );
 
         [DllImport(SoundPluginInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void ManagedLogListener_destroy(IntPtr managedLogListener);
+        private static extern void SoundWrapper_ManagedLogListener_destroy(IntPtr managedLogListener);
 
         [DllImport(SoundPluginInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void NativeLog_addLogListener(IntPtr logListener);
+        private static extern void SoundWrapper_NativeLog_addLogListener(IntPtr logListener);
 
 #if FULL_AOT_COMPILE
         class CallbackHandler : IDisposable
@@ -74,7 +74,7 @@ namespace SoundPlugin
             public IntPtr create(ManagedLogListener obj)
             {
                 handle = GCHandle.Alloc(obj);
-                return ManagedLogListener_create(logCB, GCHandle.ToIntPtr(handle));
+                return SoundWrapper_ManagedLogListener_create(logCB, GCHandle.ToIntPtr(handle));
             }
 
             public void Dispose()
@@ -90,7 +90,7 @@ namespace SoundPlugin
             public IntPtr create(ManagedLogListener obj)
             {
                 logCB = obj.logMessage;
-                return ManagedLogListener_create(logCB);
+                return SoundWrapper_ManagedLogListener_create(logCB);
             }
 
             public void Dispose()

@@ -36,12 +36,12 @@ public:
 //CWrapper
 using namespace SoundWrapper;
 
-extern "C" _AnomalousExport ManagedLogListener* ManagedLogListener_create(LogMessageDelegate logDelegate HANDLE_ARG)
+extern "C" _AnomalousExport ManagedLogListener* SoundWrapper_ManagedLogListener_create(LogMessageDelegate logDelegate HANDLE_ARG)
 {
 	return new ManagedLogListener(logDelegate PASS_HANDLE_ARG);
 }
 
-extern "C" _AnomalousExport void ManagedLogListener_destroy(ManagedLogListener* managedLogListener)
+extern "C" _AnomalousExport void SoundWrapper_ManagedLogListener_destroy(ManagedLogListener* managedLogListener)
 {
 	delete managedLogListener;
 }
