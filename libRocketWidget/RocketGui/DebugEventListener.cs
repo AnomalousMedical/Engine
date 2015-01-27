@@ -8,7 +8,7 @@ using Logging;
 
 namespace Anomalous.libRocketWidget
 {
-    class DebugEventListener : EventListener
+    public class DebugEventListener : EventListener
     {
         private string name;
 

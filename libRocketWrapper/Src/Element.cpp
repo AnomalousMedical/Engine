@@ -364,12 +364,18 @@ extern "C" _AnomalousExport void Element_Click(Rocket::Core::Element* element)
 	element->Click();
 }
 
-//void AddEventListener(const String& event, EventListener* listener, bool in_capture_phase = false);
-//
-//void RemoveEventListener(const String& event, EventListener* listener, bool in_capture_phase = false);
-//
+extern "C" _AnomalousExport void Element_AddEventListener(Rocket::Core::Element* element, String event, Rocket::Core::EventListener* listener, bool in_capture_phase/* = false*/)
+{
+	element->AddEventListener(event, listener, in_capture_phase);
+}
+
+extern "C" _AnomalousExport void Element_RemoveEventListener(Rocket::Core::Element* element, String event, Rocket::Core::EventListener* listener, bool in_capture_phase/* = false*/)
+{
+	element->RemoveEventListener(event, listener, in_capture_phase);
+}
+
 //bool DispatchEvent(const String& event, const Dictionary& parameters, bool interruptible = false);
-//
+
 extern "C" _AnomalousExport void Element_ScrollIntoView(Rocket::Core::Element* element, bool align_with_top/* = true*/)
 {
 	return element->ScrollIntoView();

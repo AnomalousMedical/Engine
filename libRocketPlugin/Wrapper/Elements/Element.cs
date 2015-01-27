@@ -243,6 +243,16 @@ namespace libRocketPlugin
             return Element_IsPointWithinElement(ptr, point);
         }
 
+        public void AddEventListener(String evt, EventListener listener, bool inCapturePhase = false)
+        {
+            Element_AddEventListener(ptr, evt, listener.Ptr, inCapturePhase);
+        }
+
+        public void RemoveEventListener(String evt, EventListener listener, bool inCapturePhase = false)
+        {
+            Element_RemoveEventListener(ptr, evt, listener.Ptr, inCapturePhase);
+        }
+
         public String TagName
         {
             get
@@ -659,6 +669,12 @@ namespace libRocketPlugin
         
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_Click(IntPtr element);
+
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Element_AddEventListener(IntPtr element, String evt, IntPtr listener, bool in_capture_phase/* = false*/);
+
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Element_RemoveEventListener(IntPtr element, String evt, IntPtr listener, bool in_capture_phase/* = false*/);
         
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Element_ScrollIntoView(IntPtr element, bool align_with_top/* = true*/);
