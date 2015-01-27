@@ -9,6 +9,7 @@
 #include "BulletSoftBody/btSoftRigidDynamicsWorld.h"
 #include "BulletSoftBody/btSoftBodyRigidBodyCollisionConfiguration.h"
 #include "BulletSoftBody/btSoftBodyHelpers.h"
+#include "../Engine/Interop/NativeDelegates.h"
 
 #ifdef WINDOWS
 #define _AnomalousExport __declspec(dllexport)

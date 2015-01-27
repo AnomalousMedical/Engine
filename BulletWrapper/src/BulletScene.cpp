@@ -8,7 +8,7 @@ static void tickCallback(btDynamicsWorld *world, btScalar timeStep)
 	scene->tickCallback(timeStep);
 }
 
-BulletScene::BulletScene(BulletSceneInfo* sceneInfo, ManagedTickCallback managedTickCallback)
+BulletScene::BulletScene(BulletSceneInfo* sceneInfo, ManagedTickCallback managedTickCallback HANDLE_ARG)
 :maxProxies(sceneInfo->maxProxies),
 //debugDraw(new BulletDebugDraw()),
 internalTimestep(1.0f / 60.0f),
@@ -17,6 +17,7 @@ managedTickCallback(managedTickCallback)
 ,
 softBodyWorldInfo(new btSoftBodyWorldInfo())
 #endif
+ASSIGN_HANDLE_INITIALIZER
 {
 #ifdef USE_SOFTBODY_WORLD
 	collisionConfiguration = new btSoftBodyRigidBodyCollisionConfiguration();
@@ -130,7 +131,7 @@ void BulletScene::removeConstraint(btTypedConstraint* constraint)
 
 void BulletScene::tickCallback(btScalar timeStep)
 {
-	managedTickCallback(timeStep);
+	managedTickCallback(timeStep PASS_HANDLE_ARG);
 	int numManifolds = dispatcher->getNumManifolds();
 	for(int i = 0; i < numManifolds; ++i)
 	{
@@ -172,9 +173,9 @@ int BulletScene::getSolverIterations()
 //--------------------------------------------------
 //Wrapper functions
 //--------------------------------------------------
-extern "C" _AnomalousExport BulletScene* BulletScene_CreateBulletScene(BulletSceneInfo* sceneInfo, ManagedTickCallback managedTickCallback)
+extern "C" _AnomalousExport BulletScene* BulletScene_CreateBulletScene(BulletSceneInfo* sceneInfo, ManagedTickCallback managedTickCallback HANDLE_ARG)
 {
-	return new BulletScene(sceneInfo, managedTickCallback);
+	return new BulletScene(sceneInfo, managedTickCallback PASS_HANDLE_ARG);
 }
 
 extern "C" _AnomalousExport void BulletScene_DestroyBulletScene(BulletScene* instance)

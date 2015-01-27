@@ -36,7 +36,7 @@ namespace BulletPlugin
         /// </summary>
         public event RigidBodyDelegate OnRigidBodyRemoved;
 
-        ManagedTickCallback managedTickCallback;
+        private CallbackHandler callbackHandler;
         private String name;
         private UpdateTimer timer;
         protected BulletFactory factory;
@@ -48,11 +48,8 @@ namespace BulletPlugin
 
         public unsafe BulletScene(BulletSceneDefinition definition, UpdateTimer timer)
         {
-            managedTickCallback = new ManagedTickCallback(managedTickCallbackFunc);
-            fixed (BulletSceneInfo* info = &definition.sceneInfo)
-            {
-                bulletScene = BulletScene_CreateBulletScene(info, managedTickCallback);
-            }
+            callbackHandler = new CallbackHandler();
+            bulletScene = callbackHandler.create(this, definition);
             this.timer = timer;
             this.name = definition.Name;
             timer.addBackgroundUpdateListener("Rendering", this);
@@ -71,14 +68,14 @@ namespace BulletPlugin
             BulletScene_DestroyBulletScene(bulletScene);
             debugDraw.Dispose();
             Active = false;
-            managedTickCallback = null;
+            callbackHandler.Dispose();
         }
 
         internal void addRigidBody(RigidBody rigidBody, short collisionFilterGroup, short collisionFilterMask)
         {
             rigidBodies.Add(rigidBody);
             BulletScene_addRigidBody(bulletScene, rigidBody.NativeRigidBody, collisionFilterGroup, collisionFilterMask);
-            if(OnRigidBodyAdded != null)
+            if (OnRigidBodyAdded != null)
             {
                 OnRigidBodyAdded.Invoke(this, rigidBody);
             }
@@ -242,12 +239,12 @@ namespace BulletPlugin
 
         public void loopStarting()
         {
-            
+
         }
 
         public void exceededMaxDelta()
         {
-            
+
         }
 
         #endregion
@@ -271,45 +268,107 @@ namespace BulletPlugin
     unsafe partial class BulletScene
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate void ManagedTickCallback(float timeStep);
+        delegate void ManagedTickCallback(float timeStep
+#if FULL_AOT_COMPILE
+, IntPtr instanceHandle
+#endif
+);
 
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr BulletScene_CreateBulletScene(BulletSceneInfo* sceneInfo, ManagedTickCallback managedTickCallback);
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr BulletScene_CreateBulletScene(BulletSceneInfo* sceneInfo, ManagedTickCallback managedTickCallback
+#if FULL_AOT_COMPILE
+, IntPtr instanceHandle
+#endif
+);
 
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void BulletScene_DestroyBulletScene(IntPtr instance);
 
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void BulletScene_fillOutInfo(IntPtr instance, BulletSceneInfo* sceneInfo);
 
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void BulletScene_update(IntPtr instance, float seconds);
 
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void BulletScene_addRigidBody(IntPtr instance, IntPtr rigidBody, short group, short mask);
 
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void BulletScene_removeRigidBody(IntPtr instance, IntPtr rigidBody);
 
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void BulletScene_addConstraint(IntPtr instance, IntPtr constraint, bool disableCollisionsBetweenLinkedBodies);
 
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void BulletScene_removeConstraint(IntPtr instance, IntPtr constraint);
 
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void BulletScene_debugDrawWorld(IntPtr instance, IntPtr debugDrawer);
 
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void BulletScene_setInternalTimestep(IntPtr instance, float internalTimestep);
 
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern float BulletScene_getInternalTimestep(IntPtr instance);
 
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void BulletScene_setSolverIterations(IntPtr instance, int iterations);
 
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern int BulletScene_getSolverIterations(IntPtr instance);
+
+#if FULL_AOT_COMPILE
+        class CallbackHandler : IDisposable
+        {
+            private static ManagedTickCallback managedTickCallback;
+
+            static CallbackHandler()
+            {
+                managedTickCallback = new ManagedTickCallback(managedTickCallbackFunc);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(ManagedTickCallback))]
+            private static void managedTickCallbackFunc(float timeStep, IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as BulletScene).managedTickCallbackFunc(timeStep);
+            }
+
+            private GCHandle handle;
+
+            public IntPtr create(BulletScene obj, BulletSceneDefinition definition)
+            {
+                handle = GCHandle.Alloc(obj);
+                fixed (BulletSceneInfo* info = &definition.sceneInfo)
+                {
+                    return BulletScene_CreateBulletScene(info, managedTickCallback, GCHandle.ToIntPtr(handle));
+                }
+            }
+
+            public void Dispose()
+            {
+                handle.Free();
+            }
+        }
+#else
+        class CallbackHandler : IDisposable
+        {
+            ManagedTickCallback managedTickCallback;
+
+            public IntPtr create(BulletScene obj, BulletSceneDefinition definition)
+            {
+                managedTickCallback = new ManagedTickCallback(managedTickCallbackFunc);
+                fixed (BulletSceneInfo* info = &definition.sceneInfo)
+                {
+                    return BulletScene_CreateBulletScene(info, managedTickCallback);
+                }
+            }
+
+            public void Dispose()
+            {
+                managedTickCallback = null;
+            }
+        }
+#endif
     }
 }

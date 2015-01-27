@@ -4,7 +4,7 @@
 
 class BulletDebugDraw;
 
-typedef void (*ManagedTickCallback)(float timeStep);
+typedef void (*ManagedTickCallback)(float timeStep HANDLE_ARG);
 
 /// <summary>
 /// Info for the bullet scene.
@@ -49,8 +49,10 @@ private:
 	Win32ThreadSupport* m_threadSupportCollision;
 #endif
 
+	HANDLE_INSTANCE
+
 public:
-	BulletScene(BulletSceneInfo* sceneInfo, ManagedTickCallback managedTickCallback);
+	BulletScene(BulletSceneInfo* sceneInfo, ManagedTickCallback managedTickCallback HANDLE_ARG);
 
 	~BulletScene(void);
 
