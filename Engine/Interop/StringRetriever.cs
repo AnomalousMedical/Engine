@@ -74,7 +74,7 @@ namespace Anomalous.Interop
             }
         }
 
-        private void setNativeString(String value)
+        private void setNativeString(String value, IntPtr instanceHandle)
         {
             gotString = true;
             currentString = value;
@@ -97,7 +97,7 @@ namespace Anomalous.Interop
             private static void setNativeString(String value, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
-                (handle.Target as StringRetriever).setNativeString(value);
+                (handle.Target as StringRetriever).setNativeString(value, instanceHandle);
             }
 
             private GCHandle handle;

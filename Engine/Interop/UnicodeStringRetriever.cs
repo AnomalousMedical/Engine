@@ -74,7 +74,7 @@ namespace Anomalous.Interop
             }
         }
 
-        private void setNativeString(IntPtr value)
+        private void setNativeString(IntPtr value, IntPtr instanceHandle)
         {
             gotString = true;
             currentString = Marshal.PtrToStringUni(value);
@@ -97,7 +97,7 @@ namespace Anomalous.Interop
             private static void setNativeString(IntPtr value, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
-                (handle.Target as UnicodeStringRetriever).setNativeString(value);
+                (handle.Target as UnicodeStringRetriever).setNativeString(value, instanceHandle);
             }
 
             private GCHandle handle;
@@ -128,7 +128,7 @@ namespace Anomalous.Interop
                 }
             }
         }
-#else 
+#else
         class CallbackHandler : IDisposable
         {
             private Callback callback;
