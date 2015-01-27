@@ -6,7 +6,7 @@ class OpenALManager;
 
 const int BUFFER_SIZE = 22050;
 
-typedef void (*BufferFullCallback)(ALbyte* buffer, int length);
+typedef void(*NativeBufferFullCallback)(ALbyte* buffer, int length HANDLE_ARG);
 
 class CaptureDevice
 {
@@ -20,7 +20,7 @@ public:
 		return device != NULL;
 	}
 
-	void start(BufferFullCallback callback);
+	void start(NativeBufferFullCallback callback HANDLE_ARG);
 
 	void stop();
 
@@ -36,13 +36,14 @@ private:
 
 	ALCdevice *device;
 	ALbyte buffer[BUFFER_SIZE];
-	BufferFullCallback currentCallback;
+	NativeBufferFullCallback currentCallback;
 	ALCenum format;
 	int rate;
 	int bufferSeconds;
 	int sampleSize;
 	int maxSampleRead;
 	OpenALManager* manager;
+	HANDLE_INSTANCE
 };
 
 }

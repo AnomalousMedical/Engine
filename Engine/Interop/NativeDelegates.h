@@ -15,6 +15,7 @@
 #define HANDLE_ARG_OBJC andHandle:(void*) _instanceHandle 
 #define PASS_HANDLE_ARG_OBJC andHandle:instanceHandle 
 #define ASSIGN_HANDLE_OBJC instanceHandle = _instanceHandle;
+#define CLEAR_HANDLE instanceHandle = NULL;
 #else
 #define HANDLE_INSTANCE 
 #define HANDLE_FIRST_ARG
@@ -26,6 +27,7 @@
 #define HANDLE_ARG_OBJC 
 #define PASS_HANDLE_ARG_OBJC 
 #define ASSIGN_HANDLE_OBJC 
+#define CLEAR_HANDLE 
 #endif
 
 //Typedef for common NativeAction

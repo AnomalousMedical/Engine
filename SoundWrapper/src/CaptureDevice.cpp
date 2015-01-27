@@ -58,7 +58,7 @@ CaptureDevice::~CaptureDevice(void)
 	}
 }
 
-void CaptureDevice::start(BufferFullCallback callback)
+void CaptureDevice::start(NativeBufferFullCallback callback HANDLE_ARG)
 {
 	if(isValid())
 	{
@@ -67,6 +67,7 @@ void CaptureDevice::start(BufferFullCallback callback)
 			stop();
 		}
 		this->currentCallback = callback;
+		ASSIGN_HANDLE
 		alcCaptureStart(device);
 		manager->addCaptureDeviceUpdate(this);
 	}
@@ -81,6 +82,7 @@ void CaptureDevice::stop()
 
 		alcCaptureStop(device);
 		this->currentCallback = NULL;
+		CLEAR_HANDLE
 	}
 }
 
@@ -105,7 +107,7 @@ void CaptureDevice::readDevice()
 			readSamples = totalSamples;
 		}
 		alcCaptureSamples(device, (ALCvoid *)buffer, readSamples);
-		currentCallback(&buffer[0], readSamples * sampleSize);
+		currentCallback(&buffer[0], readSamples * sampleSize PASS_HANDLE_ARG);
 		totalSamples -= readSamples;
 	}
 }
@@ -116,9 +118,9 @@ void CaptureDevice::readDevice()
 
 using namespace SoundWrapper;
 
-extern "C" _AnomalousExport void CaptureDevice_Start(CaptureDevice* captureDevice, BufferFullCallback callback)
+extern "C" _AnomalousExport void CaptureDevice_Start(CaptureDevice* captureDevice, NativeBufferFullCallback callback HANDLE_ARG)
 {
-	captureDevice->start(callback);
+	captureDevice->start(callback PASS_HANDLE_ARG);
 }
 
 extern "C" _AnomalousExport void CaptureDevice_Stop(CaptureDevice* captureDevice)
