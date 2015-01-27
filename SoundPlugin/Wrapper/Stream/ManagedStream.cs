@@ -14,15 +14,7 @@ namespace SoundPlugin
 
         private Stream stream;
         private IntPtr managedStream;
-        private GCHandle handle;
-
-        private ReadDelegate readCB;
-        private ReadDelegate writeCB;
-        private SeekDelegate seekCB;
-        private CloseDelegate closeCB;
-        private TellDelegate tellCB;
-        private EofDelegate eofCB;
-        private DeleteDelegate deleteCB;
+        private CallbackHandler callbackHandler;
 
         internal IntPtr Pointer
         {
@@ -35,33 +27,14 @@ namespace SoundPlugin
         public ManagedStream(Stream stream)
         {
             this.stream = stream;
-
-            readCB = new ReadDelegate(read);
-            writeCB = new ReadDelegate(write);
-            seekCB = new SeekDelegate(seek);
-            closeCB = new CloseDelegate(close);
-            tellCB = new TellDelegate(tell);
-            eofCB = new EofDelegate(eof);
-            deleteCB = new DeleteDelegate(deleted);
-
-            managedStream = ManagedStream_create(readCB, writeCB, seekCB, closeCB, tellCB, eofCB, deleteCB);
-
-            handle = GCHandle.Alloc(this, GCHandleType.Normal);
+            callbackHandler = new CallbackHandler();
+            managedStream = callbackHandler.create(this);
         }
 
         private void deleted()
         {
             close();
-
-            readCB = null;
-            writeCB = null;
-            seekCB = null;
-            closeCB = null;
-            tellCB = null;
-            eofCB = null;
-            deleteCB = null;
-
-            handle.Free();
+            callbackHandler.Dispose();
         }
 
         private UIntPtr read(void* buffer, int size, int count)
@@ -128,23 +101,189 @@ namespace SoundPlugin
         #region PInvoke
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate UIntPtr ReadDelegate(void* buffer, int size, int count);
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate int SeekDelegate(IntPtr offset, int origin);
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void CloseDelegate();
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate UIntPtr TellDelegate();
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate bool EofDelegate();
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void DeleteDelegate();
+        private delegate UIntPtr ReadDelegate(void* buffer, int size, int count
+#if FULL_AOT_COMPILE
+, IntPtr instanceHandle
+#endif
+);
 
-        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr ManagedStream_create(ReadDelegate readCB, ReadDelegate writeCB, SeekDelegate seekCB, CloseDelegate closeCB, TellDelegate tellCB, EofDelegate eofCB, DeleteDelegate deleteCB);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate int SeekDelegate(IntPtr offset, int origin
+#if FULL_AOT_COMPILE
+, IntPtr instanceHandle
+#endif
+);
 
-        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void CloseDelegate(
+#if FULL_AOT_COMPILE
+IntPtr instanceHandle
+#endif
+);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate UIntPtr TellDelegate(
+#if FULL_AOT_COMPILE
+IntPtr instanceHandle
+#endif
+);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate bool EofDelegate(
+#if FULL_AOT_COMPILE
+IntPtr instanceHandle
+#endif
+);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void DeleteDelegate(
+#if FULL_AOT_COMPILE
+IntPtr instanceHandle
+#endif
+);
+
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr ManagedStream_create(ReadDelegate readCB, ReadDelegate writeCB, SeekDelegate seekCB, CloseDelegate closeCB, TellDelegate tellCB, EofDelegate eofCB, DeleteDelegate deleteCB
+#if FULL_AOT_COMPILE
+, IntPtr instanceHandle
+#endif
+);
+
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ManagedStream_destroy(IntPtr managedStream);
+
+#if FULL_AOT_COMPILE
+        /// <summary>
+        /// Callback Hanlder, both versions use a GCHandle because this class needs one anyway.
+        /// </summary>
+        class CallbackHandler : IDisposable
+        {
+            private static ReadDelegate readCB;
+            private static ReadDelegate writeCB;
+            private static SeekDelegate seekCB;
+            private static CloseDelegate closeCB;
+            private static TellDelegate tellCB;
+            private static EofDelegate eofCB;
+            private static DeleteDelegate deleteCB;
+
+            static CallbackHandler()
+            {
+                readCB = new ReadDelegate(read);
+                writeCB = new ReadDelegate(write);
+                seekCB = new SeekDelegate(seek);
+                closeCB = new CloseDelegate(close);
+                tellCB = new TellDelegate(tell);
+                eofCB = new EofDelegate(eof);
+                deleteCB = new DeleteDelegate(deleted);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(ReadDelegate))]
+            private static UIntPtr read(void* buffer, int size, int count, IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                return (handle.Target as ManagedStream).read(buffer, size, count);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(ReadDelegate))]
+            private static UIntPtr write(void* buffer, int size, int count, IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                return (handle.Target as ManagedStream).write(buffer, size, count);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(SeekDelegate))]
+            private static int seek(IntPtr offset, int origin, IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                return (handle.Target as ManagedStream).seek(offset, origin);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(CloseDelegate))]
+            private static void close(IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as ManagedStream).close();
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(TellDelegate))]
+            private static UIntPtr tell(IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                return (handle.Target as ManagedStream).tell();
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(EofDelegate))]
+            private static bool eof(IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                return (handle.Target as ManagedStream).eof();
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(DeleteDelegate))]
+            private static void deleted(IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as ManagedStream).deleted();
+            }
+
+            private GCHandle handle;
+
+            public IntPtr create(ManagedStream obj)
+            {
+                handle = GCHandle.Alloc(obj, GCHandleType.Normal);
+                return ManagedStream_create(readCB, writeCB, seekCB, closeCB, tellCB, eofCB, deleteCB, GCHandle.ToIntPtr(handle));
+            }
+
+            public void Dispose()
+            {
+                handle.Free();
+            }
+        }
+#else
+        /// <summary>
+        /// Callback Hanlder, both versions use a GCHandle because this class needs one anyway.
+        /// </summary>
+        class CallbackHandler : IDisposable
+        {
+            private ReadDelegate readCB;
+            private ReadDelegate writeCB;
+            private SeekDelegate seekCB;
+            private CloseDelegate closeCB;
+            private TellDelegate tellCB;
+            private EofDelegate eofCB;
+            private DeleteDelegate deleteCB;
+
+            private GCHandle handle;
+
+            public IntPtr create(ManagedStream obj)
+            {
+                readCB = new ReadDelegate(obj.read);
+                writeCB = new ReadDelegate(obj.write);
+                seekCB = new SeekDelegate(obj.seek);
+                closeCB = new CloseDelegate(obj.close);
+                tellCB = new TellDelegate(obj.tell);
+                eofCB = new EofDelegate(obj.eof);
+                deleteCB = new DeleteDelegate(obj.deleted);
+
+                handle = GCHandle.Alloc(obj, GCHandleType.Normal);
+
+                return ManagedStream_create(readCB, writeCB, seekCB, closeCB, tellCB, eofCB, deleteCB);
+            }
+
+            public void Dispose()
+            {
+                readCB = null;
+                writeCB = null;
+                seekCB = null;
+                closeCB = null;
+                tellCB = null;
+                eofCB = null;
+                deleteCB = null;
+
+                handle.Free();
+            }
+        }
+#endif
 
         #endregion
     }
