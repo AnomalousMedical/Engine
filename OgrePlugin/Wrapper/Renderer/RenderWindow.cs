@@ -5,6 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using Engine.Attributes;
 using Engine;
+using Anomalous.Interop;
 
 namespace OgrePlugin
 {

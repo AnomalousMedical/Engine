@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace Engine
+namespace Anomalous.Interop
 {
     /// <summary>
     /// This class provides a callback mechanism for getting strings from native

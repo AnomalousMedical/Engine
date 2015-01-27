@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using Engine;
+using Anomalous.Interop;
 
 namespace libRocketPlugin
 {
