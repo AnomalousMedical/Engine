@@ -14,7 +14,7 @@ namespace OgrePlugin
     /// <param name="nativeObject"></param>
     /// <param name="stackSharedPtr"></param>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate void ProcessWrapperObjectDelegate(IntPtr nativeObject, IntPtr stackSharedPtr);
+    internal delegate void ProcessWrapperObjectDelegate(IntPtr nativeObject, IntPtr stackSharedPtr); //AOT handled by client classes.
 
     /// <summary>
     /// <para>

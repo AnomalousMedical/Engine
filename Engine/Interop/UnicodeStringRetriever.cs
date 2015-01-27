@@ -81,7 +81,7 @@ namespace Anomalous.Interop
         }
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void Callback(IntPtr value, IntPtr instanceHandle);
+        public delegate void Callback(IntPtr value, IntPtr instanceHandle); //This has AOT built in all the time
 
 #if FULL_AOT_COMPILE
         class CallbackHandler : IDisposable
