@@ -3,23 +3,26 @@
 
 extern "C" _AnomalousExport bool CertificateValidator_ValidateSSLCertificate(unsigned char* certBytes, unsigned int certBytesLength, String hostName)
 {
-    return true;
+    return false; //Need to actually implement, but this is a safe default for now.
 }
 
 extern "C" _AnomalousExport void MacPlatformConfig_getLocalUserDocumentsFolder(StringRetrieverCallback retrieve, void* handle)
 {
-    NSString* path = @"Documents/";
+    NSURL* url = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    NSString* path = [url path];
     retrieve([path UTF8String], handle);
 }
 
 extern "C" _AnomalousExport void MacPlatformConfig_getLocalDataFolder(StringRetrieverCallback retrieve, void* handle)
 {
-    NSString* path = @"Library/Application Support";
+    NSURL* url = [[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject];
+    NSString* path = [url path];
     retrieve([path UTF8String], handle);
 }
 
 extern "C" _AnomalousExport void MacPlatformConfig_getLocalPrivateDataFolder(StringRetrieverCallback retrieve, void* handle)
 {
-    NSString* path = @"Library/Application Support";
+    NSURL* url = [[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject];
+    NSString* path = [url path];
     retrieve([path UTF8String], handle);
 }
