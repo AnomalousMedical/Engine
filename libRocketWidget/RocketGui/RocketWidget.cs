@@ -13,21 +13,23 @@ namespace Anomalous.libRocketWidget
 {
     public class RocketWidget : IDisposable
     {
+        public delegate void ElementFocusedDelegate(RocketWidget widget, Element element);
+
         /// <summary>
         /// This event fires whenever a libRocket element is focused. It can be used to track
         /// when to show the virtual keyboard. It will fire for any created RocketWidgets.
         /// </summary>
-        public static event Action<Element> ElementFocused;
+        public static event ElementFocusedDelegate ElementFocused;
 
         /// <summary>
         /// Fire the element focused event.
         /// </summary>
         /// <param name="element"></param>
-        internal static void fireElementFocused(Element element)
+        internal static void fireElementFocused(RocketWidget rocketWidget, Element element)
         {
-            if(ElementFocused != null)
+            if (ElementFocused != null)
             {
-                ElementFocused.Invoke(element);
+                ElementFocused.Invoke(rocketWidget, element);
             }
         }
 
@@ -93,7 +95,7 @@ namespace Anomalous.libRocketWidget
 
             //Create context
             context = Core.CreateContext(name, new Vector2i(imageBox.Width, imageBox.Height));
-            context.GetRootElement().AddEventListener("focus", new ElementFocusListener(), true);
+            context.GetRootElement().AddEventListener("focus", new ElementFocusListener(this), true);
 
             renderQueueListener = new RocketRenderQueueListener(context, (RenderInterfaceOgre3D)Core.GetRenderInterface(), renderTexture.requiresTextureFlipping());
             renderQueueListener.FrameCompleted += new Action(renderQueueListener_FrameCompleted);
@@ -310,6 +312,16 @@ namespace Anomalous.libRocketWidget
         {
             renderOneFrame = true;
             determineRenderingActive();
+        }
+
+        /// <summary>
+        /// Determine if the passed MyGUI widget is the host widget for this RocketWidget.
+        /// </summary>
+        /// <param name="widget">The widget to test.</param>
+        /// <returns>True if the widget is the same and false if not.</returns>
+        public bool isHostWidget(Widget widget)
+        {
+            return widget == imageBox;
         }
 
         /// <summary>
