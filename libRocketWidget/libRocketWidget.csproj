@@ -47,6 +47,7 @@
     <Compile Include="RocketGui\DebugEventListener.cs" />
     <Compile Include="RocketGui\DelegateRocketEventController.cs" />
     <Compile Include="RocketGui\DelegateRocketEventListener.cs" />
+    <Compile Include="RocketGui\ElementFocusListener.cs" />
     <Compile Include="RocketGui\RocketDebuggerWindow.cs" />
     <Compile Include="RocketGui\RocketEventController.cs" />
     <Compile Include="RocketGui\RocketEventListenerInstancer.cs" />

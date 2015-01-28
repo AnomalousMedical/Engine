@@ -6,6 +6,11 @@ using System.Runtime.InteropServices;
 
 namespace libRocketPlugin
 {
+    /// <summary>
+    /// Default EventListener superclass, this version will automatically dispose
+    /// events when they are detached from their respective elements. Once detached
+    /// they are not reusable.
+    /// </summary>
     public abstract class EventListener : RocketNativeObject, IDisposable
     {
         private static Event pooledEvent = new Event();

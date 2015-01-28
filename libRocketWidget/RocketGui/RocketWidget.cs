@@ -13,6 +13,24 @@ namespace Anomalous.libRocketWidget
 {
     public class RocketWidget : IDisposable
     {
+        /// <summary>
+        /// This event fires whenever a libRocket element is focused. It can be used to track
+        /// when to show the virtual keyboard. It will fire for any created RocketWidgets.
+        /// </summary>
+        public static event Action<Element> ElementFocused;
+
+        /// <summary>
+        /// Fire the element focused event.
+        /// </summary>
+        /// <param name="element"></param>
+        internal static void fireElementFocused(Element element)
+        {
+            if(ElementFocused != null)
+            {
+                ElementFocused.Invoke(element);
+            }
+        }
+
         private const FreeImageAPI.PixelFormat BitmapFormat = FreeImageAPI.PixelFormat.Format32bppArgb;
         private static readonly Engine.Color ClearColor = new Engine.Color(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -75,6 +93,7 @@ namespace Anomalous.libRocketWidget
 
             //Create context
             context = Core.CreateContext(name, new Vector2i(imageBox.Width, imageBox.Height));
+            context.GetRootElement().AddEventListener("focus", new ElementFocusListener(), true);
 
             renderQueueListener = new RocketRenderQueueListener(context, (RenderInterfaceOgre3D)Core.GetRenderInterface(), renderTexture.requiresTextureFlipping());
             renderQueueListener.FrameCompleted += new Action(renderQueueListener_FrameCompleted);
