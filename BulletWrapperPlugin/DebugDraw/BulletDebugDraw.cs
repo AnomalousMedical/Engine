@@ -125,7 +125,7 @@ namespace BulletPlugin
                 (handle.Target as BulletDebugDraw).drawLine(ref color, ref from, ref to);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(DrawLineCallback))]
+            [MonoTouch.MonoPInvokeCallback(typeof(ReportErrorWarningCallback))]
             private static void reportErrorWarning(string warning, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
