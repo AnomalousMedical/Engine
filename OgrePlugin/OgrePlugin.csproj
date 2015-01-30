@@ -211,6 +211,9 @@
     <EmbeddedResource Include="Resources\Basic\glsl\BasicTexturedNoLightPS.glsl" />
     <EmbeddedResource Include="Resources\Basic\glsl\BasicWorldTexturedNoLightVP.glsl" />
     <EmbeddedResource Include="Resources\Basic\glsl\BasicTexturedNoLightColoredPS.glsl" />
+    <EmbeddedResource Include="Resources\Basic\glsles\BasicTexturedNoLightColoredPS.glsles" />
+    <EmbeddedResource Include="Resources\Basic\glsles\BasicTexturedNoLightPS.glsles" />
+    <EmbeddedResource Include="Resources\Basic\glsles\BasicWorldTexturedNoLightVP.glsles" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">
