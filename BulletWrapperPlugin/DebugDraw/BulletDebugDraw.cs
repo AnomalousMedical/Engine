@@ -153,8 +153,8 @@ namespace BulletPlugin
 
             public IntPtr create(BulletDebugDraw obj)
             {
-                drawLineStorage = new DrawLineCallback(drawLine);
-                reportErrorWarningStorage = new ReportErrorWarningCallback(reportErrorWarning);
+                drawLineStorage = new DrawLineCallback(obj.drawLine);
+                reportErrorWarningStorage = new ReportErrorWarningCallback(obj.reportErrorWarning);
                 return BulletDebugDraw_Create(drawLineStorage, reportErrorWarningStorage);
             }
 
