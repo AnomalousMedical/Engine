@@ -214,6 +214,10 @@
     <EmbeddedResource Include="Resources\Basic\glsles\BasicTexturedNoLightColoredPS.glsles" />
     <EmbeddedResource Include="Resources\Basic\glsles\BasicTexturedNoLightPS.glsles" />
     <EmbeddedResource Include="Resources\Basic\glsles\BasicWorldTexturedNoLightVP.glsles" />
+    <EmbeddedResource Include="Resources\ColorVertex\glsles\ColorVertexFP.glsles" />
+    <EmbeddedResource Include="Resources\ColorVertex\glsles\ColorVertexFPAlpha.glsles" />
+    <EmbeddedResource Include="Resources\ColorVertex\glsles\ColorVertexVP.glsles" />
+    <EmbeddedResource Include="Resources\ColorVertex\glsles\ColorVertexWhiteFP.glsles" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">

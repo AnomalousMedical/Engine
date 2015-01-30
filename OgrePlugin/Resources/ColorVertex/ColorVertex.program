@@ -23,10 +23,21 @@ vertex_program colorvertex\vs_GLSL glsl
 	}
 }
 
+vertex_program colorvertex\vs_GLSLES glsles
+{
+    source OgrePlugin.Resources.ColorVertex.glsles.ColorVertexVP.glsles
+
+	default_params
+	{
+		param_named_auto worldViewProj worldviewproj_matrix
+	}
+}
+
 vertex_program colorvertex\vs unified
 {
 	delegate colorvertex\vs_D3D11
     delegate colorvertex\vs_GLSL
+	delegate colorvertex\vs_GLSLES
 }
 
 //----------------------------------
@@ -44,10 +55,16 @@ fragment_program colorvertex\fs_GLSL glsl
     source OgrePlugin.Resources.ColorVertex.glsl.ColorVertexFP.glsl
 }
 
+fragment_program colorvertex\fs_GLSLES glsles
+{
+    source OgrePlugin.Resources.ColorVertex.glsles.ColorVertexFP.glsles
+}
+
 fragment_program colorvertex\fs unified
 {
 	delegate colorvertex\fs_D3D11
     delegate colorvertex\fs_GLSL
+	delegate colorvertex\fs_GLSLES
 }
 
 //----------------------------------
@@ -75,10 +92,21 @@ fragment_program colorvertex\fsAlpha_GLSL glsl
 	}
 }
 
+fragment_program colorvertex\fsAlpha_GLSLES glsles
+{
+    source OgrePlugin.Resources.ColorVertex.glsles.ColorVertexFPAlpha.glsles
+
+	default_params
+	{
+		param_named_auto alpha custom 0
+	}
+}
+
 fragment_program colorvertex\fsAlpha unified
 {
 	delegate colorvertex\fsAlpha_D3D11
     delegate colorvertex\fsAlpha_GLSL
+	delegate colorvertex\fsAlpha_GLSLES
 }
 
 //----------------------------------
@@ -96,8 +124,14 @@ fragment_program colorvertexwhite\fs_GLSL glsl
     source OgrePlugin.Resources.ColorVertex.glsl.ColorVertexWhiteFP.glsl
 }
 
+fragment_program colorvertexwhite\fs_GLSLES glsles
+{
+    source OgrePlugin.Resources.ColorVertex.glsles.ColorVertexWhiteFP.glsles
+}
+
 fragment_program colorvertexwhite\fs unified
 {
 	delegate colorvertexwhite\fs_D3D11
     delegate colorvertexwhite\fs_GLSL
+	delegate colorvertexwhite\fs_GLSLES
 }
