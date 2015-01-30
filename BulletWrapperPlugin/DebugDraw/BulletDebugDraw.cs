@@ -13,21 +13,20 @@ namespace BulletPlugin
     {
         internal IntPtr nativeDraw;
         private DebugDrawingSurface drawingSurface;
-        private DrawLineCallback drawLineStorage;
-        private ReportErrorWarningCallback reportErrorWarningStorage;
+        private CallbackHandler callbackHandler;
 
         public BulletDebugDraw()
         {
-            drawLineStorage = new DrawLineCallback(drawLine);
-            reportErrorWarningStorage = new ReportErrorWarningCallback(reportErrorWarning);
-            nativeDraw = BulletDebugDraw_Create(drawLineStorage, reportErrorWarningStorage);
+            callbackHandler = new CallbackHandler();
+            nativeDraw = callbackHandler.create(this);
         }
 
         public void Dispose()
         {
-            if(nativeDraw != IntPtr.Zero)
+            if (nativeDraw != IntPtr.Zero)
             {
                 BulletDebugDraw_Delete(nativeDraw);
+                callbackHandler.Dispose();
                 nativeDraw = IntPtr.Zero;
             }
         }
@@ -71,25 +70,99 @@ namespace BulletPlugin
             Log.Warning(warning);
         }
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        delegate void DrawLineCallback(ref Vector3 color, ref Vector3 from, ref Vector3 to
+#if FULL_AOT_COMPILE
+, IntPtr instanceHandle
+#endif
+);
 
-        delegate void DrawLineCallback(ref Vector3 color, ref Vector3 from, ref Vector3 to);
-        delegate void ReportErrorWarningCallback(String warning);
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr BulletDebugDraw_Create(DrawLineCallback drawLine, ReportErrorWarningCallback reportWarning);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        delegate void ReportErrorWarningCallback(String warning
+#if FULL_AOT_COMPILE
+, IntPtr instanceHandle
+#endif
+);
 
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr BulletDebugDraw_Create(DrawLineCallback drawLine, ReportErrorWarningCallback reportWarning
+#if FULL_AOT_COMPILE
+, IntPtr instanceHandle
+#endif
+);
+
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void BulletDebugDraw_Delete(IntPtr debugDraw);
 
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void BulletDebugDraw_setGlobalDebugMode(int debugMode);
 
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void BulletDebugDraw_enableGlobalDebugMode(int debugMode);
 
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void BulletDebugDraw_disableGlobalDebugMode(int debugMode);
 
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern int BulletDebugDraw_getGlobalDebugMode();
+
+#if FULL_AOT_COMPILE
+        class CallbackHandler : IDisposable
+        {
+            private static DrawLineCallback drawLineStorage;
+            private static ReportErrorWarningCallback reportErrorWarningStorage;
+
+            static CallbackHandler()
+            {
+                drawLineStorage = new DrawLineCallback(drawLine);
+                reportErrorWarningStorage = new ReportErrorWarningCallback(reportErrorWarning);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(DrawLineCallback))]
+            private static void drawLine(ref Vector3 color, ref Vector3 from, ref Vector3 to, IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as BulletDebugDraw).drawLine(ref color, ref from, ref to);
+            }
+
+            [MonoTouch.MonoPInvokeCallback(typeof(DrawLineCallback))]
+            private static void reportErrorWarning(string warning, IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as BulletDebugDraw).reportErrorWarning(warning);
+            }
+
+            private GCHandle handle;
+
+            public IntPtr create(BulletDebugDraw obj)
+            {
+                handle = GCHandle.Alloc(obj);
+                return BulletDebugDraw_Create(drawLineStorage, reportErrorWarningStorage, GCHandle.ToIntPtr(handle));
+            }
+
+            public void Dispose()
+            {
+                handle.Free();
+            }
+        }
+#else
+        class CallbackHandler : IDisposable
+        {
+            private DrawLineCallback drawLineStorage;
+            private ReportErrorWarningCallback reportErrorWarningStorage;
+
+            public IntPtr create(BulletDebugDraw obj)
+            {
+                drawLineStorage = new DrawLineCallback(drawLine);
+                reportErrorWarningStorage = new ReportErrorWarningCallback(reportErrorWarning);
+                return BulletDebugDraw_Create(drawLineStorage, reportErrorWarningStorage);
+            }
+
+            public void Dispose()
+            {
+
+            }
+        }
+#endif
     }
 }

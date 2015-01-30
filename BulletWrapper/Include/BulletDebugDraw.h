@@ -1,7 +1,7 @@
 #pragma once
 
-typedef void (*DrawLineCallback)(const Vector3& color, const Vector3& from, const Vector3& to);
-typedef void (*ReportErrorWarningCallback)(const char* message);
+typedef void (*DrawLineCallback)(const Vector3& color, const Vector3& from, const Vector3& to HANDLE_ARG);
+typedef void (*ReportErrorWarningCallback)(const char* message HANDLE_ARG);
 
 class BulletDebugDraw : public btIDebugDraw
 {
@@ -9,9 +9,10 @@ private:
 	DrawLineCallback drawLineCallback;
 	ReportErrorWarningCallback reportWarningCallback;
 	static int debugMode;
+	HANDLE_INSTANCE
 
 public:
-	BulletDebugDraw(DrawLineCallback drawLine, ReportErrorWarningCallback reportWarning);
+	BulletDebugDraw(DrawLineCallback drawLine, ReportErrorWarningCallback reportWarning HANDLE_ARG);
 
 	virtual ~BulletDebugDraw(void);
 
