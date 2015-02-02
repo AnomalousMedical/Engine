@@ -14,6 +14,8 @@
 
 @interface UIKitAppDelegate : UIResponder <UIApplicationDelegate>
 
+@property CADisplayLink* mFrameLink;
+
 @property (strong, nonatomic) UIWindow *window;
 
 @end
