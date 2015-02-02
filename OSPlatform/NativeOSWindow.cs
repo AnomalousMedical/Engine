@@ -349,35 +349,35 @@ namespace Anomalous.OSPlatform
                 handle.Free();
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(NativeAction))]
             static void DeleteStatic(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as NativeOSWindow).delete();
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(NativeAction))]
             static void ResizeStatic(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as NativeOSWindow).resize();
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(NativeAction))]
             static void ClosingStatic(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as NativeOSWindow).closing();
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(NativeAction))]
             static void ClosedStatic(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as NativeOSWindow).closed();
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(ActivateCB))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(ActivateCB))]
             static void ActivateStatic(bool active, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

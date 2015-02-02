@@ -78,7 +78,7 @@ namespace SoundPlugin
                 staticBufferFullCallback = staticBufferFull;
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(BufferFullCallback))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(BufferFullCallback))]
             private static void staticBufferFull(byte* buffer, int length, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

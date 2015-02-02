@@ -81,7 +81,7 @@ namespace OgrePlugin
                 eventOccuredCb = new EventOccuredCallback(eventOccured);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(EventOccuredCallback))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(EventOccuredCallback))]
             private static void eventOccured(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

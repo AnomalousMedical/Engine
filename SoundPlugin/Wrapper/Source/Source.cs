@@ -451,7 +451,7 @@ namespace SoundPlugin
                 finishedCB = finished;
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(SourceFinishedCallback))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(SourceFinishedCallback))]
             private static void finished(IntPtr source, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

@@ -13,7 +13,7 @@ namespace OgrePlugin
         static MaterialManager instance = new MaterialManager();
 
 #if FULL_AOT_COMPILE
-        [MonoTouch.MonoPInvokeCallback(typeof(ProcessWrapperObjectDelegate))]
+        [Anomalous.Interop.MonoPInvokeCallback(typeof(ProcessWrapperObjectDelegate))]
         public static void processWrapperObject_AOT(IntPtr nativeObject, IntPtr stackSharedPtr)
         {
             instance.materialPtrCollection.processWrapperObject(nativeObject, stackSharedPtr);

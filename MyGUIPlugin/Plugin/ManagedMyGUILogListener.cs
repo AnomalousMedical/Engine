@@ -69,7 +69,7 @@ namespace MyGUIPlugin
                 messageLoggedDelegate = new MessageLoggedDelegate(messageLogged);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(MessageLoggedDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(MessageLoggedDelegate))]
             private static void messageLogged(String section, LogLevel lml, String message, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

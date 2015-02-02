@@ -60,7 +60,7 @@ namespace libRocketPlugin
         /// This is called by the c++ destructor for the element. It will erase the wrapper object.
         /// </summary>
         /// <param name="element"></param>
-        [MonoTouch.MonoPInvokeCallback(typeof(ElementDestructorCallback))]
+        [Anomalous.Interop.MonoPInvokeCallback(typeof(ElementDestructorCallback))]
         static void elementDestructor(IntPtr element)
         {
             elements.destroyObject(element);
@@ -70,7 +70,7 @@ namespace libRocketPlugin
         /// This is called by the c++ destructor for the element. It will erase the wrapper object.
         /// </summary>
         /// <param name="element"></param>
-        [MonoTouch.MonoPInvokeCallback(typeof(ContextDestructorCallback))]
+        [Anomalous.Interop.MonoPInvokeCallback(typeof(ContextDestructorCallback))]
         static void contextDestructor(IntPtr context)
         {
             contexts.destroyObject(context);

@@ -118,14 +118,14 @@ namespace BulletPlugin
                 reportErrorWarningStorage = new ReportErrorWarningCallback(reportErrorWarning);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(DrawLineCallback))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(DrawLineCallback))]
             private static void drawLine(ref Vector3 color, ref Vector3 from, ref Vector3 to, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as BulletDebugDraw).drawLine(ref color, ref from, ref to);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(ReportErrorWarningCallback))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(ReportErrorWarningCallback))]
             private static void reportErrorWarning(string warning, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

@@ -83,7 +83,7 @@ namespace MyGUIPlugin
                 nativeEventCallback = new NativeEventDelegate(nativeEvent);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(NativeEventDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(NativeEventDelegate))]
             private static void nativeEvent(IntPtr pointerName, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

@@ -108,28 +108,28 @@ namespace Anomalous.OSPlatform
                 touchCanceledCB = new TouchEventCanceledDelegate(allTouchesCanceled);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(TouchEventDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(TouchEventDelegate))]
             private static void touchStarted(TouchInfo touchInfo, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as MultiTouch).touchStarted(touchInfo);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(TouchEventDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(TouchEventDelegate))]
             private static void touchEnded(TouchInfo touchInfo, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as MultiTouch).touchEnded(touchInfo);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(TouchEventDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(TouchEventDelegate))]
             private static void touchMoved(TouchInfo touchInfo, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as MultiTouch).touchMoved(touchInfo);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(TouchEventCanceledDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(TouchEventCanceledDelegate))]
             private static void allTouchesCanceled(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

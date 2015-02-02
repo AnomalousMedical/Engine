@@ -93,7 +93,7 @@ namespace Anomalous.Interop
                 callback = new Callback(setNativeString);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(Callback))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(Callback))]
             private static void setNativeString(IntPtr value, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

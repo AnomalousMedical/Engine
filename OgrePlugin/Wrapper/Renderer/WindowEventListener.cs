@@ -106,35 +106,35 @@ namespace OgrePlugin
                 windowFocusChangeCallback = new WindowEventDelegate(windowFocusChange);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(WindowEventDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(WindowEventDelegate))]
             private static void windowMoved(IntPtr renderWindow, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as WindowEventListener).windowMoved(renderWindow);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(WindowEventDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(WindowEventDelegate))]
             private static void windowResized(IntPtr renderWindow, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as WindowEventListener).windowResized(renderWindow);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(WindowClosingDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(WindowClosingDelegate))]
             private static bool windowClosing(IntPtr renderWindow, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as WindowEventListener).windowClosing(renderWindow);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(WindowEventDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(WindowEventDelegate))]
             private static void windowClosed(IntPtr renderWindow, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as WindowEventListener).windowClosed(renderWindow);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(WindowEventDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(WindowEventDelegate))]
             private static void windowFocusChange(IntPtr renderWindow, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

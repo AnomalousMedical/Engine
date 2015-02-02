@@ -534,19 +534,19 @@ namespace OgrePlugin
             }
 
             //Note that we cheat on our FrameEvent callbacks since this is a singleton anyway.
-            [MonoTouch.MonoPInvokeCallback(typeof(FrameEventCallback))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(FrameEventCallback))]
             static void frameStartedStatic(float timeSinceLastEvent, float timeSinceLastFrame)
             {
                 instance.frameStartedCallback(timeSinceLastEvent, timeSinceLastFrame);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(FrameEventCallback))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(FrameEventCallback))]
             static void frameQueuedStatic(float timeSinceLastEvent, float timeSinceLastFrame)
             {
                 instance.frameQueuedCallback(timeSinceLastEvent, timeSinceLastFrame);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(FrameEventCallback))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(FrameEventCallback))]
             static void frameEndedStatic(float timeSinceLastEvent, float timeSinceLastFrame)
             {
                 instance.frameEndedCallback(timeSinceLastEvent, timeSinceLastFrame);

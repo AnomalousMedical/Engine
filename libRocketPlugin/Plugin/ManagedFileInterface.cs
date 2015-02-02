@@ -212,42 +212,42 @@ namespace libRocketPlugin
                 release = new ReleaseCb(ReleaseCbImpl);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(OpenCb))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(OpenCb))]
             private static IntPtr OpenCbImpl(string path, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as ManagedFileInterface).OpenCbImpl(path);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(CloseCb))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(CloseCb))]
             private static void CloseCbImpl(IntPtr file, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as ManagedFileInterface).CloseCbImpl(file);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(ReadCb))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(ReadCb))]
             private static IntPtr ReadCbImpl(void* buffer, IntPtr size, IntPtr file, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as ManagedFileInterface).ReadCbImpl(buffer, size, file);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(SeekCb))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(SeekCb))]
             private static bool SeekCbImpl(IntPtr file, int offset, int origin, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as ManagedFileInterface).SeekCbImpl(file, offset, origin);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(TellCb))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(TellCb))]
             private static IntPtr TellCbImpl(IntPtr file, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as ManagedFileInterface).TellCbImpl(file);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(ReleaseCb))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(ReleaseCb))]
             private static void ReleaseCbImpl(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

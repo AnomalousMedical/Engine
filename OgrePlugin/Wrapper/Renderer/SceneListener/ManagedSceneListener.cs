@@ -117,14 +117,14 @@ namespace OgrePlugin
                 postFind = new FindVisibleCallback(postFindStatic);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(FindVisibleCallback))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(FindVisibleCallback))]
             static void preFindStatic(IntPtr sceneManager, SceneManager.IlluminationRenderStage irs, IntPtr viewport, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as ManagedSceneListener).preFindVisibleObjects(sceneManager, irs, viewport);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(FindVisibleCallback))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(FindVisibleCallback))]
             static void postFindStatic(IntPtr sceneManager, SceneManager.IlluminationRenderStage irs, IntPtr viewport, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

@@ -184,14 +184,14 @@ namespace OgrePlugin
                 addValue = new AddPossibleValue(addPossibleValue);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(SetConfigInfo))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(SetConfigInfo))]
             private static void setDetails(IntPtr name, IntPtr currentValue, bool immutable, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as ConfigOption)._setDetails(name, currentValue, immutable);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(AddPossibleValue))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(AddPossibleValue))]
             private static void addPossibleValue(IntPtr possibleValue, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

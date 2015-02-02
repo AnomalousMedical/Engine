@@ -108,7 +108,7 @@ namespace Anomalous.OSPlatform
                     resultCb = getResults;
                 }
 
-                [MonoTouch.MonoPInvokeCallback(typeof(FileSaveDialogResultCallback))]
+                [Anomalous.Interop.MonoPInvokeCallback(typeof(FileSaveDialogResultCallback))]
                 private static void getResults(NativeDialogResult result, IntPtr file, IntPtr instanceHandle)
                 {
                     GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

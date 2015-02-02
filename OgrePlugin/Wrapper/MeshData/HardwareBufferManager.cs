@@ -13,19 +13,19 @@ namespace OgrePlugin
         static HardwareBufferManager instance = new HardwareBufferManager();
 
 #if FULL_AOT_COMPILE
-        [MonoTouch.MonoPInvokeCallback(typeof(ProcessWrapperObjectDelegate))]
+        [Anomalous.Interop.MonoPInvokeCallback(typeof(ProcessWrapperObjectDelegate))]
         public static void processWrapperIndexBuffer_AOT(IntPtr nativeObject, IntPtr stackSharedPtr)
         {
             instance.indexBuffers.processWrapperObject(nativeObject, stackSharedPtr);
         }
 
-        [MonoTouch.MonoPInvokeCallback(typeof(ProcessWrapperObjectDelegate))]
+        [Anomalous.Interop.MonoPInvokeCallback(typeof(ProcessWrapperObjectDelegate))]
         public static void processWrapperVertexBuffer_AOT(IntPtr nativeObject, IntPtr stackSharedPtr)
         {
             instance.vertexBuffers.processWrapperObject(nativeObject, stackSharedPtr);
         }
 
-        [MonoTouch.MonoPInvokeCallback(typeof(ProcessWrapperObjectDelegate))]
+        [Anomalous.Interop.MonoPInvokeCallback(typeof(ProcessWrapperObjectDelegate))]
         public static void processWrapperPixelBuffer_AOT(IntPtr nativeObject, IntPtr stackSharedPtr)
         {
             instance.pixelBuffers.processWrapperObject(nativeObject, stackSharedPtr);

@@ -13,7 +13,7 @@ namespace OgrePlugin
         static MeshManager instance = new MeshManager();
 
 #if FULL_AOT_COMPILE
-        [MonoTouch.MonoPInvokeCallback(typeof(ProcessWrapperObjectDelegate))]
+        [Anomalous.Interop.MonoPInvokeCallback(typeof(ProcessWrapperObjectDelegate))]
         public static void processWrapperObject_AOT(IntPtr nativeObject, IntPtr stackSharedPtr)
         {
             instance.meshPtrCollection.processWrapperObject(nativeObject, stackSharedPtr);

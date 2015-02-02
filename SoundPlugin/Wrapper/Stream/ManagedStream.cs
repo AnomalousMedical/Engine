@@ -177,49 +177,49 @@ IntPtr instanceHandle
                 deleteCB = new DeleteDelegate(deleted);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(ReadDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(ReadDelegate))]
             private static UIntPtr read(void* buffer, int size, int count, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as ManagedStream).read(buffer, size, count);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(ReadDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(ReadDelegate))]
             private static UIntPtr write(void* buffer, int size, int count, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as ManagedStream).write(buffer, size, count);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(SeekDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(SeekDelegate))]
             private static int seek(IntPtr offset, int origin, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as ManagedStream).seek(offset, origin);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(CloseDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(CloseDelegate))]
             private static void close(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as ManagedStream).close();
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(TellDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(TellDelegate))]
             private static UIntPtr tell(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as ManagedStream).tell();
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(EofDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(EofDelegate))]
             private static bool eof(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as ManagedStream).eof();
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(DeleteDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(DeleteDelegate))]
             private static void deleted(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

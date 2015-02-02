@@ -96,28 +96,28 @@ namespace Anomalous.OSPlatform
                 mouseWheelCB = new MouseWheelDelegate(fireWheel);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(MouseButtonDownDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(MouseButtonDownDelegate))]
             private static void fireButtonDown(MouseButtonCode id, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as NativeMouse).fireButtonDown(id);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(MouseButtonUpDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(MouseButtonUpDelegate))]
             private static void fireButtonUp(MouseButtonCode id, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as NativeMouse).fireButtonUp(id);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(MouseMoveDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(MouseMoveDelegate))]
             private static void fireMoved(int absX, int absY, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as NativeMouse).fireMoved(absX, absY);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(MouseWheelDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(MouseWheelDelegate))]
             private static void fireWheel(int relZ, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

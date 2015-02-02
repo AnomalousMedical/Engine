@@ -69,7 +69,7 @@ namespace MyGUIPlugin
         /// This is called by the c++ destructor for the widget. It will erase the wrapper object.
         /// </summary>
         /// <param name="widget"></param>
-        [MonoTouch.MonoPInvokeCallback(typeof(WidgetDestructorCallback))]
+        [Anomalous.Interop.MonoPInvokeCallback(typeof(WidgetDestructorCallback))]
         static void widgetDestructor(IntPtr widget)
         {
 #if VERBOSE_WIDGET_WRAPPER_CREATION

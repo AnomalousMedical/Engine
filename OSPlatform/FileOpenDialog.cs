@@ -125,14 +125,14 @@ namespace Anomalous.OSPlatform
                     setPathStringCb = setPathString;
                 }
 
-                [MonoTouch.MonoPInvokeCallback(typeof(FileOpenDialogResultCallback))]
+                [Anomalous.Interop.MonoPInvokeCallback(typeof(FileOpenDialogResultCallback))]
                 private static void getResults(NativeDialogResult result, IntPtr instanceHandle)
                 {
                     GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                     (handle.Target as FileOpenDialogResults).getResults(result);
                 }
 
-                [MonoTouch.MonoPInvokeCallback(typeof(FileOpenDialogSetPathString))]
+                [Anomalous.Interop.MonoPInvokeCallback(typeof(FileOpenDialogSetPathString))]
                 private static void setPathString(IntPtr path, IntPtr instanceHandle)
                 {
                     GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

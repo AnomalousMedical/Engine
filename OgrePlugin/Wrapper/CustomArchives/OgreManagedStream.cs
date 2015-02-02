@@ -245,56 +245,56 @@ namespace OgrePlugin
                 deletedCallback = new DeletedDelegate(deleted);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(ReadDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(ReadDelegate))]
             private static IntPtr read(void* buf, IntPtr count, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as OgreManagedStream).read(buf, count);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(WriteDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(WriteDelegate))]
             private static IntPtr write(void* buf, IntPtr count, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as OgreManagedStream).write(buf, count);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(SkipDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(SkipDelegate))]
             private static void skip(IntPtr count, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as OgreManagedStream).skip(count);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(SeekDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(SeekDelegate))]
             private static void seek(IntPtr pos, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as OgreManagedStream).seek(pos);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(TellDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(TellDelegate))]
             private static IntPtr tell(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as OgreManagedStream).tell();
             }
             
-            [MonoTouch.MonoPInvokeCallback(typeof(EofDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(EofDelegate))]
             private static bool eof(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as OgreManagedStream).eof();
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(CloseDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(CloseDelegate))]
             private static void close(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as OgreManagedStream).close();
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(DeletedDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(DeletedDelegate))]
             private static void deleted(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

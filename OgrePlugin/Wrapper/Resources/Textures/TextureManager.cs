@@ -13,7 +13,7 @@ namespace OgrePlugin
         static TextureManager instance = new TextureManager();
 
 #if FULL_AOT_COMPILE
-        [MonoTouch.MonoPInvokeCallback(typeof(ProcessWrapperObjectDelegate))]
+        [Anomalous.Interop.MonoPInvokeCallback(typeof(ProcessWrapperObjectDelegate))]
         public static void processWrapperObject_AOT(IntPtr nativeObject, IntPtr stackSharedPtr)
         {
             instance.textureCollection.processWrapperObject(nativeObject, stackSharedPtr);

@@ -89,14 +89,14 @@ namespace OgrePlugin
                 destroyInstanceCallback = new DestroyInstanceDelegate(DestroyInstanceStatic);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(CreateInstanceDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(CreateInstanceDelegate))]
             static IntPtr CreateInstanceStatic(String name, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as OgreManagedArchiveFactory).createInstance(name);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(DestroyInstanceDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(DestroyInstanceDelegate))]
             static void DestroyInstanceStatic(IntPtr arch, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

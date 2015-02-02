@@ -133,42 +133,42 @@ namespace OgrePlugin
                 viewportRemovedCb = viewportRemoved;
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(NativeAction))]
             private static void preRenderTargetUpdate(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as RenderTargetListener).preRenderTargetUpdate();
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(NativeAction))]
             private static void postRenderTargetUpdate(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as RenderTargetListener).postRenderTargetUpdate();
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(NativeAction))]
             private static void preViewportUpdate(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as RenderTargetListener).preViewportUpdate();
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(NativeAction))]
             private static void postViewportUpdate(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as RenderTargetListener).postViewportUpdate();
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(NativeAction))]
             private static void viewportAdded(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as RenderTargetListener).viewportAdded();
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(NativeAction))]
             private static void viewportRemoved(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

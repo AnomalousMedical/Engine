@@ -124,14 +124,14 @@ namespace libRocketPlugin
                 logDelegate = new LogMessageDelegate(LogMessage);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(GetElapsedTimeDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(GetElapsedTimeDelegate))]
             private static float GetElapsedTime(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as ManagedSystemInterface).GetElapsedTime();
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(LogMessageDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(LogMessageDelegate))]
             private static void LogMessage(LogType type, string message, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

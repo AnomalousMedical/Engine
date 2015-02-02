@@ -62,7 +62,7 @@ namespace Anomalous.OSPlatform
                 logCB = logMessage;
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(LogMessageDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(LogMessageDelegate))]
             private static void logMessage(IntPtr message, LogLevel logLevel, IntPtr subsystem, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

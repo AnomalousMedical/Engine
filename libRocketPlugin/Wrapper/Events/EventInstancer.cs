@@ -89,21 +89,21 @@ namespace libRocketPlugin
                 releaseCb = new ReleaseCb(ReleaseCbImpl);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(InstanceEventCb))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(InstanceEventCb))]
             private static IntPtr InstanceEventCbImpl(IntPtr elementTarget, string name, IntPtr parameters, bool interuptable, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as EventInstancer).InstanceEventCbImpl(elementTarget, name, parameters, interuptable);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(ReleaseEventCb))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(ReleaseEventCb))]
             private static void ReleaseEventCbImpl(IntPtr evt, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as EventInstancer).ReleaseEventCbImpl(evt);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(ReleaseCb))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(ReleaseCb))]
             private static void ReleaseCbImpl(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

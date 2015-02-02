@@ -267,28 +267,28 @@ namespace BulletPlugin
                 contactContinuesCallback = new ContactCallback(contactContinuesCallbackFunc);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(SetXformCallback))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(SetXformCallback))]
             private static void motionStateCallback(ref Vector3 trans, ref Quaternion rot, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as MotionState).motionStateCallback(ref trans, ref rot);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(ContactCallback))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(ContactCallback))]
             private static void contactStartedCallbackFunc(IntPtr contact, IntPtr sourceBody, IntPtr otherBody, bool isBodyA, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as MotionState).contactStartedCallbackFunc(contact, sourceBody, otherBody, isBodyA);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(ContactCallback))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(ContactCallback))]
             private static void contactEndedCallbackFunc(IntPtr contact, IntPtr sourceBody, IntPtr otherBody, bool isBodyA, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as MotionState).contactEndedCallbackFunc(contact, sourceBody, otherBody, isBodyA);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(ContactCallback))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(ContactCallback))]
             private static void contactContinuesCallbackFunc(IntPtr contact, IntPtr sourceBody, IntPtr otherBody, bool isBodyA, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

@@ -327,7 +327,7 @@ namespace BulletPlugin
                 managedTickCallback = new ManagedTickCallback(managedTickCallbackFunc);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(ManagedTickCallback))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(ManagedTickCallback))]
             private static void managedTickCallbackFunc(float timeStep, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

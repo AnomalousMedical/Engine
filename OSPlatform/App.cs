@@ -103,21 +103,21 @@ namespace Anomalous.OSPlatform
                 onIdleCB = new NativeAction(OnIdleStatic);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(OnInitDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(OnInitDelegate))]
             static bool OnInitStatic(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as App).OnInit();
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(OnExitDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(OnExitDelegate))]
             static int OnExitStatic(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as App).OnExit();
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(NativeAction))]
             static void OnIdleStatic(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

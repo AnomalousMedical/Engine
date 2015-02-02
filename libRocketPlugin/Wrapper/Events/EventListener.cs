@@ -92,21 +92,21 @@ namespace libRocketPlugin
                 onDetatchCb = new AttachDetatchCb(onDetatchCbImpl);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(ProcessEventCb))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(ProcessEventCb))]
             private static void processEventCbImpl(IntPtr evt, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as EventListener).processEventCbImpl(evt);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(AttachDetatchCb))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(AttachDetatchCb))]
             private static void onAttachCbImpl(IntPtr element, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as EventListener).onAttachCbImpl(element);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(AttachDetatchCb))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(AttachDetatchCb))]
             private static void onDetatchCbImpl(IntPtr element, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

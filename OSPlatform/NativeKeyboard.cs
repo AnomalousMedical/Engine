@@ -76,14 +76,14 @@ namespace Anomalous.OSPlatform
                 keyUpCB = new KeyUpDelegate(fireKeyReleased);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(KeyDownDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(KeyDownDelegate))]
             private static void fireKeyPressed(KeyboardButtonCode keyCode, uint character, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as NativeKeyboard).fireKeyPressed(keyCode, character);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(KeyUpDelegate))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(KeyUpDelegate))]
             private static void fireKeyReleased(KeyboardButtonCode keyCode, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

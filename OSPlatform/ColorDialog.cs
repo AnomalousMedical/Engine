@@ -98,7 +98,7 @@ namespace Anomalous.OSPlatform
                     resultCb = getResults;
                 }
 
-                [MonoTouch.MonoPInvokeCallback(typeof(ColorDialogResultCallback))]
+                [Anomalous.Interop.MonoPInvokeCallback(typeof(ColorDialogResultCallback))]
                 private static void getResults(NativeDialogResult result, Color color, IntPtr instanceHandle)
                 {
                     GCHandle handle = GCHandle.FromIntPtr(instanceHandle);

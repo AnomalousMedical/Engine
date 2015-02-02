@@ -142,28 +142,28 @@ namespace OgrePlugin
                 renderQueueEndedCallback = new ByteStringBoolRenderQueueEvent(renderQueueEnded);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(NativeAction))]
             static void preRenderQueues(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as ManagedRenderQueueListener).preRenderQueues();
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(NativeAction))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(NativeAction))]
             static void postRenderQueues(IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as ManagedRenderQueueListener).postRenderQueues();
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(ByteStringBoolRenderQueueEvent))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(ByteStringBoolRenderQueueEvent))]
             static bool renderQueueStarted(byte queueGroupId, IntPtr invocation, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 return (handle.Target as ManagedRenderQueueListener).renderQueueStarted(queueGroupId, invocation);
             }
 
-            [MonoTouch.MonoPInvokeCallback(typeof(ByteStringBoolRenderQueueEvent))]
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(ByteStringBoolRenderQueueEvent))]
             static bool renderQueueEnded(byte queueGroupId, IntPtr invocation, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
