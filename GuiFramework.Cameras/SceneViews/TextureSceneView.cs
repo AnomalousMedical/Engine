@@ -27,7 +27,7 @@ namespace Anomalous.GuiFramework.Cameras
             :base(controller, cameraMover, name, background, zIndexStart)
         {
             this.TextureName = name;
-            texture = TextureManager.getInstance().createManual(name, MyGUIInterface.Instance.CommonResourceGroup.FullName, TextureType.TEX_TYPE_2D, (uint)width, (uint)height, 1, 1, ogreTextureFormat, TextureUsage.TU_RENDERTARGET, false, 0);
+            texture = TextureManager.getInstance().createManual(name, MyGUIInterface.Instance.CommonResourceGroup.FullName, TextureType.TEX_TYPE_2D, (uint)width, (uint)height, 1, 0, ogreTextureFormat, TextureUsage.TU_RENDERTARGET, false, 0);
 
             pixelBuffer = texture.Value.getBuffer();
             renderTexture = pixelBuffer.Value.getRenderTarget();
