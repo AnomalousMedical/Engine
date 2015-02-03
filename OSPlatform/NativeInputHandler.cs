@@ -32,6 +32,59 @@ namespace Anomalous.OSPlatform
             }
         }
 
+        /// <summary>
+        /// Inject a mouse down event externally to the hardware mouse.
+        /// 
+        /// Since we need to treat touches as mouse events this input handler provides a way to inject
+        /// mouse inputs that will follow the normal mouse path. This is only needed on touch only devices
+        /// that need to simulate the mouse.
+        /// </summary>
+        /// <param name="code">The mouse button to simulate.</param>
+        public void injectButtonDown(MouseButtonCode code)
+        {
+            createdMouse.injectButtonDown(code);
+        }
+
+        /// <summary>
+        /// Inject a mouse up event externally to the hardware mouse.
+        /// 
+        /// Since we need to treat touches as mouse events this input handler provides a way to inject
+        /// mouse inputs that will follow the normal mouse path. This is only needed on touch only devices
+        /// that need to simulate the mouse.
+        /// </summary>
+        /// <param name="code">The mouse button to simulate.</param>
+        public void injectButtonUp(MouseButtonCode code)
+        {
+            createdMouse.injectButtonUp(code);
+        }
+
+        /// <summary>
+        /// Inject a mouse move event externally to the hardware mouse.
+        /// 
+        /// Since we need to treat touches as mouse events this input handler provides a way to inject
+        /// mouse inputs that will follow the normal mouse path. This is only needed on touch only devices
+        /// that need to simulate the mouse.
+        /// </summary>
+        /// <param name="x">x loc</param>
+        /// <param name="y">y loc</param>
+        public void injectMoved(int x, int y)
+        {
+            createdMouse.injectMoved(x, y);
+        }
+
+        /// <summary>
+        /// Inject a mouse wheel event externally to the hardware mouse.
+        /// 
+        /// Since we need to treat touches as mouse events this input handler provides a way to inject
+        /// mouse inputs that will follow the normal mouse path. This is only needed on touch only devices
+        /// that need to simulate the mouse.
+        /// </summary>
+        /// <param name="z">Mouse wheel</param>
+        public void injectWheel(int z)
+        {
+            createdMouse.injectWheel(z);
+        }
+
         public override KeyboardHardware createKeyboard(Keyboard keyboard)
         {
             if (createdKeyboard == null)

@@ -35,6 +35,26 @@ namespace Anomalous.OSPlatform
             callbackHandler.Dispose();
         }
 
+        internal void injectButtonDown(MouseButtonCode button)
+        {
+            fireButtonDown(button);
+        }
+
+        internal void injectButtonUp(MouseButtonCode button)
+        {
+            fireButtonUp(button);
+        }
+
+        internal void injectMoved(int x, int y)
+        {
+            fireMoved(x, y);
+        }
+
+        internal void injectWheel(int z)
+        {
+            fireWheel(z);
+        }
+
         void window_Resized(OSWindow window)
         {
             fireSizeChanged(window.WindowWidth, window.WindowHeight);
