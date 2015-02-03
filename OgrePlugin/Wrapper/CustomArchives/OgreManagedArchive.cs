@@ -257,15 +257,6 @@ namespace OgrePlugin
             public void Dispose()
             {
                 gcHandle.Free();
-
-                loadCallback = null;
-                unloadCallback = null;
-                openCallback = null;
-                listCallback = null;
-                listFileInfoCallback = null;
-                findCallback = null;
-                findFileInfoCallback = null;
-                existsCallback = null;
             }
         }
 #else
