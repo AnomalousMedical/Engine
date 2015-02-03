@@ -101,7 +101,6 @@ namespace MyGUIPlugin
             public void Dispose()
             {
                 handle.Free();
-                nativeEventCallback = null;
             }
         }
 #else
