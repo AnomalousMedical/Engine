@@ -100,7 +100,7 @@ namespace MyGUIPlugin
 
         void actionView_CanvasPositionChanged(CanvasEventArgs info)
         {
-            Vector2 currentPos = scrollView.CanvasPosition;
+            IntVector2 currentPos = scrollView.CanvasPosition;
             currentPos.y = -info.Top;
             scrollView.CanvasPosition = currentPos;
         }

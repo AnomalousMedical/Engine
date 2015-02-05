@@ -91,7 +91,7 @@ namespace MyGUIPlugin
             }
         }
 
-        public Vector2 CanvasPosition
+        public IntVector2 CanvasPosition
         {
             get
             {

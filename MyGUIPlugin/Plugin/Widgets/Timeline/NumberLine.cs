@@ -96,7 +96,7 @@ namespace MyGUIPlugin
 
         void actionView_CanvasPositionChanged(CanvasEventArgs info)
         {
-            numberlineScroller.CanvasPosition = new Vector2(-info.Left, 0.0f);
+            numberlineScroller.CanvasPosition = new IntVector2(-info.Left, 0);
             canvasModified();
         }
 
@@ -185,7 +185,7 @@ namespace MyGUIPlugin
                     number.Time = i;
                     activeNumbers.Add(number);
                 }
-                Vector2 scrollPos = numberlineScroller.CanvasPosition;
+                IntVector2 scrollPos = numberlineScroller.CanvasPosition;
                 numberlineScroller.CanvasSize = new IntSize2(number != null ? number.Right : 0, numberlineScroller.Height);
                 numberlineScroller.CanvasPosition = scrollPos; //Have to set the position back cause sometimes it changes.
             }

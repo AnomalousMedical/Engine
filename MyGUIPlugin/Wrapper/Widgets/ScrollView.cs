@@ -69,15 +69,15 @@ namespace MyGUIPlugin
             }
         }
 
-        public Vector2 CanvasPosition
+        public IntVector2 CanvasPosition
         {
             get
             {
-                return ScrollView_getCanvasPosition(widget).toVector2();
+                return ScrollView_getCanvasPosition(widget).toIntVector2();
             }
             set
             {
-                ScrollView_setCanvasPosition(widget, (int)value.x, (int)value.y);
+                ScrollView_setCanvasPosition(widget, value.x, value.y);
             }
         }
 

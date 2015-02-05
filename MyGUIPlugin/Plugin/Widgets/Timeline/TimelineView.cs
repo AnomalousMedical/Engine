@@ -386,10 +386,10 @@ namespace MyGUIPlugin
             }
 
             //Ensure the button is still visible.
-            Vector2 canvasPosition = timelineScrollView.CanvasPosition;
+            IntVector2 canvasPosition = timelineScrollView.CanvasPosition;
             int clientWidth = timelineScrollView.ClientCoord.width;
 
-            float visibleSize = canvasPosition.x + clientWidth;
+            int visibleSize = canvasPosition.x + clientWidth;
             if (visibleSize + PREVIEW_PADDING < canvasWidth)
             {
                 visibleSize -= PREVIEW_PADDING;
@@ -410,9 +410,9 @@ namespace MyGUIPlugin
             else if (left < canvasPosition.x + PREVIEW_PADDING)
             {
                 canvasPosition.x = left - PREVIEW_PADDING;
-                if (canvasPosition.x < 0.0f)
+                if (canvasPosition.x < 0)
                 {
-                    canvasPosition.x = 0.0f;
+                    canvasPosition.x = 0;
                 }
                 timelineScrollView.CanvasPosition = canvasPosition;
             }
