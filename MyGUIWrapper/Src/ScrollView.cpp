@@ -74,7 +74,7 @@ extern "C" _AnomalousExport bool ScrollView_getAllowMouseScroll(MyGUI::ScrollVie
 	return scrollView->getAllowMouseScroll();
 }
 
-extern "C" _AnomalousExport MyGUI::IntCoord ScrollView_getViewCoord(MyGUI::ScrollView* scrollView)
+extern "C" _AnomalousExport IntCoord ScrollView_getViewCoord(MyGUI::ScrollView* scrollView)
 {
 	return scrollView->getViewCoord();
 }

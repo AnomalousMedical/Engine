@@ -59,6 +59,28 @@ public:
 	}
 };
 
+class IntCoord
+{
+public:
+    int left;
+    int top;
+    int width;
+    int height;
+    
+    IntCoord(const MyGUI::IntCoord& coord)
+    {
+        left = coord.left;
+        top = coord.top;
+        width = coord.width;
+        height = coord.height;
+    }
+    
+    MyGUI::IntCoord toIntCoord() const
+    {
+        return MyGUI::IntCoord(left, top, width, height);
+    }
+};
+
 class ThreeIntHack
 {
 public:

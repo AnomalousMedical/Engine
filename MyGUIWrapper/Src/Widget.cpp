@@ -115,12 +115,12 @@ extern "C" _AnomalousExport void Widget_setCoord(MyGUI::Widget* widget, int left
 	widget->setCoord(left, top, width, height);
 }
 
-extern "C" _AnomalousExport void Widget_setCoordIntCoord(MyGUI::Widget* widget, MyGUI::IntCoord& coord)
+extern "C" _AnomalousExport void Widget_setCoordIntCoord(MyGUI::Widget* widget, IntCoord& coord)
 {
-	widget->setCoord(coord);
+	widget->setCoord(coord.toIntCoord());
 }
 
-extern "C" _AnomalousExport MyGUI::IntCoord Widget_getCoord(MyGUI::Widget* widget)
+extern "C" _AnomalousExport IntCoord Widget_getCoord(MyGUI::Widget* widget)
 {
 	return widget->getCoord();
 }
@@ -290,7 +290,7 @@ extern "C" _AnomalousExport String Widget_getLayerName(MyGUI::Widget* widget)
 	return widget->getLayer()->getName().c_str();
 }
 
-extern "C" _AnomalousExport MyGUI::IntCoord Widget_getClientCoord(MyGUI::Widget* widget)
+extern "C" _AnomalousExport IntCoord Widget_getClientCoord(MyGUI::Widget* widget)
 {
 	return widget->getClientCoord();
 }

@@ -3,7 +3,7 @@
 #pragma warning(push)
 #pragma warning(disable : 4190) //Disable c linkage warning
 
-extern "C" _AnomalousExport MyGUI::IntCoord TextBox_getTextRegion(MyGUI::TextBox* staticText)
+extern "C" _AnomalousExport IntCoord TextBox_getTextRegion(MyGUI::TextBox* staticText)
 {
 	return staticText->getTextRegion();
 }
