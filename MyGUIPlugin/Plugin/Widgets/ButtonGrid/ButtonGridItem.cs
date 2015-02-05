@@ -226,7 +226,7 @@ namespace MyGUIPlugin
 
         void button_MouseButtonPressed(Widget source, EventArgs e)
         {
-            grid.AllowClickEvents = true;
+			grid.resetClickScrollTracker();
             if (MouseButtonPressed != null)
             {
                 MouseButtonPressed.Invoke(this, (MouseEventArgs)e);

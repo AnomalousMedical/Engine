@@ -31,6 +31,8 @@ namespace MyGUIPlugin
         private ButtonGridSelectionStrategy selectionStrategy;
         private ButtonGridCaptionFactory captionFactory;
         private bool allowClickEvents = true;
+		private TravelTracker travelTracker = new TravelTracker(ScaleHelper.Scaled(5));
+		private IntVector2 canvasScrollStartPosition;
 
         /// <summary>
         /// Called when an item is activated. With the mouse this means double clicked.
@@ -663,7 +665,11 @@ namespace MyGUIPlugin
 
         void scrollView_CanvasPositionChanged(Widget source, EventArgs e)
         {
-            allowClickEvents = false;
+			travelTracker.traveled(scrollView.CanvasPosition - canvasScrollStartPosition);
+			if(travelTracker.TraveledOverLimit)
+			{
+				allowClickEvents = false;
+			}
         }
 
         /// <summary>
@@ -679,10 +685,13 @@ namespace MyGUIPlugin
             {
                 return allowClickEvents;
             }
-            set
-            {
-                allowClickEvents = value;
-            }
         }
+
+		internal void resetClickScrollTracker()
+		{
+			canvasScrollStartPosition = scrollView.CanvasPosition;
+			travelTracker.reset();
+			allowClickEvents = true;
+		}
     }
 }

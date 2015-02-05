@@ -50,7 +50,17 @@ namespace Engine
         {
             travelDistance.x += Math.Abs(travelAmount.x);
             travelDistance.y += Math.Abs(travelAmount.y);
-        }
+		}
+
+		/// <summary>
+		/// Alert a travel amount.
+		/// </summary>
+		/// <param name="travelAmount">The IntVector2 to use.</param>
+		public void traveled(IntVector2 travelAmount)
+		{
+			travelDistance.x += Math.Abs(travelAmount.x);
+			travelDistance.y += Math.Abs(travelAmount.y);
+		}
 
         /// <summary>
         /// Alert a travel amount.
