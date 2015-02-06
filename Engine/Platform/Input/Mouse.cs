@@ -36,6 +36,8 @@ namespace Engine.Platform
 
         /// <summary>
         /// Called when the mouse moves in x or y direction. Or when the wheel is scrolled in the z direction.
+        /// Note that this event is fired as the os updates and not as capture is called, it is not safe to use
+        /// RelativePosition in handlers for this event.
         /// </summary>
         public event MouseCallback Moved;
 
