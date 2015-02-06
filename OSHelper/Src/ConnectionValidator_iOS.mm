@@ -14,13 +14,17 @@ OSStatus EvaluateCert (SecCertificateRef cert, CFTypeRef policyRef, SecTrustResu
     
     status1 = SecTrustCreateWithCertificates(cfCertRef, policyRef, pTrustRef);
     if (status1)
+    {
         return status1;
+    }
     
     status2 = SecTrustEvaluate (*pTrustRef, result);
     
     // Release the objects we allocated
     if (cfCertRef)
+    {
         CFRelease(cfCertRef);
+    }
     //if (cfDate)
     //    CFRelease(cfDate);
     
@@ -32,7 +36,7 @@ extern "C" _AnomalousExport bool CertificateValidator_ValidateSSLCertificate(uns
     //NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
     SecTrustRef trustRef = nil;
-    SecTrustResultType result = kSecTrustResultRecoverableTrustFailure;
+    SecTrustResultType result = kSecTrustResultInvalid;
     bool success = false;
     
     CFStringRef cfHostName = NULL;
@@ -49,9 +53,14 @@ extern "C" _AnomalousExport bool CertificateValidator_ValidateSSLCertificate(uns
     SecCertificateRef cert = SecCertificateCreateWithData(NULL, (__bridge CFDataRef)certData);
     if(cert != nil)
     {
-        SecPolicyRef policyRef = SecPolicyCreateSSL(false, cfHostName);
+        SecPolicyRef policyRef = SecPolicyCreateSSL(true, cfHostName);
         EvaluateCert(cert, policyRef, &result, &trustRef);
-        success = result == kSecTrustResultUnspecified;
+        switch(result)
+        {
+            case kSecTrustResultProceed:
+            case kSecTrustResultUnspecified:
+                success = true;
+        }
         
         if(trustRef != nil)
         {
