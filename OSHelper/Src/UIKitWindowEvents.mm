@@ -15,6 +15,10 @@
 
 @implementation UIKitWindowEvents
 
+@synthesize keyboardType;
+
+@synthesize autocorrectionType;
+
 - (id) initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -23,6 +27,8 @@
         allowFirstResponder = false;
         hasText = false;
         nextNewId = 0;
+        self.keyboardType = UIKeyboardTypeASCIICapable;
+        self.autocorrectionType = UITextAutocorrectionTypeNo;
     }
     return self;
 }

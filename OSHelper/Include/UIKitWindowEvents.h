@@ -16,7 +16,7 @@
 class UIKitWindow;
 class MultiTouch;
 
-@interface UIKitWindowEvents : UIWindow<UIKeyInput>
+@interface UIKitWindowEvents : UIWindow<UIKeyInput, UITextInputTraits>
 {
 @private
     UIKitWindow* win;
