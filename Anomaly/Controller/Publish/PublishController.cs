@@ -8,6 +8,7 @@ using Engine;
 using System.Diagnostics;
 using Logging;
 using Ionic.Zip;
+using System.Text.RegularExpressions;
 
 namespace Anomaly
 {
@@ -17,8 +18,8 @@ namespace Anomaly
         private List<VirtualFileInfo> files = new List<VirtualFileInfo>();
         HashSet<String> recursiveDirectories = new HashSet<string>();
         private Solution solution;
-        private List<String> ignoreFiles = new List<String>();
-        private List<String> ignoreDirectories = new List<string>();
+        private List<FileMatch> ignoreFiles = new List<FileMatch>();
+        private List<FileMatch> ignoreDirectories = new List<FileMatch>();
 
         public PublishController(Solution solution)
         {
@@ -81,15 +82,15 @@ namespace Anomaly
             ConfigFile configFile = new ConfigFile(Path.Combine(solution.WorkingDirectory, profileName + ".rpr"));
             ConfigSection ignoredDirectories = configFile.createOrRetrieveConfigSection("IgnoredDirectories");
             i = 0;
-            foreach(String dir in ignoreDirectories)
+            foreach(var dir in ignoreDirectories)
             {
-                ignoredDirectories.setValue("Dir" + i++, dir);
+                ignoredDirectories.setValue("Dir" + i++, dir.OriginalText);
             }
             ConfigSection ignoredFiles = configFile.createOrRetrieveConfigSection("IgnoredFiles");
             i = 0;
-            foreach(String file in ignoreFiles)
+            foreach(var file in ignoreFiles)
             {
-                ignoredFiles.setValue("File" + i++, file);
+                ignoredFiles.setValue("File" + i++, file.OriginalText);
             }
             configFile.writeConfigFile();
         }
@@ -104,7 +105,7 @@ namespace Anomaly
             Log.Info("Starting file copy to {0}", targetDirectory);
             foreach (VirtualFileInfo sourceFile in files)
             {
-                if (!ignoreFiles.Contains(sourceFile.FullName) && !ignoreDirectories.Contains(sourceFile.DirectoryName))
+                if (!isIgnoredFile(sourceFile.FullName) && !isIgnoreDirectory(sourceFile.DirectoryName))
                 {
                     String destination = targetDirectory + Path.DirectorySeparatorChar + sourceFile.FullName;
                     String directory = Path.GetDirectoryName(destination);
@@ -207,29 +208,14 @@ namespace Anomaly
             return files;
         }
 
-        public void addIgnoreFile(VirtualFileInfo fileInfo)
-        {
-            addIgnoreFile(fileInfo.FullName);
-        }
-
         private void addIgnoreFile(String fileName)
         {
-            ignoreFiles.Add(fileName);
-        }
-
-        public void removeIgnoreFile(VirtualFileInfo fileInfo)
-        {
-            ignoreFiles.Remove(fileInfo.FullName);
+            ignoreFiles.Add(FileMatch.Create(fileName));
         }
 
         public void addIgnoreDirectory(String directory)
         {
-            ignoreDirectories.Add(directory);
-        }
-
-        public void removeIgnoreDirectory(String directory)
-        {
-            ignoreDirectories.Remove(directory);
+            ignoreDirectories.Add(FileMatch.Create(directory));
         }
 
         private void processFile(String url, bool recursive)
@@ -237,7 +223,7 @@ namespace Anomaly
             VirtualFileSystem vfs = VirtualFileSystem.Instance;
             if (vfs.isDirectory(url))
             {
-                if (!ignoreDirectories.Contains(url))
+                if (!isIgnoreDirectory(url))
                 {
                     if (recursive)
                     {
@@ -267,7 +253,7 @@ namespace Anomaly
 
         private void addFile(VirtualFileInfo fileInfo)
         {
-            if (!fileInfo.Name.EndsWith("~") && !fileInfo.DirectoryName.Contains(".svn") && !ignoreFiles.Contains(fileInfo.FullName) && !ignoreDirectories.Contains(fileInfo.DirectoryName))
+            if (!fileInfo.Name.EndsWith("~") && !fileInfo.DirectoryName.Contains(".svn") && !isIgnoredFile(fileInfo.FullName) && !isIgnoreDirectory(fileInfo.DirectoryName))
             {
                 //Make sure the file does not already exist in the list.
                 foreach (VirtualFileInfo existingInfo in files)
@@ -288,11 +274,84 @@ namespace Anomaly
                 addFile(VirtualFileSystem.Instance.getFileInfo(file));
             }
         }
+
+        private bool isIgnoredFile(String fileName)
+        {
+            return ignoreFiles.Any(m => m.isMatch(fileName));
+        }
+
+        private bool isIgnoreDirectory(String path)
+        {
+            return ignoreDirectories.Any(m => m.isMatch(path));
+        }
     }
 
-    class PublishControllerEventArgs : EventArgs
+    abstract class FileMatch
     {
-        public VirtualFileInfo FileInfo { get; set; }
+        public String OriginalText { get; private set; }
+
+        public abstract bool isMatch(String compare);
+
+        public static FileMatch Create(String matchString)
+        {
+            bool isWild = false;
+            StringBuilder expression = new StringBuilder("^.*");
+            for (int i = 0; i < matchString.Length; i++)
+            {
+                switch (matchString[i])
+                {
+                    case '?':
+                        expression.Append('.'); // regular expression notation.
+                        isWild = true;
+                        break;
+                    case '*':
+                        expression.Append(".*");
+                        isWild = true;
+                        break;
+                    case '.':
+                        expression.AppendFormat("\\{0}", matchString[i]);
+                        break;
+                    default:
+                        expression.Append(matchString[i]);
+                        break;
+                }
+            }
+            if(isWild)
+            {
+                return new RegexFileMatch(matchString, new Regex(expression.ToString()));
+            }
+
+            return new DirectFileMatch(matchString);
+        }
+
+        class DirectFileMatch : FileMatch
+        {
+            public DirectFileMatch(String matchString)
+            {
+                OriginalText = matchString;
+            }
+
+            public override bool isMatch(string compare)
+            {
+                return OriginalText == compare;
+            }
+        }
+
+        class RegexFileMatch : FileMatch
+        {
+            private Regex regex;
+
+            public RegexFileMatch(String matchString, Regex regex)
+            {
+                OriginalText = matchString;
+                this.regex = regex;
+            }
+
+            public override bool isMatch(string compare)
+            {
+                return regex.IsMatch(compare);
+            }
+        }
     }
 
     class PublishDirectoryInfo

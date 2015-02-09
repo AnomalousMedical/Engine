@@ -85,7 +85,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetDir)Release\x86\d3dcompiler_47.dll $(TargetDir)Debug\x86\d3dcompiler_47.dll</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetDir)Release\x86\d3dcompiler_47.dll $(TargetDir)Debug\x86\d3dcompiler_47.dll
+del $(TargetPath)</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
