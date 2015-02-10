@@ -226,7 +226,7 @@
 					"$(inherited)",
 					APPLE_IOS,
 				);
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../Dependencies/OgreDeps/OSXInstall/include";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../Dependencies/OgreDeps/iOSInstall/include";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -238,7 +238,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = APPLE_IOS;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../Dependencies/OgreDeps/OSXInstall/include";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../Dependencies/OgreDeps/iOSInstall/include";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
