@@ -65,6 +65,7 @@ namespace OgrePlugin
 
         public void Dispose()
         {
+            OgreInterface_DestroyVaryingCompressedTextures();
             MaterialManager.getInstance().Dispose();
             MeshManager.getInstance().Dispose();
             SkeletonManager.getInstance().Dispose();
@@ -131,6 +132,9 @@ namespace OgrePlugin
                     primaryWindow = new EmbeddedWindow(defaultWindowInfo.EmbedWindow, renderWindow);
                 }
                 defaultWindowInfo._fireWindowCreated(new WindowInfoEventArgs(primaryWindow));
+
+                //Setup compressed textures
+                OgreInterface_SetupVaryingCompressedTextures();
 
                 //Setup commands
                 pluginManager.addCreateSimElementManagerCommand(new AddSimElementManagerCommand("Create Ogre Scene Manager", OgreSceneManagerDefinition.Create));
@@ -412,6 +416,12 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr OgreInterface_GetRenderSystem(RenderSystemType rendersystemType);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void OgreInterface_SetupVaryingCompressedTextures();
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void OgreInterface_DestroyVaryingCompressedTextures();
 
         #endregion
     }

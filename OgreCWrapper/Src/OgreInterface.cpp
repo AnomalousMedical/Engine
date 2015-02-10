@@ -1,5 +1,6 @@
 #include "Stdafx.h"
 #include "OgrePlugin.h"
+#include "OgreScriptCompiler.h"
 
 #ifdef APPLE_IOS
 #include "OgreGLES2Plugin.h"
@@ -139,4 +140,127 @@ extern "C" _AnomalousExport Ogre::RenderSystem* OgreInterface_GetRenderSystem(Re
 	}
 
 	return rs;
+}
+
+/*
+This script compiler listener allows us to easily vary the textures used in our materials
+depending on what types of compressed textures a platform supports. DDS is the assumed default
+so in that case no listener is applied. As a result all materials should be setup using dds extensions.
+If dds is not supported then the following two other options are available:
+PVRTC - will use png for all texture units named NormalMap and pvr for all others
+No compressed formats supported - will use png for everything
+This is automatically setup by the OgreInterface class, so it does not need any action on the part
+of the user.
+*/
+
+class AnomalousScriptCompilerListener : public Ogre::ScriptCompilerListener
+{
+private:
+	String replacementExtension;
+public:
+	AnomalousScriptCompilerListener(String replacementExtension)
+		:replacementExtension(replacementExtension)
+	{
+
+	}
+
+	virtual ~AnomalousScriptCompilerListener()
+	{
+
+	}
+
+	virtual bool handleEvent(Ogre::ScriptCompiler *compiler, Ogre::ScriptCompilerEvent *evt, void *retval)
+	{
+		if (evt->mType == Ogre::PreApplyTextureAliasesScriptCompilerEvent::eventType)
+		{
+			Ogre::PreApplyTextureAliasesScriptCompilerEvent* paEvt = static_cast<Ogre::PreApplyTextureAliasesScriptCompilerEvent*>(evt);
+			Ogre::AliasTextureNamePairList* aliases = paEvt->mAliases;
+			for (Ogre::AliasTextureNamePairList::iterator i = aliases->begin(); i != aliases->end(); i++)
+			{
+				size_t dotIndex = i->second.find_last_of(".") + 1;
+				if (i->second.substr(dotIndex) == "dds")
+				{
+					i->second = i->second.replace(dotIndex, 3, replacementExtension);
+				}
+			}
+
+			return true;
+		}
+		return false;
+	}
+};
+
+class AnomalousNormalMapScriptCompilerListener : public Ogre::ScriptCompilerListener
+{
+private:
+	String replacementExtension;
+	String normalMapReplacement;
+public:
+	AnomalousNormalMapScriptCompilerListener(String replacementExtension, String normalMapReplacement)
+		:replacementExtension(replacementExtension),
+		normalMapReplacement(normalMapReplacement)
+	{
+
+	}
+
+	virtual ~AnomalousNormalMapScriptCompilerListener()
+	{
+
+	}
+
+	virtual bool handleEvent(Ogre::ScriptCompiler *compiler, Ogre::ScriptCompilerEvent *evt, void *retval)
+	{
+		if (evt->mType == Ogre::PreApplyTextureAliasesScriptCompilerEvent::eventType)
+		{
+			Ogre::PreApplyTextureAliasesScriptCompilerEvent* paEvt = static_cast<Ogre::PreApplyTextureAliasesScriptCompilerEvent*>(evt);
+			Ogre::AliasTextureNamePairList* aliases = paEvt->mAliases;
+			for (Ogre::AliasTextureNamePairList::iterator i = aliases->begin(); i != aliases->end(); i++)
+			{
+				size_t dotIndex = i->second.find_last_of(".") + 1;
+				if (i->second.substr(dotIndex) == "dds")
+				{
+					if (i->first == "NormalMap")
+					{
+						i->second = i->second.replace(dotIndex, 3, normalMapReplacement);
+					}
+					else
+					{
+						i->second = i->second.replace(dotIndex, 3, replacementExtension);
+					}
+				}
+			}
+
+			return true;
+		}
+		return false;
+	}
+};
+
+extern "C" _AnomalousExport void OgreInterface_SetupVaryingCompressedTextures()
+{
+	Ogre::Root* root = Ogre::Root::getSingletonPtr();
+	Ogre::RenderSystem* rs = root->getRenderSystem();
+	const Ogre::RenderSystemCapabilities* capabilities = rs->getCapabilities();
+	if (capabilities->hasCapability(Ogre::Capabilities::RSC_TEXTURE_COMPRESSION_DXT))
+	{
+		
+	}
+	else if (capabilities->hasCapability(Ogre::Capabilities::RSC_TEXTURE_COMPRESSION_PVRTC))
+	{
+		Ogre::ScriptCompilerManager::getSingleton().setListener(new AnomalousNormalMapScriptCompilerListener("pvr", "png"));
+	}
+	else
+	{
+		Ogre::ScriptCompilerManager::getSingleton().setListener(new AnomalousScriptCompilerListener("png"));
+	}
+}
+
+extern "C" _AnomalousExport void OgreInterface_DestroyVaryingCompressedTextures()
+{
+	Ogre::ScriptCompilerListener* scriptCompilerListener = Ogre::ScriptCompilerManager::getSingleton().getListener();
+	if (scriptCompilerListener != NULL)
+	{
+		Ogre::ScriptCompilerManager::getSingleton().setListener(NULL);
+		delete scriptCompilerListener;
+	}
 }
