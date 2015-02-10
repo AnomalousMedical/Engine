@@ -243,14 +243,16 @@ extern "C" _AnomalousExport void OgreInterface_SetupVaryingCompressedTextures()
 	const Ogre::RenderSystemCapabilities* capabilities = rs->getCapabilities();
 	if (capabilities->hasCapability(Ogre::Capabilities::RSC_TEXTURE_COMPRESSION_DXT))
 	{
-		
+        Ogre::LogManager::getSingleton().logMessage("Using DDS Texture Compression");
 	}
 	else if (capabilities->hasCapability(Ogre::Capabilities::RSC_TEXTURE_COMPRESSION_PVRTC))
 	{
+        Ogre::LogManager::getSingleton().logMessage("Using PVRTC Texture Compression");
 		Ogre::ScriptCompilerManager::getSingleton().setListener(new AnomalousNormalMapScriptCompilerListener("pvr", "png"));
 	}
 	else
 	{
+        Ogre::LogManager::getSingleton().logMessage("Using uncompressed textures");
 		Ogre::ScriptCompilerManager::getSingleton().setListener(new AnomalousScriptCompilerListener("png"));
 	}
 }
