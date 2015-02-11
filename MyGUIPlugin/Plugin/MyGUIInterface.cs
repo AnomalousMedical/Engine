@@ -206,6 +206,7 @@ namespace MyGUIPlugin
 
         public static readonly String DefaultWindowsTheme = "MyGUIPlugin_Windows.xml";
         public static readonly String DefaultOSXTheme = "MyGUIPlugin_OSX.xml";
+        public static readonly String DefaultPureTabletTheme = "MyGUIPlugin_PureTablet.xml";
         public static readonly String DefaultMainTheme = "MyGUIPlugin_Main.xml";
         public static readonly String DefaultMessageBoxTheme = "MyGUIPlugin.Resources.MessageBox.MessageBoxResources.xml";
 
