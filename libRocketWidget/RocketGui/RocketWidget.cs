@@ -282,8 +282,11 @@ namespace Anomalous.libRocketWidget
 
                 using (FreeImageBitmap cropped = fullBitmap.Copy(srcRect))
                 {
-                    cropped.Rescale(destRect.Width, destRect.Height, FREE_IMAGE_FILTER.FILTER_BILINEAR);
-                    g.Paste(cropped, destRect.X, destRect.Y, int.MaxValue);
+                    if (cropped != null)
+                    {
+                        cropped.Rescale(destRect.Width, destRect.Height, FREE_IMAGE_FILTER.FILTER_BILINEAR);
+                        g.Paste(cropped, destRect.X, destRect.Y, int.MaxValue);
+                    }
                 }
             }
 
