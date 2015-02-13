@@ -354,7 +354,18 @@ namespace Anomalous.GuiFramework.Cameras
                 SceneViewWindow sceneView = sceneViewController.ActiveWindow;
                 if (sceneView != null)
                 {
-                    sceneView.CameraMover.rotateFromMotion((int)gesture.DeltaX, (int)gesture.DeltaY);
+                    switch(movementMode)
+                    {
+                        case CameraMovementMode.Rotate:
+                            sceneView.CameraMover.rotateFromMotion((int)gesture.DeltaX, (int)gesture.DeltaY);
+                            break;
+                        case CameraMovementMode.Pan:
+                            sceneView.CameraMover.panFromMotion((int)gesture.DeltaX, (int)gesture.DeltaY, eventLayer.Mouse.AreaWidth, eventLayer.Mouse.AreaHeight);
+                            break;
+                        case CameraMovementMode.Zoom:
+                            sceneView.CameraMover.zoomFromMotion((int)gesture.DeltaY);
+                            break;
+                    }
                 }
                 travelTracker.traveled((int)gesture.DeltaX, (int)gesture.DeltaY);
                 eventLayer.alertEventsHandled();
