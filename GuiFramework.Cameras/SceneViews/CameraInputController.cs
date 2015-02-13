@@ -47,7 +47,7 @@ namespace Anomalous.GuiFramework.Cameras
         }
 
         private static MouseButtonCode currentMouseButton = GuiFrameworkCamerasInterface.DefaultCameraButton;
-        private static ButtonEvent RotateCamera;
+        private static ButtonEvent MoveCamera;
         private static ButtonEvent ZoomInCamera;
         private static ButtonEvent ZoomOutCamera;
         private static ButtonEvent LockX;
@@ -61,9 +61,9 @@ namespace Anomalous.GuiFramework.Cameras
 
         static CameraInputController()
         {
-            RotateCamera = new ButtonEvent(GuiFrameworkCamerasInterface.MoveCameraEventLayer);
-            RotateCamera.addButton(currentMouseButton);
-            DefaultEvents.registerDefaultEvent(RotateCamera);
+            MoveCamera = new ButtonEvent(GuiFrameworkCamerasInterface.MoveCameraEventLayer);
+            MoveCamera.addButton(currentMouseButton);
+            DefaultEvents.registerDefaultEvent(MoveCamera);
 
             ZoomInCamera = new ButtonEvent(GuiFrameworkCamerasInterface.MoveCameraEventLayer);
             ZoomInCamera.MouseWheelDirection = MouseWheelDirection.Up;
@@ -106,11 +106,11 @@ namespace Anomalous.GuiFramework.Cameras
 
         public static void changeMouseButton(MouseButtonCode newMouseButton)
         {
-            RotateCamera.removeButton(currentMouseButton);
+            MoveCamera.removeButton(currentMouseButton);
 
             currentMouseButton = newMouseButton;
 
-            RotateCamera.addButton(currentMouseButton);
+            MoveCamera.addButton(currentMouseButton);
         }
 
         private bool currentlyInMotion;
@@ -136,8 +136,8 @@ namespace Anomalous.GuiFramework.Cameras
             mouseWheelTimer.AutoReset = false;
             mouseWheelTimer.Elapsed += mouseWheelTimer_Elapsed;
 
-            RotateCamera.FirstFrameDownEvent += rotateCamera_FirstFrameDownEvent;
-            RotateCamera.FirstFrameUpEvent += rotateCamera_FirstFrameUpEvent;
+            MoveCamera.FirstFrameDownEvent += rotateCamera_FirstFrameDownEvent;
+            MoveCamera.FirstFrameUpEvent += rotateCamera_FirstFrameUpEvent;
 
             TogglePanMode.FirstFrameDownEvent += togglePanMode_FirstFrameDownEvent;
             TogglePanMode.FirstFrameUpEvent += togglePanMode_FirstFrameUpEvent;
@@ -167,8 +167,8 @@ namespace Anomalous.GuiFramework.Cameras
         {
             eventManager[GuiFrameworkCamerasInterface.MoveCameraEventLayer].OnUpdate -= processInputEvents;
 
-            RotateCamera.FirstFrameDownEvent -= rotateCamera_FirstFrameDownEvent;
-            RotateCamera.FirstFrameUpEvent -= rotateCamera_FirstFrameUpEvent;
+            MoveCamera.FirstFrameDownEvent -= rotateCamera_FirstFrameDownEvent;
+            MoveCamera.FirstFrameUpEvent -= rotateCamera_FirstFrameUpEvent;
 
             TogglePanMode.FirstFrameDownEvent -= togglePanMode_FirstFrameDownEvent;
             TogglePanMode.FirstFrameUpEvent -= togglePanMode_FirstFrameUpEvent;
@@ -240,7 +240,7 @@ namespace Anomalous.GuiFramework.Cameras
                     {
                         IntVector3 mouseCoords = eventLayer.Mouse.AbsolutePosition;
 
-                        if (RotateCamera.FirstFrameDown)
+                        if (MoveCamera.FirstFrameDown)
                         {
                             eventLayer.makeFocusLayer();
                             currentlyInMotion = true;
@@ -250,7 +250,7 @@ namespace Anomalous.GuiFramework.Cameras
                                 mouseUndoPosition = activeWindow.createCameraPosition();
                             }
                         }
-                        else if (RotateCamera.FirstFrameUp)
+                        else if (MoveCamera.FirstFrameUp)
                         {
                             eventLayer.clearFocusLayer();
                             currentlyInMotion = false;
