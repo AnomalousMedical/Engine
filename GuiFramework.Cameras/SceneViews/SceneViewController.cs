@@ -39,6 +39,18 @@ namespace Anomalous.GuiFramework.Cameras
         private List<MDISceneViewWindow> mdiWindows = new List<MDISceneViewWindow>();
         private List<TextureSceneView> textureWindows = new List<TextureSceneView>();
 
+        public event Action<CameraMovementMode> CameraMovementModeChanged
+        {
+            add
+            {
+                cameraInputController.CameraMovementModeChanged += value;
+            }
+            remove
+            {
+                cameraInputController.CameraMovementModeChanged -= value;
+            }
+        }
+
         public SceneViewController(MDILayoutManager mdiLayout, EventManager eventManager, UpdateTimer mainTimer, RendererWindow rendererWindow, OgreRenderManager renderManager, BackgroundScene background)
         {
             this.background = background;
@@ -375,6 +387,18 @@ namespace Anomalous.GuiFramework.Cameras
                     window.AspectRatio = aspectRatio;
                     window.layout();
                 }
+            }
+        }
+
+        public CameraMovementMode MovementMode
+        {
+            get
+            {
+                return cameraInputController.MovementMode;
+            }
+            set
+            {
+                cameraInputController.MovementMode = value;
             }
         }
 

@@ -11,6 +11,13 @@ using System.Timers;
 
 namespace Anomalous.GuiFramework.Cameras
 {
+    public enum CameraMovementMode
+    {
+        Rotate,
+        Pan,
+        Zoom
+    }
+
     public class CameraInputController : IDisposable
     {
         private const int UPDATE_DELAY = 500;
@@ -23,14 +30,30 @@ namespace Anomalous.GuiFramework.Cameras
             Pan = 3
         }
 
+        public static String PanKeyDescription
+        {
+            get
+            {
+                return TogglePanMode.KeyDescription;
+            }
+        }
+
+        public static String ZoomKeyDescription
+        {
+            get
+            {
+                return ToggleZoomMode.KeyDescription;
+            }
+        }
+
         private static MouseButtonCode currentMouseButton = GuiFrameworkCamerasInterface.DefaultCameraButton;
         private static ButtonEvent RotateCamera;
-        private static ButtonEvent PanCamera;
-        private static ButtonEvent ZoomCamera;
         private static ButtonEvent ZoomInCamera;
         private static ButtonEvent ZoomOutCamera;
         private static ButtonEvent LockX;
         private static ButtonEvent LockY;
+        private static ButtonEvent TogglePanMode;
+        private static ButtonEvent ToggleZoomMode;
 
         private static FingerDragGesture rotateGesture;
         private static FingerDragGesture panGesture;
@@ -41,16 +64,6 @@ namespace Anomalous.GuiFramework.Cameras
             RotateCamera = new ButtonEvent(GuiFrameworkCamerasInterface.MoveCameraEventLayer);
             RotateCamera.addButton(currentMouseButton);
             DefaultEvents.registerDefaultEvent(RotateCamera);
-
-            PanCamera = new ButtonEvent(GuiFrameworkCamerasInterface.MoveCameraEventLayer);
-            PanCamera.addButton(currentMouseButton);
-            PanCamera.addButton(GuiFrameworkCamerasInterface.PanKey);
-            DefaultEvents.registerDefaultEvent(PanCamera);
-
-            ZoomCamera = new ButtonEvent(GuiFrameworkCamerasInterface.MoveCameraEventLayer);
-            ZoomCamera.addButton(currentMouseButton);
-            ZoomCamera.addButton(KeyboardButtonCode.KC_LMENU);
-            DefaultEvents.registerDefaultEvent(ZoomCamera);
 
             ZoomInCamera = new ButtonEvent(GuiFrameworkCamerasInterface.MoveCameraEventLayer);
             ZoomInCamera.MouseWheelDirection = MouseWheelDirection.Up;
@@ -67,6 +80,14 @@ namespace Anomalous.GuiFramework.Cameras
             LockY = new ButtonEvent(GuiFrameworkCamerasInterface.MoveCameraEventLayer);
             LockY.addButton(KeyboardButtonCode.KC_X);
             DefaultEvents.registerDefaultEvent(LockY);
+
+            TogglePanMode = new ButtonEvent(GuiFrameworkCamerasInterface.ShortcutEventLayer);
+            TogglePanMode.addButton(GuiFrameworkCamerasInterface.PanKey);
+            DefaultEvents.registerDefaultEvent(TogglePanMode);
+
+            ToggleZoomMode = new ButtonEvent(GuiFrameworkCamerasInterface.ShortcutEventLayer);
+            ToggleZoomMode.addButton(KeyboardButtonCode.KC_LMENU);
+            DefaultEvents.registerDefaultEvent(ToggleZoomMode);
 
             switch (GuiFrameworkCamerasInterface.TouchType)
             { 
@@ -86,14 +107,10 @@ namespace Anomalous.GuiFramework.Cameras
         public static void changeMouseButton(MouseButtonCode newMouseButton)
         {
             RotateCamera.removeButton(currentMouseButton);
-            PanCamera.removeButton(currentMouseButton);
-            ZoomCamera.removeButton(currentMouseButton);
 
             currentMouseButton = newMouseButton;
 
             RotateCamera.addButton(currentMouseButton);
-            PanCamera.addButton(currentMouseButton);
-            ZoomCamera.addButton(currentMouseButton);
         }
 
         private bool currentlyInMotion;
@@ -104,6 +121,9 @@ namespace Anomalous.GuiFramework.Cameras
         private Timer mouseWheelTimer;
         private CameraPosition mouseUndoPosition;
         private CameraPosition touchUndoPosition;
+        private CameraMovementMode movementMode = CameraMovementMode.Rotate;
+
+        public event Action<CameraMovementMode> CameraMovementModeChanged;
 
         internal CameraInputController(SceneViewController sceneViewController, EventManager eventManager)
         {
@@ -118,6 +138,11 @@ namespace Anomalous.GuiFramework.Cameras
 
             RotateCamera.FirstFrameDownEvent += rotateCamera_FirstFrameDownEvent;
             RotateCamera.FirstFrameUpEvent += rotateCamera_FirstFrameUpEvent;
+
+            TogglePanMode.FirstFrameDownEvent += togglePanMode_FirstFrameDownEvent;
+            TogglePanMode.FirstFrameUpEvent += togglePanMode_FirstFrameUpEvent;
+            ToggleZoomMode.FirstFrameDownEvent += toggleZoomMode_FirstFrameDownEvent;
+            ToggleZoomMode.FirstFrameUpEvent += toggleZoomMode_FirstFrameUpEvent;
 
             if (zoomGesture != null)
             {
@@ -145,6 +170,12 @@ namespace Anomalous.GuiFramework.Cameras
             RotateCamera.FirstFrameDownEvent -= rotateCamera_FirstFrameDownEvent;
             RotateCamera.FirstFrameUpEvent -= rotateCamera_FirstFrameUpEvent;
 
+            TogglePanMode.FirstFrameDownEvent -= togglePanMode_FirstFrameDownEvent;
+            TogglePanMode.FirstFrameUpEvent -= togglePanMode_FirstFrameUpEvent;
+
+            ToggleZoomMode.FirstFrameDownEvent -= toggleZoomMode_FirstFrameDownEvent;
+            ToggleZoomMode.FirstFrameUpEvent -= toggleZoomMode_FirstFrameUpEvent;
+
             if (zoomGesture != null)
             {
                 zoomGesture.GestureStarted -= zoomGesture_GestureStarted;
@@ -163,6 +194,25 @@ namespace Anomalous.GuiFramework.Cameras
                 panGesture.MomentumEnded -= panGesture_MomentumEnded;
             }
             mouseWheelTimer.Dispose();
+        }
+
+        public CameraMovementMode MovementMode
+        {
+            get
+            {
+                return movementMode;
+            }
+            set
+            {
+                if (movementMode != value)
+                {
+                    movementMode = value;
+                    if (CameraMovementModeChanged != null)
+                    {
+                        CameraMovementModeChanged.Invoke(movementMode);
+                    }
+                }
+            }
         }
 
         void rotateCamera_FirstFrameDownEvent(EventLayer eventLayer)
@@ -214,43 +264,47 @@ namespace Anomalous.GuiFramework.Cameras
                         mouseCoords = eventLayer.Mouse.RelativePosition;
                         if (currentlyInMotion)
                         {
-                            if (PanCamera.HeldDown)
+                            int x = mouseCoords.x;
+                            int y = mouseCoords.y;
+                            switch (movementMode)
                             {
-                                travelTracker.traveled(mouseCoords);
-                                int x = mouseCoords.x;
-                                int y = mouseCoords.y;
-                                if (LockX.Down)
-                                {
-                                    x = 0;
-                                }
-                                if (LockY.Down)
-                                {
-                                    y = 0;
-                                }
-                                cameraMover.panFromMotion(x, y, eventLayer.Mouse.AreaWidth, eventLayer.Mouse.AreaHeight);
-                                eventLayer.alertEventsHandled();
-                            }
-                            else if (cameraMover.AllowZoom && ZoomCamera.HeldDown)
-                            {
-                                travelTracker.traveled(mouseCoords);
-                                cameraMover.zoomFromMotion(mouseCoords.y);
-                                eventLayer.alertEventsHandled();
-                            }
-                            else if (cameraMover.AllowRotation && RotateCamera.HeldDown)
-                            {
-                                travelTracker.traveled(mouseCoords);
-                                int x = mouseCoords.x;
-                                int y = mouseCoords.y;
-                                if (LockX.Down)
-                                {
-                                    x = 0;
-                                }
-                                if (LockY.Down)
-                                {
-                                    y = 0;
-                                }
-                                cameraMover.rotateFromMotion(x, y);
-                                eventLayer.alertEventsHandled();
+                                case CameraMovementMode.Rotate:
+                                    if(cameraMover.AllowRotation)
+                                    {
+                                        travelTracker.traveled(mouseCoords);
+                                        if (LockX.Down)
+                                        {
+                                            x = 0;
+                                        }
+                                        if (LockY.Down)
+                                        {
+                                            y = 0;
+                                        }
+                                        cameraMover.rotateFromMotion(x, y);
+                                        eventLayer.alertEventsHandled();
+                                    }
+                                    break;
+                                case CameraMovementMode.Pan:
+                                    travelTracker.traveled(mouseCoords);
+                                    if (LockX.Down)
+                                    {
+                                        x = 0;
+                                    }
+                                    if (LockY.Down)
+                                    {
+                                        y = 0;
+                                    }
+                                    cameraMover.panFromMotion(x, y, eventLayer.Mouse.AreaWidth, eventLayer.Mouse.AreaHeight);
+                                    eventLayer.alertEventsHandled();
+                                    break;
+                                case CameraMovementMode.Zoom:
+                                    if(cameraMover.AllowZoom)
+                                    {
+                                        travelTracker.traveled(mouseCoords);
+                                        cameraMover.zoomFromMotion(mouseCoords.y);
+                                        eventLayer.alertEventsHandled();
+                                    }
+                                    break;
                             }
                         }
                         if (cameraMover.AllowZoom)
@@ -461,6 +515,32 @@ namespace Anomalous.GuiFramework.Cameras
                 }
                 mouseUndoPosition = null;
             }
+        }
+
+        void toggleZoomMode_FirstFrameUpEvent(EventLayer eventLayer)
+        {
+            if (sceneViewController.MovementMode == CameraMovementMode.Zoom)
+            {
+                sceneViewController.MovementMode = CameraMovementMode.Rotate;
+            }
+        }
+
+        void toggleZoomMode_FirstFrameDownEvent(EventLayer eventLayer)
+        {
+            sceneViewController.MovementMode = CameraMovementMode.Zoom;
+        }
+
+        void togglePanMode_FirstFrameUpEvent(EventLayer eventLayer)
+        {
+            if (sceneViewController.MovementMode == CameraMovementMode.Pan)
+            {
+                sceneViewController.MovementMode = CameraMovementMode.Rotate;
+            }
+        }
+
+        void togglePanMode_FirstFrameDownEvent(EventLayer eventLayer)
+        {
+            sceneViewController.MovementMode = CameraMovementMode.Pan;
         }
     }
 }

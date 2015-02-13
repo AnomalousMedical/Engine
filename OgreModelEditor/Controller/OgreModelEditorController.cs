@@ -89,6 +89,7 @@ namespace OgreModelEditor
 
             GuiFrameworkCamerasInterface.MoveCameraEventLayer = EventLayers.Cameras;
             GuiFrameworkCamerasInterface.SelectWindowEventLayer = EventLayers.AfterMain;
+            GuiFrameworkCamerasInterface.ShortcutEventLayer = EventLayers.Main;
 
             GuiFrameworkEditorInterface.ToolsEventLayers = EventLayers.Tools;
 

@@ -25,6 +25,8 @@ namespace Anomalous.GuiFramework.Cameras
 
         public static Object SelectWindowEventLayer { get; set; }
 
+        public static Object ShortcutEventLayer { get; set; }
+
         public static TouchType TouchType { get; set; }
 
         static GuiFrameworkCamerasInterface()
