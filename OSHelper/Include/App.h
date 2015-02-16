@@ -10,7 +10,7 @@ public:
     
 	virtual ~App(void);
     
-	void registerDelegates(OnInitDelegate onInitCB, OnExitDelegate onExitCB, NativeAction onIdleCB HANDLE_ARG);
+	void registerDelegates(OnInitDelegate onInitCB, OnExitDelegate onExitCB, NativeAction onIdleCB, NativeAction onMovedToBackgroundCB, NativeAction onMovedToForegroundCB HANDLE_ARG);
     
     virtual void run() = 0;
     
@@ -29,11 +29,23 @@ public:
     int fireExit()
     {
 		return onExitCB(PASS_HANDLE);
-    }
+	}
+
+	void fireMovedToBackground()
+	{
+		onMovedToBackgroundCB(PASS_HANDLE);
+	}
+
+	void fireMovedToForeground()
+	{
+		onMovedToForegroundCB(PASS_HANDLE);
+	}
     
 private:
 	OnInitDelegate onInitCB;
 	OnExitDelegate onExitCB;
 	NativeAction onIdleCB;
+	NativeAction onMovedToBackgroundCB;
+	NativeAction onMovedToForegroundCB;
 	HANDLE_INSTANCE
 };

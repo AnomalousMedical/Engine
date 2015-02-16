@@ -11,11 +11,13 @@ App::~App()
 
 }
 
-void App::registerDelegates(OnInitDelegate onInitCB, OnExitDelegate onExitCB, NativeAction onIdleCB HANDLE_ARG)
+void App::registerDelegates(OnInitDelegate onInitCB, OnExitDelegate onExitCB, NativeAction onIdleCB, NativeAction onMovedToBackgroundCB, NativeAction onMovedToForegroundCB HANDLE_ARG)
 {
 	this->onInitCB = onInitCB;
 	this->onExitCB = onExitCB;
 	this->onIdleCB = onIdleCB;
+	this->onMovedToBackgroundCB = onMovedToBackgroundCB;
+	this->onMovedToForegroundCB = onMovedToForegroundCB;
 	ASSIGN_HANDLE
 }
 
@@ -25,9 +27,9 @@ extern "C" _AnomalousExport void App_delete(App* app)
 	delete app;
 }
 
-extern "C" _AnomalousExport void App_registerDelegates(App* app, OnInitDelegate onInitCB, OnExitDelegate onExitCB, NativeAction onIdleCB HANDLE_ARG)
+extern "C" _AnomalousExport void App_registerDelegates(App* app, OnInitDelegate onInitCB, OnExitDelegate onExitCB, NativeAction onIdleCB, NativeAction onMovedToBackgroundCB, NativeAction onMovedToForegroundCB HANDLE_ARG)
 {
-	app->registerDelegates(onInitCB, onExitCB, onIdleCB PASS_HANDLE_ARG);
+	app->registerDelegates(onInitCB, onExitCB, onIdleCB, onMovedToBackgroundCB, onMovedToForegroundCB PASS_HANDLE_ARG);
 }
 
 extern "C" _AnomalousExport void App_run(App* app)

@@ -51,13 +51,34 @@ namespace Anomalous.OSPlatform
 
         public abstract void OnIdle();
 
+        /// <summary>
+        /// On a mobile os apps are moved to the background and foreground. When they are in the
+        /// background they can be killed at any time, so we must be able to respond to those events
+        /// to save state. Note that this event only fires on mobile frameworks that support "backgrounding"
+        /// this does not fire for minimized apps on a desktop, since that is more of a window not an app thing.
+        /// </summary>
+        public virtual void OnMovedToBackground()
+        {
+
+        }
+
+        /// <summary>
+        /// On a mobile os apps are moved to the background and foreground. This is called when an app moves back to the foreground.
+        /// Note that this event only fires on mobile frameworks that support "backgrounding"
+        /// this does not fire for maximized apps on a desktop, since that is more of a window not an app thing.
+        /// </summary>
+        public virtual void OnMovedToForeground()
+        {
+
+        }
+
         public String Title { get; set; }
 
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr App_create();
 
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void App_registerDelegates(IntPtr app, OnInitDelegate onInitCB, OnExitDelegate onExitCB, NativeAction onIdleCB
+        private static extern void App_registerDelegates(IntPtr app, OnInitDelegate onInitCB, OnExitDelegate onExitCB, NativeAction onIdleCB, NativeAction onMovedToBackgroundCB, NativeAction onMovedToForegroundCB
 #if FULL_AOT_COMPILE
         , IntPtr instanceHandle
 #endif
@@ -95,12 +116,16 @@ namespace Anomalous.OSPlatform
             private static OnInitDelegate onInitCB;
             private static OnExitDelegate onExitCB;
             private static NativeAction onIdleCB;
+            private static NativeAction onMovedToBackgroundCB;
+            private static NativeAction onMovedToForegroundCB;
 
             static CallbackHandler()
             {
                 onInitCB = new OnInitDelegate(OnInitStatic);
                 onExitCB = new OnExitDelegate(OnExitStatic);
                 onIdleCB = new NativeAction(OnIdleStatic);
+                onMovedToBackgroundCB = new NativeAction(OnMovedToBackgroundStatic);
+                onMovedToForegroundCB = new NativeAction(OnMovedToForegroundStatic);
             }
 
             [Anomalous.Interop.MonoPInvokeCallback(typeof(OnInitDelegate))]
@@ -124,12 +149,26 @@ namespace Anomalous.OSPlatform
                 (handle.Target as App).OnIdle();
             }
 
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(NativeAction))]
+            static void OnMovedToBackgroundStatic(IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as App).OnMovedToBackground();
+            }
+
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(NativeAction))]
+            static void OnMovedToForegroundStatic(IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as App).OnMovedToForeground();
+            }
+
             private GCHandle handle;
 
             public CallbackHandler(App app)
             {
                 handle = GCHandle.Alloc(app);
-                App_registerDelegates(app.appPtr, onInitCB, onExitCB, onIdleCB, GCHandle.ToIntPtr(handle));
+                App_registerDelegates(app.appPtr, onInitCB, onExitCB, onIdleCB, onMovedToBackgroundCB, onMovedToForegroundCB, GCHandle.ToIntPtr(handle));
             }
 
             public void Dispose()
@@ -143,14 +182,18 @@ namespace Anomalous.OSPlatform
             private OnInitDelegate onInitCB;
             private OnExitDelegate onExitCB;
             private NativeAction onIdleCB;
+            private NativeAction onMovedToBackgroundCB;
+            private NativeAction onMovedToForegroundCB;
 
             public CallbackHandler(App app)
             {
                 onInitCB = new OnInitDelegate(app.OnInit);
                 onExitCB = new OnExitDelegate(app.OnExit);
                 onIdleCB = new NativeAction(app.OnIdle);
+                onMovedToBackgroundCB = new NativeAction(app.OnMovedToBackground);
+                onMovedToForegroundCB = new NativeAction(app.OnMovedToForeground);
 
-                App_registerDelegates(app.appPtr, onInitCB, onExitCB, onIdleCB);
+                App_registerDelegates(app.appPtr, onInitCB, onExitCB, onIdleCB, onMovedToBackgroundCB, onMovedToForegroundCB);
             }
 
             public void Dispose()
