@@ -41,6 +41,17 @@ void UIKitAppDelegate_setPrimaryUIKitApp(UIKitApp* app)
     
     primaryUiKitApp->fireInit();
     
+    //Ogre likes to replace our view controller, so make sure our root one is set correctly
+    //If not setup the current view controller as a child
+    UIViewController *currentViewController = self.window.rootViewController;
+    if(currentViewController != initialViewController)
+    {
+        self.window.rootViewController = initialViewController;
+        [initialViewController addChildViewController: currentViewController];
+        [initialViewController.view addSubview:currentViewController.view];
+        [currentViewController didMoveToParentViewController:initialViewController];
+    }
+    
     self.mFrameLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(doFrame:)];
     self.mFrameLink.frameInterval = 1;
     [self.mFrameLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
