@@ -11,10 +11,16 @@
 #include "UIKitWindow.h"
 
 UIKitWindowEvents *window;
+UIViewController *contentViewController = NULL;
 
 void UIKitWindow_setUIWindow(UIKitWindowEvents *win)
 {    
     window = win;
+}
+
+void UIKitWindow_setContentViewController(UIViewController *cvc)
+{
+    contentViewController = cvc;
 }
 
 UIKitWindow::UIKitWindow(UIKitWindow* parent, String title, int x, int y, int width, int height, bool floatOnParent)
@@ -39,13 +45,29 @@ void UIKitWindow::setSize(int width, int height)
 
 int UIKitWindow::getWidth()
 {
-    CGRect frame = [window frame];
+    CGRect frame;
+    if(contentViewController != NULL)
+    {
+        frame = [contentViewController.view frame];
+    }
+    else
+    {
+        frame = [window frame];
+    }
     return (int)frame.size.width * getWindowScaling();
 }
 
 int UIKitWindow::getHeight()
 {
-    CGRect frame = [window frame];
+    CGRect frame;
+    if(contentViewController != NULL)
+    {
+        frame = [contentViewController.view frame];
+    }
+    else
+    {
+        frame = [window frame];
+    }
     return (int)frame.size.height * getWindowScaling();
 }
 

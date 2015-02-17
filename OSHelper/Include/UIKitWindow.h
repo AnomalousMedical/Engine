@@ -51,4 +51,6 @@ public:
 
 void UIKitWindow_setUIWindow(UIKitWindowEvents *window);
 
+void UIKitWindow_setContentViewController(UIViewController *cvc);
+
 #endif
