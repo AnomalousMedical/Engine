@@ -13,13 +13,19 @@ namespace Anomalous.libRocketWidget
 {
     public class RocketWidget : IDisposable
     {
-        public delegate void ElementFocusedDelegate(RocketWidget widget, Element element);
+        public delegate void ElementDelegate(RocketWidget widget, Element element);
 
         /// <summary>
         /// This event fires whenever a libRocket element is focused. It can be used to track
         /// when to show the virtual keyboard. It will fire for any created RocketWidgets.
         /// </summary>
-        public static event ElementFocusedDelegate ElementFocused;
+        public static event ElementDelegate ElementFocused;
+
+        /// <summary>
+        /// This event fires whenever a libRocket element is blurred. It can be used to track
+        /// when to show the virtual keyboard. It will fire for any created RocketWidgets.
+        /// </summary>
+        public static event ElementDelegate ElementBlurred;
 
         /// <summary>
         /// Fire the element focused event.
@@ -30,6 +36,18 @@ namespace Anomalous.libRocketWidget
             if (ElementFocused != null)
             {
                 ElementFocused.Invoke(rocketWidget, element);
+            }
+        }
+
+        /// <summary>
+        /// Fire the element blurred event.
+        /// </summary>
+        /// <param name="element"></param>
+        internal static void fireElementBlurred(RocketWidget rocketWidget, Element element)
+        {
+            if (ElementBlurred != null)
+            {
+                ElementBlurred.Invoke(rocketWidget, element);
             }
         }
 
@@ -96,6 +114,7 @@ namespace Anomalous.libRocketWidget
             //Create context
             context = Core.CreateContext(name, new Vector2i(imageBox.Width, imageBox.Height));
             context.GetRootElement().AddEventListener("focus", new ElementFocusListener(this), true);
+            context.GetRootElement().AddEventListener("blur", new ElementBlurredListener(this), true);
 
             renderQueueListener = new RocketRenderQueueListener(context, (RenderInterfaceOgre3D)Core.GetRenderInterface(), renderTexture.requiresTextureFlipping());
             renderQueueListener.FrameCompleted += new Action(renderQueueListener_FrameCompleted);
