@@ -47,6 +47,15 @@ public:
     virtual void toggleFullscreen();
     
     virtual void setOnscreenKeyboardVisible(bool visible);
+    
+    virtual void onscreenKeyboardVisible(CGRect kbRect);
+    
+    virtual void onscreenKeyboardFrameChanged(CGRect kbRect);
+    
+    virtual void onscreenKeyboardHiding();
+    
+private:
+    bool keyboardVisible;
 };
 
 void UIKitWindow_setUIWindow(UIKitWindowEvents *window);

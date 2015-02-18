@@ -24,6 +24,7 @@ void UIKitWindow_setContentViewController(UIViewController *cvc)
 }
 
 UIKitWindow::UIKitWindow(UIKitWindow* parent, String title, int x, int y, int width, int height, bool floatOnParent)
+:keyboardVisible(false)
 {
     [window setWindow:this];
 }
@@ -119,6 +120,50 @@ void UIKitWindow::toggleFullscreen()
 void UIKitWindow::setOnscreenKeyboardVisible(bool visible)
 {
     [window setOnscreenKeyboardVisible:visible];
+}
+
+void UIKitWindow::onscreenKeyboardVisible(CGRect kbRect)
+{
+    logger << "Onscreen keyboard visible " << kbRect.size.width << ", " << kbRect.size.height << debug;
+    keyboardVisible = true;
+    if(contentViewController != NULL)
+    {
+        CGRect frame = [window frame];
+        frame.size.height -= kbRect.size.height;
+        contentViewController.view.frame = frame;
+        
+        logger << "new frame size " << contentViewController.view.frame.origin.x << " " << contentViewController.view.frame.origin.y << " " << contentViewController.view.frame.size.width << ", " << contentViewController.view.frame.size.height << debug;
+        
+        fireSized();
+    }
+}
+
+void UIKitWindow::onscreenKeyboardFrameChanged(CGRect kbRect)
+{
+    logger << "Onscreen keyboard frame changed " << kbRect.size.width << ", " << kbRect.size.height << debug;
+    if(keyboardVisible && contentViewController != NULL)
+    {
+        CGRect frame = [window frame];
+        frame.size.height -= kbRect.size.height;
+        contentViewController.view.frame = frame;
+        
+        logger << "new frame size " << contentViewController.view.frame.origin.x << " " << contentViewController.view.frame.origin.y << " " << contentViewController.view.frame.size.width << ", " << contentViewController.view.frame.size.height << debug;
+        
+        fireSized();
+    }
+}
+
+void UIKitWindow::onscreenKeyboardHiding()
+{
+    logger.sendMessage("Onscreen keyboard hiding", LogLevel::Debug);
+    keyboardVisible = false;
+    if(contentViewController != NULL)
+    {
+        CGRect frame = [window frame];
+        contentViewController.view.frame = frame;
+        
+        fireSized();
+    }
 }
 
 //PInvoke
