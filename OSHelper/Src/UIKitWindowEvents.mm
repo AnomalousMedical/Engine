@@ -133,8 +133,6 @@
 
 - (void)insertText:(NSString *)text
 {
-    //logger.sendMessage("Text entered", LogLevel::ImportantInfo);
-    //NSLog(text);
     if([text length] > 0)
     {
         unichar firstChar = [text characterAtIndex:0];
@@ -149,17 +147,18 @@
         win->fireKeyUp(keyCode);
     }
 }
+
 - (void)deleteBackward
 {
-    //logger.sendMessage("delete backward", LogLevel::ImportantInfo);
     win->fireKeyDown(KeyboardButtonCode::KC_BACK, 0);
     win->fireKeyUp(KeyboardButtonCode::KC_BACK);
 }
+
 - (BOOL)hasText
 {
-    // Return whether there's any text present
     return hasText;
 }
+
 - (BOOL)canBecomeFirstResponder
 {
     return allowFirstResponder;
