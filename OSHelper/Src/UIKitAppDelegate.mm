@@ -32,31 +32,17 @@ void UIKitAppDelegate_setPrimaryUIKitApp(UIKitApp* app)
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    UIViewController *initialViewController = [[ViewController alloc] initWithNibName:nil bundle:nil];
+    ViewController *initialViewController = [[ViewController alloc] initWithNibName:nil bundle:nil];
+    
     UIKitWindowEvents* eventsWindow = [[UIKitWindowEvents alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window = eventsWindow;
+    [self.window addSubview:initialViewController.view];
     self.window.rootViewController  = initialViewController;
     [self.window makeKeyAndVisible];
-    UIKitWindow_setUIWindow(eventsWindow);
+    
+    UIKitWindow_setUIWindow(eventsWindow, initialViewController);
     
     primaryUiKitApp->fireInit();
-    
-    UIViewController *contentViewController = initialViewController;
-    
-    //Ogre likes to replace our view controller, so make sure our root one is set correctly
-    //If not setup the current view controller as a child
-    UIViewController *currentViewController = self.window.rootViewController;
-    if(currentViewController != initialViewController)
-    {
-        self.window.rootViewController = initialViewController;
-        [initialViewController addChildViewController: currentViewController];
-        [initialViewController.view addSubview:currentViewController.view];
-        [currentViewController didMoveToParentViewController:initialViewController];
-        
-        contentViewController = currentViewController;
-    }
-    
-    UIKitWindow_setContentViewController(contentViewController);
     
     self.mFrameLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(doFrame:)];
     self.mFrameLink.frameInterval = 1;

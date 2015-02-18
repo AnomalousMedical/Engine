@@ -139,7 +139,14 @@ extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindowParams(Og
 	}
 	if(externalWindowHandle != 0)
 	{
-		params["externalWindowHandle"] = externalWindowHandle;
+#ifdef APPLE_IOS
+        unsigned long* handleArray = (unsigned long *)Ogre::StringConverter::parseUnsignedLong(externalWindowHandle);
+        params["externalWindowHandle"] = Ogre::StringConverter::toString(handleArray[0]);
+        params["externalViewControllerHandle"] = Ogre::StringConverter::toString(handleArray[1]);
+        params["externalViewHandle"] = Ogre::StringConverter::toString(handleArray[2]);
+#else
+        params["externalWindowHandle"] = externalWindowHandle;
+#endif
 	}
 	if(nvPerfHud != 0)
 	{

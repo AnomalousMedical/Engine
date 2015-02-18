@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Andrew Piper. All rights reserved.
 //
 
+#pragma once
+
 #import <UIKit/UIKit.h>
 
 @interface ViewController : UIViewController

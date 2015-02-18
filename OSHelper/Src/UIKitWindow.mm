@@ -11,16 +11,21 @@
 #include "UIKitWindow.h"
 
 UIKitWindowEvents *window;
-UIViewController *contentViewController = NULL;
+UIViewController *viewController = NULL;
 
-void UIKitWindow_setUIWindow(UIKitWindowEvents *win)
+//What we think of as a handle on ios is really 3 things a UIWindow, UIViewController and UIView
+//As a result we will pass these items in an array that comprises our handle. The first item is the
+//UIWindow, the second is the UIViewController and the third is the UIView.
+unsigned long handleArray[3];
+
+void UIKitWindow_setUIWindow(UIKitWindowEvents *win, ViewController *vc)
 {    
     window = win;
-}
-
-void UIKitWindow_setContentViewController(UIViewController *cvc)
-{
-    contentViewController = cvc;
+    viewController = vc;
+    
+    handleArray[0] = (unsigned long)(__bridge void*)window;
+    handleArray[1] = (unsigned long)(__bridge void*)viewController;
+    handleArray[2] = (unsigned long)(__bridge void*)viewController.view;
 }
 
 UIKitWindow::UIKitWindow(UIKitWindow* parent, String title, int x, int y, int width, int height, bool floatOnParent)
@@ -46,35 +51,19 @@ void UIKitWindow::setSize(int width, int height)
 
 int UIKitWindow::getWidth()
 {
-    CGRect frame;
-    if(contentViewController != NULL)
-    {
-        frame = [contentViewController.view frame];
-    }
-    else
-    {
-        frame = [window frame];
-    }
+    CGRect frame = [viewController.view frame];
     return (int)frame.size.width * getWindowScaling();
 }
 
 int UIKitWindow::getHeight()
 {
-    CGRect frame;
-    if(contentViewController != NULL)
-    {
-        frame = [contentViewController.view frame];
-    }
-    else
-    {
-        frame = [window frame];
-    }
+    CGRect frame = [viewController.view frame];
     return (int)frame.size.height * getWindowScaling();
 }
 
 void* UIKitWindow::getHandle()
 {
-    return (__bridge void*)window;
+    return handleArray;
 }
 
 void UIKitWindow::show()
@@ -124,15 +113,12 @@ void UIKitWindow::setOnscreenKeyboardVisible(bool visible)
 
 void UIKitWindow::onscreenKeyboardVisible(CGRect kbRect)
 {
-    logger << "Onscreen keyboard visible " << kbRect.size.width << ", " << kbRect.size.height << debug;
-    keyboardVisible = true;
-    if(contentViewController != NULL)
+    if(!keyboardVisible)
     {
+        keyboardVisible = true;
         CGRect frame = [window frame];
         frame.size.height -= kbRect.size.height;
-        contentViewController.view.frame = frame;
-        
-        logger << "new frame size " << contentViewController.view.frame.origin.x << " " << contentViewController.view.frame.origin.y << " " << contentViewController.view.frame.size.width << ", " << contentViewController.view.frame.size.height << debug;
+        viewController.view.frame = frame;
         
         fireSized();
     }
@@ -140,14 +126,11 @@ void UIKitWindow::onscreenKeyboardVisible(CGRect kbRect)
 
 void UIKitWindow::onscreenKeyboardFrameChanged(CGRect kbRect)
 {
-    logger << "Onscreen keyboard frame changed " << kbRect.size.width << ", " << kbRect.size.height << debug;
-    if(keyboardVisible && contentViewController != NULL)
+    if(keyboardVisible)
     {
         CGRect frame = [window frame];
         frame.size.height -= kbRect.size.height;
-        contentViewController.view.frame = frame;
-        
-        logger << "new frame size " << contentViewController.view.frame.origin.x << " " << contentViewController.view.frame.origin.y << " " << contentViewController.view.frame.size.width << ", " << contentViewController.view.frame.size.height << debug;
+        viewController.view.frame = frame;
         
         fireSized();
     }
@@ -155,14 +138,16 @@ void UIKitWindow::onscreenKeyboardFrameChanged(CGRect kbRect)
 
 void UIKitWindow::onscreenKeyboardHiding()
 {
-    logger.sendMessage("Onscreen keyboard hiding", LogLevel::Debug);
-    keyboardVisible = false;
-    if(contentViewController != NULL)
+    if(keyboardVisible)
     {
-        CGRect frame = [window frame];
-        contentViewController.view.frame = frame;
-        
-        fireSized();
+        keyboardVisible = false;
+        if(viewController != NULL)
+        {
+            CGRect frame = [window frame];
+            viewController.view.frame = frame;
+            
+            fireSized();
+        }
     }
 }
 

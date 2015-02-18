@@ -12,6 +12,7 @@
 #import <UIKit/UIKit.h>
 #include "NativeOSWindow.h"
 #include "UIKitWindowEvents.h"
+#include "ViewController.h"
 
 class UIKitWindow : public NativeOSWindow
 {
@@ -58,8 +59,6 @@ private:
     bool keyboardVisible;
 };
 
-void UIKitWindow_setUIWindow(UIKitWindowEvents *window);
-
-void UIKitWindow_setContentViewController(UIViewController *cvc);
+void UIKitWindow_setUIWindow(UIKitWindowEvents *window, ViewController *vc);
 
 #endif
