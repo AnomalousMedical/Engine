@@ -99,10 +99,17 @@ namespace Anomalous.OSPlatform
             NativeOSWindow_toggleFullscreen(nativeWindow);
         }
 
-        public void setOnscreenKeyboardVisible(bool visible)
-        {
-            NativeOSWindow_setOnscreenKeyboardVisible(nativeWindow, visible);
-        }
+		public bool OnscreenKeyboardVisible
+		{
+			get 
+			{
+				return NativeOSWindow_isOnscreenKeyboardVisible(nativeWindow);
+			}
+			set 
+			{
+				NativeOSWindow_setOnscreenKeyboardVisible(nativeWindow, value);
+			}
+		}
 
         public String Title
         {
@@ -303,6 +310,10 @@ namespace Anomalous.OSPlatform
 
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void NativeOSWindow_setOnscreenKeyboardVisible(IntPtr nativeWindow, bool visible);
+
+		[DllImport(NativePlatformPlugin.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		private static extern bool NativeOSWindow_isOnscreenKeyboardVisible(IntPtr nativeWindow);
 
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void NativeOSWindow_setCallbacks(IntPtr nativeWindow, NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, ActivateCB activateCB

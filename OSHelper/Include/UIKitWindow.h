@@ -49,6 +49,8 @@ public:
     
     virtual void setOnscreenKeyboardVisible(bool visible);
     
+    virtual bool isOnscreenKeyboardVisible();
+    
     virtual void onscreenKeyboardVisible(CGRect kbRect);
     
     virtual void onscreenKeyboardFrameChanged(CGRect kbRect);

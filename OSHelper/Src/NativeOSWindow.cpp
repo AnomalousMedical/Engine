@@ -165,6 +165,11 @@ extern "C" _AnomalousExport void NativeOSWindow_setOnscreenKeyboardVisible(Nativ
 	nativeWindow->setOnscreenKeyboardVisible(visible);
 }
 
+extern "C" _AnomalousExport bool NativeOSWindow_isOnscreenKeyboardVisible(NativeOSWindow* nativeWindow)
+{
+    return nativeWindow->isOnscreenKeyboardVisible();
+}
+
 extern "C" _AnomalousExport void NativeOSWindow_setCallbacks(NativeOSWindow* nativeWindow, NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, ActivateCB activateCB HANDLE_ARG)
 {
 	nativeWindow->setCallbacks(deleteCB, sizedCB, closingCB, closedCB, activateCB PASS_HANDLE_ARG);

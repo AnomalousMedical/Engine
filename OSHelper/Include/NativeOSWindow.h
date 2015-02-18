@@ -63,6 +63,11 @@ public:
 	{
 		//Does nothing by default.
 	}
+    
+    virtual bool isOnscreenKeyboardVisible()
+    {
+        return false;
+    }
 
 	void setCallbacks(NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, ActivateCB activateCB HANDLE_ARG);
     

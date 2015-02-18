@@ -13,6 +13,7 @@ namespace Anomalous.libRocketWidget
 {
     public class RocketWidget : IDisposable
     {
+		public delegate void RocketWidgetDelegate(RocketWidget widget);
         public delegate void ElementDelegate(RocketWidget widget, Element element);
 
         /// <summary>
@@ -26,6 +27,12 @@ namespace Anomalous.libRocketWidget
         /// when to show the virtual keyboard. It will fire for any created RocketWidgets.
         /// </summary>
         public static event ElementDelegate ElementBlurred;
+
+		/// <summary>
+		/// This is called when a RocketWidget is disposing. This is static and will be fired
+		/// for all rocket widgets that are disposing.
+		/// </summary>
+		public static event RocketWidgetDelegate RocketWidgetDisposing;
 
         /// <summary>
         /// Fire the element focused event.
@@ -113,8 +120,8 @@ namespace Anomalous.libRocketWidget
 
             //Create context
             context = Core.CreateContext(name, new Vector2i(imageBox.Width, imageBox.Height));
-            context.GetRootElement().AddEventListener("focus", new ElementFocusListener(this), true);
-            context.GetRootElement().AddEventListener("blur", new ElementBlurredListener(this), true);
+            context.GetRootElement().AddEventListener("focus", new ElementFocusListener(this), false);
+			context.GetRootElement().AddEventListener("blur", new ElementBlurredListener(this), false);
 
             renderQueueListener = new RocketRenderQueueListener(context, (RenderInterfaceOgre3D)Core.GetRenderInterface(), renderTexture.requiresTextureFlipping());
             renderQueueListener.FrameCompleted += new Action(renderQueueListener_FrameCompleted);
@@ -146,6 +153,11 @@ namespace Anomalous.libRocketWidget
 
         public void Dispose()
         {
+			if(RocketWidgetDisposing != null)
+			{
+				RocketWidgetDisposing.Invoke(this);
+			}
+
             RocketWidgetManager.rocketWidgetDisposed(name);
             imageBox.MouseButtonPressed -= imageBox_MouseButtonPressed;
             imageBox.MouseButtonReleased -= imageBox_MouseButtonReleased;

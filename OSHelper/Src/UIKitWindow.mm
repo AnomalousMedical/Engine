@@ -113,6 +113,11 @@ void UIKitWindow::setOnscreenKeyboardVisible(bool visible)
     [window setOnscreenKeyboardVisible:visible];
 }
 
+bool UIKitWindow::isOnscreenKeyboardVisible()
+{
+    return keyboardVisible;
+}
+
 void UIKitWindow::onscreenKeyboardVisible(CGRect kbRect)
 {
     if(!keyboardVisible)
