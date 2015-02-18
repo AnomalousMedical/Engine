@@ -12,6 +12,7 @@
 
 UIKitWindowEvents *window;
 UIViewController *viewController = NULL;
+UIView *view;
 
 //What we think of as a handle on ios is really 3 things a UIWindow, UIViewController and UIView
 //As a result we will pass these items in an array that comprises our handle. The first item is the
@@ -22,6 +23,7 @@ void UIKitWindow_setUIWindow(UIKitWindowEvents *win, ViewController *vc)
 {    
     window = win;
     viewController = vc;
+    view = viewController.view;
     
     handleArray[0] = (unsigned long)(__bridge void*)window;
     handleArray[1] = (unsigned long)(__bridge void*)viewController;
@@ -51,13 +53,13 @@ void UIKitWindow::setSize(int width, int height)
 
 int UIKitWindow::getWidth()
 {
-    CGRect frame = [viewController.view frame];
+    CGRect frame = [view frame];
     return (int)frame.size.width * getWindowScaling();
 }
 
 int UIKitWindow::getHeight()
 {
-    CGRect frame = [viewController.view frame];
+    CGRect frame = [view frame];
     return (int)frame.size.height * getWindowScaling();
 }
 
@@ -118,7 +120,7 @@ void UIKitWindow::onscreenKeyboardVisible(CGRect kbRect)
         keyboardVisible = true;
         CGRect frame = [window frame];
         frame.size.height -= kbRect.size.height;
-        viewController.view.frame = frame;
+        view.frame = frame;
         
         fireSized();
     }
@@ -130,7 +132,7 @@ void UIKitWindow::onscreenKeyboardFrameChanged(CGRect kbRect)
     {
         CGRect frame = [window frame];
         frame.size.height -= kbRect.size.height;
-        viewController.view.frame = frame;
+        view.frame = frame;
         
         fireSized();
     }
@@ -141,13 +143,10 @@ void UIKitWindow::onscreenKeyboardHiding()
     if(keyboardVisible)
     {
         keyboardVisible = false;
-        if(viewController != NULL)
-        {
-            CGRect frame = [window frame];
-            viewController.view.frame = frame;
-            
-            fireSized();
-        }
+        CGRect frame = [window frame];
+        view.frame = frame;
+        
+        fireSized();
     }
 }
 
