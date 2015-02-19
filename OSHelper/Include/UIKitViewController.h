@@ -13,7 +13,7 @@
 
 class UIKitWindow;
 
-@interface ViewController : UIViewController
+@interface UIKitViewController : UIViewController
 {
 @private
     UIKitWindow* win;

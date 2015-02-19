@@ -21,7 +21,7 @@
 		018657141A6D3EE700A4F0CD /* Stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 018656F21A6D3EE700A4F0CD /* Stdafx.cpp */; };
 		018657171A6D400B00A4F0CD /* UIKitApp.mm in Sources */ = {isa = PBXBuildFile; fileRef = 018657161A6D400B00A4F0CD /* UIKitApp.mm */; };
 		0186571A1A6D406700A4F0CD /* UIKitAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 018657191A6D406700A4F0CD /* UIKitAppDelegate.mm */; };
-		018657211A6D478800A4F0CD /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 018657201A6D478800A4F0CD /* ViewController.mm */; };
+		018657211A6D478800A4F0CD /* UIKitViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 018657201A6D478800A4F0CD /* UIKitViewController.mm */; };
 		018657251A6D47E700A4F0CD /* UIKitWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 018657241A6D47E700A4F0CD /* UIKitWindow.mm */; };
 		018657271A6D4F4700A4F0CD /* SystemInfo_iOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 018657261A6D4F4700A4F0CD /* SystemInfo_iOS.mm */; };
 		018657291A6D504C00A4F0CD /* ConnectionValidator_iOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 018657281A6D504C00A4F0CD /* ConnectionValidator_iOS.mm */; };
@@ -75,8 +75,8 @@
 		018657191A6D406700A4F0CD /* UIKitAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIKitAppDelegate.mm; sourceTree = "<group>"; };
 		0186571D1A6D470400A4F0CD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		0186571F1A6D470400A4F0CD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Main.storyboard; sourceTree = "<group>"; };
-		018657201A6D478800A4F0CD /* ViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
-		018657221A6D479200A4F0CD /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		018657201A6D478800A4F0CD /* UIKitViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIKitViewController.mm; sourceTree = "<group>"; };
+		018657221A6D479200A4F0CD /* UIKitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIKitViewController.h; sourceTree = "<group>"; };
 		018657231A6D47D600A4F0CD /* UIKitWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIKitWindow.h; sourceTree = "<group>"; };
 		018657241A6D47E700A4F0CD /* UIKitWindow.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIKitWindow.mm; sourceTree = "<group>"; };
 		018657261A6D4F4700A4F0CD /* SystemInfo_iOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SystemInfo_iOS.mm; sourceTree = "<group>"; };
@@ -132,7 +132,7 @@
 				018656CA1A6D3EE700A4F0CD /* PerformanceCounter.h */,
 				018657151A6D3FEB00A4F0CD /* UIKitApp.h */,
 				018657181A6D405800A4F0CD /* UIKitAppDelegate.h */,
-				018657221A6D479200A4F0CD /* ViewController.h */,
+				018657221A6D479200A4F0CD /* UIKitViewController.h */,
 				018657231A6D47D600A4F0CD /* UIKitWindow.h */,
 				01799E291A7282B600C57645 /* UIKitWindowEvents.h */,
 				01793EBB1A964670003FB096 /* UIKitView.h */,
@@ -157,7 +157,7 @@
 				018657261A6D4F4700A4F0CD /* SystemInfo_iOS.mm */,
 				018657161A6D400B00A4F0CD /* UIKitApp.mm */,
 				018657191A6D406700A4F0CD /* UIKitAppDelegate.mm */,
-				018657201A6D478800A4F0CD /* ViewController.mm */,
+				018657201A6D478800A4F0CD /* UIKitViewController.mm */,
 				018657241A6D47E700A4F0CD /* UIKitWindow.mm */,
 				0186572A1A6D51AE00A4F0CD /* UIKitDialogs.mm */,
 				0186572C1A6D529400A4F0CD /* UIKitMessageDialog.mm */,
@@ -244,7 +244,7 @@
 				01793EBD1A96469E003FB096 /* UIKitView.mm in Sources */,
 				018657141A6D3EE700A4F0CD /* Stdafx.cpp in Sources */,
 				018657061A6D3EE700A4F0CD /* NativeOSWindow.cpp in Sources */,
-				018657211A6D478800A4F0CD /* ViewController.mm in Sources */,
+				018657211A6D478800A4F0CD /* UIKitViewController.mm in Sources */,
 				018657251A6D47E700A4F0CD /* UIKitWindow.mm in Sources */,
 				0186571A1A6D406700A4F0CD /* UIKitAppDelegate.mm in Sources */,
 				018657081A6D3EE700A4F0CD /* PlatformConfig.cpp in Sources */,

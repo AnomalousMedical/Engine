@@ -11,7 +11,7 @@
 #include "UIKitWindow.h"
 
 UIKitWindowEvents *window;
-ViewController *viewController = NULL;
+UIKitViewController *viewController = NULL;
 UIView *view;
 
 //What we think of as a handle on ios is really 3 things a UIWindow, UIViewController and UIView
@@ -19,7 +19,7 @@ UIView *view;
 //UIWindow, the second is the UIViewController and the third is the UIView.
 unsigned long handleArray[3];
 
-void UIKitWindow_setUIWindow(UIKitWindowEvents *win, ViewController *vc)
+void UIKitWindow_setUIWindow(UIKitWindowEvents *win, UIKitViewController *vc)
 {    
     window = win;
     viewController = vc;

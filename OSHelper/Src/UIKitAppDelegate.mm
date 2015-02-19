@@ -10,7 +10,7 @@
 #include "StdAfx.h"
 #include "UIKitAppDelegate.h"
 #include "UIKitWindow.h"
-#include "ViewController.h"
+#include "UIKitViewController.h"
 #include "UIKitWindowEvents.h"
 
 @interface UIKitAppDelegate ()
@@ -32,7 +32,7 @@ void UIKitAppDelegate_setPrimaryUIKitApp(UIKitApp* app)
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    ViewController *initialViewController = [[ViewController alloc] initWithNibName:nil bundle:nil];
+    UIKitViewController *initialViewController = [[UIKitViewController alloc] initWithNibName:nil bundle:nil];
     
     UIKitWindowEvents* eventsWindow = [[UIKitWindowEvents alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window = eventsWindow;

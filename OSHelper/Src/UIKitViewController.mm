@@ -7,14 +7,14 @@
 //
 
 #include "StdAfx.h"
-#import "ViewController.h"
+#import "UIKitViewController.h"
 #include "UIKitWindow.h"
 
-@interface ViewController ()
+@interface UIKitViewController ()
 
 @end
 
-@implementation ViewController
+@implementation UIKitViewController
 
 - (void) loadView {
     uiKitView = [[UIKitView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
