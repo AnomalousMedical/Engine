@@ -9,6 +9,7 @@
 #pragma once
 
 #import <UIKit/UIKit.h>
+#include "UIKitView.h"
 
 class UIKitWindow;
 
@@ -16,6 +17,7 @@ class UIKitWindow;
 {
 @private
     UIKitWindow* win;
+    UIKitView* uiKitView;
 }
 
 -(void) setWindow:(UIKitWindow*) window;

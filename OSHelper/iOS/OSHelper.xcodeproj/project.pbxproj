@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01793EBD1A96469E003FB096 /* UIKitView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01793EBC1A96469E003FB096 /* UIKitView.mm */; };
 		01799E2B1A7282D300C57645 /* UIKitWindowEvents.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01799E2A1A7282D300C57645 /* UIKitWindowEvents.mm */; };
 		018656F51A6D3EE700A4F0CD /* App.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 018656D31A6D3EE700A4F0CD /* App.cpp */; };
 		018656FF1A6D3EE700A4F0CD /* ManagedLogListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 018656DD1A6D3EE700A4F0CD /* ManagedLogListener.cpp */; };
@@ -42,6 +43,8 @@
 
 /* Begin PBXFileReference section */
 		010AAA351A6D3E73001F7661 /* libOSHelper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOSHelper.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		01793EBB1A964670003FB096 /* UIKitView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIKitView.h; sourceTree = "<group>"; };
+		01793EBC1A96469E003FB096 /* UIKitView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIKitView.mm; sourceTree = "<group>"; };
 		01799E291A7282B600C57645 /* UIKitWindowEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIKitWindowEvents.h; sourceTree = "<group>"; };
 		01799E2A1A7282D300C57645 /* UIKitWindowEvents.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIKitWindowEvents.mm; sourceTree = "<group>"; };
 		018656BA1A6D3EE700A4F0CD /* App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = App.h; sourceTree = "<group>"; };
@@ -132,6 +135,7 @@
 				018657221A6D479200A4F0CD /* ViewController.h */,
 				018657231A6D47D600A4F0CD /* UIKitWindow.h */,
 				01799E291A7282B600C57645 /* UIKitWindowEvents.h */,
+				01793EBB1A964670003FB096 /* UIKitView.h */,
 			);
 			name = Include;
 			path = ../Include;
@@ -158,6 +162,7 @@
 				0186572A1A6D51AE00A4F0CD /* UIKitDialogs.mm */,
 				0186572C1A6D529400A4F0CD /* UIKitMessageDialog.mm */,
 				01799E2A1A7282D300C57645 /* UIKitWindowEvents.mm */,
+				01793EBC1A96469E003FB096 /* UIKitView.mm */,
 			);
 			name = Src;
 			path = ../Src;
@@ -236,6 +241,7 @@
 				0186572D1A6D529400A4F0CD /* UIKitMessageDialog.mm in Sources */,
 				018656FF1A6D3EE700A4F0CD /* ManagedLogListener.cpp in Sources */,
 				018657291A6D504C00A4F0CD /* ConnectionValidator_iOS.mm in Sources */,
+				01793EBD1A96469E003FB096 /* UIKitView.mm in Sources */,
 				018657141A6D3EE700A4F0CD /* Stdafx.cpp in Sources */,
 				018657061A6D3EE700A4F0CD /* NativeOSWindow.cpp in Sources */,
 				018657211A6D478800A4F0CD /* ViewController.mm in Sources */,
