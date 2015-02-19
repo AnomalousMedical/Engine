@@ -22,5 +22,9 @@ class UIKitWindow;
 
 -(void) setWindow:(UIKitWindow*) window;
 
+-(void) firePendingResize;
+
+-(UIKitView*) getUIKitView;
+
 @end
 

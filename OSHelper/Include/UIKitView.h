@@ -17,9 +17,15 @@ class UIKitWindow;
 {
 @private
     UIKitWindow *win;
+    bool pendingResize;
+    CGRect newFrame;
 }
 
 -(void) setWindow:(UIKitWindow*) window;
+
+-(void) firePendingResize;
+
+-(void) setFrameForNextUpdate:(CGRect) frame;
 
 @end
 

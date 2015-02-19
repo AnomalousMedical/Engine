@@ -33,7 +33,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillBeHidden:)
-                                                 name:UIKeyboardDidHideNotification
+                                                 name:UIKeyboardWillHideNotification
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -55,6 +55,16 @@
 {
     win = window;
     [uiKitView setWindow:window];
+}
+
+-(void) firePendingResize
+{
+    return [uiKitView firePendingResize];
+}
+
+-(UIKitView*) getUIKitView
+{
+    return uiKitView;
 }
 
 - (void)keyboardWasShown:(NSNotification*)aNotification

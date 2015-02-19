@@ -12,7 +12,7 @@
 
 UIKitWindowEvents *window;
 UIKitViewController *viewController = NULL;
-UIView *view;
+UIKitView *view;
 
 //What we think of as a handle on ios is really 3 things a UIWindow, UIViewController and UIView
 //As a result we will pass these items in an array that comprises our handle. The first item is the
@@ -23,7 +23,7 @@ void UIKitWindow_setUIWindow(UIKitWindowEvents *win, UIKitViewController *vc)
 {    
     window = win;
     viewController = vc;
-    view = viewController.view;
+    view = [viewController getUIKitView];
     
     handleArray[0] = (unsigned long)(__bridge void*)window;
     handleArray[1] = (unsigned long)(__bridge void*)viewController;
@@ -126,7 +126,7 @@ void UIKitWindow::onscreenKeyboardVisible(CGRect kbRect)
         keyboardVisible = true;
         CGRect frame = [window frame];
         frame.size.height -= kbRect.size.height;
-        view.frame = frame;
+        [view setFrameForNextUpdate:frame];
     }
 }
 
@@ -136,7 +136,7 @@ void UIKitWindow::onscreenKeyboardFrameChanged(CGRect kbRect)
     {
         CGRect frame = [window frame];
         frame.size.height -= kbRect.size.height;
-        view.frame = frame;
+        [view setFrameForNextUpdate:frame];
     }
 }
 
@@ -146,7 +146,7 @@ void UIKitWindow::onscreenKeyboardHiding()
     {
         keyboardVisible = false;
         CGRect frame = [window frame];
-        view.frame = frame;
+        [view setFrameForNextUpdate:frame];
     }
 }
 

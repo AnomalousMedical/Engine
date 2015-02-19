@@ -10,7 +10,6 @@
 #include "StdAfx.h"
 #include "UIKitAppDelegate.h"
 #include "UIKitWindow.h"
-#include "UIKitViewController.h"
 #include "UIKitWindowEvents.h"
 
 @interface UIKitAppDelegate ()
@@ -28,19 +27,20 @@ void UIKitAppDelegate_setPrimaryUIKitApp(UIKitApp* app)
 
 -(void) doFrame:(id)data
 {
+    [uiKitViewController firePendingResize];
     primaryUiKitApp->fireIdle();
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    UIKitViewController *initialViewController = [[UIKitViewController alloc] initWithNibName:nil bundle:nil];
+    uiKitViewController = [[UIKitViewController alloc] initWithNibName:nil bundle:nil];
     
     UIKitWindowEvents* eventsWindow = [[UIKitWindowEvents alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window = eventsWindow;
-    [self.window addSubview:initialViewController.view];
-    self.window.rootViewController  = initialViewController;
+    [self.window addSubview:uiKitViewController.view];
+    self.window.rootViewController  = uiKitViewController;
     [self.window makeKeyAndVisible];
     
-    UIKitWindow_setUIWindow(eventsWindow, initialViewController);
+    UIKitWindow_setUIWindow(eventsWindow, uiKitViewController);
     
     primaryUiKitApp->fireInit();
     

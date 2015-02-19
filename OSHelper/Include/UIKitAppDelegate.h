@@ -11,8 +11,13 @@
 
 #import <UIKit/UIKit.h>
 #include "UIKitApp.h"
+#include "UIKitViewController.h"
 
 @interface UIKitAppDelegate : UIResponder <UIApplicationDelegate>
+{
+@private
+    UIKitViewController *uiKitViewController;
+}
 
 @property CADisplayLink* mFrameLink;
 
