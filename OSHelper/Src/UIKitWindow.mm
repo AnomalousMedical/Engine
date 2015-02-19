@@ -127,8 +127,6 @@ void UIKitWindow::onscreenKeyboardVisible(CGRect kbRect)
         CGRect frame = [window frame];
         frame.size.height -= kbRect.size.height;
         view.frame = frame;
-        
-        //fireSized();
     }
 }
 
@@ -139,8 +137,6 @@ void UIKitWindow::onscreenKeyboardFrameChanged(CGRect kbRect)
         CGRect frame = [window frame];
         frame.size.height -= kbRect.size.height;
         view.frame = frame;
-        
-        //fireSized();
     }
 }
 
@@ -151,8 +147,6 @@ void UIKitWindow::onscreenKeyboardHiding()
         keyboardVisible = false;
         CGRect frame = [window frame];
         view.frame = frame;
-        
-        //fireSized();
     }
 }
 
