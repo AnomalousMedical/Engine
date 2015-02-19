@@ -8,6 +8,7 @@
 
 #include "StdAfx.h"
 #import "ViewController.h"
+#include "UIKitWindow.h"
 
 @interface GLView : UIView {
 
@@ -53,7 +54,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWasShown:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillBeHidden:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidChangeFrame:)
+                                                 name:UIKeyboardDidChangeFrameNotification
+                                               object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,6 +78,36 @@
 
 - (BOOL)prefersStatusBarHidden {
     return YES;
+}
+
+- (void)viewDidLayoutSubviews
+{
+    NSLog(@"In viewDidLayoutSubviews kb is in ViewController removed orientation events class");
+    win->fireSized();
+}
+
+-(void) setWindow:(UIKitWindow*) window
+{
+    win = window;
+}
+
+- (void)keyboardWasShown:(NSNotification*)aNotification
+{
+    NSDictionary* info = [aNotification userInfo];
+    CGRect kbRect = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    win->onscreenKeyboardVisible(kbRect);
+}
+
+-(void)keyboardWillBeHidden:(NSNotification*)aNotification
+{
+    win->onscreenKeyboardHiding();
+}
+
+-(void)keyboardDidChangeFrame:(NSNotification*)aNotification
+{
+    NSDictionary* info = [aNotification userInfo];
+    CGRect kbRect = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    win->onscreenKeyboardFrameChanged(kbRect);
 }
 
 @end

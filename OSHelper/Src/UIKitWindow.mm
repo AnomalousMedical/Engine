@@ -11,7 +11,7 @@
 #include "UIKitWindow.h"
 
 UIKitWindowEvents *window;
-UIViewController *viewController = NULL;
+ViewController *viewController = NULL;
 UIView *view;
 
 //What we think of as a handle on ios is really 3 things a UIWindow, UIViewController and UIView
@@ -34,6 +34,7 @@ UIKitWindow::UIKitWindow(UIKitWindow* parent, String title, int x, int y, int wi
 :keyboardVisible(false)
 {
     [window setWindow:this];
+    [viewController setWindow:this];
 }
 
 UIKitWindow::~UIKitWindow()
@@ -127,7 +128,7 @@ void UIKitWindow::onscreenKeyboardVisible(CGRect kbRect)
         frame.size.height -= kbRect.size.height;
         view.frame = frame;
         
-        fireSized();
+        //fireSized();
     }
 }
 
@@ -139,7 +140,7 @@ void UIKitWindow::onscreenKeyboardFrameChanged(CGRect kbRect)
         frame.size.height -= kbRect.size.height;
         view.frame = frame;
         
-        fireSized();
+        //fireSized();
     }
 }
 
@@ -151,7 +152,7 @@ void UIKitWindow::onscreenKeyboardHiding()
         CGRect frame = [window frame];
         view.frame = frame;
         
-        fireSized();
+        //fireSized();
     }
 }
 

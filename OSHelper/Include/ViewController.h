@@ -10,8 +10,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+class UIKitWindow;
 
+@interface ViewController : UIViewController
+{
+@private
+    UIKitWindow* win;
+}
+
+-(void) setWindow:(UIKitWindow*) window;
 
 @end
 

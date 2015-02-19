@@ -36,7 +36,6 @@
 -(void) setWindow:(UIKitWindow*) window
 {
     win = window;
-    orientationEvents = [[UIKitOrientationEvents alloc] init:window];
 }
 
 -(void) setMultitouch:(MultiTouch*) multiTouch
