@@ -45,12 +45,6 @@ namespace Engine.Platform
         event OSWindowEvent Resized;
 
         /// <summary>
-        /// Called when the window is resized, but after the other Resized event
-        /// is called. Useful if you need to happen later in the resized chain.
-        /// </summary>
-        event OSWindowEvent ResizedLate;
-
-        /// <summary>
         /// Called when the window is closing. This happens before the window is
         /// gone and its handle is no longer valid.
         /// </summary>
