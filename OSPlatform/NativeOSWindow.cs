@@ -190,6 +190,8 @@ namespace Anomalous.OSPlatform
 
         public event OSWindowEvent Resized;
 
+        public event OSWindowEvent ResizedLate;
+
         public event OSWindowEvent Closing;
 
         public event OSWindowEvent Closed;
@@ -211,6 +213,10 @@ namespace Anomalous.OSPlatform
             if (Resized != null)
             {
                 Resized.Invoke(this);
+            }
+            if(ResizedLate != null)
+            {
+                ResizedLate.Invoke(this);
             }
         }
 

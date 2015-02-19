@@ -24,7 +24,7 @@ namespace OgrePlugin
             this.osWindow = osWindow;
             this.renderWindow = renderWindow;
             osWindow.Moved += osWindow_Moved;
-            osWindow.Resized += osWindow_Resized;
+            osWindow.ResizedLate += osWindow_Resized;
             osWindow.Closing += osWindow_Closing;
         }
 
@@ -34,7 +34,7 @@ namespace OgrePlugin
         public override void Dispose()
         {
             osWindow.Moved -= osWindow_Moved;
-            osWindow.Resized -= osWindow_Resized;
+            osWindow.ResizedLate -= osWindow_Resized;
             osWindow.Closing -= osWindow_Closing;
         }
 
