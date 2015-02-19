@@ -421,6 +421,23 @@ namespace MyGUIPlugin
         }
 
         /// <summary>
+        /// Find all the items in a given group.
+        /// </summary>
+        /// <param name="groupName">The group to search for.</param>
+        /// <returns>An enumerator over all items in the group. Will be empty if the group does not exist.</returns>
+        public IEnumerable<ButtonGridItem> itemsInGroup(String groupName)
+        {
+            foreach (ButtonGridGroup groupIter in groups)
+            {
+                if (groupIter.Name == groupName)
+                {
+                    return groupIter.Items;
+                }
+            }
+            return IEnumerableUtil<ButtonGridItem>.EmptyIterator;
+        }
+
+        /// <summary>
         /// The skin to use for buttons in the grid.
         /// </summary>
         public String ButtonSkin { get; set; }

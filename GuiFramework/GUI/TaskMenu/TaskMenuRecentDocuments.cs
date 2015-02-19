@@ -52,6 +52,7 @@ namespace Anomalous.GuiFramework
             documentController.DocumentAdded += new RecentDocumentEvent(documentController_DocumentAdded);
             documentController.DocumentReaccessed += new RecentDocumentEvent(documentController_DocumentReaccessed);
             documentController.DocumentRemoved += new RecentDocumentEvent(documentController_DocumentRemoved);
+            documentController.DocumentHandlerAdded += documentController_DocumentHandlerAdded;
 
             foreach (String document in documentController.RecentDocuments)
             {
@@ -84,11 +85,6 @@ namespace Anomalous.GuiFramework
             }
         }
 
-        void documentController_DocumentAdded(RecentDocuments source, string document)
-        {
-            addDocument(document);
-        }
-
         private void addDocument(string document)
         {
             ButtonGridItem item = documentGrid.insertItem(0, documentController.getFileTypePrettyName(document), Path.GetFileNameWithoutExtension(document), documentController.getFileTypeIcon(document));
@@ -103,15 +99,33 @@ namespace Anomalous.GuiFramework
             documentsToItems.Remove(document);
         }
 
-        void documentController_DocumentRemoved(RecentDocuments source, string document)
+        void documentController_DocumentAdded(string document)
+        {
+            addDocument(document);
+        }
+
+        void documentController_DocumentRemoved(string document)
         {
             removeDocument(document);
         }
 
-        void documentController_DocumentReaccessed(RecentDocuments source, string document)
+        void documentController_DocumentReaccessed(string document)
         {
             removeDocument(document);
             addDocument(document);
+        }
+
+        void documentController_DocumentHandlerAdded(DocumentController docCtrlr)
+        {
+            List<String> readableDocuments = new List<string>(documentGrid
+                .itemsInGroup(DocumentController.UnknownDocumentGroup)
+                .Select(i => i.UserObject as String)
+                .Where(i => docCtrlr.canReadFile(i)));
+            foreach(String doc in readableDocuments)
+            {
+                removeDocument(doc);
+                addDocument(doc);
+            }
         }
 
         void documentGrid_ItemActivated(ButtonGridItem item)

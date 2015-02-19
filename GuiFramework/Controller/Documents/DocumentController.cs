@@ -14,6 +14,7 @@ namespace Anomalous.GuiFramework
     {
         private RecentDocuments recentDocuments;
         private List<DocumentHandler> documentHandlers = new List<DocumentHandler>();
+        public const String UnknownDocumentGroup = "Unknown";
 
         public DocumentController()
         {
@@ -23,6 +24,10 @@ namespace Anomalous.GuiFramework
         public void addDocumentHandler(DocumentHandler handler)
         {
             documentHandlers.Add(handler);
+            if(DocumentHandlerAdded != null)
+            {
+                DocumentHandlerAdded.Invoke(this);
+            }
         }
 
         public void removeDocumentHandler(DocumentHandler handler)
@@ -72,7 +77,7 @@ namespace Anomalous.GuiFramework
                     return handler.getPrettyName(filename);
                 }
             }
-            return "Unknown";
+            return UnknownDocumentGroup;
         }
 
         public String getFileTypeIcon(String filename)
@@ -156,6 +161,8 @@ namespace Anomalous.GuiFramework
                 recentDocuments.DocumentReaccessed -= value;
             }
         }
+
+        public event Action<DocumentController> DocumentHandlerAdded;
 
         /// <summary>
         /// This document handler will be invoked if the other registered document handlers cannot handle

@@ -8,9 +8,9 @@ using Logging;
 
 namespace Anomalous.GuiFramework
 {
-    public delegate void RecentDocumentEvent(RecentDocuments source, String document);
+    public delegate void RecentDocumentEvent(String document);
 
-    public class RecentDocuments : IEnumerable<String>
+    class RecentDocuments : IEnumerable<String>
     {
         private const int MAX_DOCUMENTS = 50;
 
@@ -41,7 +41,7 @@ namespace Anomalous.GuiFramework
             {
                 for(int i = recentDocumentList.Count - 1; i > -1; --i)//Do list backwards, this will accurately reflect the order the items were accessed
                 {
-                    DocumentAdded.Invoke(this, recentDocumentList[i]);
+                    DocumentAdded.Invoke(recentDocumentList[i]);
                 }
             }
         }
@@ -90,7 +90,7 @@ namespace Anomalous.GuiFramework
                 recentDocumentList.Insert(0, file);
                 if (DocumentReaccessed != null)
                 {
-                    DocumentReaccessed.Invoke(this, file);
+                    DocumentReaccessed.Invoke(file);
                 }
             }
             else
@@ -102,7 +102,7 @@ namespace Anomalous.GuiFramework
                 recentDocumentList.Insert(0, file);
                 if (DocumentAdded != null)
                 {
-                    DocumentAdded.Invoke(this, file);
+                    DocumentAdded.Invoke(file);
                 }
             }
         }
@@ -114,7 +114,7 @@ namespace Anomalous.GuiFramework
             {
                 if (DocumentRemoved != null)
                 {
-                    DocumentRemoved.Invoke(this, file);
+                    DocumentRemoved.Invoke(file);
                 }
             }
         }
