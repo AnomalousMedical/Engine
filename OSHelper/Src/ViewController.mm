@@ -62,7 +62,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillBeHidden:)
-                                                 name:UIKeyboardWillHideNotification
+                                                 name:UIKeyboardDidHideNotification
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -82,7 +82,6 @@
 
 - (void)viewDidLayoutSubviews
 {
-    NSLog(@"In viewDidLayoutSubviews kb is in ViewController removed orientation events class");
     win->fireSized();
 }
 
