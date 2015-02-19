@@ -16,10 +16,12 @@ namespace Anomalous.GuiFramework
         private TaskController taskController;
 
         private Dictionary<Task, TaskTaskbarItem> taskbarItems = new Dictionary<Task, TaskTaskbarItem>();
+        private Dictionary<String, MissingTaskbarItem> missingTasks = new Dictionary<string, MissingTaskbarItem>();
 
         public GUITaskManager(Taskbar taskbar, TaskMenu taskMenu, TaskController taskController)
         {
             this.taskController = taskController;
+            taskController.TaskAdded += taskController_TaskAdded;
 
             this.taskbar = taskbar;
 
@@ -60,6 +62,13 @@ namespace Anomalous.GuiFramework
                 if (item != null)
                 {
                     addPinnedTaskbarItem(item, -1);
+                }
+                else
+                {
+                    MissingTaskbarItem missingItem = new MissingTaskbarItem(uniqueName, "");
+                    missingItem.RemoveFromTaskbar += missingItem_RemoveFromTaskbar;
+                    taskbar.addItem(missingItem);
+                    missingTasks.Add(uniqueName, missingItem);
                 }
             }
         }
@@ -135,6 +144,28 @@ namespace Anomalous.GuiFramework
             taskbar.removeItem(taskbarItem);
             taskbarItems.Remove(item);
             taskbarItem.Dispose();
+            taskbar.layout();
+        }
+
+        void taskController_TaskAdded(Task task)
+        {
+            MissingTaskbarItem item;
+            if(missingTasks.TryGetValue(task.UniqueName, out item))
+            {
+                missingTasks.Remove(task.UniqueName);
+                int index = taskbar.getIndexForTaskItem(item);
+                addPinnedTask(task, index);
+                taskbar.removeItem(item);
+                item.Dispose();
+                taskbar.layout();
+            }
+        }
+
+        void missingItem_RemoveFromTaskbar(MissingTaskbarItem source)
+        {
+            missingTasks.Remove(source.Name);
+            taskbar.removeItem(source);
+            source.Dispose();
             taskbar.layout();
         }
 

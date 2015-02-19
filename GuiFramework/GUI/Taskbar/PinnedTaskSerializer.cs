@@ -18,9 +18,9 @@ namespace Anomalous.GuiFramework
             this.configSection = configSection;
         }
 
-        public void addPinnedTask(Task task)
+        public void addPinnedTask(String uniqueName)
         {
-            configSection.setValue(SAVED_TASKBAR_ITEM_BASE + currentIndex++, task.UniqueName);
+            configSection.setValue(SAVED_TASKBAR_ITEM_BASE + currentIndex++, uniqueName);
         }
 
         public ConfigIterator Tasks

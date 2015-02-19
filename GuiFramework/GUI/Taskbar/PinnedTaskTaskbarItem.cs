@@ -19,7 +19,7 @@ namespace Anomalous.GuiFramework
 
         internal override void addToPinnedTasksList(PinnedTaskSerializer pinnedTaskSerializer)
         {
-            pinnedTaskSerializer.addPinnedTask(Task);
+            pinnedTaskSerializer.addPinnedTask(Task.UniqueName);
         }
 
         protected override void customizeMenu()

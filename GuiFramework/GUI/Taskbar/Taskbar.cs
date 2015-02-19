@@ -133,6 +133,11 @@ namespace Anomalous.GuiFramework
             }
         }
 
+        public int getIndexForTaskItem(TaskbarItem item)
+        {
+            return taskbarItems.IndexOf(item);
+        }
+
         public int getIndexForPosition(IntVector2 position)
         {
             int xPos = position.x;

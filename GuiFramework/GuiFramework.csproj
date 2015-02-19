@@ -73,6 +73,7 @@
     <Compile Include="GUI\SplashScreen.cs" />
     <Compile Include="GUI\Taskbar\AppButtonTaskbar.cs" />
     <Compile Include="GUI\Taskbar\ClosingTaskbar.cs" />
+    <Compile Include="GUI\Taskbar\MissingTaskbarItem.cs" />
     <Compile Include="GUI\Taskbar\PinnedTaskSerializer.cs" />
     <Compile Include="GUI\Taskbar\PinnedTaskTaskbarItem.cs" />
     <Compile Include="GUI\Taskbar\Taskbar.cs" />
