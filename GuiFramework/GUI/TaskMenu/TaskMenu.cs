@@ -164,6 +164,7 @@ namespace Anomalous.GuiFramework
             if (task.ShowOnTaskMenu)
             {
                 task.IconChanged += task_IconChanged;
+                iconGrid.SuppressLayout = true;
                 ButtonGridItem item = iconGrid.addItem(task.Category, task.Name, task.IconName);
                 item.UserObject = task;
                 item.ItemClicked += new EventHandler(item_ItemClicked);
@@ -171,6 +172,8 @@ namespace Anomalous.GuiFramework
                 item.MouseButtonPressed += new EventDelegate<ButtonGridItem, MouseEventArgs>(item_MouseButtonPressed);
                 item.MouseDrag += new EventDelegate<ButtonGridItem, MouseEventArgs>(item_MouseDrag);
                 item.MouseButtonReleased += new EventDelegate<ButtonGridItem, MouseEventArgs>(item_MouseButtonReleased);
+                iconGrid.SuppressLayout = false;
+                iconGrid.resizeAndLayout();
             }
         }
 
