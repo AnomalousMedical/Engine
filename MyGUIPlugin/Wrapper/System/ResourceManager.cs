@@ -49,6 +49,16 @@ namespace MyGUIPlugin
             return ResourceManager_getCount(resourceManager).horriblyUnsafeToUInt32();
         }
 
+        /// <summary>
+        /// Destroy all textures for a resource name, only works if the resource is a image set and exists
+        /// otherwise does nothing. Does not unload the resource, you must use removeByName to do that.
+        /// </summary>
+        /// <param name="name">The name of the image set to destory.</param>
+        public void destroyAllTexturesForResource(String name)
+        {
+            ResourceManager_destroyAllTexturesForResource(resourceManager, name);
+        }
+
         #region PInvoke
 
         [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
@@ -67,6 +77,9 @@ namespace MyGUIPlugin
 
         [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern UIntPtr ResourceManager_getCount(IntPtr resourceManager);
+
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void ResourceManager_destroyAllTexturesForResource(IntPtr resourceManager, String name);
 
         #endregion
     }

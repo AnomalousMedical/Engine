@@ -24,3 +24,17 @@ extern "C" _AnomalousExport size_t ResourceManager_getCount(MyGUI::ResourceManag
 {
 	return resourceManager->getCount();
 }
+
+extern "C" _AnomalousExport void ResourceManager_destroyAllTexturesForResource(MyGUI::ResourceManager* resourceManager, String name)
+{
+	MyGUI::IResourcePtr resource = resourceManager->getByName(name, false);
+	MyGUI::ResourceImageSetPtr imageResource = resource ? resource->castType<MyGUI::ResourceImageSet>(false) : nullptr;
+	if (imageResource != nullptr)
+	{
+		MyGUI::EnumeratorGroupImage iter_group = imageResource->getEnumerator();
+		while (iter_group.next())
+		{
+			MyGUI::RenderManager::getInstance().destroyTexture(iter_group.current().texture);
+		}
+	}
+}
