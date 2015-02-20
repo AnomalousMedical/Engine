@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MyGUI type="Resource" version="1.1">
+
+  <Resource type="ResourceImageSet" name="Anomalous.GuiFramework.Loading">
+    <Group name="Icons" texture="Anomalous.GuiFramework.Resources.Loading.png" size="32 32">
+      <Index name="Icon" rate="0.1">
+        <Frame point="0 0"/>
+        <Frame point="32 0"/>
+        <Frame point="64 0"/>
+        <Frame point="96 0"/>
+        <Frame point="0 32"/>
+        <Frame point="32 32"/>
+        <Frame point="64 32"/>
+        <Frame point="96 32"/>
+      </Index>
+    </Group>
+  </Resource>
+
+</MyGUI>
+

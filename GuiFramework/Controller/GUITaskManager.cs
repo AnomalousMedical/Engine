@@ -65,7 +65,7 @@ namespace Anomalous.GuiFramework
                 }
                 else
                 {
-                    MissingTaskbarItem missingItem = new MissingTaskbarItem(uniqueName, "");
+                    MissingTaskbarItem missingItem = new MissingTaskbarItem(uniqueName);
                     missingItem.RemoveFromTaskbar += missingItem_RemoveFromTaskbar;
                     taskbar.addItem(missingItem);
                     missingTasks.Add(uniqueName, missingItem);
@@ -163,7 +163,7 @@ namespace Anomalous.GuiFramework
 
         void missingItem_RemoveFromTaskbar(MissingTaskbarItem source)
         {
-            missingTasks.Remove(source.Name);
+            missingTasks.Remove(source.UniqueName);
             taskbar.removeItem(source);
             source.Dispose();
             taskbar.layout();

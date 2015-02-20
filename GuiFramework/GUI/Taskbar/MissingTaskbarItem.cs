@@ -12,10 +12,10 @@ namespace Anomalous.GuiFramework
     {
         public event EventDelegate<MissingTaskbarItem> RemoveFromTaskbar;
 
-        public MissingTaskbarItem(String name, String iconName)
-            :base(name, iconName)
+        public MissingTaskbarItem(String uniqueName)
+            : base("Loading", "Anomalous.GuiFramework.Loading")
         {
-
+            this.UniqueName = uniqueName;
         }
 
         public override void clicked(Widget source, EventArgs e)
@@ -37,6 +37,8 @@ namespace Anomalous.GuiFramework
             popupMenu.setVisibleSmooth(true);
         }
 
+        public String UniqueName { get; private set; }
+
         void popupMenu_ItemAccept(Widget source, EventArgs e)
         {
             //These only have remove tasks
@@ -53,7 +55,7 @@ namespace Anomalous.GuiFramework
 
         internal override void addToPinnedTasksList(PinnedTaskSerializer pinnedTaskSerializer)
         {
-            pinnedTaskSerializer.addPinnedTask(Name);
+            pinnedTaskSerializer.addPinnedTask(UniqueName);
         }
     }
 }

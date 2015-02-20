@@ -41,6 +41,7 @@ namespace Anomalous.GuiFramework
         {
             MyGUIInterface.Instance.CommonResourceGroup.addResource(GetType().AssemblyQualifiedName, "EmbeddedScalableResource", true);
             //Load Core Resources
+            ResourceManager.Instance.load("Anomalous.GuiFramework.Resources.Imagesets.xml");
             ResourceManager.Instance.load("Anomalous.GuiFramework.Resources.MyGUI_Skin.xml");
         }
 
