@@ -68,7 +68,7 @@ namespace Anomalous.GuiFramework
                 {
                     MissingTaskbarItem missingItem = new MissingTaskbarItem(uniqueName);
                     missingItem.RemoveFromTaskbar += missingItem_RemoveFromTaskbar;
-                    taskbar.addItem(missingItem);
+                    taskbar.addItem(missingItem, -1);
                     missingTasks.Add(uniqueName, missingItem);
                 }
             }
@@ -167,9 +167,19 @@ namespace Anomalous.GuiFramework
             TaskTaskbarItem item;
             if (taskbarItems.TryGetValue(task, out item))
             {
+                if (willReload)
+                {
+                    int index = taskbar.getIndexForTaskItem(item);
+                    MissingTaskbarItem missingItem = new MissingTaskbarItem(task.UniqueName);
+                    missingItem.RemoveFromTaskbar += missingItem_RemoveFromTaskbar;
+                    taskbar.addItem(missingItem, index);
+                    missingTasks.Add(task.UniqueName, missingItem);
+                }
+
                 taskbarItems.Remove(task);
                 taskbar.removeItem(item);
                 item.Dispose();
+
                 taskbar.layout();
             }
         }
