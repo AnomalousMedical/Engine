@@ -22,6 +22,7 @@ namespace Anomalous.GuiFramework
         {
             this.taskController = taskController;
             taskController.TaskAdded += taskController_TaskAdded;
+            taskController.TaskRemoved += taskController_TaskRemoved;
 
             this.taskbar = taskbar;
 
@@ -155,6 +156,18 @@ namespace Anomalous.GuiFramework
                 missingTasks.Remove(task.UniqueName);
                 int index = taskbar.getIndexForTaskItem(item);
                 addPinnedTask(task, index);
+                taskbar.removeItem(item);
+                item.Dispose();
+                taskbar.layout();
+            }
+        }
+
+        void taskController_TaskRemoved(Task task, bool willReload)
+        {
+            TaskTaskbarItem item;
+            if (taskbarItems.TryGetValue(task, out item))
+            {
+                taskbarItems.Remove(task);
                 taskbar.removeItem(item);
                 item.Dispose();
                 taskbar.layout();

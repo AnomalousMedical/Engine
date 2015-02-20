@@ -5,10 +5,12 @@ using System.Text;
 
 namespace Anomalous.GuiFramework
 {
+    public delegate void TaskRemovedDelegate(Task task, bool willReload);
+
     public class TaskController
     {
         public event TaskDelegate TaskAdded;
-        public event TaskDelegate TaskRemoved;
+        public event TaskRemovedDelegate TaskRemoved;
 
         private Dictionary<String, Task> items = new Dictionary<String, Task>();
 
@@ -26,12 +28,12 @@ namespace Anomalous.GuiFramework
             }
         }
 
-        public void removeTask(Task item)
+        public void removeTask(Task item, bool willReload)
         {
             items.Remove(item.UniqueName);
             if (TaskRemoved != null)
             {
-                TaskRemoved.Invoke(item);
+                TaskRemoved.Invoke(item, willReload);
             }
         }
 

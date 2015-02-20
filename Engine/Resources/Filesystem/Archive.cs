@@ -77,6 +77,8 @@ namespace Engine.Resources
 
         public abstract bool containsRealAbsolutePath(String path);
 
+        public abstract bool isArchiveFor(String path);
+
         public abstract IEnumerable<String> listFiles(bool recursive);
 
         public abstract IEnumerable<String> listFiles(String url, bool recursive);

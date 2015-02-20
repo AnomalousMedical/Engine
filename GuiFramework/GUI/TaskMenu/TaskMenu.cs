@@ -53,7 +53,7 @@ namespace Anomalous.GuiFramework
         {
             this.taskController = taskController;
             taskController.TaskAdded += new TaskDelegate(taskController_TaskAdded);
-            taskController.TaskRemoved += new TaskDelegate(taskController_TaskRemoved);
+            taskController.TaskRemoved += new TaskRemovedDelegate(taskController_TaskRemoved);
 
             iconScroller = (ScrollView)widget.findWidget("IconScroller");
             iconGrid = new NoSelectButtonGrid(iconScroller, new ButtonGridTextAdjustedGridLayout(), new TaskMenuItemComparer(), GroupCompare);
@@ -154,9 +154,11 @@ namespace Anomalous.GuiFramework
             }
         }
 
-        void taskController_TaskRemoved(Task task)
+        void taskController_TaskRemoved(Task task, bool willReload)
         {
             task.IconChanged -= task_IconChanged;
+            ButtonGridItem item = iconGrid.findItemByUserObject(task);
+            iconGrid.removeItem(item);
         }
 
         void taskController_TaskAdded(Task task)

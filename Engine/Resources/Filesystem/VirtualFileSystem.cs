@@ -107,20 +107,45 @@ namespace Engine
             return false;
         }
 
-        public void createVirtualFolderLink(String realRootPath, String overrideRootPath)
+        public void removeArchive(String path)
         {
-            realRootPath = FileSystem.fixPathDir(realRootPath);
-            overrideRootPath = FileSystem.fixPathDir(overrideRootPath);
-            Log.Info("Created Virtual Folder Link from '{0}' to '{1}'", realRootPath, overrideRootPath);
-            Archive archive = new VirtualFolderLinkArchive(realRootPath, overrideRootPath);
-            DirectoryEntry currentEntry;
-            if (!directoryMap.TryGetValue(overrideRootPath, out currentEntry))
+            Archive archive = archives.Find(a => a.isArchiveFor(path));
+            if (archive != null)
             {
-                currentEntry = new DirectoryEntry();
-                directoryMap.Add(overrideRootPath, currentEntry);
+                archives.Remove(archive);
+
+                //Remove all directory entries
+                IEnumerable<String> directories = archive.listDirectories(path, true, true);
+                DirectoryEntry currentEntry;
+                String directory;
+                foreach (String directoryIter in directories)
+                {
+                    directory = FileSystem.fixPathDir(directoryIter);
+                    if (directoryMap.TryGetValue(directory, out currentEntry))
+                    {
+                        currentEntry.removeArchive(archive);
+                        //If no archives are left in this entry, remove it
+                        if (currentEntry.ArchiveCount == 0)
+                        {
+                            directoryMap.Remove(directory);
+                        }
+                    }
+                }
+
+                //Remove all file entries for files in this archive, does not restore old files if there were any
+                IEnumerable<String> files = archive.listFiles(path, true);
+                String file;
+                foreach (String fileIter in files)
+                {
+                    file = FileSystem.fixPathFile(fileIter);
+                    if (fileMap.ContainsKey(file))
+                    {
+                        fileMap.Remove(file);
+                    }
+                }
+
+                archive.Dispose();
             }
-            currentEntry.addArchive(archive);
-            addAndScanArchive(overrideRootPath, archive);
         }
 
         public IEnumerable<String> listFiles(bool recursive)
@@ -310,6 +335,19 @@ namespace Engine
             public void addArchive(Archive archive)
             {
                 archives.Add(archive);
+            }
+
+            public void removeArchive(Archive archive)
+            {
+                archives.Remove(archive);
+            }
+
+            public int ArchiveCount
+            {
+                get
+                {
+                    return archives.Count;
+                }
             }
 
             public VirtualFileInfo getFileInfo(String filename)

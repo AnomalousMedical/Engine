@@ -47,6 +47,11 @@ namespace Engine.Resources
             return FileSystem.fixPathFile(path).StartsWith(fullZipPath, StringComparison.OrdinalIgnoreCase);
         }
 
+        public override bool isArchiveFor(String path)
+        {
+            return fullZipPath == PathShim.GetFullPath(path);
+        }
+
         public override IEnumerable<String> listFiles(bool recursive)
         {
             return enumerateNames(zipFile.listFiles("", recursive));

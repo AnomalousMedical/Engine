@@ -40,6 +40,11 @@ namespace Engine.Resources
             return false;
         }
 
+        public override bool isArchiveFor(String path)
+        {
+            return baseDirectory == FileSystem.fixPathDir(Path.GetFullPath(path));
+        }
+
         public override IEnumerable<String> listFiles(bool recursive)
         {
             return listFiles(baseDirectory, recursive);
