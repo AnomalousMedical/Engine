@@ -44,6 +44,7 @@ extern "C" _AnomalousExport Ogre::Plugin* OgreInterface_LoadRenderSystem(RenderS
 	Ogre::String name;
 #ifdef MAC_OSX
 	name = "/@macBundlePath/../../Frameworks/RenderSystem_GL.framework";
+    Ogre::String defaultRenderSystem = name;
 #endif
 
 #if defined(WINDOWS) || defined(WINRT)
