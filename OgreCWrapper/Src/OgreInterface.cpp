@@ -14,62 +14,67 @@ enum RenderSystemType
 	Default = 0,
 	D3D11 = 1,
 	OpenGL = 2,
-    OpenGLES2 = 3
+	OpenGLES2 = 3
 };
+
+#if defined(WINDOWS) || defined(WINRT)
+#if _DEBUG
+String Direct3D11_Library = "RenderSystem_Direct3D11_d.dll";
+String OpenGL_Library = "RenderSystem_GL_d.dll";
+String OpenGLES2_Library = "RenderSystem_GLES2_d.dll";
+#else
+String Direct3D11_Library = "RenderSystem_Direct3D11.dll";
+String OpenGL_Library = "RenderSystem_GL.dll";
+String OpenGLES2_Library = "RenderSystem_GLES2.dll";
+#endif
+#endif
 
 extern "C" _AnomalousExport Ogre::Plugin* OgreInterface_LoadRenderSystem(RenderSystemType rendersystemType)
 {
-    Ogre::Plugin* plugin = NULL;
-    
-#if defined(WINDOWS) || defined(WINRT)
-	String defaultRenderSystem = "RenderSystem_Direct3D11";
-#endif
-
-#ifdef MAC_OSX
-	String defaultRenderSystem = "/@macBundlePath/../../Frameworks/RenderSystem_GL.framework";
-#endif
-    
-#ifdef APPLE_IOS
-    String defaultRenderSystem = "RenderSystem_GLES2";
-#endif
-
-	Ogre::String name;
-	switch(rendersystemType)
-	{
-		case Default:
-			name = defaultRenderSystem;
-			break;
-		case D3D11:
-			name = "RenderSystem_Direct3D11";
-			break;
-		case OpenGL:
-			name = "RenderSystem_GL";
-			break;
-        case OpenGLES2:
-            name = "RenderSystem_GLES2";
-            break;
-	}
+	Ogre::Plugin* plugin = NULL; //We always return a plugin even if it is null, plugins are only loaded directly when built statically
 
 #ifdef OGRE_STATIC_LIB
 #ifdef APPLE_IOS
-    Ogre::GLES2Plugin* gles2Plugin = new Ogre::GLES2Plugin(); //Will be delete by the managed code when this is returned.
-    Ogre::Root::getSingleton().installPlugin(gles2Plugin);
-    plugin = gles2Plugin;
+	Ogre::GLES2Plugin* gles2Plugin = new Ogre::GLES2Plugin(); //Will be delete by the managed code when this is returned.
+	Ogre::Root::getSingleton().installPlugin(gles2Plugin);
+	plugin = gles2Plugin;
 #endif
 #else
-#if _DEBUG
-    name = (std::string(name) + "_d").c_str();
+
+	Ogre::String name;
+#ifdef MAC_OSX
+	name = "/@macBundlePath/../../Frameworks/RenderSystem_GL.framework";
 #endif
-    
+
+#if defined(WINDOWS) || defined(WINRT)
+	//Only windows allows switching rendering systems
+	String defaultRenderSystem = Direct3D11_Library;
+	switch (rendersystemType)
+	{
+	case Default:
+		name = defaultRenderSystem;
+		break;
+	case D3D11:
+		name = Direct3D11_Library;
+		break;
+	case OpenGL:
+		name = OpenGL_Library;
+		break;
+	case OpenGLES2:
+		name = OpenGLES2_Library;
+		break;
+	}
+#endif
+
 	try
 	{
 		Ogre::Root::getSingleton().loadPlugin(name);
 	}
-	catch(Ogre::Exception& ex)
+	catch (Ogre::Exception& ex)
 	{
 		Ogre::Root::getSingleton().loadPlugin(defaultRenderSystem);
 	}
-    
+
 #endif
 
 	return plugin;
@@ -77,10 +82,10 @@ extern "C" _AnomalousExport Ogre::Plugin* OgreInterface_LoadRenderSystem(RenderS
 
 extern "C" _AnomalousExport void OgreInterface_UnloadRenderSystem(Ogre::Plugin* renderSystemPlugin)
 {
-	if(renderSystemPlugin != NULL)
-    {
-        delete renderSystemPlugin;
-    }
+	if (renderSystemPlugin != NULL)
+	{
+		delete renderSystemPlugin;
+	}
 }
 
 extern "C" _AnomalousExport Ogre::RenderSystem* OgreInterface_GetRenderSystem(RenderSystemType rendersystemType)
@@ -94,33 +99,33 @@ extern "C" _AnomalousExport Ogre::RenderSystem* OgreInterface_GetRenderSystem(Re
 	String defaultRenderSystem = "OpenGL Rendering Subsystem";
 	RenderSystemType defaultRendersystemType = OpenGL;
 #endif
-    
+
 #ifdef APPLE_IOS
-    String defaultRenderSystem = "OpenGL ES 2.x Rendering Subsystem";
-    RenderSystemType defaultRendersystemType = OpenGLES2; //Change this to OpenGLES later.
+	String defaultRenderSystem = "OpenGL ES 2.x Rendering Subsystem";
+	RenderSystemType defaultRendersystemType = OpenGLES2; //Change this to OpenGLES later.
 #endif
 
 	Ogre::Root* root = Ogre::Root::getSingletonPtr();
 	Ogre::String name;
-	switch(rendersystemType)
+	switch (rendersystemType)
 	{
-		case Default:
-			name = defaultRenderSystem;
-			rendersystemType = defaultRendersystemType;
-			break;
-		case D3D11:
-			name = "Direct3D11 Rendering Subsystem";
-			break;
-		case OpenGL:
-			name = "OpenGL Rendering Subsystem";
-			break;
-        case OpenGLES2:
-            name = "OpenGL ES 2.x Rendering Subsystem";
-            break;
+	case Default:
+		name = defaultRenderSystem;
+		rendersystemType = defaultRendersystemType;
+		break;
+	case D3D11:
+		name = "Direct3D11 Rendering Subsystem";
+		break;
+	case OpenGL:
+		name = "OpenGL Rendering Subsystem";
+		break;
+	case OpenGLES2:
+		name = "OpenGL ES 2.x Rendering Subsystem";
+		break;
 	}
 
 	Ogre::RenderSystem* rs = root->getRenderSystemByName(name);
-	if(rs == NULL)
+	if (rs == NULL)
 	{
 		Ogre::LogManager::getSingletonPtr()->getDefaultLog()->stream() << "Could not find Render System '" << name << "' using default of '" << defaultRenderSystem << "' instead.";
 		rs = root->getRenderSystemByName(defaultRenderSystem);
@@ -131,12 +136,12 @@ extern "C" _AnomalousExport Ogre::RenderSystem* OgreInterface_GetRenderSystem(Re
 	//will be an actual rendersystem and not the default as we will have determined
 	//what it is by this point.
 	//Disabled for now, but this is where you do it.
-	switch(rendersystemType)
+	switch (rendersystemType)
 	{
-		case D3D11:
-			rs->setConfigOption("Min Requested Feature Levels", "10.0");
-			//rs->setConfigOption("Max Requested Feature Levels", "11.1");
-			break;
+	case D3D11:
+		rs->setConfigOption("Min Requested Feature Levels", "10.0");
+		//rs->setConfigOption("Max Requested Feature Levels", "11.1");
+		break;
 	}
 
 	return rs;
@@ -243,16 +248,16 @@ extern "C" _AnomalousExport void OgreInterface_SetupVaryingCompressedTextures()
 	const Ogre::RenderSystemCapabilities* capabilities = rs->getCapabilities();
 	if (capabilities->hasCapability(Ogre::RSC_TEXTURE_COMPRESSION_DXT))
 	{
-        Ogre::LogManager::getSingleton().logMessage("Using DDS Texture Compression");
+		Ogre::LogManager::getSingleton().logMessage("Using DDS Texture Compression");
 	}
 	else if (capabilities->hasCapability(Ogre::RSC_TEXTURE_COMPRESSION_PVRTC))
 	{
-        Ogre::LogManager::getSingleton().logMessage("Using PVRTC Texture Compression");
+		Ogre::LogManager::getSingleton().logMessage("Using PVRTC Texture Compression");
 		Ogre::ScriptCompilerManager::getSingleton().setListener(new AnomalousNormalMapScriptCompilerListener("pvr", "png"));
 	}
 	else
 	{
-        Ogre::LogManager::getSingleton().logMessage("Using uncompressed textures");
+		Ogre::LogManager::getSingleton().logMessage("Using uncompressed textures");
 		Ogre::ScriptCompilerManager::getSingleton().setListener(new AnomalousScriptCompilerListener("png"));
 	}
 }
