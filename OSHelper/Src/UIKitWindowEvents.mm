@@ -86,7 +86,7 @@
     {
         nextNewId = 0;
 
-        dummyTextField = [[ListenerTextField alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+        dummyTextField = [[ListenerTextField alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
         [self addSubview:dummyTextField];
         dummyTextField.delegate = self;
         dummyTextField.keyboardType = UIKeyboardTypeASCIICapable;
