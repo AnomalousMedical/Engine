@@ -27,6 +27,7 @@
 		018657291A6D504C00A4F0CD /* ConnectionValidator_iOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 018657281A6D504C00A4F0CD /* ConnectionValidator_iOS.mm */; };
 		0186572B1A6D51AE00A4F0CD /* UIKitDialogs.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0186572A1A6D51AE00A4F0CD /* UIKitDialogs.mm */; };
 		0186572D1A6D529400A4F0CD /* UIKitMessageDialog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0186572C1A6D529400A4F0CD /* UIKitMessageDialog.mm */; };
+		01F798B91AA8BB4C001DF6E7 /* ListenerTextField.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01F798B81AA8BB4C001DF6E7 /* ListenerTextField.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -83,6 +84,8 @@
 		018657281A6D504C00A4F0CD /* ConnectionValidator_iOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ConnectionValidator_iOS.mm; sourceTree = "<group>"; };
 		0186572A1A6D51AE00A4F0CD /* UIKitDialogs.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIKitDialogs.mm; sourceTree = "<group>"; };
 		0186572C1A6D529400A4F0CD /* UIKitMessageDialog.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIKitMessageDialog.mm; sourceTree = "<group>"; };
+		01F798B81AA8BB4C001DF6E7 /* ListenerTextField.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ListenerTextField.mm; sourceTree = "<group>"; };
+		01F798BA1AA8BB5C001DF6E7 /* ListenerTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ListenerTextField.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +139,7 @@
 				018657231A6D47D600A4F0CD /* UIKitWindow.h */,
 				01799E291A7282B600C57645 /* UIKitWindowEvents.h */,
 				01793EBB1A964670003FB096 /* UIKitView.h */,
+				01F798BA1AA8BB5C001DF6E7 /* ListenerTextField.h */,
 			);
 			name = Include;
 			path = ../Include;
@@ -163,6 +167,7 @@
 				0186572C1A6D529400A4F0CD /* UIKitMessageDialog.mm */,
 				01799E2A1A7282D300C57645 /* UIKitWindowEvents.mm */,
 				01793EBC1A96469E003FB096 /* UIKitView.mm */,
+				01F798B81AA8BB4C001DF6E7 /* ListenerTextField.mm */,
 			);
 			name = Src;
 			path = ../Src;
@@ -246,6 +251,7 @@
 				018657061A6D3EE700A4F0CD /* NativeOSWindow.cpp in Sources */,
 				018657211A6D478800A4F0CD /* UIKitViewController.mm in Sources */,
 				018657251A6D47E700A4F0CD /* UIKitWindow.mm in Sources */,
+				01F798B91AA8BB4C001DF6E7 /* ListenerTextField.mm in Sources */,
 				0186571A1A6D406700A4F0CD /* UIKitAppDelegate.mm in Sources */,
 				018657081A6D3EE700A4F0CD /* PlatformConfig.cpp in Sources */,
 				01799E2B1A7282D300C57645 /* UIKitWindowEvents.mm in Sources */,

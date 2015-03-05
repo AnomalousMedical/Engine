@@ -9,21 +9,12 @@
 #ifndef OSHelper_UIKitWindowEvents_h
 #define OSHelper_UIKitWindowEvents_h
 
+#include "ListenerTextField.h"
 #include <map>
 #include <stack>
 
 class UIKitWindow;
 class MultiTouch;
-
-@interface ListenerTextField : UITextField
-{
-@private
-    UIKitWindow* win;
-}
-
--(void) setWindow:(UIKitWindow*) window;
-
-@end
 
 @interface UIKitWindowEvents : UIWindow<UITextFieldDelegate>
 {
