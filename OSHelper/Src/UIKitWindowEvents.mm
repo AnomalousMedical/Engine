@@ -13,6 +13,76 @@
 #include "UIKitWindow.h"
 #include "MultiTouch.h"
 
+@implementation ListenerTextField
+
+- (id) initWithFrame: (CGRect) frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+    }
+    return self;
+}
+
+- (NSArray *) keyCommands
+{
+    UIKeyCommand *upArrow = [UIKeyCommand keyCommandWithInput: UIKeyInputUpArrow modifierFlags: 0 action: @selector(upArrow:)];
+    UIKeyCommand *downArrow = [UIKeyCommand keyCommandWithInput: UIKeyInputDownArrow modifierFlags: 0 action: @selector(downArrow:)];
+    UIKeyCommand *leftArrow = [UIKeyCommand keyCommandWithInput: UIKeyInputLeftArrow modifierFlags: 0 action: @selector(leftArrow:)];
+    UIKeyCommand *rightArrow = [UIKeyCommand keyCommandWithInput: UIKeyInputRightArrow modifierFlags: 0 action: @selector(rightArrow:)];
+    UIKeyCommand *escape = [UIKeyCommand keyCommandWithInput: UIKeyInputEscape modifierFlags: 0 action: @selector(escapeKey:)];
+    UIKeyCommand *tab = [UIKeyCommand keyCommandWithInput: @"\t" modifierFlags: 0 action: @selector(tabKey:)];
+    return [[NSArray alloc] initWithObjects: upArrow, downArrow, leftArrow, rightArrow, escape, tab, nil];
+}
+
+- (void) upArrow: (UIKeyCommand *) keyCommand
+{
+    NSLog(@"upArrow");
+    win->fireKeyDown(KeyboardButtonCode::KC_UP, 0);
+    win->fireKeyUp(KeyboardButtonCode::KC_UP);
+}
+
+- (void) downArrow: (UIKeyCommand *) keyCommand
+{
+    NSLog(@"downArrow");
+    win->fireKeyDown(KeyboardButtonCode::KC_DOWN, 0);
+    win->fireKeyUp(KeyboardButtonCode::KC_DOWN);
+}
+
+- (void) leftArrow: (UIKeyCommand *) keyCommand
+{
+    NSLog(@"leftArrow");
+    win->fireKeyDown(KeyboardButtonCode::KC_LEFT, 0);
+    win->fireKeyUp(KeyboardButtonCode::KC_LEFT);
+}
+
+- (void) rightArrow: (UIKeyCommand *) keyCommand
+{
+    NSLog(@"rightArrow");
+    win->fireKeyDown(KeyboardButtonCode::KC_RIGHT, 0);
+    win->fireKeyUp(KeyboardButtonCode::KC_RIGHT);
+}
+
+- (void) escapeKey: (UIKeyCommand *) keyCommand
+{
+    NSLog(@"escapeKey");
+    win->fireKeyDown(KeyboardButtonCode::KC_ESCAPE, 0);
+    win->fireKeyUp(KeyboardButtonCode::KC_ESCAPE);
+}
+
+- (void) tabKey: (UIKeyCommand *) keyCommand
+{
+    NSLog(@"tabKey");
+    win->fireKeyDown(KeyboardButtonCode::KC_TAB, '\t');
+    win->fireKeyUp(KeyboardButtonCode::KC_TAB);
+}
+
+-(void) setWindow:(UIKitWindow*) window
+{
+    win = window;
+}
+
+@end
+
 @implementation UIKitWindowEvents
 
 @synthesize keyboardType;
@@ -30,7 +100,7 @@
         self.keyboardType = UIKeyboardTypeASCIICapable;
         self.autocorrectionType = UITextAutocorrectionTypeNo;
 
-        dummyTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+        dummyTextField = [[ListenerTextField alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
         [self addSubview:dummyTextField];
         dummyTextField.delegate = self;
         dummyTextField.keyboardType = UIKeyboardTypeASCIICapable;
@@ -78,6 +148,7 @@
 -(void) setWindow:(UIKitWindow*) window
 {
     win = window;
+    [dummyTextField setWindow:window];
 }
 
 -(void) setMultitouch:(MultiTouch*) multiTouch

@@ -15,6 +15,16 @@
 class UIKitWindow;
 class MultiTouch;
 
+@interface ListenerTextField : UITextField
+{
+@private
+    UIKitWindow* win;
+}
+
+-(void) setWindow:(UIKitWindow*) window;
+
+@end
+
 @interface UIKitWindowEvents : UIWindow<UIKeyInput, UITextInputTraits, UITextFieldDelegate>
 {
 @private
@@ -26,7 +36,7 @@ class MultiTouch;
     std::stack<int> availableIds;
     int nextNewId;
     
-    UITextField* dummyTextField;
+    ListenerTextField* dummyTextField;
 }
 
 -(void) setWindow:(UIKitWindow*) window;
