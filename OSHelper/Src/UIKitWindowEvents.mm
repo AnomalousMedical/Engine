@@ -36,42 +36,36 @@
 
 - (void) upArrow: (UIKeyCommand *) keyCommand
 {
-    NSLog(@"upArrow");
     win->fireKeyDown(KeyboardButtonCode::KC_UP, 0);
     win->fireKeyUp(KeyboardButtonCode::KC_UP);
 }
 
 - (void) downArrow: (UIKeyCommand *) keyCommand
 {
-    NSLog(@"downArrow");
     win->fireKeyDown(KeyboardButtonCode::KC_DOWN, 0);
     win->fireKeyUp(KeyboardButtonCode::KC_DOWN);
 }
 
 - (void) leftArrow: (UIKeyCommand *) keyCommand
 {
-    NSLog(@"leftArrow");
     win->fireKeyDown(KeyboardButtonCode::KC_LEFT, 0);
     win->fireKeyUp(KeyboardButtonCode::KC_LEFT);
 }
 
 - (void) rightArrow: (UIKeyCommand *) keyCommand
 {
-    NSLog(@"rightArrow");
     win->fireKeyDown(KeyboardButtonCode::KC_RIGHT, 0);
     win->fireKeyUp(KeyboardButtonCode::KC_RIGHT);
 }
 
 - (void) escapeKey: (UIKeyCommand *) keyCommand
 {
-    NSLog(@"escapeKey");
     win->fireKeyDown(KeyboardButtonCode::KC_ESCAPE, 0);
     win->fireKeyUp(KeyboardButtonCode::KC_ESCAPE);
 }
 
 - (void) tabKey: (UIKeyCommand *) keyCommand
 {
-    NSLog(@"tabKey");
     win->fireKeyDown(KeyboardButtonCode::KC_TAB, '\t');
     win->fireKeyUp(KeyboardButtonCode::KC_TAB);
 }
@@ -85,20 +79,13 @@
 
 @implementation UIKitWindowEvents
 
-@synthesize keyboardType;
-
-@synthesize autocorrectionType;
-
 - (id) initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self)
     {
-        allowFirstResponder = false;
-        hasText = false;
         nextNewId = 0;
-        self.keyboardType = UIKeyboardTypeASCIICapable;
-        self.autocorrectionType = UITextAutocorrectionTypeNo;
+        allowFirstResponder = false;
 
         dummyTextField = [[ListenerTextField alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
         [self addSubview:dummyTextField];
@@ -117,7 +104,6 @@
     BOOL isPressedBackspaceAfterSingleSpaceSymbol = [string isEqualToString:@""] && [resultString isEqualToString:@""] && range.location == 0 && range.length == 1;
     if (isPressedBackspaceAfterSingleSpaceSymbol)
     {
-        NSLog(@"Backspace");
         win->fireKeyDown(KeyboardButtonCode::KC_BACK, 0);
         win->fireKeyUp(KeyboardButtonCode::KC_BACK);
     }
@@ -126,7 +112,6 @@
         unichar firstChar = [string characterAtIndex:0];
         win->fireKeyDown(KeyboardButtonCode::KC_UNASSIGNED, firstChar);
         win->fireKeyUp(KeyboardButtonCode::KC_UNASSIGNED);
-        NSLog(@"%@", string);
     }
     
     return NO;
@@ -136,13 +121,7 @@
 {
     win->fireKeyDown(KeyboardButtonCode::KC_RETURN, '\n');
     win->fireKeyUp(KeyboardButtonCode::KC_RETURN);
-    NSLog(@"Return");
     return NO;
-}
-
-- (void)textViewDidChangeSelection:(UITextView *)textView
-{
-    NSLog(@"Text selection change");
 }
 
 -(void) setWindow:(UIKitWindow*) window
@@ -241,39 +220,6 @@
     }
     
     [super sendEvent:event];
-}
-
-- (void)insertText:(NSString *)text
-{
-    if([text length] > 0)
-    {
-        unichar firstChar = [text characterAtIndex:0];
-        KeyboardButtonCode keyCode = KC_UNASSIGNED;
-        switch(firstChar)
-        {
-            case '\n':
-                keyCode = KeyboardButtonCode::KC_RETURN;
-                break;
-        }
-        win->fireKeyDown(keyCode, firstChar);
-        win->fireKeyUp(keyCode);
-    }
-}
-
-- (void)deleteBackward
-{
-    win->fireKeyDown(KeyboardButtonCode::KC_BACK, 0);
-    win->fireKeyUp(KeyboardButtonCode::KC_BACK);
-}
-
-- (BOOL)hasText
-{
-    return hasText;
-}
-
-- (BOOL)canBecomeFirstResponder
-{
-    return allowFirstResponder;
 }
 
 @end

@@ -25,16 +25,15 @@ class MultiTouch;
 
 @end
 
-@interface UIKitWindowEvents : UIWindow<UIKeyInput, UITextInputTraits, UITextFieldDelegate>
+@interface UIKitWindowEvents : UIWindow<UITextFieldDelegate>
 {
 @private
     UIKitWindow* win;
     MultiTouch* touch;
-    bool allowFirstResponder;
-    bool hasText;
     std::map<uintptr_t, int> touchIdMap;
     std::stack<int> availableIds;
     int nextNewId;
+    bool allowFirstResponder;
     
     ListenerTextField* dummyTextField;
 }
