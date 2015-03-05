@@ -15,7 +15,7 @@
 class UIKitWindow;
 class MultiTouch;
 
-@interface UIKitWindowEvents : UIWindow<UIKeyInput, UITextInputTraits>
+@interface UIKitWindowEvents : UIWindow<UIKeyInput, UITextInputTraits, UITextFieldDelegate>
 {
 @private
     UIKitWindow* win;
@@ -25,6 +25,8 @@ class MultiTouch;
     std::map<uintptr_t, int> touchIdMap;
     std::stack<int> availableIds;
     int nextNewId;
+    
+    UITextField* dummyTextField;
 }
 
 -(void) setWindow:(UIKitWindow*) window;

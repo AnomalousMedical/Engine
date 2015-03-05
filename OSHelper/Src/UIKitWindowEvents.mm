@@ -29,8 +29,50 @@
         nextNewId = 0;
         self.keyboardType = UIKeyboardTypeASCIICapable;
         self.autocorrectionType = UITextAutocorrectionTypeNo;
+
+        dummyTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+        [self addSubview:dummyTextField];
+        dummyTextField.delegate = self;
+        dummyTextField.keyboardType = UIKeyboardTypeASCIICapable;
+        dummyTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+        dummyTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        dummyTextField.text = @" ";
     }
     return self;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    NSString *resultString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    BOOL isPressedBackspaceAfterSingleSpaceSymbol = [string isEqualToString:@""] && [resultString isEqualToString:@""] && range.location == 0 && range.length == 1;
+    if (isPressedBackspaceAfterSingleSpaceSymbol)
+    {
+        NSLog(@"Backspace");
+        win->fireKeyDown(KeyboardButtonCode::KC_BACK, 0);
+        win->fireKeyUp(KeyboardButtonCode::KC_BACK);
+    }
+    else
+    {
+        unichar firstChar = [string characterAtIndex:0];
+        win->fireKeyDown(KeyboardButtonCode::KC_UNASSIGNED, firstChar);
+        win->fireKeyUp(KeyboardButtonCode::KC_UNASSIGNED);
+        NSLog(@"%@", string);
+    }
+    
+    return NO;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    win->fireKeyDown(KeyboardButtonCode::KC_RETURN, '\n');
+    win->fireKeyUp(KeyboardButtonCode::KC_RETURN);
+    NSLog(@"Return");
+    return NO;
+}
+
+- (void)textViewDidChangeSelection:(UITextView *)textView
+{
+    NSLog(@"Text selection change");
 }
 
 -(void) setWindow:(UIKitWindow*) window
@@ -49,15 +91,15 @@
     {
         if(!allowFirstResponder)
         {
-            [self resignFirstResponder];
+            [dummyTextField resignFirstResponder];
             allowFirstResponder = true;
         }
-        [self becomeFirstResponder];
+        [dummyTextField becomeFirstResponder];
     }
     else
     {
         allowFirstResponder = false;
-        [self resignFirstResponder];
+        [dummyTextField resignFirstResponder];
     }
 }
 
