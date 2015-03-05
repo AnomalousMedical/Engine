@@ -33,7 +33,6 @@ class MultiTouch;
     std::map<uintptr_t, int> touchIdMap;
     std::stack<int> availableIds;
     int nextNewId;
-    bool allowFirstResponder;
     
     ListenerTextField* dummyTextField;
 }

@@ -85,7 +85,6 @@
     if (self)
     {
         nextNewId = 0;
-        allowFirstResponder = false;
 
         dummyTextField = [[ListenerTextField alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
         [self addSubview:dummyTextField];
@@ -139,16 +138,10 @@
 {
     if(visible)
     {
-        if(!allowFirstResponder)
-        {
-            [dummyTextField resignFirstResponder];
-            allowFirstResponder = true;
-        }
         [dummyTextField becomeFirstResponder];
     }
     else
     {
-        allowFirstResponder = false;
         [dummyTextField resignFirstResponder];
     }
 }
