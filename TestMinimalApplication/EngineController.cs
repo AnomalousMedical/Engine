@@ -47,13 +47,13 @@ namespace Anomalous.Minimus
         private EventManager eventManager;
         private NativeInputHandler inputHandler;
         private EventUpdateListener eventUpdate;
-        private MedicalUpdate medicalUpdate;
+        private EngineUpdate medicalUpdate;
 
         //Performance
         private NativeSystemTimer performanceMetricTimer;
 
         //Controller
-        private SceneController medicalScene;
+        private SceneController sceneController;
         private FrameClearManager frameClearManager;
 
         //Serialization
@@ -113,6 +113,7 @@ namespace Anomalous.Minimus
 
             GuiFrameworkCamerasInterface.MoveCameraEventLayer = EventLayers.Cameras;
             GuiFrameworkCamerasInterface.SelectWindowEventLayer = EventLayers.AfterGui;
+            GuiFrameworkCamerasInterface.ShortcutEventLayer = EventLayers.AfterGui;
 
             pluginManager.addPluginAssembly(typeof(OgreInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(BulletInterface).Assembly);
@@ -150,11 +151,11 @@ namespace Anomalous.Minimus
             eventUpdate = new EventUpdateListener(eventManager);
             mainTimer.addUpdateListener(eventUpdate);
             pluginManager.setPlatformInfo(mainTimer, eventManager);
-            medicalUpdate = new MedicalUpdate(this);
+            medicalUpdate = new EngineUpdate(this);
             mainTimer.addUpdateListener(medicalUpdate);
 
             //Initialize controllers
-            medicalScene = new SceneController(pluginManager);
+            sceneController = new SceneController(pluginManager);
             frameClearManager = new FrameClearManager(OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget, Color.Blue);
 
             SoundConfig.initialize(CoreConfig.ConfigFile);
@@ -169,9 +170,9 @@ namespace Anomalous.Minimus
             {
                 frameClearManager.Dispose();
             }
-            if (medicalScene != null)
+            if (sceneController != null)
             {
-                medicalScene.destroyScene();
+                sceneController.destroyScene();
             }
             if (eventManager != null)
             {
@@ -214,7 +215,7 @@ namespace Anomalous.Minimus
         /// <returns>True if the scene was loaded, false on an error.</returns>
         public IEnumerable<SceneBuildStatus> openScene(String filename)
         {
-            medicalScene.destroyScene();
+            sceneController.destroyScene();
             VirtualFileSystem sceneArchive = VirtualFileSystem.Instance;
             if (sceneArchive.exists(filename))
             {
@@ -242,7 +243,7 @@ namespace Anomalous.Minimus
                     }
                     if (scenePackage != null)
                     {
-                        foreach (var status in medicalScene.loadScene(scenePackage, SceneBuildOptions.SingleUseDefinitions))
+                        foreach (var status in sceneController.loadScene(scenePackage, SceneBuildOptions.SingleUseDefinitions))
                         {
                             yield return status;
                         }
@@ -257,7 +258,7 @@ namespace Anomalous.Minimus
 
         public void addSimObject(SimObjectBase simObject)
         {
-            medicalScene.addSimObject(simObject);
+            sceneController.addSimObject(simObject);
         }
 
         internal void _sendUpdate(Clock clock)
@@ -288,7 +289,7 @@ namespace Anomalous.Minimus
         {
             get
             {
-                return medicalScene.CurrentScene;
+                return sceneController.CurrentScene;
             }
         }
 
@@ -296,13 +297,13 @@ namespace Anomalous.Minimus
         {
             get
             {
-                return medicalScene.SimObjects;
+                return sceneController.SimObjects;
             }
         }
 
         public SimObject getSimObject(String name)
         {
-            return medicalScene.getSimObject(name);
+            return sceneController.getSimObject(name);
         }
 
         public String CurrentSceneFile

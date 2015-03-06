@@ -21,10 +21,10 @@ namespace Anomalous.Minimus
             //return;
 
 
-            EyeOhEss2.EyeOhEssApp app = null;
+            MinimalApp app = null;
             try
             {
-                app = new EyeOhEss2.EyeOhEssApp();
+                app = new MinimalApp();
                 app.run();
             }
             catch (Exception e)

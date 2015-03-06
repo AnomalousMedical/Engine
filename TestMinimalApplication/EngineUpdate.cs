@@ -6,11 +6,11 @@ using Engine.Platform;
 
 namespace Anomalous.Minimus
 {
-    class MedicalUpdate : UpdateListener
+    class EngineUpdate : UpdateListener
     {
         private EngineController controller;
 
-        public MedicalUpdate(EngineController controller)
+        public EngineUpdate(EngineController controller)
         {
             this.controller = controller;
         }

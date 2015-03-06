@@ -30,6 +30,8 @@ namespace Anomalous.Minimus
         private SceneViewController sceneViewController;
         private SimScene scene;
 
+        private SceneStatsDisplayManager sceneStatsDisplayManager;
+
         //Taskbar
         private AppButtonTaskbar taskbar;
         private SingleChildChainLink taskbarLink;
@@ -101,6 +103,8 @@ namespace Anomalous.Minimus
             guiManager.pushRootContainer(GUILocationNames.Taskbar);
 
             sceneViewController = new SceneViewController(mdiLayout, engineController.EventManager, engineController.MainTimer, engineController.PluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.getRenderManager(), null);
+            sceneStatsDisplayManager = new SceneStatsDisplayManager(sceneViewController, OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget);
+            sceneStatsDisplayManager.StatsVisible = true;
             sceneViewController.createWindow("Camera 1", Vector3.UnitX, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
 
             //Task Menu
