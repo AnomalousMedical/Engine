@@ -26,7 +26,6 @@ namespace MyGUIPlugin
         private List<ButtonGridGroup> groups = new List<ButtonGridGroup>();
         private int itemCount = 0;
         private IComparer<ButtonGridItem> itemComparer;
-        private ButtonGridGroupComparer groupComparer;
         private ButtonGridLayout layoutEngine;
         private ButtonGridSelectionStrategy selectionStrategy;
         private ButtonGridCaptionFactory captionFactory;
@@ -50,12 +49,22 @@ namespace MyGUIPlugin
         public event Action<ButtonGrid, ButtonGridItem> ItemRemoved;
 
         /// <summary>
+        /// Called when a group is added.
+        /// </summary>
+        public event Action<ButtonGrid, String> GroupAdded;
+
+        /// <summary>
+        /// Called when a group is removed.
+        /// </summary>
+        public event Action<ButtonGrid, String> GroupRemoved;
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="scrollView">The scroll view host.</param>
         /// <param name="selectionStrategy">The selection strategy to use.</param>
         public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy)
-            : this(scrollView, selectionStrategy, new ButtonGridGridLayout(), null, null, CreateDefaultCaptionFactory(scrollView))
+            : this(scrollView, selectionStrategy, new ButtonGridGridLayout(), null, CreateDefaultCaptionFactory(scrollView))
         {
             
         }
@@ -67,7 +76,7 @@ namespace MyGUIPlugin
         /// <param name="selectionStrategy">The selection strategy to use.</param>
         /// <param name="itemComparer">A comparison instance.</param>
         public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, IComparer<ButtonGridItem> itemComparer)
-            : this(scrollView, selectionStrategy, new ButtonGridGridLayout(), itemComparer, null, CreateDefaultCaptionFactory(scrollView))
+            : this(scrollView, selectionStrategy, new ButtonGridGridLayout(), itemComparer, CreateDefaultCaptionFactory(scrollView))
         {
 
         }
@@ -79,7 +88,7 @@ namespace MyGUIPlugin
         /// <param name="selectionStrategy">The selection strategy to use.</param>
         /// <param name="layoutEngine">The Layout to use.</param>
         public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, ButtonGridLayout layoutEngine)
-            : this(scrollView, selectionStrategy, layoutEngine, null, null, CreateDefaultCaptionFactory(scrollView))
+            : this(scrollView, selectionStrategy, layoutEngine, null, CreateDefaultCaptionFactory(scrollView))
         {
 
         }
@@ -92,7 +101,7 @@ namespace MyGUIPlugin
         /// <param name="layoutEngine">The Layout to use.</param>
         /// <param name="itemComparer">A comparison instance for items.</param>
         public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer)
-            : this(scrollView, selectionStrategy, layoutEngine, itemComparer, null, CreateDefaultCaptionFactory(scrollView))
+            : this(scrollView, selectionStrategy, layoutEngine, itemComparer, CreateDefaultCaptionFactory(scrollView))
         {
 
         }
@@ -104,23 +113,8 @@ namespace MyGUIPlugin
         /// <param name="selectionStrategy">The selection strategy to use.</param>
         /// <param name="layoutEngine">The Layout to use.</param>
         /// <param name="itemComparer">A comparison instance.</param>
-        /// <param name="groupComparer">A compraison instance for groups.</param>
-        public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer, CompareButtonGroupUserObjects groupComparer)
-            : this(scrollView, selectionStrategy, layoutEngine, itemComparer, groupComparer, CreateDefaultCaptionFactory(scrollView))
-        {
-
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="scrollView">The scroll view host.</param>
-        /// <param name="selectionStrategy">The selection strategy to use.</param>
-        /// <param name="layoutEngine">The Layout to use.</param>
-        /// <param name="itemComparer">A comparison instance.</param>
-        /// <param name="groupComparer">A compraison instance for groups.</param>
         /// <param name="captionFactory">The factory to use to make captions.</param>
-        public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer, CompareButtonGroupUserObjects groupComparer, ButtonGridCaptionFactory captionFactory)
+        public ButtonGrid(ScrollView scrollView, ButtonGridSelectionStrategy selectionStrategy, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer, ButtonGridCaptionFactory captionFactory)
         {
             this.selectionStrategy = selectionStrategy;
             NonEmptyGroupCount = 0;
@@ -134,7 +128,6 @@ namespace MyGUIPlugin
             scrollView.CanvasPositionChanged += scrollView_CanvasPositionChanged;
             this.itemComparer = itemComparer;
             this.layoutEngine = layoutEngine;
-            setGroupComparer(groupComparer);
 
             //Try to get properties from the widget itself.
             read = scrollView.getUserString("ItemHeight");
@@ -204,31 +197,24 @@ namespace MyGUIPlugin
         }
 
         /// <summary>
-        /// Define a group.
+        /// Define a group in the button grid. Doing this before adding items can specify the group order.
         /// </summary>
-        /// <param name="group">The name.</param>
-        /// <param name="userObject">An optional user object.</param>
-        public void defineGroup(String group, Object userObject = null)
+        /// <param name="name">The name of the group to add.</param>
+        public void defineGroup(String name)
         {
-            ButtonGridGroup addGroup = findGroup(group);
-            addGroup.UserObject = userObject;
+            findGroup(name);
         }
 
         /// <summary>
-        /// Set a UserObject for a group.
+        /// Sort the groups using a comparison function with their names.
         /// </summary>
-        /// <param name="group">The name of the group.</param>
-        /// <param name="userObject">The UserObject to set.</param>
-        public void setGroupUserObject(String group, Object userObject)
+        /// <param name="comparison">A comparison function that will compare names.</param>
+        public void sortGroups(Comparison<String> comparison)
         {
-            foreach (ButtonGridGroup groupIter in groups)
-            {
-                if (groupIter.Name == group)
+            groups.Sort((ButtonGridGroup x, ButtonGridGroup y) =>
                 {
-                    groupIter.UserObject = userObject;
-                    break;
-                }
-            }
+                    return comparison(x.Name, y.Name);
+                });
         }
 
         /// <summary>
@@ -306,6 +292,10 @@ namespace MyGUIPlugin
                         ItemRemoved.Invoke(this, item);
                     }
                 }
+                if(GroupRemoved != null)
+                {
+                    GroupRemoved.Invoke(this, group.Name);
+                }
                 group.Dispose();
             }
             selectionStrategy.itemsCleared();
@@ -321,14 +311,8 @@ namespace MyGUIPlugin
         {
             if (!SuppressLayout)
             {
-                IEnumerable<ButtonGridGroup> sortedGroups = groups;
-                if (groupComparer != null)
-                {
-                    sortedGroups = groups.OrderBy(i => i, groupComparer);
-                }
-
                 layoutEngine.startLayout(this);
-                foreach (ButtonGridGroup group in sortedGroups)
+                foreach (ButtonGridGroup group in groups)
                 {
                     group.layout(layoutEngine, itemComparer);
                 }
@@ -432,22 +416,6 @@ namespace MyGUIPlugin
                 }
             }
             return IEnumerableUtil<ButtonGridItem>.EmptyIterator;
-        }
-
-        /// <summary>
-        /// Set the group comparison function to compare group user objects to sort them.
-        /// </summary>
-        /// <param name="groupComparer">The group comparer to set, can be null to leave groups as they are.</param>
-        public void setGroupComparer(CompareButtonGroupUserObjects groupComparer)
-        {
-            if (groupComparer != null)
-            {
-                this.groupComparer = new ButtonGridGroupComparer(groupComparer);
-            }
-            else
-            {
-                this.groupComparer = null;
-            }
         }
 
         /// <summary>
@@ -659,6 +627,10 @@ namespace MyGUIPlugin
             {
                 addGroup = new ButtonGridGroup(group, this);
                 groups.Add(addGroup);
+                if(GroupAdded != null)
+                {
+                    GroupAdded.Invoke(this, addGroup.Name);
+                }
             }
             return addGroup;
         }

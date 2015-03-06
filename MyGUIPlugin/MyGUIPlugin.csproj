@@ -66,7 +66,6 @@
     <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridCaptionFactory.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridGridLayout.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridGroup.cs" />
-    <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridGroupComparer.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridItem.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridItemNaturalSort.cs" />
     <Compile Include="Plugin\Widgets\ButtonGrid\ButtonGridLayout.cs" />

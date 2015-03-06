@@ -82,6 +82,7 @@
     <Compile Include="GUI\Taskbar\TimelineTaskbarItem.cs" />
     <Compile Include="GUI\TaskMenu\TaskMenu.cs" />
     <Compile Include="GUI\TaskMenu\TaskMenuAdProvider.cs" />
+    <Compile Include="GUI\TaskMenu\TaskMenuGroupSorter.cs" />
     <Compile Include="GUI\TaskMenu\TaskMenuPositioner.cs" />
     <Compile Include="GUI\TaskMenu\TaskMenuRecentDocuments.cs" />
     <Compile Include="Layout\AnimatedLayoutContainer.cs" />

@@ -29,13 +29,13 @@ namespace MyGUIPlugin
         /// </summary>
         /// <param name="scrollView"></param>
         public MultiSelectButtonGrid(ScrollView scrollView)
-            : this(scrollView, new ButtonGridGridLayout(), null, null)
+            : this(scrollView, new ButtonGridGridLayout(), null)
         {
 
         }
 
         public MultiSelectButtonGrid(ScrollView scrollView, IComparer<ButtonGridItem> itemComparer)
-            : this(scrollView, new ButtonGridGridLayout(), itemComparer, null)
+            : this(scrollView, new ButtonGridGridLayout(), itemComparer)
         {
 
         }
@@ -43,19 +43,13 @@ namespace MyGUIPlugin
 
 
         public MultiSelectButtonGrid(ScrollView scrollView, ButtonGridLayout layoutEngine)
-            : this(scrollView, layoutEngine, null, null)
+            : this(scrollView, layoutEngine, null)
         {
 
         }
 
         public MultiSelectButtonGrid(ScrollView scrollView, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer)
-            : this(scrollView, layoutEngine, itemComparer, null)
-        {
-
-        }
-
-        public MultiSelectButtonGrid(ScrollView scrollView, ButtonGridLayout layoutEngine, IComparer<ButtonGridItem> itemComparer, CompareButtonGroupUserObjects groupComparer)
-            : base(scrollView, null, layoutEngine, itemComparer, groupComparer)
+            : base(scrollView, null, layoutEngine, itemComparer)
         {
             _workaroundSetSelectionStrategy(multiSelection);
         }

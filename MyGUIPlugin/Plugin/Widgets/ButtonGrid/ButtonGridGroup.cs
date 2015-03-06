@@ -144,8 +144,6 @@ namespace MyGUIPlugin
             }
         }
 
-        public Object UserObject { get; set; }
-
         public String Name { get; private set; }
 
         internal ButtonGrid Grid

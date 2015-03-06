@@ -44,10 +44,11 @@ namespace Anomalous.GuiFramework
         private ImageBox dragIconPreview;
         private IntVector2 dragMouseStartPosition;
         private TaskMenuAdProvider adProvider;
+        private TaskMenuGroupSorter groupSorter;
 
         private TaskMenuPositioner taskMenuPositioner = new TaskMenuPositioner();
 
-        public TaskMenu(DocumentController documentController, TaskController taskController, GUIManager guiManager, LayoutElementName elementName, CompareButtonGroupUserObjects groupCompareFunc = null)
+        public TaskMenu(DocumentController documentController, TaskController taskController, GUIManager guiManager, LayoutElementName elementName)
             : base("Anomalous.GuiFramework.GUI.TaskMenu.TaskMenu.layout", guiManager, elementName)
         {
             this.taskController = taskController;
@@ -55,7 +56,7 @@ namespace Anomalous.GuiFramework
             taskController.TaskRemoved += new TaskRemovedDelegate(taskController_TaskRemoved);
 
             iconScroller = (ScrollView)widget.findWidget("IconScroller");
-            iconGrid = new NoSelectButtonGrid(iconScroller, new ButtonGridTextAdjustedGridLayout(), new TaskMenuItemComparer(), groupCompareFunc);
+            iconGrid = new NoSelectButtonGrid(iconScroller, new ButtonGridTextAdjustedGridLayout(), new TaskMenuItemComparer());
 
             recentDocuments = new TaskMenuRecentDocuments(widget, documentController);
             recentDocuments.DocumentClicked += new EventDelegate(recentDocuments_DocumentClicked);
@@ -82,9 +83,9 @@ namespace Anomalous.GuiFramework
             base.Dispose();
         }
 
-        public void defineGroup(String name, object userObject)
+        public void defineGroup(String name)
         {
-            iconGrid.defineGroup(name, userObject);
+            iconGrid.defineGroup(name);
         }
 
         public void setSize(int width, int height)
@@ -138,6 +139,30 @@ namespace Anomalous.GuiFramework
             get
             {
                 return iconScroller.Top;
+            }
+        }
+
+        /// <summary>
+        /// Set a group comparison function, when groups are added this will be used to sort the
+        /// groups in the menu.
+        /// </summary>
+        public TaskMenuGroupSorter GroupComparison
+        {
+            get
+            {
+                return groupSorter;
+            }
+            set
+            {
+                if (this.groupSorter != null)
+                {
+                    iconGrid.GroupAdded -= iconGrid_GroupAdded;
+                }
+                this.groupSorter = value;
+                if(this.groupSorter != null)
+                {
+                    iconGrid.GroupAdded += iconGrid_GroupAdded;
+                }
             }
         }
 
@@ -274,6 +299,12 @@ namespace Anomalous.GuiFramework
             iconScroller.setSize(coord.width, coord.height);
             iconGrid.resizeAndLayout(iconScroller.ViewCoord.width);
             recentDocuments.moveAndResize(coord);
+        }
+
+        void iconGrid_GroupAdded(ButtonGrid arg1, string arg2)
+        {
+            groupSorter.groupAdded(arg2);
+            iconGrid.sortGroups(groupSorter.compareGroups);
         }
     }
 }
