@@ -134,10 +134,7 @@ namespace MyGUIPlugin
             scrollView.CanvasPositionChanged += scrollView_CanvasPositionChanged;
             this.itemComparer = itemComparer;
             this.layoutEngine = layoutEngine;
-            if (groupComparer != null)
-            {
-                this.groupComparer = new ButtonGridGroupComparer(groupComparer);
-            }
+            setGroupComparer(groupComparer);
 
             //Try to get properties from the widget itself.
             read = scrollView.getUserString("ItemHeight");
@@ -435,6 +432,22 @@ namespace MyGUIPlugin
                 }
             }
             return IEnumerableUtil<ButtonGridItem>.EmptyIterator;
+        }
+
+        /// <summary>
+        /// Set the group comparison function to compare group user objects to sort them.
+        /// </summary>
+        /// <param name="groupComparer">The group comparer to set, can be null to leave groups as they are.</param>
+        public void setGroupComparer(CompareButtonGroupUserObjects groupComparer)
+        {
+            if (groupComparer != null)
+            {
+                this.groupComparer = new ButtonGridGroupComparer(groupComparer);
+            }
+            else
+            {
+                this.groupComparer = null;
+            }
         }
 
         /// <summary>

@@ -25,7 +25,6 @@ namespace Anomalous.GuiFramework
             }
         }
 
-        private const int UNKNOWN_GROUP_WEIGHT = int.MaxValue / 2;
         private static readonly int AdPadding = ScaleHelper.Scaled(10);
 
         private NoSelectButtonGrid iconGrid;
@@ -48,7 +47,7 @@ namespace Anomalous.GuiFramework
 
         private TaskMenuPositioner taskMenuPositioner = new TaskMenuPositioner();
 
-        public TaskMenu(DocumentController documentController, TaskController taskController, GUIManager guiManager, LayoutElementName elementName)
+        public TaskMenu(DocumentController documentController, TaskController taskController, GUIManager guiManager, LayoutElementName elementName, CompareButtonGroupUserObjects groupCompareFunc = null)
             : base("Anomalous.GuiFramework.GUI.TaskMenu.TaskMenu.layout", guiManager, elementName)
         {
             this.taskController = taskController;
@@ -56,13 +55,7 @@ namespace Anomalous.GuiFramework
             taskController.TaskRemoved += new TaskRemovedDelegate(taskController_TaskRemoved);
 
             iconScroller = (ScrollView)widget.findWidget("IconScroller");
-            iconGrid = new NoSelectButtonGrid(iconScroller, new ButtonGridTextAdjustedGridLayout(), new TaskMenuItemComparer(), GroupCompare);
-
-            iconGrid.defineGroup(TaskMenuCategories.Explore, 0);
-            iconGrid.defineGroup(TaskMenuCategories.Create, 1);
-            iconGrid.defineGroup(TaskMenuCategories.Patient, 2);
-            iconGrid.defineGroup(TaskMenuCategories.Developer, int.MaxValue - 1);
-            iconGrid.defineGroup(TaskMenuCategories.System, int.MaxValue);
+            iconGrid = new NoSelectButtonGrid(iconScroller, new ButtonGridTextAdjustedGridLayout(), new TaskMenuItemComparer(), groupCompareFunc);
 
             recentDocuments = new TaskMenuRecentDocuments(widget, documentController);
             recentDocuments.DocumentClicked += new EventDelegate(recentDocuments_DocumentClicked);
@@ -87,6 +80,11 @@ namespace Anomalous.GuiFramework
         {
             Gui.Instance.destroyWidget(dragIconPreview);
             base.Dispose();
+        }
+
+        public void defineGroup(String name, object userObject)
+        {
+            iconGrid.defineGroup(name, userObject);
         }
 
         public void setSize(int width, int height)
@@ -257,21 +255,6 @@ namespace Anomalous.GuiFramework
         void closeButton_MouseButtonClick(Widget source, EventArgs e)
         {
             this.hide();
-        }
-
-        private int GroupCompare(Object x, Object y)
-        {
-            int xWeight = UNKNOWN_GROUP_WEIGHT;
-            int yWeight = UNKNOWN_GROUP_WEIGHT;
-            if(x != null)
-            {
-                xWeight = (int)x;
-            }
-            if(y != null)
-            {
-                yWeight = (int)y;
-            }
-            return xWeight - yWeight;
         }
 
         void adProvider_AdDestroyed(TaskMenuAdProvider adProvider)
