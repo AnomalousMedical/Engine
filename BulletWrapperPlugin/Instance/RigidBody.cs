@@ -588,6 +588,36 @@ namespace BulletPlugin
                 return motionState.LocalRotation;
             }
         }
+
+        /// <summary>
+        /// The dimensions the rigid body can move in.
+        /// </summary>
+        public Vector3 LinearFactor
+        {
+            get
+            {
+                return btRigidBody_getLinearFactor(rigidBody);
+            }
+            set
+            {
+                btRigidBody_setLinearFactor(rigidBody, ref value);
+            }
+        }
+
+        /// <summary>
+        /// The dimensions the rigid body can rotate in.
+        /// </summary>
+        public Vector3 AngularFactor
+        {
+            get
+            {
+                return btRigidBody_getAngularFactor(rigidBody);
+            }
+            set
+            {
+                btRigidBody_setAngularFactor(rigidBody, ref value);
+            }
+        }
     }
 
     //Dll Imports
@@ -778,5 +808,17 @@ namespace BulletPlugin
 
         [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr btRigidBody_getConstraintRef(IntPtr rigidBody, int num);
+
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void btRigidBody_setLinearFactor(IntPtr instance, ref Vector3 linearFactor);
+
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern Vector3 btRigidBody_getLinearFactor(IntPtr instance);
+
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void btRigidBody_setAngularFactor(IntPtr instance, ref Vector3 angularFactor);
+
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern Vector3 btRigidBody_getAngularFactor(IntPtr instance);
     }
 }

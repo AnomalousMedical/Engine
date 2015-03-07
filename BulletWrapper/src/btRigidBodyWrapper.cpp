@@ -313,4 +313,24 @@ extern "C" _AnomalousExport btTypedConstraint* btRigidBody_getConstraintRef(btRi
 	return rigidBody->getConstraintRef(num);
 }
 
+extern "C" _AnomalousExport void btRigidBody_setLinearFactor(btRigidBody* rigidBody, Vector3* linearFactor)
+{
+	rigidBody->setLinearFactor(linearFactor->toBullet());
+}
+
+extern "C" _AnomalousExport Vector3 btRigidBody_getLinearFactor(btRigidBody* rigidBody)
+{
+	return rigidBody->getLinearFactor();
+}
+
+extern "C" _AnomalousExport void btRigidBody_setAngularFactor(btRigidBody* rigidBody, Vector3* angularFactor)
+{
+	rigidBody->setAngularFactor(angularFactor->toBullet());
+}
+
+extern "C" _AnomalousExport Vector3 btRigidBody_getAngularFactor(btRigidBody* rigidBody)
+{
+	return rigidBody->getAngularFactor();
+}
+
 #pragma warning(pop)
