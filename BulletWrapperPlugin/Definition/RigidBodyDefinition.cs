@@ -31,6 +31,8 @@ namespace BulletPlugin
             CollisionFilterMask = -1;
             CollisionFilterGroup = 1;
             StayLocalTransform = false;
+            LinearFactor = new Vector3(1, 1, 1);
+            AngularFactor = new Vector3(1, 1, 1);
         }
 
         public override void registerScene(SimSubScene subscene, SimObjectBase instance)
@@ -209,6 +211,12 @@ namespace BulletPlugin
         [Editable]
         public bool StayLocalTransform { get; set; }
 
+        [Editable]
+        public Vector3 LinearFactor { get; set; }
+
+        [Editable]
+        public Vector3 AngularFactor { get; set; }
+
         #endregion
     }
 
@@ -262,6 +270,8 @@ namespace BulletPlugin
             CollisionFilterMask = info.GetInt16("CollisionFilterMask", -1);
             CollisionFilterGroup = info.GetInt16("CollisionFilterGroup", 1);
             StayLocalTransform = info.GetBoolean("StayLocalTransform", false);
+            LinearFactor = info.GetVector3("LinearFactor", new Vector3(1, 1, 1));
+            AngularFactor = info.GetVector3("AngularFactor", new Vector3(1, 1, 1));
         }
 
         public override void getInfo(SaveInfo info)
@@ -286,6 +296,8 @@ namespace BulletPlugin
             info.AddValue("CollisionFilterMask", CollisionFilterMask);
             info.AddValue("CollisionFilterGroup", CollisionFilterGroup);
             info.AddValue("StayLocalTransform", StayLocalTransform);
+            info.AddValue("LinearFactor", LinearFactor);
+            info.AddValue("AngularFactor", AngularFactor);
         }
     }
 }

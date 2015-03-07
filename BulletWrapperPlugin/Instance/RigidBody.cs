@@ -65,6 +65,8 @@ namespace BulletPlugin
 	        setDeactivationTime(description.DeactivationTime);
 	        setCollisionFlags(description.Flags);
 	        setHitFraction(description.HitFraction);
+            LinearFactor = description.LinearFactor;
+            AngularFactor = description.AngularFactor;
 
             RigidBodyManager.add(rigidBody, this);
         }
@@ -261,6 +263,8 @@ namespace BulletPlugin
             definition.CollisionFilterGroup = collisionFilterGroup;
             definition.CollisionFilterMask = collisionFilterMask;
             definition.StayLocalTransform = StayLocalTransform;
+            definition.LinearFactor = LinearFactor;
+            definition.AngularFactor = AngularFactor;
         }
 
         public void setDamping(float linearDamping, float angularDamping)
