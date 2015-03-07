@@ -168,7 +168,10 @@ namespace MyGUIPlugin
                 else
                 {
                     editingCell.commitEditValueToValue();
-                    editingCell.setStaticMode();
+                    if (editingCell != null)
+                    {
+                        editingCell.setStaticMode();
+                    }
                 }
             }
 
