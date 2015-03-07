@@ -42,7 +42,7 @@ namespace BulletPlugin
 
         public void buildCapsule(string name, float radius, float height, Vector3 translation, Quaternion rotation, string material)
         {
-            throw new NotImplementedException();
+            commitShape(name, translation, rotation, CollisionShapeInterface.CapsuleShape_Create(radius, height, ShapeMargin));
         }
 
         public unsafe void buildConvexHull(string name, float[] vertices, int[] faces, Vector3 translation, Quaternion rotation, string material)
