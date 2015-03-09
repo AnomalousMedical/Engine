@@ -175,6 +175,7 @@
     <ClCompile Include="src\ContactCache.cpp" />
     <ClCompile Include="src\ContactInfo.cpp" />
     <ClCompile Include="src\MotionState.cpp" />
+    <ClCompile Include="src\RayTests.cpp" />
     <ClCompile Include="src\ReshapeableRigidBody.cpp" />
     <ClCompile Include="src\ReshapeableRigidBodySection.cpp" />
     <ClCompile Include="Stdafx.cpp">
@@ -189,6 +190,7 @@
     <ClInclude Include="Include\BulletScene.h" />
     <ClInclude Include="Include\ContactCache.h" />
     <ClInclude Include="Include\ContactInfo.h" />
+    <ClInclude Include="Include\RayTests.h" />
     <ClInclude Include="src\Generic6DofConstriantMotors.h" />
     <ClInclude Include="Include\MotionState.h" />
     <ClInclude Include="Include\ReshapeableRigidBody.h" />

@@ -71,6 +71,15 @@ namespace BulletPlugin
             callbackHandler.Dispose();
         }
 
+        /// <summary>
+        /// Raycast into the scene and get a result.
+        /// </summary>
+        /// <param name="result"></param>
+        public void raycast(RayResultCallback result)
+        {
+            BulletScene_raycast(bulletScene, result.ptr);
+        }
+
         internal void addRigidBody(RigidBody rigidBody, short collisionFilterGroup, short collisionFilterMask)
         {
             rigidBodies.Add(rigidBody);
@@ -316,6 +325,9 @@ namespace BulletPlugin
 
         [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern int BulletScene_getSolverIterations(IntPtr instance);
+
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void BulletScene_raycast(IntPtr instance, IntPtr result);
 
 #if FULL_AOT_COMPILE
         class CallbackHandler : IDisposable

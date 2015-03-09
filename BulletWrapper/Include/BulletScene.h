@@ -79,4 +79,6 @@ public:
 	void setSolverIterations(int iterations);
 
 	int getSolverIterations();
+
+	void raycast(btVector3& start, btVector3& end, btCollisionWorld::RayResultCallback& result);
 };

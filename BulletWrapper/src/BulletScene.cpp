@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "../Include/BulletScene.h"
 #include "BulletDebugDraw.h"
+#include "RayTests.h"
 
 static void tickCallback(btDynamicsWorld *world, btScalar timeStep)
 {
@@ -170,6 +171,11 @@ int BulletScene::getSolverIterations()
 	return info.m_numIterations;
 }
 
+void BulletScene::raycast(btVector3& start, btVector3& end, btCollisionWorld::RayResultCallback& result)
+{
+	dynamicsWorld->rayTest(start, end, result);
+}
+
 //--------------------------------------------------
 //Wrapper functions
 //--------------------------------------------------
@@ -236,4 +242,9 @@ extern "C" _AnomalousExport void BulletScene_setSolverIterations(BulletScene* in
 extern "C" _AnomalousExport int BulletScene_getSolverIterations(BulletScene* instance)
 {
 	return instance->getSolverIterations();
+}
+
+extern "C" _AnomalousExport void BulletScene_raycast(BulletScene* instance, ManagedRayResultCallback* result)
+{
+	instance->raycast(result->m_rayFromWorld, result->m_rayToWorld, *result);
 }
