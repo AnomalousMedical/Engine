@@ -21,6 +21,7 @@
 		01BD407B1A6993EB003331C7 /* btRigidBodyWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BD406C1A6993EB003331C7 /* btRigidBodyWrapper.cpp */; };
 		01BD407C1A6993EB003331C7 /* btTypedConstraintWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BD406D1A6993EB003331C7 /* btTypedConstraintWrapper.cpp */; };
 		01BD407D1A6993EB003331C7 /* Stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BD406E1A6993EB003331C7 /* Stdafx.cpp */; };
+		01DC34521AAE2CCC00A7BB67 /* RayTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01DC34511AAE2CCC00A7BB67 /* RayTests.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -61,6 +62,8 @@
 		01BD406D1A6993EB003331C7 /* btTypedConstraintWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = btTypedConstraintWrapper.cpp; sourceTree = "<group>"; };
 		01BD406E1A6993EB003331C7 /* Stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Stdafx.cpp; path = ../Stdafx.cpp; sourceTree = "<group>"; };
 		01BD406F1A6993EB003331C7 /* Stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stdafx.h; path = ../Stdafx.h; sourceTree = "<group>"; };
+		01DC34511AAE2CCC00A7BB67 /* RayTests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RayTests.cpp; sourceTree = "<group>"; };
+		01DC34531AAE2CD200A7BB67 /* RayTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RayTests.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +99,7 @@
 		01BD40561A6993EB003331C7 /* Include */ = {
 			isa = PBXGroup;
 			children = (
+				01DC34531AAE2CD200A7BB67 /* RayTests.h */,
 				01BD40571A6993EB003331C7 /* BulletDebugDraw.h */,
 				01BD40581A6993EB003331C7 /* BulletScene.h */,
 				01BD40591A6993EB003331C7 /* ContactCache.h */,
@@ -112,6 +116,7 @@
 		01BD405F1A6993EB003331C7 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				01DC34511AAE2CCC00A7BB67 /* RayTests.cpp */,
 				01BD40601A6993EB003331C7 /* BulletDebugDraw.cpp */,
 				01BD40611A6993EB003331C7 /* BulletScene.cpp */,
 				01BD40621A6993EB003331C7 /* CollisionShapeInterface.cpp */,
@@ -198,6 +203,7 @@
 				01BD407B1A6993EB003331C7 /* btRigidBodyWrapper.cpp in Sources */,
 				01BD407A1A6993EB003331C7 /* btManifoldPoint.cpp in Sources */,
 				01BD40771A6993EB003331C7 /* ReshapeableRigidBodySection.cpp in Sources */,
+				01DC34521AAE2CCC00A7BB67 /* RayTests.cpp in Sources */,
 				01BD40781A6993EB003331C7 /* btFixedConstraintWrapper.cpp in Sources */,
 				01BD407C1A6993EB003331C7 /* btTypedConstraintWrapper.cpp in Sources */,
 				01BD40751A6993EB003331C7 /* MotionState.cpp in Sources */,
