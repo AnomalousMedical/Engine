@@ -30,6 +30,30 @@ namespace BulletPlugin
             ManagedRayResultCallback_reset(ptr);
         }
 
+        public short CollisionFilterGroup
+        {
+            get
+            {
+                return RayResultCallback_getCollisionFilterGroup(ptr);
+            }
+            set
+            {
+                RayResultCallback_setCollisionFilterGroup(ptr, value);
+            }
+        }
+
+        public short CollisionFilterMask
+        {
+            get
+            {
+                return RayResultCallback_getCollisionFilterMask(ptr);
+            }
+            set
+            {
+                RayResultCallback_setCollisionFilterMask(ptr, value);
+            }
+        }
+
         public Vector3 RayFromWorld
         {
             get
@@ -70,10 +94,22 @@ namespace BulletPlugin
             }
         }
 
-#region PInvoke
+        #region PInvoke
 
         [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void RayResultCallback_Delete(IntPtr cb);
+
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern short RayResultCallback_getCollisionFilterGroup(IntPtr cb);
+
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void RayResultCallback_setCollisionFilterGroup(IntPtr cb, short collisionFilterGroup);
+
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern short RayResultCallback_getCollisionFilterMask(IntPtr cb);
+
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void RayResultCallback_setCollisionFilterMask(IntPtr cb, short collisionFilterMask);
 
         [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ManagedRayResultCallback_setRayFromWorld(IntPtr cb, Vector3 rayFromWorld);
@@ -97,6 +133,6 @@ namespace BulletPlugin
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool ManagedRayResultCallback_hasHit(IntPtr cb);
 
-#endregion
+        #endregion
     }
 }

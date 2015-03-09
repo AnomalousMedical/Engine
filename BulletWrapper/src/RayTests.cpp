@@ -26,6 +26,26 @@ extern "C" _AnomalousExport const btCollisionObject* RayResultCallback_getCollis
 	return cb->m_collisionObject;
 }
 
+extern "C" _AnomalousExport short RayResultCallback_getCollisionFilterGroup(btCollisionWorld::RayResultCallback* cb)
+{
+	return cb->m_collisionFilterGroup;
+}
+
+extern "C" _AnomalousExport void RayResultCallback_setCollisionFilterGroup(btCollisionWorld::RayResultCallback* cb, short collisionFilterGroup)
+{
+	cb->m_collisionFilterGroup = collisionFilterGroup;
+}
+
+extern "C" _AnomalousExport short RayResultCallback_getCollisionFilterMask(btCollisionWorld::RayResultCallback* cb)
+{
+	return cb->m_collisionFilterMask;
+}
+
+extern "C" _AnomalousExport void RayResultCallback_setCollisionFilterMask(btCollisionWorld::RayResultCallback* cb, short collisionFilterMask)
+{
+	cb->m_collisionFilterMask = collisionFilterMask;
+}
+
 extern "C" _AnomalousExport void RayResultCallback_Delete(btCollisionWorld::RayResultCallback* cb)
 {
 	delete cb;

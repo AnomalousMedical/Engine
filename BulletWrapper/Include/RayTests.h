@@ -14,6 +14,7 @@ struct ManagedRayResultCallback : public btCollisionWorld::RayResultCallback
 	void reset()
 	{
 		m_collisionObject = 0;
+		m_closestHitFraction = btScalar(1.);
 	}
 };
 
