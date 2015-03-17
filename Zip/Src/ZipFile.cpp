@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "Stdafx.h"
 
 #include <string>
 
@@ -13,7 +13,7 @@ static zzip_ssize_t xor_read (int f, void* p, zzip_size_t l)
 #ifdef WINDOWS
 	zzip_ssize_t r = _read(f, p, l);
 #endif
-#if defined(MAC_OSX) || defined(APPLE_IOS)
+#if defined(MAC_OSX) || defined(APPLE_IOS) || defined(ANDROID)
 	zzip_ssize_t r = read(f, p, l);
 #endif
 	zzip_ssize_t x; 
