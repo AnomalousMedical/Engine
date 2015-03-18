@@ -1,7 +1,7 @@
 LOCAL_PATH := $(call my-dir)
 
 DEP_ROOT		:= $(LOCAL_PATH)/../../../../Dependencies
-DEP_ROOT_LIB	:= $(LOCAL_PATH)/../../../../../Dependencies
+DEP_ROOT_LIB	:= ../../../../Dependencies
 
 PRJ_INCLUDES    := $(LOCAL_PATH)/../../Include \
 				   $(LOCAL_PATH)/../.. \
@@ -10,7 +10,7 @@ PRJ_INCLUDES    := $(LOCAL_PATH)/../../Include \
 
 PRJ_SRC		    := /../../Src
 
-LIB_ROOT		:= $(DEP_ROOT_LIB)/Bullet/AndroidBuild/libs/armeabi
+LIB_ROOT		:= $(DEP_ROOT_LIB)/Bullet/AndroidBuild/libs/$(TARGET_ARCH_ABI)
 
 # bulletsoftbody
 	include $(CLEAR_VARS)
