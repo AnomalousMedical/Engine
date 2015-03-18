@@ -34,7 +34,7 @@ LOCAL_CPPFLAGS := -DANDROID=1
 LOCAL_ARM_MODE := arm
 LOCAL_MODULE   := libOgreCWrapper
 LOCAL_CFLAGS   := -ffast-math -fsigned-char -O2 -fPIC -DPIC \
-                  -DBYTE_ORDER=LITTLE_ENDIAN -D_ARM_ASSEM_ \
+                  -D_ARM_ASSEM_ \
 				  -frtti -fexceptions
 
 LOCAL_C_INCLUDES := $(PRJ_INCLUDES)
