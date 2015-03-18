@@ -1,23 +1,25 @@
 LOCAL_PATH := $(call my-dir)
 
 DEP_ROOT		:= $(LOCAL_PATH)/../../../../Dependencies
-DEP_ROOT_LIB	:= $(LOCAL_PATH)/../../../../../Dependencies
+DEP_ROOT_LIB	:= ../../../../Dependencies
 
 PRJ_INCLUDES    := $(LOCAL_PATH)/../../Include \
 				   $(LOCAL_PATH)/../.. \
 	               $(DEP_ROOT)/OgreDeps/AndroidInstall/include
 PRJ_SRC		    := /../../Src
 
+OGREDEP_LIB_ROOT	:= $(DEP_ROOT_LIB)/OgreDeps/AndroidInstall/lib
+
 # zlib
 	include $(CLEAR_VARS)
 	LOCAL_MODULE    := zlib
-	LOCAL_SRC_FILES := $(DEP_ROOT_LIB)/OgreDeps/AndroidInstall/lib/libzlib.a
+	LOCAL_SRC_FILES := $(OGREDEP_LIB_ROOT)/libzlib.a
 	include $(PREBUILT_STATIC_LIBRARY)
 
 # zzip
 	include $(CLEAR_VARS)
 	LOCAL_MODULE    := zzip
-	LOCAL_SRC_FILES := $(DEP_ROOT_LIB)/OgreDeps/AndroidInstall/lib/libzziplib.a
+	LOCAL_SRC_FILES := $(OGREDEP_LIB_ROOT)/libzziplib.a
 	include $(PREBUILT_STATIC_LIBRARY)
 
 

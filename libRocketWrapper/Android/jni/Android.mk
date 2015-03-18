@@ -1,7 +1,7 @@
 LOCAL_PATH := $(call my-dir)
 
 DEP_ROOT		:= $(LOCAL_PATH)/../../../../Dependencies
-DEP_ROOT_LIB	:= $(LOCAL_PATH)/../../../../../Dependencies
+DEP_ROOT_LIB	:= ../../../../Dependencies
 
 PRJ_INCLUDES    := $(LOCAL_PATH)/../../Include \
 				   $(LOCAL_PATH)/../.. \
@@ -12,7 +12,7 @@ PRJ_INCLUDES    := $(LOCAL_PATH)/../../Include \
 
 PRJ_SRC		    := /../../Src
 
-ROCKET_LIB_ROOT		:= $(DEP_ROOT_LIB)/libRocket/AndroidBuild/libs/armeabi
+ROCKET_LIB_ROOT		:= $(DEP_ROOT_LIB)/libRocket/AndroidBuild/libs/$(TARGET_ARCH_ABI)
 OGRE_LIB_ROOT		:= $(DEP_ROOT_LIB)/Ogre/AndroidBuild/lib
 OGREDEP_LIB_ROOT	:= $(DEP_ROOT_LIB)/OgreDeps/AndroidInstall/lib
 

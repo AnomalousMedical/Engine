@@ -1,7 +1,7 @@
 LOCAL_PATH := $(call my-dir)
 
 DEP_ROOT		:= $(LOCAL_PATH)/../../../../Dependencies
-DEP_ROOT_LIB	:= $(LOCAL_PATH)/../../../../../Dependencies
+DEP_ROOT_LIB	:= ../../../../Dependencies
 
 PRJ_INCLUDES    := $(LOCAL_PATH)/../../Include \
 				   $(LOCAL_PATH)/../.. \

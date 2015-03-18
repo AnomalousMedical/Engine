@@ -1,7 +1,7 @@
 LOCAL_PATH := $(call my-dir)
 
 DEP_ROOT		:= $(LOCAL_PATH)/../../../../Dependencies
-DEP_ROOT_LIB	:= $(LOCAL_PATH)/../../../../../Dependencies
+DEP_ROOT_LIB	:= ../../../../Dependencies
 
 PRJ_INCLUDES    := $(LOCAL_PATH)/../../Include \
 				   $(LOCAL_PATH)/../.. \
@@ -11,9 +11,9 @@ PRJ_INCLUDES    := $(LOCAL_PATH)/../../Include \
 
 PRJ_SRC		    := /../../Src
 
-OPENAL_LIB_ROOT		:= $(DEP_ROOT_LIB)/OpenALSoft/srcAndroid/libs/armeabi
-OGG_LIB_ROOT		:= $(DEP_ROOT_LIB)/oggvorbis/libogg/android/obj/local/armeabi
-VORBIS_LIB_ROOT		:= $(DEP_ROOT_LIB)/oggvorbis/libvorbis/android/obj/local/armeabi
+OPENAL_LIB_ROOT		:= $(DEP_ROOT_LIB)/OpenALSoft/srcAndroid/libs/$(TARGET_ARCH_ABI)
+OGG_LIB_ROOT		:= $(DEP_ROOT_LIB)/oggvorbis/libogg/android/obj/local/$(TARGET_ARCH_ABI)
+VORBIS_LIB_ROOT		:= $(DEP_ROOT_LIB)/oggvorbis/libvorbis/android/obj/local/$(TARGET_ARCH_ABI)
 
 # openalsoft
 	include $(CLEAR_VARS)
