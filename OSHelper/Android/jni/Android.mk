@@ -20,6 +20,10 @@ LOCAL_SRC_FILES := \
 					$(PRJ_SRC)/NativeLog.cpp \
 					$(PRJ_SRC)/ManagedLogListener.cpp \
 					$(PRJ_SRC)/App.cpp \
+					$(PRJ_SRC)/NativeKeyboard.cpp \
+					$(PRJ_SRC)/NativeMouse.cpp \
+					$(PRJ_SRC)/NativeOSWindow.cpp \
+					$(PRJ_SRC)/PerformanceCounter.cpp \
 					$(PRJ_SRC)/AndroidApp.cpp \
 
 LOCAL_LDLIBS    := -llog -landroid

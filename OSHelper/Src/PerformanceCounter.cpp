@@ -57,7 +57,7 @@ bool PerformanceCounter::initialize()
 	return valid;
 #endif
 
-#if defined(MAC_OSX) || defined(APPLE_IOS)
+#if defined(MAC_OSX) || defined(APPLE_IOS) || defined(ANDROID)
 	gettimeofday(&start, NULL);	
 	return true;
 #endif
@@ -90,7 +90,7 @@ Int64 PerformanceCounter::getCurrentTime()
 	return 1000000 * time / frequency.QuadPart;
 #endif
 
-#if defined(MAC_OSX) || defined(APPLE_IOS)
+#if defined(MAC_OSX) || defined(APPLE_IOS) || defined(ANDROID)
 	struct timeval now;
 	gettimeofday(&now, NULL);
 	Int64 intNow = (Int64)(now.tv_sec - start.tv_sec)*1000000LL+(Int64)(now.tv_usec - start.tv_usec);
