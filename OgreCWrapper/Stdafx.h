@@ -14,7 +14,7 @@
 #define _AnomalousExport __declspec(dllexport)
 #endif
 
-#if defined(MAC_OSX) || defined(APPLE_IOS)
+#if defined(MAC_OSX) || defined(APPLE_IOS) || defined(ANDROID)
 #define _AnomalousExport __attribute__ ((visibility("default")))
 #endif
 

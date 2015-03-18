@@ -47,6 +47,11 @@ extern "C" _AnomalousExport Ogre::Plugin* OgreInterface_LoadRenderSystem(RenderS
     Ogre::String defaultRenderSystem = name;
 #endif
 
+#ifdef ANDROID
+	name = "RenderSystem_GLES2.so";
+	Ogre::String defaultRenderSystem = name;
+#endif
+
 #if defined(WINDOWS) || defined(WINRT)
 	//Only windows allows switching rendering systems
 	String defaultRenderSystem = Direct3D11_Library;
@@ -101,9 +106,9 @@ extern "C" _AnomalousExport Ogre::RenderSystem* OgreInterface_GetRenderSystem(Re
 	RenderSystemType defaultRendersystemType = OpenGL;
 #endif
 
-#ifdef APPLE_IOS
+#if defined(APPLE_IOS) || defined(ANDROID)
 	String defaultRenderSystem = "OpenGL ES 2.x Rendering Subsystem";
-	RenderSystemType defaultRendersystemType = OpenGLES2; //Change this to OpenGLES later.
+	RenderSystemType defaultRendersystemType = OpenGLES2;
 #endif
 
 	Ogre::Root* root = Ogre::Root::getSingletonPtr();
