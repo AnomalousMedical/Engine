@@ -209,6 +209,7 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
 			break;
 		case APP_CMD_GAINED_FOCUS:
 			//App gained focus
+			engine->animating = 1;
 			break;
 		case APP_CMD_LOST_FOCUS:
 			//App lost focus
