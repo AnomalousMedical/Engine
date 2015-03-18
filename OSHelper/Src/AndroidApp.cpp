@@ -1,3 +1,35 @@
+#include "Stdafx.h"
+#include "AndroidApp.h"
+
+AndroidApp::AndroidApp()
+{
+
+}
+
+AndroidApp::~AndroidApp()
+{
+
+}
+
+void AndroidApp::run()
+{
+	//Doesn't do anything, handled by the activity starting
+}
+
+void AndroidApp::exit()
+{
+	
+}
+
+static AndroidApp* currentAndroidApp;
+
+//PInvoke
+extern "C" _AnomalousExport AndroidApp* App_create()
+{
+	currentAndroidApp = new AndroidApp();
+	return currentAndroidApp;
+}
+
 #include <jni.h>
 #include <errno.h>
 
@@ -39,24 +71,21 @@ static void android_app_handle_cmd(struct android_app* app, int32_t cmd) {
 	{
 		case APP_CMD_SAVE_STATE:
 			//Save state
-			LOGI("Save State");
 			break;
 		case APP_CMD_INIT_WINDOW:
 			//Init
-			LOGI("Init window");
 			break;
 		case APP_CMD_TERM_WINDOW:
 			//Window terminated
-			LOGI("Terminate window");
 			break;
 		case APP_CMD_GAINED_FOCUS:
 			//App gained focus
-			LOGI("Gained focus, setting animating to 1");
+			currentAndroidApp->fireMovedToForeground();
 			engine->animating = 1;
 			break;
 		case APP_CMD_LOST_FOCUS:
 			//App lost focus
-			LOGI("Lost focus, setting animating to 0");
+			currentAndroidApp->fireMovedToBackground();
 			//Also stop animating.
 			engine->animating = 0;
 			break;
@@ -70,7 +99,7 @@ static void android_app_handle_cmd(struct android_app* app, int32_t cmd) {
 */
 void android_main(struct android_app* state) 
 {
-	LOGI("Starting android_main");
+	currentAndroidApp->fireInit();
 	struct engine engine;
 
 	// Make sure glue isn't stripped.
@@ -107,15 +136,14 @@ void android_main(struct android_app* state)
 			if (state->destroyRequested != 0) 
 			{
 				//Exiting
-				LOGI("Exiting");
+				currentAndroidApp->fireExit();
 				return;
 			}
 		}
 
 		if (engine.animating) 
 		{
-			//animating
-			LOGI("Animating");
+			currentAndroidApp->fireIdle();
 		}
 	}
 }

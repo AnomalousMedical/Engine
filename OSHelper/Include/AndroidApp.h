@@ -12,7 +12,4 @@ public:
     virtual void run();
     
     virtual void exit();
-
-private:
-	bool running;
 };

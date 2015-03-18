@@ -19,6 +19,7 @@ LOCAL_SRC_FILES := \
 					$(PRJ_SRC)/../Stdafx.cpp \
 					$(PRJ_SRC)/NativeLog.cpp \
 					$(PRJ_SRC)/ManagedLogListener.cpp \
+					$(PRJ_SRC)/App.cpp \
 					$(PRJ_SRC)/AndroidApp.cpp \
 
 LOCAL_LDLIBS    := -llog -landroid
