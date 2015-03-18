@@ -1,21 +1,3 @@
-/*
-* Copyright (C) 2010 The Android Open Source Project
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*      http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*
-*/
-
-//BEGIN_INCLUDE(all)
 #include <jni.h>
 #include <errno.h>
 
@@ -37,7 +19,7 @@ struct engine
 /**
 * Process the next input event.
 */
-static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
+static int32_t android_app_handle_input(struct android_app* app, AInputEvent* event) 
 {
 	struct engine* engine = (struct engine*)app->userData;
 	if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_MOTION) 
@@ -51,7 +33,7 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
 /**
 * Process the next main command.
 */
-static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
+static void android_app_handle_cmd(struct android_app* app, int32_t cmd) {
 	struct engine* engine = (struct engine*)app->userData;
 	switch (cmd) 
 	{
@@ -96,8 +78,8 @@ void android_main(struct android_app* state)
 
 	memset(&engine, 0, sizeof(engine));
 	state->userData = &engine;
-	state->onAppCmd = engine_handle_cmd;
-	state->onInputEvent = engine_handle_input;
+	state->onAppCmd = android_app_handle_cmd;
+	state->onInputEvent = android_app_handle_input;
 	engine.app = state;
 
 	// loop waiting for stuff to do.
@@ -137,4 +119,3 @@ void android_main(struct android_app* state)
 		}
 	}
 }
-//END_INCLUDE(all)
