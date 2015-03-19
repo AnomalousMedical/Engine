@@ -13,16 +13,10 @@ using Engine.ObjectManagement;
 using Engine.Saving.XMLSaver;
 using Engine.Resources;
 using System.IO;
-using BulletPlugin;
-using MyGUIPlugin;
-using SoundPlugin;
-using libRocketPlugin;
-using BEPUikPlugin;
 using Anomalous.OSPlatform;
-using Anomalous.GuiFramework;
-using Anomalous.GuiFramework.Cameras;
+using Anomalous.Minimus;
 
-namespace Anomalous.Minimus
+namespace Anomalous.Minimus.OgreOnly
 {
     public enum EventLayers
     {
@@ -36,7 +30,7 @@ namespace Anomalous.Minimus
 
     public delegate void LoopUpdate(Clock time);
 
-    public sealed class EngineController : IDisposable
+    public sealed class OgreOnlyEngineController : IDisposable
     {
         //Engine
         private PluginManager pluginManager;
@@ -65,7 +59,7 @@ namespace Anomalous.Minimus
 
         public event LoopUpdate OnLoopUpdate;
 
-        public EngineController(NativeOSWindow mainWindow)
+        public OgreOnlyEngineController(NativeOSWindow mainWindow)
         {
             //Create pluginmanager
             pluginManager = new PluginManager(CoreConfig.ConfigFile);
@@ -88,9 +82,6 @@ namespace Anomalous.Minimus
                 return true;
             };
 
-            MyGUIInterface.EventLayerKey = EventLayers.Gui;
-            MyGUIInterface.CreateGuiGestures = CoreConfig.EnableMultitouch && PlatformConfig.TouchType == TouchType.Screen;
-
             //Configure plugins
             pluginManager.OnConfigureDefaultWindow = delegate(out WindowInfo defaultWindow)
             {
@@ -111,26 +102,14 @@ namespace Anomalous.Minimus
                 mainWindow.show();
             };
 
-            GuiFrameworkCamerasInterface.MoveCameraEventLayer = EventLayers.Cameras;
-            GuiFrameworkCamerasInterface.SelectWindowEventLayer = EventLayers.AfterGui;
-            GuiFrameworkCamerasInterface.ShortcutEventLayer = EventLayers.AfterGui;
-
             pluginManager.addPluginAssembly(typeof(OgreInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(BulletInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(NativePlatformPlugin).Assembly);
-            pluginManager.addPluginAssembly(typeof(MyGUIInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(RocketInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(SoundPluginInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(BEPUikInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(GuiFrameworkInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(GuiFrameworkCamerasInterface).Assembly);
             pluginManager.initializePlugins();
 
             performanceMetricTimer = new NativeSystemTimer();
             PerformanceMonitor.setupEnabledState(performanceMetricTimer);
 
             //Intialize the platform
-            BulletInterface.Instance.ShapeMargin = 0.005f;
             systemTimer = new NativeSystemTimer();
 
             mainTimer = new NativeUpdateTimer(systemTimer);
@@ -157,8 +136,6 @@ namespace Anomalous.Minimus
             //Initialize controllers
             sceneController = new SceneController(pluginManager);
             frameClearManager = new FrameClearManager(OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget, Color.Blue);
-
-            SoundConfig.initialize(CoreConfig.ConfigFile);
         }
 
         /// <summary>
