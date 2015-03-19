@@ -25,17 +25,17 @@ void AndroidWindow::setSize(int width, int height)
 
 int AndroidWindow::getWidth()
 {
-	return 0;
+	return ANativeWindow_getWidth(app->window);
 }
 
 int AndroidWindow::getHeight()
 {
-	return 0;
+	return ANativeWindow_getHeight(app->window);
 }
 
 void* AndroidWindow::getHandle()
 {
-	return (void*)reinterpret_cast<size_t>(app->window);
+	return (void*)app->window;
 }
 
 void AndroidWindow::show()
