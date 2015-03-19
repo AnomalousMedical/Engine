@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "AndroidWindow.h"
 
+static struct android_app* app;
+
 AndroidWindow::AndroidWindow()
 {
 	
@@ -33,7 +35,7 @@ int AndroidWindow::getHeight()
 
 void* AndroidWindow::getHandle()
 {
-	return 0;
+	return (void*)reinterpret_cast<size_t>(app->window);
 }
 
 void AndroidWindow::show()
@@ -69,6 +71,11 @@ void AndroidWindow::setCursor(CursorType cursor)
 float AndroidWindow::getWindowScaling()
 {
 	return 1.0f;
+}
+
+void AndroidWindow_setApp(struct android_app* setApp)
+{
+	app = setApp;
 }
 
 //PInvoke

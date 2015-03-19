@@ -1,5 +1,6 @@
 #include "Stdafx.h"
 #include "AndroidApp.h"
+#include "AndroidWindow.h"
 
 AndroidApp::AndroidApp()
 {
@@ -30,10 +31,6 @@ extern "C" _AnomalousExport AndroidApp* App_create()
 	return currentAndroidApp;
 }
 
-#include <jni.h>
-#include <errno.h>
-#include <android_native_app_glue.h>
-
 /**
 * Shared state for our app.
 */
@@ -41,6 +38,7 @@ struct engine
 {
 	struct android_app* app;
 	int animating;
+	bool initOnce;
 };
 
 /**
@@ -69,6 +67,15 @@ static void android_app_handle_cmd(struct android_app* app, int32_t cmd) {
 			break;
 		case APP_CMD_INIT_WINDOW:
 			//Init
+			if (engine->initOnce)
+			{
+
+			}
+			else
+			{
+				currentAndroidApp->fireInit();
+				engine->initOnce = true;
+			}
 			break;
 		case APP_CMD_TERM_WINDOW:
 			//Window terminated
@@ -94,7 +101,7 @@ static void android_app_handle_cmd(struct android_app* app, int32_t cmd) {
 */
 void android_main(struct android_app* state) 
 {
-	currentAndroidApp->fireInit();
+	AndroidWindow_setApp(state);
 	struct engine engine;
 
 	// Make sure glue isn't stripped.

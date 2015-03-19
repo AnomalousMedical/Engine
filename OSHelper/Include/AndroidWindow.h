@@ -41,3 +41,5 @@ public:
 private:
 	
 };
+
+void AndroidWindow_setApp(struct android_app* setApp);
