@@ -1,5 +1,11 @@
 #include "Stdafx.h"
 
+#ifdef ANDROID
+#include <jni.h>
+#include <errno.h>
+#include <android_native_app_glue.h>
+#endif
+
 extern "C" _AnomalousExport Ogre::Root* Root_Create(const char* pluginFileName, const char* configFileName, const char* logFileName)
 {
 	return new Ogre::Root(pluginFileName, configFileName, logFileName);
@@ -127,6 +133,10 @@ extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindow(Ogre::Ro
 
 extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindowParams(Ogre::Root* root, const char* name, uint width, uint height, bool fullScreen, const char* vsync, const char* aaMode, const char* fsaaHint, const char* externalWindowHandle, const char* monitorIndex, const char* nvPerfHud, const char* contentScalingFactor)
 {
+#ifdef ANDROID
+	AConfiguration* config = 0;
+#endif
+
 	Ogre::NameValuePairList params;
 	params["vsync"] = vsync;
 	if(fsaaHint != 0)
@@ -144,6 +154,12 @@ extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindowParams(Og
         params["externalWindowHandle"] = Ogre::StringConverter::toString(handleArray[0]);
         params["externalViewControllerHandle"] = Ogre::StringConverter::toString(handleArray[1]);
         params["externalViewHandle"] = Ogre::StringConverter::toString(handleArray[2]);
+#elif ANDROID
+		struct android_app* app = (struct android_app*)Ogre::StringConverter::parseUnsignedLong(externalWindowHandle);
+		config = AConfiguration_new();
+		AConfiguration_fromAssetManager(config, app->activity->assetManager);
+		params["externalWindowHandle"] = Ogre::StringConverter::toString(reinterpret_cast<size_t>(app->window));
+		params["androidConfig"] = Ogre::StringConverter::toString(reinterpret_cast<size_t>(config));
 #else
         params["externalWindowHandle"] = externalWindowHandle;
 #endif
@@ -167,7 +183,16 @@ extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindowParams(Og
 		width /= scaleFactor;
 		height /= scaleFactor;
 #endif
-	return root->createRenderWindow(name, width, height, fullScreen, &params);
+	Ogre::RenderWindow* rendWin = root->createRenderWindow(name, width, height, fullScreen, &params);
+
+#ifdef ANDROID
+	if(config != 0)
+	{
+		AConfiguration_delete(config);
+	}
+#endif
+
+	return rendWin;
 }
 
 extern "C" _AnomalousExport void Root_destroyRenderTarget(Ogre::Root* root, Ogre::RenderTarget* pWin)

@@ -91,7 +91,7 @@ LOCAL_SRC_FILES :=  \
                     $(PRJ_SRC)/RenderTarget.cpp \
                     $(PRJ_SRC)/RenderWindow.cpp \
                     $(PRJ_SRC)/Resource.cpp \
-                    $(PRJ_SRC)/Root.cpp \
+					$(PRJ_SRC)/Root.cpp \
                     $(PRJ_SRC)/SceneManager.cpp \
                     $(PRJ_SRC)/SceneNode.cpp \
                     $(PRJ_SRC)/Skeleton.cpp \
@@ -114,5 +114,9 @@ LOCAL_SRC_FILES :=  \
                     $(PRJ_SRC)/WrapperMath.cpp \
 
 LOCAL_SHARED_LIBRARIES	:= ogremain
+LOCAL_LDLIBS    := -llog -landroid
+LOCAL_STATIC_LIBRARIES := android_native_app_glue
 
 include $(BUILD_SHARED_LIBRARY)
+
+$(call import-module,android/native_app_glue)
