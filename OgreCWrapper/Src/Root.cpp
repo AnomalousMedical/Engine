@@ -134,6 +134,8 @@ extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindow(Ogre::Ro
 extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindowParams(Ogre::Root* root, const char* name, uint width, uint height, bool fullScreen, const char* vsync, const char* aaMode, const char* fsaaHint, const char* externalWindowHandle, const char* monitorIndex, const char* nvPerfHud, const char* contentScalingFactor)
 {
 #ifdef ANDROID
+	// Make sure glue isn't stripped.
+	app_dummy();
 	AConfiguration* config = 0;
 #endif
 
