@@ -35,11 +35,9 @@ public:
     
     virtual void setupMultitouch(MultiTouch* multiTouch)
 	{
-		//This does nothing since we have to do our multitouch in another dll to remain compatable with xp.
-		//See MultTouch.cpp to see how it works.
+		
 	}
 private:
-	
 };
 
 void AndroidWindow_setApp(struct android_app* setApp);

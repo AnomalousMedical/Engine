@@ -10,7 +10,7 @@ AndroidWindow::AndroidWindow()
 
 AndroidWindow::~AndroidWindow()
 {
-
+	
 }
 
 void AndroidWindow::setTitle(String title)
@@ -35,7 +35,9 @@ int AndroidWindow::getHeight()
 
 void* AndroidWindow::getHandle()
 {
-	return (void*)app->window;
+	//On android we return the pointer to our app instead of the window, this allows more flexibility in
+	//external libs.
+	return (void*)app;
 }
 
 void AndroidWindow::show()
