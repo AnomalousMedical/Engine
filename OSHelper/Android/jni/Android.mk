@@ -17,8 +17,9 @@ LOCAL_C_INCLUDES := $(PRJ_INCLUDES)
 
 LOCAL_SRC_FILES := \
 					$(PRJ_SRC)/../Stdafx.cpp \
-					$(PRJ_SRC)/NativeLog.cpp \
 					$(PRJ_SRC)/ManagedLogListener.cpp \
+					$(PRJ_SRC)/NativeLog.cpp \
+					$(PRJ_SRC)/MultiTouch.cpp \
 					$(PRJ_SRC)/App.cpp \
 					$(PRJ_SRC)/NativeKeyboard.cpp \
 					$(PRJ_SRC)/NativeMouse.cpp \
