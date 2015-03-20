@@ -33,6 +33,14 @@
 #define MAIN_RESOURCE_GROUP "Rocket.Common"
 #define SHARED_RESOURCE_GROUP "Rocket.Shared"
 
+//16 bit index buffer functions
+Ogre::HardwareIndexBufferSharedPtr create16BitIndexBuffer(int num_indices);
+void fill16BitIndexBuffer(Ogre::HardwareIndexBufferSharedPtr index_buffer, int* indices, int num_indices);
+
+//32 bit index buffer functions
+Ogre::HardwareIndexBufferSharedPtr create32BitIndexBuffer(int num_indices);
+void fill32BitIndexBuffer(Ogre::HardwareIndexBufferSharedPtr index_buffer, int* indices, int num_indices);
+
 struct RocketOgre3DVertex
 {
 	float x, y, z;
@@ -92,6 +100,18 @@ RenderInterfaceOgre3D::RenderInterfaceOgre3D(unsigned int window_width, unsigned
 	noTextureVertProg->load();
 	noTextureFragProg = Ogre::HighLevelGpuProgramManager::getSingletonPtr()->getByName("libRocketNoTexturePS");
 	noTextureFragProg->load();
+
+	//Determine which index buffer functions to use
+	if (Ogre::Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(Ogre::RSC_32BIT_INDEX))
+	{
+		createIndexBuffer = &create32BitIndexBuffer;
+		fillIndexBuffer = &fill32BitIndexBuffer;
+	}
+	else
+	{
+		createIndexBuffer = &create16BitIndexBuffer;
+		fillIndexBuffer = &fill16BitIndexBuffer;
+	}
 }
 
 RenderInterfaceOgre3D::~RenderInterfaceOgre3D()
@@ -160,17 +180,41 @@ Rocket::Core::CompiledGeometryHandle RenderInterfaceOgre3D::CompileGeometry(Rock
 
 
 	// Create the index buffer.
-	Ogre::HardwareIndexBufferSharedPtr index_buffer = Ogre::HardwareBufferManager::getSingleton().createIndexBuffer(Ogre::HardwareIndexBuffer::IT_32BIT, num_indices, Ogre::HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+	Ogre::HardwareIndexBufferSharedPtr index_buffer = createIndexBuffer(num_indices);
 	geometry->render_operation.indexData->indexBuffer = index_buffer;
 	geometry->render_operation.useIndexes = true;
 
 	// Fill the index buffer.
-	void* ogre_indices = index_buffer->lock(0, index_buffer->getSizeInBytes(), Ogre::HardwareBuffer::HBL_NORMAL);
-	memcpy(ogre_indices, indices, sizeof(unsigned int) * num_indices);
+	fillIndexBuffer(index_buffer, indices, num_indices);
 	index_buffer->unlock();
 
 
 	return reinterpret_cast<Rocket::Core::CompiledGeometryHandle>(geometry);
+}
+
+Ogre::HardwareIndexBufferSharedPtr create16BitIndexBuffer(int num_indices)
+{
+	return Ogre::HardwareBufferManager::getSingleton().createIndexBuffer(Ogre::HardwareIndexBuffer::IT_16BIT, num_indices, Ogre::HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+}
+
+void fill16BitIndexBuffer(Ogre::HardwareIndexBufferSharedPtr index_buffer, int* indices, int num_indices)
+{
+	short* ogre_indices = (short*)index_buffer->lock(0, index_buffer->getSizeInBytes(), Ogre::HardwareBuffer::HBL_NORMAL);
+	for (int i = 0; i < num_indices; ++i)
+	{
+		ogre_indices[i] = indices[i];
+	}
+}
+
+Ogre::HardwareIndexBufferSharedPtr create32BitIndexBuffer(int num_indices)
+{
+	return Ogre::HardwareBufferManager::getSingleton().createIndexBuffer(Ogre::HardwareIndexBuffer::IT_32BIT, num_indices, Ogre::HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+}
+
+void fill32BitIndexBuffer(Ogre::HardwareIndexBufferSharedPtr index_buffer, int* indices, int num_indices)
+{
+	void* ogre_indices = index_buffer->lock(0, index_buffer->getSizeInBytes(), Ogre::HardwareBuffer::HBL_NORMAL);
+	memcpy(ogre_indices, indices, sizeof(unsigned int) * num_indices);
 }
 
 // Called by Rocket when it wants to render application-compiled geometry.

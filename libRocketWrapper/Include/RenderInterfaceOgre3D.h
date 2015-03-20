@@ -31,6 +31,10 @@
 #include <Rocket/Core/RenderInterface.h>
 #include <Ogre.h>
 
+//Variable 16 or 32 bit index buffer function pointer definitions
+typedef Ogre::HardwareIndexBufferSharedPtr(*CreateIndexBuffer)(int num_indices);
+typedef void(*FillIndexBuffer)(Ogre::HardwareIndexBufferSharedPtr index_buffer, int* indices, int num_indices);
+
 /**
 	A sample render interface for Rocket into Ogre3D.
 
@@ -111,6 +115,9 @@ class RenderInterfaceOgre3D : public Rocket::Core::RenderInterface
 		Ogre::HighLevelGpuProgramPtr noTextureVertProg;
 		Ogre::HighLevelGpuProgramPtr noTextureFragProg;
 		Ogre::Matrix4 lastProjectionMatrix;
+
+		CreateIndexBuffer createIndexBuffer;
+		FillIndexBuffer fillIndexBuffer;
 };
 
 #endif
