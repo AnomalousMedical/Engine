@@ -2,6 +2,7 @@ LOCAL_PATH := $(call my-dir)
 
 DEP_ROOT		:= $(LOCAL_PATH)/../../../../Dependencies
 DEP_ROOT_LIB	:= ../../../../Dependencies
+ENGINE_ROOT     := ../../..
 
 PRJ_INCLUDES    := $(LOCAL_PATH)/../../Include \
 				   $(LOCAL_PATH)/../.. \
@@ -13,13 +14,13 @@ PRJ_INCLUDES    := $(LOCAL_PATH)/../../Include \
 PRJ_SRC		    := /../../Src
 
 ROCKET_LIB_ROOT		:= $(DEP_ROOT_LIB)/libRocket/AndroidBuild/libs/$(TARGET_ARCH_ABI)
-OGRE_LIB_ROOT		:= $(DEP_ROOT_LIB)/Ogre/AndroidBuild/lib
+OGRE_LIB_ROOT		:= $(ENGINE_ROOT)/OgreCWrapper/Android/libs/armeabi-v7a
 OGREDEP_LIB_ROOT	:= $(DEP_ROOT_LIB)/OgreDeps/AndroidInstall/lib
 
 # ogremain
 	include $(CLEAR_VARS)
 	LOCAL_MODULE    := ogremain
-	LOCAL_SRC_FILES := $(OGRE_LIB_ROOT)/libOgreMain.so
+	LOCAL_SRC_FILES := $(OGRE_LIB_ROOT)/libOgreCWrapper.so
 	include $(PREBUILT_SHARED_LIBRARY)
 
 # librocketcontrols

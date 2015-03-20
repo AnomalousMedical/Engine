@@ -10,7 +10,7 @@ PRJ_INCLUDES    := $(LOCAL_PATH)/../../Include \
 				   $(DEP_ROOT)/MyGUI/Src/Platforms/Ogre/OgrePlatform/include \
 				   $(DEP_ROOT)/MyGUI/Src/Common \
 	               $(DEP_ROOT)/Ogre/src/OgreMain/include \
-				   $(DEP_ROOT)/Ogre/AndroidBuildFull/include \
+				   $(DEP_ROOT)/Ogre/AndroidBuild/include \
 				   $(DEP_ROOT)/OgreDeps/AndroidInstall/include \
 
 PRJ_SRC		    := /../../Src
