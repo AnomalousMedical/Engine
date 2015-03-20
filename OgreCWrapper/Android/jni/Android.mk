@@ -6,6 +6,7 @@ DEP_ROOT_LIB	:= ../../../../Dependencies
 PRJ_INCLUDES    := $(LOCAL_PATH)/../../Include \
 				   $(LOCAL_PATH)/../.. \
 	               $(DEP_ROOT)/Ogre/src/OgreMain/include \
+				   $(DEP_ROOT)/Ogre/src/RenderSystems/GLES2/include \
 				   $(DEP_ROOT)/Ogre/AndroidBuild/include \
 				   $(DEP_ROOT)/OgreDeps/AndroidInstall/include \
 
@@ -17,14 +18,38 @@ OGREDEP_LIB_ROOT	:= $(DEP_ROOT_LIB)/OgreDeps/AndroidInstall/lib
 # ogremain
 	include $(CLEAR_VARS)
 	LOCAL_MODULE    := ogremain
-	LOCAL_SRC_FILES := $(OGRE_LIB_ROOT)/libOgreMain.so
-	include $(PREBUILT_SHARED_LIBRARY)
+	LOCAL_SRC_FILES := $(OGRE_LIB_ROOT)/libOgreMainStatic.a
+	include $(PREBUILT_STATIC_LIBRARY)
 
 # rendersystem_gles2
 	include $(CLEAR_VARS)
 	LOCAL_MODULE    := rendersystem_gles2
-	LOCAL_SRC_FILES := $(OGRE_LIB_ROOT)/RenderSystem_GLES2.so
-	include $(PREBUILT_SHARED_LIBRARY)
+	LOCAL_SRC_FILES := $(OGRE_LIB_ROOT)/libRenderSystem_GLES2Static.a
+	include $(PREBUILT_STATIC_LIBRARY)
+
+# freetype
+	include $(CLEAR_VARS)
+	LOCAL_MODULE    := freetype
+	LOCAL_SRC_FILES := $(OGREDEP_LIB_ROOT)/libfreetype.a
+	include $(PREBUILT_STATIC_LIBRARY)
+
+# FreeImage
+	include $(CLEAR_VARS)
+	LOCAL_MODULE    := FreeImage
+	LOCAL_SRC_FILES := $(OGREDEP_LIB_ROOT)/libFreeImage.a
+	include $(PREBUILT_STATIC_LIBRARY)
+
+# zlib
+	include $(CLEAR_VARS)
+	LOCAL_MODULE    := zlib
+	LOCAL_SRC_FILES := $(OGREDEP_LIB_ROOT)/libzlib.a
+	include $(PREBUILT_STATIC_LIBRARY)
+
+# zzip
+	include $(CLEAR_VARS)
+	LOCAL_MODULE    := zzip
+	LOCAL_SRC_FILES := $(OGREDEP_LIB_ROOT)/libzziplib.a
+	include $(PREBUILT_STATIC_LIBRARY)
 
 #Main Project
 
@@ -113,10 +138,13 @@ LOCAL_SRC_FILES :=  \
                     $(PRJ_SRC)/WindowEventUtilities.cpp \
                     $(PRJ_SRC)/WrapperMath.cpp \
 
-LOCAL_SHARED_LIBRARIES	:= ogremain
 LOCAL_LDLIBS    := -llog -landroid
-LOCAL_STATIC_LIBRARIES := android_native_app_glue
+LOCAL_LDLIBS	+= -lc -lm -ldl -lEGL -lGLESv2
+LOCAL_STATIC_LIBRARIES := rendersystem_gles2 ogremain
+LOCAL_STATIC_LIBRARIES += freetype FreeImage zlib zzip
+LOCAL_STATIC_LIBRARIES += android_native_app_glue cpufeatures
 
 include $(BUILD_SHARED_LIBRARY)
 
+$(call import-module,android/cpufeatures)
 $(call import-module,android/native_app_glue)
