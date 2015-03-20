@@ -2,8 +2,10 @@
 #include "OgrePlugin.h"
 #include "OgreScriptCompiler.h"
 
-#ifdef APPLE_IOS
+#ifdef OGRE_STATIC_LIB
+#if defined(APPLE_IOS) || defined(ANDROID)
 #include "OgreGLES2Plugin.h"
+#endif
 #endif
 
 //This is not actually part of ogre, but is a way for the OgreInterface class to
@@ -34,7 +36,7 @@ extern "C" _AnomalousExport Ogre::Plugin* OgreInterface_LoadRenderSystem(RenderS
 	Ogre::Plugin* plugin = NULL; //We always return a plugin even if it is null, plugins are only loaded directly when built statically
 
 #ifdef OGRE_STATIC_LIB
-#ifdef APPLE_IOS
+#if defined(APPLE_IOS) || defined(ANDROID)
 	Ogre::GLES2Plugin* gles2Plugin = new Ogre::GLES2Plugin(); //Will be delete by the managed code when this is returned.
 	Ogre::Root::getSingleton().installPlugin(gles2Plugin);
 	plugin = gles2Plugin;
@@ -48,7 +50,7 @@ extern "C" _AnomalousExport Ogre::Plugin* OgreInterface_LoadRenderSystem(RenderS
 #endif
 
 #ifdef ANDROID
-	name = "RenderSystem_GLES2.so";
+	name = "libRenderSystem_GLES2.so.1.10.0.so";
 	Ogre::String defaultRenderSystem = name;
 #endif
 
