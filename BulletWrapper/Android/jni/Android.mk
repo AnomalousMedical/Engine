@@ -8,7 +8,7 @@ PRJ_INCLUDES    := $(LOCAL_PATH)/../../Include \
 	               $(DEP_ROOT)/Bullet/src/src \
 				   $(DEP_ROOT)/Bullet/src/Extras/ConvexDecomposition \
 
-PRJ_SRC		    := /../../Src
+PRJ_SRC		    := ../../Src
 
 LIB_ROOT		:= $(DEP_ROOT_LIB)/Bullet/AndroidBuild/libs/$(TARGET_ARCH_ABI)
 

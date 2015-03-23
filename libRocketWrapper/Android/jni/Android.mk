@@ -11,7 +11,7 @@ PRJ_INCLUDES    := $(LOCAL_PATH)/../../Include \
 				   $(DEP_ROOT)/Ogre/AndroidBuild/include \
 				   $(DEP_ROOT)/OgreDeps/AndroidInstall/include \
 
-PRJ_SRC		    := /../../Src
+PRJ_SRC		    := ../../Src
 
 ROCKET_LIB_ROOT		:= $(DEP_ROOT_LIB)/libRocket/AndroidBuild/libs/$(TARGET_ARCH_ABI)
 OGRE_LIB_ROOT		:= $(ENGINE_ROOT)/OgreCWrapper/Android/libs/armeabi-v7a

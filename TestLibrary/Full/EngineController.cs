@@ -21,6 +21,7 @@ using BEPUikPlugin;
 using Anomalous.OSPlatform;
 using Anomalous.GuiFramework;
 using Anomalous.GuiFramework.Cameras;
+using Anomalous.libRocketWidget;
 
 namespace Anomalous.Minimus.Full
 {
@@ -123,6 +124,7 @@ namespace Anomalous.Minimus.Full
             pluginManager.addPluginAssembly(typeof(SoundPluginInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(BEPUikInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(GuiFrameworkInterface).Assembly);
+            pluginManager.addPluginAssembly(typeof(RocketWidgetInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(GuiFrameworkCamerasInterface).Assembly);
             pluginManager.initializePlugins();
 

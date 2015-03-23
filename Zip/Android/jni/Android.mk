@@ -6,7 +6,7 @@ DEP_ROOT_LIB	:= ../../../../Dependencies
 PRJ_INCLUDES    := $(LOCAL_PATH)/../../Include \
 				   $(LOCAL_PATH)/../.. \
 	               $(DEP_ROOT)/OgreDeps/AndroidInstall/include
-PRJ_SRC		    := /../../Src
+PRJ_SRC		    := ../../Src
 
 OGREDEP_LIB_ROOT	:= $(DEP_ROOT_LIB)/OgreDeps/AndroidInstall/lib
 

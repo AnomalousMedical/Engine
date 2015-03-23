@@ -16,7 +16,7 @@ namespace AndroidBaseApp
 		{
 			Logging.Log.Default.addLogListener (new Logging.LogConsoleListener ());
 
-			//Java.Lang.JavaSystem.LoadLibrary ("openal");
+			Java.Lang.JavaSystem.LoadLibrary ("openal");
 
 			base.OnCreate (bundle);
 

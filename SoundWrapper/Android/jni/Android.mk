@@ -9,7 +9,7 @@ PRJ_INCLUDES    := $(LOCAL_PATH)/../../Include \
 				   $(DEP_ROOT)/oggvorbis/libogg/include \
 				   $(DEP_ROOT)/oggvorbis/libvorbis/include \
 
-PRJ_SRC		    := /../../Src
+PRJ_SRC		    := ../../Src
 
 OPENAL_LIB_ROOT		:= $(DEP_ROOT_LIB)/OpenALSoft/srcAndroid/libs/$(TARGET_ARCH_ABI)
 OGG_LIB_ROOT		:= $(DEP_ROOT_LIB)/oggvorbis/libogg/android/obj/local/$(TARGET_ARCH_ABI)
