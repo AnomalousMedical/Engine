@@ -6,10 +6,11 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Anomalous.OSPlatform;
 
 namespace AndroidBaseApp
 {
-	[Activity (Label = "AndroidBaseApp", MainLauncher = true, Icon = "@drawable/icon")]
+	[Activity (Label = "AndroidBaseApp", MainLauncher = true, Icon = "@drawable/icon", Theme="@android:style/Theme.NoTitleBar.Fullscreen")]
 	public class MainActivity : Activity
 	{
 		protected override void OnCreate (Bundle bundle)
@@ -19,6 +20,8 @@ namespace AndroidBaseApp
 			Java.Lang.JavaSystem.LoadLibrary ("openal");
 
 			base.OnCreate (bundle);
+
+			AndroidFunctions.EasyAttributeSetup (Resources.DisplayMetrics.Density);
 
 			RequestWindowFeature (WindowFeatures.NoTitle);
 			Window.SetFlags (WindowManagerFlags.Fullscreen, WindowManagerFlags.Fullscreen);

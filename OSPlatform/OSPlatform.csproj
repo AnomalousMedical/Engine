@@ -55,6 +55,7 @@
     <Compile Include="NativePlatformPlugin.cs" />
     <Compile Include="NativeSystemTimer.cs" />
     <Compile Include="NativeUpdateTimer.cs" />
+    <Compile Include="OSSpecific\AndroidFunctions.cs" />
     <Compile Include="OSSpecific\MacOSXFunctions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemInfo.cs" />

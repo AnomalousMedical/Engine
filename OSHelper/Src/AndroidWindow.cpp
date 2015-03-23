@@ -1,7 +1,8 @@
 #include "StdAfx.h"
 #include "AndroidWindow.h"
 
-static struct android_app* app;
+static struct android_app* app = 0;
+static float _screenDensity = 1.0f;
 
 AndroidWindow::AndroidWindow()
 {
@@ -72,7 +73,7 @@ void AndroidWindow::setCursor(CursorType cursor)
 
 float AndroidWindow::getWindowScaling()
 {
-	return 1.0f;
+	return _screenDensity;
 }
 
 void AndroidWindow_setApp(struct android_app* setApp)
@@ -84,4 +85,11 @@ void AndroidWindow_setApp(struct android_app* setApp)
 extern "C" _AnomalousExport NativeOSWindow* NativeOSWindow_create(NativeOSWindow* parent, String caption, int x, int y, int width, int height, bool floatOnParent)
 {
 	return new AndroidWindow();
+}
+
+//This function is used to set some attributes that would otherwise require a bunch of jni calls, we can get them really easily
+//on the c# side, however.
+extern "C" _AnomalousExport void AndroidOSWindow_EasyAttributeSetup(float screenDensity)
+{
+	_screenDensity = screenDensity;
 }
