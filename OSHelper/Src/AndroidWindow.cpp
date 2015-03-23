@@ -1,12 +1,14 @@
 #include "StdAfx.h"
 #include "AndroidWindow.h"
+#include "AndroidApp.h"
 
 static struct android_app* app = 0;
 static float _screenDensity = 1.0f;
 
 AndroidWindow::AndroidWindow()
 {
-	
+	struct AndroidAppState* appState = (struct AndroidAppState*)app->userData;
+	appState->androidWindow = this;
 }
 
 AndroidWindow::~AndroidWindow()

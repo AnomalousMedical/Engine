@@ -32,24 +32,14 @@ extern "C" _AnomalousExport AndroidApp* App_create()
 }
 
 /**
-* Shared state for our app.
-*/
-struct engine 
-{
-	struct android_app* app;
-	int animating;
-	bool initOnce;
-};
-
-/**
 * Process the next input event.
 */
 static int32_t android_app_handle_input(struct android_app* app, AInputEvent* event) 
 {
-	struct engine* engine = (struct engine*)app->userData;
+	struct AndroidAppState* appState = (struct AndroidAppState*)app->userData;
 	if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_MOTION) 
 	{
-		//engine->animating = 1;
+		//appState->animating = 1;
 		return 1;
 	}
 	return 0;
@@ -59,7 +49,7 @@ static int32_t android_app_handle_input(struct android_app* app, AInputEvent* ev
 * Process the next main command.
 */
 static void android_app_handle_cmd(struct android_app* app, int32_t cmd) {
-	struct engine* engine = (struct engine*)app->userData;
+	struct AndroidAppState* appState = (struct AndroidAppState*)app->userData;
 	switch (cmd) 
 	{
 		case APP_CMD_SAVE_STATE:
@@ -67,14 +57,14 @@ static void android_app_handle_cmd(struct android_app* app, int32_t cmd) {
 			break;
 		case APP_CMD_INIT_WINDOW:
 			//Init
-			if (engine->initOnce)
+			if (appState->initOnce)
 			{
 
 			}
 			else
 			{
 				currentAndroidApp->fireInit();
-				engine->initOnce = true;
+				appState->initOnce = true;
 			}
 			break;
 		case APP_CMD_TERM_WINDOW:
@@ -83,13 +73,17 @@ static void android_app_handle_cmd(struct android_app* app, int32_t cmd) {
 		case APP_CMD_GAINED_FOCUS:
 			//App gained focus
 			currentAndroidApp->fireMovedToForeground();
-			engine->animating = 1;
+			appState->animating = 1;
 			break;
 		case APP_CMD_LOST_FOCUS:
 			//App lost focus
 			currentAndroidApp->fireMovedToBackground();
 			//Also stop animating.
-			engine->animating = 0;
+			appState->animating = 0;
+			break;
+		case APP_CMD_CONTENT_RECT_CHANGED:
+		case APP_CMD_CONFIG_CHANGED:
+			appState->androidWindow->fireSized();
 			break;
 	}
 }
@@ -102,16 +96,16 @@ static void android_app_handle_cmd(struct android_app* app, int32_t cmd) {
 void android_main(struct android_app* state) 
 {
 	AndroidWindow_setApp(state);
-	struct engine engine;
+	struct AndroidAppState appState;
 
 	// Make sure glue isn't stripped.
 	app_dummy();
 
-	memset(&engine, 0, sizeof(engine));
-	state->userData = &engine;
+	memset(&appState, 0, sizeof(AndroidAppState));
+	state->userData = &appState;
 	state->onAppCmd = android_app_handle_cmd;
 	state->onInputEvent = android_app_handle_input;
-	engine.app = state;
+	appState.app = state;
 
 	// loop waiting for stuff to do.
 
@@ -125,7 +119,7 @@ void android_main(struct android_app* state)
 		// If not animating, we will block forever waiting for events.
 		// If animating, we loop until all events are read, then continue
 		// to draw the next frame of animation.
-		while ((ident = ALooper_pollAll(engine.animating ? 0 : -1, NULL, &events, (void**)&source)) >= 0) 
+		while ((ident = ALooper_pollAll(appState.animating ? 0 : -1, NULL, &events, (void**)&source)) >= 0) 
 		{
 
 			// Process this event.
@@ -143,7 +137,7 @@ void android_main(struct android_app* state)
 			}
 		}
 
-		if (engine.animating) 
+		if (appState.animating) 
 		{
 			currentAndroidApp->fireIdle();
 		}
