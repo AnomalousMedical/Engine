@@ -59,6 +59,7 @@
     <Compile Include="OgreOnly\OgreOnlyEngineController.cs" />
     <Compile Include="OgreOnly\OgreOnlyEngineUpdate.cs" />
     <Compile Include="OgreOnly\OgreOnlyApp.cs" />
+    <Compile Include="OgreOnly\Program.cs" />
     <Compile Include="SceneController.cs" />
     <Compile Include="EngineUpdate.cs" />
     <Compile Include="MinimalApp.cs" />
