@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Anomalous.Minimus.Full
 {
-    class MinimalApp : App
+    public class MinimalApp : App
     {
         private EngineController engineController;
         private NativeOSWindow mainWindow;
