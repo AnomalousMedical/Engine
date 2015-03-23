@@ -1,5 +1,6 @@
 ﻿using Anomalous.GuiFramework;
 using Anomalous.GuiFramework.Cameras;
+using Anomalous.Minimus.Full.GUI;
 using Anomalous.OSPlatform;
 using Engine;
 using Engine.ObjectManagement;
@@ -38,6 +39,9 @@ namespace Anomalous.Minimus.Full
         private TaskMenu taskMenu;
         private TaskController taskController = new TaskController();
         private DocumentController documentController = new DocumentController();
+
+        //Windows
+        private TestWindow testWindow;
 
         public MinimalApp()
         {
@@ -128,6 +132,16 @@ namespace Anomalous.Minimus.Full
             scene = sceneDefiniton.createScene();
             sceneViewController.createCameras(scene);
 
+            MyGUIInterface.Instance.CommonResourceGroup.addResource(GetType().AssemblyQualifiedName, "EmbeddedScalableResource", true);
+
+            TestWindow testWindow = new TestWindow();
+            guiManager.addManagedDialog(testWindow);
+            testWindow.Visible = true;
+
+            RocketWindow rocketWindow = new RocketWindow();
+            guiManager.addManagedDialog(rocketWindow);
+            rocketWindow.Visible = true;
+
             return true;
         }
 
@@ -145,6 +159,7 @@ namespace Anomalous.Minimus.Full
             sceneViewController.destroyCameras();
             scene.Dispose();
 
+            IDisposableUtil.DisposeIfNotNull(testWindow);
             IDisposableUtil.DisposeIfNotNull(taskbar);
             IDisposableUtil.DisposeIfNotNull(taskMenu);
 

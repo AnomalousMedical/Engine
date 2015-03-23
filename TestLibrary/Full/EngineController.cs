@@ -159,6 +159,8 @@ namespace Anomalous.Minimus.Full
             frameClearManager = new FrameClearManager(OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget, Color.Blue);
 
             SoundConfig.initialize(CoreConfig.ConfigFile);
+
+            GuiFrameworkInterface.Instance.handleCursors(mainWindow);
         }
 
         /// <summary>
