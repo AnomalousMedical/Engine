@@ -10,7 +10,7 @@ PRJ_INCLUDES    := $(LOCAL_PATH)/../../Include \
 				   $(DEP_ROOT)/Ogre/AndroidBuild/include \
 				   $(DEP_ROOT)/OgreDeps/AndroidInstall/include \
 
-PRJ_SRC		    := /../../Src
+PRJ_SRC		    := ../../Src
 
 OGRE_LIB_ROOT		:= $(DEP_ROOT_LIB)/Ogre/AndroidBuild/lib
 OGREDEP_LIB_ROOT	:= $(DEP_ROOT_LIB)/OgreDeps/AndroidInstall/lib

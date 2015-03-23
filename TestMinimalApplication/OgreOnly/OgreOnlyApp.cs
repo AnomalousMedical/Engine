@@ -86,6 +86,7 @@ namespace Anomalous.Minimus.OgreOnly
 
         public override int OnExit()
         {
+            //This is probably not disposing everything
             CoreConfig.save();
             scene.Dispose();
 

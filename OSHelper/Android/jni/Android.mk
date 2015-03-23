@@ -3,7 +3,7 @@ LOCAL_PATH := $(call my-dir)
 PRJ_INCLUDES    := $(LOCAL_PATH)/../../Include \
 				   $(LOCAL_PATH)/../.. \
 
-PRJ_SRC		    := /../../Src
+PRJ_SRC		    := ../../Src
 
 include $(CLEAR_VARS)
 
