@@ -23,7 +23,8 @@ namespace AndroidBaseApp
 			RequestWindowFeature (WindowFeatures.NoTitle);
 			Window.SetFlags (WindowManagerFlags.Fullscreen, WindowManagerFlags.Fullscreen);
 
-			var app = new Anomalous.Minimus.OgreOnly.OgreOnlyApp();
+			//var app = new Anomalous.Minimus.OgreOnly.OgreOnlyApp();
+			var app = new Anomalous.Minimus.Full.MinimalApp ();
 			app.run();
 
 			Intent intent = new Intent (this, typeof(NativeActivity));
