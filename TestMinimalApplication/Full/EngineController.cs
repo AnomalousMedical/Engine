@@ -22,7 +22,7 @@ using Anomalous.OSPlatform;
 using Anomalous.GuiFramework;
 using Anomalous.GuiFramework.Cameras;
 
-namespace Anomalous.Minimus
+namespace Anomalous.Minimus.Full
 {
     public enum EventLayers
     {

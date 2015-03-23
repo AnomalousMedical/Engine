@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Platform;
 
-namespace Anomalous.Minimus
+namespace Anomalous.Minimus.Full
 {
     class EngineUpdate : UpdateListener
     {

@@ -14,7 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Anomalous.Minimus
+namespace Anomalous.Minimus.Full
 {
     class MinimalApp : App
     {

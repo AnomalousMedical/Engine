@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Anomalous.Minimus.OgreOnly
 {
-    class Program
+    class OgreOnlyProgram
     {
-        static void Main(string[] args)
+        public static void main(string[] args)
         {
             StartupManager.SetupDllDirectories();
 
