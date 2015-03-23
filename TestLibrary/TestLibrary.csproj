@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{40428C46-EE61-44C9-B9AD-ADF263B69628}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TestLibrary</RootNamespace>
+    <AssemblyName>TestLibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Config\AndroidPlatformConfig.cs" />
+    <Compile Include="Config\CoreConfig.cs" />
+    <Compile Include="Config\EngineConfig.cs" />
+    <Compile Include="Config\FolderFinder.cs" />
+    <Compile Include="Config\MacPlatformConfig.cs" />
+    <Compile Include="Config\PlatformConfig.cs" />
+    <Compile Include="Config\WindowsPlatformConfig.cs" />
+    <Compile Include="Full\EngineController.cs" />
+    <Compile Include="Full\EngineUpdate.cs" />
+    <Compile Include="Full\FullProgram.cs" />
+    <Compile Include="Full\MinimalApp.cs" />
+    <Compile Include="GUILocationNames.cs" />
+    <Compile Include="OgreOnly\OgreOnlyApp.cs" />
+    <Compile Include="OgreOnly\OgreOnlyEngineController.cs" />
+    <Compile Include="OgreOnly\OgreOnlyEngineUpdate.cs" />
+    <Compile Include="OgreOnly\OgreOnlyProgram.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SceneController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BEPUikPlugin\BEPUikPlugin.csproj">
+      <Project>{39f1ab5f-f0b1-45fd-ad66-9c03af1f022e}</Project>
+      <Name>BEPUikPlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BulletWrapperPlugin\BulletWrapperPlugin.csproj">
+      <Project>{eba88dc3-837d-45d8-a91a-e291c6ae444e}</Project>
+      <Name>BulletWrapperPlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Engine\Engine.csproj">
+      <Project>{57c253f1-157f-4a6a-9fed-345a776b97d5}</Project>
+      <Name>Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GuiFramework.Cameras\GuiFramework.Cameras.csproj">
+      <Project>{83d4bb54-ff33-4011-9819-582458329d9b}</Project>
+      <Name>GuiFramework.Cameras</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GuiFramework\GuiFramework.csproj">
+      <Project>{fc299a06-61bd-4562-a315-0f0be454925a}</Project>
+      <Name>GuiFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libRocketPlugin\libRocketPlugin.csproj">
+      <Project>{a221c2f5-2089-495b-b51a-54710507344a}</Project>
+      <Name>libRocketPlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libRocketWidget\libRocketWidget.csproj">
+      <Project>{922f9aec-9921-4234-89e5-14ce09625a07}</Project>
+      <Name>libRocketWidget</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyGUIPlugin\MyGUIPlugin.csproj">
+      <Project>{02d4da85-fd6c-421f-81c3-8f58f790bc81}</Project>
+      <Name>MyGUIPlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OgrePlugin\OgrePlugin.csproj">
+      <Project>{e9fd5768-32e1-42c7-8256-4d7b97c22a9b}</Project>
+      <Name>OgrePlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OSPlatform\OSPlatform.csproj">
+      <Project>{6e594c78-9cd8-432d-a135-11c4a72f3bcf}</Project>
+      <Name>OSPlatform</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SoundPlugin\SoundPlugin.csproj">
+      <Project>{ccaefe0a-ad1f-42e8-88da-5a685cc7c73d}</Project>
+      <Name>SoundPlugin</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
