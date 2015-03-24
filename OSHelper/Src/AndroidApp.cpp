@@ -145,7 +145,6 @@ void android_main(struct android_app* state)
 			currentHeight = ANativeWindow_getHeight(state->window);
 			if (currentWidth != lastWidth || currentHeight != lastHeight)
 			{
-				LOGI("Changed Size c: %i, %i l: %i, %i", currentWidth, currentHeight, lastWidth, lastHeight);
 				appState.androidWindow->fireSized();
 				lastWidth = currentWidth;
 				lastHeight = currentHeight;
