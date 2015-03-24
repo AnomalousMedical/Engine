@@ -196,6 +196,10 @@ namespace Anomalous.OSPlatform
 
         public event OSWindowEvent FocusChanged;
 
+        public event OSWindowEvent CreateInternalResources;
+
+        public event OSWindowEvent DestroyInternalResources;
+
         #endregion
 
         internal IntPtr _NativePtr
@@ -253,6 +257,22 @@ namespace Anomalous.OSPlatform
                 {
                     FocusChanged.Invoke(this);
                 }
+            }
+        }
+
+        private void createInternalResources()
+        {
+            if (CreateInternalResources != null)
+            {
+                CreateInternalResources.Invoke(this);
+            }
+        }
+
+        private void destroyInternalResources()
+        {
+            if (DestroyInternalResources != null)
+            {
+                DestroyInternalResources.Invoke(this);
             }
         }
 
@@ -316,7 +336,7 @@ namespace Anomalous.OSPlatform
 		private static extern bool NativeOSWindow_isOnscreenKeyboardVisible(IntPtr nativeWindow);
 
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void NativeOSWindow_setCallbacks(IntPtr nativeWindow, NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, ActivateCB activateCB
+        private static extern void NativeOSWindow_setCallbacks(IntPtr nativeWindow, NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, ActivateCB activateCB, NativeAction createInternalResourcesCB, NativeAction destroyInternalResourcesCB
 #if FULL_AOT_COMPILE
         , IntPtr instanceHandle
 #endif
@@ -337,6 +357,8 @@ namespace Anomalous.OSPlatform
             static NativeAction closingCB;
             static NativeAction closedCB;
             static ActivateCB activateCB;
+            static NativeAction createInternalResourcesCB;
+            static NativeAction destroyInternalResourcesCB;
 
             static CallbackHandler()
             {
@@ -345,6 +367,8 @@ namespace Anomalous.OSPlatform
                 closingCB = new NativeAction(ClosingStatic);
                 closedCB = new NativeAction(ClosedStatic);
                 activateCB = new ActivateCB(ActivateStatic);
+                createInternalResourcesCB = new NativeAction(CreateInternalResourcesStatic);
+                destroyInternalResourcesCB = new NativeAction(DestroyInternalResourcesStatic);
             }
 
             GCHandle handle;
@@ -352,7 +376,7 @@ namespace Anomalous.OSPlatform
             public CallbackHandler(NativeOSWindow window)
             {
                 handle = GCHandle.Alloc(window);
-                NativeOSWindow_setCallbacks(window._NativePtr, deleteCB, sizedCB, closedCB, closedCB, activateCB, GCHandle.ToIntPtr(handle));
+                NativeOSWindow_setCallbacks(window._NativePtr, deleteCB, sizedCB, closedCB, closedCB, activateCB, createInternalResourcesCB, destroyInternalResourcesCB, GCHandle.ToIntPtr(handle));
             }
 
             public void Dispose()
@@ -394,6 +418,20 @@ namespace Anomalous.OSPlatform
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
                 (handle.Target as NativeOSWindow).activate(active);
             }
+
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(NativeAction))]
+            static void CreateInternalResourcesStatic(IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as NativeOSWindow).createInternalResources();
+            }
+
+            [Anomalous.Interop.MonoPInvokeCallback(typeof(NativeAction))]
+            static void DestroyInternalResourcesStatic(IntPtr instanceHandle)
+            {
+                GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
+                (handle.Target as NativeOSWindow).destroyInternalResources();
+            }
         }
 #else
         class CallbackHandler : IDisposable
@@ -403,6 +441,8 @@ namespace Anomalous.OSPlatform
             NativeAction closingCB;
             NativeAction closedCB;
             ActivateCB activateCB;
+            NativeAction createInternalResourcesCB;
+            NativeAction destroyInternalResourcesCB;
 
             public CallbackHandler(NativeOSWindow window)
             {
@@ -411,8 +451,10 @@ namespace Anomalous.OSPlatform
                 closingCB = new NativeAction(window.closing);
                 closedCB = new NativeAction(window.closed);
                 activateCB = new ActivateCB(window.activate);
+                createInternalResourcesCB = new NativeAction(window.createInternalResources);
+                destroyInternalResourcesCB = new NativeAction(window.destroyInternalResources);
 
-                NativeOSWindow_setCallbacks(window._NativePtr, deleteCB, sizedCB, closedCB, closedCB, activateCB);
+                NativeOSWindow_setCallbacks(window._NativePtr, deleteCB, sizedCB, closedCB, closedCB, activateCB, createInternalResourcesCB, destroyInternalResourcesCB);
             }
 
             public void Dispose()

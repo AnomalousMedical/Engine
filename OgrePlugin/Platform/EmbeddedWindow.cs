@@ -26,6 +26,8 @@ namespace OgrePlugin
             osWindow.Moved += osWindow_Moved;
             osWindow.Resized += osWindow_Resized;
             osWindow.Closing += osWindow_Closing;
+            osWindow.CreateInternalResources += osWindow_CreateInternalResources;
+            osWindow.DestroyInternalResources += osWindow_DestroyInternalResources;
         }
 
         /// <summary>
@@ -36,6 +38,8 @@ namespace OgrePlugin
             osWindow.Moved -= osWindow_Moved;
             osWindow.Resized -= osWindow_Resized;
             osWindow.Closing -= osWindow_Closing;
+            osWindow.CreateInternalResources -= osWindow_CreateInternalResources;
+            osWindow.DestroyInternalResources -= osWindow_DestroyInternalResources;
         }
 
         void osWindow_Moved(OSWindow window)
@@ -51,6 +55,16 @@ namespace OgrePlugin
         void osWindow_Closing(OSWindow window)
         {
             renderWindow.setActive(false);
+        }
+
+        void osWindow_CreateInternalResources(OSWindow window)
+        {
+            renderWindow.createInternalResources(window.WindowHandle);
+        }
+
+        void osWindow_DestroyInternalResources(OSWindow window)
+        {
+            renderWindow.destroyInternalResources(window.WindowHandle);
         }
 
         /// <summary>

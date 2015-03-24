@@ -59,5 +59,23 @@ namespace Engine.Platform
         /// Called when the focus has changed on the window.
         /// </summary>
         event OSWindowEvent FocusChanged;
+
+        /// <summary>
+        /// Called when the window should create any internal resources that it needs.
+        /// This is not called by all operating systems, but any classes that need to 
+        /// create and destroy resources as windows are created/destroyed should listen for
+        /// this event (specifically renderers). This is primarily applicable to android
+        /// at this time.
+        /// </summary>
+        event OSWindowEvent CreateInternalResources;
+
+        /// <summary>
+        /// Called when the window should destroyo any internal resources that it needs.
+        /// This is not called by all operating systems, but any classes that need to 
+        /// create and destroy resources as windows are created/destroyed should listen for
+        /// this event (specifically renderers). This is primarily applicable to android
+        /// at this time.
+        /// </summary>
+        event OSWindowEvent DestroyInternalResources;
     }
 }

@@ -7,6 +7,7 @@ PRJ_INCLUDES    := $(LOCAL_PATH)/../../Include \
 				   $(LOCAL_PATH)/../.. \
 	               $(DEP_ROOT)/Ogre/src/OgreMain/include \
 				   $(DEP_ROOT)/Ogre/src/RenderSystems/GLES2/include \
+				   $(DEP_ROOT)/Ogre/src/RenderSystems/GLES2/include/EGL \
 				   $(DEP_ROOT)/Ogre/AndroidBuild/include \
 				   $(DEP_ROOT)/OgreDeps/AndroidInstall/include \
 

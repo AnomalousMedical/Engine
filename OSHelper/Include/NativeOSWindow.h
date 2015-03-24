@@ -69,7 +69,7 @@ public:
         return false;
     }
 
-	void setCallbacks(NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, ActivateCB activateCB HANDLE_ARG);
+	void setCallbacks(NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, ActivateCB activateCB, NativeAction createInternalResourcesCB, NativeAction destroyInternalResourcesCB HANDLE_ARG);
     
 	void setExclusiveFullscreen(bool exclusiveFullscreen)
 	{
@@ -100,6 +100,16 @@ public:
 	{
 		activateCB(active PASS_HANDLE_ARG);
 	}
+
+	void fireCreateInternalResources()
+	{
+		createInternalResourcesCB(PASS_HANDLE);
+	}
+
+	void fireDestroyInternalResources()
+	{
+		destroyInternalResourcesCB(PASS_HANDLE);
+	}
     
 	void setKeyboard(NativeKeyboard* keyboard);
     
@@ -126,6 +136,8 @@ private:
 	NativeAction closingCB;
 	NativeAction closedCB;
 	ActivateCB activateCB;
+	NativeAction createInternalResourcesCB;
+	NativeAction destroyInternalResourcesCB;
 	HANDLE_INSTANCE
 
 	NativeKeyboard* keyboard;

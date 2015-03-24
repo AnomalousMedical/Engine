@@ -16,13 +16,15 @@ NativeOSWindow::~NativeOSWindow(void)
 	deleteCB(PASS_HANDLE);
 }
 
-void NativeOSWindow::setCallbacks(NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, ActivateCB activateCB HANDLE_ARG)
+void NativeOSWindow::setCallbacks(NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, ActivateCB activateCB, NativeAction createInternalResourcesCB, NativeAction destroyInternalResourcesCB HANDLE_ARG)
 {
 	this->deleteCB = deleteCB;
 	this->sizedCB = sizedCB;
 	this->closingCB = closingCB;
 	this->closedCB = closedCB;
 	this->activateCB = activateCB;
+	this->createInternalResourcesCB = createInternalResourcesCB;
+	this->destroyInternalResourcesCB = destroyInternalResourcesCB;
 	ASSIGN_HANDLE
 }
 
@@ -170,7 +172,7 @@ extern "C" _AnomalousExport bool NativeOSWindow_isOnscreenKeyboardVisible(Native
     return nativeWindow->isOnscreenKeyboardVisible();
 }
 
-extern "C" _AnomalousExport void NativeOSWindow_setCallbacks(NativeOSWindow* nativeWindow, NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, ActivateCB activateCB HANDLE_ARG)
+extern "C" _AnomalousExport void NativeOSWindow_setCallbacks(NativeOSWindow* nativeWindow, NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, ActivateCB activateCB, NativeAction createInternalResourcesCB, NativeAction destroyInternalResourcesCB HANDLE_ARG)
 {
-	nativeWindow->setCallbacks(deleteCB, sizedCB, closingCB, closedCB, activateCB PASS_HANDLE_ARG);
+	nativeWindow->setCallbacks(deleteCB, sizedCB, closingCB, closedCB, activateCB, createInternalResourcesCB, destroyInternalResourcesCB PASS_HANDLE_ARG);
 }

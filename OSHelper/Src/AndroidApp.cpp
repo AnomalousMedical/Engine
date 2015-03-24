@@ -59,7 +59,7 @@ static void android_app_handle_cmd(struct android_app* app, int32_t cmd) {
 			//Init
 			if (appState->initOnce)
 			{
-
+				appState->androidWindow->fireCreateInternalResources();
 			}
 			else
 			{
@@ -69,6 +69,7 @@ static void android_app_handle_cmd(struct android_app* app, int32_t cmd) {
 			break;
 		case APP_CMD_TERM_WINDOW:
 			//Window terminated
+			appState->androidWindow->fireDestroyInternalResources();
 			break;
 		case APP_CMD_GAINED_FOCUS:
 			//App gained focus
