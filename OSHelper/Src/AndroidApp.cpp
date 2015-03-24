@@ -81,10 +81,6 @@ static void android_app_handle_cmd(struct android_app* app, int32_t cmd) {
 			//Also stop animating.
 			appState->animating = 0;
 			break;
-		case APP_CMD_CONTENT_RECT_CHANGED:
-		case APP_CMD_CONFIG_CHANGED:
-			appState->androidWindow->fireSized();
-			break;
 	}
 }
 
@@ -106,6 +102,12 @@ void android_main(struct android_app* state)
 	state->onAppCmd = android_app_handle_cmd;
 	state->onInputEvent = android_app_handle_input;
 	appState.app = state;
+
+	//It seems that we need to poll for app size changes, that sucks, these hold the current width, height
+	int currentWidth = 0;
+	int currentHeight = 0;
+	int lastWidth = 0;
+	int lastHeight = 0;
 
 	// loop waiting for stuff to do.
 
@@ -139,6 +141,16 @@ void android_main(struct android_app* state)
 
 		if (appState.animating) 
 		{
+			currentWidth = ANativeWindow_getWidth(state->window);
+			currentHeight = ANativeWindow_getHeight(state->window);
+			if (currentWidth != lastWidth || currentHeight != lastHeight)
+			{
+				LOGI("Changed Size c: %i, %i l: %i, %i", currentWidth, currentHeight, lastWidth, lastHeight);
+				appState.androidWindow->fireSized();
+				lastWidth = currentWidth;
+				lastHeight = currentHeight;
+			}
+
 			currentAndroidApp->fireIdle();
 		}
 	}
