@@ -50,15 +50,15 @@ namespace MyGUIPlugin
             }
         }
 
-        public uint ScrollIncrement
+        public uint ScrollWheelPage
         {
             get
             {
-                return ScrollBar_getScrollIncrement(widget).horriblyUnsafeToUInt32();
+                return ScrollBar_getScrollWheelPage(widget).horriblyUnsafeToUInt32();
             }
             set
             {
-                ScrollBar_setScrollIncrement(widget, new UIntPtr(value));
+                ScrollBar_setScrollWheelPage(widget, new UIntPtr(value));
             }
         }
 
@@ -151,10 +151,10 @@ namespace MyGUIPlugin
         private static extern UIntPtr ScrollBar_getScrollPage(IntPtr vscroll);
 
         [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
-        private static extern void ScrollBar_setScrollIncrement(IntPtr vscroll, UIntPtr value);
+        private static extern void ScrollBar_setScrollWheelPage(IntPtr vscroll, UIntPtr value);
 
         [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
-        private static extern UIntPtr ScrollBar_getScrollIncrement(IntPtr vscroll);
+        private static extern UIntPtr ScrollBar_getScrollWheelPage(IntPtr vscroll);
 
         [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ScrollBar_setScrollViewPage(IntPtr vscroll, UIntPtr value);

@@ -40,14 +40,14 @@ extern "C" _AnomalousExport size_t ScrollBar_getScrollViewPage(MyGUI::ScrollBar*
 	return scroll->getScrollViewPage();
 }
 
-extern "C" _AnomalousExport void ScrollBar_setScrollIncrement(MyGUI::ScrollBar* scroll, size_t value)
+extern "C" _AnomalousExport void ScrollBar_setScrollWheelPage(MyGUI::ScrollBar* scroll, size_t value)
 {
-	scroll->setScrollIncrement(value);
+	scroll->setScrollWheelPage(value);
 }
 
-extern "C" _AnomalousExport size_t ScrollBar_getScrollIncrement(MyGUI::ScrollBar* scroll)
+extern "C" _AnomalousExport size_t ScrollBar_getScrollWheelPage(MyGUI::ScrollBar* scroll)
 {
-	return scroll->getScrollIncrement();
+	return scroll->getScrollWheelPage();
 }
 
 extern "C" _AnomalousExport int ScrollBar_getLineSize(MyGUI::ScrollBar* scroll)
