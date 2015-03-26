@@ -4,6 +4,9 @@
 #include <jni.h>
 #include <errno.h>
 #include <android_native_app_glue.h>
+#include <EGL/egl.h>
+#include "Android/OgreAndroidEGLWindow.h"
+Ogre::AndroidEGLWindow* androidWindow; //Keep a pointer to the android window, for now only supports 1 window on android.
 #endif
 
 extern "C" _AnomalousExport Ogre::Root* Root_Create(const char* pluginFileName, const char* configFileName, const char* logFileName)
@@ -190,6 +193,7 @@ extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindowParams(Og
 	{
 		AConfiguration_delete(config);
 	}
+	androidWindow = static_cast<Ogre::AndroidEGLWindow*>(rendWin); //Assign our android window, note at this time it is only valid to create one window on android
 #endif
 
 	return rendWin;
@@ -224,6 +228,10 @@ extern "C" _AnomalousExport void Root_unloadPlugin(Ogre::Root* root, const char*
 
 extern "C" _AnomalousExport bool Root__fireFrameStarted(Ogre::Root* root, float timeSinceLastEvent, float timeSinceLastFrame)
 {
+#ifdef ANDROID
+	androidWindow->ensureContextActive();
+#endif
+
 	static Ogre::FrameEvent fe;
 	fe.timeSinceLastEvent = timeSinceLastEvent;
 	fe.timeSinceLastFrame = timeSinceLastFrame;
