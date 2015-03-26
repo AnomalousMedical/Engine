@@ -78,6 +78,23 @@ float AndroidWindow::getWindowScaling()
 	return _screenDensity;
 }
 
+void AndroidWindow::setOnscreenKeyboardVisible(bool visible)
+{
+	if (visible)
+	{
+		ANativeActivity_showSoftInput(app->activity, ANATIVEACTIVITY_SHOW_SOFT_INPUT_IMPLICIT);
+	}
+	else
+	{
+		ANativeActivity_hideSoftInput(app->activity, ANATIVEACTIVITY_HIDE_SOFT_INPUT_IMPLICIT_ONLY);
+	}
+}
+
+bool AndroidWindow::isOnscreenKeyboardVisible()
+{
+	return false;
+}
+
 void AndroidWindow_setApp(struct android_app* setApp)
 {
 	app = setApp;

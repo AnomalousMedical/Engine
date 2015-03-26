@@ -32,6 +32,10 @@ public:
 	virtual float getWindowScaling();
 
 	virtual void toggleFullscreen();
+
+	virtual void setOnscreenKeyboardVisible(bool visible);
+
+	virtual bool isOnscreenKeyboardVisible();
     
     virtual void setupMultitouch(MultiTouch* multiTouch)
 	{
