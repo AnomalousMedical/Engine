@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Anomalous.Interop;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -9,12 +10,15 @@ namespace Anomalous.OSPlatform
 {
     public class AndroidFunctions
     {
-        public static void EasyAttributeSetup(float screenDensity)
+        private static NativeAction toggleKeyboardCb;
+
+        public static void EasyAttributeSetup(float screenDensity, NativeAction toggleKeyboard)
         {
-            AndroidOSWindow_EasyAttributeSetup(screenDensity);
+            toggleKeyboardCb = toggleKeyboard;
+            AndroidOSWindow_EasyAttributeSetup(screenDensity, toggleKeyboardCb);
         }
 
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void AndroidOSWindow_EasyAttributeSetup(float screenDensity);
+        private static extern void AndroidOSWindow_EasyAttributeSetup(float screenDensity, NativeAction toggleKeyboard);
     }
 }

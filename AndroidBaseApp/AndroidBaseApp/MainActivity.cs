@@ -7,6 +7,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Anomalous.OSPlatform;
+using Android.Views.InputMethods;
 
 namespace AndroidBaseApp
 {
@@ -21,7 +22,7 @@ namespace AndroidBaseApp
 
 			base.OnCreate (bundle);
 
-			AndroidFunctions.EasyAttributeSetup (Resources.DisplayMetrics.Density);
+			AndroidFunctions.EasyAttributeSetup (Resources.DisplayMetrics.Density, toggleKeyboard);
 
 			RequestWindowFeature (WindowFeatures.NoTitle);
 			Window.SetFlags (WindowManagerFlags.Fullscreen, WindowManagerFlags.Fullscreen);
@@ -35,6 +36,14 @@ namespace AndroidBaseApp
 
 			StartActivity (intent);
 			Finish ();
+		}
+
+		static void toggleKeyboard()
+		{
+			//Logging.Log.Debug (Android.App.Application.Context.GetType ().ToString ());
+			InputMethodManager inputMethod = Android.App.Application.Context.GetSystemService (InputMethodService) as InputMethodManager;
+			inputMethod.ToggleSoftInput (ShowFlags.Forced, 0);
+			//Logging.Log.Debug (inputMethod.ToString ());
 		}
 	}
 }

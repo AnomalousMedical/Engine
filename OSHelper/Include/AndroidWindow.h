@@ -47,6 +47,7 @@ public:
 
 private:
 	MultiTouch* multiTouch;
+	bool keyboardVisible;
 
 	//android_app_handle_input variables
 	int deviceId; //We can use this to identify if we are a mouse or the touchscreen or something else

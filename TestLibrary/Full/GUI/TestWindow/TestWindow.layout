@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MyGUI type="Layout" version="3.2.0">
-    <Widget type="Window" skin="WindowCSXP" position="598 59 268 418" layer="Overlapped">
+    <Widget type="Window" skin="WindowCSXP" position="60 46 268 418" layer="Overlapped">
         <Property key="Caption" value="Test Window"/>
         <UserString key="CurrentDockLocation" value="Floating"/>
         <UserString key="AllowedDockLocations" value="Left | Right | Floating"/>
@@ -8,6 +8,7 @@
         <Widget type="Button" skin="Button" position="172 352 84 33" align="HRelative Bottom" name="UnhideAll">
             <Property key="Caption" value="Test button"/>
         </Widget>
+        <Widget type="EditBox" skin="EditBox" position="5 12 241 30"/>
     </Widget>
     <CodeGeneratorSettings/>
 </MyGUI>

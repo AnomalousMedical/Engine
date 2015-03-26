@@ -4,8 +4,12 @@
 
 static struct android_app* app = 0;
 static float _screenDensity = 1.0f;
+NativeAction _toggleKeyboard;
+
+void displayKeyboard(bool pShow);
 
 AndroidWindow::AndroidWindow()
+	:keyboardVisible(false)
 {
 	struct AndroidAppState* appState = (struct AndroidAppState*)app->userData;
 	appState->androidWindow = this;
@@ -80,19 +84,15 @@ float AndroidWindow::getWindowScaling()
 
 void AndroidWindow::setOnscreenKeyboardVisible(bool visible)
 {
-	if (visible)
-	{
-		ANativeActivity_showSoftInput(app->activity, ANATIVEACTIVITY_SHOW_SOFT_INPUT_IMPLICIT);
-	}
-	else
-	{
-		ANativeActivity_hideSoftInput(app->activity, ANATIVEACTIVITY_HIDE_SOFT_INPUT_IMPLICIT_ONLY);
-	}
+	//LOGI("Requesting keyboard visible %i", visible);
+	//displayKeyboard(visible);
+	_toggleKeyboard();
+	keyboardVisible = visible;
 }
 
 bool AndroidWindow::isOnscreenKeyboardVisible()
 {
-	return false;
+	return keyboardVisible;
 }
 
 int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* event)
@@ -111,7 +111,7 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 			touchInfo.pixelX = AMotionEvent_getRawX(event, 0);
 			touchInfo.pixelY = AMotionEvent_getRawY(event, 0);
 			multiTouch->fireTouchStarted(touchInfo);
-			LOGI("Motion event down id: %i x: %i y: %i", touchInfo.id, touchInfo.pixelX, touchInfo.pixelY);
+			//LOGI("Motion event down id: %i x: %i y: %i", touchInfo.id, touchInfo.pixelX, touchInfo.pixelY);
 			break;
 
 		case AMOTION_EVENT_ACTION_UP:
@@ -119,7 +119,7 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 			touchInfo.pixelX = AMotionEvent_getRawX(event, 0);
 			touchInfo.pixelY = AMotionEvent_getRawY(event, 0);
 			multiTouch->fireTouchEnded(touchInfo);
-			LOGI("Motion event up id: %i x: %i y: %i", touchInfo.id, touchInfo.pixelX, touchInfo.pixelY);
+			//LOGI("Motion event up id: %i x: %i y: %i", touchInfo.id, touchInfo.pixelX, touchInfo.pixelY);
 			break;
 
 		case AMOTION_EVENT_ACTION_MOVE:
@@ -130,13 +130,13 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 				touchInfo.pixelX = AMotionEvent_getRawX(event, i);
 				touchInfo.pixelY = AMotionEvent_getRawY(event, i);
 				multiTouch->fireTouchMoved(touchInfo);
-				LOGI("Motion event move id: %i x: %i y: %i", touchInfo.id, touchInfo.pixelX, touchInfo.pixelY);
+				//LOGI("Motion event move id: %i x: %i y: %i", touchInfo.id, touchInfo.pixelX, touchInfo.pixelY);
 			}
 			break;
 
 		case AMOTION_EVENT_ACTION_CANCEL:
 			multiTouch->fireAllTouchesCanceled();
-			LOGI("Motion event cancel");
+			//LOGI("Motion event cancel");
 			break;
 
 		case AMOTION_EVENT_ACTION_POINTER_DOWN:
@@ -145,7 +145,7 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 			touchInfo.pixelX = AMotionEvent_getRawX(event, eventPointerIndex);
 			touchInfo.pixelY = AMotionEvent_getRawY(event, eventPointerIndex);
 			multiTouch->fireTouchStarted(touchInfo);
-			LOGI("Motion event pointer down id: %i x: %i y: %i", touchInfo.id, touchInfo.pixelX, touchInfo.pixelY);
+			//LOGI("Motion event pointer down id: %i x: %i y: %i", touchInfo.id, touchInfo.pixelX, touchInfo.pixelY);
 			break;
 
 		case AMOTION_EVENT_ACTION_POINTER_UP:
@@ -154,7 +154,7 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 			touchInfo.pixelX = AMotionEvent_getRawX(event, eventPointerIndex);
 			touchInfo.pixelY = AMotionEvent_getRawY(event, eventPointerIndex);
 			multiTouch->fireTouchEnded(touchInfo);
-			LOGI("Motion event pointer up id: %i x: %i y: %i", touchInfo.id, touchInfo.pixelX, touchInfo.pixelY);
+			//LOGI("Motion event pointer up id: %i x: %i y: %i", touchInfo.id, touchInfo.pixelX, touchInfo.pixelY);
 			break;
 
 		//The following are more mouse events, will try to handle these also somehow
@@ -189,7 +189,8 @@ extern "C" _AnomalousExport NativeOSWindow* NativeOSWindow_create(NativeOSWindow
 
 //This function is used to set some attributes that would otherwise require a bunch of jni calls, we can get them really easily
 //on the c# side, however.
-extern "C" _AnomalousExport void AndroidOSWindow_EasyAttributeSetup(float screenDensity)
+extern "C" _AnomalousExport void AndroidOSWindow_EasyAttributeSetup(float screenDensity, NativeAction toggleKeyboard)
 {
 	_screenDensity = screenDensity;
+	_toggleKeyboard = toggleKeyboard;
 }
