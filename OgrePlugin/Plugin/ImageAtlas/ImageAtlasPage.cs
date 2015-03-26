@@ -20,7 +20,7 @@ namespace OgrePlugin
         public ImageAtlasPage(String textureName, String groupName, int width, int height)
         {
             rootNode = new ImagePackTreeNode(new Size(width, height));
-            texture = TextureManager.getInstance().createManual(textureName, groupName, TextureType.TEX_TYPE_2D, (uint)width, (uint)height, 1, 0, OgrePlugin.PixelFormat.PF_A8R8G8B8, TextureUsage.TU_STATIC_WRITE_ONLY, false, 0);
+            texture = TextureManager.getInstance().createManual(textureName, groupName, TextureType.TEX_TYPE_2D, (uint)width, (uint)height, 1, 0, OgrePlugin.PixelFormat.PF_A8R8G8B8, TextureUsage.TU_STATIC_WRITE_ONLY, null, false, 0);
             bufferPtr = texture.Value.getBuffer();
             this.TextureName = textureName;
             this.GroupName = groupName;

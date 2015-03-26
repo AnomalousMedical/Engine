@@ -41,9 +41,10 @@ namespace OgrePlugin
             textureCollection.Dispose();
         }
 
-        public TexturePtr createManual(String name, String group, TextureType texType, uint width, uint height, uint depth, int num_mips, PixelFormat format, TextureUsage usage, bool hwGammaCorrection, uint fsaa, String fsaaHint = "")
+        public TexturePtr createManual(String name, String group, TextureType texType, uint width, uint height, uint depth, int num_mips, PixelFormat format, TextureUsage usage, ManagedManualResourceLoader resourceLoader, bool hwGammaCorrection, uint fsaa, String fsaaHint = "")
         {
-            TexturePtr ptr = getObject(TextureManager_createManual(name, group, texType, width, height, depth, num_mips, format, usage, IntPtr.Zero, hwGammaCorrection, fsaa, fsaaHint, ProcessWrapperObjectCallback));
+            IntPtr resourceLoaderPtr = resourceLoader != null ? resourceLoader.Ptr : IntPtr.Zero;
+            TexturePtr ptr = getObject(TextureManager_createManual(name, group, texType, width, height, depth, num_mips, format, usage, resourceLoaderPtr, hwGammaCorrection, fsaa, fsaaHint, ProcessWrapperObjectCallback));
             OgreExceptionManager.fireAnyException();
             return ptr;
         }

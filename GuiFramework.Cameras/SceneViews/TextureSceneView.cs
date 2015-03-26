@@ -23,11 +23,28 @@ namespace Anomalous.GuiFramework.Cameras
         private bool alwaysRender = true;
         private bool renderingEnabled = true;
 
+        class ManualResourceLoader : ManagedManualResourceLoader
+        {
+            private TextureSceneView sceneView;
+
+            public ManualResourceLoader(TextureSceneView sceneView)
+            {
+                this.sceneView = sceneView;
+            }
+
+            protected override void loadResource()
+            {
+                sceneView.RenderOneFrame = true;
+            }
+        }
+        private ManualResourceLoader resourceLoader;
+
         public TextureSceneView(SceneViewController controller, CameraMover cameraMover, String name, BackgroundScene background, int zIndexStart, int width, int height)
             :base(controller, cameraMover, name, background, zIndexStart)
         {
+            resourceLoader = new ManualResourceLoader(this);
             this.TextureName = name;
-            texture = TextureManager.getInstance().createManual(name, MyGUIInterface.Instance.CommonResourceGroup.FullName, TextureType.TEX_TYPE_2D, (uint)width, (uint)height, 1, 0, ogreTextureFormat, TextureUsage.TU_RENDERTARGET, false, 0);
+            texture = TextureManager.getInstance().createManual(name, MyGUIInterface.Instance.CommonResourceGroup.FullName, TextureType.TEX_TYPE_2D, (uint)width, (uint)height, 1, 0, ogreTextureFormat, TextureUsage.TU_RENDERTARGET, resourceLoader, false, 0);
 
             pixelBuffer = texture.Value.getBuffer();
             renderTexture = pixelBuffer.Value.getRenderTarget();
@@ -44,6 +61,7 @@ namespace Anomalous.GuiFramework.Cameras
         {
             base.Dispose();
 
+            resourceLoader.Dispose();
             if (pixelBuffer != null)
             {
                 pixelBuffer.Dispose();
