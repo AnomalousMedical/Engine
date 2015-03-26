@@ -234,7 +234,7 @@
     <ClCompile Include="Src\SkeletonManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ManagedManualResourceLoader.cpp">
+    <ClCompile Include="Src\ManagedManualResourceLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -176,7 +176,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ManagedManualResourceLoader.cpp" />
     <ClCompile Include="Src\Animation.cpp" />
     <ClCompile Include="Src\AnimationState.cpp" />
     <ClCompile Include="src\AnimationStateIterator.cpp" />
@@ -197,6 +196,7 @@
     <ClCompile Include="Src\IndexData.cpp" />
     <ClCompile Include="Src\KeyFrame.cpp" />
     <ClCompile Include="Src\Light.cpp" />
+    <ClCompile Include="Src\ManagedManualResourceLoader.cpp" />
     <ClCompile Include="Src\ManagedRenderQueueListener.cpp" />
     <ClCompile Include="Src\ManagedRenderSystemListener.cpp" />
     <ClCompile Include="Src\ManagedRenderTargetListener.cpp" />

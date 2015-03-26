@@ -86,6 +86,7 @@ LOCAL_SRC_FILES :=  \
                     $(PRJ_SRC)/IndexData.cpp \
                     $(PRJ_SRC)/KeyFrame.cpp \
                     $(PRJ_SRC)/Light.cpp \
+					$(PRJ_SRC)/ManagedManualResourceLoader.cpp \
                     $(PRJ_SRC)/ManagedRenderQueueListener.cpp \
                     $(PRJ_SRC)/ManagedRenderSystemListener.cpp \
                     $(PRJ_SRC)/ManagedRenderTargetListener.cpp \
