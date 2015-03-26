@@ -31,6 +31,16 @@ extern "C" _AnomalousExport AndroidApp* App_create()
 	return currentAndroidApp;
 }
 
+//android_app_handle_input variables
+int deviceId; //We can use this to identify if we are a mouse or the touchscreen or something else
+int eventPointerIndex; //The index into the event of the pointer
+int pointerId; //The unique id of the pointer
+float rawX; //The x value for the pointer's location
+float rawY; //The y value for the pointer's location
+int eventAction; //Event full info, contains action and pointer index
+int action; //The action that was performed
+int pointerCount; //The pointer count for this event
+
 /**
 * Process the next input event.
 */
@@ -39,36 +49,32 @@ static int32_t android_app_handle_input(struct android_app* app, AInputEvent* ev
 	struct AndroidAppState* appState = (struct AndroidAppState*)app->userData;
 	if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_MOTION) 
 	{
-		int deviceId = AInputEvent_getDeviceId(event); //We can use this to identify if we are a mouse or the touchscreen or something else
-		int index;
-		int pointerId;
-		float rawX;
-		float rawY;
+		//int deviceId = AInputEvent_getDeviceId(event); //We can use this to identify if we are a mouse or the touchscreen or something else
 
-		int eventAction = AMotionEvent_getAction(event); //Event full info
-		int action = (int)(AMOTION_EVENT_ACTION_MASK & eventAction); //The action that was performed
-		int pointerCount = AMotionEvent_getPointerCount(event); //The pointer count
+		eventAction = AMotionEvent_getAction(event);
+		action = (int)(AMOTION_EVENT_ACTION_MASK & eventAction);
 
 		switch (action)
 		{
 		case AMOTION_EVENT_ACTION_DOWN:
-			pointerId = AMotionEvent_getPointerId(event, 0); //Unique identifier for each pointer event
+			pointerId = AMotionEvent_getPointerId(event, 0);
 			rawX = AMotionEvent_getRawX(event, 0);
 			rawY = AMotionEvent_getRawY(event, 0);
 			LOGI("Motion event down id: %i x: %f y: %f", pointerId, rawX, rawY);
 			break;
 
 		case AMOTION_EVENT_ACTION_UP:
-			pointerId = AMotionEvent_getPointerId(event, 0); //Unique identifier for each pointer event
+			pointerId = AMotionEvent_getPointerId(event, 0);
 			rawX = AMotionEvent_getRawX(event, 0);
 			rawY = AMotionEvent_getRawY(event, 0);
 			LOGI("Motion event up id: %i x: %f y: %f", pointerId, rawX, rawY);
 			break;
 
 		case AMOTION_EVENT_ACTION_MOVE:
+			pointerCount = AMotionEvent_getPointerCount(event);
 			for (int i = 0; i < pointerCount; ++i)
 			{
-				pointerId = AMotionEvent_getPointerId(event, i); //Unique identifier for each pointer event
+				pointerId = AMotionEvent_getPointerId(event, i);
 				rawX = AMotionEvent_getRawX(event, i);
 				rawY = AMotionEvent_getRawY(event, i);
 				LOGI("Motion event move id: %i x: %f y: %f", pointerId, rawX, rawY);
@@ -80,27 +86,26 @@ static int32_t android_app_handle_input(struct android_app* app, AInputEvent* ev
 			break;
 
 		case AMOTION_EVENT_ACTION_POINTER_DOWN:
-			index = (int)(AMOTION_EVENT_ACTION_POINTER_INDEX_MASK & eventAction) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
-			pointerId = AMotionEvent_getPointerId(event, index); //Unique identifier for each pointer event
+			eventPointerIndex = (int)(AMOTION_EVENT_ACTION_POINTER_INDEX_MASK & eventAction) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
+			pointerId = AMotionEvent_getPointerId(event, eventPointerIndex);
 			LOGI("Motion event pointer down id: %i x: %f y: %f", pointerId, rawX, rawY);
 			break;
 
 		case AMOTION_EVENT_ACTION_POINTER_UP:
-			index = (int)(AMOTION_EVENT_ACTION_POINTER_INDEX_MASK & eventAction) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
-			pointerId = AMotionEvent_getPointerId(event, index); //Unique identifier for each pointer event
+			eventPointerIndex = (int)(AMOTION_EVENT_ACTION_POINTER_INDEX_MASK & eventAction) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
+			pointerId = AMotionEvent_getPointerId(event, eventPointerIndex);
 			LOGI("Motion event pointer up id: %i x: %f y: %f", pointerId, rawX, rawY);
 			break;
 
 		case AMOTION_EVENT_ACTION_HOVER_MOVE:
-			pointerId = AMotionEvent_getPointerId(event, 0); //Unique identifier for each pointer event
+			pointerId = AMotionEvent_getPointerId(event, 0);
 			rawX = AMotionEvent_getRawX(event, 0);
 			rawY = AMotionEvent_getRawY(event, 0);
 			LOGI("Motion event hover move id: %i x: %f y: %f", pointerId, rawX, rawY);
-			//appState->androidWindow->fireMouseMove(rawX, rawY);
 			break;
 
 		case AMOTION_EVENT_ACTION_SCROLL:
-			pointerId = AMotionEvent_getPointerId(event, 0); //Unique identifier for each pointer event
+			pointerId = AMotionEvent_getPointerId(event, 0);
 			LOGI("Motion event scroll id: %i x: %f y: %f", pointerId, rawX, rawY);
 			break;
 		}
