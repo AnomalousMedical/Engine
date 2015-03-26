@@ -110,6 +110,7 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 			touchInfo.id = AMotionEvent_getPointerId(event, 0);
 			touchInfo.pixelX = AMotionEvent_getRawX(event, 0);
 			touchInfo.pixelY = AMotionEvent_getRawY(event, 0);
+			multiTouch->fireTouchStarted(touchInfo);
 			LOGI("Motion event down id: %i x: %i y: %i", touchInfo.id, touchInfo.pixelX, touchInfo.pixelY);
 			break;
 
@@ -117,6 +118,7 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 			touchInfo.id = AMotionEvent_getPointerId(event, 0);
 			touchInfo.pixelX = AMotionEvent_getRawX(event, 0);
 			touchInfo.pixelY = AMotionEvent_getRawY(event, 0);
+			multiTouch->fireTouchEnded(touchInfo);
 			LOGI("Motion event up id: %i x: %i y: %i", touchInfo.id, touchInfo.pixelX, touchInfo.pixelY);
 			break;
 
@@ -127,23 +129,31 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 				touchInfo.id = AMotionEvent_getPointerId(event, i);
 				touchInfo.pixelX = AMotionEvent_getRawX(event, i);
 				touchInfo.pixelY = AMotionEvent_getRawY(event, i);
+				multiTouch->fireTouchMoved(touchInfo);
 				LOGI("Motion event move id: %i x: %i y: %i", touchInfo.id, touchInfo.pixelX, touchInfo.pixelY);
 			}
 			break;
 
 		case AMOTION_EVENT_ACTION_CANCEL:
+			multiTouch->fireAllTouchesCanceled();
 			LOGI("Motion event cancel");
 			break;
 
 		case AMOTION_EVENT_ACTION_POINTER_DOWN:
 			eventPointerIndex = (int)(AMOTION_EVENT_ACTION_POINTER_INDEX_MASK & eventAction) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
 			touchInfo.id = AMotionEvent_getPointerId(event, eventPointerIndex);
+			touchInfo.pixelX = AMotionEvent_getRawX(event, eventPointerIndex);
+			touchInfo.pixelY = AMotionEvent_getRawY(event, eventPointerIndex);
+			multiTouch->fireTouchStarted(touchInfo);
 			LOGI("Motion event pointer down id: %i x: %i y: %i", touchInfo.id, touchInfo.pixelX, touchInfo.pixelY);
 			break;
 
 		case AMOTION_EVENT_ACTION_POINTER_UP:
 			eventPointerIndex = (int)(AMOTION_EVENT_ACTION_POINTER_INDEX_MASK & eventAction) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
 			touchInfo.id = AMotionEvent_getPointerId(event, eventPointerIndex);
+			touchInfo.pixelX = AMotionEvent_getRawX(event, eventPointerIndex);
+			touchInfo.pixelY = AMotionEvent_getRawY(event, eventPointerIndex);
+			multiTouch->fireTouchEnded(touchInfo);
 			LOGI("Motion event pointer up id: %i x: %i y: %i", touchInfo.id, touchInfo.pixelX, touchInfo.pixelY);
 			break;
 
