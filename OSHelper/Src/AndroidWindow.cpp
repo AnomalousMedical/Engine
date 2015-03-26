@@ -97,7 +97,8 @@ bool AndroidWindow::isOnscreenKeyboardVisible()
 
 int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* event)
 {
-	if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_MOTION)
+	eventType = AInputEvent_getType(event);
+	if (eventType == AINPUT_EVENT_TYPE_MOTION)
 	{
 		//int deviceId = AInputEvent_getDeviceId(event); //We can use this to identify if we are a mouse or the touchscreen or something else
 
@@ -171,6 +172,14 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 		//	break;
 		}
 
+		return 1;
+	}
+	else if (eventType == AINPUT_EVENT_TYPE_KEY)
+	{
+		keyCode = AKeyEvent_getKeyCode(event);
+		keyFlags = AKeyEvent_getFlags(event);
+		keyAction = AKeyEvent_getAction(event);
+		LOGI("Received key event: %d flags: %d action: %d", keyCode, keyFlags, keyAction);
 		return 1;
 	}
 	return 0;
