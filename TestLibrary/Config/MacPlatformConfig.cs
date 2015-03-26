@@ -157,6 +157,14 @@ namespace Anomalous.Minimus
             return MacOSXFunctions.TrustSSLCertificate(certificate, hostName);
         }
 
+        protected override bool ForwardTouchAsMouseImpl
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         private String OldUserDocRoot
         {
             get

@@ -147,6 +147,14 @@ namespace Anomalous.Minimus
             }
         }
 
+        protected override bool ForwardTouchAsMouseImpl
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         protected override bool TrustSSLCertificateImpl(X509Certificate certificate, string hostName)
         {
             throw new NotImplementedException();

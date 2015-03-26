@@ -174,6 +174,14 @@ namespace Anomalous.Minimus
             return currentConfig.TrustSSLCertificateImpl(certificate, hostName);
         }
 
+        public static bool ForwardTouchAsMouse
+        {
+            get
+            {
+                return currentConfig.ForwardTouchAsMouseImpl;
+            }
+        }
+
         /// <summary>
         /// This function moves the configuration files for a specific os if they need to move.
         /// We can remove this at some point in the future when we no longer need to check if files need
@@ -220,5 +228,7 @@ namespace Anomalous.Minimus
         protected abstract ProcessStartInfo RestartAdminProcInfoImpl { get; }
 
         protected abstract void moveConfigurationIfNeededImpl();
+
+        protected abstract bool ForwardTouchAsMouseImpl { get; }
     }
 }

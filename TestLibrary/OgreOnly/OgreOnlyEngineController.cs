@@ -18,16 +18,6 @@ using Anomalous.Minimus;
 
 namespace Anomalous.Minimus.OgreOnly
 {
-    public enum EventLayers
-    {
-        Gui = 0,
-        AfterGui = 1,
-        Tools = 2,
-        Posing = 3,
-        Cameras = 4,
-        Selection = 5,
-    }
-
     public delegate void LoopUpdate(Clock time);
 
     public sealed class OgreOnlyEngineController : IDisposable

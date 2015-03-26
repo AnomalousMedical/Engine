@@ -25,16 +25,6 @@ using Anomalous.libRocketWidget;
 
 namespace Anomalous.Minimus.Full
 {
-    public enum EventLayers
-    {
-        Gui = 0,
-        AfterGui = 1,
-        Tools = 2,
-        Posing = 3,
-        Cameras = 4,
-        Selection = 5,
-    }
-
     public delegate void LoopUpdate(Clock time);
 
     public sealed class EngineController : IDisposable
@@ -56,6 +46,7 @@ namespace Anomalous.Minimus.Full
         //Controller
         private SceneController sceneController;
         private FrameClearManager frameClearManager;
+        private TouchMouseGuiForwarder touchMouseGuiForwarder;
 
         //Serialization
         private XmlSaver xmlSaver = new XmlSaver();
@@ -163,6 +154,11 @@ namespace Anomalous.Minimus.Full
             SoundConfig.initialize(CoreConfig.ConfigFile);
 
             GuiFrameworkInterface.Instance.handleCursors(mainWindow);
+
+            if (PlatformConfig.ForwardTouchAsMouse)
+            {
+                touchMouseGuiForwarder = new TouchMouseGuiForwarder(eventManager, inputHandler, mainWindow);
+            }
         }
 
         /// <summary>

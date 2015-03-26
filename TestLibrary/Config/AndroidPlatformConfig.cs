@@ -153,6 +153,14 @@ namespace Anomalous.Minimus
             throw new NotImplementedException();
         }
 
+        protected override bool ForwardTouchAsMouseImpl
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         protected override void moveConfigurationIfNeededImpl()
         {
 
