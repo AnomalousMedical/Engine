@@ -7,7 +7,7 @@
 #define MULTITOUCH 1
 #endif
 
-#if defined(MAC_OSX) || defined(APPLE_IOS)
+#if defined(MAC_OSX) || defined(APPLE_IOS) || defined(ANDROID)
 #define MULTITOUCH 1
 #endif
 
@@ -54,7 +54,7 @@ extern "C" _AnomalousExport bool MultiTouch_isMultitouchAvailable()
 
 #endif //WINDOWS
 
-#if defined(MAC_OSX) || defined(APPLE_IOS)
+#if defined(MAC_OSX) || defined(APPLE_IOS) || defined(ANDROID)
 
 extern "C" _AnomalousExport MultiTouch* MultiTouch_new(NativeOSWindow* window, TouchEventDelegate touchStartedCB, TouchEventDelegate touchEndedCB, TouchEventDelegate touchMovedCB, TouchEventCanceledDelegate touchCanceledCB HANDLE_ARG)
 {
@@ -73,7 +73,7 @@ extern "C" _AnomalousExport bool MultiTouch_isMultitouchAvailable()
 	return true;
 }
 
-#endif //defined(MAC_OSX) || defined(APPLE_IOS)
+#endif //defined(MAC_OSX) || defined(APPLE_IOS) || defined(ANDROID)
 
 #else //Else from MULTITOUCH
 
