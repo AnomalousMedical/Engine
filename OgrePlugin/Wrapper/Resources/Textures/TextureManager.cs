@@ -43,7 +43,7 @@ namespace OgrePlugin
 
         public TexturePtr createManual(String name, String group, TextureType texType, uint width, uint height, uint depth, int num_mips, PixelFormat format, TextureUsage usage, bool hwGammaCorrection, uint fsaa, String fsaaHint = "")
         {
-            TexturePtr ptr = getObject(TextureManager_createManual(name, group, texType, width, height, depth, num_mips, format, usage, hwGammaCorrection, fsaa, fsaaHint, ProcessWrapperObjectCallback));
+            TexturePtr ptr = getObject(TextureManager_createManual(name, group, texType, width, height, depth, num_mips, format, usage, IntPtr.Zero, hwGammaCorrection, fsaa, fsaaHint, ProcessWrapperObjectCallback));
             OgreExceptionManager.fireAnyException();
             return ptr;
         }
@@ -84,7 +84,7 @@ namespace OgrePlugin
         #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr TextureManager_createManual(String name, String group, TextureType texType, uint width, uint height, uint depth, int num_mips, PixelFormat format, TextureUsage usage, bool hwGammaCorrection, uint fsaa, String fsaaHint, ProcessWrapperObjectDelegate processWrapper);
+        private static extern IntPtr TextureManager_createManual(String name, String group, TextureType texType, uint width, uint height, uint depth, int num_mips, PixelFormat format, TextureUsage usage, IntPtr loader, bool hwGammaCorrection, uint fsaa, String fsaaHint, ProcessWrapperObjectDelegate processWrapper);
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr TextureManager_getByName1(String name, ProcessWrapperObjectDelegate processWrapper);
