@@ -181,6 +181,32 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 		keyCode = AKeyEvent_getKeyCode(event);
 		keyFlags = AKeyEvent_getFlags(event);
 		keyAction = AKeyEvent_getAction(event);
+		KeyboardButtonCode convertCode = (KeyboardButtonCode)-1;
+		switch (keyCode)
+		{
+		case AKEYCODE_DEL:
+			convertCode = KC_BACK;
+			break;
+		case AKEYCODE_ENTER:
+			convertCode = KC_RETURN;
+			break;
+		//case AKEYCODE_BACK: //This is the back button
+		//	break;
+		}
+
+		if (convertCode != -1)
+		{
+			LOGI("firing");
+			if (keyAction == 0)
+			{
+				this->fireKeyDown(convertCode, 0);
+			}
+			else
+			{
+				this->fireKeyUp(convertCode); 
+			}
+		}
+		
 		LOGI("Received key event: %d flags: %d action: %d", keyCode, keyFlags, keyAction);
 		return 1;
 	}

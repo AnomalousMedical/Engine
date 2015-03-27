@@ -51,12 +51,16 @@ namespace AndroidBaseApp
 			inputHandler = obj.EngineController.InputHandler;
 		}
 
+		/// <summary>
+		/// Handle the text changing in our edit box. Note that this only really handles text and not
+		/// all keyboard events, other keyboard events like enter and delete(sometimes) will come from the 
+		/// native code input function.
+		/// </summary>
 		void HandleTextChanged (object sender, Android.Text.TextChangedEventArgs e)
 		{
 			if (fireInputs) 
 			{
 				Logging.Log.Debug ("'{0}' bc: {2} ac: {1} s: {3}", e.Text.ToString (), e.AfterCount, e.BeforeCount, e.Start);
-				//clearThisEvent = e.Start != 0;
 				if (e.AfterCount - e.BeforeCount >= 0) {
 					foreach (char c in e.Text.Skip(e.Start + e.BeforeCount)) {
 						inputHandler.injectKeyPressed (Engine.Platform.KeyboardButtonCode.KC_UNASSIGNED, c);
@@ -73,7 +77,6 @@ namespace AndroidBaseApp
 			else 
 			{
 				Logging.Log.Debug ("Clearing");
-				//clearThisEvent = false;
 			}
 		}
 
