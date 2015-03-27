@@ -5,8 +5,8 @@
         <UserString key="CurrentDockLocation" value="Floating"/>
         <UserString key="AllowedDockLocations" value="Left | Right | Floating"/>
         <UserString key="PinByDefault" value="false"/>
-        <Widget type="Button" skin="Button" position="172 352 84 33" align="HRelative Bottom" name="UnhideAll">
-            <Property key="Caption" value="Test button"/>
+        <Widget type="Button" skin="Button" position="172 352 84 33" align="HRelative Bottom" name="PlayTestSound">
+            <Property key="Caption" value="Play Sound"/>
         </Widget>
         <Widget type="EditBox" skin="EditBox" position="5 12 241 30"/>
     </Widget>
