@@ -10,15 +10,18 @@ namespace Anomalous.OSPlatform
 {
     public class AndroidFunctions
     {
-        private static NativeAction toggleKeyboardCb;
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void ToggleKeyboard(bool visible);
 
-        public static void EasyAttributeSetup(float screenDensity, NativeAction toggleKeyboard)
+        private static ToggleKeyboard toggleKeyboardCb;
+
+        public static void EasyAttributeSetup(float screenDensity, ToggleKeyboard toggleKeyboard)
         {
             toggleKeyboardCb = toggleKeyboard;
             AndroidOSWindow_EasyAttributeSetup(screenDensity, toggleKeyboardCb);
         }
 
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void AndroidOSWindow_EasyAttributeSetup(float screenDensity, NativeAction toggleKeyboard);
+        private static extern void AndroidOSWindow_EasyAttributeSetup(float screenDensity, ToggleKeyboard toggleKeyboard);
     }
 }

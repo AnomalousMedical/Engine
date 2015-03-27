@@ -2,9 +2,11 @@
 #include "AndroidWindow.h"
 #include "AndroidApp.h"
 
+typedef void(*ToggleKeyboard)(bool visible);
+
 static struct android_app* app = 0;
 static float _screenDensity = 1.0f;
-NativeAction _toggleKeyboard;
+ToggleKeyboard _toggleKeyboard;
 
 void displayKeyboard(bool pShow);
 
@@ -86,7 +88,7 @@ void AndroidWindow::setOnscreenKeyboardVisible(bool visible)
 {
 	//LOGI("Requesting keyboard visible %i", visible);
 	//displayKeyboard(visible);
-	_toggleKeyboard();
+	_toggleKeyboard(visible);
 	keyboardVisible = visible;
 }
 
@@ -198,7 +200,7 @@ extern "C" _AnomalousExport NativeOSWindow* NativeOSWindow_create(NativeOSWindow
 
 //This function is used to set some attributes that would otherwise require a bunch of jni calls, we can get them really easily
 //on the c# side, however.
-extern "C" _AnomalousExport void AndroidOSWindow_EasyAttributeSetup(float screenDensity, NativeAction toggleKeyboard)
+extern "C" _AnomalousExport void AndroidOSWindow_EasyAttributeSetup(float screenDensity, ToggleKeyboard toggleKeyboard)
 {
 	_screenDensity = screenDensity;
 	_toggleKeyboard = toggleKeyboard;
