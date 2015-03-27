@@ -237,7 +237,7 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 
 		if (convertCode != -1)
 		{
-			LOGI("firing");
+			//LOGI("firing");
 			if (keyAction == 0)
 			{
 				this->fireKeyDown(convertCode, keyChar);
@@ -248,7 +248,7 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 			}
 		}
 		
-		LOGI("Received key event: %d flags: %d action: %d", keyCode, keyFlags, keyAction);
+		//LOGI("Received key event: %d flags: %d action: %d", keyCode, keyFlags, keyAction);
 		return 1;
 	}
 	return 0;

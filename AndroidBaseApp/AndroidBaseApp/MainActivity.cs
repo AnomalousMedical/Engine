@@ -60,24 +60,29 @@ namespace AndroidBaseApp
 		{
 			if (fireInputs) 
 			{
-				Logging.Log.Debug ("'{0}' bc: {2} ac: {1} s: {3}", e.Text.ToString (), e.AfterCount, e.BeforeCount, e.Start);
-				if (e.AfterCount - e.BeforeCount >= 0) {
-					foreach (char c in e.Text.Skip(e.Start + e.BeforeCount)) {
+				//Logging.Log.Debug ("'{0}' bc: {2} ac: {1} s: {3}", e.Text.ToString (), e.AfterCount, e.BeforeCount, e.Start);
+				if (e.AfterCount - e.BeforeCount >= 0) 
+				{
+					foreach (char c in e.Text.Skip(e.Start + e.BeforeCount)) 
+					{
 						inputHandler.injectKeyPressed (Engine.Platform.KeyboardButtonCode.KC_UNASSIGNED, c);
 						inputHandler.injectKeyReleased (Engine.Platform.KeyboardButtonCode.KC_UNASSIGNED);
 					}
-				} else {
+				} 
+				else 
+				{
 					int count = e.BeforeCount - e.AfterCount;
-					for (int i = 0; i < count; ++i) {
+					for (int i = 0; i < count; ++i) 
+					{
 						inputHandler.injectKeyPressed (Engine.Platform.KeyboardButtonCode.KC_BACK, 0);
 						inputHandler.injectKeyReleased (Engine.Platform.KeyboardButtonCode.KC_BACK);
 					}
 				}
 			} 
-			else 
-			{
-				Logging.Log.Debug ("Clearing");
-			}
+			//else 
+			//{
+			//	Logging.Log.Debug ("Clearing");
+			//}
 		}
 
 		void toggleKeyboard(bool visible)
@@ -87,6 +92,7 @@ namespace AndroidBaseApp
 				fireInputs = false;
 				editText.Text = "";
 				fireInputs = true;
+				
 				InputMethodManager inputMethod = GetSystemService (InputMethodService) as InputMethodManager;
 				if (visible) 
 				{
