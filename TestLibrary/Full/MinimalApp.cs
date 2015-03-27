@@ -43,6 +43,8 @@ namespace Anomalous.Minimus.Full
         //Windows
         private TestWindow testWindow;
 
+        public event Action<MinimalApp> Initialized;
+
         public MinimalApp()
         {
 
@@ -142,6 +144,11 @@ namespace Anomalous.Minimus.Full
             guiManager.addManagedDialog(rocketWindow);
             rocketWindow.Visible = true;
 
+            if(Initialized != null)
+            {
+                Initialized.Invoke(this);
+            }
+
             return true;
         }
 
@@ -200,6 +207,14 @@ namespace Anomalous.Minimus.Full
                 mainWindow.close();
             }
             this.exit();
+        }
+
+        public EngineController EngineController
+        {
+            get
+            {
+                return engineController;
+            }
         }
     }
 }

@@ -33,6 +33,16 @@ namespace Anomalous.OSPlatform
             callbackHandler.Dispose();
         }
 
+        internal void injectKeyPressed(KeyboardButtonCode keyCode, uint keyChar)
+        {
+            fireKeyPressed(keyCode, keyChar);
+        }
+
+        internal void injectKeyReleased(KeyboardButtonCode keyCode)
+        {
+            fireKeyReleased(keyCode);
+        }
+
         void window_Deactivated(OSWindow window)
         {
             fireReleaseAllKeys();

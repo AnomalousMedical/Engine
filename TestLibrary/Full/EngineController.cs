@@ -277,6 +277,14 @@ namespace Anomalous.Minimus.Full
             }
         }
 
+        public NativeInputHandler InputHandler
+        {
+            get
+            {
+                return inputHandler;
+            }
+        }
+
         public NativeUpdateTimer MainTimer
         {
             get

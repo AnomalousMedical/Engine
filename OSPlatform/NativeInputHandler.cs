@@ -85,6 +85,24 @@ namespace Anomalous.OSPlatform
             createdMouse.injectWheel(z);
         }
 
+        /// <summary>
+        /// Inject a key pressed event. This allows us to inject keyboard info from managed code on platforms
+        /// where input is handled in managed code.
+        /// </summary>
+        public void injectKeyPressed(KeyboardButtonCode keyCode, uint keyChar)
+        {
+            createdKeyboard.injectKeyPressed(keyCode, keyChar);
+        }
+
+        /// <summary>
+        /// Inject a key released event. This allows us to inject keyboard info from managed code on platforms
+        /// where input is handled in managed code.
+        /// </summary>
+        public void injectKeyReleased(KeyboardButtonCode keyCode)
+        {
+            createdKeyboard.injectKeyReleased(keyCode);
+        }
+
         public override KeyboardHardware createKeyboard(Keyboard keyboard)
         {
             if (createdKeyboard == null)

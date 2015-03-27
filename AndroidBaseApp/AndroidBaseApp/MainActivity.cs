@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Linq;
 using Android.App;
 using Android.Content;
 using Android.Runtime;
@@ -21,6 +21,8 @@ namespace AndroidBaseApp
 	public class MainActivity : NativeActivity
 	{
 		private EditText editText;
+		bool fireInputs = true;
+		private NativeInputHandler inputHandler;
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -32,6 +34,7 @@ namespace AndroidBaseApp
 
 			//var app = new Anomalous.Minimus.OgreOnly.OgreOnlyApp();
 			var app = new Anomalous.Minimus.Full.MinimalApp ();
+			app.Initialized += HandleInitialized;
 			app.run();
 
 			base.OnCreate (bundle);
@@ -42,8 +45,11 @@ namespace AndroidBaseApp
 			editText.TextChanged += HandleTextChanged;
 			Window.SetSoftInputMode (SoftInput.StateAlwaysHidden);
 		}
-			
-		bool fireInputs = true;
+
+		void HandleInitialized (Anomalous.Minimus.Full.MinimalApp obj)
+		{
+			inputHandler = obj.EngineController.InputHandler;
+		}
 
 		void HandleTextChanged (object sender, Android.Text.TextChangedEventArgs e)
 		{
@@ -51,6 +57,18 @@ namespace AndroidBaseApp
 			{
 				Logging.Log.Debug ("'{0}' bc: {2} ac: {1} s: {3}", e.Text.ToString (), e.AfterCount, e.BeforeCount, e.Start);
 				//clearThisEvent = e.Start != 0;
+				if (e.AfterCount - e.BeforeCount >= 0) {
+					foreach (char c in e.Text.Skip(e.Start + e.BeforeCount)) {
+						inputHandler.injectKeyPressed (Engine.Platform.KeyboardButtonCode.KC_UNASSIGNED, c);
+						inputHandler.injectKeyReleased (Engine.Platform.KeyboardButtonCode.KC_UNASSIGNED);
+					}
+				} else {
+					int count = e.BeforeCount - e.AfterCount;
+					for (int i = 0; i < count; ++i) {
+						inputHandler.injectKeyPressed (Engine.Platform.KeyboardButtonCode.KC_BACK, 0);
+						inputHandler.injectKeyReleased (Engine.Platform.KeyboardButtonCode.KC_BACK);
+					}
+				}
 			} 
 			else 
 			{
