@@ -182,6 +182,7 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 		keyFlags = AKeyEvent_getFlags(event);
 		keyAction = AKeyEvent_getAction(event);
 		KeyboardButtonCode convertCode = (KeyboardButtonCode)-1;
+		uint keyChar = 0;
 		switch (keyCode)
 		{
 		case AKEYCODE_DEL:
@@ -189,6 +190,46 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 			break;
 		case AKEYCODE_ENTER:
 			convertCode = KC_RETURN;
+			break;
+		case AKEYCODE_0:
+			convertCode = KC_0;
+			keyChar = '0';
+			break;
+		case AKEYCODE_1:
+			convertCode = KC_1;
+			keyChar = '1';
+			break;
+		case AKEYCODE_2:
+			convertCode = KC_2;
+			keyChar = '2';
+			break;
+		case AKEYCODE_3:
+			convertCode = KC_3;
+			keyChar = '3';
+			break;
+		case AKEYCODE_4:
+			convertCode = KC_4;
+			keyChar = '4';
+			break;
+		case AKEYCODE_5:
+			convertCode = KC_5;
+			keyChar = '5';
+			break;
+		case AKEYCODE_6:
+			convertCode = KC_6;
+			keyChar = '6';
+			break;
+		case AKEYCODE_7:
+			convertCode = KC_7;
+			keyChar = '7';
+			break;
+		case AKEYCODE_8:
+			convertCode = KC_8;
+			keyChar = '8';
+			break;
+		case AKEYCODE_9:
+			convertCode = KC_9;
+			keyChar = '9';
 			break;
 		//case AKEYCODE_BACK: //This is the back button
 		//	break;
@@ -199,7 +240,7 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 			LOGI("firing");
 			if (keyAction == 0)
 			{
-				this->fireKeyDown(convertCode, 0);
+				this->fireKeyDown(convertCode, keyChar);
 			}
 			else
 			{
