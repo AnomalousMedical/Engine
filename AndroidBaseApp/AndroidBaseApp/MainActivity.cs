@@ -10,6 +10,7 @@ using Anomalous.OSPlatform;
 using Android.Views.InputMethods;
 using Android.Content.PM;
 using System.Collections.Generic;
+using Android.Text;
 
 namespace AndroidBaseApp
 {
@@ -38,26 +39,43 @@ namespace AndroidBaseApp
 			SetContentView (Resource.Layout.Main);
 
 			editText = FindViewById<EditText> (Resource.Id.editText1);
-			editText.TextChanged += HandleBeforeTextChanged;
+			editText.TextChanged += HandleTextChanged;
 			Window.SetSoftInputMode (SoftInput.StateAlwaysHidden);
 		}
+			
+		bool fireInputs = true;
 
-		void HandleBeforeTextChanged (object sender, Android.Text.TextChangedEventArgs e)
+		void HandleTextChanged (object sender, Android.Text.TextChangedEventArgs e)
 		{
-			Logging.Log.Debug (e.Text.ToString());
+			if (fireInputs) 
+			{
+				Logging.Log.Debug ("'{0}' bc: {2} ac: {1} s: {3}", e.Text.ToString (), e.AfterCount, e.BeforeCount, e.Start);
+				//clearThisEvent = e.Start != 0;
+			} 
+			else 
+			{
+				Logging.Log.Debug ("Clearing");
+				//clearThisEvent = false;
+			}
 		}
 
 		void toggleKeyboard(bool visible)
 		{
-			InputMethodManager inputMethod = GetSystemService (InputMethodService) as InputMethodManager;
-			if (visible) 
+			RunOnUiThread (() => 
 			{
-				inputMethod.ShowSoftInput (editText, ShowFlags.Forced);
-			} 
-			else 
-			{
-				inputMethod.HideSoftInputFromWindow (editText.WindowToken, 0);
-			}
+				fireInputs = false;
+				editText.Text = "";
+				fireInputs = true;
+				InputMethodManager inputMethod = GetSystemService (InputMethodService) as InputMethodManager;
+				if (visible) 
+				{
+					inputMethod.ShowSoftInput (editText, ShowFlags.Forced);
+				}
+				else 
+				{
+					inputMethod.HideSoftInputFromWindow (editText.WindowToken, 0);
+				}
+			});
 		}
 	}
 }
