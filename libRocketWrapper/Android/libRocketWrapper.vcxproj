@@ -80,6 +80,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)..\Include;$(ProjectDir)..\;$(SolutionDir)..\Dependencies\libRocket\src\Include;$(SolutionDir)..\Dependencies\Ogre\AndroidBuild\include;$(SolutionDir)..\Dependencies\Ogre\src\OgreMain\include;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <GccExceptionHandling>true</GccExceptionHandling>
+      <PreprocessorDefinitions>ANDROID;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(SolutionDir)..\Dependencies\libRocket\AndroidBuild\libs\armeabi-v7a\Release\libRocketControls.a;$(SolutionDir)..\Dependencies\libRocket\AndroidBuild\libs\armeabi-v7a\Release\libRocketCore.a;$(SolutionDir)..\Dependencies\libRocket\AndroidBuild\libs\armeabi-v7a\Release\libRocketDebugger.a;$(SolutionDir)Release\Tegra-Android\libOgreCWrapper.so;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libfreetype.a;%(AdditionalDependencies)</AdditionalDependencies>

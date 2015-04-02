@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="NsightTegraProject">
+    <NsightTegraProjectRevisionNumber>9</NsightTegraProjectRevisionNumber>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Tegra-Android">
+      <Configuration>Debug</Configuration>
+      <Platform>Tegra-Android</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Tegra-Android">
+      <Configuration>Release</Configuration>
+      <Platform>Tegra-Android</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Include\MyGUIEventTranslator.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Src\Button.cpp" />
+    <ClCompile Include="..\Src\ClickEventTranslator.cpp" />
+    <ClCompile Include="..\Src\ComboBox.cpp" />
+    <ClCompile Include="..\Src\EditBox.cpp" />
+    <ClCompile Include="..\Src\EventCanvasPositionChanged.cpp" />
+    <ClCompile Include="..\Src\EventChangeCoord.cpp" />
+    <ClCompile Include="..\Src\EventChangeKeyFocusInputManager.cpp" />
+    <ClCompile Include="..\Src\EventChangeMouseFocusInputManager.cpp" />
+    <ClCompile Include="..\Src\EventChangeMousePointerTranslator.cpp" />
+    <ClCompile Include="..\Src\EventComboAcceptTranslator.cpp" />
+    <ClCompile Include="..\Src\EventComboChangePositionTranslator.cpp" />
+    <ClCompile Include="..\Src\EventEditSelectAcceptTranslator.cpp" />
+    <ClCompile Include="..\Src\EventEditTextChangeTranslator.cpp" />
+    <ClCompile Include="..\Src\EventKeyButtonPressedTranslator.cpp" />
+    <ClCompile Include="..\Src\EventKeyButtonReleasedTranslator.cpp" />
+    <ClCompile Include="..\Src\EventKeyLostFocusTranslator.cpp" />
+    <ClCompile Include="..\Src\EventKeySetFocusTranslator.cpp" />
+    <ClCompile Include="..\Src\EventListChangePositionTranslator.cpp" />
+    <ClCompile Include="..\Src\EventListSelectAcceptTranslator.cpp" />
+    <ClCompile Include="..\Src\EventMenuCtrlAcceptTranslator.cpp" />
+    <ClCompile Include="..\Src\EventMenuCtrlCloseTranslator.cpp" />
+    <ClCompile Include="..\Src\EventMessageBoxResultTranslator.cpp" />
+    <ClCompile Include="..\Src\EventMouseButtonDoubleClickTranslator.cpp" />
+    <ClCompile Include="..\Src\EventMouseButtonPressedTranslator.cpp" />
+    <ClCompile Include="..\Src\EventMouseButtonReleasedTranslator.cpp" />
+    <ClCompile Include="..\Src\EventMouseDragTranslator.cpp" />
+    <ClCompile Include="..\Src\EventMouseLostFocusTranslator.cpp" />
+    <ClCompile Include="..\Src\EventMouseMoveTranslator.cpp" />
+    <ClCompile Include="..\Src\EventMouseSetFocusTranslator.cpp" />
+    <ClCompile Include="..\Src\EventMouseWheelTranslator.cpp" />
+    <ClCompile Include="..\Src\EventRootKeyChangeFocusTranslator.cpp" />
+    <ClCompile Include="..\Src\EventRootMouseChangeFocusTranslator.cpp" />
+    <ClCompile Include="..\Src\EventScrollGesture.cpp" />
+    <ClCompile Include="..\Src\EventToolTipTranslator.cpp" />
+    <ClCompile Include="..\Src\EventWindowButtonPressedTranslator.cpp" />
+    <ClCompile Include="..\Src\EventWindowChangeCoordTranslator.cpp" />
+    <ClCompile Include="..\Src\FontManager.cpp" />
+    <ClCompile Include="..\Src\Gui.cpp" />
+    <ClCompile Include="..\Src\ImageBox.cpp" />
+    <ClCompile Include="..\Src\InputManager.cpp" />
+    <ClCompile Include="..\Src\ISubWidgetText.cpp" />
+    <ClCompile Include="..\Src\LanguageManager.cpp" />
+    <ClCompile Include="..\Src\LayerManager.cpp" />
+    <ClCompile Include="..\Src\Layout.cpp" />
+    <ClCompile Include="..\Src\LayoutManager.cpp" />
+    <ClCompile Include="..\Src\ManagedMyGUILogListener.cpp" />
+    <ClCompile Include="..\Src\MenuControl.cpp" />
+    <ClCompile Include="..\Src\MenuItem.cpp" />
+    <ClCompile Include="..\Src\Message.cpp" />
+    <ClCompile Include="..\Src\MultiListBox.cpp" />
+    <ClCompile Include="..\Src\MyGUIEventTranslator.cpp" />
+    <ClCompile Include="..\Src\OgrePlatform.cpp" />
+    <ClCompile Include="..\Src\OgreRenderManager.cpp" />
+    <ClCompile Include="..\Src\PointerManager.cpp" />
+    <ClCompile Include="..\Src\ProgressBar.cpp" />
+    <ClCompile Include="..\Src\RenderManager.cpp" />
+    <ClCompile Include="..\Src\ResourceManager.cpp" />
+    <ClCompile Include="..\Src\ScrollBar.cpp" />
+    <ClCompile Include="..\Src\ScrollChangePositionET.cpp" />
+    <ClCompile Include="..\Src\ScrollView.cpp" />
+    <ClCompile Include="..\Src\TabControl.cpp" />
+    <ClCompile Include="..\Src\TextBox.cpp" />
+    <ClCompile Include="..\Src\Widget.cpp" />
+    <ClCompile Include="..\Src\WidgetManager.cpp" />
+    <ClCompile Include="..\Src\Window.cpp" />
+    <ClCompile Include="..\Stdafx.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{573573DF-A5FE-4A6F-9140-29D6CD29B8C5}</ProjectGuid>
+    <RootNamespace>MyGUIWrapper</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <AndroidTargetAPI>android-15</AndroidTargetAPI>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <AndroidTargetAPI>android-15</AndroidTargetAPI>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
+    <ClCompile>
+      <CppLanguageStandard>gnu++11</CppLanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
+    <ClCompile>
+      <CppLanguageStandard>gnu++11</CppLanguageStandard>
+      <PreprocessorDefinitions>ANDROID;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Include;$(ProjectDir)..\;$(SolutionDir)..\Dependencies\Ogre\AndroidBuild\include;$(SolutionDir)..\Dependencies\Ogre\src\OgreMain\include;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\include;$(SolutionDir)..\Dependencies\MyGUI\Src\MyGUIEngine\include;$(SolutionDir)..\Dependencies\MyGUI\Src\Common;$(SolutionDir)..\Dependencies\MyGUI\Src\Platforms\Ogre\OgrePlatform\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <GccExceptionHandling>true</GccExceptionHandling>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(SolutionDir)../Dependencies\MyGUI\AndroidBuild\lib\Release\libMyGUIEngineStatic.a;$(SolutionDir)../Dependencies\MyGUI\AndroidBuild\lib\Release\libMyGUI.OgrePlatform.a;$(SolutionDir)Release\Tegra-Android\libOgreCWrapper.so;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libfreetype.a;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
