@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="NsightTegraProject">
+    <NsightTegraProjectRevisionNumber>9</NsightTegraProjectRevisionNumber>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Tegra-Android">
+      <Configuration>Debug</Configuration>
+      <Platform>Tegra-Android</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Tegra-Android">
+      <Configuration>Release</Configuration>
+      <Platform>Tegra-Android</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Src\Context.cpp" />
+    <ClCompile Include="..\Src\Controls.cpp" />
+    <ClCompile Include="..\Src\Core.cpp" />
+    <ClCompile Include="..\Src\Debugger.cpp" />
+    <ClCompile Include="..\Src\Dictionary.cpp" />
+    <ClCompile Include="..\Src\Element.cpp" />
+    <ClCompile Include="..\Src\ElementDocument.cpp" />
+    <ClCompile Include="..\Src\ElementFormControl.cpp" />
+    <ClCompile Include="..\Src\ElementListIter.cpp" />
+    <ClCompile Include="..\Src\ElementManager.cpp" />
+    <ClCompile Include="..\Src\Event.cpp" />
+    <ClCompile Include="..\Src\Factory.cpp" />
+    <ClCompile Include="..\Src\FontDatabase.cpp" />
+    <ClCompile Include="..\Src\ManagedEventInstancer.cpp" />
+    <ClCompile Include="..\Src\ManagedEventListener.cpp" />
+    <ClCompile Include="..\Src\ManagedEventListenerInstancer.cpp" />
+    <ClCompile Include="..\Src\ManagedFileInterface.cpp" />
+    <ClCompile Include="..\Src\ManagedSystemInterface.cpp" />
+    <ClCompile Include="..\Src\ReferenceCountable.cpp" />
+    <ClCompile Include="..\Src\RenderInterfaceOgre3D.cpp" />
+    <ClCompile Include="..\Src\Template.cpp" />
+    <ClCompile Include="..\Src\TemplateCache.cpp" />
+    <ClCompile Include="..\Src\TextureDatabase.cpp" />
+    <ClCompile Include="..\Src\Variant.cpp" />
+    <ClCompile Include="..\StdAfx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Include\CommonResources.h" />
+    <ClInclude Include="..\Include\ElementListIter.h" />
+    <ClInclude Include="..\Include\ManagedSystemInterface.h" />
+    <ClInclude Include="..\Include\RenderInterfaceOgre3D.h" />
+    <ClInclude Include="..\StdAfx.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{6F7181DA-B71F-4805-852A-73922B13F45A}</ProjectGuid>
+    <RootNamespace>libRocketWrapper</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <AndroidTargetAPI>android-15</AndroidTargetAPI>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <AndroidTargetAPI>android-15</AndroidTargetAPI>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
+    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
+    <ClCompile>
+      <CppLanguageStandard>gnu++11</CppLanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
+    <ClCompile>
+      <CppLanguageStandard>gnu++11</CppLanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Include;$(ProjectDir)..\;$(SolutionDir)..\Dependencies\libRocket\src\Include;$(SolutionDir)..\Dependencies\Ogre\AndroidBuild\include;$(SolutionDir)..\Dependencies\Ogre\src\OgreMain\include;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <GccExceptionHandling>true</GccExceptionHandling>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(SolutionDir)..\Dependencies\libRocket\AndroidBuild\libs\armeabi-v7a\Release\libRocketControls.a;$(SolutionDir)..\Dependencies\libRocket\AndroidBuild\libs\armeabi-v7a\Release\libRocketCore.a;$(SolutionDir)..\Dependencies\libRocket\AndroidBuild\libs\armeabi-v7a\Release\libRocketDebugger.a;$(SolutionDir)Release\Tegra-Android\libOgreCWrapper.so;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libfreetype.a;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
