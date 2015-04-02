@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\Stdafx.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\btFixedConstraintWrapper.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\btGeneric6DofConstraintWrapper.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\btManifoldPoint.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\btRigidBodyWrapper.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\btTypedConstraintWrapper.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\BulletDebugDraw.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\BulletScene.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\CollisionShapeInterface.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ContactCache.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ContactInfo.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MotionState.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\RayTests.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ReshapeableRigidBody.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ReshapeableRigidBodySection.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\Generic6DofConstriantMotors.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Stdafx.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\BulletDebugDraw.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\BulletScene.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\ContactCache.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\ContactInfo.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\MotionState.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\RayTests.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\ReshapeableRigidBody.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\ReshapeableRigidBodySection.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\RigidBodyConstructionInfo.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{5e33c707-8a04-46d2-99bf-51d608fba8e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{cf344f72-c120-44ab-bba8-e62548202300}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

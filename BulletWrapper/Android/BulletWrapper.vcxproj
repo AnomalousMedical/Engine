@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="NsightTegraProject">
+    <NsightTegraProjectRevisionNumber>9</NsightTegraProjectRevisionNumber>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Tegra-Android">
+      <Configuration>Debug</Configuration>
+      <Platform>Tegra-Android</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Tegra-Android">
+      <Configuration>Release</Configuration>
+      <Platform>Tegra-Android</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\btFixedConstraintWrapper.cpp" />
+    <ClCompile Include="..\src\btGeneric6DofConstraintWrapper.cpp" />
+    <ClCompile Include="..\src\btManifoldPoint.cpp" />
+    <ClCompile Include="..\src\btRigidBodyWrapper.cpp" />
+    <ClCompile Include="..\src\btTypedConstraintWrapper.cpp" />
+    <ClCompile Include="..\src\BulletDebugDraw.cpp" />
+    <ClCompile Include="..\src\BulletScene.cpp" />
+    <ClCompile Include="..\src\CollisionShapeInterface.cpp" />
+    <ClCompile Include="..\src\ContactCache.cpp" />
+    <ClCompile Include="..\src\ContactInfo.cpp" />
+    <ClCompile Include="..\src\MotionState.cpp" />
+    <ClCompile Include="..\src\RayTests.cpp" />
+    <ClCompile Include="..\src\ReshapeableRigidBody.cpp" />
+    <ClCompile Include="..\src\ReshapeableRigidBodySection.cpp" />
+    <ClCompile Include="..\Stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Include\BulletDebugDraw.h" />
+    <ClInclude Include="..\Include\BulletScene.h" />
+    <ClInclude Include="..\Include\ContactCache.h" />
+    <ClInclude Include="..\Include\ContactInfo.h" />
+    <ClInclude Include="..\Include\MotionState.h" />
+    <ClInclude Include="..\Include\RayTests.h" />
+    <ClInclude Include="..\Include\ReshapeableRigidBody.h" />
+    <ClInclude Include="..\Include\ReshapeableRigidBodySection.h" />
+    <ClInclude Include="..\Include\RigidBodyConstructionInfo.h" />
+    <ClInclude Include="..\src\Generic6DofConstriantMotors.h" />
+    <ClInclude Include="..\Stdafx.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4100495F-0656-43E3-86B3-0FBDD4A3C82B}</ProjectGuid>
+    <RootNamespace>BulletWrapper</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <AndroidTargetAPI>android-15</AndroidTargetAPI>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <AndroidTargetAPI>android-15</AndroidTargetAPI>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
+    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
+    <ClCompile>
+      <CppLanguageStandard>gnu++11</CppLanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
+    <ClCompile>
+      <CppLanguageStandard>gnu++11</CppLanguageStandard>
+      <PreprocessorDefinitions>ANDROID;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Include;$(ProjectDir)..\;$(SolutionDir)..\Dependencies\Bullet\src\src;$(SolutionDir)..\Dependencies\Bullet\src\Extras\ConvexDecomposition;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(SolutionDir)../Dependencies/Bullet/AndroidBuild/libs/armeabi-v7a/Release/libBulletSoftBody.a;$(SolutionDir)../Dependencies/Bullet/AndroidBuild/libs/armeabi-v7a/Release/libBulletDynamics.a;$(SolutionDir)../Dependencies/Bullet/AndroidBuild/libs/armeabi-v7a/Release/libBulletCollision.a;$(SolutionDir)../Dependencies/Bullet/AndroidBuild/libs/armeabi-v7a/Release/libLinearMath.a;$(SolutionDir)../Dependencies/Bullet/AndroidBuild/libs/armeabi-v7a/Release/libBulletMultiThreaded.a;$(SolutionDir)../Dependencies/Bullet/AndroidBuild/libs/armeabi-v7a/Release/libConvexDecomposition.a;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <EchoCommandLines>false</EchoCommandLines>
+    </Link>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

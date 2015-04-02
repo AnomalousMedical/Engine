@@ -45,6 +45,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestLibrary", "TestLibrary\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OSHelper", "OSHelper\Android\OSHelper.vcxproj", "{23D3379F-71F3-4A67-B769-F382EB25D192}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BulletWrapper", "BulletWrapper\Android\BulletWrapper.vcxproj", "{4100495F-0656-43E3-86B3-0FBDD4A3C82B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OgreCWrapper", "OgreCWrapper\Android\OgreCWrapper.vcxproj", "{7BF0BBC1-4572-4F29-B11A-D8152B992ADC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -324,6 +328,30 @@ Global
 		{23D3379F-71F3-4A67-B769-F382EB25D192}.Release|Tegra-Android.ActiveCfg = Release|Tegra-Android
 		{23D3379F-71F3-4A67-B769-F382EB25D192}.Release|Tegra-Android.Build.0 = Release|Tegra-Android
 		{23D3379F-71F3-4A67-B769-F382EB25D192}.Release|x64.ActiveCfg = Release|Tegra-Android
+		{4100495F-0656-43E3-86B3-0FBDD4A3C82B}.Debug|Any CPU.ActiveCfg = Debug|Tegra-Android
+		{4100495F-0656-43E3-86B3-0FBDD4A3C82B}.Debug|Mixed Platforms.ActiveCfg = Debug|Tegra-Android
+		{4100495F-0656-43E3-86B3-0FBDD4A3C82B}.Debug|Mixed Platforms.Build.0 = Debug|Tegra-Android
+		{4100495F-0656-43E3-86B3-0FBDD4A3C82B}.Debug|Tegra-Android.ActiveCfg = Debug|Tegra-Android
+		{4100495F-0656-43E3-86B3-0FBDD4A3C82B}.Debug|Tegra-Android.Build.0 = Debug|Tegra-Android
+		{4100495F-0656-43E3-86B3-0FBDD4A3C82B}.Debug|x64.ActiveCfg = Debug|Tegra-Android
+		{4100495F-0656-43E3-86B3-0FBDD4A3C82B}.Release|Any CPU.ActiveCfg = Release|Tegra-Android
+		{4100495F-0656-43E3-86B3-0FBDD4A3C82B}.Release|Mixed Platforms.ActiveCfg = Release|Tegra-Android
+		{4100495F-0656-43E3-86B3-0FBDD4A3C82B}.Release|Mixed Platforms.Build.0 = Release|Tegra-Android
+		{4100495F-0656-43E3-86B3-0FBDD4A3C82B}.Release|Tegra-Android.ActiveCfg = Release|Tegra-Android
+		{4100495F-0656-43E3-86B3-0FBDD4A3C82B}.Release|Tegra-Android.Build.0 = Release|Tegra-Android
+		{4100495F-0656-43E3-86B3-0FBDD4A3C82B}.Release|x64.ActiveCfg = Release|Tegra-Android
+		{7BF0BBC1-4572-4F29-B11A-D8152B992ADC}.Debug|Any CPU.ActiveCfg = Debug|Tegra-Android
+		{7BF0BBC1-4572-4F29-B11A-D8152B992ADC}.Debug|Mixed Platforms.ActiveCfg = Debug|Tegra-Android
+		{7BF0BBC1-4572-4F29-B11A-D8152B992ADC}.Debug|Mixed Platforms.Build.0 = Debug|Tegra-Android
+		{7BF0BBC1-4572-4F29-B11A-D8152B992ADC}.Debug|Tegra-Android.ActiveCfg = Debug|Tegra-Android
+		{7BF0BBC1-4572-4F29-B11A-D8152B992ADC}.Debug|Tegra-Android.Build.0 = Debug|Tegra-Android
+		{7BF0BBC1-4572-4F29-B11A-D8152B992ADC}.Debug|x64.ActiveCfg = Debug|Tegra-Android
+		{7BF0BBC1-4572-4F29-B11A-D8152B992ADC}.Release|Any CPU.ActiveCfg = Release|Tegra-Android
+		{7BF0BBC1-4572-4F29-B11A-D8152B992ADC}.Release|Mixed Platforms.ActiveCfg = Release|Tegra-Android
+		{7BF0BBC1-4572-4F29-B11A-D8152B992ADC}.Release|Mixed Platforms.Build.0 = Release|Tegra-Android
+		{7BF0BBC1-4572-4F29-B11A-D8152B992ADC}.Release|Tegra-Android.ActiveCfg = Release|Tegra-Android
+		{7BF0BBC1-4572-4F29-B11A-D8152B992ADC}.Release|Tegra-Android.Build.0 = Release|Tegra-Android
+		{7BF0BBC1-4572-4F29-B11A-D8152B992ADC}.Release|x64.ActiveCfg = Release|Tegra-Android
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
