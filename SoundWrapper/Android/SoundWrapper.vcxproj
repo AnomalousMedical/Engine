@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="NsightTegraProject">
+    <NsightTegraProjectRevisionNumber>9</NsightTegraProjectRevisionNumber>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Tegra-Android">
+      <Configuration>Debug</Configuration>
+      <Platform>Tegra-Android</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Tegra-Android">
+      <Configuration>Release</Configuration>
+      <Platform>Tegra-Android</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\AudioCodec.cpp" />
+    <ClCompile Include="..\src\CaptureDevice.cpp" />
+    <ClCompile Include="..\src\Listener.cpp" />
+    <ClCompile Include="..\src\ManagedLogListener.cpp" />
+    <ClCompile Include="..\src\ManagedStream.cpp" />
+    <ClCompile Include="..\src\MemorySound.cpp" />
+    <ClCompile Include="..\src\NativeLog.cpp" />
+    <ClCompile Include="..\src\NativeStream.cpp" />
+    <ClCompile Include="..\src\OggCodec.cpp" />
+    <ClCompile Include="..\src\OggEncoder.cpp" />
+    <ClCompile Include="..\src\OpenALManager.cpp" />
+    <ClCompile Include="..\src\Sound.cpp" />
+    <ClCompile Include="..\src\Source.cpp" />
+    <ClCompile Include="..\src\SourceManager.cpp" />
+    <ClCompile Include="..\src\StreamingSound.cpp" />
+    <ClCompile Include="..\Stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\AudioCodec.h" />
+    <ClInclude Include="..\include\CaptureDevice.h" />
+    <ClInclude Include="..\include\Listener.h" />
+    <ClInclude Include="..\include\MemorySound.h" />
+    <ClInclude Include="..\include\NativeLog.h" />
+    <ClInclude Include="..\include\NativeStream.h" />
+    <ClInclude Include="..\include\OggCodec.h" />
+    <ClInclude Include="..\include\OggEncoder.h" />
+    <ClInclude Include="..\include\OpenALManager.h" />
+    <ClInclude Include="..\include\Sound.h" />
+    <ClInclude Include="..\include\Source.h" />
+    <ClInclude Include="..\include\SourceManager.h" />
+    <ClInclude Include="..\include\Stream.h" />
+    <ClInclude Include="..\include\StreamingSound.h" />
+    <ClInclude Include="..\Stdafx.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{9354EFFD-FCEE-4FAC-A5D2-4B74EFF6CC8A}</ProjectGuid>
+    <RootNamespace>SoundWrapper</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <AndroidTargetAPI>android-15</AndroidTargetAPI>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <AndroidTargetAPI>android-15</AndroidTargetAPI>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
+    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
+    <ClCompile>
+      <CppLanguageStandard>gnu++11</CppLanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
+    <ClCompile>
+      <CppLanguageStandard>gnu++11</CppLanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Include;$(ProjectDir)..\;$(SolutionDir)..\Dependencies\OpenALSoft\srcAndroid\jni\OpenAL\include\AL;$(SolutionDir)..\Dependencies\oggvorbis\libvorbis\include;$(SolutionDir)..\Dependencies\oggvorbis\libogg\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(SolutionDir)..\Dependencies\OpenALSoft\srcAndroid\libs\armeabi-v7a\libopenal.so;$(SolutionDir)..\Dependencies\oggvorbis\libvorbis\android\obj\local\armeabi-v7a\libvorbis.a;$(SolutionDir)..\Dependencies\oggvorbis\libogg\android\obj\local\armeabi-v7a\libogg.a;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

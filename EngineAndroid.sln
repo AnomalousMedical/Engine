@@ -59,6 +59,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyGUIWrapper", "MyGUIWrappe
 		{7BF0BBC1-4572-4F29-B11A-D8152B992ADC} = {7BF0BBC1-4572-4F29-B11A-D8152B992ADC}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SoundWrapper", "SoundWrapper\Android\SoundWrapper.vcxproj", "{9354EFFD-FCEE-4FAC-A5D2-4B74EFF6CC8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -438,6 +440,20 @@ Global
 		{573573DF-A5FE-4A6F-9140-29D6CD29B8C5}.Release|Tegra-Android.Build.0 = Release|Tegra-Android
 		{573573DF-A5FE-4A6F-9140-29D6CD29B8C5}.Release|Win32.ActiveCfg = Release|Tegra-Android
 		{573573DF-A5FE-4A6F-9140-29D6CD29B8C5}.Release|x64.ActiveCfg = Release|Tegra-Android
+		{9354EFFD-FCEE-4FAC-A5D2-4B74EFF6CC8A}.Debug|Any CPU.ActiveCfg = Debug|Tegra-Android
+		{9354EFFD-FCEE-4FAC-A5D2-4B74EFF6CC8A}.Debug|Mixed Platforms.ActiveCfg = Debug|Tegra-Android
+		{9354EFFD-FCEE-4FAC-A5D2-4B74EFF6CC8A}.Debug|Mixed Platforms.Build.0 = Debug|Tegra-Android
+		{9354EFFD-FCEE-4FAC-A5D2-4B74EFF6CC8A}.Debug|Tegra-Android.ActiveCfg = Debug|Tegra-Android
+		{9354EFFD-FCEE-4FAC-A5D2-4B74EFF6CC8A}.Debug|Tegra-Android.Build.0 = Debug|Tegra-Android
+		{9354EFFD-FCEE-4FAC-A5D2-4B74EFF6CC8A}.Debug|Win32.ActiveCfg = Debug|Tegra-Android
+		{9354EFFD-FCEE-4FAC-A5D2-4B74EFF6CC8A}.Debug|x64.ActiveCfg = Debug|Tegra-Android
+		{9354EFFD-FCEE-4FAC-A5D2-4B74EFF6CC8A}.Release|Any CPU.ActiveCfg = Release|Tegra-Android
+		{9354EFFD-FCEE-4FAC-A5D2-4B74EFF6CC8A}.Release|Mixed Platforms.ActiveCfg = Release|Tegra-Android
+		{9354EFFD-FCEE-4FAC-A5D2-4B74EFF6CC8A}.Release|Mixed Platforms.Build.0 = Release|Tegra-Android
+		{9354EFFD-FCEE-4FAC-A5D2-4B74EFF6CC8A}.Release|Tegra-Android.ActiveCfg = Release|Tegra-Android
+		{9354EFFD-FCEE-4FAC-A5D2-4B74EFF6CC8A}.Release|Tegra-Android.Build.0 = Release|Tegra-Android
+		{9354EFFD-FCEE-4FAC-A5D2-4B74EFF6CC8A}.Release|Win32.ActiveCfg = Release|Tegra-Android
+		{9354EFFD-FCEE-4FAC-A5D2-4B74EFF6CC8A}.Release|x64.ActiveCfg = Release|Tegra-Android
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

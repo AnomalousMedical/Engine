@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{72c3b52c-d794-4659-9994-1fac56b195d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{647a50cc-3f7c-425f-8272-e945c12a5ed4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Stdafx.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\AudioCodec.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\CaptureDevice.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Listener.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\MemorySound.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\NativeLog.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\NativeStream.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\OggCodec.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\OggEncoder.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\OpenALManager.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Sound.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Source.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SourceManager.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Stream.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\StreamingSound.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Stdafx.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\AudioCodec.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\CaptureDevice.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Listener.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ManagedLogListener.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ManagedStream.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MemorySound.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\NativeLog.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\NativeStream.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\OggCodec.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\OggEncoder.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\OpenALManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Sound.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Source.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SourceManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\StreamingSound.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
