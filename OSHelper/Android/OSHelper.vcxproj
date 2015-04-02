@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="NsightTegraProject">
+    <NsightTegraProjectRevisionNumber>9</NsightTegraProjectRevisionNumber>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Tegra-Android">
+      <Configuration>Debug</Configuration>
+      <Platform>Tegra-Android</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Tegra-Android">
+      <Configuration>Release</Configuration>
+      <Platform>Tegra-Android</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\AndroidBaseApp\Common\native_app_glue\android_native_app_glue.c" />
+    <ClCompile Include="..\Src\AndroidApp.cpp" />
+    <ClCompile Include="..\Src\AndroidWindow.cpp" />
+    <ClCompile Include="..\Src\App.cpp" />
+    <ClCompile Include="..\Src\ManagedLogListener.cpp" />
+    <ClCompile Include="..\Src\MultiTouch.cpp" />
+    <ClCompile Include="..\Src\NativeKeyboard.cpp" />
+    <ClCompile Include="..\Src\NativeLog.cpp" />
+    <ClCompile Include="..\Src\NativeMouse.cpp" />
+    <ClCompile Include="..\Src\NativeOSWindow.cpp" />
+    <ClCompile Include="..\Src\PerformanceCounter.cpp" />
+    <ClCompile Include="..\Src\PlatformConfig.cpp" />
+    <ClCompile Include="..\Stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\AndroidBaseApp\Common\native_app_glue\android_native_app_glue.h" />
+    <ClInclude Include="..\Include\AndroidApp.h" />
+    <ClInclude Include="..\Include\AndroidWindow.h" />
+    <ClInclude Include="..\Include\App.h" />
+    <ClInclude Include="..\Include\MouseButtonCode.h" />
+    <ClInclude Include="..\Include\MultiTouch.h" />
+    <ClInclude Include="..\Include\MultiTouchImpl.h" />
+    <ClInclude Include="..\Include\NativeKeyboard.h" />
+    <ClInclude Include="..\Include\NativeLog.h" />
+    <ClInclude Include="..\Include\NativeMouse.h" />
+    <ClInclude Include="..\Include\NativeOSWindow.h" />
+    <ClInclude Include="..\Include\PerformanceCounter.h" />
+    <ClInclude Include="..\Stdafx.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{23D3379F-71F3-4A67-B769-F382EB25D192}</ProjectGuid>
+    <RootNamespace>OSHelper</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <AndroidTargetAPI>android-15</AndroidTargetAPI>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <AndroidTargetAPI>android-15</AndroidTargetAPI>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
+    <ClCompile>
+      <CppLanguageStandard>gnu++11</CppLanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
+    <ClCompile>
+      <CppLanguageStandard>gnu++11</CppLanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Include;$(ProjectDir)..\;$(SolutionDir)AndroidBaseApp\Common\native_app_glue;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AndroidSystemLibs>c;m;log;gcc;android</AndroidSystemLibs>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
