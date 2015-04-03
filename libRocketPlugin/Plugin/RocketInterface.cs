@@ -28,6 +28,7 @@ namespace libRocketPlugin
         private FileInterface fileInterface;
         private float pixelsPerInch = DefaultPixelsPerInch;
         private ResourceManager resources;
+        private RocketRenderSystemListener renderSystemListener;
 
         private RocketFilesystemArchiveFactory rocketFilesystemArchiveFactory = new RocketFilesystemArchiveFactory();
 
@@ -55,6 +56,7 @@ namespace libRocketPlugin
             CommonResourceGroup.removeResource("__RmlViewerFilesystem__");
 
             ReferenceCountable.DumpLeakReport();
+            Root.getSingleton().getRenderSystem().removeListener(renderSystemListener);
             Core.Shutdown();
             if (renderInterface != null)
             {
@@ -109,6 +111,9 @@ namespace libRocketPlugin
             renderInterface = new RenderInterfaceOgre3D((int)ogreWindow.OgreRenderTarget.getWidth(), (int)ogreWindow.OgreRenderTarget.getHeight());
             renderInterface.PixelsPerInch = pixelsPerInch;
             renderInterface.PixelScale = ScaleHelper.ScaleFactor;
+
+            renderSystemListener = new RocketRenderSystemListener();
+            Root.getSingleton().getRenderSystem().addListener(renderSystemListener);
 
             Core.SetSystemInterface(systemInterface);
             Core.SetRenderInterface(renderInterface);

@@ -173,6 +173,7 @@
     <ClCompile Include="Src\Event.cpp" />
     <ClCompile Include="Src\Factory.cpp" />
     <ClCompile Include="Src\FontDatabase.cpp" />
+    <ClCompile Include="Src\GeometryDatabase.cpp" />
     <ClCompile Include="Src\ManagedEventInstancer.cpp" />
     <ClCompile Include="Src\ManagedEventListener.cpp" />
     <ClCompile Include="Src\ManagedEventListenerInstancer.cpp" />
