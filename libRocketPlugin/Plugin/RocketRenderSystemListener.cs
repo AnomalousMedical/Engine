@@ -14,7 +14,15 @@ namespace libRocketPlugin
             switch (this.EventType)
             {
                 case OgrePlugin.KnownRenderSystemEvents.DeviceRestored:
-                    GeometryDatabase.ReleaseGeometries();
+                    Core.ReleaseCompiledGeometries();
+                    Core.ReleaseTextures();
+                    foreach (var context in Core.Contexts)
+                    {
+                        foreach (var document in context.Documents)
+                        {
+                            document.MakeDirtyForScaleChange();
+                        }
+                    }
                     break;
             }
         }

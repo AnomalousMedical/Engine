@@ -105,6 +105,20 @@ namespace libRocketPlugin
             return path.Replace('\\', '/');
         }
 
+        /// <summary>
+        /// Get an enumerator over all contexts.
+        /// </summary>
+        public static IEnumerable<Context> Contexts
+        {
+            get
+            {
+                for(int i = 0; i < GetNumContexts(); ++i)
+                {
+                    yield return GetContext(i);
+                }
+            }
+        }
+
         #region PInvoke
 
         [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
