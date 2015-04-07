@@ -5,11 +5,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-#if !FULL_AOT_COMPILE
-
 namespace Anomalous.OSPlatform.Android
 {
-    public class AndroidFunctions
+    class AndroidFunctions
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void ToggleKeyboard(bool visible);
@@ -26,5 +24,3 @@ namespace Anomalous.OSPlatform.Android
         private static extern void AndroidOSWindow_EasyAttributeSetup(float screenDensity, ToggleKeyboard toggleKeyboard);
     }
 }
-
-#endif
