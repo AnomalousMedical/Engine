@@ -116,6 +116,8 @@ namespace OgrePlugin
                 (handle.Target as ManagedManualResourceLoader).loadResource();
             }
 
+            GCHandle handle;
+
             public IntPtr create(ManagedManualResourceLoader obj)
             {
                 handle = GCHandle.Alloc(obj);
