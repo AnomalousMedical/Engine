@@ -63,6 +63,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SoundWrapper", "SoundWrappe
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Zip", "Zip\Android\Zip.vcxproj", "{FA79F447-46EB-4A4C-9609-A1C33B544476}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSPlatform.Android", "OSPlatform.Android\OSPlatform.Android.csproj", "{AB582550-FEA0-4B33-88F5-7D59D0119AC2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -367,6 +369,16 @@ Global
 		{FA79F447-46EB-4A4C-9609-A1C33B544476}.Release|Tegra-Android.Build.0 = Release|Tegra-Android
 		{FA79F447-46EB-4A4C-9609-A1C33B544476}.Release|Win32.ActiveCfg = Release|Tegra-Android
 		{FA79F447-46EB-4A4C-9609-A1C33B544476}.Release|x64.ActiveCfg = Release|Tegra-Android
+		{AB582550-FEA0-4B33-88F5-7D59D0119AC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB582550-FEA0-4B33-88F5-7D59D0119AC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB582550-FEA0-4B33-88F5-7D59D0119AC2}.Debug|Tegra-Android.ActiveCfg = Debug|Any CPU
+		{AB582550-FEA0-4B33-88F5-7D59D0119AC2}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{AB582550-FEA0-4B33-88F5-7D59D0119AC2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AB582550-FEA0-4B33-88F5-7D59D0119AC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB582550-FEA0-4B33-88F5-7D59D0119AC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB582550-FEA0-4B33-88F5-7D59D0119AC2}.Release|Tegra-Android.ActiveCfg = Release|Any CPU
+		{AB582550-FEA0-4B33-88F5-7D59D0119AC2}.Release|Win32.ActiveCfg = Release|Any CPU
+		{AB582550-FEA0-4B33-88F5-7D59D0119AC2}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

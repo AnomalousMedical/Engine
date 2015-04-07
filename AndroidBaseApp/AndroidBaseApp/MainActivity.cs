@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using Android.Text;
 using Engine;
 using Engine.ObjectManagement;
+using Anomalous.OSPlatform.Android;
 
 namespace AndroidBaseApp
 {
@@ -52,9 +53,7 @@ namespace AndroidBaseApp
 		{
 			inputHandler = obj.EngineController.InputHandler;
 
-			//String archivePath = "/sdcard/AnomalousMedical.zip";
-			String archivePath = "/sdcard/AnomalousMedical.dat";
-			//String archivePath = "/sdcard/raw";
+			String archivePath = System.IO.Path.Combine(Application.Context.ObbDir.AbsolutePath, "AnomalousMedical.dat");
 			if (System.IO.File.Exists (archivePath) || System.IO.Directory.Exists(archivePath)) 
 			{
 				VirtualFileSystem.Instance.addArchive (archivePath);

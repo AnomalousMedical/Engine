@@ -251,6 +251,10 @@ public:
 
 extern "C" _AnomalousExport void OgreInterface_SetupVaryingCompressedTextures()
 {
+#ifdef ANDROID //Force android to uncompressed for now
+	Ogre::LogManager::getSingleton().logMessage("Forcing uncompressed textures for android");
+	Ogre::ScriptCompilerManager::getSingleton().setListener(new AnomalousScriptCompilerListener("png"));
+#else
 	Ogre::Root* root = Ogre::Root::getSingletonPtr();
 	Ogre::RenderSystem* rs = root->getRenderSystem();
 	const Ogre::RenderSystemCapabilities* capabilities = rs->getCapabilities();
@@ -268,6 +272,7 @@ extern "C" _AnomalousExport void OgreInterface_SetupVaryingCompressedTextures()
 		Ogre::LogManager::getSingleton().logMessage("Using uncompressed textures");
 		Ogre::ScriptCompilerManager::getSingleton().setListener(new AnomalousScriptCompilerListener("png"));
 	}
+#endif
 }
 
 extern "C" _AnomalousExport void OgreInterface_DestroyVaryingCompressedTextures()

@@ -54,6 +54,9 @@
     <Reference Include="TestLibrary">
       <HintPath>..\..\Release\TestLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="OSPlatform.Android">
+      <HintPath>..\..\Release\OSPlatform.Android.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />

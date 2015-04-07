@@ -1,5 +1,4 @@
-﻿using Anomalous.Interop;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 
 #if !FULL_AOT_COMPILE
 
-namespace Anomalous.OSPlatform
+namespace Anomalous.OSPlatform.Android
 {
     public class AndroidFunctions
     {
@@ -23,7 +22,7 @@ namespace Anomalous.OSPlatform
             AndroidOSWindow_EasyAttributeSetup(screenDensity, toggleKeyboardCb);
         }
 
-        [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(AndroidPlatform.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void AndroidOSWindow_EasyAttributeSetup(float screenDensity, ToggleKeyboard toggleKeyboard);
     }
 }
