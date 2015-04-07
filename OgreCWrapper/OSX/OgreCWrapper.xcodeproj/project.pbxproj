@@ -16,6 +16,7 @@
 		015207EE18D0B8830040D1F9 /* OgreInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015207EB18D0B8830040D1F9 /* OgreInterface.cpp */; };
 		015207F018D0B8BF0040D1F9 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 015207EF18D0B8BF0040D1F9 /* Ogre.framework */; };
 		015AA5D115B48478000B029F /* ArchiveManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015AA5D015B48478000B029F /* ArchiveManager.cpp */; };
+		0177B46B1AD41E0800BDF0FF /* ManagedManualResourceLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0177B46A1AD41E0800BDF0FF /* ManagedManualResourceLoader.cpp */; };
 		01A05F751A6DAD1B00AB35EB /* SkeletonManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A05F741A6DAD1B00AB35EB /* SkeletonManager.cpp */; };
 		01A698D7135636B4008B7F31 /* NativeFrameListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A69889135636B4008B7F31 /* NativeFrameListener.h */; };
 		01A698D8135636B4008B7F31 /* NativeSceneListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A6988A135636B4008B7F31 /* NativeSceneListener.h */; };
@@ -101,6 +102,7 @@
 		015207EB18D0B8830040D1F9 /* OgreInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgreInterface.cpp; sourceTree = "<group>"; };
 		015207EF18D0B8BF0040D1F9 /* Ogre.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogre.framework; path = ../../../Dependencies/Ogre/OSX/Build/lib/macosx/Release/Ogre.framework; sourceTree = "<group>"; };
 		015AA5D015B48478000B029F /* ArchiveManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArchiveManager.cpp; sourceTree = "<group>"; };
+		0177B46A1AD41E0800BDF0FF /* ManagedManualResourceLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManagedManualResourceLoader.cpp; sourceTree = "<group>"; };
 		01A05F741A6DAD1B00AB35EB /* SkeletonManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkeletonManager.cpp; sourceTree = "<group>"; };
 		01A6988313563672008B7F31 /* OgreCWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = OgreCWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		01A69889135636B4008B7F31 /* NativeFrameListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeFrameListener.h; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 		01A69890135636B4008B7F31 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				0177B46A1AD41E0800BDF0FF /* ManagedManualResourceLoader.cpp */,
 				01A05F741A6DAD1B00AB35EB /* SkeletonManager.cpp */,
 				01DA8F5E19AE6BD300F71B59 /* StaticGeometry.cpp */,
 				015149F418D8D7700022F163 /* ManagedRenderTargetListener.cpp */,
@@ -462,6 +465,7 @@
 				01A6991A135636B4008B7F31 /* VertexBufferBinding.cpp in Sources */,
 				01A6991B135636B4008B7F31 /* VertexData.cpp in Sources */,
 				01A6991C135636B4008B7F31 /* VertexDeclaration.cpp in Sources */,
+				0177B46B1AD41E0800BDF0FF /* ManagedManualResourceLoader.cpp in Sources */,
 				01A6991D135636B4008B7F31 /* VertexElement.cpp in Sources */,
 				01A6991E135636B4008B7F31 /* VertexPoseKeyFrame.cpp in Sources */,
 				01A05F751A6DAD1B00AB35EB /* SkeletonManager.cpp in Sources */,
@@ -491,7 +495,6 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/lib/Release\"",
 					"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/lib/macosx/Release",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -527,7 +530,6 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/lib/Release\"",
 					"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/lib/macosx/Release",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
