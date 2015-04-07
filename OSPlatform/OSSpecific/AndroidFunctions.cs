@@ -6,6 +6,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
+#if !FULL_AOT_COMPILE
+
 namespace Anomalous.OSPlatform
 {
     public class AndroidFunctions
@@ -25,3 +27,5 @@ namespace Anomalous.OSPlatform
         private static extern void AndroidOSWindow_EasyAttributeSetup(float screenDensity, ToggleKeyboard toggleKeyboard);
     }
 }
+
+#endif
