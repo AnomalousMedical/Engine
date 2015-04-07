@@ -8,7 +8,7 @@ private:
 	HANDLE_INSTANCE
 
 public:
-	ManagedManualResourceLoader(NativeAction prepareResource, NativeAction loadResource)
+	ManagedManualResourceLoader(NativeAction prepareResource, NativeAction loadResource HANDLE_ARG)
 		:prepareResourceCb(prepareResource),
 		loadResourceCb(loadResource)
 		ASSIGN_HANDLE_INITIALIZER
@@ -23,12 +23,12 @@ public:
 
 	virtual void prepareResource(Ogre::Resource* resource)
 	{
-		prepareResourceCb();
+		prepareResourceCb(PASS_HANDLE);
 	}
 
 	virtual void loadResource(Ogre::Resource* resource)
 	{
-		loadResourceCb();
+		loadResourceCb(PASS_HANDLE);
 	}
 };
 
