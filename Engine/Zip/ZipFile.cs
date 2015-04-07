@@ -41,8 +41,6 @@ namespace ZipAccess
     {
         internal const int ZZIP_ERROR = -4096;
 
-        internal const int ZZIP_CASEINSENSITIVE = 0x0008;
-
         static char[] SEPS = { '/', '\\' };
 
 	    String file;

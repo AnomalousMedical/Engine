@@ -37,7 +37,7 @@ namespace ZipAccess
 
             //Get uncompressed size
             ZZipStat zstat = new ZZipStat();
-            ZipFile.ZipFile_DirStat(zzipDir.Ptr, fileName, &zstat, ZipFile.ZZIP_CASEINSENSITIVE);
+            ZipFile.ZipFile_DirStat(zzipDir.Ptr, fileName, &zstat, (int)ZZipFlags.ZZIP_CASELESS);
             uncompressedSize = zstat.UncompressedSize;
 
             //Open file
