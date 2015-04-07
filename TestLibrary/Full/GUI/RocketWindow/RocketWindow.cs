@@ -52,6 +52,7 @@ namespace Anomalous.Minimus.Full.GUI
 	</head>
 	<body>
 		<p>This is an rml paragraph</p>
+        <input type=""submit"">Submit</input>
 	</body>
 </rml>";
 	}

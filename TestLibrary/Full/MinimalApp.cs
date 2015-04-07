@@ -32,6 +32,7 @@ namespace Anomalous.Minimus.Full
         private SimScene scene;
 
         private SceneStatsDisplayManager sceneStatsDisplayManager;
+        private SceneViewLightManager lightManager;
 
         //Taskbar
         private AppButtonTaskbar taskbar;
@@ -63,6 +64,8 @@ namespace Anomalous.Minimus.Full
             //Main Window
             mainWindow = new NativeOSWindow("Anomalous Minimus", new IntVector2(-1, -1), new IntSize2(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes));
             mainWindow.Closed += mainWindow_Closed;
+            mainWindow.CreateInternalResources += mainWindow_CreateInternalResources;
+            mainWindow.DestroyInternalResources += mainWindow_DestroyInternalResources;
 
             //Setup DPI
             float pixelScale = mainWindow.WindowScaling;
@@ -111,7 +114,8 @@ namespace Anomalous.Minimus.Full
             sceneViewController = new SceneViewController(mdiLayout, engineController.EventManager, engineController.MainTimer, engineController.PluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.getRenderManager(), null);
             sceneStatsDisplayManager = new SceneStatsDisplayManager(sceneViewController, OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget);
             sceneStatsDisplayManager.StatsVisible = true;
-            sceneViewController.createWindow("Camera 1", Vector3.UnitX, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
+            sceneViewController.createWindow("Camera 1", Vector3.UnitX * 100, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
+            lightManager = PluginManager.Instance.RendererPlugin.createSceneViewLightManager();
 
             //Task Menu
             taskMenu = new TaskMenu(documentController, taskController, guiManager, new LayoutElementName(GUILocationNames.FullscreenPopup));
@@ -149,7 +153,19 @@ namespace Anomalous.Minimus.Full
                 Initialized.Invoke(this);
             }
 
+            lightManager.sceneLoaded(scene);
+
             return true;
+        }
+
+        void mainWindow_DestroyInternalResources(OSWindow window)
+        {
+            //libRocketPlugin.TextureDatabase.ReleaseTextures();
+        }
+
+        void mainWindow_CreateInternalResources(OSWindow window)
+        {
+            
         }
 
         void taskbar_OpenTaskMenu(int left, int top, int width, int height)
@@ -214,6 +230,14 @@ namespace Anomalous.Minimus.Full
             get
             {
                 return engineController;
+            }
+        }
+
+        public SimScene Scene
+        {
+            get
+            {
+                return scene;
             }
         }
     }
