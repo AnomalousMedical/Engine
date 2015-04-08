@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Anomalous.Minimus
+namespace Anomalous.OSPlatform
 {
     public class TouchMouseGuiForwarder : OnscreenKeyboardManager
     {

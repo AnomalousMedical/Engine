@@ -58,6 +58,7 @@
     <Compile Include="OSSpecific\MacOSXFunctions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemInfo.cs" />
+    <Compile Include="TouchMouseGuiForwarder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">
