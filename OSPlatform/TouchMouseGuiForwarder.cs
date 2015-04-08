@@ -19,6 +19,13 @@ namespace Anomalous.OSPlatform
 		private bool enabled = true;
 		private OnscreenKeyboardMode keyboardMode = OnscreenKeyboardMode.Hidden;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="eventManager">The EventManager to use.</param>
+        /// <param name="inputHandler">The InputHandler to use.</param>
+        /// <param name="window">The window to show the onscreen keyboard on.</param>
+        /// <param name="lastEventLayer">The last event layer in the eventManager.</param>
         public TouchMouseGuiForwarder(EventManager eventManager, NativeInputHandler inputHandler, NativeOSWindow window, Object lastEventLayer)
         {
             this.touches = eventManager.Touches;
