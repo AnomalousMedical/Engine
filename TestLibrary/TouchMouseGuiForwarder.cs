@@ -1,9 +1,6 @@
-﻿using Anomalous.libRocketWidget;
-using Anomalous.OSPlatform;
+﻿using Anomalous.OSPlatform;
 using Engine;
 using Engine.Platform;
-using libRocketPlugin;
-using MyGUIPlugin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +13,8 @@ namespace Anomalous.Minimus
     {
         private int currentFingerId = int.MinValue;
         private IntVector2 gestureStartPos;
-
-        private Touches touches; //Ghetto
+        private Touches touches;
         private NativeOSWindow window;
-        private RocketWidget currentRocketWidget;
         private NativeInputHandler inputHandler;
 		private bool enabled = true;
 		private OnscreenKeyboardMode keyboardMode = OnscreenKeyboardMode.Hidden;
@@ -30,13 +25,21 @@ namespace Anomalous.Minimus
             this.touches.FingerStarted += HandleFingerStarted;
             this.inputHandler = inputHandler;
             this.window = window;
-            InputManager.Instance.ChangeKeyFocus += HandleChangeKeyFocus;
-            RocketWidget.ElementFocused += HandleElementFocused;
-			RocketWidget.ElementBlurred += HandleElementBlurred;
-			RocketWidget.RocketWidgetDisposing += HandleRocketWidgetDisposing;
 
 			eventManager[EventLayers.Last].Keyboard.KeyPressed += HandleKeyPressed;
 			eventManager[EventLayers.Last].Keyboard.KeyReleased += HandleKeyReleased;
+        }
+
+        /// <summary>
+        /// In rare instances you might have to toggle the onscreen keyboard manually right away, this function will
+        /// do that, but most times this is handled automatically with no problems.
+        /// </summary>
+        public void toggleKeyboard()
+        {
+            if (keyboardMode != window.KeyboardMode)
+            {
+                window.KeyboardMode = keyboardMode;
+            }
         }
 
 		public bool Enabled
@@ -55,71 +58,15 @@ namespace Anomalous.Minimus
 			}
 		}
 
-        void HandleElementFocused(RocketWidget rocketWidget, Element element)
+        public OnscreenKeyboardMode KeyboardMode
         {
-            if (element != null)
+            get
             {
-                currentRocketWidget = rocketWidget;
-                String tag = element.TagName;
-				switch (tag) 
-				{
-					case "input":
-						String type = element.GetAttributeString ("type");
-                        switch(type)
-                        {
-                            case "password":
-                                keyboardMode = OnscreenKeyboardMode.Secure;
-                                break;
-                            case "text":
-                                keyboardMode = OnscreenKeyboardMode.Normal;
-                                break;
-                            default:
-                                keyboardMode = OnscreenKeyboardMode.Hidden;
-                                break;
-                        }
-						break;
-					case "textarea":
-                        keyboardMode = OnscreenKeyboardMode.Normal;
-						break;
-					default:
-                        keyboardMode = OnscreenKeyboardMode.Hidden;
-						break;
-				}
-			}
-		}
-
-		void HandleElementBlurred (RocketWidget widget, Element element)
-		{
-			if(widget == currentRocketWidget)
-			{
-                keyboardMode = OnscreenKeyboardMode.Hidden;
-			}
-		}
-
-		void HandleRocketWidgetDisposing(RocketWidget widget)
-		{
-			if(widget == currentRocketWidget)
-			{
-				currentRocketWidget = null;
-                keyboardMode = OnscreenKeyboardMode.Hidden;
-				//Handle these for keyboard toggle right away or it won't work
-				toggleKeyboard();
-			}
-		}
-
-        void HandleChangeKeyFocus(Widget widget)
-        {
-            if (currentRocketWidget == null || !currentRocketWidget.isHostWidget(widget))
+                return keyboardMode;
+            }
+            set
             {
-                EditBox editBox = widget as EditBox;
-                if (editBox != null)
-                {
-                    keyboardMode = editBox.EditPassword ? OnscreenKeyboardMode.Secure : OnscreenKeyboardMode.Normal;
-                }
-                else
-                {
-                    keyboardMode = OnscreenKeyboardMode.Hidden;
-                }
+                keyboardMode = value;
             }
         }
 
@@ -172,14 +119,6 @@ namespace Anomalous.Minimus
 			touches.FingerEnded -= fingerEnded;
 			touches.FingerMoved -= HandleFingerMoved;
 			currentFingerId = int.MinValue;
-		}
-
-		void toggleKeyboard()
-		{
-			if(keyboardMode != window.KeyboardMode)
-			{
-                window.KeyboardMode = keyboardMode;
-			}
 		}
 
 		void HandleKeyReleased(KeyboardButtonCode keyCode)
