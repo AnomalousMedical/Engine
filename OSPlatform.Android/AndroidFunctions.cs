@@ -20,7 +20,7 @@ namespace Anomalous.OSPlatform.Android
             AndroidOSWindow_EasyAttributeSetup(screenDensity, toggleKeyboardCb);
         }
 
-        [DllImport(AndroidPlatform.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(AndroidPlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void AndroidOSWindow_EasyAttributeSetup(float screenDensity, ToggleKeyboard toggleKeyboard);
     }
 }

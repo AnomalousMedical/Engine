@@ -20,7 +20,7 @@ namespace AndroidBaseApp
 	[Activity (Label = "AndroidBaseApp", MainLauncher = true, Icon = "@drawable/icon", Theme="@android:style/Theme.NoTitleBar.Fullscreen", 
 		ConfigurationChanges= ConfigChanges.Orientation | ConfigChanges.KeyboardHidden | ConfigChanges.ScreenSize | ConfigChanges.ScreenLayout,
 		WindowSoftInputMode = SoftInput.StateAlwaysHidden)]
-	[MetaData("android.app.lib_name", Value="OSHelper")]
+	[MetaData("android.app.lib_name", Value = AndroidPlatformPlugin.LibraryName)]
 	public class MainActivity : AndroidActivity
 	{
 		static MainActivity()

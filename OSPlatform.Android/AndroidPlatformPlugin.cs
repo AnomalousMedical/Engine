@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Anomalous.OSPlatform.Android
 {
-    class AndroidPlatform
+    public class AndroidPlatformPlugin
     {
-        internal const String LibraryName = "OSHelper";
+        public const String LibraryName = "OSHelper";
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.OS;
+using Android.Text;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
@@ -18,7 +19,7 @@ namespace Anomalous.OSPlatform.Android
     /// [Activity (Label = "App Name", MainLauncher = true, Icon = "@drawable/icon", Theme="@android:style/Theme.NoTitleBar.Fullscreen", ConfigurationChanges= ConfigChanges.Orientation | ConfigChanges.KeyboardHidden | ConfigChanges.ScreenSize | ConfigChanges.ScreenLayout, WindowSoftInputMode = SoftInput.StateAlwaysHidden)]
     /// </code>
     /// <code>
-    /// [MetaData("android.app.lib_name", Value = "OSHelper")]
+    /// [MetaData("android.app.lib_name", Value = AndroidPlatformPlugin.LibraryName)]
     /// </code>
     /// </summary>
     /// <remarks>
@@ -75,6 +76,7 @@ namespace Anomalous.OSPlatform.Android
                 InputMethodManager inputMethod = GetSystemService(InputMethodService) as InputMethodManager;
                 if (visible)
                 {
+                    editText.InputType = InputTypes.TextVariationWebPassword;
                     inputMethod.ShowSoftInput(editText, ShowFlags.Forced);
                 }
                 else

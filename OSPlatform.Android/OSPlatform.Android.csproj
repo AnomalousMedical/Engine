@@ -44,7 +44,7 @@
   <ItemGroup>
     <Compile Include="AndroidActivity.cs" />
     <Compile Include="AndroidFunctions.cs" />
-    <Compile Include="AndroidPlatform.cs" />
+    <Compile Include="AndroidPlatformPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
