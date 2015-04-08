@@ -157,7 +157,9 @@ namespace Anomalous.Minimus.Full
 
             if (PlatformConfig.ForwardTouchAsMouse)
             {
-                touchMouseGuiForwarder = new TouchMouseGuiForwarder(eventManager, inputHandler, mainWindow);
+                touchMouseGuiForwarder = new TouchMouseGuiForwarder(eventManager, inputHandler, mainWindow, EventLayers.Last);
+                var myGuiKeyboard = new MyGUIOnscreenKeyboardManager(touchMouseGuiForwarder);
+                var rocketKeyboard = new RocketWidgetOnscreenKeyboardManager(touchMouseGuiForwarder);
             }
         }
 

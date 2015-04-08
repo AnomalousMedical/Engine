@@ -19,15 +19,15 @@ namespace Anomalous.Minimus
 		private bool enabled = true;
 		private OnscreenKeyboardMode keyboardMode = OnscreenKeyboardMode.Hidden;
 
-        public TouchMouseGuiForwarder(EventManager eventManager, NativeInputHandler inputHandler, NativeOSWindow window)
+        public TouchMouseGuiForwarder(EventManager eventManager, NativeInputHandler inputHandler, NativeOSWindow window, Object lastEventLayer)
         {
             this.touches = eventManager.Touches;
             this.touches.FingerStarted += HandleFingerStarted;
             this.inputHandler = inputHandler;
             this.window = window;
 
-			eventManager[EventLayers.Last].Keyboard.KeyPressed += HandleKeyPressed;
-			eventManager[EventLayers.Last].Keyboard.KeyReleased += HandleKeyReleased;
+            eventManager[lastEventLayer].Keyboard.KeyPressed += HandleKeyPressed;
+            eventManager[lastEventLayer].Keyboard.KeyReleased += HandleKeyReleased;
         }
 
         /// <summary>
@@ -42,6 +42,9 @@ namespace Anomalous.Minimus
             }
         }
 
+        /// <summary>
+        /// Enable / Disable finger tracking.
+        /// </summary>
 		public bool Enabled
 		{
 			get
@@ -58,6 +61,10 @@ namespace Anomalous.Minimus
 			}
 		}
 
+        /// <summary>
+        /// The keyboard mode that will be set the next time togglekeyboard is called. This does not reflect
+        /// the actual keyboard status.
+        /// </summary>
         public OnscreenKeyboardMode KeyboardMode
         {
             get

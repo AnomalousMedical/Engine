@@ -20,17 +20,14 @@ namespace Anomalous.Minimus
 
         void changeKeyFocus(Widget widget)
         {
-            //if (currentRocketWidget == null || !currentRocketWidget.isHostWidget(widget))
+            EditBox editBox = widget as EditBox;
+            if (editBox != null)
             {
-                EditBox editBox = widget as EditBox;
-                if (editBox != null)
-                {
-                    guiForwarder.KeyboardMode = editBox.EditPassword ? OnscreenKeyboardMode.Secure : OnscreenKeyboardMode.Normal;
-                }
-                else
-                {
-                    guiForwarder.KeyboardMode = OnscreenKeyboardMode.Hidden;
-                }
+                guiForwarder.KeyboardMode = editBox.EditPassword ? OnscreenKeyboardMode.Secure : OnscreenKeyboardMode.Normal;
+            }
+            else
+            {
+                guiForwarder.KeyboardMode = OnscreenKeyboardMode.Hidden;
             }
         }
     }
