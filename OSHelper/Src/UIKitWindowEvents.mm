@@ -70,15 +70,20 @@
     touch = multiTouch;
 }
 
--(void) setOnscreenKeyboardVisible:(bool) visible;
+-(void) setOnscreenKeyboardMode:(OnscreenKeyboardMode) mode;
 {
-    if(visible)
+    switch (mode)
     {
-        [dummyTextField becomeFirstResponder];
-    }
-    else
-    {
-        [dummyTextField resignFirstResponder];
+        case OnscreenKeyboardMode::Hidden:
+            [dummyTextField resignFirstResponder];
+            break;
+        case OnscreenKeyboardMode::Secure:
+            [dummyTextField becomeFirstResponder];
+            break;
+        case OnscreenKeyboardMode::Normal:
+        default:
+            [dummyTextField becomeFirstResponder];
+            break;
     }
 }
 

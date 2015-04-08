@@ -31,7 +31,7 @@ void UIKitWindow_setUIWindow(UIKitWindowEvents *win, UIKitViewController *vc)
 }
 
 UIKitWindow::UIKitWindow(UIKitWindow* parent, String title, int x, int y, int width, int height, bool floatOnParent)
-:keyboardVisible(false)
+:keyboardMode(OnscreenKeyboardMode::Hidden)
 {
     [window setWindow:this];
     [viewController setWindow:this];
@@ -109,21 +109,21 @@ void UIKitWindow::toggleFullscreen()
     
 }
 
-void UIKitWindow::setOnscreenKeyboardVisible(bool visible)
+void UIKitWindow::setOnscreenKeyboardMode(OnscreenKeyboardMode mode)
 {
-    [window setOnscreenKeyboardVisible:visible];
+    [window setOnscreenKeyboardMode:mode];
+    keyboardMode = mode;
 }
 
-bool UIKitWindow::isOnscreenKeyboardVisible()
+OnscreenKeyboardMode UIKitWindow::getOnscreenKeyboardMode()
 {
-    return keyboardVisible;
+    return keyboardMode;
 }
 
 void UIKitWindow::onscreenKeyboardVisible(CGRect kbRect)
 {
-    if(!keyboardVisible)
+    if(keyboardMode == OnscreenKeyboardMode::Hidden)
     {
-        keyboardVisible = true;
         CGRect frame = [window frame];
         frame.size.height -= kbRect.size.height;
         [view setFrameForNextUpdate:frame];
@@ -132,7 +132,7 @@ void UIKitWindow::onscreenKeyboardVisible(CGRect kbRect)
 
 void UIKitWindow::onscreenKeyboardFrameChanged(CGRect kbRect)
 {
-    if(keyboardVisible)
+    if(keyboardMode != OnscreenKeyboardMode::Hidden)
     {
         CGRect frame = [window frame];
         frame.size.height -= kbRect.size.height;
@@ -142,9 +142,9 @@ void UIKitWindow::onscreenKeyboardFrameChanged(CGRect kbRect)
 
 void UIKitWindow::onscreenKeyboardHiding()
 {
-    if(keyboardVisible)
+    if(keyboardMode != OnscreenKeyboardMode::Hidden)
     {
-        keyboardVisible = false;
+        keyboardMode = OnscreenKeyboardMode::Hidden;
         CGRect frame = [window frame];
         [view setFrameForNextUpdate:frame];
     }

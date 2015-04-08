@@ -12,6 +12,7 @@
 #include "ListenerTextField.h"
 #include <map>
 #include <stack>
+#include "NativeOSWindow.h"
 
 class UIKitWindow;
 class MultiTouch;
@@ -32,7 +33,7 @@ class MultiTouch;
 
 -(void) setMultitouch:(MultiTouch*) multiTouch;
 
--(void) setOnscreenKeyboardVisible:(bool) visible;
+-(void) setOnscreenKeyboardMode:(OnscreenKeyboardMode) mode;
 
 @end
 
