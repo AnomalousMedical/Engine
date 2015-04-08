@@ -73,7 +73,7 @@ public:
     
 	virtual OnscreenKeyboardMode getOnscreenKeyboardMode()
     {
-		return OnscreenKeyboardMode::Hidden;
+		return Hidden;
     }
 
 	void setCallbacks(NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, ActivateCB activateCB, NativeAction createInternalResourcesCB, NativeAction destroyInternalResourcesCB HANDLE_ARG);
