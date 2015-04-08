@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Plugin\ImageAtlas\ImageAtlas.cs" />
+    <Compile Include="Plugin\MyGUIOnscreenKeyboardManager.cs" />
     <Compile Include="Plugin\MyGUIPluginEntryPoint.cs" />
     <Compile Include="Plugin\MyGUIRenderListener.cs" />
     <Compile Include="Plugin\MyGUIResourceNames.cs" />

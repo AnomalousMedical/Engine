@@ -9,13 +9,6 @@ using Anomalous.Interop;
 
 namespace Anomalous.OSPlatform
 {
-    public enum OnscreenKeyboardMode
-    {
-        Hidden = 0,
-        Normal = 1,
-        Secure = 2,
-    }
-
     public class NativeOSWindow : OSWindow, IDisposable
     {
         private String title;

@@ -1,5 +1,5 @@
 ﻿using Anomalous.libRocketWidget;
-using Anomalous.OSPlatform;
+using Engine.Platform;
 using libRocketPlugin;
 using System;
 using System.Collections.Generic;
@@ -7,16 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Anomalous.Minimus
+namespace Anomalous.libRocketWidget
 {
-    class RocketWidgetOnscreenKeyboardManager
+    public class RocketWidgetOnscreenKeyboardManager
     {
         private RocketWidget currentRocketWidget;
-        private TouchMouseGuiForwarder guiForwarder;
+        private OnscreenKeyboardManager onscreenKeyboardManager;
 
-        public RocketWidgetOnscreenKeyboardManager(TouchMouseGuiForwarder guiForwarder)
+        public RocketWidgetOnscreenKeyboardManager(OnscreenKeyboardManager onscreenKeyboardManager)
         {
-            this.guiForwarder = guiForwarder;
+            this.onscreenKeyboardManager = onscreenKeyboardManager;
 
             RocketWidget.ElementFocused += HandleElementFocused;
             RocketWidget.ElementBlurred += HandleElementBlurred;
@@ -36,21 +36,21 @@ namespace Anomalous.Minimus
                         switch (type)
                         {
                             case "password":
-                                guiForwarder.KeyboardMode = OnscreenKeyboardMode.Secure;
+                                onscreenKeyboardManager.KeyboardMode = OnscreenKeyboardMode.Secure;
                                 break;
                             case "text":
-                                guiForwarder.KeyboardMode = OnscreenKeyboardMode.Normal;
+                                onscreenKeyboardManager.KeyboardMode = OnscreenKeyboardMode.Normal;
                                 break;
                             default:
-                                guiForwarder.KeyboardMode = OnscreenKeyboardMode.Hidden;
+                                onscreenKeyboardManager.KeyboardMode = OnscreenKeyboardMode.Hidden;
                                 break;
                         }
                         break;
                     case "textarea":
-                        guiForwarder.KeyboardMode = OnscreenKeyboardMode.Normal;
+                        onscreenKeyboardManager.KeyboardMode = OnscreenKeyboardMode.Normal;
                         break;
                     default:
-                        guiForwarder.KeyboardMode = OnscreenKeyboardMode.Hidden;
+                        onscreenKeyboardManager.KeyboardMode = OnscreenKeyboardMode.Hidden;
                         break;
                 }
             }
@@ -60,7 +60,7 @@ namespace Anomalous.Minimus
         {
             if (widget == currentRocketWidget)
             {
-                guiForwarder.KeyboardMode = OnscreenKeyboardMode.Hidden;
+                onscreenKeyboardManager.KeyboardMode = OnscreenKeyboardMode.Hidden;
             }
         }
 
@@ -69,9 +69,9 @@ namespace Anomalous.Minimus
             if (widget == currentRocketWidget)
             {
                 currentRocketWidget = null;
-                guiForwarder.KeyboardMode = OnscreenKeyboardMode.Hidden;
+                onscreenKeyboardManager.KeyboardMode = OnscreenKeyboardMode.Hidden;
                 //Handle these for keyboard toggle right away or it won't work
-                guiForwarder.toggleKeyboard();
+                onscreenKeyboardManager.toggleKeyboard();
             }
         }
     }

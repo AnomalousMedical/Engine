@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Anomalous.Minimus
 {
-    public class TouchMouseGuiForwarder
+    public class TouchMouseGuiForwarder : OnscreenKeyboardManager
     {
         private int currentFingerId = int.MinValue;
         private IntVector2 gestureStartPos;

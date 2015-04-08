@@ -53,12 +53,10 @@
     <Compile Include="Full\GUI\TestWindow\TestWindow.cs" />
     <Compile Include="Full\MinimalApp.cs" />
     <Compile Include="GUILocationNames.cs" />
-    <Compile Include="MyGUIOnscreenKeyboardManager.cs" />
     <Compile Include="OgreOnly\OgreOnlyApp.cs" />
     <Compile Include="OgreOnly\OgreOnlyEngineController.cs" />
     <Compile Include="OgreOnly\OgreOnlyEngineUpdate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RocketWidgetOnscreenKeyboardManager.cs" />
     <Compile Include="SceneController.cs" />
     <Compile Include="TouchMouseGuiForwarder.cs" />
   </ItemGroup>
