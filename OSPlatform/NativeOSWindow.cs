@@ -9,6 +9,13 @@ using Anomalous.Interop;
 
 namespace Anomalous.OSPlatform
 {
+    public enum OnscreenKeyboardMode
+    {
+        Hidden = 0,
+        Normal = 1,
+        Secure = 2,
+    }
+
     public class NativeOSWindow : OSWindow, IDisposable
     {
         private String title;
@@ -99,15 +106,15 @@ namespace Anomalous.OSPlatform
             NativeOSWindow_toggleFullscreen(nativeWindow);
         }
 
-		public bool OnscreenKeyboardVisible
+		public OnscreenKeyboardMode KeyboardMode
 		{
 			get 
 			{
-				return NativeOSWindow_isOnscreenKeyboardVisible(nativeWindow);
+                return NativeOSWindow_getOnscreenKeyboardMode(nativeWindow);
 			}
 			set 
 			{
-				NativeOSWindow_setOnscreenKeyboardVisible(nativeWindow, value);
+				NativeOSWindow_setOnscreenKeyboardMode(nativeWindow, value);
 			}
 		}
 
@@ -329,11 +336,10 @@ namespace Anomalous.OSPlatform
         private static extern void NativeOSWindow_toggleFullscreen(IntPtr nativeWindow);
 
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void NativeOSWindow_setOnscreenKeyboardVisible(IntPtr nativeWindow, bool visible);
+        private static extern void NativeOSWindow_setOnscreenKeyboardMode(IntPtr nativeWindow, OnscreenKeyboardMode mode);
 
 		[DllImport(NativePlatformPlugin.LibraryName, CallingConvention=CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		private static extern bool NativeOSWindow_isOnscreenKeyboardVisible(IntPtr nativeWindow);
+        private static extern OnscreenKeyboardMode NativeOSWindow_getOnscreenKeyboardMode(IntPtr nativeWindow);
 
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void NativeOSWindow_setCallbacks(IntPtr nativeWindow, NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, ActivateCB activateCB, NativeAction createInternalResourcesCB, NativeAction destroyInternalResourcesCB

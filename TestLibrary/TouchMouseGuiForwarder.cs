@@ -22,7 +22,7 @@ namespace Anomalous.Minimus
         private RocketWidget currentRocketWidget;
         private NativeInputHandler inputHandler;
 		private bool enabled = true;
-		private bool keyboardVisible = false;
+		private OnscreenKeyboardMode keyboardMode = OnscreenKeyboardMode.Hidden;
 
         public TouchMouseGuiForwarder(EventManager eventManager, NativeInputHandler inputHandler, NativeOSWindow window)
         {
@@ -65,13 +65,28 @@ namespace Anomalous.Minimus
 				{
 					case "input":
 						String type = element.GetAttributeString ("type");
-						keyboardVisible = type == "text" || type == "password";
+                        if(type == "password")
+                        {
+                            switch(type)
+                            {
+                                case "password":
+                                    keyboardMode = OnscreenKeyboardMode.Secure;
+                                    break;
+                                case "text":
+                                    keyboardMode = OnscreenKeyboardMode.Normal;
+                                    break;
+                                default:
+                                    keyboardMode = OnscreenKeyboardMode.Hidden;
+                                    break;
+                            }
+
+                        }
 						break;
 					case "textarea":
-						keyboardVisible = true;
+                        keyboardMode = OnscreenKeyboardMode.Normal;
 						break;
 					default:
-						keyboardVisible = false;
+                        keyboardMode = OnscreenKeyboardMode.Hidden;
 						break;
 				}
 			}
@@ -81,7 +96,7 @@ namespace Anomalous.Minimus
 		{
 			if(widget == currentRocketWidget)
 			{
-				keyboardVisible = false;
+                keyboardMode = OnscreenKeyboardMode.Hidden;
 			}
 		}
 
@@ -90,7 +105,7 @@ namespace Anomalous.Minimus
 			if(widget == currentRocketWidget)
 			{
 				currentRocketWidget = null;
-				keyboardVisible = false;
+                keyboardMode = OnscreenKeyboardMode.Hidden;
 				//Handle these for keyboard toggle right away or it won't work
 				toggleKeyboard();
 			}
@@ -100,7 +115,14 @@ namespace Anomalous.Minimus
         {
             if (currentRocketWidget == null || !currentRocketWidget.isHostWidget(widget))
             {
-                keyboardVisible = widget != null && widget is EditBox;
+                if (widget != null && widget is EditBox)
+                {
+                    keyboardMode = OnscreenKeyboardMode.Normal;
+                }
+                else
+                {
+                    keyboardMode = OnscreenKeyboardMode.Hidden;
+                }
             }
         }
 
@@ -157,9 +179,9 @@ namespace Anomalous.Minimus
 
 		void toggleKeyboard()
 		{
-			if(keyboardVisible != window.OnscreenKeyboardVisible)
+			if(keyboardMode != window.KeyboardMode)
 			{
-				window.OnscreenKeyboardVisible = keyboardVisible;
+                window.KeyboardMode = keyboardMode;
 			}
 		}
 

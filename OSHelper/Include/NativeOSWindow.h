@@ -12,6 +12,13 @@ enum CursorType
     Link = 7,
 };
 
+enum OnscreenKeyboardMode
+{
+	Hidden = 0,
+	Normal = 1,
+	Secure = 2,
+};
+
 #include "KeyboardButtonCode.h"
 #include "MouseButtonCode.h"
 
@@ -59,14 +66,14 @@ public:
 
 	virtual void toggleFullscreen() = 0;
 
-	virtual void setOnscreenKeyboardVisible(bool visible)
+	virtual void setOnscreenKeyboardMode(OnscreenKeyboardMode mode)
 	{
 		//Does nothing by default.
 	}
     
-    virtual bool isOnscreenKeyboardVisible()
+	virtual OnscreenKeyboardMode getOnscreenKeyboardMode()
     {
-        return false;
+		return OnscreenKeyboardMode::Hidden;
     }
 
 	void setCallbacks(NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, ActivateCB activateCB, NativeAction createInternalResourcesCB, NativeAction destroyInternalResourcesCB HANDLE_ARG);

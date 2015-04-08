@@ -2,7 +2,7 @@
 #include "AndroidWindow.h"
 #include "AndroidApp.h"
 
-typedef void(*ToggleKeyboard)(bool visible);
+typedef void(*ToggleKeyboard)(OnscreenKeyboardMode mode);
 
 static struct android_app* app = 0;
 static float _screenDensity = 1.0f;
@@ -11,7 +11,7 @@ ToggleKeyboard _toggleKeyboard;
 void displayKeyboard(bool pShow);
 
 AndroidWindow::AndroidWindow()
-	:keyboardVisible(false)
+	:keyboardMode(OnscreenKeyboardMode::Hidden)
 {
 	struct AndroidAppState* appState = (struct AndroidAppState*)app->userData;
 	appState->androidWindow = this;
@@ -84,17 +84,17 @@ float AndroidWindow::getWindowScaling()
 	return _screenDensity;
 }
 
-void AndroidWindow::setOnscreenKeyboardVisible(bool visible)
+void AndroidWindow::setOnscreenKeyboardMode(OnscreenKeyboardMode mode)
 {
 	//LOGI("Requesting keyboard visible %i", visible);
 	//displayKeyboard(visible);
-	_toggleKeyboard(visible);
-	keyboardVisible = visible;
+	_toggleKeyboard(mode);
+	keyboardMode = mode;
 }
 
-bool AndroidWindow::isOnscreenKeyboardVisible()
+OnscreenKeyboardMode AndroidWindow::getOnscreenKeyboardMode()
 {
-	return keyboardVisible;
+	return keyboardMode;
 }
 
 int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* event)

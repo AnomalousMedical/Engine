@@ -162,14 +162,14 @@ extern "C" _AnomalousExport void NativeOSWindow_toggleFullscreen(NativeOSWindow*
 	return nativeWindow->toggleFullscreen();
 }
 
-extern "C" _AnomalousExport void NativeOSWindow_setOnscreenKeyboardVisible(NativeOSWindow* nativeWindow, bool visible)
+extern "C" _AnomalousExport void NativeOSWindow_setOnscreenKeyboardMode(NativeOSWindow* nativeWindow, OnscreenKeyboardMode mode)
 {
-	nativeWindow->setOnscreenKeyboardVisible(visible);
+	nativeWindow->setOnscreenKeyboardMode(mode);
 }
 
-extern "C" _AnomalousExport bool NativeOSWindow_isOnscreenKeyboardVisible(NativeOSWindow* nativeWindow)
+extern "C" _AnomalousExport OnscreenKeyboardMode NativeOSWindow_getOnscreenKeyboardMode(NativeOSWindow* nativeWindow)
 {
-    return nativeWindow->isOnscreenKeyboardVisible();
+	return nativeWindow->getOnscreenKeyboardMode();
 }
 
 extern "C" _AnomalousExport void NativeOSWindow_setCallbacks(NativeOSWindow* nativeWindow, NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, ActivateCB activateCB, NativeAction createInternalResourcesCB, NativeAction destroyInternalResourcesCB HANDLE_ARG)

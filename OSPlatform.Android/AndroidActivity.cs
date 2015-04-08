@@ -65,7 +65,7 @@ namespace Anomalous.OSPlatform.Android
             this.inputHandler = inputHandler;
         }
 
-        private void toggleKeyboard(bool visible)
+        private void toggleKeyboard(OnscreenKeyboardMode mode)
         {
             RunOnUiThread(() =>
             {
@@ -74,14 +74,21 @@ namespace Anomalous.OSPlatform.Android
                 fireInputs = true;
 
                 InputMethodManager inputMethod = GetSystemService(InputMethodService) as InputMethodManager;
-                if (visible)
+                switch(mode)
                 {
-                    editText.InputType = InputTypes.TextVariationWebPassword;
-                    inputMethod.ShowSoftInput(editText, ShowFlags.Forced);
-                }
-                else
-                {
-                    inputMethod.HideSoftInputFromWindow(editText.WindowToken, 0);
+                    case OnscreenKeyboardMode.Hidden:
+                        inputMethod.HideSoftInputFromWindow(editText.WindowToken, 0);
+                        break;                        
+                    case OnscreenKeyboardMode.Secure:
+                        editText.InputType = InputTypes.TextVariationWebPassword;
+                        inputMethod.ShowSoftInput(editText, ShowFlags.Forced);
+                        break;
+                    //Make normal and default the same in case we add a type but we haven't added it here yet.
+                    case OnscreenKeyboardMode.Normal:
+                    default:
+                        editText.InputType = InputTypes.ClassText | InputTypes.TextFlagMultiLine;
+                        inputMethod.ShowSoftInput(editText, ShowFlags.Forced);
+                        break;
                 }
             });
         }

@@ -34,9 +34,9 @@ public:
 
 	virtual void toggleFullscreen();
 
-	virtual void setOnscreenKeyboardVisible(bool visible);
+	virtual void setOnscreenKeyboardMode(OnscreenKeyboardMode mode);
 
-	virtual bool isOnscreenKeyboardVisible();
+	virtual OnscreenKeyboardMode getOnscreenKeyboardMode();
     
     virtual void setupMultitouch(MultiTouch* multiTouch)
 	{
@@ -47,7 +47,7 @@ public:
 
 private:
 	MultiTouch* multiTouch;
-	bool keyboardVisible;
+	OnscreenKeyboardMode keyboardMode;
 
 	//android_app_handle_input variables
 	int32_t eventType;

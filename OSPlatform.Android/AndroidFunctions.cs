@@ -10,7 +10,7 @@ namespace Anomalous.OSPlatform.Android
     class AndroidFunctions
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void ToggleKeyboard(bool visible);
+        public delegate void ToggleKeyboard(OnscreenKeyboardMode mode);
 
         private static ToggleKeyboard toggleKeyboardCb;
 
