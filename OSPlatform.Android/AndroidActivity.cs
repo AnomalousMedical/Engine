@@ -31,31 +31,35 @@ namespace Anomalous.OSPlatform.Android
         private EditText editText;
         bool fireInputs = true;
         private NativeInputHandler inputHandler;
+        int contentViewId;
+        int editTextId;
 
-        protected override void OnCreate(Bundle bundle)
+        public AndroidActivity(int contentViewId, int editTextId)
+        {
+            this.contentViewId = contentViewId;
+            this.editTextId = editTextId;
+        }
+
+        protected override sealed void OnCreate(Bundle bundle)
         {
             AndroidFunctions.EasyAttributeSetup(Resources.DisplayMetrics.Density, toggleKeyboard);
 
             createApp();
 
             base.OnCreate(bundle);
-        }
 
-        /// <summary>
-        /// Create the app instance that will run for this activity.
-        /// </summary>
-        protected abstract void createApp();
+            SetContentView(contentViewId);
 
-        /// <summary>
-        /// Set the views to use to show the keyboard. This should be called in OnCreate in the subclass.
-        /// </summary>
-        /// <param name="primaryText"></param>
-        protected void setViews(EditText primaryText)
-        {
-            this.editText = primaryText;
+            this.editText = FindViewById<EditText>(editTextId);
             this.editText.TextChanged += editText_TextChanged;
             Window.SetSoftInputMode(SoftInput.StateAlwaysHidden);
         }
+
+        /// <summary>
+        /// Create the app instance that will run for this activity. This will be called during OnCreate,
+        /// which is sealed in this class since it relies on a specific order of doing things.
+        /// </summary>
+        protected abstract void createApp();
 
         /// <summary>
         /// Set the input handler once you can get an instance to it.

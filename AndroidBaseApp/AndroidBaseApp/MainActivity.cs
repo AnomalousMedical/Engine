@@ -28,18 +28,16 @@ namespace AndroidBaseApp
 			Java.Lang.JavaSystem.LoadLibrary ("openal");
 		}
 
-		protected override void OnCreate (Bundle bundle)
+		public MainActivity()
+			:base(Resource.Layout.Main, Resource.Id.editText1)
 		{
-			Logging.Log.Default.addLogListener (new Logging.LogConsoleListener ());
 
-			base.OnCreate (bundle);
-
-			SetContentView (Resource.Layout.Main);
-			setViews (FindViewById<EditText> (Resource.Id.editText1));
 		}
 
 		protected override void createApp ()
 		{
+			Logging.Log.Default.addLogListener (new Logging.LogConsoleListener ());
+
 			//var app = new Anomalous.Minimus.OgreOnly.OgreOnlyApp();
 			var app = new Anomalous.Minimus.Full.MinimalApp ();
 			app.Initialized += HandleInitialized;
