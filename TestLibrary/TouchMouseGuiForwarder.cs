@@ -65,21 +65,17 @@ namespace Anomalous.Minimus
 				{
 					case "input":
 						String type = element.GetAttributeString ("type");
-                        if(type == "password")
+                        switch(type)
                         {
-                            switch(type)
-                            {
-                                case "password":
-                                    keyboardMode = OnscreenKeyboardMode.Secure;
-                                    break;
-                                case "text":
-                                    keyboardMode = OnscreenKeyboardMode.Normal;
-                                    break;
-                                default:
-                                    keyboardMode = OnscreenKeyboardMode.Hidden;
-                                    break;
-                            }
-
+                            case "password":
+                                keyboardMode = OnscreenKeyboardMode.Secure;
+                                break;
+                            case "text":
+                                keyboardMode = OnscreenKeyboardMode.Normal;
+                                break;
+                            default:
+                                keyboardMode = OnscreenKeyboardMode.Hidden;
+                                break;
                         }
 						break;
 					case "textarea":
