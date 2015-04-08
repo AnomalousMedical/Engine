@@ -111,9 +111,10 @@ namespace Anomalous.Minimus
         {
             if (currentRocketWidget == null || !currentRocketWidget.isHostWidget(widget))
             {
-                if (widget != null && widget is EditBox)
+                EditBox editBox = widget as EditBox;
+                if (editBox != null)
                 {
-                    keyboardMode = OnscreenKeyboardMode.Normal;
+                    keyboardMode = editBox.EditPassword ? OnscreenKeyboardMode.Secure : OnscreenKeyboardMode.Normal;
                 }
                 else
                 {

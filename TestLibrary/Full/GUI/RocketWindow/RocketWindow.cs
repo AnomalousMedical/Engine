@@ -51,7 +51,11 @@ namespace Anomalous.Minimus.Full.GUI
     	<link type=""text/rcss"" href=""~/libRocketPlugin.Resources.Anomalous.rcss""/>	
 	</head>
 	<body>
-		<p>This is an rml paragraph</p>
+		<p>User</p>
+        <input type=""text""/>
+        <p>Password</p>
+        <input type=""password""/>
+        <p></p>
         <input type=""submit"">Submit</input>
 	</body>
 </rml>";
