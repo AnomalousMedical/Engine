@@ -19,7 +19,7 @@ void AndroidApp::run()
 
 void AndroidApp::exit()
 {
-	
+
 }
 
 static AndroidApp* currentAndroidApp;
@@ -34,7 +34,7 @@ extern "C" _AnomalousExport AndroidApp* App_create()
 /**
 * Process the next input event.
 */
-static int32_t android_app_handle_input(struct android_app* app, AInputEvent* event) 
+static int32_t android_app_handle_input(struct android_app* app, AInputEvent* event)
 {
 	struct AndroidAppState* appState = (struct AndroidAppState*)app->userData;
 	appState->androidWindow->handleInputEvent(app, event);
@@ -45,38 +45,73 @@ static int32_t android_app_handle_input(struct android_app* app, AInputEvent* ev
 */
 static void android_app_handle_cmd(struct android_app* app, int32_t cmd) {
 	struct AndroidAppState* appState = (struct AndroidAppState*)app->userData;
-	switch (cmd) 
+	switch (cmd)
 	{
-		case APP_CMD_SAVE_STATE:
-			//Save state
-			break;
-		case APP_CMD_INIT_WINDOW:
-			//Init
-			if (appState->initOnce)
+	case APP_CMD_SAVE_STATE:
+		//Save state
+		break;
+	case APP_CMD_INIT_WINDOW:
+		//Init
+		if (appState->initOnce)
+		{
+			appState->androidWindow->fireCreateInternalResources();
+		}
+		else
+		{
+			currentAndroidApp->fireInit();
+			appState->initOnce = true;
+		}
+		break;
+	case APP_CMD_TERM_WINDOW:
+		//Window terminated
+		appState->androidWindow->fireDestroyInternalResources();
+		break;
+	case APP_CMD_GAINED_FOCUS:
+		//App gained focus
+		currentAndroidApp->fireMovedToForeground();
+		appState->animating = 1;
+		break;
+	case APP_CMD_LOST_FOCUS:
+		//App lost focus
+		currentAndroidApp->fireMovedToBackground();
+		//Also stop animating.
+		appState->animating = 0;
+		break;
+	}
+}
+
+
+
+static void custom_process_input(struct android_app* app, struct android_poll_source* source)
+{
+	struct AndroidAppState* appState = (struct AndroidAppState*)app->userData;
+	AInputEvent* event = NULL;
+	while (AInputQueue_getEvent(app->inputQueue, &event) >= 0)
+	{
+		if (appState->androidWindow->getOnscreenKeyboardMode() != OnscreenKeyboardMode::Hidden)
+		{
+			int type = AInputEvent_getType(event);
+			if (type == AINPUT_EVENT_TYPE_KEY && AKeyEvent_getAction(event) == AKEY_EVENT_ACTION_DOWN)
 			{
-				appState->androidWindow->fireCreateInternalResources();
+				switch (AKeyEvent_getKeyCode(event))
+				{
+				case AKEYCODE_BACK:
+					//Hide the onscreen keyboard, this is done automatically, but this way we can actually
+					//track the status.
+					appState->androidWindow->setOnscreenKeyboardMode(OnscreenKeyboardMode::Hidden);
+					break;
+				}
 			}
-			else
-			{
-				currentAndroidApp->fireInit();
-				appState->initOnce = true;
-			}
-			break;
-		case APP_CMD_TERM_WINDOW:
-			//Window terminated
-			appState->androidWindow->fireDestroyInternalResources();
-			break;
-		case APP_CMD_GAINED_FOCUS:
-			//App gained focus
-			currentAndroidApp->fireMovedToForeground();
-			appState->animating = 1;
-			break;
-		case APP_CMD_LOST_FOCUS:
-			//App lost focus
-			currentAndroidApp->fireMovedToBackground();
-			//Also stop animating.
-			appState->animating = 0;
-			break;
+		}
+		
+		if (AInputQueue_preDispatchEvent(app->inputQueue, event)) 
+		{
+			continue;
+		}
+		
+		int32_t handled = 0;
+		if (app->onInputEvent != NULL) handled = app->onInputEvent(app, event);
+		AInputQueue_finishEvent(app->inputQueue, event, handled);
 	}
 }
 
@@ -97,6 +132,7 @@ void android_main(struct android_app* state)
 	state->userData = &appState;
 	state->onAppCmd = android_app_handle_cmd;
 	state->onInputEvent = android_app_handle_input;
+	state->inputPollSource.process = custom_process_input; //Use our own custom process input function to try to track the keyboard.
 	appState.app = state;
 
 	//It seems that we need to poll for app size changes, that sucks, these hold the current width, height
