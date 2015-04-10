@@ -80,8 +80,9 @@ namespace Anomalous.GuiFramework.Cameras
             this.startPosition = cameraMover.Translation;
             this.startLookAt = cameraMover.LookAt;
             transparencyStateName = name;
-            NearPlaneWorldPos = 200;
-            FarPlaneWorldPos = -200;
+            NearPlaneWorld = 200;
+            NearFarLength = 400;
+            MinNearDistance = 15;
         }
 
         /// <summary>
@@ -124,7 +125,7 @@ namespace Anomalous.GuiFramework.Cameras
             sceneView.setFarClipDistance(1000.0f);
             sceneView.ClearEveryFrame = clearEveryFrame;
             sceneView.setRenderingMode(renderingMode);
-            cameraMover.setCamera(new CameraPositioner(sceneView, NearPlaneWorldPos, FarPlaneWorldPos));
+            cameraMover.setCamera(new CameraPositioner(sceneView, MinNearDistance, NearPlaneWorld, NearFarLength));
             sceneView.RenderingStarted += sceneView_RenderingStarted;
             sceneView.RenderingEnded += sceneView_RenderingEnded;
             if (CameraCreated != null)
@@ -743,9 +744,21 @@ namespace Anomalous.GuiFramework.Cameras
             }
         }
 
-        public float NearPlaneWorldPos { get; set; }
+        /// <summary>
+        /// The position of the near plane in the world along the ray from the camera to the origin.
+        /// </summary>
+        public float NearPlaneWorld { get; set; }
 
-        public float FarPlaneWorldPos { get; set; }
+        /// <summary>
+        /// The length of the near far plane.
+        /// </summary>
+        public float NearFarLength { get; set; }
+
+        /// <summary>
+        /// The minimum distance that the near plane can be to the eye. If this is too close like 1 you will
+        /// get flimmering on some mobile devices. The default is 15.
+        /// </summary>
+        public float MinNearDistance { get; set; }
 
         public RenderingMode RenderingMode
         {

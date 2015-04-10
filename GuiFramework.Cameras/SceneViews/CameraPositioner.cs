@@ -13,14 +13,16 @@ namespace Anomalous.GuiFramework.Cameras
     public class CameraPositioner
     {
         private SceneView sceneView;
-        private float nearPlaneWorldPos;
-        private float farPlaneWorldPos;
+        private float nearPlaneWorld;
+        private float nearFarLength;
+        private float minNearDistance;
 
-        public CameraPositioner(SceneView sceneView, float nearPlaneWorldPos, float farPlaneWorldPos)
+        public CameraPositioner(SceneView sceneView, float minNearDistance, float nearPlaneWorld, float nearFarLength)
         {
             this.sceneView = sceneView;
-            this.nearPlaneWorldPos = nearPlaneWorldPos;
-            this.farPlaneWorldPos = farPlaneWorldPos;
+            this.minNearDistance = minNearDistance;
+            this.nearPlaneWorld = nearPlaneWorld;
+            this.nearFarLength = nearFarLength;
             updateNearFarPlanes();
         }
 
@@ -52,24 +54,19 @@ namespace Anomalous.GuiFramework.Cameras
 
         private void updateNearFarPlanes()
         {
-            float near, far;
-            computeClipDistances(Translation.length(), nearPlaneWorldPos, farPlaneWorldPos, out near, out far);
+            float near = computeNearClipDistance(Translation.length(), minNearDistance, nearPlaneWorld);
             sceneView.setNearClipDistance(near);
-            sceneView.setFarClipDistance(far);
+            sceneView.setFarClipDistance(near + nearFarLength);
         }
 
-        public static void computeClipDistances(float distance, float nearPlaneWorldPos, float farPlaneWorldPos, out float near, out float far)
+        public static float computeNearClipDistance(float distance, float minNearDistance, float nearPlaneWorld)
         {
-            near = distance - nearPlaneWorldPos;
-            if (near < 1.0f)
+            float near = distance - nearPlaneWorld;
+            if (near < minNearDistance)
             {
-                near = 1.0f;
+                near = minNearDistance;
             }
-            far = distance - farPlaneWorldPos;
-            if (far < near)
-            {
-                far = near + 500.0f;
-            }
+            return near;
         }
     }
 }
