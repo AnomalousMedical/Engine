@@ -5,6 +5,7 @@ using System.Text;
 using MyGUIPlugin;
 using Engine.Editing;
 using Engine.Platform;
+using Engine.Threads;
 
 namespace Anomalous.GuiFramework.Editor
 {
@@ -158,7 +159,7 @@ namespace Anomalous.GuiFramework.Editor
 
         void menu_Closed(Widget source, EventArgs e)
         {
-            Gui.Instance.destroyWidget(source);
+            ThreadManager.invoke(() => Gui.Instance.destroyWidget(source));
         }
 
         void menu_ItemAccept(Widget source, EventArgs e)

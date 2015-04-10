@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MyGUIPlugin;
 using Engine;
+using Engine.Threads;
 
 namespace Anomalous.GuiFramework
 {
@@ -85,7 +86,7 @@ namespace Anomalous.GuiFramework
 
         void popupMenu_Closed(Widget source, EventArgs e)
         {
-            Gui.Instance.destroyWidget(source);
+            ThreadManager.invoke(() => Gui.Instance.destroyWidget(source));
         }
 
         void firePinTask()

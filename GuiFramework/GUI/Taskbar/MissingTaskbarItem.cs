@@ -1,4 +1,5 @@
 ﻿using Engine;
+using Engine.Threads;
 using MyGUIPlugin;
 using System;
 using System.Collections.Generic;
@@ -50,7 +51,7 @@ namespace Anomalous.GuiFramework
 
         void popupMenu_Closed(Widget source, EventArgs e)
         {
-            Gui.Instance.destroyWidget(source);
+            ThreadManager.invoke(() => Gui.Instance.destroyWidget(source));
         }
 
         internal override void addToPinnedTasksList(PinnedTaskSerializer pinnedTaskSerializer)
