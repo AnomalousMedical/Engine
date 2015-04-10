@@ -2,6 +2,9 @@
 #include "AndroidApp.h"
 #include "AndroidWindow.h"
 
+static AndroidApp* currentAndroidApp;
+static android_app* currentApp;
+
 AndroidApp::AndroidApp()
 {
 
@@ -19,10 +22,8 @@ void AndroidApp::run()
 
 void AndroidApp::exit()
 {
-
+	ANativeActivity_finish(currentApp->activity);
 }
-
-static AndroidApp* currentAndroidApp;
 
 //PInvoke
 extern "C" _AnomalousExport AndroidApp* App_create()
@@ -122,6 +123,8 @@ static void custom_process_input(struct android_app* app, struct android_poll_so
 */
 void android_main(struct android_app* state) 
 {
+	currentApp = state;
+
 	AndroidWindow_setApp(state);
 	struct AndroidAppState appState;
 

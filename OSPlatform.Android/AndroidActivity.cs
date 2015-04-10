@@ -55,6 +55,12 @@ namespace Anomalous.OSPlatform.Android
             Window.SetSoftInputMode(SoftInput.StateAlwaysHidden);
         }
 
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            global::Android.OS.Process.KillProcess(global::Android.OS.Process.MyPid());
+        }
+
         /// <summary>
         /// Create the app instance that will run for this activity. This will be called during OnCreate,
         /// which is sealed in this class since it relies on a specific order of doing things.
