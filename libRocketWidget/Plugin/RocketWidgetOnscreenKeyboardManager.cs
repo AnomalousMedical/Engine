@@ -14,6 +14,44 @@ namespace Anomalous.libRocketWidget
         private RocketWidget currentRocketWidget;
         private OnscreenKeyboardManager onscreenKeyboardManager;
 
+        /// <summary>
+        /// Determine the OnscreenKeyboardMode for a given element. This does not have
+        /// anything to do with blur / focus, it will return the type of keyboard that should
+        /// be visible. This means you can also use this as a test funciton if OnscreenKeyboardMode.Hidden
+        /// then you know the element should have a keyboard shown.
+        /// </summary>
+        /// <param name="element">The element to test</param>
+        /// <returns>The mode for the onscreen keyboard if this element was focused.</returns>
+        internal static OnscreenKeyboardMode GetKeyboardModeForElement(Element element)
+        {
+            if (element != null)
+            {
+                String tag = element.TagName;
+                switch (tag)
+                {
+                    case "input":
+                        String type = element.GetAttributeString("type");
+                        switch (type)
+                        {
+                            case "password":
+                                return OnscreenKeyboardMode.Secure;
+                            case "text":
+                                return OnscreenKeyboardMode.Normal;
+                            default:
+                                return OnscreenKeyboardMode.Hidden;
+                        }
+                    case "textarea":
+                        return OnscreenKeyboardMode.Normal;
+                    default:
+                        return OnscreenKeyboardMode.Hidden;
+                }
+            }
+            else
+            {
+                return OnscreenKeyboardMode.Hidden;
+            }
+        }
+
         public RocketWidgetOnscreenKeyboardManager(OnscreenKeyboardManager onscreenKeyboardManager)
         {
             this.onscreenKeyboardManager = onscreenKeyboardManager;
@@ -28,31 +66,7 @@ namespace Anomalous.libRocketWidget
             if (element != null)
             {
                 currentRocketWidget = rocketWidget;
-                String tag = element.TagName;
-                switch (tag)
-                {
-                    case "input":
-                        String type = element.GetAttributeString("type");
-                        switch (type)
-                        {
-                            case "password":
-                                onscreenKeyboardManager.KeyboardMode = OnscreenKeyboardMode.Secure;
-                                break;
-                            case "text":
-                                onscreenKeyboardManager.KeyboardMode = OnscreenKeyboardMode.Normal;
-                                break;
-                            default:
-                                onscreenKeyboardManager.KeyboardMode = OnscreenKeyboardMode.Hidden;
-                                break;
-                        }
-                        break;
-                    case "textarea":
-                        onscreenKeyboardManager.KeyboardMode = OnscreenKeyboardMode.Normal;
-                        break;
-                    default:
-                        onscreenKeyboardManager.KeyboardMode = OnscreenKeyboardMode.Hidden;
-                        break;
-                }
+                onscreenKeyboardManager.KeyboardMode = GetKeyboardModeForElement(element);
             }
         }
 

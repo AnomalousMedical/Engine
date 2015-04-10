@@ -18,7 +18,10 @@ namespace Anomalous.libRocketWidget
 
         public override void ProcessEvent(Event evt)
         {
-            RocketWidget.fireElementFocused(rocketWidget, evt.TargetElement);
+            if (RocketWidgetOnscreenKeyboardManager.GetKeyboardModeForElement(evt.TargetElement) != Engine.Platform.OnscreenKeyboardMode.Hidden)
+            {
+                RocketWidget.fireElementFocused(rocketWidget, evt.TargetElement);
+            }
         }
     }
 }

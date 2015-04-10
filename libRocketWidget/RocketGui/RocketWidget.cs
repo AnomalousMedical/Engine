@@ -20,19 +20,19 @@ namespace Anomalous.libRocketWidget
         /// This event fires whenever a libRocket element is focused. It can be used to track
         /// when to show the virtual keyboard. It will fire for any created RocketWidgets.
         /// </summary>
-        public static event ElementDelegate ElementFocused;
+        internal static event ElementDelegate ElementFocused;
 
         /// <summary>
         /// This event fires whenever a libRocket element is blurred. It can be used to track
         /// when to show the virtual keyboard. It will fire for any created RocketWidgets.
         /// </summary>
-        public static event ElementDelegate ElementBlurred;
+        internal static event ElementDelegate ElementBlurred;
 
 		/// <summary>
 		/// This is called when a RocketWidget is disposing. This is static and will be fired
 		/// for all rocket widgets that are disposing.
 		/// </summary>
-		public static event RocketWidgetDelegate RocketWidgetDisposing;
+        internal static event RocketWidgetDelegate RocketWidgetDisposing;
 
         /// <summary>
         /// Fire the element focused event.
