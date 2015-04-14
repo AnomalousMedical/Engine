@@ -19,7 +19,8 @@ namespace OgrePlugin
     {
         Default = 0,
         D3D11 = 1,
-        OpenGL = 2
+        OpenGL = 2,
+	    OpenGLES2 = 3
     };
 
     /// <summary>
@@ -44,6 +45,7 @@ namespace OgrePlugin
         private OgreUpdate ogreUpdate;
         private OgreWindow primaryWindow;
         private IntPtr renderSystemPlugin;
+        private DeviceLostListener deviceLostListener;
 
         private delegate OgreSceneManagerDefinition CreateSceneManagerDefinition(String name);
         private delegate SceneNodeDefinition CreateSceneNodeDefinition(String name);
@@ -74,6 +76,10 @@ namespace OgrePlugin
             destroyRendererWindow(primaryWindow);
             root.Dispose();
             OgreInterface_UnloadRenderSystem(renderSystemPlugin);
+            if(deviceLostListener != null)
+            {
+                deviceLostListener.Dispose();
+            }
             if (Disposed != null)
             {
                 Disposed.Invoke(this);
@@ -165,6 +171,10 @@ namespace OgrePlugin
                     baseWhiteNoLighting.Value.getTechnique(0).getPass(0).setVertexProgram("colorvertex\\vs");
                     baseWhiteNoLighting.Value.getTechnique(0).getPass(0).setFragmentProgram("colorvertexwhite\\fs");
                 }
+
+                //Setup the device lost listener.
+                deviceLostListener = new DeviceLostListener();
+                rs.addListener(deviceLostListener);
             }
             catch (Exception e)
             {

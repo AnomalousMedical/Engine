@@ -83,6 +83,7 @@
     <Compile Include="Platform\OgreUpdate.cs" />
     <Compile Include="Platform\OgreWindow.cs" />
     <Compile Include="Platform\OgreWindowListener.cs" />
+    <Compile Include="Plugin\DeviceLostListener.cs" />
     <Compile Include="Plugin\ImageAtlas\ImageAtlasException.cs" />
     <Compile Include="Plugin\ImageAtlas\ImageAtlasPage.cs" />
     <Compile Include="Plugin\ImageAtlas\ImagePackTreeNode.cs" />

@@ -49,6 +49,22 @@ namespace Anomalous.GuiFramework.Cameras
             parentNode = this.sceneManager.getRootSceneNode();
 
             background = this.sceneManager.createManualObject(name);
+            background.RedrawRequired += background_RedrawRequired;
+            buildBackground();
+
+            backgroundNode = this.sceneManager.createSceneNode(name + "Node");
+            backgroundNode.attachObject(background);
+
+            parentNode.addChild(backgroundNode);
+            backgroundNode.setVisible(visible);
+
+            Vector3 backgroundPosition = new Vector3(0, 0, -distance);
+            backgroundNode.setPosition(backgroundPosition);
+        }
+
+        private void buildBackground()
+        {
+            Logging.Log.Debug("Building background");
             background.begin(materialName, OperationType.OT_TRIANGLE_LIST);
 
             //bottom left
@@ -77,15 +93,6 @@ namespace Anomalous.GuiFramework.Cameras
             background.setRenderQueueGroup(0);
 
             background.end();
-
-            backgroundNode = this.sceneManager.createSceneNode(name + "Node");
-            backgroundNode.attachObject(background);
-
-            parentNode.addChild(backgroundNode);
-            backgroundNode.setVisible(visible);
-
-            Vector3 backgroundPosition = new Vector3(0, 0, -distance);
-            backgroundNode.setPosition(backgroundPosition);
         }
 
         private void destroyBackground()
@@ -132,6 +139,11 @@ namespace Anomalous.GuiFramework.Cameras
                 }
                 return Vector3.Zero;
             }
+        }
+
+        void background_RedrawRequired(ManualObject manualObject)
+        {
+            buildBackground();
         }
     }
 }

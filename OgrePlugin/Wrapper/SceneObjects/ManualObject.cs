@@ -21,21 +21,66 @@ namespace OgrePlugin
     [NativeSubsystemType]
     public class ManualObject : MovableObject
     {
-        WrapperCollection<ManualObjectSection> sections = new WrapperCollection<ManualObjectSection>(ManualObjectSection.createWrapper);
+        public delegate void ManualObjectDelegate(ManualObject manualObject);
+
+        //A list of all active ManualObject instances. Used to fire the RedrawRequired event.
+        private static LinkedList<ManualObject> currentInstances = new LinkedList<ManualObject>();
 
         internal static ManualObject createWrapper(IntPtr manualObject, object[] args)
         {
             return new ManualObject(manualObject);
         }
 
+        /// <summary>
+        /// Fire all redraw required events 
+        /// </summary>
+        internal static void fireRedrawRequired()
+        {
+            foreach(var instance in currentInstances)
+            {
+                instance.redrawRequiredEvent.Invoke(instance);
+            }
+        }
+
+        private event ManualObjectDelegate redrawRequiredEvent;
+        /// <summary>
+        /// This event will fire when the manual object needs to be redrawn. This can happen on device
+        /// context loss.
+        /// </summary>
+        public event ManualObjectDelegate RedrawRequired
+        {
+            add
+            {
+                if(redrawRequiredEvent == null)
+                {
+                    currentInstances.AddLast(this);
+                }
+                redrawRequiredEvent += value;
+            }
+            remove
+            {
+                redrawRequiredEvent -= value;
+                if(redrawRequiredEvent == null)
+                {
+                    currentInstances.Remove(this);
+                }
+            }
+        }
+
+        WrapperCollection<ManualObjectSection> sections = new WrapperCollection<ManualObjectSection>(ManualObjectSection.createWrapper);
+
         private ManualObject(IntPtr manualObject)
             :base(manualObject)
         {
-
+            
         }
 
         public override void Dispose()
         {
+            if (redrawRequiredEvent != null)
+            {
+                currentInstances.Remove(this);
+            }
             base.Dispose();
             sections.Dispose();
         }
