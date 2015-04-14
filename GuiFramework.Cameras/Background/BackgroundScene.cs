@@ -64,7 +64,6 @@ namespace Anomalous.GuiFramework.Cameras
 
         private void buildBackground()
         {
-            Logging.Log.Debug("Building background");
             background.begin(materialName, OperationType.OT_TRIANGLE_LIST);
 
             //bottom left
