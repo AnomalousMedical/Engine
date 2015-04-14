@@ -77,40 +77,6 @@ namespace Anomalous.Minimus
             }
         }
 
-        /// <summary>
-        /// The documents folder to put user settings and documents into.
-        /// </summary>
-        public static String LocalUserDocumentsFolder
-        {
-            get
-            {
-                return currentConfig.LocalUserDocumentsFolderImpl;
-            }
-        }
-
-        /// <summary>
-        /// A local folder to put data files shared by all users of the program into.
-        /// </summary>
-        public static String LocalDataFolder
-        {
-            get
-            {
-                return currentConfig.LocalDataFolderImpl;
-            }
-        }
-
-        /// <summary>
-        /// A folder that will not get shared that specifys where private data (like the license file) goes.
-        /// Can overlap with LocalDataFolder.
-        /// </summary>
-        public static String LocalPrivateDataFolder
-        {
-            get
-            {
-                return currentConfig.LocalPrivateDataFolderImpl;
-            }
-        }
-
         public static bool CloseMainWindowOnShutdown
         {
             get
@@ -204,12 +170,6 @@ namespace Anomalous.Minimus
         protected abstract MouseButtonCode DefaultCameraMouseButtonImpl { get; }
 
         protected abstract bool AllowCloneWindowsImpl { get; }
-
-        protected abstract String LocalUserDocumentsFolderImpl { get; }
-
-        protected abstract String LocalDataFolderImpl { get; }
-
-        protected abstract String LocalPrivateDataFolderImpl { get; }
 
         protected abstract bool CloseMainWindowOnShutdownImpl { get; }
 

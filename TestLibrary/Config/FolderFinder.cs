@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using Anomalous.OSPlatform;
 
 namespace Anomalous.Minimus
 {
@@ -18,9 +19,9 @@ namespace Anomalous.Minimus
 
         public static void setProgramName(String programName)
         {
-            userRoot = Path.Combine(PlatformConfig.LocalUserDocumentsFolder, programName);
-            localDataFolder = Path.Combine(PlatformConfig.LocalDataFolder, programName);
-            localPrivateDataFolder = Path.Combine(PlatformConfig.LocalPrivateDataFolder, programName);
+            userRoot = Path.Combine(RuntimePlatformInfo.LocalUserDocumentsFolder, programName);
+            localDataFolder = Path.Combine(RuntimePlatformInfo.LocalDataFolder, programName);
+            localPrivateDataFolder = Path.Combine(RuntimePlatformInfo.LocalPrivateDataFolder, programName);
         }
 
         /// <summary>

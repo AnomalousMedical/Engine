@@ -16,7 +16,7 @@ namespace OgreModelEditor
         [STAThread]
         static void Main()
         {
-            StartupManager.SetupDllDirectories();
+            NativePlatformPlugin.StaticInitialize();
 
             OgreModelEditorApp app = null;
             try

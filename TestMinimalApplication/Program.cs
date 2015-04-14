@@ -12,7 +12,7 @@ namespace Anomalous.Minimus
     {
         static void Main(string[] args)
         {
-            StartupManager.SetupDllDirectories();
+            NativePlatformPlugin.StaticInitialize();
 
             App app = null;
             try

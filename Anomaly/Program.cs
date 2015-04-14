@@ -20,7 +20,7 @@ namespace Anomaly
         [STAThread]
         static void Main()
         {
-            StartupManager.SetupDllDirectories();
+            NativePlatformPlugin.StaticInitialize();
 
             //Parse command line
             String projectFileName = null;

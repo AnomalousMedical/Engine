@@ -5,6 +5,8 @@ using System.Text;
 using Engine;
 using Engine.Platform;
 using Logging;
+using System.IO;
+using System.Reflection;
 
 namespace Anomalous.OSPlatform
 {
@@ -20,15 +22,69 @@ namespace Anomalous.OSPlatform
 
         public static NativePlatformPlugin Instance { get; private set; }
 
+        public static void StaticInitialize()
+        {
+            //Make sure the paths are setup correctly on windows to find 32/64 bit binaries.
+            try
+            {
+                //Check bitness and determine path 
+                String executionPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                String nativeLibPath;
+                if (Environment.Is64BitProcess)
+                {
+                    nativeLibPath = Path.Combine(executionPath, "x64");
+                }
+                else
+                {
+                    nativeLibPath = Path.Combine(executionPath, "x86");
+                }
+                if (Directory.Exists(nativeLibPath))
+                {
+                    //Make sure this folder has not already been added to the path.
+                    String currentPathSetting = Environment.GetEnvironmentVariable("PATH");
+                    if (!currentPathSetting.Contains(nativeLibPath))
+                    {
+                        Environment.SetEnvironmentVariable("PATH", String.Format("{0};{1}", currentPathSetting, nativeLibPath));
+                    }
+                }
+            }
+            catch (Exception) { }
+
+            switch (SystemInfo.RuntimeOS)
+            {
+                case RuntimeOperatingSystem.Windows:
+                    new WindowsRuntimePlatformInfo();
+                    break;
+                case RuntimeOperatingSystem.Mac:
+                    new MacRuntimePlatformInfo();
+                    break;
+                case RuntimeOperatingSystem.iOS:
+                    new iOSRuntimePlatformInfo();
+                    break;
+                case RuntimeOperatingSystem.Android:
+                    //This is handled by the platform specific plugin for android.
+                    break;
+                default:
+                    throw new Exception("Could not find platform configuration.");
+            }
+        }
+
         public NativePlatformPlugin()
         {
-            if (Instance == null)
+            if (RuntimePlatformInfo.IsValid)
             {
-                Instance = this;
+                if (Instance == null)
+                {
+                    Instance = this;
+                }
+                else
+                {
+                    throw new Exception("Can only create NativePlatformPlugin one time.");
+                }
             }
             else
             {
-                throw new Exception("Can only create NativePlatformPlugin one time.");
+                throw new Exception("Invalid configuration for NativePlatformPlugin. Please call StaticInitialize as early as possibly in your client program.");
             }
         }
 

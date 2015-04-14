@@ -63,30 +63,6 @@ namespace Anomalous.Minimus
             }
         }
 
-        protected override String LocalUserDocumentsFolderImpl
-        {
-            get
-            {
-                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Documents");
-            }
-        }
-
-        protected override String LocalDataFolderImpl
-        {
-            get
-            {
-                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "LocalData");
-            }
-        }
-
-        protected override String LocalPrivateDataFolderImpl
-        {
-            get
-            {
-                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "PrivateData");
-            }
-        }
-
         protected override bool CloseMainWindowOnShutdownImpl
         {
             get

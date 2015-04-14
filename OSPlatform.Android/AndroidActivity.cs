@@ -36,6 +36,7 @@ namespace Anomalous.OSPlatform.Android
 
         public AndroidActivity(int contentViewId, int editTextId)
         {
+            new AndroidRuntimePlatformInfo(this);
             this.contentViewId = contentViewId;
             this.editTextId = editTextId;
         }

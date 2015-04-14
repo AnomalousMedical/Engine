@@ -190,7 +190,6 @@
     <Compile Include="Platform\Input\Touch\TouchInfo.cs" />
     <Compile Include="Platform\Input\Touch\TwoFingerZoom.cs" />
     <Compile Include="Platform\OnscreenKeyboardManager.cs" />
-    <Compile Include="Platform\StartupManager.cs" />
     <Compile Include="Platform\SubscribingUpdateListener.cs" />
     <Compile Include="Reflection\GuidReflectedVariable.cs" />
     <Compile Include="Reflection\LongNullableReflectedVariable.cs" />
