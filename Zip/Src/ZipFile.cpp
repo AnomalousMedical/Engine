@@ -26,12 +26,13 @@ static zzip_ssize_t xor_read (int f, void* p, zzip_size_t l)
 }
 
 static zzip_plugin_io_handlers xor_handlers;
-static zzip_strings_t xor_fileext[] = { ".dat", ".DAT", 0 }; 
+static zzip_strings_t xor_fileext[] = { ".dat", ".DAT", ".obb", ".OBB", 0 }; 
 
 extern "C" _AnomalousExport ZZIP_DIR* ZipFile_OpenDir(const char* cName, zzip_error_t * zzipError)
 {
 	std::string filename = cName;
-	if(filename.find(".dat") != std::string::npos || filename.find(".DAT") != std::string::npos)
+	if(filename.find(".dat") != std::string::npos || filename.find(".DAT") != std::string::npos
+		|| filename.find(".obb") != std::string::npos || filename.find(".OBB") != std::string::npos)
 	{
 		zzip_init_io (&xor_handlers, 0); 
 		xor_handlers.fd.read = &xor_read;

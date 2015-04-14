@@ -10,12 +10,12 @@ namespace Engine.Resources
     class ZipArchive : Archive
     {
         private ZipFile zipFile = null;
-        private static String[] splitPattern = { ".zip", ".dat" };
+        private static String[] splitPattern = { ".zip", ".dat", ".obb" };
         private String fullZipPath;
 
         internal static bool CanOpenURL(String url)
         {
-            return url.Contains(".zip") || url.Contains(".dat");
+            return url.Contains(".zip") || url.Contains(".dat") ||url.Contains(".obb");
         }
 
         public ZipArchive(String filename)
@@ -117,9 +117,9 @@ namespace Engine.Resources
         private String parseURLInZip(String url)
         {
             String searchDirectory = url;
-            if (url.Contains(".zip") || url.Contains(".dat"))
+            if (url.Contains(".zip") || url.Contains(".dat") || url.Contains(".obb"))
             {
-                if (url.EndsWith(".zip") || url.EndsWith(".dat"))
+                if (url.EndsWith(".zip") || url.EndsWith(".dat") || url.EndsWith(".obb"))
                 {
                     searchDirectory = "";
                 }
@@ -145,33 +145,36 @@ namespace Engine.Resources
             //zip file
             if (url.Contains(".zip"))
             {
-                if (url.EndsWith(".zip"))
-                {
-                    searchDirectory = url;
-                }
-                else
-                {
-                    String[] split = url.Split(splitPattern, StringSplitOptions.None);
-                    if (split.Length > 0)
-                    {
-                        searchDirectory = split[0] + ".zip";
-                    }
-                }
+                searchDirectory = extractZipName(url, searchDirectory, ".zip");
             }
             //dat file
             else if (url.Contains(".dat"))
             {
-                if (url.EndsWith(".dat"))
+                searchDirectory = extractZipName(url, searchDirectory, ".dat");
+            }
+            //obb file
+            else if (url.Contains(".obb"))
+            {
+                searchDirectory = extractZipName(url, searchDirectory, ".obb");
+            }
+            return searchDirectory;
+        }
+
+        /// <summary>
+        /// Get the name of the zip file from the path, the zip file must have the given extension.
+        /// </summary>
+        private static string extractZipName(String url, String searchDirectory, String extension)
+        {
+            if (url.EndsWith(extension))
+            {
+                searchDirectory = url;
+            }
+            else
+            {
+                String[] split = url.Split(splitPattern, StringSplitOptions.None);
+                if (split.Length > 0)
                 {
-                    searchDirectory = url;
-                }
-                else
-                {
-                    String[] split = url.Split(splitPattern, StringSplitOptions.None);
-                    if (split.Length > 0)
-                    {
-                        searchDirectory = split[0] + ".dat";
-                    }
+                    searchDirectory = split[0] + extension;
                 }
             }
             return searchDirectory;
@@ -187,7 +190,7 @@ namespace Engine.Resources
 
         private String getFullPath(String filename)
         {
-            if (filename.Contains(".zip") || filename.Contains(".dat"))
+            if (filename.Contains(".zip") || filename.Contains(".dat") || filename.Contains(".obb"))
             {
                 return filename;
             }
