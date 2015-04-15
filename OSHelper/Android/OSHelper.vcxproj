@@ -26,6 +26,7 @@
     <ClCompile Include="..\Src\NativeOSWindow.cpp" />
     <ClCompile Include="..\Src\PerformanceCounter.cpp" />
     <ClCompile Include="..\Src\PlatformConfig.cpp" />
+    <ClCompile Include="..\Src\SystemInfo.cpp" />
     <ClCompile Include="..\Stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>

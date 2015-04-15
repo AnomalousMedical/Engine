@@ -4,12 +4,12 @@ extern "C" _AnomalousExport uint SystemInfo_getDisplayCount()
 {
 #ifdef WINDOWS
 	return GetSystemMetrics(SM_CMONITORS);
-#endif
-#ifdef WINRT
+#else
 	return 1;
 #endif
 }
 
+#ifdef WINDOWS
 class MonitorFinder
 {
 public:
@@ -59,6 +59,7 @@ BOOL CALLBACK FindMonitorsCallBack(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lpr
 	MonitorFinder* monitorFinder = (MonitorFinder*)dwData;
 	return monitorFinder->processMonitor(lprcMonitor);
 }
+#endif
 
 extern "C" _AnomalousExport void SystemInfo_getDisplayLocation(int displayIndex, int& x, int& y)
 {
@@ -67,9 +68,7 @@ extern "C" _AnomalousExport void SystemInfo_getDisplayLocation(int displayIndex,
 	EnumDisplayMonitors(NULL, NULL, FindMonitorsCallBack, (LPARAM)&monitorFinder);
 	x = monitorFinder.getX();
 	y = monitorFinder.getY();
-#endif
-
-#ifdef WINRT
+#else
 	x = 0;
 	y = 0;
 #endif

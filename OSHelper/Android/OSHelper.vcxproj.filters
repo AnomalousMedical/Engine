@@ -40,6 +40,9 @@
     <ClCompile Include="..\..\AndroidBaseApp\Common\native_app_glue\android_native_app_glue.c">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Src\SystemInfo.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Include">
