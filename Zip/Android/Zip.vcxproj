@@ -33,6 +33,7 @@
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <AndroidTargetAPI>android-15</AndroidTargetAPI>
+    <AndroidStlType>gnustl_shared</AndroidStlType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
