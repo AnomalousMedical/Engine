@@ -58,7 +58,10 @@ namespace Anomalous.GuiFramework.Cameras
 
         void controller_ActiveWindowChanged(SceneViewWindow window)
         {
-            transparencyStateName = window.CurrentTransparencyState;
+            if(window != null)
+            {
+                transparencyStateName = window.CurrentTransparencyState;
+            }
         }
     }
 }
