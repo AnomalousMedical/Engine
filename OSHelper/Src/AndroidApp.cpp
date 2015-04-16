@@ -42,7 +42,7 @@ static int32_t android_app_handle_input(struct android_app* app, AInputEvent* ev
 }
 
 /**
-* Process the next main command.
+* Process the next main command. Note that this runs on another thread from the main loop below.
 */
 static void android_app_handle_cmd(struct android_app* app, int32_t cmd) {
 	struct AndroidAppState* appState = (struct AndroidAppState*)app->userData;
@@ -174,7 +174,8 @@ void android_main(struct android_app* state)
 			}
 		}
 
-		if (appState.animating) 
+		//Make sure we are animating and have a window to draw in
+		if (appState.animating && state->window != NULL)
 		{
 			currentWidth = ANativeWindow_getWidth(state->window);
 			currentHeight = ANativeWindow_getHeight(state->window);
