@@ -163,6 +163,7 @@ extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindowParams(Og
 		AConfiguration_fromAssetManager(config, app->activity->assetManager);
 		params["externalWindowHandle"] = Ogre::StringConverter::toString(reinterpret_cast<size_t>(app->window));
 		params["androidConfig"] = Ogre::StringConverter::toString(reinterpret_cast<size_t>(config));
+		params["preserveContext"] = "true";
 #else
         params["externalWindowHandle"] = externalWindowHandle;
 #endif
