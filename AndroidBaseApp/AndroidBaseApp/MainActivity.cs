@@ -49,7 +49,8 @@ namespace AndroidBaseApp
 		{
 			setInputHandler (obj.EngineController.InputHandler);
 
-			String archivePath = System.IO.Path.Combine(Application.Context.ObbDir.AbsolutePath, "AnomalousMedical.dat");
+			//String archivePath = System.IO.Path.Combine(Application.Context.ObbDir.AbsolutePath, "main.2.com.anomalousmedical.android.dat");
+			String archivePath = System.IO.Path.Combine(Application.Context.ObbDir.AbsolutePath, "raw");
 			if (System.IO.File.Exists (archivePath) || System.IO.Directory.Exists(archivePath)) 
 			{
 				VirtualFileSystem.Instance.addArchive (archivePath);
@@ -59,14 +60,14 @@ namespace AndroidBaseApp
 				var shaders = ogreResources.addResourceGroup("Shaders");
 				shaders.addResource("Shaders/Articulometrics", "EngineArchive", true);
 				var models = ogreResources.addResourceGroup("Models");
-				models.addResource("Models/Export/Spine", "EngineArchive", false);
+				models.addResource("Models/Export/Airway", "EngineArchive", false);
 				resourceManager.initializeResources();
 
 				GenericSimObjectDefinition simObj = new GenericSimObjectDefinition("TestObj");
 				var node = new OgrePlugin.SceneNodeDefinition("Node");
 				var entity = new OgrePlugin.EntityDefinition("Entity")
 				{
-					MeshName = "c1.mesh",
+					MeshName = "AirwayParts.mesh",
 					//MeshName = "LigamentaFlava.mesh"
 				};
 				node.addMovableObjectDefinition(entity);

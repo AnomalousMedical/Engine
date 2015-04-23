@@ -23,6 +23,17 @@ namespace OgrePlugin
 	    OpenGLES2 = 3
     };
 
+    [Flags]
+    public enum CompressedTextureSupport : uint
+    {
+        None = 0,
+        DXT = 1,
+        PVRTC = 1 << 1,
+        ATC = 1 << 2,
+        ETC2 = 1 << 3,
+        All = DXT | PVRTC | ATC | ETC2
+    }
+
     /// <summary>
     /// The main interface class for the OgrePlugin.
     /// </summary>
@@ -32,6 +43,11 @@ namespace OgrePlugin
 
         public const String PluginName = "OgrePlugin";
         private static OgreInterface instance;
+
+        static OgreInterface()
+        {
+            CompressedTextureSupport = CompressedTextureSupport.All;
+        }
 
         public static OgreInterface Instance
         {
@@ -140,7 +156,7 @@ namespace OgrePlugin
                 defaultWindowInfo._fireWindowCreated(new WindowInfoEventArgs(primaryWindow));
 
                 //Setup compressed textures
-                OgreInterface_SetupVaryingCompressedTextures();
+                OgreInterface_SetupVaryingCompressedTextures(CompressedTextureSupport);
 
                 //Setup commands
                 pluginManager.addCreateSimElementManagerCommand(new AddSimElementManagerCommand("Create Ogre Scene Manager", OgreSceneManagerDefinition.Create));
@@ -416,6 +432,14 @@ namespace OgrePlugin
         /// </summary>
         public static LoadMicrocodeCacheDelegate LoadMicrocodeCacheCallback { get; set; }
 
+        /// <summary>
+        /// Get/Set the compressed texture support for ogre, this should be done before initialization to setup everything
+        /// correctly. Changing this after initialization will have no effect. Note that this is a declaration of what
+        /// formats the client program has assets for, not what format will be chosen, that is determined at runtime
+        /// based on the hardware the program is running on.
+        /// </summary>
+        public static CompressedTextureSupport CompressedTextureSupport { get; set; }
+
         #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
@@ -428,7 +452,7 @@ namespace OgrePlugin
         private static extern IntPtr OgreInterface_GetRenderSystem(RenderSystemType rendersystemType);
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void OgreInterface_SetupVaryingCompressedTextures();
+        private static extern void OgreInterface_SetupVaryingCompressedTextures(CompressedTextureSupport compressedTextures);
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void OgreInterface_DestroyVaryingCompressedTextures();
