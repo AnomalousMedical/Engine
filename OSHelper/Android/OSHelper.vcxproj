@@ -8,9 +8,17 @@
       <Configuration>Debug</Configuration>
       <Platform>Tegra-Android</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x86-Android-NVIDIA">
+      <Configuration>Debug</Configuration>
+      <Platform>x86-Android-NVIDIA</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Tegra-Android">
       <Configuration>Release</Configuration>
       <Platform>Tegra-Android</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x86-Android-NVIDIA">
+      <Configuration>Release</Configuration>
+      <Platform>x86-Android-NVIDIA</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
@@ -53,7 +61,16 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <AndroidTargetAPI>android-15</AndroidTargetAPI>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86-Android-NVIDIA'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <AndroidTargetAPI>android-15</AndroidTargetAPI>
+  </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <AndroidTargetAPI>android-15</AndroidTargetAPI>
+    <AndroidStlType>gnustl_shared</AndroidStlType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86-Android-NVIDIA'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <AndroidTargetAPI>android-15</AndroidTargetAPI>
     <AndroidStlType>gnustl_shared</AndroidStlType>
@@ -61,9 +78,24 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x86-Android-NVIDIA'">
+    <Import Project="..\..\AndroidBaseApp\Common\NvidiaStlSettings.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x86-Android-NVIDIA'">
+    <Import Project="..\..\AndroidBaseApp\Common\NvidiaStlSettings.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
+    <Import Project="..\..\AndroidBaseApp\Common\NvidiaStlSettings.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
+    <Import Project="..\..\AndroidBaseApp\Common\NvidiaStlSettings.props" />
+  </ImportGroup>
   <PropertyGroup Label="UserMacros">
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
+    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86-Android-NVIDIA'">
     <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
@@ -71,7 +103,22 @@
       <CppLanguageStandard>gnu++11</CppLanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86-Android-NVIDIA'">
+    <ClCompile>
+      <CppLanguageStandard>gnu++11</CppLanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
+    <ClCompile>
+      <CppLanguageStandard>gnu++11</CppLanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Include;$(ProjectDir)..\;$(SolutionDir)AndroidBaseApp\Common\native_app_glue;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ANDROID;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AndroidSystemLibs>c;m;log;gcc;android</AndroidSystemLibs>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86-Android-NVIDIA'">
     <ClCompile>
       <CppLanguageStandard>gnu++11</CppLanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)..\Include;$(ProjectDir)..\;$(SolutionDir)AndroidBaseApp\Common\native_app_glue;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

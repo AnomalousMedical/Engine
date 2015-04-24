@@ -8,9 +8,17 @@
       <Configuration>Debug</Configuration>
       <Platform>Tegra-Android</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x86-Android-NVIDIA">
+      <Configuration>Debug</Configuration>
+      <Platform>x86-Android-NVIDIA</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Tegra-Android">
       <Configuration>Release</Configuration>
       <Platform>Tegra-Android</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x86-Android-NVIDIA">
+      <Configuration>Release</Configuration>
+      <Platform>x86-Android-NVIDIA</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
@@ -110,7 +118,16 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <AndroidTargetAPI>android-15</AndroidTargetAPI>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86-Android-NVIDIA'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <AndroidTargetAPI>android-15</AndroidTargetAPI>
+  </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <AndroidTargetAPI>android-15</AndroidTargetAPI>
+    <AndroidStlType>gnustl_shared</AndroidStlType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86-Android-NVIDIA'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <AndroidTargetAPI>android-15</AndroidTargetAPI>
     <AndroidStlType>gnustl_shared</AndroidStlType>
@@ -118,12 +135,32 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x86-Android-NVIDIA'">
+    <Import Project="..\..\AndroidBaseApp\Common\NvidiaStlSettings.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x86-Android-NVIDIA'">
+    <Import Project="..\..\AndroidBaseApp\Common\NvidiaStlSettings.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
+    <Import Project="..\..\AndroidBaseApp\Common\NvidiaStlSettings.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
+    <Import Project="..\..\AndroidBaseApp\Common\NvidiaStlSettings.props" />
+  </ImportGroup>
   <PropertyGroup Label="UserMacros">
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
     <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86-Android-NVIDIA'">
+    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
+    <ClCompile>
+      <CppLanguageStandard>gnu++11</CppLanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86-Android-NVIDIA'">
     <ClCompile>
       <CppLanguageStandard>gnu++11</CppLanguageStandard>
     </ClCompile>
@@ -139,6 +176,19 @@
     <Link>
       <AndroidSystemLibs>c;m;log;gcc;android;EGL;GLESv2</AndroidSystemLibs>
       <AdditionalDependencies>$(SolutionDir)..\Dependencies\Ogre\AndroidBuild\lib\Release\libRenderSystem_GLES2Static.a;$(SolutionDir)..\Dependencies\Ogre\AndroidBuild\lib\Release\libOgreMainStatic.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libfreetype.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libFreeImage.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libzlib.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libzziplib.a;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86-Android-NVIDIA'">
+    <ClCompile>
+      <CppLanguageStandard>gnu++11</CppLanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Include;$(ProjectDir)..\;$(SolutionDir)..\Dependencies\Ogre\AndroidBuildx86\include;$(SolutionDir)..\Dependencies\Ogre\src\OgreMain\include;$(SolutionDir)..\Dependencies\Ogre\src\RenderSystems\GLES2\include;$(SolutionDir)..\Dependencies\Ogre\src\RenderSystems\GLES2\include\EGL;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstallx86\include;$(SolutionDir)AndroidBaseApp\Common\native_app_glue;$(SolutionDir)AndroidBaseApp\Common\cpufeatures;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <GccExceptionHandling>true</GccExceptionHandling>
+      <PreprocessorDefinitions>ANDROID;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AndroidSystemLibs>c;m;log;gcc;android;EGL;GLESv2</AndroidSystemLibs>
+      <AdditionalDependencies>$(SolutionDir)..\Dependencies\Ogre\AndroidBuildx86\lib\Release\libRenderSystem_GLES2Static.a;$(SolutionDir)..\Dependencies\Ogre\AndroidBuildx86\lib\Release\libOgreMainStatic.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstallx86\lib\libfreetype.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstallx86\lib\libFreeImage.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstallx86\lib\libzlib.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstallx86\lib\libzziplib.a;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
