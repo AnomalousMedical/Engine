@@ -32,6 +32,19 @@ extern "C" _AnomalousExport AndroidApp* App_create()
 	return currentAndroidApp;
 }
 
+extern "C" _AnomalousExport void AndroidApp_outputCurrentABI()
+{
+#if ANDROID
+#	if ARCH_ARM_V7A
+		logger.sendMessage("Using arm v7a ABI", LogLevel::Info);
+#	elif ARCH_X86
+		logger.sendMessage("Using x86 ABI", LogLevel::Info);
+#	else
+		logger.sendMessage("Using Unknown (unable to detect at compile time) ABI", LogLevel::Info);
+#	endif
+#endif
+}
+
 /**
 * Process the next input event.
 */

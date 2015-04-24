@@ -69,6 +69,14 @@ namespace Anomalous.OSPlatform.Android
         protected abstract void createApp();
 
         /// <summary>
+        /// Helper function to output some debugging info about the current runtime.
+        /// </summary>
+        protected void printRuntimeInfo()
+        {
+            AndroidFunctions.OutputCurrentABI();
+        }
+
+        /// <summary>
         /// Set the input handler once you can get an instance to it.
         /// </summary>
         /// <param name="inputHandler">The InputHandler to use to fire input events.</param>

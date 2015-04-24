@@ -112,7 +112,7 @@
     <ClCompile>
       <CppLanguageStandard>gnu++11</CppLanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)..\Include;$(ProjectDir)..\;$(SolutionDir)AndroidBaseApp\Common\native_app_glue;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ANDROID;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ARCH_ARM_V7A;ANDROID;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AndroidSystemLibs>c;m;log;gcc;android</AndroidSystemLibs>
@@ -122,7 +122,7 @@
     <ClCompile>
       <CppLanguageStandard>gnu++11</CppLanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)..\Include;$(ProjectDir)..\;$(SolutionDir)AndroidBaseApp\Common\native_app_glue;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ANDROID;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ARCH_X86;ANDROID;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AndroidSystemLibs>c;m;log;gcc;android</AndroidSystemLibs>
