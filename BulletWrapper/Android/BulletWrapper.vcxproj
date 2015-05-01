@@ -115,7 +115,7 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(SolutionDir)../Dependencies/Bullet/AndroidBuild/libs/armeabi-v7a/Release/libBulletSoftBody.a;$(SolutionDir)../Dependencies/Bullet/AndroidBuild/libs/armeabi-v7a/Release/libBulletDynamics.a;$(SolutionDir)../Dependencies/Bullet/AndroidBuild/libs/armeabi-v7a/Release/libBulletCollision.a;$(SolutionDir)../Dependencies/Bullet/AndroidBuild/libs/armeabi-v7a/Release/libLinearMath.a;$(SolutionDir)../Dependencies/Bullet/AndroidBuild/libs/armeabi-v7a/Release/libBulletMultiThreaded.a;$(SolutionDir)../Dependencies/Bullet/AndroidBuild/libs/armeabi-v7a/Release/libConvexDecomposition.a;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)../Dependencies/Bullet/AndroidBuild/libs/armeabi-v7a/Release/libBulletSoftBody.a;$(SolutionDir)../Dependencies/Bullet/AndroidBuild/libs/armeabi-v7a/Release/libBulletDynamics.a;$(SolutionDir)../Dependencies/Bullet/AndroidBuild/libs/armeabi-v7a/Release/libBulletCollision.a;$(SolutionDir)../Dependencies/Bullet/AndroidBuild/libs/armeabi-v7a/Release/libLinearMath.a;$(SolutionDir)../Dependencies/Bullet/AndroidBuild/libs/armeabi-v7a/Release/libConvexDecomposition.a;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EchoCommandLines>false</EchoCommandLines>
     </Link>
@@ -131,7 +131,7 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(SolutionDir)../Dependencies/Bullet/AndroidBuildx86/libs/x86/Release/libBulletSoftBody.a;$(SolutionDir)../Dependencies/Bullet/AndroidBuildx86/libs/x86/Release/libBulletDynamics.a;$(SolutionDir)../Dependencies/Bullet/AndroidBuildx86/libs/x86/Release/libBulletCollision.a;$(SolutionDir)../Dependencies/Bullet/AndroidBuildx86/libs/x86/Release/libLinearMath.a;$(SolutionDir)../Dependencies/Bullet/AndroidBuildx86/libs/x86/Release/libBulletMultiThreaded.a;$(SolutionDir)../Dependencies/Bullet/AndroidBuildx86/libs/x86/Release/libConvexDecomposition.a;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)../Dependencies/Bullet/AndroidBuildx86/libs/x86/Release/libBulletSoftBody.a;$(SolutionDir)../Dependencies/Bullet/AndroidBuildx86/libs/x86/Release/libBulletDynamics.a;$(SolutionDir)../Dependencies/Bullet/AndroidBuildx86/libs/x86/Release/libBulletCollision.a;$(SolutionDir)../Dependencies/Bullet/AndroidBuildx86/libs/x86/Release/libLinearMath.a;$(SolutionDir)../Dependencies/Bullet/AndroidBuildx86/libs/x86/Release/libConvexDecomposition.a;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EchoCommandLines>false</EchoCommandLines>
     </Link>
