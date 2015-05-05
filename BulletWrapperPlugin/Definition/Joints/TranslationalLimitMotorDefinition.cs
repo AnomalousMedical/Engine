@@ -51,6 +51,10 @@ namespace BulletPlugin
             m_targetVelocity = new Vector3(0.0f, 0.0f, 0.0f);
             m_enableMotorX = m_enableMotorY = m_enableMotorZ = false;
             m_maxMotorForce = new Vector3(0.0f, 0.0f, 0.0f);
+
+            m_currentLimitError = new Vector3(0.0f, 0.0f, 0.0f);
+            m_currentLinearDiff = new Vector3(0.0f, 0.0f, 0.0f);
+            m_currentLimitX = m_currentLimitY = m_currentLimitZ = 0;
         }
 
         [Editable]
