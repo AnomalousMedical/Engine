@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		016F87981AFA5CA000B128A7 /* LogBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = 016F87971AFA5CA000B128A7 /* LogBridge.mm */; };
 		01BD40701A6993EB003331C7 /* BulletDebugDraw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BD40601A6993EB003331C7 /* BulletDebugDraw.cpp */; };
 		01BD40711A6993EB003331C7 /* BulletScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BD40611A6993EB003331C7 /* BulletScene.cpp */; };
 		01BD40721A6993EB003331C7 /* CollisionShapeInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01BD40621A6993EB003331C7 /* CollisionShapeInterface.cpp */; };
@@ -38,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		013549451A69939B00208498 /* libBulletWrapper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBulletWrapper.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		016F87971AFA5CA000B128A7 /* LogBridge.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LogBridge.mm; sourceTree = "<group>"; };
 		01BD40571A6993EB003331C7 /* BulletDebugDraw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BulletDebugDraw.h; sourceTree = "<group>"; };
 		01BD40581A6993EB003331C7 /* BulletScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BulletScene.h; sourceTree = "<group>"; };
 		01BD40591A6993EB003331C7 /* ContactCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactCache.h; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				01BD406B1A6993EB003331C7 /* btManifoldPoint.cpp */,
 				01BD406C1A6993EB003331C7 /* btRigidBodyWrapper.cpp */,
 				01BD406D1A6993EB003331C7 /* btTypedConstraintWrapper.cpp */,
+				016F87971AFA5CA000B128A7 /* LogBridge.mm */,
 			);
 			name = src;
 			path = ../src;
@@ -197,6 +200,7 @@
 				01BD40731A6993EB003331C7 /* ContactCache.cpp in Sources */,
 				01BD40701A6993EB003331C7 /* BulletDebugDraw.cpp in Sources */,
 				01BD40721A6993EB003331C7 /* CollisionShapeInterface.cpp in Sources */,
+				016F87981AFA5CA000B128A7 /* LogBridge.mm in Sources */,
 				01BD40791A6993EB003331C7 /* btGeneric6DofConstraintWrapper.cpp in Sources */,
 				01BD40761A6993EB003331C7 /* ReshapeableRigidBody.cpp in Sources */,
 				01BD407D1A6993EB003331C7 /* Stdafx.cpp in Sources */,

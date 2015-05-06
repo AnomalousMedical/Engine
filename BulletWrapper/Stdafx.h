@@ -19,6 +19,14 @@
 #define _AnomalousExport __attribute__ ((visibility("default")))
 #endif
 
+#if defined(APPLE_IOS)
+//Some logging funcitons for iOS while we debug pinvoke issues
+#include <string>
+#include <sstream>
+void LogMessage(const std::string& message);
+void LogTransform(const std::string& info, const btTransform& transform);
+#endif
+
 class Vector3
 {
 public:
