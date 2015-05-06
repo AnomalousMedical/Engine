@@ -1,7 +1,7 @@
 #include "Stdafx.h"
 #include "Generic6DofConstriantMotors.h"
 
-extern "C" _AnomalousExport btFixedConstraint* btFixedConstraint_Create(btRigidBody* rbA, btRigidBody* rbB, Vector3 jointPos, Quaternion jointRot)
+extern "C" _AnomalousExport btFixedConstraint* btFixedConstraint_Create(btRigidBody* rbA, btRigidBody* rbB, Quaternion jointRot, Vector3 jointPos)
 {
 	btTransform jointTf;
 	jointTf.setIdentity();

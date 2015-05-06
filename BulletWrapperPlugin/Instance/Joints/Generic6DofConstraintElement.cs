@@ -13,7 +13,7 @@ namespace BulletPlugin
         public Generic6DofConstraintElement(Generic6DofConstraintDefinition definition, SimObjectBase instance, RigidBody rbA, RigidBody rbB, BulletScene scene)
             :base(definition.Name, scene, rbA, rbB)
         {
-            setConstraint(btGeneric6DofConstraint_Create(rbA.NativeRigidBody, rbB.NativeRigidBody, instance.Translation, instance.Rotation, definition.translationMotor, definition.xRotMotor, definition.yRotMotor, definition.zRotMotor));
+            setConstraint(btGeneric6DofConstraint_Create(rbA.NativeRigidBody, rbB.NativeRigidBody, instance.Rotation, instance.Translation, definition.translationMotor, definition.xRotMotor, definition.yRotMotor, definition.zRotMotor));
         }
 
         public override SimElementDefinition saveToDefinition()
@@ -111,7 +111,7 @@ namespace BulletPlugin
     partial class Generic6DofConstraintElement
     {
         [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr btGeneric6DofConstraint_Create(IntPtr rbA, IntPtr rbB, Vector3 jointPos, Quaternion jointRot, TranslationalLimitMotorDefinition transMotor, RotationalLimitMotorDefinition xRotMotor, RotationalLimitMotorDefinition yRotMotor, RotationalLimitMotorDefinition zRotMotor);
+        private static extern IntPtr btGeneric6DofConstraint_Create(IntPtr rbA, IntPtr rbB, Quaternion jointRot, Vector3 jointPos, TranslationalLimitMotorDefinition transMotor, RotationalLimitMotorDefinition xRotMotor, RotationalLimitMotorDefinition yRotMotor, RotationalLimitMotorDefinition zRotMotor);
 
         [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void btGeneric6DofConstraint_setFrameOffsetOriginA(IntPtr instance, ref Vector3 origin);

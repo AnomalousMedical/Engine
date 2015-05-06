@@ -13,7 +13,7 @@ namespace BulletPlugin
         public FixedConstraintElement(FixedConstraintDefinition definition, SimObjectBase instance, RigidBody rbA, RigidBody rbB, BulletScene scene)
             :base(definition.Name, scene, rbA, rbB)
         {
-            setConstraint(btFixedConstraint_Create(rbA.NativeRigidBody, rbB.NativeRigidBody, instance.Translation, instance.Rotation));
+            setConstraint(btFixedConstraint_Create(rbA.NativeRigidBody, rbB.NativeRigidBody, instance.Rotation, instance.Translation));
         }
 
         public override SimElementDefinition saveToDefinition()
@@ -27,6 +27,6 @@ namespace BulletPlugin
         }
     
         [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr btFixedConstraint_Create(IntPtr rbA, IntPtr rbB, Vector3 jointPos, Quaternion jointRot);
+        private static extern IntPtr btFixedConstraint_Create(IntPtr rbA, IntPtr rbB, Quaternion jointRot, Vector3 jointPos);
     }
 }
