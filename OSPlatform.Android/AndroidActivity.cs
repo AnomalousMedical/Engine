@@ -5,6 +5,7 @@ using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
 using Engine.Platform;
+using Engine.Threads;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -120,20 +121,30 @@ namespace Anomalous.OSPlatform.Android
                 //Logging.Log.Debug ("'{0}' bc: {2} ac: {1} s: {3}", e.Text.ToString (), e.AfterCount, e.BeforeCount, e.Start);
                 if (e.AfterCount - e.BeforeCount >= 0)
                 {
-                    foreach (char c in e.Text.Skip(e.Start + e.BeforeCount))
+                    //This will create a fair amount of garbage, but the user probably cannot type that fast
+                    //Calling ThreadManager.invoke for each char creates garbage also.
+                    char[] inputArray = e.Text.Skip(e.Start + e.BeforeCount).ToArray();
+                    ThreadManager.invoke(() =>
                     {
-                        inputHandler.injectKeyPressed(Engine.Platform.KeyboardButtonCode.KC_UNASSIGNED, c);
-                        inputHandler.injectKeyReleased(Engine.Platform.KeyboardButtonCode.KC_UNASSIGNED);
-                    }
+                        foreach (char c in inputArray)
+                        {
+                            inputHandler.injectKeyPressed(Engine.Platform.KeyboardButtonCode.KC_UNASSIGNED, c);
+                            inputHandler.injectKeyReleased(Engine.Platform.KeyboardButtonCode.KC_UNASSIGNED);
+                        }
+                    });
                 }
                 else
                 {
                     int count = e.BeforeCount - e.AfterCount;
-                    for (int i = 0; i < count; ++i)
+                    ThreadManager.invoke(() =>
                     {
-                        inputHandler.injectKeyPressed(Engine.Platform.KeyboardButtonCode.KC_BACK, 0);
-                        inputHandler.injectKeyReleased(Engine.Platform.KeyboardButtonCode.KC_BACK);
-                    }
+                        //Inject the backspace count on the main thread
+                        for (int i = 0; i < count; ++i)
+                        {
+                            inputHandler.injectKeyPressed(Engine.Platform.KeyboardButtonCode.KC_BACK, 0);
+                            inputHandler.injectKeyReleased(Engine.Platform.KeyboardButtonCode.KC_BACK);
+                        }
+                    });
                 }
             } 
         }
