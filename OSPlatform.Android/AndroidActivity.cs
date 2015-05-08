@@ -107,7 +107,8 @@ namespace Anomalous.OSPlatform.Android
                     //Make normal and default the same in case we add a type but we haven't added it here yet.
                     case OnscreenKeyboardMode.Normal:
                     default:
-                        editText.InputType = InputTypes.ClassText | InputTypes.TextFlagMultiLine;
+                        //editText.InputType = InputTypes.ClassText | InputTypes.TextFlagMultiLine; //Allows for autocorrect
+                        editText.InputType = InputTypes.TextVariationWebPassword | InputTypes.TextFlagMultiLine;
                         inputMethod.ShowSoftInput(editText, ShowFlags.Forced);
                         break;
                 }
