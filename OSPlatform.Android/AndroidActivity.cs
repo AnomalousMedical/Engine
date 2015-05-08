@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Anomalous.OSPlatform.Android
 {
     /// <summary>
-    /// This class provides a simple Activity instance that can be used for Anomalous Engine apps.
+    /// This class provides a simple Activity base class that can be used for Anomalous Engine apps.
     /// You will need to define attributes on your subclass that look like the following:
     /// <code>
     /// [Activity (Label = "App Name", MainLauncher = true, Icon = "@drawable/icon", Theme="@android:style/Theme.NoTitleBar.Fullscreen", ConfigurationChanges= ConfigChanges.Orientation | ConfigChanges.KeyboardHidden | ConfigChanges.ScreenSize | ConfigChanges.ScreenLayout, WindowSoftInputMode = SoftInput.StateAlwaysHidden)]
