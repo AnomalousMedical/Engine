@@ -24,6 +24,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\AndroidBaseApp\Common\native_app_glue\android_native_app_glue.c" />
     <ClCompile Include="..\Src\AndroidApp.cpp" />
+    <ClCompile Include="..\Src\AndroidDialogs.cpp" />
     <ClCompile Include="..\Src\AndroidWindow.cpp" />
     <ClCompile Include="..\Src\App.cpp" />
     <ClCompile Include="..\Src\ManagedLogListener.cpp" />
