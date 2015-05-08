@@ -21,7 +21,7 @@ namespace Anomalous.OSPlatform.Android
         {
             get
             {
-                return activity.BaseContext.GetExternalFilesDir(null).Path;
+                return Path.Combine(activity.BaseContext.GetExternalFilesDir(null).Path, "UserData");
             }
         }
 
@@ -29,7 +29,7 @@ namespace Anomalous.OSPlatform.Android
         {
             get
             {
-                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "LocalData");
+                return Path.Combine(activity.BaseContext.GetExternalFilesDir(null).Path, "LocalData");
             }
         }
 
@@ -37,7 +37,7 @@ namespace Anomalous.OSPlatform.Android
         {
             get
             {
-                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "PrivateData");
+                return Path.Combine(activity.BaseContext.GetExternalFilesDir(null).Path, "PrivateData");
             }
         }
 
