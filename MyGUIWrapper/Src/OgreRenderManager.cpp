@@ -20,3 +20,8 @@ extern "C" _AnomalousExport void OgreRenderManager_update(MyGUI::OgreRenderManag
 {
 	renderManager->update();
 }
+
+extern "C" _AnomalousExport size_t OgreRenderManager_getBatchCount(MyGUI::OgreRenderManager* renderManager)
+{
+	return renderManager->getBatchCount();
+}

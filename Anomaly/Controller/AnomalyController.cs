@@ -160,7 +160,7 @@ namespace Anomaly
             mdiLayout = new MDILayoutManager();
 
             //Scene views
-            sceneViewController = new SceneViewController(mdiLayout, eventManager, mainTimer, pluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.getRenderManager(), null);
+            sceneViewController = new SceneViewController(mdiLayout, eventManager, mainTimer, pluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.RenderManager, null);
             sceneStatsDisplayManager = new SceneStatsDisplayManager(sceneViewController, OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget);
             sceneStatsDisplayManager.StatsVisible = true;
             sceneViewController.createWindow("Camera 1", AnomalyConfig.CameraConfig.MainCameraPosition, AnomalyConfig.CameraConfig.MainCameraLookAt, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);

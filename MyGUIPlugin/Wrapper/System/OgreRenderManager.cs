@@ -36,6 +36,14 @@ namespace MyGUIPlugin
             OgreRenderManager_update(renderManager);
         }
 
+        public ulong BatchCount
+        {
+            get
+            {
+                return OgreRenderManager_getBatchCount(renderManager).ToUInt64();
+            }
+        }
+
 #region PInvoke
 
         [DllImport(MyGUIInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
@@ -46,6 +54,9 @@ namespace MyGUIPlugin
 
         [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void OgreRenderManager_update(IntPtr renderManager);
+
+        [DllImport(MyGUIInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern UIntPtr OgreRenderManager_getBatchCount(IntPtr renderManager);
 
 #endregion
     }

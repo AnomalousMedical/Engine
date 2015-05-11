@@ -23,9 +23,12 @@ namespace MyGUIPlugin
             OgrePlatform_Delete(ogrePlatform);
         }
 
-        public OgreRenderManager getRenderManager()
+        public OgreRenderManager RenderManager
         {
-            return renderManager;
+            get
+            {
+                return renderManager;
+            }
         }
 
         public void initialize(int windowWidth, int windowHeight, String resourceGroup, String logName)

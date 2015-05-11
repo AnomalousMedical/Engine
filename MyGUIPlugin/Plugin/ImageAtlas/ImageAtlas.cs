@@ -123,7 +123,7 @@ namespace MyGUIPlugin
             ResourceManager.Instance.removeByName(guid);
             memoryArchive.destroyMemoryStreamResource(guid + ".png");
             memoryArchive.destroyMemoryStreamResource(guid + ".xml");
-            MyGUIInterface.Instance.OgrePlatform.getRenderManager().destroyTexture(name + guid + ".png");
+            MyGUIInterface.Instance.OgrePlatform.RenderManager.destroyTexture(name + guid + ".png");
         }
 
         private void createImage(String guidStr, FreeImageBitmap image, out IntSize2 finalSize)

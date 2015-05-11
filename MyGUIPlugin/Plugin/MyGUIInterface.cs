@@ -120,7 +120,7 @@ namespace MyGUIPlugin
             //Create log
             managedLogListener = new ManagedMyGUILogListener();
 
-            renderListener = new MyGUIRenderListener(vp, sceneManager, ogrePlatform.getRenderManager());
+            renderListener = new MyGUIRenderListener(vp, sceneManager, ogrePlatform.RenderManager);
 
             gui = new Gui();
             gui.ScaleFactor = ScaleHelper.ScaleFactor;
