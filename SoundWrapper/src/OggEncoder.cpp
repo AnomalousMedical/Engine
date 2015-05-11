@@ -2,6 +2,7 @@
 #include "OggEncoder.h"
 #include "Stream.h"
 #include <vorbis/vorbisenc.h>
+#include <stdlib.h>
 #include <time.h>
 
 namespace SoundWrapper
@@ -100,18 +101,9 @@ namespace SoundWrapper
 		/* set up our packet->stream encoder */
 		/* pick a random serial number; that way we can more likely build
 		chained streams just by concatenation */
-#ifdef ANDROID
-		//ANDROID_FIXLATER: Android temporarily just using a incrementing counter
-		static int serialGen = 0;
-		int serial = serialGen++;
-		if (serialGen > 65535)
-		{
-			serialGen = 0;
-		}
-#else
 		srand(time(NULL));
 		int serial = rand();
-#endif
+
 		ogg_stream_init(&os,serial);
 
 		/* Vorbis streams begin with three headers; the initial header (with
