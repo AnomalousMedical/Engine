@@ -489,4 +489,20 @@ TabControl
     </Widget>
   </Resource>
 
+  <!--*************************
+PanelResponsive
+*****************************-->
+  <Resource type="ResourceLayout" name="PanelResponsive" version="3.2.0">
+    <Widget type="Widget" skin="Panel" position="20 25 29 26" name="Root">
+    </Widget>
+  </Resource>
+
+  <!--*************************
+PanelResponsiveEmpty
+*****************************-->
+  <Resource type="ResourceLayout" name="PanelResponsiveEmpty" version="3.2.0">
+    <Widget type="Widget" skin="PanelEmpty" position="20 25 29 26" name="Root">
+    </Widget>
+  </Resource>
+
 </MyGUI>
