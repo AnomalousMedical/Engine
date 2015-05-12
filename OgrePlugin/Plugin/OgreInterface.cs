@@ -153,6 +153,13 @@ namespace OgrePlugin
                     RenderWindow renderWindow = root.createRenderWindow(defaultWindowInfo.AutoWindowTitle, (uint)defaultWindowInfo.Width, (uint)defaultWindowInfo.Height, defaultWindowInfo.Fullscreen, miscParams);
                     primaryWindow = new EmbeddedWindow(defaultWindowInfo.EmbedWindow, renderWindow);
                 }
+
+                if (InitialClearColor.HasValue)
+                {
+                    rs.clearFrameBuffer(FrameBufferType.FBT_COLOUR, InitialClearColor.Value);
+                    primaryWindow.OgreRenderTarget.update(true);
+                }
+
                 defaultWindowInfo._fireWindowCreated(new WindowInfoEventArgs(primaryWindow));
 
                 //Setup compressed textures
@@ -439,6 +446,12 @@ namespace OgrePlugin
         /// based on the hardware the program is running on.
         /// </summary>
         public static CompressedTextureSupport CompressedTextureSupport { get; set; }
+
+        /// <summary>
+        /// If this is set to a color value the ogre plugin will clear the window with that color 
+        /// as soon as possible.
+        /// </summary>
+        public static Color? InitialClearColor { get; set; }
 
         #region PInvoke
 
