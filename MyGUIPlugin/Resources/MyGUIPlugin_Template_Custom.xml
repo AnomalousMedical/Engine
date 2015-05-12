@@ -100,4 +100,28 @@ TableCellCheckBox
     </Widget>
   </Resource>
 
+  <!--*************************
+ResponsiveScrollView
+*****************************-->
+  <Resource type="ResourceLayout" name="ResponsiveScrollView" version="3.2.0">
+    <Widget type="Widget" skin="ScrollViewSkin" position="5 5 55 55" name="Root">
+      <UserString key="LE_TargetWidgetType" value="ResponsiveScrollView"/>
+      <Widget type="Widget" skin="PanelEmpty" position="3 3 32 32" align="Stretch" name="Client"/>
+      <Widget type="ScrollBar" skin="ScrollBarV" position="35 3 15 32" align="Right VStretch" name="VScroll"/>
+      <Widget type="ScrollBar" skin="ScrollBarH" position="3 35 32 15" align="HStretch Bottom" name="HScroll"/>
+    </Widget>
+  </Resource>
+
+  <!--*************************
+ResponsiveScrollViewEmpty
+*****************************-->
+  <Resource type="ResourceLayout" name="ResponsiveScrollViewEmpty" version="3.2.0">
+    <Widget type="Widget" skin="PanelEmpty" position="8 8 47 47" name="Root">
+      <UserString key="LE_TargetWidgetType" value="ResponsiveScrollView"/>
+      <Widget type="Widget" skin="PanelEmpty" position="0 0 32 32" align="Stretch" name="Client"/>
+      <Widget type="ScrollBar" skin="ScrollBarV" position="32 0 15 32" align="Right VStretch" name="VScroll"/>
+      <Widget type="ScrollBar" skin="ScrollBarH" position="0 32 32 15" align="HStretch Bottom" name="HScroll"/>
+    </Widget>
+  </Resource>
+
 </MyGUI>

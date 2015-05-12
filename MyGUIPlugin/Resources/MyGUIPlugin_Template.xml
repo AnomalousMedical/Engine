@@ -316,6 +316,30 @@ ScrollViewEmpty
   </Resource>
 
   <!--*************************
+ScrollViewResponsive
+*****************************-->
+  <Resource type="ResourceLayout" name="ScrollViewResponsive" version="3.2.0">
+    <Widget type="Widget" skin="ScrollViewSkin" position="5 5 55 55" name="Root">
+      <UserString key="LE_TargetWidgetType" value="ScrollViewResponsive"/>
+      <Widget type="Widget" skin="PanelEmpty" position="3 3 32 32" align="Stretch" name="Client"/>
+      <Widget type="ScrollBar" skin="ScrollBarV" position="35 3 15 32" align="Right VStretch" name="VScroll"/>
+      <Widget type="ScrollBar" skin="ScrollBarH" position="3 35 32 15" align="HStretch Bottom" name="HScroll"/>
+    </Widget>
+  </Resource>
+
+  <!--*************************
+ScrollViewResponsiveEmpty
+*****************************-->
+  <Resource type="ResourceLayout" name="ScrollViewResponsiveEmpty" version="3.2.0">
+    <Widget type="Widget" skin="PanelEmpty" position="8 8 47 47" name="Root">
+      <UserString key="LE_TargetWidgetType" value="ScrollViewResponsive"/>
+      <Widget type="Widget" skin="PanelEmpty" position="0 0 32 32" align="Stretch" name="Client"/>
+      <Widget type="ScrollBar" skin="ScrollBarV" position="32 0 15 32" align="Right VStretch" name="VScroll"/>
+      <Widget type="ScrollBar" skin="ScrollBarH" position="0 32 32 15" align="HStretch Bottom" name="HScroll"/>
+    </Widget>
+  </Resource>
+
+  <!--*************************
 MultiListBox
 *****************************-->
   <Resource type="ResourceLayout" name="MultiListBox" version="3.2.0">
@@ -462,6 +486,22 @@ TabControl
           <Widget type="Button" skin="ButtonRightSkin" position="4 5 6 10" name="Left"/>
         </Widget>
       </Widget>
+    </Widget>
+  </Resource>
+
+  <!--*************************
+ContainerResponsive
+*****************************-->
+  <Resource type="ResourceLayout" name="ContainerResponsive" version="3.2.0">
+    <Widget type="Widget" skin="Panel" position="20 25 29 26" name="Root">
+    </Widget>
+  </Resource>
+
+  <!--*************************
+ContainerResponsiveEmpty
+*****************************-->
+  <Resource type="ResourceLayout" name="ContainerResponsiveEmpty" version="3.2.0">
+    <Widget type="Widget" skin="PanelEmpty" position="20 25 29 26" name="Root">
     </Widget>
   </Resource>
 
