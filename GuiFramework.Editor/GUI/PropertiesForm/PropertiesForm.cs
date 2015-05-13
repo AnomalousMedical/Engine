@@ -16,7 +16,7 @@ namespace Anomalous.GuiFramework.Editor
         public event Action<PropertiesForm> LayoutChanged;
 
         private List<PropertiesFormComponent> components = new List<PropertiesFormComponent>();
-        protected StretchLayoutContainer flowLayout = new StretchLayoutContainer(StretchLayoutContainer.LayoutType.Vertical, 3, new IntVector2(0, 0));
+        protected StretchLayoutContainer flowLayout = new StretchLayoutContainer(StretchLayoutContainer.LayoutType.Vertical, ScaleHelper.Scaled(3), new IntVector2(0, 0));
         private Widget widget;
         private GuiFrameworkUICallback uiCallback;
         private EditInterface currentEditInterface;
