@@ -21,7 +21,7 @@ namespace MyGUIPlugin
         void changeKeyFocus(Widget widget)
         {
             EditBox editBox = widget as EditBox;
-            if (editBox != null)
+            if (editBox != null && !editBox.EditStatic)
             {
                 onscreenKeyboardManager.KeyboardMode = editBox.EditPassword ? OnscreenKeyboardMode.Secure : OnscreenKeyboardMode.Normal;
             }
