@@ -211,6 +211,8 @@ ComboBox
     <Widget type="Widget" skin="ComboBoxSkin" position="65 10 100 26" name="Root">
       <Property key="MaxListLength" value="200"/>
       <Property key="SmoothShow" value="true"/>
+      <Property key="ModeDrop" value="true"/>
+      <Property key="Static" value="true"/>
       <UserString key="LE_TargetWidgetType" value="ComboBox"/>
       <Widget type="TextBox" skin="EditClientSkin" position="2 2 75 20" align="Stretch" name="Client">
         <Property key="TextAlign" value="Left VCenter"/>
