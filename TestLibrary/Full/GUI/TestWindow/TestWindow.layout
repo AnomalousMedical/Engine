@@ -18,6 +18,9 @@
         <Widget type="TextBox" skin="TextBox" position="7 64 238 18">
             <Property key="Caption" value="Password"/>
         </Widget>
+        <Widget type="Button" skin="Button" position="9 349 88 36" name="ColorButton">
+            <Property key="Caption" value="Color"/>
+        </Widget>
     </Widget>
     <CodeGeneratorSettings/>
 </MyGUI>

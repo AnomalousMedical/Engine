@@ -41,7 +41,15 @@ namespace Anomalous.GuiFramework
             colorGrid.SelectedValueChanged += new EventHandler(colorGrid_SelectedValueChanged);
 
             Button moreColorsButton = widget.findWidget("MoreColorsButton") as Button;
-            moreColorsButton.MouseButtonClick += new MyGUIEvent(moreColorsButton_MouseButtonClick);
+            if (!RuntimePlatformInfo.ShowMoreColors)
+            {
+                moreColorsButton.MouseButtonClick += new MyGUIEvent(moreColorsButton_MouseButtonClick);
+            }
+            else
+            {
+                moreColorsButton.Visible = false;
+                widget.setSize(widget.Width, widget.Height - (widget.Height - moreColorsButton.Top));
+            }
 
             this.Hidden += new EventHandler(ColorMenu_Hidden);
 

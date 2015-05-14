@@ -48,5 +48,13 @@ namespace Anomalous.OSPlatform
                 }
             }
         }
+
+        protected override bool ShowMoreColorsImpl
+        {
+            get
+            {
+                return true;
+            }
+        }
     }
 }

@@ -40,5 +40,13 @@ namespace Anomalous.OSPlatform
                 return Path.GetFullPath(".");
             }
         }
+
+        protected override bool ShowMoreColorsImpl
+        {
+            get
+            {
+                return false;
+            }
+        }
     }
 }

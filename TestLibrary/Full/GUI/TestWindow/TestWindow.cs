@@ -12,7 +12,15 @@ namespace Anomalous.Minimus.Full.GUI
 		{
             Button button = window.findWidget("PlayTestSound") as Button;
             button.MouseButtonClick += button_MouseButtonClick;
+
+            Button colorButton = window.findWidget("ColorButton") as Button;
+            colorButton.MouseButtonClick += colorButton_MouseButtonClick;
 		}
+
+        void colorButton_MouseButtonClick(Widget source, EventArgs e)
+        {
+            ColorMenu.ShowColorMenu(this.Left, this.Top, (c) => { });
+        }
 
         void button_MouseButtonClick(Widget source, EventArgs e)
         {

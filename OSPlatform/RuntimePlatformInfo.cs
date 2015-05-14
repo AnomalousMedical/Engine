@@ -55,6 +55,14 @@ namespace Anomalous.OSPlatform
             }
         }
 
+        public static bool ShowMoreColors
+        {
+            get
+            {
+                return Instance.ShowMoreColorsImpl;
+            }
+        }
+
         /// <summary>
         /// This will be true if the platform info has been properly setup.
         /// </summary>
@@ -99,5 +107,7 @@ namespace Anomalous.OSPlatform
         /// The path to the main executable.
         /// </summary>
         protected abstract string ExecutablePathImpl { get; }
+
+        protected abstract bool ShowMoreColorsImpl { get; }
     }
 }

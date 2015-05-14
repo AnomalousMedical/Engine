@@ -48,5 +48,13 @@ namespace Anomalous.OSPlatform.Android
                 return Path.GetFullPath(".");
             }
         }
+
+        protected override bool ShowMoreColorsImpl
+        {
+            get
+            {
+                return false;
+            }
+        }
     }
 }
