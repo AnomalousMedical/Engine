@@ -41,7 +41,7 @@ namespace Anomalous.GuiFramework
             colorGrid.SelectedValueChanged += new EventHandler(colorGrid_SelectedValueChanged);
 
             Button moreColorsButton = widget.findWidget("MoreColorsButton") as Button;
-            if (!RuntimePlatformInfo.ShowMoreColors)
+            if (RuntimePlatformInfo.ShowMoreColors)
             {
                 moreColorsButton.MouseButtonClick += new MyGUIEvent(moreColorsButton_MouseButtonClick);
             }

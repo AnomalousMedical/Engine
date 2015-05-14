@@ -337,12 +337,12 @@ you will get a nice looking list.
   <!--*************************
 ColorSwatchButton
 *****************************-->
-  <Resource type="ResourceSkin" name = "ColorSwatchButton" size = "14 14" texture = "#{Anomalous_Theme_Texture}">
+  <Resource type="ResourceSkin" name = "ColorSwatchButton" size = "32 32" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "HCenter VCenter" />
     <Child type="ImageBox" skin="ButtonStaticImage" offset_derived = "1 1 -1 -1" align = "HStretch VStretch" name = "Image"/>
     <!--Middle-->
-    <BasisSkin type="SubSkin" offset = "0 0 14 14" align = "HStretch Bottom">
+    <BasisSkin type="SubSkin" offset = "0 0 32 32" align = "HStretch Bottom">
       <State name="disabled" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ColorSwatchButton_Center_Disabled}"/>
       <State name="normal" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ColorSwatchButton_Center_Normal}"/>
       <State name="highlighted" offsetNamed="Anomalous_Solid_Coord" colour="#{Anomalous_ColorSwatchButton_Center_Highlighted}"/>
