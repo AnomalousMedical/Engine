@@ -162,6 +162,7 @@
     <Compile Include="Math\Numerics\EasingFunctions.cs" />
     <Compile Include="Math\Numerics\NumberParser.cs" />
     <Compile Include="Math\Numerics\NumberFunctions.cs" />
+    <Compile Include="Math\Numerics\Prettify.cs" />
     <Compile Include="Math\Numerics\Radian.cs" />
     <Compile Include="Math\Shapes\AxisAlignedBox.cs" />
     <Compile Include="Math\Shapes\Box3.cs" />
