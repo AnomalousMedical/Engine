@@ -17,6 +17,19 @@ namespace Engine
         /// <remarks>Taken from http://www.somacon.com/p576.php </remarks>
         public static string GetSizeReadable(long i)
         {
+            return GetSizeReadable(i, "0.## ");
+        }
+
+        /// <summary>
+        /// Returns the human-readable file size for an arbitrary, 64-bit file size
+        /// The default format is "0.### XB", e.g. "4.2 KB" or "1.434 GB"
+        /// </summary>
+        /// <param name="i">The input size</param>
+        /// <param name="toStringFormat">The format to use when calling tostring on the final size.</param>
+        /// <returns>The string with the appropriate format.</returns>
+        /// <remarks>Taken from http://www.somacon.com/p576.php </remarks>
+        public static string GetSizeReadable(long i, String toStringFormat)
+        {
             string sign = (i < 0 ? "-" : "");
             double readable = (i < 0 ? -i : i);
             string suffix;
@@ -56,7 +69,7 @@ namespace Engine
             }
             readable = readable / 1024;
 
-            return sign + readable.ToString("0.### ") + suffix;
+            return sign + readable.ToString(toStringFormat) + suffix;
         }
     }
 }
