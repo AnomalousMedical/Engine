@@ -94,7 +94,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\include;..\..\Dependencies\Bullet\src\src;..\..\Dependencies\Bullet\src\Extras\ConvexDecomposition;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>bulletsoftbody_debug.lib;bulletdynamics_debug.lib;bulletcollision_debug.lib;linearmath_debug.lib;bulletmultithreaded_debug.lib;convexdecomposition_debug.lib</AdditionalDependencies>
+      <AdditionalDependencies>bulletsoftbody_debug.lib;bulletdynamics_debug.lib;bulletcollision_debug.lib;linearmath_debug.lib;convexdecomposition_debug.lib</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AssemblyDebug>true</AssemblyDebug>
       <TargetMachine>MachineX86</TargetMachine>
