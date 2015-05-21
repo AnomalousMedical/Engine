@@ -79,6 +79,19 @@ namespace Anomalous.GuiFramework
             addPinnedTaskbarItem(task, index);
         }
 
+        /// <summary>
+        /// Change the tasks that are loading to missing, call this after you have loaded
+        /// all tasks into the GUITaskManager.
+        /// </summary>
+        /// <param name="iconName">The name of the icon to use on the missing tasks.</param>
+        public void setLoadingTasksToMissing(String iconName)
+        {
+            foreach(var task in missingTasks.Values)
+            {
+                task.setMissingMode(iconName);
+            }
+        }
+
         void taskMenu_TaskItemOpened(Task item)
         {
             addTaskbarItem(item);

@@ -11,11 +11,12 @@ namespace Anomalous.GuiFramework
     {
         protected Button taskbarButton;
         protected Taskbar taskbar;
+        private String iconName;
 
-        public TaskbarItem(String name, String iconName)
+        public TaskbarItem(String displayName, String iconName)
         {
-            this.Name = name;
-            this.IconName = iconName;
+            this.DisplayName = displayName;
+            this.iconName = iconName;
         }
 
         public virtual void Dispose()
@@ -30,9 +31,26 @@ namespace Anomalous.GuiFramework
             
         }
 
-        public String IconName { get; private set; }
+        /// <summary>
+        /// The name of the icon for this item.
+        /// </summary>
+        public String IconName
+        {
+            get
+            {
+                return iconName;
+            }
+            set
+            {
+                iconName = value;
+                taskbarButton.ImageBox.setItemResource(value);
+            }
+        }
 
-        public String Name { get; private set; }
+        /// <summary>
+        /// The name that is displayed on the gui for this item, not used to track the item in any way.
+        /// </summary>
+        public String DisplayName { get; set; }
 
         internal void _configureForTaskbar(Taskbar taskbar, Button taskbarButton)
         {
@@ -61,7 +79,7 @@ namespace Anomalous.GuiFramework
 
         void taskbarButton_EventToolTip(Widget source, EventArgs e)
         {
-            TooltipManager.Instance.processTooltip(source, Name, (ToolTipEventArgs)e);
+            TooltipManager.Instance.processTooltip(source, DisplayName, (ToolTipEventArgs)e);
         }
 
         internal void setCoord(int x, int y, int width, int height)
@@ -121,11 +139,6 @@ namespace Anomalous.GuiFramework
                 default:
                     return new IntVector2(taskbarButton.AbsoluteLeft, taskbarButton.AbsoluteTop - height);
             }
-        }
-
-        protected void setIcon(String iconName)
-        {
-            taskbarButton.ImageBox.setItemResource(iconName);
         }
 
         void taskbarButton_MouseButtonReleased(Widget source, EventArgs e)

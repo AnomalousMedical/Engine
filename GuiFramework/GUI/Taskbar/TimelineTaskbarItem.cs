@@ -30,7 +30,7 @@ namespace Anomalous.GuiFramework
 
         void task_IconChanged(Task task)
         {
-            setIcon(task.IconName);
+            IconName = task.IconName;
         }
 
         public IntVector2 findGoodWindowPosition(int width, int height)

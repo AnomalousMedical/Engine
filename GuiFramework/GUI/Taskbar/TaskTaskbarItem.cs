@@ -99,7 +99,7 @@ namespace Anomalous.GuiFramework
 
         void item_IconChanged(Task task)
         {
-            setIcon(task.IconName);
+            IconName = task.IconName;
         }
     }
 }

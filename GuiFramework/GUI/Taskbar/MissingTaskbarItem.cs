@@ -12,6 +12,7 @@ namespace Anomalous.GuiFramework
     class MissingTaskbarItem : TaskbarItem
     {
         public event EventDelegate<MissingTaskbarItem> RemoveFromTaskbar;
+        private bool missingMode = false;
 
         public MissingTaskbarItem(String uniqueName)
             : base("Loading", "Anomalous.GuiFramework.Loading")
@@ -19,9 +20,25 @@ namespace Anomalous.GuiFramework
             this.UniqueName = uniqueName;
         }
 
+        public void setMissingMode(String iconName)
+        {
+            this.IconName = iconName;
+            DisplayName = String.Format("Missing {0}", UniqueName);
+            missingMode = true;
+        }
+
         public override void clicked(Widget source, EventArgs e)
         {
-            
+            if(missingMode)
+            {
+                MessageBox.show(String.Format("The task {0} is missing. Would you like to unpin this task?", UniqueName), "Task Missing", MessageBoxStyle.IconQuest | MessageBoxStyle.Yes | MessageBoxStyle.No, result =>
+                {
+                    if(result == MessageBoxStyle.Yes)
+                    {
+                        fireRemoveFromTaskbar();
+                    }
+                });
+            }
         }
 
         public override void rightClicked(Widget source, EventArgs e)
@@ -43,10 +60,7 @@ namespace Anomalous.GuiFramework
         void popupMenu_ItemAccept(Widget source, EventArgs e)
         {
             //These only have remove tasks
-            if (RemoveFromTaskbar != null)
-            {
-                RemoveFromTaskbar.Invoke(this);
-            }
+            fireRemoveFromTaskbar();
         }
 
         void popupMenu_Closed(Widget source, EventArgs e)
@@ -57,6 +71,14 @@ namespace Anomalous.GuiFramework
         internal override void addToPinnedTasksList(PinnedTaskSerializer pinnedTaskSerializer)
         {
             pinnedTaskSerializer.addPinnedTask(UniqueName);
+        }
+
+        private void fireRemoveFromTaskbar()
+        {
+            if (RemoveFromTaskbar != null)
+            {
+                RemoveFromTaskbar.Invoke(this);
+            }
         }
     }
 }
