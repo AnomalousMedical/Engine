@@ -225,7 +225,7 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		switch (msg)
 		{
 			//Window
-		case WM_SIZE:
+		case WM_EXITSIZEMOVE:
 			win->fireSized();
 			break;
 		case WM_CLOSE:
