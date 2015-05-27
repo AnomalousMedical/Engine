@@ -50,6 +50,18 @@ public:
 
 	void manageRelease(MouseButtonCode mouseCode);
 
+	//Enable or disable windows size messages, this is not actually handeled by this class just stored, you
+	//must manually check getAllowWindowSizeMessages before calling fireSized()
+	void setAllowWindowSizeMessages(bool allowWindowSizeMessages)
+	{
+		this->allowWindowSizeMessages = allowWindowSizeMessages;
+	}
+
+	bool getAllowWindowSizeMessages()
+	{
+		return allowWindowSizeMessages;
+	}
+
 	static void createWindowClass(HANDLE hModule);
 
 	static void destroyWindowClass();
@@ -59,4 +71,5 @@ private:
 	HCURSOR hCursor;
 	bool mouseDown[MouseButtonCode::NUM_BUTTONS];
 	WINDOWPLACEMENT previousWindowPlacement;
+	bool allowWindowSizeMessages;
 };

@@ -5,7 +5,8 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 Win32Window::Win32Window(HWND parent, String title, int x, int y, int width, int height)
 	:window(0),
-	previousWindowPlacement({ sizeof(previousWindowPlacement) })
+	previousWindowPlacement({ sizeof(previousWindowPlacement) }),
+	allowWindowSizeMessages(true)
 {
 	window = CreateWindowEx(NULL, WIN32_WINDOW_CLASS, title, WS_OVERLAPPEDWINDOW, x, y, width, height, parent, NULL, wndclass.hInstance, NULL);
 	SetWindowLongPtr(window, GWLP_USERDATA, (LONG_PTR)this);
@@ -225,7 +226,25 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		switch (msg)
 		{
 			//Window
+		case WM_SIZE:
+			switch (wParam)
+			{
+			case SIZE_RESTORED:
+				if (win->getAllowWindowSizeMessages())
+				{
+					win->fireSized();
+				}
+				break;
+			case SIZE_MAXIMIZED:
+				win->fireSized();
+				break;
+			}
+			break;
+		case WM_ENTERSIZEMOVE:
+			win->setAllowWindowSizeMessages(false);
+			break;
 		case WM_EXITSIZEMOVE:
+			win->setAllowWindowSizeMessages(true);
 			win->fireSized();
 			break;
 		case WM_CLOSE:
