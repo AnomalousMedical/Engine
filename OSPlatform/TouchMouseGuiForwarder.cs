@@ -11,13 +11,26 @@ namespace Anomalous.OSPlatform
 {
     public class TouchMouseGuiForwarder : OnscreenKeyboardManager
     {
+        enum MouseStatus
+        {
+            Released,
+            Left,
+            Right
+        }
+
+        private const long RightClickDeltaTime = 1000000; //microseconds
+
         private int currentFingerId = int.MinValue;
-        private IntVector2 gestureStartPos;
+        private long fingerDownTime = long.MinValue;
+        private TravelTracker captureClickZone = new TravelTracker(ScaleHelper.Scaled(3));
+        private MouseStatus mouseInjectionMode = MouseStatus.Released;
+
         private Touches touches;
         private NativeOSWindow window;
         private NativeInputHandler inputHandler;
 		private bool enabled = true;
 		private OnscreenKeyboardMode keyboardMode = OnscreenKeyboardMode.Hidden;
+        private SystemTimer systemTimer;
 
         /// <summary>
         /// Constructor.
@@ -26,12 +39,13 @@ namespace Anomalous.OSPlatform
         /// <param name="inputHandler">The InputHandler to use.</param>
         /// <param name="window">The window to show the onscreen keyboard on.</param>
         /// <param name="lastEventLayer">The last event layer in the eventManager.</param>
-        public TouchMouseGuiForwarder(EventManager eventManager, NativeInputHandler inputHandler, NativeOSWindow window, Object lastEventLayer)
+        public TouchMouseGuiForwarder(EventManager eventManager, NativeInputHandler inputHandler, SystemTimer systemTimer, NativeOSWindow window, Object lastEventLayer)
         {
             this.touches = eventManager.Touches;
             this.touches.FingerStarted += HandleFingerStarted;
             this.inputHandler = inputHandler;
             this.window = window;
+            this.systemTimer = systemTimer;
 
             eventManager[lastEventLayer].Keyboard.KeyPressed += HandleKeyPressed;
             eventManager[lastEventLayer].Keyboard.KeyReleased += HandleKeyReleased;
@@ -88,14 +102,15 @@ namespace Anomalous.OSPlatform
         {
             if (currentFingerId == int.MinValue && enabled)
             {
+                fingerDownTime = systemTimer.getCurrentTime();
                 var finger = touches.Fingers[0];
                 currentFingerId = finger.Id;
                 touches.FingerEnded += fingerEnded;
                 touches.FingerMoved += HandleFingerMoved;
 				touches.FingersCanceled += HandleFingersCanceled;
-                gestureStartPos = new IntVector2(finger.PixelX, finger.PixelY);
+                captureClickZone.reset();
                 inputHandler.injectMoved(finger.PixelX, finger.PixelY);
-                inputHandler.injectButtonDown(MouseButtonCode.MB_BUTTON0);
+                mouseInjectionMode = MouseStatus.Released;
             }
         }
 
@@ -104,6 +119,20 @@ namespace Anomalous.OSPlatform
             if (obj.Id == currentFingerId)
             {
                 inputHandler.injectMoved(obj.PixelX, obj.PixelY);
+                captureClickZone.traveled(new IntVector2(obj.PixelDeltaX, obj.PixelDeltaY));
+                if (mouseInjectionMode == MouseStatus.Released && captureClickZone.TraveledOverLimit)
+                {
+                    if (systemTimer.getCurrentTime() - fingerDownTime < RightClickDeltaTime)
+                    {
+                        mouseInjectionMode = MouseStatus.Right;
+                        inputHandler.injectButtonDown(MouseButtonCode.MB_BUTTON1);
+                    }
+                    else
+                    {
+                        mouseInjectionMode = MouseStatus.Left;
+                        inputHandler.injectButtonDown(MouseButtonCode.MB_BUTTON0);
+                    }
+                }
             }
         }
 
@@ -113,7 +142,28 @@ namespace Anomalous.OSPlatform
             {
 				stopTrackingFinger();
                 inputHandler.injectMoved(obj.PixelX, obj.PixelY);
-                inputHandler.injectButtonUp(MouseButtonCode.MB_BUTTON0);
+                switch(mouseInjectionMode)
+                {
+                    case MouseStatus.Released:
+                        if (systemTimer.getCurrentTime() - fingerDownTime < RightClickDeltaTime)
+                        {
+                            inputHandler.injectButtonDown(MouseButtonCode.MB_BUTTON0);
+                            inputHandler.injectButtonUp(MouseButtonCode.MB_BUTTON0);
+                        }
+                        else
+                        {
+                            inputHandler.injectButtonDown(MouseButtonCode.MB_BUTTON1);
+                            inputHandler.injectButtonUp(MouseButtonCode.MB_BUTTON1);
+                        }
+                        break;
+                    case MouseStatus.Left:
+                        inputHandler.injectButtonUp(MouseButtonCode.MB_BUTTON0);
+                        break;
+                    case MouseStatus.Right:
+                        inputHandler.injectButtonUp(MouseButtonCode.MB_BUTTON1);
+                        break;
+                }
+                mouseInjectionMode = MouseStatus.Released;
 				toggleKeyboard();
             }
 		}
