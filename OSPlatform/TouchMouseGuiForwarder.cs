@@ -18,11 +18,11 @@ namespace Anomalous.OSPlatform
             Right
         }
 
-        private const long RightClickDeltaTime = 1000000; //microseconds
+        private const long RightClickDeltaTime = 800000; //microseconds
 
         private int currentFingerId = int.MinValue;
         private long fingerDownTime = long.MinValue;
-        private TravelTracker captureClickZone = new TravelTracker(ScaleHelper.Scaled(3));
+        private TravelTracker captureClickZone = new TravelTracker(ScaleHelper.Scaled(5));
         private MouseStatus mouseInjectionMode = MouseStatus.Released;
 
         private Touches touches;
