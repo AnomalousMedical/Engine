@@ -52,6 +52,8 @@ namespace Anomalous.OSPlatform.Android
 
             SetContentView(contentViewId);
 
+            VolumeControlStream = global::Android.Media.Stream.Music;
+
             this.editText = FindViewById<EditText>(editTextId);
             this.editText.TextChanged += editText_TextChanged;
             Window.SetSoftInputMode(SoftInput.StateAlwaysHidden);
