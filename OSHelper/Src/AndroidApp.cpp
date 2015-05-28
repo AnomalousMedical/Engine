@@ -51,7 +51,7 @@ extern "C" _AnomalousExport void AndroidApp_outputCurrentABI()
 static int32_t android_app_handle_input(struct android_app* app, AInputEvent* event)
 {
 	struct AndroidAppState* appState = (struct AndroidAppState*)app->userData;
-	appState->androidWindow->handleInputEvent(app, event);
+	return appState->androidWindow->handleInputEvent(app, event);
 }
 
 /**

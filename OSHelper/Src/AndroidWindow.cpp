@@ -246,11 +246,11 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 			{
 				this->fireKeyUp(convertCode); 
 			}
+
+			return 1; //handled
 		}
-		
-		//LOGI("Received key event: %d flags: %d action: %d", keyCode, keyFlags, keyAction);
-		return 1;
 	}
+
 	return 0;
 }
 
