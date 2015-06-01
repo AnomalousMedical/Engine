@@ -122,6 +122,22 @@ namespace SoundPlugin
             OpenALManager_update(Pointer);
         }
 
+        /// <summary>
+        /// Resume app wide audio playback. Called when internal resources need to be recreated.
+        /// </summary>
+        internal void resumeAudio()
+        {
+            OpenALManager_resumeAudio(Pointer);
+        }
+
+        /// <summary>
+        /// Suspend app wide audio playback, called when internal resources need to be destroyed.
+        /// </summary>
+        internal void suspendAudio()
+        {
+            OpenALManager_suspendAudio(Pointer);
+        }
+
         #region PInvoke
 
         [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
@@ -171,6 +187,12 @@ namespace SoundPlugin
 
         [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr OpenALManager_getListener(IntPtr openALManager);
+
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        private static extern void OpenALManager_resumeAudio(IntPtr openALManager);
+
+        [DllImport(SoundPluginInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void OpenALManager_suspendAudio(IntPtr openALManager);
 
         #endregion
     }

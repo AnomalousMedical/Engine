@@ -9,6 +9,10 @@
 //Codecs
 #include "OggCodec.h"
 
+#ifdef ANDROID
+#include "..\..\Alc\apportable_openal_funcs.h"
+#endif
+
 namespace SoundWrapper
 {
 
@@ -231,4 +235,24 @@ extern "C" _AnomalousExport void OpenALManager_update(OpenALManager* openALManag
 extern "C" _AnomalousExport Listener* OpenALManager_getListener(OpenALManager* openALManager)
 {
 	return openALManager->getListener();
+}
+
+extern "C" _AnomalousExport void OpenALManager_resumeAudio(OpenALManager* openALManager)
+{
+#ifdef ANDROID
+	if (apportableOpenALFuncs.alc_android_resume) 
+	{
+		apportableOpenALFuncs.alc_android_resume();
+	}
+#endif
+}
+
+extern "C" _AnomalousExport void OpenALManager_suspendAudio(OpenALManager* openALManager)
+{
+#ifdef ANDROID
+	if (apportableOpenALFuncs.alc_android_suspend) 
+	{
+		apportableOpenALFuncs.alc_android_suspend();
+	}
+#endif
 }

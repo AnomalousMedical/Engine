@@ -19,6 +19,7 @@ namespace SoundPlugin
         private SoundUpdateListener soundUpdate;
         private UpdateTimer mainTimer;
         private SoundManager soundManager;
+        private OSWindow resourceWindow;
 
         public static SoundPluginInterface Instance { get; private set; }
 
@@ -53,13 +54,34 @@ namespace SoundPlugin
 
         public void link(PluginManager pluginManager)
         {
-
+            
         }
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
         {
             this.mainTimer = mainTimer;
             mainTimer.addUpdateListener(soundUpdate);
+        }
+
+        /// <summary>
+        /// Set the window used to track when to create / destroy internal resources.
+        /// Should be called with the main window, or else audio suspend / resume will
+        /// not be detected.
+        /// </summary>
+        /// <param name="window">The OSWindow instance to listen to.</param>
+        public void setResourceWindow(OSWindow window)
+        {
+            if(resourceWindow != null)
+            {
+                resourceWindow.CreateInternalResources -= resourceWindow_CreateInternalResources;
+                resourceWindow.DestroyInternalResources -= resourceWindow_DestroyInternalResources;
+            }
+            resourceWindow = window;
+            if (resourceWindow != null)
+            {
+                resourceWindow.CreateInternalResources += resourceWindow_CreateInternalResources;
+                resourceWindow.DestroyInternalResources += resourceWindow_DestroyInternalResources;
+            }
         }
 
         public string Name
@@ -91,6 +113,16 @@ namespace SoundPlugin
             {
                 return soundManager;
             }
+        }
+
+        void resourceWindow_CreateInternalResources(OSWindow window)
+        {
+            openALManager.resumeAudio();
+        }
+
+        void resourceWindow_DestroyInternalResources(OSWindow window)
+        {
+            openALManager.suspendAudio();
         }
     }
 }

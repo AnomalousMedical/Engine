@@ -154,6 +154,7 @@ namespace Anomalous.Minimus.Full
             SoundConfig.initialize(CoreConfig.ConfigFile);
 
             GuiFrameworkInterface.Instance.handleCursors(mainWindow);
+            SoundPluginInterface.Instance.setResourceWindow(mainWindow);
 
             if (PlatformConfig.ForwardTouchAsMouse)
             {
