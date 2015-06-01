@@ -9,69 +9,20 @@
 //Codecs
 #include "OggCodec.h"
 
-#ifdef ANDROID
-#include "..\..\Alc\apportable_openal_funcs.h"
-#endif
-
 namespace SoundWrapper
 {
 
 OpenALManager::OpenALManager(void)
 :ready(true),
-listener(new Listener())
+listener(new Listener()),
+sourceManager(NULL)
 {
-	logger << "Starting OpenAL" << info;
-	
-	device = alcOpenDevice(NULL);
-	if (device == NULL)
-	{
-		logger << "Error creatig OpenAL Device." << error;
-		ready = false;
-		return;
-	}
-
-	const ALchar* vendor = alGetString(AL_VENDOR);
-	if(vendor != NULL)
-	{
-		logger << " Vendor: " << vendor << info;
-	}
-
-	const ALchar* version = alGetString(AL_VERSION);
-	if(version != NULL)
-	{
-		logger << " Version: " << version << info;
-	}
-
-	const ALchar* renderer = alGetString(AL_RENDERER);
-	if(renderer != NULL)
-	{
-		logger << " Renderer: " << renderer << info;
-	}
-
-	//Create context(s)
-	context = alcCreateContext(device,NULL);
-
-	//Set active context
-	alcMakeContextCurrent(context);
-
-	// Clear Error Code
-	alGetError();
-
-	sourceManager = new SourceManager();
+	createDevice();
 }
 
 OpenALManager::~OpenALManager(void)
 {
-	logger << "Shutting down OpenAL" << info;
-
-	delete sourceManager;
-
-	//Disable context
-	alcMakeContextCurrent(NULL);
-	//Release context(s)
-	alcDestroyContext(context);
-	//Close device
-	alcCloseDevice(device);
+	destroyDevice();
 
 	delete listener;
 }
@@ -147,6 +98,69 @@ void OpenALManager::update()
 	for(std::list<CaptureDevice*>::iterator capDevice = activeDevices.begin(); capDevice != activeDevices.end(); ++capDevice)
 	{
 		(*capDevice)->update();
+	}
+}
+
+void OpenALManager::createDevice()
+{
+	if (sourceManager == NULL)
+	{
+		logger << "Creating OpenAL Device" << info;
+
+		device = alcOpenDevice(NULL);
+		if (device == NULL)
+		{
+			logger << "Error creatig OpenAL Device." << error;
+			ready = false;
+			return;
+		}
+
+		const ALchar* vendor = alGetString(AL_VENDOR);
+		if (vendor != NULL)
+		{
+			logger << " Vendor: " << vendor << info;
+		}
+
+		const ALchar* version = alGetString(AL_VERSION);
+		if (version != NULL)
+		{
+			logger << " Version: " << version << info;
+		}
+
+		const ALchar* renderer = alGetString(AL_RENDERER);
+		if (renderer != NULL)
+		{
+			logger << " Renderer: " << renderer << info;
+		}
+
+		//Create context(s)
+		context = alcCreateContext(device, NULL);
+
+		//Set active context
+		alcMakeContextCurrent(context);
+
+		// Clear Error Code
+		alGetError();
+
+		sourceManager = new SourceManager();
+	}
+}
+
+void OpenALManager::destroyDevice()
+{
+	if (sourceManager != NULL)
+	{
+		logger << "Destroying OpenAL Device" << info;
+
+		delete sourceManager;
+		sourceManager = NULL;
+
+		//Disable context
+		alcMakeContextCurrent(NULL);
+		//Release context(s)
+		alcDestroyContext(context);
+		//Close device
+		alcCloseDevice(device);
 	}
 }
 
@@ -239,20 +253,10 @@ extern "C" _AnomalousExport Listener* OpenALManager_getListener(OpenALManager* o
 
 extern "C" _AnomalousExport void OpenALManager_resumeAudio(OpenALManager* openALManager)
 {
-#ifdef ANDROID
-	if (apportableOpenALFuncs.alc_android_resume) 
-	{
-		apportableOpenALFuncs.alc_android_resume();
-	}
-#endif
+	openALManager->createDevice();
 }
 
 extern "C" _AnomalousExport void OpenALManager_suspendAudio(OpenALManager* openALManager)
 {
-#ifdef ANDROID
-	if (apportableOpenALFuncs.alc_android_suspend) 
-	{
-		apportableOpenALFuncs.alc_android_suspend();
-	}
-#endif
+	openALManager->destroyDevice();
 }

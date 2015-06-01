@@ -66,6 +66,10 @@ public:
 		activeDevices.remove(captureDevice);
 	}
 
+	void createDevice();
+
+	void destroyDevice();
+
 private:
 	AudioCodec* getCodecForStream(Stream* stream);
 
