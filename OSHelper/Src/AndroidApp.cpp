@@ -61,13 +61,11 @@ void checkHardwareResources(struct AndroidAppState* appState)
 	bool surfaceCreated = (int)(appState->animating & ACTIVATION_MODE_SURFACE_CREATED) == (int)ACTIVATION_MODE_SURFACE_CREATED;
 	if (graphicsResourcesCreated && !surfaceCreated)
 	{
-		logger.sendMessage("fireDestroyInternalResources, graphics", LogLevel::Debug);
 		appState->androidWindow->fireDestroyInternalResources(RT_Graphics);
 		appState->animating &= ~(int)GRAPHICS_RESOURCES_CREATED;
 	}
 	else if(!graphicsResourcesCreated && surfaceCreated)
 	{
-		logger.sendMessage("fireCreateInternalResources, graphics", LogLevel::Debug);
 		if (appState->initOnce)
 		{
 			appState->androidWindow->fireCreateInternalResources(RT_Graphics);
@@ -81,13 +79,11 @@ void checkHardwareResources(struct AndroidAppState* appState)
 
 	if (audioResourcesCreated && !safeToCreateAudio)
 	{
-		logger.sendMessage("fireDestroyInternalResources, audio", LogLevel::Debug);
 		appState->androidWindow->fireDestroyInternalResources(RT_Sound);
 		appState->animating &= ~(int)SOUND_RESOURCES_CREATED;
 	}
 	else if (!audioResourcesCreated && safeToCreateAudio)
 	{
-		logger.sendMessage("fireCreateInternalResources, audio", LogLevel::Debug);
 		if (appState->initOnce)
 		{
 			appState->androidWindow->fireCreateInternalResources(RT_Sound);
@@ -106,8 +102,9 @@ static void android_app_handle_cmd(struct android_app* app, int32_t cmd) {
 	case APP_CMD_SAVE_STATE:
 		//Save state
 		break;
+
+	//Window Surface
 	case APP_CMD_INIT_WINDOW:
-		logger.sendMessage("Init Window", LogLevel::Debug);
 		//Init
 		appState->animating |= ACTIVATION_MODE_SURFACE_CREATED;
 		if (!appState->initOnce) //For some reson we have to do the intial activation this way, after this just use checkHardwareResourcess
@@ -121,31 +118,31 @@ static void android_app_handle_cmd(struct android_app* app, int32_t cmd) {
 			checkHardwareResources(appState);
 		}
 		break;
+
 	case APP_CMD_TERM_WINDOW:
-		logger.sendMessage("Term Window", LogLevel::Debug);
 		appState->animating &= ~(int)ACTIVATION_MODE_SURFACE_CREATED;
 		checkHardwareResources(appState);
 		break;
 
+	//Pause / Resume
 	case APP_CMD_PAUSE:
-		logger.sendMessage("Pause", LogLevel::Debug);
 		//Window terminated
 		appState->animating &= ~(int)ACTIVATION_MODE_RESUMED;
 		checkHardwareResources(appState);
 		break;
+
 	case APP_CMD_RESUME:
-		logger.sendMessage("Resume", LogLevel::Debug);
 		appState->animating |= (int)ACTIVATION_MODE_RESUMED;
 		checkHardwareResources(appState);
 
+	//Focus
 	case APP_CMD_GAINED_FOCUS:
-		logger.sendMessage("Gained Focus", LogLevel::Debug);
 		//App gained focus
 		currentAndroidApp->fireMovedToForeground();
 		appState->animating |= (int)ACTIVATION_MODE_WINDOW_FOCUSED;
 		break;
+
 	case APP_CMD_LOST_FOCUS:
-		logger.sendMessage("Lost Focus", LogLevel::Debug);
 		//App lost focus
 		currentAndroidApp->fireMovedToBackground();
 		//Also stop animating.
