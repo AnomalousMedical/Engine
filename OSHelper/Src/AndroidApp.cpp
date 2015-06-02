@@ -54,6 +54,48 @@ static int32_t android_app_handle_input(struct android_app* app, AInputEvent* ev
 	return appState->androidWindow->handleInputEvent(app, event);
 }
 
+void checkHardwareResources(struct AndroidAppState* appState)
+{
+	//Check graphics
+	bool graphicsResourcesCreated = (int)(appState->animating & GRAPHICS_RESOURCES_CREATED) == (int)GRAPHICS_RESOURCES_CREATED;
+	bool surfaceCreated = (int)(appState->animating & ACTIVATION_MODE_SURFACE_CREATED) == (int)ACTIVATION_MODE_SURFACE_CREATED;
+	if (graphicsResourcesCreated && !surfaceCreated)
+	{
+		logger.sendMessage("fireDestroyInternalResources, graphics", LogLevel::Debug);
+		appState->androidWindow->fireDestroyInternalResources(RT_Graphics);
+		appState->animating &= ~(int)GRAPHICS_RESOURCES_CREATED;
+	}
+	else if(!graphicsResourcesCreated && surfaceCreated)
+	{
+		logger.sendMessage("fireCreateInternalResources, graphics", LogLevel::Debug);
+		if (appState->initOnce)
+		{
+			appState->androidWindow->fireCreateInternalResources(RT_Graphics);
+		}
+		appState->animating |= (int)GRAPHICS_RESOURCES_CREATED;
+	}
+
+	//Check audio
+	bool audioResourcesCreated = (int)(appState->animating & SOUND_RESOURCES_CREATED) == (int)SOUND_RESOURCES_CREATED;
+	bool safeToCreateAudio = (int)(appState->animating & ACTIVATION_MODE_RESUMED) == (int)ACTIVATION_MODE_RESUMED;
+
+	if (audioResourcesCreated && !safeToCreateAudio)
+	{
+		logger.sendMessage("fireDestroyInternalResources, audio", LogLevel::Debug);
+		appState->androidWindow->fireDestroyInternalResources(RT_Sound);
+		appState->animating &= ~(int)SOUND_RESOURCES_CREATED;
+	}
+	else if (!audioResourcesCreated && safeToCreateAudio)
+	{
+		logger.sendMessage("fireCreateInternalResources, audio", LogLevel::Debug);
+		if (appState->initOnce)
+		{
+			appState->androidWindow->fireCreateInternalResources(RT_Sound);
+		}
+		appState->animating |= (int)SOUND_RESOURCES_CREATED;
+	}
+}
+
 /**
 * Process the next main command. Note that this runs on another thread from the main loop below.
 */
@@ -65,31 +107,49 @@ static void android_app_handle_cmd(struct android_app* app, int32_t cmd) {
 		//Save state
 		break;
 	case APP_CMD_INIT_WINDOW:
+		logger.sendMessage("Init Window", LogLevel::Debug);
 		//Init
-		if (appState->initOnce)
-		{
-			appState->androidWindow->fireCreateInternalResources();
-		}
-		else
+		appState->animating |= ACTIVATION_MODE_SURFACE_CREATED;
+		if (!appState->initOnce) //For some reson we have to do the intial activation this way, after this just use checkHardwareResourcess
 		{
 			currentAndroidApp->fireInit();
 			appState->initOnce = true;
+			appState->animating |= (int)GRAPHICS_RESOURCES_CREATED | (int)SOUND_RESOURCES_CREATED;
+		}
+		else
+		{
+			checkHardwareResources(appState);
 		}
 		break;
 	case APP_CMD_TERM_WINDOW:
-		//Window terminated
-		appState->androidWindow->fireDestroyInternalResources();
+		logger.sendMessage("Term Window", LogLevel::Debug);
+		appState->animating &= ~(int)ACTIVATION_MODE_SURFACE_CREATED;
+		checkHardwareResources(appState);
 		break;
+
+	case APP_CMD_PAUSE:
+		logger.sendMessage("Pause", LogLevel::Debug);
+		//Window terminated
+		appState->animating &= ~(int)ACTIVATION_MODE_RESUMED;
+		checkHardwareResources(appState);
+		break;
+	case APP_CMD_RESUME:
+		logger.sendMessage("Resume", LogLevel::Debug);
+		appState->animating |= (int)ACTIVATION_MODE_RESUMED;
+		checkHardwareResources(appState);
+
 	case APP_CMD_GAINED_FOCUS:
+		logger.sendMessage("Gained Focus", LogLevel::Debug);
 		//App gained focus
 		currentAndroidApp->fireMovedToForeground();
-		appState->animating = 1;
+		appState->animating |= (int)ACTIVATION_MODE_WINDOW_FOCUSED;
 		break;
 	case APP_CMD_LOST_FOCUS:
+		logger.sendMessage("Lost Focus", LogLevel::Debug);
 		//App lost focus
 		currentAndroidApp->fireMovedToBackground();
 		//Also stop animating.
-		appState->animating = 0;
+		appState->animating &= ~(int)ACTIVATION_MODE_WINDOW_FOCUSED;
 		break;
 	}
 }
@@ -169,7 +229,7 @@ void android_main(struct android_app* state)
 		// If not animating, we will block forever waiting for events.
 		// If animating, we loop until all events are read, then continue
 		// to draw the next frame of animation.
-		while ((ident = ALooper_pollAll(appState.animating ? 0 : -1, NULL, &events, (void**)&source)) >= 0) 
+		while ((ident = ALooper_pollAll(appState.animating == TOTALLY_ACTIVATED ? 0 : -1, NULL, &events, (void**)&source)) >= 0)
 		{
 
 			// Process this event.

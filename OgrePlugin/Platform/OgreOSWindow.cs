@@ -85,9 +85,9 @@ namespace OgrePlugin
 
         public event OSWindowEvent FocusChanged;
 
-        public event OSWindowEvent CreateInternalResources;
+        public event OSWindowResourceEvent CreateInternalResources;
 
-        public event OSWindowEvent DestroyInternalResources;
+        public event OSWindowResourceEvent DestroyInternalResources;
 
         internal void _fireWindowMoved()
         {

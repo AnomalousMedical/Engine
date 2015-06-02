@@ -158,12 +158,12 @@ namespace Anomalous.Minimus.Full
             return true;
         }
 
-        void mainWindow_DestroyInternalResources(OSWindow window)
+        void mainWindow_DestroyInternalResources(OSWindow window, InternalResourceType resourceType)
         {
             //libRocketPlugin.TextureDatabase.ReleaseTextures();
         }
 
-        void mainWindow_CreateInternalResources(OSWindow window)
+        void mainWindow_CreateInternalResources(OSWindow window, InternalResourceType resourceType)
         {
             
         }

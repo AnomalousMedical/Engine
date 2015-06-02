@@ -115,14 +115,20 @@ namespace SoundPlugin
             }
         }
 
-        void resourceWindow_CreateInternalResources(OSWindow window)
+        void resourceWindow_CreateInternalResources(OSWindow window, InternalResourceType resourceType)
         {
-            openALManager.resumeAudio();
+            if ((resourceType & InternalResourceType.Sound) == InternalResourceType.Sound)
+            {
+                openALManager.resumeAudio();
+            }
         }
 
-        void resourceWindow_DestroyInternalResources(OSWindow window)
+        void resourceWindow_DestroyInternalResources(OSWindow window, InternalResourceType resourceType)
         {
-            openALManager.suspendAudio();
+            if ((resourceType & InternalResourceType.Sound) == InternalResourceType.Sound)
+            {
+                openALManager.suspendAudio();
+            }
         }
     }
 }

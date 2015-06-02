@@ -5,7 +5,17 @@ using System.Text;
 
 namespace Engine.Platform
 {
+    [Flags]
+    public enum InternalResourceType
+    {
+        None = 0,
+        Graphics = 1,
+        Sound = 2,
+        All = Graphics | Sound
+    };
+
     public delegate void OSWindowEvent(OSWindow window);
+    public delegate void OSWindowResourceEvent(OSWindow window, InternalResourceType resourceType);
 
     public interface OSWindow
     {
@@ -67,7 +77,7 @@ namespace Engine.Platform
         /// this event (specifically renderers). This is primarily applicable to android
         /// at this time.
         /// </summary>
-        event OSWindowEvent CreateInternalResources;
+        event OSWindowResourceEvent CreateInternalResources;
 
         /// <summary>
         /// Called when the window should destroyo any internal resources that it needs.
@@ -76,6 +86,6 @@ namespace Engine.Platform
         /// this event (specifically renderers). This is primarily applicable to android
         /// at this time.
         /// </summary>
-        event OSWindowEvent DestroyInternalResources;
+        event OSWindowResourceEvent DestroyInternalResources;
     }
 }

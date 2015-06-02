@@ -19,6 +19,14 @@ enum OnscreenKeyboardMode
 	Secure = 2,
 };
 
+enum InternalResourceType
+{
+	RT_None = 0,
+	RT_Graphics = 1,
+	RT_Sound = 2,
+	RT_All = RT_Graphics | RT_Sound
+};
+
 #include "KeyboardButtonCode.h"
 #include "MouseButtonCode.h"
 
@@ -27,6 +35,7 @@ class NativeKeyboard;
 class NativeMouse;
 
 typedef void(*ActivateCB)(bool arg0 HANDLE_ARG);
+typedef void(*ModifyResourcesCB)(InternalResourceType resourceType HANDLE_ARG);
 
 class NativeOSWindow
 {
@@ -76,7 +85,7 @@ public:
 		return Hidden;
     }
 
-	void setCallbacks(NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, ActivateCB activateCB, NativeAction createInternalResourcesCB, NativeAction destroyInternalResourcesCB HANDLE_ARG);
+	void setCallbacks(NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, ActivateCB activateCB, ModifyResourcesCB createInternalResourcesCB, ModifyResourcesCB destroyInternalResourcesCB HANDLE_ARG);
     
 	void setExclusiveFullscreen(bool exclusiveFullscreen)
 	{
@@ -108,14 +117,14 @@ public:
 		activateCB(active PASS_HANDLE_ARG);
 	}
 
-	void fireCreateInternalResources()
+	void fireCreateInternalResources(InternalResourceType resourceType)
 	{
-		createInternalResourcesCB(PASS_HANDLE);
+		createInternalResourcesCB(resourceType PASS_HANDLE_ARG);
 	}
 
-	void fireDestroyInternalResources()
+	void fireDestroyInternalResources(InternalResourceType resourceType)
 	{
-		destroyInternalResourcesCB(PASS_HANDLE);
+		destroyInternalResourcesCB(resourceType PASS_HANDLE_ARG);
 	}
     
 	void setKeyboard(NativeKeyboard* keyboard);
@@ -143,8 +152,8 @@ private:
 	NativeAction closingCB;
 	NativeAction closedCB;
 	ActivateCB activateCB;
-	NativeAction createInternalResourcesCB;
-	NativeAction destroyInternalResourcesCB;
+	ModifyResourcesCB createInternalResourcesCB;
+	ModifyResourcesCB destroyInternalResourcesCB;
 	HANDLE_INSTANCE
 
 	NativeKeyboard* keyboard;

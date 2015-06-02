@@ -57,14 +57,20 @@ namespace OgrePlugin
             renderWindow.setActive(false);
         }
 
-        void osWindow_CreateInternalResources(OSWindow window)
+        void osWindow_CreateInternalResources(OSWindow window, InternalResourceType resourceType)
         {
-            renderWindow.createInternalResources(window.WindowHandle);
+            if ((resourceType & InternalResourceType.Graphics) == InternalResourceType.Graphics)
+            {
+                renderWindow.createInternalResources(window.WindowHandle);
+            }
         }
 
-        void osWindow_DestroyInternalResources(OSWindow window)
+        void osWindow_DestroyInternalResources(OSWindow window, InternalResourceType resourceType)
         {
-            renderWindow.destroyInternalResources(window.WindowHandle);
+            if ((resourceType & InternalResourceType.Graphics) == InternalResourceType.Graphics)
+            {
+                renderWindow.destroyInternalResources(window.WindowHandle);
+            }
         }
 
         /// <summary>
