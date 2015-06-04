@@ -99,6 +99,14 @@ namespace Anomalous.OSPlatform
             NativeOSWindow_toggleFullscreen(nativeWindow);
         }
 
+        /// <summary>
+        /// Toggle the window chrome on the window if the os supports it.
+        /// </summary>
+        public void toggleBorderless()
+        {
+            NativeOSWindow_toggleBorderless(nativeWindow);
+        }
+
 		public OnscreenKeyboardMode KeyboardMode
 		{
 			get 
@@ -327,6 +335,9 @@ namespace Anomalous.OSPlatform
 
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void NativeOSWindow_toggleFullscreen(IntPtr nativeWindow);
+
+        [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void NativeOSWindow_toggleBorderless(IntPtr nativeWindow);
 
         [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void NativeOSWindow_setOnscreenKeyboardMode(IntPtr nativeWindow, OnscreenKeyboardMode mode);

@@ -35,6 +35,8 @@ public:
 
 	virtual void toggleFullscreen();
 
+	virtual void toggleBorderless();
+
 	void activateCursor()
 	{
 		SetCursor(hCursor);

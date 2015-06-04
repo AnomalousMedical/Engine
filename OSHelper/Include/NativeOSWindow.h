@@ -75,6 +75,8 @@ public:
 
 	virtual void toggleFullscreen() = 0;
 
+	virtual void toggleBorderless() { } //Does nothing by default
+
 	virtual void setOnscreenKeyboardMode(OnscreenKeyboardMode mode)
 	{
 		//Does nothing by default.

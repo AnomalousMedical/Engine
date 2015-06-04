@@ -36,14 +36,32 @@ void Win32Window::setSize(int width, int height)
 int Win32Window::getWidth()
 {
 	RECT windowRect;
-	GetClientRect(window, &windowRect);
+	DWORD dwStyle = GetWindowLongPtr(window, GWL_STYLE);
+	if (dwStyle & WS_OVERLAPPEDWINDOW)
+	{
+		GetClientRect(window, &windowRect);
+	}
+	else
+	{
+		GetWindowRect(window, &windowRect);
+	}
+
 	return windowRect.right - windowRect.left;
 }
 
 int Win32Window::getHeight()
 {
 	RECT windowRect;
-	GetClientRect(window, &windowRect);
+	DWORD dwStyle = GetWindowLongPtr(window, GWL_STYLE);
+	if (dwStyle & WS_OVERLAPPEDWINDOW)
+	{
+		GetClientRect(window, &windowRect);
+	}
+	else
+	{
+		GetWindowRect(window, &windowRect);
+	}
+
 	return windowRect.bottom - windowRect.top;
 }
 
@@ -89,6 +107,20 @@ void Win32Window::toggleFullscreen()
 			SetWindowPos(window, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_FRAMECHANGED);
 		}
 	}
+}
+
+void Win32Window::toggleBorderless()
+{
+	DWORD dwStyle = GetWindowLongPtr(window, GWL_STYLE);
+	if (dwStyle & WS_OVERLAPPEDWINDOW)
+	{
+		SetWindowLongPtr(window, GWL_STYLE, dwStyle & ~WS_OVERLAPPEDWINDOW | WS_POPUP);
+	}
+	else
+	{
+		SetWindowLongPtr(window, GWL_STYLE, dwStyle & ~WS_POPUP | WS_OVERLAPPEDWINDOW);
+	}
+	fireSized();
 }
 
 void Win32Window::close()

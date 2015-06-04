@@ -162,6 +162,11 @@ extern "C" _AnomalousExport void NativeOSWindow_toggleFullscreen(NativeOSWindow*
 	return nativeWindow->toggleFullscreen();
 }
 
+extern "C" _AnomalousExport void NativeOSWindow_toggleBorderless(NativeOSWindow* nativeWindow)
+{
+	return nativeWindow->toggleBorderless();
+}
+
 extern "C" _AnomalousExport void NativeOSWindow_setOnscreenKeyboardMode(NativeOSWindow* nativeWindow, OnscreenKeyboardMode mode)
 {
 	nativeWindow->setOnscreenKeyboardMode(mode);
