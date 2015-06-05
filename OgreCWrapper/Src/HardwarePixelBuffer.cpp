@@ -14,3 +14,8 @@ extern "C" _AnomalousExport void HardwarePixelBuffer_blitFromMemoryFill(Ogre::Ha
 {
 	hardwarePixelBuffer->blitFromMemory(*src);
 }
+
+extern "C" _AnomalousExport void HardwarePixelBuffer_blitToMemoryFill(Ogre::HardwarePixelBuffer* hardwarePixelBuffer, Ogre::PixelBox *dst)
+{
+	hardwarePixelBuffer->blitToMemory(*dst);
+}

@@ -104,7 +104,7 @@ namespace OgrePlugin
             this.hardwareBuffer = hardwareBuffer;
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             hardwareBuffer = IntPtr.Zero;
         }

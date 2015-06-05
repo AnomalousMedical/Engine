@@ -6,47 +6,52 @@ using System.Runtime.InteropServices;
 
 namespace OgrePlugin
 {
-    public class HardwarePixelBuffer : IDisposable
+    public class HardwarePixelBuffer : HardwareBuffer
     {
         internal static HardwarePixelBuffer createWrapper(IntPtr hardwarePixelBuffer)
         {
             return new HardwarePixelBuffer(hardwarePixelBuffer);
         }
 
-        IntPtr hardwarePixelBuffer;
         RenderTexture renderTexture;
 
         private HardwarePixelBuffer(IntPtr hardwarePixelBuffer)
+            :base(hardwarePixelBuffer)
         {
-            this.hardwarePixelBuffer = hardwarePixelBuffer;
+            
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
-            hardwarePixelBuffer = IntPtr.Zero;
             if(renderTexture != null)
             {
                 renderTexture.Dispose();
             }
+            base.Dispose();
         }
 
         public RenderTexture getRenderTarget()
         {
             if(renderTexture == null)
             {
-                renderTexture = new RenderTexture(HardwarePixelBuffer_getRenderTarget(hardwarePixelBuffer));
+                renderTexture = new RenderTexture(HardwarePixelBuffer_getRenderTarget(hardwareBuffer));
             }
             return renderTexture;
         }
 
         public void blitFromMemory(PixelBox src, int left, int top, int right, int bottom)
         {
-            HardwarePixelBuffer_blitFromMemory(hardwarePixelBuffer, src.OgreBox, left, top, right, bottom);
+            HardwarePixelBuffer_blitFromMemory(hardwareBuffer, src.OgreBox, left, top, right, bottom);
         }
 
         public void blitFromMemory(PixelBox src)
         {
-            HardwarePixelBuffer_blitFromMemoryFill(hardwarePixelBuffer, src.OgreBox);
+            HardwarePixelBuffer_blitFromMemoryFill(hardwareBuffer, src.OgreBox);
+        }
+
+        public void blitToMemory(PixelBox dst)
+        {
+            HardwarePixelBuffer_blitToMemoryFill(hardwareBuffer, dst.OgreBox);
         }
 
 #region PInvoke
@@ -59,6 +64,9 @@ namespace OgrePlugin
         
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void HardwarePixelBuffer_blitFromMemoryFill(IntPtr hardwarePixelBuffer, IntPtr src);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void HardwarePixelBuffer_blitToMemoryFill(IntPtr hardwarePixelBuffer, IntPtr src);
 
 #endregion
     }
