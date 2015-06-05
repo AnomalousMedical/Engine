@@ -160,6 +160,31 @@ namespace OgrePlugin
         }
 
         /// <summary>
+        /// Get a temporary pointer to a shared object, if the object exists in this collection that wrapper will be used
+        /// or else a new one will be created but not tracked. These objects should be considered extremely volitale
+        /// since they are not tracked by shared ptrs at all, they should be considered valid for the duration of a
+        /// callback or other case where it is extremely unlikely the material will be destroyed.
+        /// </summary>
+        /// <param name="nativeObject"></param>
+        /// <returns></returns>
+        public T getTemporaryObject(IntPtr nativeObject, Func<IntPtr, T> createWrapperCallback)
+        {
+            if(nativeObject == IntPtr.Zero)
+            {
+                return default(T);
+            }
+            SharedPtrEntry<T> entry;
+            if (ptrDictionary.TryGetValue(nativeObject, out entry))
+            {
+                return entry.ManagedWrapper;
+            }
+            else
+            {
+                return createWrapperCallback(nativeObject);
+            }
+        }
+
+        /// <summary>
         /// Clear all objects in this collection. This will output all pointers
         /// that were still outstanding when the method was called, which could
         /// indicate memory leaks.

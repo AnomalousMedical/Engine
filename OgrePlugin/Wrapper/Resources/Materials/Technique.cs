@@ -267,6 +267,14 @@ namespace OgrePlugin
             return Marshal.PtrToStringAnsi(Technique_getName(technique));
         }
 
+        internal IntPtr Ptr
+        {
+            get
+            {
+                return technique;
+            }
+        }
+
 #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]

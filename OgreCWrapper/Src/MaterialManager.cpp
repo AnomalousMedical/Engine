@@ -1,7 +1,42 @@
 #include "Stdafx.h"
 
-//MaterialManager
+typedef Ogre::Technique*(*HandleSchemeNotFoundCb)(unsigned short schemeIndex, const String schemeName, Ogre::Material* originalMaterial, unsigned short lodIndex, const Ogre::Renderable* rend);
 
+class NativeMaterialListener : public Ogre::MaterialManager::Listener
+{
+private:
+	HandleSchemeNotFoundCb schemeNotFoundCb;
+
+public:
+	NativeMaterialListener(HandleSchemeNotFoundCb schemeNotFoundCb)
+		:schemeNotFoundCb(schemeNotFoundCb)
+		ASSIGN_HANDLE_INITIALIZER
+	{
+
+	}
+
+	virtual ~NativeMaterialListener() { }
+
+	virtual Ogre::Technique* handleSchemeNotFound(unsigned short schemeIndex, const Ogre::String& schemeName, Ogre::Material* originalMaterial, unsigned short lodIndex, const Ogre::Renderable* rend)
+	{
+		return schemeNotFoundCb(schemeIndex, schemeName.c_str(), originalMaterial, lodIndex, rend);
+	}
+};
+
+extern "C" _AnomalousExport NativeMaterialListener* NativeMaterialListener_create(HandleSchemeNotFoundCb schemeNotFoundCb)
+{
+	NativeMaterialListener* listener = new NativeMaterialListener(schemeNotFoundCb);
+	Ogre::MaterialManager::getSingleton().addListener(listener);
+	return listener;
+}
+
+extern "C" _AnomalousExport void NativeMaterialListener_delete(NativeMaterialListener* listener)
+{
+	Ogre::MaterialManager::getSingleton().removeListener(listener);
+	delete listener;
+}
+
+//MaterialManager
 extern "C" _AnomalousExport Ogre::Material* MaterialManager_getByName(String name, ProcessWrapperObjectDelegate processWrapperCallback)
 {
 	const Ogre::MaterialPtr& matPtr = Ogre::MaterialManager::getSingleton().getByName(name);
