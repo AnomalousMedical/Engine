@@ -10,7 +10,7 @@ namespace OgrePlugin
     [NativeSubsystemType]
     public class MaterialManager : IDisposable
     {
-        public delegate Technique HandleSchemeNotFoundDelegate(ushort schemeIndex, String schemeName, Material originalMaterial, ushort lodIndex);
+        public delegate void HandleSchemeNotFoundDelegate(ushort schemeIndex, String schemeName, Material originalMaterial, ushort lodIndex, out Technique technique);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate IntPtr HandleSchemeNotFoundCb(ushort schemeIndex, String schemeName, IntPtr originalMaterial, ushort lodIndex, IntPtr rend);
@@ -68,28 +68,28 @@ namespace OgrePlugin
             MaterialManager_setActiveScheme(name);
         }
 
-        private HandleSchemeNotFoundDelegate mHandleSchemeNotFound;
-        public HandleSchemeNotFoundDelegate HandleSchemeNotFound
+        private event HandleSchemeNotFoundDelegate mHandleSchemeNotFound;
+        public event HandleSchemeNotFoundDelegate HandleSchemeNotFound
         {
-            get
+            add
             {
-                return mHandleSchemeNotFound;
+                if(mHandleSchemeNotFound == null)
+                {
+                    //Create material listener
+                    handleSchemeNotFoundCb = new HandleSchemeNotFoundCb(fireSchemeNotFound);
+                    materialManagerListener = NativeMaterialListener_create(handleSchemeNotFoundCb);
+                }
+                mHandleSchemeNotFound += value;
             }
-            set
+            remove
             {
-                mHandleSchemeNotFound = value;
-                if (mHandleSchemeNotFound == null && materialManagerListener != IntPtr.Zero)
+                mHandleSchemeNotFound -= value;
+                if(mHandleSchemeNotFound == null)
                 {
                     //Destroy material listener
                     handleSchemeNotFoundCb = null;
                     NativeMaterialListener_delete(materialManagerListener);
                     materialManagerListener = IntPtr.Zero;
-                }
-                else if (mHandleSchemeNotFound != null && materialManagerListener == IntPtr.Zero)
-                {
-                    //Create material listener
-                    handleSchemeNotFoundCb = new HandleSchemeNotFoundCb(fireSchemeNotFound);
-                    materialManagerListener = NativeMaterialListener_create(handleSchemeNotFoundCb);
                 }
             }
 
@@ -110,8 +110,17 @@ namespace OgrePlugin
 
         IntPtr fireSchemeNotFound(ushort schemeIndex, String schemeName, IntPtr originalMaterial, ushort lodIndex, IntPtr rend)
         {
-            Technique technique = mHandleSchemeNotFound(schemeIndex, schemeName, instance.materialPtrCollection.getTemporaryObject(originalMaterial, ptr => Material.createWrapper(ptr)), lodIndex);
-            return technique != null ? technique.Ptr : IntPtr.Zero;
+            Technique technique;
+            Material material = instance.materialPtrCollection.getTemporaryObject(originalMaterial, ptr => Material.createWrapper(ptr));
+            foreach (HandleSchemeNotFoundDelegate target in mHandleSchemeNotFound.GetInvocationList())
+            {
+                target(schemeIndex, schemeName, material, lodIndex, out technique);
+                if(technique != null)
+                {
+                    return technique.Ptr;
+                }
+            }
+            return IntPtr.Zero;
         }
 
         #region PInvoke
