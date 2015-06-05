@@ -67,6 +67,7 @@ namespace Anomalous.GuiFramework.Cameras
         private int zOffset = 0;
         private RenderingMode renderingMode = RenderingMode.Solid;
         private bool clearEveryFrame = false;
+        private String schemeName = MaterialManager.DefaultSchemeName;
 
         private UndoRedoBuffer undoRedoBuffer = new UndoRedoBuffer(20);
 
@@ -128,6 +129,7 @@ namespace Anomalous.GuiFramework.Cameras
             cameraMover.setCamera(new CameraPositioner(sceneView, MinNearDistance, NearPlaneWorld, NearFarLength));
             sceneView.RenderingStarted += sceneView_RenderingStarted;
             sceneView.RenderingEnded += sceneView_RenderingEnded;
+            sceneView.SchemeName = schemeName;
             if (CameraCreated != null)
             {
                 CameraCreated.Invoke(this);
@@ -788,6 +790,22 @@ namespace Anomalous.GuiFramework.Cameras
             set
             {
                 window = value;
+            }
+        }
+
+        public String SchemeName
+        {
+            get
+            {
+                return schemeName;
+            }
+            set
+            {
+                schemeName = value;
+                if(sceneView != null)
+                {
+                    sceneView.SchemeName = value;
+                }
             }
         }
 

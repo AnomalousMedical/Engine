@@ -241,6 +241,18 @@ namespace OgrePlugin
             viewport.setDimensions(left, top, width, height);
         }
 
+        public String SchemeName
+        {
+            get
+            {
+                return viewport.getMaterialScheme();
+            }
+            set
+            {
+                viewport.setMaterialScheme(value);
+            }
+        }
+
         private void fireRenderingStarted()
         {
             if (RenderingStarted != null)

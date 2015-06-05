@@ -132,5 +132,10 @@ namespace Engine
         /// <param name="width">The width of the view.</param>
         /// <param name="height">The height of the view.</param>
         void setDimensions(float left, float top, float width, float height);
+
+        /// <summary>
+        /// Set the scheme for materials in this scene view.
+        /// </summary>
+        String SchemeName { get; set; }
     }
 }

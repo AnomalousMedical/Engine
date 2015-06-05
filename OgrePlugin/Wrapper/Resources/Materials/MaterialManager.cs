@@ -10,6 +10,8 @@ namespace OgrePlugin
     [NativeSubsystemType]
     public class MaterialManager : IDisposable
     {
+        public const String DefaultSchemeName = "Default";
+
         public delegate void HandleSchemeNotFoundDelegate(ushort schemeIndex, String schemeName, Material originalMaterial, ushort lodIndex, out Technique technique);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
