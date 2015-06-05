@@ -6,3 +6,28 @@ extern "C" _AnomalousExport Ogre::HardwarePixelBuffer* Texture_getBuffer(Ogre::T
 	processWrapper(pixelBufPtr.getPointer(), &pixelBufPtr);
 	return pixelBufPtr.getPointer();
 }
+						    
+extern "C" _AnomalousExport Ogre::TextureType Texture_getTextureType(Ogre::Texture* texture)
+{
+	return texture->getTextureType();
+}
+						    
+extern "C" _AnomalousExport Ogre::uint32 Texture_getHeight(Ogre::Texture* texture)
+{
+	return texture->getHeight();
+}
+						    
+extern "C" _AnomalousExport Ogre::uint32 Texture_getWidth(Ogre::Texture* texture)
+{
+	return texture->getWidth();
+}
+						    
+extern "C" _AnomalousExport Ogre::uint32 Texture_getDepth(Ogre::Texture* texture)
+{
+	return texture->getDepth();
+}
+						    
+extern "C" _AnomalousExport Ogre::PixelFormat Texture_getFormat(Ogre::Texture* texture)
+{
+	return texture->getFormat();
+}

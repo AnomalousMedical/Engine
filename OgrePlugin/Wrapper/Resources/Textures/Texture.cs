@@ -67,10 +67,65 @@ namespace OgrePlugin
             return bufferManager.getPixelBufferObject(Texture_getBuffer(texture, bufferManager.ProcessPixelBufferCallback));
         }
 
+        public TextureType TextureType
+        {
+            get
+            {
+                return Texture_getTextureType(texture);
+            }
+        }
+
+        public UInt32 Width
+        {
+            get
+            {
+                return Texture_getWidth(texture);
+            }
+        }
+
+        public UInt32 Height
+        {
+            get
+            {
+                return Texture_getHeight(texture);
+            }
+        }
+
+        public UInt32 Depth
+        {
+            get
+            {
+                return Texture_getDepth(texture);
+            }
+        }
+
+        public PixelFormat Format
+        {
+            get
+            {
+                return Texture_getFormat(texture);
+            }
+        }
+
 #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Texture_getBuffer(IntPtr texture, ProcessWrapperObjectDelegate processWrapper);
+
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        private static extern TextureType Texture_getTextureType(IntPtr texture);
+						    
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        private static extern UInt32 Texture_getHeight(IntPtr texture);
+						    
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        private static extern UInt32 Texture_getWidth(IntPtr texture);
+						    
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        private static extern UInt32 Texture_getDepth(IntPtr texture);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern PixelFormat Texture_getFormat(IntPtr texture);
 
 #endregion
     }
