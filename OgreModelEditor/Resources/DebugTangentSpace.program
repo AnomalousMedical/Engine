@@ -1,18 +1,6 @@
 //----------------------------
 //Vertex Shader
 //----------------------------
-vertex_program DebugTangentSpace\VP_D3D9 hlsl
-{
-	source OgreModelEditor.Resources.D3D9.DebugTangentSpace.hlsl
-	entry_point mainVP
-	target vs_3_0
-	
-	default_params
-	{
-		param_named_auto worldViewProj worldviewproj_matrix
-	}
-}
-
 vertex_program DebugTangentSpace\VP_D3D11 hlsl
 {
 	source OgreModelEditor.Resources.D3D11.DebugTangentSpace.hlsl
@@ -27,20 +15,12 @@ vertex_program DebugTangentSpace\VP_D3D11 hlsl
 
 vertex_program DebugTangentSpace\VP unified
 {
-	delegate DebugTangentSpace\VP_D3D9
 	delegate DebugTangentSpace\VP_D3D11
 }
 
 //----------------------------
 //Binormal Shader
 //----------------------------
-fragment_program DebugTangentSpace\BinormalsFP_D3D9 hlsl
-{
-	source OgreModelEditor.Resources.D3D9.DebugTangentSpace.hlsl
-	entry_point showBinormalsFP
-	target ps_3_0
-}
-
 fragment_program DebugTangentSpace\BinormalsFP_D3D11 hlsl
 {
 	source OgreModelEditor.Resources.D3D11.DebugTangentSpace.hlsl
@@ -50,20 +30,12 @@ fragment_program DebugTangentSpace\BinormalsFP_D3D11 hlsl
 
 fragment_program DebugTangentSpace\BinormalsFP unified
 {
-	delegate DebugTangentSpace\BinormalsFP_D3D9
 	delegate DebugTangentSpace\BinormalsFP_D3D11
 }
 
 //----------------------------
 //Tangent Shader
 //----------------------------
-fragment_program DebugTangentSpace\TangentsFP_D3D9 hlsl
-{
-	source OgreModelEditor.Resources.D3D9.DebugTangentSpace.hlsl
-	entry_point showTangentsFP
-	target ps_3_0
-}
-
 fragment_program DebugTangentSpace\TangentsFP_D3D11 hlsl
 {
 	source OgreModelEditor.Resources.D3D11.DebugTangentSpace.hlsl
@@ -73,20 +45,12 @@ fragment_program DebugTangentSpace\TangentsFP_D3D11 hlsl
 
 fragment_program DebugTangentSpace\TangentsFP unified
 {
-	delegate DebugTangentSpace\TangentsFP_D3D9
 	delegate DebugTangentSpace\TangentsFP_D3D11
 }
 
 //----------------------------
 //Normals Shader
 //----------------------------
-fragment_program DebugTangentSpace\NormalsFP_D3D9 hlsl
-{
-	source OgreModelEditor.Resources.D3D9.DebugTangentSpace.hlsl
-	entry_point showNormalsFP
-	target ps_3_0
-}
-
 fragment_program DebugTangentSpace\NormalsFP_D3D11 hlsl
 {
 	source OgreModelEditor.Resources.D3D11.DebugTangentSpace.hlsl
@@ -96,20 +60,12 @@ fragment_program DebugTangentSpace\NormalsFP_D3D11 hlsl
 
 fragment_program DebugTangentSpace\NormalsFP unified
 {
-	delegate DebugTangentSpace\NormalsFP_D3D9
 	delegate DebugTangentSpace\NormalsFP_D3D11
 }
 
 //----------------------------
 //Show Texture Shader
 //----------------------------
-fragment_program DebugTangentSpace\TextureFP_D3D9 hlsl
-{
-	source OgreModelEditor.Resources.D3D9.DebugTangentSpace.hlsl
-	entry_point showTextureFP
-	target ps_3_0
-}
-
 fragment_program DebugTangentSpace\TextureFP_D3D11 hlsl
 {
 	source OgreModelEditor.Resources.D3D11.DebugTangentSpace.hlsl
@@ -119,6 +75,5 @@ fragment_program DebugTangentSpace\TextureFP_D3D11 hlsl
 
 fragment_program DebugTangentSpace\TextureFP unified
 {
-	delegate DebugTangentSpace\TextureFP_D3D9
 	delegate DebugTangentSpace\TextureFP_D3D11
 }

@@ -111,7 +111,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <EmbeddedResource Include="Resources\D3D9\DebugTangentSpace.hlsl" />
     <EmbeddedResource Include="Resources\DebugTangentSpace.material" />
     <EmbeddedResource Include="Resources\DebugTangentSpace.program" />
     <EmbeddedResource Include="Resources\FixedFunctionTextured.material" />
