@@ -49,6 +49,17 @@ namespace OgrePlugin
             return Marshal.PtrToStringAnsi(Resource_getName(resource));
         }
 
+        /// <summary>
+        /// The name of the resource
+        /// </summary>
+        public String Name
+        {
+            get
+            {
+                return Marshal.PtrToStringAnsi(Resource_getName(resource));
+            }
+        }
+
 	    /// <summary>
 	    /// Get the resource handle.
 	    /// </summary>

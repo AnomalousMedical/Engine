@@ -242,6 +242,14 @@ namespace OgrePlugin
             return Marshal.PtrToStringAnsi(Technique_getSchemeName(technique));
         }
 
+        public String SchemeName
+        {
+            get
+            {
+                return Marshal.PtrToStringAnsi(Technique_getSchemeName(technique));
+            }
+        }
+
 	    public bool isDepthWriteEnabled()
         {
             return Technique_isDepthWriteEnabled(technique);
@@ -265,6 +273,14 @@ namespace OgrePlugin
 	    public String getName()
         {
             return Marshal.PtrToStringAnsi(Technique_getName(technique));
+        }
+
+        public String Name
+        {
+            get
+            {
+                return Marshal.PtrToStringAnsi(Technique_getName(technique));
+            }
         }
 
         internal IntPtr Ptr
