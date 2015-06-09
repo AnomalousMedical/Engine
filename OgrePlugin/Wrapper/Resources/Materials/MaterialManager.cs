@@ -70,12 +70,38 @@ namespace OgrePlugin
             MaterialManager_setActiveScheme(name);
         }
 
+        /// <summary>
+        /// Get an iterator over all materials, note that you are getting direct material objects not
+        /// MaterialPtrs, so you cannot store the returned materials, if you need the returned materials
+        /// call getByName to retrieve them. This helps avoid creating a wrapper for every single material
+        /// in the enum. Also note that this iterator itself needs unmanaged resources to work, use it in a
+        /// using block or make use of foreach to iterate over it or you will leak the native iterator.
+        /// </summary>
+        public IEnumerable<Material> Iterator
+        {
+            get
+            {
+                IntPtr iter = MaterialManager_beginResourceIterator();
+                try
+                {
+                    while(MaterialManager_resourceIteratorHasMoreElements(iter))
+                    {
+                        yield return instance.materialPtrCollection.getTemporaryObject(MaterialManager_resourceIteratorNext(iter), ptr => Material.createWrapper(ptr));
+                    }
+                }
+                finally
+                {
+                    MaterialManager_endResourceIterator(iter);
+                }
+            }
+        }
+
         private event HandleSchemeNotFoundDelegate mHandleSchemeNotFound;
         public event HandleSchemeNotFoundDelegate HandleSchemeNotFound
         {
             add
             {
-                if(mHandleSchemeNotFound == null)
+                if (mHandleSchemeNotFound == null)
                 {
                     //Create material listener
                     handleSchemeNotFoundCb = new HandleSchemeNotFoundCb(fireSchemeNotFound);
@@ -86,7 +112,7 @@ namespace OgrePlugin
             remove
             {
                 mHandleSchemeNotFound -= value;
-                if(mHandleSchemeNotFound == null)
+                if (mHandleSchemeNotFound == null)
                 {
                     //Destroy material listener
                     handleSchemeNotFoundCb = null;
@@ -117,7 +143,7 @@ namespace OgrePlugin
             foreach (HandleSchemeNotFoundDelegate target in mHandleSchemeNotFound.GetInvocationList())
             {
                 target(schemeIndex, schemeName, material, lodIndex, out technique);
-                if(technique != null)
+                if (technique != null)
                 {
                     return technique.Ptr;
                 }
@@ -139,6 +165,20 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void MaterialManager_setActiveScheme(String name);
+
+        //Iterator
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr MaterialManager_beginResourceIterator();
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr MaterialManager_resourceIteratorNext(IntPtr iter);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool MaterialManager_resourceIteratorHasMoreElements(IntPtr iter);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void MaterialManager_endResourceIterator(IntPtr iter);
 
         //MaterialPtr
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]

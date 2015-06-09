@@ -151,7 +151,7 @@ namespace OgreModelEditor.Controller
         /// <param name="textureFileName">The name of the texture to show.</param>
         public void showIndividualTexture(String textureFileName)
         {
-            fixedTexture.setTextureName(textureFileName);
+            fixedTexture.TextureName = textureFileName;
             entity.setMaterialName(fixedFunctionTextured.Value.getName());
         }
 
@@ -446,7 +446,7 @@ namespace OgreModelEditor.Controller
                         for (ushort tex = 0; tex < numTextures; ++tex)
                         {
                             TextureUnitState texture = pass.getTextureUnitState(tex);
-                            modelTextures.AddLast(texture.getTextureName());
+                            modelTextures.AddLast(texture.TextureName);
                         }
                     }
                 }

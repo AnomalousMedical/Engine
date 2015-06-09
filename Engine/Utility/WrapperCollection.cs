@@ -75,11 +75,13 @@ namespace Engine
 
         public T getObject(IntPtr nativeObject, params object[] args)
         {
-            if (!ptrDictionary.ContainsKey(nativeObject))
+            T result;
+            if (!ptrDictionary.TryGetValue(nativeObject, out result) && nativeObject != IntPtr.Zero)
             {
-                ptrDictionary.Add(nativeObject, createCallback(nativeObject, args));
+                result = createCallback(nativeObject, args);
+                ptrDictionary.Add(nativeObject, result);
             }
-            return ptrDictionary[nativeObject];
+            return result;
         }
 
         public bool getObjectNoCreate(IntPtr nativeObject, out T obj)

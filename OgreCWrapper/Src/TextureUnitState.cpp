@@ -9,3 +9,8 @@ extern "C" _AnomalousExport void TextureUnitState_setTextureName(Ogre::TextureUn
 {
 	textureUnit->setTextureName(name);
 }
+
+extern "C" _AnomalousExport String TextureUnitState_getName(Ogre::TextureUnitState* textureUnit)
+{
+	return textureUnit->getName().c_str();
+}

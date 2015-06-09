@@ -59,6 +59,27 @@ extern "C" _AnomalousExport void MaterialManager_setActiveScheme(String name)
 	Ogre::MaterialManager::getSingleton().setActiveScheme(name);
 }
 
+//Iterator
+extern "C" _AnomalousExport Ogre::ResourceManager::ResourceMapIterator* MaterialManager_beginResourceIterator()
+{
+	return new Ogre::ResourceManager::ResourceMapIterator(Ogre::MaterialManager::getSingleton().getResourceIterator());
+}
+
+extern "C" _AnomalousExport Ogre::Material* MaterialManager_resourceIteratorNext(Ogre::ResourceManager::ResourceMapIterator* iter)
+{
+	return static_cast<Ogre::Material*>(iter->getNext().getPointer());
+}
+
+extern "C" _AnomalousExport bool MaterialManager_resourceIteratorHasMoreElements(Ogre::ResourceManager::ResourceMapIterator* iter)
+{
+	return iter->hasMoreElements();
+}
+
+extern "C" _AnomalousExport void MaterialManager_endResourceIterator(Ogre::ResourceManager::ResourceMapIterator* iter)
+{
+	delete iter;
+}
+
 //MaterialPtr
 extern "C" _AnomalousExport Ogre::MaterialPtr* MaterialPtr_createHeapPtr(Ogre::MaterialPtr* stackSharedPtr)
 {

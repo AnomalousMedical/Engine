@@ -25,14 +25,24 @@ namespace OgrePlugin
             textureUnit = IntPtr.Zero;
         }
 
-        public String getTextureName()
+        public String TextureName
         {
-            return Marshal.PtrToStringAnsi(TextureUnitState_getTextureName(textureUnit));
+            get
+            {
+                return Marshal.PtrToStringAnsi(TextureUnitState_getTextureName(textureUnit));
+            }
+            set
+            {
+                TextureUnitState_setTextureName(textureUnit, value);
+            }
         }
 
-        public void setTextureName(String name)
+        public String Name
         {
-            TextureUnitState_setTextureName(textureUnit, name);
+            get
+            {
+                return Marshal.PtrToStringAnsi(TextureUnitState_getName(textureUnit));
+            }
         }
 
         internal IntPtr OgreState
@@ -50,6 +60,9 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void TextureUnitState_setTextureName(IntPtr textureUnit, String name);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr TextureUnitState_getName(IntPtr textureUnit);
 
 #endregion
     }
