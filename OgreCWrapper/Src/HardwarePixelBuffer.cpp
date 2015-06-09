@@ -19,3 +19,13 @@ extern "C" _AnomalousExport void HardwarePixelBuffer_blitToMemoryFill(Ogre::Hard
 {
 	hardwarePixelBuffer->blitToMemory(*dst);
 }
+
+extern "C" _AnomalousExport void HardwarePixelBuffer_lock(Ogre::HardwarePixelBuffer* hardwarePixelBuffer, int left, int top, int right, int bottom, Ogre::HardwareBuffer::LockOptions options)
+{
+	hardwarePixelBuffer->lock(Ogre::Box(left, top, right, bottom), options);
+}
+
+extern "C" _AnomalousExport const Ogre::PixelBox* HardwarePixelBuffer_getCurrentLock(Ogre::HardwarePixelBuffer* hardwarePixelBuffer)
+{
+	return &hardwarePixelBuffer->getCurrentLock();
+}

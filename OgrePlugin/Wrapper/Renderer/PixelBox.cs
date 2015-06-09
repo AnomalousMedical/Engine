@@ -198,6 +198,16 @@ namespace OgrePlugin
             this.pixelBox = PixelBox_Create4(width, height, depth, pixelFormat, pixelData);
         }
 
+        /// <summary>
+        /// Constructor, uses existing pointer. Should only really use if the user should delete the box. Putting a pointer
+        /// into a wrapper instance like this implies that it should take ownership of the pointer.
+        /// </summary>
+        /// <param name="pixelBox">The pointer to the existing pixel box.</param>
+        internal PixelBox(IntPtr pixelBox)
+        {
+            this.pixelBox = pixelBox;
+        }
+
         public void Dispose()
         {
             PixelBox_Delete(pixelBox);
