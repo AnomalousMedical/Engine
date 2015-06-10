@@ -45,6 +45,24 @@ public:
 	}
 };
 
+class Vector2
+{
+public:
+	float x, y;
+
+	Vector2(const Ogre::Vector2& ogreVector)
+		:x(ogreVector.x),
+		y(ogreVector.y)
+	{
+
+	}
+
+	Ogre::Vector2 toOgre() const
+	{
+		return Ogre::Vector2(x, y);
+	}
+};
+
 class Quaternion
 {
 public:

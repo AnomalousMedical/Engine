@@ -19,3 +19,13 @@ extern "C" _AnomalousExport void GpuProgramManager_loadMicrocodeCache(Ogre::Data
 {
 	Ogre::GpuProgramManager::getSingleton().loadMicrocodeCache(Ogre::DataStreamPtr(dataStream));
 }
+
+extern "C" _AnomalousExport Ogre::GpuProgramParametersSharedPtr* GpuProgramParameters_createHeapPtr(Ogre::GpuProgramParametersSharedPtr* stackSharedPtr)
+{
+	return new Ogre::GpuProgramParametersSharedPtr(*stackSharedPtr);
+}
+
+extern "C" _AnomalousExport void GpuProgramParameters_Delete(Ogre::GpuProgramParametersSharedPtr* heapSharedPtr)
+{
+	delete heapSharedPtr;
+}

@@ -11,10 +11,24 @@ namespace OgrePlugin
     {
         public static GpuProgramManager Instance { get; private set; }
 
+#if FULL_AOT_COMPILE
+        [Anomalous.Interop.MonoPInvokeCallback(typeof(ProcessWrapperObjectDelegate))]
+        public static void processWrapperObject_AOT(IntPtr nativeObject, IntPtr stackSharedPtr)
+        {
+            Instance.gpuProgramParametersWrappers.processWrapperObject(nativeObject, stackSharedPtr);
+        }
+#endif
+
         static GpuProgramManager()
         {
             Instance = new GpuProgramManager(); 
         }
+
+        private SharedPtrCollection<GpuProgramParameters> gpuProgramParametersWrappers = new SharedPtrCollection<GpuProgramParameters>(GpuProgramParameters.createWrapper, GpuProgramParameters_createHeapPtr, GpuProgramParameters_Delete
+#if FULL_AOT_COMPILE
+            , processWrapperObject_AOT
+#endif
+);
 
         public bool SaveMicrocodesToCache
         {
@@ -52,6 +66,24 @@ namespace OgrePlugin
             GpuProgramManager_loadMicrocodeCache(managedStream.NativeStream);
         }
 
+        /// <summary>
+        /// Get a wrapper around a pointer to a ogre shared pointer for a gpuprogramparameters object.
+        /// </summary>
+        /// <param name="gpuProgramParametersSharedPtr"></param>
+        /// <returns></returns>
+        internal GpuProgramParametersSharedPtr getGpuProgramParametersWrapper(IntPtr gpuProgramParametersSharedPtr)
+        {
+            return new GpuProgramParametersSharedPtr(gpuProgramParametersWrappers.getObject(gpuProgramParametersSharedPtr));
+        }
+
+        internal ProcessWrapperObjectDelegate ProcessWrapperObjectCallback
+        {
+            get
+            {
+                return gpuProgramParametersWrappers.ProcessWrapperCallback;
+            }
+        }
+
 #region PInvoke
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void GpuProgramManager_setSaveMicrocodesToCache(bool val);
@@ -65,6 +97,14 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void GpuProgramManager_loadMicrocodeCache(IntPtr dataStream);
+
+        //GpuProgramParameters SharedPtr
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        private static extern IntPtr GpuProgramParameters_createHeapPtr(IntPtr stackSharedPtr);
+
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        private static extern void GpuProgramParameters_Delete(IntPtr heapSharedPtr);
+
 #endregion
     }
 }

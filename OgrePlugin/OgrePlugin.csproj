@@ -169,6 +169,8 @@
     <Compile Include="Wrapper\Renderer\WindowEventUtilities.cs" />
     <Compile Include="Wrapper\Resources\CompositorManager.cs" />
     <Compile Include="Wrapper\Resources\GpuProgramManager.cs" />
+    <Compile Include="Wrapper\Resources\GpuProgramParameters.cs" />
+    <Compile Include="Wrapper\Resources\GpuProgramParametersSharedPtr.cs" />
     <Compile Include="Wrapper\Resources\ManagedManualResourceLoader.cs" />
     <Compile Include="Wrapper\Resources\Materials\Material.cs" />
     <Compile Include="Wrapper\Resources\Materials\MaterialManager.cs" />

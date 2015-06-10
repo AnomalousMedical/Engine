@@ -754,6 +754,24 @@ namespace OgrePlugin
             return Pass_getIlluminationStage(pass);
         }
 
+        /// <summary>
+        /// Get a SharedPtr to the vertex program parameters, you must dispose the returned pointer yourself.
+        /// </summary>
+        /// <returns>A SharedPtr to the GpuProgramParameters for this pass, you must dispose the SharedPtr instance returned.</returns>
+        public GpuProgramParametersSharedPtr getVertexProgramParameters()
+        {
+            return GpuProgramManager.Instance.getGpuProgramParametersWrapper(Pass_getVertexProgramParameters(pass, GpuProgramManager.Instance.ProcessWrapperObjectCallback));
+        }
+
+        /// <summary>
+        /// Get a SharedPtr to the fragment program parameters, you must dispose the returned pointer yourself.
+        /// </summary>
+        /// <returns>A SharedPtr to the GpuProgramParameters for this pass, you must dispose the SharedPtr instance returned.</returns>
+        public GpuProgramParametersSharedPtr getFragmentProgramParameters()
+        {
+            return GpuProgramManager.Instance.getGpuProgramParametersWrapper(Pass_getFragmentProgramParameters(pass, GpuProgramManager.Instance.ProcessWrapperObjectCallback));
+        }
+
 #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
@@ -1190,6 +1208,12 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IlluminationStage Pass_getIlluminationStage(IntPtr pass);
+
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        private static extern IntPtr Pass_getVertexProgramParameters(IntPtr pass, ProcessWrapperObjectDelegate processWrapper);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr Pass_getFragmentProgramParameters(IntPtr pass, ProcessWrapperObjectDelegate processWrapper);
 
 #endregion
     }

@@ -688,4 +688,18 @@ extern "C" _AnomalousExport Ogre::IlluminationStage Pass_getIlluminationStage(Og
 	return pass->getIlluminationStage();
 }
 
+extern "C" _AnomalousExport Ogre::GpuProgramParameters* Pass_getVertexProgramParameters(Ogre::Pass* pass, ProcessWrapperObjectDelegate processWrapper)
+{
+	const Ogre::GpuProgramParametersSharedPtr& meshPtr = pass->getVertexProgramParameters();
+	processWrapper(meshPtr.getPointer(), &meshPtr);
+	return meshPtr.getPointer();
+}
+
+extern "C" _AnomalousExport Ogre::GpuProgramParameters* Pass_getFragmentProgramParameters(Ogre::Pass* pass, ProcessWrapperObjectDelegate processWrapper)
+{
+	const Ogre::GpuProgramParametersSharedPtr& meshPtr = pass->getFragmentProgramParameters();
+	processWrapper(meshPtr.getPointer(), &meshPtr);
+	return meshPtr.getPointer();
+}
+
 #pragma warning(pop)

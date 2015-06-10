@@ -188,6 +188,7 @@
     <ClCompile Include="Src\Dx11NoOp.cpp" />
     <ClCompile Include="Src\Entity.cpp" />
     <ClCompile Include="Src\GpuProgramManager.cpp" />
+    <ClCompile Include="Src\GpuProgramParameters.cpp" />
     <ClCompile Include="Src\HardwareBuffer.cpp" />
     <ClCompile Include="Src\HardwareBufferManager.cpp" />
     <ClCompile Include="Src\HardwareIndexBuffer.cpp" />
