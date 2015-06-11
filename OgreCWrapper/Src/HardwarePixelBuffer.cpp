@@ -5,19 +5,29 @@ extern "C" _AnomalousExport Ogre::RenderTexture* HardwarePixelBuffer_getRenderTa
 	return hardwarePixelBuffer->getRenderTarget();
 }
 
-extern "C" _AnomalousExport void HardwarePixelBuffer_blitFromMemory(Ogre::HardwarePixelBuffer* hardwarePixelBuffer, Ogre::PixelBox *src, int left, int top, int right, int bottom)
+extern "C" _AnomalousExport void HardwarePixelBuffer_blit(Ogre::HardwarePixelBuffer* hardwarePixelBuffer, Ogre::HardwarePixelBufferSharedPtr* src, int srcLeft, int srcTop, int srcRight, int srcBottom, int dstLeft, int dstTop, int dstRight, int dstBottom)
+{
+	hardwarePixelBuffer->blit(*src, Ogre::Image::Box(srcLeft, srcTop, srcRight, srcBottom), Ogre::Image::Box(dstLeft, dstTop, dstRight, dstBottom));
+}
+
+extern "C" _AnomalousExport void HardwarePixelBuffer_blitFromMemory(Ogre::HardwarePixelBuffer* hardwarePixelBuffer, Ogre::PixelBox* src, int left, int top, int right, int bottom)
 {
 	hardwarePixelBuffer->blitFromMemory(*src, Ogre::Image::Box(left, top, right, bottom));
 }
 
-extern "C" _AnomalousExport void HardwarePixelBuffer_blitFromMemoryFill(Ogre::HardwarePixelBuffer* hardwarePixelBuffer, Ogre::PixelBox *src)
+extern "C" _AnomalousExport void HardwarePixelBuffer_blitFromMemoryFill(Ogre::HardwarePixelBuffer* hardwarePixelBuffer, Ogre::PixelBox* src)
 {
 	hardwarePixelBuffer->blitFromMemory(*src);
 }
 
-extern "C" _AnomalousExport void HardwarePixelBuffer_blitToMemoryFill(Ogre::HardwarePixelBuffer* hardwarePixelBuffer, Ogre::PixelBox *dst)
+extern "C" _AnomalousExport void HardwarePixelBuffer_blitToMemoryFill(Ogre::HardwarePixelBuffer* hardwarePixelBuffer, Ogre::PixelBox* dst)
 {
 	hardwarePixelBuffer->blitToMemory(*dst);
+}
+
+extern "C" _AnomalousExport void HardwarePixelBuffer_blitToMemory(Ogre::HardwarePixelBuffer* hardwarePixelBuffer, Ogre::PixelBox* dst, int left, int top, int right, int bottom)
+{
+	hardwarePixelBuffer->blitToMemory(Ogre::Image::Box(left, top, right, bottom), *dst);
 }
 
 extern "C" _AnomalousExport void HardwarePixelBuffer_lock(Ogre::HardwarePixelBuffer* hardwarePixelBuffer, int left, int top, int right, int bottom, Ogre::HardwareBuffer::LockOptions options)
