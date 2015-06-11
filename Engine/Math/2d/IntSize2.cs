@@ -132,6 +132,16 @@ namespace Engine
             return v * s;
         }
 
+        public static IntSize2 operator -(IntSize2 v, int s)
+        {
+            return new IntSize2(v.Width - s, v.Height - s);
+        }
+
+        public static IntSize2 operator +(IntSize2 v, int s)
+        {
+            return new IntSize2(v.Width + s, v.Height + s);
+        }
+
         public static explicit operator IntSize2(Size2 size)
         {
             return new IntSize2((int)size.Width, (int)size.Height);
