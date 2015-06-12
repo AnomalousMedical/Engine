@@ -99,6 +99,14 @@ namespace OgrePlugin
             }
         }
 
+        public byte NumMipmaps
+        {
+            get
+            {
+                return Texture_getNumMipmaps(texture);
+            }
+        }
+
         public PixelFormat Format
         {
             get
@@ -123,6 +131,9 @@ namespace OgrePlugin
 						    
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern UInt32 Texture_getDepth(IntPtr texture);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern byte Texture_getNumMipmaps(IntPtr texture);
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern PixelFormat Texture_getFormat(IntPtr texture);

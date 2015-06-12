@@ -2,7 +2,7 @@
 
 extern "C" _AnomalousExport Ogre::HardwarePixelBuffer* Texture_getBuffer(Ogre::Texture* texture, size_t face, size_t mipmap, ProcessWrapperObjectDelegate processWrapper)
 {
-	const Ogre::HardwarePixelBufferSharedPtr& pixelBufPtr = texture->getBuffer();
+	const Ogre::HardwarePixelBufferSharedPtr& pixelBufPtr = texture->getBuffer(face, mipmap);
 	processWrapper(pixelBufPtr.getPointer(), &pixelBufPtr);
 	return pixelBufPtr.getPointer();
 }
@@ -25,6 +25,11 @@ extern "C" _AnomalousExport Ogre::uint32 Texture_getWidth(Ogre::Texture* texture
 extern "C" _AnomalousExport Ogre::uint32 Texture_getDepth(Ogre::Texture* texture)
 {
 	return texture->getDepth();
+}
+
+extern "C" _AnomalousExport Ogre::uint8 Texture_getNumMipmaps(Ogre::Texture* texture)
+{
+	return texture->getNumMipmaps();
 }
 						    
 extern "C" _AnomalousExport Ogre::PixelFormat Texture_getFormat(Ogre::Texture* texture)

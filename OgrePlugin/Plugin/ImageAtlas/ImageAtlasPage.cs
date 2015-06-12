@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FreeImageAPI;
+using Engine;
 
 namespace OgrePlugin
 {
@@ -46,7 +47,7 @@ namespace OgrePlugin
                 using (PixelBox pixelBox = new PixelBox(0, 0, image.Width, image.Height, OgreDrawingUtility.getOgreFormat(image.PixelFormat), image.GetScanlinePointer(0).ToPointer()))
                 {
                     Rectangle locationRect = node.LocationRect;
-                    bufferPtr.Value.blitFromMemory(pixelBox, locationRect.Left, locationRect.Top, locationRect.Right, locationRect.Bottom);
+                    bufferPtr.Value.blitFromMemory(pixelBox, new IntRect(locationRect.Left, locationRect.Top, locationRect.Right, locationRect.Bottom));
                     imageInfo.Add(name, node);
                 }
                 return true;

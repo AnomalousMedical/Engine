@@ -48,9 +48,9 @@ namespace OgrePlugin
         /// <summary>
         /// Copies a region from normal memory to a region of this pixelbuffer.
         /// </summary>
-        public void blitFromMemory(PixelBox src, int left, int top, int right, int bottom)
+        public void blitFromMemory(PixelBox src, IntRect dest)
         {
-            HardwarePixelBuffer_blitFromMemory(hardwareBuffer, src.OgreBox, left, top, right, bottom);
+            HardwarePixelBuffer_blitFromMemory(hardwareBuffer, src.OgreBox, dest.Left, dest.Top, dest.Right, dest.Bottom);
         }
 
         /// <summary>
