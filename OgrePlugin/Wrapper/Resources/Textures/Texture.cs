@@ -61,10 +61,10 @@ namespace OgrePlugin
             base.Dispose();
         }
 
-        public HardwarePixelBufferSharedPtr getBuffer()
+        public HardwarePixelBufferSharedPtr getBuffer(uint face = 0, uint mipmap = 0)
         {
             HardwareBufferManager bufferManager = HardwareBufferManager.getInstance();
-            return bufferManager.getPixelBufferObject(Texture_getBuffer(texture, bufferManager.ProcessPixelBufferCallback));
+            return bufferManager.getPixelBufferObject(Texture_getBuffer(texture, new UIntPtr(face), new UIntPtr(mipmap), bufferManager.ProcessPixelBufferCallback));
         }
 
         public TextureType TextureType
@@ -110,7 +110,7 @@ namespace OgrePlugin
 #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr Texture_getBuffer(IntPtr texture, ProcessWrapperObjectDelegate processWrapper);
+        private static extern IntPtr Texture_getBuffer(IntPtr texture, UIntPtr face, UIntPtr mipmap, ProcessWrapperObjectDelegate processWrapper);
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern TextureType Texture_getTextureType(IntPtr texture);

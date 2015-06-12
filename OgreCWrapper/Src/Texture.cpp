@@ -1,6 +1,6 @@
 #include "Stdafx.h"
 
-extern "C" _AnomalousExport Ogre::HardwarePixelBuffer* Texture_getBuffer(Ogre::Texture* texture, ProcessWrapperObjectDelegate processWrapper)
+extern "C" _AnomalousExport Ogre::HardwarePixelBuffer* Texture_getBuffer(Ogre::Texture* texture, size_t face, size_t mipmap, ProcessWrapperObjectDelegate processWrapper)
 {
 	const Ogre::HardwarePixelBufferSharedPtr& pixelBufPtr = texture->getBuffer();
 	processWrapper(pixelBufPtr.getPointer(), &pixelBufPtr);
