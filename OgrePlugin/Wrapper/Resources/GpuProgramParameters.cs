@@ -120,6 +120,11 @@ namespace OgrePlugin
             GpuProgramParameters_setConstant9(ptr, index, val, count);
         }
 
+        public bool hasNamedConstant(String name)
+        {
+            return GpuProgramParameters_hasNamedConstant(ptr, name);
+        }
+
         #region PInvoke
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void GpuProgramParameters_setNamedConstant1(IntPtr param, String name, float val);
@@ -174,6 +179,10 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern unsafe void GpuProgramParameters_setConstant9(IntPtr param, UIntPtr index, double* val, UIntPtr count);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern unsafe bool GpuProgramParameters_hasNamedConstant(IntPtr param, String name);
         #endregion
     }
 }

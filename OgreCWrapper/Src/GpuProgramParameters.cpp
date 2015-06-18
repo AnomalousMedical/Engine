@@ -90,3 +90,8 @@ extern "C" _AnomalousExport void GpuProgramParameters_setConstant9(Ogre::GpuProg
 {
 	param->setConstant(index, val, count);
 }
+
+extern "C" _AnomalousExport bool GpuProgramParameters_hasNamedConstant(Ogre::GpuProgramParameters* param, String name)
+{
+	return param->_findNamedConstantDefinition(name, false) != NULL;
+}
