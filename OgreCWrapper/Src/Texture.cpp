@@ -36,3 +36,8 @@ extern "C" _AnomalousExport Ogre::PixelFormat Texture_getFormat(Ogre::Texture* t
 {
 	return texture->getFormat();
 }
+
+extern "C" _AnomalousExport bool Texture_getMipmapsHardwareGenerated(Ogre::Texture* texture)
+{
+	return texture->getMipmapsHardwareGenerated();
+}

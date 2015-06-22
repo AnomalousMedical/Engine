@@ -115,6 +115,14 @@ namespace OgrePlugin
             }
         }
 
+        public bool MipmapsHardwareGenerated
+        {
+            get
+            {
+                return Texture_getMipmapsHardwareGenerated(texture);
+            }
+        }
+
 #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
@@ -137,6 +145,10 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern PixelFormat Texture_getFormat(IntPtr texture);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Texture_getMipmapsHardwareGenerated(IntPtr texture);
 
 #endregion
     }
