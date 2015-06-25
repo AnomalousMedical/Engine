@@ -39,3 +39,24 @@ extern "C" _AnomalousExport const Ogre::PixelBox* HardwarePixelBuffer_getCurrent
 {
 	return &hardwarePixelBuffer->getCurrentLock();
 }
+
+extern "C" _AnomalousExport void HardwarePixelBuffer_setOptimizedReadbackEnabled(Ogre::HardwarePixelBuffer* hardwarePixelBuffer, bool enabled)
+{
+	hardwarePixelBuffer->setOptimizedReadbackEnabled(enabled);
+}
+
+/// Returns true if optimized readback is enabled, false if disabled.
+extern "C" _AnomalousExport bool HardwarePixelBuffer_isOptimizedReadbackEnabled(Ogre::HardwarePixelBuffer* hardwarePixelBuffer)
+{
+	return hardwarePixelBuffer->isOptimizedReadbackEnabled();
+}
+
+extern "C" _AnomalousExport void HardwarePixelBuffer_blitToStaging(Ogre::HardwarePixelBuffer* hardwarePixelBuffer)
+{
+	hardwarePixelBuffer->blitToStaging();
+}
+
+extern "C" _AnomalousExport void HardwarePixelBuffer_blitStagingToMemory(Ogre::HardwarePixelBuffer* hardwarePixelBuffer, Ogre::PixelBox* dst)
+{
+	hardwarePixelBuffer->blitStagingToMemory(*dst);
+}

@@ -81,6 +81,28 @@ namespace OgrePlugin
             HardwarePixelBuffer_blitToMemory(hardwareBuffer, dst.OgreBox, srcBox.Left, srcBox.Top, srcBox.Right, srcBox.Bottom);
         }
 
+        public void blitToStaging()
+        {
+            HardwarePixelBuffer_blitToStaging(hardwareBuffer);
+        }
+
+        public void blitStagingToMemory(PixelBox dst)
+        {
+            HardwarePixelBuffer_blitStagingToMemory(hardwareBuffer, dst.OgreBox);
+        }
+
+        public bool OptimizeReadback
+        {
+            get
+            {
+                return HardwarePixelBuffer_isOptimizedReadbackEnabled(hardwareBuffer);
+            }
+            set
+            {
+                HardwarePixelBuffer_setOptimizedReadbackEnabled(hardwareBuffer, value);
+            }
+        }
+
         /// <summary>
         /// Lock the buffer for a given region and options. You can specify all 0's in your region
         /// to get the entire texture.
@@ -127,6 +149,19 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr HardwarePixelBuffer_getCurrentLock(IntPtr hardwarePixelBuffer);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void HardwarePixelBuffer_setOptimizedReadbackEnabled(IntPtr hardwarePixelBuffer, bool enabled);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool HardwarePixelBuffer_isOptimizedReadbackEnabled(IntPtr hardwarePixelBuffer);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void HardwarePixelBuffer_blitToStaging(IntPtr hardwarePixelBuffer);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void HardwarePixelBuffer_blitStagingToMemory(IntPtr hardwarePixelBuffer, IntPtr dst);
 
 #endregion
     }
