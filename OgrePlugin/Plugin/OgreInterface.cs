@@ -163,7 +163,7 @@ namespace OgrePlugin
                 defaultWindowInfo._fireWindowCreated(new WindowInfoEventArgs(primaryWindow));
 
                 //Setup compressed textures
-                OgreInterface_SetupVaryingCompressedTextures(CompressedTextureSupport);
+                SelectedTextureFormat = OgreInterface_SetupVaryingCompressedTextures(CompressedTextureSupport);
 
                 //Setup commands
                 pluginManager.addCreateSimElementManagerCommand(new AddSimElementManagerCommand("Create Ogre Scene Manager", OgreSceneManagerDefinition.Create));
@@ -261,6 +261,12 @@ namespace OgrePlugin
                 return primaryWindow;
             }
         }
+
+        /// <summary>
+        /// The currently active texture format that was chosen. This will be constant for the duration of the
+        /// program's execution.
+        /// </summary>
+        public CompressedTextureSupport SelectedTextureFormat { get; private set; }
 
         public RendererWindow recreatePrimaryWindow()
         {
@@ -465,7 +471,7 @@ namespace OgrePlugin
         private static extern IntPtr OgreInterface_GetRenderSystem(RenderSystemType rendersystemType);
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void OgreInterface_SetupVaryingCompressedTextures(CompressedTextureSupport compressedTextures);
+        private static extern CompressedTextureSupport OgreInterface_SetupVaryingCompressedTextures(CompressedTextureSupport compressedTextures);
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void OgreInterface_DestroyVaryingCompressedTextures();

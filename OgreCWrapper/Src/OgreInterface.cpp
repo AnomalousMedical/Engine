@@ -264,7 +264,7 @@ public:
 	}
 };
 
-extern "C" _AnomalousExport void OgreInterface_SetupVaryingCompressedTextures(CompressedTextureSupport compressedTextures)
+extern "C" _AnomalousExport CompressedTextureSupport OgreInterface_SetupVaryingCompressedTextures(CompressedTextureSupport compressedTextures)
 {
 	Ogre::Root* root = Ogre::Root::getSingletonPtr();
 	Ogre::RenderSystem* rs = root->getRenderSystem();
@@ -275,26 +275,31 @@ extern "C" _AnomalousExport void OgreInterface_SetupVaryingCompressedTextures(Co
 	if ((compressedTextures & DXT) == DXT && capabilities->hasCapability(Ogre::RSC_TEXTURE_COMPRESSION_DXT))
 	{
 		Ogre::LogManager::getSingleton().logMessage("Using DDS Texture Compression");
+		return DXT;
 	}
 	else if ((compressedTextures & PVRTC) == PVRTC && capabilities->hasCapability(Ogre::RSC_TEXTURE_COMPRESSION_PVRTC))
 	{
 		Ogre::LogManager::getSingleton().logMessage("Using PVRTC Texture Compression");
 		Ogre::ScriptCompilerManager::getSingleton().setListener(new AnomalousNormalMapScriptCompilerListener("pvr", "png"));
+		return PVRTC;
 	}
 	else if ((compressedTextures & ATC) == ATC && capabilities->hasCapability(Ogre::RSC_TEXTURE_COMPRESSION_ATC))
 	{
 		Ogre::LogManager::getSingleton().logMessage("Using ATC Texture Compression");
 		Ogre::ScriptCompilerManager::getSingleton().setListener(new AnomalousScriptCompilerListener("atc.ktx"));
+		return ATC;
 	}
 	else if ((compressedTextures & ETC2) == ETC2 && capabilities->hasCapability(Ogre::RSC_TEXTURE_COMPRESSION_ETC2))
 	{
 		Ogre::LogManager::getSingleton().logMessage("Using ETC2 Texture Compression");
 		Ogre::ScriptCompilerManager::getSingleton().setListener(new AnomalousScriptCompilerListener("etc2.ktx"));
+		return ETC2;
 	}
 	else
 	{
 		Ogre::LogManager::getSingleton().logMessage("Using uncompressed textures");
 		Ogre::ScriptCompilerManager::getSingleton().setListener(new AnomalousScriptCompilerListener("png"));
+		return None;
 	}
 }
 
