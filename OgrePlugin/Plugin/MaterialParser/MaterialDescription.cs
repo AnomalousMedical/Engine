@@ -154,7 +154,7 @@ namespace OgrePlugin
         {
             get
             {
-                return NormalMap != null && DiffuseMap != null && SpecularMap != null && OpacityMap != null;
+                return NormalMap != null || DiffuseMap != null || SpecularMap != null || OpacityMap != null;
             }
         }
     }

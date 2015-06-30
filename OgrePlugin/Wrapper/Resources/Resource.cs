@@ -89,8 +89,8 @@ namespace OgrePlugin
 	    /// <summary>
 	    /// Loads the resource, if it is not already. 
 	    /// </summary>
-	    /// <param name="backgroundThread">True to load in the background thread.</param>
-        public void load(bool backgroundThread)
+        /// <param name="backgroundThread">Indicates whether the caller of this method is the background resource loading thread.</param>
+        public void load(bool backgroundThread = false)
         {
             Resource_load(resource, backgroundThread);
         }
