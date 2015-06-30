@@ -146,15 +146,7 @@ namespace OgrePlugin
         {
             get
             {
-                return String.Format("{0}|{1}|{2}|{3}-{4}", NormalMap, DiffuseMap, SpecularMap, OpacityMap, ShaderName);
-            }
-        }
-
-        public bool HasTextures
-        {
-            get
-            {
-                return NormalMap != null || DiffuseMap != null || SpecularMap != null || OpacityMap != null;
+                return String.Format("{0}-{1}-{2}-{3}-{4}", NormalMap, DiffuseMap, SpecularMap, OpacityMap, ShaderName);
             }
         }
     }
