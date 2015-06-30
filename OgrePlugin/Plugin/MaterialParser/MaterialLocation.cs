@@ -74,6 +74,10 @@ namespace OgrePlugin
         {
             if(loaded)
             {
+                foreach(var mat in loadedMaterials)
+                {
+                    parent.destroyMaterial(mat.ptr, mat.builder);
+                }
                 loaded = false;
             }
         }

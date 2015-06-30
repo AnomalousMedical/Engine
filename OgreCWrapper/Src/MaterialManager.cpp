@@ -56,6 +56,11 @@ extern "C" _AnomalousExport bool MaterialManager_resourceExists(String name)
 	return Ogre::MaterialManager::getSingleton().resourceExists(name);
 }
 
+extern "C" _AnomalousExport void MaterialManager_removeName(String name)
+{
+	Ogre::MaterialManager::getSingleton().remove(name);
+}
+
 extern "C" _AnomalousExport String MaterialManager_getActiveScheme()
 {
 	return Ogre::MaterialManager::getSingleton().getActiveScheme().c_str();

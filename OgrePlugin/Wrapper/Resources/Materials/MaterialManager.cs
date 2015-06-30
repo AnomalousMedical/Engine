@@ -60,6 +60,11 @@ namespace OgrePlugin
             return getObject(MaterialManager_create(name, group, isManual, loader != null ? loader.Ptr : IntPtr.Zero, ProcessWrapperObjectCallback));
         }
 
+        public void remove(String name)
+        {
+            MaterialManager_removeName(name);
+        }
+
         public bool resourceExists(String name)
         {
             return MaterialManager_resourceExists(name);
@@ -163,6 +168,9 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr MaterialManager_create(String name, String group, bool isManual, IntPtr loader, ProcessWrapperObjectDelegate processWrapperCallback);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void MaterialManager_removeName(String name);
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
