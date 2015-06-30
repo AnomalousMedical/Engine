@@ -25,6 +25,7 @@ namespace OgrePlugin
             NumHardwarePoses = 0;
             GlossyStart = 40;
             GlossyRange = 0;
+            Parity = false;
         }
 
         public String Name { get; set; }
@@ -94,6 +95,8 @@ namespace OgrePlugin
 
         public bool CreateAlphaMaterial { get; set; }
 
+        public bool Parity { get; set; }
+
         public int NumHardwareBones { get; set; }
 
         public int NumHardwarePoses { get; set; }
@@ -136,6 +139,22 @@ namespace OgrePlugin
             set
             {
                 specularColor = value;
+            }
+        }
+
+        public String TextureSet
+        {
+            get
+            {
+                return String.Format("{0}|{1}|{2}|{3}", NormalMap, DiffuseMap, SpecularMap, OpacityMap);
+            }
+        }
+
+        public bool HasTextures
+        {
+            get
+            {
+                return NormalMap != null && DiffuseMap != null && SpecularMap != null && OpacityMap != null;
             }
         }
     }

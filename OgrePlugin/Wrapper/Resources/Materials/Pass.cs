@@ -142,6 +142,11 @@ namespace OgrePlugin
             Pass_setSpecular(pass, color);
         }
 
+        public void setEmissive(Color color)
+        {
+            Pass_setEmissive(pass, color);
+        }
+
         public void setShininess(float value)
         {
             Pass_setShininess(pass, value);
@@ -245,6 +250,11 @@ namespace OgrePlugin
         public Color getSpecular()
         {
             return Pass_getSpecular(pass);
+        }
+
+        public Color getEmissive()
+        {
+            return Pass_getEmissive(pass);
         }
 
         public Color getSelfIllumination()
@@ -829,6 +839,9 @@ namespace OgrePlugin
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Pass_setSpecular(IntPtr pass, Color color);
 
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Pass_setEmissive(IntPtr pass, Color color);
+
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void Pass_setShininess(IntPtr pass, float value);
 
@@ -899,6 +912,9 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern float Pass_getShininess(IntPtr pass);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern Color Pass_getEmissive(IntPtr pass);
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern TrackVertexColorEnum Pass_getVertexColorTracking(IntPtr pass);

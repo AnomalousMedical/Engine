@@ -83,6 +83,11 @@ extern "C" _AnomalousExport void Pass_setSpecular(Ogre::Pass* pass, Color color)
 	pass->setSpecular(color.toOgre());
 }
 
+extern "C" _AnomalousExport void Pass_setEmissive(Ogre::Pass* pass, Color color)
+{
+	pass->setEmissive(color.toOgre());
+}
+
 extern "C" _AnomalousExport void Pass_setShininess(Ogre::Pass* pass, float value)
 {
 	pass->setShininess(value);
@@ -186,6 +191,11 @@ extern "C" _AnomalousExport Color Pass_getDiffuse(Ogre::Pass* pass)
 extern "C" _AnomalousExport Color Pass_getSpecular(Ogre::Pass* pass)
 {
 	return pass->getSpecular();
+}
+
+extern "C" _AnomalousExport Color Pass_getEmissive(Ogre::Pass* pass)
+{
+	return pass->getEmissive();
 }
 
 extern "C" _AnomalousExport Color Pass_getSelfIllumination(Ogre::Pass* pass)
