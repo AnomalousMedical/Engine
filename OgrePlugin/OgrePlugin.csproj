@@ -47,6 +47,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Dependencies\FreeImage.NET\Library\bin\Release\FreeImageNET.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dependencies\Newtonsoft.Json\Src\Newtonsoft.Json\bin\Release\Portable40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -87,6 +91,12 @@
     <Compile Include="Plugin\ImageAtlas\ImageAtlasException.cs" />
     <Compile Include="Plugin\ImageAtlas\ImageAtlasPage.cs" />
     <Compile Include="Plugin\ImageAtlas\ImagePackTreeNode.cs" />
+    <Compile Include="Plugin\MaterialParser\MaterialDescription.cs" />
+    <Compile Include="Plugin\MaterialParser\MaterialBuilder.cs" />
+    <Compile Include="Plugin\MaterialParser\MaterialLocation.cs" />
+    <Compile Include="Plugin\MaterialParser\MaterialParserException.cs" />
+    <Compile Include="Plugin\MaterialParser\MaterialParserManager.cs" />
+    <Compile Include="Plugin\MaterialParser\MaterialParserGroup.cs" />
     <Compile Include="Plugin\OgreConfig.cs" />
     <Compile Include="Plugin\OgreDebugSurface.cs" />
     <Compile Include="Plugin\OgreInterface.cs" />

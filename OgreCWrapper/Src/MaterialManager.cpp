@@ -44,6 +44,13 @@ extern "C" _AnomalousExport Ogre::Material* MaterialManager_getByName(String nam
 	return matPtr.getPointer();
 }
 
+extern "C" _AnomalousExport Ogre::Material* MaterialManager_create(String name, String group, bool isManual, Ogre::ManualResourceLoader* loader, ProcessWrapperObjectDelegate processWrapperCallback)
+{
+	const Ogre::MaterialPtr& matPtr = Ogre::MaterialManager::getSingleton().create(name, group, isManual, loader);
+	processWrapperCallback(matPtr.getPointer(), &matPtr);
+	return matPtr.getPointer();
+}
+
 extern "C" _AnomalousExport bool MaterialManager_resourceExists(String name)
 {
 	return Ogre::MaterialManager::getSingleton().resourceExists(name);

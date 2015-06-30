@@ -62,6 +62,8 @@ namespace OgrePlugin
         private OgreWindow primaryWindow;
         private IntPtr renderSystemPlugin;
         private DeviceLostListener deviceLostListener;
+        private MaterialParserManager materialParser = new MaterialParserManager();
+        private OgreResourceManager ogreResourceManager;
 
         private delegate OgreSceneManagerDefinition CreateSceneManagerDefinition(String name);
         private delegate SceneNodeDefinition CreateSceneNodeDefinition(String name);
@@ -79,6 +81,7 @@ namespace OgrePlugin
             {
                 throw new InvalidPluginException("The OgrePlugin plugin can only be initialized one time.");
             }
+            ogreResourceManager = new OgreResourceManager(materialParser);
         }
 
         public void Dispose()
@@ -259,6 +262,14 @@ namespace OgrePlugin
             get
             {
                 return primaryWindow;
+            }
+        }
+
+        public MaterialParserManager MaterialParser
+        {
+            get
+            {
+                return materialParser;
             }
         }
 

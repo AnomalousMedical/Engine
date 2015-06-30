@@ -158,6 +158,11 @@ namespace Engine
             return String.Format("#{0:X2}{1:X2}{2:X2}", (int)(r * 0xff), (int)(g * 0xff), (int)(b * 0xff));
         }
 
+        public String ToHexRGBAString()
+        {
+            return String.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", (int)(r * 0xff), (int)(g * 0xff), (int)(b * 0xff), (int)(a * 0xff));
+        }
+
         #region Static Helpers
 
         const float maxValue = (float)0xff;
