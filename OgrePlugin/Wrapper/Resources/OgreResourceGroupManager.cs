@@ -111,6 +111,11 @@ namespace OgrePlugin
             return ResourceGroupManager_resourceGroupExists(name);
         }
 
+        public void declareResource(String name, String resourceType, String groupName)
+        {
+            ResourceGroupManager_declareResource(name, resourceType, groupName);
+        }
+
 #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
@@ -139,6 +144,9 @@ namespace OgrePlugin
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool ResourceGroupManager_resourceGroupExists(String name);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void ResourceGroupManager_declareResource(String name, String resourceType, String groupName);
 
 #endregion
     }

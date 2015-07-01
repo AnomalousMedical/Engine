@@ -68,3 +68,8 @@ extern "C" _AnomalousExport bool ResourceGroupManager_resourceGroupExists(String
 {
 	return Ogre::ResourceGroupManager::getSingleton().resourceGroupExists(name);
 }
+
+extern "C" _AnomalousExport void ResourceGroupManager_declareResource(String name, String resourceType, String groupName)
+{
+	return Ogre::ResourceGroupManager::getSingleton().declareResource(name, resourceType, groupName);
+}
