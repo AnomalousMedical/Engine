@@ -27,6 +27,7 @@ namespace OgrePlugin
             diffuseColor = Color.White;
             
             CreateAlphaMaterial = true;
+            IsAlpha = false;
             NumHardwareBones = 0;
             NumHardwarePoses = 0;
             GlossyStart = 40;
@@ -48,6 +49,7 @@ namespace OgrePlugin
             this.SpecularMap = toClone.SpecularMap;
             this.OpacityMap = toClone.OpacityMap;
             this.CreateAlphaMaterial = toClone.CreateAlphaMaterial;
+            this.IsAlpha = toClone.IsAlpha;
             this.Parity = toClone.Parity;
             this.NumHardwareBones = toClone.NumHardwareBones;
             this.NumHardwarePoses = toClone.NumHardwarePoses;
@@ -138,6 +140,9 @@ namespace OgrePlugin
 
         [JsonProperty]
         public bool CreateAlphaMaterial { get; set; }
+
+        [JsonProperty]
+        public bool IsAlpha { get; set; }
 
         [JsonProperty]
         public bool Parity { get; set; }
