@@ -13,8 +13,6 @@ namespace OgrePlugin
     [JsonConverter(typeof(MaterialDescription.MaterialDescriptionSerializer))]
     public class MaterialDescription
     {
-        private static readonly MaterialDescription DefaultValuesDescription;
-
         Color specularColor;
         Color emissiveColor;
         Color diffuseColor;
