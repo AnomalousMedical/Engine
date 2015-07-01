@@ -71,6 +71,9 @@ namespace OgrePlugin
 
         private IEnumerable<MaterialDescription> getDescriptions(JsonSerializer serializer, String file)
         {
+            List<MaterialDescription> descriptions = null;
+            MaterialDescription mainDescription = null;
+            //Try to read the stream in one shot
             using (StreamReader sr = new StreamReader(VirtualFileSystem.Instance.openStream(file, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read)))
             {
                 char firstChar = (char)sr.Read();
@@ -82,21 +85,33 @@ namespace OgrePlugin
                 sr.DiscardBufferedData();
                 if(firstChar == '[')
                 {
-                    List<MaterialDescription> descriptions = serializer.Deserialize(sr, typeof(List<MaterialDescription>)) as List<MaterialDescription>;
-                    foreach (var description in descriptions)
-                    {
-                        yield return description;
-                    }
+                    descriptions = serializer.Deserialize(sr, typeof(List<MaterialDescription>)) as List<MaterialDescription>;
                 }
                 else
                 {
-                    MaterialDescription descripton = serializer.Deserialize(sr, typeof(MaterialDescription)) as MaterialDescription;
-                    if (descripton != null)
+                    mainDescription = serializer.Deserialize(sr, typeof(MaterialDescription)) as MaterialDescription;
+                }
+            }
+
+            //Enumerate results
+            if(descriptions != null)
+            {
+                foreach (var description in descriptions)
+                {
+                    yield return description;
+                    foreach(var variant in description.AllVariants)
                     {
-                        yield return descripton;
+                        yield return variant;
                     }
                 }
-                
+            }
+            else if (mainDescription != null)
+            {
+                yield return mainDescription;
+                foreach (var variant in mainDescription.AllVariants)
+                {
+                    yield return variant;
+                }
             }
         }
 
