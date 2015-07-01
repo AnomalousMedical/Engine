@@ -56,9 +56,9 @@ namespace OgrePlugin
             }
         }
 
-        internal MaterialPtr buildMaterial(MaterialDescription description)
+        internal void buildMaterial(MaterialDescription description, MaterialRepository repo)
         {
-            return parent.buildMaterial(description);
+            parent.buildMaterial(description, repo);
         }
 
         internal void destroyMaterial(MaterialPtr material, String builderName)

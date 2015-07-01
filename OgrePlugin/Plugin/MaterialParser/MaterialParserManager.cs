@@ -83,12 +83,12 @@ namespace OgrePlugin
             return matGroup;
         }
 
-        internal MaterialPtr buildMaterial(MaterialDescription description)
+        internal void buildMaterial(MaterialDescription description, MaterialRepository repo)
         {
             MaterialBuilder builder;
             if (materialBuilders.TryGetValue(description.Builder, out builder))
             {
-                return builder.buildMaterial(description);
+                builder.buildMaterial(description, repo);
             }
             else
             {

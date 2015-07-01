@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace OgrePlugin
 {
-    class MaterialLocation
+    class MaterialLocation : MaterialRepository
     {
         class MaterialEntry
         {
@@ -36,6 +36,11 @@ namespace OgrePlugin
             loaded = false;
         }
 
+        public void addMaterial(MaterialPtr material, MaterialDescription description)
+        {
+            loadedMaterials.Add(new MaterialEntry(material, description.Builder));
+        }
+
         public String LocName { get; private set; }
 
         public bool Recursive { get; private set; }
@@ -57,7 +62,7 @@ namespace OgrePlugin
                             description.SourceFile = file;
                             description.Group = parent.Name;
                             currentName = description.Name;
-                            loadedMaterials.Add(new MaterialEntry(parent.buildMaterial(description), description.Builder));
+                            parent.buildMaterial(description, this);
                         }
                     }
                     catch(Exception ex)
@@ -124,6 +129,7 @@ namespace OgrePlugin
                     parent.destroyMaterial(mat.ptr, mat.builder);
                 }
                 loaded = false;
+                loadedMaterials.Clear();
             }
         }
 
