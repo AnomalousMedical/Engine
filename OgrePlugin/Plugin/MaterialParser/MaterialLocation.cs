@@ -46,15 +46,14 @@ namespace OgrePlugin
         {
             if(!loaded)
             {
-                VirtualFileSystem vfs = VirtualFileSystem.Instance;
-                foreach(var file in Files)
+                foreach(String file in Files)
                 {
+                    Logging.Log.Info("Loading materials from {0}", file);
                     String currentName = null;
                     try
                     {
-                        using (StreamReader sr = new StreamReader(vfs.openStream(file, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read)))
+                        foreach (var description in getDescriptions(serializer, file))
                         {
-                            MaterialDescription description = serializer.Deserialize(sr, typeof(MaterialDescription)) as MaterialDescription;
                             description.SourceFile = file;
                             description.Group = parent.Name;
                             currentName = description.Name;
@@ -67,6 +66,37 @@ namespace OgrePlugin
                     }
                 }
                 loaded = true;
+            }
+        }
+
+        private IEnumerable<MaterialDescription> getDescriptions(JsonSerializer serializer, String file)
+        {
+            using (StreamReader sr = new StreamReader(VirtualFileSystem.Instance.openStream(file, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read)))
+            {
+                char firstChar = (char)sr.Read();
+                while (char.IsWhiteSpace(firstChar))
+                {
+                    firstChar = (char)sr.Read();
+                }
+                sr.BaseStream.Seek(0, SeekOrigin.Begin);
+                sr.DiscardBufferedData();
+                if(firstChar == '[')
+                {
+                    List<MaterialDescription> descriptions = serializer.Deserialize(sr, typeof(List<MaterialDescription>)) as List<MaterialDescription>;
+                    foreach (var description in descriptions)
+                    {
+                        yield return description;
+                    }
+                }
+                else
+                {
+                    MaterialDescription descripton = serializer.Deserialize(sr, typeof(MaterialDescription)) as MaterialDescription;
+                    if (descripton != null)
+                    {
+                        yield return descripton;
+                    }
+                }
+                
             }
         }
 
