@@ -18,80 +18,79 @@ namespace Engine.Utility
             Png,
             Bmp,
             DDS,
-            pkm,
             ktx,
-            PVR
+            PVR2,
+            PVR3
         }
 
         private static readonly String DDS = "DDS ";
-        private static readonly String PKM = "pkm";
-        private static readonly String KTX = "ktx";
-        private static readonly String PVR1 = "PVR!";
-        private static readonly String PVR2 = Encoding.ASCII.GetString(new byte[]{80, 86, 82, 3});
+        private static readonly String KTX = Encoding.ASCII.GetString(new byte[] { 0xAB, 0x4B, 0x54, 0x58 });
+        private static readonly String PVR2 = "PVR!";
+        private static readonly String PVR3 = "PVR3";//Encoding.ASCII.GetString(new byte[]{80, 86, 82, 3})
         private static readonly String Png = Encoding.ASCII.GetString(new byte[] { 137, 80, 78, 71 });
         private static readonly String Jpeg = Encoding.ASCII.GetString(new byte[] { 255, 216, 255, 224 });
         private static readonly String Gif = "GIF";
         private static readonly String Bmp = "BM";
 
-        private static ImageFormat GetFormat(byte[] header)
+        private static ImageFormat GetFormat(Stream imageStream)
         {
-            String headerString = Encoding.ASCII.GetString(header);
-            if (headerString.StartsWith(DDS))
+            try
             {
-                return ImageFormat.DDS;
-            }
+                byte[] header = new byte[4];
+                imageStream.Read(header, 0, header.Length);
+                String headerString = Encoding.ASCII.GetString(header);
 
-            if (headerString.StartsWith(PKM))
+                if (headerString.StartsWith(DDS))
+                {
+                    return ImageFormat.DDS;
+                }
+
+                if (headerString.StartsWith(KTX))
+                {
+                    return ImageFormat.ktx;
+                }
+
+                if (headerString.StartsWith(PVR3))
+                {
+                    return ImageFormat.PVR3;
+                }
+
+                if (headerString.StartsWith(Png))
+                {
+                    return ImageFormat.Png;
+                }
+
+                if (headerString.StartsWith(Jpeg))
+                {
+                    return ImageFormat.Jpeg;
+                }
+
+                if (headerString.StartsWith(Gif))
+                {
+                    return ImageFormat.Gif;
+                }
+
+                if (headerString.StartsWith(Bmp))
+                {
+                    return ImageFormat.Bmp;
+                }
+
+                //Check alternate locations
+                imageStream.Seek(44, SeekOrigin.Begin);
+                imageStream.Read(header, 0, header.Length);
+                headerString = Encoding.ASCII.GetString(header);
+
+                if (headerString.StartsWith(PVR2))
+                {
+                    return ImageFormat.PVR2;
+                }
+
+                return ImageFormat.Invalid;
+            }
+            finally
             {
-                return ImageFormat.pkm;
+                imageStream.Seek(0, SeekOrigin.Begin);
             }
-
-            if (headerString.StartsWith(KTX))
-            {
-                return ImageFormat.ktx;
-            }
-
-            if (headerString.StartsWith(PVR1))
-            {
-                return ImageFormat.PVR;
-            }
-
-            if (headerString.StartsWith(PVR2))
-            {
-                return ImageFormat.PVR;
-            }
-
-            if (headerString.StartsWith(Png))
-            {
-                return ImageFormat.Png;
-            }
-
-            if (headerString.StartsWith(Jpeg))
-            {
-                return ImageFormat.Jpeg;
-            }
-
-            if (headerString.StartsWith(Gif))
-            {
-                return ImageFormat.Gif;
-            }
-
-            if (headerString.StartsWith(Bmp))
-            {
-                return ImageFormat.Bmp;
-            }
-
-            return ImageFormat.Invalid;
-
-            //ImageFormat format = ImageFormat.Invalid;
-            //for (int i = 0; i < imageHeaders.Length; ++i)
-            //{
-            //    if (headerString.StartsWith(imageHeaders[i]))
-            //    {
-            //        format = (ImageFormat)(i + 1);
-            //    }
-            //}
-            //return format;
         }
 
         /// <summary>
@@ -103,10 +102,7 @@ namespace Engine.Utility
         /// <returns>The ImageFormat for the image stream.</returns>
         public static ImageFormat GetImageInfo(Stream imageStream, out int width, out int height)
         {
-            byte[] header = new byte[4];
-            imageStream.Read(header, 0, header.Length);
-            ImageFormat format = GetFormat(header);
-            imageStream.Seek(0, SeekOrigin.Begin);
+            ImageFormat format = GetFormat(imageStream);
             switch (format)
             {
                 case ImageFormat.Jpeg:
@@ -140,7 +136,16 @@ namespace Engine.Utility
                     GetBmpInfo(imageStream, out width, out height);
                     break;
                 case ImageFormat.DDS:
-                    GetDDSInfo(imageStream, out width, out height);
+                    readFromOffset(imageStream, 12, out width, out height);
+                    break;
+                case ImageFormat.ktx:
+                    readFromOffset(imageStream, 36, out width, out height);
+                    break;
+                case ImageFormat.PVR2:
+                    readFromOffsetReverse(imageStream, 4, out width, out height);
+                    break;
+                case ImageFormat.PVR3:
+                    readFromOffsetReverse(imageStream, 24, out width, out height);
                     break;
                 default:
                     width = -1;
@@ -151,13 +156,23 @@ namespace Engine.Utility
             return format;
         }
 
-        private static void GetDDSInfo(Stream imageStream, out int width, out int height)
+        private static void readFromOffset(Stream imageStream, int offset, out int width, out int height)
         {
-            imageStream.Seek(12, SeekOrigin.Begin);
-            using(BinaryReader br = new BinaryReader(imageStream, Encoding.Default, true))
+            imageStream.Seek(offset, SeekOrigin.Begin);
+            using (BinaryReader br = new BinaryReader(imageStream, Encoding.Default, true))
             {
                 width = (int)br.ReadUInt32();
                 height = (int)br.ReadUInt32();
+            }
+        }
+
+        private static void readFromOffsetReverse(Stream imageStream, int offset, out int width, out int height)
+        {
+            imageStream.Seek(offset, SeekOrigin.Begin);
+            using (BinaryReader br = new BinaryReader(imageStream, Encoding.Default, true))
+            {
+                height = (int)br.ReadUInt32();
+                width = (int)br.ReadUInt32();
             }
         }
 
