@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,6 +57,11 @@ namespace OgrePlugin
             this.specularColor = toClone.specularColor;
             this.emissiveColor = toClone.emissiveColor;
             this.diffuseColor = toClone.diffuseColor;
+        }
+
+        public String localizePath(String path)
+        {
+            return Path.Combine(Path.GetDirectoryName(SourceFile), path);
         }
 
         [JsonProperty]

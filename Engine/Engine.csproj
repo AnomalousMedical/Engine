@@ -364,6 +364,7 @@
     <Compile Include="Utility\IDisposableUtil.cs" />
     <Compile Include="Utility\IdleHandler.cs" />
     <Compile Include="Utility\IEnumerableUtil.cs" />
+    <Compile Include="Utility\ImageUtility.cs" />
     <Compile Include="Utility\LifecycleObjectPool.cs" />
     <Compile Include="Utility\MemoryCache.cs" />
     <Compile Include="Interop\MonoPInvokeCallbackAttribute.cs" />
