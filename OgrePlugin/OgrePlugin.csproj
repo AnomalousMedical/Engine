@@ -96,7 +96,6 @@
     <Compile Include="Plugin\MaterialParser\MaterialLocation.cs" />
     <Compile Include="Plugin\MaterialParser\MaterialParserException.cs" />
     <Compile Include="Plugin\MaterialParser\MaterialParserManager.cs" />
-    <Compile Include="Plugin\MaterialParser\MaterialParserGroup.cs" />
     <Compile Include="Plugin\MaterialParser\MaterialRepository.cs" />
     <Compile Include="Plugin\OgreConfig.cs" />
     <Compile Include="Plugin\OgreDebugSurface.cs" />

@@ -10,7 +10,7 @@ namespace OgrePlugin
 {
     public class MaterialParserManager
     {
-        private Dictionary<String, MaterialParserGroup> materialGroups = new Dictionary<string,MaterialParserGroup>();
+        private List<MaterialLocation> materialLocations = new List<MaterialLocation>();
         private Dictionary<String, MaterialBuilder> materialBuilders = new Dictionary<string, MaterialBuilder>();
 
         public MaterialParserManager()
@@ -31,56 +31,55 @@ namespace OgrePlugin
         public void initializeResources(IEnumerable<ResourceGroup> groups)
         {
             JsonSerializer serializer = new JsonSerializer();
-            foreach (var group in groups)
+            foreach(var location in materialLocations)
             {
-                MaterialParserGroup matGroup;
-                if(materialGroups.TryGetValue(group.FullName, out matGroup))
-                {
-                    matGroup.initializeResources(serializer);
-                }
+                location.initializeResources(serializer);
             }
         }
 
         public void resourceAdded(ResourceGroup group, Engine.Resources.Resource resource)
         {
-            MaterialParserGroup matGroup = declareGroup(group);
-            matGroup.resourceAdded(resource);
+            if (resource.ArchiveType == "EngineArchive") //Only support engine archives
+            {
+                var location = materialLocations.Where(l => l.LocName == resource.LocName).FirstOrDefault();
+                if(location == null)
+                {
+                    location = new MaterialLocation(resource, this);
+                    materialLocations.Add(location);
+                }
+                location.addGroup(group);
+            }
         }
 
         public void resourceGroupAdded(ResourceGroup group)
         {
-            declareGroup(group);
+            //Don't care
         }
 
         public void resourceGroupRemoved(ResourceGroup group)
         {
-            MaterialParserGroup matGroup;
-            if (materialGroups.TryGetValue(group.FullName, out matGroup))
+            for (int i = 0; i < materialLocations.Count; ++i)
             {
-                matGroup.unloadResources();
-                materialGroups.Remove(group.FullName);
+                var loc = materialLocations[i];
+                if (loc.inGroup(group) && loc.removeGroup(group))
+                {
+                    loc.unloadResources();
+                    materialLocations.RemoveAt(i--);
+                }
             }
         }
 
         public void resourceRemoved(ResourceGroup group, Engine.Resources.Resource resource)
         {
-            MaterialParserGroup matGroup;
-            if (materialGroups.TryGetValue(group.FullName, out matGroup))
+            for (int i = 0; i < materialLocations.Count; ++i)
             {
-                matGroup.resourceRemoved(resource);
-                materialGroups.Remove(group.FullName);
+                var loc = materialLocations[i];
+                if (loc.inGroup(group) && loc.LocName == resource.LocName && loc.removeGroup(group))
+                {
+                    loc.unloadResources();
+                    materialLocations.RemoveAt(i--);
+                }
             }
-        }
-
-        private MaterialParserGroup declareGroup(ResourceGroup group)
-        {
-            MaterialParserGroup matGroup;
-            if (!materialGroups.TryGetValue(group.FullName, out matGroup))
-            {
-                matGroup = new MaterialParserGroup(group.FullName, this);
-                materialGroups.Add(group.FullName, matGroup);
-            }
-            return matGroup;
         }
 
         internal void buildMaterial(MaterialDescription description, MaterialRepository repo)

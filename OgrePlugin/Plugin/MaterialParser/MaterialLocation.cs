@@ -1,4 +1,5 @@
 ﻿using Engine;
+using Engine.Resources;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -24,10 +25,11 @@ namespace OgrePlugin
         }
 
         private bool loaded;
-        private MaterialParserGroup parent;
+        private MaterialParserManager parent;
         List<MaterialEntry> loadedMaterials = new List<MaterialEntry>();
+        HashSet<String> groups = new HashSet<string>();
 
-        public MaterialLocation(Engine.Resources.Resource resource, MaterialParserGroup parent)
+        public MaterialLocation(Engine.Resources.Resource resource, MaterialParserManager parent)
         {
             this.parent = parent;
             LocName = resource.LocName;
@@ -60,7 +62,7 @@ namespace OgrePlugin
                         foreach (var description in getDescriptions(serializer, file))
                         {
                             description.SourceFile = file;
-                            description.Group = parent.Name;
+                            description.Group = groups.First();
                             currentName = description.Name;
                             parent.buildMaterial(description, this);
                         }
@@ -72,6 +74,27 @@ namespace OgrePlugin
                 }
                 loaded = true;
             }
+        }
+
+        internal void addGroup(ResourceGroup group)
+        {
+            groups.Add(group.FullName);
+        }
+
+        /// <summary>
+        /// Remove a group, returns true if the location has lost all its resource group memberships.
+        /// </summary>
+        /// <param name="group"></param>
+        /// <returns></returns>
+        internal bool removeGroup(ResourceGroup group)
+        {
+            groups.Remove(group.FullName);
+            return groups.Count == 0;
+        }
+
+        internal bool inGroup(ResourceGroup group)
+        {
+            return groups.Contains(group.FullName);
         }
 
         private IEnumerable<MaterialDescription> getDescriptions(JsonSerializer serializer, String file)
