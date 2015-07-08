@@ -18,8 +18,16 @@
 #define _AnomalousExport __attribute__ ((visibility("default")))
 #endif
 
+typedef unsigned int uint32;
+typedef unsigned short uint16;
+typedef unsigned char uint8;
+typedef int int32;
+typedef short int16;
+typedef signed char int8;
+
 typedef unsigned int uint;
 typedef unsigned char byte;
+typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef const char* String;
 

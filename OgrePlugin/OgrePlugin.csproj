@@ -197,6 +197,7 @@
     <Compile Include="Wrapper\Resources\OgreArchiveManager.cs" />
     <Compile Include="Wrapper\Resources\OgreResourceGroupManager.cs" />
     <Compile Include="Wrapper\Resources\Resource.cs" />
+    <Compile Include="Wrapper\Resources\Textures\Image.cs" />
     <Compile Include="Wrapper\Resources\Textures\Texture.cs" />
     <Compile Include="Wrapper\Resources\Textures\TextureManager.cs" />
     <Compile Include="Wrapper\Resources\Textures\TexturePtr.cs" />

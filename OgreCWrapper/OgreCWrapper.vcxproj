@@ -194,6 +194,7 @@
     <ClCompile Include="Src\HardwareIndexBuffer.cpp" />
     <ClCompile Include="Src\HardwarePixelBuffer.cpp" />
     <ClCompile Include="Src\HardwareVertexBuffer.cpp" />
+    <ClCompile Include="Src\Image.cpp" />
     <ClCompile Include="Src\IndexData.cpp" />
     <ClCompile Include="Src\KeyFrame.cpp" />
     <ClCompile Include="Src\Light.cpp" />
