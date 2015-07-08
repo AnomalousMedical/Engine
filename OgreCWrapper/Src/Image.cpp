@@ -5,6 +5,17 @@ extern "C" _AnomalousExport Ogre::Image* Image_create()
 	return new Ogre::Image();
 }
 
+extern "C" _AnomalousExport Ogre::Image* Image_create1(uint32 uWidth, uint32 uHeight, uint32 depth, Ogre::PixelFormat eFormat, size_t numFaces, uint8 numMipMaps)
+{
+	Ogre::Image *image = new Ogre::Image();
+
+	size_t bufSize = Ogre::Image::calculateSize(numMipMaps, numFaces, uWidth, uHeight, depth, eFormat);
+	uchar* buffer = OGRE_ALLOC_T(uchar, bufSize, Ogre::MEMCATEGORY_GENERAL);
+
+	image->loadDynamicImage(buffer, uWidth, uHeight, depth, eFormat, true, numFaces, numMipMaps);
+	return image;
+}
+
 extern "C" _AnomalousExport void Image_delete(Ogre::Image* image)
 {
 	delete image;
@@ -20,9 +31,9 @@ extern "C" _AnomalousExport void Image_flipAroundX(Ogre::Image* image)
 	image->flipAroundX();
 }
 
-extern "C" _AnomalousExport void Image_load(Ogre::Image* image, String filename, String groupName)
+extern "C" _AnomalousExport void Image_load(Ogre::Image* image, Ogre::DataStream* stream, String type)
 {
-	image->load(filename, groupName);
+	image->load(Ogre::DataStreamPtr(stream), type);
 }
 
 extern "C" _AnomalousExport size_t Image_getSize(Ogre::Image* image)
@@ -83,4 +94,19 @@ extern "C" _AnomalousExport bool Image_getHasAlpha(Ogre::Image* image)
 extern "C" _AnomalousExport Ogre::PixelBox* Image_getPixelBox(Ogre::Image* image, size_t face, size_t mipmap)
 {
 	return new Ogre::PixelBox(image->getPixelBox(face, mipmap));
+}
+
+extern "C" _AnomalousExport void Image_resize(Ogre::Image* image, ushort width, ushort height, Ogre::Image::Filter filter)
+{
+	image->resize(width, height, filter);
+}
+
+extern "C" _AnomalousExport void Image_scale(Ogre::PixelBox* src, Ogre::PixelBox* dst, Ogre::Image::Filter filter)
+{
+	Ogre::Image::scale(*src, *dst, filter);
+}
+
+extern "C" _AnomalousExport size_t Image_calculateSize(size_t mipmaps, size_t faces, uint32 width, uint32 height, uint32 depth, Ogre::PixelFormat format)
+{
+	return Ogre::Image::calculateSize(mipmaps, faces, width, height, depth, format);
 }

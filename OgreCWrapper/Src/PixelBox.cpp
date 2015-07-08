@@ -109,3 +109,43 @@ extern "C" _AnomalousExport void PixelBox_setSlicePitch(Ogre::PixelBox* pixelBox
 {
 	pixelBox->slicePitch = slicePitch;
 }
+
+extern "C" _AnomalousExport uint32 PixelBox_getLeft(Ogre::PixelBox* pixelBox)
+{
+	return pixelBox->left;
+}
+
+extern "C" _AnomalousExport void PixelBox_setLeft(Ogre::PixelBox* pixelBox, uint32 value)
+{
+	pixelBox->left = value;
+}
+
+extern "C" _AnomalousExport uint32 PixelBox_getTop(Ogre::PixelBox* pixelBox)
+{
+	return pixelBox->top;
+}
+
+extern "C" _AnomalousExport void PixelBox_setTop(Ogre::PixelBox* pixelBox, uint32 value)
+{
+	pixelBox->top = value;
+}
+
+extern "C" _AnomalousExport uint32 PixelBox_getRight(Ogre::PixelBox* pixelBox)
+{
+	return pixelBox->right;
+}
+
+extern "C" _AnomalousExport void PixelBox_setRight(Ogre::PixelBox* pixelBox, uint32 value)
+{
+	pixelBox->right = value;
+}
+
+extern "C" _AnomalousExport uint32 PixelBox_getBottom(Ogre::PixelBox* pixelBox)
+{
+	return pixelBox->bottom;
+}
+
+extern "C" _AnomalousExport void PixelBox_setBottom(Ogre::PixelBox* pixelBox, uint32 value)
+{
+	pixelBox->bottom = value;
+}

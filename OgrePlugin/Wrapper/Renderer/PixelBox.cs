@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using Engine.Attributes;
+using Engine;
 
 namespace OgrePlugin
 {
@@ -359,6 +360,69 @@ namespace OgrePlugin
             }
 	    }
 
+        public uint Left
+        {
+            get
+            {
+                return PixelBox_getLeft(pixelBox);
+            }
+            set
+            {
+                PixelBox_setLeft(pixelBox, value);
+            }
+        }
+
+        public uint Top
+        {
+            get
+            {
+                return PixelBox_getTop(pixelBox);
+            }
+            set
+            {
+                PixelBox_setTop(pixelBox, value);
+            }
+        }
+
+        public uint Right
+        {
+            get
+            {
+                return PixelBox_getRight(pixelBox);
+            }
+            set
+            {
+                PixelBox_setRight(pixelBox, value);
+            }
+        }
+
+        public uint Bottom
+        {
+            get
+            {
+                return PixelBox_getBottom(pixelBox);
+            }
+            set
+            {
+                PixelBox_setBottom(pixelBox, value);
+            }
+        }
+
+        public IntRect Rect
+        {
+            get
+            {
+                return new IntRect((int)Left, (int)Right, (int)getWidth(), (int)getHeight());
+            }
+            set
+            {
+                Left = (uint)value.Left;
+                Right = (uint)value.Right;
+                Top = (uint)value.Top;
+                Bottom = (uint)value.Bottom;
+            }
+        }
+
         #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
@@ -427,6 +491,30 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void PixelBox_setSlicePitch(IntPtr pixelBox, int slicePitch);
+
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        private static extern UInt32 PixelBox_getLeft(IntPtr pixelBox);
+
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        private static extern void PixelBox_setLeft(IntPtr pixelBox, UInt32 value);
+
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        private static extern UInt32 PixelBox_getTop(IntPtr pixelBox);
+
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        private static extern void PixelBox_setTop(IntPtr pixelBox, UInt32 value);
+
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        private static extern UInt32 PixelBox_getRight(IntPtr pixelBox);
+
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        private static extern void PixelBox_setRight(IntPtr pixelBox, UInt32 value);
+
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        private static extern UInt32 PixelBox_getBottom(IntPtr pixelBox);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void PixelBox_setBottom(IntPtr pixelBox, UInt32 value);
 
         #endregion
     }

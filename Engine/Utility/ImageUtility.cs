@@ -32,7 +32,7 @@ namespace Engine.Utility
         private static readonly String Gif = "GIF";
         private static readonly String Bmp = "BM";
 
-        private static ImageFormat GetFormat(Stream imageStream)
+        public static ImageFormat GetFormat(Stream imageStream)
         {
             try
             {
@@ -154,6 +154,37 @@ namespace Engine.Utility
             }
             imageStream.Seek(0, SeekOrigin.Begin);
             return format;
+        }
+
+        /// <summary>
+        /// Get the extension for a given format.
+        /// </summary>
+        /// <param name="format"></param>
+        /// <returns></returns>
+        public static String GetFormatExtension(ImageFormat format)
+        {
+            switch(format)
+            {
+                case ImageFormat.Bmp:
+                    return "bmp";
+                case ImageFormat.DDS:
+                    return "dds";
+                case ImageFormat.Gif:
+                    return "gif";
+                case ImageFormat.Jpeg:
+                    return "jpeg";
+                case ImageFormat.ktx:
+                    return "ktx";
+                case ImageFormat.Png:
+                    return "png";
+                case ImageFormat.PVR2:
+                    return "pvr";
+                case ImageFormat.PVR3:
+                    return "pvr";
+                case ImageFormat.Invalid:
+                default:
+                    return "";
+            }
         }
 
         private static void readFromOffset(Stream imageStream, int offset, out int width, out int height)

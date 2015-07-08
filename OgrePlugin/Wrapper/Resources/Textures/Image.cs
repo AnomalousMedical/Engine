@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -7,13 +8,28 @@ using System.Threading.Tasks;
 
 namespace OgrePlugin
 {
-    class Image : IDisposable
+    public class Image : IDisposable
     {
+        public enum Filter
+        {
+            FILTER_NEAREST,
+            FILTER_LINEAR,
+            FILTER_BILINEAR,
+            FILTER_BOX,
+            FILTER_TRIANGLE,
+            FILTER_BICUBIC
+        };
+
         private IntPtr ptr;
 
         public Image()
         {
             ptr = Image_create();
+        }
+
+        public Image(uint width, uint height, uint depth, PixelFormat format, uint numFaces, uint numMipMaps)
+        {
+            ptr = Image_create1(width, height, depth, format, new UIntPtr(numFaces), new UIntPtr(numMipMaps));
         }
 
         public void Dispose()
@@ -31,9 +47,15 @@ namespace OgrePlugin
             Image_flipAroundX(ptr);
         }
 
-        public void load(String filename, String groupName)
+        /// <summary>
+        /// Load an image from a stream. The stream will be controlled by ogre which will close it when 
+        /// it is done, however, you should still be able to follow normal using patterns on the stream 
+        /// you pass in.
+        /// </summary>
+        public void load(Stream stream, String type)
         {
-            Image_load(ptr, filename, groupName);
+            OgreManagedStream managedStream = new OgreManagedStream("Image", stream);
+            Image_load(ptr, managedStream.NativeStream, type);
         }
 
         /// <summary>
@@ -43,6 +65,21 @@ namespace OgrePlugin
         public PixelBox getPixelBox(uint face = 0, uint mipmap = 0)
         {
             return new PixelBox(Image_getPixelBox(ptr, new UIntPtr(face), new UIntPtr(mipmap)));
+        }
+
+        public void resize(uint width, uint height, Filter filter)
+        {
+            Image_resize(ptr, (ushort)width, (ushort)height, filter);
+        }
+
+        public static void Scale(PixelBox src, PixelBox dst, Filter filter = Filter.FILTER_BILINEAR)
+        {
+            Image_scale(src.OgreBox, dst.OgreBox, filter);
+        }
+
+        public static ulong CalculateSize(uint mipmaps, uint faces, uint width, uint height, uint depth, PixelFormat format)
+        {
+            return Image_calculateSize(new UIntPtr(mipmaps), new UIntPtr(faces), width, height, depth, format).ToUInt64();
         }
 
         public UInt64 Size
@@ -131,6 +168,9 @@ namespace OgrePlugin
         private static extern IntPtr Image_create();
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr Image_create1(uint uWidth, uint uHeight, uint depth, PixelFormat eFormat, UIntPtr numFaces, UIntPtr numMipMaps);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Image_delete(IntPtr image);
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
@@ -140,7 +180,7 @@ namespace OgrePlugin
         private static extern void Image_flipAroundX(IntPtr image);
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void Image_load(IntPtr image, String filename, String groupName);
+        private static extern void Image_load(IntPtr image, IntPtr stream, String type);
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern UIntPtr Image_getSize(IntPtr image);
@@ -179,6 +219,15 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr Image_getPixelBox(IntPtr image, UIntPtr face, UIntPtr mipmap);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Image_resize(IntPtr image, ushort width, ushort height, Filter filter);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Image_scale(IntPtr src, IntPtr dst, Filter filter);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern UIntPtr Image_calculateSize(UIntPtr mipmaps, UIntPtr faces, uint width, uint height, uint depth, PixelFormat format);
 
         #endregion
     }
