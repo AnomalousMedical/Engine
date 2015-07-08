@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,27 +17,81 @@ namespace Engine.Utility
             Gif,
             Png,
             Bmp,
+            DDS,
+            pkm,
+            ktx,
+            PVR
         }
 
-        private static string[] imageHeaders = new[]{
-                Encoding.ASCII.GetString(new byte[]{255,216,255,224}), //JPEG
-                "GIF",      // GIF
-                Encoding.ASCII.GetString(new byte[]{137, 80, 78, 71}), // PNG
-                "BM",       // BMP
-        };
+        private static readonly String DDS = "DDS ";
+        private static readonly String PKM = "pkm";
+        private static readonly String KTX = "ktx";
+        private static readonly String PVR1 = "PVR!";
+        private static readonly String PVR2 = Encoding.ASCII.GetString(new byte[]{80, 86, 82, 3});
+        private static readonly String Png = Encoding.ASCII.GetString(new byte[] { 137, 80, 78, 71 });
+        private static readonly String Jpeg = Encoding.ASCII.GetString(new byte[] { 255, 216, 255, 224 });
+        private static readonly String Gif = "GIF";
+        private static readonly String Bmp = "BM";
 
         private static ImageFormat GetFormat(byte[] header)
         {
             String headerString = Encoding.ASCII.GetString(header);
-            ImageFormat format = ImageFormat.Invalid;
-            for (int i = 0; i < imageHeaders.Length; ++i)
+            if (headerString.StartsWith(DDS))
             {
-                if (headerString.StartsWith(imageHeaders[i]))
-                {
-                    format = (ImageFormat)(i + 1);
-                }
+                return ImageFormat.DDS;
             }
-            return format;
+
+            if (headerString.StartsWith(PKM))
+            {
+                return ImageFormat.pkm;
+            }
+
+            if (headerString.StartsWith(KTX))
+            {
+                return ImageFormat.ktx;
+            }
+
+            if (headerString.StartsWith(PVR1))
+            {
+                return ImageFormat.PVR;
+            }
+
+            if (headerString.StartsWith(PVR2))
+            {
+                return ImageFormat.PVR;
+            }
+
+            if (headerString.StartsWith(Png))
+            {
+                return ImageFormat.Png;
+            }
+
+            if (headerString.StartsWith(Jpeg))
+            {
+                return ImageFormat.Jpeg;
+            }
+
+            if (headerString.StartsWith(Gif))
+            {
+                return ImageFormat.Gif;
+            }
+
+            if (headerString.StartsWith(Bmp))
+            {
+                return ImageFormat.Bmp;
+            }
+
+            return ImageFormat.Invalid;
+
+            //ImageFormat format = ImageFormat.Invalid;
+            //for (int i = 0; i < imageHeaders.Length; ++i)
+            //{
+            //    if (headerString.StartsWith(imageHeaders[i]))
+            //    {
+            //        format = (ImageFormat)(i + 1);
+            //    }
+            //}
+            //return format;
         }
 
         /// <summary>
@@ -55,16 +110,11 @@ namespace Engine.Utility
             switch (format)
             {
                 case ImageFormat.Jpeg:
-                    int iWidth, iHeight;
-                    GetJpegInfo(imageStream, out iWidth, out iHeight);
-                    width = iWidth;
-                    height = iHeight;
+                    GetJpegInfo(imageStream, out width, out height);
                     break;
                 case ImageFormat.Gif:
                     String type, version;
-                    GetGifInfo(imageStream, out type, out version, out iWidth, out iHeight);
-                    width = iWidth;
-                    height = iHeight;
+                    GetGifInfo(imageStream, out type, out version, out width, out height);
                     break;
                 case ImageFormat.Png:
                     long lWidth, lheight;
@@ -87,9 +137,10 @@ namespace Engine.Utility
                     }
                     break;
                 case ImageFormat.Bmp:
-                    GetBmpInfo(imageStream, out iWidth, out iHeight);
-                    width = iWidth;
-                    height = iHeight;
+                    GetBmpInfo(imageStream, out width, out height);
+                    break;
+                case ImageFormat.DDS:
+                    GetDDSInfo(imageStream, out width, out height);
                     break;
                 default:
                     width = -1;
@@ -98,6 +149,16 @@ namespace Engine.Utility
             }
             imageStream.Seek(0, SeekOrigin.Begin);
             return format;
+        }
+
+        private static void GetDDSInfo(Stream imageStream, out int width, out int height)
+        {
+            imageStream.Seek(12, SeekOrigin.Begin);
+            using(BinaryReader br = new BinaryReader(imageStream, Encoding.Default, true))
+            {
+                width = (int)br.ReadUInt32();
+                height = (int)br.ReadUInt32();
+            }
         }
 
         //Image reading methods taken from stack overflow thread
