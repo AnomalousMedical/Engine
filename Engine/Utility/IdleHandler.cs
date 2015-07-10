@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Engine.Threads;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -66,7 +67,11 @@ namespace Engine
         private void idleEnumerator()
         {
             //Run until the iterator stops, then go back to default idle
-            if (!enumIdle.MoveNext())
+            if (enumIdle.MoveNext())
+            {
+                ThreadManager._doInvoke();
+            }
+            else
             {
                 currentIdleFunc = defaultIdle;
             }

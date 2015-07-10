@@ -11,7 +11,7 @@ namespace Engine.Threads
     {
         public void sendUpdate(Clock clock)
         {
-            ThreadManager.doInvoke();
+            ThreadManager._doInvoke();
         }
 
         public void loopStarting()

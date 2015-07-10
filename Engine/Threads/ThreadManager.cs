@@ -91,7 +91,11 @@ namespace Engine.Threads
             }
         }
 
-        internal static void doInvoke()
+        /// <summary>
+        /// Run all outstanding tasks, this is done automatically as part of the main update
+        /// timer and the IdleHandler idle function.
+        /// </summary>
+        internal static void _doInvoke()
         {
             lock (targets)
             {
