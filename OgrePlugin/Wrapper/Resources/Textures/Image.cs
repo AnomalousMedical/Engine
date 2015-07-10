@@ -122,11 +122,11 @@ namespace OgrePlugin
             }
         }
 
-        public UIntPtr NumFaces
+        public uint NumFaces
         {
             get
             {
-                return Image_getNumFaces(ptr);
+                return Image_getNumFaces(ptr).ToUInt32();
             }
         }
 

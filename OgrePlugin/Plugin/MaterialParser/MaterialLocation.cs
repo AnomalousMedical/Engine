@@ -28,6 +28,12 @@ namespace OgrePlugin
         private MaterialParserManager parent;
         List<MaterialEntry> loadedMaterials = new List<MaterialEntry>();
         HashSet<String> groups = new HashSet<string>();
+        private String transformedName;
+
+        static String transformName(String name)
+        {
+            return name.Replace('/', '\\').ToLowerInvariant();
+        }
 
         public MaterialLocation(Engine.Resources.Resource resource, MaterialParserManager parent)
         {
@@ -36,6 +42,7 @@ namespace OgrePlugin
             Recursive = resource.Recursive;
             ArchiveType = resource.ArchiveType;
             loaded = false;
+            transformedName = transformName(resource.LocName);
         }
 
         public void addMaterial(MaterialPtr material, MaterialDescription description)
@@ -51,7 +58,16 @@ namespace OgrePlugin
 
         internal void initializeResources(JsonSerializer serializer)
         {
-            if(!loaded)
+            if(loaded && groups.Count == 0)
+            {
+                foreach (var mat in loadedMaterials)
+                {
+                    parent.destroyMaterial(mat.ptr, mat.builder);
+                }
+                loaded = false;
+                loadedMaterials.Clear();
+            }
+            else if(!loaded && groups.Count > 0)
             {
                 foreach(String file in Files)
                 {
@@ -81,20 +97,22 @@ namespace OgrePlugin
             groups.Add(group.FullName);
         }
 
-        /// <summary>
-        /// Remove a group, returns true if the location has lost all its resource group memberships.
-        /// </summary>
-        /// <param name="group"></param>
-        /// <returns></returns>
-        internal bool removeGroup(ResourceGroup group)
+        internal void removeGroup(ResourceGroup group)
         {
             groups.Remove(group.FullName);
-            return groups.Count == 0;
         }
 
-        internal bool inGroup(ResourceGroup group)
+        internal bool represents(Engine.Resources.Resource resource)
         {
-            return groups.Contains(group.FullName);
+            return this.transformedName == transformName(resource.LocName);
+        }
+
+        public bool InGroup
+        {
+            get
+            {
+                return groups.Count > 0;
+            }
         }
 
         private IEnumerable<MaterialDescription> getDescriptions(JsonSerializer serializer, String file)
@@ -140,19 +158,6 @@ namespace OgrePlugin
                 {
                     yield return variant;
                 }
-            }
-        }
-
-        internal void unloadResources()
-        {
-            if(loaded)
-            {
-                foreach(var mat in loadedMaterials)
-                {
-                    parent.destroyMaterial(mat.ptr, mat.builder);
-                }
-                loaded = false;
-                loadedMaterials.Clear();
             }
         }
 

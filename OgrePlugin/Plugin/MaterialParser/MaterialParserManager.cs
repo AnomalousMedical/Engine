@@ -31,9 +31,22 @@ namespace OgrePlugin
         public void initializeResources(IEnumerable<ResourceGroup> groups)
         {
             JsonSerializer serializer = new JsonSerializer();
-            foreach(var location in materialLocations)
+            for (int i = 0; i < materialLocations.Count;)
             {
+                var location = materialLocations[i];
                 location.initializeResources(serializer);
+                if(location.InGroup)
+                {
+                    ++i;
+                }
+                else
+                {
+                    materialLocations.RemoveAt(i); //Remove dead group
+                }
+            }
+            foreach(var builder in materialBuilders.Values)
+            {
+                builder.initializationComplete();
             }
         }
 
@@ -41,7 +54,7 @@ namespace OgrePlugin
         {
             if (resource.ArchiveType == "EngineArchive") //Only support engine archives
             {
-                var location = materialLocations.Where(l => l.LocName == resource.LocName).FirstOrDefault();
+                var location = materialLocations.Where(l => l.represents(resource)).FirstOrDefault();
                 if(location == null)
                 {
                     location = new MaterialLocation(resource, this);
@@ -58,26 +71,19 @@ namespace OgrePlugin
 
         public void resourceGroupRemoved(ResourceGroup group)
         {
-            for (int i = 0; i < materialLocations.Count; ++i)
+            foreach(var loc in materialLocations)
             {
-                var loc = materialLocations[i];
-                if (loc.inGroup(group) && loc.removeGroup(group))
-                {
-                    loc.unloadResources();
-                    materialLocations.RemoveAt(i--);
-                }
+                loc.removeGroup(group);
             }
         }
 
         public void resourceRemoved(ResourceGroup group, Engine.Resources.Resource resource)
         {
-            for (int i = 0; i < materialLocations.Count; ++i)
+            foreach (var loc in materialLocations)
             {
-                var loc = materialLocations[i];
-                if (loc.inGroup(group) && loc.LocName == resource.LocName && loc.removeGroup(group))
+                if (loc.represents(resource))
                 {
-                    loc.unloadResources();
-                    materialLocations.RemoveAt(i--);
+                    loc.removeGroup(group);
                 }
             }
         }

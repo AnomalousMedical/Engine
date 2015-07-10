@@ -23,6 +23,12 @@ namespace OgrePlugin
         public abstract void destroyMaterial(MaterialPtr materialPtr);
 
         /// <summary>
+        /// Fired every time the MaterialParserManager runs its initializeResources function. Happens
+        /// even if no materials were created.
+        /// </summary>
+        public abstract void initializationComplete();
+
+        /// <summary>
         /// The name of this builder, used in material files to specify the builder they wish to use.
         /// </summary>
         public abstract String Name { get; }
