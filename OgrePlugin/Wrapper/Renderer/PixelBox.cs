@@ -412,7 +412,7 @@ namespace OgrePlugin
         {
             get
             {
-                return new IntRect((int)Left, (int)Right, (int)getWidth(), (int)getHeight());
+                return new IntRect((int)Left, (int)Top, (int)getWidth(), (int)getHeight());
             }
             set
             {
