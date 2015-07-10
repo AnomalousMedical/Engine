@@ -349,6 +349,7 @@
     <Compile Include="Saving\XMLSaver\Values\XmlVector3.cs" />
     <Compile Include="Saving\XMLSaver\XmlValueCollection.cs" />
     <Compile Include="Saving\XMLSaver\XmlValueReader.cs" />
+    <Compile Include="Threads\CancelThreadException.cs" />
     <Compile Include="Threads\TargetEntry.cs" />
     <Compile Include="Threads\ThreadManager.cs" />
     <Compile Include="Threads\ThreadManagerSynchronizeInvoke.cs" />
