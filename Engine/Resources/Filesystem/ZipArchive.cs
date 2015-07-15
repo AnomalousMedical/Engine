@@ -102,6 +102,11 @@ namespace Engine.Resources
             return zipFile.openFile(parseURLInZip(url));
         }
 
+        public override Stream openStream(String url, FileMode mode, FileAccess access, FileShare share)
+        {
+            return zipFile.openFile(parseURLInZip(url));
+        }
+
         public override bool isDirectory(string url)
         {
             ZipFileInfo info = zipFile.getFileInfo(parseURLInZip(url));

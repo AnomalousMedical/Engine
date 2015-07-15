@@ -125,6 +125,11 @@ namespace Engine.Resources
             return File.Open(fixIncomingFileURL(url), (System.IO.FileMode)mode, (System.IO.FileAccess)access);
         }
 
+        public override Stream openStream(String url, FileMode mode, FileAccess access, FileShare share)
+        {
+            return File.Open(fixIncomingFileURL(url), (System.IO.FileMode)mode, (System.IO.FileAccess)access, (System.IO.FileShare)share);
+        }
+
         public override bool isDirectory(String url)
         {
             bool isDirectory;
