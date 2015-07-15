@@ -149,3 +149,8 @@ extern "C" _AnomalousExport void PixelBox_setBottom(Ogre::PixelBox* pixelBox, ui
 {
 	pixelBox->bottom = value;
 }
+
+extern "C" _AnomalousExport void PixelUtil_bulkPixelConversion(Ogre::PixelBox* src, Ogre::PixelBox* dst)
+{
+	Ogre::PixelUtil::bulkPixelConversion(*src, *dst);
+}

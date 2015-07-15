@@ -423,6 +423,11 @@ namespace OgrePlugin
             }
         }
 
+        public static void BulkPixelConversion(PixelBox src, PixelBox dst)
+        {
+            PixelUtil_bulkPixelConversion(src.OgreBox, dst.OgreBox);
+        }
+
         #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
@@ -515,6 +520,9 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void PixelBox_setBottom(IntPtr pixelBox, UInt32 value);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void PixelUtil_bulkPixelConversion(IntPtr src, IntPtr dst);
 
         #endregion
     }
