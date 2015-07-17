@@ -72,6 +72,11 @@ namespace OgrePlugin
             Image_resize(ptr, (ushort)width, (ushort)height, filter);
         }
 
+        public void save(String filename)
+        {
+            Image_save(ptr, filename);
+        }
+
         public static void Scale(PixelBox src, PixelBox dst, Filter filter = Filter.FILTER_BILINEAR)
         {
             Image_scale(src.OgreBox, dst.OgreBox, filter);
@@ -212,6 +217,9 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern byte Image_getBPP(IntPtr image);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Image_save(IntPtr image, String filename);
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]

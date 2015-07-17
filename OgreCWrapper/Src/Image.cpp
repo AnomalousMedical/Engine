@@ -86,6 +86,11 @@ extern "C" _AnomalousExport uchar Image_getBPP(Ogre::Image* image)
 	return image->getBPP();
 }
 
+extern "C" _AnomalousExport void Image_save(Ogre::Image* image, String filename)
+{
+	return image->save(filename);
+}
+
 extern "C" _AnomalousExport bool Image_getHasAlpha(Ogre::Image* image)
 {
 	return image->getHasAlpha();
