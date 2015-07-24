@@ -16,7 +16,7 @@ namespace Engine.Resources
     {
         private static readonly ResourceGroup BLANK = new ResourceGroup("");
 
-        private Dictionary<String, Resource> resources = new Dictionary<string, Resource>();
+        private ResourceCollection resources = new ResourceCollection();
         private String name;
         private SubsystemResources parent;
         private EditInterface editInterface;
@@ -49,19 +49,21 @@ namespace Engine.Resources
         /// Add a resource to this resource group.  This is the ideal way to construct resources.
         /// </summary>
         /// <param name="locName">The location of the resource group.</param>
+        /// <param name="archiveType">The archive type name.</param>
         /// <param name="recursive">When true if the resource is a directory, subdirectories will be scanned.  False means this directory only.</param>
         public Resource addResource(String locName, String archiveType, bool recursive)
         {
-            if (!resources.ContainsKey(locName))
+            Resource resource;
+            if (!resources.tryGetResource(locName, out resource))
             {
-                Resource resource = new Resource(locName, archiveType, recursive);
+                resource = new Resource(locName, archiveType, recursive);
                 addResource(resource);
             }
             else
             {
                 Log.Default.sendMessage("ResourceGroup {0} already contains the resource {1}.  Duplicate ignored.", LogLevel.Warning, "ResourceManagement", name, locName);
             }
-            return resources[locName];
+            return resource;
         }
 
         /// <summary>
@@ -70,9 +72,9 @@ namespace Engine.Resources
         /// <param name="resource">The resource to add.</param>
         public void addResource(Resource resource)
         {
-            if (resource.LocName != null && !resources.ContainsKey(resource.LocName))
+            if (resource.LocName != null && !resources.containsResource(resource.LocName))
             {
-                resources.Add(resource.LocName, resource);
+                resources.addResource(resource);
                 resource.setResourceGroup(this);
                 onResourceAdded(resource);
                 parent.fireResourceAdded(this, resource);
@@ -90,7 +92,7 @@ namespace Engine.Resources
         /// <returns>True if the group contains the resource.  False if it does not.</returns>
         public bool containsResource(String locName)
         {
-            return locName != null && resources.ContainsKey(locName);
+            return resources.containsResource(locName);
         }
 
         /// <summary>
@@ -100,15 +102,12 @@ namespace Engine.Resources
         /// <returns>The resource for that location or null if it does not exist.</returns>
         public Resource getResource(String locName)
         {
-            if (locName != null && resources.ContainsKey(locName))
-            {
-                return resources[locName];
-            }
-            else
+            Resource resource;
+            if (!resources.tryGetResource(locName, out resource))
             {
                 Log.Default.sendMessage("ResourceGroup {0} does not contain the resource {1}.  Null returned.", LogLevel.Warning, "ResourceManagement", name, locName);
-                return null;
             }
+            return resource;
         }
 
         /// <summary>
@@ -117,13 +116,13 @@ namespace Engine.Resources
         /// <param name="locName">The location of the resource to remove.</param>
         public void removeResource(String locName)
         {
-            if (resources.ContainsKey(locName))
+            Resource resource;
+            if (resources.tryGetResource(locName, out resource))
             {
-                Resource resource = resources[locName];
                 resource.setResourceGroup(null);
                 parent.fireResourceRemoved(this, resource);
                 onResourceRemoved(resource);
-                resources.Remove(locName);
+                resources.removeResource(resource);
             }
             else
             {
@@ -167,15 +166,15 @@ namespace Engine.Resources
         {
             //Unload any resources that are not shared
             LinkedList<String> unloadedResources = new LinkedList<String>();
-            foreach (String resource in resources.Keys)
+            foreach (Resource resource in resources.Values)
             {
-                if (!toMatch.resources.ContainsKey(resource))
+                if (!toMatch.resources.containsResource(resource.LocName))
                 {
-                    unloadedResources.AddLast(resource);
+                    unloadedResources.AddLast(resource.LocName);
                 }
-                else if (!resources[resource].allPropertiesMatch(toMatch.resources[resource]))
+                else if (!resources[resource.LocName].allPropertiesMatch(toMatch.resources[resource.LocName]))
                 {
-                    unloadedResources.AddLast(resource);
+                    unloadedResources.AddLast(resource.LocName);
                 }
             }
 
@@ -187,7 +186,7 @@ namespace Engine.Resources
             //Add any new resources that are not already added
             foreach (Resource resource in toMatch.resources.Values)
             {
-                if (!resources.ContainsKey(resource.LocName))
+                if (!resources.containsResource(resource.LocName))
                 {
                     Resource res = new Resource(resource);
                     this.addResource(res);
@@ -204,7 +203,7 @@ namespace Engine.Resources
             //Add any new resources that are not already added
             foreach (Resource resource in toAdd.resources.Values)
             {
-                if (!resources.ContainsKey(resource.LocName))
+                if (!resources.containsResource(resource.LocName))
                 {
                     Resource res = new Resource(resource);
                     this.addResource(res);
@@ -333,8 +332,11 @@ namespace Engine.Resources
             for (int i = 0; info.hasValue(RESOURCE_BASE + i); ++i)
             {
                 Resource resource = info.GetValue<Resource>(RESOURCE_BASE + i);
-                resource.setResourceGroup(this);
-                resources.Add(resource.LocName, resource);
+                if (!resources.containsResource(resource.LocName))
+                {
+                    resource.setResourceGroup(this);
+                    resources.addResource(resource);
+                }
             }
         }
 
@@ -349,6 +351,61 @@ namespace Engine.Resources
             foreach (Resource resource in resources.Values)
             {
                 info.AddValue(RESOURCE_BASE + i++, resource);
+            }
+        }
+
+        class ResourceCollection
+        {
+            Dictionary<String, Resource> resources = new Dictionary<string, Resource>();
+
+            public bool tryGetResource(String name, out Resource resource)
+            {
+                resource = null;
+                return name != null && resources.TryGetValue(transformName(name), out resource);
+            }
+
+            public void addResource(Resource resource)
+            {
+                resources.Add(transformName(resource.LocName), resource);
+            }
+
+            public void removeResource(Resource resource)
+            {
+                resources.Remove(transformName(resource.LocName));
+            }
+
+            public bool containsResource(String locName)
+            {
+                return locName != null && resources.ContainsKey(transformName(locName));
+            }
+
+            public IEnumerable<Resource> Values
+            {
+                get
+                {
+                    return resources.Values;
+                }
+            }
+
+            public int Count
+            {
+                get
+                {
+                    return resources.Count;
+                }
+            }
+
+            public Resource this[String locName]
+            {
+                get
+                {
+                    return resources[transformName(locName)];
+                }
+            }
+
+            static String transformName(String name)
+            {
+                return name.Replace('/', '\\').ToLowerInvariant();
             }
         }
     }
