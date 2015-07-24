@@ -11,6 +11,9 @@ namespace Engine.Resources
     /// <summary>
     /// This is a group containing resources.  By organizing resources into groups time 
     /// can be saved between scene loads because groups can be skipped in the loading process.
+    /// The resource locations defined in this group will all be unique, so if you enter a path
+    /// like models\export or models/export these will map to the same physical resource and will only
+    /// be added one time.
     /// </summary>
     public class ResourceGroup : Saveable
     {
