@@ -187,6 +187,7 @@
     <ClCompile Include="src\CompositorManager.cpp" />
     <ClCompile Include="Src\Dx11NoOp.cpp" />
     <ClCompile Include="Src\Entity.cpp" />
+    <ClCompile Include="Src\GpuProgram.cpp" />
     <ClCompile Include="Src\GpuProgramManager.cpp" />
     <ClCompile Include="Src\GpuProgramParameters.cpp" />
     <ClCompile Include="Src\HardwareBuffer.cpp" />
@@ -194,6 +195,7 @@
     <ClCompile Include="Src\HardwareIndexBuffer.cpp" />
     <ClCompile Include="Src\HardwarePixelBuffer.cpp" />
     <ClCompile Include="Src\HardwareVertexBuffer.cpp" />
+    <ClCompile Include="Src\HighLevelGpuProgramManager.cpp" />
     <ClCompile Include="Src\Image.cpp" />
     <ClCompile Include="Src\IndexData.cpp" />
     <ClCompile Include="Src\KeyFrame.cpp" />

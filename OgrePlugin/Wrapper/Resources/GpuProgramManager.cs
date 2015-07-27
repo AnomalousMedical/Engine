@@ -7,7 +7,7 @@ using System.Text;
 
 namespace OgrePlugin
 {
-    public class GpuProgramManager
+    public class GpuProgramManager : IDisposable
     {
         public static GpuProgramManager Instance { get; private set; }
 
@@ -29,6 +29,10 @@ namespace OgrePlugin
             , processWrapperObject_AOT
 #endif
 );
+        public void Dispose()
+        {
+            gpuProgramParametersWrappers.Dispose();
+        }
 
         public bool SaveMicrocodesToCache
         {

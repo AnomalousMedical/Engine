@@ -87,6 +87,8 @@ namespace OgrePlugin
         public void Dispose()
         {
             OgreInterface_DestroyVaryingCompressedTextures();
+            GpuProgramManager.Instance.Dispose();
+            HighLevelGpuProgramManager.Instance.Dispose();
             MaterialManager.getInstance().Dispose();
             MeshManager.getInstance().Dispose();
             SkeletonManager.getInstance().Dispose();
