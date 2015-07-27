@@ -17,7 +17,7 @@ namespace OgrePlugin
         GPT_COMPUTE_PROGRAM
     };
 
-    class HighLevelGpuProgramManager : IDisposable
+    public class HighLevelGpuProgramManager : IDisposable
     {
         public static HighLevelGpuProgramManager Instance { get; private set; }
 

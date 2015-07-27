@@ -226,6 +226,17 @@ namespace OgrePlugin
             return GpuProgramManager.Instance.getGpuProgramParametersWrapper(GpuProgram_getDefaultParameters(ptr, GpuProgramManager.Instance.ProcessWrapperObjectCallback));
         }
 
+        public String getParam(String name)
+        {
+            GpuProgram_getParam(ptr, name, stringRetriever.StringCallback, stringRetriever.Handle);
+            return stringRetriever.retrieveString();
+        }
+
+        public void setParam(String name, String value)
+        {
+            GpuProgram_setParam(ptr, name, value);
+        }
+
         #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
@@ -328,6 +339,12 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void GpuProgram_resetCompileError(IntPtr gpuProgram);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void GpuProgram_setParam(IntPtr gpuProgram, String name, String value);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void GpuProgram_getParam(IntPtr gpuProgram, String name, StringRetriever.Callback srCallback, IntPtr handle);
 
         #endregion
     }

@@ -151,3 +151,13 @@ extern "C" _AnomalousExport void GpuProgram_resetCompileError(Ogre::GpuProgram* 
 {
 	return gpuProgram->resetCompileError();
 }
+
+extern "C" _AnomalousExport void GpuProgram_setParam(Ogre::GpuProgram* gpuProgram, String name, String value)
+{
+	gpuProgram->setParameter(name, value);
+}
+
+extern "C" _AnomalousExport void GpuProgram_getParam(Ogre::GpuProgram* gpuProgram, String name, StringRetrieverCallback srCallback, void* handle)
+{
+	srCallback(gpuProgram->getParameter(name).c_str(), handle);
+}
