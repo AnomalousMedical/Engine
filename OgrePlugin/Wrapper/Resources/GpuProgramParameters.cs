@@ -125,6 +125,26 @@ namespace OgrePlugin
             return GpuProgramParameters_hasNamedConstant(ptr, name);
         }
 
+        public void setNamedAutoConstant(String name, AutoConstantType acType)
+        {
+            GpuProgramParameters_setNamedAutoConstant1(ptr, name, acType);
+        }
+
+        public void setNamedAutoConstant(String name, AutoConstantType acType, ulong extraInfo)
+        {
+            GpuProgramParameters_setNamedAutoConstant2(ptr, name, acType, new UIntPtr(extraInfo));
+        }
+
+        public void setNamedAutoConstant(String name, AutoConstantType acType, ulong extraInfo1, ulong extraInfo2)
+        {
+            GpuProgramParameters_setNamedAutoConstant3(ptr, name, acType, new UIntPtr(extraInfo1), new UIntPtr(extraInfo2));
+        }
+
+        public void setNamedAutoConstantReal(String name, AutoConstantType acType, float rData)
+        {
+            GpuProgramParameters_setNamedAutoConstantReal(ptr, name, acType, rData);
+        }
+
         #region PInvoke
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void GpuProgramParameters_setNamedConstant1(IntPtr param, String name, float val);
@@ -183,6 +203,18 @@ namespace OgrePlugin
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern unsafe bool GpuProgramParameters_hasNamedConstant(IntPtr param, String name);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void GpuProgramParameters_setNamedAutoConstant1(IntPtr param, String name, AutoConstantType acType);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void GpuProgramParameters_setNamedAutoConstant2(IntPtr param, String name, AutoConstantType acType, UIntPtr extraInfo);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void GpuProgramParameters_setNamedAutoConstant3(IntPtr param, String name, AutoConstantType acType, UIntPtr extraInfo1, UIntPtr extraInfo2);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void GpuProgramParameters_setNamedAutoConstantReal(IntPtr param, String name, AutoConstantType acType, float rData);
         #endregion
     }
 }

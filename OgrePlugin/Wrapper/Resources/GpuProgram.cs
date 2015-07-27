@@ -9,32 +9,26 @@ using System.Threading.Tasks;
 
 namespace OgrePlugin
 {
-    public class GpuProgram : IDisposable
+    public class GpuProgram : Resource
     {
         private static StringRetriever stringRetriever = new StringRetriever();
 
-        private IntPtr ptr;
-
         internal GpuProgram(IntPtr ptr)
+            :base(ptr)
         {
-            this.ptr = ptr;
-        }
-
-        public void Dispose()
-        {
-            ptr = IntPtr.Zero;
+            
         }
 
         public String SourceFile
         {
             get
             {
-                GpuProgram_getSourceFile(ptr, stringRetriever.StringCallback, stringRetriever.Handle);
+                GpuProgram_getSourceFile(this.OgreResource, stringRetriever.StringCallback, stringRetriever.Handle);
                 return stringRetriever.retrieveString();
             }
             set
             {
-                GpuProgram_setSourceFile(ptr, value);
+                GpuProgram_setSourceFile(this.OgreResource, value);
             }
         }
 
@@ -42,12 +36,12 @@ namespace OgrePlugin
         {
             get
             {
-                GpuProgram_getSource(ptr, stringRetriever.StringCallback, stringRetriever.Handle);
+                GpuProgram_getSource(this.OgreResource, stringRetriever.StringCallback, stringRetriever.Handle);
                 return stringRetriever.retrieveString();
             }
             set
             {
-                GpuProgram_setSource(ptr, value);
+                GpuProgram_setSource(this.OgreResource, value);
             }
         }
 
@@ -55,12 +49,12 @@ namespace OgrePlugin
         {
             get
             {
-                GpuProgram_getSyntaxCode(ptr, stringRetriever.StringCallback, stringRetriever.Handle);
+                GpuProgram_getSyntaxCode(this.OgreResource, stringRetriever.StringCallback, stringRetriever.Handle);
                 return stringRetriever.retrieveString();
             }
             set
             {
-                GpuProgram_setSyntaxCode(ptr, value);
+                GpuProgram_setSyntaxCode(this.OgreResource, value);
             }
         }
 
@@ -68,11 +62,11 @@ namespace OgrePlugin
         {
             get
             {
-                return GpuProgram_getType(ptr);
+                return GpuProgram_getType(this.OgreResource);
             }
             set
             {
-                GpuProgram_setType(ptr, value);
+                GpuProgram_setType(this.OgreResource, value);
             }
         }
 
@@ -80,7 +74,7 @@ namespace OgrePlugin
         {
             get
             {
-                return GpuProgram_isSupported(ptr);
+                return GpuProgram_isSupported(this.OgreResource);
             }
         }
 
@@ -88,11 +82,11 @@ namespace OgrePlugin
         {
             get
             {
-                return GpuProgram_isSkeletalAnimationIncluded(ptr);
+                return GpuProgram_isSkeletalAnimationIncluded(this.OgreResource);
             }
             set
             {
-                GpuProgram_setSkeletalAnimationIncluded(ptr, value);
+                GpuProgram_setSkeletalAnimationIncluded(this.OgreResource, value);
             }
         }
 
@@ -100,11 +94,11 @@ namespace OgrePlugin
         {
             get
             {
-                return GpuProgram_isMorphAnimationIncluded(ptr);
+                return GpuProgram_isMorphAnimationIncluded(this.OgreResource);
             }
             set
             {
-                GpuProgram_setMorphAnimationIncluded(ptr, value);
+                GpuProgram_setMorphAnimationIncluded(this.OgreResource, value);
             }
         }
 
@@ -112,7 +106,7 @@ namespace OgrePlugin
         {
             get
             {
-                return GpuProgram_isPoseAnimationIncluded(ptr);
+                return GpuProgram_isPoseAnimationIncluded(this.OgreResource);
             }
         }
 
@@ -120,11 +114,11 @@ namespace OgrePlugin
         {
             get
             {
-                return GpuProgram_getNumberOfPosesIncluded(ptr);
+                return GpuProgram_getNumberOfPosesIncluded(this.OgreResource);
             }
             set
             {
-                GpuProgram_setPoseAnimationIncluded(ptr, value);
+                GpuProgram_setPoseAnimationIncluded(this.OgreResource, value);
             }
         }
 
@@ -132,11 +126,11 @@ namespace OgrePlugin
         {
             get
             {
-                return GpuProgram_isVertexTextureFetchRequired(ptr);
+                return GpuProgram_isVertexTextureFetchRequired(this.OgreResource);
             }
             set
             {
-                GpuProgram_setVertexTextureFetchRequired(ptr, value);
+                GpuProgram_setVertexTextureFetchRequired(this.OgreResource, value);
             }
         }
 
@@ -144,11 +138,11 @@ namespace OgrePlugin
         {
             get
             {
-                return GpuProgram_isAdjacencyInfoRequired(ptr);
+                return GpuProgram_isAdjacencyInfoRequired(this.OgreResource);
             }
             set
             {
-                GpuProgram_setAdjacencyInfoRequired(ptr, value);
+                GpuProgram_setAdjacencyInfoRequired(this.OgreResource, value);
             }
         }
 
@@ -156,11 +150,11 @@ namespace OgrePlugin
         {
             get
             {
-                return GpuProgram_getComputeGroupDimensions(ptr);
+                return GpuProgram_getComputeGroupDimensions(this.OgreResource);
             }
             set
             {
-                GpuProgram_setComputeGroupDimensions(ptr, value);
+                GpuProgram_setComputeGroupDimensions(this.OgreResource, value);
             }
         }
 
@@ -168,7 +162,7 @@ namespace OgrePlugin
         {
             get
             {
-                return GpuProgram_hasDefaultParameters(ptr);
+                return GpuProgram_hasDefaultParameters(this.OgreResource);
             }
         }
 
@@ -176,7 +170,7 @@ namespace OgrePlugin
         {
             get
             {
-                return GpuProgram_getPassSurfaceAndLightStates(ptr);
+                return GpuProgram_getPassSurfaceAndLightStates(this.OgreResource);
             }
         }
 
@@ -184,7 +178,7 @@ namespace OgrePlugin
         {
             get
             {
-                return GpuProgram_getPassFogStates(ptr);
+                return GpuProgram_getPassFogStates(this.OgreResource);
             }
         }
 
@@ -192,7 +186,7 @@ namespace OgrePlugin
         {
             get
             {
-                return GpuProgram_getPassTransformStates(ptr);
+                return GpuProgram_getPassTransformStates(this.OgreResource);
             }
         }
 
@@ -200,7 +194,7 @@ namespace OgrePlugin
         {
             get
             {
-                GpuProgram_getLanguage(ptr, stringRetriever.StringCallback, stringRetriever.Handle);
+                GpuProgram_getLanguage(this.OgreResource, stringRetriever.StringCallback, stringRetriever.Handle);
                 return stringRetriever.retrieveString();
             }
         }
@@ -209,32 +203,32 @@ namespace OgrePlugin
         {
             get
             {
-                return GpuProgram_hasCompileError(ptr);
+                return GpuProgram_hasCompileError(this.OgreResource);
             }
         }
 
         public void resetCompileError()
         {
-            GpuProgram_resetCompileError(ptr);
+            GpuProgram_resetCompileError(this.OgreResource);
         }
 
         /// <summary>
-        /// Get a SharedPtr to the program parameters, you must dispose the returned pointer yourself.
+        /// Get a Sharedthis.OgreResource to the program parameters, you must dispose the returned pointer yourself.
         /// </summary>
         public GpuProgramParametersSharedPtr getDefaultParameters()
         {
-            return GpuProgramManager.Instance.getGpuProgramParametersWrapper(GpuProgram_getDefaultParameters(ptr, GpuProgramManager.Instance.ProcessWrapperObjectCallback));
+            return GpuProgramManager.Instance.getGpuProgramParametersWrapper(GpuProgram_getDefaultParameters(this.OgreResource, GpuProgramManager.Instance.ProcessWrapperObjectCallback));
         }
 
         public String getParam(String name)
         {
-            GpuProgram_getParam(ptr, name, stringRetriever.StringCallback, stringRetriever.Handle);
+            GpuProgram_getParam(this.OgreResource, name, stringRetriever.StringCallback, stringRetriever.Handle);
             return stringRetriever.retrieveString();
         }
 
         public void setParam(String name, String value)
         {
-            GpuProgram_setParam(ptr, name, value);
+            GpuProgram_setParam(this.OgreResource, name, value);
         }
 
         #region PInvoke

@@ -95,3 +95,23 @@ extern "C" _AnomalousExport bool GpuProgramParameters_hasNamedConstant(Ogre::Gpu
 {
 	return param->_findNamedConstantDefinition(name, false) != NULL;
 }
+
+extern "C" _AnomalousExport void GpuProgramParameters_setNamedAutoConstant1(Ogre::GpuProgramParameters* param, String name, Ogre::GpuProgramParameters::AutoConstantType acType)
+{
+	param->setNamedAutoConstant(name, acType);
+}
+
+extern "C" _AnomalousExport void GpuProgramParameters_setNamedAutoConstant2(Ogre::GpuProgramParameters* param, String name, Ogre::GpuProgramParameters::AutoConstantType acType, size_t extraInfo)
+{
+	param->setNamedAutoConstant(name, acType, extraInfo);
+}
+
+extern "C" _AnomalousExport void GpuProgramParameters_setNamedAutoConstant3(Ogre::GpuProgramParameters* param, String name, Ogre::GpuProgramParameters::AutoConstantType acType, size_t extraInfo1, size_t extraInfo2)
+{
+	param->setNamedAutoConstant(name, acType, extraInfo1, extraInfo2);
+}
+
+extern "C" _AnomalousExport void GpuProgramParameters_setNamedAutoConstantReal(Ogre::GpuProgramParameters* param, String name, Ogre::GpuProgramParameters::AutoConstantType acType, float rData)
+{
+	param->setNamedAutoConstantReal(name, acType, rData);
+}

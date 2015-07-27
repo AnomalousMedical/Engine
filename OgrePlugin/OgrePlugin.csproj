@@ -177,6 +177,7 @@
     <Compile Include="Wrapper\Renderer\ViewportManager.cs" />
     <Compile Include="Wrapper\Renderer\WindowEventListener.cs" />
     <Compile Include="Wrapper\Renderer\WindowEventUtilities.cs" />
+    <Compile Include="Wrapper\Resources\AutoConstantType.cs" />
     <Compile Include="Wrapper\Resources\CompositorManager.cs" />
     <Compile Include="Wrapper\Resources\GpuProgram.cs" />
     <Compile Include="Wrapper\Resources\GpuProgramManager.cs" />
