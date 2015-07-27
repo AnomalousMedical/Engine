@@ -29,3 +29,8 @@ extern "C" _AnomalousExport void GpuProgramParameters_Delete(Ogre::GpuProgramPar
 {
 	delete heapSharedPtr;
 }
+
+extern "C" _AnomalousExport bool GpuProgramManager_isCacheDirty()
+{
+	return Ogre::GpuProgramManager::getSingleton().isCacheDirty();
+}

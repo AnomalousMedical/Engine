@@ -88,6 +88,14 @@ namespace OgrePlugin
             }
         }
 
+        public bool IsCacheDirty
+        {
+            get
+            {
+                return GpuProgramManager_isCacheDirty();
+            }
+        }
+
 #region PInvoke
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void GpuProgramManager_setSaveMicrocodesToCache(bool val);
@@ -102,7 +110,10 @@ namespace OgrePlugin
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void GpuProgramManager_loadMicrocodeCache(IntPtr dataStream);
 
-        //GpuProgramParameters SharedPtr
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool GpuProgramManager_isCacheDirty();
+
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr GpuProgramParameters_createHeapPtr(IntPtr stackSharedPtr);
 

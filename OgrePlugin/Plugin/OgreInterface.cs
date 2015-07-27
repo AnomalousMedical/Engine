@@ -39,7 +39,7 @@ namespace OgrePlugin
     /// </summary>
     public class OgreInterface : RendererPlugin
     {
-        public delegate bool LoadMicrocodeCacheDelegate(RenderSystem renderSystem, GpuProgramManager gpuProgramManager);
+        public delegate bool MicrocodeCacheDelegate(RenderSystem renderSystem, GpuProgramManager gpuProgramManager);
 
         public const String PluginName = "OgrePlugin";
         private static OgreInterface instance;
@@ -64,6 +64,7 @@ namespace OgrePlugin
         private DeviceLostListener deviceLostListener;
         private MaterialParserManager materialParser = new MaterialParserManager();
         private OgreResourceManager ogreResourceManager;
+        private RenderSystem rs;
 
         private delegate OgreSceneManagerDefinition CreateSceneManagerDefinition(String name);
         private delegate SceneNodeDefinition CreateSceneNodeDefinition(String name);
@@ -86,6 +87,10 @@ namespace OgrePlugin
 
         public void Dispose()
         {
+            if(GpuProgramManager.Instance.IsCacheDirty && SaveMicrocodeCacheCallback != null)
+            {
+                SaveMicrocodeCacheCallback.Invoke(rs, GpuProgramManager.Instance);
+            }
             OgreInterface_DestroyVaryingCompressedTextures();
             GpuProgramManager.Instance.Dispose();
             HighLevelGpuProgramManager.Instance.Dispose();
@@ -125,7 +130,7 @@ namespace OgrePlugin
             try
             {
                 //Initialize Ogre
-                RenderSystem rs = root._getRenderSystemWrapper(OgreInterface_GetRenderSystem(renderSystemType));
+                rs = root._getRenderSystemWrapper(OgreInterface_GetRenderSystem(renderSystemType));
                 root.setRenderSystem(rs);
                 root.initialize(false);
 
@@ -177,7 +182,7 @@ namespace OgrePlugin
                 //Setup shader cache
                 if (LoadMicrocodeCacheCallback != null)
                 {
-                    GpuProgramManager.Instance.SaveMicrocodesToCache = LoadMicrocodeCacheCallback(rs, GpuProgramManager.Instance); ;
+                    GpuProgramManager.Instance.SaveMicrocodesToCache = LoadMicrocodeCacheCallback(rs, GpuProgramManager.Instance);
                 }
 
                 //Setup Resources
@@ -456,7 +461,13 @@ namespace OgrePlugin
         /// 
         /// Return true from the callback to use the microcode cache, and false to not use it.
         /// </summary>
-        public static LoadMicrocodeCacheDelegate LoadMicrocodeCacheCallback { get; set; }
+        public static MicrocodeCacheDelegate LoadMicrocodeCacheCallback { get; set; }
+
+        /// <summary>
+        /// This function will be called on shutdown if the microcode cache changes and needs to
+        /// be saved again.
+        /// </summary>
+        public static MicrocodeCacheDelegate SaveMicrocodeCacheCallback { get; set; }
 
         /// <summary>
         /// Get/Set the compressed texture support for ogre, this should be done before initialization to setup everything
