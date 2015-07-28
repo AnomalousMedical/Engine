@@ -40,6 +40,7 @@ namespace OgreModelEditor
         private IdleHandler idleHandler;
         private UpdateTimerEventListener updateEventListener = new UpdateTimerEventListener();
         private VirtualTextureSceneViewLink virtualTextureLink;
+        private String microcodeFile;
 
         //GUI
         private OgreModelEditorMain mainForm;
@@ -94,6 +95,34 @@ namespace OgreModelEditor
             GuiFrameworkCamerasInterface.ShortcutEventLayer = EventLayers.Main;
 
             GuiFrameworkEditorInterface.ToolsEventLayers = EventLayers.Tools;
+
+            //Setup microcode cache load
+            OgreInterface.LoadMicrocodeCacheCallback = (rs, gpuProgMan) =>
+            {
+                microcodeFile = Path.Combine(OgreModelEditorConfig.DocRoot, rs.Name + ".mcc");
+                if (File.Exists(microcodeFile))
+                {
+                    using (Stream stream = File.OpenRead(microcodeFile))
+                    {
+                        gpuProgMan.loadMicrocodeCache(stream);
+                        Log.Info("Using microcode cache {0}", microcodeFile);
+                    }
+                }
+                return true;
+            };
+
+            OgreInterface.SaveMicrocodeCacheCallback = (rs, gpuProgMan) =>
+            {
+                if (OgreModelEditorConfig.SaveMicrocode)
+                {
+                    using (Stream stream = File.Open(microcodeFile, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite, System.IO.FileShare.Read))
+                    {
+                        gpuProgMan.saveMicrocodeCache(stream);
+                        Log.Info("Saved microcode cache {0}", microcodeFile);
+                    }
+                }
+                return true;
+            };
 
             pluginManager = new PluginManager(OgreModelEditorConfig.ConfigFile);
             pluginManager.OnConfigureDefaultWindow = createWindow;
@@ -532,6 +561,15 @@ namespace OgreModelEditor
         public void exit()
         {
             app.exit();
+        }
+
+        public void clearMicrocodeCache()
+        {
+            if(File.Exists(microcodeFile))
+            {
+                File.Delete(microcodeFile);
+                MessageBox.show(String.Format("Erased microcode file {0}", microcodeFile), "Microcode Erased", MessageBoxStyle.IconInfo | MessageBoxStyle.Ok);
+            }
         }
 
         /// <summary>

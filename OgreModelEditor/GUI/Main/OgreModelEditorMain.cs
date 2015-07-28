@@ -67,6 +67,7 @@ namespace OgreModelEditor
         private MenuItem showSkeleton;
         private MenuControl textureMenu;
         private MenuItem showStats;
+        private MenuItem saveMicrocode;
 
         public OgreModelEditorMain(OgreModelEditorController controller)
             :base("OgreModelEditor.GUI.Main.OgreModelEditorMain.layout")
@@ -89,6 +90,9 @@ namespace OgreModelEditor
             MenuControl resources = menuBar.createItemPopupMenuChild(resourcesItem);
             resources.addItemAction("Reload All (F5)", reloadAll);
             resources.addItemAction("Define External Resources", defineExternal);
+            resources.addItemAction("Delete Shader Microcode Cache", controller.clearMicrocodeCache);
+            saveMicrocode = resources.addItemAction("Save Shader Microcode Cache", changeSaveMicrocode);
+            saveMicrocode.Selected = OgreModelEditorConfig.SaveMicrocode;
 
             MenuItem debugItem = menuBar.addItem("Debug", MenuItemType.Popup);
             MenuControl debug = menuBar.createItemPopupMenuChild(debugItem);
@@ -265,6 +269,12 @@ namespace OgreModelEditor
         void move_MouseButtonClick(Widget source, EventArgs e)
         {
             controller.enableMoveTool();
+        }
+
+        private void changeSaveMicrocode()
+        {
+            saveMicrocode.Selected = !saveMicrocode.Selected;
+            OgreModelEditorConfig.SaveMicrocode = saveMicrocode.Selected;
         }
 
         //protected override void OnDragEnter(DragEventArgs drgevent)

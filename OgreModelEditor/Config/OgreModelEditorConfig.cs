@@ -47,6 +47,18 @@ namespace OgreModelEditor
             }
         }
 
+        public static bool SaveMicrocode
+        {
+            get
+            {
+                return modelEditorSection.getValue("SaveMicrocode", true);
+            }
+            set
+            {
+                modelEditorSection.setValue("SaveMicrocode", value);
+            }
+        }
+
         public static void save()
         {
             configFile.writeConfigFile();
