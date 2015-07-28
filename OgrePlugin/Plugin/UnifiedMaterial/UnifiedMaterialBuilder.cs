@@ -18,7 +18,7 @@ namespace OgrePlugin
         /// A version string to use to determine if the cache should be rebuilt, 
         /// if your saved version does not match this, rebuild the microcode cache.
         /// </summary>
-        public const String Version = "1.0";
+        public const String Version = "1.5";
 
         private const String GroupName = "UnifiedMaterialBuilder__Reserved";
 

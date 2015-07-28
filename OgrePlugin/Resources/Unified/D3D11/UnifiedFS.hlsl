@@ -96,10 +96,10 @@ float4 doLighting
 //Virtual Texture Coords
 //----------------------------------
 
-float2 vtexCoord(float2 address, Texture2D indirectionTex, SamplerState indirectionTexSampler, float2 physicalSizeRecip, float2 pageSizeLog2, float2 pagePaddingScale, float2 pagePaddingOffset)
+float2 vtexCoord(float2 address, Texture2D indirectionTex, SamplerState indirectionTexSampler, float2 physicalSizeRecip, float2 mipSampleBias, float2 pagePaddingScale, float2 pagePaddingOffset)
 {
 	//Need to add bias for mip levels, the bias adjusts the size of the indirection texture to the size of the physical texture
-	float4 redirectInfo = indirectionTex.SampleBias(indirectionTexSampler, address.xy, pageSizeLog2 - 0.5);
+	float4 redirectInfo = indirectionTex.SampleBias(indirectionTexSampler, address.xy, mipSampleBias);
 
 	float mip2 = floor(exp2(redirectInfo.b * 255.0) + 0.5); //Figure out how far to shift the original address, based on the mip level, highest mip level (1x1 indirection texture) is 0 counting up from there
 	float2 coordLow = frac(address * mip2); //Get fractional part of page location, this is shifted left by the mip level
@@ -136,7 +136,7 @@ float4 normalMapSpecularFP
 			, uniform Texture2D indirectionTex : register(t2),
 			uniform SamplerState indirectionTexSampler : register(s2),
 			uniform float2 physicalSizeRecip,
-			uniform float2 pageSizeLog2,
+			uniform float2 mipSampleBias,
 			uniform float2 pagePaddingScale, 
 			uniform float2 pagePaddingOffset
 #endif
@@ -145,7 +145,7 @@ float4 normalMapSpecularFP
 	float2 texCoords = input.texCoords;
 
 #ifdef VIRTUAL_TEXTURE
-	texCoords = vtexCoord(texCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, pageSizeLog2, pagePaddingScale, pagePaddingOffset);
+	texCoords = vtexCoord(texCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, mipSampleBias, pagePaddingScale, pagePaddingOffset);
 #endif
 
 	//Get color value
@@ -188,7 +188,7 @@ float4 normalMapSpecularHighlightFP
 			, uniform Texture2D indirectionTex : register(t2),
 			uniform SamplerState indirectionTexSampler : register(s2),
 			uniform float2 physicalSizeRecip,
-			uniform float2 pageSizeLog2,
+			uniform float2 mipSampleBias,
 			uniform float2 pagePaddingScale,
 			uniform float2 pagePaddingOffset
 #endif
@@ -197,7 +197,7 @@ float4 normalMapSpecularHighlightFP
 	float2 texCoords = input.texCoords;
 
 #ifdef VIRTUAL_TEXTURE
-	texCoords = vtexCoord(texCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, pageSizeLog2, pagePaddingScale, pagePaddingOffset);
+	texCoords = vtexCoord(texCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, mipSampleBias, pagePaddingScale, pagePaddingOffset);
 #endif
 
 	//Get color value
@@ -241,7 +241,7 @@ float4 normalMapSpecularOpacityMapFP
 			, uniform Texture2D indirectionTex : register(t3),
 			uniform SamplerState indirectionTexSampler : register(s3),
 			uniform float2 physicalSizeRecip,
-			uniform float2 pageSizeLog2,
+			uniform float2 mipSampleBias,
 			uniform float2 pagePaddingScale,
 			uniform float2 pagePaddingOffset
 #endif
@@ -250,7 +250,7 @@ float4 normalMapSpecularOpacityMapFP
 	float2 texCoords = input.texCoords;
 
 #ifdef VIRTUAL_TEXTURE
-	texCoords = vtexCoord(texCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, pageSizeLog2, pagePaddingScale, pagePaddingOffset);
+	texCoords = vtexCoord(texCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, mipSampleBias, pagePaddingScale, pagePaddingOffset);
 #endif
 
 	//Get color value
@@ -297,7 +297,7 @@ float4 normalMapSpecularMapFP
 			, uniform Texture2D indirectionTex : register(t3),
 			uniform SamplerState indirectionTexSampler : register(s3),
 			uniform float2 physicalSizeRecip,
-			uniform float2 pageSizeLog2,
+			uniform float2 mipSampleBias,
 			uniform float2 pagePaddingScale,
 			uniform float2 pagePaddingOffset
 #endif
@@ -306,7 +306,7 @@ float4 normalMapSpecularMapFP
 	float2 texCoords = input.texCoords;
 
 #ifdef VIRTUAL_TEXTURE
-	texCoords = vtexCoord(texCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, pageSizeLog2, pagePaddingScale, pagePaddingOffset);
+	texCoords = vtexCoord(texCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, mipSampleBias, pagePaddingScale, pagePaddingOffset);
 #endif
 
 	//Get color value
@@ -353,7 +353,7 @@ float4 normalMapSpecularMapGlossMapFP
 			, uniform Texture2D indirectionTex : register(t3),
 			uniform SamplerState indirectionTexSampler : register(s3),
 			uniform float2 physicalSizeRecip,
-			uniform float2 pageSizeLog2,
+			uniform float2 mipSampleBias,
 			uniform float2 pagePaddingScale,
 			uniform float2 pagePaddingOffset
 #endif
@@ -362,7 +362,7 @@ float4 normalMapSpecularMapGlossMapFP
 	float2 texCoords = input.texCoords;
 
 #ifdef VIRTUAL_TEXTURE
-	texCoords = vtexCoord(texCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, pageSizeLog2, pagePaddingScale, pagePaddingOffset);
+	texCoords = vtexCoord(texCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, mipSampleBias, pagePaddingScale, pagePaddingOffset);
 #endif
 
 	//Get color value
@@ -414,7 +414,7 @@ float4 normalMapSpecularMapOpacityMapFP
 			, uniform Texture2D indirectionTex : register(t4),
 			uniform SamplerState indirectionTexSampler : register(s4),
 			uniform float2 physicalSizeRecip,
-			uniform float2 pageSizeLog2,
+			uniform float2 mipSampleBias,
 			uniform float2 pagePaddingScale,
 			uniform float2 pagePaddingOffset
 #endif
@@ -423,7 +423,7 @@ float4 normalMapSpecularMapOpacityMapFP
 	float2 texCoords = input.texCoords;
 
 #ifdef VIRTUAL_TEXTURE
-	texCoords = vtexCoord(texCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, pageSizeLog2, pagePaddingScale, pagePaddingOffset);
+	texCoords = vtexCoord(texCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, mipSampleBias, pagePaddingScale, pagePaddingOffset);
 #endif
 
 	//Get color value
@@ -476,7 +476,7 @@ float4 normalMapSpecularMapOpacityMapGlossMapFP
 			, uniform Texture2D indirectionTex : register(t4),
 			uniform SamplerState indirectionTexSampler : register(s4),
 			uniform float2 physicalSizeRecip,
-			uniform float2 pageSizeLog2,
+			uniform float2 mipSampleBias,
 			uniform float2 pagePaddingScale,
 			uniform float2 pagePaddingOffset
 #endif
@@ -485,7 +485,7 @@ float4 normalMapSpecularMapOpacityMapGlossMapFP
 	float2 texCoords = input.texCoords;
 
 #ifdef VIRTUAL_TEXTURE
-	texCoords = vtexCoord(texCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, pageSizeLog2, pagePaddingScale, pagePaddingOffset);
+	texCoords = vtexCoord(texCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, mipSampleBias, pagePaddingScale, pagePaddingOffset);
 #endif
 
 	//Get color value

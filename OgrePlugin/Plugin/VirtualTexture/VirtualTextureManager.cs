@@ -252,7 +252,7 @@ namespace OgrePlugin.VirtualTexture
             }
         }
 
-        public int TexelsPerPageLog2
+        public int PageSizeLog2
         {
             get
             {
@@ -261,6 +261,8 @@ namespace OgrePlugin.VirtualTexture
                 return (int)(Math.Log(texelsPerPage, 2.0) / 6.0f);
             }
         }
+
+        public float MipSampleBias { get; set; }
 
         /// <summary>
         /// The visibility mask for the opaque feedback buffer.
@@ -291,8 +293,6 @@ namespace OgrePlugin.VirtualTexture
                 transparentFeedbackBuffer.VisibilityMask = value;
             }
         }
-
-        public float MipSampleBias { get; set; }
 
         internal Vector2 PhysicalSizeRecrip
         {
@@ -329,7 +329,14 @@ namespace OgrePlugin.VirtualTexture
             if (gpuParams.Value.hasNamedConstant("physicalSizeRecip"))
             {
                 gpuParams.Value.setNamedConstant("physicalSizeRecip", PhysicalSizeRecrip);
-                gpuParams.Value.setNamedConstant("pageSizeLog2", new Vector2(TexelsPerPageLog2, TexelsPerPageLog2));
+                if (gpuParams.Value.hasNamedConstant("pageSizeLog2"))
+                {
+                    gpuParams.Value.setNamedConstant("pageSizeLog2", new Vector2(PageSizeLog2, PageSizeLog2));
+                }
+                else
+                {
+                    gpuParams.Value.setNamedConstant("mipSampleBias", new Vector2(PageSizeLog2, PageSizeLog2));
+                }
                 gpuParams.Value.setNamedConstant("pagePaddingScale", TextureLoader.PagePaddingScale);
                 gpuParams.Value.setNamedConstant("pagePaddingOffset", TextureLoader.PagePaddingOffset);
             }

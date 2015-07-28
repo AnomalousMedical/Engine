@@ -47,6 +47,7 @@ namespace OgrePlugin
         static OgreInterface()
         {
             CompressedTextureSupport = CompressedTextureSupport.All;
+            AllowMicrocodeCacheLoad = true;
         }
 
         public static OgreInterface Instance
@@ -83,7 +84,6 @@ namespace OgrePlugin
                 throw new InvalidPluginException("The OgrePlugin plugin can only be initialized one time.");
             }
             ogreResourceManager = new OgreResourceManager(materialParser);
-            AllowMicrocodeCacheLoad = true;
         }
 
         public void Dispose()
