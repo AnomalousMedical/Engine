@@ -103,6 +103,20 @@
     <Compile Include="Plugin\OgrePluginEntryPoint.cs" />
     <Compile Include="Plugin\OgreResourceManager.cs" />
     <Compile Include="Plugin\ImageAtlas\PagedImageAtlas.cs" />
+    <Compile Include="Plugin\UnifiedMaterial\UnifiedMaterialBuilder.cs" />
+    <Compile Include="Plugin\UnifiedMaterial\UnifiedShaderFactory.cs" />
+    <Compile Include="Plugin\VirtualTexture\FeedbackBuffer.cs" />
+    <Compile Include="Plugin\VirtualTexture\FeedbackCameraPositioner.cs" />
+    <Compile Include="Plugin\VirtualTexture\IndirectionTexture.cs" />
+    <Compile Include="Plugin\VirtualTexture\OriginalTextureInfo.cs" />
+    <Compile Include="Plugin\VirtualTexture\PhysicalTexture.cs" />
+    <Compile Include="Plugin\VirtualTexture\PTexPage.cs" />
+    <Compile Include="Plugin\VirtualTexture\StagingIndirectionTexture.cs" />
+    <Compile Include="Plugin\VirtualTexture\StagingPhysicalPage.cs" />
+    <Compile Include="Plugin\VirtualTexture\TextureCache.cs" />
+    <Compile Include="Plugin\VirtualTexture\TextureLoader.cs" />
+    <Compile Include="Plugin\VirtualTexture\VirtualTextureManager.cs" />
+    <Compile Include="Plugin\VirtualTexture\VTexPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Properties\AssemblyInfoSource.cs" />
     <Compile Include="Utility\FrameClearManager.cs" />
@@ -238,6 +252,47 @@
     <EmbeddedResource Include="Resources\ColorVertex\glsles\ColorVertexFPAlpha.glsles" />
     <EmbeddedResource Include="Resources\ColorVertex\glsles\ColorVertexVP.glsles" />
     <EmbeddedResource Include="Resources\ColorVertex\glsles\ColorVertexWhiteFP.glsles" />
+    <EmbeddedResource Include="Resources\Eye\glsles\EyeOuterFP.glsles" />
+    <EmbeddedResource Include="Resources\Eye\glsles\EyeOuterVP.glsles" />
+    <EmbeddedResource Include="Resources\Eye\glsl\EyeOuterFP.glsl" />
+    <EmbeddedResource Include="Resources\Eye\glsl\EyeOuterVP.glsl" />
+    <EmbeddedResource Include="Resources\Unified\glsles\DepthCheckVP.glsles" />
+    <EmbeddedResource Include="Resources\Unified\glsles\DepthCheckVPHardwareSkin.glsles" />
+    <EmbeddedResource Include="Resources\Unified\glsles\FeedbackBufferFP.glsles" />
+    <EmbeddedResource Include="Resources\Unified\glsles\FeedbackBufferVP.glsles" />
+    <EmbeddedResource Include="Resources\Unified\glsles\HiddenFP.glsles" />
+    <EmbeddedResource Include="Resources\Unified\glsles\HiddenVP.glsles" />
+    <EmbeddedResource Include="Resources\Unified\glsles\MainVP.glsles" />
+    <EmbeddedResource Include="Resources\Unified\glsles\MainVPHardwareSkin.glsles" />
+    <EmbeddedResource Include="Resources\Unified\glsles\NormalMapSpecularFP.glsles" />
+    <EmbeddedResource Include="Resources\Unified\glsles\NormalMapSpecularHighlightFP.glsles" />
+    <EmbeddedResource Include="Resources\Unified\glsles\NormalMapSpecularMapFP.glsles" />
+    <EmbeddedResource Include="Resources\Unified\glsles\NormalMapSpecularMapGlossMapFP.glsles" />
+    <EmbeddedResource Include="Resources\Unified\glsles\NormalMapSpecularMapOpacityMapFP.glsles" />
+    <EmbeddedResource Include="Resources\Unified\glsles\NormalMapSpecularMapOpacityMapGlossMapFP.glsles" />
+    <EmbeddedResource Include="Resources\Unified\glsles\NormalMapSpecularOpacityMapFP.glsles" />
+    <EmbeddedResource Include="Resources\Unified\glsles\NoTexturesColoredFP.glsles" />
+    <EmbeddedResource Include="Resources\Unified\glsles\NoTexturesVP.glsles" />
+    <EmbeddedResource Include="Resources\Unified\glsles\NoTexturesVPHardwareSkin.glsles" />
+    <EmbeddedResource Include="Resources\Unified\glsl\DepthCheckVP.glsl" />
+    <EmbeddedResource Include="Resources\Unified\glsl\DepthCheckVPHardwareSkin.glsl" />
+    <EmbeddedResource Include="Resources\Unified\glsl\HiddenFP.glsl" />
+    <EmbeddedResource Include="Resources\Unified\glsl\HiddenVP.glsl" />
+    <EmbeddedResource Include="Resources\Unified\glsl\Lighting.glsl" />
+    <EmbeddedResource Include="Resources\Unified\glsl\MainVP.glsl" />
+    <EmbeddedResource Include="Resources\Unified\glsl\MainVPHardwareSkin.glsl" />
+    <EmbeddedResource Include="Resources\Unified\glsl\NormalMapSpecularFP.glsl" />
+    <EmbeddedResource Include="Resources\Unified\glsl\NormalMapSpecularHighlightFP.glsl" />
+    <EmbeddedResource Include="Resources\Unified\glsl\NormalMapSpecularMapFP.glsl" />
+    <EmbeddedResource Include="Resources\Unified\glsl\NormalMapSpecularMapGlossMapFP.glsl" />
+    <EmbeddedResource Include="Resources\Unified\glsl\NormalMapSpecularMapOpacityMapFP.glsl" />
+    <EmbeddedResource Include="Resources\Unified\glsl\NormalMapSpecularMapOpacityMapGlossMapFP.glsl" />
+    <EmbeddedResource Include="Resources\Unified\glsl\NormalMapSpecularOpacityMapFP.glsl" />
+    <EmbeddedResource Include="Resources\Unified\glsl\NoTexturesColoredFP.glsl" />
+    <EmbeddedResource Include="Resources\Unified\glsl\NoTexturesVP.glsl" />
+    <EmbeddedResource Include="Resources\Unified\glsl\NoTexturesVPHardwareSkin.glsl" />
+    <EmbeddedResource Include="Resources\Unified\glsl\Pack.glsl" />
+    <EmbeddedResource Include="Resources\Unified\glsl\Unpack.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">
@@ -257,6 +312,14 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Basic\D3D11\BasicTexturedNoLightColoredPS.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Eye\D3D11\Eye.hlsl" />
+    <EmbeddedResource Include="Resources\Unified\D3D11\DepthCheck.hlsl" />
+    <EmbeddedResource Include="Resources\Unified\D3D11\FeedbackBuffer.hlsl" />
+    <EmbeddedResource Include="Resources\Unified\D3D11\Hidden.hlsl" />
+    <EmbeddedResource Include="Resources\Unified\D3D11\UnifiedFS.hlsl" />
+    <EmbeddedResource Include="Resources\Unified\D3D11\UnifiedVS.hlsl" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
