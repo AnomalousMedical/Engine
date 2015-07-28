@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Medical
+namespace OgrePlugin.VirtualTexture
 {
     /// <summary>
     /// This class helps manage a handle to a resource in the TextureCache. This uses reference counting,

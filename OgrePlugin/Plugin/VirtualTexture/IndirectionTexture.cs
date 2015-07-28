@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Medical
+namespace OgrePlugin.VirtualTexture
 {
     public class IndirectionTexture : IDisposable
     {

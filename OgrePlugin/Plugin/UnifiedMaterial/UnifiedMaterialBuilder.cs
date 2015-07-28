@@ -2,6 +2,7 @@
 using Engine.Resources;
 using Engine.Utility;
 using OgrePlugin;
+using OgrePlugin.VirtualTexture;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Medical
+namespace OgrePlugin
 {
     public class UnifiedMaterialBuilder : MaterialBuilder, IDisposable
     {
