@@ -38,6 +38,8 @@ namespace OgreModelEditor
         private EventUpdateListener eventUpdate;
         private App app;
         private IdleHandler idleHandler;
+        private UpdateTimerEventListener updateEventListener = new UpdateTimerEventListener();
+        private VirtualTextureSceneViewLink virtualTextureLink;
 
         //GUI
         private OgreModelEditorMain mainForm;
@@ -122,6 +124,7 @@ namespace OgreModelEditor
             eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
             eventUpdate = new EventUpdateListener(eventManager);
             mainTimer.addUpdateListener(eventUpdate);
+            mainTimer.addUpdateListener(updateEventListener);
             pluginManager.setPlatformInfo(mainTimer, eventManager);
             GuiFrameworkInterface.Instance.handleCursors(mainWindow);
 
@@ -133,6 +136,8 @@ namespace OgreModelEditor
             sceneStatsDisplayManager = new SceneStatsDisplayManager(sceneViewController, OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget);
             sceneStatsDisplayManager.StatsVisible = true;
             sceneViewController.createWindow("Camera 1", OgreModelEditorConfig.CameraConfig.MainCameraPosition, OgreModelEditorConfig.CameraConfig.MainCameraLookAt, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
+
+            virtualTextureLink = new VirtualTextureSceneViewLink(this);
 
             //Tools
             objectMover = new SimObjectMover("ModelMover", PluginManager.Instance.RendererPlugin, eventManager, sceneViewController);
@@ -163,6 +168,9 @@ namespace OgreModelEditor
 
         public void Dispose()
         {
+            liveResourceManager.changeResourcesToMatch(emptyResourceManager);
+            liveResourceManager.initializeResources();
+
             var activeWindow = sceneViewController.ActiveWindow;
             if(activeWindow != null)
             {
@@ -198,6 +206,10 @@ namespace OgreModelEditor
             if(mdiLayout != null)
             {
                 mdiLayout.Dispose();
+            }
+            if(virtualTextureLink != null)
+            {
+                virtualTextureLink.Dispose();
             }
             if (modelController != null)
             {
@@ -297,6 +309,7 @@ namespace OgreModelEditor
             sceneViewController.createCameras(scene);
             lightManager.sceneLoaded(scene);
             objectMover.sceneLoaded(scene);
+            virtualTextureLink.sceneLoaded(scene);
 
             yield return IdleStatus.Ok;
 
@@ -324,6 +337,7 @@ namespace OgreModelEditor
         public void shutdown()
         {
             sceneViewController.destroyCameras();
+            virtualTextureLink.sceneUnloading(scene);
             lightManager.sceneUnloading(scene);
             objectMover.sceneUnloading(scene);
             modelController.destroyModel();
@@ -332,19 +346,30 @@ namespace OgreModelEditor
 
         public void openModel(String path)
         {
-            OgreResourceGroupManager groupManager = OgreResourceGroupManager.getInstance();
+            var ogreResources = resourceManager.getSubsystemResource("Ogre");
+            //OgreResourceGroupManager groupManager = OgreResourceGroupManager.getInstance();
             if (modelController.modelActive())
             {
                 modelController.destroyModel();
                 String lastDir = Path.GetDirectoryName(lastFileName);
-                groupManager.removeResourceLocation(lastDir, lastDir);
-                groupManager.initializeAllResourceGroups();
+                ogreResources.removeResourceGroup(lastDir);
+                liveResourceManager.changeResourcesToMatch(resourceManager);
+                liveResourceManager.initializeResources();
+                //groupManager.removeResourceLocation(lastDir, lastDir);
+                //groupManager.initializeAllResourceGroups();
             }
 
             lastFileName = path;
             String dir = Path.GetDirectoryName(path);
-            groupManager.addResourceLocation(dir, "FileSystem", dir, true);
-            groupManager.initializeAllResourceGroups();
+            String parentDir = Path.GetDirectoryName(dir);
+            String innerDir = Path.GetFileName(dir);
+            VirtualFileSystem.Instance.addArchive(parentDir);
+            var group = ogreResources.addResourceGroup(innerDir);
+            group.addResource(innerDir, "EngineArchive", true);
+            liveResourceManager.changeResourcesToMatch(resourceManager);
+            liveResourceManager.initializeResources();
+            //groupManager.addResourceLocation(dir, "FileSystem", dir, true);
+            //groupManager.initializeAllResourceGroups();
             String meshName = Path.GetFileName(path);
             modelController.createModel(meshName, scene);
             mainForm.setTextureNames(modelController.TextureNames);
@@ -377,13 +402,14 @@ namespace OgreModelEditor
                 String dir = Path.GetDirectoryName(lastFileName);
                 liveResourceManager.changeResourcesToMatch(emptyResourceManager);
                 liveResourceManager.initializeResources();
-                OgreResourceGroupManager groupManager = OgreResourceGroupManager.getInstance();
-                groupManager.destroyResourceGroup(dir);
-                groupManager.initializeAllResourceGroups();
+                //OgreResourceGroupManager groupManager = OgreResourceGroupManager.getInstance();
+                //groupManager.destroyResourceGroup(dir);
+                //groupManager.initializeAllResourceGroups();
+                virtualTextureLink.clearCache();
                 liveResourceManager.changeResourcesToMatch(resourceManager);
                 liveResourceManager.initializeResources();
-                groupManager.addResourceLocation(dir, "FileSystem", dir, true);
-                groupManager.initializeAllResourceGroups();
+                //groupManager.addResourceLocation(dir, "FileSystem", dir, true);
+                //groupManager.initializeAllResourceGroups();
                 String meshName = Path.GetFileName(lastFileName);
                 modelController.createModel(meshName, scene);
                 mainForm.setTextureNames(modelController.TextureNames);
@@ -599,6 +625,26 @@ namespace OgreModelEditor
             get
             {
                 return sceneViewController;
+            }
+        }
+
+        public PluginManager PluginManager
+        {
+            get
+            {
+                return pluginManager;
+            }
+        }
+
+        public event Action<Clock> OnUpdate
+        {
+            add
+            {
+                updateEventListener.OnUpdate += value;
+            }
+            remove
+            {
+                updateEventListener.OnUpdate -= value;
             }
         }
 
