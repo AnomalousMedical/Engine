@@ -467,6 +467,21 @@ namespace OgrePlugin
             }
         }
 
+        public void deleteMicrocodeCache()
+        {
+            if (microcodeCacheFullPath != null)
+            {
+                try
+                {
+                    File.Delete(microcodeCacheFullPath);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("{0} deleting microcode cache {1}.\nReason:{2}", ex.GetType().Name, microcodeCacheFullPath, ex.Message);
+                }
+            }
+        }
+
         /// <summary>
         /// Get/Set the microcode cache file for this OgreInterface, if this is set before initialize the
         /// plugin will attempt to load a microcode cache from the given location on startup. This is a base

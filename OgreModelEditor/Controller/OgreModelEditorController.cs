@@ -40,7 +40,6 @@ namespace OgreModelEditor
         private IdleHandler idleHandler;
         private UpdateTimerEventListener updateEventListener = new UpdateTimerEventListener();
         private VirtualTextureSceneViewLink virtualTextureLink;
-        private String microcodeFile;
 
         //GUI
         private OgreModelEditorMain mainForm;
@@ -540,11 +539,8 @@ namespace OgreModelEditor
 
         public void clearMicrocodeCache()
         {
-            if(File.Exists(microcodeFile))
-            {
-                File.Delete(microcodeFile);
-                MessageBox.show(String.Format("Erased microcode file {0}", microcodeFile), "Microcode Erased", MessageBoxStyle.IconInfo | MessageBoxStyle.Ok);
-            }
+            OgreInterface.Instance.deleteMicrocodeCache();
+            MessageBox.show("Erased microcode cache.", "Microcode Erased", MessageBoxStyle.IconInfo | MessageBoxStyle.Ok);
         }
 
         /// <summary>
