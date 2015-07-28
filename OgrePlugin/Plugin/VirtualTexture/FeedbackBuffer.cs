@@ -14,24 +14,26 @@ namespace OgrePlugin.VirtualTexture
     {
         public const String Scheme = "FeedbackBuffer";
 
-        FreeImageBitmap fullBitmap;
-        PixelBox fullBitmapBox;
-        TexturePtr texture;
-        RenderTexture renderTexture;
-        HardwarePixelBufferSharedPtr pixelBuffer;
-        VirtualTextureManager virtualTextureManager;
-        int id;
+        private FreeImageBitmap fullBitmap;
+        private PixelBox fullBitmapBox;
+        private TexturePtr texture;
+        private RenderTexture renderTexture;
+        private HardwarePixelBufferSharedPtr pixelBuffer;
+        private VirtualTextureManager virtualTextureManager;
+        private int id;
+        private uint visibilityMask;
 
         //Per scene
-        Viewport vp;
-        Camera camera;
-        SceneNode node;
-        FeedbackCameraPositioner cameraPositioner;
+        private Viewport vp;
+        private Camera camera;
+        private SceneNode node;
+        private FeedbackCameraPositioner cameraPositioner;
 
-        public FeedbackBuffer(VirtualTextureManager virtualTextureManager, IntSize2 renderSize, int id)
+        public FeedbackBuffer(VirtualTextureManager virtualTextureManager, IntSize2 renderSize, int id, uint visibilityMask)
         {
             this.id = id;
             this.virtualTextureManager = virtualTextureManager;
+            this.visibilityMask = visibilityMask;
 
             texture = TextureManager.getInstance().createManual(TextureName, VirtualTextureManager.ResourceGroup, TextureType.TEX_TYPE_2D, (uint)renderSize.Width, (uint)renderSize.Height, 1, 0, OgrePlugin.PixelFormat.PF_A8R8G8B8, TextureUsage.TU_RENDERTARGET, null, false, 0);
 
@@ -56,31 +58,24 @@ namespace OgrePlugin.VirtualTexture
 
         public void update()
         {
-            PerformanceMonitor.start("FeedbackBuffer Render");
             cameraPositioner.preRender();
             node.setPosition(cameraPositioner.Translation);
             camera.lookAt(cameraPositioner.LookAt);
             renderTexture.update();
-            PerformanceMonitor.stop("FeedbackBuffer Render");
         }
 
         public void blitToStaging()
         {
-            PerformanceMonitor.start("FeedbackBuffer blit to staging");
             pixelBuffer.Value.blitToStaging();
-            PerformanceMonitor.stop("FeedbackBuffer blit to staging");
         }
 
         public void blitStagingToMemory()
         {
-            PerformanceMonitor.start("FeedbackBuffer blit staging to memory");
             pixelBuffer.Value.blitStagingToMemory(fullBitmapBox);
-            PerformanceMonitor.stop("FeedbackBuffer blit staging to memory");
         }
 
         public unsafe void analyzeBuffer()
         {
-            PerformanceMonitor.start("FeedbackBuffer Analyze");
             float u, v;
             byte m, t;
             for (int slId = 0; slId < fullBitmap.Height; ++slId)
@@ -104,7 +99,6 @@ namespace OgrePlugin.VirtualTexture
                     }
                 }
             }
-            PerformanceMonitor.stop("FeedbackBuffer Analyze");
         }
 
         public String TextureName
@@ -112,6 +106,22 @@ namespace OgrePlugin.VirtualTexture
             get
             {
                 return "FeedbackBuffer" + id;
+            }
+        }
+
+        public uint VisibilityMask
+        {
+            get
+            {
+                return visibilityMask;
+            }
+            set
+            {
+                visibilityMask = value;
+                if (cameraPositioner != null)
+                {
+                    camera.setVisibilityFlags(visibilityMask);
+                }
             }
         }
 
@@ -138,15 +148,16 @@ namespace OgrePlugin.VirtualTexture
             SimSubScene defaultScene = scene.getDefaultSubScene();
             OgreSceneManager sceneManager = defaultScene.getSimElementManager<OgreSceneManager>();
 
-            camera = sceneManager.SceneManager.createCamera("VirtualTexturing.FeedbackBufferCamera");
+            camera = sceneManager.SceneManager.createCamera("VirtualTexturing.FeedbackBufferCamera" + id);
             camera.setNearClipDistance(1.0f);
             camera.setAutoAspectRatio(true);
             camera.setFOVy(new Degree(10.0f));
-            node = sceneManager.SceneManager.createSceneNode("VirtualTexturing.FeedbackBufferCameraNode");
+            node = sceneManager.SceneManager.createSceneNode("VirtualTexturing.FeedbackBufferCameraNode" + id);
             node.attachObject(camera);
 
             vp = renderTexture.addViewport(camera);
             vp.setMaterialScheme(Scheme);
+            vp.setVisibilityMask(visibilityMask);
             vp.setBackgroundColor(new Engine.Color(0.0f, 0.0f, 0.0f, 1.0f));
             vp.clear();
         }

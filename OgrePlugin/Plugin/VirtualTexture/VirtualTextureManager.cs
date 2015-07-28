@@ -25,7 +25,8 @@ namespace OgrePlugin.VirtualTexture
 
         public const String ResourceGroup = "VirtualTextureGroup";
 
-        FeedbackBuffer feedbackBuffer;
+        FeedbackBuffer opaqueFeedbackBuffer;
+        FeedbackBuffer transparentFeedbackBuffer;
         int frameCount = 0;
         int updateBufferFrame = 2;
         Phase phase = Phase.InitialLoad; //All indirection textures will be created requesting their lowest mip levels, this will force us to load those as quickly as possible
@@ -51,7 +52,8 @@ namespace OgrePlugin.VirtualTexture
             this.padding = padding;
             this.textureFormat = textureFormat;
 
-            feedbackBuffer = new FeedbackBuffer(this, feedbackBufferSize, 0);
+            opaqueFeedbackBuffer = new FeedbackBuffer(this, feedbackBufferSize, 0, 0x1);
+            transparentFeedbackBuffer = new FeedbackBuffer(this, feedbackBufferSize, 1, 0x2);
             textureLoader = new TextureLoader(this, physicalTextureSize, texelsPerPage, padding, stagingBufferCount, numPhysicalTextures, 6, 500 * 1024 * 1024);
 
             MipSampleBias = -3.0f;
@@ -60,7 +62,8 @@ namespace OgrePlugin.VirtualTexture
         public void Dispose()
         {
             textureLoader.Dispose();
-            feedbackBuffer.Dispose();
+            opaqueFeedbackBuffer.Dispose();
+            transparentFeedbackBuffer.Dispose();
 
             foreach (var physicalTexture in physicalTextures.Values)
             {
@@ -83,12 +86,14 @@ namespace OgrePlugin.VirtualTexture
 
         public void destroyFeedbackBufferCamera(SimScene scene)
         {
-            feedbackBuffer.destroyCamera(scene);
+            opaqueFeedbackBuffer.destroyCamera(scene);
+            transparentFeedbackBuffer.destroyCamera(scene);
         }
 
         public void createFeedbackBufferCamera(SimScene scene, FeedbackCameraPositioner cameraPositioner)
         {
-            feedbackBuffer.createCamera(scene, cameraPositioner);
+            opaqueFeedbackBuffer.createCamera(scene, cameraPositioner);
+            transparentFeedbackBuffer.createCamera(scene, cameraPositioner);
         }
 
         public void update()
@@ -98,15 +103,24 @@ namespace OgrePlugin.VirtualTexture
                 switch (phase)
                 {
                     case Phase.RenderFeedback:
-                        feedbackBuffer.update();
+                        PerformanceMonitor.start("FeedbackBuffer Render");
+                        opaqueFeedbackBuffer.update();
+                        transparentFeedbackBuffer.update();
+                        PerformanceMonitor.stop("FeedbackBuffer Render");
                         phase = Phase.CopyFeedbackToStaging;
                         break;
                     case Phase.CopyFeedbackToStaging:
-                        feedbackBuffer.blitToStaging();
+                        PerformanceMonitor.start("FeedbackBuffer blit to staging");
+                        opaqueFeedbackBuffer.blitToStaging();
+                        transparentFeedbackBuffer.blitToStaging();
+                        PerformanceMonitor.stop("FeedbackBuffer blit to staging");
                         phase = Phase.CopyStagingToMemory;
                         break;
                     case Phase.CopyStagingToMemory:
-                        feedbackBuffer.blitStagingToMemory();
+                        PerformanceMonitor.start("FeedbackBuffer blit staging to memory");
+                        opaqueFeedbackBuffer.blitStagingToMemory();
+                        transparentFeedbackBuffer.blitStagingToMemory();
+                        PerformanceMonitor.stop("FeedbackBuffer blit staging to memory");
                         phase = Phase.AnalyzeFeedback;
                         break;
                     case Phase.AnalyzeFeedback:
@@ -114,7 +128,11 @@ namespace OgrePlugin.VirtualTexture
                         ThreadManager.RunInBackground(() =>
                             {
                                 textureLoader.beginPageUpdate();
-                                feedbackBuffer.analyzeBuffer();
+
+                                PerformanceMonitor.start("FeedbackBuffer Analyze");
+                                opaqueFeedbackBuffer.analyzeBuffer();
+                                transparentFeedbackBuffer.analyzeBuffer();
+                                PerformanceMonitor.stop("FeedbackBuffer Analyze");
 
                                 PerformanceMonitor.start("Finish Page Update");
                                 foreach (var indirectionTex in indirectionTextures.Values)
@@ -195,9 +213,13 @@ namespace OgrePlugin.VirtualTexture
                 {
                     yield return item.TextureName;
                 }
-                if (feedbackBuffer.TextureName != null)
+                if (opaqueFeedbackBuffer.TextureName != null)
                 {
-                    yield return feedbackBuffer.TextureName;
+                    yield return opaqueFeedbackBuffer.TextureName;
+                }
+                if(transparentFeedbackBuffer.TextureName != null)
+                {
+                    yield return transparentFeedbackBuffer.TextureName;
                 }
                 foreach (var item in indirectionTextures.Values)
                 {
@@ -237,6 +259,36 @@ namespace OgrePlugin.VirtualTexture
                 //return (int)Math.Log(texelsPerPage, 2.0); //Should be this
                 //hlsl needs between 0 and 1
                 return (int)(Math.Log(texelsPerPage, 2.0) / 6.0f);
+            }
+        }
+
+        /// <summary>
+        /// The visibility mask for the opaque feedback buffer.
+        /// </summary>
+        public uint OpaqueFeedbackBufferVisibilityMask
+        {
+            get
+            {
+                return opaqueFeedbackBuffer.VisibilityMask;
+            }
+            set
+            {
+                opaqueFeedbackBuffer.VisibilityMask = value;
+            }
+        }
+
+        /// <summary>
+        /// The visibility mask for the transparent feedback buffer. 
+        /// </summary>
+        public uint TransparentFeedbackBufferVisibilityMask
+        {
+            get
+            {
+                return transparentFeedbackBuffer.VisibilityMask;
+            }
+            set
+            {
+                transparentFeedbackBuffer.VisibilityMask = value;
             }
         }
 
