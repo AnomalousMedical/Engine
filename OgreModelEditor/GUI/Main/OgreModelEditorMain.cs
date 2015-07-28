@@ -4,6 +4,7 @@ using Anomalous.OSPlatform;
 using Engine;
 using Engine.Platform;
 using MyGUIPlugin;
+using OgrePlugin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -92,7 +93,7 @@ namespace OgreModelEditor
             resources.addItemAction("Define External Resources", defineExternal);
             resources.addItemAction("Delete Shader Microcode Cache", controller.clearMicrocodeCache);
             saveMicrocode = resources.addItemAction("Save Shader Microcode Cache", changeSaveMicrocode);
-            saveMicrocode.Selected = OgreModelEditorConfig.SaveMicrocode;
+            saveMicrocode.Selected = OgreConfig.SaveMicrocodeCache;
 
             MenuItem debugItem = menuBar.addItem("Debug", MenuItemType.Popup);
             MenuControl debug = menuBar.createItemPopupMenuChild(debugItem);
@@ -274,7 +275,7 @@ namespace OgreModelEditor
         private void changeSaveMicrocode()
         {
             saveMicrocode.Selected = !saveMicrocode.Selected;
-            OgreModelEditorConfig.SaveMicrocode = saveMicrocode.Selected;
+            OgreConfig.SaveMicrocodeCache = saveMicrocode.Selected;
         }
 
         //protected override void OnDragEnter(DragEventArgs drgevent)

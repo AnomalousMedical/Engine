@@ -84,16 +84,24 @@ namespace OgrePlugin
                 throw new InvalidPluginException("The OgrePlugin plugin can only be initialized one time.");
             }
             ogreResourceManager = new OgreResourceManager(materialParser);
+            AllowMicrocodeCacheLoad = true;
         }
 
         public void Dispose()
         {
-            if (GpuProgramManager.Instance.IsCacheDirty && microcodeCacheFullPath != null)
+            if (OgreConfig.SaveMicrocodeCache && GpuProgramManager.Instance.IsCacheDirty && microcodeCacheFullPath != null)
             {
-                using (Stream stream = File.Open(microcodeCacheFullPath, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite, System.IO.FileShare.Read))
+                try
                 {
-                    GpuProgramManager.Instance.saveMicrocodeCache(stream);
-                    Log.Info("Saved microcode cache {0}", microcodeCacheFullPath);
+                    using (Stream stream = File.Open(microcodeCacheFullPath, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite, System.IO.FileShare.Read))
+                    {
+                        GpuProgramManager.Instance.saveMicrocodeCache(stream);
+                        Log.Info("Saved microcode cache {0}", microcodeCacheFullPath);
+                    }
+                }
+                catch(Exception ex)
+                {
+                    Log.Error("{0} saving microcode cache {1}.\nReason:{2}", ex.GetType().Name, microcodeCacheFullPath, ex.Message);
                 }
             }
             OgreInterface_DestroyVaryingCompressedTextures();
@@ -191,10 +199,17 @@ namespace OgrePlugin
                     microcodeCacheFullPath = String.Format("{0}_{1}.mcc", MicrocodeCacheBaseFile, rs.Name);
                     if (File.Exists(microcodeCacheFullPath))
                     {
-                        using (Stream stream = File.OpenRead(microcodeCacheFullPath))
+                        if (AllowMicrocodeCacheLoad)
                         {
-                            GpuProgramManager.Instance.loadMicrocodeCache(stream);
-                            Log.Info("Using microcode cache {0}", microcodeCacheFullPath);
+                            using (Stream stream = File.OpenRead(microcodeCacheFullPath))
+                            {
+                                GpuProgramManager.Instance.loadMicrocodeCache(stream);
+                                Log.Info("Using microcode cache {0}", microcodeCacheFullPath);
+                            }
+                        }
+                        else
+                        {
+                            deleteMicrocodeCache();
                         }
                     }
                 }
@@ -467,6 +482,9 @@ namespace OgrePlugin
             }
         }
 
+        /// <summary>
+        /// Delete the microcode cache file if it is defined and exists.
+        /// </summary>
         public void deleteMicrocodeCache()
         {
             if (microcodeCacheFullPath != null)
@@ -488,6 +506,14 @@ namespace OgrePlugin
         /// file name so some data will be appended by this class to name the file correctly.
         /// </summary>
         public static String MicrocodeCacheBaseFile { get; set; }
+
+        /// <summary>
+        /// Set this to true (default) to allow the load of the microcode cache. This can be set to false to skip the
+        /// load of the cache this run, which will also delete any existing cache file since it was deemed unworthy
+        /// for at least one run. It will be automatically regenerated when the program shuts down. This makes it easy
+        /// to upgrade deployed microcode caches in one run of the program.
+        /// </summary>
+        public static bool AllowMicrocodeCacheLoad { get; set; }
 
         /// <summary>
         /// Get/Set the compressed texture support for ogre, this should be done before initialization to setup everything

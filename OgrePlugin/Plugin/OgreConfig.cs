@@ -84,5 +84,21 @@ namespace OgrePlugin
                 ogreSection.setValue("RenderSystemType", value.ToString());
             }
         }
+
+        /// <summary>
+        /// Allow the microcode cache to save. It is set to true by default. 
+        /// If this is set to false the cache will not be saved on shutdown.
+        /// </summary>
+        public static bool SaveMicrocodeCache
+        {
+            get
+            {
+                return ogreSection.getValue("SaveMicrocodeCache", true);
+            }
+            set
+            {
+                ogreSection.setValue("SaveMicrocodeCache", value);
+            }
+        }
     }
 }
