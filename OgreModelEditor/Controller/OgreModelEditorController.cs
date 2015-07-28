@@ -96,7 +96,7 @@ namespace OgreModelEditor
             GuiFrameworkEditorInterface.ToolsEventLayers = EventLayers.Tools;
 
             //Setup microcode cache load
-            OgreInterface.MicrocodeCacheBaseFile = Path.Combine(OgreModelEditorConfig.DocRoot, "ShaderCache");
+            OgreInterface.MicrocodeCachePath = Path.Combine(OgreModelEditorConfig.DocRoot, "ShaderCache.mcc");
             OgreInterface.AllowMicrocodeCacheLoad = OgreModelEditorConfig.LastShaderVersion == UnifiedMaterialBuilder.Version;
             OgreModelEditorConfig.LastShaderVersion = UnifiedMaterialBuilder.Version;
 

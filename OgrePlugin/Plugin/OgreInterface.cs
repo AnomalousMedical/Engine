@@ -65,7 +65,6 @@ namespace OgrePlugin
         private MaterialParserManager materialParser = new MaterialParserManager();
         private OgreResourceManager ogreResourceManager;
         private RenderSystem rs;
-        private String microcodeCacheFullPath = null;
 
         private delegate OgreSceneManagerDefinition CreateSceneManagerDefinition(String name);
         private delegate SceneNodeDefinition CreateSceneNodeDefinition(String name);
@@ -89,19 +88,19 @@ namespace OgrePlugin
 
         public void Dispose()
         {
-            if (OgreConfig.SaveMicrocodeCache && GpuProgramManager.Instance.IsCacheDirty && microcodeCacheFullPath != null)
+            if (OgreConfig.SaveMicrocodeCache && GpuProgramManager.Instance.IsCacheDirty && MicrocodeCachePath != null)
             {
                 try
                 {
-                    using (Stream stream = File.Open(microcodeCacheFullPath, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite, System.IO.FileShare.Read))
+                    using (Stream stream = File.Open(MicrocodeCachePath, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite, System.IO.FileShare.Read))
                     {
                         GpuProgramManager.Instance.saveMicrocodeCache(stream);
-                        Log.Info("Saved microcode cache {0}", microcodeCacheFullPath);
+                        Log.Info("Saved microcode cache {0}", MicrocodeCachePath);
                     }
                 }
                 catch(Exception ex)
                 {
-                    Log.Error("{0} saving microcode cache {1}.\nReason:{2}", ex.GetType().Name, microcodeCacheFullPath, ex.Message);
+                    Log.Error("{0} saving microcode cache {1}.\nReason:{2}", ex.GetType().Name, MicrocodeCachePath, ex.Message);
                 }
             }
             OgreInterface_DestroyVaryingCompressedTextures();
@@ -193,18 +192,17 @@ namespace OgrePlugin
                 pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create Ogre Scene Node", SceneNodeDefinition.Create));
 
                 //Setup shader cache
-                if (MicrocodeCacheBaseFile != null)
+                if (MicrocodeCachePath != null)
                 {
                     GpuProgramManager.Instance.SaveMicrocodesToCache = true;
-                    microcodeCacheFullPath = String.Format("{0}_{1}.mcc", MicrocodeCacheBaseFile, rs.Name);
-                    if (File.Exists(microcodeCacheFullPath))
+                    if (File.Exists(MicrocodeCachePath))
                     {
                         if (AllowMicrocodeCacheLoad)
                         {
-                            using (Stream stream = File.OpenRead(microcodeCacheFullPath))
+                            using (Stream stream = File.OpenRead(MicrocodeCachePath))
                             {
                                 GpuProgramManager.Instance.loadMicrocodeCache(stream);
-                                Log.Info("Using microcode cache {0}", microcodeCacheFullPath);
+                                Log.Info("Using microcode cache {0}", MicrocodeCachePath);
                             }
                         }
                         else
@@ -487,25 +485,25 @@ namespace OgrePlugin
         /// </summary>
         public void deleteMicrocodeCache()
         {
-            if (microcodeCacheFullPath != null)
+            if (MicrocodeCachePath != null)
             {
                 try
                 {
-                    File.Delete(microcodeCacheFullPath);
+                    File.Delete(MicrocodeCachePath);
                 }
                 catch (Exception ex)
                 {
-                    Log.Error("{0} deleting microcode cache {1}.\nReason:{2}", ex.GetType().Name, microcodeCacheFullPath, ex.Message);
+                    Log.Error("{0} deleting microcode cache {1}.\nReason:{2}", ex.GetType().Name, MicrocodeCachePath, ex.Message);
                 }
             }
         }
 
         /// <summary>
-        /// Get/Set the microcode cache file for this OgreInterface, if this is set before initialize the
-        /// plugin will attempt to load a microcode cache from the given location on startup. This is a base
-        /// file name so some data will be appended by this class to name the file correctly.
+        /// Get/Set the microcode cache file path for this OgreInterface, if this is set before initialize the
+        /// plugin will attempt to load a microcode cache from the given location on startup. If it is set to non
+        /// null on shutdown this class will save a microcode cache to the specified path.
         /// </summary>
-        public static String MicrocodeCacheBaseFile { get; set; }
+        public static String MicrocodeCachePath { get; set; }
 
         /// <summary>
         /// Set this to true (default) to allow the load of the microcode cache. This can be set to false to skip the
