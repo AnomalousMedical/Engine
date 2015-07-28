@@ -65,6 +65,7 @@ namespace OgrePlugin
         private MaterialParserManager materialParser = new MaterialParserManager();
         private OgreResourceManager ogreResourceManager;
         private RenderSystem rs;
+        private String microcodeCacheFullPath = null;
 
         private delegate OgreSceneManagerDefinition CreateSceneManagerDefinition(String name);
         private delegate SceneNodeDefinition CreateSceneNodeDefinition(String name);
@@ -87,9 +88,13 @@ namespace OgrePlugin
 
         public void Dispose()
         {
-            if(GpuProgramManager.Instance.IsCacheDirty && SaveMicrocodeCacheCallback != null)
+            if (GpuProgramManager.Instance.IsCacheDirty && microcodeCacheFullPath != null)
             {
-                SaveMicrocodeCacheCallback.Invoke(rs, GpuProgramManager.Instance);
+                using (Stream stream = File.Open(microcodeCacheFullPath, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite, System.IO.FileShare.Read))
+                {
+                    GpuProgramManager.Instance.saveMicrocodeCache(stream);
+                    Log.Info("Saved microcode cache {0}", microcodeCacheFullPath);
+                }
             }
             OgreInterface_DestroyVaryingCompressedTextures();
             GpuProgramManager.Instance.Dispose();
@@ -180,9 +185,18 @@ namespace OgrePlugin
                 pluginManager.addCreateSimElementCommand(new AddSimElementCommand("Create Ogre Scene Node", SceneNodeDefinition.Create));
 
                 //Setup shader cache
-                if (LoadMicrocodeCacheCallback != null)
+                if (MicrocodeCacheBaseFile != null)
                 {
-                    GpuProgramManager.Instance.SaveMicrocodesToCache = LoadMicrocodeCacheCallback(rs, GpuProgramManager.Instance);
+                    GpuProgramManager.Instance.SaveMicrocodesToCache = true;
+                    microcodeCacheFullPath = String.Format("{0}_{1}.mcc", MicrocodeCacheBaseFile, rs.Name);
+                    if (File.Exists(microcodeCacheFullPath))
+                    {
+                        using (Stream stream = File.OpenRead(microcodeCacheFullPath))
+                        {
+                            GpuProgramManager.Instance.loadMicrocodeCache(stream);
+                            Log.Info("Using microcode cache {0}", microcodeCacheFullPath);
+                        }
+                    }
                 }
 
                 //Setup Resources
@@ -454,20 +468,11 @@ namespace OgrePlugin
         }
 
         /// <summary>
-        /// If this is set to a function before initialize is called this will instruct
-        /// ogre to use the shader microcode cache. This function will be called at the appropriate
-        /// time in the startup sequence to load the microcode cahce (your code must call the 
-        /// GpuProgramManager.loadMicrocodeCahce function itself, that will be passed in the callback.
-        /// 
-        /// Return true from the callback to use the microcode cache, and false to not use it.
+        /// Get/Set the microcode cache file for this OgreInterface, if this is set before initialize the
+        /// plugin will attempt to load a microcode cache from the given location on startup. This is a base
+        /// file name so some data will be appended by this class to name the file correctly.
         /// </summary>
-        public static MicrocodeCacheDelegate LoadMicrocodeCacheCallback { get; set; }
-
-        /// <summary>
-        /// This function will be called on shutdown if the microcode cache changes and needs to
-        /// be saved again.
-        /// </summary>
-        public static MicrocodeCacheDelegate SaveMicrocodeCacheCallback { get; set; }
+        public static String MicrocodeCacheBaseFile { get; set; }
 
         /// <summary>
         /// Get/Set the compressed texture support for ogre, this should be done before initialization to setup everything
