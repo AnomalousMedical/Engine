@@ -47,6 +47,18 @@ namespace OgreModelEditor
             }
         }
 
+        public static String LastShaderVersion
+        {
+            get
+            {
+                return modelEditorSection.getValue("LastShaderVersion", "");
+            }
+            set
+            {
+                modelEditorSection.setValue("LastShaderVersion", value);
+            }
+        }
+
         public static void save()
         {
             configFile.writeConfigFile();

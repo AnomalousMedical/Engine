@@ -14,6 +14,12 @@ namespace OgrePlugin
 {
     public class UnifiedMaterialBuilder : MaterialBuilder, IDisposable
     {
+        /// <summary>
+        /// A version string to use to determine if the cache should be rebuilt, 
+        /// if your saved version does not match this, rebuild the microcode cache.
+        /// </summary>
+        public const String Version = "1.0";
+
         private const String GroupName = "UnifiedMaterialBuilder__Reserved";
 
         delegate IndirectionTexture CreateMaterial(Technique technique, MaterialDescription description, bool alpha, bool depthCheck);
