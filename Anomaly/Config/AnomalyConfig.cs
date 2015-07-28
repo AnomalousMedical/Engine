@@ -15,6 +15,7 @@ namespace Anomaly
         private static ConfigFile configFile;
         private static String docRoot = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Anomalous Software/Anomaly";
         private static ToolsConfig tools;
+        private static ConfigSection program;
 
         static AnomalyConfig()
         {
@@ -28,6 +29,7 @@ namespace Anomaly
             EngineConfig = new EngineConfig(configFile);
             CameraConfig = new CameraSection(configFile);
             tools = new ToolsConfig(configFile);
+            program = configFile.createOrRetrieveConfigSection("Program");
         }
 
         public static String DocRoot
@@ -70,6 +72,18 @@ namespace Anomaly
             get
             {
                 return tools;
+            }
+        }
+
+        public static String LastShaderVersion
+        {
+            get
+            {
+                return program.getValue("LastShaderVersion", "");
+            }
+            set
+            {
+                program.setValue("LastShaderVersion", value);
             }
         }
 

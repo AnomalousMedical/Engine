@@ -62,6 +62,8 @@ namespace Anomaly
         private EventUpdateListener eventUpdate;
         private FullSpeedUpdateListener fixedUpdate;
         private IdleHandler idleHandler;
+        private UpdateTimerEventListener updateEventListener = new UpdateTimerEventListener();
+        private VirtualTextureSceneViewLink virtualTextureLink;
 
         //Scene
         private SceneController sceneController = new SceneController();
@@ -116,6 +118,11 @@ namespace Anomaly
 
             GuiFrameworkEditorInterface.ToolsEventLayers = EventLayers.Tools;
 
+            //Setup microcode cache load
+            OgreInterface.MicrocodeCachePath = Path.Combine(AnomalyConfig.DocRoot, "ShaderCache.mcc");
+            OgreInterface.AllowMicrocodeCacheLoad = AnomalyConfig.LastShaderVersion == UnifiedMaterialBuilder.Version;
+            AnomalyConfig.LastShaderVersion = UnifiedMaterialBuilder.Version;
+
             pluginManager.addPluginAssembly(typeof(NativePlatformPlugin).Assembly);
             pluginManager.addPluginAssembly(typeof(OgreInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(MyGUIInterface).Assembly);
@@ -152,6 +159,7 @@ namespace Anomaly
             eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
             eventUpdate = new EventUpdateListener(eventManager);
             mainTimer.addUpdateListener(eventUpdate);
+            mainTimer.addUpdateListener(updateEventListener);
             pluginManager.setPlatformInfo(mainTimer, eventManager);
 
             GuiFrameworkInterface.Instance.handleCursors(mainWindow);
@@ -164,6 +172,8 @@ namespace Anomaly
             sceneStatsDisplayManager = new SceneStatsDisplayManager(sceneViewController, OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget);
             sceneStatsDisplayManager.StatsVisible = true;
             sceneViewController.createWindow("Camera 1", AnomalyConfig.CameraConfig.MainCameraPosition, AnomalyConfig.CameraConfig.MainCameraLookAt, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
+
+            virtualTextureLink = new VirtualTextureSceneViewLink(this);
 
             //Tools
             selectionMovementTools = new SimObjectMover("SelectionMover", PluginManager.Instance.RendererPlugin, eventManager, sceneViewController);
@@ -305,6 +315,14 @@ namespace Anomaly
                 ConfigFile configFile = new ConfigFile(AnomalyConfig.WindowsFile);
                 guiManager.saveUI(configFile, GetType().Assembly.GetName().Version);
                 configFile.writeConfigFile();
+            }
+
+            //Clear resources
+            resourceController.clearResources();
+            resourceController.applyToScene();
+            if(virtualTextureLink != null)
+            {
+                virtualTextureLink.Dispose();
             }
 
             //Dispose
@@ -714,6 +732,26 @@ namespace Anomaly
             get
             {
                 return mainWindow;
+            }
+        }
+
+        public SceneViewController SceneViewController
+        {
+            get
+            {
+                return sceneViewController;
+            }
+        }
+
+        public event Action<Clock> OnUpdate
+        {
+            add
+            {
+                updateEventListener.OnUpdate += value;
+            }
+            remove
+            {
+                updateEventListener.OnUpdate -= value;
             }
         }
 

@@ -109,6 +109,7 @@
     <Compile Include="Controller\SceneController.cs" />
     <Compile Include="Controller\ProjectManagement\Solution.cs" />
     <Compile Include="Controller\SimObjectController.cs" />
+    <Compile Include="Controller\VirtualTextureSceneViewLink.cs" />
     <Compile Include="GUI\DebugVisualizer\DebugVisualizer.cs" />
     <Compile Include="GUI\EventLayers.cs" />
     <Compile Include="GUI\Main\AnomalyMain.cs" />
