@@ -347,7 +347,6 @@ namespace OgreModelEditor
         public void openModel(String path)
         {
             var ogreResources = resourceManager.getSubsystemResource("Ogre");
-            //OgreResourceGroupManager groupManager = OgreResourceGroupManager.getInstance();
             if (modelController.modelActive())
             {
                 modelController.destroyModel();
@@ -355,8 +354,6 @@ namespace OgreModelEditor
                 ogreResources.removeResourceGroup(lastDir);
                 liveResourceManager.changeResourcesToMatch(resourceManager);
                 liveResourceManager.initializeResources();
-                //groupManager.removeResourceLocation(lastDir, lastDir);
-                //groupManager.initializeAllResourceGroups();
             }
 
             lastFileName = path;
@@ -368,8 +365,6 @@ namespace OgreModelEditor
             group.addResource(innerDir, "EngineArchive", true);
             liveResourceManager.changeResourcesToMatch(resourceManager);
             liveResourceManager.initializeResources();
-            //groupManager.addResourceLocation(dir, "FileSystem", dir, true);
-            //groupManager.initializeAllResourceGroups();
             String meshName = Path.GetFileName(path);
             modelController.createModel(meshName, scene);
             mainForm.setTextureNames(modelController.TextureNames);
@@ -402,14 +397,9 @@ namespace OgreModelEditor
                 String dir = Path.GetDirectoryName(lastFileName);
                 liveResourceManager.changeResourcesToMatch(emptyResourceManager);
                 liveResourceManager.initializeResources();
-                //OgreResourceGroupManager groupManager = OgreResourceGroupManager.getInstance();
-                //groupManager.destroyResourceGroup(dir);
-                //groupManager.initializeAllResourceGroups();
                 virtualTextureLink.clearCache();
                 liveResourceManager.changeResourcesToMatch(resourceManager);
                 liveResourceManager.initializeResources();
-                //groupManager.addResourceLocation(dir, "FileSystem", dir, true);
-                //groupManager.initializeAllResourceGroups();
                 String meshName = Path.GetFileName(lastFileName);
                 modelController.createModel(meshName, scene);
                 mainForm.setTextureNames(modelController.TextureNames);
