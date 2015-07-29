@@ -41,3 +41,15 @@ extern "C" _AnomalousExport bool Texture_getMipmapsHardwareGenerated(Ogre::Textu
 {
 	return texture->getMipmapsHardwareGenerated();
 }
+
+extern "C" _AnomalousExport bool Texture_getAllowMipmapGeneration(Ogre::Texture* texture)
+{
+	return texture->getAllowMipmapGeneration();
+}
+
+/** Set the height of the texture; can only do this before load();
+*/
+extern "C" _AnomalousExport void Texture_setAllowMipmapGeneration(Ogre::Texture* texture, bool v)
+{
+	texture->setAllowMipmapGeneration(v);
+}

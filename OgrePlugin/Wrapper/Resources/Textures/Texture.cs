@@ -123,6 +123,18 @@ namespace OgrePlugin
             }
         }
 
+        public bool AllowMipmapGeneration
+        {
+            get
+            {
+                return Texture_getAllowMipmapGeneration(texture);
+            }
+            set
+            {
+                Texture_setAllowMipmapGeneration(texture, value);
+            }
+        }
+
 #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
@@ -149,6 +161,13 @@ namespace OgrePlugin
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Texture_getMipmapsHardwareGenerated(IntPtr texture);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool Texture_getAllowMipmapGeneration(IntPtr texture);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Texture_setAllowMipmapGeneration(IntPtr texture, bool v);
 
 #endregion
     }
