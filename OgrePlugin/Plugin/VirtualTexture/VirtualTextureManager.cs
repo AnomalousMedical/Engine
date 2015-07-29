@@ -252,17 +252,22 @@ namespace OgrePlugin.VirtualTexture
             }
         }
 
+        /// <summary>
+        /// The bias to apply to mip maps when sampling the scene in the indirection texture.
+        /// </summary>
+        public float MipSampleBias { get; set; }
+
+        /// <summary>
+        /// The log2 of the page size, some shaders need this to compute correctly. To use this property
+        /// in a shader program define a uniform named pageSizeLog2 in your shader.
+        /// </summary>
         public int PageSizeLog2
         {
             get
             {
-                //return (int)Math.Log(texelsPerPage, 2.0); //Should be this
-                //hlsl needs between 0 and 1
-                return (int)(Math.Log(texelsPerPage, 2.0) / 6.0f);
+                return (int)Math.Log(texelsPerPage, 2.0); //Should be this
             }
         }
-
-        public float MipSampleBias { get; set; }
 
         /// <summary>
         /// The visibility mask for the opaque feedback buffer.
@@ -324,7 +329,7 @@ namespace OgrePlugin.VirtualTexture
             return false;
         }
 
-        public void setupVirtualTextureFragmentParams(GpuProgramParametersSharedPtr gpuParams)
+        public void setupVirtualTextureFragmentParams(GpuProgramParametersSharedPtr gpuParams, IndirectionTexture indirectionTexture)
         {
             if (gpuParams.Value.hasNamedConstant("physicalSizeRecip"))
             {
@@ -335,7 +340,8 @@ namespace OgrePlugin.VirtualTexture
                 }
                 else
                 {
-                    gpuParams.Value.setNamedConstant("mipSampleBias", new Vector2(PageSizeLog2, PageSizeLog2));
+                    var realSize = indirectionTexture.RealTextureSize;
+                    gpuParams.Value.setNamedConstant("mipBiasSize", new Vector2(realSize.Width, realSize.Height));
                 }
                 gpuParams.Value.setNamedConstant("pagePaddingScale", TextureLoader.PagePaddingScale);
                 gpuParams.Value.setNamedConstant("pagePaddingOffset", TextureLoader.PagePaddingOffset);

@@ -18,7 +18,11 @@ namespace OgrePlugin
         /// A version string to use to determine if the cache should be rebuilt, 
         /// if your saved version does not match this, rebuild the microcode cache.
         /// </summary>
-        public const String Version = "1.5";
+#if NEVER_CACHE
+        public static readonly String Version = Guid.NewGuid().ToString();
+#else
+        public static readonly String Version = "1.5";
+#endif
 
         private const String GroupName = "UnifiedMaterialBuilder__Reserved";
 
@@ -201,14 +205,17 @@ namespace OgrePlugin
             pass.setVertexProgram(shaderFactory.createVertexProgram("UnifiedVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
 
             pass.setFragmentProgram(shaderFactory.createFragmentProgram("NormalMapSpecularMapGlossMapFP", alpha));
+
+            //Setup textures
+            var indirectionTex = setupNormalDiffuseSpecularTextures(description, pass);
+
             using (var gpuParams = pass.getFragmentProgramParameters())
             {
-                virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams);
+                virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams, indirectionTex);
                 setGlossyness(description, gpuParams);
             }
 
-            //Setup textures
-            return setupNormalDiffuseSpecularTextures(description, pass);
+            return indirectionTex;
         }
 
         private IndirectionTexture createNormalMapSpecularMap(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
@@ -223,13 +230,16 @@ namespace OgrePlugin
             pass.setVertexProgram(shaderFactory.createVertexProgram("UnifiedVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
 
             pass.setFragmentProgram(shaderFactory.createFragmentProgram("NormalMapSpecularMapFP", alpha));
-            using (var gpuParams = pass.getFragmentProgramParameters())
-            {
-                virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams);
-            }
 
             //Setup textures
-            return setupNormalDiffuseSpecularTextures(description, pass);
+            var indirectionTex = setupNormalDiffuseSpecularTextures(description, pass);
+
+            using (var gpuParams = pass.getFragmentProgramParameters())
+            {
+                virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams, indirectionTex);
+            }
+
+            return indirectionTex;
         }
 
         private IndirectionTexture createNormalMapSpecular(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
@@ -244,13 +254,16 @@ namespace OgrePlugin
             pass.setVertexProgram(shaderFactory.createVertexProgram("UnifiedVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
 
             pass.setFragmentProgram(shaderFactory.createFragmentProgram("NormalMapSpecularFP", alpha));
-            using (var gpuParams = pass.getFragmentProgramParameters())
-            {
-                virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams);
-            }
 
             //Setup textures
-            return setupNormalDiffuseTextures(description, pass);
+            var indirectionTex = setupNormalDiffuseTextures(description, pass);
+
+            using (var gpuParams = pass.getFragmentProgramParameters())
+            {
+                virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams, indirectionTex);
+            }
+
+            return indirectionTex;
         }
 
         private IndirectionTexture createNormalMapSpecularHighlight(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
@@ -265,13 +278,16 @@ namespace OgrePlugin
             pass.setVertexProgram(shaderFactory.createVertexProgram("UnifiedVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
 
             pass.setFragmentProgram(shaderFactory.createFragmentProgram("NormalMapSpecularHighlightFP", alpha));
-            using (var gpuParams = pass.getFragmentProgramParameters())
-            {
-                virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams);
-            }
 
             //Setup textures
-            return setupNormalDiffuseTextures(description, pass);
+            var indirectionTex = setupNormalDiffuseTextures(description, pass);
+
+            using (var gpuParams = pass.getFragmentProgramParameters())
+            {
+                virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams, indirectionTex);
+            }
+
+            return indirectionTex;
         }
 
         private IndirectionTexture createNormalMapSpecularOpacityMap(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
@@ -290,13 +306,16 @@ namespace OgrePlugin
             pass.setVertexProgram(shaderFactory.createVertexProgram("UnifiedVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
 
             pass.setFragmentProgram(shaderFactory.createFragmentProgram("NormalMapSpecularOpacityMapFP", alpha));
+            
+            //Setup textures
+            var indirectionTex = setupNormalDiffuseOpacityTextures(description, pass);
+
             using (var gpuParams = pass.getFragmentProgramParameters())
             {
-                virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams);
+                virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams, indirectionTex);
             }
 
-            //Setup textures
-            return setupNormalDiffuseOpacityTextures(description, pass);
+            return indirectionTex;
         }
 
         private IndirectionTexture createNormalMapSpecularMapOpacityMap(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
@@ -315,13 +334,16 @@ namespace OgrePlugin
             pass.setVertexProgram(shaderFactory.createVertexProgram("UnifiedVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
 
             pass.setFragmentProgram(shaderFactory.createFragmentProgram("NormalMapSpecularMapOpacityMapFP", alpha));
-            using (var gpuParams = pass.getFragmentProgramParameters())
-            {
-                virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams);
-            }
 
             //Setup textures
-            return setupNormalDiffuseSpecularOpacityTextures(description, pass);
+            var indirectionTex = setupNormalDiffuseSpecularOpacityTextures(description, pass);
+
+            using (var gpuParams = pass.getFragmentProgramParameters())
+            {
+                virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams, indirectionTex);
+            }
+
+            return indirectionTex;
         }
 
         private IndirectionTexture createNormalMapSpecularMapOpacityMapNoDepth(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
@@ -342,13 +364,16 @@ namespace OgrePlugin
             pass.setVertexProgram(shaderFactory.createVertexProgram("UnifiedVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
 
             pass.setFragmentProgram(shaderFactory.createFragmentProgram("NormalMapSpecularMapOpacityMapFP", alpha));
-            using (var gpuParams = pass.getFragmentProgramParameters())
-            {
-                virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams);
-            }
 
             //Setup textures
-            return setupNormalDiffuseSpecularOpacityTextures(description, pass);
+            var indirectionTex = setupNormalDiffuseSpecularOpacityTextures(description, pass);
+
+            using (var gpuParams = pass.getFragmentProgramParameters())
+            {
+                virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams, indirectionTex);
+            }
+
+            return indirectionTex;
         }
 
         private IndirectionTexture createEyeOuterMaterial(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
@@ -368,10 +393,6 @@ namespace OgrePlugin
             pass.setVertexProgram(shaderFactory.createVertexProgram("EyeOuterVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
 
             pass.setFragmentProgram(shaderFactory.createFragmentProgram("EyeOuterFP", alpha));
-            using (var gpuParams = pass.getFragmentProgramParameters())
-            {
-                virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams);
-            }
 
             return null;
         }
@@ -388,10 +409,6 @@ namespace OgrePlugin
             pass.setVertexProgram(shaderFactory.createVertexProgram("NoTexturesVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
 
             pass.setFragmentProgram(shaderFactory.createFragmentProgram("NoTexturesColoredFP", alpha));
-            using (var gpuParams = pass.getFragmentProgramParameters())
-            {
-                virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams);
-            }
 
             return null;
         }
