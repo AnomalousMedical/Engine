@@ -24,10 +24,6 @@ namespace Anomalous.GuiFramework.Debugging
 
             textureCombo = window.findWidget("TextureCombo") as ComboBox;
             textureCombo.EventComboAccept += textureCombo_EventComboAccept;
-            foreach (String textureName in virtualTextureManager.TextureNames)
-            {
-                textureCombo.addItem(textureName);
-            }
 
             textureImage = window.findWidget("TextureImage") as ImageBox;
 
@@ -36,6 +32,16 @@ namespace Anomalous.GuiFramework.Debugging
 
             Button reset = window.findWidget("ResetButton") as Button;
             reset.MouseButtonClick += reset_MouseButtonClick;
+        }
+
+        protected override void onShown(EventArgs args)
+        {
+            base.onShown(args);
+            textureCombo.removeAllItems();
+            foreach (String textureName in virtualTextureManager.TextureNames)
+            {
+                textureCombo.addItem(textureName);
+            }
         }
 
         void textureCombo_EventComboAccept(Widget source, EventArgs e)
