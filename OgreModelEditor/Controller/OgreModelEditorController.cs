@@ -19,6 +19,7 @@ using Anomalous.GuiFramework;
 using MyGUIPlugin;
 using Anomalous.GuiFramework.Cameras;
 using Anomalous.GuiFramework.Editor;
+using Anomalous.GuiFramework.Debugging;
 
 namespace OgreModelEditor
 {
@@ -49,6 +50,7 @@ namespace OgreModelEditor
         private MDILayoutManager mdiLayout;
         private GUIManager guiManager;
         private SplashScreen splashScreen;
+        private VirtualTextureDebugger virtualTextureDebugger;
 
         //Controller
         private SceneViewController sceneViewController;
@@ -108,6 +110,7 @@ namespace OgreModelEditor
             pluginManager.addPluginAssembly(typeof(GuiFrameworkInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(GuiFrameworkCamerasInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(GuiFrameworkEditorInterface).Assembly);
+            pluginManager.addPluginAssembly(typeof(GuiFrameworkDebuggingInterface).Assembly);
             pluginManager.initializePlugins();
             frameClearManager = new FrameClearManager(OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget, new Color(0.2f, 0.2f, 0.2f));
 
@@ -182,6 +185,8 @@ namespace OgreModelEditor
                 OgreModelEditorConfig.CameraConfig.MainCameraPosition = activeWindow.Translation;
                 OgreModelEditorConfig.CameraConfig.MainCameraLookAt = activeWindow.LookAt;
             }
+
+            IDisposableUtil.DisposeIfNotNull(virtualTextureDebugger);
 
             if(consoleWindow != null)
             {
@@ -296,6 +301,9 @@ namespace OgreModelEditor
             guiManager.addManagedDialog(consoleWindow);
             consoleWindow.Visible = true;
             Log.Default.addLogListener(consoleWindow);
+
+            virtualTextureDebugger = new VirtualTextureDebugger(virtualTextureLink.VirtualTextureManager);
+            guiManager.addManagedDialog(virtualTextureDebugger);
 
             yield return IdleStatus.Ok;
 
@@ -508,6 +516,11 @@ namespace OgreModelEditor
         public void setShowSkeleton(bool show)
         {
             modelController.ShowSkeleton = show;
+        }
+
+        public void showVirtualTextureDebugger()
+        {
+            virtualTextureDebugger.Visible = true;
         }
 
         public void updateWindowTitle(String file)

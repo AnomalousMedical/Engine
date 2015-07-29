@@ -104,6 +104,7 @@ namespace OgreModelEditor
             MenuItem viewTexture = debug.addItem("View Texture", MenuItemType.Popup);
             textureMenu = debug.createItemPopupMenuChild(viewTexture);
             showSkeleton = debug.addItemAction("Show Skeleton", changeShowSkeleton);
+            debug.addItemAction("Show Virtual Texture Debugger", controller.showVirtualTextureDebugger);
 
             MenuItem modelItem = menuBar.addItem("Model", MenuItemType.Popup);
             MenuControl model = menuBar.createItemPopupMenuChild(modelItem);
