@@ -423,8 +423,13 @@ namespace OgrePlugin
             IndirectionTexture indirectionTexture;
             String fileName = description.localizePath(description.NormalMap + textureFormatExtension);
             IntSize2 textureSize = getTextureSize(fileName);
-            if (virtualTextureManager.createOrRetrieveIndirectionTexture(description.TextureSet, textureSize, out indirectionTexture)) //Slow key
+            if (virtualTextureManager.createOrRetrieveIndirectionTexture(description.TextureSet, textureSize, description.KeepHighestMipLoaded, out indirectionTexture)) //Slow key
             {
+                if(description.KeepHighestMipLoaded)
+                {
+                    indirectionTexture.KeepHighestMip = true;
+                }
+
                 indirectionTexture.addOriginalTexture("NormalMap", fileName, textureSize);
 
                 fileName = description.localizePath(description.DiffuseMap + textureFormatExtension);
@@ -442,8 +447,13 @@ namespace OgrePlugin
             IndirectionTexture indirectionTexture;
             String fileName = description.localizePath(description.NormalMap + textureFormatExtension);
             IntSize2 textureSize = getTextureSize(fileName);
-            if (virtualTextureManager.createOrRetrieveIndirectionTexture(description.TextureSet, textureSize, out indirectionTexture)) //Slow key
+            if (virtualTextureManager.createOrRetrieveIndirectionTexture(description.TextureSet, textureSize, description.KeepHighestMipLoaded, out indirectionTexture)) //Slow key
             {
+                if (description.KeepHighestMipLoaded)
+                {
+                    indirectionTexture.KeepHighestMip = true;
+                }
+
                 indirectionTexture.addOriginalTexture("NormalMap", fileName, textureSize);
 
                 fileName = description.localizePath(description.DiffuseMap + textureFormatExtension);
@@ -465,8 +475,13 @@ namespace OgrePlugin
             IndirectionTexture indirectionTexture;
             String fileName = description.localizePath(description.NormalMap + textureFormatExtension);
             IntSize2 textureSize = getTextureSize(fileName);
-            if (virtualTextureManager.createOrRetrieveIndirectionTexture(description.TextureSet, textureSize, out indirectionTexture)) //Slow key
+            if (virtualTextureManager.createOrRetrieveIndirectionTexture(description.TextureSet, textureSize, description.KeepHighestMipLoaded, out indirectionTexture)) //Slow key
             {
+                if (description.KeepHighestMipLoaded)
+                {
+                    indirectionTexture.KeepHighestMip = true;
+                }
+
                 indirectionTexture.addOriginalTexture("NormalMap", fileName, textureSize);
 
                 fileName = description.localizePath(description.DiffuseMap + textureFormatExtension);
@@ -490,8 +505,13 @@ namespace OgrePlugin
             IndirectionTexture indirectionTexture;
             String fileName = description.localizePath(description.NormalMap + textureFormatExtension);
             IntSize2 textureSize = getTextureSize(fileName);
-            if (virtualTextureManager.createOrRetrieveIndirectionTexture(description.TextureSet, textureSize, out indirectionTexture)) //Slow key
+            if (virtualTextureManager.createOrRetrieveIndirectionTexture(description.TextureSet, textureSize, description.KeepHighestMipLoaded, out indirectionTexture)) //Slow key
             {
+                if (description.KeepHighestMipLoaded)
+                {
+                    indirectionTexture.KeepHighestMip = true;
+                }
+
                 indirectionTexture.addOriginalTexture("NormalMap", fileName, textureSize);
 
                 fileName = description.localizePath(description.DiffuseMap + textureFormatExtension);

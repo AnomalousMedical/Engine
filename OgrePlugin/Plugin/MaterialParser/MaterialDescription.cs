@@ -33,6 +33,7 @@ namespace OgrePlugin
             GlossyRange = 0;
             Parity = false;
             Variants = new List<MaterialDescription>();
+            KeepHighestMipLoaded = false;
         }
 
         private MaterialDescription(MaterialDescription toClone)
@@ -57,6 +58,7 @@ namespace OgrePlugin
             this.specularColor = toClone.specularColor;
             this.emissiveColor = toClone.emissiveColor;
             this.diffuseColor = toClone.diffuseColor;
+            this.KeepHighestMipLoaded = KeepHighestMipLoaded;
         }
 
         public String localizePath(String path)
@@ -159,6 +161,9 @@ namespace OgrePlugin
 
         [JsonProperty]
         private List<MaterialDescription> Variants { get; set; } //Cheating with this, forcing it to work as a property to not fight json.net for now
+
+        [JsonProperty]
+        public bool KeepHighestMipLoaded { get; set; }
 
         /// <summary>
         /// Get all nested descriptions for all levels below this one.

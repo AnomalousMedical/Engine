@@ -317,11 +317,11 @@ namespace OgrePlugin.VirtualTexture
         /// <param name="textureSize">The size of the virtual texture this indirection texture needs to remap.</param>
         /// <param name="indirectionTex">An out variable for the results.</param>
         /// <returns>True if the texture was just created, false if not.</returns>
-        public bool createOrRetrieveIndirectionTexture(String indirectionKey, IntSize2 textureSize, out IndirectionTexture indirectionTex)
+        public bool createOrRetrieveIndirectionTexture(String indirectionKey, IntSize2 textureSize, bool keepHighestMip, out IndirectionTexture indirectionTex)
         {
             if (!indirectionTextures.TryGetValue(indirectionKey, out indirectionTex))
             {
-                indirectionTex = new IndirectionTexture(indirectionKey, textureSize, texelsPerPage, this);
+                indirectionTex = new IndirectionTexture(indirectionKey, textureSize, texelsPerPage, this, keepHighestMip);
                 indirectionTextures.Add(indirectionKey, indirectionTex);
                 indirectionTexturesById.Add(indirectionTex.Id, indirectionTex);
                 return true;

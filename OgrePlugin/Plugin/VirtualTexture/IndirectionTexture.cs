@@ -49,9 +49,11 @@ namespace OgrePlugin.VirtualTexture
         private HashSet<VTexPage> addedPages = new HashSet<VTexPage>();
         private bool updateTextureOnApply = false;
         private List<OriginalTextureInfo> originalTextureUnits = new List<OriginalTextureInfo>(4);
+        private bool keepHighestMip;
 
-        public IndirectionTexture(String materialSetKey, IntSize2 realTextureSize, int texelsPerPage, VirtualTextureManager virtualTextureManager)
+        public IndirectionTexture(String materialSetKey, IntSize2 realTextureSize, int texelsPerPage, VirtualTextureManager virtualTextureManager, bool keepHighestMip)
         {
+            this.keepHighestMip = keepHighestMip;
             this.virtualTextureManager = virtualTextureManager;
             this.realTextureSize = realTextureSize;
             numPages = realTextureSize / texelsPerPage;
@@ -82,7 +84,10 @@ namespace OgrePlugin.VirtualTexture
                 }
             }
 
-            addedPages.Add(new VTexPage(0, 0, (byte)(highestMip - 1), id));
+            if (keepHighestMip)
+            {
+                addedPages.Add(new VTexPage(0, 0, (byte)(highestMip - 1), id));
+            }
         }
 
         public void Dispose()
@@ -101,6 +106,18 @@ namespace OgrePlugin.VirtualTexture
             get
             {
                 return id;
+            }
+        }
+
+        public bool KeepHighestMip
+        {
+            get
+            {
+                return keepHighestMip;
+            }
+            set
+            {
+                keepHighestMip = value;
             }
         }
 
@@ -140,7 +157,7 @@ namespace OgrePlugin.VirtualTexture
         {
             foreach(var page in activePages)
             {
-                if(!visibleThisUpdate.Contains(page) && page.mip != highestMip - 1)
+                if(!visibleThisUpdate.Contains(page) && !(keepHighestMip && page.mip == highestMip - 1))
                 {
                     removedPages.Add(page);
                 }
