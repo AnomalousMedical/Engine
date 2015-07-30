@@ -5,12 +5,12 @@
 #include "Windows7MultiTouch.h"
 #include "MultiTouch.h"
 #include "..\Resource.h"
-#include <hash_map>
+#include <unordered_map>
 
 UINT cInputs;
 PTOUCHINPUT pInputs;
 TouchInfo touchInfo;
-stdext::hash_map<HWND, MultiTouch*> windowToTouchMap;
+std::unordered_map<HWND, MultiTouch*> windowToTouchMap;
 MONITORINFO monitorInfo;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
