@@ -80,6 +80,10 @@ namespace MyGUIPlugin
                     Log.ImportantInfo("No memory leaks detected in the WidgetManager.");
                 }
             }
+            else if (widgets.WrappedObjectCount > 0)
+            {
+                Log.ImportantInfo("{0} memory leaks detected in the WidgetManager. Enable MyGUIInterface.TrackMemoryLeaks to see stack traces for allocation.", widgets.WrappedObjectCount);
+            }
 
             foreach (var wrapper in widgets.WrappedObjects)
             {

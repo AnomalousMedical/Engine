@@ -199,13 +199,18 @@ namespace OgrePlugin
 
                 if (ptrDictionary.Count > 0)
                 {
-                    Log.ImportantInfo("{0} memory leaks detected in the SharedPtrCollection {1}.", ptrDictionary.Count, this.GetType().Name);
+                    Log.ImportantInfo("{0} memory leaks detected in the SharedPtrCollection for {1}.", ptrDictionary.Count, this.GetType().GenericTypeArguments[0]);
                 }
                 else
                 {
-                    Log.ImportantInfo("No memory leaks detected in the SharedPtrCollection {0}.", this.GetType().Name);
+                    Log.ImportantInfo("No memory leaks detected in the SharedPtrCollection {0}.", this.GetType().GenericTypeArguments[0]);
                 }
             }
+            else if (ptrDictionary.Count > 0)
+            {
+                Log.ImportantInfo("{0} memory leaks detected in the SharedPtrCollection for {1}. Enable OgreInterface.TrackMemoryLeaks to see stack traces for allocation.", ptrDictionary.Count, this.GetType().GenericTypeArguments[0]);
+            }
+
 
             foreach (SharedPtrEntry<T> entry in ptrDictionary.Values)
             {
