@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace MyGUIPlugin
 {
@@ -23,19 +24,16 @@ namespace MyGUIPlugin
         private ISubWidgetText text;
         private Widget clientWidget = null;
 
-#if TRACK_WIDGET_MEMORY_LEAKS
-        private String leakCachedName;
-        private String leakAllocStackTrace;
-#endif
+        private StackTrace st;
 
         internal Widget(IntPtr widget)
         {
             this.widget = widget;
             eventManager = new MyGUIWidgetEventManager(this);
-#if TRACK_WIDGET_MEMORY_LEAKS
-            leakCachedName = Name;
-            leakAllocStackTrace = Environment.StackTrace;
-#endif
+            if (MyGUIInterface.TrackMemoryLeaks)
+            {
+                st = new StackTrace(true);
+            }
         }
 
         public virtual void Dispose()
@@ -670,14 +668,18 @@ namespace MyGUIPlugin
 
         public override string ToString()
         {
-#if TRACK_WIDGET_MEMORY_LEAKS
-            return String.Format("{0} Ptr {1} Name '{2}'\nAllocation Trace\n{3}\n", base.ToString(), widget.ToInt64(), leakCachedName, leakAllocStackTrace);
-#else
             return String.Format("{0} Ptr {1}", base.ToString(), widget.ToInt64());
-#endif
         }
 
-#region Events
+        internal StackTrace ST
+        {
+            get
+            {
+                return st;
+            }
+        }
+
+        #region Events
 
         public event MyGUIEvent MouseLostFocus
         {

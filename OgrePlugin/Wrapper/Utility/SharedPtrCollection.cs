@@ -191,26 +191,43 @@ namespace OgrePlugin
         /// </summary>
         public void clearObjects()
         {
-#if !FIXLATER_DISABLED
-            StackTrace st = new StackTrace(true);
-            String filename = st.GetFrame(0).GetFileName();
-#endif
+            String filename = "Unknown";
+            if (OgreInterface.TrackMemoryLeaks)
+            {
+                StackTrace st = new StackTrace(true);
+                filename = st.GetFrame(0).GetFileName();
+
+                if (ptrDictionary.Count > 0)
+                {
+                    Log.ImportantInfo("{0} memory leaks detected in the SharedPtrCollection {1}.", ptrDictionary.Count, this.GetType().Name);
+                }
+                else
+                {
+                    Log.ImportantInfo("No memory leaks detected in the SharedPtrCollection {0}.", this.GetType().Name);
+                }
+            }
+
             foreach (SharedPtrEntry<T> entry in ptrDictionary.Values)
             {
-#if !FIXLATER_DISABLED
                 Log.Error("Memory leak detected in {0}.  There were {1} instances of the pointer outstanding.  Double check to make sure all SharedPtrs of this type are being disposed.", filename, entry.NumReferences);
-                foreach (SharedPtr<T> ptr in entry.Pointers)
+                if (OgreInterface.TrackMemoryLeaks)
                 {
-                    Log.Error("Leaked pointer stack trace:");
-                    foreach (StackFrame f in ptr.ST.GetFrames())
+                    foreach (SharedPtr<T> ptr in entry.Pointers)
                     {
-                        if (f.GetFileName() != null)
+                        Log.Error("Leaked pointer stack trace:");
+                        foreach (StackFrame f in ptr.ST.GetFrames())
                         {
-                            Log.Error("-\t{0} in file {1}:{2}:{3}", f.GetMethod(), f.GetFileName(), f.GetFileLineNumber(), f.GetFileColumnNumber());
+                            if (f.GetFileName() != null)
+                            {
+                                Log.Error("-\t{0} in file {1}:{2}:{3}", f.GetMethod(), f.GetFileName(), f.GetFileLineNumber(), f.GetFileColumnNumber());
+                            }
                         }
                     }
                 }
-#endif
+                else
+                {
+                    Log.Error("No stack trace info available. Please enable OgreInterface.TrackMemoryLeaks to view this info.");
+                }
                 entry.Dispose();
             }
             ptrDictionary.Clear();

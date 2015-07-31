@@ -5,6 +5,7 @@ using System.Text;
 using Engine;
 using System.Runtime.InteropServices;
 using Logging;
+using System.Diagnostics;
 
 namespace MyGUIPlugin
 {
@@ -48,19 +49,7 @@ namespace MyGUIPlugin
         {
             if (widget != IntPtr.Zero)
             {
-                Widget returnedWidget = widgets.getObject(widget);
-#if TRACK_WIDGET_MEMORY_LEAKS
-                if (!paranoidCheckWidget(returnedWidget, widget))
-                {
-                    Widget oldWidget = returnedWidget;
-                    widgets.destroyObject(returnedWidget.WidgetPtr);
-                    returnedWidget = widgets.getObject(widget);
-                    String messageBoxMessage = String.Format("Had to rewrap widget {0}. It must have leaked. It was a {1} now it is a {2}.\nPlease report this to Andrew.\nAllocation stack trace for old widget printed to log.", widget, oldWidget.GetType().FullName, returnedWidget.GetType().FullName);
-                    Logging.Log.ImportantInfo("Had to rewrap widget {0}. It must have leaked. It was a {1} now it is a {2}\nAllocationStack:\n{3}\n.", widget, oldWidget.GetType().FullName, returnedWidget.GetType().FullName, oldWidget);
-                    MessageBox.show(messageBoxMessage, "WidgetManager isn't paranoid if they really are out to get it.", MessageBoxStyle.Ok | MessageBoxStyle.IconWarning);
-                }
-#endif
-                return returnedWidget;
+                return widgets.getObject(widget);
             }
             return null;
         }
@@ -72,17 +61,45 @@ namespace MyGUIPlugin
         [Anomalous.Interop.MonoPInvokeCallback(typeof(WidgetDestructorCallback))]
         static void widgetDestructor(IntPtr widget)
         {
-#if VERBOSE_WIDGET_WRAPPER_CREATION
-            Log.ImportantInfo("Deleting widget wrapper. Ptr {0} type {1}", widget.ToString(), WidgetManager_getType(widget));
-#endif
             widgets.destroyObject(widget);
         }
 
         public static void destroyAllWrappers()
         {
-#if TRACK_WIDGET_MEMORY_LEAKS
-            widgets.printObjects("Widget left before clear {0}");
-#endif
+            String filename = "Unknown";
+            if (MyGUIInterface.TrackMemoryLeaks)
+            {
+                StackTrace st = new StackTrace(true);
+                filename = st.GetFrame(0).GetFileName();
+                if (widgets.WrappedObjectCount > 0)
+                {
+                    Log.ImportantInfo("{0} memory leaks detected in the WidgetManager.", widgets.WrappedObjectCount);
+                }
+                else
+                {
+                    Log.ImportantInfo("No memory leaks detected in the WidgetManager.");
+                }
+            }
+
+            foreach (var wrapper in widgets.WrappedObjects)
+            {
+                Log.Error("Memory leak detected in {0}.  Double check to make sure all Widgets of this type are.", filename);
+                if (MyGUIInterface.TrackMemoryLeaks)
+                {
+                    Log.Error("Allocation Stack Track");
+                    foreach (StackFrame f in wrapper.ST.GetFrames())
+                    {
+                        if (f.GetFileName() != null)
+                        {
+                            Log.Error("-\t{0} in file {1}:{2}:{3}", f.GetMethod(), f.GetFileName(), f.GetFileLineNumber(), f.GetFileColumnNumber());
+                        }
+                    }
+                }
+                else
+                {
+                    Log.Error("No stack trace info available. Please enable MyGUIInterface.TrackMemoryLeaks to view this info.");
+                }
+            }
             widgets.clearObjects();
         }
 
@@ -90,9 +107,6 @@ namespace MyGUIPlugin
         {
             WidgetType widgetType = WidgetManager_getType(widget);
             Widget_setDestructorCallback(widget, widgetDestructorFunc);
-#if VERBOSE_WIDGET_WRAPPER_CREATION
-            Log.ImportantInfo("Creating widget wrapper. Ptr {0} type {1}", widget.ToString(), widgetType);
-#endif
             switch (widgetType)
             {
                 case WidgetType.Widget:
@@ -160,81 +174,6 @@ namespace MyGUIPlugin
             }
             Log.Warning("Could not identify widget type for widget {0}. Type given was {1}. Will return a Widget in its place.", widget.ToString(), widgetType);
             return new Widget(widget);
-        }
-
-        private static bool paranoidCheckWidget(Widget wrapperReturnedWidget, IntPtr rawWidgetPointer)
-        {
-            WidgetType widgetType = WidgetManager_getType(rawWidgetPointer);
-#if VERBOSE_WIDGET_WRAPPER_CREATION
-            Log.ImportantInfo("Creating widget wrapper. Ptr {0} type {1}", rawWidgetPointer.ToString(), widgetType);
-#endif
-            switch (widgetType)
-            {
-                case WidgetType.Widget:
-                    return wrapperReturnedWidget is Widget;
-
-                case WidgetType.Canvas:
-                    return wrapperReturnedWidget is Widget;
-
-                case WidgetType.DDContainer:
-                    return wrapperReturnedWidget is Widget;
-
-                case WidgetType.ItemBox:
-                    return wrapperReturnedWidget is Widget;
-
-                case WidgetType.ListBox:
-                    return wrapperReturnedWidget is Widget;
-
-                case WidgetType.MenuControl:
-                    return wrapperReturnedWidget is MenuControl;
-
-                case WidgetType.MenuBar:
-                    return wrapperReturnedWidget is MenuBar;
-
-                case WidgetType.PopupMenu:
-                    return wrapperReturnedWidget is PopupMenu;
-
-                case WidgetType.MultiListBox:
-                    return wrapperReturnedWidget is MultiListBox;
-
-                case WidgetType.ProgressBar:
-                    return wrapperReturnedWidget is ProgressBar;
-
-                case WidgetType.ScrollView:
-                    return wrapperReturnedWidget is ScrollView;
-
-                case WidgetType.ImageBox:
-                    return wrapperReturnedWidget is ImageBox;
-
-                case WidgetType.TextBox:
-                    return wrapperReturnedWidget is TextBox;
-
-                case WidgetType.Button:
-                    return wrapperReturnedWidget is Button;
-
-                case WidgetType.MenuItem:
-                    return wrapperReturnedWidget is MenuItem;
-
-                case WidgetType.EditBox:
-                    return wrapperReturnedWidget is EditBox;
-
-                case WidgetType.ComboBox:
-                    return wrapperReturnedWidget is ComboBox;
-
-                case WidgetType.Window:
-                    return wrapperReturnedWidget is Window;
-
-                case WidgetType.TabItem:
-                    return wrapperReturnedWidget is TabItem;
-
-                case WidgetType.TabControl:
-                    return wrapperReturnedWidget is Widget;
-
-                case WidgetType.ScrollBar:
-                    return wrapperReturnedWidget is ScrollBar;
-            }
-            Log.Warning("Could not identify widget type for widget {0}. Type given was {1}. Will return a Widget in its place.", rawWidgetPointer.ToString(), widgetType);
-            return wrapperReturnedWidget is Widget;
         }
 
         #region PInvoke

@@ -14,10 +14,7 @@ namespace OgrePlugin
         private SharedPtrCollection<T> owner;
         private IntPtr nativeObject;
         private IntPtr heapSharedPtr;
-
-#if !FIXLATER_DISABLED
         private StackTrace st;
-#endif
 
         internal SharedPtr(T value, IntPtr nativeObject, IntPtr heapSharedPtr, SharedPtrCollection<T> owner)
         {
@@ -25,9 +22,11 @@ namespace OgrePlugin
             this.nativeObject = nativeObject;
             this.owner = owner;
             this.heapSharedPtr = heapSharedPtr;
-#if !FIXLATER_DISABLED
-            st = new StackTrace(true);
-#endif
+
+            if (OgreInterface.TrackMemoryLeaks)
+            {
+                st = new StackTrace(true);
+            }
         }
 
         public void Dispose()
@@ -59,7 +58,6 @@ namespace OgrePlugin
             }
         }
 
-#if !FIXLATER_DISABLED
         internal StackTrace ST
         {
             get
@@ -67,6 +65,5 @@ namespace OgrePlugin
                 return st;
             }
         }
-#endif
     }
 }

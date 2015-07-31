@@ -258,6 +258,11 @@ namespace MyGUIPlugin
         public static bool CreateGuiGestures { get; set; }
 
         /// <summary>
+        /// This will be true to track memory leaks, and false to disable tracking.
+        /// </summary>
+        public static bool TrackMemoryLeaks { get; set; }
+
+        /// <summary>
         /// This event is fired before MyGUI renders.
         /// </summary>
         public event EventHandler RenderStarted

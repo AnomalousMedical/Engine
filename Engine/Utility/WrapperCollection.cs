@@ -49,21 +49,6 @@ namespace Engine
             clearObjects();
         }
 
-        public void printObjects(String formatString)
-        {
-            if (ptrDictionary.Count > 0)
-            {
-                foreach (T obj in ptrDictionary.Values)
-                {
-                    Logging.Log.ImportantInfo(formatString, obj.ToString());
-                }
-            }
-            else
-            {
-                Logging.Log.ImportantInfo(formatString, "Nothing in this collection");
-            }
-        }
-
         public void clearObjects()
         {
             foreach (T obj in ptrDictionary.Values)
@@ -102,6 +87,22 @@ namespace Engine
                 ptrDictionary.Remove(nativeObject);
             }
             return nativeObject;
+        }
+
+        public IEnumerable<T> WrappedObjects
+        {
+            get
+            {
+                return ptrDictionary.Values;
+            }
+        }
+
+        public int WrappedObjectCount
+        {
+            get
+            {
+                return ptrDictionary.Count;
+            }
         }
 
         private static void disposableDelete(T wrapper)

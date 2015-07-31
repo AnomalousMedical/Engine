@@ -527,6 +527,11 @@ namespace OgrePlugin
         /// </summary>
         public static Color? InitialClearColor { get; set; }
 
+        /// <summary>
+        /// True to track memory leaks, will track leaks from the point this is set to true onward, so set it as early as possible
+        /// </summary>
+        public static bool TrackMemoryLeaks { get; set; }
+
         #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
