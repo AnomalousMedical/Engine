@@ -14,7 +14,6 @@ namespace OgrePlugin
         private SharedPtrCollection<T> owner;
         private IntPtr nativeObject;
         private IntPtr heapSharedPtr;
-        private StackTrace st;
 
         internal SharedPtr(T value, IntPtr nativeObject, IntPtr heapSharedPtr, SharedPtrCollection<T> owner)
         {
@@ -22,11 +21,6 @@ namespace OgrePlugin
             this.nativeObject = nativeObject;
             this.owner = owner;
             this.heapSharedPtr = heapSharedPtr;
-
-            if (OgreInterface.TrackMemoryLeaks)
-            {
-                st = new StackTrace(true);
-            }
         }
 
         public void Dispose()
@@ -55,14 +49,6 @@ namespace OgrePlugin
             get
             {
                 return heapSharedPtr;
-            }
-        }
-
-        internal StackTrace ST
-        {
-            get
-            {
-                return st;
             }
         }
     }

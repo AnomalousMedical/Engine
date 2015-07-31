@@ -44,6 +44,7 @@ namespace MyGUIPlugin
         private static WidgetDestructorCallback widgetDestructorFunc = widgetDestructor; //This is static and does not need a special AOT version.
 
         private static WrapperCollection<Widget> widgets = new WrapperCollection<Widget>(createWrapper);
+        private static Dictionary<IntPtr, StackTrace> allocationStackTraces = new Dictionary<IntPtr, StackTrace>();
 
         internal static Widget getWidget(IntPtr widget)
         {
@@ -61,6 +62,10 @@ namespace MyGUIPlugin
         [Anomalous.Interop.MonoPInvokeCallback(typeof(WidgetDestructorCallback))]
         static void widgetDestructor(IntPtr widget)
         {
+            if (MyGUIInterface.TrackMemoryLeaks)
+            {
+                allocationStackTraces.Remove(widget);
+            }
             widgets.destroyObject(widget);
         }
 
@@ -91,12 +96,20 @@ namespace MyGUIPlugin
                 if (MyGUIInterface.TrackMemoryLeaks)
                 {
                     Log.Error("Allocation Stack Track");
-                    foreach (StackFrame f in wrapper.ST.GetFrames())
+                    StackTrace st;
+                    if (allocationStackTraces.TryGetValue(wrapper.WidgetPtr, out st))
                     {
-                        if (f.GetFileName() != null)
+                        foreach (StackFrame f in st.GetFrames())
                         {
-                            Log.Error("-\t{0} in file {1}:{2}:{3}", f.GetMethod(), f.GetFileName(), f.GetFileLineNumber(), f.GetFileColumnNumber());
+                            if (f.GetFileName() != null)
+                            {
+                                Log.Error("-\t{0} in file {1}:{2}:{3}", f.GetMethod(), f.GetFileName(), f.GetFileLineNumber(), f.GetFileColumnNumber());
+                            }
                         }
+                    }
+                    else
+                    {
+                        Log.Error("Widget leaked with no stack trace info available. Please enable MyGUIInterface.TrackMemoryLeaks to view this info. Make sure to enable it as early as possible.");
                     }
                 }
                 else
@@ -109,6 +122,11 @@ namespace MyGUIPlugin
 
         private static Widget createWrapper(IntPtr widget, object[] args)
         {
+            if (MyGUIInterface.TrackMemoryLeaks)
+            {
+                allocationStackTraces.Add(widget, new StackTrace(true));
+            }
+
             WidgetType widgetType = WidgetManager_getType(widget);
             Widget_setDestructorCallback(widget, widgetDestructorFunc);
             switch (widgetType)

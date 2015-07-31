@@ -24,16 +24,10 @@ namespace MyGUIPlugin
         private ISubWidgetText text;
         private Widget clientWidget = null;
 
-        private StackTrace st;
-
         internal Widget(IntPtr widget)
         {
             this.widget = widget;
             eventManager = new MyGUIWidgetEventManager(this);
-            if (MyGUIInterface.TrackMemoryLeaks)
-            {
-                st = new StackTrace(true);
-            }
         }
 
         public virtual void Dispose()
@@ -669,14 +663,6 @@ namespace MyGUIPlugin
         public override string ToString()
         {
             return String.Format("{0} Ptr {1}", base.ToString(), widget.ToInt64());
-        }
-
-        internal StackTrace ST
-        {
-            get
-            {
-                return st;
-            }
         }
 
         #region Events

@@ -97,6 +97,7 @@ namespace OgrePlugin
         private CreateHeapSharedPtrDelegate createHeapSharedPtr;
         private DeleteHeapSharedPtrDelegate deleteHeapSharedPtr;
         private Dictionary<IntPtr, SharedPtrEntry<T>> ptrDictionary = new Dictionary<IntPtr, SharedPtrEntry<T>>();
+        private Dictionary<SharedPtr<T>, StackTrace> allocationStackTraces = new Dictionary<SharedPtr<T>, StackTrace>();
 
         public SharedPtrCollection(CreateWrapperDelegate createWrapper, CreateHeapSharedPtrDelegate createHeapSharedPtr, DeleteHeapSharedPtrDelegate deleteHeapSharedPtr, ProcessWrapperObjectDelegate overrideProcessWrapperDelegate = null)
         {
@@ -154,6 +155,10 @@ namespace OgrePlugin
             {
                 SharedPtr<T> sp = new SharedPtr<T>(entry.ManagedWrapper, nativeObject, entry.HeapSharedPtr, this);
                 entry.addPointer(sp);
+                if (OgreInterface.TrackMemoryLeaks)
+                {
+                    allocationStackTraces.Add(sp, new StackTrace(true));
+                }
                 return sp;
             }
             return null;
@@ -169,7 +174,7 @@ namespace OgrePlugin
         /// <returns></returns>
         public T getTemporaryObject(IntPtr nativeObject, Func<IntPtr, T> createWrapperCallback)
         {
-            if(nativeObject == IntPtr.Zero)
+            if (nativeObject == IntPtr.Zero)
             {
                 return default(T);
             }
@@ -219,13 +224,21 @@ namespace OgrePlugin
                 {
                     foreach (SharedPtr<T> ptr in entry.Pointers)
                     {
-                        Log.Error("Leaked pointer stack trace:");
-                        foreach (StackFrame f in ptr.ST.GetFrames())
+                        StackTrace st;
+                        if (allocationStackTraces.TryGetValue(ptr, out st))
                         {
-                            if (f.GetFileName() != null)
+                            Log.Error("Leaked pointer stack trace:");
+                            foreach (StackFrame f in st.GetFrames())
                             {
-                                Log.Error("-\t{0} in file {1}:{2}:{3}", f.GetMethod(), f.GetFileName(), f.GetFileLineNumber(), f.GetFileColumnNumber());
+                                if (f.GetFileName() != null)
+                                {
+                                    Log.Error("-\t{0} in file {1}:{2}:{3}", f.GetMethod(), f.GetFileName(), f.GetFileLineNumber(), f.GetFileColumnNumber());
+                                }
                             }
+                        }
+                        else
+                        {
+                            Log.Error("SharedPtr leaked with no stack trace info available. Please enable OgreInterface.TrackMemoryLeaks to view this info. Make sure to enable it as early as possible.");
                         }
                     }
                 }
@@ -249,6 +262,10 @@ namespace OgrePlugin
             IntPtr key = sharedPtr.NativeObject;
             SharedPtrEntry<T> entry = ptrDictionary[key];
             entry.removePointer(sharedPtr);
+            if (OgreInterface.TrackMemoryLeaks)
+            {
+                allocationStackTraces.Remove(sharedPtr);
+            }
             if (!entry.HasReferences)
             {
                 ptrDictionary.Remove(key);
