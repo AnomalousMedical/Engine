@@ -2,16 +2,13 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Include">
-      <UniqueIdentifier>{72c3b52c-d794-4659-9994-1fac56b195d2}</UniqueIdentifier>
+      <UniqueIdentifier>{f64e5e93-298d-44a6-9a07-19e0c0ea8a5b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Src">
-      <UniqueIdentifier>{647a50cc-3f7c-425f-8272-e945c12a5ed4}</UniqueIdentifier>
+      <UniqueIdentifier>{afda785a-c02e-48c6-b7a3-f8d3ffa1e57a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Stdafx.h">
-      <Filter>Include</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\AudioCodec.h">
       <Filter>Include</Filter>
     </ClInclude>
@@ -54,11 +51,11 @@
     <ClInclude Include="..\include\StreamingSound.h">
       <Filter>Include</Filter>
     </ClInclude>
+    <ClInclude Include="..\Stdafx.h">
+      <Filter>Include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Stdafx.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\AudioCodec.cpp">
       <Filter>Src</Filter>
     </ClCompile>
@@ -102,6 +99,9 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="..\src\StreamingSound.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Stdafx.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>
