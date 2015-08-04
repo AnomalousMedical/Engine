@@ -39,15 +39,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuiFramework.Editor", "GuiF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestLibrary", "TestLibrary\TestLibrary.csproj", "{40428C46-EE61-44C9-B9AD-ADF263B69628}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BulletWrapper", "BulletWrapper\Android\BulletWrapper.vcxproj", "{4100495F-0656-43E3-86B3-0FBDD4A3C82B}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libRocketWrapper", "libRocketWrapper\Android\libRocketWrapper.vcxproj", "{6F7181DA-B71F-4805-852A-73922B13F45A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyGUIWrapper", "MyGUIWrapper\Android\MyGUIWrapper.vcxproj", "{573573DF-A5FE-4A6F-9140-29D6CD29B8C5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SoundWrapper", "SoundWrapper\Android\SoundWrapper.vcxproj", "{9354EFFD-FCEE-4FAC-A5D2-4B74EFF6CC8A}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Zip", "Zip\Android\Zip.vcxproj", "{FA79F447-46EB-4A4C-9609-A1C33B544476}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSPlatform.Android", "OSPlatform.Android\OSPlatform.Android.csproj", "{AB582550-FEA0-4B33-88F5-7D59D0119AC2}"
 EndProject
@@ -56,6 +52,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OgreCWrapper", "OgreCWrapper\Android\OgreCWrapper.vcxproj", "{B9B54559-6DC3-4875-852A-784020A1B2F7}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OSHelper", "OSHelper\Android\OSHelper.vcxproj", "{7906DBDB-44C5-41F1-8363-3127FDD9D5E7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Zip", "Zip\Android\Zip.vcxproj", "{27916C81-C984-493C-91D9-8F6454D5467D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BulletWrapper", "BulletWrapper\Android\BulletWrapper.vcxproj", "{5EBE122E-E71E-4855-A453-CC83C9FEE4BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -247,15 +247,6 @@ Global
 		{40428C46-EE61-44C9-B9AD-ADF263B69628}.Release|x86.ActiveCfg = Release|Any CPU
 		{40428C46-EE61-44C9-B9AD-ADF263B69628}.Release|x86.Build.0 = Release|Any CPU
 		{40428C46-EE61-44C9-B9AD-ADF263B69628}.Release|x86-Android-NVIDIA.ActiveCfg = Release|Any CPU
-		{4100495F-0656-43E3-86B3-0FBDD4A3C82B}.Debug|arm.ActiveCfg = Debug|Tegra-Android
-		{4100495F-0656-43E3-86B3-0FBDD4A3C82B}.Debug|x86.ActiveCfg = Debug|x86-Android-NVIDIA
-		{4100495F-0656-43E3-86B3-0FBDD4A3C82B}.Debug|x86-Android-NVIDIA.ActiveCfg = Debug|x86-Android-NVIDIA
-		{4100495F-0656-43E3-86B3-0FBDD4A3C82B}.Debug|x86-Android-NVIDIA.Build.0 = Debug|x86-Android-NVIDIA
-		{4100495F-0656-43E3-86B3-0FBDD4A3C82B}.Release|arm.ActiveCfg = Release|Tegra-Android
-		{4100495F-0656-43E3-86B3-0FBDD4A3C82B}.Release|arm.Build.0 = Release|Tegra-Android
-		{4100495F-0656-43E3-86B3-0FBDD4A3C82B}.Release|x86.ActiveCfg = Release|x86-Android-NVIDIA
-		{4100495F-0656-43E3-86B3-0FBDD4A3C82B}.Release|x86-Android-NVIDIA.ActiveCfg = Release|x86-Android-NVIDIA
-		{4100495F-0656-43E3-86B3-0FBDD4A3C82B}.Release|x86-Android-NVIDIA.Build.0 = Release|x86-Android-NVIDIA
 		{6F7181DA-B71F-4805-852A-73922B13F45A}.Debug|arm.ActiveCfg = Debug|Tegra-Android
 		{6F7181DA-B71F-4805-852A-73922B13F45A}.Debug|x86.ActiveCfg = Debug|x86-Android-NVIDIA
 		{6F7181DA-B71F-4805-852A-73922B13F45A}.Debug|x86-Android-NVIDIA.ActiveCfg = Debug|x86-Android-NVIDIA
@@ -283,15 +274,6 @@ Global
 		{9354EFFD-FCEE-4FAC-A5D2-4B74EFF6CC8A}.Release|x86.ActiveCfg = Release|x86-Android-NVIDIA
 		{9354EFFD-FCEE-4FAC-A5D2-4B74EFF6CC8A}.Release|x86-Android-NVIDIA.ActiveCfg = Release|x86-Android-NVIDIA
 		{9354EFFD-FCEE-4FAC-A5D2-4B74EFF6CC8A}.Release|x86-Android-NVIDIA.Build.0 = Release|x86-Android-NVIDIA
-		{FA79F447-46EB-4A4C-9609-A1C33B544476}.Debug|arm.ActiveCfg = Debug|Tegra-Android
-		{FA79F447-46EB-4A4C-9609-A1C33B544476}.Debug|x86.ActiveCfg = Debug|x86-Android-NVIDIA
-		{FA79F447-46EB-4A4C-9609-A1C33B544476}.Debug|x86-Android-NVIDIA.ActiveCfg = Debug|x86-Android-NVIDIA
-		{FA79F447-46EB-4A4C-9609-A1C33B544476}.Debug|x86-Android-NVIDIA.Build.0 = Debug|x86-Android-NVIDIA
-		{FA79F447-46EB-4A4C-9609-A1C33B544476}.Release|arm.ActiveCfg = Release|Tegra-Android
-		{FA79F447-46EB-4A4C-9609-A1C33B544476}.Release|arm.Build.0 = Release|Tegra-Android
-		{FA79F447-46EB-4A4C-9609-A1C33B544476}.Release|x86.ActiveCfg = Release|x86-Android-NVIDIA
-		{FA79F447-46EB-4A4C-9609-A1C33B544476}.Release|x86-Android-NVIDIA.ActiveCfg = Release|x86-Android-NVIDIA
-		{FA79F447-46EB-4A4C-9609-A1C33B544476}.Release|x86-Android-NVIDIA.Build.0 = Release|x86-Android-NVIDIA
 		{AB582550-FEA0-4B33-88F5-7D59D0119AC2}.Debug|arm.ActiveCfg = Debug|Any CPU
 		{AB582550-FEA0-4B33-88F5-7D59D0119AC2}.Debug|arm.Build.0 = Debug|Any CPU
 		{AB582550-FEA0-4B33-88F5-7D59D0119AC2}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -332,6 +314,26 @@ Global
 		{7906DBDB-44C5-41F1-8363-3127FDD9D5E7}.Release|x86.ActiveCfg = Release|x86
 		{7906DBDB-44C5-41F1-8363-3127FDD9D5E7}.Release|x86.Build.0 = Release|x86
 		{7906DBDB-44C5-41F1-8363-3127FDD9D5E7}.Release|x86-Android-NVIDIA.ActiveCfg = Release|x86
+		{27916C81-C984-493C-91D9-8F6454D5467D}.Debug|arm.ActiveCfg = Debug|ARM
+		{27916C81-C984-493C-91D9-8F6454D5467D}.Debug|arm.Build.0 = Debug|ARM
+		{27916C81-C984-493C-91D9-8F6454D5467D}.Debug|x86.ActiveCfg = Debug|x86
+		{27916C81-C984-493C-91D9-8F6454D5467D}.Debug|x86.Build.0 = Debug|x86
+		{27916C81-C984-493C-91D9-8F6454D5467D}.Debug|x86-Android-NVIDIA.ActiveCfg = Debug|x86
+		{27916C81-C984-493C-91D9-8F6454D5467D}.Release|arm.ActiveCfg = Release|ARM
+		{27916C81-C984-493C-91D9-8F6454D5467D}.Release|arm.Build.0 = Release|ARM
+		{27916C81-C984-493C-91D9-8F6454D5467D}.Release|x86.ActiveCfg = Release|x86
+		{27916C81-C984-493C-91D9-8F6454D5467D}.Release|x86.Build.0 = Release|x86
+		{27916C81-C984-493C-91D9-8F6454D5467D}.Release|x86-Android-NVIDIA.ActiveCfg = Release|x86
+		{5EBE122E-E71E-4855-A453-CC83C9FEE4BD}.Debug|arm.ActiveCfg = Debug|ARM
+		{5EBE122E-E71E-4855-A453-CC83C9FEE4BD}.Debug|arm.Build.0 = Debug|ARM
+		{5EBE122E-E71E-4855-A453-CC83C9FEE4BD}.Debug|x86.ActiveCfg = Debug|x86
+		{5EBE122E-E71E-4855-A453-CC83C9FEE4BD}.Debug|x86.Build.0 = Debug|x86
+		{5EBE122E-E71E-4855-A453-CC83C9FEE4BD}.Debug|x86-Android-NVIDIA.ActiveCfg = Debug|x86
+		{5EBE122E-E71E-4855-A453-CC83C9FEE4BD}.Release|arm.ActiveCfg = Release|ARM
+		{5EBE122E-E71E-4855-A453-CC83C9FEE4BD}.Release|arm.Build.0 = Release|ARM
+		{5EBE122E-E71E-4855-A453-CC83C9FEE4BD}.Release|x86.ActiveCfg = Release|x86
+		{5EBE122E-E71E-4855-A453-CC83C9FEE4BD}.Release|x86.Build.0 = Release|x86
+		{5EBE122E-E71E-4855-A453-CC83C9FEE4BD}.Release|x86-Android-NVIDIA.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
