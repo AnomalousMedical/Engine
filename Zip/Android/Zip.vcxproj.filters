@@ -1,27 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Include">
-      <UniqueIdentifier>{8c5477c7-5c9e-403a-b006-fef3bb585aae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src">
-      <UniqueIdentifier>{a06cb202-0f29-491a-8756-9b1b4986c866}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="..\Src\ZipFile.cpp" />
+    <ClCompile Include="..\Src\ZipStream.cpp" />
+    <ClCompile Include="..\Stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Stdafx.h">
-      <Filter>Include</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\Stdafx.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\ZipFile.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\ZipStream.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
+    <ClInclude Include="..\Stdafx.h" />
   </ItemGroup>
 </Project>
