@@ -1,6 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{c527d0a8-7c5d-4f3a-b464-3ebff9502a6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{f547fc1b-0ea2-4c1b-9755-61466277ea28}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Include\CommonResources.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\ElementListIter.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\ManagedSystemInterface.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\RenderInterfaceOgre3D.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\StdAfx.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\StdAfx.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
     <ClCompile Include="..\Src\Context.cpp">
       <Filter>Src</Filter>
     </ClCompile>
@@ -61,9 +89,6 @@
     <ClCompile Include="..\Src\RenderInterfaceOgre3D.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="..\StdAfx.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Src\Template.cpp">
       <Filter>Src</Filter>
     </ClCompile>
@@ -76,30 +101,5 @@
     <ClCompile Include="..\Src\Variant.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Src">
-      <UniqueIdentifier>{472bc640-223f-4be2-936b-e9cf70477fb0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Include">
-      <UniqueIdentifier>{f0bddc8c-564b-4b8b-948e-9190e2dcd322}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\StdAfx.h">
-      <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Include\CommonResources.h">
-      <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Include\ElementListIter.h">
-      <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Include\ManagedSystemInterface.h">
-      <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Include\RenderInterfaceOgre3D.h">
-      <Filter>Include</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
