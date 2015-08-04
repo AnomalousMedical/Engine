@@ -33,7 +33,8 @@ extern "C" _AnomalousExport void Image_flipAroundX(Ogre::Image* image)
 
 extern "C" _AnomalousExport void Image_load(Ogre::Image* image, Ogre::DataStream* stream, String type)
 {
-	image->load(Ogre::DataStreamPtr(stream), type);
+	Ogre::DataStreamPtr ptr(stream);
+	image->load(ptr, type);
 }
 
 extern "C" _AnomalousExport size_t Image_getSize(Ogre::Image* image)

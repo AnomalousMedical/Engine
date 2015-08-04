@@ -31,7 +31,13 @@
     <ClCompile Include="..\Src\Entity.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Src\GpuProgram.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
     <ClCompile Include="..\Src\GpuProgramManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\GpuProgramParameters.cpp">
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\HardwareBuffer.cpp">
@@ -47,6 +53,12 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\HardwareVertexBuffer.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\HighLevelGpuProgramManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Image.cpp">
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\IndexData.cpp">
@@ -172,9 +184,6 @@
     <ClCompile Include="..\Src\StaticGeometry.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Stdafx.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Src\SubEntity.cpp">
       <Filter>Src</Filter>
     </ClCompile>
@@ -220,19 +229,15 @@
     <ClCompile Include="..\Src\WrapperMath.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\AndroidBaseApp\Common\cpufeatures\cpu-features.c">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\GpuProgramParameters.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
+    <ClCompile Include="..\Stdafx.cpp" />
+    <ClCompile Include="$(VS_NdkRoot)\sources\android\cpufeatures\cpu-features.c" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Src">
-      <UniqueIdentifier>{b2268063-63cf-48fd-a7e1-fe48ce91f3d1}</UniqueIdentifier>
+      <UniqueIdentifier>{759756bd-8aac-4e5b-837e-c43827e0ebe9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Include">
-      <UniqueIdentifier>{1ce0ff4d-fb29-4dea-91fa-a517a932f4b3}</UniqueIdentifier>
+      <UniqueIdentifier>{76b42e7d-6d2f-499f-b3e0-b380f65cc599}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -260,11 +265,6 @@
     <ClInclude Include="..\Include\OgreManagedStream.h">
       <Filter>Include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Stdafx.h">
-      <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\AndroidBaseApp\Common\cpufeatures\cpu-features.h">
-      <Filter>Include</Filter>
-    </ClInclude>
+    <ClInclude Include="..\Stdafx.h" />
   </ItemGroup>
 </Project>

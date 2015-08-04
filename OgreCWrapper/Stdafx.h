@@ -5,10 +5,14 @@
 #ifndef STDAFX_H
 #define STDAFX_H
 
+#if defined(WINDOWS)
 #pragma warning(push)
 #pragma warning(disable : 4635)
+#endif
 #include "Ogre.h"
+#if defined(WINDOWS)
 #pragma warning(pop)
+#endif
 
 #if defined(WINDOWS) || defined(WINRT)
 #define _AnomalousExport __declspec(dllexport)
