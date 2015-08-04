@@ -2,18 +2,24 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Include">
-      <UniqueIdentifier>{f8d659ca-af3e-40d6-9aa1-46d349ddf5bf}</UniqueIdentifier>
+      <UniqueIdentifier>{629bea20-e5ef-4ac6-a7f6-b933bba642b1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Src">
-      <UniqueIdentifier>{2cc4ceca-5c62-4155-a200-389188215959}</UniqueIdentifier>
+      <UniqueIdentifier>{515981ec-81ec-496b-b077-88f11c955de4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Include\MyGUIEventTranslator.h">
       <Filter>Include</Filter>
     </ClInclude>
+    <ClInclude Include="..\Stdafx.h">
+      <Filter>Include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Stdafx.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
     <ClCompile Include="..\Src\Button.cpp">
       <Filter>Src</Filter>
     </ClCompile>
@@ -207,9 +213,6 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\Window.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Stdafx.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>

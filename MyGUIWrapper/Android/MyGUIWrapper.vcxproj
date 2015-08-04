@@ -1,30 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup Label="NsightTegraProject">
-    <NsightTegraProjectRevisionNumber>9</NsightTegraProjectRevisionNumber>
-  </PropertyGroup>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Tegra-Android">
+    <ProjectConfiguration Include="Debug|ARM">
       <Configuration>Debug</Configuration>
-      <Platform>Tegra-Android</Platform>
+      <Platform>ARM</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|x86-Android-NVIDIA">
+    <ProjectConfiguration Include="Debug|x86">
       <Configuration>Debug</Configuration>
-      <Platform>x86-Android-NVIDIA</Platform>
+      <Platform>x86</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Tegra-Android">
+    <ProjectConfiguration Include="Release|ARM">
       <Configuration>Release</Configuration>
-      <Platform>Tegra-Android</Platform>
+      <Platform>ARM</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|x86-Android-NVIDIA">
+    <ProjectConfiguration Include="Release|x86">
       <Configuration>Release</Configuration>
-      <Platform>x86-Android-NVIDIA</Platform>
+      <Platform>x86</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Include\MyGUIEventTranslator.h" />
+    <ClInclude Include="..\Stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(VS_NdkRoot)\sources\android\cpufeatures\cpu-features.c" />
     <ClCompile Include="..\Src\Button.cpp" />
     <ClCompile Include="..\Src\ClickEventTranslator.cpp" />
     <ClCompile Include="..\Src\ComboBox.cpp" />
@@ -93,86 +92,78 @@
     <ClCompile Include="..\Stdafx.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{573573DF-A5FE-4A6F-9140-29D6CD29B8C5}</ProjectGuid>
+    <ProjectGuid>{6230c337-5b84-4203-bde4-030ee58c8dc7}</ProjectGuid>
+    <Keyword>Android</Keyword>
     <RootNamespace>MyGUIWrapper</RootNamespace>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <ApplicationType>Android</ApplicationType>
+    <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <AndroidTargetAPI>android-15</AndroidTargetAPI>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>Clang_3_6</PlatformToolset>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86-Android-NVIDIA'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <AndroidTargetAPI>android-15</AndroidTargetAPI>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>Clang_3_6</PlatformToolset>
   </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <AndroidTargetAPI>android-15</AndroidTargetAPI>
-    <AndroidStlType>gnustl_shared</AndroidStlType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>Clang_3_6</PlatformToolset>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86-Android-NVIDIA'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <AndroidTargetAPI>android-15</AndroidTargetAPI>
-    <AndroidStlType>gnustl_shared</AndroidStlType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>Gcc_4_9</PlatformToolset>
+    <UseOfStl>gnustl_shared</UseOfStl>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x86-Android-NVIDIA'">
-    <Import Project="..\..\AndroidBaseApp\Common\NvidiaStlSettings.props" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x86-Android-NVIDIA'">
-    <Import Project="..\..\AndroidBaseApp\Common\NvidiaStlSettings.props" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
-    <Import Project="..\..\AndroidBaseApp\Common\NvidiaStlSettings.props" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
-    <Import Project="..\..\AndroidBaseApp\Common\NvidiaStlSettings.props" />
-  </ImportGroup>
-  <PropertyGroup Label="UserMacros">
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
-    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86-Android-NVIDIA'">
-    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
-  </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <ClCompile>
-      <CppLanguageStandard>gnu++11</CppLanguageStandard>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86-Android-NVIDIA'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
-      <CppLanguageStandard>gnu++11</CppLanguageStandard>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
     <ClCompile>
-      <CppLanguageStandard>gnu++11</CppLanguageStandard>
-      <PreprocessorDefinitions>ANDROID;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\Include;$(ProjectDir)..\;$(SolutionDir)..\Dependencies\Ogre\AndroidBuild\include;$(SolutionDir)..\Dependencies\Ogre\src\OgreMain\include;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\include;$(SolutionDir)..\Dependencies\MyGUI\Src\MyGUIEngine\include;$(SolutionDir)..\Dependencies\MyGUI\Src\Common;$(SolutionDir)..\Dependencies\MyGUI\Src\Platforms\Ogre\OgrePlatform\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <DebugInformationFormat>None</DebugInformationFormat>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <GccExceptionHandling>true</GccExceptionHandling>
+      <ExceptionHandling>Enabled</ExceptionHandling>
+      <PreprocessorDefinitions>ANDROID;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Include;$(ProjectDir)..\;$(SolutionDir)..\Dependencies\Ogre\AndroidBuild\include;$(SolutionDir)..\Dependencies\Ogre\src\OgreMain\include;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\include;$(SolutionDir)..\Dependencies\MyGUI\Src\MyGUIEngine\include;$(SolutionDir)..\Dependencies\MyGUI\Src\Common;$(SolutionDir)..\Dependencies\MyGUI\Src\Platforms\Ogre\OgrePlatform\include;$(VS_NdkRoot)\platforms\$(AndroidAPILevel)\arch-arm\usr\include;$(StlIncludeDirectories)%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(SolutionDir)../Dependencies\MyGUI\AndroidBuild\lib\Release\libMyGUIEngineStatic.a;$(SolutionDir)../Dependencies\MyGUI\AndroidBuild\lib\Release\libMyGUI.OgrePlatform.a;$(SolutionDir)Release\Tegra-Android\libOgreCWrapper.so;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libfreetype.a;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86-Android-NVIDIA'">
-    <ClCompile>
-      <CppLanguageStandard>gnu++11</CppLanguageStandard>
-      <PreprocessorDefinitions>ANDROID;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\Include;$(ProjectDir)..\;$(SolutionDir)..\Dependencies\Ogre\AndroidBuildx86\include;$(SolutionDir)..\Dependencies\Ogre\src\OgreMain\include;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstallx86\include;$(SolutionDir)..\Dependencies\MyGUI\Src\MyGUIEngine\include;$(SolutionDir)..\Dependencies\MyGUI\Src\Common;$(SolutionDir)..\Dependencies\MyGUI\Src\Platforms\Ogre\OgrePlatform\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <GccExceptionHandling>true</GccExceptionHandling>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>$(SolutionDir)../Dependencies\MyGUI\AndroidBuildx86\lib\Release\libMyGUIEngineStatic.a;$(SolutionDir)../Dependencies\MyGUI\AndroidBuildx86\lib\Release\libMyGUI.OgrePlatform.a;$(SolutionDir)Release\x86-Android-NVIDIA\libOgreCWrapper.so;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstallx86\lib\libfreetype.a;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)../Dependencies\MyGUI\AndroidBuild\lib\Release\libMyGUIEngineStatic.a;$(SolutionDir)../Dependencies\MyGUI\AndroidBuild\lib\Release\libMyGUI.OgrePlatform.a;$(SolutionDir)..\Dependencies\Ogre\AndroidBuild\lib\Release\libOgreMainStatic.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libfreetype.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libFreeImage.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libzlib.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libzziplib.a</AdditionalDependencies>
+      <LibraryDependencies>m;$(StlLibraryName);%(LibraryDependencies)</LibraryDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>
