@@ -12,7 +12,7 @@ enum CursorType
     Link = 7,
 };
 
-enum OnscreenKeyboardMode
+enum class OnscreenKeyboardMode
 {
 	Hidden = 0,
 	Normal = 1,
@@ -84,7 +84,7 @@ public:
     
 	virtual OnscreenKeyboardMode getOnscreenKeyboardMode()
     {
-		return Hidden;
+		return OnscreenKeyboardMode::Hidden;
     }
 
 	void setCallbacks(NativeAction deleteCB, NativeAction sizedCB, NativeAction closingCB, NativeAction closedCB, ActivateCB activateCB, ModifyResourcesCB createInternalResourcesCB, ModifyResourcesCB destroyInternalResourcesCB HANDLE_ARG);

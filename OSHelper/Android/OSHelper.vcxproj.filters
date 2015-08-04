@@ -1,64 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\Src\AndroidApp.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\AndroidWindow.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\App.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\ManagedLogListener.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\MultiTouch.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\NativeKeyboard.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\NativeLog.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\NativeMouse.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\NativeOSWindow.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\PerformanceCounter.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\PlatformConfig.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Stdafx.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\AndroidBaseApp\Common\native_app_glue\android_native_app_glue.c">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\SystemInfo.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\AndroidDialogs.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Include">
-      <UniqueIdentifier>{3abaaeac-e855-434f-a45e-3f78e587c678}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Src">
-      <UniqueIdentifier>{b661d1d6-f719-4e3c-9d15-80fe2d882b1d}</UniqueIdentifier>
+      <UniqueIdentifier>{0c7f3318-5f1c-4ada-910d-a1c519ff6d3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include">
+      <UniqueIdentifier>{4dda3244-db53-4b8d-9699-0dfa3e3acdfa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Stdafx.h">
-      <Filter>Include</Filter>
-    </ClInclude>
     <ClInclude Include="..\Include\AndroidApp.h">
       <Filter>Include</Filter>
     </ClInclude>
@@ -92,8 +42,53 @@
     <ClInclude Include="..\Include\PerformanceCounter.h">
       <Filter>Include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\AndroidBaseApp\Common\native_app_glue\android_native_app_glue.h">
+    <ClInclude Include="..\Stdafx.h">
       <Filter>Include</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Stdafx.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\AndroidApp.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\AndroidDialogs.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\AndroidWindow.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\App.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\ManagedLogListener.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\MultiTouch.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\NativeKeyboard.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\NativeLog.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\NativeMouse.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\NativeOSWindow.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\PerformanceCounter.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\PlatformConfig.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\SystemInfo.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="$(VS_NdkRoot)\sources\android\native_app_glue\android_native_app_glue.c" />
   </ItemGroup>
 </Project>

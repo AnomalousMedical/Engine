@@ -4,7 +4,7 @@
 #include <vector>
 #include <sstream>
 
-enum LogLevel
+enum class LogLevel
 {
 	Info = 1 << 0,
 	ImportantInfo = 1 << 1,
@@ -58,7 +58,7 @@ public:
 	NativeLog& operator << (const InfoFlush& v)
 	{
         (void)v;
-		sendMessage(stringStream.str(), Info);
+		sendMessage(stringStream.str(), LogLevel::Info);
 		stringStream.str(BLANK);
 		return *this;
 	}
@@ -66,7 +66,7 @@ public:
 	NativeLog& operator << (const ImportantInfoFlush& v)
 	{
         (void)v;
-		sendMessage(stringStream.str(), ImportantInfo);
+		sendMessage(stringStream.str(), LogLevel::ImportantInfo);
 		stringStream.str(BLANK);
 		return *this;
 	}
@@ -74,7 +74,7 @@ public:
 	NativeLog& operator << (const WarningFlush& v)
 	{
         (void)v;
-		sendMessage(stringStream.str(), Warning);
+		sendMessage(stringStream.str(), LogLevel::Warning);
 		stringStream.str(BLANK);
 		return *this;
 	}
@@ -82,7 +82,7 @@ public:
 	NativeLog& operator << (const ErrorFlush& v)
 	{
         (void)v;
-		sendMessage(stringStream.str(), Error);
+		sendMessage(stringStream.str(), LogLevel::Error);
 		stringStream.str(BLANK);
 		return *this;
 	}
@@ -90,7 +90,7 @@ public:
 	NativeLog& operator << (const DebugFlush& v)
 	{
         (void)v;
-		sendMessage(stringStream.str(), Debug);
+		sendMessage(stringStream.str(), LogLevel::Debug);
 		stringStream.str(BLANK);
 		return *this;
 	}

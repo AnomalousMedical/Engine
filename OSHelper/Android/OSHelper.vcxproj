@@ -1,28 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup Label="NsightTegraProject">
-    <NsightTegraProjectRevisionNumber>9</NsightTegraProjectRevisionNumber>
-  </PropertyGroup>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Tegra-Android">
+    <ProjectConfiguration Include="Debug|ARM">
       <Configuration>Debug</Configuration>
-      <Platform>Tegra-Android</Platform>
+      <Platform>ARM</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|x86-Android-NVIDIA">
+    <ProjectConfiguration Include="Debug|x86">
       <Configuration>Debug</Configuration>
-      <Platform>x86-Android-NVIDIA</Platform>
+      <Platform>x86</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Tegra-Android">
+    <ProjectConfiguration Include="Release|ARM">
       <Configuration>Release</Configuration>
-      <Platform>Tegra-Android</Platform>
+      <Platform>ARM</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|x86-Android-NVIDIA">
+    <ProjectConfiguration Include="Release|x86">
       <Configuration>Release</Configuration>
-      <Platform>x86-Android-NVIDIA</Platform>
+      <Platform>x86</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\AndroidBaseApp\Common\native_app_glue\android_native_app_glue.c" />
+    <ClInclude Include="..\Include\AndroidApp.h" />
+    <ClInclude Include="..\Include\AndroidWindow.h" />
+    <ClInclude Include="..\Include\App.h" />
+    <ClInclude Include="..\Include\MouseButtonCode.h" />
+    <ClInclude Include="..\Include\MultiTouch.h" />
+    <ClInclude Include="..\Include\MultiTouchImpl.h" />
+    <ClInclude Include="..\Include\NativeKeyboard.h" />
+    <ClInclude Include="..\Include\NativeLog.h" />
+    <ClInclude Include="..\Include\NativeMouse.h" />
+    <ClInclude Include="..\Include\NativeOSWindow.h" />
+    <ClInclude Include="..\Include\PerformanceCounter.h" />
+    <ClInclude Include="..\Stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(VS_NdkRoot)\sources\android\native_app_glue\android_native_app_glue.c" />
     <ClCompile Include="..\Src\AndroidApp.cpp" />
     <ClCompile Include="..\Src\AndroidDialogs.cpp" />
     <ClCompile Include="..\Src\AndroidWindow.cpp" />
@@ -38,98 +49,80 @@
     <ClCompile Include="..\Src\SystemInfo.cpp" />
     <ClCompile Include="..\Stdafx.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\AndroidBaseApp\Common\native_app_glue\android_native_app_glue.h" />
-    <ClInclude Include="..\Include\AndroidApp.h" />
-    <ClInclude Include="..\Include\AndroidWindow.h" />
-    <ClInclude Include="..\Include\App.h" />
-    <ClInclude Include="..\Include\MouseButtonCode.h" />
-    <ClInclude Include="..\Include\MultiTouch.h" />
-    <ClInclude Include="..\Include\MultiTouchImpl.h" />
-    <ClInclude Include="..\Include\NativeKeyboard.h" />
-    <ClInclude Include="..\Include\NativeLog.h" />
-    <ClInclude Include="..\Include\NativeMouse.h" />
-    <ClInclude Include="..\Include\NativeOSWindow.h" />
-    <ClInclude Include="..\Include\PerformanceCounter.h" />
-    <ClInclude Include="..\Stdafx.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{23D3379F-71F3-4A67-B769-F382EB25D192}</ProjectGuid>
+    <ProjectGuid>{7906dbdb-44c5-41f1-8363-3127fdd9d5e7}</ProjectGuid>
+    <Keyword>Android</Keyword>
     <RootNamespace>OSHelper</RootNamespace>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <ApplicationType>Android</ApplicationType>
+    <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <AndroidTargetAPI>android-15</AndroidTargetAPI>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>Clang_3_6</PlatformToolset>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86-Android-NVIDIA'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <AndroidTargetAPI>android-15</AndroidTargetAPI>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>Clang_3_6</PlatformToolset>
   </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <AndroidTargetAPI>android-15</AndroidTargetAPI>
-    <AndroidStlType>gnustl_shared</AndroidStlType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>Clang_3_6</PlatformToolset>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86-Android-NVIDIA'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <AndroidTargetAPI>android-15</AndroidTargetAPI>
-    <AndroidStlType>gnustl_shared</AndroidStlType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>Gcc_4_9</PlatformToolset>
+    <UseOfStl>gnustl_shared</UseOfStl>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x86-Android-NVIDIA'">
-    <Import Project="..\..\AndroidBaseApp\Common\NvidiaStlSettings.props" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x86-Android-NVIDIA'">
-    <Import Project="..\..\AndroidBaseApp\Common\NvidiaStlSettings.props" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
-    <Import Project="..\..\AndroidBaseApp\Common\NvidiaStlSettings.props" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
-    <Import Project="..\..\AndroidBaseApp\Common\NvidiaStlSettings.props" />
-  </ImportGroup>
-  <PropertyGroup Label="UserMacros">
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
-    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86-Android-NVIDIA'">
-    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <OutDir>$(SolutionDir)$(Configuration)\Android\</OutDir>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <ClCompile>
-      <CppLanguageStandard>gnu++11</CppLanguageStandard>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86-Android-NVIDIA'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
-      <CppLanguageStandard>gnu++11</CppLanguageStandard>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
     <ClCompile>
-      <CppLanguageStandard>gnu++11</CppLanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\Include;$(ProjectDir)..\;$(SolutionDir)AndroidBaseApp\Common\native_app_glue;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Include;$(ProjectDir)..\;$(VS_NdkRoot)\sources\android\native_app_glue;$(VS_NdkRoot)\platforms\$(AndroidAPILevel)\arch-arm\usr\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ARCH_ARM_V7A;ANDROID;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <CppLanguageStandard>c++11</CppLanguageStandard>
     </ClCompile>
     <Link>
-      <AndroidSystemLibs>c;m;log;gcc;android</AndroidSystemLibs>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86-Android-NVIDIA'">
-    <ClCompile>
-      <CppLanguageStandard>gnu++11</CppLanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\Include;$(ProjectDir)..\;$(SolutionDir)AndroidBaseApp\Common\native_app_glue;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ARCH_X86;ANDROID;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <Link>
-      <AndroidSystemLibs>c;m;log;gcc;android</AndroidSystemLibs>
+      <LibraryDependencies>c;m;log;gcc;android;$(StlLibraryName);%(LibraryDependencies)</LibraryDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>
