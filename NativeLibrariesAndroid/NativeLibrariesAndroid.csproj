@@ -40,7 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="$(ANDROID_NDK)\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi-v7a\libgnustl_shared.so">
-      <Link>Tegra-Android\libgnustl_shared.so</Link>
+      <Link>Android\libgnustl_shared.so</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="$(ANDROID_NDK)\sources\cxx-stl\gnu-libstdc++\4.8\libs\x86\libgnustl_shared.so">
@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
-    <Folder Include="x86-Android-NVIDIA\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
