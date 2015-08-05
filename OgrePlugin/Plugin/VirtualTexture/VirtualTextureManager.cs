@@ -165,6 +165,7 @@ namespace OgrePlugin.VirtualTexture
                                 //Finish indirection texture retirement
                                 if (currentRetiringTextures != null)
                                 {
+                                    textureLoader.clearCache(); //Pretty brute force, can we remove just the cached textures for the removed indirection textures?
                                     foreach (var indirectionTex in currentRetiringTextures)
                                     {
                                         indirectionTextures.Remove(indirectionTex.MaterialSetKey);
