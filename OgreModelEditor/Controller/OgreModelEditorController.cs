@@ -364,9 +364,12 @@ namespace OgreModelEditor
             {
                 modelController.destroyModel();
                 String lastDir = Path.GetDirectoryName(lastFileName);
-                ogreResources.removeResourceGroup(lastDir);
+                String lastParentDir = Path.GetDirectoryName(lastDir);
+                String lastInnerDir = Path.GetFileName(lastDir);
+                ogreResources.removeResourceGroup(lastInnerDir);
                 liveResourceManager.changeResourcesToMatch(resourceManager);
                 liveResourceManager.initializeResources();
+                VirtualFileSystem.Instance.removeArchive(lastParentDir);
             }
 
             lastFileName = path;
