@@ -215,5 +215,6 @@
     <ClCompile Include="..\Src\Window.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="$(VS_NdkRoot)\sources\android\cpufeatures\cpu-features.c" />
   </ItemGroup>
 </Project>
