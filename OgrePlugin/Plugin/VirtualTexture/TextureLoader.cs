@@ -206,13 +206,6 @@ namespace OgrePlugin.VirtualTexture
             }
         }
 
-        public void beginPageUpdate()
-        {
-            //Note clearing these forces us to make sure we fully update each frame, or copy all this to another processing queue
-            addedPages.Clear();
-            removedPages.Clear();
-        }
-
         public void addRequestedPage(VTexPage page)
         {
             addedPages.Add(page);
@@ -340,6 +333,10 @@ namespace OgrePlugin.VirtualTexture
                         PerformanceMonitor.stop("updatePagesFromRequests processing pages");
                     }
                 });
+
+            //Reset added and removed pages
+            addedPages.Clear();
+            removedPages.Clear();
         }
 
         private void returnStagingBuffer(StagingBufferSet stagingBuffers)

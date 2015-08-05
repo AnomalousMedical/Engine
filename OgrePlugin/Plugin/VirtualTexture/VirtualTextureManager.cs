@@ -127,8 +127,6 @@ namespace OgrePlugin.VirtualTexture
                         phase = Phase.Waiting;
                         ThreadManager.RunInBackground(() =>
                             {
-                                textureLoader.beginPageUpdate();
-
                                 PerformanceMonitor.start("FeedbackBuffer Analyze");
                                 opaqueFeedbackBuffer.analyzeBuffer();
                                 transparentFeedbackBuffer.analyzeBuffer();
@@ -152,8 +150,6 @@ namespace OgrePlugin.VirtualTexture
                         phase = Phase.Waiting;
                         ThreadManager.RunInBackground(() =>
                         {
-                            textureLoader.beginPageUpdate();
-
                             foreach (var indirectionTex in indirectionTextures.Values)
                             {
                                 indirectionTex.finishPageUpdate();
@@ -168,8 +164,6 @@ namespace OgrePlugin.VirtualTexture
                         phase = Phase.Waiting;
                         ThreadManager.RunInBackground(() =>
                         {
-                            textureLoader.beginPageUpdate();
-
                             foreach (var indirectionTex in indirectionTextures.Values)
                             {
                                 indirectionTex.finishPageUpdate();
