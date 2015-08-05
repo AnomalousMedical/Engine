@@ -47,6 +47,7 @@ Source: ..\Release\FreeImageNET.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\Release\GuiFramework.Cameras.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\Release\GuiFramework.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\Release\GuiFramework.Editor.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\GuiFramework.Debugging.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\Release\libRocketPlugin.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\Release\libRocketWidget.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\Release\MyGUIPlugin.dll; DestDir: {app}; Flags: ignoreversion
