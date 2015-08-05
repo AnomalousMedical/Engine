@@ -39,11 +39,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(ANDROID_NDK)\sources\cxx-stl\gnu-libstdc++\4.8\libs\armeabi-v7a\libgnustl_shared.so">
+    <None Include="$(ANDROID_NDK)\sources\cxx-stl\gnu-libstdc++\4.9\libs\armeabi-v7a\libgnustl_shared.so">
       <Link>Android\libgnustl_shared.so</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="$(ANDROID_NDK)\sources\cxx-stl\gnu-libstdc++\4.8\libs\x86\libgnustl_shared.so">
+    <None Include="$(ANDROID_NDK)\sources\cxx-stl\gnu-libstdc++\4.9\libs\x86\libgnustl_shared.so">
       <Link>x86-Android-NVIDIA\libgnustl_shared.so</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

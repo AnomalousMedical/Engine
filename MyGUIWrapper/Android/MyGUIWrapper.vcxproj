@@ -23,7 +23,6 @@
     <ClInclude Include="..\Stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(VS_NdkRoot)\sources\android\cpufeatures\cpu-features.c" />
     <ClCompile Include="..\Src\Button.cpp" />
     <ClCompile Include="..\Src\ClickEventTranslator.cpp" />
     <ClCompile Include="..\Src\ComboBox.cpp" />
@@ -163,8 +162,9 @@
       <AdditionalIncludeDirectories>$(ProjectDir)..\Include;$(ProjectDir)..\;$(SolutionDir)..\Dependencies\Ogre\AndroidBuild\include;$(SolutionDir)..\Dependencies\Ogre\src\OgreMain\include;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\include;$(SolutionDir)..\Dependencies\MyGUI\Src\MyGUIEngine\include;$(SolutionDir)..\Dependencies\MyGUI\Src\Common;$(SolutionDir)..\Dependencies\MyGUI\Src\Platforms\Ogre\OgrePlatform\include;$(VS_NdkRoot)\platforms\$(AndroidAPILevel)\arch-arm\usr\include;$(StlIncludeDirectories)%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(SolutionDir)../Dependencies\MyGUI\AndroidBuild\lib\Release\libMyGUIEngineStatic.a;$(SolutionDir)../Dependencies\MyGUI\AndroidBuild\lib\Release\libMyGUI.OgrePlatform.a;$(SolutionDir)..\Dependencies\Ogre\AndroidBuild\lib\Release\libOgreMainStatic.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libfreetype.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libFreeImage.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libzlib.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libzziplib.a</AdditionalDependencies>
-      <LibraryDependencies>m;$(StlLibraryName);%(LibraryDependencies)</LibraryDependencies>
+      <AdditionalDependencies>$(SolutionDir)../Dependencies\MyGUI\AndroidBuild\lib\Release\libMyGUIEngineStatic.a;$(SolutionDir)../Dependencies\MyGUI\AndroidBuild\lib\Release\libMyGUI.OgrePlatform.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libfreetype.a</AdditionalDependencies>
+      <LibraryDependencies>OgreCWrapper;m;$(StlLibraryName);%(LibraryDependencies)</LibraryDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration)\Android;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -12,7 +12,7 @@
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
+    <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
     <AssemblyName>AndroidBaseApp</AssemblyName>
     <TargetFrameworkVersion>v4.0.3</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
@@ -86,28 +86,28 @@
     <AndroidNativeLibrary Include="..\..\..\Dependencies\OpenALSoft\srcAndroid\libs\armeabi-v7a\libopenal.so">
       <Link>lib\armeabi-v7a\libopenal.so</Link>
     </AndroidNativeLibrary>
-    <AndroidNativeLibrary Include="..\..\Release\Tegra-Android\libBulletWrapper.so">
+    <AndroidNativeLibrary Include="..\..\Release\Android\libBulletWrapper.so">
       <Link>lib\armeabi-v7a\libBulletWrapper.so</Link>
     </AndroidNativeLibrary>
-    <AndroidNativeLibrary Include="..\..\Release\Tegra-Android\libMyGUIWrapper.so">
+    <AndroidNativeLibrary Include="..\..\Release\Android\libMyGUIWrapper.so">
       <Link>lib\armeabi-v7a\libMyGUIWrapper.so</Link>
     </AndroidNativeLibrary>
-    <AndroidNativeLibrary Include="..\..\Release\Tegra-Android\libOgreCWrapper.so">
+    <AndroidNativeLibrary Include="..\..\Release\Android\libOgreCWrapper.so">
       <Link>lib\armeabi-v7a\libOgreCWrapper.so</Link>
     </AndroidNativeLibrary>
-    <AndroidNativeLibrary Include="..\..\Release\Tegra-Android\libOSHelper.so">
+    <AndroidNativeLibrary Include="..\..\Release\Android\libOSHelper.so">
       <Link>lib\armeabi-v7a\libOSHelper.so</Link>
     </AndroidNativeLibrary>
-    <AndroidNativeLibrary Include="..\..\Release\Tegra-Android\libRocketWrapper.so">
+    <AndroidNativeLibrary Include="..\..\Release\Android\libRocketWrapper.so">
       <Link>lib\armeabi-v7a\libRocketWrapper.so</Link>
     </AndroidNativeLibrary>
-    <AndroidNativeLibrary Include="..\..\Release\Tegra-Android\libSoundWrapper.so">
+    <AndroidNativeLibrary Include="..\..\Release\Android\libSoundWrapper.so">
       <Link>lib\armeabi-v7a\libSoundWrapper.so</Link>
     </AndroidNativeLibrary>
-    <AndroidNativeLibrary Include="..\..\Release\Tegra-Android\libZip.so">
+    <AndroidNativeLibrary Include="..\..\Release\Android\libZip.so">
       <Link>lib\armeabi-v7a\libZip.so</Link>
     </AndroidNativeLibrary>
-    <AndroidNativeLibrary Include="..\..\Release\Tegra-Android\libgnustl_shared.so">
+    <AndroidNativeLibrary Include="..\..\Release\Android\libgnustl_shared.so">
       <Link>lib\armeabi-v7a\libgnustl_shared.so</Link>
     </AndroidNativeLibrary>
   </ItemGroup>
