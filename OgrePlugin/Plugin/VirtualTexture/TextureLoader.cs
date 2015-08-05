@@ -121,9 +121,9 @@ namespace OgrePlugin.VirtualTexture
 
         private TextureCache textureCache;
 
-        Task loadingTask;
-        bool stopLoading = false;
-        List<VTexPage> pagesToLoad = new List<VTexPage>();
+        private Task loadingTask;
+        private bool stopLoading = false;
+        private List<VTexPage> pagesToLoad = new List<VTexPage>();
 
         public TextureLoader(VirtualTextureManager virtualTextureManager, IntSize2 physicalTextureSize, int textelsPerPage, int padding, int stagingBufferCount, int stagingImageCapacity, int maxMipCount, UInt64 maxCacheSizeBytes)
         {
@@ -217,10 +217,15 @@ namespace OgrePlugin.VirtualTexture
             removedPages.Add(page);
         }
 
-        public void updatePagesFromRequests()
+        /// <summary>
+        /// Update the pages in the texture loader that should be loaded. Note that if you are retiring indirection textures
+        /// you can pass an enumerator to their ids so their removal will not be pooled.
+        /// </summary>
+        /// <param name="retiringIndirectionTextureIds">An enumerator over indirection texture ids that should not have removal pooled since they are being retired. Null means ignore this (default).</param>
+        public void updatePagesFromRequests(IEnumerable<byte> retiringIndirectionTextureIds = null)
         {
             //If there are no added pages, there is nothing to do with this call, just return
-            if(addedPages.Count == 0 && removedPages.Count == 0)
+            if (addedPages.Count == 0 && removedPages.Count == 0)
             {
                 return;
             }
@@ -252,8 +257,12 @@ namespace OgrePlugin.VirtualTexture
                 PTexPage pTexPage;
                 if (usedPhysicalPages.TryGetValue(page, out pTexPage))
                 {
+                    //See if this page is part of a retired texture, if not pool the page
+                    if (retiringIndirectionTextureIds == null || !retiringIndirectionTextureIds.Contains(pTexPage.VirtualTexturePage.indirectionTexId))
+                    {
+                        physicalPagePool.Add(page, pTexPage);
+                    }
                     physicalPageQueue.Add(pTexPage);
-                    physicalPagePool.Add(page, pTexPage);
                     usedPhysicalPages.Remove(page);
                 }
                 else

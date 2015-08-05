@@ -25,20 +25,21 @@ namespace OgrePlugin.VirtualTexture
 
         public const String ResourceGroup = "VirtualTextureGroup";
 
-        FeedbackBuffer opaqueFeedbackBuffer;
-        FeedbackBuffer transparentFeedbackBuffer;
-        int frameCount = 0;
-        int updateBufferFrame = 2;
-        Phase phase = Phase.InitialLoad; //All indirection textures will be created requesting their lowest mip levels, this will force us to load those as quickly as possible
-        int texelsPerPage;
-        int padding;
-        CompressedTextureSupport textureFormat;
-        IntSize2 physicalTextureSize;
+        private FeedbackBuffer opaqueFeedbackBuffer;
+        private FeedbackBuffer transparentFeedbackBuffer;
+        private int frameCount = 0;
+        private int updateBufferFrame = 2;
+        private Phase phase = Phase.InitialLoad; //All indirection textures will be created requesting their lowest mip levels, this will force us to load those as quickly as possible
+        private int texelsPerPage;
+        private int padding;
+        private CompressedTextureSupport textureFormat;
+        private IntSize2 physicalTextureSize;
 
-        Dictionary<String, PhysicalTexture> physicalTextures = new Dictionary<string, PhysicalTexture>();
-        Dictionary<String, IndirectionTexture> indirectionTextures = new Dictionary<string, IndirectionTexture>();
-        Dictionary<int, IndirectionTexture> indirectionTexturesById = new Dictionary<int, IndirectionTexture>();
-        TextureLoader textureLoader;
+        private Dictionary<String, PhysicalTexture> physicalTextures = new Dictionary<string, PhysicalTexture>();
+        private Dictionary<String, IndirectionTexture> indirectionTextures = new Dictionary<string, IndirectionTexture>();
+        private Dictionary<int, IndirectionTexture> indirectionTexturesById = new Dictionary<int, IndirectionTexture>();
+        private TextureLoader textureLoader;
+        private List<IndirectionTexture> retiredIndirectionTextures = new List<IndirectionTexture>();
 
         public VirtualTextureManager(int numPhysicalTextures, IntSize2 physicalTextureSize, int texelsPerPage, CompressedTextureSupport textureFormat, int padding, int stagingBufferCount, IntSize2 feedbackBufferSize)
         {
@@ -132,6 +133,24 @@ namespace OgrePlugin.VirtualTexture
                                 transparentFeedbackBuffer.analyzeBuffer();
                                 PerformanceMonitor.stop("FeedbackBuffer Analyze");
 
+                                IEnumerable<IndirectionTexture> currentRetiringTextures = null;
+                                lock (retiredIndirectionTextures)
+                                {
+                                    if (retiredIndirectionTextures.Count > 0)
+                                    {
+                                        currentRetiringTextures = retiredIndirectionTextures.ToList();
+                                    }
+                                }
+
+                                //Begin indirection texture retirement
+                                if (currentRetiringTextures != null)
+                                {
+                                    foreach (var indirectionTex in currentRetiringTextures)
+                                    {
+                                        indirectionTex.beginRetirement();
+                                    }
+                                }
+
                                 PerformanceMonitor.start("Finish Page Update");
                                 foreach (var indirectionTex in indirectionTextures.Values)
                                 {
@@ -140,8 +159,19 @@ namespace OgrePlugin.VirtualTexture
                                 PerformanceMonitor.stop("Finish Page Update");
 
                                 PerformanceMonitor.start("Update Texture Loader");
-                                textureLoader.updatePagesFromRequests();
+                                textureLoader.updatePagesFromRequests(currentRetiringTextures != null ? currentRetiringTextures.Select(i => i.Id) : null);
                                 PerformanceMonitor.stop("Update Texture Loader");
+
+                                //Finish indirection texture retirement
+                                if (currentRetiringTextures != null)
+                                {
+                                    foreach (var indirectionTex in currentRetiringTextures)
+                                    {
+                                        indirectionTextures.Remove(indirectionTex.MaterialSetKey);
+                                        indirectionTexturesById.Remove(indirectionTex.Id);
+                                        indirectionTex.Dispose();
+                                    }
+                                }
 
                                 phase = Phase.RenderFeedback;
                             });
@@ -307,16 +337,16 @@ namespace OgrePlugin.VirtualTexture
         /// Create or retrieve an indirection texture, will return true if the texture was just created. Useful
         /// for filling out other info on the texture if needed.
         /// </summary>
-        /// <param name="indirectionKey">The key to use to search for this texture.</param>
+        /// <param name="materialSetKey">The key to use to search for this texture.</param>
         /// <param name="textureSize">The size of the virtual texture this indirection texture needs to remap.</param>
         /// <param name="indirectionTex">An out variable for the results.</param>
         /// <returns>True if the texture was just created, false if not.</returns>
-        public bool createOrRetrieveIndirectionTexture(String indirectionKey, IntSize2 textureSize, bool keepHighestMip, out IndirectionTexture indirectionTex)
+        public bool createOrRetrieveIndirectionTexture(String materialSetKey, IntSize2 textureSize, bool keepHighestMip, out IndirectionTexture indirectionTex)
         {
-            if (!indirectionTextures.TryGetValue(indirectionKey, out indirectionTex))
+            if (!indirectionTextures.TryGetValue(materialSetKey, out indirectionTex))
             {
-                indirectionTex = new IndirectionTexture(indirectionKey, textureSize, texelsPerPage, this, keepHighestMip);
-                indirectionTextures.Add(indirectionKey, indirectionTex);
+                indirectionTex = new IndirectionTexture(materialSetKey, textureSize, texelsPerPage, this, keepHighestMip);
+                indirectionTextures.Add(indirectionTex.MaterialSetKey, indirectionTex);
                 indirectionTexturesById.Add(indirectionTex.Id, indirectionTex);
                 return true;
             }

@@ -53,6 +53,7 @@ namespace OgrePlugin.VirtualTexture
 
         public IndirectionTexture(String materialSetKey, IntSize2 realTextureSize, int texelsPerPage, VirtualTextureManager virtualTextureManager, bool keepHighestMip)
         {
+            this.MaterialSetKey = materialSetKey;
             this.keepHighestMip = keepHighestMip;
             this.virtualTextureManager = virtualTextureManager;
             this.realTextureSize = realTextureSize;
@@ -182,6 +183,17 @@ namespace OgrePlugin.VirtualTexture
             addedPages.Clear();
         }
 
+        /// <summary>
+        /// Begin the retirement of this indirection texture, this puts it in a state so its next finishPageUpdate will
+        /// unload all textures currently marked as active.
+        /// </summary>
+        internal void beginRetirement()
+        {
+            addedPages.Clear();
+            visibleThisUpdate.Clear();
+            removedPages.AddRange(activePages);
+        }
+
         internal void copyToStaging(PixelBox[] destinations)
         {
             int srcIndex = 0;
@@ -298,6 +310,8 @@ namespace OgrePlugin.VirtualTexture
                 return numPages;
             }
         }
+
+        public String MaterialSetKey { get; private set; }
 
         //New System
         public void addOriginalTexture(string textureUnit, string textureName, IntSize2 textureSize)
