@@ -17,6 +17,7 @@ namespace OgrePlugin.VirtualTexture
         private int numCheckouts = 0;
         private bool destroyOnNoRef = false;
         private Image image;
+        private Object lockObject = new object();
 
         public TextureCacheHandle(Image image, bool destroyOnNoRef)
         {
@@ -30,7 +31,7 @@ namespace OgrePlugin.VirtualTexture
         /// </summary>
         public void Dispose()
         {
-            lock(this)
+            lock(lockObject)
             {
                 --numCheckouts;
                 if (destroyOnNoRef && numCheckouts == 0)
@@ -67,7 +68,7 @@ namespace OgrePlugin.VirtualTexture
         /// </summary>
         internal void checkout()
         {
-            lock(this)
+            lock(lockObject)
             {
                 ++numCheckouts;
             }
@@ -78,7 +79,7 @@ namespace OgrePlugin.VirtualTexture
         /// </summary>
         internal void destroyIfPossible()
         {
-            lock(this)
+            lock(lockObject)
             {
                 destroyOnNoRef = true;
                 if (numCheckouts == 0)
