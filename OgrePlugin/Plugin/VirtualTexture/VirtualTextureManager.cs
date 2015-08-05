@@ -221,10 +221,15 @@ namespace OgrePlugin.VirtualTexture
             IndirectionTexture indirectionTex;
             if (indirectionTextures.TryGetValue(materialSetKey, out indirectionTex))
             {
-                lock (retiredIndirectionTextures)
-                {
-                    retiredIndirectionTextures.Add(indirectionTex);
-                }
+                destroyIndirectionTexture(indirectionTex);
+            }
+        }
+
+        public void destroyIndirectionTexture(IndirectionTexture indirectionTex)
+        {
+            lock (retiredIndirectionTextures)
+            {
+                retiredIndirectionTextures.Add(indirectionTex);
             }
         }
 

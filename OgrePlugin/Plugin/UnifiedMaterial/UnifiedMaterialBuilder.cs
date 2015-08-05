@@ -14,6 +14,19 @@ namespace OgrePlugin
 {
     public class UnifiedMaterialBuilder : MaterialBuilder, IDisposable
     {
+        class MaterialInfo
+        {
+            public MaterialInfo(Material material, IndirectionTexture indirectionTexture)
+            {
+                this.Material = material;
+                this.IndirectionTexture = indirectionTexture;
+            }
+
+            public Material Material { get; private set; }
+
+            public IndirectionTexture IndirectionTexture { get; private set; }
+        }
+
         /// <summary>
         /// A version string to use to determine if the cache should be rebuilt, 
         /// if your saved version does not match this, rebuild the microcode cache.
@@ -28,10 +41,11 @@ namespace OgrePlugin
 
         delegate IndirectionTexture CreateMaterial(Technique technique, MaterialDescription description, bool alpha, bool depthCheck);
 
-        private List<Material> createdMaterials = new List<Material>(); //This is only for detection
+        private Dictionary<Material, MaterialInfo> createdMaterials = new Dictionary<Material, MaterialInfo>(); //This is only for detection
         private VirtualTextureManager virtualTextureManager;
         private String textureFormatExtension;
         private Dictionary<String, CreateMaterial> materialCreationFuncs = new Dictionary<string, CreateMaterial>();
+        private Dictionary<int, int> indirectionTextureUsageCounts = new Dictionary<int, int>();
 
         private PhysicalTexture normalTexture;
         private PhysicalTexture diffuseTexture;
@@ -88,7 +102,7 @@ namespace OgrePlugin
 
         public bool isCreator(Material material)
         {
-            return createdMaterials.Contains(material);
+            return createdMaterials.ContainsKey(material);
         }
 
         public override void buildMaterial(MaterialDescription description, MaterialRepository repo)
@@ -102,9 +116,28 @@ namespace OgrePlugin
 
         public override void destroyMaterial(MaterialPtr materialPtr)
         {
-            createdMaterials.Remove(materialPtr.Value);
-            MaterialManager.getInstance().remove(materialPtr.Value.Name);
-            materialPtr.Dispose();
+            MaterialInfo info;
+            if (createdMaterials.TryGetValue(materialPtr.Value, out info))
+            {
+                int count = 0;
+                if (info.IndirectionTexture != null && indirectionTextureUsageCounts.TryGetValue(info.IndirectionTexture.Id, out count))
+                {
+                    --count;
+                    if (count == 0)
+                    {
+                        virtualTextureManager.destroyIndirectionTexture(info.IndirectionTexture);
+                        indirectionTextureUsageCounts.Remove(info.IndirectionTexture.Id);
+                    }
+                    else
+                    {
+                        indirectionTextureUsageCounts[info.IndirectionTexture.Id] = count;
+                    }
+                }
+
+                createdMaterials.Remove(materialPtr.Value);
+                MaterialManager.getInstance().remove(materialPtr.Value.Name);
+                materialPtr.Dispose();
+            }
         }
 
         public override void initializationComplete()
@@ -158,6 +191,16 @@ namespace OgrePlugin
                     String vertexShaderName = shaderFactory.createVertexProgram(indirectionTex.FeedbackBufferVPName, description.NumHardwareBones, description.NumHardwarePoses, false);
                     String fragmentShaderName = shaderFactory.createFragmentProgram(indirectionTex.FeedbackBufferFPName, false);
                     indirectionTex.setupFeedbackBufferTechnique(material.Value, vertexShaderName);
+
+                    int count = 0;
+                    if (!indirectionTextureUsageCounts.TryGetValue(indirectionTex.Id, out count))
+                    {
+                        indirectionTextureUsageCounts.Add(indirectionTex.Id, 0);
+                    }
+                    else
+                    {
+                        indirectionTextureUsageCounts[indirectionTex.Id] = count + 1;
+                    }
                 }
                 else
                 {
@@ -170,7 +213,7 @@ namespace OgrePlugin
                 material.Value.compile();
                 material.Value.load();
 
-                createdMaterials.Add(material.Value);
+                createdMaterials.Add(material.Value, new MaterialInfo(material.Value, indirectionTex));
                 repo.addMaterial(material, description);
             }
             else
