@@ -13,19 +13,25 @@ namespace OgrePlugin.VirtualTexture
     {
         static byte currentId = 0;
         static byte maxId = 254;
-        static HashSet<byte> usedIds = new HashSet<byte>();
+        static HashSet<byte> pooledIds = new HashSet<byte>(); //A hash set of ids that have been returned to the pool, this should normally be empty unless you unload a huge amount of texture sets.
         static byte generateId()
         {
-            lock (usedIds)
+            byte retVal = currentId;
+
+            lock (pooledIds)
             {
-                while (usedIds.Contains(currentId))
+                if (pooledIds.Count > 0)
+                {
+                    retVal = pooledIds.First();
+                    pooledIds.Remove(retVal);
+                }
+                else
                 {
                     incrementCurrentId();
                 }
-                byte retVal = currentId;
-                incrementCurrentId();
-                return retVal;
             }
+
+            return retVal;
         }
 
         static void incrementCurrentId()
@@ -58,11 +64,11 @@ namespace OgrePlugin.VirtualTexture
             this.virtualTextureManager = virtualTextureManager;
             this.realTextureSize = realTextureSize;
             numPages = realTextureSize / texelsPerPage;
-            if(numPages.Width == 0)
+            if (numPages.Width == 0)
             {
                 numPages.Width = 1;
             }
-            if(numPages.Height == 0)
+            if (numPages.Height == 0)
             {
                 numPages.Height = 1;
             }
@@ -93,8 +99,12 @@ namespace OgrePlugin.VirtualTexture
 
         public void Dispose()
         {
+            lock (pooledIds)
+            {
+                pooledIds.Add(id); //Return id to list of pooled ids.
+            }
             indirectionTexture.Dispose();
-            for (int i = 0; i < highestMip; ++i )
+            for (int i = 0; i < highestMip; ++i)
             {
                 pixelBox[i].Dispose();
                 buffer[i].Dispose();
@@ -156,9 +166,9 @@ namespace OgrePlugin.VirtualTexture
 
         internal void finishPageUpdate()
         {
-            foreach(var page in activePages)
+            foreach (var page in activePages)
             {
-                if(!visibleThisUpdate.Contains(page) && !(keepHighestMip && page.mip == highestMip - 1))
+                if (!visibleThisUpdate.Contains(page) && !(keepHighestMip && page.mip == highestMip - 1))
                 {
                     removedPages.Add(page);
                 }
@@ -176,8 +186,8 @@ namespace OgrePlugin.VirtualTexture
                     virtualTextureManager.TextureLoader.addRequestedPage(page);
                     activePages.Add(page);
                 }
-            } 
-            
+            }
+
             visibleThisUpdate.Clear();
             removedPages.Clear();
             addedPages.Clear();
@@ -317,7 +327,7 @@ namespace OgrePlugin.VirtualTexture
         public void addOriginalTexture(string textureUnit, string textureName, IntSize2 textureSize)
         {
             byte mipOffset = 0;
-            while(realTextureSize.Width >> mipOffset > textureSize.Width)
+            while (realTextureSize.Width >> mipOffset > textureSize.Width)
             {
                 ++mipOffset;
             }

@@ -139,6 +139,7 @@ namespace OgrePlugin.VirtualTexture
                                     if (retiredIndirectionTextures.Count > 0)
                                     {
                                         currentRetiringTextures = retiredIndirectionTextures.ToList();
+                                        retiredIndirectionTextures.Clear();
                                     }
                                 }
 
@@ -215,9 +216,16 @@ namespace OgrePlugin.VirtualTexture
             phase = Phase.Reset;
         }
 
-        public void processMaterialRemoved(Object materialSetKey)
+        public void destroyIndirectionTexture(String materialSetKey)
         {
-            //Need to do something here
+            IndirectionTexture indirectionTex;
+            if (indirectionTextures.TryGetValue(materialSetKey, out indirectionTex))
+            {
+                lock (retiredIndirectionTextures)
+                {
+                    retiredIndirectionTextures.Add(indirectionTex);
+                }
+            }
         }
 
         internal PhysicalTexture getPhysicalTexture(string name)
