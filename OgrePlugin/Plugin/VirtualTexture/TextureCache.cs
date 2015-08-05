@@ -30,10 +30,13 @@ namespace OgrePlugin.VirtualTexture
         /// </summary>
         public void Dispose()
         {
-            --numCheckouts;
-            if(destroyOnNoRef && numCheckouts == 0)
+            lock(this)
             {
-                image.Dispose();
+                --numCheckouts;
+                if (destroyOnNoRef && numCheckouts == 0)
+                {
+                    image.Dispose();
+                }
             }
         }
 
@@ -64,7 +67,10 @@ namespace OgrePlugin.VirtualTexture
         /// </summary>
         internal void checkout()
         {
-            ++numCheckouts;
+            lock(this)
+            {
+                ++numCheckouts;
+            }
         }
 
         /// <summary>
@@ -72,10 +78,13 @@ namespace OgrePlugin.VirtualTexture
         /// </summary>
         internal void destroyIfPossible()
         {
-            destroyOnNoRef = true;
-            if(numCheckouts == 0)
+            lock(this)
             {
-                image.Dispose();
+                destroyOnNoRef = true;
+                if (numCheckouts == 0)
+                {
+                    image.Dispose();
+                }
             }
         }
     }
@@ -164,13 +173,16 @@ namespace OgrePlugin.VirtualTexture
 
         internal void clear()
         {
-            foreach (var image in loadedImages.Values)
+            lock(syncObject)
             {
-                image.destroyIfPossible();
+                foreach (var image in loadedImages.Values)
+                {
+                    image.destroyIfPossible();
+                }
+                loadedImages.Clear();
+                lastAccessedOrder.Clear();
+                currentCacheSize = 0;
             }
-            loadedImages.Clear();
-            lastAccessedOrder.Clear();
-            currentCacheSize = 0;
         }
     }
 }

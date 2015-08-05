@@ -171,7 +171,7 @@ namespace OgrePlugin.VirtualTexture
                                     {
                                         indirectionTextures.Remove(indirectionTex.MaterialSetKey);
                                         indirectionTexturesById.Remove(indirectionTex.Id);
-                                        indirectionTex.Dispose();
+                                        ThreadManager.invoke(indirectionTex.Dispose);
                                     }
                                 }
 
