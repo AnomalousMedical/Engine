@@ -55,6 +55,7 @@ Source: ..\Release\OgrePlugin.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\Release\OSPlatform.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\Release\ShapeLoader.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\Release\SoundPlugin.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\Newtonsoft.Json.dll; DestDir: {app}; Flags: ignoreversion
 
 ;x86
 Source: ..\Release\x86\BulletWrapper.dll; DestDir: {app}\x86; Flags: ignoreversion
