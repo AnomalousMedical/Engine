@@ -12,31 +12,43 @@ namespace OgrePlugin
         private const String UnifiedShaderBase = ShaderPathBase + ".Unified.glsl.";
         private const String EyeShaderBase = ShaderPathBase + ".Eye.glsl.";
 
-        private HighLevelGpuProgramSharedPtr lightingProgram;
-        private HighLevelGpuProgramSharedPtr unpackProgram;
-        private HighLevelGpuProgramSharedPtr packProgram;
+        private List<HighLevelGpuProgramSharedPtr> localPrograms = new List<HighLevelGpuProgramSharedPtr>();
 
         public GlslUnifiedShaderFactory(ResourceManager liveResourceManager)
             :base(liveResourceManager)
         {
-            lightingProgram = HighLevelGpuProgramManager.Instance.createProgram("Lighting_FP_GLSL", ResourceGroupName, "glsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
-            lightingProgram.Value.SourceFile = UnifiedShaderBase + "Lighting.glsl";
-            lightingProgram.Value.load();
-
-            unpackProgram = HighLevelGpuProgramManager.Instance.createProgram("Unpack_FP_GLSL", ResourceGroupName, "glsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
-            unpackProgram.Value.SourceFile = UnifiedShaderBase + "Unpack.glsl";
-            unpackProgram.Value.load();
-
-            packProgram = HighLevelGpuProgramManager.Instance.createProgram("Pack_VP_GLSL", ResourceGroupName, "glsl", GpuProgramType.GPT_VERTEX_PROGRAM);
+            var packProgram = HighLevelGpuProgramManager.Instance.createProgram("Pack_VP_GLSL", ResourceGroupName, "glsl", GpuProgramType.GPT_VERTEX_PROGRAM);
             packProgram.Value.SourceFile = UnifiedShaderBase + "Pack.glsl";
             packProgram.Value.load();
+            localPrograms.Add(packProgram);
+
+            var lightingProgram = HighLevelGpuProgramManager.Instance.createProgram("Lighting_FP_GLSL", ResourceGroupName, "glsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
+            lightingProgram.Value.SourceFile = UnifiedShaderBase + "Lighting.glsl";
+            lightingProgram.Value.load();
+            localPrograms.Add(lightingProgram);
+
+            var unpackProgram = HighLevelGpuProgramManager.Instance.createProgram("Unpack_FP_GLSL", ResourceGroupName, "glsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
+            unpackProgram.Value.SourceFile = UnifiedShaderBase + "Unpack.glsl";
+            unpackProgram.Value.load();
+            localPrograms.Add(unpackProgram);
+
+            var texMipLevelProgram = HighLevelGpuProgramManager.Instance.createProgram("TexMipLevel_FP_GLSL", ResourceGroupName, "glsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
+            texMipLevelProgram.Value.SourceFile = UnifiedShaderBase + "TexMipLevel.glsl";
+            texMipLevelProgram.Value.load();
+            localPrograms.Add(texMipLevelProgram);
+
+            var vtexCoordProgram = HighLevelGpuProgramManager.Instance.createProgram("VTexCoord_FP_GLSL", ResourceGroupName, "glsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
+            vtexCoordProgram.Value.SourceFile = UnifiedShaderBase + "VTexCoord.glsl";
+            vtexCoordProgram.Value.load();
+            localPrograms.Add(vtexCoordProgram);
         }
 
         public override void Dispose()
         {
-            lightingProgram.Dispose();
-            unpackProgram.Dispose();
-            packProgram.Dispose();
+            foreach(var program in localPrograms)
+            {
+                program.Dispose();
+            }
             base.Dispose();
         }
 
@@ -263,7 +275,7 @@ namespace OgrePlugin
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
 
             program.Value.SourceFile = UnifiedShaderBase + "NormalMapSpecularFP.glsl";
-            program.Value.setParam("attach", "Lighting_FP_GLSL Unpack_FP_GLSL");
+            program.Value.setParam("attach", "Lighting_FP_GLSL Unpack_FP_GLSL TexMipLevel_FP_GLSL VTexCoord_FP_GLSL");
             program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines(alpha));
 
             using (var defaultParams = program.Value.getDefaultParameters())
@@ -288,7 +300,7 @@ namespace OgrePlugin
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
 
             program.Value.SourceFile = UnifiedShaderBase + "NormalMapSpecularHighlightFP.glsl";
-            program.Value.setParam("attach", "Lighting_FP_GLSL Unpack_FP_GLSL");
+            program.Value.setParam("attach", "Lighting_FP_GLSL Unpack_FP_GLSL TexMipLevel_FP_GLSL VTexCoord_FP_GLSL");
             program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines(alpha));
 
             using (var defaultParams = program.Value.getDefaultParameters())
@@ -314,7 +326,7 @@ namespace OgrePlugin
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
 
             program.Value.SourceFile = UnifiedShaderBase + "NormalMapSpecularMapFP.glsl";
-            program.Value.setParam("attach", "Lighting_FP_GLSL Unpack_FP_GLSL");
+            program.Value.setParam("attach", "Lighting_FP_GLSL Unpack_FP_GLSL TexMipLevel_FP_GLSL VTexCoord_FP_GLSL");
             program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines(alpha));
 
             using (var defaultParams = program.Value.getDefaultParameters())
@@ -339,7 +351,7 @@ namespace OgrePlugin
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
 
             program.Value.SourceFile = UnifiedShaderBase + "NormalMapSpecularOpacityMapFP.glsl";
-            program.Value.setParam("attach", "Lighting_FP_GLSL Unpack_FP_GLSL");
+            program.Value.setParam("attach", "Lighting_FP_GLSL Unpack_FP_GLSL TexMipLevel_FP_GLSL VTexCoord_FP_GLSL");
             program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines(alpha));
 
             using (var defaultParams = program.Value.getDefaultParameters())
@@ -365,7 +377,7 @@ namespace OgrePlugin
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
 
             program.Value.SourceFile = UnifiedShaderBase + "NormalMapSpecularMapGlossMapFP.glsl";
-            program.Value.setParam("attach", "Lighting_FP_GLSL Unpack_FP_GLSL");
+            program.Value.setParam("attach", "Lighting_FP_GLSL Unpack_FP_GLSL TexMipLevel_FP_GLSL VTexCoord_FP_GLSL");
             program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines(alpha));
 
             using (var defaultParams = program.Value.getDefaultParameters())
@@ -391,7 +403,7 @@ namespace OgrePlugin
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
 
             program.Value.SourceFile = UnifiedShaderBase + "NormalMapSpecularMapOpacityMapFP.glsl";
-            program.Value.setParam("attach", "Lighting_FP_GLSL Unpack_FP_GLSL");
+            program.Value.setParam("attach", "Lighting_FP_GLSL Unpack_FP_GLSL TexMipLevel_FP_GLSL VTexCoord_FP_GLSL");
             program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines(alpha));
 
             using (var defaultParams = program.Value.getDefaultParameters())
@@ -417,7 +429,7 @@ namespace OgrePlugin
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
 
             program.Value.SourceFile = UnifiedShaderBase + "NormalMapSpecularMapOpacityMapGlossMapFP.glsl";
-            program.Value.setParam("attach", "Lighting_FP_GLSL Unpack_FP_GLSL");
+            program.Value.setParam("attach", "Lighting_FP_GLSL Unpack_FP_GLSL TexMipLevel_FP_GLSL VTexCoord_FP_GLSL");
             program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines(alpha));
 
             using (var defaultParams = program.Value.getDefaultParameters())
@@ -469,6 +481,7 @@ namespace OgrePlugin
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
 
             program.Value.SourceFile = UnifiedShaderBase + "FeedbackBufferFP.glsl";
+            program.Value.setParam("attach", "TexMipLevel_FP_GLSL");
 
             return program;
         }
