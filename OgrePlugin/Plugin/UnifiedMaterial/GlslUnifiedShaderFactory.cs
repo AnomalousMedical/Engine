@@ -20,11 +20,15 @@ namespace OgrePlugin
             :base(liveResourceManager)
         {
             lightingProgram = HighLevelGpuProgramManager.Instance.createProgram("Lighting_FP_GLSL", ResourceGroupName, "glsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
-            unpackProgram = HighLevelGpuProgramManager.Instance.createProgram("Unpack_FP_GLSL", ResourceGroupName, "glsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
-            packProgram = HighLevelGpuProgramManager.Instance.createProgram("Pack_VP_GLSL", ResourceGroupName, "glsl", GpuProgramType.GPT_VERTEX_PROGRAM);
-
+            lightingProgram.Value.SourceFile = UnifiedShaderBase + "Lighting.glsl";
             lightingProgram.Value.load();
+
+            unpackProgram = HighLevelGpuProgramManager.Instance.createProgram("Unpack_FP_GLSL", ResourceGroupName, "glsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
+            unpackProgram.Value.SourceFile = UnifiedShaderBase + "Unpack.glsl";
             unpackProgram.Value.load();
+
+            packProgram = HighLevelGpuProgramManager.Instance.createProgram("Pack_VP_GLSL", ResourceGroupName, "glsl", GpuProgramType.GPT_VERTEX_PROGRAM);
+            packProgram.Value.SourceFile = UnifiedShaderBase + "Pack.glsl";
             packProgram.Value.load();
         }
 
