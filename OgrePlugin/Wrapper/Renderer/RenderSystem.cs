@@ -109,7 +109,21 @@ namespace OgrePlugin
             }
         }
 
+        #region RenderSystemCapabilities Cheats
+        //We only need a couple of these functions, so we will cheat right now and wrap them through this class.
+
+        public bool isShaderProfileSupported(String profile)
+        {
+            return RenderSystem_isShaderProfileSupported(renderSystem, profile);
+        }
+
+        #endregion
+
         #region PInvoke
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private static extern bool RenderSystem_isShaderProfileSupported(IntPtr renderSystem, String profile);
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern String RenderSystem_validateConfigOptions(IntPtr renderSystem);

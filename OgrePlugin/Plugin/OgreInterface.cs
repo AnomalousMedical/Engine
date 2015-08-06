@@ -313,6 +313,14 @@ namespace OgrePlugin
         /// </summary>
         public CompressedTextureSupport SelectedTextureFormat { get; private set; }
 
+        public RenderSystem RenderSystem
+        {
+            get
+            {
+                return rs;
+            }
+        }
+
         public RendererWindow recreatePrimaryWindow()
         {
             destroyRendererWindow(primaryWindow);

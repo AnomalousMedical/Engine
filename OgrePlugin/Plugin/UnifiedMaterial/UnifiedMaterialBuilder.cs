@@ -1,4 +1,6 @@
-﻿using Engine;
+﻿#define NEVER_CACHE_SHADERS_OFF
+
+using Engine;
 using Engine.Resources;
 using Engine.Utility;
 using OgrePlugin;
@@ -31,10 +33,10 @@ namespace OgrePlugin
         /// A version string to use to determine if the cache should be rebuilt, 
         /// if your saved version does not match this, rebuild the microcode cache.
         /// </summary>
-#if NEVER_CACHE
+#if NEVER_CACHE_SHADERS
         public static readonly String Version = Guid.NewGuid().ToString();
 #else
-        public static readonly String Version = "1.5";
+        public static readonly String Version = "2.0";
 #endif
 
         private const String GroupName = "UnifiedMaterialBuilder__Reserved";
@@ -69,18 +71,24 @@ namespace OgrePlugin
             }
 
             this.virtualTextureManager = virtualTextureManager;
-            shaderFactory = new UnifiedShaderFactory(liveResourceManager);
+
+            if (OgreInterface.Instance.RenderSystem.isShaderProfileSupported("hlsl"))
+            {
+                shaderFactory = new HlslUnifiedShaderFactory(liveResourceManager);
+            }
+            else if (OgreInterface.Instance.RenderSystem.isShaderProfileSupported("glsl"))
+            {
+                shaderFactory = new GlslUnifiedShaderFactory(liveResourceManager);
+            }
+            else
+            {
+                throw new OgreException("Cannot create Unified Material Builder, device must support shader profiles hlsl, glsl, or glsles.");
+            }
 
             diffuseTexture = virtualTextureManager.createPhysicalTexture("Diffuse", PixelFormatUsageHint.NotSpecial);
             normalTexture = virtualTextureManager.createPhysicalTexture("NormalMap", PixelFormatUsageHint.NormalMap);
             specularTexture = virtualTextureManager.createPhysicalTexture("Specular", PixelFormatUsageHint.NotSpecial);
             opacityTexture = virtualTextureManager.createPhysicalTexture("Opacity", PixelFormatUsageHint.OpacityMap);
-
-            //Debug texture colors
-            //normalTexture.color(Color.Blue);
-            //diffuseTexture.color(Color.Red);
-            //specularTexture.color(Color.Green);
-            //opacityTexture.color(Color.HotPink);
 
             materialCreationFuncs.Add("NormalMapSpecular", createNormalMapSpecular);
             materialCreationFuncs.Add("NormalMapSpecularHighlight", createNormalMapSpecularHighlight);

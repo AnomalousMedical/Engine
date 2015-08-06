@@ -3,6 +3,11 @@
 typedef void(*SetConfigInfo)(String name, String currentValue, bool immutable HANDLE_ARG);
 typedef void(*AddPossibleValue)(String possibleValue HANDLE_ARG);
 
+extern "C" _AnomalousExport bool RenderSystem_isShaderProfileSupported(Ogre::RenderSystem* renderSystem, String profile)
+{
+	return renderSystem->getCapabilities()->isShaderProfileSupported(profile);
+}
+
 extern "C" _AnomalousExport const char* RenderSystem_validateConfigOptions(Ogre::RenderSystem* renderSystem)
 {
 	return createClrFreeableString(renderSystem->validateConfigOptions());

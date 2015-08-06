@@ -22,6 +22,10 @@ namespace OgrePlugin
             lightingProgram = HighLevelGpuProgramManager.Instance.createProgram("Lighting_FP_GLSL", ResourceGroupName, "glsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
             unpackProgram = HighLevelGpuProgramManager.Instance.createProgram("Unpack_FP_GLSL", ResourceGroupName, "glsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
             packProgram = HighLevelGpuProgramManager.Instance.createProgram("Pack_VP_GLSL", ResourceGroupName, "glsl", GpuProgramType.GPT_VERTEX_PROGRAM);
+
+            lightingProgram.Value.load();
+            unpackProgram.Value.load();
+            packProgram.Value.load();
         }
 
         public override void Dispose()
