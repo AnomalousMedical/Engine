@@ -103,6 +103,8 @@
     <Compile Include="Plugin\OgrePluginEntryPoint.cs" />
     <Compile Include="Plugin\OgreResourceManager.cs" />
     <Compile Include="Plugin\ImageAtlas\PagedImageAtlas.cs" />
+    <Compile Include="Plugin\UnifiedMaterial\GlslUnifiedShaderFactory.cs" />
+    <Compile Include="Plugin\UnifiedMaterial\HlslUnifiedShaderFactory.cs" />
     <Compile Include="Plugin\UnifiedMaterial\UnifiedMaterialBuilder.cs" />
     <Compile Include="Plugin\UnifiedMaterial\UnifiedShaderFactory.cs" />
     <Compile Include="Plugin\VirtualTexture\FeedbackBuffer.cs" />
