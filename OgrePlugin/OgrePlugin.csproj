@@ -299,8 +299,7 @@
     <EmbeddedResource Include="Resources\Unified\glsl\FeedbackBufferVP.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsl\FeedbackBufferVPHardwareSkin.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsl\FeedbackBufferFP.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsl\TexMipLevel.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsl\VTexCoord.glsl" />
+    <EmbeddedResource Include="Resources\Unified\glsl\VirtualTextureFuncs.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">

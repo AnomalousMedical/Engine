@@ -55,66 +55,14 @@ vec4 doLighting
 		
 		//Normal
 		vec3 normal
-)
-{
-	//Nvidia cg shader book equation
-	vec3 N = normalize(normal);
-	
-	//Diffuse term
-	vec3 L = normalize(lightVector);
-	float diffuseLight = clamp(dot(N, L), 0.0, 1.0);
-	vec3 diffuse = diffuseColor.rgb * lightDiffuseColor.rgb * diffuseLight;
-	
-	//Specular term
-	vec3 H = normalize(halfVector);
-	float specularLight = pow(clamp(dot(N, H), 0.0, 1.0), glossyness);
-	vec3 specular = specularAmount * (specularColor.rgb * lightDiffuseColor.rgb * specularLight);
-	
-	vec4 finalColor;
-	finalColor.rgb = diffuse + specular + emissive.rgb;
-	finalColor.a = 1.0;
-	
-	return finalColor;
-}
+);
 
 //Unpack function unpacks values from 0 to 1 to -1 to 1
-vec3 unpack(vec3 toUnpack)
-{
-	return 2.0 * (toUnpack - 0.5);
-}
+vec3 unpack(vec3 toUnpack);
 
-float texMipLevel(vec2 coord, vec2 texSize)
-{
-	vec2 dxScaled, dyScaled;
-	vec2 coord_scaled = coord * texSize;
+float texMipLevel(vec2 coord, vec2 texSize);
 
-	dxScaled = dFdx(coord_scaled);
-	dyScaled = dFdy(coord_scaled);
-
-	vec2 dtex = dxScaled*dxScaled + dyScaled*dyScaled;
-	float minDelta = max(dtex.x, dtex.y);
-	float miplevel = max(0.5 * log2(minDelta), 0.0);
-
-	return miplevel;
-}
-
-vec2 vtexCoord(vec2 address, sampler2D indirectionTex, vec2 physicalSizeRecip, vec2 mipBiasSize, vec2 pagePaddingScale, vec2 pagePaddingOffset)
-{
-	float mipLevel = texMipLevel(address, mipBiasSize);
-
-	//Need to add bias for mip levels, the bias adjusts the size of the indirection texture to the size of the physical texture
-	vec4 redirectInfo = texture2D(indirectionTex, address.xy); //Need to do mip level here
-
-	float mip2 = floor(exp2(redirectInfo.b * 255.0) + 0.5); //Figure out how far to shift the original address, based on the mip level, highest mip level (1x1 indirection texture) is 0 counting up from there
-	vec2 coordLow = fract(address * mip2); //Get fractional part of page location, this is shifted left by the mip level
-
-	vec2 page = floor(redirectInfo.rg * 255.0 + 0.5); //Get the page number on the physical texture
-
-	vec2 finalCoord = page + coordLow * pagePaddingScale + pagePaddingOffset; //Add these together to get the coords in page space 64.0 / 66.0  1.0 / 66.0
-	finalCoord = finalCoord * physicalSizeRecip; //Multiple by the physical texture page size to get back to uv space, that is our final coord
-	
-	return finalCoord;
-}
+vec2 vtexCoord(vec2 address, sampler2D indirectionTex, vec2 physicalSizeRecip, vec2 mipBiasSize, vec2 pagePaddingScale, vec2 pagePaddingOffset);
 
 //----------------------------Main Shader----------------------------
 
