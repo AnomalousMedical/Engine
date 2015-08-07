@@ -12,6 +12,14 @@ uniform vec4 emissiveColor;				//The emissive color of the surface
 	uniform vec4 alpha;
 #endif
 
+#ifdef VIRTUAL_TEXTURE
+	uniform sampler2D indirectionTex;
+	uniform vec2 physicalSizeRecip;
+	uniform vec2 mipBiasSize;
+	uniform vec2 pagePaddingScale;
+	uniform vec2 pagePaddingOffset;
+#endif
+
 //Textures
 uniform sampler2D normalTexture;	//The normal map
 uniform sampler2D colorTexture;  //The color map
@@ -52,12 +60,18 @@ vec3 unpack(vec3 toUnpack);
 
 void main()
 {
+	vec2 derivedCoords = texCoords;
+
+	#ifdef VIRTUAL_TEXTURE
+		derivedCoords = vtexCoord(texCoords, indirectionTex, physicalSizeRecip, mipBiasSize, pagePaddingScale, pagePaddingOffset);
+	#endif
+
 	//Get color value
-	vec4 colorMap = texture2D(colorTexture, texCoords.xy);
+	vec4 colorMap = texture2D(colorTexture, derivedCoords.xy);
 
 	//Unpack the normal map.
 	vec3 normal;
-	normal.rg = 2.0 * (texture2D(normalTexture, texCoords).ag - 0.5);
+	normal.rg = 2.0 * (texture2D(normalTexture, derivedCoords).ag - 0.5);
 	normal.b = sqrt(1.0 - normal.r * normal.r - normal.g * normal.g);
 
 	gl_FragColor = doLighting(unpack(lightVector), unpack(halfVector), lightDiffuseColor, attenuation, colorMap, specularColor, colorMap.a, glossyness, emissiveColor, normal);
