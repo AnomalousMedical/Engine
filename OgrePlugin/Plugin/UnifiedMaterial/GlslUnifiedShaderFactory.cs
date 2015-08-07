@@ -458,6 +458,7 @@ namespace OgrePlugin
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
 
             program.Value.SourceFile = UnifiedShaderBase + "NoTexturesColoredFP.glsl";
+            program.Value.setParam("attach", "Lighting_FP_GLSL Unpack_FP_GLSL");
             program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines(alpha));
 
             using (var defaultParams = program.Value.getDefaultParameters())
