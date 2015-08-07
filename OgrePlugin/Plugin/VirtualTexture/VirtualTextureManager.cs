@@ -35,11 +35,14 @@ namespace OgrePlugin.VirtualTexture
         private CompressedTextureSupport textureFormat;
         private IntSize2 physicalTextureSize;
 
+        private TextureLoader textureLoader;
+
         private Dictionary<String, PhysicalTexture> physicalTextures = new Dictionary<string, PhysicalTexture>();
         private Dictionary<String, IndirectionTexture> indirectionTextures = new Dictionary<string, IndirectionTexture>();
         private Dictionary<int, IndirectionTexture> indirectionTexturesById = new Dictionary<int, IndirectionTexture>();
-        private TextureLoader textureLoader;
+        private List<IndirectionTexture> activeIndirectionTextures = new List<IndirectionTexture>();
         private List<IndirectionTexture> retiredIndirectionTextures = new List<IndirectionTexture>();
+        private List<IndirectionTexture> newIndirectionTextures = new List<IndirectionTexture>();
 
         public VirtualTextureManager(int numPhysicalTextures, IntSize2 physicalTextureSize, int texelsPerPage, CompressedTextureSupport textureFormat, int padding, int stagingBufferCount, IntSize2 feedbackBufferSize)
         {
@@ -69,6 +72,15 @@ namespace OgrePlugin.VirtualTexture
             foreach (var physicalTexture in physicalTextures.Values)
             {
                 physicalTexture.Dispose();
+            }
+
+            //Be sure to dispose all retired textures
+            lock (retiredIndirectionTextures)
+            {
+                foreach(var indirectionTex in retiredIndirectionTextures)
+                {
+                    indirectionTex.Dispose();
+                }
             }
 
             foreach (var indirectionTexture in indirectionTextures.Values)
@@ -127,62 +139,81 @@ namespace OgrePlugin.VirtualTexture
                     case Phase.AnalyzeFeedback:
                         phase = Phase.Waiting;
                         ThreadManager.RunInBackground(() =>
+                        {
+                            PerformanceMonitor.start("FeedbackBuffer Analyze");
+                            opaqueFeedbackBuffer.analyzeBuffer();
+                            transparentFeedbackBuffer.analyzeBuffer();
+                            PerformanceMonitor.stop("FeedbackBuffer Analyze");
+
+                            IEnumerable<IndirectionTexture> currentRetiringTextures = null;
+                            lock (retiredIndirectionTextures)
                             {
-                                PerformanceMonitor.start("FeedbackBuffer Analyze");
-                                opaqueFeedbackBuffer.analyzeBuffer();
-                                transparentFeedbackBuffer.analyzeBuffer();
-                                PerformanceMonitor.stop("FeedbackBuffer Analyze");
-
-                                IEnumerable<IndirectionTexture> currentRetiringTextures = null;
-                                lock (retiredIndirectionTextures)
+                                if (retiredIndirectionTextures.Count > 0)
                                 {
-                                    if (retiredIndirectionTextures.Count > 0)
-                                    {
-                                        currentRetiringTextures = retiredIndirectionTextures.ToList();
-                                        retiredIndirectionTextures.Clear();
-                                    }
+                                    currentRetiringTextures = retiredIndirectionTextures.ToList();
+                                    retiredIndirectionTextures.Clear();
                                 }
+                            }
 
-                                //Begin indirection texture retirement
-                                if (currentRetiringTextures != null)
+                            //Begin indirection texture retirement
+                            if (currentRetiringTextures != null)
+                            {
+                                foreach (var indirectionTex in currentRetiringTextures)
                                 {
-                                    foreach (var indirectionTex in currentRetiringTextures)
-                                    {
-                                        indirectionTex.beginRetirement();
-                                    }
+                                    indirectionTex.beginRetirement();
                                 }
+                            }
 
-                                PerformanceMonitor.start("Finish Page Update");
-                                foreach (var indirectionTex in indirectionTextures.Values)
+                            PerformanceMonitor.start("Finish Page Update");
+                            foreach (var indirectionTex in activeIndirectionTextures)
+                            {
+                                indirectionTex.finishPageUpdate();
+                            }
+                            PerformanceMonitor.stop("Finish Page Update");
+
+                            PerformanceMonitor.start("Update Texture Loader");
+                            if (currentRetiringTextures != null)
+                            {
+                                textureLoader.updatePagesFromRequests(() =>
                                 {
-                                    indirectionTex.finishPageUpdate();
-                                }
-                                PerformanceMonitor.stop("Finish Page Update");
-
-                                PerformanceMonitor.start("Update Texture Loader");
-                                textureLoader.updatePagesFromRequests(currentRetiringTextures != null ? currentRetiringTextures.Select(i => i.Id) : null);
-                                PerformanceMonitor.stop("Update Texture Loader");
-
-                                //Finish indirection texture retirement
-                                if (currentRetiringTextures != null)
-                                {
+                                    //Finish indirection texture retirement, this is called as the texture load loop resumes
                                     textureLoader.clearCache(); //Pretty brute force, can we remove just the cached textures for the removed indirection textures?
                                     foreach (var indirectionTex in currentRetiringTextures)
                                     {
-                                        indirectionTextures.Remove(indirectionTex.MaterialSetKey);
                                         indirectionTexturesById.Remove(indirectionTex.Id);
+                                        activeIndirectionTextures.Remove(indirectionTex);
                                         ThreadManager.invoke(indirectionTex.Dispose);
                                     }
-                                }
 
-                                phase = Phase.RenderFeedback;
-                            });
+                                    //Activate new textures
+                                    activateNewIndirectionTextures();
+                                }, 
+                                currentRetiringTextures.Select(i => i.Id));
+
+                            }
+                            else
+                            {
+                                if(newIndirectionTextures.Count > 0)
+                                {
+                                    textureLoader.updatePagesFromRequests(activateNewIndirectionTextures);
+                                }
+                                else
+                                {
+                                    textureLoader.updatePagesFromRequests();
+                                }
+                            }
+                            PerformanceMonitor.stop("Update Texture Loader");
+
+                            phase = Phase.RenderFeedback;
+                        });
                         break;
                     case Phase.InitialLoad:
                         phase = Phase.Waiting;
                         ThreadManager.RunInBackground(() =>
                         {
-                            foreach (var indirectionTex in indirectionTextures.Values)
+                            activateNewIndirectionTextures();
+
+                            foreach (var indirectionTex in activeIndirectionTextures)
                             {
                                 indirectionTex.finishPageUpdate();
                             }
@@ -196,7 +227,7 @@ namespace OgrePlugin.VirtualTexture
                         phase = Phase.Waiting;
                         ThreadManager.RunInBackground(() =>
                         {
-                            foreach (var indirectionTex in indirectionTextures.Values)
+                            foreach (var indirectionTex in activeIndirectionTextures)
                             {
                                 indirectionTex.finishPageUpdate();
                             }
@@ -209,6 +240,19 @@ namespace OgrePlugin.VirtualTexture
                 }
             }
             frameCount = (frameCount + 1) % updateBufferFrame;
+        }
+
+        private void activateNewIndirectionTextures()
+        {
+            lock (newIndirectionTextures)
+            {
+                foreach (var indirectionTex in newIndirectionTextures)
+                {
+                    indirectionTexturesById.Add(indirectionTex.Id, indirectionTex);
+                    activeIndirectionTextures.Add(indirectionTex);
+                }
+                newIndirectionTextures.Clear();
+            }
         }
 
         public void reset()
@@ -230,6 +274,7 @@ namespace OgrePlugin.VirtualTexture
             lock (retiredIndirectionTextures)
             {
                 retiredIndirectionTextures.Add(indirectionTex);
+                indirectionTextures.Remove(indirectionTex.MaterialSetKey);
             }
         }
 
@@ -259,18 +304,10 @@ namespace OgrePlugin.VirtualTexture
                 {
                     yield return transparentFeedbackBuffer.TextureName;
                 }
-                foreach (var item in indirectionTextures.Values)
+                foreach (var item in activeIndirectionTextures)
                 {
                     yield return item.TextureName;
                 }
-            }
-        }
-
-        internal IEnumerable<IndirectionTexture> IndirectionTextures
-        {
-            get
-            {
-                return indirectionTextures.Values;
             }
         }
 
@@ -361,7 +398,10 @@ namespace OgrePlugin.VirtualTexture
             {
                 indirectionTex = new IndirectionTexture(materialSetKey, textureSize, texelsPerPage, this, keepHighestMip);
                 indirectionTextures.Add(indirectionTex.MaterialSetKey, indirectionTex);
-                indirectionTexturesById.Add(indirectionTex.Id, indirectionTex);
+                lock(newIndirectionTextures)
+                {
+                    newIndirectionTextures.Add(indirectionTex);
+                }
                 return true;
             }
             return false;

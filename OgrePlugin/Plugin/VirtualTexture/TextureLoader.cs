@@ -221,8 +221,9 @@ namespace OgrePlugin.VirtualTexture
         /// Update the pages in the texture loader that should be loaded. Note that if you are retiring indirection textures
         /// you can pass an enumerator to their ids so their removal will not be pooled.
         /// </summary>
+        /// <param name="loopResumingCallback">An action that is fired just before the loop restarts to load images.</param>
         /// <param name="retiringIndirectionTextureIds">An enumerator over indirection texture ids that should not have removal pooled since they are being retired. Null means ignore this (default).</param>
-        public void updatePagesFromRequests(IEnumerable<byte> retiringIndirectionTextureIds = null)
+        public void updatePagesFromRequests(Action loopResumingCallback = null, IEnumerable<byte> retiringIndirectionTextureIds = null)
         {
             //If there are no added pages, there is nothing to do with this call, just return
             if (addedPages.Count == 0 && removedPages.Count == 0)
@@ -270,6 +271,20 @@ namespace OgrePlugin.VirtualTexture
                     pagesToLoad.Remove(page);
                 }
             }
+
+            //Clear out any other physical page pool entries
+            if(retiringIndirectionTextureIds != null)
+            {
+                List<PTexPage> currentPagePool = physicalPagePool.Values.ToList();
+                foreach (var pooledPage in currentPagePool)
+                {
+                    if (retiringIndirectionTextureIds.Contains(pooledPage.VirtualTexturePage.indirectionTexId))
+                    {
+                        physicalPagePool.Remove(pooledPage.VirtualTexturePage);
+                        pooledPage.VirtualTexturePage = null;
+                    }
+                }
+            }
             PerformanceMonitor.stop("updatePagesFromRequests remove");
 
             //Process pages into loaded and not loaded
@@ -288,6 +303,11 @@ namespace OgrePlugin.VirtualTexture
                 {
                     pagesToLoad.Add(addedPage);
                 }
+            }
+
+            if (loopResumingCallback != null)
+            {
+                loopResumingCallback.Invoke();
             }
 
             //Start loading task again
