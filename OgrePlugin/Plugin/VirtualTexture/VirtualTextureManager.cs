@@ -280,6 +280,11 @@ namespace OgrePlugin.VirtualTexture
 
         public void destroyIndirectionTexture(IndirectionTexture indirectionTex)
         {
+            lock(newIndirectionTextures)
+            {
+                //Make sure we aren't waiting to be activated as a new texture
+                newIndirectionTextures.Remove(indirectionTex);
+            }
             lock (retiredIndirectionTextures)
             {
                 retiredIndirectionTextures.Add(indirectionTex);
