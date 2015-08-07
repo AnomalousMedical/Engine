@@ -74,6 +74,15 @@ namespace OgrePlugin.VirtualTexture
                 physicalTexture.Dispose();
             }
 
+            //Dispose all new textures
+            lock (newIndirectionTextures)
+            {
+                foreach (var newTex in newIndirectionTextures)
+                {
+                    newTex.Dispose();
+                }
+            }
+
             //Be sure to dispose all retired textures
             lock (retiredIndirectionTextures)
             {
