@@ -10,6 +10,15 @@ uniform mat4 viewProjectionMatrix;
 attribute vec4 blendIndices;
 attribute vec4 blendWeights;
 
+//Pose Animation
+#if POSE_COUNT > 0
+	attribute vec3 uv1; //Pose1Pos
+	#if POSE_COUNT > 1
+		attribute vec3 uv2; //Pose2Pos
+	#endif
+	uniform vec4 poseAnimAmount;
+#endif
+
 //Input
 attribute vec4 vertex; //Vertex
 attribute vec3 normal; //Normal
@@ -28,6 +37,16 @@ vec3 pack(vec3 toPack);
 //----------------------------------
 void main(void)
 {
+	vec4 poseVertex = vertex;
+	//Hardware Pose Animation
+	#if POSE_COUNT == 1
+		poseVertex.xyz = poseVertex.xyz + poseAnimAmount.x * uv1;
+	#else //elsif not working, so do it this way instead
+		#if POSE_COUNT == 2
+			poseVertex.xyz = poseVertex.xyz + poseAnimAmount.x * uv1 + poseAnimAmount.y * uv2;
+		#endif
+	#endif
+
     //Hardware Skinning
 	vec4 blendPos = vec4(0,0,0,0);
     vec3 newNormal = vec3(0,0,0);
@@ -45,7 +64,7 @@ void main(void)
 			weight = blendWeights[0];
 			worldMatrixRot = mat3(worldMatrix);
         
-			blendPos += vec4((worldMatrix * vertex).xyz, 1.0) * weight;
+			blendPos += vec4((worldMatrix * poseVertex).xyz, 1.0) * weight;
 			newNormal += (worldMatrixRot * normal) * weight;
 		#endif
 
@@ -56,7 +75,7 @@ void main(void)
 			weight = blendWeights[1];
 			worldMatrixRot = mat3(worldMatrix);
         
-			blendPos += vec4((worldMatrix * vertex).xyz, 1.0) * weight;
+			blendPos += vec4((worldMatrix * poseVertex).xyz, 1.0) * weight;
 			newNormal += (worldMatrixRot * normal) * weight;
 		#endif
 
@@ -67,7 +86,7 @@ void main(void)
 			weight = blendWeights[2];
 			worldMatrixRot = mat3(worldMatrix);
         
-			blendPos += vec4((worldMatrix * vertex).xyz, 1.0) * weight;
+			blendPos += vec4((worldMatrix * poseVertex).xyz, 1.0) * weight;
 			newNormal += (worldMatrixRot * normal) * weight;
 		#endif
 
@@ -78,7 +97,7 @@ void main(void)
 			weight = blendWeights[3];
 			worldMatrixRot = mat3(worldMatrix);
         
-			blendPos += vec4((worldMatrix * vertex).xyz, 1.0) * weight;
+			blendPos += vec4((worldMatrix * poseVertex).xyz, 1.0) * weight;
 			newNormal += (worldMatrixRot * normal) * weight;
 		#endif
 	//---------------End Skinning Unrolled Loop------------------
