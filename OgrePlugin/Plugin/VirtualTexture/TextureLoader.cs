@@ -20,6 +20,7 @@ namespace OgrePlugin.VirtualTexture
         private StagingIndirectionTexture newIndirectionTextureStaging;
         private bool updateOldIndirectionTexture = false;
         private bool updateNewIndirectionTexture = false;
+        private ManualResetEventSlim gpuUploadWaitEvent = new ManualResetEventSlim(true);
 
         public StagingBufferSet(int stagingImageCapacity, int maxMipCount)
         {
@@ -30,6 +31,7 @@ namespace OgrePlugin.VirtualTexture
 
         public void Dispose()
         {
+            gpuUploadWaitEvent.Dispose();
             foreach (var stagingImage in stagingPhysicalPages)
             {
                 if (stagingImage != null)
@@ -51,6 +53,12 @@ namespace OgrePlugin.VirtualTexture
             NumUpdatedTextures = 0;
             updateOldIndirectionTexture = false;
             updateNewIndirectionTexture = false;
+            gpuUploadWaitEvent.Reset();
+        }
+
+        public void returnedToPool()
+        {
+            gpuUploadWaitEvent.Set();
         }
 
         public void setIndirectionTextures(IndirectionTexture oldIndirectionTexture, IndirectionTexture newIndirectionTexture)
@@ -65,6 +73,11 @@ namespace OgrePlugin.VirtualTexture
             {
                 newIndirectionTextureStaging.setData(newIndirectionTexture);
             }
+        }
+
+        internal void waitForGpuUpload()
+        {
+            gpuUploadWaitEvent.Wait();
         }
 
         public void uploadTexturesToGpu()
@@ -248,6 +261,15 @@ namespace OgrePlugin.VirtualTexture
                 }
             }
 
+            //If we have pages to retire, for extra safety wait until all outstanding staging buffers are finished uploading
+            if (retiringIndirectionTextureIds != null)
+            {
+                foreach (var stagingBuffer in stagingBufferSets)
+                {
+                    stagingBuffer.waitForGpuUpload();
+                }
+            }
+
             //Reset
             stopLoading = false;
 
@@ -262,6 +284,10 @@ namespace OgrePlugin.VirtualTexture
                     if (retiringIndirectionTextureIds == null || !retiringIndirectionTextureIds.Contains(pTexPage.VirtualTexturePage.indirectionTexId))
                     {
                         physicalPagePool.Add(page, pTexPage);
+                    }
+                    else
+                    {
+                        pTexPage.VirtualTexturePage = null;
                     }
                     physicalPageQueue.Add(pTexPage);
                     usedPhysicalPages.Remove(page);
@@ -333,6 +359,7 @@ namespace OgrePlugin.VirtualTexture
                             lock (stagingBufferSets)
                             {
                                 stagingBuffers = this.stagingBufferSets[0];
+                                stagingBuffers.reset();
                                 stagingBufferSets.RemoveAt(0);
                                 if(stagingBufferSets.Count == 0)
                                 {
@@ -341,7 +368,6 @@ namespace OgrePlugin.VirtualTexture
                                 }
                             }
                             System.Threading.Monitor.Enter(syncObject);
-                            stagingBuffers.reset();
                             if (loadPage(pagesToLoad[i], stagingBuffers))
                             {
                                 pagesToLoad.RemoveAt(i);
@@ -372,6 +398,7 @@ namespace OgrePlugin.VirtualTexture
         {
             lock (stagingBufferSets)
             {
+                stagingBuffers.returnedToPool();
                 stagingBufferSets.Add(stagingBuffers);
                 if (stagingBufferSets.Count > 0)
                 {
