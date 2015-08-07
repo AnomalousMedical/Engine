@@ -60,9 +60,13 @@ vec4 doLighting
 //Unpack function unpacks values from 0 to 1 to -1 to 1
 vec3 unpack(vec3 toUnpack);
 
+#ifdef VIRTUAL_TEXTURE
+
 float texMipLevel(vec2 coord, vec2 texSize);
 
 vec2 vtexCoord(vec2 address, sampler2D indirectionTex, vec2 physicalSizeRecip, vec2 mipBiasSize, vec2 pagePaddingScale, vec2 pagePaddingOffset);
+
+#endif
 
 //----------------------------Main Shader----------------------------
 
