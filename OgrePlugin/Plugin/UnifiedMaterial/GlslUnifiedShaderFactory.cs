@@ -281,6 +281,7 @@ namespace OgrePlugin
                 defaultParams.Value.setNamedAutoConstant("emissiveColor", AutoConstantType.ACT_SURFACE_EMISSIVE_COLOUR);
                 defaultParams.Value.setNamedConstant("normalTexture", 0);
                 defaultParams.Value.setNamedConstant("colorTexture", 1);
+                defaultParams.Value.setNamedConstant("indirectionTex", 2);
                 if (alpha)
                 {
                     defaultParams.Value.setNamedAutoConstant("alpha", AutoConstantType.ACT_CUSTOM, 0);
@@ -307,6 +308,7 @@ namespace OgrePlugin
                 defaultParams.Value.setNamedAutoConstant("highlightColor", AutoConstantType.ACT_CUSTOM, 1);
                 defaultParams.Value.setNamedConstant("normalTexture", 0);
                 defaultParams.Value.setNamedConstant("colorTexture", 1);
+                defaultParams.Value.setNamedConstant("indirectionTex", 2);
                 if (alpha)
                 {
                     defaultParams.Value.setNamedAutoConstant("alpha", AutoConstantType.ACT_CUSTOM, 0);
@@ -332,6 +334,7 @@ namespace OgrePlugin
                 defaultParams.Value.setNamedConstant("normalTexture", 0);
                 defaultParams.Value.setNamedConstant("colorTexture", 1);
                 defaultParams.Value.setNamedConstant("specularTexture", 2);
+                defaultParams.Value.setNamedConstant("indirectionTex", 3);
                 if (alpha)
                 {
                     defaultParams.Value.setNamedAutoConstant("alpha", AutoConstantType.ACT_CUSTOM, 0);
@@ -358,6 +361,7 @@ namespace OgrePlugin
                 defaultParams.Value.setNamedConstant("normalTexture", 0);
                 defaultParams.Value.setNamedConstant("colorTexture", 1);
                 defaultParams.Value.setNamedConstant("opacityTexture", 2);
+                defaultParams.Value.setNamedConstant("indirectionTex", 3);
                 if (alpha)
                 {
                     defaultParams.Value.setNamedAutoConstant("alpha", AutoConstantType.ACT_CUSTOM, 0);
@@ -411,6 +415,7 @@ namespace OgrePlugin
                 defaultParams.Value.setNamedConstant("colorTexture", 1);
                 defaultParams.Value.setNamedConstant("specularTexture", 2);
                 defaultParams.Value.setNamedConstant("opacityTexture", 3);
+                defaultParams.Value.setNamedConstant("indirectionTex", 4);
                 if (alpha)
                 {
                     defaultParams.Value.setNamedAutoConstant("alpha", AutoConstantType.ACT_CUSTOM, 0);
@@ -438,6 +443,7 @@ namespace OgrePlugin
                 defaultParams.Value.setNamedConstant("colorTexture", 1);
                 defaultParams.Value.setNamedConstant("specularTexture", 2);
                 defaultParams.Value.setNamedConstant("opacityGlossTexture", 3);
+                defaultParams.Value.setNamedConstant("indirectionTex", 4);
                 if (alpha)
                 {
                     defaultParams.Value.setNamedAutoConstant("alpha", AutoConstantType.ACT_CUSTOM, 0);
