@@ -15,7 +15,7 @@ namespace OgrePlugin
         private List<HighLevelGpuProgramSharedPtr> localPrograms = new List<HighLevelGpuProgramSharedPtr>();
 
         public GlslUnifiedShaderFactory(ResourceManager liveResourceManager)
-            :base(liveResourceManager)
+            : base(liveResourceManager)
         {
             var packProgram = HighLevelGpuProgramManager.Instance.createProgram("Pack_VP_GLSL", ResourceGroupName, "glsl", GpuProgramType.GPT_VERTEX_PROGRAM);
             packProgram.Value.SourceFile = UnifiedShaderBase + "Pack.glsl";
@@ -45,7 +45,7 @@ namespace OgrePlugin
 
         public override void Dispose()
         {
-            foreach(var program in localPrograms)
+            foreach (var program in localPrograms)
             {
                 program.Dispose();
             }
@@ -377,7 +377,7 @@ namespace OgrePlugin
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
 
             program.Value.SourceFile = UnifiedShaderBase + "NormalMapSpecularMapGlossMapFP.glsl";
-            program.Value.setParam("attach", "Lighting_FP_GLSL Unpack_FP_GLSL TexMipLevel_FP_GLSL VTexCoord_FP_GLSL");
+            //program.Value.setParam("attach", "Lighting_FP_GLSL Unpack_FP_GLSL TexMipLevel_FP_GLSL VTexCoord_FP_GLSL");
             program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines(alpha));
 
             using (var defaultParams = program.Value.getDefaultParameters())
@@ -389,6 +389,7 @@ namespace OgrePlugin
                 defaultParams.Value.setNamedConstant("normalTexture", 0);
                 defaultParams.Value.setNamedConstant("colorTexture", 1);
                 defaultParams.Value.setNamedConstant("specularTexture", 2);
+                defaultParams.Value.setNamedConstant("indirectionTex", 3);
                 if (alpha)
                 {
                     defaultParams.Value.setNamedAutoConstant("alpha", AutoConstantType.ACT_CUSTOM, 0);

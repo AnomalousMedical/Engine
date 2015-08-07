@@ -176,25 +176,25 @@ namespace OgrePlugin
             StringBuilder definesBuilder = new StringBuilder();
             if (parity)
             {
-                definesBuilder.AppendFormat("PARITY=1;");
+                definesBuilder.AppendFormat("PARITY=1,");
             }
             if(numHardwareBones > 0)
             {
-                definesBuilder.AppendFormat("BONES_PER_VERTEX={0};", numHardwareBones);
+                definesBuilder.AppendFormat("BONES_PER_VERTEX={0},", numHardwareBones);
             }
             if(numHardwarePoses > 0)
             {
-                definesBuilder.AppendFormat("POSE_COUNT={0};", numHardwarePoses);
+                definesBuilder.AppendFormat("POSE_COUNT={0},", numHardwarePoses);
             }
             return definesBuilder.ToString();
         }
 
         protected static String DetermineFragmentPreprocessorDefines(bool alpha)
         {
-            StringBuilder definesBuilder = new StringBuilder("VIRTUAL_TEXTURE=1;");
+            StringBuilder definesBuilder = new StringBuilder("VIRTUAL_TEXTURE=1,");
             if(alpha)
             {
-                definesBuilder.Append("ALPHA=1;");
+                definesBuilder.Append("ALPHA=1,");
             }
             return definesBuilder.ToString();
         }
