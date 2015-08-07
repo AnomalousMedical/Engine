@@ -101,6 +101,7 @@ namespace OgreModelEditor
             OgreInterface.MicrocodeCachePath = Path.Combine(OgreModelEditorConfig.DocRoot, "ShaderCache.mcc");
             OgreInterface.AllowMicrocodeCacheLoad = OgreModelEditorConfig.LastShaderVersion == UnifiedMaterialBuilder.Version;
             OgreModelEditorConfig.LastShaderVersion = UnifiedMaterialBuilder.Version;
+            OgreInterface.TrackMemoryLeaks = true;
 
             pluginManager = new PluginManager(OgreModelEditorConfig.ConfigFile);
             pluginManager.OnConfigureDefaultWindow = createWindow;

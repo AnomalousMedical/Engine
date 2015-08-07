@@ -238,8 +238,8 @@ namespace OgrePlugin.VirtualTexture
         /// <param name="retiringIndirectionTextureIds">An enumerator over indirection texture ids that should not have removal pooled since they are being retired. Null means ignore this (default).</param>
         public void updatePagesFromRequests(Action loopResumingCallback = null, IEnumerable<byte> retiringIndirectionTextureIds = null)
         {
-            //If there are no added pages, there is nothing to do with this call, just return
-            if (addedPages.Count == 0 && removedPages.Count == 0)
+            //If there are no added pages or changes to indirection textures, there is nothing to do with this call, just return
+            if (addedPages.Count == 0 && removedPages.Count == 0 && loopResumingCallback == null && retiringIndirectionTextureIds == null)
             {
                 return;
             }

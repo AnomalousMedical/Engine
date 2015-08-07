@@ -67,12 +67,6 @@ namespace OgrePlugin.VirtualTexture
                     break;
                 case CompressedTextureSupport.DXT:
                     PixelFormat pixelFormat = PixelFormat.PF_DXT5;
-                    //switch(textureUsage)
-                    //{
-                    //    case PixelFormatUsageHint.OpacityMap:
-                    //        pixelFormat = PixelFormat.PF_DXT1;
-                    //        break;
-                    //}
                     physicalTexture = TextureManager.getInstance().createManual(textureName, VirtualTextureManager.ResourceGroup, TextureType.TEX_TYPE_2D,
                         (uint)size.Width, (uint)size.Height, 1, 0, pixelFormat, TextureUsage.TU_DEFAULT, null, false, 0); //Got as a render target for now so we can save the output.
                     break;
