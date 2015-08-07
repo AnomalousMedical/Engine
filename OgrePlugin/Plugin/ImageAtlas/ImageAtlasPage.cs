@@ -30,6 +30,7 @@ namespace OgrePlugin
         public void Dispose()
         {
             bufferPtr.Dispose();
+            TextureManager.getInstance().remove(texture);
             texture.Dispose();
         }
 

@@ -103,6 +103,7 @@ namespace OgrePlugin.VirtualTexture
             {
                 pooledIds.Add(id); //Return id to list of pooled ids.
             }
+            TextureManager.getInstance().remove(indirectionTexture);
             indirectionTexture.Dispose();
             for (int i = 0; i < highestMip; ++i)
             {

@@ -84,6 +84,7 @@ namespace OgrePlugin.VirtualTexture
         public void Dispose()
         {
             buffer.Dispose();
+            TextureManager.getInstance().remove(physicalTexture);
             physicalTexture.Dispose();
         }
 

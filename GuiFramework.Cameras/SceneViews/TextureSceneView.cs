@@ -68,6 +68,7 @@ namespace Anomalous.GuiFramework.Cameras
             }
             if (texture != null)
             {
+                TextureManager.getInstance().remove(texture);
                 texture.Dispose();
             }
         }

@@ -51,6 +51,7 @@ namespace OgrePlugin.VirtualTexture
             renderTexture.Dispose();
             renderTexture = null;
             pixelBuffer.Dispose();
+            TextureManager.getInstance().remove(texture);
             texture.Dispose();
             fullBitmapBox.Dispose();
             fullBitmap.Dispose();
