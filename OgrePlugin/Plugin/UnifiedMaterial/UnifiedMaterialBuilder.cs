@@ -1,6 +1,4 @@
-﻿#define NEVER_CACHE_SHADERS_OFF
-
-using Engine;
+﻿using Engine;
 using Engine.Resources;
 using Engine.Utility;
 using OgrePlugin;

@@ -92,6 +92,11 @@ namespace Engine
             return false;
         }
 
+        /// <summary>
+        /// Add an archive to the virtual file system. Returns true if added sucessfully, otherwise false.
+        /// </summary>
+        /// <param name="path">The path to the archive, can be a folder on the real file system or a zip archive.</param>
+        /// <returns>True if added false if not.</returns>
         public bool addArchive(String path)
         {
             Archive archive = FileSystem.OpenArchive(path);
