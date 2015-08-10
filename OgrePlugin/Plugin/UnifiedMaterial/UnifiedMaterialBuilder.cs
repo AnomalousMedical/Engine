@@ -80,6 +80,10 @@ namespace OgrePlugin
             {
                 shaderFactory = new GlslUnifiedShaderFactory(liveResourceManager);
             }
+            else if (OgreInterface.Instance.RenderSystem.isShaderProfileSupported("glsles"))
+            {
+                shaderFactory = new GlslesUnifiedShaderFactory(liveResourceManager);
+            }
             else
             {
                 throw new OgreException("Cannot create Unified Material Builder, device must support shader profiles hlsl, glsl, or glsles.");
