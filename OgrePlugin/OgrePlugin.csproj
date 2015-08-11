@@ -256,8 +256,8 @@
     <EmbeddedResource Include="Resources\ColorVertex\glsles\ColorVertexFPAlpha.glsles" />
     <EmbeddedResource Include="Resources\ColorVertex\glsles\ColorVertexVP.glsles" />
     <EmbeddedResource Include="Resources\ColorVertex\glsles\ColorVertexWhiteFP.glsles" />
-    <EmbeddedResource Include="Resources\Eye\glsles\EyeOuterFP.glsles" />
-    <EmbeddedResource Include="Resources\Eye\glsles\EyeOuterVP.glsles" />
+    <EmbeddedResource Include="Resources\Eye\glsles\EyeOuterFP.glsl" />
+    <EmbeddedResource Include="Resources\Eye\glsles\EyeOuterVP.glsl" />
     <EmbeddedResource Include="Resources\Eye\glsl\EyeOuterFP.glsl" />
     <EmbeddedResource Include="Resources\Eye\glsl\EyeOuterVP.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsles\DepthCheckVP.glsl" />
