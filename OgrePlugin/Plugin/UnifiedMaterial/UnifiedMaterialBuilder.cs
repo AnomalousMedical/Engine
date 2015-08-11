@@ -56,6 +56,25 @@ namespace OgrePlugin
 
         public event Action<UnifiedMaterialBuilder> InitializationComplete;
 
+        class BuiltInMaterialRepo : MaterialRepository
+        {
+            private List<MaterialPtr> builtInMaterials = new List<MaterialPtr>();
+
+            public void addMaterial(MaterialPtr material, MaterialDescription description)
+            {
+                builtInMaterials.Add(material);
+            }
+
+            public void Dispose(UnifiedMaterialBuilder materialBuilder)
+            {
+                foreach(var material in builtInMaterials)
+                {
+                    materialBuilder.destroyMaterial(material);
+                }
+            }
+        }
+        private BuiltInMaterialRepo builtInMaterialRepo = new BuiltInMaterialRepo();
+
         public UnifiedMaterialBuilder(VirtualTextureManager virtualTextureManager, CompressedTextureSupport textureFormat, ResourceManager liveResourceManager)
         {
             switch(textureFormat)
@@ -92,6 +111,7 @@ namespace OgrePlugin
             specularTexture = virtualTextureManager.createPhysicalTexture("Specular", PixelFormatUsageHint.NotSpecial);
             opacityTexture = virtualTextureManager.createPhysicalTexture("Opacity", PixelFormatUsageHint.OpacityMap);
 
+            materialCreationFuncs.Add("Hidden", createHiddenMaterial);
             materialCreationFuncs.Add("NormalMapSpecular", createNormalMapSpecular);
             materialCreationFuncs.Add("NormalMapSpecularHighlight", createNormalMapSpecularHighlight);
             materialCreationFuncs.Add("NormalMapSpecularMap", createNormalMapSpecularMap);
@@ -103,10 +123,19 @@ namespace OgrePlugin
             materialCreationFuncs.Add("ColoredNoTexture", createColoredNoTexture);
 
             OgreResourceGroupManager.getInstance().createResourceGroup(GroupName);
+
+            buildMaterial(new MaterialDescription()
+            {
+                Name = "HiddenMaterial",
+                ShaderName = "Hidden",
+                CreateAlphaMaterial = false,
+                Group = GroupName
+            }, builtInMaterialRepo);
         }
 
         public void Dispose()
         {
+            builtInMaterialRepo.Dispose(this);
             shaderFactory.Dispose();
         }
 
@@ -239,6 +268,10 @@ namespace OgrePlugin
             technique.setSchemeName(FeedbackBuffer.Scheme);
 
             var pass = technique.createPass();
+            pass.setDepthWriteEnabled(false);
+            pass.setColorWriteEnabled(false);
+            pass.setDepthCheckEnabled(true);
+            pass.setDepthFunction(CompareFunction.CMPF_ALWAYS_FAIL);
             pass.setVertexProgram(shaderFactory.createVertexProgram("HiddenVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
             pass.setFragmentProgram(shaderFactory.createFragmentProgram("HiddenFP", false));
         }
@@ -293,6 +326,26 @@ namespace OgrePlugin
             }
 
             return indirectionTex;
+        }
+
+        private IndirectionTexture createHiddenMaterial(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
+        {
+            //Create depth check pass if needed
+            var pass = technique.getPass(0);
+
+            //Setup this pass
+            pass.setDepthWriteEnabled(false);
+            pass.setColorWriteEnabled(false);
+            pass.setDepthCheckEnabled(true);
+            pass.setDepthFunction(CompareFunction.CMPF_ALWAYS_FAIL);
+
+            //Material specific, setup shaders
+            pass.setVertexProgram(shaderFactory.createVertexProgram("HiddenVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
+
+            pass.setFragmentProgram(shaderFactory.createFragmentProgram("HiddenFP", false));
+
+            //Setup textures
+            return null;
         }
 
         private IndirectionTexture createNormalMapSpecular(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
