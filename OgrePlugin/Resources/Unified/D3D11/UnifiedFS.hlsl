@@ -170,7 +170,11 @@ float4 normalMapSpecularFP
 
 	//Unpack the normal map.
 	float3 normal;
+#ifdef RG_NORMALS
+	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).rg - 0.5f);
+#else
 	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).ag - 0.5f);
+#endif
 	normal.b = sqrt(1 - normal.r * normal.r - normal.g * normal.g);
 
 	float4 color = doLighting(unpack(input.lightVector), unpack(input.halfVector), lightDiffuseColor, input.attenuation, colorMap, specularColor, colorMap.a, glossyness, emissiveColor, normal);
@@ -222,7 +226,11 @@ float4 normalMapSpecularHighlightFP
 
 	//Unpack the normal map.
 	float3 normal;
+#ifdef RG_NORMALS
+	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).rg - 0.5f);
+#else
 	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).ag - 0.5f);
+#endif
 	normal.b = sqrt(1 - normal.r * normal.r - normal.g * normal.g);
 
 	float4 color = doLighting(unpack(input.lightVector), unpack(input.halfVector), lightDiffuseColor, input.attenuation, colorMap, specularColor, colorMap.a, glossyness, emissiveColor, normal) * highlightColor;
@@ -275,7 +283,11 @@ float4 normalMapSpecularOpacityMapFP
 
 	//Unpack the normal map.
 	float3 normal;
+#ifdef RG_NORMALS
+	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).rg - 0.5f);
+#else
 	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).ag - 0.5f);
+#endif
 	normal.b = sqrt(1 - normal.r * normal.r - normal.g * normal.g);
 
 	float4 color = doLighting(unpack(input.lightVector), unpack(input.halfVector), lightDiffuseColor, input.attenuation, colorMap, specularColor, colorMap.a, glossyness, emissiveColor, normal);
@@ -334,7 +346,11 @@ float4 normalMapSpecularMapFP
 
 	//Unpack the normal map.
 	float3 normal;
+#ifdef RG_NORMALS
+	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).rg - 0.5f);
+#else
 	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).ag - 0.5f);
+#endif
 	normal.b = sqrt(1 - normal.r * normal.r - normal.g * normal.g);
 
 	float4 color = doLighting(unpack(input.lightVector), unpack(input.halfVector), lightDiffuseColor, input.attenuation, colorMap, specularMapColor, specularMapColor.a, glossyness, emissiveColor, normal);
@@ -383,14 +399,18 @@ float4 normalMapSpecularMapGlossMapFP
 #endif
 
 	//Get color value
-	float4 colorMap = colorTexture.SampleLevel(normalTextureSampler, texCoords, 0);
+	float4 colorMap = colorTexture.Sample(normalTextureSampler, texCoords);
 
 	//Get the specular value
-	float4 specularMapColor = specularTexture.SampleLevel(specularTextureSampler, texCoords, 0);
+	float4 specularMapColor = specularTexture.Sample(specularTextureSampler, texCoords);
 
 	//Unpack the normal map.
 	float3 normal;
-	normal.rg = 2.0f * (normalTexture.SampleLevel(normalTextureSampler, texCoords, 0).ag - 0.5f);
+#ifdef RG_NORMALS
+	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).rg - 0.5f);
+#else
+	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).ag - 0.5f);
+#endif
 	normal.b = sqrt(1 - normal.r * normal.r - normal.g * normal.g);
 
 	//Compute the glossyness
@@ -451,7 +471,11 @@ float4 normalMapSpecularMapOpacityMapFP
 
 	//Unpack the normal map.
 	float3 normal;
+#ifdef RG_NORMALS
+	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).rg - 0.5f);
+#else
 	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).ag - 0.5f);
+#endif
 	normal.b = sqrt(1 - normal.r * normal.r - normal.g * normal.g);
 
 	float4 color = doLighting(unpack(input.lightVector), unpack(input.halfVector), lightDiffuseColor, input.attenuation, colorMap, specularMapColor, specularMapColor.a, glossyness, emissiveColor, normal);
@@ -513,7 +537,11 @@ float4 normalMapSpecularMapOpacityMapGlossMapFP
 
 	//Unpack the normal map.
 	float3 normal;
+#ifdef RG_NORMALS
+	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).rg - 0.5f);
+#else
 	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).ag - 0.5f);
+#endif
 	normal.b = sqrt(1 - normal.r * normal.r - normal.g * normal.g);
 
 	float2 opacityGloss = opacityGlossTexture.Sample(opacityGlossTextureSampler, texCoords).rg;

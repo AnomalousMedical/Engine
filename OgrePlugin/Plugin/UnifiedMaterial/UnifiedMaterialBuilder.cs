@@ -44,6 +44,7 @@ namespace OgrePlugin
         private Dictionary<Material, MaterialInfo> createdMaterials = new Dictionary<Material, MaterialInfo>(); //This is only for detection
         private VirtualTextureManager virtualTextureManager;
         private String textureFormatExtension;
+        private String normalTextureFormatExtension;
         private Dictionary<String, CreateMaterial> materialCreationFuncs = new Dictionary<string, CreateMaterial>();
         private Dictionary<int, int> indirectionTextureUsageCounts = new Dictionary<int, int>();
 
@@ -77,13 +78,23 @@ namespace OgrePlugin
 
         public UnifiedMaterialBuilder(VirtualTextureManager virtualTextureManager, CompressedTextureSupport textureFormat, ResourceManager liveResourceManager)
         {
-            switch(textureFormat)
+            NormaMapReadlMode normalMapReadMode = NormaMapReadlMode.RG;
+            switch (textureFormat)
             {
+                case CompressedTextureSupport.DXT_BC4_BC5:
+                    textureFormatExtension = ".dds";
+                    normalTextureFormatExtension = ".dds";
+                    normalMapReadMode = NormaMapReadlMode.RG;
+                    break;
                 case CompressedTextureSupport.DXT:
                     textureFormatExtension = ".dds";
+                    normalTextureFormatExtension = ".dds";
+                    normalMapReadMode = NormaMapReadlMode.AG;
                     break;
                 case CompressedTextureSupport.None:
                     textureFormatExtension = ".png";
+                    normalTextureFormatExtension = ".png";
+                    normalMapReadMode = NormaMapReadlMode.RG;
                     break;
             }
 
@@ -91,15 +102,15 @@ namespace OgrePlugin
 
             if (OgreInterface.Instance.RenderSystem.isShaderProfileSupported("hlsl"))
             {
-                shaderFactory = new HlslUnifiedShaderFactory(liveResourceManager);
+                shaderFactory = new HlslUnifiedShaderFactory(liveResourceManager, normalMapReadMode);
             }
             else if (OgreInterface.Instance.RenderSystem.isShaderProfileSupported("glsl"))
             {
-                shaderFactory = new GlslUnifiedShaderFactory(liveResourceManager);
+                shaderFactory = new GlslUnifiedShaderFactory(liveResourceManager, normalMapReadMode);
             }
             else if (OgreInterface.Instance.RenderSystem.isShaderProfileSupported("glsles"))
             {
-                shaderFactory = new GlslesUnifiedShaderFactory(liveResourceManager);
+                shaderFactory = new GlslesUnifiedShaderFactory(liveResourceManager, normalMapReadMode);
             }
             else
             {
@@ -527,7 +538,7 @@ namespace OgrePlugin
             var texUnit = pass.createTextureUnitState(normalTexture.TextureName);
             pass.createTextureUnitState(diffuseTexture.TextureName);
             IndirectionTexture indirectionTexture;
-            String fileName = description.localizePath(description.NormalMap + textureFormatExtension);
+            String fileName = description.localizePath(description.NormalMap + normalTextureFormatExtension);
             IntSize2 textureSize = getTextureSize(fileName);
             if (virtualTextureManager.createOrRetrieveIndirectionTexture(description.TextureSet, textureSize, description.KeepHighestMipLoaded, out indirectionTexture)) //Slow key
             {
@@ -551,7 +562,7 @@ namespace OgrePlugin
             pass.createTextureUnitState(diffuseTexture.TextureName);
             pass.createTextureUnitState(specularTexture.TextureName);
             IndirectionTexture indirectionTexture;
-            String fileName = description.localizePath(description.NormalMap + textureFormatExtension);
+            String fileName = description.localizePath(description.NormalMap + normalTextureFormatExtension);
             IntSize2 textureSize = getTextureSize(fileName);
             if (virtualTextureManager.createOrRetrieveIndirectionTexture(description.TextureSet, textureSize, description.KeepHighestMipLoaded, out indirectionTexture)) //Slow key
             {
@@ -579,7 +590,7 @@ namespace OgrePlugin
             pass.createTextureUnitState(specularTexture.TextureName);
             pass.createTextureUnitState(opacityTexture.TextureName);
             IndirectionTexture indirectionTexture;
-            String fileName = description.localizePath(description.NormalMap + textureFormatExtension);
+            String fileName = description.localizePath(description.NormalMap + normalTextureFormatExtension);
             IntSize2 textureSize = getTextureSize(fileName);
             if (virtualTextureManager.createOrRetrieveIndirectionTexture(description.TextureSet, textureSize, description.KeepHighestMipLoaded, out indirectionTexture)) //Slow key
             {
@@ -609,7 +620,7 @@ namespace OgrePlugin
             pass.createTextureUnitState(diffuseTexture.TextureName);
             pass.createTextureUnitState(opacityTexture.TextureName);
             IndirectionTexture indirectionTexture;
-            String fileName = description.localizePath(description.NormalMap + textureFormatExtension);
+            String fileName = description.localizePath(description.NormalMap + normalTextureFormatExtension);
             IntSize2 textureSize = getTextureSize(fileName);
             if (virtualTextureManager.createOrRetrieveIndirectionTexture(description.TextureSet, textureSize, description.KeepHighestMipLoaded, out indirectionTexture)) //Slow key
             {

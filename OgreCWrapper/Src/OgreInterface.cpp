@@ -26,7 +26,9 @@ enum CompressedTextureSupport
 	PVRTC = 1 << 1,
 	ATC = 1 << 2,
 	ETC2 = 1 << 3,
-	All = DXT | PVRTC | ATC | ETC2
+	BC4_BC5 = 1 << 4,
+	DXT_BC4_BC5 = DXT | BC4_BC5,
+	All = DXT | PVRTC | ATC | ETC2 | BC4_BC5
 };
 
 #if defined(WINDOWS) || defined(WINRT)
@@ -274,8 +276,16 @@ extern "C" _AnomalousExport CompressedTextureSupport OgreInterface_SetupVaryingC
 
 	if ((compressedTextures & DXT) == DXT && capabilities->hasCapability(Ogre::RSC_TEXTURE_COMPRESSION_DXT))
 	{
-		Ogre::LogManager::getSingleton().logMessage("Using DDS Texture Compression");
-		return DXT;
+		if ((compressedTextures & BC4_BC5) == BC4_BC5 && capabilities->hasCapability(Ogre::RSC_TEXTURE_COMPRESSION_BC4_BC5))
+		{
+			Ogre::LogManager::getSingleton().logMessage("Using DXT with BC4 and BC5 Texture Compression");
+			return DXT_BC4_BC5;
+		}
+		else
+		{
+			Ogre::LogManager::getSingleton().logMessage("Using DXT Texture Compression");
+			return DXT;
+		}
 	}
 	else if ((compressedTextures & PVRTC) == PVRTC && capabilities->hasCapability(Ogre::RSC_TEXTURE_COMPRESSION_PVRTC))
 	{

@@ -8,6 +8,18 @@ using System.Threading.Tasks;
 
 namespace OgrePlugin
 {
+    internal enum NormaMapReadlMode
+    {
+        /// <summary>
+        /// Normal map x, y in RG channels, (bc5 format)
+        /// </summary>
+        RG,
+        /// <summary>
+        /// Normal map x, y in AG channels, (dxt5_nm)
+        /// </summary>
+        AG
+    }
+
     abstract class UnifiedShaderFactory : IDisposable
     {
         protected const String ShaderPathBase = "OgrePlugin.Resources";
@@ -19,9 +31,12 @@ namespace OgrePlugin
         private Dictionary<String, CreateFragmentProgramDelegate> fragmentBuilderFuncs = new Dictionary<string, CreateFragmentProgramDelegate>();
         private Dictionary<String, HighLevelGpuProgramSharedPtr> createdPrograms = new Dictionary<string, HighLevelGpuProgramSharedPtr>();
         private ResourceGroup shaderResourceGroup;
+        private NormaMapReadlMode normalMapReadMode;
 
-        public UnifiedShaderFactory(ResourceManager liveResourceManager)
+        public UnifiedShaderFactory(ResourceManager liveResourceManager, NormaMapReadlMode normalMapReadMode)
         {
+            this.normalMapReadMode = normalMapReadMode;
+
             var rendererResources = liveResourceManager.getSubsystemResource("Ogre");
             shaderResourceGroup = rendererResources.addResourceGroup("UnifiedShaderFactory");
             shaderResourceGroup.addResource(GetType().AssemblyQualifiedName, "EmbeddedResource", true);
@@ -144,7 +159,7 @@ namespace OgrePlugin
             }
         }
 
-        protected static String DetermineVertexShaderName(String baseName, int numHardwareBones, int numHardwarePoses, bool parity)
+        private static String DetermineVertexShaderName(String baseName, int numHardwareBones, int numHardwarePoses, bool parity)
         {
             StringBuilder programName = new StringBuilder(baseName);
             if (numHardwareBones > 0)
@@ -162,7 +177,7 @@ namespace OgrePlugin
             return programName.ToString();
         }
 
-        protected static String DetermineFragmentShaderName(String baseName, bool alpha)
+        private static String DetermineFragmentShaderName(String baseName, bool alpha)
         {
             if (alpha)
             {
@@ -171,7 +186,7 @@ namespace OgrePlugin
             return baseName;
         }
 
-        protected static String DetermineVertexPreprocessorDefines(int numHardwareBones, int numHardwarePoses, bool parity)
+        protected String DetermineVertexPreprocessorDefines(int numHardwareBones, int numHardwarePoses, bool parity)
         {
             StringBuilder definesBuilder = new StringBuilder();
             if (parity)
@@ -189,12 +204,18 @@ namespace OgrePlugin
             return definesBuilder.ToString();
         }
 
-        protected static String DetermineFragmentPreprocessorDefines(bool alpha)
+        protected String DetermineFragmentPreprocessorDefines(bool alpha)
         {
             StringBuilder definesBuilder = new StringBuilder("VIRTUAL_TEXTURE=1,");
             if(alpha)
             {
                 definesBuilder.Append("ALPHA=1,");
+            }
+            switch(normalMapReadMode)
+            {
+                case NormaMapReadlMode.RG:
+                    definesBuilder.Append("RG_NORMALS=1,");
+                    break;
             }
             return definesBuilder.ToString();
         }

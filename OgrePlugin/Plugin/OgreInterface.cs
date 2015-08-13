@@ -31,7 +31,9 @@ namespace OgrePlugin
         PVRTC = 1 << 1,
         ATC = 1 << 2,
         ETC2 = 1 << 3,
-        All = DXT | PVRTC | ATC | ETC2
+        BC4_BC5 = 1 << 4,
+        DXT_BC4_BC5 = DXT | BC4_BC5,
+        All = DXT | PVRTC | ATC | ETC2 | BC4_BC5
     }
 
     /// <summary>

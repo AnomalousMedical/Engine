@@ -14,8 +14,8 @@ namespace OgrePlugin
 
         private List<HighLevelGpuProgramSharedPtr> localPrograms = new List<HighLevelGpuProgramSharedPtr>();
 
-        public GlslUnifiedShaderFactory(ResourceManager liveResourceManager)
-            : base(liveResourceManager)
+        public GlslUnifiedShaderFactory(ResourceManager liveResourceManager, NormaMapReadlMode normalMapReadMode)
+            : base(liveResourceManager, normalMapReadMode)
         {
             var packProgram = HighLevelGpuProgramManager.Instance.createProgram("Pack_VP_GLSL", ResourceGroupName, "glsl", GpuProgramType.GPT_VERTEX_PROGRAM);
             packProgram.Value.SourceFile = UnifiedShaderBase + "Pack.glsl";
