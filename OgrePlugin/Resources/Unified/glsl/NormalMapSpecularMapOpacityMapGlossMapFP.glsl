@@ -83,7 +83,11 @@ void main()
 
 	//Unpack the normal map.
 	vec3 normal;
+#ifdef RG_NORMALS
+	normal.rg = 2.0 * (texture2D(normalTexture, derivedCoords).rg - 0.5);
+#else
 	normal.rg = 2.0 * (texture2D(normalTexture, derivedCoords).ag - 0.5);
+#endif
 	normal.b = sqrt(1.0 - normal.r * normal.r - normal.g * normal.g);
 
 	vec2 opacityGloss = texture2D(opacityGlossTexture, derivedCoords).rg;
