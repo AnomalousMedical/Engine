@@ -44,19 +44,7 @@ namespace OgrePlugin.VirtualTexture
         private List<IndirectionTexture> retiredIndirectionTextures = new List<IndirectionTexture>();
         private List<IndirectionTexture> newIndirectionTextures = new List<IndirectionTexture>();
 
-        public static int SuggestPadding(CompressedTextureSupport compressedTextureSupport)
-        {
-            switch (compressedTextureSupport)
-            {
-                case CompressedTextureSupport.DXT_BC4_BC5:
-                case CompressedTextureSupport.DXT:
-                    return 4;
-                default:
-                    return 1;
-            }
-        }
-
-        public VirtualTextureManager(int numPhysicalTextures, IntSize2 physicalTextureSize, int texelsPerPage, CompressedTextureSupport textureFormat, int padding, int stagingBufferCount, IntSize2 feedbackBufferSize)
+        public VirtualTextureManager(int numPhysicalTextures, IntSize2 physicalTextureSize, int texelsPerPage, CompressedTextureSupport textureFormat, int stagingBufferCount, IntSize2 feedbackBufferSize)
         {
             this.physicalTextureSize = physicalTextureSize;
             this.texelsPerPage = texelsPerPage;
@@ -65,7 +53,16 @@ namespace OgrePlugin.VirtualTexture
                 OgreResourceGroupManager.getInstance().createResourceGroup(VirtualTextureManager.ResourceGroup);
             }
 
-            this.padding = padding;
+            switch (textureFormat)
+            {
+                case CompressedTextureSupport.DXT_BC4_BC5:
+                case CompressedTextureSupport.DXT:
+                    padding = 4;
+                    break;
+                default:
+                    padding = 1;
+                    break;
+            }
             this.textureFormat = textureFormat;
 
             opaqueFeedbackBuffer = new FeedbackBuffer(this, feedbackBufferSize, 0, 0x1);

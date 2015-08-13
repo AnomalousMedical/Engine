@@ -27,9 +27,8 @@ namespace Anomaly
             cameraLink = new CameraLink(controller.SceneViewController);
 
             CompressedTextureSupport textureFormat = OgreInterface.Instance.SelectedTextureFormat;
-            int padding = VirtualTextureManager.SuggestPadding(textureFormat);
 
-            virtualTextureManager = new VirtualTextureManager(4, new IntSize2(4096, 4096), 128, textureFormat, padding, 10, new IntSize2(256, 128));
+            virtualTextureManager = new VirtualTextureManager(4, new IntSize2(4096, 4096), 128, textureFormat, 10, new IntSize2(256, 128));
 
             materialBuilder = new UnifiedMaterialBuilder(virtualTextureManager, OgreInterface.Instance.SelectedTextureFormat, controller.PluginManager.createLiveResourceManager("UnifiedShaders"));
             OgreInterface.Instance.MaterialParser.addMaterialBuilder(materialBuilder);
