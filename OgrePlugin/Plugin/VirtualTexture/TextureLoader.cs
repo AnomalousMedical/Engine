@@ -43,14 +43,13 @@ namespace OgrePlugin.VirtualTexture
             newIndirectionTextureStaging.Dispose();
         }
 
-        public void addedPhysicalTexture(PhysicalTexture physicalTexture, int index, int textelsPerPhysicalPage)
+        public void addedPhysicalTexture(PhysicalTexture physicalTexture, int textelsPerPhysicalPage)
         {
-            stagingPhysicalPages[index] = new StagingPhysicalPage(textelsPerPhysicalPage, physicalTexture.TextureFormat);
+            stagingPhysicalPages[physicalTexture.Index] = new StagingPhysicalPage(textelsPerPhysicalPage, physicalTexture.TextureFormat);
         }
 
         public void reset()
         {
-            NumUpdatedTextures = 0;
             updateOldIndirectionTexture = false;
             updateNewIndirectionTexture = false;
             gpuUploadWaitEvent.Reset();
@@ -82,7 +81,7 @@ namespace OgrePlugin.VirtualTexture
 
         public void uploadTexturesToGpu()
         {
-            for (int u = 0; u < NumUpdatedTextures; ++u)
+            for (int u = 0; u < stagingPhysicalPages.Length; ++u)
             {
                 stagingPhysicalPages[u].copyToGpu(Dest);
             }
@@ -98,14 +97,12 @@ namespace OgrePlugin.VirtualTexture
             }
         }
 
-        internal void setPhysicalPage(int stagingImageIndex, PixelBox sourceBox, PhysicalTexture physicalTexture, int padding)
+        internal void setPhysicalPage(PixelBox sourceBox, PhysicalTexture physicalTexture, int padding)
         {
-            stagingPhysicalPages[stagingImageIndex].setData(sourceBox, physicalTexture, padding);
+            stagingPhysicalPages[physicalTexture.Index].setData(sourceBox, physicalTexture, padding);
         }
 
         public IntRect Dest { get; set; }
-
-        public int NumUpdatedTextures { get; set; }
     }
 
     class TextureLoader : IDisposable
@@ -127,7 +124,6 @@ namespace OgrePlugin.VirtualTexture
         private int textelsPerPhysicalPage;
         private bool cancelBackgroundLoad = false;
 
-        private int stagingImageCount = 0;
         private List<StagingBufferSet> stagingBufferSets;
         private Task<bool>[] copyTostagingImageTasks;
         private ManualResetEventSlim stagingBufferWaitEvent = new ManualResetEventSlim(true);
@@ -209,13 +205,9 @@ namespace OgrePlugin.VirtualTexture
 
         public void addedPhysicalTexture(PhysicalTexture physicalTexture)
         {
-            if (stagingImageCount < copyTostagingImageTasks.Length)
+            foreach(var buffer in stagingBufferSets)
             {
-                foreach(var buffer in stagingBufferSets)
-                {
-                    buffer.addedPhysicalTexture(physicalTexture, stagingImageCount, textelsPerPhysicalPage);
-                }
-                ++stagingImageCount;
+                buffer.addedPhysicalTexture(physicalTexture, textelsPerPhysicalPage);
             }
         }
 
@@ -371,18 +363,11 @@ namespace OgrePlugin.VirtualTexture
                             if (loadPage(pagesToLoad[i], stagingBuffers))
                             {
                                 pagesToLoad.RemoveAt(i);
-                                if (stagingBuffers.NumUpdatedTextures > 0)
+                                ThreadManager.invoke(() =>
                                 {
-                                    ThreadManager.invoke(() =>
-                                    {
-                                        stagingBuffers.uploadTexturesToGpu();
-                                        returnStagingBuffer(stagingBuffers);
-                                    });
-                                }
-                                else
-                                {
+                                    stagingBuffers.uploadTexturesToGpu();
                                     returnStagingBuffer(stagingBuffers);
-                                }
+                                });
                             }
                         }
                         PerformanceMonitor.stop("updatePagesFromRequests processing pages");
@@ -472,7 +457,7 @@ namespace OgrePlugin.VirtualTexture
                 //Fire off image loading and blitting tasks
                 foreach (var textureUnit in indirectionTexture.OriginalTextures)
                 {
-                    copyTostagingImageTasks[stagingImageIndex] = fireCopyToStaging(page, stagingImageIndex, stagingBuffers, indirectionTexture, textureUnit);
+                    copyTostagingImageTasks[stagingImageIndex] = fireCopyToStaging(page, stagingBuffers, indirectionTexture, textureUnit);
                     ++stagingImageIndex;
                 }
                 //Wait for results
@@ -496,17 +481,16 @@ namespace OgrePlugin.VirtualTexture
 
                 //Update staging buffer info
                 stagingBuffers.Dest = new IntRect(pTexPage.x, pTexPage.y, textelsPerPhysicalPage, textelsPerPhysicalPage);
-                stagingBuffers.NumUpdatedTextures = stagingImageIndex;
             }
             return usedPhysicalPage;
         }
 
-        private Task<bool> fireCopyToStaging(VTexPage page, int stagingImageIndex, StagingBufferSet buffers, IndirectionTexture indirectionTexture, OriginalTextureInfo textureUnit)
+        private Task<bool> fireCopyToStaging(VTexPage page, StagingBufferSet buffers, IndirectionTexture indirectionTexture, OriginalTextureInfo textureUnit)
         {
-            return Task.Run(() => copyToStaging(page, stagingImageIndex, buffers, indirectionTexture, textureUnit));
+            return Task.Run(() => copyToStaging(page, buffers, indirectionTexture, textureUnit));
         }
 
-        private bool copyToStaging(VTexPage page, int stagingImageIndex, StagingBufferSet buffers, IndirectionTexture indirectionTexture, OriginalTextureInfo textureUnit)
+        private bool copyToStaging(VTexPage page, StagingBufferSet buffers, IndirectionTexture indirectionTexture, OriginalTextureInfo textureUnit)
         {
             bool usedPhysicalPage = false;
 
@@ -540,7 +524,7 @@ namespace OgrePlugin.VirtualTexture
                         {
                             sourceBox.Rect = new IntRect(page.x * textelsPerPage, page.y * textelsPerPage, textelsPerPage, textelsPerPage);
                         }
-                        buffers.setPhysicalPage(stagingImageIndex, sourceBox, virtualTextureManager.getPhysicalTexture(textureUnit.TextureUnit), padding);
+                        buffers.setPhysicalPage(sourceBox, virtualTextureManager.getPhysicalTexture(textureUnit.TextureUnit), padding);
                         usedPhysicalPage = true;
                     }
                     finally

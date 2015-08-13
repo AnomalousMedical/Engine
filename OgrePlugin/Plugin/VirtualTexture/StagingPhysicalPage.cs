@@ -12,7 +12,7 @@ namespace OgrePlugin.VirtualTexture
     {
         private Image texture;
         private PixelBox pixelBox;
-        private PhysicalTexture physicalTexture;
+        private PhysicalTexture physicalTexture = null;
 
         public StagingPhysicalPage(int textelsPerPhysicalPage, PixelFormat physicalTextureFormat)
         {
@@ -68,7 +68,11 @@ namespace OgrePlugin.VirtualTexture
 
         public void copyToGpu(IntRect destination)
         {
-            physicalTexture.addPage(pixelBox, destination);
+            if (physicalTexture != null)
+            {
+                physicalTexture.addPage(pixelBox, destination);
+                physicalTexture = null;
+            }
         }
     }
 }

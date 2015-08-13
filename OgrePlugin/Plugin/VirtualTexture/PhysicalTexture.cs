@@ -51,9 +51,11 @@ namespace OgrePlugin.VirtualTexture
         private String name;
         private int texelsPerPage;
         private IntSize2 size;
+        private static int currentId = 0;
 
         public PhysicalTexture(String name, IntSize2 size, VirtualTextureManager virtualTextureManager, int texelsPerPage, CompressedTextureSupport texFormat, PixelFormatUsageHint textureUsage)
         {
+            Index = currentId++;
             this.name = name;
             this.texelsPerPage = texelsPerPage;
             this.size = size;
@@ -67,6 +69,12 @@ namespace OgrePlugin.VirtualTexture
                     break;
                 case CompressedTextureSupport.DXT:
                     PixelFormat pixelFormat = PixelFormat.PF_DXT5;
+                    switch (textureUsage)
+                    {
+                        case PixelFormatUsageHint.NormalMap:
+                            pixelFormat = PixelFormat.PF_BC5_UNORM;
+                            break;
+                    }
                     physicalTexture = TextureManager.getInstance().createManual(textureName, VirtualTextureManager.ResourceGroup, TextureType.TEX_TYPE_2D,
                         (uint)size.Width, (uint)size.Height, 1, 0, pixelFormat, TextureUsage.TU_DEFAULT, null, false, 0); //Got as a render target for now so we can save the output.
                     break;
@@ -126,5 +134,10 @@ namespace OgrePlugin.VirtualTexture
                 return physicalTexture.Value.Format;
             }
         }
+
+        /// <summary>
+        /// A numerical id for this texture, can be used in arrays.
+        /// </summary>
+        internal int Index { get; private set; }
     }
 }
