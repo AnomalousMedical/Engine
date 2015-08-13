@@ -44,6 +44,18 @@ namespace OgrePlugin.VirtualTexture
         private List<IndirectionTexture> retiredIndirectionTextures = new List<IndirectionTexture>();
         private List<IndirectionTexture> newIndirectionTextures = new List<IndirectionTexture>();
 
+        public static int SuggestPadding(CompressedTextureSupport compressedTextureSupport)
+        {
+            switch (compressedTextureSupport)
+            {
+                case CompressedTextureSupport.DXT_BC4_BC5:
+                case CompressedTextureSupport.DXT:
+                    return 4;
+                default:
+                    return 1;
+            }
+        }
+
         public VirtualTextureManager(int numPhysicalTextures, IntSize2 physicalTextureSize, int texelsPerPage, CompressedTextureSupport textureFormat, int padding, int stagingBufferCount, IntSize2 feedbackBufferSize)
         {
             this.physicalTextureSize = physicalTextureSize;

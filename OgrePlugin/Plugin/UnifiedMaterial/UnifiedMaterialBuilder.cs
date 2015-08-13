@@ -83,7 +83,7 @@ namespace OgrePlugin
             {
                 case CompressedTextureSupport.DXT_BC4_BC5:
                     textureFormatExtension = ".dds";
-                    normalTextureFormatExtension = ".dds";
+                    normalTextureFormatExtension = "_bc5.dds";
                     normalMapReadMode = NormaMapReadlMode.RG;
                     break;
                 case CompressedTextureSupport.DXT:
