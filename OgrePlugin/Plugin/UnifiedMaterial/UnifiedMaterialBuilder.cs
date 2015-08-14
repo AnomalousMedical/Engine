@@ -34,7 +34,7 @@ namespace OgrePlugin
 #if NEVER_CACHE_SHADERS
         public static readonly String Version = Guid.NewGuid().ToString();
 #else
-        public static readonly String Version = "5.0";
+        public static readonly String Version = "6.0";
 #endif
 
         private const String GroupName = "UnifiedMaterialBuilder__Reserved";
@@ -122,15 +122,8 @@ namespace OgrePlugin
             specularTexture = virtualTextureManager.createPhysicalTexture("Specular", PixelFormatUsageHint.NotSpecial);
             opacityTexture = virtualTextureManager.createPhysicalTexture("Opacity", PixelFormatUsageHint.OpacityMap);
 
-            materialCreationFuncs.Add("NormalMapSpecular", createUnifiedMaterial);
-            materialCreationFuncs.Add("NormalMapSpecularHighlight", createNormalMapSpecularHighlight);
-            materialCreationFuncs.Add("NormalMapSpecularMap", createUnifiedMaterial);
             materialCreationFuncs.Add("NormalMapSpecularMapGlossMap", createNormalMapSpecularMapGlossMap);
-            materialCreationFuncs.Add("NormalMapSpecularOpacityMap", createUnifiedMaterial);
-            materialCreationFuncs.Add("NormalMapSpecularMapOpacityMap", createUnifiedMaterial);
-            materialCreationFuncs.Add("NormalMapSpecularMapOpacityMapNoDepth", createUnifiedMaterial);
             materialCreationFuncs.Add("EyeOuter", createEyeOuterMaterial);
-            materialCreationFuncs.Add("ColoredNoTexture", createUnifiedMaterial);
 
             OgreResourceGroupManager.getInstance().createResourceGroup(GroupName);
 
@@ -363,14 +356,6 @@ namespace OgrePlugin
         {
             //Hack, Ensure things are true
             description.HasGlossMap = true;
-
-            return createUnifiedMaterial(technique, description, alpha, depthCheck);
-        }
-
-        private IndirectionTexture createNormalMapSpecularHighlight(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
-        {
-            //Hack ensure things are true
-            description.IsHighlight = true;
 
             return createUnifiedMaterial(technique, description, alpha, depthCheck);
         }
