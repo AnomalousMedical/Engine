@@ -265,6 +265,55 @@ namespace OgrePlugin
 
         #region Fragment Programs
 
+        protected HighLevelGpuProgramSharedPtr createUnifiedFrag(String name, TextureMaps maps, bool alpha, bool glossMap, bool highlight)
+        {
+            var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
+
+            program.Value.SourceFile = UnifiedShaderBase + "UnifiedFS.glsl";
+            program.Value.setParam("attach", "Lighting_FP_GLSL Unpack_FP_GLSL VirtualTextureFuncs_GLSL");
+            program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines2(maps, alpha, glossMap, highlight));
+            program.Value.load();
+
+            using (var defaultParams = program.Value.getDefaultParameters())
+            {
+                defaultParams.Value.setNamedAutoConstant("lightDiffuseColor", AutoConstantType.ACT_LIGHT_DIFFUSE_COLOUR, 0);
+                defaultParams.Value.setNamedAutoConstant("emissiveColor", AutoConstantType.ACT_SURFACE_EMISSIVE_COLOUR);
+
+                if (glossMap)
+                {
+                    defaultParams.Value.setNamedConstant("glossyStart", 40.0f);
+                    defaultParams.Value.setNamedConstant("glossyRange", 0.0f);
+                }
+                else
+                {
+                    defaultParams.Value.setNamedAutoConstant("glossyness", AutoConstantType.ACT_SURFACE_SHININESS);
+                }
+
+                if ((maps & TextureMaps.Diffuse) == 0)
+                {
+                    defaultParams.Value.setNamedAutoConstant("diffuseColor", AutoConstantType.ACT_SURFACE_DIFFUSE_COLOUR);
+                }
+
+                //Check for need to pass specular color
+                if ((maps & TextureMaps.Specular) == 0)
+                {
+                    defaultParams.Value.setNamedAutoConstant("specularColor", AutoConstantType.ACT_SURFACE_SPECULAR_COLOUR);
+                }
+
+                if (highlight)
+                {
+                    defaultParams.Value.setNamedAutoConstant("highlightColor", AutoConstantType.ACT_CUSTOM, 1);
+                }
+
+                if (alpha)
+                {
+                    defaultParams.Value.setNamedAutoConstant("alpha", AutoConstantType.ACT_CUSTOM, 0);
+                }
+            }
+
+            return program;
+        }
+
         protected override HighLevelGpuProgramSharedPtr createNormalMapSpecularFP(String name, bool alpha)
         {
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
