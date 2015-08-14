@@ -4,27 +4,13 @@ struct v2f
 	//Output position
 	float4 position : SV_POSITION;
 
-	//Output texture coords
-	float2 texCoords : TEXCOORD0;
-
-	//Light vector in tangent space
-	float3 lightVector : TEXCOORD1;
-
-	//Eye vector in tangent space
-	float3 halfVector : TEXCOORD2;
-
-	//Attenuation per vertex
-	float4 attenuation : TEXCOORD3;
-};
-
-//Vertex program to fragment program no texture struct
-struct v2fNoTexture
-{
-	//Output position
-	float4 position : SV_POSITION;
-
+#ifdef NO_MAPS
 	//Normal
 	float3 normal : TEXCOORD0;
+#else
+	//Output texture coords
+	float2 texCoords : TEXCOORD0;
+#endif
 
 	//Light vector in tangent space
 	float3 lightVector : TEXCOORD1;
@@ -131,308 +117,56 @@ float2 vtexCoord(float2 address, Texture2D indirectionTex, SamplerState indirect
 
 //-------------------------------------------------------------------------------------------------
 
-//----------------------------------
-//NormalMapSpecular
-//----------------------------------
-float4 normalMapSpecularFP
+float4 UnifiedFragmentShader
 (
-	    in v2f input,
+	#ifdef NO_MAPS
+		uniform float4 diffuseColor,				//The diffuse color of the object
+		uniform float4 specularColor,				//The specular color of the surface
+	#endif
 
+	#ifdef NORMAL_DIFFUSE_MAPS
 		uniform Texture2D normalTexture : register(t0),	//The normal map
 		uniform SamplerState normalTextureSampler : register(s0),	//The normal map
 		uniform Texture2D colorTexture : register(t1),  //The color map
 		uniform SamplerState colorTextureSampler : register(s1),  //The color map
-		uniform float4 lightDiffuseColor,			//The diffuse color of the light source
 		uniform float4 specularColor,				//The specular color of the surface
-		uniform float glossyness,					//The glossyness of the surface
-		uniform float4 emissiveColor			    //The emissive color of the surface
-		#ifdef ALPHA
-			,uniform float4 alpha
-		#endif
-#ifdef VIRTUAL_TEXTURE
-			, uniform Texture2D indirectionTex : register(t2),
+
+		#ifdef VIRTUAL_TEXTURE
+			uniform Texture2D indirectionTex : register(t2),
 			uniform SamplerState indirectionTexSampler : register(s2),
-			uniform float2 physicalSizeRecip,
-			uniform float2 mipBiasSize,
-			uniform float2 pagePaddingScale, 
-			uniform float2 pagePaddingOffset
-#endif
-			) : SV_TARGET
-{
-	float2 texCoords = input.texCoords;
+		#endif //VIRTUAL_TEXTURE
+	#endif //NORMAL_DIFFUSE_MAPS
 
-#ifdef VIRTUAL_TEXTURE
-	texCoords = vtexCoord(texCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, mipBiasSize, pagePaddingScale, pagePaddingOffset);
-#endif
-
-	//Get color value
-	float4 colorMap = colorTexture.Sample(colorTextureSampler, texCoords.xy);
-
-	//Unpack the normal map.
-	float3 normal;
-#ifdef RG_NORMALS
-	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).rg - 0.5f);
-#else
-	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).ag - 0.5f);
-#endif
-	normal.b = sqrt(1 - normal.r * normal.r - normal.g * normal.g);
-
-	float4 color = doLighting(unpack(input.lightVector), unpack(input.halfVector), lightDiffuseColor, input.attenuation, colorMap, specularColor, colorMap.a, glossyness, emissiveColor, normal);
-	#ifdef ALPHA
-		color.a = alpha.a;
-	#endif
-	return color;
-}
-
-//-------------------------------------------------------------------------------------------------
-
-//----------------------------------
-//normalMapSpecularHighlightFP
-//----------------------------------
-float4 normalMapSpecularHighlightFP
-(
-	    in v2f input,
-
+	#ifdef NORMAL_DIFFUSE_SPECULAR_MAPS
 		uniform Texture2D normalTexture : register(t0),	//The normal map
 		uniform SamplerState normalTextureSampler : register(s0),	//The normal map
 		uniform Texture2D colorTexture : register(t1),  //The color map
 		uniform SamplerState colorTextureSampler : register(s1),  //The color map
-		uniform float4 lightDiffuseColor,			//The diffuse color of the light source
-		uniform float4 specularColor,				//The specular color of the surface
-		uniform float glossyness,					//The glossyness of the surface
-		uniform float4 emissiveColor,			    //The emissive color of the surface
-		uniform float4 highlightColor				//A color to multiply the final color by to create a highlight effect
-		#ifdef ALPHA
-			,uniform float4 alpha
-		#endif
-#ifdef VIRTUAL_TEXTURE
-			, uniform Texture2D indirectionTex : register(t2),
-			uniform SamplerState indirectionTexSampler : register(s2),
-			uniform float2 physicalSizeRecip,
-			uniform float2 mipBiasSize,
-			uniform float2 pagePaddingScale,
-			uniform float2 pagePaddingOffset
-#endif
-			) : SV_TARGET
-{
-	float2 texCoords = input.texCoords;
+		uniform Texture2D specularTexture : register(t2),  //The specular color map
+		uniform SamplerState specularTextureSampler : register(s2),  //The specular color map
 
-#ifdef VIRTUAL_TEXTURE
-	texCoords = vtexCoord(texCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, mipBiasSize, pagePaddingScale, pagePaddingOffset);
-#endif
+		#ifdef VIRTUAL_TEXTURE
+			uniform Texture2D indirectionTex : register(t3),
+			uniform SamplerState indirectionTexSampler : register(s3),
+		#endif //VIRTUAL_TEXTURE
+	#endif //NORMAL_DIFFUSE_SPECULAR_MAPS
 
-	//Get color value
-	float4 colorMap = colorTexture.Sample(colorTextureSampler, texCoords.xy);
-
-	//Unpack the normal map.
-	float3 normal;
-#ifdef RG_NORMALS
-	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).rg - 0.5f);
-#else
-	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).ag - 0.5f);
-#endif
-	normal.b = sqrt(1 - normal.r * normal.r - normal.g * normal.g);
-
-	float4 color = doLighting(unpack(input.lightVector), unpack(input.halfVector), lightDiffuseColor, input.attenuation, colorMap, specularColor, colorMap.a, glossyness, emissiveColor, normal) * highlightColor;
-	#ifdef ALPHA
-		color.a = alpha.a;
-	#endif
-	return color;
-}
-
-//-------------------------------------------------------------------------------------------------
-
-//----------------------------------
-//normalMapSpecularOpacityMapFP
-//----------------------------------
-float4 normalMapSpecularOpacityMapFP
-(
-	    in v2f input,
-
+	#ifdef NORMAL_DIFFUSE_OPACITY_MAPS
 		uniform Texture2D normalTexture : register(t0),	//The normal map
 		uniform SamplerState normalTextureSampler : register(s0),	//The normal map
 		uniform Texture2D colorTexture : register(t1),  //The color map
 		uniform SamplerState colorTextureSampler : register(s1),  //The color map
 		uniform Texture2D opacityTexture : register(t2), //The Opacity map, uses r channel for opacity
 		uniform SamplerState opacityTextureSampler : register(s2), //The Opacity map, uses r channel for opacity
-		uniform float4 lightDiffuseColor,			//The diffuse color of the light source
 		uniform float4 specularColor,				//The specular color of the surface
-		uniform float glossyness,					//The glossyness of the surface
-		uniform float4 emissiveColor			    //The emissive color of the surface
-		#ifdef ALPHA
-			,uniform float4 alpha
-		#endif
-#ifdef VIRTUAL_TEXTURE
-			, uniform Texture2D indirectionTex : register(t3),
+
+		#ifdef VIRTUAL_TEXTURE
+			uniform Texture2D indirectionTex : register(t3),
 			uniform SamplerState indirectionTexSampler : register(s3),
-			uniform float2 physicalSizeRecip,
-			uniform float2 mipBiasSize,
-			uniform float2 pagePaddingScale,
-			uniform float2 pagePaddingOffset
-#endif
-			) : SV_TARGET
-{
-	float2 texCoords = input.texCoords;
+		#endif //VIRTUAL_TEXTURE
+	#endif //NORMAL_DIFFUSE_SPECULAR_MAPS
 
-#ifdef VIRTUAL_TEXTURE
-	texCoords = vtexCoord(texCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, mipBiasSize, pagePaddingScale, pagePaddingOffset);
-#endif
-
-	//Get color value
-	float4 colorMap = colorTexture.Sample(colorTextureSampler, texCoords.xy);
-
-	//Unpack the normal map.
-	float3 normal;
-#ifdef RG_NORMALS
-	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).rg - 0.5f);
-#else
-	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).ag - 0.5f);
-#endif
-	normal.b = sqrt(1 - normal.r * normal.r - normal.g * normal.g);
-
-	float4 color = doLighting(unpack(input.lightVector), unpack(input.halfVector), lightDiffuseColor, input.attenuation, colorMap, specularColor, colorMap.a, glossyness, emissiveColor, normal);
-
-	float opacity = opacityTexture.Sample(opacityTextureSampler, texCoords).r;
-#ifdef ALPHA
-	color.a = opacity - (1.0f - alpha.a);
-#else
-	color.a = opacity;
-#endif
-	return color;
-}
-
-//-------------------------------------------------------------------------------------------------
-
-//----------------------------------
-//normalMapSpecularMapFP
-//----------------------------------
-float4 normalMapSpecularMapFP
-(
-	    in v2f input,
-
-		uniform Texture2D normalTexture : register(t0),	//The normal map
-		uniform SamplerState normalTextureSampler : register(s0),	//The normal map
-		uniform Texture2D colorTexture : register(t1),  //The color map
-		uniform SamplerState colorTextureSampler : register(s1),  //The color map
-		uniform Texture2D specularTexture : register(t2),  //The specular color map
-		uniform SamplerState specularTextureSampler : register(s2),  //The specular color map
-		uniform float4 lightDiffuseColor,			//The diffuse color of the light source
-		uniform float glossyness,					//The glossyness of the surface
-		uniform float4 emissiveColor			    //The emissive color of the surface
-		#ifdef ALPHA
-			,uniform float4 alpha
-		#endif
-#ifdef VIRTUAL_TEXTURE
-			, uniform Texture2D indirectionTex : register(t3),
-			uniform SamplerState indirectionTexSampler : register(s3),
-			uniform float2 physicalSizeRecip,
-			uniform float2 mipBiasSize,
-			uniform float2 pagePaddingScale,
-			uniform float2 pagePaddingOffset
-#endif
-			) : SV_TARGET
-{
-	float2 texCoords = input.texCoords;
-
-#ifdef VIRTUAL_TEXTURE
-	texCoords = vtexCoord(texCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, mipBiasSize, pagePaddingScale, pagePaddingOffset);
-#endif
-
-	//Get color value
-	float4 colorMap = colorTexture.Sample(normalTextureSampler, texCoords.xy);
-
-	//Get the specular value
-	float4 specularMapColor = specularTexture.Sample(specularTextureSampler, texCoords.xy);
-
-	//Unpack the normal map.
-	float3 normal;
-#ifdef RG_NORMALS
-	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).rg - 0.5f);
-#else
-	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).ag - 0.5f);
-#endif
-	normal.b = sqrt(1 - normal.r * normal.r - normal.g * normal.g);
-
-	float4 color = doLighting(unpack(input.lightVector), unpack(input.halfVector), lightDiffuseColor, input.attenuation, colorMap, specularMapColor, specularMapColor.a, glossyness, emissiveColor, normal);
-	#ifdef ALPHA
-		color.a = alpha.a;
-	#endif
-	return color;
-}
-
-//-------------------------------------------------------------------------------------------------
-
-//----------------------------------
-//NormalMapSpecularMapGlossMapAlpha
-//----------------------------------
-float4 normalMapSpecularMapGlossMapFP
-(
-	    in v2f input,
-
-		uniform Texture2D normalTexture : register(t0),	//The normal map
-		uniform SamplerState normalTextureSampler : register(s0),	//The normal map
-		uniform Texture2D colorTexture : register(t1),  //The color map
-		uniform SamplerState colorTextureSampler : register(s1),  //The color map
-		uniform Texture2D specularTexture : register(t2),  //The specular color map
-		uniform SamplerState specularTextureSampler : register(s2),  //The specular color map
-		uniform float4 lightDiffuseColor,			//The diffuse color of the light source
-		uniform float4 emissiveColor,			    //The emissive color of the surface
-		uniform float glossyStart,
-		uniform float glossyRange
-		#ifdef ALPHA
-			,uniform float4 alpha
-		#endif
-#ifdef VIRTUAL_TEXTURE
-			, uniform Texture2D indirectionTex : register(t3),
-			uniform SamplerState indirectionTexSampler : register(s3),
-			uniform float2 physicalSizeRecip,
-			uniform float2 mipBiasSize,
-			uniform float2 pagePaddingScale,
-			uniform float2 pagePaddingOffset
-#endif
-) : SV_TARGET
-{
-	float2 texCoords = input.texCoords;
-
-#ifdef VIRTUAL_TEXTURE
-	texCoords = vtexCoord(texCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, mipBiasSize, pagePaddingScale, pagePaddingOffset);
-#endif
-
-	//Get color value
-	float4 colorMap = colorTexture.Sample(normalTextureSampler, texCoords);
-
-	//Get the specular value
-	float4 specularMapColor = specularTexture.Sample(specularTextureSampler, texCoords);
-
-	//Unpack the normal map.
-	float3 normal;
-#ifdef RG_NORMALS
-	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).rg - 0.5f);
-#else
-	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).ag - 0.5f);
-#endif
-	normal.b = sqrt(1 - normal.r * normal.r - normal.g * normal.g);
-
-	//Compute the glossyness
-	float glossyness = glossyStart + glossyRange * 1;// colorMap.a;
-
-	float4 color = doLighting(unpack(input.lightVector), unpack(input.halfVector), lightDiffuseColor, input.attenuation, colorMap, specularMapColor, specularMapColor.a, glossyness, emissiveColor, normal);
-	#ifdef ALPHA
-		color.a = alpha.a;
-	#endif
-
-	return color;
-}
-
-//-------------------------------------------------------------------------------------------------
-
-//----------------------------------
-//normalMapSpecularMapOpacityMapFP
-//----------------------------------
-float4 normalMapSpecularMapOpacityMapFP
-(
-	    in v2f input,
-
+	#ifdef NORMAL_DIFFUSE_SPECULAR_OPACITY_MAPS
 		uniform Texture2D normalTexture : register(t0),	//The normal map
 		uniform SamplerState normalTextureSampler : register(s0),	//The normal map
 		uniform Texture2D colorTexture : register(t1),  //The color map
@@ -441,146 +175,117 @@ float4 normalMapSpecularMapOpacityMapFP
 		uniform SamplerState specularTextureSampler : register(s2),  //The specular color map
 		uniform Texture2D opacityTexture : register(t3), //The Opacity map, uses r channel for opacity
 		uniform SamplerState opacityTextureSampler : register(s3), //The Opacity map, uses r channel for opacity
-		uniform float4 lightDiffuseColor,			//The diffuse color of the light source
-		uniform float glossyness,					//The glossyness of the surface
-		uniform float4 emissiveColor			    //The emissive color of the surface
-		#ifdef ALPHA
-			,uniform float4 alpha
-		#endif
-#ifdef VIRTUAL_TEXTURE
-			, uniform Texture2D indirectionTex : register(t4),
+
+		#ifdef VIRTUAL_TEXTURE
+			uniform Texture2D indirectionTex : register(t4),
 			uniform SamplerState indirectionTexSampler : register(s4),
-			uniform float2 physicalSizeRecip,
-			uniform float2 mipBiasSize,
-			uniform float2 pagePaddingScale,
-			uniform float2 pagePaddingOffset
-#endif
-			) : SV_TARGET
-{
-	float2 texCoords = input.texCoords;
+		#endif //VIRTUAL_TEXTURE
+	#endif //NORMAL_DIFFUSE_SPECULAR_OPACITY_MAPS
 
-#ifdef VIRTUAL_TEXTURE
-	texCoords = vtexCoord(texCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, mipBiasSize, pagePaddingScale, pagePaddingOffset);
-#endif
-
-	//Get color value
-	float4 colorMap = colorTexture.Sample(colorTextureSampler, texCoords.xy);
-
-	//Get the specular value
-	float4 specularMapColor = specularTexture.Sample(specularTextureSampler, texCoords.xy);
-
-	//Unpack the normal map.
-	float3 normal;
-#ifdef RG_NORMALS
-	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).rg - 0.5f);
-#else
-	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).ag - 0.5f);
-#endif
-	normal.b = sqrt(1 - normal.r * normal.r - normal.g * normal.g);
-
-	float4 color = doLighting(unpack(input.lightVector), unpack(input.halfVector), lightDiffuseColor, input.attenuation, colorMap, specularMapColor, specularMapColor.a, glossyness, emissiveColor, normal);
-
-	float opacity = opacityTexture.Sample(opacityTextureSampler, texCoords).r;
-	#ifdef ALPHA
-		color.a = opacity - (1.0f - alpha.a);
-	#else
-		color.a = opacity;
-	#endif
-	return color;
-}
-
-//-------------------------------------------------------------------------------------------------
-
-//----------------------------------
-//normalMapSpecularMapOpacityMapGlossMapFP
-//----------------------------------
-float4 normalMapSpecularMapOpacityMapGlossMapFP
-(
-	    in v2f input,
-
-		uniform Texture2D normalTexture : register(t0),	//The normal map
-		uniform SamplerState normalTextureSampler : register(s0),	//The normal map
-		uniform Texture2D colorTexture : register(t1),  //The color map
-		uniform SamplerState colorTextureSampler : register(s1),  //The color map
-		uniform Texture2D specularTexture : register(t2),  //The specular color map
-		uniform SamplerState specularTextureSampler : register(s2),  //The specular color map
-		uniform Texture2D opacityGlossTexture : register(t3), //The Opacity map, uses r channel for opacity
-		uniform SamplerState opacityGlossTextureSampler : register(s3), //The Opacity map, uses r channel for opacity
-		uniform float4 lightDiffuseColor,			//The diffuse color of the light source
-		uniform float4 emissiveColor,				//The emissive color of the surface
+	#ifdef GLOSS_MAP
 		uniform float glossyStart,
-		uniform float glossyRange
-		#ifdef ALPHA
-			,uniform float4 alpha						//The total opacity of the object.
-		#endif
-#ifdef VIRTUAL_TEXTURE
-			, uniform Texture2D indirectionTex : register(t4),
-			uniform SamplerState indirectionTexSampler : register(s4),
+		uniform float glossyRange,
+	#else //!GLOSS_MAP
+		uniform float glossyness,					//The glossyness of the surface
+	#endif //GLOSS_MAP
+
+	#ifdef HIGHLIGHT
+		uniform float4 highlightColor,				//A color to multiply the final color by to create a highlight effect
+	#endif //HIGHLIGHT
+
+	#ifdef ALPHA
+		uniform float4 alpha,
+	#endif
+
+	#ifdef VIRTUAL_TEXTURE
 			uniform float2 physicalSizeRecip,
 			uniform float2 mipBiasSize,
-			uniform float2 pagePaddingScale,
-			uniform float2 pagePaddingOffset
-#endif
-			) : SV_TARGET
-{
-	float2 texCoords = input.texCoords;
+			uniform float2 pagePaddingScale, 
+			uniform float2 pagePaddingOffset,
+	#endif //VIRTUAL_TEXTURE
 
-#ifdef VIRTUAL_TEXTURE
-	texCoords = vtexCoord(texCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, mipBiasSize, pagePaddingScale, pagePaddingOffset);
-#endif
+	//Universal
+	uniform float4 emissiveColor,			    //The emissive color of the surface
+	uniform float4 lightDiffuseColor,			//The diffuse color of the light source
 
-	//Get color value
-	float4 colorMap = colorTexture.Sample(colorTextureSampler, texCoords.xy);
-
-	//Get the specular value
-	float4 specularMapColor = specularTexture.Sample(specularTextureSampler, texCoords.xy);
-
-	//Unpack the normal map.
-	float3 normal;
-#ifdef RG_NORMALS
-	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).rg - 0.5f);
-#else
-	normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).ag - 0.5f);
-#endif
-	normal.b = sqrt(1 - normal.r * normal.r - normal.g * normal.g);
-
-	float2 opacityGloss = opacityGlossTexture.Sample(opacityGlossTextureSampler, texCoords).rg;
-
-	//Compute the glossyness
-	float glossyness = glossyStart + glossyRange * opacityGloss.g;
-
-	float4 color = doLighting(unpack(input.lightVector), unpack(input.halfVector), lightDiffuseColor, input.attenuation, colorMap, specularMapColor, specularMapColor.a, glossyness, emissiveColor, normal);
-	
-	#ifdef ALPHA
-		color.a = opacityGloss.r - (1.0f - alpha.a);
-	#else
-		color.a = opacityGloss.r;
-	#endif
-	return color;
-}
-
-//-------------------------------------------------------------------------------------------------
-
-//----------------------------------
-//NoTexturesColoredFP
-//----------------------------------
-float4 NoTexturesColoredFP
-(
-	    in v2fNoTexture input,
-
-		uniform float4 diffuseColor,				//The diffuse color of the object
-		uniform float4 lightDiffuseColor,			//The diffuse color of the light source
-		uniform float4 specularColor,				//The specular color of the surface
-		uniform float glossyness,					//The glossyness of the surface
-		uniform float4 emissiveColor				//The emissive color of the surface
-		#ifdef ALPHA
-			,uniform float4 alpha						//The total opacity of the object.
-		#endif
+	in v2f input //Keep this guy last for easy commas
 ) : SV_TARGET
 {
-	float4 color = doLighting(unpack(input.lightVector), unpack(input.halfVector), lightDiffuseColor, input.attenuation, diffuseColor, specularColor, diffuseColor.a, glossyness, emissiveColor, input.normal);
+#ifndef NO_MAPS
+	float2 texCoords = input.texCoords;
+	#ifdef VIRTUAL_TEXTURE
+		texCoords = vtexCoord(texCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, mipBiasSize, pagePaddingScale, pagePaddingOffset);
+	#endif //VIRTUAL_TEXTURE
+#endif //NO_MAPS
+
+#ifdef DIFFUSE_MAP
+	//Get diffuse map value
+	float4 diffuseColor = colorTexture.Sample(colorTextureSampler, texCoords.xy);
+#endif //DIFFUSE_MAP
+
+#ifdef SPECULAR_MAP
+	float4 specularColor = specularTexture.Sample(specularTextureSampler, texCoords.xy);
+#endif
+
+//Determine specular amount depending on which textures are active
+#ifdef SPECULAR_MAP
+	float specularAmount = specularColor.a;
+#else
+	float specularAmount = diffuseColor.a;
+#endif
+
+#ifdef NORMAL_MAP
+	//Unpack the normal map.
+	float3 normal;
+	#ifdef RG_NORMALS
+		normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).rg - 0.5f);
+	#else
+		normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).ag - 0.5f);
+	#endif
+		normal.b = sqrt(1 - normal.r * normal.r - normal.g * normal.g);
+#else
+	float3 normal = input.normal;
+#endif //NORMAL_MAP
+
+#ifdef OPACITY_MAP
+	float2 opacityMapValue = opacityTexture.Sample(opacityTextureSampler, texCoords).rg;
+#endif
+
+#ifdef GLOSS_MAP
+	#ifdef GLOSS_CHANNEL_OPACITY_GREEN
+		float glossyness = glossyStart + glossyRange * opacityMapValue.g;
+	#else
+		float glossyness = glossyStart + glossyRange * diffuseColor.a;
+	#endif
+#endif //GLOSS_MAP
+
+	float4 color = doLighting(
+		//Lighting and eye
+		unpack(input.lightVector), unpack(input.halfVector), lightDiffuseColor, input.attenuation, 
+		//Diffuse color
+		diffuseColor, 
+		//Specular color
+		specularColor, specularAmount, glossyness, 
+		//emisssive
+		emissiveColor, 
+		//Normal
+		normal);
+
+#ifdef HIGHLIGHT
+	color *= highlightColor;
+#endif //HIGHLIGHT
+
+#ifdef OPACITY_MAP
+	#ifdef ALPHA
+		color.a = opacityMapValue.r - (1.0f - alpha.a);
+	#else
+		color.a = opacityMapValue.r;
+	#endif
+#else //OPACITY_MAP
 	#ifdef ALPHA
 		color.a = alpha.a;
-	#endif
+	#endif //ALPHA
+#endif //OPACITY_MAP
+
 	return color;
 }

@@ -326,11 +326,10 @@
     <EmbeddedResource Include="Resources\Unified\D3D11\DepthCheck.hlsl" />
     <EmbeddedResource Include="Resources\Unified\D3D11\FeedbackBuffer.hlsl" />
     <EmbeddedResource Include="Resources\Unified\D3D11\Hidden.hlsl" />
-    <EmbeddedResource Include="Resources\Unified\D3D11\UnifiedFS.hlsl" />
     <EmbeddedResource Include="Resources\Unified\D3D11\UnifiedVS.hlsl" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Unified\D3D11\UnifiedFrag.hlsl" />
+    <EmbeddedResource Include="Resources\Unified\D3D11\UnifiedFS.hlsl" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

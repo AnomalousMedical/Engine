@@ -257,7 +257,7 @@ namespace OgrePlugin
         {
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "hlsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
 
-            program.Value.SourceFile = UnifiedShaderBase + "UnifiedFrag.hlsl";
+            program.Value.SourceFile = UnifiedShaderBase + "UnifiedFS.hlsl";
             program.Value.setParam("entry_point", "UnifiedFragmentShader");
             program.Value.setParam("target", "ps_4_0");
             program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines2(maps, alpha, glossMap, highlight));
