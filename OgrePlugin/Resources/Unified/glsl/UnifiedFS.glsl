@@ -99,7 +99,7 @@ uniform vec4 lightDiffuseColor;			//The diffuse color of the light source
 
 //Vertex shader output
 #ifdef NO_MAPS
-	varying vec2 passNormal;
+	varying vec3 passNormal;
 #else
 	varying vec2 texCoords;
 #endif
@@ -110,19 +110,19 @@ varying vec4 attenuation;	//Attenuation per vertex
 void main()
 {
 #ifndef NO_MAPS
-	vec2 derivedCoords = input.texCoords;
+	vec2 derivedCoords = texCoords;
 	#ifdef VIRTUAL_TEXTURE
-		derivedCoords = vtexCoord(derivedCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, mipBiasSize, pagePaddingScale, pagePaddingOffset);
+		derivedCoords = vtexCoord(texCoords, indirectionTex, physicalSizeRecip, mipBiasSize, pagePaddingScale, pagePaddingOffset);
 	#endif //VIRTUAL_TEXTURE
 #endif //NO_MAPS
 
 #ifdef DIFFUSE_MAP
 	//Get diffuse map value
-	vec4 diffuseColor = colorTexture.Sample(colorTextureSampler, derivedCoords.xy);
+	vec4 diffuseColor = texture2D(colorTexture, derivedCoords.xy);
 #endif //DIFFUSE_MAP
 
 #ifdef SPECULAR_MAP
-	vec4 specularColor = specularTexture.Sample(specularTextureSampler, derivedCoords.xy);
+	vec4 specularColor = texture2D(specularTexture, derivedCoords.xy);
 #endif
 
 //Determine specular amount depending on which textures are active
@@ -134,19 +134,19 @@ void main()
 
 #ifdef NORMAL_MAP
 	//Unpack the normal map.
-	float3 normal;
+	vec3 normal;
 	#ifdef RG_NORMALS
-		normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, derivedCoords).rg - 0.5f);
+		normal.rg = 2.0f * (texture2D(normalTexture, derivedCoords).rg - 0.5f);
 	#else
-		normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, derivedCoords).ag - 0.5f);
+		normal.rg = 2.0f * (texture2D(normalTexture, derivedCoords).ag - 0.5f);
 	#endif
 		normal.b = sqrt(1 - normal.r * normal.r - normal.g * normal.g);
 #else
-	float3 normal = input.normal;
+	vec3 normal = passNormal;
 #endif //NORMAL_MAP
 
 #ifdef OPACITY_MAP
-	vec2 opacityMapValue = opacityTexture.Sample(opacityTextureSampler, derivedCoords).rg;
+	vec2 opacityMapValue = texture2D(opacityTexture, derivedCoords).rg;
 #endif
 
 #ifdef GLOSS_MAP
@@ -157,9 +157,9 @@ void main()
 	#endif
 #endif //GLOSS_MAP
 
-	vec4 color = doLighting(
+	gl_FragColor = doLighting(
 		//Lighting and eye
-		unpack(input.lightVector), unpack(input.halfVector), lightDiffuseColor, input.attenuation, 
+		unpack(lightVector), unpack(halfVector), lightDiffuseColor, attenuation, 
 		//Diffuse color
 		diffuseColor, 
 		//Specular color
@@ -170,20 +170,18 @@ void main()
 		normal);
 
 #ifdef HIGHLIGHT
-	color *= highlightColor;
+	gl_FragColor *= highlightColor;
 #endif //HIGHLIGHT
 
 #ifdef OPACITY_MAP
 	#ifdef ALPHA
-		color.a = opacityMapValue.r - (1.0f - alpha.a);
+		gl_FragColor.a = opacityMapValue.r - (1.0f - alpha.a);
 	#else
-		color.a = opacityMapValue.r;
+		gl_FragColor.a = opacityMapValue.r;
 	#endif
 #else //OPACITY_MAP
 	#ifdef ALPHA
-		color.a = alpha.a;
+		gl_FragColor.a = alpha.a;
 	#endif //ALPHA
 #endif //OPACITY_MAP
-
-	return color;
 }

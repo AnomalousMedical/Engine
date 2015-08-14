@@ -301,7 +301,7 @@
     <EmbeddedResource Include="Resources\Unified\glsl\FeedbackBufferVPHardwareSkin.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsl\FeedbackBufferFP.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsl\VirtualTextureFuncs.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsl\UnifiedFP.glsl" />
+    <EmbeddedResource Include="Resources\Unified\glsl\UnifiedFS.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">
