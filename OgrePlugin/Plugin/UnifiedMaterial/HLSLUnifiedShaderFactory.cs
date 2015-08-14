@@ -13,7 +13,7 @@ namespace OgrePlugin
         private const String EyeShaderBase = ShaderPathBase + ".Eye.D3D11.";
 
         public HlslUnifiedShaderFactory(ResourceManager liveResourceManager, NormaMapReadlMode normalMapReadMode)
-            :base(liveResourceManager, normalMapReadMode)
+            : base(liveResourceManager, normalMapReadMode)
         {
 
         }
@@ -321,7 +321,7 @@ namespace OgrePlugin
                 defaultParams.Value.setNamedAutoConstant("lightDiffuseColor", AutoConstantType.ACT_LIGHT_DIFFUSE_COLOUR, 0);
                 defaultParams.Value.setNamedAutoConstant("emissiveColor", AutoConstantType.ACT_SURFACE_EMISSIVE_COLOUR);
 
-                if(glossMap)
+                if (glossMap)
                 {
                     defaultParams.Value.setNamedConstant("glossyStart", 40.0f);
                     defaultParams.Value.setNamedConstant("glossyRange", 0.0f);
@@ -329,6 +329,11 @@ namespace OgrePlugin
                 else
                 {
                     defaultParams.Value.setNamedAutoConstant("glossyness", AutoConstantType.ACT_SURFACE_SHININESS);
+                }
+
+                if ((maps & TextureMaps.Diffuse) == 0)
+                {
+                    defaultParams.Value.setNamedAutoConstant("diffuseColor", AutoConstantType.ACT_SURFACE_DIFFUSE_COLOUR);
                 }
 
                 //Check for need to pass specular color
@@ -481,6 +486,8 @@ namespace OgrePlugin
 
         protected override HighLevelGpuProgramSharedPtr createNoTexturesColoredFP(String name, bool alpha)
         {
+            return createUnifiedFrag(name, TextureMaps.None, alpha, false, false);
+
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "hlsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
 
             program.Value.SourceFile = UnifiedShaderBase + "UnifiedFS.hlsl";

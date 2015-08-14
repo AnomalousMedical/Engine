@@ -251,10 +251,13 @@ namespace OgrePlugin
                     definesBuilder.Append("RG_NORMALS=1,");
                     break;
             }
-            if(maps != TextureMaps.None)
+            if(maps == TextureMaps.None)
+            {
+                definesBuilder.Append("NO_MAPS=1,");
+            }
+            else
             {
                 StringBuilder mapDefineBuilder = new StringBuilder();
-                definesBuilder.Append("HAS_TEXTURES=1,");
                 if((maps & TextureMaps.Normal) == TextureMaps.Normal)
                 {
                     mapDefineBuilder.Append("NORMAL_");

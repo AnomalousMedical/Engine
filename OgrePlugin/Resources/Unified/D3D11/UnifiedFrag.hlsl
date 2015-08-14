@@ -213,11 +213,10 @@ float4 UnifiedFragmentShader
 {
 #ifndef NO_MAPS
 	float2 texCoords = input.texCoords;
-#endif
-
-#ifdef VIRTUAL_TEXTURE
-	texCoords = vtexCoord(texCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, mipBiasSize, pagePaddingScale, pagePaddingOffset);
-#endif //VIRTUAL_TEXTURE
+	#ifdef VIRTUAL_TEXTURE
+		texCoords = vtexCoord(texCoords, indirectionTex, indirectionTexSampler, physicalSizeRecip, mipBiasSize, pagePaddingScale, pagePaddingOffset);
+	#endif //VIRTUAL_TEXTURE
+#endif //NO_MAPS
 
 #ifdef DIFFUSE_MAP
 	//Get diffuse map value
@@ -244,6 +243,8 @@ float4 UnifiedFragmentShader
 		normal.rg = 2.0f * (normalTexture.Sample(normalTextureSampler, texCoords).ag - 0.5f);
 	#endif
 		normal.b = sqrt(1 - normal.r * normal.r - normal.g * normal.g);
+#else
+	float3 normal = input.normal;
 #endif //NORMAL_MAP
 
 #ifdef OPACITY_MAP
