@@ -276,6 +276,28 @@ namespace OgrePlugin
 
             using (var defaultParams = program.Value.getDefaultParameters())
             {
+                int textureIndex = 0;
+                if ((maps & TextureMaps.Normal) == TextureMaps.Normal)
+                {
+                    defaultParams.Value.setNamedConstant("normalTexture", textureIndex++);
+                }
+                if ((maps & TextureMaps.Diffuse) == TextureMaps.Diffuse)
+                {
+                    defaultParams.Value.setNamedConstant("colorTexture", textureIndex++);
+                }
+                if ((maps & TextureMaps.Specular) == TextureMaps.Specular)
+                {
+                    defaultParams.Value.setNamedConstant("specularTexture", textureIndex++);
+                }
+                if ((maps & TextureMaps.Opacity) == TextureMaps.Opacity)
+                {
+                    defaultParams.Value.setNamedConstant("opacityTexture", textureIndex++);
+                }
+                if (maps != TextureMaps.None)
+                {
+                    defaultParams.Value.setNamedConstant("indirectionTex", textureIndex++);
+                }
+
                 defaultParams.Value.setNamedAutoConstant("lightDiffuseColor", AutoConstantType.ACT_LIGHT_DIFFUSE_COLOUR, 0);
                 defaultParams.Value.setNamedAutoConstant("emissiveColor", AutoConstantType.ACT_SURFACE_EMISSIVE_COLOUR);
 
