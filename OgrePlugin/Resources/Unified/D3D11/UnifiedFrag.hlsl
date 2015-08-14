@@ -161,6 +161,22 @@ float4 UnifiedFragmentShader
 		#endif //VIRTUAL_TEXTURE
 	#endif //NORMAL_DIFFUSE_SPECULAR_MAPS
 
+	#ifdef NORMAL_DIFFUSE_SPECULAR_OPACITY_MAPS
+		uniform Texture2D normalTexture : register(t0),	//The normal map
+		uniform SamplerState normalTextureSampler : register(s0),	//The normal map
+		uniform Texture2D colorTexture : register(t1),  //The color map
+		uniform SamplerState colorTextureSampler : register(s1),  //The color map
+		uniform Texture2D specularTexture : register(t2),  //The specular color map
+		uniform SamplerState specularTextureSampler : register(s2),  //The specular color map
+		uniform Texture2D opacityTexture : register(t3), //The Opacity map, uses r channel for opacity
+		uniform SamplerState opacityTextureSampler : register(s3), //The Opacity map, uses r channel for opacity
+
+		#ifdef VIRTUAL_TEXTURE
+			uniform Texture2D indirectionTex : register(t4),
+			uniform SamplerState indirectionTexSampler : register(s4),
+		#endif //VIRTUAL_TEXTURE
+	#endif //NORMAL_DIFFUSE_SPECULAR_OPACITY_MAPS
+
 	#ifdef GLOSS_MAP
 		uniform float glossyStart,
 		uniform float glossyRange,
