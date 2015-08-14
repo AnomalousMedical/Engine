@@ -279,20 +279,65 @@ namespace OgrePlugin
 
         protected override HighLevelGpuProgramSharedPtr createNormalMapSpecularHighlightFP(String name, bool alpha)
         {
+            return createUnifiedFrag(name, alpha, true, true, false, false, true);
+
+            //var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "hlsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
+
+            //program.Value.SourceFile = UnifiedShaderBase + "UnifiedFS.hlsl";
+            //program.Value.setParam("entry_point", "normalMapSpecularHighlightFP");
+            //program.Value.setParam("target", "ps_4_0");
+            //program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines(alpha));
+
+            //using (var defaultParams = program.Value.getDefaultParameters())
+            //{
+            //    defaultParams.Value.setNamedAutoConstant("lightDiffuseColor", AutoConstantType.ACT_LIGHT_DIFFUSE_COLOUR, 0);
+            //    defaultParams.Value.setNamedAutoConstant("specularColor", AutoConstantType.ACT_SURFACE_SPECULAR_COLOUR);
+            //    defaultParams.Value.setNamedAutoConstant("glossyness", AutoConstantType.ACT_SURFACE_SHININESS);
+            //    defaultParams.Value.setNamedAutoConstant("emissiveColor", AutoConstantType.ACT_SURFACE_EMISSIVE_COLOUR);
+            //    defaultParams.Value.setNamedAutoConstant("highlightColor", AutoConstantType.ACT_CUSTOM, 1);
+            //    if (alpha)
+            //    {
+            //        defaultParams.Value.setNamedAutoConstant("alpha", AutoConstantType.ACT_CUSTOM, 0);
+            //    }
+            //}
+
+            //return program;
+        }
+
+        protected HighLevelGpuProgramSharedPtr createUnifiedFrag(String name, bool alpha, bool normalMap, bool diffuseMap, bool specularMap, bool glossMap, bool highlight)
+        {
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "hlsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
 
-            program.Value.SourceFile = UnifiedShaderBase + "UnifiedFS.hlsl";
-            program.Value.setParam("entry_point", "normalMapSpecularHighlightFP");
+            program.Value.SourceFile = UnifiedShaderBase + "UnifiedFrag.hlsl";
+            program.Value.setParam("entry_point", "UnifiedFragmentShader");
             program.Value.setParam("target", "ps_4_0");
-            program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines(alpha));
+            program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines2(alpha, normalMap, diffuseMap, specularMap, glossMap, highlight));
 
             using (var defaultParams = program.Value.getDefaultParameters())
             {
                 defaultParams.Value.setNamedAutoConstant("lightDiffuseColor", AutoConstantType.ACT_LIGHT_DIFFUSE_COLOUR, 0);
-                defaultParams.Value.setNamedAutoConstant("specularColor", AutoConstantType.ACT_SURFACE_SPECULAR_COLOUR);
-                defaultParams.Value.setNamedAutoConstant("glossyness", AutoConstantType.ACT_SURFACE_SHININESS);
                 defaultParams.Value.setNamedAutoConstant("emissiveColor", AutoConstantType.ACT_SURFACE_EMISSIVE_COLOUR);
-                defaultParams.Value.setNamedAutoConstant("highlightColor", AutoConstantType.ACT_CUSTOM, 1);
+
+                if(glossMap)
+                {
+                    defaultParams.Value.setNamedConstant("glossyStart", 40.0f);
+                    defaultParams.Value.setNamedConstant("glossyRange", 0.0f);
+                }
+                else
+                {
+                    defaultParams.Value.setNamedAutoConstant("glossyness", AutoConstantType.ACT_SURFACE_SHININESS);
+                }
+
+                if (!specularMap)
+                {
+                    defaultParams.Value.setNamedAutoConstant("specularColor", AutoConstantType.ACT_SURFACE_SPECULAR_COLOUR);
+                }
+
+                if (highlight)
+                {
+                    defaultParams.Value.setNamedAutoConstant("highlightColor", AutoConstantType.ACT_CUSTOM, 1);
+                }
+
                 if (alpha)
                 {
                     defaultParams.Value.setNamedAutoConstant("alpha", AutoConstantType.ACT_CUSTOM, 0);

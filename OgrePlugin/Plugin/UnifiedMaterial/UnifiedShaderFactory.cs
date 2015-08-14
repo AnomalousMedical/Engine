@@ -219,5 +219,49 @@ namespace OgrePlugin
             }
             return definesBuilder.ToString();
         }
+
+        protected String DetermineFragmentPreprocessorDefines2(bool alpha, bool normalMap, bool diffuseMap, bool specularMap, bool glossMap, bool highlight)
+        {
+            StringBuilder definesBuilder = new StringBuilder("VIRTUAL_TEXTURE=1,");
+            if (alpha)
+            {
+                definesBuilder.Append("ALPHA=1,");
+            }
+            if(highlight)
+            {
+                definesBuilder.Append("HIGHLIGHT=1,");
+            }
+            switch (normalMapReadMode)
+            {
+                case NormaMapReadlMode.RG:
+                    definesBuilder.Append("RG_NORMALS=1,");
+                    break;
+            }
+            if(normalMap || diffuseMap || specularMap || glossMap)
+            {
+                definesBuilder.Append("HAS_TEXTURES=1,");
+                if(normalMap)
+                {
+                    definesBuilder.Append("NORMAL_MAP=1,");
+                }
+                if(diffuseMap)
+                {
+                    definesBuilder.Append("DIFFUSE_MAP=1,");
+                }
+                if (specularMap)
+                {
+                    definesBuilder.Append("SPECULAR_MAP=1,");
+                }
+                if (glossMap)
+                {
+                    definesBuilder.Append("GLOSS_MAP=1,");
+                }
+                if(normalMap && diffuseMap && !specularMap && !glossMap)
+                {
+                    definesBuilder.Append("NORMAL_DIFFUSE_MAPS=1,"); 
+                }
+            }
+            return definesBuilder.ToString();
+        }
     }
 }

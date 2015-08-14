@@ -329,6 +329,9 @@
     <EmbeddedResource Include="Resources\Unified\D3D11\UnifiedFS.hlsl" />
     <EmbeddedResource Include="Resources\Unified\D3D11\UnifiedVS.hlsl" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Unified\D3D11\UnifiedFrag.hlsl" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
