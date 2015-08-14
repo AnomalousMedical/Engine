@@ -17,6 +17,7 @@ namespace OgreModelEditor
         static void Main()
         {
             NativePlatformPlugin.StaticInitialize();
+            OgrePlugin.OgreInterface.CompressedTextureSupport = OgrePlugin.CompressedTextureSupport.DXT;
 
             OgreModelEditorApp app = null;
             try

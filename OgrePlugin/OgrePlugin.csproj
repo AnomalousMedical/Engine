@@ -285,14 +285,6 @@
     <EmbeddedResource Include="Resources\Unified\glsl\Lighting.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsl\MainVP.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsl\MainVPHardwareSkin.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsl\NormalMapSpecularFP.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsl\NormalMapSpecularHighlightFP.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsl\NormalMapSpecularMapFP.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsl\NormalMapSpecularMapGlossMapFP.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsl\NormalMapSpecularMapOpacityMapFP.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsl\NormalMapSpecularMapOpacityMapGlossMapFP.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsl\NormalMapSpecularOpacityMapFP.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsl\NoTexturesColoredFP.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsl\NoTexturesVP.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsl\NoTexturesVPHardwareSkin.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsl\Pack.glsl" />
@@ -302,6 +294,7 @@
     <EmbeddedResource Include="Resources\Unified\glsl\FeedbackBufferFP.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsl\VirtualTextureFuncs.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsl\UnifiedFS.glsl" />
+    <EmbeddedResource Include="Resources\Unified\glsles\UnifiedFS.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">
