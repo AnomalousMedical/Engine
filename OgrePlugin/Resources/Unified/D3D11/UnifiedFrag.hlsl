@@ -4,12 +4,12 @@ struct v2f
 	//Output position
 	float4 position : SV_POSITION;
 
-#ifdef HAS_TEXTURES
-	//Output texture coords
-	float2 texCoords : TEXCOORD0;
-#else
+#ifdef NO_MAPS
 	//Normal
 	float3 normal : TEXCOORD0;
+#else
+	//Output texture coords
+	float2 texCoords : TEXCOORD0;
 #endif
 
 	//Light vector in tangent space
@@ -119,6 +119,11 @@ float2 vtexCoord(float2 address, Texture2D indirectionTex, SamplerState indirect
 
 float4 UnifiedFragmentShader
 (
+	#ifdef NO_MAPS
+		uniform float4 diffuseColor,				//The diffuse color of the object
+		uniform float4 specularColor,				//The specular color of the surface
+	#endif
+
 	#ifdef NORMAL_DIFFUSE_MAPS
 		uniform Texture2D normalTexture : register(t0),	//The normal map
 		uniform SamplerState normalTextureSampler : register(s0),	//The normal map
@@ -206,7 +211,7 @@ float4 UnifiedFragmentShader
 	in v2f input //Keep this guy last for easy commas
 ) : SV_TARGET
 {
-#ifdef HAS_TEXTURES
+#ifndef NO_MAPS
 	float2 texCoords = input.texCoords;
 #endif
 
@@ -216,11 +221,18 @@ float4 UnifiedFragmentShader
 
 #ifdef DIFFUSE_MAP
 	//Get diffuse map value
-	float4 colorMap = colorTexture.Sample(colorTextureSampler, texCoords.xy);
+	float4 diffuseColor = colorTexture.Sample(colorTextureSampler, texCoords.xy);
 #endif //DIFFUSE_MAP
 
 #ifdef SPECULAR_MAP
 	float4 specularColor = specularTexture.Sample(specularTextureSampler, texCoords.xy);
+#endif
+
+//Determine specular amount depending on which textures are active
+#ifdef SPECULAR_MAP
+	float specularAmount = specularColor.a;
+#else
+	float specularAmount = diffuseColor.a;
 #endif
 
 #ifdef NORMAL_MAP
@@ -242,11 +254,21 @@ float4 UnifiedFragmentShader
 	#ifdef GLOSS_CHANNEL_OPACITY_GREEN
 		float glossyness = glossyStart + glossyRange * opacityMapValue.g;
 	#else
-		float glossyness = glossyStart + glossyRange * colorMap.a;
+		float glossyness = glossyStart + glossyRange * diffuseColor.a;
 	#endif
 #endif //GLOSS_MAP
 
-	float4 color = doLighting(unpack(input.lightVector), unpack(input.halfVector), lightDiffuseColor, input.attenuation, colorMap, specularColor, colorMap.a, glossyness, emissiveColor, normal);
+	float4 color = doLighting(
+		//Lighting and eye
+		unpack(input.lightVector), unpack(input.halfVector), lightDiffuseColor, input.attenuation, 
+		//Diffuse color
+		diffuseColor, 
+		//Specular color
+		specularColor, specularAmount, glossyness, 
+		//emisssive
+		emissiveColor, 
+		//Normal
+		normal);
 
 #ifdef HIGHLIGHT
 	color *= highlightColor;
