@@ -137,21 +137,47 @@ namespace OgrePlugin
             return shaderName;
         }
 
-        protected abstract HighLevelGpuProgramSharedPtr createNormalMapSpecularFP(String name, bool alpha);
+        protected abstract HighLevelGpuProgramSharedPtr createUnifiedFrag(String name, TextureMaps maps, bool alpha, bool glossMap, bool highlight);
 
-        protected abstract HighLevelGpuProgramSharedPtr createNormalMapSpecularHighlightFP(String name, bool alpha);
+        protected HighLevelGpuProgramSharedPtr createNormalMapSpecularFP(String name, bool alpha)
+        {
+            return createUnifiedFrag(name, TextureMaps.Normal | TextureMaps.Diffuse, alpha, false, false);
+        }
 
-        protected abstract HighLevelGpuProgramSharedPtr createNormalMapSpecularMapFP(String name, bool alpha);
+        protected HighLevelGpuProgramSharedPtr createNormalMapSpecularHighlightFP(String name, bool alpha)
+        {
+            return createUnifiedFrag(name, TextureMaps.Normal | TextureMaps.Diffuse, alpha, false, true);
+        }
 
-        protected abstract HighLevelGpuProgramSharedPtr createNormalMapSpecularOpacityMapFP(String name, bool alpha);
+        protected HighLevelGpuProgramSharedPtr createNormalMapSpecularMapFP(String name, bool alpha)
+        {
+            return createUnifiedFrag(name, TextureMaps.Normal | TextureMaps.Diffuse | TextureMaps.Specular, alpha, false, false);
+        }
 
-        protected abstract HighLevelGpuProgramSharedPtr createNormalMapSpecularMapGlossMapFP(String name, bool alpha);
+        protected HighLevelGpuProgramSharedPtr createNormalMapSpecularOpacityMapFP(String name, bool alpha)
+        {
+            return createUnifiedFrag(name, TextureMaps.Normal | TextureMaps.Diffuse | TextureMaps.Opacity, alpha, false, false);
+        }
 
-        protected abstract HighLevelGpuProgramSharedPtr createNormalMapSpecularMapOpacityMapFP(String name, bool alpha);
+        protected HighLevelGpuProgramSharedPtr createNormalMapSpecularMapGlossMapFP(String name, bool alpha)
+        {
+            return createUnifiedFrag(name, TextureMaps.Normal | TextureMaps.Diffuse | TextureMaps.Specular, alpha, true, false);
+        }
 
-        protected abstract HighLevelGpuProgramSharedPtr createNormalMapSpecularMapOpacityMapGlossMapFP(String name, bool alpha);
+        protected HighLevelGpuProgramSharedPtr createNormalMapSpecularMapOpacityMapFP(String name, bool alpha)
+        {
+            return createUnifiedFrag(name, TextureMaps.Normal | TextureMaps.Diffuse | TextureMaps.Specular | TextureMaps.Opacity, alpha, false, false);
+        }
 
-        protected abstract HighLevelGpuProgramSharedPtr createNoTexturesColoredFP(String name, bool alpha);
+        protected HighLevelGpuProgramSharedPtr createNormalMapSpecularMapOpacityMapGlossMapFP(String name, bool alpha)
+        {
+            return createUnifiedFrag(name, TextureMaps.Normal | TextureMaps.Diffuse | TextureMaps.Specular | TextureMaps.Opacity, alpha, true, false);
+        }
+
+        protected HighLevelGpuProgramSharedPtr createNoTexturesColoredFP(String name, bool alpha)
+        {
+            return createUnifiedFrag(name, TextureMaps.None, alpha, false, false);
+        }
 
         protected abstract HighLevelGpuProgramSharedPtr createFeedbackBufferFP(String name, bool alpha);
 

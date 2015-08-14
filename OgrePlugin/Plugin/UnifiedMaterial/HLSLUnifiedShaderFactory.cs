@@ -253,7 +253,7 @@ namespace OgrePlugin
 
         #region Fragment Programs
 
-        protected HighLevelGpuProgramSharedPtr createUnifiedFrag(String name, TextureMaps maps, bool alpha, bool glossMap, bool highlight)
+        protected override HighLevelGpuProgramSharedPtr createUnifiedFrag(String name, TextureMaps maps, bool alpha, bool glossMap, bool highlight)
         {
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "hlsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
 
@@ -301,46 +301,6 @@ namespace OgrePlugin
             }
 
             return program;
-        }
-
-        protected override HighLevelGpuProgramSharedPtr createNormalMapSpecularFP(String name, bool alpha)
-        {
-            return createUnifiedFrag(name, TextureMaps.Normal | TextureMaps.Diffuse, alpha, false, false);
-        }
-
-        protected override HighLevelGpuProgramSharedPtr createNormalMapSpecularHighlightFP(String name, bool alpha)
-        {
-            return createUnifiedFrag(name, TextureMaps.Normal | TextureMaps.Diffuse, alpha, false, true);
-        }
-
-        protected override HighLevelGpuProgramSharedPtr createNormalMapSpecularMapFP(String name, bool alpha)
-        {
-            return createUnifiedFrag(name, TextureMaps.Normal | TextureMaps.Diffuse | TextureMaps.Specular, alpha, false, false);
-        }
-
-        protected override HighLevelGpuProgramSharedPtr createNormalMapSpecularOpacityMapFP(String name, bool alpha)
-        {
-            return createUnifiedFrag(name, TextureMaps.Normal | TextureMaps.Diffuse | TextureMaps.Opacity, alpha, false, false);
-        }
-
-        protected override HighLevelGpuProgramSharedPtr createNormalMapSpecularMapGlossMapFP(String name, bool alpha)
-        {
-            return createUnifiedFrag(name, TextureMaps.Normal | TextureMaps.Diffuse | TextureMaps.Specular, alpha, true, false);
-        }
-
-        protected override HighLevelGpuProgramSharedPtr createNormalMapSpecularMapOpacityMapFP(String name, bool alpha)
-        {
-            return createUnifiedFrag(name, TextureMaps.Normal | TextureMaps.Diffuse | TextureMaps.Specular | TextureMaps.Opacity, alpha, false, false);
-        }
-
-        protected override HighLevelGpuProgramSharedPtr createNormalMapSpecularMapOpacityMapGlossMapFP(String name, bool alpha)
-        {
-            return createUnifiedFrag(name, TextureMaps.Normal | TextureMaps.Diffuse | TextureMaps.Specular | TextureMaps.Opacity, alpha, true, false);
-        }
-
-        protected override HighLevelGpuProgramSharedPtr createNoTexturesColoredFP(String name, bool alpha)
-        {
-            return createUnifiedFrag(name, TextureMaps.None, alpha, false, false);
         }
 
         protected override HighLevelGpuProgramSharedPtr createFeedbackBufferFP(String name, bool alpha)

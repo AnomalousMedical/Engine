@@ -268,14 +268,6 @@
     <EmbeddedResource Include="Resources\Unified\glsles\HiddenVP.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsles\MainVP.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsles\MainVPHardwareSkin.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsles\NormalMapSpecularFP.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsles\NormalMapSpecularHighlightFP.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsles\NormalMapSpecularMapFP.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsles\NormalMapSpecularMapGlossMapFP.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsles\NormalMapSpecularMapOpacityMapFP.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsles\NormalMapSpecularMapOpacityMapGlossMapFP.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsles\NormalMapSpecularOpacityMapFP.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsles\NoTexturesColoredFP.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsles\NoTexturesVP.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsles\NoTexturesVPHardwareSkin.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsl\DepthCheckVP.glsl" />
