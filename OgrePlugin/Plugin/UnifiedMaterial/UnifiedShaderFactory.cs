@@ -260,6 +260,10 @@ namespace OgrePlugin
                 {
                     definesBuilder.Append("NORMAL_DIFFUSE_MAPS=1,"); 
                 }
+                if(normalMap && diffuseMap && specularMap && !glossMap)
+                {
+                    definesBuilder.Append("NORMAL_DIFFUSE_SPECULAR_MAPS=1,"); 
+                }
             }
             return definesBuilder.ToString();
         }

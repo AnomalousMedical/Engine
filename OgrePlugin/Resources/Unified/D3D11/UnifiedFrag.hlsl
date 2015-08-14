@@ -132,6 +132,20 @@ float4 UnifiedFragmentShader
 		#endif //VIRTUAL_TEXTURE
 	#endif //NORMAL_DIFFUSE_MAPS
 
+	#ifdef NORMAL_DIFFUSE_SPECULAR_MAPS
+		uniform Texture2D normalTexture : register(t0),	//The normal map
+		uniform SamplerState normalTextureSampler : register(s0),	//The normal map
+		uniform Texture2D colorTexture : register(t1),  //The color map
+		uniform SamplerState colorTextureSampler : register(s1),  //The color map
+		uniform Texture2D specularTexture : register(t2),  //The specular color map
+		uniform SamplerState specularTextureSampler : register(s2),  //The specular color map
+
+		#ifdef VIRTUAL_TEXTURE
+			uniform Texture2D indirectionTex : register(t3),
+			uniform SamplerState indirectionTexSampler : register(s3),
+		#endif //VIRTUAL_TEXTURE
+	#endif //NORMAL_DIFFUSE_SPECULAR_MAPS
+
 	#ifdef GLOSS_MAP
 		uniform float glossyStart,
 		uniform float glossyRange,
@@ -173,6 +187,10 @@ float4 UnifiedFragmentShader
 	//Get diffuse map value
 	float4 colorMap = colorTexture.Sample(colorTextureSampler, texCoords.xy);
 #endif //DIFFUSE_MAP
+
+#ifdef SPECULAR_MAP
+	float4 specularColor = specularTexture.Sample(specularTextureSampler, texCoords.xy);
+#endif
 
 #ifdef NORMAL_MAP
 	//Unpack the normal map.
