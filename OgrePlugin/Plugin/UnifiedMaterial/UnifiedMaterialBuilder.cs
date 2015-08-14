@@ -34,7 +34,7 @@ namespace OgrePlugin
 #if NEVER_CACHE_SHADERS
         public static readonly String Version = Guid.NewGuid().ToString();
 #else
-        public static readonly String Version = "4.0";
+        public static readonly String Version = "5.0";
 #endif
 
         private const String GroupName = "UnifiedMaterialBuilder__Reserved";
@@ -122,14 +122,13 @@ namespace OgrePlugin
             specularTexture = virtualTextureManager.createPhysicalTexture("Specular", PixelFormatUsageHint.NotSpecial);
             opacityTexture = virtualTextureManager.createPhysicalTexture("Opacity", PixelFormatUsageHint.OpacityMap);
 
-            materialCreationFuncs.Add("Hidden", createHiddenMaterial);
             materialCreationFuncs.Add("NormalMapSpecular", createUnifiedMaterial);
             materialCreationFuncs.Add("NormalMapSpecularHighlight", createNormalMapSpecularHighlight);
             materialCreationFuncs.Add("NormalMapSpecularMap", createUnifiedMaterial);
             materialCreationFuncs.Add("NormalMapSpecularMapGlossMap", createNormalMapSpecularMapGlossMap);
             materialCreationFuncs.Add("NormalMapSpecularOpacityMap", createUnifiedMaterial);
             materialCreationFuncs.Add("NormalMapSpecularMapOpacityMap", createUnifiedMaterial);
-            materialCreationFuncs.Add("NormalMapSpecularMapOpacityMapNoDepth", createNormalMapSpecularMapOpacityMapNoDepth);
+            materialCreationFuncs.Add("NormalMapSpecularMapOpacityMapNoDepth", createUnifiedMaterial);
             materialCreationFuncs.Add("EyeOuter", createEyeOuterMaterial);
             materialCreationFuncs.Add("ColoredNoTexture", createUnifiedMaterial);
 
@@ -222,54 +221,53 @@ namespace OgrePlugin
                 name += "Alpha";
             }
             MaterialPtr material = MaterialManager.getInstance().create(name, GroupName, false, null);
-            IndirectionTexture indirectionTex = null;
+            
             CreateMaterial createMaterial;
-            if(materialCreationFuncs.TryGetValue(description.ShaderName, out createMaterial))
+            if (String.IsNullOrEmpty(description.ShaderName) || !materialCreationFuncs.TryGetValue(description.ShaderName, out createMaterial))
             {
-                indirectionTex = createMaterial(material.Value.getTechnique(0), description, alpha, true);
-                if (alpha)
-                {
-                    //Create no depth check technique
-                    Technique technique = material.Value.createTechnique();
-                    technique.setLodIndex(1);
-                    technique.createPass();
-                    createMaterial(technique, description, alpha, false);
-                }
+                createMaterial = createUnifiedMaterial;
+            }
 
-                if (indirectionTex != null)
-                {
-                    String vertexShaderName = shaderFactory.createVertexProgram(indirectionTex.FeedbackBufferVPName, description.NumHardwareBones, description.NumHardwarePoses, false);
-                    String fragmentShaderName = shaderFactory.createFragmentProgram(indirectionTex.FeedbackBufferFPName, false);
-                    indirectionTex.setupFeedbackBufferTechnique(material.Value, vertexShaderName);
+            IndirectionTexture indirectionTex = createMaterial(material.Value.getTechnique(0), description, alpha, true);
 
-                    int count = 0;
-                    if (!indirectionTextureUsageCounts.TryGetValue(indirectionTex.Id, out count))
-                    {
-                        indirectionTextureUsageCounts.Add(indirectionTex.Id, 0);
-                    }
-                    else
-                    {
-                        indirectionTextureUsageCounts[indirectionTex.Id] = count + 1;
-                    }
+            if (alpha)
+            {
+                //Create no depth check technique
+                Technique technique = material.Value.createTechnique();
+                technique.setLodIndex(1);
+                technique.createPass();
+                createMaterial(technique, description, alpha, false);
+            }
+
+            if (indirectionTex != null)
+            {
+                String vertexShaderName = shaderFactory.createVertexProgram(indirectionTex.FeedbackBufferVPName, description.NumHardwareBones, description.NumHardwarePoses, false);
+                String fragmentShaderName = shaderFactory.createFragmentProgram(indirectionTex.FeedbackBufferFPName, false);
+                indirectionTex.setupFeedbackBufferTechnique(material.Value, vertexShaderName);
+
+                int count = 0;
+                if (!indirectionTextureUsageCounts.TryGetValue(indirectionTex.Id, out count))
+                {
+                    indirectionTextureUsageCounts.Add(indirectionTex.Id, 0);
                 }
                 else
                 {
-                    //This is probably not the best way to hide things (should use visibility masks) but this allows us control per material instead of per entity
-                    //and has mostly the same cost as rendering these in regular colors anyway without creating garbage data in the feedback buffer.
-                    //In short its a good band-aid for now.
-                    setupHiddenMaterialTechnique(material.Value, description);
+                    indirectionTextureUsageCounts[indirectionTex.Id] = count + 1;
                 }
-
-                material.Value.compile();
-                material.Value.load();
-
-                createdMaterials.Add(material.Value, new MaterialInfo(material.Value, indirectionTex));
-                repo.addMaterial(material, description);
             }
             else
             {
-                Logging.Log.Error("Tried to create a material '{0}' with a shader '{1}' that does not exist. Please check your shader name.", description.Name, description.ShaderName);
+                //This is probably not the best way to hide things (should use visibility masks) but this allows us control per material instead of per entity
+                //and has mostly the same cost as rendering these in regular colors anyway without creating garbage data in the feedback buffer.
+                //In short its a good band-aid for now.
+                setupHiddenMaterialTechnique(material.Value, description);
             }
+
+            material.Value.compile();
+            material.Value.load();
+
+            createdMaterials.Add(material.Value, new MaterialInfo(material.Value, indirectionTex));
+            repo.addMaterial(material, description);
         }
 
         private void setupHiddenMaterialTechnique(Material material, MaterialDescription description)
@@ -317,6 +315,12 @@ namespace OgrePlugin
                 pass.setDepthFunction(CompareFunction.CMPF_LESS_EQUAL);
             }
 
+            if((textureMaps & TextureMaps.Opacity) == TextureMaps.Opacity)
+            {
+                pass.setSceneBlending(SceneBlendType.SBT_TRANSPARENT_ALPHA);
+                pass.setDepthFunction(CompareFunction.CMPF_LESS_EQUAL);
+            }
+
             //Setup Textures
             IndirectionTexture indirectionTex = null;
             switch(textureMaps)
@@ -354,25 +358,6 @@ namespace OgrePlugin
         //--------------------------------------
         //Specific material creation funcs
         //--------------------------------------
-        private IndirectionTexture createHiddenMaterial(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
-        {
-            //Create depth check pass if needed
-            var pass = technique.getPass(0);
-
-            //Setup this pass
-            pass.setDepthWriteEnabled(false);
-            pass.setColorWriteEnabled(false);
-            pass.setDepthCheckEnabled(true);
-            pass.setDepthFunction(CompareFunction.CMPF_ALWAYS_FAIL);
-
-            //Material specific, setup shaders
-            pass.setVertexProgram(shaderFactory.createVertexProgram("HiddenVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
-
-            pass.setFragmentProgram(shaderFactory.createFragmentProgram("HiddenFP", false));
-
-            //Setup textures
-            return null;
-        }
 
         private IndirectionTexture createNormalMapSpecularMapGlossMap(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
         {
@@ -386,14 +371,6 @@ namespace OgrePlugin
         {
             //Hack ensure things are true
             description.IsHighlight = true;
-
-            return createUnifiedMaterial(technique, description, alpha, depthCheck);
-        }
-
-        private IndirectionTexture createNormalMapSpecularMapOpacityMapNoDepth(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
-        {
-            //Hack ensure values
-            description.NoDepthWriteAlpha = true;
 
             return createUnifiedMaterial(technique, description, alpha, depthCheck);
         }
