@@ -146,6 +146,21 @@ float4 UnifiedFragmentShader
 		#endif //VIRTUAL_TEXTURE
 	#endif //NORMAL_DIFFUSE_SPECULAR_MAPS
 
+	#ifdef NORMAL_DIFFUSE_OPACITY_MAPS
+		uniform Texture2D normalTexture : register(t0),	//The normal map
+		uniform SamplerState normalTextureSampler : register(s0),	//The normal map
+		uniform Texture2D colorTexture : register(t1),  //The color map
+		uniform SamplerState colorTextureSampler : register(s1),  //The color map
+		uniform Texture2D opacityTexture : register(t2), //The Opacity map, uses r channel for opacity
+		uniform SamplerState opacityTextureSampler : register(s2), //The Opacity map, uses r channel for opacity
+		uniform float4 specularColor,				//The specular color of the surface
+
+		#ifdef VIRTUAL_TEXTURE
+			uniform Texture2D indirectionTex : register(t3),
+			uniform SamplerState indirectionTexSampler : register(s3),
+		#endif //VIRTUAL_TEXTURE
+	#endif //NORMAL_DIFFUSE_SPECULAR_MAPS
+
 	#ifdef GLOSS_MAP
 		uniform float glossyStart,
 		uniform float glossyRange,
@@ -213,9 +228,18 @@ float4 UnifiedFragmentShader
 	color *= highlightColor;
 #endif //HIGHLIGHT
 
-#ifdef ALPHA
-	color.a = alpha.a;
-#endif //ALPHA
+#ifdef OPACITY_MAP
+	float opacity = opacityTexture.Sample(opacityTextureSampler, texCoords).r;
+	#ifdef ALPHA
+		color.a = opacity - (1.0f - alpha.a);
+	#else
+		color.a = opacity;
+	#endif
+#else //OPACITY_MAP
+	#ifdef ALPHA
+		color.a = alpha.a;
+	#endif //ALPHA
+#endif //OPACITY_MAP
 
 	return color;
 }

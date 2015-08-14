@@ -20,6 +20,20 @@ namespace OgrePlugin
         AG
     }
 
+    [Flags]
+    internal enum TextureMaps
+    {
+        None = 0,
+        Normal = 1,
+        Diffuse = 1 << 1,
+        Specular = 1 << 2,
+        Opacity = 1 << 3,
+
+        NormalDiffuse = Normal | Diffuse,
+        NormalDiffuseSpecular = Normal | Diffuse | Specular,
+        NormalDiffuseOpacity = Normal | Diffuse | Opacity
+    }
+
     abstract class UnifiedShaderFactory : IDisposable
     {
         protected const String ShaderPathBase = "OgrePlugin.Resources";
@@ -220,7 +234,7 @@ namespace OgrePlugin
             return definesBuilder.ToString();
         }
 
-        protected String DetermineFragmentPreprocessorDefines2(bool alpha, bool normalMap, bool diffuseMap, bool specularMap, bool glossMap, bool highlight)
+        protected String DetermineFragmentPreprocessorDefines2(TextureMaps maps, bool alpha, bool glossMap, bool highlight)
         {
             StringBuilder definesBuilder = new StringBuilder("VIRTUAL_TEXTURE=1,");
             if (alpha)
@@ -237,32 +251,36 @@ namespace OgrePlugin
                     definesBuilder.Append("RG_NORMALS=1,");
                     break;
             }
-            if(normalMap || diffuseMap || specularMap || glossMap)
+            if(maps != TextureMaps.None)
             {
+                StringBuilder mapDefineBuilder = new StringBuilder();
                 definesBuilder.Append("HAS_TEXTURES=1,");
-                if(normalMap)
+                if((maps & TextureMaps.Normal) == TextureMaps.Normal)
                 {
+                    mapDefineBuilder.Append("NORMAL_");
                     definesBuilder.Append("NORMAL_MAP=1,");
                 }
-                if(diffuseMap)
+                if ((maps & TextureMaps.Diffuse) == TextureMaps.Diffuse)
                 {
+                    mapDefineBuilder.Append("DIFFUSE_");
                     definesBuilder.Append("DIFFUSE_MAP=1,");
                 }
-                if (specularMap)
+                if ((maps & TextureMaps.Specular) == TextureMaps.Specular)
                 {
+                    mapDefineBuilder.Append("SPECULAR_");
                     definesBuilder.Append("SPECULAR_MAP=1,");
                 }
+                if ((maps & TextureMaps.Opacity) == TextureMaps.Opacity)
+                {
+                    mapDefineBuilder.Append("OPACITY_");
+                    definesBuilder.Append("OPACITY_MAP=1,");
+                }
+                mapDefineBuilder.Append("MAPS=1");
+                definesBuilder.Append(mapDefineBuilder.ToString());
+
                 if (glossMap)
                 {
                     definesBuilder.Append("GLOSS_MAP=1,");
-                }
-                if(normalMap && diffuseMap && !specularMap && !glossMap)
-                {
-                    definesBuilder.Append("NORMAL_DIFFUSE_MAPS=1,"); 
-                }
-                if(normalMap && diffuseMap && specularMap && !glossMap)
-                {
-                    definesBuilder.Append("NORMAL_DIFFUSE_SPECULAR_MAPS=1,"); 
                 }
             }
             return definesBuilder.ToString();
