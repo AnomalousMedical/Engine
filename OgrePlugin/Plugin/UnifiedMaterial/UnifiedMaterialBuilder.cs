@@ -290,7 +290,7 @@ namespace OgrePlugin
         //--------------------------------------
         //Specific material creation funcs
         //--------------------------------------
-        private IndirectionTexture createNormalMapSpecularMapGlossMap(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
+        private IndirectionTexture createUnifiedMaterial(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
         {
             //Create depth check pass if needed
             var pass = createDepthPass(technique, description, alpha, depthCheck);
@@ -299,44 +299,115 @@ namespace OgrePlugin
             setupCommonPassAttributes(description, alpha, pass);
 
             //Material specific, setup shaders
-            pass.setVertexProgram(shaderFactory.createVertexProgram("UnifiedVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
+            TextureMaps textureMaps;
+            pass.setFragmentProgram(shaderFactory.createFragmentProgram(description, alpha, out textureMaps));
 
-            pass.setFragmentProgram(shaderFactory.createFragmentProgram("NormalMapSpecularMapGlossMapFP", alpha));
+            String vertexProgram = "UnifiedVP";
+            if(textureMaps == TextureMaps.None)
+            {
+                vertexProgram = "NoTexturesVP";
+            }
+            pass.setVertexProgram(shaderFactory.createVertexProgram(vertexProgram, description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
 
-            //Setup textures
-            var indirectionTex = setupNormalDiffuseSpecularTextures(description, pass);
+            if (description.NoDepthWriteAlpha)
+            {
+                pass.setDepthWriteEnabled(false);
+                pass.setDepthCheckEnabled(true);
+                pass.setSceneBlending(SceneBlendType.SBT_TRANSPARENT_ALPHA);
+                pass.setDepthFunction(CompareFunction.CMPF_LESS_EQUAL);
+            }
+
+            //Setup Textures
+            IndirectionTexture indirectionTex = null;
+            switch(textureMaps)
+            {
+                case TextureMaps.Normal | TextureMaps.Diffuse:
+                    indirectionTex = setupNormalDiffuseTextures(description, pass);
+                    break;
+                case TextureMaps.Normal | TextureMaps.Diffuse | TextureMaps.Specular:
+                    indirectionTex = setupNormalDiffuseSpecularTextures(description, pass);
+                    break;
+                case TextureMaps.Normal | TextureMaps.Diffuse | TextureMaps.Opacity:
+                    indirectionTex = setupNormalDiffuseOpacityTextures(description, pass);
+                    break;
+                case TextureMaps.Normal | TextureMaps.Diffuse | TextureMaps.Opacity | TextureMaps.Specular:
+                    indirectionTex = setupNormalDiffuseSpecularOpacityTextures(description, pass);
+                    break;
+            }
 
             using (var gpuParams = pass.getFragmentProgramParameters())
             {
-                virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams, indirectionTex);
-                setGlossyness(description, gpuParams);
+                if (indirectionTex != null)
+                {
+                    virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams, indirectionTex);
+                }
+
+                if (description.HasGlossMap)
+                {
+                    setGlossyness(description, gpuParams);
+                }
             }
 
             return indirectionTex;
         }
 
+        //--------------------------------------
+        //Specific material creation funcs
+        //--------------------------------------
+        private IndirectionTexture createNormalMapSpecularMapGlossMap(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
+        {
+            //Hack, Ensure things are true
+            description.HasGlossMap = true;
+
+            return createUnifiedMaterial(technique, description, alpha, depthCheck);
+
+            ////Create depth check pass if needed
+            //var pass = createDepthPass(technique, description, alpha, depthCheck);
+
+            ////Setup this pass
+            //setupCommonPassAttributes(description, alpha, pass);
+
+            ////Material specific, setup shaders
+            //pass.setVertexProgram(shaderFactory.createVertexProgram("UnifiedVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
+
+            //pass.setFragmentProgram(shaderFactory.createFragmentProgram("NormalMapSpecularMapGlossMapFP", alpha));
+
+            ////Setup textures
+            //var indirectionTex = setupNormalDiffuseSpecularTextures(description, pass);
+
+            //using (var gpuParams = pass.getFragmentProgramParameters())
+            //{
+            //    virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams, indirectionTex);
+            //    setGlossyness(description, gpuParams);
+            //}
+
+            //return indirectionTex;
+        }
+
         private IndirectionTexture createNormalMapSpecularMap(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
         {
-            //Create depth check pass if needed
-            var pass = createDepthPass(technique, description, alpha, depthCheck);
+            return createUnifiedMaterial(technique, description, alpha, depthCheck);
 
-            //Setup this pass
-            setupCommonPassAttributes(description, alpha, pass);
+            ////Create depth check pass if needed
+            //var pass = createDepthPass(technique, description, alpha, depthCheck);
 
-            //Material specific, setup shaders
-            pass.setVertexProgram(shaderFactory.createVertexProgram("UnifiedVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
+            ////Setup this pass
+            //setupCommonPassAttributes(description, alpha, pass);
 
-            pass.setFragmentProgram(shaderFactory.createFragmentProgram("NormalMapSpecularMapFP", alpha));
+            ////Material specific, setup shaders
+            //pass.setVertexProgram(shaderFactory.createVertexProgram("UnifiedVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
 
-            //Setup textures
-            var indirectionTex = setupNormalDiffuseSpecularTextures(description, pass);
+            //pass.setFragmentProgram(shaderFactory.createFragmentProgram("NormalMapSpecularMapFP", alpha));
 
-            using (var gpuParams = pass.getFragmentProgramParameters())
-            {
-                virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams, indirectionTex);
-            }
+            ////Setup textures
+            //var indirectionTex = setupNormalDiffuseSpecularTextures(description, pass);
 
-            return indirectionTex;
+            //using (var gpuParams = pass.getFragmentProgramParameters())
+            //{
+            //    virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams, indirectionTex);
+            //}
+
+            //return indirectionTex;
         }
 
         private IndirectionTexture createHiddenMaterial(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
@@ -361,136 +432,152 @@ namespace OgrePlugin
 
         private IndirectionTexture createNormalMapSpecular(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
         {
-            //Create depth check pass if needed
-            var pass = createDepthPass(technique, description, alpha, depthCheck);
+            return createUnifiedMaterial(technique, description, alpha, depthCheck);
 
-            //Setup this pass
-            setupCommonPassAttributes(description, alpha, pass);
+            ////Create depth check pass if needed
+            //var pass = createDepthPass(technique, description, alpha, depthCheck);
 
-            //Material specific, setup shaders
-            pass.setVertexProgram(shaderFactory.createVertexProgram("UnifiedVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
+            ////Setup this pass
+            //setupCommonPassAttributes(description, alpha, pass);
 
-            pass.setFragmentProgram(shaderFactory.createFragmentProgram("NormalMapSpecularFP", alpha));
+            ////Material specific, setup shaders
+            //pass.setVertexProgram(shaderFactory.createVertexProgram("UnifiedVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
 
-            //Setup textures
-            var indirectionTex = setupNormalDiffuseTextures(description, pass);
+            //pass.setFragmentProgram(shaderFactory.createFragmentProgram("NormalMapSpecularFP", alpha));
 
-            using (var gpuParams = pass.getFragmentProgramParameters())
-            {
-                virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams, indirectionTex);
-            }
+            ////Setup textures
+            //var indirectionTex = setupNormalDiffuseTextures(description, pass);
 
-            return indirectionTex;
+            //using (var gpuParams = pass.getFragmentProgramParameters())
+            //{
+            //    virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams, indirectionTex);
+            //}
+
+            //return indirectionTex;
         }
 
         private IndirectionTexture createNormalMapSpecularHighlight(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
         {
-            //Create depth check pass if needed
-            var pass = createDepthPass(technique, description, alpha, depthCheck);
+            //Hack ensure things are true
+            description.IsHighlight = true;
 
-            //Setup this pass
-            setupCommonPassAttributes(description, alpha, pass);
+            return createUnifiedMaterial(technique, description, alpha, depthCheck);
 
-            //Material specific, setup shaders
-            pass.setVertexProgram(shaderFactory.createVertexProgram("UnifiedVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
+            ////Create depth check pass if needed
+            //var pass = createDepthPass(technique, description, alpha, depthCheck);
 
-            pass.setFragmentProgram(shaderFactory.createFragmentProgram("NormalMapSpecularHighlightFP", alpha));
+            ////Setup this pass
+            //setupCommonPassAttributes(description, alpha, pass);
 
-            //Setup textures
-            var indirectionTex = setupNormalDiffuseTextures(description, pass);
+            ////Material specific, setup shaders
+            //pass.setVertexProgram(shaderFactory.createVertexProgram("UnifiedVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
 
-            using (var gpuParams = pass.getFragmentProgramParameters())
-            {
-                virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams, indirectionTex);
-            }
+            //pass.setFragmentProgram(shaderFactory.createFragmentProgram("NormalMapSpecularHighlightFP", alpha));
 
-            return indirectionTex;
+            ////Setup textures
+            //var indirectionTex = setupNormalDiffuseTextures(description, pass);
+
+            //using (var gpuParams = pass.getFragmentProgramParameters())
+            //{
+            //    virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams, indirectionTex);
+            //}
+
+            //return indirectionTex;
         }
 
         private IndirectionTexture createNormalMapSpecularOpacityMap(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
         {
-            //Create depth check pass if needed
-            var pass = createDepthPass(technique, description, alpha, depthCheck);
+            return createUnifiedMaterial(technique, description, alpha, depthCheck);
 
-            //Setup this pass
-            setupCommonPassAttributes(description, alpha, pass);
+            ////Create depth check pass if needed
+            //var pass = createDepthPass(technique, description, alpha, depthCheck);
 
-            //Setup material specific depth values
-            pass.setSceneBlending(SceneBlendType.SBT_TRANSPARENT_ALPHA);
-            pass.setDepthFunction(CompareFunction.CMPF_LESS_EQUAL);
+            ////Setup this pass
+            //setupCommonPassAttributes(description, alpha, pass);
 
-            //Material specific, setup shaders
-            pass.setVertexProgram(shaderFactory.createVertexProgram("UnifiedVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
+            ////Setup material specific depth values
+            //pass.setSceneBlending(SceneBlendType.SBT_TRANSPARENT_ALPHA);
+            //pass.setDepthFunction(CompareFunction.CMPF_LESS_EQUAL);
 
-            pass.setFragmentProgram(shaderFactory.createFragmentProgram("NormalMapSpecularOpacityMapFP", alpha));
-            
-            //Setup textures
-            var indirectionTex = setupNormalDiffuseOpacityTextures(description, pass);
+            ////Material specific, setup shaders
+            //pass.setVertexProgram(shaderFactory.createVertexProgram("UnifiedVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
 
-            using (var gpuParams = pass.getFragmentProgramParameters())
-            {
-                virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams, indirectionTex);
-            }
+            //pass.setFragmentProgram(shaderFactory.createFragmentProgram("NormalMapSpecularOpacityMapFP", alpha));
 
-            return indirectionTex;
+            ////Setup textures
+            //var indirectionTex = setupNormalDiffuseOpacityTextures(description, pass);
+
+            //using (var gpuParams = pass.getFragmentProgramParameters())
+            //{
+            //    virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams, indirectionTex);
+            //}
+
+            //return indirectionTex;
         }
 
         private IndirectionTexture createNormalMapSpecularMapOpacityMap(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
         {
-            //Create depth check pass if needed
-            var pass = createDepthPass(technique, description, alpha, depthCheck);
+            return createUnifiedMaterial(technique, description, alpha, depthCheck);
 
-            //Setup this pass
-            setupCommonPassAttributes(description, alpha, pass);
+            ////Create depth check pass if needed
+            //var pass = createDepthPass(technique, description, alpha, depthCheck);
 
-            //Setup material specific depth values
-            pass.setSceneBlending(SceneBlendType.SBT_TRANSPARENT_ALPHA);
-            pass.setDepthFunction(CompareFunction.CMPF_LESS_EQUAL);
+            ////Setup this pass
+            //setupCommonPassAttributes(description, alpha, pass);
 
-            //Material specific, setup shaders
-            pass.setVertexProgram(shaderFactory.createVertexProgram("UnifiedVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
+            ////Setup material specific depth values
+            //pass.setSceneBlending(SceneBlendType.SBT_TRANSPARENT_ALPHA);
+            //pass.setDepthFunction(CompareFunction.CMPF_LESS_EQUAL);
 
-            pass.setFragmentProgram(shaderFactory.createFragmentProgram("NormalMapSpecularMapOpacityMapFP", alpha));
+            ////Material specific, setup shaders
+            //pass.setVertexProgram(shaderFactory.createVertexProgram("UnifiedVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
 
-            //Setup textures
-            var indirectionTex = setupNormalDiffuseSpecularOpacityTextures(description, pass);
+            //pass.setFragmentProgram(shaderFactory.createFragmentProgram("NormalMapSpecularMapOpacityMapFP", alpha));
 
-            using (var gpuParams = pass.getFragmentProgramParameters())
-            {
-                virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams, indirectionTex);
-            }
+            ////Setup textures
+            //var indirectionTex = setupNormalDiffuseSpecularOpacityTextures(description, pass);
 
-            return indirectionTex;
+            //using (var gpuParams = pass.getFragmentProgramParameters())
+            //{
+            //    virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams, indirectionTex);
+            //}
+
+            //return indirectionTex;
         }
 
         private IndirectionTexture createNormalMapSpecularMapOpacityMapNoDepth(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
         {
-            //Create depth check pass if needed
-            var pass = createDepthPass(technique, description, alpha, depthCheck);
+            //Hack ensure values
+            description.NoDepthWriteAlpha = true;
 
-            //Setup this pass
-            setupCommonPassAttributes(description, alpha, pass);
+            return createUnifiedMaterial(technique, description, alpha, depthCheck);
 
-            //Setup material specific depth values
-            pass.setDepthWriteEnabled(false);
-            pass.setDepthCheckEnabled(true);
-            pass.setSceneBlending(SceneBlendType.SBT_TRANSPARENT_ALPHA);
-            pass.setDepthFunction(CompareFunction.CMPF_LESS_EQUAL);
+            ////Create depth check pass if needed
+            //var pass = createDepthPass(technique, description, alpha, depthCheck);
 
-            //Material specific, setup shaders
-            pass.setVertexProgram(shaderFactory.createVertexProgram("UnifiedVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
+            ////Setup this pass
+            //setupCommonPassAttributes(description, alpha, pass);
 
-            pass.setFragmentProgram(shaderFactory.createFragmentProgram("NormalMapSpecularMapOpacityMapFP", alpha));
+            ////Setup material specific depth values
+            //pass.setDepthWriteEnabled(false);
+            //pass.setDepthCheckEnabled(true);
+            //pass.setSceneBlending(SceneBlendType.SBT_TRANSPARENT_ALPHA);
+            //pass.setDepthFunction(CompareFunction.CMPF_LESS_EQUAL);
 
-            //Setup textures
-            var indirectionTex = setupNormalDiffuseSpecularOpacityTextures(description, pass);
+            ////Material specific, setup shaders
+            //pass.setVertexProgram(shaderFactory.createVertexProgram("UnifiedVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
 
-            using (var gpuParams = pass.getFragmentProgramParameters())
-            {
-                virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams, indirectionTex);
-            }
+            //pass.setFragmentProgram(shaderFactory.createFragmentProgram("NormalMapSpecularMapOpacityMapFP", alpha));
 
-            return indirectionTex;
+            ////Setup textures
+            //var indirectionTex = setupNormalDiffuseSpecularOpacityTextures(description, pass);
+
+            //using (var gpuParams = pass.getFragmentProgramParameters())
+            //{
+            //    virtualTextureManager.setupVirtualTextureFragmentParams(gpuParams, indirectionTex);
+            //}
+
+            //return indirectionTex;
         }
 
         private IndirectionTexture createEyeOuterMaterial(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
@@ -516,18 +603,20 @@ namespace OgrePlugin
 
         private IndirectionTexture createColoredNoTexture(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
         {
-            //Create depth check pass if needed
-            var pass = createDepthPass(technique, description, alpha, depthCheck);
+            return createUnifiedMaterial(technique, description, alpha, depthCheck);
 
-            //Setup this pass
-            setupCommonPassAttributes(description, alpha, pass);
+            ////Create depth check pass if needed
+            //var pass = createDepthPass(technique, description, alpha, depthCheck);
 
-            //Material specific, setup shaders
-            pass.setVertexProgram(shaderFactory.createVertexProgram("NoTexturesVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
+            ////Setup this pass
+            //setupCommonPassAttributes(description, alpha, pass);
 
-            pass.setFragmentProgram(shaderFactory.createFragmentProgram("NoTexturesColoredFP", alpha));
+            ////Material specific, setup shaders
+            //pass.setVertexProgram(shaderFactory.createVertexProgram("NoTexturesVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
 
-            return null;
+            //pass.setFragmentProgram(shaderFactory.createFragmentProgram("NoTexturesColoredFP", alpha));
+
+            //return null;
         }
 
         //--------------------------------------

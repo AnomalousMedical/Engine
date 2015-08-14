@@ -29,11 +29,14 @@ namespace OgrePlugin
             IsAlpha = false;
             NumHardwareBones = 0;
             NumHardwarePoses = 0;
+            HasGlossMap = false;
             GlossyStart = 40;
             GlossyRange = 0;
             Parity = false;
             Variants = new List<MaterialDescription>();
             KeepHighestMipLoaded = false;
+            IsHighlight = false;
+            NoDepthWriteAlpha = false;
         }
 
         private MaterialDescription(MaterialDescription toClone)
@@ -42,6 +45,7 @@ namespace OgrePlugin
             this.Builder = toClone.Builder;
             this.ShaderName = toClone.ShaderName;
             this.Shinyness = toClone.Shinyness;
+            this.HasGlossMap = toClone.HasGlossMap;
             this.GlossyStart = toClone.GlossyStart;
             this.GlossyRange = toClone.GlossyRange;
             this.NormalMap = toClone.NormalMap;
@@ -58,7 +62,9 @@ namespace OgrePlugin
             this.specularColor = toClone.specularColor;
             this.emissiveColor = toClone.emissiveColor;
             this.diffuseColor = toClone.diffuseColor;
-            this.KeepHighestMipLoaded = KeepHighestMipLoaded;
+            this.KeepHighestMipLoaded = toClone.KeepHighestMipLoaded;
+            this.IsHighlight = toClone.IsHighlight;
+            this.NoDepthWriteAlpha = toClone.NoDepthWriteAlpha;
         }
 
         public String localizePath(String path)
@@ -127,6 +133,9 @@ namespace OgrePlugin
         }
 
         [JsonProperty]
+        public bool HasGlossMap { get; set; }
+
+        [JsonProperty]
         public float GlossyStart { get; set; }
 
         [JsonProperty]
@@ -158,6 +167,12 @@ namespace OgrePlugin
 
         [JsonProperty]
         public int NumHardwarePoses { get; set; }
+
+        [JsonProperty]
+        public bool IsHighlight { get; set; }
+
+        [JsonProperty]
+        public bool NoDepthWriteAlpha { get; set; }
 
         [JsonProperty]
         private List<MaterialDescription> Variants { get; set; } //Cheating with this, forcing it to work as a property to not fight json.net for now

@@ -137,6 +137,61 @@ namespace OgrePlugin
             return shaderName;
         }
 
+        public String createFragmentProgram(MaterialDescription description, bool alpha, out TextureMaps textureMaps)
+        {
+            StringBuilder name = new StringBuilder();
+            textureMaps = TextureMaps.None;
+
+            if (String.IsNullOrWhiteSpace(description.NormalMap))
+            {
+                name.Append("Normal");
+            }
+            else
+            {
+                textureMaps |= TextureMaps.Normal;
+                name.Append("NormalMap");
+            }
+
+            if (String.IsNullOrWhiteSpace(description.DiffuseMap))
+            {
+                name.Append("Diffuse");
+            }
+            else
+            {
+                textureMaps |= TextureMaps.Diffuse;
+                name.Append("DiffuseMap");
+            }
+
+            if (String.IsNullOrWhiteSpace(description.SpecularMap))
+            {
+                name.Append("Specular");
+            }
+            else
+            {
+                textureMaps |= TextureMaps.Specular;
+                name.Append("SpecularMap");
+            }
+
+            if(description.HasGlossMap)
+            {
+                name.Append("GlossMap");
+            }
+
+            if (!String.IsNullOrWhiteSpace(description.OpacityMap))
+            {
+                textureMaps |= TextureMaps.Opacity;
+                name.Append("OpacityMap");
+            }
+
+            String shaderName = DetermineFragmentShaderName(name.ToString(), alpha);
+            if (!createdPrograms.ContainsKey(shaderName))
+            {
+                var program = createUnifiedFrag(shaderName, textureMaps, alpha, description.HasGlossMap, description.IsHighlight);
+                createdPrograms.Add(shaderName, program);
+            }
+            return shaderName;
+        }
+
         protected abstract HighLevelGpuProgramSharedPtr createUnifiedFrag(String name, TextureMaps maps, bool alpha, bool glossMap, bool highlight);
 
         protected HighLevelGpuProgramSharedPtr createNormalMapSpecularFP(String name, bool alpha)
