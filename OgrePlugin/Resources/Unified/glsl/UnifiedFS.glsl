@@ -140,7 +140,7 @@ void main()
 	#else
 		normal.rg = 2.0f * (texture2D(normalTexture, derivedCoords).ag - 0.5f);
 	#endif
-		normal.b = sqrt(1 - normal.r * normal.r - normal.g * normal.g);
+		normal.b = sqrt(1.0f - normal.r * normal.r - normal.g * normal.g);
 #else
 	vec3 normal = passNormal;
 #endif //NORMAL_MAP
