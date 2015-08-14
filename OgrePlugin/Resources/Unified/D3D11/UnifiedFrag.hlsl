@@ -218,8 +218,16 @@ float4 UnifiedFragmentShader
 		normal.b = sqrt(1 - normal.r * normal.r - normal.g * normal.g);
 #endif //NORMAL_MAP
 
+#ifdef OPACITY_MAP
+	float2 opacityMapValue = opacityTexture.Sample(opacityTextureSampler, texCoords).rg;
+#endif
+
 #ifdef GLOSS_MAP
-	float glossyness = glossyStart + glossyRange * 1;// colorMap.a;, need to determine correct texture
+	#ifdef GLOSS_CHANNEL_OPACITY_GREEN
+		float glossyness = glossyStart + glossyRange * opacityMapValue.g;
+	#else
+		float glossyness = glossyStart + glossyRange * colorMap.a;
+	#endif
 #endif //GLOSS_MAP
 
 	float4 color = doLighting(unpack(input.lightVector), unpack(input.halfVector), lightDiffuseColor, input.attenuation, colorMap, specularColor, colorMap.a, glossyness, emissiveColor, normal);
@@ -229,11 +237,10 @@ float4 UnifiedFragmentShader
 #endif //HIGHLIGHT
 
 #ifdef OPACITY_MAP
-	float opacity = opacityTexture.Sample(opacityTextureSampler, texCoords).r;
 	#ifdef ALPHA
-		color.a = opacity - (1.0f - alpha.a);
+		color.a = opacityMapValue.r - (1.0f - alpha.a);
 	#else
-		color.a = opacity;
+		color.a = opacityMapValue.r;
 	#endif
 #else //OPACITY_MAP
 	#ifdef ALPHA

@@ -264,6 +264,11 @@ namespace OgrePlugin
                 {
                     mapDefineBuilder.Append("DIFFUSE_");
                     definesBuilder.Append("DIFFUSE_MAP=1,");
+
+                    if (glossMap)
+                    {
+                        definesBuilder.Append("GLOSS_MAP=1,");
+                    }
                 }
                 if ((maps & TextureMaps.Specular) == TextureMaps.Specular)
                 {
@@ -274,14 +279,14 @@ namespace OgrePlugin
                 {
                     mapDefineBuilder.Append("OPACITY_");
                     definesBuilder.Append("OPACITY_MAP=1,");
+
+                    if (glossMap)
+                    {
+                        definesBuilder.Append("GLOSS_MAP=1,GLOSS_CHANNEL_OPACITY_GREEN=1,");
+                    }
                 }
                 mapDefineBuilder.Append("MAPS=1");
                 definesBuilder.Append(mapDefineBuilder.ToString());
-
-                if (glossMap)
-                {
-                    definesBuilder.Append("GLOSS_MAP=1,");
-                }
             }
             return definesBuilder.ToString();
         }

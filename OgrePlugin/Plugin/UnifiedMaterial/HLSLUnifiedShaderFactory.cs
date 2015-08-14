@@ -404,26 +404,28 @@ namespace OgrePlugin
 
         protected override HighLevelGpuProgramSharedPtr createNormalMapSpecularMapGlossMapFP(String name, bool alpha)
         {
-            var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "hlsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
+            return createUnifiedFrag(name, TextureMaps.Normal | TextureMaps.Diffuse | TextureMaps.Specular, alpha, true, false);
 
-            program.Value.SourceFile = UnifiedShaderBase + "UnifiedFS.hlsl";
-            program.Value.setParam("entry_point", "normalMapSpecularMapGlossMapFP");
-            program.Value.setParam("target", "ps_4_0");
-            program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines(alpha));
+            //var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "hlsl", GpuProgramType.GPT_FRAGMENT_PROGRAM);
 
-            using (var defaultParams = program.Value.getDefaultParameters())
-            {
-                defaultParams.Value.setNamedAutoConstant("lightDiffuseColor", AutoConstantType.ACT_LIGHT_DIFFUSE_COLOUR, 0);
-                defaultParams.Value.setNamedAutoConstant("emissiveColor", AutoConstantType.ACT_SURFACE_EMISSIVE_COLOUR);
-                defaultParams.Value.setNamedConstant("glossyStart", 40.0f);
-                defaultParams.Value.setNamedConstant("glossyRange", 0.0f);
-                if (alpha)
-                {
-                    defaultParams.Value.setNamedAutoConstant("alpha", AutoConstantType.ACT_CUSTOM, 0);
-                }
-            }
+            //program.Value.SourceFile = UnifiedShaderBase + "UnifiedFS.hlsl";
+            //program.Value.setParam("entry_point", "normalMapSpecularMapGlossMapFP");
+            //program.Value.setParam("target", "ps_4_0");
+            //program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines(alpha));
 
-            return program;
+            //using (var defaultParams = program.Value.getDefaultParameters())
+            //{
+            //    defaultParams.Value.setNamedAutoConstant("lightDiffuseColor", AutoConstantType.ACT_LIGHT_DIFFUSE_COLOUR, 0);
+            //    defaultParams.Value.setNamedAutoConstant("emissiveColor", AutoConstantType.ACT_SURFACE_EMISSIVE_COLOUR);
+            //    defaultParams.Value.setNamedConstant("glossyStart", 40.0f);
+            //    defaultParams.Value.setNamedConstant("glossyRange", 0.0f);
+            //    if (alpha)
+            //    {
+            //        defaultParams.Value.setNamedAutoConstant("alpha", AutoConstantType.ACT_CUSTOM, 0);
+            //    }
+            //}
+
+            //return program;
         }
 
         protected override HighLevelGpuProgramSharedPtr createNormalMapSpecularMapOpacityMapFP(String name, bool alpha)
