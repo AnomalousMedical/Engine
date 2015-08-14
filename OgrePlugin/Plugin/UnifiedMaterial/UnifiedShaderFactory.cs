@@ -28,10 +28,6 @@ namespace OgrePlugin
         Diffuse = 1 << 1,
         Specular = 1 << 2,
         Opacity = 1 << 3,
-
-        NormalDiffuse = Normal | Diffuse,
-        NormalDiffuseSpecular = Normal | Diffuse | Specular,
-        NormalDiffuseOpacity = Normal | Diffuse | Opacity
     }
 
     abstract class UnifiedShaderFactory : IDisposable

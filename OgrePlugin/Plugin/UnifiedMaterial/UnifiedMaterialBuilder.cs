@@ -94,7 +94,7 @@ namespace OgrePlugin
                 case CompressedTextureSupport.None:
                     textureFormatExtension = ".png";
                     normalTextureFormatExtension = ".png";
-                    normalMapReadMode = NormaMapReadlMode.RG;
+                    normalMapReadMode = NormaMapReadlMode.AG;
                     break;
             }
 
