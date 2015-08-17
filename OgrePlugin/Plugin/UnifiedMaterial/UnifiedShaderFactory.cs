@@ -183,6 +183,11 @@ namespace OgrePlugin
                 name.Append("OpacityMap");
             }
 
+            if(description.IsHighlight)
+            {
+                name.Append("Highlight");
+            }
+
             String shaderName = DetermineFragmentShaderName(name.ToString(), alpha);
             if (!createdPrograms.ContainsKey(shaderName))
             {
