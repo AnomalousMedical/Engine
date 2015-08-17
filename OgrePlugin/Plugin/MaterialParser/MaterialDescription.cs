@@ -249,7 +249,7 @@ namespace OgrePlugin
         {
             get
             {
-                return String.Format("{0}-{1}-{2}-{3}-{4}", NormalMap, DiffuseMap, SpecularMap, OpacityMap, ShaderName);
+                return String.Format("{0}-{1}-{2}-{3}", NormalMap, DiffuseMap, SpecularMap, OpacityMap);
             }
         }
 

@@ -318,6 +318,9 @@ namespace OgrePlugin
             IndirectionTexture indirectionTex = null;
             switch(textureMaps)
             {
+                case TextureMaps.Normal:
+                    indirectionTex = setupNormalTextures(description, pass);
+                    break;
                 case TextureMaps.Normal | TextureMaps.Diffuse:
                     indirectionTex = setupNormalDiffuseTextures(description, pass);
                     break;
@@ -384,6 +387,26 @@ namespace OgrePlugin
         //--------------------------------------
         //Shared helpers
         //--------------------------------------
+        private IndirectionTexture setupNormalTextures(MaterialDescription description, Pass pass)
+        {
+            var texUnit = pass.createTextureUnitState(normalTexture.TextureName);
+            pass.createTextureUnitState(diffuseTexture.TextureName);
+            IndirectionTexture indirectionTexture;
+            String fileName = description.localizePath(description.NormalMap + normalTextureFormatExtension);
+            IntSize2 textureSize = getTextureSize(fileName);
+            if (virtualTextureManager.createOrRetrieveIndirectionTexture(description.TextureSet, textureSize, description.KeepHighestMipLoaded, out indirectionTexture)) //Slow key
+            {
+                if (description.KeepHighestMipLoaded)
+                {
+                    indirectionTexture.KeepHighestMip = true;
+                }
+
+                indirectionTexture.addOriginalTexture("NormalMap", fileName, textureSize);
+            }
+            setupIndirectionTexture(pass, indirectionTexture);
+            return indirectionTexture;
+        }
+
         private IndirectionTexture setupNormalDiffuseTextures(MaterialDescription description, Pass pass)
         {
             var texUnit = pass.createTextureUnitState(normalTexture.TextureName);

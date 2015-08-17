@@ -98,6 +98,12 @@ vec2 vtexCoord(vec2 address, sampler2D indirectionTex, vec2 physicalSizeRecip, v
 	uniform vec4 specularColor;			//The specular color of the surface
 #endif
 
+#ifdef NORMAL_MAPS
+	uniform sampler2D normalTexture;	//The normal map
+	uniform vec4 diffuseColor;			//The diffuse color of the object
+	uniform vec4 specularColor;			//The specular color of the surface
+#endif //NORMAL_MAPS
+
 #ifdef NORMAL_DIFFUSE_MAPS
 	uniform sampler2D normalTexture;	//The normal map
 	uniform sampler2D colorTexture;		//The color map

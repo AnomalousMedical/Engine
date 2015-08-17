@@ -124,6 +124,18 @@ float4 UnifiedFragmentShader
 		uniform float4 specularColor,				//The specular color of the surface
 	#endif
 
+	#ifdef NORMAL_MAPS
+		uniform Texture2D normalTexture : register(t0),	//The normal map
+		uniform SamplerState normalTextureSampler : register(s0),	//The normal map
+		uniform float4 diffuseColor,				//The diffuse color of the object
+		uniform float4 specularColor,				//The specular color of the surface
+
+		#ifdef VIRTUAL_TEXTURE
+			uniform Texture2D indirectionTex : register(t2),
+			uniform SamplerState indirectionTexSampler : register(s2),
+		#endif //VIRTUAL_TEXTURE
+	#endif //NORMAL_MAPS
+
 	#ifdef NORMAL_DIFFUSE_MAPS
 		uniform Texture2D normalTexture : register(t0),	//The normal map
 		uniform SamplerState normalTextureSampler : register(s0),	//The normal map
