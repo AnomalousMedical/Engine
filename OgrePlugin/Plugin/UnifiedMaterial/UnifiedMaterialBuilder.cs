@@ -105,6 +105,7 @@ namespace OgrePlugin
             opacityTexture = virtualTextureManager.createPhysicalTexture("Opacity", PixelFormatUsageHint.OpacityMap);
 
             specialMaterialFuncs.Add("EyeOuter", createEyeOuterMaterial);
+            specialMaterialFuncs.Add("ColorVertex", createColorVertexMaterial);
 
             OgreResourceGroupManager.getInstance().createResourceGroup(GroupName);
 
@@ -361,6 +362,33 @@ namespace OgrePlugin
             return null;
         }
 
+        private IndirectionTexture createColorVertexMaterial(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
+        {
+            //Create depth check pass if needed
+            var pass = createDepthPass(technique, description, alpha, depthCheck);
+
+            //Setup this pass
+            setupCommonPassAttributes(description, alpha, pass);
+
+            //Setup material specific depth values
+            pass.setSceneBlending(SceneBlendType.SBT_TRANSPARENT_ALPHA);
+            pass.setDepthFunction(CompareFunction.CMPF_LESS_EQUAL);
+            pass.setDepthWriteEnabled(false);
+
+            //Material specific, setup shaders
+            pass.setVertexProgram("colorvertex\\vs");
+            if (alpha)
+            {
+                pass.setFragmentProgram("colorvertex\\fsAlpha");
+            }
+            else
+            {
+                pass.setFragmentProgram("colorvertex\\fs");
+            }
+
+            return null;
+        }
+
         //--------------------------------------
         //Shared helpers
         //--------------------------------------
@@ -517,6 +545,12 @@ namespace OgrePlugin
             pass.setDiffuse(description.DiffuseColor);
             pass.setEmissive(description.EmissiveColor);
             pass.setShininess(description.Shinyness);
+
+            if(description.DisableBackfaceCulling)
+            {
+                pass.setCullingMode(CullingMode.CULL_NONE);
+                pass.setManualCullingMode(ManualCullingMode.MANUAL_CULL_NONE);
+            }
 
             if (alpha)
             {

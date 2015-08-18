@@ -40,6 +40,7 @@ namespace OgrePlugin
             SpecialMaterial = null;
             IsHighlight = false;
             NoDepthWriteAlpha = false;
+            DisableBackfaceCulling = false;
         }
 
         private MaterialDescription(MaterialDescription toClone)
@@ -70,6 +71,7 @@ namespace OgrePlugin
             this.SpecialMaterial = toClone.SpecialMaterial;
             this.IsHighlight = toClone.IsHighlight;
             this.NoDepthWriteAlpha = toClone.NoDepthWriteAlpha;
+            this.DisableBackfaceCulling = toClone.DisableBackfaceCulling;
         }
 
         public String localizePath(String path)
@@ -199,6 +201,9 @@ namespace OgrePlugin
 
         [JsonProperty]
         public bool NoDepthWriteAlpha { get; set; }
+
+        [JsonProperty]
+        public bool DisableBackfaceCulling { get; set; }
 
         [JsonProperty]
         private List<MaterialDescription> Variants { get; set; } //Cheating with this, forcing it to work as a property to not fight json.net for now
