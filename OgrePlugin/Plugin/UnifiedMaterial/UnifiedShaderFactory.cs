@@ -111,6 +111,12 @@ namespace OgrePlugin
             return shaderName;
         }
 
+        public String createHiddenVertexProgram(String name)
+        {
+            setupHiddenVP(name, 0, 0, false);
+            return name;
+        }
+
         protected virtual HighLevelGpuProgramSharedPtr createUnifiedVertex(String name, TextureMaps maps, MaterialDescription description)
         {
             throw new NotImplementedException();

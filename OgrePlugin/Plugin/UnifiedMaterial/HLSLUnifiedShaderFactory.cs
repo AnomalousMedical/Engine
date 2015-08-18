@@ -31,7 +31,7 @@ namespace OgrePlugin
             program.Value.setParam("column_major_matrices", "false");
             program.Value.SkeletalAnimationIncluded = description.NumHardwareBones > 0;
             program.Value.NumberOfPoses = (ushort)description.NumHardwarePoses;
-            program.Value.setParam("preprocessor_defines", DetermineVertexPreprocessorDefines(description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
+            program.Value.setParam("preprocessor_defines", DetermineVertexPreprocessorDefines2(maps, description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
             program.Value.load();
 
             using (var defaultParams = program.Value.getDefaultParameters())

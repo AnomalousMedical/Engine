@@ -66,6 +66,11 @@ namespace OgrePlugin
                 builtInMaterials.Add(material);
             }
 
+            public void addMaterial(MaterialPtr material)
+            {
+                builtInMaterials.Add(material);
+            }
+
             public void Dispose(UnifiedMaterialBuilder materialBuilder)
             {
                 foreach(var material in builtInMaterials)
@@ -127,13 +132,9 @@ namespace OgrePlugin
 
             OgreResourceGroupManager.getInstance().createResourceGroup(GroupName);
 
-            buildMaterial(new MaterialDescription()
-            {
-                Name = "HiddenMaterial",
-                ShaderName = "Hidden",
-                CreateAlphaMaterial = false,
-                Group = GroupName
-            }, builtInMaterialRepo);
+            MaterialPtr hiddenMaterial = MaterialManager.getInstance().create("HiddenMaterial", GroupName, false, null);
+            setupHiddenMaterialPass(hiddenMaterial.Value.getTechnique(0).getPass(0), false, false);
+            builtInMaterialRepo.addMaterial(hiddenMaterial);
         }
 
         public void Dispose()
@@ -269,12 +270,16 @@ namespace OgrePlugin
             technique.setName(FeedbackBuffer.Scheme);
             technique.setSchemeName(FeedbackBuffer.Scheme);
 
-            var pass = technique.createPass();
+            setupHiddenMaterialPass(technique.createPass(), description.NumHardwareBones > 0, description.NumHardwarePoses > 0);
+        }
+
+        private void setupHiddenMaterialPass(Pass pass, bool hasHardwareBones, bool hasHardwarePose)
+        {
             pass.setDepthWriteEnabled(false);
             pass.setColorWriteEnabled(false);
             pass.setDepthCheckEnabled(true);
             pass.setDepthFunction(CompareFunction.CMPF_ALWAYS_FAIL);
-            pass.setVertexProgram(shaderFactory.createVertexProgram("HiddenVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
+            pass.setVertexProgram(shaderFactory.createHiddenVertexProgram("HiddenVP"));
             pass.setFragmentProgram(shaderFactory.createFragmentProgram("HiddenFP", false));
         }
 
