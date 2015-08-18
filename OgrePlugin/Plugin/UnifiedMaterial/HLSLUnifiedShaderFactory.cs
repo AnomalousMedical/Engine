@@ -20,7 +20,7 @@ namespace OgrePlugin
 
         #region Vertex Programs
 
-        protected override HighLevelGpuProgramSharedPtr createUnifiedVertex(String name, TextureMaps maps, MaterialDescription description)
+        protected override HighLevelGpuProgramSharedPtr setupUnifiedVertex(String name, TextureMaps maps, MaterialDescription description)
         {
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "hlsl", GpuProgramType.GPT_VERTEX_PROGRAM);
 

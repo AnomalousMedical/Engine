@@ -72,7 +72,7 @@ namespace OgrePlugin
             String shaderName = DetermineVertexShaderName(baseName.ToString(), description.NumHardwareBones, description.NumHardwarePoses, description.Parity);
             if (!createdPrograms.ContainsKey(shaderName))
             {
-                var program = createUnifiedVertex(shaderName, maps, description);
+                var program = setupUnifiedVertex(shaderName, maps, description);
                 createdPrograms.Add(shaderName, program);
             }
             return shaderName;
@@ -120,7 +120,7 @@ namespace OgrePlugin
             return name;
         }
 
-        protected virtual HighLevelGpuProgramSharedPtr createUnifiedVertex(String name, TextureMaps maps, MaterialDescription description)
+        protected virtual HighLevelGpuProgramSharedPtr setupUnifiedVertex(String name, TextureMaps maps, MaterialDescription description)
         {
             throw new NotImplementedException();
         }
