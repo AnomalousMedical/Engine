@@ -34,10 +34,8 @@ namespace OgrePlugin
     {
         protected const String ShaderPathBase = "OgrePlugin.Resources";
 
-        protected delegate HighLevelGpuProgramSharedPtr CreateVertexProgramDelegate(String name, int numHardwareBones, int numHardwarePoses, bool parity);
         protected delegate HighLevelGpuProgramSharedPtr CreateFragmentProgramDelegate(String name, bool alpha);
 
-        private Dictionary<String, CreateVertexProgramDelegate> vertexBuilderFuncs = new Dictionary<string, CreateVertexProgramDelegate>();
         private Dictionary<String, CreateFragmentProgramDelegate> fragmentBuilderFuncs = new Dictionary<string, CreateFragmentProgramDelegate>();
         private Dictionary<String, HighLevelGpuProgramSharedPtr> createdPrograms = new Dictionary<string, HighLevelGpuProgramSharedPtr>();
         private ResourceGroup shaderResourceGroup;
@@ -52,13 +50,6 @@ namespace OgrePlugin
             shaderResourceGroup.addResource(GetType().AssemblyQualifiedName, "EmbeddedResource", true);
             
             liveResourceManager.initializeResources();
-
-            vertexBuilderFuncs.Add("UnifiedVP", setupUnifiedVP);
-            vertexBuilderFuncs.Add("DepthCheckVP", setupDepthCheckVP);
-            vertexBuilderFuncs.Add("NoTexturesVP", setupNoTexturesVP);
-            vertexBuilderFuncs.Add("FeedbackBufferVP", setupFeedbackBufferVP);
-            vertexBuilderFuncs.Add("HiddenVP", setupHiddenVP);
-            vertexBuilderFuncs.Add("EyeOuterVP", setupEyeOuterVP);
 
             fragmentBuilderFuncs.Add("FeedbackBufferFP", createFeedbackBufferFP);
             fragmentBuilderFuncs.Add("HiddenFP", createHiddenFP);
@@ -75,26 +66,7 @@ namespace OgrePlugin
 
         #region Vertex Programs
 
-        public String createVertexProgram(String baseName, int numHardwareBones, int numHardwarePoses, bool parity)
-        {
-            String shaderName = DetermineVertexShaderName(baseName, numHardwareBones, numHardwarePoses, parity);
-            if(!createdPrograms.ContainsKey(shaderName))
-            {
-                CreateVertexProgramDelegate buildFunc;
-                if(vertexBuilderFuncs.TryGetValue(baseName, out buildFunc))
-                {
-                    var program = buildFunc(shaderName, numHardwareBones, numHardwarePoses, parity);
-                    createdPrograms.Add(shaderName, program);
-                }
-                else
-                {
-                    Logging.Log.Error("Cannot build vertex shader '{0}' no setup function defined.", shaderName);
-                }
-            }
-            return shaderName;
-        }
-
-        public String createVertexProgram(MaterialDescription description, TextureMaps maps)
+        public String createUnifiedVertexProgram(MaterialDescription description, TextureMaps maps)
         {
             String baseName = "Textured";
             if(maps == TextureMaps.None)
@@ -113,7 +85,43 @@ namespace OgrePlugin
 
         public String createHiddenVertexProgram(String name)
         {
-            setupHiddenVP(name, 0, 0, false);
+            if (!createdPrograms.ContainsKey(name))
+            {
+                var program = setupHiddenVP(name, 0, 0, false);
+                createdPrograms.Add(name, program);
+            }
+            return name;
+        }
+
+        public String createDepthCheckVertexProgram(String baseName, int numHardwareBones, int numHardwarePoses)
+        {
+            String shaderName = DetermineVertexShaderName(baseName, numHardwareBones, numHardwarePoses, false);
+            if (!createdPrograms.ContainsKey(shaderName))
+            {
+                var program = setupDepthCheckVP(shaderName, numHardwareBones, numHardwarePoses, false);
+                createdPrograms.Add(shaderName, program);
+            }
+            return shaderName;
+        }
+
+        public String createFeedbackVertexProgram(String baseName, int numHardwareBones, int numHardwarePoses)
+        {
+            String shaderName = DetermineVertexShaderName(baseName, numHardwareBones, numHardwarePoses, false);
+            if (!createdPrograms.ContainsKey(shaderName))
+            {
+                var program = setupFeedbackBufferVP(shaderName, numHardwareBones, numHardwarePoses, false);
+                createdPrograms.Add(shaderName, program);
+            }
+            return shaderName;
+        }
+
+        public String createEyeOuterVertexProgram(String name)
+        {
+            if (!createdPrograms.ContainsKey(name))
+            {
+                var program = setupEyeOuterVP(name, 0, 0, false);
+                createdPrograms.Add(name, program);
+            }
             return name;
         }
 

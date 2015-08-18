@@ -173,58 +173,60 @@ void mainVP
 		#ifndef NO_MAPS
 			float3 newTangent = float3(0,0,0);
 		#endif
+
 		//-----------Skinning Unrolled Loop--------------
-			float3x4 worldMatrix;
-			float weight;
+		float3x4 worldMatrix;
+		float weight;
 
-			//First Bone
-			#if BONES_PER_VERTEX > 0
-				worldMatrix = worldMatrix3x4Array[blendIdx[0]];
-				weight = blendWgt[0];
+		//First Bone
+		#if BONES_PER_VERTEX > 0
+			worldMatrix = worldMatrix3x4Array[blendIdx[0]];
+			weight = blendWgt[0];
 
-				blendPos += float4(mul(worldMatrix, input.position).xyz, 1.0) * weight;
-				newNormal += mul((float3x3)worldMatrix, input.normal) * weight;
-				#ifndef NO_MAPS
-					newTangent += mul((float3x3)worldMatrix, input.tangent.xyz) * weight;
-				#endif //NO_MAPS
-			#endif //BONES_PER_VERTEX > 0
+			blendPos += float4(mul(worldMatrix, input.position).xyz, 1.0) * weight;
+			newNormal += mul((float3x3)worldMatrix, input.normal) * weight;
+			#ifndef NO_MAPS
+				newTangent += mul((float3x3)worldMatrix, input.tangent.xyz) * weight;
+			#endif //NO_MAPS
+		#endif //BONES_PER_VERTEX > 0
 
-			//Second Bone
-			#if BONES_PER_VERTEX > 1
-				worldMatrix = worldMatrix3x4Array[blendIdx[1]];
-				weight = blendWgt[1];
+		//Second Bone
+		#if BONES_PER_VERTEX > 1
+			worldMatrix = worldMatrix3x4Array[blendIdx[1]];
+			weight = blendWgt[1];
 
-				blendPos += float4(mul(worldMatrix, input.position).xyz, 1.0) * weight;
-				newNormal += mul((float3x3)worldMatrix, input.normal) * weight;
-				#ifndef NO_MAPS
-					newTangent += mul((float3x3)worldMatrix, input.tangent.xyz) * weight;
-				#endif //NO_MAPS
-			#endif //BONES_PER_VERTEX > 1
+			blendPos += float4(mul(worldMatrix, input.position).xyz, 1.0) * weight;
+			newNormal += mul((float3x3)worldMatrix, input.normal) * weight;
+			#ifndef NO_MAPS
+				newTangent += mul((float3x3)worldMatrix, input.tangent.xyz) * weight;
+			#endif //NO_MAPS
+		#endif //BONES_PER_VERTEX > 1
 
-			//Third Bone
-			#if BONES_PER_VERTEX > 2
-				worldMatrix = worldMatrix3x4Array[blendIdx[2]];
-				weight = blendWgt[2];
+		//Third Bone
+		#if BONES_PER_VERTEX > 2
+			worldMatrix = worldMatrix3x4Array[blendIdx[2]];
+			weight = blendWgt[2];
 
-				blendPos += float4(mul(worldMatrix, input.position).xyz, 1.0) * weight;
-				newNormal += mul((float3x3)worldMatrix, input.normal) * weight;
-				#ifndef NO_MAPS
-					newTangent += mul((float3x3)worldMatrix, input.tangent.xyz) * weight;
-				#endif //NO_MAPS
-			#endif //BONES_PER_VERTEX > 2
+			blendPos += float4(mul(worldMatrix, input.position).xyz, 1.0) * weight;
+			newNormal += mul((float3x3)worldMatrix, input.normal) * weight;
+			#ifndef NO_MAPS
+				newTangent += mul((float3x3)worldMatrix, input.tangent.xyz) * weight;
+			#endif //NO_MAPS
+		#endif //BONES_PER_VERTEX > 2
 
-			//Fourth Bone
-			#if BONES_PER_VERTEX > 3
-				worldMatrix = worldMatrix3x4Array[blendIdx[3]];
-				weight = blendWgt[3];
+		//Fourth Bone
+		#if BONES_PER_VERTEX > 3
+			worldMatrix = worldMatrix3x4Array[blendIdx[3]];
+			weight = blendWgt[3];
 
-				blendPos += float4(mul(worldMatrix, input.position).xyz, 1.0) * weight;
-				newNormal += mul((float3x3)worldMatrix, input.normal) * weight;
-				#ifndef NO_MAPS
-					newTangent += mul((float3x3)worldMatrix, input.tangent.xyz) * weight;
-				#endif //NO_MAPS
-			#endif //BONES_PER_VERTEX > 3
+			blendPos += float4(mul(worldMatrix, input.position).xyz, 1.0) * weight;
+			newNormal += mul((float3x3)worldMatrix, input.normal) * weight;
+			#ifndef NO_MAPS
+				newTangent += mul((float3x3)worldMatrix, input.tangent.xyz) * weight;
+			#endif //NO_MAPS
+		#endif //BONES_PER_VERTEX > 3
 		//---------------End Skinning Unrolled Loop------------------
+
 		input.position = blendPos;
 		input.normal = normalize(newNormal);
 		#ifndef NO_MAPS

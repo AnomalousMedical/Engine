@@ -235,7 +235,7 @@ namespace OgrePlugin
 
             if (indirectionTex != null)
             {
-                String vertexShaderName = shaderFactory.createVertexProgram(indirectionTex.FeedbackBufferVPName, description.NumHardwareBones, description.NumHardwarePoses, false);
+                String vertexShaderName = shaderFactory.createFeedbackVertexProgram(indirectionTex.FeedbackBufferVPName, description.NumHardwareBones, description.NumHardwarePoses);
                 String fragmentShaderName = shaderFactory.createFragmentProgram(indirectionTex.FeedbackBufferFPName, false);
                 indirectionTex.setupFeedbackBufferTechnique(material.Value, vertexShaderName);
 
@@ -297,7 +297,7 @@ namespace OgrePlugin
             //Setup shaders
             TextureMaps textureMaps;
             pass.setFragmentProgram(shaderFactory.createFragmentProgram(description, alpha, out textureMaps));
-            pass.setVertexProgram(shaderFactory.createVertexProgram(description, textureMaps));
+            pass.setVertexProgram(shaderFactory.createUnifiedVertexProgram(description, textureMaps));
 
             if (description.NoDepthWriteAlpha)
             {
@@ -376,7 +376,7 @@ namespace OgrePlugin
             pass.setDepthWriteEnabled(false);
 
             //Material specific, setup shaders
-            pass.setVertexProgram(shaderFactory.createVertexProgram("EyeOuterVP", description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
+            pass.setVertexProgram(shaderFactory.createEyeOuterVertexProgram("EyeOuterVP"));
 
             pass.setFragmentProgram(shaderFactory.createFragmentProgram("EyeOuterFP", alpha));
 
@@ -557,7 +557,7 @@ namespace OgrePlugin
                 pass.setDepthBias(-1.0f);
                 pass.setSceneBlending(SceneBlendType.SBT_TRANSPARENT_ALPHA);
 
-                pass.setVertexProgram(shaderFactory.createVertexProgram("DepthCheckVP", description.NumHardwareBones, description.NumHardwarePoses, false));
+                pass.setVertexProgram(shaderFactory.createDepthCheckVertexProgram("DepthCheckVP", description.NumHardwareBones, description.NumHardwarePoses));
                 pass.setFragmentProgram(shaderFactory.createFragmentProgram("HiddenFP", false));
 
                 pass = technique.createPass(); //Get another pass
