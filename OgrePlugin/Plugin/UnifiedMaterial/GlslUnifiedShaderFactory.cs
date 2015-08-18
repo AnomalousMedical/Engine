@@ -49,103 +49,8 @@ namespace OgrePlugin
 
         #region Vertex Programs
 
-        protected override HighLevelGpuProgramSharedPtr setupUnifiedVP(String name, int numHardwareBones, int numHardwarePoses, bool parity)
+        protected override HighLevelGpuProgramSharedPtr setupDepthCheckVP(String name, int numHardwareBones, int numHardwarePoses)
         {
-            var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsl", GpuProgramType.GPT_VERTEX_PROGRAM);
-
-            if (numHardwareBones > 0 || numHardwarePoses > 0)
-            {
-                program.Value.SourceFile = UnifiedShaderBase + "MainVPHardwareSkin.glsl";
-            }
-            else
-            {
-                program.Value.SourceFile = UnifiedShaderBase + "MainVP.glsl";
-            }
-
-            program.Value.setParam("attach", "Pack_VP_GLSL");
-            program.Value.SkeletalAnimationIncluded = numHardwareBones > 0;
-            program.Value.NumberOfPoses = (ushort)numHardwarePoses;
-            program.Value.setParam("preprocessor_defines", DetermineVertexPreprocessorDefines(numHardwareBones, numHardwarePoses, parity));
-            program.Value.load();
-
-            using (var defaultParams = program.Value.getDefaultParameters())
-            {
-                if (numHardwareBones > 0 || numHardwarePoses > 0)
-                {
-                    defaultParams.Value.setNamedAutoConstant("worldEyePosition", AutoConstantType.ACT_CAMERA_POSITION);
-                    defaultParams.Value.setNamedAutoConstant("lightAttenuation", AutoConstantType.ACT_LIGHT_ATTENUATION, 0);
-                    defaultParams.Value.setNamedAutoConstant("worldLightPosition", AutoConstantType.ACT_LIGHT_POSITION, 0);
-
-                    defaultParams.Value.setNamedAutoConstant("worldMatrix3x4Array", AutoConstantType.ACT_WORLD_MATRIX_ARRAY_3x4);
-                    defaultParams.Value.setNamedAutoConstant("viewProjectionMatrix", AutoConstantType.ACT_VIEWPROJ_MATRIX);
-
-                    if (numHardwarePoses > 0)
-                    {
-                        defaultParams.Value.setNamedAutoConstant("poseAnimAmount", AutoConstantType.ACT_ANIMATION_PARAMETRIC);
-                    }
-                }
-                else
-                {
-                    defaultParams.Value.setNamedAutoConstant("worldViewProj", AutoConstantType.ACT_WORLDVIEWPROJ_MATRIX);
-                    defaultParams.Value.setNamedAutoConstant("eyePosition", AutoConstantType.ACT_CAMERA_POSITION_OBJECT_SPACE);
-                    defaultParams.Value.setNamedAutoConstant("lightAttenuation", AutoConstantType.ACT_LIGHT_ATTENUATION, 0);
-                    defaultParams.Value.setNamedAutoConstant("lightPosition", AutoConstantType.ACT_LIGHT_POSITION_OBJECT_SPACE, 0);
-                }
-            }
-
-            return program;
-        }
-
-        protected override HighLevelGpuProgramSharedPtr setupNoTexturesVP(String name, int numHardwareBones, int numHardwarePoses, bool parity)
-        {
-            var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsl", GpuProgramType.GPT_VERTEX_PROGRAM);
-
-            if (numHardwareBones > 0 || numHardwarePoses > 0)
-            {
-                program.Value.SourceFile = UnifiedShaderBase + "NoTexturesVPHardwareSkin.glsl";
-            }
-            else
-            {
-                program.Value.SourceFile = UnifiedShaderBase + "NoTexturesVP.glsl";
-            }
-
-            program.Value.SkeletalAnimationIncluded = numHardwareBones > 0;
-            program.Value.NumberOfPoses = (ushort)numHardwarePoses;
-            program.Value.setParam("preprocessor_defines", DetermineVertexPreprocessorDefines(numHardwareBones, numHardwarePoses, parity));
-            program.Value.load();
-
-            using (var defaultParams = program.Value.getDefaultParameters())
-            {
-                if (numHardwareBones > 0 || numHardwarePoses > 0)
-                {
-                    defaultParams.Value.setNamedAutoConstant("worldEyePosition", AutoConstantType.ACT_CAMERA_POSITION);
-                    defaultParams.Value.setNamedAutoConstant("lightAttenuation", AutoConstantType.ACT_LIGHT_ATTENUATION, 0);
-                    defaultParams.Value.setNamedAutoConstant("worldLightPosition", AutoConstantType.ACT_LIGHT_POSITION, 0);
-
-                    defaultParams.Value.setNamedAutoConstant("worldMatrix3x4Array", AutoConstantType.ACT_WORLD_MATRIX_ARRAY_3x4);
-                    defaultParams.Value.setNamedAutoConstant("viewProjectionMatrix", AutoConstantType.ACT_VIEWPROJ_MATRIX);
-
-                    if (numHardwarePoses > 0)
-                    {
-                        defaultParams.Value.setNamedAutoConstant("poseAnimAmount", AutoConstantType.ACT_ANIMATION_PARAMETRIC);
-                    }
-                }
-                else
-                {
-                    defaultParams.Value.setNamedAutoConstant("worldViewProj", AutoConstantType.ACT_WORLDVIEWPROJ_MATRIX);
-                    defaultParams.Value.setNamedAutoConstant("eyePosition", AutoConstantType.ACT_CAMERA_POSITION_OBJECT_SPACE);
-                    defaultParams.Value.setNamedAutoConstant("lightAttenuation", AutoConstantType.ACT_LIGHT_ATTENUATION, 0);
-                    defaultParams.Value.setNamedAutoConstant("lightPosition", AutoConstantType.ACT_LIGHT_POSITION_OBJECT_SPACE, 0);
-                }
-            }
-
-            return program;
-        }
-
-        protected override HighLevelGpuProgramSharedPtr setupDepthCheckVP(String name, int numHardwareBones, int numHardwarePoses, bool parity)
-        {
-            parity = false; //Does not do parity
-
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsl", GpuProgramType.GPT_VERTEX_PROGRAM);
 
             if (numHardwareBones > 0 || numHardwarePoses > 0)
@@ -159,7 +64,7 @@ namespace OgrePlugin
 
             program.Value.SkeletalAnimationIncluded = numHardwareBones > 0;
             program.Value.NumberOfPoses = (ushort)numHardwarePoses;
-            program.Value.setParam("preprocessor_defines", DetermineVertexPreprocessorDefines(numHardwareBones, numHardwarePoses, parity));
+            program.Value.setParam("preprocessor_defines", DetermineVertexPreprocessorDefines(numHardwareBones, numHardwarePoses, false));
             program.Value.load();
 
             using (var defaultParams = program.Value.getDefaultParameters())
@@ -183,25 +88,18 @@ namespace OgrePlugin
             return program;
         }
 
-        protected override HighLevelGpuProgramSharedPtr setupHiddenVP(String name, int numHardwareBones, int numHardwarePoses, bool parity)
+        protected override HighLevelGpuProgramSharedPtr setupHiddenVP(String name)
         {
-            parity = false; //Does not do parity
-
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsl", GpuProgramType.GPT_VERTEX_PROGRAM);
 
             program.Value.SourceFile = UnifiedShaderBase + "HiddenVP.glsl";
-            program.Value.SkeletalAnimationIncluded = numHardwareBones > 0;
-            program.Value.NumberOfPoses = (ushort)numHardwarePoses;
-            program.Value.setParam("preprocessor_defines", DetermineVertexPreprocessorDefines(numHardwareBones, numHardwarePoses, parity));
             program.Value.load();
 
             return program;
         }
 
-        protected override HighLevelGpuProgramSharedPtr setupFeedbackBufferVP(String name, int numHardwareBones, int numHardwarePoses, bool parity)
+        protected override HighLevelGpuProgramSharedPtr setupFeedbackBufferVP(String name, int numHardwareBones, int numHardwarePoses)
         {
-            parity = false; //Does not do parity
-
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsl", GpuProgramType.GPT_VERTEX_PROGRAM);
 
             if (numHardwareBones > 0 || numHardwarePoses > 0)
@@ -215,7 +113,7 @@ namespace OgrePlugin
 
             program.Value.SkeletalAnimationIncluded = numHardwareBones > 0;
             program.Value.NumberOfPoses = (ushort)numHardwarePoses;
-            program.Value.setParam("preprocessor_defines", DetermineVertexPreprocessorDefines(numHardwareBones, numHardwarePoses, parity));
+            program.Value.setParam("preprocessor_defines", DetermineVertexPreprocessorDefines(numHardwareBones, numHardwarePoses, false));
             program.Value.load();
 
             using (var defaultParams = program.Value.getDefaultParameters())
@@ -239,12 +137,8 @@ namespace OgrePlugin
             return program;
         }
 
-        protected override HighLevelGpuProgramSharedPtr setupEyeOuterVP(String name, int numHardwareBones, int numHardwarePoses, bool parity)
+        protected override HighLevelGpuProgramSharedPtr setupEyeOuterVP(String name)
         {
-            numHardwareBones = 0;
-            numHardwarePoses = 0;
-            parity = false;
-
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsl", GpuProgramType.GPT_VERTEX_PROGRAM);
 
             program.Value.SourceFile = EyeShaderBase + "EyeOuterVP.glsl";

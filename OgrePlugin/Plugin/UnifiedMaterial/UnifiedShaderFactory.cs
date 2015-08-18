@@ -87,7 +87,7 @@ namespace OgrePlugin
         {
             if (!createdPrograms.ContainsKey(name))
             {
-                var program = setupHiddenVP(name, 0, 0, false);
+                var program = setupHiddenVP(name);
                 createdPrograms.Add(name, program);
             }
             return name;
@@ -98,7 +98,7 @@ namespace OgrePlugin
             String shaderName = DetermineVertexShaderName(baseName, numHardwareBones, numHardwarePoses, false);
             if (!createdPrograms.ContainsKey(shaderName))
             {
-                var program = setupDepthCheckVP(shaderName, numHardwareBones, numHardwarePoses, false);
+                var program = setupDepthCheckVP(shaderName, numHardwareBones, numHardwarePoses);
                 createdPrograms.Add(shaderName, program);
             }
             return shaderName;
@@ -109,7 +109,7 @@ namespace OgrePlugin
             String shaderName = DetermineVertexShaderName(baseName, numHardwareBones, numHardwarePoses, false);
             if (!createdPrograms.ContainsKey(shaderName))
             {
-                var program = setupFeedbackBufferVP(shaderName, numHardwareBones, numHardwarePoses, false);
+                var program = setupFeedbackBufferVP(shaderName, numHardwareBones, numHardwarePoses);
                 createdPrograms.Add(shaderName, program);
             }
             return shaderName;
@@ -119,7 +119,7 @@ namespace OgrePlugin
         {
             if (!createdPrograms.ContainsKey(name))
             {
-                var program = setupEyeOuterVP(name, 0, 0, false);
+                var program = setupEyeOuterVP(name);
                 createdPrograms.Add(name, program);
             }
             return name;
@@ -130,17 +130,13 @@ namespace OgrePlugin
             throw new NotImplementedException();
         }
 
-        protected abstract HighLevelGpuProgramSharedPtr setupUnifiedVP(String name, int numHardwareBones, int numHardwarePoses, bool parity);
+        protected abstract HighLevelGpuProgramSharedPtr setupDepthCheckVP(String name, int numHardwareBones, int numHardwarePoses);
 
-        protected abstract HighLevelGpuProgramSharedPtr setupNoTexturesVP(String name, int numHardwareBones, int numHardwarePoses, bool parity);
+        protected abstract HighLevelGpuProgramSharedPtr setupHiddenVP(String name);
 
-        protected abstract HighLevelGpuProgramSharedPtr setupDepthCheckVP(String name, int numHardwareBones, int numHardwarePoses, bool parity);
+        protected abstract HighLevelGpuProgramSharedPtr setupFeedbackBufferVP(String name, int numHardwareBones, int numHardwarePoses);
 
-        protected abstract HighLevelGpuProgramSharedPtr setupHiddenVP(String name, int numHardwareBones, int numHardwarePoses, bool parity);
-
-        protected abstract HighLevelGpuProgramSharedPtr setupFeedbackBufferVP(String name, int numHardwareBones, int numHardwarePoses, bool parity);
-
-        protected abstract HighLevelGpuProgramSharedPtr setupEyeOuterVP(String name, int numHardwareBones, int numHardwarePoses, bool parity);
+        protected abstract HighLevelGpuProgramSharedPtr setupEyeOuterVP(String name);
 
         #endregion Vertex Programs
 
