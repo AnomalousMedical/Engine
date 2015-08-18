@@ -35,6 +35,7 @@ namespace OgrePlugin
             Parity = false;
             Variants = new List<MaterialDescription>();
             KeepHighestMipLoaded = false;
+            SpecialMaterial = null;
             IsHighlight = false;
             NoDepthWriteAlpha = false;
         }
@@ -63,6 +64,7 @@ namespace OgrePlugin
             this.emissiveColor = toClone.emissiveColor;
             this.diffuseColor = toClone.diffuseColor;
             this.KeepHighestMipLoaded = toClone.KeepHighestMipLoaded;
+            this.SpecialMaterial = toClone.SpecialMaterial;
             this.IsHighlight = toClone.IsHighlight;
             this.NoDepthWriteAlpha = toClone.NoDepthWriteAlpha;
         }
@@ -180,6 +182,11 @@ namespace OgrePlugin
         [JsonProperty]
         public bool KeepHighestMipLoaded { get; set; }
 
+        [JsonProperty]
+        public String SpecialMaterial { get; set; }
+
+        //Filled in at runtime
+
         /// <summary>
         /// Get all nested descriptions for all levels below this one.
         /// </summary>
@@ -187,13 +194,13 @@ namespace OgrePlugin
         {
             get
             {
-                if(Variants == null)
+                if (Variants == null)
                 {
                     return IEnumerableUtil<MaterialDescription>.EmptyIterator;
                 }
 
                 IEnumerable<MaterialDescription> retVal = Variants;
-                foreach(var child in Variants)
+                foreach (var child in Variants)
                 {
                     if (child.Variants != null) //Avoids concating empty iterators
                     {
@@ -204,10 +211,17 @@ namespace OgrePlugin
             }
         }
 
-        //Filled in at runtime
         public String Group { get; set; }
 
         public String SourceFile { get; set; }
+
+        public bool IsSpecialMaterial
+        {
+            get
+            {
+                return !String.IsNullOrEmpty(SpecialMaterial);
+            }
+        }
 
         public Color EmissiveColor
         {

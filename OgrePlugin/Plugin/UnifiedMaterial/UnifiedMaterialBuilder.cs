@@ -42,10 +42,11 @@ namespace OgrePlugin
         delegate IndirectionTexture CreateMaterial(Technique technique, MaterialDescription description, bool alpha, bool depthCheck);
 
         private Dictionary<Material, MaterialInfo> createdMaterials = new Dictionary<Material, MaterialInfo>(); //This is only for detection
+        private List<MaterialPtr> builtInMaterials = new List<MaterialPtr>();
         private VirtualTextureManager virtualTextureManager;
         private String textureFormatExtension;
         private String normalTextureFormatExtension;
-        private Dictionary<String, CreateMaterial> materialCreationFuncs = new Dictionary<string, CreateMaterial>();
+        private Dictionary<String, CreateMaterial> specialMaterialFuncs = new Dictionary<string, CreateMaterial>();
         private Dictionary<int, int> indirectionTextureUsageCounts = new Dictionary<int, int>();
 
         private PhysicalTexture normalTexture;
@@ -56,30 +57,6 @@ namespace OgrePlugin
         private UnifiedShaderFactory shaderFactory;
 
         public event Action<UnifiedMaterialBuilder> InitializationComplete;
-
-        class BuiltInMaterialRepo : MaterialRepository
-        {
-            private List<MaterialPtr> builtInMaterials = new List<MaterialPtr>();
-
-            public void addMaterial(MaterialPtr material, MaterialDescription description)
-            {
-                builtInMaterials.Add(material);
-            }
-
-            public void addMaterial(MaterialPtr material)
-            {
-                builtInMaterials.Add(material);
-            }
-
-            public void Dispose(UnifiedMaterialBuilder materialBuilder)
-            {
-                foreach(var material in builtInMaterials)
-                {
-                    materialBuilder.destroyMaterial(material);
-                }
-            }
-        }
-        private BuiltInMaterialRepo builtInMaterialRepo = new BuiltInMaterialRepo();
 
         public UnifiedMaterialBuilder(VirtualTextureManager virtualTextureManager, CompressedTextureSupport textureFormat, ResourceManager liveResourceManager)
         {
@@ -127,19 +104,22 @@ namespace OgrePlugin
             specularTexture = virtualTextureManager.createPhysicalTexture("Specular", PixelFormatUsageHint.NotSpecial);
             opacityTexture = virtualTextureManager.createPhysicalTexture("Opacity", PixelFormatUsageHint.OpacityMap);
 
-            materialCreationFuncs.Add("NormalMapSpecularMapGlossMap", createNormalMapSpecularMapGlossMap);
-            materialCreationFuncs.Add("EyeOuter", createEyeOuterMaterial);
+            specialMaterialFuncs.Add("EyeOuter", createEyeOuterMaterial);
 
             OgreResourceGroupManager.getInstance().createResourceGroup(GroupName);
 
             MaterialPtr hiddenMaterial = MaterialManager.getInstance().create("HiddenMaterial", GroupName, false, null);
             setupHiddenMaterialPass(hiddenMaterial.Value.getTechnique(0).getPass(0), false, false);
-            builtInMaterialRepo.addMaterial(hiddenMaterial);
+            builtInMaterials.Add(hiddenMaterial);
         }
 
         public void Dispose()
         {
-            builtInMaterialRepo.Dispose(this);
+            foreach (var material in builtInMaterials)
+            {
+                MaterialManager.getInstance().remove(material.Value.Name);
+                material.Dispose();
+            }
             shaderFactory.Dispose();
         }
 
@@ -216,7 +196,14 @@ namespace OgrePlugin
             }
             MaterialPtr material = MaterialManager.getInstance().create(name, GroupName, false, null);
 
-            IndirectionTexture indirectionTex = createUnifiedMaterial(material.Value.getTechnique(0), description, alpha, true);
+            CreateMaterial createMaterial = createUnifiedMaterial;
+            if(description.IsSpecialMaterial && !specialMaterialFuncs.TryGetValue(description.SpecialMaterial, out createMaterial))
+            {
+                Logging.Log.Error("Could not find special material creation function {0} for material {1} in {2}.", description.SpecialMaterial, description.Name, description.SourceFile);
+                createMaterial = createUnifiedMaterial; //Attempt to create something, out above clears this variable
+            }
+
+            IndirectionTexture indirectionTex = createMaterial(material.Value.getTechnique(0), description, alpha, true);
 
             if (alpha)
             {
@@ -224,7 +211,7 @@ namespace OgrePlugin
                 Technique technique = material.Value.createTechnique();
                 technique.setLodIndex(1);
                 technique.createPass();
-                createUnifiedMaterial(technique, description, alpha, false);
+                createMaterial(technique, description, alpha, false);
             }
 
             if (indirectionTex != null)
@@ -347,15 +334,6 @@ namespace OgrePlugin
         //--------------------------------------
         //Specific material creation funcs
         //--------------------------------------
-
-        private IndirectionTexture createNormalMapSpecularMapGlossMap(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
-        {
-            //Hack, Ensure things are true
-            description.HasGlossMap = true;
-
-            return createUnifiedMaterial(technique, description, alpha, depthCheck);
-        }
-
         private IndirectionTexture createEyeOuterMaterial(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
         {
             //Create depth check pass if needed
