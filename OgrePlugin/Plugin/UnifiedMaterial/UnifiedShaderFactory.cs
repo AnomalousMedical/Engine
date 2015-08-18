@@ -94,6 +94,28 @@ namespace OgrePlugin
             return shaderName;
         }
 
+        public String createVertexProgram(MaterialDescription description, TextureMaps maps)
+        {
+            String baseName = "Textured";
+            if(maps == TextureMaps.None)
+            {
+                baseName = "Untextured";
+            }
+
+            String shaderName = DetermineVertexShaderName(baseName.ToString(), description.NumHardwareBones, description.NumHardwarePoses, description.Parity);
+            if (!createdPrograms.ContainsKey(shaderName))
+            {
+                var program = createUnifiedVertex(shaderName, maps, description);
+                createdPrograms.Add(shaderName, program);
+            }
+            return shaderName;
+        }
+
+        protected virtual HighLevelGpuProgramSharedPtr createUnifiedVertex(String name, TextureMaps maps, MaterialDescription description)
+        {
+            throw new NotImplementedException();
+        }
+
         protected abstract HighLevelGpuProgramSharedPtr setupUnifiedVP(String name, int numHardwareBones, int numHardwarePoses, bool parity);
 
         protected abstract HighLevelGpuProgramSharedPtr setupNoTexturesVP(String name, int numHardwareBones, int numHardwarePoses, bool parity);
@@ -248,6 +270,28 @@ namespace OgrePlugin
             if(numHardwarePoses > 0)
             {
                 definesBuilder.AppendFormat("POSE_COUNT={0},", numHardwarePoses);
+            }
+            return definesBuilder.ToString();
+        }
+
+        protected String DetermineVertexPreprocessorDefines2(TextureMaps maps, int numHardwareBones, int numHardwarePoses, bool parity)
+        {
+            StringBuilder definesBuilder = new StringBuilder();
+            if (parity)
+            {
+                definesBuilder.Append("PARITY=1,");
+            }
+            if (numHardwareBones > 0)
+            {
+                definesBuilder.AppendFormat("BONES_PER_VERTEX={0},", numHardwareBones);
+            }
+            if (numHardwarePoses > 0)
+            {
+                definesBuilder.AppendFormat("POSE_COUNT={0},", numHardwarePoses);
+            }
+            if(maps == TextureMaps.None)
+            {
+                definesBuilder.Append("NO_MAPS=1,");
             }
             return definesBuilder.ToString();
         }

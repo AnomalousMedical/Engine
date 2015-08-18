@@ -289,16 +289,10 @@ namespace OgrePlugin
             //Setup this pass
             setupCommonPassAttributes(description, alpha, pass);
 
-            //Material specific, setup shaders
+            //Setup shaders
             TextureMaps textureMaps;
             pass.setFragmentProgram(shaderFactory.createFragmentProgram(description, alpha, out textureMaps));
-
-            String vertexProgram = "UnifiedVP";
-            if(textureMaps == TextureMaps.None)
-            {
-                vertexProgram = "NoTexturesVP";
-            }
-            pass.setVertexProgram(shaderFactory.createVertexProgram(vertexProgram, description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
+            pass.setVertexProgram(shaderFactory.createVertexProgram(description, textureMaps));
 
             if (description.NoDepthWriteAlpha)
             {
