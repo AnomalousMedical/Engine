@@ -36,7 +36,6 @@ namespace OgrePlugin
 
         protected delegate HighLevelGpuProgramSharedPtr CreateFragmentProgramDelegate(String name, bool alpha);
 
-        private Dictionary<String, CreateFragmentProgramDelegate> fragmentBuilderFuncs = new Dictionary<string, CreateFragmentProgramDelegate>();
         private Dictionary<String, HighLevelGpuProgramSharedPtr> createdPrograms = new Dictionary<string, HighLevelGpuProgramSharedPtr>();
         private ResourceGroup shaderResourceGroup;
         private NormaMapReadlMode normalMapReadMode;
@@ -50,10 +49,6 @@ namespace OgrePlugin
             shaderResourceGroup.addResource(GetType().AssemblyQualifiedName, "EmbeddedResource", true);
             
             liveResourceManager.initializeResources();
-
-            fragmentBuilderFuncs.Add("FeedbackBufferFP", createFeedbackBufferFP);
-            fragmentBuilderFuncs.Add("HiddenFP", createHiddenFP);
-            fragmentBuilderFuncs.Add("EyeOuterFP", createEyeOuterFP);
         }
 
         public virtual void Dispose()
@@ -142,25 +137,6 @@ namespace OgrePlugin
 
         #region Fragment Programs
 
-        public String createFragmentProgram(String baseName, bool alpha)
-        {
-            String shaderName = DetermineFragmentShaderName(baseName, alpha);
-            if (!createdPrograms.ContainsKey(shaderName))
-            {
-                CreateFragmentProgramDelegate buildFunc;
-                if (fragmentBuilderFuncs.TryGetValue(baseName, out buildFunc))
-                {
-                    var program = buildFunc(shaderName, alpha);
-                    createdPrograms.Add(shaderName, program);
-                }
-                else
-                {
-                    Logging.Log.Error("Cannot build fragment shader '{0}' no setup function defined.", shaderName);
-                }
-            }
-            return shaderName;
-        }
-
         public String createFragmentProgram(MaterialDescription description, bool alpha, out TextureMaps textureMaps)
         {
             StringBuilder name = new StringBuilder();
@@ -215,19 +191,49 @@ namespace OgrePlugin
             String shaderName = DetermineFragmentShaderName(name.ToString(), alpha);
             if (!createdPrograms.ContainsKey(shaderName))
             {
-                var program = createUnifiedFrag(shaderName, textureMaps, alpha, description.HasGlossMap, description.IsHighlight);
+                var program = setupUnifiedFrag(shaderName, textureMaps, alpha, description.HasGlossMap, description.IsHighlight);
                 createdPrograms.Add(shaderName, program);
             }
             return shaderName;
         }
 
-        protected abstract HighLevelGpuProgramSharedPtr createUnifiedFrag(String name, TextureMaps maps, bool alpha, bool glossMap, bool highlight);
+        public String createFeedbackBufferFP(String shaderName)
+        {
+            if (!createdPrograms.ContainsKey(shaderName))
+            {
+                var program = setupFeedbackBufferFP(shaderName);
+                createdPrograms.Add(shaderName, program);
+            }
+            return shaderName;
+        }
 
-        protected abstract HighLevelGpuProgramSharedPtr createFeedbackBufferFP(String name, bool alpha);
+        public String createHiddenFP(String name)
+        {
+            if (!createdPrograms.ContainsKey(name))
+            {
+                var program = setupHiddenFP(name);
+                createdPrograms.Add(name, program);
+            }
+            return name;
+        }
 
-        protected abstract HighLevelGpuProgramSharedPtr createHiddenFP(String name, bool alpha);
+        public String createEyeOuterFP(String name, bool alpha)
+        {
+            if (!createdPrograms.ContainsKey(name))
+            {
+                var program = setupEyeOuterFP(name, alpha);
+                createdPrograms.Add(name, program);
+            }
+            return name;
+        }
 
-        protected abstract HighLevelGpuProgramSharedPtr createEyeOuterFP(String name, bool alpha);
+        protected abstract HighLevelGpuProgramSharedPtr setupUnifiedFrag(String name, TextureMaps maps, bool alpha, bool glossMap, bool highlight);
+
+        protected abstract HighLevelGpuProgramSharedPtr setupFeedbackBufferFP(String name);
+
+        protected abstract HighLevelGpuProgramSharedPtr setupHiddenFP(String name);
+
+        protected abstract HighLevelGpuProgramSharedPtr setupEyeOuterFP(String name, bool alpha);
 
         #endregion Fragment Programs
 

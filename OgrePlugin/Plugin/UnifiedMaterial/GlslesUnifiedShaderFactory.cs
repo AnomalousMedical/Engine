@@ -136,7 +136,7 @@ namespace OgrePlugin
 
         #region Fragment Programs
 
-        protected override HighLevelGpuProgramSharedPtr createUnifiedFrag(String name, TextureMaps maps, bool alpha, bool glossMap, bool highlight)
+        protected override HighLevelGpuProgramSharedPtr setupUnifiedFrag(String name, TextureMaps maps, bool alpha, bool glossMap, bool highlight)
         {
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsles", GpuProgramType.GPT_FRAGMENT_PROGRAM);
 
@@ -206,22 +206,17 @@ namespace OgrePlugin
             return program;
         }
 
-        protected override HighLevelGpuProgramSharedPtr createFeedbackBufferFP(String name, bool alpha)
+        protected override HighLevelGpuProgramSharedPtr setupFeedbackBufferFP(String name)
         {
-            alpha = false; //Never does alpha
-
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsles", GpuProgramType.GPT_FRAGMENT_PROGRAM);
 
             program.Value.SourceFile = UnifiedShaderBase + "FeedbackBufferFP.glsl";
-            //program.Value.setParam("attach", "VirtualTextureFuncs_GLSL");
 
             return program;
         }
 
-        protected override HighLevelGpuProgramSharedPtr createHiddenFP(String name, bool alpha)
+        protected override HighLevelGpuProgramSharedPtr setupHiddenFP(String name)
         {
-            alpha = false; //Never does alpha
-
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsles", GpuProgramType.GPT_FRAGMENT_PROGRAM);
 
             program.Value.SourceFile = UnifiedShaderBase + "HiddenFP.glsl";
@@ -229,7 +224,7 @@ namespace OgrePlugin
             return program;
         }
 
-        protected override HighLevelGpuProgramSharedPtr createEyeOuterFP(String name, bool alpha)
+        protected override HighLevelGpuProgramSharedPtr setupEyeOuterFP(String name, bool alpha)
         {
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsles", GpuProgramType.GPT_FRAGMENT_PROGRAM);
 

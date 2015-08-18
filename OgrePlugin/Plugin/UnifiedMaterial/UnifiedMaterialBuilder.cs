@@ -215,14 +215,8 @@ namespace OgrePlugin
                 name += "Alpha";
             }
             MaterialPtr material = MaterialManager.getInstance().create(name, GroupName, false, null);
-            
-            CreateMaterial createMaterial;
-            if (String.IsNullOrEmpty(description.ShaderName) || !materialCreationFuncs.TryGetValue(description.ShaderName, out createMaterial))
-            {
-                createMaterial = createUnifiedMaterial;
-            }
 
-            IndirectionTexture indirectionTex = createMaterial(material.Value.getTechnique(0), description, alpha, true);
+            IndirectionTexture indirectionTex = createUnifiedMaterial(material.Value.getTechnique(0), description, alpha, true);
 
             if (alpha)
             {
@@ -230,13 +224,13 @@ namespace OgrePlugin
                 Technique technique = material.Value.createTechnique();
                 technique.setLodIndex(1);
                 technique.createPass();
-                createMaterial(technique, description, alpha, false);
+                createUnifiedMaterial(technique, description, alpha, false);
             }
 
             if (indirectionTex != null)
             {
                 String vertexShaderName = shaderFactory.createFeedbackVertexProgram(indirectionTex.FeedbackBufferVPName, description.NumHardwareBones, description.NumHardwarePoses);
-                String fragmentShaderName = shaderFactory.createFragmentProgram(indirectionTex.FeedbackBufferFPName, false);
+                String fragmentShaderName = shaderFactory.createFeedbackBufferFP(indirectionTex.FeedbackBufferFPName);
                 indirectionTex.setupFeedbackBufferTechnique(material.Value, vertexShaderName);
 
                 int count = 0;
@@ -280,7 +274,7 @@ namespace OgrePlugin
             pass.setDepthCheckEnabled(true);
             pass.setDepthFunction(CompareFunction.CMPF_ALWAYS_FAIL);
             pass.setVertexProgram(shaderFactory.createHiddenVertexProgram("HiddenVP"));
-            pass.setFragmentProgram(shaderFactory.createFragmentProgram("HiddenFP", false));
+            pass.setFragmentProgram(shaderFactory.createHiddenFP("HiddenFP"));
         }
 
         //--------------------------------------
@@ -378,7 +372,7 @@ namespace OgrePlugin
             //Material specific, setup shaders
             pass.setVertexProgram(shaderFactory.createEyeOuterVertexProgram("EyeOuterVP"));
 
-            pass.setFragmentProgram(shaderFactory.createFragmentProgram("EyeOuterFP", alpha));
+            pass.setFragmentProgram(shaderFactory.createEyeOuterFP("EyeOuterFP", alpha));
 
             return null;
         }
@@ -558,7 +552,7 @@ namespace OgrePlugin
                 pass.setSceneBlending(SceneBlendType.SBT_TRANSPARENT_ALPHA);
 
                 pass.setVertexProgram(shaderFactory.createDepthCheckVertexProgram("DepthCheckVP", description.NumHardwareBones, description.NumHardwarePoses));
-                pass.setFragmentProgram(shaderFactory.createFragmentProgram("HiddenFP", false));
+                pass.setFragmentProgram(shaderFactory.createHiddenFP("HiddenFP"));
 
                 pass = technique.createPass(); //Get another pass
             }
