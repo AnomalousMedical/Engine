@@ -47,7 +47,6 @@ namespace OgrePlugin
         {
             this.Name = toClone.Name;
             this.Builder = toClone.Builder;
-            this.ShaderName = toClone.ShaderName;
             this.Shinyness = toClone.Shinyness;
             this.HasGlossMap = toClone.HasGlossMap;
             this.GlossyStart = toClone.GlossyStart;
@@ -84,9 +83,6 @@ namespace OgrePlugin
 
         [JsonProperty]
         public String Builder { get; set; }
-
-        [JsonProperty]
-        public String ShaderName { get; set; }
 
         [JsonProperty]
         public String Emissive
