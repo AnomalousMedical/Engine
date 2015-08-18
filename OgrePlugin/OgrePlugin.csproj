@@ -267,9 +267,6 @@
     <EmbeddedResource Include="Resources\Unified\glsles\HiddenFP.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsles\HiddenVP.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsles\MainVP.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsles\MainVPHardwareSkin.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsles\NoTexturesVP.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsles\NoTexturesVPHardwareSkin.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsl\DepthCheckVP.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsl\DepthCheckVPHardwareSkin.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsl\HiddenFP.glsl" />
