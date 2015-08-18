@@ -120,10 +120,7 @@ namespace OgrePlugin
             return name;
         }
 
-        protected virtual HighLevelGpuProgramSharedPtr setupUnifiedVertex(String name, TextureMaps maps, MaterialDescription description)
-        {
-            throw new NotImplementedException();
-        }
+        protected abstract HighLevelGpuProgramSharedPtr setupUnifiedVertex(String name, TextureMaps maps, MaterialDescription description);
 
         protected abstract HighLevelGpuProgramSharedPtr setupDepthCheckVP(String name, int numHardwareBones, int numHardwarePoses);
 
@@ -182,6 +179,10 @@ namespace OgrePlugin
                 textureMaps |= TextureMaps.Opacity;
                 name.Append("OpacityMap");
             }
+            else if(description.HasOpacityValue)
+            {
+                name.Append("Opacity");
+            }
 
             if(description.IsHighlight)
             {
@@ -191,7 +192,7 @@ namespace OgrePlugin
             String shaderName = DetermineFragmentShaderName(name.ToString(), alpha);
             if (!createdPrograms.ContainsKey(shaderName))
             {
-                var program = setupUnifiedFrag(shaderName, textureMaps, alpha, description.HasGlossMap, description.IsHighlight);
+                var program = setupUnifiedFrag(shaderName, description, textureMaps, alpha);
                 createdPrograms.Add(shaderName, program);
             }
             return shaderName;
@@ -227,7 +228,7 @@ namespace OgrePlugin
             return name;
         }
 
-        protected abstract HighLevelGpuProgramSharedPtr setupUnifiedFrag(String name, TextureMaps maps, bool alpha, bool glossMap, bool highlight);
+        protected abstract HighLevelGpuProgramSharedPtr setupUnifiedFrag(String name, MaterialDescription description, TextureMaps maps, bool alpha);
 
         protected abstract HighLevelGpuProgramSharedPtr setupFeedbackBufferFP(String name);
 
@@ -294,7 +295,7 @@ namespace OgrePlugin
             return definesBuilder.ToString();
         }
 
-        protected String DetermineFragmentPreprocessorDefines(TextureMaps maps, bool alpha, bool glossMap, bool highlight)
+        protected String DetermineFragmentPreprocessorDefines(TextureMaps maps, bool alpha, bool glossMap, bool highlight, bool opacity)
         {
             StringBuilder definesBuilder = new StringBuilder("VIRTUAL_TEXTURE=1,");
             if (alpha)
@@ -304,6 +305,10 @@ namespace OgrePlugin
             if(highlight)
             {
                 definesBuilder.Append("HIGHLIGHT=1,");
+            }
+            if(opacity)
+            {
+                definesBuilder.Append("OPACITY=1,");
             }
             switch (normalMapReadMode)
             {

@@ -34,7 +34,7 @@ namespace OgrePlugin
 #if NEVER_CACHE_SHADERS
         public static readonly String Version = Guid.NewGuid().ToString();
 #else
-        public static readonly String Version = "6.0";
+        public static readonly String Version = "7.0";
 #endif
 
         private const String GroupName = "UnifiedMaterialBuilder__Reserved";
@@ -288,7 +288,7 @@ namespace OgrePlugin
                 pass.setDepthFunction(CompareFunction.CMPF_LESS_EQUAL);
             }
 
-            if((textureMaps & TextureMaps.Opacity) == TextureMaps.Opacity)
+            if((textureMaps & TextureMaps.Opacity) == TextureMaps.Opacity || description.HasOpacityValue)
             {
                 pass.setSceneBlending(SceneBlendType.SBT_TRANSPARENT_ALPHA);
                 pass.setDepthFunction(CompareFunction.CMPF_LESS_EQUAL);
@@ -324,7 +324,13 @@ namespace OgrePlugin
 
                 if (description.HasGlossMap)
                 {
-                    setGlossyness(description, gpuParams);
+                    gpuParams.Value.setNamedConstant("glossyStart", description.GlossyStart);
+                    gpuParams.Value.setNamedConstant("glossyRange", description.GlossyRange);
+                }
+
+                if ((textureMaps & TextureMaps.Opacity) == 0 && description.HasOpacityValue)
+                {
+                    gpuParams.Value.setNamedConstant("opacity", description.OpacityValue);
                 }
             }
 
@@ -522,7 +528,7 @@ namespace OgrePlugin
         private Pass createDepthPass(Technique technique, MaterialDescription description, bool alpha, bool depthCheck)
         {
             var pass = technique.getPass(0); //Make sure technique has one pass already defined
-            if (alpha && depthCheck)
+            if ((alpha || description.HasOpacityValue) && depthCheck)
             {
                 //Setup depth check pass
                 pass.setColorWriteEnabled(false);
@@ -541,12 +547,6 @@ namespace OgrePlugin
         {
             var indirectionTextureUnit = pass.createTextureUnitState(indirectionTexture.TextureName);
             indirectionTextureUnit.setFilteringOptions(FilterOptions.Point, FilterOptions.Point, FilterOptions.None);
-        }
-
-        private static void setGlossyness(MaterialDescription description, GpuProgramParametersSharedPtr gpuParams)
-        {
-            gpuParams.Value.setNamedConstant("glossyStart", description.GlossyStart);
-            gpuParams.Value.setNamedConstant("glossyRange", description.GlossyRange);
         }
     }
 }

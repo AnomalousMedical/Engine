@@ -17,6 +17,7 @@ namespace OgrePlugin
         Color specularColor;
         Color emissiveColor;
         Color diffuseColor;
+        float? opacity;
 
         public MaterialDescription()
         {
@@ -24,6 +25,7 @@ namespace OgrePlugin
             specularColor = Color.White;
             Shinyness = 40.0f;
             diffuseColor = Color.White;
+            opacity = null;
             
             CreateAlphaMaterial = true;
             IsAlpha = false;
@@ -63,6 +65,7 @@ namespace OgrePlugin
             this.specularColor = toClone.specularColor;
             this.emissiveColor = toClone.emissiveColor;
             this.diffuseColor = toClone.diffuseColor;
+            this.opacity = toClone.opacity;
             this.KeepHighestMipLoaded = toClone.KeepHighestMipLoaded;
             this.SpecialMaterial = toClone.SpecialMaterial;
             this.IsHighlight = toClone.IsHighlight;
@@ -111,6 +114,27 @@ namespace OgrePlugin
                 if (!Color.TryFromRGBAString(value, out specularColor, Color.HotPink))
                 {
                     Logging.Log.Error("Could not parse specular color '{0}' for material '{1}'", value, Name);
+                }
+            }
+        }
+
+        [JsonProperty]
+        public String Opacity
+        {
+            get
+            {
+                return opacity != null ? opacity.ToString() : null;
+            }
+            set
+            {
+                float parsed;
+                if(value != null && NumberParser.TryParse(value, out parsed))
+                {
+                    opacity = parsed;
+                }
+                else
+                {
+                    opacity = null;
                 }
             }
         }
@@ -256,6 +280,22 @@ namespace OgrePlugin
             set
             {
                 specularColor = value;
+            }
+        }
+
+        public bool HasOpacityValue
+        {
+            get
+            {
+                return opacity != null;
+            }
+        }
+
+        public float OpacityValue
+        {
+            get
+            {
+                return opacity.Value;
             }
         }
 

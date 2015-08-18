@@ -205,6 +205,10 @@ float4 UnifiedFragmentShader
 		uniform float4 highlightColor,				//A color to multiply the final color by to create a highlight effect
 	#endif //HIGHLIGHT
 
+	#ifdef OPACITY
+		uniform float opacity,						//The opacity for an entire object if this is not defined by an opacity map
+	#endif //HIGHLIGHT
+
 	#ifdef ALPHA
 		uniform float4 alpha,
 	#endif
@@ -287,11 +291,20 @@ float4 UnifiedFragmentShader
 	color *= highlightColor;
 #endif //HIGHLIGHT
 
-#ifdef OPACITY_MAP
-	#ifdef ALPHA
-		color.a = opacityMapValue.r - (1.0f - alpha.a);
-	#else
-		color.a = opacityMapValue.r;
+#if defined(OPACITY_MAP) || defined(OPACITY)
+	#ifdef OPACITY_MAP
+		#ifdef ALPHA
+			color.a = opacityMapValue.r - (1.0f - alpha.a);
+		#else
+			color.a = opacityMapValue.r;
+		#endif
+	#endif
+	#ifdef OPACITY
+		#ifdef ALPHA
+			color.a = opacity - (1.0f - alpha.a);
+		#else
+			color.a = opacity;
+		#endif
 	#endif
 #else //OPACITY_MAP
 	#ifdef ALPHA

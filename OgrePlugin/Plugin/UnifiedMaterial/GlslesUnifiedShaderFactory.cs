@@ -178,12 +178,12 @@ namespace OgrePlugin
 
         #region Fragment Programs
 
-        protected override HighLevelGpuProgramSharedPtr setupUnifiedFrag(String name, TextureMaps maps, bool alpha, bool glossMap, bool highlight)
+        protected override HighLevelGpuProgramSharedPtr setupUnifiedFrag(String name, MaterialDescription description, TextureMaps maps, bool alpha)
         {
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsles", GpuProgramType.GPT_FRAGMENT_PROGRAM);
 
             program.Value.SourceFile = UnifiedShaderBase + "UnifiedFS.glsl";
-            program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines(maps, alpha, glossMap, highlight));
+            program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines(maps, alpha, description.HasGlossMap, description.IsHighlight, description.HasOpacityValue));
             program.Value.load();
 
             using (var defaultParams = program.Value.getDefaultParameters())
@@ -213,7 +213,7 @@ namespace OgrePlugin
                 defaultParams.Value.setNamedAutoConstant("lightDiffuseColor", AutoConstantType.ACT_LIGHT_DIFFUSE_COLOUR, 0);
                 defaultParams.Value.setNamedAutoConstant("emissiveColor", AutoConstantType.ACT_SURFACE_EMISSIVE_COLOUR);
 
-                if (glossMap)
+                if (description.HasGlossMap)
                 {
                     defaultParams.Value.setNamedConstant("glossyStart", 40.0f);
                     defaultParams.Value.setNamedConstant("glossyRange", 0.0f);
@@ -234,7 +234,7 @@ namespace OgrePlugin
                     defaultParams.Value.setNamedAutoConstant("specularColor", AutoConstantType.ACT_SURFACE_SPECULAR_COLOUR);
                 }
 
-                if (highlight)
+                if (description.IsHighlight)
                 {
                     defaultParams.Value.setNamedAutoConstant("highlightColor", AutoConstantType.ACT_CUSTOM, 1);
                 }
@@ -271,7 +271,7 @@ namespace OgrePlugin
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsles", GpuProgramType.GPT_FRAGMENT_PROGRAM);
 
             program.Value.SourceFile = EyeShaderBase + "EyeOuterFP.glsl";
-            program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines(TextureMaps.None, alpha, false, false));
+            program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines(TextureMaps.None, alpha, false, false, false));
 
             using (var defaultParams = program.Value.getDefaultParameters())
             {
