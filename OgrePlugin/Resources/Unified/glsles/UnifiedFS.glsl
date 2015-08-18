@@ -141,6 +141,10 @@ vec2 vtexCoord(vec2 address, sampler2D indirectionTex, vec2 physicalSizeRecip, v
 	uniform vec4 highlightColor;		//A color to multiply the final color by to create a highlight effect
 #endif //HIGHLIGHT
 
+#ifdef OPACITY
+	uniform float opacity;				//The opacity for an entire object if this is not defined by an opacity map
+#endif //OPACITY
+
 #ifdef ALPHA
 	uniform vec4 alpha;
 #endif
@@ -233,11 +237,20 @@ void main()
 	gl_FragColor *= highlightColor;
 #endif //HIGHLIGHT
 
-#ifdef OPACITY_MAP
-	#ifdef ALPHA
-		gl_FragColor.a = opacityMapValue.r - (1.0 - alpha.a);
-	#else
-		gl_FragColor.a = opacityMapValue.r;
+#if defined(OPACITY_MAP) || defined(OPACITY)
+	#ifdef OPACITY_MAP
+		#ifdef ALPHA
+			gl_FragColor.a = opacityMapValue.r - (1.0f - alpha.a);
+		#else
+			gl_FragColor.a = opacityMapValue.r;
+		#endif
+	#endif
+	#ifdef OPACITY
+		#ifdef ALPHA
+			gl_FragColor.a = opacity - (1.0f - alpha.a);
+		#else
+			gl_FragColor.a = opacity;
+		#endif
 	#endif
 #else //OPACITY_MAP
 	#ifdef ALPHA

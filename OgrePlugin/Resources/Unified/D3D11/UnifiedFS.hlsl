@@ -207,7 +207,7 @@ float4 UnifiedFragmentShader
 
 	#ifdef OPACITY
 		uniform float opacity,						//The opacity for an entire object if this is not defined by an opacity map
-	#endif //HIGHLIGHT
+	#endif //OPACITY
 
 	#ifdef ALPHA
 		uniform float4 alpha,
