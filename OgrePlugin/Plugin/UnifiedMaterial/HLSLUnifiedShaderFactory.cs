@@ -31,7 +31,7 @@ namespace OgrePlugin
             program.Value.setParam("column_major_matrices", "false");
             program.Value.SkeletalAnimationIncluded = description.NumHardwareBones > 0;
             program.Value.NumberOfPoses = (ushort)description.NumHardwarePoses;
-            program.Value.setParam("preprocessor_defines", DetermineVertexPreprocessorDefines2(maps, description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
+            program.Value.setParam("preprocessor_defines", DetermineVertexPreprocessorDefines(maps, description.NumHardwareBones, description.NumHardwarePoses, description.Parity));
             program.Value.load();
 
             using (var defaultParams = program.Value.getDefaultParameters())
@@ -80,7 +80,7 @@ namespace OgrePlugin
             program.Value.setParam("column_major_matrices", "false");
             program.Value.SkeletalAnimationIncluded = numHardwareBones > 0;
             program.Value.NumberOfPoses = (ushort)numHardwarePoses;
-            program.Value.setParam("preprocessor_defines", DetermineVertexPreprocessorDefines(numHardwareBones, numHardwarePoses, false));
+            program.Value.setParam("preprocessor_defines", DetermineVertexPreprocessorDefines(TextureMaps.None, numHardwareBones, numHardwarePoses, false));
             program.Value.load();
 
             using (var defaultParams = program.Value.getDefaultParameters())
@@ -135,7 +135,7 @@ namespace OgrePlugin
             program.Value.setParam("column_major_matrices", "false");
             program.Value.SkeletalAnimationIncluded = numHardwareBones > 0;
             program.Value.NumberOfPoses = (ushort)numHardwarePoses;
-            program.Value.setParam("preprocessor_defines", DetermineVertexPreprocessorDefines(numHardwareBones, numHardwarePoses, false));
+            program.Value.setParam("preprocessor_defines", DetermineVertexPreprocessorDefines(TextureMaps.None, numHardwareBones, numHardwarePoses, false));
             program.Value.load();
 
             using (var defaultParams = program.Value.getDefaultParameters())
@@ -191,7 +191,7 @@ namespace OgrePlugin
             program.Value.SourceFile = UnifiedShaderBase + "UnifiedFS.hlsl";
             program.Value.setParam("entry_point", "UnifiedFragmentShader");
             program.Value.setParam("target", "ps_4_0");
-            program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines2(maps, alpha, glossMap, highlight));
+            program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines(maps, alpha, glossMap, highlight));
             program.Value.load();
 
             using (var defaultParams = program.Value.getDefaultParameters())
@@ -263,7 +263,7 @@ namespace OgrePlugin
             program.Value.SourceFile = EyeShaderBase + "Eye.hlsl";
             program.Value.setParam("entry_point", "eyeOuterFP");
             program.Value.setParam("target", "ps_4_0");
-            program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines(alpha));
+            program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines(TextureMaps.None, alpha, false, false));
 
             using (var defaultParams = program.Value.getDefaultParameters())
             {

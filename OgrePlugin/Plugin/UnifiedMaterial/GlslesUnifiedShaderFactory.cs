@@ -38,7 +38,7 @@ namespace OgrePlugin
 
             program.Value.SkeletalAnimationIncluded = numHardwareBones > 0;
             program.Value.NumberOfPoses = (ushort)numHardwarePoses;
-            program.Value.setParam("preprocessor_defines", DetermineVertexPreprocessorDefines(numHardwareBones, numHardwarePoses, false));
+            program.Value.setParam("preprocessor_defines", DetermineVertexPreprocessorDefines(TextureMaps.None, numHardwareBones, numHardwarePoses, false));
             program.Value.load();
 
             using (var defaultParams = program.Value.getDefaultParameters())
@@ -90,7 +90,7 @@ namespace OgrePlugin
 
             program.Value.SkeletalAnimationIncluded = numHardwareBones > 0;
             program.Value.NumberOfPoses = (ushort)numHardwarePoses;
-            program.Value.setParam("preprocessor_defines", DetermineVertexPreprocessorDefines(numHardwareBones, numHardwarePoses, false));
+            program.Value.setParam("preprocessor_defines", DetermineVertexPreprocessorDefines(TextureMaps.None, numHardwareBones, numHardwarePoses, false));
             program.Value.load();
 
             using (var defaultParams = program.Value.getDefaultParameters())
@@ -141,7 +141,7 @@ namespace OgrePlugin
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsles", GpuProgramType.GPT_FRAGMENT_PROGRAM);
 
             program.Value.SourceFile = UnifiedShaderBase + "UnifiedFS.glsl";
-            program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines2(maps, alpha, glossMap, highlight));
+            program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines(maps, alpha, glossMap, highlight));
             program.Value.load();
 
             using (var defaultParams = program.Value.getDefaultParameters())
@@ -229,7 +229,7 @@ namespace OgrePlugin
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsles", GpuProgramType.GPT_FRAGMENT_PROGRAM);
 
             program.Value.SourceFile = EyeShaderBase + "EyeOuterFP.glsl";
-            program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines(alpha));
+            program.Value.setParam("preprocessor_defines", DetermineFragmentPreprocessorDefines(TextureMaps.None, alpha, false, false));
 
             using (var defaultParams = program.Value.getDefaultParameters())
             {

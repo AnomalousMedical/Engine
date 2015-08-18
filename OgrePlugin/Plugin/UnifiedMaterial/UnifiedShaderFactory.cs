@@ -272,25 +272,7 @@ namespace OgrePlugin
             return baseName;
         }
 
-        protected String DetermineVertexPreprocessorDefines(int numHardwareBones, int numHardwarePoses, bool parity)
-        {
-            StringBuilder definesBuilder = new StringBuilder();
-            if (parity)
-            {
-                definesBuilder.AppendFormat("PARITY=1,");
-            }
-            if(numHardwareBones > 0)
-            {
-                definesBuilder.AppendFormat("BONES_PER_VERTEX={0},", numHardwareBones);
-            }
-            if(numHardwarePoses > 0)
-            {
-                definesBuilder.AppendFormat("POSE_COUNT={0},", numHardwarePoses);
-            }
-            return definesBuilder.ToString();
-        }
-
-        protected String DetermineVertexPreprocessorDefines2(TextureMaps maps, int numHardwareBones, int numHardwarePoses, bool parity)
+        protected String DetermineVertexPreprocessorDefines(TextureMaps maps, int numHardwareBones, int numHardwarePoses, bool parity)
         {
             StringBuilder definesBuilder = new StringBuilder();
             if (parity)
@@ -312,23 +294,7 @@ namespace OgrePlugin
             return definesBuilder.ToString();
         }
 
-        protected String DetermineFragmentPreprocessorDefines(bool alpha)
-        {
-            StringBuilder definesBuilder = new StringBuilder("VIRTUAL_TEXTURE=1,");
-            if(alpha)
-            {
-                definesBuilder.Append("ALPHA=1,");
-            }
-            switch(normalMapReadMode)
-            {
-                case NormaMapReadlMode.RG:
-                    definesBuilder.Append("RG_NORMALS=1,");
-                    break;
-            }
-            return definesBuilder.ToString();
-        }
-
-        protected String DetermineFragmentPreprocessorDefines2(TextureMaps maps, bool alpha, bool glossMap, bool highlight)
+        protected String DetermineFragmentPreprocessorDefines(TextureMaps maps, bool alpha, bool glossMap, bool highlight)
         {
             StringBuilder definesBuilder = new StringBuilder("VIRTUAL_TEXTURE=1,");
             if (alpha)
