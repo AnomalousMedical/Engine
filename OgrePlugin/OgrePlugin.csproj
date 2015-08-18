@@ -276,9 +276,6 @@
     <EmbeddedResource Include="Resources\Unified\glsl\HiddenVP.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsl\Lighting.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsl\MainVP.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsl\MainVPHardwareSkin.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsl\NoTexturesVP.glsl" />
-    <EmbeddedResource Include="Resources\Unified\glsl\NoTexturesVPHardwareSkin.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsl\Pack.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsl\Unpack.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsl\FeedbackBufferVP.glsl" />
