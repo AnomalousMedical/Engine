@@ -20,7 +20,7 @@ vec2 vtexCoord(vec2 address, sampler2D indirectionTex, vec2 physicalSizeRecip, v
 	float mipLevel = texMipLevel(address, mipBiasSize);
 
 	//Need to add bias for mip levels, the bias adjusts the size of the indirection texture to the size of the physical texture
-	vec4 redirectInfo = texture2D(indirectionTex, address.xy, pageSizeLog2); //Need to do mip level here
+	vec4 redirectInfo = texture2D(indirectionTex, address.xy, pageSizeLog2);
 
 	float mip2 = floor(exp2(redirectInfo.b * 255.0) + 0.5); //Figure out how far to shift the original address, based on the mip level, highest mip level (1x1 indirection texture) is 0 counting up from there
 	vec2 coordLow = fract(address * mip2); //Get fractional part of page location, this is shifted left by the mip level
