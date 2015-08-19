@@ -359,7 +359,7 @@ namespace OgrePlugin.VirtualTexture
         /// The log2 of the page size, some shaders need this to compute correctly. To use this property
         /// in a shader program define a uniform named pageSizeLog2 in your shader.
         /// </summary>
-        public int PageSizeLog2
+        public float PageSizeLog2
         {
             get
             {
@@ -435,17 +435,14 @@ namespace OgrePlugin.VirtualTexture
             if (gpuParams.Value.hasNamedConstant("physicalSizeRecip"))
             {
                 gpuParams.Value.setNamedConstant("physicalSizeRecip", PhysicalSizeRecrip);
-                if (gpuParams.Value.hasNamedConstant("pageSizeLog2"))
-                {
-                    gpuParams.Value.setNamedConstant("pageSizeLog2", new Vector2(PageSizeLog2, PageSizeLog2));
-                }
-                else
-                {
-                    var realSize = indirectionTexture.RealTextureSize;
-                    gpuParams.Value.setNamedConstant("mipBiasSize", new Vector2(realSize.Width, realSize.Height));
-                }
+                var realSize = indirectionTexture.RealTextureSize;
+                gpuParams.Value.setNamedConstant("mipBiasSize", new Vector2(realSize.Width, realSize.Height));
                 gpuParams.Value.setNamedConstant("pagePaddingScale", TextureLoader.PagePaddingScale);
                 gpuParams.Value.setNamedConstant("pagePaddingOffset", TextureLoader.PagePaddingOffset);
+                if (gpuParams.Value.hasNamedConstant("pageSizeLog2"))
+                {
+                    gpuParams.Value.setNamedConstant("pageSizeLog2", PageSizeLog2);
+                }
             }
             else
             {

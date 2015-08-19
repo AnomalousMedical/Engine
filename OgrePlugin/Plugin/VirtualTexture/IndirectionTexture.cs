@@ -1,4 +1,6 @@
-﻿using Engine;
+﻿//#define DEBUG_MIPMAP_LEVELS
+
+using Engine;
 using OgrePlugin;
 using System;
 using System.Collections.Generic;
@@ -11,6 +13,32 @@ namespace OgrePlugin.VirtualTexture
 {
     public class IndirectionTexture : IDisposable
     {
+# if DEBUG_MIPMAP_LEVELS
+        static FreeImageAPI.Color[] mipColors = new FreeImageAPI.Color[17];
+        static IndirectionTexture()
+        {
+            //Colors from https://en.wikipedia.org/wiki/List_of_Crayola_crayon_colors#24_pack_Mini_Twistables
+
+            mipColors[0] = new FreeImageAPI.Color() { R = 28, G = 172, B = 120, A = 255 }; //Green
+            mipColors[1] = new FreeImageAPI.Color() { R = 238, G = 32, B = 77, A = 255 }; //Red
+            mipColors[2] = new FreeImageAPI.Color() { R = 31, G = 117, B = 254, A = 255 }; //Blue
+            mipColors[3] = new FreeImageAPI.Color() { R = 115, G = 102, B = 189, A = 255 }; //Blue Violet
+            mipColors[4] = new FreeImageAPI.Color() { R = 180, G = 103, B = 77, A = 255 }; //Brown
+            mipColors[5] = new FreeImageAPI.Color() { R = 255, G = 170, B = 204, A = 255 }; //Carnation Pink
+            mipColors[6] = new FreeImageAPI.Color() { R = 253, G = 219, B = 109, A = 255 }; //Dandelion
+            mipColors[7] = new FreeImageAPI.Color() { R = 149, G = 145, B = 140, A = 255 }; //Gray
+            mipColors[8] = new FreeImageAPI.Color() { R = 255, G = 117, B = 56, A = 255 }; //Orange
+            mipColors[9] = new FreeImageAPI.Color() { R = 0, G = 0, B = 0, A = 255 }; //Black
+            mipColors[10] = new FreeImageAPI.Color() { R = 253, G = 217, B = 181, A = 255 }; //Apricot
+            mipColors[11] = new FreeImageAPI.Color() { R = 192, G = 68, B = 143, A = 255 }; //Red Violet
+            mipColors[12] = new FreeImageAPI.Color() { R = 255, G = 255, B = 255, A = 255 }; //White
+            mipColors[13] = new FreeImageAPI.Color() { R = 252, G = 232, B = 131, A = 255 }; //Yellow
+            mipColors[14] = new FreeImageAPI.Color() { R = 197, G = 227, B = 132, A = 255 }; //Yellow Green
+            mipColors[15] = new FreeImageAPI.Color() { R = 255, G = 174, B = 66, A = 255 }; //Yellow Orange
+            mipColors[16] = new FreeImageAPI.Color() { R = 246, G = 83, B = 166, A = 255 }; //Permanent Magenta
+        }
+#endif
+
         static byte currentId = 0;
         static byte maxId = 254;
         static HashSet<byte> pooledIds = new HashSet<byte>(); //A hash set of ids that have been returned to the pool, this should normally be empty unless you unload a huge amount of texture sets.
@@ -84,6 +112,9 @@ namespace OgrePlugin.VirtualTexture
             for (int i = 0; i < highestMip; ++i)
             {
                 fiBitmap[i] = new FreeImageAPI.FreeImageBitmap((int)indirectionTexture.Value.Width >> i, (int)indirectionTexture.Value.Height >> i, FreeImageAPI.PixelFormat.Format32bppArgb);
+#if DEBUG_MIPMAP_LEVELS
+                fiBitmap[i].FillBackground(new FreeImageAPI.RGBQUAD(mipColors[i]));
+#endif
                 buffer[i] = indirectionTexture.Value.getBuffer(0, (uint)i);
                 unsafe
                 {
@@ -226,6 +257,7 @@ namespace OgrePlugin.VirtualTexture
         internal void addPhysicalPage(PTexPage pTexPage)
         {
             updateTextureOnApply = true;
+#if !DEBUG_MIPMAP_LEVELS
             //Store 1x1 as mip 0, 2x2 as 1 4x4 as 2 etc, this way we can directly shift the decimal place
             //Then we will take fract from that
             //Store the page address as bytes
@@ -239,6 +271,7 @@ namespace OgrePlugin.VirtualTexture
 
             fiBitmap[vTextPage.mip].SetPixel(vTextPage.x, vTextPage.y, color);
             fillOutLowerMips(vTextPage, color, (c1, c2) => c1.B - c2.B >= 0);
+#endif
         }
 
         internal void removePhysicalPage(PTexPage pTexPage)

@@ -34,7 +34,7 @@ vec3 unpack(vec3 toUnpack);
 
 float texMipLevel(vec2 coord, vec2 texSize);
 
-vec2 vtexCoord(vec2 address, sampler2D indirectionTex, vec2 physicalSizeRecip, vec2 mipBiasSize, vec2 pagePaddingScale, vec2 pagePaddingOffset);
+vec2 vtexCoord(vec2 address, sampler2D indirectionTex, vec2 physicalSizeRecip, vec2 mipBiasSize, vec2 pagePaddingScale, vec2 pagePaddingOffset, float pageSizeLog2);
 
 #endif
 
@@ -101,6 +101,7 @@ vec2 vtexCoord(vec2 address, sampler2D indirectionTex, vec2 physicalSizeRecip, v
 	uniform vec2 mipBiasSize;
 	uniform vec2 pagePaddingScale;
 	uniform vec2 pagePaddingOffset;
+	uniform float pageSizeLog2;
 #endif //VIRTUAL_TEXTURE
 
 //Universal
@@ -122,7 +123,7 @@ void main()
 #ifndef NO_MAPS
 	vec2 derivedCoords = texCoords;
 	#ifdef VIRTUAL_TEXTURE
-		derivedCoords = vtexCoord(texCoords, indirectionTex, physicalSizeRecip, mipBiasSize, pagePaddingScale, pagePaddingOffset);
+		derivedCoords = vtexCoord(texCoords, indirectionTex, physicalSizeRecip, mipBiasSize, pagePaddingScale, pagePaddingOffset, pageSizeLog2);
 	#endif //VIRTUAL_TEXTURE
 #endif //NO_MAPS
 

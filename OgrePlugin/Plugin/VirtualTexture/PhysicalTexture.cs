@@ -20,30 +20,6 @@ namespace OgrePlugin.VirtualTexture
 
     public class PhysicalTexture : IDisposable
     {
-        static FreeImageAPI.Color[] mipColors = new FreeImageAPI.Color[17];
-        static PhysicalTexture()
-        {
-            //Colors from https://en.wikipedia.org/wiki/List_of_Crayola_crayon_colors#24_pack_Mini_Twistables
-
-            mipColors[0] =  new FreeImageAPI.Color() { R = 28, G = 172, B = 120, A = 255 }; //Green
-            mipColors[1] =  new FreeImageAPI.Color() { R = 238, G = 32, B = 77, A = 255 }; //Red
-            mipColors[2] =  new FreeImageAPI.Color() { R = 31, G = 117, B = 254, A = 255 }; //Blue
-            mipColors[3] =  new FreeImageAPI.Color() { R = 115, G = 102, B = 189, A = 255 }; //Blue Violet
-            mipColors[4] =  new FreeImageAPI.Color() { R = 180, G = 103, B = 77, A = 255 }; //Brown
-            mipColors[5] =  new FreeImageAPI.Color() { R = 255, G = 170, B = 204, A = 255 }; //Carnation Pink
-            mipColors[6] =  new FreeImageAPI.Color() { R = 253, G = 219, B = 109, A = 255 }; //Dandelion
-            mipColors[7] =  new FreeImageAPI.Color() { R = 149, G = 145, B = 140, A = 255 }; //Gray
-            mipColors[8] =  new FreeImageAPI.Color() { R = 255, G = 117, B = 56, A = 255 }; //Orange
-            mipColors[9] =  new FreeImageAPI.Color() { R = 0, G = 0, B = 0, A = 255 }; //Black
-            mipColors[10] = new FreeImageAPI.Color() { R = 253, G = 217, B = 181, A = 255 }; //Apricot
-            mipColors[11] = new FreeImageAPI.Color() { R = 192, G = 68, B = 143, A = 255 }; //Red Violet
-            mipColors[12] = new FreeImageAPI.Color() { R = 255, G = 255, B = 255, A = 255 }; //White
-            mipColors[13] = new FreeImageAPI.Color() { R = 252, G = 232, B = 131, A = 255 }; //Yellow
-            mipColors[14] = new FreeImageAPI.Color() { R = 197, G = 227, B = 132, A = 255 }; //Yellow Green
-            mipColors[15] = new FreeImageAPI.Color() { R = 255, G = 174, B = 66, A = 255 }; //Yellow Orange
-            mipColors[16] = new FreeImageAPI.Color() { R = 246, G = 83, B = 166, A = 255 }; //Permanent Magenta
-        }
-
         private TexturePtr physicalTexture;
         private HardwarePixelBufferSharedPtr buffer;
         private String textureName;
