@@ -580,7 +580,7 @@ namespace OgrePlugin
         private static void setupIndirectionTexture(Pass pass, IndirectionTexture indirectionTexture)
         {
             var indirectionTextureUnit = pass.createTextureUnitState(indirectionTexture.TextureName);
-            indirectionTextureUnit.setFilteringOptions(FilterOptions.Point, FilterOptions.Point, FilterOptions.None);
+            indirectionTextureUnit.setFilteringOptions(FilterOptions.Point, FilterOptions.Point, FilterOptions.Point);
         }
     }
 }
