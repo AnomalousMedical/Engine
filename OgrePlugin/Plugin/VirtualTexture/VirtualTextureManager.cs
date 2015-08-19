@@ -31,6 +31,7 @@ namespace OgrePlugin.VirtualTexture
         private int updateBufferFrame = 2;
         private Phase phase = Phase.InitialLoad; //All indirection textures will be created requesting their lowest mip levels, this will force us to load those as quickly as possible
         private int texelsPerPage;
+        private float pageSizeLog2;
         private int padding;
         private CompressedTextureSupport textureFormat;
         private IntSize2 physicalTextureSize;
@@ -48,6 +49,7 @@ namespace OgrePlugin.VirtualTexture
         {
             this.physicalTextureSize = physicalTextureSize;
             this.texelsPerPage = texelsPerPage;
+            this.pageSizeLog2 = (float)Math.Log(texelsPerPage, 2.0);
             if (!OgreResourceGroupManager.getInstance().resourceGroupExists(VirtualTextureManager.ResourceGroup))
             {
                 OgreResourceGroupManager.getInstance().createResourceGroup(VirtualTextureManager.ResourceGroup);
@@ -356,18 +358,6 @@ namespace OgrePlugin.VirtualTexture
         public float MipSampleBias { get; set; }
 
         /// <summary>
-        /// The log2 of the page size, some shaders need this to compute correctly. To use this property
-        /// in a shader program define a uniform named pageSizeLog2 in your shader.
-        /// </summary>
-        public float PageSizeLog2
-        {
-            get
-            {
-                return (int)Math.Log(texelsPerPage, 2.0); //Should be this
-            }
-        }
-
-        /// <summary>
         /// The visibility mask for the opaque feedback buffer.
         /// </summary>
         public uint OpaqueFeedbackBufferVisibilityMask
@@ -441,7 +431,7 @@ namespace OgrePlugin.VirtualTexture
                 gpuParams.Value.setNamedConstant("pagePaddingOffset", TextureLoader.PagePaddingOffset);
                 if (gpuParams.Value.hasNamedConstant("pageSizeLog2"))
                 {
-                    gpuParams.Value.setNamedConstant("pageSizeLog2", PageSizeLog2);
+                    gpuParams.Value.setNamedConstant("pageSizeLog2", pageSizeLog2);
                 }
             }
             else
