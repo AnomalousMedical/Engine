@@ -81,6 +81,8 @@ namespace OgrePlugin.VirtualTexture
 
         public void uploadTexturesToGpu()
         {
+            PerformanceMonitor.start("Virtual Texture Staging Texture Upload");
+
             for (int u = 0; u < stagingPhysicalPages.Length; ++u)
             {
                 stagingPhysicalPages[u].copyToGpu(Dest);
@@ -95,6 +97,8 @@ namespace OgrePlugin.VirtualTexture
             {
                 newIndirectionTextureStaging.uploadToGpu();
             }
+
+            PerformanceMonitor.stop("Virtual Texture Staging Texture Upload");
         }
 
         internal void setPhysicalPage(PixelBox sourceBox, PhysicalTexture physicalTexture, int padding)
