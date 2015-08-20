@@ -396,6 +396,23 @@ namespace OgrePlugin.VirtualTexture
             }
         }
 
+        /// <summary>
+        /// Since the dx11 and opengl drivers treat these textures
+        /// slightly differently we must base the usage off the current render system.
+        /// This property takes care of that.
+        /// </summary>
+        internal TextureUsage RendersystemSpecificTextureUsage
+        {
+            get
+            {
+                if(OgreInterface.Instance.ChosenRenderSystem == RenderSystemType.D3D11)
+                {
+                    return TextureUsage.TU_STATIC_WRITE_ONLY;
+                }
+                return TextureUsage.TU_DYNAMIC_WRITE_ONLY;
+            }
+        }
+
         //New System
         /// <summary>
         /// Create or retrieve an indirection texture, will return true if the texture was just created. Useful

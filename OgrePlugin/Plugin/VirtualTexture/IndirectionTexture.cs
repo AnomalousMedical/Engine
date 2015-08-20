@@ -102,7 +102,7 @@ namespace OgrePlugin.VirtualTexture
             }
             for (highestMip = 0; realTextureSize.Width >> highestMip >= texelsPerPage && realTextureSize.Height >> highestMip >= texelsPerPage; ++highestMip) { }
             indirectionTexture = TextureManager.getInstance().createManual(String.Format("{0}_IndirectionTexture_{1}", materialSetKey, id), VirtualTextureManager.ResourceGroup, TextureType.TEX_TYPE_2D,
-                (uint)numPages.Width, (uint)numPages.Height, 1, highestMip, PixelFormat.PF_A8R8G8B8, TextureUsage.TU_STATIC_WRITE_ONLY, null, false, 0);
+                (uint)numPages.Width, (uint)numPages.Height, 1, highestMip, PixelFormat.PF_A8R8G8B8, virtualTextureManager.RendersystemSpecificTextureUsage, null, false, 0);
             indirectionTexture.Value.AllowMipmapGeneration = false;
 
             fiBitmap = new FreeImageAPI.FreeImageBitmap[highestMip];

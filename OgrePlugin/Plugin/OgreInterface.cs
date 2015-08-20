@@ -68,6 +68,7 @@ namespace OgrePlugin
         private MaterialParserManager materialParser = new MaterialParserManager();
         private OgreResourceManager ogreResourceManager;
         private RenderSystem rs;
+        private RenderSystemType chosenRenderSystem;
 
         private delegate OgreSceneManagerDefinition CreateSceneManagerDefinition(String name);
         private delegate SceneNodeDefinition CreateSceneNodeDefinition(String name);
@@ -130,11 +131,11 @@ namespace OgrePlugin
         {
             //Load config
             new OgreConfig(pluginManager.ConfigFile);
-            RenderSystemType renderSystemType = OgreConfig.RenderSystemType;
+            chosenRenderSystem = OgreConfig.RenderSystemType;
 
             //Setup ogre root
             root = new Root("", "", "");
-            renderSystemPlugin = OgreInterface_LoadRenderSystem(renderSystemType);
+            renderSystemPlugin = OgreInterface_LoadRenderSystem(chosenRenderSystem);
             ogreUpdate = new OgreUpdate(root);
             instance = this;
 
@@ -144,7 +145,7 @@ namespace OgrePlugin
             try
             {
                 //Initialize Ogre
-                rs = root._getRenderSystemWrapper(OgreInterface_GetRenderSystem(renderSystemType));
+                rs = root._getRenderSystemWrapper(OgreInterface_GetRenderSystem(ref chosenRenderSystem));
                 root.setRenderSystem(rs);
                 root.initialize(false);
 
@@ -306,6 +307,14 @@ namespace OgrePlugin
             get
             {
                 return materialParser;
+            }
+        }
+
+        public RenderSystemType ChosenRenderSystem
+        {
+            get
+            {
+                return chosenRenderSystem;
             }
         }
 
@@ -551,7 +560,7 @@ namespace OgrePlugin
         private static extern void OgreInterface_UnloadRenderSystem(IntPtr renderSystemPlugin);
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr OgreInterface_GetRenderSystem(RenderSystemType rendersystemType);
+        private static extern IntPtr OgreInterface_GetRenderSystem(ref RenderSystemType rendersystemType);
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern CompressedTextureSupport OgreInterface_SetupVaryingCompressedTextures(CompressedTextureSupport compressedTextures);

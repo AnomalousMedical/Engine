@@ -62,7 +62,7 @@ namespace OgrePlugin.VirtualTexture
             }
 
             physicalTexture = TextureManager.getInstance().createManual(textureName, VirtualTextureManager.ResourceGroup, TextureType.TEX_TYPE_2D,
-                        (uint)size.Width, (uint)size.Height, 1, 0, pixelFormat, TextureUsage.TU_DEFAULT, null, false, 0);
+                        (uint)size.Width, (uint)size.Height, 1, 0, pixelFormat, virtualTextureManager.RendersystemSpecificTextureUsage, null, false, 0);
             buffer = physicalTexture.Value.getBuffer();
         }
 

@@ -108,7 +108,7 @@ extern "C" _AnomalousExport void OgreInterface_UnloadRenderSystem(Ogre::Plugin* 
 	}
 }
 
-extern "C" _AnomalousExport Ogre::RenderSystem* OgreInterface_GetRenderSystem(RenderSystemType rendersystemType)
+extern "C" _AnomalousExport Ogre::RenderSystem* OgreInterface_GetRenderSystem(RenderSystemType& rendersystemType)
 {
 #if defined(WINDOWS) || defined(WINRT)
 	String defaultRenderSystem = "Direct3D11 Rendering Subsystem";
@@ -155,7 +155,6 @@ extern "C" _AnomalousExport Ogre::RenderSystem* OgreInterface_GetRenderSystem(Re
 	//Determine any custom settings needed all the time, rendersystemType here
 	//will be an actual rendersystem and not the default as we will have determined
 	//what it is by this point.
-	//Disabled for now, but this is where you do it.
 	switch (rendersystemType)
 	{
 	case D3D11:
