@@ -135,7 +135,7 @@ namespace OgrePlugin
 
             //Setup ogre root
             root = new Root("", "", "");
-            renderSystemPlugin = OgreInterface_LoadRenderSystem(chosenRenderSystem);
+            renderSystemPlugin = OgreInterface_LoadRenderSystem(ref chosenRenderSystem);
             ogreUpdate = new OgreUpdate(root);
             instance = this;
 
@@ -554,7 +554,7 @@ namespace OgrePlugin
         #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr OgreInterface_LoadRenderSystem(RenderSystemType rendersystemType);
+        private static extern IntPtr OgreInterface_LoadRenderSystem(ref RenderSystemType rendersystemType);
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void OgreInterface_UnloadRenderSystem(IntPtr renderSystemPlugin);

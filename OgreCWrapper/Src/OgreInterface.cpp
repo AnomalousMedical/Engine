@@ -32,6 +32,20 @@ enum CompressedTextureSupport
 };
 
 #if defined(WINDOWS) || defined(WINRT)
+#include "D3D11.h"
+
+//This function detects if we can use d3d11 or not, note that it is also providing valuble linking to
+//the d3d11 libraries, if this function is removed you will get crashes on shutdown, if in the future you no 
+//longer need it extern it to force the compiler to load it and then just never call it. We did this in the
+//past for a no-op, but then it became useful to actually do this detection.
+bool useD3D11()
+{
+	D3D_FEATURE_LEVEL lvl[] = { D3D_FEATURE_LEVEL_11_1, D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_10_1, D3D_FEATURE_LEVEL_10_0 };
+	ID3D11Device* pDevice = nullptr;
+	HRESULT hr = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, lvl, _countof(lvl), D3D11_SDK_VERSION, &pDevice, nullptr, nullptr);
+
+	return !FAILED(hr);
+}
 #if _DEBUG
 String Direct3D11_Library = "RenderSystem_Direct3D11_d.dll";
 String OpenGL_Library = "RenderSystem_GL_d.dll";
@@ -43,7 +57,7 @@ String OpenGLES2_Library = "RenderSystem_GLES2.dll";
 #endif
 #endif
 
-extern "C" _AnomalousExport Ogre::Plugin* OgreInterface_LoadRenderSystem(RenderSystemType rendersystemType)
+extern "C" _AnomalousExport Ogre::Plugin* OgreInterface_LoadRenderSystem(RenderSystemType& rendersystemType)
 {
 	Ogre::Plugin* plugin = NULL; //We always return a plugin even if it is null, plugins are only loaded directly when built statically
 
@@ -52,6 +66,7 @@ extern "C" _AnomalousExport Ogre::Plugin* OgreInterface_LoadRenderSystem(RenderS
 	Ogre::GLES2Plugin* gles2Plugin = new Ogre::GLES2Plugin(); //Will be delete by the managed code when this is returned.
 	Ogre::Root::getSingleton().installPlugin(gles2Plugin);
 	plugin = gles2Plugin;
+	rendersystemType = OpenGLES2;
 #endif
 #else
 
@@ -59,11 +74,13 @@ extern "C" _AnomalousExport Ogre::Plugin* OgreInterface_LoadRenderSystem(RenderS
 #ifdef MAC_OSX
 	name = "/@macBundlePath/../../Frameworks/RenderSystem_GL.framework";
     Ogre::String defaultRenderSystem = name;
+	rendersystemType = OpenGL;
 #endif
 
 #ifdef ANDROID
 	name = "libRenderSystem_GLES2.so.1.10.0.so";
 	Ogre::String defaultRenderSystem = name;
+	rendersystemType = OpenGLES2;
 #endif
 
 #if defined(WINDOWS) || defined(WINRT)
@@ -72,7 +89,19 @@ extern "C" _AnomalousExport Ogre::Plugin* OgreInterface_LoadRenderSystem(RenderS
 	switch (rendersystemType)
 	{
 	case Default:
-		name = defaultRenderSystem;
+		//By default on windows we use d3d11 unless the user has d3d9 era hardware, then we use opengl.
+		//If they explicitly define a render system then we will use that.
+		//Check support for d3d11.
+		if (useD3D11())
+		{
+			name = Direct3D11_Library;
+			rendersystemType = D3D11;
+		}
+		else
+		{
+			name = OpenGL_Library;
+			rendersystemType = OpenGL;
+		}
 		break;
 	case D3D11:
 		name = Direct3D11_Library;
