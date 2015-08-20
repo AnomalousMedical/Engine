@@ -34,7 +34,7 @@ namespace OgrePlugin
 #if NEVER_CACHE_SHADERS
         public static readonly String Version = Guid.NewGuid().ToString();
 #else
-        public static readonly String Version = "7.0";
+        public static readonly String Version = "8.0";
 #endif
 
         private const String GroupName = "UnifiedMaterialBuilder__Reserved";
