@@ -103,6 +103,8 @@ namespace OgreModelEditor
             OgreModelEditorConfig.LastShaderVersion = UnifiedMaterialBuilder.Version;
             OgreInterface.TrackMemoryLeaks = true;
 
+            NativePlatformPlugin.addPath(OgreModelEditorConfig.OpenGLESEmulatorPath);
+
             pluginManager = new PluginManager(OgreModelEditorConfig.ConfigFile);
             pluginManager.OnConfigureDefaultWindow = createWindow;
             pluginManager.addPluginAssembly(typeof(OgreInterface).Assembly);

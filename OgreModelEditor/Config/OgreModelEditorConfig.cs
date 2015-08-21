@@ -59,6 +59,18 @@ namespace OgreModelEditor
             }
         }
 
+        public static String OpenGLESEmulatorPath
+        {
+            get
+            {
+                return modelEditorSection.getValue("OpenGLESEmulatorPath", default(String));
+            }
+            set
+            {
+                modelEditorSection.setValue("OpenGLESEmulatorPath", value);
+            }
+        }
+
         public static void save()
         {
             configFile.writeConfigFile();

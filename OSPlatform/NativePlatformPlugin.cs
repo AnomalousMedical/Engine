@@ -40,12 +40,7 @@ namespace Anomalous.OSPlatform
                 }
                 if (Directory.Exists(nativeLibPath))
                 {
-                    //Make sure this folder has not already been added to the path.
-                    String currentPathSetting = Environment.GetEnvironmentVariable("PATH");
-                    if (!currentPathSetting.Contains(nativeLibPath))
-                    {
-                        Environment.SetEnvironmentVariable("PATH", String.Format("{0};{1}", currentPathSetting, nativeLibPath));
-                    }
+                    addPath(nativeLibPath);
                 }
             }
             catch (Exception) { }
@@ -66,6 +61,20 @@ namespace Anomalous.OSPlatform
                     break;
                 default:
                     throw new Exception("Could not find platform configuration.");
+            }
+        }
+
+        /// <summary>
+        /// Add a path to the platform's library search path.
+        /// </summary>
+        /// <param name="path"></param>
+        public static void addPath(String path)
+        {
+            //Make sure this folder has not already been added to the path.
+            String currentPathSetting = Environment.GetEnvironmentVariable("PATH");
+            if (!String.IsNullOrEmpty(path) && !currentPathSetting.Contains(path))
+            {
+                Environment.SetEnvironmentVariable("PATH", String.Format("{0};{1}", currentPathSetting, path));
             }
         }
 

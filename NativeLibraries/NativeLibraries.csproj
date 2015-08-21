@@ -35,22 +35,6 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="..\..\Dependencies\angle-ms\src\Debug_Win32\libEGL.dll">
-      <Link>Debug\x86\libEGL.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\Dependencies\angle-ms\src\Debug_Win32\libGLESv2.dll">
-      <Link>Debug\x86\libGLESv2.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\Dependencies\angle-ms\src\Release_Win32\libEGL.dll">
-      <Link>Release\x86\libEGL.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\Dependencies\angle-ms\src\Release_Win32\libGLESv2.dll">
-      <Link>Release\x86\libGLESv2.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\..\Dependencies\FreeImage.NET\WindowsBuild\bin\Debug\FreeImage_d.dll">
       <Link>Debug\x86\FreeImage.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
