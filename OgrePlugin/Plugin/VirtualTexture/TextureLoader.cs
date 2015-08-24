@@ -377,7 +377,7 @@ namespace OgrePlugin.VirtualTexture
                 //Single threaded
                 //foreach (var textureUnit in indirectionTexture.OriginalTextures)
                 //{
-                //    if (copyToStaging(page, stagingImageIndex++, indirectionTexture, textureUnit))
+                //    if (copyToStaging(page, stagingBuffers, indirectionTexture, textureUnit))
                 //    {
                 //        usedPhysicalPage = true;
                 //    }

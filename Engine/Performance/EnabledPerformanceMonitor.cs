@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine.Platform;
+using System.Collections.Concurrent;
 
 namespace Engine.Performance
 {
     class EnabledPerformanceMonitor : PerformanceMonitorState
     {
-        private object lockObj = new object();
         private SystemTimer timer;
-        private Dictionary<String, Timelapse> timelapses = new Dictionary<string, Timelapse>();
+        private ConcurrentDictionary<String, Timelapse> timelapses = new ConcurrentDictionary<string, Timelapse>();
+        private ConcurrentDictionary<String, Timelapse> newTimelapses = new ConcurrentDictionary<string, Timelapse>();
 
         public EnabledPerformanceMonitor(SystemTimer timer)
         {
@@ -20,14 +21,24 @@ namespace Engine.Performance
 
         public void start(string name)
         {
-            Timelapse timelapse = getTimelapse(name);
-            timelapse.StartTime = timer.getCurrentTime() / 1000;
+            long time = timer.getCurrentTime() / 1000;
+            Timelapse timelapse = newTimelapses.GetOrAdd(name, passName => new Timelapse(passName) { StartTime = time } );
+            timelapse.StartTime = time;
         }
 
         public void stop(string name)
         {
-            Timelapse timelapse = getTimelapse(name);
-            timelapse.EndTime = timer.getCurrentTime() / 1000;
+            Timelapse timelapse;
+            if (newTimelapses.TryRemove(name, out timelapse))
+            {
+                timelapse.EndTime = timer.getCurrentTime() / 1000;
+                timelapses.AddOrUpdate(name, timelapse, (key, value) =>
+                {
+                    value.StartTime = timelapse.StartTime;
+                    value.EndTime = timelapse.EndTime;
+                    return value;
+                });
+            }
         }
 
         public Timelapse this[String name]
@@ -46,20 +57,6 @@ namespace Engine.Performance
             {
                 return timelapses.Values;
             }
-        }
-
-        private Timelapse getTimelapse(String name)
-        {
-            Timelapse timelapse;
-            if (!timelapses.TryGetValue(name, out timelapse))
-            {
-                lock (lockObj)
-                {
-                    timelapse = new Timelapse(name);
-                    timelapses.Add(name, timelapse);
-                }
-            }
-            return timelapse;
         }
     }
 }
