@@ -83,7 +83,7 @@ namespace Anomalous.GuiFramework.Cameras
             transparencyStateName = name;
             NearPlaneWorld = 200;
             NearFarLength = 400;
-            MinNearDistance = 15;
+            MinNearDistance = 1;
         }
 
         /// <summary>
@@ -757,8 +757,7 @@ namespace Anomalous.GuiFramework.Cameras
         public float NearFarLength { get; set; }
 
         /// <summary>
-        /// The minimum distance that the near plane can be to the eye. If this is too close like 1 you will
-        /// get flimmering on some mobile devices. The default is 15.
+        /// The minimum distance that the near plane can be to the eye.
         /// </summary>
         public float MinNearDistance { get; set; }
 
