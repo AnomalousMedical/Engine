@@ -114,6 +114,7 @@
     <Compile Include="Plugin\VirtualTexture\OriginalTextureInfo.cs" />
     <Compile Include="Plugin\VirtualTexture\PhysicalTexture.cs" />
     <Compile Include="Plugin\VirtualTexture\PTexPage.cs" />
+    <Compile Include="Plugin\VirtualTexture\StagingBufferSet.cs" />
     <Compile Include="Plugin\VirtualTexture\StagingIndirectionTexture.cs" />
     <Compile Include="Plugin\VirtualTexture\StagingPhysicalPage.cs" />
     <Compile Include="Plugin\VirtualTexture\TextureCache.cs" />

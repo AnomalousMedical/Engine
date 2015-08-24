@@ -3,6 +3,7 @@ using Engine.ObjectManagement;
 using Engine.Threads;
 using OgrePlugin;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,6 +36,7 @@ namespace OgrePlugin.VirtualTexture
         private int padding;
         private CompressedTextureSupport textureFormat;
         private IntSize2 physicalTextureSize;
+        private int maxSyncPerFrame = int.MaxValue;
 
         private TextureLoader textureLoader;
 
@@ -44,6 +46,7 @@ namespace OgrePlugin.VirtualTexture
         private List<IndirectionTexture> activeIndirectionTextures = new List<IndirectionTexture>();
         private List<IndirectionTexture> retiredIndirectionTextures = new List<IndirectionTexture>();
         private List<IndirectionTexture> newIndirectionTextures = new List<IndirectionTexture>();
+        private ConcurrentStack<StagingBufferSet> waitingGpuSyncs = new ConcurrentStack<StagingBufferSet>();
 
         public VirtualTextureManager(int numPhysicalTextures, IntSize2 physicalTextureSize, int texelsPerPage, CompressedTextureSupport textureFormat, int stagingBufferCount, IntSize2 feedbackBufferSize, ulong maxCacheSizeBytes)
         {
@@ -97,7 +100,7 @@ namespace OgrePlugin.VirtualTexture
             //Be sure to dispose all retired textures
             lock (retiredIndirectionTextures)
             {
-                foreach(var indirectionTex in retiredIndirectionTextures)
+                foreach (var indirectionTex in retiredIndirectionTextures)
                 {
                     indirectionTex.Dispose();
                 }
@@ -207,13 +210,13 @@ namespace OgrePlugin.VirtualTexture
 
                                     //Activate new textures
                                     activateNewIndirectionTextures();
-                                }, 
+                                },
                                 currentRetiringTextures.Select(i => i.Id));
 
                             }
                             else
                             {
-                                if(newIndirectionTextures.Count > 0)
+                                if (newIndirectionTextures.Count > 0)
                                 {
                                     textureLoader.updatePagesFromRequests(activateNewIndirectionTextures);
                                 }
@@ -260,6 +263,7 @@ namespace OgrePlugin.VirtualTexture
                 }
             }
             frameCount = (frameCount + 1) % updateBufferFrame;
+            uploadStagingToGpu();
         }
 
         private void activateNewIndirectionTextures()
@@ -291,7 +295,7 @@ namespace OgrePlugin.VirtualTexture
 
         public void destroyIndirectionTexture(IndirectionTexture indirectionTex)
         {
-            lock(newIndirectionTextures)
+            lock (newIndirectionTextures)
             {
                 //Make sure we aren't waiting to be activated as a new texture
                 newIndirectionTextures.Remove(indirectionTex);
@@ -325,7 +329,7 @@ namespace OgrePlugin.VirtualTexture
                 {
                     yield return opaqueFeedbackBuffer.TextureName;
                 }
-                if(transparentFeedbackBuffer.TextureName != null)
+                if (transparentFeedbackBuffer.TextureName != null)
                 {
                     yield return transparentFeedbackBuffer.TextureName;
                 }
@@ -349,6 +353,23 @@ namespace OgrePlugin.VirtualTexture
             get
             {
                 return texelsPerPage;
+            }
+        }
+
+        /// <summary>
+        /// This controls how many staging buffers are uploaded per frame. This way if you have lots
+        /// of memory but slow upload you can still allocate a lot of staging buffers but throttle their
+        /// upload with this property.
+        /// </summary>
+        public int MaxStagingUploadPerFrame
+        {
+            get
+            {
+                return maxSyncPerFrame;
+            }
+            set
+            {
+                maxSyncPerFrame = value;
             }
         }
 
@@ -405,11 +426,31 @@ namespace OgrePlugin.VirtualTexture
         {
             get
             {
-                if(OgreInterface.Instance.ChosenRenderSystem == RenderSystemType.D3D11)
+                if (OgreInterface.Instance.ChosenRenderSystem == RenderSystemType.D3D11)
                 {
                     return TextureUsage.TU_STATIC_WRITE_ONLY;
                 }
                 return TextureUsage.TU_DYNAMIC_WRITE_ONLY;
+            }
+        }
+
+        internal void syncToGpu(StagingBufferSet stagingBufferSet)
+        {
+            waitingGpuSyncs.Push(stagingBufferSet);
+        }
+
+        private void uploadStagingToGpu()
+        {
+            if (waitingGpuSyncs.Count > 0)
+            {
+                PerformanceMonitor.start("Virtual Texture Staging Texture Upload");
+                StagingBufferSet current;
+                for (int i = 0; i < maxSyncPerFrame && waitingGpuSyncs.TryPop(out current); ++i)
+                {
+                    current.uploadTexturesToGpu();
+                    textureLoader.returnStagingBuffer(current);
+                }
+                PerformanceMonitor.stop("Virtual Texture Staging Texture Upload");
             }
         }
 
@@ -428,7 +469,7 @@ namespace OgrePlugin.VirtualTexture
             {
                 indirectionTex = new IndirectionTexture(materialSetKey, textureSize, texelsPerPage, this, keepHighestMip);
                 indirectionTextures.Add(indirectionTex.MaterialSetKey, indirectionTex);
-                lock(newIndirectionTextures)
+                lock (newIndirectionTextures)
                 {
                     newIndirectionTextures.Add(indirectionTex);
                 }
