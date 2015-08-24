@@ -45,7 +45,7 @@ namespace OgrePlugin.VirtualTexture
         private List<IndirectionTexture> retiredIndirectionTextures = new List<IndirectionTexture>();
         private List<IndirectionTexture> newIndirectionTextures = new List<IndirectionTexture>();
 
-        public VirtualTextureManager(int numPhysicalTextures, IntSize2 physicalTextureSize, int texelsPerPage, CompressedTextureSupport textureFormat, int stagingBufferCount, IntSize2 feedbackBufferSize)
+        public VirtualTextureManager(int numPhysicalTextures, IntSize2 physicalTextureSize, int texelsPerPage, CompressedTextureSupport textureFormat, int stagingBufferCount, IntSize2 feedbackBufferSize, ulong maxCacheSizeBytes)
         {
             this.physicalTextureSize = physicalTextureSize;
             this.texelsPerPage = texelsPerPage;
@@ -69,7 +69,7 @@ namespace OgrePlugin.VirtualTexture
 
             opaqueFeedbackBuffer = new FeedbackBuffer(this, feedbackBufferSize, 0, 0x1);
             transparentFeedbackBuffer = new FeedbackBuffer(this, feedbackBufferSize, 1, 0x2);
-            textureLoader = new TextureLoader(this, physicalTextureSize, texelsPerPage, padding, stagingBufferCount, numPhysicalTextures, 6, 500 * 1024 * 1024);
+            textureLoader = new TextureLoader(this, physicalTextureSize, texelsPerPage, padding, stagingBufferCount, numPhysicalTextures, 6, maxCacheSizeBytes);
 
             MipSampleBias = -3.0f;
         }
