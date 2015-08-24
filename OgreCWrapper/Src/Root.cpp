@@ -164,6 +164,10 @@ extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindowParams(Og
 		params["externalWindowHandle"] = Ogre::StringConverter::toString(reinterpret_cast<size_t>(app->window));
 		params["androidConfig"] = Ogre::StringConverter::toString(reinterpret_cast<size_t>(config));
 		params["preserveContext"] = "true";
+		params["minDepthBufferSize"] = "32";
+		params["maxDepthBufferSize"] = "32";
+		params["minColourBufferSize"] = "32";
+		params["maxColourBufferSize"] = "32";
 #else
         params["externalWindowHandle"] = externalWindowHandle;
 #endif
