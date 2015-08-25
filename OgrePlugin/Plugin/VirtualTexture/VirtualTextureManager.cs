@@ -46,7 +46,7 @@ namespace OgrePlugin.VirtualTexture
         private List<IndirectionTexture> activeIndirectionTextures = new List<IndirectionTexture>();
         private List<IndirectionTexture> retiredIndirectionTextures = new List<IndirectionTexture>();
         private List<IndirectionTexture> newIndirectionTextures = new List<IndirectionTexture>();
-        private ConcurrentStack<StagingBufferSet> waitingGpuSyncs = new ConcurrentStack<StagingBufferSet>();
+        private ConcurrentQueue<StagingBufferSet> waitingGpuSyncs = new ConcurrentQueue<StagingBufferSet>();
 
         public VirtualTextureManager(int numPhysicalTextures, IntSize2 physicalTextureSize, int texelsPerPage, CompressedTextureSupport textureFormat, int stagingBufferCount, IntSize2 feedbackBufferSize, ulong maxCacheSizeBytes)
         {
@@ -436,7 +436,7 @@ namespace OgrePlugin.VirtualTexture
 
         internal void syncToGpu(StagingBufferSet stagingBufferSet)
         {
-            waitingGpuSyncs.Push(stagingBufferSet);
+            waitingGpuSyncs.Enqueue(stagingBufferSet);
         }
 
         private void uploadStagingToGpu()
@@ -445,7 +445,7 @@ namespace OgrePlugin.VirtualTexture
             {
                 PerformanceMonitor.start("Virtual Texture Staging Texture Upload");
                 StagingBufferSet current;
-                for (int i = 0; i < maxSyncPerFrame && waitingGpuSyncs.TryPop(out current); ++i)
+                for (int i = 0; i < maxSyncPerFrame && waitingGpuSyncs.TryDequeue(out current); ++i)
                 {
                     current.uploadTexturesToGpu();
                     textureLoader.returnStagingBuffer(current);
