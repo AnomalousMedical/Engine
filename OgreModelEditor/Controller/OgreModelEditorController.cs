@@ -440,6 +440,11 @@ namespace OgreModelEditor
             modelController.setNormalDebug();
         }
 
+        public void setParityDebug()
+        {
+            modelController.setParityDebug();
+        }
+
         public void setNormalMaterial()
         {
             modelController.setNormalMaterial();

@@ -120,6 +120,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Resources\DebugParity.program" />
+    <EmbeddedResource Include="Resources\DebugParity.material" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
@@ -178,6 +180,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\D3D11\DebugParity.hlsl" />
     <EmbeddedResource Include="GUI\SplashScreen\SplashIMG.png" />
     <EmbeddedResource Include="GUI\SplashScreen\SplashScreen.xml" />
     <EmbeddedResource Include="GUI\SplashScreen\SplashText.png" />

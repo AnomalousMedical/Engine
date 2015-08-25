@@ -101,6 +101,7 @@ namespace OgreModelEditor
             debug.addItemAction("View Binormals (F2)", viewBinormals);
             debug.addItemAction("View Tangents (F3)", viewTangents);
             debug.addItemAction("View Normals (F4)", viewNormals);
+            debug.addItemAction("View Parity", controller.setParityDebug);
             MenuItem viewTexture = debug.addItem("View Texture", MenuItemType.Popup);
             textureMenu = debug.createItemPopupMenuChild(viewTexture);
             showSkeleton = debug.addItemAction("Show Skeleton", changeShowSkeleton);

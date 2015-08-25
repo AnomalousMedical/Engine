@@ -138,6 +138,14 @@ namespace OgreModelEditor.Controller
         }
 
         /// <summary>
+        /// Set the parity debug shader.
+        /// </summary>
+        public void setParityDebug()
+        {
+            entity.setMaterialName("ParityDebug");
+        }
+
+        /// <summary>
         /// Render the model as normal.
         /// </summary>
         public void setNormalMaterial()

@@ -1,0 +1,20 @@
+material ParityDebug
+{
+	technique
+	{
+		pass Color
+		{
+			iteration once
+
+			vertex_program_ref DebugParityVP
+			{
+				
+			}
+
+			fragment_program_ref DebugParityFP
+			{
+				
+			}
+		}
+	}
+}

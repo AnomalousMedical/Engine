@@ -1,0 +1,34 @@
+//----------------------------
+//Vertex Shader
+//----------------------------
+vertex_program DebugParityVP_D3D11 hlsl
+{
+	source OgreModelEditor.Resources.D3D11.DebugParity.hlsl
+	entry_point mainVP
+	target vs_4_0
+	
+	default_params
+	{
+		param_named_auto worldViewProj worldviewproj_matrix
+	}
+}
+
+vertex_program DebugParityVP unified
+{
+	delegate DebugParityVP_D3D11
+}
+
+//----------------------------
+//Fragment Shader
+//----------------------------
+fragment_program DebugParityFP_D3D11 hlsl
+{
+	source OgreModelEditor.Resources.D3D11.DebugParity.hlsl
+	entry_point mainFP
+	target ps_4_0
+}
+
+fragment_program DebugParityFP unified
+{
+	delegate DebugParityFP_D3D11
+}
