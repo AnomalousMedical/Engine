@@ -475,6 +475,11 @@ namespace OgreModelEditor
             modelController.saveModelJSON(filename);
         }
 
+        internal void inverseTangentW()
+        {
+            modelController.inverseTangentW();
+        }
+
         public void createOneWindow()
         {
             sceneViewController.closeAllWindows();

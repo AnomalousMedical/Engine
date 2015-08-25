@@ -110,6 +110,7 @@ namespace OgreModelEditor
             MenuItem modelItem = menuBar.addItem("Model", MenuItemType.Popup);
             MenuControl model = menuBar.createItemPopupMenuChild(modelItem);
             model.addItemAction("Recalculate Tangents", recalculateTangents);
+            model.addItemAction("Invert Tangent W", controller.inverseTangentW);
 
             MenuItem windowItem = menuBar.addItem("Window", MenuItemType.Popup);
             MenuControl window = menuBar.createItemPopupMenuChild(windowItem);

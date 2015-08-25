@@ -229,6 +229,39 @@ namespace OgreModelEditor.Controller
             }
         }
 
+        public unsafe void inverseTangentW()
+        {
+            using (MeshPtr mesh = entity.getMesh())
+            {
+                SubMesh subMesh = mesh.Value.getSubMesh(0);
+                VertexData vertexData = subMesh.vertexData;
+                VertexDeclaration vertexDeclaration = vertexData.vertexDeclaration;
+                VertexBufferBinding vertexBinding = vertexData.vertexBufferBinding;
+                VertexElement tangentElement = vertexDeclaration.findElementBySemantic(VertexElementSemantic.VES_TANGENT);
+
+                int numVertices = vertexData.vertexCount.ToInt32();
+
+                HardwareVertexBufferSharedPtr tangentHardwareBuffer = vertexBinding.getBuffer(tangentElement.getSource());
+                int tangetVertexSize = tangentHardwareBuffer.Value.getVertexSize().ToInt32();
+                byte* tangentBuffer = (byte*)tangentHardwareBuffer.Value.lockBuf(HardwareBuffer.LockOptions.HBL_NORMAL);
+
+                Vector4* tangent;
+
+                for (int i = 0; i < numVertices; ++i)
+                {
+                    tangentElement.baseVertexPointerToElement(tangentBuffer, (float**)&tangent);
+
+                    tangent->w = -tangent->w;
+
+                    tangentBuffer += tangetVertexSize;
+                }
+
+                tangentHardwareBuffer.Value.unlock();
+
+                tangentHardwareBuffer.Dispose();
+            }
+        }
+
         public void removeBinormals()
         {
             //This code makes the editor crash and is currently not being called. Being left for reference.
