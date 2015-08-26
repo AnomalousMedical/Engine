@@ -13,6 +13,3 @@ set SolutionPath=%ThisFolder%%SolutionName%
 
 %BuildCommand% "%SolutionPath%" /property:Configuration=Release;Platform="arm" /target:Clean
 %BuildCommand% "%SolutionPath%" /property:Configuration=Release;Platform="arm"
-
-%BuildCommand% "%SolutionPath%" /property:Configuration=Release;Platform="x86-Android-NVIDIA" /target:Clean
-%BuildCommand% "%SolutionPath%" /property:Configuration=Release;Platform="x86-Android-NVIDIA"

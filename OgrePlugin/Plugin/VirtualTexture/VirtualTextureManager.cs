@@ -426,11 +426,15 @@ namespace OgrePlugin.VirtualTexture
         {
             get
             {
-                if (OgreInterface.Instance.ChosenRenderSystem == RenderSystemType.D3D11)
+                switch(OgreInterface.Instance.ChosenRenderSystem)
                 {
-                    return TextureUsage.TU_STATIC_WRITE_ONLY;
+                    case RenderSystemType.D3D11:
+                        return TextureUsage.TU_STATIC_WRITE_ONLY;
+                    //case RenderSystemType.OpenGLES2:
+                    //    return TextureUsage.TU_DYNAMIC_WRITE_ONLY_DISCARDABLE;
+                    default:
+                        return TextureUsage.TU_DYNAMIC_WRITE_ONLY;
                 }
-                return TextureUsage.TU_DYNAMIC_WRITE_ONLY;
             }
         }
 

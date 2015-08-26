@@ -61,6 +61,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestLibrary", "TestLibrary\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuiFramework.Debugging", "GuiFramework.Debugging\GuiFramework.Debugging.csproj", "{9183C078-D330-459B-BE70-DA4CC96A361D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextureCompiler", "TextureCompiler\TextureCompiler.csproj", "{4B395F64-4F52-4CC3-B983-33CC38A6450D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -275,6 +277,14 @@ Global
 		{9183C078-D330-459B-BE70-DA4CC96A361D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9183C078-D330-459B-BE70-DA4CC96A361D}.Release|x64.ActiveCfg = Release|Any CPU
 		{9183C078-D330-459B-BE70-DA4CC96A361D}.Release|x64.Build.0 = Release|Any CPU
+		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.Debug|x64.Build.0 = Debug|Any CPU
+		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.Release|x64.ActiveCfg = Release|Any CPU
+		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
