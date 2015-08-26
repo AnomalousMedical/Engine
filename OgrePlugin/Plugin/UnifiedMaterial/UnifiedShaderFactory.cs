@@ -139,34 +139,34 @@ namespace OgrePlugin
             StringBuilder name = new StringBuilder();
             textureMaps = TextureMaps.None;
 
-            if (String.IsNullOrWhiteSpace(description.NormalMap))
-            {
-                name.Append("Normal");
-            }
-            else
+            if (description.HasNormalMap)
             {
                 textureMaps |= TextureMaps.Normal;
                 name.Append("NormalMap");
             }
-
-            if (String.IsNullOrWhiteSpace(description.DiffuseMap))
-            {
-                name.Append("Diffuse");
-            }
             else
+            {
+                name.Append("Normal");
+            }
+
+            if (description.HasDiffuseMap)
             {
                 textureMaps |= TextureMaps.Diffuse;
                 name.Append("DiffuseMap");
             }
-
-            if (String.IsNullOrWhiteSpace(description.SpecularMap))
-            {
-                name.Append("Specular");
-            }
             else
+            {
+                name.Append("Diffuse");
+            }
+
+            if(description.HasSpecularColorMap)
             {
                 textureMaps |= TextureMaps.Specular;
                 name.Append("SpecularMap");
+            }
+            else
+            {
+                name.Append("Specular");
             }
 
             if(description.HasGlossMap)
@@ -174,7 +174,7 @@ namespace OgrePlugin
                 name.Append("GlossMap");
             }
 
-            if (!String.IsNullOrWhiteSpace(description.OpacityMap))
+            if (description.HasOpacityMap)
             {
                 textureMaps |= TextureMaps.Opacity;
                 name.Append("OpacityMap");

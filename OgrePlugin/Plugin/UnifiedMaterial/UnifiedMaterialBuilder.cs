@@ -397,7 +397,7 @@ namespace OgrePlugin
             var texUnit = pass.createTextureUnitState(normalTexture.TextureName);
             pass.createTextureUnitState(diffuseTexture.TextureName);
             IndirectionTexture indirectionTexture;
-            String fileName = description.localizePath(description.NormalMap + normalTextureFormatExtension);
+            String fileName = description.localizePath(description.NormalMapName + normalTextureFormatExtension);
             IntSize2 textureSize = getTextureSize(fileName);
             if (virtualTextureManager.createOrRetrieveIndirectionTexture(description.TextureSet, textureSize, description.KeepHighestMipLoaded, out indirectionTexture)) //Slow key
             {
@@ -417,7 +417,7 @@ namespace OgrePlugin
             var texUnit = pass.createTextureUnitState(normalTexture.TextureName);
             pass.createTextureUnitState(diffuseTexture.TextureName);
             IndirectionTexture indirectionTexture;
-            String fileName = description.localizePath(description.NormalMap + normalTextureFormatExtension);
+            String fileName = description.localizePath(description.NormalMapName + normalTextureFormatExtension);
             IntSize2 textureSize = getTextureSize(fileName);
             if (virtualTextureManager.createOrRetrieveIndirectionTexture(description.TextureSet, textureSize, description.KeepHighestMipLoaded, out indirectionTexture)) //Slow key
             {
@@ -428,7 +428,7 @@ namespace OgrePlugin
 
                 indirectionTexture.addOriginalTexture("NormalMap", fileName, textureSize);
 
-                fileName = description.localizePath(description.DiffuseMap + textureFormatExtension);
+                fileName = description.localizePath(description.DiffuseMapName + textureFormatExtension);
                 indirectionTexture.addOriginalTexture("Diffuse", fileName, getTextureSize(fileName));
             }
             setupIndirectionTexture(pass, indirectionTexture);
@@ -441,7 +441,7 @@ namespace OgrePlugin
             pass.createTextureUnitState(diffuseTexture.TextureName);
             pass.createTextureUnitState(specularTexture.TextureName);
             IndirectionTexture indirectionTexture;
-            String fileName = description.localizePath(description.NormalMap + normalTextureFormatExtension);
+            String fileName = description.localizePath(description.NormalMapName + normalTextureFormatExtension);
             IntSize2 textureSize = getTextureSize(fileName);
             if (virtualTextureManager.createOrRetrieveIndirectionTexture(description.TextureSet, textureSize, description.KeepHighestMipLoaded, out indirectionTexture)) //Slow key
             {
@@ -452,10 +452,10 @@ namespace OgrePlugin
 
                 indirectionTexture.addOriginalTexture("NormalMap", fileName, textureSize);
 
-                fileName = description.localizePath(description.DiffuseMap + textureFormatExtension);
+                fileName = description.localizePath(description.DiffuseMapName + textureFormatExtension);
                 indirectionTexture.addOriginalTexture("Diffuse", fileName, getTextureSize(fileName));
 
-                fileName = description.localizePath(description.SpecularMap + textureFormatExtension);
+                fileName = description.localizePath(description.SpecularMapName + textureFormatExtension);
                 indirectionTexture.addOriginalTexture("Specular", fileName, getTextureSize(fileName));
             }
             setupIndirectionTexture(pass, indirectionTexture);
@@ -469,7 +469,7 @@ namespace OgrePlugin
             pass.createTextureUnitState(specularTexture.TextureName);
             pass.createTextureUnitState(opacityTexture.TextureName);
             IndirectionTexture indirectionTexture;
-            String fileName = description.localizePath(description.NormalMap + normalTextureFormatExtension);
+            String fileName = description.localizePath(description.NormalMapName + normalTextureFormatExtension);
             IntSize2 textureSize = getTextureSize(fileName);
             if (virtualTextureManager.createOrRetrieveIndirectionTexture(description.TextureSet, textureSize, description.KeepHighestMipLoaded, out indirectionTexture)) //Slow key
             {
@@ -480,13 +480,13 @@ namespace OgrePlugin
 
                 indirectionTexture.addOriginalTexture("NormalMap", fileName, textureSize);
 
-                fileName = description.localizePath(description.DiffuseMap + textureFormatExtension);
+                fileName = description.localizePath(description.DiffuseMapName + textureFormatExtension);
                 indirectionTexture.addOriginalTexture("Diffuse", fileName, getTextureSize(fileName));
 
-                fileName = description.localizePath(description.SpecularMap + textureFormatExtension);
+                fileName = description.localizePath(description.SpecularMapName + textureFormatExtension);
                 indirectionTexture.addOriginalTexture("Specular", fileName, getTextureSize(fileName));
 
-                fileName = description.localizePath(description.OpacityMap + textureFormatExtension);
+                fileName = description.localizePath(description.OpacityMapName + textureFormatExtension);
                 indirectionTexture.addOriginalTexture("Opacity", fileName, getTextureSize(fileName));
             }
             setupIndirectionTexture(pass, indirectionTexture);
@@ -499,7 +499,7 @@ namespace OgrePlugin
             pass.createTextureUnitState(diffuseTexture.TextureName);
             pass.createTextureUnitState(opacityTexture.TextureName);
             IndirectionTexture indirectionTexture;
-            String fileName = description.localizePath(description.NormalMap + normalTextureFormatExtension);
+            String fileName = description.localizePath(description.NormalMapName + normalTextureFormatExtension);
             IntSize2 textureSize = getTextureSize(fileName);
             if (virtualTextureManager.createOrRetrieveIndirectionTexture(description.TextureSet, textureSize, description.KeepHighestMipLoaded, out indirectionTexture)) //Slow key
             {
@@ -510,10 +510,10 @@ namespace OgrePlugin
 
                 indirectionTexture.addOriginalTexture("NormalMap", fileName, textureSize);
 
-                fileName = description.localizePath(description.DiffuseMap + textureFormatExtension);
+                fileName = description.localizePath(description.DiffuseMapName + textureFormatExtension);
                 indirectionTexture.addOriginalTexture("Diffuse", fileName, getTextureSize(fileName));
 
-                fileName = description.localizePath(description.OpacityMap + textureFormatExtension);
+                fileName = description.localizePath(description.OpacityMapName + textureFormatExtension);
                 indirectionTexture.addOriginalTexture("Opacity", fileName, getTextureSize(fileName));
             }
             setupIndirectionTexture(pass, indirectionTexture);

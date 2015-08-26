@@ -31,7 +31,12 @@ namespace OgrePlugin
             IsAlpha = false;
             NumHardwareBones = 0;
             NumHardwarePoses = 0;
+            HasNormalMap = false;
+            HasDiffuseMap = false;
+            HasSpecularColorMap = false;
+            HasSpecularLevelMap = false;
             HasGlossMap = false;
+            HasOpacityMap = false;
             GlossyStart = 40;
             GlossyRange = 0;
             Parity = false;
@@ -47,14 +52,17 @@ namespace OgrePlugin
         {
             this.Name = toClone.Name;
             this.Builder = toClone.Builder;
+            this.TextureSet = toClone.TextureSet;
             this.Shinyness = toClone.Shinyness;
             this.HasGlossMap = toClone.HasGlossMap;
             this.GlossyStart = toClone.GlossyStart;
             this.GlossyRange = toClone.GlossyRange;
-            this.NormalMap = toClone.NormalMap;
-            this.DiffuseMap = toClone.DiffuseMap;
-            this.SpecularMap = toClone.SpecularMap;
-            this.OpacityMap = toClone.OpacityMap;
+            this.HasNormalMap = toClone.HasNormalMap;
+            this.HasDiffuseMap = toClone.HasDiffuseMap;
+            this.HasSpecularColorMap = toClone.HasSpecularColorMap;
+            this.HasSpecularLevelMap = toClone.HasSpecularLevelMap;
+            this.HasGlossMap = toClone.HasGlossMap;
+            this.HasOpacityMap = toClone.HasOpacityMap;
             this.CreateAlphaMaterial = toClone.CreateAlphaMaterial;
             this.IsAlpha = toClone.IsAlpha;
             this.Parity = toClone.Parity;
@@ -83,6 +91,9 @@ namespace OgrePlugin
 
         [JsonProperty]
         public String Builder { get; set; }
+
+        [JsonProperty]
+        public String TextureSet { get; set; }
 
         [JsonProperty]
         public String Emissive
@@ -138,9 +149,6 @@ namespace OgrePlugin
         }
 
         [JsonProperty]
-        public float Shinyness { get; set; }
-
-        [JsonProperty]
         public String Diffuse
         {
             get
@@ -157,7 +165,7 @@ namespace OgrePlugin
         }
 
         [JsonProperty]
-        public bool HasGlossMap { get; set; }
+        public float Shinyness { get; set; }
 
         [JsonProperty]
         public float GlossyStart { get; set; }
@@ -166,16 +174,22 @@ namespace OgrePlugin
         public float GlossyRange { get; set; }
 
         [JsonProperty]
-        public String NormalMap { get; set; }
+        public bool HasNormalMap { get; set; }
 
         [JsonProperty]
-        public String DiffuseMap { get; set; }
+        public bool HasDiffuseMap { get; set; }
 
         [JsonProperty]
-        public String SpecularMap { get; set; }
+        public bool HasSpecularColorMap { get; set; }
 
         [JsonProperty]
-        public String OpacityMap { get; set; }
+        public bool HasSpecularLevelMap { get; set; }
+
+        [JsonProperty]
+        public bool HasGlossMap { get; set; }
+
+        [JsonProperty]
+        public bool HasOpacityMap { get; set; }
 
         [JsonProperty]
         public bool CreateAlphaMaterial { get; set; }
@@ -300,13 +314,45 @@ namespace OgrePlugin
             }
         }
 
-        public String TextureSet
+        public String NormalMapName
         {
             get
             {
-                return String.Format("{0}-{1}-{2}-{3}", NormalMap, DiffuseMap, SpecularMap, OpacityMap);
+                return String.Format("{0}Normal", TextureSet);
             }
         }
+
+        public String DiffuseMapName
+        {
+            get
+            {
+                return String.Format("{0}Diffuse", TextureSet);
+            }
+        }
+
+        public String SpecularMapName
+        {
+            get
+            {
+                return String.Format("{0}Specular", TextureSet);
+            }
+        }
+
+        public String OpacityMapName
+        {
+            get
+            {
+                return String.Format("{0}Opacity", TextureSet);
+            }
+        }
+
+        //public String TextureSet
+        //{
+        //    get
+        //    {
+        //        return String.Format("{0}-{1}-{2}-{3}", NormalMap, DiffuseMap, SpecularMap, OpacityMap);
+        //    }
+        //}
 
         class MaterialDescriptionSerializer : JsonConverter
         {
