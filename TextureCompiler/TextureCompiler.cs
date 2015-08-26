@@ -17,7 +17,10 @@ namespace Anomalous.TextureCompiler
         private static String NVCompressExe = Path.Combine(MainExeLocation, "CompressorBinaries/Nvidia/nvcompress.exe");
         private static String NVCompressArgFormat = "-nocuda {0}";
         private static String NVCompressBC5Format = String.Format(NVCompressArgFormat, "-bc5 {0}.psd {1}_bc5.dds");
+        private static String NVCompressBC3nFormat = String.Format(NVCompressArgFormat, "-bc3n {0}.psd {1}.dds");
+
         private static String MaliTextureToolExe = Path.Combine(MainExeLocation, "CompressorBinaries/MaliTextureTool/etcpack.exe");
+        private static String MaliTextureToolArgFormat = "{0}.psd {1} -c etc2 -f RGBA -ktx -mipmaps -ext PSD"; //-s slow
 
         private String sourceDirectory;
         private String destDirectory;
@@ -41,8 +44,22 @@ namespace Anomalous.TextureCompiler
 
                 String source = Path.Combine(sourceDirectory, description.NormalMapName);
                 String dest = Path.Combine(destDirectory, description.NormalMapName);
+                //DDS
                 runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC5Format, source, dest));
+                runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3nFormat, source, dest));
+
+                //ETC2
+                etc2Compress(source);
             }
+        }
+
+        private void etc2Compress(String sourceFile)
+        {
+            runExternalCompressionProcess(MaliTextureToolExe, String.Format(MaliTextureToolArgFormat, sourceFile, sourceDirectory));
+            String fileName = Path.GetFileNameWithoutExtension(sourceFile);
+            String renameSrc = Path.Combine(sourceDirectory, fileName + ".ktx");
+            String renameDst = Path.Combine(destDirectory, fileName + "_etc2.ktx");
+            File.Move(renameSrc, renameDst);
         }
 
         private void runExternalCompressionProcess(String executable, String args)
@@ -51,7 +68,7 @@ namespace Anomalous.TextureCompiler
             {
                 StartInfo = new ProcessStartInfo(executable, args)
                 {
-                    WorkingDirectory = sourceDirectory,
+                    WorkingDirectory = Path.GetDirectoryName(executable),
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
