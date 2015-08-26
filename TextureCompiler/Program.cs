@@ -1,7 +1,6 @@
 ﻿using Anomalous.OSPlatform;
 using Engine;
 using Engine.Resources;
-using Newtonsoft.Json;
 using OgrePlugin;
 using System;
 using System.Collections.Generic;
@@ -14,6 +13,7 @@ namespace Anomalous.TextureCompiler
 {
     class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
             String sourceDirectory = args[0];
@@ -31,6 +31,9 @@ namespace Anomalous.TextureCompiler
             group.addResource("", "EngineArchive", true);
 
             resourceManager.initializeResources();
+
+            Console.WriteLine("All Textures compiled. Press any key to quit.");
+            Console.ReadKey();
         }
     }
 }
