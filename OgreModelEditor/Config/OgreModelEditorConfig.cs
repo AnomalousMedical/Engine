@@ -71,6 +71,18 @@ namespace OgreModelEditor
             }
         }
 
+        public static String LastTextureCompilerSourceDirectory
+        {
+            get
+            {
+                return modelEditorSection.getValue("LastTextureCompilerSourceDirectory", default(String));
+            }
+            set
+            {
+                modelEditorSection.setValue("LastTextureCompilerSourceDirectory", value);
+            }
+        }
+
         public static void save()
         {
             configFile.writeConfigFile();

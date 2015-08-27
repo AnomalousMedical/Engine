@@ -193,7 +193,12 @@ namespace OgreModelEditor
             }
 
             IDisposableUtil.DisposeIfNotNull(virtualTextureDebugger);
-            IDisposableUtil.DisposeIfNotNull(textureCompiler);
+
+            if (textureCompiler != null)
+            {
+                OgreModelEditorConfig.LastTextureCompilerSourceDirectory = textureCompiler.CurrentSrc;
+                textureCompiler.Dispose();
+            }
 
             if(consoleWindow != null)
             {
@@ -313,6 +318,7 @@ namespace OgreModelEditor
             guiManager.addManagedDialog(virtualTextureDebugger);
 
             textureCompiler = new TextureCompilerGUI(pluginManager, mainWindow);
+            textureCompiler.CurrentSrc = OgreModelEditorConfig.LastTextureCompilerSourceDirectory;
             guiManager.addManagedDialog(textureCompiler);
 
             yield return IdleStatus.Ok;
@@ -395,7 +401,7 @@ namespace OgreModelEditor
             modelController.createModel(meshName, scene);
             mainForm.setTextureNames(modelController.TextureNames);
             mainForm.currentFileChanged(path);
-            textureCompiler.setCurrentDest(dir);
+            textureCompiler.CurrentDest = dir;
         }
 
         public void editExternalResources()

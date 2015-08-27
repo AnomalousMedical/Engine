@@ -43,9 +43,28 @@ namespace OgreModelEditor
             dest = window.findWidget("DestFolder") as EditBox;
         }
 
-        public void setCurrentDest(String dest)
+        public String CurrentDest
         {
-            this.dest.OnlyText = dest;
+            get
+            {
+                return this.dest.OnlyText;
+            }
+            set
+            {
+                this.dest.OnlyText = value;
+            }
+        }
+
+        public String CurrentSrc
+        {
+            get
+            {
+                return this.source.OnlyText;
+            }
+            set
+            {
+                this.source.OnlyText = value;
+            }
         }
 
         protected override void onClosing(DialogCancelEventArgs args)
