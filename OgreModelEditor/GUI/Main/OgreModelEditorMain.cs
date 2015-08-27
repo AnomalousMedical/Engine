@@ -112,6 +112,10 @@ namespace OgreModelEditor
             model.addItemAction("Recalculate Tangents", recalculateTangents);
             model.addItemAction("Invert Tangent W", controller.inverseTangentW);
 
+            MenuItem texturesItem = menuBar.addItem("Textures", MenuItemType.Popup);
+            MenuControl textures = menuBar.createItemPopupMenuChild(texturesItem);
+            textures.addItemAction("Compile Textures", controller.compileTextures);
+
             MenuItem windowItem = menuBar.addItem("Window", MenuItemType.Popup);
             MenuControl window = menuBar.createItemPopupMenuChild(windowItem);
             showStats = window.addItemAction("Show Stats", changeShowStats);

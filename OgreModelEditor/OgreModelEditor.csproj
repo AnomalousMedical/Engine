@@ -178,6 +178,10 @@
       <Project>{6e594c78-9cd8-432d-a135-11c4a72f3bcf}</Project>
       <Name>OSPlatform</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TextureCompiler\TextureCompiler.csproj">
+      <Project>{4b395f64-4f52-4cc3-b983-33cc38a6450d}</Project>
+      <Name>TextureCompiler</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\D3D11\DebugParity.hlsl" />

@@ -20,6 +20,8 @@ using MyGUIPlugin;
 using Anomalous.GuiFramework.Cameras;
 using Anomalous.GuiFramework.Editor;
 using Anomalous.GuiFramework.Debugging;
+using Anomalous.TextureCompiler;
+using Engine.Threads;
 
 namespace OgreModelEditor
 {
@@ -572,6 +574,14 @@ namespace OgreModelEditor
         {
             OgreInterface.Instance.deleteMicrocodeCache();
             MessageBox.show("Erased microcode cache.", "Microcode Erased", MessageBoxStyle.IconInfo | MessageBoxStyle.Ok);
+        }
+
+        public void compileTextures()
+        {
+            ThreadManager.RunInBackground(() =>
+            {
+                TextureCompilerInterface.CompileTextures("C:\\Development\\Artwork\\Models\\Muscles", "C:\\Development\\export\\Models\\Export\\Muscles", pluginManager);
+            });
         }
 
         /// <summary>
