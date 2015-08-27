@@ -24,7 +24,9 @@ namespace Anomalous.TextureCompiler
             PluginManager pluginManager = new PluginManager(new ConfigFile("woot.txt"));
             VirtualFileSystem.Instance.addArchive(destDirectory);
 
-            pluginManager.addSubsystemResources("TextureCompiler", new MaterialParserResourceListener(sourceDirectory, destDirectory));
+            var listener = new MaterialParserResourceListener(sourceDirectory, destDirectory);
+            listener.loadTextureInfo();
+            pluginManager.addSubsystemResources("TextureCompiler", listener);
             var resourceManager = pluginManager.createLiveResourceManager("TextureCompiler");
             var subsystem = resourceManager.getSubsystemResource("TextureCompiler");
             var group = subsystem.addResourceGroup("TextureCompiler");
@@ -32,6 +34,7 @@ namespace Anomalous.TextureCompiler
 
             resourceManager.initializeResources();
 
+            listener.saveTextureInfo();
             Console.WriteLine("All Textures compiled. Press any key to quit.");
             Console.ReadKey();
         }

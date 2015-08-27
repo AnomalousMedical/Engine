@@ -18,6 +18,16 @@ namespace Anomalous.TextureCompiler
             materialParser.addMaterialBuilder(textureCompiler);
         }
 
+        public void loadTextureInfo()
+        {
+            textureCompiler.loadTextureInfo();
+        }
+
+        public void saveTextureInfo()
+        {
+            textureCompiler.saveTextureInfo();
+        }
+
         public void initializeResources(IEnumerable<ResourceGroup> groups)
         {
             materialParser.initializeResources(groups);

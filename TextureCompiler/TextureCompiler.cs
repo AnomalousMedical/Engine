@@ -1,4 +1,5 @@
-﻿using FreeImageAPI;
+﻿using Engine.Saving.XMLSaver;
+using FreeImageAPI;
 using Logging;
 using OgrePlugin;
 using System;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Anomalous.TextureCompiler
 {
@@ -42,11 +44,35 @@ namespace Anomalous.TextureCompiler
         private String destDirectory;
 
         private HashSet<String> compiledTextures = new HashSet<string>();
+        private CompiledTextureInfo compiledTextureInfo = new CompiledTextureInfo();
 
         public TextureCompiler(String sourceDirectory, String destDirectory)
         {
             this.sourceDirectory = sourceDirectory;
             this.destDirectory = destDirectory;
+        }
+
+        public void loadTextureInfo()
+        {
+            String hashFile = Path.Combine(sourceDirectory, "TextureHashes.hsh");
+            if (File.Exists(hashFile))
+            {
+                XmlSaver xmlSaver = new XmlSaver();
+                using (XmlTextReader xmlReader = new XmlTextReader(hashFile))
+                {
+                    compiledTextureInfo = (CompiledTextureInfo)xmlSaver.restoreObject(xmlReader);
+                }
+            }
+        }
+
+        public void saveTextureInfo()
+        {
+            XmlSaver xmlSaver = new XmlSaver();
+            using (XmlTextWriter xmlReader = new XmlTextWriter(Path.Combine(sourceDirectory, "TextureHashes.hsh"), Encoding.Default))
+            {
+                xmlReader.Formatting = Formatting.Indented;
+                xmlSaver.saveObject(compiledTextureInfo, xmlReader);
+            }
         }
 
         public override void buildMaterial(MaterialDescription description, MaterialRepository repo)
@@ -103,7 +129,6 @@ namespace Anomalous.TextureCompiler
                 String specularDest = getDestBasePath(description.SpecularMapName);
                 String specularTmp = getTempPath(description.SpecularMapName);
 
-                Log.Info("Compressing specular map {0}", description.SpecularMapName);
                 if(description.HasSpecularLevelMap)
                 {
                     String specularLevelSrc = getSourceFullPath(description.SpecularLevelMapName);
@@ -470,7 +495,7 @@ namespace Anomalous.TextureCompiler
         {
             if(File.Exists(source))
             {
-                return true;
+                return compiledTextureInfo.isChanged(Path.GetFileName(source), source);
             }
             else
             {
