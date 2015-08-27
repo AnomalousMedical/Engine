@@ -116,6 +116,12 @@ namespace Anomalous.TextureCompiler
                         }
                     }
                 }
+                else //Just save the diffuse map as is
+                {
+                    runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3Format, diffuseSrc, diffuseDest));
+                    etc2Compress(diffuseSrc);
+                    saveUncompressed(diffuseSrc, diffuseDest);
+                }
             }
         }
 
