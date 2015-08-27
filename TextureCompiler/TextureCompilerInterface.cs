@@ -1,6 +1,8 @@
 ﻿using Engine;
+using Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,17 +13,36 @@ namespace Anomalous.TextureCompiler
     {
         public static void CompileTextures(String sourceDirectory, String destDirectory, PluginManager pluginManager)
         {
-            var listener = new MaterialParserResourceListener(sourceDirectory, destDirectory);
-            listener.loadTextureInfo();
+            try {
+                if (String.IsNullOrEmpty(sourceDirectory) && !Directory.Exists(sourceDirectory))
+                {
+                    Log.Error("Source directory {0} does not exist.", sourceDirectory);
+                    return;
+                }
 
-            var resourceManager = pluginManager.createResourceManagerForListener("TextureCompiler", listener);
-            var subsystem = resourceManager.getSubsystemResource("TextureCompiler");
-            var group = subsystem.addResourceGroup("TextureCompiler");
-            group.addResource("", "EngineArchive", true);
+                if (String.IsNullOrEmpty(destDirectory) && !Directory.Exists(destDirectory))
+                {
+                    Log.Error("Destination directory {0} does not exist.", destDirectory);
+                    return;
+                }
 
-            resourceManager.initializeResources();
+                var listener = new MaterialParserResourceListener(sourceDirectory, destDirectory);
+                listener.loadTextureInfo();
 
-            listener.saveTextureInfo();
+                var resourceManager = pluginManager.createResourceManagerForListener("TextureCompiler", listener);
+                var subsystem = resourceManager.getSubsystemResource("TextureCompiler");
+                var group = subsystem.addResourceGroup("TextureCompiler");
+                group.addResource("", "EngineArchive", true);
+
+                resourceManager.initializeResources();
+
+                listener.saveTextureInfo();
+            }
+            catch(Exception ex)
+            {
+                Log.Error("{0} commpiling textures. Reason: {1}", ex.GetType().Name, ex.Message);
+                Log.Default.printException(ex);
+            }
         }
     }
 }

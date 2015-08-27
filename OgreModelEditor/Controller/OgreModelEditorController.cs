@@ -53,6 +53,7 @@ namespace OgreModelEditor
         private GUIManager guiManager;
         private SplashScreen splashScreen;
         private VirtualTextureDebugger virtualTextureDebugger;
+        private TextureCompilerGUI textureCompiler;
 
         //Controller
         private SceneViewController sceneViewController;
@@ -192,6 +193,7 @@ namespace OgreModelEditor
             }
 
             IDisposableUtil.DisposeIfNotNull(virtualTextureDebugger);
+            IDisposableUtil.DisposeIfNotNull(textureCompiler);
 
             if(consoleWindow != null)
             {
@@ -310,6 +312,9 @@ namespace OgreModelEditor
             virtualTextureDebugger = new VirtualTextureDebugger(virtualTextureLink.VirtualTextureManager);
             guiManager.addManagedDialog(virtualTextureDebugger);
 
+            textureCompiler = new TextureCompilerGUI(pluginManager, mainWindow);
+            guiManager.addManagedDialog(textureCompiler);
+
             yield return IdleStatus.Ok;
 
             splashScreen.updateStatus(70, "Creating Scene");
@@ -390,6 +395,7 @@ namespace OgreModelEditor
             modelController.createModel(meshName, scene);
             mainForm.setTextureNames(modelController.TextureNames);
             mainForm.currentFileChanged(path);
+            textureCompiler.setCurrentDest(dir);
         }
 
         public void editExternalResources()
@@ -578,10 +584,8 @@ namespace OgreModelEditor
 
         public void compileTextures()
         {
-            ThreadManager.RunInBackground(() =>
-            {
-                TextureCompilerInterface.CompileTextures("C:\\Development\\Artwork\\Models\\Muscles", "C:\\Development\\export\\Models\\Export\\Muscles", pluginManager);
-            });
+            textureCompiler.Modal = true;
+            textureCompiler.Visible = true;
         }
 
         /// <summary>

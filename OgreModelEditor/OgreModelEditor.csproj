@@ -82,6 +82,7 @@
     <Compile Include="GUI\CustomParametersWindow\CustomParametersWindow.cs" />
     <Compile Include="GUI\Main\OgreModelEditorMain.cs" />
     <Compile Include="GUI\SkeletonWindow\SkeletonWindow.cs" />
+    <Compile Include="GUI\TextureCompiler\TextureCompilerGUI.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="GUI\AnimationWindow\AnimationWindow.layout">
@@ -97,6 +98,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\SplashScreen\SplashScreen.layout" />
+    <EmbeddedResource Include="GUI\TextureCompiler\TextureCompilerGUI.layout">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
