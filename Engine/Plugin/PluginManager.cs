@@ -427,6 +427,20 @@ namespace Engine
             return new ResourceManager(prototypeResourceManager, false);
         }
 
+        /// <summary>
+        /// Create a resource manager with one subsystem specified by customSubsystemName using the passed listener. This
+        /// does not have any relation to the live and scratch resource managers.
+        /// </summary>
+        /// <param name="customSubsystemName"></param>
+        /// <param name="listener"></param>
+        /// <returns></returns>
+        public ResourceManager createResourceManagerForListener(String customSubsystemName, ResourceListener listener)
+        {
+            ResourceManager resourceManager = new ResourceManager();
+            resourceManager.addSubsystemResource(new SubsystemResources(customSubsystemName, listener));
+            return resourceManager;
+        }
+
         public IEnumerable<DebugInterface> DebugInterfaces
         {
             get

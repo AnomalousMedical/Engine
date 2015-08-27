@@ -17,24 +17,15 @@ namespace Anomalous.TextureCompiler
         static void Main(string[] args)
         {
             String sourceDirectory = args[0];
-            String destDirectory = Environment.CurrentDirectory;
+            String destDirectory = args[1];
 
             Logging.Log.Default.addLogListener(new Logging.LogConsoleListener());
             NativePlatformPlugin.StaticInitialize();
             PluginManager pluginManager = new PluginManager(new ConfigFile("woot.txt"));
             VirtualFileSystem.Instance.addArchive(destDirectory);
 
-            var listener = new MaterialParserResourceListener(sourceDirectory, destDirectory);
-            listener.loadTextureInfo();
-            pluginManager.addSubsystemResources("TextureCompiler", listener);
-            var resourceManager = pluginManager.createLiveResourceManager("TextureCompiler");
-            var subsystem = resourceManager.getSubsystemResource("TextureCompiler");
-            var group = subsystem.addResourceGroup("TextureCompiler");
-            group.addResource("", "EngineArchive", true);
+            TextureCompilerInterface.CompileTextures(sourceDirectory, destDirectory, pluginManager);
 
-            resourceManager.initializeResources();
-
-            listener.saveTextureInfo();
             Console.WriteLine("All Textures compiled. Press any key to quit.");
             Console.ReadKey();
         }
