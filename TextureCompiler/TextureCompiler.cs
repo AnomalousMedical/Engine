@@ -56,7 +56,7 @@ namespace Anomalous.TextureCompiler
 
         public void loadTextureInfo()
         {
-            String hashFile = Path.Combine(sourceDirectory, "TextureHashes.hsh");
+            String hashFile = Path.Combine(sourceDirectory, TextureCompilerInterface.TextureHashFileName);
             if (File.Exists(hashFile))
             {
                 XmlSaver xmlSaver = new XmlSaver();
@@ -70,7 +70,7 @@ namespace Anomalous.TextureCompiler
         public void saveTextureInfo()
         {
             XmlSaver xmlSaver = new XmlSaver();
-            using (XmlTextWriter xmlReader = new XmlTextWriter(Path.Combine(sourceDirectory, "TextureHashes.hsh"), Encoding.Default))
+            using (XmlTextWriter xmlReader = new XmlTextWriter(Path.Combine(sourceDirectory, TextureCompilerInterface.TextureHashFileName), Encoding.Default))
             {
                 xmlReader.Formatting = Formatting.Indented;
                 xmlSaver.saveObject(compiledTextureInfo, xmlReader);

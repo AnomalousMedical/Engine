@@ -19,6 +19,9 @@
         <Widget type="Button" skin="Button" position="337 61 29 26" align="Right Top" name="DestFileBrowser">
             <Property key="Caption" value="..."/>
         </Widget>
+        <Widget type="Button" skin="Button" position="118 89 108 22" name="Clean">
+            <Property key="Caption" value="Clean"/>
+        </Widget>
     </Widget>
     <CodeGeneratorSettings/>
 </MyGUI>

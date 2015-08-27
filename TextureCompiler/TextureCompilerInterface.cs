@@ -11,16 +11,19 @@ namespace Anomalous.TextureCompiler
 {
     public static class TextureCompilerInterface
     {
+        public static readonly String TextureHashFileName = "TextureHashes.hsh";
+
         public static void CompileTextures(String sourceDirectory, String destDirectory, PluginManager pluginManager)
         {
-            try {
-                if (String.IsNullOrEmpty(sourceDirectory) && !Directory.Exists(sourceDirectory))
+            try
+            {
+                if (String.IsNullOrEmpty(sourceDirectory) || !Directory.Exists(sourceDirectory))
                 {
                     Log.Error("Source directory {0} does not exist.", sourceDirectory);
                     return;
                 }
 
-                if (String.IsNullOrEmpty(destDirectory) && !Directory.Exists(destDirectory))
+                if (String.IsNullOrEmpty(destDirectory) || !Directory.Exists(destDirectory))
                 {
                     Log.Error("Destination directory {0} does not exist.", destDirectory);
                     return;
