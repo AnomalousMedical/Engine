@@ -75,7 +75,7 @@ namespace Anomalous.TextureCompiler
                     String specularLevelSrc = getSourceFullPath(description.SpecularLevelMapName);
                     addMapToAlphaAndCompress(diffuseSrc, specularLevelSrc, Channel.Red, diffuseTmp, diffuseDest, compressDiffuseMap);
                 }
-                else if (description.HasGlossMap) //Pack the gloss level into the diffuse map
+                else if (description.HasGlossMap && !description.HasOpacityMap) //Pack the gloss level into the diffuse map
                 {
                     String glossLevelSrc = getSourceFullPath(description.GlossMapName);
                     addMapToAlphaAndCompress(diffuseSrc, glossLevelSrc, Channel.Red, diffuseTmp, diffuseDest, compressDiffuseMap);
@@ -102,6 +102,23 @@ namespace Anomalous.TextureCompiler
                     compressSpecularMap(specularSrc, specularDest);
                 }
             }
+            if(shouldSave(description.HasOpacityMap, description.OpacityMapName))
+            {
+                String opacitySrc = getSourceFullPath(description.OpacityMapName);
+                String opacityDest = getDestBasePath(description.OpacityMapName);
+                String opacityTmp = getTempPath(description.OpacityMapName);
+
+                if (description.HasGlossMap)
+                {
+                    String glossLevelSrc = getSourceFullPath(description.GlossMapName);
+
+                    combineSingleChannelMaps(opacitySrc, Channel.Red, glossLevelSrc, Channel.Red, opacityTmp, opacityDest, compressOpacityMap);
+                }
+                else //Just save as is
+                {
+                    compressOpacityMap(opacitySrc, opacityDest);
+                }
+            }
         }
 
         private void addMapToAlphaAndCompress(String rgbSource, String alphaSource, Channel alphaSourceChannel, String tempFile, String destinationFile, Action<String, String> compressFunction)
@@ -111,6 +128,22 @@ namespace Anomalous.TextureCompiler
                 using (FreeImageBitmap alphaMap = FreeImageBitmap.FromFile(alphaSource))
                 {
                     using (FreeImageBitmap combined = createImageFromChannels(alphaMap, alphaSourceChannel, rgbMap))
+                    {
+                        saveImage(combined, tempFile, TempFileImageFormat);
+                        compressFunction(tempFile, destinationFile);
+                        deleteFile(tempFile);
+                    }
+                }
+            }
+        }
+
+        private void combineSingleChannelMaps(String redSource, Channel redSourceChannel, String greenSource, Channel greenSourceChannel, String tempFile, String destinationFile, Action<String, String> compressFunction)
+        {
+            using (FreeImageBitmap redMap = FreeImageBitmap.FromFile(redSource))
+            {
+                using (FreeImageBitmap greenMap = FreeImageBitmap.FromFile(greenSource))
+                {
+                    using (FreeImageBitmap combined = createImageFromChannels(redMap, redSourceChannel, greenMap, greenSourceChannel))
                     {
                         saveImage(combined, tempFile, TempFileImageFormat);
                         compressFunction(tempFile, destinationFile);
@@ -172,7 +205,7 @@ namespace Anomalous.TextureCompiler
             int height = redSrc.Height;
             Color c = new Color();
 
-            FreeImageBitmap retVal = new FreeImageBitmap(alphaSrc.Width, alphaSrc.Height, FreeImageAPI.PixelFormat.Format32bppArgb);
+            FreeImageBitmap retVal = new FreeImageBitmap(width, height, FreeImageAPI.PixelFormat.Format32bppArgb);
 
             for (int x = 0; x < width; ++x)
             {
@@ -182,6 +215,59 @@ namespace Anomalous.TextureCompiler
                     c.R = getColor(x, y, redSrc, redSrcChannel);
                     c.G = getColor(x, y, greenSrc, greenSrcChannel);
                     c.B = getColor(x, y, blueSrc, blueSrcChannel);
+                    retVal.SetPixel(x, y, c);
+                }
+            }
+
+            return retVal;
+        }
+
+        private FreeImageBitmap createImageFromChannels(FreeImageBitmap redSrc, Channel redSrcChannel, FreeImageBitmap greenSrc, Channel greenSrcChannel, FreeImageBitmap blueSrc, Channel blueSrcChannel)
+        {
+            if (redSrc.Width != greenSrc.Width || greenSrc.Width != blueSrc.Width)
+            {
+                //Do an error
+            }
+
+            int width = redSrc.Width;
+            int height = redSrc.Height;
+            Color c = new Color();
+
+            FreeImageBitmap retVal = new FreeImageBitmap(width, height, FreeImageAPI.PixelFormat.Format24bppRgb);
+
+            for (int x = 0; x < width; ++x)
+            {
+                for (int y = 0; y < height; ++y)
+                {
+                    c.R = getColor(x, y, redSrc, redSrcChannel);
+                    c.G = getColor(x, y, greenSrc, greenSrcChannel);
+                    c.B = getColor(x, y, blueSrc, blueSrcChannel);
+                    retVal.SetPixel(x, y, c);
+                }
+            }
+
+            return retVal;
+        }
+
+        private FreeImageBitmap createImageFromChannels(FreeImageBitmap redSrc, Channel redSrcChannel, FreeImageBitmap greenSrc, Channel greenSrcChannel)
+        {
+            if (redSrc.Width != greenSrc.Width)
+            {
+                //Do an error
+            }
+
+            int width = redSrc.Width;
+            int height = redSrc.Height;
+            Color c = new Color();
+
+            FreeImageBitmap retVal = new FreeImageBitmap(width, height, FreeImageAPI.PixelFormat.Format24bppRgb);
+
+            for (int x = 0; x < width; ++x)
+            {
+                for (int y = 0; y < height; ++y)
+                {
+                    c.R = getColor(x, y, redSrc, redSrcChannel);
+                    c.G = getColor(x, y, greenSrc, greenSrcChannel);
                     retVal.SetPixel(x, y, c);
                 }
             }
@@ -312,6 +398,13 @@ namespace Anomalous.TextureCompiler
         private String getDestBasePath(String filename)
         {
             return Path.Combine(destDirectory, filename);
+        }
+
+        private void compressOpacityMap(string source, string dest)
+        {
+            runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3Format, source, dest));
+            etc2Compress(source, dest);
+            saveUncompressed(source, dest);
         }
 
         private void compressSpecularMap(string source, string dest)
