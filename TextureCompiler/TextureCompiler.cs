@@ -54,18 +54,18 @@ namespace Anomalous.TextureCompiler
             Log.Info("Compiling textures for material {0}", description.Name);
             if (shouldSave(description.HasNormalMap, description.NormalMapName))
             {
-                //Normal maps are pretty much always the same.
-                Log.Info("Compressing normal map {0}", description.NormalMapName);
-
                 String source = getSourceFullPath(description.NormalMapName);
-                String dest = getDestBasePath(description.NormalMapName);
-                //DDS
-                compressNormalMap(source, dest);
+
+                if (imageNeedsCompression(source))
+                {
+                    Log.Info("Compressing normal map {0}", description.NormalMapName);
+
+                    String dest = getDestBasePath(description.NormalMapName);
+                    compressNormalMap(source, dest);
+                }
             }
             if (shouldSave(description.HasDiffuseMap, description.DiffuseMapName))
             {
-                Log.Info("Compressing diffuse map {0}", description.DiffuseMapName);
-
                 String diffuseSrc = getSourceFullPath(description.DiffuseMapName);
                 String diffuseDest = getDestBasePath(description.DiffuseMapName);
                 String diffuseTmp = getTempPath(description.DiffuseMapName);
@@ -73,16 +73,28 @@ namespace Anomalous.TextureCompiler
                 if (description.HasSpecularLevelMap && !description.HasSpecularColorMap) //If we don't have a specular color map pack the specular level into the diffuse map
                 {
                     String specularLevelSrc = getSourceFullPath(description.SpecularLevelMapName);
-                    addMapToAlphaAndCompress(diffuseSrc, specularLevelSrc, Channel.Red, diffuseTmp, diffuseDest, compressDiffuseMap);
+                    if (imageNeedsCompression(diffuseSrc) || imageNeedsCompression(specularLevelSrc))
+                    {
+                        Log.Info("Compressing diffuse map {0} with specular level in alpha from {1}", description.DiffuseMapName, description.SpecularLevelMapName);
+                        addMapToAlphaAndCompress(diffuseSrc, specularLevelSrc, Channel.Red, diffuseTmp, diffuseDest, compressDiffuseMap);
+                    }
                 }
                 else if (description.HasGlossMap && !description.HasOpacityMap) //Pack the gloss level into the diffuse map
                 {
                     String glossLevelSrc = getSourceFullPath(description.GlossMapName);
-                    addMapToAlphaAndCompress(diffuseSrc, glossLevelSrc, Channel.Red, diffuseTmp, diffuseDest, compressDiffuseMap);
+                    if (imageNeedsCompression(diffuseSrc) || imageNeedsCompression(glossLevelSrc))
+                    {
+                        Log.Info("Compressing diffuse map {0} with gloss in alpha from {1}", description.DiffuseMapName, description.GlossMapName);
+                        addMapToAlphaAndCompress(diffuseSrc, glossLevelSrc, Channel.Red, diffuseTmp, diffuseDest, compressDiffuseMap);
+                    }
                 }
                 else //Just save the diffuse map as is
                 {
-                    compressDiffuseMap(diffuseSrc, diffuseDest);
+                    if (imageNeedsCompression(diffuseSrc))
+                    {
+                        Log.Info("Compressing diffuse map {0} directly", description.DiffuseMapName);
+                        compressDiffuseMap(diffuseSrc, diffuseDest);
+                    }
                 }
             }
             if (shouldSave(description.HasSpecularColorMap, description.SpecularMapName))
@@ -95,11 +107,19 @@ namespace Anomalous.TextureCompiler
                 if(description.HasSpecularLevelMap)
                 {
                     String specularLevelSrc = getSourceFullPath(description.SpecularLevelMapName);
-                    addMapToAlphaAndCompress(specularSrc, specularLevelSrc, Channel.Red, specularTmp, specularDest, compressSpecularMap);
+                    if (imageNeedsCompression(specularSrc) || imageNeedsCompression(specularLevelSrc))
+                    {
+                        Log.Info("Compressing specular map {0} with specular level in alpha {1}", description.DiffuseMapName, description.SpecularLevelMapName);
+                        addMapToAlphaAndCompress(specularSrc, specularLevelSrc, Channel.Red, specularTmp, specularDest, compressSpecularMap);
+                    }
                 }
                 else //Just save as is
                 {
-                    compressSpecularMap(specularSrc, specularDest);
+                    if (imageNeedsCompression(specularSrc))
+                    {
+                        Log.Info("Compressing specular map {0} directly", description.DiffuseMapName);
+                        compressSpecularMap(specularSrc, specularDest);
+                    }
                 }
             }
             if(shouldSave(description.HasOpacityMap, description.OpacityMapName))
@@ -111,18 +131,26 @@ namespace Anomalous.TextureCompiler
                 if (description.HasGlossMap)
                 {
                     String glossLevelSrc = getSourceFullPath(description.GlossMapName);
-
-                    combineSingleChannelMaps(opacitySrc, Channel.Red, glossLevelSrc, Channel.Red, opacityTmp, opacityDest, compressOpacityMap);
+                    if (imageNeedsCompression(opacitySrc) || imageNeedsCompression(glossLevelSrc))
+                    {
+                        Log.Info("Compressing opacity map {0} with gloss in green from {1}", description.DiffuseMapName, description.GlossMapName);
+                        combineSingleChannelMaps(opacitySrc, Channel.Red, glossLevelSrc, Channel.Red, opacityTmp, opacityDest, compressOpacityMap);
+                    }
                 }
                 else //Just save as is
                 {
-                    compressOpacityMap(opacitySrc, opacityDest);
+                    if (imageNeedsCompression(opacitySrc))
+                    {
+                        Log.Info("Compressing opacity map {0} directly", description.DiffuseMapName);
+                        compressOpacityMap(opacitySrc, opacityDest);
+                    }
                 }
             }
         }
 
         private void addMapToAlphaAndCompress(String rgbSource, String alphaSource, Channel alphaSourceChannel, String tempFile, String destinationFile, Action<String, String> compressFunction)
         {
+            Log.Info("Building composite image with RGB {0} and alpha {1}", rgbSource, alphaSource);
             using (FreeImageBitmap rgbMap = FreeImageBitmap.FromFile(rgbSource))
             {
                 using (FreeImageBitmap alphaMap = FreeImageBitmap.FromFile(alphaSource))
@@ -139,6 +167,7 @@ namespace Anomalous.TextureCompiler
 
         private void combineSingleChannelMaps(String redSource, Channel redSourceChannel, String greenSource, Channel greenSourceChannel, String tempFile, String destinationFile, Action<String, String> compressFunction)
         {
+            Log.Info("Building composite image with red source {0} and green source {1}", redSource, greenSource);
             using (FreeImageBitmap redMap = FreeImageBitmap.FromFile(redSource))
             {
                 using (FreeImageBitmap greenMap = FreeImageBitmap.FromFile(greenSource))
@@ -358,7 +387,15 @@ namespace Anomalous.TextureCompiler
 
         public override void initializationComplete()
         {
-
+            Log.Error("Textures compiled with {0} errors.", errors.Count);
+            //Print errors
+            if (errors.Count > 0)
+            {
+                foreach(var error in errors)
+                {
+                    Log.Error(error);
+                }
+            }
         }
 
         public override string Name
@@ -427,6 +464,19 @@ namespace Anomalous.TextureCompiler
             runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3nFormat, source, dest));
             etc2Compress(source, dest);
             saveUncompressed(source, dest);
+        }
+
+        private bool imageNeedsCompression(String source)
+        {
+            if(File.Exists(source))
+            {
+                return true;
+            }
+            else
+            {
+                logError(String.Format("File {0} does not exist", source));
+                return false;
+            }
         }
     }
 }
