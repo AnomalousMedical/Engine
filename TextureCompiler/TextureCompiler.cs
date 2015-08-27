@@ -67,42 +67,18 @@ namespace Anomalous.TextureCompiler
                 Log.Info("Compressing diffuse map {0}", description.DiffuseMapName);
 
                 String diffuseSrc = getSourceFullPath(description.DiffuseMapName);
-                String diffuseDest = getTempPath(description.DiffuseMapName);
+                String diffuseDest = getDestBasePath(description.DiffuseMapName);
                 String diffuseTmp = getTempPath(description.DiffuseMapName);
 
                 if (description.HasSpecularLevelMap && !description.HasSpecularColorMap) //If we don't have a specular color map pack the specular level into the diffuse map
                 {
                     String specularLevelSrc = getSourceFullPath(description.SpecularLevelMapName);
-
-                    using (FreeImageBitmap diffuseMap = FreeImageBitmap.FromFile(diffuseSrc))
-                    {
-                        using (FreeImageBitmap specularLevelMap = FreeImageBitmap.FromFile(specularLevelSrc))
-                        {
-                            using (FreeImageBitmap combined = createImageFromChannels(specularLevelMap, Channel.Red, diffuseMap))
-                            {
-                                saveImage(combined, diffuseTmp, TempFileImageFormat);
-                                compressDiffuseMap(diffuseTmp, diffuseDest);
-                                deleteFile(diffuseTmp);
-                            }
-                        }
-                    }
+                    addMapToAlphaAndCompress(diffuseSrc, specularLevelSrc, Channel.Red, diffuseTmp, diffuseDest, compressDiffuseMap);
                 }
                 else if (description.HasGlossMap) //Pack the gloss level into the diffuse map
                 {
                     String glossLevelSrc = getSourceFullPath(description.GlossMapName);
-
-                    using (FreeImageBitmap diffuseMap = FreeImageBitmap.FromFile(diffuseSrc))
-                    {
-                        using (FreeImageBitmap glossLevelMap = FreeImageBitmap.FromFile(glossLevelSrc))
-                        {
-                            using (FreeImageBitmap combined = createImageFromChannels(glossLevelMap, Channel.Red, diffuseMap))
-                            {
-                                saveImage(combined, diffuseTmp, TempFileImageFormat);
-                                compressDiffuseMap(diffuseTmp, diffuseDest);
-                                deleteFile(diffuseTmp);
-                            }
-                        }
-                    }
+                    addMapToAlphaAndCompress(diffuseSrc, glossLevelSrc, Channel.Red, diffuseTmp, diffuseDest, compressDiffuseMap);
                 }
                 else //Just save the diffuse map as is
                 {
@@ -111,31 +87,35 @@ namespace Anomalous.TextureCompiler
             }
             if (shouldSave(description.HasSpecularColorMap, description.SpecularMapName))
             {
-                String specularSrc = getSourceFullPath(description.DiffuseMapName);
-                String specularDest = getDestBasePath(description.DiffuseMapName);
-                String specularTmp = getTempPath(description.SpecularMapName + "_tmp");
+                String specularSrc = getSourceFullPath(description.SpecularMapName);
+                String specularDest = getDestBasePath(description.SpecularMapName);
+                String specularTmp = getTempPath(description.SpecularMapName);
 
                 Log.Info("Compressing specular map {0}", description.SpecularMapName);
                 if(description.HasSpecularLevelMap)
                 {
                     String specularLevelSrc = getSourceFullPath(description.SpecularLevelMapName);
-
-                    using (FreeImageBitmap specularColorMap = FreeImageBitmap.FromFile(specularSrc))
-                    {
-                        using (FreeImageBitmap specularLevelMap = FreeImageBitmap.FromFile(specularLevelSrc))
-                        {
-                            using (FreeImageBitmap combined = createImageFromChannels(specularLevelMap, Channel.Red, specularColorMap))
-                            {
-                                saveImage(combined, specularTmp, TempFileImageFormat);
-                                compressSpecularMap(specularTmp, specularDest);
-                                deleteFile(specularTmp);
-                            }
-                        }
-                    }
+                    addMapToAlphaAndCompress(specularSrc, specularLevelSrc, Channel.Red, specularTmp, specularDest, compressSpecularMap);
                 }
                 else //Just save as is
                 {
                     compressSpecularMap(specularSrc, specularDest);
+                }
+            }
+        }
+
+        private void addMapToAlphaAndCompress(String rgbSource, String alphaSource, Channel alphaSourceChannel, String tempFile, String destinationFile, Action<String, String> compressFunction)
+        {
+            using (FreeImageBitmap rgbMap = FreeImageBitmap.FromFile(rgbSource))
+            {
+                using (FreeImageBitmap alphaMap = FreeImageBitmap.FromFile(alphaSource))
+                {
+                    using (FreeImageBitmap combined = createImageFromChannels(alphaMap, alphaSourceChannel, rgbMap))
+                    {
+                        saveImage(combined, tempFile, TempFileImageFormat);
+                        compressFunction(tempFile, destinationFile);
+                        deleteFile(tempFile);
+                    }
                 }
             }
         }
