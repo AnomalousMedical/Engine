@@ -60,14 +60,7 @@ namespace Anomalous.TextureCompiler
                 String source = getSourceFullPath(description.NormalMapName);
                 String dest = getDestBasePath(description.NormalMapName);
                 //DDS
-                runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC5Format, source, dest));
-                runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3nFormat, source, dest));
-
-                //ETC2
-                etc2Compress(source, dest);
-
-                //Uncompressed
-                saveUncompressed(source, dest);
+                compressNormalMap(source, dest);
             }
             if (shouldSave(description.HasDiffuseMap, description.DiffuseMapName))
             {
@@ -88,9 +81,7 @@ namespace Anomalous.TextureCompiler
                             using (FreeImageBitmap combined = createImageFromChannels(specularLevelMap, Channel.Red, diffuseMap))
                             {
                                 saveImage(combined, diffuseTmp, TempFileImageFormat);
-                                runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3Format, diffuseTmp, diffuseDest));
-                                etc2Compress(diffuseTmp, diffuseDest);
-                                saveUncompressed(diffuseTmp, diffuseDest);
+                                compressDiffuseMap(diffuseTmp, diffuseDest);
                                 deleteFile(diffuseTmp);
                             }
                         }
@@ -107,9 +98,7 @@ namespace Anomalous.TextureCompiler
                             using (FreeImageBitmap combined = createImageFromChannels(glossLevelMap, Channel.Red, diffuseMap))
                             {
                                 saveImage(combined, diffuseTmp, TempFileImageFormat);
-                                runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3Format, diffuseTmp, diffuseDest));
-                                etc2Compress(diffuseTmp, diffuseDest);
-                                saveUncompressed(diffuseTmp, diffuseDest);
+                                compressDiffuseMap(diffuseTmp, diffuseDest);
                                 deleteFile(diffuseTmp);
                             }
                         }
@@ -117,9 +106,7 @@ namespace Anomalous.TextureCompiler
                 }
                 else //Just save the diffuse map as is
                 {
-                    runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3Format, diffuseSrc, diffuseDest));
-                    etc2Compress(diffuseSrc, diffuseDest);
-                    saveUncompressed(diffuseSrc, diffuseDest);
+                    compressDiffuseMap(diffuseSrc, diffuseDest);
                 }
             }
             if (shouldSave(description.HasSpecularColorMap, description.SpecularMapName))
@@ -140,13 +127,15 @@ namespace Anomalous.TextureCompiler
                             using (FreeImageBitmap combined = createImageFromChannels(specularLevelMap, Channel.Red, specularColorMap))
                             {
                                 saveImage(combined, specularTmp, TempFileImageFormat);
-                                runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3Format, specularTmp, specularDest));
-                                etc2Compress(specularTmp, specularDest);
-                                saveUncompressed(specularTmp, specularDest);
+                                compressSpecularMap(specularTmp, specularDest);
                                 deleteFile(specularTmp);
                             }
                         }
                     }
+                }
+                else //Just save as is
+                {
+                    compressSpecularMap(specularSrc, specularDest);
                 }
             }
         }
@@ -343,6 +332,28 @@ namespace Anomalous.TextureCompiler
         private String getDestBasePath(String filename)
         {
             return Path.Combine(destDirectory, filename);
+        }
+
+        private void compressSpecularMap(string source, string dest)
+        {
+            runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3Format, source, dest));
+            etc2Compress(source, dest);
+            saveUncompressed(source, dest);
+        }
+
+        private void compressDiffuseMap(string source, string dest)
+        {
+            runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3Format, source, dest));
+            etc2Compress(source, dest);
+            saveUncompressed(source, dest);
+        }
+
+        private void compressNormalMap(string source, string dest)
+        {
+            runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC5Format, source, dest));
+            runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3nFormat, source, dest));
+            etc2Compress(source, dest);
+            saveUncompressed(source, dest);
         }
     }
 }
