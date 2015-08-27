@@ -46,6 +46,8 @@ namespace Anomalous.TextureCompiler
         private HashSet<String> compiledTextures = new HashSet<string>();
         private CompiledTextureInfo compiledTextureInfo = new CompiledTextureInfo();
 
+        private int compressedCount = 0;
+
         public TextureCompiler(String sourceDirectory, String destDirectory)
         {
             this.sourceDirectory = sourceDirectory;
@@ -412,14 +414,18 @@ namespace Anomalous.TextureCompiler
 
         public override void initializationComplete()
         {
-            Log.Error("Textures compiled with {0} errors.", errors.Count);
             //Print errors
             if (errors.Count > 0)
             {
-                foreach(var error in errors)
+                Log.Error("{0} Textures compiled with {1} errors.", compressedCount, errors.Count);
+                foreach (var error in errors)
                 {
                     Log.Error(error);
                 }
+            }
+            else
+            {
+                Log.ImportantInfo("{0} Textures compiled with no errors.", compressedCount);
             }
         }
 
@@ -464,6 +470,7 @@ namespace Anomalous.TextureCompiler
 
         private void compressOpacityMap(string source, string dest)
         {
+            ++compressedCount;
             runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3Format, source, dest));
             etc2Compress(source, dest);
             saveUncompressed(source, dest);
@@ -471,6 +478,7 @@ namespace Anomalous.TextureCompiler
 
         private void compressSpecularMap(string source, string dest)
         {
+            ++compressedCount;
             runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3Format, source, dest));
             etc2Compress(source, dest);
             saveUncompressed(source, dest);
@@ -478,6 +486,7 @@ namespace Anomalous.TextureCompiler
 
         private void compressDiffuseMap(string source, string dest)
         {
+            ++compressedCount;
             runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3Format, source, dest));
             etc2Compress(source, dest);
             saveUncompressed(source, dest);
@@ -485,6 +494,7 @@ namespace Anomalous.TextureCompiler
 
         private void compressNormalMap(string source, string dest)
         {
+            ++compressedCount;
             runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC5Format, source, dest));
             runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3nFormat, source, dest));
             etc2Compress(source, dest);
