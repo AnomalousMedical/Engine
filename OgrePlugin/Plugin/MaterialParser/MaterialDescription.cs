@@ -346,6 +346,22 @@ namespace OgrePlugin
             }
         }
 
+        public String SpecularLevelMapName
+        {
+            get
+            {
+                return String.Format("{0}SpecularLevel", TextureSet);
+            }
+        }
+
+        public String GlossMapName
+        {
+            get
+            {
+                return String.Format("{0}Gloss", TextureSet);
+            }
+        }
+
         //public String TextureSet
         //{
         //    get
