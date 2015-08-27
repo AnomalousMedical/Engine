@@ -52,34 +52,34 @@ namespace Anomalous.TextureCompiler
         public override void buildMaterial(MaterialDescription description, MaterialRepository repo)
         {
             Log.Info("Compiling textures for material {0}", description.Name);
-            //if (shouldSave(description.HasNormalMap, description.NormalMapName))
-            //{
-            //    //Normal maps are pretty much always the same.
-            //    Log.Info("Compressing normal map {0}", description.NormalMapName);
+            if (shouldSave(description.HasNormalMap, description.NormalMapName))
+            {
+                //Normal maps are pretty much always the same.
+                Log.Info("Compressing normal map {0}", description.NormalMapName);
 
-            //    String source = getSourceFullPath(description.NormalMapName);
-            //    String dest = getDestBasePath(description.NormalMapName);
-            //    //DDS
-            //    runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC5Format, source, dest));
-            //    runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3nFormat, source, dest));
+                String source = getSourceFullPath(description.NormalMapName);
+                String dest = getDestBasePath(description.NormalMapName);
+                //DDS
+                runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC5Format, source, dest));
+                runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3nFormat, source, dest));
 
-            //    //ETC2
-            //    etc2Compress(source);
+                //ETC2
+                etc2Compress(source, dest);
 
-            //    //Uncompressed
-            //    saveUncompressed(source, dest);
-            //}
+                //Uncompressed
+                saveUncompressed(source, dest);
+            }
             if (shouldSave(description.HasDiffuseMap, description.DiffuseMapName))
             {
                 Log.Info("Compressing diffuse map {0}", description.DiffuseMapName);
 
                 String diffuseSrc = getSourceFullPath(description.DiffuseMapName);
-                String diffuseDest = getDestBasePath(description.DiffuseMapName);
+                String diffuseDest = getTempPath(description.DiffuseMapName);
+                String diffuseTmp = getTempPath(description.DiffuseMapName);
 
                 if (description.HasSpecularLevelMap && !description.HasSpecularColorMap) //If we don't have a specular color map pack the specular level into the diffuse map
                 {
                     String specularLevelSrc = getSourceFullPath(description.SpecularLevelMapName);
-                    String diffuseTmp = getSourceFullPath(description.DiffuseMapName + "_tmp");
 
                     using (FreeImageBitmap diffuseMap = FreeImageBitmap.FromFile(diffuseSrc))
                     {
@@ -89,17 +89,16 @@ namespace Anomalous.TextureCompiler
                             {
                                 saveImage(combined, diffuseTmp, TempFileImageFormat);
                                 runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3Format, diffuseTmp, diffuseDest));
-                                etc2Compress(diffuseTmp);
+                                etc2Compress(diffuseTmp, diffuseDest);
                                 saveUncompressed(diffuseTmp, diffuseDest);
                                 deleteFile(diffuseTmp);
                             }
                         }
                     }
                 }
-                else if(description.HasGlossMap) //Pack the gloss level into the diffuse map
+                else if (description.HasGlossMap) //Pack the gloss level into the diffuse map
                 {
                     String glossLevelSrc = getSourceFullPath(description.GlossMapName);
-                    String diffuseTmp = getTempPath(description.DiffuseMapName);
 
                     using (FreeImageBitmap diffuseMap = FreeImageBitmap.FromFile(diffuseSrc))
                     {
@@ -109,7 +108,7 @@ namespace Anomalous.TextureCompiler
                             {
                                 saveImage(combined, diffuseTmp, TempFileImageFormat);
                                 runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3Format, diffuseTmp, diffuseDest));
-                                etc2Compress(diffuseTmp);
+                                etc2Compress(diffuseTmp, diffuseDest);
                                 saveUncompressed(diffuseTmp, diffuseDest);
                                 deleteFile(diffuseTmp);
                             }
@@ -119,8 +118,35 @@ namespace Anomalous.TextureCompiler
                 else //Just save the diffuse map as is
                 {
                     runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3Format, diffuseSrc, diffuseDest));
-                    etc2Compress(diffuseSrc);
+                    etc2Compress(diffuseSrc, diffuseDest);
                     saveUncompressed(diffuseSrc, diffuseDest);
+                }
+            }
+            if (shouldSave(description.HasSpecularColorMap, description.SpecularMapName))
+            {
+                String specularSrc = getSourceFullPath(description.DiffuseMapName);
+                String specularDest = getDestBasePath(description.DiffuseMapName);
+                String specularTmp = getTempPath(description.SpecularMapName + "_tmp");
+
+                Log.Info("Compressing specular map {0}", description.SpecularMapName);
+                if(description.HasSpecularLevelMap)
+                {
+                    String specularLevelSrc = getSourceFullPath(description.SpecularLevelMapName);
+
+                    using (FreeImageBitmap specularColorMap = FreeImageBitmap.FromFile(specularSrc))
+                    {
+                        using (FreeImageBitmap specularLevelMap = FreeImageBitmap.FromFile(specularLevelSrc))
+                        {
+                            using (FreeImageBitmap combined = createImageFromChannels(specularLevelMap, Channel.Red, specularColorMap))
+                            {
+                                saveImage(combined, specularTmp, TempFileImageFormat);
+                                runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3Format, specularTmp, specularDest));
+                                etc2Compress(specularTmp, specularDest);
+                                saveUncompressed(specularTmp, specularDest);
+                                deleteFile(specularTmp);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -211,12 +237,12 @@ namespace Anomalous.TextureCompiler
             throw new NotSupportedException(); //Won't get here
         }
 
-        private void etc2Compress(String sourceFile)
+        private void etc2Compress(String sourceFile, String destFile)
         {
             runExternalCompressionProcess(MaliTextureToolExe, String.Format(MaliTextureToolArgFormat, sourceFile, sourceDirectory));
             String fileName = Path.GetFileNameWithoutExtension(sourceFile);
             String renameSrc = Path.Combine(sourceDirectory, fileName + ".ktx");
-            String renameDst = Path.Combine(destDirectory, fileName + "_etc2.ktx");
+            String renameDst = destFile + "_etc2.ktx";
             try
             {
                 if (File.Exists(renameDst))
