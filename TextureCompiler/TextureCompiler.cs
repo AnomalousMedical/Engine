@@ -97,11 +97,12 @@ namespace Anomalous.TextureCompiler
                 String diffuseSrc = getSourceFullPath(description.DiffuseMapName);
                 String diffuseDest = getDestBasePath(description.DiffuseMapName);
                 String diffuseTmp = getTempPath(description.DiffuseMapName);
+                bool compressDiffuse = imageNeedsCompression(diffuseSrc);
 
                 if (description.HasSpecularLevelMap && !description.HasSpecularColorMap) //If we don't have a specular color map pack the specular level into the diffuse map
                 {
                     String specularLevelSrc = getSourceFullPath(description.SpecularLevelMapName);
-                    if (imageNeedsCompression(diffuseSrc) || imageNeedsCompression(specularLevelSrc))
+                    if (imageNeedsCompression(specularLevelSrc) || compressDiffuse)
                     {
                         Log.Info("Compressing diffuse map {0} with specular level in alpha from {1}", description.DiffuseMapName, description.SpecularLevelMapName);
                         addMapToAlphaAndCompress(diffuseSrc, specularLevelSrc, Channel.Red, diffuseTmp, diffuseDest, compressDiffuseMap);
@@ -110,7 +111,7 @@ namespace Anomalous.TextureCompiler
                 else if (description.HasGlossMap && !description.HasOpacityMap) //Pack the gloss level into the diffuse map
                 {
                     String glossLevelSrc = getSourceFullPath(description.GlossMapName);
-                    if (imageNeedsCompression(diffuseSrc) || imageNeedsCompression(glossLevelSrc))
+                    if (imageNeedsCompression(glossLevelSrc) || compressDiffuse)
                     {
                         Log.Info("Compressing diffuse map {0} with gloss in alpha from {1}", description.DiffuseMapName, description.GlossMapName);
                         addMapToAlphaAndCompress(diffuseSrc, glossLevelSrc, Channel.Red, diffuseTmp, diffuseDest, compressDiffuseMap);
@@ -118,7 +119,7 @@ namespace Anomalous.TextureCompiler
                 }
                 else //Just save the diffuse map as is
                 {
-                    if (imageNeedsCompression(diffuseSrc))
+                    if (compressDiffuse)
                     {
                         Log.Info("Compressing diffuse map {0} directly", description.DiffuseMapName);
                         compressDiffuseMap(diffuseSrc, diffuseDest);
@@ -130,11 +131,12 @@ namespace Anomalous.TextureCompiler
                 String specularSrc = getSourceFullPath(description.SpecularMapName);
                 String specularDest = getDestBasePath(description.SpecularMapName);
                 String specularTmp = getTempPath(description.SpecularMapName);
+                bool compressSpecular = imageNeedsCompression(specularSrc);
 
-                if(description.HasSpecularLevelMap)
+                if (description.HasSpecularLevelMap)
                 {
                     String specularLevelSrc = getSourceFullPath(description.SpecularLevelMapName);
-                    if (imageNeedsCompression(specularSrc) || imageNeedsCompression(specularLevelSrc))
+                    if (imageNeedsCompression(specularLevelSrc) || compressSpecular)
                     {
                         Log.Info("Compressing specular map {0} with specular level in alpha {1}", description.DiffuseMapName, description.SpecularLevelMapName);
                         addMapToAlphaAndCompress(specularSrc, specularLevelSrc, Channel.Red, specularTmp, specularDest, compressSpecularMap);
@@ -142,7 +144,7 @@ namespace Anomalous.TextureCompiler
                 }
                 else //Just save as is
                 {
-                    if (imageNeedsCompression(specularSrc))
+                    if (compressSpecular)
                     {
                         Log.Info("Compressing specular map {0} directly", description.DiffuseMapName);
                         compressSpecularMap(specularSrc, specularDest);
@@ -154,11 +156,12 @@ namespace Anomalous.TextureCompiler
                 String opacitySrc = getSourceFullPath(description.OpacityMapName);
                 String opacityDest = getDestBasePath(description.OpacityMapName);
                 String opacityTmp = getTempPath(description.OpacityMapName);
+                bool compressOpacity = imageNeedsCompression(opacitySrc);
 
                 if (description.HasGlossMap)
                 {
                     String glossLevelSrc = getSourceFullPath(description.GlossMapName);
-                    if (imageNeedsCompression(opacitySrc) || imageNeedsCompression(glossLevelSrc))
+                    if (imageNeedsCompression(glossLevelSrc) || compressOpacity)
                     {
                         Log.Info("Compressing opacity map {0} with gloss in green from {1}", description.DiffuseMapName, description.GlossMapName);
                         combineSingleChannelMaps(opacitySrc, Channel.Red, glossLevelSrc, Channel.Red, opacityTmp, opacityDest, compressOpacityMap);
@@ -166,7 +169,7 @@ namespace Anomalous.TextureCompiler
                 }
                 else //Just save as is
                 {
-                    if (imageNeedsCompression(opacitySrc))
+                    if (compressOpacity)
                     {
                         Log.Info("Compressing opacity map {0} directly", description.DiffuseMapName);
                         compressOpacityMap(opacitySrc, opacityDest);
@@ -398,6 +401,7 @@ namespace Anomalous.TextureCompiler
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
+                    CreateNoWindow = true,
                 },
             })
             {
