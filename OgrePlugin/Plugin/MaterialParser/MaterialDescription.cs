@@ -553,7 +553,7 @@ namespace OgrePlugin
 
                 editInterface.addCommand(new EditInterfaceCommand("Add Variant", callback =>
                 {
-                    var desc = new MaterialDescription();
+                    var desc = new MaterialDescription(this);
                     Variants.Add(desc);
                     VariantProperties variant = new VariantProperties(desc);
                     variantProperties.Add(variant);
