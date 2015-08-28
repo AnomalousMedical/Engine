@@ -165,6 +165,22 @@ namespace MyGUIPlugin
             }
         }
 
+        public int Widget1Height
+        {
+            get
+            {
+                return widget1.Height;
+            }
+        }
+
+        public int Widget2Height
+        {
+            get
+            {
+                return widget2.Height;
+            }
+        }
+
         private void splitterWidget_MouseDrag(Widget source, EventArgs e)
         {
             MouseEventArgs me = e as MouseEventArgs;

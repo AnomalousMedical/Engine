@@ -109,11 +109,11 @@ namespace Anomalous.GuiFramework.Editor
         {
             if (visible)
             {
-                tableScroller.Height = window.ClientWidget.Height - (addRemoveButtons.Height - gap);
+                tableScroller.Height = splitter.Widget2Height - (addRemoveButtons.Height - gap);
             }
             else
             {
-                tableScroller.Height = window.ClientWidget.Height - tableScroller.Top;
+                tableScroller.Height = splitter.Widget2Height - tableScroller.Top;
             }
         }
     }
