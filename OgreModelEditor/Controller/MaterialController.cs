@@ -93,6 +93,7 @@ namespace OgreModelEditor
                         serializer.Serialize(textWriter, this);
                     }
                     wroteSomething = true;
+                    Logging.Log.ImportantInfo("Saved material file {0}", outputFile);
                 }
             }
             if(!wroteSomething && currentDescriptions.Count > 0)
