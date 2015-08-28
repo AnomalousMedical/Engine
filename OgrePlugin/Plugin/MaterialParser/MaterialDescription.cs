@@ -28,6 +28,8 @@ namespace OgrePlugin
             }
         }
 
+        private static readonly MaterialDescription defaultDescription = new MaterialDescription();
+
         Color specularColor;
         Color emissiveColor;
         Color diffuseColor;
@@ -458,9 +460,10 @@ namespace OgrePlugin
                 {
                     Object thisValue = property.getValue(desc, null);
                     Object parentValue = property.getValue(desc.parent, null);
+                    Object defaultValue = property.getValue(defaultDescription, null);
                     if (alwaysWrite || (thisValue != null && !thisValue.Equals(parentValue)))
                     {
-                        if (property.getWrappedName() != "Variants")
+                        if (thisValue != null && !thisValue.Equals(defaultValue) && property.getWrappedName() != "Variants")
                         {
                             writer.WritePropertyName(property.getWrappedName());
                             writer.WriteValue(thisValue);
