@@ -547,16 +547,13 @@ namespace OgrePlugin
                 variantPropertiesManager.addCommand(new EditInterfaceCommand("Remove", callback =>
                 {
                     VariantProperties variant = editInterface.resolveSourceObject<VariantProperties>(callback.getSelectedEditInterface());
-                    Variants.Remove(variant.Variant);
                     variantProperties.Remove(variant);
                     editInterface.removeSubInterface(variant);
                 }));
 
                 editInterface.addCommand(new EditInterfaceCommand("Add Variant", callback =>
                 {
-                    var desc = new MaterialDescription(this);
-                    Variants.Add(desc);
-                    VariantProperties variant = new VariantProperties(desc);
+                    VariantProperties variant = new VariantProperties();
                     variantProperties.Add(variant);
                     editInterface.addSubInterface(variant, variant.EditInterface);
                 }));
@@ -571,22 +568,38 @@ namespace OgrePlugin
             return editInterface;
         }
 
+        /// <summary>
+        /// Rebuild the variants from their property definions, reccomended to do before saving if the edit
+        /// interface has been used. Won't do anything if the edit interface has not been created.
+        /// </summary>
+        public void rebuildVariants()
+        {
+            //We use variantproperties to write variants not the variants themselves, this keeps 
+            if (variantProperties != null && variantProperties.Count > 0)
+            {
+                Variants.Clear();
+                foreach (var variantProps in variantProperties)
+                {
+                    MaterialDescription variant = new MaterialDescription(this);
+                    variantProps.applyTo(variant);
+                    Variants.Add(variant);
+                }
+            }
+        }
+
         class VariantProperties
         {
             private List<VariantOverride> overrides = new List<VariantOverride>();
             private EditInterface editInterface;
-            private MaterialDescription variant;
 
-            public VariantProperties(MaterialDescription variant)
+            public VariantProperties()
             {
-                this.variant = variant;
                 overrides.Add(new VariantOverride("Name", "", this));
                 buildEditInterface("Variant");
             }
 
             public VariantProperties(MaterialDescription variant, MaterialDescription parent)
             {
-                this.variant = variant;
                 ensureScannerExists();
                 String name = "Variant";
                 foreach (var property in scanner.getMatchingMembers(typeof(MaterialDescription)))
@@ -609,22 +622,21 @@ namespace OgrePlugin
             public void changed(VariantOverride variant)
             {
                 ensureScannerExists();
-                var property = this.variant.getEditInterface().getEditableProperties().Where(i => i.getValue(0).Equals(variant.Name)).FirstOrDefault();
-                if (property != null)
-                {
-                    property.setValueStr(1, variant.Value);
-                }
                 if (variant.Name == "Name")
                 {
                     editInterface.setName(variant.Value);
                 }
             }
 
-            public MaterialDescription Variant
+            public void applyTo(MaterialDescription variant)
             {
-                get
+                foreach(var o in overrides)
                 {
-                    return variant;
+                    var property = variant.getEditInterface().getEditableProperties().Where(i => i.getValue(0).Equals(o.Name)).FirstOrDefault();
+                    if (property != null)
+                    {
+                        property.setValueStr(1, o.Value);
+                    }
                 }
             }
 

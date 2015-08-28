@@ -135,6 +135,7 @@ namespace OgreModelEditor
                     }
                     if (desc.SourceFile == matSerial.currentOutputFile)
                     {
+                        desc.rebuildVariants();
                         serializer.Serialize(writer, desc);
                     }
                 }
