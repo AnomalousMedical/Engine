@@ -1,6 +1,7 @@
 ﻿using Engine;
 using Engine.Editing;
 using Engine.Resources;
+using MyGUIPlugin;
 using Newtonsoft.Json;
 using OgrePlugin;
 using System;
@@ -16,6 +17,130 @@ namespace OgreModelEditor
     [JsonConverter(typeof(MaterialController.MaterialSerializer))]
     class MaterialController
     {
+        private EditInterface editInterface;
+        private PluginManager pluginManager;
+        private List<MaterialDescription> currentDescriptions = new List<MaterialDescription>();
+        private String currentRealRootDirectory;
+        private String currentOutputFile;
+
+        public MaterialController(PluginManager pluginManager)
+        {
+            this.pluginManager = pluginManager;
+
+            editInterface = ReflectedEditInterface.createEditInterface(this, "Materials");
+            editInterface.createEditInterfaceManager<MaterialDescription>();
+        }
+
+        public void loadMaterials(String vfsPath, String currentRealRootDirectory)
+        {
+            this.currentRealRootDirectory = currentRealRootDirectory;
+
+            var listener = new MaterialResourceListener(this);
+
+            var resourceManager = pluginManager.createResourceManagerForListener("MaterialController", listener);
+            var subsystem = resourceManager.getSubsystemResource("MaterialController");
+            var group = subsystem.addResourceGroup("MaterialController");
+            group.addResource(vfsPath, "EngineArchive", true);
+
+            resourceManager.initializeResources();
+        }
+
+        public EditInterface EditInterface
+        {
+            get
+            {
+                return editInterface;
+            }
+        }
+
+        private void materialFound(MaterialDescription description)
+        {
+            if (description.IsRoot)
+            {
+                currentDescriptions.Add(description);
+                editInterface.addSubInterface(description, description.getEditInterface());
+            }
+        }
+
+        internal void clearMaterials()
+        {
+            foreach (var desc in currentDescriptions)
+            {
+                editInterface.removeSubInterface(desc);
+            }
+            currentDescriptions.Clear();
+        }
+
+        internal void saveMaterials()
+        {
+            HashSet<String> writtenFiles = new HashSet<string>();
+
+            bool wroteSomething = false;
+            foreach (var desc in currentDescriptions)
+            {
+                currentOutputFile = desc.SourceFile;
+                if (currentOutputFile != null && !writtenFiles.Contains(currentOutputFile))
+                {
+                    writtenFiles.Add(currentOutputFile);
+                    String outputFile = Path.Combine(currentRealRootDirectory, "woot.txt");
+                    //String outputFile = Path.Combine(currentRealRootDirectory, desc.SourceFile);
+
+                    JsonSerializer serializer = new JsonSerializer();
+                    serializer.Formatting = Formatting.Indented;
+                    using (StreamWriter textWriter = new StreamWriter(outputFile, false))
+                    {
+                        serializer.Serialize(textWriter, this);
+                    }
+                    wroteSomething = true;
+                }
+            }
+            if(!wroteSomething && currentDescriptions.Count > 0)
+            {
+                InputBox.GetInput("Save Materials", "Enter a name for the material file.", true, nameMaterialResult);
+            }
+        }
+
+        bool nameMaterialResult(String result, ref String errorPrompt)
+        {
+            //This only happens if no descs have output files and there are actually output files if(!wroteSomething && currentDescriptions.Count > 0)
+            currentDescriptions[0].SourceFile = result;
+            saveMaterials();
+            return true;
+        }
+
+        internal class MaterialSerializer : JsonConverter
+        {
+            public override bool CanConvert(Type objectType)
+            {
+                return typeof(MaterialController).IsAssignableFrom(objectType);
+            }
+
+            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+            {
+                return null;
+            }
+
+            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+            {
+                MaterialController matSerial = value as MaterialController;
+                writer.WriteStartArray();
+
+                foreach (var desc in matSerial.currentDescriptions)
+                {
+                    if(desc.SourceFile == null)
+                    {
+                        desc.SourceFile = matSerial.currentOutputFile;
+                    }
+                    if (desc.SourceFile == matSerial.currentOutputFile)
+                    {
+                        serializer.Serialize(writer, desc);
+                    }
+                }
+
+                writer.WriteEndArray();
+            }
+        }
+
         class MaterialReader : MaterialBuilder
         {
             MaterialController controller;
@@ -83,118 +208,6 @@ namespace OgreModelEditor
             public void resourceRemoved(ResourceGroup group, Engine.Resources.Resource resource)
             {
                 materialParser.resourceRemoved(group, resource);
-            }
-        }
-
-
-        private EditInterface editInterface;
-        private PluginManager pluginManager;
-        private List<MaterialDescription> currentDescriptions = new List<MaterialDescription>();
-        private String currentRealRootDirectory;
-
-        public MaterialController(PluginManager pluginManager)
-        {
-            this.pluginManager = pluginManager;
-
-            editInterface = ReflectedEditInterface.createEditInterface(this, "Materials");
-            editInterface.createEditInterfaceManager<MaterialDescription>();
-        }
-
-        public void loadMaterials(String vfsPath, String currentRealRootDirectory)
-        {
-            this.currentRealRootDirectory = currentRealRootDirectory;
-
-            var listener = new MaterialResourceListener(this);
-
-            var resourceManager = pluginManager.createResourceManagerForListener("MaterialController", listener);
-            var subsystem = resourceManager.getSubsystemResource("MaterialController");
-            var group = subsystem.addResourceGroup("MaterialController");
-            group.addResource(vfsPath, "EngineArchive", true);
-
-            resourceManager.initializeResources();
-        }
-
-        public EditInterface EditInterface
-        {
-            get
-            {
-                return editInterface;
-            }
-        }
-
-        private void materialFound(MaterialDescription description)
-        {
-            if (description.IsRoot)
-            {
-                currentDescriptions.Add(description);
-                editInterface.addSubInterface(description, description.getEditInterface());
-            }
-        }
-
-        internal void clearMaterials()
-        {
-            foreach (var desc in currentDescriptions)
-            {
-                editInterface.removeSubInterface(desc);
-            }
-            currentDescriptions.Clear();
-        }
-
-        internal void saveMaterials()
-        {
-            String outputFile = Path.Combine(currentRealRootDirectory, "woot.txt");
-            //String outputFile = Path.Combine(currentRealRootDirectory, desc.SourceFile);
-
-            JsonSerializer serializer = new JsonSerializer();
-            serializer.Formatting = Formatting.Indented;
-            using (StreamWriter textWriter = new StreamWriter(outputFile, false))
-            {
-                serializer.Serialize(textWriter, this);
-            }
-
-                //HashSet<String> seenSourceFiles = new HashSet<string>();
-                //foreach (var desc in currentDescriptions)
-                //{
-                //    String outputFile = Path.Combine(currentRealRootDirectory, "woot.txt");
-                //    //String outputFile = Path.Combine(currentRealRootDirectory, desc.SourceFile);
-
-                //    bool newFile = seenSourceFiles.Contains(outputFile);
-                //    using (StreamWriter textWriter = new StreamWriter(outputFile, newFile))
-                //    {
-                //        if (newFile)
-                //        {
-                //            textWriter.Write("[\n");
-                //        }
-                //        serializer.Serialize(textWriter, desc);
-                //        textWriter.Write(",\n");
-                //        seenSourceFiles.Add(outputFile);
-                //    }
-                //}
-            }
-
-        internal class MaterialSerializer : JsonConverter
-        {
-            public override bool CanConvert(Type objectType)
-            {
-                return typeof(MaterialController).IsAssignableFrom(objectType);
-            }
-
-            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-            {
-                return null;
-            }
-
-            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-            {
-                MaterialController matSerial = value as MaterialController;
-                writer.WriteStartArray();
-
-                foreach (var desc in matSerial.currentDescriptions)
-                {
-                    serializer.Serialize(writer, desc);
-                }
-
-                writer.WriteEndArray();
             }
         }
     }

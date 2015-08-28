@@ -21,14 +21,12 @@ namespace OgrePlugin
 
         static void ensureScannerExists()
         {
-            if(scanner == null)
+            if (scanner == null)
             {
                 scanner = new FilteredMemberScanner(new JsonPropertyFilter());
                 scanner.ProcessFields = false;
             }
         }
-
-        private static readonly MaterialDescription defaultDescription = new MaterialDescription();
 
         Color specularColor;
         Color emissiveColor;
@@ -43,7 +41,7 @@ namespace OgrePlugin
             Shinyness = 40.0f;
             diffuseColor = Color.White;
             opacity = null;
-            
+
             CreateAlphaMaterial = true;
             IsAlpha = false;
             NumHardwareBones = 0;
@@ -449,7 +447,7 @@ namespace OgrePlugin
 
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {
-                //No writing support for now
+                MaterialDescription defaultDescription = new MaterialDescription();
                 MaterialDescription desc = value as MaterialDescription;
                 bool alwaysWrite = desc.IsRoot;
 
@@ -598,7 +596,7 @@ namespace OgrePlugin
                     if (thisValue != null && !thisValue.Equals(parentValue))
                     {
                         overrides.Add(new VariantOverride(property.getWrappedName(), thisValue.ToString(), this));
-                        if(property.getWrappedName() == "Name")
+                        if (property.getWrappedName() == "Name")
                         {
                             name = thisValue.ToString();
                         }
@@ -616,7 +614,7 @@ namespace OgrePlugin
                 {
                     property.setValueStr(1, variant.Value);
                 }
-                if(variant.Name == "Name")
+                if (variant.Name == "Name")
                 {
                     editInterface.setName(variant.Value);
                 }
