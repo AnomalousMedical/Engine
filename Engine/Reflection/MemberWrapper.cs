@@ -46,14 +46,14 @@ namespace Engine.Reflection
         /// <param name="type">The type of attributes to get.</param>
         /// <param name="inherit">True to search inheritance chain for attributes.</param>
         /// <returns>An array of matching attributes.</returns>
-        IEnumerable<Attribute> getCustomAttributes(Type type, bool inherit);
+        IEnumerable<Object> getCustomAttributes(Type type, bool inherit);
 
         /// <summary>
         /// Get the custom attributes of this member.
         /// </summary>
         /// <param name="inherit">True to search inheritance chain for attributes.</param>
         /// <returns>An array of matching attributes.</returns>
-        IEnumerable<Attribute> getCustomAttributes(bool inherit);
+        IEnumerable<Object> getCustomAttributes(bool inherit);
 
         /// <summary>
         /// Determine if the MemberWrapper can write to its variable. Will
