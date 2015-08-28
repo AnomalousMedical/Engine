@@ -546,13 +546,16 @@ namespace OgrePlugin
                 variantPropertiesManager.addCommand(new EditInterfaceCommand("Remove", callback =>
                 {
                     VariantProperties variant = editInterface.resolveSourceObject<VariantProperties>(callback.getSelectedEditInterface());
+                    Variants.Remove(variant.Variant);
                     variantProperties.Remove(variant);
                     editInterface.removeSubInterface(variant);
                 }));
 
                 editInterface.addCommand(new EditInterfaceCommand("Add Variant", callback =>
                 {
-                    VariantProperties variant = new VariantProperties();
+                    var desc = new MaterialDescription();
+                    Variants.Add(desc);
+                    VariantProperties variant = new VariantProperties(desc);
                     variantProperties.Add(variant);
                     editInterface.addSubInterface(variant, variant.EditInterface);
                 }));
@@ -571,15 +574,18 @@ namespace OgrePlugin
         {
             private List<VariantOverride> overrides = new List<VariantOverride>();
             private EditInterface editInterface;
+            private MaterialDescription variant;
 
-            public VariantProperties()
+            public VariantProperties(MaterialDescription variant)
             {
+                this.variant = variant;
                 overrides.Add(new VariantOverride("Name", "", this));
                 buildEditInterface("Variant");
             }
 
             public VariantProperties(MaterialDescription variant, MaterialDescription parent)
             {
+                this.variant = variant;
                 ensureScannerExists();
                 String name = "Variant";
                 foreach (var property in scanner.getMatchingMembers(typeof(MaterialDescription)))
@@ -601,9 +607,23 @@ namespace OgrePlugin
 
             public void changed(VariantOverride variant)
             {
+                ensureScannerExists();
+                var property = this.variant.getEditInterface().getEditableProperties().Where(i => i.getValue(0).Equals(variant.Name)).FirstOrDefault();
+                if (property != null)
+                {
+                    property.setValueStr(1, variant.Value);
+                }
                 if(variant.Name == "Name")
                 {
                     editInterface.setName(variant.Value);
+                }
+            }
+
+            public MaterialDescription Variant
+            {
+                get
+                {
+                    return variant;
                 }
             }
 
