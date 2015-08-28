@@ -17,6 +17,17 @@ namespace OgrePlugin
     [JsonConverter(typeof(MaterialDescription.MaterialDescriptionSerializer))]
     public partial class MaterialDescription
     {
+        private static FilteredMemberScanner scanner;
+
+        static void ensureScannerExists()
+        {
+            if(scanner == null)
+            {
+                scanner = new FilteredMemberScanner(new JsonPropertyFilter());
+                scanner.ProcessFields = false;
+            }
+        }
+
         Color specularColor;
         Color emissiveColor;
         Color diffuseColor;
@@ -112,7 +123,7 @@ namespace OgrePlugin
             }
             set
             {
-                if(!Color.TryFromRGBAString(value, out emissiveColor, Color.HotPink))
+                if (!Color.TryFromRGBAString(value, out emissiveColor, Color.HotPink))
                 {
                     Logging.Log.Error("Could not parse emissive color '{0}' for material '{1}'", value, Name);
                 }
@@ -146,7 +157,7 @@ namespace OgrePlugin
             set
             {
                 float parsed;
-                if(value != null && NumberParser.TryParse(value, out parsed))
+                if (value != null && NumberParser.TryParse(value, out parsed))
                 {
                     opacity = parsed;
                 }
@@ -401,48 +412,6 @@ namespace OgrePlugin
             }
         }
 
-        /// <summary>
-        /// This is a filter that finds only fields marked with the
-        /// EditableAttribute attribute.
-        /// </summary>
-        public class JsonPropertyFilter : MemberScannerFilter
-        {
-            /// <summary>
-            /// Initializes a new Instance of Engine.Editing.EditableAttributeFilter
-            /// </summary>
-            public JsonPropertyFilter()
-            {
-
-            }
-
-            /// <summary>
-            /// This is the test function. It will return true if the member should
-            /// be accepted.
-            /// </summary>
-            /// <param name="wrapper">The MemberWrapper with info about the field/property being scanned.</param>
-            /// <returns>True if the member should be included in the results. False to omit it.</returns>
-            public bool allowMember(MemberWrapper wrapper)
-            {
-                return wrapper.getCustomAttributes(typeof(JsonPropertyAttribute), true).Any();
-            }
-
-            /// <summary>
-            /// This function determines if the given type should be scanned for
-            /// members. It will return true if the member should be accepted.
-            /// </summary>
-            /// <param name="type">The type to potentially scan for members.</param>
-            /// <returns>True if the type should be scanned.</returns>
-            public bool allowType(Type type)
-            {
-                return type != TerminatingType;
-            }
-
-            /// <summary>
-            /// This is the type the filter will stop allowing types for.
-            /// </summary>
-            public Type TerminatingType { get; set; }
-        }
-
         class MaterialDescriptionSerializer : JsonConverter
         {
             MaterialDescription parent = null;
@@ -481,10 +450,11 @@ namespace OgrePlugin
                 //No writing support for now
                 MaterialDescription desc = value as MaterialDescription;
                 bool alwaysWrite = desc.IsRoot;
-                FilteredMemberScanner scanner = new FilteredMemberScanner(new JsonPropertyFilter());
-                scanner.ProcessFields = false;
+
                 writer.WriteStartObject();
-                foreach(var property in scanner.getMatchingMembers(typeof(MaterialDescription)))
+
+                ensureScannerExists();
+                foreach (var property in scanner.getMatchingMembers(typeof(MaterialDescription)))
                 {
                     Object thisValue = property.getValue(desc, null);
                     Object parentValue = property.getValue(desc.parent, null);
@@ -497,6 +467,7 @@ namespace OgrePlugin
                         }
                     }
                 }
+
                 if (desc.Variants != null && desc.Variants.Count > 0)
                 {
                     writer.WritePropertyName("Variants");
@@ -513,41 +484,205 @@ namespace OgrePlugin
         }
     }
 
+    /// <summary>
+    /// This is a filter that finds only fields marked with the
+    /// EditableAttribute attribute.
+    /// </summary>
+    public class JsonPropertyFilter : MemberScannerFilter
+    {
+        /// <summary>
+        /// Initializes a new Instance of Engine.Editing.EditableAttributeFilter
+        /// </summary>
+        public JsonPropertyFilter()
+        {
+
+        }
+
+        /// <summary>
+        /// This is the test function. It will return true if the member should
+        /// be accepted.
+        /// </summary>
+        /// <param name="wrapper">The MemberWrapper with info about the field/property being scanned.</param>
+        /// <returns>True if the member should be included in the results. False to omit it.</returns>
+        public bool allowMember(MemberWrapper wrapper)
+        {
+            return wrapper.getCustomAttributes(typeof(JsonPropertyAttribute), true).Any();
+        }
+
+        /// <summary>
+        /// This function determines if the given type should be scanned for
+        /// members. It will return true if the member should be accepted.
+        /// </summary>
+        /// <param name="type">The type to potentially scan for members.</param>
+        /// <returns>True if the type should be scanned.</returns>
+        public bool allowType(Type type)
+        {
+            return type != TerminatingType;
+        }
+
+        /// <summary>
+        /// This is the type the filter will stop allowing types for.
+        /// </summary>
+        public Type TerminatingType { get; set; }
+    }
+
     public partial class MaterialDescription
     {
         private EditInterface editInterface;
+        private List<VariantProperties> variantProperties;
 
         public EditInterface getEditInterface()
         {
-            if(editInterface == null)
+            if (editInterface == null)
             {
                 editInterface = ReflectedEditInterface.createEditInterface(this, Name);
-                if(Variants == null) //Always have this collection in edit mode
+                variantProperties = new List<VariantProperties>();
+                if (Variants == null)
                 {
                     Variants = new List<MaterialDescription>();
                 }
 
-                var materialDescManager = editInterface.createEditInterfaceManager<MaterialDescription>();
-                materialDescManager.addCommand(new EditInterfaceCommand("Remove", callback =>
+                var variantPropertiesManager = editInterface.createEditInterfaceManager<VariantProperties>();
+                variantPropertiesManager.addCommand(new EditInterfaceCommand("Remove", callback =>
                 {
-                    MaterialDescription desc = editInterface.resolveSourceObject<MaterialDescription>(callback.getSelectedEditInterface());
-                    Variants.Remove(desc);
-                    editInterface.removeSubInterface(desc);
+                    VariantProperties variant = editInterface.resolveSourceObject<VariantProperties>(callback.getSelectedEditInterface());
+                    variantProperties.Remove(variant);
+                    editInterface.removeSubInterface(variant);
                 }));
 
                 editInterface.addCommand(new EditInterfaceCommand("Add Variant", callback =>
                 {
-                    MaterialDescription newDesc = new MaterialDescription();
-                    Variants.Add(newDesc);
-                    editInterface.addSubInterface(newDesc, newDesc.getEditInterface());
+                    VariantProperties variant = new VariantProperties();
+                    variantProperties.Add(variant);
+                    editInterface.addSubInterface(variant, variant.EditInterface);
                 }));
 
-                foreach(var variant in Variants)
+                foreach (var variant in Variants)
                 {
-                    editInterface.addSubInterface(variant, variant.getEditInterface());
+                    var properties = new VariantProperties(variant, this);
+                    variantProperties.Add(properties);
+                    editInterface.addSubInterface(properties, properties.EditInterface);
                 }
             }
             return editInterface;
+        }
+
+        class VariantProperties
+        {
+            private List<VariantOverride> overrides = new List<VariantOverride>();
+            private EditInterface editInterface;
+
+            public VariantProperties()
+            {
+                overrides.Add(new VariantOverride("Name", "", this));
+                buildEditInterface("Variant");
+            }
+
+            public VariantProperties(MaterialDescription variant, MaterialDescription parent)
+            {
+                ensureScannerExists();
+                String name = "Variant";
+                foreach (var property in scanner.getMatchingMembers(typeof(MaterialDescription)))
+                {
+                    Object thisValue = property.getValue(variant, null);
+                    Object parentValue = property.getValue(parent, null);
+                    if (thisValue != null && !thisValue.Equals(parentValue))
+                    {
+                        overrides.Add(new VariantOverride(property.getWrappedName(), thisValue.ToString(), this));
+                        if(property.getWrappedName() == "Name")
+                        {
+                            name = thisValue.ToString();
+                        }
+                    }
+                }
+
+                buildEditInterface(name);
+            }
+
+            public void changed(VariantOverride variant)
+            {
+                if(variant.Name == "Name")
+                {
+                    editInterface.setName(variant.Value);
+                }
+            }
+
+            private void buildEditInterface(String name)
+            {
+                ensureScannerExists();
+                editInterface = new ReflectedListLikeEditInterface<VariantOverride>(overrides, name, () => new VariantOverride(this), validateCallback: () =>
+                {
+                    bool foundName = false;
+                    bool nameValid = false;
+                    foreach (var o in overrides)
+                    {
+                        if (!foundName)
+                        {
+                            foundName = o.Name == "Name";
+                            nameValid = !String.IsNullOrWhiteSpace(o.Value);
+                        }
+                        if (!scanner.getMatchingMembers(typeof(MaterialDescription)).Where(i => i.getWrappedName() == o.Name).Any())
+                        {
+                            throw new ValidationException(String.Format("Cannot find a property named '{0}' to override. Please remove this property.", o.Name));
+                        }
+                    }
+                    if (!foundName)
+                    {
+                        throw new ValidationException("You must have one override property named 'Name' with a unique material name.");
+                    }
+                    if (!nameValid)
+                    {
+                        throw new ValidationException("Name property must contain a value.");
+                    }
+                });
+            }
+
+            public EditInterface EditInterface
+            {
+                get
+                {
+                    return editInterface;
+                }
+            }
+        }
+
+        class VariantOverride
+        {
+            VariantProperties properties;
+
+            private String value;
+
+            public VariantOverride(VariantProperties properties)
+            {
+                this.properties = properties;
+            }
+
+            public VariantOverride(String name, String value, VariantProperties properties)
+            {
+                this.Name = name;
+                this.value = value;
+                this.properties = properties;
+            }
+
+            [Editable]
+            public String Name { get; set; }
+
+            [Editable]
+            public String Value
+            {
+                get
+                {
+                    return value;
+                }
+                set
+                {
+                    if (this.value != value)
+                    {
+                        this.value = value;
+                        properties.changed(this);
+                    }
+                }
+            }
         }
     }
 }
