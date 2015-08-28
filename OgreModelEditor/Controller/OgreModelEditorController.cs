@@ -414,7 +414,7 @@ namespace OgreModelEditor
             mainForm.setTextureNames(modelController.TextureNames);
             mainForm.currentFileChanged(path);
             textureCompiler.CurrentDest = dir;
-            materialController.loadMaterials(innerDir, dir);
+            materialController.loadMaterials(innerDir, parentDir);
         }
 
         public void editExternalResources()

@@ -20,7 +20,8 @@ namespace OgreModelEditor
         private EditInterface editInterface;
         private PluginManager pluginManager;
         private List<MaterialDescription> currentDescriptions = new List<MaterialDescription>();
-        private String currentRealRootDirectory;
+        private String vfsRootPath;
+        private String vfsPath;
         private String currentOutputFile;
 
         public MaterialController(PluginManager pluginManager)
@@ -31,9 +32,10 @@ namespace OgreModelEditor
             editInterface.createEditInterfaceManager<MaterialDescription>();
         }
 
-        public void loadMaterials(String vfsPath, String currentRealRootDirectory)
+        public void loadMaterials(String vfsPath, String vfsRootPath)
         {
-            this.currentRealRootDirectory = currentRealRootDirectory;
+            this.vfsRootPath = vfsRootPath;
+            this.vfsPath = vfsPath;
 
             var listener = new MaterialResourceListener(this);
 
@@ -82,8 +84,7 @@ namespace OgreModelEditor
                 if (currentOutputFile != null && !writtenFiles.Contains(currentOutputFile))
                 {
                     writtenFiles.Add(currentOutputFile);
-                    String outputFile = Path.Combine(currentRealRootDirectory, "woot.txt");
-                    //String outputFile = Path.Combine(currentRealRootDirectory, desc.SourceFile);
+                    String outputFile = Path.Combine(vfsRootPath, desc.SourceFile);
 
                     JsonSerializer serializer = new JsonSerializer();
                     serializer.Formatting = Formatting.Indented;
@@ -103,7 +104,7 @@ namespace OgreModelEditor
         bool nameMaterialResult(String result, ref String errorPrompt)
         {
             //This only happens if no descs have output files and there are actually output files if(!wroteSomething && currentDescriptions.Count > 0)
-            currentDescriptions[0].SourceFile = result;
+            currentDescriptions[0].SourceFile = Path.Combine(vfsPath, result);
             saveMaterials();
             return true;
         }
