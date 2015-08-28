@@ -54,6 +54,7 @@ namespace OgreModelEditor
         private SplashScreen splashScreen;
         private VirtualTextureDebugger virtualTextureDebugger;
         private TextureCompilerGUI textureCompiler;
+        private MDIObjectEditor materialEditor;
 
         //Controller
         private SceneViewController sceneViewController;
@@ -61,6 +62,7 @@ namespace OgreModelEditor
         private SceneViewLightManager lightManager;
         private FrameClearManager frameClearManager;
         private SceneStatsDisplayManager sceneStatsDisplayManager;
+        private MaterialController materialController;
 
         //Scene
         private SimScene scene;
@@ -153,6 +155,8 @@ namespace OgreModelEditor
 
             virtualTextureLink = new VirtualTextureSceneViewLink(this);
 
+            materialController = new MaterialController(pluginManager);
+
             //Tools
             objectMover = new SimObjectMover("ModelMover", PluginManager.Instance.RendererPlugin, eventManager, sceneViewController);
 
@@ -193,6 +197,7 @@ namespace OgreModelEditor
             }
 
             IDisposableUtil.DisposeIfNotNull(virtualTextureDebugger);
+            IDisposableUtil.DisposeIfNotNull(materialEditor);
 
             if (textureCompiler != null)
             {
@@ -321,6 +326,12 @@ namespace OgreModelEditor
             textureCompiler.CurrentSrc = OgreModelEditorConfig.LastTextureCompilerSourceDirectory;
             guiManager.addManagedDialog(textureCompiler);
 
+            materialEditor = new MDIObjectEditor("Materials", "MaterialEditor", false);
+            guiManager.addManagedDialog(materialEditor);
+            materialEditor.CurrentDockLocation = DockLocation.Left;
+            materialEditor.Visible = true;
+            materialEditor.EditInterface = materialController.EditInterface;
+
             yield return IdleStatus.Ok;
 
             splashScreen.updateStatus(70, "Creating Scene");
@@ -375,6 +386,7 @@ namespace OgreModelEditor
 
         public void openModel(String path)
         {
+            materialController.clearMaterials();
             var ogreResources = resourceManager.getSubsystemResource("Ogre");
             if (modelController.modelActive())
             {
@@ -402,6 +414,7 @@ namespace OgreModelEditor
             mainForm.setTextureNames(modelController.TextureNames);
             mainForm.currentFileChanged(path);
             textureCompiler.CurrentDest = dir;
+            materialController.loadMaterials(innerDir, dir);
         }
 
         public void editExternalResources()
@@ -563,6 +576,11 @@ namespace OgreModelEditor
             {
                 mainWindow.Title = String.Format("{0} - Ogre Model Editor", file);
             }
+        }
+
+        public void saveMaterials()
+        {
+            materialController.saveMaterials();
         }
 
         public void batchResaveMeshes(String rootPath)

@@ -83,6 +83,7 @@ namespace OgreModelEditor
             file.addItemAction("Open", open);
             file.addItemAction("Save", save);
             file.addItemAction("Save As", saveAs);
+            file.addItemAction("Save Materials", controller.saveMaterials);
             file.addItemAction("Batch Upgrade", batchUpgrade);
             file.addItemAction("Export to JSON", exportToJson);
             MenuItem exit = file.addItemAction("Exit", controller.exit);

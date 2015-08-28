@@ -59,6 +59,10 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dependencies\Newtonsoft.Json\Src\Newtonsoft.Json\bin\Release\Portable40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -73,6 +77,7 @@
     <Compile Include="Config\EventLayers.cs" />
     <Compile Include="Config\OgreModelEditorConfig.cs" />
     <Compile Include="Controller\GUILocationNames.cs" />
+    <Compile Include="Controller\MaterialController.cs" />
     <Compile Include="Controller\ModelController.cs" />
     <Compile Include="Controller\OgreModelEditorApp.cs" />
     <Compile Include="Controller\OgreModelEditorController.cs" />

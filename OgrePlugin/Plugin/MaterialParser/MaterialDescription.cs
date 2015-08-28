@@ -1,6 +1,9 @@
 ﻿using Engine;
+using Engine.Editing;
+using Engine.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,12 +15,13 @@ namespace OgrePlugin
 {
     [JsonObject(MemberSerialization.OptIn)]
     [JsonConverter(typeof(MaterialDescription.MaterialDescriptionSerializer))]
-    public class MaterialDescription
+    public partial class MaterialDescription
     {
         Color specularColor;
         Color emissiveColor;
         Color diffuseColor;
         float? opacity;
+        MaterialDescription parent;
 
         public MaterialDescription()
         {
@@ -50,6 +54,7 @@ namespace OgrePlugin
 
         private MaterialDescription(MaterialDescription toClone)
         {
+            this.parent = toClone;
             this.Name = toClone.Name;
             this.Builder = toClone.Builder;
             this.TextureSet = toClone.TextureSet;
@@ -86,12 +91,15 @@ namespace OgrePlugin
             return Path.Combine(Path.GetDirectoryName(SourceFile), path);
         }
 
+        [Editable]
         [JsonProperty]
         public String Name { get; set; }
 
+        [Editable]
         [JsonProperty]
         public String Builder { get; set; }
 
+        [Editable]
         [JsonProperty]
         public String TextureSet { get; set; }
 
@@ -127,6 +135,7 @@ namespace OgrePlugin
             }
         }
 
+        [Editable]
         [JsonProperty]
         public String Opacity
         {
@@ -164,63 +173,82 @@ namespace OgrePlugin
             }
         }
 
+        [Editable]
         [JsonProperty]
         public float Shinyness { get; set; }
 
+        [Editable]
         [JsonProperty]
         public float GlossyStart { get; set; }
 
+        [Editable]
         [JsonProperty]
         public float GlossyRange { get; set; }
 
+        [Editable]
         [JsonProperty]
         public bool HasNormalMap { get; set; }
 
+        [Editable]
         [JsonProperty]
         public bool HasDiffuseMap { get; set; }
 
+        [Editable]
         [JsonProperty]
         public bool HasSpecularColorMap { get; set; }
 
+        [Editable]
         [JsonProperty]
         public bool HasSpecularLevelMap { get; set; }
 
+        [Editable]
         [JsonProperty]
         public bool HasGlossMap { get; set; }
 
+        [Editable]
         [JsonProperty]
         public bool HasOpacityMap { get; set; }
 
+        [Editable]
         [JsonProperty]
         public bool CreateAlphaMaterial { get; set; }
 
+        [Editable]
         [JsonProperty]
         public bool IsAlpha { get; set; }
 
+        [Editable]
         [JsonProperty]
         public bool Parity { get; set; }
 
+        [EditableMinMax(0, 4, 1)]
         [JsonProperty]
         public int NumHardwareBones { get; set; }
 
+        [EditableMinMax(0, 2, 1)]
         [JsonProperty]
         public int NumHardwarePoses { get; set; }
 
+        [Editable]
         [JsonProperty]
         public bool IsHighlight { get; set; }
 
+        [Editable]
         [JsonProperty]
         public bool NoDepthWriteAlpha { get; set; }
 
+        [Editable]
         [JsonProperty]
         public bool DisableBackfaceCulling { get; set; }
 
         [JsonProperty]
         private List<MaterialDescription> Variants { get; set; } //Cheating with this, forcing it to work as a property to not fight json.net for now
 
+        [Editable]
         [JsonProperty]
         public bool KeepHighestMipLoaded { get; set; }
 
+        [Editable]
         [JsonProperty]
         public String SpecialMaterial { get; set; }
 
@@ -262,6 +290,7 @@ namespace OgrePlugin
             }
         }
 
+        [Editable]
         public Color EmissiveColor
         {
             get
@@ -274,6 +303,7 @@ namespace OgrePlugin
             }
         }
 
+        [Editable]
         public Color DiffuseColor
         {
             get
@@ -286,6 +316,7 @@ namespace OgrePlugin
             }
         }
 
+        [Editable]
         public Color SpecularColor
         {
             get
@@ -362,13 +393,55 @@ namespace OgrePlugin
             }
         }
 
-        //public String TextureSet
-        //{
-        //    get
-        //    {
-        //        return String.Format("{0}-{1}-{2}-{3}", NormalMap, DiffuseMap, SpecularMap, OpacityMap);
-        //    }
-        //}
+        public bool IsRoot
+        {
+            get
+            {
+                return parent == null;
+            }
+        }
+
+        /// <summary>
+        /// This is a filter that finds only fields marked with the
+        /// EditableAttribute attribute.
+        /// </summary>
+        public class JsonPropertyFilter : MemberScannerFilter
+        {
+            /// <summary>
+            /// Initializes a new Instance of Engine.Editing.EditableAttributeFilter
+            /// </summary>
+            public JsonPropertyFilter()
+            {
+
+            }
+
+            /// <summary>
+            /// This is the test function. It will return true if the member should
+            /// be accepted.
+            /// </summary>
+            /// <param name="wrapper">The MemberWrapper with info about the field/property being scanned.</param>
+            /// <returns>True if the member should be included in the results. False to omit it.</returns>
+            public bool allowMember(MemberWrapper wrapper)
+            {
+                return wrapper.getCustomAttributes(typeof(JsonPropertyAttribute), true).Any();
+            }
+
+            /// <summary>
+            /// This function determines if the given type should be scanned for
+            /// members. It will return true if the member should be accepted.
+            /// </summary>
+            /// <param name="type">The type to potentially scan for members.</param>
+            /// <returns>True if the type should be scanned.</returns>
+            public bool allowType(Type type)
+            {
+                return type != TerminatingType;
+            }
+
+            /// <summary>
+            /// This is the type the filter will stop allowing types for.
+            /// </summary>
+            public Type TerminatingType { get; set; }
+        }
 
         class MaterialDescriptionSerializer : JsonConverter
         {
@@ -394,7 +467,10 @@ namespace OgrePlugin
                 MaterialDescription myParent = parent;
                 parent = description;
                 var jObject = JObject.Load(reader);
-                serializer.Populate(jObject.CreateReader(), description);
+                using (var jObjectReader = jObject.CreateReader())
+                {
+                    serializer.Populate(jObjectReader, description);
+                }
                 parent = myParent;
 
                 return description;
@@ -403,7 +479,75 @@ namespace OgrePlugin
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {
                 //No writing support for now
+                MaterialDescription desc = value as MaterialDescription;
+                bool alwaysWrite = desc.IsRoot;
+                FilteredMemberScanner scanner = new FilteredMemberScanner(new JsonPropertyFilter());
+                scanner.ProcessFields = false;
+                writer.WriteStartObject();
+                foreach(var property in scanner.getMatchingMembers(typeof(MaterialDescription)))
+                {
+                    Object thisValue = property.getValue(desc, null);
+                    Object parentValue = property.getValue(desc.parent, null);
+                    if (alwaysWrite || (thisValue != null && !thisValue.Equals(parentValue)))
+                    {
+                        if (property.getWrappedName() != "Variants")
+                        {
+                            writer.WritePropertyName(property.getWrappedName());
+                            writer.WriteValue(thisValue);
+                        }
+                    }
+                }
+                if (desc.Variants != null && desc.Variants.Count > 0)
+                {
+                    writer.WritePropertyName("Variants");
+                    writer.WriteStartArray();
+                    foreach (var variant in desc.Variants)
+                    {
+                        serializer.Serialize(writer, variant);
+                    }
+                    writer.WriteEndArray();
+                }
+
+                writer.WriteEndObject();
             }
+        }
+    }
+
+    public partial class MaterialDescription
+    {
+        private EditInterface editInterface;
+
+        public EditInterface getEditInterface()
+        {
+            if(editInterface == null)
+            {
+                editInterface = ReflectedEditInterface.createEditInterface(this, Name);
+                if(Variants == null) //Always have this collection in edit mode
+                {
+                    Variants = new List<MaterialDescription>();
+                }
+
+                var materialDescManager = editInterface.createEditInterfaceManager<MaterialDescription>();
+                materialDescManager.addCommand(new EditInterfaceCommand("Remove", callback =>
+                {
+                    MaterialDescription desc = editInterface.resolveSourceObject<MaterialDescription>(callback.getSelectedEditInterface());
+                    Variants.Remove(desc);
+                    editInterface.removeSubInterface(desc);
+                }));
+
+                editInterface.addCommand(new EditInterfaceCommand("Add Variant", callback =>
+                {
+                    MaterialDescription newDesc = new MaterialDescription();
+                    Variants.Add(newDesc);
+                    editInterface.addSubInterface(newDesc, newDesc.getEditInterface());
+                }));
+
+                foreach(var variant in Variants)
+                {
+                    editInterface.addSubInterface(variant, variant.getEditInterface());
+                }
+            }
+            return editInterface;
         }
     }
 }
