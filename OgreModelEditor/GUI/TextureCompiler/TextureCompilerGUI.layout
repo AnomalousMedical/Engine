@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MyGUI type="Layout" version="3.2.0">
-    <Widget type="Window" skin="WindowCSX" position="42 60 382 148" layer="Overlapped">
+    <Widget type="Window" skin="WindowCSX" position="42 60 382 257" layer="Overlapped">
         <Property key="Caption" value="Texture Compiler"/>
-        <Widget type="Button" skin="Button" position="5 89 108 22" align="Left Bottom" name="Compile">
+        <Widget type="Button" skin="Button" position="5 198 108 22" align="Left Bottom" name="Compile">
             <Property key="Caption" value="Compile"/>
         </Widget>
         <Widget type="TextBox" skin="TextBox" position="3 4 332 15">
@@ -19,8 +19,23 @@
         <Widget type="Button" skin="Button" position="337 61 29 26" align="Right Top" name="DestFileBrowser">
             <Property key="Caption" value="..."/>
         </Widget>
-        <Widget type="Button" skin="Button" position="118 89 108 22" name="Clean">
+        <Widget type="Button" skin="Button" position="118 198 108 22" align="Left Bottom" name="Clean">
             <Property key="Caption" value="Clean"/>
+        </Widget>
+        <Widget type="TextBox" skin="TextBox" position="3 87 202 19">
+            <Property key="Caption" value="Output Formats"/>
+        </Widget>
+        <Widget type="Button" skin="CheckBox" position="4 110 287 19" name="DXT">
+            <Property key="Caption" value="DXT"/>
+        </Widget>
+        <Widget type="Button" skin="CheckBox" position="4 129 287 19" name="BC5Normal">
+            <Property key="Caption" value="BC5 Normals"/>
+        </Widget>
+        <Widget type="Button" skin="CheckBox" position="4 148 287 19" name="ETC2">
+            <Property key="Caption" value="ETC2"/>
+        </Widget>
+        <Widget type="Button" skin="CheckBox" position="4 168 287 19" name="Uncompressed">
+            <Property key="Caption" value="Uncompressed"/>
         </Widget>
     </Widget>
     <CodeGeneratorSettings/>

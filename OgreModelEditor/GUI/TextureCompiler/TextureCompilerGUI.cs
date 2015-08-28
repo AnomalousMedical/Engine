@@ -4,6 +4,7 @@ using Engine;
 using Engine.Threads;
 using Logging;
 using MyGUIPlugin;
+using OgrePlugin;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,6 +21,11 @@ namespace OgreModelEditor
 
         EditBox source;
         EditBox dest;
+
+        CheckButton dxt;
+        CheckButton bc5;
+        CheckButton etc2;
+        CheckButton uncompressed;
 
         public TextureCompilerGUI(PluginManager pluginManager, NativeOSWindow parent)
             :base("OgreModelEditor.GUI.TextureCompiler.TextureCompilerGUI.layout")
@@ -41,6 +47,16 @@ namespace OgreModelEditor
 
             source = window.findWidget("SourceFolder") as EditBox;
             dest = window.findWidget("DestFolder") as EditBox;
+
+            dxt = new CheckButton(window.findWidget("DXT") as Button);
+            bc5 = new CheckButton(window.findWidget("BC5Normal") as Button);
+            etc2 = new CheckButton(window.findWidget("ETC2") as Button);
+            uncompressed = new CheckButton(window.findWidget("Uncompressed") as Button);
+
+            dxt.Checked = true;
+            bc5.Checked = true;
+            etc2.Checked = true;
+            uncompressed.Checked = true;
         }
 
         public String CurrentDest
@@ -102,7 +118,7 @@ namespace OgreModelEditor
             window.ClientWidget.Enabled = false;
             ThreadManager.RunInBackground(() =>
             {
-                TextureCompilerInterface.CompileTextures(this.source.OnlyText, this.dest.OnlyText, pluginManager);
+                TextureCompilerInterface.CompileTextures(this.source.OnlyText, this.dest.OnlyText, pluginManager, ActiveCompileFormats);
                 ThreadManager.invoke(() => window.ClientWidget.Enabled = true);
             });
         }
@@ -117,6 +133,31 @@ namespace OgreModelEditor
             catch(Exception ex)
             {
                 Log.Error("{0} deleting {1}. Reason: {2}", ex.GetType().Name, Path.Combine(this.source.OnlyText, TextureCompilerInterface.TextureHashFileName), ex.Message);
+            }
+        }
+
+        private OutputFormats ActiveCompileFormats
+        {
+            get
+            {
+                OutputFormats compile = OutputFormats.None;
+                if(dxt.Checked)
+                {
+                    compile |= OutputFormats.BC3;
+                }
+                if(bc5.Checked)
+                {
+                    compile |= OutputFormats.BC5Normal;
+                }
+                if(etc2.Checked)
+                {
+                    compile |= OutputFormats.ETC2;
+                }
+                if(uncompressed.Checked)
+                {
+                    compile |= OutputFormats.Uncompressed;
+                }
+                return compile;
             }
         }
     }

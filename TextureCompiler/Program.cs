@@ -24,7 +24,7 @@ namespace Anomalous.TextureCompiler
             PluginManager pluginManager = new PluginManager(new ConfigFile("woot.txt"));
             VirtualFileSystem.Instance.addArchive(destDirectory);
 
-            TextureCompilerInterface.CompileTextures(sourceDirectory, destDirectory, pluginManager);
+            TextureCompilerInterface.CompileTextures(sourceDirectory, destDirectory, pluginManager, OutputFormats.All);
 
             Console.WriteLine("All Textures compiled. Press any key to quit.");
             Console.ReadKey();

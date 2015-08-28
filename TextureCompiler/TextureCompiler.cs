@@ -22,6 +22,17 @@ namespace Anomalous.TextureCompiler
         Alpha
     }
 
+    [Flags]
+    public enum OutputFormats
+    {
+        None = 0,
+        BC3 = 1,
+        BC5Normal = 1 << 1,
+        ETC2 = 1 << 2,
+        Uncompressed = 1 << 3,
+        All = BC3 | BC5Normal | ETC2 | Uncompressed
+    }
+
     class TextureCompiler : MaterialBuilder
     {
         private List<String> errors = new List<string>();
@@ -47,9 +58,11 @@ namespace Anomalous.TextureCompiler
         private CompiledTextureInfo compiledTextureInfo = new CompiledTextureInfo();
 
         private int compressedCount = 0;
+        private OutputFormats outputFormats;
 
-        public TextureCompiler(String sourceDirectory, String destDirectory)
+        public TextureCompiler(String sourceDirectory, String destDirectory, OutputFormats outputFormats)
         {
+            this.outputFormats = outputFormats;
             this.sourceDirectory = sourceDirectory;
             this.destDirectory = destDirectory;
         }
@@ -224,22 +237,25 @@ namespace Anomalous.TextureCompiler
 
         private void saveUncompressed(String sourceFile, String destFile)
         {
-            Log.Info("Compressing {0} to png.", sourceFile);
-            using (FreeImageBitmap source = FreeImageBitmap.FromFile(sourceFile))
+            if ((outputFormats & OutputFormats.Uncompressed) != 0)
             {
-                int i = source.Width;
-                String file = String.Format("{0}.png", destFile);
-                Log.Info("Saving {0}", file);
-                saveImage(source, file, FREE_IMAGE_FORMAT.FIF_PNG);
-                i >>= 1;
-                while (i > 0)
+                Log.Info("Compressing {0} to png.", sourceFile);
+                using (FreeImageBitmap source = FreeImageBitmap.FromFile(sourceFile))
                 {
-                    file = String.Format("{0}_{1}.png", destFile, i);
+                    int i = source.Width;
+                    String file = String.Format("{0}.png", destFile);
                     Log.Info("Saving {0}", file);
-
-                    source.Rescale(new Size(i, i), FREE_IMAGE_FILTER.FILTER_LANCZOS3);
                     saveImage(source, file, FREE_IMAGE_FORMAT.FIF_PNG);
                     i >>= 1;
+                    while (i > 0)
+                    {
+                        file = String.Format("{0}_{1}.png", destFile, i);
+                        Log.Info("Saving {0}", file);
+
+                        source.Rescale(new Size(i, i), FREE_IMAGE_FILTER.FILTER_LANCZOS3);
+                        saveImage(source, file, FREE_IMAGE_FORMAT.FIF_PNG);
+                        i >>= 1;
+                    }
                 }
             }
         }
@@ -366,28 +382,55 @@ namespace Anomalous.TextureCompiler
 
         private void etc2Compress(String sourceFile, String destFile)
         {
-            runExternalCompressionProcess(MaliTextureToolExe, String.Format(MaliTextureToolArgFormat, sourceFile, sourceDirectory));
-            String fileName = Path.GetFileNameWithoutExtension(sourceFile);
-            String renameSrc = Path.Combine(sourceDirectory, fileName + ".ktx");
-            String renameDst = destFile + "_etc2.ktx";
-            try
+            if ((outputFormats & OutputFormats.ETC2) != 0)
             {
-                if (File.Exists(renameDst))
+                runExternalCompressionProcess(MaliTextureToolExe, String.Format(MaliTextureToolArgFormat, sourceFile, sourceDirectory));
+                String fileName = Path.GetFileNameWithoutExtension(sourceFile);
+                String renameSrc = Path.Combine(sourceDirectory, fileName + ".ktx");
+                String renameDst = destFile + "_etc2.ktx";
+                try
                 {
-                    File.Delete(renameDst);
+                    if (File.Exists(renameDst))
+                    {
+                        File.Delete(renameDst);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    logExceptionError(ex, String.Format("Deleting {0}", renameDst));
+                }
+                try
+                {
+                    File.Move(renameSrc, renameDst);
+                }
+                catch (Exception ex)
+                {
+                    logExceptionError(ex, String.Format("Moving {0} to {1}", renameSrc, renameDst));
                 }
             }
-            catch(Exception ex)
+        }
+
+        private void bc5Compress(String source, String dest)
+        {
+            if ((outputFormats & OutputFormats.BC5Normal) != 0)
             {
-                logExceptionError(ex, String.Format("Deleting {0}", renameDst));
+                runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC5Format, source, dest));
             }
-            try
+        }
+
+        private void bc3nCompress(String source, String dest)
+        {
+            if ((outputFormats & OutputFormats.BC3) != 0)
             {
-                File.Move(renameSrc, renameDst);
+                runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3nFormat, source, dest));
             }
-            catch(Exception ex)
+        }
+
+        private void bc3Compress(String source, String dest)
+        {
+            if ((outputFormats & OutputFormats.BC3) != 0)
             {
-                logExceptionError(ex, String.Format("Moving {0} to {1}", renameSrc, renameDst));
+                runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3Format, source, dest));
             }
         }
 
@@ -488,7 +531,7 @@ namespace Anomalous.TextureCompiler
         private void compressOpacityMap(string source, string dest)
         {
             ++compressedCount;
-            runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3Format, source, dest));
+            bc3Compress(source, dest);
             etc2Compress(source, dest);
             saveUncompressed(source, dest);
         }
@@ -496,7 +539,7 @@ namespace Anomalous.TextureCompiler
         private void compressSpecularMap(string source, string dest)
         {
             ++compressedCount;
-            runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3Format, source, dest));
+            bc3Compress(source, dest);
             etc2Compress(source, dest);
             saveUncompressed(source, dest);
         }
@@ -504,7 +547,7 @@ namespace Anomalous.TextureCompiler
         private void compressDiffuseMap(string source, string dest)
         {
             ++compressedCount;
-            runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3Format, source, dest));
+            bc3Compress(source, dest);
             etc2Compress(source, dest);
             saveUncompressed(source, dest);
         }
@@ -512,8 +555,8 @@ namespace Anomalous.TextureCompiler
         private void compressNormalMap(string source, string dest)
         {
             ++compressedCount;
-            runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC5Format, source, dest));
-            runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3nFormat, source, dest));
+            bc5Compress(source, dest);
+            bc3nCompress(source, dest);
             etc2Compress(source, dest);
             saveUncompressed(source, dest);
         }

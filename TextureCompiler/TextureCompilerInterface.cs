@@ -1,5 +1,6 @@
 ﻿using Engine;
 using Logging;
+using OgrePlugin;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,7 +14,7 @@ namespace Anomalous.TextureCompiler
     {
         public static readonly String TextureHashFileName = "TextureHashes.hsh";
 
-        public static void CompileTextures(String sourceDirectory, String destDirectory, PluginManager pluginManager)
+        public static void CompileTextures(String sourceDirectory, String destDirectory, PluginManager pluginManager, OutputFormats outputFormats)
         {
             try
             {
@@ -29,7 +30,7 @@ namespace Anomalous.TextureCompiler
                     return;
                 }
 
-                var listener = new MaterialParserResourceListener(sourceDirectory, destDirectory);
+                var listener = new MaterialParserResourceListener(sourceDirectory, destDirectory, outputFormats);
                 listener.loadTextureInfo();
 
                 var resourceManager = pluginManager.createResourceManagerForListener("TextureCompiler", listener);
