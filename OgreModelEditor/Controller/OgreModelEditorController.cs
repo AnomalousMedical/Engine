@@ -47,7 +47,6 @@ namespace OgreModelEditor
         //GUI
         private OgreModelEditorMain mainForm;
         private NativeOSWindow mainWindow;
-        private MDIObjectEditor resourceEditor;
         private LogWindow consoleWindow;
         private MDILayoutManager mdiLayout;
         private GUIManager guiManager;
@@ -214,10 +213,6 @@ namespace OgreModelEditor
             {
                 splashScreen.Dispose();
             }
-            if(resourceEditor != null)
-            {
-                resourceEditor.Dispose();
-            }
             if(objectMover != null)
             {
                 objectMover.Dispose();
@@ -285,22 +280,7 @@ namespace OgreModelEditor
 
             emptyResourceManager = pluginManager.createScratchResourceManager();
             liveResourceManager = pluginManager.createLiveResourceManager("Scene");
-            if (!File.Exists(OgreModelEditorConfig.DocRoot + "/resources.xml"))
-            {
-                resourceManager = pluginManager.createScratchResourceManager();
-            }
-            else
-            {
-                XmlTextReader textReader = new XmlTextReader(OgreModelEditorConfig.DocRoot + "/resources.xml");
-                resourceManager = xmlSaver.restoreObject(textReader) as Engine.Resources.ResourceManager;
-                if (resourceManager == null)
-                {
-                    resourceManager = pluginManager.createScratchResourceManager();
-                }
-                liveResourceManager.changeResourcesToMatch(resourceManager);
-                liveResourceManager.initializeResources();
-                textReader.Close();
-            }
+            resourceManager = pluginManager.createScratchResourceManager();
 
             yield return IdleStatus.Ok;
 
@@ -310,10 +290,6 @@ namespace OgreModelEditor
             modelController = new ModelController(this);
 
             //Create the GUI
-            resourceEditor = new MDIObjectEditor("Resource Editor", "OgreModelEditor.ResourceEditor");
-            guiManager.addManagedDialog(resourceEditor);
-            resourceEditor.Closed += resourceEditor_Closed;
-
             consoleWindow = new LogWindow();
             guiManager.addManagedDialog(consoleWindow);
             consoleWindow.Visible = true;
@@ -415,24 +391,6 @@ namespace OgreModelEditor
             mainForm.currentFileChanged(path);
             textureCompiler.CurrentDest = dir;
             materialController.loadMaterials(innerDir, parentDir);
-        }
-
-        public void editExternalResources()
-        {
-            resourceEditor.EditInterface = resourceManager.getEditInterface();
-            resourceEditor.Visible = true;
-        }
-
-        void resourceEditor_Closed(object sender, EventArgs e)
-        {
-            liveResourceManager.changeResourcesToMatch(resourceManager);
-            liveResourceManager.initializeResources();
-            using (XmlTextWriter textWriter = new XmlTextWriter(OgreModelEditorConfig.DocRoot + "/resources.xml", Encoding.Default))
-            {
-                textWriter.Formatting = Formatting.Indented;
-                xmlSaver.saveObject(resourceManager, textWriter);
-                textWriter.Close();
-            }
         }
 
         public void refreshResources()

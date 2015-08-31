@@ -37,7 +37,7 @@ namespace Anomalous.TextureCompiler
     {
         private List<String> errors = new List<string>();
 
-        private static String SourceFileFormat = "{0}.psd";
+        private static String SourceFileFormat = "{0}.tga";
         private static String TempFileFormat = "{0}_tmp.tga";
         private static FREE_IMAGE_FORMAT TempFileImageFormat = FREE_IMAGE_FORMAT.FIF_TARGA;
 
@@ -49,7 +49,7 @@ namespace Anomalous.TextureCompiler
         private static String NVCompressBC3Format = String.Format(NVCompressArgFormat, "-bc3 {0} {1}.dds");
 
         private static String MaliTextureToolExe = Path.Combine(MainExeLocation, "CompressorBinaries/MaliTextureTool/etcpack.exe");
-        private static String MaliTextureToolArgFormat = "{0} {1} -c etc2 -f RGBA -ktx -mipmaps -ext PSD"; //-s slow
+        private static String MaliTextureToolArgFormat = "{0} {1} -c etc2 -f RGBA -ktx -mipmaps -ext TGA"; //-s slow
 
         private String sourceDirectory;
         private String destDirectory;

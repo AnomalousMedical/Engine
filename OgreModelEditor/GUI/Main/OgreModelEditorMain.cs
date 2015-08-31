@@ -91,7 +91,6 @@ namespace OgreModelEditor
             MenuItem resourcesItem = menuBar.addItem("Resources", MenuItemType.Popup);
             MenuControl resources = menuBar.createItemPopupMenuChild(resourcesItem);
             resources.addItemAction("Reload All (F5)", reloadAll);
-            resources.addItemAction("Define External Resources", defineExternal);
             resources.addItemAction("Delete Shader Microcode Cache", controller.clearMicrocodeCache);
             saveMicrocode = resources.addItemAction("Save Shader Microcode Cache", changeSaveMicrocode);
             saveMicrocode.Selected = OgreConfig.SaveMicrocodeCache;
@@ -183,11 +182,6 @@ namespace OgreModelEditor
                     controller.saveModel(file);
                     controller.updateWindowTitle(file);
                 });
-        }
-
-        private void defineExternal()
-        {
-            controller.editExternalResources();
         }
 
         private void reloadAll()
