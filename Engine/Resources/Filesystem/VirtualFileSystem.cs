@@ -137,6 +137,9 @@ namespace Engine
                     }
                 }
 
+                //Check the root directory
+                directoryMap["/"].removeArchive(archive);
+
                 //Remove all file entries for files in this archive, does not restore old files if there were any
                 IEnumerable<String> files = archive.listFiles(path, true);
                 String file;
@@ -385,7 +388,7 @@ namespace Engine
             {
                 foreach (Archive archive in archives)
                 {
-                    foreach(String file in archive.listFiles(url, searchPattern, recursive))
+                    foreach (String file in archive.listFiles(url, searchPattern, recursive))
                     {
                         yield return file;
                     }
@@ -418,7 +421,7 @@ namespace Engine
             {
                 foreach (Archive archive in archives)
                 {
-                    foreach(String file in archive.listDirectories(url, searchPattern, recursive, includeHidden))
+                    foreach (String file in archive.listDirectories(url, searchPattern, recursive, includeHidden))
                     {
                         yield return file;
                     }

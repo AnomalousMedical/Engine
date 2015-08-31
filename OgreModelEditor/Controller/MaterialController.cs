@@ -20,8 +20,7 @@ namespace OgreModelEditor
         private EditInterface editInterface;
         private PluginManager pluginManager;
         private List<MaterialDescription> currentDescriptions = new List<MaterialDescription>();
-        private String vfsRootPath;
-        private String vfsPath;
+        private String currentDir;
         private String currentOutputFile;
 
         public MaterialController(PluginManager pluginManager)
@@ -32,17 +31,16 @@ namespace OgreModelEditor
             editInterface.createEditInterfaceManager<MaterialDescription>();
         }
 
-        public void loadMaterials(String vfsPath, String vfsRootPath)
+        public void loadMaterials(String currentDir)
         {
-            this.vfsRootPath = vfsRootPath;
-            this.vfsPath = vfsPath;
+            this.currentDir = currentDir;
 
             var listener = new MaterialResourceListener(this);
 
             var resourceManager = pluginManager.createResourceManagerForListener("MaterialController", listener);
             var subsystem = resourceManager.getSubsystemResource("MaterialController");
             var group = subsystem.addResourceGroup("MaterialController");
-            group.addResource(vfsPath, "EngineArchive", true);
+            group.addResource("", "EngineArchive", true);
 
             resourceManager.initializeResources();
         }
@@ -84,7 +82,7 @@ namespace OgreModelEditor
                 if (currentOutputFile != null && !writtenFiles.Contains(currentOutputFile))
                 {
                     writtenFiles.Add(currentOutputFile);
-                    String outputFile = Path.Combine(vfsRootPath, desc.SourceFile);
+                    String outputFile = Path.Combine(currentDir, desc.SourceFile);
 
                     JsonSerializer serializer = new JsonSerializer();
                     serializer.Formatting = Formatting.Indented;
@@ -105,7 +103,7 @@ namespace OgreModelEditor
         bool nameMaterialResult(String result, ref String errorPrompt)
         {
             //This only happens if no descs have output files and there are actually output files if(!wroteSomething && currentDescriptions.Count > 0)
-            currentDescriptions[0].SourceFile = Path.Combine(vfsPath, result);
+            currentDescriptions[0].SourceFile = Path.Combine(currentDir, result);
             saveMaterials();
             return true;
         }

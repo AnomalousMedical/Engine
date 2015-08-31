@@ -368,21 +368,17 @@ namespace OgreModelEditor
             {
                 modelController.destroyModel();
                 String lastDir = Path.GetDirectoryName(lastFileName);
-                String lastParentDir = Path.GetDirectoryName(lastDir);
-                String lastInnerDir = Path.GetFileName(lastDir);
-                ogreResources.removeResourceGroup(lastInnerDir);
+                ogreResources.removeResourceGroup("CurrentResources");
                 liveResourceManager.changeResourcesToMatch(resourceManager);
                 liveResourceManager.initializeResources();
-                VirtualFileSystem.Instance.removeArchive(lastParentDir);
+                VirtualFileSystem.Instance.removeArchive(lastDir);
             }
 
             lastFileName = path;
             String dir = Path.GetDirectoryName(path);
-            String parentDir = Path.GetDirectoryName(dir);
-            String innerDir = Path.GetFileName(dir);
-            VirtualFileSystem.Instance.addArchive(parentDir);
-            var group = ogreResources.addResourceGroup(innerDir);
-            group.addResource(innerDir, "EngineArchive", true);
+            VirtualFileSystem.Instance.addArchive(dir);
+            var group = ogreResources.addResourceGroup("CurrentResources");
+            group.addResource("", "EngineArchive", true);
             liveResourceManager.changeResourcesToMatch(resourceManager);
             liveResourceManager.initializeResources();
             String meshName = Path.GetFileName(path);
@@ -390,7 +386,7 @@ namespace OgreModelEditor
             mainForm.setTextureNames(modelController.TextureNames);
             mainForm.currentFileChanged(path);
             textureCompiler.CurrentDest = dir;
-            materialController.loadMaterials(innerDir, parentDir);
+            materialController.loadMaterials(dir);
         }
 
         public void refreshResources()
