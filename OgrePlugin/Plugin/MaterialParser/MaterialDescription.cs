@@ -449,20 +449,32 @@ namespace OgrePlugin
             {
                 MaterialDescription defaultDescription = new MaterialDescription();
                 MaterialDescription desc = value as MaterialDescription;
-                bool alwaysWrite = desc.IsRoot;
+                bool isRoot = desc.IsRoot;
 
                 writer.WriteStartObject();
 
                 ensureScannerExists();
                 foreach (var property in scanner.getMatchingMembers(typeof(MaterialDescription)))
                 {
-                    Object thisValue = property.getValue(desc, null);
-                    Object parentValue = property.getValue(desc.parent, null);
-                    Object defaultValue = property.getValue(defaultDescription, null);
-                    if (alwaysWrite || (thisValue != null && !thisValue.Equals(parentValue)))
+                    if (property.getWrappedName() != "Variants")
                     {
-                        if (thisValue != null && !thisValue.Equals(defaultValue) && property.getWrappedName() != "Variants")
+                        Object thisValue = property.getValue(desc, null);
+                        bool write = false;
+                        if(isRoot)
                         {
+                            //If we are root only write if the value does not match the default
+                            Object defaultValue = property.getValue(defaultDescription, null);
+                            write = thisValue != null && !thisValue.Equals(defaultValue);
+                        }
+                        else
+                        {
+                            //If we are not root write the value if it does not match the parent value
+                            Object parentValue = property.getValue(desc.parent, null);
+                            write = thisValue != null && !thisValue.Equals(parentValue);
+                        }
+
+                        if (write)
+                        { 
                             writer.WritePropertyName(property.getWrappedName());
                             writer.WriteValue(thisValue);
                         }
