@@ -111,15 +111,33 @@ namespace OgrePlugin
 
             MaterialPtr hiddenMaterial = MaterialManager.getInstance().create("HiddenMaterial", GroupName, false, null);
             setupHiddenMaterialPass(hiddenMaterial.Value.getTechnique(0).getPass(0), false, false);
+            createdMaterials.Add(hiddenMaterial.Value, new MaterialInfo(hiddenMaterial.Value, null));
             builtInMaterials.Add(hiddenMaterial);
+
+            //Delete stock resources
+            MaterialManager.getInstance().remove("BaseWhite");
+            MaterialManager.getInstance().remove("BaseWhiteNoLighting");
+
+            //Rebuild with our materials
+            var baseWhite = createFromDescription(new MaterialDescription()
+            {
+                Name = "BaseWhite"
+            }, false);
+            builtInMaterials.Add(baseWhite);
+
+            var baseWhiteNoLighting = createFromDescription(new MaterialDescription()
+            {
+                Name = "BaseWhiteNoLighting"
+            }, false);
+            builtInMaterials.Add(baseWhiteNoLighting);
+
         }
 
         public void Dispose()
         {
             foreach (var material in builtInMaterials)
             {
-                MaterialManager.getInstance().remove(material.Value.Name);
-                material.Dispose();
+                destroyMaterial(material);
             }
             shaderFactory.Dispose();
         }
@@ -190,6 +208,12 @@ namespace OgrePlugin
 
         private void constructMaterial(MaterialDescription description, MaterialRepository repo, bool alpha)
         {
+            var material = createFromDescription(description, alpha);
+            repo.addMaterial(material, description);
+        }
+
+        private MaterialPtr createFromDescription(MaterialDescription description, bool alpha)
+        {
             String name = description.Name;
             if (description.CreateAlphaMaterial && alpha) //Is this an automatic alpha material?
             {
@@ -198,7 +222,7 @@ namespace OgrePlugin
             MaterialPtr material = MaterialManager.getInstance().create(name, GroupName, false, null);
 
             CreateMaterial createMaterial = createUnifiedMaterial;
-            if(description.IsSpecialMaterial && !specialMaterialFuncs.TryGetValue(description.SpecialMaterial, out createMaterial))
+            if (description.IsSpecialMaterial && !specialMaterialFuncs.TryGetValue(description.SpecialMaterial, out createMaterial))
             {
                 Logging.Log.Error("Could not find special material creation function {0} for material {1} in {2}.", description.SpecialMaterial, description.Name, description.SourceFile);
                 createMaterial = createUnifiedMaterial; //Attempt to create something, out above clears this variable
@@ -243,7 +267,8 @@ namespace OgrePlugin
             material.Value.load();
 
             createdMaterials.Add(material.Value, new MaterialInfo(material.Value, indirectionTex));
-            repo.addMaterial(material, description);
+
+            return material;
         }
 
         private void setupHiddenMaterialTechnique(Material material, MaterialDescription description)

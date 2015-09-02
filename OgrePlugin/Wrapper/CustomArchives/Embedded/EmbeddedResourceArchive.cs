@@ -29,6 +29,39 @@ namespace OgrePlugin
     {
         private static String[] Seps = { "||" };
 
+        /// <summary>
+        /// Get the assembly and filter pointed to by name. This is in the format TypeInAssemblyName||Filter. Note the || that separates them.
+        /// </summary>
+        /// <param name="name">The name of the assembly.</param>
+        /// <param name="filter">The filter if one is present or null.</param>
+        /// <returns>The assembly for the specified type name.</returns>
+        public static Assembly GetAssemblyAndArgs(String name, out String filter)
+        {
+            String[] nameElements = name.Split(Seps, StringSplitOptions.None);
+            var assembly = Type.GetType(nameElements[0]).Assembly();
+            if(nameElements.Length > 1)
+            {
+                filter = nameElements[1];
+            }
+            else
+            {
+                filter = null;
+            }
+            return assembly;
+        }
+
+        /// <summary>
+        /// Overload if you do not care about the filter.
+        /// </summary>
+        /// <param name="name">The name of the assembly.</param>
+        /// <param name="filter">The filter if one is present or null.</param>
+        /// <returns>The assembly for the specified type name.</returns>
+        public static Assembly GetAssemblyAndArgs(String name)
+        {
+            String filter;
+            return GetAssemblyAndArgs(name, out filter);
+        }
+
         Assembly assembly;
         List<EmbeddedFileInfo> fileList = new List<EmbeddedFileInfo>();
 
@@ -40,12 +73,12 @@ namespace OgrePlugin
 
         protected internal override void load()
         {
-            String[] nameElements = name.Split(Seps, StringSplitOptions.None);
-            assembly = Type.GetType(nameElements[0]).Assembly();
+            String filteredName;
+            assembly = GetAssemblyAndArgs(name, out filteredName);
             IEnumerable<String> fileList = assembly.GetManifestResourceNames();
-            if(nameElements.Length > 1)
+            if(filteredName != null)
             {
-                fileList = fileList.Where((f) => f.StartsWith(nameElements[1]));
+                fileList = fileList.Where((f) => f.StartsWith(filteredName));
             }
 	        foreach(String file in fileList)
 	        {

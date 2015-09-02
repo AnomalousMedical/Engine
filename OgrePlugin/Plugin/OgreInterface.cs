@@ -69,6 +69,7 @@ namespace OgrePlugin
         private OgreResourceManager ogreResourceManager;
         private RenderSystem rs;
         private RenderSystemType chosenRenderSystem;
+        private ResourceManager engineResourceManager;
 
         private delegate OgreSceneManagerDefinition CreateSceneManagerDefinition(String name);
         private delegate SceneNodeDefinition CreateSceneNodeDefinition(String name);
@@ -91,6 +92,10 @@ namespace OgrePlugin
 
         public void Dispose()
         {
+            var ogreSubsystem = engineResourceManager.getSubsystemResource("Ogre");
+            ogreSubsystem.removeResourceGroup("Internal");
+            engineResourceManager.initializeResources();
+
             if (OgreConfig.SaveMicrocodeCache && GpuProgramManager.Instance.IsCacheDirty && MicrocodeCachePath != null)
             {
                 try
@@ -218,23 +223,6 @@ namespace OgrePlugin
                 //Setup Resources
                 pluginManager.addSubsystemResources("Ogre", OgreResourceManager.Instance);
 
-                //Setup the core resources
-                OgreResourceGroupManager.getInstance().addResourceLocation(typeof(OgreInterface).AssemblyQualifiedName, "EmbeddedResource", "Bootstrap", true);
-                OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
-
-                //Add Shaders to built in resources
-                using (MaterialPtr baseWhite = MaterialManager.getInstance().getByName("BaseWhite"))
-                {
-                    baseWhite.Value.getTechnique(0).getPass(0).setVertexProgram("colorvertex\\vs");
-                    baseWhite.Value.getTechnique(0).getPass(0).setFragmentProgram("colorvertexwhite\\fs");
-                }
-
-                using (MaterialPtr baseWhiteNoLighting = MaterialManager.getInstance().getByName("BaseWhiteNoLighting"))
-                {
-                    baseWhiteNoLighting.Value.getTechnique(0).getPass(0).setVertexProgram("colorvertex\\vs");
-                    baseWhiteNoLighting.Value.getTechnique(0).getPass(0).setFragmentProgram("colorvertexwhite\\fs");
-                }
-
                 //Setup the device lost listener.
                 deviceLostListener = new DeviceLostListener();
                 rs.addListener(deviceLostListener);
@@ -247,7 +235,11 @@ namespace OgrePlugin
 
         public void link(PluginManager pluginManager)
         {
-
+            engineResourceManager = pluginManager.createLiveResourceManager("OgrePlugin");
+            var ogreSubsystem = engineResourceManager.getSubsystemResource("Ogre");
+            var group = ogreSubsystem.addResourceGroup("Internal");
+            group.addResource(typeof(OgreInterface).AssemblyQualifiedName, "EmbeddedResource", true);
+            engineResourceManager.initializeResources();
         }
 
         /// <summary>

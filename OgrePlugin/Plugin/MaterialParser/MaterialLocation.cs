@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -58,7 +59,7 @@ namespace OgrePlugin
 
         internal void initializeResources(JsonSerializer serializer)
         {
-            if(loaded && groups.Count == 0)
+            if (loaded && groups.Count == 0)
             {
                 foreach (var mat in loadedMaterials)
                 {
@@ -67,9 +68,9 @@ namespace OgrePlugin
                 loaded = false;
                 loadedMaterials.Clear();
             }
-            else if(!loaded && groups.Count > 0)
+            else if (!loaded && groups.Count > 0)
             {
-                foreach(String file in Files)
+                foreach (String file in Files)
                 {
                     Logging.Log.Info("Loading materials from {0}", file);
                     String currentName = null;
@@ -83,7 +84,7 @@ namespace OgrePlugin
                             parent.buildMaterial(description, this);
                         }
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         Logging.Log.Error("Material '{0}' in file '{1}' could not be loaded.\n{2}: {3}", currentName, file, ex.GetType(), ex.Message);
                     }
@@ -120,7 +121,7 @@ namespace OgrePlugin
             List<MaterialDescription> descriptions = null;
             MaterialDescription mainDescription = null;
             //Try to read the stream in one shot
-            using (StreamReader sr = new StreamReader(VirtualFileSystem.Instance.openStream(file, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read)))
+            using (StreamReader sr = new StreamReader(openStream(file)))
             {
                 char firstChar = (char)sr.Read();
                 while (char.IsWhiteSpace(firstChar))
@@ -129,7 +130,7 @@ namespace OgrePlugin
                 }
                 sr.BaseStream.Seek(0, SeekOrigin.Begin);
                 sr.DiscardBufferedData();
-                if(firstChar == '[')
+                if (firstChar == '[')
                 {
                     descriptions = serializer.Deserialize(sr, typeof(List<MaterialDescription>)) as List<MaterialDescription>;
                 }
@@ -140,12 +141,12 @@ namespace OgrePlugin
             }
 
             //Enumerate results
-            if(descriptions != null)
+            if (descriptions != null)
             {
                 foreach (var description in descriptions)
                 {
                     yield return description;
-                    foreach(var variant in description.AllVariants)
+                    foreach (var variant in description.AllVariants)
                     {
                         yield return variant;
                     }
@@ -161,25 +162,66 @@ namespace OgrePlugin
             }
         }
 
+        private Stream openStream(String file)
+        {
+            switch (ArchiveType)
+            {
+                case "EngineArchive":
+                    return VirtualFileSystem.Instance.openStream(file, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read);
+                case "EmbeddedScalableResource": //Material resources do not do "scaling" in the way EmbeddedScalableResource does so handle them the same
+                case "EmbeddedResource":
+                    Assembly assembly = EmbeddedResourceArchive.GetAssemblyAndArgs(LocName);
+                    return assembly.GetManifestResourceStream(file);
+                default:
+                    return new MemoryStream();
+            }
+        }
+
         private IEnumerable<String> Files
         {
             get
             {
-                VirtualFileSystem vfs = VirtualFileSystem.Instance;
-                if (vfs.isDirectory(LocName))
+                switch (ArchiveType)
                 {
-                    var files = vfs.listFiles(LocName, "*.jsonmat", Recursive);
-                    foreach (String path in files)
-                    {
-                        yield return path;
-                    }
+                    case "EngineArchive":
+                        return virtualFileSystemFileList();
+                    case "EmbeddedScalableResource": //Material resources do not do "scaling" in the way EmbeddedScalableResource does so handle them the same
+                    case "EmbeddedResource":
+                        return embeddedFileList();
+                    default:
+                        return IEnumerableUtil<String>.EmptyIterator;
                 }
-                else
+            }
+        }
+
+        private IEnumerable<String> embeddedFileList()
+        {
+            String filter;
+            Assembly assembly = EmbeddedResourceArchive.GetAssemblyAndArgs(LocName, out filter);
+            IEnumerable<String> files = assembly.GetManifestResourceNames().Where(f => f.EndsWith(".jsonmat", StringComparison.InvariantCultureIgnoreCase));
+            if (filter != null)
+            {
+                files = files.Where((f) => f.StartsWith(filter));
+            }
+            return files;
+        }
+
+        private IEnumerable<String> virtualFileSystemFileList()
+        {
+            VirtualFileSystem vfs = VirtualFileSystem.Instance;
+            if (vfs.isDirectory(LocName))
+            {
+                var files = vfs.listFiles(LocName, "*.jsonmat", Recursive);
+                foreach (String path in files)
                 {
-                    if (Path.GetExtension(LocName).ToLowerInvariant() == ".jsonmat")
-                    {
-                        yield return LocName;
-                    }
+                    yield return path;
+                }
+            }
+            else
+            {
+                if (Path.GetExtension(LocName).ToLowerInvariant() == ".jsonmat")
+                {
+                    yield return LocName;
                 }
             }
         }

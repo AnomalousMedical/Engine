@@ -52,16 +52,13 @@ namespace OgrePlugin
 
         public void resourceAdded(ResourceGroup group, Engine.Resources.Resource resource)
         {
-            if (resource.ArchiveType == "EngineArchive") //Only support engine archives
+            var location = materialLocations.Where(l => l.represents(resource)).FirstOrDefault();
+            if(location == null)
             {
-                var location = materialLocations.Where(l => l.represents(resource)).FirstOrDefault();
-                if(location == null)
-                {
-                    location = new MaterialLocation(resource, this);
-                    materialLocations.Add(location);
-                }
-                location.addGroup(group);
+                location = new MaterialLocation(resource, this);
+                materialLocations.Add(location);
             }
+            location.addGroup(group);
         }
 
         public void resourceGroupAdded(ResourceGroup group)
