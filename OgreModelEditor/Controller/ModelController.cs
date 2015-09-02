@@ -283,6 +283,14 @@ namespace OgreModelEditor.Controller
             Log.Info("Binormals Removed");
         }
 
+        public bool IsModelLoaded
+        {
+            get
+            {
+                return entity != null;
+            }
+        }
+
         /// <summary>
         /// Save the model in binary format.
         /// </summary>

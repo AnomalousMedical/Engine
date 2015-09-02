@@ -547,7 +547,14 @@ namespace OgreModelEditor
 
         public void saveMaterials()
         {
-            materialController.saveMaterials();
+            if (modelController.IsModelLoaded)
+            {
+                materialController.saveMaterials();
+            }
+            else
+            {
+                MessageBox.show("A model must be loaded to save materials.", "Save Error", MessageBoxStyle.IconError | MessageBoxStyle.Ok);
+            }
         }
 
         public void batchResaveMeshes(String rootPath)
