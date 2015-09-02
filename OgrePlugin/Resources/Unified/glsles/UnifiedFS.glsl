@@ -119,7 +119,9 @@ vec2 vtexCoord(vec2 address, sampler2D indirectionTex, vec2 physicalSizeRecip, v
 #ifdef NORMAL_DIFFUSE_OPACITY_MAPS
 	uniform sampler2D normalTexture;	//The normal map
 	uniform sampler2D colorTexture;		//The color map
-	uniform sampler2D opacityTexture;	//The Opacity map, uses r channel for opacity
+	#ifdef SEPARATE_OPACITY
+		uniform sampler2D opacityTexture;	//The Opacity map, uses r channel for opacity
+	#endif //SEPARATE_OPACITY
 	uniform vec4 specularColor;			//The specular color of the surface
 #endif //NORMAL_DIFFUSE_SPECULAR_MAPS
 
@@ -127,7 +129,9 @@ vec2 vtexCoord(vec2 address, sampler2D indirectionTex, vec2 physicalSizeRecip, v
 	uniform sampler2D normalTexture;	//The normal map
 	uniform sampler2D colorTexture;		//The color map
 	uniform sampler2D specularTexture;	//The specular color map
-	uniform sampler2D opacityTexture;	//The Opacity map, uses r channel for opacity
+	#ifdef SEPARATE_OPACITY
+		uniform sampler2D opacityTexture;	//The Opacity map, uses r channel for opacity
+	#endif //SEPARATE_OPACITY
 #endif //NORMAL_DIFFUSE_SPECULAR_OPACITY_MAPS
 
 #ifdef GLOSS_MAP
@@ -198,12 +202,13 @@ void main()
 #endif
 
 #ifdef NORMAL_MAP
+	vec4 normalRead = texture2D(normalTexture, derivedCoords);
 	//Unpack the normal map.
 	vec3 normal;
 	#ifdef RG_NORMALS
-		normal.rg = 2.0 * (texture2D(normalTexture, derivedCoords).rg - 0.5);
+		normal.rg = 2.0 * (normalRead.rg - 0.5);
 	#else
-		normal.rg = 2.0 * (texture2D(normalTexture, derivedCoords).ag - 0.5);
+		normal.rg = 2.0 * (normalRead.ag - 0.5);
 	#endif
 		normal.b = sqrt(1.0 - normal.r * normal.r - normal.g * normal.g);
 #else
@@ -211,7 +216,11 @@ void main()
 #endif //NORMAL_MAP
 
 #ifdef OPACITY_MAP
-	vec2 opacityMapValue = texture2D(opacityTexture, derivedCoords).rg;
+	#ifdef SEPARATE_OPACITY
+		vec2 opacityMapValue = texture2D(opacityTexture, derivedCoords).rg;
+	#else
+		vec2 opacityMapValue = normalRead.ba;
+	#endif //SEPARATE_OPACITY
 #endif
 
 #ifdef GLOSS_MAP
