@@ -63,8 +63,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuiFramework.Debugging", "G
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextureCompiler", "TextureCompiler\TextureCompiler.csproj", "{4B395F64-4F52-4CC3-B983-33CC38A6450D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TextureCompilerNative", "TextureCompilerNative\TextureCompilerNative.vcxproj", "{C935E8CA-2E76-415E-8BBF-826E432718DE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -409,16 +407,6 @@ Global
 		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.Release|x64.Build.0 = Release|Any CPU
 		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.Release|x86.ActiveCfg = Release|Any CPU
 		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.Release|x86.Build.0 = Release|Any CPU
-		{C935E8CA-2E76-415E-8BBF-826E432718DE}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{C935E8CA-2E76-415E-8BBF-826E432718DE}.Debug|x64.ActiveCfg = Debug|x64
-		{C935E8CA-2E76-415E-8BBF-826E432718DE}.Debug|x64.Build.0 = Debug|x64
-		{C935E8CA-2E76-415E-8BBF-826E432718DE}.Debug|x86.ActiveCfg = Debug|Win32
-		{C935E8CA-2E76-415E-8BBF-826E432718DE}.Debug|x86.Build.0 = Debug|Win32
-		{C935E8CA-2E76-415E-8BBF-826E432718DE}.Release|Any CPU.ActiveCfg = Release|Win32
-		{C935E8CA-2E76-415E-8BBF-826E432718DE}.Release|x64.ActiveCfg = Release|x64
-		{C935E8CA-2E76-415E-8BBF-826E432718DE}.Release|x64.Build.0 = Release|x64
-		{C935E8CA-2E76-415E-8BBF-826E432718DE}.Release|x86.ActiveCfg = Release|Win32
-		{C935E8CA-2E76-415E-8BBF-826E432718DE}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
