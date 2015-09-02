@@ -528,5 +528,16 @@ namespace OgreModelEditor.Controller
                 }
             }
         }
+
+        public String MeshMaterialName
+        {
+            get
+            {
+                using (MeshPtr mesh = entity.getMesh())
+                {
+                    return mesh.Value.getSubMesh(0).getMaterialName();
+                }
+            }
+        }
     }
 }

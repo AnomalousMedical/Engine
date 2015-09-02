@@ -28,7 +28,7 @@ namespace OgreModelEditor
             this.pluginManager = pluginManager;
 
             editInterface = ReflectedEditInterface.createEditInterface(this, "Materials");
-            editInterface.createEditInterfaceManager<MaterialDescription>();
+            editInterface.createEditInterfaceManager<MaterialDescription>(i => i.getEditInterface());
         }
 
         public void loadMaterials(String currentDir)
@@ -43,6 +43,17 @@ namespace OgreModelEditor
             group.addResource("", "EngineArchive", true);
 
             resourceManager.initializeResources();
+        }
+
+        public void createMaterial(string entityMaterialName)
+        {
+            var desc = new MaterialDescription()
+            {
+                Name = entityMaterialName,
+                Builder = "VirtualTexture"
+            };
+            currentDescriptions.Add(desc);
+            editInterface.addSubInterface(desc);
         }
 
         public EditInterface EditInterface
