@@ -114,6 +114,30 @@ namespace OgrePlugin
         [JsonProperty]
         public String TextureSet { get; set; }
 
+        [Editable]
+        [JsonProperty]
+        public bool HasNormalMap { get; set; }
+
+        [Editable]
+        [JsonProperty]
+        public bool HasDiffuseMap { get; set; }
+
+        [Editable]
+        [JsonProperty]
+        public bool HasSpecularColorMap { get; set; }
+
+        [Editable]
+        [JsonProperty]
+        public bool HasSpecularLevelMap { get; set; }
+
+        [Editable]
+        [JsonProperty]
+        public bool HasGlossMap { get; set; }
+
+        [Editable]
+        [JsonProperty]
+        public bool HasOpacityMap { get; set; }
+
         [JsonProperty]
         public String Emissive
         {
@@ -143,6 +167,45 @@ namespace OgrePlugin
                 {
                     Logging.Log.Error("Could not parse specular color '{0}' for material '{1}'", value, Name);
                 }
+            }
+        }
+
+        [Editable]
+        public Color EmissiveColor
+        {
+            get
+            {
+                return emissiveColor;
+            }
+            set
+            {
+                emissiveColor = value;
+            }
+        }
+
+        [Editable]
+        public Color DiffuseColor
+        {
+            get
+            {
+                return diffuseColor;
+            }
+            set
+            {
+                diffuseColor = value;
+            }
+        }
+
+        [Editable]
+        public Color SpecularColor
+        {
+            get
+            {
+                return specularColor;
+            }
+            set
+            {
+                specularColor = value;
             }
         }
 
@@ -195,30 +258,6 @@ namespace OgrePlugin
         [Editable]
         [JsonProperty]
         public float GlossyRange { get; set; }
-
-        [Editable]
-        [JsonProperty]
-        public bool HasNormalMap { get; set; }
-
-        [Editable]
-        [JsonProperty]
-        public bool HasDiffuseMap { get; set; }
-
-        [Editable]
-        [JsonProperty]
-        public bool HasSpecularColorMap { get; set; }
-
-        [Editable]
-        [JsonProperty]
-        public bool HasSpecularLevelMap { get; set; }
-
-        [Editable]
-        [JsonProperty]
-        public bool HasGlossMap { get; set; }
-
-        [Editable]
-        [JsonProperty]
-        public bool HasOpacityMap { get; set; }
 
         [Editable]
         [JsonProperty]
@@ -298,45 +337,6 @@ namespace OgrePlugin
             get
             {
                 return !String.IsNullOrEmpty(SpecialMaterial);
-            }
-        }
-
-        [Editable]
-        public Color EmissiveColor
-        {
-            get
-            {
-                return emissiveColor;
-            }
-            set
-            {
-                emissiveColor = value;
-            }
-        }
-
-        [Editable]
-        public Color DiffuseColor
-        {
-            get
-            {
-                return diffuseColor;
-            }
-            set
-            {
-                diffuseColor = value;
-            }
-        }
-
-        [Editable]
-        public Color SpecularColor
-        {
-            get
-            {
-                return specularColor;
-            }
-            set
-            {
-                specularColor = value;
             }
         }
 
