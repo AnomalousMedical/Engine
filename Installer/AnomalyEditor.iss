@@ -39,6 +39,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Source: ..\Release\Anomaly.exe; DestDir: {app}; Flags: ignoreversion 
 Source: ..\Release\ImageAtlasPacker.exe; DestDir: {app}; Flags: ignoreversion
 Source: ..\Release\OgreModelEditor.exe; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\TextureCompiler.exe; DestDir: {app}; Flags: ignoreversion
 Source: ..\Release\BEPUikPlugin.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\Release\BulletPlugin.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\Release\DotNetZip.dll; DestDir: {app}; Flags: ignoreversion
@@ -88,6 +89,32 @@ Source: ..\Release\x64\RenderSystem_GL.dll; DestDir: {app}\x64; Flags: ignorever
 Source: ..\Release\x64\SoundWrapper.dll; DestDir: {app}\x64; Flags: ignoreversion
 Source: ..\Release\x64\WinMTDriver.dll; DestDir: {app}\x64; Flags: ignoreversion
 Source: ..\Release\x64\Zip.dll; DestDir: {app}\x64; Flags: ignoreversion
+
+;Compressor Binaries
+;Mali
+Source: ..\Release\CompressorBinaries\MaliTextureTool\astcenc.exe; DestDir: {app}\CompressorBinaries\MaliTextureTool; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\MaliTextureTool\atl100.dll; DestDir: {app}\CompressorBinaries\MaliTextureTool; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\MaliTextureTool\composite.exe; DestDir: {app}\CompressorBinaries\MaliTextureTool; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\MaliTextureTool\convert.exe; DestDir: {app}\CompressorBinaries\MaliTextureTool; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\MaliTextureTool\etcpack.exe; DestDir: {app}\CompressorBinaries\MaliTextureTool; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\MaliTextureTool\mfc100.dll; DestDir: {app}\CompressorBinaries\MaliTextureTool; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\MaliTextureTool\msvcp100.dll; DestDir: {app}\CompressorBinaries\MaliTextureTool; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\MaliTextureTool\msvcr100.dll; DestDir: {app}\CompressorBinaries\MaliTextureTool; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\MaliTextureTool\vcomp100.dll; DestDir: {app}\CompressorBinaries\MaliTextureTool; Flags: ignoreversion
+
+;Nvidia
+Source: ..\Release\CompressorBinaries\MaliTextureTool\cudart64_30_14.dll; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\MaliTextureTool\jpeg62.dll; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\MaliTextureTool\libpng12.dll; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\MaliTextureTool\libtiff3.dll; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\MaliTextureTool\nvassemble.exe; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\MaliTextureTool\nvcompress.exe; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\MaliTextureTool\nvddsinfo.exe; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\MaliTextureTool\nvdecompress.exe; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\MaliTextureTool\nvimgdiff.exe; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\MaliTextureTool\nvtt.dll; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\MaliTextureTool\nvzoom.exe; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\MaliTextureTool\zlib1.dll; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
 
 ;Microcode Caches
 ;Source: ..\..\Medical\Release\Direct3D11 Rendering Subsystem.mcc; DestDir: {app}; Flags: ignoreversion
