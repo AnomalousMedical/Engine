@@ -128,6 +128,10 @@ namespace OgreModelEditor
 
         bool nameMaterialResult(String result, ref String errorPrompt)
         {
+            if(!result.EndsWith(".jsonmat", StringComparison.InvariantCultureIgnoreCase))
+            {
+                result += ".jsonmat";
+            }
             //This only happens if no descs have output files and there are actually output files if(!wroteSomething && currentDescriptions.Count > 0)
             currentDescriptions[0].SourceFile = Path.Combine(currentDir, result);
             saveMaterials();
