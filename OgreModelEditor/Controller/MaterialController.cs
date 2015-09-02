@@ -18,14 +18,14 @@ namespace OgreModelEditor
     class MaterialController
     {
         private EditInterface editInterface;
-        private PluginManager pluginManager;
+        private OgreModelEditorController controller;
         private List<MaterialDescription> currentDescriptions = new List<MaterialDescription>();
         private String currentDir;
         private String currentOutputFile;
 
-        public MaterialController(PluginManager pluginManager)
+        public MaterialController(OgreModelEditorController controller)
         {
-            this.pluginManager = pluginManager;
+            this.controller = controller;
 
             editInterface = ReflectedEditInterface.createEditInterface(this, "Materials");
             editInterface.addCommand(new EditInterfaceCommand("Add", () =>
@@ -46,7 +46,7 @@ namespace OgreModelEditor
 
             var listener = new MaterialResourceListener(this);
 
-            var resourceManager = pluginManager.createResourceManagerForListener("MaterialController", listener);
+            var resourceManager = controller.PluginManager.createResourceManagerForListener("MaterialController", listener);
             var subsystem = resourceManager.getSubsystemResource("MaterialController");
             var group = subsystem.addResourceGroup("MaterialController");
             group.addResource("", "EngineArchive", true);
@@ -135,6 +135,7 @@ namespace OgreModelEditor
             //This only happens if no descs have output files and there are actually output files if(!wroteSomething && currentDescriptions.Count > 0)
             currentDescriptions[0].SourceFile = Path.Combine(currentDir, result);
             saveMaterials();
+            controller.refreshVFS();
             return true;
         }
 

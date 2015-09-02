@@ -154,7 +154,7 @@ namespace OgreModelEditor
 
             virtualTextureLink = new VirtualTextureSceneViewLink(this);
 
-            materialController = new MaterialController(pluginManager);
+            materialController = new MaterialController(this);
 
             //Tools
             objectMover = new SimObjectMover("ModelMover", PluginManager.Instance.RendererPlugin, eventManager, sceneViewController);
@@ -403,14 +403,20 @@ namespace OgreModelEditor
                 liveResourceManager.changeResourcesToMatch(emptyResourceManager);
                 liveResourceManager.initializeResources();
                 virtualTextureLink.clearCache();
-                VirtualFileSystem.Instance.removeArchive(dir);
-                VirtualFileSystem.Instance.addArchive(dir);
+                refreshVFS();
                 liveResourceManager.changeResourcesToMatch(resourceManager);
                 liveResourceManager.initializeResources();
                 String meshName = Path.GetFileName(lastFileName);
                 modelController.createModel(meshName, scene);
                 mainForm.setTextureNames(modelController.TextureNames);
             }
+        }
+
+        public void refreshVFS()
+        {
+            String dir = Path.GetDirectoryName(lastFileName);
+            VirtualFileSystem.Instance.removeArchive(dir);
+            VirtualFileSystem.Instance.addArchive(dir);
         }
 
         public void setBinormalDebug()
