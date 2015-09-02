@@ -403,6 +403,8 @@ namespace OgreModelEditor
                 liveResourceManager.changeResourcesToMatch(emptyResourceManager);
                 liveResourceManager.initializeResources();
                 virtualTextureLink.clearCache();
+                VirtualFileSystem.Instance.removeArchive(dir);
+                VirtualFileSystem.Instance.addArchive(dir);
                 liveResourceManager.changeResourcesToMatch(resourceManager);
                 liveResourceManager.initializeResources();
                 String meshName = Path.GetFileName(lastFileName);
