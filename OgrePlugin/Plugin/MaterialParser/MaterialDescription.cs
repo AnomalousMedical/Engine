@@ -548,7 +548,7 @@ namespace OgrePlugin
         {
             if (editInterface == null)
             {
-                editInterface = ReflectedEditInterface.createEditInterface(this, Name);
+                editInterface = ReflectedEditInterface.createEditInterface(this, Name, () => editInterface.setName(Name));
                 variantProperties = new List<VariantProperties>();
                 if (Variants == null)
                 {

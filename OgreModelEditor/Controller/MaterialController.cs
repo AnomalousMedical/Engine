@@ -28,7 +28,16 @@ namespace OgreModelEditor
             this.pluginManager = pluginManager;
 
             editInterface = ReflectedEditInterface.createEditInterface(this, "Materials");
-            editInterface.createEditInterfaceManager<MaterialDescription>(i => i.getEditInterface());
+            editInterface.addCommand(new EditInterfaceCommand("Add", () =>
+            {
+                createMaterial("NewMaterial");
+            }));
+            var descriptionManager = editInterface.createEditInterfaceManager<MaterialDescription>(i => i.getEditInterface());
+            descriptionManager.addCommand(new EditInterfaceCommand("Remove", cb =>
+            {
+                var desc = descriptionManager.resolveSourceObject(cb.getSelectedEditInterface());
+                removeMaterial(desc);
+            }));
         }
 
         public void loadMaterials(String currentDir)
@@ -54,6 +63,12 @@ namespace OgreModelEditor
             };
             currentDescriptions.Add(desc);
             editInterface.addSubInterface(desc);
+        }
+
+        public void removeMaterial(MaterialDescription desc)
+        {
+            currentDescriptions.Remove(desc);
+            editInterface.removeSubInterface(desc);
         }
 
         public EditInterface EditInterface
