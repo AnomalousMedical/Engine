@@ -103,18 +103,18 @@ Source: ..\Release\CompressorBinaries\MaliTextureTool\msvcr100.dll; DestDir: {ap
 Source: ..\Release\CompressorBinaries\MaliTextureTool\vcomp100.dll; DestDir: {app}\CompressorBinaries\MaliTextureTool; Flags: ignoreversion
 
 ;Nvidia
-Source: ..\Release\CompressorBinaries\MaliTextureTool\cudart64_30_14.dll; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
-Source: ..\Release\CompressorBinaries\MaliTextureTool\jpeg62.dll; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
-Source: ..\Release\CompressorBinaries\MaliTextureTool\libpng12.dll; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
-Source: ..\Release\CompressorBinaries\MaliTextureTool\libtiff3.dll; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
-Source: ..\Release\CompressorBinaries\MaliTextureTool\nvassemble.exe; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
-Source: ..\Release\CompressorBinaries\MaliTextureTool\nvcompress.exe; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
-Source: ..\Release\CompressorBinaries\MaliTextureTool\nvddsinfo.exe; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
-Source: ..\Release\CompressorBinaries\MaliTextureTool\nvdecompress.exe; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
-Source: ..\Release\CompressorBinaries\MaliTextureTool\nvimgdiff.exe; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
-Source: ..\Release\CompressorBinaries\MaliTextureTool\nvtt.dll; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
-Source: ..\Release\CompressorBinaries\MaliTextureTool\nvzoom.exe; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
-Source: ..\Release\CompressorBinaries\MaliTextureTool\zlib1.dll; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\Nvidia\cudart64_30_14.dll; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\Nvidia\jpeg62.dll; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\Nvidia\libpng12.dll; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\Nvidia\libtiff3.dll; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\Nvidia\nvassemble.exe; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\Nvidia\nvcompress.exe; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\Nvidia\nvddsinfo.exe; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\Nvidia\nvdecompress.exe; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\Nvidia\nvimgdiff.exe; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\Nvidia\nvtt.dll; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\Nvidia\nvzoom.exe; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
+Source: ..\Release\CompressorBinaries\Nvidia\zlib1.dll; DestDir: {app}\CompressorBinaries\Nvidia; Flags: ignoreversion
 
 ;Microcode Caches
 ;Source: ..\..\Medical\Release\Direct3D11 Rendering Subsystem.mcc; DestDir: {app}; Flags: ignoreversion
