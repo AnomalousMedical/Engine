@@ -60,23 +60,23 @@ namespace OgrePlugin
 
         public UnifiedMaterialBuilder(VirtualTextureManager virtualTextureManager, CompressedTextureSupport textureFormat, ResourceManager liveResourceManager)
         {
-            NormaMapReadlMode normalMapReadMode = NormaMapReadlMode.RG;
+            NormaMapReadMode normalMapReadMode = NormaMapReadMode.RG;
             switch (textureFormat)
             {
                 case CompressedTextureSupport.DXT_BC4_BC5:
                     textureFormatExtension = ".dds";
                     normalTextureFormatExtension = "_bc5.dds";
-                    normalMapReadMode = NormaMapReadlMode.RG;
+                    normalMapReadMode = NormaMapReadMode.RG;
                     break;
                 case CompressedTextureSupport.DXT:
                     textureFormatExtension = ".dds";
                     normalTextureFormatExtension = ".dds";
-                    normalMapReadMode = NormaMapReadlMode.AG;
+                    normalMapReadMode = NormaMapReadMode.AG;
                     break;
                 case CompressedTextureSupport.None:
                     textureFormatExtension = ".png";
                     normalTextureFormatExtension = ".png";
-                    normalMapReadMode = NormaMapReadlMode.AG;
+                    normalMapReadMode = NormaMapReadMode.RG;
                     break;
             }
 

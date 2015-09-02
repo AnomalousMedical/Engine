@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OgrePlugin
 {
-    internal enum NormaMapReadlMode
+    internal enum NormaMapReadMode
     {
         /// <summary>
         /// Normal map x, y in RG channels, (bc5 format)
@@ -38,9 +38,9 @@ namespace OgrePlugin
 
         private Dictionary<String, HighLevelGpuProgramSharedPtr> createdPrograms = new Dictionary<string, HighLevelGpuProgramSharedPtr>();
         private ResourceGroup shaderResourceGroup;
-        private NormaMapReadlMode normalMapReadMode;
+        private NormaMapReadMode normalMapReadMode;
 
-        public UnifiedShaderFactory(ResourceManager liveResourceManager, NormaMapReadlMode normalMapReadMode)
+        public UnifiedShaderFactory(ResourceManager liveResourceManager, NormaMapReadMode normalMapReadMode)
         {
             this.normalMapReadMode = normalMapReadMode;
 
@@ -312,7 +312,7 @@ namespace OgrePlugin
             }
             switch (normalMapReadMode)
             {
-                case NormaMapReadlMode.RG:
+                case NormaMapReadMode.RG:
                     definesBuilder.Append("RG_NORMALS=1,");
                     break;
             }
