@@ -39,7 +39,7 @@ namespace OgrePlugin
         private Dictionary<String, HighLevelGpuProgramSharedPtr> createdPrograms = new Dictionary<string, HighLevelGpuProgramSharedPtr>();
         private ResourceGroup shaderResourceGroup;
         private NormaMapReadMode normalMapReadMode;
-        private bool separateOpacityMap;
+        protected bool separateOpacityMap;
 
         public UnifiedShaderFactory(ResourceManager liveResourceManager, NormaMapReadMode normalMapReadMode, bool separateOpacityMap)
         {

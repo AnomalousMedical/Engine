@@ -223,7 +223,7 @@ namespace OgrePlugin
                 {
                     defaultParams.Value.setNamedConstant("specularTexture", textureIndex++);
                 }
-                if ((maps & TextureMaps.Opacity) == TextureMaps.Opacity)
+                if ((maps & TextureMaps.Opacity) == TextureMaps.Opacity && separateOpacityMap)
                 {
                     defaultParams.Value.setNamedConstant("opacityTexture", textureIndex++);
                 }
