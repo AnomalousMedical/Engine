@@ -12,8 +12,8 @@ namespace OgrePlugin
         private const String UnifiedShaderBase = ShaderPathBase + ".Unified.D3D11.";
         private const String EyeShaderBase = ShaderPathBase + ".Eye.D3D11.";
 
-        public HlslUnifiedShaderFactory(ResourceManager liveResourceManager, NormaMapReadMode normalMapReadMode)
-            : base(liveResourceManager, normalMapReadMode)
+        public HlslUnifiedShaderFactory(ResourceManager liveResourceManager, NormaMapReadMode normalMapReadMode, bool separateOpacityMap)
+            : base(liveResourceManager, normalMapReadMode, separateOpacityMap)
         {
 
         }

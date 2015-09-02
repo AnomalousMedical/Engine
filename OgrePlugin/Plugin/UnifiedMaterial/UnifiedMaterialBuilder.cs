@@ -56,7 +56,20 @@ namespace OgrePlugin
 
         private UnifiedShaderFactory shaderFactory;
 
+        private bool createOpacityTexture = true;
+
         public event Action<UnifiedMaterialBuilder> InitializationComplete;
+
+        public static int GetNumCompressedTexturesNeeded(CompressedTextureSupport textureFormat)
+        {
+            switch(textureFormat)
+            {
+                case CompressedTextureSupport.None:
+                    return 3;
+                default:
+                    return 4;
+            }
+        }
 
         public UnifiedMaterialBuilder(VirtualTextureManager virtualTextureManager, CompressedTextureSupport textureFormat, ResourceManager liveResourceManager)
         {
@@ -67,16 +80,19 @@ namespace OgrePlugin
                     textureFormatExtension = ".dds";
                     normalTextureFormatExtension = "_bc5.dds";
                     normalMapReadMode = NormaMapReadMode.RG;
+                    createOpacityTexture = true;
                     break;
                 case CompressedTextureSupport.DXT:
                     textureFormatExtension = ".dds";
                     normalTextureFormatExtension = ".dds";
                     normalMapReadMode = NormaMapReadMode.AG;
+                    createOpacityTexture = true;
                     break;
                 case CompressedTextureSupport.None:
                     textureFormatExtension = ".png";
                     normalTextureFormatExtension = ".png";
                     normalMapReadMode = NormaMapReadMode.RG;
+                    createOpacityTexture = false;
                     break;
             }
 
@@ -84,15 +100,15 @@ namespace OgrePlugin
 
             if (OgreInterface.Instance.RenderSystem.isShaderProfileSupported("hlsl"))
             {
-                shaderFactory = new HlslUnifiedShaderFactory(liveResourceManager, normalMapReadMode);
+                shaderFactory = new HlslUnifiedShaderFactory(liveResourceManager, normalMapReadMode, createOpacityTexture);
             }
             else if (OgreInterface.Instance.RenderSystem.isShaderProfileSupported("glsl"))
             {
-                shaderFactory = new GlslUnifiedShaderFactory(liveResourceManager, normalMapReadMode);
+                shaderFactory = new GlslUnifiedShaderFactory(liveResourceManager, normalMapReadMode, createOpacityTexture);
             }
             else if (OgreInterface.Instance.RenderSystem.isShaderProfileSupported("glsles"))
             {
-                shaderFactory = new GlslesUnifiedShaderFactory(liveResourceManager, normalMapReadMode);
+                shaderFactory = new GlslesUnifiedShaderFactory(liveResourceManager, normalMapReadMode, createOpacityTexture);
             }
             else
             {
@@ -102,7 +118,11 @@ namespace OgrePlugin
             diffuseTexture = virtualTextureManager.createPhysicalTexture("Diffuse", PixelFormatUsageHint.NotSpecial);
             normalTexture = virtualTextureManager.createPhysicalTexture("NormalMap", PixelFormatUsageHint.NormalMap);
             specularTexture = virtualTextureManager.createPhysicalTexture("Specular", PixelFormatUsageHint.NotSpecial);
-            opacityTexture = virtualTextureManager.createPhysicalTexture("Opacity", PixelFormatUsageHint.OpacityMap);
+
+            if (createOpacityTexture)
+            {
+                opacityTexture = virtualTextureManager.createPhysicalTexture("Opacity", PixelFormatUsageHint.OpacityMap);
+            }
 
             specialMaterialFuncs.Add("EyeOuter", createEyeOuterMaterial);
             specialMaterialFuncs.Add("ColorVertex", createColorVertexMaterial);
@@ -492,7 +512,10 @@ namespace OgrePlugin
             pass.createTextureUnitState(normalTexture.TextureName);
             pass.createTextureUnitState(diffuseTexture.TextureName);
             pass.createTextureUnitState(specularTexture.TextureName);
-            pass.createTextureUnitState(opacityTexture.TextureName);
+            if (createOpacityTexture)
+            {
+                pass.createTextureUnitState(opacityTexture.TextureName);
+            }
             IndirectionTexture indirectionTexture;
             String fileName = description.localizePath(description.NormalMapName + normalTextureFormatExtension);
             IntSize2 textureSize = getTextureSize(fileName);
@@ -511,8 +534,11 @@ namespace OgrePlugin
                 fileName = description.localizePath(description.SpecularMapName + textureFormatExtension);
                 indirectionTexture.addOriginalTexture("Specular", fileName, getTextureSize(fileName));
 
-                fileName = description.localizePath(description.OpacityMapName + textureFormatExtension);
-                indirectionTexture.addOriginalTexture("Opacity", fileName, getTextureSize(fileName));
+                if (createOpacityTexture)
+                {
+                    fileName = description.localizePath(description.OpacityMapName + textureFormatExtension);
+                    indirectionTexture.addOriginalTexture("Opacity", fileName, getTextureSize(fileName));
+                }
             }
             setupIndirectionTexture(pass, indirectionTexture);
             return indirectionTexture;
@@ -522,7 +548,10 @@ namespace OgrePlugin
         {
             pass.createTextureUnitState(normalTexture.TextureName);
             pass.createTextureUnitState(diffuseTexture.TextureName);
-            pass.createTextureUnitState(opacityTexture.TextureName);
+            if (createOpacityTexture)
+            {
+                pass.createTextureUnitState(opacityTexture.TextureName);
+            }
             IndirectionTexture indirectionTexture;
             String fileName = description.localizePath(description.NormalMapName + normalTextureFormatExtension);
             IntSize2 textureSize = getTextureSize(fileName);
@@ -538,8 +567,11 @@ namespace OgrePlugin
                 fileName = description.localizePath(description.DiffuseMapName + textureFormatExtension);
                 indirectionTexture.addOriginalTexture("Diffuse", fileName, getTextureSize(fileName));
 
-                fileName = description.localizePath(description.OpacityMapName + textureFormatExtension);
-                indirectionTexture.addOriginalTexture("Opacity", fileName, getTextureSize(fileName));
+                if (createOpacityTexture)
+                {
+                    fileName = description.localizePath(description.OpacityMapName + textureFormatExtension);
+                    indirectionTexture.addOriginalTexture("Opacity", fileName, getTextureSize(fileName));
+                }
             }
             setupIndirectionTexture(pass, indirectionTexture);
             return indirectionTexture;

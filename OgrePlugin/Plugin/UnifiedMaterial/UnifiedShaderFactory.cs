@@ -39,10 +39,12 @@ namespace OgrePlugin
         private Dictionary<String, HighLevelGpuProgramSharedPtr> createdPrograms = new Dictionary<string, HighLevelGpuProgramSharedPtr>();
         private ResourceGroup shaderResourceGroup;
         private NormaMapReadMode normalMapReadMode;
+        private bool separateOpacityMap;
 
-        public UnifiedShaderFactory(ResourceManager liveResourceManager, NormaMapReadMode normalMapReadMode)
+        public UnifiedShaderFactory(ResourceManager liveResourceManager, NormaMapReadMode normalMapReadMode, bool separateOpacityMap)
         {
             this.normalMapReadMode = normalMapReadMode;
+            this.separateOpacityMap = separateOpacityMap;
 
             var rendererResources = liveResourceManager.getSubsystemResource("Ogre");
             shaderResourceGroup = rendererResources.addResourceGroup("UnifiedShaderFactory");
@@ -347,6 +349,10 @@ namespace OgrePlugin
                 {
                     mapDefineBuilder.Append("OPACITY_");
                     definesBuilder.Append("OPACITY_MAP=1,");
+                    if(separateOpacityMap)
+                    { 
+                        definesBuilder.Append("SEPARATE_OPACITY=1");
+                    }
 
                     if (glossMap)
                     {

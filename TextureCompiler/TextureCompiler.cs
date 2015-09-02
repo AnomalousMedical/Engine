@@ -114,12 +114,28 @@ namespace Anomalous.TextureCompiler
             Log.Info("Compiling textures for material {0}", description.Name);
             if (saveNormal)
             {
+                String normalDest = getDestBasePath(description.NormalMapName);
+                String normalTmp = getTempPath(description.DiffuseMapName);
                 if (compressNormal)
                 {
                     Log.Info("Compressing normal map {0}", description.NormalMapName);
-
-                    String dest = getDestBasePath(description.NormalMapName);
-                    compressNormalMap(normalSrc, dest);
+                    compressNormalMap(normalSrc, normalDest);
+                }
+                if(CreateCompositeNormal && (compressNormal || compressGlossLevel || compressOpacity)) //Composite normal maps allow us to skip the 4th texture all together and use the remaining b and alpha channels of this texture for our additional data
+                {
+                    Log.Info("Compressing composite normal map {0}", description.NormalMapName);
+                    if(description.HasOpacityMap && description.HasGlossMap)
+                    {
+                        addMapToBlueAndAlphaAndCompress(normalSrc, opacitySrc, Channel.Red, glossLevelSrc, Channel.Red, normalTmp, normalDest, compressCompositeNormalMap);
+                    }
+                    else if(description.HasOpacityMap)
+                    {
+                        addMapToBlueAndCompress(normalSrc, opacitySrc, Channel.Red, normalTmp, normalDest, compressCompositeNormalMap);
+                    }
+                    else
+                    {
+                        compressCompositeNormalMap(normalSrc, normalDest);
+                    }
                 }
             }
             if (saveDiffuse)
@@ -210,6 +226,43 @@ namespace Anomalous.TextureCompiler
                         saveImage(combined, tempFile, TempFileImageFormat);
                         compressFunction(tempFile, destinationFile);
                         deleteFile(tempFile);
+                    }
+                }
+            }
+        }
+
+        private void addMapToBlueAndCompress(String rgSource, String bSource, Channel bSourceChannel, String tempFile, String destinationFile, Action<String, String> compressFunction)
+        {
+            Log.Info("Building composite image with RG {0} and B {1}", rgSource, bSource);
+            using (FreeImageBitmap rgMap = FreeImageBitmap.FromFile(rgSource))
+            {
+                using (FreeImageBitmap bMap = FreeImageBitmap.FromFile(bSource))
+                {
+                    using (FreeImageBitmap combined = createImageFromChannels(rgMap, Channel.Red, rgMap, Channel.Green, bMap, bSourceChannel))
+                    {
+                        saveImage(combined, tempFile, TempFileImageFormat);
+                        compressFunction(tempFile, destinationFile);
+                        deleteFile(tempFile);
+                    }
+                }
+            }
+        }
+
+        private void addMapToBlueAndAlphaAndCompress(String rgSource, String bSource, Channel bSourceChannel, String alphaSource, Channel alphaSourceChannel, String tempFile, String destinationFile, Action<String, String> compressFunction)
+        {
+            Log.Info("Building composite image with RG {0} and B {1}", rgSource, bSource);
+            using (FreeImageBitmap rgMap = FreeImageBitmap.FromFile(rgSource))
+            {
+                using (FreeImageBitmap bMap = FreeImageBitmap.FromFile(bSource))
+                {
+                    using (FreeImageBitmap alphaMap = FreeImageBitmap.FromFile(alphaSource))
+                    {
+                        using (FreeImageBitmap combined = createImageFromChannels(alphaMap, alphaSourceChannel, rgMap, Channel.Red, rgMap, Channel.Green, bMap, bSourceChannel))
+                        {
+                            saveImage(combined, tempFile, TempFileImageFormat);
+                            compressFunction(tempFile, destinationFile);
+                            deleteFile(tempFile);
+                        }
                     }
                 }
             }
@@ -504,6 +557,14 @@ namespace Anomalous.TextureCompiler
             }
         }
 
+        public bool CreateCompositeNormal
+        {
+            get
+            {
+                return (outputFormats & OutputFormats.Uncompressed) != 0;
+            }
+        }
+
         private void logExceptionError(Exception ex, String additionalMessage)
         {
             logError(String.Format("{0} when {1}. Reason: {2}", ex.GetType().Name, additionalMessage, ex.Message));
@@ -540,7 +601,7 @@ namespace Anomalous.TextureCompiler
             ++compressedCount;
             bc3Compress(source, dest);
             etc2Compress(source, dest);
-            saveUncompressed(source, dest);
+            //The data that goes in opacity maps for uncompressed textures goes in the normal map instead
         }
 
         private void compressSpecularMap(string source, string dest)
@@ -565,6 +626,10 @@ namespace Anomalous.TextureCompiler
             bc5Compress(source, dest);
             bc3nCompress(source, dest);
             etc2Compress(source, dest);
+        }
+
+        private void compressCompositeNormalMap(String source, String dest)
+        {
             saveUncompressed(source, dest);
         }
 
