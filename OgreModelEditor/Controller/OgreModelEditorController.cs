@@ -106,6 +106,7 @@ namespace OgreModelEditor
             OgreInterface.AllowMicrocodeCacheLoad = OgreModelEditorConfig.LastShaderVersion == UnifiedMaterialBuilder.Version;
             OgreModelEditorConfig.LastShaderVersion = UnifiedMaterialBuilder.Version;
             OgreInterface.TrackMemoryLeaks = true;
+            OgreInterface.CompressedTextureSupport = OgreModelEditorConfig.CompressedTextureSupport;
 
             NativePlatformPlugin.addPath(OgreModelEditorConfig.OpenGLESEmulatorPath);
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine;
 using System.IO;
+using OgrePlugin;
 
 namespace OgreModelEditor
 {
@@ -80,6 +81,19 @@ namespace OgreModelEditor
             set
             {
                 modelEditorSection.setValue("LastTextureCompilerSourceDirectory", value);
+            }
+        }
+        public static CompressedTextureSupport CompressedTextureSupport
+        {
+            get
+            {
+                CompressedTextureSupport type = CompressedTextureSupport.All;
+                Enum.TryParse<CompressedTextureSupport>(modelEditorSection.getValue("CompressedTextureSupport", () => CompressedTextureSupport.All.ToString()), out type);
+                return type;
+            }
+            set
+            {
+                modelEditorSection.setValue("CompressedTextureSupport", value.ToString());
             }
         }
 
