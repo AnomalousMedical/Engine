@@ -359,6 +359,9 @@ namespace OgrePlugin
                 case TextureMaps.Normal | TextureMaps.Diffuse | TextureMaps.Opacity | TextureMaps.Specular:
                     indirectionTex = setupNormalDiffuseSpecularOpacityTextures(description, pass);
                     break;
+                case TextureMaps.Normal | TextureMaps.Opacity:
+                    indirectionTex = setupNormalOpacityTextures(description, pass);
+                    break;
             }
 
             using (var gpuParams = pass.getFragmentProgramParameters())
@@ -566,6 +569,35 @@ namespace OgrePlugin
 
                 fileName = description.localizePath(description.DiffuseMapName + textureFormatExtension);
                 indirectionTexture.addOriginalTexture("Diffuse", fileName, getTextureSize(fileName));
+
+                if (createOpacityTexture)
+                {
+                    fileName = description.localizePath(description.OpacityMapName + textureFormatExtension);
+                    indirectionTexture.addOriginalTexture("Opacity", fileName, getTextureSize(fileName));
+                }
+            }
+            setupIndirectionTexture(pass, indirectionTexture);
+            return indirectionTexture;
+        }
+
+        private IndirectionTexture setupNormalOpacityTextures(MaterialDescription description, Pass pass)
+        {
+            pass.createTextureUnitState(normalTexture.TextureName);
+            if (createOpacityTexture)
+            {
+                pass.createTextureUnitState(opacityTexture.TextureName);
+            }
+            IndirectionTexture indirectionTexture;
+            String fileName = description.localizePath(description.NormalMapName + normalTextureFormatExtension);
+            IntSize2 textureSize = getTextureSize(fileName);
+            if (virtualTextureManager.createOrRetrieveIndirectionTexture(description.TextureSet, textureSize, description.KeepHighestMipLoaded, out indirectionTexture)) //Slow key
+            {
+                if (description.KeepHighestMipLoaded)
+                {
+                    indirectionTexture.KeepHighestMip = true;
+                }
+
+                indirectionTexture.addOriginalTexture("NormalMap", fileName, textureSize);
 
                 if (createOpacityTexture)
                 {

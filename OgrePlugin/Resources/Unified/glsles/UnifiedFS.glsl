@@ -134,6 +134,15 @@ vec2 vtexCoord(vec2 address, sampler2D indirectionTex, vec2 physicalSizeRecip, v
 	#endif //SEPARATE_OPACITY
 #endif //NORMAL_DIFFUSE_SPECULAR_OPACITY_MAPS
 
+#ifdef NORMAL_OPACITY_MAPS
+	uniform sampler2D normalTexture;	//The normal map
+	#ifdef SEPARATE_OPACITY
+		uniform sampler2D opacityTexture;	//The Opacity map, uses r channel for opacity
+	#endif //SEPARATE_OPACITY
+	uniform vec4 diffuseColor;			//The diffuse color of the object
+	uniform vec4 specularColor;			//The specular color of the surface
+#endif //NORMAL_OPACITY_MAPS
+
 #ifdef GLOSS_MAP
 	uniform float glossyStart;
 	uniform float glossyRange;

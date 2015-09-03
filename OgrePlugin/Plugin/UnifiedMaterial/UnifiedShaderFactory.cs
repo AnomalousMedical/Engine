@@ -351,7 +351,7 @@ namespace OgrePlugin
                     definesBuilder.Append("OPACITY_MAP=1,");
                     if(separateOpacityMap)
                     { 
-                        definesBuilder.Append("SEPARATE_OPACITY=1");
+                        definesBuilder.Append("SEPARATE_OPACITY=1,");
                     }
 
                     if (glossMap)
