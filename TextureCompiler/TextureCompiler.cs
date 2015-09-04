@@ -444,7 +444,12 @@ namespace Anomalous.TextureCompiler
         {
             if ((outputFormats & OutputFormats.ETC2) != 0)
             {
-                runExternalCompressionProcess(MaliTextureToolExe, String.Format(MaliTextureToolArgFormat, sourceFile, sourceDirectory));
+                String cleanedSrc = sourceDirectory;
+                if(cleanedSrc.EndsWith("/") || cleanedSrc.EndsWith("\\"))
+                {
+                    cleanedSrc = cleanedSrc.Substring(0, cleanedSrc.Length - 1);
+                }
+                runExternalCompressionProcess(MaliTextureToolExe, String.Format(MaliTextureToolArgFormat, sourceFile, cleanedSrc));
                 String fileName = Path.GetFileNameWithoutExtension(sourceFile);
                 String renameSrc = Path.Combine(sourceDirectory, fileName + ".ktx");
                 String renameDst = destFile + "_etc2.ktx";

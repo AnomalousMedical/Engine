@@ -35,27 +35,30 @@ namespace Engine.Resources
         {
             //Fix up any ../ sections to point to the upper directory.
             String[] splitPath = path.Split(SEPS, StringSplitOptions.RemoveEmptyEntries);
-            int lenMinusOne = splitPath.Length - 1;
-            StringBuilder pathString = new StringBuilder(path.Length);
-            for (int i = 0; i < lenMinusOne; ++i)
+            int length = splitPath.Length;
+            Stack<String> pathStack = new Stack<string>(splitPath.Length);
+            for (int i = 0; i < length; ++i)
             {
-                if (splitPath[i + 1] != "..")
+                if (splitPath[i] == "..")
                 {
-                    pathString.Append(splitPath[i]);
-                    pathString.Append("/");
+                    pathStack.Pop();
                 }
                 else
                 {
-                    ++i;
+                    pathStack.Push(splitPath[i]); 
                 }
             }
-            if (lenMinusOne == -1)
+            if (length == 0)
             {
                 return "";
             }
-            if (splitPath[lenMinusOne] != "..")
+
+            StringBuilder pathString = new StringBuilder(path.Length);
+            String currentFormat = "{0}";
+            foreach(var section in pathStack.Reverse())
             {
-                pathString.Append(splitPath[lenMinusOne]);
+                pathString.AppendFormat(currentFormat, section);
+                currentFormat = "/{0}";
             }
             return pathString.ToString();
         }

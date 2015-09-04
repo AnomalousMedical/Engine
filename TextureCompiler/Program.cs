@@ -16,18 +16,24 @@ namespace Anomalous.TextureCompiler
         [STAThread]
         static void Main(string[] args)
         {
-            String sourceDirectory = args[0];
-            String destDirectory = args[1];
+            try
+            {
+                String sourceDirectory = args[0];
+                String destDirectory = args[1];
 
-            Logging.Log.Default.addLogListener(new Logging.LogConsoleListener());
-            NativePlatformPlugin.StaticInitialize();
-            PluginManager pluginManager = new PluginManager(new ConfigFile("woot.txt"));
-            VirtualFileSystem.Instance.addArchive(destDirectory);
+                Environment.CurrentDirectory = sourceDirectory;
 
-            TextureCompilerInterface.CompileTextures(sourceDirectory, destDirectory, pluginManager, OutputFormats.All);
+                Logging.Log.Default.addLogListener(new Logging.LogConsoleListener());
+                NativePlatformPlugin.StaticInitialize();
+                PluginManager pluginManager = new PluginManager(new ConfigFile("woot.txt"));
+                VirtualFileSystem.Instance.addArchive(destDirectory);
 
-            Console.WriteLine("All Textures compiled. Press any key to quit.");
-            Console.ReadKey();
+                TextureCompilerInterface.CompileTextures(sourceDirectory, destDirectory, pluginManager, OutputFormats.All);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }
