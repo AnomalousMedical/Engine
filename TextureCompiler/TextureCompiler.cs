@@ -44,12 +44,12 @@ namespace Anomalous.TextureCompiler
         private static String MainExeLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         private static String NVCompressExe = Path.Combine(MainExeLocation, "CompressorBinaries/Nvidia/nvcompress.exe");
         private static String NVCompressArgFormat = "-nocuda {0}";
-        private static String NVCompressBC5Format = String.Format(NVCompressArgFormat, "-bc5 {0} {1}_bc5.dds");
-        private static String NVCompressBC3nFormat = String.Format(NVCompressArgFormat, "-bc3n {0} {1}.dds");
-        private static String NVCompressBC3Format = String.Format(NVCompressArgFormat, "-bc3 {0} {1}.dds");
+        private static String NVCompressBC5Format = String.Format(NVCompressArgFormat, "-bc5 \"{0}\" {1}_bc5.dds\"");
+        private static String NVCompressBC3nFormat = String.Format(NVCompressArgFormat, "-bc3n \"{0}\" {1}.dds\"");
+        private static String NVCompressBC3Format = String.Format(NVCompressArgFormat, "-bc3 \"{0}\" \"{1}.dds\"");
 
         private static String MaliTextureToolExe = Path.Combine(MainExeLocation, "CompressorBinaries/MaliTextureTool/etcpack.exe");
-        private static String MaliTextureToolArgFormat = "{0} {1} -c etc2 -f RGBA -ktx -mipmaps -ext TGA"; //-s slow
+        private static String MaliTextureToolArgFormat = "\"{0}\" \"{1}\" -c etc2 -f RGBA -ktx -mipmaps -ext TGA"; //-s slow
 
         private String sourceDirectory;
         private String destDirectory;
@@ -295,31 +295,6 @@ namespace Anomalous.TextureCompiler
             return false;
         }
 
-        private void saveUncompressed(String sourceFile, String destFile)
-        {
-            if ((outputFormats & OutputFormats.Uncompressed) != 0)
-            {
-                Log.Info("Compressing {0} to png.", sourceFile);
-                using (FreeImageBitmap source = FreeImageBitmap.FromFile(sourceFile))
-                {
-                    int i = source.Width;
-                    String file = String.Format("{0}.png", destFile);
-                    Log.Info("Saving {0}", file);
-                    saveImage(source, file, FREE_IMAGE_FORMAT.FIF_PNG);
-                    i >>= 1;
-                    while (i > 0)
-                    {
-                        file = String.Format("{0}_{1}.png", destFile, i);
-                        Log.Info("Saving {0}", file);
-
-                        source.Rescale(new Size(i, i), FREE_IMAGE_FILTER.FILTER_LANCZOS3);
-                        saveImage(source, file, FREE_IMAGE_FORMAT.FIF_PNG);
-                        i >>= 1;
-                    }
-                }
-            }
-        }
-
         private void saveImage(FreeImageBitmap source, String destFile, FREE_IMAGE_FORMAT format)
         {
             using (Stream outStream = File.Open(destFile, FileMode.Create, FileAccess.ReadWrite, FileShare.None))
@@ -440,63 +415,103 @@ namespace Anomalous.TextureCompiler
             throw new NotSupportedException(); //Won't get here
         }
 
-        private void etc2Compress(String sourceFile, String destFile)
+        private async Task saveUncompressed(String sourceFile, String destFile)
         {
-            if ((outputFormats & OutputFormats.ETC2) != 0)
+            await Task.Run(() =>
             {
-                String cleanedSrc = sourceDirectory;
-                if(cleanedSrc.EndsWith("/") || cleanedSrc.EndsWith("\\"))
+                if ((outputFormats & OutputFormats.Uncompressed) != 0)
                 {
-                    cleanedSrc = cleanedSrc.Substring(0, cleanedSrc.Length - 1);
-                }
-                runExternalCompressionProcess(MaliTextureToolExe, String.Format(MaliTextureToolArgFormat, sourceFile, cleanedSrc));
-                String fileName = Path.GetFileNameWithoutExtension(sourceFile);
-                String renameSrc = Path.Combine(sourceDirectory, fileName + ".ktx");
-                String renameDst = destFile + "_etc2.ktx";
-                try
-                {
-                    if (File.Exists(renameDst))
+                    Log.Info("Compressing {0} to png.", sourceFile);
+                    using (FreeImageBitmap source = FreeImageBitmap.FromFile(sourceFile))
                     {
-                        File.Delete(renameDst);
+                        int i = source.Width;
+                        String file = String.Format("{0}.png", destFile);
+                        Log.Info("Saving {0}", file);
+                        saveImage(source, file, FREE_IMAGE_FORMAT.FIF_PNG);
+                        i >>= 1;
+                        while (i > 0)
+                        {
+                            file = String.Format("{0}_{1}.png", destFile, i);
+                            Log.Info("Saving {0}", file);
+
+                            source.Rescale(new Size(i, i), FREE_IMAGE_FILTER.FILTER_LANCZOS3);
+                            saveImage(source, file, FREE_IMAGE_FORMAT.FIF_PNG);
+                            i >>= 1;
+                        }
                     }
                 }
-                catch (Exception ex)
-                {
-                    logExceptionError(ex, String.Format("Deleting {0}", renameDst));
-                }
-                try
-                {
-                    File.Move(renameSrc, renameDst);
-                }
-                catch (Exception ex)
-                {
-                    logExceptionError(ex, String.Format("Moving {0} to {1}", renameSrc, renameDst));
-                }
-            }
+            });
         }
 
-        private void bc5Compress(String source, String dest)
+        private async Task etc2Compress(String sourceFile, String destFile)
         {
-            if ((outputFormats & OutputFormats.BC5Normal) != 0)
+            await Task.Run(() =>
             {
-                runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC5Format, source, dest));
-            }
+                if ((outputFormats & OutputFormats.ETC2) != 0)
+                {
+                    String cleanedSrc = sourceDirectory;
+                    if (cleanedSrc.EndsWith("/") || cleanedSrc.EndsWith("\\"))
+                    {
+                        cleanedSrc = cleanedSrc.Substring(0, cleanedSrc.Length - 1);
+                    }
+                    runExternalCompressionProcess(MaliTextureToolExe, String.Format(MaliTextureToolArgFormat, sourceFile, cleanedSrc));
+                    String fileName = Path.GetFileNameWithoutExtension(sourceFile);
+                    String renameSrc = Path.Combine(sourceDirectory, fileName + ".ktx");
+                    String renameDst = destFile + "_etc2.ktx";
+                    try
+                    {
+                        if (File.Exists(renameDst))
+                        {
+                            File.Delete(renameDst);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        logExceptionError(ex, String.Format("Deleting {0}", renameDst));
+                    }
+                    try
+                    {
+                        File.Move(renameSrc, renameDst);
+                    }
+                    catch (Exception ex)
+                    {
+                        logExceptionError(ex, String.Format("Moving {0} to {1}", renameSrc, renameDst));
+                    }
+                }
+            });
         }
 
-        private void bc3nCompress(String source, String dest)
+        private async Task bc5Compress(String source, String dest)
         {
-            if ((outputFormats & OutputFormats.BC3) != 0)
+            await Task.Run(() =>
             {
-                runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3nFormat, source, dest));
-            }
+                if ((outputFormats & OutputFormats.BC5Normal) != 0)
+                {
+                    runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC5Format, source, dest));
+                }
+            });
         }
 
-        private void bc3Compress(String source, String dest)
+        private async Task bc3nCompress(String source, String dest)
         {
-            if ((outputFormats & OutputFormats.BC3) != 0)
+            await Task.Run(() =>
             {
-                runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3Format, source, dest));
-            }
+                if ((outputFormats & OutputFormats.BC3) != 0)
+                {
+                    runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3nFormat, source, dest));
+                }
+            });
+        }
+
+        private async Task bc3Compress(String source, String dest)
+        {
+            await Task.Run(() =>
+            {
+                if ((outputFormats & OutputFormats.BC3) != 0)
+                {
+                    runExternalCompressionProcess(NVCompressExe, String.Format(NVCompressBC3Format, source, dest));
+                }
+            });
         }
 
         private void runExternalCompressionProcess(String executable, String args)
@@ -604,38 +619,48 @@ namespace Anomalous.TextureCompiler
         private void compressOpacityMap(string source, string dest)
         {
             ++compressedCount;
-            bc3Compress(source, dest);
-            etc2Compress(source, dest);
+            Task.WaitAll(
+                bc3Compress(source, dest), 
+                etc2Compress(source, dest)
+                );
             //The data that goes in opacity maps for uncompressed textures goes in the normal map instead
         }
 
         private void compressSpecularMap(string source, string dest)
         {
             ++compressedCount;
-            bc3Compress(source, dest);
-            etc2Compress(source, dest);
-            saveUncompressed(source, dest);
+            Task.WaitAll(
+                bc3Compress(source, dest),
+                etc2Compress(source, dest),
+                saveUncompressed(source, dest))
+            ;
         }
 
         private void compressDiffuseMap(string source, string dest)
         {
             ++compressedCount;
-            bc3Compress(source, dest);
-            etc2Compress(source, dest);
-            saveUncompressed(source, dest);
+            Task.WaitAll(
+                bc3Compress(source, dest),
+                etc2Compress(source, dest),
+                saveUncompressed(source, dest)
+            );
         }
 
         private void compressNormalMap(string source, string dest)
         {
             ++compressedCount;
-            bc5Compress(source, dest);
-            bc3nCompress(source, dest);
-            etc2Compress(source, dest);
+            Task.WaitAll(
+                bc5Compress(source, dest),
+                bc3nCompress(source, dest),
+                etc2Compress(source, dest)
+            );
         }
 
         private void compressCompositeNormalMap(String source, String dest)
         {
-            saveUncompressed(source, dest);
+            Task.WaitAll(
+                saveUncompressed(source, dest)
+            );
         }
 
         private bool imageNeedsCompression(String source)
