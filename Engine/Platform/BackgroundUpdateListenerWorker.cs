@@ -11,16 +11,26 @@ namespace Engine.Platform
     {
         private ManualResetEventSlim mainThreadWait = new ManualResetEventSlim(false);
 
+        private Thread workerThread;
+        private bool running = true;
+        private Clock currentClock;
+        private ManualResetEventSlim workerThreadWait = new ManualResetEventSlim(false);
+
         private BackgroundUpdateListener updateListener;
 
         public BackgroundUpdateListenerWorker(BackgroundUpdateListener updateListener)
         {
             this.updateListener = updateListener;
+            workerThread = new Thread(doWork);
+            workerThread.IsBackground = true;
+            workerThread.Start();
         }
 
         public void Dispose()
         {
+            running = false;
             mainThreadWait.Dispose();
+            workerThreadWait.Dispose();
         }
 
         public void waitFor()
@@ -31,18 +41,8 @@ namespace Engine.Platform
 
         public void startBackgroundWork(Clock clock)
         {
-            Task.Run(() =>
-            {
-                try
-                {
-                    updateListener.doBackgroundWork(clock);
-                }
-                catch(Exception)
-                {
-
-                }
-                mainThreadWait.Set();
-            });
+            this.currentClock = clock;
+            workerThreadWait.Set();
         }
 
         public void synchronizeResults()
@@ -68,23 +68,25 @@ namespace Engine.Platform
             }
         }
 
-        //private void doBackgroundWork()
-        //{
-        //    Logging.Log.Debug("Started Running background update worker thread");
-        //    try
-        //    {
-        //        while (runBackgroundThread)
-        //        {
-        //            backgroundThreadWait.Wait(token);
-        //            updateListener.doBackgroundWork(currentClock);
-        //            mainThreadWait.Set();
-        //        }
-        //    }
-        //    catch (OperationCanceledException)
-        //    {
-        //        Logging.Log.Debug("Wait operation canceled");
-        //    }
-        //    Logging.Log.Debug("Stopped Running background update worker thread");
-        //}
+        private void doWork()
+        {
+            while (running)
+            {
+                workerThreadWait.Wait();
+                if (running)
+                {
+                    workerThreadWait.Reset();
+                    try
+                    {
+                        updateListener.doBackgroundWork(currentClock);
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    mainThreadWait.Set();
+                }
+            }
+        }
     }
 }
