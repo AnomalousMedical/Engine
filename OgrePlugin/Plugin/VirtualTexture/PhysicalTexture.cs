@@ -11,13 +11,6 @@ using System.Threading.Tasks;
 
 namespace OgrePlugin.VirtualTexture
 {
-    public enum PixelFormatUsageHint
-    {
-        NotSpecial,
-        NormalMap,
-        OpacityMap,
-    }
-
     public class PhysicalTexture : IDisposable
     {
         private TexturePtr physicalTexture;
@@ -29,7 +22,7 @@ namespace OgrePlugin.VirtualTexture
         private IntSize2 size;
         private static int currentId = 0;
 
-        public PhysicalTexture(String name, IntSize2 size, VirtualTextureManager virtualTextureManager, int texelsPerPage, CompressedTextureSupport texFormat, PixelFormatUsageHint textureUsage)
+        public PhysicalTexture(String name, IntSize2 size, VirtualTextureManager virtualTextureManager, int texelsPerPage, PixelFormat pixelFormat)
         {
             Index = currentId++;
             this.name = name;
@@ -37,29 +30,6 @@ namespace OgrePlugin.VirtualTexture
             this.size = size;
             this.virtualTextureManager = virtualTextureManager;
             this.textureName = "PhysicalTexture" + name;
-            PixelFormat pixelFormat;
-            switch (texFormat)
-            {
-                case CompressedTextureSupport.DXT_BC4_BC5:
-                    switch (textureUsage)
-                    {
-                        case PixelFormatUsageHint.NormalMap:
-                            pixelFormat = PixelFormat.PF_BC5_UNORM;
-                            break;
-                        default:
-                            pixelFormat = PixelFormat.PF_DXT5;
-                            break;
-                    }
-                    break;
-                case CompressedTextureSupport.DXT:
-                    pixelFormat = PixelFormat.PF_DXT5;
-                    break;
-                case CompressedTextureSupport.None:
-                    pixelFormat = PixelFormat.PF_A8R8G8B8;
-                    break;
-                default:
-                    throw new NotSupportedException(String.Format("Cannot create virtual textures for format {0}", texFormat));
-            }
 
             physicalTexture = TextureManager.getInstance().createManual(textureName, VirtualTextureManager.ResourceGroup, TextureType.TEX_TYPE_2D,
                         (uint)size.Width, (uint)size.Height, 1, 0, pixelFormat, virtualTextureManager.RendersystemSpecificTextureUsage, null, false, 0);

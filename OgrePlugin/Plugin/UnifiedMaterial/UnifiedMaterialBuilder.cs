@@ -73,6 +73,8 @@ namespace OgrePlugin
 
         public UnifiedMaterialBuilder(VirtualTextureManager virtualTextureManager, CompressedTextureSupport textureFormat, ResourceManager liveResourceManager)
         {
+            PixelFormat otherFormat;
+            PixelFormat normalFormat;
             NormaMapReadMode normalMapReadMode = NormaMapReadMode.RG;
             switch (textureFormat)
             {
@@ -81,18 +83,25 @@ namespace OgrePlugin
                     normalTextureFormatExtension = "_bc5.dds";
                     normalMapReadMode = NormaMapReadMode.RG;
                     createOpacityTexture = true;
+                    otherFormat = PixelFormat.PF_DXT5;
+                    normalFormat = PixelFormat.PF_BC5_UNORM;
                     break;
                 case CompressedTextureSupport.DXT:
                     textureFormatExtension = ".dds";
                     normalTextureFormatExtension = ".dds";
                     normalMapReadMode = NormaMapReadMode.AG;
                     createOpacityTexture = true;
+                    otherFormat = PixelFormat.PF_DXT5;
+                    normalFormat = PixelFormat.PF_DXT5;
                     break;
+                default:
                 case CompressedTextureSupport.None:
                     textureFormatExtension = ".png";
                     normalTextureFormatExtension = ".png";
                     normalMapReadMode = NormaMapReadMode.RG;
                     createOpacityTexture = false;
+                    otherFormat = PixelFormat.PF_A8R8G8B8;
+                    normalFormat = PixelFormat.PF_A8R8G8B8;
                     break;
             }
 
@@ -115,13 +124,13 @@ namespace OgrePlugin
                 throw new OgreException("Cannot create Unified Material Builder, device must support shader profiles hlsl, glsl, or glsles.");
             }
 
-            diffuseTexture = virtualTextureManager.createPhysicalTexture("Diffuse", PixelFormatUsageHint.NotSpecial);
-            normalTexture = virtualTextureManager.createPhysicalTexture("NormalMap", PixelFormatUsageHint.NormalMap);
-            specularTexture = virtualTextureManager.createPhysicalTexture("Specular", PixelFormatUsageHint.NotSpecial);
+            diffuseTexture = virtualTextureManager.createPhysicalTexture("Diffuse", otherFormat);
+            normalTexture = virtualTextureManager.createPhysicalTexture("NormalMap", normalFormat);
+            specularTexture = virtualTextureManager.createPhysicalTexture("Specular", otherFormat);
 
             if (createOpacityTexture)
             {
-                opacityTexture = virtualTextureManager.createPhysicalTexture("Opacity", PixelFormatUsageHint.OpacityMap);
+                opacityTexture = virtualTextureManager.createPhysicalTexture("Opacity", otherFormat);
             }
 
             specialMaterialFuncs.Add("EyeOuter", createEyeOuterMaterial);

@@ -114,9 +114,9 @@ namespace OgrePlugin.VirtualTexture
             }
         }
 
-        public PhysicalTexture createPhysicalTexture(String name, PixelFormatUsageHint pixelFormatUsageHint)
+        public PhysicalTexture createPhysicalTexture(String name, PixelFormat pixelFormat)
         {
-            PhysicalTexture pt = new PhysicalTexture(name, physicalTextureSize, this, texelsPerPage, textureFormat, pixelFormatUsageHint);
+            PhysicalTexture pt = new PhysicalTexture(name, physicalTextureSize, this, texelsPerPage, pixelFormat);
             physicalTextures.Add(name, pt);
             textureLoader.addedPhysicalTexture(pt);
             return pt;
