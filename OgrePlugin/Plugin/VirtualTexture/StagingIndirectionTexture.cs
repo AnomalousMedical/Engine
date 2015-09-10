@@ -9,7 +9,7 @@ namespace OgrePlugin.VirtualTexture
 {
     class StagingIndirectionTexture : IDisposable
     {
-        private FreeImageAPI.FreeImageBitmap[] fiBitmap; //Can we do this without this bitmap? (might be ok to keep, but will be using 2x as much memory, however, allows for background modification, could even double buffer)
+        private FreeImageAPI.FreeImageBitmap[] fiBitmap;
         private PixelBox[] pixelBox;
         private IndirectionTexture indirectionTexture;
 
