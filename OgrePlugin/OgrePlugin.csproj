@@ -112,6 +112,7 @@
     <Compile Include="Plugin\VirtualTexture\FeedbackCameraPositioner.cs" />
     <Compile Include="Plugin\VirtualTexture\IndirectionTexture.cs" />
     <Compile Include="Plugin\VirtualTexture\OriginalTextureInfo.cs" />
+    <Compile Include="Plugin\VirtualTexture\PagedImage.cs" />
     <Compile Include="Plugin\VirtualTexture\PhysicalTexture.cs" />
     <Compile Include="Plugin\VirtualTexture\PTexPage.cs" />
     <Compile Include="Plugin\VirtualTexture\StagingBufferSet.cs" />
