@@ -50,3 +50,8 @@ extern "C" _AnomalousExport void TexturePtr_Delete(Ogre::TexturePtr* heapSharedP
 {
 	delete heapSharedPtr;
 }
+
+extern "C" _AnomalousExport size_t TextureManager_getMemoryUsage()
+{
+	return Ogre::TextureManager::getSingleton().getMemoryUsage();
+}

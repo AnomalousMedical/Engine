@@ -1,4 +1,5 @@
-﻿using OgrePlugin;
+﻿using Engine;
+using OgrePlugin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,10 +23,12 @@ namespace OgrePlugin.VirtualTexture
         public TextureCache(UInt64 maxCacheSize)
         {
             this.maxCacheSize = maxCacheSize;
+            PerformanceMonitor.addValueProvider("Virtual Texture Cache Size", () => Prettify.GetSizeReadable((long)currentCacheSize));
         }
 
         public void Dispose()
         {
+            PerformanceMonitor.removeValueProvider("Virtual Texture Cache Size");
             clear();
         }
 
@@ -100,6 +103,22 @@ namespace OgrePlugin.VirtualTexture
                 loadedImages.Clear();
                 lastAccessedOrder.Clear();
                 currentCacheSize = 0;
+            }
+        }
+
+        public UInt64 CurrentCacheSize
+        {
+            get
+            {
+                return currentCacheSize;
+            }
+        }
+
+        public UInt64 MaxCacheSize
+        {
+            get
+            {
+                return maxCacheSize;
             }
         }
     }

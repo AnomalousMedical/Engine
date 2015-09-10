@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using Engine.Attributes;
+using Engine;
 
 namespace OgrePlugin
 {
@@ -29,6 +30,7 @@ namespace OgrePlugin
 
         private TextureManager()
         {
+            PerformanceMonitor.addValueProvider("Ogre Texture Memory Usage", () => Prettify.GetSizeReadable(MemoryUsage));
             textureCollection = new SharedPtrCollection<Texture>(Texture.createWrapper, TexturePtr_createHeapPtr, TexturePtr_Delete
             #if FULL_AOT_COMPILE
             , processWrapperObject_AOT
@@ -38,6 +40,7 @@ namespace OgrePlugin
 
         public void Dispose()
         {
+            PerformanceMonitor.removeValueProvider("Ogre Texture Memory Usage");
             textureCollection.Dispose();
         }
 
@@ -82,6 +85,14 @@ namespace OgrePlugin
             }
         }
 
+        public long MemoryUsage
+        {
+            get
+            {
+                return TextureManager_getMemoryUsage().ToInt64();
+            }
+        }
+
         #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
@@ -105,6 +116,9 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void TexturePtr_Delete(IntPtr heapSharedPtr);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr TextureManager_getMemoryUsage();
 
         #endregion
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Attributes;
 using System.Runtime.InteropServices;
+using Engine;
 
 namespace OgrePlugin
 {
@@ -29,6 +30,7 @@ namespace OgrePlugin
 
         private MeshManager()
         {
+            PerformanceMonitor.addValueProvider("Ogre Mesh Memory Usage", () => Prettify.GetSizeReadable(MemoryUsage));
             meshPtrCollection = new SharedPtrCollection<Mesh>(Mesh.createWrapper, MeshPtr_createHeapPtr, MeshPtr_Delete
             #if FULL_AOT_COMPILE
             , processWrapperObject_AOT
@@ -38,6 +40,7 @@ namespace OgrePlugin
 
         public void Dispose()
         {
+            PerformanceMonitor.removeValueProvider("Ogre Mesh Memory Usage");
             meshPtrCollection.Dispose();
         }
 
@@ -54,7 +57,15 @@ namespace OgrePlugin
             }
         }
 
-#region PInvoke
+        public long MemoryUsage
+        {
+            get
+            {
+                return MeshManager_getMemoryUsage().ToInt64();
+            }
+        }
+
+        #region PInvoke
 
         //MeshPtr
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
@@ -63,6 +74,9 @@ namespace OgrePlugin
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void MeshPtr_Delete(IntPtr heapSharedPtr);
 
-#endregion
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr MeshManager_getMemoryUsage();
+
+        #endregion
     }
 }

@@ -177,6 +177,7 @@
     <Compile Include="MemberCopier\MemberCopier.cs" />
     <Compile Include="MemberCopier\SimpleMemberCopier.cs" />
     <Compile Include="ObjectManagement\Instance\SceneBuildStatus.cs" />
+    <Compile Include="Performance\PerformanceValueProvider.cs" />
     <Compile Include="Platform\GlobalEventHandler\EventContext.cs" />
     <Compile Include="Platform\GlobalEventHandler\GlobalContextEventHandler.cs" />
     <Compile Include="Platform\Input\ButtonEvent.cs" />

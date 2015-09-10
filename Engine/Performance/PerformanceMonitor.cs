@@ -13,6 +13,7 @@ namespace Engine
         private static PerformanceMonitorState disabledState;
         private static PerformanceMonitorState enabledState;
         private static bool enabled;
+        private static List<PerformanceValueProvider> valueProviders = new List<PerformanceValueProvider>();
 
         static PerformanceMonitor()
         {
@@ -37,6 +38,16 @@ namespace Engine
             currentState.stop(name);
         }
 
+        public static void addValueProvider(String name, Func<String> getValueFunc)
+        {
+            valueProviders.Add(new PerformanceValueProvider(name, getValueFunc));
+        }
+
+        public static void removeValueProvider(String name)
+        {
+            valueProviders.RemoveAll(m => m.Name == name);
+        }
+
         /// <summary>
         /// Get an enum over the timelapses. Do not call this any time a background thread could be calling start or stop.
         /// </summary>
@@ -45,6 +56,16 @@ namespace Engine
             get
             {
                 return currentState.Timelapses;
+            }
+        }
+
+        /// <summary>
+        /// Get an enum over the performance values. These can be any value that should be output, for example the memory usage of a resource manager.
+        public static IEnumerable<PerformanceValueProvider> PerformanceValues
+        {
+            get
+            {
+                return valueProviders;
             }
         }
 

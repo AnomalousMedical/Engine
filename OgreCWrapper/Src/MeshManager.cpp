@@ -10,3 +10,8 @@ extern "C" _AnomalousExport void MeshPtr_Delete(Ogre::MeshPtr* heapSharedPtr)
 {
 	delete heapSharedPtr;
 }
+
+extern "C" _AnomalousExport size_t MeshManager_getMemoryUsage()
+{
+	return Ogre::MeshManager::getSingleton().getMemoryUsage();
+}

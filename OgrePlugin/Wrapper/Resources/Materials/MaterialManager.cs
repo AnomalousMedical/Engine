@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Attributes;
 using System.Runtime.InteropServices;
+using Engine;
 
 namespace OgrePlugin
 {
@@ -38,6 +39,7 @@ namespace OgrePlugin
 
         private MaterialManager()
         {
+            PerformanceMonitor.addValueProvider("Ogre Material Memory Usage", () => Prettify.GetSizeReadable(MemoryUsage));
             materialPtrCollection = new SharedPtrCollection<Material>(Material.createWrapper, MaterialPtr_createHeapPtr, MaterialPtr_Delete
 #if FULL_AOT_COMPILE
                 , processWrapperObject_AOT
@@ -47,6 +49,7 @@ namespace OgrePlugin
 
         public void Dispose()
         {
+            PerformanceMonitor.removeValueProvider("Ogre Material Memory Usage");
             materialPtrCollection.Dispose();
         }
 
@@ -161,6 +164,14 @@ namespace OgrePlugin
             return IntPtr.Zero;
         }
 
+        public long MemoryUsage
+        {
+            get
+            {
+                return MaterialManager_getMemoryUsage().ToInt64();
+            }
+        }
+
         #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
@@ -208,6 +219,9 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void NativeMaterialListener_delete(IntPtr listener);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr MaterialManager_getMemoryUsage();
 
         #endregion
     }

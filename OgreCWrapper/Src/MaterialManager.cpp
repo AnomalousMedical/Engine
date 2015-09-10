@@ -102,3 +102,8 @@ extern "C" _AnomalousExport void MaterialPtr_Delete(Ogre::MaterialPtr* heapShare
 {
 	delete heapSharedPtr;
 }
+
+extern "C" _AnomalousExport size_t MaterialManager_getMemoryUsage()
+{
+	return Ogre::MaterialManager::getSingleton().getMemoryUsage();
+}

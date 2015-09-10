@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using OgrePlugin;
 using System.Runtime.InteropServices;
+using Engine;
 
 namespace MyGUIPlugin
 {
@@ -15,10 +16,12 @@ namespace MyGUIPlugin
         public OgrePlatform()
         {
             ogrePlatform = OgrePlatform_Create();
+            PerformanceMonitor.addValueProvider("MyGUI Batch Count", () => renderManager.BatchCount.ToString());
         }
 
         public void Dispose()
         {
+            PerformanceMonitor.removeValueProvider("MyGUI Batch Count");
             renderManager.Dispose();
             OgrePlatform_Delete(ogrePlatform);
         }
