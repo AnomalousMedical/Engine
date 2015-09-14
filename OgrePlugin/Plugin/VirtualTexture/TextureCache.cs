@@ -2,6 +2,7 @@
 using OgrePlugin;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,7 +40,7 @@ namespace OgrePlugin.VirtualTexture
         /// <param name="textureName"></param>
         /// <param name="image"></param>
         /// <returns></returns>
-        internal bool TryGetValue(string textureName, out TextureCacheHandle image)
+        private bool TryGetValue(string textureName, out TextureCacheHandle image)
         {
             lock (syncObject)
             {
@@ -60,7 +61,7 @@ namespace OgrePlugin.VirtualTexture
         /// </summary>
         /// <param name="textureName"></param>
         /// <param name="image"></param>
-        internal TextureCacheHandle Add(string textureName, Image image)
+        private TextureCacheHandle Add(string textureName, Image image)
         {
             lock (syncObject)
             {
@@ -104,6 +105,72 @@ namespace OgrePlugin.VirtualTexture
                 lastAccessedOrder.Clear();
                 currentCacheSize = 0;
             }
+        }
+
+        internal TextureCacheHandle getImage(VTexPage page, IndirectionTexture indirectionTexture, OriginalTextureInfo textureUnit, String textureName)
+        {
+            TextureCacheHandle cacheHandle;
+            if (!this.TryGetValue(textureName, out cacheHandle))
+            {
+                //Try to direct load smaller version
+                String file = textureUnit.TextureFileName;
+                String extension = Path.GetExtension(file);
+                String directFile = textureUnit.TextureFileName.Substring(0, file.Length - extension.Length);
+                directFile = String.Format("{0}_{1}{2}", directFile, indirectionTexture.RealTextureSize.Width >> page.mip, extension);
+                if (VirtualFileSystem.Instance.exists(directFile))
+                {
+                    cacheHandle = doLoadImage(textureName, extension, directFile);
+                }
+                else
+                {
+                    //Try to get full size image from cache
+                    String fullSizeName = String.Format("{0}_{1}", textureUnit.TextureFileName, indirectionTexture.RealTextureSize.Width);
+                    if (!this.TryGetValue(fullSizeName, out cacheHandle))
+                    {
+                        cacheHandle = doLoadImage(fullSizeName, extension, textureUnit.TextureFileName);
+                    }
+
+                    //If we aren't mip 0 resize accordingly
+                    if (page.mip > cacheHandle.Image.NumMipmaps && page.mip != 0)
+                    {
+                        using (TextureCacheHandle originalHandle = cacheHandle)
+                        {
+                            Image original = originalHandle.Image;
+                            Image image = new Image(original.Width >> page.mip, original.Height >> page.mip, original.Depth, original.Format, original.NumFaces, original.NumMipmaps);
+                            using (var src = original.getPixelBox())
+                            {
+                                using (var dest = image.getPixelBox())
+                                {
+                                    Image.Scale(src, dest, Image.Filter.FILTER_BILINEAR);
+                                }
+                            }
+                            cacheHandle = this.Add(textureName, image);
+                        }
+                    }
+                }
+            }
+            return cacheHandle;
+        }
+
+        private TextureCacheHandle doLoadImage(String cachedName, String extension, String file)
+        {
+            //Stopwatch sw = new Stopwatch();
+            //sw.Reset();
+            //sw.Start();
+            var image = new Image();
+            using (Stream stream = VirtualFileSystem.Instance.openStream(file, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read))
+            {
+                if (extension.Length > 0)
+                {
+                    extension = extension.Substring(1);
+                }
+                image.load(stream, extension);
+            }
+            var handle = this.Add(cachedName, image);
+            //sw.Stop();
+            //Logging.Log.Debug("Loaded image {0} in {1} ms", file, sw.ElapsedMilliseconds);
+            Logging.Log.Debug("Loaded image {0}", file);
+            return handle;
         }
 
         public UInt64 CurrentCacheSize

@@ -343,8 +343,6 @@ namespace OgrePlugin.VirtualTexture
 
         internal Vector2 PagePaddingOffset { get; private set; }
 
-        Stopwatch sw = new Stopwatch();
-
         /// <summary>
         /// Load the given image. Note that pTexPage is constant for the duration of this function call
         /// </summary>
@@ -404,21 +402,11 @@ namespace OgrePlugin.VirtualTexture
                 {
                     //Load or grab from cache
                     String textureName = String.Format("{0}_{1}", textureUnit.TextureFileName, indirectionTexture.RealTextureSize.Width >> page.mip);
-                    using (TextureCacheHandle cacheHandle = getImage(page, indirectionTexture, textureUnit, textureName))
+                    using (TextureCacheHandle cacheHandle = textureCache.getImage(page, indirectionTexture, textureUnit, textureName))
                     {
                         //Blit
-                        PixelBox sourceBox = null;
-                        try
+                        using (PixelBox sourceBox = cacheHandle.getPixelBox((uint)(page.mip - textureUnit.MipOffset)))
                         {
-                            int mipCount = cacheHandle.Image.NumMipmaps;
-                            if (mipCount == 0) //We always have to take from the largest size
-                            {
-                                sourceBox = cacheHandle.Image.getPixelBox(0, 0);
-                            }
-                            else
-                            {
-                                sourceBox = cacheHandle.Image.getPixelBox(0, (uint)(page.mip - textureUnit.MipOffset));
-                            }
                             IntSize2 largestSupportedPageIndex = indirectionTexture.NumPages;
                             largestSupportedPageIndex.Width >>= page.mip;
                             largestSupportedPageIndex.Height >>= page.mip;
@@ -433,13 +421,6 @@ namespace OgrePlugin.VirtualTexture
                             buffers.setPhysicalPage(sourceBox, virtualTextureManager.getPhysicalTexture(textureUnit.TextureUnit), padding);
                             usedPhysicalPage = true;
                         }
-                        finally
-                        {
-                            if (sourceBox != null)
-                            {
-                                sourceBox.Dispose();
-                            }
-                        }
                     }
                 }
                 else
@@ -452,70 +433,6 @@ namespace OgrePlugin.VirtualTexture
                 Logging.Log.Error("{0} loading image {1}. Message: {2}", ex.GetType().Name, textureUnit.TextureFileName, ex.Message);
             }
             return usedPhysicalPage;
-        }
-
-        private TextureCacheHandle getImage(VTexPage page, IndirectionTexture indirectionTexture, OriginalTextureInfo textureUnit, String textureName)
-        {
-            TextureCacheHandle cacheHandle;
-            if (!textureCache.TryGetValue(textureName, out cacheHandle))
-            {
-                //Try to direct load smaller version
-                String file = textureUnit.TextureFileName;
-                String extension = Path.GetExtension(file);
-                String directFile = textureUnit.TextureFileName.Substring(0, file.Length - extension.Length);
-                directFile = String.Format("{0}_{1}{2}", directFile, indirectionTexture.RealTextureSize.Width >> page.mip, extension);
-                if (VirtualFileSystem.Instance.exists(directFile))
-                {
-                    cacheHandle = doLoadImage(textureName, extension, directFile);
-                }
-                else
-                {
-                    //Try to get full size image from cache
-                    String fullSizeName = String.Format("{0}_{1}", textureUnit.TextureFileName, indirectionTexture.RealTextureSize.Width);
-                    if (!textureCache.TryGetValue(fullSizeName, out cacheHandle))
-                    {
-                        cacheHandle = doLoadImage(fullSizeName, extension, textureUnit.TextureFileName);
-                    }
-
-                    //If we aren't mip 0 resize accordingly
-                    if (page.mip > cacheHandle.Image.NumMipmaps && page.mip != 0)
-                    {
-                        using (TextureCacheHandle originalHandle = cacheHandle)
-                        {
-                            Image original = originalHandle.Image;
-                            Image image = new Image(original.Width >> page.mip, original.Height >> page.mip, original.Depth, original.Format, original.NumFaces, original.NumMipmaps);
-                            using (var src = original.getPixelBox())
-                            {
-                                using (var dest = image.getPixelBox())
-                                {
-                                    Image.Scale(src, dest, Image.Filter.FILTER_BILINEAR);
-                                }
-                            }
-                            cacheHandle = textureCache.Add(textureName, image);
-                        }
-                    }
-                }
-            }
-            return cacheHandle;
-        }
-
-        private TextureCacheHandle doLoadImage(String cachedName, String extension, String file)
-        {
-            sw.Reset();
-            sw.Start();
-            var image = new Image();
-            using (Stream stream = VirtualFileSystem.Instance.openStream(file, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read))
-            {
-                if (extension.Length > 0)
-                {
-                    extension = extension.Substring(1);
-                }
-                image.load(stream, extension);
-            }
-            var handle = textureCache.Add(cachedName, image);
-            sw.Stop();
-            Logging.Log.Debug("Loaded image {0} in {1} ms", file, sw.ElapsedMilliseconds);
-            return handle;
         }
     }
 }

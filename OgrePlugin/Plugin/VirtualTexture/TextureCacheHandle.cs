@@ -41,6 +41,25 @@ namespace OgrePlugin.VirtualTexture
         }
 
         /// <summary>
+        /// Get a pixel box for the image held by this handle. You must dispose the returned object.
+        /// </summary>
+        /// <param name="face"></param>
+        /// <param name="mipmap"></param>
+        /// <returns></returns>
+        public PixelBox getPixelBox(uint mipmap = 0)
+        {
+            int mipCount = image.NumMipmaps;
+            if (mipCount == 0) //We always have to take from the largest size
+            {
+                return image.getPixelBox(0, 0);
+            }
+            else
+            {
+                return image.getPixelBox(0, mipmap);
+            }
+        }
+
+        /// <summary>
         /// The image for this handle.
         /// </summary>
         public Image Image
