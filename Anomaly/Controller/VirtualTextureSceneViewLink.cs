@@ -28,7 +28,7 @@ namespace Anomaly
 
             CompressedTextureSupport textureFormat = OgreInterface.Instance.SelectedTextureFormat;
 
-            virtualTextureManager = new VirtualTextureManager(UnifiedMaterialBuilder.GetNumCompressedTexturesNeeded(textureFormat), new IntSize2(4096, 4096), 128, 4096, textureFormat, 10, new IntSize2(256, 128), 100 * 1024 * 1024);
+            virtualTextureManager = new VirtualTextureManager(UnifiedMaterialBuilder.GetNumCompressedTexturesNeeded(textureFormat), new IntSize2(4096, 4096), 128, 4096, textureFormat, 10, new IntSize2(256, 128), 100 * 1024 * 1024, UnifiedMaterialBuilder.AreTexturesPagedOnDisk(textureFormat));
 
             materialBuilder = new UnifiedMaterialBuilder(virtualTextureManager, OgreInterface.Instance.SelectedTextureFormat, controller.PluginManager.createLiveResourceManager("UnifiedShaders"));
             OgreInterface.Instance.MaterialParser.addMaterialBuilder(materialBuilder);

@@ -20,10 +20,12 @@ namespace OgrePlugin.VirtualTexture
         private UInt64 maxCacheSize;
         private UInt64 currentCacheSize;
         private Object syncObject = new object();
+        private bool texturesArePaged;
 
-        public TextureCache(UInt64 maxCacheSize)
+        public TextureCache(UInt64 maxCacheSize, bool texturesArePaged)
         {
             this.maxCacheSize = maxCacheSize;
+            this.texturesArePaged = texturesArePaged;
             PerformanceMonitor.addValueProvider("Virtual Texture Cache Size", () => Prettify.GetSizeReadable((long)currentCacheSize));
         }
 
@@ -147,25 +149,32 @@ namespace OgrePlugin.VirtualTexture
 
         internal TexturePageHandle getImage(VTexPage page, IndirectionTexture indirectionTexture, OriginalTextureInfo textureUnit, int textelsPerPage, int padding, int padding2)
         {
-            String textureName = String.Format("{0}_{1}", textureUnit.TextureFileName, indirectionTexture.RealTextureSize.Width >> page.mip);
+            String textureName;
+            if (texturesArePaged)
+            {
+                textureName = textureUnit.TextureFileName; 
+            }
+            else
+            {
+                textureName = String.Format("{0}_{1}", textureUnit.TextureFileName, indirectionTexture.RealTextureSize.Width >> page.mip);
+            }
             TextureCacheHandle cacheHandle;
             if (!this.TryGetValue(textureName, out cacheHandle))
             {
-                //Try to direct load smaller version
                 String file = textureUnit.TextureFileName;
-                String extension = Path.GetExtension(file);
-                if (extension.Equals(".pgpng", StringComparison.InvariantCultureIgnoreCase)) //Paged Images
+                if (texturesArePaged) //Paged Images
                 {
                     PagedImage pagedImage = new PagedImage();
-                    using (Stream stream = VirtualFileSystem.Instance.openStream(textureUnit.TextureFileName, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read))
+                    using (Stream stream = VirtualFileSystem.Instance.openStream(file, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read))
                     {
                         pagedImage.load(stream);
-                        Logging.Log.Debug("Loaded image {0}", textureUnit.TextureFileName);
+                        Logging.Log.Debug("Loaded image {0}", file);
                     }
                     cacheHandle = this.Add(textureName, pagedImage);
                 }
                 else //Normal Images
                 {
+                    String extension = Path.GetExtension(file);
                     String directFile = textureUnit.TextureFileName.Substring(0, file.Length - extension.Length);
                     directFile = String.Format("{0}_{1}{2}", directFile, indirectionTexture.RealTextureSize.Width >> page.mip, extension);
                     if (VirtualFileSystem.Instance.exists(directFile))

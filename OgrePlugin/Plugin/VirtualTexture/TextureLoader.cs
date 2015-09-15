@@ -42,9 +42,9 @@ namespace OgrePlugin.VirtualTexture
         private bool stopLoading = false;
         private List<VTexPage> pagesToLoad = new List<VTexPage>();
 
-        public TextureLoader(VirtualTextureManager virtualTextureManager, IntSize2 physicalTextureSize, int textelsPerPage, int padding, int stagingBufferCount, int stagingImageCapacity, int maxMipCount, UInt64 maxCacheSizeBytes)
+        public TextureLoader(VirtualTextureManager virtualTextureManager, IntSize2 physicalTextureSize, int textelsPerPage, int padding, int stagingBufferCount, int stagingImageCapacity, int maxMipCount, UInt64 maxCacheSizeBytes, bool texturesArePagedOnDisk)
         {
-            textureCache = new TextureCache(maxCacheSizeBytes);
+            textureCache = new TextureCache(maxCacheSizeBytes, texturesArePagedOnDisk);
             this.virtualTextureManager = virtualTextureManager;
             IntSize2 pageTableSize = physicalTextureSize / textelsPerPage;
             this.maxPages = pageTableSize.Width * pageTableSize.Height;

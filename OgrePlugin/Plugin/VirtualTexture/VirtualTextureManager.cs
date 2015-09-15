@@ -48,7 +48,7 @@ namespace OgrePlugin.VirtualTexture
         private List<IndirectionTexture> newIndirectionTextures = new List<IndirectionTexture>();
         private ConcurrentQueue<StagingBufferSet> waitingGpuSyncs = new ConcurrentQueue<StagingBufferSet>();
 
-        public VirtualTextureManager(int numPhysicalTextures, IntSize2 physicalTextureSize, int texelsPerPage, int largestRealTextureSize, CompressedTextureSupport textureFormat, int stagingBufferCount, IntSize2 feedbackBufferSize, ulong maxCacheSizeBytes)
+        public VirtualTextureManager(int numPhysicalTextures, IntSize2 physicalTextureSize, int texelsPerPage, int largestRealTextureSize, CompressedTextureSupport textureFormat, int stagingBufferCount, IntSize2 feedbackBufferSize, ulong maxCacheSizeBytes, bool texturesArePagedOnDisk)
         {
             this.physicalTextureSize = physicalTextureSize;
             this.texelsPerPage = texelsPerPage;
@@ -74,7 +74,7 @@ namespace OgrePlugin.VirtualTexture
             transparentFeedbackBuffer = new FeedbackBuffer(this, feedbackBufferSize, 1, 0x2);
             int highestMip = 0;
             for (highestMip = 0; largestRealTextureSize >> highestMip >= texelsPerPage; ++highestMip) { }
-            textureLoader = new TextureLoader(this, physicalTextureSize, texelsPerPage, padding, stagingBufferCount, numPhysicalTextures, highestMip, maxCacheSizeBytes);
+            textureLoader = new TextureLoader(this, physicalTextureSize, texelsPerPage, padding, stagingBufferCount, numPhysicalTextures, highestMip, maxCacheSizeBytes, texturesArePagedOnDisk);
 
             MipSampleBias = -3.0f;
         }

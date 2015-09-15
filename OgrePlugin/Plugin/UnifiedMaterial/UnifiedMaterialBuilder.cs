@@ -71,6 +71,11 @@ namespace OgrePlugin
             }
         }
 
+        public static bool AreTexturesPagedOnDisk(CompressedTextureSupport textureFormat)
+        {
+            return textureFormat == CompressedTextureSupport.None;
+        }
+
         public UnifiedMaterialBuilder(VirtualTextureManager virtualTextureManager, CompressedTextureSupport textureFormat, ResourceManager liveResourceManager)
         {
             PixelFormat otherFormat;
