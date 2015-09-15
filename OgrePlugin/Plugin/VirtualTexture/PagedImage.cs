@@ -74,6 +74,10 @@ namespace OgrePlugin
                 stream.Dispose();
             }
 
+            //Kind of weird, ogre and freeimage are backwards from one another in terms of scanline 0 being the top or bottom
+            //This easily fixes the math below by just flipping the image first.
+            image.RotateFlip(RotateFlipType.RotateNoneFlipY);
+
             this.numImages = 0;
             this.imageType = (int)ImageType.PNG;
             this.imageXSize = image.Width;
@@ -110,7 +114,7 @@ namespace OgrePlugin
                     {
                         for (int y = 0; y < size; ++y)
                         {
-                            imageBox.Top = (uint)((size - 1 - y) * pageSize);
+                            imageBox.Top = (uint)(y * pageSize);
                             imageBox.Bottom = imageBox.Top + (uint)pageSize;
                             for (int x = 0; x < size; ++x)
                             {
@@ -178,6 +182,31 @@ namespace OgrePlugin
             }
         }
 
+        /// <summary>
+        /// Load the PagedImage attributes only from a stream source. You won't be able to actually use the image
+        /// loaded this way but you will be able to see its attribtues (width, height etc).
+        /// </summary>
+        /// <param name="source"></param>
+        public void loadInfoOnly(Stream source)
+        {
+            if (stream != null)
+            {
+                stream.Dispose();
+            }
+            stream = null;
+
+            using (BinaryReader sr = new BinaryReader(source, Encoding.Default, true))
+            {
+                sr.BaseStream.Seek(HeaderSize, SeekOrigin.End);
+                numImages = sr.ReadInt32();
+                imageType = sr.ReadInt32();
+                imageXSize = sr.ReadInt32();
+                imageYSize = sr.ReadInt32();
+                pageSize = sr.ReadInt32();
+                indexStart = sr.ReadInt32();
+            }
+        }
+
         public void save(Stream outputStream)
         {
             stream.Seek(0, SeekOrigin.Begin);
@@ -194,14 +223,6 @@ namespace OgrePlugin
                 sw.Write(imageYSize);
                 sw.Write(pageSize);
                 sw.Write(indexStart);
-            }
-        }
-
-        private static void debug_saveImage(FreeImageBitmap page, String fileName)
-        {
-            using (Stream test = File.Open(fileName, FileMode.Create))
-            {
-                page.Save(test, FREE_IMAGE_FORMAT.FIF_PNG);
             }
         }
 
@@ -224,6 +245,22 @@ namespace OgrePlugin
             get
             {
                 return (ulong)stream.Length;
+            }
+        }
+
+        public int Width
+        {
+            get
+            {
+                return imageXSize;
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                return imageYSize;
             }
         }
 

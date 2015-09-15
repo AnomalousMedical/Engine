@@ -153,34 +153,47 @@ namespace OgrePlugin.VirtualTexture
                 //Try to direct load smaller version
                 String file = textureUnit.TextureFileName;
                 String extension = Path.GetExtension(file);
-                String directFile = textureUnit.TextureFileName.Substring(0, file.Length - extension.Length);
-                directFile = String.Format("{0}_{1}{2}", directFile, indirectionTexture.RealTextureSize.Width >> page.mip, extension);
-                if (VirtualFileSystem.Instance.exists(directFile))
+                if (extension.Equals(".pgpng", StringComparison.InvariantCultureIgnoreCase)) //Paged Images
                 {
-                    var image = doLoadImage(extension, directFile);
-                    cacheHandle = this.Add(textureName, image);
-                }
-                else
-                {
-                    //Not using cache for full size images, this is a rare case that we are not really supporting right now
-                    Image image = doLoadImage(extension, textureUnit.TextureFileName);
-
-                    //If we aren't mip 0 resize accordingly
-                    if (page.mip > image.NumMipmaps && page.mip != 0)
+                    PagedImage pagedImage = new PagedImage();
+                    using (Stream stream = VirtualFileSystem.Instance.openStream(textureUnit.TextureFileName, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read))
                     {
-                        using (Image original = image)
+                        pagedImage.load(stream);
+                        Logging.Log.Debug("Loaded image {0}", textureUnit.TextureFileName);
+                    }
+                    cacheHandle = this.Add(textureName, pagedImage);
+                }
+                else //Normal Images
+                {
+                    String directFile = textureUnit.TextureFileName.Substring(0, file.Length - extension.Length);
+                    directFile = String.Format("{0}_{1}{2}", directFile, indirectionTexture.RealTextureSize.Width >> page.mip, extension);
+                    if (VirtualFileSystem.Instance.exists(directFile))
+                    {
+                        var image = doLoadImage(extension, directFile);
+                        cacheHandle = this.Add(textureName, image);
+                    }
+                    else
+                    {
+                        //Not using cache for full size images, this is a rare case that we are not really supporting right now
+                        Image image = doLoadImage(extension, textureUnit.TextureFileName);
+
+                        //If we aren't mip 0 resize accordingly
+                        if (page.mip > image.NumMipmaps && page.mip != 0)
                         {
-                            image = new Image(original.Width >> page.mip, original.Height >> page.mip, original.Depth, original.Format, original.NumFaces, original.NumMipmaps);
-                            using (var src = original.getPixelBox())
+                            using (Image original = image)
                             {
-                                using (var dest = image.getPixelBox())
+                                image = new Image(original.Width >> page.mip, original.Height >> page.mip, original.Depth, original.Format, original.NumFaces, original.NumMipmaps);
+                                using (var src = original.getPixelBox())
                                 {
-                                    Image.Scale(src, dest, Image.Filter.FILTER_BILINEAR);
+                                    using (var dest = image.getPixelBox())
+                                    {
+                                        Image.Scale(src, dest, Image.Filter.FILTER_BILINEAR);
+                                    }
                                 }
                             }
                         }
+                        cacheHandle = this.Add(textureName, image);
                     }
-                    cacheHandle = this.Add(textureName, image);
                 }
             }
             return cacheHandle.createTexturePageHandle(page, indirectionTexture, padding, padding2, textelsPerPage);
