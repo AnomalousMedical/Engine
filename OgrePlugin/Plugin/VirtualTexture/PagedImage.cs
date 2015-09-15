@@ -50,15 +50,30 @@ namespace OgrePlugin
 
         }
 
+        public void Dispose()
+        {
+            if (stream != null)
+            {
+                stream.Dispose();
+                stream = null;
+            }
+        }
+
         /// <summary>
-        /// Create a paged image from a FreeImageBitmap instance, note that this constructor is destructive
+        /// Create a paged image from a FreeImageBitmap instance, note that this function is destructive
         /// to the passed in FreeImageBitmap since it will resize it while creating all the mip levels
-        /// for the paged image.
+        /// for the paged image. However, you will still need to dispose the image you pass in, this class
+        /// makes a copy while destroying the image, but does not take ownership of the original.
         /// </summary>
         /// <param name="image">The image to extract pages from.</param>
         /// <param name="pageSize">The size of the pages to extract.</param>
-        public PagedImage(FreeImageBitmap image, int pageSize)
+        public void fromBitmap(FreeImageBitmap image, int pageSize)
         {
+            if (stream != null)
+            {
+                stream.Dispose();
+            }
+
             this.numImages = 0;
             this.imageType = (int)ImageType.PNG;
             this.imageXSize = image.Width;
@@ -117,15 +132,10 @@ namespace OgrePlugin
             indexStart = (int)stream.Position;
         }
 
-        public void Dispose()
-        {
-            if (stream != null)
-            {
-                stream.Dispose();
-                stream = null;
-            }
-        }
-
+        /// <summary>
+        /// Load the PagedImage from a stream source.
+        /// </summary>
+        /// <param name="source"></param>
         public void load(Stream source)
         {
             if (stream != null)

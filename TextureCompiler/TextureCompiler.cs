@@ -424,47 +424,15 @@ namespace Anomalous.TextureCompiler
                     Log.Info("Creating paged png for {0}", sourceFile);
                     using (FreeImageBitmap source = FreeImageBitmap.FromFile(sourceFile))
                     {
-                        //int i = source.Width;
-                        //String file = String.Format("{0}.png", destFile);
-                        //Log.Info("Saving {0}", file);
-                        //saveImage(source, file, FREE_IMAGE_FORMAT.FIF_PNG);
-                        //i >>= 1;
-                        //while (i > 0)
-                        //{
-                        //    file = String.Format("{0}_{1}.png", destFile, i);
-                        //    Log.Info("Saving {0}", file);
-
-                        //    source.Rescale(new Size(i, i), FREE_IMAGE_FILTER.FILTER_LANCZOS3);
-                        //    saveImage(source, file, FREE_IMAGE_FORMAT.FIF_PNG);
-                        //    i >>= 1;
-                        //}
                         using (var stream = File.Open(String.Format("{0}.pgpng", destFile), FileMode.Create, FileAccess.ReadWrite))
                         {
-                            using (var page = new PagedImage(source, 128))
+                            using (var image = new PagedImage())
                             {
-                                page.save(stream);
+                                image.fromBitmap(source, 128);
+                                image.save(stream);
                             }
                         }
                     }
-
-                    //Log.Info("Compressing {0} to png.", sourceFile);
-                    //using (FreeImageBitmap source = FreeImageBitmap.FromFile(sourceFile))
-                    //{
-                    //    int i = source.Width;
-                    //    String file = String.Format("{0}.png", destFile);
-                    //    Log.Info("Saving {0}", file);
-                    //    saveImage(source, file, FREE_IMAGE_FORMAT.FIF_PNG);
-                    //    i >>= 1;
-                    //    while (i > 0)
-                    //    {
-                    //        file = String.Format("{0}_{1}.png", destFile, i);
-                    //        Log.Info("Saving {0}", file);
-
-                    //        source.Rescale(new Size(i, i), FREE_IMAGE_FILTER.FILTER_LANCZOS3);
-                    //        saveImage(source, file, FREE_IMAGE_FORMAT.FIF_PNG);
-                    //        i >>= 1;
-                    //    }
-                    //}
                 }
             });
         }
