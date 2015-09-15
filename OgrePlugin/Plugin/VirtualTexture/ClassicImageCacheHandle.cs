@@ -16,6 +16,11 @@ namespace OgrePlugin.VirtualTexture
             this.image = image;
         }
 
+        protected override void disposing()
+        {
+            image.Dispose();
+        }
+
         public override ulong Size
         {
             get
@@ -24,7 +29,7 @@ namespace OgrePlugin.VirtualTexture
             }
         }
 
-        public override PixelBox getPixelBox(VTexPage page, IndirectionTexture indirectionTexture, int padding, int padding2, int textelsPerPage)
+        public override TexturePageHandle createTexturePageHandle(VTexPage page, IndirectionTexture indirectionTexture, int padding, int padding2, int textelsPerPage)
         {
             PixelBox sourceBox = image.getPixelBox(0, 0);
             IntSize2 largestSupportedPageIndex = indirectionTexture.NumPages;
@@ -39,12 +44,7 @@ namespace OgrePlugin.VirtualTexture
                 sourceBox.Rect = new IntRect(page.x * textelsPerPage, page.y * textelsPerPage, textelsPerPage, textelsPerPage);
             }
 
-            return sourceBox;
-        }
-
-        protected override void disposing()
-        {
-            image.Dispose();
+            return new TexturePageHandle(sourceBox, this);
         }
     }
 }

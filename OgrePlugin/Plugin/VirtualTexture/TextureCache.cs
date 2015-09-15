@@ -93,6 +93,44 @@ namespace OgrePlugin.VirtualTexture
             }
         }
 
+        /// <summary>
+        /// Add a texture to the cache, this will return a TextureCacheHandle that you MUST dispose
+        /// when you aren't using it anymore.
+        /// </summary>
+        /// <param name="textureName"></param>
+        /// <param name="image"></param>
+        private TextureCacheHandle Add(string textureName, PagedImage image)
+        {
+            lock (syncObject)
+            {
+                TextureCacheHandle handle;
+                UInt64 imageSize = image.Size;
+                if (imageSize < maxCacheSize) //Image itself can fit
+                {
+                    while (currentCacheSize + imageSize > maxCacheSize && lastAccessedOrder.Last != null)
+                    {
+                        //Drop oldest images until there is enough space
+                        String last = lastAccessedOrder.Last.Value;
+                        lastAccessedOrder.RemoveLast();
+                        var destroyImage = loadedImages[last];
+                        loadedImages.Remove(last);
+                        currentCacheSize -= destroyImage.Size;
+                        destroyImage.destroyIfPossible();
+                    }
+                    currentCacheSize += image.Size;
+                    handle = new PagedImageCacheHandle(image, false);
+                    loadedImages.Add(textureName, handle);
+                    lastAccessedOrder.AddFirst(textureName);
+                }
+                else
+                {
+                    handle = new PagedImageCacheHandle(image, true);
+                }
+                handle.checkout();
+                return handle;
+            }
+        }
+
         internal void clear()
         {
             lock(syncObject)
@@ -145,7 +183,7 @@ namespace OgrePlugin.VirtualTexture
                     cacheHandle = this.Add(textureName, image);
                 }
             }
-            return new TexturePageHandle(cacheHandle.getPixelBox(page, indirectionTexture, padding, padding2, textelsPerPage), cacheHandle);
+            return cacheHandle.createTexturePageHandle(page, indirectionTexture, padding, padding2, textelsPerPage);
         }
 
         private Image doLoadImage(String extension, String file)

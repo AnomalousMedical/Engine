@@ -209,15 +209,21 @@ namespace OgrePlugin
         /// Get a pixelbox for the page specified by x, y, mip, you must dispose the returned pixel box.
         /// </summary>
         /// <returns>A pixel box the caller takes ownership of.</returns>
-        public PixelBox getImage(int x, int y, int mip)
+        public FreeImageBitmap getImage(int x, int y, int mip)
         {
             MipIndexInfo mipIndex = mipIndices[mip];
             ImageInfo imageInfo = pages[mipIndex.getIndex(x, y)];
             using (Stream imageStream = imageInfo.openStream(stream.GetBuffer()))
             {
-                FreeImageBitmap fiBmp = new FreeImageBitmap(imageStream); //dispose me
-                debug_saveImage(fiBmp, String.Format("Page_{0}_{1}_{2}.png", x, y, mip));
-                return new PixelBox();
+                return new FreeImageBitmap(imageStream);
+            }
+        }
+
+        public ulong Size
+        {
+            get
+            {
+                return (ulong)stream.Length;
             }
         }
 

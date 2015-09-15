@@ -40,7 +40,17 @@ namespace OgrePlugin.VirtualTexture
 
         protected abstract void disposing();
 
-        public abstract PixelBox getPixelBox(VTexPage page, IndirectionTexture indirectionTexture, int padding, int padding2, int textelsPerPage);
+        /// <summary>
+        /// Create a texture page handle for this cache handle, the page will be selected from the given info.
+        /// You must dispose the handle that is returned.
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="indirectionTexture"></param>
+        /// <param name="padding"></param>
+        /// <param name="padding2"></param>
+        /// <param name="textelsPerPage"></param>
+        /// <returns></returns>
+        public abstract TexturePageHandle createTexturePageHandle(VTexPage page, IndirectionTexture indirectionTexture, int padding, int padding2, int textelsPerPage);
 
         /// <summary>
         /// The size of the image in bytes.
