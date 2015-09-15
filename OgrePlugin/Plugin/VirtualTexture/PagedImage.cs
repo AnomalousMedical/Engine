@@ -39,7 +39,7 @@ namespace OgrePlugin
         private int imageYSize;
         private int pageSize;
         private int indexStart;
-        private const int HeaderSize = sizeof(int) * 6;
+        private const int HeaderSize = -sizeof(int) * 6;
 
         private MemoryStream stream;
         private List<ImageInfo> pages;
@@ -105,7 +105,7 @@ namespace OgrePlugin
                         image.Rescale(image.Width >> 1, image.Height >> 1, FREE_IMAGE_FILTER.FILTER_BILINEAR);
                     }
                     int size = image.Width / pageSize;
-                    mipIndices.Add(new MipIndexInfo(numImages, size * size));
+                    mipIndices.Add(new MipIndexInfo(numImages, size));
                     using (var imageBox = image.createPixelBox())
                     {
                         for (int y = 0; y < size; ++y)
@@ -144,9 +144,9 @@ namespace OgrePlugin
             }
             stream = new MemoryStream((int)source.Length);
             source.CopyTo(stream);
-            stream.Seek(HeaderSize, SeekOrigin.End);
             using (BinaryReader sr = new BinaryReader(source, Encoding.Default, true))
             {
+                sr.BaseStream.Seek(HeaderSize, SeekOrigin.End);
                 numImages = sr.ReadInt32();
                 imageType = sr.ReadInt32();
                 imageXSize = sr.ReadInt32();
@@ -157,18 +157,20 @@ namespace OgrePlugin
                 pages = new List<ImageInfo>(numImages);
                 mipIndices = new List<MipIndexInfo>();
 
-                int pagesForLevel = imageXSize * imageYSize / pageSize;
+                int pageStride = imageXSize / pageSize;
+                int pagesForLevel = pageStride * pageStride;
 
-                stream.Seek(indexStart, SeekOrigin.Begin);
+                sr.BaseStream.Seek(indexStart, SeekOrigin.Begin);
                 int mipPage = 0;
-                mipIndices.Add(new MipIndexInfo(0, pagesForLevel));
+                mipIndices.Add(new MipIndexInfo(0, pageStride));
                 for (int i = 0; i < numImages; ++i)
                 {
-                    if (mipPage > pagesForLevel)
+                    if (mipPage == pagesForLevel)
                     {
+                        pageStride >>= 1;
                         pagesForLevel >>= 2;
                         mipPage = 0;
-                        mipIndices.Add(new MipIndexInfo(i, pagesForLevel));
+                        mipIndices.Add(new MipIndexInfo(i, pageStride));
                     }
                     pages.Add(new ImageInfo(sr.ReadInt32(), sr.ReadInt32()));
                     ++mipPage;
@@ -214,6 +216,7 @@ namespace OgrePlugin
             using (Stream imageStream = imageInfo.openStream(stream.GetBuffer()))
             {
                 FreeImageBitmap fiBmp = new FreeImageBitmap(imageStream); //dispose me
+                debug_saveImage(fiBmp, String.Format("Page_{0}_{1}_{2}.png", x, y, mip));
                 return new PixelBox();
             }
         }
@@ -221,17 +224,17 @@ namespace OgrePlugin
         class MipIndexInfo
         {
             private int startIndex;
-            private int mipPageCount;
+            private int pageStride; //The amount of pages in one row
 
-            public MipIndexInfo(int startIndex, int mipPageCount)
+            public MipIndexInfo(int startIndex, int pageStride)
             {
                 this.startIndex = startIndex;
-                this.mipPageCount = mipPageCount;
+                this.pageStride = pageStride;
             }
 
             public int getIndex(int x, int y)
             {
-                return startIndex + y * mipPageCount + x;
+                return startIndex + y * pageStride + x;
             }
         }
 
