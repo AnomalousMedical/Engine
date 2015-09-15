@@ -11,16 +11,14 @@ namespace OgrePlugin.VirtualTexture
     /// which is incremented internally for the checkout and is decremented on dispose. The idea is to
     /// allow for a using block when using these handles.
     /// </summary>
-    class TextureCacheHandle : IDisposable
+    abstract class TextureCacheHandle : IDisposable
     {
         private int numCheckouts = 0;
         private bool destroyOnNoRef = false;
-        private Image image;
         private Object lockObject = new object();
 
-        public TextureCacheHandle(Image image, bool destroyOnNoRef)
+        public TextureCacheHandle(bool destroyOnNoRef)
         {
-            this.image = image;
             this.destroyOnNoRef = destroyOnNoRef;
         }
 
@@ -35,51 +33,19 @@ namespace OgrePlugin.VirtualTexture
                 --numCheckouts;
                 if (destroyOnNoRef && numCheckouts == 0)
                 {
-                    image.Dispose();
+                    disposing();
                 }
             }
         }
 
-        /// <summary>
-        /// Get a pixel box for the image held by this handle. You must dispose the returned object.
-        /// </summary>
-        /// <param name="face"></param>
-        /// <param name="mipmap"></param>
-        /// <returns></returns>
-        public PixelBox getPixelBox(uint mipmap = 0)
-        {
-            int mipCount = image.NumMipmaps;
-            if (mipCount == 0) //We always have to take from the largest size
-            {
-                return image.getPixelBox(0, 0);
-            }
-            else
-            {
-                return image.getPixelBox(0, mipmap);
-            }
-        }
+        protected abstract void disposing();
+
+        public abstract PixelBox getPixelBox(VTexPage page, IndirectionTexture indirectionTexture, int padding, int padding2, int textelsPerPage);
 
         /// <summary>
-        /// The image for this handle.
+        /// The size of the image in bytes.
         /// </summary>
-        public Image Image
-        {
-            get
-            {
-                return image;
-            }
-        }
-
-        /// <summary>
-        /// The size of the image.
-        /// </summary>
-        public ulong Size
-        {
-            get
-            {
-                return image.Size;
-            }
-        }
+        public abstract ulong Size { get; }
 
         /// <summary>
         /// Internal function to increment the counter.
@@ -102,7 +68,7 @@ namespace OgrePlugin.VirtualTexture
                 destroyOnNoRef = true;
                 if (numCheckouts == 0)
                 {
-                    image.Dispose();
+                    disposing();
                 }
             }
         }

@@ -402,25 +402,10 @@ namespace OgrePlugin.VirtualTexture
                 {
                     //Load or grab from cache
                     String textureName = String.Format("{0}_{1}", textureUnit.TextureFileName, indirectionTexture.RealTextureSize.Width >> page.mip);
-                    using (TextureCacheHandle cacheHandle = textureCache.getImage(page, indirectionTexture, textureUnit, textureName))
+                    using (var pageHandle = textureCache.getImage(page, indirectionTexture, textureUnit, textureName, textelsPerPage, padding, padding2))
                     {
-                        //Blit
-                        using (PixelBox sourceBox = cacheHandle.getPixelBox((uint)(page.mip - textureUnit.MipOffset)))
-                        {
-                            IntSize2 largestSupportedPageIndex = indirectionTexture.NumPages;
-                            largestSupportedPageIndex.Width >>= page.mip;
-                            largestSupportedPageIndex.Height >>= page.mip;
-                            if (page.x != 0 && page.y != 0 && page.x + 1 != largestSupportedPageIndex.Width && page.y + 1 != largestSupportedPageIndex.Height)
-                            {
-                                sourceBox.Rect = new IntRect(page.x * textelsPerPage - padding, page.y * textelsPerPage - padding, textelsPerPage + padding2, textelsPerPage + padding2);
-                            }
-                            else
-                            {
-                                sourceBox.Rect = new IntRect(page.x * textelsPerPage, page.y * textelsPerPage, textelsPerPage, textelsPerPage);
-                            }
-                            buffers.setPhysicalPage(sourceBox, virtualTextureManager.getPhysicalTexture(textureUnit.TextureUnit), padding);
-                            usedPhysicalPage = true;
-                        }
+                        buffers.setPhysicalPage(pageHandle.PixelBox, virtualTextureManager.getPhysicalTexture(textureUnit.TextureUnit), padding);
+                        usedPhysicalPage = true;
                     }
                 }
                 else
