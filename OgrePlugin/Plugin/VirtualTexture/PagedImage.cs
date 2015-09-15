@@ -26,8 +26,13 @@ namespace OgrePlugin
     /// PageSize - int - the size of the pages stored in this image
     /// IndexStart - int - where the index starts in the file.
     /// </summary>
-    public class PagedImage
+    public class PagedImage : IDisposable
     {
+        enum ImageType
+        {
+            PNG = 0
+        }
+
         private int numImages;
         private int imageType;
         private int imageXSize;
@@ -43,6 +48,73 @@ namespace OgrePlugin
         public PagedImage()
         {
 
+        }
+
+        /// <summary>
+        /// Create a paged image from a FreeImageBitmap instance, note that this constructor is destructive
+        /// to the passed in FreeImageBitmap since it will resize it while creating all the mip levels
+        /// for the paged image.
+        /// </summary>
+        /// <param name="image">The image to extract pages from.</param>
+        /// <param name="pageSize">The size of the pages to extract.</param>
+        public PagedImage(FreeImageBitmap image, int pageSize)
+        {
+            this.numImages = 0;
+            this.imageType = (int)ImageType.PNG;
+            this.imageXSize = image.Width;
+            this.imageYSize = image.Height;
+            this.pageSize = pageSize;
+            if (imageXSize != imageYSize)
+            {
+                throw new InvalidDataException("Image must be a square");
+            }
+
+            int mipLevelCount = 0;
+            int numPages = 0;
+            for (int i = imageXSize; i >= pageSize; i >>= 1)
+            {
+                ++mipLevelCount;
+                int pagesForMip = i / pageSize;
+                numPages += pagesForMip * pagesForMip;
+            }
+            stream = new MemoryStream(image.DataSize); //Probably way too much, but decent capactiy guess
+            pages = new List<ImageInfo>(numPages);
+            mipIndices = new List<MipIndexInfo>(mipLevelCount);
+
+            using (FreeImageBitmap page = new FreeImageBitmap(pageSize, pageSize, FreeImageAPI.PixelFormat.Format32bppArgb))
+            {
+                for (int mip = 0; mip < mipLevelCount; ++mip)
+                {
+                    if (mip != 0)
+                    {
+                        image.Rescale(image.Width >> 1, image.Height >> 1, FREE_IMAGE_FILTER.FILTER_BILINEAR);
+                    }
+                    int size = image.Width / pageSize;
+                    mipIndices.Add(new MipIndexInfo(numImages, size * size));
+                    using (var imageBox = image.createPixelBox())
+                    {
+                        for (int y = 0; y < size; ++y)
+                        {
+                            imageBox.Top = (uint)((size - 1 - y) * pageSize);
+                            imageBox.Bottom = imageBox.Top + (uint)pageSize;
+                            for (int x = 0; x < size; ++x)
+                            {
+                                imageBox.Left = (uint)(x * pageSize);
+                                imageBox.Right = imageBox.Left + (uint)pageSize;
+                                using (var pageBox = page.createPixelBox(PixelFormat.PF_A8R8G8B8))
+                                {
+                                    PixelBox.BulkPixelConversion(imageBox, pageBox);
+                                }
+                                int startPos = (int)stream.Position;
+                                page.Save(stream, FREE_IMAGE_FORMAT.FIF_PNG);
+                                ++numImages;
+                                pages.Add(new ImageInfo(startPos, (int)(stream.Position - startPos)));
+                            }
+                        }
+                    }
+                }
+            }
+            indexStart = (int)stream.Position;
         }
 
         public void Dispose()
@@ -80,9 +152,9 @@ namespace OgrePlugin
                 stream.Seek(indexStart, SeekOrigin.Begin);
                 int mipPage = 0;
                 mipIndices.Add(new MipIndexInfo(0, pagesForLevel));
-                for(int i = 0; i < numImages; ++i)
+                for (int i = 0; i < numImages; ++i)
                 {
-                    if(mipPage > pagesForLevel)
+                    if (mipPage > pagesForLevel)
                     {
                         pagesForLevel >>= 2;
                         mipPage = 0;
@@ -91,6 +163,33 @@ namespace OgrePlugin
                     pages.Add(new ImageInfo(sr.ReadInt32(), sr.ReadInt32()));
                     ++mipPage;
                 }
+            }
+        }
+
+        public void save(Stream outputStream)
+        {
+            stream.Seek(0, SeekOrigin.Begin);
+            stream.CopyTo(outputStream);
+            using (BinaryWriter sw = new BinaryWriter(outputStream, Encoding.Default, true))
+            {
+                foreach (var imageInfo in pages)
+                {
+                    imageInfo.write(sw);
+                }
+                sw.Write(numImages);
+                sw.Write(imageType);
+                sw.Write(imageXSize);
+                sw.Write(imageYSize);
+                sw.Write(pageSize);
+                sw.Write(indexStart);
+            }
+        }
+
+        private static void debug_saveImage(FreeImageBitmap page, String fileName)
+        {
+            using (Stream test = File.Open(fileName, FileMode.Create))
+            {
+                page.Save(test, FREE_IMAGE_FORMAT.FIF_PNG);
             }
         }
 
@@ -140,6 +239,12 @@ namespace OgrePlugin
             public Stream openStream(byte[] sourceBytes)
             {
                 return new MemoryStream(sourceBytes, imageStart, imageLength, false);
+            }
+
+            public void write(BinaryWriter sw)
+            {
+                sw.Write(imageStart);
+                sw.Write(imageLength);
             }
         }
     }

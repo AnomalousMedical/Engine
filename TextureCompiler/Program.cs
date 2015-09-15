@@ -20,6 +20,11 @@ namespace Anomalous.TextureCompiler
             {
                 String sourceDirectory = args[0];
                 String destDirectory = args[1];
+                OutputFormats outFormats = OutputFormats.All;
+                if(args.Length >= 2)
+                {
+                    Enum.TryParse(args[2], out outFormats);
+                }
 
                 Environment.CurrentDirectory = sourceDirectory;
 
@@ -28,7 +33,7 @@ namespace Anomalous.TextureCompiler
                 PluginManager pluginManager = new PluginManager(new ConfigFile("woot.txt"));
                 VirtualFileSystem.Instance.addArchive(destDirectory);
 
-                TextureCompilerInterface.CompileTextures(sourceDirectory, destDirectory, pluginManager, OutputFormats.All);
+                TextureCompilerInterface.CompileTextures(sourceDirectory, destDirectory, pluginManager, outFormats);
             }
             catch(Exception ex)
             {

@@ -14,6 +14,29 @@ namespace OgrePlugin
         /// afterward. Also you must Dispose the PixelBox returned by this function.
         /// </summary>
         /// /// <param name="bitmap">This object.</param>
+        /// <returns>A PixelBox with the given format for the FreeImageBitmap.</returns>
+        unsafe public static PixelBox createPixelBox(this FreeImageBitmap bitmap)
+        {
+            OgrePlugin.PixelFormat ogreFormat;
+            switch(bitmap.PixelFormat)
+            {
+                case FreeImageAPI.PixelFormat.Format24bppRgb:
+                    ogreFormat = PixelFormat.PF_R8G8B8;
+                    break;
+                case FreeImageAPI.PixelFormat.Format32bppArgb:
+                    ogreFormat = PixelFormat.PF_A8R8G8B8;
+                    break;
+                default:
+                    throw new ArgumentException(String.Format("Bitmap format {0} not supported. Must be Format24bppRgb or Format32bppArgb", bitmap.PixelFormat));
+            }
+            return FreeImageBitmapExtensions.createPixelBox(bitmap, ogreFormat);
+        }
+
+        /// <summary>
+        /// Create a pixel box for this FreeImageBitmap, note that ogre will populate the pixel box upside down, so you will need to flip the image
+        /// afterward. Also you must Dispose the PixelBox returned by this function.
+        /// </summary>
+        /// /// <param name="bitmap">This object.</param>
         /// <param name="format">The format of the pixel box.</param>
         /// <returns>A PixelBox with the given format for the FreeImageBitmap.</returns>
         unsafe public static PixelBox createPixelBox(this FreeImageBitmap bitmap, OgrePlugin.PixelFormat format)
