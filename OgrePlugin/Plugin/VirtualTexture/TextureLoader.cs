@@ -401,8 +401,7 @@ namespace OgrePlugin.VirtualTexture
                 if (page.mip >= textureUnit.MipOffset)
                 {
                     //Load or grab from cache
-                    String textureName = String.Format("{0}_{1}", textureUnit.TextureFileName, indirectionTexture.RealTextureSize.Width >> page.mip);
-                    using (var pageHandle = textureCache.getImage(page, indirectionTexture, textureUnit, textureName, textelsPerPage, padding, padding2))
+                    using (var pageHandle = textureCache.getImage(page, indirectionTexture, textureUnit, textelsPerPage, padding, padding2))
                     {
                         buffers.setPhysicalPage(pageHandle.PixelBox, virtualTextureManager.getPhysicalTexture(textureUnit.TextureUnit), padding);
                         usedPhysicalPage = true;

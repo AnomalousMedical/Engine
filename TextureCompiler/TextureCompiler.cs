@@ -51,6 +51,8 @@ namespace Anomalous.TextureCompiler
         private static String MaliTextureToolExe = Path.Combine(MainExeLocation, "CompressorBinaries/MaliTextureTool/etcpack.exe");
         private static String MaliTextureToolArgFormat = "\"{0}\" \"{1}\" -c etc2 -f RGBA -ktx -mipmaps -ext TGA"; //-s slow
 
+        private static String PagedTextureNameFormat = String.Format("{{0}}{0}", PagedImage.FileExtension);
+
         private String sourceDirectory;
         private String destDirectory;
 
@@ -424,7 +426,7 @@ namespace Anomalous.TextureCompiler
                     Log.Info("Creating paged png for {0}", sourceFile);
                     using (FreeImageBitmap source = FreeImageBitmap.FromFile(sourceFile))
                     {
-                        using (var stream = File.Open(String.Format("{0}.pgpng", destFile), FileMode.Create, FileAccess.ReadWrite))
+                        using (var stream = File.Open(String.Format(PagedTextureNameFormat, destFile), FileMode.Create, FileAccess.ReadWrite))
                         {
                             using (var image = new PagedImage())
                             {

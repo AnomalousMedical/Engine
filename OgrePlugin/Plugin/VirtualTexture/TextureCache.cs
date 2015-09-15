@@ -145,8 +145,9 @@ namespace OgrePlugin.VirtualTexture
             }
         }
 
-        internal TexturePageHandle getImage(VTexPage page, IndirectionTexture indirectionTexture, OriginalTextureInfo textureUnit, String textureName, int textelsPerPage, int padding, int padding2)
+        internal TexturePageHandle getImage(VTexPage page, IndirectionTexture indirectionTexture, OriginalTextureInfo textureUnit, int textelsPerPage, int padding, int padding2)
         {
+            String textureName = String.Format("{0}_{1}", textureUnit.TextureFileName, indirectionTexture.RealTextureSize.Width >> page.mip);
             TextureCacheHandle cacheHandle;
             if (!this.TryGetValue(textureName, out cacheHandle))
             {

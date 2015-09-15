@@ -28,6 +28,8 @@ namespace OgrePlugin
     /// </summary>
     public class PagedImage : IDisposable
     {
+        public const String FileExtension = ".pgpng";
+
         enum ImageType
         {
             PNG = 0

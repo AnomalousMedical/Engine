@@ -96,8 +96,8 @@ namespace OgrePlugin
                     break;
                 default:
                 case CompressedTextureSupport.None:
-                    textureFormatExtension = ".pgpng";
-                    normalTextureFormatExtension = ".pgpng";
+                    textureFormatExtension = PagedImage.FileExtension;
+                    normalTextureFormatExtension = PagedImage.FileExtension;
                     normalMapReadMode = NormaMapReadMode.RG;
                     createOpacityTexture = false;
                     otherFormat = PixelFormat.PF_A8R8G8B8;
@@ -625,7 +625,7 @@ namespace OgrePlugin
                 using (Stream stream = VirtualFileSystem.Instance.openStream(texturePath, Engine.Resources.FileMode.Open)) //Probably not the best idea to directly access vfs here
                 {
                     int width, height;
-                    if (texturePath.EndsWith("pgpng", StringComparison.InvariantCultureIgnoreCase))
+                    if (texturePath.EndsWith(PagedImage.FileExtension, StringComparison.InvariantCultureIgnoreCase))
                     {
                         using (PagedImage pagedImage = new PagedImage())
                         {
