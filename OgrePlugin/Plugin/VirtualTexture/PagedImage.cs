@@ -44,7 +44,7 @@ namespace OgrePlugin
         private int indexStart;
         private const int HeaderSize = -sizeof(int) * 6;
 
-        private ByteArrayStream stream;
+        private MemoryBlock stream;
         private List<ImageInfo> pages;
         private List<MipIndexInfo> mipIndices;
 
@@ -314,9 +314,9 @@ namespace OgrePlugin
             {
                 stream.Dispose();
             }
-            stream = new ByteArrayStream(source);
+            stream = new MemoryBlock(source);
 
-            using (BinaryReader sr = new BinaryReader(stream, Encoding.Default, true))
+            using (BinaryReader sr = new BinaryReader(source, Encoding.Default, true))
             {
                 sr.BaseStream.Seek(HeaderSize, SeekOrigin.End);
                 numImages = sr.ReadInt32();
@@ -443,7 +443,7 @@ namespace OgrePlugin
                 this.imageEnd = imageEnd;
             }
 
-            public Stream openStream(ByteArrayStream sourceBytes)
+            public Stream openStream(MemoryBlock sourceBytes)
             {
                 return sourceBytes.getSubStream(imageStart, imageEnd);
             }

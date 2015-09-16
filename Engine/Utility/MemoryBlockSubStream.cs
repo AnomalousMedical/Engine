@@ -7,35 +7,22 @@ using System.Threading.Tasks;
 
 namespace Engine
 {
-    public class ByteArrayStream : Stream
+    /// <summary>
+    /// The stream for a memory block.
+    /// </summary>
+    class MemoryBlockSubStream : Stream
     {
         private byte[] bytes;
-        private long position = 0;
+        private long begin;
+        private long end;
+        private long position;
 
-        public ByteArrayStream(long length)
+        public MemoryBlockSubStream(byte[] bytes, long begin, long end)
         {
-            bytes = new byte[length];
-        }
-
-        public ByteArrayStream(Stream source)
-        {
-            bytes = new byte[source.Length];
-            int read;
-            long readAmount;
-            do
-            {
-                readAmount = 16384;
-                if (source.Position + readAmount > source.Length)
-                {
-                    readAmount = source.Length - source.Position;
-                }
-            }
-            while ((read = source.Read(bytes, (int)source.Position, (int)readAmount)) > 0);
-        }
-
-        public Stream getSubStream(long begin, long end)
-        {
-            return new ByteArraySubStream(bytes, begin, end);
+            this.bytes = bytes;
+            this.begin = begin;
+            this.end = end;
+            this.position = begin;
         }
 
         public override void Close()
@@ -72,7 +59,7 @@ namespace Engine
         {
             get
             {
-                return bytes.Length;
+                return end - begin;
             }
         }
 
@@ -80,18 +67,18 @@ namespace Engine
         {
             get
             {
-                return position;
+                return position - begin;
             }
 
             set
             {
-                position = value;
+                position = begin + value;
             }
         }
 
         public override void Flush()
         {
-            
+
         }
 
         public override int Read(byte[] buffer, int offset, int count)
@@ -104,9 +91,9 @@ namespace Engine
             long readAmount = count;
 
             long requestedBytesEnd = position + count;
-            if(requestedBytesEnd > bytes.Length)
+            if (requestedBytesEnd > end)
             {
-                readAmount = bytes.Length - position;
+                readAmount = end - position;
             }
 
             Buffer.BlockCopy(bytes, (int)position, buffer, offset, (int)readAmount);
@@ -118,16 +105,16 @@ namespace Engine
 
         public override long Seek(long offset, SeekOrigin origin)
         {
-            switch(origin)
+            switch (origin)
             {
                 case SeekOrigin.Begin:
-                    position = offset;
+                    position = this.begin + offset;
                     break;
                 case SeekOrigin.Current:
                     position += offset;
                     break;
                 case SeekOrigin.End:
-                    position = bytes.Length + offset;
+                    position = end + offset;
                     break;
             }
             return position;
