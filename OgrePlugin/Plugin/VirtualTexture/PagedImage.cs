@@ -29,7 +29,7 @@ namespace OgrePlugin
     /// </summary>
     public class PagedImage : IDisposable
     {
-        public const String FileExtension = ".pgpng";
+        public const String FileExtension = ".ptex";
 
         enum ImageType
         {
@@ -203,7 +203,6 @@ namespace OgrePlugin
                                     imageBox.Bottom = (uint)imageRect.Bottom;
 
                                     PixelBox.BulkPixelConversion(imageBox, pageBox);
-                                    Logging.Log.Debug("\nImage Box {0}, {1}, {2}, {3}\nPage Box  {4}, {5}, {6}, {7}", imageBox.Left, imageBox.Top, imageBox.getWidth(), imageBox.getHeight(), pageBox.Left, pageBox.Top, pageBox.getWidth(), pageBox.getHeight());
                                 }
 
                                 if (topSide)
@@ -387,6 +386,7 @@ namespace OgrePlugin
             ImageInfo imageInfo = pages[mipIndex.getIndex(x, y)];
             using (Stream imageStream = imageInfo.openStream(memoryBlock))
             {
+                //As of right now we are always png, but if you add more formats deal with that here
                 Image image = new Image();
                 image.load(imageStream, "png");
                 return image;
