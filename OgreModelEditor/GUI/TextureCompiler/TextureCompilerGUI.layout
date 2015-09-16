@@ -25,16 +25,16 @@
         <Widget type="TextBox" skin="TextBox" position="3 87 202 19">
             <Property key="Caption" value="Output Formats"/>
         </Widget>
-        <Widget type="Button" skin="CheckBox" position="4 110 287 19" name="DXT">
+        <Widget type="Button" skin="CheckBox" position="4 129 287 19" name="DXT">
             <Property key="Caption" value="DXT"/>
         </Widget>
-        <Widget type="Button" skin="CheckBox" position="4 129 287 19" name="BC5Normal">
+        <Widget type="Button" skin="CheckBox" position="4 148 287 19" name="BC5Normal">
             <Property key="Caption" value="BC5 Normals"/>
         </Widget>
-        <Widget type="Button" skin="CheckBox" position="4 148 287 19" name="ETC2">
+        <Widget type="Button" skin="CheckBox" position="4 168 287 19" name="ETC2">
             <Property key="Caption" value="ETC2"/>
         </Widget>
-        <Widget type="Button" skin="CheckBox" position="4 168 287 19" name="Uncompressed">
+        <Widget type="Button" skin="CheckBox" position="4 110 287 19" name="Uncompressed">
             <Property key="Caption" value="Uncompressed"/>
         </Widget>
     </Widget>

@@ -53,9 +53,6 @@ namespace OgreModelEditor
             etc2 = new CheckButton(window.findWidget("ETC2") as Button);
             uncompressed = new CheckButton(window.findWidget("Uncompressed") as Button);
 
-            dxt.Checked = true;
-            bc5.Checked = true;
-            etc2.Checked = true;
             uncompressed.Checked = true;
         }
 
