@@ -430,7 +430,7 @@ namespace Anomalous.TextureCompiler
                         {
                             using (var image = new PagedImage())
                             {
-                                image.fromBitmap(source, 128);
+                                image.fromBitmap(source, 128, 1);
                                 image.save(stream);
                             }
                         }
