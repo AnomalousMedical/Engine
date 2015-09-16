@@ -206,7 +206,7 @@ namespace OgrePlugin.VirtualTexture
                     }
                 }
             }
-            return cacheHandle.createTexturePageHandle(page, indirectionTexture, padding, padding2, textelsPerPage);
+            return cacheHandle.createTexturePageHandle(page, indirectionTexture, padding, padding2, textelsPerPage, textureUnit.MipOffset);
         }
 
         private Image doLoadImage(String extension, String file)

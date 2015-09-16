@@ -29,9 +29,19 @@ namespace OgrePlugin.VirtualTexture
             }
         }
 
-        public override TexturePageHandle createTexturePageHandle(VTexPage page, IndirectionTexture indirectionTexture, int padding, int padding2, int textelsPerPage)
+        public override TexturePageHandle createTexturePageHandle(VTexPage page, IndirectionTexture indirectionTexture, int padding, int padding2, int textelsPerPage, int mipOffset)
         {
-            PixelBox sourceBox = image.getPixelBox(0, 0);
+            PixelBox sourceBox;
+            int mipCount = image.NumMipmaps;
+            if (mipCount == 0) //We always have to take from the largest size
+            {
+                sourceBox = image.getPixelBox(0, 0);
+            }
+            else
+            {
+                sourceBox = image.getPixelBox(0, (uint)(page.mip - mipOffset));
+            }
+
             IntSize2 largestSupportedPageIndex = indirectionTexture.NumPages;
             largestSupportedPageIndex.Width >>= page.mip;
             largestSupportedPageIndex.Height >>= page.mip;

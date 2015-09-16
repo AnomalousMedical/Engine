@@ -50,7 +50,7 @@ namespace OgrePlugin.VirtualTexture
         /// <param name="padding2"></param>
         /// <param name="textelsPerPage"></param>
         /// <returns></returns>
-        public abstract TexturePageHandle createTexturePageHandle(VTexPage page, IndirectionTexture indirectionTexture, int padding, int padding2, int textelsPerPage);
+        public abstract TexturePageHandle createTexturePageHandle(VTexPage page, IndirectionTexture indirectionTexture, int padding, int padding2, int textelsPerPage, int mipOffset);
 
         /// <summary>
         /// The size of the image in bytes.

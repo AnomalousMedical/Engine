@@ -28,9 +28,9 @@ namespace OgrePlugin.VirtualTexture
             }
         }
 
-        public override TexturePageHandle createTexturePageHandle(VTexPage page, IndirectionTexture indirectionTexture, int padding, int padding2, int textelsPerPage)
+        public override TexturePageHandle createTexturePageHandle(VTexPage page, IndirectionTexture indirectionTexture, int padding, int padding2, int textelsPerPage, int mipOffset)
         {
-            var image = pagedImage.getImage(page.x, page.y, page.mip);
+            var image = pagedImage.getImage(page.x, page.y, page.mip - mipOffset);
             return new TexturePageHandle(image.createPixelBox(), this, image);
         }
     }
