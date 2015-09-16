@@ -359,6 +359,8 @@
     <Compile Include="Threads\CancelableBackgroundWorker.cs" />
     <Compile Include="Threads\CancelableBackgroundWorkTask.cs" />
     <Compile Include="Threads\ThreadManagerUpdate.cs" />
+    <Compile Include="Utility\ByteArrayStream.cs" />
+    <Compile Include="Utility\ByteArraySubStream.cs" />
     <Compile Include="Utility\CancelEventArgs.cs" />
     <Compile Include="Utility\EventDelegate.cs" />
     <Compile Include="Utility\FastIteratorMap.cs" />

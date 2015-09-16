@@ -164,13 +164,15 @@ namespace OgrePlugin.VirtualTexture
                 String file = textureUnit.TextureFileName;
                 if (texturesArePaged) //Paged Images
                 {
-                    PagedImage pagedImage = new PagedImage();
-                    using (Stream stream = VirtualFileSystem.Instance.openStream(file, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read))
+                    using (var perfMon = new LogPerformanceBlock(String.Format("Loaded image {0} in {{0}} ms", file), Logging.LogLevel.Info, "TextureCache"))
                     {
-                        pagedImage.load(stream);
-                        Logging.Log.Debug("Loaded image {0}", file);
+                        PagedImage pagedImage = new PagedImage();
+                        using (Stream stream = VirtualFileSystem.Instance.openStream(file, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read))
+                        {
+                            pagedImage.load(stream);
+                        }
+                        cacheHandle = this.Add(textureName, pagedImage);
                     }
-                    cacheHandle = this.Add(textureName, pagedImage);
                 }
                 else //Normal Images
                 {
@@ -211,23 +213,19 @@ namespace OgrePlugin.VirtualTexture
 
         private Image doLoadImage(String extension, String file)
         {
-            //Stopwatch sw = new Stopwatch();
-            //sw.Reset();
-            //sw.Start();
-            var image = new Image();
-            using (Stream stream = VirtualFileSystem.Instance.openStream(file, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read))
+            using (var perfMon = new LogPerformanceBlock(String.Format("Loaded image {0} in {{0}} ms", file), Logging.LogLevel.Info, "TextureCache"))
             {
-                if (extension.Length > 0)
+                var image = new Image();
+                using (Stream stream = VirtualFileSystem.Instance.openStream(file, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read))
                 {
-                    extension = extension.Substring(1);
+                    if (extension.Length > 0)
+                    {
+                        extension = extension.Substring(1);
+                    }
+                    image.load(stream, extension);
                 }
-                image.load(stream, extension);
+                return image;
             }
-
-            //sw.Stop();
-            //Logging.Log.Debug("Loaded image {0} in {1} ms", file, sw.ElapsedMilliseconds);
-            Logging.Log.Debug("Loaded image {0}", file);
-            return image;
         }
 
         public UInt64 CurrentCacheSize
