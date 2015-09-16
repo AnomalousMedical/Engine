@@ -42,9 +42,9 @@ namespace OgrePlugin
         private int imageYSize;
         private int pageSize;
         private int indexStart;
-        private const int HeaderSize = -sizeof(int) * 6;
+        private const int HeaderSize = sizeof(int) * 6;
 
-        private MemoryBlock stream;
+        private MemoryBlock memoryBlock;
         private List<ImageInfo> pages;
         private List<MipIndexInfo> mipIndices;
 
@@ -55,10 +55,10 @@ namespace OgrePlugin
 
         public void Dispose()
         {
-            if (stream != null)
+            if (memoryBlock != null)
             {
-                stream.Dispose();
-                stream = null;
+                memoryBlock.Dispose();
+                memoryBlock = null;
             }
         }
 
@@ -310,29 +310,31 @@ namespace OgrePlugin
         /// <param name="source"></param>
         public void load(Stream source)
         {
-            if (stream != null)
+            if (memoryBlock != null)
             {
-                stream.Dispose();
+                memoryBlock.Dispose();
             }
-            stream = new MemoryBlock(source);
+            memoryBlock = new MemoryBlock(source);
 
-            using (BinaryReader sr = new BinaryReader(source, Encoding.Default, true))
+            long headerBegin = memoryBlock.Length - HeaderSize;
+            using (BinaryReader sr = new BinaryReader(memoryBlock.getSubStream(headerBegin, memoryBlock.Length)))
             {
-                sr.BaseStream.Seek(HeaderSize, SeekOrigin.End);
                 numImages = sr.ReadInt32();
                 imageType = sr.ReadInt32();
                 imageXSize = sr.ReadInt32();
                 imageYSize = sr.ReadInt32();
                 pageSize = sr.ReadInt32();
                 indexStart = sr.ReadInt32();
+            }
 
+            using (BinaryReader sr = new BinaryReader(memoryBlock.getSubStream(indexStart, headerBegin)))
+            { 
                 pages = new List<ImageInfo>(numImages);
                 mipIndices = new List<MipIndexInfo>();
 
                 int pageStride = imageXSize / pageSize;
                 int pagesForLevel = pageStride * pageStride;
 
-                sr.BaseStream.Seek(indexStart, SeekOrigin.Begin);
                 int mipPage = 0;
                 mipIndices.Add(new MipIndexInfo(0, pageStride));
                 for (int i = 0; i < numImages; ++i)
@@ -357,15 +359,15 @@ namespace OgrePlugin
         /// <param name="source"></param>
         public void loadInfoOnly(Stream source)
         {
-            if (stream != null)
+            if (memoryBlock != null)
             {
-                stream.Dispose();
+                memoryBlock.Dispose();
             }
-            stream = null;
+            memoryBlock = null;
 
             using (BinaryReader sr = new BinaryReader(source, Encoding.Default, true))
             {
-                sr.BaseStream.Seek(HeaderSize, SeekOrigin.End);
+                sr.BaseStream.Seek(-HeaderSize, SeekOrigin.End);
                 numImages = sr.ReadInt32();
                 imageType = sr.ReadInt32();
                 imageXSize = sr.ReadInt32();
@@ -383,7 +385,7 @@ namespace OgrePlugin
         {
             MipIndexInfo mipIndex = mipIndices[mip];
             ImageInfo imageInfo = pages[mipIndex.getIndex(x, y)];
-            using (Stream imageStream = imageInfo.openStream(stream))
+            using (Stream imageStream = imageInfo.openStream(memoryBlock))
             {
                 Image image = new Image();
                 image.load(imageStream, "png");
@@ -395,7 +397,7 @@ namespace OgrePlugin
         {
             get
             {
-                return (ulong)stream.Length;
+                return (ulong)memoryBlock.Length;
             }
         }
 
