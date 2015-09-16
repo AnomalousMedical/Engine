@@ -20,8 +20,8 @@ namespace Anomalous.TextureCompiler
             {
                 String sourceDirectory = args[0];
                 String destDirectory = args[1];
-                OutputFormats outFormats = OutputFormats.All;
-                if(args.Length >= 2)
+                OutputFormats outFormats = OutputFormats.Uncompressed;
+                if(args.Length > 2)
                 {
                     Enum.TryParse(args[2], out outFormats);
                 }
