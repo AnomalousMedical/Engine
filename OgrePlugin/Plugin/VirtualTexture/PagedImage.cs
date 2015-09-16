@@ -80,9 +80,8 @@ namespace OgrePlugin
             }
 
             //Kind of weird, ogre and freeimage are backwards from one another in terms of scanline 0 being the top or bottom
-            //This easily fixes the math below by just flipping the image first. Note that images are stored in the texture
-            //upside down as a result of this, however, the engine uses freeimage to load these images, so this avoids an
-            //internal flip ogre does anyway
+            //This easily fixes the math below by just flipping the image first. Note that pages must be flipped back over because
+            //of this when they are saved.
             image.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
             this.numImages = 0;
