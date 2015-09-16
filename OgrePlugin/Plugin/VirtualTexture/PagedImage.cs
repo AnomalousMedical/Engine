@@ -317,17 +317,17 @@ namespace OgrePlugin
             memoryBlock = new MemoryBlock(source);
 
             long headerBegin = memoryBlock.Length - HeaderSize;
-            using (BinaryReader sr = new BinaryReader(memoryBlock.getSubStream(headerBegin, memoryBlock.Length)))
+            using (BinaryReader headerReader = new BinaryReader(memoryBlock.getSubStream(headerBegin, memoryBlock.Length)))
             {
-                numImages = sr.ReadInt32();
-                imageType = sr.ReadInt32();
-                imageXSize = sr.ReadInt32();
-                imageYSize = sr.ReadInt32();
-                pageSize = sr.ReadInt32();
-                indexStart = sr.ReadInt32();
+                numImages = headerReader.ReadInt32();
+                imageType = headerReader.ReadInt32();
+                imageXSize = headerReader.ReadInt32();
+                imageYSize = headerReader.ReadInt32();
+                pageSize = headerReader.ReadInt32();
+                indexStart = headerReader.ReadInt32();
             }
 
-            using (BinaryReader sr = new BinaryReader(memoryBlock.getSubStream(indexStart, headerBegin)))
+            using (BinaryReader pageIndexReader = new BinaryReader(memoryBlock.getSubStream(indexStart, headerBegin)))
             { 
                 pages = new List<ImageInfo>(numImages);
                 mipIndices = new List<MipIndexInfo>();
@@ -346,7 +346,7 @@ namespace OgrePlugin
                         mipPage = 0;
                         mipIndices.Add(new MipIndexInfo(i, pageStride));
                     }
-                    pages.Add(new ImageInfo(sr.ReadInt32(), sr.ReadInt32()));
+                    pages.Add(new ImageInfo(pageIndexReader.ReadInt32(), pageIndexReader.ReadInt32()));
                     ++mipPage;
                 }
             }
