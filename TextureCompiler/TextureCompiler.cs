@@ -123,14 +123,14 @@ namespace Anomalous.TextureCompiler
                     Log.Info("Compressing normal map {0}", description.NormalMapName);
                     compressNormalMap(normalSrc, normalDest);
                 }
-                if(CreateCompositeNormal && (compressNormal || compressGlossLevel || compressOpacity)) //Composite normal maps allow us to skip the 4th texture all together and use the remaining b and alpha channels of this texture for our additional data
+                if (CreateCompositeNormal && (compressNormal || compressGlossLevel || compressOpacity)) //Composite normal maps allow us to skip the 4th texture all together and use the remaining b and alpha channels of this texture for our additional data
                 {
                     Log.Info("Compressing composite normal map {0}", description.NormalMapName);
-                    if(description.HasOpacityMap && description.HasGlossMap)
+                    if (description.HasOpacityMap && description.HasGlossMap)
                     {
                         addMapToBlueAndAlphaAndCompress(normalSrc, opacitySrc, Channel.Red, glossLevelSrc, Channel.Red, normalTmp, normalDest, compressCompositeNormalMap);
                     }
-                    else if(description.HasOpacityMap)
+                    else if (description.HasOpacityMap)
                     {
                         addMapToBlueAndCompress(normalSrc, opacitySrc, Channel.Red, normalTmp, normalDest, compressCompositeNormalMap);
                     }
@@ -192,7 +192,7 @@ namespace Anomalous.TextureCompiler
                     }
                 }
             }
-            if(saveOpacity)
+            if (saveOpacity)
             {
                 String opacityDest = getDestBasePath(description.OpacityMapName);
                 String opacityTmp = getTempPath(description.OpacityMapName);
@@ -289,7 +289,7 @@ namespace Anomalous.TextureCompiler
 
         private bool shouldSave(bool hasMap, String mapName)
         {
-            if(hasMap && !compiledTextures.Contains(mapName))
+            if (hasMap && !compiledTextures.Contains(mapName))
             {
                 compiledTextures.Add(mapName);
                 return true;
@@ -308,7 +308,7 @@ namespace Anomalous.TextureCompiler
 
         private void deleteFile(String path)
         {
-            if(File.Exists(path))
+            if (File.Exists(path))
             {
                 File.Delete(path);
             }
@@ -321,7 +321,7 @@ namespace Anomalous.TextureCompiler
 
         private FreeImageBitmap createImageFromChannels(FreeImageBitmap alphaSrc, Channel alphaSrcChannel, FreeImageBitmap redSrc, Channel redSrcChannel, FreeImageBitmap greenSrc, Channel greenSrcChannel, FreeImageBitmap blueSrc, Channel blueSrcChannel)
         {
-            if(alphaSrc.Width != redSrc.Width || redSrc.Width != greenSrc.Width || greenSrc.Width != blueSrc.Width)
+            if (alphaSrc.Width != redSrc.Width || redSrc.Width != greenSrc.Width || greenSrc.Width != blueSrc.Width)
             {
                 //Do an error
             }
@@ -334,7 +334,7 @@ namespace Anomalous.TextureCompiler
 
             for (int x = 0; x < width; ++x)
             {
-                for(int y = 0; y < height; ++y)
+                for (int y = 0; y < height; ++y)
                 {
                     c.A = getColor(x, y, alphaSrc, alphaSrcChannel);
                     c.R = getColor(x, y, redSrc, redSrcChannel);
@@ -403,7 +403,7 @@ namespace Anomalous.TextureCompiler
         private byte getColor(int x, int y, FreeImageBitmap src, Channel channel)
         {
             Color c = src.GetPixel(x, y);
-            switch(channel)
+            switch (channel)
             {
                 case Channel.Alpha:
                     return c.A;
@@ -428,11 +428,7 @@ namespace Anomalous.TextureCompiler
                     {
                         using (var stream = File.Open(String.Format(PagedTextureNameFormat, destFile), FileMode.Create, FileAccess.ReadWrite))
                         {
-                            using (var image = new PagedImage())
-                            {
-                                image.fromBitmap(source, 128, 1);
-                                image.save(stream);
-                            }
+                            PagedImage.fromBitmap(source, 128, 1, stream);
                         }
                     }
                 }
@@ -616,7 +612,7 @@ namespace Anomalous.TextureCompiler
         {
             ++compressedCount;
             Task.WaitAll(
-                bc3Compress(source, dest), 
+                bc3Compress(source, dest),
                 etc2Compress(source, dest)
                 );
             //The data that goes in opacity maps for uncompressed textures goes in the normal map instead
@@ -661,7 +657,7 @@ namespace Anomalous.TextureCompiler
 
         private bool imageNeedsCompression(String source)
         {
-            if(File.Exists(source))
+            if (File.Exists(source))
             {
                 return compiledTextureInfo.isChanged(Path.GetFileName(source), source);
             }

@@ -70,231 +70,237 @@ namespace OgrePlugin
         /// </summary>
         /// <param name="image">The image to extract pages from.</param>
         /// <param name="pageSize">The size of the pages to extract.</param>
-        public void fromBitmap(FreeImageBitmap image, int pageSize, int padding)
+        public static void fromBitmap(FreeImageBitmap image, int pageSize, int padding, Stream stream)
         {
+            PagedImage pagedImage = new PagedImage();
             int padding2x = padding * 2;
-
-            if (stream != null)
-            {
-                stream.Dispose();
-            }
 
             //Kind of weird, ogre and freeimage are backwards from one another in terms of scanline 0 being the top or bottom
             //This easily fixes the math below by just flipping the image first. Note that pages must be flipped back over because
             //of this when they are saved.
             image.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
-            this.numImages = 0;
-            this.imageType = (int)ImageType.PNG;
-            this.imageXSize = image.Width;
-            this.imageYSize = image.Height;
-            this.pageSize = pageSize;
-            if (imageXSize != imageYSize)
+            pagedImage.numImages = 0;
+            pagedImage.imageType = (int)ImageType.PNG;
+            pagedImage.imageXSize = image.Width;
+            pagedImage.imageYSize = image.Height;
+            pagedImage.pageSize = pageSize;
+            if (pagedImage.imageXSize != pagedImage.imageYSize)
             {
                 throw new InvalidDataException("Image must be a square");
             }
 
             int mipLevelCount = 0;
             int numPages = 0;
-            for (int i = imageXSize; i >= pageSize; i >>= 1)
+            for (int i = pagedImage.imageXSize; i >= pageSize; i >>= 1)
             {
                 ++mipLevelCount;
                 int pagesForMip = i / pageSize;
                 numPages += pagesForMip * pagesForMip;
             }
-            using (MemoryStream stream = new MemoryStream(image.DataSize))//Probably way too much, but decent capactiy guess
+            pagedImage.pages = new List<ImageInfo>(numPages);
+            pagedImage.mipIndices = new List<MipIndexInfo>(mipLevelCount);
+
+            bool topSide, leftSide, rightSide, bottomSide;
+            IntRect imageRect = new IntRect();
+
+            using (FreeImageBitmap page = new FreeImageBitmap(pageSize + padding2x, pageSize + padding2x, FreeImageAPI.PixelFormat.Format32bppArgb))
             {
-                pages = new List<ImageInfo>(numPages);
-                mipIndices = new List<MipIndexInfo>(mipLevelCount);
-
-                bool topSide, leftSide, rightSide, bottomSide;
-                IntRect imageRect = new IntRect();
-
-                using (FreeImageBitmap page = new FreeImageBitmap(pageSize + padding2x, pageSize + padding2x, FreeImageAPI.PixelFormat.Format32bppArgb))
+                for (int mip = 0; mip < mipLevelCount; ++mip)
                 {
-                    for (int mip = 0; mip < mipLevelCount; ++mip)
+                    //Setup mip level
+                    if (mip != 0)
                     {
-                        //Setup mip level
-                        if (mip != 0)
-                        {
-                            image.Rescale(image.Width >> 1, image.Height >> 1, FREE_IMAGE_FILTER.FILTER_BILINEAR);
-                        }
-                        int size = image.Width / pageSize;
-                        mipIndices.Add(new MipIndexInfo(numImages, size));
+                        image.Rescale(image.Width >> 1, image.Height >> 1, FREE_IMAGE_FILTER.FILTER_BILINEAR);
+                    }
+                    int size = image.Width / pageSize;
+                    pagedImage.mipIndices.Add(new MipIndexInfo(pagedImage.numImages, size));
 
-                        //Calculate pages, note that there is overlap by padding between them this is intentional
-                        for (int y = 0; y < size; ++y)
+                    //Calculate pages, note that there is overlap by padding between them this is intentional
+                    for (int y = 0; y < size; ++y)
+                    {
+                        imageRect.Height = page.Height;
+                        imageRect.Top = y * pageSize - padding;
+                        topSide = imageRect.Top < 0;
+                        if (topSide)
                         {
-                            imageRect.Height = page.Height;
-                            imageRect.Top = y * pageSize - padding;
-                            topSide = imageRect.Top < 0;
+                            imageRect.Top = 0;
+                            imageRect.Height -= padding;
+                        }
+
+                        bottomSide = imageRect.Bottom > image.Height;
+                        if (bottomSide)
+                        {
                             if (topSide)
                             {
+                                //Take entire image
                                 imageRect.Top = 0;
+                                imageRect.Height = image.Height;
+                            }
+                            else
+                            {
+                                //Extra row on top, bottom flush with texture bottom will add extra pixel row on bottom will add extra pixel row on bottom below
+                                imageRect.Top = image.Height - pageSize - padding;
                                 imageRect.Height -= padding;
                             }
+                        }
 
-                            bottomSide = imageRect.Bottom > image.Height;
-                            if (bottomSide)
+                        for (int x = 0; x < size; ++x)
+                        {
+                            imageRect.Width = page.Width;
+                            imageRect.Left = x * pageSize - padding;
+                            leftSide = imageRect.Left < 0;
+                            if (leftSide)
                             {
-                                if (topSide)
+                                imageRect.Left = 0;
+                                imageRect.Width -= padding;
+                            }
+
+                            rightSide = imageRect.Right > image.Width;
+                            if (rightSide)
+                            {
+                                if (leftSide)
                                 {
                                     //Take entire image
-                                    imageRect.Top = 0;
-                                    imageRect.Height = image.Height;
+                                    imageRect.Left = 0;
+                                    imageRect.Width = image.Width;
                                 }
                                 else
                                 {
-                                    //Extra row on top, bottom flush with texture bottom will add extra pixel row on bottom will add extra pixel row on bottom below
-                                    imageRect.Top = image.Height - pageSize - padding;
-                                    imageRect.Height -= padding;
-                                }
-                            }
-
-                            for (int x = 0; x < size; ++x)
-                            {
-                                imageRect.Width = page.Width;
-                                imageRect.Left = x * pageSize - padding;
-                                leftSide = imageRect.Left < 0;
-                                if (leftSide)
-                                {
-                                    imageRect.Left = 0;
+                                    //Extra row on left, right flush with texture right will add extra pixel row on right below
+                                    imageRect.Left = image.Width - pageSize - padding;
                                     imageRect.Width -= padding;
                                 }
+                            }
 
-                                rightSide = imageRect.Right > image.Width;
+                            using (var pageBox = page.createPixelBox(PixelFormat.PF_A8R8G8B8))
+                            {
+                                if (topSide)
+                                {
+                                    pageBox.Top += (uint)padding;
+                                }
+
+                                if (bottomSide)
+                                {
+                                    pageBox.Bottom -= (uint)padding;
+                                }
+
+                                if (leftSide)
+                                {
+                                    pageBox.Left += (uint)padding;
+                                }
+
                                 if (rightSide)
                                 {
-                                    if (leftSide)
-                                    {
-                                        //Take entire image
-                                        imageRect.Left = 0;
-                                        imageRect.Width = image.Width;
-                                    }
-                                    else
-                                    {
-                                        //Extra row on left, right flush with texture right will add extra pixel row on right below
-                                        imageRect.Left = image.Width - pageSize - padding;
-                                        imageRect.Width -= padding;
-                                    }
+                                    pageBox.Right -= (uint)padding;
                                 }
 
-                                using (var pageBox = page.createPixelBox(PixelFormat.PF_A8R8G8B8))
+                                using (var imageBox = image.createPixelBox())
                                 {
-                                    if (topSide)
+                                    imageBox.Left = (uint)imageRect.Left;
+                                    imageBox.Right = (uint)imageRect.Right;
+                                    imageBox.Top = (uint)imageRect.Top;
+                                    imageBox.Bottom = (uint)imageRect.Bottom;
+
+                                    PixelBox.BulkPixelConversion(imageBox, pageBox);
+                                    Logging.Log.Debug("\nImage Box {0}, {1}, {2}, {3}\nPage Box  {4}, {5}, {6}, {7}", imageBox.Left, imageBox.Top, imageBox.getWidth(), imageBox.getHeight(), pageBox.Left, pageBox.Top, pageBox.getWidth(), pageBox.getHeight());
+                                }
+
+                                if (topSide)
+                                {
+                                    using (PixelBox altSrcBox = image.createPixelBox())
                                     {
-                                        pageBox.Top += (uint)padding;
-                                    }
+                                        pageBox.Top = 0;
+                                        pageBox.Bottom = (uint)padding;
+                                        pageBox.Left = (uint)padding;
+                                        pageBox.Right = (uint)(page.Width - padding);
 
-                                    if (bottomSide)
-                                    {
-                                        pageBox.Bottom -= (uint)padding;
-                                    }
+                                        altSrcBox.Top = (uint)imageRect.Top;
+                                        altSrcBox.Bottom = (uint)(imageRect.Top + padding);
+                                        altSrcBox.Left = (uint)imageRect.Left;
+                                        altSrcBox.Right = (uint)(imageRect.Left + pageSize);
 
-                                    if (leftSide)
-                                    {
-                                        pageBox.Left += (uint)padding;
-                                    }
-
-                                    if (rightSide)
-                                    {
-                                        pageBox.Right -= (uint)padding;
-                                    }
-
-                                    using (var imageBox = image.createPixelBox())
-                                    {
-                                        imageBox.Left = (uint)imageRect.Left;
-                                        imageBox.Right = (uint)imageRect.Right;
-                                        imageBox.Top = (uint)imageRect.Top;
-                                        imageBox.Bottom = (uint)imageRect.Bottom;
-
-                                        PixelBox.BulkPixelConversion(imageBox, pageBox);
-                                        Logging.Log.Debug("\nImage Box {0}, {1}, {2}, {3}\nPage Box  {4}, {5}, {6}, {7}", imageBox.Left, imageBox.Top, imageBox.getWidth(), imageBox.getHeight(), pageBox.Left, pageBox.Top, pageBox.getWidth(), pageBox.getHeight());
-                                    }
-
-                                    if (topSide)
-                                    {
-                                        using (PixelBox altSrcBox = image.createPixelBox())
-                                        {
-                                            pageBox.Top = 0;
-                                            pageBox.Bottom = (uint)padding;
-                                            pageBox.Left = (uint)padding;
-                                            pageBox.Right = (uint)(page.Width - padding);
-
-                                            altSrcBox.Top = (uint)imageRect.Top;
-                                            altSrcBox.Bottom = (uint)(imageRect.Top + padding);
-                                            altSrcBox.Left = (uint)imageRect.Left;
-                                            altSrcBox.Right = (uint)(imageRect.Left + pageSize);
-
-                                            PixelBox.BulkPixelConversion(altSrcBox, pageBox);
-                                        }
-                                    }
-
-                                    if (bottomSide)
-                                    {
-                                        using (PixelBox altSrcBox = image.createPixelBox())
-                                        {
-                                            pageBox.Top = (uint)(page.Height - padding);
-                                            pageBox.Bottom = (uint)page.Height;
-                                            pageBox.Left = (uint)padding;
-                                            pageBox.Right = (uint)(page.Width - padding);
-
-                                            altSrcBox.Top = (uint)(imageRect.Bottom - padding);
-                                            altSrcBox.Bottom = (uint)imageRect.Bottom;
-                                            altSrcBox.Left = (uint)imageRect.Left;
-                                            altSrcBox.Right = (uint)(imageRect.Left + pageSize);
-
-                                            PixelBox.BulkPixelConversion(altSrcBox, pageBox);
-                                        }
-                                    }
-
-                                    if (leftSide)
-                                    {
-                                        using (PixelBox altSrcBox = image.createPixelBox())
-                                        {
-                                            pageBox.Top = 1;
-                                            pageBox.Bottom = (uint)(page.Height - padding);
-                                            pageBox.Left = 0;
-                                            pageBox.Right = (uint)padding;
-
-                                            altSrcBox.Top = (uint)imageRect.Top;
-                                            altSrcBox.Bottom = (uint)(imageRect.Top + pageSize);
-                                            altSrcBox.Left = (uint)imageRect.Left;
-                                            altSrcBox.Right = (uint)(imageRect.Left + padding);
-
-                                            PixelBox.BulkPixelConversion(altSrcBox, pageBox);
-                                        }
-                                    }
-
-                                    if (rightSide)
-                                    {
-                                        using (PixelBox altSrcBox = image.createPixelBox())
-                                        {
-                                            pageBox.Top = 1;
-                                            pageBox.Bottom = (uint)(page.Height - padding);
-                                            pageBox.Left = (uint)(page.Width - padding);
-                                            pageBox.Right = (uint)page.Width;
-
-                                            altSrcBox.Top = (uint)imageRect.Top;
-                                            altSrcBox.Bottom = (uint)(imageRect.Top + pageSize);
-                                            altSrcBox.Left = (uint)(imageRect.Right - padding);
-                                            altSrcBox.Right = (uint)imageRect.Right;
-
-                                            PixelBox.BulkPixelConversion(altSrcBox, pageBox);
-                                        }
+                                        PixelBox.BulkPixelConversion(altSrcBox, pageBox);
                                     }
                                 }
-                                int startPos = (int)stream.Position;
-                                page.RotateFlip(RotateFlipType.RotateNoneFlipY); //Have to flip the page over for ogre to be happy
-                                page.Save(stream, FREE_IMAGE_FORMAT.FIF_PNG);
-                                ++numImages;
-                                pages.Add(new ImageInfo(startPos, (int)(stream.Position - startPos)));
+
+                                if (bottomSide)
+                                {
+                                    using (PixelBox altSrcBox = image.createPixelBox())
+                                    {
+                                        pageBox.Top = (uint)(page.Height - padding);
+                                        pageBox.Bottom = (uint)page.Height;
+                                        pageBox.Left = (uint)padding;
+                                        pageBox.Right = (uint)(page.Width - padding);
+
+                                        altSrcBox.Top = (uint)(imageRect.Bottom - padding);
+                                        altSrcBox.Bottom = (uint)imageRect.Bottom;
+                                        altSrcBox.Left = (uint)imageRect.Left;
+                                        altSrcBox.Right = (uint)(imageRect.Left + pageSize);
+
+                                        PixelBox.BulkPixelConversion(altSrcBox, pageBox);
+                                    }
+                                }
+
+                                if (leftSide)
+                                {
+                                    using (PixelBox altSrcBox = image.createPixelBox())
+                                    {
+                                        pageBox.Top = 1;
+                                        pageBox.Bottom = (uint)(page.Height - padding);
+                                        pageBox.Left = 0;
+                                        pageBox.Right = (uint)padding;
+
+                                        altSrcBox.Top = (uint)imageRect.Top;
+                                        altSrcBox.Bottom = (uint)(imageRect.Top + pageSize);
+                                        altSrcBox.Left = (uint)imageRect.Left;
+                                        altSrcBox.Right = (uint)(imageRect.Left + padding);
+
+                                        PixelBox.BulkPixelConversion(altSrcBox, pageBox);
+                                    }
+                                }
+
+                                if (rightSide)
+                                {
+                                    using (PixelBox altSrcBox = image.createPixelBox())
+                                    {
+                                        pageBox.Top = 1;
+                                        pageBox.Bottom = (uint)(page.Height - padding);
+                                        pageBox.Left = (uint)(page.Width - padding);
+                                        pageBox.Right = (uint)page.Width;
+
+                                        altSrcBox.Top = (uint)imageRect.Top;
+                                        altSrcBox.Bottom = (uint)(imageRect.Top + pageSize);
+                                        altSrcBox.Left = (uint)(imageRect.Right - padding);
+                                        altSrcBox.Right = (uint)imageRect.Right;
+
+                                        PixelBox.BulkPixelConversion(altSrcBox, pageBox);
+                                    }
+                                }
                             }
+                            int startPos = (int)stream.Position;
+                            page.RotateFlip(RotateFlipType.RotateNoneFlipY); //Have to flip the page over for ogre to be happy
+                            page.Save(stream, FREE_IMAGE_FORMAT.FIF_PNG);
+                            ++pagedImage.numImages;
+                            pagedImage.pages.Add(new ImageInfo(startPos, (int)(stream.Position)));
                         }
                     }
                 }
-                indexStart = (int)stream.Position;
-                this.stream = new ByteArrayStream(stream);
+            }
+            pagedImage.indexStart = (int)stream.Position;
+
+            using (BinaryWriter sw = new BinaryWriter(stream, Encoding.Default, true))
+            {
+                foreach (var imageInfo in pagedImage.pages)
+                {
+                    imageInfo.write(sw);
+                }
+                sw.Write(pagedImage.numImages);
+                sw.Write(pagedImage.imageType);
+                sw.Write(pagedImage.imageXSize);
+                sw.Write(pagedImage.imageYSize);
+                sw.Write(pagedImage.pageSize);
+                sw.Write(pagedImage.indexStart);
             }
         }
 
@@ -369,25 +375,6 @@ namespace OgrePlugin
             }
         }
 
-        public void save(Stream outputStream)
-        {
-            stream.Seek(0, SeekOrigin.Begin);
-            stream.CopyTo(outputStream);
-            using (BinaryWriter sw = new BinaryWriter(outputStream, Encoding.Default, true))
-            {
-                foreach (var imageInfo in pages)
-                {
-                    imageInfo.write(sw);
-                }
-                sw.Write(numImages);
-                sw.Write(imageType);
-                sw.Write(imageXSize);
-                sw.Write(imageYSize);
-                sw.Write(pageSize);
-                sw.Write(indexStart);
-            }
-        }
-
         /// <summary>
         /// Get a FreeImageBitmap for the page specified by x, y, mip, you must dispose the returned image.
         /// </summary>
@@ -448,23 +435,23 @@ namespace OgrePlugin
         class ImageInfo
         {
             private int imageStart;
-            private int imageLength;
+            private int imageEnd;
 
-            public ImageInfo(int imageStart, int imageLength)
+            public ImageInfo(int imageStart, int imageEnd)
             {
                 this.imageStart = imageStart;
-                this.imageLength = imageLength;
+                this.imageEnd = imageEnd;
             }
 
             public Stream openStream(ByteArrayStream sourceBytes)
             {
-                return sourceBytes.getSubStream(imageStart, imageStart + imageLength);
+                return sourceBytes.getSubStream(imageStart, imageEnd);
             }
 
             public void write(BinaryWriter sw)
             {
                 sw.Write(imageStart);
-                sw.Write(imageLength);
+                sw.Write(imageEnd);
             }
         }
     }

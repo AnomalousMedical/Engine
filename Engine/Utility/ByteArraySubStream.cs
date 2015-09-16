@@ -48,7 +48,7 @@ namespace Engine
         {
             get
             {
-                return true;
+                return false;
             }
         }
 
@@ -124,22 +124,7 @@ namespace Engine
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-            if (offset + count > buffer.Length)
-            {
-                throw new ArgumentException("The sum of offset and count is greater than the buffer length.");
-            }
-
-            long writeAmount = count;
-
-            long requestedBytesEnd = position + count;
-            if (requestedBytesEnd > end)
-            {
-                writeAmount = end - position;
-            }
-
-            Buffer.BlockCopy(buffer, offset, bytes, (int)position, (int)writeAmount);
-
-            position += writeAmount;
+            throw new NotSupportedException();
         }
     }
 }
