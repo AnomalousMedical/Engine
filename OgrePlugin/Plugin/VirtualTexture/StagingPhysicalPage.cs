@@ -46,7 +46,7 @@ namespace OgrePlugin.VirtualTexture
                     partialPixels.Rect = new IntRect(0, padding, padding, sourceRect.Height);
                     sourceBox.Rect = new IntRect(sourceRect.Left, sourceRect.Top, padding, sourceRect.Height);
                     PixelBox.BulkPixelConversion(sourceBox, partialPixels);
-                    
+
                     ////Top
                     partialPixels.Rect = new IntRect(padding, 0, sourceRect.Width, padding);
                     sourceBox.Rect = new IntRect(sourceRect.Left, sourceRect.Top, sourceRect.Width, padding);

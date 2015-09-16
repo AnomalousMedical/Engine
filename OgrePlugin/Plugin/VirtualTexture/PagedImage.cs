@@ -80,7 +80,9 @@ namespace OgrePlugin
             }
 
             //Kind of weird, ogre and freeimage are backwards from one another in terms of scanline 0 being the top or bottom
-            //This easily fixes the math below by just flipping the image first.
+            //This easily fixes the math below by just flipping the image first. Note that images are stored in the texture
+            //upside down as a result of this, however, the engine uses freeimage to load these images, so this avoids an
+            //internal flip ogre does anyway
             image.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
             this.numImages = 0;
@@ -210,79 +212,80 @@ namespace OgrePlugin
                                     Logging.Log.Debug("\nImage Box {0}, {1}, {2}, {3}\nPage Box  {4}, {5}, {6}, {7}", imageBox.Left, imageBox.Top, imageBox.getWidth(), imageBox.getHeight(), pageBox.Left, pageBox.Top, pageBox.getWidth(), pageBox.getHeight());
                                 }
 
-                                //if (topSide)
-                                //{
-                                //    using (PixelBox altSrcBox = image.createPixelBox())
-                                //    {
-                                //        pageBox.Top = 0;
-                                //        pageBox.Bottom = (uint)padding;
-                                //        pageBox.Left = (uint)padding;
-                                //        pageBox.Right = (uint)(page.Width - padding);
+                                if (topSide)
+                                {
+                                    using (PixelBox altSrcBox = image.createPixelBox())
+                                    {
+                                        pageBox.Top = 0;
+                                        pageBox.Bottom = (uint)padding;
+                                        pageBox.Left = (uint)padding;
+                                        pageBox.Right = (uint)(page.Width - padding);
 
-                                //        altSrcBox.Top = (uint)imageRect.Top;
-                                //        altSrcBox.Bottom = (uint)(imageRect.Top + padding);
-                                //        altSrcBox.Left = (uint)imageRect.Left;
-                                //        altSrcBox.Right = (uint)imageRect.Right;
+                                        altSrcBox.Top = (uint)imageRect.Top;
+                                        altSrcBox.Bottom = (uint)(imageRect.Top + padding);
+                                        altSrcBox.Left = (uint)imageRect.Left;
+                                        altSrcBox.Right = (uint)(imageRect.Left + pageSize);
 
-                                //        PixelBox.BulkPixelConversion(altSrcBox, pageBox);
-                                //    }
-                                //}
+                                        PixelBox.BulkPixelConversion(altSrcBox, pageBox);
+                                    }
+                                }
 
-                                //if (bottomSide)
-                                //{
-                                //    using (PixelBox altSrcBox = image.createPixelBox())
-                                //    {
-                                //        pageBox.Top = (uint)(page.Height - padding);
-                                //        pageBox.Bottom = (uint)page.Height;
-                                //        pageBox.Left = (uint)padding;
-                                //        pageBox.Right = (uint)(page.Width - padding);
+                                if (bottomSide)
+                                {
+                                    using (PixelBox altSrcBox = image.createPixelBox())
+                                    {
+                                        pageBox.Top = (uint)(page.Height - padding);
+                                        pageBox.Bottom = (uint)page.Height;
+                                        pageBox.Left = (uint)padding;
+                                        pageBox.Right = (uint)(page.Width - padding);
 
-                                //        altSrcBox.Top = (uint)(imageRect.Bottom - padding);
-                                //        altSrcBox.Bottom = (uint)imageRect.Bottom;
-                                //        altSrcBox.Left = (uint)imageRect.Left;
-                                //        altSrcBox.Right = (uint)imageRect.Right;
+                                        altSrcBox.Top = (uint)(imageRect.Bottom - padding);
+                                        altSrcBox.Bottom = (uint)imageRect.Bottom;
+                                        altSrcBox.Left = (uint)imageRect.Left;
+                                        altSrcBox.Right = (uint)(imageRect.Left + pageSize);
 
-                                //        PixelBox.BulkPixelConversion(altSrcBox, pageBox);
-                                //    }
-                                //}
+                                        PixelBox.BulkPixelConversion(altSrcBox, pageBox);
+                                    }
+                                }
 
-                                //if (leftSide)
-                                //{
-                                //    using (PixelBox altSrcBox = image.createPixelBox())
-                                //    {
-                                //        pageBox.Top = 1;
-                                //        pageBox.Bottom = (uint)(page.Height - padding);
-                                //        pageBox.Left = 0;
-                                //        pageBox.Right = (uint)padding;
+                                if (leftSide)
+                                {
+                                    using (PixelBox altSrcBox = image.createPixelBox())
+                                    {
+                                        pageBox.Top = 1;
+                                        pageBox.Bottom = (uint)(page.Height - padding);
+                                        pageBox.Left = 0;
+                                        pageBox.Right = (uint)padding;
 
-                                //        altSrcBox.Top = (uint)imageRect.Top;
-                                //        altSrcBox.Bottom = (uint)imageRect.Bottom;
-                                //        altSrcBox.Left = (uint)imageRect.Left;
-                                //        altSrcBox.Right = (uint)(imageRect.Left + padding);
+                                        altSrcBox.Top = (uint)imageRect.Top;
+                                        altSrcBox.Bottom = (uint)(imageRect.Top + pageSize);
+                                        altSrcBox.Left = (uint)imageRect.Left;
+                                        altSrcBox.Right = (uint)(imageRect.Left + padding);
 
-                                //        PixelBox.BulkPixelConversion(altSrcBox, pageBox);
-                                //    }
-                                //}
+                                        PixelBox.BulkPixelConversion(altSrcBox, pageBox);
+                                    }
+                                }
 
-                                //if (rightSide)
-                                //{
-                                //    using (PixelBox altSrcBox = image.createPixelBox())
-                                //    {
-                                //        pageBox.Top = 1;
-                                //        pageBox.Bottom = (uint)(page.Height - padding);
-                                //        pageBox.Left = (uint)(page.Width - padding);
-                                //        pageBox.Right = (uint)page.Width;
+                                if (rightSide)
+                                {
+                                    using (PixelBox altSrcBox = image.createPixelBox())
+                                    {
+                                        pageBox.Top = 1;
+                                        pageBox.Bottom = (uint)(page.Height - padding);
+                                        pageBox.Left = (uint)(page.Width - padding);
+                                        pageBox.Right = (uint)page.Width;
 
-                                //        altSrcBox.Top = (uint)imageRect.Top;
-                                //        altSrcBox.Bottom = (uint)imageRect.Bottom;
-                                //        altSrcBox.Left = (uint)(imageRect.Right - padding);
-                                //        altSrcBox.Right = (uint)imageRect.Right;
+                                        altSrcBox.Top = (uint)imageRect.Top;
+                                        altSrcBox.Bottom = (uint)(imageRect.Top + pageSize);
+                                        altSrcBox.Left = (uint)(imageRect.Right - padding);
+                                        altSrcBox.Right = (uint)imageRect.Right;
 
-                                //        PixelBox.BulkPixelConversion(altSrcBox, pageBox);
-                                //    }
-                                //}
+                                        PixelBox.BulkPixelConversion(altSrcBox, pageBox);
+                                    }
+                                }
                             }
                             int startPos = (int)stream.Position;
+                            page.RotateFlip(RotateFlipType.RotateNoneFlipY); //Have to flip the page over for ogre to be happy
                             page.Save(stream, FREE_IMAGE_FORMAT.FIF_PNG);
                             ++numImages;
                             pages.Add(new ImageInfo(startPos, (int)(stream.Position - startPos)));
@@ -384,16 +387,18 @@ namespace OgrePlugin
         }
 
         /// <summary>
-        /// Get a pixelbox for the page specified by x, y, mip, you must dispose the returned pixel box.
+        /// Get a FreeImageBitmap for the page specified by x, y, mip, you must dispose the returned image.
         /// </summary>
-        /// <returns>A pixel box the caller takes ownership of.</returns>
-        public FreeImageBitmap getImage(int x, int y, int mip)
+        /// <returns>A FreeImageBitmap the caller takes ownership of.</returns>
+        public Image getImage(int x, int y, int mip)
         {
             MipIndexInfo mipIndex = mipIndices[mip];
             ImageInfo imageInfo = pages[mipIndex.getIndex(x, y)];
             using (Stream imageStream = imageInfo.openStream(stream.GetBuffer()))
             {
-                return new FreeImageBitmap(imageStream);
+                Image image = new Image();
+                image.load(imageStream, "png");
+                return image;
             }
         }
 

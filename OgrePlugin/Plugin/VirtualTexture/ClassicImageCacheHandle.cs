@@ -47,10 +47,12 @@ namespace OgrePlugin.VirtualTexture
             largestSupportedPageIndex.Height >>= page.mip;
             if (page.x != 0 && page.y != 0 && page.x + 1 != largestSupportedPageIndex.Width && page.y + 1 != largestSupportedPageIndex.Height)
             {
+                //Can grab a complete page from the texture
                 sourceBox.Rect = new IntRect(page.x * textelsPerPage - padding, page.y * textelsPerPage - padding, textelsPerPage + padding2, textelsPerPage + padding2);
             }
             else
             {
+                //Have to get a partial page
                 sourceBox.Rect = new IntRect(page.x * textelsPerPage, page.y * textelsPerPage, textelsPerPage, textelsPerPage);
             }
 
