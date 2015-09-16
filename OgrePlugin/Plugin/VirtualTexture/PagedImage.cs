@@ -120,11 +120,11 @@ namespace OgrePlugin
                     int size = image.Width / pageSize;
                     mipIndices.Add(new MipIndexInfo(numImages, size));
 
-                    //Extract pages
+                    //Calculate pages, note that there is overlap by padding between them this is intentional
                     for (int y = 0; y < size; ++y)
                     {
                         imageRect.Height = page.Height;
-                        imageRect.Top = y * pageSize - padding; //Calculate pages, note that there is overlap by padding between them this is intentional
+                        imageRect.Top = y * pageSize - padding;
                         topSide = imageRect.Top < 0;
                         if (topSide)
                         {
@@ -135,8 +135,18 @@ namespace OgrePlugin
                         bottomSide = imageRect.Bottom > image.Height;
                         if (bottomSide)
                         {
-                            imageRect.Top = image.Height - pageSize - padding; //Extra row on top, bottom flush with texture bottom will add extra pixel row on bottom
-                            imageRect.Height -= padding;
+                            if (topSide)
+                            {
+                                //Take entire image
+                                imageRect.Top = 0;
+                                imageRect.Height = image.Height;
+                            }
+                            else
+                            {
+                                //Extra row on top, bottom flush with texture bottom will add extra pixel row on bottom will add extra pixel row on bottom below
+                                imageRect.Top = image.Height - pageSize - padding;
+                                imageRect.Height -= padding;
+                            }
                         }
 
                         for (int x = 0; x < size; ++x)
@@ -153,8 +163,18 @@ namespace OgrePlugin
                             rightSide = imageRect.Right > image.Width;
                             if (rightSide)
                             {
-                                imageRect.Left = image.Width - pageSize - padding;
-                                imageRect.Width -= padding;
+                                if (leftSide)
+                                {
+                                    //Take entire image
+                                    imageRect.Left = 0;
+                                    imageRect.Width = image.Width;
+                                }
+                                else
+                                {
+                                    //Extra row on left, right flush with texture right will add extra pixel row on right below
+                                    imageRect.Left = image.Width - pageSize - padding;
+                                    imageRect.Width -= padding;
+                                }
                             }
 
                             using (var pageBox = page.createPixelBox(PixelFormat.PF_A8R8G8B8))
