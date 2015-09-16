@@ -270,9 +270,13 @@ namespace OgrePlugin.VirtualTexture
                             System.Threading.Monitor.Enter(syncObject);
                             if (loadPage(pagesToLoad[i], stagingBuffers))
                             {
-                                pagesToLoad.RemoveAt(i);
                                 virtualTextureManager.syncToGpu(stagingBuffers);
                             }
+                            else
+                            {
+                                returnStagingBuffer(stagingBuffers);
+                            }
+                            pagesToLoad.RemoveAt(i);
                         }
                         PerformanceMonitor.stop("updatePagesFromRequests processing pages");
                     }
@@ -299,37 +303,44 @@ namespace OgrePlugin.VirtualTexture
         private bool loadPage(VTexPage page, StagingBufferSet stagingBuffers)
         {
             bool added = false;
-            //First see if we still have that page in our virtual texture pool, possible optimization to sort these to the front of the list
-            if (physicalPageQueue.Count > 0) //Do we have pages available
+            try
             {
-                PTexPage pTexPage = physicalPageQueue[0]; //The physical page candidate, do not modify before usedPhysicalPages if statement below
-                if (loadImages(page, pTexPage, stagingBuffers))
+                //First see if we still have that page in our virtual texture pool, possible optimization to sort these to the front of the list
+                if (physicalPageQueue.Count > 0) //Do we have pages available
                 {
-                    //Alert old texture of removal if there was one, Do not modify pTexPage above this if block, we need the old data
-                    IndirectionTexture oldIndirectionTexture = null;
-                    if (pTexPage.VirtualTexturePage != null)
+                    PTexPage pTexPage = physicalPageQueue[0]; //The physical page candidate, do not modify before usedPhysicalPages if statement below
+                    if (loadImages(page, pTexPage, stagingBuffers))
                     {
-                        if (virtualTextureManager.getIndirectionTexture(pTexPage.VirtualTexturePage.indirectionTexId, out oldIndirectionTexture))
+                        //Alert old texture of removal if there was one, Do not modify pTexPage above this if block, we need the old data
+                        IndirectionTexture oldIndirectionTexture = null;
+                        if (pTexPage.VirtualTexturePage != null)
                         {
-                            oldIndirectionTexture.removePhysicalPage(pTexPage);
+                            if (virtualTextureManager.getIndirectionTexture(pTexPage.VirtualTexturePage.indirectionTexId, out oldIndirectionTexture))
+                            {
+                                oldIndirectionTexture.removePhysicalPage(pTexPage);
+                            }
+
+                            physicalPagePool.Remove(pTexPage.VirtualTexturePage); //Be sure to remove the page from the pool if it was used previously
                         }
 
-                        physicalPagePool.Remove(pTexPage.VirtualTexturePage); //Be sure to remove the page from the pool if it was used previously
-                    }
+                        physicalPageQueue.RemoveAt(0);
+                        pTexPage.VirtualTexturePage = page;
+                        usedPhysicalPages.Add(page, pTexPage);
 
-                    physicalPageQueue.RemoveAt(0);
-                    pTexPage.VirtualTexturePage = page;
-                    usedPhysicalPages.Add(page, pTexPage);
-
-                    //Add to new indirection texture
-                    IndirectionTexture newIndirectionTex;
-                    if (virtualTextureManager.getIndirectionTexture(page.indirectionTexId, out newIndirectionTex))
-                    {
-                        newIndirectionTex.addPhysicalPage(pTexPage);
-                        stagingBuffers.setIndirectionTextures(oldIndirectionTexture, newIndirectionTex);
+                        //Add to new indirection texture
+                        IndirectionTexture newIndirectionTex;
+                        if (virtualTextureManager.getIndirectionTexture(page.indirectionTexId, out newIndirectionTex))
+                        {
+                            newIndirectionTex.addPhysicalPage(pTexPage);
+                            stagingBuffers.setIndirectionTextures(oldIndirectionTexture, newIndirectionTex);
+                        }
+                        added = true;
                     }
-                    added = true;
                 }
+            }
+            catch(Exception ex)
+            {
+                Logging.Log.Debug("{0} loading page {1}. Message: {2}", ex.GetType().Name, page.ToString(), ex.Message);
             }
             return added;
         }
