@@ -206,7 +206,7 @@ namespace OgrePlugin
                                     imageBox.Top = (uint)imageRect.Top;
                                     imageBox.Bottom = (uint)imageRect.Bottom;
 
-                                    //PixelBox.BulkPixelConversion(imageBox, pageBox);
+                                    PixelBox.BulkPixelConversion(imageBox, pageBox);
                                     Logging.Log.Debug("\nImage Box {0}, {1}, {2}, {3}\nPage Box  {4}, {5}, {6}, {7}", imageBox.Left, imageBox.Top, imageBox.getWidth(), imageBox.getHeight(), pageBox.Left, pageBox.Top, pageBox.getWidth(), pageBox.getHeight());
                                 }
 

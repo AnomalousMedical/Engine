@@ -1,6 +1,7 @@
 ﻿using FreeImageAPI;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,6 +58,20 @@ namespace OgrePlugin
                 renderTarget.copyContentsToMemory(pixelBox, RenderTarget.FrameBuffer.FB_AUTO);
             }
             bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
+        }
+
+        /// <summary>
+        /// Save the image to a file. Simplifies creating a stream, good for debugging.
+        /// </summary>
+        /// <param name="bitmap">The bitmap.</param>
+        /// <param name="fileName">The name of the file to save.</param>
+        /// <param name="format">The format to save the file in.</param>
+        public static void saveToFile(this FreeImageBitmap bitmap, String fileName, FREE_IMAGE_FORMAT format)
+        {
+            using (Stream test = File.Open(fileName, FileMode.Create))
+            {
+                bitmap.Save(test, format);
+            }
         }
     }
 }
