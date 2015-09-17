@@ -109,11 +109,6 @@ namespace OgrePlugin
                     if (mip != 0)
                     {
                         image.Rescale(image.Width >> 1, image.Height >> 1, FREE_IMAGE_FILTER.FILTER_BILINEAR);
-                        //if (mip == mipLevelCount - 1)
-                        //{
-                        //    workingPageSize >>= 1;
-                        //    page.Rescale(workingPageSize + padding2x, workingPageSize + padding2x, FREE_IMAGE_FILTER.FILTER_BILINEAR);
-                        //}
                     }
                     int size = image.Width / pageSize;
                     pagedImage.mipIndices.Add(new MipIndexInfo(pagedImage.numImages, size));
@@ -121,12 +116,12 @@ namespace OgrePlugin
                 }
             }
 
-            //using (FreeImageBitmap halfSizeHighestMip = new FreeImageBitmap(workingPageSize >> 2 + padding2x, workingPageSize >> 2 + padding2x, FreeImageAPI.PixelFormat.Format32bppArgb))
-            //{
-            //    image.Rescale(image.Width >> 1, image.Height >> 1, FREE_IMAGE_FILTER.FILTER_BILINEAR);
-            //    halfSizeHighestMip.RotateFlip(RotateFlipType.RotateNoneFlipY); //Have to flip the page over for ogre to be happy
-            //    halfSizeHighestMip.Save(stream, FREE_IMAGE_FORMAT.FIF_PNG);
-            //}
+            int halfPageSize = pageSize >> 1;
+            using (FreeImageBitmap halfSizeHighestMip = new FreeImageBitmap(halfPageSize + padding2x, halfPageSize + padding2x, FreeImageAPI.PixelFormat.Format32bppArgb))
+            {
+                image.Rescale(image.Width >> 1, image.Height >> 1, FREE_IMAGE_FILTER.FILTER_BILINEAR);
+                extractPage(image, padding, stream, pagedImage, halfPageSize, halfSizeHighestMip, 1);
+            }
 
             pagedImage.indexStart = (int)stream.Position;
 
@@ -395,12 +390,25 @@ namespace OgrePlugin
 
         /// <summary>
         /// Get a FreeImageBitmap for the page specified by x, y, mip, you must dispose the returned image.
+        /// If mip exceeds the mips stored in the image you will get an image that is half the page size with the
+        /// complete texture on it a half sized smallest (or highest) mip. This can be used to allow a paged texture
+        /// to work at one page size smaller than the stored page size or other operations since you could scale the
+        /// smallest mip returned, however, this gives a way to have the image with correct padding available quickly.
         /// </summary>
         /// <returns>A FreeImageBitmap the caller takes ownership of.</returns>
         public Image getImage(int x, int y, int mip)
         {
-            MipIndexInfo mipIndex = mipIndices[mip];
-            ImageInfo imageInfo = pages[mipIndex.getIndex(x, y)];
+            ImageInfo imageInfo;
+            if (mip < mipIndices.Count)
+            {
+                MipIndexInfo mipIndex = mipIndices[mip];
+                imageInfo = pages[mipIndex.getIndex(x, y)];
+            }
+            else
+            {
+                imageInfo = pages[pages.Count - 1]; //Half size smallest mip
+            }
+
             using (Stream imageStream = imageInfo.openStream(memoryBlock))
             {
                 //As of right now we are always png, but if you add more formats deal with that here
