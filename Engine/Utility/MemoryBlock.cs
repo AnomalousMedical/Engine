@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using ZipAccess;
 
 namespace Engine
 {
@@ -13,42 +15,48 @@ namespace Engine
     /// array. It is thread safe to read from multiple streams at once (not one stream
     /// in many threads).
     /// </summary>
-    public class MemoryBlock : IDisposable
+    public unsafe class MemoryBlock : IDisposable
     {
-        private byte[] bytes;
+        private byte* bytes;
+        private long length;
 
         public MemoryBlock(Stream source)
         {
-            bytes = new byte[source.Length];
-            int read;
-            long readAmount;
-            do
+            length = source.Length;
+            bytes = MemoryBlock_AllocateBuffer((int)length);
+            using (UnmanagedMemoryStream stream = new UnmanagedMemoryStream(bytes, length, length, FileAccess.Write))
             {
-                readAmount = 16384;
-                if (source.Position + readAmount > source.Length)
-                {
-                    readAmount = source.Length - source.Position;
-                }
+                source.CopyTo(stream);
             }
-            while ((read = source.Read(bytes, (int)source.Position, (int)readAmount)) > 0);
         }
 
         public void Dispose()
         {
+            MemoryBlock_DellocateBuffer(bytes);
             bytes = null;
         }
 
         public Stream getSubStream(long begin, long end)
         {
-            return new MemoryBlockSubStream(bytes, begin, end);
+            return new UnmanagedMemoryStream(bytes + begin, end - begin);
         }
 
         public long Length
         {
             get
             {
-                return bytes.Length;
+                return length;
             }
         }
+
+        #region PInvoke
+
+        [DllImport(ZipLibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        internal static unsafe extern byte* MemoryBlock_AllocateBuffer(int length);
+
+        [DllImport(ZipLibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        internal static unsafe extern void MemoryBlock_DellocateBuffer(byte* buffer);
+
+        #endregion
     }
 }

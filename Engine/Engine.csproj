@@ -360,7 +360,6 @@
     <Compile Include="Threads\CancelableBackgroundWorkTask.cs" />
     <Compile Include="Threads\ThreadManagerUpdate.cs" />
     <Compile Include="Utility\MemoryBlock.cs" />
-    <Compile Include="Utility\MemoryBlockSubStream.cs" />
     <Compile Include="Utility\CancelEventArgs.cs" />
     <Compile Include="Utility\EventDelegate.cs" />
     <Compile Include="Utility\FastIteratorMap.cs" />
