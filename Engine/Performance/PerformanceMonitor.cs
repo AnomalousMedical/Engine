@@ -18,6 +18,9 @@ namespace Engine
         static PerformanceMonitor()
         {
             currentState = disabledState = new DisabledPerformanceMonitor();
+            addValueProvider("Private Memory", () => Prettify.GetSizeReadable(System.Diagnostics.Process.GetCurrentProcess().PrivateMemorySize64));
+            addValueProvider("Working Set", () => Prettify.GetSizeReadable(System.Diagnostics.Process.GetCurrentProcess().WorkingSet64));
+            addValueProvider("Virtual Memory", () => Prettify.GetSizeReadable(System.Diagnostics.Process.GetCurrentProcess().VirtualMemorySize64));
         }
 
         /// <summary>
