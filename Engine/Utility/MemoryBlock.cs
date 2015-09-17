@@ -17,14 +17,14 @@ namespace Engine
     /// </summary>
     public unsafe class MemoryBlock : IDisposable
     {
-        private byte* bytes;
+        private IntPtr bytes;
         private long length;
 
         public MemoryBlock(Stream source)
         {
             length = source.Length;
-            bytes = MemoryBlock_AllocateBuffer((int)length);
-            using (UnmanagedMemoryStream stream = new UnmanagedMemoryStream(bytes, length, length, FileAccess.Write))
+            bytes = Marshal.AllocHGlobal((int)length);//MemoryBlock_AllocateBuffer((int)length);
+            using (UnmanagedMemoryStream stream = new UnmanagedMemoryStream((byte*)bytes.ToPointer(), length, length, FileAccess.Write))
             {
                 source.CopyTo(stream);
             }
@@ -32,13 +32,13 @@ namespace Engine
 
         public void Dispose()
         {
-            MemoryBlock_DellocateBuffer(bytes);
-            bytes = null;
+            Marshal.FreeHGlobal(bytes);
+            bytes = IntPtr.Zero;
         }
 
         public Stream getSubStream(long begin, long end)
         {
-            return new UnmanagedMemoryStream(bytes + begin, end - begin);
+            return new UnmanagedMemoryStream((byte*)bytes.ToPointer() + begin, end - begin);
         }
 
         public long Length
