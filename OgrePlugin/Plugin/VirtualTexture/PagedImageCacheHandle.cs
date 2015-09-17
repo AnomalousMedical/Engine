@@ -30,8 +30,33 @@ namespace OgrePlugin.VirtualTexture
 
         public override TexturePageHandle createTexturePageHandle(VTexPage page, IndirectionTexture indirectionTexture, int padding, int padding2, int textelsPerPage, int mipOffset)
         {
-            var image = pagedImage.getImage(page.x, page.y, page.mip - mipOffset);
-            return new TexturePageHandle(image.getPixelBox(), this, image);
+            int mip = page.mip;
+            int x = page.x;
+            int y = page.y;
+            bool halfSizePages = textelsPerPage != pagedImage.PageSize;
+
+            if(halfSizePages)
+            {
+                x /= 2;
+                y /= 2;
+            }
+
+            var image = pagedImage.getImage(x, y, mip - mipOffset);
+            var pixelBox = image.getPixelBox();
+
+            if (halfSizePages && image.Width == pagedImage.PageSize + padding2)
+            {
+                int subpageX = page.x % 2;
+                int subpageY = page.y % 2;
+                int offsetMultiple = (int)image.Width / 2 - padding;
+                int halfSize = textelsPerPage + padding2;
+
+                pixelBox.Rect = new Engine.IntRect(offsetMultiple * subpageX, offsetMultiple * subpageY, halfSize, halfSize);
+
+                //Logging.Log.Debug(pixelBox.Rect.ToString());
+            }
+
+            return new TexturePageHandle(pixelBox, this, image);
         }
     }
 }
