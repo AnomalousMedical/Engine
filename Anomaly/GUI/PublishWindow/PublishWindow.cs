@@ -45,6 +45,7 @@ namespace Anomaly.GUI
             obfuscateCheckBox = new CheckButton(window.findWidget("Obfuscate") as Button);
 
             outputLocationTextBox = window.findWidget("OutputDir") as EditBox;
+            outputLocationTextBox.OnlyText = AnomalyConfig.LastPublishDirectory;
 
             archiveNameText = window.findWidget("ArchiveName") as EditBox;
 
@@ -110,6 +111,7 @@ namespace Anomaly.GUI
             {
                 try
                 {
+                    AnomalyConfig.LastPublishDirectory = outputLocationTextBox.OnlyText;
                     String destination = Path.GetFullPath(outputLocationTextBox.OnlyText);
                     window.ClientWidget.Enabled = false;
                     Task task = new Task(() =>

@@ -20,6 +20,7 @@ namespace Anomaly
         private Solution solution;
         private List<FileMatch> ignoreFiles = new List<FileMatch>();
         private List<FileMatch> ignoreDirectories = new List<FileMatch>();
+        private HashSet<String> uncompressedTypes = new HashSet<string>(new String[] { ".ptex", ".png", ".jpeg", ".jpg" });
 
         public PublishController(Solution solution)
         {
@@ -128,6 +129,15 @@ namespace Anomaly
 
                 using (ZipFile zipFile = new ZipFile(zipFileName, new ZipStatusTextWriter()))
                 {
+                    zipFile.SetCompression = (localFileName, archiveFileName) =>
+                    {
+                        String ext = Path.GetExtension(localFileName);
+                        if (!String.IsNullOrEmpty(ext) && uncompressedTypes.Contains(ext.ToLowerInvariant()))
+                        {
+                            return Ionic.Zlib.CompressionLevel.None;
+                        }
+                        return Ionic.Zlib.CompressionLevel.Default;
+                    };
                     zipFile.AddDirectory(targetDirectory, "");
                     zipFile.Save();
                 }

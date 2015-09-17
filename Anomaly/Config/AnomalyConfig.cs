@@ -87,6 +87,18 @@ namespace Anomaly
             }
         }
 
+        public static String LastPublishDirectory
+        {
+            get
+            {
+                return program.getValue("LastPublishDirectory", "");
+            }
+            set
+            {
+                program.setValue("LastPublishDirectory", value);
+            }
+        }
+
         private AnomalyConfig()
         {
             

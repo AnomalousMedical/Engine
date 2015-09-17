@@ -21,7 +21,7 @@ namespace Anomaly
         static void Main()
         {
             NativePlatformPlugin.StaticInitialize();
-            OgrePlugin.OgreInterface.CompressedTextureSupport = OgrePlugin.CompressedTextureSupport.DXT;
+            OgrePlugin.OgreInterface.CompressedTextureSupport = OgrePlugin.CompressedTextureSupport.None;
 
             //Parse command line
             String projectFileName = null;
