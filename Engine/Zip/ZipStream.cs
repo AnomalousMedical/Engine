@@ -104,9 +104,16 @@ namespace ZipAccess
 
         public override unsafe int Read(byte[] buffer, int offset, int count)
         {
-            fixed(void* buf = &buffer[offset])
+            if (count > 0)
             {
-                return ZipStream_FileRead(zzipFile, buf, count);
+                fixed (void* buf = &buffer[offset])
+                {
+                    return ZipStream_FileRead(zzipFile, buf, count);
+                }
+            }
+            else
+            {
+                return 0;
             }
         }
 
