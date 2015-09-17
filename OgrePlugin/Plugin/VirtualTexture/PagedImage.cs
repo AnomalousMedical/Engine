@@ -116,6 +116,7 @@ namespace OgrePlugin
                 }
             }
 
+            //Write half size normal map
             int halfPageSize = pageSize >> 1;
             using (FreeImageBitmap halfSizeHighestMip = new FreeImageBitmap(halfPageSize + padding2x, halfPageSize + padding2x, FreeImageAPI.PixelFormat.Format32bppArgb))
             {
@@ -348,9 +349,10 @@ namespace OgrePlugin
 
                 int mipPage = 0;
                 mipIndices.Add(new MipIndexInfo(0, pageStride));
+                int halfSizeIndex = numImages - 1;
                 for (int i = 0; i < numImages; ++i)
                 {
-                    if (mipPage == pagesForLevel)
+                    if (mipPage == pagesForLevel && i != halfSizeIndex)
                     {
                         pageStride >>= 1;
                         pagesForLevel >>= 2;
