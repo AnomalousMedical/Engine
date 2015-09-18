@@ -393,7 +393,7 @@ namespace Anomaly
             }
 
             AnomalyConfig.save();
-            logListener.closeLogFile();
+            logListener.Dispose();
         }
 
         /// <summary>

@@ -268,7 +268,7 @@ namespace OgreModelEditor
             }
 
             OgreModelEditorConfig.save();
-            logListener.closeLogFile();
+            logListener.Dispose();
         }
 
         private IEnumerable<IdleStatus> finishInitialization(String defaultModel)

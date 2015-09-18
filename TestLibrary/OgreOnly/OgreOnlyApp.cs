@@ -95,7 +95,7 @@ namespace Anomalous.Minimus.OgreOnly
 
             base.Dispose();
 
-            logListener.closeLogFile();
+            logListener.Dispose();
 
             return 0;
         }
