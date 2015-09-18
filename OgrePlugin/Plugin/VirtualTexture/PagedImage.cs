@@ -31,9 +31,10 @@ namespace OgrePlugin
     {
         public const String FileExtension = ".ptex";
 
-        enum ImageType
+        public enum ImageType : int
         {
-            PNG = 0
+            PNG = 0,
+            WEBP = 1,
         }
 
         private int numImages;
@@ -47,6 +48,7 @@ namespace OgrePlugin
         private MemoryBlock memoryBlock;
         private List<ImageInfo> pages;
         private List<MipIndexInfo> mipIndices;
+        private String loadType;
 
         public PagedImage()
         {
@@ -70,10 +72,21 @@ namespace OgrePlugin
         /// </summary>
         /// <param name="image">The image to extract pages from.</param>
         /// <param name="pageSize">The size of the pages to extract.</param>
-        public static void fromBitmap(FreeImageBitmap image, int pageSize, int padding, Stream stream)
+        public static void fromBitmap(FreeImageBitmap image, int pageSize, int padding, Stream stream, ImageType imageType)
         {
             PagedImage pagedImage = new PagedImage();
             int padding2x = padding * 2;
+            FREE_IMAGE_FORMAT outputFormat;
+            switch(imageType)
+            {
+                default:
+                case ImageType.PNG:
+                    outputFormat = FREE_IMAGE_FORMAT.FIF_PNG;
+                    break;
+                case ImageType.WEBP:
+                    outputFormat = FREE_IMAGE_FORMAT.FIF_WEBP;
+                    break;
+            }
 
             //Kind of weird, ogre and freeimage are backwards from one another in terms of scanline 0 being the top or bottom
             //This easily fixes the math below by just flipping the image first. Note that pages must be flipped back over because
@@ -81,7 +94,7 @@ namespace OgrePlugin
             image.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
             pagedImage.numImages = 0;
-            pagedImage.imageType = (int)ImageType.PNG;
+            pagedImage.imageType = (int)imageType;
             pagedImage.imageXSize = image.Width;
             pagedImage.imageYSize = image.Height;
             pagedImage.pageSize = pageSize;
@@ -112,7 +125,7 @@ namespace OgrePlugin
                     }
                     int size = image.Width / pageSize;
                     pagedImage.mipIndices.Add(new MipIndexInfo(pagedImage.numImages, size));
-                    extractPage(image, padding, stream, pagedImage, pageSize, page, size);
+                    extractPage(image, padding, stream, pagedImage, pageSize, page, size, outputFormat);
                 }
             }
 
@@ -121,7 +134,7 @@ namespace OgrePlugin
             using (FreeImageBitmap halfSizeHighestMip = new FreeImageBitmap(halfPageSize + padding2x, halfPageSize + padding2x, FreeImageAPI.PixelFormat.Format32bppArgb))
             {
                 image.Rescale(image.Width >> 1, image.Height >> 1, FREE_IMAGE_FILTER.FILTER_BILINEAR);
-                extractPage(image, padding, stream, pagedImage, halfPageSize, halfSizeHighestMip, 1);
+                extractPage(image, padding, stream, pagedImage, halfPageSize, halfSizeHighestMip, 1, outputFormat);
             }
 
             pagedImage.indexStart = (int)stream.Position;
@@ -141,7 +154,7 @@ namespace OgrePlugin
             }
         }
 
-        private static void extractPage(FreeImageBitmap image, int padding, Stream stream, PagedImage pagedImage, int pageSize, FreeImageBitmap page, int size)
+        private static void extractPage(FreeImageBitmap image, int padding, Stream stream, PagedImage pagedImage, int pageSize, FreeImageBitmap page, int size, FREE_IMAGE_FORMAT outputFormat)
         {
             bool topSide, leftSide, rightSide, bottomSide;
             IntRect imageRect = new IntRect();
@@ -309,7 +322,7 @@ namespace OgrePlugin
                     }
                     int startPos = (int)stream.Position;
                     page.RotateFlip(RotateFlipType.RotateNoneFlipY); //Have to flip the page over for ogre to be happy
-                    page.Save(stream, FREE_IMAGE_FORMAT.FIF_PNG);
+                    page.Save(stream, outputFormat);
                     ++pagedImage.numImages;
                     pagedImage.pages.Add(new ImageInfo(startPos, (int)(stream.Position)));
                 }
@@ -337,6 +350,17 @@ namespace OgrePlugin
                 imageYSize = headerReader.ReadInt32();
                 pageSize = headerReader.ReadInt32();
                 indexStart = headerReader.ReadInt32();
+            }
+
+            switch((ImageType)imageType)
+            {
+                default:
+                case ImageType.PNG:
+                    loadType = "png";
+                    break;
+                case ImageType.WEBP:
+                    loadType = "webp";
+                    break;
             }
 
             using (BinaryReader pageIndexReader = new BinaryReader(memoryBlock.getSubStream(indexStart, headerBegin)))
@@ -413,9 +437,8 @@ namespace OgrePlugin
 
             using (Stream imageStream = imageInfo.openStream(memoryBlock))
             {
-                //As of right now we are always png, but if you add more formats deal with that here
                 Image image = new Image();
-                image.load(imageStream, "png");
+                image.load(imageStream, loadType);
                 return image;
             }
         }
