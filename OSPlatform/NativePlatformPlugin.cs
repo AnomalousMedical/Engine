@@ -74,7 +74,7 @@ namespace Anomalous.OSPlatform
             String currentPathSetting = Environment.GetEnvironmentVariable("PATH");
             if (!String.IsNullOrEmpty(path) && !currentPathSetting.Contains(path))
             {
-                Environment.SetEnvironmentVariable("PATH", String.Format("{0};{1}", currentPathSetting, path));
+                Environment.SetEnvironmentVariable("PATH", String.Format("{0};{1}", path, currentPathSetting));
             }
         }
 
