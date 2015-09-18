@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Collections.Concurrent;
+using System.Threading;
 
 namespace Logging
 {
@@ -14,16 +16,60 @@ namespace Logging
         private StreamWriter fileWriter;
         private bool closed;
         private String logFileName;
+        private ConcurrentQueue<String> messageQueue = new ConcurrentQueue<string>();
         private Object streamLock = new object();
+        private ManualResetEventSlim messageEvent = new ManualResetEventSlim(true);
+        private bool runPrintThread = true;
+
+        class LogEntry
+        {
+            public string message;
+            public LogLevel logLevel;
+            public string subsystem;
+        }
 
         public LogFileListener()
         {
-
+            Thread t = new Thread(() =>
+            {
+                while (runPrintThread)
+                {
+                    String message;
+                    if (messageQueue.TryDequeue(out message))
+                    {
+                        lock (streamLock)
+                        {
+                            if (!closed)
+                            {
+                                fileWriter.WriteLine(message);
+                                fileWriter.Flush();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        messageEvent.Reset(); //Wait until there are more messages
+                    }
+                    messageEvent.Wait();
+                }
+            });
+            t.IsBackground = true;
+            t.Start();
         }
 
         public void Dispose()
         {
-            closeLogFile();
+            lock(streamLock)
+            {
+                runPrintThread = false;
+                messageEvent.Dispose();
+                if (!closed)
+                {
+                    Log.Info("Closed log {0}", logFileName);
+                    closed = true;
+                    fileWriter.Dispose();
+                }
+            }
         }
 
         /// <summary>
@@ -34,13 +80,10 @@ namespace Logging
         /// <param name="subsystem">The subsystem the message originated from.</param>
         public void sendMessage(string message, LogLevel logLevel, string subsystem)
         {
-            lock (streamLock)
+            if (!closed)
             {
-                if (!closed)
-                {
-                    fileWriter.WriteLine(Log.formatMessage(message, subsystem));
-                    fileWriter.Flush();
-                }
+                messageQueue.Enqueue(Log.formatMessage(message, subsystem));
+                messageEvent.Set(); //We have a message alert the printing thread
             }
         }
 
@@ -62,22 +105,6 @@ namespace Logging
                 catch
                 {
                     closed = true;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Closes the log file.
-        /// </summary>
-        public void closeLogFile()
-        {
-            lock (streamLock)
-            {
-                if (!closed)
-                {
-                    Log.Info("Closed log {0}", logFileName);
-                    closed = true;
-                    fileWriter.Dispose();
                 }
             }
         }

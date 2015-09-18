@@ -23,7 +23,7 @@ namespace Engine
         public MemoryBlock(Stream source)
         {
             length = source.Length;
-            bytes = Marshal.AllocHGlobal((int)length);//MemoryBlock_AllocateBuffer((int)length);
+            bytes = Marshal.AllocHGlobal((int)length);
             using (UnmanagedMemoryStream stream = new UnmanagedMemoryStream((byte*)bytes.ToPointer(), length, length, FileAccess.Write))
             {
                 source.CopyTo(stream);
