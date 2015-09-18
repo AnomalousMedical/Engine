@@ -77,7 +77,8 @@ namespace OgrePlugin
             PagedImage pagedImage = new PagedImage();
             int padding2x = padding * 2;
             FREE_IMAGE_FORMAT outputFormat;
-            switch(imageType)
+            FREE_IMAGE_SAVE_FLAGS saveFlags = FREE_IMAGE_SAVE_FLAGS.DEFAULT;
+            switch (imageType)
             {
                 default:
                 case ImageType.PNG:
@@ -85,6 +86,7 @@ namespace OgrePlugin
                     break;
                 case ImageType.WEBP:
                     outputFormat = FREE_IMAGE_FORMAT.FIF_WEBP;
+                    saveFlags = FREE_IMAGE_SAVE_FLAGS.WEBP_LOSSLESS;
                     break;
             }
 
@@ -125,7 +127,7 @@ namespace OgrePlugin
                     }
                     int size = image.Width / pageSize;
                     pagedImage.mipIndices.Add(new MipIndexInfo(pagedImage.numImages, size));
-                    extractPage(image, padding, stream, pagedImage, pageSize, page, size, outputFormat);
+                    extractPage(image, padding, stream, pagedImage, pageSize, page, size, outputFormat, saveFlags);
                 }
             }
 
@@ -134,7 +136,7 @@ namespace OgrePlugin
             using (FreeImageBitmap halfSizeHighestMip = new FreeImageBitmap(halfPageSize + padding2x, halfPageSize + padding2x, FreeImageAPI.PixelFormat.Format32bppArgb))
             {
                 image.Rescale(image.Width >> 1, image.Height >> 1, FREE_IMAGE_FILTER.FILTER_BILINEAR);
-                extractPage(image, padding, stream, pagedImage, halfPageSize, halfSizeHighestMip, 1, outputFormat);
+                extractPage(image, padding, stream, pagedImage, halfPageSize, halfSizeHighestMip, 1, outputFormat, saveFlags);
             }
 
             pagedImage.indexStart = (int)stream.Position;
@@ -154,7 +156,7 @@ namespace OgrePlugin
             }
         }
 
-        private static void extractPage(FreeImageBitmap image, int padding, Stream stream, PagedImage pagedImage, int pageSize, FreeImageBitmap page, int size, FREE_IMAGE_FORMAT outputFormat)
+        private static void extractPage(FreeImageBitmap image, int padding, Stream stream, PagedImage pagedImage, int pageSize, FreeImageBitmap page, int size, FREE_IMAGE_FORMAT outputFormat, FREE_IMAGE_SAVE_FLAGS saveFlags)
         {
             bool topSide, leftSide, rightSide, bottomSide;
             IntRect imageRect = new IntRect();
@@ -322,7 +324,7 @@ namespace OgrePlugin
                     }
                     int startPos = (int)stream.Position;
                     page.RotateFlip(RotateFlipType.RotateNoneFlipY); //Have to flip the page over for ogre to be happy
-                    page.Save(stream, outputFormat);
+                    page.Save(stream, outputFormat, saveFlags);
                     ++pagedImage.numImages;
                     pagedImage.pages.Add(new ImageInfo(startPos, (int)(stream.Position)));
                 }
