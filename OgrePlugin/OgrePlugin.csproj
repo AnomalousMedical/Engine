@@ -43,10 +43,6 @@
     <DocumentationFile>..\Release\OgrePlugin.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Dependencies\Newtonsoft.Json\Src\Newtonsoft.Json\bin\Release\Portable40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -287,6 +283,10 @@
     <ProjectReference Include="..\..\Dependencies\FreeImage.NET\Library\FreeImageDotNet.csproj">
       <Project>{6598a7cd-8f27-4d3f-a675-5ae63113a7c3}</Project>
       <Name>FreeImageDotNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Dependencies\Newtonsoft.Json\Src\Newtonsoft.Json\Newtonsoft.Json.Portable40.csproj">
+      <Project>{959f7f85-c98b-4876-971a-9036224578e4}</Project>
+      <Name>Newtonsoft.Json.Portable40</Name>
     </ProjectReference>
     <ProjectReference Include="..\Engine\Engine.csproj">
       <Project>{57C253F1-157F-4A6A-9FED-345A776B97D5}</Project>
