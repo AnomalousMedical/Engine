@@ -33,11 +33,11 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\Dependencies\FreeImage.NET\Win64Build\bin\Debug\FreeImage_d.dll">
+    <Content Include="..\..\Dependencies\OgreDeps\Win64Install\bin\Debug\FreeImage_d.dll">
       <Link>Debug\x64\FreeImage_d.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\Dependencies\FreeImage.NET\Win64Build\bin\Release\FreeImage.dll">
+    <Content Include="..\..\Dependencies\OgreDeps\Win64Install\bin\Release\FreeImage.dll">
       <Link>Release\x64\FreeImage.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

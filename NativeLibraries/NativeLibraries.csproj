@@ -35,11 +35,11 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="..\..\Dependencies\FreeImage.NET\WindowsBuild\bin\Debug\FreeImage_d.dll">
-      <Link>Debug\x86\FreeImage.dll</Link>
+    <Content Include="..\..\Dependencies\OgreDeps\WindowsInstall\bin\Debug\FreeImage_d.dll">
+      <Link>Debug\x86\FreeImage_d.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\Dependencies\FreeImage.NET\WindowsBuild\bin\Release\FreeImage.dll">
+    <Content Include="..\..\Dependencies\OgreDeps\WindowsInstall\bin\Release\FreeImage.dll">
       <Link>Release\x86\FreeImage.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -94,6 +94,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(TargetDir)Release\x86\d3dcompiler_47.dll $(TargetDir)Debug\x86\d3dcompiler_47.dll
+copy $(TargetDir)Debug\x86\FreeImage_d.dll $(TargetDir)Debug\x86\FreeImage.dll
 del $(TargetPath)</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
