@@ -81,7 +81,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(TargetDir)Release\x64\d3dcompiler_47.dll $(TargetDir)Debug\x64\d3dcompiler_47.dll
-copy $(TargetDir)Debug\x64\FreeImage_d.dll $(TargetDir)Debug\x64\FreeImage.dll
 del $(TargetPath)</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
