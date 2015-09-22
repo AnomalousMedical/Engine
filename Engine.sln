@@ -69,6 +69,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeImageDotNet", "..\Dependencies\FreeImage.NET\Library\FreeImageDotNet.csproj", "{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DotNetZip", "DotNetZip", "{33E4140E-C551-4783-90D0-E72B8946B205}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetZip", "..\Dependencies\DotNetZip\DotNetZip.csproj", "{5068F53B-8D7B-4AEE-AF54-7428B0E997A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -319,6 +323,14 @@ Global
 		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.Release|x64.Build.0 = Release|Any CPU
 		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.Release|x86.ActiveCfg = Release|Any CPU
 		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.Release|x86.Build.0 = Release|Any CPU
+		{5068F53B-8D7B-4AEE-AF54-7428B0E997A3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5068F53B-8D7B-4AEE-AF54-7428B0E997A3}.Debug|x64.Build.0 = Debug|Any CPU
+		{5068F53B-8D7B-4AEE-AF54-7428B0E997A3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5068F53B-8D7B-4AEE-AF54-7428B0E997A3}.Debug|x86.Build.0 = Debug|Any CPU
+		{5068F53B-8D7B-4AEE-AF54-7428B0E997A3}.Release|x64.ActiveCfg = Release|Any CPU
+		{5068F53B-8D7B-4AEE-AF54-7428B0E997A3}.Release|x64.Build.0 = Release|Any CPU
+		{5068F53B-8D7B-4AEE-AF54-7428B0E997A3}.Release|x86.ActiveCfg = Release|Any CPU
+		{5068F53B-8D7B-4AEE-AF54-7428B0E997A3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -326,5 +338,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7DF833E1-8B61-4B3E-9CB5-14276DC322C4} = {4DF4D5DA-3027-438C-AC3E-F2A16CDEA3E8}
 		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3} = {7DF833E1-8B61-4B3E-9CB5-14276DC322C4}
+		{33E4140E-C551-4783-90D0-E72B8946B205} = {4DF4D5DA-3027-438C-AC3E-F2A16CDEA3E8}
+		{5068F53B-8D7B-4AEE-AF54-7428B0E997A3} = {33E4140E-C551-4783-90D0-E72B8946B205}
 	EndGlobalSection
 EndGlobal
