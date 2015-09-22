@@ -189,8 +189,11 @@
       <DebugInformationFormat>None</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <LibraryDependencies>c;m;log;gcc;android;EGL;GLESv2;$(StlLibraryName);%(LibraryDependencies)</LibraryDependencies>
-      <AdditionalDependencies>$(SolutionDir)..\Dependencies\Ogre\AndroidBuild\lib\Release\libRenderSystem_GLES2Static.a;$(SolutionDir)..\Dependencies\Ogre\AndroidBuild\lib\Release\libOgreMainStatic.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libfreetype.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libFreeImage.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libzlib.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libzziplib.a</AdditionalDependencies>
+      <LibraryDependencies>FreeImage;c;m;log;gcc;android;EGL;GLESv2;$(StlLibraryName);%(LibraryDependencies)</LibraryDependencies>
+      <AdditionalDependencies>$(SolutionDir)..\Dependencies\Ogre\AndroidBuild\lib\Release\libRenderSystem_GLES2Static.a;$(SolutionDir)..\Dependencies\Ogre\AndroidBuild\lib\Release\libOgreMainStatic.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libfreetype.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libzlib.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libzziplib.a</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SharedLibrarySearchPath>%(SharedLibrarySearchPath)</SharedLibrarySearchPath>
+      <VerboseOutput>false</VerboseOutput>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
