@@ -52,8 +52,6 @@ namespace OgrePlugin.VirtualTexture
                 int halfSize = textelsPerPage + padding2;
 
                 pixelBox.Rect = new Engine.IntRect(offsetMultiple * subpageX, offsetMultiple * subpageY, halfSize, halfSize);
-
-                //Logging.Log.Debug(pixelBox.Rect.ToString());
             }
 
             return new TexturePageHandle(pixelBox, this, image);

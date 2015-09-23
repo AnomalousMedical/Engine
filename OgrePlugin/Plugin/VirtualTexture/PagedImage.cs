@@ -49,6 +49,7 @@ namespace OgrePlugin
         private List<ImageInfo> pages;
         private List<MipIndexInfo> mipIndices;
         private String loadType;
+        private Func<Stream> streamProvider;
 
         public PagedImage()
         {
@@ -334,61 +335,72 @@ namespace OgrePlugin
         /// <summary>
         /// Load the PagedImage from a stream source.
         /// </summary>
-        /// <param name="source"></param>
-        public void load(Stream source)
+        /// <param name="streamProvider">A function that opens a stream to the source data for the PagedImage. This should always be careful to open the same stream. The PagedImage lazy loads its image this way on demand.</param>
+        public void load(Func<Stream> streamProvider)
         {
             if (memoryBlock != null)
             {
                 memoryBlock.Dispose();
             }
-            memoryBlock = new MemoryBlock(source);
 
-            long headerBegin = memoryBlock.Length - HeaderSize;
-            using (BinaryReader headerReader = new BinaryReader(memoryBlock.getSubStream(headerBegin, memoryBlock.Length)))
+            this.streamProvider = streamProvider;
+            using (Stream source = streamProvider())
             {
-                numImages = headerReader.ReadInt32();
-                imageType = headerReader.ReadInt32();
-                imageXSize = headerReader.ReadInt32();
-                imageYSize = headerReader.ReadInt32();
-                pageSize = headerReader.ReadInt32();
-                indexStart = headerReader.ReadInt32();
-            }
-
-            switch((ImageType)imageType)
-            {
-                default:
-                case ImageType.PNG:
-                    loadType = "png";
-                    break;
-                case ImageType.WEBP:
-                    loadType = "webp";
-                    break;
-            }
-
-            using (BinaryReader pageIndexReader = new BinaryReader(memoryBlock.getSubStream(indexStart, headerBegin)))
-            {
-                pages = new List<ImageInfo>(numImages);
-                mipIndices = new List<MipIndexInfo>();
-
-                int pageStride = imageXSize / pageSize;
-                int pagesForLevel = pageStride * pageStride;
-
-                int mipPage = 0;
-                mipIndices.Add(new MipIndexInfo(0, pageStride));
-                int halfSizeIndex = numImages - 1;
-                for (int i = 0; i < numImages; ++i)
+                long headerBegin = source.Length - HeaderSize;
+                using (BinaryReader headerReader = new BinaryReader(source, Encoding.Default, true))
                 {
-                    if (mipPage == pagesForLevel && i != halfSizeIndex)
-                    {
-                        pageStride >>= 1;
-                        pagesForLevel >>= 2;
-                        mipPage = 0;
-                        mipIndices.Add(new MipIndexInfo(i, pageStride));
-                    }
-                    pages.Add(new ImageInfo(pageIndexReader.ReadInt32(), pageIndexReader.ReadInt32()));
-                    ++mipPage;
+                    headerReader.BaseStream.Seek(headerBegin, SeekOrigin.Begin);
+                    numImages = headerReader.ReadInt32();
+                    imageType = headerReader.ReadInt32();
+                    imageXSize = headerReader.ReadInt32();
+                    imageYSize = headerReader.ReadInt32();
+                    pageSize = headerReader.ReadInt32();
+                    indexStart = headerReader.ReadInt32();
                 }
-            }
+
+                switch ((ImageType)imageType)
+                {
+                    default:
+                    case ImageType.PNG:
+                        loadType = "png";
+                        break;
+                    case ImageType.WEBP:
+                        loadType = "webp";
+                        break;
+                }
+
+                using (BinaryReader pageIndexReader = new BinaryReader(source, Encoding.Default, true))
+                {
+                    pageIndexReader.BaseStream.Seek(indexStart, SeekOrigin.Begin);
+                    pages = new List<ImageInfo>(numImages);
+                    mipIndices = new List<MipIndexInfo>();
+
+                    int pageStride = imageXSize / pageSize;
+                    int pagesForLevel = pageStride * pageStride;
+
+                    int mipPage = 0;
+                    mipIndices.Add(new MipIndexInfo(0, pageStride));
+                    int halfSizeIndex = numImages - 1;
+                    for (int i = 0; i < numImages; ++i)
+                    {
+                        if (mipPage == pagesForLevel && i != halfSizeIndex)
+                        {
+                            pageStride >>= 1;
+                            pagesForLevel >>= 2;
+                            mipPage = 0;
+                            mipIndices.Add(new MipIndexInfo(i, pageStride));
+                        }
+                        pages.Add(new ImageInfo(pageIndexReader.ReadInt32(), pageIndexReader.ReadInt32()));
+                        ++mipPage;
+                    }
+                }
+
+                memoryBlock = new MemoryBlock(indexStart);
+
+                //Load two smallest mip levels the half size and the normal
+                loadMipLevel(mipIndices.Count - 1, source);
+                loadMipLevel(mipIndices.Count, source);
+            }     
         }
 
         /// <summary>
@@ -426,22 +438,32 @@ namespace OgrePlugin
         /// <returns>A FreeImageBitmap the caller takes ownership of.</returns>
         public Image getImage(int x, int y, int mip)
         {
-            ImageInfo imageInfo;
-            if (mip < mipIndices.Count)
+            //using (LogPerformanceBlock lpb = new LogPerformanceBlock(String.Format("Decompressed {0} in {{0}} ms", loadType)))
             {
-                MipIndexInfo mipIndex = mipIndices[mip];
-                imageInfo = pages[mipIndex.getIndex(x, y)];
-            }
-            else
-            {
-                imageInfo = pages[pages.Count - 1]; //Half size smallest mip
-            }
+                ImageInfo imageInfo;
+                if (mip < mipIndices.Count)
+                {
+                    MipIndexInfo mipIndex = mipIndices[mip];
+                    if(!mipIndex.Loaded)
+                    {
+                        using (Stream source = streamProvider())
+                        {
+                            loadMipLevel(mip, source);
+                        }
+                    }
+                    imageInfo = pages[mipIndex.getIndex(x, y)];
+                }
+                else
+                {
+                    imageInfo = pages[pages.Count - 1]; //Half size smallest mip
+                }
 
-            using (Stream imageStream = imageInfo.openStream(memoryBlock))
-            {
-                Image image = new Image();
-                image.load(imageStream, loadType);
-                return image;
+                using (Stream imageStream = imageInfo.openStream(memoryBlock))
+                {
+                    Image image = new Image();
+                    image.load(imageStream, loadType);
+                    return image;
+                }
             }
         }
 
@@ -485,10 +507,45 @@ namespace OgrePlugin
             }
         }
 
+        private void loadMipLevel(int mipLevel, Stream source)
+        {
+            int begin;
+            int length;
+            if(mipLevel < mipIndices.Count)
+            {
+                var mipInfo = mipIndices[mipLevel];
+                var firstPage = pages[mipInfo.getIndex(0, 0)];
+                begin = firstPage.ImageStart;
+                if(mipLevel < mipIndices.Count - 1)
+                {
+                    //Go to next mip level's first page and then back one to get the requested level's last page.
+                    var nextMipInfo = mipIndices[mipLevel + 1];
+                    int index = nextMipInfo.getIndex(0, 0) - 1;
+                    var lastPage = pages[index];
+                    length = lastPage.ImageEnd - begin;
+                }
+                else //Higheset normal mip
+                {
+                    length = firstPage.ImageSize;
+                }
+                mipInfo.Loaded = true;
+            }
+            else
+            {
+                //Half size normal
+                var pageInfo = pages[pages.Count - 1];
+                begin = pageInfo.ImageStart;
+                length = pageInfo.ImageSize;
+            }
+            source.Seek(begin, SeekOrigin.Begin);
+            memoryBlock.loadStream(source, begin, length);
+        }
+
         class MipIndexInfo
         {
             private int startIndex;
             private int pageStride; //The amount of pages in one row
+            private bool infoLoaded = false; //True if the pages have been loaded from disk for this mip level
 
             public MipIndexInfo(int startIndex, int pageStride)
             {
@@ -499,6 +556,18 @@ namespace OgrePlugin
             public int getIndex(int x, int y)
             {
                 return startIndex + y * pageStride + x;
+            }
+
+            public bool Loaded
+            {
+                get
+                {
+                    return infoLoaded;
+                }
+                set
+                {
+                    infoLoaded = value;
+                }
             }
         }
 
@@ -522,6 +591,30 @@ namespace OgrePlugin
             {
                 sw.Write(imageStart);
                 sw.Write(imageEnd);
+            }
+
+            public int ImageStart
+            {
+                get
+                {
+                    return imageStart;
+                }
+            }
+
+            public int ImageEnd
+            {
+                get
+                {
+                    return imageEnd;
+                }
+            }
+
+            public int ImageSize
+            {
+                get
+                {
+                    return imageEnd - imageStart;
+                }
             }
         }
     }

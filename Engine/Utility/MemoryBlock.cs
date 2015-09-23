@@ -20,20 +20,40 @@ namespace Engine
         private IntPtr bytes;
         private long length;
 
-        public MemoryBlock(Stream source)
+        public MemoryBlock(int length)
         {
-            length = source.Length;
-            bytes = Marshal.AllocHGlobal((int)length);
-            using (UnmanagedMemoryStream stream = new UnmanagedMemoryStream((byte*)bytes.ToPointer(), length, length, FileAccess.Write))
-            {
-                source.CopyTo(stream);
-            }
+            this.length = length;
+            bytes = Marshal.AllocHGlobal(length);
         }
 
         public void Dispose()
         {
             Marshal.FreeHGlobal(bytes);
             bytes = IntPtr.Zero;
+        }
+
+        public void loadStream(Stream source)
+        {
+            loadStream(source, 0, (int)source.Length);
+        }
+
+        public void loadStream(Stream source, int destOffset, int length)
+        {
+            if(destOffset + length > this.length)
+            {
+                throw new IOException(String.Format("Memory block is not large enough to load a stream to position {0} of length {1}", destOffset, source.Length));
+            }
+            using (UnmanagedMemoryStream stream = new UnmanagedMemoryStream((byte*)bytes.ToPointer() + destOffset, length, length, FileAccess.Write))
+            {
+                int leftToRead = length;
+                byte[] buffer = new byte[8 * 1024];
+                int len;
+                while ((len = source.Read(buffer, 0, Math.Min(buffer.Length, leftToRead))) > 0)
+                {
+                    stream.Write(buffer, 0, len);
+                    leftToRead -= len;
+                }
+            }
         }
 
         public Stream getSubStream(long begin, long end)

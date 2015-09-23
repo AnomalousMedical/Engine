@@ -167,10 +167,7 @@ namespace OgrePlugin.VirtualTexture
                     using (var perfMon = new LogPerformanceBlock(String.Format("Loaded image {0} in {{0}} ms", file), Logging.LogLevel.Info, "TextureCache"))
                     {
                         PagedImage pagedImage = new PagedImage();
-                        using (Stream stream = VirtualFileSystem.Instance.openStream(file, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read))
-                        {
-                            pagedImage.load(stream);
-                        }
+                        pagedImage.load(() => VirtualFileSystem.Instance.openStream(file, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read));
                         cacheHandle = this.Add(textureName, pagedImage);
                     }
                 }
