@@ -117,7 +117,7 @@ namespace Anomalous.TextureCompiler
             if (saveNormal)
             {
                 String normalDest = getDestBasePath(description.NormalMapName);
-                String normalTmp = getTempPath(description.DiffuseMapName);
+                String normalTmp = getTempPath(description.NormalMapName);
                 if (compressNormal)
                 {
                     Log.Info("Compressing normal map {0}", description.NormalMapName);
@@ -133,6 +133,11 @@ namespace Anomalous.TextureCompiler
                     else if (description.HasOpacityMap)
                     {
                         addMapToBlueAndCompress(normalSrc, opacitySrc, Channel.Red, normalTmp, normalDest, compressCompositeNormalMap);
+                    }
+                    else if(description.HasGlossMap)
+                    {
+                        //Gloss maps always go on the normal map green
+                        addMapToAlphaAndCompress(normalSrc, glossLevelSrc, Channel.Red, normalTmp, normalDest, compressCompositeNormalMap);
                     }
                     else
                     {

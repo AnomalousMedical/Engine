@@ -338,6 +338,10 @@ namespace OgrePlugin
                     if (glossMap)
                     {
                         definesBuilder.Append("GLOSS_MAP=1,");
+                        if (!separateOpacityMap) //If we don't do opacity maps separately always use the opacity green channel as the gloss map
+                        {
+                            definesBuilder.Append("GLOSS_CHANNEL_OPACITY_GREEN=1,");
+                        }
                     }
                 }
                 if ((maps & TextureMaps.Specular) == TextureMaps.Specular)

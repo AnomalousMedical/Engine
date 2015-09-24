@@ -303,7 +303,7 @@ float4 UnifiedFragmentShader
 	float3 normal = input.normal;
 #endif //NORMAL_MAP
 
-#ifdef OPACITY_MAP
+#if OPACITY_MAP || (GLOSS_MAP && GLOSS_CHANNEL_OPACITY_GREEN)
 	#ifdef SEPARATE_OPACITY
 		float2 opacityMapValue = opacityTexture.Sample(opacityTextureSampler, texCoords).rg;
 	#else

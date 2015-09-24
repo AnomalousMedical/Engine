@@ -224,7 +224,7 @@ void main()
 	vec3 normal = passNormal;
 #endif //NORMAL_MAP
 
-#ifdef OPACITY_MAP
+#if OPACITY_MAP || (GLOSS_MAP && GLOSS_CHANNEL_OPACITY_GREEN)
 	#ifdef SEPARATE_OPACITY
 		vec2 opacityMapValue = texture2D(opacityTexture, derivedCoords).rg;
 	#else
