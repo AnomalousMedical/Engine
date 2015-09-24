@@ -384,8 +384,8 @@ namespace Anomalous.OSPlatform
                 closingCB = new NativeAction(ClosingStatic);
                 closedCB = new NativeAction(ClosedStatic);
                 activateCB = new ActivateCB(ActivateStatic);
-                createInternalResourcesCB = new NativeAction(CreateInternalResourcesStatic);
-                destroyInternalResourcesCB = new NativeAction(DestroyInternalResourcesStatic);
+                createInternalResourcesCB = new ModifyResourcesCB(CreateInternalResourcesStatic);
+                destroyInternalResourcesCB = new ModifyResourcesCB(DestroyInternalResourcesStatic);
             }
 
             GCHandle handle;

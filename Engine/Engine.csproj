@@ -41,6 +41,27 @@
     <Prefer32Bit>false</Prefer32Bit>
     <DocumentationFile>..\Release\Engine.XML</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseAOT|AnyCPU'">
+    <OutputPath>..\ReleaseAOT\</OutputPath>
+    <DefineConstants>TRACE;FULL_AOT_COMPILE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>..\ReleaseAOT\Engine.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugAOT|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\DebugAOT\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;FULL_AOT_COMPILE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
