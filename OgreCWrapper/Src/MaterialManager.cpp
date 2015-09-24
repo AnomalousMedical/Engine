@@ -1,14 +1,15 @@
 #include "Stdafx.h"
 
-typedef Ogre::Technique*(*HandleSchemeNotFoundCb)(unsigned short schemeIndex, const String schemeName, Ogre::Material* originalMaterial, unsigned short lodIndex, const Ogre::Renderable* rend);
+typedef Ogre::Technique*(*HandleSchemeNotFoundCb)(unsigned short schemeIndex, const String schemeName, Ogre::Material* originalMaterial, unsigned short lodIndex, const Ogre::Renderable* rend HANDLE_ARG);
 
 class NativeMaterialListener : public Ogre::MaterialManager::Listener
 {
 private:
 	HandleSchemeNotFoundCb schemeNotFoundCb;
+	HANDLE_INSTANCE
 
 public:
-	NativeMaterialListener(HandleSchemeNotFoundCb schemeNotFoundCb)
+	NativeMaterialListener(HandleSchemeNotFoundCb schemeNotFoundCb HANDLE_ARG)
 		:schemeNotFoundCb(schemeNotFoundCb)
 		ASSIGN_HANDLE_INITIALIZER
 	{
@@ -19,14 +20,14 @@ public:
 
 	virtual Ogre::Technique* handleSchemeNotFound(unsigned short schemeIndex, const Ogre::String& schemeName, Ogre::Material* originalMaterial, unsigned short lodIndex, const Ogre::Renderable* rend)
 	{
-		return schemeNotFoundCb(schemeIndex, schemeName.c_str(), originalMaterial, lodIndex, rend);
+		return schemeNotFoundCb(schemeIndex, schemeName.c_str(), originalMaterial, lodIndex, rend PASS_HANDLE_ARG);
 	}
 };
 
-extern "C" _AnomalousExport NativeMaterialListener* NativeMaterialListener_create(HandleSchemeNotFoundCb schemeNotFoundCb)
+extern "C" _AnomalousExport NativeMaterialListener* NativeMaterialListener_create(HandleSchemeNotFoundCb schemeNotFoundCb HANDLE_ARG)
 {
 	NativeMaterialListener* listener = new NativeMaterialListener(schemeNotFoundCb);
-	Ogre::MaterialManager::getSingleton().addListener(listener);
+	Ogre::MaterialManager::getSingleton().addListener(listener PASS_HANDLE_ARG);
 	return listener;
 }
 
