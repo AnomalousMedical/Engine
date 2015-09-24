@@ -264,15 +264,18 @@ namespace OgreModelEditor
 
         private void setRenderer(RenderSystemType type)
         {
-            OgreConfig.RenderSystemType = type;
-            setSelectedRenderer();
-            MessageBox.show("Changing rendering systems requires the Ogre Model Editor to restart, would you like to do that now?", "Restart?", MessageBoxStyle.IconQuest | MessageBoxStyle.Yes | MessageBoxStyle.No, result =>
+            if (OgreConfig.RenderSystemType != type)
             {
-                if(result == MessageBoxStyle.Yes)
+                OgreConfig.RenderSystemType = type;
+                setSelectedRenderer();
+                MessageBox.show("Changing rendering systems requires the Ogre Model Editor to restart, would you like to do that now?", "Restart?", MessageBoxStyle.IconQuest | MessageBoxStyle.Yes | MessageBoxStyle.No, result =>
                 {
-                    controller.restart();
-                }
-            });
+                    if (result == MessageBoxStyle.Yes)
+                    {
+                        controller.restart();
+                    }
+                });
+            }
         }
 
         private void setSelectedRenderer()

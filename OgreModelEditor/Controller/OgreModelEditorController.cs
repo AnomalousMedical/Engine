@@ -348,7 +348,7 @@ namespace OgreModelEditor
 
         internal void restart()
         {
-            app.restart(false);
+            app.restart(false, lastFileName);
         }
 
         public void idle()

@@ -15,6 +15,7 @@ namespace Anomalous.OSPlatform
 
         private bool restartOnShutdown = false;
         private bool restartAsAdmin = false;
+        private String restartArgs = null;
 
         public App()
         {
@@ -40,6 +41,7 @@ namespace Anomalous.OSPlatform
                     {
                         startInfo = RuntimePlatformInfo.RestartProcInfo;
                     }
+                    startInfo.Arguments = restartArgs;
                     Process.Start(startInfo);
                 }
                 catch (Exception e)
@@ -63,11 +65,12 @@ namespace Anomalous.OSPlatform
         /// Exit the app and set it up to restart when this App instance is disposed.
         /// </summary>
         /// <param name="asAdmin"></param>
-        public void restart(bool asAdmin)
+        public void restart(bool asAdmin, String args = null)
         {
             exit();
             restartOnShutdown = true;
             restartAsAdmin = asAdmin;
+            restartArgs = args;
         }
 
         /// <summary>
