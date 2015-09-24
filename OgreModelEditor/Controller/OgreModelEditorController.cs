@@ -346,6 +346,11 @@ namespace OgreModelEditor
             yield return IdleStatus.Ok;
         }
 
+        internal void restart()
+        {
+            app.restart(false);
+        }
+
         public void idle()
         {
             idleHandler.onIdle();

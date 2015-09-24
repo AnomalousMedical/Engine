@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -73,6 +74,21 @@ namespace Anomalous.OSPlatform
                 return Instance != null;
             }
         }
+        public static ProcessStartInfo RestartAdminProcInfo
+        {
+            get
+            {
+                return Instance.RestartAdminProcInfoImpl;
+            }
+        }
+
+        public static ProcessStartInfo RestartProcInfo
+        {
+            get
+            {
+                return Instance.RestartProcInfoImpl;
+            }
+        }
 
         /// <summary>
         /// The instance of this platform info. Will be created when the subclass is instantiated.
@@ -81,7 +97,7 @@ namespace Anomalous.OSPlatform
 
         protected RuntimePlatformInfo()
         {
-            if(Instance != null)
+            if (Instance != null)
             {
                 throw new Exception("Can only create one instance of the RuntimePlatformInfo class.");
             }
@@ -109,5 +125,9 @@ namespace Anomalous.OSPlatform
         protected abstract string ExecutablePathImpl { get; }
 
         protected abstract bool ShowMoreColorsImpl { get; }
+
+        protected abstract ProcessStartInfo RestartProcInfoImpl { get; }
+
+        protected abstract ProcessStartInfo RestartAdminProcInfoImpl { get; }
     }
 }

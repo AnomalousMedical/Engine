@@ -1,6 +1,7 @@
 ﻿using Android.Content;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -54,6 +55,25 @@ namespace Anomalous.OSPlatform.Android
             get
             {
                 return false;
+            }
+        }
+
+        protected override ProcessStartInfo RestartProcInfoImpl
+        {
+            get
+            {
+                //ANROID_FIXLATER: probably not right
+                String[] args = Environment.GetCommandLineArgs();
+                return new ProcessStartInfo(args[0]);
+            }
+        }
+
+        protected override ProcessStartInfo RestartAdminProcInfoImpl
+        {
+            get
+            {
+                //ANROID_FIXLATER: probably not right
+                return RestartProcInfo;
             }
         }
     }

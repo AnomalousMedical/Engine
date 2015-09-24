@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using Anomalous.Interop;
+using System.Diagnostics;
 
 namespace Anomalous.OSPlatform
 {
@@ -12,8 +13,8 @@ namespace Anomalous.OSPlatform
         IntPtr appPtr;
         CallbackHandler callbackHandler;
 
-        protected bool restartOnShutdown = false;
-        protected bool restartAsAdmin = false;
+        private bool restartOnShutdown = false;
+        private bool restartAsAdmin = false;
 
         public App()
         {
@@ -26,6 +27,26 @@ namespace Anomalous.OSPlatform
             App_delete(appPtr);
             appPtr = IntPtr.Zero;
             callbackHandler.Dispose();
+            if(restartOnShutdown)
+            {
+                try
+                {
+                    ProcessStartInfo startInfo;
+                    if (restartAsAdmin)
+                    {
+                        startInfo = RuntimePlatformInfo.RestartAdminProcInfo;
+                    }
+                    else
+                    {
+                        startInfo = RuntimePlatformInfo.RestartProcInfo;
+                    }
+                    Process.Start(startInfo);
+                }
+                catch (Exception e)
+                {
+                    
+                }
+            }
         }
 
         public void run()
@@ -38,11 +59,24 @@ namespace Anomalous.OSPlatform
             App_exit(appPtr);
         }
 
+        /// <summary>
+        /// Exit the app and set it up to restart when this App instance is disposed.
+        /// </summary>
+        /// <param name="asAdmin"></param>
         public void restart(bool asAdmin)
         {
             exit();
             restartOnShutdown = true;
             restartAsAdmin = asAdmin;
+        }
+
+        /// <summary>
+        /// Call this to cancel a restart request, only really makes sense in the OnExit callback,
+        /// can be used to cancel app restarts for any reson.
+        /// </summary>
+        public void cancelRestart()
+        {
+            restartOnShutdown = false;
         }
 
         public abstract bool OnInit();

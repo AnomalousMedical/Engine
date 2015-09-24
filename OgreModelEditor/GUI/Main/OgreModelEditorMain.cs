@@ -70,6 +70,11 @@ namespace OgreModelEditor
         private MenuItem showStats;
         private MenuItem saveMicrocode;
 
+        private MenuItem defaultRenderer;
+        private MenuItem d3d11Renderer;
+        private MenuItem openGLRenderer;
+        private MenuItem openGLES2Renderer;
+
         public OgreModelEditorMain(OgreModelEditorController controller)
             :base("OgreModelEditor.GUI.Main.OgreModelEditorMain.layout")
         {
@@ -132,6 +137,12 @@ namespace OgreModelEditor
             renderingMode.addItemAction("Wireframe (F7)", setWireframe);
             renderingMode.addItemAction("Point (F8)", setPoints);
             window.addItemAction("Change Background Color", changeBackgroundColor);
+            MenuItem rendererItem = window.addItem("Renderer", MenuItemType.Popup);
+            MenuControl renderer = window.createItemPopupMenuChild(rendererItem);
+            defaultRenderer = renderer.addItemAction("Default", () => setRenderer(RenderSystemType.Default));
+            d3d11Renderer = renderer.addItemAction("DirectX 11", () => setRenderer(RenderSystemType.D3D11));
+            openGLRenderer = renderer.addItemAction("OpenGL", () => setRenderer(RenderSystemType.OpenGL));
+            openGLES2Renderer = renderer.addItemAction("OpenGLES2", () => setRenderer(RenderSystemType.OpenGLES2));
 
             //Buttons
             ButtonGroup toolButtons = new ButtonGroup();
@@ -155,6 +166,8 @@ namespace OgreModelEditor
             showSolidShortcut.FirstFrameUpEvent += layer => setSolid();
             showWireframeShortcut.FirstFrameUpEvent += layer => setWireframe();
             showPointShortcut.FirstFrameUpEvent += layer => setPoints();
+
+            setSelectedRenderer();
         }
 
         public SingleChildLayoutContainer LayoutContainer { get; private set; }
@@ -247,6 +260,28 @@ namespace OgreModelEditor
         private void threeWindow()
         {
             controller.createThreeWindows();
+        }
+
+        private void setRenderer(RenderSystemType type)
+        {
+            OgreConfig.RenderSystemType = type;
+            setSelectedRenderer();
+            MessageBox.show("Changing rendering systems requires the Ogre Model Editor to restart, would you like to do that now?", "Restart?", MessageBoxStyle.IconQuest | MessageBoxStyle.Yes | MessageBoxStyle.No, result =>
+            {
+                if(result == MessageBoxStyle.Yes)
+                {
+                    controller.restart();
+                }
+            });
+        }
+
+        private void setSelectedRenderer()
+        {
+            RenderSystemType current = OgreConfig.RenderSystemType;
+            defaultRenderer.Selected = current == RenderSystemType.Default;
+            d3d11Renderer.Selected = current == RenderSystemType.D3D11;
+            openGLRenderer.Selected = current == RenderSystemType.OpenGL;
+            openGLES2Renderer.Selected = current == RenderSystemType.OpenGLES2;
         }
 
         void fourWindow()

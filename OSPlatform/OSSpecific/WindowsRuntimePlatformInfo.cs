@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -55,6 +56,27 @@ namespace Anomalous.OSPlatform
             get
             {
                 return true;
+            }
+        }
+
+        protected override ProcessStartInfo RestartProcInfoImpl
+        {
+            get
+            {
+                String[] args = Environment.GetCommandLineArgs();
+                return new ProcessStartInfo(args[0]);
+            }
+        }
+
+        protected override ProcessStartInfo RestartAdminProcInfoImpl
+        {
+            get
+            {
+                var startInfo = RestartProcInfoImpl;
+                startInfo.Verb = "runas";
+                startInfo.UseShellExecute = true;
+
+                return startInfo;
             }
         }
     }
