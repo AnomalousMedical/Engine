@@ -26,8 +26,8 @@ public:
 
 extern "C" _AnomalousExport NativeMaterialListener* NativeMaterialListener_create(HandleSchemeNotFoundCb schemeNotFoundCb HANDLE_ARG)
 {
-	NativeMaterialListener* listener = new NativeMaterialListener(schemeNotFoundCb);
-	Ogre::MaterialManager::getSingleton().addListener(listener PASS_HANDLE_ARG);
+	NativeMaterialListener* listener = new NativeMaterialListener(schemeNotFoundCb PASS_HANDLE_ARG);
+	Ogre::MaterialManager::getSingleton().addListener(listener);
 	return listener;
 }
 
