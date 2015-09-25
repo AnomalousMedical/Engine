@@ -45,7 +45,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugAOT|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\DebugAOT\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;FULL_AOT_COMPILE;NEVER_CACHE_SHADERS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;FULL_AOT_COMPILE;STATIC_LINK;NEVER_CACHE_SHADERS</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -54,7 +54,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseAOT|AnyCPU'">
     <OutputPath>..\ReleaseAOT\</OutputPath>
-    <DefineConstants>TRACE;FULL_AOT_COMPILE;DISABLE_STACK_TRACES</DefineConstants>
+    <DefineConstants>TRACE;FULL_AOT_COMPILE;STATIC_LINK;DISABLE_STACK_TRACES</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>..\ReleaseAOT\OgrePlugin.XML</DocumentationFile>
     <Optimize>true</Optimize>
