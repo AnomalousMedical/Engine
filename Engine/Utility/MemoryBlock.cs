@@ -68,15 +68,5 @@ namespace Engine
                 return length;
             }
         }
-
-        #region PInvoke
-
-        [DllImport(ZipLibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
-        internal static unsafe extern byte* MemoryBlock_AllocateBuffer(int length);
-
-        [DllImport(ZipLibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
-        internal static unsafe extern void MemoryBlock_DellocateBuffer(byte* buffer);
-
-        #endregion
     }
 }

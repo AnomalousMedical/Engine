@@ -78,6 +78,10 @@
 		0115416A1A698BE2007948C1 /* WindowEventUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 011541211A698BE2007948C1 /* WindowEventUtilities.cpp */; };
 		0115416B1A698BE2007948C1 /* WrapperMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 011541221A698BE2007948C1 /* WrapperMath.cpp */; };
 		0115416C1A698BE2007948C1 /* Stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 011541231A698BE2007948C1 /* Stdafx.cpp */; };
+		0187DF0B1BB589980026338D /* GpuProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0187DF071BB589980026338D /* GpuProgram.cpp */; };
+		0187DF0C1BB589980026338D /* GpuProgramParameters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0187DF081BB589980026338D /* GpuProgramParameters.cpp */; };
+		0187DF0D1BB589980026338D /* HighLevelGpuProgramManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0187DF091BB589980026338D /* HighLevelGpuProgramManager.cpp */; };
+		0187DF0E1BB589980026338D /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0187DF0A1BB589980026338D /* Image.cpp */; };
 		019E57901AD41E5100A460B5 /* ManagedManualResourceLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 019E578F1AD41E5100A460B5 /* ManagedManualResourceLoader.cpp */; };
 		01A05F731A6DACF800AB35EB /* SkeletonManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A05F721A6DACF800AB35EB /* SkeletonManager.cpp */; };
 /* End PBXBuildFile section */
@@ -175,6 +179,10 @@
 		011541221A698BE2007948C1 /* WrapperMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WrapperMath.cpp; sourceTree = "<group>"; };
 		011541231A698BE2007948C1 /* Stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Stdafx.cpp; path = ../Stdafx.cpp; sourceTree = "<group>"; };
 		011541241A698BE2007948C1 /* Stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stdafx.h; path = ../Stdafx.h; sourceTree = "<group>"; };
+		0187DF071BB589980026338D /* GpuProgram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GpuProgram.cpp; sourceTree = "<group>"; };
+		0187DF081BB589980026338D /* GpuProgramParameters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GpuProgramParameters.cpp; sourceTree = "<group>"; };
+		0187DF091BB589980026338D /* HighLevelGpuProgramManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HighLevelGpuProgramManager.cpp; sourceTree = "<group>"; };
+		0187DF0A1BB589980026338D /* Image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Image.cpp; sourceTree = "<group>"; };
 		019E578F1AD41E5100A460B5 /* ManagedManualResourceLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManagedManualResourceLoader.cpp; sourceTree = "<group>"; };
 		01A05F721A6DACF800AB35EB /* SkeletonManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkeletonManager.cpp; sourceTree = "<group>"; };
 		01FF88961A698B9D005291A5 /* libOgreCWrapper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOgreCWrapper.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -210,6 +218,10 @@
 		011540DB1A698BE2007948C1 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				0187DF071BB589980026338D /* GpuProgram.cpp */,
+				0187DF081BB589980026338D /* GpuProgramParameters.cpp */,
+				0187DF091BB589980026338D /* HighLevelGpuProgramManager.cpp */,
+				0187DF0A1BB589980026338D /* Image.cpp */,
 				019E578F1AD41E5100A460B5 /* ManagedManualResourceLoader.cpp */,
 				01A05F721A6DACF800AB35EB /* SkeletonManager.cpp */,
 				011540DC1A698BE2007948C1 /* Animation.cpp */,
@@ -388,9 +400,11 @@
 				0115414E1A698BE2007948C1 /* OgreManagedStream.cpp in Sources */,
 				011541311A698BE2007948C1 /* HardwareBuffer.cpp in Sources */,
 				011541431A698BE2007948C1 /* MovableObject.cpp in Sources */,
+				0187DF0D1BB589980026338D /* HighLevelGpuProgramManager.cpp in Sources */,
 				011541631A698BE2007948C1 /* VertexAnimationTrack.cpp in Sources */,
 				0115415E1A698BE2007948C1 /* SubMesh.cpp in Sources */,
 				011541401A698BE2007948C1 /* Mesh.cpp in Sources */,
+				0187DF0B1BB589980026338D /* GpuProgram.cpp in Sources */,
 				011541661A698BE2007948C1 /* VertexDeclaration.cpp in Sources */,
 				0115415F1A698BE2007948C1 /* Technique.cpp in Sources */,
 				011541641A698BE2007948C1 /* VertexBufferBinding.cpp in Sources */,
@@ -422,6 +436,7 @@
 				0115415A1A698BE2007948C1 /* SceneNode.cpp in Sources */,
 				019E57901AD41E5100A460B5 /* ManagedManualResourceLoader.cpp in Sources */,
 				011541451A698BE2007948C1 /* NativeSceneListener.cpp in Sources */,
+				0187DF0C1BB589980026338D /* GpuProgramParameters.cpp in Sources */,
 				0115412C1A698BE2007948C1 /* Camera.cpp in Sources */,
 				01A05F731A6DACF800AB35EB /* SkeletonManager.cpp in Sources */,
 				011541351A698BE2007948C1 /* HardwareVertexBuffer.cpp in Sources */,
@@ -433,6 +448,7 @@
 				011541391A698BE2007948C1 /* ManagedRenderQueueListener.cpp in Sources */,
 				011541251A698BE2007948C1 /* Animation.cpp in Sources */,
 				011541281A698BE2007948C1 /* AnimationStateSet.cpp in Sources */,
+				0187DF0E1BB589980026338D /* Image.cpp in Sources */,
 				011541321A698BE2007948C1 /* HardwareBufferManager.cpp in Sources */,
 				0115415C1A698BE2007948C1 /* StaticGeometry.cpp in Sources */,
 			);
