@@ -56,39 +56,45 @@ namespace Anomalous.GuiFramework.Debugging
 
         unsafe void save_MouseButtonClick(Widget source, EventArgs e)
         {
-            if (textureCombo.SelectedIndex != ComboBox.Invalid)
-            {
-                String selectedTexture = textureCombo.SelectedItemName;
-                using (var tex = TextureManager.getInstance().getByName(selectedTexture))
+            try {
+                if (textureCombo.SelectedIndex != ComboBox.Invalid)
                 {
-                    int numMips = tex.Value.NumMipmaps + 1;
-                    int width = (int)tex.Value.Width;
-                    int height = (int)tex.Value.Height;
-                    for (int mip = 0; mip < numMips; ++mip)
+                    String selectedTexture = textureCombo.SelectedItemName;
+                    using (var tex = TextureManager.getInstance().getByName(selectedTexture))
                     {
-                        using (var buffer = tex.Value.getBuffer(0, (uint)mip))
+                        int numMips = tex.Value.NumMipmaps + 1;
+                        int width = (int)tex.Value.Width;
+                        int height = (int)tex.Value.Height;
+                        for (int mip = 0; mip < numMips; ++mip)
                         {
-                            using (var blitBitmap = new FreeImageAPI.FreeImageBitmap(width, height, FreeImageAPI.PixelFormat.Format32bppArgb))
+                            using (var buffer = tex.Value.getBuffer(0, (uint)mip))
                             {
-                                using (var blitBitmapBox = new PixelBox(0, 0, width, height, OgreDrawingUtility.getOgreFormat(blitBitmap.PixelFormat), blitBitmap.GetScanlinePointer(0).ToPointer()))
+                                using (var blitBitmap = new FreeImageAPI.FreeImageBitmap(width, height, FreeImageAPI.PixelFormat.Format32bppArgb))
                                 {
-                                    buffer.Value.blitToMemory(blitBitmapBox);
-                                }
+                                    using (var blitBitmapBox = new PixelBox(0, 0, width, height, OgreDrawingUtility.getOgreFormat(blitBitmap.PixelFormat), blitBitmap.GetScanlinePointer(0).ToPointer()))
+                                    {
+                                        buffer.Value.blitToMemory(blitBitmapBox);
+                                    }
 
-                                blitBitmap.RotateFlip(FreeImageAPI.RotateFlipType.RotateNoneFlipY);
-                                String fileName = String.Format("{0}_mip_{1}.png", selectedTexture, mip);
-                                fileName = Path.Combine(RuntimePlatformInfo.LocalUserDocumentsFolder, fileName);
-                                using (var stream = System.IO.File.Open(fileName, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite))
-                                {
-                                    blitBitmap.Save(stream, FreeImageAPI.FREE_IMAGE_FORMAT.FIF_PNG);
+                                    blitBitmap.RotateFlip(FreeImageAPI.RotateFlipType.RotateNoneFlipY);
+                                    String fileName = String.Format("{0}_mip_{1}.png", selectedTexture, mip);
+                                    fileName = Path.Combine(RuntimePlatformInfo.LocalUserDocumentsFolder, fileName);
+                                    using (var stream = System.IO.File.Open(fileName, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite))
+                                    {
+                                        blitBitmap.Save(stream, FreeImageAPI.FREE_IMAGE_FORMAT.FIF_PNG);
+                                    }
+                                    MessageBox.show(String.Format("Saved texture to {0}", fileName), "Texture Saved", MessageBoxStyle.Ok | MessageBoxStyle.IconInfo);
                                 }
-                                MessageBox.show(String.Format("Saved texture to {0}", fileName), "Texture Saved", MessageBoxStyle.Ok | MessageBoxStyle.IconInfo);
+                                width >>= 1;
+                                height >>= 1;
                             }
-                            width >>= 1;
-                            height >>= 1;
                         }
                     }
                 }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.show(String.Format("Error saving texture.\n{0} occured. Message: {1}", ex.GetType().Name, ex.Message), "Texture Save Error", MessageBoxStyle.Ok | MessageBoxStyle.IconError);
             }
         }
 
