@@ -1,10 +1,12 @@
 ﻿using Anomalous.GuiFramework;
+using Anomalous.OSPlatform;
 using Engine;
 using MyGUIPlugin;
 using OgrePlugin;
 using OgrePlugin.VirtualTexture;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -74,10 +76,13 @@ namespace Anomalous.GuiFramework.Debugging
                                 }
 
                                 blitBitmap.RotateFlip(FreeImageAPI.RotateFlipType.RotateNoneFlipY);
-                                using (var stream = System.IO.File.Open(selectedTexture + "_mip_" + mip + ".bmp", System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite))
+                                String fileName = String.Format("{0}_mip_{1}.png", selectedTexture, mip);
+                                fileName = Path.Combine(RuntimePlatformInfo.LocalUserDocumentsFolder, fileName);
+                                using (var stream = System.IO.File.Open(fileName, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite))
                                 {
-                                    blitBitmap.Save(stream, FreeImageAPI.FREE_IMAGE_FORMAT.FIF_BMP);
+                                    blitBitmap.Save(stream, FreeImageAPI.FREE_IMAGE_FORMAT.FIF_PNG);
                                 }
+                                MessageBox.show(String.Format("Saved texture to {0}", fileName), "Texture Saved", MessageBoxStyle.Ok | MessageBoxStyle.IconInfo);
                             }
                             width >>= 1;
                             height >>= 1;
