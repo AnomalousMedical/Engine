@@ -116,3 +116,15 @@ extern "C" _AnomalousExport size_t Image_calculateSize(size_t mipmaps, size_t fa
 {
 	return Ogre::Image::calculateSize(mipmaps, faces, width, height, depth, format);
 }
+
+extern "C" _AnomalousExport uint32 Image_getColorAtARGB(Ogre::Image* image, size_t x, size_t y, size_t z)
+{
+	return image->getColourAt(x, y, z).getAsARGB();
+}
+
+extern "C" _AnomalousExport void Image_setColorAtARGB(Ogre::Image* image, uint32 colorARGB, size_t x, size_t y, size_t z)
+{
+	Ogre::ColourValue cv;
+	cv.setAsARGB(colorARGB);
+	image->setColourAt(cv, x, y, z);
+}

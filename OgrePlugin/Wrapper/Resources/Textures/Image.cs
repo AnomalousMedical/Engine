@@ -77,6 +77,16 @@ namespace OgrePlugin
             Image_save(ptr, filename);
         }
 
+        public UInt32 getColorAtARGB(uint x, uint y, uint z)
+        {
+            return Image_getColorAtARGB(ptr, new UIntPtr(x), new UIntPtr(y), new UIntPtr(z));
+        }
+
+        public void setColorAtARGB(UInt32 color, uint x, uint y, uint z)
+        {
+            Image_setColorAtARGB(ptr, color, new UIntPtr(x), new UIntPtr(y), new UIntPtr(z));
+        }
+
         public static void Scale(PixelBox src, PixelBox dst, Filter filter = Filter.FILTER_BILINEAR)
         {
             Image_scale(src.OgreBox, dst.OgreBox, filter);
@@ -237,6 +247,12 @@ namespace OgrePlugin
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern UIntPtr Image_calculateSize(UIntPtr mipmaps, UIntPtr faces, uint width, uint height, uint depth, PixelFormat format);
 
-        #endregion
-    }
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern UInt32 Image_getColorAtARGB(IntPtr image, UIntPtr x, UIntPtr y, UIntPtr z);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Image_setColorAtARGB(IntPtr image, UInt32 colorARGB, UIntPtr x, UIntPtr y, UIntPtr z);
+
+            #endregion
+        }
 }
