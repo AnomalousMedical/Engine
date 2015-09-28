@@ -21,15 +21,14 @@ namespace OgrePlugin.VirtualTexture
             AnalyzeFeedback,
             Waiting,
             InitialLoad,
-            Reset
+            Reset,
+            Delay //Delay is different from waiting, in waiting we are waiting for a specific event to finish in delay we are causing a delay to occur
         }
 
         public const String ResourceGroup = "VirtualTextureGroup";
 
         private FeedbackBuffer opaqueFeedbackBuffer;
         private FeedbackBuffer transparentFeedbackBuffer;
-        private int frameCount = 0;
-        private int updateBufferFrame = 2;
         private Phase phase = Phase.InitialLoad; //All indirection textures will be created requesting their lowest mip levels, this will force us to load those as quickly as possible
         private int texelsPerPage;
         private float pageSizeLog2;
@@ -37,6 +36,8 @@ namespace OgrePlugin.VirtualTexture
         private CompressedTextureSupport textureFormat;
         private IntSize2 physicalTextureSize;
         private int maxSyncPerFrame = int.MaxValue;
+        private int currentFeedbackDelayCount = 0;
+        private int maxFeedbackDelay = 10;
 
         private TextureLoader textureLoader;
 
@@ -143,150 +144,153 @@ namespace OgrePlugin.VirtualTexture
 
         public void update()
         {
-            if (frameCount == 0)
+            switch (phase)
             {
-                switch (phase)
-                {
-                    case Phase.RenderFeedback:
-                        PerformanceMonitor.start("FeedbackBuffer Render");
-                        opaqueFeedbackBuffer.update();
-                        transparentFeedbackBuffer.update();
-                        PerformanceMonitor.stop("FeedbackBuffer Render");
-                        phase = Phase.CopyFeedbackToStaging;
-                        break;
-                    case Phase.CopyFeedbackToStaging:
-                        PerformanceMonitor.start("FeedbackBuffer blit to staging");
-                        opaqueFeedbackBuffer.blitToStaging();
-                        transparentFeedbackBuffer.blitToStaging();
-                        PerformanceMonitor.stop("FeedbackBuffer blit to staging");
-                        phase = Phase.CopyStagingToMemory;
-                        break;
-                    case Phase.CopyStagingToMemory:
-                        PerformanceMonitor.start("FeedbackBuffer blit staging to memory");
-                        opaqueFeedbackBuffer.blitStagingToMemory();
-                        transparentFeedbackBuffer.blitStagingToMemory();
-                        PerformanceMonitor.stop("FeedbackBuffer blit staging to memory");
-                        phase = Phase.AnalyzeFeedback;
-                        break;
-                    case Phase.AnalyzeFeedback:
-                        phase = Phase.Waiting;
-                        ThreadManager.RunInBackground(() =>
+                case Phase.RenderFeedback:
+                    PerformanceMonitor.start("FeedbackBuffer Render");
+                    opaqueFeedbackBuffer.update();
+                    transparentFeedbackBuffer.update();
+                    PerformanceMonitor.stop("FeedbackBuffer Render");
+                    phase = Phase.CopyFeedbackToStaging;
+                    break;
+                case Phase.CopyFeedbackToStaging:
+                    PerformanceMonitor.start("FeedbackBuffer blit to staging");
+                    opaqueFeedbackBuffer.blitToStaging();
+                    transparentFeedbackBuffer.blitToStaging();
+                    PerformanceMonitor.stop("FeedbackBuffer blit to staging");
+                    phase = Phase.CopyStagingToMemory;
+                    break;
+                case Phase.CopyStagingToMemory:
+                    PerformanceMonitor.start("FeedbackBuffer blit staging to memory");
+                    opaqueFeedbackBuffer.blitStagingToMemory();
+                    transparentFeedbackBuffer.blitStagingToMemory();
+                    PerformanceMonitor.stop("FeedbackBuffer blit staging to memory");
+                    phase = Phase.AnalyzeFeedback;
+                    break;
+                case Phase.AnalyzeFeedback:
+                    phase = Phase.Waiting;
+                    ThreadManager.RunInBackground(() =>
+                    {
+                        try
                         {
-                            try
-                            {
-                                PerformanceMonitor.start("FeedbackBuffer Analyze");
-                                opaqueFeedbackBuffer.analyzeBuffer();
-                                transparentFeedbackBuffer.analyzeBuffer();
-                                PerformanceMonitor.stop("FeedbackBuffer Analyze");
+                            PerformanceMonitor.start("FeedbackBuffer Analyze");
+                            opaqueFeedbackBuffer.analyzeBuffer();
+                            transparentFeedbackBuffer.analyzeBuffer();
+                            PerformanceMonitor.stop("FeedbackBuffer Analyze");
 
-                                IEnumerable<IndirectionTexture> currentRetiringTextures = null;
-                                lock (retiredIndirectionTextures)
+                            IEnumerable<IndirectionTexture> currentRetiringTextures = null;
+                            lock (retiredIndirectionTextures)
+                            {
+                                if (retiredIndirectionTextures.Count > 0)
                                 {
-                                    if (retiredIndirectionTextures.Count > 0)
-                                    {
-                                        currentRetiringTextures = retiredIndirectionTextures.ToList();
-                                        retiredIndirectionTextures.Clear();
-                                    }
+                                    currentRetiringTextures = retiredIndirectionTextures.ToList();
+                                    retiredIndirectionTextures.Clear();
                                 }
+                            }
 
                                 //Begin indirection texture retirement
                                 if (currentRetiringTextures != null)
+                            {
+                                foreach (var indirectionTex in currentRetiringTextures)
                                 {
-                                    foreach (var indirectionTex in currentRetiringTextures)
-                                    {
-                                        indirectionTex.beginRetirement();
-                                    }
+                                    indirectionTex.beginRetirement();
                                 }
+                            }
 
-                                PerformanceMonitor.start("Finish Page Update");
-                                foreach (var indirectionTex in activeIndirectionTextures)
-                                {
-                                    indirectionTex.finishPageUpdate();
-                                }
-                                PerformanceMonitor.stop("Finish Page Update");
+                            PerformanceMonitor.start("Finish Page Update");
+                            foreach (var indirectionTex in activeIndirectionTextures)
+                            {
+                                indirectionTex.finishPageUpdate();
+                            }
+                            PerformanceMonitor.stop("Finish Page Update");
 
-                                PerformanceMonitor.start("Update Texture Loader");
-                                if (currentRetiringTextures != null)
+                            PerformanceMonitor.start("Update Texture Loader");
+                            if (currentRetiringTextures != null)
+                            {
+                                textureLoader.updatePagesFromRequests(() =>
                                 {
-                                    textureLoader.updatePagesFromRequests(() =>
-                                    {
                                         //Finish indirection texture retirement, this is called as the texture load loop resumes
                                         textureLoader.clearCache(); //Pretty brute force, can we remove just the cached textures for the removed indirection textures?
                                         foreach (var indirectionTex in currentRetiringTextures)
-                                        {
-                                            indirectionTexturesById.Remove(indirectionTex.Id);
-                                            activeIndirectionTextures.Remove(indirectionTex);
-                                            ThreadManager.invoke(indirectionTex.Dispose);
-                                        }
+                                    {
+                                        indirectionTexturesById.Remove(indirectionTex.Id);
+                                        activeIndirectionTextures.Remove(indirectionTex);
+                                        ThreadManager.invoke(indirectionTex.Dispose);
+                                    }
 
                                         //Activate new textures
                                         activateNewIndirectionTextures();
-                                    },
-                                    currentRetiringTextures.Select(i => i.Id));
+                                },
+                                currentRetiringTextures.Select(i => i.Id));
 
+                            }
+                            else
+                            {
+                                if (newIndirectionTextures.Count > 0)
+                                {
+                                    textureLoader.updatePagesFromRequests(activateNewIndirectionTextures);
                                 }
                                 else
                                 {
-                                    if (newIndirectionTextures.Count > 0)
-                                    {
-                                        textureLoader.updatePagesFromRequests(activateNewIndirectionTextures);
-                                    }
-                                    else
-                                    {
-                                        textureLoader.updatePagesFromRequests();
-                                    }
+                                    textureLoader.updatePagesFromRequests();
                                 }
-                                PerformanceMonitor.stop("Update Texture Loader");
                             }
-                            finally
-                            {
-                                phase = Phase.RenderFeedback;
-                            }
-                        });
-                        break;
-                    case Phase.InitialLoad:
-                        phase = Phase.Waiting;
-                        ThreadManager.RunInBackground(() =>
+                            PerformanceMonitor.stop("Update Texture Loader");
+                        }
+                        finally
                         {
-                            try
-                            {
-                                activateNewIndirectionTextures();
-
-                                foreach (var indirectionTex in activeIndirectionTextures)
-                                {
-                                    indirectionTex.finishPageUpdate();
-                                }
-
-                                textureLoader.updatePagesFromRequests();
-                            }
-                            finally
-                            {
-                                phase = Phase.RenderFeedback;
-                            }
-                        });
-                        break;
-                    case Phase.Reset:
-                        phase = Phase.Waiting;
-                        ThreadManager.RunInBackground(() =>
+                            phase = Phase.Delay; //This means we always delay at least one frame, but this gives a chance for textures to upload to the gpu.
+                        }
+                    });
+                    break;
+                case Phase.InitialLoad:
+                    phase = Phase.Waiting;
+                    ThreadManager.RunInBackground(() =>
+                    {
+                        try
                         {
-                            try
+                            activateNewIndirectionTextures();
+
+                            foreach (var indirectionTex in activeIndirectionTextures)
                             {
-                                foreach (var indirectionTex in activeIndirectionTextures)
-                                {
-                                    indirectionTex.finishPageUpdate();
-                                }
-                                textureLoader.updatePagesFromRequests();
-                                textureLoader.clearCache();
+                                indirectionTex.finishPageUpdate();
                             }
-                            finally
+
+                            textureLoader.updatePagesFromRequests();
+                        }
+                        finally
+                        {
+                            phase = Phase.RenderFeedback;
+                        }
+                    });
+                    break;
+                case Phase.Reset:
+                    phase = Phase.Waiting;
+                    ThreadManager.RunInBackground(() =>
+                    {
+                        try
+                        {
+                            foreach (var indirectionTex in activeIndirectionTextures)
                             {
-                                phase = Phase.RenderFeedback;
+                                indirectionTex.finishPageUpdate();
                             }
-                        });
-                        break;
-                }
+                            textureLoader.updatePagesFromRequests();
+                            textureLoader.clearCache();
+                        }
+                        finally
+                        {
+                            phase = Phase.RenderFeedback;
+                        }
+                    });
+                    break;
+                case Phase.Delay:
+                    if(++currentFeedbackDelayCount > maxFeedbackDelay)
+                    {
+                        currentFeedbackDelayCount = 0;
+                        phase = Phase.RenderFeedback;
+                    }
+                    break;
             }
-            frameCount = (frameCount + 1) % updateBufferFrame;
             uploadStagingToGpu();
         }
 
@@ -432,6 +436,22 @@ namespace OgrePlugin.VirtualTexture
             }
         }
 
+        /// <summary>
+        /// The maximum number of frames to delay before starting the feedback buffer
+        /// render again.
+        /// </summary>
+        public int MaxFeedbackDelay
+        {
+            get
+            {
+                return maxFeedbackDelay;
+            }
+            set
+            {
+                maxFeedbackDelay = value;
+            }
+        }
+
         internal Vector2 PhysicalSizeRecrip
         {
             get
@@ -480,7 +500,7 @@ namespace OgrePlugin.VirtualTexture
 
                 //Since indirection textures are always fully up to date, process the list backwards and only
                 //update indirection textures that haven't been uploaded, avoids extra uploads
-                for(int i = toUploadList.Count - 1; i >= 0; --i)
+                for (int i = toUploadList.Count - 1; i >= 0; --i)
                 {
                     toUploadList[i].uploadTexturesToGpu(shouldUpload);
                     textureLoader.returnStagingBuffer(toUploadList[i]);
