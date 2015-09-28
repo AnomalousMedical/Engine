@@ -81,7 +81,6 @@ namespace OgrePlugin.VirtualTexture
         private HashSet<VTexPage> visibleThisUpdate = new HashSet<VTexPage>();
         private List<VTexPage> removedPages = new List<VTexPage>();
         private HashSet<VTexPage> addedPages = new HashSet<VTexPage>();
-        private bool updateTextureOnApply = false;
         private List<OriginalTextureInfo> originalTextureUnits = new List<OriginalTextureInfo>(4);
         private bool keepHighestMip;
 
@@ -256,7 +255,6 @@ namespace OgrePlugin.VirtualTexture
 
         internal void addPhysicalPage(PTexPage pTexPage)
         {
-            updateTextureOnApply = true;
 #if !DEBUG_MIPMAP_LEVELS
             //Store 1x1 as mip 0, 2x2 as 1 4x4 as 2 etc, this way we can directly shift the decimal place
             //Then we will take fract from that
@@ -276,7 +274,6 @@ namespace OgrePlugin.VirtualTexture
 
         internal void removePhysicalPage(PTexPage pTexPage)
         {
-            updateTextureOnApply = true;
             var vTextPage = pTexPage.VirtualTexturePage;
             //Replace color with the one on the higher mip level
             FreeImageAPI.Color color;
