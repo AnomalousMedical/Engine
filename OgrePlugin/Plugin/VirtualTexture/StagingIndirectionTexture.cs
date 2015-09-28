@@ -9,33 +9,30 @@ namespace OgrePlugin.VirtualTexture
 {
     class StagingIndirectionTexture : IDisposable
     {
-        private FreeImageAPI.FreeImageBitmap[] fiBitmap;
+        private Image[] images;
         private PixelBox[] pixelBox;
         private IndirectionTexture indirectionTexture;
 
         public StagingIndirectionTexture(int numMipLevels)
         {
-            fiBitmap = new FreeImageAPI.FreeImageBitmap[numMipLevels];
+            images = new Image[numMipLevels];
             pixelBox = new PixelBox[numMipLevels];
             int currentMipLevel = 1;
 
             for (int i = numMipLevels - 1; i >= 0; --i)
             {
-                fiBitmap[i] = new FreeImageAPI.FreeImageBitmap(currentMipLevel, currentMipLevel, FreeImageAPI.PixelFormat.Format32bppArgb);
-                unsafe
-                {
-                    pixelBox[i] = new PixelBox(0, 0, fiBitmap[i].Width, fiBitmap[i].Height, OgreDrawingUtility.getOgreFormat(fiBitmap[i].PixelFormat), fiBitmap[i].GetScanlinePointer(0).ToPointer());
-                }
+                images[i] = new Image((uint)currentMipLevel, (uint)currentMipLevel, 1, PixelFormat.PF_A8R8G8B8, 1, 0);
+                pixelBox[i] = images[i].getPixelBox();
                 currentMipLevel <<= 1;
             }
         }
 
         public void Dispose()
         {
-            for (int i = 0; i < fiBitmap.Length; ++i)
+            for (int i = 0; i < images.Length; ++i)
             {
                 pixelBox[i].Dispose();
-                fiBitmap[i].Dispose();
+                images[i].Dispose();
             }
         }
 
