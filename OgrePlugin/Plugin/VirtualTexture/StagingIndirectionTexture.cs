@@ -21,7 +21,7 @@ namespace OgrePlugin.VirtualTexture
 
             for (int i = numMipLevels - 1; i >= 0; --i)
             {
-                images[i] = new Image((uint)currentMipLevel, (uint)currentMipLevel, 1, PixelFormat.PF_A8R8G8B8, 1, 0);
+                images[i] = new Image((uint)currentMipLevel, (uint)currentMipLevel, 1, IndirectionTexture.BufferFormat, 1, 0);
                 pixelBox[i] = images[i].getPixelBox();
                 currentMipLevel <<= 1;
             }
@@ -40,6 +40,7 @@ namespace OgrePlugin.VirtualTexture
         {
             this.indirectionTexture = indirectionTexture;
             indirectionTexture.copyToStaging(pixelBox);
+            //indirectionTexture.debug_CheckTexture(images);
         }
 
         public void uploadToGpu()

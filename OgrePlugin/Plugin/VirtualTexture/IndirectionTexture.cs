@@ -39,6 +39,60 @@ namespace OgrePlugin.VirtualTexture
             currentId = (byte)((currentId + 1) % maxId);
         }
 
+        private static PixelFormat bufferFormat = PixelFormat.PF_A8R8G8B8;
+        private const  uint AValue = 0xff000000;
+        private static int RShift = 16;
+        private const  int GShift = 8;
+        private static int BShift = 0;
+
+        private const  uint AMask = 0xff000000;
+        private static uint RMask = 0x00ff0000;
+        private const  uint GMask = 0x0000ff00;
+        private static uint BMask = 0x000000ff;
+
+        /// <summary>
+        /// Set by the VirtualTextureManager when it is first created, this will do a runtime test to see what format we get out of the
+        /// hardware at runtime, this is then used to setup everything correctly. Do not set outside of te VirtualTextureManager.
+        /// </summary>
+        internal static PixelFormat BufferFormat
+        {
+            get
+            {
+                return bufferFormat;
+            }
+            set
+            {
+                if (bufferFormat != value)
+                {
+                    bufferFormat = value;
+                    switch (bufferFormat)
+                    {
+                        case PixelFormat.PF_A8R8G8B8:
+                            RShift = 16;
+                            BShift = 0;
+
+                            RMask = 0x00ff0000;
+                            BMask = 0x000000ff;
+                            break;
+                        //case PixelFormat.PF_A8B8G8R8:
+                        //    RShift = 0;
+                        //    BShift = 16;
+
+                        //    RMask = 0x000000ff;
+                        //    BMask = 0x00ff0000;
+                        //    break;
+                        case PixelFormat.PF_A8B8G8R8:
+                            RShift = 16;
+                            BShift = 0;
+
+                            RMask = 0x00ff0000;
+                            BMask = 0x000000ff;
+                            break;
+                    }
+                }
+            }
+        }
+
         private byte id = generateId();
         private IntSize2 realTextureSize;
         private TexturePtr indirectionTexture;
@@ -73,7 +127,7 @@ namespace OgrePlugin.VirtualTexture
             }
             for (highestMip = 0; realTextureSize.Width >> highestMip >= texelsPerPage && realTextureSize.Height >> highestMip >= texelsPerPage; ++highestMip) { }
             indirectionTexture = TextureManager.getInstance().createManual(String.Format("{0}_IndirectionTexture_{1}", materialSetKey, id), VirtualTextureManager.ResourceGroup, TextureType.TEX_TYPE_2D,
-                (uint)numPages.Width, (uint)numPages.Height, 1, highestMip, PixelFormat.PF_A8R8G8B8, virtualTextureManager.RendersystemSpecificTextureUsage, null, false, 0);
+                (uint)numPages.Width, (uint)numPages.Height, 1, highestMip, bufferFormat, virtualTextureManager.RendersystemSpecificTextureUsage, null, false, 0);
             indirectionTexture.Value.AllowMipmapGeneration = false;
 
             fiBitmap = new Image[highestMip];
@@ -203,7 +257,7 @@ namespace OgrePlugin.VirtualTexture
 
         internal void copyToStaging(PixelBox[] destinations)
         {
-            //Logging.Log.Debug("Copy direct {0}", destinations[0].Format == pixelBox[0].Format);
+            Logging.Log.Debug("Copy direct {0}", destinations[0].Format == pixelBox[0].Format);
             int srcIndex = 0;
             for (int i = destinations.Length - highestMip; i < destinations.Length; ++i)
             {
@@ -213,7 +267,7 @@ namespace OgrePlugin.VirtualTexture
 
         internal void uploadStagingToGpu(PixelBox[] sources)
         {
-            //Logging.Log.Debug("Upload direct {0}", sources[0].Format == indirectionTexture.Value.Format);
+            Logging.Log.Debug("Upload direct {0}", sources[0].Format == indirectionTexture.Value.Format);
             int destIndex = 0;
             for (int i = sources.Length - highestMip; i < sources.Length; ++i)
             {
@@ -253,10 +307,10 @@ namespace OgrePlugin.VirtualTexture
             uint g = (uint)pTexPage.pageY;
             uint b = (uint)(highestMip - vTextPage.mip - 1); //Reverse the mip level (0 becomes highest level (least texels) and highesetMip becomes the lowest level (most texels, full size)
 
-            UInt32 color = ((uint)255 << 24) + (r << 16) + (g << 8) + b;
+            UInt32 color = AValue + (r << RShift) + (g << GShift) + (b << BShift);
 
             fiBitmap[vTextPage.mip].setColorAtARGB(color, vTextPage.x, vTextPage.y, 0);
-            fillOutLowerMips(vTextPage, color, (c1, c2) => (c1 & 0x0000ff00) - (c2 & 0x0000ff00) >= 0);
+            fillOutLowerMips(vTextPage, color, (c1, c2) => (c1 & BMask) - (c2 & BMask) >= 0);
         }
 
         internal void removePhysicalPage(PTexPage pTexPage)
@@ -270,11 +324,11 @@ namespace OgrePlugin.VirtualTexture
             }
             else
             {
-                color = (uint)((highestMip - vTextPage.mip - 1) << 8);
+                color = (uint)((highestMip - vTextPage.mip - 1) << BShift);
             }
-            uint replacementMipLevel = (uint)((highestMip - vTextPage.mip - 1) << 8);
+            uint replacementMipLevel = (uint)((highestMip - vTextPage.mip - 1) << BShift);
             fiBitmap[vTextPage.mip].setColorAtARGB(color, vTextPage.x, vTextPage.y, 0);
-            fillOutLowerMips(vTextPage, color, (c1, c2) => (c2 & 0x0000ff00) == replacementMipLevel);
+            fillOutLowerMips(vTextPage, color, (c1, c2) => (c2 & BMask) == replacementMipLevel);
         }
 
         private void fillOutLowerMips(VTexPage vTextPage, UInt32 color, Func<UInt32, UInt32, bool> writePixel)

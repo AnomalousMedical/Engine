@@ -66,6 +66,13 @@ namespace OgrePlugin.VirtualTexture
                 OgreResourceGroupManager.getInstance().createResourceGroup(VirtualTextureManager.ResourceGroup);
             }
 
+            //Determine actual runtime texture formats by just creating a simple one quickly.
+            using (TexturePtr testTexture = TextureManager.getInstance().createManual("TestTexture__VTRESERVED", VirtualTextureManager.ResourceGroup, TextureType.TEX_TYPE_2D, 1, 1, 1, 0, PixelFormat.PF_A8R8G8B8, TextureUsage.TU_STATIC, null, false, 0))
+            {
+                IndirectionTexture.BufferFormat = testTexture.Value.Format;
+                TextureManager.getInstance().remove(testTexture);
+            }
+
             switch (textureFormat)
             {
                 case CompressedTextureSupport.DXT_BC4_BC5:
