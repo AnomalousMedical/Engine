@@ -48,8 +48,15 @@ namespace OgrePlugin.VirtualTexture
         private List<IndirectionTexture> newIndirectionTextures = new List<IndirectionTexture>();
         private ConcurrentQueue<StagingBufferSet> waitingGpuSyncs = new ConcurrentQueue<StagingBufferSet>();
 
+        //Texture upload data
+        private HashSet<byte> uploadedIndirectionTextures;
+        private List<StagingBufferSet> toUploadList;
+
         public VirtualTextureManager(int numPhysicalTextures, IntSize2 physicalTextureSize, int texelsPerPage, int largestRealTextureSize, CompressedTextureSupport textureFormat, int stagingBufferCount, IntSize2 feedbackBufferSize, ulong maxCacheSizeBytes, bool texturesArePagedOnDisk)
         {
+            uploadedIndirectionTextures = new HashSet<byte>();
+            toUploadList = new List<StagingBufferSet>(stagingBufferCount);
+
             this.physicalTextureSize = physicalTextureSize;
             this.texelsPerPage = texelsPerPage;
             this.pageSizeLog2 = (float)Math.Log(texelsPerPage, 2.0);
@@ -468,14 +475,29 @@ namespace OgrePlugin.VirtualTexture
                 StagingBufferSet current;
                 for (int i = 0; i < maxSyncPerFrame && waitingGpuSyncs.TryDequeue(out current); ++i)
                 {
-                    current.uploadTexturesToGpu();
-                    textureLoader.returnStagingBuffer(current);
+                    toUploadList.Add(current);
                 }
+
+                //Since indirection textures are always fully up to date, process the list backwards and only
+                //update indirection textures that haven't been uploaded, avoids extra uploads
+                for(int i = toUploadList.Count - 1; i >= 0; --i)
+                {
+                    toUploadList[i].uploadTexturesToGpu(shouldUpload);
+                    textureLoader.returnStagingBuffer(toUploadList[i]);
+                }
+                toUploadList.Clear();
+                uploadedIndirectionTextures.Clear();
                 PerformanceMonitor.stop("Virtual Texture Staging Texture Upload");
             }
         }
 
-        //New System
+        private bool shouldUpload(byte indirectionTextureId)
+        {
+            bool upload = !uploadedIndirectionTextures.Contains(indirectionTextureId);
+            uploadedIndirectionTextures.Add(indirectionTextureId);
+            return upload;
+        }
+
         /// <summary>
         /// Create or retrieve an indirection texture, will return true if the texture was just created. Useful
         /// for filling out other info on the texture if needed.

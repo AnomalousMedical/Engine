@@ -16,6 +16,8 @@ namespace OgrePlugin.VirtualTexture
         private bool updateOldIndirectionTexture = false;
         private bool updateNewIndirectionTexture = false;
         private ManualResetEventSlim gpuUploadWaitEvent = new ManualResetEventSlim(true);
+        private byte oldIndirectionId;
+        private byte newIndirectionId;
 
         public StagingBufferSet(int stagingImageCapacity, int maxMipCount)
         {
@@ -62,10 +64,12 @@ namespace OgrePlugin.VirtualTexture
             if (updateOldIndirectionTexture)
             {
                 oldIndirectionTextureStaging.setData(oldIndirectionTexture);
+                oldIndirectionId = oldIndirectionTexture.Id;
             }
             if (updateNewIndirectionTexture)
             {
                 newIndirectionTextureStaging.setData(newIndirectionTexture);
+                newIndirectionId = newIndirectionTexture.Id;
             }
         }
 
@@ -74,19 +78,19 @@ namespace OgrePlugin.VirtualTexture
             gpuUploadWaitEvent.Wait();
         }
 
-        public void uploadTexturesToGpu()
+        public void uploadTexturesToGpu(Func<byte, bool> shouldUploadIndirection)
         {
             for (int u = 0; u < stagingPhysicalPages.Length; ++u)
             {
                 stagingPhysicalPages[u].copyToGpu(Dest);
             }
 
-            if (updateOldIndirectionTexture)
+            if (updateOldIndirectionTexture && shouldUploadIndirection(oldIndirectionId))
             {
                 oldIndirectionTextureStaging.uploadToGpu();
             }
 
-            if (updateNewIndirectionTexture)
+            if (updateNewIndirectionTexture && shouldUploadIndirection(newIndirectionId))
             {
                 newIndirectionTextureStaging.uploadToGpu();
             }
