@@ -242,6 +242,7 @@ namespace OgrePlugin.VirtualTexture
                             phase = Phase.Delay; //This means we always delay at least one frame, but this gives a chance for textures to upload to the gpu.
                         }
                     });
+                    uploadStagingToGpu();
                     break;
                 case Phase.InitialLoad:
                     phase = Phase.Waiting;
@@ -289,9 +290,12 @@ namespace OgrePlugin.VirtualTexture
                         currentFeedbackDelayCount = 0;
                         phase = Phase.RenderFeedback;
                     }
+                    uploadStagingToGpu();
+                    break;
+                case Phase.Waiting:
+                    uploadStagingToGpu();
                     break;
             }
-            uploadStagingToGpu();
         }
 
         private void activateNewIndirectionTextures()
