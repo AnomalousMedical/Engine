@@ -60,35 +60,33 @@ namespace Anomalous.GuiFramework.Debugging
                 if (textureCombo.SelectedIndex != ComboBox.Invalid)
                 {
                     String selectedTexture = textureCombo.SelectedItemName;
+                    String outputFolder = RuntimePlatformInfo.LocalUserDocumentsFolder;
                     using (var tex = TextureManager.getInstance().getByName(selectedTexture))
                     {
-                        int numMips = tex.Value.NumMipmaps + 1;
-                        int width = (int)tex.Value.Width;
-                        int height = (int)tex.Value.Height;
-                        for (int mip = 0; mip < numMips; ++mip)
+                        uint numMips = (uint)(tex.Value.NumMipmaps + 1);
+                        uint width = tex.Value.Width;
+                        uint height = tex.Value.Height;
+                        for (uint mip = 0; mip < numMips; ++mip)
                         {
-                            using (var buffer = tex.Value.getBuffer(0, (uint)mip))
+                            using (var buffer = tex.Value.getBuffer(0, mip))
                             {
-                                using (var blitBitmap = new FreeImageAPI.FreeImageBitmap(width, height, FreeImageAPI.PixelFormat.Format32bppArgb))
+                                using (var blitBitmap = new Image(width, height, 1, PixelFormat.PF_A8R8G8B8, 1, 0))
                                 {
-                                    using (var blitBitmapBox = new PixelBox(0, 0, width, height, OgreDrawingUtility.getOgreFormat(blitBitmap.PixelFormat), blitBitmap.GetScanlinePointer(0).ToPointer()))
+                                    using (var blitBitmapBox = blitBitmap.getPixelBox())
                                     {
                                         buffer.Value.blitToMemory(blitBitmapBox);
                                     }
 
-                                    blitBitmap.RotateFlip(FreeImageAPI.RotateFlipType.RotateNoneFlipY);
                                     String fileName = String.Format("{0}_mip_{1}.png", selectedTexture, mip);
-                                    fileName = Path.Combine(RuntimePlatformInfo.LocalUserDocumentsFolder, fileName);
-                                    using (var stream = System.IO.File.Open(fileName, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite))
-                                    {
-                                        blitBitmap.Save(stream, FreeImageAPI.FREE_IMAGE_FORMAT.FIF_PNG);
-                                    }
-                                    MessageBox.show(String.Format("Saved texture to {0}", fileName), "Texture Saved", MessageBoxStyle.Ok | MessageBoxStyle.IconInfo);
+                                    fileName = Path.Combine(outputFolder, fileName);
+                                    blitBitmap.save(fileName);
                                 }
                                 width >>= 1;
                                 height >>= 1;
                             }
                         }
+                        virtualTextureManager.saveIndirectionTexture(selectedTexture, outputFolder);
+                        MessageBox.show(String.Format("Saved textures to {0}", outputFolder), "Texture Saved", MessageBoxStyle.Ok | MessageBoxStyle.IconInfo);
                     }
                 }
             }

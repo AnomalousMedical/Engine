@@ -346,6 +346,17 @@ namespace OgrePlugin.VirtualTexture
             }
         }
 
+        public void saveIndirectionTexture(String textureName, String outputFolder)
+        {
+            foreach (var item in activeIndirectionTextures)
+            {
+                if(textureName == item.TextureName)
+                {
+                    item.saveToPath(outputFolder);
+                }
+            }
+        }
+
         internal PhysicalTexture getPhysicalTexture(string name)
         {
             return physicalTextures[name];

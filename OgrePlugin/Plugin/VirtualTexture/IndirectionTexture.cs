@@ -2,6 +2,7 @@
 using OgrePlugin;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -303,6 +304,20 @@ namespace OgrePlugin.VirtualTexture
             byte replacementMipLevel = (byte)(highestMip - vTextPage.mip - 1);
             fiBitmap[vTextPage.mip].setColorAtARGB(color.ARGB, vTextPage.x, vTextPage.y, 0);
             fillOutLowerMips(vTextPage, color, (c1, c2) => c2.B == replacementMipLevel);
+        }
+
+        /// <summary>
+        /// Save the backing buffers to the specified folder, helpful in debugging.
+        /// </summary>
+        /// <param name="outputFolder"></param>
+        internal void saveToPath(string outputFolder)
+        {
+            for (uint mip = 0; mip < highestMip; ++mip)
+            {
+                String fileName = String.Format("{0}_source_mip_{1}.png", TextureName, mip);
+                fileName = Path.Combine(outputFolder, fileName);
+                fiBitmap[mip].save(fileName);
+            }
         }
 
         private void fillOutLowerMips(VTexPage vTextPage, IntColor color, Func<IntColor, IntColor, bool> writePixel)
