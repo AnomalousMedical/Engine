@@ -53,3 +53,8 @@ extern "C" _AnomalousExport void Texture_setAllowMipmapGeneration(Ogre::Texture*
 {
 	texture->setAllowMipmapGeneration(v);
 }
+
+extern "C" _AnomalousExport int Texture_getUsage(Ogre::Texture* texture)
+{
+	return texture->getUsage();
+}

@@ -115,6 +115,14 @@ namespace OgrePlugin
             }
         }
 
+        public TextureUsage Usage
+        {
+            get
+            {
+                return (TextureUsage)Texture_getUsage(texture);
+            }
+        }
+
         public bool MipmapsHardwareGenerated
         {
             get
@@ -169,6 +177,8 @@ namespace OgrePlugin
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Texture_setAllowMipmapGeneration(IntPtr texture, bool v);
 
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern int Texture_getUsage(IntPtr texture);
 #endregion
     }
 }
