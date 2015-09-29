@@ -40,15 +40,6 @@ namespace OgrePlugin.VirtualTexture
         }
 
         private static PixelFormat bufferFormat = PixelFormat.PF_A8R8G8B8;
-        private const  uint AValue = 0xff000000;
-        private static int RShift = 16;
-        private const  int GShift = 8;
-        private static int BShift = 0;
-
-        private const  uint AMask = 0xff000000;
-        private static uint RMask = 0x00ff0000;
-        private const  uint GMask = 0x0000ff00;
-        private static uint BMask = 0x000000ff;
 
         /// <summary>
         /// Set by the VirtualTextureManager when it is first created, this will do a runtime test to see what format we get out of the
@@ -62,34 +53,7 @@ namespace OgrePlugin.VirtualTexture
             }
             set
             {
-                if (bufferFormat != value)
-                {
-                    bufferFormat = value;
-                    switch (bufferFormat)
-                    {
-                        case PixelFormat.PF_A8R8G8B8:
-                            RShift = 16;
-                            BShift = 0;
-
-                            RMask = 0x00ff0000;
-                            BMask = 0x000000ff;
-                            break;
-                        //case PixelFormat.PF_A8B8G8R8:
-                        //    RShift = 0;
-                        //    BShift = 16;
-
-                        //    RMask = 0x000000ff;
-                        //    BMask = 0x00ff0000;
-                        //    break;
-                        case PixelFormat.PF_A8B8G8R8:
-                            RShift = 16;
-                            BShift = 0;
-
-                            RMask = 0x00ff0000;
-                            BMask = 0x000000ff;
-                            break;
-                    }
-                }
+                bufferFormat = value;
             }
         }
 
@@ -141,7 +105,7 @@ namespace OgrePlugin.VirtualTexture
                 pixelBox[i] = fiBitmap[i].getPixelBox();
 
                 //Slow, make this better, but we do need the zero fill
-                for(uint x = 0; x < fiBitmap[i].Width; ++x)
+                for (uint x = 0; x < fiBitmap[i].Width; ++x)
                 {
                     for (uint y = 0; y < fiBitmap[i].Height; ++y)
                     {
