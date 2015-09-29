@@ -139,6 +139,15 @@ namespace OgrePlugin.VirtualTexture
                 fiBitmap[i] = new Image(indirectionTexture.Value.Width >> i, indirectionTexture.Value.Height >> i, 1, indirectionTexture.Value.Format, 1, 0);
                 buffer[i] = indirectionTexture.Value.getBuffer(0, (uint)i);
                 pixelBox[i] = fiBitmap[i].getPixelBox();
+
+                //Slow, make this better, but we do need the zero fill
+                for(uint x = 0; x < fiBitmap[i].Width; ++x)
+                {
+                    for (uint y = 0; y < fiBitmap[i].Height; ++y)
+                    {
+                        fiBitmap[i].setColorAtARGB(0, x, y, 0);
+                    }
+                }
             }
 
             if (keepHighestMip)
@@ -257,7 +266,7 @@ namespace OgrePlugin.VirtualTexture
 
         internal void copyToStaging(PixelBox[] destinations)
         {
-            Logging.Log.Debug("Copy direct {0}", destinations[0].Format == pixelBox[0].Format);
+            //Logging.Log.Debug("Copy direct {0}", destinations[0].Format == pixelBox[0].Format);
             int srcIndex = 0;
             for (int i = destinations.Length - highestMip; i < destinations.Length; ++i)
             {
@@ -267,7 +276,7 @@ namespace OgrePlugin.VirtualTexture
 
         internal void uploadStagingToGpu(PixelBox[] sources)
         {
-            Logging.Log.Debug("Upload direct {0}", sources[0].Format == indirectionTexture.Value.Format);
+            //Logging.Log.Debug("Upload direct {0}", sources[0].Format == indirectionTexture.Value.Format);
             int destIndex = 0;
             for (int i = sources.Length - highestMip; i < sources.Length; ++i)
             {
@@ -302,42 +311,44 @@ namespace OgrePlugin.VirtualTexture
             //Then we will take fract from that
             //Store the page address as bytes
             var vTextPage = pTexPage.VirtualTexturePage;
+            IntColor color = new IntColor();
+            color.A = 255;
+            //Reverse the mip level (0 becomes highest level (least texels) and highesetMip becomes the lowest level (most texels, full size)
+            color.B = (byte)(highestMip - vTextPage.mip - 1); //Typecast bad, try changing the type in the struct to byte
+            color.R = (byte)pTexPage.pageX;
+            color.G = (byte)pTexPage.pageY;
 
-            uint r = (uint)pTexPage.pageX;
-            uint g = (uint)pTexPage.pageY;
-            uint b = (uint)(highestMip - vTextPage.mip - 1); //Reverse the mip level (0 becomes highest level (least texels) and highesetMip becomes the lowest level (most texels, full size)
-
-            UInt32 color = AValue + (r << RShift) + (g << GShift) + (b << BShift);
-
-            fiBitmap[vTextPage.mip].setColorAtARGB(color, vTextPage.x, vTextPage.y, 0);
-            fillOutLowerMips(vTextPage, color, (c1, c2) => (c1 & BMask) - (c2 & BMask) >= 0);
+            fiBitmap[vTextPage.mip].setColorAtARGB(color.ARGB, vTextPage.x, vTextPage.y, 0);
+            fillOutLowerMips(vTextPage, color, (c1, c2) => c1.B - c2.B >= 0);
         }
 
         internal void removePhysicalPage(PTexPage pTexPage)
         {
             var vTextPage = pTexPage.VirtualTexturePage;
             //Replace color with the one on the higher mip level
-            UInt32 color;
+            IntColor color;
             if (vTextPage.mip + 1 < highestMip)
             {
-                color = fiBitmap[vTextPage.mip + 1].getColorAtARGB((uint)vTextPage.x >> 1, (uint)vTextPage.y >> 1, 0);
+                color = new IntColor(fiBitmap[vTextPage.mip + 1].getColorAtARGB((uint)vTextPage.x >> 1, (uint)vTextPage.y >> 1, 0));
             }
             else
             {
-                color = (uint)((highestMip - vTextPage.mip - 1) << BShift);
+                color = new IntColor();
+                color.B = (byte)(highestMip - vTextPage.mip - 1);
             }
-            uint replacementMipLevel = (uint)((highestMip - vTextPage.mip - 1) << BShift);
-            fiBitmap[vTextPage.mip].setColorAtARGB(color, vTextPage.x, vTextPage.y, 0);
-            fillOutLowerMips(vTextPage, color, (c1, c2) => (c2 & BMask) == replacementMipLevel);
+            byte replacementMipLevel = (byte)(highestMip - vTextPage.mip - 1);
+            fiBitmap[vTextPage.mip].setColorAtARGB(color.ARGB, vTextPage.x, vTextPage.y, 0);
+            fillOutLowerMips(vTextPage, color, (c1, c2) => c2.B == replacementMipLevel);
         }
 
-        private void fillOutLowerMips(VTexPage vTextPage, UInt32 color, Func<UInt32, UInt32, bool> writePixel)
+        private void fillOutLowerMips(VTexPage vTextPage, IntColor color, Func<IntColor, IntColor, bool> writePixel)
         {
             //Fill in lower (more textels) mip levels
             uint x = vTextPage.x;
             uint y = vTextPage.y;
-            int w = 1;
-            int h = 1;
+            uint w = 1;
+            uint h = 1;
+            IntColor readPixel = new IntColor();
             for (int i = vTextPage.mip - 1; i >= 0; --i)
             {
                 //This is probably really slow
@@ -350,10 +361,10 @@ namespace OgrePlugin.VirtualTexture
                 {
                     for (uint yi = 0; yi < h; ++yi)
                     {
-                        var readPixel = mipLevelBitmap.getColorAtARGB(x + xi, y + yi, 0);
+                        readPixel.ARGB = mipLevelBitmap.getColorAtARGB(x + xi, y + yi, 0);
                         if (writePixel.Invoke(color, readPixel))
                         {
-                            mipLevelBitmap.setColorAtARGB(color, x + xi, y + yi, 0);
+                            mipLevelBitmap.setColorAtARGB(color.ARGB, x + xi, y + yi, 0);
                         }
                     }
                 }
