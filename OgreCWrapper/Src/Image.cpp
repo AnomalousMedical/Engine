@@ -12,6 +12,8 @@ extern "C" _AnomalousExport Ogre::Image* Image_create1(uint32 uWidth, uint32 uHe
 	size_t bufSize = Ogre::Image::calculateSize(numMipMaps, numFaces, uWidth, uHeight, depth, eFormat);
 	uchar* buffer = OGRE_ALLOC_T(uchar, bufSize, Ogre::MEMCATEGORY_GENERAL);
 
+	memset(buffer, 0, bufSize);
+
 	image->loadDynamicImage(buffer, uWidth, uHeight, depth, eFormat, true, numFaces, numMipMaps);
 	return image;
 }

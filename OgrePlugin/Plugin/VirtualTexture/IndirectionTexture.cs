@@ -104,15 +104,6 @@ namespace OgrePlugin.VirtualTexture
                 fiBitmap[i] = new Image(indirectionTexture.Value.Width >> i, indirectionTexture.Value.Height >> i, 1, indirectionTexture.Value.Format, 1, 0);
                 buffer[i] = indirectionTexture.Value.getBuffer(0, (uint)i);
                 pixelBox[i] = fiBitmap[i].getPixelBox();
-
-                //Slow, make this better, but we do need the zero fill
-                for (uint x = 0; x < fiBitmap[i].Width; ++x)
-                {
-                    for (uint y = 0; y < fiBitmap[i].Height; ++y)
-                    {
-                        fiBitmap[i].setColorAtARGB(0, x, y, 0);
-                    }
-                }
             }
 
             if (keepHighestMip)
