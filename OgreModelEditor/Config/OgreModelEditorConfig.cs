@@ -87,8 +87,8 @@ namespace OgreModelEditor
         {
             get
             {
-                CompressedTextureSupport type = CompressedTextureSupport.All;
-                Enum.TryParse<CompressedTextureSupport>(modelEditorSection.getValue("CompressedTextureSupport", () => CompressedTextureSupport.All.ToString()), out type);
+                CompressedTextureSupport type = CompressedTextureSupport.None;
+                Enum.TryParse<CompressedTextureSupport>(modelEditorSection.getValue("CompressedTextureSupport", () => CompressedTextureSupport.None.ToString()), out type);
                 return type;
             }
             set
