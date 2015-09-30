@@ -10,11 +10,11 @@ set SignCommand=call "%RootBuildFolder%DRM\CodeKey\AnomalousMedicalSign.bat"
 set OutputFolder=%ThisFolder%Release\
 set SolutionPath=%ThisFolder%%SolutionName%
 
-msbuild.exe /m "%SolutionPath%" /property:Configuration=Debug;Platform="Any CPU" /target:Clean
-msbuild.exe /m "%SolutionPath%" /property:Configuration=Debug;Platform="Any CPU"
+msbuild.exe /m "%SolutionPath%" /property:Configuration=Debug;Platform="x86" /target:Clean
+msbuild.exe /m "%SolutionPath%" /property:Configuration=Debug;Platform="x86"
 
-msbuild.exe /m "%SolutionPath%" /property:Configuration=Release;Platform="Any CPU" /target:Clean
-msbuild.exe /m "%SolutionPath%" /property:Configuration=Release;Platform="Any CPU"
+msbuild.exe /m "%SolutionPath%" /property:Configuration=Release;Platform="x86" /target:Clean
+msbuild.exe /m "%SolutionPath%" /property:Configuration=Release;Platform="x86"
 
 msbuild.exe /m "%SolutionPath%" /property:Configuration=Debug;Platform="x64" /target:Clean
 msbuild.exe /m "%SolutionPath%" /property:Configuration=Debug;Platform="x64"
