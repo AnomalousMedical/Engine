@@ -249,6 +249,40 @@ namespace OgrePlugin.VirtualTexture
             }
         }
 
+        public void debug_dumpTextures(String outputFolder)
+        {
+            for (int i = 0; i < fiBitmap.Length; ++i)
+            {
+                fiBitmap[i].save(Path.Combine(outputFolder, String.Format("{0}_Cpu_{1}.png", TextureName, i)));
+            }
+        }
+
+        public void debug_dumpOgreTextures(String outputFolder)
+        {
+            uint numMips = (uint)(indirectionTexture.Value.NumMipmaps + 1);
+            uint width = indirectionTexture.Value.Width;
+            uint height = indirectionTexture.Value.Height;
+            for (uint mip = 0; mip < numMips; ++mip)
+            {
+                using (var buffer = indirectionTexture.Value.getBuffer(0, mip))
+                {
+                    using (var blitBitmap = new Image(width, height, 1, PixelFormat.PF_A8R8G8B8, 1, 0))
+                    {
+                        using (var blitBitmapBox = blitBitmap.getPixelBox())
+                        {
+                            buffer.Value.blitToMemory(blitBitmapBox);
+                        }
+
+                        String fileName = String.Format("{0}_ogre_{1}.png", TextureName, mip);
+                        fileName = Path.Combine(outputFolder, fileName);
+                        blitBitmap.save(fileName);
+                    }
+                    width >>= 1;
+                    height >>= 1;
+                }
+            }
+        }
+
         internal void debug_CheckTexture(Image[] sources)
         {
             int destIndex = 0;

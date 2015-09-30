@@ -1,6 +1,7 @@
 ﻿using OgrePlugin;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,6 +47,14 @@ namespace OgrePlugin.VirtualTexture
         public void uploadToGpu()
         {
             indirectionTexture.uploadStagingToGpu(pixelBox);
+        }
+
+        public void debug_dumpTextures(String outputFolder)
+        {
+            for(int i = 0; i < images.Length; ++i)
+            {
+                images[i].save(Path.Combine(outputFolder, String.Format("StagingBuffer_{0}.png", i)));
+            }
         }
     }
 }
