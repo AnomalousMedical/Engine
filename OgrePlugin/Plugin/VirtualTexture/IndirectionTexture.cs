@@ -247,12 +247,24 @@ namespace OgrePlugin.VirtualTexture
 
         internal void uploadStagingToGpu(PixelBox[] sources, Image image)
         {
-            //switch(uploadType++ % 3)
-            switch(3)
+            switch(uploadType++ % 3)
+            //switch(3)
             {
                 case 0:
-                //Logging.Log.Debug("Upload direct {0}", sources[0].Format == indirectionTexture.Value.Format);
-                    using (var block = new LogPerformanceBlock("blitToStagingUpload {0} ms"))
+                    //Logging.Log.Debug("Upload direct {0}", sources[0].Format == indirectionTexture.Value.Format);
+                    using (var block = new LogPerformanceBlock(TextureName + " blitFromMemory {0} ms"))
+                    {
+                        int destIndex = 0;
+                        for (int i = sources.Length - highestMip; i < sources.Length; ++i)
+                        {
+                            buffer[destIndex++].Value.blitFromMemory(sources[i]);
+                            //buffer[destIndex++].Value.stagingBufferBlit(sources[i]);
+                        }
+                    }
+                    break;
+                case 1:
+                    //Logging.Log.Debug("Upload direct {0}", sources[0].Format == indirectionTexture.Value.Format);
+                    using (var block = new LogPerformanceBlock(TextureName + " stagingBufferBlit {0} ms"))
                     {
                         int destIndex = 0;
                         for (int i = sources.Length - highestMip; i < sources.Length; ++i)
@@ -262,16 +274,10 @@ namespace OgrePlugin.VirtualTexture
                         }
                     }
                     break;
-                case 1:
-                    using (var block = new LogPerformanceBlock("blitFromImage {0} ms"))
+                case 2:
+                    using (var block = new LogPerformanceBlock(TextureName + " blitFromImage {0} ms"))
                     {
                         indirectionTexture.Value.blitFromImage(image);
-                    }
-                    break;
-                case 2:
-                    using (var block = new LogPerformanceBlock("loadImage {0} ms"))
-                    {
-                        indirectionTexture.Value.loadImage(image);
                     }
                     break;
             }
