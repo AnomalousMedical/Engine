@@ -243,21 +243,38 @@ namespace OgrePlugin.VirtualTexture
             }
         }
 
-        internal void uploadStagingToGpu(PixelBox[] sources)
-        {
-            //Logging.Log.Debug("Upload direct {0}", sources[0].Format == indirectionTexture.Value.Format);
-            int destIndex = 0;
-            for (int i = sources.Length - highestMip; i < sources.Length; ++i)
-            {
-                //buffer[destIndex++].Value.blitFromMemory(sources[i]);
-                buffer[destIndex++].Value.stagingBufferBlit(sources[i]);
-            }
-        }
+        int uploadType = 0;
 
-        internal void uploadStagingToGpu(Image image)
+        internal void uploadStagingToGpu(PixelBox[] sources, Image image)
         {
-            indirectionTexture.Value.blitFromImage(image);
-            //indirectionTexture.Value.loadImage(image);
+            //switch(uploadType++ % 3)
+            switch(3)
+            {
+                case 0:
+                //Logging.Log.Debug("Upload direct {0}", sources[0].Format == indirectionTexture.Value.Format);
+                    using (var block = new LogPerformanceBlock("blitToStagingUpload {0} ms"))
+                    {
+                        int destIndex = 0;
+                        for (int i = sources.Length - highestMip; i < sources.Length; ++i)
+                        {
+                            //buffer[destIndex++].Value.blitFromMemory(sources[i]);
+                            buffer[destIndex++].Value.stagingBufferBlit(sources[i]);
+                        }
+                    }
+                    break;
+                case 1:
+                    using (var block = new LogPerformanceBlock("blitFromImage {0} ms"))
+                    {
+                        indirectionTexture.Value.blitFromImage(image);
+                    }
+                    break;
+                case 2:
+                    using (var block = new LogPerformanceBlock("loadImage {0} ms"))
+                    {
+                        indirectionTexture.Value.loadImage(image);
+                    }
+                    break;
+            }
         }
 
         public void debug_dumpTextures(String outputFolder)
