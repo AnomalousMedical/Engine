@@ -245,42 +245,19 @@ namespace OgrePlugin.VirtualTexture
 
         int uploadType = 0;
 
-        internal void uploadStagingToGpu(PixelBox[] sources, Image image)
+        internal void uploadStagingToGpu(PixelBox[] sources)
         {
-            switch(uploadType++ % 3)
-            //switch(3)
+            //Logging.Log.Debug("Upload direct {0}", sources[0].Format == indirectionTexture.Value.Format);
+            //using (var block = new LogPerformanceBlock(TextureName + " blitFromMemory {0} ms"))
+            //{
+
+            int destIndex = 0;
+            for (int i = sources.Length - highestMip; i < sources.Length; ++i)
             {
-                case 0:
-                    //Logging.Log.Debug("Upload direct {0}", sources[0].Format == indirectionTexture.Value.Format);
-                    using (var block = new LogPerformanceBlock(TextureName + " blitFromMemory {0} ms"))
-                    {
-                        int destIndex = 0;
-                        for (int i = sources.Length - highestMip; i < sources.Length; ++i)
-                        {
-                            buffer[destIndex++].Value.blitFromMemory(sources[i]);
-                            //buffer[destIndex++].Value.stagingBufferBlit(sources[i]);
-                        }
-                    }
-                    break;
-                case 1:
-                    //Logging.Log.Debug("Upload direct {0}", sources[0].Format == indirectionTexture.Value.Format);
-                    using (var block = new LogPerformanceBlock(TextureName + " stagingBufferBlit {0} ms"))
-                    {
-                        int destIndex = 0;
-                        for (int i = sources.Length - highestMip; i < sources.Length; ++i)
-                        {
-                            //buffer[destIndex++].Value.blitFromMemory(sources[i]);
-                            buffer[destIndex++].Value.stagingBufferBlit(sources[i]);
-                        }
-                    }
-                    break;
-                case 2:
-                    using (var block = new LogPerformanceBlock(TextureName + " blitFromImage {0} ms"))
-                    {
-                        indirectionTexture.Value.blitFromImage(image);
-                    }
-                    break;
+                buffer[destIndex++].Value.blitFromMemory(sources[i]);
             }
+
+            //}
         }
 
         public void debug_dumpTextures(String outputFolder)

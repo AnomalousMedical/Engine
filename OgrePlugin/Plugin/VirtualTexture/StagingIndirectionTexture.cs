@@ -43,8 +43,7 @@ namespace OgrePlugin.VirtualTexture
 
         public void uploadToGpu()
         {
-            //indirectionTexture.uploadStagingToGpu(pixelBox);
-            indirectionTexture.uploadStagingToGpu(pixelBox, image);
+            indirectionTexture.uploadStagingToGpu(pixelBox);
         }
 
         public void debug_dumpTextures(String outputFolder)

@@ -63,29 +63,3 @@ extern "C" _AnomalousExport void Texture_loadImage(Ogre::Texture* texture, Ogre:
 {
 	return texture->loadImage(*image);
 }
-
-extern "C" _AnomalousExport void Texture_blitFromImage(Ogre::Texture* texture, Ogre::Image* image)
-{
-	int width = texture->getWidth();
-	int height = texture->getHeight();
-	int depth = texture->getDepth();
-	int numSlices = texture->getNumMipmaps() + 1;
-	int imageIndex = image->getNumMipmaps() + 1 - numSlices;
-
-	for (int slice = 0; slice < numSlices; ++slice)
-	{
-		Ogre::PixelBox srcBox = image->getPixelBox(0, imageIndex++);
-		Ogre::Box dstBox = Ogre::Box(0, 0, 0, width, height, depth);
-
-		Ogre::HardwarePixelBufferSharedPtr hardwarePixelBuffer = texture->getBuffer(0, slice);
-
-		const Ogre::PixelBox &locked = hardwarePixelBuffer->lock(dstBox, Ogre::HardwarePixelBuffer::HBL_DISCARD);
-
-		Ogre::PixelUtil::bulkPixelConversion(srcBox, locked);
-
-		hardwarePixelBuffer->unlock();
-
-		width >>= 1;
-		height >>= 1;
-	}
-}
