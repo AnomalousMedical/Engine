@@ -177,6 +177,40 @@ namespace OgrePlugin
             }
         }
 
+        public void saveAllLevels(String outputFolder, String baseName, String format)
+        {
+            uint numMips = NumMipmaps;
+            uint width = Width;
+            uint height = Height;
+            for (uint mip = 0; mip < numMips; ++mip)
+            {
+                using (var srcBox = getPixelBox(0, mip))
+                {
+                    using (var blitBitmap = new Image(width, height, 1, Format, 1, 0))
+                    {
+                        using (var destBox = blitBitmap.getPixelBox())
+                        {
+                            PixelBox.BulkPixelConversion(srcBox, destBox);
+                        }
+
+                        String fileName = String.Format("{0}_{1}.{2}", baseName, mip, format);
+                        fileName = Path.Combine(outputFolder, fileName);
+                        blitBitmap.save(fileName);
+                    }
+                    width >>= 1;
+                    height >>= 1;
+                }
+            }
+        }
+
+        internal IntPtr Ptr
+        {
+            get
+            {
+                return ptr;
+            }
+        }
+
         #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]

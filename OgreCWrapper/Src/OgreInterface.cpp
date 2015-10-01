@@ -189,7 +189,7 @@ extern "C" _AnomalousExport Ogre::RenderSystem* OgreInterface_GetRenderSystem(Re
 	case D3D11:
 		rs->setConfigOption("Min Requested Feature Levels", "10.0");
 #ifdef _DEBUG
-		rs->setConfigOption("Information Queue Exceptions Bottom Level", "Corruption");
+		rs->setConfigOption("Information Queue Exceptions Bottom Level", "Error");
 #endif
 		//rs->setConfigOption("Max Requested Feature Levels", "11.1");
 		break;

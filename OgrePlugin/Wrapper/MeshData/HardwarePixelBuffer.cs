@@ -91,6 +91,11 @@ namespace OgrePlugin
             HardwarePixelBuffer_blitStagingToMemory(hardwareBuffer, dst.OgreBox);
         }
 
+        internal void stagingBufferBlit(PixelBox src)
+        {
+            HardwarePixelBuffer_stagingBufferBlit(hardwareBuffer, src.OgreBox);
+        }
+
         public bool OptimizeReadback
         {
             get
@@ -162,6 +167,9 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void HardwarePixelBuffer_blitStagingToMemory(IntPtr hardwarePixelBuffer, IntPtr dst);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void HardwarePixelBuffer_stagingBufferBlit(IntPtr hardwarePixelBuffer, IntPtr srcBox);
 
 #endregion
     }

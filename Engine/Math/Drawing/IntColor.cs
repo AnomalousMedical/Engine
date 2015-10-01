@@ -35,6 +35,11 @@ namespace Engine
             this.argb = argb;
         }
 
+        public IntColor(byte a, byte r, byte g, byte b)
+        {
+            setValues(a, r, g, b);
+        }
+
         public byte A
         {
             get

@@ -1,4 +1,6 @@
-﻿using Engine;
+﻿//#define DEBUG_MIP_LEVELS
+
+using Engine;
 using OgrePlugin;
 using System;
 using System.Collections.Generic;
@@ -92,7 +94,7 @@ namespace OgrePlugin.VirtualTexture
             }
             for (highestMip = 0; realTextureSize.Width >> highestMip >= texelsPerPage && realTextureSize.Height >> highestMip >= texelsPerPage; ++highestMip) { }
             indirectionTexture = TextureManager.getInstance().createManual(String.Format("{0}_IndirectionTexture_{1}", materialSetKey, id), VirtualTextureManager.ResourceGroup, TextureType.TEX_TYPE_2D,
-                (uint)numPages.Width, (uint)numPages.Height, 1, highestMip, bufferFormat, virtualTextureManager.RendersystemSpecificTextureUsage, null, false, 0);
+                (uint)numPages.Width, (uint)numPages.Height, 1, highestMip - 1, bufferFormat, virtualTextureManager.RendersystemSpecificTextureUsage, null, false, 0);
             indirectionTexture.Value.AllowMipmapGeneration = false;
 
             fiBitmap = new Image[highestMip];
@@ -104,6 +106,17 @@ namespace OgrePlugin.VirtualTexture
                 fiBitmap[i] = new Image(indirectionTexture.Value.Width >> i, indirectionTexture.Value.Height >> i, 1, indirectionTexture.Value.Format, 1, 0);
                 buffer[i] = indirectionTexture.Value.getBuffer(0, (uint)i);
                 pixelBox[i] = fiBitmap[i].getPixelBox();
+
+#if DEBUG_MIP_LEVELS
+                //Temp, debug mip levels
+                for (uint x = 0; x < fiBitmap[i].Width; ++x)
+                {
+                    for (uint y = 0; y < fiBitmap[i].Height; ++y)
+                    {
+                        fiBitmap[i].setColorAtARGB(new IntColor((byte)255, (byte)x, (byte)y, (byte)i).ARGB, x, y, 0);
+                    }
+                }
+#endif
             }
 
             if (keepHighestMip)
@@ -236,8 +249,15 @@ namespace OgrePlugin.VirtualTexture
             int destIndex = 0;
             for (int i = sources.Length - highestMip; i < sources.Length; ++i)
             {
-                buffer[destIndex++].Value.blitFromMemory(sources[i]);
+                //buffer[destIndex++].Value.blitFromMemory(sources[i]);
+                buffer[destIndex++].Value.stagingBufferBlit(sources[i]);
             }
+        }
+
+        internal void uploadStagingToGpu(Image image)
+        {
+            indirectionTexture.Value.blitFromImage(image);
+            //indirectionTexture.Value.loadImage(image);
         }
 
         public void debug_dumpTextures(String outputFolder)
@@ -297,6 +317,7 @@ namespace OgrePlugin.VirtualTexture
 
         internal void addPhysicalPage(PTexPage pTexPage)
         {
+#if !DEBUG_MIP_LEVELS
             //Store 1x1 as mip 0, 2x2 as 1 4x4 as 2 etc, this way we can directly shift the decimal place
             //Then we will take fract from that
             //Store the page address as bytes
@@ -310,10 +331,12 @@ namespace OgrePlugin.VirtualTexture
 
             fiBitmap[vTextPage.mip].setColorAtARGB(color.ARGB, vTextPage.x, vTextPage.y, 0);
             fillOutLowerMips(vTextPage, color, (c1, c2) => c1.B - c2.B >= 0);
+#endif
         }
 
         internal void removePhysicalPage(PTexPage pTexPage)
         {
+#if !DEBUG_MIP_LEVELS
             var vTextPage = pTexPage.VirtualTexturePage;
             //Replace color with the one on the higher mip level
             IntColor color;
@@ -329,6 +352,7 @@ namespace OgrePlugin.VirtualTexture
             byte replacementMipLevel = (byte)(highestMip - vTextPage.mip - 1);
             fiBitmap[vTextPage.mip].setColorAtARGB(color.ARGB, vTextPage.x, vTextPage.y, 0);
             fillOutLowerMips(vTextPage, color, (c1, c2) => c2.B == replacementMipLevel);
+#endif
         }
 
         /// <summary>

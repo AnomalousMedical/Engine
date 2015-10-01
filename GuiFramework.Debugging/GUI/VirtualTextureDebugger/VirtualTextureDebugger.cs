@@ -70,7 +70,7 @@ namespace Anomalous.GuiFramework.Debugging
                         {
                             using (var buffer = tex.Value.getBuffer(0, mip))
                             {
-                                using (var blitBitmap = new Image(width, height, 1, PixelFormat.PF_A8R8G8B8, 1, 0))
+                                using (var blitBitmap = new Image(width, height, 1, tex.Value.Format, 1, 0))
                                 {
                                     using (var blitBitmapBox = blitBitmap.getPixelBox())
                                     {

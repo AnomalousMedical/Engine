@@ -10,51 +10,46 @@ namespace OgrePlugin.VirtualTexture
 {
     class StagingIndirectionTexture : IDisposable
     {
-        private Image[] images;
+        private Image image;
         private PixelBox[] pixelBox;
         private IndirectionTexture indirectionTexture;
 
         public StagingIndirectionTexture(int numMipLevels)
         {
-            images = new Image[numMipLevels];
+            int numMips = numMipLevels - 1;
+            image = new Image((uint)(1 << numMips), (uint)(1 << numMips), 1, IndirectionTexture.BufferFormat, 1, (uint)numMips);
             pixelBox = new PixelBox[numMipLevels];
-            int currentMipLevel = 1;
 
-            for (int i = numMipLevels - 1; i >= 0; --i)
+            for (uint i = 0; i < numMipLevels; ++i)
             {
-                images[i] = new Image((uint)currentMipLevel, (uint)currentMipLevel, 1, IndirectionTexture.BufferFormat, 1, 0);
-                pixelBox[i] = images[i].getPixelBox();
-                currentMipLevel <<= 1;
+                pixelBox[i] = image.getPixelBox(0, i);
             }
         }
 
         public void Dispose()
         {
-            for (int i = 0; i < images.Length; ++i)
+            for (int i = 0; i < pixelBox.Length; ++i)
             {
                 pixelBox[i].Dispose();
-                images[i].Dispose();
             }
+            image.Dispose();
         }
 
         public void setData(IndirectionTexture indirectionTexture)
         {
             this.indirectionTexture = indirectionTexture;
             indirectionTexture.copyToStaging(pixelBox);
-            //indirectionTexture.debug_CheckTexture(images);
         }
 
         public void uploadToGpu()
         {
-            indirectionTexture.uploadStagingToGpu(pixelBox);
+            //indirectionTexture.uploadStagingToGpu(pixelBox);
+            indirectionTexture.uploadStagingToGpu(image);
         }
 
         public void debug_dumpTextures(String outputFolder)
         {
-            for(int i = 0; i < images.Length; ++i)
-            {
-                images[i].save(Path.Combine(outputFolder, String.Format("StagingBuffer_{0}.png", i)));
-            }
+            image.saveAllLevels(outputFolder, "StagingBuffer", "png");
         }
     }
 }

@@ -143,7 +143,17 @@ namespace OgrePlugin
             }
         }
 
-#region PInvoke
+        public void loadImage(Image image)
+        {
+            Texture_loadImage(texture, image.Ptr);
+        }
+
+        public void blitFromImage(Image image)
+        {
+            Texture_blitFromImage(texture, image.Ptr);
+        }
+
+        #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr Texture_getBuffer(IntPtr texture, UIntPtr face, UIntPtr mipmap, ProcessWrapperObjectDelegate processWrapper);
@@ -179,6 +189,12 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern int Texture_getUsage(IntPtr texture);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Texture_loadImage(IntPtr texture, IntPtr image);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Texture_blitFromImage(IntPtr texture, IntPtr image);
 #endregion
     }
 }
