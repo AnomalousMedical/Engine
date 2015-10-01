@@ -16,6 +16,10 @@
 		015207EE18D0B8830040D1F9 /* OgreInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015207EB18D0B8830040D1F9 /* OgreInterface.cpp */; };
 		015207F018D0B8BF0040D1F9 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 015207EF18D0B8BF0040D1F9 /* Ogre.framework */; };
 		015AA5D115B48478000B029F /* ArchiveManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015AA5D015B48478000B029F /* ArchiveManager.cpp */; };
+		0170CC881BBDB3A600350894 /* GpuProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0170CC841BBDB3A600350894 /* GpuProgram.cpp */; };
+		0170CC891BBDB3A600350894 /* GpuProgramParameters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0170CC851BBDB3A600350894 /* GpuProgramParameters.cpp */; };
+		0170CC8A1BBDB3A600350894 /* HighLevelGpuProgramManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0170CC861BBDB3A600350894 /* HighLevelGpuProgramManager.cpp */; };
+		0170CC8B1BBDB3A600350894 /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0170CC871BBDB3A600350894 /* Image.cpp */; };
 		0177B46B1AD41E0800BDF0FF /* ManagedManualResourceLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0177B46A1AD41E0800BDF0FF /* ManagedManualResourceLoader.cpp */; };
 		01A05F751A6DAD1B00AB35EB /* SkeletonManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A05F741A6DAD1B00AB35EB /* SkeletonManager.cpp */; };
 		01A698D7135636B4008B7F31 /* NativeFrameListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A69889135636B4008B7F31 /* NativeFrameListener.h */; };
@@ -102,6 +106,10 @@
 		015207EB18D0B8830040D1F9 /* OgreInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgreInterface.cpp; sourceTree = "<group>"; };
 		015207EF18D0B8BF0040D1F9 /* Ogre.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogre.framework; path = ../../../Dependencies/Ogre/OSX/Build/lib/macosx/Release/Ogre.framework; sourceTree = "<group>"; };
 		015AA5D015B48478000B029F /* ArchiveManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArchiveManager.cpp; sourceTree = "<group>"; };
+		0170CC841BBDB3A600350894 /* GpuProgram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GpuProgram.cpp; sourceTree = "<group>"; };
+		0170CC851BBDB3A600350894 /* GpuProgramParameters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GpuProgramParameters.cpp; sourceTree = "<group>"; };
+		0170CC861BBDB3A600350894 /* HighLevelGpuProgramManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HighLevelGpuProgramManager.cpp; sourceTree = "<group>"; };
+		0170CC871BBDB3A600350894 /* Image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Image.cpp; sourceTree = "<group>"; };
 		0177B46A1AD41E0800BDF0FF /* ManagedManualResourceLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManagedManualResourceLoader.cpp; sourceTree = "<group>"; };
 		01A05F741A6DAD1B00AB35EB /* SkeletonManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkeletonManager.cpp; sourceTree = "<group>"; };
 		01A6988313563672008B7F31 /* OgreCWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = OgreCWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -223,6 +231,10 @@
 		01A69890135636B4008B7F31 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				0170CC841BBDB3A600350894 /* GpuProgram.cpp */,
+				0170CC851BBDB3A600350894 /* GpuProgramParameters.cpp */,
+				0170CC861BBDB3A600350894 /* HighLevelGpuProgramManager.cpp */,
+				0170CC871BBDB3A600350894 /* Image.cpp */,
 				0177B46A1AD41E0800BDF0FF /* ManagedManualResourceLoader.cpp */,
 				01A05F741A6DAD1B00AB35EB /* SkeletonManager.cpp */,
 				01DA8F5E19AE6BD300F71B59 /* StaticGeometry.cpp */,
@@ -433,9 +445,11 @@
 				01A698F5135636B4008B7F31 /* MeshSerializer.cpp in Sources */,
 				01A698F6135636B4008B7F31 /* MovableObject.cpp in Sources */,
 				01A698F7135636B4008B7F31 /* NativeFrameListener.cpp in Sources */,
+				0170CC8A1BBDB3A600350894 /* HighLevelGpuProgramManager.cpp in Sources */,
 				01A698F8135636B4008B7F31 /* NativeSceneListener.cpp in Sources */,
 				01A698F9135636B4008B7F31 /* NativeWindowListener.cpp in Sources */,
 				01A698FA135636B4008B7F31 /* Node.cpp in Sources */,
+				0170CC881BBDB3A600350894 /* GpuProgram.cpp in Sources */,
 				01A698FB135636B4008B7F31 /* NodeAnimationTrack.cpp in Sources */,
 				01A698FC135636B4008B7F31 /* OgreLogListener.cpp in Sources */,
 				01A698FD135636B4008B7F31 /* OgreManagedArchive.cpp in Sources */,
@@ -467,6 +481,7 @@
 				01A6991C135636B4008B7F31 /* VertexDeclaration.cpp in Sources */,
 				0177B46B1AD41E0800BDF0FF /* ManagedManualResourceLoader.cpp in Sources */,
 				01A6991D135636B4008B7F31 /* VertexElement.cpp in Sources */,
+				0170CC891BBDB3A600350894 /* GpuProgramParameters.cpp in Sources */,
 				01A6991E135636B4008B7F31 /* VertexPoseKeyFrame.cpp in Sources */,
 				01A05F751A6DAD1B00AB35EB /* SkeletonManager.cpp in Sources */,
 				01A6991F135636B4008B7F31 /* Viewport.cpp in Sources */,
@@ -478,6 +493,7 @@
 				0144A7DE149B85B9004E19D6 /* AnimationStateIterator.cpp in Sources */,
 				015207EE18D0B8830040D1F9 /* OgreInterface.cpp in Sources */,
 				0144A7DF149B85B9004E19D6 /* OgreExceptionManager.cpp in Sources */,
+				0170CC8B1BBDB3A600350894 /* Image.cpp in Sources */,
 				01C2B2731576A70500A28176 /* ManagedRenderSystemListener.cpp in Sources */,
 				015AA5D115B48478000B029F /* ArchiveManager.cpp in Sources */,
 			);
