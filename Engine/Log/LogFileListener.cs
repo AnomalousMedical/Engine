@@ -52,8 +52,10 @@ namespace Logging
                     }
                     messageEvent.Wait();
                 }
+
+                messageEvent.Dispose();
             });
-            t.IsBackground = true;
+            t.IsBackground = false;
             t.Start();
         }
 
@@ -62,10 +64,16 @@ namespace Logging
             lock(streamLock)
             {
                 runPrintThread = false;
-                messageEvent.Dispose();
+                messageEvent.Set();
+                String message;
                 if (!closed)
                 {
-                    Log.Info("Closed log {0}", logFileName);
+                    while(messageQueue.TryDequeue(out message))
+                    {
+                        fileWriter.WriteLine(message);
+                    }
+                    fileWriter.WriteLine("Closed log {0}", logFileName);
+                    fileWriter.Flush();
                     closed = true;
                     fileWriter.Dispose();
                 }
