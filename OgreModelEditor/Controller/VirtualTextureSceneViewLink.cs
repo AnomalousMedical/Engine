@@ -21,8 +21,6 @@ namespace OgreModelEditor
         public VirtualTextureSceneViewLink(OgreModelEditorController controller)
         {
             this.controller = controller;
-            //standaloneController.SceneLoaded += standaloneController_SceneLoaded;
-            //standaloneController.SceneUnloading += standaloneController_SceneUnloading;
 
             cameraLink = new CameraLink(controller.SceneViewController);
 
@@ -32,16 +30,6 @@ namespace OgreModelEditor
 
             materialBuilder = new UnifiedMaterialBuilder(virtualTextureManager, OgreInterface.Instance.SelectedTextureFormat, controller.PluginManager.createLiveResourceManager("UnifiedShaders"));
             OgreInterface.Instance.MaterialParser.addMaterialBuilder(materialBuilder);
-            materialBuilder.InitializationComplete += materialBuilder_InitializationComplete;
-        }
-
-        void materialBuilder_InitializationComplete(UnifiedMaterialBuilder obj)
-        {
-            if (obj.MaterialCount > 0)
-            {
-                materialBuilder.InitializationComplete -= materialBuilder_InitializationComplete;
-                virtualTextureManager.update();
-            }
         }
 
         public void Dispose()

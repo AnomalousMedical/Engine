@@ -149,16 +149,34 @@ namespace OgrePlugin.VirtualTexture
             transparentFeedbackBuffer.createCamera(scene, cameraPositioner);
         }
 
+        /// <summary>
+        /// Tick the virtual texture manager, this will always attempt to do some useful work either
+        /// updating the feedback buffers, blitting the feedback buffer to main memory, updating the 
+        /// texture load thread or updating the textures on the gpu. This function should be safe
+        /// to call at any time after the VirtualTextureManager is setup. So if for example you wanted
+        /// to update textures during your splash screen, call this function and it will attempt to do 
+        /// something useful and will start rendering feedback buffers as soon as the camera is created.
+        /// </summary>
         public void update()
         {
             switch (phase)
             {
                 case Phase.RenderFeedback:
-                    PerformanceMonitor.start("FeedbackBuffer Render");
-                    opaqueFeedbackBuffer.update();
-                    transparentFeedbackBuffer.update();
-                    PerformanceMonitor.stop("FeedbackBuffer Render");
-                    phase = Phase.CopyFeedbackToStaging;
+                    if (opaqueFeedbackBuffer.AbleToRender)
+                    {
+                        PerformanceMonitor.start("FeedbackBuffer Render");
+                        opaqueFeedbackBuffer.update();
+                        transparentFeedbackBuffer.update();
+                        PerformanceMonitor.stop("FeedbackBuffer Render");
+                        phase = Phase.CopyFeedbackToStaging;
+                    }
+                    else
+                    {
+                        //Since we can't render change phase to analyze feedback and then do an immediate update to do that case now.
+                        //This makes the lowest mips load if they are forced to load even if we haven't rendered a feedback buffer yet.
+                        phase = Phase.AnalyzeFeedback;
+                        update();
+                    }
                     break;
                 case Phase.CopyFeedbackToStaging:
                     PerformanceMonitor.start("FeedbackBuffer blit to staging");
@@ -216,9 +234,9 @@ namespace OgrePlugin.VirtualTexture
                             {
                                 textureLoader.updatePagesFromRequests(() =>
                                 {
-                                        //Finish indirection texture retirement, this is called as the texture load loop resumes
-                                        textureLoader.clearCache(); //Pretty brute force, can we remove just the cached textures for the removed indirection textures?
-                                        foreach (var indirectionTex in currentRetiringTextures)
+                                    //Finish indirection texture retirement, this is called as the texture load loop resumes
+                                    textureLoader.clearCache(); //Pretty brute force, can we remove just the cached textures for the removed indirection textures?
+                                    foreach (var indirectionTex in currentRetiringTextures)
                                     {
                                         indirectionTexturesById.Remove(indirectionTex.Id);
                                         activeIndirectionTextures.Remove(indirectionTex);
@@ -268,9 +286,7 @@ namespace OgrePlugin.VirtualTexture
                         }
                         finally
                         {
-                            //Want to do a delay phase for the next update so we upload to gpu, but force it to render feedback right after
-                            currentFeedbackDelayCount = maxFeedbackDelay + 1;
-                            phase = Phase.Delay;
+                            phase = Phase.RenderFeedback;
                         }
                     });
                     break;

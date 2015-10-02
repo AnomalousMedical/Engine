@@ -110,6 +110,14 @@ namespace OgrePlugin.VirtualTexture
             }
         }
 
+        public bool AbleToRender
+        {
+            get
+            {
+                return cameraPositioner != null;
+            }
+        }
+
         public uint VisibilityMask
         {
             get

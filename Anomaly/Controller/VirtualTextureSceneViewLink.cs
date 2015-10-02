@@ -32,7 +32,6 @@ namespace Anomaly
 
             materialBuilder = new UnifiedMaterialBuilder(virtualTextureManager, OgreInterface.Instance.SelectedTextureFormat, controller.PluginManager.createLiveResourceManager("UnifiedShaders"));
             OgreInterface.Instance.MaterialParser.addMaterialBuilder(materialBuilder);
-            materialBuilder.InitializationComplete += materialBuilder_InitializationComplete;
         }
 
         public void Dispose()
@@ -68,15 +67,6 @@ namespace Anomaly
         {
             virtualTextureManager.createFeedbackBufferCamera(scene, cameraLink);
             this.controller.OnUpdate += controller_OnUpdate;
-        }
-
-        void materialBuilder_InitializationComplete(UnifiedMaterialBuilder obj)
-        {
-            if (obj.MaterialCount > 0)
-            {
-                materialBuilder.InitializationComplete -= materialBuilder_InitializationComplete;
-                virtualTextureManager.update();
-            }
         }
 
         class CameraLink : FeedbackCameraPositioner
