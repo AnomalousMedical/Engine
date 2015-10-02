@@ -164,12 +164,12 @@ namespace OgrePlugin.VirtualTexture
                 String file = textureUnit.TextureFileName;
                 if (texturesArePaged) //Paged Images
                 {
-                    using (var perfMon = new LogPerformanceBlock(String.Format("Loaded image {0} in {{0}} ms", file), Logging.LogLevel.Info, "TextureCache"))
-                    {
+                    //using (var perfMon = new LogPerformanceBlock(String.Format("Loaded image {0} in {{0}} ms", file), Logging.LogLevel.Info, "TextureCache"))
+                    //{
                         PagedImage pagedImage = new PagedImage();
                         pagedImage.load(() => VirtualFileSystem.Instance.openStream(file, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read));
                         cacheHandle = this.Add(textureName, pagedImage);
-                    }
+                    //}
                 }
                 else //Normal Images
                 {

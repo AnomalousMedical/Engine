@@ -195,8 +195,8 @@ namespace OgrePlugin.VirtualTexture
                                 }
                             }
 
-                                //Begin indirection texture retirement
-                                if (currentRetiringTextures != null)
+                            //Begin indirection texture retirement
+                            if (currentRetiringTextures != null)
                             {
                                 foreach (var indirectionTex in currentRetiringTextures)
                                 {
@@ -268,7 +268,9 @@ namespace OgrePlugin.VirtualTexture
                         }
                         finally
                         {
-                            phase = Phase.RenderFeedback;
+                            //Want to do a delay phase for the next update so we upload to gpu, but force it to render feedback right after
+                            currentFeedbackDelayCount = maxFeedbackDelay + 1;
+                            phase = Phase.Delay;
                         }
                     });
                     break;
