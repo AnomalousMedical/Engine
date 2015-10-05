@@ -132,3 +132,53 @@ fragment_program BasicTexturedNoLightColoredPS unified
 	delegate BasicTexturedNoLightColoredPS_GLSL
 	delegate BasicTexturedNoLightColoredPS_GLSLES
 }
+
+//-------------------------------------
+//Vingette
+//-------------------------------------
+fragment_program Vignette_D3D11 hlsl
+{
+	source OgrePlugin.Resources.Basic.D3D11.Vignette.hlsl
+	entry_point main
+	target ps_4_0
+
+	default_params
+	{
+		param_named_auto bgColor viewport_background_colour
+		param_named_auto resX viewport_width
+		param_named_auto resY viewport_height
+	}
+}
+
+fragment_program Vignette_GLSL glsl
+{
+	source OgrePlugin.Resources.Basic.glsl.Vignette.glsl
+	profiles glsl
+	
+	default_params
+	{        
+		param_named_auto bgColor viewport_background_colour
+		param_named_auto resX viewport_width
+		param_named_auto resY viewport_height
+	}
+}
+
+fragment_program Vignette_GLSLES glsles
+{
+	source OgrePlugin.Resources.Basic.glsles.Vignette.glsl
+	profiles glsles
+	
+	default_params
+	{        
+		param_named_auto bgColor viewport_background_colour
+		param_named_auto resX viewport_width
+		param_named_auto resY viewport_height
+	}
+}
+
+fragment_program Vignette unified
+{
+	delegate Vignette_D3D11
+	delegate Vignette_GLSL
+	delegate Vignette_GLSLES
+}

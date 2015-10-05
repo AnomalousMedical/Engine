@@ -53,6 +53,7 @@ namespace Anomalous.GuiFramework.Cameras
 
         public SceneViewController(MDILayoutManager mdiLayout, EventManager eventManager, UpdateTimer mainTimer, RendererWindow rendererWindow, OgreRenderManager renderManager, BackgroundScene background)
         {
+            this.DefaultBackgroundColor = new Color(0.149f, 0.149f, 0.149f);
             this.background = background;
             this.mainTimer = mainTimer;
             this.rendererWindow = rendererWindow;
@@ -86,6 +87,7 @@ namespace Anomalous.GuiFramework.Cameras
             MDISceneViewWindow window = new MDISceneViewWindow(rendererWindow, this, orbitCamera, name, background, zIndexStart);
             window.AutoAspectRatio = autoAspectRatio;
             window.AspectRatio = aspectRatio;
+            window.BackColor = DefaultBackgroundColor;
             if (WindowCreated != null)
             {
                 WindowCreated.Invoke(window);
@@ -389,6 +391,8 @@ namespace Anomalous.GuiFramework.Cameras
                 }
             }
         }
+
+        public Color DefaultBackgroundColor { get; set; }
 
         public CameraMovementMode MovementMode
         {
