@@ -224,6 +224,16 @@ namespace OgrePlugin
             }
         }
 
+        /// <summary>
+        /// This will return true if the material passed in uses virtual texturing.
+        /// </summary>
+        /// <param name="material"></param>
+        /// <returns></returns>
+        public bool isVirtualTextureMaterial(Material material)
+        {
+            return material.getTechnique(FeedbackBuffer.Scheme) != null;
+        }
+
         public override string Name
         {
             get
@@ -273,6 +283,8 @@ namespace OgrePlugin
                 createMaterial(technique, description, alpha, false);
             }
 
+            //If we have an indirection texture we need to seup the virtual texturing, if not no additional techniques will be created and the
+            //entity must disable itself for feedback buffer rendering somehow (likely visibility mask).
             if (indirectionTex != null)
             {
                 String vertexShaderName = shaderFactory.createFeedbackVertexProgram(indirectionTex.FeedbackBufferVPName, description.NumHardwareBones, description.NumHardwarePoses);
@@ -288,13 +300,6 @@ namespace OgrePlugin
                 {
                     indirectionTextureUsageCounts[indirectionTex.Id] = count + 1;
                 }
-            }
-            else
-            {
-                //This is probably not the best way to hide things (should use visibility masks) but this allows us control per material instead of per entity
-                //and has mostly the same cost as rendering these in regular colors anyway without creating garbage data in the feedback buffer.
-                //In short its a good band-aid for now.
-                setupHiddenMaterialTechnique(material.Value, description);
             }
 
             material.Value.compile();
