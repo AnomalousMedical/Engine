@@ -222,14 +222,11 @@ namespace OgrePlugin.VirtualTexture
                                 }
                             }
 
-                            PerformanceMonitor.start("Finish Page Update");
                             foreach (var indirectionTex in activeIndirectionTextures)
                             {
                                 indirectionTex.finishPageUpdate();
                             }
-                            PerformanceMonitor.stop("Finish Page Update");
 
-                            PerformanceMonitor.start("Update Texture Loader");
                             if (currentRetiringTextures != null)
                             {
                                 textureLoader.updatePagesFromRequests(() =>
@@ -260,7 +257,6 @@ namespace OgrePlugin.VirtualTexture
                                     textureLoader.updatePagesFromRequests();
                                 }
                             }
-                            PerformanceMonitor.stop("Update Texture Loader");
                         }
                         finally
                         {

@@ -174,7 +174,6 @@ namespace OgrePlugin.VirtualTexture
             stopLoading = false;
 
             //Remove pages
-            PerformanceMonitor.start("updatePagesFromRequests remove");
             foreach (var page in removedPages)
             {
                 PTexPage pTexPage;
@@ -211,7 +210,6 @@ namespace OgrePlugin.VirtualTexture
                     }
                 }
             }
-            PerformanceMonitor.stop("updatePagesFromRequests remove");
 
             //Process pages into loaded and not loaded
             foreach(var addedPage in addedPages)
