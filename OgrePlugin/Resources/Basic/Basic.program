@@ -145,8 +145,6 @@ fragment_program Vignette_D3D11 hlsl
 	default_params
 	{
 		param_named_auto bgColor viewport_background_colour
-		param_named_auto resX viewport_width
-		param_named_auto resY viewport_height
 	}
 }
 
@@ -158,8 +156,6 @@ fragment_program Vignette_GLSL glsl
 	default_params
 	{        
 		param_named_auto bgColor viewport_background_colour
-		param_named_auto resX viewport_width
-		param_named_auto resY viewport_height
 	}
 }
 
@@ -171,8 +167,6 @@ fragment_program Vignette_GLSLES glsles
 	default_params
 	{        
 		param_named_auto bgColor viewport_background_colour
-		param_named_auto resX viewport_width
-		param_named_auto resY viewport_height
 	}
 }
 
