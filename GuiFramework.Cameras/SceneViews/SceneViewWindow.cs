@@ -81,7 +81,7 @@ namespace Anomalous.GuiFramework.Cameras
             this.startPosition = cameraMover.Translation;
             this.startLookAt = cameraMover.LookAt;
             transparencyStateName = name;
-            NearPlaneWorld = 200;
+            NearPlaneWorld = 230;
             NearFarLength = 400;
             MinNearDistance = 1;
         }
