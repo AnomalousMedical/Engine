@@ -36,6 +36,8 @@ namespace OgrePlugin.VirtualTexture
         private Task<bool>[] copyTostagingImageTasks;
         private ManualResetEventSlim stagingBufferWaitEvent = new ManualResetEventSlim(true);
 
+        private int[] indirectionTextureRequestCount = new int[IndirectionTexture.MaxId]; //An array that holds the number of times an indirection texture was requested, there can only be IndirectionTexture.MaxId of these
+
         private TextureCache textureCache;
 
         private Task loadingTask;
@@ -238,7 +240,7 @@ namespace OgrePlugin.VirtualTexture
             Overprevisioned = pagesToLoad.Count > physicalPagePool.Count;
 
             //Start loading task again
-            pagesToLoad.Sort((v1, v2) => v1.GetHashCode() - v2.GetHashCode());
+            pagesToLoad.Sort((v1, v2) => ((v1.mip << 24) + indirectionTextureRequestCount[v1.indirectionTexId]) - ((v2.mip << 24) + indirectionTextureRequestCount[v2.indirectionTexId]));
             loadingTask = Task.Run(() =>
                 {
                     lock (syncObject)
@@ -349,6 +351,11 @@ namespace OgrePlugin.VirtualTexture
         internal void clearCache()
         {
             textureCache.clear();
+        }
+
+        internal void setRequestCount(byte indirectionTextureId, int numRequests)
+        {
+            indirectionTextureRequestCount[indirectionTextureId] = numRequests & 0x00ffffff; //Convert to 24 bit, we loose some precision, but that is ok
         }
 
         internal Vector2 PagePaddingScale { get; private set; }

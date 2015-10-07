@@ -15,11 +15,16 @@ namespace OgrePlugin.VirtualTexture
             this.y = y;
             this.mip = mip;
             this.indirectionTexId = indirectionTexId;
-            this.hashCode = (int)((uint)(mip << 24) + (uint)(indirectionTexId << 16) + (uint)(x << 8) + (uint)y); //This hash code can be computed in any order, 
+            this.hashCode = (int)((uint)(mip << 24) + (uint)(indirectionTexId << 16) + (uint)(x << 8) + (uint)y); //Due to the nature of this class, these are always unique
         }
 
         public readonly byte x;
         public readonly byte y;
+
+        /// <summary>
+        /// The mip level, note that this is sorted backwards from the way 3d apis define it, 
+        /// e.g. 0 is the highest (smallest) mip level and X is the lowest (largest) mip level.
+        /// </summary>
         public readonly byte mip;
         public readonly byte indirectionTexId;
         private readonly int hashCode;
@@ -33,7 +38,6 @@ namespace OgrePlugin.VirtualTexture
                 return o1 == o2;
             }
             return p1.hashCode == p2.hashCode;
-            //return p1.x == p2.x && p1.y == p2.y && p1.mip == p2.mip && p1.indirectionTexId == p2.indirectionTexId;
         }
 
         public static bool operator !=(VTexPage p1, VTexPage p2)

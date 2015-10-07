@@ -15,7 +15,7 @@ namespace OgrePlugin.VirtualTexture
     public class IndirectionTexture : IDisposable
     {
         static byte currentId = 0;
-        static byte maxId = 254;
+        public const byte MaxId = 254;
         static HashSet<byte> pooledIds = new HashSet<byte>(); //A hash set of ids that have been returned to the pool, this should normally be empty unless you unload a huge amount of texture sets.
         static byte generateId()
         {
@@ -39,7 +39,7 @@ namespace OgrePlugin.VirtualTexture
 
         static void incrementCurrentId()
         {
-            currentId = (byte)((currentId + 1) % maxId);
+            currentId = (byte)((currentId + 1) % MaxId);
         }
 
         private static PixelFormat bufferFormat = PixelFormat.PF_A8R8G8B8;
@@ -69,6 +69,7 @@ namespace OgrePlugin.VirtualTexture
         private Image[] fiBitmap;
         private HardwarePixelBufferSharedPtr[] buffer;
         private PixelBox[] pixelBox;
+        private int numRequests = 0;
 
         private HashSet<VTexPage> activePages = new HashSet<VTexPage>();
         private HashSet<VTexPage> visibleThisUpdate = new HashSet<VTexPage>();
@@ -163,6 +164,7 @@ namespace OgrePlugin.VirtualTexture
 
         internal void processPage(float u, float v, byte mip)
         {
+            ++numRequests;
             VTexPage page;
             if (mip >= highestMip)
             {
@@ -195,6 +197,9 @@ namespace OgrePlugin.VirtualTexture
 
         internal void finishPageUpdate()
         {
+            virtualTextureManager.TextureLoader.setRequestCount(id, numRequests);
+            numRequests = 0;
+
             foreach (var page in activePages)
             {
                 if (!visibleThisUpdate.Contains(page) && !(keepHighestMip && page.mip == highestMip - 1))
