@@ -18,6 +18,7 @@ namespace Anomalous.GuiFramework.Debugging
         ComboBox textureCombo;
         ImageBox textureImage;
         VirtualTextureManager virtualTextureManager;
+        NumericEdit mipBias;
 
         public VirtualTextureDebugger(VirtualTextureManager virtualTextureManager)
             : base("Anomalous.GuiFramework.Debugging.GUI.VirtualTextureDebugger.VirtualTextureDebugger.layout")
@@ -34,6 +35,14 @@ namespace Anomalous.GuiFramework.Debugging
 
             Button reset = window.findWidget("ResetButton") as Button;
             reset.MouseButtonClick += reset_MouseButtonClick;
+
+            mipBias = new NumericEdit(window.findWidget("MipBias") as EditBox);
+            mipBias.AllowFloat = true;
+            mipBias.MinValue = -20;
+            mipBias.MaxValue = 20;
+            mipBias.Increment = 1;
+            mipBias.FloatValue = virtualTextureManager.MipSampleBias;
+            mipBias.ValueChanged += MipBias_ValueChanged;
         }
 
         protected override void onShown(EventArgs args)
@@ -99,6 +108,11 @@ namespace Anomalous.GuiFramework.Debugging
         void reset_MouseButtonClick(Widget source, EventArgs e)
         {
             virtualTextureManager.reset();
+        }
+
+        private void MipBias_ValueChanged(Widget source, EventArgs e)
+        {
+            virtualTextureManager.MipSampleBias = mipBias.FloatValue;
         }
     }
 }

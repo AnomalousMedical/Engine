@@ -1,15 +1,20 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MyGUI type="Layout" version="3.2.0">
-    <Widget type="Window" skin="WindowCSX" position="59 82 560 530" layer="Overlapped">
+    <Widget type="Window" skin="WindowCSX" position="59 82 580 530" layer="Overlapped">
         <Property key="Caption" value="Virtual Texture Debugger"/>
-        <Widget type="ComboBox" skin="ComboBox" position="2 4 265 30" name="TextureCombo"/>
-        <Widget type="ImageBox" skin="ImageBox" position="1 37 546 460" align="Stretch" name="TextureImage"/>
-        <Widget type="Button" skin="Button" position="270 4 126 30" name="SaveButton">
+        <Widget type="ComboBox" skin="ComboBox" position="2 4 265 30" align="HStretch Top" name="TextureCombo"/>
+        <Widget type="ImageBox" skin="ImageBox" position="1 37 566 460" align="Stretch" name="TextureImage"/>
+        <Widget type="Button" skin="Button" position="270 4 94 30" align="Right Top" name="SaveButton">
             <Property key="Caption" value="Save"/>
         </Widget>
-        <Widget type="Button" skin="Button" position="401 4 126 30" name="ResetButton">
+        <Widget type="Button" skin="Button" position="367 4 94 30" align="Right Top" name="ResetButton">
             <Property key="Caption" value="Reset"/>
         </Widget>
+        <Widget type="TextBox" skin="TextBox" position="464 4 28 30" align="Right Top">
+            <Property key="Caption" value="Mip"/>
+            <Property key="TextAlign" value="Center"/>
+        </Widget>
+        <Widget type="EditBox" skin="EditBox" position="495 4 72 30" align="Right Top" name="MipBias"/>
     </Widget>
     <CodeGeneratorSettings/>
 </MyGUI>
