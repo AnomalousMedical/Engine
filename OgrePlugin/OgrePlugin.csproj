@@ -217,10 +217,13 @@
     <Compile Include="Wrapper\Renderer\WindowEventUtilities.cs" />
     <Compile Include="Wrapper\Resources\AutoConstantType.cs" />
     <Compile Include="Wrapper\Resources\CompositorManager.cs" />
+    <Compile Include="Wrapper\Resources\GpuConstantType.cs" />
     <Compile Include="Wrapper\Resources\GpuProgram.cs" />
     <Compile Include="Wrapper\Resources\GpuProgramManager.cs" />
     <Compile Include="Wrapper\Resources\GpuProgramParameters.cs" />
+    <Compile Include="Wrapper\Resources\GpuSharedParametersPtr.cs" />
     <Compile Include="Wrapper\Resources\GpuProgramParametersSharedPtr.cs" />
+    <Compile Include="Wrapper\Resources\GpuSharedParameters.cs" />
     <Compile Include="Wrapper\Resources\HighLevelGpuProgram.cs" />
     <Compile Include="Wrapper\Resources\HighLevelGpuProgramManager.cs" />
     <Compile Include="Wrapper\Resources\HighLevelGpuProgramSharedPtr.cs" />

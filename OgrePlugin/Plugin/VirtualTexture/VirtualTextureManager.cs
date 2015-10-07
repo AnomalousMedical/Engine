@@ -38,6 +38,7 @@ namespace OgrePlugin.VirtualTexture
         private int maxSyncPerFrame = int.MaxValue;
         private int currentFeedbackDelayCount = 0;
         private int maxFeedbackDelay = 10;
+        private float mipSampleBias;
 
         private TextureLoader textureLoader;
 
@@ -52,6 +53,7 @@ namespace OgrePlugin.VirtualTexture
         //Texture upload data
         private HashSet<byte> uploadedIndirectionTextures;
         private List<StagingBufferSet> toUploadList;
+        private GpuSharedParametersPtr sharedFeedbackParameters;
 
         public VirtualTextureManager(int numPhysicalTextures, IntSize2 physicalTextureSize, int texelsPerPage, int largestRealTextureSize, CompressedTextureSupport textureFormat, int stagingBufferCount, IntSize2 feedbackBufferSize, ulong maxCacheSizeBytes, bool texturesArePagedOnDisk)
         {
@@ -91,6 +93,8 @@ namespace OgrePlugin.VirtualTexture
             for (highestMip = 0; largestRealTextureSize >> highestMip >= texelsPerPage; ++highestMip) { }
             textureLoader = new TextureLoader(this, physicalTextureSize, texelsPerPage, padding, stagingBufferCount, numPhysicalTextures, highestMip, maxCacheSizeBytes, texturesArePagedOnDisk);
 
+            sharedFeedbackParameters = GpuProgramManager.Instance.createSharedParameters("__VirtualTexturingFeedbackSharedParams");
+            sharedFeedbackParameters.Value.addNamedConstant("mipSampleBias", GpuConstantType.GCT_FLOAT1);
             MipSampleBias = -3.0f;
         }
 
@@ -127,6 +131,8 @@ namespace OgrePlugin.VirtualTexture
             {
                 indirectionTexture.Dispose();
             }
+
+            sharedFeedbackParameters.Dispose();
         }
 
         public PhysicalTexture createPhysicalTexture(String name, PixelFormat pixelFormat)
@@ -436,11 +442,22 @@ namespace OgrePlugin.VirtualTexture
                 maxSyncPerFrame = value;
             }
         }
-
+        
         /// <summary>
         /// The bias to apply to mip maps when sampling the scene in the indirection texture.
         /// </summary>
-        public float MipSampleBias { get; set; }
+        public float MipSampleBias
+        {
+            get
+            {
+                return mipSampleBias;
+            }
+            set
+            {
+                mipSampleBias = value;
+                sharedFeedbackParameters.Value.setNamedConstant("mipSampleBias", this.MipSampleBias);
+            }
+        }
 
         /// <summary>
         /// The visibility mask for the opaque feedback buffer.
@@ -485,6 +502,17 @@ namespace OgrePlugin.VirtualTexture
             set
             {
                 maxFeedbackDelay = value;
+            }
+        }
+
+        /// <summary>
+        /// The shared parameters for feedback buffer programs.
+        /// </summary>
+        internal GpuSharedParametersPtr SharedFeedbackParameters
+        {
+            get
+            {
+                return sharedFeedbackParameters;
             }
         }
 

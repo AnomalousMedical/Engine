@@ -34,3 +34,27 @@ extern "C" _AnomalousExport bool GpuProgramManager_isCacheDirty()
 {
 	return Ogre::GpuProgramManager::getSingleton().isCacheDirty();
 }
+
+extern "C" _AnomalousExport Ogre::GpuSharedParameters* GpuProgramManager_createSharedParameters(String name, ProcessWrapperObjectDelegate processWrapper)
+{
+	const Ogre::GpuSharedParametersPtr& ptr = Ogre::GpuProgramManager::getSingleton().createSharedParameters(name);
+	processWrapper(ptr.getPointer(), &ptr);
+	return ptr.getPointer();
+}
+
+extern "C" _AnomalousExport Ogre::GpuSharedParameters* GpuProgramManager_getSharedParameters(String name, ProcessWrapperObjectDelegate processWrapper)
+{
+	const Ogre::GpuSharedParametersPtr& ptr = Ogre::GpuProgramManager::getSingleton().getSharedParameters(name);
+	processWrapper(ptr.getPointer(), &ptr);
+	return ptr.getPointer();
+}
+
+extern "C" _AnomalousExport Ogre::GpuSharedParametersPtr* GpuSharedParametersPtr_createHeapPtr(Ogre::GpuSharedParametersPtr* stackSharedPtr)
+{
+	return new Ogre::GpuSharedParametersPtr(*stackSharedPtr);
+}
+
+extern "C" _AnomalousExport void GpuSharedParametersPtr_Delete(Ogre::GpuSharedParametersPtr* heapSharedPtr)
+{
+	delete heapSharedPtr;
+}

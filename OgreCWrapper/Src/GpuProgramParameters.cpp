@@ -1,5 +1,15 @@
 #include "Stdafx.h"
 
+extern "C" _AnomalousExport void GpuProgramParameters_addSharedParameters(Ogre::GpuProgramParameters* param, Ogre::GpuSharedParametersPtr* sharedParams)
+{
+	param->addSharedParameters(*sharedParams);
+}
+
+extern "C" _AnomalousExport void GpuProgramParameters_addSharedParametersName(Ogre::GpuProgramParameters* param, String name)
+{
+	param->addSharedParameters(name);
+}
+
 extern "C" _AnomalousExport void GpuProgramParameters_setNamedConstant1(Ogre::GpuProgramParameters* param, String name, Ogre::Real val)
 {
 	param->setNamedConstant(name, val);
@@ -114,4 +124,55 @@ extern "C" _AnomalousExport void GpuProgramParameters_setNamedAutoConstant3(Ogre
 extern "C" _AnomalousExport void GpuProgramParameters_setNamedAutoConstantReal(Ogre::GpuProgramParameters* param, String name, Ogre::GpuProgramParameters::AutoConstantType acType, float rData)
 {
 	param->setNamedAutoConstantReal(name, acType, rData);
+}
+
+//Shared Program Parameters
+extern "C" _AnomalousExport void GpuSharedParameters_addConstantDefinition(Ogre::GpuSharedParameters* param, String name, Ogre::GpuConstantType constType, size_t arraySize)
+{
+	param->addConstantDefinition(name, constType, arraySize);
+}
+
+extern "C" _AnomalousExport void GpuSharedParameters_setNamedConstant1(Ogre::GpuSharedParameters* param, String name, Ogre::Real val)
+{
+	param->setNamedConstant(name, val);
+}
+
+extern "C" _AnomalousExport void GpuSharedParameters_setNamedConstant2(Ogre::GpuSharedParameters* param, String name, int val)
+{
+	param->setNamedConstant(name, val);
+}
+
+extern "C" _AnomalousExport void GpuSharedParameters_setNamedConstant3(Ogre::GpuSharedParameters* param, String name, Quaternion vec)
+{
+	param->setNamedConstant(name, vec.toOgre());
+}
+
+extern "C" _AnomalousExport void GpuSharedParameters_setNamedConstant4(Ogre::GpuSharedParameters* param, String name, Vector3 vec)
+{
+	param->setNamedConstant(name, vec.toOgre());
+}
+
+extern "C" _AnomalousExport void GpuSharedParameters_setNamedConstant5(Ogre::GpuSharedParameters* param, String name, Vector2 vec)
+{
+	param->setNamedConstant(name, vec.toOgre());
+}
+
+extern "C" _AnomalousExport void GpuSharedParameters_setNamedConstant6(Ogre::GpuSharedParameters* param, String name, Color colour)
+{
+	param->setNamedConstant(name, colour.toOgre());
+}
+
+extern "C" _AnomalousExport void GpuSharedParameters_setNamedConstant7(Ogre::GpuSharedParameters* param, String name, int *val, size_t count)
+{
+	param->setNamedConstant(name, val, count);
+}
+
+extern "C" _AnomalousExport void GpuSharedParameters_setNamedConstant8(Ogre::GpuSharedParameters* param, String name, float *val, size_t count)
+{
+	param->setNamedConstant(name, val, count);
+}
+
+extern "C" _AnomalousExport void GpuSharedParameters_setNamedConstant9(Ogre::GpuSharedParameters* param, String name, double *val, size_t count)
+{
+	param->setNamedConstant(name, val, count);
 }

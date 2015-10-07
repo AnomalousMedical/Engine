@@ -13,9 +13,15 @@ namespace OgrePlugin
 
 #if FULL_AOT_COMPILE
         [Anomalous.Interop.MonoPInvokeCallback(typeof(ProcessWrapperObjectDelegate))]
-        public static void processWrapperObject_AOT(IntPtr nativeObject, IntPtr stackSharedPtr)
+        public static void processGpuProgramParametersWrapperObject_AOT(IntPtr nativeObject, IntPtr stackSharedPtr)
         {
             Instance.gpuProgramParametersWrappers.processWrapperObject(nativeObject, stackSharedPtr);
+        }
+
+        [Anomalous.Interop.MonoPInvokeCallback(typeof(ProcessWrapperObjectDelegate))]
+        public static void processSharedProgramParametersWrapperObject_AOT(IntPtr nativeObject, IntPtr stackSharedPtr)
+        {
+            Instance.sharedProgramParametersWrappers.processWrapperObject(nativeObject, stackSharedPtr);
         }
 #endif
 
@@ -26,12 +32,19 @@ namespace OgrePlugin
 
         private SharedPtrCollection<GpuProgramParameters> gpuProgramParametersWrappers = new SharedPtrCollection<GpuProgramParameters>(GpuProgramParameters.createWrapper, GpuProgramParameters_createHeapPtr, GpuProgramParameters_Delete
 #if FULL_AOT_COMPILE
-            , processWrapperObject_AOT
+            , processGpuProgramParametersWrapperObject_AOT
+#endif
+);
+
+        private SharedPtrCollection<GpuSharedParameters> sharedProgramParametersWrappers = new SharedPtrCollection<GpuSharedParameters>(GpuSharedParameters.createWrapper, GpuSharedParametersPtr_createHeapPtr, GpuSharedParametersPtr_Delete
+#if FULL_AOT_COMPILE
+            , processSharedProgramParametersWrapperObject_AOT
 #endif
 );
         public void Dispose()
         {
             gpuProgramParametersWrappers.Dispose();
+            sharedProgramParametersWrappers.Dispose();
         }
 
         public bool SaveMicrocodesToCache
@@ -68,6 +81,16 @@ namespace OgrePlugin
         {
             OgreManagedStream managedStream = new OgreManagedStream("MicrocodeLoadStream", stream);
             GpuProgramManager_loadMicrocodeCache(managedStream.NativeStream);
+        }
+
+        public GpuSharedParametersPtr createSharedParameters(String name)
+        {
+            return new GpuSharedParametersPtr(sharedProgramParametersWrappers.getObject(GpuProgramManager_createSharedParameters(name, sharedProgramParametersWrappers.ProcessWrapperCallback)));
+        }
+
+        public GpuSharedParametersPtr getSharedParameters(String name)
+        {
+            return new GpuSharedParametersPtr(sharedProgramParametersWrappers.getObject(GpuProgramManager_getSharedParameters(name, sharedProgramParametersWrappers.ProcessWrapperCallback)));
         }
 
         /// <summary>
@@ -119,6 +142,18 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void GpuProgramParameters_Delete(IntPtr heapSharedPtr);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr GpuProgramManager_createSharedParameters(String name, ProcessWrapperObjectDelegate processWrapper);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr GpuProgramManager_getSharedParameters(String name, ProcessWrapperObjectDelegate processWrapper);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr GpuSharedParametersPtr_createHeapPtr(IntPtr stackSharedPtr);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void GpuSharedParametersPtr_Delete(IntPtr heapSharedPtr);
 
 #endregion
     }

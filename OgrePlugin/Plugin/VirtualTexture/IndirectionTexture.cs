@@ -456,8 +456,8 @@ namespace OgrePlugin.VirtualTexture
             pass.setFragmentProgram(FeedbackBufferFPName);
             using (var gpuParams = pass.getFragmentProgramParameters())
             {
+                gpuParams.Value.addSharedParameters(virtualTextureManager.SharedFeedbackParameters);
                 gpuParams.Value.setNamedConstant("virtTexSize", new Vector2(realTextureSize.Width, realTextureSize.Height));
-                gpuParams.Value.setNamedConstant("mipSampleBias", virtualTextureManager.MipSampleBias);
                 gpuParams.Value.setNamedConstant("spaceId", (float)id);
             }
         }

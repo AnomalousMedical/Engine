@@ -29,6 +29,16 @@ namespace OgrePlugin
             ptr = IntPtr.Zero;
         }
 
+        public void addSharedParameters(GpuSharedParametersPtr sharedParams)
+        {
+            GpuProgramParameters_addSharedParameters(ptr, sharedParams.HeapSharedPtr);
+        }
+
+        public void addSharedParameters(String sharedParamsName)
+        {
+            GpuProgramParameters_addSharedParametersName(ptr, sharedParamsName);
+        }
+
         public void setNamedConstant(String name, float val)
         {
             GpuProgramParameters_setNamedConstant1(ptr, name, val);
@@ -146,6 +156,13 @@ namespace OgrePlugin
         }
 
         #region PInvoke
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void GpuProgramParameters_addSharedParameters(IntPtr param, IntPtr sharedParams);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void GpuProgramParameters_addSharedParametersName(IntPtr param, String name);
+
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void GpuProgramParameters_setNamedConstant1(IntPtr param, String name, float val);
 
