@@ -52,6 +52,7 @@ namespace OgrePlugin.VirtualTexture
             this.padding = padding;
             this.padding2 = padding * 2;
             this.textelsPerPhysicalPage = textelsPerPage + padding2;
+            this.Overprevisioned = true;
 
             addedPages = new HashSet<VTexPage>();
             removedPages = new List<VTexPage>(10);
@@ -234,6 +235,8 @@ namespace OgrePlugin.VirtualTexture
                 loopResumingCallback.Invoke();
             }
 
+            Overprevisioned = pagesToLoad.Count > physicalPagePool.Count;
+
             //Start loading task again
             pagesToLoad.Sort((v1, v2) => v1.GetHashCode() - v2.GetHashCode());
             loadingTask = Task.Run(() =>
@@ -351,6 +354,8 @@ namespace OgrePlugin.VirtualTexture
         internal Vector2 PagePaddingScale { get; private set; }
 
         internal Vector2 PagePaddingOffset { get; private set; }
+
+        internal bool Overprevisioned { get; set; }
 
         /// <summary>
         /// Load the given image. Note that pTexPage is constant for the duration of this function call

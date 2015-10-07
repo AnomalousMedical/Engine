@@ -38,7 +38,13 @@ namespace OgrePlugin.VirtualTexture
         private int maxSyncPerFrame = int.MaxValue;
         private int currentFeedbackDelayCount = 0;
         private int maxFeedbackDelay = 10;
-        private float mipSampleBias;
+
+        private bool autoAjustMipLevel = true;
+        private bool updateMipSampleBias = true;
+        private float lastMipSampleBias = -3.0f;
+        private float mipSampleBias = -3.0f;
+        private float minMipBias = -3.0f;
+        private float maxMipBias = 10.0f;
 
         private TextureLoader textureLoader;
 
@@ -95,7 +101,6 @@ namespace OgrePlugin.VirtualTexture
 
             sharedFeedbackParameters = GpuProgramManager.Instance.createSharedParameters("__VirtualTexturingFeedbackSharedParams");
             sharedFeedbackParameters.Value.addNamedConstant("mipSampleBias", GpuConstantType.GCT_FLOAT1);
-            MipSampleBias = -3.0f;
         }
 
         public void Dispose()
@@ -170,6 +175,12 @@ namespace OgrePlugin.VirtualTexture
                 case Phase.RenderFeedback:
                     if (opaqueFeedbackBuffer.AbleToRender)
                     {
+                        if (updateMipSampleBias)
+                        {
+                            sharedFeedbackParameters.Value.setNamedConstant("mipSampleBias", mipSampleBias);
+                            updateMipSampleBias = false;
+                        }
+
                         PerformanceMonitor.start("FeedbackBuffer Render");
                         opaqueFeedbackBuffer.update();
                         transparentFeedbackBuffer.update();
@@ -266,6 +277,28 @@ namespace OgrePlugin.VirtualTexture
                         }
                         finally
                         {
+                            //Adust the mip bias
+                            if (AutoAdjustMipLevel)
+                            {
+                                if (TextureLoader.Overprevisioned)
+                                {
+                                    mipSampleBias += 1;
+                                    if (mipSampleBias > maxMipBias)
+                                    {
+                                        mipSampleBias = maxMipBias;
+                                    }
+                                }
+                                else
+                                {
+                                    mipSampleBias -= 1;
+                                    if (mipSampleBias < minMipBias)
+                                    {
+                                        mipSampleBias = minMipBias;
+                                    }
+                                }
+                                updateMipSampleBias = mipSampleBias != lastMipSampleBias;
+                                lastMipSampleBias = mipSampleBias;
+                            }
                             phase = Phase.Delay; //This means we always delay at least one frame, but this gives a chance for textures to upload to the gpu.
                         }
                     });
@@ -442,7 +475,7 @@ namespace OgrePlugin.VirtualTexture
                 maxSyncPerFrame = value;
             }
         }
-        
+
         /// <summary>
         /// The bias to apply to mip maps when sampling the scene in the indirection texture.
         /// </summary>
@@ -455,7 +488,19 @@ namespace OgrePlugin.VirtualTexture
             set
             {
                 mipSampleBias = value;
-                sharedFeedbackParameters.Value.setNamedConstant("mipSampleBias", this.MipSampleBias);
+                updateMipSampleBias = true;
+            }
+        }
+
+        public bool AutoAdjustMipLevel
+        {
+            get
+            {
+                return autoAjustMipLevel;
+            }
+            set
+            {
+                autoAjustMipLevel = value;
             }
         }
 
