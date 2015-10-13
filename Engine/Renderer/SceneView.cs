@@ -137,5 +137,7 @@ namespace Engine
         /// Set the scheme for materials in this scene view.
         /// </summary>
         String SchemeName { get; set; }
+
+        Radian FovY { get; set; }
     }
 }

@@ -44,7 +44,6 @@ namespace OgrePlugin
             camera = sceneManager.SceneManager.createCamera(name + CAMERA_RESERVED_NAME);
             camera.setNearClipDistance(1.0f);
             camera.setAutoAspectRatio(true);
-            camera.setFOVy(new Degree(10.0f));
             node = sceneManager.SceneManager.createSceneNode(name + CAMERA_NODE_RESERVED_NAME);
             node.attachObject(camera);
             viewport = renderTarget.addViewport(camera, zIndex, 0, 0, 1, 1);
@@ -249,6 +248,18 @@ namespace OgrePlugin
             set
             {
                 viewport.setMaterialScheme(value);
+            }
+        }
+
+        public Radian FovY
+        {
+            get
+            {
+                return camera.getFOVy();
+            }
+            set
+            {
+                camera.setFOVy(value);
             }
         }
 

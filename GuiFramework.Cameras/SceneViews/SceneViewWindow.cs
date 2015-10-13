@@ -68,6 +68,7 @@ namespace Anomalous.GuiFramework.Cameras
         private RenderingMode renderingMode = RenderingMode.Solid;
         private bool clearEveryFrame = false;
         private String schemeName = MaterialManager.DefaultSchemeName;
+        private Radian fovY = 0.174533f;
 
         private UndoRedoBuffer undoRedoBuffer = new UndoRedoBuffer(20);
 
@@ -124,6 +125,7 @@ namespace Anomalous.GuiFramework.Cameras
             sceneView.BackgroundColor = backColor;
             sceneView.setNearClipDistance(1.0f);
             sceneView.setFarClipDistance(1000.0f);
+            sceneView.FovY = fovY;
             sceneView.ClearEveryFrame = clearEveryFrame;
             sceneView.setRenderingMode(renderingMode);
             cameraMover.setCamera(new CameraPositioner(sceneView, MinNearDistance, NearPlaneWorld, NearFarLength));
@@ -590,6 +592,22 @@ namespace Anomalous.GuiFramework.Cameras
             get
             {
                 return transparencyStateName;
+            }
+        }
+
+        public Radian FovY
+        {
+            get
+            {
+                return fovY;
+            }
+            set
+            {
+                fovY = value;
+                if (sceneView != null)
+                {
+                    sceneView.FovY = fovY;
+                }
             }
         }
 
