@@ -1,3 +1,7 @@
+#ifdef VIRTUAL_TEXTURE
+	#extension GL_OES_standard_derivatives : require
+#endif
+
 precision highp float;
 
 //External function prototypes
@@ -54,8 +58,6 @@ vec3 unpack(vec3 packValue)
 }
 
 #ifdef VIRTUAL_TEXTURE
-
-#extension GL_OES_standard_derivatives : require
 
 float texMipLevel(vec2 coord, vec2 texSize)
 {
@@ -259,14 +261,14 @@ void main()
 #if defined(OPACITY_MAP) || defined(OPACITY)
 	#ifdef OPACITY_MAP
 		#ifdef ALPHA
-			gl_FragColor.a = opacityMapValue.r - (1.0f - alpha.a);
+			gl_FragColor.a = opacityMapValue.r - (1.0 - alpha.a);
 		#else
 			gl_FragColor.a = opacityMapValue.r;
 		#endif
 	#endif
 	#ifdef OPACITY
 		#ifdef ALPHA
-			gl_FragColor.a = opacity - (1.0f - alpha.a);
+			gl_FragColor.a = opacity - (1.0 - alpha.a);
 		#else
 			gl_FragColor.a = opacity;
 		#endif
