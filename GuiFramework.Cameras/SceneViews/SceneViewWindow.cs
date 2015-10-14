@@ -68,7 +68,7 @@ namespace Anomalous.GuiFramework.Cameras
         private RenderingMode renderingMode = RenderingMode.Solid;
         private bool clearEveryFrame = false;
         private String schemeName = MaterialManager.DefaultSchemeName;
-        private Radian fovY = 0.174533f;
+        private Radian fovY = new Degree(10).Radians;
 
         private UndoRedoBuffer undoRedoBuffer = new UndoRedoBuffer(20);
 
@@ -83,7 +83,7 @@ namespace Anomalous.GuiFramework.Cameras
             this.startLookAt = cameraMover.LookAt;
             transparencyStateName = name;
             NearPlaneWorld = 230;
-            NearFarLength = 400;
+            NearFarLength = 450;
             MinNearDistance = 1;
         }
 
