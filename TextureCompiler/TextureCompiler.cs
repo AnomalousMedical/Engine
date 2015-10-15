@@ -422,7 +422,7 @@ namespace Anomalous.TextureCompiler
             throw new NotSupportedException(); //Won't get here
         }
 
-        private async Task saveUncompressed(String sourceFile, String destFile)
+        private async Task saveUncompressed(String sourceFile, String destFile, bool lossless)
         {
             await Task.Run(() =>
             {
@@ -433,7 +433,7 @@ namespace Anomalous.TextureCompiler
                     {
                         using (var stream = File.Open(String.Format(PagedTextureNameFormat, destFile), FileMode.Create, FileAccess.ReadWrite))
                         {
-                            PagedImage.fromBitmap(source, 128, 1, stream, PagedImage.ImageType.WEBP);
+                            PagedImage.fromBitmap(source, 128, 1, stream, PagedImage.ImageType.WEBP, 2048, lossless);
                         }
                     }
                 }
@@ -629,7 +629,7 @@ namespace Anomalous.TextureCompiler
             Task.WaitAll(
                 bc3Compress(source, dest),
                 etc2Compress(source, dest),
-                saveUncompressed(source, dest))
+                saveUncompressed(source, dest, false))
             ;
         }
 
@@ -639,7 +639,7 @@ namespace Anomalous.TextureCompiler
             Task.WaitAll(
                 bc3Compress(source, dest),
                 etc2Compress(source, dest),
-                saveUncompressed(source, dest)
+                saveUncompressed(source, dest, false)
             );
         }
 
@@ -656,7 +656,7 @@ namespace Anomalous.TextureCompiler
         private void compressCompositeNormalMap(String source, String dest)
         {
             Task.WaitAll(
-                saveUncompressed(source, dest)
+                saveUncompressed(source, dest, true)
             );
         }
 

@@ -73,8 +73,14 @@ namespace OgrePlugin
         /// </summary>
         /// <param name="image">The image to extract pages from.</param>
         /// <param name="pageSize">The size of the pages to extract.</param>
-        public static void fromBitmap(FreeImageBitmap image, int pageSize, int padding, Stream stream, ImageType imageType)
+        public static void fromBitmap(FreeImageBitmap image, int pageSize, int padding, Stream stream, ImageType imageType, int maxSize, bool lossless)
         {
+            if(image.Width > maxSize)
+            {
+                Logging.Log.Info("Image size {0} was too large, resizing to {1}", image.Width, maxSize);
+                image.Rescale(new Size(maxSize, maxSize), FREE_IMAGE_FILTER.FILTER_BILINEAR);
+            }
+
             PagedImage pagedImage = new PagedImage();
             int padding2x = padding * 2;
             FREE_IMAGE_FORMAT outputFormat;
@@ -87,7 +93,10 @@ namespace OgrePlugin
                     break;
                 case ImageType.WEBP:
                     outputFormat = FREE_IMAGE_FORMAT.FIF_WEBP;
-                    saveFlags = FREE_IMAGE_SAVE_FLAGS.WEBP_LOSSLESS;
+                    if (lossless)
+                    {
+                        saveFlags = FREE_IMAGE_SAVE_FLAGS.WEBP_LOSSLESS;
+                    }
                     break;
             }
 
