@@ -44,6 +44,7 @@ namespace OgrePlugin
         private int pageSize;
         private int indexStart;
         private const int HeaderSize = sizeof(int) * 6;
+        private const FREE_IMAGE_FILTER Filter = FREE_IMAGE_FILTER.FILTER_BILINEAR;
 
         private MemoryBlock memoryBlock;
         private List<ImageInfo> pages;
@@ -78,7 +79,7 @@ namespace OgrePlugin
             if(image.Width > maxSize)
             {
                 Logging.Log.Info("Image size {0} was too large, resizing to {1}", image.Width, maxSize);
-                image.Rescale(new Size(maxSize, maxSize), FREE_IMAGE_FILTER.FILTER_BILINEAR);
+                image.Rescale(new Size(maxSize, maxSize), Filter);
             }
 
             PagedImage pagedImage = new PagedImage();
@@ -137,7 +138,7 @@ namespace OgrePlugin
                     //Setup mip level
                     if (mip != 0)
                     {
-                        image.Rescale(image.Width >> 1, image.Height >> 1, FREE_IMAGE_FILTER.FILTER_BILINEAR);
+                        image.Rescale(image.Width >> 1, image.Height >> 1, Filter);
                     }
                     int size = image.Width / pageSize;
                     pagedImage.mipIndices.Add(new MipIndexInfo(pagedImage.numImages, size));
@@ -145,11 +146,11 @@ namespace OgrePlugin
                 }
             }
 
-            //Write half size normal map
+            //Write half size mip
             int halfPageSize = pageSize >> 1;
             using (FreeImageBitmap halfSizeHighestMip = new FreeImageBitmap(halfPageSize + padding2x, halfPageSize + padding2x, FreeImageAPI.PixelFormat.Format32bppArgb))
             {
-                image.Rescale(image.Width >> 1, image.Height >> 1, FREE_IMAGE_FILTER.FILTER_BILINEAR);
+                image.Rescale(image.Width >> 1, image.Height >> 1, Filter);
                 extractPage(image, padding, stream, pagedImage, halfPageSize, halfSizeHighestMip, 1, outputFormat, saveFlags);
             }
 
