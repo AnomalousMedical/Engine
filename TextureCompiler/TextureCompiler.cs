@@ -422,7 +422,7 @@ namespace Anomalous.TextureCompiler
             throw new NotSupportedException(); //Won't get here
         }
 
-        private async Task saveUncompressed(String sourceFile, String destFile, bool lossless)
+        private async Task saveUncompressed(String sourceFile, String destFile, bool lossless, FREE_IMAGE_FILTER filter, Action<FreeImageBitmap> afterResize = null)
         {
             await Task.Run(() =>
             {
@@ -433,7 +433,7 @@ namespace Anomalous.TextureCompiler
                     {
                         using (var stream = File.Open(String.Format(PagedTextureNameFormat, destFile), FileMode.Create, FileAccess.ReadWrite))
                         {
-                            PagedImage.fromBitmap(source, 128, 1, stream, PagedImage.ImageType.WEBP, 2048, lossless);
+                            PagedImage.fromBitmap(source, 128, 1, stream, PagedImage.ImageType.WEBP, 2048, lossless, filter, afterResize);
                         }
                     }
                 }
@@ -629,7 +629,7 @@ namespace Anomalous.TextureCompiler
             Task.WaitAll(
                 bc3Compress(source, dest),
                 etc2Compress(source, dest),
-                saveUncompressed(source, dest, false))
+                saveUncompressed(source, dest, false, FREE_IMAGE_FILTER.FILTER_LANCZOS3))
             ;
         }
 
@@ -639,7 +639,7 @@ namespace Anomalous.TextureCompiler
             Task.WaitAll(
                 bc3Compress(source, dest),
                 etc2Compress(source, dest),
-                saveUncompressed(source, dest, false)
+                saveUncompressed(source, dest, false, FREE_IMAGE_FILTER.FILTER_LANCZOS3)
             );
         }
 
@@ -656,7 +656,26 @@ namespace Anomalous.TextureCompiler
         private void compressCompositeNormalMap(String source, String dest)
         {
             Task.WaitAll(
-                saveUncompressed(source, dest, true)
+                saveUncompressed(source, dest, true, FREE_IMAGE_FILTER.FILTER_BILINEAR, (resized) =>
+                {
+                    for(int x = 0; x < resized.Width; ++x)
+                    {
+                        for(int y = 0; y < resized.Height; ++y)
+                        {
+                            Color pixel = resized.GetPixel(x, y);
+
+                            float nX = pixel.R / 255.0f;
+                            float nY = pixel.G / 255.0f;
+                            float nZ = (float)Math.Sqrt(1 - nX * nX - nY * nY);
+                            var vector = new Engine.Vector3(nX, nY, nZ);
+                            vector.normalize();
+
+                            pixel.R = (byte)(vector.x * 255);
+                            pixel.G = (byte)(vector.y * 255);
+                            resized.SetPixel(x, y, pixel);
+                        }
+                    }
+                })
             );
         }
 

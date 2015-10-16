@@ -44,7 +44,6 @@ namespace OgrePlugin
         private int pageSize;
         private int indexStart;
         private const int HeaderSize = sizeof(int) * 6;
-        private const FREE_IMAGE_FILTER Filter = FREE_IMAGE_FILTER.FILTER_BILINEAR;
 
         private MemoryBlock memoryBlock;
         private List<ImageInfo> pages;
@@ -74,12 +73,12 @@ namespace OgrePlugin
         /// </summary>
         /// <param name="image">The image to extract pages from.</param>
         /// <param name="pageSize">The size of the pages to extract.</param>
-        public static void fromBitmap(FreeImageBitmap image, int pageSize, int padding, Stream stream, ImageType imageType, int maxSize, bool lossless)
+        public static void fromBitmap(FreeImageBitmap image, int pageSize, int padding, Stream stream, ImageType imageType, int maxSize, bool lossless, FREE_IMAGE_FILTER filter, Action<FreeImageBitmap> afterResize = null)
         {
             if(image.Width > maxSize)
             {
                 Logging.Log.Info("Image size {0} was too large, resizing to {1}", image.Width, maxSize);
-                image.Rescale(new Size(maxSize, maxSize), Filter);
+                image.Rescale(new Size(maxSize, maxSize), filter);
             }
 
             PagedImage pagedImage = new PagedImage();
@@ -138,7 +137,11 @@ namespace OgrePlugin
                     //Setup mip level
                     if (mip != 0)
                     {
-                        image.Rescale(image.Width >> 1, image.Height >> 1, Filter);
+                        image.Rescale(image.Width >> 1, image.Height >> 1, filter);
+                        if (afterResize != null)
+                        {
+                            afterResize(image);
+                        }
                     }
                     int size = image.Width / pageSize;
                     pagedImage.mipIndices.Add(new MipIndexInfo(pagedImage.numImages, size));
@@ -150,7 +153,7 @@ namespace OgrePlugin
             int halfPageSize = pageSize >> 1;
             using (FreeImageBitmap halfSizeHighestMip = new FreeImageBitmap(halfPageSize + padding2x, halfPageSize + padding2x, FreeImageAPI.PixelFormat.Format32bppArgb))
             {
-                image.Rescale(image.Width >> 1, image.Height >> 1, Filter);
+                image.Rescale(image.Width >> 1, image.Height >> 1, filter);
                 extractPage(image, padding, stream, pagedImage, halfPageSize, halfSizeHighestMip, 1, outputFormat, saveFlags);
             }
 
