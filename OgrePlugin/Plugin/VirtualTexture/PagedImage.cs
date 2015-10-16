@@ -97,6 +97,10 @@ namespace OgrePlugin
                     {
                         saveFlags = FREE_IMAGE_SAVE_FLAGS.WEBP_LOSSLESS;
                     }
+                    else
+                    {
+                        saveFlags = (FREE_IMAGE_SAVE_FLAGS)90;
+                    }
                     break;
             }
 
