@@ -8,22 +8,58 @@ namespace Engine.Platform
 {
     public class TwoFingerZoom : MessageEvent
     {
-        public delegate void ZoomDelegate(EventLayer eventLayer, float zoomDelta);
+        public delegate void ZoomDelegate(EventLayer eventLayer, TwoFingerZoom zoomGesture);
 
         public event ZoomDelegate Zoom;
         public float lastPinchDistance = 0;
         bool didGesture;
+        bool momentumStarted = false;
+        bool gestureStarted = false;
         float momentum = 0.0f;
         float momentumDirection = 1.0f;
         float deceleration = 0.0f;
         float decelerationTime;
         float minimumMomentum;
+        float zoomDelta = 0.0f;
+
+        /// <summary>
+        /// This event is fired when the gesture starts running.
+        /// </summary>
+        public event ZoomDelegate GestureStarted;
+
+        /// <summary>
+        /// This event is fired when momentum starts for this gesture. This will always fire the first frame momentum
+        /// would start, even if this instance has been configured not to use momentum.
+        /// </summary>
+        public event ZoomDelegate MomentumStarted;
+
+        /// <summary>
+        /// This event is fired when momentum ends. This will always fire the first frame momentum
+        /// would end, even if this instance has been configured not to use momentum.
+        /// </summary>
+        public event ZoomDelegate MomentumEnded;
 
         public TwoFingerZoom(Object eventLayerKey, float decelerationTime, float minimumMomentum)
             :base(eventLayerKey)
         {
             this.decelerationTime = decelerationTime;
             this.minimumMomentum = minimumMomentum;
+        }
+
+        /// <summary>
+        /// Clear the momentum for this gesture.
+        /// </summary>
+        public void cancelMomentum()
+        {
+            momentum = 0.0f;
+        }
+
+        public float ZoomDelta
+        {
+            get
+            {
+                return zoomDelta;
+            }
         }
 
         protected internal override void update(EventLayer eventLayer, bool allowProcessing, Clock clock)
@@ -38,21 +74,24 @@ namespace Engine.Platform
                 Vector2 finger2Vec = new Vector2(finger2.NrmlDeltaX, finger2.NrmlDeltaY);
                 float finger1Len = finger1Vec.length2();
                 float finger2Len = finger2Vec.length2();
-                if (finger1Len > 0 && finger2Len > 0)
+                if (finger1Len > 0 || finger2Len > 0)
                 {
-                    float cosTheta = finger1Vec.dot(ref finger2Vec) / (finger1Vec.length() * finger2Vec.length());
-                    if (cosTheta < -0.5f && Zoom != null)
+                    if (finger1Len > 0 && finger2Len > 0)
+                    {
+                        float cosTheta = finger1Vec.dot(ref finger2Vec) / (finger1Vec.length() * finger2Vec.length());
+                        if (cosTheta < -0.5f && Zoom != null)
+                        {
+                            computeZoom(eventLayer, ref didGesture, finger1, finger2, ref finger1Vec, ref finger2Vec);
+                        }
+                    }
+                    else if (finger1Len == 0 && finger2Len > 0)
                     {
                         computeZoom(eventLayer, ref didGesture, finger1, finger2, ref finger1Vec, ref finger2Vec);
                     }
-                }
-                else if (finger1Len == 0 && finger2Len > 0)
-                {
-                    computeZoom(eventLayer, ref didGesture, finger1, finger2, ref finger1Vec, ref finger2Vec);
-                }
-                else if (finger2Len == 0 && finger1Len > 0)
-                {
-                    computeZoom(eventLayer, ref didGesture, finger1, finger2, ref finger1Vec, ref finger2Vec);
+                    else if (finger2Len == 0 && finger1Len > 0)
+                    {
+                        computeZoom(eventLayer, ref didGesture, finger1, finger2, ref finger1Vec, ref finger2Vec);
+                    }
                 }
             }
 
@@ -61,6 +100,17 @@ namespace Engine.Platform
             {
                 if (momentum > 0.0f)
                 {
+                    zoomDelta = momentum * momentumDirection;
+
+                    if (!momentumStarted)
+                    {
+                        momentumStarted = true;
+                        if (MomentumStarted != null)
+                        {
+                            MomentumStarted.Invoke(eventLayer, this);
+                        }
+                    }
+
                     momentum -= deceleration * clock.DeltaSeconds;
                     if (momentum < 0.0f)
                     {
@@ -68,7 +118,18 @@ namespace Engine.Platform
                     }
                     if (Zoom != null)
                     {
-                        Zoom.Invoke(eventLayer, momentum * momentumDirection);
+                        Zoom.Invoke(eventLayer, this);
+                    }
+                }
+                else if(momentumStarted)
+                {
+                    zoomDelta = 0.0f;
+
+                    momentumStarted = false;
+                    gestureStarted = false;
+                    if (MomentumEnded != null)
+                    {
+                        MomentumEnded.Invoke(eventLayer, this);
                     }
                 }
             }
@@ -83,24 +144,30 @@ namespace Engine.Platform
 
             Vector2 vectorSum = finger1Vec - finger2Vec;
             momentumDirection = 1.0f;
-            float sumLength = vectorSum.length();
-            momentum = sumLength;
-            if (momentum < minimumMomentum)
-            {
-                momentum = 0.0f;
-            }
+            zoomDelta = vectorSum.length();
+            momentum = zoomDelta;
             deceleration = momentum / decelerationTime;
 
             if (currentPinchDistance > lastPinchDistance)
             {
-                sumLength = -sumLength;
+                zoomDelta = -zoomDelta;
                 momentumDirection = -1.0f;
             }
             didGesture = true;
             lastPinchDistance = currentPinchDistance;
+
+            if (!gestureStarted)
+            {
+                gestureStarted = true;
+                if (GestureStarted != null)
+                {
+                    GestureStarted.Invoke(eventLayer, this);
+                }
+            }
+
             if (Zoom != null)
             {
-                Zoom.Invoke(eventLayer, sumLength);
+                Zoom.Invoke(eventLayer, this);
             }
         }
     }

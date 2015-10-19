@@ -113,6 +113,8 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 			touchInfo.id = AMotionEvent_getPointerId(event, 0);
 			touchInfo.pixelX = AMotionEvent_getRawX(event, 0);
 			touchInfo.pixelY = AMotionEvent_getRawY(event, 0);
+			touchInfo.normalizedX = (float)touchInfo.pixelX / getWidth();
+			touchInfo.normalizedY = (float)touchInfo.pixelY / getHeight();
 			multiTouch->fireTouchStarted(touchInfo);
 			//LOGI("Motion event down id: %i x: %i y: %i", touchInfo.id, touchInfo.pixelX, touchInfo.pixelY);
 			break;
@@ -121,6 +123,8 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 			touchInfo.id = AMotionEvent_getPointerId(event, 0);
 			touchInfo.pixelX = AMotionEvent_getRawX(event, 0);
 			touchInfo.pixelY = AMotionEvent_getRawY(event, 0);
+			touchInfo.normalizedX = (float)touchInfo.pixelX / getWidth();
+			touchInfo.normalizedY = (float)touchInfo.pixelY / getHeight();
 			multiTouch->fireTouchEnded(touchInfo);
 			//LOGI("Motion event up id: %i x: %i y: %i", touchInfo.id, touchInfo.pixelX, touchInfo.pixelY);
 			break;
@@ -132,6 +136,8 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 				touchInfo.id = AMotionEvent_getPointerId(event, i);
 				touchInfo.pixelX = AMotionEvent_getRawX(event, i);
 				touchInfo.pixelY = AMotionEvent_getRawY(event, i);
+				touchInfo.normalizedX = (float)touchInfo.pixelX / getWidth();
+				touchInfo.normalizedY = (float)touchInfo.pixelY / getHeight();
 				multiTouch->fireTouchMoved(touchInfo);
 				//LOGI("Motion event move id: %i x: %i y: %i", touchInfo.id, touchInfo.pixelX, touchInfo.pixelY);
 			}
@@ -147,6 +153,8 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 			touchInfo.id = AMotionEvent_getPointerId(event, eventPointerIndex);
 			touchInfo.pixelX = AMotionEvent_getRawX(event, eventPointerIndex);
 			touchInfo.pixelY = AMotionEvent_getRawY(event, eventPointerIndex);
+			touchInfo.normalizedX = (float)touchInfo.pixelX / getWidth();
+			touchInfo.normalizedY = (float)touchInfo.pixelY / getHeight();
 			multiTouch->fireTouchStarted(touchInfo);
 			//LOGI("Motion event pointer down id: %i x: %i y: %i", touchInfo.id, touchInfo.pixelX, touchInfo.pixelY);
 			break;
@@ -156,6 +164,8 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 			touchInfo.id = AMotionEvent_getPointerId(event, eventPointerIndex);
 			touchInfo.pixelX = AMotionEvent_getRawX(event, eventPointerIndex);
 			touchInfo.pixelY = AMotionEvent_getRawY(event, eventPointerIndex);
+			touchInfo.normalizedX = (float)touchInfo.pixelX / getWidth();
+			touchInfo.normalizedY = (float)touchInfo.pixelY / getHeight();
 			multiTouch->fireTouchEnded(touchInfo);
 			//LOGI("Motion event pointer up id: %i x: %i y: %i", touchInfo.id, touchInfo.pixelX, touchInfo.pixelY);
 			break;
@@ -165,6 +175,8 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 		//	touchInfo.id = AMotionEvent_getPointerId(event, 0);
 		//	touchInfo.pixelX = AMotionEvent_getRawX(event, 0);
 		//	touchInfo.pixelY = AMotionEvent_getRawY(event, 0);
+		//	touchInfo.normalizedX = (float)touchInfo.pixelX / getWidth();
+		//	touchInfo.normalizedY = (float)touchInfo.pixelY / getHeight();
 		//	LOGI("Motion event hover move id: %i x: %f y: %f", touchInfo.id, touchInfo.pixelX, touchInfo.pixelY);
 		//	break;
 

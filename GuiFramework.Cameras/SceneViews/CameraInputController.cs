@@ -57,7 +57,7 @@ namespace Anomalous.GuiFramework.Cameras
 
         private static FingerDragGesture rotateGesture;
         private static FingerDragGesture panGesture;
-        private static FingerDragGesture zoomGesture;
+        private static TwoFingerZoom zoomGesture;
 
         static CameraInputController()
         {
@@ -92,13 +92,13 @@ namespace Anomalous.GuiFramework.Cameras
             switch (GuiFrameworkCamerasInterface.TouchType)
             { 
                 case TouchType.Screen:
-                    zoomGesture = new FingerDragGesture(GuiFrameworkCamerasInterface.MoveCameraEventLayer, 2, 0.5f, 2f, 5);
+                    zoomGesture = new TwoFingerZoom(GuiFrameworkCamerasInterface.MoveCameraEventLayer, 0.001f, 2f);
                     DefaultEvents.registerDefaultEvent(zoomGesture);
 
-                    rotateGesture = new FingerDragGesture(GuiFrameworkCamerasInterface.MoveCameraEventLayer, 1, 0.5f, 2f, 5);
+                    rotateGesture = new FingerDragGesture(GuiFrameworkCamerasInterface.MoveCameraEventLayer, 1, 0.001f, 2f, 5);
                     DefaultEvents.registerDefaultEvent(rotateGesture);
 
-                    panGesture = new FingerDragGesture(GuiFrameworkCamerasInterface.MoveCameraEventLayer, 3, 0.5f, 2f, 5);
+                    panGesture = new FingerDragGesture(GuiFrameworkCamerasInterface.MoveCameraEventLayer, 3, 0.001f, 2f, 5);
                     DefaultEvents.registerDefaultEvent(panGesture);
                 break;
             }
@@ -147,7 +147,7 @@ namespace Anomalous.GuiFramework.Cameras
             if (zoomGesture != null)
             {
                 zoomGesture.GestureStarted += zoomGesture_GestureStarted;
-                zoomGesture.Dragged += zoomGesture_Dragged;
+                zoomGesture.Zoom += ZoomGesture_Zoom;
                 zoomGesture.MomentumStarted += zoomGesture_MomentumStarted;
                 zoomGesture.MomentumEnded += zoomGesture_MomentumEnded;
 
@@ -179,7 +179,7 @@ namespace Anomalous.GuiFramework.Cameras
             if (zoomGesture != null)
             {
                 zoomGesture.GestureStarted -= zoomGesture_GestureStarted;
-                zoomGesture.Dragged -= zoomGesture_Dragged;
+                zoomGesture.Zoom -= ZoomGesture_Zoom;
                 zoomGesture.MomentumStarted -= zoomGesture_MomentumStarted;
                 zoomGesture.MomentumEnded -= zoomGesture_MomentumEnded;
 
@@ -442,7 +442,7 @@ namespace Anomalous.GuiFramework.Cameras
             }
         }
 
-        void zoomGesture_GestureStarted(EventLayer eventLayer, FingerDragGesture gesture)
+        void zoomGesture_GestureStarted(EventLayer eventLayer, TwoFingerZoom zoomGesture)
         {
             if (eventLayer.EventProcessingAllowed)
             {
@@ -450,7 +450,7 @@ namespace Anomalous.GuiFramework.Cameras
             }
         }
 
-        void zoomGesture_Dragged(EventLayer eventLayer, FingerDragGesture gesture)
+        private void ZoomGesture_Zoom(EventLayer eventLayer, TwoFingerZoom zoomGesture)
         {
             if (eventLayer.EventProcessingAllowed && currentGesture <= Gesture.Zoom)
             {
@@ -458,13 +458,13 @@ namespace Anomalous.GuiFramework.Cameras
                 SceneViewWindow sceneView = sceneViewController.ActiveWindow;
                 if (sceneView != null)
                 {
-                    sceneView.CameraMover.zoomFromMotion((int)gesture.DeltaY);
+                    sceneView.CameraMover.zoomFromMotion((int)(zoomGesture.ZoomDelta * 1000));
                 }
                 eventLayer.alertEventsHandled();
             }
         }
 
-        void zoomGesture_MomentumStarted(EventLayer eventLayer, FingerDragGesture gesture)
+        void zoomGesture_MomentumStarted(EventLayer eventLayer, TwoFingerZoom zoomGesture)
         {
             if (eventLayer.EventProcessingAllowed)
             {
@@ -475,11 +475,11 @@ namespace Anomalous.GuiFramework.Cameras
             }
             else
             {
-                gesture.cancelMomentum();
+                zoomGesture.cancelMomentum();
             }
         }
 
-        void zoomGesture_MomentumEnded(EventLayer eventLayer, FingerDragGesture gesture)
+        void zoomGesture_MomentumEnded(EventLayer eventLayer, TwoFingerZoom zoomGesture)
         {
             if (currentGesture <= Gesture.Zoom)
             {
