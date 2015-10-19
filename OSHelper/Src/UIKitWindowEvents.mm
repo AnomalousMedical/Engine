@@ -127,6 +127,8 @@
             float scale = win->getWindowScaling();
             touchInfo.pixelX = (int)(loc.x * scale);
             touchInfo.pixelY = (int)(loc.y * scale);
+            touchInfo.normalizedX = (float)touchInfo.pixelX / win->getWidth();
+            touchInfo.normalizedY = (float)touchInfo.pixelY / win->getHeight();
             switch (t.phase)
             {
                 case UITouchPhaseBegan:
