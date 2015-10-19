@@ -66,6 +66,10 @@ namespace Anomalous.GuiFramework
             recentDocuments = new TaskMenuRecentDocuments(widget, documentController);
             recentDocuments.DocumentClicked += new EventDelegate(recentDocuments_DocumentClicked);
 
+            searchBox = widget.findWidget("Search") as EditBox;
+            searchBox.EventEditTextChange += SearchBox_EventEditTextChange;
+            searchBox.EventEditSelectAccept += SearchBox_EventEditSelectAccept;
+
             viewButtonGroup = new ButtonGroup();
             viewButtonGroup.SelectedButtonChanged += new EventHandler(viewButtonGroup_SelectedButtonChanged);
             tasksButton = (Button)widget.findWidget("Tasks");
@@ -80,10 +84,6 @@ namespace Anomalous.GuiFramework
 
             Button closeButton = (Button)widget.findWidget("CloseButton");
             closeButton.MouseButtonClick += new MyGUIEvent(closeButton_MouseButtonClick);
-
-            searchBox = widget.findWidget("Search") as EditBox;
-            searchBox.EventEditTextChange += SearchBox_EventEditTextChange;
-            searchBox.EventEditSelectAccept += SearchBox_EventEditSelectAccept;
         }
 
         public override void Dispose()
@@ -274,7 +274,7 @@ namespace Anomalous.GuiFramework
 
         void viewButtonGroup_SelectedButtonChanged(object sender, EventArgs e)
         {
-            iconScroller.Visible = viewButtonGroup.SelectedButton == tasksButton;
+            searchBox.Visible = iconScroller.Visible = viewButtonGroup.SelectedButton == tasksButton;
             recentDocuments.Visible = viewButtonGroup.SelectedButton == documentsButton;
         }
 
