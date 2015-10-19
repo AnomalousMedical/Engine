@@ -368,6 +368,7 @@ namespace Anomalous.GuiFramework
 
             if (!String.IsNullOrWhiteSpace(searchText))
             {
+                iconScroller.CanvasPosition = new IntVector2(0, 0);
                 searchText = searchText.ToLowerInvariant();
                 foreach (var task in taskController.Tasks.Where(t => t.ShowOnTaskMenu && t.Name.ToLowerInvariant().Contains(searchText)))
                 {
