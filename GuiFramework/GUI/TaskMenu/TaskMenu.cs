@@ -73,7 +73,6 @@ namespace Anomalous.GuiFramework
             documentsButton = (Button)widget.findWidget("Documents");
             viewButtonGroup.addButton(documentsButton);
 
-            this.Showing += TaskMenu_Showing;
             this.Hidden += new EventHandler(TaskMenu_Hidden);
 
             dragIconPreview = (ImageBox)Gui.Instance.createWidgetT("ImageBox", "ImageBox", 0, 0, ScaleHelper.Scaled(32), ScaleHelper.Scaled(32), Align.Default, "Info", "TaskMenuDragIconPreview");
@@ -84,6 +83,7 @@ namespace Anomalous.GuiFramework
 
             searchBox = widget.findWidget("Search") as EditBox;
             searchBox.EventEditTextChange += SearchBox_EventEditTextChange;
+            searchBox.EventEditSelectAccept += SearchBox_EventEditSelectAccept;
         }
 
         public override void Dispose()
@@ -283,11 +283,6 @@ namespace Anomalous.GuiFramework
             this.hide();
         }
 
-        private void TaskMenu_Showing(object sender, EventArgs e)
-        {
-            //InputManager.Instance.setKeyFocusWidget(searchBox);
-        }
-
         void TaskMenu_Hidden(object sender, EventArgs e)
         {
             viewButtonGroup.SelectedButton = tasksButton;
@@ -393,6 +388,14 @@ namespace Anomalous.GuiFramework
             item.MouseDrag += new EventDelegate<ButtonGridItem, MouseEventArgs>(item_MouseDrag);
             item.MouseButtonReleased += new EventDelegate<ButtonGridItem, MouseEventArgs>(item_MouseButtonReleased);
             searchResults.Add(item);
+        }
+
+        private void SearchBox_EventEditSelectAccept(Widget source, EventArgs e)
+        {
+            if(searchResults.Count > 0)
+            {
+                item_ItemClicked(searchResults.First(), null);
+            }
         }
     }
 }
