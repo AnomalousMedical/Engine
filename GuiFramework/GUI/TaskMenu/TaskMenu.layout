@@ -59,6 +59,7 @@
                 <Property key="Caption" value="Remove"/>
             </Widget>
         </Widget>
+        <Widget type="EditBox" skin="EditBox" position="152 11 166 26" name="Search"/>
     </Widget>
     <CodeGeneratorSettings/>
 </MyGUI>

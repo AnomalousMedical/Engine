@@ -17,7 +17,7 @@ namespace Anomalous.GuiFramework
             {
                 Task xItem = (Task)x.UserObject;
                 Task yItem = (Task)y.UserObject;
-                if(xItem != null && yItem != null)
+                if (xItem != null && yItem != null)
                 {
                     return xItem.Weight - yItem.Weight;
                 }
@@ -26,6 +26,7 @@ namespace Anomalous.GuiFramework
         }
 
         private static readonly int AdPadding = ScaleHelper.Scaled(10);
+        public const String SearchResultsCategory = "Search Results";
 
         private NoSelectButtonGrid iconGrid;
         private ScrollView iconScroller;
@@ -45,6 +46,10 @@ namespace Anomalous.GuiFramework
         private IntVector2 dragMouseStartPosition;
         private TaskMenuAdProvider adProvider;
         private TaskMenuGroupSorter groupSorter;
+
+        private EditBox searchBox;
+        private List<ButtonGridItem> searchResults = new List<ButtonGridItem>(20);
+        private List<ButtonGridItem> realTaskItems = new List<ButtonGridItem>(20);
 
         private TaskMenuPositioner taskMenuPositioner = new TaskMenuPositioner();
 
@@ -68,6 +73,7 @@ namespace Anomalous.GuiFramework
             documentsButton = (Button)widget.findWidget("Documents");
             viewButtonGroup.addButton(documentsButton);
 
+            this.Showing += TaskMenu_Showing;
             this.Hidden += new EventHandler(TaskMenu_Hidden);
 
             dragIconPreview = (ImageBox)Gui.Instance.createWidgetT("ImageBox", "ImageBox", 0, 0, ScaleHelper.Scaled(32), ScaleHelper.Scaled(32), Align.Default, "Info", "TaskMenuDragIconPreview");
@@ -75,6 +81,9 @@ namespace Anomalous.GuiFramework
 
             Button closeButton = (Button)widget.findWidget("CloseButton");
             closeButton.MouseButtonClick += new MyGUIEvent(closeButton_MouseButtonClick);
+
+            searchBox = widget.findWidget("Search") as EditBox;
+            searchBox.EventEditTextChange += SearchBox_EventEditTextChange;
         }
 
         public override void Dispose()
@@ -125,7 +134,7 @@ namespace Anomalous.GuiFramework
 
                 this.adProvider = value;
 
-                if(adProvider != null)
+                if (adProvider != null)
                 {
                     adProvider.AdCreated += adProvider_AdCreated;
                     adProvider.AdDestroyed += adProvider_AdDestroyed;
@@ -159,7 +168,7 @@ namespace Anomalous.GuiFramework
                     iconGrid.GroupAdded -= iconGrid_GroupAdded;
                 }
                 this.groupSorter = value;
-                if(this.groupSorter != null)
+                if (this.groupSorter != null)
                 {
                     iconGrid.GroupAdded += iconGrid_GroupAdded;
                 }
@@ -179,9 +188,21 @@ namespace Anomalous.GuiFramework
 
         void taskController_TaskRemoved(Task task, bool willReload)
         {
+            //Unlink task
             task.IconChanged -= task_IconChanged;
-            ButtonGridItem item = iconGrid.findItemByUserObject(task);
+
+            //Remove from regular items
+            ButtonGridItem item = realTaskItems.Find(i => i.UserObject == task);
+            realTaskItems.Remove(item);
             iconGrid.removeItem(item);
+
+            //Remove from search results
+            item = searchResults.Find(i => i.UserObject == task);
+            if (item != null)
+            {
+                searchResults.Remove(item);
+                iconGrid.removeItem(item);
+            }
         }
 
         void taskController_TaskAdded(Task task)
@@ -199,12 +220,31 @@ namespace Anomalous.GuiFramework
                 item.MouseButtonReleased += new EventDelegate<ButtonGridItem, MouseEventArgs>(item_MouseButtonReleased);
                 iconGrid.SuppressLayout = false;
                 iconGrid.resizeAndLayout();
+                realTaskItems.Add(item);
+
+                //Does this task match search results
+                String searchText = searchBox.OnlyText;
+
+                if (!String.IsNullOrWhiteSpace(searchText))
+                {
+                    searchText = searchText.ToLowerInvariant();
+                    if(task.Name.ToLowerInvariant().Contains(searchText))
+                    {
+                        createSearchTaskItem(task);
+                    }
+                }
             }
         }
 
         void task_IconChanged(Task task)
         {
-            ButtonGridItem item = iconGrid.findItemByUserObject(task);
+            ButtonGridItem item = realTaskItems.Find(i => i.UserObject == task);
+            if (item != null)
+            {
+                item.setImage(task.IconName);
+            }
+
+            item = searchResults.Find(i => i.UserObject == task);
             if (item != null)
             {
                 item.setImage(task.IconName);
@@ -243,9 +283,16 @@ namespace Anomalous.GuiFramework
             this.hide();
         }
 
+        private void TaskMenu_Showing(object sender, EventArgs e)
+        {
+            //InputManager.Instance.setKeyFocusWidget(searchBox);
+        }
+
         void TaskMenu_Hidden(object sender, EventArgs e)
         {
             viewButtonGroup.SelectedButton = tasksButton;
+            searchBox.OnlyText = "";
+            doTaskSearch();
         }
 
         void item_MouseButtonPressed(ButtonGridItem source, MouseEventArgs arg)
@@ -305,6 +352,47 @@ namespace Anomalous.GuiFramework
         {
             groupSorter.groupAdded(arg2);
             iconGrid.sortGroups(groupSorter.compareGroups);
+        }
+
+        private void SearchBox_EventEditTextChange(Widget source, EventArgs e)
+        {
+            doTaskSearch();
+        }
+
+        private void doTaskSearch()
+        {
+            iconGrid.SuppressLayout = true;
+            foreach (var item in searchResults)
+            {
+                var task = item.UserObject as Task;
+                iconGrid.removeItem(item);
+            }
+
+            searchResults.Clear();
+            String searchText = searchBox.OnlyText;
+
+            if (!String.IsNullOrWhiteSpace(searchText))
+            {
+                searchText = searchText.ToLowerInvariant();
+                foreach (var task in taskController.Tasks.Where(t => t.ShowOnTaskMenu && t.Name.ToLowerInvariant().Contains(searchText)))
+                {
+                    createSearchTaskItem(task);
+                }
+            }
+
+            iconGrid.SuppressLayout = false;
+            iconGrid.resizeAndLayout();
+        }
+
+        private void createSearchTaskItem(Task task)
+        {
+            ButtonGridItem item = iconGrid.addItem(SearchResultsCategory, task.Name, task.IconName);
+            item.UserObject = task;
+            item.ItemClicked += new EventHandler(item_ItemClicked);
+            item.MouseButtonPressed += new EventDelegate<ButtonGridItem, MouseEventArgs>(item_MouseButtonPressed);
+            item.MouseDrag += new EventDelegate<ButtonGridItem, MouseEventArgs>(item_MouseDrag);
+            item.MouseButtonReleased += new EventDelegate<ButtonGridItem, MouseEventArgs>(item_MouseButtonReleased);
+            searchResults.Add(item);
         }
     }
 }
