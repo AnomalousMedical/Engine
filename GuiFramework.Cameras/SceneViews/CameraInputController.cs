@@ -98,7 +98,7 @@ namespace Anomalous.GuiFramework.Cameras
                     rotateGesture = new FingerDragGesture(GuiFrameworkCamerasInterface.MoveCameraEventLayer, 1, 0.001f, 2f, 5);
                     DefaultEvents.registerDefaultEvent(rotateGesture);
 
-                    panGesture = new FingerDragGesture(GuiFrameworkCamerasInterface.MoveCameraEventLayer, 3, 0.001f, 2f, 5);
+                    panGesture = new FingerDragGesture(GuiFrameworkCamerasInterface.MoveCameraEventLayer, 2, 0.001f, 2f, 5);
                     DefaultEvents.registerDefaultEvent(panGesture);
                 break;
             }
