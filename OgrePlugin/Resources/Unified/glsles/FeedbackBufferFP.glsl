@@ -1,6 +1,6 @@
-precision highp float;
-
 #extension GL_OES_standard_derivatives : require
+
+precision highp float;
 
 uniform vec2 virtTexSize;
 uniform float mipSampleBias;
