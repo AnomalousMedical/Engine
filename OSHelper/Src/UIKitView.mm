@@ -27,25 +27,52 @@
     return [CAEAGLLayer class];
 }
 
+-(bool) safeToRender
+{
+    return viewVisible && applicationActive;
+}
+
 - (void)layoutSubviews
 {
-    win->fireSized();
+    if([self safeToRender])
+    {
+        win->fireSized();
+    }
+}
+
+-(void) setViewVisible:(bool) visible
+{
+    viewVisible = visible;
+}
+
+-(void) setApplicationActive:(bool) active
+{
+    applicationActive = active;
+}
+
+-(void) cancelResize
+{
+    pendingResize = false;
 }
 
 -(void) setWindow:(UIKitWindow*) window
 {
     win = window;
     pendingResize = false;
+    viewVisible = false;
+    applicationActive = false;
 }
 
 -(void) firePendingResize
 {
-    if(pendingResize)
+    if(pendingResize && [self safeToRender])
     {
         pendingResize = false;
-        self.frame = newFrame;
-        //We do an extra firesized here, this makes sure this goes through this frame
-        win->fireSized();
+        if(!CGRectEqualToRect(self.frame, newFrame))
+        {
+            self.frame = newFrame;
+            win->fireSized();
+        }
     }
 }
 

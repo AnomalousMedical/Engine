@@ -24,6 +24,12 @@ class UIKitWindow;
 
 -(void) firePendingResize;
 
+-(void) cancelResize;
+
+-(void) setApplicationActive:(bool) active;
+
+-(bool) safeToRender;
+
 -(UIKitView*) getUIKitView;
 
 @end

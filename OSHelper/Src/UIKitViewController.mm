@@ -62,9 +62,36 @@
     return [uiKitView firePendingResize];
 }
 
+-(void) cancelResize
+{
+    [uiKitView cancelResize];
+}
+
+-(void) setApplicationActive:(bool) active
+{
+    [uiKitView setApplicationActive:active];
+}
+
 -(UIKitView*) getUIKitView
 {
     return uiKitView;
+}
+
+-(bool) safeToRender
+{
+    return [uiKitView safeToRender];
+}
+
+-(void) viewDidAppear:(BOOL)animated
+{
+    [uiKitView setViewVisible:true];
+    [super viewDidAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [uiKitView setViewVisible:false];
+    [super viewWillDisappear:animated];
 }
 
 - (void)keyboardWasShown:(NSNotification*)aNotification

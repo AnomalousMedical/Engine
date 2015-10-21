@@ -19,13 +19,23 @@ class UIKitWindow;
     UIKitWindow *win;
     bool pendingResize;
     CGRect newFrame;
+    bool viewVisible;
+    bool applicationActive;
 }
 
 -(void) setWindow:(UIKitWindow*) window;
 
 -(void) firePendingResize;
 
+-(void) cancelResize;
+
+-(void) setViewVisible:(bool) visible;
+
+-(void) setApplicationActive:(bool) active;
+
 -(void) setFrameForNextUpdate:(CGRect) frame;
+
+-(bool) safeToRender;
 
 @end
 
