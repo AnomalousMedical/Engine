@@ -26,6 +26,15 @@ namespace Anomalous.TextureCompiler
                     Enum.TryParse(args[2], out outFormats);
                 }
 
+                int maxSize = int.MaxValue;
+                if(args.Length > 3)
+                {
+                    if(!int.TryParse(args[3], out maxSize))
+                    {
+                        maxSize = int.MaxValue;
+                    }
+                }
+
                 Environment.CurrentDirectory = sourceDirectory;
 
                 Logging.Log.Default.addLogListener(new Logging.LogConsoleListener());
@@ -33,7 +42,7 @@ namespace Anomalous.TextureCompiler
                 PluginManager pluginManager = new PluginManager(new ConfigFile("woot.txt"));
                 VirtualFileSystem.Instance.addArchive(destDirectory);
 
-                TextureCompilerInterface.CompileTextures(sourceDirectory, destDirectory, pluginManager, outFormats);
+                TextureCompilerInterface.CompileTextures(sourceDirectory, destDirectory, pluginManager, outFormats, maxSize);
             }
             catch(Exception ex)
             {

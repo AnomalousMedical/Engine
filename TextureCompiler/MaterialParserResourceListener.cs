@@ -12,9 +12,9 @@ namespace Anomalous.TextureCompiler
     {
         TextureCompiler textureCompiler;
         MaterialParserManager materialParser = new MaterialParserManager();
-        public MaterialParserResourceListener(String sourceDirectory, String destDirectory, OutputFormats outputFormats)
+        public MaterialParserResourceListener(String sourceDirectory, String destDirectory, OutputFormats outputFormats, int maxSize)
         {
-            textureCompiler = new TextureCompiler(sourceDirectory, destDirectory, outputFormats);
+            textureCompiler = new TextureCompiler(sourceDirectory, destDirectory, outputFormats, maxSize);
             materialParser.addMaterialBuilder(textureCompiler);
         }
 

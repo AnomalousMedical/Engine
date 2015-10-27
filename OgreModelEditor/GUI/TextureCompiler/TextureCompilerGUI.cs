@@ -21,6 +21,7 @@ namespace OgreModelEditor
 
         EditBox source;
         EditBox dest;
+        NumericEdit maxSize;
 
         CheckButton dxt;
         CheckButton bc5;
@@ -52,6 +53,12 @@ namespace OgreModelEditor
             bc5 = new CheckButton(window.findWidget("BC5Normal") as Button);
             etc2 = new CheckButton(window.findWidget("ETC2") as Button);
             uncompressed = new CheckButton(window.findWidget("Uncompressed") as Button);
+
+            maxSize = new NumericEdit(window.findWidget("MaxSize") as EditBox);
+            maxSize.AllowFloat = false;
+            maxSize.MinValue = 128;
+            maxSize.MaxValue = int.MaxValue;
+            maxSize.IntValue = 8192;
 
             uncompressed.Checked = true;
         }
@@ -115,7 +122,7 @@ namespace OgreModelEditor
             window.ClientWidget.Enabled = false;
             ThreadManager.RunInBackground(() =>
             {
-                TextureCompilerInterface.CompileTextures(this.source.OnlyText, this.dest.OnlyText, pluginManager, ActiveCompileFormats);
+                TextureCompilerInterface.CompileTextures(this.source.OnlyText, this.dest.OnlyText, pluginManager, ActiveCompileFormats, maxSize.IntValue);
                 ThreadManager.invoke(() => window.ClientWidget.Enabled = true);
             });
         }

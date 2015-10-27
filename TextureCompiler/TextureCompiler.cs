@@ -61,12 +61,14 @@ namespace Anomalous.TextureCompiler
 
         private int compressedCount = 0;
         private OutputFormats outputFormats;
+        private int maxSize = int.MaxValue;
 
-        public TextureCompiler(String sourceDirectory, String destDirectory, OutputFormats outputFormats)
+        public TextureCompiler(String sourceDirectory, String destDirectory, OutputFormats outputFormats, int maxSize)
         {
             this.outputFormats = outputFormats;
             this.sourceDirectory = sourceDirectory;
             this.destDirectory = destDirectory;
+            this.maxSize = maxSize;
         }
 
         public void loadTextureInfo()
@@ -433,7 +435,7 @@ namespace Anomalous.TextureCompiler
                     {
                         using (var stream = File.Open(String.Format(PagedTextureNameFormat, destFile), FileMode.Create, FileAccess.ReadWrite))
                         {
-                            PagedImage.fromBitmap(source, 128, 1, stream, PagedImage.ImageType.WEBP, 2048, lossless, filter, afterResize);
+                            PagedImage.fromBitmap(source, 128, 1, stream, PagedImage.ImageType.WEBP, maxSize, lossless, filter, afterResize);
                         }
                     }
                 }

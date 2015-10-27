@@ -14,7 +14,7 @@ namespace Anomalous.TextureCompiler
     {
         public static readonly String TextureHashFileName = "TextureHashes.hsh";
 
-        public static void CompileTextures(String sourceDirectory, String destDirectory, PluginManager pluginManager, OutputFormats outputFormats)
+        public static void CompileTextures(String sourceDirectory, String destDirectory, PluginManager pluginManager, OutputFormats outputFormats, int maxSize)
         {
             try
             {
@@ -30,7 +30,7 @@ namespace Anomalous.TextureCompiler
                     return;
                 }
 
-                var listener = new MaterialParserResourceListener(sourceDirectory, destDirectory, outputFormats);
+                var listener = new MaterialParserResourceListener(sourceDirectory, destDirectory, outputFormats, maxSize);
                 listener.loadTextureInfo();
 
                 var resourceManager = pluginManager.createResourceManagerForListener("TextureCompiler", listener);
