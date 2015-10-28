@@ -139,7 +139,11 @@ namespace OgrePlugin
                     image.Rescale(image.Width >> 1, image.Height >> 1, filter);
                     if (afterResize != null)
                     {
+                        //Flip so external functions aren't confused
+                        image.RotateFlip(RotateFlipType.RotateNoneFlipY);
                         afterResize(image);
+                        //Flip back for correct math
+                        image.RotateFlip(RotateFlipType.RotateNoneFlipY);
                     }
                 }
                 int size = image.Width / pageSize;
