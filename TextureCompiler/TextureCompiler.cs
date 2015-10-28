@@ -786,7 +786,7 @@ namespace Anomalous.TextureCompiler
                     fileName = Path.Combine(Path.GetDirectoryName(originalNormalMapSource), fileName);
                     if (File.Exists(fileName))
                     {
-                        Log.Debug("Using manually supplied resized normal map for {0} size {1}", dest, resized.Width);
+                        Log.Info("Using manually supplied resized normal map for {0} size {1}", dest, resized.Width);
                         using (var image = FreeImageBitmap.FromFile(fileName))
                         {
                             if (image.Width != resized.Width || image.Height != resized.Height)
@@ -798,7 +798,7 @@ namespace Anomalous.TextureCompiler
                     }
                     else
                     {
-                        Log.Debug("Using automatic resized normal map for {0} size {1}", dest, resized.Width);
+                        Log.Info("Using automatic resized normal map for {0} size {1}", dest, resized.Width);
                     }
                 })
             );
