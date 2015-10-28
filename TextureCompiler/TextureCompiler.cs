@@ -130,20 +130,20 @@ namespace Anomalous.TextureCompiler
                     Log.Info("Compressing composite normal map {0}", description.NormalMapName);
                     if (description.HasOpacityMap && description.HasGlossMap)
                     {
-                        addMapToBlueAndAlphaAndCompress(normalSrc, opacitySrc, Channel.Red, glossLevelSrc, Channel.Red, normalTmp, normalDest, compressCompositeNormalMap);
+                        addMapToBlueAndAlphaAndCompress(normalSrc, opacitySrc, Channel.Red, glossLevelSrc, Channel.Red, normalTmp, normalDest, (src, dest) => compressCompositeNormalMap(normalSrc, src, dest));
                     }
                     else if (description.HasOpacityMap)
                     {
-                        addMapToBlueAndCompress(normalSrc, opacitySrc, Channel.Red, normalTmp, normalDest, compressCompositeNormalMap);
+                        addMapToBlueAndCompress(normalSrc, opacitySrc, Channel.Red, normalTmp, normalDest, (src, dest) => compressCompositeNormalMap(normalSrc, src, dest));
                     }
-                    else if(description.HasGlossMap)
+                    else if (description.HasGlossMap)
                     {
                         //Gloss maps always go on the normal map green
-                        addMapToAlphaAndCompress(normalSrc, glossLevelSrc, Channel.Red, normalTmp, normalDest, compressCompositeNormalMap);
+                        addMapToAlphaAndCompress(normalSrc, glossLevelSrc, Channel.Red, normalTmp, normalDest, (src, dest) => compressCompositeNormalMap(normalSrc, src, dest));
                     }
                     else
                     {
-                        compressCompositeNormalMap(normalSrc, normalDest);
+                        compressCompositeNormalMap(normalSrc, normalSrc, normalDest);
                     }
                 }
             }
@@ -326,7 +326,7 @@ namespace Anomalous.TextureCompiler
             return createImageFromChannels(alphaSrc, alphaSrcChannel, colorSrc, Channel.Red, colorSrc, Channel.Green, colorSrc, Channel.Blue);
         }
 
-        private FreeImageBitmap createImageFromChannels(FreeImageBitmap alphaSrc, Channel alphaSrcChannel, FreeImageBitmap redSrc, Channel redSrcChannel, FreeImageBitmap greenSrc, Channel greenSrcChannel, FreeImageBitmap blueSrc, Channel blueSrcChannel)
+        private unsafe FreeImageBitmap createImageFromChannels(FreeImageBitmap alphaSrc, Channel alphaSrcChannel, FreeImageBitmap redSrc, Channel redSrcChannel, FreeImageBitmap greenSrc, Channel greenSrcChannel, FreeImageBitmap blueSrc, Channel blueSrcChannel)
         {
             if (alphaSrc.Width != redSrc.Width || redSrc.Width != greenSrc.Width || greenSrc.Width != blueSrc.Width)
             {
@@ -335,26 +335,70 @@ namespace Anomalous.TextureCompiler
 
             int width = redSrc.Width;
             int height = redSrc.Height;
-            Color c = new Color();
 
             FreeImageBitmap retVal = new FreeImageBitmap(width, height, FreeImageAPI.PixelFormat.Format32bppArgb);
+            return combineImages(alphaSrc, alphaSrcChannel, redSrc, redSrcChannel, greenSrc, greenSrcChannel, blueSrc, blueSrcChannel, retVal);
+        }
 
-            for (int x = 0; x < width; ++x)
+        private static unsafe FreeImageBitmap combineImages(FreeImageBitmap alphaSrc, Channel alphaSrcChannel, FreeImageBitmap redSrc, Channel redSrcChannel, FreeImageBitmap greenSrc, Channel greenSrcChannel, FreeImageBitmap blueSrc, Channel blueSrcChannel, FreeImageBitmap combined)
+        {
+            int width = combined.Width;
+            int height = combined.Height;
+
+            int alphaWalk = alphaSrc.ColorDepth / 8;
+            int redWalk = redSrc.ColorDepth / 8;
+            int greenWalk = greenSrc.ColorDepth / 8;
+            int blueWalk = blueSrc.ColorDepth / 8;
+            int combinedWalk = combined.ColorDepth / 8;
+
+            int alphaChannel = getIndexForChannel(alphaSrcChannel);
+            int redChannel = getIndexForChannel(redSrcChannel);
+            int greenChannel = getIndexForChannel(greenSrcChannel);
+            int blueChannel = getIndexForChannel(blueSrcChannel);
+
+            for (int y = 0; y < height; ++y)
             {
-                for (int y = 0; y < height; ++y)
+                var alphaScanline = (byte*)alphaSrc.GetScanlinePointer(y).ToPointer();
+                var redScanline = (byte*)redSrc.GetScanlinePointer(y).ToPointer();
+                var greenScanline = (byte*)greenSrc.GetScanlinePointer(y).ToPointer();
+                var blueScanline = (byte*)blueSrc.GetScanlinePointer(y).ToPointer();
+                var combinedScanline = (byte*)combined.GetScanlinePointer(y).ToPointer();
+
+                for (int x = 0; x < width; ++x)
                 {
-                    c.A = getColor(x, y, alphaSrc, alphaSrcChannel);
-                    c.R = getColor(x, y, redSrc, redSrcChannel);
-                    c.G = getColor(x, y, greenSrc, greenSrcChannel);
-                    c.B = getColor(x, y, blueSrc, blueSrcChannel);
-                    retVal.SetPixel(x, y, c);
+                    combinedScanline[FreeImage.FI_RGBA_BLUE] = blueScanline[blueChannel];
+                    combinedScanline[FreeImage.FI_RGBA_GREEN] = greenScanline[greenChannel];
+                    combinedScanline[FreeImage.FI_RGBA_RED] = redScanline[redChannel];
+                    combinedScanline[FreeImage.FI_RGBA_ALPHA] = alphaScanline[alphaChannel];
+
+                    alphaScanline += alphaWalk;
+                    redScanline += redWalk;
+                    greenScanline += greenWalk;
+                    blueScanline += blueWalk;
+                    combinedScanline += combinedWalk;
                 }
             }
 
-            return retVal;
+            return combined;
         }
 
-        private FreeImageBitmap createImageFromChannels(FreeImageBitmap redSrc, Channel redSrcChannel, FreeImageBitmap greenSrc, Channel greenSrcChannel, FreeImageBitmap blueSrc, Channel blueSrcChannel)
+        private static int getIndexForChannel(Channel channel)
+        {
+            switch (channel)
+            {
+                case Channel.Alpha:
+                    return FreeImage.FI_RGBA_ALPHA;
+                case Channel.Red:
+                    return FreeImage.FI_RGBA_RED;
+                case Channel.Green:
+                    return FreeImage.FI_RGBA_GREEN;
+                case Channel.Blue:
+                    return FreeImage.FI_RGBA_BLUE;
+            }
+            throw new NotSupportedException(); //Won't get here
+        }
+
+        private unsafe FreeImageBitmap createImageFromChannels(FreeImageBitmap redSrc, Channel redSrcChannel, FreeImageBitmap greenSrc, Channel greenSrcChannel, FreeImageBitmap blueSrc, Channel blueSrcChannel)
         {
             if (redSrc.Width != greenSrc.Width || greenSrc.Width != blueSrc.Width)
             {
@@ -363,25 +407,42 @@ namespace Anomalous.TextureCompiler
 
             int width = redSrc.Width;
             int height = redSrc.Height;
-            Color c = new Color();
 
             FreeImageBitmap retVal = new FreeImageBitmap(width, height, FreeImageAPI.PixelFormat.Format24bppRgb);
 
-            for (int x = 0; x < width; ++x)
+            int redWalk = redSrc.ColorDepth / 8;
+            int greenWalk = greenSrc.ColorDepth / 8;
+            int blueWalk = blueSrc.ColorDepth / 8;
+            int retWalk = retVal.ColorDepth / 8;
+
+            int redChannel = getIndexForChannel(redSrcChannel);
+            int greenChannel = getIndexForChannel(greenSrcChannel);
+            int blueChannel = getIndexForChannel(blueSrcChannel);
+
+            for (int y = 0; y < height; ++y)
             {
-                for (int y = 0; y < height; ++y)
+                var redScanline = (byte*)redSrc.GetScanlinePointer(y).ToPointer();
+                var greenScanline = (byte*)greenSrc.GetScanlinePointer(y).ToPointer();
+                var blueScanline = (byte*)blueSrc.GetScanlinePointer(y).ToPointer();
+                var retScanline = (byte*)retVal.GetScanlinePointer(y).ToPointer();
+
+                for (int x = 0; x < width; ++x)
                 {
-                    c.R = getColor(x, y, redSrc, redSrcChannel);
-                    c.G = getColor(x, y, greenSrc, greenSrcChannel);
-                    c.B = getColor(x, y, blueSrc, blueSrcChannel);
-                    retVal.SetPixel(x, y, c);
+                    retScanline[FreeImage.FI_RGBA_BLUE] = blueScanline[blueChannel];
+                    retScanline[FreeImage.FI_RGBA_GREEN] = greenScanline[greenChannel];
+                    retScanline[FreeImage.FI_RGBA_RED] = redScanline[redChannel];
+
+                    redScanline += redWalk;
+                    greenScanline += greenWalk;
+                    blueScanline += blueWalk;
+                    retScanline += retWalk;
                 }
             }
 
             return retVal;
         }
 
-        private FreeImageBitmap createImageFromChannels(FreeImageBitmap redSrc, Channel redSrcChannel, FreeImageBitmap greenSrc, Channel greenSrcChannel)
+        private unsafe FreeImageBitmap createImageFromChannels(FreeImageBitmap redSrc, Channel redSrcChannel, FreeImageBitmap greenSrc, Channel greenSrcChannel)
         {
             if (redSrc.Width != greenSrc.Width)
             {
@@ -394,20 +455,34 @@ namespace Anomalous.TextureCompiler
 
             FreeImageBitmap retVal = new FreeImageBitmap(width, height, FreeImageAPI.PixelFormat.Format24bppRgb);
 
-            for (int x = 0; x < width; ++x)
+            int redWalk = redSrc.ColorDepth / 8;
+            int greenWalk = greenSrc.ColorDepth / 8;
+            int retWalk = retVal.ColorDepth / 8;
+
+            int redChannel = getIndexForChannel(redSrcChannel);
+            int greenChannel = getIndexForChannel(greenSrcChannel);
+
+            for (int y = 0; y < height; ++y)
             {
-                for (int y = 0; y < height; ++y)
+                var redScanline = (byte*)redSrc.GetScanlinePointer(y).ToPointer();
+                var greenScanline = (byte*)greenSrc.GetScanlinePointer(y).ToPointer();
+                var retScanline = (byte*)retVal.GetScanlinePointer(y).ToPointer();
+
+                for (int x = 0; x < width; ++x)
                 {
-                    c.R = getColor(x, y, redSrc, redSrcChannel);
-                    c.G = getColor(x, y, greenSrc, greenSrcChannel);
-                    retVal.SetPixel(x, y, c);
+                    retScanline[FreeImage.FI_RGBA_GREEN] = greenScanline[greenChannel];
+                    retScanline[FreeImage.FI_RGBA_RED] = redScanline[redChannel];
+
+                    redScanline += redWalk;
+                    greenScanline += greenWalk;
+                    retScanline += retWalk;
                 }
             }
 
             return retVal;
         }
 
-        private byte getColor(int x, int y, FreeImageBitmap src, Channel channel)
+        private unsafe byte getColor(int x, int y, FreeImageBitmap src, Channel channel)
         {
             Color c = src.GetPixel(x, y);
             switch (channel)
@@ -421,8 +496,55 @@ namespace Anomalous.TextureCompiler
                 case Channel.Blue:
                     return c.B;
             }
+
+            //uint* pixel = (uint*)src.Scan0.ToPointer();
+            //pixel += src.Stride * y + x;
+
+            //int bpp = 4;
+            //if(src.PixelFormat == FreeImageAPI.PixelFormat.Format24bppRgb)
+            //{
+            //    bpp = 3;
+            //}
+
+            //byte* pixel = (byte*)src.Bits.ToPointer();
+            //pixel += (src.Pitch * (src.Height - y - 1) + x) * bpp;
+            //switch (channel)
+            //{
+            //    case Channel.Alpha:
+            //        return pixel[3];
+            //    case Channel.Red:
+            //        return pixel[2];
+            //    case Channel.Green:
+            //        return pixel[1];
+            //    case Channel.Blue:
+            //        return pixel[0];
+            //}
             throw new NotSupportedException(); //Won't get here
         }
+
+        //private unsafe byte getColor(int x, int y, FreeImageBitmap src, Channel channel)
+        //{
+        //    int bpp = 4;
+        //    if (src.PixelFormat == FreeImageAPI.PixelFormat.Format24bppRgb)
+        //    {
+        //        bpp = 3;
+        //    }
+
+        //    byte* pixel = (byte*)src.Bits.ToPointer();
+        //    pixel += (src.Pitch * (src.Height - y - 1) + x) * bpp;
+        //    switch (channel)
+        //    {
+        //        case Channel.Alpha:
+        //            return pixel[3];
+        //        case Channel.Red:
+        //            return pixel[2];
+        //        case Channel.Green:
+        //            return pixel[1];
+        //        case Channel.Blue:
+        //            return pixel[0];
+        //    }
+        //    throw new NotSupportedException(); //Won't get here
+        //}
 
         private async Task saveUncompressed(String sourceFile, String destFile, bool lossless, FREE_IMAGE_FILTER filter, Action<FreeImageBitmap> afterResize = null)
         {
@@ -655,27 +777,28 @@ namespace Anomalous.TextureCompiler
             );
         }
 
-        private void compressCompositeNormalMap(String source, String dest)
+        private void compressCompositeNormalMap(String originalNormalMapSource, String source, String dest)
         {
             Task.WaitAll(
                 saveUncompressed(source, dest, true, FREE_IMAGE_FILTER.FILTER_BILINEAR, (resized) =>
                 {
-                    for(int x = 0; x < resized.Width; ++x)
+                    String fileName = String.Format("{0}_{1}{2}", Path.GetFileNameWithoutExtension(originalNormalMapSource), resized.Width, Path.GetExtension(originalNormalMapSource));
+                    fileName = Path.Combine(Path.GetDirectoryName(originalNormalMapSource), fileName);
+                    if (File.Exists(fileName))
                     {
-                        for(int y = 0; y < resized.Height; ++y)
+                        Log.Debug("Using manually supplied resized normal map for {0} size {1}", dest, resized.Width);
+                        using (var image = FreeImageBitmap.FromFile(fileName))
                         {
-                            Color pixel = resized.GetPixel(x, y);
-
-                            float nX = pixel.R / 255.0f;
-                            float nY = pixel.G / 255.0f;
-                            float nZ = (float)Math.Sqrt(1 - nX * nX - nY * nY);
-                            var vector = new Engine.Vector3(nX, nY, nZ);
-                            vector.normalize();
-
-                            pixel.R = (byte)(vector.x * 255);
-                            pixel.G = (byte)(vector.y * 255);
-                            resized.SetPixel(x, y, pixel);
+                            if (image.Width != resized.Width || image.Height != resized.Height)
+                            {
+                                throw new Exception(String.Format("Image {0} does not match expected size {1}x{1}. Please fix source image.", fileName, resized.Width));
+                            }
+                            combineImages(resized, Channel.Alpha, image, Channel.Red, image, Channel.Green, resized, Channel.Blue, resized);
                         }
+                    }
+                    else
+                    {
+                        Log.Debug("Using automatic resized normal map for {0} size {1}", dest, resized.Width);
                     }
                 })
             );
