@@ -20,6 +20,7 @@ namespace OgrePlugin
     /// ImageSize - int - The size of the image in bytes
     /// 
     /// IndexInfo looks like the following:
+    /// magicNumber - uint - the magic number 0x50544558 (ascii PTEX packed into a uint)
     /// numImages - int - the number of images in the file
     /// ImageType - int - the type of the image (png jpeg etc).
     /// ImageXSize - int - the size of the image
@@ -30,6 +31,7 @@ namespace OgrePlugin
     public class PagedImage : IDisposable
     {
         public const String FileExtension = ".ptex";
+        public const uint MagicNumber = 0x50544558;
 
         public enum ImageType : int
         {
@@ -37,13 +39,14 @@ namespace OgrePlugin
             WEBP = 1,
         }
 
+        //Magic number is also here, but we don't store it, just check at load
         private int numImages;
         private int imageType;
         private int imageXSize;
         private int imageYSize;
         private int pageSize;
         private int indexStart;
-        private const int HeaderSize = sizeof(int) * 6;
+        private const int HeaderSize = sizeof(int) * 7; //Extra compared to fields above since the first is the magic number
 
         private MemoryBlock memoryBlock;
         private List<ImageInfo> pages;
@@ -75,6 +78,8 @@ namespace OgrePlugin
         /// <param name="pageSize">The size of the pages to extract.</param>
         public static void fromBitmap(FreeImageBitmap image, int pageSize, int padding, Stream stream, ImageType imageType, int maxSize, bool lossless, FREE_IMAGE_FILTER filter, Action<FreeImageBitmap> afterResize = null)
         {
+            stream.Seek(HeaderSize, SeekOrigin.Begin); //Leave some space for the header
+
             if (image.Width > maxSize)
             {
                 Logging.Log.Info("Image size {0} was too large, resizing to {1}", image.Width, maxSize);
@@ -165,6 +170,10 @@ namespace OgrePlugin
                 {
                     imageInfo.write(sw);
                 }
+
+                //Go back to header reserved space
+                sw.BaseStream.Seek(0, SeekOrigin.Begin);
+                sw.Write(MagicNumber);
                 sw.Write(pagedImage.numImages);
                 sw.Write(pagedImage.imageType);
                 sw.Write(pagedImage.imageXSize);
@@ -400,10 +409,14 @@ namespace OgrePlugin
             this.streamProvider = streamProvider;
             using (Stream source = streamProvider())
             {
-                long headerBegin = source.Length - HeaderSize;
                 using (BinaryReader headerReader = new BinaryReader(source, Encoding.Default, true))
                 {
-                    headerReader.BaseStream.Seek(headerBegin, SeekOrigin.Begin);
+                    uint magicNumber = headerReader.ReadUInt32();
+                    if(magicNumber != MagicNumber)
+                    {
+                        throw new FormatException("The specified stream does not contain a valid ptex file.");
+                    }
+
                     numImages = headerReader.ReadInt32();
                     imageType = headerReader.ReadInt32();
                     imageXSize = headerReader.ReadInt32();
@@ -472,7 +485,12 @@ namespace OgrePlugin
 
             using (BinaryReader sr = new BinaryReader(source, Encoding.Default, true))
             {
-                sr.BaseStream.Seek(-HeaderSize, SeekOrigin.End);
+                uint magicNumber = sr.ReadUInt32();
+                if (magicNumber != MagicNumber)
+                {
+                    throw new FormatException("The specified stream does not contain a valid ptex file.");
+                }
+
                 numImages = sr.ReadInt32();
                 imageType = sr.ReadInt32();
                 imageXSize = sr.ReadInt32();
