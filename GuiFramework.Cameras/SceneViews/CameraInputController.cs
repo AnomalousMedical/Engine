@@ -458,7 +458,7 @@ namespace Anomalous.GuiFramework.Cameras
                 SceneViewWindow sceneView = sceneViewController.ActiveWindow;
                 if (sceneView != null)
                 {
-                    sceneView.CameraMover.zoomFromMotion((int)(zoomGesture.ZoomDelta * 1000));
+                    sceneView.CameraMover.zoomFromMotion((int)(zoomGesture.ZoomDelta * 800));
                 }
                 eventLayer.alertEventsHandled();
             }
