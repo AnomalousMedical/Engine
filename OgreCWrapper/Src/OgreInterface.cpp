@@ -33,6 +33,12 @@ enum CompressedTextureSupport
 
 #if defined(WINDOWS) || defined(WINRT)
 #include "D3D11.h"
+#include "dxgi.h"
+
+// some D3D commonly used macros
+#define SAFE_DELETE(p)       { if(p) { delete (p);     (p)=NULL; } }
+#define SAFE_DELETE_ARRAY(p) { if(p) { delete[] (p);   (p)=NULL; } }
+#define SAFE_RELEASE(p)      { if(p) { (p)->Release(); (p)=NULL; } }
 
 //This function detects if we can use d3d11 or not, note that it is also providing valuble linking to
 //the d3d11 libraries, if this function is removed you will get crashes on shutdown, if in the future you no 
@@ -44,7 +50,46 @@ bool useD3D11()
 	ID3D11Device* pDevice = nullptr;
 	HRESULT hr = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, lvl, _countof(lvl), D3D11_SDK_VERSION, &pDevice, nullptr, nullptr);
 
-	return !FAILED(hr);
+	bool useD3d11 = !FAILED(hr);
+
+	if (useD3d11) //We can support d3d11, is it a good idea? Note: currently defaulting to opengl on intel
+	{
+		IDXGIFactory1 *mpDXGIFactory;
+		mpDXGIFactory = NULL;
+		hr = CreateDXGIFactory1(__uuidof(IDXGIFactory1), (void**)&mpDXGIFactory);
+		if (!FAILED(hr))
+		{
+
+			//We only care about the first adapter, on windows 8+ this is always the adapter with the primary desktop, good enough for
+			//this detection since its just opengl vs directx
+			UINT iAdapter = 0;
+			IDXGIAdapter1* pDXGIAdapter = NULL;
+			HRESULT hr = mpDXGIFactory->EnumAdapters1(iAdapter, &pDXGIAdapter);
+			if (DXGI_ERROR_NOT_FOUND != hr)
+			{
+				DXGI_ADAPTER_DESC1 mAdapterIdentifier;
+
+				ZeroMemory(&mAdapterIdentifier, sizeof(mAdapterIdentifier));
+
+				pDXGIAdapter->GetDesc1(&mAdapterIdentifier);
+
+				//Look for intel
+				switch (mAdapterIdentifier.VendorId)
+				{
+				case 0x163C:
+				case 0x8086:
+					useD3d11 = false;
+					break;
+				}
+
+				SAFE_RELEASE(pDXGIAdapter);
+			}
+		}
+
+		SAFE_RELEASE(mpDXGIFactory);
+	}
+
+	return useD3d11;
 }
 #if _DEBUG
 String Direct3D11_Library = "RenderSystem_Direct3D11_d.dll";
