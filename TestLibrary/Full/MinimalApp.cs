@@ -43,6 +43,7 @@ namespace Anomalous.Minimus.Full
 
         //Windows
         private TestWindow testWindow;
+        private RocketWindow rocketWindow;
 
         public event Action<MinimalApp> Initialized;
 
@@ -144,7 +145,7 @@ namespace Anomalous.Minimus.Full
             guiManager.addManagedDialog(testWindow);
             testWindow.Visible = true;
 
-            RocketWindow rocketWindow = new RocketWindow();
+            rocketWindow = new RocketWindow();
             guiManager.addManagedDialog(rocketWindow);
             rocketWindow.Visible = true;
 
@@ -183,6 +184,7 @@ namespace Anomalous.Minimus.Full
             scene.Dispose();
 
             IDisposableUtil.DisposeIfNotNull(testWindow);
+            IDisposableUtil.DisposeIfNotNull(rocketWindow);
             IDisposableUtil.DisposeIfNotNull(taskbar);
             IDisposableUtil.DisposeIfNotNull(taskMenu);
 
