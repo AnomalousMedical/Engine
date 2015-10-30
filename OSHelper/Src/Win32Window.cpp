@@ -1,12 +1,23 @@
 #include "StdAfx.h"
 #include "Win32Window.h"
+#include "ShellApi.h"
 
 LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+//Windows
+#include "Windowsx.h"
+#include "../Win32UniversalBridge/Win32UniversalBridge.h"
+
+GetUserInteractionModeFunc GetUserInteractionModeExternal = NULL;
+HMODULE universalDriver = NULL;
 
 Win32Window::Win32Window(HWND parent, String title, int x, int y, int width, int height)
 	:window(0),
 	previousWindowPlacement({ sizeof(previousWindowPlacement) }),
-	allowWindowSizeMessages(true)
+	allowWindowSizeMessages(true),
+	keyboardMode(OnscreenKeyboardMode::Hidden),
+	allowShowKeyboard(true),
+	keyboardHwnd(0)
 {
 	window = CreateWindowEx(NULL, WIN32_WINDOW_CLASS, title, WS_OVERLAPPEDWINDOW, x, y, width, height, parent, NULL, wndclass.hInstance, NULL);
 	SetWindowLongPtr(window, GWLP_USERDATA, (LONG_PTR)this);
@@ -16,6 +27,16 @@ Win32Window::Win32Window(HWND parent, String title, int x, int y, int width, int
 	{
 		mouseDown[i] = false;
 	}
+
+	if (universalDriver == NULL)
+	{
+		universalDriver = LoadLibraryEx(L"Win32UniversalBridge.dll", NULL, 0);
+		if (universalDriver != NULL)
+		{
+			GetUserInteractionModeExternal = (GetUserInteractionModeFunc)GetProcAddress(universalDriver, "GetUserInteractionMode");
+		}
+	}
+	usageModeChanged();
 }
 
 Win32Window::~Win32Window()
@@ -184,6 +205,119 @@ void Win32Window::setCursor(CursorType cursor)
 	}
 }
 
+void CALLBACK OnExited(void* context, BOOLEAN isTimeOut)
+{
+	((Win32Window*)context)->keyboardClosed();
+}
+
+void Win32Window::keyboardClosed()
+{
+	keyboardMode = OnscreenKeyboardMode::Hidden;
+	keyboardHwnd = 0; //Note this is done here and in the closed function on purpose
+}
+
+bool Win32Window::showKeyboard()
+{
+	bool result = false;
+
+	if (allowShowKeyboard && usageMode == Tablet)
+	{
+		if (keyboardHwnd == 0)
+		{
+			allowShowKeyboard = false;
+			TCHAR lpszClientPath[500] = TEXT("\"C:\\Program Files\\Common Files\\Microsoft Shared\\ink\\tabtip.exe\"");
+			SHELLEXECUTEINFO execInfo;
+			ZeroMemory(&execInfo, sizeof(execInfo));
+			execInfo.cbSize = sizeof(execInfo);
+			execInfo.nShow = SW_SHOW;
+			execInfo.lpFile = lpszClientPath;
+
+			if (ShellExecuteEx(&execInfo))
+			{
+				int i = 0;
+				do
+				{
+					keyboardHwnd = FindWindow(L"IPTip_Main_Window", NULL);
+					++i;
+					if (i > 5)
+					{
+						Sleep(10);
+					}
+				} while (keyboardHwnd == 0 && i < 50000);
+
+				if (keyboardHwnd)
+				{
+					DWORD keyboardId;
+					if (GetWindowThreadProcessId(keyboardHwnd, &keyboardId) != 0)
+					{
+						HANDLE keyboardProcess = OpenProcess(SYNCHRONIZE, false, keyboardId);
+						if (!keyboardProcess)
+						{
+							logger << "Could not open process error: " << GetLastError() << debug;
+						}
+						else
+						{
+							HANDLE waitHandle;
+							result = RegisterWaitForSingleObject(&waitHandle, keyboardProcess, OnExited, this, INFINITE, WT_EXECUTEONLYONCE);
+							if (result)
+							{
+								logger << "setup keyboard correctly " << i << debug;
+							}
+							CloseHandle(keyboardProcess);
+						}
+					}
+					else
+					{
+						logger << "Could not find window thread process id: " << GetLastError() << debug;
+					}
+				}
+				else
+				{
+					logger << "Could not find window handle: " << GetLastError() << debug;
+				}
+			}
+
+			allowShowKeyboard = true;
+		}
+		else
+		{
+			result = true; //Already open, return true to change modes
+		}
+	}
+
+	return result;
+}
+
+void Win32Window::closeKeyboard()
+{
+	if (keyboardHwnd != 0)
+	{
+		PostMessage(keyboardHwnd, WM_SYSCOMMAND, SC_CLOSE, 0);
+		keyboardHwnd = 0; //Note this is done here and in the exited function on purpose
+		keyboardMode = OnscreenKeyboardMode::Hidden;
+	}
+}
+
+void Win32Window::setOnscreenKeyboardMode(OnscreenKeyboardMode mode)
+{
+	if (keyboardMode != mode)
+	{
+		switch (mode)
+		{
+			case OnscreenKeyboardMode::Normal:
+			case OnscreenKeyboardMode::Secure:
+				if (showKeyboard())
+				{
+					keyboardMode = mode;
+				}
+				break;
+			case OnscreenKeyboardMode::Hidden:
+				closeKeyboard();
+				break;
+		}
+	}
+}
+
 float Win32Window::getWindowScaling()
 {
 	HDC hdc = GetDC(window);
@@ -231,6 +365,48 @@ void Win32Window::manageRelease(MouseButtonCode mouseCode)
 	}
 }
 
+#define SM_CONVERTIBLESLATEMODE 0x2003
+
+void Win32Window::usageModeChanged()
+{
+	UsageMode newUsageMode = usageMode;
+	if (universalDriver != NULL)
+	{
+		//We are on windows 10+ since we could load the universal driver
+		int mode;
+		GetUserInteractionModeExternal(mode, window);
+		switch (mode)
+		{
+		case UniversalAppInteractionMode_Mouse:
+			newUsageMode = Desktop;
+			break;
+		case UniversalAppInteractionMode_Touch:
+			newUsageMode = Tablet;
+			break;
+		}
+	}
+	else
+	{
+		bool isTabletPC = (GetSystemMetrics(SM_TABLETPC) != 0);
+		int state = GetSystemMetrics(SM_CONVERTIBLESLATEMODE);
+		if ((state == 0) && isTabletPC)
+		{
+			newUsageMode = Tablet;
+		}
+		else
+		{
+			newUsageMode = Desktop;
+		}
+	}
+
+	if (newUsageMode != usageMode) //Setup for a trigger, but we aren't doing it yet
+	{
+		usageMode = newUsageMode;
+
+		logger << "Usage mode changed " << usageMode << debug;
+	}
+}
+
 //PInvoke
 extern "C" _AnomalousExport NativeOSWindow* NativeOSWindow_create(NativeOSWindow* parent, String caption, int x, int y, int width, int height, bool floatOnParent)
 {
@@ -241,9 +417,6 @@ extern "C" _AnomalousExport NativeOSWindow* NativeOSWindow_create(NativeOSWindow
 	}
 	return new Win32Window(parentHwnd, caption, x, y, width, height);
 }
-
-//Windows
-#include "Windowsx.h"
 
 //Win32 Message Proc
 uint getUtf32WithSpecial(WPARAM virtualKey, unsigned int scanCode);
@@ -400,6 +573,12 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 		case WM_MOUSEWHEEL:
 			win->fireMouseWheel(GET_WHEEL_DELTA_WPARAM(wParam));
+			break;
+		case WM_SETTINGCHANGE:
+			if (lParam != 0 && (wcscmp(TEXT("ConvertableSlateMode"), (TCHAR*)lParam) == 0 || wcscmp(TEXT("UserInteractionMode"), (TCHAR*)lParam) == 0))
+			{
+				win->usageModeChanged();
+			}
 			break;
 		}
 	}

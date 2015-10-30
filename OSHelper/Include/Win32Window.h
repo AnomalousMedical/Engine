@@ -41,6 +41,13 @@ public:
 	{
 		SetCursor(hCursor);
 	}
+
+	virtual void setOnscreenKeyboardMode(OnscreenKeyboardMode mode);
+
+	virtual OnscreenKeyboardMode getOnscreenKeyboardMode()
+	{
+		return keyboardMode;
+	}
     
     virtual void setupMultitouch(MultiTouch* multiTouch)
 	{
@@ -67,11 +74,23 @@ public:
 	static void createWindowClass(HANDLE hModule);
 
 	static void destroyWindowClass();
+
+	void keyboardClosed();
+
+	void usageModeChanged();
 private:
 	HWND window;
 	static WNDCLASSEX wndclass;
+	HWND keyboardHwnd;
 	HCURSOR hCursor;
 	bool mouseDown[MouseButtonCode::NUM_BUTTONS];
 	WINDOWPLACEMENT previousWindowPlacement;
 	bool allowWindowSizeMessages;
+	OnscreenKeyboardMode keyboardMode;
+	bool allowShowKeyboard;
+	UsageMode usageMode;
+
+	bool showKeyboard();
+
+	void closeKeyboard();
 };

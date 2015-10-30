@@ -27,6 +27,12 @@ enum InternalResourceType
 	RT_All = RT_Graphics | RT_Sound
 };
 
+enum UsageMode
+{
+	Desktop = 0,
+	Tablet = 1
+};
+
 #include "KeyboardButtonCode.h"
 #include "MouseButtonCode.h"
 

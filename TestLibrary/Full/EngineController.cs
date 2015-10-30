@@ -141,12 +141,10 @@ namespace Anomalous.Minimus.Full
             GuiFrameworkInterface.Instance.handleCursors(mainWindow);
             SoundPluginInterface.Instance.setResourceWindow(mainWindow);
 
-            if (PlatformConfig.ForwardTouchAsMouse)
-            {
-                touchMouseGuiForwarder = new TouchMouseGuiForwarder(eventManager, inputHandler, systemTimer, mainWindow, EventLayers.Last);
-                var myGuiKeyboard = new MyGUIOnscreenKeyboardManager(touchMouseGuiForwarder);
-                var rocketKeyboard = new RocketWidgetOnscreenKeyboardManager(touchMouseGuiForwarder);
-            }
+            touchMouseGuiForwarder = new TouchMouseGuiForwarder(eventManager, inputHandler, systemTimer, mainTimer, mainWindow, EventLayers.Last);
+            touchMouseGuiForwarder.ForwardTouchesAsMouse = PlatformConfig.ForwardTouchAsMouse;
+            var myGuiKeyboard = new MyGUIOnscreenKeyboardManager(touchMouseGuiForwarder);
+            var rocketKeyboard = new RocketWidgetOnscreenKeyboardManager(touchMouseGuiForwarder);
         }
 
         /// <summary>

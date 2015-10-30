@@ -71,6 +71,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetZip", "..\Dependencie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newtonsoft.Json.Portable40", "..\Dependencies\Newtonsoft.Json\Src\Newtonsoft.Json\Newtonsoft.Json.Portable40.csproj", "{959F7F85-C98B-4876-971A-9036224578E4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Win32UniversalBridge", "Win32UniversalBridge\Win32UniversalBridge.vcxproj", "{8810A5B6-B55D-4707-9B54-FEA08FFCA46D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -599,6 +601,22 @@ Global
 		{959F7F85-C98B-4876-971A-9036224578E4}.ReleaseAOT|x64.Build.0 = Release|Any CPU
 		{959F7F85-C98B-4876-971A-9036224578E4}.ReleaseAOT|x86.ActiveCfg = Release|Any CPU
 		{959F7F85-C98B-4876-971A-9036224578E4}.ReleaseAOT|x86.Build.0 = Release|Any CPU
+		{8810A5B6-B55D-4707-9B54-FEA08FFCA46D}.Debug|x64.ActiveCfg = Debug|x64
+		{8810A5B6-B55D-4707-9B54-FEA08FFCA46D}.Debug|x64.Build.0 = Debug|x64
+		{8810A5B6-B55D-4707-9B54-FEA08FFCA46D}.Debug|x86.ActiveCfg = Debug|Win32
+		{8810A5B6-B55D-4707-9B54-FEA08FFCA46D}.Debug|x86.Build.0 = Debug|Win32
+		{8810A5B6-B55D-4707-9B54-FEA08FFCA46D}.DebugAOT|x64.ActiveCfg = Debug|x64
+		{8810A5B6-B55D-4707-9B54-FEA08FFCA46D}.DebugAOT|x64.Build.0 = Debug|x64
+		{8810A5B6-B55D-4707-9B54-FEA08FFCA46D}.DebugAOT|x86.ActiveCfg = Debug|Win32
+		{8810A5B6-B55D-4707-9B54-FEA08FFCA46D}.DebugAOT|x86.Build.0 = Debug|Win32
+		{8810A5B6-B55D-4707-9B54-FEA08FFCA46D}.Release|x64.ActiveCfg = Release|x64
+		{8810A5B6-B55D-4707-9B54-FEA08FFCA46D}.Release|x64.Build.0 = Release|x64
+		{8810A5B6-B55D-4707-9B54-FEA08FFCA46D}.Release|x86.ActiveCfg = Release|Win32
+		{8810A5B6-B55D-4707-9B54-FEA08FFCA46D}.Release|x86.Build.0 = Release|Win32
+		{8810A5B6-B55D-4707-9B54-FEA08FFCA46D}.ReleaseAOT|x64.ActiveCfg = Release|x64
+		{8810A5B6-B55D-4707-9B54-FEA08FFCA46D}.ReleaseAOT|x64.Build.0 = Release|x64
+		{8810A5B6-B55D-4707-9B54-FEA08FFCA46D}.ReleaseAOT|x86.ActiveCfg = Release|Win32
+		{8810A5B6-B55D-4707-9B54-FEA08FFCA46D}.ReleaseAOT|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
