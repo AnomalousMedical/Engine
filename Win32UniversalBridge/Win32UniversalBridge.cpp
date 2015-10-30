@@ -20,29 +20,37 @@ using namespace Windows::Foundation;
 
 extern "C" _declspec(dllexport) HRESULT GetUserInteractionMode(int & iMode, HWND hWnd)
 {
-	ComPtr<IUIViewSettingsInterop> uiViewSettingsInterop;
-	HRESULT hr = GetActivationFactory(
-		HStringReference(RuntimeClass_Windows_UI_ViewManagement_UIViewSettings).Get(), &uiViewSettingsInterop);
-	if (SUCCEEDED(hr))
+	iMode = UserInteractionMode_Mouse; //Just in case default to mouse mode
+
+	//Make sure we are a "tablet pc"
+	bool isTabletPC = (GetSystemMetrics(SM_TABLETPC) != 0);
+	int state = GetSystemMetrics(SM_CONVERTIBLESLATEMODE);
+	if ((state == 0) && isTabletPC)
 	{
-		ComPtr<IUIViewSettings> uiViewSettings;
-		hr = uiViewSettingsInterop->GetForWindow(hWnd, IID_PPV_ARGS(&uiViewSettings));
+		ComPtr<IUIViewSettingsInterop> uiViewSettingsInterop;
+		HRESULT hr = GetActivationFactory(
+			HStringReference(RuntimeClass_Windows_UI_ViewManagement_UIViewSettings).Get(), &uiViewSettingsInterop);
 		if (SUCCEEDED(hr))
 		{
-			UserInteractionMode mode;
-			hr = uiViewSettings->get_UserInteractionMode(&mode);
+			ComPtr<IUIViewSettings> uiViewSettings;
+			hr = uiViewSettingsInterop->GetForWindow(hWnd, IID_PPV_ARGS(&uiViewSettings));
 			if (SUCCEEDED(hr))
 			{
-				switch (mode)
+				UserInteractionMode mode;
+				hr = uiViewSettings->get_UserInteractionMode(&mode);
+				if (SUCCEEDED(hr))
 				{
-				case UserInteractionMode_Mouse:
-					iMode = UserInteractionMode_Mouse;
-					break;
-				case UserInteractionMode_Touch:
-					iMode = UserInteractionMode_Touch;
-					break;
-				default:
-					break;
+					switch (mode)
+					{
+					case UserInteractionMode_Mouse:
+						iMode = UserInteractionMode_Mouse;
+						break;
+					case UserInteractionMode_Touch:
+						iMode = UserInteractionMode_Touch;
+						break;
+					default:
+						break;
+					}
 				}
 			}
 		}

@@ -387,16 +387,7 @@ void Win32Window::usageModeChanged()
 	}
 	else
 	{
-		bool isTabletPC = (GetSystemMetrics(SM_TABLETPC) != 0);
-		int state = GetSystemMetrics(SM_CONVERTIBLESLATEMODE);
-		if ((state == 0) && isTabletPC)
-		{
-			newUsageMode = Tablet;
-		}
-		else
-		{
-			newUsageMode = Desktop;
-		}
+		newUsageMode = Desktop;
 	}
 
 	if (newUsageMode != usageMode) //Setup for a trigger, but we aren't doing it yet
@@ -575,7 +566,7 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			win->fireMouseWheel(GET_WHEEL_DELTA_WPARAM(wParam));
 			break;
 		case WM_SETTINGCHANGE:
-			if (lParam != 0 && (wcscmp(TEXT("ConvertableSlateMode"), (TCHAR*)lParam) == 0 || wcscmp(TEXT("UserInteractionMode"), (TCHAR*)lParam) == 0))
+			if (lParam != 0 && wcscmp(TEXT("UserInteractionMode"), (TCHAR*)lParam) == 0) //We only care about doing this on windows 10 and above
 			{
 				win->usageModeChanged();
 			}
