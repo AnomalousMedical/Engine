@@ -216,76 +216,61 @@ void Win32Window::keyboardClosed()
 	keyboardHwnd = 0; //Note this is done here and in the closed function on purpose
 }
 
-bool Win32Window::showKeyboard()
+void Win32Window::showKeyboard()
 {
-	bool result = false;
-
-	if (allowShowKeyboard && usageMode == Tablet)
+	if (allowShowKeyboard && usageMode == Tablet && keyboardHwnd == 0)
 	{
-		if (keyboardHwnd == 0)
+		allowShowKeyboard = false;
+		TCHAR lpszClientPath[500] = TEXT("\"C:\\Program Files\\Common Files\\Microsoft Shared\\ink\\tabtip.exe\"");
+		SHELLEXECUTEINFO execInfo;
+		ZeroMemory(&execInfo, sizeof(execInfo));
+		execInfo.cbSize = sizeof(execInfo);
+		execInfo.nShow = SW_SHOW;
+		execInfo.lpFile = lpszClientPath;
+
+		if (ShellExecuteEx(&execInfo))
 		{
-			allowShowKeyboard = false;
-			TCHAR lpszClientPath[500] = TEXT("\"C:\\Program Files\\Common Files\\Microsoft Shared\\ink\\tabtip.exe\"");
-			SHELLEXECUTEINFO execInfo;
-			ZeroMemory(&execInfo, sizeof(execInfo));
-			execInfo.cbSize = sizeof(execInfo);
-			execInfo.nShow = SW_SHOW;
-			execInfo.lpFile = lpszClientPath;
-
-			if (ShellExecuteEx(&execInfo))
+			int i = 0;
+			do
 			{
-				int i = 0;
-				do
+				keyboardHwnd = FindWindow(L"IPTip_Main_Window", NULL);
+				++i;
+				if (i > 5)
 				{
-					keyboardHwnd = FindWindow(L"IPTip_Main_Window", NULL);
-					++i;
-					if (i > 5)
-					{
-						Sleep(10);
-					}
-				} while (keyboardHwnd == 0 && i < 50000);
+					Sleep(10);
+				}
+			} while (keyboardHwnd == 0 && i < 50000);
 
-				if (keyboardHwnd)
+			if (keyboardHwnd)
+			{
+				DWORD keyboardId;
+				if (GetWindowThreadProcessId(keyboardHwnd, &keyboardId) != 0)
 				{
-					DWORD keyboardId;
-					if (GetWindowThreadProcessId(keyboardHwnd, &keyboardId) != 0)
+					HANDLE keyboardProcess = OpenProcess(SYNCHRONIZE, false, keyboardId);
+					if (!keyboardProcess)
 					{
-						HANDLE keyboardProcess = OpenProcess(SYNCHRONIZE, false, keyboardId);
-						if (!keyboardProcess)
-						{
-							logger << "Could not open process error: " << GetLastError() << debug;
-						}
-						else
-						{
-							HANDLE waitHandle;
-							result = RegisterWaitForSingleObject(&waitHandle, keyboardProcess, OnExited, this, INFINITE, WT_EXECUTEONLYONCE);
-							if (result)
-							{
-								logger << "setup keyboard correctly " << i << debug;
-							}
-							CloseHandle(keyboardProcess);
-						}
+						logger << "Could not open process error: " << GetLastError() << debug;
 					}
 					else
 					{
-						logger << "Could not find window thread process id: " << GetLastError() << debug;
+						HANDLE waitHandle;
+						RegisterWaitForSingleObject(&waitHandle, keyboardProcess, OnExited, this, INFINITE, WT_EXECUTEONLYONCE);
+						CloseHandle(keyboardProcess);
 					}
 				}
 				else
 				{
-					logger << "Could not find window handle: " << GetLastError() << debug;
+					logger << "Could not find window thread process id: " << GetLastError() << debug;
 				}
 			}
+			else
+			{
+				logger << "Could not find window handle: " << GetLastError() << debug;
+			}
+		}
 
-			allowShowKeyboard = true;
-		}
-		else
-		{
-			result = true; //Already open, return true to change modes
-		}
+		allowShowKeyboard = true;
 	}
-
-	return result;
 }
 
 void Win32Window::closeKeyboard()
@@ -306,10 +291,8 @@ void Win32Window::setOnscreenKeyboardMode(OnscreenKeyboardMode mode)
 		{
 			case OnscreenKeyboardMode::Normal:
 			case OnscreenKeyboardMode::Secure:
-				if (showKeyboard())
-				{
-					keyboardMode = mode;
-				}
+				showKeyboard();
+				keyboardMode = mode;
 				break;
 			case OnscreenKeyboardMode::Hidden:
 				closeKeyboard();
@@ -393,6 +376,18 @@ void Win32Window::usageModeChanged()
 	if (newUsageMode != usageMode) //Setup for a trigger, but we aren't doing it yet
 	{
 		usageMode = newUsageMode;
+
+		if (keyboardMode != OnscreenKeyboardMode::Hidden)
+		{
+			if (usageMode == Tablet)
+			{
+				showKeyboard();
+			}
+			else
+			{
+				closeKeyboard();
+			}
+		}
 
 		logger << "Usage mode changed " << usageMode << debug;
 	}

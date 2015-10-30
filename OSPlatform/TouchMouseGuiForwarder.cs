@@ -1,6 +1,7 @@
 ﻿using Anomalous.OSPlatform;
 using Engine;
 using Engine.Platform;
+using Engine.Threads;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,7 @@ namespace Anomalous.OSPlatform
 		private bool enabled = true;
 		private OnscreenKeyboardMode keyboardMode = OnscreenKeyboardMode.Hidden;
         private SystemTimer systemTimer;
+        private bool forwardTouchesAsMouse = true;
 
         /// <summary>
         /// Constructor.
@@ -46,9 +48,6 @@ namespace Anomalous.OSPlatform
             this.inputHandler = inputHandler;
             this.window = window;
             this.systemTimer = systemTimer;
-
-            eventManager[lastEventLayer].Keyboard.KeyPressed += HandleKeyPressed;
-            eventManager[lastEventLayer].Keyboard.KeyReleased += HandleKeyReleased;
         }
 
         /// <summary>
@@ -80,7 +79,22 @@ namespace Anomalous.OSPlatform
 					stopTrackingFinger();
 				}
 			}
-		}
+        }
+
+        /// <summary>
+        /// Set this to true to fire mouse events while touches are happening.
+        /// </summary>
+        public bool ForwardTouchesAsMouse
+        {
+            get
+            {
+                return forwardTouchesAsMouse;
+            }
+            set
+            {
+                forwardTouchesAsMouse = value;
+            }
+        }
 
         /// <summary>
         /// The keyboard mode that will be set the next time togglekeyboard is called. This does not reflect
@@ -94,7 +108,11 @@ namespace Anomalous.OSPlatform
             }
             set
             {
-                keyboardMode = value;
+                if (keyboardMode != value)
+                {
+                    keyboardMode = value;
+                    ThreadManager.invoke(toggleKeyboard);
+                }
             }
         }
 
@@ -109,14 +127,17 @@ namespace Anomalous.OSPlatform
                 touches.FingerMoved += HandleFingerMoved;
 				touches.FingersCanceled += HandleFingersCanceled;
                 captureClickZone.reset();
-                inputHandler.injectMoved(finger.PixelX, finger.PixelY);
-                mouseInjectionMode = MouseStatus.Released;
+                if (ForwardTouchesAsMouse)
+                {
+                    inputHandler.injectMoved(finger.PixelX, finger.PixelY);
+                    mouseInjectionMode = MouseStatus.Released;
+                }
             }
         }
 
         void HandleFingerMoved(Finger obj)
         {
-            if (obj.Id == currentFingerId)
+            if (ForwardTouchesAsMouse && obj.Id == currentFingerId)
             {
                 inputHandler.injectMoved(obj.PixelX, obj.PixelY);
                 captureClickZone.traveled(new IntVector2(obj.PixelDeltaX, obj.PixelDeltaY));
@@ -140,31 +161,33 @@ namespace Anomalous.OSPlatform
         {
             if (obj.Id == currentFingerId)
             {
-				stopTrackingFinger();
-                inputHandler.injectMoved(obj.PixelX, obj.PixelY);
-                switch(mouseInjectionMode)
+                stopTrackingFinger();
+                if (ForwardTouchesAsMouse)
                 {
-                    case MouseStatus.Released:
-                        if (systemTimer.getCurrentTime() - fingerDownTime < RightClickDeltaTime)
-                        {
-                            inputHandler.injectButtonDown(MouseButtonCode.MB_BUTTON0);
+                    inputHandler.injectMoved(obj.PixelX, obj.PixelY);
+                    switch (mouseInjectionMode)
+                    {
+                        case MouseStatus.Released:
+                            if (systemTimer.getCurrentTime() - fingerDownTime < RightClickDeltaTime)
+                            {
+                                inputHandler.injectButtonDown(MouseButtonCode.MB_BUTTON0);
+                                inputHandler.injectButtonUp(MouseButtonCode.MB_BUTTON0);
+                            }
+                            else
+                            {
+                                inputHandler.injectButtonDown(MouseButtonCode.MB_BUTTON1);
+                                inputHandler.injectButtonUp(MouseButtonCode.MB_BUTTON1);
+                            }
+                            break;
+                        case MouseStatus.Left:
                             inputHandler.injectButtonUp(MouseButtonCode.MB_BUTTON0);
-                        }
-                        else
-                        {
-                            inputHandler.injectButtonDown(MouseButtonCode.MB_BUTTON1);
+                            break;
+                        case MouseStatus.Right:
                             inputHandler.injectButtonUp(MouseButtonCode.MB_BUTTON1);
-                        }
-                        break;
-                    case MouseStatus.Left:
-                        inputHandler.injectButtonUp(MouseButtonCode.MB_BUTTON0);
-                        break;
-                    case MouseStatus.Right:
-                        inputHandler.injectButtonUp(MouseButtonCode.MB_BUTTON1);
-                        break;
+                            break;
+                    }
                 }
                 mouseInjectionMode = MouseStatus.Released;
-				toggleKeyboard();
             }
 		}
 
@@ -182,17 +205,8 @@ namespace Anomalous.OSPlatform
 		{
 			touches.FingerEnded -= fingerEnded;
 			touches.FingerMoved -= HandleFingerMoved;
-			currentFingerId = int.MinValue;
-		}
-
-		void HandleKeyReleased(KeyboardButtonCode keyCode)
-		{
-			toggleKeyboard();
-		}
-
-		void HandleKeyPressed(KeyboardButtonCode keyCode, uint keyChar)
-		{
-			toggleKeyboard();
+            touches.FingersCanceled -= HandleFingersCanceled;
+            currentFingerId = int.MinValue;
 		}
     }
 }

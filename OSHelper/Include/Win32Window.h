@@ -90,7 +90,7 @@ private:
 	bool allowShowKeyboard;
 	UsageMode usageMode;
 
-	bool showKeyboard();
+	void showKeyboard();
 
 	void closeKeyboard();
 };
