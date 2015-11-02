@@ -80,6 +80,8 @@ namespace Anomalous.Minimus.Full
                 {
                     mainWindow.setSize(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes);
                     mainWindow.ExclusiveFullscreen = true;
+                    defaultWindow.Width = CoreConfig.EngineConfig.HorizontalRes;
+                    defaultWindow.Height = CoreConfig.EngineConfig.VerticalRes;
                 }
                 else
                 {
