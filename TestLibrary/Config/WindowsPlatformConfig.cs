@@ -127,7 +127,7 @@ namespace Anomalous.Minimus
         {
             get
             {
-                return false;
+                return true;
             }
         }
 

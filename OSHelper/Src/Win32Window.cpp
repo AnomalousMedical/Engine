@@ -409,6 +409,13 @@ uint getUtf32WithSpecial(WPARAM virtualKey, unsigned int scanCode);
 
 KeyboardButtonCode virtualKeyToKeyboardButtonCode(WPARAM wParam);
 
+#define MOUSEEVENTF_FROMTOUCH 0xFF515700
+
+bool IsRealMouseEvent() 
+{
+	return (GetMessageExtraInfo() & MOUSEEVENTF_FROMTOUCH) != MOUSEEVENTF_FROMTOUCH;
+}
+
 LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	Win32Window *win = (Win32Window*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
@@ -505,28 +512,46 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 			//Mouse
 		case WM_LBUTTONDOWN:
-			win->manageCapture(MB_BUTTON0);
-			win->fireMouseButtonDown(MB_BUTTON0);
+			if (IsRealMouseEvent())
+			{
+				win->manageCapture(MB_BUTTON0);
+				win->fireMouseButtonDown(MB_BUTTON0);
+			}
 			break;
 		case WM_LBUTTONUP:
-			win->fireMouseButtonUp(MB_BUTTON0);
-			win->manageRelease(MB_BUTTON0);
+			if (IsRealMouseEvent())
+			{
+				win->fireMouseButtonUp(MB_BUTTON0);
+				win->manageRelease(MB_BUTTON0);
+			}
 			break;
 		case WM_RBUTTONDOWN:
-			win->manageCapture(MB_BUTTON1);
-			win->fireMouseButtonDown(MB_BUTTON1);
+			if (IsRealMouseEvent())
+			{
+				win->manageCapture(MB_BUTTON1);
+				win->fireMouseButtonDown(MB_BUTTON1);
+			}
 			break;
 		case WM_RBUTTONUP:
-			win->fireMouseButtonUp(MB_BUTTON1);
-			win->manageRelease(MB_BUTTON1);
+			if (IsRealMouseEvent())
+			{
+				win->fireMouseButtonUp(MB_BUTTON1);
+				win->manageRelease(MB_BUTTON1);
+			}
 			break;
 		case WM_MBUTTONDOWN:
-			win->manageCapture(MB_BUTTON2);
-			win->fireMouseButtonDown(MB_BUTTON2);
+			if (IsRealMouseEvent())
+			{
+				win->manageCapture(MB_BUTTON2);
+				win->fireMouseButtonDown(MB_BUTTON2);
+			}
 			break;
 		case WM_MBUTTONUP:
-			win->fireMouseButtonUp(MB_BUTTON2);
-			win->manageRelease(MB_BUTTON2);
+			if (IsRealMouseEvent())
+			{
+				win->fireMouseButtonUp(MB_BUTTON2);
+				win->manageRelease(MB_BUTTON2);
+			}
 			break;
 		case WM_XBUTTONDOWN:
 			switch (GET_XBUTTON_WPARAM(wParam))
@@ -555,7 +580,10 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			break;
 		case WM_MOUSEMOVE:
-			win->fireMouseMove(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+			if (IsRealMouseEvent())
+			{
+				win->fireMouseMove(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+			}
 			break;
 		case WM_MOUSEWHEEL:
 			win->fireMouseWheel(GET_WHEEL_DELTA_WPARAM(wParam));
