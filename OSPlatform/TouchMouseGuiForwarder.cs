@@ -145,13 +145,13 @@ namespace Anomalous.OSPlatform
                 {
                     if (systemTimer.getCurrentTime() - fingerDownTime < RightClickDeltaTime)
                     {
-                        mouseInjectionMode = MouseStatus.Right;
-                        inputHandler.injectButtonDown(MouseButtonCode.MB_BUTTON1);
+                        mouseInjectionMode = MouseStatus.Left;
+                        inputHandler.injectButtonDown(MouseButtonCode.MB_BUTTON0); 
                     }
                     else
                     {
-                        mouseInjectionMode = MouseStatus.Left;
-                        inputHandler.injectButtonDown(MouseButtonCode.MB_BUTTON0);
+                        mouseInjectionMode = MouseStatus.Right;
+                        inputHandler.injectButtonDown(MouseButtonCode.MB_BUTTON1);
                     }
                 }
             }
