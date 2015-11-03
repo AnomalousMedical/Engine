@@ -59,9 +59,11 @@ namespace Anomalous.OSPlatform.Android
             Window.SetSoftInputMode(SoftInput.StateAlwaysHidden);
         }
 
-        protected override void OnDestroy()
+        /// <summary>
+        /// Call this function to kill the app process, ideally this is done at the end of OnDestroy in your client app.
+        /// </summary>
+        protected void killAppProcess()
         {
-            base.OnDestroy();
             global::Android.OS.Process.KillProcess(global::Android.OS.Process.MyPid());
         }
 
