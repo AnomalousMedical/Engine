@@ -31,9 +31,14 @@ namespace OgreModelEditor
             return true;
         }
 
-        public override int OnExit()
+        public override void Dispose()
         {
             controller.Dispose();
+            base.Dispose();
+        }
+
+        public override int OnExit()
+        {
             return 0;
         }
 

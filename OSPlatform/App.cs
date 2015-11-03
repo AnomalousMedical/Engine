@@ -23,7 +23,7 @@ namespace Anomalous.OSPlatform
             callbackHandler = new CallbackHandler(this);
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             App_delete(appPtr);
             appPtr = IntPtr.Zero;

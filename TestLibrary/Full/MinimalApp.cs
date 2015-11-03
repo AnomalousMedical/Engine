@@ -52,6 +52,32 @@ namespace Anomalous.Minimus.Full
 
         }
 
+        public override void Dispose()
+        {
+            CoreConfig.save();
+
+            //Note this isn't really right and not everything is being disposed that should be.
+            sceneViewController.destroyCameras();
+            scene.Dispose();
+
+            IDisposableUtil.DisposeIfNotNull(testWindow);
+            IDisposableUtil.DisposeIfNotNull(rocketWindow);
+            IDisposableUtil.DisposeIfNotNull(taskbar);
+            IDisposableUtil.DisposeIfNotNull(taskMenu);
+
+            IDisposableUtil.DisposeIfNotNull(sceneViewController);
+            IDisposableUtil.DisposeIfNotNull(editorBorder);
+            IDisposableUtil.DisposeIfNotNull(contentArea);
+            IDisposableUtil.DisposeIfNotNull(mdiLayout);
+
+            engineController.Dispose();
+            mainWindow.Dispose();
+
+            base.Dispose();
+
+            logListener.Dispose();
+        }
+
         public override bool OnInit()
         {
             coreConfig = new CoreConfig("Anomalous Minimus");
@@ -177,29 +203,6 @@ namespace Anomalous.Minimus.Full
 
         public override int OnExit()
         {
-            CoreConfig.save();
-
-            //Note this isn't really right and not everything is being disposed that should be.
-            sceneViewController.destroyCameras();
-            scene.Dispose();
-
-            IDisposableUtil.DisposeIfNotNull(testWindow);
-            IDisposableUtil.DisposeIfNotNull(rocketWindow);
-            IDisposableUtil.DisposeIfNotNull(taskbar);
-            IDisposableUtil.DisposeIfNotNull(taskMenu);
-
-            IDisposableUtil.DisposeIfNotNull(sceneViewController);
-            IDisposableUtil.DisposeIfNotNull(editorBorder);
-            IDisposableUtil.DisposeIfNotNull(contentArea);
-            IDisposableUtil.DisposeIfNotNull(mdiLayout);
-
-            engineController.Dispose();
-            mainWindow.Dispose();
-
-            base.Dispose();
-
-            logListener.Dispose();
-
             return 0;
         }
 

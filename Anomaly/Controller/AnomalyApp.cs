@@ -18,6 +18,12 @@ namespace Anomaly
             anomalyController = new AnomalyController(this, new Solution(projectFileName));
         }
 
+        public override void Dispose()
+        {
+            anomalyController.Dispose();
+            base.Dispose();
+        }
+
         public override bool OnInit()
         {
             return true;
@@ -25,7 +31,6 @@ namespace Anomaly
 
         public override int OnExit()
         {
-            anomalyController.Dispose();
             return 0;
         }
 
