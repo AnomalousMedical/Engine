@@ -131,8 +131,8 @@ float4 UnifiedFragmentShader
 		uniform float4 specularColor,				//The specular color of the surface
 
 		#ifdef VIRTUAL_TEXTURE
-			uniform Texture2D indirectionTex : register(t2),
-			uniform SamplerState indirectionTexSampler : register(s2),
+			uniform Texture2D indirectionTex : register(t1),
+			uniform SamplerState indirectionTexSampler : register(s1),
 		#endif //VIRTUAL_TEXTURE
 	#endif //NORMAL_MAPS
 

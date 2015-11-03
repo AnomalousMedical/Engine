@@ -462,7 +462,6 @@ namespace OgrePlugin
         private IndirectionTexture setupNormalTextures(MaterialDescription description, Pass pass)
         {
             var texUnit = pass.createTextureUnitState(normalTexture.TextureName);
-            pass.createTextureUnitState(diffuseTexture.TextureName);
             IndirectionTexture indirectionTexture;
             String fileName = description.localizePath(description.NormalMapName + normalTextureFormatExtension);
             IntSize2 textureSize = getTextureSize(fileName);
