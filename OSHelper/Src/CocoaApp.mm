@@ -60,9 +60,30 @@ void CocoaApp::exit()
     [app doStopApplication];
 }
 
-//PInvoke
+bool runningNormally = true;
 
+bool isRunningNormally()
+{
+    return runningNormally;
+}
+
+//PInvoke
 extern "C" _AnomalousExport CocoaApp* App_create()
 {
 	return new CocoaApp();
+}
+
+extern "C" _AnomalousExport void App_delete(App* app)
+{
+    if(runningNormally)
+    {
+        delete app;
+    }
+}
+
+//OSX needs to know if it is shutting down crashed or not, if the program crashes call this function to
+//alert the os code to shutdown in crashed mode
+extern "C" _AnomalousExport void CocoaApp_alertCrashing()
+{
+    runningNormally = false;
 }

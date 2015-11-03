@@ -69,6 +69,13 @@ enum EventSubtypes
     
     cocoaApp->fireExit();
     
+    //Delete the app instance here, the program is done at this point, the normal App_Delete function does nothing on
+    //osx, since we want the application instance to hang around until this point
+    if(!isRunningNormally())
+    {
+        delete cocoaApp;
+    }
+        
     [pool release];
 }
 

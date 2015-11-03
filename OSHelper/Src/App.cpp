@@ -22,10 +22,14 @@ void App::registerDelegates(OnInitDelegate onInitCB, OnExitDelegate onExitCB, Na
 }
 
 //PInvoke
+
+//The OSX app instance has some custom deletion code in CocoaApp
+#ifndef MAC_OSX
 extern "C" _AnomalousExport void App_delete(App* app)
 {
 	delete app;
 }
+#endif
 
 extern "C" _AnomalousExport void App_registerDelegates(App* app, OnInitDelegate onInitCB, OnExitDelegate onExitCB, NativeAction onIdleCB, NativeAction onMovedToBackgroundCB, NativeAction onMovedToForegroundCB HANDLE_ARG)
 {

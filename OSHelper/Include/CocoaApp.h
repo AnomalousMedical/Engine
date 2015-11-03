@@ -30,4 +30,8 @@ private:
     CocoaIdleApplicationDelegate *appDelegate;
 };
 
+//Determine if the app is running normally or has set the crashed flag,
+//this is global for the entire application
+bool isRunningNormally();
+
 #endif /* defined(__TestOpenGL__CocoaApp__) */
