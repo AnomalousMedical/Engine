@@ -18,24 +18,6 @@ namespace Anomalous.OSPlatform.Mac
         internal const String LibraryName = "OSHelper";
 #endif
 
-        private static object sslTrustLock = new object();
-
-        public static unsafe bool TrustSSLCertificate(X509Certificate certificate, string hostName)
-        {
-            unsafe
-            {
-                //Apple says that the functions used on the native side to check validity are potentially not thread safe, so lock here when checking.
-                lock (sslTrustLock)
-                {
-                    byte[] certBytes = certificate.Export(X509ContentType.Cert);
-                    fixed (byte* certBytesPtr = &certBytes[0])
-                    {
-                        return CertificateValidator_ValidateSSLCertificate(certBytesPtr, (uint)certBytes.Length, hostName);
-                    }
-                }
-            }
-        }
-
         public static String LocalUserDocumentsFolder
         {
             get
