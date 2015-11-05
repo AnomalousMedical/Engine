@@ -12,6 +12,12 @@ namespace Anomalous.OSPlatform
 {
     public static class MacOSXFunctions
     {
+#if STATIC_LINK
+		internal const String LibraryName = "__Internal";
+#else
+        internal const String LibraryName = "OSHelper";
+#endif
+
         private static object sslTrustLock = new object();
 
         public static unsafe bool TrustSSLCertificate(X509Certificate certificate, string hostName)
@@ -68,17 +74,17 @@ namespace Anomalous.OSPlatform
 
         #region PInvoke
 
-        [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static unsafe extern bool CertificateValidator_ValidateSSLCertificate(byte* certBytes, uint certBytesLength, [MarshalAs(UnmanagedType.LPWStr)] String url);
 
-        [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static unsafe extern void MacPlatformConfig_getLocalUserDocumentsFolder(StringRetriever.Callback retrieve, IntPtr handle);
 
-        [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static unsafe extern void MacPlatformConfig_getLocalDataFolder(StringRetriever.Callback retrieve, IntPtr handle);
 
-        [DllImport(NativePlatformPlugin.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static unsafe extern void MacPlatformConfig_getLocalPrivateDataFolder(StringRetriever.Callback retrieve, IntPtr handle);
 
         #endregion
