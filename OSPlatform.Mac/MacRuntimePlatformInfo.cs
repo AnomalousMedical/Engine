@@ -5,14 +5,27 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 namespace Anomalous.OSPlatform.Mac
 {
     public class MacRuntimePlatformInfo : RuntimePlatformInfo
     {
+        private const String LibraryName = "OSHelper";
+
         public static void Initialize()
         {
             new MacRuntimePlatformInfo();
+        }
+
+        /// <summary>
+        /// If your app is going to crash call this function before disposing the app, this will deal
+        /// with the fact that the stack did not unwind correctly and prevent the app from crashing again
+        /// after it closes.
+        /// </summary>
+        public static void AlertCrashing()
+        {
+            CocoaApp_alertCrashing();
         }
 
         protected MacRuntimePlatformInfo()
@@ -90,5 +103,8 @@ namespace Anomalous.OSPlatform.Mac
                 return RestartProcInfoImpl;
             }
         }
+
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void CocoaApp_alertCrashing();
     }
 }
