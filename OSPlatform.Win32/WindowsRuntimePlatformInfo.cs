@@ -39,7 +39,26 @@ namespace Anomalous.OSPlatform.Win32
             }
             catch (Exception) { }
 
-            Win32Window_setKeyboardPathAndWindow("\"C:\\Program Files\\Common Files\\Microsoft Shared\\ink\\tabtip.exe\"", "IPTip_Main_Window");
+            //Find tabtip, this has a lot of combos since we have to run the 64 bit version on 64 bit oses even if the current process is 32 bit
+            String tabTipLoc = null;
+            if(Environment.Is64BitOperatingSystem)
+            {
+                tabTipLoc = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonProgramFiles), "Microsoft Shared\\ink\\TabTip.exe");
+                if (!Environment.Is64BitProcess)
+                {
+                    //Hacky, but should help find the 64 bit tabtip when running as 32 bit on a 64 bit os
+                    tabTipLoc = tabTipLoc.Replace(" (x86)", "");
+                }
+            }
+            else
+            {
+                tabTipLoc = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonProgramFiles), "Microsoft Shared\\ink\\TabTip32.exe");
+            }
+
+            if (File.Exists(tabTipLoc))
+            {
+                Win32Window_setKeyboardPathAndWindow(tabTipLoc, "IPTip_Main_Window");
+            }
         }
 
         protected WindowsRuntimePlatformInfo()

@@ -227,15 +227,23 @@ extern "C" _AnomalousExport void Win32Window_setKeyboardPathAndWindow(String key
 		delete[] _WindowName;
 	}
 
-	_KeyboardPath = new TCHAR[wcslen(keyboardPath) + 1];
-	wcscpy(_KeyboardPath, keyboardPath);
-	_WindowName = new TCHAR[wcslen(windowName) + 1];
-	wcscpy(_WindowName, windowName);
+	if (keyboardPath != NULL)
+	{
+		_KeyboardPath = new TCHAR[wcslen(keyboardPath) + 1];
+		wcscpy(_KeyboardPath, keyboardPath);
+		_WindowName = new TCHAR[wcslen(windowName) + 1];
+		wcscpy(_WindowName, windowName);
+	}
+	else
+	{
+		_KeyboardPath = NULL;
+		_WindowName = NULL;
+	}
 }
 
 void Win32Window::showKeyboard()
 {
-	if (allowShowKeyboard && usageMode == Tablet && keyboardHwnd == 0)
+	if (allowShowKeyboard && usageMode == Tablet && keyboardHwnd == 0 && _KeyboardPath != NULL)
 	{
 		allowShowKeyboard = false;
 		SHELLEXECUTEINFO execInfo;
