@@ -79,7 +79,92 @@
       <Name>OSPlatform</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="..\..\..\Program Files %28x86%29\ARM\Mali Developer Tools\Mali Texture Compression Tool v4.2.0\bin\astcenc.exe">
+      <Link>CompressorBinaries\MaliTextureTool\astcenc.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Program Files %28x86%29\ARM\Mali Developer Tools\Mali Texture Compression Tool v4.2.0\bin\atl100.dll">
+      <Link>CompressorBinaries\MaliTextureTool\atl100.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Program Files %28x86%29\ARM\Mali Developer Tools\Mali Texture Compression Tool v4.2.0\bin\composite.exe">
+      <Link>CompressorBinaries\MaliTextureTool\composite.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Program Files %28x86%29\ARM\Mali Developer Tools\Mali Texture Compression Tool v4.2.0\bin\convert.exe">
+      <Link>CompressorBinaries\MaliTextureTool\convert.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Program Files %28x86%29\ARM\Mali Developer Tools\Mali Texture Compression Tool v4.2.0\bin\etcpack.exe">
+      <Link>CompressorBinaries\MaliTextureTool\etcpack.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Program Files %28x86%29\ARM\Mali Developer Tools\Mali Texture Compression Tool v4.2.0\bin\mfc100.dll">
+      <Link>CompressorBinaries\MaliTextureTool\mfc100.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Program Files %28x86%29\ARM\Mali Developer Tools\Mali Texture Compression Tool v4.2.0\bin\msvcp100.dll">
+      <Link>CompressorBinaries\MaliTextureTool\msvcp100.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Program Files %28x86%29\ARM\Mali Developer Tools\Mali Texture Compression Tool v4.2.0\bin\msvcr100.dll">
+      <Link>CompressorBinaries\MaliTextureTool\msvcr100.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Program Files %28x86%29\ARM\Mali Developer Tools\Mali Texture Compression Tool v4.2.0\bin\vcomp100.dll">
+      <Link>CompressorBinaries\MaliTextureTool\vcomp100.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Program Files\NVIDIA Corporation\NVIDIA Texture Tools 2\bin\cudart64_30_14.dll">
+      <Link>CompressorBinaries\Nvidia\cudart64_30_14.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Program Files\NVIDIA Corporation\NVIDIA Texture Tools 2\bin\jpeg62.dll">
+      <Link>CompressorBinaries\Nvidia\jpeg62.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Program Files\NVIDIA Corporation\NVIDIA Texture Tools 2\bin\libpng12.dll">
+      <Link>CompressorBinaries\Nvidia\libpng12.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Program Files\NVIDIA Corporation\NVIDIA Texture Tools 2\bin\libtiff3.dll">
+      <Link>CompressorBinaries\Nvidia\libtiff3.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Program Files\NVIDIA Corporation\NVIDIA Texture Tools 2\bin\nvassemble.exe">
+      <Link>CompressorBinaries\Nvidia\nvassemble.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Program Files\NVIDIA Corporation\NVIDIA Texture Tools 2\bin\nvcompress.exe">
+      <Link>CompressorBinaries\Nvidia\nvcompress.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Program Files\NVIDIA Corporation\NVIDIA Texture Tools 2\bin\nvddsinfo.exe">
+      <Link>CompressorBinaries\Nvidia\nvddsinfo.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Program Files\NVIDIA Corporation\NVIDIA Texture Tools 2\bin\nvdecompress.exe">
+      <Link>CompressorBinaries\Nvidia\nvdecompress.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Program Files\NVIDIA Corporation\NVIDIA Texture Tools 2\bin\nvimgdiff.exe">
+      <Link>CompressorBinaries\Nvidia\nvimgdiff.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Program Files\NVIDIA Corporation\NVIDIA Texture Tools 2\bin\nvtt.dll">
+      <Link>CompressorBinaries\Nvidia\nvtt.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Program Files\NVIDIA Corporation\NVIDIA Texture Tools 2\bin\nvzoom.exe">
+      <Link>CompressorBinaries\Nvidia\nvzoom.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Program Files\NVIDIA Corporation\NVIDIA Texture Tools 2\bin\zlib1.dll">
+      <Link>CompressorBinaries\Nvidia\zlib1.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
