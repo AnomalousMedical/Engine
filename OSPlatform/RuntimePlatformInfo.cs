@@ -91,6 +91,23 @@ namespace Anomalous.OSPlatform
         }
 
         /// <summary>
+        /// Add a path to the environment for this platform.
+        /// </summary>
+        /// <remarks>
+        /// Right now it looks like this function is ok on all oses, so it is not virtualized at this time.
+        /// </remarks>
+        /// <param name="path"></param>
+        public static void addPath(String path)
+        {
+            //Make sure this folder has not already been added to the path.
+            String currentPathSetting = Environment.GetEnvironmentVariable("PATH");
+            if (!String.IsNullOrEmpty(path) && !currentPathSetting.Contains(path))
+            {
+                Environment.SetEnvironmentVariable("PATH", String.Format("{0};{1}", path, currentPathSetting));
+            }
+        }
+
+        /// <summary>
         /// The instance of this platform info. Will be created when the subclass is instantiated.
         /// </summary>
         protected static RuntimePlatformInfo Instance { get; set; }

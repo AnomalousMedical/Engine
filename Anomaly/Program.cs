@@ -7,6 +7,7 @@ using Anomaly.GUI;
 using System.IO;
 using Engine.Platform;
 using Anomalous.OSPlatform;
+using Anomalous.OSPlatform.Win32;
 
 namespace Anomaly
 {
@@ -20,7 +21,7 @@ namespace Anomaly
         [STAThread]
         static void Main()
         {
-            NativePlatformPlugin.StaticInitialize();
+            Win32Platform.Initialize();
             OgrePlugin.OgreInterface.CompressedTextureSupport = OgrePlugin.CompressedTextureSupport.None;
 
             //Parse command line

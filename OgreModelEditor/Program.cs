@@ -5,6 +5,7 @@ using Logging;
 using System.IO;
 using Engine.Platform;
 using Anomalous.OSPlatform;
+using Anomalous.OSPlatform.Win32;
 
 namespace OgreModelEditor
 {
@@ -16,7 +17,7 @@ namespace OgreModelEditor
         [STAThread]
         static void Main()
         {
-            NativePlatformPlugin.StaticInitialize();
+            Win32Platform.Initialize();
 
             OgreModelEditorApp app = null;
             try

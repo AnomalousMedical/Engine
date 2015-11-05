@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Anomalous.OSPlatform
+namespace Anomalous.OSPlatform.Win32
 {
     class WindowsRuntimePlatformInfo : RuntimePlatformInfo
     {

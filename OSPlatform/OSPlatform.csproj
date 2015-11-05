@@ -68,7 +68,6 @@
     <Compile Include="FileSaveDialog.cs" />
     <Compile Include="OSSpecific\iOSRuntimePlatformInfo.cs" />
     <Compile Include="OSSpecific\MacRuntimePlatformInfo.cs" />
-    <Compile Include="OSSpecific\WindowsRuntimePlatformInfo.cs" />
     <Compile Include="RuntimePlatformInfo.cs" />
     <Compile Include="ManagedLogListener.cs" />
     <Compile Include="MessageDialog.cs" />

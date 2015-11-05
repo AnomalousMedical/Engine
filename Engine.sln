@@ -73,6 +73,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newtonsoft.Json.Portable40"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Win32UniversalBridge", "Win32UniversalBridge\Win32UniversalBridge.vcxproj", "{8810A5B6-B55D-4707-9B54-FEA08FFCA46D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSPlatform.Win32", "OSPlatform.Win32\OSPlatform.Win32.csproj", "{ACBB3920-B6D8-497B-8BAE-9350C7A85C09}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -617,6 +619,22 @@ Global
 		{8810A5B6-B55D-4707-9B54-FEA08FFCA46D}.ReleaseAOT|x64.Build.0 = Release|x64
 		{8810A5B6-B55D-4707-9B54-FEA08FFCA46D}.ReleaseAOT|x86.ActiveCfg = Release|Win32
 		{8810A5B6-B55D-4707-9B54-FEA08FFCA46D}.ReleaseAOT|x86.Build.0 = Release|Win32
+		{ACBB3920-B6D8-497B-8BAE-9350C7A85C09}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{ACBB3920-B6D8-497B-8BAE-9350C7A85C09}.Debug|x64.Build.0 = Debug|Any CPU
+		{ACBB3920-B6D8-497B-8BAE-9350C7A85C09}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ACBB3920-B6D8-497B-8BAE-9350C7A85C09}.Debug|x86.Build.0 = Debug|Any CPU
+		{ACBB3920-B6D8-497B-8BAE-9350C7A85C09}.DebugAOT|x64.ActiveCfg = Debug|Any CPU
+		{ACBB3920-B6D8-497B-8BAE-9350C7A85C09}.DebugAOT|x64.Build.0 = Debug|Any CPU
+		{ACBB3920-B6D8-497B-8BAE-9350C7A85C09}.DebugAOT|x86.ActiveCfg = Debug|Any CPU
+		{ACBB3920-B6D8-497B-8BAE-9350C7A85C09}.DebugAOT|x86.Build.0 = Debug|Any CPU
+		{ACBB3920-B6D8-497B-8BAE-9350C7A85C09}.Release|x64.ActiveCfg = Release|Any CPU
+		{ACBB3920-B6D8-497B-8BAE-9350C7A85C09}.Release|x64.Build.0 = Release|Any CPU
+		{ACBB3920-B6D8-497B-8BAE-9350C7A85C09}.Release|x86.ActiveCfg = Release|Any CPU
+		{ACBB3920-B6D8-497B-8BAE-9350C7A85C09}.Release|x86.Build.0 = Release|Any CPU
+		{ACBB3920-B6D8-497B-8BAE-9350C7A85C09}.ReleaseAOT|x64.ActiveCfg = Release|Any CPU
+		{ACBB3920-B6D8-497B-8BAE-9350C7A85C09}.ReleaseAOT|x64.Build.0 = Release|Any CPU
+		{ACBB3920-B6D8-497B-8BAE-9350C7A85C09}.ReleaseAOT|x86.ActiveCfg = Release|Any CPU
+		{ACBB3920-B6D8-497B-8BAE-9350C7A85C09}.ReleaseAOT|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

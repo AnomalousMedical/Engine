@@ -108,7 +108,7 @@ namespace OgreModelEditor
             OgreInterface.TrackMemoryLeaks = true;
             OgreInterface.CompressedTextureSupport = OgreModelEditorConfig.CompressedTextureSupport;
 
-            NativePlatformPlugin.addPath(OgreModelEditorConfig.OpenGLESEmulatorPath);
+            RuntimePlatformInfo.addPath(OgreModelEditorConfig.OpenGLESEmulatorPath);
 
             pluginManager = new PluginManager(OgreModelEditorConfig.ConfigFile);
             pluginManager.OnConfigureDefaultWindow = createWindow;

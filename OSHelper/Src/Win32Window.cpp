@@ -216,24 +216,40 @@ void Win32Window::keyboardClosed()
 	keyboardHwnd = 0; //Note this is done here and in the closed function on purpose
 }
 
+TCHAR* _KeyboardPath = NULL;
+TCHAR* _WindowName = NULL;
+
+extern "C" _AnomalousExport void Win32Window_setKeyboardPathAndWindow(String keyboardPath, String windowName)
+{
+	if (_KeyboardPath != NULL)
+	{
+		delete[] _KeyboardPath;
+		delete[] _WindowName;
+	}
+
+	_KeyboardPath = new TCHAR[wcslen(keyboardPath) + 1];
+	wcscpy(_KeyboardPath, keyboardPath);
+	_WindowName = new TCHAR[wcslen(windowName) + 1];
+	wcscpy(_WindowName, windowName);
+}
+
 void Win32Window::showKeyboard()
 {
 	if (allowShowKeyboard && usageMode == Tablet && keyboardHwnd == 0)
 	{
 		allowShowKeyboard = false;
-		TCHAR lpszClientPath[500] = TEXT("\"C:\\Program Files\\Common Files\\Microsoft Shared\\ink\\tabtip.exe\"");
 		SHELLEXECUTEINFO execInfo;
 		ZeroMemory(&execInfo, sizeof(execInfo));
 		execInfo.cbSize = sizeof(execInfo);
 		execInfo.nShow = SW_SHOW;
-		execInfo.lpFile = lpszClientPath;
+		execInfo.lpFile = _KeyboardPath;
 
 		if (ShellExecuteEx(&execInfo))
 		{
 			int i = 0;
 			do
 			{
-				keyboardHwnd = FindWindow(L"IPTip_Main_Window", NULL);
+				keyboardHwnd = FindWindow(_WindowName, NULL);
 				++i;
 				if (i > 5)
 				{

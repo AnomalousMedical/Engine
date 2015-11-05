@@ -1,4 +1,5 @@
 ﻿using Anomalous.OSPlatform;
+using Anomalous.OSPlatform.Win32;
 using Engine;
 using Engine.Resources;
 using OgrePlugin;
@@ -38,7 +39,7 @@ namespace Anomalous.TextureCompiler
                 Environment.CurrentDirectory = sourceDirectory;
 
                 Logging.Log.Default.addLogListener(new Logging.LogConsoleListener());
-                NativePlatformPlugin.StaticInitialize();
+                Win32Platform.Initialize();
                 PluginManager pluginManager = new PluginManager(new ConfigFile("woot.txt"));
                 VirtualFileSystem.Instance.addArchive(destDirectory);
 

@@ -1,4 +1,5 @@
 ﻿using Anomalous.OSPlatform;
+using Anomalous.OSPlatform.Win32;
 using Engine.Platform;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Anomalous.Minimus
     {
         static void Main(string[] args)
         {
-            NativePlatformPlugin.StaticInitialize();
+            Win32Platform.Initialize();
 
             App app = null;
             try
