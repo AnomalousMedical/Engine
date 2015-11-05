@@ -21,7 +21,7 @@ namespace Anomaly
         [STAThread]
         static void Main()
         {
-            Win32Platform.Initialize();
+            WindowsRuntimePlatformInfo.Initialize();
             OgrePlugin.OgreInterface.CompressedTextureSupport = OgrePlugin.CompressedTextureSupport.None;
 
             //Parse command line

@@ -135,11 +135,6 @@ namespace Anomalous.Minimus
             }
         }
 
-        public static bool TrustSSLCertificate(X509Certificate certificate, String hostName)
-        {
-            return currentConfig.TrustSSLCertificateImpl(certificate, hostName);
-        }
-
         public static bool ForwardTouchAsMouse
         {
             get
@@ -182,8 +177,6 @@ namespace Anomalous.Minimus
         protected abstract bool DefaultEnableMultitouchImpl { get; }
 
         protected abstract bool HasCustomSSLValidationImpl { get; }
-
-        protected abstract bool TrustSSLCertificateImpl(X509Certificate certificate, String hostName);
 
         protected abstract ProcessStartInfo RestartAdminProcInfoImpl { get; }
 

@@ -128,11 +128,6 @@ namespace Anomalous.Minimus
             }
         }
 
-        protected override bool TrustSSLCertificateImpl(X509Certificate certificate, string hostName)
-        {
-            return MacOSXFunctions.TrustSSLCertificate(certificate, hostName);
-        }
-
         protected override bool ForwardTouchAsMouseImpl
         {
             get

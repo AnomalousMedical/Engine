@@ -39,7 +39,7 @@ namespace Anomalous.TextureCompiler
                 Environment.CurrentDirectory = sourceDirectory;
 
                 Logging.Log.Default.addLogListener(new Logging.LogConsoleListener());
-                Win32Platform.Initialize();
+                WindowsRuntimePlatformInfo.Initialize();
                 PluginManager pluginManager = new PluginManager(new ConfigFile("woot.txt"));
                 VirtualFileSystem.Instance.addArchive(destDirectory);
 

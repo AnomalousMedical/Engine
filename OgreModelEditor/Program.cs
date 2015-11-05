@@ -17,7 +17,7 @@ namespace OgreModelEditor
         [STAThread]
         static void Main()
         {
-            Win32Platform.Initialize();
+            WindowsRuntimePlatformInfo.Initialize();
 
             OgreModelEditorApp app = null;
             try

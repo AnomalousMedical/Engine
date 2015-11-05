@@ -13,7 +13,7 @@ namespace Anomalous.Minimus
     {
         static void Main(string[] args)
         {
-            Win32Platform.Initialize();
+            WindowsRuntimePlatformInfo.Initialize();
 
             App app = null;
             try
