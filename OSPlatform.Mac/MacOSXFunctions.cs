@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Anomalous.OSPlatform.Mac
 {
-    public static class MacOSXFunctions
+    static class MacOSXFunctions
     {
 #if STATIC_LINK
 		internal const String LibraryName = "__Internal";
