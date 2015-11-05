@@ -8,7 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Anomalous.OSPlatform
+namespace Anomalous.OSPlatform.Mac
 {
     public static class MacOSXFunctions
     {
