@@ -24,7 +24,7 @@
 		018657211A6D478800A4F0CD /* UIKitViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 018657201A6D478800A4F0CD /* UIKitViewController.mm */; };
 		018657251A6D47E700A4F0CD /* UIKitWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 018657241A6D47E700A4F0CD /* UIKitWindow.mm */; };
 		018657271A6D4F4700A4F0CD /* SystemInfo_iOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 018657261A6D4F4700A4F0CD /* SystemInfo_iOS.mm */; };
-		018657291A6D504C00A4F0CD /* ConnectionValidator_iOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 018657281A6D504C00A4F0CD /* ConnectionValidator_iOS.mm */; };
+		018657291A6D504C00A4F0CD /* iOSPlatformConfig.mm in Sources */ = {isa = PBXBuildFile; fileRef = 018657281A6D504C00A4F0CD /* iOSPlatformConfig.mm */; };
 		0186572B1A6D51AE00A4F0CD /* UIKitDialogs.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0186572A1A6D51AE00A4F0CD /* UIKitDialogs.mm */; };
 		0186572D1A6D529400A4F0CD /* UIKitMessageDialog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0186572C1A6D529400A4F0CD /* UIKitMessageDialog.mm */; };
 		01F798B91AA8BB4C001DF6E7 /* ListenerTextField.mm in Sources */ = {isa = PBXBuildFile; fileRef = 01F798B81AA8BB4C001DF6E7 /* ListenerTextField.mm */; };
@@ -81,7 +81,7 @@
 		018657231A6D47D600A4F0CD /* UIKitWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIKitWindow.h; sourceTree = "<group>"; };
 		018657241A6D47E700A4F0CD /* UIKitWindow.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIKitWindow.mm; sourceTree = "<group>"; };
 		018657261A6D4F4700A4F0CD /* SystemInfo_iOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SystemInfo_iOS.mm; sourceTree = "<group>"; };
-		018657281A6D504C00A4F0CD /* ConnectionValidator_iOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ConnectionValidator_iOS.mm; sourceTree = "<group>"; };
+		018657281A6D504C00A4F0CD /* iOSPlatformConfig.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = iOSPlatformConfig.mm; sourceTree = "<group>"; };
 		0186572A1A6D51AE00A4F0CD /* UIKitDialogs.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIKitDialogs.mm; sourceTree = "<group>"; };
 		0186572C1A6D529400A4F0CD /* UIKitMessageDialog.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIKitMessageDialog.mm; sourceTree = "<group>"; };
 		01F798B81AA8BB4C001DF6E7 /* ListenerTextField.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ListenerTextField.mm; sourceTree = "<group>"; };
@@ -149,7 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				018656D31A6D3EE700A4F0CD /* App.cpp */,
-				018657281A6D504C00A4F0CD /* ConnectionValidator_iOS.mm */,
+				018657281A6D504C00A4F0CD /* iOSPlatformConfig.mm */,
 				018656DD1A6D3EE700A4F0CD /* ManagedLogListener.cpp */,
 				018656E01A6D3EE700A4F0CD /* MultiTouch.cpp */,
 				018656E11A6D3EE700A4F0CD /* NativeKeyboard.cpp */,
@@ -245,7 +245,7 @@
 				018657041A6D3EE700A4F0CD /* NativeLog.cpp in Sources */,
 				0186572D1A6D529400A4F0CD /* UIKitMessageDialog.mm in Sources */,
 				018656FF1A6D3EE700A4F0CD /* ManagedLogListener.cpp in Sources */,
-				018657291A6D504C00A4F0CD /* ConnectionValidator_iOS.mm in Sources */,
+				018657291A6D504C00A4F0CD /* iOSPlatformConfig.mm in Sources */,
 				01793EBD1A96469E003FB096 /* UIKitView.mm in Sources */,
 				018657141A6D3EE700A4F0CD /* Stdafx.cpp in Sources */,
 				018657061A6D3EE700A4F0CD /* NativeOSWindow.cpp in Sources */,

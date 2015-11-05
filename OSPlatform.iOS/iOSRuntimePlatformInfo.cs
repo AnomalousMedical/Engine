@@ -19,7 +19,7 @@ namespace Anomalous.OSPlatform.iOS
         {
             get
             {
-                return MacOSXFunctions.LocalUserDocumentsFolder;
+                return iOSFunctions.LocalUserDocumentsFolder;
             }
         }
 
@@ -27,7 +27,7 @@ namespace Anomalous.OSPlatform.iOS
         {
             get
             {
-                return MacOSXFunctions.LocalDataFolder;
+                return iOSFunctions.LocalDataFolder;
             }
         }
 
@@ -35,7 +35,7 @@ namespace Anomalous.OSPlatform.iOS
         {
             get
             {
-                return MacOSXFunctions.LocalPrivateDataFolder;
+                return iOSFunctions.LocalPrivateDataFolder;
             }
         }
 

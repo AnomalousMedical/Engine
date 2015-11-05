@@ -2,9 +2,7 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C4099E18-746C-41F3-B494-6AA207D17B23}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
@@ -43,6 +41,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugAOT|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -53,19 +52,21 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="iOSRuntimePlatformInfo.cs" />
-    <Compile Include="MacOSXFunctions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="iOSFunctions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">
-      <Project>{57c253f1-157f-4a6a-9fed-345a776b97d5}</Project>
+      <Project>{57C253F1-157F-4A6A-9FED-345A776B97D5}</Project>
       <Name>Engine</Name>
     </ProjectReference>
     <ProjectReference Include="..\OSPlatform\OSPlatform.csproj">
-      <Project>{6e594c78-9cd8-432d-a135-11c4a72f3bcf}</Project>
+      <Project>{6E594C78-9CD8-432D-A135-11C4A72F3BCF}</Project>
       <Name>OSPlatform</Name>
     </ProjectReference>
   </ItemGroup>
