@@ -6,10 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Anomalous.OSPlatform
+namespace Anomalous.OSPlatform.iOS
 {
-    class iOSRuntimePlatformInfo : RuntimePlatformInfo
+    public class iOSRuntimePlatformInfo : RuntimePlatformInfo
     {
+        public static void Initialize()
+        {
+            new iOSRuntimePlatformInfo();
+        }
+
         protected override String LocalUserDocumentsFolderImpl
         {
             get
