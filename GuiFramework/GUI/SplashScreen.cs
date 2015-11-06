@@ -25,6 +25,11 @@ namespace Anomalous.GuiFramework
         private int widgetPanelHeight;
 
         /// <summary>
+        /// This event is called before the SplashScreen starts hiding.
+        /// </summary>
+        public event Action<SplashScreen> Hiding;
+
+        /// <summary>
         /// This event is called after the SplashScreen has been hidden completely.
         /// </summary>
         public event Action<SplashScreen> Hidden;
@@ -84,6 +89,11 @@ namespace Anomalous.GuiFramework
         {
             if (Visible)
             {
+                if (Hiding != null)
+                {
+                    Hiding.Invoke(this);
+                }
+
                 Visible = false;
                 if (SmoothShow)
                 {
