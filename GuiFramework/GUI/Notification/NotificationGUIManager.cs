@@ -96,7 +96,7 @@ namespace Anomalous.GuiFramework
             int currentHeight = layoutContainer.Location.y;
             foreach (NotificationGUI openNotification in openNotifications)
             {
-                openNotification.setPosition(openNotification.Left, currentHeight);
+                openNotification.setPosition(layoutContainer.Location.x + layoutContainer.WorkingSize.Width - openNotification.Width, currentHeight);
                 currentHeight += openNotification.Height;
             }
         }

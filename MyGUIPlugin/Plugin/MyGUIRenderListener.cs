@@ -36,14 +36,7 @@ namespace MyGUIPlugin
                     RenderStarted.Invoke(this, EventArgs.Empty);
                 }
 
-                int width = viewport.getActualWidth();
-                int height = viewport.getActualHeight();
-                if(width != lastWidth || height != lastHeight)
-                {
-                    renderManager.windowResized(width, height);
-                    lastWidth = width;
-                    lastHeight = height;
-                }
+                resized();
 
                 renderManager.update();
             }
@@ -78,6 +71,18 @@ namespace MyGUIPlugin
         public void renderQueueEnded(byte queueGroupId, string invocation, ref bool repeatThisInvocation)
         {
             
+        }
+
+        internal void resized()
+        {
+            int width = viewport.getActualWidth();
+            int height = viewport.getActualHeight();
+            if (width != lastWidth || height != lastHeight)
+            {
+                renderManager.windowResized(width, height);
+                lastWidth = width;
+                lastHeight = height;
+            }
         }
     }
 }

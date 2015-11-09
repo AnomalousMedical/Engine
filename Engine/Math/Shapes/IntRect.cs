@@ -133,6 +133,26 @@ namespace Engine
             return new IntRect((int)s.Left, (int)s.Top, (int)s.Width, (int)s.Height);
         }
 
+        /// <summary>
+        /// Equals function.
+        /// </summary>
+        /// <param name="obj">The object to compare to.</param>
+        /// <returns>True if the objects are equal.</returns>
+        public override bool Equals(object obj)
+        {
+            return obj.GetType() == typeof(IntRect) && this == (IntRect)obj;
+        }
+
+        public static bool operator ==(IntRect p1, IntRect p2)
+        {
+            return p1.left == p2.left && p1.top == p2.top && p1.width == p2.width && p1.height == p2.height;
+        }
+
+        public static bool operator !=(IntRect p1, IntRect p2)
+        {
+            return !(p1.left == p2.left && p1.top == p2.top && p1.width == p2.width && p1.height == p2.height);
+        }
+
         private static readonly char[] SEPS = { ',' };
 
         public void fromString(String str)

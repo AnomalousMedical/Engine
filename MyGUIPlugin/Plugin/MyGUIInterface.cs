@@ -121,6 +121,10 @@ namespace MyGUIPlugin
             managedLogListener = new ManagedMyGUILogListener();
 
             renderListener = new MyGUIRenderListener(vp, sceneManager, ogrePlatform.RenderManager);
+            if(ogreWindow.OSWindow != null)
+            {
+                ogreWindow.OSWindow.Resized += OSWindow_Resized;
+            }
 
             gui = new Gui();
             gui.ScaleFactor = ScaleHelper.ScaleFactor;
@@ -143,6 +147,11 @@ namespace MyGUIPlugin
             resourceManager.load(MessageBoxTheme);
 
             Log.Info("Finished initializing MyGUI");
+        }
+
+        private void OSWindow_Resized(OSWindow window)
+        {
+            renderListener.resized();
         }
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)

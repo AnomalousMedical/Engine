@@ -53,6 +53,9 @@ namespace Anomalous.GuiFramework
 
         private TaskMenuPositioner taskMenuPositioner = new TaskMenuPositioner();
 
+        private int scrollerBorderLeft;
+        private int scrollerBorderHeight;
+
         public TaskMenu(DocumentController documentController, TaskController taskController, GUIManager guiManager, LayoutElementName elementName)
             : base("Anomalous.GuiFramework.GUI.TaskMenu.TaskMenu.layout", guiManager, elementName)
         {
@@ -84,6 +87,9 @@ namespace Anomalous.GuiFramework
 
             Button closeButton = (Button)widget.findWidget("CloseButton");
             closeButton.MouseButtonClick += new MyGUIEvent(closeButton_MouseButtonClick);
+
+            scrollerBorderLeft = iconScroller.Left;
+            scrollerBorderHeight = widget.Height - iconScroller.Bottom;
         }
 
         public override void Dispose()
@@ -180,6 +186,7 @@ namespace Anomalous.GuiFramework
             base.layoutUpdated();
             if (Visible)
             {
+                updateAdPosition();
                 IntCoord viewCoord = iconScroller.ViewCoord;
                 iconGrid.resizeAndLayout(viewCoord.width);
                 recentDocuments.resizeAndLayout();
@@ -326,7 +333,43 @@ namespace Anomalous.GuiFramework
 
         void adProvider_AdDestroyed(TaskMenuAdProvider adProvider)
         {
-            IntCoord coord = new IntCoord(2, iconScroller.Top, widget.Width, iconScroller.Height);
+            updateIconScrollerPosition(new IntCoord(ScaleHelper.Scaled(2), iconScroller.Top, widget.Width, iconScroller.Height));
+        }
+
+        private void updateAdPosition()
+        {
+            if (adProvider != null && adProvider.IsAdCreated)
+            {
+                int right = adProvider.Right + AdPadding;
+                int iconScrollerHeight = widget.Height - scrollerBorderHeight - iconScroller.Top;
+                if ((float)right / widget.Width < .43f)
+                {
+                    adProvider.AdAlignment = TaskMenuAdProvider.Alignment.Vertical;
+                    adProvider.AdRect = new IntRect(scrollerBorderLeft, iconScroller.Top, right, iconScroller.Height);
+                    updateIconScrollerPosition(new IntCoord(right, iconScroller.Top, widget.Width - right, iconScrollerHeight));
+                }
+                else
+                {
+                    int top = adProvider.Top + AdPadding;
+                    if ((float)top / iconScrollerHeight < .5f)
+                    {
+                        updateIconScrollerPosition(new IntCoord(scrollerBorderLeft, iconScroller.Top, widget.Width, iconScrollerHeight - top));
+                        adProvider.AdAlignment = TaskMenuAdProvider.Alignment.Horizontal;
+                        adProvider.AdRect = new IntRect(scrollerBorderLeft, iconScroller.Bottom + AdPadding, iconScroller.Width, top);
+                    }
+                    else
+                    {
+                        adProvider.AdAlignment = TaskMenuAdProvider.Alignment.Hidden;
+                        updateIconScrollerPosition(new IntCoord(scrollerBorderLeft, iconScroller.Top, widget.Width, iconScrollerHeight));
+                    }
+                }
+
+                adProvider.fireLayoutChanged();
+            }
+        }
+
+        private void updateIconScrollerPosition(IntCoord coord)
+        {
             iconScroller.setPosition(coord.left, coord.top);
             iconScroller.setSize(coord.width, coord.height);
             iconGrid.resizeAndLayout(iconScroller.ViewCoord.width);
@@ -335,12 +378,7 @@ namespace Anomalous.GuiFramework
 
         void adProvider_AdCreated(TaskMenuAdProvider adProvider)
         {
-            int right = adProvider.Right + AdPadding;
-            IntCoord coord = new IntCoord(right, iconScroller.Top, widget.Width - right, iconScroller.Height);
-            iconScroller.setPosition(coord.left, coord.top);
-            iconScroller.setSize(coord.width, coord.height);
-            iconGrid.resizeAndLayout(iconScroller.ViewCoord.width);
-            recentDocuments.moveAndResize(coord);
+            updateAdPosition();
         }
 
         void iconGrid_GroupAdded(ButtonGrid arg1, string arg2)

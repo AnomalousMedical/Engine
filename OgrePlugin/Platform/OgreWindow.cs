@@ -70,5 +70,10 @@ namespace OgrePlugin
         {
              get;
         }
+
+        public abstract OSWindow OSWindow
+        {
+            get;
+        }
     }
 }

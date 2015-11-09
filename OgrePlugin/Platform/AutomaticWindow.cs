@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Engine.Platform;
 
 namespace OgrePlugin
 {
@@ -37,6 +38,14 @@ namespace OgrePlugin
             get
             {
                 return ogreWindow.RenderWindow;
+            }
+        }
+
+        public override OSWindow OSWindow
+        {
+            get
+            {
+                return ogreWindow;
             }
         }
     }

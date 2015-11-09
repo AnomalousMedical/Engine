@@ -83,5 +83,13 @@ namespace OgrePlugin
                 return renderWindow;
             }
         }
+
+        public override OSWindow OSWindow
+        {
+            get
+            {
+                return osWindow;
+            }
+        }
     }
 }
