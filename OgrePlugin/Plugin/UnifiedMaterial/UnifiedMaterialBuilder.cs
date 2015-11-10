@@ -337,14 +337,6 @@ namespace OgrePlugin
             //Create depth check pass if needed
             var pass = createDepthPass(technique, description, alpha, depthCheck);
 
-            //Setup this pass
-            setupCommonPassAttributes(description, alpha, pass);
-
-            //Setup shaders
-            TextureMaps textureMaps;
-            pass.setFragmentProgram(shaderFactory.createFragmentProgram(description, alpha, out textureMaps));
-            pass.setVertexProgram(shaderFactory.createUnifiedVertexProgram(description, textureMaps));
-
             if (description.NoDepthWriteAlpha)
             {
                 pass.setDepthWriteEnabled(false);
@@ -359,6 +351,14 @@ namespace OgrePlugin
                 pass.setSceneBlending(description.SceneBlending);
                 pass.setDepthFunction(description.DepthFunction);
             }
+
+            //Setup this pass
+            setupCommonPassAttributes(description, alpha, pass);
+
+            //Setup shaders
+            TextureMaps textureMaps;
+            pass.setFragmentProgram(shaderFactory.createFragmentProgram(description, alpha, out textureMaps));
+            pass.setVertexProgram(shaderFactory.createUnifiedVertexProgram(description, textureMaps));
 
             if((textureMaps & TextureMaps.Opacity) == TextureMaps.Opacity || description.HasOpacityValue)
             {
