@@ -352,6 +352,13 @@ namespace OgrePlugin
                 pass.setSceneBlending(SceneBlendType.SBT_TRANSPARENT_ALPHA);
                 pass.setDepthFunction(CompareFunction.CMPF_LESS_EQUAL);
             }
+            else
+            {
+                pass.setDepthWriteEnabled(description.EnableDepthWrite);
+                pass.setDepthCheckEnabled(description.EnableDepthCheck);
+                pass.setSceneBlending(description.SceneBlending);
+                pass.setDepthFunction(description.DepthFunction);
+            }
 
             if((textureMaps & TextureMaps.Opacity) == TextureMaps.Opacity || description.HasOpacityValue)
             {

@@ -59,6 +59,10 @@ namespace OgrePlugin
             KeepHighestMipLoaded = false;
             SpecialMaterial = null;
             IsHighlight = false;
+            EnableDepthCheck = true;
+            EnableDepthWrite = true;
+            SceneBlending = SceneBlendType.SBT_REPLACE;
+            DepthFunction = CompareFunction.CMPF_LESS_EQUAL;
             NoDepthWriteAlpha = false;
             DisableBackfaceCulling = false;
         }
@@ -93,7 +97,11 @@ namespace OgrePlugin
             this.KeepHighestMipLoaded = toClone.KeepHighestMipLoaded;
             this.SpecialMaterial = toClone.SpecialMaterial;
             this.IsHighlight = toClone.IsHighlight;
+            this.EnableDepthCheck = toClone.EnableDepthCheck;
+            this.EnableDepthWrite = toClone.EnableDepthWrite;
             this.NoDepthWriteAlpha = toClone.NoDepthWriteAlpha;
+            this.SceneBlending = toClone.SceneBlending;
+            this.DepthFunction = toClone.DepthFunction;
             this.DisableBackfaceCulling = toClone.DisableBackfaceCulling;
         }
 
@@ -282,6 +290,22 @@ namespace OgrePlugin
         [Editable]
         [JsonProperty]
         public bool IsHighlight { get; set; }
+
+        [Editable]
+        [JsonProperty]
+        public bool EnableDepthCheck { get; set; }
+
+        [Editable]
+        [JsonProperty]
+        public bool EnableDepthWrite { get; set; }
+
+        [Editable]
+        [JsonProperty]
+        public SceneBlendType SceneBlending { get; set; }
+
+        [Editable]
+        [JsonProperty]
+        public CompareFunction DepthFunction { get; set; }
 
         [Editable]
         [JsonProperty]
