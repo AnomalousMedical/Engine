@@ -9,7 +9,8 @@ namespace Engine
     public static class Geometry
     {
         /// <summary>
-        /// Calculate area from any 3 arbitrary points
+        /// Calculate area from any 3 arbitrary points. Will be positive if clockwise and negative
+        /// if counter-clockwise
         /// </summary>
         /// <param name="p0">1st point</param>
         /// <param name="p1">2nd point</param>
@@ -23,7 +24,8 @@ namespace Engine
 
         /// <summary>
         /// Calculate area from two vectors describing the two length of the legs 
-        /// of the triangle coming from the origin
+        /// of the triangle coming from the origin. Will be positive if clockwise and
+        /// negative if counter-clockwise.
         /// </summary>
         /// <param name="s0">The first side</param>
         /// <param name="s1">The second side</param>
@@ -34,11 +36,13 @@ namespace Engine
         }
 
         /// <summary>
-        /// Calculate the area of a polygon specified by points, 
+        /// Calculate the area of a polygon specified by points. The first point in points
+        /// will be automatically closed with the last point. Will be positive if clockwise and
+        /// negative if counter-clockwise.
         /// </summary>
-        /// <param name="points"></param>
+        /// <param name="points">An enumerator over the points to calculate the area of.</param>
         /// <returns></returns>
-        public static float AreaOfPolygon(IEnumerable<Vector2> points)
+        public static float SignedAreaOfPolygon(IEnumerable<Vector2> points)
         {
             float area = 0.0f;
             var ptEnum = points.GetEnumerator();
@@ -62,6 +66,17 @@ namespace Engine
                 }
             }
             return area;
+        }
+
+        /// <summary>
+        /// Calculate the area of a polygon specified by points. The first point in points
+        /// will be automatically closed with the last point. Always positive.
+        /// </summary>
+        /// <param name="points">An enumerator over the points to calculate the area of.</param>
+        /// <returns></returns>
+        public static float AreaOfPolygon(IEnumerable<Vector2> points)
+        {
+            return Math.Abs(SignedAreaOfPolygon(points));
         }
     }
 }
