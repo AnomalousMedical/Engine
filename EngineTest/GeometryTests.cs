@@ -75,18 +75,7 @@ namespace EngineTest
         [TestMethod]
         public void VolumeOfMesh()
         {
-            //Cube 2x2x2
-            var vertices = new Vector3[]
-            {
-                new Vector3(-1,  1, -1), //0
-                new Vector3( 1,  1, -1), //1
-                new Vector3( 1,  1,  1), //2
-                new Vector3(-1,  1,  1), //3
-                new Vector3(-1, -1, -1), //4
-                new Vector3( 1, -1, -1), //5
-                new Vector3( 1, -1,  1), //6
-                new Vector3(-1, -1,  1), //7
-            };
+            //Cube indices - Clockwise
 
             var indices = new int[]
             {
@@ -115,7 +104,33 @@ namespace EngineTest
                 5, 4, 7
             };
 
-            Assert.IsTrue(Math.Abs(8.0f - Geometry.VolumeOfMesh(vertices, indices)) < 0.0001f);
+            //Cube 2x2x2
+            var vertices = new Vector3[]
+            {
+                new Vector3(-1,  1, -1), //0
+                new Vector3( 1,  1, -1), //1
+                new Vector3( 1,  1,  1), //2
+                new Vector3(-1,  1,  1), //3
+                new Vector3(-1, -1, -1), //4
+                new Vector3( 1, -1, -1), //5
+                new Vector3( 1, -1,  1), //6
+                new Vector3(-1, -1,  1), //7
+            };
+
+            float volume = Geometry.VolumeOfMesh(vertices, indices);
+
+            Assert.IsTrue(Math.Abs(8.0f - volume) < 0.0001f, "{0} not within margin of error to {1}", volume, 8.0f);
+
+            //Cube 2x2x2 - not at origin
+            Vector3 translation = new Vector3(20, 3, 40);
+            for(int i = 0; i < vertices.Length; ++i)
+            {
+                vertices[i] += translation;
+            }
+
+            volume = Geometry.VolumeOfMesh(vertices, indices);
+
+            Assert.IsTrue(Math.Abs(8.0f - volume) < 0.0001f, "{0} not within margin of error to {1}", volume, 8.0f);
         }
     }
 }
