@@ -16,8 +16,8 @@ Medical.TaskMenuButtonGridButton
   <Resource type="ResourceSkin" name = "Medical.TaskMenuButtonGridButton" size = "122 34" texture = "#{Anomalous_Theme_Texture}">
     <Property key="FontName" value = "Default" />
     <Property key="TextAlign" value = "Left VCenter" />
-    <Child type="ImageBox" skin="ButtonStaticImage" offset = "1 2 32 32" align = "Left VCenter" name = "Image"/>
-    <BasisSkin type="SimpleText" offset = "38 2 84 30" align = "Stretch">
+    <Child type="ImageBox" skin="ButtonStaticImage" offset = "4 2 32 32" align = "Left VCenter" name = "Image"/>
+    <BasisSkin type="SimpleText" offset = "41 2 81 30" align = "Stretch">
       <State name="disabled" colour="#{Anomalous_TaskMenuButton_Text_Disabled}" shift = "false"/>
       <State name="normal" colour="#{Anomalous_TaskMenuButton_Text_Normal}" shift = "false"/>
       <State name="highlighted" colour="#{Anomalous_TaskMenuButton_Text_Highlighted}" shift = "false"/>

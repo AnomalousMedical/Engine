@@ -17,15 +17,7 @@ namespace Anomalous.GuiFramework
             {
                 Task xItem = (Task)x.UserObject;
                 Task yItem = (Task)y.UserObject;
-                if (xItem != null && yItem != null)
-                {
-                    int diff = xItem.Weight - yItem.Weight;
-                    if(diff == 0)
-                    {
-                        return NaturalSortAlgorithm.CompareFunc(xItem.Name, yItem.Name);
-                    }
-                }
-                return 0;
+                return NaturalSortAlgorithm.CompareFunc(xItem.Name, yItem.Name);
             }
         }
 
@@ -59,6 +51,9 @@ namespace Anomalous.GuiFramework
 
         private int scrollerBorderLeft;
         private int scrollerBorderHeight;
+
+        private IntVector2 dragAreaSize;
+        bool allowIconDrag = false;
 
         public TaskMenu(DocumentController documentController, TaskController taskController, GUIManager guiManager, LayoutElementName elementName)
             : base("Anomalous.GuiFramework.GUI.TaskMenu.TaskMenu.layout", guiManager, elementName)
@@ -94,6 +89,8 @@ namespace Anomalous.GuiFramework
 
             scrollerBorderLeft = iconScroller.Left;
             scrollerBorderHeight = widget.Height - iconScroller.Bottom;
+
+            dragAreaSize = new IntVector2(ScaleHelper.Scaled(40), iconGrid.ItemHeight);
         }
 
         public override void Dispose()
@@ -303,21 +300,30 @@ namespace Anomalous.GuiFramework
 
         void item_MouseButtonPressed(ButtonGridItem source, MouseEventArgs arg)
         {
+            var localPosition = arg.Position;
+            localPosition.x -= source.AbsoluteLeft;
+            localPosition.y -= source.AbsoluteTop;
+
+            allowIconDrag = localPosition.x < dragAreaSize.x && localPosition.y < dragAreaSize.y;
+
             dragMouseStartPosition = arg.Position;
         }
 
         void item_MouseDrag(ButtonGridItem source, MouseEventArgs arg)
         {
-            dragIconPreview.setPosition(arg.Position.x - (dragIconPreview.Width / 2), arg.Position.y - (int)(dragIconPreview.Height * .75f));
-            if (!dragIconPreview.Visible && (Math.Abs(dragMouseStartPosition.x - arg.Position.x) > 5 || Math.Abs(dragMouseStartPosition.y - arg.Position.y) > 5))
+            if (allowIconDrag)
             {
-                dragIconPreview.Visible = true;
-                dragIconPreview.setItemResource(((Task)source.UserObject).IconName);
-                LayerManager.Instance.upLayerItem(dragIconPreview);
-            }
-            if (TaskItemDragged != null)
-            {
-                TaskItemDragged.Invoke((Task)source.UserObject, arg.Position);
+                dragIconPreview.setPosition(arg.Position.x - (dragIconPreview.Width / 2), arg.Position.y - (int)(dragIconPreview.Height * .75f));
+                if (!dragIconPreview.Visible && (Math.Abs(dragMouseStartPosition.x - arg.Position.x) > 5 || Math.Abs(dragMouseStartPosition.y - arg.Position.y) > 5))
+                {
+                    dragIconPreview.Visible = true;
+                    dragIconPreview.setItemResource(((Task)source.UserObject).IconName);
+                    LayerManager.Instance.upLayerItem(dragIconPreview);
+                }
+                if (TaskItemDragged != null)
+                {
+                    TaskItemDragged.Invoke((Task)source.UserObject, arg.Position);
+                }
             }
         }
 
