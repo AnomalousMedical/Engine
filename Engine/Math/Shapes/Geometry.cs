@@ -89,6 +89,7 @@ namespace Engine
             float v123 = p1.x * p2.y * p3.z;
             return (1.0f / 6.0f) * (-v321 + v231 + v312 - v132 - v213 + v123);
         }
+
         public static float VolumeOfMesh(Vector3[] vertices, int[] indices)
         {
             float volume = 0;
@@ -103,7 +104,17 @@ namespace Engine
             return Math.Abs(volume);
         }
 
-
-
+        public static unsafe float VolumeOfMesh(Vector3* vertices, int* indices, int numIndices)
+        {
+            float volume = 0;
+            for (int i = 0; i < numIndices; i += 3)
+            {
+                Vector3 p1 = vertices[indices[i + 0]];
+                Vector3 p2 = vertices[indices[i + 1]];
+                Vector3 p3 = vertices[indices[i + 2]];
+                volume += SignedVolumeOfTetrahedron(p1, p2, p3);
+            }
+            return Math.Abs(volume);
+        }
     }
 }

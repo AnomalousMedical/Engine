@@ -131,6 +131,18 @@ namespace EngineTest
             volume = Geometry.VolumeOfMesh(vertices, indices);
 
             Assert.IsTrue(Math.Abs(8.0f - volume) < 0.0001f, "{0} not within margin of error to {1}", volume, 8.0f);
+
+            unsafe
+            {
+                fixed(Vector3* verts = &vertices[0])
+                {
+                    fixed(int* ind = &indices[0])
+                    {
+                        volume = Geometry.VolumeOfMesh(verts, ind, indices.Length);
+                    }
+                }
+                Assert.IsTrue(Math.Abs(8.0f - volume) < 0.0001f, "{0} not within margin of error to {1}", volume, 8.0f);
+            }
         }
     }
 }
