@@ -78,5 +78,32 @@ namespace Engine
         {
             return Math.Abs(SignedAreaOfPolygon(points));
         }
+
+        public static float SignedVolumeOfTetrahedron(Vector3 p1, Vector3 p2, Vector3 p3)
+        {
+            float v321 = p3.x * p2.y * p1.z;
+            float v231 = p2.x * p3.y * p1.z;
+            float v312 = p3.x * p1.y * p2.z;
+            float v132 = p1.x * p3.y * p2.z;
+            float v213 = p2.x * p1.y * p3.z;
+            float v123 = p1.x * p2.y * p3.z;
+            return (1.0f / 6.0f) * (-v321 + v231 + v312 - v132 - v213 + v123);
+        }
+        public static float VolumeOfMesh(Vector3[] vertices, int[] indices)
+        {
+            float volume = 0;
+            int numTriangles = indices.Length;
+            for (int i = 0; i < numTriangles; i += 3)
+         {
+                Vector3 p1 = vertices[indices[i + 0]];
+                Vector3 p2 = vertices[indices[i + 1]];
+                Vector3 p3 = vertices[indices[i + 2]];
+                volume += SignedVolumeOfTetrahedron(p1, p2, p3);
+            }
+            return Math.Abs(volume);
+        }
+
+
+
     }
 }
