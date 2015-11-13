@@ -2,12 +2,12 @@
 <MyGUI type="Layout" version="3.2.0">
     <Widget type="Widget" skin="Medical.TaskMenuBackground" position="0 40 584 482" layer="Overlapped">
         <Property key="Alpha" value="1"/>
-        <Widget type="ScrollView" skin="ScrollViewEmpty" position="2 45 574 432" align="Stretch" name="IconScroller">
+        <Widget type="ScrollView" skin="ScrollViewEmpty" position="6 45 574 428" align="Stretch" name="IconScroller">
             <Property key="CanvasAlign" value="Left Top"/>
             <Property key="CanvasSize" value="381 437"/>
             <UserString key="ButtonSkin" value="Medical.TaskMenuButtonGridButton"/>
-            <UserString key="ItemHeight" value="58"/>
-            <UserString key="ItemWidth" value="100"/>
+            <UserString key="ItemHeight" value="50"/>
+            <UserString key="ItemWidth" value="300"/>
             <UserString key="GroupSeparatorSkin" value="SeparatorInverseSkin"/>
             <UserString key="GroupSeparatorAdditionalPaddingTop" value="9"/>
             <UserString key="GroupSeparatorAdditionalPaddingBottom" value="11"/>

@@ -19,7 +19,11 @@ namespace Anomalous.GuiFramework
                 Task yItem = (Task)y.UserObject;
                 if (xItem != null && yItem != null)
                 {
-                    return xItem.Weight - yItem.Weight;
+                    int diff = xItem.Weight - yItem.Weight;
+                    if(diff == 0)
+                    {
+                        return NaturalSortAlgorithm.CompareFunc(xItem.Name, yItem.Name);
+                    }
                 }
                 return 0;
             }
@@ -64,7 +68,7 @@ namespace Anomalous.GuiFramework
             taskController.TaskRemoved += new TaskRemovedDelegate(taskController_TaskRemoved);
 
             iconScroller = (ScrollView)widget.findWidget("IconScroller");
-            iconGrid = new NoSelectButtonGrid(iconScroller, new ButtonGridTextAdjustedGridLayout(), new TaskMenuItemComparer());
+            iconGrid = new NoSelectButtonGrid(iconScroller, new ButtonGridGridLayout(), new TaskMenuItemComparer());
 
             recentDocuments = new TaskMenuRecentDocuments(widget, documentController);
             recentDocuments.DocumentClicked += new EventDelegate(recentDocuments_DocumentClicked);
