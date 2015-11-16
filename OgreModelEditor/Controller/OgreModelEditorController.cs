@@ -580,6 +580,11 @@ namespace OgreModelEditor
             app.exit();
         }
 
+        internal void calculateVolume()
+        {
+            Logging.Log.Debug("Volume is {0}", modelController.calculateVolume());
+        }
+
         public void clearMicrocodeCache()
         {
             OgreInterface.Instance.deleteMicrocodeCache();

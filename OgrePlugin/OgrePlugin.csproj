@@ -143,6 +143,7 @@
     <Compile Include="Plugin\VirtualTexture\VTexPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Properties\AssemblyInfoSource.cs" />
+    <Compile Include="Utility\EntityExtensions.cs" />
     <Compile Include="Utility\FrameClearManager.cs" />
     <Compile Include="Utility\FreeImageBitmapExtensions.cs" />
     <Compile Include="Utility\OgreDrawingUtility.cs" />

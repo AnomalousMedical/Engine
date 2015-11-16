@@ -262,6 +262,11 @@ namespace OgreModelEditor.Controller
             }
         }
 
+        public unsafe float calculateVolume()
+        {
+            return entity.calculateVolume();
+        }
+
         public void removeBinormals()
         {
             //This code makes the editor crash and is currently not being called. Being left for reference.
