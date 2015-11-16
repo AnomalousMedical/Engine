@@ -83,7 +83,7 @@ namespace Anomalous.GuiFramework
         protected override void layoutCustomElementsVertical(out Vector2 startLocation, out int heightOffset)
         {
             appButton.ImageBox.setItemResource(narrowIcon);
-            appButton.ImageBox.setSize(ScaleHelper.Scaled(28), ScaleHelper.Scaled(32));
+            appButton.ImageBox.setSize(ScaleHelper.Scaled(32), ScaleHelper.Scaled(32));
             appButton.setSize(taskbarButtonWidth, appButton.Height);
             startLocation = new Vector2(appButton.Left, 0);
 
@@ -98,7 +98,7 @@ namespace Anomalous.GuiFramework
         protected override void layoutCustomElementsHorizontal(out Vector2 startLocation, out int widthOffset)
         {
             appButton.ImageBox.setItemResource(wideIcon);
-            appButton.ImageBox.setSize(ScaleHelper.Scaled(114), ScaleHelper.Scaled(32));
+            appButton.ImageBox.setSize(ScaleHelper.Scaled(32), ScaleHelper.Scaled(32));
             appButton.setSize(appButtonWideWidth, appButton.Height);
             startLocation = new Vector2(0, appButton.Top);
 
