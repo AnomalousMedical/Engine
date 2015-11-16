@@ -26,8 +26,8 @@
             <Property key="Visible" value="true"/>
             <Property key="CanvasAlign" value="Left Top"/>
             <UserString key="ButtonSkin" value="Medical.TaskMenuButtonGridButton"/>
-            <UserString key="ItemHeight" value="58"/>
-            <UserString key="ItemWidth" value="100"/>
+            <UserString key="ItemHeight" value="50"/>
+            <UserString key="ItemWidth" value="300"/>
             <UserString key="GroupSeparatorSkin" value="SeparatorInverseSkin"/>
             <UserString key="GroupSeparatorAdditionalPaddingTop" value="9"/>
             <UserString key="GroupSeparatorAdditionalPaddingBottom" value="11"/>
