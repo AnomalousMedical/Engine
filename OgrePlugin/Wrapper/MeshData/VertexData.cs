@@ -11,9 +11,17 @@ namespace OgrePlugin
         IntPtr vertexData;
         VertexBufferBinding vertexBinding;
         VertexDeclaration vertexDecl;
+        bool deleteOnDispose;
 
         internal VertexData(IntPtr vertexData)
+            :this(vertexData, false)
         {
+            
+        }
+
+        private VertexData(IntPtr vertexData, bool deleteOnDispose)
+        {
+            this.deleteOnDispose = deleteOnDispose;
             this.vertexData = vertexData;
             vertexBinding = new VertexBufferBinding(VertexData_getVertexBufferBinding(vertexData));
             vertexDecl = new VertexDeclaration(VertexData_getVertexDeclaration(vertexData));
@@ -21,6 +29,10 @@ namespace OgrePlugin
 
         public void Dispose()
         {
+            if(deleteOnDispose)
+            {
+                VertexData_delete(vertexData);
+            }
             vertexData = IntPtr.Zero;
             vertexBinding.Dispose();
             vertexDecl.Dispose();
@@ -129,6 +141,17 @@ namespace OgrePlugin
             VertexData_allocateHardwareAnimationElements(vertexData, count, animateNormals);
         }
 
+        /// <summary>
+        /// Clone this vertex data possibly including replacing any vertex buffers. The returned object
+        /// must be disposed when it is no longer needed.
+        /// </summary>
+        /// <param name="copyData">Whether to create new vertex buffers too or just reference the existing ones</param>
+        /// <returns>A new VertexData that is a clone of the current one.</returns>
+        public VertexData clone(bool copyData = true)
+        {
+            return new VertexData(VertexData_clone(vertexData, copyData), true);
+        }
+
 	    /// <summary>
 	    /// Declaration of the vertex to be used in this operation. Note that this
         /// is created for you on construction. 
@@ -183,7 +206,10 @@ namespace OgrePlugin
             }
 	    }
 
-#region PInvoke
+        #region PInvoke
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void VertexData_delete(IntPtr vertexData);
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void VertexData_prepareForShadowVolume(IntPtr vertexData);
@@ -220,6 +246,9 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr VertexData_getVertexCount(IntPtr vertexData);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr VertexData_clone(IntPtr vertexData, bool copyData);
 
 #endregion
     }

@@ -1,5 +1,10 @@
 #include "Stdafx.h"
 
+extern "C" _AnomalousExport void VertexData_delete(Ogre::VertexData* vertexData)
+{
+	OGRE_DELETE vertexData;
+}
+
 extern "C" _AnomalousExport void VertexData_prepareForShadowVolume(Ogre::VertexData* vertexData)
 {
 	vertexData->prepareForShadowVolume();
@@ -58,4 +63,9 @@ extern "C" _AnomalousExport void VertexData_setVertexCount(Ogre::VertexData* ver
 extern "C" _AnomalousExport size_t VertexData_getVertexCount(Ogre::VertexData* vertexData)
 {
 	return vertexData->vertexCount;
+}
+
+extern "C" _AnomalousExport Ogre::VertexData* VertexData_clone(Ogre::VertexData* vertexData, bool copyData)
+{
+	return vertexData->clone(copyData);
 }
