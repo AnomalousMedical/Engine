@@ -167,17 +167,17 @@ extern "C" _AnomalousExport AxisAlignedBox Entity_getChildObjectsBoundingBox(Ogr
 	return entity->getChildObjectsBoundingBox();
 }
 
-extern "C" _AnomalousExport void Entity_animateVertexData(Ogre::Entity* entity, Ogre::VertexData* vertexData)
+extern "C" _AnomalousExport void Entity_animateVertexData(Ogre::Entity* entity, Ogre::VertexData* vertexData, ushort subEntityIndex)
 {
 	const Ogre::Matrix4* blendMatrices[256];
 
 	Ogre::MeshPtr mesh = entity->getMesh();
+	Ogre::SubMesh* subMesh = mesh->getSubMesh(subEntityIndex);
 
-	Ogre::Mesh::prepareMatricesForVertexBlend(blendMatrices,
-		entity->_getBoneMatrices(), mesh->getSubMesh(0)->blendIndexToBoneIndexMap);
+	Ogre::Mesh::prepareMatricesForVertexBlend(blendMatrices, entity->_getBoneMatrices(), subMesh->blendIndexToBoneIndexMap);
 
 	Ogre::Mesh::softwareVertexBlend(
-		mesh->getSubMesh(0)->vertexData,
+		subMesh->vertexData,
 		vertexData,
 		blendMatrices, 
 		mesh->sharedBlendIndexToBoneIndexMap.size(),

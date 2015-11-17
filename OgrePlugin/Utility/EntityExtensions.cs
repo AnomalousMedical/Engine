@@ -10,18 +10,26 @@ namespace OgrePlugin
 {
     public static class EntityExtensions
     {
-        public static unsafe float calculateVolume(this Entity entity)
+
+        /// <summary>
+        /// Calculate the volume of an entity's subentity at the given index (default 0). This is not the most robust funciton
+        /// but does fine with plain meshes and meshes with skeletal animation.
+        /// </summary>
+        /// <param name="entity">The entity to calculate the sub entity volume of.</param>
+        /// <param name="subEntityIndex">The index of the sub entity.</param>
+        /// <returns>The volume in engine units.</returns>
+        public static unsafe float calculateVolume(this Entity entity, ushort subEntityIndex = 0)
         {
             float volume = 0.0f;
 
             using (MeshPtr mesh = entity.getMesh())
             {
-                SubMesh subMesh = mesh.Value.getSubMesh(0);
+                SubMesh subMesh = mesh.Value.getSubMesh(subEntityIndex);
                 using (VertexData vertexData = subMesh.vertexData.clone(true))
                 {
                     if (entity.hasSkeleton())
                     {
-                        entity.animateVertexData(vertexData);
+                        entity.animateVertexData(vertexData, subEntityIndex);
                     }
 
                     VertexDeclaration vertexDeclaration = vertexData.vertexDeclaration;
@@ -88,15 +96,21 @@ namespace OgrePlugin
             }
         }
 
-        public static void animateVertexData(this Entity entity, VertexData vertexData)
+        /// <summary>
+        /// Perform skeletal animation on a given entity copying the results to vertexData. Used for volume calculations.
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="vertexData"></param>
+        /// <param name="subEntityIndex"></param>
+        private static void animateVertexData(this Entity entity, VertexData vertexData, ushort subEntityIndex)
         {
-            Entity_animateVertexData(entity.OgreObject, vertexData.OgreObject);
+            Entity_animateVertexData(entity.OgreObject, vertexData.OgreObject, subEntityIndex);
         }
 
         #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void Entity_animateVertexData(IntPtr entity, IntPtr vertexData);
+        private static extern void Entity_animateVertexData(IntPtr entity, IntPtr vertexData, ushort subEntityIndex);
 
         #endregion
     }
