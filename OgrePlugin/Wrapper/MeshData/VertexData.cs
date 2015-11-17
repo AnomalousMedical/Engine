@@ -206,6 +206,14 @@ namespace OgrePlugin
             }
 	    }
 
+        internal IntPtr OgreObject
+        {
+            get
+            {
+                return vertexData;
+            }
+        }
+
         #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]

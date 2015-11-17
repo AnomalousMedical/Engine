@@ -167,6 +167,23 @@ extern "C" _AnomalousExport AxisAlignedBox Entity_getChildObjectsBoundingBox(Ogr
 	return entity->getChildObjectsBoundingBox();
 }
 
+extern "C" _AnomalousExport void Entity_animateVertexData(Ogre::Entity* entity, Ogre::VertexData* vertexData)
+{
+	const Ogre::Matrix4* blendMatrices[256];
+
+	Ogre::MeshPtr mesh = entity->getMesh();
+
+	Ogre::Mesh::prepareMatricesForVertexBlend(blendMatrices,
+		entity->_getBoneMatrices(), mesh->getSubMesh(0)->blendIndexToBoneIndexMap);
+
+	Ogre::Mesh::softwareVertexBlend(
+		mesh->getSubMesh(0)->vertexData,
+		vertexData,
+		blendMatrices, 
+		mesh->sharedBlendIndexToBoneIndexMap.size(),
+		false);
+}
+
 float computeRayIntersectTriDistance(Ogre::Ray ray, Ogre::Vector3 vert0, Ogre::Vector3 vert1, Ogre::Vector3 vert2);
 void getMeshInformation(Ogre::Entity* entity, size_t &vertexCount, Ogre::Vector3* &vertices,
 								size_t &indexCount, unsigned long* &indices,

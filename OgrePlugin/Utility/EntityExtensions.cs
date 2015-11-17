@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,6 +19,11 @@ namespace OgrePlugin
                 SubMesh subMesh = mesh.Value.getSubMesh(0);
                 using (VertexData vertexData = subMesh.vertexData.clone(true))
                 {
+                    if (entity.hasSkeleton())
+                    {
+                        entity.animateVertexData(vertexData);
+                    }
+
                     VertexDeclaration vertexDeclaration = vertexData.vertexDeclaration;
                     VertexBufferBinding vertexBinding = vertexData.vertexBufferBinding;
                     VertexElement positionElement = vertexDeclaration.findElementBySemantic(VertexElementSemantic.VES_POSITION);
@@ -81,5 +87,17 @@ namespace OgrePlugin
                 return volume;
             }
         }
+
+        public static void animateVertexData(this Entity entity, VertexData vertexData)
+        {
+            Entity_animateVertexData(entity.OgreObject, vertexData.OgreObject);
+        }
+
+        #region PInvoke
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Entity_animateVertexData(IntPtr entity, IntPtr vertexData);
+
+        #endregion
     }
 }
