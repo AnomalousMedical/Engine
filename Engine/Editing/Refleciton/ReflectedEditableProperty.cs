@@ -164,11 +164,15 @@ namespace Engine.Editing
 
         public bool hasBrowser(int column)
         {
-            return false;
+            return column == VALUE_COL && variable.HasItemBrowser;
         }
 
         public Browser getBrowser(int column, EditUICallback uiCallback)
         {
+            if(column == VALUE_COL)
+            {
+                return variable.ItemBrowser;
+            }
             return null;
         }
 

@@ -173,7 +173,13 @@ namespace Engine.Reflection
 
         public Browser ItemBrowser { get; set; }
 
-        public bool HasItemBrowser { get; set; }
+        public bool HasItemBrowser
+        {
+            get
+            {
+                return ItemBrowser != null;
+            }
+        }
 
         #endregion Functions
     }
