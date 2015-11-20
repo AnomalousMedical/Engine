@@ -11,6 +11,10 @@ using System.Threading.Tasks;
 
 namespace OgrePlugin.VirtualTexture
 {
+    /// <summary>
+    /// A "normal" physical texture. Only has one buffer and updates directly. This should be used almost always
+    /// unless the drivers on your platform are no good.
+    /// </summary>
     public class DirectPhysicalTexture : PhysicalTexture
     {
         private TexturePtr physicalTexture;

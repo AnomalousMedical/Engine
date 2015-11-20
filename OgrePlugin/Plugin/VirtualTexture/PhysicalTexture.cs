@@ -11,6 +11,10 @@ using System.Threading.Tasks;
 
 namespace OgrePlugin.VirtualTexture
 {
+    /// <summary>
+    /// Interface for physical textures since we may need different strategies to handle them
+    /// (buffered vs direct, see subclasses).
+    /// </summary>
     public interface PhysicalTexture : IDisposable
     {
         void prepareForUpdates();

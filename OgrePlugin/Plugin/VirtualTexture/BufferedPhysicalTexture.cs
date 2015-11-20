@@ -11,6 +11,11 @@ using System.Threading.Tasks;
 
 namespace OgrePlugin.VirtualTexture
 {
+    /// <summary>
+    /// This physical texture uses multiple front buffers to avoid pipeline stalls
+    /// updating virtual textures. This is mostly only needed on arm devices since their
+    /// drivers handle this situation the worse way possible.
+    /// </summary>
     public class BufferedPhysicalTexture : PhysicalTexture
     {
         private String textureName;

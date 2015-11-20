@@ -480,7 +480,6 @@ namespace OgrePlugin
         //--------------------------------------
         private IndirectionTexture setupNormalTextures(MaterialDescription description, Pass pass)
         {
-            //var texUnit = pass.createTextureUnitState(normalTexture.TextureName);
             normalTexture.createTextureUnit(pass);
             IndirectionTexture indirectionTexture;
             String fileName = description.localizePath(description.NormalMapName + normalTextureFormatExtension);
@@ -500,8 +499,6 @@ namespace OgrePlugin
 
         private IndirectionTexture setupNormalDiffuseTextures(MaterialDescription description, Pass pass)
         {
-            //var texUnit = pass.createTextureUnitState(normalTexture.TextureName);
-            //pass.createTextureUnitState(diffuseTexture.TextureName);
             normalTexture.createTextureUnit(pass);
             diffuseTexture.createTextureUnit(pass);
             IndirectionTexture indirectionTexture;
@@ -525,9 +522,6 @@ namespace OgrePlugin
 
         private IndirectionTexture setupNormalDiffuseSpecularTextures(MaterialDescription description, Pass pass)
         {
-            //pass.createTextureUnitState(normalTexture.TextureName);
-            //pass.createTextureUnitState(diffuseTexture.TextureName);
-            //pass.createTextureUnitState(specularTexture.TextureName);
             normalTexture.createTextureUnit(pass);
             diffuseTexture.createTextureUnit(pass);
             specularTexture.createTextureUnit(pass);
@@ -555,15 +549,11 @@ namespace OgrePlugin
 
         private IndirectionTexture setupNormalDiffuseSpecularOpacityTextures(MaterialDescription description, Pass pass)
         {
-            //pass.createTextureUnitState(normalTexture.TextureName);
-            //pass.createTextureUnitState(diffuseTexture.TextureName);
-            //pass.createTextureUnitState(specularTexture.TextureName);
             normalTexture.createTextureUnit(pass);
             diffuseTexture.createTextureUnit(pass);
             specularTexture.createTextureUnit(pass);
             if (createOpacityTexture)
             {
-                //pass.createTextureUnitState(opacityTexture.TextureName);
                 opacityTexture.createTextureUnit(pass);
             }
             IndirectionTexture indirectionTexture;
@@ -596,13 +586,10 @@ namespace OgrePlugin
 
         private IndirectionTexture setupNormalDiffuseOpacityTextures(MaterialDescription description, Pass pass)
         {
-            //pass.createTextureUnitState(normalTexture.TextureName);
-            //pass.createTextureUnitState(diffuseTexture.TextureName);
             normalTexture.createTextureUnit(pass);
             diffuseTexture.createTextureUnit(pass);
             if (createOpacityTexture)
             {
-                //pass.createTextureUnitState(opacityTexture.TextureName);
                 opacityTexture.createTextureUnit(pass);
             }
             IndirectionTexture indirectionTexture;
@@ -632,11 +619,9 @@ namespace OgrePlugin
 
         private IndirectionTexture setupNormalOpacityTextures(MaterialDescription description, Pass pass)
         {
-            //pass.createTextureUnitState(normalTexture.TextureName);
             normalTexture.createTextureUnit(pass);
             if (createOpacityTexture)
             {
-                //pass.createTextureUnitState(opacityTexture.TextureName);
                 opacityTexture.createTextureUnit(pass);
             }
             IndirectionTexture indirectionTexture;
