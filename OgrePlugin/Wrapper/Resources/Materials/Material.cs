@@ -462,6 +462,18 @@ namespace OgrePlugin
             Material_setSeparateSceneBlending2(resource, sourceFactor, destFactor, sourceFactorAlpha, destFactorAlpha);
         }
 
+        public IEnumerable<Technique> Techniques
+        {
+            get
+            {
+                ushort count = getNumTechniques();
+                for(ushort i = 0; i < count; ++i)
+                {
+                    yield return getTechnique(i);
+                }
+            }
+        }
+
 #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]

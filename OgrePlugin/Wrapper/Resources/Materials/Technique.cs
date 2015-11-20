@@ -283,6 +283,18 @@ namespace OgrePlugin
             }
         }
 
+        public IEnumerable<Pass> Passes
+        {
+            get
+            {
+                ushort count = getNumPasses();
+                for(ushort i = 0; i < count; ++i)
+                {
+                    yield return getPass(i);
+                }
+            }
+        }
+
         internal IntPtr Ptr
         {
             get

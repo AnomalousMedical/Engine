@@ -72,6 +72,10 @@ namespace OgrePlugin
             {
                 return Marshal.PtrToStringAnsi(TextureUnitState_getName(textureUnit));
             }
+            set
+            {
+                TextureUnitState_setName(textureUnit, value);
+            }
         }
 
         public FilterOptions MinFilter
@@ -179,6 +183,9 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr TextureUnitState_getName(IntPtr textureUnit);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void TextureUnitState_setName(IntPtr textureUnit, String name);
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern FilterOptions TextureUnitState_getTextureFiltering(IntPtr textureUnit, FilterType filterType);

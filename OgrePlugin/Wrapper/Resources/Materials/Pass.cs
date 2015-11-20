@@ -782,6 +782,18 @@ namespace OgrePlugin
             return GpuProgramManager.Instance.getGpuProgramParametersWrapper(Pass_getFragmentProgramParameters(pass, GpuProgramManager.Instance.ProcessWrapperObjectCallback));
         }
 
+        public IEnumerable<TextureUnitState> TextureUnitStates
+        {
+            get
+            {
+                ushort count = getNumTextureUnitStates();
+                for(ushort i = 0; i < count; ++i)
+                {
+                    yield return getTextureUnitState(i);
+                }
+            }
+        }
+
 #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
