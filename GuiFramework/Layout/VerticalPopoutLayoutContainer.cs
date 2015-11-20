@@ -195,21 +195,21 @@ namespace Anomalous.GuiFramework
                 {
                     alpha = EasingFunctions.Ease(currentEasing, 0, 1.0f, currentTime, animationLength);
                     currentSize = new IntSize2(WorkingSize.Width, (int)(oldSize.Height + sizeDelta.Height * alpha));
+                    invalidate();
                 }
                 else
                 {
                     currentTime = animationLength;
                     alpha = 1.0f;
                     currentSize = new IntSize2(WorkingSize.Width, oldSize.Height + sizeDelta.Height);
-
+                    invalidate();
                     finishAnimation();
                     oldChildContainer = null;
                 }
-                if (childContainer != null && oldChildContainer != null)
+                if (childContainer != null)
                 {
                     childContainer.setAlpha(alpha);
                 }
-                invalidate();
             }
         }
 
