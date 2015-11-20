@@ -301,7 +301,7 @@
   <Tag name="Anomalous_ButtonSound_Control_PushedChecked">#ff0000</Tag>
   
   <!-- Taskbar Colors -->
-  <Tag name="Anomalous_TaskBar_Center_Normal">#ececec</Tag>
+  <Tag name="Anomalous_TaskBar_Center_Normal">#eeeeee</Tag>
 
   <Tag name="Anomalous_TaskBarButton_Center_Disabled">#6a6a6a</Tag>
   <Tag name="Anomalous_TaskBarButton_Center_Normal">#6699cc</Tag>
