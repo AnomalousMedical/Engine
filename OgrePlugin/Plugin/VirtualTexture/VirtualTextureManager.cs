@@ -38,6 +38,7 @@ namespace OgrePlugin.VirtualTexture
         private int maxSyncPerFrame = int.MaxValue;
         private int currentFeedbackDelayCount = 0;
         private int maxFeedbackDelay = 10;
+        private int lastNumTexturesUploaded = 0;
 
         private bool autoAjustMipLevel = true;
         private bool updateMipSampleBias = true;
@@ -101,6 +102,8 @@ namespace OgrePlugin.VirtualTexture
 
             sharedFeedbackParameters = GpuProgramManager.Instance.createSharedParameters("__VirtualTexturingFeedbackSharedParams");
             sharedFeedbackParameters.Value.addNamedConstant("mipSampleBias", GpuConstantType.GCT_FLOAT1);
+
+            PerformanceMonitor.addValueProvider("NumTexturePageUploads", () => lastNumTexturesUploaded.ToString());
         }
 
         public void Dispose()
@@ -606,6 +609,8 @@ namespace OgrePlugin.VirtualTexture
                 {
                     toUploadList.Add(current);
                 }
+
+                lastNumTexturesUploaded = toUploadList.Count;
 
                 //Since indirection textures are always fully up to date, process the list backwards and only
                 //update indirection textures that haven't been uploaded, avoids extra uploads
