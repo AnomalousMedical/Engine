@@ -210,6 +210,18 @@ namespace OgrePlugin
                     }
                 }
 
+                foreach (var technique in materialPtr.Value.Techniques)
+                {
+                    foreach (var pass in technique.Passes)
+                    {
+                        foreach (var textureUnitState in pass.TextureUnitStates)
+                        {
+                            var physicalTexture = virtualTextureManager.getPhysicalTexture(textureUnitState.Name);
+                            physicalTexture.removeTextureUnit(textureUnitState);
+                        }
+                    }
+                }
+
                 createdMaterials.Remove(materialPtr.Value);
                 MaterialManager.getInstance().remove(materialPtr.Value.Name);
                 materialPtr.Dispose();
@@ -468,7 +480,8 @@ namespace OgrePlugin
         //--------------------------------------
         private IndirectionTexture setupNormalTextures(MaterialDescription description, Pass pass)
         {
-            var texUnit = pass.createTextureUnitState(normalTexture.TextureName);
+            //var texUnit = pass.createTextureUnitState(normalTexture.TextureName);
+            normalTexture.createTextureUnit(pass);
             IndirectionTexture indirectionTexture;
             String fileName = description.localizePath(description.NormalMapName + normalTextureFormatExtension);
             IntSize2 textureSize = getTextureSize(fileName);
@@ -487,8 +500,10 @@ namespace OgrePlugin
 
         private IndirectionTexture setupNormalDiffuseTextures(MaterialDescription description, Pass pass)
         {
-            var texUnit = pass.createTextureUnitState(normalTexture.TextureName);
-            pass.createTextureUnitState(diffuseTexture.TextureName);
+            //var texUnit = pass.createTextureUnitState(normalTexture.TextureName);
+            //pass.createTextureUnitState(diffuseTexture.TextureName);
+            normalTexture.createTextureUnit(pass);
+            diffuseTexture.createTextureUnit(pass);
             IndirectionTexture indirectionTexture;
             String fileName = description.localizePath(description.NormalMapName + normalTextureFormatExtension);
             IntSize2 textureSize = getTextureSize(fileName);
@@ -510,9 +525,12 @@ namespace OgrePlugin
 
         private IndirectionTexture setupNormalDiffuseSpecularTextures(MaterialDescription description, Pass pass)
         {
-            pass.createTextureUnitState(normalTexture.TextureName);
-            pass.createTextureUnitState(diffuseTexture.TextureName);
-            pass.createTextureUnitState(specularTexture.TextureName);
+            //pass.createTextureUnitState(normalTexture.TextureName);
+            //pass.createTextureUnitState(diffuseTexture.TextureName);
+            //pass.createTextureUnitState(specularTexture.TextureName);
+            normalTexture.createTextureUnit(pass);
+            diffuseTexture.createTextureUnit(pass);
+            specularTexture.createTextureUnit(pass);
             IndirectionTexture indirectionTexture;
             String fileName = description.localizePath(description.NormalMapName + normalTextureFormatExtension);
             IntSize2 textureSize = getTextureSize(fileName);
@@ -537,12 +555,16 @@ namespace OgrePlugin
 
         private IndirectionTexture setupNormalDiffuseSpecularOpacityTextures(MaterialDescription description, Pass pass)
         {
-            pass.createTextureUnitState(normalTexture.TextureName);
-            pass.createTextureUnitState(diffuseTexture.TextureName);
-            pass.createTextureUnitState(specularTexture.TextureName);
+            //pass.createTextureUnitState(normalTexture.TextureName);
+            //pass.createTextureUnitState(diffuseTexture.TextureName);
+            //pass.createTextureUnitState(specularTexture.TextureName);
+            normalTexture.createTextureUnit(pass);
+            diffuseTexture.createTextureUnit(pass);
+            specularTexture.createTextureUnit(pass);
             if (createOpacityTexture)
             {
-                pass.createTextureUnitState(opacityTexture.TextureName);
+                //pass.createTextureUnitState(opacityTexture.TextureName);
+                opacityTexture.createTextureUnit(pass);
             }
             IndirectionTexture indirectionTexture;
             String fileName = description.localizePath(description.NormalMapName + normalTextureFormatExtension);
@@ -574,11 +596,14 @@ namespace OgrePlugin
 
         private IndirectionTexture setupNormalDiffuseOpacityTextures(MaterialDescription description, Pass pass)
         {
-            pass.createTextureUnitState(normalTexture.TextureName);
-            pass.createTextureUnitState(diffuseTexture.TextureName);
+            //pass.createTextureUnitState(normalTexture.TextureName);
+            //pass.createTextureUnitState(diffuseTexture.TextureName);
+            normalTexture.createTextureUnit(pass);
+            diffuseTexture.createTextureUnit(pass);
             if (createOpacityTexture)
             {
-                pass.createTextureUnitState(opacityTexture.TextureName);
+                //pass.createTextureUnitState(opacityTexture.TextureName);
+                opacityTexture.createTextureUnit(pass);
             }
             IndirectionTexture indirectionTexture;
             String fileName = description.localizePath(description.NormalMapName + normalTextureFormatExtension);
@@ -607,10 +632,12 @@ namespace OgrePlugin
 
         private IndirectionTexture setupNormalOpacityTextures(MaterialDescription description, Pass pass)
         {
-            pass.createTextureUnitState(normalTexture.TextureName);
+            //pass.createTextureUnitState(normalTexture.TextureName);
+            normalTexture.createTextureUnit(pass);
             if (createOpacityTexture)
             {
-                pass.createTextureUnitState(opacityTexture.TextureName);
+                //pass.createTextureUnitState(opacityTexture.TextureName);
+                opacityTexture.createTextureUnit(pass);
             }
             IndirectionTexture indirectionTexture;
             String fileName = description.localizePath(description.NormalMapName + normalTextureFormatExtension);

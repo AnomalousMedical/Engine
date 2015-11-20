@@ -123,7 +123,9 @@
     <Compile Include="Plugin\UnifiedMaterial\HlslUnifiedShaderFactory.cs" />
     <Compile Include="Plugin\UnifiedMaterial\UnifiedMaterialBuilder.cs" />
     <Compile Include="Plugin\UnifiedMaterial\UnifiedShaderFactory.cs" />
+    <Compile Include="Plugin\VirtualTexture\BufferedPhysicalTexture.cs" />
     <Compile Include="Plugin\VirtualTexture\ClassicImageCacheHandle.cs" />
+    <Compile Include="Plugin\VirtualTexture\DirectPhysicalTexture.cs" />
     <Compile Include="Plugin\VirtualTexture\FeedbackBuffer.cs" />
     <Compile Include="Plugin\VirtualTexture\FeedbackCameraPositioner.cs" />
     <Compile Include="Plugin\VirtualTexture\IndirectionTexture.cs" />

@@ -11,86 +11,31 @@ using System.Threading.Tasks;
 
 namespace OgrePlugin.VirtualTexture
 {
-    public class PhysicalTexture : IDisposable
+    public interface PhysicalTexture : IDisposable
     {
-        private TexturePtr physicalTexture;
-        private HardwarePixelBufferSharedPtr buffer;
-        private String textureName;
-        private VirtualTextureManager virtualTextureManager;
-        private String name;
-        private int texelsPerPage;
-        private IntSize2 size;
-        private static int currentId = 0;
+        void prepareForUpdates();
 
-        public PhysicalTexture(String name, IntSize2 size, VirtualTextureManager virtualTextureManager, int texelsPerPage, PixelFormat pixelFormat)
+        void addPage(PixelBox source, IntRect destRect);
+
+        void commitUpdates();
+
+        void createTextureUnit(Pass pass);
+
+        void removeTextureUnit(TextureUnitState textureUnit);
+
+        String TextureName
         {
-            Index = currentId++;
-            this.name = name;
-            this.texelsPerPage = texelsPerPage;
-            this.size = size;
-            this.virtualTextureManager = virtualTextureManager;
-            this.textureName = "PhysicalTexture" + name;
-
-            physicalTexture = TextureManager.getInstance().createManual(textureName, VirtualTextureManager.ResourceGroup, TextureType.TEX_TYPE_2D,
-                        (uint)size.Width, (uint)size.Height, 1, 0, pixelFormat, virtualTextureManager.RendersystemSpecificTextureUsage, null, false, 0);
-            buffer = physicalTexture.Value.getBuffer();
+            get;
         }
 
-        public void Dispose()
+        PixelFormat TextureFormat
         {
-            buffer.Dispose();
-            TextureManager.getInstance().remove(physicalTexture);
-            physicalTexture.Dispose();
-        }
-
-        public unsafe void color(Color color)
-        {
-            if (physicalTexture.Value.Format == PixelFormat.PF_A8R8G8B8)
-            {
-                using (var fiBitmap = new FreeImageAPI.FreeImageBitmap((int)physicalTexture.Value.Width, (int)physicalTexture.Value.Height, FreeImageAPI.PixelFormat.Format32bppArgb))
-                {
-                    var fiColor = new FreeImageAPI.Color();
-                    fiColor.R = (byte)(color.r * 255);
-                    fiColor.G = (byte)(color.g * 255);
-                    fiColor.B = (byte)(color.b * 255);
-                    fiColor.A = (byte)(color.a * 255);
-                    fiBitmap.FillBackground(new FreeImageAPI.RGBQUAD(fiColor));
-
-                    using (var buffer = physicalTexture.Value.getBuffer())
-                    {
-                        using (PixelBox pixelBox = new PixelBox(0, 0, fiBitmap.Width, fiBitmap.Height, OgreDrawingUtility.getOgreFormat(fiBitmap.PixelFormat), fiBitmap.GetScanlinePointer(0).ToPointer()))
-                        {
-                            buffer.Value.blitFromMemory(pixelBox);
-                        }
-                    }
-                }
-            }
-        }
-
-        public void addPage(PixelBox source, IntRect destRect)
-        {
-            buffer.Value.blitFromMemory(source, destRect);
-        }
-
-        public String TextureName
-        {
-            get
-            {
-                return textureName;
-            }
-        }
-
-        public PixelFormat TextureFormat
-        {
-            get
-            {
-                return physicalTexture.Value.Format;
-            }
+            get;
         }
 
         /// <summary>
         /// A numerical id for this texture, can be used in arrays.
         /// </summary>
-        internal int Index { get; private set; }
+        int Index { get; }
     }
 }

@@ -145,7 +145,7 @@ namespace OgrePlugin.VirtualTexture
 
         public PhysicalTexture createPhysicalTexture(String name, PixelFormat pixelFormat)
         {
-            PhysicalTexture pt = new PhysicalTexture(name, physicalTextureSize, this, texelsPerPage, pixelFormat);
+            PhysicalTexture pt = new DirectPhysicalTexture(name, physicalTextureSize, this, texelsPerPage, pixelFormat);
             physicalTextures.Add(name, pt);
             textureLoader.addedPhysicalTexture(pt);
             return pt;
@@ -604,6 +604,12 @@ namespace OgrePlugin.VirtualTexture
             if (waitingGpuSyncs.Count > 0)
             {
                 PerformanceMonitor.start("Virtual Texture Staging Texture Upload");
+
+                foreach (var tex in physicalTextures.Values)
+                {
+                    tex.prepareForUpdates();
+                }
+
                 StagingBufferSet current;
                 for (int i = 0; i < maxSyncPerFrame && waitingGpuSyncs.TryDequeue(out current); ++i)
                 {
@@ -621,6 +627,12 @@ namespace OgrePlugin.VirtualTexture
                 }
                 toUploadList.Clear();
                 uploadedIndirectionTextures.Clear();
+
+                foreach (var tex in physicalTextures.Values)
+                {
+                    tex.commitUpdates();
+                }
+
                 PerformanceMonitor.stop("Virtual Texture Staging Texture Upload");
             }
         }
