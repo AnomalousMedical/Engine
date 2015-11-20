@@ -395,3 +395,8 @@ extern "C" _AnomalousExport void OgreInterface_DestroyVaryingCompressedTextures(
 		delete scriptCompilerListener;
 	}
 }
+
+extern "C" _AnomalousExport Ogre::GPUVendor OgreInterface_getGpuVendor()
+{
+	return Ogre::Root::getSingleton().getRenderSystem()->getCapabilities()->getVendor();
+}

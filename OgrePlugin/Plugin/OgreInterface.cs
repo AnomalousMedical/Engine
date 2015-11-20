@@ -310,6 +310,14 @@ namespace OgrePlugin
             }
         }
 
+        public GPUVendor GpuVendor
+        {
+            get
+            {
+                return OgreInterface_getGpuVendor();
+            }
+        }
+
         /// <summary>
         /// The currently active texture format that was chosen. This will be constant for the duration of the
         /// program's execution.
@@ -559,6 +567,9 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void OgreInterface_DestroyVaryingCompressedTextures();
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern GPUVendor OgreInterface_getGpuVendor();
 
         #endregion
     }

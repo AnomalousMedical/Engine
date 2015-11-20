@@ -145,7 +145,17 @@ namespace OgrePlugin.VirtualTexture
 
         public PhysicalTexture createPhysicalTexture(String name, PixelFormat pixelFormat)
         {
-            PhysicalTexture pt = new DirectPhysicalTexture(name, physicalTextureSize, this, texelsPerPage, pixelFormat);
+            PhysicalTexture pt;
+            switch (OgreInterface.Instance.GpuVendor)
+            {
+                case GPUVendor.GPU_ARM:
+                    pt =  new BufferedPhysicalTexture(name, physicalTextureSize, this, texelsPerPage, pixelFormat);
+                    break;
+                default:
+                    pt = new DirectPhysicalTexture(name, physicalTextureSize, this, texelsPerPage, pixelFormat);
+                    break;
+            }
+            
             physicalTextures.Add(name, pt);
             textureLoader.addedPhysicalTexture(pt);
             return pt;
@@ -416,6 +426,11 @@ namespace OgrePlugin.VirtualTexture
         internal PhysicalTexture getPhysicalTexture(string name)
         {
             return physicalTextures[name];
+        }
+
+        internal bool tryGetPhysicalTexture(string name, out PhysicalTexture physicalTexture)
+        {
+            return physicalTextures.TryGetValue(name, out physicalTexture);
         }
 
         internal bool getIndirectionTexture(int id, out IndirectionTexture tex)

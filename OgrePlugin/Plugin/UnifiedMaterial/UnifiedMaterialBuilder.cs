@@ -210,14 +210,17 @@ namespace OgrePlugin
                     }
                 }
 
+                PhysicalTexture physicalTexture;
                 foreach (var technique in materialPtr.Value.Techniques)
                 {
                     foreach (var pass in technique.Passes)
                     {
                         foreach (var textureUnitState in pass.TextureUnitStates)
                         {
-                            var physicalTexture = virtualTextureManager.getPhysicalTexture(textureUnitState.Name);
-                            physicalTexture.removeTextureUnit(textureUnitState);
+                            if (virtualTextureManager.tryGetPhysicalTexture(textureUnitState.Name, out physicalTexture))
+                            {
+                                physicalTexture.removeTextureUnit(textureUnitState);
+                            }
                         }
                     }
                 }
