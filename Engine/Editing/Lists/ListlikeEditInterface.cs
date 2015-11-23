@@ -10,17 +10,18 @@ namespace Engine.Editing
     {
         private ListlikeAbstractor<T> list;
         private List<ListItemEditableProperty<T>> properties = new List<ListItemEditableProperty<T>>();
+        private Func<EditUICallback, Browser> getBrowser;
 
-        public ListlikeEditInterface(IList<T> list, String name, Validate validateCallback)
+        public ListlikeEditInterface(IList<T> list, String name, Validate validateCallback, Func<EditUICallback, Browser> getBrowser)
             : base(name)
         {
-            init(new IListAbstractor<T>(list), name, validateCallback);
+            init(new IListAbstractor<T>(list), name, validateCallback, getBrowser);
         }
 
-        public ListlikeEditInterface(LinkedList<T> list, String name, Validate validateCallback)
+        public ListlikeEditInterface(LinkedList<T> list, String name, Validate validateCallback, Func<EditUICallback, Browser> getBrowser)
             : base(name)
         {
-            init(new LinkedListAbstractor<T>(list), name, validateCallback);
+            init(new LinkedListAbstractor<T>(list), name, validateCallback, getBrowser);
         }
 
         /// <summary>
@@ -42,9 +43,10 @@ namespace Engine.Editing
             }
         }
 
-        private void init(ListlikeAbstractor<T> list, String name, Validate validateCallback)
+        private void init(ListlikeAbstractor<T> list, String name, Validate validateCallback, Func<EditUICallback, Browser> getBrowser)
         {
             this.list = list;
+            this.getBrowser = getBrowser;
 
             EditablePropertyInfo propertyInfo = new EditablePropertyInfo();
             propertyInfo.addColumn(new EditablePropertyColumn("Value", false));
@@ -90,7 +92,7 @@ namespace Engine.Editing
 
         private void addProperty(int index)
         {
-            var prop = new ListItemEditableProperty<T>(index, this);
+            var prop = new ListItemEditableProperty<T>(index, this, getBrowser);
             properties.Add(prop);
             addEditableProperty(prop);
         }

@@ -8,14 +8,14 @@ namespace Engine.Editing
 {
     public class StringListlikeEditInterface : ListlikeEditInterface<String>
     {
-        public StringListlikeEditInterface(IList<String> list, String name, Validate validateCallback = null)
-            :base(list, name, validateCallback)
+        public StringListlikeEditInterface(IList<String> list, String name, Validate validateCallback = null, Func<EditUICallback, Browser> getBrowser = null)
+            :base(list, name, validateCallback, getBrowser)
         {
 
         }
 
-        public StringListlikeEditInterface(LinkedList<String> list, String name, Validate validateCallback = null)
-            : base(list, name, validateCallback)
+        public StringListlikeEditInterface(LinkedList<String> list, String name, Validate validateCallback = null, Func<EditUICallback, Browser> getBrowser = null)
+            : base(list, name, validateCallback, getBrowser)
         {
 
         }

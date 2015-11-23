@@ -10,11 +10,13 @@ namespace Engine.Editing
     {
         private int index;
         private ListlikeEditInterface<T> editInterface;
+        private Func<EditUICallback, Browser> getBrowserFunc;
 
-        public ListItemEditableProperty(int index, ListlikeEditInterface<T> editInterface)
+        public ListItemEditableProperty(int index, ListlikeEditInterface<T> editInterface, Func<EditUICallback, Browser> getBrowser)
         {
             this.index = index;
             this.editInterface = editInterface;
+            this.getBrowserFunc = getBrowser;
         }
 
         public bool canParseString(int column, string value, out string errorMessage)
@@ -24,6 +26,10 @@ namespace Engine.Editing
 
         public Browser getBrowser(int column, EditUICallback uiCallback)
         {
+            if(getBrowserFunc != null)
+            {
+                return getBrowserFunc(uiCallback);
+            }
             return null;
         }
 
@@ -64,7 +70,7 @@ namespace Engine.Editing
 
         public bool hasBrowser(int column)
         {
-            return false;
+            return getBrowserFunc != null;
         }
 
         public bool readOnly(int column)
