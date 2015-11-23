@@ -47,10 +47,14 @@ namespace Anomalous.GuiFramework
         private List<ButtonGridItem> searchResults = new List<ButtonGridItem>(20);
         private List<ButtonGridItem> realTaskItems = new List<ButtonGridItem>(20);
 
+        private String highlightSectionTitle = null;
+        private List<ButtonGridItem> highlightCategoryItems = new List<ButtonGridItem>(20);
+
         private TaskMenuPositioner taskMenuPositioner = new TaskMenuPositioner();
 
         private int scrollerBorderLeft;
         private int scrollerBorderHeight;
+        private bool addGroupsToSortList = true;
 
         private IntVector2 dragAreaSize;
         bool allowIconDrag = false;
@@ -95,6 +99,8 @@ namespace Anomalous.GuiFramework
 
         public override void Dispose()
         {
+            taskController.TaskAdded -= taskController_TaskAdded;
+            taskController.TaskRemoved -= taskController_TaskRemoved;
             Gui.Instance.destroyWidget(dragIconPreview);
             base.Dispose();
         }
@@ -296,6 +302,7 @@ namespace Anomalous.GuiFramework
             viewButtonGroup.SelectedButton = tasksButton;
             searchBox.OnlyText = "";
             doTaskSearch();
+            clearHighlightTasks();
         }
 
         void item_MouseButtonPressed(ButtonGridItem source, MouseEventArgs arg)
@@ -393,7 +400,10 @@ namespace Anomalous.GuiFramework
 
         void iconGrid_GroupAdded(ButtonGrid arg1, string arg2)
         {
-            groupSorter.groupAdded(arg2);
+            if (addGroupsToSortList)
+            {
+                groupSorter.groupAdded(arg2);
+            }
             iconGrid.sortGroups(groupSorter.compareGroups);
         }
 
@@ -407,7 +417,6 @@ namespace Anomalous.GuiFramework
             iconGrid.SuppressLayout = true;
             foreach (var item in searchResults)
             {
-                var task = item.UserObject as Task;
                 iconGrid.removeItem(item);
             }
 
@@ -426,6 +435,44 @@ namespace Anomalous.GuiFramework
 
             iconGrid.SuppressLayout = false;
             iconGrid.resizeAndLayout();
+        }
+
+        public void setHighlightTasks(String highlightSectionTitle, IEnumerable<Task> tasks)
+        {
+            iconGrid.SuppressLayout = true;
+            addGroupsToSortList = false;
+
+            foreach (var item in highlightCategoryItems)
+            {
+                iconGrid.removeItem(item);
+            }
+
+            highlightCategoryItems.Clear();
+
+            this.highlightSectionTitle = highlightSectionTitle;
+
+            if (tasks != null)
+            {
+                foreach (var task in tasks)
+                {
+                    ButtonGridItem item = iconGrid.addItem(highlightSectionTitle, task.Name, task.IconName);
+                    item.UserObject = task;
+                    item.ItemClicked += new EventHandler(item_ItemClicked);
+                    item.MouseButtonPressed += new EventDelegate<ButtonGridItem, MouseEventArgs>(item_MouseButtonPressed);
+                    item.MouseDrag += new EventDelegate<ButtonGridItem, MouseEventArgs>(item_MouseDrag);
+                    item.MouseButtonReleased += new EventDelegate<ButtonGridItem, MouseEventArgs>(item_MouseButtonReleased);
+                    highlightCategoryItems.Add(item);
+                }
+            }
+
+            addGroupsToSortList = true;
+            iconGrid.SuppressLayout = false;
+            iconGrid.resizeAndLayout();
+        }
+
+        public void clearHighlightTasks()
+        {
+            setHighlightTasks(null, null);
         }
 
         private void createSearchTaskItem(Task task)

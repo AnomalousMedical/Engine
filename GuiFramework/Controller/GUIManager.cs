@@ -236,6 +236,14 @@ namespace Anomalous.GuiFramework
             }
         }
 
+        public bool MainGuiShowing
+        {
+            get
+            {
+                return mainGuiShowing;
+            }
+        }
+
         public void layout()
         {
             screenLayoutManager.LayoutChain.layout();

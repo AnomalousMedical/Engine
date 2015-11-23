@@ -11,6 +11,7 @@ namespace Anomalous.GuiFramework
     {
         public event TaskDelegate TaskAdded;
         public event TaskRemovedDelegate TaskRemoved;
+        public event Action<String, IEnumerable<Task>> HighlightTasks;
 
         private Dictionary<String, Task> items = new Dictionary<String, Task>();
 
@@ -49,6 +50,14 @@ namespace Anomalous.GuiFramework
             get
             {
                 return items.Values;
+            }
+        }
+
+        public void highlightTasks(String highlightTaskCategory, IEnumerable<Task> highlightTasks)
+        {
+            if(HighlightTasks != null)
+            {
+                HighlightTasks.Invoke(highlightTaskCategory, highlightTasks);
             }
         }
     }
