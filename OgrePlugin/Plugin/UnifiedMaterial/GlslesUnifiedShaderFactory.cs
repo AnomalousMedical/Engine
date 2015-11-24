@@ -12,8 +12,6 @@ namespace OgrePlugin
         private const String UnifiedShaderBase = ShaderPathBase + ".Unified.glsles.";
         private const String EyeShaderBase = ShaderPathBase + ".Eye.glsles.";
 
-        private bool blockHardwareSkinning = true;
-
         public GlslesUnifiedShaderFactory(ResourceManager liveResourceManager, NormaMapReadMode normalMapReadMode, bool separateOpacityMap)
             : base(liveResourceManager, normalMapReadMode, separateOpacityMap)
         {
@@ -24,12 +22,6 @@ namespace OgrePlugin
 
         protected override HighLevelGpuProgramSharedPtr setupUnifiedVertex(String name, TextureMaps maps, MaterialDescription description)
         {
-            if (blockHardwareSkinning)
-            {
-                description.NumHardwareBones = 0;
-                description.NumHardwarePoses = 0;
-            }
-
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsles", GpuProgramType.GPT_VERTEX_PROGRAM);
 
             program.Value.SourceFile = UnifiedShaderBase + "MainVP.glsl";
@@ -69,12 +61,6 @@ namespace OgrePlugin
 
         protected override HighLevelGpuProgramSharedPtr setupDepthCheckVP(String name, int numHardwareBones, int numHardwarePoses)
         {
-            if (blockHardwareSkinning)
-            {
-                numHardwareBones = 0;
-                numHardwarePoses = 0;
-            }
-
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsles", GpuProgramType.GPT_VERTEX_PROGRAM);
 
             if (numHardwareBones > 0 || numHardwarePoses > 0)
@@ -124,12 +110,6 @@ namespace OgrePlugin
 
         protected override HighLevelGpuProgramSharedPtr setupFeedbackBufferVP(String name, int numHardwareBones, int numHardwarePoses)
         {
-            if (blockHardwareSkinning)
-            {
-                numHardwareBones = 0;
-                numHardwarePoses = 0;
-            }
-
             var program = HighLevelGpuProgramManager.Instance.createProgram(name, ResourceGroupName, "glsles", GpuProgramType.GPT_VERTEX_PROGRAM);
 
             if (numHardwareBones > 0 || numHardwarePoses > 0)

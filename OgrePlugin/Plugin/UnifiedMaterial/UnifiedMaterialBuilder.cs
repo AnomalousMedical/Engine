@@ -48,6 +48,7 @@ namespace OgrePlugin
         private String normalTextureFormatExtension;
         private Dictionary<String, CreateMaterial> specialMaterialFuncs = new Dictionary<string, CreateMaterial>();
         private Dictionary<int, int> indirectionTextureUsageCounts = new Dictionary<int, int>();
+        private bool disableHardwareSkinning = false;
 
         private PhysicalTexture normalTexture;
         private PhysicalTexture diffuseTexture;
@@ -183,6 +184,12 @@ namespace OgrePlugin
 
         public override void buildMaterial(MaterialDescription description, MaterialRepository repo)
         {
+            if (disableHardwareSkinning)
+            {
+                description.NumHardwareBones = 0;
+                description.NumHardwarePoses = 0;
+            }
+
             constructMaterial(description, repo, description.IsAlpha);
             if (description.CreateAlphaMaterial && !description.IsAlpha)
             {
