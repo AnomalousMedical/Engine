@@ -272,6 +272,22 @@ namespace OgrePlugin
             }
         }
 
+        /// <summary>
+        /// Disable any hardware skinning requests for constructed materials, will not modify existing materials
+        /// this needs to be set before anything is loaded.
+        /// </summary>
+        public bool DisableHardwareSkinning
+        {
+            get
+            {
+                return disableHardwareSkinning;
+            }
+            set
+            {
+                disableHardwareSkinning = value;
+            }
+        }
+
         private void constructMaterial(MaterialDescription description, MaterialRepository repo, bool alpha)
         {
             var material = createFromDescription(description, alpha);
