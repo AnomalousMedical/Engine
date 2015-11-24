@@ -1,6 +1,6 @@
 precision highp float;
 
-uniform vec4 worldMatrix3x4Array[90]; //This is an array of bones, the index is the maximum amount of bones supported * 3
+uniform vec4 worldMatrix3x4Array[180]; //This is an array of bones, the index is the maximum amount of bones supported * 3
 uniform mat4 viewProjectionMatrix;
 
 attribute vec4 blendIndices;

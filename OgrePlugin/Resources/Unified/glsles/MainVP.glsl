@@ -29,7 +29,7 @@ attribute vec3 normal; //Normal
 #endif
 
 #if BONES_PER_VERTEX > 0
-	uniform mat4x3 worldMatrix3x4Array[60];		//This is an array of bones, the index is the maximum amount of bones supported
+	uniform vec4 worldMatrix3x4Array[180];		//This is an array of bones, the index is the maximum amount of bones supported * 3
 	attribute vec4 blendIndices;				//The blend indices
 	attribute vec4 blendWeights;				//The blend weights
 #endif //BONES_PER_VERTEX
@@ -80,14 +80,17 @@ void main(void)
 		#endif //NO_MAPS
 		//-----------Skinning Unrolled Loop--------------
 		int idx;
-		mat4x3 worldMatrix;
+		mat4 worldMatrix;
 		float weight;
 		mat3 worldMatrixRot; //Rotation only matrix, prevents translation from screwing up normals
 
 		//First Bone
 		#if BONES_PER_VERTEX > 0
 			idx = int(blendIndices[0]);
-			worldMatrix = worldMatrix3x4Array[idx];
+			worldMatrix[0] = worldMatrix3x4Array[idx];
+			worldMatrix[1] = worldMatrix3x4Array[idx + 1];
+			worldMatrix[2] = worldMatrix3x4Array[idx + 2];
+			worldMatrix[3] = vec4(0.0);
 			weight = blendWeights[0];
 			worldMatrixRot = mat3(worldMatrix);
         
@@ -101,7 +104,10 @@ void main(void)
 		//Second Bone
 		#if BONES_PER_VERTEX > 1
 			idx = int(blendIndices[1]);
-			worldMatrix = worldMatrix3x4Array[idx];
+			worldMatrix[0] = worldMatrix3x4Array[idx];
+			worldMatrix[1] = worldMatrix3x4Array[idx + 1];
+			worldMatrix[2] = worldMatrix3x4Array[idx + 2];
+			worldMatrix[3] = vec4(0.0);
 			weight = blendWeights[1];
 			worldMatrixRot = mat3(worldMatrix);
         
@@ -115,7 +121,10 @@ void main(void)
 		//Third Bone
 		#if BONES_PER_VERTEX > 2
 			idx = int(blendIndices[2]);
-			worldMatrix = worldMatrix3x4Array[idx];
+			worldMatrix[0] = worldMatrix3x4Array[idx];
+			worldMatrix[1] = worldMatrix3x4Array[idx + 1];
+			worldMatrix[2] = worldMatrix3x4Array[idx + 2];
+			worldMatrix[3] = vec4(0.0);
 			weight = blendWeights[2];
 			worldMatrixRot = mat3(worldMatrix);
         
@@ -129,7 +138,10 @@ void main(void)
 		//Fourth Bone
 		#if BONES_PER_VERTEX > 3
 			idx = int(blendIndices[3]);
-			worldMatrix = worldMatrix3x4Array[idx];
+			worldMatrix[0] = worldMatrix3x4Array[idx];
+			worldMatrix[1] = worldMatrix3x4Array[idx + 1];
+			worldMatrix[2] = worldMatrix3x4Array[idx + 2];
+			worldMatrix[3] = vec4(0.0);
 			weight = blendWeights[3];
 			worldMatrixRot = mat3(worldMatrix);
         

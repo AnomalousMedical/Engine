@@ -310,6 +310,7 @@
     <EmbeddedResource Include="Resources\Unified\glsles\UnifiedFS.glsl" />
     <EmbeddedResource Include="Resources\Basic\glsl\Vignette.glsl" />
     <EmbeddedResource Include="Resources\Basic\glsles\Vignette.glsl" />
+    <EmbeddedResource Include="Resources\Unified\glsles\FeedbackBufferVPHardwareSkin.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Dependencies\FreeImage.NET\Library\FreeImageDotNet.csproj">
