@@ -47,11 +47,11 @@ void main(void)
 			worldMatrix[0] = worldMatrix3x4Array[idx];
       		worldMatrix[1] = worldMatrix3x4Array[idx + 1];
       		worldMatrix[2] = worldMatrix3x4Array[idx + 2];
-      		worldMatrix[3] = vec4(0.0);
+      		worldMatrix[3] = vec4(0.0, 0.0, 0.0, 1.0);
 			weight = blendWeights[0];
 			worldMatrixRot = mat3(worldMatrix);
         
-			blendPos += vec4((worldMatrix * poseVertex).xyz, 1.0) * weight;
+			blendPos += vec4((poseVertex * worldMatrix).xyz, 1.0) * weight;
 		#endif
 
 		//Second Bone
@@ -60,11 +60,11 @@ void main(void)
 			worldMatrix[0] = worldMatrix3x4Array[idx];
       		worldMatrix[1] = worldMatrix3x4Array[idx + 1];
       		worldMatrix[2] = worldMatrix3x4Array[idx + 2];
-      		worldMatrix[3] = vec4(0.0);
+      		worldMatrix[3] = vec4(0.0, 0.0, 0.0, 1.0);
 			weight = blendWeights[1];
 			worldMatrixRot = mat3(worldMatrix);
         
-			blendPos += vec4((worldMatrix * poseVertex).xyz, 1.0) * weight;
+			blendPos += vec4((poseVertex * worldMatrix).xyz, 1.0) * weight;
 		#endif
 
 		//Third Bone
@@ -73,11 +73,11 @@ void main(void)
 			worldMatrix[0] = worldMatrix3x4Array[idx];
       		worldMatrix[1] = worldMatrix3x4Array[idx + 1];
       		worldMatrix[2] = worldMatrix3x4Array[idx + 2];
-      		worldMatrix[3] = vec4(0.0);
+      		worldMatrix[3] = vec4(0.0, 0.0, 0.0, 1.0);
 			weight = blendWeights[2];
 			worldMatrixRot = mat3(worldMatrix);
         
-			blendPos += vec4((worldMatrix * poseVertex).xyz, 1.0) * weight;
+			blendPos += vec4((poseVertex * worldMatrix).xyz, 1.0) * weight;
 		#endif
 
 		//Fourth Bone
@@ -86,11 +86,11 @@ void main(void)
 			worldMatrix[0] = worldMatrix3x4Array[idx];
       		worldMatrix[1] = worldMatrix3x4Array[idx + 1];
       		worldMatrix[2] = worldMatrix3x4Array[idx + 2];
-      		worldMatrix[3] = vec4(0.0);
+      		worldMatrix[3] = vec4(0.0, 0.0, 0.0, 1.0);
 			weight = blendWeights[3];
 			worldMatrixRot = mat3(worldMatrix);
         
-			blendPos += vec4((worldMatrix * poseVertex).xyz, 1.0) * weight;
+			blendPos += vec4((poseVertex * worldMatrix).xyz, 1.0) * weight;
 		#endif
 	//---------------End Skinning Unrolled Loop------------------
 
