@@ -47,7 +47,7 @@ void main(void)
 
 		//First Bone
 		#if BONES_PER_VERTEX > 0
-			idx = int(blendIndices[0]);
+			idx = int(blendIndices[0]) * 3;
 			worldMatrix[0] = worldMatrix3x4Array[idx];
 			worldMatrix[1] = worldMatrix3x4Array[idx + 1];
 			worldMatrix[2] = worldMatrix3x4Array[idx + 2];
@@ -60,7 +60,7 @@ void main(void)
 
 		//Second Bone
 		#if BONES_PER_VERTEX > 1
-			idx = int(blendIndices[1]);
+			idx = int(blendIndices[1]) * 3;
 			worldMatrix[0] = worldMatrix3x4Array[idx];
 			worldMatrix[1] = worldMatrix3x4Array[idx + 1];
 			worldMatrix[2] = worldMatrix3x4Array[idx + 2];
@@ -73,7 +73,7 @@ void main(void)
 
 		//Third Bone
 		#if BONES_PER_VERTEX > 2
-			idx = int(blendIndices[2]);
+			idx = int(blendIndices[2]) * 3;
 			worldMatrix[0] = worldMatrix3x4Array[idx];
 			worldMatrix[1] = worldMatrix3x4Array[idx + 1];
 			worldMatrix[2] = worldMatrix3x4Array[idx + 2];
@@ -86,7 +86,7 @@ void main(void)
 
 		//Fourth Bone
 		#if BONES_PER_VERTEX > 3
-			idx = int(blendIndices[3]);
+			idx = int(blendIndices[3]) * 3;
 			worldMatrix[0] = worldMatrix3x4Array[idx];
 			worldMatrix[1] = worldMatrix3x4Array[idx + 1];
 			worldMatrix[2] = worldMatrix3x4Array[idx + 2];
