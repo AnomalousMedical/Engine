@@ -109,6 +109,9 @@ float2 vtexCoord(float2 address, Texture2D indirectionTex, SamplerState indirect
 		//bypasses this by always getting the pixel described by the locaiton, which is good for us since that is the page index
 		uint w, h, numMip;
 		indirectionTex.GetDimensions(mipLevel, w, h, numMip);
+		w = max(w, 1);
+		h = max(h, 1);
+		mipLevel = clamp(mipLevel, 0.0, (float)(numMip - 1));
 		int3 offset = int3(address.x * w, address.y * h, mipLevel);
 		float4 redirectInfo = indirectionTex.Load(offset);
 	#else
