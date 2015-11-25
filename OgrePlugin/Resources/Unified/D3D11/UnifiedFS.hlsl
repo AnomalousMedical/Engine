@@ -102,7 +102,18 @@ float2 vtexCoord(float2 address, Texture2D indirectionTex, SamplerState indirect
 	float mipLevel = texMipLevel(address, mipBiasSize);
 
 	//Need to add bias for mip levels, the bias adjusts the size of the indirection texture to the size of the physical texture
-	float4 redirectInfo = indirectionTex.SampleLevel(indirectionTexSampler, address.xy, mipLevel);
+	#ifdef INTEL_VTEXCOORD_FIX
+		//On intel the results from SampleLevel are ahead of the interpolation of address, so we will go to the next page
+		//as a result from SampleLevel, but address is still behind and resolves its partial address to something high like .95 before
+		//restting to 0 further into the page, this is likely a driver issue related to centroid vs linear addressing modes, using Load as below 
+		//bypasses this by always getting the pixel described by the locaiton, which is good for us since that is the page index
+		uint w, h, numMip;
+		indirectionTex.GetDimensions(mipLevel, w, h, numMip);
+		int3 offset = int3(address.x * w, address.y * h, mipLevel);
+		float4 redirectInfo = indirectionTex.Load(offset);
+	#else
+		float4 redirectInfo = indirectionTex.SampleLevel(indirectionTexSampler, address.xy, mipLevel);
+	#endif
 
 	float mip2 = floor(exp2(redirectInfo.b * 255.0) + 0.5); //Figure out how far to shift the original address, based on the mip level, highest mip level (1x1 indirection texture) is 0 counting up from there
 	float2 coordLow = frac(address * mip2); //Get fractional part of page location, this is shifted left by the mip level

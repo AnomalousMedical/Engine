@@ -40,6 +40,7 @@ namespace OgrePlugin
         private ResourceGroup shaderResourceGroup;
         private NormaMapReadMode normalMapReadMode;
         protected bool separateOpacityMap;
+        private bool enableIntelFix;
 
         public UnifiedShaderFactory(ResourceManager liveResourceManager, NormaMapReadMode normalMapReadMode, bool separateOpacityMap)
         {
@@ -51,6 +52,8 @@ namespace OgrePlugin
             shaderResourceGroup.addResource(GetType().AssemblyQualifiedName, "EmbeddedResource", true);
             
             liveResourceManager.initializeResources();
+
+            enableIntelFix = OgreInterface.Instance.ChosenRenderSystem == RenderSystemType.D3D11 && OgreInterface.Instance.GpuVendor == GPUVendor.GPU_INTEL;
         }
 
         public virtual void Dispose()
@@ -300,6 +303,10 @@ namespace OgrePlugin
         protected String DetermineFragmentPreprocessorDefines(TextureMaps maps, bool alpha, bool glossMap, bool highlight, bool opacity)
         {
             StringBuilder definesBuilder = new StringBuilder("VIRTUAL_TEXTURE=1,");
+            if(enableIntelFix)
+            {
+                definesBuilder.Append("INTEL_VTEXCOORD_FIX=1,");
+            }
             if (alpha)
             {
                 definesBuilder.Append("ALPHA=1,");
