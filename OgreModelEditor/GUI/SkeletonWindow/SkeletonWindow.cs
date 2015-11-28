@@ -1,4 +1,5 @@
 ﻿using Anomalous.GuiFramework;
+using Anomalous.GuiFramework.Editor;
 using MyGUIPlugin;
 using OgrePlugin;
 using System;
@@ -14,13 +15,30 @@ namespace OgreModelEditor
         private ScrollView scrollView;
         private Tree skeletonTree;
 
-        public SkeletonWindow()
+        private SimObjectMover objectMover;
+        private SelectableBone selectableBone = new SelectableBone();
+
+        public SkeletonWindow(SimObjectMover objectMover)
             :base("OgreModelEditor.GUI.SkeletonWindow.SkeletonWindow.layout")
         {
+            this.objectMover = objectMover; ;
+
             scrollView = window.findWidget("Scroller") as ScrollView;
             skeletonTree = new Tree(scrollView);
+            skeletonTree.NodeMouseDoubleClick += SkeletonTree_NodeMouseDoubleClick;
 
             this.Resized += SkeletonWindow_Resized;
+        }
+
+        private void SkeletonTree_NodeMouseDoubleClick(object sender, TreeEventArgs e)
+        {
+            var bone = e.Node.UserData as Bone;
+            if (bone != null)
+            {
+                selectableBone.Bone = bone;
+                objectMover.clearMovableObjects();
+                objectMover.addMovableObject("model", selectableBone);
+            }
         }
 
         public override void Dispose()
@@ -37,6 +55,7 @@ namespace OgreModelEditor
             {
                 Bone bone = skeleton.getBone(i);
                 TreeNode skeletonNode = new TreeNode(bone.getName());
+                skeletonNode.UserData = bone;
                 TreeNode positionNode = new TreeNode("Position " + bone.getPosition());
                 skeletonNode.Children.add(positionNode);
                 TreeNode rotationNode = new TreeNode("Rotation" + bone.getOrientation());

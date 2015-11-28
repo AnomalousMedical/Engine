@@ -32,7 +32,7 @@ namespace OgreModelEditor.Controller
         OgreModelEditorController controller;
 
         //GUI
-        private SkeletonWindow skeletonWindow = new SkeletonWindow();
+        private SkeletonWindow skeletonWindow;
         private CustomParametersWindow customParameters = new CustomParametersWindow();
         private AnimationWindow animationWindow = new AnimationWindow();
 
@@ -51,6 +51,7 @@ namespace OgreModelEditor.Controller
             fixedTexture = fixedFunctionTextured.Value.getTechnique(0).getPass(0).getTextureUnitState(0);
             this.controller = controller;
 
+            skeletonWindow = new SkeletonWindow(controller.ObjectMover);
             controller.GuiManager.addManagedDialog(skeletonWindow);
             skeletonWindow.Visible = true;
 

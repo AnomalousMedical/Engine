@@ -78,6 +78,7 @@
     <Compile Include="Controller\ModelController.cs" />
     <Compile Include="Controller\OgreModelEditorApp.cs" />
     <Compile Include="Controller\OgreModelEditorController.cs" />
+    <Compile Include="Controller\SelectableBone.cs" />
     <Compile Include="Controller\SelectableModel.cs" />
     <Compile Include="Controller\VirtualTextureSceneViewLink.cs" />
     <Compile Include="GUI\AnimationWindow\AnimationWindow.cs" />
