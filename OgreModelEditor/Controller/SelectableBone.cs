@@ -50,7 +50,7 @@ namespace OgreModelEditor
         {
             get
             {
-                return bone.getDerivedOrientation();
+                return bone.getOrientation();
             }
         }
 
@@ -64,7 +64,9 @@ namespace OgreModelEditor
 
         public void rotate(Quaternion newRot)
         {
-            //modelObject.updateRotation(ref newRot, null);
+            bone.setOrientation(newRot);
+            bone.setManuallyControlled(true);
+            bone.needUpdate(true);
         }
 
         public void alertToolHighlightStatus(bool highlighted)
