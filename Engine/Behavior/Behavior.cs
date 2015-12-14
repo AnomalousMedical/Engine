@@ -295,7 +295,7 @@ namespace Engine
         /// <summary>
         /// Called when WillDispose is called, forwards to willDestroy.
         /// </summary>
-        protected override void WillDispose()
+        protected override sealed void WillDispose()
         {
             if (valid)
             {

@@ -94,6 +94,7 @@ void ReshapeableRigidBodySection::cloneAndAddShape(btCollisionShape* toClone, co
 	serializer->finishSerialization();
 
 	bParse::btBulletFile* bulletFile2 = new bParse::btBulletFile((char*)serializer->getBufferPointer(), serializer->getCurrentBufferSize());
+	bulletFile2->parse(false);
 
 	if (bulletFile2->m_collisionShapes.size() > 0)
 	{

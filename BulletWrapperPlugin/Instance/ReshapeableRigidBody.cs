@@ -71,9 +71,26 @@ namespace BulletPlugin
             }
         }
 
-        public void addNamedShape(String regionName, String shapeName, Vector3 translation, Quaternion rotation)
+        /// <summary>
+        /// Add a named shape to a given region, will return true if this works correctly
+        /// </summary>
+        /// <param name="regionName"></param>
+        /// <param name="shapeName"></param>
+        /// <param name="translation"></param>
+        /// <param name="rotation"></param>
+        /// <returns></returns>
+        public bool addNamedShape(String regionName, String shapeName, Vector3 translation, Quaternion rotation)
         {
+            BulletShapeRepository repository = BulletInterface.Instance.ShapeRepository;
+            if (repository.containsValidCollection(shapeName))
+            {
+                IntPtr shape = repository.getCollection(shapeName).CollisionShape;
+                ReshapeableRigidBody_cloneAndAddShape(nativeReshapeable, regionName, shape, ref translation, ref rotation);
 
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -109,6 +126,9 @@ namespace BulletPlugin
 
         [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern unsafe void ReshapeableRigidBody_addHullShape(IntPtr body, String regionName, float* vertices, int numPoints, int stride, float collisionMargin, ref Vector3 origin, ref Quaternion rotation);
+
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void ReshapeableRigidBody_cloneAndAddShape(IntPtr body, String regionName, IntPtr toClone, ref Vector3 translation, ref Quaternion rotation);
 
         [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ReshapeableRigidBody_destroyRegion(IntPtr body, String name);
