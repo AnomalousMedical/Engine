@@ -86,7 +86,7 @@ namespace OgrePlugin
         /// Add a child SceneNodeElement.
         /// </summary>
         /// <param name="element">The SceneNodeElement to add as a child.</param>
-        public void addChild(SceneNodeElement element)
+        internal void addChild(SceneNodeElement element)
         {
             children.Add(element);
         }
@@ -95,9 +95,51 @@ namespace OgrePlugin
         /// Remove a child SceneNodeElement.
         /// </summary>
         /// <param name="element">The SceneNodeElement to remove.</param>
-        public void removeChild(SceneNodeElement element)
+        internal void removeChild(SceneNodeElement element)
         {
             children.Remove(element);
+        }
+
+        /// <summary>
+        /// Create a child node on this node, note that you must destroy these nodes by calling destroyChildNodes for
+        /// all nodes created this way.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public SceneNode createChildNode(String name)
+        {
+            SceneNode node = scene.SceneManager.createSceneNode(name);
+            sceneNode.addChild(node);
+            return node;
+        }
+
+        /// <summary>
+        /// Call this to destroy manually created child nodes, this does not need to be done for nodes created through
+        /// the definition of a sim object.
+        /// </summary>
+        /// <param name="node"></param>
+        public void destroyChildNode(SceneNode node)
+        {
+            sceneNode.removeChild(node);
+            scene.SceneManager.destroySceneNode(node);
+        }
+
+        /// <summary>
+        /// Add a child SceneNodeElement.
+        /// </summary>
+        /// <param name="element">The SceneNodeElement to add as a child.</param>
+        public void addChild(SceneNode node)
+        {
+            sceneNode.addChild(node);
+        }
+
+        /// <summary>
+        /// Remove a child SceneNodeElement.
+        /// </summary>
+        /// <param name="element">The SceneNodeElement to remove.</param>
+        public void removeChild(SceneNode node)
+        {
+            sceneNode.removeChild(node);
         }
 
         /// <summary>

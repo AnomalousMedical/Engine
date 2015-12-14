@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "../Include/ReshapeableRigidBodySection.h"
+#include "../Extras/Serialize/BulletFileLoader/btBulletFile.h"
 
 ReshapeableRigidBodySection::ReshapeableRigidBodySection(void)
 {
@@ -83,8 +84,6 @@ void ReshapeableRigidBodySection::addHullShape(float* vertices, int numPoints, i
 		compoundShape->addChildShape(transform, shape);
 	}
 }
-
-#include "../Extras/Serialize/BulletFileLoader/btBulletFile.h"
 
 void ReshapeableRigidBodySection::cloneAndAddShape(btCollisionShape* toClone, const Vector3& translation, const Quaternion& rotation, btCompoundShape* compoundShape)
 {

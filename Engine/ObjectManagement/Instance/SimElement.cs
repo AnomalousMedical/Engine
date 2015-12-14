@@ -42,6 +42,21 @@ namespace Engine.ObjectManagement
             this.Name = name;
         }
 
+        internal void WillDoDispose()
+        {
+            WillDispose();
+        }
+
+        /// <summary>
+        /// Override this function to get an alert before the object is disposed. At this point
+        /// all other sim elements for this sim object are still valid. Other sim objects are no
+        /// longer valid at this point.
+        /// </summary>
+        protected virtual void WillDispose()
+        {
+
+        }
+
         /// <summary>
         /// Cleans up any objects that cannot be garbage collected.
         /// </summary>
@@ -51,8 +66,8 @@ namespace Engine.ObjectManagement
         }
 
         /// <summary>
-        /// Dispose function called on cleanup. This is hidden by being invoked
-        /// by the internal member Destroy().
+        /// Dispose function called on cleanup. At this point the other sim elements on the 
+        /// sim object should not be considered valid and other sim objects are invalid.
         /// </summary>
         protected abstract void Dispose();
 

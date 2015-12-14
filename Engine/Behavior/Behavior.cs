@@ -105,6 +105,15 @@ namespace Engine
         }
 
         /// <summary>
+        /// Called before destroy is called. All other sim elements in the sim object
+        /// are still valid at this point.
+        /// </summary>
+        protected virtual void willDestroy()
+        {
+
+        }
+
+        /// <summary>
         /// Override this function to provide custom destroy behavior.
         /// </summary>
         protected virtual void destroy()
@@ -280,6 +289,17 @@ namespace Engine
                 {
                     manager.deactivateBehavior(this);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Called when WillDispose is called, forwards to willDestroy.
+        /// </summary>
+        protected override void WillDispose()
+        {
+            if (valid)
+            {
+                willDestroy();
             }
         }
 

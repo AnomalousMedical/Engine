@@ -34,6 +34,11 @@ namespace Engine.ObjectManagement
         {
             foreach (SimElement element in elements)
             {
+                element.WillDoDispose();
+            }
+
+            foreach (SimElement element in elements)
+            {
                 element.DoDispose();
             }
         }
