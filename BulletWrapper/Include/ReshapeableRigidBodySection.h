@@ -10,7 +10,7 @@ class ReshapeableRigidBodySection : public ConvexDecomposition::ConvexDecompInte
 {
 private:
 	btAlignedObjectArray<btCollisionShape*> m_convexShapes;
-	btAlignedObjectArray<btVector3> m_convexCentroids;
+	btAlignedObjectArray<btTransform> m_convexCentroids;
 	btTransform transform;
 
 public:

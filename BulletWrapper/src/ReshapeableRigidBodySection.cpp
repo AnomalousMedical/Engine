@@ -20,21 +20,16 @@ ReshapeableRigidBodySection::~ReshapeableRigidBodySection(void)
 
 void ReshapeableRigidBodySection::addShapes(btCompoundShape* compoundShape)
 {
-	btTransform trans;
-	for (int i=0; i < m_convexShapes.size(); ++i)
+	for (int i = 0; i < m_convexShapes.size(); ++i)
 	{
-		trans.setIdentity();
-		btVector3 centroid = m_convexCentroids[i];
-		trans.setOrigin(centroid);
-		trans = transform * trans;
 		btCollisionShape* convexShape = m_convexShapes[i];
-		compoundShape->addChildShape(trans, convexShape);
+		compoundShape->addChildShape(transform * m_convexCentroids[i], convexShape);
 	}
 }
 
 void ReshapeableRigidBodySection::removeShapes(btCompoundShape* compoundShape)
 {
-	for (int i=0; i < m_convexShapes.size(); ++i)
+	for (int i = 0; i < m_convexShapes.size(); ++i)
 	{
 		btCollisionShape* convexShape = m_convexShapes[i];
 		compoundShape->removeChildShape(convexShape);
@@ -43,7 +38,7 @@ void ReshapeableRigidBodySection::removeShapes(btCompoundShape* compoundShape)
 
 void ReshapeableRigidBodySection::deleteShapes()
 {
-	for (int i=0; i < m_convexShapes.size(); ++i)
+	for (int i = 0; i < m_convexShapes.size(); ++i)
 	{
 		btCollisionShape* convexShape = m_convexShapes[i];
 		delete convexShape;
@@ -55,14 +50,15 @@ void ReshapeableRigidBodySection::deleteShapes()
 void ReshapeableRigidBodySection::addSphere(float radius, const Vector3& translation, btCompoundShape* compoundShape)
 {
 	btSphereShape* sphereShape = new btSphereShape(radius);
-	btVector3 centroid = translation.toBullet();
 	m_convexShapes.push_back(sphereShape);
-	m_convexCentroids.push_back(centroid);
-	if(compoundShape != 0)
+
+	btTransform transform;
+	transform.setIdentity();
+	transform.setOrigin(translation.toBullet());
+	m_convexCentroids.push_back(transform);
+
+	if (compoundShape != 0)
 	{
-		btTransform transform;
-		transform.setIdentity();
-		transform.setOrigin(centroid);
 		compoundShape->addChildShape(transform, sphereShape);
 	}
 }
@@ -71,16 +67,16 @@ void ReshapeableRigidBodySection::addHullShape(float* vertices, int numPoints, i
 {
 	btConvexHullShape* shape = new btConvexHullShape(vertices, numPoints, stride);
 	shape->setMargin(collisionMargin);
-
-	btVector3 centroid = translation.toBullet();
 	m_convexShapes.push_back(shape);
-	m_convexCentroids.push_back(centroid);
+
+	btTransform transform;
+	transform.setIdentity();
+	transform.setOrigin(translation.toBullet());
+	transform.setRotation(rotation.toBullet());
+	m_convexCentroids.push_back(transform);
+
 	if (compoundShape != 0)
 	{
-		btTransform transform;
-		transform.setIdentity();
-		transform.setOrigin(centroid);
-		transform.setRotation(rotation.toBullet());
 		compoundShape->addChildShape(transform, shape);
 	}
 }
@@ -101,16 +97,46 @@ void ReshapeableRigidBodySection::cloneAndAddShape(btCollisionShape* toClone, co
 		btCollisionShapeData* shapeData = (btCollisionShapeData*)bulletFile2->m_collisionShapes[0];
 		btCollisionShape* shape = convertCollisionShape(shapeData);
 
-		btVector3 centroid = translation.toBullet();
-		m_convexShapes.push_back(shape);
-		m_convexCentroids.push_back(centroid);
-		if (compoundShape != 0)
+		if (shape->isCompound())
 		{
+			btCompoundShape* loadedCompoundShape = static_cast<btCompoundShape*>(shape);
+			btTransform trans;
+			trans.setIdentity();
+			trans.setOrigin(translation.toBullet());
+			trans.setRotation(rotation.toBullet());
+
+			btCompoundShapeChild* childPtr = loadedCompoundShape->getChildList();
+			for (int i = 0; i < loadedCompoundShape->getNumChildShapes(); ++i)
+			{
+				m_convexShapes.push_back(childPtr->m_childShape);
+
+				btTransform childTrans = trans * childPtr->m_transform;
+				m_convexCentroids.push_back(childTrans);
+
+				if (compoundShape != 0)
+				{
+					compoundShape->addChildShape(childTrans, childPtr->m_childShape);
+				}
+
+				++childPtr;
+			}
+
+			delete shape;
+		}
+		else
+		{
+			m_convexShapes.push_back(shape);
+
 			btTransform transform;
 			transform.setIdentity();
-			transform.setOrigin(centroid);
+			transform.setOrigin(translation.toBullet());
 			transform.setRotation(rotation.toBullet());
-			compoundShape->addChildShape(transform, shape);
+			m_convexCentroids.push_back(transform);
+
+			if (compoundShape != 0)
+			{
+				compoundShape->addChildShape(transform, shape);
+			}
 		}
 	}
 
@@ -137,35 +163,39 @@ void ReshapeableRigidBodySection::setLocalScaling(const Vector3& scale)
 
 void ReshapeableRigidBodySection::ConvexDecompResult(ConvexDecomposition::ConvexResult &result)
 {
-	btVector3 localScaling(1.f,1.f,1.f);
+	btVector3 localScaling(1.f, 1.f, 1.f);
 
 	//calc centroid, to shift vertices around center of mass
-	btVector3 centroid(0,0,0);
+	btVector3 centroid(0, 0, 0);
 	btAlignedObjectArray<btVector3> vertices;
-	for (unsigned int i=0; i<result.mHullVcount; i++)
+	for (unsigned int i = 0; i < result.mHullVcount; i++)
 	{
-		btVector3 vertex(result.mHullVertices[i*3],result.mHullVertices[i*3+1],result.mHullVertices[i*3+2]);
+		btVector3 vertex(result.mHullVertices[i * 3], result.mHullVertices[i * 3 + 1], result.mHullVertices[i * 3 + 2]);
 		vertex *= localScaling;
 		centroid += vertex;
 	}
 
-	centroid *= 1.f/(float(result.mHullVcount) );
+	centroid *= 1.f / (float(result.mHullVcount));
 
 	//Shift vertices by centroid.
-	for (unsigned int i=0; i<result.mHullVcount; i++)
+	for (unsigned int i = 0; i < result.mHullVcount; i++)
 	{
-		btVector3 vertex(result.mHullVertices[i*3],result.mHullVertices[i*3+1],result.mHullVertices[i*3+2]);
+		btVector3 vertex(result.mHullVertices[i * 3], result.mHullVertices[i * 3 + 1], result.mHullVertices[i * 3 + 2]);
 		vertex *= localScaling;
-		vertex -= centroid ;
+		vertex -= centroid;
 		vertices.push_back(vertex);
 	}
 
 	//Create convex hull
-	btConvexHullShape* convexShape = new btConvexHullShape(&(vertices[0].getX()),vertices.size());
+	btConvexHullShape* convexShape = new btConvexHullShape(&(vertices[0].getX()), vertices.size());
 
 	convexShape->setMargin(0.0f);
 	m_convexShapes.push_back(convexShape);
-	m_convexCentroids.push_back(centroid);
+
+	btTransform trans;
+	trans.setIdentity();
+	trans.setOrigin(centroid);
+	m_convexCentroids.push_back(trans);
 }
 
 btCollisionShape* ReshapeableRigidBodySection::convertCollisionShape(btCollisionShapeData* shapeData)
@@ -362,7 +392,7 @@ btCollisionShape* ReshapeableRigidBodySection::convertCollisionShape(btCollision
 			radii.resize(numSpheres);
 			tmpPos.resize(numSpheres);
 			int i;
-			for (i = 0; i<numSpheres; i++)
+			for (i = 0; i < numSpheres; i++)
 			{
 				tmpPos[i].deSerializeFloat(mss->m_localPositionArrayPtr[i].m_pos);
 				radii[i] = mss->m_localPositionArrayPtr[i].m_radius;
@@ -381,7 +411,7 @@ btCollisionShape* ReshapeableRigidBodySection::convertCollisionShape(btCollision
 			btAlignedObjectArray<btVector3> tmpPoints;
 			tmpPoints.resize(numPoints);
 			int i;
-			for (i = 0; i<numPoints; i++)
+			for (i = 0; i < numPoints; i++)
 			{
 #ifdef BT_USE_DOUBLE_PRECISION
 				if (convexData->m_unscaledPointsDoublePtr)
@@ -396,7 +426,7 @@ btCollisionShape* ReshapeableRigidBodySection::convertCollisionShape(btCollision
 #endif //BT_USE_DOUBLE_PRECISION
 			}
 			btConvexHullShape* hullShape = createConvexHullShape();
-			for (i = 0; i<numPoints; i++)
+			for (i = 0; i < numPoints; i++)
 			{
 				hullShape->addPoint(tmpPoints[i]);
 			}
@@ -424,66 +454,66 @@ btCollisionShape* ReshapeableRigidBodySection::convertCollisionShape(btCollision
 	}
 	case TRIANGLE_MESH_SHAPE_PROXYTYPE:
 	{
-//		btTriangleMeshShapeData* trimesh = (btTriangleMeshShapeData*)shapeData;
-//		btStridingMeshInterfaceData* interfaceData = createStridingMeshInterfaceData(&trimesh->m_meshInterface);
-//		btTriangleIndexVertexArray* meshInterface = createMeshInterface(*interfaceData);
-//		if (!meshInterface->getNumSubParts())
-//		{
-//			return 0;
-//		}
-//
-//		btVector3 scaling; scaling.deSerializeFloat(trimesh->m_meshInterface.m_scaling);
-//		meshInterface->setScaling(scaling);
-//
-//
-//		btOptimizedBvh* bvh = 0;
-//#if 1
-//		if (trimesh->m_quantizedFloatBvh)
-//		{
-//			btOptimizedBvh** bvhPtr = m_bvhMap.find(trimesh->m_quantizedFloatBvh);
-//			if (bvhPtr && *bvhPtr)
-//			{
-//				bvh = *bvhPtr;
-//			}
-//			else
-//			{
-//				bvh = createOptimizedBvh();
-//				bvh->deSerializeFloat(*trimesh->m_quantizedFloatBvh);
-//			}
-//		}
-//		if (trimesh->m_quantizedDoubleBvh)
-//		{
-//			btOptimizedBvh** bvhPtr = m_bvhMap.find(trimesh->m_quantizedDoubleBvh);
-//			if (bvhPtr && *bvhPtr)
-//			{
-//				bvh = *bvhPtr;
-//			}
-//			else
-//			{
-//				bvh = createOptimizedBvh();
-//				bvh->deSerializeDouble(*trimesh->m_quantizedDoubleBvh);
-//			}
-//		}
-//#endif
-//
-//
-//		btBvhTriangleMeshShape* trimeshShape = createBvhTriangleMeshShape(meshInterface, bvh);
-//		trimeshShape->setMargin(trimesh->m_collisionMargin);
-//		shape = trimeshShape;
-//
-//		if (trimesh->m_triangleInfoMap)
-//		{
-//			btTriangleInfoMap* map = createTriangleInfoMap();
-//			map->deSerialize(*trimesh->m_triangleInfoMap);
-//			trimeshShape->setTriangleInfoMap(map);
-//
-//#ifdef USE_INTERNAL_EDGE_UTILITY
-//			gContactAddedCallback = btAdjustInternalEdgeContactsCallback;
-//#endif //USE_INTERNAL_EDGE_UTILITY
-//
-//		}
-//
-//		//printf("trimesh->m_collisionMargin=%f\n",trimesh->m_collisionMargin);
+		//		btTriangleMeshShapeData* trimesh = (btTriangleMeshShapeData*)shapeData;
+		//		btStridingMeshInterfaceData* interfaceData = createStridingMeshInterfaceData(&trimesh->m_meshInterface);
+		//		btTriangleIndexVertexArray* meshInterface = createMeshInterface(*interfaceData);
+		//		if (!meshInterface->getNumSubParts())
+		//		{
+		//			return 0;
+		//		}
+		//
+		//		btVector3 scaling; scaling.deSerializeFloat(trimesh->m_meshInterface.m_scaling);
+		//		meshInterface->setScaling(scaling);
+		//
+		//
+		//		btOptimizedBvh* bvh = 0;
+		//#if 1
+		//		if (trimesh->m_quantizedFloatBvh)
+		//		{
+		//			btOptimizedBvh** bvhPtr = m_bvhMap.find(trimesh->m_quantizedFloatBvh);
+		//			if (bvhPtr && *bvhPtr)
+		//			{
+		//				bvh = *bvhPtr;
+		//			}
+		//			else
+		//			{
+		//				bvh = createOptimizedBvh();
+		//				bvh->deSerializeFloat(*trimesh->m_quantizedFloatBvh);
+		//			}
+		//		}
+		//		if (trimesh->m_quantizedDoubleBvh)
+		//		{
+		//			btOptimizedBvh** bvhPtr = m_bvhMap.find(trimesh->m_quantizedDoubleBvh);
+		//			if (bvhPtr && *bvhPtr)
+		//			{
+		//				bvh = *bvhPtr;
+		//			}
+		//			else
+		//			{
+		//				bvh = createOptimizedBvh();
+		//				bvh->deSerializeDouble(*trimesh->m_quantizedDoubleBvh);
+		//			}
+		//		}
+		//#endif
+		//
+		//
+		//		btBvhTriangleMeshShape* trimeshShape = createBvhTriangleMeshShape(meshInterface, bvh);
+		//		trimeshShape->setMargin(trimesh->m_collisionMargin);
+		//		shape = trimeshShape;
+		//
+		//		if (trimesh->m_triangleInfoMap)
+		//		{
+		//			btTriangleInfoMap* map = createTriangleInfoMap();
+		//			map->deSerialize(*trimesh->m_triangleInfoMap);
+		//			trimeshShape->setTriangleInfoMap(map);
+		//
+		//#ifdef USE_INTERNAL_EDGE_UTILITY
+		//			gContactAddedCallback = btAdjustInternalEdgeContactsCallback;
+		//#endif //USE_INTERNAL_EDGE_UTILITY
+		//
+		//		}
+		//
+		//		//printf("trimesh->m_collisionMargin=%f\n",trimesh->m_collisionMargin);
 		break;
 	}
 	case COMPOUND_SHAPE_PROXYTYPE:
@@ -495,7 +525,7 @@ btCollisionShape* ReshapeableRigidBodySection::convertCollisionShape(btCollision
 
 
 		btAlignedObjectArray<btCollisionShape*> childShapes;
-		for (int i = 0; i<compoundData->m_numChildShapes; i++)
+		for (int i = 0; i < compoundData->m_numChildShapes; i++)
 		{
 			btCompoundShapeChildData* ptr = &compoundData->m_childShapePtr[i];
 
