@@ -66,13 +66,12 @@ void ReshapeableRigidBody::createHullRegion(std::string name, ConvexDecompositio
 	section->addShapes(compoundShape);
 }
 
-void ReshapeableRigidBody::addSphereShape(std::string regionName, float radius, Vector3* origin)
+ReshapeableRigidBodySection* ReshapeableRigidBody::getSection(std::string& regionName)
 {
-	//Find the section.
 	ReshapeableRigidBodySection* section;
 	HullRegionMap::iterator sectionFind = hullRegions.find(regionName);
 
-	if(sectionFind != hullRegions.end())
+	if (sectionFind != hullRegions.end())
 	{
 		section = sectionFind->second;
 	}
@@ -82,7 +81,39 @@ void ReshapeableRigidBody::addSphereShape(std::string regionName, float radius, 
 		hullRegions[regionName] = section;
 	}
 
+	return section;
+}
+
+void ReshapeableRigidBody::addSphereShape(std::string regionName, float radius, Vector3* origin)
+{
+	ReshapeableRigidBodySection* section = getSection(regionName);
 	section->addSphere(radius, *origin, compoundShape);
+}
+
+void ReshapeableRigidBody::addHullShape(std::string regionName, float* vertices, int numPoints, int stride, float collisionMargin, Vector3* origin, Quaternion* rotation)
+{
+	ReshapeableRigidBodySection* section = getSection(regionName);
+	section->addHullShape(vertices, numPoints, stride, collisionMargin, *origin, *rotation, compoundShape);
+}
+
+void ReshapeableRigidBody::cloneAndAddShape(std::string regionName, btCollisionShape* toClone, const Vector3& translation, const Quaternion& rotation)
+{
+	ReshapeableRigidBodySection* section = getSection(regionName);
+	section->cloneAndAddShape(toClone, translation, rotation, compoundShape);
+}
+
+void ReshapeableRigidBody::moveOrigin(std::string regionName, const Vector3& translation, const Quaternion& orientation)
+{
+	ReshapeableRigidBodySection* section = getSection(regionName);
+	section->removeShapes(compoundShape);
+	section->moveOrigin(translation, orientation);
+	section->addShapes(compoundShape);
+}
+
+void ReshapeableRigidBody::setLocalScaling(std::string regionName, const Vector3& scale)
+{
+	ReshapeableRigidBodySection* section = getSection(regionName);
+	section->setLocalScaling(scale);
 }
 
 void ReshapeableRigidBody::destroyRegion(std::string name)
@@ -135,6 +166,16 @@ extern "C" _AnomalousExport void ReshapeableRigidBody_createHullRegion(Reshapeab
 extern "C" _AnomalousExport void ReshapeableRigidBody_addSphereShape(ReshapeableRigidBody* body, char* regionName, float radius, Vector3* origin)
 {
 	body->addSphereShape(regionName, radius, origin);
+}
+
+extern "C" _AnomalousExport void ReshapeableRigidBody_addHullShape(ReshapeableRigidBody* body, char* regionName, float* vertices, int numPoints, int stride, float collisionMargin, Vector3* origin, Quaternion* rotation)
+{
+	body->addHullShape(regionName, vertices, numPoints, stride, collisionMargin, origin, rotation);
+}
+
+extern "C" _AnomalousExport void ReshapeableRigidBody_cloneAndAddShape(ReshapeableRigidBody* body, char* regionName, btCollisionShape* toClone, const Vector3& translation, const Quaternion& rotation)
+{
+	body->cloneAndAddShape(regionName, toClone, translation, rotation);
 }
 
 extern "C" _AnomalousExport void ReshapeableRigidBody_destroyRegion(ReshapeableRigidBody* body, char* name)

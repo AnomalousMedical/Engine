@@ -94,7 +94,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\include;..\..\Dependencies\Bullet\src\src;..\..\Dependencies\Bullet\src\Extras\ConvexDecomposition;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>bulletsoftbody_debug.lib;bulletdynamics_debug.lib;bulletcollision_debug.lib;linearmath_debug.lib;convexdecomposition_debug.lib</AdditionalDependencies>
+      <AdditionalDependencies>bulletsoftbody_debug.lib;bulletdynamics_debug.lib;bulletcollision_debug.lib;linearmath_debug.lib;convexdecomposition_debug.lib;BulletFileLoader.lib</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AssemblyDebug>true</AssemblyDebug>
       <TargetMachine>MachineX86</TargetMachine>
@@ -112,7 +112,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\include;..\..\Dependencies\Bullet\src\src;..\..\Dependencies\Bullet\src\Extras\ConvexDecomposition;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>bulletsoftbody_debug.lib;bulletdynamics_debug.lib;bulletcollision_debug.lib;linearmath_debug.lib;convexdecomposition_debug.lib</AdditionalDependencies>
+      <AdditionalDependencies>bulletsoftbody_debug.lib;bulletdynamics_debug.lib;bulletcollision_debug.lib;linearmath_debug.lib;convexdecomposition_debug.lib;BulletFileLoader.lib</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AssemblyDebug>true</AssemblyDebug>
       <AdditionalLibraryDirectories>..\..\Dependencies\Bullet\Win64Build\lib\Debug;$(SolutionDir)\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -128,7 +128,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>bulletsoftbody.lib;bulletdynamics.lib;bulletcollision.lib;linearmath.lib;convexdecomposition.lib</AdditionalDependencies>
+      <AdditionalDependencies>bulletsoftbody.lib;bulletdynamics.lib;bulletcollision.lib;linearmath.lib;convexdecomposition.lib;BulletFileLoader.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\Dependencies\Bullet\WindowsBuild\lib\Release;$(SolutionDir)\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <TargetMachine>MachineX86</TargetMachine>
@@ -144,7 +144,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>bulletsoftbody.lib;bulletdynamics.lib;bulletcollision.lib;linearmath.lib;convexdecomposition.lib</AdditionalDependencies>
+      <AdditionalDependencies>bulletsoftbody.lib;bulletdynamics.lib;bulletcollision.lib;linearmath.lib;convexdecomposition.lib;BulletFileLoader.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\Dependencies\Bullet\Win64Build\lib\Release;$(SolutionDir)\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>

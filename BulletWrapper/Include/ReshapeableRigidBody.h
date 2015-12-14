@@ -14,6 +14,7 @@ private:
 	btCompoundShape* compoundShape;
 	btRigidBody* rigidBody;
 	HullRegionMap hullRegions;
+	ReshapeableRigidBodySection* getSection(std::string& name);
 
 public:
 	ReshapeableRigidBody(btRigidBody* rigidBody, btCompoundShape* compoundShape);
@@ -39,6 +40,14 @@ public:
 	/// <param name="radius">The radius of the sphere.</param>
 	/// <param name="origin">The origin of the sphere.</param>
 	void addSphereShape(std::string regionName, float radius, Vector3* origin);
+
+	void addHullShape(std::string regionName, float* vertices, int numPoints, int stride, float collisionMargin, Vector3* origin, Quaternion* rotation);
+
+	void cloneAndAddShape(std::string regionName, btCollisionShape* toClone, const Vector3& translation, const Quaternion& rotation);
+
+	void moveOrigin(std::string regionName, const Vector3& translation, const Quaternion& orientation);
+
+	void setLocalScaling(std::string regionName, const Vector3& scale);
 
 	/// <summary>
 	/// Empty and destroy a region removing it from the collision shape.

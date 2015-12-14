@@ -63,10 +63,23 @@ namespace BulletPlugin
             ReshapeableRigidBody_addSphereShape(nativeReshapeable, regionName, radius, ref origin);
         }
 
-	    /// <summary>
-	    /// Empty and destroy a region removing it from the collision shape.
-	    /// </summary>
-	    /// <param name="name">The name of the region to destroy.</param>
+        public unsafe void addHullShape(string regionName, float[] vertices, Vector3 translation, Quaternion rotation)
+        {
+            fixed (float* verts = &vertices[0])
+            {
+                ReshapeableRigidBody_addHullShape(nativeReshapeable, regionName, verts, vertices.Length / 3, sizeof(Vector3), BulletInterface.Instance.ShapeMargin, ref translation, ref rotation);
+            }
+        }
+
+        public void addNamedShape(String regionName, String shapeName, Vector3 translation, Quaternion rotation)
+        {
+
+        }
+
+        /// <summary>
+        /// Empty and destroy a region removing it from the collision shape.
+        /// </summary>
+        /// <param name="name">The name of the region to destroy.</param>
         public void destroyRegion(String name)
         {
             ReshapeableRigidBody_destroyRegion(nativeReshapeable, name);
@@ -93,6 +106,9 @@ namespace BulletPlugin
 
         [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ReshapeableRigidBody_addSphereShape(IntPtr body, String regionName, float radius, ref Vector3 origin);
+
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern unsafe void ReshapeableRigidBody_addHullShape(IntPtr body, String regionName, float* vertices, int numPoints, int stride, float collisionMargin, ref Vector3 origin, ref Quaternion rotation);
 
         [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ReshapeableRigidBody_destroyRegion(IntPtr body, String name);
