@@ -59,7 +59,7 @@ void ReshapeableRigidBodySection::addSphere(float radius, const Vector3& transla
 
 	if (compoundShape != 0)
 	{
-		compoundShape->addChildShape(transform, sphereShape);
+		compoundShape->addChildShape(this->transform * transform, sphereShape);
 	}
 }
 
@@ -77,7 +77,7 @@ void ReshapeableRigidBodySection::addHullShape(float* vertices, int numPoints, i
 
 	if (compoundShape != 0)
 	{
-		compoundShape->addChildShape(transform, shape);
+		compoundShape->addChildShape(this->transform * transform, shape);
 	}
 }
 
@@ -115,7 +115,7 @@ void ReshapeableRigidBodySection::cloneAndAddShape(btCollisionShape* toClone, co
 
 				if (compoundShape != 0)
 				{
-					compoundShape->addChildShape(childTrans, childPtr->m_childShape);
+					compoundShape->addChildShape(this->transform * childTrans, childPtr->m_childShape);
 				}
 
 				++childPtr;
@@ -135,7 +135,7 @@ void ReshapeableRigidBodySection::cloneAndAddShape(btCollisionShape* toClone, co
 
 			if (compoundShape != 0)
 			{
-				compoundShape->addChildShape(transform, shape);
+				compoundShape->addChildShape(this->transform * transform, shape);
 			}
 		}
 	}
