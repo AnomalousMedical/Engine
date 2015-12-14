@@ -187,3 +187,13 @@ extern "C" _AnomalousExport void ReshapeableRigidBody_recomputeMassProps(Reshape
 {
 	body->recomputeMassProps();
 }
+
+extern "C" _AnomalousExport void ReshapeableRigidBody_moveOrigin(ReshapeableRigidBody* body, char* regionName, const Vector3& translation, const Quaternion& orientation)
+{
+	body->moveOrigin(regionName, translation, orientation);
+}
+
+extern "C" _AnomalousExport void ReshapeableRigidBody_setLocalScaling(ReshapeableRigidBody* body, char* regionName, const Vector3& scale)
+{
+	body->setLocalScaling(regionName, scale);
+}

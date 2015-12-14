@@ -111,6 +111,16 @@ namespace BulletPlugin
             ReshapeableRigidBody_recomputeMassProps(nativeReshapeable);
         }
 
+        public void moveOrigin(String regionName, Vector3 translation, Quaternion rotation)
+        {
+            ReshapeableRigidBody_moveOrigin(nativeReshapeable, regionName, ref translation, ref rotation);
+        }
+
+        public void setLocalScaling(String regionName, Vector3 scaling)
+        {
+            ReshapeableRigidBody_setLocalScaling(nativeReshapeable, regionName, ref scaling);
+        }
+
         //Imports
         [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr ReshapeableRigidBody_Create(IntPtr rigidBody, IntPtr compoundShape);
@@ -135,5 +145,11 @@ namespace BulletPlugin
 
         [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ReshapeableRigidBody_recomputeMassProps(IntPtr body);
+
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void ReshapeableRigidBody_moveOrigin(IntPtr body, String regionName, ref Vector3 translation, ref Quaternion orientation);
+
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void ReshapeableRigidBody_setLocalScaling(IntPtr body, String regionName, ref Vector3 scale);
     }
 }
