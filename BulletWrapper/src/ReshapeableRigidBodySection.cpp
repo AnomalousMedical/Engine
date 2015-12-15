@@ -81,7 +81,7 @@ void ReshapeableRigidBodySection::addHullShape(float* vertices, int numPoints, i
 	}
 }
 
-void ReshapeableRigidBodySection::cloneAndAddShape(btCollisionShape* toClone, const Vector3& translation, const Quaternion& rotation, btCompoundShape* compoundShape)
+void ReshapeableRigidBodySection::cloneAndAddShape(btCollisionShape* toClone, const Vector3& translation, const Quaternion& rotation, const Vector3& scale, btCompoundShape* compoundShape)
 {
 	btDefaultSerializer* serializer = new btDefaultSerializer();
 
@@ -113,6 +113,8 @@ void ReshapeableRigidBodySection::cloneAndAddShape(btCollisionShape* toClone, co
 				btTransform childTrans = trans * childPtr->m_transform;
 				m_convexCentroids.push_back(childTrans);
 
+				childPtr->m_childShape->setLocalScaling(scale.toBullet());
+
 				if (compoundShape != 0)
 				{
 					compoundShape->addChildShape(this->transform * childTrans, childPtr->m_childShape);
@@ -132,6 +134,8 @@ void ReshapeableRigidBodySection::cloneAndAddShape(btCollisionShape* toClone, co
 			transform.setOrigin(translation.toBullet());
 			transform.setRotation(rotation.toBullet());
 			m_convexCentroids.push_back(transform);
+
+			shape->setLocalScaling(scale.toBullet());
 
 			if (compoundShape != 0)
 			{

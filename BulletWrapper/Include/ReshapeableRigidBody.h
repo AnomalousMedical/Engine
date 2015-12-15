@@ -43,7 +43,7 @@ public:
 
 	void addHullShape(std::string regionName, float* vertices, int numPoints, int stride, float collisionMargin, Vector3* origin, Quaternion* rotation);
 
-	void cloneAndAddShape(std::string regionName, btCollisionShape* toClone, const Vector3& translation, const Quaternion& rotation);
+	void cloneAndAddShape(std::string regionName, btCollisionShape* toClone, const Vector3& translation, const Quaternion& rotation, const Vector3& scale);
 
 	void moveOrigin(std::string regionName, const Vector3& translation, const Quaternion& orientation);
 

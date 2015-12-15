@@ -59,7 +59,7 @@ public:
 
 	void addHullShape(float* vertices, int numPoints, int stride, float collisionMargin, const Vector3& translation, const Quaternion& rotation, btCompoundShape* compoundShape);
 
-	void cloneAndAddShape(btCollisionShape* toClone, const Vector3& translation, const Quaternion& rotation, btCompoundShape* compoundShape);
+	void cloneAndAddShape(btCollisionShape* toClone, const Vector3& translation, const Quaternion& rotation, const Vector3& scale, btCompoundShape* compoundShape);
 
 	/// <summary>
 	/// Move the origin of this section. Will not take effect until the shapes are removed and readded.
