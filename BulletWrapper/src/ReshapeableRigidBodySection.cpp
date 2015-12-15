@@ -3,6 +3,7 @@
 #include "../Extras/Serialize/BulletFileLoader/btBulletFile.h"
 
 ReshapeableRigidBodySection::ReshapeableRigidBodySection(void)
+	:scale(1.0f, 1.0f, 1.0f)
 {
 	transform.setIdentity();
 }
@@ -47,41 +48,7 @@ void ReshapeableRigidBodySection::deleteShapes()
 	m_convexCentroids.clear();
 }
 
-void ReshapeableRigidBodySection::addSphere(float radius, const Vector3& translation, btCompoundShape* compoundShape)
-{
-	btSphereShape* sphereShape = new btSphereShape(radius);
-	m_convexShapes.push_back(sphereShape);
-
-	btTransform transform;
-	transform.setIdentity();
-	transform.setOrigin(translation.toBullet());
-	m_convexCentroids.push_back(transform);
-
-	if (compoundShape != 0)
-	{
-		compoundShape->addChildShape(this->transform * transform, sphereShape);
-	}
-}
-
-void ReshapeableRigidBodySection::addHullShape(float* vertices, int numPoints, int stride, float collisionMargin, const Vector3& translation, const Quaternion& rotation, btCompoundShape* compoundShape)
-{
-	btConvexHullShape* shape = new btConvexHullShape(vertices, numPoints, stride);
-	shape->setMargin(collisionMargin);
-	m_convexShapes.push_back(shape);
-
-	btTransform transform;
-	transform.setIdentity();
-	transform.setOrigin(translation.toBullet());
-	transform.setRotation(rotation.toBullet());
-	m_convexCentroids.push_back(transform);
-
-	if (compoundShape != 0)
-	{
-		compoundShape->addChildShape(this->transform * transform, shape);
-	}
-}
-
-void ReshapeableRigidBodySection::cloneAndAddShape(btCollisionShape* toClone, const Vector3& translation, const Quaternion& rotation, const Vector3& scale, btCompoundShape* compoundShape)
+void ReshapeableRigidBodySection::cloneAndAddShape(btCollisionShape* toClone, btCompoundShape* compoundShape)
 {
 	btDefaultSerializer* serializer = new btDefaultSerializer();
 
@@ -100,25 +67,20 @@ void ReshapeableRigidBodySection::cloneAndAddShape(btCollisionShape* toClone, co
 		if (shape->isCompound())
 		{
 			btCompoundShape* loadedCompoundShape = static_cast<btCompoundShape*>(shape);
-			btTransform trans;
-			trans.setIdentity();
-			trans.setOrigin(translation.toBullet());
-			trans.setRotation(rotation.toBullet());
 
 			btCompoundShapeChild* childPtr = loadedCompoundShape->getChildList();
 			for (int i = 0; i < loadedCompoundShape->getNumChildShapes(); ++i)
 			{
 				m_convexShapes.push_back(childPtr->m_childShape);
 
-				btTransform childTrans = trans * childPtr->m_transform;
-				m_convexCentroids.push_back(childTrans);
-
-				childPtr->m_childShape->setLocalScaling(scale.toBullet());
+				m_convexCentroids.push_back(childPtr->m_transform);
 
 				if (compoundShape != 0)
 				{
-					compoundShape->addChildShape(this->transform * childTrans, childPtr->m_childShape);
+					compoundShape->addChildShape(this->transform * childPtr->m_transform, childPtr->m_childShape);
 				}
+
+				childPtr->m_childShape->setLocalScaling(scale);
 
 				++childPtr;
 			}
@@ -131,16 +93,14 @@ void ReshapeableRigidBodySection::cloneAndAddShape(btCollisionShape* toClone, co
 
 			btTransform transform;
 			transform.setIdentity();
-			transform.setOrigin(translation.toBullet());
-			transform.setRotation(rotation.toBullet());
 			m_convexCentroids.push_back(transform);
-
-			shape->setLocalScaling(scale.toBullet());
 
 			if (compoundShape != 0)
 			{
 				compoundShape->addChildShape(this->transform * transform, shape);
 			}
+
+			shape->setLocalScaling(scale);
 		}
 	}
 
@@ -163,43 +123,6 @@ void ReshapeableRigidBodySection::setLocalScaling(const Vector3& scale)
 		btCollisionShape* convexShape = m_convexShapes[i];
 		convexShape->setLocalScaling(btScale);
 	}
-}
-
-void ReshapeableRigidBodySection::ConvexDecompResult(ConvexDecomposition::ConvexResult &result)
-{
-	btVector3 localScaling(1.f, 1.f, 1.f);
-
-	//calc centroid, to shift vertices around center of mass
-	btVector3 centroid(0, 0, 0);
-	btAlignedObjectArray<btVector3> vertices;
-	for (unsigned int i = 0; i < result.mHullVcount; i++)
-	{
-		btVector3 vertex(result.mHullVertices[i * 3], result.mHullVertices[i * 3 + 1], result.mHullVertices[i * 3 + 2]);
-		vertex *= localScaling;
-		centroid += vertex;
-	}
-
-	centroid *= 1.f / (float(result.mHullVcount));
-
-	//Shift vertices by centroid.
-	for (unsigned int i = 0; i < result.mHullVcount; i++)
-	{
-		btVector3 vertex(result.mHullVertices[i * 3], result.mHullVertices[i * 3 + 1], result.mHullVertices[i * 3 + 2]);
-		vertex *= localScaling;
-		vertex -= centroid;
-		vertices.push_back(vertex);
-	}
-
-	//Create convex hull
-	btConvexHullShape* convexShape = new btConvexHullShape(&(vertices[0].getX()), vertices.size());
-
-	convexShape->setMargin(0.0f);
-	m_convexShapes.push_back(convexShape);
-
-	btTransform trans;
-	trans.setIdentity();
-	trans.setOrigin(centroid);
-	m_convexCentroids.push_back(trans);
 }
 
 btCollisionShape* ReshapeableRigidBodySection::convertCollisionShape(btCollisionShapeData* shapeData)

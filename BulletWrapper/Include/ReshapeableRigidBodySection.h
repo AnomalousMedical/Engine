@@ -6,12 +6,13 @@
 /// This class represents a section of a reshapeable rigid body. It will
 /// maintian the shapes for a given region.
 /// </summary>
-class ReshapeableRigidBodySection : public ConvexDecomposition::ConvexDecompInterface
+class ReshapeableRigidBodySection
 {
 private:
 	btAlignedObjectArray<btCollisionShape*> m_convexShapes;
 	btAlignedObjectArray<btTransform> m_convexCentroids;
 	btTransform transform;
+	btVector3 scale;
 
 public:
 	/// <summary>
@@ -49,17 +50,7 @@ public:
 	/// </summary>
 	void deleteShapes();
 
-	/// <summary>
-	/// Add a sphere to this RigidBodySection.
-	/// </summary>
-	/// <param name="radius">The radius.</param>
-	/// <param name="translation">The translation of the sphere.</param>
-	/// <param name="compoundShape">The compoundShape to add the new sphere shape to. Can be 0 to not add the sphere to anything yet.</param>
-	void addSphere(float radius, const Vector3& translation, btCompoundShape* compoundShape = 0);
-
-	void addHullShape(float* vertices, int numPoints, int stride, float collisionMargin, const Vector3& translation, const Quaternion& rotation, btCompoundShape* compoundShape);
-
-	void cloneAndAddShape(btCollisionShape* toClone, const Vector3& translation, const Quaternion& rotation, const Vector3& scale, btCompoundShape* compoundShape);
+	void cloneAndAddShape(btCollisionShape* toClone, btCompoundShape* compoundShape);
 
 	/// <summary>
 	/// Move the origin of this section. Will not take effect until the shapes are removed and readded.
@@ -70,13 +61,7 @@ public:
 
 	void setLocalScaling(const Vector3& scale);
 
-	/// <summary>
-	/// Callback from the convex decomposition algorithm. Will build the actual
-    /// convex hulls for this section.
-	/// </summary>
-	/// <param name="result">The ConvexResult.</param>
-	virtual void ConvexDecompResult(ConvexDecomposition::ConvexResult &result);
-
+private:
 	btCollisionShape* convertCollisionShape(btCollisionShapeData* shapeData);
 
 	btCollisionShape* createPlaneShape(const btVector3& planeNormal, btScalar planeConstant);

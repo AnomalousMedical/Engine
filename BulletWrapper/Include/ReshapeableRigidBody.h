@@ -21,28 +21,6 @@ public:
 
 	~ReshapeableRigidBody(void);
 
-	/// <summary>
-	/// Create a new hull region by decomposing the mesh in desc. If the region
-	///  does not exist it will be created. If it does exist it will be cleared
-	///  and recreated.
-	/// </summary>
-	/// <param name="name">The name of the region.</param>
-	/// <param name="desc">The mesh description and algorithm configuration settings.</param>
-	/// <param name="origin">An origin for the hull region.</param>
-	/// <param name="orientation">An orientation for the hull region.</param>
-	void createHullRegion(std::string name, ConvexDecompositionDesc* desc, Vector3* origin, Quaternion* orientation);
-
-	/// <summary>
-	/// Add a Sphere to the given region. If the region does not exist it will
-	/// be created.
-	/// </summary>
-	/// <param name="sectionName">The name of the section to add the sphere to.</param>
-	/// <param name="radius">The radius of the sphere.</param>
-	/// <param name="origin">The origin of the sphere.</param>
-	void addSphereShape(std::string regionName, float radius, Vector3* origin);
-
-	void addHullShape(std::string regionName, float* vertices, int numPoints, int stride, float collisionMargin, Vector3* origin, Quaternion* rotation);
-
 	void cloneAndAddShape(std::string regionName, btCollisionShape* toClone, const Vector3& translation, const Quaternion& rotation, const Vector3& scale);
 
 	void moveOrigin(std::string regionName, const Vector3& translation, const Quaternion& orientation);
