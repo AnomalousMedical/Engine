@@ -45,12 +45,12 @@ ReshapeableRigidBodySection* ReshapeableRigidBody::getSection(std::string& regio
 	return section;
 }
 
-void ReshapeableRigidBody::cloneAndAddShape(std::string regionName, btCollisionShape* toClone, const Vector3& translation, const Quaternion& rotation, const Vector3& scale)
+void ReshapeableRigidBody::cloneAndSetShape(std::string regionName, btCollisionShape* toClone, const Vector3& translation, const Quaternion& rotation, const Vector3& scale)
 {
 	ReshapeableRigidBodySection* section = getSection(regionName);
 	section->moveOrigin(translation, rotation);
 	section->setLocalScaling(scale);
-	section->cloneAndAddShape(toClone, compoundShape);
+	section->cloneAndSetShape(toClone, compoundShape);
 }
 
 void ReshapeableRigidBody::moveOrigin(std::string regionName, const Vector3& translation, const Quaternion& orientation)
@@ -77,7 +77,6 @@ void ReshapeableRigidBody::destroyRegion(std::string name)
 	{
 		section = sectionFind->second;
 		section->removeShapes(compoundShape);
-		section->deleteShapes();
 		hullRegions.erase(name);
 		delete section;
 	}
@@ -111,7 +110,7 @@ extern "C" _AnomalousExport void ReshapeableRigidBody_Delete(ReshapeableRigidBod
 
 extern "C" _AnomalousExport void ReshapeableRigidBody_cloneAndAddShape(ReshapeableRigidBody* body, char* regionName, btCollisionShape* toClone, const Vector3& translation, const Quaternion& rotation, const Vector3& scale)
 {
-	body->cloneAndAddShape(regionName, toClone, translation, rotation, scale);
+	body->cloneAndSetShape(regionName, toClone, translation, rotation, scale);
 }
 
 extern "C" _AnomalousExport void ReshapeableRigidBody_destroyRegion(ReshapeableRigidBody* body, char* name)

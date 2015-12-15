@@ -3,53 +3,86 @@
 #include "../Extras/Serialize/BulletFileLoader/btBulletFile.h"
 
 ReshapeableRigidBodySection::ReshapeableRigidBodySection(void)
-	:scale(1.0f, 1.0f, 1.0f)
+	:scale(1.0f, 1.0f, 1.0f),
+	shape(0)
 {
 	transform.setIdentity();
 }
 
-ReshapeableRigidBodySection::ReshapeableRigidBodySection(const Vector3& translation, const Quaternion& orientation)
-{
-	transform.setOrigin(translation.toBullet());
-	transform.setRotation(orientation.toBullet());
-}
-
 ReshapeableRigidBodySection::~ReshapeableRigidBodySection(void)
 {
-	deleteShapes();
+	deleteShape();
+}
+
+void ReshapeableRigidBodySection::deleteShape()
+{
+	if (shape != 0)
+	{
+		if (shape->isCompound())
+		{
+			btCompoundShape* loadedCompoundShape = static_cast<btCompoundShape*>(shape);
+
+			btCompoundShapeChild* childPtr = loadedCompoundShape->getChildList();
+			for (int i = 0; i < loadedCompoundShape->getNumChildShapes(); ++i)
+			{
+				delete childPtr->m_childShape;
+				++childPtr;
+			}
+		}
+
+		delete shape;
+		shape = 0;
+	}
 }
 
 void ReshapeableRigidBodySection::addShapes(btCompoundShape* compoundShape)
 {
-	for (int i = 0; i < m_convexShapes.size(); ++i)
+	if (shape != 0)
 	{
-		btCollisionShape* convexShape = m_convexShapes[i];
-		compoundShape->addChildShape(transform * m_convexCentroids[i], convexShape);
+		if (shape->isCompound())
+		{
+			btCompoundShape* loadedCompoundShape = static_cast<btCompoundShape*>(shape);
+
+			btCompoundShapeChild* childPtr = loadedCompoundShape->getChildList();
+			for (int i = 0; i < loadedCompoundShape->getNumChildShapes(); ++i)
+			{
+				compoundShape->addChildShape(this->transform * childPtr->m_transform, childPtr->m_childShape);
+				++childPtr;
+			}
+		}
+		else
+		{
+			compoundShape->addChildShape(this->transform, shape);
+		}
 	}
 }
 
 void ReshapeableRigidBodySection::removeShapes(btCompoundShape* compoundShape)
 {
-	for (int i = 0; i < m_convexShapes.size(); ++i)
+	if (shape != 0)
 	{
-		btCollisionShape* convexShape = m_convexShapes[i];
-		compoundShape->removeChildShape(convexShape);
+		if (shape->isCompound())
+		{
+			btCompoundShape* loadedCompoundShape = static_cast<btCompoundShape*>(shape);
+
+			btCompoundShapeChild* childPtr = loadedCompoundShape->getChildList();
+			for (int i = 0; i < loadedCompoundShape->getNumChildShapes(); ++i)
+			{
+				compoundShape->removeChildShape(childPtr->m_childShape);
+				++childPtr;
+			}
+		}
+		else
+		{
+			compoundShape->removeChildShape(shape);
+		}
 	}
 }
 
-void ReshapeableRigidBodySection::deleteShapes()
+void ReshapeableRigidBodySection::cloneAndSetShape(btCollisionShape* toClone, btCompoundShape* compoundShape)
 {
-	for (int i = 0; i < m_convexShapes.size(); ++i)
-	{
-		btCollisionShape* convexShape = m_convexShapes[i];
-		delete convexShape;
-	}
-	m_convexShapes.clear();
-	m_convexCentroids.clear();
-}
+	deleteShape();
 
-void ReshapeableRigidBodySection::cloneAndAddShape(btCollisionShape* toClone, btCompoundShape* compoundShape)
-{
 	btDefaultSerializer* serializer = new btDefaultSerializer();
 
 	serializer->startSerialization();
@@ -62,7 +95,7 @@ void ReshapeableRigidBodySection::cloneAndAddShape(btCollisionShape* toClone, bt
 	if (bulletFile2->m_collisionShapes.size() > 0)
 	{
 		btCollisionShapeData* shapeData = (btCollisionShapeData*)bulletFile2->m_collisionShapes[0];
-		btCollisionShape* shape = convertCollisionShape(shapeData);
+		shape = convertCollisionShape(shapeData);
 
 		if (shape->isCompound())
 		{
@@ -71,10 +104,6 @@ void ReshapeableRigidBodySection::cloneAndAddShape(btCollisionShape* toClone, bt
 			btCompoundShapeChild* childPtr = loadedCompoundShape->getChildList();
 			for (int i = 0; i < loadedCompoundShape->getNumChildShapes(); ++i)
 			{
-				m_convexShapes.push_back(childPtr->m_childShape);
-
-				m_convexCentroids.push_back(childPtr->m_transform);
-
 				if (compoundShape != 0)
 				{
 					compoundShape->addChildShape(this->transform * childPtr->m_transform, childPtr->m_childShape);
@@ -84,20 +113,12 @@ void ReshapeableRigidBodySection::cloneAndAddShape(btCollisionShape* toClone, bt
 
 				++childPtr;
 			}
-
-			delete shape;
 		}
 		else
 		{
-			m_convexShapes.push_back(shape);
-
-			btTransform transform;
-			transform.setIdentity();
-			m_convexCentroids.push_back(transform);
-
 			if (compoundShape != 0)
 			{
-				compoundShape->addChildShape(this->transform * transform, shape);
+				compoundShape->addChildShape(this->transform, shape);
 			}
 
 			shape->setLocalScaling(scale);
@@ -117,11 +138,25 @@ void ReshapeableRigidBodySection::moveOrigin(const Vector3& translation, const Q
 
 void ReshapeableRigidBodySection::setLocalScaling(const Vector3& scale)
 {
-	btVector3 btScale = scale.toBullet();
-	for (int i = 0; i < m_convexShapes.size(); ++i)
+	this->scale = scale.toBullet();
+
+	if (shape != 0)
 	{
-		btCollisionShape* convexShape = m_convexShapes[i];
-		convexShape->setLocalScaling(btScale);
+		if (shape->isCompound())
+		{
+			btCompoundShape* loadedCompoundShape = static_cast<btCompoundShape*>(shape);
+
+			btCompoundShapeChild* childPtr = loadedCompoundShape->getChildList();
+			for (int i = 0; i < loadedCompoundShape->getNumChildShapes(); ++i)
+			{
+				childPtr->m_childShape->setLocalScaling(this->scale);
+				++childPtr;
+			}
+		}
+		else
+		{
+			shape->setLocalScaling(this->scale);
+		}
 	}
 }
 
