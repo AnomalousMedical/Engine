@@ -15,7 +15,7 @@ extern "C" _AnomalousExport btCompoundShape* CompoundShape_Create(float collisio
 extern "C" _AnomalousExport void CompoundShape_DeleteChildren(btCompoundShape* compound)
 {
 	int numShapes = compound->getNumChildShapes();
-	for(int i = 0; i < numShapes; ++i)
+	for (int i = 0; i < numShapes; ++i)
 	{
 		btCollisionShape* shape = compound->getChildShape(i);
 		delete shape;
@@ -79,18 +79,43 @@ extern "C" _AnomalousExport void CollisionShape_CalculateLocalInertia(btCollisio
 btCollisionShape* cloneSingleShape(btCollisionShape* source)
 {
 	btCollisionShape* shape = 0;
-	btConvexHullShape* sourceHull;
 
+	//Note that this doesn't really clone all possible types
 	switch (source->getShapeType())
 	{
-		case CONVEX_HULL_SHAPE_PROXYTYPE:
-			sourceHull = static_cast<btConvexHullShape*>(shape);
-			shape = new btConvexHullShape((btScalar*)sourceHull->getUnscaledPoints(), sourceHull->getNumPoints());
-		default:
-			shape = 0;
+	case CONVEX_HULL_SHAPE_PROXYTYPE:
+	{
+		btConvexHullShape* sourceHull = static_cast<btConvexHullShape*>(source);
+		shape = new btConvexHullShape((btScalar*)sourceHull->getUnscaledPoints(), sourceHull->getNumPoints());
+	}
+	break;
+	case CAPSULE_SHAPE_PROXYTYPE:
+	{
+		btCapsuleShape* sourceCapsule = static_cast<btCapsuleShape*>(source);
+		shape = new btCapsuleShape(sourceCapsule->getRadius(), sourceCapsule->getHalfHeight() * 2.0f);
+	}
+	break;
+	case BOX_SHAPE_PROXYTYPE:
+	{
+		btBoxShape* sourceBox = static_cast<btBoxShape*>(source);
+		shape = new btBoxShape(sourceBox->getHalfExtentsWithoutMargin());
+	}
+	break;
+	case SPHERE_SHAPE_PROXYTYPE:
+	{
+		btSphereShape* source = static_cast<btSphereShape*>(source);
+		shape = new btSphereShape(source->getRadius());
+	}
+	break;
+	default:
+		shape = 0;
+		break;
 	}
 
-	shape->setMargin(source->getMargin());
+	if (shape != 0)
+	{
+		shape->setMargin(source->getMargin());
+	}
 	return shape;
 }
 
@@ -101,7 +126,7 @@ extern "C" _AnomalousExport btCollisionShape* CollisionShape_Clone(btCollisionSh
 		btCompoundShape* shape = new btCompoundShape();
 		shape->setMargin(source->getMargin());
 
-		btCompoundShape* sourceCompound = static_cast<btCompoundShape*>(shape);
+		btCompoundShape* sourceCompound = static_cast<btCompoundShape*>(source);
 		btCompoundShapeChild* childPtr = sourceCompound->getChildList();
 		for (int i = 0; i < sourceCompound->getNumChildShapes(); ++i)
 		{

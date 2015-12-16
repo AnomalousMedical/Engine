@@ -54,6 +54,11 @@ namespace BulletPlugin
             }
         }
 
+        public override btCollisionShape createClone()
+        {
+            return new btCompoundShape(CollisionShape_Clone(btShape));
+        }
+
         [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr CompoundShape_Create(float collisionMargin);
 

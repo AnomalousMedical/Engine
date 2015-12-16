@@ -16,6 +16,17 @@ namespace BulletPlugin
 
         }
 
+        internal btBoxShape(IntPtr btShape)
+           : base(btShape)
+        {
+
+        }
+
+        public override btCollisionShape createClone()
+        {
+            return new btBoxShape(CollisionShape_Clone(btShape));
+        }
+
         [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr BoxShape_Create(ref Vector3 extents, float collisionMargin);
     }

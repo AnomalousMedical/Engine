@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BulletPlugin
 {
-    public class btCollisionShape : IDisposable
+    public abstract class btCollisionShape : IDisposable
     {
         protected IntPtr btShape;
 
@@ -35,6 +35,13 @@ namespace BulletPlugin
             CollisionShape_CalculateLocalInertia(btShape, mass, ref localInertia);
         }
 
+        /// <summary>
+        /// Create a clone of this shape, the caller is responsible for the lifecycle
+        /// of the returned object.
+        /// </summary>
+        /// <returns>A new btCollisionShape that is a clone of this one.</returns>
+        public abstract btCollisionShape createClone();
+
         [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void CollisionShape_Delete(IntPtr shape);
 
@@ -42,6 +49,6 @@ namespace BulletPlugin
         private static extern void CollisionShape_CalculateLocalInertia(IntPtr shape, float mass, ref Vector3 localInertia);
 
         [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr CollisionShape_Clone(IntPtr source);
+        protected static extern IntPtr CollisionShape_Clone(IntPtr source);
     }
 }

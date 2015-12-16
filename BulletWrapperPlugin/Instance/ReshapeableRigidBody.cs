@@ -10,6 +10,7 @@ namespace BulletPlugin
     public class ReshapeableRigidBody : RigidBody
     {
         private IntPtr nativeReshapeable;
+        private Dictionary<String, btCollisionShape> shapes = new Dictionary<String, btCollisionShape>();
 
         public ReshapeableRigidBody(ReshapeableRigidBodyDefinition description, BulletScene scene, btCollisionShape collisionShape, Vector3 initialTrans, Quaternion initialRot)
             :base(description, scene, collisionShape, initialTrans, initialRot)
@@ -22,6 +23,11 @@ namespace BulletPlugin
             if(nativeReshapeable != IntPtr.Zero)
             {
                 ReshapeableRigidBody_Delete(nativeReshapeable);
+
+                foreach(var shape in shapes.Values)
+                {
+                    shape.Dispose();
+                }
             }
         }
 
@@ -38,7 +44,8 @@ namespace BulletPlugin
             BulletShapeRepository repository = BulletInterface.Instance.ShapeRepository;
             if (repository.containsValidCollection(shapeName))
             {
-                btCollisionShape shape = repository.getCollection(shapeName).CollisionShape;
+                btCollisionShape shape = repository.getCollection(shapeName).CollisionShape.createClone();
+                shapes.Add(regionName, shape);
                 ReshapeableRigidBody_cloneAndAddShape(nativeReshapeable, regionName, shape.BulletShape, ref translation, ref rotation, ref scale);
 
                 return true;
@@ -53,6 +60,12 @@ namespace BulletPlugin
         /// <param name="name">The name of the region to destroy.</param>
         public void destroyRegion(String name)
         {
+            btCollisionShape collisionShape;
+            if(shapes.TryGetValue(name, out collisionShape))
+            {
+                collisionShape.Dispose();
+                shapes.Remove(name);
+            }
             ReshapeableRigidBody_destroyRegion(nativeReshapeable, name);
         }
 

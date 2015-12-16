@@ -15,6 +15,17 @@ namespace BulletPlugin
 
         }
 
+        internal btHullShape(IntPtr btShape)
+           : base(btShape)
+        {
+
+        }
+
+        public override btCollisionShape createClone()
+        {
+            return new btHullShape(CollisionShape_Clone(btShape));
+        }
+
         [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern unsafe IntPtr ConvexHullShape_Create(float* vertices, int numPoints, int stride, float collisionMargin);
     }
