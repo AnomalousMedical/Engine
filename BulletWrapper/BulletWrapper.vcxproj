@@ -176,8 +176,6 @@
     <ClCompile Include="src\ContactInfo.cpp" />
     <ClCompile Include="src\MotionState.cpp" />
     <ClCompile Include="src\RayTests.cpp" />
-    <ClCompile Include="src\ReshapeableRigidBody.cpp" />
-    <ClCompile Include="src\ReshapeableRigidBodySection.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -193,8 +191,6 @@
     <ClInclude Include="Include\RayTests.h" />
     <ClInclude Include="src\Generic6DofConstriantMotors.h" />
     <ClInclude Include="Include\MotionState.h" />
-    <ClInclude Include="Include\ReshapeableRigidBody.h" />
-    <ClInclude Include="Include\ReshapeableRigidBodySection.h" />
     <ClInclude Include="Include\RigidBodyConstructionInfo.h" />
     <ClInclude Include="Stdafx.h" />
   </ItemGroup>

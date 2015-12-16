@@ -9,26 +9,53 @@ namespace BulletPlugin
 {
     public class ReshapeableRigidBody : RigidBody
     {
-        private IntPtr nativeReshapeable;
-        private Dictionary<String, btCollisionShape> shapes = new Dictionary<String, btCollisionShape>();
+        class Section : IDisposable
+        {
+            btCollisionShape collisionShape;
+            Vector3 translation;
+            Quaternion rotation;
 
-        public ReshapeableRigidBody(ReshapeableRigidBodyDefinition description, BulletScene scene, btCollisionShape collisionShape, Vector3 initialTrans, Quaternion initialRot)
+            public Section(btCollisionShape collisionShape, Vector3 translation, Quaternion rotation)
+            {
+                this.collisionShape = collisionShape;
+                this.translation = translation;
+                this.rotation = rotation;
+            }
+
+            public void Dispose()
+            {
+                collisionShape.Dispose();
+            }
+
+            public void addToShape(btCompoundShape compoundShape)
+            {
+                compoundShape.addChildShape(collisionShape, translation, rotation);
+            }
+
+            public void removeFromShape(btCompoundShape compoundShape)
+            {
+                compoundShape.removeChildShape(collisionShape);
+            }
+        }
+
+        private List<Section> sections = new List<Section>();
+        private btCompoundShape compoundShape;
+
+        public ReshapeableRigidBody(ReshapeableRigidBodyDefinition description, BulletScene scene, btCompoundShape collisionShape, Vector3 initialTrans, Quaternion initialRot)
             : base(description, scene, collisionShape, initialTrans, initialRot)
         {
-            nativeReshapeable = ReshapeableRigidBody_Create(NativeRigidBody, collisionShape.BulletShape);
+            this.compoundShape = collisionShape;
         }
 
         protected override void Dispose()
         {
-            if (nativeReshapeable != IntPtr.Zero)
+            foreach(var section in sections)
             {
-                ReshapeableRigidBody_Delete(nativeReshapeable);
-
-                foreach (var shape in shapes.Values)
-                {
-                    shape.Dispose();
-                }
+                section.removeFromShape(compoundShape);
+                section.Dispose();
             }
+            compoundShape.Dispose();
+            base.Dispose();
         }
 
         /// <summary>
@@ -46,9 +73,11 @@ namespace BulletPlugin
             {
                 Scene.removeRigidBody(this);
 
-                btCollisionShape shape = repository.getCollection(shapeName).CollisionShape.createClone();
-                shapes.Add(regionName, shape);
-                ReshapeableRigidBody_cloneAndAddShape(nativeReshapeable, regionName, shape.BulletShape, ref translation, ref rotation, ref scale);
+                var section = new Section(repository.getCollection(shapeName).CollisionShape.createClone(), translation, rotation);
+                sections.Add(section);
+                section.addToShape(compoundShape);
+
+                recomputeMassProps();
 
                 Scene.addRigidBody(this, collisionFilterGroup, collisionFilterMask);
 
@@ -64,13 +93,7 @@ namespace BulletPlugin
         /// <param name="name">The name of the region to destroy.</param>
         public void destroyRegion(String name)
         {
-            btCollisionShape collisionShape;
-            if (shapes.TryGetValue(name, out collisionShape))
-            {
-                collisionShape.Dispose();
-                shapes.Remove(name);
-            }
-            ReshapeableRigidBody_destroyRegion(nativeReshapeable, name);
+            
         }
 
         /// <summary>
@@ -79,39 +102,26 @@ namespace BulletPlugin
         /// </summary>
         public void recomputeMassProps()
         {
-            ReshapeableRigidBody_recomputeMassProps(nativeReshapeable);
+            //ReshapeableRigidBody_recomputeMassProps(nativeReshapeable);
+            float mass = getInvMass();
+            if (mass > 0.0f)
+            {
+                mass = 1.0f / mass;
+            }
+
+            Vector3 localInertia = new Vector3();
+            compoundShape.calculateLocalInertia(mass, ref localInertia);
+            this.setMassProps(mass, localInertia);
         }
 
         public void moveOrigin(String regionName, Vector3 translation, Quaternion rotation)
         {
-            ReshapeableRigidBody_moveOrigin(nativeReshapeable, regionName, ref translation, ref rotation);
+            
         }
 
         public void setLocalScaling(String regionName, Vector3 scaling)
         {
-            ReshapeableRigidBody_setLocalScaling(nativeReshapeable, regionName, ref scaling);
+            
         }
-
-        //Imports
-        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr ReshapeableRigidBody_Create(IntPtr rigidBody, IntPtr compoundShape);
-
-        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void ReshapeableRigidBody_Delete(IntPtr body);
-
-        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void ReshapeableRigidBody_cloneAndAddShape(IntPtr body, String regionName, IntPtr toClone, ref Vector3 translation, ref Quaternion rotation, ref Vector3 scale);
-
-        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void ReshapeableRigidBody_destroyRegion(IntPtr body, String name);
-
-        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void ReshapeableRigidBody_recomputeMassProps(IntPtr body);
-
-        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void ReshapeableRigidBody_moveOrigin(IntPtr body, String regionName, ref Vector3 translation, ref Quaternion orientation);
-
-        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void ReshapeableRigidBody_setLocalScaling(IntPtr body, String regionName, ref Vector3 scale);
     }
 }

@@ -19,12 +19,9 @@ namespace Engine.Editing
         {
             foreach (Assembly assembly in AppDomainShim.GetCurrentDomainAssemblies())
             {
-                foreach (Type type in assembly.GetTypes())
+                foreach (Type type in assembly.GetTypes().Where(t=> t.IsSubclassOf(baseType) && !t.IsAbstract()).OrderBy(t => t.FullName))
                 {
-                    if (type.IsSubclassOf(baseType) && !type.IsAbstract())
-                    {
-                        this.addNode(type.Namespace, delimiter, new BrowserNode(type.Name, type));
-                    }
+                    this.addNode(type.Namespace, delimiter, new BrowserNode(type.Name, type));
                 }
             }
         }
