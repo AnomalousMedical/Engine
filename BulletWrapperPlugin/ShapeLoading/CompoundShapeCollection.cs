@@ -8,26 +8,19 @@ namespace BulletPlugin
 {
     class CompoundShapeCollection : BulletShapeCollection
     {
-        public CompoundShapeCollection(IntPtr collisionShape, String name)
+        private int count;
+
+        public CompoundShapeCollection(btCompoundShape collisionShape, String name)
             :base(collisionShape, name)
         {
-            
-        }
-
-        public override void Dispose()
-        {
-            if (collisionShape != IntPtr.Zero)
-            {
-                CollisionShapeInterface.CompoundShape_DeleteChildren(collisionShape);
-            }
-            base.Dispose();
+            this.count = collisionShape.ChildCount;
         }
 
         public override int Count
         {
             get
             {
-                return CollisionShapeInterface.CompoundShape_GetCount(collisionShape);
+                return count;
             }
         }
     }

@@ -72,6 +72,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collision\btBoxShape.cs" />
+    <Compile Include="Collision\btCapsuleShape.cs" />
+    <Compile Include="Collision\btHullShape.cs" />
+    <Compile Include="Collision\btSphereShape.cs" />
     <Compile Include="Construction\BulletFactory.cs" />
     <Compile Include="Construction\BulletFactoryEntry.cs" />
     <Compile Include="DebugDraw\BulletDebugDraw.cs" />
@@ -109,11 +113,12 @@
     <Compile Include="Plugin\BulletPluginEntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Instance\RigidBody.cs" />
+    <Compile Include="Collision\btCollisionShape.cs" />
+    <Compile Include="Collision\btCompoundShape.cs" />
     <Compile Include="ShapeLoading\BulletShapeBuilder.cs" />
     <Compile Include="ShapeLoading\BulletShapeCollection.cs" />
     <Compile Include="ShapeLoading\BulletShapeFileManager.cs" />
     <Compile Include="ShapeLoading\BulletShapeRepository.cs" />
-    <Compile Include="ShapeLoading\CollisionShapeInterface.cs" />
     <Compile Include="ShapeLoading\CompoundShapeCollection.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -46,7 +46,7 @@ namespace BulletPlugin
         short collisionFilterGroup;
         private MotionState motionState;
 
-        public unsafe RigidBody(RigidBodyDefinition description, BulletScene scene, IntPtr collisionShape, Vector3 initialTrans, Quaternion initialRot)
+        public unsafe RigidBody(RigidBodyDefinition description, BulletScene scene, btCollisionShape collisionShape, Vector3 initialTrans, Quaternion initialRot)
             :base(description.Name)
         {
             this.scene = scene;
@@ -56,7 +56,7 @@ namespace BulletPlugin
             StayLocalTransform = description.StayLocalTransform;
             motionState = scene.createMotionState(this, description.MaxContactDistance, ref initialTrans, ref initialRot);
 	
-            rigidBody = btRigidBody_Create(ref description.constructionInfo, motionState.motionState, collisionShape);
+            rigidBody = btRigidBody_Create(ref description.constructionInfo, motionState.motionState, collisionShape.BulletShape);
 
             setLinearVelocity(description.LinearVelocity);
 	        setAngularVelocity(description.AngularVelocity);

@@ -9,9 +9,9 @@ namespace BulletPlugin
 {
     class BulletShapeCollection : IDisposable
     {
-        protected IntPtr collisionShape;
+        protected btCollisionShape collisionShape;
 
-        public BulletShapeCollection(IntPtr collisionShape, String name)
+        public BulletShapeCollection(btCollisionShape collisionShape, String name)
         {
             this.collisionShape = collisionShape;
             this.Name = name;
@@ -19,10 +19,10 @@ namespace BulletPlugin
 
         public virtual void Dispose()
         {
-            if (collisionShape != IntPtr.Zero)
+            if (collisionShape != null)
             {
-                CollisionShapeInterface.CollisionShape_Delete(collisionShape);
-                collisionShape = IntPtr.Zero;
+                collisionShape.Dispose();
+                collisionShape = null;
             }
         }
 
@@ -38,7 +38,7 @@ namespace BulletPlugin
 
         public ShapeLocation SourceLocation { get; set; }
 
-        internal IntPtr CollisionShape
+        internal btCollisionShape CollisionShape
         {
             get
             {

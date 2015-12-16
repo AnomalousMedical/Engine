@@ -36,6 +36,11 @@ extern "C" _AnomalousExport void CompoundShape_addChildShape(btCompoundShape* co
 	compound->addChildShape(childXform, child);
 }
 
+extern "C" _AnomalousExport void CompoundShape_removeChildShape(btCompoundShape* compound, btCollisionShape* child)
+{
+	compound->removeChildShape(child);
+}
+
 extern "C" _AnomalousExport btSphereShape* SphereShape_Create(float radius, float collisionMargin)
 {
 	btSphereShape* shape = new btSphereShape(radius);
@@ -69,4 +74,47 @@ extern "C" _AnomalousExport void CollisionShape_CalculateLocalInertia(btCollisio
 	btVector3 bulletInertia;
 	shape->calculateLocalInertia(mass, bulletInertia);
 	*localInertia = bulletInertia;
+}
+
+btCollisionShape* cloneSingleShape(btCollisionShape* source)
+{
+	btCollisionShape* shape = 0;
+	btConvexHullShape* sourceHull;
+
+	switch (source->getShapeType())
+	{
+		case CONVEX_HULL_SHAPE_PROXYTYPE:
+			sourceHull = static_cast<btConvexHullShape*>(shape);
+			shape = new btConvexHullShape((btScalar*)sourceHull->getUnscaledPoints(), sourceHull->getNumPoints());
+		default:
+			shape = 0;
+	}
+
+	shape->setMargin(source->getMargin());
+	return shape;
+}
+
+extern "C" _AnomalousExport btCollisionShape* CollisionShape_Clone(btCollisionShape* source)
+{
+	if (source->isCompound())
+	{
+		btCompoundShape* shape = new btCompoundShape();
+		shape->setMargin(source->getMargin());
+
+		btCompoundShape* sourceCompound = static_cast<btCompoundShape*>(shape);
+		btCompoundShapeChild* childPtr = sourceCompound->getChildList();
+		for (int i = 0; i < sourceCompound->getNumChildShapes(); ++i)
+		{
+			btCollisionShape* childShape = cloneSingleShape(childPtr->m_childShape);
+			if (childShape != 0)
+			{
+				shape->addChildShape(childPtr->m_transform, childShape);
+			}
+			++childPtr;
+		}
+
+		return shape;
+	}
+
+	return cloneSingleShape(source);
 }

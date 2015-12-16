@@ -53,10 +53,10 @@ namespace BulletPlugin
             BulletShapeRepository repository = BulletInterface.Instance.ShapeRepository;
 	        if(repository.containsValidCollection(ShapeName))
 	        {
-		        IntPtr shape = repository.getCollection(ShapeName).CollisionShape;
+		        btCollisionShape shape = repository.getCollection(ShapeName).CollisionShape;
 		        if(constructionInfo.m_mass != 0.0f)
 		        {
-                    CollisionShapeInterface.CollisionShape_CalculateLocalInertia(shape, constructionInfo.m_mass, ref constructionInfo.m_localInertia);
+                    shape.calculateLocalInertia(constructionInfo.m_mass, ref constructionInfo.m_localInertia);
 		        }
 		        RigidBody rigidBody = new RigidBody(this, scene, shape, instance.Translation, instance.Rotation);
 		        instance.addElement(rigidBody);

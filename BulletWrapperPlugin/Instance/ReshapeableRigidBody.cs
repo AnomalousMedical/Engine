@@ -11,10 +11,10 @@ namespace BulletPlugin
     {
         private IntPtr nativeReshapeable;
 
-        public ReshapeableRigidBody(ReshapeableRigidBodyDefinition description, BulletScene scene, IntPtr collisionShape, Vector3 initialTrans, Quaternion initialRot)
+        public ReshapeableRigidBody(ReshapeableRigidBodyDefinition description, BulletScene scene, btCollisionShape collisionShape, Vector3 initialTrans, Quaternion initialRot)
             :base(description, scene, collisionShape, initialTrans, initialRot)
         {
-            nativeReshapeable = ReshapeableRigidBody_Create(NativeRigidBody, collisionShape);
+            nativeReshapeable = ReshapeableRigidBody_Create(NativeRigidBody, collisionShape.BulletShape);
         }
 
         protected override void Dispose()
@@ -38,8 +38,8 @@ namespace BulletPlugin
             BulletShapeRepository repository = BulletInterface.Instance.ShapeRepository;
             if (repository.containsValidCollection(shapeName))
             {
-                IntPtr shape = repository.getCollection(shapeName).CollisionShape;
-                ReshapeableRigidBody_cloneAndAddShape(nativeReshapeable, regionName, shape, ref translation, ref rotation, ref scale);
+                btCollisionShape shape = repository.getCollection(shapeName).CollisionShape;
+                ReshapeableRigidBody_cloneAndAddShape(nativeReshapeable, regionName, shape.BulletShape, ref translation, ref rotation, ref scale);
 
                 return true;
             }

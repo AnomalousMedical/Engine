@@ -9,25 +9,25 @@ namespace BulletPlugin
 {
     class BulletShapeBuilder : ShapeBuilder
     {
-        IntPtr currentCompound;
+        btCompoundShape currentCompound;
         BulletShapeRepository repository;
 
         public float ShapeMargin { get; set; }
 
         public BulletShapeBuilder()
         {
-            currentCompound = IntPtr.Zero;
+            currentCompound = null;
             ShapeMargin = 0.04f;
         }
 
         public void buildSphere(string name, float radius, Vector3 translation, string material)
         {
-            commitShape(name, translation, Quaternion.Identity, CollisionShapeInterface.SphereShape_Create(radius, ShapeMargin));
+            commitShape(name, translation, Quaternion.Identity, new btSphereShape(radius, ShapeMargin));
         }
 
         public void buildBox(string name, Vector3 extents, Vector3 translation, Quaternion rotation, string material)
         {
-            commitShape(name, translation, rotation, CollisionShapeInterface.BoxShape_Create(ref extents, ShapeMargin));
+            commitShape(name, translation, rotation, new btBoxShape(ref extents, ShapeMargin));
         }
 
         public void buildMesh(string name, float[] vertices, int[] faces, Vector3 translation, Quaternion rotation, string material)
@@ -42,14 +42,14 @@ namespace BulletPlugin
 
         public void buildCapsule(string name, float radius, float height, Vector3 translation, Quaternion rotation, string material)
         {
-            commitShape(name, translation, rotation, CollisionShapeInterface.CapsuleShape_Create(radius, height, ShapeMargin));
+            commitShape(name, translation, rotation, new btCapsuleShape(radius, height, ShapeMargin));
         }
 
         public unsafe void buildConvexHull(string name, float[] vertices, int[] faces, Vector3 translation, Quaternion rotation, string material)
         {
             fixed(float* verts = &vertices[0])
             {
-                commitShape(name, translation, rotation, CollisionShapeInterface.ConvexHullShape_Create(verts, vertices.Length / 3, sizeof(Vector3), ShapeMargin));
+                commitShape(name, translation, rotation, new btHullShape(verts, vertices.Length / 3, sizeof(Vector3), ShapeMargin));
             }
         }
 
@@ -57,7 +57,7 @@ namespace BulletPlugin
         {
             fixed (float* verts = &vertices[0])
             {
-                commitShape(name, translation, rotation, CollisionShapeInterface.ConvexHullShape_Create(verts, vertices.Length / 3, sizeof(Vector3), ShapeMargin));
+                commitShape(name, translation, rotation, new btHullShape(verts, vertices.Length / 3, sizeof(Vector3), ShapeMargin));
             }
         }
 
@@ -68,9 +68,9 @@ namespace BulletPlugin
 
         public void startCompound(string name)
         {
-            if(currentCompound == IntPtr.Zero)
+            if(currentCompound == null)
 	        {
-                currentCompound = CollisionShapeInterface.CompoundShape_Create(ShapeMargin);
+                currentCompound = new btCompoundShape(ShapeMargin);
 	        }
 	        else
 	        {
@@ -81,7 +81,7 @@ namespace BulletPlugin
         public void stopCompound(string name)
         {
             repository.addCollection(new CompoundShapeCollection(currentCompound, name));
-	        currentCompound = IntPtr.Zero;
+	        currentCompound = null;
         }
 
         public void setCurrentShapeLocation(ShapeLocation location)
@@ -99,11 +99,11 @@ namespace BulletPlugin
             this.repository = repository;
         }
 
-        private void commitShape(String name, Vector3 translation, Quaternion rotation, IntPtr collisionShape)
+        private void commitShape(String name, Vector3 translation, Quaternion rotation, btCollisionShape collisionShape)
         {
-	        if(currentCompound != IntPtr.Zero)
+	        if(currentCompound != null)
 	        {
-                CollisionShapeInterface.CompoundShape_addChildShape(currentCompound, collisionShape, ref translation, ref rotation);
+                currentCompound.addChildShape(collisionShape, translation, rotation);
 	        }
 	        else
 	        {
