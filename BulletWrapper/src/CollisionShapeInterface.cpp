@@ -76,6 +76,11 @@ extern "C" _AnomalousExport void CollisionShape_CalculateLocalInertia(btCollisio
 	*localInertia = bulletInertia;
 }
 
+extern "C" _AnomalousExport void CollisionShape_SetLocalScaling(btCollisionShape* shape, Vector3* scale)
+{
+	shape->setLocalScaling(scale->toBullet());
+}
+
 btCollisionShape* cloneSingleShape(btCollisionShape* source)
 {
 	btCollisionShape* shape = 0;

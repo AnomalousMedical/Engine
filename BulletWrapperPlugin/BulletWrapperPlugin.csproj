@@ -98,6 +98,7 @@
     <Compile Include="Instance\Joints\FixedConstraintElement.cs" />
     <Compile Include="Instance\Raycast\ClosestRayResultCallback.cs" />
     <Compile Include="Instance\Raycast\RayResultCallback.cs" />
+    <Compile Include="Instance\ReshapeableRigidBodySection.cs" />
     <Compile Include="Instance\TransformedBulletScene.cs" />
     <Compile Include="Instance\Contact\ContactInfo.cs" />
     <Compile Include="Instance\Contact\ManifoldPoint.cs" />

@@ -9,36 +9,7 @@ namespace BulletPlugin
 {
     public class ReshapeableRigidBody : RigidBody
     {
-        class Section : IDisposable
-        {
-            btCollisionShape collisionShape;
-            Vector3 translation;
-            Quaternion rotation;
-
-            public Section(btCollisionShape collisionShape, Vector3 translation, Quaternion rotation)
-            {
-                this.collisionShape = collisionShape;
-                this.translation = translation;
-                this.rotation = rotation;
-            }
-
-            public void Dispose()
-            {
-                collisionShape.Dispose();
-            }
-
-            public void addToShape(btCompoundShape compoundShape)
-            {
-                compoundShape.addChildShape(collisionShape, translation, rotation);
-            }
-
-            public void removeFromShape(btCompoundShape compoundShape)
-            {
-                compoundShape.removeChildShape(collisionShape);
-            }
-        }
-
-        private List<Section> sections = new List<Section>();
+        private List<ReshapeableRigidBodySection> sections = new List<ReshapeableRigidBodySection>();
         private btCompoundShape compoundShape;
 
         public ReshapeableRigidBody(ReshapeableRigidBodyDefinition description, BulletScene scene, btCompoundShape collisionShape, Vector3 initialTrans, Quaternion initialRot)
@@ -59,21 +30,18 @@ namespace BulletPlugin
         }
 
         /// <summary>
-        /// Add a named shape to a given region, will return true if this works correctly
+        /// Add a named shape to a given region, will return a new ReshapeableRigidBodySection if this works correctly.
+        /// The returned handles will be owned by this object, so there is no need to dispose them or clean them up (if this
+        /// object is disposed). However, you can manually remove a section at any time by calling destroySection.
         /// </summary>
-        /// <param name="regionName"></param>
-        /// <param name="shapeName"></param>
-        /// <param name="translation"></param>
-        /// <param name="rotation"></param>
-        /// <returns></returns>
-        public bool addNamedShape(String regionName, String shapeName, Vector3 translation, Quaternion rotation, Vector3 scale)
+        public ReshapeableRigidBodySection createSection(String shapeName, Vector3 translation, Quaternion rotation, Vector3 scale)
         {
             BulletShapeRepository repository = BulletInterface.Instance.ShapeRepository;
             if (repository.containsValidCollection(shapeName))
             {
                 Scene.removeRigidBody(this);
 
-                var section = new Section(repository.getCollection(shapeName).CollisionShape.createClone(), translation, rotation);
+                var section = new ReshapeableRigidBodySection(repository.getCollection(shapeName).CollisionShape.createClone(), translation, rotation);
                 sections.Add(section);
                 section.addToShape(compoundShape);
 
@@ -81,19 +49,29 @@ namespace BulletPlugin
 
                 Scene.addRigidBody(this, collisionFilterGroup, collisionFilterMask);
 
-                return true;
+                return section;
             }
 
-            return false;
+            return null;
         }
 
         /// <summary>
-        /// Empty and destroy a region removing it from the collision shape.
+        /// Empty and destroy a section removing it from the collision shape. It will no longer
+        /// be usable after calling this function.
         /// </summary>
         /// <param name="name">The name of the region to destroy.</param>
-        public void destroyRegion(String name)
+        public void destroySection(ReshapeableRigidBodySection section)
         {
-            
+            sections.Remove(section);
+
+            Scene.removeRigidBody(this);
+
+            section.removeFromShape(compoundShape);
+            section.Dispose();
+
+            recomputeMassProps();
+
+            Scene.addRigidBody(this, collisionFilterGroup, collisionFilterMask);
         }
 
         /// <summary>

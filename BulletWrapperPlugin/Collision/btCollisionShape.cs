@@ -35,6 +35,11 @@ namespace BulletPlugin
             CollisionShape_CalculateLocalInertia(btShape, mass, ref localInertia);
         }
 
+        public void setLocalScaling(Vector3 scaling)
+        {
+            CollisionShape_SetLocalScaling(btShape, ref scaling);
+        }
+
         /// <summary>
         /// Create a clone of this shape, the caller is responsible for the lifecycle
         /// of the returned object.
@@ -47,6 +52,9 @@ namespace BulletPlugin
 
         [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void CollisionShape_CalculateLocalInertia(IntPtr shape, float mass, ref Vector3 localInertia);
+
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void CollisionShape_SetLocalScaling(IntPtr shape, ref Vector3 scaling);
 
         [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         protected static extern IntPtr CollisionShape_Clone(IntPtr source);
