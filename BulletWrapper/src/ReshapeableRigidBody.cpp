@@ -49,8 +49,9 @@ void ReshapeableRigidBody::cloneAndSetShape(std::string regionName, btCollisionS
 {
 	ReshapeableRigidBodySection* section = getSection(regionName);
 	section->moveOrigin(translation, rotation);
-	section->setLocalScaling(scale);
 	section->cloneAndSetShape(toClone, compoundShape);
+	section->setLocalScaling(scale);
+	section->addShapes(compoundShape);
 }
 
 void ReshapeableRigidBody::moveOrigin(std::string regionName, const Vector3& translation, const Quaternion& orientation)

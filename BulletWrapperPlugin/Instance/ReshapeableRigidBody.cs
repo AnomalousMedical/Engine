@@ -13,18 +13,18 @@ namespace BulletPlugin
         private Dictionary<String, btCollisionShape> shapes = new Dictionary<String, btCollisionShape>();
 
         public ReshapeableRigidBody(ReshapeableRigidBodyDefinition description, BulletScene scene, btCollisionShape collisionShape, Vector3 initialTrans, Quaternion initialRot)
-            :base(description, scene, collisionShape, initialTrans, initialRot)
+            : base(description, scene, collisionShape, initialTrans, initialRot)
         {
             nativeReshapeable = ReshapeableRigidBody_Create(NativeRigidBody, collisionShape.BulletShape);
         }
 
         protected override void Dispose()
         {
-            if(nativeReshapeable != IntPtr.Zero)
+            if (nativeReshapeable != IntPtr.Zero)
             {
                 ReshapeableRigidBody_Delete(nativeReshapeable);
 
-                foreach(var shape in shapes.Values)
+                foreach (var shape in shapes.Values)
                 {
                     shape.Dispose();
                 }
@@ -44,9 +44,13 @@ namespace BulletPlugin
             BulletShapeRepository repository = BulletInterface.Instance.ShapeRepository;
             if (repository.containsValidCollection(shapeName))
             {
+                Scene.removeRigidBody(this);
+
                 btCollisionShape shape = repository.getCollection(shapeName).CollisionShape.createClone();
                 shapes.Add(regionName, shape);
                 ReshapeableRigidBody_cloneAndAddShape(nativeReshapeable, regionName, shape.BulletShape, ref translation, ref rotation, ref scale);
+
+                Scene.addRigidBody(this, collisionFilterGroup, collisionFilterMask);
 
                 return true;
             }
@@ -61,7 +65,7 @@ namespace BulletPlugin
         public void destroyRegion(String name)
         {
             btCollisionShape collisionShape;
-            if(shapes.TryGetValue(name, out collisionShape))
+            if (shapes.TryGetValue(name, out collisionShape))
             {
                 collisionShape.Dispose();
                 shapes.Remove(name);
@@ -69,10 +73,10 @@ namespace BulletPlugin
             ReshapeableRigidBody_destroyRegion(nativeReshapeable, name);
         }
 
-	    /// <summary>
-	    /// This function will recompute the mass props. It should be called when
+        /// <summary>
+        /// This function will recompute the mass props. It should be called when
         /// the collision shape is changed.
-	    /// </summary>
+        /// </summary>
         public void recomputeMassProps()
         {
             ReshapeableRigidBody_recomputeMassProps(nativeReshapeable);
@@ -89,19 +93,19 @@ namespace BulletPlugin
         }
 
         //Imports
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr ReshapeableRigidBody_Create(IntPtr rigidBody, IntPtr compoundShape);
 
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ReshapeableRigidBody_Delete(IntPtr body);
 
         [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ReshapeableRigidBody_cloneAndAddShape(IntPtr body, String regionName, IntPtr toClone, ref Vector3 translation, ref Quaternion rotation, ref Vector3 scale);
 
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ReshapeableRigidBody_destroyRegion(IntPtr body, String name);
 
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ReshapeableRigidBody_recomputeMassProps(IntPtr body);
 
         [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]

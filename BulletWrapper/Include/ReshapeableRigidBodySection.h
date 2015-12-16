@@ -12,7 +12,6 @@ private:
 	btCollisionShape* shape;
 	btTransform transform;
 	btVector3 scale;
-	void deleteShape();
 
 public:
 	/// <summary>
@@ -47,49 +46,4 @@ public:
 	void moveOrigin(const Vector3& translation, const Quaternion& orientation);
 
 	void setLocalScaling(const Vector3& scale);
-
-private:
-	btCollisionShape* convertCollisionShape(btCollisionShapeData* shapeData);
-
-	btCollisionShape* createPlaneShape(const btVector3& planeNormal, btScalar planeConstant);
-
-	btCollisionShape* createBoxShape(const btVector3& halfExtents);
-
-	btCollisionShape* createSphereShape(btScalar radius);
-
-	btCollisionShape* createCapsuleShapeX(btScalar radius, btScalar height);
-
-	btCollisionShape* createCapsuleShapeY(btScalar radius, btScalar height);
-
-	btCollisionShape* createCapsuleShapeZ(btScalar radius, btScalar height);
-
-	btCollisionShape* createCylinderShapeX(btScalar radius, btScalar height);
-
-	btCollisionShape* createCylinderShapeY(btScalar radius, btScalar height);
-
-	btCollisionShape* createCylinderShapeZ(btScalar radius, btScalar height);
-
-	btCollisionShape* createConeShapeX(btScalar radius, btScalar height);
-
-	btCollisionShape* createConeShapeY(btScalar radius, btScalar height);
-
-	btCollisionShape* createConeShapeZ(btScalar radius, btScalar height);
-
-	btTriangleIndexVertexArray*	createTriangleMeshContainer();
-
-	btOptimizedBvh*	createOptimizedBvh();
-
-	btTriangleInfoMap* createTriangleInfoMap();
-
-	btBvhTriangleMeshShape* createBvhTriangleMeshShape(btStridingMeshInterface* trimesh, btOptimizedBvh* bvh);
-
-	btCollisionShape* createConvexTriangleMeshShape(btStridingMeshInterface* trimesh);
-
-	btConvexHullShape* createConvexHullShape();
-
-	btCompoundShape* createCompoundShape();
-
-	btScaledBvhTriangleMeshShape* createScaledTrangleMeshShape(btBvhTriangleMeshShape* meshShape, const btVector3& localScaling);
-
-	btMultiSphereShape* createMultiSphereShape(const btVector3* positions, const btScalar* radi, int numSpheres);
 };

@@ -42,8 +42,8 @@ namespace BulletPlugin
         private IntPtr rigidBody;
         private BulletScene scene;
         String shapeName;
-        short collisionFilterMask;
-        short collisionFilterGroup;
+        protected short collisionFilterMask;
+        protected short collisionFilterGroup;
         private MotionState motionState;
 
         public unsafe RigidBody(RigidBodyDefinition description, BulletScene scene, btCollisionShape collisionShape, Vector3 initialTrans, Quaternion initialRot)
