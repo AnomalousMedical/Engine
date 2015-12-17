@@ -46,6 +46,11 @@ namespace BulletPlugin
             CompoundShape_removeChildShape(btShape, child.BulletShape);
         }
 
+        public void updateChildTransform(int childIndex, Vector3 translation, Quaternion rotation, bool shouldRecalculateLocalAabb)
+        {
+            CompoundShape_updateChildTransform(btShape, childIndex, ref translation, ref rotation, shouldRecalculateLocalAabb);
+        }
+
         public int ChildCount
         {
             get
@@ -73,5 +78,8 @@ namespace BulletPlugin
 
         [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void CompoundShape_removeChildShape(IntPtr compound, IntPtr child);
+
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void CompoundShape_updateChildTransform(IntPtr compound, int childIndex, ref Vector3 translation, ref Quaternion rotation, bool shouldRecalculateLocalAabb);
     }
 }

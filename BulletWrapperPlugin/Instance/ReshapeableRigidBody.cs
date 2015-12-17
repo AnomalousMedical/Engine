@@ -22,11 +22,38 @@ namespace BulletPlugin
         {
             foreach(var section in sections)
             {
-                section.removeFromShape(compoundShape);
                 section.Dispose();
             }
+            sections.Clear();
             compoundShape.Dispose();
+            compoundShape = null;
             base.Dispose();
+        }
+
+        public void beginUpdates()
+        {
+            if (compoundShape != null)
+            {
+                Scene.removeRigidBody(this);
+            }
+        }
+
+        public void finishUpdates()
+        {
+            if (compoundShape != null)
+            {
+                float mass = getInvMass();
+                if (mass > 0.0f)
+                {
+                    mass = 1.0f / mass;
+                }
+
+                Vector3 localInertia = new Vector3();
+                compoundShape.calculateLocalInertia(mass, ref localInertia);
+                this.setMassProps(mass, localInertia);
+
+                Scene.addRigidBody(this, collisionFilterGroup, collisionFilterMask);
+            }
         }
 
         /// <summary>
@@ -39,15 +66,8 @@ namespace BulletPlugin
             BulletShapeRepository repository = BulletInterface.Instance.ShapeRepository;
             if (repository.containsValidCollection(shapeName))
             {
-                Scene.removeRigidBody(this);
-
-                var section = new ReshapeableRigidBodySection(repository.getCollection(shapeName).CollisionShape.createClone(), translation, rotation);
+                var section = new ReshapeableRigidBodySection(this, repository.getCollection(shapeName).CollisionShape.createClone(), translation, rotation);
                 sections.Add(section);
-                section.addToShape(compoundShape);
-
-                recomputeMassProps();
-
-                Scene.addRigidBody(this, collisionFilterGroup, collisionFilterMask);
 
                 return section;
             }
@@ -63,43 +83,15 @@ namespace BulletPlugin
         public void destroySection(ReshapeableRigidBodySection section)
         {
             sections.Remove(section);
-
-            Scene.removeRigidBody(this);
-
-            section.removeFromShape(compoundShape);
             section.Dispose();
-
-            recomputeMassProps();
-
-            Scene.addRigidBody(this, collisionFilterGroup, collisionFilterMask);
         }
 
-        /// <summary>
-        /// This function will recompute the mass props. It should be called when
-        /// the collision shape is changed.
-        /// </summary>
-        public void recomputeMassProps()
+        internal btCompoundShape CompoundShape
         {
-            //ReshapeableRigidBody_recomputeMassProps(nativeReshapeable);
-            float mass = getInvMass();
-            if (mass > 0.0f)
+            get
             {
-                mass = 1.0f / mass;
+                return compoundShape;
             }
-
-            Vector3 localInertia = new Vector3();
-            compoundShape.calculateLocalInertia(mass, ref localInertia);
-            this.setMassProps(mass, localInertia);
-        }
-
-        public void moveOrigin(String regionName, Vector3 translation, Quaternion rotation)
-        {
-            
-        }
-
-        public void setLocalScaling(String regionName, Vector3 scaling)
-        {
-            
         }
     }
 }

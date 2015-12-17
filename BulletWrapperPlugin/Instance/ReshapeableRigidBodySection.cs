@@ -9,35 +9,32 @@ namespace BulletPlugin
 {
     public class ReshapeableRigidBodySection : IDisposable
     {
+        ReshapeableRigidBody parent;
         btCollisionShape collisionShape;
-        Vector3 translation;
-        Quaternion rotation;
 
-        public ReshapeableRigidBodySection(btCollisionShape collisionShape, Vector3 translation, Quaternion rotation)
+        public ReshapeableRigidBodySection(ReshapeableRigidBody parent, btCollisionShape collisionShape, Vector3 translation, Quaternion rotation)
         {
+            this.parent = parent;
             this.collisionShape = collisionShape;
-            this.translation = translation;
-            this.rotation = rotation;
+
+            parent.CompoundShape.addChildShape(collisionShape, translation, rotation);
         }
 
         public void Dispose()
         {
+            parent.CompoundShape.removeChildShape(collisionShape);
             collisionShape.Dispose();
-        }
-
-        public void addToShape(btCompoundShape compoundShape)
-        {
-            compoundShape.addChildShape(collisionShape, translation, rotation);
-        }
-
-        public void removeFromShape(btCompoundShape compoundShape)
-        {
-            compoundShape.removeChildShape(collisionShape);
         }
 
         public void setScaling(Vector3 scaling)
         {
             collisionShape.setLocalScaling(scaling);
+        }
+
+        public void moveOrigin(Vector3 translation, Quaternion rotation)
+        {
+            parent.CompoundShape.removeChildShape(collisionShape);
+            parent.CompoundShape.addChildShape(collisionShape, translation, rotation);
         }
     }
 }

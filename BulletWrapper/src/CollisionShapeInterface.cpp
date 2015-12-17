@@ -41,6 +41,15 @@ extern "C" _AnomalousExport void CompoundShape_removeChildShape(btCompoundShape*
 	compound->removeChildShape(child);
 }
 
+extern "C" _AnomalousExport void CompoundShape_updateChildTransform(btCompoundShape* compound, int childIndex, const Vector3& translation, const Quaternion& rotation, bool shouldRecalculateLocalAabb)
+{
+	btTransform trans;
+	trans.setIdentity();
+	trans.setOrigin(translation.toBullet());
+	trans.setRotation(rotation.toBullet());
+	compound->updateChildTransform(childIndex, trans, shouldRecalculateLocalAabb);
+}
+
 extern "C" _AnomalousExport btSphereShape* SphereShape_Create(float radius, float collisionMargin)
 {
 	btSphereShape* shape = new btSphereShape(radius);
