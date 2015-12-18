@@ -425,6 +425,7 @@ datagridexpand.collapsed
 input.range
 {
 	height: 17px;
+    display:block;
 }
 
 input.range slidertrack
