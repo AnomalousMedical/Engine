@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "ElementListIter.h"
 #include <queue>
+#include "../Source/Core/ElementStyle.h"
+#include "../Source/Core/ElementDecoration.h"
 
 //Element* Clone() const;
 //
@@ -14,10 +16,16 @@ extern "C" _AnomalousExport bool Element_IsClassSet(Rocket::Core::Element* eleme
 	return element->IsClassSet(class_name);
 }
 
-//void SetClassNames(const String& class_names);
-//
-//String GetClassNames() const;
-//
+extern "C" _AnomalousExport void Element_SetClassNames(Rocket::Core::Element* element, String class_names)
+{
+	element->SetClassNames(class_names);
+}
+
+extern "C" _AnomalousExport void Element_GetClassNames(Rocket::Core::Element* element, StringRetrieverCallback strRetriever, void* handle)
+{
+	strRetriever(element->GetClassNames().CString(), handle);
+}
+
 //virtual StyleSheet* GetStyleSheet() const;
 //
 //const ElementDefinition* GetDefinition();

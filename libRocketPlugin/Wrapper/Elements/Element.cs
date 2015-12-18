@@ -487,6 +487,19 @@ namespace libRocketPlugin
             }
         }
 
+        public String ClassNames
+        {
+            get
+            {
+                Element_GetClassNames(ptr, stringRetriever.StringCallback, stringRetriever.Handle);
+                return stringRetriever.retrieveString();
+            }
+            set
+            {
+                Element_SetClassNames(ptr, value);
+            }
+        }
+
         public bool HasChildNodes
         {
             get
@@ -523,6 +536,12 @@ namespace libRocketPlugin
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Element_IsClassSet(IntPtr element, String class_name);
+
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Element_SetClassNames(IntPtr element, String class_names);
+
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Element_GetClassNames(IntPtr element, StringRetriever.Callback strRetriever, IntPtr handle);
 
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
