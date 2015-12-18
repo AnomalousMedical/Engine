@@ -11,12 +11,14 @@ namespace MyGUIPlugin
         IntVector2 currentPosition;
         Size2 canvasSize;
         ButtonGrid buttonGrid;
+        bool allowNewlines = false;
 
         public void startLayout(ButtonGrid buttonGrid)
         {
             this.buttonGrid = buttonGrid;
             currentPosition = new IntVector2(0, 0);
             this.canvasSize = buttonGrid.ScrollView.CanvasSize;
+            allowNewlines = false;
         }
 
         public void alignCaption(ButtonGridCaption caption)
@@ -27,19 +29,21 @@ namespace MyGUIPlugin
 
         public void alignItem(ButtonGridItem item)
         {
-            if (currentPosition.x + ItemWidth > canvasSize.Width)
+            if (allowNewlines && currentPosition.x + ItemWidth > canvasSize.Width)
             {
                 currentPosition.x = 0;
                 currentPosition.y += ItemHeight + ItemPaddingY;
             }
             item.setPosition(currentPosition, ItemWidth, ItemHeight);
             currentPosition.x += item.Width + ItemPaddingX;
+            allowNewlines = true;
         }
 
         public void finishGroupLayout()
         {
             currentPosition.x = 0;
             currentPosition.y += ItemHeight + GroupPaddingY;
+            allowNewlines = false;
         }
 
         public IntSize2 FinalCanvasSize
