@@ -421,3 +421,45 @@ datagridexpand.collapsed
 {
 	icon-image-t: 250px 267px;
 }
+
+input.range
+{
+	height: 17px;
+}
+
+input.range slidertrack
+{
+	height:6px;
+	background-color: #c7c7c7;
+	margin-top:auto;
+	margin-bottom:auto;
+}
+
+input.range sliderbar
+{
+	width:14px;
+	height:17px;
+	background-color: #4477aa;
+}
+
+input.range sliderbar:hover
+{
+	background-color: #6699cc;
+}
+
+input.range sliderbar:active
+{
+	background-color: #5588bb;
+}
+
+input.range sliderarrowdec
+{
+	width: 0gsp;
+	height: 0gsp;
+}
+
+input.range sliderarrowinc
+{
+	width: 0gsp;
+	height: 0gsp;
+}

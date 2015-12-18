@@ -41,7 +41,10 @@ namespace Engine.Resources
             {
                 if (splitPath[i] == "..")
                 {
-                    pathStack.Pop();
+                    if (pathStack.Count > 0)
+                    {
+                        pathStack.Pop();
+                    }
                 }
                 else
                 {
