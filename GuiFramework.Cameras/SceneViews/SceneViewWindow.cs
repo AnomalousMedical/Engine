@@ -234,6 +234,16 @@ namespace Anomalous.GuiFramework.Cameras
             sceneViewportLocation = new Vector2((float)sceneViewLocation.x / totalSize.Width, (float)sceneViewLocation.y / totalSize.Height);
             sceneViewportSize = new Size2((float)size.Width / totalSize.Width, (float)size.Height / totalSize.Height);
 
+            if(sceneViewportSize.Width < 0.0f)
+            {
+                sceneViewportSize.Width = 0.0f;
+            }
+
+            if (sceneViewportSize.Height < 0.0f)
+            {
+                sceneViewportSize.Height = 0.0f;
+            }
+
             if (sceneView != null)
             {
                 sceneView.setDimensions(sceneViewportLocation.x, sceneViewportLocation.y, sceneViewportSize.Width, sceneViewportSize.Height);
