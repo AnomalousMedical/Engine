@@ -31,9 +31,14 @@
 #include <Rocket/Core/RenderInterface.h>
 #include <Ogre.h>
 
+struct RocketOgre3DTexture;
+
 //Variable 16 or 32 bit index buffer function pointer definitions
 typedef Ogre::HardwareIndexBufferSharedPtr(*CreateIndexBuffer)(int num_indices);
 typedef void(*FillIndexBuffer)(Ogre::HardwareIndexBufferSharedPtr index_buffer, int* indices, int num_indices);
+
+//Function to start background loading of a texture, will immediately return the image's size.
+typedef Vector2i(*QueueBackgroundImageLoad)(String source, RocketOgre3DTexture* rocketTexture HANDLE_ARG);
 
 /**
 	A sample render interface for Rocket into Ogre3D.
@@ -44,7 +49,7 @@ typedef void(*FillIndexBuffer)(Ogre::HardwareIndexBufferSharedPtr index_buffer, 
 class RenderInterfaceOgre3D : public Rocket::Core::RenderInterface
 {
 	public:
-		RenderInterfaceOgre3D(unsigned int window_width, unsigned int window_height);
+		RenderInterfaceOgre3D(unsigned int window_width, unsigned int window_height, QueueBackgroundImageLoad queueBackgroundImageLoad);
 		virtual ~RenderInterfaceOgre3D();
 
 		/// Called by Rocket when it wants to render geometry that it does not wish to optimise.
@@ -118,6 +123,9 @@ class RenderInterfaceOgre3D : public Rocket::Core::RenderInterface
 
 		CreateIndexBuffer createIndexBuffer;
 		FillIndexBuffer fillIndexBuffer;
+
+		QueueBackgroundImageLoad queueBackgroundImageLoad;
+		HANDLE_INSTANCE
 };
 
 #endif

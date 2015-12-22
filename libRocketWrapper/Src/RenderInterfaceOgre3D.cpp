@@ -51,11 +51,12 @@ struct RocketOgre3DVertex
 // The structure created for each texture loaded by Rocket for Ogre.
 struct RocketOgre3DTexture
 {
-	RocketOgre3DTexture(Ogre::TexturePtr texture) : texture(texture)
+	RocketOgre3DTexture(Ogre::TexturePtr texture) : texture(texture), destroyed(false)
 	{
 	}
 
 	Ogre::TexturePtr texture;
+	bool destroyed;
 };
 
 // The structure created for each set of geometry that Rocket compiles. It stores the vertex and index buffers and the
@@ -66,9 +67,11 @@ struct RocketOgre3DCompiledGeometry
 	RocketOgre3DTexture* texture;
 };
 
-RenderInterfaceOgre3D::RenderInterfaceOgre3D(unsigned int window_width, unsigned int window_height)
+RenderInterfaceOgre3D::RenderInterfaceOgre3D(unsigned int window_width, unsigned int window_height, QueueBackgroundImageLoad queueBackgroundImageLoad HANDLE_ARG)
 	:pixelsPerInch(100),
-	pixelScale(1.0f)
+	pixelScale(1.0f),
+	queueBackgroundImageLoad(queueBackgroundImageLoad)
+	ASSIGN_HANDLE_INITIALIZER
 {
 	render_system = Ogre::Root::getSingleton().getRenderSystem();
 
@@ -309,6 +312,8 @@ bool RenderInterfaceOgre3D::LoadTexture(Rocket::Core::TextureHandle& texture_han
 		{
 			try
 			{
+				queueBackgroundImageLoad(source.CString(), NULL);
+
 				ogre_texture = texture_manager->load(ogreSource, MAIN_RESOURCE_GROUP, Ogre::TEX_TYPE_2D, 0);
 			}
 			catch(Ogre::Exception& ex)
@@ -476,9 +481,9 @@ void RenderInterfaceOgre3D::SetPixelScale(float scale)
 	pixelScale = scale;
 }
 
-extern "C" _AnomalousExport RenderInterfaceOgre3D* RenderInterfaceOgre3D_Create(int width, int height)
+extern "C" _AnomalousExport RenderInterfaceOgre3D* RenderInterfaceOgre3D_Create(int width, int height, QueueBackgroundImageLoad queueBackgroundImageLoad HANDLE_ARG)
 {
-	return new RenderInterfaceOgre3D(width, height);
+	return new RenderInterfaceOgre3D(width, height, queueBackgroundImageLoad PASS_HANDLE_ARG);
 }
 
 extern "C" _AnomalousExport void RenderInterfaceOgre3D_Delete(RenderInterfaceOgre3D* renderInterface)
