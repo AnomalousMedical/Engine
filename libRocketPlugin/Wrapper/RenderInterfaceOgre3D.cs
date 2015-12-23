@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using OgrePlugin;
+using Engine.Utility;
 
 namespace libRocketPlugin
 {
@@ -70,6 +71,19 @@ namespace libRocketPlugin
 
         private Vector2i queueBackgroundImageLoad(String source, IntPtr rocketTexture)
         {
+            try
+            {
+                using (var streamPtr = OgreResourceGroupManager.getInstance().openResource(source, "Rocket.Common", true))
+                {
+                    int width, height;
+                    ImageUtility.GetImageInfo(streamPtr.Value, out width, out height);
+                    return new Vector2i(width, height);
+                }
+            }
+            catch(OgreException ex)
+            {
+
+            }
             return new Vector2i(0, 0);
         }
 

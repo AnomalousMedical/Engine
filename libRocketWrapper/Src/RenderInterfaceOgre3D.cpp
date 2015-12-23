@@ -233,7 +233,7 @@ void RenderInterfaceOgre3D::RenderCompiledGeometry(Rocket::Core::CompiledGeometr
 	Ogre::HighLevelGpuProgramPtr vertProg;
 	Ogre::HighLevelGpuProgramPtr fragProg;
 
-	if (ogre3d_geometry->texture != NULL)
+	if (ogre3d_geometry->texture != NULL && !ogre3d_geometry->texture->texture.isNull())
 	{
 		render_system->_setTexture(0, true, ogre3d_geometry->texture->texture);
 
@@ -312,30 +312,46 @@ bool RenderInterfaceOgre3D::LoadTexture(Rocket::Core::TextureHandle& texture_han
 		{
 			try
 			{
-				queueBackgroundImageLoad(source.CString(), NULL);
+				if (queueBackgroundImageLoad != NULL)
+				{
+					RocketOgre3DTexture* tex = new RocketOgre3DTexture(Ogre::TexturePtr());
+					texture_handle = reinterpret_cast<Rocket::Core::TextureHandle>(tex);
+					texture_dimensions = queueBackgroundImageLoad(source.CString(), tex).toVector2i();
 
-				ogre_texture = texture_manager->load(ogreSource, MAIN_RESOURCE_GROUP, Ogre::TEX_TYPE_2D, 0);
+					return true;
+				}
+				else
+				{
+					ogre_texture = texture_manager->load(ogreSource, MAIN_RESOURCE_GROUP, Ogre::TEX_TYPE_2D, 0);
+
+					texture_dimensions.x = ogre_texture->getWidth();
+					texture_dimensions.y = ogre_texture->getHeight();
+
+					texture_handle = reinterpret_cast<Rocket::Core::TextureHandle>(new RocketOgre3DTexture(ogre_texture));
+
+					return true;
+				}
 			}
 			catch(Ogre::Exception& ex)
 			{
 				texture_manager->remove(ogreSource); //Remove the texture from ogre, or it will crash trying to find nonexistant textures the second time the same missing texture is accessed
 				ogre_texture = texture_manager->load(IMAGE_NOT_FOUND, SHARED_RESOURCE_GROUP, Ogre::TEX_TYPE_2D, 0);
+
+				texture_dimensions.x = ogre_texture->getWidth();
+				texture_dimensions.y = ogre_texture->getHeight();
+
+				texture_handle = reinterpret_cast<Rocket::Core::TextureHandle>(new RocketOgre3DTexture(ogre_texture));
+
+				return true;
 			}
 		}
-
-		if (ogre_texture.isNull())
-			return false;
-
-		texture_dimensions.x = ogre_texture->getWidth();
-		texture_dimensions.y = ogre_texture->getHeight();
-
-		texture_handle = reinterpret_cast<Rocket::Core::TextureHandle>(new RocketOgre3DTexture(ogre_texture));
-		return true;
 	}
 	catch(Ogre::Exception& ex)
 	{
-		return false;
+		
 	}
+
+	return false;
 }
 
 // Called by Rocket when a texture is required to be built from an internally-generated sequence of pixels.
@@ -364,8 +380,18 @@ bool RenderInterfaceOgre3D::GenerateTexture(Rocket::Core::TextureHandle& texture
 // Called by Rocket when a loaded texture is no longer required.
 void RenderInterfaceOgre3D::ReleaseTexture(Rocket::Core::TextureHandle texture)
 {
-	Ogre::TextureManager::getSingleton().remove(((RocketOgre3DTexture*) texture)->texture->getName());
-	delete ((RocketOgre3DTexture*) texture);
+	RocketOgre3DTexture* ogreTex = (RocketOgre3DTexture*)texture;
+	if (ogreTex->texture.isNull())
+	{
+		//Texture null, don't delete, but tell the RocketOgreTexture it is destroyed
+		ogreTex->destroyed = true;
+	}
+	else
+	{
+		//Texture not null, normal delete
+		Ogre::TextureManager::getSingleton().remove(ogreTex->texture->getName());
+		delete ((RocketOgre3DTexture*)texture);
+	}
 }
 
 // Returns the native horizontal texel offset for the renderer.

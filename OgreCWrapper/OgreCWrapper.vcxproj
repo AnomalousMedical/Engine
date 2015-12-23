@@ -185,6 +185,7 @@
     <ClCompile Include="Src\Bone.cpp" />
     <ClCompile Include="Src\Camera.cpp" />
     <ClCompile Include="src\CompositorManager.cpp" />
+    <ClCompile Include="Src\DataStream.cpp" />
     <ClCompile Include="Src\Entity.cpp" />
     <ClCompile Include="Src\GpuProgram.cpp" />
     <ClCompile Include="Src\GpuProgramManager.cpp" />

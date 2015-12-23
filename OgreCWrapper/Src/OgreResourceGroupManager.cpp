@@ -73,3 +73,18 @@ extern "C" _AnomalousExport void ResourceGroupManager_declareResource(String nam
 {
 	return Ogre::ResourceGroupManager::getSingleton().declareResource(name, resourceType, groupName);
 }
+
+extern "C" _AnomalousExport Ogre::DataStream* ResourceGroupManager_openResource(String resourceName, String groupName, bool searchGroupsIfNotFound, ProcessWrapperObjectDelegate processWrapper)
+{
+	try
+	{
+		const Ogre::DataStreamPtr& ptr = Ogre::ResourceGroupManager::getSingleton().openResource(resourceName, groupName, searchGroupsIfNotFound);
+		processWrapper(ptr.getPointer(), &ptr);
+		return ptr.getPointer();
+	}
+	catch (Ogre::Exception& ex)
+	{
+		sendExceptionToManagedCode(ex);
+		return NULL;
+	}
+}

@@ -116,6 +116,13 @@ namespace OgrePlugin
             ResourceGroupManager_declareResource(name, resourceType, groupName);
         }
 
+        public OgreDataStreamPtr openResource(String resourceName, String groupName, bool searchGroupsIfNotFound)
+        {
+            IntPtr ptr = ResourceGroupManager_openResource(resourceName, groupName, searchGroupsIfNotFound, OgreDataStream.ProcessWrapperObjectCallback);
+            OgreExceptionManager.fireAnyException();
+            return OgreDataStream.getObject(ptr);
+        }
+
 #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
@@ -147,6 +154,9 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ResourceGroupManager_declareResource(String name, String resourceType, String groupName);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr ResourceGroupManager_openResource(String resourceName, String groupName, bool searchGroupsIfNotFound, ProcessWrapperObjectDelegate processWrapper);
 
 #endregion
     }
