@@ -17,6 +17,11 @@ namespace OgrePlugin
             dataStreamCollection = new SharedPtrCollection<OgreDataStream>(createWrapper, DataStreamPtr_createHeapPtr, DataStreamPtr_Delete);
         }
 
+        internal static void DisposeSharedPtrs()
+        {
+            dataStreamCollection.Dispose();
+        }
+
         private static OgreDataStream createWrapper(IntPtr dataStream)
         {
             return new OgreDataStream(dataStream);

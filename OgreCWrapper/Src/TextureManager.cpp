@@ -15,6 +15,21 @@ extern "C" _AnomalousExport Ogre::Texture* TextureManager_createManual(String na
 	return NULL;
 }
 
+extern "C" _AnomalousExport Ogre::Texture* TextureManager_loadImage(String name, String group, Ogre::Image* img, Ogre::TextureType texType, int numMipmaps, float gamma, bool isAlpha, Ogre::PixelFormat desiredFormat, bool hwGamma, ProcessWrapperObjectDelegate processWrapper)
+{
+	try
+	{
+		const Ogre::TexturePtr& texturePtr = Ogre::TextureManager::getSingleton().loadImage(name, group, *img, texType, numMipmaps, gamma, isAlpha, desiredFormat, hwGamma);
+		processWrapper(texturePtr.getPointer(), &texturePtr);
+		return texturePtr.getPointer();
+	}
+	catch (Ogre::Exception& ex)
+	{
+		sendExceptionToManagedCode(ex);
+	}
+	return NULL;
+}
+
 extern "C" _AnomalousExport Ogre::Texture* TextureManager_getByName1(String name, ProcessWrapperObjectDelegate processWrapper)
 {
 	const Ogre::TexturePtr& texturePtr = Ogre::TextureManager::getSingleton().getByName(name);

@@ -52,6 +52,13 @@ namespace OgrePlugin
             return ptr;
         }
 
+        public TexturePtr loadImage(String name, String group, Image img, TextureType texType = TextureType.TEX_TYPE_2D, int numMipmaps = -1, float gamma = 1.0f, bool isAlpha = false, PixelFormat desiredFormat = PixelFormat.PF_UNKNOWN, bool hwGamma = false)
+        {
+            TexturePtr ptr = getObject(TextureManager_loadImage(name, group, img.Ptr, texType, numMipmaps, gamma, isAlpha, desiredFormat, hwGamma, ProcessWrapperObjectCallback));
+            OgreExceptionManager.fireAnyException();
+            return ptr;
+        }
+
         public void remove(String name)
         {
             TextureManager_removeName(name);
@@ -97,6 +104,9 @@ namespace OgrePlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr TextureManager_createManual(String name, String group, TextureType texType, uint width, uint height, uint depth, int num_mips, PixelFormat format, TextureUsage usage, IntPtr loader, bool hwGammaCorrection, uint fsaa, String fsaaHint, ProcessWrapperObjectDelegate processWrapper);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr TextureManager_loadImage(String name, String group, IntPtr img, TextureType texType, int numMipmaps, float gamma, bool isAlpha, PixelFormat desiredFormat, bool hwGamma, ProcessWrapperObjectDelegate processWrapper);
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr TextureManager_getByName1(String name, ProcessWrapperObjectDelegate processWrapper);

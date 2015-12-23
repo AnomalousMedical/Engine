@@ -14,7 +14,7 @@
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -29,7 +29,7 @@
 #include <Ogre.h>
 #include "CommonResources.h"
 
-//These are defined in the RocketInterface class
+ //These are defined in the RocketInterface class
 #define MAIN_RESOURCE_GROUP "Rocket.Common"
 #define SHARED_RESOURCE_GROUP "Rocket.Shared"
 
@@ -91,8 +91,8 @@ RenderInterfaceOgre3D::RenderInterfaceOgre3D(unsigned int window_width, unsigned
 
 	scissor_left = 0;
 	scissor_top = 0;
-	scissor_right = (int) window_width;
-	scissor_bottom = (int) window_height;
+	scissor_right = (int)window_width;
+	scissor_bottom = (int)window_height;
 
 	textureVertProg = Ogre::HighLevelGpuProgramManager::getSingletonPtr()->getByName("libRocketTextureVS");
 	textureVertProg->load();
@@ -138,7 +138,7 @@ void RenderInterfaceOgre3D::RenderGeometry(Rocket::Core::Vertex* ROCKET_UNUSED_P
 Rocket::Core::CompiledGeometryHandle RenderInterfaceOgre3D::CompileGeometry(Rocket::Core::Vertex* vertices, int num_vertices, int* indices, int num_indices, Rocket::Core::TextureHandle texture)
 {
 	RocketOgre3DCompiledGeometry* geometry = new RocketOgre3DCompiledGeometry();
-	geometry->texture = texture == NULL ? NULL : (RocketOgre3DTexture*) texture;
+	geometry->texture = texture == NULL ? NULL : (RocketOgre3DTexture*)texture;
 
 	geometry->render_operation.vertexData = new Ogre::VertexData();
 	geometry->render_operation.vertexData->vertexStart = 0;
@@ -166,7 +166,7 @@ Rocket::Core::CompiledGeometryHandle RenderInterfaceOgre3D::CompileGeometry(Rock
 	geometry->render_operation.vertexData->vertexBufferBinding->setBinding(0, vertex_buffer);
 
 	// Fill the vertex buffer.
-	RocketOgre3DVertex* ogre_vertices = (RocketOgre3DVertex*) vertex_buffer->lock(0, vertex_buffer->getSizeInBytes(), Ogre::HardwareBuffer::HBL_NORMAL);
+	RocketOgre3DVertex* ogre_vertices = (RocketOgre3DVertex*)vertex_buffer->lock(0, vertex_buffer->getSizeInBytes(), Ogre::HardwareBuffer::HBL_NORMAL);
 	for (int i = 0; i < num_vertices; ++i)
 	{
 		ogre_vertices[i].x = vertices[i].position.x;
@@ -228,7 +228,7 @@ void RenderInterfaceOgre3D::RenderCompiledGeometry(Rocket::Core::CompiledGeometr
 	render_system->_setWorldMatrix(transform);
 
 	render_system = Ogre::Root::getSingleton().getRenderSystem();
-	RocketOgre3DCompiledGeometry* ogre3d_geometry = (RocketOgre3DCompiledGeometry*) geometry;
+	RocketOgre3DCompiledGeometry* ogre3d_geometry = (RocketOgre3DCompiledGeometry*)geometry;
 
 	Ogre::HighLevelGpuProgramPtr vertProg;
 	Ogre::HighLevelGpuProgramPtr fragProg;
@@ -301,7 +301,7 @@ bool RenderInterfaceOgre3D::LoadTexture(Rocket::Core::TextureHandle& texture_han
 	try
 	{
 		Ogre::String ogreSource = source.CString();
-		if(source.Empty())
+		if (source.Empty())
 		{
 			return false;
 		}
@@ -315,10 +315,24 @@ bool RenderInterfaceOgre3D::LoadTexture(Rocket::Core::TextureHandle& texture_han
 				if (queueBackgroundImageLoad != NULL)
 				{
 					RocketOgre3DTexture* tex = new RocketOgre3DTexture(Ogre::TexturePtr());
-					texture_handle = reinterpret_cast<Rocket::Core::TextureHandle>(tex);
-					texture_dimensions = queueBackgroundImageLoad(source.CString(), tex).toVector2i();
+					Vector2i size;
+					if (queueBackgroundImageLoad(source.CString(), tex, size))
+					{
+						texture_dimensions = size.toVector2i();
+						texture_handle = reinterpret_cast<Rocket::Core::TextureHandle>(tex);
 
-					return true;
+						return true;
+					}
+					else
+					{
+						texture_manager->remove(ogreSource); //Remove the texture from ogre, or it will crash trying to find nonexistant textures the second time the same missing texture is accessed
+						ogre_texture = texture_manager->load(IMAGE_NOT_FOUND, SHARED_RESOURCE_GROUP, Ogre::TEX_TYPE_2D, 0);
+
+						texture_dimensions.x = ogre_texture->getWidth();
+						texture_dimensions.y = ogre_texture->getHeight();
+
+						texture_handle = reinterpret_cast<Rocket::Core::TextureHandle>(new RocketOgre3DTexture(ogre_texture));
+					}
 				}
 				else
 				{
@@ -332,7 +346,7 @@ bool RenderInterfaceOgre3D::LoadTexture(Rocket::Core::TextureHandle& texture_han
 					return true;
 				}
 			}
-			catch(Ogre::Exception& ex)
+			catch (Ogre::Exception& ex)
 			{
 				texture_manager->remove(ogreSource); //Remove the texture from ogre, or it will crash trying to find nonexistant textures the second time the same missing texture is accessed
 				ogre_texture = texture_manager->load(IMAGE_NOT_FOUND, SHARED_RESOURCE_GROUP, Ogre::TEX_TYPE_2D, 0);
@@ -346,9 +360,9 @@ bool RenderInterfaceOgre3D::LoadTexture(Rocket::Core::TextureHandle& texture_han
 			}
 		}
 	}
-	catch(Ogre::Exception& ex)
+	catch (Ogre::Exception& ex)
 	{
-		
+
 	}
 
 	return false;
@@ -359,16 +373,16 @@ bool RenderInterfaceOgre3D::GenerateTexture(Rocket::Core::TextureHandle& texture
 {
 	static int texture_id = 1;
 
-	Ogre::DataStreamPtr data_stream(new Ogre::MemoryDataStream((void*) source, source_dimensions.x * source_dimensions.y * sizeof(unsigned int)));
-	
+	Ogre::DataStreamPtr data_stream(new Ogre::MemoryDataStream((void*)source, source_dimensions.x * source_dimensions.y * sizeof(unsigned int)));
+
 	Ogre::TexturePtr ogre_texture = Ogre::TextureManager::getSingleton().loadRawData(Rocket::Core::String(16, "%d", texture_id++).CString(),
-																					 MAIN_RESOURCE_GROUP,
-																					 data_stream,
-																					 source_dimensions.x,
-																					 source_dimensions.y,
-																					 Ogre::PF_A8B8G8R8,
-																					 Ogre::TEX_TYPE_2D,
-																					 0);
+		MAIN_RESOURCE_GROUP,
+		data_stream,
+		source_dimensions.x,
+		source_dimensions.y,
+		Ogre::PF_A8B8G8R8,
+		Ogre::TEX_TYPE_2D,
+		0);
 
 	if (ogre_texture.isNull())
 		return false;
@@ -468,13 +482,13 @@ void RenderInterfaceOgre3D::BuildProjectionMatrix(Ogre::Matrix4& projection_matr
 
 	// Set up matrices.
 	projection_matrix[0][0] = 2.0f / renderWidth;// (the window width)
-	projection_matrix[0][3]= -1.0000000f;
-	projection_matrix[1][1]= -2.0f / renderHeight;//(the window height)
-	projection_matrix[1][3]= 1.0000000f;
-	projection_matrix[2][2]= -2.0f / (z_far - z_near);
-	projection_matrix[3][3]= 1.0000000f;
+	projection_matrix[0][3] = -1.0000000f;
+	projection_matrix[1][1] = -2.0f / renderHeight;//(the window height)
+	projection_matrix[1][3] = 1.0000000f;
+	projection_matrix[2][2] = -2.0f / (z_far - z_near);
+	projection_matrix[3][3] = 1.0000000f;
 
-	if(requiresTextureFlipping)
+	if (requiresTextureFlipping)
 	{
 		projection_matrix[1][1] = -projection_matrix[1][1];
 		projection_matrix[1][3] = -projection_matrix[1][3];
@@ -542,4 +556,16 @@ extern "C" _AnomalousExport float RenderInterfaceOgre3D_GetPixelScale(RenderInte
 extern "C" _AnomalousExport void RenderInterfaceOgre3D_SetPixelScale(RenderInterfaceOgre3D* renderInterface, float scale)
 {
 	renderInterface->SetPixelScale(scale);
+}
+
+extern "C" _AnomalousExport void RenderInterfaceOgre3D_finishTextureLoad(RocketOgre3DTexture* rocketTexture, Ogre::TexturePtr* texturePtr)
+{
+	if (rocketTexture->destroyed)
+	{
+		delete rocketTexture;
+	}
+	else if (texturePtr != nullptr)
+	{
+		rocketTexture->texture = *texturePtr;
+	}
 }

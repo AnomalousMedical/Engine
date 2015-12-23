@@ -38,7 +38,7 @@ typedef Ogre::HardwareIndexBufferSharedPtr(*CreateIndexBuffer)(int num_indices);
 typedef void(*FillIndexBuffer)(Ogre::HardwareIndexBufferSharedPtr index_buffer, int* indices, int num_indices);
 
 //Function to start background loading of a texture, will immediately return the image's size.
-typedef Vector2i(*QueueBackgroundImageLoad)(String source, RocketOgre3DTexture* rocketTexture HANDLE_ARG);
+typedef bool(*QueueBackgroundImageLoad)(String source, RocketOgre3DTexture* rocketTexture, Vector2i& size HANDLE_ARG);
 
 /**
 	A sample render interface for Rocket into Ogre3D.

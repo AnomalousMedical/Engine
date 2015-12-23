@@ -36,7 +36,11 @@ namespace OgrePlugin
             }
         }
 
-        internal IntPtr HeapSharedPtr
+        /// <summary>
+        /// If you need to pass the actual SharedPtr instance, pass this one that has been allocated on the
+        /// heap.
+        /// </summary>
+        public IntPtr HeapSharedPtr
         {
             get
             {

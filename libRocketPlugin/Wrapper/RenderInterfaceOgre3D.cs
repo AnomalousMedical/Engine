@@ -5,6 +5,8 @@ using System.Text;
 using System.Runtime.InteropServices;
 using OgrePlugin;
 using Engine.Utility;
+using static Engine.Utility.ImageUtility;
+using Engine.Threads;
 
 namespace libRocketPlugin
 {
@@ -69,27 +71,65 @@ namespace libRocketPlugin
             }
         }
 
-        private Vector2i queueBackgroundImageLoad(String source, IntPtr rocketTexture)
+        private bool queueBackgroundImageLoad(String source, IntPtr rocketTexture, ref Vector2i size)
         {
             try
             {
-                using (var streamPtr = OgreResourceGroupManager.getInstance().openResource(source, "Rocket.Common", true))
+                var streamPtr = OgreResourceGroupManager.getInstance().openResource(source, "Rocket.Common", true);
+                int width, height;
+                ImageFormat format = ImageUtility.GetImageInfo(streamPtr.Value, out width, out height);
+                size = new Vector2i(width, height);
+                ThreadManager.RunInBackground(() =>
                 {
-                    int width, height;
-                    ImageUtility.GetImageInfo(streamPtr.Value, out width, out height);
-                    return new Vector2i(width, height);
-                }
-            }
-            catch(OgreException ex)
-            {
+                    Image image = new Image();
+                    try
+                    {
+                        image.load(streamPtr.Value, format.ToString().ToLowerInvariant());
+                        ThreadManager.invoke(() =>
+                        {
+                            TexturePtr texture = null;
+                            try
+                            {
+                                texture = TextureManager.getInstance().loadImage(source, "Rocket.Common", image);
+                            }
+                            catch (OgreException)
+                            {
 
+                            }
+                            finally
+                            {
+                                RenderInterfaceOgre3D_finishTextureLoad(rocketTexture, texture != null ? texture.HeapSharedPtr : IntPtr.Zero);
+                                if (image != null)
+                                {
+                                    image.Dispose();
+                                }
+                                if (texture != null)
+                                {
+                                    texture.Dispose();
+                                }
+                            }
+                        });
+                    }
+                    finally
+                    {
+                        if (streamPtr != null)
+                        {
+                            streamPtr.Dispose();
+                        }
+                    }
+                });
+
+                return true;
             }
-            return new Vector2i(0, 0);
+            catch (OgreException ex)
+            {
+                return false;
+            }
         }
 
         #region PInvoke
 
-        [DllImport(RocketInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr RenderInterfaceOgre3D_Create(int width, int height, QueueBackgroundImageLoad queueBackgroundImageLoad
 #if FULL_AOT_COMPILE
         , IntPtr instanceHandle
@@ -114,8 +154,11 @@ namespace libRocketPlugin
         [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void RenderInterfaceOgre3D_SetPixelScale(IntPtr renderInterface, float scale);
 
+        [DllImport(RocketInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void RenderInterfaceOgre3D_finishTextureLoad(IntPtr rocketTexture, IntPtr texturePtr);
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        delegate Vector2i QueueBackgroundImageLoad(String source, IntPtr rocketTexture
+        delegate bool QueueBackgroundImageLoad(String source, IntPtr rocketTexture, ref Vector2i size
 #if FULL_AOT_COMPILE
         , IntPtr instanceHandle
 #endif
@@ -167,7 +210,7 @@ namespace libRocketPlugin
 
             public CallbackHandler(RenderInterfaceOgre3D renderInterface)
             {
-                
+
             }
 
             public IntPtr create(int width, int height, RenderInterfaceOgre3D obj)

@@ -119,6 +119,7 @@ namespace OgrePlugin
             SkeletonManager.getInstance().Dispose();
             HardwareBufferManager.getInstance().Dispose();
             TextureManager.getInstance().Dispose();
+            OgreDataStream.DisposeSharedPtrs();
             destroyRendererWindow(primaryWindow);
             root.Dispose();
             OgreInterface_UnloadRenderSystem(renderSystemPlugin);
