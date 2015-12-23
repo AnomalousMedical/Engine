@@ -75,18 +75,21 @@ namespace libRocketPlugin
         {
             try
             {
+                //On main thread, load image info
                 var streamPtr = OgreResourceGroupManager.getInstance().openResource(source, "Rocket.Common", true);
                 int width, height;
                 ImageFormat format = ImageUtility.GetImageInfo(streamPtr.Value, out width, out height);
                 size = new Vector2i(width, height);
                 ThreadManager.RunInBackground(() =>
                 {
+                    //Process the image itself in a background thread
                     Image image = new Image();
                     try
                     {
                         image.load(streamPtr.Value, format.ToString().ToLowerInvariant());
                         ThreadManager.invoke(() =>
                         {
+                            //Commit the texture to ogre and alert libRocket we are done loading, back in the main thread
                             TexturePtr texture = null;
                             try
                             {
@@ -175,7 +178,10 @@ namespace libRocketPlugin
 
             static CallbackHandler()
             {
-                queueBackgroundImageLoad = new QueueBackgroundImageLoad(queueBackgroundImageLoadImpl);
+                if (RocketInterface.LoadImagesInBackground)
+                {
+                    queueBackgroundImageLoad = new QueueBackgroundImageLoad(queueBackgroundImageLoadImpl);
+                }
             }
 
             public CallbackHandler(RenderInterfaceOgre3D renderInterface)
@@ -189,10 +195,10 @@ namespace libRocketPlugin
             }
 
             [Anomalous.Interop.MonoPInvokeCallback(typeof(QueueBackgroundImageLoad))]
-            private static Vector2i queueBackgroundImageLoadImpl(String source, IntPtr rocketTexture, IntPtr instanceHandle)
+            private static bool queueBackgroundImageLoadImpl(String source, IntPtr rocketTexture, ref Vector2i size, IntPtr instanceHandle)
             {
                 GCHandle handle = GCHandle.FromIntPtr(instanceHandle);
-                return (handle.Target as RenderInterfaceOgre3D).queueBackgroundImageLoad(source, rocketTexture);
+                return (handle.Target as RenderInterfaceOgre3D).queueBackgroundImageLoad(source, rocketTexture, ref size);
             }
 
             public IntPtr create(int width, int height, RenderInterfaceOgre3D obj)
@@ -215,7 +221,10 @@ namespace libRocketPlugin
 
             public IntPtr create(int width, int height, RenderInterfaceOgre3D obj)
             {
-                queueBackgroundImageLoad = new QueueBackgroundImageLoad(obj.queueBackgroundImageLoad);
+                if (RocketInterface.LoadImagesInBackground)
+                {
+                    queueBackgroundImageLoad = new QueueBackgroundImageLoad(obj.queueBackgroundImageLoad);
+                }
 
                 return RenderInterfaceOgre3D_Create(width, height, queueBackgroundImageLoad);
             }

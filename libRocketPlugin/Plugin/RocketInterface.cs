@@ -189,9 +189,15 @@ namespace libRocketPlugin
         static RocketInterface()
         {
             ViewportZIndex = 2000000;
+            LoadImagesInBackground = true;
         }
 
         public static int ViewportZIndex { get; set; }
+
+        /// <summary>
+        /// Set this to true (default) to load libRocket images on a background thread.
+        /// </summary>
+        public static bool LoadImagesInBackground { get; set; }
 
         public float PixelsPerInch
         {
