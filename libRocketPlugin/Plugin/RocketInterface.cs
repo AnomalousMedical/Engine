@@ -32,6 +32,12 @@ namespace libRocketPlugin
 
         private RocketFilesystemArchiveFactory rocketFilesystemArchiveFactory = new RocketFilesystemArchiveFactory();
 
+        /// <summary>
+        /// This event is fired when a texture has been loaded in the background. If you have stuff that might need
+        /// to rerender as a result, subscribe to this event.
+        /// </summary>
+        public event Action TextureLoaded;
+
         private static RocketInterface instance;
         public static RocketInterface Instance
         {
@@ -239,6 +245,14 @@ namespace libRocketPlugin
                 {
                     throw new Exception("You must instantiate the render interface before setting the pixel scale");
                 }
+            }
+        }
+
+        internal void fireTextureLoaded()
+        {
+            if(TextureLoaded != null)
+            {
+                TextureLoaded.Invoke();
             }
         }
     }

@@ -109,6 +109,7 @@ namespace libRocketPlugin
                                 {
                                     texture.Dispose();
                                 }
+                                RocketInterface.Instance.fireTextureLoaded();
                             }
                         });
                     }

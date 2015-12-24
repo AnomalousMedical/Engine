@@ -148,12 +148,16 @@ namespace Anomalous.libRocketWidget
             imageBox.MouseLostFocus += imageBox_MouseLostFocus;
             imageBox.RootKeyChangeFocus += imageBox_RootKeyChangeFocus;
 
+            RocketInterface.Instance.TextureLoaded += renderOnNextFrame;
+
             determineRenderingActive();
         }
 
         public void Dispose()
         {
-			if(RocketWidgetDisposing != null)
+            RocketInterface.Instance.TextureLoaded -= renderOnNextFrame;
+
+            if (RocketWidgetDisposing != null)
 			{
 				RocketWidgetDisposing.Invoke(this);
 			}
