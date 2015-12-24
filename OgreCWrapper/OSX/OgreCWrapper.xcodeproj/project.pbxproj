@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		011A3A3D1C2C4E8500936FBF /* DataStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 011A3A3C1C2C4E8500936FBF /* DataStream.cpp */; };
 		0144A7DE149B85B9004E19D6 /* AnimationStateIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0144A7DC149B85B9004E19D6 /* AnimationStateIterator.cpp */; };
 		0144A7DF149B85B9004E19D6 /* OgreExceptionManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0144A7DD149B85B9004E19D6 /* OgreExceptionManager.cpp */; };
 		0144A7E1149B85C6004E19D6 /* OgreExceptionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0144A7E0149B85C6004E19D6 /* OgreExceptionManager.h */; };
@@ -97,6 +98,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		011A3A3C1C2C4E8500936FBF /* DataStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataStream.cpp; sourceTree = "<group>"; };
 		0144A7DC149B85B9004E19D6 /* AnimationStateIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationStateIterator.cpp; sourceTree = "<group>"; };
 		0144A7DD149B85B9004E19D6 /* OgreExceptionManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgreExceptionManager.cpp; sourceTree = "<group>"; };
 		0144A7E0149B85C6004E19D6 /* OgreExceptionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OgreExceptionManager.h; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 		01A69890135636B4008B7F31 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				011A3A3C1C2C4E8500936FBF /* DataStream.cpp */,
 				0170CC841BBDB3A600350894 /* GpuProgram.cpp */,
 				0170CC851BBDB3A600350894 /* GpuProgramParameters.cpp */,
 				0170CC861BBDB3A600350894 /* HighLevelGpuProgramManager.cpp */,
@@ -466,6 +469,7 @@
 				01A6990D135636B4008B7F31 /* Resource.cpp in Sources */,
 				01A6990E135636B4008B7F31 /* Root.cpp in Sources */,
 				01A6990F135636B4008B7F31 /* SceneManager.cpp in Sources */,
+				011A3A3D1C2C4E8500936FBF /* DataStream.cpp in Sources */,
 				01A69910135636B4008B7F31 /* SceneNode.cpp in Sources */,
 				01A69911135636B4008B7F31 /* Skeleton.cpp in Sources */,
 				01A69912135636B4008B7F31 /* SubEntity.cpp in Sources */,

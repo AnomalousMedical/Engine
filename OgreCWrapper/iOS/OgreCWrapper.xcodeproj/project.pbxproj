@@ -84,6 +84,7 @@
 		0187DF0E1BB589980026338D /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0187DF0A1BB589980026338D /* Image.cpp */; };
 		019E57901AD41E5100A460B5 /* ManagedManualResourceLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 019E578F1AD41E5100A460B5 /* ManagedManualResourceLoader.cpp */; };
 		01A05F731A6DACF800AB35EB /* SkeletonManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A05F721A6DACF800AB35EB /* SkeletonManager.cpp */; };
+		01E381CB1C2C4E5F0085C09E /* DataStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E381CA1C2C4E5F0085C09E /* DataStream.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -185,6 +186,7 @@
 		0187DF0A1BB589980026338D /* Image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Image.cpp; sourceTree = "<group>"; };
 		019E578F1AD41E5100A460B5 /* ManagedManualResourceLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManagedManualResourceLoader.cpp; sourceTree = "<group>"; };
 		01A05F721A6DACF800AB35EB /* SkeletonManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkeletonManager.cpp; sourceTree = "<group>"; };
+		01E381CA1C2C4E5F0085C09E /* DataStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataStream.cpp; sourceTree = "<group>"; };
 		01FF88961A698B9D005291A5 /* libOgreCWrapper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOgreCWrapper.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -218,6 +220,7 @@
 		011540DB1A698BE2007948C1 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				01E381CA1C2C4E5F0085C09E /* DataStream.cpp */,
 				0187DF071BB589980026338D /* GpuProgram.cpp */,
 				0187DF081BB589980026338D /* GpuProgramParameters.cpp */,
 				0187DF091BB589980026338D /* HighLevelGpuProgramManager.cpp */,
@@ -421,6 +424,7 @@
 				0115413E1A698BE2007948C1 /* Material.cpp in Sources */,
 				011541291A698BE2007948C1 /* AnimationTrack.cpp in Sources */,
 				011541481A698BE2007948C1 /* NodeAnimationTrack.cpp in Sources */,
+				01E381CB1C2C4E5F0085C09E /* DataStream.cpp in Sources */,
 				0115416C1A698BE2007948C1 /* Stdafx.cpp in Sources */,
 				0115413C1A698BE2007948C1 /* ManualObject.cpp in Sources */,
 				011541611A698BE2007948C1 /* TextureManager.cpp in Sources */,

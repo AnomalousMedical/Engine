@@ -15,8 +15,6 @@
 		01B6210313563BA800E20314 /* ContactCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 01B620EB13563BA800E20314 /* ContactCache.h */; };
 		01B6210413563BA800E20314 /* ContactInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 01B620EC13563BA800E20314 /* ContactInfo.h */; };
 		01B6210513563BA800E20314 /* MotionState.h in Headers */ = {isa = PBXBuildFile; fileRef = 01B620ED13563BA800E20314 /* MotionState.h */; };
-		01B6210613563BA800E20314 /* ReshapeableRigidBody.h in Headers */ = {isa = PBXBuildFile; fileRef = 01B620EE13563BA800E20314 /* ReshapeableRigidBody.h */; };
-		01B6210713563BA800E20314 /* ReshapeableRigidBodySection.h in Headers */ = {isa = PBXBuildFile; fileRef = 01B620EF13563BA800E20314 /* ReshapeableRigidBodySection.h */; };
 		01B6210813563BA800E20314 /* RigidBodyConstructionInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 01B620F013563BA800E20314 /* RigidBodyConstructionInfo.h */; };
 		01B6210913563BA800E20314 /* BulletDebugDraw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01B620F213563BA800E20314 /* BulletDebugDraw.cpp */; };
 		01B6210A13563BA800E20314 /* BulletScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01B620F313563BA800E20314 /* BulletScene.cpp */; };
@@ -25,8 +23,6 @@
 		01B6210D13563BA800E20314 /* ContactInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01B620F613563BA800E20314 /* ContactInfo.cpp */; };
 		01B6210E13563BA800E20314 /* Generic6DofConstriantMotors.h in Headers */ = {isa = PBXBuildFile; fileRef = 01B620F713563BA800E20314 /* Generic6DofConstriantMotors.h */; };
 		01B6210F13563BA800E20314 /* MotionState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01B620F813563BA800E20314 /* MotionState.cpp */; };
-		01B6211013563BA800E20314 /* ReshapeableRigidBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01B620F913563BA800E20314 /* ReshapeableRigidBody.cpp */; };
-		01B6211113563BA800E20314 /* ReshapeableRigidBodySection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01B620FA13563BA800E20314 /* ReshapeableRigidBodySection.cpp */; };
 		01B6211213563BA800E20314 /* btGeneric6DofConstraintWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01B620FB13563BA800E20314 /* btGeneric6DofConstraintWrapper.cpp */; };
 		01B6211313563BA800E20314 /* btManifoldPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01B620FC13563BA800E20314 /* btManifoldPoint.cpp */; };
 		01B6211413563BA800E20314 /* btRigidBodyWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01B620FD13563BA800E20314 /* btRigidBodyWrapper.cpp */; };
@@ -49,8 +45,6 @@
 		01B620EB13563BA800E20314 /* ContactCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactCache.h; sourceTree = "<group>"; };
 		01B620EC13563BA800E20314 /* ContactInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactInfo.h; sourceTree = "<group>"; };
 		01B620ED13563BA800E20314 /* MotionState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MotionState.h; sourceTree = "<group>"; };
-		01B620EE13563BA800E20314 /* ReshapeableRigidBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReshapeableRigidBody.h; sourceTree = "<group>"; };
-		01B620EF13563BA800E20314 /* ReshapeableRigidBodySection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReshapeableRigidBodySection.h; sourceTree = "<group>"; };
 		01B620F013563BA800E20314 /* RigidBodyConstructionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RigidBodyConstructionInfo.h; sourceTree = "<group>"; };
 		01B620F213563BA800E20314 /* BulletDebugDraw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BulletDebugDraw.cpp; sourceTree = "<group>"; };
 		01B620F313563BA800E20314 /* BulletScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BulletScene.cpp; sourceTree = "<group>"; };
@@ -59,8 +53,6 @@
 		01B620F613563BA800E20314 /* ContactInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ContactInfo.cpp; sourceTree = "<group>"; };
 		01B620F713563BA800E20314 /* Generic6DofConstriantMotors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Generic6DofConstriantMotors.h; sourceTree = "<group>"; };
 		01B620F813563BA800E20314 /* MotionState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MotionState.cpp; sourceTree = "<group>"; };
-		01B620F913563BA800E20314 /* ReshapeableRigidBody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ReshapeableRigidBody.cpp; sourceTree = "<group>"; };
-		01B620FA13563BA800E20314 /* ReshapeableRigidBodySection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ReshapeableRigidBodySection.cpp; sourceTree = "<group>"; };
 		01B620FB13563BA800E20314 /* btGeneric6DofConstraintWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = btGeneric6DofConstraintWrapper.cpp; sourceTree = "<group>"; };
 		01B620FC13563BA800E20314 /* btManifoldPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = btManifoldPoint.cpp; sourceTree = "<group>"; };
 		01B620FD13563BA800E20314 /* btRigidBodyWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = btRigidBodyWrapper.cpp; sourceTree = "<group>"; };
@@ -113,8 +105,6 @@
 				01B620EB13563BA800E20314 /* ContactCache.h */,
 				01B620EC13563BA800E20314 /* ContactInfo.h */,
 				01B620ED13563BA800E20314 /* MotionState.h */,
-				01B620EE13563BA800E20314 /* ReshapeableRigidBody.h */,
-				01B620EF13563BA800E20314 /* ReshapeableRigidBodySection.h */,
 				01B620F013563BA800E20314 /* RigidBodyConstructionInfo.h */,
 			);
 			name = Include;
@@ -133,8 +123,6 @@
 				01B620F613563BA800E20314 /* ContactInfo.cpp */,
 				01B620F713563BA800E20314 /* Generic6DofConstriantMotors.h */,
 				01B620F813563BA800E20314 /* MotionState.cpp */,
-				01B620F913563BA800E20314 /* ReshapeableRigidBody.cpp */,
-				01B620FA13563BA800E20314 /* ReshapeableRigidBodySection.cpp */,
 				01B620FB13563BA800E20314 /* btGeneric6DofConstraintWrapper.cpp */,
 				01B620FC13563BA800E20314 /* btManifoldPoint.cpp */,
 				01B620FD13563BA800E20314 /* btRigidBodyWrapper.cpp */,
@@ -196,8 +184,6 @@
 				01B6210313563BA800E20314 /* ContactCache.h in Headers */,
 				01B6210413563BA800E20314 /* ContactInfo.h in Headers */,
 				01B6210513563BA800E20314 /* MotionState.h in Headers */,
-				01B6210613563BA800E20314 /* ReshapeableRigidBody.h in Headers */,
-				01B6210713563BA800E20314 /* ReshapeableRigidBodySection.h in Headers */,
 				01B6210813563BA800E20314 /* RigidBodyConstructionInfo.h in Headers */,
 				01B6210E13563BA800E20314 /* Generic6DofConstriantMotors.h in Headers */,
 				012ABAE11AAE2EFB00F5E0B8 /* RayTests.h in Headers */,
@@ -264,8 +250,6 @@
 				01B6210D13563BA800E20314 /* ContactInfo.cpp in Sources */,
 				0191EBB4196B11DC00C23BE4 /* btFixedConstraintWrapper.cpp in Sources */,
 				01B6210F13563BA800E20314 /* MotionState.cpp in Sources */,
-				01B6211013563BA800E20314 /* ReshapeableRigidBody.cpp in Sources */,
-				01B6211113563BA800E20314 /* ReshapeableRigidBodySection.cpp in Sources */,
 				01B6211213563BA800E20314 /* btGeneric6DofConstraintWrapper.cpp in Sources */,
 				01B6211313563BA800E20314 /* btManifoldPoint.cpp in Sources */,
 				012ABAE31AAE2F0400F5E0B8 /* RayTests.cpp in Sources */,
