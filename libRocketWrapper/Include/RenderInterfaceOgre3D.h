@@ -49,7 +49,7 @@ typedef bool(*QueueBackgroundImageLoad)(String source, RocketOgre3DTexture* rock
 class RenderInterfaceOgre3D : public Rocket::Core::RenderInterface
 {
 	public:
-		RenderInterfaceOgre3D(unsigned int window_width, unsigned int window_height, QueueBackgroundImageLoad queueBackgroundImageLoad);
+		RenderInterfaceOgre3D(unsigned int window_width, unsigned int window_height, QueueBackgroundImageLoad queueBackgroundImageLoad HANDLE_ARG);
 		virtual ~RenderInterfaceOgre3D();
 
 		/// Called by Rocket when it wants to render geometry that it does not wish to optimise.
