@@ -12,6 +12,14 @@ namespace OgrePlugin
     {
         private static SharedPtrCollection<OgreDataStream> dataStreamCollection;
 
+#if FULL_AOT_COMPILE
+        [Anomalous.Interop.MonoPInvokeCallback(typeof(ProcessWrapperObjectDelegate))]
+        private static void processWrapperObject_AOT(IntPtr nativeObject, IntPtr stackSharedPtr)
+        {
+            dataStreamCollection.processWrapperObject(nativeObject, stackSharedPtr);
+        }
+#endif
+
         static OgreDataStream()
         {
             dataStreamCollection = new SharedPtrCollection<OgreDataStream>(createWrapper, DataStreamPtr_createHeapPtr, DataStreamPtr_Delete
