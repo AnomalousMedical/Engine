@@ -316,7 +316,7 @@ bool RenderInterfaceOgre3D::LoadTexture(Rocket::Core::TextureHandle& texture_han
 				{
 					RocketOgre3DTexture* tex = new RocketOgre3DTexture(Ogre::TexturePtr());
 					Vector2i size;
-					if (queueBackgroundImageLoad(source.CString(), tex, size))
+					if (queueBackgroundImageLoad(source.CString(), tex, size PASS_HANDLE_ARG))
 					{
 						texture_dimensions = size.toVector2i();
 						texture_handle = reinterpret_cast<Rocket::Core::TextureHandle>(tex);
