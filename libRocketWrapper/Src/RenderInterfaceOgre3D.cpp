@@ -321,44 +321,38 @@ bool RenderInterfaceOgre3D::LoadTexture(Rocket::Core::TextureHandle& texture_han
 						texture_dimensions = size.toVector2i();
 						texture_handle = reinterpret_cast<Rocket::Core::TextureHandle>(tex);
 
-						return true;
+						return true; //Return here, loading in background
 					}
 					else
 					{
 						texture_manager->remove(ogreSource); //Remove the texture from ogre, or it will crash trying to find nonexistant textures the second time the same missing texture is accessed
 						ogre_texture = texture_manager->load(IMAGE_NOT_FOUND, SHARED_RESOURCE_GROUP, Ogre::TEX_TYPE_2D, 0);
-
-						texture_dimensions.x = ogre_texture->getWidth();
-						texture_dimensions.y = ogre_texture->getHeight();
-
-						texture_handle = reinterpret_cast<Rocket::Core::TextureHandle>(new RocketOgre3DTexture(ogre_texture));
 					}
 				}
 				else
 				{
 					ogre_texture = texture_manager->load(ogreSource, MAIN_RESOURCE_GROUP, Ogre::TEX_TYPE_2D, 0);
-
-					texture_dimensions.x = ogre_texture->getWidth();
-					texture_dimensions.y = ogre_texture->getHeight();
-
-					texture_handle = reinterpret_cast<Rocket::Core::TextureHandle>(new RocketOgre3DTexture(ogre_texture));
-
-					return true;
 				}
 			}
 			catch (Ogre::Exception& ex)
 			{
 				texture_manager->remove(ogreSource); //Remove the texture from ogre, or it will crash trying to find nonexistant textures the second time the same missing texture is accessed
 				ogre_texture = texture_manager->load(IMAGE_NOT_FOUND, SHARED_RESOURCE_GROUP, Ogre::TEX_TYPE_2D, 0);
-
-				texture_dimensions.x = ogre_texture->getWidth();
-				texture_dimensions.y = ogre_texture->getHeight();
-
-				texture_handle = reinterpret_cast<Rocket::Core::TextureHandle>(new RocketOgre3DTexture(ogre_texture));
-
-				return true;
 			}
 		}
+
+		if (ogre_texture.isNull())
+		{
+			return false;
+		}
+
+		//If the texture was found and not loaded in the background, return the result
+		texture_dimensions.x = ogre_texture->getWidth();
+		texture_dimensions.y = ogre_texture->getHeight();
+
+		texture_handle = reinterpret_cast<Rocket::Core::TextureHandle>(new RocketOgre3DTexture(ogre_texture));
+
+		return true;
 	}
 	catch (Ogre::Exception& ex)
 	{
