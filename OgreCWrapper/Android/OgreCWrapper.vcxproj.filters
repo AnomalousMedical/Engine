@@ -231,6 +231,9 @@
     </ClCompile>
     <ClCompile Include="..\Stdafx.cpp" />
     <ClCompile Include="$(VS_NdkRoot)\sources\android\cpufeatures\cpu-features.c" />
+    <ClCompile Include="..\Src\DataStream.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Src">

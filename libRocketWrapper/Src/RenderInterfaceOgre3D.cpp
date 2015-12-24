@@ -564,7 +564,7 @@ extern "C" _AnomalousExport void RenderInterfaceOgre3D_finishTextureLoad(RocketO
 	{
 		delete rocketTexture;
 	}
-	else if (texturePtr != nullptr)
+	else if (texturePtr != NULL)
 	{
 		rocketTexture->texture = *texturePtr;
 	}

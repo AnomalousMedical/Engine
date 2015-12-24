@@ -27,12 +27,6 @@
     <ClInclude Include="..\Include\RayTests.h">
       <Filter>Include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\ReshapeableRigidBody.h">
-      <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Include\ReshapeableRigidBodySection.h">
-      <Filter>Include</Filter>
-    </ClInclude>
     <ClInclude Include="..\Include\RigidBodyConstructionInfo.h">
       <Filter>Include</Filter>
     </ClInclude>
@@ -78,12 +72,6 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="..\src\RayTests.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\ReshapeableRigidBody.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\ReshapeableRigidBodySection.cpp">
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="..\Stdafx.cpp">

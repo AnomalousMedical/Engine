@@ -25,8 +25,6 @@
     <ClInclude Include="..\Include\ContactInfo.h" />
     <ClInclude Include="..\Include\MotionState.h" />
     <ClInclude Include="..\Include\RayTests.h" />
-    <ClInclude Include="..\Include\ReshapeableRigidBody.h" />
-    <ClInclude Include="..\Include\ReshapeableRigidBodySection.h" />
     <ClInclude Include="..\Include\RigidBodyConstructionInfo.h" />
     <ClInclude Include="..\src\Generic6DofConstriantMotors.h" />
     <ClInclude Include="..\Stdafx.h" />
@@ -44,8 +42,6 @@
     <ClCompile Include="..\src\ContactInfo.cpp" />
     <ClCompile Include="..\src\MotionState.cpp" />
     <ClCompile Include="..\src\RayTests.cpp" />
-    <ClCompile Include="..\src\ReshapeableRigidBody.cpp" />
-    <ClCompile Include="..\src\ReshapeableRigidBodySection.cpp" />
     <ClCompile Include="..\Stdafx.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -65,7 +61,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>Clang_3_6</PlatformToolset>
+    <PlatformToolset>Gcc_4_9</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -77,6 +73,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>Gcc_4_9</PlatformToolset>
     <UseOfStl>gnustl_shared</UseOfStl>
+    <ThumbMode>ARM</ThumbMode>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />

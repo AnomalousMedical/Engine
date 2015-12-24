@@ -5,7 +5,6 @@ using System.Text;
 using System.Runtime.InteropServices;
 using OgrePlugin;
 using Engine.Utility;
-using static Engine.Utility.ImageUtility;
 using Engine.Threads;
 
 namespace libRocketPlugin
@@ -78,7 +77,7 @@ namespace libRocketPlugin
                 //On main thread, load image info
                 var streamPtr = OgreResourceGroupManager.getInstance().openResource(source, "Rocket.Common", true);
                 int width, height;
-                ImageFormat format = ImageUtility.GetImageInfo(streamPtr.Value, out width, out height);
+                ImageUtility.ImageFormat format = ImageUtility.GetImageInfo(streamPtr.Value, out width, out height);
                 size = new Vector2i(width, height);
                 ThreadManager.RunInBackground(() =>
                 {
