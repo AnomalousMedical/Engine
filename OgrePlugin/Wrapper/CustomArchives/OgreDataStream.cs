@@ -14,7 +14,11 @@ namespace OgrePlugin
 
         static OgreDataStream()
         {
-            dataStreamCollection = new SharedPtrCollection<OgreDataStream>(createWrapper, DataStreamPtr_createHeapPtr, DataStreamPtr_Delete);
+            dataStreamCollection = new SharedPtrCollection<OgreDataStream>(createWrapper, DataStreamPtr_createHeapPtr, DataStreamPtr_Delete
+#if FULL_AOT_COMPILE
+            , processWrapperObject_AOT
+#endif
+                );
         }
 
         internal static void DisposeSharedPtrs()
@@ -100,12 +104,12 @@ namespace OgrePlugin
 
         public override void Flush()
         {
-            
+
         }
 
         public override int Read(byte[] buffer, int offset, int count)
         {
-            fixed(void* buf = &buffer[0])
+            fixed (void* buf = &buffer[0])
             {
                 return (int)DataStream_read(ogreDataStream, buf, new UIntPtr((uint)count)).ToUInt64();
             }
@@ -113,7 +117,7 @@ namespace OgrePlugin
 
         public override long Seek(long offset, SeekOrigin origin)
         {
-            switch(origin)
+            switch (origin)
             {
                 case SeekOrigin.Begin:
                     Position = offset;
@@ -130,7 +134,7 @@ namespace OgrePlugin
 
         public override void SetLength(long value)
         {
-            
+
         }
 
         public override void Write(byte[] buffer, int offset, int count)
@@ -173,5 +177,5 @@ namespace OgrePlugin
         private static extern void DataStreamPtr_Delete(IntPtr heapSharedPtr);
 
         #endregion
-}
+    }
 }
