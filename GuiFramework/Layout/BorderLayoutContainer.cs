@@ -29,7 +29,7 @@ namespace Anomalous.GuiFramework
         private LayoutContainer center;
 
         private bool visible = true;
-        private bool expandedMode = true;
+        private bool compactMode = false;
 
         public BorderLayoutContainer(String name)
         {
@@ -80,52 +80,7 @@ namespace Anomalous.GuiFramework
             IntSize2 topDesired = top != null ? top.DesiredSize : new IntSize2();
             IntSize2 bottomDesired = bottom != null ? bottom.DesiredSize : new IntSize2();
 
-            if (expandedMode)
-            {
-                //Determine center region size.
-                IntSize2 centerSize = new IntSize2(WorkingSize.Width - leftDesired.Width - rightDesired.Width, WorkingSize.Height - topDesired.Height - bottomDesired.Height);
-
-                //Top
-                if (top != null)
-                {
-                    top.Location = this.Location;
-                    top.WorkingSize = new IntSize2(WorkingSize.Width, topDesired.Height);
-                    top.layout();
-                }
-
-                //Bottom
-                if (bottom != null)
-                {
-                    bottom.Location = new IntVector2(this.Location.x, this.Location.y + topDesired.Height + centerSize.Height);
-                    bottom.WorkingSize = new IntSize2(WorkingSize.Width, bottomDesired.Height);
-                    bottom.layout();
-                }
-
-                //Left
-                if (left != null)
-                {
-                    left.Location = new IntVector2(this.Location.x, this.Location.y + topDesired.Height);
-                    left.WorkingSize = new IntSize2(leftDesired.Width, centerSize.Height);
-                    left.layout();
-                }
-
-                //Center
-                if (center != null)
-                {
-                    center.Location = new IntVector2(this.Location.x + leftDesired.Width, this.Location.y + topDesired.Height);
-                    center.WorkingSize = centerSize;
-                    center.layout();
-                }
-
-                //Right
-                if (right != null)
-                {
-                    right.Location = new IntVector2(this.Location.x + leftDesired.Width + centerSize.Width, this.Location.y + topDesired.Height);
-                    right.WorkingSize = new IntSize2(rightDesired.Width, centerSize.Height);
-                    right.layout();
-                }
-            }
-            else
+            if (compactMode)
             {
                 //Determine center region size.
                 IntSize2 centerSize = new IntSize2(WorkingSize.Width, WorkingSize.Height - topDesired.Height - bottomDesired.Height - leftDesired.Height - rightDesired.Height);
@@ -179,6 +134,51 @@ namespace Anomalous.GuiFramework
                     bottom.layout();
                 }
             }
+            else
+            {
+                //Determine center region size.
+                IntSize2 centerSize = new IntSize2(WorkingSize.Width - leftDesired.Width - rightDesired.Width, WorkingSize.Height - topDesired.Height - bottomDesired.Height);
+
+                //Top
+                if (top != null)
+                {
+                    top.Location = this.Location;
+                    top.WorkingSize = new IntSize2(WorkingSize.Width, topDesired.Height);
+                    top.layout();
+                }
+
+                //Bottom
+                if (bottom != null)
+                {
+                    bottom.Location = new IntVector2(this.Location.x, this.Location.y + topDesired.Height + centerSize.Height);
+                    bottom.WorkingSize = new IntSize2(WorkingSize.Width, bottomDesired.Height);
+                    bottom.layout();
+                }
+
+                //Left
+                if (left != null)
+                {
+                    left.Location = new IntVector2(this.Location.x, this.Location.y + topDesired.Height);
+                    left.WorkingSize = new IntSize2(leftDesired.Width, centerSize.Height);
+                    left.layout();
+                }
+
+                //Center
+                if (center != null)
+                {
+                    center.Location = new IntVector2(this.Location.x + leftDesired.Width, this.Location.y + topDesired.Height);
+                    center.WorkingSize = centerSize;
+                    center.layout();
+                }
+
+                //Right
+                if (right != null)
+                {
+                    right.Location = new IntVector2(this.Location.x + leftDesired.Width + centerSize.Width, this.Location.y + topDesired.Height);
+                    right.WorkingSize = new IntSize2(rightDesired.Width, centerSize.Height);
+                    right.layout();
+                }
+            }
         }
 
         public override IntSize2 DesiredSize
@@ -210,24 +210,24 @@ namespace Anomalous.GuiFramework
             }
         }
 
-        public bool ExpandedMode
+        public bool CompactMode
         {
             get
             {
-                return expandedMode;
+                return compactMode;
             }
             set
             {
-                if(expandedMode != value)
+                if(compactMode != value)
                 {
-                    expandedMode = value;
+                    compactMode = value;
                     if(left != null)
                     {
-                        left.Orientation = expandedMode ? LayoutType.Horizontal : LayoutType.Vertical;
+                        left.Orientation = compactMode ? LayoutType.Vertical : LayoutType.Horizontal;
                     }
                     if (right != null)
                     {
-                        right.Orientation = expandedMode ? LayoutType.Horizontal : LayoutType.Vertical;
+                        right.Orientation = compactMode ? LayoutType.Vertical : LayoutType.Horizontal;
                     }
                 }
             }
@@ -239,7 +239,7 @@ namespace Anomalous.GuiFramework
             if(elementName == LeftElementName)
             {
                 elementCount += countContainer(right);
-                if(!expandedMode)
+                if(compactMode)
                 {
                     elementCount += countContainer(top);
                     elementCount += countContainer(bottom);
@@ -248,7 +248,7 @@ namespace Anomalous.GuiFramework
             else if(elementName == RightElementName)
             {
                 elementCount += countContainer(left);
-                if (!expandedMode)
+                if (compactMode)
                 {
                     elementCount += countContainer(top);
                     elementCount += countContainer(bottom);
@@ -257,7 +257,7 @@ namespace Anomalous.GuiFramework
             else if (elementName == TopElementName)
             {
                 elementCount += countContainer(bottom);
-                if (!expandedMode)
+                if (compactMode)
                 {
                     elementCount += countContainer(left);
                     elementCount += countContainer(right);
@@ -266,7 +266,7 @@ namespace Anomalous.GuiFramework
             else if (elementName == BottomElementName)
             {
                 elementCount += countContainer(top);
-                if (!expandedMode)
+                if (compactMode)
                 {
                     elementCount += countContainer(left);
                     elementCount += countContainer(right);
@@ -288,7 +288,7 @@ namespace Anomalous.GuiFramework
         {
             if (elementName == LeftElementName || elementName == RightElementName || elementName == CenterElementName)
             {
-                return expandedMode ? LayoutType.Horizontal : LayoutType.Vertical;
+                return compactMode ? LayoutType.Vertical : LayoutType.Horizontal;
             }
             else if (elementName == TopElementName || elementName == BottomElementName)
             {
