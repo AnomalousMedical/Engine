@@ -22,22 +22,14 @@ namespace Anomalous.GuiFramework
         private IntSize2 sizeDelta;
         private IntSize2 currentSize;
         private EasingFunction currentEasing = EasingFunction.None;
-        private Orientation orientation;
+        private OrientationStrategy orientationStrategy;
+        private LayoutType orientation;
 
         public PopoutLayoutContainer(UpdateTimer mainTimer, LayoutType orientation)
         {
             this.mainTimer = mainTimer;
-            switch (orientation)
-            {
-                case LayoutType.Horizontal:
-                    this.orientation = new HorizontalPopoutStrategy(this);
-                    break;
-                case LayoutType.Vertical:
-                    this.orientation = new VerticalPopoutStrategy(this);
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
+            this.orientation = orientation;
+            createOrientationStrategy();
         }
 
         public override void Dispose()
@@ -119,7 +111,7 @@ namespace Anomalous.GuiFramework
             if (oldChildContainer != null)
             {
                 oldSize = oldChildContainer.DesiredSize;
-                oldChildContainer.animatedResizeStarted(orientation.getOrientedSize(oldSize, WorkingSize));
+                oldChildContainer.animatedResizeStarted(orientationStrategy.getOrientedSize(oldSize, WorkingSize));
             }
             else
             {
@@ -131,10 +123,10 @@ namespace Anomalous.GuiFramework
             {
                 childContainer._setParent(this);
                 newSize = childContainer.DesiredSize;
-                childContainer.animatedResizeStarted(orientation.getOrientedSize(newSize, WorkingSize));
+                childContainer.animatedResizeStarted(orientationStrategy.getOrientedSize(newSize, WorkingSize));
                 //Force the child container to fit in the current alloted space
                 childContainer.Location = Location;
-                childContainer.WorkingSize = orientation.getOrientedSize(oldSize, WorkingSize);
+                childContainer.WorkingSize = orientationStrategy.getOrientedSize(oldSize, WorkingSize);
                 childContainer.layout();
             }
             else
@@ -144,11 +136,11 @@ namespace Anomalous.GuiFramework
 
             sizeDelta = newSize - oldSize;
 
-            if (orientation.isMajorAxisZero(oldSize))
+            if (orientationStrategy.isMajorAxisZero(oldSize))
             {
                 currentEasing = EasingFunction.EaseOutQuadratic;
             }
-            else if (orientation.isMajorAxisZero(newSize))
+            else if (orientationStrategy.isMajorAxisZero(newSize))
             {
                 currentEasing = EasingFunction.EaseInQuadratic;
             }
@@ -206,14 +198,14 @@ namespace Anomalous.GuiFramework
                 if (currentTime < animationLength)
                 {
                     alpha = EasingFunctions.Ease(currentEasing, 0, 1.0f, currentTime, animationLength);
-                    currentSize = orientation.getOrientedResize(alpha);
+                    currentSize = orientationStrategy.getOrientedResize(alpha);
                     invalidate();
                 }
                 else
                 {
                     currentTime = animationLength;
                     alpha = 1.0f;
-                    currentSize = orientation.getOrientedFinalSize();
+                    currentSize = orientationStrategy.getOrientedFinalSize();
                     invalidate();
                     finishAnimation();
                     oldChildContainer = null;
@@ -279,6 +271,22 @@ namespace Anomalous.GuiFramework
             }
         }
 
+        public override LayoutType Orientation
+        {
+            get
+            {
+                return orientation;
+            }
+            set
+            {
+                if(orientation != value)
+                {
+                    orientation = value;
+                    createOrientationStrategy();
+                }
+            }
+        }
+
         private void subscribeToUpdates()
         {
             animating = true;
@@ -291,7 +299,22 @@ namespace Anomalous.GuiFramework
             mainTimer.removeUpdateListener(this);
         }
 
-        interface Orientation
+        private void createOrientationStrategy()
+        {
+            switch (orientation)
+            {
+                case LayoutType.Horizontal:
+                    this.orientationStrategy = new HorizontalPopoutStrategy(this);
+                    break;
+                case LayoutType.Vertical:
+                    this.orientationStrategy = new VerticalPopoutStrategy(this);
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        interface OrientationStrategy
         {
             IntSize2 getOrientedSize(IntSize2 size, IntSize2 workingSize);
 
@@ -302,7 +325,7 @@ namespace Anomalous.GuiFramework
             IntSize2 getOrientedFinalSize();
         }
 
-        class HorizontalPopoutStrategy : Orientation
+        class HorizontalPopoutStrategy : OrientationStrategy
         {
             PopoutLayoutContainer container;
 
@@ -332,7 +355,7 @@ namespace Anomalous.GuiFramework
             }
         }
 
-        class VerticalPopoutStrategy : Orientation
+        class VerticalPopoutStrategy : OrientationStrategy
         {
             PopoutLayoutContainer container;
 

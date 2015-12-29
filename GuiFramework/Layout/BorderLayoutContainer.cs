@@ -29,6 +29,7 @@ namespace Anomalous.GuiFramework
         private LayoutContainer center;
 
         private bool visible = true;
+        private bool expandedMode = true;
 
         public BorderLayoutContainer(String name)
         {
@@ -79,47 +80,104 @@ namespace Anomalous.GuiFramework
             IntSize2 topDesired = top != null ? top.DesiredSize : new IntSize2();
             IntSize2 bottomDesired = bottom != null ? bottom.DesiredSize : new IntSize2();
 
-            //Determine center region size.
-            IntSize2 centerSize = new IntSize2(WorkingSize.Width - leftDesired.Width - rightDesired.Width, WorkingSize.Height - topDesired.Height - bottomDesired.Height);
-            
-            //Top
-            if (top != null)
+            if (expandedMode)
             {
-                top.Location = this.Location;
-                top.WorkingSize = new IntSize2(WorkingSize.Width, topDesired.Height);
-                top.layout();
-            }
+                //Determine center region size.
+                IntSize2 centerSize = new IntSize2(WorkingSize.Width - leftDesired.Width - rightDesired.Width, WorkingSize.Height - topDesired.Height - bottomDesired.Height);
 
-            //Bottom
-            if(bottom != null)
-            {
-                bottom.Location = new IntVector2(this.Location.x, this.Location.y + topDesired.Height + centerSize.Height);
-                bottom.WorkingSize = new IntSize2(WorkingSize.Width, bottomDesired.Height);
-                bottom.layout();
-            }
+                //Top
+                if (top != null)
+                {
+                    top.Location = this.Location;
+                    top.WorkingSize = new IntSize2(WorkingSize.Width, topDesired.Height);
+                    top.layout();
+                }
 
-            //Left
-            if(left != null)
-            {
-                left.Location = new IntVector2(this.Location.x, this.Location.y + topDesired.Height);
-                left.WorkingSize = new IntSize2(leftDesired.Width, centerSize.Height);
-                left.layout();
-            }
+                //Bottom
+                if (bottom != null)
+                {
+                    bottom.Location = new IntVector2(this.Location.x, this.Location.y + topDesired.Height + centerSize.Height);
+                    bottom.WorkingSize = new IntSize2(WorkingSize.Width, bottomDesired.Height);
+                    bottom.layout();
+                }
 
-            //Center
-            if(center != null)
-            {
-                center.Location = new IntVector2(this.Location.x + leftDesired.Width, this.Location.y + topDesired.Height);
-                center.WorkingSize = centerSize;
-                center.layout();
-            }
+                //Left
+                if (left != null)
+                {
+                    left.Location = new IntVector2(this.Location.x, this.Location.y + topDesired.Height);
+                    left.WorkingSize = new IntSize2(leftDesired.Width, centerSize.Height);
+                    left.layout();
+                }
 
-            //Right
-            if(right != null)
+                //Center
+                if (center != null)
+                {
+                    center.Location = new IntVector2(this.Location.x + leftDesired.Width, this.Location.y + topDesired.Height);
+                    center.WorkingSize = centerSize;
+                    center.layout();
+                }
+
+                //Right
+                if (right != null)
+                {
+                    right.Location = new IntVector2(this.Location.x + leftDesired.Width + centerSize.Width, this.Location.y + topDesired.Height);
+                    right.WorkingSize = new IntSize2(rightDesired.Width, centerSize.Height);
+                    right.layout();
+                }
+            }
+            else
             {
-                right.Location = new IntVector2(this.Location.x + leftDesired.Width + centerSize.Width, this.Location.y + topDesired.Height);
-                right.WorkingSize = new IntSize2(rightDesired.Width, centerSize.Height);
-                right.layout();
+                //Determine center region size.
+                IntSize2 centerSize = new IntSize2(WorkingSize.Width, WorkingSize.Height - topDesired.Height - bottomDesired.Height - leftDesired.Height - rightDesired.Height);
+
+                IntVector2 loc = this.Location;
+                //Top
+                if (top != null)
+                {
+                    top.Location = loc;
+                    top.WorkingSize = new IntSize2(WorkingSize.Width, topDesired.Height);
+                    top.layout();
+
+                    loc.y += topDesired.Height;
+                }
+
+                //Right
+                if (right != null)
+                {
+                    right.Location = loc;
+                    right.WorkingSize = new IntSize2(WorkingSize.Width, rightDesired.Height);
+                    right.layout();
+
+                    loc.y += rightDesired.Height;
+                }
+
+                //Center
+                if (center != null)
+                {
+                    center.Location = loc;
+                    center.WorkingSize = centerSize;
+                    center.layout();
+
+                    loc.y += centerSize.Height;
+                }
+
+                //Left
+                if (left != null)
+                {
+                    left.Location = loc;
+                    left.WorkingSize = new IntSize2(WorkingSize.Width, leftDesired.Height);
+                    left.layout();
+
+                    loc.y += leftDesired.Height;
+                }
+
+                //Bottom
+                if (bottom != null)
+                {
+                    bottom.Location = loc;
+                    bottom.WorkingSize = new IntSize2(WorkingSize.Width, bottomDesired.Height);
+                    bottom.layout();
+                }
             }
         }
 
@@ -152,55 +210,85 @@ namespace Anomalous.GuiFramework
             }
         }
 
+        public bool ExpandedMode
+        {
+            get
+            {
+                return expandedMode;
+            }
+            set
+            {
+                if(expandedMode != value)
+                {
+                    expandedMode = value;
+                    if(left != null)
+                    {
+                        left.Orientation = expandedMode ? LayoutType.Horizontal : LayoutType.Vertical;
+                    }
+                    if (right != null)
+                    {
+                        right.Orientation = expandedMode ? LayoutType.Horizontal : LayoutType.Vertical;
+                    }
+                }
+            }
+        }
+
         public override int getNumberOfPeers(LayoutElementName elementName)
         {
+            int elementCount = 0;
             if(elementName == LeftElementName)
             {
-                if(right != null && right.Visible)
+                elementCount += countContainer(right);
+                if(!expandedMode)
                 {
-                    return 1;
+                    elementCount += countContainer(top);
+                    elementCount += countContainer(bottom);
                 }
-                return 0;
             }
             else if(elementName == RightElementName)
             {
-                if(left != null && left.Visible)
+                elementCount += countContainer(left);
+                if (!expandedMode)
                 {
-                    return 1;
+                    elementCount += countContainer(top);
+                    elementCount += countContainer(bottom);
                 }
-                return 0;
             }
             else if (elementName == TopElementName)
             {
-                if (bottom != null && bottom.Visible)
+                elementCount += countContainer(bottom);
+                if (!expandedMode)
                 {
-                    return 1;
+                    elementCount += countContainer(left);
+                    elementCount += countContainer(right);
                 }
-                return 0;
             }
             else if (elementName == BottomElementName)
             {
-                if (top != null && top.Visible)
+                elementCount += countContainer(top);
+                if (!expandedMode)
                 {
-                    return 1;
+                    elementCount += countContainer(left);
+                    elementCount += countContainer(right);
                 }
-                return 0;
             }
-            else if (elementName == CenterElementName)
+            else if (elementName != CenterElementName)
             {
-                return 0;
+                elementCount = base.getNumberOfPeers(elementName);
             }
-            else
-            {
-                return base.getNumberOfPeers(elementName);
-            }
+            return elementCount;
+        }
+
+        private int countContainer(LayoutContainer container)
+        {
+            return container != null && container.Visible ? 1 : 0;
         }
 
         public override LayoutType getLayoutType(LayoutElementName elementName)
         {
             if (elementName == LeftElementName || elementName == RightElementName || elementName == CenterElementName)
             {
-                return LayoutType.Horizontal;
+                return expandedMode ? LayoutType.Horizontal : LayoutType.Vertical;
             }
             else if (elementName == TopElementName || elementName == BottomElementName)
             {

@@ -112,6 +112,18 @@ namespace Anomalous.GuiFramework
             }
         }
 
+        public virtual LayoutType Orientation
+        {
+            get
+            {
+                return LayoutType.Horizontal;
+            }
+            set
+            {
+                
+            }
+        }
+
         /// <summary>
         /// Find the size of the first parent container that is rigid up the chain.
         /// 

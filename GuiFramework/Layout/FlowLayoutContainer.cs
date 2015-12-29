@@ -197,5 +197,18 @@ namespace Anomalous.GuiFramework
                 invalidate();
             }
         }
+
+        public override LayoutType Orientation
+        {
+            get
+            {
+                return layoutType;
+            }
+
+            set
+            {
+                layoutType = value;
+            }
+        }
     }
 }
