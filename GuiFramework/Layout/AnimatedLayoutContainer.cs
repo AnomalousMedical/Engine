@@ -5,6 +5,8 @@ using System.Text;
 
 namespace Anomalous.GuiFramework
 {
+    public delegate void AnimationCompletedDelegate(LayoutContainer oldChild);
+
     public abstract class AnimatedLayoutContainer : LayoutContainer, IDisposable
     {
         public event AnimationCompletedDelegate AnimationComplete;

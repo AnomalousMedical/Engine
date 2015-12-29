@@ -19,22 +19,22 @@ namespace Anomalous.GuiFramework
         {
             borderLayout = new BorderLayoutContainer(name);
 
-            AnimatedLayoutContainer animatedContainer = new HorizontalPopoutLayoutContainer(tempTimer);
+            AnimatedLayoutContainer animatedContainer = new PopoutLayoutContainer(tempTimer, LayoutType.Horizontal);
             borderLayout.Left = animatedContainer;
             panels.Add(borderLayout.LeftElementName, animatedContainer);
             animatedContainer.AnimationComplete += animatedContainer_AnimationComplete;
 
-            animatedContainer = new HorizontalPopoutLayoutContainer(tempTimer);
+            animatedContainer = new PopoutLayoutContainer(tempTimer, LayoutType.Horizontal);
             borderLayout.Right = animatedContainer;
             panels.Add(borderLayout.RightElementName, animatedContainer);
             animatedContainer.AnimationComplete += animatedContainer_AnimationComplete;
 
-            animatedContainer = new VerticalPopoutLayoutContainer(tempTimer);
+            animatedContainer = new PopoutLayoutContainer(tempTimer, LayoutType.Vertical);
             borderLayout.Top = animatedContainer;
             panels.Add(borderLayout.TopElementName, animatedContainer);
             animatedContainer.AnimationComplete += animatedContainer_AnimationComplete;
 
-            animatedContainer = new VerticalPopoutLayoutContainer(tempTimer);
+            animatedContainer = new PopoutLayoutContainer(tempTimer, LayoutType.Vertical);
             borderLayout.Bottom = animatedContainer;
             panels.Add(borderLayout.BottomElementName, animatedContainer);
             animatedContainer.AnimationComplete += animatedContainer_AnimationComplete;

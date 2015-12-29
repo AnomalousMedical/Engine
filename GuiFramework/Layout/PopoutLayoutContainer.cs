@@ -7,7 +7,7 @@ using Engine;
 
 namespace Anomalous.GuiFramework
 {
-    public class VerticalPopoutLayoutContainer : AnimatedLayoutContainer, UpdateListener
+    public class PopoutLayoutContainer : AnimatedLayoutContainer, UpdateListener
     {
         private UpdateTimer mainTimer;
         private LayoutContainer childContainer;
@@ -22,10 +22,22 @@ namespace Anomalous.GuiFramework
         private IntSize2 sizeDelta;
         private IntSize2 currentSize;
         private EasingFunction currentEasing = EasingFunction.None;
+        private Orientation orientation;
 
-        public VerticalPopoutLayoutContainer(UpdateTimer mainTimer)
+        public PopoutLayoutContainer(UpdateTimer mainTimer, LayoutType orientation)
         {
             this.mainTimer = mainTimer;
+            switch (orientation)
+            {
+                case LayoutType.Horizontal:
+                    this.orientation = new HorizontalPopoutStrategy(this);
+                    break;
+                case LayoutType.Vertical:
+                    this.orientation = new VerticalPopoutStrategy(this);
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         public override void Dispose()
@@ -107,7 +119,7 @@ namespace Anomalous.GuiFramework
             if (oldChildContainer != null)
             {
                 oldSize = oldChildContainer.DesiredSize;
-                oldChildContainer.animatedResizeStarted(new IntSize2(WorkingSize.Width, oldSize.Height));
+                oldChildContainer.animatedResizeStarted(orientation.getOrientedSize(oldSize, WorkingSize));
             }
             else
             {
@@ -119,10 +131,10 @@ namespace Anomalous.GuiFramework
             {
                 childContainer._setParent(this);
                 newSize = childContainer.DesiredSize;
-                childContainer.animatedResizeStarted(new IntSize2(WorkingSize.Width, newSize.Height));
+                childContainer.animatedResizeStarted(orientation.getOrientedSize(newSize, WorkingSize));
                 //Force the child container to fit in the current alloted space
                 childContainer.Location = Location;
-                childContainer.WorkingSize = new IntSize2(WorkingSize.Width, oldSize.Height);
+                childContainer.WorkingSize = orientation.getOrientedSize(oldSize, WorkingSize);
                 childContainer.layout();
             }
             else
@@ -132,11 +144,11 @@ namespace Anomalous.GuiFramework
 
             sizeDelta = newSize - oldSize;
 
-            if (oldSize.Height == 0)
+            if (orientation.isMajorAxisZero(oldSize))
             {
                 currentEasing = EasingFunction.EaseOutQuadratic;
             }
-            else if (newSize.Height == 0)
+            else if (orientation.isMajorAxisZero(newSize))
             {
                 currentEasing = EasingFunction.EaseInQuadratic;
             }
@@ -178,12 +190,12 @@ namespace Anomalous.GuiFramework
 
         public void exceededMaxDelta()
         {
-            
+
         }
 
         public void loopStarting()
         {
-            
+
         }
 
         public void sendUpdate(Clock clock)
@@ -194,14 +206,14 @@ namespace Anomalous.GuiFramework
                 if (currentTime < animationLength)
                 {
                     alpha = EasingFunctions.Ease(currentEasing, 0, 1.0f, currentTime, animationLength);
-                    currentSize = new IntSize2(WorkingSize.Width, (int)(oldSize.Height + sizeDelta.Height * alpha));
+                    currentSize = orientation.getOrientedResize(alpha);
                     invalidate();
                 }
                 else
                 {
                     currentTime = animationLength;
                     alpha = 1.0f;
-                    currentSize = new IntSize2(WorkingSize.Width, oldSize.Height + sizeDelta.Height);
+                    currentSize = orientation.getOrientedFinalSize();
                     invalidate();
                     finishAnimation();
                     oldChildContainer = null;
@@ -277,6 +289,77 @@ namespace Anomalous.GuiFramework
         {
             animating = false;
             mainTimer.removeUpdateListener(this);
+        }
+
+        interface Orientation
+        {
+            IntSize2 getOrientedSize(IntSize2 size, IntSize2 workingSize);
+
+            bool isMajorAxisZero(IntSize2 size);
+
+            IntSize2 getOrientedResize(float alpha);
+
+            IntSize2 getOrientedFinalSize();
+        }
+
+        class HorizontalPopoutStrategy : Orientation
+        {
+            PopoutLayoutContainer container;
+
+            public HorizontalPopoutStrategy(PopoutLayoutContainer container)
+            {
+                this.container = container;
+            }
+
+            public IntSize2 getOrientedSize(IntSize2 size, IntSize2 workingSize)
+            {
+                return new IntSize2(size.Width, workingSize.Height);
+            }
+
+            public bool isMajorAxisZero(IntSize2 size)
+            {
+                return size.Width == 0;
+            }
+
+            public IntSize2 getOrientedResize(float alpha)
+            {
+                return new IntSize2((int)(container.oldSize.Width + container.sizeDelta.Width * alpha), container.WorkingSize.Height);
+            }
+
+            public IntSize2 getOrientedFinalSize()
+            {
+                return new IntSize2(container.oldSize.Width + container.sizeDelta.Width, container.WorkingSize.Height);
+            }
+        }
+
+        class VerticalPopoutStrategy : Orientation
+        {
+            PopoutLayoutContainer container;
+
+            public VerticalPopoutStrategy(PopoutLayoutContainer container)
+            {
+                this.container = container;
+            }
+
+            public IntSize2 getOrientedSize(IntSize2 size, IntSize2 workingSize)
+            {
+                return new IntSize2(workingSize.Width, size.Height);
+            }
+
+            public bool isMajorAxisZero(IntSize2 size)
+            {
+                return size.Height == 0;
+            }
+
+            public IntSize2 getOrientedResize(float alpha)
+            {
+                return new IntSize2(container.WorkingSize.Width, (int)(container.oldSize.Height + container.sizeDelta.Height * alpha));
+            }
+
+            public IntSize2 getOrientedFinalSize()
+            {
+                return new IntSize2(container.WorkingSize.Width, container.oldSize.Height + container.sizeDelta.Height);
+            }
         }
     }
 }

@@ -104,7 +104,6 @@
     <Compile Include="Layout\EventLayoutContainer.cs" />
     <Compile Include="Layout\FloatingLayoutContainer.cs" />
     <Compile Include="Layout\FlowLayoutContainer.cs" />
-    <Compile Include="Layout\HorizontalPopoutLayoutContainer.cs" />
     <Compile Include="Layout\LayoutContainer.cs" />
     <Compile Include="Layout\MDI\FloatingWindowContainer.cs" />
     <Compile Include="Layout\MDI\MDIBorderContainer.cs" />
@@ -130,11 +129,11 @@
     <Compile Include="Layout\MyGUILayoutContainer.cs" />
     <Compile Include="Layout\MyGUISingleChildLayoutContainer.cs" />
     <Compile Include="Layout\NullLayoutContainer.cs" />
+    <Compile Include="Layout\PopoutLayoutContainer.cs" />
     <Compile Include="Layout\SingleChildConcreteLayoutContainer.cs" />
     <Compile Include="Layout\SingleChildLayoutContainer.cs" />
     <Compile Include="Layout\StretchLayoutContainer.cs" />
     <Compile Include="Layout\VariableSizeMyGUILayoutContainer.cs" />
-    <Compile Include="Layout\VerticalPopoutLayoutContainer.cs" />
     <Compile Include="Layout\ViewLocations.cs" />
     <Compile Include="Plugin\GuiFrameworkEntryPoint.cs" />
     <Compile Include="Plugin\GuiFrameworkInterface.cs" />
