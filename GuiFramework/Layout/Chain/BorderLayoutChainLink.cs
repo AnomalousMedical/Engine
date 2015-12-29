@@ -111,6 +111,19 @@ namespace Anomalous.GuiFramework
             }
         }
 
+        public override bool CompactMode
+        {
+            get
+            {
+                return borderLayout.CompactMode;
+            }
+
+            set
+            {
+                borderLayout.CompactMode = value;
+            }
+        }
+
         void animatedContainer_AnimationComplete(LayoutContainer oldChild)
         {
             activePanels.remove(oldChild);

@@ -16,6 +16,7 @@ namespace Anomalous.GuiFramework
         private LinkedList<LayoutChainLink> activeLinks = new LinkedList<LayoutChainLink>(); //The currently active chain
         private Dictionary<String, LayoutChainLink> links = new Dictionary<String, LayoutChainLink>(); //All elements that can be part of the chain
         private Dictionary<LayoutElementName, LayoutChainLink> namedLinkedElements = new Dictionary<LayoutElementName, LayoutChainLink>();
+        private bool compactMode = false;
 
         public LayoutChain()
         {
@@ -24,6 +25,7 @@ namespace Anomalous.GuiFramework
 
         public void addLink(LayoutChainLink link, bool addToActiveChainEnd = false)
         {
+            link.CompactMode = compactMode;
             links.Add(link.Name, link);
             foreach (var namedElement in link.ElementNames)
             {
@@ -172,6 +174,25 @@ namespace Anomalous.GuiFramework
             get
             {
                 return namedLinkedElements.Keys;
+            }
+        }
+
+        public bool CompactMode
+        {
+            get
+            {
+                return compactMode;
+            }
+            set
+            {
+                if(compactMode != value)
+                {
+                    compactMode = value;
+                    foreach(var link in links.Values)
+                    {
+                        link.CompactMode = compactMode;
+                    }
+                }
             }
         }
 

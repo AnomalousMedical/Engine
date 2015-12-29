@@ -27,5 +27,17 @@ namespace Anomalous.GuiFramework
         public abstract IEnumerable<LayoutElementName> ElementNames { get; }
 
         protected internal abstract void _setChildContainer(LayoutContainer layoutContainer);
+
+        public virtual bool CompactMode
+        {
+            get
+            {
+                return false;
+            }
+            set
+            {
+
+            }
+        }
     }
 }
