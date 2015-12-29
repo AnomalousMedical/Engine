@@ -10,13 +10,13 @@ namespace Anomalous.GuiFramework
 {
     public class BorderLayoutNoAnimationChainLink : LayoutChainLink, IDisposable
     {
-        private BorderLayoutContainer borderLayout = new BorderLayoutContainer();
+        private BorderLayoutContainer borderLayout;
         private ActiveContainerTracker activePanels = new ActiveContainerTracker();
 
         public BorderLayoutNoAnimationChainLink(String name)
             : base(name)
         {
-            
+            borderLayout = new BorderLayoutContainer(name);
         }
 
         public void Dispose()
@@ -107,11 +107,11 @@ namespace Anomalous.GuiFramework
         {
             get
             {
-                yield return new BorderLayoutElementName(Name, BorderLayoutLocations.Left);
-                yield return new BorderLayoutElementName(Name, BorderLayoutLocations.Right);
-                yield return new BorderLayoutElementName(Name, BorderLayoutLocations.Top);
-                yield return new BorderLayoutElementName(Name, BorderLayoutLocations.Bottom);
-                yield return new BorderLayoutElementName(Name, BorderLayoutLocations.Center);
+                yield return borderLayout.LeftElementName;
+                yield return borderLayout.RightElementName;
+                yield return borderLayout.TopElementName;
+                yield return borderLayout.BottomElementName;
+                yield return borderLayout.CenterElementName;
             }
         }
     }

@@ -10,31 +10,33 @@ namespace Anomalous.GuiFramework
 {
     public class BorderLayoutChainLink : LayoutChainLink, IDisposable
     {
-        private BorderLayoutContainer borderLayout = new BorderLayoutContainer();
+        private BorderLayoutContainer borderLayout;
         private Dictionary<LayoutElementName, AnimatedLayoutContainer> panels = new Dictionary<LayoutElementName, AnimatedLayoutContainer>();
         private ActiveContainerTracker activePanels = new ActiveContainerTracker();
 
         public BorderLayoutChainLink(String name, UpdateTimer tempTimer)
             : base(name)
         {
+            borderLayout = new BorderLayoutContainer(name);
+
             AnimatedLayoutContainer animatedContainer = new HorizontalPopoutLayoutContainer(tempTimer);
             borderLayout.Left = animatedContainer;
-            panels.Add(new BorderLayoutElementName(name, BorderLayoutLocations.Left), animatedContainer);
+            panels.Add(borderLayout.LeftElementName, animatedContainer);
             animatedContainer.AnimationComplete += animatedContainer_AnimationComplete;
 
             animatedContainer = new HorizontalPopoutLayoutContainer(tempTimer);
             borderLayout.Right = animatedContainer;
-            panels.Add(new BorderLayoutElementName(name, BorderLayoutLocations.Right), animatedContainer);
+            panels.Add(borderLayout.RightElementName, animatedContainer);
             animatedContainer.AnimationComplete += animatedContainer_AnimationComplete;
 
             animatedContainer = new VerticalPopoutLayoutContainer(tempTimer);
             borderLayout.Top = animatedContainer;
-            panels.Add(new BorderLayoutElementName(name, BorderLayoutLocations.Top), animatedContainer);
+            panels.Add(borderLayout.TopElementName, animatedContainer);
             animatedContainer.AnimationComplete += animatedContainer_AnimationComplete;
 
             animatedContainer = new VerticalPopoutLayoutContainer(tempTimer);
             borderLayout.Bottom = animatedContainer;
-            panels.Add(new BorderLayoutElementName(name, BorderLayoutLocations.Bottom), animatedContainer);
+            panels.Add(borderLayout.BottomElementName, animatedContainer);
             animatedContainer.AnimationComplete += animatedContainer_AnimationComplete;
         }
 

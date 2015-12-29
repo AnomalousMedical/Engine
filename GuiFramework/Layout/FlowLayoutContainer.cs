@@ -6,14 +6,14 @@ using Engine;
 
 namespace Anomalous.GuiFramework
 {
-    public class FlowLayoutContainer : LayoutContainer
+    public enum LayoutType
     {
-        public enum LayoutType
-        {
-            Horizontal,
-            Vertical
-        }
+        Horizontal,
+        Vertical
+    }
 
+    public class FlowLayoutContainer : LayoutContainer
+    { 
         private float alpha = 1.0f;
         private bool visible = true;
         private LayoutType layoutType;

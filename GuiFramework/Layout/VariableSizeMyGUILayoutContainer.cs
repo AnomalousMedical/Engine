@@ -18,6 +18,7 @@ namespace Anomalous.GuiFramework
 
         public VariableSizeMyGUILayoutContainer(Widget widget, Func<IntSize2> desiredSizeCallback)
         {
+            this.WidgetOriginalSize = widget.Size;
             this.widget = widget;
             this.desiredSizeCallback = desiredSizeCallback;
         }
@@ -56,6 +57,8 @@ namespace Anomalous.GuiFramework
                 invalidate();
             }
         }
+
+        public IntSize2 WidgetOriginalSize { get; private set; }
 
         public override void bringToFront()
         {

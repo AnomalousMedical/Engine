@@ -30,6 +30,15 @@ namespace Anomalous.GuiFramework
 
         private bool visible = true;
 
+        public BorderLayoutContainer(String name)
+        {
+            LeftElementName = new BorderLayoutElementName(name, BorderLayoutLocations.Left);
+            RightElementName = new BorderLayoutElementName(name, BorderLayoutLocations.Right);
+            TopElementName = new BorderLayoutElementName(name, BorderLayoutLocations.Top);
+            BottomElementName = new BorderLayoutElementName(name, BorderLayoutLocations.Bottom);
+            CenterElementName = new BorderLayoutElementName(name, BorderLayoutLocations.Center);
+        }
+
         public override void setAlpha(float alpha)
         {
             //Top
@@ -143,6 +152,66 @@ namespace Anomalous.GuiFramework
             }
         }
 
+        public override int getNumberOfPeers(LayoutElementName elementName)
+        {
+            if(elementName == LeftElementName)
+            {
+                if(right != null && right.Visible)
+                {
+                    return 1;
+                }
+                return 0;
+            }
+            else if(elementName == RightElementName)
+            {
+                if(left != null && left.Visible)
+                {
+                    return 1;
+                }
+                return 0;
+            }
+            else if (elementName == TopElementName)
+            {
+                if (bottom != null && bottom.Visible)
+                {
+                    return 1;
+                }
+                return 0;
+            }
+            else if (elementName == BottomElementName)
+            {
+                if (top != null && top.Visible)
+                {
+                    return 1;
+                }
+                return 0;
+            }
+            else if (elementName == CenterElementName)
+            {
+                return 0;
+            }
+            else
+            {
+                return base.getNumberOfPeers(elementName);
+            }
+        }
+
+        public override LayoutType getLayoutType(LayoutElementName elementName)
+        {
+            if (elementName == LeftElementName || elementName == RightElementName || elementName == CenterElementName)
+            {
+                return LayoutType.Horizontal;
+            }
+            else if (elementName == TopElementName || elementName == BottomElementName)
+            {
+                return LayoutType.Vertical;
+            }
+            else
+            {
+                return base.getLayoutType(elementName);
+            }
+        }
+
         public LayoutContainer Left
         {
             get
@@ -163,6 +232,8 @@ namespace Anomalous.GuiFramework
                 invalidate();
             }
         }
+
+        public BorderLayoutElementName LeftElementName { get; private set; }
 
         public LayoutContainer Right
         {
@@ -185,6 +256,8 @@ namespace Anomalous.GuiFramework
             }
         }
 
+        public BorderLayoutElementName RightElementName { get; private set; }
+
         public LayoutContainer Top
         {
             get
@@ -205,6 +278,8 @@ namespace Anomalous.GuiFramework
                 invalidate();
             }
         }
+
+        public BorderLayoutElementName TopElementName { get; private set; }
 
         public LayoutContainer Bottom
         {
@@ -227,6 +302,8 @@ namespace Anomalous.GuiFramework
             }
         }
 
+        public BorderLayoutElementName BottomElementName { get; private set; }
+
         public LayoutContainer Center
         {
             get
@@ -247,6 +324,8 @@ namespace Anomalous.GuiFramework
                 invalidate();
             }
         }
+
+        public BorderLayoutElementName CenterElementName { get; private set; }
 
         public override void bringToFront()
         {

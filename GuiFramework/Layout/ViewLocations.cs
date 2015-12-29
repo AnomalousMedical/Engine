@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 
 namespace Anomalous.GuiFramework
 {
+    [Flags]
     public enum ViewLocations
     {
-        Left,
-        Right,
-        Top,
-        Bottom,
-        Floating,
+        Left = 1,
+        Right = 1 << 1,
+        Top = 1 << 2,
+        Bottom = 1 << 3,
+        Floating = 1 << 4,
     }
 }
