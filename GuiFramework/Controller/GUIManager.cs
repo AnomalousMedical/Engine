@@ -25,6 +25,7 @@ namespace Anomalous.GuiFramework
 
         private bool mainGuiShowing = true;
         private bool saveWindowsOnExit = true;
+        private bool compactMode = false;
 
         //Dialogs
         private DialogManager dialogManager;
@@ -57,6 +58,7 @@ namespace Anomalous.GuiFramework
             dialogManager = new DialogManager(mdiManager);
 
             screenLayoutManager.LayoutChain = layoutChain;
+            layoutChain.CompactMode = compactMode;
         }
 
         public void addLinkToChain(LayoutChainLink link)
@@ -241,6 +243,22 @@ namespace Anomalous.GuiFramework
             get
             {
                 return mainGuiShowing;
+            }
+        }
+
+        public bool CompactMode
+        {
+            get
+            {
+                return compactMode;
+            }
+            set
+            {
+                compactMode = value;
+                if(screenLayoutManager.LayoutChain != null)
+                {
+                    screenLayoutManager.LayoutChain.CompactMode = compactMode;
+                }
             }
         }
 
