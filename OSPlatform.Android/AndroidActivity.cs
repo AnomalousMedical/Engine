@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.OS;
 using Android.Text;
+using Android.Util;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
@@ -152,6 +153,18 @@ namespace Anomalous.OSPlatform.Android
                     });
                 }
             } 
+        }
+
+        public float DeviceSizeInches
+        {
+            get
+            {
+                DisplayMetrics dm = new DisplayMetrics();
+                WindowManager.DefaultDisplay.GetMetrics(dm);
+                double x = Math.Pow(dm.WidthPixels / dm.Xdpi, 2);
+                double y = Math.Pow(dm.HeightPixels / dm.Ydpi, 2);
+                return (float)Math.Sqrt(x + y);
+            }
         }
     }
 }
