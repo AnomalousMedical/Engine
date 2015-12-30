@@ -7,11 +7,12 @@ using Engine;
 
 namespace Anomalous.GuiFramework
 {
-    public delegate void ScreenSizeChanged(int width, int height);
+    public delegate void ScreenSizeChangedDelegate(int width, int height);
 
     public class ScreenLayoutManager
     {
-        public event ScreenSizeChanged ScreenSizeChanged;
+        public event ScreenSizeChangedDelegate ScreenSizeChanging;
+        public event ScreenSizeChangedDelegate ScreenSizeChanged;
 
         private LayoutChain layoutChain;
         private OSWindow window;
@@ -49,6 +50,10 @@ namespace Anomalous.GuiFramework
 
         void resized(OSWindow window)
         {
+            if (ScreenSizeChanging != null)
+            {
+                ScreenSizeChanging.Invoke(window.WindowWidth, window.WindowHeight);
+            }
             layoutChain.WorkingSize = new IntSize2(window.WindowWidth, window.WindowHeight);
             layoutChain.layout();
             if (ScreenSizeChanged != null)

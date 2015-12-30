@@ -36,7 +36,7 @@ namespace Anomalous.GuiFramework
 
         public GUIManager()
         {
-            
+
         }
 
         public void Dispose()
@@ -52,13 +52,16 @@ namespace Anomalous.GuiFramework
         public void createGUI(MDILayoutManager mdiManager, LayoutChain layoutChain, OSWindow window)
         {
             screenLayoutManager = new ScreenLayoutManager(window);
-            screenLayoutManager.ScreenSizeChanged += new ScreenSizeChanged(screenLayoutManager_ScreenSizeChanged);
+            screenLayoutManager.ScreenSizeChanging += ScreenLayoutManager_ScreenSizeChanging;
+            screenLayoutManager.ScreenSizeChanged += screenLayoutManager_ScreenSizeChanged;
 
             //Dialogs
             dialogManager = new DialogManager(mdiManager);
 
             screenLayoutManager.LayoutChain = layoutChain;
             layoutChain.CompactMode = compactMode;
+
+            ScreenLayoutManager_ScreenSizeChanging(window.WindowWidth, window.WindowHeight);
         }
 
         public void addLinkToChain(LayoutChainLink link)
@@ -218,7 +221,12 @@ namespace Anomalous.GuiFramework
             dialogManager.windowResized();
         }
 
-        public event ScreenSizeChanged ScreenSizeChanged
+        private void ScreenLayoutManager_ScreenSizeChanging(int width, int height)
+        {
+            this.CompactMode = width / height < .65f;
+        }
+
+        public event ScreenSizeChangedDelegate ScreenSizeChanged
         {
             add
             {
@@ -255,7 +263,7 @@ namespace Anomalous.GuiFramework
             set
             {
                 compactMode = value;
-                if(screenLayoutManager.LayoutChain != null)
+                if (screenLayoutManager.LayoutChain != null)
                 {
                     screenLayoutManager.LayoutChain.CompactMode = compactMode;
                 }
