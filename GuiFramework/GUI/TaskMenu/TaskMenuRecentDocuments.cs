@@ -27,11 +27,7 @@ namespace Anomalous.GuiFramework
         public TaskMenuRecentDocuments(Widget widget, DocumentController documentController)
         {
             documentScroller = (ScrollView)widget.findWidget("DocumentScroller");
-            documentGrid = new SingleSelectButtonGrid(documentScroller, new ButtonGridTextAdjustedGridLayout()
-            {
-                ItemPaddingX = ScaleHelper.Scaled(15),
-                ItemPaddingY = ScaleHelper.Scaled(15)
-            });
+            documentGrid = new SingleSelectButtonGrid(documentScroller, new ButtonGridTextAdjustedGridLayout());
             documentGrid.ItemActivated += documentGrid_ItemActivated;
             documentGrid.SelectedValueChanged += new EventHandler(documentGrid_SelectedValueChanged);
 

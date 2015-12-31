@@ -76,5 +76,7 @@ namespace MyGUIPlugin
         public int ItemPaddingY { get; set; }
 
         public int GroupPaddingY { get; set; }
+
+        public bool Center { get; set; }
     }
 }

@@ -9,21 +9,48 @@ namespace MyGUIPlugin
     public class ButtonGridGridLayout : ButtonGridLayout
     {
         IntVector2 currentPosition;
-        Size2 canvasSize;
+        IntSize2 canvasSize;
         ButtonGrid buttonGrid;
         bool allowNewlines = false;
+        int calculatedPadding;
+        int xStartPosition;
+        bool center = true;
+
+        public ButtonGridGridLayout()
+        {
+            
+        }
 
         public void startLayout(ButtonGrid buttonGrid)
         {
             this.buttonGrid = buttonGrid;
-            currentPosition = new IntVector2(0, 0);
             this.canvasSize = buttonGrid.ScrollView.CanvasSize;
             allowNewlines = false;
+
+            int totalWidth = ItemWidth + ItemPaddingX;
+            if(!center)
+            {
+                totalWidth -= ItemPaddingX; //Don't need padding on last element if not centered.
+            }
+            int numElements = canvasSize.Width / totalWidth;
+            if (numElements > 0)
+            {
+                int totalElementWidth = numElements * totalWidth;
+                calculatedPadding = (canvasSize.Width - totalElementWidth) / numElements;
+                xStartPosition = center ? calculatedPadding / 2 : 0;
+            }
+            else
+            {
+                calculatedPadding = ItemPaddingX;
+                xStartPosition = 0;
+            }
+
+            currentPosition = new IntVector2(xStartPosition, 0);
         }
 
         public void alignCaption(ButtonGridCaption caption)
         {
-            caption.align(currentPosition.x, currentPosition.y, (int)canvasSize.Width);
+            caption.align(0, currentPosition.y, canvasSize.Width);
             currentPosition.y += caption.Height;
         }
 
@@ -31,17 +58,17 @@ namespace MyGUIPlugin
         {
             if (allowNewlines && currentPosition.x + ItemWidth > canvasSize.Width)
             {
-                currentPosition.x = 0;
+                currentPosition.x = xStartPosition;
                 currentPosition.y += ItemHeight + ItemPaddingY;
             }
             item.setPosition(currentPosition, ItemWidth, ItemHeight);
-            currentPosition.x += item.Width + ItemPaddingX;
+            currentPosition.x += item.Width + calculatedPadding;
             allowNewlines = true;
         }
 
         public void finishGroupLayout()
         {
-            currentPosition.x = 0;
+            currentPosition.x = xStartPosition;
             currentPosition.y += ItemHeight + GroupPaddingY;
             allowNewlines = false;
         }
@@ -63,5 +90,17 @@ namespace MyGUIPlugin
         public int ItemPaddingY { get; set; }
 
         public int GroupPaddingY { get; set; }
+
+        public bool Center
+        {
+            get
+            {
+                return center;
+            }
+            set
+            {
+                center = value;
+            }
+        }
     }
 }

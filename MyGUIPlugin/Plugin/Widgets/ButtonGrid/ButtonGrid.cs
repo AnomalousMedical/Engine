@@ -184,6 +184,12 @@ namespace MyGUIPlugin
                 layoutEngine.GroupPaddingY = ScaleHelper.Scaled(intValue);
             }
 
+            read = scrollView.getUserString("Center");
+            if (read != null && bool.TryParse(read, out boolValue))
+            {
+                layoutEngine.Center = boolValue;
+            }
+
             this.CaptionFactory = captionFactory;
         }
 
