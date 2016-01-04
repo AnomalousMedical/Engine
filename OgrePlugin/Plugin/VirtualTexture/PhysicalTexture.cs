@@ -27,6 +27,10 @@ namespace OgrePlugin.VirtualTexture
 
         void removeTextureUnit(TextureUnitState textureUnit);
 
+        void suspendTexture(String placeholderName);
+
+        void restoreTexture();
+
         String TextureName
         {
             get;

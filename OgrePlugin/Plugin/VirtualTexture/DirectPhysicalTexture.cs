@@ -26,6 +26,10 @@ namespace OgrePlugin.VirtualTexture
         private IntSize2 size;
         private static int currentId = 0;
 
+        private HashSet<TextureUnitState> textureUnits = new HashSet<TextureUnitState>();
+        private PixelFormat pixelFormat;
+
+
         public DirectPhysicalTexture(String name, IntSize2 size, VirtualTextureManager virtualTextureManager, int texelsPerPage, PixelFormat pixelFormat)
         {
             Index = currentId++;
@@ -34,17 +38,14 @@ namespace OgrePlugin.VirtualTexture
             this.size = size;
             this.virtualTextureManager = virtualTextureManager;
             this.textureName = "PhysicalTexture" + name;
+            this.pixelFormat = pixelFormat;
 
-            physicalTexture = TextureManager.getInstance().createManual(textureName, VirtualTextureManager.ResourceGroup, TextureType.TEX_TYPE_2D,
-                        (uint)size.Width, (uint)size.Height, 1, 0, pixelFormat, virtualTextureManager.RendersystemSpecificTextureUsage, null, false, 0);
-            buffer = physicalTexture.Value.getBuffer();
+            createTexture();
         }
 
         public void Dispose()
         {
-            buffer.Dispose();
-            TextureManager.getInstance().remove(physicalTexture);
-            physicalTexture.Dispose();
+            destroyTexture();
         }
 
         public void prepareForUpdates()
@@ -66,11 +67,30 @@ namespace OgrePlugin.VirtualTexture
         {
             var texUnit = pass.createTextureUnitState(textureName);
             texUnit.Name = name;
+            textureUnits.Add(texUnit);
         }
 
         public void removeTextureUnit(TextureUnitState textureUnit)
         {
+            textureUnits.Remove(textureUnit);
+        }
 
+        public void suspendTexture(String placeholderName)
+        {
+            foreach (var unit in textureUnits)
+            {
+                unit.TextureName = placeholderName;
+            }
+            destroyTexture();
+        }
+
+        public void restoreTexture()
+        {
+            createTexture();
+            foreach (var unit in textureUnits)
+            {
+                unit.TextureName = textureName;
+            }
         }
 
         public String TextureName
@@ -85,7 +105,7 @@ namespace OgrePlugin.VirtualTexture
         {
             get
             {
-                return physicalTexture.Value.Format;
+                return pixelFormat;
             }
         }
 
@@ -93,5 +113,23 @@ namespace OgrePlugin.VirtualTexture
         /// A numerical id for this texture, can be used in arrays.
         /// </summary>
         public int Index { get; private set; }
+
+        private void createTexture()
+        {
+            physicalTexture = TextureManager.getInstance().createManual(textureName, VirtualTextureManager.ResourceGroup, TextureType.TEX_TYPE_2D,
+                        (uint)size.Width, (uint)size.Height, 1, 0, pixelFormat, virtualTextureManager.RendersystemSpecificTextureUsage, null, false, 0);
+            buffer = physicalTexture.Value.getBuffer();
+        }
+
+        private void destroyTexture()
+        {
+            if (physicalTexture != null)
+            {
+                buffer.Dispose();
+                TextureManager.getInstance().remove(physicalTexture);
+                physicalTexture.Dispose();
+                physicalTexture = null;
+            }
+        }
     }
 }

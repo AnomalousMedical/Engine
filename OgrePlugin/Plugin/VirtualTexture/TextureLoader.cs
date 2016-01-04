@@ -348,6 +348,11 @@ namespace OgrePlugin.VirtualTexture
             return added;
         }
 
+        internal void clearPhysicalPagePool()
+        {
+            physicalPagePool.Clear();
+        }
+
         internal void clearCache()
         {
             textureCache.clear();

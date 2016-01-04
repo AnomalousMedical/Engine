@@ -195,6 +195,25 @@ namespace OgrePlugin.VirtualTexture
             }
         }
 
+        /// <summary>
+        /// Reset the indirection texture, modifys the ogre textures, so be sure to call on main thread
+        /// </summary>
+        internal void reset()
+        {
+            visibleThisUpdate.Clear();
+            //for (int i = 0; i < fiBitmap.Length; ++i)
+            //{
+            //    for (uint x = 0; x < fiBitmap[i].Width; ++x)
+            //    {
+            //        for (uint y = 0; y < fiBitmap[i].Height; ++y)
+            //        {
+            //            fiBitmap[i].setColorAtARGB(0, x, y, 0);
+            //            buffer[i].Value.blitFromMemory(pixelBox[i]);
+            //        }
+            //    }
+            //}
+        }
+
         internal void finishPageUpdate()
         {
             virtualTextureManager.TextureLoader.setRequestCount(id, numRequests);

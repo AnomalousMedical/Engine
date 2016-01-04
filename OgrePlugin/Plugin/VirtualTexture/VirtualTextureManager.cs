@@ -22,7 +22,8 @@ namespace OgrePlugin.VirtualTexture
             Waiting,
             InitialLoad,
             Reset,
-            Delay //Delay is different from waiting, in waiting we are waiting for a specific event to finish in delay we are causing a delay to occur
+            Delay, //Delay is different from waiting, in waiting we are waiting for a specific event to finish in delay we are causing a delay to occur
+            Suspended
         }
 
         public const String ResourceGroup = "VirtualTextureGroup";
@@ -48,6 +49,7 @@ namespace OgrePlugin.VirtualTexture
         private float maxMipBias = 10.0f;
 
         private TextureLoader textureLoader;
+        private TexturePtr testTexture;
 
         private Dictionary<String, PhysicalTexture> physicalTextures = new Dictionary<string, PhysicalTexture>();
         private Dictionary<String, IndirectionTexture> indirectionTextures = new Dictionary<string, IndirectionTexture>();
@@ -76,11 +78,8 @@ namespace OgrePlugin.VirtualTexture
             }
 
             //Determine actual runtime texture formats by just creating a simple one quickly.
-            using (TexturePtr testTexture = TextureManager.getInstance().createManual("TestTexture__VTRESERVED", VirtualTextureManager.ResourceGroup, TextureType.TEX_TYPE_2D, 1, 1, 1, 0, PixelFormat.PF_A8R8G8B8, TextureUsage.TU_STATIC, null, false, 0))
-            {
-                IndirectionTexture.BufferFormat = testTexture.Value.Format;
-                TextureManager.getInstance().remove(testTexture);
-            }
+            testTexture = TextureManager.getInstance().createManual("TestTexture__VTRESERVED", VirtualTextureManager.ResourceGroup, TextureType.TEX_TYPE_2D, 1, 1, 1, 0, PixelFormat.PF_A8R8G8B8, TextureUsage.TU_STATIC, null, false, 0);
+            IndirectionTexture.BufferFormat = testTexture.Value.Format;
 
             switch (textureFormat)
             {
@@ -108,6 +107,9 @@ namespace OgrePlugin.VirtualTexture
 
         public void Dispose()
         {
+            TextureManager.getInstance().remove(testTexture);
+            testTexture.Dispose();
+
             textureLoader.Dispose();
             opaqueFeedbackBuffer.Dispose();
             transparentFeedbackBuffer.Dispose();
@@ -149,13 +151,13 @@ namespace OgrePlugin.VirtualTexture
             switch (OgreInterface.Instance.GpuVendor)
             {
                 case GPUVendor.GPU_ARM:
-                    pt =  new BufferedPhysicalTexture(name, physicalTextureSize, this, texelsPerPage, pixelFormat);
+                    pt = new BufferedPhysicalTexture(name, physicalTextureSize, this, texelsPerPage, pixelFormat);
                     break;
                 default:
                     pt = new DirectPhysicalTexture(name, physicalTextureSize, this, texelsPerPage, pixelFormat);
                     break;
             }
-            
+
             physicalTextures.Add(name, pt);
             textureLoader.addedPhysicalTexture(pt);
             return pt;
@@ -171,6 +173,24 @@ namespace OgrePlugin.VirtualTexture
         {
             opaqueFeedbackBuffer.createCamera(scene, cameraPositioner);
             transparentFeedbackBuffer.createCamera(scene, cameraPositioner);
+        }
+
+        public void suspend()
+        {
+            foreach (var tex in physicalTextures.Values)
+            {
+                tex.suspendTexture(testTexture.Value.Name);
+            }
+            phase = Phase.Suspended;
+        }
+
+        public void resume()
+        {
+            foreach (var tex in physicalTextures.Values)
+            {
+                tex.restoreTexture();
+            }
+            phase = Phase.Reset;
         }
 
         /// <summary>
@@ -270,8 +290,8 @@ namespace OgrePlugin.VirtualTexture
                                         ThreadManager.invoke(indirectionTex.Dispose);
                                     }
 
-                                        //Activate new textures
-                                        activateNewIndirectionTextures();
+                                    //Activate new textures
+                                    activateNewIndirectionTextures();
                                 },
                                 currentRetiringTextures.Select(i => i.Id));
 
@@ -346,9 +366,11 @@ namespace OgrePlugin.VirtualTexture
                         {
                             foreach (var indirectionTex in activeIndirectionTextures)
                             {
+                                indirectionTex.reset();
                                 indirectionTex.finishPageUpdate();
                             }
                             textureLoader.updatePagesFromRequests();
+                            textureLoader.clearPhysicalPagePool();
                             textureLoader.clearCache();
                         }
                         finally
@@ -358,7 +380,7 @@ namespace OgrePlugin.VirtualTexture
                     });
                     break;
                 case Phase.Delay:
-                    if(++currentFeedbackDelayCount > maxFeedbackDelay)
+                    if (++currentFeedbackDelayCount > maxFeedbackDelay)
                     {
                         currentFeedbackDelayCount = 0;
                         phase = Phase.RenderFeedback;
@@ -416,7 +438,7 @@ namespace OgrePlugin.VirtualTexture
         {
             foreach (var item in activeIndirectionTextures)
             {
-                if(textureName == item.TextureName)
+                if (textureName == item.TextureName)
                 {
                     item.saveToPath(outputFolder);
                 }
@@ -565,6 +587,14 @@ namespace OgrePlugin.VirtualTexture
             set
             {
                 maxFeedbackDelay = value;
+            }
+        }
+
+        public bool IsSuspended
+        {
+            get
+            {
+                return phase == Phase.Suspended;
             }
         }
 
