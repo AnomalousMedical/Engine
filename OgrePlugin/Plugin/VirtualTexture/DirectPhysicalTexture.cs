@@ -28,7 +28,7 @@ namespace OgrePlugin.VirtualTexture
 
         private HashSet<TextureUnitState> textureUnits = new HashSet<TextureUnitState>();
         private PixelFormat pixelFormat;
-
+        private String currentTextureName;
 
         public DirectPhysicalTexture(String name, IntSize2 size, VirtualTextureManager virtualTextureManager, int texelsPerPage, PixelFormat pixelFormat)
         {
@@ -38,6 +38,7 @@ namespace OgrePlugin.VirtualTexture
             this.size = size;
             this.virtualTextureManager = virtualTextureManager;
             this.textureName = "PhysicalTexture" + name;
+            this.currentTextureName = textureName;
             this.pixelFormat = pixelFormat;
 
             createTexture();
@@ -65,7 +66,7 @@ namespace OgrePlugin.VirtualTexture
 
         public void createTextureUnit(Pass pass)
         {
-            var texUnit = pass.createTextureUnitState(textureName);
+            var texUnit = pass.createTextureUnitState(currentTextureName);
             texUnit.Name = name;
             textureUnits.Add(texUnit);
         }
@@ -77,6 +78,7 @@ namespace OgrePlugin.VirtualTexture
 
         public void suspendTexture(String placeholderName)
         {
+            currentTextureName = placeholderName;
             foreach (var unit in textureUnits)
             {
                 unit.TextureName = placeholderName;
@@ -86,6 +88,7 @@ namespace OgrePlugin.VirtualTexture
 
         public void restoreTexture()
         {
+            currentTextureName = textureName;
             createTexture();
             foreach (var unit in textureUnits)
             {
