@@ -43,6 +43,7 @@ namespace OgrePlugin.VirtualTexture
         private Task loadingTask;
         private bool stopLoading = false;
         private List<VTexPage> pagesToLoad = new List<VTexPage>();
+        private IntSize2 physicalTextureSize;
 
         public TextureLoader(VirtualTextureManager virtualTextureManager, IntSize2 physicalTextureSize, int textelsPerPage, int padding, int stagingBufferCount, int stagingImageCapacity, int maxMipCount, UInt64 maxCacheSizeBytes, bool texturesArePagedOnDisk)
         {
@@ -55,6 +56,7 @@ namespace OgrePlugin.VirtualTexture
             this.padding2 = padding * 2;
             this.textelsPerPhysicalPage = textelsPerPage + padding2;
             this.Overprevisioned = true;
+            this.physicalTextureSize = physicalTextureSize;
 
             addedPages = new HashSet<VTexPage>();
             removedPages = new List<VTexPage>(10);
@@ -74,30 +76,10 @@ namespace OgrePlugin.VirtualTexture
             PagePaddingOffset = new Vector2(scale, scale);
 
             //Build pool
-            int x = 0;
-            int y = 0;
-            int pageX = 0;
-            int pageY = 0;
             physicalPageQueue = new List<PTexPage>(maxPages);
             physicalPagePool = new Dictionary<VTexPage, PTexPage>();
             usedPhysicalPages = new Dictionary<VTexPage, PTexPage>();
-            for(int i = 0 ; i < maxPages; ++i)
-            {
-                physicalPageQueue.Add(new PTexPage(x, y, pageX, pageY));
-                x += textelsPerPhysicalPage;
-                ++pageX;
-                if (x + textelsPerPhysicalPage >= physicalTextureSize.Width)
-                {
-                    x = 0;
-                    y += textelsPerPhysicalPage;
-                    pageX = 0;
-                    ++pageY;
-                    if (y + textelsPerPhysicalPage > physicalTextureSize.Height)
-                    {
-                        break;
-                    }
-                }
-            }
+            populatePhysicalPageQueue();
         }
 
         public void Dispose()
@@ -237,7 +219,7 @@ namespace OgrePlugin.VirtualTexture
                 loopResumingCallback.Invoke();
             }
 
-            Overprevisioned = pagesToLoad.Count > physicalPagePool.Count;
+            Overprevisioned = pagesToLoad.Count > physicalPageQueue.Count;
 
             //Start loading task again
             pagesToLoad.Sort((v1, v2) => ((v1.mip << 24) + indirectionTextureRequestCount[v1.indirectionTexId]) - ((v2.mip << 24) + indirectionTextureRequestCount[v2.indirectionTexId]));
@@ -351,6 +333,8 @@ namespace OgrePlugin.VirtualTexture
         internal void clearPhysicalPagePool()
         {
             physicalPagePool.Clear();
+            physicalPageQueue.Clear();
+            populatePhysicalPageQueue();
         }
 
         internal void clearCache()
@@ -443,6 +427,31 @@ namespace OgrePlugin.VirtualTexture
                 Logging.Log.Error("{0} loading image {1}. Message: {2}", ex.GetType().Name, textureUnit.TextureFileName, ex.Message);
             }
             return usedPhysicalPage;
+        }
+
+        private void populatePhysicalPageQueue()
+        {
+            int x = 0;
+            int y = 0;
+            int pageX = 0;
+            int pageY = 0;
+            for (int i = 0; i < maxPages; ++i)
+            {
+                physicalPageQueue.Add(new PTexPage(x, y, pageX, pageY));
+                x += textelsPerPhysicalPage;
+                ++pageX;
+                if (x + textelsPerPhysicalPage >= physicalTextureSize.Width)
+                {
+                    x = 0;
+                    y += textelsPerPhysicalPage;
+                    pageX = 0;
+                    ++pageY;
+                    if (y + textelsPerPhysicalPage > physicalTextureSize.Height)
+                    {
+                        break;
+                    }
+                }
+            }
         }
     }
 }

@@ -77,6 +77,7 @@ namespace OgrePlugin.VirtualTexture
         private HashSet<VTexPage> addedPages = new HashSet<VTexPage>();
         private List<OriginalTextureInfo> originalTextureUnits = new List<OriginalTextureInfo>(4);
         private bool keepHighestMip;
+        private bool resetting = false;
 
         public IndirectionTexture(String materialSetKey, IntSize2 realTextureSize, int texelsPerPage, VirtualTextureManager virtualTextureManager, bool keepHighestMip)
         {
@@ -120,10 +121,7 @@ namespace OgrePlugin.VirtualTexture
 #endif
             }
 
-            if (keepHighestMip)
-            {
-                addedPages.Add(new VTexPage(0, 0, (byte)(highestMip - 1), id));
-            }
+            restorePermanentPages();
         }
 
         public void Dispose()
@@ -196,22 +194,33 @@ namespace OgrePlugin.VirtualTexture
         }
 
         /// <summary>
-        /// Reset the indirection texture, modifys the ogre textures, so be sure to call on main thread
+        /// Reset the indirection texture, modifys the ogre textures, so be sure to call on main thread.
+        /// To finish a reset the finishPageUpdate function must be called on the same thread.
         /// </summary>
         internal void reset()
         {
+            resetting = true;
             visibleThisUpdate.Clear();
-            //for (int i = 0; i < fiBitmap.Length; ++i)
-            //{
-            //    for (uint x = 0; x < fiBitmap[i].Width; ++x)
-            //    {
-            //        for (uint y = 0; y < fiBitmap[i].Height; ++y)
-            //        {
-            //            fiBitmap[i].setColorAtARGB(0, x, y, 0);
-            //            buffer[i].Value.blitFromMemory(pixelBox[i]);
-            //        }
-            //    }
-            //}
+            for (int i = 0; i < fiBitmap.Length; ++i)
+            {
+                for (uint x = 0; x < fiBitmap[i].Width; ++x)
+                {
+                    for (uint y = 0; y < fiBitmap[i].Height; ++y)
+                    {
+                        fiBitmap[i].setColorAtARGB(0, x, y, 0);
+                    }
+                }
+
+                buffer[i].Value.blitFromMemory(pixelBox[i]);
+            }
+        }
+
+        internal void restorePermanentPages()
+        {
+            if (keepHighestMip)
+            {
+                addedPages.Add(new VTexPage(0, 0, (byte)(highestMip - 1), id));
+            }
         }
 
         internal void finishPageUpdate()
@@ -221,7 +230,7 @@ namespace OgrePlugin.VirtualTexture
 
             foreach (var page in activePages)
             {
-                if (!visibleThisUpdate.Contains(page) && !(keepHighestMip && page.mip == highestMip - 1))
+                if ((!visibleThisUpdate.Contains(page) && !(keepHighestMip && page.mip == highestMip - 1)) || resetting)
                 {
                     removedPages.Add(page);
                 }
@@ -244,6 +253,8 @@ namespace OgrePlugin.VirtualTexture
             visibleThisUpdate.Clear();
             removedPages.Clear();
             addedPages.Clear();
+
+            resetting = false;
         }
 
         /// <summary>

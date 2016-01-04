@@ -23,7 +23,7 @@ namespace OgrePlugin.VirtualTexture
             InitialLoad,
             Reset,
             Delay, //Delay is different from waiting, in waiting we are waiting for a specific event to finish in delay we are causing a delay to occur
-            Suspended
+            Suspended //Suspended is different from waiting in that it does not try to upload to the gpu
         }
 
         public const String ResourceGroup = "VirtualTextureGroup";
@@ -58,6 +58,9 @@ namespace OgrePlugin.VirtualTexture
         private List<IndirectionTexture> retiredIndirectionTextures = new List<IndirectionTexture>();
         private List<IndirectionTexture> newIndirectionTextures = new List<IndirectionTexture>();
         private ConcurrentQueue<StagingBufferSet> waitingGpuSyncs = new ConcurrentQueue<StagingBufferSet>();
+        private Phase onSuspendedPhase = Phase.Delay;
+        private bool wantsReset = false;
+        private bool active = true;
 
         //Texture upload data
         private HashSet<byte> uploadedIndirectionTextures;
@@ -177,20 +180,31 @@ namespace OgrePlugin.VirtualTexture
 
         public void suspend()
         {
-            foreach (var tex in physicalTextures.Values)
+            if (active)
             {
-                tex.suspendTexture(testTexture.Value.Name);
+                active = false;
+                foreach (var tex in physicalTextures.Values)
+                {
+                    tex.suspendTexture(testTexture.Value.Name);
+                }
+                onSuspendedPhase = phase;
+                phase = Phase.Suspended;
+                textureLoader.clearCache();
             }
-            phase = Phase.Suspended;
         }
 
         public void resume()
         {
-            foreach (var tex in physicalTextures.Values)
+            if (!active)
             {
-                tex.restoreTexture();
+                active = true;
+                foreach (var tex in physicalTextures.Values)
+                {
+                    tex.restoreTexture();
+                }
+                wantsReset = true;
+                phase = onSuspendedPhase;
             }
-            phase = Phase.Reset;
         }
 
         /// <summary>
@@ -332,7 +346,24 @@ namespace OgrePlugin.VirtualTexture
                                 updateMipSampleBias = mipSampleBias != lastMipSampleBias;
                                 lastMipSampleBias = mipSampleBias;
                             }
-                            phase = Phase.Delay; //This means we always delay at least one frame, but this gives a chance for textures to upload to the gpu.
+
+                            //Determine final phase, since this is the major background thread it might
+                            //have an effect on the current and suspended phase.
+
+                            ThreadManager.invoke(() =>
+                            {
+                                if (wantsReset)
+                                {
+                                    phase = Phase.Reset;
+                                    onSuspendedPhase = Phase.Reset;
+                                    wantsReset = false;
+                                }
+                                else
+                                {
+                                    phase = Phase.Delay; //This means we always delay at least one frame, but this gives a chance for textures to upload to the gpu.
+                                    onSuspendedPhase = Phase.Delay;
+                                }
+                            });
                         }
                     });
                     uploadStagingToGpu();
@@ -359,19 +390,36 @@ namespace OgrePlugin.VirtualTexture
                     });
                     break;
                 case Phase.Reset:
-                    phase = Phase.Waiting;
+                    phase = Phase.Suspended;
+
+                    //Reset indirection textures on the main thread
+                    foreach (var indirectionTex in activeIndirectionTextures)
+                    {
+                        indirectionTex.reset();
+                        indirectionTex.finishPageUpdate();
+                    }
+
                     ThreadManager.RunInBackground(() =>
                     {
                         try
                         {
-                            foreach (var indirectionTex in activeIndirectionTextures)
-                            {
-                                indirectionTex.reset();
-                                indirectionTex.finishPageUpdate();
-                            }
                             textureLoader.updatePagesFromRequests();
+
                             textureLoader.clearPhysicalPagePool();
                             textureLoader.clearCache();
+
+                            //Clear waiting staging buffers too
+                            StagingBufferSet stagingBuffers;
+                            while (waitingGpuSyncs.TryDequeue(out stagingBuffers))
+                            {
+                                textureLoader.returnStagingBuffer(stagingBuffers);
+                            }
+
+                            //Restore permanent pages
+                            foreach (var indirectionTex in activeIndirectionTextures)
+                            {
+                                indirectionTex.restorePermanentPages();
+                            }
                         }
                         finally
                         {
@@ -408,7 +456,7 @@ namespace OgrePlugin.VirtualTexture
 
         public void reset()
         {
-            phase = Phase.Reset;
+
         }
 
         public void destroyIndirectionTexture(String materialSetKey)
@@ -590,11 +638,11 @@ namespace OgrePlugin.VirtualTexture
             }
         }
 
-        public bool IsSuspended
+        public bool Active
         {
             get
             {
-                return phase == Phase.Suspended;
+                return active;
             }
         }
 
@@ -646,7 +694,7 @@ namespace OgrePlugin.VirtualTexture
 
         private void uploadStagingToGpu()
         {
-            if (waitingGpuSyncs.Count > 0)
+            if (active && waitingGpuSyncs.Count > 0)
             {
                 PerformanceMonitor.start("Virtual Texture Staging Texture Upload");
 
