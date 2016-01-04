@@ -18,15 +18,17 @@ namespace OgrePlugin.VirtualTexture
     /// </summary>
     public class BufferedPhysicalTexture : PhysicalTexture
     {
+        private static int currentId = 0;
+
         private String textureName;
         private VirtualTextureManager virtualTextureManager;
         private String name;
         private int texelsPerPage;
         private IntSize2 size;
-        private static int currentId = 0;
-
-        private FrontBuffer[] frontBuffers = new FrontBuffer[2];
+        private FrontBuffer[] frontBuffers;
         private int frontBufferIndex = 0;
+        private PixelFormat pixelFormat;
+        private String placeholderTextureName;
 
         private HashSet<TextureUnitState> textureUnits = new HashSet<TextureUnitState>();
 
@@ -38,54 +40,68 @@ namespace OgrePlugin.VirtualTexture
             this.size = size;
             this.virtualTextureManager = virtualTextureManager;
             this.textureName = "PhysicalTexture" + name;
-
-            for (int i = 0; i < frontBuffers.Length; ++i)
-            {
-                frontBuffers[i] = new FrontBuffer(TextureManager.getInstance().createManual(String.Format("{0}_BackBuffer_{1}", textureName, i), VirtualTextureManager.ResourceGroup, TextureType.TEX_TYPE_2D,
-                    (uint)size.Width, (uint)size.Height, 1, 0, pixelFormat, virtualTextureManager.RendersystemSpecificTextureUsage, null, false, 0));
-            }
+            this.pixelFormat = pixelFormat;
+            createTexture();
         }
 
         public void Dispose()
         {
-            for (int i = 0; i < frontBuffers.Length; ++i)
-            {
-                frontBuffers[i].Dispose();
-            }
+            destroyTexture();
         }
 
         public void prepareForUpdates()
         {
-            //Increment the current front buffer and reset
-            frontBufferIndex = (frontBufferIndex + 1) % frontBuffers.Length;
-            frontBuffers[frontBufferIndex].Reset();
-
-            //Merge changes from other front buffer updates
-            int updateIndex = (frontBufferIndex + 1) % frontBuffers.Length;
-            while (updateIndex != frontBufferIndex)
+            if (frontBuffers != null)
             {
-                frontBuffers[frontBufferIndex].mergeUpdates(frontBuffers[updateIndex]);
-                updateIndex = (updateIndex + 1) % frontBuffers.Length;
+                //Increment the current front buffer and reset
+                frontBufferIndex = (frontBufferIndex + 1) % frontBuffers.Length;
+                frontBuffers[frontBufferIndex].Reset();
+
+                //Merge changes from other front buffer updates
+                int updateIndex = (frontBufferIndex + 1) % frontBuffers.Length;
+                while (updateIndex != frontBufferIndex)
+                {
+                    frontBuffers[frontBufferIndex].mergeUpdates(frontBuffers[updateIndex]);
+                    updateIndex = (updateIndex + 1) % frontBuffers.Length;
+                }
             }
         }
 
         public void addPage(PixelBox source, IntRect destRect)
         {
-            frontBuffers[frontBufferIndex].addPage(source, destRect);
+            if (frontBuffers != null)
+            {
+                frontBuffers[frontBufferIndex].addPage(source, destRect);
+            }
         }
 
         public void commitUpdates()
         {
-            //Update all texture units
-            foreach (var unit in textureUnits)
+            if (frontBuffers != null)
             {
-                unit.TextureName = frontBuffers[frontBufferIndex].Name;
+                foreach (var unit in textureUnits)
+                {
+                    unit.TextureName = frontBuffers[frontBufferIndex].Name;
+                }
+            }
+            else
+            {
+                foreach (var unit in textureUnits)
+                {
+                    unit.TextureName = placeholderTextureName;
+                }
             }
         }
 
         public void createTextureUnit(Pass pass)
         {
-            var texUnit = pass.createTextureUnitState(textureName);
+            String finalName = placeholderTextureName;
+            if(frontBuffers != null)
+            {
+                finalName = frontBuffers[frontBufferIndex].Name;
+            }
+
+            var texUnit = pass.createTextureUnitState(finalName);
             texUnit.Name = name;
             textureUnits.Add(texUnit);
         }
@@ -97,12 +113,21 @@ namespace OgrePlugin.VirtualTexture
 
         public void suspendTexture(String placeholderName)
         {
-
+            this.placeholderTextureName = placeholderName;
+            foreach (var unit in textureUnits)
+            {
+                unit.TextureName = placeholderName;
+            }
+            destroyTexture();
         }
 
         public void restoreTexture()
         {
-
+            createTexture();
+            foreach (var unit in textureUnits)
+            {
+                unit.TextureName = frontBuffers[frontBufferIndex].Name;
+            }
         }
 
         public String TextureName
@@ -117,7 +142,7 @@ namespace OgrePlugin.VirtualTexture
         {
             get
             {
-                return frontBuffers[0].Format;
+                return pixelFormat;
             }
         }
 
@@ -125,6 +150,28 @@ namespace OgrePlugin.VirtualTexture
         /// A numerical id for this texture, can be used in arrays.
         /// </summary>
         public int Index { get; private set; }
+
+        private void createTexture()
+        {
+            frontBuffers = new FrontBuffer[2];
+            for (int i = 0; i < frontBuffers.Length; ++i)
+            {
+                frontBuffers[i] = new FrontBuffer(TextureManager.getInstance().createManual(String.Format("{0}_BackBuffer_{1}", textureName, i), VirtualTextureManager.ResourceGroup, TextureType.TEX_TYPE_2D,
+                    (uint)size.Width, (uint)size.Height, 1, 0, pixelFormat, virtualTextureManager.RendersystemSpecificTextureUsage, null, false, 0));
+            }
+        }
+
+        private void destroyTexture()
+        {
+            if (frontBuffers != null)
+            {
+                for (int i = 0; i < frontBuffers.Length; ++i)
+                {
+                    frontBuffers[i].Dispose();
+                }
+                frontBuffers = null;
+            }
+        }
 
         class PageInfo : IDisposable
         {
