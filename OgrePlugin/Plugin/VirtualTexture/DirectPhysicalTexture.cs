@@ -56,7 +56,10 @@ namespace OgrePlugin.VirtualTexture
 
         public void addPage(PixelBox source, IntRect destRect)
         {
-            buffer.Value.blitFromMemory(source, destRect);
+            if (physicalTexture != null)
+            {
+                buffer.Value.blitFromMemory(source, destRect);
+            }
         }
 
         public void commitUpdates()

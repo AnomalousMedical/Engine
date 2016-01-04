@@ -23,7 +23,6 @@ namespace OgrePlugin.VirtualTexture
             InitialLoad,
             Reset,
             Delay, //Delay is different from waiting, in waiting we are waiting for a specific event to finish in delay we are causing a delay to occur
-            Suspended //Suspended is different from waiting in that it does not try to upload to the gpu
         }
 
         public const String ResourceGroup = "VirtualTextureGroup";
@@ -188,7 +187,7 @@ namespace OgrePlugin.VirtualTexture
                     tex.suspendTexture(testTexture.Value.Name);
                 }
                 onSuspendedPhase = phase;
-                phase = Phase.Suspended;
+                phase = Phase.Waiting;
                 textureLoader.clearCache();
             }
         }
@@ -390,7 +389,7 @@ namespace OgrePlugin.VirtualTexture
                     });
                     break;
                 case Phase.Reset:
-                    phase = Phase.Suspended;
+                    phase = Phase.Waiting;
 
                     //Reset indirection textures on the main thread
                     foreach (var indirectionTex in activeIndirectionTextures)
@@ -694,7 +693,7 @@ namespace OgrePlugin.VirtualTexture
 
         private void uploadStagingToGpu()
         {
-            if (active && waitingGpuSyncs.Count > 0)
+            if (waitingGpuSyncs.Count > 0)
             {
                 PerformanceMonitor.start("Virtual Texture Staging Texture Upload");
 
