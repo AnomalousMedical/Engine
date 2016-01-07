@@ -10,6 +10,7 @@
 
 #import <UIKit/UIKit.h>
 #include "UIKitView.h"
+#include "NativeOSWindow.h"
 
 class UIKitWindow;
 
@@ -23,6 +24,10 @@ class UIKitWindow;
 -(void) setWindow:(UIKitWindow*) window;
 
 -(void) firePendingResize;
+
+-(void) fireCreateInternalResources:(InternalResourceType) resourceType;
+
+-(void) fireDestroyInternalResources:(InternalResourceType) resourceType;
 
 -(void) cancelResize;
 

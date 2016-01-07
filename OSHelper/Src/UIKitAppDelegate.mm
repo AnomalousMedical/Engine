@@ -63,6 +63,7 @@ void UIKitAppDelegate_setPrimaryUIKitApp(UIKitApp* app)
     [uiKitViewController cancelResize];
     self.mFrameLink.paused = YES;
     primaryUiKitApp->fireMovedToBackground();
+    [uiKitViewController fireDestroyInternalResources:RT_Graphics];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -81,6 +82,7 @@ void UIKitAppDelegate_setPrimaryUIKitApp(UIKitApp* app)
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     self.mFrameLink.paused = NO;
     primaryUiKitApp->fireMovedToForeground();
+    [uiKitViewController fireCreateInternalResources:RT_Graphics];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

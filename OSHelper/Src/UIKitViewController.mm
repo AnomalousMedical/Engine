@@ -62,6 +62,16 @@
     return [uiKitView firePendingResize];
 }
 
+-(void) fireCreateInternalResources:(InternalResourceType) resourceType
+{
+    win->fireCreateInternalResources(resourceType);
+}
+
+-(void) fireDestroyInternalResources:(InternalResourceType) resourceType
+{
+    win->fireDestroyInternalResources(resourceType);
+}
+
 -(void) cancelResize
 {
     [uiKitView cancelResize];
