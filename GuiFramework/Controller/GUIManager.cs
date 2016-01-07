@@ -223,7 +223,7 @@ namespace Anomalous.GuiFramework
 
         private void ScreenLayoutManager_ScreenSizeChanging(int width, int height)
         {
-            this.CompactMode = (float)width / height < .65f;
+            this.CompactMode = (float)width / height < .9f;
         }
 
         public event ScreenSizeChangedDelegate ScreenSizeChanged
