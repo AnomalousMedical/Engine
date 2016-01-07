@@ -422,7 +422,7 @@ namespace OgrePlugin.VirtualTexture
                         }
                         finally
                         {
-                            phase = Phase.RenderFeedback;
+                            phase = Phase.AnalyzeFeedback;
                         }
                     });
                     break;
