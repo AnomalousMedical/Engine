@@ -9,9 +9,20 @@ namespace Engine.Platform
     public enum InternalResourceType
     {
         None = 0,
+        /// <summary>
+        /// Destroy graphics resources
+        /// </summary>
         Graphics = 1,
+        /// <summary>
+        /// Destroy sound resources
+        /// </summary>
         Sound = 2,
-        All = Graphics | Sound
+        /// <summary>
+        /// This represents a request to reload any resources that are large and can be easily
+        /// recreated. This is fairly application specific.
+        /// </summary>
+        LargeReloadableResources = 4,
+        All = Graphics | Sound | LargeReloadableResources
     };
 
     public delegate void OSWindowEvent(OSWindow window);

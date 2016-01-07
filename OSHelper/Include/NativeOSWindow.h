@@ -24,7 +24,8 @@ enum InternalResourceType
 	RT_None = 0,
 	RT_Graphics = 1,
 	RT_Sound = 2,
-	RT_All = RT_Graphics | RT_Sound
+	RT_LargeReloadableResources = 4,
+	RT_All = RT_Graphics | RT_Sound | RT_LargeReloadableResources
 };
 
 enum UsageMode

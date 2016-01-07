@@ -61,6 +61,7 @@ void checkHardwareResources(struct AndroidAppState* appState)
 	bool surfaceCreated = (int)(appState->animating & ACTIVATION_MODE_SURFACE_CREATED) == (int)ACTIVATION_MODE_SURFACE_CREATED;
 	if (graphicsResourcesCreated && !surfaceCreated)
 	{
+		appState->androidWindow->fireDestroyInternalResources(RT_LargeReloadableResources);
 		appState->androidWindow->fireDestroyInternalResources(RT_Graphics);
 		appState->animating &= ~(int)GRAPHICS_RESOURCES_CREATED;
 	}
@@ -69,6 +70,7 @@ void checkHardwareResources(struct AndroidAppState* appState)
 		if (appState->initOnce)
 		{
 			appState->androidWindow->fireCreateInternalResources(RT_Graphics);
+			appState->androidWindow->fireCreateInternalResources(RT_LargeReloadableResources);
 		}
 		appState->animating |= (int)GRAPHICS_RESOURCES_CREATED;
 	}
