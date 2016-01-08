@@ -7,17 +7,15 @@ using Engine;
 
 namespace Anomalous.GuiFramework
 {
-    public class PopoutLayoutContainer : AnimatedLayoutContainer, UpdateListener
+    public class PopoutLayoutContainer : AnimatedLayoutContainer
     {
         public delegate IntSize2 ComputeWorkingSizeDelegate(IntSize2 desiredSize);
 
-        private UpdateTimer mainTimer;
         private LayoutContainer childContainer;
         private LayoutContainer oldChildContainer;
 
         private float animationLength;
         private float currentTime;
-        private bool animating = false;
         private float alpha = 1.0f;
         private IntSize2 oldSize;
         private IntSize2 newSize;
@@ -28,9 +26,8 @@ namespace Anomalous.GuiFramework
         private LayoutType orientation;
         private ComputeWorkingSizeDelegate computeWorkingSize;
 
-        public PopoutLayoutContainer(UpdateTimer mainTimer, LayoutType orientation, ComputeWorkingSizeDelegate computeWorkingSize = null)
+        public PopoutLayoutContainer(LayoutType orientation, ComputeWorkingSizeDelegate computeWorkingSize = null)
         {
-            this.mainTimer = mainTimer;
             this.orientation = orientation;
             this.computeWorkingSize = computeWorkingSize;
             createOrientationStrategy();
@@ -207,17 +204,7 @@ namespace Anomalous.GuiFramework
             }
         }
 
-        public void exceededMaxDelta()
-        {
-
-        }
-
-        public void loopStarting()
-        {
-
-        }
-
-        public void sendUpdate(Clock clock)
+        public override void update(Clock clock)
         {
             if (animating)
             {
@@ -314,18 +301,6 @@ namespace Anomalous.GuiFramework
                     createOrientationStrategy();
                 }
             }
-        }
-
-        private void subscribeToUpdates()
-        {
-            animating = true;
-            mainTimer.addUpdateListener(this);
-        }
-
-        private void unsubscribeFromUpdates()
-        {
-            animating = false;
-            mainTimer.removeUpdateListener(this);
         }
 
         private void createOrientationStrategy()

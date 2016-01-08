@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Engine.Platform;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ namespace Anomalous.GuiFramework
     public abstract class AnimatedLayoutContainer : LayoutContainer, IDisposable
     {
         public event AnimationCompletedDelegate AnimationComplete;
+        protected bool animating = false;
 
         public AnimatedLayoutContainer()
         {
@@ -20,6 +22,8 @@ namespace Anomalous.GuiFramework
 
         public abstract void changePanel(LayoutContainer childContainer, float animDuration);
 
+        public abstract void update(Clock clock);
+
         public abstract LayoutContainer CurrentContainer { get; }
 
         protected void fireAnimationComplete(LayoutContainer oldChild)
@@ -28,6 +32,18 @@ namespace Anomalous.GuiFramework
             {
                 AnimationComplete.Invoke(oldChild);
             }
+        }
+
+        protected void subscribeToUpdates()
+        {
+            animating = true;
+            AnimatedLayoutContainerManager.AddAnimatedContainer(this);
+        }
+
+        protected void unsubscribeFromUpdates()
+        {
+            animating = false;
+            AnimatedLayoutContainerManager.RemoveAnimatedContainer(this);
         }
     }
 }

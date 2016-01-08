@@ -47,7 +47,7 @@ namespace Anomalous.GuiFramework
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
         {
-            
+            AnimatedLayoutContainerManager.Timer = mainTimer;
         }
 
         public string Name
