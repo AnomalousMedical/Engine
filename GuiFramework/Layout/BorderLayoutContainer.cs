@@ -492,24 +492,35 @@ namespace Anomalous.GuiFramework
 
             if (compactMode)
             {
-                if (leftDesired.Height > WorkingSize.Height / yPeers)
-                {
-                    leftDesired.Height = WorkingSize.Height / yPeers;
-                }
+                //Order is important here
+                int totalSize = WorkingSize.Height;
+                int blockSize = totalSize / yPeers;
 
-                if (topDesired.Height > WorkingSize.Height / yPeers)
+                int removedHeight = topDesired.Height;
+                if (topDesired.Height > blockSize)
                 {
-                    topDesired.Height = WorkingSize.Height / yPeers;
+                    topDesired.Height = removedHeight = blockSize;
                 }
+                adjustBlockSize(ref yPeers, ref totalSize, ref blockSize, removedHeight);
 
-                if (rightDesired.Height > WorkingSize.Height / yPeers)
+                removedHeight = bottomDesired.Height;
+                if (bottomDesired.Height > blockSize)
                 {
-                    rightDesired.Height = WorkingSize.Height / yPeers;
+                    bottomDesired.Height = removedHeight = blockSize;
                 }
+                adjustBlockSize(ref yPeers, ref totalSize, ref blockSize, removedHeight);
 
-                if (bottomDesired.Height > WorkingSize.Height / yPeers)
+                removedHeight = rightDesired.Height;
+                if (rightDesired.Height > blockSize)
                 {
-                    bottomDesired.Height = WorkingSize.Height / yPeers;
+                    rightDesired.Height = removedHeight = blockSize;
+                }
+                adjustBlockSize(ref yPeers, ref totalSize, ref blockSize, removedHeight);
+
+                removedHeight = leftDesired.Height;
+                if (leftDesired.Height > blockSize)
+                {
+                    leftDesired.Height = removedHeight = blockSize;
                 }
 
                 //Determine center region size.
@@ -517,30 +528,58 @@ namespace Anomalous.GuiFramework
             }
             else
             {
+                //Order is important here
                 int xPeers = getNumberOfPeers(LeftElementName);
+                int totalWidth = WorkingSize.Width;
+                int blockWidth = totalWidth / xPeers;
 
-                if (leftDesired.Width > WorkingSize.Width / xPeers)
+                int totalHeight = WorkingSize.Height;
+                int blockHeight = totalHeight / yPeers;
+
+                int removedWidth = leftDesired.Width;
+                if (leftDesired.Width > blockWidth)
                 {
-                    leftDesired.Width = WorkingSize.Width / xPeers;
+                    leftDesired.Width = removedWidth = blockWidth;
+                }
+                adjustBlockSize(ref xPeers, ref totalWidth, ref blockWidth, removedWidth);
+
+                if (rightDesired.Width > blockWidth)
+                {
+                    rightDesired.Width = removedWidth = blockWidth;
                 }
 
-                if (topDesired.Height > WorkingSize.Height / yPeers)
+                int removedHeight = topDesired.Height;
+                if (topDesired.Height > blockHeight)
                 {
-                    topDesired.Height = WorkingSize.Height / yPeers;
+                    topDesired.Height = removedHeight = blockHeight;
                 }
+                adjustBlockSize(ref yPeers, ref totalHeight, ref blockHeight, removedHeight);
 
-                if (rightDesired.Width > WorkingSize.Width / xPeers)
+                if (bottomDesired.Height > blockHeight)
                 {
-                    rightDesired.Width = WorkingSize.Width / xPeers;
-                }
-
-                if (bottomDesired.Height > WorkingSize.Height / yPeers)
-                {
-                    bottomDesired.Height = WorkingSize.Height / yPeers;
+                    bottomDesired.Height = blockHeight;
                 }
 
                 //Determine center region size.
                 centerSize = new IntSize2(WorkingSize.Width - leftDesired.Width - rightDesired.Width, WorkingSize.Height - topDesired.Height - bottomDesired.Height);
+            }
+        }
+
+        private static void adjustBlockSize(ref int peers, ref int totalSize, ref int blockSize, int amountRemoved)
+        {
+            if (amountRemoved != 0)
+            {
+                peers -= 1;
+            }
+
+            if (peers != 0)
+            {
+                totalSize -= amountRemoved;
+                blockSize = totalSize / peers;
+            }
+            else
+            {
+                blockSize = totalSize;
             }
         }
 
