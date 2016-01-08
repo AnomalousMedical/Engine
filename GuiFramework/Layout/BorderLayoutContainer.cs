@@ -277,7 +277,7 @@ namespace Anomalous.GuiFramework
             }
         }
 
-        public override int getNumberOfPeers(LayoutElementName elementName)
+        private int getNumberOfPeers(LayoutElementName elementName)
         {
             int elementCount = 0;
             if(elementName == LeftElementName)
@@ -316,32 +316,12 @@ namespace Anomalous.GuiFramework
                     elementCount += countContainer(right);
                 }
             }
-            else if (elementName != CenterElementName)
-            {
-                elementCount = base.getNumberOfPeers(elementName);
-            }
             return elementCount;
         }
 
         private int countContainer(LayoutContainer container)
         {
             return container != null && container.Visible ? 1 : 0;
-        }
-
-        public override LayoutType getLayoutType(LayoutElementName elementName)
-        {
-            if (elementName == LeftElementName || elementName == RightElementName || elementName == CenterElementName)
-            {
-                return compactMode ? LayoutType.Vertical : LayoutType.Horizontal;
-            }
-            else if (elementName == TopElementName || elementName == BottomElementName)
-            {
-                return LayoutType.Vertical;
-            }
-            else
-            {
-                return base.getLayoutType(elementName);
-            }
         }
 
         public LayoutContainer Left

@@ -51,40 +51,6 @@ namespace Anomalous.GuiFramework
 
         }
 
-        /// <summary>
-        /// To help facilitate responsize layout of the software this function 
-        /// can be used to find out how many peers a given element name has. This
-        /// will travel up the layout container chain until a matching element name is found.
-        /// The result will be the number of peer elements in the chain NOT including the named
-        /// element.
-        /// </summary>
-        /// <param name="elementName"></param>
-        /// <returns></returns>
-        public virtual int getNumberOfPeers(LayoutElementName elementName)
-        {
-            if(parent != null)
-            {
-                return parent.getNumberOfPeers(elementName);
-            }
-            return 0;
-        }
-
-        /// <summary>
-        /// To help facilitate responsize layout of the software this function 
-        /// can be use to find out the orientation of an element, whether it is horizontal
-        /// or vertical.
-        /// </summary>
-        /// <param name="elementName"></param>
-        /// <returns></returns>
-        public virtual LayoutType getLayoutType(LayoutElementName elementName)
-        {
-            if (parent != null)
-            {
-                return parent.getLayoutType(elementName);
-            }
-            return LayoutType.Horizontal;
-        }
-
         public abstract void setAlpha(float alpha);
 
         public abstract void layout();
