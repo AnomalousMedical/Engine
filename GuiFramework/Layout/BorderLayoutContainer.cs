@@ -80,8 +80,30 @@ namespace Anomalous.GuiFramework
             IntSize2 topDesired = top != null ? top.DesiredSize : new IntSize2();
             IntSize2 bottomDesired = bottom != null ? bottom.DesiredSize : new IntSize2();
 
+            int yPeers = 2 + getNumberOfPeers(TopElementName);
+
             if (compactMode)
             {
+                if (leftDesired.Height > WorkingSize.Height / yPeers)
+                {
+                    leftDesired.Height = WorkingSize.Height / yPeers;
+                }
+
+                if (topDesired.Height > WorkingSize.Height / yPeers)
+                {
+                    topDesired.Height = WorkingSize.Height / yPeers;
+                }
+
+                if (rightDesired.Height > WorkingSize.Height / yPeers)
+                {
+                    rightDesired.Height = WorkingSize.Height / yPeers;
+                }
+
+                if (bottomDesired.Height > WorkingSize.Height / yPeers)
+                {
+                    bottomDesired.Height = WorkingSize.Height / yPeers;
+                }
+
                 //Determine center region size.
                 IntSize2 centerSize = new IntSize2(WorkingSize.Width, WorkingSize.Height - topDesired.Height - bottomDesired.Height - leftDesired.Height - rightDesired.Height);
 
@@ -136,6 +158,28 @@ namespace Anomalous.GuiFramework
             }
             else
             {
+                int xPeers = 2 + getNumberOfPeers(LeftElementName);
+
+                if (leftDesired.Width > WorkingSize.Width / xPeers)
+                {
+                    leftDesired.Width = WorkingSize.Width / xPeers;
+                }
+
+                if (topDesired.Height > WorkingSize.Height / yPeers)
+                {
+                    topDesired.Height = WorkingSize.Height / yPeers;
+                }
+
+                if (rightDesired.Width > WorkingSize.Width / xPeers)
+                {
+                    rightDesired.Width = WorkingSize.Width / xPeers;
+                }
+
+                if (bottomDesired.Height > WorkingSize.Height / yPeers)
+                {
+                    bottomDesired.Height = WorkingSize.Height / yPeers;
+                }
+
                 //Determine center region size.
                 IntSize2 centerSize = new IntSize2(WorkingSize.Width - leftDesired.Width - rightDesired.Width, WorkingSize.Height - topDesired.Height - bottomDesired.Height);
 
