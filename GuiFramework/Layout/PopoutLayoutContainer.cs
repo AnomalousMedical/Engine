@@ -96,7 +96,7 @@ namespace Anomalous.GuiFramework
                 if (this.childContainer != null)
                 {
                     this.childContainer.setAlpha(1.0f);
-                    this.childContainer.WorkingSize = newSize;
+                    this.childContainer.WorkingSize = WorkingSize;
                     this.childContainer.layout();
                     finishAnimation();
                 }
@@ -114,8 +114,8 @@ namespace Anomalous.GuiFramework
             oldChildContainer = this.childContainer;
             if (oldChildContainer != null)
             {
-                oldSize = oldChildContainer.DesiredSize;
-                oldChildContainer.animatedResizeStarted(orientationStrategy.getOrientedSize(oldSize, WorkingSize));
+                oldSize = WorkingSize;
+                oldChildContainer.animatedResizeStarted(oldSize);
             }
             else
             {
@@ -281,7 +281,7 @@ namespace Anomalous.GuiFramework
                 {
                     return childContainer.Visible;
                 }
-                return false;
+                return oldChildContainer != null && oldChildContainer.Visible;
             }
             set
             {
