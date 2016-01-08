@@ -232,6 +232,8 @@ namespace Anomalous.GuiFramework
             if (childContainer != null)
             {
                 childContainer.animatedResizeCompleted(currentSize);
+                childContainer.WorkingSize = WorkingSize;
+                childContainer.layout();
             }
             unsubscribeFromUpdates();
         }
