@@ -234,48 +234,6 @@ namespace Anomalous.GuiFramework
             }
         }
 
-        private int getNumberOfPeers(LayoutElementName elementName)
-        {
-            int elementCount = 0;
-            if(elementName == LeftElementName)
-            {
-                elementCount += countContainer(right);
-                if(compactMode)
-                {
-                    elementCount += countContainer(top);
-                    elementCount += countContainer(bottom);
-                }
-            }
-            else if(elementName == RightElementName)
-            {
-                elementCount += countContainer(left);
-                if (compactMode)
-                {
-                    elementCount += countContainer(top);
-                    elementCount += countContainer(bottom);
-                }
-            }
-            else if (elementName == TopElementName)
-            {
-                elementCount += countContainer(bottom);
-                if (compactMode)
-                {
-                    elementCount += countContainer(left);
-                    elementCount += countContainer(right);
-                }
-            }
-            else if (elementName == BottomElementName)
-            {
-                elementCount += countContainer(top);
-                if (compactMode)
-                {
-                    elementCount += countContainer(left);
-                    elementCount += countContainer(right);
-                }
-            }
-            return elementCount;
-        }
-
         private int countContainer(LayoutContainer container)
         {
             return container != null && container.Visible ? 1 : 0;
@@ -530,7 +488,7 @@ namespace Anomalous.GuiFramework
 
         private void doResponsiveLayout(ref IntSize2 leftDesired, ref IntSize2 rightDesired, ref IntSize2 topDesired, ref IntSize2 bottomDesired, out IntSize2 centerSize)
         {
-            int yPeers = 2 + getNumberOfPeers(TopElementName);
+            int yPeers = getNumberOfPeers(TopElementName);
 
             if (compactMode)
             {
@@ -559,7 +517,7 @@ namespace Anomalous.GuiFramework
             }
             else
             {
-                int xPeers = 2 + getNumberOfPeers(LeftElementName);
+                int xPeers = getNumberOfPeers(LeftElementName);
 
                 if (leftDesired.Width > WorkingSize.Width / xPeers)
                 {
@@ -584,6 +542,34 @@ namespace Anomalous.GuiFramework
                 //Determine center region size.
                 centerSize = new IntSize2(WorkingSize.Width - leftDesired.Width - rightDesired.Width, WorkingSize.Height - topDesired.Height - bottomDesired.Height);
             }
+        }
+
+        private int getNumberOfPeers(LayoutElementName elementName)
+        {
+            int elementCount = 1;
+            if (compactMode)
+            {
+                //Everything is a peer in compact mode
+                elementCount += countContainer(left);
+                elementCount += countContainer(right);
+                elementCount += countContainer(top);
+                elementCount += countContainer(bottom);
+            }
+            else
+            {
+                if (elementName == LeftElementName || elementName == RightElementName)
+                {
+                    elementCount += countContainer(left);
+                    elementCount += countContainer(right);
+                }
+                else if (elementName == TopElementName || elementName == BottomElementName)
+                {
+                    elementCount += countContainer(top);
+                    elementCount += countContainer(bottom);
+                }
+            }
+
+            return elementCount;
         }
 
         private void calculateFinalSizes(ref IntSize2 leftSize, ref IntSize2 rightSize, ref IntSize2 topSize, ref IntSize2 bottomSize, ref IntSize2 centerSize)
