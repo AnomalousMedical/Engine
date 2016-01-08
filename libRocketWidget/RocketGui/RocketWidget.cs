@@ -93,7 +93,7 @@ namespace Anomalous.libRocketWidget
         bool renderOneFrame = true;
         bool alwaysRender = false;
 
-        public RocketWidget(ImageBox imageBox, bool transparent)
+        public RocketWidget(ImageBox imageBox, bool transparent, bool autoCreateTexture = true)
         {
             this.imageBox = imageBox;
             if (transparent)
@@ -134,7 +134,10 @@ namespace Anomalous.libRocketWidget
 
             RocketInterface.Instance.TextureLoaded += renderOnNextFrame;
 
-            resized();
+            if (autoCreateTexture)
+            {
+                resized();
+            }
 
             determineRenderingActive();
         }
@@ -666,7 +669,10 @@ namespace Anomalous.libRocketWidget
 
         void determineRenderingActive()
         {
-            renderTexture.setAutoUpdated(renderingEnabled && (alwaysRender || hasKeyFocus || mouseOver || renderOneFrame));
+            if (renderTexture != null)
+            {
+                renderTexture.setAutoUpdated(renderingEnabled && (alwaysRender || hasKeyFocus || mouseOver || renderOneFrame));
+            }
         }
 
         protected override void loadResource()
