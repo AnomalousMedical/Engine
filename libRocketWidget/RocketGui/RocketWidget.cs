@@ -71,8 +71,8 @@ namespace Anomalous.libRocketWidget
         private TexturePtr texture;
         private HardwarePixelBufferSharedPtr pixelBuffer;
         private RenderTexture renderTexture;
-        private int currentTextureWidth;
-        private int currentTextureHeight;
+        private int currentTextureWidth = -1;
+        private int currentTextureHeight = -1;
         private String textureName;
         private String name;
         private byte textureRenameIndex = 0;
@@ -82,6 +82,7 @@ namespace Anomalous.libRocketWidget
         private Context context;
 
         private ImageBox imageBox;
+        private bool afterFirstImageBoxTextureAssignment = false;
 
         //Conditions to turn on rendering
         bool renderingEnabled = true; //This one has to be true to use the others
@@ -100,36 +101,19 @@ namespace Anomalous.libRocketWidget
                 ogreTextureFormat = OgrePlugin.PixelFormat.PF_A8R8G8B8;
             }
             this.name = RocketWidgetManager.generateRocketWidgetName(this);
-            generateTextureName();
-
-            currentTextureWidth = computeSize(imageBox.Width);
-            currentTextureHeight = computeSize(imageBox.Height);
 
             //Create ogre stuff
             sceneManager = Root.getSingleton().createSceneManager(SceneType.ST_GENERIC, "__libRocketScene_" + name);
             camera = sceneManager.createCamera("libRocketCamera");
-
-            texture = TextureManager.getInstance().createManual(textureName, RocketInterface.Instance.CommonResourceGroup.FullName, TextureType.TEX_TYPE_2D, (uint)currentTextureWidth, (uint)currentTextureHeight, 1, 0, ogreTextureFormat, TextureUsage.TU_RENDERTARGET, this, false, 0);
-
-            pixelBuffer = texture.Value.getBuffer();
-            renderTexture = pixelBuffer.Value.getRenderTarget();
-            vp = renderTexture.addViewport(camera);
-            vp.setBackgroundColor(ClearColor);
-            vp.setOverlaysEnabled(false);
-            vp.clear();
 
             //Create context
             context = Core.CreateContext(name, new Vector2i(imageBox.Width, imageBox.Height));
             context.GetRootElement().AddEventListener("focus", new ElementFocusListener(this), false);
 			context.GetRootElement().AddEventListener("blur", new ElementBlurredListener(this), false);
 
-            renderQueueListener = new RocketRenderQueueListener(context, (RenderInterfaceOgre3D)Core.GetRenderInterface(), renderTexture.requiresTextureFlipping());
+            renderQueueListener = new RocketRenderQueueListener(context, (RenderInterfaceOgre3D)Core.GetRenderInterface());
             renderQueueListener.FrameCompleted += new Action(renderQueueListener_FrameCompleted);
-            renderQueueListener.RenderDimensions = new IntSize2(currentTextureWidth, currentTextureHeight);
             sceneManager.addRenderQueueListener(renderQueueListener);
-
-            imageBox.setImageTexture(textureName);
-            imageBox.setImageCoord(new IntCoord(0, 0, imageBox.Width, imageBox.Height));
 
             imageBox.NeedKeyFocus = true;
             imageBox.NeedMouseFocus = true;
@@ -149,6 +133,8 @@ namespace Anomalous.libRocketWidget
             imageBox.RootKeyChangeFocus += imageBox_RootKeyChangeFocus;
 
             RocketInterface.Instance.TextureLoaded += renderOnNextFrame;
+
+            resized();
 
             determineRenderingActive();
         }
@@ -219,10 +205,13 @@ namespace Anomalous.libRocketWidget
                     currentTextureHeight = textureHeight;
 
                     //Destroy old render target
-                    renderTexture.destroyViewport(vp);
-                    pixelBuffer.Dispose();
-                    texture.Dispose();
-                    RenderManager.Instance.destroyTexture(textureName);
+                    if (renderTexture != null)
+                    {
+                        renderTexture.destroyViewport(vp);
+                        pixelBuffer.Dispose();
+                        texture.Dispose();
+                        RenderManager.Instance.destroyTexture(textureName);
+                    }
 
                     generateTextureName();
 
@@ -236,6 +225,7 @@ namespace Anomalous.libRocketWidget
                     vp.clear();
 
                     renderQueueListener.RenderDimensions = new IntSize2(textureWidth, textureHeight);
+                    renderQueueListener.RequiresTextureFlipping = renderTexture.requiresTextureFlipping();
                 }
 
                 int imageWidth = imageBox.Width;
@@ -249,7 +239,16 @@ namespace Anomalous.libRocketWidget
                     imageHeight = 0;
                 }
                 context.Dimensions = new Vector2i(imageWidth, imageHeight);
-                imageBox.setImageInfo(textureName, new IntCoord(0, 0, imageWidth, imageHeight), new IntSize2(imageWidth, imageHeight));
+                if (afterFirstImageBoxTextureAssignment)
+                {
+                    imageBox.setImageInfo(textureName, new IntCoord(0, 0, imageWidth, imageHeight), new IntSize2(imageWidth, imageHeight));
+                }
+                else
+                {
+                    imageBox.setImageTexture(textureName);
+                    imageBox.setImageCoord(new IntCoord(0, 0, imageBox.Width, imageBox.Height));
+                    afterFirstImageBoxTextureAssignment = true;
+                }
                 renderOneFrame = true;
                 determineRenderingActive();
             }
