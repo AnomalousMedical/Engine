@@ -61,6 +61,14 @@ namespace Anomalous.GuiFramework
 
         public abstract IntSize2 DesiredSize { get; }
 
+        public virtual IntSize2 RigidDesiredSize
+        {
+            get
+            {
+                return DesiredSize;
+            }
+        }
+
         public abstract bool Visible { get; set; }
 
         public IntSize2 TopmostWorkingSize

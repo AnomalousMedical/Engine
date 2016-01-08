@@ -75,38 +75,17 @@ namespace Anomalous.GuiFramework
 
         public override void layout()
         {
-            IntSize2 leftDesired = left != null ? left.DesiredSize : new IntSize2();
-            IntSize2 rightDesired = right != null ? right.DesiredSize : new IntSize2();
-            IntSize2 topDesired = top != null ? top.DesiredSize : new IntSize2();
-            IntSize2 bottomDesired = bottom != null ? bottom.DesiredSize : new IntSize2();
+            IntSize2 leftDesired;
+            IntSize2 rightDesired;
+            IntSize2 topDesired;
+            IntSize2 bottomDesired;
+            IntSize2 centerSize;
 
-            int yPeers = 2 + getNumberOfPeers(TopElementName);
+            getDesiredSizes(out leftDesired, out rightDesired, out topDesired, out bottomDesired);
+            doResponsiveLayout(ref leftDesired, ref rightDesired, ref topDesired, ref bottomDesired, out centerSize);
 
             if (compactMode)
             {
-                if (leftDesired.Height > WorkingSize.Height / yPeers)
-                {
-                    leftDesired.Height = WorkingSize.Height / yPeers;
-                }
-
-                if (topDesired.Height > WorkingSize.Height / yPeers)
-                {
-                    topDesired.Height = WorkingSize.Height / yPeers;
-                }
-
-                if (rightDesired.Height > WorkingSize.Height / yPeers)
-                {
-                    rightDesired.Height = WorkingSize.Height / yPeers;
-                }
-
-                if (bottomDesired.Height > WorkingSize.Height / yPeers)
-                {
-                    bottomDesired.Height = WorkingSize.Height / yPeers;
-                }
-
-                //Determine center region size.
-                IntSize2 centerSize = new IntSize2(WorkingSize.Width, WorkingSize.Height - topDesired.Height - bottomDesired.Height - leftDesired.Height - rightDesired.Height);
-
                 IntVector2 loc = this.Location;
                 //Top
                 if (top != null)
@@ -158,31 +137,6 @@ namespace Anomalous.GuiFramework
             }
             else
             {
-                int xPeers = 2 + getNumberOfPeers(LeftElementName);
-
-                if (leftDesired.Width > WorkingSize.Width / xPeers)
-                {
-                    leftDesired.Width = WorkingSize.Width / xPeers;
-                }
-
-                if (topDesired.Height > WorkingSize.Height / yPeers)
-                {
-                    topDesired.Height = WorkingSize.Height / yPeers;
-                }
-
-                if (rightDesired.Width > WorkingSize.Width / xPeers)
-                {
-                    rightDesired.Width = WorkingSize.Width / xPeers;
-                }
-
-                if (bottomDesired.Height > WorkingSize.Height / yPeers)
-                {
-                    bottomDesired.Height = WorkingSize.Height / yPeers;
-                }
-
-                //Determine center region size.
-                IntSize2 centerSize = new IntSize2(WorkingSize.Width - leftDesired.Width - rightDesired.Width, WorkingSize.Height - topDesired.Height - bottomDesired.Height);
-
                 //Top
                 if (top != null)
                 {
@@ -230,10 +184,13 @@ namespace Anomalous.GuiFramework
             get
             {
                 IntSize2 desiredSize = new IntSize2();
-                IntSize2 leftDesired = left != null ? left.DesiredSize : new IntSize2();
-                IntSize2 rightDesired = right != null ? right.DesiredSize : new IntSize2();
-                IntSize2 topDesired = top != null ? top.DesiredSize : new IntSize2();
-                IntSize2 bottomDesired = bottom != null ? bottom.DesiredSize : new IntSize2();
+                IntSize2 leftDesired;
+                IntSize2 rightDesired;
+                IntSize2 topDesired;
+                IntSize2 bottomDesired;
+
+                getDesiredSizes(out leftDesired, out rightDesired, out topDesired, out bottomDesired);
+
                 if(leftDesired.Height > rightDesired.Height)
                 {
                     desiredSize.Height = leftDesired.Height + topDesired.Height + bottomDesired.Height;
@@ -491,6 +448,196 @@ namespace Anomalous.GuiFramework
                 if (bottom != null)
                 {
                     bottom.Visible = value;
+                }
+            }
+        }
+
+        public IntSize2 calculateFinalLeftSize(IntSize2 desiredSize)
+        {
+            IntSize2 leftDesired;
+            IntSize2 rightDesired;
+            IntSize2 topDesired;
+            IntSize2 bottomDesired;
+            IntSize2 centerSize;
+
+            getDesiredRigidSizes(out leftDesired, out rightDesired, out topDesired, out bottomDesired);
+            leftDesired = desiredSize;
+            doResponsiveLayout(ref leftDesired, ref rightDesired, ref topDesired, ref bottomDesired, out centerSize);
+            calculateFinalSizes(ref leftDesired, ref rightDesired, ref topDesired, ref bottomDesired, ref centerSize);
+            return leftDesired;
+        }
+
+        public IntSize2 calculateFinalRightSize(IntSize2 desiredSize)
+        {
+            IntSize2 leftDesired;
+            IntSize2 rightDesired;
+            IntSize2 topDesired;
+            IntSize2 bottomDesired;
+            IntSize2 centerSize;
+
+            getDesiredRigidSizes(out leftDesired, out rightDesired, out topDesired, out bottomDesired);
+            rightDesired = desiredSize;
+            doResponsiveLayout(ref leftDesired, ref rightDesired, ref topDesired, ref bottomDesired, out centerSize);
+            calculateFinalSizes(ref leftDesired, ref rightDesired, ref topDesired, ref bottomDesired, ref centerSize);
+            return rightDesired;
+        }
+
+        public IntSize2 calculateFinalTopSize(IntSize2 desiredSize)
+        {
+            IntSize2 leftDesired;
+            IntSize2 rightDesired;
+            IntSize2 topDesired;
+            IntSize2 bottomDesired;
+            IntSize2 centerSize;
+
+            getDesiredRigidSizes(out leftDesired, out rightDesired, out topDesired, out bottomDesired);
+            topDesired = desiredSize;
+            doResponsiveLayout(ref leftDesired, ref rightDesired, ref topDesired, ref bottomDesired, out centerSize);
+            calculateFinalSizes(ref leftDesired, ref rightDesired, ref topDesired, ref bottomDesired, ref centerSize);
+            return topDesired;
+        }
+
+        public IntSize2 calculateFinalBottomSize(IntSize2 desiredSize)
+        {
+            IntSize2 leftDesired;
+            IntSize2 rightDesired;
+            IntSize2 topDesired;
+            IntSize2 bottomDesired;
+            IntSize2 centerSize;
+
+            getDesiredRigidSizes(out leftDesired, out rightDesired, out topDesired, out bottomDesired);
+            bottomDesired = desiredSize;
+            doResponsiveLayout(ref leftDesired, ref rightDesired, ref topDesired, ref bottomDesired, out centerSize);
+            calculateFinalSizes(ref leftDesired, ref rightDesired, ref topDesired, ref bottomDesired, ref centerSize);
+            return bottomDesired;
+        }
+
+        private void getDesiredSizes(out IntSize2 leftDesired, out IntSize2 rightDesired, out IntSize2 topDesired, out IntSize2 bottomDesired)
+        {
+            leftDesired = left != null ? left.DesiredSize : new IntSize2();
+            rightDesired = right != null ? right.DesiredSize : new IntSize2();
+            topDesired = top != null ? top.DesiredSize : new IntSize2();
+            bottomDesired = bottom != null ? bottom.DesiredSize : new IntSize2();
+        }
+
+        private void getDesiredRigidSizes(out IntSize2 leftDesired, out IntSize2 rightDesired, out IntSize2 topDesired, out IntSize2 bottomDesired)
+        {
+            leftDesired = left != null ? left.RigidDesiredSize : new IntSize2();
+            rightDesired = right != null ? right.RigidDesiredSize : new IntSize2();
+            topDesired = top != null ? top.RigidDesiredSize : new IntSize2();
+            bottomDesired = bottom != null ? bottom.RigidDesiredSize : new IntSize2();
+        }
+
+        private void doResponsiveLayout(ref IntSize2 leftDesired, ref IntSize2 rightDesired, ref IntSize2 topDesired, ref IntSize2 bottomDesired, out IntSize2 centerSize)
+        {
+            int yPeers = 2 + getNumberOfPeers(TopElementName);
+
+            if (compactMode)
+            {
+                if (leftDesired.Height > WorkingSize.Height / yPeers)
+                {
+                    leftDesired.Height = WorkingSize.Height / yPeers;
+                }
+
+                if (topDesired.Height > WorkingSize.Height / yPeers)
+                {
+                    topDesired.Height = WorkingSize.Height / yPeers;
+                }
+
+                if (rightDesired.Height > WorkingSize.Height / yPeers)
+                {
+                    rightDesired.Height = WorkingSize.Height / yPeers;
+                }
+
+                if (bottomDesired.Height > WorkingSize.Height / yPeers)
+                {
+                    bottomDesired.Height = WorkingSize.Height / yPeers;
+                }
+
+                //Determine center region size.
+                centerSize = new IntSize2(WorkingSize.Width, WorkingSize.Height - topDesired.Height - bottomDesired.Height - leftDesired.Height - rightDesired.Height);
+            }
+            else
+            {
+                int xPeers = 2 + getNumberOfPeers(LeftElementName);
+
+                if (leftDesired.Width > WorkingSize.Width / xPeers)
+                {
+                    leftDesired.Width = WorkingSize.Width / xPeers;
+                }
+
+                if (topDesired.Height > WorkingSize.Height / yPeers)
+                {
+                    topDesired.Height = WorkingSize.Height / yPeers;
+                }
+
+                if (rightDesired.Width > WorkingSize.Width / xPeers)
+                {
+                    rightDesired.Width = WorkingSize.Width / xPeers;
+                }
+
+                if (bottomDesired.Height > WorkingSize.Height / yPeers)
+                {
+                    bottomDesired.Height = WorkingSize.Height / yPeers;
+                }
+
+                //Determine center region size.
+                centerSize = new IntSize2(WorkingSize.Width - leftDesired.Width - rightDesired.Width, WorkingSize.Height - topDesired.Height - bottomDesired.Height);
+            }
+        }
+
+        private void calculateFinalSizes(ref IntSize2 leftSize, ref IntSize2 rightSize, ref IntSize2 topSize, ref IntSize2 bottomSize, ref IntSize2 centerSize)
+        {
+            if (compactMode)
+            {
+                //Top
+                if (top != null)
+                {
+                    topSize = new IntSize2(WorkingSize.Width, topSize.Height);
+                }
+
+                //Right
+                if (right != null)
+                {
+                    rightSize = new IntSize2(WorkingSize.Width, rightSize.Height);
+                }
+
+                //Left
+                if (left != null)
+                {
+                    leftSize = new IntSize2(WorkingSize.Width, leftSize.Height);
+                }
+
+                //Bottom
+                if (bottom != null)
+                {
+                    bottomSize = new IntSize2(WorkingSize.Width, bottomSize.Height);
+                }
+            }
+            else
+            {
+                //Top
+                if (top != null)
+                {
+                    topSize = new IntSize2(WorkingSize.Width, topSize.Height);
+                }
+
+                //Bottom
+                if (bottom != null)
+                {
+                    bottomSize = new IntSize2(WorkingSize.Width, bottomSize.Height);
+                }
+
+                //Left
+                if (left != null)
+                {
+                    leftSize = new IntSize2(leftSize.Width, centerSize.Height);
+                }
+
+                //Right
+                if (right != null)
+                {
+                    rightSize = new IntSize2(rightSize.Width, centerSize.Height);
                 }
             }
         }

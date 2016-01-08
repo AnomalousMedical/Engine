@@ -19,22 +19,22 @@ namespace Anomalous.GuiFramework
         {
             borderLayout = new BorderLayoutContainer(name);
 
-            AnimatedLayoutContainer animatedContainer = new PopoutLayoutContainer(tempTimer, LayoutType.Horizontal);
+            AnimatedLayoutContainer animatedContainer = new PopoutLayoutContainer(tempTimer, LayoutType.Horizontal, borderLayout.calculateFinalLeftSize);
             borderLayout.Left = animatedContainer;
             panels.Add(borderLayout.LeftElementName, animatedContainer);
             animatedContainer.AnimationComplete += animatedContainer_AnimationComplete;
 
-            animatedContainer = new PopoutLayoutContainer(tempTimer, LayoutType.Horizontal);
+            animatedContainer = new PopoutLayoutContainer(tempTimer, LayoutType.Horizontal, borderLayout.calculateFinalRightSize);
             borderLayout.Right = animatedContainer;
             panels.Add(borderLayout.RightElementName, animatedContainer);
             animatedContainer.AnimationComplete += animatedContainer_AnimationComplete;
 
-            animatedContainer = new PopoutLayoutContainer(tempTimer, LayoutType.Vertical);
+            animatedContainer = new PopoutLayoutContainer(tempTimer, LayoutType.Vertical, borderLayout.calculateFinalTopSize);
             borderLayout.Top = animatedContainer;
             panels.Add(borderLayout.TopElementName, animatedContainer);
             animatedContainer.AnimationComplete += animatedContainer_AnimationComplete;
 
-            animatedContainer = new PopoutLayoutContainer(tempTimer, LayoutType.Vertical);
+            animatedContainer = new PopoutLayoutContainer(tempTimer, LayoutType.Vertical, borderLayout.calculateFinalBottomSize);
             borderLayout.Bottom = animatedContainer;
             panels.Add(borderLayout.BottomElementName, animatedContainer);
             animatedContainer.AnimationComplete += animatedContainer_AnimationComplete;

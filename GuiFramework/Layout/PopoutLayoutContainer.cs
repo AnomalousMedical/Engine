@@ -9,6 +9,8 @@ namespace Anomalous.GuiFramework
 {
     public class PopoutLayoutContainer : AnimatedLayoutContainer, UpdateListener
     {
+        public delegate IntSize2 ComputeWorkingSizeDelegate(IntSize2 desiredSize);
+
         private UpdateTimer mainTimer;
         private LayoutContainer childContainer;
         private LayoutContainer oldChildContainer;
@@ -24,11 +26,13 @@ namespace Anomalous.GuiFramework
         private EasingFunction currentEasing = EasingFunction.None;
         private OrientationStrategy orientationStrategy;
         private LayoutType orientation;
+        private ComputeWorkingSizeDelegate computeWorkingSize;
 
-        public PopoutLayoutContainer(UpdateTimer mainTimer, LayoutType orientation)
+        public PopoutLayoutContainer(UpdateTimer mainTimer, LayoutType orientation, ComputeWorkingSizeDelegate computeWorkingSize = null)
         {
             this.mainTimer = mainTimer;
             this.orientation = orientation;
+            this.computeWorkingSize = computeWorkingSize;
             createOrientationStrategy();
         }
 
@@ -122,8 +126,16 @@ namespace Anomalous.GuiFramework
             if (childContainer != null)
             {
                 childContainer._setParent(this);
+
+                //Compute the final working size of this container
                 newSize = childContainer.DesiredSize;
-                childContainer.animatedResizeStarted(orientationStrategy.getOrientedSize(newSize, WorkingSize));
+                IntSize2 finalWorkingSize = WorkingSize;
+                if(computeWorkingSize != null)
+                {
+                    finalWorkingSize = computeWorkingSize(newSize);
+                }
+                childContainer.animatedResizeStarted(finalWorkingSize);
+
                 //Force the child container to fit in the current alloted space
                 childContainer.Location = Location;
                 childContainer.WorkingSize = orientationStrategy.getOrientedSize(oldSize, WorkingSize);
@@ -176,6 +188,21 @@ namespace Anomalous.GuiFramework
                     {
                         return new IntSize2();
                     }
+                }
+            }
+        }
+
+        public override IntSize2 RigidDesiredSize
+        {
+            get
+            {
+                if (childContainer != null)
+                {
+                    return childContainer.DesiredSize;
+                }
+                else
+                {
+                    return new IntSize2();
                 }
             }
         }
