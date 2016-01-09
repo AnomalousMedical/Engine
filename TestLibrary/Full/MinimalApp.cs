@@ -117,11 +117,11 @@ namespace Anomalous.Minimus.Full
             //layoutChain.addLink(new SingleChildChainLink(GUILocationNames.Notifications, controller.NotificationManager.LayoutContainer), true);
             layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.FullscreenPopup), true);
             layoutChain.SuppressLayout = true;
-            editorBorder = new BorderLayoutChainLink(GUILocationNames.EditorBorderLayout, engineController.MainTimer);
+            editorBorder = new BorderLayoutChainLink(GUILocationNames.EditorBorderLayout);
             layoutChain.addLink(editorBorder, true);
             layoutChain.addLink(new MDIChainLink(GUILocationNames.MDI, mdiLayout), true);
             layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.ContentAreaPopup), true);
-            contentArea = new BorderLayoutChainLink(GUILocationNames.ContentArea, engineController.MainTimer);
+            contentArea = new BorderLayoutChainLink(GUILocationNames.ContentArea);
             layoutChain.addLink(contentArea, true);
             layoutChain.addLink(new FinalChainLink("SceneViews", mdiLayout.DocumentArea), true);
             layoutChain.SuppressLayout = false;
