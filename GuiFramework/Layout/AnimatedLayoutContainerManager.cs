@@ -69,6 +69,14 @@ namespace Anomalous.GuiFramework
             {
                 animatedContainers[updateIndex].update(clock);
             }
+            if (animatedContainers.Count > 0)
+            {
+                animatedContainers[0].invalidate();
+            }
+            for (updateIndex = 0; updateIndex < animatedContainers.Count; updateIndex++)
+            {
+                animatedContainers[updateIndex].updateAfterLayout(clock);
+            }
         }
 
         class Updater : UpdateListener

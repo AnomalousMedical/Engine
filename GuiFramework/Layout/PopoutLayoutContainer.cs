@@ -25,6 +25,7 @@ namespace Anomalous.GuiFramework
         private OrientationStrategy orientationStrategy;
         private LayoutType orientation;
         private ComputeWorkingSizeDelegate computeWorkingSize;
+        private bool finishAfterLayout = false;
 
         public PopoutLayoutContainer(LayoutType orientation, ComputeWorkingSizeDelegate computeWorkingSize = null)
         {
@@ -132,6 +133,7 @@ namespace Anomalous.GuiFramework
                     finalWorkingSize = computeWorkingSize(newSize);
                 }
                 childContainer.animatedResizeStarted(finalWorkingSize);
+                newSize = finalWorkingSize;
 
                 //Force the child container to fit in the current alloted space
                 childContainer.Location = Location;
@@ -203,7 +205,7 @@ namespace Anomalous.GuiFramework
                 }
             }
         }
-
+        
         public override void update(Clock clock)
         {
             if (animating)
@@ -213,21 +215,29 @@ namespace Anomalous.GuiFramework
                 {
                     alpha = EasingFunctions.Ease(currentEasing, 0, 1.0f, currentTime, animationLength);
                     currentSize = orientationStrategy.getOrientedResize(alpha);
-                    invalidate();
                 }
                 else
                 {
                     currentTime = animationLength;
                     alpha = 1.0f;
                     currentSize = orientationStrategy.getOrientedFinalSize();
-                    invalidate();
-                    finishAnimation();
-                    oldChildContainer = null;
+                    finishAfterLayout = true;
                 }
-                if (childContainer != null)
-                {
-                    childContainer.setAlpha(alpha);
-                }
+            }
+        }
+
+        public override void updateAfterLayout(Clock clock)
+        {
+            if(finishAfterLayout)
+            {
+                finishAnimation();
+                oldChildContainer = null;
+                finishAfterLayout = false;
+            }
+
+            if (childContainer != null)
+            {
+                childContainer.setAlpha(alpha);
             }
         }
 

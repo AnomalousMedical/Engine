@@ -24,6 +24,8 @@ namespace Anomalous.GuiFramework
 
         public abstract void update(Clock clock);
 
+        public abstract void updateAfterLayout(Clock clock);
+
         public abstract LayoutContainer CurrentContainer { get; }
 
         protected void fireAnimationComplete(LayoutContainer oldChild)
