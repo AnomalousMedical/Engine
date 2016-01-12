@@ -66,31 +66,6 @@ float3 pack(float3 input)
 
 #ifdef NO_MAPS
 
-void computeNoTextureOutput(float4 position,
-							float3 normal, 
-							float4x4 worldViewProj,
-							float3 eyePosition,
-							float4 lightAttenuation,
-							float4 lightPosition,
-							out v2f output)
-{
-	//Calculate the local light vector
-	output.lightVector = lightPosition.xyz;
-	
-	//Calculate the light attenuation, ax^2 + bx + c
-	float dist = length(output.lightVector);
-	output.attenuation = 1 / max((lightAttenuation.y + (dist * lightAttenuation.z) + (dist * dist * lightAttenuation.w)), 1);
-
-	//Calculate the half vector
-	output.halfVector = eyePosition + output.lightVector;
-	
-	//Copy the texture coords
-	output.normal = normal;
-
-	// Transform the current vertex from object space to clip space
-	output.position = mul(worldViewProj, position);
-}
-
 #else //NO_MAPS
 
 void computeOutput( float3x3 TBNMatrix, 
@@ -103,30 +78,7 @@ void computeOutput( float3x3 TBNMatrix,
 					out v2f output
 					)
 {
-	//Calculate the local light vector
-	output.lightVector = lightPosition.xyz - position.xyz;
 	
-	//Calculate the light attenuation, ax^2 + bx + c
-	float dist = length(output.lightVector);
-	output.attenuation = 1 / max((lightAttenuation.y + (dist * lightAttenuation.z) + (dist * dist * lightAttenuation.w)), 1);
-
-	//Calculate the half vector
-	output.lightVector = normalize(output.lightVector);
-	output.halfVector = normalize(eyePosition - position.xyz) + output.lightVector;
-
-	//Transform the light vector from object space into tangent space
-	output.lightVector = mul(TBNMatrix, output.lightVector);
-	output.lightVector = pack(output.lightVector);
-	
-	//Transform the eye vector to tangent space
-	output.halfVector = mul(TBNMatrix, output.halfVector);
-	output.halfVector = pack(output.halfVector);
-	
-	//Copy the texture coords
-	output.texCoords = texCoords;
-
-	// Transform the current vertex from object space to clip space
-	output.position = mul(worldViewProj, position);
 }
 
 #endif //NO_MAPS
@@ -236,7 +188,20 @@ void mainVP
 	#endif //BONES_PER_VERTEX > 0
 
 	#ifdef NO_MAPS
-		computeNoTextureOutput(input.position, input.normal, cameraMatrix, eyePosition, lightAttenuation, lightPosition, output);
+		
+		//Calculate the local light vector
+		output.lightVector = lightPosition.xyz;
+	
+		//Calculate the light attenuation, ax^2 + bx + c
+		float dist = length(output.lightVector);
+		output.attenuation = 1 / max((lightAttenuation.y + (dist * lightAttenuation.z) + (dist * dist * lightAttenuation.w)), 1);
+
+		//Calculate the half vector
+		output.halfVector = eyePosition + output.lightVector;
+	
+		//Copy the texture coords
+		output.normal = input.normal;
+
 	#else //NO_MAPS
 		//Tangent space conversion matrix
 		#ifdef PARITY
@@ -245,6 +210,30 @@ void mainVP
 			float3x3 TBNMatrix = float3x3(input.tangent, input.binormal, input.normal);
 		#endif
 
-		computeOutput(TBNMatrix, input.position, input.texCoords, cameraMatrix, eyePosition, lightAttenuation, lightPosition, output);
+		//Calculate the local light vector
+		output.lightVector = lightPosition.xyz - input.position.xyz;
+	
+		//Calculate the light attenuation, ax^2 + bx + c
+		float dist = length(output.lightVector);
+		output.attenuation = 1 / max((lightAttenuation.y + (dist * lightAttenuation.z) + (dist * dist * lightAttenuation.w)), 1);
+
+		//Calculate the half vector
+		output.lightVector = normalize(output.lightVector);
+		output.halfVector = normalize(eyePosition - input.position.xyz) + output.lightVector;
+
+		//Transform the light vector from object space into tangent space
+		output.lightVector = mul(TBNMatrix, output.lightVector);
+		output.lightVector = pack(output.lightVector);
+	
+		//Transform the eye vector to tangent space
+		output.halfVector = mul(TBNMatrix, output.halfVector);
+		output.halfVector = pack(output.halfVector);
+	
+		//Copy the texture coords
+		output.texCoords = input.texCoords;
+
 	#endif //NO_MAPS
+
+	// Transform the current vertex from object space to clip space
+	output.position = mul(cameraMatrix, input.position);
 }
