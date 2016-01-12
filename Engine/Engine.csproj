@@ -220,6 +220,7 @@
     <Compile Include="Platform\OnscreenKeyboardManager.cs" />
     <Compile Include="Platform\SubscribingUpdateListener.cs" />
     <Compile Include="Platform\UpdateTimerEventListener.cs" />
+    <Compile Include="Plugin\CallbackDebugEntry.cs" />
     <Compile Include="Reflection\GuidReflectedVariable.cs" />
     <Compile Include="Reflection\LongNullableReflectedVariable.cs" />
     <Compile Include="Reflection\Vector3NullableReflectedVariable.cs" />

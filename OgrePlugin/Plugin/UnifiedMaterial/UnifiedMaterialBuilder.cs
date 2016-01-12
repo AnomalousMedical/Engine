@@ -152,6 +152,7 @@ namespace OgrePlugin
             //Delete stock resources
             MaterialManager.getInstance().remove("BaseWhite");
             MaterialManager.getInstance().remove("BaseWhiteNoLighting");
+            MaterialManager.getInstance().remove("Ogre/Debug/AxesMat");
 
             //Rebuild with our materials
             var baseWhite = createFromDescription(new MaterialDescription()
@@ -166,6 +167,14 @@ namespace OgrePlugin
             }, false);
             builtInMaterials.Add(baseWhiteNoLighting);
 
+            MaterialPtr axesMat = MaterialManager.getInstance().create("Ogre/Debug/AxesMat", GroupName, false, null);
+            axesMat.Value.setLightingEnabled(false);
+            axesMat.Value.setSceneBlending(SceneBlendType.SBT_TRANSPARENT_ALPHA);
+            axesMat.Value.setCullingMode(CullingMode.CULL_NONE);
+            axesMat.Value.setDepthWriteEnabled(false);
+            axesMat.Value.setDepthCheckEnabled(false);
+
+            builtInMaterials.Add(axesMat);
         }
 
         public void Dispose()
