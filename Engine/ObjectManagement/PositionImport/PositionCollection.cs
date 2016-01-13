@@ -5,6 +5,7 @@ using System.Text;
 using Engine;
 using Logging;
 using System.Xml;
+using System.IO;
 
 namespace Engine
 {
@@ -28,6 +29,25 @@ namespace Engine
         public PositionCollection()
         {
             
+        }
+
+        /// <summary>
+        /// Load positions from a stream.
+        /// </summary>
+        /// <param name="stream"></param>
+        public PositionCollection(Stream stream)
+        {
+            try
+            {
+                using (XmlTextReader textReader = new XmlTextReader(stream))
+                {
+                    this.loadPositions(textReader);
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Error("{0} error loading positions.\nReason: {2}", e.GetType().Name, e.Message);
+            }
         }
 
         /// <summary>

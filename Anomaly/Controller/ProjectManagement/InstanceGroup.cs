@@ -435,14 +435,13 @@ namespace Anomaly
         {
             callback.showOpenFileDialog("*.positions|*.positions", delegate(String file, ref String errorPrompt)
             {
-                PositionCollection positions = new PositionCollection();
                 try
                 {
-                    using (XmlTextReader textReader = new XmlTextReader(File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read)))
+                    using (var stream = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
-                        positions.loadPositions(textReader);
-                    }
-                    this.updatePositions(positions);
+                        PositionCollection positions = new PositionCollection(stream);
+                        this.updatePositions(positions);
+                    }                    
                 }
                 catch (Exception e)
                 {
