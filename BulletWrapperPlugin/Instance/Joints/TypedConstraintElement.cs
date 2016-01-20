@@ -18,14 +18,14 @@ namespace BulletPlugin
         };
 
         internal IntPtr constraint;
-	    BulletScene scene;
-	    RigidBody rbA;
-	    RigidBody rbB;
-	    bool active; //true while both rigid bodies exist. If one is deleted setInactive will be called removing the joint and setting this to false.
-	    bool enabled;
+        BulletScene scene;
+        RigidBody rbA;
+        RigidBody rbB;
+        bool active; //true while both rigid bodies exist. If one is deleted setInactive will be called removing the joint and setting this to false.
+        bool enabled;
 
         public TypedConstraintElement(String name, BulletScene scene, RigidBody rbA, RigidBody rbB)
-            :base(name)
+            : base(name)
         {
             constraint = IntPtr.Zero;
             this.rbA = rbA;
@@ -33,6 +33,16 @@ namespace BulletPlugin
             this.scene = scene;
             active = true;
             enabled = false;
+        }
+
+        public void beginUpdate()
+        {
+            scene.removeConstraint(this);
+        }
+
+        public void updateCompleted()
+        {
+            scene.addConstraint(this, true);
         }
 
         protected override void Dispose()
@@ -59,22 +69,22 @@ namespace BulletPlugin
 
         protected override void updatePositionImpl(ref Engine.Vector3 translation, ref Engine.Quaternion rotation)
         {
-            
+
         }
 
         protected override void updateTranslationImpl(ref Engine.Vector3 translation)
         {
-            
+
         }
 
         protected override void updateRotationImpl(ref Engine.Quaternion rotation)
         {
-            
+
         }
 
         protected override void updateScaleImpl(ref Engine.Vector3 scale)
         {
-            
+
         }
 
         protected override void setEnabled(bool enabled)
@@ -133,10 +143,10 @@ namespace BulletPlugin
 
     partial class TypedConstraintElement
     {
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void btTypedConstraint_Delete(IntPtr instance);
 
-        [DllImport(BulletInterface.LibraryName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void btTypedConstraint_setOverrideNumSolverIterations(IntPtr instance, int overrideNumIterations);
 
         [DllImport(BulletInterface.LibraryName, CallingConvention = CallingConvention.Cdecl)]
