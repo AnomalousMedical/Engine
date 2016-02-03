@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <MyGUI type="Resource" version="1.1">
-  
+
   <Resource type="ResourceImageSet" name="Behavior">
-    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="48 48">
+    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="32 32">
       <Index name="Icon">
         <Frame point="0 0"/>
       </Index>
@@ -11,169 +10,169 @@
   </Resource>
 
   <Resource type="ResourceImageSet" name="Camera">
-    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="48 48">
+    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="32 32">
       <Index name="Icon">
-        <Frame point="48 0"/>
+        <Frame point="32 0"/>
       </Index>
     </Group>
   </Resource>
 
   <Resource type="ResourceImageSet" name="Entity">
-    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="48 48">
+    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="32 32">
+      <Index name="Icon">
+        <Frame point="64 0"/>
+      </Index>
+    </Group>
+  </Resource>
+
+  <Resource type="ResourceImageSet" name="ExternalResources">
+    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="32 32">
       <Index name="Icon">
         <Frame point="96 0"/>
       </Index>
     </Group>
   </Resource>
 
-  <Resource type="ResourceImageSet" name="ExternalResources">
-    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="48 48">
-      <Index name="Icon">
-        <Frame point="144 0"/>
-      </Index>
-    </Group>
-  </Resource>
-
   <Resource type="ResourceImageSet" name="Folder">
-    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="48 48">
+    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="32 32">
       <Index name="Icon">
-        <Frame point="192 0"/>
+        <Frame point="0 32"/>
       </Index>
     </Group>
   </Resource>
 
   <Resource type="ResourceImageSet" name="Instance">
-    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="48 48">
+    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="32 32">
       <Index name="Icon">
-        <Frame point="0 48"/>
+        <Frame point="32 32"/>
       </Index>
     </Group>
   </Resource>
 
   <Resource type="ResourceImageSet" name="InstanceHidden">
-    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="48 48">
+    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="32 32">
+      <Index name="Icon">
+        <Frame point="64 32"/>
+      </Index>
+    </Group>
+  </Resource>
+
+  <Resource type="ResourceImageSet" name="InstanceModified">
+    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="32 32">
+      <Index name="Icon">
+        <Frame point="96 32"/>
+      </Index>
+    </Group>
+  </Resource>
+
+  <Resource type="ResourceImageSet" name="InstanceModifiedHidden">
+    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="32 32">
+      <Index name="Icon">
+        <Frame point="0 64"/>
+      </Index>
+    </Group>
+  </Resource>
+
+  <Resource type="ResourceImageSet" name="Joint">
+    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="32 32">
+      <Index name="Icon">
+        <Frame point="32 64"/>
+      </Index>
+    </Group>
+  </Resource>
+
+  <Resource type="ResourceImageSet" name="Light">
+    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="32 32">
+      <Index name="Icon">
+        <Frame point="64 64"/>
+      </Index>
+    </Group>
+  </Resource>
+
+  <Resource type="ResourceImageSet" name="ManualObject">
+    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="32 32">
+      <Index name="Icon">
+        <Frame point="96 64"/>
+      </Index>
+    </Group>
+  </Resource>
+
+  <Resource type="ResourceImageSet" name="Node">
+    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="32 32">
       <Index name="Icon">
         <Frame point="0 96"/>
       </Index>
     </Group>
   </Resource>
 
-  <Resource type="ResourceImageSet" name="InstanceModified">
-    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="48 48">
-      <Index name="Icon">
-        <Frame point="0 144"/>
-      </Index>
-    </Group>
-  </Resource>
-
-  <Resource type="ResourceImageSet" name="InstanceModifiedHidden">
-    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="48 48">
-      <Index name="Icon">
-        <Frame point="0 192"/>
-      </Index>
-    </Group>
-  </Resource>
-
-  <Resource type="ResourceImageSet" name="Joint">
-    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="48 48">
-      <Index name="Icon">
-        <Frame point="48 48"/>
-      </Index>
-    </Group>
-  </Resource>
-
-  <Resource type="ResourceImageSet" name="Light">
-    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="48 48">
-      <Index name="Icon">
-        <Frame point="96 48"/>
-      </Index>
-    </Group>
-  </Resource>
-
-  <Resource type="ResourceImageSet" name="ManualObject">
-    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="48 48">
-      <Index name="Icon">
-        <Frame point="144 48"/>
-      </Index>
-    </Group>
-  </Resource>
-
-  <Resource type="ResourceImageSet" name="Node">
-    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="48 48">
-      <Index name="Icon">
-        <Frame point="192 48"/>
-      </Index>
-    </Group>
-  </Resource>
-
   <Resource type="ResourceImageSet" name="Project">
-    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="48 48">
+    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="32 32">
       <Index name="Icon">
-        <Frame point="48 96"/>
+        <Frame point="32 96"/>
       </Index>
     </Group>
   </Resource>
 
   <Resource type="ResourceImageSet" name="ProjectBuilt">
-    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="48 48">
+    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="32 32">
       <Index name="Icon">
-        <Frame point="48 144"/>
+        <Frame point="64 96"/>
       </Index>
     </Group>
   </Resource>
 
   <Resource type="ResourceImageSet" name="QuestionMark">
-    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="48 48">
-      <Index name="Icon">
-        <Frame point="48 192"/>
-      </Index>
-    </Group>
-  </Resource>
-
-  <Resource type="ResourceImageSet" name="ReferencedProjects">
-    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="48 48">
+    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="32 32">
       <Index name="Icon">
         <Frame point="96 96"/>
       </Index>
     </Group>
   </Resource>
 
-  <Resource type="ResourceImageSet" name="Resource">
-    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="48 48">
+  <Resource type="ResourceImageSet" name="ReferencedProjects">
+    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="32 32">
       <Index name="Icon">
-        <Frame point="144 96"/>
+        <Frame point="0 128"/>
+      </Index>
+    </Group>
+  </Resource>
+
+  <Resource type="ResourceImageSet" name="Resource">
+    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="32 32">
+      <Index name="Icon">
+        <Frame point="32 128"/>
       </Index>
     </Group>
   </Resource>
 
   <Resource type="ResourceImageSet" name="RigidBody">
-    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="48 48">
+    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="32 32">
       <Index name="Icon">
-        <Frame point="192 96"/>
+        <Frame point="64 128"/>
       </Index>
     </Group>
   </Resource>
 
   <Resource type="ResourceImageSet" name="Scene">
-    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="48 48">
+    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="32 32">
       <Index name="Icon">
-        <Frame point="96 144"/>
+        <Frame point="96 128"/>
       </Index>
     </Group>
   </Resource>
 
   <Resource type="ResourceImageSet" name="SimObject">
-    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="48 48">
+    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="32 32">
       <Index name="Icon">
-        <Frame point="96 192"/>
+        <Frame point="0 160"/>
       </Index>
     </Group>
   </Resource>
 
   <Resource type="ResourceImageSet" name="Solution">
-    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="48 48">
+    <Group name="Icons" texture="Anomaly.Resources.AnomalyIcons.png" size="32 32">
       <Index name="Icon">
-        <Frame point="144 144"/>
+        <Frame point="0 192"/>
       </Index>
     </Group>
   </Resource>

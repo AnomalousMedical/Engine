@@ -34,7 +34,7 @@ namespace Engine.Editing
         SimObject,
         Behavior,
         Scene,
-        Resources
+        Resource
     }
 
     /// <summary>
