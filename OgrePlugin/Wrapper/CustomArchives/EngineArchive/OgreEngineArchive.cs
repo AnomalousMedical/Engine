@@ -117,12 +117,12 @@ namespace OgrePlugin
         protected internal void pushFixedFileInfo(String file, IntPtr ogreFileList, IntPtr archive)
         {
             VirtualFileInfo archiveInfo = vfs.getFileInfo(file);
-            String fixedFilename = archiveInfo.FullName.Replace(baseName, "");
+            String fixedFilename = baseName.Length > 0 ? archiveInfo.FullName.Replace(baseName, "") : archiveInfo.FullName;
             if(fixedFilename.StartsWith("/"))
             {
                 fixedFilename = fixedFilename.Substring(1);
             }
-            String fixedPath = archiveInfo.DirectoryName.Replace(baseName, "");
+            String fixedPath = baseName.Length > 0 ? archiveInfo.DirectoryName.Replace(baseName, "") : archiveInfo.DirectoryName;
             if(fixedPath.StartsWith("/"))
             {
                 fixedPath = fixedPath.Substring(1);

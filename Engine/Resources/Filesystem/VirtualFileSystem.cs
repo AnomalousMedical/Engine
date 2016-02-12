@@ -104,7 +104,7 @@ namespace Engine
             {
                 Log.Info("Added resource archive {0}.", path);
                 directoryMap["/"].addArchive(archive);
-                addAndScanArchive(path, archive);
+                addAndScanArchive(archive);
                 return true;
             }
 
@@ -291,12 +291,12 @@ namespace Engine
             throw new FileNotFoundException(String.Format("Could not find file \"{0}\" in virtual file system.", filename), filename);
         }
 
-        private void addAndScanArchive(String path, Archive archive)
+        private void addAndScanArchive(Archive archive)
         {
             archives.Add(archive);
 
             //Add all directory entries.
-            IEnumerable<String> directories = archive.listDirectories(path, true, true);
+            IEnumerable<String> directories = archive.listDirectories("/", true, true);
             DirectoryEntry currentEntry;
             String directory;
             foreach (String directoryIter in directories)
@@ -311,7 +311,7 @@ namespace Engine
             }
 
             //Add all file entries, replacing archives for duplicate files
-            IEnumerable<String> files = archive.listFiles(path, true);
+            IEnumerable<String> files = archive.listFiles("/", true);
             String file;
             foreach (String fileIter in files)
             {
