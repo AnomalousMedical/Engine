@@ -10,17 +10,13 @@ set SignCommand=call "%RootBuildFolder%DRM\CodeKey\AnomalousMedicalSign.bat"
 set OutputFolder=%ThisFolder%Release\
 set SolutionPath=%ThisFolder%%SolutionName%
 
-msbuild.exe /m "%SolutionPath%" /property:Configuration=Debug;Platform="x86" /target:Clean
-msbuild.exe /m "%SolutionPath%" /property:Configuration=Debug;Platform="x86"
+msbuild.exe /m "%SolutionPath%" /property:Configuration=Debug;Platform="x86" /target:Clean,Build
 
-msbuild.exe /m "%SolutionPath%" /property:Configuration=Release;Platform="x86" /target:Clean
-msbuild.exe /m "%SolutionPath%" /property:Configuration=Release;Platform="x86"
+msbuild.exe /m "%SolutionPath%" /property:Configuration=Release;Platform="x86" /target:Clean,Build
 
-msbuild.exe /m "%SolutionPath%" /property:Configuration=Debug;Platform="x64" /target:Clean
-msbuild.exe /m "%SolutionPath%" /property:Configuration=Debug;Platform="x64"
+msbuild.exe /m "%SolutionPath%" /property:Configuration=Debug;Platform="x64" /target:Clean,Build
 
-msbuild.exe /m "%SolutionPath%" /property:Configuration=Release;Platform="x64" /target:Clean
-msbuild.exe /m "%SolutionPath%" /property:Configuration=Release;Platform="x64"
+msbuild.exe /m "%SolutionPath%" /property:Configuration=Release;Platform="x64" /target:Clean,Build
 
 %SignCommand% "Anomaly" "%OutputFolder%\Anomaly.exe"
 %SignCommand% "Image Atlas Packer" "%OutputFolder%\ImageAtlasPacker.exe"
