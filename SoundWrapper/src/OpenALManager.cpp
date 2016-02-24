@@ -5,6 +5,7 @@
 #include "StreamingSound.h"
 #include "Listener.h"
 #include "CaptureDevice.h"
+#include "Stream.h"
 
 //Codecs
 #include "OggCodec.h"
@@ -84,7 +85,17 @@ void OpenALManager::destroySound(Sound* sound)
 
 AudioCodec* OpenALManager::getCodecForStream(Stream* stream)
 {
-	return new OggCodec(stream);
+	char magicBuffer[5];
+	stream->read(magicBuffer, 4, 4);
+	magicBuffer[4] = '\0';
+	stream->seek(0, 0);
+	if (strcmp(magicBuffer, "OggS") == 0)
+	{
+		return new OggCodec(stream);
+	}
+
+	//Need to add other types at some point, this will crash if not ogg
+	return 0;
 }
 
 Source* OpenALManager::getSource()
