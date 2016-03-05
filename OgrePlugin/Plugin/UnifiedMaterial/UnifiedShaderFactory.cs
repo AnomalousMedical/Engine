@@ -53,7 +53,7 @@ namespace OgrePlugin
             
             liveResourceManager.initializeResources();
 
-            enableIntelFix = OgreInterface.Instance.ChosenRenderSystem == RenderSystemType.D3D11 && OgreInterface.Instance.GpuVendor == GPUVendor.GPU_INTEL;
+            enableIntelFix = true;// OgreInterface.Instance.ChosenRenderSystem == RenderSystemType.D3D11 && OgreInterface.Instance.GpuVendor == GPUVendor.GPU_INTEL;
         }
 
         public virtual void Dispose()
