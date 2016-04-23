@@ -62,6 +62,7 @@ namespace Anomalous.GuiFramework.Cameras
 
             rm = renderManager;
             mdiLayout.ActiveWindowChanged += new EventHandler(mdiLayout_ActiveWindowChanged);
+            eventManager.setUnprojectFunction(unproject);
         }
 
         public void Dispose()
@@ -426,6 +427,12 @@ namespace Anomalous.GuiFramework.Cameras
             {
                 ActiveWindow = mdiWindows.FirstOrDefault();
             }
+        }
+
+        private Vector3 unproject(int x, int y)
+        {
+            var activeWindow = ActiveWindow;
+            return activeWindow.unprojectScreen(x, y);
         }
     }
 }

@@ -18,10 +18,11 @@ namespace Engine.Platform
         private bool[] buttonDownStatus = new bool[(int)MouseButtonCode.NUM_BUTTONS];
         private bool[] pressedThisFrame = new bool[(int)MouseButtonCode.NUM_BUTTONS];
         private bool[] downAndUpThisFrame = new bool[(int)MouseButtonCode.NUM_BUTTONS];
+        private EventManager eventManager;
 
-        public Mouse()
+        public Mouse(EventManager eventManager)
         {
-            
+            this.eventManager = eventManager;
         }
 
         /// <summary>
@@ -49,7 +50,12 @@ namespace Engine.Platform
         {
             return buttonDownStatus[(int)button];
         }
-        
+
+        public Vector3 unproject()
+        {
+            return eventManager.unproject(absMouse.x, absMouse.y);
+        }
+
         /// <summary>
         /// Determins if the button was pressed on this frame, will be true the first frame the
         /// button is down and false every frame after that until it is released. This is intended

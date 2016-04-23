@@ -15,6 +15,14 @@ namespace Engine.Platform
     /// </summary>
     public class EventManager : IDisposable
     {
+        /// <summary>
+        /// Unproject the x, y position of the mouse.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns>The mouse position in world coords.</returns>
+        public delegate Vector3 Unproject(int x, int y);
+
         private InputHandler inputHandler;
         private KeyboardHardware keyboardHardware = null;
         private Keyboard keyboard;
@@ -22,6 +30,7 @@ namespace Engine.Platform
         private Mouse mouse;
         private Touches touches;
         private TouchHardware touchHardware;
+        private Unproject unprojectFunc;
 
         private EventLayer focusLayer;
         private FastIteratorMap<Object, EventLayer> eventLayers = new FastIteratorMap<object, EventLayer>();
@@ -35,7 +44,7 @@ namespace Engine.Platform
             this.inputHandler = inputHandler;
             keyboard = new Keyboard();
             keyboardHardware = inputHandler.createKeyboard(keyboard);
-            mouse = new Mouse();
+            mouse = new Mouse(this);
             mouseHardware = inputHandler.createMouse(mouse);
             touches = new Touches();
             touchHardware = inputHandler.createTouchHardware(touches);
@@ -171,6 +180,21 @@ namespace Engine.Platform
             {
                 return keyboard;
             }
+        }
+
+        public Vector3 unproject(int x, int y)
+        {
+            return unprojectFunc(x, y);
+        }
+
+        /// <summary>
+        /// Set the unproject function for this event manager.
+        /// This should be done by a camera manager.
+        /// </summary>
+        /// <param name="unprojectFunc"></param>
+        public void setUnprojectFunction(Unproject unprojectFunc)
+        {
+            this.unprojectFunc = unprojectFunc;
         }
 
         /// <summary>
