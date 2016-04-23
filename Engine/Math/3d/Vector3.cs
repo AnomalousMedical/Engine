@@ -460,6 +460,11 @@ namespace Engine
             return !(p1.x == p2.x && p1.y == p2.y && p1.z == p2.z);
         }
 
+        public static implicit operator Vector3(IntVector3 vec2)
+        {
+            return new Vector3((float)vec2.x, (float)vec2.y, (float)vec2.z);
+        }
+
         #endregion Operators
 
         #region Static Helper Functions
