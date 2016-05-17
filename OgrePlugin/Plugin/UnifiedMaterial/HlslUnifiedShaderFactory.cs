@@ -196,38 +196,45 @@ namespace OgrePlugin
 
             using (var defaultParams = program.Value.getDefaultParameters())
             {
-                defaultParams.Value.setNamedAutoConstant("lightDiffuseColor", AutoConstantType.ACT_LIGHT_DIFFUSE_COLOUR, 0);
-                defaultParams.Value.setNamedAutoConstant("emissiveColor", AutoConstantType.ACT_SURFACE_EMISSIVE_COLOUR);
+                try
+                {
+                    defaultParams.Value.setNamedAutoConstant("lightDiffuseColor", AutoConstantType.ACT_LIGHT_DIFFUSE_COLOUR, 0);
+                    defaultParams.Value.setNamedAutoConstant("emissiveColor", AutoConstantType.ACT_SURFACE_EMISSIVE_COLOUR);
 
-                if (description.HasGlossMap)
-                {
-                    defaultParams.Value.setNamedConstant("glossyStart", 40.0f);
-                    defaultParams.Value.setNamedConstant("glossyRange", 0.0f);
-                }
-                else
-                {
-                    defaultParams.Value.setNamedAutoConstant("glossyness", AutoConstantType.ACT_SURFACE_SHININESS);
-                }
+                    if (description.HasGlossMap)
+                    {
+                        defaultParams.Value.setNamedConstant("glossyStart", 40.0f);
+                        defaultParams.Value.setNamedConstant("glossyRange", 0.0f);
+                    }
+                    else
+                    {
+                        defaultParams.Value.setNamedAutoConstant("glossyness", AutoConstantType.ACT_SURFACE_SHININESS);
+                    }
 
-                if ((maps & TextureMaps.Diffuse) == 0)
-                {
-                    defaultParams.Value.setNamedAutoConstant("diffuseColor", AutoConstantType.ACT_SURFACE_DIFFUSE_COLOUR);
-                }
+                    if ((maps & TextureMaps.Diffuse) == 0)
+                    {
+                        defaultParams.Value.setNamedAutoConstant("diffuseColor", AutoConstantType.ACT_SURFACE_DIFFUSE_COLOUR);
+                    }
 
-                //Check for need to pass specular color
-                if ((maps & TextureMaps.Specular) == 0)
-                {
-                    defaultParams.Value.setNamedAutoConstant("specularColor", AutoConstantType.ACT_SURFACE_SPECULAR_COLOUR);
-                }
+                    //Check for need to pass specular color
+                    if ((maps & TextureMaps.Specular) == 0)
+                    {
+                        defaultParams.Value.setNamedAutoConstant("specularColor", AutoConstantType.ACT_SURFACE_SPECULAR_COLOUR);
+                    }
 
-                if (description.IsHighlight)
-                {
-                    defaultParams.Value.setNamedAutoConstant("highlightColor", AutoConstantType.ACT_CUSTOM, 1);
-                }
+                    if (description.IsHighlight)
+                    {
+                        defaultParams.Value.setNamedAutoConstant("highlightColor", AutoConstantType.ACT_CUSTOM, 1);
+                    }
 
-                if (alpha)
+                    if (alpha)
+                    {
+                        defaultParams.Value.setNamedAutoConstant("alpha", AutoConstantType.ACT_CUSTOM, 0);
+                    }
+                }
+                catch (Exception)
                 {
-                    defaultParams.Value.setNamedAutoConstant("alpha", AutoConstantType.ACT_CUSTOM, 0);
+                    Logging.Log.Warning($"Could not set params for frag program '{name}'.");
                 }
             }
 

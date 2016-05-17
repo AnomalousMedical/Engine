@@ -32,127 +32,153 @@ namespace OgrePlugin
         public void addSharedParameters(GpuSharedParametersPtr sharedParams)
         {
             GpuProgramParameters_addSharedParameters(ptr, sharedParams.HeapSharedPtr);
+            OgreExceptionManager.fireAnyException();
         }
 
         public void addSharedParameters(String sharedParamsName)
         {
             GpuProgramParameters_addSharedParametersName(ptr, sharedParamsName);
+            OgreExceptionManager.fireAnyException();
         }
 
         public void setNamedConstant(String name, float val)
         {
             GpuProgramParameters_setNamedConstant1(ptr, name, val);
+            OgreExceptionManager.fireAnyException();
         }
 
         public void setNamedConstant(String name, int val)
         {
             GpuProgramParameters_setNamedConstant2(ptr, name, val);
+            OgreExceptionManager.fireAnyException();
         }
 
         public void setNamedConstant(String name, Quaternion vec)
         {
             GpuProgramParameters_setNamedConstant3(ptr, name, vec);
+            OgreExceptionManager.fireAnyException();
         }
 
         public void setNamedConstant(String name, Vector3 vec)
         {
             GpuProgramParameters_setNamedConstant4(ptr, name, vec);
+            OgreExceptionManager.fireAnyException();
         }
 
         public void setNamedConstant(String name, Vector2 vec)
         {
             GpuProgramParameters_setNamedConstant5(ptr, name, vec);
+            OgreExceptionManager.fireAnyException();
         }
 
         public void setNamedConstant(String name, Color colour)
         {
             GpuProgramParameters_setNamedConstant6(ptr, name, colour);
+            OgreExceptionManager.fireAnyException();
         }
 
         public unsafe void setNamedConstant(String name, int* val, UIntPtr count)
         {
             GpuProgramParameters_setNamedConstant7(ptr, name, val, count);
+            OgreExceptionManager.fireAnyException();
         }
 
         public unsafe void setNamedConstant(String name, float* val, UIntPtr count)
         {
             GpuProgramParameters_setNamedConstant8(ptr, name, val, count);
+            OgreExceptionManager.fireAnyException();
         }
 
         public unsafe void setNamedConstant(String name, double* val, UIntPtr count)
         {
             GpuProgramParameters_setNamedConstant9(ptr, name, val, count);
+            OgreExceptionManager.fireAnyException();
         }
 
 
         public void setConstant(UIntPtr index, float val)
         {
             GpuProgramParameters_setConstant1(ptr, index, val);
+            OgreExceptionManager.fireAnyException();
         }
 
         public void setConstant(UIntPtr index, int val)
         {
             GpuProgramParameters_setConstant2(ptr, index, val);
+            OgreExceptionManager.fireAnyException();
         }
 
         public void setConstant(UIntPtr index, Quaternion vec)
         {
             GpuProgramParameters_setConstant3(ptr, index, vec);
+            OgreExceptionManager.fireAnyException();
         }
 
         public void setConstant(UIntPtr index, Vector3 vec)
         {
             GpuProgramParameters_setConstant4(ptr, index, vec);
+            OgreExceptionManager.fireAnyException();
         }
 
         public void setConstant(UIntPtr index, Vector2 vec)
         {
             GpuProgramParameters_setConstant5(ptr, index, vec);
+            OgreExceptionManager.fireAnyException();
         }
 
         public void setConstant(UIntPtr index, Color colour)
         {
             GpuProgramParameters_setConstant6(ptr, index, colour);
+            OgreExceptionManager.fireAnyException();
         }
 
         public unsafe void setConstant(UIntPtr index, int* val, UIntPtr count)
         {
             GpuProgramParameters_setConstant7(ptr, index, val, count);
+            OgreExceptionManager.fireAnyException();
         }
 
         public unsafe void setConstant(UIntPtr index, float* val, UIntPtr count)
         {
             GpuProgramParameters_setConstant8(ptr, index, val, count);
+            OgreExceptionManager.fireAnyException();
         }
 
         public unsafe void setConstant(UIntPtr index, double* val, UIntPtr count)
         {
             GpuProgramParameters_setConstant9(ptr, index, val, count);
+            OgreExceptionManager.fireAnyException();
         }
 
         public bool hasNamedConstant(String name)
         {
-            return GpuProgramParameters_hasNamedConstant(ptr, name);
+            var ret = GpuProgramParameters_hasNamedConstant(ptr, name);
+            OgreExceptionManager.fireAnyException();
+            return ret;
         }
 
         public void setNamedAutoConstant(String name, AutoConstantType acType)
         {
             GpuProgramParameters_setNamedAutoConstant1(ptr, name, acType);
+            OgreExceptionManager.fireAnyException();
         }
 
         public void setNamedAutoConstant(String name, AutoConstantType acType, ulong extraInfo)
         {
             GpuProgramParameters_setNamedAutoConstant2(ptr, name, acType, new UIntPtr(extraInfo));
+            OgreExceptionManager.fireAnyException();
         }
 
         public void setNamedAutoConstant(String name, AutoConstantType acType, ulong extraInfo1, ulong extraInfo2)
         {
             GpuProgramParameters_setNamedAutoConstant3(ptr, name, acType, new UIntPtr(extraInfo1), new UIntPtr(extraInfo2));
+            OgreExceptionManager.fireAnyException();
         }
 
         public void setNamedAutoConstantReal(String name, AutoConstantType acType, float rData)
         {
             GpuProgramParameters_setNamedAutoConstantReal(ptr, name, acType, rData);
+            OgreExceptionManager.fireAnyException();
         }
 
         #region PInvoke
