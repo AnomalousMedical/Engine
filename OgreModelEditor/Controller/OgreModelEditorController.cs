@@ -393,10 +393,12 @@ namespace OgreModelEditor
             mainForm.currentFileChanged(path);
             textureCompiler.CurrentDest = dir;
             materialController.loadMaterials(dir);
-            String matName = modelController.MeshMaterialName;
-            if(!MaterialManager.getInstance().resourceExists(matName))
+            foreach(var matName in modelController.MeshMaterialNames)
             {
-                materialController.createMaterial(matName);
+                if (!MaterialManager.getInstance().resourceExists(matName))
+                {
+                    materialController.createMaterial(matName);
+                }
             }
         }
 

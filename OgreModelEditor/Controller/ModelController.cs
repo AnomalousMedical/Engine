@@ -553,5 +553,20 @@ namespace OgreModelEditor.Controller
                 }
             }
         }
+
+        public IEnumerable<String> MeshMaterialNames
+        {
+            get
+            {
+                using (MeshPtr mesh = entity.getMesh())
+                {
+                    int submeshes = mesh.Value.getNumSubMeshes();
+                    for (ushort i = 0; i < submeshes; ++i)
+                    {
+                        yield return mesh.Value.getSubMesh(i).getMaterialName();
+                    }
+                }
+            }
+        }
     }
 }
