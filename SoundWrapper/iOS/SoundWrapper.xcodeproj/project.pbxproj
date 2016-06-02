@@ -317,7 +317,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../../../Dependencies/oggvorbis/libogg/include",
 					"$(SRCROOT)/../../../Dependencies/oggvorbis/libvorbis/include",
-					/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/System/Library/Frameworks/OpenAL.framework/Headers,
+					/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/OpenAL.framework/Headers,
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -337,7 +337,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../../../Dependencies/oggvorbis/libogg/include",
 					"$(SRCROOT)/../../../Dependencies/oggvorbis/libvorbis/include",
-					/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/System/Library/Frameworks/OpenAL.framework/Headers,
+					/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/OpenAL.framework/Headers,
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
