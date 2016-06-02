@@ -251,6 +251,7 @@ extern "C" _AnomalousExport bool GpuProgramParameters_hasNamedConstant(Ogre::Gpu
 	{
 		sendExceptionToManagedCode(ex);
 	}
+    return false;
 }
 
 extern "C" _AnomalousExport void GpuProgramParameters_setNamedAutoConstant1(Ogre::GpuProgramParameters* param, String name, Ogre::GpuProgramParameters::AutoConstantType acType)
