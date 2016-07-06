@@ -25,7 +25,7 @@ namespace System.Reflection
 #if ENABLE_LEGACY_SHIMS
             throw new NotImplementedException();
 #else
-            return Assembly.LoadFile(path);
+            return Assembly.LoadFrom(path);
 #endif
         }
 

@@ -549,6 +549,54 @@ namespace BulletPlugin
 	        return btRigidBody_getLocalScaling(rigidBody);
         }
 
+        public void capLinearVelocity(float max)
+        {
+            Vector3 linearVelocity = this.getLinearVelocity();
+            if (linearVelocity.x > max)
+            {
+                linearVelocity.x = max;
+            }
+            else if (linearVelocity.x < -max)
+            {
+                linearVelocity.x = -max;
+            }
+
+            if (linearVelocity.y > max)
+            {
+                linearVelocity.y = max;
+            }
+            else if (linearVelocity.y < -max)
+            {
+                linearVelocity.y = -max;
+            }
+
+            if (linearVelocity.z > max)
+            {
+                linearVelocity.z = max;
+            }
+            else if (linearVelocity.z < -max)
+            {
+                linearVelocity.z = -max;
+            }
+
+            this.setLinearVelocity(linearVelocity);
+        }
+
+        public void capLinearVelocityX(float maxX)
+        {
+            Vector3 linearVelocity = this.getLinearVelocity();
+            if (linearVelocity.x > maxX)
+            {
+                linearVelocity.x = maxX;
+            }
+            else if (linearVelocity.x < -maxX)
+            {
+                linearVelocity.x = -maxX;
+            }
+
+            this.setLinearVelocity(linearVelocity);
+        }
+
         public float MaxContactDistance
         {
             get
