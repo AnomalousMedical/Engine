@@ -388,6 +388,17 @@ namespace Engine
 		    return !float.IsNaN(x) && !float.IsNaN(y) && !float.IsNaN(z);
 	    }
 
+        public bool IsWithinEpsilonToZero
+        {
+            get
+            {
+                bool small =      x > 0 ? x < float.Epsilon : x > float.Epsilon;
+                small &= small && y > 0 ? y < float.Epsilon : y > float.Epsilon;
+                small &= small && z > 0 ? z < float.Epsilon : z > float.Epsilon;
+                return small;
+            }
+        }
+
         #endregion Memebers
 
         #region Operators
