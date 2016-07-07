@@ -597,6 +597,36 @@ namespace BulletPlugin
             this.setLinearVelocity(linearVelocity);
         }
 
+        public void capLinearVelocityY(float maxX)
+        {
+            Vector3 linearVelocity = this.getLinearVelocity();
+            if (linearVelocity.y > maxX)
+            {
+                linearVelocity.y = maxX;
+            }
+            else if (linearVelocity.y < -maxX)
+            {
+                linearVelocity.y = -maxX;
+            }
+
+            this.setLinearVelocity(linearVelocity);
+        }
+
+        public void capLinearVelocityZ(float maxX)
+        {
+            Vector3 linearVelocity = this.getLinearVelocity();
+            if (linearVelocity.z > maxX)
+            {
+                linearVelocity.z = maxX;
+            }
+            else if (linearVelocity.z < -maxX)
+            {
+                linearVelocity.z = -maxX;
+            }
+
+            this.setLinearVelocity(linearVelocity);
+        }
+
         public float MaxContactDistance
         {
             get
