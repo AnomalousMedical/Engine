@@ -19,9 +19,9 @@ namespace MakeXamarinProjects
 
         static void convertToAndroid(String file)
         {
-            String output = Path.GetFileNameWithoutExtension(file) + "Android" + Path.GetExtension(file);
+            String output = Path.Combine(Path.GetDirectoryName(file), Path.GetFileNameWithoutExtension(file) + "Android" + Path.GetExtension(file));
             convertProject(file, output,
-                "<ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>",
+                "{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}",
                 "$(MSBuildExtensionsPath)\\Xamarin\\Android\\Xamarin.Android.CSharp.targets",
                 "6.0"
                 );
@@ -29,9 +29,9 @@ namespace MakeXamarinProjects
 
         static void convertToiOS(String file)
         {
-            String output = Path.GetFileNameWithoutExtension(file) + "iOS" + Path.GetExtension(file);
+            String output = Path.Combine(Path.GetDirectoryName(file), Path.GetFileNameWithoutExtension(file) + "iOS" + Path.GetExtension(file));
             convertProject(file, output,
-                "<ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>",
+                "{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}",
                 "$(MSBuildExtensionsPath)\\Xamarin\\iOS\\Xamarin.iOS.CSharp.targets",
                 "1.0"
                 );
@@ -39,37 +39,35 @@ namespace MakeXamarinProjects
 
         static void convertToMac(String file)
         {
-            String output = Path.GetFileNameWithoutExtension(file) + "Mac" + Path.GetExtension(file);
+            String output = Path.Combine(Path.GetDirectoryName(file), Path.GetFileNameWithoutExtension(file) + "Mac" + Path.GetExtension(file));
             convertProject(file, output,
-                "<ProjectTypeGuids>{A3F8F2AB-B479-4A4A-A458-A89E7DC349F1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>",
+                "{A3F8F2AB-B479-4A4A-A458-A89E7DC349F1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}",
                 "$(MSBuildExtensionsPath)\\Xamarin\\Mac\\Xamarin.Mac.CSharp.targets",
                 "1.0"
                 );
         }
 
-        static void convertProject(String file, String output, String guids, String import, String targetFrameworkVersion)
+        static String VsXmlNamespace = "http://schemas.microsoft.com/developer/msbuild/2003";
+
+        static void convertProject(String file, String output, String guids, String project, String targetFrameworkVersion)
         {
-            XElement xelement = XElement.Load(file);
-            foreach (var propGroupOrImport in xelement.Elements())
+            XDocument xDoc = XDocument.Load(file);
+            var root = xDoc.Root;
+            foreach (var propGroup in root.Elements(XName.Get("PropertyGroup", VsXmlNamespace)))
             {
-                if (propGroupOrImport.Name == "PropertyGroup")
+                foreach (var item in propGroup.Elements(XName.Get("TargetFrameworkVersion", VsXmlNamespace)))
                 {
-                    foreach (var item in propGroupOrImport.Elements())
-                    {
-                        if (item.Name == "TargetFrameworkVersion")
-                        {
-                            item.Value = targetFrameworkVersion;
-                            propGroupOrImport.Add(guids);
-                        }
-                    }
-                }
-                else if (propGroupOrImport.Name == "Import")
-                {
-                    var name = propGroupOrImport.Attribute(XName.Get("Project"));
-                    name.Value = import;
+                    item.SetValue(targetFrameworkVersion);
+                    propGroup.Add(new XElement(XName.Get("ProjectTypeGuids", VsXmlNamespace), guids));
+                    break;
                 }
             }
-            xelement.Save(output);
+            foreach (var import in root.Elements(XName.Get("Import", VsXmlNamespace)))
+            {
+                var name = import.Attribute(XName.Get("Project"));
+                name.SetValue(project);
+            }
+            xDoc.Save(output);
         }
     }
 }
