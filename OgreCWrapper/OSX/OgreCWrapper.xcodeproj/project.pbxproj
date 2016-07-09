@@ -15,13 +15,20 @@
 		015207EC18D0B8830040D1F9 /* CompositorManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015207E918D0B8830040D1F9 /* CompositorManager.cpp */; };
 		015207ED18D0B8830040D1F9 /* GpuProgramManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015207EA18D0B8830040D1F9 /* GpuProgramManager.cpp */; };
 		015207EE18D0B8830040D1F9 /* OgreInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015207EB18D0B8830040D1F9 /* OgreInterface.cpp */; };
-		015207F018D0B8BF0040D1F9 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 015207EF18D0B8BF0040D1F9 /* Ogre.framework */; };
 		015AA5D115B48478000B029F /* ArchiveManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015AA5D015B48478000B029F /* ArchiveManager.cpp */; };
 		0170CC881BBDB3A600350894 /* GpuProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0170CC841BBDB3A600350894 /* GpuProgram.cpp */; };
 		0170CC891BBDB3A600350894 /* GpuProgramParameters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0170CC851BBDB3A600350894 /* GpuProgramParameters.cpp */; };
 		0170CC8A1BBDB3A600350894 /* HighLevelGpuProgramManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0170CC861BBDB3A600350894 /* HighLevelGpuProgramManager.cpp */; };
 		0170CC8B1BBDB3A600350894 /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0170CC871BBDB3A600350894 /* Image.cpp */; };
 		0177B46B1AD41E0800BDF0FF /* ManagedManualResourceLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0177B46A1AD41E0800BDF0FF /* ManagedManualResourceLoader.cpp */; };
+		018F59AE1D3188740032BA0B /* libOgreHLMSStatic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 018F59AA1D3188740032BA0B /* libOgreHLMSStatic.a */; };
+		018F59AF1D3188740032BA0B /* libOgreMainStatic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 018F59AB1D3188740032BA0B /* libOgreMainStatic.a */; };
+		018F59B01D3188740032BA0B /* libOgrePropertyStatic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 018F59AC1D3188740032BA0B /* libOgrePropertyStatic.a */; };
+		018F59B11D3188740032BA0B /* libRenderSystem_GLStatic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 018F59AD1D3188740032BA0B /* libRenderSystem_GLStatic.a */; };
+		018F59B31D3188DD0032BA0B /* libFreeImage.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 018F59B21D3188DD0032BA0B /* libFreeImage.dylib */; };
+		018F59B71D3189ED0032BA0B /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 018F59B41D3189ED0032BA0B /* libfreetype.a */; };
+		018F59B81D3189ED0032BA0B /* libzlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 018F59B51D3189ED0032BA0B /* libzlib.a */; };
+		018F59B91D3189ED0032BA0B /* libzziplib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 018F59B61D3189ED0032BA0B /* libzziplib.a */; };
 		01A05F751A6DAD1B00AB35EB /* SkeletonManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A05F741A6DAD1B00AB35EB /* SkeletonManager.cpp */; };
 		01A698D7135636B4008B7F31 /* NativeFrameListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A69889135636B4008B7F31 /* NativeFrameListener.h */; };
 		01A698D8135636B4008B7F31 /* NativeSceneListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A6988A135636B4008B7F31 /* NativeSceneListener.h */; };
@@ -106,13 +113,20 @@
 		015207E918D0B8830040D1F9 /* CompositorManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompositorManager.cpp; sourceTree = "<group>"; };
 		015207EA18D0B8830040D1F9 /* GpuProgramManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GpuProgramManager.cpp; sourceTree = "<group>"; };
 		015207EB18D0B8830040D1F9 /* OgreInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OgreInterface.cpp; sourceTree = "<group>"; };
-		015207EF18D0B8BF0040D1F9 /* Ogre.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogre.framework; path = ../../../Dependencies/Ogre/OSX/Build/lib/macosx/Release/Ogre.framework; sourceTree = "<group>"; };
 		015AA5D015B48478000B029F /* ArchiveManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArchiveManager.cpp; sourceTree = "<group>"; };
 		0170CC841BBDB3A600350894 /* GpuProgram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GpuProgram.cpp; sourceTree = "<group>"; };
 		0170CC851BBDB3A600350894 /* GpuProgramParameters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GpuProgramParameters.cpp; sourceTree = "<group>"; };
 		0170CC861BBDB3A600350894 /* HighLevelGpuProgramManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HighLevelGpuProgramManager.cpp; sourceTree = "<group>"; };
 		0170CC871BBDB3A600350894 /* Image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Image.cpp; sourceTree = "<group>"; };
 		0177B46A1AD41E0800BDF0FF /* ManagedManualResourceLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManagedManualResourceLoader.cpp; sourceTree = "<group>"; };
+		018F59AA1D3188740032BA0B /* libOgreHLMSStatic.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOgreHLMSStatic.a; path = ../../../Dependencies/Ogre/OSXBuild/lib/macosx/Release/libOgreHLMSStatic.a; sourceTree = "<group>"; };
+		018F59AB1D3188740032BA0B /* libOgreMainStatic.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOgreMainStatic.a; path = ../../../Dependencies/Ogre/OSXBuild/lib/macosx/Release/libOgreMainStatic.a; sourceTree = "<group>"; };
+		018F59AC1D3188740032BA0B /* libOgrePropertyStatic.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOgrePropertyStatic.a; path = ../../../Dependencies/Ogre/OSXBuild/lib/macosx/Release/libOgrePropertyStatic.a; sourceTree = "<group>"; };
+		018F59AD1D3188740032BA0B /* libRenderSystem_GLStatic.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRenderSystem_GLStatic.a; path = ../../../Dependencies/Ogre/OSXBuild/lib/macosx/Release/libRenderSystem_GLStatic.a; sourceTree = "<group>"; };
+		018F59B21D3188DD0032BA0B /* libFreeImage.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libFreeImage.dylib; path = ../../../Dependencies/OgreDeps/OSXInstall/lib/libFreeImage.dylib; sourceTree = "<group>"; };
+		018F59B41D3189ED0032BA0B /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../../../Dependencies/OgreDeps/OSXInstall/lib/libfreetype.a; sourceTree = "<group>"; };
+		018F59B51D3189ED0032BA0B /* libzlib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzlib.a; path = ../../../Dependencies/OgreDeps/OSXInstall/lib/libzlib.a; sourceTree = "<group>"; };
+		018F59B61D3189ED0032BA0B /* libzziplib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzziplib.a; path = ../../../Dependencies/OgreDeps/OSXInstall/lib/libzziplib.a; sourceTree = "<group>"; };
 		01A05F741A6DAD1B00AB35EB /* SkeletonManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkeletonManager.cpp; sourceTree = "<group>"; };
 		01A6988313563672008B7F31 /* OgreCWrapper.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = OgreCWrapper.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		01A69889135636B4008B7F31 /* NativeFrameListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeFrameListener.h; sourceTree = "<group>"; };
@@ -196,7 +210,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				015207F018D0B8BF0040D1F9 /* Ogre.framework in Frameworks */,
+				018F59B01D3188740032BA0B /* libOgrePropertyStatic.a in Frameworks */,
+				018F59AE1D3188740032BA0B /* libOgreHLMSStatic.a in Frameworks */,
+				018F59AF1D3188740032BA0B /* libOgreMainStatic.a in Frameworks */,
+				018F59B81D3189ED0032BA0B /* libzlib.a in Frameworks */,
+				018F59B11D3188740032BA0B /* libRenderSystem_GLStatic.a in Frameworks */,
+				018F59B31D3188DD0032BA0B /* libFreeImage.dylib in Frameworks */,
+				018F59B91D3189ED0032BA0B /* libzziplib.a in Frameworks */,
+				018F59B71D3189ED0032BA0B /* libfreetype.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,7 +358,14 @@
 		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				015207EF18D0B8BF0040D1F9 /* Ogre.framework */,
+				018F59B41D3189ED0032BA0B /* libfreetype.a */,
+				018F59B51D3189ED0032BA0B /* libzlib.a */,
+				018F59B61D3189ED0032BA0B /* libzziplib.a */,
+				018F59B21D3188DD0032BA0B /* libFreeImage.dylib */,
+				018F59AA1D3188740032BA0B /* libOgreHLMSStatic.a */,
+				018F59AB1D3188740032BA0B /* libOgreMainStatic.a */,
+				018F59AC1D3188740032BA0B /* libOgrePropertyStatic.a */,
+				018F59AD1D3188740032BA0B /* libRenderSystem_GLStatic.a */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -510,12 +538,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/lib/macosx/Release",
+					"$(SRCROOT)/../../../Dependencies/OgreDeps/OSXInstall/lib",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -529,6 +559,10 @@
 					"$(SRCROOT)/../../../Dependencies/Ogre/src/OgreMain/include",
 				);
 				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/lib/macosx/Release",
+					"$(SRCROOT)/../../../Dependencies/OgreDeps/OSXInstall/lib",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -544,6 +578,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -551,6 +586,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/lib/macosx/Release",
+					"$(SRCROOT)/../../../Dependencies/OgreDeps/OSXInstall/lib",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
@@ -563,6 +599,10 @@
 					"$(SRCROOT)/../../../Dependencies/Ogre/src/OgreMain/include",
 				);
 				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/lib/macosx/Release",
+					"$(SRCROOT)/../../../Dependencies/OgreDeps/OSXInstall/lib",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,

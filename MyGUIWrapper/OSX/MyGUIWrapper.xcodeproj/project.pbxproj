@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		011AF79E1576718200A887F7 /* EventScrollGesture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 011AF79D1576718200A887F7 /* EventScrollGesture.cpp */; };
+		01214C591D31B5DF00933F92 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01214C581D31B5DF00933F92 /* libfreetype.a */; };
 		014A7C1B139FC977007EE3DC /* EventMenuCtrlAcceptTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 014A7C19139FC977007EE3DC /* EventMenuCtrlAcceptTranslator.cpp */; };
 		014A7C1C139FC977007EE3DC /* EventMenuCtrlCloseTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 014A7C1A139FC977007EE3DC /* EventMenuCtrlCloseTranslator.cpp */; };
 		0154F05413572A3700CA2301 /* MyGUIEventTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = 0154F01913572A3700CA2301 /* MyGUIEventTranslator.h */; };
@@ -65,10 +66,9 @@
 		0163F4491A72F2C2007EA7D1 /* EventChangeMouseFocusInputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0163F4471A72F2C2007EA7D1 /* EventChangeMouseFocusInputManager.cpp */; };
 		01ADE500198A9A0200DF5416 /* EventChangeCoord.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01ADE4FF198A9A0200DF5416 /* EventChangeCoord.cpp */; };
 		01C30DAD15CABBE00035B518 /* TabControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01C30DAC15CABBE00035B518 /* TabControl.cpp */; };
+		01CE79A01D31B1F8007A2322 /* libOgreCWrapper.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 01CE799F1D31B1F8007A2322 /* libOgreCWrapper.dylib */; };
 		01DD65ED18D0B1FA0078CC79 /* libMyGUI.OgrePlatform.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01DD65EB18D0B1FA0078CC79 /* libMyGUI.OgrePlatform.a */; };
 		01DD65EE18D0B1FA0078CC79 /* libMyGUIEngineStatic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01DD65EC18D0B1FA0078CC79 /* libMyGUIEngineStatic.a */; };
-		01DD65F018D0B2110078CC79 /* Ogre.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01DD65EF18D0B2110078CC79 /* Ogre.framework */; };
-		01DD65F218D0B2250078CC79 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01DD65F118D0B2250078CC79 /* libfreetype.a */; };
 		01DFB49A15501EEA00BC01AC /* EventMouseMoveTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01DFB49915501EEA00BC01AC /* EventMouseMoveTranslator.cpp */; };
 		01E229C2138316A1006D7D48 /* ManagedMyGUILogListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01E229C1138316A1006D7D48 /* ManagedMyGUILogListener.cpp */; };
 		01F6A8711524971600F45101 /* TextBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01F6A8691524971600F45101 /* TextBox.cpp */; };
@@ -83,6 +83,7 @@
 
 /* Begin PBXFileReference section */
 		011AF79D1576718200A887F7 /* EventScrollGesture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventScrollGesture.cpp; sourceTree = "<group>"; };
+		01214C581D31B5DF00933F92 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../../../Dependencies/OgreDeps/OSXInstall/lib/libfreetype.a; sourceTree = "<group>"; };
 		014A7C19139FC977007EE3DC /* EventMenuCtrlAcceptTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMenuCtrlAcceptTranslator.cpp; sourceTree = "<group>"; };
 		014A7C1A139FC977007EE3DC /* EventMenuCtrlCloseTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMenuCtrlCloseTranslator.cpp; sourceTree = "<group>"; };
 		0154F01913572A3700CA2301 /* MyGUIEventTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyGUIEventTranslator.h; sourceTree = "<group>"; };
@@ -140,10 +141,9 @@
 		0163F4471A72F2C2007EA7D1 /* EventChangeMouseFocusInputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventChangeMouseFocusInputManager.cpp; sourceTree = "<group>"; };
 		01ADE4FF198A9A0200DF5416 /* EventChangeCoord.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventChangeCoord.cpp; sourceTree = "<group>"; };
 		01C30DAC15CABBE00035B518 /* TabControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TabControl.cpp; sourceTree = "<group>"; };
+		01CE799F1D31B1F8007A2322 /* libOgreCWrapper.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libOgreCWrapper.dylib; path = ../../OgreCWrapper/OSX/build/Release/libOgreCWrapper.dylib; sourceTree = "<group>"; };
 		01DD65EB18D0B1FA0078CC79 /* libMyGUI.OgrePlatform.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMyGUI.OgrePlatform.a; path = ../../../Dependencies/MyGUI/OSXBuild/lib/Release/libMyGUI.OgrePlatform.a; sourceTree = "<group>"; };
 		01DD65EC18D0B1FA0078CC79 /* libMyGUIEngineStatic.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMyGUIEngineStatic.a; path = ../../../Dependencies/MyGUI/OSXBuild/lib/Release/libMyGUIEngineStatic.a; sourceTree = "<group>"; };
-		01DD65EF18D0B2110078CC79 /* Ogre.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogre.framework; path = ../../../Dependencies/Ogre/OSX/Build/lib/macosx/Release/Ogre.framework; sourceTree = "<group>"; };
-		01DD65F118D0B2250078CC79 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../../../Dependencies/Ogre/OSX/Dependencies/lib/libfreetype.a; sourceTree = "<group>"; };
 		01DFB49915501EEA00BC01AC /* EventMouseMoveTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMouseMoveTranslator.cpp; sourceTree = "<group>"; };
 		01E229C1138316A1006D7D48 /* ManagedMyGUILogListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManagedMyGUILogListener.cpp; sourceTree = "<group>"; };
 		01F6A8691524971600F45101 /* TextBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextBox.cpp; sourceTree = "<group>"; };
@@ -165,9 +165,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				01DD65ED18D0B1FA0078CC79 /* libMyGUI.OgrePlatform.a in Frameworks */,
-				01DD65F018D0B2110078CC79 /* Ogre.framework in Frameworks */,
+				01CE79A01D31B1F8007A2322 /* libOgreCWrapper.dylib in Frameworks */,
 				01DD65EE18D0B1FA0078CC79 /* libMyGUIEngineStatic.a in Frameworks */,
-				01DD65F218D0B2250078CC79 /* libfreetype.a in Frameworks */,
+				01214C591D31B5DF00933F92 /* libfreetype.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,10 +289,10 @@
 		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				01DD65EF18D0B2110078CC79 /* Ogre.framework */,
+				01214C581D31B5DF00933F92 /* libfreetype.a */,
+				01CE799F1D31B1F8007A2322 /* libOgreCWrapper.dylib */,
 				01DD65EB18D0B1FA0078CC79 /* libMyGUI.OgrePlatform.a */,
 				01DD65EC18D0B1FA0078CC79 /* libMyGUIEngineStatic.a */,
-				01DD65F118D0B2250078CC79 /* libfreetype.a */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -447,6 +447,7 @@
 			baseConfigurationReference = 5073E0C709E734A800EC74B6 /* MyGUIWrapperTarget.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -470,9 +471,9 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Dependencies/MyGUI/OSXBuild/lib/Release\"",
-					"\"$(SRCROOT)/../../../Dependencies/OgreDeps/OSXInstall/lib/Release\"",
 					"$(SRCROOT)/../../../Dependencies/OgreDeps/OSXInstall/lib",
 					"$(SRCROOT)/../../../Dependencies/MyGUI/OSXBuild/lib/Release",
+					"$(SRCROOT)/../../OgreCWrapper/OSX/build/Release",
 				);
 			};
 			name = Debug;
@@ -482,6 +483,7 @@
 			baseConfigurationReference = 5073E0C709E734A800EC74B6 /* MyGUIWrapperTarget.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -509,9 +511,9 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Dependencies/MyGUI/OSXBuild/lib/Release\"",
-					"\"$(SRCROOT)/../../../Dependencies/OgreDeps/OSXInstall/lib/Release\"",
 					"$(SRCROOT)/../../../Dependencies/OgreDeps/OSXInstall/lib",
 					"$(SRCROOT)/../../../Dependencies/MyGUI/OSXBuild/lib/Release",
+					"$(SRCROOT)/../../OgreCWrapper/OSX/build/Release",
 				);
 				OTHER_LDFLAGS = (
 					"-framework",

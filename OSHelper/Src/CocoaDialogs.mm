@@ -221,7 +221,7 @@ extern "C" _AnomalousExport void DirDialog_showModal(NativeOSWindow* parent, Str
     NSColor* theColor = [[cPanel color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
     
     NativeDialogResult result = OK;
-    Color resColor([theColor redComponent], [theColor greenComponent], [theColor blueComponent]);
+    Color resColor((float)[theColor redComponent], (float)[theColor greenComponent], (float)[theColor blueComponent]);
  
     [[NSNotificationCenter defaultCenter] removeObserver:self name: NSWindowWillCloseNotification object: cPanel];
     

@@ -51,44 +51,17 @@
 
 - (void)touchesBeganWithEvent:(NSEvent *)event
 {
-    TouchInfo touchInfo;
-	NSSet *touches = [event touchesMatchingPhase:NSTouchPhaseTouching inView:self];
-	for(NSTouch *touch in touches)
-	{
-		NSPoint point = touch.normalizedPosition;
-		touchInfo.normalizedX = point.x;
-		touchInfo.normalizedY = 1.0 - point.y;
-		touchInfo.id = (int)touch.identity;
-		multiTouch->fireTouchStarted(touchInfo);
-	}
+    
 }
 
 - (void)touchesMovedWithEvent:(NSEvent *)event
 {
-    TouchInfo touchInfo;
-	NSSet *touches = [event touchesMatchingPhase:NSTouchPhaseTouching inView:self];
-	for(NSTouch *touch in touches)
-	{
-		NSPoint point = touch.normalizedPosition;
-		touchInfo.normalizedX = point.x;
-		touchInfo.normalizedY = 1.0 - point.y;
-		touchInfo.id = (int)touch.identity;
-		multiTouch->fireTouchMoved(touchInfo);
-	}
+    
 }
 
 - (void)touchesEndedWithEvent:(NSEvent *)event
 {
-    TouchInfo touchInfo;
-	NSSet *touches = [event touchesMatchingPhase:NSTouchPhaseEnded inView:self];
-	for(NSTouch *touch in touches)
-	{
-		NSPoint point = touch.normalizedPosition;
-		touchInfo.normalizedX = point.x;
-		touchInfo.normalizedY = 1.0 - point.y;
-		touchInfo.id = (int)touch.identity;
-		multiTouch->fireTouchEnded(touchInfo);
-	}
+    
 }
 
 - (void)touchesCancelledWithEvent:(NSEvent *)event

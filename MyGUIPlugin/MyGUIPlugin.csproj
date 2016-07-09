@@ -65,7 +65,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -262,10 +261,6 @@
     <Compile Include="Wrapper\Widgets\Window.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Dependencies\FreeImage.NET\Library\FreeImageDotNet.csproj">
-      <Project>{6598a7cd-8f27-4d3f-a675-5ae63113a7c3}</Project>
-      <Name>FreeImageDotNet</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Engine\Engine.csproj">
       <Project>{57C253F1-157F-4A6A-9FED-345A776B97D5}</Project>
       <Name>Engine</Name>
@@ -273,6 +268,10 @@
     <ProjectReference Include="..\OgrePlugin\OgrePlugin.csproj">
       <Project>{E9FD5768-32E1-42C7-8256-4D7B97C22A9B}</Project>
       <Name>OgrePlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Dependencies\FreeImage.NET\Library\FreeImageDotNet.csproj">
+      <Project>{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}</Project>
+      <Name>FreeImageDotNet</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
