@@ -420,6 +420,11 @@ namespace Anomaly
             mainObjectEditor.Visible = true;
         }
 
+        public void showMainObjectEditor(bool visible = true)
+        {
+            mainObjectEditor.Visible = visible;
+        }
+
         /// <summary>
         /// Save the scene to the given filename.
         /// </summary>

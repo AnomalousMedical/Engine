@@ -118,7 +118,15 @@ namespace Engine.Platform
         /// <param name="messageEvent"></param>
         public void addEvent(MessageEvent messageEvent)
         {
-            eventLayers[messageEvent.EventLayerKey].addEvent(messageEvent);
+            EventLayer layer;
+            if(eventLayers.TryGetValue(messageEvent.EventLayerKey, out layer))
+            {
+                layer.addEvent(messageEvent);
+            }
+            else
+            {
+                Logging.Log.Warning($"Could not bind message event to layer {messageEvent.EventLayerKey}");
+            }
         }
 
         /// <summary>
@@ -127,7 +135,15 @@ namespace Engine.Platform
         /// <param name="messageEvent"></param>
         public void removeEvent(MessageEvent messageEvent)
         {
-            eventLayers[messageEvent.EventLayerKey].removeEvent(messageEvent);
+            EventLayer layer;
+            if (eventLayers.TryGetValue(messageEvent.EventLayerKey, out layer))
+            {
+                layer.removeEvent(messageEvent);
+            }
+            else
+            {
+                Logging.Log.Warning($"Could not unbind message event to layer {messageEvent.EventLayerKey}");
+            }
         }
 
         /// <summary>

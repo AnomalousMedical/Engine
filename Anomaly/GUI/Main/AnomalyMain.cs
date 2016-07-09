@@ -70,6 +70,7 @@ namespace Anomaly.GUI
             layout.addItemAction("Two Window", controller.createTwoWindows);
             layout.addItemAction("Three Window", controller.createThreeWindows);
             layout.addItemAction("Four Window", controller.createFourWindows);
+            layout.addItemAction("Show Main Object Editor", () => controller.showMainObjectEditor());
 
             List<CommandManager> commands = PluginManager.Instance.createDebugCommands();
             if (commands.Count > 0)
