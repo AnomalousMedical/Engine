@@ -6,6 +6,9 @@
 #if defined(APPLE_IOS) || defined(ANDROID)
 #include "OgreGLES2Plugin.h"
 #endif
+#ifdef MAC_OSX
+#include "OgreGlPlugin.h"
+#endif
 #endif
 
 //This is not actually part of ogre, but is a way for the OgreInterface class to
@@ -112,6 +115,12 @@ extern "C" _AnomalousExport Ogre::Plugin* OgreInterface_LoadRenderSystem(RenderS
 	Ogre::Root::getSingleton().installPlugin(gles2Plugin);
 	plugin = gles2Plugin;
 	rendersystemType = OpenGLES2;
+#endif
+#ifdef MAC_OSX
+    Ogre::GLPlugin* glPlugin = new Ogre::GLPlugin(); //Will be delete by the managed code when this is returned.
+    Ogre::Root::getSingleton().installPlugin(glPlugin);
+    plugin = glPlugin;
+    rendersystemType = OpenGL;
 #endif
 #else
 
