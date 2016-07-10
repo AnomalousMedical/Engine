@@ -552,7 +552,8 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PREFIX_HEADER = ../../OgreCWrapper/Stdafx.h;
+				GCC_PREPROCESSOR_DEFINITIONS = MAC_OSX;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../../../Dependencies/OgreDeps/OSXInstall/include",
 					"$(SRCROOT)/../../../Dependencies/Ogre/OSXBuild/include",
@@ -569,6 +570,10 @@
 					Foundation,
 					"-framework",
 					AppKit,
+					"-framework",
+					OpenGL,
+					"-framework",
+					AGL,
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = OgreCWrapper;
@@ -610,6 +615,10 @@
 					Foundation,
 					"-framework",
 					AppKit,
+					"-framework",
+					OpenGL,
+					"-framework",
+					AGL,
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = libOgreCWrapper;
