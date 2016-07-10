@@ -6,8 +6,6 @@
 #include <unistd.h>
 #endif
 
-static int xor_value;
-
 static zzip_ssize_t xor_read (int f, void* p, zzip_size_t l)
 {
 #ifdef WINDOWS

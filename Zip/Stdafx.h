@@ -2,7 +2,9 @@
 // or project specific include files that are used frequently,
 // but are changed infrequently
 
+#if !defined(MAC_OSX) && !defined(APPLE_IOS)
 #pragma once
+#endif
 
 #include <zzip/zzip.h>
 #include <zzip/plugin.h>
