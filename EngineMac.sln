@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine\Engine.csproj", "{57C253F1-157F-4A6A-9FED-345A776B97D5}"
 EndProject
@@ -18,6 +18,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulletWrapper", "BulletWrapper\OSX\BulletWrapper.csproj", "{D8592C64-2FB3-422B-A7B0-F0C62D728221}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyGUIWrapper", "MyGUIWrapper\OSX\MyGUIWrapper.csproj", "{2FCF1010-CCD8-43D3-95F5-5E4DE83342AA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A9112934-B2B5-4C51-AC80-C476EB799B83} = {A9112934-B2B5-4C51-AC80-C476EB799B83}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OgreCWrapper", "OgreCWrapper\OSX\OgreCWrapper.csproj", "{A9112934-B2B5-4C51-AC80-C476EB799B83}"
 EndProject
@@ -26,6 +29,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zip", "Zip\OSX\Zip.csproj", "{EC2D6D73-B418-48A7-AF42-A464D391BC5A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libRocketWrapper", "libRocketWrapper\OSX\libRocketWrapper\libRocketWrapper.csproj", "{5FD95DFB-D565-46F1-B813-0E8C9C191B3A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A9112934-B2B5-4C51-AC80-C476EB799B83} = {A9112934-B2B5-4C51-AC80-C476EB799B83}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libRocketPlugin", "libRocketPlugin\libRocketPlugin.csproj", "{A221C2F5-2089-495B-B51A-54710507344A}"
 EndProject
