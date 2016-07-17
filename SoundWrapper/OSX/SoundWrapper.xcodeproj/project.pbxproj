@@ -296,6 +296,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
+				DYLIB_INSTALL_NAME_BASE = "@executable_path/../MonoBundle";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -307,6 +308,7 @@
 					"$(SRCROOT)/../../../Dependencies/oggvorbis/libvorbis/include",
 					/System/Library/Frameworks/OpenAL.framework/Versions/A/Headers,
 				);
+				LD_DYLIB_INSTALL_NAME = "@executable_path/../MonoBundle/$(EXECUTABLE_PATH)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Dependencies/oggvorbis/libogg/macosx/build/Release\"",
@@ -321,6 +323,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_INSTALL_NAME_BASE = "@executable_path/../MonoBundle";
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../Stdafx.h;
@@ -329,6 +332,7 @@
 					"$(SRCROOT)/../../../Dependencies/oggvorbis/libvorbis/include",
 					/System/Library/Frameworks/OpenAL.framework/Versions/A/Headers,
 				);
+				LD_DYLIB_INSTALL_NAME = "@executable_path/../MonoBundle/$(EXECUTABLE_PATH)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Dependencies/oggvorbis/libogg/macosx/build/Release\"",

@@ -185,6 +185,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
+				DYLIB_INSTALL_NAME_BASE = "@executable_path/../MonoBundle";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -193,6 +194,7 @@
 				GCC_PREFIX_HEADER = ../Stdafx.h;
 				GCC_PREPROCESSOR_DEFINITIONS = MAC_OSX;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../Dependencies/OgreDeps/OSXInstall/include";
+				LD_DYLIB_INSTALL_NAME = "@executable_path/../MonoBundle/$(EXECUTABLE_PATH)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../../../Dependencies/OgreDeps/OSXInstall/lib",
@@ -206,10 +208,12 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_INSTALL_NAME_BASE = "@executable_path/../MonoBundle";
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../Stdafx.h;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../Dependencies/OgreDeps/OSXInstall/include";
+				LD_DYLIB_INSTALL_NAME = "@executable_path/../MonoBundle/$(EXECUTABLE_PATH)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../../../Dependencies/OgreDeps/OSXInstall/lib",

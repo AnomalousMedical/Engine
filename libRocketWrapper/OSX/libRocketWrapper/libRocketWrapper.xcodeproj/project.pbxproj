@@ -318,6 +318,7 @@
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@executable_path/../MonoBundle";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../Dependencies/Ogre/OSXBuild/lib/macosx/Release",
@@ -334,6 +335,7 @@
 					"$(SRCROOT)/../../../../Dependencies/Ogre/src/OgreMain/include",
 				);
 				INSTALL_PATH = /usr/local/lib;
+				LD_DYLIB_INSTALL_NAME = "@executable_path/../MonoBundle/$(EXECUTABLE_PATH)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../Dependencies/libRocket/OSXBuild/Release\"",
@@ -361,6 +363,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@executable_path/../MonoBundle";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../Dependencies/Ogre/OSXBuild/lib/macosx/Release",
@@ -379,6 +382,7 @@
 					"$(SRCROOT)/../../../../Dependencies/Ogre/src/OgreMain/include",
 				);
 				INSTALL_PATH = /usr/local/lib;
+				LD_DYLIB_INSTALL_NAME = "@executable_path/../MonoBundle/$(EXECUTABLE_PATH)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../Dependencies/libRocket/OSXBuild/Release\"",
