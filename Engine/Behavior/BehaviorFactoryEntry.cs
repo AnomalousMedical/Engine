@@ -37,6 +37,11 @@ namespace Engine
             createdBehavior = definition.createProduct(instance, scene, copyBehavior);
         }
 
+        public void createStaticProduct(BehaviorManager scene)
+        {
+            createdBehavior = definition.createStaticProduct(instance, scene);
+        }
+
         /// <summary>
         /// Called during the linkupProducts phase. This will call the constructed behavior function.
         /// </summary>

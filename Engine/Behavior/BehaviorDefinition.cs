@@ -93,6 +93,17 @@ namespace Engine
             return behavior;
         }
 
+        internal Behavior createStaticProduct(SimObjectBase instance, BehaviorManager scene)
+        {
+            var staticBehavior = behaviorTemplate.createStaticStandIn();
+            if(staticBehavior != null)
+            {
+                staticBehavior.setAttributes(Name, scene);
+                instance.addElement(staticBehavior);
+            }
+            return staticBehavior;
+        }
+
         #region Saveable
 
         private BehaviorDefinition(LoadInfo info)

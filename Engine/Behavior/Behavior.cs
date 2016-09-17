@@ -94,6 +94,11 @@ namespace Engine
             link();
         }
 
+        protected internal virtual Behavior createStaticStandIn()
+        {
+            return null;
+        }
+
         /// <summary>
         /// Override this function to perform custom operations after all
         /// behaviors have had their constructed functions called. Here it will
