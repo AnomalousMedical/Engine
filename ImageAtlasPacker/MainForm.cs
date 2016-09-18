@@ -44,6 +44,8 @@ namespace ImageAtlasPacker
                     bitmap.Save(saveImageDialog.FileName, format);
                     String shortFile = Path.GetFileName(saveImageDialog.FileName);
                     String xmlFile = Path.GetDirectoryName(saveImageDialog.FileName) + "/" + Path.GetFileNameWithoutExtension(saveImageDialog.FileName) + ".xml";
+                    int atlasWidth = bitmap.Width;
+                    int atlasHeight = bitmap.Height;
                     using (StreamWriter fs = new StreamWriter(File.Open(xmlFile, FileMode.Create, FileAccess.Write)))
                     {
                         fs.WriteLine(imageIndexControl1.HeaderText);
@@ -55,6 +57,14 @@ namespace ImageAtlasPacker
                             indexText = indexText.Replace("${WIDTH}", entry.ImageLocation.Width.ToString());
                             indexText = indexText.Replace("${HEIGHT}", entry.ImageLocation.Height.ToString());
                             indexText = indexText.Replace("${IMAGE_FILE}", shortFile);
+                            indexText = indexText.Replace("${ATLAS_WIDTH}", atlasWidth.ToString());
+                            indexText = indexText.Replace("${ATLAS_HEIGHT}", atlasHeight.ToString());
+
+                            indexText = indexText.Replace("${U_LEFT}", (entry.ImageLocation.Left / (float)atlasWidth).ToString());
+                            indexText = indexText.Replace("${V_TOP}", (entry.ImageLocation.Top / (float)atlasWidth).ToString());
+                            indexText = indexText.Replace("${U_RIGHT}", ((entry.ImageLocation.Width + entry.ImageLocation.Left) / (float)atlasWidth).ToString());
+                            indexText = indexText.Replace("${V_BOTTOM}", ((entry.ImageLocation.Height + entry.ImageLocation.Top) / (float)atlasWidth).ToString());
+
                             fs.WriteLine(indexText);
                         }
                         fs.WriteLine(imageIndexControl1.FooterText);
