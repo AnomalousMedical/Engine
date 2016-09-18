@@ -25,6 +25,7 @@ namespace Engine
         private String name;
         private UpdateTimer timer;
         private List<LateLinkEntry> lateLinkActions = new List<LateLinkEntry>();
+        private SimScene simScene;
 
         /// <summary>
         /// Constructor.
@@ -105,6 +106,11 @@ namespace Engine
             {
                 Log.Error("Could not add behavior '{0}' from SimObject '{1}' to update phase '{2}' because it was not found. This behavior will not update.", behavior.Name, behavior.Owner.Name, behavior.UpdatePhase);
             }
+        }
+
+        internal T getService<T>()
+        {
+            return simScene.getService<T>();
         }
 
         /// <summary>
@@ -282,6 +288,11 @@ namespace Engine
                 }
                 phase.Clear();
             }
+        }
+
+        public void setScene(SimScene simScene)
+        {
+            this.simScene = simScene;
         }
     }
 }

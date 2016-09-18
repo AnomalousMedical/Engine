@@ -108,6 +108,7 @@
     <Compile Include="Coroutine\CoroutineUpdater.cs" />
     <Compile Include="Coroutine\WaitAction.cs" />
     <Compile Include="Coroutine\YieldAction.cs" />
+    <Compile Include="DependencyInjection\ServiceInjector.cs" />
     <Compile Include="Editing\Browsing\Browser.cs" />
     <Compile Include="Editing\Browsing\BrowserNode.cs" />
     <Compile Include="Editing\Browsing\GenericBrowserNode.cs" />

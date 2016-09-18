@@ -30,15 +30,10 @@ namespace Engine.ObjectManagement
     /// </summary>
     public class SimScene : IDisposable
     {
-        #region Fields
-
         private List<SimElementManager> simElementManagers = new List<SimElementManager>();
         private Dictionary<String, SimSubScene> simSubScenes = new Dictionary<string, SimSubScene>();
         private SimSubScene defaultScene;
-
-        #endregion Fields
-
-        #region Constructors 
+        private ServiceInjector injector;
 
         /// <summary>
         /// Constructor.
@@ -48,10 +43,6 @@ namespace Engine.ObjectManagement
 
         }
 
-        #endregion Constructors
-
-        #region Functions
-        
         /// <summary>
         /// Dispose function
         /// </summary>
@@ -70,6 +61,7 @@ namespace Engine.ObjectManagement
         public void addSimElementManager(SimElementManager manager)
         {
             this.simElementManagers.Add(manager);
+            manager.setScene(this);
         }
 
         /// <summary>
@@ -130,6 +122,15 @@ namespace Engine.ObjectManagement
             return null;
         }
 
+        internal T getService<T>()
+        {
+            if (injector != null)
+            {
+                return injector.getService<T>();
+            }
+            return default(T);
+        }
+
         /// <summary>
         /// Set the default SimSubScene. The SimSubScene passed to this function
         /// must have already been added to this SimScene. If this is not
@@ -174,7 +175,7 @@ namespace Engine.ObjectManagement
         {
             foreach (SimElementManager manager in simElementManagers)
             {
-                foreach(var createStatus in manager.getFactory().createProducts(options))
+                foreach (var createStatus in manager.getFactory().createProducts(options))
                 {
                     yield return createStatus;
                 }
@@ -232,6 +233,16 @@ namespace Engine.ObjectManagement
             return definition;
         }
 
-        #endregion Functions
+        public ServiceInjector Injector
+        {
+            get
+            {
+                return injector;
+            }
+            set
+            {
+                injector = value;
+            }
+        }
     }
 }

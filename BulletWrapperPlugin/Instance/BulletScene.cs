@@ -271,6 +271,11 @@ namespace BulletPlugin
             drawingSurface.begin(name + "BulletDebug", DrawingType.LineList);
             drawingSurface.end();
         }
+
+        public void setScene(SimScene simScene)
+        {
+
+        }
     }
 
     //Dll Imports

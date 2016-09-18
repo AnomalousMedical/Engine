@@ -92,6 +92,11 @@ namespace OgrePlugin
             Root.getSingleton().destroySceneManager(scene);
         }
 
+        public void setScene(SimScene simScene)
+        {
+
+        }
+
         #endregion Functions
 
         #region Properties

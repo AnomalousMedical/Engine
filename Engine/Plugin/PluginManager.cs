@@ -134,11 +134,11 @@ namespace Engine
                     throw new InvalidPluginException(String.Format("Cannot find PluginEntryPointAttribute in assembly {0}. Please add this property to the assembly.", assembly.FullName));
                 }
             }
-            if(rendererPlugin == null)
+            if (rendererPlugin == null)
             {
                 throw new InvalidPluginException("No renderer plugin defined. Please define a renderer plugin.");
             }
-            foreach(var plugin in loadedPlugins)
+            foreach (var plugin in loadedPlugins)
             {
                 plugin.link(this);
             }
@@ -155,7 +155,7 @@ namespace Engine
             Log.Default.sendMessage("Plugin {0} added.", LogLevel.Info, "Engine", plugin.Name);
             loadedPlugins.Add(plugin);
             plugin.initialize(this);
-            if(renamedTypeMap != null)
+            if (renamedTypeMap != null)
             {
                 plugin.setupRenamedSaveableTypes(renamedTypeMap);
             }
@@ -253,9 +253,9 @@ namespace Engine
         /// <returns>The ElementPlugin if it is found or null if it is not.</returns>
         public PluginInterface getPlugin(String name)
         {
-            foreach(PluginInterface plugin in loadedPlugins)
+            foreach (PluginInterface plugin in loadedPlugins)
             {
-                if(plugin.Name == name)
+                if (plugin.Name == name)
                 {
                     return plugin;
                 }
@@ -410,9 +410,9 @@ namespace Engine
         public ResourceManager createLiveResourceManager(String resourceNamespace)
         {
             return new ResourceManager(prototypeResourceManager, true)
-                {
-                    Namespace = resourceNamespace
-                };
+            {
+                Namespace = resourceNamespace
+            };
         }
 
         /// <summary>
@@ -500,6 +500,15 @@ namespace Engine
                     }
                 }
                 return pluginDirectory;
+            }
+        }
+
+        private ServiceInjector injector = new ServiceInjector();
+        public ServiceInjector Injector
+        {
+            get
+            {
+                return injector;
             }
         }
 

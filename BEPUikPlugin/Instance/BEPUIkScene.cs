@@ -198,5 +198,10 @@ namespace BEPUikPlugin
             rootSolver.drawDebug(drawingSurface, drawMode);
             drawingSurface.end();
         }
+
+        public void setScene(SimScene simScene)
+        {
+            
+        }
     }
 }

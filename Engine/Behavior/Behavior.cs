@@ -126,6 +126,11 @@ namespace Engine
 
         }
 
+        protected T getService<T>()
+        {
+            return manager.getService<T>();
+        }
+
         /// <summary>
         /// This is the update function. It will be called every time the BehaviorManager is updated.
         /// </summary>

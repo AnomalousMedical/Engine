@@ -37,5 +37,11 @@ namespace Engine.ObjectManagement
         /// </summary>
         /// <returns>A new SimElementManager for this definition.</returns>
         SimElementManagerDefinition createDefinition();
+
+        /// <summary>
+        /// Set the scene this SimElementManager is using
+        /// </summary>
+        /// <param name="simScene">The scene</param>
+        void setScene(SimScene simScene);
     }
 }
