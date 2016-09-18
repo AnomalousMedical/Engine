@@ -26,6 +26,7 @@ namespace Anomaly
         private AnomalyController controller;
         private SimSceneDefinition sceneDefinition;
         private bool dynamicMode = false;
+        private PluginManager pluginManager;
 
         #region Events
 
@@ -51,9 +52,9 @@ namespace Anomaly
 
         #endregion Events
 
-        public SceneController()
+        public SceneController(PluginManager pluginManager)
         {
-
+            this.pluginManager = pluginManager;
         }
 
         public void initialize(AnomalyController controller)
@@ -74,6 +75,7 @@ namespace Anomaly
         public void createScene()
         {
             scene = sceneDefinition.createScene();
+            scene.Injector = pluginManager.Injector;
             if (OnSceneLoading != null)
             {
                 OnSceneLoading.Invoke(this, scene);

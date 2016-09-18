@@ -7,17 +7,15 @@ using System.Threading.Tasks;
 
 namespace TilesetPlugin
 {
-    class Tile
+    public class Tile
     {
         [JsonProperty]
-        private float left;
+        public float left;
         [JsonProperty]
-        private float top;
+        public float top;
         [JsonProperty]
-        private float right;
+        public float right;
         [JsonProperty]
-        private float bottom;
-
-
+        public float bottom;
     }
 }

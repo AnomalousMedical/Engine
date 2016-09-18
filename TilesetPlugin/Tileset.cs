@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TilesetPlugin
 {
-    class Tileset
+    public class Tileset
     {
         [JsonProperty]
         private String name;
@@ -48,6 +48,11 @@ namespace TilesetPlugin
             {
                 return tiles[key];
             }
+        }
+
+        public bool tryGetTile(String key, out Tile tile)
+        {
+            return tiles.TryGetValue(key, out tile);
         }
     }
 }

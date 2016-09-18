@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TilesetPlugin
 {
-    class TilesetManager
+    public class TilesetManager
     {
         private Dictionary<String, Tileset> tilesets = new Dictionary<string, Tileset>();
 

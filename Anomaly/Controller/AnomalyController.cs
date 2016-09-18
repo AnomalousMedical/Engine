@@ -66,7 +66,7 @@ namespace Anomaly
         private VirtualTextureSceneViewLink virtualTextureLink;
 
         //Scene
-        private SceneController sceneController = new SceneController();
+        private SceneController sceneController;
         private ResourceController resourceController;
         private SimObjectController simObjectController;
         private InstanceBuilder instanceBuilder;
@@ -109,6 +109,7 @@ namespace Anomaly
 
             //Initialize the plugins
             pluginManager = new PluginManager(AnomalyConfig.ConfigFile);
+            sceneController = new SceneController(pluginManager);
             //Hardcoded assemblies
             MyGUIInterface.EventLayerKey = EventLayers.Main;
 
