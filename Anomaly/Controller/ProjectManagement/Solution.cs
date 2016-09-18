@@ -81,7 +81,7 @@ namespace Anomaly
                 }
             }
 
-            resourceFileInterface = new ResourceManagerFileInterface("Global Resources", EngineIcons.Resource, globalResourcesFile);
+            resourceFileInterface = new ResourceManagerFileInterface("Global Resources", EngineIcons.Resource, globalResourcesFile, anomalyController.ResourceController.GlobalResources);
             anomalyController.ResourceController.GlobalResources.addResources(resourceFileInterface.getFileObject());
             anomalyController.ResourceController.GlobalResources.initializeResources();
 

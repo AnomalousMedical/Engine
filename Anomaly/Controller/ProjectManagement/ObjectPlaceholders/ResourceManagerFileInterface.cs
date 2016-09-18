@@ -9,10 +9,12 @@ namespace Anomaly
 {
     class ResourceManagerFileInterface : EditableFileInterface<ResourceManager>
     {
-        public ResourceManagerFileInterface(String name, Object iconReferenceTag, String filename)
+        private ResourceManager referenceSubsystems;
+
+        public ResourceManagerFileInterface(String name, Object iconReferenceTag, String filename, ResourceManager referenceSubsystems)
             : base(name, iconReferenceTag, filename)
         {
-
+            this.referenceSubsystems = referenceSubsystems;
         }
 
         public override EditInterface getObjectEditInterface(object obj)
@@ -20,6 +22,7 @@ namespace Anomaly
             ResourceManager resourceManager = obj as ResourceManager;
             if (resourceManager != null)
             {
+                resourceManager.ensureHasAllSubsystems(referenceSubsystems);
                 return resourceManager.getEditInterface();
             }
             else

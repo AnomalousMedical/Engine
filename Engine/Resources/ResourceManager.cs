@@ -46,6 +46,14 @@ namespace Engine.Resources
             }
         }
 
+        public void ensureHasAllSubsystems(ResourceManager source, bool live = false)
+        {
+            foreach(var sub in source.subsystemResources.Where(s => !this.subsystemResources.ContainsKey(s.Key)))
+            {
+                this.addSubsystemResource(new SubsystemResources(sub.Value, live));
+            }
+        }
+
         /// <summary>
         /// Add a subsystem resource to this resource manager.
         /// </summary>

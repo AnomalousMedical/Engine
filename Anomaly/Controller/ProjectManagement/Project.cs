@@ -86,7 +86,7 @@ namespace Anomaly
                 }
             }
 
-            resourceFileInterface = new ResourceManagerFileInterface("Resources", EngineIcons.Resource, resourcesFile);
+            resourceFileInterface = new ResourceManagerFileInterface("Resources", EngineIcons.Resource, resourcesFile, solution.GlobalResources);
             sceneFileInterface = new SimSceneFileInterface("Scene Definition", EngineIcons.Scene, sceneDefinitionFile);
         }
 

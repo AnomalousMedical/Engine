@@ -13,9 +13,15 @@ namespace TilesetPlugin
     {
         public const String PluginName = "TilesetPlugin";
 
+        private TilesetLoader loader;
+        private TilesetManager manager;
+
         public TilesetInterface(PluginManager pluginManager)
         {
-            pluginManager.Injector.addSingleton<TilesetInterface>(() => this);
+            manager = new TilesetManager();
+            loader = new TilesetLoader(manager);
+
+            pluginManager.Injector.addSingleton<TilesetManager>(() => manager);
         }
 
         public void Dispose()
@@ -25,9 +31,7 @@ namespace TilesetPlugin
 
         public void initialize(PluginManager pluginManager)
         {
-            
-
-	        //pluginManager.addSubsystemResources("Bullet", fileManager);
+	        pluginManager.addSubsystemResources("Tileset", loader);
         }
 
         public void link(PluginManager pluginManager)
