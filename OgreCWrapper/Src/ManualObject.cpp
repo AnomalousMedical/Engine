@@ -65,6 +65,26 @@ extern "C" _AnomalousExport void ManualObject_normalRaw(Ogre::ManualObject* manu
 	manualObject->normal(x, y, z);
 }
 
+extern "C" _AnomalousExport void ManualObject_binormal(Ogre::ManualObject* manualObject, Vector3 binormal)
+{
+	manualObject->binormal(binormal.toOgre());
+}
+
+extern "C" _AnomalousExport void ManualObject_binormalRaw(Ogre::ManualObject* manualObject, float x, float y, float z)
+{
+	manualObject->binormal(x, y, z);
+}
+
+extern "C" _AnomalousExport void ManualObject_tangent(Ogre::ManualObject* manualObject, Vector3 tangent)
+{
+	manualObject->tangent(tangent.toOgre());
+}
+
+extern "C" _AnomalousExport void ManualObject_tangentRaw(Ogre::ManualObject* manualObject, float x, float y, float z)
+{
+	manualObject->tangent(x, y, z);
+}
+
 extern "C" _AnomalousExport void ManualObject_textureCoordU(Ogre::ManualObject* manualObject, float u)
 {
 	manualObject->textureCoord(u);

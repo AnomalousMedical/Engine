@@ -37,7 +37,7 @@ namespace Anomalous.TextureCompiler
     {
         private List<String> errors = new List<string>();
 
-        private static String SourceFileFormat = "{0}.tga";
+        private static String SourceFileFormat = "{0}.{1}";
         private static String TempFileFormat = "{0}_tmp.tga";
         private static FREE_IMAGE_FORMAT TempFileImageFormat = FREE_IMAGE_FORMAT.FIF_TARGA;
 
@@ -552,7 +552,7 @@ namespace Anomalous.TextureCompiler
             {
                 if ((outputFormats & OutputFormats.Uncompressed) != 0)
                 {
-                    Log.Info("Creating paged png for {0}", sourceFile);
+                    Log.Info("Creating paged data for {0}", sourceFile);
                     using (FreeImageBitmap source = FreeImageBitmap.FromFile(sourceFile))
                     {
                         using (var stream = File.Open(String.Format(PagedTextureNameFormat, destFile), FileMode.Create, FileAccess.ReadWrite))
@@ -729,7 +729,12 @@ namespace Anomalous.TextureCompiler
         /// <returns></returns>
         private String getSourceFullPath(String fileName)
         {
-            return String.Format(SourceFileFormat, Path.Combine(sourceDirectory, fileName));
+            var file = String.Format(SourceFileFormat, Path.Combine(sourceDirectory, fileName), "tga");
+            if (File.Exists(file))
+            {
+                return file;
+            }
+            return String.Format(SourceFileFormat, Path.Combine(sourceDirectory, fileName), "png");
         }
 
         private String getDestBasePath(String filename)

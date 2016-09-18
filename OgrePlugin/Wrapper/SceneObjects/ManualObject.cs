@@ -213,10 +213,54 @@ namespace OgrePlugin
             ManualObject_normalRaw(ogreObject, x, y, z);
         }
 
-	    /// <summary>
-	    /// Add a texture coordinate to the current vertex. 
-	    /// </summary>
-	    /// <param name="u"></param>
+        /// <summary>
+        /// Add a vertex binormal to the current vertex. 
+        /// </summary>
+        /// <param name="binormal">A vector3 with the binormal.</param>
+        public void binormal(Vector3 binormal)
+        {
+            ManualObject_binormal(ogreObject, binormal);
+        }
+
+        /// <summary>
+        /// Add a vertex binormal to the current vertex. 
+        /// Vertex binormals are most often used for dynamic lighting, and their
+        /// components should be normalised. 
+        /// </summary>
+        /// <param name="x">x</param>
+        /// <param name="y">y</param>
+        /// <param name="z">z</param>
+        public void binormal(float x, float y, float z)
+        {
+            ManualObject_binormalRaw(ogreObject, x, y, z);
+        }
+
+        /// <summary>
+        /// Add a vertex tangent to the current vertex. 
+        /// </summary>
+        /// <param name="tangent">A vector3 with the binormal.</param>
+        public void tangent(Vector3 tangent)
+        {
+            ManualObject_tangent(ogreObject, tangent);
+        }
+
+        /// <summary>
+        /// Add a vertex tangent to the current vertex. 
+        /// Vertex tangents are most often used for dynamic lighting, and their
+        /// components should be normalised. 
+        /// </summary>
+        /// <param name="x">x</param>
+        /// <param name="y">y</param>
+        /// <param name="z">z</param>
+        public void tangent(float x, float y, float z)
+        {
+            ManualObject_tangentRaw(ogreObject, x, y, z);
+        }
+
+        /// <summary>
+        /// Add a texture coordinate to the current vertex. 
+        /// </summary>
+        /// <param name="u"></param>
         public void textureCoord(float u)
         {
             ManualObject_textureCoordU(ogreObject, u);
@@ -470,7 +514,19 @@ namespace OgrePlugin
 	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_normalRaw(IntPtr manualObject, float x, float y, float z);
 
-	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void ManualObject_binormal(IntPtr manualObject, Vector3 binormal);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void ManualObject_binormalRaw(IntPtr manualObject, float x, float y, float z);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void ManualObject_tangent(IntPtr manualObject, Vector3 tangent);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void ManualObject_tangentRaw(IntPtr manualObject, float x, float y, float z);
+
+        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void ManualObject_textureCoordU(IntPtr manualObject, float u);
 
 	    [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
