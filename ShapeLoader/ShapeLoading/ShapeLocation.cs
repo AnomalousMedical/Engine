@@ -12,16 +12,6 @@ namespace Engine
     /// </summary>
     public class ShapeLocation
     {
-        private static String[] pathSeparators = { "/", "\\" };
-
-        public static String[] PathSeparators
-        {
-            get
-            {
-                return pathSeparators;
-            }
-        }
-
         private LinkedList<String> shapesFound = new LinkedList<string>();
         private LinkedList<String> hullsFound = new LinkedList<string>();
         private LinkedList<String> meshesFound = new LinkedList<string>();
@@ -43,7 +33,6 @@ namespace Engine
             this.LocName = locName;
             this.Recursive = recursive;
             this.Loaded = false;
-            this.Path = parentGroup.Name + pathSeparators[0] + locName;
         }
 
         /// <summary>
@@ -123,7 +112,5 @@ namespace Engine
         {
             softBodiesFound.AddLast(name);
         }
-
-        public String Path { get; private set; }
     }
 }
