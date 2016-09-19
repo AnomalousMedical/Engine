@@ -95,8 +95,8 @@ namespace Anomalous.SidescrollerCore
                 blacklist($"Cannot file tileset {TilesetName}");
             }
 
-            Tile tile;
-            if (!tileset.tryGetTile(TileName, out tile))
+            Tile mainTile;
+            if (!tileset.tryGetTile(TileName, out mainTile))
             {
                 blacklist($"Cannot find tile {TileName} in Tileset {TilesetName}");
             }
@@ -104,50 +104,264 @@ namespace Anomalous.SidescrollerCore
             manualObject.begin(tileset.Material, OperationType.OT_TRIANGLE_LIST);
 
             IntVector3 dimen = (IntVector3)Dimensions;
-            var ts = TileSize;
+            var ts = TileSize; //Tile size
+            var rs = Dimensions * TileSize; //Real size
+            var off = rs / 2; //offsets
+            var ss = rs - off; //Static sides, side values for the one that does not need to be computed
 
-            var vOffset = (Dimensions * TileSize) / 2;
+            uint numCreatedSquares = 0;
 
             //This order gives x, y for indices, 3rd quadrant x goes left y goes down
+            //Front
+            #region Front
             for (var y = 0; y < dimen.y; ++y)
             {
                 for (var x = 0; x < dimen.x; ++x)
                 {
-                    float vl = x * ts.x - vOffset.x;
-                    float vt = y * ts.y - vOffset.y;
-                    float vr = (x + 1) * ts.x - vOffset.x;
-                    float vb = (y + 1) * ts.y - vOffset.y;
+                    float vl = x * ts.x - off.x;
+                    float vt = y * ts.y - off.y;
+                    float vr = (x + 1) * ts.x - off.x;
+                    float vb = (y + 1) * ts.y - off.y;
 
                     //lt
-                    manualObject.position(vl, -vt, 0);
+                    manualObject.position(vl, -vt, ss.z);
                     manualObject.normal(0, 0, 1);
                     manualObject.binormal(0, 1, 0);
                     manualObject.tangent(1, 0, 0);
-                    manualObject.textureCoord(tile.left, tile.top);
+                    manualObject.textureCoord(mainTile.left, mainTile.top);
                     //rt
-                    manualObject.position(vr, -vt, 0);
+                    manualObject.position(vr, -vt, ss.z);
                     manualObject.normal(0, 0, 1);
                     manualObject.binormal(0, 1, 0);
                     manualObject.tangent(1, 0, 0);
-                    manualObject.textureCoord(tile.right, tile.top);
+                    manualObject.textureCoord(mainTile.right, mainTile.top);
                     //lb
-                    manualObject.position(vl, -vb, 0);
+                    manualObject.position(vl, -vb, ss.z);
                     manualObject.normal(0, 0, 1);
                     manualObject.binormal(0, 1, 0);
                     manualObject.tangent(1, 0, 0);
-                    manualObject.textureCoord(tile.left, tile.bottom);
+                    manualObject.textureCoord(mainTile.left, mainTile.bottom);
                     //rb
-                    manualObject.position(vr, -vb, 0);
+                    manualObject.position(vr, -vb, ss.z);
                     manualObject.normal(0, 0, 1);
                     manualObject.binormal(0, 1, 0);
                     manualObject.tangent(1, 0, 0);
-                    manualObject.textureCoord(tile.right, tile.bottom);
+                    manualObject.textureCoord(mainTile.right, mainTile.bottom);
+
+                    ++numCreatedSquares;
                 }
             }
+            #endregion
 
-            uint numSquares = (uint)(dimen.x * dimen.y);
+            //Back
+            #region Back
+            for (var y = 0; y < dimen.y; ++y)
+            {
+                for (var x = 0; x < dimen.x; ++x)
+                {
+                    float vl = x * ts.x - off.x;
+                    float vt = y * ts.y - off.y;
+                    float vr = (x + 1) * ts.x - off.x;
+                    float vb = (y + 1) * ts.y - off.y;
 
-            for (uint i = 0; i < numSquares; ++i)
+                    //rt
+                    manualObject.position(vr, -vt, -ss.z);
+                    manualObject.normal(0, 0, -1);
+                    manualObject.binormal(0, 1, 0);
+                    manualObject.tangent(1, 0, 0);
+                    manualObject.textureCoord(mainTile.right, mainTile.top);
+                    //lt
+                    manualObject.position(vl, -vt, -ss.z);
+                    manualObject.normal(0, 0, -1);
+                    manualObject.binormal(0, 1, 0);
+                    manualObject.tangent(1, 0, 0);
+                    manualObject.textureCoord(mainTile.left, mainTile.top);
+                    //rb
+                    manualObject.position(vr, -vb, -ss.z);
+                    manualObject.normal(0, 0, -1);
+                    manualObject.binormal(0, 1, 0);
+                    manualObject.tangent(1, 0, 0);
+                    manualObject.textureCoord(mainTile.right, mainTile.bottom);
+                    //lb
+                    manualObject.position(vl, -vb, -ss.z);
+                    manualObject.normal(0, 0, -1);
+                    manualObject.binormal(0, 1, 0);
+                    manualObject.tangent(1, 0, 0);
+                    manualObject.textureCoord(mainTile.left, mainTile.bottom);
+
+                    ++numCreatedSquares;
+                }
+            }
+            #endregion
+
+            //Botton
+            #region Bottom
+            for (var y = 0; y < dimen.z; ++y)
+            {
+                for (var x = 0; x < dimen.x; ++x)
+                {
+                    float vl = x * ts.x - off.x;
+                    float vt = y * ts.z - off.z;
+                    float vr = (x + 1) * ts.x - off.x;
+                    float vb = (y + 1) * ts.z - off.z;
+
+                    //lt
+                    manualObject.position(vl, -ss.y, -vt);
+                    manualObject.normal(0, -1, 0);
+                    manualObject.binormal(0, 0, 1);
+                    manualObject.tangent(1, 0, 0);
+                    manualObject.textureCoord(mainTile.left, mainTile.top);
+                    //rt
+                    manualObject.position(vr, -ss.y, -vt);
+                    manualObject.normal(0, -1, 0);
+                    manualObject.binormal(0, 0, 1);
+                    manualObject.tangent(1, 0, 0);
+                    manualObject.textureCoord(mainTile.right, mainTile.top);
+                    //lb
+                    manualObject.position(vl, -ss.y, -vb);
+                    manualObject.normal(0, -1, 0);
+                    manualObject.binormal(0, 0, 1);
+                    manualObject.tangent(1, 0, 0);
+                    manualObject.textureCoord(mainTile.left, mainTile.bottom);
+                    //rb
+                    manualObject.position(vr, -ss.y, -vb);
+                    manualObject.normal(0, -1, 0);
+                    manualObject.binormal(0, 0, 1);
+                    manualObject.tangent(1, 0, 0);
+                    manualObject.textureCoord(mainTile.right, mainTile.bottom);
+
+                    ++numCreatedSquares;
+                }
+            }
+            #endregion
+
+            //Top
+            #region Top
+            for (var y = 0; y < dimen.z; ++y)
+            {
+                for (var x = 0; x < dimen.x; ++x)
+                {
+                    float vl = x * ts.x - off.x;
+                    float vt = y * ts.z - off.z;
+                    float vr = (x + 1) * ts.x - off.x;
+                    float vb = (y + 1) * ts.z - off.z;
+
+                    //rt
+                    manualObject.position(vr, ss.y, -vt);
+                    manualObject.normal(0, 1, 0);
+                    manualObject.binormal(0, 0, 1);
+                    manualObject.tangent(1, 0, 0);
+                    manualObject.textureCoord(mainTile.right, mainTile.top);
+                    //lt
+                    manualObject.position(vl, ss.y, -vt);
+                    manualObject.normal(0, 1, 0);
+                    manualObject.binormal(0, 0, 1);
+                    manualObject.tangent(1, 0, 0);
+                    manualObject.textureCoord(mainTile.left, mainTile.top);
+                    //rb
+                    manualObject.position(vr, ss.y, -vb);
+                    manualObject.normal(0, 1, 0);
+                    manualObject.binormal(0, 0, 1);
+                    manualObject.tangent(1, 0, 0);
+                    manualObject.textureCoord(mainTile.right, mainTile.bottom);
+                    //lb
+                    manualObject.position(vl, ss.y, -vb);
+                    manualObject.normal(0, 1, 0);
+                    manualObject.binormal(0, 0, 1);
+                    manualObject.tangent(1, 0, 0);
+                    manualObject.textureCoord(mainTile.left, mainTile.bottom);
+
+                    ++numCreatedSquares;
+                }
+            }
+            #endregion
+
+            //Left x is z and y is y
+            #region Left
+            for (var y = 0; y < dimen.y; ++y)
+            {
+                for (var x = 0; x < dimen.z; ++x)
+                {
+                    float vl = x * ts.z - off.z;
+                    float vt = y * ts.y - off.y;
+                    float vr = (x + 1) * ts.z - off.z;
+                    float vb = (y + 1) * ts.y - off.y;
+
+                    //lt
+                    manualObject.position(-ss.x, -vt, vl);
+                    manualObject.normal(-1, 0, 0);
+                    manualObject.binormal(0, 1, 0);
+                    manualObject.tangent(0, 0, 1);
+                    manualObject.textureCoord(mainTile.left, mainTile.top);
+                    //rt
+                    manualObject.position(-ss.x, -vt, vr);
+                    manualObject.normal(-1, 0, 0);
+                    manualObject.binormal(0, 1, 0);
+                    manualObject.tangent(0, 0, 1);
+                    manualObject.textureCoord(mainTile.right, mainTile.top);
+                    //lb
+                    manualObject.position(-ss.x, -vb, vl);
+                    manualObject.normal(-1, 0, 0);
+                    manualObject.binormal(0, 1, 0);
+                    manualObject.tangent(0, 0, 1);
+                    manualObject.textureCoord(mainTile.left, mainTile.bottom);
+                    //rb
+                    manualObject.position(-ss.x, -vb, vr);
+                    manualObject.normal(-1, 0, 0);
+                    manualObject.binormal(0, 1, 0);
+                    manualObject.tangent(0, 0, 1);
+                    manualObject.textureCoord(mainTile.right, mainTile.bottom);
+
+                    ++numCreatedSquares;
+                }
+            }
+            #endregion
+
+            //Right x is z and y is y
+            #region Right
+            for (var y = 0; y < dimen.y; ++y)
+            {
+                for (var x = 0; x < dimen.z; ++x)
+                {
+                    float vl = x * ts.z - off.z;
+                    float vt = y * ts.y - off.y;
+                    float vr = (x + 1) * ts.z - off.z;
+                    float vb = (y + 1) * ts.y - off.y;
+
+                    //rt
+                    manualObject.position(ss.x, -vt, vr);
+                    manualObject.normal(1, 0, 0);
+                    manualObject.binormal(0, 1, 0);
+                    manualObject.tangent(0, 0, 1);
+                    manualObject.textureCoord(mainTile.right, mainTile.top);
+                    //lt
+                    manualObject.position(ss.x, -vt, vl);
+                    manualObject.normal(1, 0, 0);
+                    manualObject.binormal(0, 1, 0);
+                    manualObject.tangent(0, 0, 1);
+                    manualObject.textureCoord(mainTile.left, mainTile.top);
+                    //rb
+                    manualObject.position(ss.x, -vb, vr);
+                    manualObject.normal(1, 0, 0);
+                    manualObject.binormal(0, 1, 0);
+                    manualObject.tangent(0, 0, 1);
+                    manualObject.textureCoord(mainTile.right, mainTile.bottom);
+                    //lb
+                    manualObject.position(ss.x, -vb, vl);
+                    manualObject.normal(1, 0, 0);
+                    manualObject.binormal(0, 1, 0);
+                    manualObject.tangent(0, 0, 1);
+                    manualObject.textureCoord(mainTile.left, mainTile.bottom);
+
+                    ++numCreatedSquares;
+                }
+            }
+            #endregion
+
+            //If you want to do the math instead of counting
+            //uint numSquares = (uint)(dimen.x * dimen.y * 2 + dimen.x * dimen.z * 2 + dimen.y * dimen.z * 2);
+
+            for (uint i = 0; i < numCreatedSquares; ++i)
             {
                 var square = i * 4;
                 var lt = square;
