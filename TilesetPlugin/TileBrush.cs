@@ -20,7 +20,13 @@ namespace Anomalous.SidescrollerCore
         public String TilesetName { get; set; }
 
         [Editable]
-        public String TileName { get; set; }
+        public String SideTileName { get; set; }
+
+        [Editable]
+        public String TopTileName { get; set; }
+
+        [Editable]
+        public String BottomTileName { get; set; }
 
         [Editable]
         public String NodeName { get; set; } = "Node";
@@ -77,7 +83,9 @@ namespace Anomalous.SidescrollerCore
                 TileSize = TileSize,
                 Dimensions = Dimensions,
                 TilesetName = TilesetName,
-                TileName = TileName
+                SideTileName = SideTileName,
+                TopTileName = TopTileName,
+                BottomTileName = BottomTileName
             };
         }
 
@@ -95,12 +103,6 @@ namespace Anomalous.SidescrollerCore
                 blacklist($"Cannot file tileset {TilesetName}");
             }
 
-            Tile mainTile;
-            if (!tileset.tryGetTile(TileName, out mainTile))
-            {
-                blacklist($"Cannot find tile {TileName} in Tileset {TilesetName}");
-            }
-
             manualObject.begin(tileset.Material, OperationType.OT_TRIANGLE_LIST);
 
             IntVector3 dimen = (IntVector3)Dimensions;
@@ -110,6 +112,12 @@ namespace Anomalous.SidescrollerCore
             var ss = rs - off; //Static sides, side values for the one that does not need to be computed
 
             uint numCreatedSquares = 0;
+
+            Tile mainTile;
+            if (!tileset.tryGetTile(SideTileName, out mainTile))
+            {
+                blacklist($"Cannot find side tile {SideTileName} in Tileset {TilesetName}");
+            }
 
             //This order gives x, y for indices, 3rd quadrant x goes left y goes down
             //Front
@@ -194,88 +202,6 @@ namespace Anomalous.SidescrollerCore
             }
             #endregion
 
-            //Botton
-            #region Bottom
-            for (var y = 0; y < dimen.z; ++y)
-            {
-                for (var x = 0; x < dimen.x; ++x)
-                {
-                    float vl = x * ts.x - off.x;
-                    float vt = y * ts.z - off.z;
-                    float vr = (x + 1) * ts.x - off.x;
-                    float vb = (y + 1) * ts.z - off.z;
-
-                    //lt
-                    manualObject.position(vl, -ss.y, -vt);
-                    manualObject.normal(0, -1, 0);
-                    manualObject.binormal(0, 0, 1);
-                    manualObject.tangent(1, 0, 0);
-                    manualObject.textureCoord(mainTile.left, mainTile.top);
-                    //rt
-                    manualObject.position(vr, -ss.y, -vt);
-                    manualObject.normal(0, -1, 0);
-                    manualObject.binormal(0, 0, 1);
-                    manualObject.tangent(1, 0, 0);
-                    manualObject.textureCoord(mainTile.right, mainTile.top);
-                    //lb
-                    manualObject.position(vl, -ss.y, -vb);
-                    manualObject.normal(0, -1, 0);
-                    manualObject.binormal(0, 0, 1);
-                    manualObject.tangent(1, 0, 0);
-                    manualObject.textureCoord(mainTile.left, mainTile.bottom);
-                    //rb
-                    manualObject.position(vr, -ss.y, -vb);
-                    manualObject.normal(0, -1, 0);
-                    manualObject.binormal(0, 0, 1);
-                    manualObject.tangent(1, 0, 0);
-                    manualObject.textureCoord(mainTile.right, mainTile.bottom);
-
-                    ++numCreatedSquares;
-                }
-            }
-            #endregion
-
-            //Top
-            #region Top
-            for (var y = 0; y < dimen.z; ++y)
-            {
-                for (var x = 0; x < dimen.x; ++x)
-                {
-                    float vl = x * ts.x - off.x;
-                    float vt = y * ts.z - off.z;
-                    float vr = (x + 1) * ts.x - off.x;
-                    float vb = (y + 1) * ts.z - off.z;
-
-                    //rt
-                    manualObject.position(vr, ss.y, -vt);
-                    manualObject.normal(0, 1, 0);
-                    manualObject.binormal(0, 0, 1);
-                    manualObject.tangent(1, 0, 0);
-                    manualObject.textureCoord(mainTile.right, mainTile.top);
-                    //lt
-                    manualObject.position(vl, ss.y, -vt);
-                    manualObject.normal(0, 1, 0);
-                    manualObject.binormal(0, 0, 1);
-                    manualObject.tangent(1, 0, 0);
-                    manualObject.textureCoord(mainTile.left, mainTile.top);
-                    //rb
-                    manualObject.position(vr, ss.y, -vb);
-                    manualObject.normal(0, 1, 0);
-                    manualObject.binormal(0, 0, 1);
-                    manualObject.tangent(1, 0, 0);
-                    manualObject.textureCoord(mainTile.right, mainTile.bottom);
-                    //lb
-                    manualObject.position(vl, ss.y, -vb);
-                    manualObject.normal(0, 1, 0);
-                    manualObject.binormal(0, 0, 1);
-                    manualObject.tangent(1, 0, 0);
-                    manualObject.textureCoord(mainTile.left, mainTile.bottom);
-
-                    ++numCreatedSquares;
-                }
-            }
-            #endregion
-
             //Left x is z and y is y
             #region Left
             for (var y = 0; y < dimen.y; ++y)
@@ -352,6 +278,96 @@ namespace Anomalous.SidescrollerCore
                     manualObject.binormal(0, 1, 0);
                     manualObject.tangent(0, 0, 1);
                     manualObject.textureCoord(mainTile.left, mainTile.bottom);
+
+                    ++numCreatedSquares;
+                }
+            }
+            #endregion
+
+            //Top
+            if (!tileset.tryGetTile(TopTileName, out mainTile))
+            {
+                blacklist($"Cannot find top tile {TopTileName} in Tileset {TilesetName}");
+            }
+            #region Top
+            for (var y = 0; y < dimen.z; ++y)
+            {
+                for (var x = 0; x < dimen.x; ++x)
+                {
+                    float vl = x * ts.x - off.x;
+                    float vt = y * ts.z - off.z;
+                    float vr = (x + 1) * ts.x - off.x;
+                    float vb = (y + 1) * ts.z - off.z;
+
+                    //rt
+                    manualObject.position(vr, ss.y, -vt);
+                    manualObject.normal(0, 1, 0);
+                    manualObject.binormal(0, 0, 1);
+                    manualObject.tangent(1, 0, 0);
+                    manualObject.textureCoord(mainTile.right, mainTile.top);
+                    //lt
+                    manualObject.position(vl, ss.y, -vt);
+                    manualObject.normal(0, 1, 0);
+                    manualObject.binormal(0, 0, 1);
+                    manualObject.tangent(1, 0, 0);
+                    manualObject.textureCoord(mainTile.left, mainTile.top);
+                    //rb
+                    manualObject.position(vr, ss.y, -vb);
+                    manualObject.normal(0, 1, 0);
+                    manualObject.binormal(0, 0, 1);
+                    manualObject.tangent(1, 0, 0);
+                    manualObject.textureCoord(mainTile.right, mainTile.bottom);
+                    //lb
+                    manualObject.position(vl, ss.y, -vb);
+                    manualObject.normal(0, 1, 0);
+                    manualObject.binormal(0, 0, 1);
+                    manualObject.tangent(1, 0, 0);
+                    manualObject.textureCoord(mainTile.left, mainTile.bottom);
+
+                    ++numCreatedSquares;
+                }
+            }
+            #endregion
+
+            //Botton
+            if (!tileset.tryGetTile(BottomTileName, out mainTile))
+            {
+                blacklist($"Cannot find bottom tile {BottomTileName} in Tileset {TilesetName}");
+            }
+            #region Bottom
+            for (var y = 0; y < dimen.z; ++y)
+            {
+                for (var x = 0; x < dimen.x; ++x)
+                {
+                    float vl = x * ts.x - off.x;
+                    float vt = y * ts.z - off.z;
+                    float vr = (x + 1) * ts.x - off.x;
+                    float vb = (y + 1) * ts.z - off.z;
+
+                    //lt
+                    manualObject.position(vl, -ss.y, -vt);
+                    manualObject.normal(0, -1, 0);
+                    manualObject.binormal(0, 0, 1);
+                    manualObject.tangent(1, 0, 0);
+                    manualObject.textureCoord(mainTile.left, mainTile.top);
+                    //rt
+                    manualObject.position(vr, -ss.y, -vt);
+                    manualObject.normal(0, -1, 0);
+                    manualObject.binormal(0, 0, 1);
+                    manualObject.tangent(1, 0, 0);
+                    manualObject.textureCoord(mainTile.right, mainTile.top);
+                    //lb
+                    manualObject.position(vl, -ss.y, -vb);
+                    manualObject.normal(0, -1, 0);
+                    manualObject.binormal(0, 0, 1);
+                    manualObject.tangent(1, 0, 0);
+                    manualObject.textureCoord(mainTile.left, mainTile.bottom);
+                    //rb
+                    manualObject.position(vr, -ss.y, -vb);
+                    manualObject.normal(0, -1, 0);
+                    manualObject.binormal(0, 0, 1);
+                    manualObject.tangent(1, 0, 0);
+                    manualObject.textureCoord(mainTile.right, mainTile.bottom);
 
                     ++numCreatedSquares;
                 }
