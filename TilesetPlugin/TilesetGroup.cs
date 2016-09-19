@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Engine.Resources;
 
-namespace TilesetPlugin
+namespace Anomalous.TilesetPlugin
 {
     class TilesetGroup
     {

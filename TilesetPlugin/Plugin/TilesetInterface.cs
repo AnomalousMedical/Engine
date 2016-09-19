@@ -7,11 +7,11 @@ using Engine.Platform;
 using Engine.Resources;
 using Engine.Command;
 
-namespace TilesetPlugin
+namespace Anomalous.TilesetPlugin
 {
     public class TilesetInterface : PluginInterface
     {
-        public const String PluginName = "TilesetPlugin";
+        public const String PluginName = "Anomalous.TilesetPlugin";
 
         private TilesetLoader loader;
         private TilesetManager manager;

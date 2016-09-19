@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TilesetPlugin
+namespace Anomalous.TilesetPlugin
 {
     class TilesetLoader : ResourceListener
     {

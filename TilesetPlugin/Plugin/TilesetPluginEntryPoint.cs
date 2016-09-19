@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Engine;
 
-[assembly: TilesetPlugin.TilesetPluginEntryPoint()]
+[assembly: Anomalous.TilesetPlugin.TilesetPluginEntryPoint()]
 
-namespace TilesetPlugin
+namespace Anomalous.TilesetPlugin
 {
     class TilesetPluginEntryPoint : PluginEntryPointAttribute
     {
