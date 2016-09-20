@@ -127,6 +127,8 @@
     <Compile Include="Plugin\VirtualTexture\DirectPhysicalTexture.cs" />
     <Compile Include="Plugin\VirtualTexture\FeedbackBuffer.cs" />
     <Compile Include="Plugin\VirtualTexture\FeedbackCameraPositioner.cs" />
+    <Compile Include="Plugin\VirtualTexture\FullImageSizeStrategy.cs" />
+    <Compile Include="Plugin\VirtualTexture\ImagePageSizeStrategy.cs" />
     <Compile Include="Plugin\VirtualTexture\IndirectionTexture.cs" />
     <Compile Include="Plugin\VirtualTexture\OriginalTextureInfo.cs" />
     <Compile Include="Plugin\VirtualTexture\PagedImage.cs" />
@@ -140,6 +142,7 @@
     <Compile Include="Plugin\VirtualTexture\TextureCacheHandle.cs" />
     <Compile Include="Plugin\VirtualTexture\TextureLoader.cs" />
     <Compile Include="Plugin\VirtualTexture\TexturePageHandle.cs" />
+    <Compile Include="Plugin\VirtualTexture\TiledImageSizeStrategy.cs" />
     <Compile Include="Plugin\VirtualTexture\VirtualTextureManager.cs" />
     <Compile Include="Plugin\VirtualTexture\VTexPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

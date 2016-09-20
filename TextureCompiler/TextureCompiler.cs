@@ -2,6 +2,7 @@
 using FreeImageAPI;
 using Logging;
 using OgrePlugin;
+using OgrePlugin.Plugin.VirtualTexture;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -557,7 +558,7 @@ namespace Anomalous.TextureCompiler
                     {
                         using (var stream = File.Open(String.Format(PagedTextureNameFormat, destFile), FileMode.Create, FileAccess.ReadWrite))
                         {
-                            PagedImage.fromBitmap(source, 128, 1, stream, PagedImage.ImageType.WEBP, maxSize, lossless, filter, afterResize);
+                            PagedImage.fromBitmap(source, 128, 1, stream, PagedImage.ImageType.WEBP, maxSize, lossless, filter, new TiledImageSizeStrategy(), afterResize);
                         }
                     }
                 }
