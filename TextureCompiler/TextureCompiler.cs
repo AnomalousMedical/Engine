@@ -558,7 +558,7 @@ namespace Anomalous.TextureCompiler
                     {
                         using (var stream = File.Open(String.Format(PagedTextureNameFormat, destFile), FileMode.Create, FileAccess.ReadWrite))
                         {
-                            PagedImage.fromBitmap(source, 128, 1, stream, PagedImage.ImageType.WEBP, maxSize, lossless, filter, new TiledImageSizeStrategy(), afterResize);
+                            PagedImage.fromBitmap(source, 128, 1, stream, PagedImage.ImageType.WEBP, maxSize, lossless, filter, new TiledImageSizeStrategy(new Size(128, 128)), afterResize);
                         }
                     }
                 }

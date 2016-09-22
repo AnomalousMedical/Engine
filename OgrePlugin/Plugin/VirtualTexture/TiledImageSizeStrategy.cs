@@ -9,11 +9,107 @@ using System.Threading.Tasks;
 
 namespace OgrePlugin.Plugin.VirtualTexture
 {
-    public class TiledImageSizeStrategy : ImagePageSizeStrategy
+    public class TiledImageSizeStrategy : ImagePageSizeStrategy, IDisposable
     {
+        private List<FreeImageBitmap> tiles;
+        private Size tileSize;
+        private Size originalTileSize;
+        private Size firstSeenImageSize;
+        private int numTilesX;
+        private int numTilesY;
+
+        public TiledImageSizeStrategy(Size tileSize)
+        {
+            this.tileSize = this.originalTileSize = tileSize;
+        }
+
+        public void Dispose()
+        {
+            foreach (var tile in tiles)
+            {
+                tile.Dispose();
+            }
+            tiles.Clear();
+        }
+
+        //int imageId = 0;
+
         public void rescaleImage(FreeImageBitmap image, Size size, FREE_IMAGE_FILTER filter)
         {
-            image.Rescale(size, filter);
+            breakUpImage(image);
+
+            float wPercent = size.Width / (float)firstSeenImageSize.Width;
+            float hPercent = size.Height / (float)firstSeenImageSize.Height;
+            var newTileSize = new Size((int)(wPercent * originalTileSize.Width), (int)(hPercent * originalTileSize.Height));
+
+            image.Rescale(size, filter); //Need to resize the image, but will replace with individually sized tiles
+            //image.saveToFile(imageId + "orig.bmp", FREE_IMAGE_FORMAT.FIF_BMP);
+
+            using (var destBox = image.createPixelBox())
+            {
+                for (int x = 0; x < numTilesX; ++x)
+                {
+                    for (int y = 0; y < numTilesY; ++y)
+                    {
+                        var tile = tiles[(x * numTilesY) + y]; //My math brain is broken today, for some reason this one works
+                        //var tile = tiles[(y * numTilesX) + x]; //And this one doesn't (reverses x and y).
+                        tile.Rescale(newTileSize, filter);
+                        //tile.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                        using (var srcBox = tile.createPixelBox(PixelFormat.PF_A8R8G8B8))
+                        {
+                            var tx = newTileSize.Width * x;
+                            var ty = newTileSize.Height * y;
+                            destBox.Left = (uint)tx;
+                            destBox.Top = (uint)ty;
+                            destBox.Right = (uint)(tx + newTileSize.Width);
+                            destBox.Bottom = (uint)(ty + newTileSize.Height);
+
+                            PixelBox.BulkPixelConversion(srcBox, destBox);
+                        }
+                    }
+                }
+            }
+
+            //image.saveToFile(imageId++ + "tiled.bmp", FREE_IMAGE_FORMAT.FIF_BMP);
+        }
+
+        private void breakUpImage(FreeImageBitmap image)
+        {
+            if (tiles == null)
+            {
+                //Break up image into tiles
+                firstSeenImageSize = image.Size;
+
+                numTilesX = firstSeenImageSize.Width / tileSize.Width;
+                numTilesY = firstSeenImageSize.Height / tileSize.Height;
+                var numTiles = numTilesX * numTilesY;
+
+                tiles = new List<FreeImageBitmap>(numTiles);
+                for (int x = 0; x < firstSeenImageSize.Width; x += originalTileSize.Width)
+                {
+                    for (int y = 0; y < firstSeenImageSize.Height; y += originalTileSize.Height)
+                    {
+                        var tileImage = new FreeImageBitmap(originalTileSize.Width, originalTileSize.Height, FreeImageAPI.PixelFormat.Format32bppArgb);
+
+                        using (var destBox = tileImage.createPixelBox(PixelFormat.PF_A8R8G8B8))
+                        {
+                            using (var sourceBox = image.createPixelBox())
+                            {
+                                sourceBox.Left = (uint)x;
+                                sourceBox.Top = (uint)y;
+                                sourceBox.Right = (uint)(x + originalTileSize.Width);
+                                sourceBox.Bottom = (uint)(y + originalTileSize.Height);
+
+                                PixelBox.BulkPixelConversion(sourceBox, destBox);
+                            }
+                        }
+
+                        //tileImage.saveToFile($"tilesdebug/{x}_{y}.bmp", FREE_IMAGE_FORMAT.FIF_BMP);
+
+                        tiles.Add(tileImage);
+                    }
+                }
+            }
         }
 
         public void extractPage(FreeImageBitmap image, int padding, Stream stream, PagedImage pagedImage, int pageSize, IntSize2 fullPageSize, int size, FREE_IMAGE_FORMAT outputFormat, FREE_IMAGE_SAVE_FLAGS saveFlags)
@@ -125,6 +221,7 @@ namespace OgrePlugin.Plugin.VirtualTexture
                         //int startPos = (int)stream.Position;
                         pages[x].RotateFlip(RotateFlipType.RotateNoneFlipY); //Have to flip the page over for ogre to be happy
                         pages[x].Save(memoryStreams[x], outputFormat, saveFlags);
+                        //pages[x].saveToFile($"pages/page{image.Width}_{x}.bmp", FREE_IMAGE_FORMAT.FIF_BMP);
                         memoryStreams[x].Position = 0;
                         //++pagedImage.numImages;
                         //pagedImage.pages.Add(new ImageInfo(startPos, (int)(stream.Position)));
