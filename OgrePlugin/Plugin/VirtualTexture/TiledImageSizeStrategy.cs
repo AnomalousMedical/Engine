@@ -54,7 +54,6 @@ namespace OgrePlugin.Plugin.VirtualTexture
                         var tile = tiles[(x * numTilesY) + y]; //My math brain is broken today, for some reason this one works
                         //var tile = tiles[(y * numTilesX) + x]; //And this one doesn't (reverses x and y).
                         tile.Rescale(newTileSize, filter);
-                        //tile.RotateFlip(RotateFlipType.Rotate90FlipNone);
                         using (var srcBox = tile.createPixelBox(PixelFormat.PF_A8R8G8B8))
                         {
                             var tx = newTileSize.Width * x;
@@ -221,7 +220,7 @@ namespace OgrePlugin.Plugin.VirtualTexture
                         //int startPos = (int)stream.Position;
                         pages[x].RotateFlip(RotateFlipType.RotateNoneFlipY); //Have to flip the page over for ogre to be happy
                         pages[x].Save(memoryStreams[x], outputFormat, saveFlags);
-                        //pages[x].saveToFile($"pages/page{image.Width}_{x}.bmp", FREE_IMAGE_FORMAT.FIF_BMP);
+                        //pages[x].saveToFile($"page/page{image.Width}_x{x}y_{y}.bmp", FREE_IMAGE_FORMAT.FIF_BMP);
                         memoryStreams[x].Position = 0;
                         //++pagedImage.numImages;
                         //pagedImage.pages.Add(new ImageInfo(startPos, (int)(stream.Position)));

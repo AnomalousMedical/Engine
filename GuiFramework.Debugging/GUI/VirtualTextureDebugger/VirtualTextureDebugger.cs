@@ -86,7 +86,7 @@ namespace Anomalous.GuiFramework.Debugging
                                         buffer.Value.blitToMemory(blitBitmapBox);
                                     }
 
-                                    String fileName = String.Format("{0}_mip_{1}.png", selectedTexture, mip);
+                                    String fileName = String.Format("{0}_mip_{1}.bmp", selectedTexture, mip);
                                     fileName = Path.Combine(outputFolder, fileName);
                                     blitBitmap.save(fileName);
                                 }

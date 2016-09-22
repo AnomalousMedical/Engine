@@ -547,7 +547,7 @@ namespace Anomalous.TextureCompiler
         //    throw new NotSupportedException(); //Won't get here
         //}
 
-        private async Task saveUncompressed(String sourceFile, String destFile, bool lossless, FREE_IMAGE_FILTER filter, Action<FreeImageBitmap> afterResize = null)
+        private async Task saveUncompressed(String sourceFile, String destFile, bool lossless, FREE_IMAGE_FILTER filter, ImagePageSizeStrategy pageSizeStrategy, Action<FreeImageBitmap> afterResize = null)
         {
             await Task.Run(() =>
             {
@@ -558,7 +558,7 @@ namespace Anomalous.TextureCompiler
                     {
                         using (var stream = File.Open(String.Format(PagedTextureNameFormat, destFile), FileMode.Create, FileAccess.ReadWrite))
                         {
-                            PagedImage.fromBitmap(source, 128, 1, stream, PagedImage.ImageType.WEBP, maxSize, lossless, filter, new TiledImageSizeStrategy(new Size(128, 128)), afterResize);
+                            PagedImage.fromBitmap(source, 128, 1, stream, PagedImage.ImageType.WEBP, maxSize, lossless, filter, pageSizeStrategy, afterResize);
                         }
                     }
                 }
@@ -759,18 +759,21 @@ namespace Anomalous.TextureCompiler
             Task.WaitAll(
                 bc3Compress(source, dest),
                 etc2Compress(source, dest),
-                saveUncompressed(source, dest, false, FREE_IMAGE_FILTER.FILTER_LANCZOS3))
+                saveUncompressed(source, dest, false, FREE_IMAGE_FILTER.FILTER_LANCZOS3, new FullImageSizeStrategy()))
             ;
         }
 
         private void compressDiffuseMap(string source, string dest)
         {
-            ++compressedCount;
-            Task.WaitAll(
-                bc3Compress(source, dest),
-                etc2Compress(source, dest),
-                saveUncompressed(source, dest, false, FREE_IMAGE_FILTER.FILTER_LANCZOS3)
-            );
+            using (var sizeStrategy = new TiledImageSizeStrategy(new Size(128, 128)))
+            {
+                ++compressedCount;
+                Task.WaitAll(
+                    bc3Compress(source, dest),
+                    etc2Compress(source, dest),
+                    saveUncompressed(source, dest, true, FREE_IMAGE_FILTER.FILTER_LANCZOS3, sizeStrategy)
+                );
+            }
         }
 
         private void compressNormalMap(string source, string dest)
@@ -786,7 +789,7 @@ namespace Anomalous.TextureCompiler
         private void compressCompositeNormalMap(String originalNormalMapSource, String source, String dest)
         {
             Task.WaitAll(
-                saveUncompressed(source, dest, true, FREE_IMAGE_FILTER.FILTER_BILINEAR, (resized) =>
+                saveUncompressed(source, dest, true, FREE_IMAGE_FILTER.FILTER_BILINEAR, new FullImageSizeStrategy(), (resized) =>
                 {
                     String fileName = String.Format("{0}_{1}{2}", Path.GetFileNameWithoutExtension(originalNormalMapSource), resized.Width, Path.GetExtension(originalNormalMapSource));
                     fileName = Path.Combine(Path.GetDirectoryName(originalNormalMapSource), fileName);
