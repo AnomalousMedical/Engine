@@ -119,11 +119,6 @@ namespace Anomalous.SidescrollerCore
                 blacklist($"Cannot find side tile {SideTileName} in Tileset {TilesetName}");
             }
 
-            var removeTile = .0f;
-
-            mainTile.bottom -= removeTile;
-            mainTile.right -= removeTile;
-
             //This order gives x, y for indices, 3rd quadrant x goes left y goes down
             //Front
             #region Front
@@ -294,8 +289,6 @@ namespace Anomalous.SidescrollerCore
             {
                 blacklist($"Cannot find top tile {TopTileName} in Tileset {TilesetName}");
             }
-            mainTile.bottom -= removeTile;
-            mainTile.right -= removeTile;
             #region Top
             for (var y = 0; y < dimen.z; ++y)
             {
@@ -341,8 +334,6 @@ namespace Anomalous.SidescrollerCore
             {
                 blacklist($"Cannot find bottom tile {BottomTileName} in Tileset {TilesetName}");
             }
-            mainTile.bottom -= removeTile;
-            mainTile.right -= removeTile;
             #region Bottom
             for (var y = 0; y < dimen.z; ++y)
             {
