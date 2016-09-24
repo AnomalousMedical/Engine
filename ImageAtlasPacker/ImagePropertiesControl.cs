@@ -53,7 +53,7 @@ namespace ImageAtlasPacker
 
         private void removeTextures_Click(object sender, EventArgs e)
         {
-            foreach(ListViewItem listItem in inputTextureList.SelectedItems)
+            foreach (ListViewItem listItem in inputTextureList.SelectedItems)
             {
                 BitmapEntry entry = listItem.Tag as BitmapEntry;
                 images.Remove(entry);
@@ -72,7 +72,9 @@ namespace ImageAtlasPacker
                 }
             }
 
-            ImagePackTreeNode imageInfo = new ImagePackTreeNode(new Size((int)widthText.Value, (int)heightText.Value));
+            var padding = 32;
+            var halfPadding = padding / 2;
+            ImagePackTreeNode imageInfo = new ImagePackTreeNode(new Size((int)widthText.Value, (int)heightText.Value), padding);
             Bitmap atlas = new Bitmap((int)widthText.Value, (int)heightText.Value, PixelFormat.Format32bppArgb);
             using (Graphics g = Graphics.FromImage(atlas))
             {
@@ -81,8 +83,20 @@ namespace ImageAtlasPacker
                     ImagePackTreeNode node = imageInfo.insert(entry.ImageFile, entry.Bitmap);
                     if (node != null)
                     {
-                        g.DrawImage(entry.Bitmap, node.LocationRect);
-                        entry.ImageLocation = node.LocationRect;
+                        //Center image
+                        var size = entry.Bitmap.Size;
+                        var imageLocationRect = new Rectangle(
+                            node.LocationRect.X + halfPadding,
+                            node.LocationRect.Y + halfPadding,
+                            size.Width,
+                            size.Height
+                            );
+
+                        g.DrawImage(entry.Bitmap, imageLocationRect);
+                        entry.ImageLocation = imageLocationRect;
+                        entry.ImageNodeLocation = node.LocationRect;
+
+                        padFillColor(entry.Bitmap, g, halfPadding, node.LocationRect);
                     }
                     else
                     {
@@ -97,6 +111,53 @@ namespace ImageAtlasPacker
             }
             PictureBox.Image = atlas;
             PictureBox.Size = atlas.Size;
+        }
+
+        /// <summary>
+        /// This one seems to work the best, but falls apart at lower mip levels on the virtual texture.
+        /// </summary>
+        private static void padFillColor(Bitmap image, Graphics g, int padding, Rectangle fullImageRect)
+        {
+            //Pad by repeating
+            //Top
+            Rectangle srcBox = new Rectangle(0, 0, image.Width, 1);
+            Rectangle destBox = new Rectangle(fullImageRect.X + padding, 0, image.Width, 1);
+
+            for (int i = 0; i < padding; ++i)
+            {
+                destBox.Y = fullImageRect.Y + i;
+                g.DrawImage(image, destBox, srcBox, GraphicsUnit.Pixel);
+            }
+
+            //Bottom
+            srcBox = new Rectangle(0, image.Height - 1, image.Width, 1);
+            destBox = new Rectangle(fullImageRect.X + padding, 0, image.Width, 1);
+
+            for (int i = 0; i < padding; ++i)
+            {
+                destBox.Y = fullImageRect.Bottom - i - 1;
+                g.DrawImage(image, destBox, srcBox, GraphicsUnit.Pixel);
+            }
+
+            //Left
+            srcBox = new Rectangle(0, 0, 1, image.Height);
+            destBox = new Rectangle(0, fullImageRect.Y + padding, 1, image.Height);
+
+            for (int i = 0; i < padding; ++i)
+            {
+                destBox.X = fullImageRect.X + i;
+                g.DrawImage(image, destBox, srcBox, GraphicsUnit.Pixel);
+            }
+
+            //Right
+            srcBox = new Rectangle(image.Width - 1, 0, 1, image.Height);
+            destBox = new Rectangle(0, fullImageRect.Y + padding, 1, image.Height);
+
+            for (int i = 0; i < padding; ++i)
+            {
+                destBox.X = fullImageRect.Right - i - 1;
+                g.DrawImage(image, destBox, srcBox, GraphicsUnit.Pixel);
+            }
         }
 
         private void displayChangeButton_Click(object sender, EventArgs e)

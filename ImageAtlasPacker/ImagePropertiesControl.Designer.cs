@@ -112,7 +112,7 @@
             this.widthText.Size = new System.Drawing.Size(120, 20);
             this.widthText.TabIndex = 3;
             this.widthText.Value = new decimal(new int[] {
-            256,
+            1024,
             0,
             0,
             0});
@@ -130,7 +130,7 @@
             this.heightText.Size = new System.Drawing.Size(120, 20);
             this.heightText.TabIndex = 4;
             this.heightText.Value = new decimal(new int[] {
-            256,
+            1024,
             0,
             0,
             0});
@@ -187,8 +187,6 @@
             // 
             this.resizeImages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.resizeImages.AutoSize = true;
-            this.resizeImages.Checked = true;
-            this.resizeImages.CheckState = System.Windows.Forms.CheckState.Checked;
             this.resizeImages.Location = new System.Drawing.Point(147, 424);
             this.resizeImages.Name = "resizeImages";
             this.resizeImages.Size = new System.Drawing.Size(95, 17);

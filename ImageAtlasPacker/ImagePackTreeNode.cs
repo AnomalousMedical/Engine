@@ -11,19 +11,21 @@ namespace ImageAtlasPacker
     /// </summary>
     class ImagePackTreeNode
     {
-        private ImagePackTreeNode()
-        {
-
-        }
-
-        public ImagePackTreeNode(Size size)
-        {
-            rc = new Rectangle(0, 0, size.Width, size.Height);
-        }
-
         ImagePackTreeNode[] children = new ImagePackTreeNode[2];
         Rectangle rc;
         String imageID = null;
+        int imagePadding;
+
+        private ImagePackTreeNode(int imagePadding)
+        {
+            this.imagePadding = imagePadding;
+        }
+
+        public ImagePackTreeNode(Size size, int imagePadding = 0)
+            :this(imagePadding)
+        {
+            rc = new Rectangle(0, 0, size.Width, size.Height);
+        }
 
         public bool IsLeaf
         {
@@ -71,6 +73,8 @@ namespace ImageAtlasPacker
                 }
 
                 Rectangle imageRect = new Rectangle(rc.Left, rc.Top, img.Width, img.Height);
+                imageRect.Width += imagePadding;
+                imageRect.Height += imagePadding;
 
                 //If the area is too small return
                 if (rc.Width < imageRect.Width || rc.Height < imageRect.Height)
@@ -86,8 +90,8 @@ namespace ImageAtlasPacker
                 }
 
                 //Otherwise gotta split this node and create some kids
-                this.children[0] = new ImagePackTreeNode();
-                this.children[1] = new ImagePackTreeNode();
+                this.children[0] = new ImagePackTreeNode(imagePadding);
+                this.children[1] = new ImagePackTreeNode(imagePadding);
 
                 int dw = rc.Width - imageRect.Width;
                 int dh = rc.Height - imageRect.Height;

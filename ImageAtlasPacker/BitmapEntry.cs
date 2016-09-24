@@ -46,7 +46,15 @@ namespace ImageAtlasPacker
 
         public ListViewItem ListItem { get; set; }
 
+        /// <summary>
+        /// The location of the image on the texture
+        /// </summary>
         public Rectangle ImageLocation { get; set; }
+
+        /// <summary>
+        /// The locaiton of the image and any calculated padding on the texture, this includes the ImageLocation.
+        /// </summary>
+        public Rectangle ImageNodeLocation { get; set; }
 
         public String ImageKey
         {
