@@ -72,7 +72,7 @@ namespace ImageAtlasPacker
                 }
             }
 
-            var padding = 32;
+            int padding = (int)this.padding.Value;
             var halfPadding = padding / 2;
             ImagePackTreeNode imageInfo = new ImagePackTreeNode(new Size((int)widthText.Value, (int)heightText.Value), padding);
             Bitmap atlas = new Bitmap((int)widthText.Value, (int)heightText.Value, PixelFormat.Format32bppArgb);

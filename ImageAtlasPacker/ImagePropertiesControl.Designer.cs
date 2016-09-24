@@ -47,10 +47,13 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.halveButton = new System.Windows.Forms.Button();
+            this.padding = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.widthText)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.heightText)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.resizeHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.resizeWidth)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.padding)).BeginInit();
             this.SuspendLayout();
             // 
             // inputTextureList
@@ -62,7 +65,7 @@
             this.inputTextureList.LargeImageList = this.previewImageListLarge;
             this.inputTextureList.Location = new System.Drawing.Point(3, 3);
             this.inputTextureList.Name = "inputTextureList";
-            this.inputTextureList.Size = new System.Drawing.Size(244, 387);
+            this.inputTextureList.Size = new System.Drawing.Size(244, 333);
             this.inputTextureList.SmallImageList = this.previewImageListSmall;
             this.inputTextureList.TabIndex = 0;
             this.inputTextureList.UseCompatibleStateImageBehavior = false;
@@ -149,7 +152,7 @@
             // addTexturesButton
             // 
             this.addTexturesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.addTexturesButton.Location = new System.Drawing.Point(4, 393);
+            this.addTexturesButton.Location = new System.Drawing.Point(3, 342);
             this.addTexturesButton.Name = "addTexturesButton";
             this.addTexturesButton.Size = new System.Drawing.Size(37, 23);
             this.addTexturesButton.TabIndex = 6;
@@ -164,7 +167,7 @@
             // removeTextures
             // 
             this.removeTextures.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.removeTextures.Location = new System.Drawing.Point(45, 393);
+            this.removeTextures.Location = new System.Drawing.Point(46, 342);
             this.removeTextures.Name = "removeTextures";
             this.removeTextures.Size = new System.Drawing.Size(56, 23);
             this.removeTextures.TabIndex = 7;
@@ -175,7 +178,7 @@
             // displayChangeButton
             // 
             this.displayChangeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.displayChangeButton.Location = new System.Drawing.Point(107, 393);
+            this.displayChangeButton.Location = new System.Drawing.Point(108, 342);
             this.displayChangeButton.Name = "displayChangeButton";
             this.displayChangeButton.Size = new System.Drawing.Size(49, 23);
             this.displayChangeButton.TabIndex = 8;
@@ -261,10 +264,40 @@
             this.halveButton.UseVisualStyleBackColor = true;
             this.halveButton.Click += new System.EventHandler(this.halveButton_Click);
             // 
+            // padding
+            // 
+            this.padding.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.padding.Location = new System.Drawing.Point(147, 398);
+            this.padding.Maximum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            0});
+            this.padding.Name = "padding";
+            this.padding.Size = new System.Drawing.Size(80, 20);
+            this.padding.TabIndex = 15;
+            this.padding.Value = new decimal(new int[] {
+            16,
+            0,
+            0,
+            0});
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(147, 379);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(46, 13);
+            this.label5.TabIndex = 16;
+            this.label5.Text = "Padding";
+            // 
             // ImagePropertiesControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.padding);
             this.Controls.Add(this.halveButton);
             this.Controls.Add(this.resizeHeight);
             this.Controls.Add(this.resizeWidth);
@@ -286,6 +319,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.heightText)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.resizeHeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.resizeWidth)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.padding)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -311,5 +345,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button halveButton;
+        private System.Windows.Forms.NumericUpDown padding;
+        private System.Windows.Forms.Label label5;
     }
 }
