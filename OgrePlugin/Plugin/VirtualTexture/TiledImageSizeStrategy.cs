@@ -70,7 +70,7 @@ namespace OgrePlugin.Plugin.VirtualTexture
             tiles.Clear();
         }
 
-        int imageId = 0;
+        //int imageId = 0;
 
         public void rescaleImage(FreeImageBitmap image, Size size, FREE_IMAGE_FILTER filter)
         {
@@ -91,19 +91,21 @@ namespace OgrePlugin.Plugin.VirtualTexture
                     tile.Image.Rescale(newTileSize, filter);
                     using (var srcBox = tile.Image.createPixelBox(PixelFormat.PF_A8R8G8B8))
                     {
-                        var tx = size.Width * tile.NodeRight;
-                        var ty = size.Height * tile.NodeLeft;
+                        var tx = size.Width * tile.NodeLeft;
+                        var ty = size.Height * tile.NodeTop;
                         destBox.Left = (uint)tx;
                         destBox.Top = (uint)ty;
                         destBox.Right = (uint)(tx + newTileSize.Width);
                         destBox.Bottom = (uint)(ty + newTileSize.Height);
 
                         PixelBox.BulkPixelConversion(srcBox, destBox);
+
+                        //image.saveToFile("show/" + imageId++ + "tiled.bmp", FREE_IMAGE_FORMAT.FIF_BMP);
                     }
                 }
             }
 
-            image.saveToFile(imageId++ + "tiled.bmp", FREE_IMAGE_FORMAT.FIF_BMP);
+            //image.saveToFile(imageId++ + "tiled.bmp", FREE_IMAGE_FORMAT.FIF_BMP);
         }
 
         private void breakUpImage(FreeImageBitmap image)
