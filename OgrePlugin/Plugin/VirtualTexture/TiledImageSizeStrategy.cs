@@ -189,7 +189,7 @@ namespace OgrePlugin.Plugin.VirtualTexture
 
                             using (PixelBox altSrcBox = image.createPixelBox())
                             {
-                                pageBox.Top = 1;
+                                pageBox.Top = (uint)padding;
                                 pageBox.Bottom = (uint)(fullPageSize.Height - padding);
                                 pageBox.Left = 0;
                                 pageBox.Right = (uint)padding;
@@ -204,7 +204,7 @@ namespace OgrePlugin.Plugin.VirtualTexture
 
                             using (PixelBox altSrcBox = image.createPixelBox())
                             {
-                                pageBox.Top = 1;
+                                pageBox.Top = (uint)padding;
                                 pageBox.Bottom = (uint)(fullPageSize.Height - padding);
                                 pageBox.Left = (uint)(fullPageSize.Width - padding);
                                 pageBox.Right = (uint)fullPageSize.Width;
