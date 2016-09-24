@@ -156,66 +156,7 @@ namespace OgrePlugin.Plugin.VirtualTexture
                                 PixelBox.BulkPixelConversion(imageBox, pageBox);
                             }
 
-                            //Pad by repeating
-                            using (PixelBox altSrcBox = image.createPixelBox())
-                            {
-                                pageBox.Top = 0;
-                                pageBox.Bottom = (uint)padding;
-                                pageBox.Left = (uint)padding;
-                                pageBox.Right = (uint)(fullPageSize.Width - padding);
-
-                                altSrcBox.Top = (uint)imageRect.Top;
-                                altSrcBox.Bottom = (uint)(imageRect.Top + padding);
-                                altSrcBox.Left = (uint)imageRect.Left;
-                                altSrcBox.Right = (uint)(imageRect.Left + pageSize);
-
-                                PixelBox.BulkPixelConversion(altSrcBox, pageBox);
-                            }
-
-                            using (PixelBox altSrcBox = image.createPixelBox())
-                            {
-                                pageBox.Top = (uint)(fullPageSize.Height - padding);
-                                pageBox.Bottom = (uint)fullPageSize.Height;
-                                pageBox.Left = (uint)padding;
-                                pageBox.Right = (uint)(fullPageSize.Width - padding);
-
-                                altSrcBox.Top = (uint)(imageRect.Bottom - padding);
-                                altSrcBox.Bottom = (uint)imageRect.Bottom;
-                                altSrcBox.Left = (uint)imageRect.Left;
-                                altSrcBox.Right = (uint)(imageRect.Left + pageSize);
-
-                                PixelBox.BulkPixelConversion(altSrcBox, pageBox);
-                            }
-
-                            using (PixelBox altSrcBox = image.createPixelBox())
-                            {
-                                pageBox.Top = (uint)padding;
-                                pageBox.Bottom = (uint)(fullPageSize.Height - padding);
-                                pageBox.Left = 0;
-                                pageBox.Right = (uint)padding;
-
-                                altSrcBox.Top = (uint)imageRect.Top;
-                                altSrcBox.Bottom = (uint)(imageRect.Top + pageSize);
-                                altSrcBox.Left = (uint)imageRect.Left;
-                                altSrcBox.Right = (uint)(imageRect.Left + padding);
-
-                                PixelBox.BulkPixelConversion(altSrcBox, pageBox);
-                            }
-
-                            using (PixelBox altSrcBox = image.createPixelBox())
-                            {
-                                pageBox.Top = (uint)padding;
-                                pageBox.Bottom = (uint)(fullPageSize.Height - padding);
-                                pageBox.Left = (uint)(fullPageSize.Width - padding);
-                                pageBox.Right = (uint)fullPageSize.Width;
-
-                                altSrcBox.Top = (uint)imageRect.Top;
-                                altSrcBox.Bottom = (uint)(imageRect.Top + pageSize);
-                                altSrcBox.Left = (uint)(imageRect.Right - padding);
-                                altSrcBox.Right = (uint)imageRect.Right;
-
-                                PixelBox.BulkPixelConversion(altSrcBox, pageBox);
-                            }
+                            padFillColor(image, padding, pageSize, fullPageSize, imageRect, pageBox);
                         }
                         //int startPos = (int)stream.Position;
                         pages[x].RotateFlip(RotateFlipType.RotateNoneFlipY); //Have to flip the page over for ogre to be happy
@@ -247,6 +188,160 @@ namespace OgrePlugin.Plugin.VirtualTexture
                     memoryStreams[i].Dispose();
                     pages[i].Dispose();
                 }
+            }
+        }
+
+        /// <summary>
+        /// This one seems to work the best, but falls apart at lower mip levels on the virtual texture.
+        /// </summary>
+        private static void padFillColor(FreeImageBitmap image, int padding, int pageSize, IntSize2 fullPageSize, IntRect imageRect, PixelBox pageBox)
+        {
+            //Pad by repeating
+            //Top
+            using (PixelBox altSrcBox = image.createPixelBox())
+            {
+                altSrcBox.Top = (uint)imageRect.Top;
+                altSrcBox.Bottom = (uint)(imageRect.Top + 1);
+                altSrcBox.Left = (uint)imageRect.Left;
+                altSrcBox.Right = (uint)(imageRect.Left + pageSize);
+
+                for(int i = 0; i < padding; ++i)
+                {
+                    pageBox.Top = (uint)i;
+                    pageBox.Bottom = (uint)(i + 1);
+                    pageBox.Left = (uint)padding;
+                    pageBox.Right = (uint)(fullPageSize.Width - padding);
+
+                    PixelBox.BulkPixelConversion(altSrcBox, pageBox);
+                }
+            }
+
+            //Bottom
+            using (PixelBox altSrcBox = image.createPixelBox())
+            {
+                altSrcBox.Top = (uint)(imageRect.Bottom - 1);
+                altSrcBox.Bottom = (uint)imageRect.Bottom;
+                altSrcBox.Left = (uint)imageRect.Left;
+                altSrcBox.Right = (uint)(imageRect.Left + pageSize);
+
+                for (int i = 0; i < padding; ++i)
+                {
+                    pageBox.Top = (uint)(fullPageSize.Height - i - 1);
+                    pageBox.Bottom = (uint)pageBox.Top + 1;
+                    pageBox.Left = (uint)padding;
+                    pageBox.Right = (uint)(fullPageSize.Width - padding);
+
+                    PixelBox.BulkPixelConversion(altSrcBox, pageBox);
+                }
+            }
+
+            //Left
+            using (PixelBox altSrcBox = image.createPixelBox())
+            {
+                altSrcBox.Top = (uint)imageRect.Top;
+                altSrcBox.Bottom = (uint)(imageRect.Top + pageSize);
+                altSrcBox.Left = (uint)imageRect.Left;
+                altSrcBox.Right = (uint)(imageRect.Left + 1);
+
+                for (int i = 0; i < padding; ++i)
+                {
+                    pageBox.Top = (uint)padding;
+                    pageBox.Bottom = (uint)(fullPageSize.Height - padding);
+                    pageBox.Left = (uint)i;
+                    pageBox.Right = (uint)i + 1;
+
+                    PixelBox.BulkPixelConversion(altSrcBox, pageBox);
+                }
+            }
+
+            //Right
+            using (PixelBox altSrcBox = image.createPixelBox())
+            {
+                altSrcBox.Top = (uint)imageRect.Top;
+                altSrcBox.Bottom = (uint)(imageRect.Top + pageSize);
+                altSrcBox.Left = (uint)(imageRect.Right - 1);
+                altSrcBox.Right = (uint)imageRect.Right;
+
+                for (int i = 0; i < padding; ++i)
+                {
+                    pageBox.Top = (uint)padding;
+                    pageBox.Bottom = (uint)(fullPageSize.Height - padding);
+                    pageBox.Left = (uint)(fullPageSize.Width - i - 1);
+                    pageBox.Right = (uint)(pageBox.Left + 1);
+
+                    PixelBox.BulkPixelConversion(altSrcBox, pageBox);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Works ok but not all tiles repeat like this.
+        /// </summary>
+        private static void padRepeatOtherSide(FreeImageBitmap image, int padding, int pageSize, IntSize2 fullPageSize, IntRect imageRect, PixelBox pageBox)
+        {
+            //Pad by repeating
+            //Top
+            using (PixelBox altSrcBox = image.createPixelBox())
+            {
+                pageBox.Top = 0;
+                pageBox.Bottom = (uint)padding;
+                pageBox.Left = (uint)padding;
+                pageBox.Right = (uint)(fullPageSize.Width - padding);
+
+                altSrcBox.Top = (uint)(imageRect.Bottom - padding);
+                altSrcBox.Bottom = (uint)imageRect.Bottom;
+                altSrcBox.Left = (uint)imageRect.Left;
+                altSrcBox.Right = (uint)(imageRect.Left + pageSize);
+
+                PixelBox.BulkPixelConversion(altSrcBox, pageBox);
+            }
+
+            //Bottom
+            using (PixelBox altSrcBox = image.createPixelBox())
+            {
+                pageBox.Top = (uint)(fullPageSize.Height - padding);
+                pageBox.Bottom = (uint)fullPageSize.Height;
+                pageBox.Left = (uint)padding;
+                pageBox.Right = (uint)(fullPageSize.Width - padding);
+
+                altSrcBox.Top = (uint)imageRect.Top;
+                altSrcBox.Bottom = (uint)(imageRect.Top + padding);
+                altSrcBox.Left = (uint)imageRect.Left;
+                altSrcBox.Right = (uint)(imageRect.Left + pageSize);
+
+                PixelBox.BulkPixelConversion(altSrcBox, pageBox);
+            }
+
+            //Left
+            using (PixelBox altSrcBox = image.createPixelBox())
+            {
+                pageBox.Top = (uint)padding;
+                pageBox.Bottom = (uint)(fullPageSize.Height - padding);
+                pageBox.Left = 0;
+                pageBox.Right = (uint)padding;
+
+                altSrcBox.Top = (uint)imageRect.Top;
+                altSrcBox.Bottom = (uint)(imageRect.Top + pageSize);
+                altSrcBox.Left = (uint)(imageRect.Right - padding);
+                altSrcBox.Right = (uint)imageRect.Right;
+
+                PixelBox.BulkPixelConversion(altSrcBox, pageBox);
+            }
+
+            //Right
+            using (PixelBox altSrcBox = image.createPixelBox())
+            {
+                pageBox.Top = (uint)padding;
+                pageBox.Bottom = (uint)(fullPageSize.Height - padding);
+                pageBox.Left = (uint)(fullPageSize.Width - padding);
+                pageBox.Right = (uint)fullPageSize.Width;
+
+                altSrcBox.Top = (uint)imageRect.Top;
+                altSrcBox.Bottom = (uint)(imageRect.Top + pageSize);
+                altSrcBox.Left = (uint)imageRect.Left;
+                altSrcBox.Right = (uint)(imageRect.Left + padding);
+
+                PixelBox.BulkPixelConversion(altSrcBox, pageBox);
             }
         }
     }
