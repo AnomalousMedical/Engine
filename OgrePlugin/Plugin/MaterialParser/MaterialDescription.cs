@@ -65,6 +65,7 @@ namespace OgrePlugin
             DepthFunction = CompareFunction.CMPF_LESS_EQUAL;
             NoDepthWriteAlpha = false;
             DisableBackfaceCulling = false;
+            TilesetReferenceFile = null;
         }
 
         private MaterialDescription(MaterialDescription toClone)
@@ -103,6 +104,7 @@ namespace OgrePlugin
             this.SceneBlending = toClone.SceneBlending;
             this.DepthFunction = toClone.DepthFunction;
             this.DisableBackfaceCulling = toClone.DisableBackfaceCulling;
+            this.TilesetReferenceFile = toClone.TilesetReferenceFile;
         }
 
         public String localizePath(String path)
@@ -314,6 +316,14 @@ namespace OgrePlugin
         [Editable]
         [JsonProperty]
         public bool DisableBackfaceCulling { get; set; }
+
+        /// <summary>
+        /// This is a refrence to a tileset json file that describes tile boundries to
+        /// use when resizing the image. 
+        /// </summary>
+        [Editable]
+        [JsonProperty]
+        public String TilesetReferenceFile { get; set; }
 
         [JsonProperty]
         private List<MaterialDescription> Variants { get; set; } //Cheating with this, forcing it to work as a property to not fight json.net for now

@@ -1,6 +1,9 @@
-﻿using Engine.Saving.XMLSaver;
+﻿using Engine;
+using Engine.Saving.XMLSaver;
 using FreeImageAPI;
 using Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using OgrePlugin;
 using OgrePlugin.Plugin.VirtualTexture;
 using System;
@@ -90,7 +93,7 @@ namespace Anomalous.TextureCompiler
             XmlSaver xmlSaver = new XmlSaver();
             using (XmlTextWriter xmlReader = new XmlTextWriter(Path.Combine(sourceDirectory, TextureCompilerInterface.TextureHashFileName), Encoding.Default))
             {
-                xmlReader.Formatting = Formatting.Indented;
+                xmlReader.Formatting = System.Xml.Formatting.Indented;
                 xmlSaver.saveObject(compiledTextureInfo, xmlReader);
             }
         }
@@ -131,20 +134,20 @@ namespace Anomalous.TextureCompiler
                     Log.Info("Compressing composite normal map {0}", description.NormalMapName);
                     if (description.HasOpacityMap && description.HasGlossMap)
                     {
-                        addMapToBlueAndAlphaAndCompress(normalSrc, opacitySrc, Channel.Red, glossLevelSrc, Channel.Red, normalTmp, normalDest, (src, dest) => compressCompositeNormalMap(normalSrc, src, dest));
+                        addMapToBlueAndAlphaAndCompress(normalSrc, opacitySrc, Channel.Red, glossLevelSrc, Channel.Red, normalTmp, normalDest, description, (src, dest, matDesc) => compressCompositeNormalMap(normalSrc, src, dest, matDesc));
                     }
                     else if (description.HasOpacityMap)
                     {
-                        addMapToBlueAndCompress(normalSrc, opacitySrc, Channel.Red, normalTmp, normalDest, (src, dest) => compressCompositeNormalMap(normalSrc, src, dest));
+                        addMapToBlueAndCompress(normalSrc, opacitySrc, Channel.Red, normalTmp, normalDest, description, (src, dest, matDesc) => compressCompositeNormalMap(normalSrc, src, dest, matDesc));
                     }
                     else if (description.HasGlossMap)
                     {
                         //Gloss maps always go on the normal map green
-                        addMapToAlphaAndCompress(normalSrc, glossLevelSrc, Channel.Red, normalTmp, normalDest, (src, dest) => compressCompositeNormalMap(normalSrc, src, dest));
+                        addMapToAlphaAndCompress(normalSrc, glossLevelSrc, Channel.Red, normalTmp, normalDest, description, (src, dest, matDesc) => compressCompositeNormalMap(normalSrc, src, dest, matDesc));
                     }
                     else
                     {
-                        compressCompositeNormalMap(normalSrc, normalSrc, normalDest);
+                        compressCompositeNormalMap(normalSrc, normalSrc, normalDest, description);
                     }
                 }
             }
@@ -158,7 +161,7 @@ namespace Anomalous.TextureCompiler
                     if (compressSpecularLevel || compressDiffuse)
                     {
                         Log.Info("Compressing diffuse map {0} with specular level in alpha from {1}", description.DiffuseMapName, description.SpecularLevelMapName);
-                        addMapToAlphaAndCompress(diffuseSrc, specularLevelSrc, Channel.Red, diffuseTmp, diffuseDest, compressDiffuseMap);
+                        addMapToAlphaAndCompress(diffuseSrc, specularLevelSrc, Channel.Red, diffuseTmp, diffuseDest, description, compressDiffuseMap);
                     }
                 }
                 else if (description.HasGlossMap && !description.HasOpacityMap) //Pack the gloss level into the diffuse map
@@ -166,7 +169,7 @@ namespace Anomalous.TextureCompiler
                     if (compressGlossLevel || compressDiffuse)
                     {
                         Log.Info("Compressing diffuse map {0} with gloss in alpha from {1}", description.DiffuseMapName, description.GlossMapName);
-                        addMapToAlphaAndCompress(diffuseSrc, glossLevelSrc, Channel.Red, diffuseTmp, diffuseDest, compressDiffuseMap);
+                        addMapToAlphaAndCompress(diffuseSrc, glossLevelSrc, Channel.Red, diffuseTmp, diffuseDest, description, compressDiffuseMap);
                     }
                 }
                 else //Just save the diffuse map as is
@@ -174,7 +177,7 @@ namespace Anomalous.TextureCompiler
                     if (compressDiffuse)
                     {
                         Log.Info("Compressing diffuse map {0} directly", description.DiffuseMapName);
-                        compressDiffuseMap(diffuseSrc, diffuseDest);
+                        compressDiffuseMap(diffuseSrc, diffuseDest, description);
                     }
                 }
             }
@@ -188,7 +191,7 @@ namespace Anomalous.TextureCompiler
                     if (compressSpecularLevel || compressSpecular)
                     {
                         Log.Info("Compressing specular map {0} with specular level in alpha {1}", description.DiffuseMapName, description.SpecularLevelMapName);
-                        addMapToAlphaAndCompress(specularSrc, specularLevelSrc, Channel.Red, specularTmp, specularDest, compressSpecularMap);
+                        addMapToAlphaAndCompress(specularSrc, specularLevelSrc, Channel.Red, specularTmp, specularDest, description, compressSpecularMap);
                     }
                 }
                 else //Just save as is
@@ -196,7 +199,7 @@ namespace Anomalous.TextureCompiler
                     if (compressSpecular)
                     {
                         Log.Info("Compressing specular map {0} directly", description.DiffuseMapName);
-                        compressSpecularMap(specularSrc, specularDest);
+                        compressSpecularMap(specularSrc, specularDest, description);
                     }
                 }
             }
@@ -210,7 +213,7 @@ namespace Anomalous.TextureCompiler
                     if (compressGlossLevel || compressOpacity)
                     {
                         Log.Info("Compressing opacity map {0} with gloss in green from {1}", description.DiffuseMapName, description.GlossMapName);
-                        combineSingleChannelMaps(opacitySrc, Channel.Red, glossLevelSrc, Channel.Red, opacityTmp, opacityDest, compressOpacityMap);
+                        combineSingleChannelMaps(opacitySrc, Channel.Red, glossLevelSrc, Channel.Red, opacityTmp, opacityDest, description, compressOpacityMap);
                     }
                 }
                 else //Just save as is
@@ -218,13 +221,13 @@ namespace Anomalous.TextureCompiler
                     if (compressOpacity)
                     {
                         Log.Info("Compressing opacity map {0} directly", description.DiffuseMapName);
-                        compressOpacityMap(opacitySrc, opacityDest);
+                        compressOpacityMap(opacitySrc, opacityDest, description);
                     }
                 }
             }
         }
 
-        private void addMapToAlphaAndCompress(String rgbSource, String alphaSource, Channel alphaSourceChannel, String tempFile, String destinationFile, Action<String, String> compressFunction)
+        private void addMapToAlphaAndCompress(String rgbSource, String alphaSource, Channel alphaSourceChannel, String tempFile, String destinationFile, MaterialDescription matDesc, Action<String, String, MaterialDescription> compressFunction)
         {
             Log.Info("Building composite image with RGB {0} and alpha {1}", rgbSource, alphaSource);
             using (FreeImageBitmap rgbMap = FreeImageBitmap.FromFile(rgbSource))
@@ -234,14 +237,14 @@ namespace Anomalous.TextureCompiler
                     using (FreeImageBitmap combined = createImageFromChannels(alphaMap, alphaSourceChannel, rgbMap))
                     {
                         saveImage(combined, tempFile, TempFileImageFormat);
-                        compressFunction(tempFile, destinationFile);
+                        compressFunction(tempFile, destinationFile, matDesc);
                         deleteFile(tempFile);
                     }
                 }
             }
         }
 
-        private void addMapToBlueAndCompress(String rgSource, String bSource, Channel bSourceChannel, String tempFile, String destinationFile, Action<String, String> compressFunction)
+        private void addMapToBlueAndCompress(String rgSource, String bSource, Channel bSourceChannel, String tempFile, String destinationFile, MaterialDescription matDesc, Action<String, String, MaterialDescription> compressFunction)
         {
             Log.Info("Building composite image with RG {0} and B {1}", rgSource, bSource);
             using (FreeImageBitmap rgMap = FreeImageBitmap.FromFile(rgSource))
@@ -251,14 +254,14 @@ namespace Anomalous.TextureCompiler
                     using (FreeImageBitmap combined = createImageFromChannels(rgMap, Channel.Red, rgMap, Channel.Green, bMap, bSourceChannel))
                     {
                         saveImage(combined, tempFile, TempFileImageFormat);
-                        compressFunction(tempFile, destinationFile);
+                        compressFunction(tempFile, destinationFile, matDesc);
                         deleteFile(tempFile);
                     }
                 }
             }
         }
 
-        private void addMapToBlueAndAlphaAndCompress(String rgSource, String bSource, Channel bSourceChannel, String alphaSource, Channel alphaSourceChannel, String tempFile, String destinationFile, Action<String, String> compressFunction)
+        private void addMapToBlueAndAlphaAndCompress(String rgSource, String bSource, Channel bSourceChannel, String alphaSource, Channel alphaSourceChannel, String tempFile, String destinationFile, MaterialDescription matDesc, Action<String, String, MaterialDescription> compressFunction)
         {
             Log.Info("Building composite image with RG {0} and B {1}", rgSource, bSource);
             using (FreeImageBitmap rgMap = FreeImageBitmap.FromFile(rgSource))
@@ -270,7 +273,7 @@ namespace Anomalous.TextureCompiler
                         using (FreeImageBitmap combined = createImageFromChannels(alphaMap, alphaSourceChannel, rgMap, Channel.Red, rgMap, Channel.Green, bMap, bSourceChannel))
                         {
                             saveImage(combined, tempFile, TempFileImageFormat);
-                            compressFunction(tempFile, destinationFile);
+                            compressFunction(tempFile, destinationFile, matDesc);
                             deleteFile(tempFile);
                         }
                     }
@@ -278,7 +281,7 @@ namespace Anomalous.TextureCompiler
             }
         }
 
-        private void combineSingleChannelMaps(String redSource, Channel redSourceChannel, String greenSource, Channel greenSourceChannel, String tempFile, String destinationFile, Action<String, String> compressFunction)
+        private void combineSingleChannelMaps(String redSource, Channel redSourceChannel, String greenSource, Channel greenSourceChannel, String tempFile, String destinationFile, MaterialDescription matDesc, Action<String, String, MaterialDescription> compressFunction)
         {
             Log.Info("Building composite image with red source {0} and green source {1}", redSource, greenSource);
             using (FreeImageBitmap redMap = FreeImageBitmap.FromFile(redSource))
@@ -288,7 +291,7 @@ namespace Anomalous.TextureCompiler
                     using (FreeImageBitmap combined = createImageFromChannels(redMap, redSourceChannel, greenMap, greenSourceChannel))
                     {
                         saveImage(combined, tempFile, TempFileImageFormat);
-                        compressFunction(tempFile, destinationFile);
+                        compressFunction(tempFile, destinationFile, matDesc);
                         deleteFile(tempFile);
                     }
                 }
@@ -452,7 +455,7 @@ namespace Anomalous.TextureCompiler
 
             int width = redSrc.Width;
             int height = redSrc.Height;
-            Color c = new Color();
+            var c = new FreeImageAPI.Color();
 
             FreeImageBitmap retVal = new FreeImageBitmap(width, height, FreeImageAPI.PixelFormat.Format24bppRgb);
 
@@ -485,7 +488,7 @@ namespace Anomalous.TextureCompiler
 
         private unsafe byte getColor(int x, int y, FreeImageBitmap src, Channel channel)
         {
-            Color c = src.GetPixel(x, y);
+            var c = src.GetPixel(x, y);
             switch (channel)
             {
                 case Channel.Alpha:
@@ -743,7 +746,7 @@ namespace Anomalous.TextureCompiler
             return Path.Combine(destDirectory, filename);
         }
 
-        private void compressOpacityMap(string source, string dest)
+        private void compressOpacityMap(string source, string dest, MaterialDescription matDesc)
         {
             ++compressedCount;
             Task.WaitAll(
@@ -753,7 +756,7 @@ namespace Anomalous.TextureCompiler
             //The data that goes in opacity maps for uncompressed textures goes in the normal map instead
         }
 
-        private void compressSpecularMap(string source, string dest)
+        private void compressSpecularMap(string source, string dest, MaterialDescription matDesc)
         {
             ++compressedCount;
             Task.WaitAll(
@@ -763,15 +766,36 @@ namespace Anomalous.TextureCompiler
             ;
         }
 
-        private void compressDiffuseMap(string source, string dest)
+        private void compressDiffuseMap(string source, string dest, MaterialDescription materialDesc)
         {
-            using (var sizeStrategy = new TiledImageSizeStrategy(new Size(128, 128)))
+            if (!String.IsNullOrEmpty(materialDesc.TilesetReferenceFile) 
+                && VirtualFileSystem.Instance.exists(materialDesc.TilesetReferenceFile))
+            {
+                Dictionary<String, TiledImageSizeStrategy.Tile> tiles;
+                using(var reader = new StreamReader(VirtualFileSystem.Instance.openStream(materialDesc.TilesetReferenceFile, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read)))
+                {
+                    var json = reader.ReadToEnd();
+                    var jobject = JObject.Parse(json);
+                    tiles = jobject["tiles"].ToObject<Dictionary<String, TiledImageSizeStrategy.Tile>>();
+                }
+
+                using (var sizeStrategy = new TiledImageSizeStrategy(tiles.Values.ToList()))
+                {
+                    ++compressedCount;
+                    Task.WaitAll(
+                        bc3Compress(source, dest),
+                        etc2Compress(source, dest),
+                        saveUncompressed(source, dest, true, FREE_IMAGE_FILTER.FILTER_LANCZOS3, sizeStrategy)
+                    );
+                }
+            }
+            else
             {
                 ++compressedCount;
                 Task.WaitAll(
                     bc3Compress(source, dest),
                     etc2Compress(source, dest),
-                    saveUncompressed(source, dest, true, FREE_IMAGE_FILTER.FILTER_LANCZOS3, sizeStrategy)
+                    saveUncompressed(source, dest, true, FREE_IMAGE_FILTER.FILTER_LANCZOS3, new FullImageSizeStrategy())
                 );
             }
         }
@@ -786,7 +810,7 @@ namespace Anomalous.TextureCompiler
             );
         }
 
-        private void compressCompositeNormalMap(String originalNormalMapSource, String source, String dest)
+        private void compressCompositeNormalMap(String originalNormalMapSource, String source, String dest, MaterialDescription matDesc)
         {
             Task.WaitAll(
                 saveUncompressed(source, dest, true, FREE_IMAGE_FILTER.FILTER_BILINEAR, new FullImageSizeStrategy(), (resized) =>

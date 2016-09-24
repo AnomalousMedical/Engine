@@ -56,6 +56,12 @@ namespace ImageAtlasPacker
                             indexText = indexText.Replace("${Y_LOC}", entry.ImageLocation.Top.ToString());
                             indexText = indexText.Replace("${WIDTH}", entry.ImageLocation.Width.ToString());
                             indexText = indexText.Replace("${HEIGHT}", entry.ImageLocation.Height.ToString());
+
+                            indexText = indexText.Replace("${NODE_X_LOC}", entry.ImageNodeLocation.Left.ToString());
+                            indexText = indexText.Replace("${NODE_Y_LOC}", entry.ImageNodeLocation.Top.ToString());
+                            indexText = indexText.Replace("${NODE_WIDTH}", entry.ImageNodeLocation.Width.ToString());
+                            indexText = indexText.Replace("${NODE_HEIGHT}", entry.ImageNodeLocation.Height.ToString());
+
                             indexText = indexText.Replace("${IMAGE_FILE}", shortFile);
                             indexText = indexText.Replace("${ATLAS_WIDTH}", atlasWidth.ToString());
                             indexText = indexText.Replace("${ATLAS_HEIGHT}", atlasHeight.ToString());
@@ -64,6 +70,11 @@ namespace ImageAtlasPacker
                             indexText = indexText.Replace("${V_TOP}", (entry.ImageLocation.Top / (float)atlasWidth).ToString());
                             indexText = indexText.Replace("${U_RIGHT}", ((entry.ImageLocation.Width + entry.ImageLocation.Left) / (float)atlasWidth).ToString());
                             indexText = indexText.Replace("${V_BOTTOM}", ((entry.ImageLocation.Height + entry.ImageLocation.Top) / (float)atlasWidth).ToString());
+
+                            indexText = indexText.Replace("${NODE_U_LEFT}", (entry.ImageNodeLocation.Left / (float)atlasWidth).ToString());
+                            indexText = indexText.Replace("${NODE_V_TOP}", (entry.ImageNodeLocation.Top / (float)atlasWidth).ToString());
+                            indexText = indexText.Replace("${NODE_U_RIGHT}", ((entry.ImageNodeLocation.Width + entry.ImageNodeLocation.Left) / (float)atlasWidth).ToString());
+                            indexText = indexText.Replace("${NODE_V_BOTTOM}", ((entry.ImageNodeLocation.Height + entry.ImageNodeLocation.Top) / (float)atlasWidth).ToString());
 
                             fs.WriteLine(indexText);
                         }

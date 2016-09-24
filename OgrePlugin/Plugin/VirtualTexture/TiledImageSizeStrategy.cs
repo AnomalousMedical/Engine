@@ -1,5 +1,6 @@
 ﻿using Engine;
 using FreeImageAPI;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,16 +12,53 @@ namespace OgrePlugin.Plugin.VirtualTexture
 {
     public class TiledImageSizeStrategy : ImagePageSizeStrategy, IDisposable
     {
-        private List<FreeImageBitmap> tiles;
-        private Size tileSize;
-        private Size originalTileSize;
-        private Size firstSeenImageSize;
-        private int numTilesX;
-        private int numTilesY;
-
-        public TiledImageSizeStrategy(Size tileSize)
+        public class Tile : IDisposable
         {
-            this.tileSize = this.originalTileSize = tileSize;
+            FreeImageBitmap image;
+
+            public Tile()
+            {
+
+            }
+
+            public Tile(FreeImageBitmap image)
+            {
+                this.image = image;
+            }
+
+            public void Dispose()
+            {
+                image.Dispose();
+            }
+
+            public float NodeLeft { get; set; }
+            public float NodeTop { get; set; }
+            public float NodeRight { get; set; }
+            public float NodeBottom { get; set; }
+
+            public float Width { get { return NodeRight - NodeLeft; } }
+            public float Height { get { return NodeBottom - NodeTop; } }
+
+            [JsonIgnore]
+            public FreeImageBitmap Image
+            {
+                get
+                {
+                    return image;
+                }
+                set
+                {
+                    image = value;
+                }
+            }
+        }
+
+        private List<Tile> tiles;
+        private bool imageNeedsBreakup = true;
+
+        public TiledImageSizeStrategy(List<TiledImageSizeStrategy.Tile> tiles)
+        {
+            this.tiles = tiles;
         }
 
         public void Dispose()
@@ -32,81 +70,71 @@ namespace OgrePlugin.Plugin.VirtualTexture
             tiles.Clear();
         }
 
-        //int imageId = 0;
+        int imageId = 0;
 
         public void rescaleImage(FreeImageBitmap image, Size size, FREE_IMAGE_FILTER filter)
         {
             breakUpImage(image);
 
-            float wPercent = size.Width / (float)firstSeenImageSize.Width;
-            float hPercent = size.Height / (float)firstSeenImageSize.Height;
-            var newTileSize = new Size((int)(wPercent * originalTileSize.Width), (int)(hPercent * originalTileSize.Height));
+            //float wPercent = size.Width / (float)firstSeenImageSize.Width;
+            //float hPercent = size.Height / (float)firstSeenImageSize.Height;
+            //var newTileSize = new Size((int)(wPercent * originalTileSize.Width), (int)(hPercent * originalTileSize.Height));
 
             image.Rescale(size, filter); //Need to resize the image, but will replace with individually sized tiles
             //image.saveToFile(imageId + "orig.bmp", FREE_IMAGE_FORMAT.FIF_BMP);
 
             using (var destBox = image.createPixelBox())
             {
-                for (int x = 0; x < numTilesX; ++x)
+                foreach (var tile in tiles)
                 {
-                    for (int y = 0; y < numTilesY; ++y)
+                    var newTileSize = new Size((int)(size.Width * tile.Width), (int)(size.Height * tile.Height));
+                    tile.Image.Rescale(newTileSize, filter);
+                    using (var srcBox = tile.Image.createPixelBox(PixelFormat.PF_A8R8G8B8))
                     {
-                        var tile = tiles[(x * numTilesY) + y]; //My math brain is broken today, for some reason this one works
-                        //var tile = tiles[(y * numTilesX) + x]; //And this one doesn't (reverses x and y).
-                        tile.Rescale(newTileSize, filter);
-                        using (var srcBox = tile.createPixelBox(PixelFormat.PF_A8R8G8B8))
-                        {
-                            var tx = newTileSize.Width * x;
-                            var ty = newTileSize.Height * y;
-                            destBox.Left = (uint)tx;
-                            destBox.Top = (uint)ty;
-                            destBox.Right = (uint)(tx + newTileSize.Width);
-                            destBox.Bottom = (uint)(ty + newTileSize.Height);
+                        var tx = size.Width * tile.NodeRight;
+                        var ty = size.Height * tile.NodeLeft;
+                        destBox.Left = (uint)tx;
+                        destBox.Top = (uint)ty;
+                        destBox.Right = (uint)(tx + newTileSize.Width);
+                        destBox.Bottom = (uint)(ty + newTileSize.Height);
 
-                            PixelBox.BulkPixelConversion(srcBox, destBox);
-                        }
+                        PixelBox.BulkPixelConversion(srcBox, destBox);
                     }
                 }
             }
 
-            //image.saveToFile(imageId++ + "tiled.bmp", FREE_IMAGE_FORMAT.FIF_BMP);
+            image.saveToFile(imageId++ + "tiled.bmp", FREE_IMAGE_FORMAT.FIF_BMP);
         }
 
         private void breakUpImage(FreeImageBitmap image)
         {
-            if (tiles == null)
+            if (imageNeedsBreakup)
             {
-                //Break up image into tiles
-                firstSeenImageSize = image.Size;
+                imageNeedsBreakup = false;
 
-                numTilesX = firstSeenImageSize.Width / tileSize.Width;
-                numTilesY = firstSeenImageSize.Height / tileSize.Height;
-                var numTiles = numTilesX * numTilesY;
-
-                tiles = new List<FreeImageBitmap>(numTiles);
-                for (int x = 0; x < firstSeenImageSize.Width; x += originalTileSize.Width)
+                foreach (var tile in tiles)
                 {
-                    for (int y = 0; y < firstSeenImageSize.Height; y += originalTileSize.Height)
+                    var tileImage = new FreeImageBitmap(
+                        (int)(image.Width * tile.Width), 
+                        (int)(image.Height * tile.Height), 
+                        FreeImageAPI.PixelFormat.Format32bppArgb);
+
+                    using (var destBox = tileImage.createPixelBox(PixelFormat.PF_A8R8G8B8))
                     {
-                        var tileImage = new FreeImageBitmap(originalTileSize.Width, originalTileSize.Height, FreeImageAPI.PixelFormat.Format32bppArgb);
-
-                        using (var destBox = tileImage.createPixelBox(PixelFormat.PF_A8R8G8B8))
+                        using (var sourceBox = image.createPixelBox())
                         {
-                            using (var sourceBox = image.createPixelBox())
-                            {
-                                sourceBox.Left = (uint)x;
-                                sourceBox.Top = (uint)y;
-                                sourceBox.Right = (uint)(x + originalTileSize.Width);
-                                sourceBox.Bottom = (uint)(y + originalTileSize.Height);
+                            sourceBox.Left = (uint)(image.Width * tile.NodeLeft);
+                            sourceBox.Top = (uint)(image.Height * tile.NodeTop);
+                            sourceBox.Right = (uint)(sourceBox.Left + tileImage.Width);
+                            sourceBox.Bottom = (uint)(sourceBox.Top + tileImage.Height);
 
-                                PixelBox.BulkPixelConversion(sourceBox, destBox);
-                            }
+                            PixelBox.BulkPixelConversion(sourceBox, destBox);
                         }
-
-                        //tileImage.saveToFile($"tilesdebug/{x}_{y}.bmp", FREE_IMAGE_FORMAT.FIF_BMP);
-
-                        tiles.Add(tileImage);
                     }
+
+                    //tileImage.saveToFile($"tilesdebug/{tile.NodeLeft}_{tile.NodeTop}.bmp", FREE_IMAGE_FORMAT.FIF_BMP);
+
+                    tile.Image = tileImage;
                 }
             }
         }
@@ -205,7 +233,7 @@ namespace OgrePlugin.Plugin.VirtualTexture
                 altSrcBox.Left = (uint)imageRect.Left;
                 altSrcBox.Right = (uint)(imageRect.Left + pageSize);
 
-                for(int i = 0; i < padding; ++i)
+                for (int i = 0; i < padding; ++i)
                 {
                     pageBox.Top = (uint)i;
                     pageBox.Bottom = (uint)(i + 1);

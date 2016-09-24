@@ -62,6 +62,10 @@
       <Project>{6598a7cd-8f27-4d3f-a675-5ae63113a7c3}</Project>
       <Name>FreeImageDotNet</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Dependencies\Newtonsoft.Json\Src\Newtonsoft.Json\Newtonsoft.Json.Portable40.csproj">
+      <Project>{959F7F85-C98B-4876-971A-9036224578E4}</Project>
+      <Name>Newtonsoft.Json.Portable40</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Engine\Engine.csproj">
       <Project>{57c253f1-157f-4a6a-9fed-345a776b97d5}</Project>
       <Name>Engine</Name>
