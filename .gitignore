@@ -293,3 +293,4 @@ fastlane/report.xml
 fastlane/screenshots
 /EngineAndroid.VC.db
 /Engine.VC.db
+/*.db
