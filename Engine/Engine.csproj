@@ -228,11 +228,9 @@
     <Compile Include="Resources\ResourceEditableProperty.cs" />
     <Compile Include="Saving\RenamedTypeMap.cs" />
     <Compile Include="Saving\XMLSaver\Values\XmlGuid.cs" />
-    <Compile Include="Shim\AppDomainShim.cs" />
-    <Compile Include="Shim\AssemblyShim.cs" />
-    <Compile Include="Shim\EnvironmentShim.cs" />
-    <Compile Include="Shim\PathShim.cs" />
-    <Compile Include="Shim\ThreadShim.cs" />
+    <Compile Include="Shim\EncodingShim.cs" />
+    <Compile Include="Shim\IProcessInfo.cs" />
+    <Compile Include="Shim\NetFrameworkShim.cs" />
     <Compile Include="Shim\TypeShim.cs" />
     <Compile Include="ObjectManagement\Definition\CompositeSimObjectDefinition.cs" />
     <Compile Include="ObjectManagement\Definition\GenericSimObjectDefinition.cs" />
@@ -382,8 +380,6 @@
     <Compile Include="Threads\TargetEntry.cs" />
     <Compile Include="Threads\ThreadManager.cs" />
     <Compile Include="Threads\ThreadManagerSynchronizeInvoke.cs" />
-    <Compile Include="Threads\CancelableBackgroundWorker.cs" />
-    <Compile Include="Threads\CancelableBackgroundWorkTask.cs" />
     <Compile Include="Threads\ThreadManagerUpdate.cs" />
     <Compile Include="Utility\MemoryBlock.cs" />
     <Compile Include="Utility\CancelEventArgs.cs" />
