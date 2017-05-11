@@ -223,9 +223,9 @@ namespace Anomalous.GuiFramework.Editor
             {
                 return FormCreationMethods[propertyType].Invoke(property, widget);
             }
-            else if (propertyType.IsEnum)
+            else if (propertyType.GetTypeInfo().IsEnum)
             {
-                if (propertyType.GetCustomAttributes(typeof(FlagsAttribute), true).Length > 0)
+                if (propertyType.GetCustomAttributes(typeof(FlagsAttribute), true).Any())
                 {
                     //    MultiEnumEditorCell editorCell = new MultiEnumEditorCell();
                     //    editorCell.EnumType = propType;

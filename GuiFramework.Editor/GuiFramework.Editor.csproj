@@ -1,17 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{ACBBA2D0-C648-4798-9D40-CE8B797642AD}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFramework>netstandard1.6</TargetFramework>
     <RootNamespace>Anomalous.GuiFramework.Editor</RootNamespace>
     <AssemblyName>GuiFramework.Editor</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,88 +22,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="GUI\AddItemDialog\AddItemDialog.cs" />
-    <Compile Include="GUI\AddItemDialog\AddItemTemplate.cs" />
-    <Compile Include="GUI\AddItemDialog\AddItemTemplateAdapter.cs" />
-    <Compile Include="GUI\BrowserWindow.cs" />
-    <Compile Include="GUI\ContextualPropertiesEditor.cs" />
-    <Compile Include="GUI\EditInterfaceTree\EditInterfaceTreeNode.cs" />
-    <Compile Include="GUI\EditInterfaceTree\EditInterfaceTreeView.cs" />
-    <Compile Include="GUI\EditInterfaceTree\EditInterfaceViewEvent.cs" />
-    <Compile Include="GUI\ExpandingEditInterfaceViewer\ExpandingEditInterfaceViewer.cs" />
-    <Compile Include="GUI\ExpandingEditInterfaceViewer\ExpandingNode.cs" />
-    <Compile Include="GUI\ExpandingEditInterfaceViewer\ScrollingExpandingEditInterfaceViewer.cs" />
-    <Compile Include="GUI\FlagsEnumEditor\FlagsEnumEditor.cs" />
-    <Compile Include="GUI\InputBrowserWindow.cs" />
-    <Compile Include="GUI\InputWindow.cs" />
-    <Compile Include="GUI\GuiFrameworkUICallback.cs" />
-    <Compile Include="GUI\LogWindow\LogWindow.cs" />
-    <Compile Include="GUI\ObjectEditor.cs" />
-    <Compile Include="GUI\PopupError\PopupError.cs" />
-    <Compile Include="GUI\PopupGenericEditor\PopupGenericEditor.cs" />
-    <Compile Include="GUI\PropertiesForm\ConstrainableFormComponent.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesForm.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormButton.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormByte.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormCheckBox.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormColor.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormColorNullable.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormComboBox.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormComponent.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormDecimal.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormDouble.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormEulerQuat.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormInt16.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormInt32.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormInt32Nullable.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormInt64.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormIntSize2.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormIntVector2.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormLayoutComponent.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormSByte.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormSingle.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormSize2.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormTextBox.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormTextBoxBrowser.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormUInt16.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormUInt32.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormUInt64.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormVector2.cs" />
-    <Compile Include="GUI\PropertiesForm\PropertiesFormVector3.cs" />
-    <Compile Include="GUI\PropertiesForm\ScrollablePropertiesForm.cs" />
-    <Compile Include="GUI\PropertiesTable\AddRemoveButtons.cs" />
-    <Compile Include="GUI\PropertiesTable\ColorEditCell.cs" />
-    <Compile Include="GUI\PropertiesTable\EnumFlagsTableCell.cs" />
-    <Compile Include="GUI\PropertiesTable\EnumComboBoxTableCell.cs" />
-    <Compile Include="GUI\PropertiesTable\EditTableBrowserCell.cs" />
-    <Compile Include="GUI\PropertiesTable\ICustomCellProvider.cs" />
-    <Compile Include="GUI\PropertiesTable\PropertiesTable.cs" />
-    <Compile Include="GUI\PropertyEditor.cs" />
-    <Compile Include="GUI\MDIObjectEditor\MDIObjectEditor.cs" />
-    <Compile Include="Plugin\GuiFrameworkEditorEntryPoint.cs" />
-    <Compile Include="Plugin\GuiFrameworkEditorInterface.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tools\MovableObject.cs" />
-    <Compile Include="Tools\MovableObjectTools.cs" />
-    <Compile Include="Tools\Movement\Axis.cs" />
-    <Compile Include="Tools\Movement\MoveTool.cs" />
-    <Compile Include="Tools\Rotation\RotateTool.cs" />
-    <Compile Include="Tools\Rotation\RotationAxis.cs" />
-    <Compile Include="Tools\Selection\SelectableObject.cs" />
-    <Compile Include="Tools\Selection\SelectedObjectCollection.cs" />
-    <Compile Include="Tools\Selection\SelectionChangedArgs.cs" />
-    <Compile Include="Tools\Selection\SelectionController.cs" />
-    <Compile Include="Tools\Selection\SelectionMovableObject.cs" />
-    <Compile Include="Tools\SimObjectMover.cs" />
-    <Compile Include="Utility\FileTracker.cs" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">
       <Project>{57c253f1-157f-4a6a-9fed-345a776b97d5}</Project>
@@ -163,12 +72,4 @@
     <EmbeddedResource Include="GUI\PropertiesForm\PropertiesFormXY.layout" />
     <EmbeddedResource Include="GUI\PropertiesForm\PropertiesFormXYZ.layout" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

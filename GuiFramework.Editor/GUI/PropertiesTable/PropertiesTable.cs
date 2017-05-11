@@ -5,6 +5,7 @@ using System.Text;
 using MyGUIPlugin;
 using Engine.Editing;
 using Engine;
+using System.Reflection;
 
 namespace Anomalous.GuiFramework.Editor
 {
@@ -236,9 +237,9 @@ namespace Anomalous.GuiFramework.Editor
                     return cell;
                 }
             }
-            if (propType.IsEnum)
+            if (propType.GetTypeInfo().IsEnum)
             {
-                if (propType.GetCustomAttributes(typeof(FlagsAttribute), true).Length > 0)
+                if (propType.GetCustomAttributes(typeof(FlagsAttribute), true).Any())
                 {
                     Type genericEditor = typeof(EnumFlagsTableCell<>).MakeGenericType(propType);
                     return Activator.CreateInstance(genericEditor) as TableCell;

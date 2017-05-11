@@ -140,7 +140,7 @@ namespace Anomalous.GuiFramework.Editor
                     {
                         String path = paths.First();
                         String ext = Path.GetExtension(path);
-                        if (ext.Equals(extension, StringComparison.InvariantCultureIgnoreCase))
+                        if (ext.Equals(extension, StringComparison.OrdinalIgnoreCase))
                         {
                             importCallback(path, previewPath =>
                             {
