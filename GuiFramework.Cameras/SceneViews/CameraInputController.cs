@@ -124,39 +124,6 @@ namespace Anomalous.GuiFramework.Cameras
         private CameraPosition touchUndoPosition;
         private CameraMovementMode movementMode = CameraMovementMode.Rotate;
 
-        private class SynchronizeInvokeShim : ISynchronizeInvoke
-        {
-            ThreadManagerSynchronizeInvoke wrap;
-
-            public SynchronizeInvokeShim(ThreadManagerSynchronizeInvoke wrap)
-            {
-                this.wrap = wrap;
-            }
-
-            public bool InvokeRequired
-            {
-                get
-                {
-                    return this.wrap.InvokeRequired;
-                }
-            }
-
-            public IAsyncResult BeginInvoke(Delegate method, object[] args)
-            {
-                return wrap.BeginInvoke(method, args);
-            }
-
-            public object EndInvoke(IAsyncResult result)
-            {
-                return wrap.EndInvoke(result);
-            }
-
-            public object Invoke(Delegate method, object[] args)
-            {
-                return wrap.Invoke(method, args);
-            }
-        }
-
         public event Action<CameraMovementMode> CameraMovementModeChanged;
 
         internal CameraInputController(SceneViewController sceneViewController, EventManager eventManager)
@@ -166,7 +133,6 @@ namespace Anomalous.GuiFramework.Cameras
             eventManager[GuiFrameworkCamerasInterface.MoveCameraEventLayer].OnUpdate += processInputEvents;
 
             mouseWheelTimer = new Timer(UPDATE_DELAY);
-            mouseWheelTimer.SynchronizingObject = new SynchronizeInvokeShim(new ThreadManagerSynchronizeInvoke());
             mouseWheelTimer.AutoReset = false;
             mouseWheelTimer.Elapsed += mouseWheelTimer_Elapsed;
 
@@ -551,15 +517,18 @@ namespace Anomalous.GuiFramework.Cameras
 
         void mouseWheelTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            if (!currentlyInMotion && mouseUndoPosition != null)
+            ThreadManager.invokeAndWait(() =>
             {
-                SceneViewWindow activeWindow = sceneViewController.ActiveWindow;
-                if (activeWindow != null)
+                if (!currentlyInMotion && mouseUndoPosition != null)
                 {
-                    activeWindow.pushUndoState(mouseUndoPosition);
+                    SceneViewWindow activeWindow = sceneViewController.ActiveWindow;
+                    if (activeWindow != null)
+                    {
+                        activeWindow.pushUndoState(mouseUndoPosition);
+                    }
+                    mouseUndoPosition = null;
                 }
-                mouseUndoPosition = null;
-            }
+            });
         }
 
         void toggleZoomMode_FirstFrameUpEvent(EventLayer eventLayer)
