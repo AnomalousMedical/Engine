@@ -45,7 +45,7 @@ namespace Engine
         private String currentMaterial = null;
 
         public XMLShapeLoader()
-            :base(".collision")
+            : base(".collision")
         {
 
         }
@@ -57,8 +57,13 @@ namespace Engine
             {
                 try
                 {
-                    XmlTextReader textReader = new XmlTextReader(vfs.openStream(filename, FileMode.Open, FileAccess.Read));
-                    textReader.Close();
+                    using (var stream = vfs.openStream(filename, FileMode.Open, FileAccess.Read))
+                    {
+                        using (XmlReader xmlReader = XmlReader.Create(stream, new XmlReaderSettings() { DtdProcessing = DtdProcessing.Prohibit, IgnoreWhitespace = true }))
+                        {
+
+                        }
+                    }
                 }
                 catch (Exception e)
                 {
@@ -72,58 +77,60 @@ namespace Engine
         public override void loadShapes(ShapeBuilder builder, string filename, VirtualFileSystem vfs)
         {
             Log.Default.sendMessage("Loading collision shapes from " + filename + ".", LogLevel.Info, "ShapeLoading");
-            XmlTextReader textReader = new XmlTextReader(vfs.openStream(filename, FileMode.Open, FileAccess.Read));
-
-            while (textReader.Read())
+            using (var stream = vfs.openStream(filename, FileMode.Open, FileAccess.Read))
             {
-                if (textReader.NodeType == XmlNodeType.Element)
+                using (XmlReader textReader = XmlReader.Create(stream, new XmlReaderSettings() { DtdProcessing = DtdProcessing.Prohibit, IgnoreWhitespace = true }))
                 {
-                    if (textReader.Name.Equals(COMPOUND))
+                    while (textReader.Read())
                     {
-                        loadCompound(textReader, builder);
-                    }
-                    else if (textReader.Name.Equals(SPHERE))
-                    {
-                        loadSphere(textReader, builder);
-                    }
-                    else if (textReader.Name.Equals(BOX))
-                    {
-                        loadBox(textReader, builder);
-                    }
-                    else if (textReader.Name.Equals(MESH))
-                    {
-                        loadMesh(textReader, builder);
-                    }
-                    else if (textReader.Name.Equals(CONVEXHULL))
-                    {
-                        loadConvexHull(textReader, builder);
-                    }
-                    else if (textReader.Name.Equals(MATERIAL))
-                    {
-                        loadMaterial(textReader, builder);
-                    }
-                    else if (textReader.Name.Equals(PLANE))
-                    {
-                        loadPlane(textReader, builder);
-                    }
-                    else if (textReader.Name.Equals(CAPSULE))
-                    {
-                        loadCapsule(textReader, builder);
-                    }
-                    else if (textReader.Name.Equals(SOFT_BODY))
-                    {
-                        loadSoftBody(textReader, builder);
+                        if (textReader.NodeType == XmlNodeType.Element)
+                        {
+                            if (textReader.Name.Equals(COMPOUND))
+                            {
+                                loadCompound(textReader, builder);
+                            }
+                            else if (textReader.Name.Equals(SPHERE))
+                            {
+                                loadSphere(textReader, builder);
+                            }
+                            else if (textReader.Name.Equals(BOX))
+                            {
+                                loadBox(textReader, builder);
+                            }
+                            else if (textReader.Name.Equals(MESH))
+                            {
+                                loadMesh(textReader, builder);
+                            }
+                            else if (textReader.Name.Equals(CONVEXHULL))
+                            {
+                                loadConvexHull(textReader, builder);
+                            }
+                            else if (textReader.Name.Equals(MATERIAL))
+                            {
+                                loadMaterial(textReader, builder);
+                            }
+                            else if (textReader.Name.Equals(PLANE))
+                            {
+                                loadPlane(textReader, builder);
+                            }
+                            else if (textReader.Name.Equals(CAPSULE))
+                            {
+                                loadCapsule(textReader, builder);
+                            }
+                            else if (textReader.Name.Equals(SOFT_BODY))
+                            {
+                                loadSoftBody(textReader, builder);
+                            }
+                        }
                     }
                 }
             }
-
-            textReader.Close();
 #if VERBOSE
             Log.Default.sendMessage("Finished loading collision shapes from " + filename + ".", LogLevel.Info, "ShapeLoading");
 #endif
         }
 
-        private Quaternion readRotation(XmlTextReader textReader)
+        private Quaternion readRotation(XmlReader textReader)
         {
             Quaternion rotation = new Quaternion();
             textReader.Read();
@@ -135,13 +142,13 @@ namespace Engine
             }
             else
             {
-                Log.Default.sendMessage("Error loading rotation on line " + textReader.LineNumber + " does not contain 3 or 4 numbers value: " + textReader.Value, LogLevel.Warning, "ShapeLoading");
+                Log.Default.sendMessage("Error loading rotation on line " + /*textReader.LineNumber*/ "cannot get line number" + " does not contain 3 or 4 numbers value: " + textReader.Value, LogLevel.Warning, "ShapeLoading");
                 rotation = Quaternion.Identity;
             }
             return rotation;
         }
 
-        private Vector3 readTranslation(XmlTextReader textReader)
+        private Vector3 readTranslation(XmlReader textReader)
         {
             Vector3 translation = new Vector3();
             textReader.Read();
@@ -154,28 +161,28 @@ namespace Engine
             }
             else
             {
-                Log.Default.sendMessage("Error loading translation on line " + textReader.LineNumber + " does not contain 3 numbers value: " + textReader.Value, LogLevel.Error, "ShapeLoading");
+                Log.Default.sendMessage("Error loading translation on line " + /*textReader.LineNumber*/ "cannot get line number" + " does not contain 3 numbers value: " + textReader.Value, LogLevel.Error, "ShapeLoading");
                 translation = Vector3.Zero;
             }
             return translation;
         }
 
-        private String readName(XmlTextReader textReader)
+        private String readName(XmlReader textReader)
         {
             return textReader.GetAttribute(NAME);
         }
 
-        private float readRadius(XmlTextReader textReader)
+        private float readRadius(XmlReader textReader)
         {
             return NumberParser.ParseFloat(textReader.GetAttribute(RADIUS));
         }
 
-        private float readHeight(XmlTextReader textReader)
+        private float readHeight(XmlReader textReader)
         {
             return NumberParser.ParseFloat(textReader.GetAttribute(HEIGHT));
         }
 
-        private Vector3 readExtents(XmlTextReader textReader)
+        private Vector3 readExtents(XmlReader textReader)
         {
             Vector3 extents = new Vector3();
             String[] exts = textReader.GetAttribute(EXTENTS).Split(SEPS);
@@ -187,12 +194,12 @@ namespace Engine
             }
             else
             {
-                Log.Default.sendMessage("Error loading extents on line " + textReader.LineNumber + " does not contain 3 numbers value: " + textReader.Value, LogLevel.Error, "ShapeLoading");
+                Log.Default.sendMessage("Error loading extents on line " + /*textReader.LineNumber*/ "cannot get line number" + " does not contain 3 numbers value: " + textReader.Value, LogLevel.Error, "ShapeLoading");
             }
             return extents;
         }
 
-        private Vector3 readPlaneNormal(XmlTextReader textReader)
+        private Vector3 readPlaneNormal(XmlReader textReader)
         {
             Vector3 nml = new Vector3();
             String[] n = textReader.GetAttribute(NORMAL).Split(SEPS);
@@ -204,17 +211,17 @@ namespace Engine
             }
             else
             {
-                Log.Default.sendMessage("Error loading normal on line " + textReader.LineNumber + " does not contain 3 numbers value: " + textReader.Value, LogLevel.Error, "ShapeLoading");
+                Log.Default.sendMessage("Error loading normal on line " + /*textReader.LineNumber*/ "cannot get line number" + " does not contain 3 numbers value: " + textReader.Value, LogLevel.Error, "ShapeLoading");
             }
             return nml;
         }
 
-        private float readPlaneDistance(XmlTextReader textReader)
+        private float readPlaneDistance(XmlReader textReader)
         {
             return NumberParser.ParseFloat(textReader.GetAttribute(DISTANCE));
         }
 
-        float[] readVertices(XmlTextReader textReader)
+        float[] readVertices(XmlReader textReader)
         {
             textReader.Read();
             String[] strVerts = textReader.Value.Split(SEPS);
@@ -235,7 +242,7 @@ namespace Engine
             return vertices;
         }
 
-        int[] readFaces(XmlTextReader textReader)
+        int[] readFaces(XmlReader textReader)
         {
             textReader.Read();
             String[] strVerts = textReader.Value.Split(SEPS);
@@ -256,7 +263,7 @@ namespace Engine
             return faces;
         }
 
-        private void loadSphere(XmlTextReader textReader, ShapeBuilder builder)
+        private void loadSphere(XmlReader textReader, ShapeBuilder builder)
         {
             float radius = readRadius(textReader);
             Vector3 location = new Vector3();
@@ -278,7 +285,7 @@ namespace Engine
 #endif
         }
 
-        private void loadBox(XmlTextReader textReader, ShapeBuilder builder)
+        private void loadBox(XmlReader textReader, ShapeBuilder builder)
         {
             Vector3 extents = readExtents(textReader);
             String name = readName(textReader);
@@ -305,7 +312,7 @@ namespace Engine
 #endif
         }
 
-        private void loadMesh(XmlTextReader textReader, ShapeBuilder builder)
+        private void loadMesh(XmlReader textReader, ShapeBuilder builder)
         {
             String name = readName(textReader);
             Vector3 location = Vector3.Zero;
@@ -341,7 +348,7 @@ namespace Engine
 #endif
         }
 
-        void loadPlane(XmlTextReader textReader, ShapeBuilder builder)
+        void loadPlane(XmlReader textReader, ShapeBuilder builder)
         {
             String name = readName(textReader);
             Vector3 normal = readPlaneNormal(textReader);
@@ -353,7 +360,7 @@ namespace Engine
 #endif
         }
 
-        void loadCapsule(XmlTextReader textReader, ShapeBuilder builder)
+        void loadCapsule(XmlReader textReader, ShapeBuilder builder)
         {
             String name = readName(textReader);
             Vector3 location = Vector3.Zero;
@@ -381,7 +388,7 @@ namespace Engine
 #endif
         }
 
-        void loadConvexHull(XmlTextReader textReader, ShapeBuilder builder)
+        void loadConvexHull(XmlReader textReader, ShapeBuilder builder)
         {
             String name = readName(textReader);
             Vector3 location = Vector3.Zero;
@@ -424,7 +431,7 @@ namespace Engine
 #endif
         }
 
-        private void loadSoftBody(XmlTextReader textReader, ShapeBuilder builder)
+        private void loadSoftBody(XmlReader textReader, ShapeBuilder builder)
         {
             String name = readName(textReader);
             Vector3 location = Vector3.Zero;
@@ -460,7 +467,7 @@ namespace Engine
             currentMaterial = null;
         }
 
-        void loadCompound(XmlTextReader textReader, ShapeBuilder builder)
+        void loadCompound(XmlReader textReader, ShapeBuilder builder)
         {
             String name = readName(textReader);
             builder.startCompound(name);
@@ -507,7 +514,7 @@ namespace Engine
 #endif
         }
 
-        private void loadMaterial(XmlTextReader textReader, ShapeBuilder builder)
+        private void loadMaterial(XmlReader textReader, ShapeBuilder builder)
         {
             currentMaterial = textReader.GetAttribute("name");
 #if VERBOSE
@@ -537,7 +544,7 @@ namespace Engine
             builder.createMaterial(currentMaterial, restitution, staticFriction, dynamicFriction);
         }
 
-        private float readDynamicFriction(XmlTextReader textReader)
+        private float readDynamicFriction(XmlReader textReader)
         {
             float result = 0.0f;
             while (!(textReader.Name == DYNAMIC_FRICTION && textReader.NodeType == XmlNodeType.EndElement) && textReader.Read())
@@ -550,7 +557,7 @@ namespace Engine
             return result;
         }
 
-        private float readStaticFriction(XmlTextReader textReader)
+        private float readStaticFriction(XmlReader textReader)
         {
             float result = 0.0f;
             while (!(textReader.Name == STATIC_FRICTION && textReader.NodeType == XmlNodeType.EndElement) && textReader.Read())
@@ -563,7 +570,7 @@ namespace Engine
             return result;
         }
 
-        private float readRestitution(XmlTextReader textReader)
+        private float readRestitution(XmlReader textReader)
         {
             float result = 0.0f;
             while (!(textReader.Name == RESTITUTION && textReader.NodeType == XmlNodeType.EndElement) && textReader.Read())
@@ -574,6 +581,6 @@ namespace Engine
                 }
             }
             return result;
-        }        
+        }
     }
 }
