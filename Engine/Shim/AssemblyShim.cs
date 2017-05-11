@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Engine.Shim;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace System.Reflection
         String CurrentAssemblyName { get; }
 
         IEnumerable<Assembly> LoadedAssemblies { get; }
+        IProcessInfo IProcessInfo { get; }
 
         Assembly LoadFile(String path);
         void PrintStackTrace();
@@ -49,6 +51,14 @@ namespace System.Reflection
         public static void PrintStackTrace()
         {
             impl.PrintStackTrace();
+        }
+
+        public static IProcessInfo ProcessInfo
+        {
+            get
+            {
+                return impl.IProcessInfo;
+            }
         }
     }
 }

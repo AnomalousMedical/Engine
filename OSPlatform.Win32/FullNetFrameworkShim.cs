@@ -6,6 +6,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Engine.Shim;
+using OSPlatform.Win32;
 
 namespace Anomalous.OSPlatform.Win32
 {
@@ -54,6 +56,15 @@ namespace Anomalous.OSPlatform.Win32
             get
             {
                 return AppDomain.CurrentDomain.GetAssemblies();
+            }
+        }
+
+        private IProcessInfo processInfo = new ProcessInfo();
+        public IProcessInfo IProcessInfo
+        {
+            get
+            {
+                return processInfo;
             }
         }
     }
