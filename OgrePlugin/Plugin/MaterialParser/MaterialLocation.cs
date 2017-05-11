@@ -198,7 +198,7 @@ namespace OgrePlugin
         {
             String filter;
             Assembly assembly = EmbeddedResourceArchive.GetAssemblyAndArgs(LocName, out filter);
-            IEnumerable<String> files = assembly.GetManifestResourceNames().Where(f => f.EndsWith(".jsonmat", StringComparison.InvariantCultureIgnoreCase));
+            IEnumerable<String> files = assembly.GetManifestResourceNames().Where(f => f.EndsWith(".jsonmat", StringComparison.OrdinalIgnoreCase));
             if (filter != null)
             {
                 files = files.Where((f) => f.StartsWith(filter));

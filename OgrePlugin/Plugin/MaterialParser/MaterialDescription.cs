@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -452,7 +453,7 @@ namespace OgrePlugin
 
             public override bool CanConvert(Type objectType)
             {
-                return typeof(MaterialDescription).IsAssignableFrom(objectType);
+                return typeof(MaterialDescription).GetTypeInfo().IsAssignableFrom(objectType);
             }
 
             public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)

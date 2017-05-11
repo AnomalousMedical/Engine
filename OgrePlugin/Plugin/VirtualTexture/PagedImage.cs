@@ -1,4 +1,5 @@
 ﻿using Engine;
+using Engine.Shim;
 using FreeImageAPI;
 using OgrePlugin.Plugin.VirtualTexture;
 using System;
@@ -179,7 +180,7 @@ namespace OgrePlugin
 
             pagedImage.indexStart = (int)stream.Position;
 
-            using (BinaryWriter sw = new BinaryWriter(stream, Encoding.Default, true))
+            using (BinaryWriter sw = new BinaryWriter(stream, EncodingShim.Default, true))
             {
                 foreach (var imageInfo in pagedImage.pages)
                 {
@@ -212,7 +213,7 @@ namespace OgrePlugin
             this.streamProvider = streamProvider;
             using (Stream source = streamProvider())
             {
-                using (BinaryReader headerReader = new BinaryReader(source, Encoding.Default, true))
+                using (BinaryReader headerReader = new BinaryReader(source, EncodingShim.Default, true))
                 {
                     uint magicNumber = headerReader.ReadUInt32();
                     if (magicNumber != MagicNumber)
@@ -239,7 +240,7 @@ namespace OgrePlugin
                         break;
                 }
 
-                using (BinaryReader pageIndexReader = new BinaryReader(source, Encoding.Default, true))
+                using (BinaryReader pageIndexReader = new BinaryReader(source, EncodingShim.Default, true))
                 {
                     pageIndexReader.BaseStream.Seek(indexStart, SeekOrigin.Begin);
                     pages = new List<ImageInfo>(numImages);
@@ -286,7 +287,7 @@ namespace OgrePlugin
             }
             memoryBlock = null;
 
-            using (BinaryReader sr = new BinaryReader(source, Encoding.Default, true))
+            using (BinaryReader sr = new BinaryReader(source, EncodingShim.Default, true))
             {
                 uint magicNumber = sr.ReadUInt32();
                 if (magicNumber != MagicNumber)

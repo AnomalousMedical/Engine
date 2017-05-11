@@ -1,24 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E9FD5768-32E1-42C7-8256-4D7B97C22A9B}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OgrePlugin</RootNamespace>
-    <AssemblyName>OgrePlugin</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation />
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <TargetFramework>netstandard1.6</TargetFramework>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -66,213 +48,16 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core">
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\Engine\Engine.csproj">
+      <Project>{57C253F1-157F-4A6A-9FED-345A776B97D5}</Project>
+      <Name>Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Dependencies\FreeImage.NET\Library\FreeImageDotNet.csproj">
+      <Project>{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}</Project>
+      <Name>FreeImageDotNet</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Construction\OgreFactory.cs" />
-    <Compile Include="Construction\OgreFactoryEntry.cs" />
-    <Compile Include="Definition\BoneInfo.cs" />
-    <Compile Include="Definition\CameraDefinition.cs" />
-    <Compile Include="Definition\EntityDefinition.cs" />
-    <Compile Include="Definition\LightDefinition.cs" />
-    <Compile Include="Definition\ManualObjectDefinition.cs" />
-    <Compile Include="Definition\MovableObjectDefinition.cs" />
-    <Compile Include="Definition\OgreSceneManagerDefinition.cs" />
-    <Compile Include="Definition\SceneNodeDefinition.cs" />
-    <Compile Include="Definition\SkeletonInfo.cs" />
-    <Compile Include="Instance\CameraContainer.cs" />
-    <Compile Include="Instance\EntityContainer.cs" />
-    <Compile Include="Instance\LightContainer.cs" />
-    <Compile Include="Instance\ManualObjectContainer.cs" />
-    <Compile Include="Instance\MovableObjectContainer.cs" />
-    <Compile Include="Instance\MovableObjectContainerBase.cs" />
-    <Compile Include="Instance\OgreSceneManager.cs" />
-    <Compile Include="Instance\SceneNodeElement.cs" />
-    <Compile Include="Platform\AutomaticWindow.cs" />
-    <Compile Include="Platform\EmbeddedWindow.cs" />
-    <Compile Include="Platform\ManualWindow.cs" />
-    <Compile Include="Platform\OgreSceneView.cs" />
-    <Compile Include="Platform\OgreOSWindow.cs" />
-    <Compile Include="Platform\OgreSceneViewLightManager.cs" />
-    <Compile Include="Platform\OgreUpdate.cs" />
-    <Compile Include="Platform\OgreWindow.cs" />
-    <Compile Include="Platform\OgreWindowListener.cs" />
-    <Compile Include="Plugin\DeviceLostListener.cs" />
-    <Compile Include="Plugin\ImageAtlas\ImageAtlasException.cs" />
-    <Compile Include="Plugin\ImageAtlas\ImageAtlasPage.cs" />
-    <Compile Include="Plugin\ImageAtlas\ImagePackTreeNode.cs" />
-    <Compile Include="Plugin\MaterialParser\MaterialDescription.cs" />
-    <Compile Include="Plugin\MaterialParser\MaterialBuilder.cs" />
-    <Compile Include="Plugin\MaterialParser\MaterialLocation.cs" />
-    <Compile Include="Plugin\MaterialParser\MaterialParserException.cs" />
-    <Compile Include="Plugin\MaterialParser\MaterialParserManager.cs" />
-    <Compile Include="Plugin\MaterialParser\MaterialRepository.cs" />
-    <Compile Include="Plugin\OgreConfig.cs" />
-    <Compile Include="Plugin\OgreDebugSurface.cs" />
-    <Compile Include="Plugin\OgreInterface.cs" />
-    <Compile Include="Plugin\OgrePluginEntryPoint.cs" />
-    <Compile Include="Plugin\OgreResourceManager.cs" />
-    <Compile Include="Plugin\ImageAtlas\PagedImageAtlas.cs" />
-    <Compile Include="Plugin\UnifiedMaterial\GlslesUnifiedShaderFactory.cs" />
-    <Compile Include="Plugin\UnifiedMaterial\GlslUnifiedShaderFactory.cs" />
-    <Compile Include="Plugin\UnifiedMaterial\HlslUnifiedShaderFactory.cs" />
-    <Compile Include="Plugin\UnifiedMaterial\UnifiedMaterialBuilder.cs" />
-    <Compile Include="Plugin\UnifiedMaterial\UnifiedShaderFactory.cs" />
-    <Compile Include="Plugin\VirtualTexture\BufferedPhysicalTexture.cs" />
-    <Compile Include="Plugin\VirtualTexture\ClassicImageCacheHandle.cs" />
-    <Compile Include="Plugin\VirtualTexture\DirectPhysicalTexture.cs" />
-    <Compile Include="Plugin\VirtualTexture\FeedbackBuffer.cs" />
-    <Compile Include="Plugin\VirtualTexture\FeedbackCameraPositioner.cs" />
-    <Compile Include="Plugin\VirtualTexture\FullImageSizeStrategy.cs" />
-    <Compile Include="Plugin\VirtualTexture\ImagePageSizeStrategy.cs" />
-    <Compile Include="Plugin\VirtualTexture\IndirectionTexture.cs" />
-    <Compile Include="Plugin\VirtualTexture\OriginalTextureInfo.cs" />
-    <Compile Include="Plugin\VirtualTexture\PagedImage.cs" />
-    <Compile Include="Plugin\VirtualTexture\PagedImageCacheHandle.cs" />
-    <Compile Include="Plugin\VirtualTexture\PhysicalTexture.cs" />
-    <Compile Include="Plugin\VirtualTexture\PTexPage.cs" />
-    <Compile Include="Plugin\VirtualTexture\StagingBufferSet.cs" />
-    <Compile Include="Plugin\VirtualTexture\StagingIndirectionTexture.cs" />
-    <Compile Include="Plugin\VirtualTexture\StagingPhysicalPage.cs" />
-    <Compile Include="Plugin\VirtualTexture\TextureCache.cs" />
-    <Compile Include="Plugin\VirtualTexture\TextureCacheHandle.cs" />
-    <Compile Include="Plugin\VirtualTexture\TextureLoader.cs" />
-    <Compile Include="Plugin\VirtualTexture\TexturePageHandle.cs" />
-    <Compile Include="Plugin\VirtualTexture\TiledImageSizeStrategy.cs" />
-    <Compile Include="Plugin\VirtualTexture\VirtualTextureManager.cs" />
-    <Compile Include="Plugin\VirtualTexture\VTexPage.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="Properties\AssemblyInfoSource.cs" />
-    <Compile Include="Utility\EntityExtensions.cs" />
-    <Compile Include="Utility\FrameClearManager.cs" />
-    <Compile Include="Utility\FreeImageBitmapExtensions.cs" />
-    <Compile Include="Utility\OgreDrawingUtility.cs" />
-    <Compile Include="Wrapper\Animation\Animation.cs" />
-    <Compile Include="Wrapper\Animation\AnimationState.cs" />
-    <Compile Include="Wrapper\Animation\AnimationStateIterator.cs" />
-    <Compile Include="Wrapper\Animation\AnimationStateSet.cs" />
-    <Compile Include="Wrapper\Animation\AnimationTrack.cs" />
-    <Compile Include="Wrapper\Animation\KeyFrame.cs" />
-    <Compile Include="Wrapper\Animation\Node\NodeAnimationTrack.cs" />
-    <Compile Include="Wrapper\Animation\Node\TransformKeyFrame.cs" />
-    <Compile Include="Wrapper\Animation\Numeric\NumericAnimationTrack.cs" />
-    <Compile Include="Wrapper\Animation\Skeletal\Bone.cs" />
-    <Compile Include="Wrapper\Animation\Skeletal\Skeleton.cs" />
-    <Compile Include="Wrapper\Animation\Skeletal\SkeletonInstance.cs" />
-    <Compile Include="Wrapper\Animation\Skeletal\SkeletonManager.cs" />
-    <Compile Include="Wrapper\Animation\Skeletal\SkeletonPtr.cs" />
-    <Compile Include="Wrapper\Animation\TimeIndex.cs" />
-    <Compile Include="Wrapper\Animation\Vertex\Pose.cs" />
-    <Compile Include="Wrapper\Animation\Vertex\VertexAnimationTrack.cs" />
-    <Compile Include="Wrapper\Animation\Vertex\VertexMorphKeyFrame.cs" />
-    <Compile Include="Wrapper\Animation\Vertex\VertexPoseKeyFrame.cs" />
-    <Compile Include="Wrapper\BoundingVolumes\PlaneBoundedVolume.cs" />
-    <Compile Include="Wrapper\CustomArchives\Embedded\EmbeddedResourceArchive.cs" />
-    <Compile Include="Wrapper\CustomArchives\Embedded\EmbeddedResourceArchiveFactory.cs" />
-    <Compile Include="Wrapper\CustomArchives\EngineArchive\OgreScalableEngineArchiveFactory.cs" />
-    <Compile Include="Wrapper\CustomArchives\OgreDataStream.cs" />
-    <Compile Include="Wrapper\CustomArchives\OgreDataStreamPtr.cs" />
-    <Compile Include="Wrapper\CustomArchives\ScalableResourceArchive.cs" />
-    <Compile Include="Wrapper\CustomArchives\Embedded\EmbeddedScalableResourceArchiveFactory.cs" />
-    <Compile Include="Wrapper\CustomArchives\EngineArchive\OgreEngineArchive.cs" />
-    <Compile Include="Wrapper\CustomArchives\EngineArchive\OgreEngineArchiveFactory.cs" />
-    <Compile Include="Wrapper\CustomArchives\Memory\MemoryArchive.cs" />
-    <Compile Include="Wrapper\CustomArchives\Memory\MemoryArchiveFactory.cs" />
-    <Compile Include="Wrapper\CustomArchives\OgreManagedArchive.cs" />
-    <Compile Include="Wrapper\CustomArchives\OgreManagedArchiveFactory.cs" />
-    <Compile Include="Wrapper\CustomArchives\OgreManagedStream.cs" />
-    <Compile Include="Wrapper\MeshData\HardwareBuffer.cs" />
-    <Compile Include="Wrapper\MeshData\HardwareBufferManager.cs" />
-    <Compile Include="Wrapper\MeshData\HardwareIndexBuffer.cs" />
-    <Compile Include="Wrapper\MeshData\HardwareIndexBufferSharedPtr.cs" />
-    <Compile Include="Wrapper\MeshData\HardwarePixelBuffer.cs" />
-    <Compile Include="Wrapper\MeshData\HardwarePixelBufferSharedPtr.cs" />
-    <Compile Include="Wrapper\MeshData\HardwareVertexBuffer.cs" />
-    <Compile Include="Wrapper\MeshData\HardwareVertexBufferSharedPtr.cs" />
-    <Compile Include="Wrapper\MeshData\IndexData.cs" />
-    <Compile Include="Wrapper\MeshData\VertexBufferBinding.cs" />
-    <Compile Include="Wrapper\MeshData\VertexData.cs" />
-    <Compile Include="Wrapper\MeshData\VertexDeclaration.cs" />
-    <Compile Include="Wrapper\MeshData\VertexElement.cs" />
-    <Compile Include="Wrapper\Queries\PlaneBoundedVolumeListSceneQuery.cs" />
-    <Compile Include="Wrapper\Queries\RaySceneQuery.cs" />
-    <Compile Include="Wrapper\Queries\RaySceneQueryResultEntry.cs" />
-    <Compile Include="Wrapper\Queries\SceneQueryResult.cs" />
-    <Compile Include="Wrapper\Renderer\ConfigOption.cs" />
-    <Compile Include="Wrapper\Renderer\FrameEvent.cs" />
-    <Compile Include="Wrapper\Renderer\PixelBox.cs" />
-    <Compile Include="Wrapper\Renderer\RenderQueue.cs" />
-    <Compile Include="Wrapper\Renderer\RenderQueueListener\ManagedRenderQueueListener.cs" />
-    <Compile Include="Wrapper\Renderer\RenderQueueListener\RenderQueueListener.cs" />
-    <Compile Include="Wrapper\Renderer\RenderSystem.cs" />
-    <Compile Include="Wrapper\Renderer\RenderSystemListener.cs" />
-    <Compile Include="Wrapper\Renderer\RenderTarget.cs" />
-    <Compile Include="Wrapper\Renderer\RenderTargetListener.cs" />
-    <Compile Include="Wrapper\Renderer\RenderTexture.cs" />
-    <Compile Include="Wrapper\Renderer\RenderWindow.cs" />
-    <Compile Include="Wrapper\Renderer\Root.cs" />
-    <Compile Include="Wrapper\Renderer\SceneListener\ManagedSceneListener.cs" />
-    <Compile Include="Wrapper\Renderer\SceneListener\SceneListener.cs" />
-    <Compile Include="Wrapper\Renderer\SceneManager.cs" />
-    <Compile Include="Wrapper\Renderer\Viewport.cs" />
-    <Compile Include="Wrapper\Renderer\ViewportManager.cs" />
-    <Compile Include="Wrapper\Renderer\WindowEventListener.cs" />
-    <Compile Include="Wrapper\Renderer\WindowEventUtilities.cs" />
-    <Compile Include="Wrapper\Resources\AutoConstantType.cs" />
-    <Compile Include="Wrapper\Resources\CompositorManager.cs" />
-    <Compile Include="Wrapper\Resources\GpuConstantType.cs" />
-    <Compile Include="Wrapper\Resources\GpuProgram.cs" />
-    <Compile Include="Wrapper\Resources\GpuProgramManager.cs" />
-    <Compile Include="Wrapper\Resources\GpuProgramParameters.cs" />
-    <Compile Include="Wrapper\Resources\GpuSharedParametersPtr.cs" />
-    <Compile Include="Wrapper\Resources\GpuProgramParametersSharedPtr.cs" />
-    <Compile Include="Wrapper\Resources\GpuSharedParameters.cs" />
-    <Compile Include="Wrapper\Resources\HighLevelGpuProgram.cs" />
-    <Compile Include="Wrapper\Resources\HighLevelGpuProgramManager.cs" />
-    <Compile Include="Wrapper\Resources\HighLevelGpuProgramSharedPtr.cs" />
-    <Compile Include="Wrapper\Resources\ManagedManualResourceLoader.cs" />
-    <Compile Include="Wrapper\Resources\Materials\Material.cs" />
-    <Compile Include="Wrapper\Resources\Materials\MaterialManager.cs" />
-    <Compile Include="Wrapper\Resources\Materials\MaterialPtr.cs" />
-    <Compile Include="Wrapper\Resources\Materials\Pass.cs" />
-    <Compile Include="Wrapper\Resources\Materials\Technique.cs" />
-    <Compile Include="Wrapper\Resources\Materials\TextureUnitState.cs" />
-    <Compile Include="Wrapper\Resources\Meshes\Mesh.cs" />
-    <Compile Include="Wrapper\Resources\Meshes\MeshManager.cs" />
-    <Compile Include="Wrapper\Resources\Meshes\MeshPtr.cs" />
-    <Compile Include="Wrapper\Resources\Meshes\MeshSerializer.cs" />
-    <Compile Include="Wrapper\Resources\Meshes\SubMesh.cs" />
-    <Compile Include="Wrapper\Resources\OgreArchiveManager.cs" />
-    <Compile Include="Wrapper\Resources\OgreResourceGroupManager.cs" />
-    <Compile Include="Wrapper\Resources\Resource.cs" />
-    <Compile Include="Wrapper\Resources\Textures\Image.cs" />
-    <Compile Include="Wrapper\Resources\Textures\Texture.cs" />
-    <Compile Include="Wrapper\Resources\Textures\TextureManager.cs" />
-    <Compile Include="Wrapper\Resources\Textures\TexturePtr.cs" />
-    <Compile Include="Wrapper\SceneObjects\Camera.cs" />
-    <Compile Include="Wrapper\SceneObjects\Entity.cs" />
-    <Compile Include="Wrapper\SceneObjects\Light.cs" />
-    <Compile Include="Wrapper\SceneObjects\ManualObject.cs" />
-    <Compile Include="Wrapper\SceneObjects\ManualObjectSection.cs" />
-    <Compile Include="Wrapper\SceneObjects\MovableObject.cs" />
-    <Compile Include="Wrapper\SceneObjects\Node.cs" />
-    <Compile Include="Wrapper\SceneObjects\SceneNode.cs" />
-    <Compile Include="Wrapper\SceneObjects\StaticGeometry.cs" />
-    <Compile Include="Wrapper\SceneObjects\SubEntity.cs" />
-    <Compile Include="Wrapper\Utility\GPUVendor.cs" />
-    <Compile Include="Wrapper\Utility\LibraryInfo.cs" />
-    <Compile Include="Wrapper\Utility\OgreException.cs" />
-    <Compile Include="Wrapper\Utility\OgreExceptionManager.cs" />
-    <Compile Include="Wrapper\Utility\OgreLogConnection.cs" />
-    <Compile Include="Wrapper\Utility\RenderQueueGroupID.cs" />
-    <Compile Include="Wrapper\Utility\SharedPtr.cs" />
-    <Compile Include="Wrapper\Utility\SharedPtrCollection.cs" />
-    <Compile Include="Wrapper\Utility\SharedPtrEntry.cs" />
-    <Compile Include="Wrapper\Utility\WrapperMath.cs" />
     <EmbeddedResource Include="Resources\Basic\Basic.program" />
     <EmbeddedResource Include="Resources\Basic\D3D11\BasicTexturedNoLightPS.hlsl" />
     <EmbeddedResource Include="Resources\Basic\D3D11\BasicWorldTexturedNoLightVP.hlsl" />
@@ -315,22 +100,6 @@
     <EmbeddedResource Include="Resources\Basic\glsl\Vignette.glsl" />
     <EmbeddedResource Include="Resources\Basic\glsles\Vignette.glsl" />
     <EmbeddedResource Include="Resources\Unified\glsles\FeedbackBufferVPHardwareSkin.glsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Dependencies\Newtonsoft.Json\Src\Newtonsoft.Json\Newtonsoft.Json.Portable40.csproj">
-      <Project>{959f7f85-c98b-4876-971a-9036224578e4}</Project>
-      <Name>Newtonsoft.Json.Portable40</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Engine\Engine.csproj">
-      <Project>{57C253F1-157F-4A6A-9FED-345A776B97D5}</Project>
-      <Name>Engine</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Dependencies\FreeImage.NET\Library\FreeImageDotNet.csproj">
-      <Project>{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}</Project>
-      <Name>FreeImageDotNet</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources\ColorVertex\D3D11\ColorVertex.hlsl" />
     <EmbeddedResource Include="Resources\ColorVertex\ColorVertex.material" />
     <EmbeddedResource Include="Resources\ColorVertex\ColorVertex.program" />
@@ -356,22 +125,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\Basic\D3D11\Vignette.hlsl" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
-  <UsingTask TaskName="WriteGitRevisionCount" AssemblyFile="..\..\Dependencies\MSBuild\Anomalous\bin\Release\AnomalousMSBuild.dll" />
-  <Target Name="BeforeBuild">
-    <WriteGitRevisionCount Directory="$(ProjectDir)" SourceFile="$(ProjectDir)/Properties/AssemblyInfoSource.cs" DestFile="$(ProjectDir)/Properties/AssemblyInfo.cs" />
-  </Target>
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-    <PreBuildEvent>
-    </PreBuildEvent>
-  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
+  </ItemGroup>
 </Project>

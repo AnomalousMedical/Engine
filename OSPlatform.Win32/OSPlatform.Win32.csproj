@@ -40,6 +40,8 @@
     <Compile Include="FullNetFrameworkShim.cs" />
     <Compile Include="ProcessInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StackFrameShim.cs" />
+    <Compile Include="StackTraceShim.cs" />
     <Compile Include="WindowsRuntimePlatformInfo.cs" />
   </ItemGroup>
   <ItemGroup>

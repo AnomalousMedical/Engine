@@ -1,4 +1,5 @@
 ﻿using Engine;
+using Engine.Shim;
 using FreeImageAPI;
 using Newtonsoft.Json;
 using System;
@@ -161,7 +162,7 @@ namespace OgrePlugin.Plugin.VirtualTexture
                     serialImageRect.Height = pageSize;
                     serialImageRect.Top = y * pageSize;
 
-                    Parallel.For(0, size, x =>
+                    NetFrameworkShim.ParallelFor(0, size, x =>
                     //for (int x = 0; x < size; ++x)
                     {
                         IntRect imageRect = serialImageRect;

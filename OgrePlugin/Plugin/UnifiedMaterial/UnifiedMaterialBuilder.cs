@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,7 +35,7 @@ namespace OgrePlugin
 #if NEVER_CACHE_SHADERS
         public static readonly String Version = Guid.NewGuid().ToString();
 #else
-        public static readonly String Version = typeof(UnifiedMaterialBuilder).Assembly.GetName().Version.ToString();
+        public static readonly String Version = typeof(UnifiedMaterialBuilder).GetTypeInfo().Assembly.GetName().Version.ToString();
 #endif
 
         private const String GroupName = "UnifiedMaterialBuilder__Reserved";
@@ -688,7 +689,7 @@ namespace OgrePlugin
                 using (Stream stream = VirtualFileSystem.Instance.openStream(texturePath, Engine.Resources.FileMode.Open)) //Probably not the best idea to directly access vfs here
                 {
                     int width, height;
-                    if (texturePath.EndsWith(PagedImage.FileExtension, StringComparison.InvariantCultureIgnoreCase))
+                    if (texturePath.EndsWith(PagedImage.FileExtension, StringComparison.OrdinalIgnoreCase))
                     {
                         using (PagedImage pagedImage = new PagedImage())
                         {

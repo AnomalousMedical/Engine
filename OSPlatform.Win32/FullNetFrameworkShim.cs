@@ -38,17 +38,27 @@ namespace Anomalous.OSPlatform.Win32
 
         public void PrintStackTrace()
         {
-            StackTrace stackTrace = new StackTrace(1, true);
+            var stackTrace = new System.Diagnostics.StackTrace(1, true);
             StringBuilder sb = new StringBuilder(512);
             sb.AppendLine("Stack Trace");
             sb.AppendLine("----------------------");
-            foreach (StackFrame frame in stackTrace.GetFrames())
+            foreach (var frame in stackTrace.GetFrames())
             {
                 MethodBase method = frame.GetMethod();
                 sb.AppendLine(String.Format("{0}::{1}", method.ReflectedType != null ? method.ReflectedType.Name : string.Empty, method.Name));
             }
             sb.Append("----------------------");
             Log.Debug(sb.ToString());
+        }
+
+        public Engine.Shim.StackTrace CreateStackTrace(bool fNeedFileInfo)
+        {
+            return new StackTraceShim(new System.Diagnostics.StackTrace(fNeedFileInfo));
+        }
+
+        public void ParallelFor(int fromInclusive, int toExclusive, Action<int> body)
+        {
+            Parallel.For(fromInclusive, toExclusive, body);
         }
 
         public IEnumerable<Assembly> LoadedAssemblies

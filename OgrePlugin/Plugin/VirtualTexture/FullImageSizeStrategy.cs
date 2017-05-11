@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Engine;
 using FreeImageAPI;
+using Engine.Shim;
 
 namespace OgrePlugin.Plugin.VirtualTexture
 {
@@ -60,7 +61,7 @@ namespace OgrePlugin.Plugin.VirtualTexture
                         }
                     }
 
-                    Parallel.For(0, size, x =>
+                    NetFrameworkShim.ParallelFor(0, size, x =>
                     //for (int x = 0; x < size; ++x)
                     {
                         bool leftSide, rightSide;

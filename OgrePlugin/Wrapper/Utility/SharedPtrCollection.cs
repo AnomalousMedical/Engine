@@ -5,6 +5,7 @@ using System.Text;
 using System.Diagnostics;
 using Logging;
 using System.Runtime.InteropServices;
+using Engine.Shim;
 
 namespace OgrePlugin
 {
@@ -157,7 +158,7 @@ namespace OgrePlugin
                 entry.addPointer(sp);
                 if (OgreInterface.TrackMemoryLeaks)
                 {
-                    allocationStackTraces.Add(sp, new StackTrace(true));
+                    allocationStackTraces.Add(sp, NetFrameworkShim.CreateStackTrace(true));
                 }
                 return sp;
             }
@@ -199,7 +200,7 @@ namespace OgrePlugin
             String filename = "Unknown";
             if (OgreInterface.TrackMemoryLeaks)
             {
-                StackTrace st = new StackTrace(true);
+                StackTrace st = NetFrameworkShim.CreateStackTrace(true);
                 filename = st.GetFrame(0).GetFileName();
 
                 if (ptrDictionary.Count > 0)
