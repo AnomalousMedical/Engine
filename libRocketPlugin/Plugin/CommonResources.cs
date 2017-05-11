@@ -30,7 +30,7 @@ namespace libRocketPlugin
             String assemblyResource;
             if (resourceMap.TryGetValue(resourceName, out assemblyResource))
             {
-                return Assembly.GetExecutingAssembly().GetManifestResourceStream(assemblyResource);
+                return typeof(CommonResources).GetTypeInfo().Assembly.GetManifestResourceStream(assemblyResource);
             }
             return null;
         }

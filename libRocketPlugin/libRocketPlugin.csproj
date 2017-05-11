@@ -1,18 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A221C2F5-2089-495B-B51A-54710507344A}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFramework>netstandard1.6</TargetFramework>
     <RootNamespace>libRocketPlugin</RootNamespace>
     <AssemblyName>libRocketPlugin</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -59,69 +49,6 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Plugin\CommonResources.cs" />
-    <Compile Include="Plugin\CommonResourcesArchive.cs" />
-    <Compile Include="Plugin\CommonResourcesArchiveFactory.cs" />
-    <Compile Include="Plugin\ContextUpdater.cs" />
-    <Compile Include="Plugin\InputMap.cs" />
-    <Compile Include="Plugin\ManagedFileInterface.cs" />
-    <Compile Include="Plugin\RocketAssemblyResourceLoader.cs" />
-    <Compile Include="Plugin\RocketFileSystemExtension.cs" />
-    <Compile Include="Plugin\RocketInterface.cs" />
-    <Compile Include="Plugin\RocketPluginEntryPoint.cs" />
-    <Compile Include="Plugin\RocketFilesystemArchive.cs" />
-    <Compile Include="Plugin\RocketFilesystemArchiveFactory.cs" />
-    <Compile Include="Plugin\RocketRenderQueueListener.cs" />
-    <Compile Include="Plugin\RocketRenderSystemListener.cs" />
-    <Compile Include="Plugin\VirtualFileSystemFileInterface.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Wrapper\Controls\ElementFormControl.cs" />
-    <Compile Include="Wrapper\Core\Template.cs" />
-    <Compile Include="Wrapper\Core\TemplateCache.cs" />
-    <Compile Include="Wrapper\Core\VariantAllocated.cs" />
-    <Compile Include="Wrapper\Core\Context.cs" />
-    <Compile Include="Wrapper\Controls\Controls.cs" />
-    <Compile Include="Wrapper\Core\Core.cs" />
-    <Compile Include="Wrapper\Core\RktEntry.cs" />
-    <Compile Include="Wrapper\Core\Factory.cs" />
-    <Compile Include="Wrapper\Core\RktDictionary.cs" />
-    <Compile Include="Wrapper\Core\RktDictionaryIterator.cs" />
-    <Compile Include="Wrapper\Core\TextureDatabase.cs" />
-    <Compile Include="Wrapper\Core\Variant.cs" />
-    <Compile Include="Wrapper\Core\VariantWrapped.cs" />
-    <Compile Include="Wrapper\Elements\ElementManager.cs" />
-    <Compile Include="Wrapper\Events\Event.cs" />
-    <Compile Include="Wrapper\Events\EventInstancer.cs" />
-    <Compile Include="Wrapper\Events\EventListenerInstancer.cs" />
-    <Compile Include="Wrapper\Debugger\Debugger.cs" />
-    <Compile Include="Wrapper\Elements\Element.cs" />
-    <Compile Include="Wrapper\Elements\ElementDocument.cs" />
-    <Compile Include="Wrapper\Events\EventListener.cs" />
-    <Compile Include="Wrapper\Core\FileInterface.cs" />
-    <Compile Include="Wrapper\Core\Font.cs" />
-    <Compile Include="Wrapper\Core\FontDatabase.cs" />
-    <Compile Include="Wrapper\Core\Input.cs" />
-    <Compile Include="Wrapper\Core\LogType.cs" />
-    <Compile Include="Plugin\ManagedSystemInterface.cs" />
-    <Compile Include="Wrapper\Core\ReferenceCountable.cs" />
-    <Compile Include="Wrapper\Core\RenderInterface.cs" />
-    <Compile Include="Wrapper\Core\RocketNativeObject.cs" />
-    <Compile Include="Wrapper\Core\SystemInterface.cs" />
-    <Compile Include="Wrapper\Math\ThreeIntHack.cs" />
-    <Compile Include="Wrapper\RenderInterfaceOgre3D.cs" />
-    <Compile Include="Wrapper\Math\Vector2i.cs" />
-    <Compile Include="Wrapper\Utility\ElementListIter.cs" />
-  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Anomalous.rcss" />
     <EmbeddedResource Include="Resources\rkt.rcss" />
@@ -177,16 +104,4 @@
     <EmbeddedResource Include="Resources\Shader\Gui\glsles\TexturePS.glsles" />
     <EmbeddedResource Include="Resources\Shader\Gui\glsles\TextureVS.glsles" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
-  <UsingTask TaskName="WriteGitRevisionCount" AssemblyFile="..\..\Dependencies\MSBuild\Anomalous\bin\Release\AnomalousMSBuild.dll" />
-  <Target Name="BeforeBuild">
-    <WriteGitRevisionCount Directory="$(ProjectDir)" SourceFile="$(ProjectDir)/Properties/AssemblyInfoSource.cs" DestFile="$(ProjectDir)/Properties/AssemblyInfo.cs" />
-  </Target>
 </Project>

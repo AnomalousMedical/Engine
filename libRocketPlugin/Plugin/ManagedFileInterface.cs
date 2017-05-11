@@ -50,7 +50,7 @@ namespace libRocketPlugin
         {
             GCHandle handle = GCHandle.FromIntPtr(file);
             Stream stream = (Stream)handle.Target;
-            stream.Close();
+            stream.Dispose();
             handle.Free();
         }
 
