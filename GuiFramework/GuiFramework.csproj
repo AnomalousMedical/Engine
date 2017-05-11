@@ -1,17 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FC299A06-61BD-4562-A315-0F0BE454925A}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFramework>netstandard1.6</TargetFramework>
     <RootNamespace>Anomalous.GuiFramework</RootNamespace>
     <AssemblyName>GuiFramework</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,122 +22,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Controller\DialogEntry.cs" />
-    <Compile Include="Controller\DialogManager.cs" />
-    <Compile Include="Controller\Documents\DocumentController.cs" />
-    <Compile Include="Controller\Documents\DocumentHandler.cs" />
-    <Compile Include="Controller\Documents\RecentDocuments.cs" />
-    <Compile Include="Controller\GUIManager.cs" />
-    <Compile Include="Controller\GUITaskManager.cs" />
-    <Compile Include="Controller\MDIDialogEntry.cs" />
-    <Compile Include="Controller\ScreenLayoutManager.cs" />
-    <Compile Include="Controller\StandardDialogEntry.cs" />
-    <Compile Include="Controller\TaskController\ArgumentCallbackTask.cs" />
-    <Compile Include="Controller\TaskController\ArgumentTask.cs" />
-    <Compile Include="Controller\TaskController\CallbackTask.cs" />
-    <Compile Include="Controller\TaskController\CallbackTaskWithObject.cs" />
-    <Compile Include="Controller\TaskController\DialogOpenTask.cs" />
-    <Compile Include="Controller\TaskController\EmptyTaskPositioner.cs" />
-    <Compile Include="Controller\TaskController\MDIDialogOpenTask.cs" />
-    <Compile Include="Controller\TaskController\PinableMDIDialogOpenTask.cs" />
-    <Compile Include="Controller\TaskController\ShowPopupTask.cs" />
-    <Compile Include="Controller\TaskController\Task.cs" />
-    <Compile Include="Controller\TaskController\TaskController.cs" />
-    <Compile Include="Controller\TaskController\TaskPositioner.cs" />
-    <Compile Include="GUI\ColorMenu\ColorMenu.cs" />
-    <Compile Include="GUI\ContextMenu\ContextMenu.cs" />
-    <Compile Include="GUI\ContextMenu\ContextMenuItem.cs" />
-    <Compile Include="GUI\GUIElementPopup.cs" />
-    <Compile Include="GUI\MDIDialog.cs" />
-    <Compile Include="GUI\Notification\AbstractNotification.cs" />
-    <Compile Include="GUI\Notification\CallbackNotificationGUI.cs" />
-    <Compile Include="GUI\Notification\Notification.cs" />
-    <Compile Include="GUI\Notification\NotificationGUI.cs" />
-    <Compile Include="GUI\Notification\NotificationGUIManager.cs" />
-    <Compile Include="GUI\Notification\StartTaskNotification.cs" />
-    <Compile Include="GUI\PinableMDIDialog.cs" />
-    <Compile Include="GUI\SplashScreen.cs" />
-    <Compile Include="GUI\Taskbar\AppButtonTaskbar.cs" />
-    <Compile Include="GUI\Taskbar\ClosingTaskbar.cs" />
-    <Compile Include="GUI\Taskbar\MissingTaskbarItem.cs" />
-    <Compile Include="GUI\Taskbar\PinnedTaskSerializer.cs" />
-    <Compile Include="GUI\Taskbar\PinnedTaskTaskbarItem.cs" />
-    <Compile Include="GUI\Taskbar\Taskbar.cs" />
-    <Compile Include="GUI\Taskbar\TaskbarItem.cs" />
-    <Compile Include="GUI\Taskbar\TaskTaskbarItem.cs" />
-    <Compile Include="GUI\Taskbar\TimelineTaskbarItem.cs" />
-    <Compile Include="GUI\TaskMenu\TaskMenu.cs" />
-    <Compile Include="GUI\TaskMenu\TaskMenuAdProvider.cs" />
-    <Compile Include="GUI\TaskMenu\TaskMenuGroupSorter.cs" />
-    <Compile Include="GUI\TaskMenu\TaskMenuPositioner.cs" />
-    <Compile Include="GUI\TaskMenu\TaskMenuRecentDocuments.cs" />
-    <Compile Include="Layout\AnimatedLayoutContainer.cs" />
-    <Compile Include="Layout\AnimatedLayoutContainerManager.cs" />
-    <Compile Include="Layout\AspectRatioContainer.cs" />
-    <Compile Include="Layout\BorderLayoutContainer.cs" />
-    <Compile Include="Layout\Chain\ActiveContainerTracker.cs" />
-    <Compile Include="Layout\Chain\BorderLayoutChainLink.cs" />
-    <Compile Include="Layout\Chain\BorderLayoutElementName.cs" />
-    <Compile Include="Layout\Chain\BorderLayoutNoAnimationChainLink.cs" />
-    <Compile Include="Layout\Chain\FinalChainLink.cs" />
-    <Compile Include="Layout\Chain\LayoutChain.cs" />
-    <Compile Include="Layout\Chain\LayoutChainLink.cs" />
-    <Compile Include="Layout\Chain\LayoutElementName.cs" />
-    <Compile Include="Layout\Chain\MDIChainLink.cs" />
-    <Compile Include="Layout\Chain\MDILayoutElementName.cs" />
-    <Compile Include="Layout\Chain\PopupAreaChainLink.cs" />
-    <Compile Include="Layout\Chain\SingleChildChainLink.cs" />
-    <Compile Include="Layout\EventLayoutContainer.cs" />
-    <Compile Include="Layout\FloatingLayoutContainer.cs" />
-    <Compile Include="Layout\FlowLayoutContainer.cs" />
-    <Compile Include="Layout\LayoutContainer.cs" />
-    <Compile Include="Layout\MDI\FloatingWindowContainer.cs" />
-    <Compile Include="Layout\MDI\MDIBorderContainer.cs" />
-    <Compile Include="Layout\MDI\MDIBorderContainerDock.cs" />
-    <Compile Include="Layout\MDI\MDIChildContainerBase.cs" />
-    <Compile Include="Layout\MDI\MDIContainerBase.cs" />
-    <Compile Include="Layout\MDI\MDIDocumentWindow.cs" />
-    <Compile Include="Layout\MDI\MDIException.cs" />
-    <Compile Include="Layout\MDI\MDILayoutContainer.cs" />
-    <Compile Include="Layout\MDI\MDILayoutContainerAbsolute.cs" />
-    <Compile Include="Layout\MDI\MDILayoutContainerScale.cs" />
-    <Compile Include="Layout\MDI\MDILayoutManager.cs" />
-    <Compile Include="Layout\MDI\MDIWindow.cs" />
-    <Compile Include="Layout\MDI\SeparatorWidgetManager.cs" />
-    <Compile Include="Layout\MDI\SeparatorWidgetManagerAbsolute.cs" />
-    <Compile Include="Layout\MDI\SeparatorWidgetManagerScale.cs" />
-    <Compile Include="Layout\MDI\StoredLayout\StoredBorderContainer.cs" />
-    <Compile Include="Layout\MDI\StoredLayout\StoredBorderContainerDock.cs" />
-    <Compile Include="Layout\MDI\StoredLayout\StoredFloatingWindows.cs" />
-    <Compile Include="Layout\MDI\StoredLayout\StoredMDILayout.cs" />
-    <Compile Include="Layout\MDI\StoredLayout\StoredMDILayoutContainer.cs" />
-    <Compile Include="Layout\MDI\WindowAlignment.cs" />
-    <Compile Include="Layout\MyGUILayoutContainer.cs" />
-    <Compile Include="Layout\MyGUISingleChildLayoutContainer.cs" />
-    <Compile Include="Layout\NullLayoutContainer.cs" />
-    <Compile Include="Layout\PopoutLayoutContainer.cs" />
-    <Compile Include="Layout\SingleChildConcreteLayoutContainer.cs" />
-    <Compile Include="Layout\SingleChildLayoutContainer.cs" />
-    <Compile Include="Layout\StretchLayoutContainer.cs" />
-    <Compile Include="Layout\VariableSizeMyGUILayoutContainer.cs" />
-    <Compile Include="Layout\ViewLocations.cs" />
-    <Compile Include="Plugin\GuiFrameworkEntryPoint.cs" />
-    <Compile Include="Plugin\GuiFrameworkInterface.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utility\CursorManager.cs" />
-    <Compile Include="Utility\Node.cs" />
-    <Compile Include="Utility\TwoWayCommand.cs" />
-    <Compile Include="Utility\TwoWayCommandBuffer.cs" />
-    <Compile Include="Utility\TwoWayDelegateCommand.cs" />
-    <Compile Include="Utility\UndoRedoBuffer.cs" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">
       <Project>{57c253f1-157f-4a6a-9fed-345a776b97d5}</Project>
@@ -190,12 +65,4 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\Imagesets.xml" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

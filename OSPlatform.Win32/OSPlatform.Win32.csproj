@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="FullNetFrameworkShim.cs" />
     <Compile Include="ProcessInfo.cs" />
+    <Compile Include="ProcessStartInfoShim.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StackFrameShim.cs" />
     <Compile Include="StackTraceShim.cs" />

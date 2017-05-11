@@ -18,6 +18,7 @@ namespace Engine.Shim
         void PrintStackTrace();
         StackTrace CreateStackTrace(bool fNeedFileInfo);
         void ParallelFor(int fromInclusive, int toExclusive, Action<int> body);
+        void Process_Start(ProcessStartInfo startInfo);
     }
 
     public static class NetFrameworkShim
@@ -53,6 +54,11 @@ namespace Engine.Shim
         public static void PrintStackTrace()
         {
             impl.PrintStackTrace();
+        }
+
+        public static void Process_Start(ProcessStartInfo startInfo)
+        {
+            impl.Process_Start(startInfo);
         }
 
         public static IProcessInfo ProcessInfo

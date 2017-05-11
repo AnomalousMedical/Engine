@@ -5,6 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using Anomalous.Interop;
 using System.Diagnostics;
+using Engine.Shim;
 
 namespace Anomalous.OSPlatform
 {
@@ -42,7 +43,7 @@ namespace Anomalous.OSPlatform
                         startInfo = RuntimePlatformInfo.RestartProcInfo;
                     }
                     startInfo.Arguments = restartArgs;
-                    Process.Start(startInfo);
+                    NetFrameworkShim.Process_Start(startInfo);
                 }
                 catch (Exception e)
                 {

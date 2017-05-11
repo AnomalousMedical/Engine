@@ -61,6 +61,15 @@ namespace Anomalous.OSPlatform.Win32
             Parallel.For(fromInclusive, toExclusive, body);
         }
 
+        public void Process_Start(Engine.Shim.ProcessStartInfo startInfo)
+        {
+            var start = startInfo as ProcessStartInfoShim;
+            if (start != null)
+            {
+                Process.Start(start.StartInfo);
+            }
+        }
+
         public IEnumerable<Assembly> LoadedAssemblies
         {
             get

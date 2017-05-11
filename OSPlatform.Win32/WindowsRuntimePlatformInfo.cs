@@ -1,4 +1,5 @@
 ﻿using Engine.Shim;
+using OSPlatform.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -116,16 +117,16 @@ namespace Anomalous.OSPlatform.Win32
             }
         }
 
-        protected override ProcessStartInfo RestartProcInfoImpl
+        protected override Engine.Shim.ProcessStartInfo RestartProcInfoImpl
         {
             get
             {
                 String[] args = Environment.GetCommandLineArgs();
-                return new ProcessStartInfo(args[0]);
+                return new ProcessStartInfoShim(new System.Diagnostics.ProcessStartInfo(args[0]));
             }
         }
 
-        protected override ProcessStartInfo RestartAdminProcInfoImpl
+        protected override Engine.Shim.ProcessStartInfo RestartAdminProcInfoImpl
         {
             get
             {
