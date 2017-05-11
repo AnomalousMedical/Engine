@@ -4,6 +4,7 @@ using Engine.Platform;
 using Engine.Threads;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -90,7 +91,7 @@ namespace Anomalous.GuiFramework.Cameras
             DefaultEvents.registerDefaultEvent(ToggleZoomMode);
 
             switch (GuiFrameworkCamerasInterface.TouchType)
-            { 
+            {
                 case TouchType.Screen:
                     zoomGesture = new TwoFingerZoom(GuiFrameworkCamerasInterface.MoveCameraEventLayer, 0.001f, 2f);
                     DefaultEvents.registerDefaultEvent(zoomGesture);
@@ -100,7 +101,7 @@ namespace Anomalous.GuiFramework.Cameras
 
                     panGesture = new FingerDragGesture(GuiFrameworkCamerasInterface.MoveCameraEventLayer, 2, 0.001f, 2f, 5);
                     DefaultEvents.registerDefaultEvent(panGesture);
-                break;
+                    break;
             }
         }
 
@@ -123,6 +124,39 @@ namespace Anomalous.GuiFramework.Cameras
         private CameraPosition touchUndoPosition;
         private CameraMovementMode movementMode = CameraMovementMode.Rotate;
 
+        private class SynchronizeInvokeShim : ISynchronizeInvoke
+        {
+            ThreadManagerSynchronizeInvoke wrap;
+
+            public SynchronizeInvokeShim(ThreadManagerSynchronizeInvoke wrap)
+            {
+                this.wrap = wrap;
+            }
+
+            public bool InvokeRequired
+            {
+                get
+                {
+                    return this.wrap.InvokeRequired;
+                }
+            }
+
+            public IAsyncResult BeginInvoke(Delegate method, object[] args)
+            {
+                return wrap.BeginInvoke(method, args);
+            }
+
+            public object EndInvoke(IAsyncResult result)
+            {
+                return wrap.EndInvoke(result);
+            }
+
+            public object Invoke(Delegate method, object[] args)
+            {
+                return wrap.Invoke(method, args);
+            }
+        }
+
         public event Action<CameraMovementMode> CameraMovementModeChanged;
 
         internal CameraInputController(SceneViewController sceneViewController, EventManager eventManager)
@@ -132,7 +166,7 @@ namespace Anomalous.GuiFramework.Cameras
             eventManager[GuiFrameworkCamerasInterface.MoveCameraEventLayer].OnUpdate += processInputEvents;
 
             mouseWheelTimer = new Timer(UPDATE_DELAY);
-            mouseWheelTimer.SynchronizingObject = new ThreadManagerSynchronizeInvoke();
+            mouseWheelTimer.SynchronizingObject = new SynchronizeInvokeShim(new ThreadManagerSynchronizeInvoke());
             mouseWheelTimer.AutoReset = false;
             mouseWheelTimer.Elapsed += mouseWheelTimer_Elapsed;
 
@@ -222,7 +256,7 @@ namespace Anomalous.GuiFramework.Cameras
 
         void rotateCamera_FirstFrameUpEvent(EventLayer eventLayer)
         {
-            if(travelTracker.TraveledOverLimit)
+            if (travelTracker.TraveledOverLimit)
             {
                 eventLayer.alertEventsHandled();
             }
@@ -269,7 +303,7 @@ namespace Anomalous.GuiFramework.Cameras
                             switch (movementMode)
                             {
                                 case CameraMovementMode.Rotate:
-                                    if(cameraMover.AllowRotation)
+                                    if (cameraMover.AllowRotation)
                                     {
                                         travelTracker.traveled(mouseCoords);
                                         if (LockX.Down)
@@ -298,7 +332,7 @@ namespace Anomalous.GuiFramework.Cameras
                                     eventLayer.alertEventsHandled();
                                     break;
                                 case CameraMovementMode.Zoom:
-                                    if(cameraMover.AllowZoom)
+                                    if (cameraMover.AllowZoom)
                                     {
                                         travelTracker.traveled(mouseCoords);
                                         cameraMover.zoomFromMotion(mouseCoords.y);
@@ -354,7 +388,7 @@ namespace Anomalous.GuiFramework.Cameras
                 SceneViewWindow sceneView = sceneViewController.ActiveWindow;
                 if (sceneView != null)
                 {
-                    switch(movementMode)
+                    switch (movementMode)
                     {
                         case CameraMovementMode.Rotate:
                             sceneView.CameraMover.rotateFromMotion((int)gesture.DeltaX, (int)gesture.DeltaY);
@@ -504,7 +538,7 @@ namespace Anomalous.GuiFramework.Cameras
 
         private void commitTouchUndo()
         {
-            if(touchUndoPosition != null)
+            if (touchUndoPosition != null)
             {
                 SceneViewWindow activeWindow = sceneViewController.ActiveWindow;
                 if (activeWindow != null)

@@ -6,35 +6,43 @@ using System.Threading.Tasks;
 
 namespace System.Reflection
 {
+    public interface IAssemblyShimImpl
+    {
+        String CurrentAssemblyName { get; }
+
+        IEnumerable<Assembly> LoadedAssemblies { get; }
+
+        Assembly LoadFile(String path);
+    }
+
     public static class AssemblyShim
     {
+        private static IAssemblyShimImpl impl;
+
+        public static void SetShimImpl(IAssemblyShimImpl impl)
+        {
+            AssemblyShim.impl = impl;
+        }
+
         public static String CurrentAssemblyName
         {
             get
             {
-#if ENABLE_LEGACY_SHIMS
-                return "Unsupported";
-#else
-                return Assembly.GetCallingAssembly().GetName().Name;
-#endif
+                return impl.CurrentAssemblyName;
+            }
+        }
+
+        public static IEnumerable<Assembly> LoadedAssemblies
+        {
+            get
+            {
+                return impl.LoadedAssemblies;
             }
         }
 
         public static Assembly LoadFile(String path)
         {
-#if ENABLE_LEGACY_SHIMS
-            throw new NotImplementedException();
-#else
-            return Assembly.LoadFrom(path);
-#endif
+            return impl.LoadFile(path);
         }
-
-#if ENABLE_LEGACY_SHIMS
-        public static IEnumerable<Type> GetTypes(this Assembly assembly)
-        {
-            return assembly.DefinedTypes.Select(t => t.DeclaringType);
-        }
-
-#endif
     }
 }

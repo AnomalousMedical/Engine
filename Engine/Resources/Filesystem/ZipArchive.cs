@@ -21,7 +21,7 @@ namespace Engine.Resources
         public ZipArchive(String filename)
         {
             String zipName = parseZipName(filename);
-            fullZipPath = PathShim.GetFullPath(zipName);
+            fullZipPath = Path.GetFullPath(zipName);
             String subDir = parseURLInZip(filename);
             if (subDir == "")
             {
@@ -49,7 +49,7 @@ namespace Engine.Resources
 
         public override bool isArchiveFor(String path)
         {
-            return fullZipPath == PathShim.GetFullPath(path);
+            return fullZipPath == Path.GetFullPath(path);
         }
 
         public override IEnumerable<String> listFiles(bool recursive)
