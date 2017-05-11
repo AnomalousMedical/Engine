@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine\Engine.csproj", "{57C253F1-157F-4A6A-9FED-345A776B97D5}"
 EndProject
@@ -65,7 +65,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextureCompiler", "TextureC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{4DF4D5DA-3027-438C-AC3E-F2A16CDEA3E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeImageDotNet", "..\Dependencies\FreeImage.NET\Library\FreeImageDotNet.csproj", "{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreeImageDotNet", "..\Dependencies\FreeImage.NET\Library\FreeImageDotNet.csproj", "{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetZip", "..\Dependencies\DotNetZip\DotNetZip.csproj", "{5068F53B-8D7B-4AEE-AF54-7428B0E997A3}"
 EndProject
@@ -799,8 +799,8 @@ Global
 		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.Debug|x64.Build.0 = Debug|Any CPU
 		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.Debug|x86.Build.0 = Debug|Any CPU
-		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.DebugAOT|Any CPU.ActiveCfg = DebugAOT|Any CPU
-		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.DebugAOT|Any CPU.Build.0 = DebugAOT|Any CPU
+		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.DebugAOT|Any CPU.ActiveCfg = Debug|Any CPU
+		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.DebugAOT|Any CPU.Build.0 = Debug|Any CPU
 		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.DebugAOT|x64.ActiveCfg = Debug|Any CPU
 		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.DebugAOT|x64.Build.0 = Debug|Any CPU
 		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.DebugAOT|x86.ActiveCfg = Debug|Any CPU
@@ -811,8 +811,8 @@ Global
 		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.Release|x64.Build.0 = Release|Any CPU
 		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.Release|x86.ActiveCfg = Release|Any CPU
 		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.Release|x86.Build.0 = Release|Any CPU
-		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.ReleaseAOT|Any CPU.ActiveCfg = ReleaseAOT|Any CPU
-		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.ReleaseAOT|Any CPU.Build.0 = ReleaseAOT|Any CPU
+		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.ReleaseAOT|Any CPU.ActiveCfg = Release|Any CPU
+		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.ReleaseAOT|Any CPU.Build.0 = Release|Any CPU
 		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.ReleaseAOT|x64.ActiveCfg = Release|Any CPU
 		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.ReleaseAOT|x64.Build.0 = Release|Any CPU
 		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.ReleaseAOT|x86.ActiveCfg = Release|Any CPU
