@@ -34,7 +34,7 @@ namespace Engine.Saving
         }
 
         public ObjectIdentifier(ObjectIdentifier toClone)
-            :this(toClone.objectID, toClone.value, toClone.objectType)
+            : this(toClone.objectID, toClone.value, toClone.objectType)
         {
 
         }
@@ -50,7 +50,7 @@ namespace Engine.Saving
             ConstructorInfo constructor;
             if (!ConstructorCache.TryGetValue(ObjectType, out constructor))
             {
-                constructor = ObjectType.GetTypeInfo().GetConstructor(constructorArgs);
+                constructor = ObjectType.GetTypeInfo().DeclaredConstructors.FirstOrDefault(IsLoadConstructor);
                 ConstructorCache.Add(ObjectType, constructor);
             }
             if (constructor != null)
@@ -62,6 +62,17 @@ namespace Engine.Saving
             {
                 throw new SaveException(String.Format("The private constructor {0}(LoadInfo loadInfo) was not found for {1}. Please implement this method.", ObjectType.Name, ObjectType.FullName));
             }
+        }
+
+        private bool IsLoadConstructor(ConstructorInfo i)
+        {
+            bool valid = false;
+            if (!i.IsPublic)
+            {
+                var par = i.GetParameters();
+                valid = par.Length == 1 && par[0].ParameterType == typeof(LoadInfo);
+            }
+            return valid;
         }
 
         /// <summary>
