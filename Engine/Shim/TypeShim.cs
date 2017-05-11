@@ -5,10 +5,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-#if ENABLE_LEGACY_SHIMS
-using Engine.MissingUtil;
-#endif
-
 namespace System
 {
     public static class TypeShim

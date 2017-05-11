@@ -493,7 +493,7 @@ namespace Engine
             {
                 if (pluginDirectory == null)
                 {
-                    String[] args = EnvironmentShim.GetCommandLineArgs();
+                    String[] args = Environment.GetCommandLineArgs();
                     if (args.Length > 0)
                     {
                         pluginDirectory = Path.GetDirectoryName(args[0]);
