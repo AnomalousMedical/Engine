@@ -50,7 +50,7 @@ namespace Engine.Saving
             ConstructorInfo constructor;
             if (!ConstructorCache.TryGetValue(ObjectType, out constructor))
             {
-                constructor = ObjectType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, constructorArgs, null);
+                constructor = ObjectType.GetTypeInfo().GetConstructor(constructorArgs);
                 ConstructorCache.Add(ObjectType, constructor);
             }
             if (constructor != null)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Engine.Editing
@@ -54,7 +55,7 @@ namespace Engine.Editing
             {
                 return SupportsPastingTypeFunction.Invoke(type);
             }
-            return ObjectType.IsAssignableFrom(type);
+            return ObjectType.GetTypeInfo().IsAssignableFrom(type);
         }
 
         public Type ObjectType

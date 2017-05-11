@@ -28,7 +28,7 @@ namespace Engine
         /// <param name="templateController">The TemplateController to grab templates from.</param>
         public PositionCollection()
         {
-            
+
         }
 
         /// <summary>
@@ -39,9 +39,9 @@ namespace Engine
         {
             try
             {
-                using (XmlTextReader textReader = new XmlTextReader(stream))
+                using (XmlReader xmlReader = XmlReader.Create(stream, new XmlReaderSettings() { DtdProcessing = DtdProcessing.Prohibit, IgnoreWhitespace = true }))
                 {
-                    this.loadPositions(textReader);
+                    this.loadPositions(xmlReader);
                 }
             }
             catch (Exception e)

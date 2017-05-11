@@ -60,6 +60,31 @@ namespace System
             });
         }
 
+        public static IEnumerable<Attribute> GetCustomAttributes(this Type type, Type attrType, bool inherit)
+        {
+            return type.GetTypeInfo().GetCustomAttributes(attrType, inherit);
+        }
+
+        public static FieldInfo[] GetFields(this Type type, BindingFlags flags)
+        {
+            return type.GetTypeInfo().GetFields(flags);
+        }
+
+        public static Type GetInterface(this Type type, String name)
+        {
+            return type.GetTypeInfo().GetInterface(name);
+        }
+
+        public static Type[] GetGenericArguments(this Type type)
+        {
+            return type.GetTypeInfo().GetGenericArguments();
+        }
+
+        public static PropertyInfo[] GetProperties(this Type type, BindingFlags flags)
+        {
+            return type.GetTypeInfo().GetProperties(flags);
+        }
+
 #if ENABLE_LEGACY_SHIMS
         public static ConstructorInfo GetConstructor(this Type type, BindingFlags bindingAttr, UnusedParameter binder, Type[] types, UnusedParameter modifiers)
         {
