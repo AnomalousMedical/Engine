@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Engine.Shim;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -16,7 +17,7 @@ namespace Anomalous.OSPlatform.Win32
 
         public static void Initialize()
         {
-            AssemblyShim.SetShimImpl(new FullNetFrameworkShim());
+            NetFrameworkShim.SetShimImpl(new FullNetFrameworkShim());
             new WindowsRuntimePlatformInfo();
 
             //Make sure the paths are setup correctly on windows to find 32/64 bit binaries.

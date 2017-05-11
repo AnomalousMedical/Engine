@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Engine.Shim;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -17,7 +18,7 @@ namespace Engine.Editing
         public TypeBrowser(String rootNodeName, String prompt, Type baseType)
             : base(rootNodeName, prompt)
         {
-            foreach (Assembly assembly in AssemblyShim.LoadedAssemblies)
+            foreach (Assembly assembly in NetFrameworkShim.LoadedAssemblies)
             {
                 foreach (Type type in assembly.GetTypes().Where(t=> t.IsSubclassOf(baseType) && !t.IsAbstract()).OrderBy(t => t.FullName))
                 {

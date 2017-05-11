@@ -12,6 +12,7 @@ using Engine.Command;
 using Engine.Resources;
 using Engine.Saving;
 using Engine.Threads;
+using Engine.Shim;
 
 namespace Engine
 {
@@ -211,7 +212,7 @@ namespace Engine
                         //If that fails search all loaded assemblies.
                         if (type == null)
                         {
-                            foreach (Assembly assembly in AssemblyShim.LoadedAssemblies)
+                            foreach (Assembly assembly in NetFrameworkShim.LoadedAssemblies)
                             {
                                 type = assembly.GetType(typeName);
                                 if (type != null)

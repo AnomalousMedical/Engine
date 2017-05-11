@@ -11,7 +11,7 @@ using OSPlatform.Win32;
 
 namespace Anomalous.OSPlatform.Win32
 {
-    public class FullNetFrameworkShim : IAssemblyShimImpl
+    public class FullNetFrameworkShim : INetFrameworkShim
     {
         public FullNetFrameworkShim()
         {

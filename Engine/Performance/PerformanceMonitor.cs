@@ -5,6 +5,7 @@ using System.Text;
 using Engine.Performance;
 using Engine.Platform;
 using System.Reflection;
+using Engine.Shim;
 
 namespace Engine
 {
@@ -19,9 +20,9 @@ namespace Engine
         static PerformanceMonitor()
         {
             currentState = disabledState = new DisabledPerformanceMonitor();
-            addValueProvider("Private Memory", () => Prettify.GetSizeReadable(AssemblyShim.ProcessInfo.PrivateMemorySize64));
-            addValueProvider("Working Set", () => Prettify.GetSizeReadable(AssemblyShim.ProcessInfo.WorkingSet64));
-            addValueProvider("Virtual Memory", () => Prettify.GetSizeReadable(AssemblyShim.ProcessInfo.VirtualMemorySize64));
+            addValueProvider("Private Memory", () => Prettify.GetSizeReadable(NetFrameworkShim.ProcessInfo.PrivateMemorySize64));
+            addValueProvider("Working Set", () => Prettify.GetSizeReadable(NetFrameworkShim.ProcessInfo.WorkingSet64));
+            addValueProvider("Virtual Memory", () => Prettify.GetSizeReadable(NetFrameworkShim.ProcessInfo.VirtualMemorySize64));
         }
 
         /// <summary>
