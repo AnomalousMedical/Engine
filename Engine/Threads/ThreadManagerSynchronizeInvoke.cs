@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Engine.Threads
 {
-    public class ThreadManagerSynchronizeInvoke : ISynchronizeInvoke
+    public class ThreadManagerSynchronizeInvoke
     {
         private AutoResetEvent autoReset = new AutoResetEvent(false);
 

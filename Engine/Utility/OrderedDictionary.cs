@@ -14,7 +14,29 @@ namespace Engine
     /// <typeparam name="TValue"></typeparam>
     public class OrderedDictionary<TKey, TValue>
     {
-        private OrderedDictionary orderedDictionary = new OrderedDictionary();
+        /// <summary>
+        /// This class ensures that we always lookup the same key value pair
+        /// </summary>
+        private class Lookup
+        {
+            public Lookup()
+            {
+
+            }
+
+            public Lookup(TKey key, TValue value)
+            {
+                this.Key = key;
+                this.Value = value;
+            }
+
+            public TKey Key { get; set; }
+
+            public TValue Value { get; set; }
+        }
+
+        private List<Lookup> order = new List<Lookup>();
+        private Dictionary<TKey, Lookup> dictionary = new Dictionary<TKey, Lookup>();
 
         public OrderedDictionary()
         {
@@ -23,39 +45,46 @@ namespace Engine
 
         public void Insert(int index, TKey key, TValue value)
         {
-            orderedDictionary.Insert(index, key, value);
+            var lookup = new Lookup(key, value);
+            order.Insert(index, lookup);
+            dictionary[key] = lookup;
         }
 
         public void RemoveAt(int index)
         {
-            orderedDictionary.RemoveAt(index);
+            var item = order[index];
+            dictionary.Remove(item.Key);
+            order.RemoveAt(index);
         }
 
         public TValue this[int index]
         {
             get
             {
-                return (TValue)orderedDictionary[index];
+                return order[index].Value;
             }
             set
             {
-                orderedDictionary[index] = value;
+                order[index].Value = value; //Because the lookup object is the same changing this changes it in both places.
             }
         }
 
         public void Add(TKey key, TValue value)
         {
-            orderedDictionary.Add(key, value);
+            var lookup = new Lookup(key, value);
+            order.Add(lookup);
+            dictionary[key] = lookup;
         }
 
         public void Clear()
         {
-            orderedDictionary.Clear();
+            order.Clear();
+            dictionary.Clear();
         }
 
         public bool Contains(TKey key)
         {
-            return orderedDictionary.Contains(key);
+            return dictionary.ContainsKey(key);
         }
 
         public bool IsFixedSize
@@ -70,7 +99,7 @@ namespace Engine
         {
             get
             {
-                return orderedDictionary.IsReadOnly;
+                return false;
             }
         }
 
@@ -78,25 +107,27 @@ namespace Engine
         {
             get
             {
-                foreach (var key in orderedDictionary.Keys)
+                foreach (var key in order.Select(i => i.Key))
                 {
-                    yield return (TKey)key;
+                    yield return key;
                 }
             }
         }
 
         public void Remove(TKey key)
         {
-            orderedDictionary.Remove(key);
+            var lookup = dictionary[key];
+            order.Remove(lookup);
+            dictionary.Remove(key);
         }
 
         public IEnumerable<TValue> Values
         {
             get
             {
-                foreach (var value in orderedDictionary.Values)
+                foreach (var value in order.Select(i => i.Value))
                 {
-                    yield return (TValue)value;
+                    yield return value;
                 }
             }
         }
@@ -105,35 +136,31 @@ namespace Engine
         {
             get
             {
-                return (TValue)orderedDictionary[key];
+                return dictionary[key].Value;
             }
             set
             {
-                orderedDictionary[key] = value;
+                dictionary[key].Value = value;
             }
         }
 
         public bool TryGetValue(TKey key, out TValue value)
         {
-            if (orderedDictionary.Contains(key))
+            Lookup lookup;
+            if (dictionary.TryGetValue(key, out lookup))
             {
-                value = this[key];
+                value = lookup.Value;
                 return true;
             }
             value = default(TValue);
             return false;
         }
 
-        public void CopyTo(Array array, int index)
-        {
-            orderedDictionary.CopyTo(array, index);
-        }
-
         public int Count
         {
             get
             {
-                return orderedDictionary.Count;
+                return order.Count;
             }
         }
     }
