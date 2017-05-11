@@ -6,6 +6,7 @@ using OgrePlugin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -51,8 +52,8 @@ namespace Anomalous.libRocketWidget
             eventListenerInstancer = new RocketEventListenerInstancer();
             Factory.RegisterEventListenerInstancer(eventListenerInstancer);
 
-            RocketInterface.Instance.FileInterface.addExtension(new RocketAssemblyResourceLoader(typeof(RocketInterface).Assembly));
-            RocketInterface.Instance.FileInterface.addExtension(new RocketAssemblyResourceLoader(typeof(MyGUIInterface).Assembly));
+            RocketInterface.Instance.FileInterface.addExtension(new RocketAssemblyResourceLoader(typeof(RocketInterface).GetTypeInfo().Assembly));
+            RocketInterface.Instance.FileInterface.addExtension(new RocketAssemblyResourceLoader(typeof(MyGUIInterface).GetTypeInfo().Assembly));
 
             FontDatabase.LoadFontFace("MyGUIPlugin.Resources.Fonts.Roboto-Regular.ttf", "Roboto", Font.Style.STYLE_NORMAL, Font.Weight.WEIGHT_NORMAL);
             FontDatabase.LoadFontFace("MyGUIPlugin.Resources.Fonts.Roboto-Bold.ttf", "Roboto", Font.Style.STYLE_NORMAL, Font.Weight.WEIGHT_BOLD);
