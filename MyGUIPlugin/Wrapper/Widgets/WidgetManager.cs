@@ -6,6 +6,7 @@ using Engine;
 using System.Runtime.InteropServices;
 using Logging;
 using System.Diagnostics;
+using Engine.Shim;
 
 namespace MyGUIPlugin
 {
@@ -74,7 +75,7 @@ namespace MyGUIPlugin
             String filename = "Unknown";
             if (MyGUIInterface.TrackMemoryLeaks)
             {
-                StackTrace st = new StackTrace(true);
+                StackTrace st = NetFrameworkShim.CreateStackTrace(true);
                 filename = st.GetFrame(0).GetFileName();
                 if (widgets.WrappedObjectCount > 0)
                 {
@@ -124,7 +125,7 @@ namespace MyGUIPlugin
         {
             if (MyGUIInterface.TrackMemoryLeaks)
             {
-                allocationStackTraces.Add(widget, new StackTrace(true));
+                allocationStackTraces.Add(widget, NetFrameworkShim.CreateStackTrace(true));
             }
 
             WidgetType widgetType = WidgetManager_getType(widget);
