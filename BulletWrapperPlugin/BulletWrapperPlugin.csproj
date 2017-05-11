@@ -1,23 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{EBA88DC3-837D-45D8-A91A-E291C6AE444E}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFramework>netstandard1.6</TargetFramework>
     <RootNamespace>BulletPlugin</RootNamespace>
     <AssemblyName>BulletPlugin</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation />
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -65,63 +50,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core">
-    </Reference>
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Collision\btBoxShape.cs" />
-    <Compile Include="Collision\btCapsuleShape.cs" />
-    <Compile Include="Collision\btHullShape.cs" />
-    <Compile Include="Collision\btSphereShape.cs" />
-    <Compile Include="Construction\BulletFactory.cs" />
-    <Compile Include="Construction\BulletFactoryEntry.cs" />
-    <Compile Include="DebugDraw\BulletDebugDraw.cs" />
-    <Compile Include="DebugDraw\BulletDebugEntry.cs" />
-    <Compile Include="DebugDraw\BulletDebugInterface.cs" />
-    <Compile Include="Definition\BulletElementDefinition.cs" />
-    <Compile Include="Definition\BulletSceneDefinition.cs" />
-    <Compile Include="Definition\BulletSceneInfo.cs" />
-    <Compile Include="Definition\Joints\FixedConstraintDefinition.cs" />
-    <Compile Include="Definition\Joints\Generic6DofConstraintDefinition.cs" />
-    <Compile Include="Definition\Joints\RotationalLimitMotorDefinition.cs" />
-    <Compile Include="Definition\Joints\TranslationalLimitMotorDefinition.cs" />
-    <Compile Include="Definition\Joints\TypedConstraintDefinition.cs" />
-    <Compile Include="Definition\ReshapeableRigidBodyDefinition.cs" />
-    <Compile Include="Definition\RigidBodyDefinition.cs" />
-    <Compile Include="Definition\RigidBodyConstructionInfo.cs" />
-    <Compile Include="Definition\TransformedBulletSceneDefinition.cs" />
-    <Compile Include="Instance\BulletScene.cs" />
-    <Compile Include="Instance\DelayPhysicsSyncBehavior.cs" />
-    <Compile Include="Instance\Joints\FixedConstraintElement.cs" />
-    <Compile Include="Instance\Raycast\ClosestRayResultCallback.cs" />
-    <Compile Include="Instance\Raycast\RayResultCallback.cs" />
-    <Compile Include="Instance\ReshapeableRigidBodySection.cs" />
-    <Compile Include="Instance\TransformedBulletScene.cs" />
-    <Compile Include="Instance\Contact\ContactInfo.cs" />
-    <Compile Include="Instance\Contact\ManifoldPoint.cs" />
-    <Compile Include="Instance\ConvexDecompositionDesc.cs" />
-    <Compile Include="Instance\Joints\Generic6DofConstraintElement.cs" />
-    <Compile Include="Instance\Joints\TypedConstraintElement.cs" />
-    <Compile Include="Instance\Joints\TypedConstraintManager.cs" />
-    <Compile Include="Instance\MotionState.cs" />
-    <Compile Include="Instance\ReshapeableRigidBody.cs" />
-    <Compile Include="Instance\RigidBodyManager.cs" />
-    <Compile Include="Instance\TransformedMotionState.cs" />
-    <Compile Include="Plugin\BulletInterface.cs" />
-    <Compile Include="Plugin\BulletPluginEntryPoint.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Instance\RigidBody.cs" />
-    <Compile Include="Collision\btCollisionShape.cs" />
-    <Compile Include="Collision\btCompoundShape.cs" />
-    <Compile Include="ShapeLoading\BulletShapeBuilder.cs" />
-    <Compile Include="ShapeLoading\BulletShapeCollection.cs" />
-    <Compile Include="ShapeLoading\BulletShapeFileManager.cs" />
-    <Compile Include="ShapeLoading\BulletShapeRepository.cs" />
-    <Compile Include="ShapeLoading\CompoundShapeCollection.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">
       <Project>{57C253F1-157F-4A6A-9FED-345A776B97D5}</Project>
       <Name>Engine</Name>
@@ -131,16 +59,4 @@
       <Name>ShapeLoader</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
 </Project>
