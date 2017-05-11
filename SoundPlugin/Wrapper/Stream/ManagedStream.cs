@@ -85,7 +85,7 @@ namespace SoundPlugin
 
         private void close()
         {
-            stream.Close();
+            stream.Dispose();
         }
 
         private UIntPtr tell()
