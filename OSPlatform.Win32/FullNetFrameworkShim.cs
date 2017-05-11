@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Logging;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -30,6 +32,21 @@ namespace Anomalous.OSPlatform.Win32
         public Assembly LoadFile(string path)
         {
             return Assembly.LoadFile(path);
+        }
+
+        public void PrintStackTrace()
+        {
+            StackTrace stackTrace = new StackTrace(1, true);
+            StringBuilder sb = new StringBuilder(512);
+            sb.AppendLine("Stack Trace");
+            sb.AppendLine("----------------------");
+            foreach (StackFrame frame in stackTrace.GetFrames())
+            {
+                MethodBase method = frame.GetMethod();
+                sb.AppendLine(String.Format("{0}::{1}", method.ReflectedType != null ? method.ReflectedType.Name : string.Empty, method.Name));
+            }
+            sb.Append("----------------------");
+            Log.Debug(sb.ToString());
         }
 
         public IEnumerable<Assembly> LoadedAssemblies

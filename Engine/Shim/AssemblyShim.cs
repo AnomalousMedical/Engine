@@ -13,6 +13,7 @@ namespace System.Reflection
         IEnumerable<Assembly> LoadedAssemblies { get; }
 
         Assembly LoadFile(String path);
+        void PrintStackTrace();
     }
 
     public static class AssemblyShim
@@ -43,6 +44,11 @@ namespace System.Reflection
         public static Assembly LoadFile(String path)
         {
             return impl.LoadFile(path);
+        }
+
+        public static void PrintStackTrace()
+        {
+            impl.PrintStackTrace();
         }
     }
 }

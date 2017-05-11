@@ -269,19 +269,7 @@ namespace Logging
         /// </summary>
         public static void PrintStackTrace()
         {
-#if !FIXLATER_DISABLED
-            StackTrace stackTrace = new StackTrace(1, true);
-            StringBuilder sb = new StringBuilder(512);
-            sb.AppendLine("Stack Trace");
-            sb.AppendLine("----------------------");
-            foreach (StackFrame frame in stackTrace.GetFrames())
-            {
-                MethodBase method = frame.GetMethod();
-                sb.AppendLine(String.Format("{0}::{1}", method.ReflectedType != null ? method.ReflectedType.Name : string.Empty, method.Name));
-            }
-            sb.Append("----------------------");
-            Log.Debug(sb.ToString());
-#endif
+            AssemblyShim.PrintStackTrace();
         }
     }
 }
