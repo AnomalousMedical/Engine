@@ -70,6 +70,11 @@ namespace Anomalous.OSPlatform.Win32
             }
         }
 
+        public Timer CreateTimer(int updateDelay)
+        {
+            return new TimerShim(new System.Timers.Timer(updateDelay));
+        }
+
         public IEnumerable<Assembly> LoadedAssemblies
         {
             get

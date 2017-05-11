@@ -1,17 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{83D4BB54-FF33-4011-9819-582458329D9B}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFramework>netstandard1.6</TargetFramework>
     <RootNamespace>Anomalous.GuiFramework.Cameras</RootNamespace>
     <AssemblyName>GuiFramework.Cameras</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,33 +22,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Background\BackgroundScene.cs" />
-    <Compile Include="Background\ViewportBackground.cs" />
-    <Compile Include="Camera\CameraMover.cs" />
-    <Compile Include="Camera\OrbitCameraController.cs" />
-    <Compile Include="GUI\SceneStats\SceneStatsDisplay.cs" />
-    <Compile Include="GUI\SceneStats\SceneStatsDisplayManager.cs" />
-    <Compile Include="Plugin\GuiFrameworkCamerasEntryPoint.cs" />
-    <Compile Include="Plugin\GuiFrameworkCamerasInterface.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SceneViews\CameraInputController.cs" />
-    <Compile Include="SceneViews\CameraPosition.cs" />
-    <Compile Include="SceneViews\CameraPositioner.cs" />
-    <Compile Include="SceneViews\CloneCamera.cs" />
-    <Compile Include="SceneViews\MDISceneViewWindow.cs" />
-    <Compile Include="SceneViews\SceneViewController.cs" />
-    <Compile Include="SceneViews\SceneViewWindow.cs" />
-    <Compile Include="SceneViews\SingleViewCloneWindow.cs" />
-    <Compile Include="SceneViews\TextureSceneView.cs" />
-    <Compile Include="SceneViews\TextureSceneViewPool.cs" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">
       <Project>{57c253f1-157f-4a6a-9fed-345a776b97d5}</Project>
@@ -83,12 +47,4 @@
   <ItemGroup>
     <EmbeddedResource Include="GUI\SceneStats\SceneStatsDisplay.layout" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
