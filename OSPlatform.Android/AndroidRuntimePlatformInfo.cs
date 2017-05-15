@@ -13,11 +13,6 @@ namespace Anomalous.OSPlatform.Android
 {
     class AndroidRuntimePlatformInfo : RuntimePlatformInfo
     {
-        static AndroidRuntimePlatformInfo()
-        {
-            NetFrameworkShim.SetShimImpl(new FullNetFrameworkShim());
-        }
-
         private AndroidActivity activity;
 
         public AndroidRuntimePlatformInfo(AndroidActivity activity)

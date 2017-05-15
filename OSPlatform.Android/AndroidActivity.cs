@@ -5,7 +5,9 @@ using Android.Util;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
+using Anomalous.Shim;
 using Engine.Platform;
+using Engine.Shim;
 using Engine.Threads;
 using System;
 using System.Collections.Generic;
@@ -30,6 +32,11 @@ namespace Anomalous.OSPlatform.Android
     /// </remarks>
     public abstract class AndroidActivity : NativeActivity
     {
+        static AndroidActivity()
+        {
+            NetFrameworkShim.SetShimImpl(new FullNetFrameworkShim());
+        }
+
         private EditText editText;
         bool fireInputs = true;
         private NativeInputHandler inputHandler;
