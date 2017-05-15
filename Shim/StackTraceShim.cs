@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Engine.Shim;
 
-namespace OSPlatform.Win32
+namespace Anomalous.Shim
 {
     class StackTraceShim : Engine.Shim.StackTrace
     {

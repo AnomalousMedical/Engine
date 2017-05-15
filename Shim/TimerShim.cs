@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace OSPlatform.Win32
+namespace Anomalous.Shim
 {
     class TimerShim : Engine.Shim.Timer
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OSPlatform.Win32
+namespace Anomalous.Shim
 {
     class ProcessStartInfoShim : Engine.Shim.ProcessStartInfo
     {

@@ -7,9 +7,8 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Engine.Shim;
-using OSPlatform.Win32;
 
-namespace Anomalous.OSPlatform.Win32
+namespace Anomalous.Shim
 {
     public class FullNetFrameworkShim : INetFrameworkShim
     {

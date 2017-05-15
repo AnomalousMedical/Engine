@@ -1,4 +1,6 @@
 ﻿using Android.Content;
+using Anomalous.Shim;
+using Engine.Shim;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,6 +13,11 @@ namespace Anomalous.OSPlatform.Android
 {
     class AndroidRuntimePlatformInfo : RuntimePlatformInfo
     {
+        static AndroidRuntimePlatformInfo()
+        {
+            NetFrameworkShim.SetShimImpl(new FullNetFrameworkShim());
+        }
+
         private AndroidActivity activity;
 
         public AndroidRuntimePlatformInfo(AndroidActivity activity)
@@ -58,17 +65,17 @@ namespace Anomalous.OSPlatform.Android
             }
         }
 
-        protected override ProcessStartInfo RestartProcInfoImpl
+        protected override Engine.Shim.ProcessStartInfo RestartProcInfoImpl
         {
             get
             {
                 //ANROID_FIXLATER: probably not right
                 String[] args = Environment.GetCommandLineArgs();
-                return new ProcessStartInfo(args[0]);
+                return new ProcessStartInfoShim(new System.Diagnostics.ProcessStartInfo(args[0]));
             }
         }
 
-        protected override ProcessStartInfo RestartAdminProcInfoImpl
+        protected override Engine.Shim.ProcessStartInfo RestartAdminProcInfoImpl
         {
             get
             {
