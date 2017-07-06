@@ -4,10 +4,11 @@ using Android.OS;
 using Android.Content.PM;
 using Anomalous.OSPlatform.Android;
 using Android.Views;
+using Anomalous.OSPlatform;
 
 namespace TestAndroidApp
 {
-    [Activity(Label = "Anomalous Android Test", MainLauncher = true, Icon = "@drawable/icon", /*Theme = "@style/AnomalousMedicalTheme",*/
+    [Activity(Label = "Anomalous Android Test", MainLauncher = true, Icon = "@drawable/icon", Theme = "@style/AnomalousAndroidTheme",
         ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.KeyboardHidden | ConfigChanges.ScreenSize | ConfigChanges.ScreenLayout,
         WindowSoftInputMode = SoftInput.StateAlwaysHidden, LaunchMode = LaunchMode.SingleTop)]
     [MetaData("android.app.lib_name", Value = AndroidPlatformPlugin.LibraryName)]
@@ -23,6 +24,7 @@ namespace TestAndroidApp
 
         //private ObbDownloader dl;
         //private AnomalousController anomalousController;
+        private App app;
 
 #if DEBUG
         private const bool SucceedIfEmpty = true;
@@ -94,13 +96,16 @@ namespace TestAndroidApp
             //anomalousController.DataFileMissing += HandleDataFileMissing;
             //anomalousController.AddAdditionalPlugins += HandleAddAdditionalPlugins;
             //anomalousController.run();
+
+            app = new Anomalous.Minimus.Full.MinimalApp();
+            app.run();
         }
 
         protected override void OnDestroy()
         {
             //dl.cancelDownloads();
             base.OnDestroy();
-            //anomalousController.Dispose();
+            app.Dispose();
             this.killAppProcess();
         }
 
@@ -122,29 +127,29 @@ namespace TestAndroidApp
         //    printRuntimeInfo();
         //}
 
-//        static void HandleAddAdditionalPlugins(AnomalousController anomalousController, StandaloneController controller)
-//        {
-//            controller.AtlasPluginManager.addPlugin(new PremiumBodyAtlasPlugin(controller)
-//            {
-//                AllowUninstall = false
-//            });
+        //        static void HandleAddAdditionalPlugins(AnomalousController anomalousController, StandaloneController controller)
+        //        {
+        //            controller.AtlasPluginManager.addPlugin(new PremiumBodyAtlasPlugin(controller)
+        //            {
+        //                AllowUninstall = false
+        //            });
 
-//            controller.AtlasPluginManager.addPlugin(new DentalSimPlugin()
-//            {
-//                AllowUninstall = false
-//            });
+        //            controller.AtlasPluginManager.addPlugin(new DentalSimPlugin()
+        //            {
+        //                AllowUninstall = false
+        //            });
 
-//#if ALLOW_DATA_FILE
-//            controller.AtlasPluginManager.addPlugin(new MovementBodyAtlasPlugin()
-//            {
-//            AllowUninstall = false
-//            });
-//            controller.AtlasPluginManager.addPlugin(new DeveloperAtlasPlugin(controller)
-//            {
-//            AllowUninstall = false
-//            });
-//#endif
-//        }
+        //#if ALLOW_DATA_FILE
+        //            controller.AtlasPluginManager.addPlugin(new MovementBodyAtlasPlugin()
+        //            {
+        //            AllowUninstall = false
+        //            });
+        //            controller.AtlasPluginManager.addPlugin(new DeveloperAtlasPlugin(controller)
+        //            {
+        //            AllowUninstall = false
+        //            });
+        //#endif
+        //        }
 
         //void openUrl(String url)
         //{

@@ -34,14 +34,16 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>PdbOnly</DebugType>
     <DebugSymbols>True</DebugSymbols>
-    <Optimize>True</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
-    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    <AndroidLinkSkip>System;System.Core;System.Xml;System.Xml.Linq;mscorlib</AndroidLinkSkip>
+    <AndroidSupportedAbis />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
@@ -81,10 +83,49 @@
       <Project>{2a62fb25-aa44-459b-95e0-ed149f31fb6e}</Project>
       <Name>OSPlatform.Android</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OSPlatform\OSPlatform.csproj">
+      <Project>{6E594C78-9CD8-432D-A135-11C4A72F3BCF}</Project>
+      <Name>OSPlatform</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TestLibrary\TestLibrary.csproj">
       <Project>{40428c46-ee61-44c9-b9ad-adf263b69628}</Project>
       <Name>TestLibrary</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidNativeLibrary Include="..\..\Dependencies\OpenALSoft\srcAndroid\libs\armeabi-v7a\libopenal.so">
+      <Link>lib\armeabi-v7a\libopenal.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\..\Engine\Release\Android\libFreeImage.so">
+      <Link>lib\armeabi-v7a\libFreeImage.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\..\Engine\Release\Android\libBulletWrapper.so">
+      <Link>lib\armeabi-v7a\libBulletWrapper.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\..\Engine\Release\Android\libMyGUIWrapper.so">
+      <Link>lib\armeabi-v7a\libMyGUIWrapper.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\..\Engine\Release\Android\libOgreCWrapper.so">
+      <Link>lib\armeabi-v7a\libOgreCWrapper.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\..\Engine\Release\Android\libOSHelper.so">
+      <Link>lib\armeabi-v7a\libOSHelper.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\..\Engine\Release\Android\libRocketWrapper.so">
+      <Link>lib\armeabi-v7a\libRocketWrapper.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\..\Engine\Release\Android\libSoundWrapper.so">
+      <Link>lib\armeabi-v7a\libSoundWrapper.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\..\Engine\Release\Android\libZip.so">
+      <Link>lib\armeabi-v7a\libZip.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\..\Engine\Release\Android\libgnustl_shared.so">
+      <Link>lib\armeabi-v7a\libgnustl_shared.so</Link>
+    </AndroidNativeLibrary>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\styles.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
