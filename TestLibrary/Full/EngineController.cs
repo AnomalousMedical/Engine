@@ -34,7 +34,6 @@ namespace Anomalous.Minimus.Full
 
         //Controller
         private SceneController sceneController;
-        private FrameClearManager frameClearManager;
         private TouchMouseGuiForwarder touchMouseGuiForwarder;
 
         //Serialization
@@ -44,81 +43,13 @@ namespace Anomalous.Minimus.Full
         private String currentSceneFile;
         private String currentSceneDirectory;
 
-        public EngineController(NativeOSWindow mainWindow, NativeUpdateTimer mainTimer, SystemTimer systemTimer, EventManager eventManager, InputHandler inputHandler, PluginManager pluginManager)
+        public EngineController(NativeOSWindow mainWindow, SystemTimer systemTimer, EventManager eventManager, InputHandler inputHandler)
         {
-            MyGUIInterface.EventLayerKey = EventLayers.Gui;
-            MyGUIInterface.CreateGuiGestures = CoreConfig.EnableMultitouch && PlatformConfig.TouchType == TouchType.Screen;
-
-            //Configure plugins
-            pluginManager.OnConfigureDefaultWindow = delegate(out WindowInfo defaultWindow)
-            {
-                //Setup main window
-                defaultWindow = new WindowInfo(mainWindow, "Primary");
-                defaultWindow.Fullscreen = CoreConfig.EngineConfig.Fullscreen;
-                defaultWindow.MonitorIndex = 0;
-
-                if (CoreConfig.EngineConfig.Fullscreen)
-                {
-                    mainWindow.setSize(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes);
-                    mainWindow.ExclusiveFullscreen = true;
-                    defaultWindow.Width = CoreConfig.EngineConfig.HorizontalRes;
-                    defaultWindow.Height = CoreConfig.EngineConfig.VerticalRes;
-                }
-                else
-                {
-                    mainWindow.Maximized = true;
-                }
-                mainWindow.show();
-            };
-
-            GuiFrameworkCamerasInterface.MoveCameraEventLayer = EventLayers.Cameras;
-            GuiFrameworkCamerasInterface.SelectWindowEventLayer = EventLayers.AfterGui;
-            GuiFrameworkCamerasInterface.ShortcutEventLayer = EventLayers.AfterGui;
-
-            pluginManager.addPluginAssembly(typeof(OgreInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(BulletInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(NativePlatformPlugin).Assembly);
-            pluginManager.addPluginAssembly(typeof(MyGUIInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(RocketInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(SoundPluginInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(BEPUikInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(GuiFrameworkInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(RocketWidgetInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(GuiFrameworkCamerasInterface).Assembly);
-            pluginManager.initializePlugins();
-
             performanceMetricTimer = new NativeSystemTimer();
             PerformanceMonitor.setupEnabledState(performanceMetricTimer);
 
-            //Intialize the platform
-            BulletInterface.Instance.ShapeMargin = 0.005f;
-
-            if (OgreConfig.VSync && CoreConfig.EngineConfig.FPSCap < 300)
-            {
-                //Use a really high framerate cap if vsync is on since it will cap our 
-                //framerate for us. If the user has requested a higher rate use it anyway.
-                mainTimer.FramerateCap = 300;
-            }
-            else
-            {
-                mainTimer.FramerateCap = CoreConfig.EngineConfig.FPSCap;
-            }
-
-            pluginManager.setPlatformInfo(mainTimer, eventManager);
-
             //Initialize controllers
-            sceneController = new SceneController(pluginManager);
-            frameClearManager = new FrameClearManager(OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget, Color.Blue);
-
-            SoundConfig.initialize(CoreConfig.ConfigFile);
-
-            GuiFrameworkInterface.Instance.handleCursors(mainWindow);
-            SoundPluginInterface.Instance.setResourceWindow(mainWindow);
-
-            touchMouseGuiForwarder = new TouchMouseGuiForwarder(eventManager, inputHandler, systemTimer, mainWindow, EventLayers.Last);
-            touchMouseGuiForwarder.ForwardTouchesAsMouse = PlatformConfig.ForwardTouchAsMouse;
-            var myGuiKeyboard = new MyGUIOnscreenKeyboardManager(touchMouseGuiForwarder);
-            var rocketKeyboard = new RocketWidgetOnscreenKeyboardManager(touchMouseGuiForwarder);
+            //sceneController = new SceneController(pluginManager);
         }
 
         /// <summary>
@@ -126,10 +57,6 @@ namespace Anomalous.Minimus.Full
         /// </summary>
         public void Dispose()
         {
-            if (frameClearManager != null)
-            {
-                frameClearManager.Dispose();
-            }
             if (sceneController != null)
             {
                 sceneController.destroyScene();
@@ -230,14 +157,6 @@ namespace Anomalous.Minimus.Full
             get
             {
                 return currentSceneDirectory;
-            }
-        }
-
-        public FrameClearManager FrameClearManager
-        {
-            get
-            {
-                return frameClearManager;
             }
         }
     }

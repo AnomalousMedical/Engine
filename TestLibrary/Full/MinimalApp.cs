@@ -1,17 +1,22 @@
 ﻿using Anomalous.GuiFramework;
 using Anomalous.GuiFramework.Cameras;
+using Anomalous.libRocketWidget;
 using Anomalous.Minimus.Full.GUI;
 using Anomalous.Minimus.OgreOnly;
 using Anomalous.OSPlatform;
 using Autofac;
 using Autofac.Core;
+using BEPUikPlugin;
+using BulletPlugin;
 using Engine;
 using Engine.ObjectManagement;
 using Engine.Platform;
 using Engine.Renderer;
+using libRocketPlugin;
 using Logging;
 using MyGUIPlugin;
 using OgrePlugin;
+using SoundPlugin;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -77,8 +82,10 @@ namespace Anomalous.Minimus.Full
             sceneScope = container.BeginLifetimeScope(LifetimeScopes.Scene);
 
             //Build engine
+            var pluginManager = sceneScope.Resolve<PluginManager>();
             engineController = sceneScope.Resolve<EngineController>();
             mainTimer = sceneScope.Resolve<UpdateTimer>();
+            var frameClearManager = sceneScope.Resolve<FrameClearManager>();
 
             //Build gui
             sceneViewController = sceneScope.Resolve<SceneViewController>();
@@ -119,7 +126,82 @@ namespace Anomalous.Minimus.Full
         private void RegisterEngine()
         {
             builder.Register(c => new PluginManager(CoreConfig.ConfigFile))
-                .SingleInstance();
+                .SingleInstance()
+                .OnActivated(a =>
+                {
+                    var pluginManager = a.Instance;
+                    var mainWindow = a.Context.Resolve<NativeOSWindow>();
+                    var mainTimer = a.Context.Resolve<UpdateTimer>();
+
+                    MyGUIInterface.EventLayerKey = EventLayers.Gui;
+                    MyGUIInterface.CreateGuiGestures = CoreConfig.EnableMultitouch && PlatformConfig.TouchType == TouchType.Screen;
+
+                    //Configure plugins
+                    pluginManager.OnConfigureDefaultWindow = delegate (out WindowInfo defaultWindow)
+                    {
+                        //Setup main window
+                        defaultWindow = new WindowInfo(mainWindow, "Primary");
+                        defaultWindow.Fullscreen = CoreConfig.EngineConfig.Fullscreen;
+                        defaultWindow.MonitorIndex = 0;
+
+                        if (CoreConfig.EngineConfig.Fullscreen)
+                        {
+                            mainWindow.setSize(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes);
+                            mainWindow.ExclusiveFullscreen = true;
+                            defaultWindow.Width = CoreConfig.EngineConfig.HorizontalRes;
+                            defaultWindow.Height = CoreConfig.EngineConfig.VerticalRes;
+                        }
+                        else
+                        {
+                            mainWindow.Maximized = true;
+                        }
+                        mainWindow.show();
+                    };
+
+                    GuiFrameworkCamerasInterface.MoveCameraEventLayer = EventLayers.Cameras;
+                    GuiFrameworkCamerasInterface.SelectWindowEventLayer = EventLayers.AfterGui;
+                    GuiFrameworkCamerasInterface.ShortcutEventLayer = EventLayers.AfterGui;
+
+                    pluginManager.addPluginAssembly(typeof(OgreInterface).Assembly);
+                    pluginManager.addPluginAssembly(typeof(BulletInterface).Assembly);
+                    pluginManager.addPluginAssembly(typeof(NativePlatformPlugin).Assembly);
+                    pluginManager.addPluginAssembly(typeof(MyGUIInterface).Assembly);
+                    pluginManager.addPluginAssembly(typeof(RocketInterface).Assembly);
+                    pluginManager.addPluginAssembly(typeof(SoundPluginInterface).Assembly);
+                    pluginManager.addPluginAssembly(typeof(BEPUikInterface).Assembly);
+                    pluginManager.addPluginAssembly(typeof(GuiFrameworkInterface).Assembly);
+                    pluginManager.addPluginAssembly(typeof(RocketWidgetInterface).Assembly);
+                    pluginManager.addPluginAssembly(typeof(GuiFrameworkCamerasInterface).Assembly);
+                    pluginManager.initializePlugins();
+
+                    //Intialize the platform
+                    BulletInterface.Instance.ShapeMargin = 0.005f;
+
+                    if (OgreConfig.VSync && CoreConfig.EngineConfig.FPSCap < 300)
+                    {
+                        //Use a really high framerate cap if vsync is on since it will cap our 
+                        //framerate for us. If the user has requested a higher rate use it anyway.
+                        mainTimer.FramerateCap = 300;
+                    }
+                    else
+                    {
+                        mainTimer.FramerateCap = CoreConfig.EngineConfig.FPSCap;
+                    }
+
+                    var eventManager = a.Context.Resolve<EventManager>();
+
+                    pluginManager.setPlatformInfo(mainTimer, eventManager);
+
+                    SoundConfig.initialize(CoreConfig.ConfigFile);
+
+                    GuiFrameworkInterface.Instance.handleCursors(mainWindow);
+                    SoundPluginInterface.Instance.setResourceWindow(mainWindow);
+
+                    var touchMouseGuiForwarder = new TouchMouseGuiForwarder(eventManager, a.Context.Resolve<InputHandler>(), a.Context.Resolve<SystemTimer>(), mainWindow, EventLayers.Last);
+                    touchMouseGuiForwarder.ForwardTouchesAsMouse = PlatformConfig.ForwardTouchAsMouse;
+                    var myGuiKeyboard = new MyGUIOnscreenKeyboardManager(touchMouseGuiForwarder);
+                    var rocketKeyboard = new RocketWidgetOnscreenKeyboardManager(touchMouseGuiForwarder);
+                });
 
             builder.RegisterType<NativeSystemTimer>()
                 .SingleInstance()
@@ -141,10 +223,13 @@ namespace Anomalous.Minimus.Full
                     a.Context.Resolve<UpdateTimer>().addUpdateListener(new EventUpdateListener(a.Instance));
                 });
 
+            builder.Register<FrameClearManager>(c => new FrameClearManager(OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget, Color.Blue))
+               .SingleInstance();
+
             builder.RegisterType<EngineController>()
                 .SingleInstance();
 
-            builder.Register(c => PluginManager.Instance.RendererPlugin.createSceneViewLightManager())
+            builder.Register(c => c.Resolve<PluginManager>().RendererPlugin.createSceneViewLightManager())
                 .As<SceneViewLightManager>()
                 .SingleInstance();
 
