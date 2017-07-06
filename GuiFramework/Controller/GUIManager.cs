@@ -34,9 +34,18 @@ namespace Anomalous.GuiFramework
         public event Action MainGUIShown;
         public event Action MainGUIHidden;
 
+        /// <summary>
+        /// Use di
+        /// </summary>
+        [Obsolete]
         public GUIManager()
         {
 
+        }
+
+        public GUIManager(MDILayoutManager mdiManager, LayoutChain layoutChain, OSWindow window)
+        {
+            this.doCreateGui(mdiManager, layoutChain, window);
         }
 
         public void Dispose()
@@ -49,7 +58,20 @@ namespace Anomalous.GuiFramework
             IDisposableUtil.DisposeIfNotNull(dialogManager);
         }
 
+        /// <summary>
+        /// Call this if you use the empty constructor, otherwise already called.
+        /// Ideally you are using di, this is deprecated but included for backward compatability.
+        /// </summary>
+        /// <param name="mdiManager"></param>
+        /// <param name="layoutChain"></param>
+        /// <param name="window"></param>
+        [Obsolete]
         public void createGUI(MDILayoutManager mdiManager, LayoutChain layoutChain, OSWindow window)
+        {
+            doCreateGui(mdiManager, layoutChain, window);
+        }
+
+        private void doCreateGui(MDILayoutManager mdiManager, LayoutChain layoutChain, OSWindow window)
         {
             screenLayoutManager = new ScreenLayoutManager(window);
             screenLayoutManager.ScreenSizeChanging += ScreenLayoutManager_ScreenSizeChanging;

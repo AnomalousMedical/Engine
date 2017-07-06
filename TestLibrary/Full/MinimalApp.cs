@@ -27,8 +27,6 @@ namespace Anomalous.Minimus.Full
 
         private BorderLayoutChainLink editorBorder;
         private BorderLayoutChainLink contentArea;
-        private GUIManager guiManager;
-        private MDILayoutManager mdiLayout;
         private SceneViewController sceneViewController;
         private SimScene scene;
 
@@ -41,10 +39,6 @@ namespace Anomalous.Minimus.Full
         private TaskMenu taskMenu;
         private TaskController taskController = new TaskController();
         private DocumentController documentController = new DocumentController();
-
-        //Windows
-        private TestWindow testWindow;
-        private RocketWindow rocketWindow;
 
         public event Action<MinimalApp> Initialized;
 
@@ -65,15 +59,12 @@ namespace Anomalous.Minimus.Full
             sceneViewController.destroyCameras();
             scene.Dispose();
 
-            IDisposableUtil.DisposeIfNotNull(testWindow);
-            IDisposableUtil.DisposeIfNotNull(rocketWindow);
             IDisposableUtil.DisposeIfNotNull(taskbar);
             IDisposableUtil.DisposeIfNotNull(taskMenu);
 
             IDisposableUtil.DisposeIfNotNull(sceneViewController);
             IDisposableUtil.DisposeIfNotNull(editorBorder);
             IDisposableUtil.DisposeIfNotNull(contentArea);
-            IDisposableUtil.DisposeIfNotNull(mdiLayout);
 
             sceneScope.Dispose();
             container.Dispose();
@@ -95,6 +86,9 @@ namespace Anomalous.Minimus.Full
 
             //Main Window
             builder.Register(c => new NativeOSWindow("Anomalous Minimus", new IntVector2(-1, -1), new IntSize2(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes)))
+                .SingleInstance()
+                .As<OSWindow>()
+                .As<NativeOSWindow>()
                 .OnActivated(a =>
                 {
                     var mainWindow = a.Instance;
@@ -120,12 +114,50 @@ namespace Anomalous.Minimus.Full
                     }
 
                     ScaleHelper._setScaleFactor(pixelScale);
-                })
-                .SingleInstance()
-                .As<OSWindow>()
-                .As<NativeOSWindow>();
+                });
 
-            builder.RegisterType<EngineController>();
+            builder.RegisterType<EngineController>()
+                .SingleInstance();
+
+            builder.RegisterType<MDILayoutManager>()
+                .SingleInstance();
+
+            builder.RegisterType<GUIManager>()
+                .SingleInstance();
+
+            builder.RegisterType<LayoutChain>()
+                .SingleInstance()
+                .OnActivated(a =>
+                {
+                    var mdiLayout2 = a.Context.Resolve<MDILayoutManager>();
+                    LayoutChain layoutChain = a.Instance;
+                    //layoutChain.addLink(new SingleChildChainLink(GUILocationNames.Notifications, controller.NotificationManager.LayoutContainer), true);
+                    layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.FullscreenPopup), true);
+                    layoutChain.SuppressLayout = true;
+                    editorBorder = new BorderLayoutChainLink(GUILocationNames.EditorBorderLayout);
+                    layoutChain.addLink(editorBorder, true);
+                    layoutChain.addLink(new MDIChainLink(GUILocationNames.MDI, mdiLayout2), true);
+                    layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.ContentAreaPopup), true);
+                    contentArea = new BorderLayoutChainLink(GUILocationNames.ContentArea);
+                    layoutChain.addLink(contentArea, true);
+                    layoutChain.addLink(new FinalChainLink("SceneViews", mdiLayout2.DocumentArea), true);
+                    layoutChain.SuppressLayout = false;
+                    layoutChain.layout();
+                });
+
+            builder.RegisterType<TestWindow>()
+                .OnActivated(a =>
+                {
+                    a.Context.Resolve<GUIManager>().addManagedDialog(a.Instance);
+                    a.Instance.Visible = true;
+                });
+
+            builder.RegisterType<RocketWindow>()
+                .OnActivated(a =>
+                {
+                    a.Context.Resolve<GUIManager>().addManagedDialog(a.Instance);
+                    a.Instance.Visible = true;
+                });
 
             container = builder.Build();
             sceneScope = container.BeginLifetimeScope(LifetimeScopes.Scene);
@@ -133,24 +165,8 @@ namespace Anomalous.Minimus.Full
             engineController = sceneScope.Resolve<EngineController>();
 
             //Layout Chain
-            mdiLayout = new MDILayoutManager();
-
-            LayoutChain layoutChain = new LayoutChain();
-            //layoutChain.addLink(new SingleChildChainLink(GUILocationNames.Notifications, controller.NotificationManager.LayoutContainer), true);
-            layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.FullscreenPopup), true);
-            layoutChain.SuppressLayout = true;
-            editorBorder = new BorderLayoutChainLink(GUILocationNames.EditorBorderLayout);
-            layoutChain.addLink(editorBorder, true);
-            layoutChain.addLink(new MDIChainLink(GUILocationNames.MDI, mdiLayout), true);
-            layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.ContentAreaPopup), true);
-            contentArea = new BorderLayoutChainLink(GUILocationNames.ContentArea);
-            layoutChain.addLink(contentArea, true);
-            layoutChain.addLink(new FinalChainLink("SceneViews", mdiLayout.DocumentArea), true);
-            layoutChain.SuppressLayout = false;
-            layoutChain.layout();
-
-            guiManager = new GUIManager();
-            guiManager.createGUI(mdiLayout, layoutChain, sceneScope.Resolve<OSWindow>());
+            var mdiLayout = sceneScope.Resolve<MDILayoutManager>();
+            var guiManager = sceneScope.Resolve<GUIManager>();
 
             //Taskbar
             taskbar = new AppButtonTaskbar();
@@ -189,15 +205,11 @@ namespace Anomalous.Minimus.Full
 
             MyGUIInterface.Instance.CommonResourceGroup.addResource(GetType().AssemblyQualifiedName, "EmbeddedScalableResource", true);
 
-            TestWindow testWindow = new TestWindow();
-            guiManager.addManagedDialog(testWindow);
-            testWindow.Visible = true;
+            //Create windows
+            sceneScope.Resolve<TestWindow>();
+            sceneScope.Resolve<RocketWindow>();
 
-            rocketWindow = new RocketWindow();
-            guiManager.addManagedDialog(rocketWindow);
-            rocketWindow.Visible = true;
-
-            if(Initialized != null)
+            if (Initialized != null)
             {
                 Initialized.Invoke(this);
             }
