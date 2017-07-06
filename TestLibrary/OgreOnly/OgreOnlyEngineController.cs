@@ -31,10 +31,9 @@ namespace Anomalous.Minimus.OgreOnly
         private String currentSceneFile;
         private String currentSceneDirectory;
 
-        public OgreOnlyEngineController(NativeOSWindow mainWindow, NativeUpdateTimer mainTimer, PluginManager pluginManager, InputHandler inputHandler)
+        public OgreOnlyEngineController(SceneController sceneController)
         {
-            //Initialize controllers
-            sceneController = new SceneController(pluginManager);
+            this.sceneController = sceneController;
         }
 
         /// <summary>

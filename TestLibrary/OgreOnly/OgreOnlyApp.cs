@@ -31,7 +31,6 @@ namespace Anomalous.Minimus.OgreOnly
 
         IContainer container;
         ILifetimeScope sceneScope;
-        ILifetimeScope appScope;
 
         public OgreOnlyApp()
         {
@@ -144,10 +143,14 @@ namespace Anomalous.Minimus.OgreOnly
                     a.Context.Resolve<UpdateTimer>().addUpdateListener(new EventUpdateListener(a.Instance));
                 });
 
-            builder.RegisterType<OgreOnlyEngineController>().InstancePerApp();
+            builder.RegisterType<SceneController>()
+                .SingleInstance();
+
+            builder.RegisterType<OgreOnlyEngineController>()
+                .SingleInstance();
 
             builder.RegisterType<OnUpdateListener>()
-                .InstancePerApp()
+                .SingleInstance()
                 .OnActivated(a =>
                 {
                     a.Context.Resolve<UpdateTimer>().addUpdateListener(a.Instance);
@@ -173,15 +176,15 @@ namespace Anomalous.Minimus.OgreOnly
 
             builder.Register(c => c.Resolve<SimSceneDefinition>().createScene()).InstancePerScene();
 
-            builder.Register<FrameClearManager>(c => new FrameClearManager(OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget, Color.Blue)).InstancePerApp();
+            builder.Register<FrameClearManager>(c => new FrameClearManager(OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget, Color.Blue))
+                .SingleInstance();
 
             container = builder.Build();
-            appScope = container.BeginLifetimeScope(LifetimeScopes.App);
-            sceneScope = appScope.BeginLifetimeScope(LifetimeScopes.Scene);
+            sceneScope = container.BeginLifetimeScope(LifetimeScopes.Scene);
 
-            engineController = appScope.Resolve<OgreOnlyEngineController>();
-            mainTimer = appScope.Resolve<NativeUpdateTimer>();
-            this.frameClearManager = appScope.Resolve<FrameClearManager>();
+            engineController = sceneScope.Resolve<OgreOnlyEngineController>();
+            mainTimer = sceneScope.Resolve<NativeUpdateTimer>();
+            this.frameClearManager = sceneScope.Resolve<FrameClearManager>();
 
             sceneScope.Resolve<SimScene>();
             sceneScope.Resolve<OnUpdateListener>().OnUpdate += OnUpdate;
@@ -203,7 +206,6 @@ namespace Anomalous.Minimus.OgreOnly
             CoreConfig.save();
             PerformanceMonitor.destroyEnabledState();
             sceneScope.Dispose();
-            appScope.Dispose();
             container.Dispose();
 
             base.Dispose();

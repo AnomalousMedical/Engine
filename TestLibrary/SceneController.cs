@@ -13,9 +13,9 @@ namespace Anomalous.Minimus
     /// </summary>
     /// <param name="controller">The controller that fired the event.</param>
     /// <param name="scene">The scene for the event.</param>
-    delegate void SceneControllerEvent(SceneController controller, SimScene scene);
+    public delegate void SceneControllerEvent(SceneController controller, SimScene scene);
 
-    class SceneController
+    public class SceneController
     {
         private SimScene currentScene;
         private SimObjectManager currentSimObjects;
