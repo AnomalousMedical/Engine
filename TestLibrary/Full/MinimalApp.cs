@@ -28,7 +28,6 @@ namespace Anomalous.Minimus.Full
 {
     public class MinimalApp : App
     {
-        private EngineController engineController;
         private CoreConfig coreConfig;
         private LogFileListener logListener;
 
@@ -52,6 +51,7 @@ namespace Anomalous.Minimus.Full
         public override void Dispose()
         {
             CoreConfig.save();
+            PerformanceMonitor.destroyEnabledState();
 
             lightManager.sceneUnloading(scene);
             sceneViewController.destroyCameras();
@@ -83,9 +83,11 @@ namespace Anomalous.Minimus.Full
 
             //Build engine
             var pluginManager = sceneScope.Resolve<PluginManager>();
-            engineController = sceneScope.Resolve<EngineController>();
+            var engineController = sceneScope.Resolve<EngineController>();
             mainTimer = sceneScope.Resolve<UpdateTimer>();
             var frameClearManager = sceneScope.Resolve<FrameClearManager>();
+
+            PerformanceMonitor.setupEnabledState(sceneScope.Resolve<SystemTimer>());
 
             //Build gui
             sceneViewController = sceneScope.Resolve<SceneViewController>();
@@ -202,6 +204,9 @@ namespace Anomalous.Minimus.Full
                     var myGuiKeyboard = new MyGUIOnscreenKeyboardManager(touchMouseGuiForwarder);
                     var rocketKeyboard = new RocketWidgetOnscreenKeyboardManager(touchMouseGuiForwarder);
                 });
+
+            builder.RegisterType<SceneController>()
+                .SingleInstance();
 
             builder.RegisterType<NativeSystemTimer>()
                 .SingleInstance()
@@ -378,22 +383,6 @@ namespace Anomalous.Minimus.Full
                 DateTime now = DateTime.Now;
                 String crashFile = String.Format(CultureInfo.InvariantCulture, "{0}/log {1}-{2}-{3} {4}.{5}.{6}.log", CoreConfig.CrashLogDirectory, now.Month, now.Day, now.Year, now.Hour, now.Minute, now.Second);
                 logListener.saveCrashLog(crashFile);
-            }
-        }
-
-        public EngineController EngineController
-        {
-            get
-            {
-                return engineController;
-            }
-        }
-
-        public SimScene Scene
-        {
-            get
-            {
-                return scene;
             }
         }
     }

@@ -15,7 +15,7 @@ namespace Anomalous.Minimus
     /// <param name="scene">The scene for the event.</param>
     public delegate void SceneControllerEvent(SceneController controller, SimScene scene);
 
-    public class SceneController
+    public class SceneController : IDisposable
     {
         private SimScene currentScene;
         private SimObjectManager currentSimObjects;
@@ -55,6 +55,11 @@ namespace Anomalous.Minimus
         {
             this.pluginManager = pluginManager;
             sceneResourceManager = pluginManager.createLiveResourceManager("Scene");
+        }
+
+        public void Dispose()
+        {
+            this.destroyScene();
         }
 
         /// <summary>

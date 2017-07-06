@@ -25,16 +25,10 @@ using Anomalous.libRocketWidget;
 
 namespace Anomalous.Minimus.Full
 {
-    public delegate void LoopUpdate(Clock time);
-
-    public sealed class EngineController : IDisposable
+    public sealed class EngineController
     {
-        //Performance
-        private NativeSystemTimer performanceMetricTimer;
-
         //Controller
         private SceneController sceneController;
-        private TouchMouseGuiForwarder touchMouseGuiForwarder;
 
         //Serialization
         private XmlSaver xmlSaver = new XmlSaver();
@@ -43,31 +37,9 @@ namespace Anomalous.Minimus.Full
         private String currentSceneFile;
         private String currentSceneDirectory;
 
-        public EngineController(NativeOSWindow mainWindow, SystemTimer systemTimer, EventManager eventManager, InputHandler inputHandler)
+        public EngineController(SceneController sceneController)
         {
-            performanceMetricTimer = new NativeSystemTimer();
-            PerformanceMonitor.setupEnabledState(performanceMetricTimer);
-
-            //Initialize controllers
-            //sceneController = new SceneController(pluginManager);
-        }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            if (sceneController != null)
-            {
-                sceneController.destroyScene();
-            }
-            if (performanceMetricTimer != null)
-            {
-                PerformanceMonitor.destroyEnabledState();
-                performanceMetricTimer.Dispose();
-            }
-
-            Log.Info("Engine Controller Shutdown");
+            this.sceneController = sceneController;
         }
 
         /// <summary>
