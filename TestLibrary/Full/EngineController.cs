@@ -29,9 +29,6 @@ namespace Anomalous.Minimus.Full
 
     public sealed class EngineController : IDisposable
     {
-        //Engine
-        private PluginManager pluginManager;
-
         //Performance
         private NativeSystemTimer performanceMetricTimer;
 
@@ -47,14 +44,8 @@ namespace Anomalous.Minimus.Full
         private String currentSceneFile;
         private String currentSceneDirectory;
 
-        public EngineController(NativeOSWindow mainWindow, NativeUpdateTimer mainTimer, SystemTimer systemTimer, EventManager eventManager, InputHandler inputHandler)
+        public EngineController(NativeOSWindow mainWindow, NativeUpdateTimer mainTimer, SystemTimer systemTimer, EventManager eventManager, InputHandler inputHandler, PluginManager pluginManager)
         {
-            //Create pluginmanager
-            pluginManager = new PluginManager(CoreConfig.ConfigFile);
-
-            //Configure the filesystem
-            VirtualFileSystem archive = VirtualFileSystem.Instance;
-
             MyGUIInterface.EventLayerKey = EventLayers.Gui;
             MyGUIInterface.CreateGuiGestures = CoreConfig.EnableMultitouch && PlatformConfig.TouchType == TouchType.Screen;
 
@@ -148,11 +139,6 @@ namespace Anomalous.Minimus.Full
                 PerformanceMonitor.destroyEnabledState();
                 performanceMetricTimer.Dispose();
             }
-            if (pluginManager != null)
-            {
-                //This is the main engine plugin manager, it should be last unless subsystems need to be shutdown before any additional disposing
-                pluginManager.Dispose();
-            }
 
             Log.Info("Engine Controller Shutdown");
         }
@@ -244,14 +230,6 @@ namespace Anomalous.Minimus.Full
             get
             {
                 return currentSceneDirectory;
-            }
-        }
-
-        public PluginManager PluginManager
-        {
-            get
-            {
-                return pluginManager;
             }
         }
 

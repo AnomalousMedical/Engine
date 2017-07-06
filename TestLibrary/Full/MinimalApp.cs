@@ -8,6 +8,7 @@ using Autofac.Core;
 using Engine;
 using Engine.ObjectManagement;
 using Engine.Platform;
+using Engine.Renderer;
 using Logging;
 using MyGUIPlugin;
 using OgrePlugin;
@@ -117,6 +118,9 @@ namespace Anomalous.Minimus.Full
 
         private void RegisterEngine()
         {
+            builder.Register(c => new PluginManager(CoreConfig.ConfigFile))
+                .SingleInstance();
+
             builder.RegisterType<NativeSystemTimer>()
                 .SingleInstance()
                 .As<SystemTimer>();
@@ -142,6 +146,10 @@ namespace Anomalous.Minimus.Full
 
             builder.Register(c => PluginManager.Instance.RendererPlugin.createSceneViewLightManager())
                 .As<SceneViewLightManager>()
+                .SingleInstance();
+
+            builder.Register(c => c.Resolve<PluginManager>().RendererPlugin.PrimaryWindow)
+                .As<RendererWindow>()
                 .SingleInstance();
 
             builder.Register(c => OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget)
@@ -246,7 +254,7 @@ namespace Anomalous.Minimus.Full
                     layoutChain.layout();
                 });
 
-            builder.Register(c => new SceneViewController(c.Resolve<MDILayoutManager>(), sceneScope.Resolve<EventManager>(), sceneScope.Resolve<UpdateTimer>(), engineController.PluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.RenderManager, null))
+            builder.Register(c => new SceneViewController(c.Resolve<MDILayoutManager>(), sceneScope.Resolve<EventManager>(), sceneScope.Resolve<UpdateTimer>(), sceneScope.Resolve<RendererWindow>(), MyGUIInterface.Instance.OgrePlatform.RenderManager, null))
                 .SingleInstance();
 
             builder.RegisterType<SceneStatsDisplayManager>()
