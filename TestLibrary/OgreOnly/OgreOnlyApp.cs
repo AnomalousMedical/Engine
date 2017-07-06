@@ -28,11 +28,12 @@ namespace Anomalous.Minimus.OgreOnly
         ContainerBuilder builder = new ContainerBuilder();
 
         IContainer container;
-        ILifetimeScope scope;
+        ILifetimeScope sceneScope;
+        ILifetimeScope appScope;
 
         public OgreOnlyApp()
         {
-            
+
         }
 
         public override bool OnInit()
@@ -48,6 +49,7 @@ namespace Anomalous.Minimus.OgreOnly
             //Main Window
             mainWindow = new NativeOSWindow("Anomalous Minimus", new IntVector2(-1, -1), new IntSize2(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes));
             mainWindow.Closed += mainWindow_Closed;
+            builder.RegisterInstance<NativeOSWindow>(mainWindow).SingleInstance();
 
             //Setup DPI
             float pixelScale = mainWindow.WindowScaling;
@@ -63,10 +65,19 @@ namespace Anomalous.Minimus.OgreOnly
 
             ScaleHelper._setScaleFactor(pixelScale);
 
-            engineController = new OgreOnlyEngineController(mainWindow);
-            engineController.OnLoopUpdate += engineController_OnLoopUpdate;
+            builder.Register(c =>
+            {
+                var controller = new OgreOnlyEngineController(mainWindow);
+                controller.OnLoopUpdate += engineController_OnLoopUpdate;
+                return controller;
+            }).OnRelease(i =>
+            {
+                i.OnLoopUpdate -= engineController_OnLoopUpdate;
+                i.Dispose();
+            }).InstancePerApp();
 
-            builder.Register(c => new OgreSceneManagerDefinition("Ogre"));
+
+            builder.Register(c => new OgreSceneManagerDefinition("Ogre")).InstancePerScene();
 
             builder.Register(c =>
             {
@@ -81,14 +92,15 @@ namespace Anomalous.Minimus.OgreOnly
                 sceneDefiniton.DefaultSubScene = "Main";
 
                 return sceneDefiniton;
-            });
+            }).InstancePerScene();
 
-            builder.Register(c => c.Resolve<SimSceneDefinition>().createScene());
+            builder.Register(c => c.Resolve<SimSceneDefinition>().createScene()).InstancePerScene();
 
             container = builder.Build();
-
-            scope = container.BeginLifetimeScope();
-            scope.Resolve<SimScene>();
+            appScope = container.BeginLifetimeScope(LifetimeScopes.App);
+            engineController = appScope.Resolve<OgreOnlyEngineController>();
+            sceneScope = appScope.BeginLifetimeScope(LifetimeScopes.Scene);
+            sceneScope.Resolve<SimScene>();
 
             return true;
         }
@@ -104,11 +116,12 @@ namespace Anomalous.Minimus.OgreOnly
         {
             //This is probably not disposing everything
             CoreConfig.save();
-            scope.Dispose();
+            sceneScope.Dispose();
+            appScope.Dispose();
             container.Dispose();
 
-            engineController.Dispose();
-            mainWindow.Dispose();
+            //engineController.Dispose();
+            //mainWindow.Dispose();
 
             base.Dispose();
 
