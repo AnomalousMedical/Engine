@@ -21,17 +21,6 @@ namespace Anomalous.Minimus.OgreOnly
 {
     public sealed class OgreOnlyEngineController : IDisposable
     {
-        //Engine
-
-        //Platform
-        private NativeUpdateTimer mainTimer;
-        private EventManager eventManager;
-        private NativeInputHandler inputHandler;
-        private EventUpdateListener eventUpdate;
-
-        //Performance
-        private NativeSystemTimer performanceMetricTimer;
-
         //Controller
         private SceneController sceneController;
 
@@ -42,22 +31,8 @@ namespace Anomalous.Minimus.OgreOnly
         private String currentSceneFile;
         private String currentSceneDirectory;
 
-        public OgreOnlyEngineController(NativeOSWindow mainWindow, NativeUpdateTimer mainTimer, PluginManager pluginManager)
+        public OgreOnlyEngineController(NativeOSWindow mainWindow, NativeUpdateTimer mainTimer, PluginManager pluginManager, InputHandler inputHandler)
         {
-            this.mainTimer = mainTimer;
-
-            //Configure the filesystem
-            VirtualFileSystem archive = VirtualFileSystem.Instance;
-
-            performanceMetricTimer = new NativeSystemTimer();
-            PerformanceMonitor.setupEnabledState(performanceMetricTimer);
-
-            inputHandler = new NativeInputHandler(mainWindow, CoreConfig.EnableMultitouch);
-            eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
-            eventUpdate = new EventUpdateListener(eventManager);
-            mainTimer.addUpdateListener(eventUpdate);
-            pluginManager.setPlatformInfo(mainTimer, eventManager);
-
             //Initialize controllers
             sceneController = new SceneController(pluginManager);
         }
@@ -70,19 +45,6 @@ namespace Anomalous.Minimus.OgreOnly
             if (sceneController != null)
             {
                 sceneController.destroyScene();
-            }
-            if (eventManager != null)
-            {
-                eventManager.Dispose();
-            }
-            if (inputHandler != null)
-            {
-                inputHandler.Dispose();
-            }
-            if (performanceMetricTimer != null)
-            {
-                PerformanceMonitor.destroyEnabledState();
-                performanceMetricTimer.Dispose();
             }
 
             Log.Info("Engine Controller Shutdown");
@@ -139,14 +101,6 @@ namespace Anomalous.Minimus.OgreOnly
         public void addSimObject(SimObjectBase simObject)
         {
             sceneController.addSimObject(simObject);
-        }
-
-        public EventManager EventManager
-        {
-            get
-            {
-                return eventManager;
-            }
         }
 
         public SimScene CurrentScene

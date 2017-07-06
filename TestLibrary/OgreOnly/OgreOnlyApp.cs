@@ -48,76 +48,70 @@ namespace Anomalous.Minimus.OgreOnly
             Log.Default.addLogListener(logListener);
             Log.ImportantInfo("Running from directory {0}", FolderFinder.ExecutableFolder);
 
-            builder.Register<NativeOSWindow>(c =>
-            {
-                //Main Window
-                var mainWindow = new NativeOSWindow("Anomalous Minimus", new IntVector2(-1, -1), new IntSize2(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes));
-                mainWindow.Closed += w =>
-                {
-                    if (PlatformConfig.CloseMainWindowOnShutdown)
-                    {
-                        mainWindow.close();
-                    }
-                    this.exit();
-                };
-
-                //Setup DPI
-                float pixelScale = mainWindow.WindowScaling;
-                switch (CoreConfig.ExtraScaling)
-                {
-                    case UIExtraScale.Smaller:
-                        pixelScale -= .15f;
-                        break;
-                    case UIExtraScale.Larger:
-                        pixelScale += .25f;
-                        break;
-                }
-
-                ScaleHelper._setScaleFactor(pixelScale);
-
-                return mainWindow;
-            }).SingleInstance();
-
-            builder.Register(c =>
-            {
-                var pluginManager = new PluginManager(CoreConfig.ConfigFile);
-                var mainWindow = c.Resolve<NativeOSWindow>();
-
-                //Configure plugins
-                pluginManager.OnConfigureDefaultWindow = (out WindowInfo defaultWindow) =>
-                {
-                    //Setup main window
-                    defaultWindow = new WindowInfo(mainWindow, "Primary");
-                    defaultWindow.Fullscreen = CoreConfig.EngineConfig.Fullscreen;
-                    defaultWindow.MonitorIndex = 0;
-
-                    if (CoreConfig.EngineConfig.Fullscreen)
-                    {
-                        mainWindow.setSize(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes);
-                        mainWindow.ExclusiveFullscreen = true;
-                    }
-                    else
-                    {
-                        mainWindow.Maximized = true;
-                    }
-                    mainWindow.show();
-                };
-
-                pluginManager.addPluginAssembly(typeof(OgreInterface).Assembly);
-                pluginManager.addPluginAssembly(typeof(NativePlatformPlugin).Assembly);
-                pluginManager.initializePlugins();
-
-                return pluginManager;
-            }).SingleInstance();
-
-            builder.RegisterType<NativeSystemTimer>()
+            builder.Register<NativeOSWindow>(c => new NativeOSWindow("Anomalous Minimus", new IntVector2(-1, -1), new IntSize2(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes)))
                 .SingleInstance()
-                .As<SystemTimer>();
-
-            builder.RegisterType<NativeUpdateTimer>()
                 .OnActivated(a =>
                 {
-                    var mainTimer = a.Instance;
+                    //Main Window
+                    var mainWindow = a.Instance;
+                    mainWindow.Closed += w =>
+                    {
+                        if (PlatformConfig.CloseMainWindowOnShutdown)
+                        {
+                            mainWindow.close();
+                        }
+                        this.exit();
+                    };
+
+                    //Setup DPI
+                    float pixelScale = mainWindow.WindowScaling;
+                    switch (CoreConfig.ExtraScaling)
+                    {
+                        case UIExtraScale.Smaller:
+                            pixelScale -= .15f;
+                            break;
+                        case UIExtraScale.Larger:
+                            pixelScale += .25f;
+                            break;
+                    }
+
+                    ScaleHelper._setScaleFactor(pixelScale);
+                });
+
+            builder.Register(c => new PluginManager(CoreConfig.ConfigFile))
+                .SingleInstance()
+                .OnActivated(a =>
+                {
+                    var pluginManager = a.Instance;
+                    var mainWindow = a.Context.Resolve<NativeOSWindow>();
+
+                    //Configure plugins
+                    pluginManager.OnConfigureDefaultWindow = (out WindowInfo defaultWindow) =>
+                    {
+                        //Setup main window
+                        defaultWindow = new WindowInfo(mainWindow, "Primary");
+                        defaultWindow.Fullscreen = CoreConfig.EngineConfig.Fullscreen;
+                        defaultWindow.MonitorIndex = 0;
+
+                        if (CoreConfig.EngineConfig.Fullscreen)
+                        {
+                            mainWindow.setSize(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes);
+                            mainWindow.ExclusiveFullscreen = true;
+                        }
+                        else
+                        {
+                            mainWindow.Maximized = true;
+                        }
+                        mainWindow.show();
+                    };
+
+                    pluginManager.addPluginAssembly(typeof(OgreInterface).Assembly);
+                    pluginManager.addPluginAssembly(typeof(NativePlatformPlugin).Assembly);
+                    pluginManager.initializePlugins();
+
+                    var mainTimer = a.Context.Resolve<UpdateTimer>();
+                    pluginManager.setPlatformInfo(mainTimer, a.Context.Resolve<EventManager>());
+
                     if (OgreConfig.VSync && CoreConfig.EngineConfig.FPSCap < 300)
                     {
                         //Use a really high framerate cap if vsync is on since it will cap our 
@@ -128,8 +122,27 @@ namespace Anomalous.Minimus.OgreOnly
                     {
                         mainTimer.FramerateCap = CoreConfig.EngineConfig.FPSCap;
                     }
-                })
-                .SingleInstance();
+                });
+
+            builder.RegisterType<NativeSystemTimer>()
+                .SingleInstance()
+                .As<SystemTimer>();
+
+            builder.RegisterType<NativeUpdateTimer>()
+                .SingleInstance()
+                .As<UpdateTimer>()
+                .As<NativeUpdateTimer>();
+
+            builder.Register(c => new NativeInputHandler(c.Resolve<NativeOSWindow>(), CoreConfig.EnableMultitouch))
+                .SingleInstance()
+                .As<InputHandler>();
+
+            builder.Register(c => new EventManager(c.Resolve<InputHandler>(), Enum.GetValues(typeof(EventLayers))))
+                .SingleInstance()
+                .OnActivated(a =>
+                {
+                    a.Context.Resolve<UpdateTimer>().addUpdateListener(new EventUpdateListener(a.Instance));
+                });
 
             builder.RegisterType<OgreOnlyEngineController>().InstancePerApp();
 
@@ -137,7 +150,7 @@ namespace Anomalous.Minimus.OgreOnly
                 .InstancePerApp()
                 .OnActivated(a =>
                 {
-                    a.Context.Resolve<NativeUpdateTimer>().addUpdateListener(a.Instance);
+                    a.Context.Resolve<UpdateTimer>().addUpdateListener(a.Instance);
                 });
 
             builder.Register(c => new OgreSceneManagerDefinition("Ogre"))
@@ -173,6 +186,8 @@ namespace Anomalous.Minimus.OgreOnly
             sceneScope.Resolve<SimScene>();
             sceneScope.Resolve<OnUpdateListener>().OnUpdate += OnUpdate;
 
+            PerformanceMonitor.setupEnabledState(sceneScope.Resolve<SystemTimer>());
+
             return true;
         }
 
@@ -185,8 +200,8 @@ namespace Anomalous.Minimus.OgreOnly
 
         public override int OnExit()
         {
-            //This is probably not disposing everything
             CoreConfig.save();
+            PerformanceMonitor.destroyEnabledState();
             sceneScope.Dispose();
             appScope.Dispose();
             container.Dispose();
