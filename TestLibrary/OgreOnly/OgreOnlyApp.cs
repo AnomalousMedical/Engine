@@ -1,6 +1,7 @@
 ﻿using Anomalous.GuiFramework;
 using Anomalous.GuiFramework.Cameras;
 using Anomalous.OSPlatform;
+using Autofac;
 using Engine;
 using Engine.ObjectManagement;
 using Engine.Platform;
@@ -24,11 +25,14 @@ namespace Anomalous.Minimus.OgreOnly
         private LogFileListener logListener;
         private Color clearColor = Color.Black;
 
-        private SimScene scene;
+        ContainerBuilder builder = new ContainerBuilder();
+
+        IContainer container;
+        ILifetimeScope scope;
 
         public OgreOnlyApp()
         {
-
+            
         }
 
         public override bool OnInit()
@@ -62,17 +66,29 @@ namespace Anomalous.Minimus.OgreOnly
             engineController = new OgreOnlyEngineController(mainWindow);
             engineController.OnLoopUpdate += engineController_OnLoopUpdate;
 
-            //Create scene
-            //Create a simple scene to use to show the models
-            SimSceneDefinition sceneDefiniton = new SimSceneDefinition();
-            OgreSceneManagerDefinition ogreScene = new OgreSceneManagerDefinition("Ogre");
-            SimSubSceneDefinition mainSubScene = new SimSubSceneDefinition("Main");
-            sceneDefiniton.addSimElementManagerDefinition(ogreScene);
-            sceneDefiniton.addSimSubSceneDefinition(mainSubScene);
-            mainSubScene.addBinding(ogreScene);
-            sceneDefiniton.DefaultSubScene = "Main";
+            builder.Register(c => new OgreSceneManagerDefinition("Ogre"));
 
-            scene = sceneDefiniton.createScene();
+            builder.Register(c =>
+            {
+                //Create scene
+                //Create a simple scene to use to show the models
+                SimSceneDefinition sceneDefiniton = new SimSceneDefinition();
+                var ogreScene = c.Resolve<OgreSceneManagerDefinition>();
+                SimSubSceneDefinition mainSubScene = new SimSubSceneDefinition("Main");
+                sceneDefiniton.addSimElementManagerDefinition(ogreScene);
+                sceneDefiniton.addSimSubSceneDefinition(mainSubScene);
+                mainSubScene.addBinding(ogreScene);
+                sceneDefiniton.DefaultSubScene = "Main";
+
+                return sceneDefiniton;
+            });
+
+            builder.Register(c => c.Resolve<SimSceneDefinition>().createScene());
+
+            container = builder.Build();
+
+            scope = container.BeginLifetimeScope();
+            scope.Resolve<SimScene>();
 
             return true;
         }
@@ -88,7 +104,8 @@ namespace Anomalous.Minimus.OgreOnly
         {
             //This is probably not disposing everything
             CoreConfig.save();
-            scene.Dispose();
+            scope.Dispose();
+            container.Dispose();
 
             engineController.Dispose();
             mainWindow.Dispose();
