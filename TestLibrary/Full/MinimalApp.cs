@@ -29,7 +29,6 @@ namespace Anomalous.Minimus.Full
         private SimScene scene;
         private SceneViewController sceneViewController;
 
-        private SceneStatsDisplayManager sceneStatsDisplayManager;
         private SceneViewLightManager lightManager;
 
         public event Action<MinimalApp> Initialized;
@@ -182,6 +181,18 @@ namespace Anomalous.Minimus.Full
             builder.Register(c => new SceneViewController(c.Resolve<MDILayoutManager>(), engineController.EventManager, engineController.MainTimer, engineController.PluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.RenderManager, null))
                 .SingleInstance();
 
+            builder.Register(c => OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget)
+                .SingleInstance()
+                .As<RenderTarget>()
+                .ExternallyOwned();
+
+            builder.RegisterType<SceneStatsDisplayManager>()
+                .SingleInstance()
+                .OnActivated(a =>
+                {
+                    a.Instance.StatsVisible = true;
+                });
+
             container = builder.Build();
             sceneScope = container.BeginLifetimeScope(LifetimeScopes.Scene);
 
@@ -189,8 +200,7 @@ namespace Anomalous.Minimus.Full
 
             //Layout Chain
             sceneViewController = sceneScope.Resolve<SceneViewController>();
-            sceneStatsDisplayManager = new SceneStatsDisplayManager(sceneViewController, OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget);
-            sceneStatsDisplayManager.StatsVisible = true;
+            var sceneStatsDisplayManager = sceneScope.Resolve<SceneStatsDisplayManager>();
             sceneViewController.createWindow("Camera 1", Vector3.UnitX * 100, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
             lightManager = PluginManager.Instance.RendererPlugin.createSceneViewLightManager();
 
