@@ -4,6 +4,7 @@ using Anomalous.Minimus.Full.GUI;
 using Anomalous.Minimus.OgreOnly;
 using Anomalous.OSPlatform;
 using Autofac;
+using Autofac.Core;
 using Engine;
 using Engine.ObjectManagement;
 using Engine.Platform;
@@ -25,20 +26,11 @@ namespace Anomalous.Minimus.Full
         private CoreConfig coreConfig;
         private LogFileListener logListener;
 
-        private BorderLayoutChainLink editorBorder;
-        private BorderLayoutChainLink contentArea;
         private SceneViewController sceneViewController;
         private SimScene scene;
 
         private SceneStatsDisplayManager sceneStatsDisplayManager;
         private SceneViewLightManager lightManager;
-
-        //Taskbar
-        private AppButtonTaskbar taskbar;
-        private SingleChildChainLink taskbarLink;
-        private TaskMenu taskMenu;
-        private TaskController taskController = new TaskController();
-        private DocumentController documentController = new DocumentController();
 
         public event Action<MinimalApp> Initialized;
 
@@ -59,12 +51,7 @@ namespace Anomalous.Minimus.Full
             sceneViewController.destroyCameras();
             scene.Dispose();
 
-            IDisposableUtil.DisposeIfNotNull(taskbar);
-            IDisposableUtil.DisposeIfNotNull(taskMenu);
-
             IDisposableUtil.DisposeIfNotNull(sceneViewController);
-            IDisposableUtil.DisposeIfNotNull(editorBorder);
-            IDisposableUtil.DisposeIfNotNull(contentArea);
 
             sceneScope.Dispose();
             container.Dispose();
@@ -116,6 +103,16 @@ namespace Anomalous.Minimus.Full
                     ScaleHelper._setScaleFactor(pixelScale);
                 });
 
+            builder.RegisterType<DocumentController>()
+                .SingleInstance();
+
+            builder.RegisterType<TaskMenu>()
+                .SingleInstance()
+                .WithParameter(new TypedParameter(typeof(LayoutElementName), new LayoutElementName(GUILocationNames.FullscreenPopup)));
+
+            builder.RegisterType<TaskController>()
+                .SingleInstance();
+
             builder.RegisterType<EngineController>()
                 .SingleInstance();
 
@@ -125,22 +122,41 @@ namespace Anomalous.Minimus.Full
             builder.RegisterType<GUIManager>()
                 .SingleInstance();
 
+            builder.RegisterType<AppButtonTaskbar>()
+                .SingleInstance()
+                .As<Taskbar>()
+                .OnActivated(a =>
+                {
+                    //Taskbar
+                    var taskbar = a.Instance;
+                    var taskMenu = a.Context.Resolve<TaskMenu>();
+                    taskbar.OpenTaskMenu += (int left, int top, int width, int height) =>
+                    {
+                        taskMenu.setSize(width, height);
+                        taskMenu.show(left, top);
+                    };
+                    taskbar.setAppIcon("AppButton/WideImage", "AppButton/NarrowImage");
+                });
+
+            builder.RegisterType<BorderLayoutChainLink>();
+
             builder.RegisterType<LayoutChain>()
                 .SingleInstance()
                 .OnActivated(a =>
                 {
-                    var mdiLayout2 = a.Context.Resolve<MDILayoutManager>();
+                    var mdiLayout = a.Context.Resolve<MDILayoutManager>();
                     LayoutChain layoutChain = a.Instance;
                     //layoutChain.addLink(new SingleChildChainLink(GUILocationNames.Notifications, controller.NotificationManager.LayoutContainer), true);
+                    layoutChain.addLink(new SingleChildChainLink(GUILocationNames.Taskbar, a.Context.Resolve<Taskbar>()), true);
                     layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.FullscreenPopup), true);
                     layoutChain.SuppressLayout = true;
-                    editorBorder = new BorderLayoutChainLink(GUILocationNames.EditorBorderLayout);
+                    var editorBorder = a.Context.Resolve<BorderLayoutChainLink>(new TypedParameter(typeof(String), GUILocationNames.EditorBorderLayout));
                     layoutChain.addLink(editorBorder, true);
-                    layoutChain.addLink(new MDIChainLink(GUILocationNames.MDI, mdiLayout2), true);
+                    layoutChain.addLink(new MDIChainLink(GUILocationNames.MDI, mdiLayout), true);
                     layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.ContentAreaPopup), true);
-                    contentArea = new BorderLayoutChainLink(GUILocationNames.ContentArea);
+                    var contentArea = a.Context.Resolve<BorderLayoutChainLink>(new TypedParameter(typeof(String), GUILocationNames.ContentArea));
                     layoutChain.addLink(contentArea, true);
-                    layoutChain.addLink(new FinalChainLink("SceneViews", mdiLayout2.DocumentArea), true);
+                    layoutChain.addLink(new FinalChainLink("SceneViews", mdiLayout.DocumentArea), true);
                     layoutChain.SuppressLayout = false;
                     layoutChain.layout();
                 });
@@ -165,27 +181,17 @@ namespace Anomalous.Minimus.Full
             engineController = sceneScope.Resolve<EngineController>();
 
             //Layout Chain
-            var mdiLayout = sceneScope.Resolve<MDILayoutManager>();
-            var guiManager = sceneScope.Resolve<GUIManager>();
+            var mdiLayout3 = sceneScope.Resolve<MDILayoutManager>();
 
-            //Taskbar
-            taskbar = new AppButtonTaskbar();
-            taskbar.OpenTaskMenu += taskbar_OpenTaskMenu;
-            taskbar.setAppIcon("AppButton/WideImage", "AppButton/NarrowImage");
-            taskbarLink = new SingleChildChainLink(GUILocationNames.Taskbar, taskbar);
-            guiManager.addLinkToChain(taskbarLink);
-            guiManager.pushRootContainer(GUILocationNames.Taskbar);
+            
 
-            sceneViewController = new SceneViewController(mdiLayout, engineController.EventManager, engineController.MainTimer, engineController.PluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.RenderManager, null);
+            sceneViewController = new SceneViewController(mdiLayout3, engineController.EventManager, engineController.MainTimer, engineController.PluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.RenderManager, null);
             sceneStatsDisplayManager = new SceneStatsDisplayManager(sceneViewController, OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget);
             sceneStatsDisplayManager.StatsVisible = true;
             sceneViewController.createWindow("Camera 1", Vector3.UnitX * 100, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
             lightManager = PluginManager.Instance.RendererPlugin.createSceneViewLightManager();
 
-            //Task Menu
-            taskMenu = new TaskMenu(documentController, taskController, guiManager, new LayoutElementName(GUILocationNames.FullscreenPopup));
-
-            taskController.addTask(new CallbackTask("Exit", "Exit", "", "Main", (item) =>
+            sceneScope.Resolve<TaskController>().addTask(new CallbackTask("Exit", "Exit", "", "Main", (item) =>
                 {
                     this.exit();
                 }));
@@ -217,12 +223,6 @@ namespace Anomalous.Minimus.Full
             lightManager.sceneLoaded(scene);
 
             return true;
-        }
-
-        void taskbar_OpenTaskMenu(int left, int top, int width, int height)
-        {
-            taskMenu.setSize(width, height);
-            taskMenu.show(left, top);
         }
 
         public override int OnExit()

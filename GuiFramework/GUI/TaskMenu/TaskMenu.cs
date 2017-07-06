@@ -95,6 +95,12 @@ namespace Anomalous.GuiFramework
             scrollerBorderHeight = widget.Height - iconScroller.Bottom;
 
             dragAreaSize = new IntVector2(ScaleHelper.Scaled(40), iconGrid.ItemHeight);
+
+            //Add tasks that are already defined
+            foreach (var task in taskController.Tasks)
+            {
+                taskController_TaskAdded(task);
+            }
         }
 
         public override void Dispose()
