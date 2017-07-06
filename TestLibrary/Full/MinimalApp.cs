@@ -117,6 +117,15 @@ namespace Anomalous.Minimus.Full
         {
             builder.RegisterType<EngineController>()
                 .SingleInstance();
+
+            builder.Register(c => PluginManager.Instance.RendererPlugin.createSceneViewLightManager())
+                .As<SceneViewLightManager>()
+                .SingleInstance();
+
+            builder.Register(c => OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget)
+                .As<RenderTarget>()
+                .SingleInstance()
+                .ExternallyOwned();
         }
 
         private void RegisterGui()
@@ -215,6 +224,13 @@ namespace Anomalous.Minimus.Full
                     layoutChain.layout();
                 });
 
+            builder.Register(c => new SceneViewController(c.Resolve<MDILayoutManager>(), engineController.EventManager, engineController.MainTimer, engineController.PluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.RenderManager, null))
+                .SingleInstance();
+
+            builder.RegisterType<SceneStatsDisplayManager>()
+                .SingleInstance();
+
+            //Individual windows, can be created more than once.
             builder.RegisterType<TestWindow>()
                 .OnActivated(a =>
                 {
@@ -228,21 +244,6 @@ namespace Anomalous.Minimus.Full
                     a.Context.Resolve<GUIManager>().addManagedDialog(a.Instance);
                     a.Instance.Visible = true;
                 });
-
-            builder.Register(c => new SceneViewController(c.Resolve<MDILayoutManager>(), engineController.EventManager, engineController.MainTimer, engineController.PluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.RenderManager, null))
-                .SingleInstance();
-
-            builder.Register(c => OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget)
-                .As<RenderTarget>()
-                .SingleInstance()
-                .ExternallyOwned();
-
-            builder.RegisterType<SceneStatsDisplayManager>()
-                .SingleInstance();
-
-            builder.Register(c => PluginManager.Instance.RendererPlugin.createSceneViewLightManager())
-                .As<SceneViewLightManager>()
-                .SingleInstance();
         }
 
         public override int OnExit()
