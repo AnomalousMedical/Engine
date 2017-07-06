@@ -1,7 +1,9 @@
 ﻿using Anomalous.GuiFramework;
 using Anomalous.GuiFramework.Cameras;
 using Anomalous.Minimus.Full.GUI;
+using Anomalous.Minimus.OgreOnly;
 using Anomalous.OSPlatform;
+using Autofac;
 using Engine;
 using Engine.ObjectManagement;
 using Engine.Platform;
@@ -20,7 +22,6 @@ namespace Anomalous.Minimus.Full
     public class MinimalApp : App
     {
         private EngineController engineController;
-        private NativeOSWindow mainWindow;
         private CoreConfig coreConfig;
         private LogFileListener logListener;
 
@@ -47,6 +48,10 @@ namespace Anomalous.Minimus.Full
 
         public event Action<MinimalApp> Initialized;
 
+        ContainerBuilder builder = new ContainerBuilder();
+        IContainer container;
+        ILifetimeScope sceneScope;
+
         public MinimalApp()
         {
 
@@ -70,8 +75,8 @@ namespace Anomalous.Minimus.Full
             IDisposableUtil.DisposeIfNotNull(contentArea);
             IDisposableUtil.DisposeIfNotNull(mdiLayout);
 
-            engineController.Dispose();
-            mainWindow.Dispose();
+            sceneScope.Dispose();
+            container.Dispose();
 
             base.Dispose();
 
@@ -89,26 +94,43 @@ namespace Anomalous.Minimus.Full
             Log.ImportantInfo("Running from directory {0}", FolderFinder.ExecutableFolder);
 
             //Main Window
-            mainWindow = new NativeOSWindow("Anomalous Minimus", new IntVector2(-1, -1), new IntSize2(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes));
-            mainWindow.Closed += mainWindow_Closed;
-            mainWindow.CreateInternalResources += mainWindow_CreateInternalResources;
-            mainWindow.DestroyInternalResources += mainWindow_DestroyInternalResources;
+            builder.Register(c => new NativeOSWindow("Anomalous Minimus", new IntVector2(-1, -1), new IntSize2(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes)))
+                .OnActivated(a =>
+                {
+                    var mainWindow = a.Instance;
+                    a.Instance.Closed += w =>
+                    {
+                        if (PlatformConfig.CloseMainWindowOnShutdown)
+                        {
+                            mainWindow.close();
+                        }
+                        this.exit();
+                    };
 
-            //Setup DPI
-            float pixelScale = mainWindow.WindowScaling;
-            switch (CoreConfig.ExtraScaling)
-            {
-                case UIExtraScale.Smaller:
-                    pixelScale -= .15f;
-                    break;
-                case UIExtraScale.Larger:
-                    pixelScale += .25f;
-                    break;
-            }
+                    //Setup DPI
+                    float pixelScale = mainWindow.WindowScaling;
+                    switch (CoreConfig.ExtraScaling)
+                    {
+                        case UIExtraScale.Smaller:
+                            pixelScale -= .15f;
+                            break;
+                        case UIExtraScale.Larger:
+                            pixelScale += .25f;
+                            break;
+                    }
 
-            ScaleHelper._setScaleFactor(pixelScale);
+                    ScaleHelper._setScaleFactor(pixelScale);
+                })
+                .SingleInstance()
+                .As<OSWindow>()
+                .As<NativeOSWindow>();
 
-            engineController = new EngineController(mainWindow);
+            builder.RegisterType<EngineController>();
+
+            container = builder.Build();
+            sceneScope = container.BeginLifetimeScope(LifetimeScopes.Scene);
+
+            engineController = sceneScope.Resolve<EngineController>();
 
             //Layout Chain
             mdiLayout = new MDILayoutManager();
@@ -128,7 +150,7 @@ namespace Anomalous.Minimus.Full
             layoutChain.layout();
 
             guiManager = new GUIManager();
-            guiManager.createGUI(mdiLayout, layoutChain, mainWindow);
+            guiManager.createGUI(mdiLayout, layoutChain, sceneScope.Resolve<OSWindow>());
 
             //Taskbar
             taskbar = new AppButtonTaskbar();
@@ -185,16 +207,6 @@ namespace Anomalous.Minimus.Full
             return true;
         }
 
-        void mainWindow_DestroyInternalResources(OSWindow window, InternalResourceType resourceType)
-        {
-            //libRocketPlugin.TextureDatabase.ReleaseTextures();
-        }
-
-        void mainWindow_CreateInternalResources(OSWindow window, InternalResourceType resourceType)
-        {
-            
-        }
-
         void taskbar_OpenTaskMenu(int left, int top, int width, int height)
         {
             taskMenu.setSize(width, height);
@@ -219,15 +231,6 @@ namespace Anomalous.Minimus.Full
                 String crashFile = String.Format(CultureInfo.InvariantCulture, "{0}/log {1}-{2}-{3} {4}.{5}.{6}.log", CoreConfig.CrashLogDirectory, now.Month, now.Day, now.Year, now.Hour, now.Minute, now.Second);
                 logListener.saveCrashLog(crashFile);
             }
-        }
-
-        void mainWindow_Closed(OSWindow window)
-        {
-            if (PlatformConfig.CloseMainWindowOnShutdown)
-            {
-                mainWindow.close();
-            }
-            this.exit();
         }
 
         public EngineController EngineController

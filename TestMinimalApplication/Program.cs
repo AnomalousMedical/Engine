@@ -18,8 +18,8 @@ namespace Anomalous.Minimus
             App app = null;
             try
             {
-                //app = new Anomalous.Minimus.Full.MinimalApp();
-                app = new Anomalous.Minimus.OgreOnly.OgreOnlyApp();
+                app = new Anomalous.Minimus.Full.MinimalApp();
+                //app = new Anomalous.Minimus.OgreOnly.OgreOnlyApp();
                 app.run();
             }
             catch (Exception e)
