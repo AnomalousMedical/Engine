@@ -39,6 +39,8 @@ namespace Engine.Platform
             maxDelta = 100000;
         }
 
+        public abstract void OnIdle();
+
         /// <summary>
         /// Add an update listener to get updates from the fixed updater part of the timer.
         /// </summary>

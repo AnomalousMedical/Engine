@@ -33,12 +33,9 @@ namespace Anomalous.Minimus.Full
         private PluginManager pluginManager;
 
         //Platform
-        private NativeSystemTimer systemTimer;
-        private NativeUpdateTimer mainTimer;
         private EventManager eventManager;
         private NativeInputHandler inputHandler;
         private EventUpdateListener eventUpdate;
-        private EngineUpdate medicalUpdate;
 
         //Performance
         private NativeSystemTimer performanceMetricTimer;
@@ -55,9 +52,7 @@ namespace Anomalous.Minimus.Full
         private String currentSceneFile;
         private String currentSceneDirectory;
 
-        public event LoopUpdate OnLoopUpdate;
-
-        public EngineController(NativeOSWindow mainWindow)
+        public EngineController(NativeOSWindow mainWindow, NativeUpdateTimer mainTimer, SystemTimer systemTimer)
         {
             //Create pluginmanager
             pluginManager = new PluginManager(CoreConfig.ConfigFile);
@@ -111,9 +106,6 @@ namespace Anomalous.Minimus.Full
 
             //Intialize the platform
             BulletInterface.Instance.ShapeMargin = 0.005f;
-            systemTimer = new NativeSystemTimer();
-
-            mainTimer = new NativeUpdateTimer(systemTimer);
 
             if (OgreConfig.VSync && CoreConfig.EngineConfig.FPSCap < 300)
             {
@@ -131,8 +123,6 @@ namespace Anomalous.Minimus.Full
             eventUpdate = new EventUpdateListener(eventManager);
             mainTimer.addUpdateListener(eventUpdate);
             pluginManager.setPlatformInfo(mainTimer, eventManager);
-            medicalUpdate = new EngineUpdate(this);
-            mainTimer.addUpdateListener(medicalUpdate);
 
             //Initialize controllers
             sceneController = new SceneController(pluginManager);
@@ -170,10 +160,6 @@ namespace Anomalous.Minimus.Full
             {
                 inputHandler.Dispose();
             }
-            if (systemTimer != null)
-            {
-                systemTimer.Dispose();
-            }
             if (performanceMetricTimer != null)
             {
                 PerformanceMonitor.destroyEnabledState();
@@ -186,14 +172,6 @@ namespace Anomalous.Minimus.Full
             }
 
             Log.Info("Engine Controller Shutdown");
-        }
-
-        /// <summary>
-        /// Stop the loop and begin the process of shutting down the program.
-        /// </summary>
-        public void shutdown()
-        {
-            mainTimer.stopLoop();
         }
 
         /// <summary>
@@ -249,14 +227,6 @@ namespace Anomalous.Minimus.Full
             sceneController.addSimObject(simObject);
         }
 
-        internal void _sendUpdate(Clock clock)
-        {
-            if (OnLoopUpdate != null)
-            {
-                OnLoopUpdate.Invoke(clock);
-            }
-        }
-
         public EventManager EventManager
         {
             get
@@ -270,14 +240,6 @@ namespace Anomalous.Minimus.Full
             get
             {
                 return inputHandler;
-            }
-        }
-
-        public NativeUpdateTimer MainTimer
-        {
-            get
-            {
-                return mainTimer;
             }
         }
 

@@ -36,6 +36,7 @@ namespace Anomalous.Minimus.Full
         ContainerBuilder builder = new ContainerBuilder();
         IContainer container;
         ILifetimeScope sceneScope;
+        private UpdateTimer mainTimer;
 
         public MinimalApp()
         {
@@ -76,6 +77,7 @@ namespace Anomalous.Minimus.Full
 
             //Build engine
             engineController = sceneScope.Resolve<EngineController>();
+            mainTimer = sceneScope.Resolve<UpdateTimer>();
 
             //Build gui
             sceneViewController = sceneScope.Resolve<SceneViewController>();
@@ -115,6 +117,15 @@ namespace Anomalous.Minimus.Full
 
         private void RegisterEngine()
         {
+            builder.RegisterType<NativeSystemTimer>()
+                .SingleInstance()
+                .As<SystemTimer>();
+
+            builder.RegisterType<NativeUpdateTimer>()
+                .SingleInstance()
+                .As<UpdateTimer>()
+                .As<NativeUpdateTimer>();
+
             builder.RegisterType<EngineController>()
                 .SingleInstance();
 
@@ -224,7 +235,7 @@ namespace Anomalous.Minimus.Full
                     layoutChain.layout();
                 });
 
-            builder.Register(c => new SceneViewController(c.Resolve<MDILayoutManager>(), engineController.EventManager, engineController.MainTimer, engineController.PluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.RenderManager, null))
+            builder.Register(c => new SceneViewController(c.Resolve<MDILayoutManager>(), engineController.EventManager, sceneScope.Resolve<UpdateTimer>(), engineController.PluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.RenderManager, null))
                 .SingleInstance();
 
             builder.RegisterType<SceneStatsDisplayManager>()
@@ -253,7 +264,7 @@ namespace Anomalous.Minimus.Full
 
         public override void OnIdle()
         {
-            engineController.MainTimer.OnIdle();
+            mainTimer.OnIdle();
         }
 
         internal void saveCrashLog()

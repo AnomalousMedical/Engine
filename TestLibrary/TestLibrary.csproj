@@ -62,7 +62,6 @@
     <Compile Include="Config\PlatformConfig.cs" />
     <Compile Include="Config\WindowsPlatformConfig.cs" />
     <Compile Include="Full\EngineController.cs" />
-    <Compile Include="Full\EngineUpdate.cs" />
     <Compile Include="Full\GUI\RocketWindow\RocketWindow.cs" />
     <Compile Include="Full\GUI\TestWindow\TestWindow.cs" />
     <Compile Include="Full\MinimalApp.cs" />

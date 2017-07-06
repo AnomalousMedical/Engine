@@ -63,6 +63,11 @@ namespace Engine.Platform
             return true;
         }
 
+        public override void OnIdle()
+        {
+            throw new NotImplementedException("Managed Update Timer does not implement OnIdle.");
+        }
+
         /// <summary>
         /// Reset the last time to be the current time. Call after a long delay to avoid frame skipping.
         /// </summary>

@@ -40,7 +40,7 @@ namespace Anomalous.OSPlatform
             return true;
         }
 
-        public void OnIdle()
+        public override void OnIdle()
         {
             if (started)
             {
