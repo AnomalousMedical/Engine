@@ -20,7 +20,6 @@ namespace Anomalous.Minimus.OgreOnly
     public class OgreOnlyApp : App
     {
         private OgreOnlyEngineController engineController;
-        private NativeOSWindow mainWindow;
         private CoreConfig coreConfig;
         private LogFileListener logListener;
         private Color clearColor = Color.Black;
@@ -46,28 +45,39 @@ namespace Anomalous.Minimus.OgreOnly
             Log.Default.addLogListener(logListener);
             Log.ImportantInfo("Running from directory {0}", FolderFinder.ExecutableFolder);
 
-            //Main Window
-            mainWindow = new NativeOSWindow("Anomalous Minimus", new IntVector2(-1, -1), new IntSize2(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes));
-            mainWindow.Closed += mainWindow_Closed;
-            builder.RegisterInstance<NativeOSWindow>(mainWindow).SingleInstance();
-
-            //Setup DPI
-            float pixelScale = mainWindow.WindowScaling;
-            switch (CoreConfig.ExtraScaling)
+            builder.Register<NativeOSWindow>(c =>
             {
-                case UIExtraScale.Smaller:
-                    pixelScale -= .15f;
-                    break;
-                case UIExtraScale.Larger:
-                    pixelScale += .25f;
-                    break;
-            }
+                //Main Window
+                var mainWindow = new NativeOSWindow("Anomalous Minimus", new IntVector2(-1, -1), new IntSize2(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes));
+                mainWindow.Closed += w =>
+                {
+                    if (PlatformConfig.CloseMainWindowOnShutdown)
+                    {
+                        mainWindow.close();
+                    }
+                    this.exit();
+                };
 
-            ScaleHelper._setScaleFactor(pixelScale);
+                //Setup DPI
+                float pixelScale = mainWindow.WindowScaling;
+                switch (CoreConfig.ExtraScaling)
+                {
+                    case UIExtraScale.Smaller:
+                        pixelScale -= .15f;
+                        break;
+                    case UIExtraScale.Larger:
+                        pixelScale += .25f;
+                        break;
+                }
+
+                ScaleHelper._setScaleFactor(pixelScale);
+
+                return mainWindow;
+            }).SingleInstance();
 
             builder.Register(c =>
             {
-                var controller = new OgreOnlyEngineController(mainWindow);
+                var controller = new OgreOnlyEngineController(c.Resolve<NativeOSWindow>());
                 controller.OnLoopUpdate += engineController_OnLoopUpdate;
                 return controller;
             }).OnRelease(i =>
@@ -143,15 +153,6 @@ namespace Anomalous.Minimus.OgreOnly
                 String crashFile = String.Format(CultureInfo.InvariantCulture, "{0}/log {1}-{2}-{3} {4}.{5}.{6}.log", CoreConfig.CrashLogDirectory, now.Month, now.Day, now.Year, now.Hour, now.Minute, now.Second);
                 logListener.saveCrashLog(crashFile);
             }
-        }
-
-        void mainWindow_Closed(OSWindow window)
-        {
-            if (PlatformConfig.CloseMainWindowOnShutdown)
-            {
-                mainWindow.close();
-            }
-            this.exit();
         }
     }
 }
