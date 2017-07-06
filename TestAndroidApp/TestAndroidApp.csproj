@@ -79,6 +79,10 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Engine\Engine.csproj">
+      <Project>{57c253f1-157f-4a6a-9fed-345a776b97d5}</Project>
+      <Name>Engine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OSPlatform.Android\OSPlatform.Android.csproj">
       <Project>{2a62fb25-aa44-459b-95e0-ed149f31fb6e}</Project>
       <Name>OSPlatform.Android</Name>

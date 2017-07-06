@@ -385,5 +385,13 @@ namespace Anomalous.Minimus.Full
                 logListener.saveCrashLog(crashFile);
             }
         }
+
+        public InputHandler InputHandler
+        {
+            get
+            {
+                return sceneScope.Resolve<InputHandler>();
+            }
+        }
     }
 }

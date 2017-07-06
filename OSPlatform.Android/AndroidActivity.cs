@@ -39,7 +39,7 @@ namespace Anomalous.OSPlatform.Android
 
         private EditText editText;
         bool fireInputs = true;
-        private NativeInputHandler inputHandler;
+        private InputHandler inputHandler;
         int contentViewId;
         int editTextId;
 
@@ -93,7 +93,7 @@ namespace Anomalous.OSPlatform.Android
         /// Set the input handler once you can get an instance to it.
         /// </summary>
         /// <param name="inputHandler">The InputHandler to use to fire input events.</param>
-        protected void setInputHandler(NativeInputHandler inputHandler)
+        protected void setInputHandler(InputHandler inputHandler)
         {
             this.inputHandler = inputHandler;
         }

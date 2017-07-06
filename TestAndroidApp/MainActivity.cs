@@ -5,6 +5,7 @@ using Android.Content.PM;
 using Anomalous.OSPlatform.Android;
 using Android.Views;
 using Anomalous.OSPlatform;
+using Anomalous.Minimus.Full;
 
 namespace TestAndroidApp
 {
@@ -24,7 +25,7 @@ namespace TestAndroidApp
 
         //private ObbDownloader dl;
         //private AnomalousController anomalousController;
-        private App app;
+        private MinimalApp app;
 
 #if DEBUG
         private const bool SucceedIfEmpty = true;
@@ -98,6 +99,7 @@ namespace TestAndroidApp
             //anomalousController.run();
 
             app = new Anomalous.Minimus.Full.MinimalApp();
+            app.Initialized += App_Initialized;
             app.run();
         }
 
@@ -119,6 +121,11 @@ namespace TestAndroidApp
         {
             //dl.disconnectDownloadService();
             base.OnStop();
+        }
+
+        private void App_Initialized(MinimalApp app)
+        {
+            setInputHandler(app.InputHandler);
         }
 
         //void HandleOnInitCompleted(AnomalousController anomalousController, StandaloneController controller)
