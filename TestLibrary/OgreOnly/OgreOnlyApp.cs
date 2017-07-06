@@ -23,6 +23,7 @@ namespace Anomalous.Minimus.OgreOnly
         private CoreConfig coreConfig;
         private LogFileListener logListener;
         private Color clearColor = Color.Black;
+        private FrameClearManager frameClearManager;
 
         ContainerBuilder builder = new ContainerBuilder();
 
@@ -75,19 +76,24 @@ namespace Anomalous.Minimus.OgreOnly
                 return mainWindow;
             }).SingleInstance();
 
-            builder.Register(c =>
-            {
-                var controller = new OgreOnlyEngineController(c.Resolve<NativeOSWindow>());
-                controller.OnLoopUpdate += engineController_OnLoopUpdate;
-                return controller;
-            }).OnRelease(i =>
-            {
-                i.OnLoopUpdate -= engineController_OnLoopUpdate;
-                i.Dispose();
-            }).InstancePerApp();
+            builder.RegisterType<NativeSystemTimer>()
+                .SingleInstance()
+                .As<SystemTimer>();
 
+            builder.RegisterType<NativeUpdateTimer>()
+                .SingleInstance();
 
-            builder.Register(c => new OgreSceneManagerDefinition("Ogre")).InstancePerScene();
+            builder.RegisterType<OgreOnlyEngineController>().InstancePerApp();
+
+            builder.RegisterType<OnUpdateListener>()
+                .InstancePerApp()
+                .OnActivated(a =>
+                {
+                    a.Context.Resolve<NativeUpdateTimer>().addUpdateListener(a.Instance);
+                });
+
+            builder.Register(c => new OgreSceneManagerDefinition("Ogre"))
+                .InstancePerScene();
 
             builder.Register(c =>
             {
@@ -106,20 +112,26 @@ namespace Anomalous.Minimus.OgreOnly
 
             builder.Register(c => c.Resolve<SimSceneDefinition>().createScene()).InstancePerScene();
 
+            builder.Register<FrameClearManager>(c => new FrameClearManager(OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget, Color.Blue)).InstancePerApp();
+
             container = builder.Build();
             appScope = container.BeginLifetimeScope(LifetimeScopes.App);
-            engineController = appScope.Resolve<OgreOnlyEngineController>();
             sceneScope = appScope.BeginLifetimeScope(LifetimeScopes.Scene);
+
+            engineController = appScope.Resolve<OgreOnlyEngineController>();
+            this.frameClearManager = appScope.Resolve<FrameClearManager>();
+
             sceneScope.Resolve<SimScene>();
+            sceneScope.Resolve<OnUpdateListener>().OnUpdate += OnUpdate;
 
             return true;
         }
 
-        void engineController_OnLoopUpdate(Clock time)
+        private void OnUpdate(Clock time)
         {
             clearColor.b += (0.5f * time.DeltaSeconds);
             clearColor.b %= 1.0f;
-            engineController.FrameClearManager.ClearColor = clearColor;
+            frameClearManager.ClearColor = clearColor;
         }
 
         public override int OnExit()

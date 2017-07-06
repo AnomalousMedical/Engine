@@ -15,30 +15,26 @@ using Engine.Resources;
 using System.IO;
 using Anomalous.OSPlatform;
 using Anomalous.Minimus;
+using Autofac;
 
 namespace Anomalous.Minimus.OgreOnly
 {
-    public delegate void LoopUpdate(Clock time);
-
     public sealed class OgreOnlyEngineController : IDisposable
     {
         //Engine
         private PluginManager pluginManager;
 
         //Platform
-        private NativeSystemTimer systemTimer;
         private NativeUpdateTimer mainTimer;
         private EventManager eventManager;
         private NativeInputHandler inputHandler;
         private EventUpdateListener eventUpdate;
-        private EngineUpdate medicalUpdate;
 
         //Performance
         private NativeSystemTimer performanceMetricTimer;
 
         //Controller
         private SceneController sceneController;
-        private FrameClearManager frameClearManager;
 
         //Serialization
         private XmlSaver xmlSaver = new XmlSaver();
@@ -47,10 +43,10 @@ namespace Anomalous.Minimus.OgreOnly
         private String currentSceneFile;
         private String currentSceneDirectory;
 
-        public event LoopUpdate OnLoopUpdate;
-
-        public OgreOnlyEngineController(NativeOSWindow mainWindow)
+        public OgreOnlyEngineController(NativeOSWindow mainWindow, NativeUpdateTimer mainTimer)
         {
+            this.mainTimer = mainTimer;
+
             //Create pluginmanager
             pluginManager = new PluginManager(CoreConfig.ConfigFile);
 
@@ -84,11 +80,6 @@ namespace Anomalous.Minimus.OgreOnly
             performanceMetricTimer = new NativeSystemTimer();
             PerformanceMonitor.setupEnabledState(performanceMetricTimer);
 
-            //Intialize the platform
-            systemTimer = new NativeSystemTimer();
-
-            mainTimer = new NativeUpdateTimer(systemTimer);
-
             if (OgreConfig.VSync && CoreConfig.EngineConfig.FPSCap < 300)
             {
                 //Use a really high framerate cap if vsync is on since it will cap our 
@@ -105,12 +96,9 @@ namespace Anomalous.Minimus.OgreOnly
             eventUpdate = new EventUpdateListener(eventManager);
             mainTimer.addUpdateListener(eventUpdate);
             pluginManager.setPlatformInfo(mainTimer, eventManager);
-            medicalUpdate = new EngineUpdate(this);
-            mainTimer.addUpdateListener(medicalUpdate);
 
             //Initialize controllers
             sceneController = new SceneController(pluginManager);
-            frameClearManager = new FrameClearManager(OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget, Color.Blue);
         }
 
         /// <summary>
@@ -118,10 +106,6 @@ namespace Anomalous.Minimus.OgreOnly
         /// </summary>
         public void Dispose()
         {
-            if (frameClearManager != null)
-            {
-                frameClearManager.Dispose();
-            }
             if (sceneController != null)
             {
                 sceneController.destroyScene();
@@ -133,10 +117,6 @@ namespace Anomalous.Minimus.OgreOnly
             if (inputHandler != null)
             {
                 inputHandler.Dispose();
-            }
-            if (systemTimer != null)
-            {
-                systemTimer.Dispose();
             }
             if (performanceMetricTimer != null)
             {
@@ -150,14 +130,6 @@ namespace Anomalous.Minimus.OgreOnly
             }
 
             Log.Info("Engine Controller Shutdown");
-        }
-
-        /// <summary>
-        /// Stop the loop and begin the process of shutting down the program.
-        /// </summary>
-        public void shutdown()
-        {
-            mainTimer.stopLoop();
         }
 
         /// <summary>
@@ -211,14 +183,6 @@ namespace Anomalous.Minimus.OgreOnly
         public void addSimObject(SimObjectBase simObject)
         {
             sceneController.addSimObject(simObject);
-        }
-
-        internal void _sendUpdate(Clock clock)
-        {
-            if (OnLoopUpdate != null)
-            {
-                OnLoopUpdate.Invoke(clock);
-            }
         }
 
         public EventManager EventManager
@@ -279,14 +243,6 @@ namespace Anomalous.Minimus.OgreOnly
             get
             {
                 return pluginManager;
-            }
-        }
-
-        public FrameClearManager FrameClearManager
-        {
-            get
-            {
-                return frameClearManager;
             }
         }
     }
