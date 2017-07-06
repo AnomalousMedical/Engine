@@ -51,6 +51,12 @@ namespace Anomalous.GuiFramework.Cameras
             }
         }
 
+        public SceneViewController(MDILayoutManager mdiLayout, EventManager eventManager, UpdateTimer mainTimer, RendererWindow rendererWindow, OgreRenderManager renderManager)
+            :this(mdiLayout, eventManager, mainTimer, rendererWindow, renderManager, null)
+        {
+
+        }
+
         public SceneViewController(MDILayoutManager mdiLayout, EventManager eventManager, UpdateTimer mainTimer, RendererWindow rendererWindow, OgreRenderManager renderManager, BackgroundScene background)
         {
             this.DefaultBackgroundColor = new Color(0.149f, 0.149f, 0.149f);

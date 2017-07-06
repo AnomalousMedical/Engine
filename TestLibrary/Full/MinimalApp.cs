@@ -26,8 +26,8 @@ namespace Anomalous.Minimus.Full
         private CoreConfig coreConfig;
         private LogFileListener logListener;
 
-        private SceneViewController sceneViewController;
         private SimScene scene;
+        private SceneViewController sceneViewController;
 
         private SceneStatsDisplayManager sceneStatsDisplayManager;
         private SceneViewLightManager lightManager;
@@ -47,11 +47,8 @@ namespace Anomalous.Minimus.Full
         {
             CoreConfig.save();
 
-            //Note this isn't really right and not everything is being disposed that should be.
             sceneViewController.destroyCameras();
             scene.Dispose();
-
-            IDisposableUtil.DisposeIfNotNull(sceneViewController);
 
             sceneScope.Dispose();
             container.Dispose();
@@ -111,6 +108,13 @@ namespace Anomalous.Minimus.Full
                 .WithParameter(new TypedParameter(typeof(LayoutElementName), new LayoutElementName(GUILocationNames.FullscreenPopup)));
 
             builder.RegisterType<TaskController>()
+                .OnActivated(a =>
+                {
+                    a.Instance.addTask(new CallbackTask("Exit", "Exit", "", "Main", (item) =>
+                     {
+                         this.exit();
+                     }));
+                })
                 .SingleInstance();
 
             builder.RegisterType<EngineController>()
@@ -175,26 +179,20 @@ namespace Anomalous.Minimus.Full
                     a.Instance.Visible = true;
                 });
 
+            builder.Register(c => new SceneViewController(c.Resolve<MDILayoutManager>(), engineController.EventManager, engineController.MainTimer, engineController.PluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.RenderManager, null))
+                .SingleInstance();
+
             container = builder.Build();
             sceneScope = container.BeginLifetimeScope(LifetimeScopes.Scene);
 
             engineController = sceneScope.Resolve<EngineController>();
 
             //Layout Chain
-            var mdiLayout3 = sceneScope.Resolve<MDILayoutManager>();
-
-            
-
-            sceneViewController = new SceneViewController(mdiLayout3, engineController.EventManager, engineController.MainTimer, engineController.PluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.RenderManager, null);
+            sceneViewController = sceneScope.Resolve<SceneViewController>();
             sceneStatsDisplayManager = new SceneStatsDisplayManager(sceneViewController, OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget);
             sceneStatsDisplayManager.StatsVisible = true;
             sceneViewController.createWindow("Camera 1", Vector3.UnitX * 100, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
             lightManager = PluginManager.Instance.RendererPlugin.createSceneViewLightManager();
-
-            sceneScope.Resolve<TaskController>().addTask(new CallbackTask("Exit", "Exit", "", "Main", (item) =>
-                {
-                    this.exit();
-                }));
 
             //Create scene
             //Create a simple scene to use to show the models
