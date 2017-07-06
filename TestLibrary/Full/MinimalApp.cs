@@ -126,6 +126,17 @@ namespace Anomalous.Minimus.Full
                 .As<UpdateTimer>()
                 .As<NativeUpdateTimer>();
 
+            builder.Register(c => new NativeInputHandler(c.Resolve<NativeOSWindow>(), CoreConfig.EnableMultitouch))
+                .SingleInstance()
+                .As<InputHandler>();
+
+            builder.Register(c => new EventManager(c.Resolve<InputHandler>(), Enum.GetValues(typeof(EventLayers))))
+                .SingleInstance()
+                .OnActivated(a =>
+                {
+                    a.Context.Resolve<UpdateTimer>().addUpdateListener(new EventUpdateListener(a.Instance));
+                });
+
             builder.RegisterType<EngineController>()
                 .SingleInstance();
 
@@ -235,7 +246,7 @@ namespace Anomalous.Minimus.Full
                     layoutChain.layout();
                 });
 
-            builder.Register(c => new SceneViewController(c.Resolve<MDILayoutManager>(), engineController.EventManager, sceneScope.Resolve<UpdateTimer>(), engineController.PluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.RenderManager, null))
+            builder.Register(c => new SceneViewController(c.Resolve<MDILayoutManager>(), sceneScope.Resolve<EventManager>(), sceneScope.Resolve<UpdateTimer>(), engineController.PluginManager.RendererPlugin.PrimaryWindow, MyGUIInterface.Instance.OgrePlatform.RenderManager, null))
                 .SingleInstance();
 
             builder.RegisterType<SceneStatsDisplayManager>()

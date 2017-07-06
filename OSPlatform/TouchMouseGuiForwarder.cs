@@ -28,7 +28,7 @@ namespace Anomalous.OSPlatform
 
         private Touches touches;
         private NativeOSWindow window;
-        private NativeInputHandler inputHandler;
+        private InputHandler inputHandler;
 		private bool enabled = true;
 		private OnscreenKeyboardMode keyboardMode = OnscreenKeyboardMode.Hidden;
         private SystemTimer systemTimer;
@@ -41,7 +41,7 @@ namespace Anomalous.OSPlatform
         /// <param name="inputHandler">The InputHandler to use.</param>
         /// <param name="window">The window to show the onscreen keyboard on.</param>
         /// <param name="lastEventLayer">The last event layer in the eventManager.</param>
-        public TouchMouseGuiForwarder(EventManager eventManager, NativeInputHandler inputHandler, SystemTimer systemTimer, NativeOSWindow window, Object lastEventLayer)
+        public TouchMouseGuiForwarder(EventManager eventManager, InputHandler inputHandler, SystemTimer systemTimer, NativeOSWindow window, Object lastEventLayer)
         {
             this.touches = eventManager.Touches;
             this.touches.FingerStarted += HandleFingerStarted;

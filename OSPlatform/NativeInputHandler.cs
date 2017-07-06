@@ -40,7 +40,7 @@ namespace Anomalous.OSPlatform
         /// that need to simulate the mouse.
         /// </summary>
         /// <param name="code">The mouse button to simulate.</param>
-        public void injectButtonDown(MouseButtonCode code)
+        public override void injectButtonDown(MouseButtonCode code)
         {
             createdMouse.injectButtonDown(code);
         }
@@ -53,7 +53,7 @@ namespace Anomalous.OSPlatform
         /// that need to simulate the mouse.
         /// </summary>
         /// <param name="code">The mouse button to simulate.</param>
-        public void injectButtonUp(MouseButtonCode code)
+        public override void injectButtonUp(MouseButtonCode code)
         {
             createdMouse.injectButtonUp(code);
         }
@@ -67,7 +67,7 @@ namespace Anomalous.OSPlatform
         /// </summary>
         /// <param name="x">x loc</param>
         /// <param name="y">y loc</param>
-        public void injectMoved(int x, int y)
+        public override void injectMoved(int x, int y)
         {
             createdMouse.injectMoved(x, y);
         }
@@ -80,7 +80,7 @@ namespace Anomalous.OSPlatform
         /// that need to simulate the mouse.
         /// </summary>
         /// <param name="z">Mouse wheel</param>
-        public void injectWheel(int z)
+        public override void injectWheel(int z)
         {
             createdMouse.injectWheel(z);
         }
@@ -89,7 +89,7 @@ namespace Anomalous.OSPlatform
         /// Inject a key pressed event. This allows us to inject keyboard info from managed code on platforms
         /// where input is handled in managed code.
         /// </summary>
-        public void injectKeyPressed(KeyboardButtonCode keyCode, uint keyChar)
+        public override void injectKeyPressed(KeyboardButtonCode keyCode, uint keyChar)
         {
             createdKeyboard.injectKeyPressed(keyCode, keyChar);
         }
@@ -98,7 +98,7 @@ namespace Anomalous.OSPlatform
         /// Inject a key released event. This allows us to inject keyboard info from managed code on platforms
         /// where input is handled in managed code.
         /// </summary>
-        public void injectKeyReleased(KeyboardButtonCode keyCode)
+        public override void injectKeyReleased(KeyboardButtonCode keyCode)
         {
             createdKeyboard.injectKeyReleased(keyCode);
         }

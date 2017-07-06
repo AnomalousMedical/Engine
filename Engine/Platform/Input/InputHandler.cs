@@ -47,5 +47,58 @@ namespace Engine.Platform
         /// </summary>
         /// <param name="touches"></param>
         public abstract void destroyTouchHardware(TouchHardware touchHardware);
+
+        /// <summary>
+        /// Inject a mouse down event externally to the hardware mouse.
+        /// 
+        /// Since we need to treat touches as mouse events this input handler provides a way to inject
+        /// mouse inputs that will follow the normal mouse path. This is only needed on touch only devices
+        /// that need to simulate the mouse.
+        /// </summary>
+        /// <param name="code">The mouse button to simulate.</param>
+        public abstract void injectButtonDown(MouseButtonCode code);
+
+        /// <summary>
+        /// Inject a mouse up event externally to the hardware mouse.
+        /// 
+        /// Since we need to treat touches as mouse events this input handler provides a way to inject
+        /// mouse inputs that will follow the normal mouse path. This is only needed on touch only devices
+        /// that need to simulate the mouse.
+        /// </summary>
+        /// <param name="code">The mouse button to simulate.</param>
+        public abstract void injectButtonUp(MouseButtonCode code);
+
+        /// <summary>
+        /// Inject a mouse move event externally to the hardware mouse.
+        /// 
+        /// Since we need to treat touches as mouse events this input handler provides a way to inject
+        /// mouse inputs that will follow the normal mouse path. This is only needed on touch only devices
+        /// that need to simulate the mouse.
+        /// </summary>
+        /// <param name="x">x loc</param>
+        /// <param name="y">y loc</param>
+        public abstract void injectMoved(int x, int y);
+
+        /// <summary>
+        /// Inject a mouse wheel event externally to the hardware mouse.
+        /// 
+        /// Since we need to treat touches as mouse events this input handler provides a way to inject
+        /// mouse inputs that will follow the normal mouse path. This is only needed on touch only devices
+        /// that need to simulate the mouse.
+        /// </summary>
+        /// <param name="z">Mouse wheel</param>
+        public abstract void injectWheel(int z);
+
+        /// <summary>
+        /// Inject a key pressed event. This allows us to inject keyboard info from managed code on platforms
+        /// where input is handled in managed code.
+        /// </summary>
+        public abstract void injectKeyPressed(KeyboardButtonCode keyCode, uint keyChar);
+
+        /// <summary>
+        /// Inject a key released event. This allows us to inject keyboard info from managed code on platforms
+        /// where input is handled in managed code.
+        /// </summary>
+        public abstract void injectKeyReleased(KeyboardButtonCode keyCode);
     }
 }

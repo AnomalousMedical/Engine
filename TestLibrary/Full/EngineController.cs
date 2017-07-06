@@ -32,11 +32,6 @@ namespace Anomalous.Minimus.Full
         //Engine
         private PluginManager pluginManager;
 
-        //Platform
-        private EventManager eventManager;
-        private NativeInputHandler inputHandler;
-        private EventUpdateListener eventUpdate;
-
         //Performance
         private NativeSystemTimer performanceMetricTimer;
 
@@ -52,7 +47,7 @@ namespace Anomalous.Minimus.Full
         private String currentSceneFile;
         private String currentSceneDirectory;
 
-        public EngineController(NativeOSWindow mainWindow, NativeUpdateTimer mainTimer, SystemTimer systemTimer)
+        public EngineController(NativeOSWindow mainWindow, NativeUpdateTimer mainTimer, SystemTimer systemTimer, EventManager eventManager, InputHandler inputHandler)
         {
             //Create pluginmanager
             pluginManager = new PluginManager(CoreConfig.ConfigFile);
@@ -118,10 +113,6 @@ namespace Anomalous.Minimus.Full
                 mainTimer.FramerateCap = CoreConfig.EngineConfig.FPSCap;
             }
 
-            inputHandler = new NativeInputHandler(mainWindow, CoreConfig.EnableMultitouch);
-            eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
-            eventUpdate = new EventUpdateListener(eventManager);
-            mainTimer.addUpdateListener(eventUpdate);
             pluginManager.setPlatformInfo(mainTimer, eventManager);
 
             //Initialize controllers
@@ -151,14 +142,6 @@ namespace Anomalous.Minimus.Full
             if (sceneController != null)
             {
                 sceneController.destroyScene();
-            }
-            if (eventManager != null)
-            {
-                eventManager.Dispose();
-            }
-            if (inputHandler != null)
-            {
-                inputHandler.Dispose();
             }
             if (performanceMetricTimer != null)
             {
@@ -225,22 +208,6 @@ namespace Anomalous.Minimus.Full
         public void addSimObject(SimObjectBase simObject)
         {
             sceneController.addSimObject(simObject);
-        }
-
-        public EventManager EventManager
-        {
-            get
-            {
-                return eventManager;
-            }
-        }
-
-        public NativeInputHandler InputHandler
-        {
-            get
-            {
-                return inputHandler;
-            }
         }
 
         public SimScene CurrentScene
