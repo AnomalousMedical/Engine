@@ -46,6 +46,7 @@ namespace Anomalous.Minimus.Full
         {
             CoreConfig.save();
 
+            lightManager.sceneUnloading(scene);
             sceneViewController.destroyCameras();
             scene.Dispose();
 
@@ -66,8 +67,61 @@ namespace Anomalous.Minimus.Full
             logListener.openLogFile(CoreConfig.LogFile);
             Log.Default.addLogListener(logListener);
             Log.ImportantInfo("Running from directory {0}", FolderFinder.ExecutableFolder);
+            RegisterEngine();
+            RegisterGui();
 
-            //Main Window
+            //Create containers
+            container = builder.Build();
+            sceneScope = container.BeginLifetimeScope(LifetimeScopes.Scene);
+
+            //Build engine
+            engineController = sceneScope.Resolve<EngineController>();
+
+            //Build gui
+            sceneViewController = sceneScope.Resolve<SceneViewController>();
+            var sceneStatsDisplayManager = sceneScope.Resolve<SceneStatsDisplayManager>();
+            sceneStatsDisplayManager.StatsVisible = true;
+            sceneViewController.createWindow("Camera 1", Vector3.UnitX * 100, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
+            lightManager = sceneScope.Resolve<SceneViewLightManager>();
+
+            //Create scene
+            //Create a simple scene to use to show the models
+            SimSceneDefinition sceneDefiniton = new SimSceneDefinition();
+            OgreSceneManagerDefinition ogreScene = new OgreSceneManagerDefinition("Ogre");
+            SimSubSceneDefinition mainSubScene = new SimSubSceneDefinition("Main");
+            sceneDefiniton.addSimElementManagerDefinition(ogreScene);
+            sceneDefiniton.addSimSubSceneDefinition(mainSubScene);
+            mainSubScene.addBinding(ogreScene);
+            sceneDefiniton.DefaultSubScene = "Main";
+
+            scene = sceneDefiniton.createScene();
+            sceneViewController.createCameras(scene);
+
+            MyGUIInterface.Instance.CommonResourceGroup.addResource(GetType().AssemblyQualifiedName, "EmbeddedScalableResource", true);
+
+            //Create windows
+            sceneScope.Resolve<TestWindow>();
+            sceneScope.Resolve<RocketWindow>();
+
+            if (Initialized != null)
+            {
+                Initialized.Invoke(this);
+            }
+
+            lightManager.sceneLoaded(scene);
+
+            return true;
+        }
+
+        private void RegisterEngine()
+        {
+            builder.RegisterType<EngineController>()
+                .SingleInstance();
+        }
+
+        private void RegisterGui()
+        {
+            //Register gui services
             builder.Register(c => new NativeOSWindow("Anomalous Minimus", new IntVector2(-1, -1), new IntSize2(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes)))
                 .SingleInstance()
                 .As<OSWindow>()
@@ -110,13 +164,10 @@ namespace Anomalous.Minimus.Full
                 .OnActivated(a =>
                 {
                     a.Instance.addTask(new CallbackTask("Exit", "Exit", "", "Main", (item) =>
-                     {
-                         this.exit();
-                     }));
+                    {
+                        this.exit();
+                    }));
                 })
-                .SingleInstance();
-
-            builder.RegisterType<EngineController>()
                 .SingleInstance();
 
             builder.RegisterType<MDILayoutManager>()
@@ -182,55 +233,16 @@ namespace Anomalous.Minimus.Full
                 .SingleInstance();
 
             builder.Register(c => OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget)
-                .SingleInstance()
                 .As<RenderTarget>()
+                .SingleInstance()
                 .ExternallyOwned();
 
             builder.RegisterType<SceneStatsDisplayManager>()
-                .SingleInstance()
-                .OnActivated(a =>
-                {
-                    a.Instance.StatsVisible = true;
-                });
+                .SingleInstance();
 
-            container = builder.Build();
-            sceneScope = container.BeginLifetimeScope(LifetimeScopes.Scene);
-
-            engineController = sceneScope.Resolve<EngineController>();
-
-            //Layout Chain
-            sceneViewController = sceneScope.Resolve<SceneViewController>();
-            var sceneStatsDisplayManager = sceneScope.Resolve<SceneStatsDisplayManager>();
-            sceneViewController.createWindow("Camera 1", Vector3.UnitX * 100, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
-            lightManager = PluginManager.Instance.RendererPlugin.createSceneViewLightManager();
-
-            //Create scene
-            //Create a simple scene to use to show the models
-            SimSceneDefinition sceneDefiniton = new SimSceneDefinition();
-            OgreSceneManagerDefinition ogreScene = new OgreSceneManagerDefinition("Ogre");
-            SimSubSceneDefinition mainSubScene = new SimSubSceneDefinition("Main");
-            sceneDefiniton.addSimElementManagerDefinition(ogreScene);
-            sceneDefiniton.addSimSubSceneDefinition(mainSubScene);
-            mainSubScene.addBinding(ogreScene);
-            sceneDefiniton.DefaultSubScene = "Main";
-
-            scene = sceneDefiniton.createScene();
-            sceneViewController.createCameras(scene);
-
-            MyGUIInterface.Instance.CommonResourceGroup.addResource(GetType().AssemblyQualifiedName, "EmbeddedScalableResource", true);
-
-            //Create windows
-            sceneScope.Resolve<TestWindow>();
-            sceneScope.Resolve<RocketWindow>();
-
-            if (Initialized != null)
-            {
-                Initialized.Invoke(this);
-            }
-
-            lightManager.sceneLoaded(scene);
-
-            return true;
+            builder.Register(c => PluginManager.Instance.RendererPlugin.createSceneViewLightManager())
+                .As<SceneViewLightManager>()
+                .SingleInstance();
         }
 
         public override int OnExit()
