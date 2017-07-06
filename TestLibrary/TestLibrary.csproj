@@ -69,7 +69,6 @@
     <Compile Include="GUILocationNames.cs" />
     <Compile Include="OgreOnly\AppScopeExtensions.cs" />
     <Compile Include="OgreOnly\OgreOnlyApp.cs" />
-    <Compile Include="OgreOnly\OgreOnlyEngineController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SceneController.cs" />
   </ItemGroup>

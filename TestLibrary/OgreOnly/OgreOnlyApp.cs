@@ -20,7 +20,6 @@ namespace Anomalous.Minimus.OgreOnly
 {
     public class OgreOnlyApp : App
     {
-        private OgreOnlyEngineController engineController;
         private CoreConfig coreConfig;
         private LogFileListener logListener;
         private Color clearColor = Color.Black;
@@ -146,9 +145,6 @@ namespace Anomalous.Minimus.OgreOnly
             builder.RegisterType<SceneController>()
                 .SingleInstance();
 
-            builder.RegisterType<OgreOnlyEngineController>()
-                .SingleInstance();
-
             builder.RegisterType<OnUpdateListener>()
                 .SingleInstance()
                 .OnActivated(a =>
@@ -181,8 +177,9 @@ namespace Anomalous.Minimus.OgreOnly
 
             container = builder.Build();
             sceneScope = container.BeginLifetimeScope(LifetimeScopes.Scene);
+            var sceneController = sceneScope.Resolve<SceneController>(); //Have to resolve the scene controller to get the engine setup
 
-            engineController = sceneScope.Resolve<OgreOnlyEngineController>();
+            //Grab what we need for our hacky scene
             mainTimer = sceneScope.Resolve<NativeUpdateTimer>();
             this.frameClearManager = sceneScope.Resolve<FrameClearManager>();
 
