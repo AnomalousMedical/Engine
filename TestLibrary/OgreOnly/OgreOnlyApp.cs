@@ -5,6 +5,7 @@ using Autofac;
 using Engine;
 using Engine.ObjectManagement;
 using Engine.Platform;
+using Engine.Renderer;
 using Logging;
 using MyGUIPlugin;
 using OgrePlugin;
@@ -24,6 +25,7 @@ namespace Anomalous.Minimus.OgreOnly
         private LogFileListener logListener;
         private Color clearColor = Color.Black;
         private FrameClearManager frameClearManager;
+        private NativeUpdateTimer mainTimer;
 
         ContainerBuilder builder = new ContainerBuilder();
 
@@ -76,11 +78,57 @@ namespace Anomalous.Minimus.OgreOnly
                 return mainWindow;
             }).SingleInstance();
 
+            builder.Register(c =>
+            {
+                var pluginManager = new PluginManager(CoreConfig.ConfigFile);
+                var mainWindow = c.Resolve<NativeOSWindow>();
+
+                //Configure plugins
+                pluginManager.OnConfigureDefaultWindow = (out WindowInfo defaultWindow) =>
+                {
+                    //Setup main window
+                    defaultWindow = new WindowInfo(mainWindow, "Primary");
+                    defaultWindow.Fullscreen = CoreConfig.EngineConfig.Fullscreen;
+                    defaultWindow.MonitorIndex = 0;
+
+                    if (CoreConfig.EngineConfig.Fullscreen)
+                    {
+                        mainWindow.setSize(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes);
+                        mainWindow.ExclusiveFullscreen = true;
+                    }
+                    else
+                    {
+                        mainWindow.Maximized = true;
+                    }
+                    mainWindow.show();
+                };
+
+                pluginManager.addPluginAssembly(typeof(OgreInterface).Assembly);
+                pluginManager.addPluginAssembly(typeof(NativePlatformPlugin).Assembly);
+                pluginManager.initializePlugins();
+
+                return pluginManager;
+            }).SingleInstance();
+
             builder.RegisterType<NativeSystemTimer>()
                 .SingleInstance()
                 .As<SystemTimer>();
 
             builder.RegisterType<NativeUpdateTimer>()
+                .OnActivated(a =>
+                {
+                    var mainTimer = a.Instance;
+                    if (OgreConfig.VSync && CoreConfig.EngineConfig.FPSCap < 300)
+                    {
+                        //Use a really high framerate cap if vsync is on since it will cap our 
+                        //framerate for us. If the user has requested a higher rate use it anyway.
+                        mainTimer.FramerateCap = 300;
+                    }
+                    else
+                    {
+                        mainTimer.FramerateCap = CoreConfig.EngineConfig.FPSCap;
+                    }
+                })
                 .SingleInstance();
 
             builder.RegisterType<OgreOnlyEngineController>().InstancePerApp();
@@ -119,6 +167,7 @@ namespace Anomalous.Minimus.OgreOnly
             sceneScope = appScope.BeginLifetimeScope(LifetimeScopes.Scene);
 
             engineController = appScope.Resolve<OgreOnlyEngineController>();
+            mainTimer = appScope.Resolve<NativeUpdateTimer>();
             this.frameClearManager = appScope.Resolve<FrameClearManager>();
 
             sceneScope.Resolve<SimScene>();
@@ -142,9 +191,6 @@ namespace Anomalous.Minimus.OgreOnly
             appScope.Dispose();
             container.Dispose();
 
-            //engineController.Dispose();
-            //mainWindow.Dispose();
-
             base.Dispose();
 
             logListener.Dispose();
@@ -154,7 +200,7 @@ namespace Anomalous.Minimus.OgreOnly
 
         public override void OnIdle()
         {
-            engineController.MainTimer.OnIdle();
+            mainTimer.OnIdle();
         }
 
         internal void saveCrashLog()

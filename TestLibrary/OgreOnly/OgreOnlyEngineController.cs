@@ -22,7 +22,6 @@ namespace Anomalous.Minimus.OgreOnly
     public sealed class OgreOnlyEngineController : IDisposable
     {
         //Engine
-        private PluginManager pluginManager;
 
         //Platform
         private NativeUpdateTimer mainTimer;
@@ -43,53 +42,15 @@ namespace Anomalous.Minimus.OgreOnly
         private String currentSceneFile;
         private String currentSceneDirectory;
 
-        public OgreOnlyEngineController(NativeOSWindow mainWindow, NativeUpdateTimer mainTimer)
+        public OgreOnlyEngineController(NativeOSWindow mainWindow, NativeUpdateTimer mainTimer, PluginManager pluginManager)
         {
             this.mainTimer = mainTimer;
-
-            //Create pluginmanager
-            pluginManager = new PluginManager(CoreConfig.ConfigFile);
 
             //Configure the filesystem
             VirtualFileSystem archive = VirtualFileSystem.Instance;
 
-            //Configure plugins
-            pluginManager.OnConfigureDefaultWindow = delegate(out WindowInfo defaultWindow)
-            {
-                //Setup main window
-                defaultWindow = new WindowInfo(mainWindow, "Primary");
-                defaultWindow.Fullscreen = CoreConfig.EngineConfig.Fullscreen;
-                defaultWindow.MonitorIndex = 0;
-
-                if (CoreConfig.EngineConfig.Fullscreen)
-                {
-                    mainWindow.setSize(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes);
-                    mainWindow.ExclusiveFullscreen = true;
-                }
-                else
-                {
-                    mainWindow.Maximized = true;
-                }
-                mainWindow.show();
-            };
-
-            pluginManager.addPluginAssembly(typeof(OgreInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(NativePlatformPlugin).Assembly);
-            pluginManager.initializePlugins();
-
             performanceMetricTimer = new NativeSystemTimer();
             PerformanceMonitor.setupEnabledState(performanceMetricTimer);
-
-            if (OgreConfig.VSync && CoreConfig.EngineConfig.FPSCap < 300)
-            {
-                //Use a really high framerate cap if vsync is on since it will cap our 
-                //framerate for us. If the user has requested a higher rate use it anyway.
-                mainTimer.FramerateCap = 300;
-            }
-            else
-            {
-                mainTimer.FramerateCap = CoreConfig.EngineConfig.FPSCap;
-            }
 
             inputHandler = new NativeInputHandler(mainWindow, CoreConfig.EnableMultitouch);
             eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
@@ -122,11 +83,6 @@ namespace Anomalous.Minimus.OgreOnly
             {
                 PerformanceMonitor.destroyEnabledState();
                 performanceMetricTimer.Dispose();
-            }
-            if (pluginManager != null)
-            {
-                //This is the main engine plugin manager, it should be last unless subsystems need to be shutdown before any additional disposing
-                pluginManager.Dispose();
             }
 
             Log.Info("Engine Controller Shutdown");
@@ -193,14 +149,6 @@ namespace Anomalous.Minimus.OgreOnly
             }
         }
 
-        public NativeUpdateTimer MainTimer
-        {
-            get
-            {
-                return mainTimer;
-            }
-        }
-
         public SimScene CurrentScene
         {
             get
@@ -235,14 +183,6 @@ namespace Anomalous.Minimus.OgreOnly
             get
             {
                 return currentSceneDirectory;
-            }
-        }
-
-        public PluginManager PluginManager
-        {
-            get
-            {
-                return pluginManager;
             }
         }
     }
