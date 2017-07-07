@@ -19,7 +19,7 @@ namespace Anomalous.Minimus
             App app = null;
             try
             {
-                app = new PharosApp(new MinimalApp());
+                app = new CoreApp(new Startup());
                 //app = new Anomalous.Minimus.OgreOnly.OgreOnlyApp();
                 app.run();
             }

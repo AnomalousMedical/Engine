@@ -17,7 +17,7 @@ using System.Globalization;
 
 namespace Anomalous.Minimus.Full
 {
-    public class PharosApp : App
+    public class CoreApp : App
     {
         private CoreConfig coreConfig;
         private LogFileListener logListener;
@@ -27,16 +27,16 @@ namespace Anomalous.Minimus.Full
         private UpdateTimer mainTimer;
         private IStartup startup;
 
-        public event Action<PharosApp> Initialized;
+        public event Action<CoreApp> Initialized;
 
-        public PharosApp(IStartup startup)
+        public CoreApp(IStartup startup)
         {
             this.startup = startup;
 
             builder.RegisterInstance(this)
                 .ExternallyOwned()
                 .As<App>()
-                .As<PharosApp>();
+                .As<CoreApp>();
         }
 
         public override void Dispose()
@@ -51,7 +51,7 @@ namespace Anomalous.Minimus.Full
 
         public override bool OnInit()
         {
-            coreConfig = new CoreConfig(startup.Title);
+            coreConfig = new CoreConfig(startup.Name);
 
             //Create the log.
             logListener = new LogFileListener();

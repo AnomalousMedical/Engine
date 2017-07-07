@@ -64,9 +64,9 @@
     <Compile Include="Full\EngineController.cs" />
     <Compile Include="Full\GUI\RocketWindow\RocketWindow.cs" />
     <Compile Include="Full\GUI\TestWindow\TestWindow.cs" />
-    <Compile Include="Full\MinimalApp.cs" />
-    <Compile Include="Full\PharosApp.cs" />
     <Compile Include="Full\Startup.cs" />
+    <Compile Include="Full\CoreApp.cs" />
+    <Compile Include="Full\IStartup.cs" />
     <Compile Include="GUILocationNames.cs" />
     <Compile Include="Lifetimes.cs" />
     <Compile Include="OgreOnly\AppScopeExtensions.cs" />
