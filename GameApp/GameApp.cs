@@ -62,6 +62,12 @@ namespace Anomalous.GameApp
             Log.Default.addLogListener(logListener);
             Log.ImportantInfo("Running from directory {0}", FolderFinder.ExecutableFolder);
             startup.ConfigureServices(builder);
+
+            builder.RegisterType<SceneController>()
+                .IfNotRegistered(typeof(SceneController))
+                .SingleInstance()
+                .As<SceneController>();
+
             BuildPluginManager();
 
             //Create containers

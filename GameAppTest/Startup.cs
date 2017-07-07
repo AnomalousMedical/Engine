@@ -5,6 +5,7 @@ using Anomalous.OSPlatform;
 using Anomalous.SidescrollerCore;
 using Autofac;
 using Engine;
+using Engine.ObjectManagement;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -26,6 +27,7 @@ namespace GameAppTest
         }
 
         private SceneViewController sceneViewController;
+        private SceneViewLightManager lightManager;
 
         public Startup()
         {
@@ -137,11 +139,29 @@ namespace GameAppTest
             sceneStatsDisplayManager.StatsVisible = true;
             sceneViewController.createWindow("Camera 1", Vector3.UnitX * 100, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
 
+            lightManager = scope.Resolve<SceneViewLightManager>();
+
+            var sceneController = scope.Resolve<SceneController>();
+            sceneController.OnSceneLoaded += SceneController_OnSceneLoaded;
+            sceneController.OnSceneUnloading += SceneController_OnSceneUnloading;
+
             //var testWindow = scope.Resolve<TestWindow>();
             //testWindow.Visible = true;
 
             //var rocketWindow = scope.Resolve<RocketWindow>();
             //rocketWindow.Visible = true;
+        }
+
+        private void SceneController_OnSceneLoaded(SceneController controller, SimScene scene)
+        {
+            sceneViewController.createCameras(scene);
+            lightManager.sceneLoaded(scene);
+        }
+
+        private void SceneController_OnSceneUnloading(SceneController controller, SimScene scene)
+        {
+            lightManager.sceneUnloading(scene);
+            sceneViewController.destroyCameras();
         }
     }
 }
