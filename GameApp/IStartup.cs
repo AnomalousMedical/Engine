@@ -21,8 +21,8 @@ namespace Anomalous.GameApp
         /// <summary>
         /// Called when initialization is complete.
         /// </summary>
-        /// <param name="pharosApp"></param>
-        void Initialized(CoreApp pharosApp, PluginManager pluginManager);
+        /// <param name="app"></param>
+        void Initialized(GameApp app, PluginManager pluginManager);
 
         /// <summary>
         /// The title of the app to use for its window. The user will see this.

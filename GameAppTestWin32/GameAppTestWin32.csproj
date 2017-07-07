@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B80270CA-D7B0-405D-B564-085EB8529E12}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>GameAppTestWin32</RootNamespace>
+    <AssemblyName>GameAppTestWin32</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Engine\Engine.csproj">
+      <Project>{57C253F1-157F-4A6A-9FED-345A776B97D5}</Project>
+      <Name>Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameAppTest\GameAppTest.csproj">
+      <Project>{29aa0c05-eeaf-4d80-b3dd-af228acca4bc}</Project>
+      <Name>GameAppTest</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameApp\GameApp.csproj">
+      <Project>{33939ECF-6C10-4A4F-BBB1-8C63C0DC7559}</Project>
+      <Name>GameApp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OSPlatform.Win32\OSPlatform.Win32.csproj">
+      <Project>{ACBB3920-B6D8-497B-8BAE-9350C7A85C09}</Project>
+      <Name>OSPlatform.Win32</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OSPlatform\OSPlatform.csproj">
+      <Project>{6E594C78-9CD8-432D-A135-11C4A72F3BCF}</Project>
+      <Name>OSPlatform</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

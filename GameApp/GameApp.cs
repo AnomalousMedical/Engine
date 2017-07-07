@@ -20,7 +20,7 @@ using System.Text;
 
 namespace Anomalous.GameApp
 {
-    public class CoreApp : App
+    public class GameApp : App
     {
         private CoreConfig coreConfig;
         private LogFileListener logListener;
@@ -30,16 +30,16 @@ namespace Anomalous.GameApp
         private UpdateTimer mainTimer;
         private IStartup startup;
 
-        public event Action<CoreApp> Initialized;
+        public event Action<GameApp> Initialized;
 
-        public CoreApp(IStartup startup)
+        public GameApp(IStartup startup)
         {
             this.startup = startup;
 
             builder.RegisterInstance(this)
                 .ExternallyOwned()
                 .As<App>()
-                .As<CoreApp>();
+                .As<GameApp>();
         }
 
         public override void Dispose()
@@ -222,7 +222,7 @@ namespace Anomalous.GameApp
             mainTimer.OnIdle();
         }
 
-        internal void saveCrashLog()
+        public void saveCrashLog()
         {
             if (logListener != null)
             {
