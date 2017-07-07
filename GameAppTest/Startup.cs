@@ -12,9 +12,9 @@ namespace GameAppTest
 {
     public class Startup : IStartup
     {
-        public string Title => "Anomalous Minimus with Core App";
+        public string Title => "Game App Test";
 
-        public string Name => "Anomalous Minimus";
+        public string Name => "GameAppTest";
 
         public IEnumerable<Assembly> AdditionalPluginAssemblies => new Assembly[0];
 
@@ -121,6 +121,8 @@ namespace GameAppTest
         public void Initialized(GameApp app, PluginManager pluginManager)
         {
             var scope = pluginManager.GlobalScope;
+
+            var guiManager = scope.Resolve<GUIManager>();
 
             //Build gui
             sceneViewController = scope.Resolve<SceneViewController>();
