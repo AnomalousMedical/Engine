@@ -1,13 +1,10 @@
 ﻿using Anomalous.GuiFramework;
 using Anomalous.GuiFramework.Cameras;
 using Anomalous.libRocketWidget;
-using Anomalous.Minimus.Full.GUI;
 using Anomalous.OSPlatform;
 using Autofac;
-using BEPUikPlugin;
 using BulletPlugin;
 using Engine;
-using Engine.ObjectManagement;
 using Engine.Platform;
 using Engine.Renderer;
 using libRocketPlugin;
@@ -16,11 +13,7 @@ using MyGUIPlugin;
 using OgrePlugin;
 using SoundPlugin;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Anomalous.Minimus.Full
 {
@@ -179,10 +172,13 @@ namespace Anomalous.Minimus.Full
             pluginManager.addPluginAssembly(typeof(MyGUIInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(RocketInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(SoundPluginInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(BEPUikInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(GuiFrameworkInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(RocketWidgetInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(GuiFrameworkCamerasInterface).Assembly);
+            foreach(var assembly in startup.AdditionalPluginAssemblies)
+            {
+                pluginManager.addPluginAssembly(assembly);
+            }
             pluginManager.initializePlugins();
 
             //Intialize the platform

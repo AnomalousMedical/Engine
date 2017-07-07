@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Autofac;
 using Engine;
+using System.Reflection;
 
 namespace Anomalous.Minimus.Full
 {
@@ -29,5 +30,10 @@ namespace Anomalous.Minimus.Full
         /// The title of the app to use for its window. The user will see this.
         /// </summary>
         String Title { get; }
+
+        /// <summary>
+        /// Any additional assemblies you want to load beyond the basics to start an app.
+        /// </summary>
+        IEnumerable<Assembly> AdditionalPluginAssemblies { get; }
     }
 }

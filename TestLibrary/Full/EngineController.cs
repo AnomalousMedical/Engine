@@ -1,27 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Engine;
-using Logging;
-using OgrePlugin;
-using Engine.Platform;
-using Engine.Renderer;
-using System.Threading;
-using System.Xml;
+﻿using Engine;
 using Engine.ObjectManagement;
 using Engine.Saving.XMLSaver;
-using Engine.Resources;
+using Logging;
+using System;
+using System.Collections.Generic;
 using System.IO;
-using BulletPlugin;
-using MyGUIPlugin;
-using SoundPlugin;
-using libRocketPlugin;
-using BEPUikPlugin;
-using Anomalous.OSPlatform;
-using Anomalous.GuiFramework;
-using Anomalous.GuiFramework.Cameras;
-using Anomalous.libRocketWidget;
+using System.Xml;
 
 namespace Anomalous.Minimus.Full
 {

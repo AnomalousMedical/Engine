@@ -75,10 +75,6 @@
     <Compile Include="SceneController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BEPUikPlugin\BEPUikPlugin.csproj">
-      <Project>{39f1ab5f-f0b1-45fd-ad66-9c03af1f022e}</Project>
-      <Name>BEPUikPlugin</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BulletWrapperPlugin\BulletWrapperPlugin.csproj">
       <Project>{eba88dc3-837d-45d8-a91a-e291c6ae444e}</Project>
       <Name>BulletWrapperPlugin</Name>
