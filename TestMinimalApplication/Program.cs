@@ -1,4 +1,5 @@
-﻿using Anomalous.OSPlatform;
+﻿using Anomalous.Minimus.Full;
+using Anomalous.OSPlatform;
 using Anomalous.OSPlatform.Win32;
 using Engine.Platform;
 using System;
@@ -18,7 +19,7 @@ namespace Anomalous.Minimus
             App app = null;
             try
             {
-                app = new Anomalous.Minimus.Full.MinimalApp();
+                app = new PharosApp(new MinimalApp());
                 //app = new Anomalous.Minimus.OgreOnly.OgreOnlyApp();
                 app.run();
             }
