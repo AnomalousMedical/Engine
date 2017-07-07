@@ -29,11 +29,8 @@ namespace Anomalous.Minimus.Full
         private CoreConfig coreConfig;
         private LogFileListener logListener;
 
-        private SimScene scene;
         private SceneViewController sceneViewController;
         private PluginManager pluginManager;
-
-        private SceneViewLightManager lightManager;
 
         private ContainerBuilder builder = new ContainerBuilder();
         private UpdateTimer mainTimer;
@@ -44,6 +41,11 @@ namespace Anomalous.Minimus.Full
         public PharosApp(IStartup startup)
         {
             this.startup = startup;
+
+            builder.RegisterInstance(this)
+                .ExternallyOwned()
+                .As<App>()
+                .As<PharosApp>();
         }
 
         public override void Dispose()
@@ -51,14 +53,8 @@ namespace Anomalous.Minimus.Full
             CoreConfig.save();
             PerformanceMonitor.destroyEnabledState();
 
-            //lightManager.sceneUnloading(scene);
-            //sceneViewController.destroyCameras();
-            //scene.Dispose();
-
             pluginManager.Dispose();
-
             base.Dispose();
-
             logListener.Dispose();
         }
 
@@ -79,7 +75,7 @@ namespace Anomalous.Minimus.Full
 
             //Build engine
             var pluginManager = scope.Resolve<PluginManager>();
-            var engineController = scope.Resolve<EngineController>();
+            //var engineController = scope.Resolve<EngineController>();
             mainTimer = scope.Resolve<UpdateTimer>();
             var frameClearManager = scope.Resolve<FrameClearManager>();
 
@@ -90,24 +86,10 @@ namespace Anomalous.Minimus.Full
             var sceneStatsDisplayManager = scope.Resolve<SceneStatsDisplayManager>();
             sceneStatsDisplayManager.StatsVisible = true;
             sceneViewController.createWindow("Camera 1", Vector3.UnitX * 100, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
-            lightManager = scope.Resolve<SceneViewLightManager>();
-
-            ////Create scene
-            ////Create a simple scene to use to show the models
-            //SimSceneDefinition sceneDefiniton = new SimSceneDefinition();
-            //OgreSceneManagerDefinition ogreScene = new OgreSceneManagerDefinition("Ogre");
-            //SimSubSceneDefinition mainSubScene = new SimSubSceneDefinition("Main");
-            //sceneDefiniton.addSimElementManagerDefinition(ogreScene);
-            //sceneDefiniton.addSimSubSceneDefinition(mainSubScene);
-            //mainSubScene.addBinding(ogreScene);
-            //sceneDefiniton.DefaultSubScene = "Main";
-
-            //scene = sceneDefiniton.createScene();
-            //sceneViewController.createCameras(scene);
-            //lightManager.sceneLoaded(scene);
 
             MyGUIInterface.Instance.CommonResourceGroup.addResource(GetType().AssemblyQualifiedName, "EmbeddedScalableResource", true);
-            
+            MyGUIInterface.Instance.CommonResourceGroup.addResource(startup.GetType().AssemblyQualifiedName, "EmbeddedScalableResource", true);
+
             startup.OnInit(this, pluginManager);
 
             if (Initialized != null)
@@ -243,82 +225,6 @@ namespace Anomalous.Minimus.Full
         private void RegisterServices()
         {
             startup.RegisterServices(builder);
-
-            builder.RegisterType<SceneController>()
-                .SingleInstance();
-
-            builder.RegisterType<EngineController>()
-                .SingleInstance();
-
-            //Register gui services
-
-            builder.RegisterType<DocumentController>()
-                .SingleInstance();
-
-            builder.RegisterType<TaskMenu>()
-                .SingleInstance()
-                .WithParameter(new TypedParameter(typeof(LayoutElementName), new LayoutElementName(GUILocationNames.FullscreenPopup)));
-
-            builder.RegisterType<TaskController>()
-                .OnActivated(a =>
-                {
-                    a.Instance.addTask(new CallbackTask("Exit", "Exit", "", "Main", (item) =>
-                    {
-                        this.exit();
-                    }));
-                })
-                .SingleInstance();
-
-            builder.RegisterType<MDILayoutManager>()
-                .SingleInstance();
-
-            builder.RegisterType<GUIManager>()
-                .SingleInstance();
-
-            builder.RegisterType<AppButtonTaskbar>()
-                .SingleInstance()
-                .As<Taskbar>()
-                .OnActivated(a =>
-                {
-                    //Taskbar
-                    var taskbar = a.Instance;
-                    var taskMenu = a.Context.Resolve<TaskMenu>();
-                    taskbar.OpenTaskMenu += (int left, int top, int width, int height) =>
-                    {
-                        taskMenu.setSize(width, height);
-                        taskMenu.show(left, top);
-                    };
-                    taskbar.setAppIcon("AppButton/WideImage", "AppButton/NarrowImage");
-                });
-
-            builder.RegisterType<BorderLayoutChainLink>();
-
-            builder.RegisterType<LayoutChain>()
-                .SingleInstance()
-                .OnActivated(a =>
-                {
-                    var mdiLayout = a.Context.Resolve<MDILayoutManager>();
-                    LayoutChain layoutChain = a.Instance;
-                    //layoutChain.addLink(new SingleChildChainLink(GUILocationNames.Notifications, controller.NotificationManager.LayoutContainer), true);
-                    layoutChain.addLink(new SingleChildChainLink(GUILocationNames.Taskbar, a.Context.Resolve<Taskbar>()), true);
-                    layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.FullscreenPopup), true);
-                    layoutChain.SuppressLayout = true;
-                    var editorBorder = a.Context.Resolve<BorderLayoutChainLink>(new TypedParameter(typeof(String), GUILocationNames.EditorBorderLayout));
-                    layoutChain.addLink(editorBorder, true);
-                    layoutChain.addLink(new MDIChainLink(GUILocationNames.MDI, mdiLayout), true);
-                    layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.ContentAreaPopup), true);
-                    var contentArea = a.Context.Resolve<BorderLayoutChainLink>(new TypedParameter(typeof(String), GUILocationNames.ContentArea));
-                    layoutChain.addLink(contentArea, true);
-                    layoutChain.addLink(new FinalChainLink("SceneViews", mdiLayout.DocumentArea), true);
-                    layoutChain.SuppressLayout = false;
-                    layoutChain.layout();
-                });
-
-            builder.RegisterType<SceneViewController>()
-                .SingleInstance();
-
-            builder.RegisterType<SceneStatsDisplayManager>()
-                .SingleInstance();
         }
 
         public override int OnExit()
