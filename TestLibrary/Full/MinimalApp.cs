@@ -30,23 +30,14 @@ namespace Anomalous.Minimus.Full
     {
         public string Title => "Anomalous Minimus with Pharos";
 
+        private SceneViewController sceneViewController;
+
         public MinimalApp()
         {
 
         }
 
-        public void OnInit(PharosApp pharosApp, PluginManager pluginManager)
-        {
-            var scope = pluginManager.GlobalScope;
-
-            var testWindow = scope.Resolve<TestWindow>();
-            testWindow.Visible = true;
-
-            var rocketWindow = scope.Resolve<RocketWindow>();
-            rocketWindow.Visible = true;
-        }
-
-        public void RegisterServices(ContainerBuilder builder)
+        public void ConfigureServices(ContainerBuilder builder)
         {
             builder.RegisterType<SceneController>()
                 .SingleInstance();
@@ -137,6 +128,23 @@ namespace Anomalous.Minimus.Full
                 {
                     a.Context.Resolve<GUIManager>().addManagedDialog(a.Instance);
                 });
+        }
+
+        public void Initialized(PharosApp pharosApp, PluginManager pluginManager)
+        {
+            var scope = pluginManager.GlobalScope;
+
+            //Build gui
+            sceneViewController = scope.Resolve<SceneViewController>();
+            var sceneStatsDisplayManager = scope.Resolve<SceneStatsDisplayManager>();
+            sceneStatsDisplayManager.StatsVisible = true;
+            sceneViewController.createWindow("Camera 1", Vector3.UnitX * 100, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
+
+            var testWindow = scope.Resolve<TestWindow>();
+            testWindow.Visible = true;
+
+            var rocketWindow = scope.Resolve<RocketWindow>();
+            rocketWindow.Visible = true;
         }
     }
 }

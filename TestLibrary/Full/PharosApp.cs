@@ -28,8 +28,6 @@ namespace Anomalous.Minimus.Full
     {
         private CoreConfig coreConfig;
         private LogFileListener logListener;
-
-        private SceneViewController sceneViewController;
         private PluginManager pluginManager;
 
         private ContainerBuilder builder = new ContainerBuilder();
@@ -67,7 +65,7 @@ namespace Anomalous.Minimus.Full
             logListener.openLogFile(CoreConfig.LogFile);
             Log.Default.addLogListener(logListener);
             Log.ImportantInfo("Running from directory {0}", FolderFinder.ExecutableFolder);
-            RegisterServices();
+            startup.ConfigureServices(builder);
             BuildPluginManager();
 
             //Create containers
@@ -75,22 +73,15 @@ namespace Anomalous.Minimus.Full
 
             //Build engine
             var pluginManager = scope.Resolve<PluginManager>();
-            //var engineController = scope.Resolve<EngineController>();
             mainTimer = scope.Resolve<UpdateTimer>();
             var frameClearManager = scope.Resolve<FrameClearManager>();
 
             PerformanceMonitor.setupEnabledState(scope.Resolve<SystemTimer>());
 
-            //Build gui
-            sceneViewController = scope.Resolve<SceneViewController>();
-            var sceneStatsDisplayManager = scope.Resolve<SceneStatsDisplayManager>();
-            sceneStatsDisplayManager.StatsVisible = true;
-            sceneViewController.createWindow("Camera 1", Vector3.UnitX * 100, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
-
             MyGUIInterface.Instance.CommonResourceGroup.addResource(GetType().AssemblyQualifiedName, "EmbeddedScalableResource", true);
             MyGUIInterface.Instance.CommonResourceGroup.addResource(startup.GetType().AssemblyQualifiedName, "EmbeddedScalableResource", true);
 
-            startup.OnInit(this, pluginManager);
+            startup.Initialized(this, pluginManager);
 
             if (Initialized != null)
             {
@@ -220,11 +211,6 @@ namespace Anomalous.Minimus.Full
             touchMouseGuiForwarder.ForwardTouchesAsMouse = PlatformConfig.ForwardTouchAsMouse;
             var myGuiKeyboard = new MyGUIOnscreenKeyboardManager(touchMouseGuiForwarder);
             var rocketKeyboard = new RocketWidgetOnscreenKeyboardManager(touchMouseGuiForwarder);
-        }
-
-        private void RegisterServices()
-        {
-            startup.RegisterServices(builder);
         }
 
         public override int OnExit()

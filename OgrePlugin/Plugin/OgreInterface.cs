@@ -245,7 +245,7 @@ namespace OgrePlugin
                     .SingleInstance();
 
                 builder.RegisterType<FrameClearManager>()
-                    .WithParameter(new TypedParameter(typeof(Color), Color.Blue))
+                    .WithParameter(new TypedParameter(typeof(Color), Color.FromRGB(0x333333)))
                     .IfNotRegistered(typeof(FrameClearManager))
                     .SingleInstance();
             }

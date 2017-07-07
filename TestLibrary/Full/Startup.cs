@@ -17,13 +17,13 @@ namespace Anomalous.Minimus.Full
         /// Register any services needed.
         /// </summary>
         /// <param name="builder">The builder to register.</param>
-        void RegisterServices(ContainerBuilder builder);
+        void ConfigureServices(ContainerBuilder builder);
 
         /// <summary>
         /// Called when initialization is complete.
         /// </summary>
         /// <param name="pharosApp"></param>
-        void OnInit(PharosApp pharosApp, PluginManager pluginManager);
+        void Initialized(PharosApp pharosApp, PluginManager pluginManager);
 
         /// <summary>
         /// The title of the app to use for its window. The user will see this.
