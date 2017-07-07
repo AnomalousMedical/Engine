@@ -25,7 +25,7 @@ namespace TestAndroidApp
 
         //private ObbDownloader dl;
         //private AnomalousController anomalousController;
-        private MinimalApp app;
+        private CoreApp app;
 
 #if DEBUG
         private const bool SucceedIfEmpty = true;
@@ -98,7 +98,7 @@ namespace TestAndroidApp
             //anomalousController.AddAdditionalPlugins += HandleAddAdditionalPlugins;
             //anomalousController.run();
 
-            app = new Anomalous.Minimus.Full.MinimalApp();
+            app = new CoreApp(new Startup());
             app.Initialized += App_Initialized;
             app.run();
         }
@@ -123,7 +123,7 @@ namespace TestAndroidApp
             base.OnStop();
         }
 
-        private void App_Initialized(MinimalApp app)
+        private void App_Initialized(CoreApp app)
         {
             setInputHandler(app.InputHandler);
         }

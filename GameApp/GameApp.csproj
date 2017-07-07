@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.6</TargetFramework>
+    <RootNamespace>Anomalous.GameApp</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelMDeb|AnyCPU'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BulletWrapperPlugin\BulletWrapperPlugin.csproj" />
+    <ProjectReference Include="..\Engine\Engine.csproj" />
+    <ProjectReference Include="..\GuiFramework.Cameras\GuiFramework.Cameras.csproj" />
+    <ProjectReference Include="..\GuiFramework\GuiFramework.csproj" />
+    <ProjectReference Include="..\libRocketPlugin\libRocketPlugin.csproj" />
+    <ProjectReference Include="..\libRocketWidget\libRocketWidget.csproj" />
+    <ProjectReference Include="..\MyGUIPlugin\MyGUIPlugin.csproj" />
+    <ProjectReference Include="..\OSPlatform\OSPlatform.csproj" />
+    <ProjectReference Include="..\SoundPlugin\SoundPlugin.csproj" />
+  </ItemGroup>
+
+</Project>
