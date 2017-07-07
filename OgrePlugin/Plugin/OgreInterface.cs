@@ -228,6 +228,26 @@ namespace OgrePlugin
                 //Setup the device lost listener.
                 deviceLostListener = new DeviceLostListener();
                 rs.addListener(deviceLostListener);
+
+                //Setup builder
+                builder.Register(c => this.PrimaryWindow)
+                    .As<RendererWindow>()
+                    .SingleInstance()
+                    .ExternallyOwned();
+
+                builder.Register(c => this.OgrePrimaryWindow.OgreRenderTarget)
+                    .As<RenderTarget>()
+                    .SingleInstance()
+                    .ExternallyOwned();
+
+                builder.Register(c => c.Resolve<PluginManager>().RendererPlugin.createSceneViewLightManager())
+                    .As<SceneViewLightManager>()
+                    .SingleInstance();
+
+                builder.RegisterType<FrameClearManager>()
+                    .WithParameter(new TypedParameter(typeof(Color), Color.Blue))
+                    .IfNotRegistered(typeof(FrameClearManager))
+                    .SingleInstance();
             }
             catch (Exception e)
             {

@@ -92,6 +92,11 @@ namespace MyGUIPlugin
             {
                 throw new ArgumentNullException("EventLayerKey", "EventLayerKey property must be set before initializing MyGUIPlugin.");
             }
+
+            //Register services
+            builder.Register(c => this.OgrePlatform.RenderManager)
+                .As<OgreRenderManager>()
+                .ExternallyOwned();
         }
 
         public void link(PluginManager pluginManager)

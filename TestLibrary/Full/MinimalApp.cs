@@ -72,8 +72,7 @@ namespace Anomalous.Minimus.Full
             logListener.openLogFile(CoreConfig.LogFile);
             Log.Default.addLogListener(logListener);
             Log.ImportantInfo("Running from directory {0}", FolderFinder.ExecutableFolder);
-            RegisterEngine();
-            RegisterGui();
+            RegisterServices();
             BuildPluginManager();
 
             //Create containers
@@ -121,35 +120,6 @@ namespace Anomalous.Minimus.Full
             lightManager.sceneLoaded(scene);
 
             return true;
-        }
-
-        private void RegisterEngine()
-        {
-            builder.RegisterType<SceneController>()
-                .SingleInstance();
-
-            builder.Register<FrameClearManager>(c => new FrameClearManager(OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget, Color.Blue))
-               .SingleInstance();
-
-            builder.RegisterType<EngineController>()
-                .SingleInstance();
-
-            builder.Register(c => c.Resolve<PluginManager>().RendererPlugin.createSceneViewLightManager())
-                .As<SceneViewLightManager>()
-                .SingleInstance();
-
-            builder.Register(c => c.Resolve<PluginManager>().RendererPlugin.PrimaryWindow)
-                .As<RendererWindow>()
-                .SingleInstance();
-
-            builder.Register(c => OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget)
-                .As<RenderTarget>()
-                .SingleInstance()
-                .ExternallyOwned();
-
-            builder.Register(c => MyGUIInterface.Instance.OgrePlatform.RenderManager)
-                .As<OgreRenderManager>()
-                .ExternallyOwned();
         }
 
         private void BuildPluginManager()
@@ -271,8 +241,14 @@ namespace Anomalous.Minimus.Full
             var rocketKeyboard = new RocketWidgetOnscreenKeyboardManager(touchMouseGuiForwarder);
         }
 
-        private void RegisterGui()
+        private void RegisterServices()
         {
+            builder.RegisterType<SceneController>()
+                .SingleInstance();
+
+            builder.RegisterType<EngineController>()
+                .SingleInstance();
+
             //Register gui services
 
             builder.RegisterType<DocumentController>()
