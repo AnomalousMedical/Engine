@@ -77,6 +77,7 @@ namespace Anomalous.Minimus
             sceneResourceManager.initializeResources();
 
             currentScene = scenePackage.SceneDefinition.createScene();
+            currentScene.Scope = pluginManager.GlobalScope.BeginLifetimeScope(Lifetimes.Scene);
             if (OnSceneLoading != null)
             {
                 OnSceneLoading.Invoke(this, currentScene);
@@ -105,6 +106,7 @@ namespace Anomalous.Minimus
                 }
                 currentSimObjects.Dispose();
                 currentSimObjects = null;
+                currentScene.Scope.Dispose();
                 currentScene.Dispose();
                 currentScene = null;
                 if (OnSceneUnloaded != null)

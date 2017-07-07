@@ -28,7 +28,7 @@ namespace Anomalous.Minimus.Full
 {
     public class MinimalApp : IStartup
     {
-        public string Title => "Anomalous Minimus w/ Pharos";
+        public string Title => "Anomalous Minimus with Pharos";
 
         public MinimalApp()
         {

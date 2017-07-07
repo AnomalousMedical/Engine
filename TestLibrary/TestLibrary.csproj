@@ -68,6 +68,7 @@
     <Compile Include="Full\PharosApp.cs" />
     <Compile Include="Full\Startup.cs" />
     <Compile Include="GUILocationNames.cs" />
+    <Compile Include="Lifetimes.cs" />
     <Compile Include="OgreOnly\AppScopeExtensions.cs" />
     <Compile Include="OgreOnly\OgreOnlyApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

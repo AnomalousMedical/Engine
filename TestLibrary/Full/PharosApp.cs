@@ -51,9 +51,9 @@ namespace Anomalous.Minimus.Full
             CoreConfig.save();
             PerformanceMonitor.destroyEnabledState();
 
-            lightManager.sceneUnloading(scene);
-            sceneViewController.destroyCameras();
-            scene.Dispose();
+            //lightManager.sceneUnloading(scene);
+            //sceneViewController.destroyCameras();
+            //scene.Dispose();
 
             pluginManager.Dispose();
 
@@ -64,7 +64,7 @@ namespace Anomalous.Minimus.Full
 
         public override bool OnInit()
         {
-            coreConfig = new CoreConfig("Anomalous Minimus");
+            coreConfig = new CoreConfig(startup.Title);
 
             //Create the log.
             logListener = new LogFileListener();
@@ -92,18 +92,19 @@ namespace Anomalous.Minimus.Full
             sceneViewController.createWindow("Camera 1", Vector3.UnitX * 100, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
             lightManager = scope.Resolve<SceneViewLightManager>();
 
-            //Create scene
-            //Create a simple scene to use to show the models
-            SimSceneDefinition sceneDefiniton = new SimSceneDefinition();
-            OgreSceneManagerDefinition ogreScene = new OgreSceneManagerDefinition("Ogre");
-            SimSubSceneDefinition mainSubScene = new SimSubSceneDefinition("Main");
-            sceneDefiniton.addSimElementManagerDefinition(ogreScene);
-            sceneDefiniton.addSimSubSceneDefinition(mainSubScene);
-            mainSubScene.addBinding(ogreScene);
-            sceneDefiniton.DefaultSubScene = "Main";
+            ////Create scene
+            ////Create a simple scene to use to show the models
+            //SimSceneDefinition sceneDefiniton = new SimSceneDefinition();
+            //OgreSceneManagerDefinition ogreScene = new OgreSceneManagerDefinition("Ogre");
+            //SimSubSceneDefinition mainSubScene = new SimSubSceneDefinition("Main");
+            //sceneDefiniton.addSimElementManagerDefinition(ogreScene);
+            //sceneDefiniton.addSimSubSceneDefinition(mainSubScene);
+            //mainSubScene.addBinding(ogreScene);
+            //sceneDefiniton.DefaultSubScene = "Main";
 
-            scene = sceneDefiniton.createScene();
-            sceneViewController.createCameras(scene);
+            //scene = sceneDefiniton.createScene();
+            //sceneViewController.createCameras(scene);
+            //lightManager.sceneLoaded(scene);
 
             MyGUIInterface.Instance.CommonResourceGroup.addResource(GetType().AssemblyQualifiedName, "EmbeddedScalableResource", true);
             
@@ -113,8 +114,6 @@ namespace Anomalous.Minimus.Full
             {
                 Initialized.Invoke(this);
             }
-
-            lightManager.sceneLoaded(scene);
 
             return true;
         }
