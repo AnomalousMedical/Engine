@@ -3,6 +3,7 @@ using Engine.Attributes;
 using Engine.Editing;
 using Engine.ObjectManagement;
 using Engine.Platform;
+using Engine.Platform.Input;
 using Engine.Threads;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,12 @@ namespace Anomalous.SidescrollerCore
     public class FireControls
     {
         public ButtonEvent Fire { get; private set; }
+
+        public FireControls(IEventLayerKeyInjector<FireControls> injector)
+            :this(injector.Key)
+        {
+
+        }
 
         public FireControls(object eventLayerKey)
         {

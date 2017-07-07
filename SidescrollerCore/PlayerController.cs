@@ -3,6 +3,7 @@ using Engine;
 using Engine.Attributes;
 using Engine.Editing;
 using Engine.Platform;
+using Engine.Platform.Input;
 using Engine.Renderer;
 using OgrePlugin;
 using System;
@@ -20,6 +21,12 @@ namespace Anomalous.SidescrollerCore
         public ButtonEvent MoveUpEvent { get; private set; }
         public ButtonEvent MoveDownEvent { get; private set; }
         public ButtonEvent JumpEvent { get; private set; }
+
+        public PlayerControls(IEventLayerKeyInjector<PlayerControls> injector)
+            :this(injector.Key)
+        {
+
+        }
 
         public PlayerControls(Object eventLayerKey)
         {
