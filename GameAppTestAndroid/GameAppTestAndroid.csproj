@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{752B379D-B5BC-4076-AA80-C48911ED5ABD}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GameAppTestAndroid</RootNamespace>
+    <AssemblyName>GameAppTestAndroid</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <AndroidApplication>True</AndroidApplication>
+    <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
+    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
+    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
+    <AndroidLinkMode>None</AndroidLinkMode>
+    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>PdbOnly</DebugType>
+    <DebugSymbols>True</DebugSymbols>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.0\lib\netstandard1.1\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Mono.Android" />
+    <Reference Include="mscorlib" />
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MainActivity.cs" />
+    <Compile Include="Resources\Resource.Designer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GettingStarted.Xamarin" />
+    <None Include="packages.config" />
+    <None Include="Resources\AboutResources.txt" />
+    <None Include="Assets\AboutAssets.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\Main.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\Strings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\AndroidManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Engine\Engine.csproj">
+      <Project>{57c253f1-157f-4a6a-9fed-345a776b97d5}</Project>
+      <Name>Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameAppTest\GameAppTest.csproj">
+      <Project>{61c8e27c-c6f8-4372-b0ab-89ecdbf904ff}</Project>
+      <Name>GameAppTest</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameApp\GameApp.csproj">
+      <Project>{bf1726dc-38ac-4d9f-a671-a0bb2d8c5efb}</Project>
+      <Name>GameApp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OSPlatform.Android\OSPlatform.Android.csproj">
+      <Project>{2A62FB25-AA44-459B-95E0-ED149F31FB6E}</Project>
+      <Name>OSPlatform.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OSPlatform\OSPlatform.csproj">
+      <Project>{6E594C78-9CD8-432D-A135-11C4A72F3BCF}</Project>
+      <Name>OSPlatform</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\styles.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidNativeLibrary Include="..\..\Dependencies\OpenALSoft\srcAndroid\libs\armeabi-v7a\libopenal.so">
+      <Link>lib\armeabi-v7a\libopenal.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\..\Engine\Release\Android\libFreeImage.so">
+      <Link>lib\armeabi-v7a\libFreeImage.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\..\Engine\Release\Android\libBulletWrapper.so">
+      <Link>lib\armeabi-v7a\libBulletWrapper.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\..\Engine\Release\Android\libMyGUIWrapper.so">
+      <Link>lib\armeabi-v7a\libMyGUIWrapper.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\..\Engine\Release\Android\libOgreCWrapper.so">
+      <Link>lib\armeabi-v7a\libOgreCWrapper.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\..\Engine\Release\Android\libOSHelper.so">
+      <Link>lib\armeabi-v7a\libOSHelper.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\..\Engine\Release\Android\libRocketWrapper.so">
+      <Link>lib\armeabi-v7a\libRocketWrapper.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\..\Engine\Release\Android\libSoundWrapper.so">
+      <Link>lib\armeabi-v7a\libSoundWrapper.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\..\Engine\Release\Android\libZip.so">
+      <Link>lib\armeabi-v7a\libZip.so</Link>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="..\..\Engine\Release\Android\libgnustl_shared.so">
+      <Link>lib\armeabi-v7a\libgnustl_shared.so</Link>
+    </AndroidNativeLibrary>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+     Other similar extension points exist, see Microsoft.Common.targets.
+		<Target Name="BeforeBuild">
+		</Target>
+		<Target Name="AfterBuild">
+		</Target>
+ -->
+</Project>
