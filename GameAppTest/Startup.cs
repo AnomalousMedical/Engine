@@ -3,6 +3,7 @@ using Anomalous.GuiFramework;
 using Anomalous.GuiFramework.Cameras;
 using Anomalous.OSPlatform;
 using Anomalous.SidescrollerCore;
+using Anomalous.TilesetPlugin;
 using Autofac;
 using Engine;
 using Engine.ObjectManagement;
@@ -23,6 +24,7 @@ namespace GameAppTest
             get
             {
                 yield return typeof(SidescrollerCorePlugin).Assembly();
+                yield return typeof(TilesetInterface).Assembly();
             }
         }
 
@@ -129,6 +131,8 @@ namespace GameAppTest
 
         public void Initialized(GameApp app, PluginManager pluginManager)
         {
+            VirtualFileSystem.Instance.addArchive("C:\\Development\\Anomalous\\RpgArt");
+
             var scope = pluginManager.GlobalScope;
 
             var guiManager = scope.Resolve<GUIManager>();
@@ -144,6 +148,7 @@ namespace GameAppTest
             var sceneController = scope.Resolve<SceneController>();
             sceneController.OnSceneLoaded += SceneController_OnSceneLoaded;
             sceneController.OnSceneUnloading += SceneController_OnSceneUnloading;
+            sceneController.loadSceneDefinition("Scenes\\TestLevel.sim.xml");
 
             //var testWindow = scope.Resolve<TestWindow>();
             //testWindow.Visible = true;

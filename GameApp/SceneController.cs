@@ -1,8 +1,11 @@
 ﻿using Engine;
 using Engine.ObjectManagement;
+using Engine.Resources;
+using Engine.Saving.XMLSaver;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml;
 
 namespace Anomalous.GameApp
 {
@@ -16,9 +19,12 @@ namespace Anomalous.GameApp
     public class SceneController
     {
         private SimScene scene;
-        private SimSceneDefinition sceneDefinition;
+        private ScenePackage scenePackage;
         private bool dynamicMode = false;
         private PluginManager pluginManager;
+        private XmlSaver xmlSaver = new XmlSaver();
+        private ResourceManager sceneResourceManager;
+        private SimObjectManager currentSimObjects;
 
         #region Events
 
@@ -47,27 +53,66 @@ namespace Anomalous.GameApp
         public SceneController(PluginManager pluginManager)
         {
             this.pluginManager = pluginManager;
+            sceneResourceManager = pluginManager.createLiveResourceManager("Scene");
         }
 
         public SimSceneDefinition getSceneDefinition()
         {
-            return sceneDefinition;
+            return scenePackage.SceneDefinition;
         }
 
-        public void setSceneDefinition(SimSceneDefinition sceneDefinition)
+        public void loadSceneDefinition(String fileName)
         {
-            this.sceneDefinition = sceneDefinition;
+            foreach (var step in loadSceneDefinitionCo(fileName)) { }
         }
 
-        public void createScene()
+        public IEnumerable<SceneBuildStatus> loadSceneDefinitionCo(String fileName)
         {
-            scene = sceneDefinition.createScene();
-            scene.Scope = pluginManager.GlobalScope.BeginLifetimeScope(); //Disposed in destroyscene
+            ScenePackage scenePackage;
+            using (var reader = XmlReader.Create(VirtualFileSystem.Instance.openStream(fileName, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read)))
+            {
+                scenePackage = (ScenePackage)xmlSaver.restoreObject(reader);
+            }
+            return loadSceneCo(scenePackage);
+        }
+
+        public void loadScene(ScenePackage scenePackage, SceneBuildOptions options = SceneBuildOptions.SingleUseDefinitions)
+        {
+            foreach (var step in loadSceneCo(scenePackage, options)) { }
+        }
+
+        /// <summary>
+        /// Load the scene in the given ScenePackage.
+        /// </summary>
+        /// <param name="scenePackage">The ScenePackage to load.</param>
+        public IEnumerable<SceneBuildStatus> loadSceneCo(ScenePackage scenePackage, SceneBuildOptions options = SceneBuildOptions.SingleUseDefinitions)
+        {
+            this.scenePackage = scenePackage;
+            yield return new SceneBuildStatus()
+            {
+                Message = "Setting up Resources"
+            };
+            sceneResourceManager.changeResourcesToMatch(scenePackage.ResourceManager);
+            sceneResourceManager.initializeResources();
+
+            scene = scenePackage.SceneDefinition.createScene();
+            scene.Scope = pluginManager.GlobalScope.BeginLifetimeScope(Lifetimes.Scene);
             if (OnSceneLoading != null)
             {
                 OnSceneLoading.Invoke(this, scene);
             }
-            createSimObjects();
+            currentSimObjects = scenePackage.SimObjectManagerDefinition.createSimObjectManager(scene.getDefaultSubScene());
+            if (dynamicMode)
+            {
+                foreach (var status in scene.buildSceneStatus(options))
+                {
+                    yield return status;
+                }
+            }
+            else
+            {
+                scene.buildStaticScene();
+            }
             if (OnSceneLoaded != null)
             {
                 OnSceneLoaded.Invoke(this, scene);
@@ -75,18 +120,6 @@ namespace Anomalous.GameApp
             foreach (DebugInterface debugInterface in pluginManager.DebugInterfaces)
             {
                 debugInterface.createDebugInterface(pluginManager.RendererPlugin, scene.getDefaultSubScene());
-            }
-        }
-
-        public void createSimObjects()
-        {
-            if (dynamicMode)
-            {
-                scene.buildScene(SceneBuildOptions.None);
-            }
-            else
-            {
-                scene.buildStaticScene();
             }
         }
 
@@ -102,6 +135,8 @@ namespace Anomalous.GameApp
                 {
                     OnSceneUnloading.Invoke(this, scene);
                 }
+                currentSimObjects.Dispose();
+                currentSimObjects = null;
                 scene.Scope.Dispose();
                 scene.Dispose();
                 scene = null;
@@ -154,6 +189,26 @@ namespace Anomalous.GameApp
             get
             {
                 return scene;
+            }
+        }
+
+        public void addSimObject(SimObjectBase simObject)
+        {
+            currentSimObjects.addSimObject(simObject);
+        }
+
+        public SimObject getSimObject(String name)
+        {
+            SimObjectBase simObject;
+            currentSimObjects.tryGetSimObject(name, out simObject);
+            return simObject;
+        }
+
+        public IEnumerable<SimObjectBase> SimObjects
+        {
+            get
+            {
+                return currentSimObjects.SimObjects;
             }
         }
     }
