@@ -107,6 +107,10 @@ namespace Anomaly
             mainWindow = new NativeOSWindow(String.Format("{0} - Anomaly", solution.Name), new IntVector2(-1, -1), new IntSize2(AnomalyConfig.EngineConfig.HorizontalRes, AnomalyConfig.EngineConfig.VerticalRes));
             mainWindow.Closed += mainWindow_Closed;
 
+            //Setup DPI
+            float pixelScale = mainWindow.WindowScaling;
+            ScaleHelper._setScaleFactor(pixelScale);
+
             //Initialize the plugins
             pluginManager = new PluginManager(AnomalyConfig.ConfigFile);
             sceneController = new SceneController(pluginManager);

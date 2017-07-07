@@ -46,8 +46,6 @@ namespace Anomalous.SidescrollerCore
 
         protected override void link()
         {
-            var ts = getService<Anomalous.TilesetPlugin.TilesetInterface>();
-
             var node = Owner.getElement(NodeName) as SceneNodeElement;
             if (node == null)
             {
