@@ -75,7 +75,7 @@ namespace Anomaly
         public void createScene()
         {
             scene = sceneDefinition.createScene();
-            scene.Injector = pluginManager.Injector;
+            scene.Scope = pluginManager.GlobalScope.BeginLifetimeScope(); //Disposed in destroyscene
             if (OnSceneLoading != null)
             {
                 OnSceneLoading.Invoke(this, scene);
@@ -107,7 +107,6 @@ namespace Anomaly
         {
             if (scene != null)
             {
-
                 foreach (DebugInterface debugInterface in controller.PluginManager.DebugInterfaces)
                 {
                     debugInterface.destroyDebugInterface(controller.PluginManager.RendererPlugin, scene.getDefaultSubScene());
@@ -116,6 +115,7 @@ namespace Anomaly
                 {
                     OnSceneUnloading.Invoke(this, scene);
                 }
+                scene.Scope.Dispose();
                 scene.Dispose();
                 scene = null;
                 if (OnSceneUnloaded != null)

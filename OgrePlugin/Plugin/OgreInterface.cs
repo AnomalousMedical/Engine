@@ -12,6 +12,7 @@ using System.IO;
 using Engine.ObjectManagement;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Autofac;
 
 namespace OgrePlugin
 {
@@ -133,7 +134,7 @@ namespace OgrePlugin
             }
         }
 
-        public void initialize(PluginManager pluginManager)
+        public void initialize(PluginManager pluginManager, ContainerBuilder builder)
         {
             //Load config
             new OgreConfig(pluginManager.ConfigFile);

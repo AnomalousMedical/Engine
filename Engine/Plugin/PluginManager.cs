@@ -13,6 +13,7 @@ using Engine.Resources;
 using Engine.Saving;
 using Engine.Threads;
 using Engine.Shim;
+using Autofac;
 
 namespace Engine
 {
@@ -24,6 +25,11 @@ namespace Engine
 
     /// <summary>
     /// This class loads and unloads the various plugins for the system.
+    /// It will also maintain the di scope using a builder you supply or one it creates.
+    /// Any instance of this class will be added to the builder automatically, in addition
+    /// they will maintain the main app container and globlal lifetime scope. To shut down
+    /// these containers call the Dispose function on the PluginManager. This will initiate
+    /// cleanup correctly. If you create a PluginManager you are responsible to call Dispose on it.
     /// </summary>
     public class PluginManager : IDisposable
     {
@@ -59,6 +65,10 @@ namespace Engine
         private VirtualFileSystem virtualFileSystem;
         private Dictionary<String, Type> typeCache = new Dictionary<string, Type>();//After a type is found for an AssemblyQualifiedName it will be stored here.
         private RenamedTypeMap renamedTypeMap = null;
+        private ContainerBuilder builder;
+        private IContainer container;
+        private ILifetimeScope globalScope;
+        private bool shuttingDown = false; //This makes sure Shutdown is always called
 
         #endregion Fields
 
@@ -78,8 +88,16 @@ namespace Engine
         /// <summary>
         /// Constructor. Must be called once before plugins are used.
         /// </summary>
-        public PluginManager(ConfigFile configFile)
+        public PluginManager(ConfigFile configFile, ContainerBuilder builder = null)
         {
+            if(builder == null)
+            {
+                builder = new ContainerBuilder();
+            }
+            this.builder = builder;
+            builder.RegisterInstance(this)
+                .As<PluginManager>();
+
             if (instance == null)
             {
                 this.configFile = configFile;
@@ -98,18 +116,38 @@ namespace Engine
         #region Functions
 
         /// <summary>
-        /// Dispose function.
+        /// Dispose function. Calling this will dispose the global scope, which will cause the
+        /// entire engine to dispose itself. After calling this the program needs to end or finish
+        /// any additional cleanup it may need.
         /// </summary>
+        /// <remarks>
+        /// Internally this will end up being called twice. Once when the user disposes the PluginManager
+        /// and once when the di system disposes the actual instance.
+        /// </remarks>
         public void Dispose()
         {
-            virtualFileSystem.Dispose();
-            //Unload plugins in reverse order
-            for (int i = loadedPlugins.Count - 1; i >= 0; --i)
+            if (shuttingDown)
             {
-                loadedPlugins[i].Dispose();
+                //Then virtual file system
+                virtualFileSystem.Dispose();
+                //Unload plugins in reverse order
+                for (int i = loadedPlugins.Count - 1; i >= 0; --i)
+                {
+                    loadedPlugins[i].Dispose();
+                }
+                loadedPlugins.Clear();
+                ThreadManager.cancelAll();
             }
-            loadedPlugins.Clear();
-            ThreadManager.cancelAll();
+            else
+            {
+                //If we are not in dispose from a shutdown set this to true and dispose
+                //the di containers, that will eventually call the real dispose at the correct
+                //time for the shutdown order. This keeps the di system in charge of dispose
+                //order and keeps us from having to do other weird stuff.
+                shuttingDown = true;
+                globalScope.Dispose();
+                container.Dispose();
+            }
         }
 
         /// <summary>
@@ -139,6 +177,10 @@ namespace Engine
             {
                 throw new InvalidPluginException("No renderer plugin defined. Please define a renderer plugin.");
             }
+
+            container = builder.Build();
+            globalScope = container.BeginLifetimeScope();
+
             foreach (var plugin in loadedPlugins)
             {
                 plugin.link(this);
@@ -155,7 +197,7 @@ namespace Engine
         {
             Log.Default.sendMessage("Plugin {0} added.", LogLevel.Info, "Engine", plugin.Name);
             loadedPlugins.Add(plugin);
-            plugin.initialize(this);
+            plugin.initialize(this, builder);
             if (renamedTypeMap != null)
             {
                 plugin.setupRenamedSaveableTypes(renamedTypeMap);
@@ -504,12 +546,11 @@ namespace Engine
             }
         }
 
-        private ServiceInjector injector = new ServiceInjector();
-        public ServiceInjector Injector
+        public ILifetimeScope GlobalScope
         {
             get
             {
-                return injector;
+                return globalScope;
             }
         }
 

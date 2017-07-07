@@ -6,6 +6,7 @@ using Engine;
 using Engine.Platform;
 using Engine.Resources;
 using Engine.Command;
+using Autofac;
 
 namespace Anomalous.TilesetPlugin
 {
@@ -13,15 +14,9 @@ namespace Anomalous.TilesetPlugin
     {
         public const String PluginName = "Anomalous.TilesetPlugin";
 
-        private TilesetLoader loader;
-        private TilesetManager manager;
-
         public TilesetInterface(PluginManager pluginManager)
         {
-            manager = new TilesetManager();
-            loader = new TilesetLoader(manager);
-
-            pluginManager.Injector.addSingleton<TilesetManager>(() => manager);
+            
         }
 
         public void Dispose()
@@ -29,8 +24,12 @@ namespace Anomalous.TilesetPlugin
             
         }
 
-        public void initialize(PluginManager pluginManager)
+        public void initialize(PluginManager pluginManager, ContainerBuilder builder)
         {
+            var manager = new TilesetManager();
+            var loader = new TilesetLoader(manager);
+            builder.RegisterInstance(manager)
+                .As<TilesetManager>();
 	        pluginManager.addSubsystemResources("Tileset", loader);
         }
 

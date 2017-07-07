@@ -1,4 +1,5 @@
 ﻿using Anomalous.OSPlatform;
+using Autofac;
 using Engine;
 using Engine.Platform;
 using MyGUIPlugin;
@@ -47,7 +48,7 @@ namespace Anomalous.GuiFramework.Cameras
 
         }
 
-        public void initialize(PluginManager pluginManager)
+        public void initialize(PluginManager pluginManager, ContainerBuilder builder)
         {
             
         }

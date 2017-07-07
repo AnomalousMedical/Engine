@@ -1,4 +1,5 @@
-﻿using Engine;
+﻿using Autofac;
+using Engine;
 using Engine.Platform;
 using libRocketPlugin;
 using MyGUIPlugin;
@@ -37,7 +38,7 @@ namespace Anomalous.libRocketWidget
             }
         }
 
-        public void initialize(PluginManager pluginManager)
+        public void initialize(PluginManager pluginManager, ContainerBuilder builder)
         {
             
         }

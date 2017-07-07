@@ -7,6 +7,7 @@ using Engine.Platform;
 using OgrePlugin;
 using Logging;
 using Engine.Renderer;
+using Autofac;
 
 namespace MyGUIPlugin
 {
@@ -85,7 +86,7 @@ namespace MyGUIPlugin
             }
         }
 
-        public void initialize(PluginManager pluginManager)
+        public void initialize(PluginManager pluginManager, ContainerBuilder builder)
         {
             if (EventLayerKey == null)
             {

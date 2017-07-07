@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Logging;
+using Autofac;
 
 namespace Engine.ObjectManagement
 {
@@ -33,7 +34,7 @@ namespace Engine.ObjectManagement
         private List<SimElementManager> simElementManagers = new List<SimElementManager>();
         private Dictionary<String, SimSubScene> simSubScenes = new Dictionary<string, SimSubScene>();
         private SimSubScene defaultScene;
-        private ServiceInjector injector;
+        private ILifetimeScope scope;
 
         /// <summary>
         /// Constructor.
@@ -124,9 +125,9 @@ namespace Engine.ObjectManagement
 
         internal T getService<T>()
         {
-            if (injector != null)
+            if (scope != null)
             {
-                return injector.getService<T>();
+                return scope.Resolve<T>();
             }
             return default(T);
         }
@@ -233,15 +234,15 @@ namespace Engine.ObjectManagement
             return definition;
         }
 
-        public ServiceInjector Injector
+        public ILifetimeScope Scope
         {
             get
             {
-                return injector;
+                return scope;
             }
             set
             {
-                injector = value;
+                scope = value;
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using Engine;
+﻿using Autofac;
+using Engine;
 using Engine.Command;
 using Engine.Platform;
 using System;
@@ -28,7 +29,7 @@ namespace BEPUikPlugin
 
         }
 
-        public void initialize(PluginManager pluginManager)
+        public void initialize(PluginManager pluginManager, ContainerBuilder builder)
         {
             pluginManager.addCreateSimElementManagerCommand(new AddSimElementManagerCommand("Create BEPU Ik Scene Definition", new CreateSimElementManager(BEPUikSceneDefinition.Create)));
 

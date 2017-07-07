@@ -1,4 +1,5 @@
-﻿using Engine;
+﻿using Autofac;
+using Engine;
 using Engine.Platform;
 using MyGUIPlugin;
 using System;
@@ -23,7 +24,7 @@ namespace Anomalous.GuiFramework.Debugging
 
         }
 
-        public void initialize(PluginManager pluginManager)
+        public void initialize(PluginManager pluginManager, ContainerBuilder builder)
         {
             
         }

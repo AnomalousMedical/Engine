@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine;
 using Engine.Platform;
+using Autofac;
 
 namespace SoundPlugin
 {
@@ -45,7 +46,7 @@ namespace SoundPlugin
             }
         }
 
-        public void initialize(PluginManager pluginManager)
+        public void initialize(PluginManager pluginManager, ContainerBuilder builder)
         {
             openALManager = new OpenALManager();
             soundUpdate = new SoundUpdateListener(openALManager);

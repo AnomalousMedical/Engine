@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Platform;
 using Engine.ObjectManagement;
+using Autofac;
 
 namespace Engine
 {
@@ -21,13 +22,17 @@ namespace Engine
         /// <summary>
         /// Do any initialization steps that need to be done on the plugin. Done
         /// just after the plugin is loaded and will only be called one time.
+        /// You can also inject anything needed by the plugin into the container
+        /// builder, which will make those things available for injection elsewhere.
+        /// The scope is created after this funciton is called.
         /// </summary>
-        void initialize(PluginManager pluginManager);
+        void initialize(PluginManager pluginManager, ContainerBuilder builder);
 
         /// <summary>
         /// Called after all plugins have been loaded in the PluginManager initializePlugins function.
         /// This function is called after initialize is called for each plugin. So any resources set
-        /// up during that phase will be available here.
+        /// up during that phase will be available here. At this point the dependency injection scope will
+        /// be setup and can be used.
         /// </summary>
         void link(PluginManager pluginManager);
 

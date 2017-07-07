@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using OgrePlugin;
 using OgrePlugin;
 using Engine.Resources;
+using Autofac;
 
 namespace libRocketPlugin
 {
@@ -84,7 +85,7 @@ namespace libRocketPlugin
             }
         }
 
-        public void initialize(PluginManager pluginManager)
+        public void initialize(PluginManager pluginManager, ContainerBuilder builder)
         {
 
         }

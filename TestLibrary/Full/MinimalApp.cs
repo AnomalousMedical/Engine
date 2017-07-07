@@ -33,14 +33,13 @@ namespace Anomalous.Minimus.Full
 
         private SimScene scene;
         private SceneViewController sceneViewController;
+        private PluginManager pluginManager;
 
         private SceneViewLightManager lightManager;
 
         public event Action<MinimalApp> Initialized;
 
         ContainerBuilder builder = new ContainerBuilder();
-        IContainer container;
-        ILifetimeScope sceneScope;
         private UpdateTimer mainTimer;
 
         public MinimalApp()
@@ -57,8 +56,7 @@ namespace Anomalous.Minimus.Full
             sceneViewController.destroyCameras();
             scene.Dispose();
 
-            sceneScope.Dispose();
-            container.Dispose();
+            pluginManager.Dispose();
 
             base.Dispose();
 
@@ -79,8 +77,7 @@ namespace Anomalous.Minimus.Full
             BuildPluginManager();
 
             //Create containers
-            container = builder.Build();
-            sceneScope = container.BeginLifetimeScope(LifetimeScopes.Scene);
+            var sceneScope = this.pluginManager.GlobalScope;
 
             //Build engine
             var pluginManager = sceneScope.Resolve<PluginManager>();
@@ -149,6 +146,10 @@ namespace Anomalous.Minimus.Full
                 .As<RenderTarget>()
                 .SingleInstance()
                 .ExternallyOwned();
+
+            builder.Register(c => MyGUIInterface.Instance.OgrePlatform.RenderManager)
+                .As<OgreRenderManager>()
+                .ExternallyOwned();
         }
 
         private void BuildPluginManager()
@@ -181,9 +182,7 @@ namespace Anomalous.Minimus.Full
 
             ScaleHelper._setScaleFactor(pixelScale);
 
-            var pluginManager = new PluginManager(CoreConfig.ConfigFile);
-            builder.RegisterInstance(pluginManager)
-                .As<PluginManager>();
+            pluginManager = new PluginManager(CoreConfig.ConfigFile, builder);
 
             var systemTimer = new NativeSystemTimer();
             builder.RegisterInstance(systemTimer)
@@ -195,6 +194,7 @@ namespace Anomalous.Minimus.Full
                 .As<NativeUpdateTimer>();
 
             var inputHandler = new NativeInputHandler(mainWindow, CoreConfig.EnableMultitouch);
+            this.InputHandler = inputHandler;
             builder.RegisterInstance(inputHandler)
                 .As<InputHandler>();
 
@@ -337,7 +337,8 @@ namespace Anomalous.Minimus.Full
                     layoutChain.layout();
                 });
 
-            builder.Register(c => new SceneViewController(c.Resolve<MDILayoutManager>(), sceneScope.Resolve<EventManager>(), sceneScope.Resolve<UpdateTimer>(), sceneScope.Resolve<RendererWindow>(), MyGUIInterface.Instance.OgrePlatform.RenderManager, null))
+            builder.RegisterType<SceneViewController>()
+                //(c => new SceneViewController(c.Resolve<MDILayoutManager>(), c.Resolve<EventManager>(), c.Resolve<UpdateTimer>(), c.Resolve<RendererWindow>(), MyGUIInterface.Instance.OgrePlatform.RenderManager, null))
                 .SingleInstance();
 
             builder.RegisterType<SceneStatsDisplayManager>()
@@ -379,12 +380,6 @@ namespace Anomalous.Minimus.Full
             }
         }
 
-        public InputHandler InputHandler
-        {
-            get
-            {
-                return sceneScope.Resolve<InputHandler>();
-            }
-        }
+        public InputHandler InputHandler { get; private set; }
     }
 }
