@@ -22,6 +22,7 @@
     <ProjectGuid>{6AA322EB-D00E-4724-B723-85D2560C2F61}</ProjectGuid>
     <RootNamespace>SoundWrapper</RootNamespace>
     <Keyword>ManagedCProj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
