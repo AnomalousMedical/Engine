@@ -2,6 +2,7 @@
 using Anomalous.GuiFramework;
 using Anomalous.GuiFramework.Cameras;
 using Anomalous.OSPlatform;
+using Anomalous.SidescrollerCore;
 using Autofac;
 using Engine;
 using System;
@@ -16,7 +17,13 @@ namespace GameAppTest
 
         public string Name => "GameAppTest";
 
-        public IEnumerable<Assembly> AdditionalPluginAssemblies => new Assembly[0];
+        public IEnumerable<Assembly> AdditionalPluginAssemblies
+        {
+            get
+            {
+                yield return typeof(SidescrollerCorePlugin).Assembly();
+            }
+        }
 
         private SceneViewController sceneViewController;
 

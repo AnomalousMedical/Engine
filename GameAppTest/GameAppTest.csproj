@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GameApp\GameApp.csproj" />
+    <ProjectReference Include="..\SidescrollerCore\SidescrollerCore.csproj" />
   </ItemGroup>
 
 </Project>

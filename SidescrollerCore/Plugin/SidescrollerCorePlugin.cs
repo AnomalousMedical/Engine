@@ -11,11 +11,11 @@ using Engine.Platform.Input;
 
 namespace Anomalous.SidescrollerCore
 {
-    public class Plugin : PluginInterface
+    public class SidescrollerCorePlugin : PluginInterface
     {
         public const String PluginName = "Anomalous.TilesetPlugin";
 
-        public Plugin(PluginManager pluginManager)
+        public SidescrollerCorePlugin(PluginManager pluginManager)
         {
             
         }

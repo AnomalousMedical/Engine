@@ -198,8 +198,11 @@ namespace Anomalous.GameApp
                 mainTimer.FramerateCap = CoreConfig.EngineConfig.FPSCap;
             }
 
-            pluginManager.setPlatformInfo(mainTimer, eventManager);
             mainTimer.addUpdateListener(new EventUpdateListener(eventManager));
+
+            pluginManager.setPlatformInfo(mainTimer, eventManager);
+
+            GuiFrameworkInterface.Instance.handleCursors(mainWindow);
 
             SoundConfig.initialize(CoreConfig.ConfigFile);
 

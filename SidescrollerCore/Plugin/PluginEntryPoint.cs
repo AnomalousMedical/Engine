@@ -12,7 +12,7 @@ namespace Anomalous.SidescrollerCore
     {
         public override void createPluginInterfaces(PluginManager pluginManager)
         {
-            pluginManager.addPlugin(new Plugin(pluginManager));
+            pluginManager.addPlugin(new SidescrollerCorePlugin(pluginManager));
         }
     }
 }
