@@ -9,6 +9,7 @@ using Engine.Attributes;
 using Engine.Renderer;
 using Engine.Saving;
 using Engine.Editing;
+using Autofac;
 
 namespace Engine
 {
@@ -126,9 +127,12 @@ namespace Engine
 
         }
 
-        protected T getService<T>()
+        protected ILifetimeScope Scope
         {
-            return manager.getService<T>();
+            get
+            {
+                return manager.Scope;
+            }
         }
 
         /// <summary>

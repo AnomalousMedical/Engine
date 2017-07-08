@@ -43,8 +43,36 @@ namespace Anomalous.SidescrollerCore
                 .As<IEventLayerKeyInjector<PlayerControls>>()
                 .IfNotRegistered(typeof(IEventLayerKeyInjector<PlayerControls>));
 
-            builder.RegisterType<PlayerControls>();
-            builder.RegisterType<FireControls>();
+            builder.RegisterType<PlayerControls>()
+                .SingleInstance()
+                .Keyed<PlayerControls>(PlayerId.Player1)
+                .OnActivated(a =>
+                {
+                    var i = a.Instance;
+                    i.MoveRightEvent.addButton(KeyboardButtonCode.KC_D);
+                    i.MoveLeftEvent.addButton(KeyboardButtonCode.KC_A);
+                    i.MoveUpEvent.addButton(KeyboardButtonCode.KC_W);
+                    i.MoveDownEvent.addButton(KeyboardButtonCode.KC_S);
+                    i.JumpEvent.addButton(KeyboardButtonCode.KC_SPACE);
+                    i.Build();
+                });
+
+            builder.RegisterType<PlayerControls>()
+                .SingleInstance()
+                .Keyed<PlayerControls>(PlayerId.Player2)
+                .OnActivated(a =>
+                {
+                    var i = a.Instance;
+                    i.MoveRightEvent.addButton(KeyboardButtonCode.KC_RIGHT);
+                    i.MoveLeftEvent.addButton(KeyboardButtonCode.KC_LEFT);
+                    i.MoveUpEvent.addButton(KeyboardButtonCode.KC_UP);
+                    i.MoveDownEvent.addButton(KeyboardButtonCode.KC_DOWN);
+                    i.JumpEvent.addButton(KeyboardButtonCode.KC_NUMPAD0);
+                    i.Build();
+                });
+
+            builder.RegisterType<FireControls>()
+                .SingleInstance();
         }
 
         public void link(PluginManager pluginManager)

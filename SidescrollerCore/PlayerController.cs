@@ -1,4 +1,5 @@
-﻿using BulletPlugin;
+﻿using Autofac;
+using BulletPlugin;
 using Engine;
 using Engine.Attributes;
 using Engine.Editing;
@@ -31,20 +32,14 @@ namespace Anomalous.SidescrollerCore
         public PlayerControls(Object eventLayerKey)
         {
             MoveRightEvent = new ButtonEvent(eventLayerKey);
-            MoveRightEvent.addButton(KeyboardButtonCode.KC_D);
-
             MoveLeftEvent = new ButtonEvent(eventLayerKey);
-            MoveLeftEvent.addButton(KeyboardButtonCode.KC_A);
-
             MoveUpEvent = new ButtonEvent(eventLayerKey);
-            MoveUpEvent.addButton(KeyboardButtonCode.KC_W);
-
             MoveDownEvent = new ButtonEvent(eventLayerKey);
-            MoveDownEvent.addButton(KeyboardButtonCode.KC_S);
-
             JumpEvent = new ButtonEvent(eventLayerKey);
-            JumpEvent.addButton(KeyboardButtonCode.KC_SPACE);
+        }
 
+        public void Build()
+        {
             try
             {
                 DefaultEvents.registerDefaultEvent(MoveRightEvent);
@@ -59,6 +54,9 @@ namespace Anomalous.SidescrollerCore
 
     partial class PlayerController : Behavior
     {
+        [Editable]
+        public PlayerId PlayerId { get; set; } = PlayerId.Player1;
+
         [Editable]
         public String RigidBodyName { get; set; }
 
@@ -220,7 +218,7 @@ namespace Anomalous.SidescrollerCore
         {
             base.link();
 
-            playerControls = getService<PlayerControls>();
+            playerControls = Scope.ResolveKeyed<PlayerControls>(PlayerId);
 
             rigidBody = Owner.getElement(RigidBodyName) as RigidBody;
             if (rigidBody == null)

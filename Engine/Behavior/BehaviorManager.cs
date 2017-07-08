@@ -6,6 +6,7 @@ using Engine.Platform;
 using Engine.ObjectManagement;
 using Logging;
 using Engine.Renderer;
+using Autofac;
 
 namespace Engine
 {
@@ -98,7 +99,7 @@ namespace Engine
         internal void activateBehavior(Behavior behavior)
         {
             List<Behavior> updatePhase;
-            if(updatePhases.TryGetValue(behavior.UpdatePhase, out updatePhase))
+            if (updatePhases.TryGetValue(behavior.UpdatePhase, out updatePhase))
             {
                 updatePhase.Add(behavior);
             }
@@ -108,9 +109,12 @@ namespace Engine
             }
         }
 
-        internal T getService<T>()
+        internal ILifetimeScope Scope
         {
-            return simScene.getService<T>();
+            get
+            {
+                return simScene.Scope;
+            }
         }
 
         /// <summary>
@@ -209,7 +213,7 @@ namespace Engine
         {
             BehaviorManagerDefinition definition = new BehaviorManagerDefinition(name);
             //Have to reverse lookup from the phases defined, this isn't really performance critical so its a bit wonky
-            foreach(var phase in updatePhaseOrder)
+            foreach (var phase in updatePhaseOrder)
             {
                 //Reverse lookup from dictionary, the list and dictionary are always in sync
                 definition.addUpdatePhase(new BehaviorUpdatePhase(updatePhases.First(i => i.Value == phase).Key));
@@ -226,12 +230,12 @@ namespace Engine
 
         public void loopStarting()
         {
-            
+
         }
 
         public void exceededMaxDelta()
         {
-            
+
         }
 
         /// <summary>

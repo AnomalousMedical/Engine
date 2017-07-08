@@ -123,15 +123,6 @@ namespace Engine.ObjectManagement
             return null;
         }
 
-        internal T getService<T>()
-        {
-            if (scope != null)
-            {
-                return scope.Resolve<T>();
-            }
-            return default(T);
-        }
-
         /// <summary>
         /// Set the default SimSubScene. The SimSubScene passed to this function
         /// must have already been added to this SimScene. If this is not

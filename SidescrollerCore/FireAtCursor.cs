@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Autofac;
 
 namespace Anomalous.SidescrollerCore
 {
@@ -71,7 +72,7 @@ namespace Anomalous.SidescrollerCore
 
             objectStartingRot = template.Rotation;
 
-            controls = getService<FireControls>();
+            controls = Scope.Resolve<FireControls>();
             controls.Fire.FirstFrameDownEvent += Fire_FirstFrameDownEvent;
         }
 
