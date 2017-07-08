@@ -38,6 +38,7 @@ namespace Engine.Platform
         /// with the user settings in this function.
         /// </summary>
         /// <param name="evt">The event to register.</param>
+        [Obsolete("Don't use DefaultEvents anymore, inject the EventManager when building your controls.")]
         public static void registerDefaultEvent(MessageEvent evt)
         {
             events.Add(evt);

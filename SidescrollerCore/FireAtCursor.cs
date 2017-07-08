@@ -27,11 +27,13 @@ namespace Anomalous.SidescrollerCore
         public FireControls(object eventLayerKey)
         {
             Fire = new ButtonEvent(eventLayerKey);
-            Fire.addButton(MouseButtonCode.MB_BUTTON0);
+        }
 
+        public void Build(EventManager eventManager)
+        {
             try
             {
-                DefaultEvents.registerDefaultEvent(Fire);
+                eventManager.addEvent(Fire);
             }
             catch (Exception) { }
         }
@@ -40,6 +42,9 @@ namespace Anomalous.SidescrollerCore
     public class FireAtCursor : BehaviorInterface
     {
         public FireControls Controls { get { return controls; } }
+
+        [Editable]
+        public PlayerId PlayerId { get; set; } = PlayerId.Player1;
 
         [DoNotCopy]
         [DoNotSave]
@@ -72,7 +77,7 @@ namespace Anomalous.SidescrollerCore
 
             objectStartingRot = template.Rotation;
 
-            controls = Scope.Resolve<FireControls>();
+            controls = Scope.ResolveKeyed<FireControls>(PlayerId);
             controls.Fire.FirstFrameDownEvent += Fire_FirstFrameDownEvent;
         }
 

@@ -54,7 +54,7 @@ namespace Anomalous.SidescrollerCore
                     i.MoveUpEvent.addButton(KeyboardButtonCode.KC_W);
                     i.MoveDownEvent.addButton(KeyboardButtonCode.KC_S);
                     i.JumpEvent.addButton(KeyboardButtonCode.KC_SPACE);
-                    i.Build();
+                    i.Build(a.Context.Resolve<EventManager>());
                 });
 
             builder.RegisterType<PlayerControls>()
@@ -68,11 +68,28 @@ namespace Anomalous.SidescrollerCore
                     i.MoveUpEvent.addButton(KeyboardButtonCode.KC_UP);
                     i.MoveDownEvent.addButton(KeyboardButtonCode.KC_DOWN);
                     i.JumpEvent.addButton(KeyboardButtonCode.KC_NUMPAD0);
-                    i.Build();
+                    i.Build(a.Context.Resolve<EventManager>());
                 });
 
             builder.RegisterType<FireControls>()
-                .SingleInstance();
+                .SingleInstance()
+                .Keyed<FireControls>(PlayerId.Player1)
+                .OnActivated(a =>
+                {
+                    var i = a.Instance;
+                    i.Fire.addButton(MouseButtonCode.MB_BUTTON0);
+                    i.Build(a.Context.Resolve<EventManager>());
+                });
+
+            builder.RegisterType<FireControls>()
+                .SingleInstance()
+                .Keyed<FireControls>(PlayerId.Player2)
+                .OnActivated(a =>
+                {
+                    var i = a.Instance;
+                    i.Fire.addButton(KeyboardButtonCode.KC_NUMPAD1);
+                    i.Build(a.Context.Resolve<EventManager>());
+                });
         }
 
         public void link(PluginManager pluginManager)

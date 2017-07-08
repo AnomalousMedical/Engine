@@ -38,15 +38,15 @@ namespace Anomalous.SidescrollerCore
             JumpEvent = new ButtonEvent(eventLayerKey);
         }
 
-        public void Build()
+        public void Build(EventManager eventManager)
         {
             try
             {
-                DefaultEvents.registerDefaultEvent(MoveRightEvent);
-                DefaultEvents.registerDefaultEvent(MoveLeftEvent);
-                DefaultEvents.registerDefaultEvent(MoveUpEvent);
-                DefaultEvents.registerDefaultEvent(MoveDownEvent);
-                DefaultEvents.registerDefaultEvent(JumpEvent);
+                eventManager.addEvent(MoveRightEvent);
+                eventManager.addEvent(MoveLeftEvent);
+                eventManager.addEvent(MoveUpEvent);
+                eventManager.addEvent(MoveDownEvent);
+                eventManager.addEvent(JumpEvent);
             }
             catch (Exception) { }
         }
