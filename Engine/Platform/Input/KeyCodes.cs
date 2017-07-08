@@ -26,7 +26,8 @@ namespace Engine.Platform
         Button13 = 13, XInput_DPadRight = 13,
         Button14 = 14,
         Button15 = 15,
-        Button16 = 16
+        Button16 = 16,
+        NUM_BUTTONS = 17,
     };
 
     /// <summary>
