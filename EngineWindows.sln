@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+VisualStudioVersion = 15.0.26430.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Engine", "Engine\Engine.csproj", "{57C253F1-157F-4A6A-9FED-345A776B97D5}"
 EndProject
@@ -1269,8 +1269,8 @@ Global
 		{B80270CA-D7B0-405D-B564-085EB8529E12}.ReleaseAOT|x64.Build.0 = Release|Any CPU
 		{B80270CA-D7B0-405D-B564-085EB8529E12}.ReleaseAOT|x86.ActiveCfg = Release|Any CPU
 		{B80270CA-D7B0-405D-B564-085EB8529E12}.ReleaseAOT|x86.Build.0 = Release|Any CPU
-		{B80270CA-D7B0-405D-B564-085EB8529E12}.RelMDeb|Any CPU.ActiveCfg = Release|Any CPU
-		{B80270CA-D7B0-405D-B564-085EB8529E12}.RelMDeb|Any CPU.Build.0 = Release|Any CPU
+		{B80270CA-D7B0-405D-B564-085EB8529E12}.RelMDeb|Any CPU.ActiveCfg = RelMDeb|Any CPU
+		{B80270CA-D7B0-405D-B564-085EB8529E12}.RelMDeb|Any CPU.Build.0 = RelMDeb|Any CPU
 		{B80270CA-D7B0-405D-B564-085EB8529E12}.RelMDeb|x64.ActiveCfg = Release|Any CPU
 		{B80270CA-D7B0-405D-B564-085EB8529E12}.RelMDeb|x64.Build.0 = Release|Any CPU
 		{B80270CA-D7B0-405D-B564-085EB8529E12}.RelMDeb|x86.ActiveCfg = Release|Any CPU

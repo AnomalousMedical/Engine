@@ -52,7 +52,9 @@
     <Compile Include="..\Shim\StackFrameShim.cs" />
     <Compile Include="..\Shim\StackTraceShim.cs" />
     <Compile Include="..\Shim\TimerShim.cs" />
+    <Compile Include="XInputDotNetPure\GamePad.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XInputDotNetPure\Utils.cs" />
     <Compile Include="WindowsRuntimePlatformInfo.cs" />
   </ItemGroup>
   <ItemGroup>

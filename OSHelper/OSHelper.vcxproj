@@ -259,6 +259,7 @@
     <ClCompile Include="src\Win32DllMain.cpp" />
     <ClCompile Include="Src\NativeKeyboard.cpp" />
     <ClCompile Include="Src\NativeMouse.cpp" />
+    <ClCompile Include="Src\Win32XInput.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

@@ -73,6 +73,9 @@
     <ClCompile Include="Src\NativeLog.cpp">
       <Filter>Log</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Win32XInput.cpp">
+      <Filter>Win32</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\MultiTouch.h">
