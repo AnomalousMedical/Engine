@@ -39,14 +39,6 @@ namespace GameAppTest
 
         public void ConfigureServices(ContainerBuilder builder)
         {
-            //builder.RegisterType<SceneController>()
-            //    .SingleInstance();
-
-            //builder.RegisterType<EngineController>()
-            //    .SingleInstance();
-
-            //Register gui services
-
             builder.Register(c => new EventLayerKeyInjector<FireControls>(EventLayers.Game))
                 .SingleInstance()
                 .As<IEventLayerKeyInjector<FireControls>>();
@@ -123,19 +115,6 @@ namespace GameAppTest
 
             builder.RegisterType<SceneStatsDisplayManager>()
                 .SingleInstance();
-
-            //Individual windows, can be created more than once.
-            //builder.RegisterType<TestWindow>()
-            //    .OnActivated(a =>
-            //    {
-            //        a.Context.Resolve<GUIManager>().addManagedDialog(a.Instance);
-            //    });
-
-            //builder.RegisterType<RocketWindow>()
-            //    .OnActivated(a =>
-            //    {
-            //        a.Context.Resolve<GUIManager>().addManagedDialog(a.Instance);
-            //    });
         }
 
         public void Initialized(GameApp app, PluginManager pluginManager)
@@ -160,12 +139,6 @@ namespace GameAppTest
             sceneController.OnSceneLoaded += SceneController_OnSceneLoaded;
             sceneController.OnSceneUnloading += SceneController_OnSceneUnloading;
             sceneController.loadSceneDefinition("Scenes\\TestLevel.sim.xml");
-
-            //var testWindow = scope.Resolve<TestWindow>();
-            //testWindow.Visible = true;
-
-            //var rocketWindow = scope.Resolve<RocketWindow>();
-            //rocketWindow.Visible = true;
         }
 
         private void SceneController_OnSceneLoaded(SceneController controller, SimScene scene)
