@@ -68,6 +68,11 @@ namespace Anomalous.GameApp
                 .SingleInstance()
                 .As<SceneController>();
 
+            builder.RegisterType<VirtualTextureSceneViewLink>()
+                .IfNotRegistered(typeof(VirtualTextureSceneViewLink))
+                .SingleInstance()
+                .As<VirtualTextureSceneViewLink>();
+
             BuildPluginManager();
 
             //Create containers

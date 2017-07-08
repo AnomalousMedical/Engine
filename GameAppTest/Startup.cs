@@ -135,6 +135,8 @@ namespace GameAppTest
 
             var scope = pluginManager.GlobalScope;
 
+            scope.Resolve<VirtualTextureSceneViewLink>();
+
             var guiManager = scope.Resolve<GUIManager>();
 
             //Build gui
