@@ -154,6 +154,8 @@ namespace Anomalous.GameApp
             MyGUIInterface.EventLayerKey = EventLayers.Gui;
             MyGUIInterface.CreateGuiGestures = CoreConfig.EnableMultitouch && PlatformConfig.TouchType == TouchType.Screen;
 
+            OgreInterface.CompressedTextureSupport = CompressedTextureSupport.None;
+
             //Configure plugins
             pluginManager.OnConfigureDefaultWindow = delegate (out WindowInfo defaultWindow)
             {

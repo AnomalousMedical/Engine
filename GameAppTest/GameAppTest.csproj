@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.IO.UnmanagedMemoryStream" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\GameApp\GameApp.csproj" />
     <ProjectReference Include="..\SidescrollerCore\SidescrollerCore.csproj" />
     <ProjectReference Include="..\TilesetPlugin\TilesetPlugin.csproj" />
