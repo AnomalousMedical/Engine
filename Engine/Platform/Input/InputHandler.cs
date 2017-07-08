@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Engine.Platform.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,6 +35,18 @@ namespace Engine.Platform
 	    /// </summary>
 	    /// <param name="mouse">The mouse to destroy.</param>
         public abstract void destroyMouse(MouseHardware mouse);
+
+        /// <summary>
+	    /// Creates a GamepadHardware object that manipulates the given Gamepad.
+	    /// </summary>
+	    /// <returns>The new gamepad.</returns>
+        public abstract GamepadHardware createGamepad(Gamepad pad);
+
+        /// <summary>
+        /// Destroys the given gamepad.
+        /// </summary>
+        /// <param name="pad">The gamepad to destroy.</param>
+        public abstract void destroyGamepad(GamepadHardware pad);
 
         /// <summary>
         /// Create touch hardware for the EventManager, if touch hardware cannot be supported, return null.

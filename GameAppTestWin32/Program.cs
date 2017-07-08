@@ -22,11 +22,6 @@ namespace GameAppTestWin32
             try
             {
                 app = new GameApp(new Startup());
-                app.Initialized += i =>
-                {
-                    var state = GamePad.GetState(PlayerIndex.One);
-                    Log.Debug($"Gamepad 1:\n\tConnected: {state.IsConnected}");
-                };
                 app.run();
             }
             catch (Exception e)

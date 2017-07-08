@@ -6,6 +6,17 @@ using System.Text;
 namespace Engine.Platform
 {
     /// <summary>
+    /// The id 1-4 of the gamepads
+    /// </summary>
+    public enum GamepadId
+    {
+        Pad1,
+        Pad2,
+        Pad3,
+        Pad4
+    }
+
+    /// <summary>
     /// Provides button number codes for buttons.
     /// </summary>
     public enum GamepadButtonCode : int
@@ -14,8 +25,8 @@ namespace Engine.Platform
         Button1 = 1,   XInput_B = 1,
         Button2 = 2,   XInput_X = 2,
         Button3 = 3,   XInput_Y = 3,
-        Button4 = 4,   XInput_LB = 4,
-        Button5 = 5,   XInput_RB = 5,
+        Button4 = 4,   XInput_LeftShoulder = 4,
+        Button5 = 5,   XInput_RightShoulder = 5,
         Button6 = 6,   XInput_Select = 6,
         Button7 = 7,   XInput_Start = 7,
         Button8 = 8,   XInput_LThumb= 8,
@@ -24,7 +35,7 @@ namespace Engine.Platform
         Button11 = 11, XInput_DPadDown = 11,
         Button12 = 12, XInput_DPadLeft = 12,
         Button13 = 13, XInput_DPadRight = 13,
-        Button14 = 14,
+        Button14 = 14, XInput_Guide = 14,
         Button15 = 15,
         Button16 = 16,
         NUM_BUTTONS = 17,

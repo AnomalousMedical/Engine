@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine.Platform;
+using Engine.Platform.Input;
 
 namespace Anomalous.OSPlatform
 {
@@ -119,6 +120,16 @@ namespace Anomalous.OSPlatform
                 createdMouse = new NativeMouse(window, mouse);
             }
             return createdMouse;
+        }
+
+        public override GamepadHardware createGamepad(Gamepad pad)
+        {
+            return RuntimePlatformInfo.CreateGamepadHardware(pad);
+        }
+
+        public override void destroyGamepad(GamepadHardware pad)
+        {
+            pad.Dispose();
         }
 
         public override void destroyKeyboard(KeyboardHardware keyboard)

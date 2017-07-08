@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Logging;
 using System.Collections;
+using Engine.Platform.Input;
 
 namespace Engine.Platform
 {
@@ -35,6 +36,9 @@ namespace Engine.Platform
         private EventLayer focusLayer;
         private FastIteratorMap<Object, EventLayer> eventLayers = new FastIteratorMap<object, EventLayer>();
 
+        private Gamepad pad1;
+        private GamepadHardware pad1Hardware;
+
         /// <summary>
         /// Constructor takes the input handler to use and an enumearble over the layer keys in order that they should be processed
         /// </summary>
@@ -49,6 +53,9 @@ namespace Engine.Platform
             touches = new Touches();
             touchHardware = inputHandler.createTouchHardware(touches);
 
+            pad1 = new Gamepad(this, GamepadId.Pad1);
+            pad1Hardware = inputHandler.createGamepad(pad1);
+
             foreach (object key in layerKeys)
             {
                 eventLayers.Add(key, new EventLayer(this));
@@ -62,6 +69,7 @@ namespace Engine.Platform
         /// </summary>
         public void Dispose()
         {
+            inputHandler.destroyGamepad(pad1Hardware);
             inputHandler.destroyTouchHardware(touchHardware);
             inputHandler.destroyKeyboard(keyboardHardware);
             inputHandler.destroyMouse(mouseHardware);
@@ -78,6 +86,7 @@ namespace Engine.Platform
             //Process the whole update with the same focus layer
             EventLayer currentFocusLayer = focusLayer;
 
+            pad1Hardware.Update();
             mouse.capture();
             bool allowEventProcessing = true; //The first layer always gets all events
 

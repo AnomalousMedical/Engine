@@ -1,4 +1,6 @@
-﻿using Engine.Shim;
+﻿using Engine.Platform;
+using Engine.Platform.Input;
+using Engine.Shim;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,6 +15,11 @@ namespace Anomalous.OSPlatform
     /// </summary>
     public abstract class RuntimePlatformInfo
     {
+        public static GamepadHardware CreateGamepadHardware(Gamepad pad)
+        {
+            return Instance.CreateGamepadHardwareImpl(pad);
+        }
+
         /// <summary>
         /// A folder that user documents and settings can be put into.
         /// </summary>
@@ -120,6 +127,11 @@ namespace Anomalous.OSPlatform
                 throw new Exception("Can only create one instance of the RuntimePlatformInfo class.");
             }
             Instance = this;
+        }
+
+        protected virtual GamepadHardware CreateGamepadHardwareImpl(Gamepad pad)
+        {
+            return null;
         }
 
         /// <summary>

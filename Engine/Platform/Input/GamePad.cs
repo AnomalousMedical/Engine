@@ -23,9 +23,10 @@ namespace Engine.Platform.Input
         /// </summary>
         public event GamepadButtonCallback ButtonUp;
 
-        public Gamepad(EventManager eventManager)
+        public Gamepad(EventManager eventManager, GamepadId padId)
         {
             this.eventManager = eventManager;
+            this.Id = padId;
         }
 
         /// <summary>
@@ -120,5 +121,7 @@ namespace Engine.Platform.Input
                 }
             }
         }
+
+        public GamepadId Id { get; private set; }
     }
 }

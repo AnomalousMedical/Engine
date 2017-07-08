@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Engine.Platform.Input
 {
-    public abstract class GamepadHardware
+    public abstract class GamepadHardware : IDisposable
     {
         private Gamepad pad;
 
@@ -12,6 +12,8 @@ namespace Engine.Platform.Input
         {
             this.pad = pad;
         }
+
+        public abstract void Dispose();
 
         protected void fireButtonDown(GamepadButtonCode button)
         {
@@ -22,5 +24,7 @@ namespace Engine.Platform.Input
         {
             pad.fireButtonUp(button);
         }
+
+        public abstract void Update();
     }
 }

@@ -1,5 +1,8 @@
 ﻿using Anomalous.Shim;
+using Engine.Platform;
+using Engine.Platform.Input;
 using Engine.Shim;
+using OSPlatform.Win32.XInputDotNetPure;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,6 +12,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using XInputDotNetPure;
 
 namespace Anomalous.OSPlatform.Win32
 {
@@ -67,6 +71,11 @@ namespace Anomalous.OSPlatform.Win32
         protected WindowsRuntimePlatformInfo()
         {
 
+        }
+
+        protected override GamepadHardware CreateGamepadHardwareImpl(Gamepad pad)
+        {
+            return new XInputGamepad(pad);
         }
 
         protected override String LocalUserDocumentsFolderImpl
