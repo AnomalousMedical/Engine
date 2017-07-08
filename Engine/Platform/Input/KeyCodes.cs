@@ -6,6 +6,30 @@ using System.Text;
 namespace Engine.Platform
 {
     /// <summary>
+    /// Provides button number codes for buttons.
+    /// </summary>
+    public enum GamepadButtonCode : int
+    {
+        Button0 = 0,   XInput_A = 0,
+        Button1 = 1,   XInput_B = 1,
+        Button2 = 2,   XInput_X = 2,
+        Button3 = 3,   XInput_Y = 3,
+        Button4 = 4,   XInput_LB = 4,
+        Button5 = 5,   XInput_RB = 5,
+        Button6 = 6,   XInput_Select = 6,
+        Button7 = 7,   XInput_Start = 7,
+        Button8 = 8,   XInput_LThumb= 8,
+        Button9 = 9,   XInput_RThumb = 9,
+        Button10 = 10, XInput_DPadUp = 10,
+        Button11 = 11, XInput_DPadDown = 11,
+        Button12 = 12, XInput_DPadLeft = 12,
+        Button13 = 13, XInput_DPadRight = 13,
+        Button14 = 14,
+        Button15 = 15,
+        Button16 = 16
+    };
+
+    /// <summary>
     /// Provides mask codes for mouse buttons.
     /// </summary>
     public enum MouseButtonCode : int
