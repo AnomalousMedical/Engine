@@ -37,7 +37,13 @@ namespace Engine.Platform
         private FastIteratorMap<Object, EventLayer> eventLayers = new FastIteratorMap<object, EventLayer>();
 
         private Gamepad pad1;
+        private Gamepad pad2;
+        private Gamepad pad3;
+        private Gamepad pad4;
         private GamepadHardware pad1Hardware;
+        private GamepadHardware pad2Hardware;
+        private GamepadHardware pad3Hardware;
+        private GamepadHardware pad4Hardware;
 
         /// <summary>
         /// Constructor takes the input handler to use and an enumearble over the layer keys in order that they should be processed
@@ -54,7 +60,13 @@ namespace Engine.Platform
             touchHardware = inputHandler.createTouchHardware(touches);
 
             pad1 = new Gamepad(this, GamepadId.Pad1);
+            pad2 = new Gamepad(this, GamepadId.Pad2);
+            pad3 = new Gamepad(this, GamepadId.Pad3);
+            pad4 = new Gamepad(this, GamepadId.Pad4);
             pad1Hardware = inputHandler.createGamepad(pad1);
+            pad2Hardware = inputHandler.createGamepad(pad2);
+            pad3Hardware = inputHandler.createGamepad(pad3);
+            pad4Hardware = inputHandler.createGamepad(pad4);
 
             foreach (object key in layerKeys)
             {
@@ -70,6 +82,9 @@ namespace Engine.Platform
         public void Dispose()
         {
             inputHandler.destroyGamepad(pad1Hardware);
+            inputHandler.destroyGamepad(pad2Hardware);
+            inputHandler.destroyGamepad(pad3Hardware);
+            inputHandler.destroyGamepad(pad4Hardware);
             inputHandler.destroyTouchHardware(touchHardware);
             inputHandler.destroyKeyboard(keyboardHardware);
             inputHandler.destroyMouse(mouseHardware);
@@ -87,6 +102,9 @@ namespace Engine.Platform
             EventLayer currentFocusLayer = focusLayer;
 
             pad1Hardware.Update();
+            pad2Hardware.Update();
+            pad3Hardware.Update();
+            pad4Hardware.Update();
             mouse.capture();
             bool allowEventProcessing = true; //The first layer always gets all events
 
@@ -128,7 +146,7 @@ namespace Engine.Platform
         public void addEvent(MessageEvent messageEvent)
         {
             EventLayer layer;
-            if(eventLayers.TryGetValue(messageEvent.EventLayerKey, out layer))
+            if (eventLayers.TryGetValue(messageEvent.EventLayerKey, out layer))
             {
                 layer.addEvent(messageEvent);
             }
@@ -168,7 +186,7 @@ namespace Engine.Platform
         /// </summary>
         internal void clearFocusLayer(EventLayer layer)
         {
-            if(focusLayer == layer)
+            if (focusLayer == layer)
             {
                 focusLayer = null;
             }
@@ -204,6 +222,38 @@ namespace Engine.Platform
             get
             {
                 return keyboard;
+            }
+        }
+
+        public Gamepad Pad1
+        {
+            get
+            {
+                return pad1;
+            }
+        }
+
+        public Gamepad Pad2
+        {
+            get
+            {
+                return pad2;
+            }
+        }
+
+        public Gamepad Pad3
+        {
+            get
+            {
+                return pad3;
+            }
+        }
+
+        public Gamepad Pad4
+        {
+            get
+            {
+                return pad4;
             }
         }
 

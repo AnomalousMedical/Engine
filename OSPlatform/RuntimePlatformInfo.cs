@@ -131,7 +131,7 @@ namespace Anomalous.OSPlatform
 
         protected virtual GamepadHardware CreateGamepadHardwareImpl(Gamepad pad)
         {
-            return null;
+            return new NullGamepadHardware(pad);
         }
 
         /// <summary>

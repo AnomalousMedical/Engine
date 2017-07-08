@@ -49,11 +49,18 @@ namespace Anomalous.SidescrollerCore
                 .OnActivated(a =>
                 {
                     var i = a.Instance;
-                    i.MoveRightEvent.addButton(KeyboardButtonCode.KC_D);
-                    i.MoveLeftEvent.addButton(KeyboardButtonCode.KC_A);
-                    i.MoveUpEvent.addButton(KeyboardButtonCode.KC_W);
-                    i.MoveDownEvent.addButton(KeyboardButtonCode.KC_S);
-                    i.JumpEvent.addButton(KeyboardButtonCode.KC_SPACE);
+                    //i.MoveRightEvent.addButton(KeyboardButtonCode.KC_D);
+                    //i.MoveLeftEvent.addButton(KeyboardButtonCode.KC_A);
+                    //i.MoveUpEvent.addButton(KeyboardButtonCode.KC_W);
+                    //i.MoveDownEvent.addButton(KeyboardButtonCode.KC_S);
+                    //i.JumpEvent.addButton(KeyboardButtonCode.KC_SPACE);
+
+                    i.MoveRightEvent.addButton(GamepadButtonCode.XInput_DPadRight);
+                    i.MoveLeftEvent.addButton(GamepadButtonCode.XInput_DPadLeft);
+                    i.MoveUpEvent.addButton(GamepadButtonCode.XInput_DPadUp);
+                    i.MoveDownEvent.addButton(GamepadButtonCode.XInput_DPadDown);
+                    i.JumpEvent.addButton(GamepadButtonCode.XInput_RightShoulder);
+
                     i.Build(a.Context.Resolve<EventManager>());
                 });
 

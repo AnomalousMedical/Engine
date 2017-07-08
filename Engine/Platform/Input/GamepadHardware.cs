@@ -27,4 +27,21 @@ namespace Engine.Platform.Input
 
         public abstract void Update();
     }
+
+    public class NullGamepadHardware : GamepadHardware
+    {
+        public NullGamepadHardware(Gamepad pad) : base(pad)
+        {
+        }
+
+        public override void Dispose()
+        {
+            
+        }
+
+        public override void Update()
+        {
+            
+        }
+    }
 }

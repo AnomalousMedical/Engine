@@ -63,6 +63,7 @@ namespace OSPlatform.Win32.XInputDotNetPure
 
         public override void Update()
         {
+            //Have to poll xinput
             var state = GamePad.GetState(playerIndex);
             if(lastState.PacketNumber != state.PacketNumber)
             {

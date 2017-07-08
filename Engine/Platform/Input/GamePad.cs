@@ -33,7 +33,7 @@ namespace Engine.Platform.Input
         /// Determines if the specified button is pressed.
         /// </summary>
         /// <returns>True if the button is pressed.  False if it is not.</returns>
-        public bool buttonDown(GamepadButtonCode button)
+        public bool isButtonDown(GamepadButtonCode button)
         {
             return buttonDownStatus[(int)button];
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Engine.Platform.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,13 +24,16 @@ namespace Engine.Platform
 
         private HashSet<KeyboardButtonCode> keyboardButtons = new HashSet<KeyboardButtonCode>();
         private HashSet<MouseButtonCode> mouseButtons = new HashSet<MouseButtonCode>();
+        private HashSet<GamepadButtonCode> gamepadButtons = new HashSet<GamepadButtonCode>();
+
+        private GamepadId padId = GamepadId.Pad1;
 
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="name">The int representing the name of the event.</param>
         public ButtonEvent(object eventLayerKey)
-            :base(eventLayerKey)
+            : base(eventLayerKey)
         {
             HeldDown = false;
             ReleasedUp = true;
@@ -39,7 +43,7 @@ namespace Engine.Platform
         }
 
         public ButtonEvent(object eventLayerKey, MessageEventCallback frameDown = null, MessageEventCallback frameUp = null, IEnumerable<KeyboardButtonCode> keys = null, IEnumerable<MouseButtonCode> mouseButtons = null)
-            :this(eventLayerKey)
+            : this(eventLayerKey)
         {
             FirstFrameDownEvent += frameDown;
             FirstFrameUpEvent += frameUp;
@@ -56,6 +60,18 @@ namespace Engine.Platform
                 {
                     this.mouseButtons.Add(mouseButton);
                 }
+            }
+        }
+
+        public GamepadId PadId
+        {
+            get
+            {
+                return padId;
+            }
+            set
+            {
+                padId = value;
             }
         }
 
@@ -125,6 +141,24 @@ namespace Engine.Platform
         }
 
         /// <summary>
+        /// Add a keyboard button binding to the event.
+        /// </summary>
+        /// <param name="button">The button to add.</param>
+        public void addButton(GamepadButtonCode button)
+        {
+            gamepadButtons.Add(button);
+        }
+
+        /// <summary>
+        /// Remove a keyboard button binding from the event.
+        /// </summary>
+        /// <param name="button">The button to remove.</param>
+        public void removeButton(GamepadButtonCode button)
+        {
+            gamepadButtons.Remove(button);
+        }
+
+        /// <summary>
         /// Add a mouse button binding to the event.
         /// </summary>
         /// <param name="button">The button to add.</param>
@@ -147,6 +181,7 @@ namespace Engine.Platform
         /// </summary>
         public void clearButtons()
         {
+            gamepadButtons.Clear();
             keyboardButtons.Clear();
             mouseButtons.Clear();
             MouseWheelDirection = MouseWheelDirection.None;
@@ -164,9 +199,14 @@ namespace Engine.Platform
             {
                 String keyFormat = "{0}";
                 StringBuilder sb = new StringBuilder(25);
-                foreach(var button in keyboardButtons)
+                foreach (var button in keyboardButtons)
                 {
                     sb.AppendFormat(keyFormat, Keyboard.PrettyKeyName(button));
+                    keyFormat = "+ {0}";
+                }
+                foreach (var button in gamepadButtons)
+                {
+                    sb.AppendFormat(keyFormat, button.ToString());
                     keyFormat = "+ {0}";
                 }
                 foreach (var button in mouseButtons)
@@ -191,8 +231,8 @@ namespace Engine.Platform
                         HeldDown = true;
                         FirstFrameDown = false;
                     }
-                
-                    if(HeldDown)
+
+                    if (HeldDown)
                     {
                         if (OnHeldDown != null)
                         {
@@ -210,7 +250,7 @@ namespace Engine.Platform
                         {
                             FirstFrameDownEvent.Invoke(eventLayer);
                         }
-                        if(OnDown != null)
+                        if (OnDown != null)
                         {
                             OnDown.Invoke(eventLayer);
                         }
@@ -240,13 +280,13 @@ namespace Engine.Platform
                 case ButtonScanResult.DownAndUpThisFrame:
                     DownAndUpThisFrame = true;
                     FirstFrameDown = true;
-                    if(FirstFrameDownEvent != null)
+                    if (FirstFrameDownEvent != null)
                     {
                         FirstFrameDownEvent.Invoke(eventLayer);
                     }
                     FirstFrameUp = true;
                     FirstFrameDown = false;
-                    if(FirstFrameUpEvent != null)
+                    if (FirstFrameUpEvent != null)
                     {
                         FirstFrameUpEvent.Invoke(eventLayer);
                     }
@@ -273,7 +313,8 @@ namespace Engine.Platform
         {
             Mouse mouse = eventLayer.Mouse;
             Keyboard keyboard = eventLayer.Keyboard;
-            bool allActivated = keyboardButtons.Count + mouseButtons.Count > 0 || MouseWheelDirection > 0;
+            Gamepad pad = eventLayer.getGamepad(padId);
+            bool allActivated = keyboardButtons.Count + mouseButtons.Count + gamepadButtons.Count > 0 || MouseWheelDirection > 0;
             bool anyDownUpThisFrame = false;
             bool currentDownUpThisFrame;
             if (allActivated)
@@ -284,6 +325,17 @@ namespace Engine.Platform
                     if (!allActivated)
                     {
                         break;
+                    }
+                }
+                if (allActivated)
+                {
+                    foreach (var keyCode in gamepadButtons)
+                    {
+                        allActivated &= pad.isButtonDown(keyCode);
+                        if (!allActivated)
+                        {
+                            break;
+                        }
                     }
                 }
                 if (allActivated)
@@ -301,7 +353,7 @@ namespace Engine.Platform
                 }
                 if (allActivated)
                 {
-                    switch(MouseWheelDirection)
+                    switch (MouseWheelDirection)
                     {
                         case MouseWheelDirection.Up:
                             allActivated &= mouse.RelativePosition.z > 0;
@@ -312,9 +364,9 @@ namespace Engine.Platform
                     }
                 }
             }
-            if(allActivated)
+            if (allActivated)
             {
-                if(anyDownUpThisFrame)
+                if (anyDownUpThisFrame)
                 {
                     return ButtonScanResult.DownAndUpThisFrame;
                 }

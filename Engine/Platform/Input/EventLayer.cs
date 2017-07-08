@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Engine.Platform.Input;
 
 namespace Engine.Platform
 {
@@ -137,6 +138,23 @@ namespace Engine.Platform
             get
             {
                 return EventManager.Keyboard;
+            }
+        }
+
+        public Gamepad getGamepad(GamepadId padId)
+        {
+            switch (padId)
+            {
+                case GamepadId.Pad1:
+                    return EventManager.Pad1;
+                case GamepadId.Pad2:
+                    return EventManager.Pad2;
+                case GamepadId.Pad3:
+                    return EventManager.Pad3;
+                case GamepadId.Pad4:
+                    return EventManager.Pad4;
+                default:
+                    throw new NotSupportedException($"Cannot get gamepad with id {padId}");
             }
         }
 
