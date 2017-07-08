@@ -66,7 +66,11 @@ namespace Anomalous.GameApp
             builder.RegisterType<SceneController>()
                 .IfNotRegistered(typeof(SceneController))
                 .SingleInstance()
-                .As<SceneController>();
+                .As<SceneController>()
+                .OnActivated(a =>
+                {
+                    a.Instance.setDynamicMode(true);
+                });
 
             builder.RegisterType<VirtualTextureSceneViewLink>()
                 .IfNotRegistered(typeof(VirtualTextureSceneViewLink))

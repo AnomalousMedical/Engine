@@ -7,6 +7,7 @@ using Anomalous.TilesetPlugin;
 using Autofac;
 using Engine;
 using Engine.ObjectManagement;
+using Engine.Platform.Input;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -45,6 +46,14 @@ namespace GameAppTest
             //    .SingleInstance();
 
             //Register gui services
+
+            builder.Register(c => new EventLayerKeyInjector<FireControls>(EventLayers.Game))
+                .SingleInstance()
+                .As<IEventLayerKeyInjector<FireControls>>();
+
+            builder.Register(c => new EventLayerKeyInjector<PlayerControls>(EventLayers.Game))
+                .SingleInstance()
+                .As<IEventLayerKeyInjector<PlayerControls>>();
 
             builder.RegisterType<DocumentController>()
                 .SingleInstance();

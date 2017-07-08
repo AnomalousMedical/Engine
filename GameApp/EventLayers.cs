@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Anomalous.GameApp.Config
+namespace Anomalous.GameApp
 {
     public enum EventLayers
     {
