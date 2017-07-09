@@ -36,9 +36,11 @@ namespace Engine.Platform
         Button12 = 12, XInput_DPadLeft = 12,
         Button13 = 13, XInput_DPadRight = 13,
         Button14 = 14, XInput_Guide = 14,
-        Button15 = 15,
-        Button16 = 16,
-        NUM_BUTTONS = 17,
+        Button15 = 15, XInput_C = 15,
+        Button16 = 16, XInput_Z = 16,
+        Button17 = 17, XInput_LTrigger = 17,
+        Button18 = 18, XInput_RTrigger = 18,
+        NUM_BUTTONS = 19,
     };
 
     /// <summary>

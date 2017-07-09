@@ -69,20 +69,61 @@ namespace Anomalous.OSPlatform.Android
 
         public override bool DispatchKeyEvent(KeyEvent e)
         {
+            //You can handle multiple controllers by watching them connect and disconnect, will do later
+            //https://developer.android.com/training/game-controllers/multiple-controllers.html
+            //Getting weird values for source, so not checking it for now, buttons are specifically joystick anyway
+            //if ((e.Source & InputSourceType.ClassJoystick) == InputSourceType.ClassJoystick)
+            //{
+            //    Log.Debug("woot", $"Source blocked {e.KeyCode}");
+            //    return true;
+            //}
             switch (e.KeyCode)
             {
                 case Keycode.ButtonA:
                 case Keycode.ButtonB:
-                    Log.Debug("woot", $"Dispatch key event block button {e.KeyCode}");
+                case Keycode.ButtonC:
+                case Keycode.ButtonL1:
+                case Keycode.ButtonL2:
+                case Keycode.ButtonMode:
+                case Keycode.ButtonR1:
+                case Keycode.ButtonR2:
+                case Keycode.ButtonSelect:
+                case Keycode.ButtonStart:
+                case Keycode.ButtonThumbl:
+                case Keycode.ButtonThumbr:
+                case Keycode.ButtonX:
+                case Keycode.ButtonY:
+                case Keycode.ButtonZ:
+                case Keycode.Button1:
+                case Keycode.Button2:
+                case Keycode.Button3:
+                case Keycode.Button4:
+                case Keycode.Button5:
+                case Keycode.Button6:
+                case Keycode.Button7:
+                case Keycode.Button8:
+                case Keycode.Button9:
+                case Keycode.Button10:
+                case Keycode.Button11:
+                case Keycode.Button12:
+                case Keycode.Button13:
+                case Keycode.Button14:
+                case Keycode.Button15:
+                case Keycode.Button16:
+                    Log.Debug("woot", $"Dispatch key event block button {e.KeyCode} {e.Source} {e.DeviceId}");
                     return true;
             }
-            Log.Debug("woot", $"Dispatch key event {e.KeyCode}");
             return base.DispatchKeyEvent(e);
         }
 
         public override bool DispatchGenericMotionEvent(MotionEvent ev)
         {
-            Log.Debug("woot", $"Dispatch generic motion {ev.Action} {ev.Device.Name} {ev.Source}");
+            if(ev.Source == InputSourceType.Joystick)
+            {
+                Log.Debug("woot", $"Dispatch generic motion {ev.Action} {ev.Device.Name} {ev.Source}");
+                return true;
+            }
+
             return base.DispatchGenericMotionEvent(ev);
         }
 
