@@ -14,6 +14,7 @@ using MyGUIPlugin;
 using OgrePlugin;
 using SoundPlugin;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
@@ -137,24 +138,27 @@ namespace Anomalous.GameApp
 
             pluginManager = new PluginManager(CoreConfig.ConfigFile, builder);
 
-            var systemTimer = new NativeSystemTimer();
-            builder.RegisterInstance(systemTimer)
+            builder.RegisterType<NativeSystemTimer>()
+                .IfNotRegistered(typeof(SystemTimer))
+                .SingleInstance()
                 .As<SystemTimer>();
 
-            var mainTimer = new NativeUpdateTimer(systemTimer);
-            builder.RegisterInstance(mainTimer)
+            builder.RegisterType<NativeUpdateTimer>()
+                .IfNotRegistered(typeof(UpdateTimer))
+                .SingleInstance()
                 .As<UpdateTimer>()
                 .As<NativeUpdateTimer>();
 
-            var inputHandler = new NativeInputHandler(mainWindow, CoreConfig.EnableMultitouch);
-            this.InputHandler = inputHandler;
-            builder.RegisterInstance(inputHandler)
+            builder.Register(c => new NativeInputHandler(c.Resolve<NativeOSWindow>(), CoreConfig.EnableMultitouch))
+                .IfNotRegistered(typeof(InputHandler))
+                .SingleInstance()
                 .As<InputHandler>();
 
-            var eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
-            builder.RegisterInstance(eventManager)
+            builder.RegisterType<EventManager>()
+                .WithParameter(new TypedParameter(typeof(IEnumerable), Enum.GetValues(typeof(EventLayers))))
+                .SingleInstance()
                 .As<EventManager>();
-
+                
             MyGUIInterface.EventLayerKey = EventLayers.Gui;
             MyGUIInterface.CreateGuiGestures = CoreConfig.EnableMultitouch && PlatformConfig.TouchType == TouchType.Screen;
 
@@ -200,6 +204,13 @@ namespace Anomalous.GameApp
                 pluginManager.addPluginAssembly(assembly);
             }
             pluginManager.initializePlugins();
+
+            var scope = pluginManager.GlobalScope;
+
+            var systemTimer = scope.Resolve<SystemTimer>();
+            var mainTimer = scope.Resolve<UpdateTimer>();
+            var inputHandler = this.InputHandler = scope.Resolve<InputHandler>();
+            var eventManager = scope.Resolve<EventManager>();
 
             //Intialize the platform
             BulletInterface.Instance.ShapeMargin = 0.005f;
