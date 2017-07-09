@@ -36,7 +36,7 @@ namespace GameAppTestAndroid
         public MainActivity()
             : base(GameAppTestAndroid.Resource.Layout.Main, GameAppTestAndroid.Resource.Id.editText1)
         {
-
+            Logging.Log.Default.addLogListener(new Logging.LogConsoleListener());
         }
 
         protected override void createApp()

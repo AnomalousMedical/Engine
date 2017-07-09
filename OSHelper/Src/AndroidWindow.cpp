@@ -102,7 +102,10 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 	eventType = AInputEvent_getType(event);
 	if (eventType == AINPUT_EVENT_TYPE_MOTION)
 	{
-		//int deviceId = AInputEvent_getDeviceId(event); //We can use this to identify if we are a mouse or the touchscreen or something else
+		int32_t source = AInputEvent_getSource(event);
+		if (source != AINPUT_SOURCE_TOUCHSCREEN) {
+			return 0; //Break out if source is not a touchscreen
+		}
 
 		eventAction = AMotionEvent_getAction(event);
 		action = (int)(AMOTION_EVENT_ACTION_MASK & eventAction);

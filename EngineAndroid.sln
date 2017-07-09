@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.4
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Engine", "Engine\Engine.csproj", "{57C253F1-157F-4A6A-9FED-345A776B97D5}"
 EndProject
@@ -72,6 +72,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameAppTest", "GameAppTest\GameAppTest.csproj", "{61C8E27C-C6F8-4372-B0AB-89ECDBF904FF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameAppTestAndroid", "GameAppTestAndroid\GameAppTestAndroid.csproj", "{752B379D-B5BC-4076-AA80-C48911ED5ABD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SidescrollerCore", "SidescrollerCore\SidescrollerCore.csproj", "{823E9444-215A-4215-BAA2-155DFBC7498E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TilesetPlugin", "TilesetPlugin\TilesetPlugin.csproj", "{E443D1BA-B2AE-4625-A006-1EE19B90C464}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -648,6 +652,42 @@ Global
 		{752B379D-B5BC-4076-AA80-C48911ED5ABD}.RelMDeb|x86.ActiveCfg = Release|Any CPU
 		{752B379D-B5BC-4076-AA80-C48911ED5ABD}.RelMDeb|x86.Build.0 = Release|Any CPU
 		{752B379D-B5BC-4076-AA80-C48911ED5ABD}.RelMDeb|x86.Deploy.0 = Release|Any CPU
+		{823E9444-215A-4215-BAA2-155DFBC7498E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{823E9444-215A-4215-BAA2-155DFBC7498E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{823E9444-215A-4215-BAA2-155DFBC7498E}.Debug|arm.ActiveCfg = Debug|Any CPU
+		{823E9444-215A-4215-BAA2-155DFBC7498E}.Debug|arm.Build.0 = Debug|Any CPU
+		{823E9444-215A-4215-BAA2-155DFBC7498E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{823E9444-215A-4215-BAA2-155DFBC7498E}.Debug|x86.Build.0 = Debug|Any CPU
+		{823E9444-215A-4215-BAA2-155DFBC7498E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{823E9444-215A-4215-BAA2-155DFBC7498E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{823E9444-215A-4215-BAA2-155DFBC7498E}.Release|arm.ActiveCfg = Release|Any CPU
+		{823E9444-215A-4215-BAA2-155DFBC7498E}.Release|arm.Build.0 = Release|Any CPU
+		{823E9444-215A-4215-BAA2-155DFBC7498E}.Release|x86.ActiveCfg = Release|Any CPU
+		{823E9444-215A-4215-BAA2-155DFBC7498E}.Release|x86.Build.0 = Release|Any CPU
+		{823E9444-215A-4215-BAA2-155DFBC7498E}.RelMDeb|Any CPU.ActiveCfg = Release|Any CPU
+		{823E9444-215A-4215-BAA2-155DFBC7498E}.RelMDeb|Any CPU.Build.0 = Release|Any CPU
+		{823E9444-215A-4215-BAA2-155DFBC7498E}.RelMDeb|arm.ActiveCfg = Release|Any CPU
+		{823E9444-215A-4215-BAA2-155DFBC7498E}.RelMDeb|arm.Build.0 = Release|Any CPU
+		{823E9444-215A-4215-BAA2-155DFBC7498E}.RelMDeb|x86.ActiveCfg = Release|Any CPU
+		{823E9444-215A-4215-BAA2-155DFBC7498E}.RelMDeb|x86.Build.0 = Release|Any CPU
+		{E443D1BA-B2AE-4625-A006-1EE19B90C464}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E443D1BA-B2AE-4625-A006-1EE19B90C464}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E443D1BA-B2AE-4625-A006-1EE19B90C464}.Debug|arm.ActiveCfg = Debug|Any CPU
+		{E443D1BA-B2AE-4625-A006-1EE19B90C464}.Debug|arm.Build.0 = Debug|Any CPU
+		{E443D1BA-B2AE-4625-A006-1EE19B90C464}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E443D1BA-B2AE-4625-A006-1EE19B90C464}.Debug|x86.Build.0 = Debug|Any CPU
+		{E443D1BA-B2AE-4625-A006-1EE19B90C464}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E443D1BA-B2AE-4625-A006-1EE19B90C464}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E443D1BA-B2AE-4625-A006-1EE19B90C464}.Release|arm.ActiveCfg = Release|Any CPU
+		{E443D1BA-B2AE-4625-A006-1EE19B90C464}.Release|arm.Build.0 = Release|Any CPU
+		{E443D1BA-B2AE-4625-A006-1EE19B90C464}.Release|x86.ActiveCfg = Release|Any CPU
+		{E443D1BA-B2AE-4625-A006-1EE19B90C464}.Release|x86.Build.0 = Release|Any CPU
+		{E443D1BA-B2AE-4625-A006-1EE19B90C464}.RelMDeb|Any CPU.ActiveCfg = Release|Any CPU
+		{E443D1BA-B2AE-4625-A006-1EE19B90C464}.RelMDeb|Any CPU.Build.0 = Release|Any CPU
+		{E443D1BA-B2AE-4625-A006-1EE19B90C464}.RelMDeb|arm.ActiveCfg = Release|Any CPU
+		{E443D1BA-B2AE-4625-A006-1EE19B90C464}.RelMDeb|arm.Build.0 = Release|Any CPU
+		{E443D1BA-B2AE-4625-A006-1EE19B90C464}.RelMDeb|x86.ActiveCfg = Release|Any CPU
+		{E443D1BA-B2AE-4625-A006-1EE19B90C464}.RelMDeb|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

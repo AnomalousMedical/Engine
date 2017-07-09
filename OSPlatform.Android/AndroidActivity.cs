@@ -67,6 +67,25 @@ namespace Anomalous.OSPlatform.Android
             Window.SetSoftInputMode(SoftInput.StateAlwaysHidden);
         }
 
+        public override bool DispatchKeyEvent(KeyEvent e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keycode.ButtonA:
+                case Keycode.ButtonB:
+                    Log.Debug("woot", $"Dispatch key event block button {e.KeyCode}");
+                    return true;
+            }
+            Log.Debug("woot", $"Dispatch key event {e.KeyCode}");
+            return base.DispatchKeyEvent(e);
+        }
+
+        public override bool DispatchGenericMotionEvent(MotionEvent ev)
+        {
+            Log.Debug("woot", $"Dispatch generic motion {ev.Action} {ev.Device.Name} {ev.Source}");
+            return base.DispatchGenericMotionEvent(ev);
+        }
+
         /// <summary>
         /// Call this function to kill the app process, ideally this is done at the end of OnDestroy in your client app.
         /// </summary>
