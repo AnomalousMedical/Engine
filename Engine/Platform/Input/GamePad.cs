@@ -13,6 +13,11 @@ namespace Engine.Platform.Input
         private bool[] downAndUpThisFrame = new bool[(int)GamepadButtonCode.NUM_BUTTONS];
         private EventManager eventManager;
 
+        public Vector2 LStick { get; private set; }
+        public Vector2 RStick { get; private set; }
+        public float LTrigger { get; private set; }
+        public float RTrigger { get; private set; }
+
         /// <summary>
         /// Called when a mouse button is pressed.
         /// </summary>
@@ -120,6 +125,14 @@ namespace Engine.Platform.Input
                     ButtonUp.Invoke(this, button);
                 }
             }
+        }
+
+        internal void fireMovement(Vector2 lStick, Vector2 rStick, float lTrigger, float rTrigger)
+        {
+            this.LStick = lStick;
+            this.RStick = rStick;
+            this.LTrigger = lTrigger;
+            this.RTrigger = rTrigger;
         }
 
         public GamepadId Id { get; private set; }

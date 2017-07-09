@@ -25,6 +25,11 @@ namespace Engine.Platform.Input
             pad.fireButtonUp(button);
         }
 
+        protected void fireMovement(Vector2 lStick, Vector2 rStick, float lTrigger, float rTrigger)
+        {
+            pad.fireMovement(lStick, rStick, lTrigger, rTrigger);
+        }
+
         public abstract void Update();
     }
 

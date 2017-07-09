@@ -84,6 +84,12 @@ namespace OSPlatform.Win32.XInputDotNetPure
                 process(lastState.DPad.Left, state.DPad.Left, GamepadButtonCode.XInput_DPadLeft);
                 process(lastState.DPad.Right, state.DPad.Right, GamepadButtonCode.XInput_DPadRight);
 
+                this.fireMovement(
+                    new Engine.Vector2(lastState.ThumbSticks.Left.X, lastState.ThumbSticks.Left.Y),
+                    new Engine.Vector2(lastState.ThumbSticks.Right.X, lastState.ThumbSticks.Right.Y),
+                    lastState.Triggers.Left, 
+                    lastState.Triggers.Right);
+
                 this.lastState = state;
             }
         }

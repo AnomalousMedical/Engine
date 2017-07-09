@@ -43,14 +43,6 @@
       <Link>Android\libgnustl_shared.so</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="$(ANDROID_NDK)\sources\cxx-stl\gnu-libstdc++\4.9\libs\x86\libgnustl_shared.so">
-      <Link>x86-Android-NVIDIA\libgnustl_shared.so</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\Dependencies\OgreDeps\AndroidInstall\lib\libFreeImage.so">
-      <Link>Android\libFreeImage.so</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
