@@ -119,8 +119,7 @@ namespace GameAppTest
 
         public void Initialized(GameApp app, PluginManager pluginManager)
         {
-            VirtualFileSystem.Instance.addArchive("/storage/emulated/0/RpgArt");
-            //VirtualFileSystem.Instance.addArchive("C:\\Development\\Anomalous\\RpgArt");
+            VirtualFileSystem.Instance.addArchive(app.PrimaryArchivePath);
 
             var scope = pluginManager.GlobalScope;
 

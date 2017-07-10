@@ -22,6 +22,7 @@ namespace GameAppTestWin32
             try
             {
                 app = new GameApp(new Startup());
+                app.PrimaryArchivePath = "C:\\Development\\Anomalous\\RpgArt";
                 app.run();
             }
             catch (Exception e)

@@ -90,6 +90,7 @@ namespace GameAppTestAndroid
 #endif
 
             app = new GameApp(new Startup());
+            app.PrimaryArchivePath = "/storage/emulated/0/RpgArt";
             app.Initialized += App_Initialized;
             app.run();
         }

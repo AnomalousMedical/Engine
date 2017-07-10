@@ -264,5 +264,7 @@ namespace Anomalous.GameApp
         }
 
         public InputHandler InputHandler { get; private set; }
+
+        public String PrimaryArchivePath { get; set; }
     }
 }
