@@ -119,6 +119,7 @@ namespace GameAppTest
 
         public void Initialized(GameApp app, PluginManager pluginManager)
         {
+            VirtualFileSystem.Instance.addArchive("/storage/emulated/0/RpgArt");
             //VirtualFileSystem.Instance.addArchive("C:\\Development\\Anomalous\\RpgArt");
 
             var scope = pluginManager.GlobalScope;
@@ -138,7 +139,7 @@ namespace GameAppTest
             var sceneController = scope.Resolve<SceneController>();
             sceneController.OnSceneLoaded += SceneController_OnSceneLoaded;
             sceneController.OnSceneUnloading += SceneController_OnSceneUnloading;
-            //sceneController.loadSceneDefinition("Scenes\\TestLevel.sim.xml");
+            sceneController.loadSceneDefinition("Scenes\\TestLevel.sim.xml");
         }
 
         private void SceneController_OnSceneLoaded(SceneController controller, SimScene scene)
