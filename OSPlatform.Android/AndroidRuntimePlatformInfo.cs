@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Engine.Platform.Input;
 
 namespace Anomalous.OSPlatform.Android
 {
@@ -77,6 +78,11 @@ namespace Anomalous.OSPlatform.Android
                 //ANROID_FIXLATER: probably not right
                 return RestartProcInfo;
             }
+        }
+
+        protected override GamepadHardware CreateGamepadHardwareImpl(Gamepad pad)
+        {
+            return new AndroidGamepad(pad);
         }
     }
 }

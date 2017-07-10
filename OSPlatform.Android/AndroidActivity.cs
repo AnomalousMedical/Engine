@@ -69,62 +69,26 @@ namespace Anomalous.OSPlatform.Android
 
         public override bool DispatchKeyEvent(KeyEvent e)
         {
-            //You can handle multiple controllers by watching them connect and disconnect, will do later
-            //https://developer.android.com/training/game-controllers/multiple-controllers.html
-            //Getting weird values for source, so not checking it for now, buttons are specifically joystick anyway
-            //if ((e.Source & InputSourceType.ClassJoystick) == InputSourceType.ClassJoystick)
-            //{
-            //    Log.Debug("woot", $"Source blocked {e.KeyCode}");
-            //    return true;
-            //}
-            switch (e.KeyCode)
+            if (AndroidGamepad.IsJoystickEvent(e))
             {
-                case Keycode.ButtonA:
-                case Keycode.ButtonB:
-                case Keycode.ButtonC:
-                case Keycode.ButtonL1:
-                case Keycode.ButtonL2:
-                case Keycode.ButtonMode:
-                case Keycode.ButtonR1:
-                case Keycode.ButtonR2:
-                case Keycode.ButtonSelect:
-                case Keycode.ButtonStart:
-                case Keycode.ButtonThumbl:
-                case Keycode.ButtonThumbr:
-                case Keycode.ButtonX:
-                case Keycode.ButtonY:
-                case Keycode.ButtonZ:
-                case Keycode.Button1:
-                case Keycode.Button2:
-                case Keycode.Button3:
-                case Keycode.Button4:
-                case Keycode.Button5:
-                case Keycode.Button6:
-                case Keycode.Button7:
-                case Keycode.Button8:
-                case Keycode.Button9:
-                case Keycode.Button10:
-                case Keycode.Button11:
-                case Keycode.Button12:
-                case Keycode.Button13:
-                case Keycode.Button14:
-                case Keycode.Button15:
-                case Keycode.Button16:
-                    Log.Debug("woot", $"Dispatch key event block button {e.KeyCode} {e.Source} {e.DeviceId}");
-                    return true;
+                AndroidGamepad.GetPad(GamepadId.Pad1).HandleJoystickEvent(e);
+                return true; //Handled
             }
-            return base.DispatchKeyEvent(e);
+            else
+            {
+                return base.DispatchKeyEvent(e); //See what base has to say
+            }
         }
 
         public override bool DispatchGenericMotionEvent(MotionEvent ev)
         {
-            if(ev.Source == InputSourceType.Joystick)
+            if (AndroidGamepad.IsJoystickEvent(ev))
             {
-                Log.Debug("woot", $"Dispatch generic motion {ev.Action} {ev.Device.Name} {ev.Source}");
-                return true;
+                AndroidGamepad.GetPad(GamepadId.Pad1).HandleJoystickEvent(ev);
+                return true; //Handled
             }
 
-            return base.DispatchGenericMotionEvent(ev);
+            return base.DispatchGenericMotionEvent(ev); //See what base has to say
         }
 
         /// <summary>
@@ -167,20 +131,20 @@ namespace Anomalous.OSPlatform.Android
                 fireInputs = true;
 
                 InputMethodManager inputMethod = GetSystemService(InputMethodService) as InputMethodManager;
-                switch(mode)
+                switch (mode)
                 {
                     case OnscreenKeyboardMode.Hidden:
                         inputMethod.HideSoftInputFromWindow(editText.WindowToken, 0);
-                        break;                        
+                        break;
                     case OnscreenKeyboardMode.Secure:
                         editText.InputType = InputTypes.TextVariationWebPassword;
                         inputMethod.ShowSoftInput(editText, ShowFlags.Forced);
                         break;
-                    //Make normal and default the same in case we add a type but we haven't added it here yet.
-                    case OnscreenKeyboardMode.Normal:
+                //Make normal and default the same in case we add a type but we haven't added it here yet.
+                case OnscreenKeyboardMode.Normal:
                     default:
-                        //editText.InputType = InputTypes.ClassText | InputTypes.TextFlagMultiLine; //Allows for autocorrect
-                        editText.InputType = InputTypes.TextVariationWebPassword | InputTypes.TextFlagMultiLine;
+                    //editText.InputType = InputTypes.ClassText | InputTypes.TextFlagMultiLine; //Allows for autocorrect
+                    editText.InputType = InputTypes.TextVariationWebPassword | InputTypes.TextFlagMultiLine;
                         inputMethod.ShowSoftInput(editText, ShowFlags.Forced);
                         break;
                 }
@@ -211,15 +175,15 @@ namespace Anomalous.OSPlatform.Android
                     int count = e.BeforeCount - e.AfterCount;
                     ThreadManager.invoke(() =>
                     {
-                        //Inject the backspace count on the main thread
-                        for (int i = 0; i < count; ++i)
+                    //Inject the backspace count on the main thread
+                    for (int i = 0; i < count; ++i)
                         {
                             inputHandler.injectKeyPressed(Engine.Platform.KeyboardButtonCode.KC_BACK, 0);
                             inputHandler.injectKeyReleased(Engine.Platform.KeyboardButtonCode.KC_BACK);
                         }
                     });
                 }
-            } 
+            }
         }
 
         public float DeviceSizeInches

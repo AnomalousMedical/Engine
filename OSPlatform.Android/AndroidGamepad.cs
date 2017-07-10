@@ -13,7 +13,7 @@ using Engine.Platform.Input;
 using Engine.Platform;
 using Logging;
 
-namespace OSPlatform.Android
+namespace Anomalous.OSPlatform.Android
 {
     class AndroidGamepad : GamepadHardware
     {
@@ -22,45 +22,26 @@ namespace OSPlatform.Android
         public static AndroidGamepad Pad3 { get; private set; }
         public static AndroidGamepad Pad4 { get; private set; }
 
-        public AndroidGamepad(Gamepad pad) : base(pad)
+        public static AndroidGamepad GetPad(GamepadId pad)
         {
-            switch (pad.Id)
+            switch (pad)
             {
                 case GamepadId.Pad1:
-                    Pad1 = this;
-                    break;
+                    return Pad1;
                 case GamepadId.Pad2:
-                    Pad2 = this;
-                    break;
+                    return Pad2;
                 case GamepadId.Pad3:
-                    Pad3 = this;
-                    break;
+                    return Pad3;
                 case GamepadId.Pad4:
-                    Pad4 = this;
-                    break;
+                    return Pad4;
             }
+            throw new NotSupportedException($"Cannot find gamepad {pad}");
         }
 
-        public override void Dispose()
+        public static bool IsJoystickEvent(KeyEvent e)
         {
-            
-        }
-
-        public override void Update()
-        {
-            
-        }
-
-        public bool DispatchKeyEvent(KeyEvent e)
-        {
-            //You can handle multiple controllers by watching them connect and disconnect, will do later
-            //https://developer.android.com/training/game-controllers/multiple-controllers.html
             //Getting weird values for source, so not checking it for now, buttons are specifically joystick anyway
             //if ((e.Source & InputSourceType.ClassJoystick) == InputSourceType.ClassJoystick)
-            //{
-            //    Log.Debug("woot", $"Source blocked {e.KeyCode}");
-            //    return true;
-            //}
             switch (e.KeyCode)
             {
                 case Keycode.ButtonA:
@@ -94,22 +75,66 @@ namespace OSPlatform.Android
                 case Keycode.Button14:
                 case Keycode.Button15:
                 case Keycode.Button16:
-                    Log.Debug("woot", $"Dispatch key event block button {e.KeyCode} {e.Source} {e.DeviceId}");
                     return true;
             }
-
             return false;
         }
 
-        public bool DispatchGenericMotionEvent(MotionEvent ev)
+        public static bool IsJoystickEvent(MotionEvent ev)
         {
-            if (ev.Source == InputSourceType.Joystick)
-            {
-                Log.Debug("woot", $"Dispatch generic motion {ev.Action} {ev.Device.Name} {ev.Source}");
-                return true;
-            }
+            return ev.Source == InputSourceType.Joystick;
+        }
 
-            return false;
+        public AndroidGamepad(Gamepad pad) : base(pad)
+        {
+            switch (pad.Id)
+            {
+                case GamepadId.Pad1:
+                    Pad1 = this;
+                    break;
+                case GamepadId.Pad2:
+                    Pad2 = this;
+                    break;
+                case GamepadId.Pad3:
+                    Pad3 = this;
+                    break;
+                case GamepadId.Pad4:
+                    Pad4 = this;
+                    break;
+            }
+        }
+
+        public override void Dispose()
+        {
+
+        }
+
+        public override void Update()
+        {
+
+        }
+
+        /// <summary>
+        /// Fire a key event, it should be known to be a joystick event before calling this.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public void HandleJoystickEvent(KeyEvent e)
+        {
+            //You can handle multiple controllers by watching them connect and disconnect, will do later
+            //https://developer.android.com/training/game-controllers/multiple-controllers.html
+
+            Log.Debug($"AndroidGamepad key event block button {e.KeyCode} {e.Source} {e.DeviceId}");
+        }
+
+        /// <summary>
+        /// Fire a generic motion event, it should be known to be a joystick event before calling this.
+        /// </summary>
+        /// <param name="ev"></param>
+        /// <returns></returns>
+        public void HandleJoystickEvent(MotionEvent ev)
+        {
+            Log.Debug($"AndroidGamepad generic motion {ev.Action} {ev.Device.Name} {ev.Source}");
         }
 
         private GamepadButtonCode KeycodeToButton(Keycode code)
