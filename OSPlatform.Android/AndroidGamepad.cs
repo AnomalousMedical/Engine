@@ -85,6 +85,8 @@ namespace Anomalous.OSPlatform.Android
             return ev.Source == InputSourceType.Joystick;
         }
 
+        private bool[] keysDown = new bool[(int)GamepadButtonCode.NUM_BUTTONS];
+
         public AndroidGamepad(Gamepad pad) : base(pad)
         {
             switch (pad.Id)
@@ -124,7 +126,28 @@ namespace Anomalous.OSPlatform.Android
             //You can handle multiple controllers by watching them connect and disconnect, will do later
             //https://developer.android.com/training/game-controllers/multiple-controllers.html
 
-            Log.Debug($"AndroidGamepad key event block button {e.KeyCode} {e.Source} {e.DeviceId}");
+            var button = KeycodeToButton(e.KeyCode);
+            bool last, current;
+            switch (e.Action)
+            {
+                case KeyEventActions.Down:
+                    if (e.RepeatCount == 0)
+                    {
+                        last = keysDown[(int)button];
+                        keysDown[(int)button] = current = true;
+                        process(last, current, button);
+                        //Log.Debug($"AndroidGamepad down {e.KeyCode} {e.Action}");
+                    }
+                    break;
+                case KeyEventActions.Up:
+                    last = keysDown[(int)button];
+                    keysDown[(int)button] = current = false;
+                    process(last, current, button);
+                    //Log.Debug($"AndroidGamepad button up {e.KeyCode} {e.Action}");
+                    break;
+            }
+
+            //Log.Debug($"AndroidGamepad button {e.KeyCode} {e.Action}");
         }
 
         /// <summary>
@@ -134,7 +157,51 @@ namespace Anomalous.OSPlatform.Android
         /// <returns></returns>
         public void HandleJoystickEvent(MotionEvent ev)
         {
-            Log.Debug($"AndroidGamepad generic motion {ev.Action} {ev.Device.Name} {ev.Source}");
+            var hatx = ev.GetAxisValue(Axis.HatX);
+            var haty = ev.GetAxisValue(Axis.HatY);
+            bool last, current;
+
+            var key = GamepadButtonCode.XInput_DPadUp;
+            last = keysDown[(int)key];
+            keysDown[(int)key] = current = haty < -0.1f;
+            process(last, current, key);
+
+            key = GamepadButtonCode.XInput_DPadDown;
+            last = keysDown[(int)key];
+            keysDown[(int)key] = current = haty > 0.1f; 
+            process(last, current, key);
+
+            key = GamepadButtonCode.XInput_DPadLeft;
+            last = keysDown[(int)key];
+            keysDown[(int)key] = current = hatx < -0.1f;
+            process(last, current, key);
+
+            key = GamepadButtonCode.XInput_DPadRight;
+            last = keysDown[(int)key];
+            keysDown[(int)key] = current = hatx > 0.1f;
+            process(last, current, key);
+
+            var pp = new MotionEvent.PointerProperties();
+            var pointerCount = ev.PointerCount;
+            for(int i = 0; i < pointerCount; ++i)
+            {
+                ev.GetPointerProperties(i, pp);
+                Log.Debug($"AndroidGamepad motion {ev.Action} {ev.GetPointerId(i)} lstick {ev.GetX()} {ev.GetY()} dpad {ev.GetAxisValue(Axis.HatX)} {ev.GetAxisValue(Axis.HatY)}");
+            }
+        }
+
+        private void process(bool last, bool current, GamepadButtonCode code)
+        {
+            if (!last && current)
+            {
+                this.fireButtonDown(code);
+                Log.Debug($"Button {code} down");
+            }
+            else if (last && !current)
+            {
+                this.fireButtonUp(code);
+                Log.Debug($"Button {code} up");
+            }
         }
 
         private GamepadButtonCode KeycodeToButton(Keycode code)
@@ -171,6 +238,14 @@ namespace Anomalous.OSPlatform.Android
                     return GamepadButtonCode.XInput_Y;
                 case Keycode.ButtonZ:
                     return GamepadButtonCode.XInput_Z;
+                case Keycode.DpadUp:
+                    return GamepadButtonCode.XInput_DPadUp;
+                case Keycode.DpadDown:
+                    return GamepadButtonCode.XInput_DPadDown;
+                case Keycode.DpadLeft:
+                    return GamepadButtonCode.XInput_DPadLeft;
+                case Keycode.DpadRight:
+                    return GamepadButtonCode.XInput_DPadRight;
                 case Keycode.Button1:
                     return GamepadButtonCode.Button1;
                 case Keycode.Button2:
