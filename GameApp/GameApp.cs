@@ -186,9 +186,13 @@ namespace Anomalous.GameApp
                 mainWindow.show();
             };
 
+            //GuiFrameworkCamerasInterface.CameraTransitionTime = MedicalConfig.CameraTransitionTime;
+            //GuiFrameworkCamerasInterface.DefaultCameraButton = MedicalConfig.CameraMouseButton;
             GuiFrameworkCamerasInterface.MoveCameraEventLayer = EventLayers.Cameras;
             GuiFrameworkCamerasInterface.SelectWindowEventLayer = EventLayers.AfterGui;
             GuiFrameworkCamerasInterface.ShortcutEventLayer = EventLayers.AfterGui;
+            GuiFrameworkCamerasInterface.TouchType = PlatformConfig.TouchType;
+            GuiFrameworkCamerasInterface.PanKey = PlatformConfig.PanKey;
 
             pluginManager.addPluginAssembly(typeof(OgreInterface).Assembly());
             pluginManager.addPluginAssembly(typeof(BulletInterface).Assembly());
