@@ -12,6 +12,7 @@ using Android.Widget;
 using Engine.Platform.Input;
 using Engine.Platform;
 using Logging;
+using Engine;
 
 namespace Anomalous.OSPlatform.Android
 {
@@ -150,6 +151,9 @@ namespace Anomalous.OSPlatform.Android
             //Log.Debug($"AndroidGamepad button {e.KeyCode} {e.Action}");
         }
 
+        //Good info
+        //https://developer.android.com/training/game-controllers/controller-input.html#joystick
+
         /// <summary>
         /// Fire a generic motion event, it should be known to be a joystick event before calling this.
         /// </summary>
@@ -157,6 +161,9 @@ namespace Anomalous.OSPlatform.Android
         /// <returns></returns>
         public void HandleJoystickEvent(MotionEvent ev)
         {
+            //You should add history support, but right now joysticks are polling only anyway
+            //when you add an event for them make sure to process the history
+
             var hatx = ev.GetAxisValue(Axis.HatX);
             var haty = ev.GetAxisValue(Axis.HatY);
             bool last, current;
@@ -181,26 +188,50 @@ namespace Anomalous.OSPlatform.Android
             keysDown[(int)key] = current = hatx > 0.1f;
             process(last, current, key);
 
-            var pp = new MotionEvent.PointerProperties();
-            var pointerCount = ev.PointerCount;
-            for(int i = 0; i < pointerCount; ++i)
-            {
-                ev.GetPointerProperties(i, pp);
-                Log.Debug($"AndroidGamepad motion {ev.Action} {ev.GetPointerId(i)} lstick {ev.GetX()} {ev.GetY()} dpad {ev.GetAxisValue(Axis.HatX)} {ev.GetAxisValue(Axis.HatY)}");
-            }
+            const int historyPose = -1;
+
+            Vector2 lStick = new Vector2(getCenteredAxis(ev, ev.Device, Axis.X, historyPose),
+                                         getCenteredAxis(ev, ev.Device, Axis.Y, historyPose));
+
+            Vector2 rStick = new Vector2(getCenteredAxis(ev, ev.Device, Axis.Z, historyPose),
+                                         getCenteredAxis(ev, ev.Device, Axis.Rz, historyPose));
+
+            this.fireMovement(lStick, rStick, ev.GetAxisValue(Axis.Ltrigger), ev.GetAxisValue(Axis.Rtrigger));
         }
+
+        private static float getCenteredAxis(MotionEvent evt, InputDevice device, Axis axis, int historyPos) {
+            InputDevice.MotionRange range =
+                    device.GetMotionRange(axis, evt.Source);
+
+            // A joystick at rest does not always report an absolute position of
+            // (0,0). Use the getFlat() method to determine the range of values
+            // bounding the joystick axis center.
+            if (range != null) {
+                float flat = range.Flat;
+                float value =
+                        historyPos < 0 ? evt.GetAxisValue(axis):
+                        evt.GetHistoricalAxisValue(axis, historyPos);
+
+                // Ignore axis values that are within the 'flat' region of the
+                // joystick axis center.
+                if (Math.Abs(value) > flat) {
+                    return value;
+                }
+        }
+            return 0;
+}
 
         private void process(bool last, bool current, GamepadButtonCode code)
         {
             if (!last && current)
             {
                 this.fireButtonDown(code);
-                Log.Debug($"Button {code} down");
+                //Log.Debug($"Button {code} down");
             }
             else if (last && !current)
             {
                 this.fireButtonUp(code);
-                Log.Debug($"Button {code} up");
+                //Log.Debug($"Button {code} up");
             }
         }
 
