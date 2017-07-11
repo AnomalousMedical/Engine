@@ -79,6 +79,9 @@ namespace OSPlatform.Win32.XInputDotNetPure
                 process(lastState.Buttons.RightStick, state.Buttons.RightStick, GamepadButtonCode.XInput_RThumb);
                 process(lastState.Buttons.Guide, state.Buttons.Guide, GamepadButtonCode.XInput_Guide);
 
+                process(lastState.Triggers.LeftState, state.Triggers.LeftState, GamepadButtonCode.XInput_LTrigger);
+                process(lastState.Triggers.RightState, state.Triggers.RightState, GamepadButtonCode.XInput_RTrigger);
+
                 process(lastState.DPad.Up, state.DPad.Up, GamepadButtonCode.XInput_DPadUp);
                 process(lastState.DPad.Down, state.DPad.Down, GamepadButtonCode.XInput_DPadDown);
                 process(lastState.DPad.Left, state.DPad.Left, GamepadButtonCode.XInput_DPadLeft);

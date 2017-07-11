@@ -176,6 +176,8 @@ namespace XInputDotNetPure
 
     public struct GamePadTriggers
     {
+        public static float DownThreshold = 0.1f;
+
         float left;
         float right;
 
@@ -193,6 +195,22 @@ namespace XInputDotNetPure
         public float Right
         {
             get { return right; }
+        }
+
+        public ButtonState LeftState
+        {
+            get
+            {
+                return left > DownThreshold ? ButtonState.Pressed : ButtonState.Released;
+            }
+        }
+
+        public ButtonState RightState
+        {
+            get
+            {
+                return right > DownThreshold ? ButtonState.Pressed : ButtonState.Released;
+            }
         }
     }
 

@@ -84,7 +84,9 @@ namespace Anomalous.SidescrollerCore
                 .OnActivated(a =>
                 {
                     var i = a.Instance;
-                    i.Fire.addButton(MouseButtonCode.MB_BUTTON0);
+                    //i.Fire.addButton(MouseButtonCode.MB_BUTTON0);
+
+                    i.Fire.addButton(GamepadButtonCode.XInput_RTrigger);
                     i.Build(a.Context.Resolve<EventManager>());
                 });
 
