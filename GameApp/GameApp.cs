@@ -219,15 +219,22 @@ namespace Anomalous.GameApp
             //Intialize the platform
             BulletInterface.Instance.ShapeMargin = 0.005f;
 
-            if (OgreConfig.VSync && CoreConfig.EngineConfig.FPSCap < 300)
+            if (PlatformConfig.FpsCap.HasValue)
             {
-                //Use a really high framerate cap if vsync is on since it will cap our 
-                //framerate for us. If the user has requested a higher rate use it anyway.
-                mainTimer.FramerateCap = 300;
+                mainTimer.FramerateCap = PlatformConfig.FpsCap.Value;
             }
             else
             {
-                mainTimer.FramerateCap = CoreConfig.EngineConfig.FPSCap;
+                if (OgreConfig.VSync && CoreConfig.EngineConfig.FPSCap < 300)
+                {
+                    //Use a unlimited framerate cap if vsync is on since it will cap our 
+                    //framerate for us. If the user has requested a higher rate use it anyway.
+                    mainTimer.FramerateCap = 0;
+                }
+                else
+                {
+                    mainTimer.FramerateCap = CoreConfig.EngineConfig.FPSCap;
+                }
             }
 
             mainTimer.addUpdateListener(new EventUpdateListener(eventManager));

@@ -132,5 +132,7 @@ namespace Anomalous.GameApp.Config
         {
 
         }
+
+        public override int? FpsCapImpl => 0;
     }
 }
