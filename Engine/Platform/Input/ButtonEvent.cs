@@ -324,7 +324,7 @@ namespace Engine.Platform
         {
             Mouse mouse = eventLayer.Mouse;
             Keyboard keyboard = eventLayer.Keyboard;
-            Gamepad pad = eventLayer.getGamepad(pad);
+            Gamepad pad = eventLayer.getGamepad(this.pad);
             bool allActivated = keyboardButtons.Count + mouseButtons.Count + gamepadButtons.Count > 0 || MouseWheelDirection > 0;
             bool anyDownUpThisFrame = false;
             bool currentDownUpThisFrame;
