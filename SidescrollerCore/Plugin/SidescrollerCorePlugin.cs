@@ -43,9 +43,18 @@ namespace Anomalous.SidescrollerCore
                 .As<IEventLayerKeyInjector<PlayerControls>>()
                 .IfNotRegistered(typeof(IEventLayerKeyInjector<PlayerControls>));
 
+            RegisterGamepadPlayer(builder, PlayerId.Player1, GamepadId.Pad1);
+            RegisterGamepadPlayer(builder, PlayerId.Player2, GamepadId.Pad2);
+            RegisterGamepadPlayer(builder, PlayerId.Player3, GamepadId.Pad3);
+            RegisterGamepadPlayer(builder, PlayerId.Player4, GamepadId.Pad4);
+        }
+
+        private static void RegisterGamepadPlayer(ContainerBuilder builder, PlayerId playerId, GamepadId padId)
+        {
+
             builder.RegisterType<PlayerControls>()
                 .SingleInstance()
-                .Keyed<PlayerControls>(PlayerId.Player1)
+                .Keyed<PlayerControls>(playerId)
                 .OnActivated(a =>
                 {
                     var i = a.Instance;
@@ -55,60 +64,35 @@ namespace Anomalous.SidescrollerCore
                     //i.MoveDownEvent.addButton(KeyboardButtonCode.KC_S);
                     //i.JumpEvent.addButton(KeyboardButtonCode.KC_SPACE);
 
-                    i.MoveRightEvent.addButton(GamepadButtonCode.XInput_DPadRight);
-                    i.MoveLeftEvent.addButton(GamepadButtonCode.XInput_DPadLeft);
-                    i.MoveUpEvent.addButton(GamepadButtonCode.XInput_DPadUp);
-                    i.MoveDownEvent.addButton(GamepadButtonCode.XInput_DPadDown);
-                    i.JumpEvent.addButton(GamepadButtonCode.XInput_RightShoulder);
-
-                    i.Build(a.Context.Resolve<EventManager>());
-                });
-
-            builder.RegisterType<PlayerControls>()
-                .SingleInstance()
-                .Keyed<PlayerControls>(PlayerId.Player2)
-                .OnActivated(a =>
-                {
-                    var i = a.Instance;
                     //i.MoveRightEvent.addButton(KeyboardButtonCode.KC_RIGHT);
                     //i.MoveLeftEvent.addButton(KeyboardButtonCode.KC_LEFT);
                     //i.MoveUpEvent.addButton(KeyboardButtonCode.KC_UP);
                     //i.MoveDownEvent.addButton(KeyboardButtonCode.KC_DOWN);
                     //i.JumpEvent.addButton(KeyboardButtonCode.KC_NUMPAD0);
 
-                    i.MoveRightEvent.addButton(GamepadButtonCode.XInput_DPadRight, GamepadId.Pad2);
-                    i.MoveLeftEvent.addButton(GamepadButtonCode.XInput_DPadLeft, GamepadId.Pad2);
-                    i.MoveUpEvent.addButton(GamepadButtonCode.XInput_DPadUp, GamepadId.Pad2);
-                    i.MoveDownEvent.addButton(GamepadButtonCode.XInput_DPadDown, GamepadId.Pad2);
-                    i.JumpEvent.addButton(GamepadButtonCode.XInput_RightShoulder, GamepadId.Pad2);
+                    i.MoveRightEvent.addButton(GamepadButtonCode.XInput_DPadRight, padId);
+                    i.MoveLeftEvent.addButton(GamepadButtonCode.XInput_DPadLeft, padId);
+                    i.MoveUpEvent.addButton(GamepadButtonCode.XInput_DPadUp, padId);
+                    i.MoveDownEvent.addButton(GamepadButtonCode.XInput_DPadDown, padId);
+                    i.JumpEvent.addButton(GamepadButtonCode.XInput_RightShoulder, padId);
 
                     i.Build(a.Context.Resolve<EventManager>());
                 });
 
             builder.RegisterType<FireControls>()
-                .SingleInstance()
-                .Keyed<FireControls>(PlayerId.Player1)
-                .OnActivated(a =>
-                {
-                    var i = a.Instance;
-                    //i.Fire.addButton(MouseButtonCode.MB_BUTTON0);
+                            .SingleInstance()
+                            .Keyed<FireControls>(playerId)
+                            .OnActivated(a =>
+                            {
+                                var i = a.Instance;
+                                //i.Fire.addButton(MouseButtonCode.MB_BUTTON0);
 
-                    i.Fire.addButton(GamepadButtonCode.XInput_RTrigger);
-                    i.Build(a.Context.Resolve<EventManager>());
-                });
+                                //i.Fire.addButton(KeyboardButtonCode.KC_NUMPAD1);
 
-            builder.RegisterType<FireControls>()
-                .SingleInstance()
-                .Keyed<FireControls>(PlayerId.Player2)
-                .OnActivated(a =>
-                {
-                    var i = a.Instance;
-                    //i.Fire.addButton(KeyboardButtonCode.KC_NUMPAD1);
+                                i.Fire.addButton(GamepadButtonCode.XInput_RTrigger, padId);
 
-                    i.Fire.addButton(GamepadButtonCode.XInput_RTrigger, GamepadId.Pad2);
-
-                    i.Build(a.Context.Resolve<EventManager>());
-                });
+                                i.Build(a.Context.Resolve<EventManager>());
+                            });
         }
 
         public void link(PluginManager pluginManager)

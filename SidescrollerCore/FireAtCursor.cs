@@ -66,6 +66,9 @@ namespace Anomalous.SidescrollerCore
             base.link();
 
             //We need a real template that does not involve sucking an object out of the scene, but whatever for now
+            //Kind of safe to use the same object, destroy is safe, and the thread shouldn't execute till later, but otherwise sharing won't work
+            //If you add real templates it won't be a problem since you can use those
+            //For this using the same object as a template across multiple players seems ok
             var templateObject = Owner.getOtherSimObject(SimObjectTemplate);
             if (templateObject == null)
             {
