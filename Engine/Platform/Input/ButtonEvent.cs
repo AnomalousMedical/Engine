@@ -26,7 +26,7 @@ namespace Engine.Platform
         private HashSet<MouseButtonCode> mouseButtons = new HashSet<MouseButtonCode>();
         private HashSet<GamepadButtonCode> gamepadButtons = new HashSet<GamepadButtonCode>();
 
-        private GamepadId padId = GamepadId.Pad1;
+        private GamepadId pad = GamepadId.Pad1;
 
         /// <summary>
         /// Constructor.
@@ -63,15 +63,15 @@ namespace Engine.Platform
             }
         }
 
-        public GamepadId PadId
+        public GamepadId Pad
         {
             get
             {
-                return padId;
+                return pad;
             }
             set
             {
-                padId = value;
+                pad = value;
             }
         }
 
@@ -141,12 +141,23 @@ namespace Engine.Platform
         }
 
         /// <summary>
-        /// Add a keyboard button binding to the event.
+        /// Add a gamepad button binding to the event.
         /// </summary>
         /// <param name="button">The button to add.</param>
         public void addButton(GamepadButtonCode button)
         {
             gamepadButtons.Add(button);
+        }
+
+        /// <summary>
+        /// Add a gamepad button binding to the event. Also include the gamepad id for convience, will set Pad to the passed value.
+        /// </summary>
+        /// <param name="button">The button to add.</param>
+        /// <param name="pad">The pad id will be set to Pad</param>
+        public void addButton(GamepadButtonCode button, GamepadId pad)
+        {
+            gamepadButtons.Add(button);
+            this.Pad = pad;
         }
 
         /// <summary>
@@ -313,7 +324,7 @@ namespace Engine.Platform
         {
             Mouse mouse = eventLayer.Mouse;
             Keyboard keyboard = eventLayer.Keyboard;
-            Gamepad pad = eventLayer.getGamepad(padId);
+            Gamepad pad = eventLayer.getGamepad(pad);
             bool allActivated = keyboardButtons.Count + mouseButtons.Count + gamepadButtons.Count > 0 || MouseWheelDirection > 0;
             bool anyDownUpThisFrame = false;
             bool currentDownUpThisFrame;

@@ -21,6 +21,7 @@ using Anomalous.GuiFramework.Editor;
 using Anomalous.GuiFramework;
 using Anomalous.OSPlatform;
 using Anomaly.GUI;
+using Autofac;
 
 namespace Anomaly
 {
@@ -111,8 +112,10 @@ namespace Anomaly
             float pixelScale = mainWindow.WindowScaling;
             ScaleHelper._setScaleFactor(pixelScale);
 
+            var builder = new ContainerBuilder();
+
             //Initialize the plugins
-            pluginManager = new PluginManager(AnomalyConfig.ConfigFile);
+            pluginManager = new PluginManager(AnomalyConfig.ConfigFile, builder);
             sceneController = new SceneController(pluginManager);
             //Hardcoded assemblies
             MyGUIInterface.EventLayerKey = EventLayers.Main;
@@ -136,6 +139,18 @@ namespace Anomaly
             pluginManager.addPluginAssembly(typeof(GuiFrameworkEditorInterface).Assembly);
             pluginManager.OnConfigureDefaultWindow = createWindow;
 
+            //Create core classes
+            systemTimer = new NativeSystemTimer();
+
+            mainTimer = new NativeUpdateTimer(systemTimer);
+            mainTimer.FramerateCap = AnomalyConfig.EngineConfig.MaxFPS;
+            idleHandler = new IdleHandler(mainTimer.OnIdle);
+            inputHandler = new NativeInputHandler(mainWindow, false);
+            eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
+            eventUpdate = new EventUpdateListener(eventManager);
+
+            builder.RegisterInstance(eventManager);
+
             //Dynamic assemblies
             DynamicDLLPluginLoader pluginLoader = new DynamicDLLPluginLoader();
             ConfigIterator pluginIterator = solution.PluginSection.PluginIterator;
@@ -155,14 +170,6 @@ namespace Anomaly
             OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
 
             //Intialize the platform
-            systemTimer = new NativeSystemTimer();
-
-            mainTimer = new NativeUpdateTimer(systemTimer);
-            mainTimer.FramerateCap = AnomalyConfig.EngineConfig.MaxFPS;
-            idleHandler = new IdleHandler(mainTimer.OnIdle);
-            inputHandler = new NativeInputHandler(mainWindow, false);
-            eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
-            eventUpdate = new EventUpdateListener(eventManager);
             mainTimer.addUpdateListener(eventUpdate);
             mainTimer.addUpdateListener(updateEventListener);
             pluginManager.setPlatformInfo(mainTimer, eventManager);
