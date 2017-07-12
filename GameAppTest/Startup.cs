@@ -119,6 +119,7 @@ namespace GameAppTest
 
         public void Initialized(GameApp app, PluginManager pluginManager)
         {
+            Logging.Log.Info($"Loading archive {app.PrimaryArchivePath}");
             VirtualFileSystem.Instance.addArchive(app.PrimaryArchivePath);
 
             var scope = pluginManager.GlobalScope;
@@ -138,7 +139,16 @@ namespace GameAppTest
             var sceneController = scope.Resolve<SceneController>();
             sceneController.OnSceneLoaded += SceneController_OnSceneLoaded;
             sceneController.OnSceneUnloading += SceneController_OnSceneUnloading;
-            sceneController.loadSceneDefinition("Scenes\\TestLevel.sim.xml");
+            var scene = "Scenes\\TestLevel.sim.xml";
+            if (VirtualFileSystem.Instance.fileExists(scene))
+            {
+                Logging.Log.Info($"Loading scene {scene}");
+                sceneController.loadSceneDefinition("Scenes\\TestLevel.sim.xml");
+            }
+            else
+            {
+                Logging.Log.Info($"Cannot load scene {scene}");
+            }
         }
 
         private void SceneController_OnSceneLoaded(SceneController controller, SimScene scene)
