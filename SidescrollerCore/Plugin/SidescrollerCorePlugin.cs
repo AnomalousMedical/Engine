@@ -103,7 +103,10 @@ namespace Anomalous.SidescrollerCore
                 .OnActivated(a =>
                 {
                     var i = a.Instance;
-                    i.Fire.addButton(KeyboardButtonCode.KC_NUMPAD1);
+                    //i.Fire.addButton(KeyboardButtonCode.KC_NUMPAD1);
+
+                    i.Fire.addButton(GamepadButtonCode.XInput_RTrigger, GamepadId.Pad2);
+
                     i.Build(a.Context.Resolve<EventManager>());
                 });
         }
