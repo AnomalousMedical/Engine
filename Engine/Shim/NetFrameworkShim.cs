@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -10,9 +11,6 @@ namespace Engine.Shim
     public interface INetFrameworkShim
     {
         String CurrentAssemblyName { get; }
-
-        void PrintStackTrace();
-        void ParallelFor(int fromInclusive, int toExclusive, Action<int> body);
     }
 
     public static class NetFrameworkShim
@@ -30,16 +28,6 @@ namespace Engine.Shim
             {
                 return impl.CurrentAssemblyName;
             }
-        }
-
-        public static void PrintStackTrace()
-        {
-            impl.PrintStackTrace();
-        }
-
-        public static void ParallelFor(int fromInclusive, int toExclusive, Action<int> body)
-        {
-            impl.ParallelFor(fromInclusive, toExclusive, body);
         }
     }
 }

@@ -270,7 +270,17 @@ namespace Logging
         /// </summary>
         public static void PrintStackTrace()
         {
-            NetFrameworkShim.PrintStackTrace();
+            var stackTrace = new System.Diagnostics.StackTrace(1, true);
+            StringBuilder sb = new StringBuilder(512);
+            sb.AppendLine("Stack Trace");
+            sb.AppendLine("----------------------");
+            foreach (var frame in stackTrace.GetFrames())
+            {
+                MethodBase method = frame.GetMethod();
+                sb.AppendLine(String.Format("{0}::{1}", method.ReflectedType != null ? method.ReflectedType.Name : string.Empty, method.Name));
+            }
+            sb.Append("----------------------");
+            Log.Debug(sb.ToString());
         }
     }
 }
