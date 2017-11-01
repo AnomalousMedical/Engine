@@ -162,7 +162,7 @@ namespace OgrePlugin.Plugin.VirtualTexture
                     serialImageRect.Height = pageSize;
                     serialImageRect.Top = y * pageSize;
 
-                    NetFrameworkShim.ParallelFor(0, size, x =>
+                    Parallel.For(0, size, x =>
                     //for (int x = 0; x < size; ++x)
                     {
                         IntRect imageRect = serialImageRect;

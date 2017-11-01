@@ -61,17 +61,17 @@ namespace Anomalous.OSPlatform.Android
             }
         }
 
-        protected override Engine.Shim.ProcessStartInfo RestartProcInfoImpl
+        protected override System.Diagnostics.ProcessStartInfo RestartProcInfoImpl
         {
             get
             {
                 //ANROID_FIXLATER: probably not right
                 String[] args = Environment.GetCommandLineArgs();
-                return new ProcessStartInfoShim(new System.Diagnostics.ProcessStartInfo(args[0]));
+                return new System.Diagnostics.ProcessStartInfo(args[0]);
             }
         }
 
-        protected override Engine.Shim.ProcessStartInfo RestartAdminProcInfoImpl
+        protected override System.Diagnostics.ProcessStartInfo RestartAdminProcInfoImpl
         {
             get
             {

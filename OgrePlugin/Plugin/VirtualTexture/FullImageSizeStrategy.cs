@@ -61,7 +61,7 @@ namespace OgrePlugin.Plugin.VirtualTexture
                         }
                     }
 
-                    NetFrameworkShim.ParallelFor(0, size, x =>
+                    Parallel.For(0, size, x =>
                     //for (int x = 0; x < size; ++x)
                     {
                         bool leftSide, rightSide;

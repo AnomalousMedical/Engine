@@ -60,11 +60,6 @@
     <Compile Include="AndroidRuntimePlatformInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\Shim\FullNetFrameworkShim.cs" />
-    <Compile Include="..\Shim\ProcessInfo.cs" />
-    <Compile Include="..\Shim\ProcessStartInfoShim.cs" />
-    <Compile Include="..\Shim\StackFrameShim.cs" />
-    <Compile Include="..\Shim\StackTraceShim.cs" />
-    <Compile Include="..\Shim\TimerShim.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">

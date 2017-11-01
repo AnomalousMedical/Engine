@@ -10,7 +10,7 @@ using Engine.Shim;
 
 namespace Anomalous.Shim
 {
-    public class FullNetFrameworkShim : INetFrameworkShim
+    class FullNetFrameworkShim : INetFrameworkShim
     {
         public FullNetFrameworkShim()
         {
@@ -28,21 +28,6 @@ namespace Anomalous.Shim
             {
                 return Assembly.GetCallingAssembly().GetName().Name;
             }
-        }
-
-        public void PrintStackTrace()
-        {
-            var stackTrace = new System.Diagnostics.StackTrace(1, true);
-            StringBuilder sb = new StringBuilder(512);
-            sb.AppendLine("Stack Trace");
-            sb.AppendLine("----------------------");
-            foreach (var frame in stackTrace.GetFrames())
-            {
-                MethodBase method = frame.GetMethod();
-                sb.AppendLine(String.Format("{0}::{1}", method.ReflectedType != null ? method.ReflectedType.Name : string.Empty, method.Name));
-            }
-            sb.Append("----------------------");
-            Log.Debug(sb.ToString());
         }
 
         public void ParallelFor(int fromInclusive, int toExclusive, Action<int> body)
