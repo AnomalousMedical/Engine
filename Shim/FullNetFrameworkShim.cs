@@ -50,23 +50,9 @@ namespace Anomalous.Shim
             Log.Debug(sb.ToString());
         }
 
-        public Engine.Shim.StackTrace CreateStackTrace(bool fNeedFileInfo)
-        {
-            return new StackTraceShim(new System.Diagnostics.StackTrace(fNeedFileInfo));
-        }
-
         public void ParallelFor(int fromInclusive, int toExclusive, Action<int> body)
         {
             Parallel.For(fromInclusive, toExclusive, body);
-        }
-
-        public void Process_Start(Engine.Shim.ProcessStartInfo startInfo)
-        {
-            var start = startInfo as ProcessStartInfoShim;
-            if (start != null)
-            {
-                Process.Start(start.StartInfo);
-            }
         }
 
         public IEnumerable<Assembly> LoadedAssemblies

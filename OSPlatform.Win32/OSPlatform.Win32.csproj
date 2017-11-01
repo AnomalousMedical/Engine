@@ -48,9 +48,6 @@
   <ItemGroup>
     <Compile Include="..\Shim\FullNetFrameworkShim.cs" />
     <Compile Include="..\Shim\ProcessInfo.cs" />
-    <Compile Include="..\Shim\ProcessStartInfoShim.cs" />
-    <Compile Include="..\Shim\StackFrameShim.cs" />
-    <Compile Include="..\Shim\StackTraceShim.cs" />
     <Compile Include="XInputDotNetPure\GamePad.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XInputDotNetPure\Utils.cs" />

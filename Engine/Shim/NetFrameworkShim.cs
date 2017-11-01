@@ -16,9 +16,7 @@ namespace Engine.Shim
 
         Assembly LoadFile(String path);
         void PrintStackTrace();
-        StackTrace CreateStackTrace(bool fNeedFileInfo);
         void ParallelFor(int fromInclusive, int toExclusive, Action<int> body);
-        void Process_Start(ProcessStartInfo startInfo);
     }
 
     public static class NetFrameworkShim
@@ -56,22 +54,12 @@ namespace Engine.Shim
             impl.PrintStackTrace();
         }
 
-        public static void Process_Start(ProcessStartInfo startInfo)
-        {
-            impl.Process_Start(startInfo);
-        }
-
         public static IProcessInfo ProcessInfo
         {
             get
             {
                 return impl.IProcessInfo;
             }
-        }
-
-        public static StackTrace CreateStackTrace(bool fNeedFileInfo)
-        {
-            return impl.CreateStackTrace(fNeedFileInfo);
         }
 
         public static void ParallelFor(int fromInclusive, int toExclusive, Action<int> body)
