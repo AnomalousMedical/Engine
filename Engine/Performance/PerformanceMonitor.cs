@@ -19,10 +19,12 @@ namespace Engine
 
         static PerformanceMonitor()
         {
+            var processInfo = System.Diagnostics.Process.GetCurrentProcess();
+
             currentState = disabledState = new DisabledPerformanceMonitor();
-            addValueProvider("Private Memory", () => Prettify.GetSizeReadable(NetFrameworkShim.ProcessInfo.PrivateMemorySize64));
-            addValueProvider("Working Set", () => Prettify.GetSizeReadable(NetFrameworkShim.ProcessInfo.WorkingSet64));
-            addValueProvider("Virtual Memory", () => Prettify.GetSizeReadable(NetFrameworkShim.ProcessInfo.VirtualMemorySize64));
+            addValueProvider("Private Memory", () => Prettify.GetSizeReadable(processInfo.PrivateMemorySize64));
+            addValueProvider("Working Set", () => Prettify.GetSizeReadable(processInfo.WorkingSet64));
+            addValueProvider("Virtual Memory", () => Prettify.GetSizeReadable(processInfo.VirtualMemorySize64));
         }
 
         /// <summary>

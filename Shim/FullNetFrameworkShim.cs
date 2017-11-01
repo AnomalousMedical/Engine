@@ -62,14 +62,5 @@ namespace Anomalous.Shim
                 return AppDomain.CurrentDomain.GetAssemblies();
             }
         }
-
-        private IProcessInfo processInfo = new ProcessInfo();
-        public IProcessInfo IProcessInfo
-        {
-            get
-            {
-                return processInfo;
-            }
-        }
     }
 }
