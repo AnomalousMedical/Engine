@@ -254,7 +254,7 @@ namespace Engine
                         //If that fails search all loaded assemblies.
                         if (type == null)
                         {
-                            foreach (Assembly assembly in NetFrameworkShim.LoadedAssemblies)
+                            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
                             {
                                 type = assembly.GetType(typeName);
                                 if (type != null)

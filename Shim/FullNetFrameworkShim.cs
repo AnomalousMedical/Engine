@@ -30,11 +30,6 @@ namespace Anomalous.Shim
             }
         }
 
-        public Assembly LoadFile(string path)
-        {
-            return Assembly.LoadFile(path);
-        }
-
         public void PrintStackTrace()
         {
             var stackTrace = new System.Diagnostics.StackTrace(1, true);
@@ -53,14 +48,6 @@ namespace Anomalous.Shim
         public void ParallelFor(int fromInclusive, int toExclusive, Action<int> body)
         {
             Parallel.For(fromInclusive, toExclusive, body);
-        }
-
-        public IEnumerable<Assembly> LoadedAssemblies
-        {
-            get
-            {
-                return AppDomain.CurrentDomain.GetAssemblies();
-            }
         }
     }
 }

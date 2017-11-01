@@ -54,7 +54,7 @@ namespace Engine
                         {
                             loadPath = pluginManager.PluginDirectory + Path.DirectorySeparatorChar + path;
                         }
-                        Assembly assembly = NetFrameworkShim.LoadFile(Path.GetFullPath(loadPath));
+                        Assembly assembly = Assembly.LoadFile(Path.GetFullPath(loadPath));
                         pluginManager.addPluginAssembly(assembly);
                         loadedAssemblies.Add(assemblyFileName);
                     }

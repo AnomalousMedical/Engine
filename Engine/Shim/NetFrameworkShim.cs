@@ -11,9 +11,6 @@ namespace Engine.Shim
     {
         String CurrentAssemblyName { get; }
 
-        IEnumerable<Assembly> LoadedAssemblies { get; }
-
-        Assembly LoadFile(String path);
         void PrintStackTrace();
         void ParallelFor(int fromInclusive, int toExclusive, Action<int> body);
     }
@@ -33,19 +30,6 @@ namespace Engine.Shim
             {
                 return impl.CurrentAssemblyName;
             }
-        }
-
-        public static IEnumerable<Assembly> LoadedAssemblies
-        {
-            get
-            {
-                return impl.LoadedAssemblies;
-            }
-        }
-
-        public static Assembly LoadFile(String path)
-        {
-            return impl.LoadFile(path);
         }
 
         public static void PrintStackTrace()
