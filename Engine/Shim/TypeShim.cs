@@ -58,7 +58,7 @@ namespace System
 
         public static IEnumerable<Attribute> GetCustomAttributes(this Type type, Type attrType, bool inherit)
         {
-            return type.GetTypeInfo().GetCustomAttributes(attrType, inherit);
+            return type.GetTypeInfo().GetCustomAttributes(attrType, inherit).Cast<Attribute>();
         }
 
         public static FieldInfo[] GetFields(this Type type, BindingFlags flags)
