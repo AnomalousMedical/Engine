@@ -1,5 +1,4 @@
-﻿using Anomalous.Shim;
-using Engine.Platform;
+﻿using Engine.Platform;
 using Engine.Platform.Input;
 using Engine.Shim;
 using OSPlatform.Win32.XInputDotNetPure;
@@ -22,7 +21,7 @@ namespace Anomalous.OSPlatform.Win32
 
         public static void Initialize()
         {
-            NetFrameworkShim.SetShimImpl(new FullNetFrameworkShim());
+            NetFrameworkShim.SetShimImpl(new Shim.FullNetFrameworkShim());
             new WindowsRuntimePlatformInfo();
 
             //Make sure the paths are setup correctly on windows to find 32/64 bit binaries.
@@ -126,16 +125,16 @@ namespace Anomalous.OSPlatform.Win32
             }
         }
 
-        protected override Engine.Shim.ProcessStartInfo RestartProcInfoImpl
+        protected override System.Diagnostics.ProcessStartInfo RestartProcInfoImpl
         {
             get
             {
                 String[] args = Environment.GetCommandLineArgs();
-                return new ProcessStartInfoShim(new System.Diagnostics.ProcessStartInfo(args[0]));
+                return new System.Diagnostics.ProcessStartInfo(args[0]);
             }
         }
 
-        protected override Engine.Shim.ProcessStartInfo RestartAdminProcInfoImpl
+        protected override System.Diagnostics.ProcessStartInfo RestartAdminProcInfoImpl
         {
             get
             {

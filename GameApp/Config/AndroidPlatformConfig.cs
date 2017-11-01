@@ -8,7 +8,6 @@ using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using Anomalous.OSPlatform;
 using System.IO;
-using Engine.Shim;
 
 namespace Anomalous.GameApp.Config
 {
