@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Engine.Shim;
+using System.Timers;
 
 namespace Anomalous.GuiFramework.Cameras
 {
@@ -132,7 +133,7 @@ namespace Anomalous.GuiFramework.Cameras
             this.eventManager = eventManager;
             eventManager[GuiFrameworkCamerasInterface.MoveCameraEventLayer].OnUpdate += processInputEvents;
 
-            mouseWheelTimer = NetFrameworkShim.CreateTimer(UPDATE_DELAY);
+            mouseWheelTimer = new Timer(UPDATE_DELAY);
             mouseWheelTimer.AutoReset = false;
             mouseWheelTimer.Elapsed += mouseWheelTimer_Elapsed;
 

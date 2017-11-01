@@ -19,7 +19,6 @@ namespace Engine.Shim
         StackTrace CreateStackTrace(bool fNeedFileInfo);
         void ParallelFor(int fromInclusive, int toExclusive, Action<int> body);
         void Process_Start(ProcessStartInfo startInfo);
-        Timer CreateTimer(int updateDelay);
     }
 
     public static class NetFrameworkShim
@@ -78,11 +77,6 @@ namespace Engine.Shim
         public static void ParallelFor(int fromInclusive, int toExclusive, Action<int> body)
         {
             impl.ParallelFor(fromInclusive, toExclusive, body);
-        }
-
-        public static Timer CreateTimer(int updateDelay)
-        {
-            return impl.CreateTimer(updateDelay);
         }
     }
 }

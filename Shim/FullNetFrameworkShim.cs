@@ -69,11 +69,6 @@ namespace Anomalous.Shim
             }
         }
 
-        public Timer CreateTimer(int updateDelay)
-        {
-            return new TimerShim(new System.Timers.Timer(updateDelay));
-        }
-
         public IEnumerable<Assembly> LoadedAssemblies
         {
             get
