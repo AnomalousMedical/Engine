@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\Release\</OutputPath>
+    <OutputPath>..\..\..\Release\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -40,15 +40,15 @@
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="copy $(ProjectDir)..\..\Dependencies\Ogre\WindowsBuild\bin\release\OgreMain.dll                $(ProjectDir)native\x86\OgreMain.dll" />
-    <Exec Command="copy $(ProjectDir)..\..\Dependencies\Ogre\WindowsBuild\bin\release\RenderSystem_Direct3D11.dll $(ProjectDir)native\x86\RenderSystem_Direct3D11.dll" />
-    <Exec Command="copy $(ProjectDir)..\..\Dependencies\Ogre\WindowsBuild\bin\release\RenderSystem_GL.dll         $(ProjectDir)native\x86\RenderSystem_GL.dll" />
-    <Exec Command="copy $(ProjectDir)..\..\Dependencies\Ogre\WindowsBuild\bin\release\RenderSystem_GLES2.dll      $(ProjectDir)native\x86\RenderSystem_GLES2.dll" />
-    <Exec Command="copy $(ProjectDir)..\Release\x86\OgreCWrapper.dll                                              $(ProjectDir)native\x86\OgreCWrapper.dll" />
-    <Exec Command="copy $(ProjectDir)..\..\Dependencies\Ogre\Win64Build\bin\release\OgreMain.dll                $(ProjectDir)native\x64\OgreMain.dll" />
-    <Exec Command="copy $(ProjectDir)..\..\Dependencies\Ogre\Win64Build\bin\release\RenderSystem_Direct3D11.dll $(ProjectDir)native\x64\RenderSystem_Direct3D11.dll" />
-    <Exec Command="copy $(ProjectDir)..\..\Dependencies\Ogre\Win64Build\bin\release\RenderSystem_GL.dll         $(ProjectDir)native\x64\RenderSystem_GL.dll" />
-    <Exec Command="copy $(ProjectDir)..\Release\x64\OgreCWrapper.dll                                            $(ProjectDir)native\x64\OgreCWrapper.dll" />
+    <Exec Command="copy $(ProjectDir)..\..\..\..\Dependencies\Ogre\WindowsBuild\bin\release\OgreMain.dll                $(ProjectDir)native\x86\OgreMain.dll" />
+    <Exec Command="copy $(ProjectDir)..\..\..\..\Dependencies\Ogre\WindowsBuild\bin\release\RenderSystem_Direct3D11.dll $(ProjectDir)native\x86\RenderSystem_Direct3D11.dll" />
+    <Exec Command="copy $(ProjectDir)..\..\..\..\Dependencies\Ogre\WindowsBuild\bin\release\RenderSystem_GL.dll         $(ProjectDir)native\x86\RenderSystem_GL.dll" />
+    <Exec Command="copy $(ProjectDir)..\..\..\..\Dependencies\Ogre\WindowsBuild\bin\release\RenderSystem_GLES2.dll      $(ProjectDir)native\x86\RenderSystem_GLES2.dll" />
+    <Exec Command="copy $(ProjectDir)..\..\..\Release\x86\OgreCWrapper.dll                                              $(ProjectDir)native\x86\OgreCWrapper.dll" />
+    <Exec Command="copy $(ProjectDir)..\..\..\..\Dependencies\Ogre\Win64Build\bin\release\OgreMain.dll                $(ProjectDir)native\x64\OgreMain.dll" />
+    <Exec Command="copy $(ProjectDir)..\..\..\..\Dependencies\Ogre\Win64Build\bin\release\RenderSystem_Direct3D11.dll $(ProjectDir)native\x64\RenderSystem_Direct3D11.dll" />
+    <Exec Command="copy $(ProjectDir)..\..\..\..\Dependencies\Ogre\Win64Build\bin\release\RenderSystem_GL.dll         $(ProjectDir)native\x64\RenderSystem_GL.dll" />
+    <Exec Command="copy $(ProjectDir)..\..\..\Release\x64\OgreCWrapper.dll                                            $(ProjectDir)native\x64\OgreCWrapper.dll" />
   </Target>
 
 </Project>
