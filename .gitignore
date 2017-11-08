@@ -294,3 +294,4 @@ fastlane/screenshots
 /EngineAndroid.VC.db
 /Engine.VC.db
 /*.db
+/OgreCWrapperWin32/native

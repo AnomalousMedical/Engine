@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>0.0.0</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\Release\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="native\x64\OgreMain.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="native\x64\RenderSystem_Direct3D11.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="native\x64\RenderSystem_GL.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="native\x86\OgreMain.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="native\x86\RenderSystem_Direct3D11.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="native\x86\RenderSystem_GL.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="native\x86\RenderSystem_GLES2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="copy C:\Development\Anomalous\Dependencies\Ogre\WindowsBuild\bin\release\OgreMain.dll $(ProjectDir)native\x86\OgreMain.dll&#xD;&#xA;copy C:\Development\Anomalous\Dependencies\Ogre\WindowsBuild\bin\release\OgreMain.dll $(ProjectDir)native\x86\RenderSystem_Direct3D11.dll&#xD;&#xA;copy C:\Development\Anomalous\Dependencies\Ogre\WindowsBuild\bin\release\OgreMain.dll $(ProjectDir)native\x86\RenderSystem_GL.dll&#xD;&#xA;copy C:\Development\Anomalous\Dependencies\Ogre\WindowsBuild\bin\release\OgreMain.dll $(ProjectDir)native\x86\RenderSystem_GLES2.dll&#xD;&#xA;copy C:\Development\Anomalous\Dependencies\Ogre\Win64Build\bin\release\OgreMain.dll $(ProjectDir)native\x64\OgreMain.dll&#xD;&#xA;copy C:\Development\Anomalous\Dependencies\Ogre\Win64Build\bin\release\OgreMain.dll $(ProjectDir)native\x64\RenderSystem_Direct3D11.dll&#xD;&#xA;copy C:\Development\Anomalous\Dependencies\Ogre\Win64Build\bin\release\OgreMain.dll $(ProjectDir)native\x64\RenderSystem_GL.dll" />
+  </Target>
+
+</Project>
