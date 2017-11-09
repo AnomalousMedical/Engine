@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>0.0.3</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\..\Release\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="lib\x86\BulletWrapper.xll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\x64\BulletWrapper.xll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\BulletWrapper.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="copy $(ProjectDir)..\..\..\Release\x86\BulletWrapper.dll $(ProjectDir)lib\x86\BulletWrapper.xll" />
+    <Exec Command="copy $(ProjectDir)..\..\..\Release\x64\BulletWrapper.dll $(ProjectDir)lib\x64\BulletWrapper.xll" />
+    <Exec Command="copy $(ProjectDir)..\..\..\Release\x64\BulletWrapper.dll $(ProjectDir)lib\BulletWrapper.dll" />
+  </Target>
+
+</Project>
