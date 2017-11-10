@@ -7,4 +7,6 @@ copy ..\..\..\Release\x86\BulletWrapper.dll contentFiles\any\any\x86\BulletWrapp
 copy ..\..\..\Release\x64\BulletWrapper.dll contentFiles\any\any\x64\BulletWrapper.dll
 
 nuget pack
+move *.nupkg  ..\..\..\Release
+
 popd

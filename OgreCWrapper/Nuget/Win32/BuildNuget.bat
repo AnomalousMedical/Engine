@@ -15,4 +15,6 @@ copy ..\..\..\..\Dependencies\Ogre\Win64Build\bin\release\RenderSystem_GL.dll   
 copy ..\..\..\Release\x64\OgreCWrapper.dll                                              contentFiles\any\any\x64\OgreCWrapper.dll
 
 nuget pack
+move *.nupkg  ..\..\..\Release
+
 popd
