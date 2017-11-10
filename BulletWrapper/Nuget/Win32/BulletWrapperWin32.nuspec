@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>BulletWrapperWin32</id>
-    <version>0.1.8</version>
+    <version>0.2.0</version>
     <title>BulletWrapperWin32</title>
     <authors>Andrew Piper</authors>
     <owners>Anomalous Software, LLC</owners>
