@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.0.0</Version>
+    <Version>0.0.2</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -10,13 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="lib\armeabi-v7a\libOgreCWrapper.so">
+    <Content Include="lib\armeabi-v7a\libBulletWrapper.so">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="copy $(ProjectDir)..\..\..\Release\Android\libOgreCWrapper.so                $(ProjectDir)lib\armeabi-v7a\libOgreCWrapper.so" />
+    <Exec Command="copy $(ProjectDir)..\..\..\Release\Android\libBulletWrapper.so                $(ProjectDir)lib\armeabi-v7a\libBulletWrapper.so" />
   </Target>
 
 </Project>
