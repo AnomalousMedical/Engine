@@ -9,12 +9,6 @@
     <OutputPath>..\..\..\Release\</OutputPath>
   </PropertyGroup>
 
-  <!-- <ItemGroup>
-    <Content Include="lib\armeabi-v7a\libBulletWrapper.so">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup> -->
-
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="copy $(ProjectDir)..\..\..\Release\Android\libBulletWrapper.so                $(ProjectDir)package\contentFiles\any\any\lib\armeabi-v7a\libBulletWrapper.so" />
   </Target>
