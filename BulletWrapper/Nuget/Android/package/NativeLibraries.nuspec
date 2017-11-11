@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Anomalous.BulletWrapper.Android</id>
-    <version>0.2.9</version>
+    <version>0.2.15</version>
     <title>Anomalous.BulletWrapper.Android</title>
     <authors>Andrew Piper</authors>
     <owners>Anomalous Software, LLC</owners>
@@ -14,8 +14,8 @@
     <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Tag1 Tag2</tags>
-     <contentFiles>
+      <contentFiles>
       <files include="**/*" buildAction="None" copyToOutput="true" />
-    </contentFiles> 
+    </contentFiles>  
   </metadata>
 </package>
