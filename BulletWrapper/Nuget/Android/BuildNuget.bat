@@ -1,3 +1,6 @@
 pushd %~dp0
-dotnet pack --include-symbols --configuration Release
+
+mkdir package\contentFiles\any\any\lib\armeabi-v7a
+
+dotnet pack --configuration Release
 popd

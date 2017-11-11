@@ -1,22 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <NuspecFile>package\NativeLibraries.nuspec</NuspecFile>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.0.2</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\..\..\Release\</OutputPath>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!-- <ItemGroup>
     <Content Include="lib\armeabi-v7a\libBulletWrapper.so">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
+  </ItemGroup> -->
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="copy $(ProjectDir)..\..\..\Release\Android\libBulletWrapper.so                $(ProjectDir)lib\armeabi-v7a\libBulletWrapper.so" />
+    <Exec Command="copy $(ProjectDir)..\..\..\Release\Android\libBulletWrapper.so                $(ProjectDir)package\contentFiles\any\any\lib\armeabi-v7a\libBulletWrapper.so" />
   </Target>
 
 </Project>
