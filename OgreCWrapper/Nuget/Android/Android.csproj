@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <NuspecFile>package\Android.nuspec</NuspecFile>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\..\Release\</OutputPath>
+  </PropertyGroup>
+
+  <Target Name="CreateDir" BeforeTargets="PreBuildEvent" Condition="!Exists('$(ProjectDir)package\contentFiles\any\any\lib\armeabi-v7a')">
+    <Exec Command="mkdir $(ProjectDir)package\contentFiles\any\any\lib\armeabi-v7a" />
+  </Target>
+
+  <Target Name="CopyFiles" BeforeTargets="PreBuildEvent">
+    <Exec Command="copy $(ProjectDir)..\..\..\Release\Android\libOgreCWrapper.so $(ProjectDir)package\contentFiles\any\any\lib\armeabi-v7a\libOgreCWrapper.so" />
+  </Target>
+
+</Project>

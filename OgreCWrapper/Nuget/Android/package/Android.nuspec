@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>OgreCWrapperWin32</id>
-    <version>0.2.2</version>
-    <title>OgreCWrapperWin32</title>
+    <id>Anomalous.OgreCWrapper.Android</id>
+    <version>0.0.0</version>
+    <title>Anomalous.OgreCWrapper.Android</title>
     <authors>Andrew Piper</authors>
     <owners>Anomalous Software, LLC</owners>
     <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
@@ -16,6 +16,6 @@
     <tags>Tag1 Tag2</tags>
     <contentFiles>
       <files include="**/*" buildAction="None" copyToOutput="true" />
-    </contentFiles>
+    </contentFiles>  
   </metadata>
 </package>
