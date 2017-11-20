@@ -295,3 +295,4 @@ fastlane/screenshots
 /Engine.VC.db
 /*.db
 /OgreCWrapperWin32/native
+/BulletWrapper/Nuget/Android/package/contentFiles

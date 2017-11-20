@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>BulletWrapperWin32</id>
-    <version>0.2.5</version>
+    <version>0.2.7</version>
     <title>BulletWrapperWin32</title>
     <authors>Andrew Piper</authors>
     <owners>Anomalous Software, LLC</owners>
@@ -14,10 +14,6 @@
     <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Tag1 Tag2</tags>
-    <!-- <contentFiles>
-      <files include="contentFiles\any\any\x64\BulletWrapper.dll" buildAction="None" copyToOutput="true" />
-      <files include="contentFiles\any\any\x86\BulletWrapper.dll" buildAction="None" copyToOutput="true" />
-    </contentFiles> -->
     <contentFiles>
       <files include="**/*" buildAction="None" copyToOutput="true" />
     </contentFiles>
