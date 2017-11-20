@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <NuspecFile>package\Win32.nuspec</NuspecFile>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\..\Release\</OutputPath>
+  </PropertyGroup>
+
+  <Target Name="Createx86" BeforeTargets="PreBuildEvent" Condition="!Exists('$(ProjectDir)package\contentFiles\any\any\x86')">
+    <Exec Command="mkdir $(ProjectDir)package\contentFiles\any\any\x86" />
+  </Target>
+
+  <Target Name="Createx64" BeforeTargets="PreBuildEvent" Condition="!Exists('$(ProjectDir)package\contentFiles\any\any\x64')">
+    <Exec Command="mkdir $(ProjectDir)package\contentFiles\any\any\x64" />
+  </Target>
+
+  <Target Name="CopyFiles" BeforeTargets="PreBuildEvent">
+    <Exec Command="copy $(ProjectDir)..\..\..\Release\x86\OpenAL32.dll $(ProjectDir)package\contentFiles\any\any\x86\OpenAL32.dll" />
+    <Exec Command="copy $(ProjectDir)..\..\..\Release\x86\SoundWrapper.dll $(ProjectDir)package\contentFiles\any\any\x86\SoundWrapper.dll" />
+
+    <Exec Command="copy $(ProjectDir)..\..\..\Release\x64\OpenAL32.dll $(ProjectDir)package\contentFiles\any\any\x64\OpenAL32.dll" />
+    <Exec Command="copy $(ProjectDir)..\..\..\Release\x64\SoundWrapper.dll $(ProjectDir)package\contentFiles\any\any\x64\SoundWrapper.dll" />
+  </Target>
+</Project>
