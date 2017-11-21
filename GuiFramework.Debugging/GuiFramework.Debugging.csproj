@@ -3,6 +3,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Anomalous.GuiFramework.Debugging</RootNamespace>
     <AssemblyName>Anomalous.GuiFramework.Debugging</AssemblyName>
+    <Version>0.0.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
