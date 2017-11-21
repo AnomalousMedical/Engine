@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BEPUikPlugin</RootNamespace>
-    <AssemblyName>BEPUikPlugin</AssemblyName>
+    <AssemblyName>Anomalous.BEPUikPlugin</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

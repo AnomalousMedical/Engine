@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Anomalous.GuiFramework.Editor</RootNamespace>
-    <AssemblyName>GuiFramework.Editor</AssemblyName>
+    <AssemblyName>Anomalous.GuiFramework.Editor</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

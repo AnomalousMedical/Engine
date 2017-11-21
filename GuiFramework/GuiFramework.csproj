@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Anomalous.GuiFramework</RootNamespace>
+    <AssemblyName>Anomalous.GuiFramework</AssemblyName>
     <AssemblyName>GuiFramework</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
