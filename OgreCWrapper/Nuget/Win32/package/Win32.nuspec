@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Anomalous.OgreCWrapper.Win32</id>
-    <version>0.0.1</version>
+    <version>0.1.0</version>
     <title>Anomalous.OgreCWrapper.Win32</title>
     <authors>Andrew Piper</authors>
     <owners>Anomalous Software, LLC</owners>
