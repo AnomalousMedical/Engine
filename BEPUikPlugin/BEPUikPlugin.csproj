@@ -1,56 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{39F1AB5F-F0B1-45FD-AD66-9C03AF1F022E}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>BEPUikPlugin</RootNamespace>
     <AssemblyName>Anomalous.BEPUikPlugin</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <Version>0.0.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;LITE_EMBEDDED_LIB</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\Release\netstandard2.0\</OutputPath>
+    <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0;LITE_EMBEDDED_LIB</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\Release\</OutputPath>
-    <DefineConstants>TRACE;LITE_EMBEDDED_LIB</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Release\BEPUikPlugin.XML</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RelMDeb|AnyCPU'">
-    <OutputPath>..\Release\</OutputPath>
-    <DefineConstants>TRACE;LITE_EMBEDDED_LIB</DefineConstants>
-    <DocumentationFile>..\Release\BEPUikPlugin.XML</DocumentationFile>
-    <Optimize>false</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Autofac, Version=4.6.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.4.6.0\lib\net45\Autofac.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\ActiveSet.cs">
       <Link>BEPUik\ActiveSet.cs</Link>
@@ -196,81 +155,9 @@
     <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUutilities\VoronoiRegion.cs">
       <Link>BEPUutilities\VoronoiRegion.cs</Link>
     </Compile>
-    <Compile Include="Construction\BEPUikBlacklistException.cs" />
-    <Compile Include="Construction\BEPUIkFactory.cs" />
-    <Compile Include="Construction\BEPUikFactoryEntry.cs" />
-    <Compile Include="DebugDraw\BEPUikDebugEntry.cs" />
-    <Compile Include="DebugDraw\BEPUikDebugInterface.cs" />
-    <Compile Include="Definition\BEPUikPointOnLineJointDefinition.cs" />
-    <Compile Include="Definition\BEPUikSolverDefinition.cs" />
-    <Compile Include="Definition\BEPUikTwistLimitDefinition.cs" />
-    <Compile Include="Definition\BEPUikSwingLimitDefinition.cs" />
-    <Compile Include="Definition\BEPUikDistanceLimitDefinition.cs" />
-    <Compile Include="Definition\BEPUikLimitDefinition.cs" />
-    <Compile Include="Definition\BEPUikTwistJointDefinition.cs" />
-    <Compile Include="Definition\BEPUikSwivelHingeJointDefinition.cs" />
-    <Compile Include="Definition\BEPUikRevoluteJointDefinition.cs" />
-    <Compile Include="Definition\BEPUikDistanceJointDefinition.cs" />
-    <Compile Include="Definition\BEPUikAngularJointDefinition.cs" />
-    <Compile Include="Definition\BEPUikConstraintDefinition.cs" />
-    <Compile Include="Definition\BEPUikControlDefinition.cs" />
-    <Compile Include="Definition\BEPUikDragControlDefinition.cs" />
-    <Compile Include="Definition\BEPUikBallSocketJointDefinition.cs" />
-    <Compile Include="Definition\BEPUikBoneDefinition.cs" />
-    <Compile Include="Definition\BEPUikElementDefinition.cs" />
-    <Compile Include="Definition\BEPUikJointDefinition.cs" />
-    <Compile Include="Definition\BEPUIkSceneDefinition.cs" />
-    <Compile Include="Definition\EditingVisuals\BoneRenderer.cs" />
-    <Compile Include="Definition\EditingVisuals\DistanceLimitRenderer.cs" />
-    <Compile Include="Definition\EditingVisuals\RevoluteJointRenderer.cs" />
-    <Compile Include="Definition\EditingVisuals\TwistJointRenderer.cs" />
-    <Compile Include="Definition\EditingVisuals\TwistLimitRenderer.cs" />
-    <Compile Include="Definition\EditingVisuals\SwivelHingeJointRenderer.cs" />
-    <Compile Include="Definition\EditingVisuals\SwingLimitRenderer.cs" />
-    <Compile Include="External\ExternalControl.cs" />
-    <Compile Include="External\ExternalRevoluteControl.cs" />
-    <Compile Include="Instance\BEPUikBoneLocalRot.cs" />
-    <Compile Include="Instance\BEPUikPointOnLineJoint.cs" />
-    <Compile Include="Instance\BEPUikSolver.cs" />
-    <Compile Include="Instance\BEPUikTwistLimit.cs" />
-    <Compile Include="Instance\BEPUikSwingLimit.cs" />
-    <Compile Include="Instance\BEPUikDistanceLimit.cs" />
-    <Compile Include="Instance\BEPUikLimit.cs" />
-    <Compile Include="Instance\BEPUikTwistJoint.cs" />
-    <Compile Include="Instance\BEPUikSwivelHingeJoint.cs" />
-    <Compile Include="Instance\BEPUikRevoluteJoint.cs" />
-    <Compile Include="Instance\BEPUikDistanceJoint.cs" />
-    <Compile Include="Instance\BEPUikAngularJoint.cs" />
-    <Compile Include="Instance\BEPUikConstraint.cs" />
-    <Compile Include="Instance\BEPUikControl.cs" />
-    <Compile Include="Instance\BEPUikDragControl.cs" />
-    <Compile Include="Instance\BEPUikBallSocketJoint.cs" />
-    <Compile Include="Instance\BEPUikBone.cs" />
-    <Compile Include="Instance\BEPUikJoint.cs" />
-    <Compile Include="Instance\BEPUIkScene.cs" />
-    <Compile Include="External\ExternalDragControl.cs" />
-    <Compile Include="Plugin\BEPUIkInterface.cs" />
-    <Compile Include="Plugin\BEPUikPluginEntryPoint.cs" />
-    <Compile Include="Plugin\BEPUikSceneUpdater.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utility\BEPUMathExtensions.cs" />
-    <Compile Include="Definition\EditingVisuals\PointOnLIneJointRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">
-      <Project>{57C253F1-157F-4A6A-9FED-345A776B97D5}</Project>
-      <Name>Engine</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
