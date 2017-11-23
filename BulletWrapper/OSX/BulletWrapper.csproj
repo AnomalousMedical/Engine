@@ -38,11 +38,8 @@
   </ItemGroup>
   
   <Target Name="Build">
-    <BuildXCode Configuration="$(Configuration)"/>
-	<Copy
-		SourceFiles="@(OutputFiles)"
-		DestinationFolder="../../$(Configuration)"
-	/>
+    <BuildXCode Configuration="$(Configuration)" />
+	<Copy SourceFiles="@(OutputFiles)" DestinationFolder="../../$(Configuration)" />
   </Target>
   
   <UsingTask TaskName="CleanXCode" AssemblyFile="..\..\..\Dependencies\MSBuild\Anomalous\bin\Release\AnomalousMSBuild.dll" />

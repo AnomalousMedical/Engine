@@ -35,16 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">
-      <Project>{57c253f1-157f-4a6a-9fed-345a776b97d5}</Project>
-      <Name>Engine</Name>
     </ProjectReference>
     <ProjectReference Include="..\MyGUIPlugin\MyGUIPlugin.csproj">
-      <Project>{02d4da85-fd6c-421f-81c3-8f58f790bc81}</Project>
-      <Name>MyGUIPlugin</Name>
     </ProjectReference>
     <ProjectReference Include="..\OSPlatform\OSPlatform.csproj">
-      <Project>{6e594c78-9cd8-432d-a135-11c4a72f3bcf}</Project>
-      <Name>OSPlatform</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

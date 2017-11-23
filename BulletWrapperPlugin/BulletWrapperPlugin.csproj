@@ -64,12 +64,8 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">
-      <Project>{57C253F1-157F-4A6A-9FED-345A776B97D5}</Project>
-      <Name>Engine</Name>
     </ProjectReference>
     <ProjectReference Include="..\ShapeLoader\ShapeLoader.csproj">
-      <Project>{FECE54F4-6796-486F-9617-6D706DDFD0DF}</Project>
-      <Name>ShapeLoader</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
