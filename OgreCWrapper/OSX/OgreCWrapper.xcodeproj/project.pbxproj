@@ -100,6 +100,7 @@
 		01A69921135636B4008B7F31 /* WrapperMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698D4135636B4008B7F31 /* WrapperMath.cpp */; };
 		01A69922135636B4008B7F31 /* Stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01A698D5135636B4008B7F31 /* Stdafx.cpp */; };
 		01A69923135636B4008B7F31 /* Stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A698D6135636B4008B7F31 /* Stdafx.h */; };
+		01A96B231FC9FEF000C969DB /* OgreGLPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 01A96B221FC9FEEF00C969DB /* OgreGLPlugin.h */; };
 		01C2B2731576A70500A28176 /* ManagedRenderSystemListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01C2B2721576A70500A28176 /* ManagedRenderSystemListener.cpp */; };
 		01DA8F5F19AE6BD300F71B59 /* StaticGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01DA8F5E19AE6BD300F71B59 /* StaticGeometry.cpp */; };
 /* End PBXBuildFile section */
@@ -199,6 +200,7 @@
 		01A698D4135636B4008B7F31 /* WrapperMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WrapperMath.cpp; sourceTree = "<group>"; };
 		01A698D5135636B4008B7F31 /* Stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Stdafx.cpp; path = ../Stdafx.cpp; sourceTree = SOURCE_ROOT; };
 		01A698D6135636B4008B7F31 /* Stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stdafx.h; path = ../Stdafx.h; sourceTree = SOURCE_ROOT; };
+		01A96B221FC9FEEF00C969DB /* OgreGLPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OgreGLPlugin.h; path = ../../../Dependencies/Ogre/src/RenderSystems/GL/include/OgreGLPlugin.h; sourceTree = "<group>"; };
 		01C2B2721576A70500A28176 /* ManagedRenderSystemListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManagedRenderSystemListener.cpp; sourceTree = "<group>"; };
 		01DA8F5E19AE6BD300F71B59 /* StaticGeometry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticGeometry.cpp; sourceTree = "<group>"; };
 		5073E0C609E734A800EC74B6 /* OgreCWrapperProj.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = OgreCWrapperProj.xcconfig; sourceTree = "<group>"; };
@@ -347,6 +349,7 @@
 		0867D691FE84028FC02AAC07 /* OgreCWrapper */ = {
 			isa = PBXGroup;
 			children = (
+				01A96B221FC9FEEF00C969DB /* OgreGLPlugin.h */,
 				01A698861356368E008B7F31 /* OgreCWrapper */,
 				5073E0CA09E734BC00EC74B6 /* Configuration Files */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
@@ -386,6 +389,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01A96B231FC9FEF000C969DB /* OgreGLPlugin.h in Headers */,
 				01A698D7135636B4008B7F31 /* NativeFrameListener.h in Headers */,
 				01A698D8135636B4008B7F31 /* NativeSceneListener.h in Headers */,
 				01A698D9135636B4008B7F31 /* NativeWindowListener.h in Headers */,
