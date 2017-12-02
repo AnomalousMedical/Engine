@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml;
+
+namespace Engine.Saving.JsonSaver
+{
+    class JsonShort : JsonValue<short>
+    {
+        public JsonShort(JsonSaver xmlWriter)
+            : base(xmlWriter, "Short")
+        {
+
+        }
+
+        public override string valueToString(short value)
+        {
+            return NumberParser.ToString(value);
+        }
+
+        public override short parseValue(XmlReader xmlReader)
+        {
+            return (short)xmlReader.ReadElementContentAsInt();
+        }
+    }
+}
