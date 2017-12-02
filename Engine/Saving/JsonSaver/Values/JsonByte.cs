@@ -1,4 +1,5 @@
 ﻿
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,9 @@ namespace Engine.Saving.JsonSaver
             return NumberParser.ToString(value);
         }
 
-        public override byte parseValue(XmlReader xmlReader)
+        public override byte parseValue(JsonReader xmlReader)
         {
-            return NumberParser.ParseByte(xmlReader.ReadElementContentAsString());
+            return (byte)xmlReader.ReadAsInt32();
         }
     }
 }

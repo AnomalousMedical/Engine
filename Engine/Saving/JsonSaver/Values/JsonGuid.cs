@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,9 @@ namespace Engine.Saving.JsonSaver
             return value.ToString();
         }
 
-        public override Guid parseValue(XmlReader xmlReader)
+        public override Guid parseValue(JsonReader xmlReader)
         {
-            return new Guid(xmlReader.ReadElementContentAsString());
+            return new Guid(xmlReader.ReadAsString());
         }
     }
 }

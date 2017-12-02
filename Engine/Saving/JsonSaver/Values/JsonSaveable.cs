@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,12 +31,14 @@ namespace Engine.Saving.JsonSaver
             return value.ToString();
         }
 
-        public override void readValue(LoadControl loadControl, XmlReader xmlReader)
+        //Format { "Saveable": "Id" }
+
+        public override void readValue(LoadControl loadControl, String name, JsonReader xmlReader)
         {
-            loadControl.addObjectValue(xmlReader.GetAttribute(NAME_ENTRY), NumberParser.ParseLong(xmlReader.GetAttribute(OBJECT_ID)));
+            loadControl.addObjectValue(name, NumberParser.ParseLong(xmlReader.ReadAsString()));
         }
 
-        public override Saveable parseValue(XmlReader xmlReader)
+        public override Saveable parseValue(JsonReader xmlReader)
         {
             throw new SaveException("This parseValue function should never be called");
         }

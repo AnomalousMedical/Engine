@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,10 @@ namespace Engine.Saving.JsonSaver
             return value.ToString();
         }
 
-        public override Vector3 parseValue(XmlReader xmlReader)
+        public override Vector3 parseValue(JsonReader xmlReader)
         {
-            return new Vector3(xmlReader.ReadElementContentAsString());
+            float[] vector3 = xmlReader.ReadArray<float>(3, r => (float)xmlReader.ReadAsDouble());
+            return new Vector3(vector3[0], vector3[1], vector3[2]);
         }
     }
 }

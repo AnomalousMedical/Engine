@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,11 @@ namespace Engine.Saving.JsonSaver
             return value.ToString();
         }
 
-        public override Color parseValue(XmlReader xmlReader)
+        public override Color parseValue(JsonReader xmlReader)
         {
-            return new Color(xmlReader.ReadElementContentAsString());
+            float[] rgba = new float[] { 0.0f, 0.0f, 0.0f, 1.0f };
+            xmlReader.ReadArray(rgba, r => (float)r.ReadAsDouble().Value);
+            return new Color(rgba[0], rgba[1], rgba[2], rgba[3]);
         }
     }
 }

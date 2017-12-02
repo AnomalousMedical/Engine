@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace Engine.Saving.JsonSaver
 {
     interface JsonValueReader
     {
-        void readValue(LoadControl loadControl, XmlReader xmlReader);
+        void readValue(LoadControl loadControl, String name, JsonReader xmlReader);
 
         String ElementName { get; }
     }

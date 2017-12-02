@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,9 @@ namespace Engine.Saving.JsonSaver
             return NumberParser.ToString(value);
         }
 
-        public override uint parseValue(XmlReader xmlReader)
+        public override uint parseValue(JsonReader xmlReader)
         {
-            return NumberParser.ParseUint(xmlReader.ReadElementContentAsString());
+            return (uint)xmlReader.ReadAsInt32(); //This *should* be ok, still a 32 bit number.
         }
     }
 }

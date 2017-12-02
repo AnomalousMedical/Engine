@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,12 +34,12 @@ namespace Engine.Saving.JsonSaver
 
         public abstract String valueToString(T value);
 
-        public virtual void readValue(LoadControl loadControl, XmlReader xmlReader)
+        public virtual void readValue(LoadControl loadControl, String name, JsonReader xmlReader)
         {
-            loadControl.addValue(xmlReader.GetAttribute(NAME_ENTRY), parseValue(xmlReader), typeof(T));
+            loadControl.addValue(name, parseValue(xmlReader), typeof(T));
         }
 
-        public abstract T parseValue(XmlReader xmlReader);
+        public abstract T parseValue(JsonReader xmlReader);
 
         public String ElementName
         {

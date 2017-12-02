@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,10 @@ namespace Engine.Saving.JsonSaver
             return value.ToString();
         }
 
-        public override Quaternion parseValue(XmlReader xmlReader)
+        public override Quaternion parseValue(JsonReader xmlReader)
         {
-            return new Quaternion(xmlReader.ReadElementContentAsString());
+            var quat = xmlReader.ReadArray<float>(4, r => (float)r.ReadAsDouble());
+            return new Quaternion(quat[0], quat[1], quat[2], quat[3]);
         }
     }
 }

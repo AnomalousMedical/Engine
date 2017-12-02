@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,9 @@ namespace Engine.Saving.JsonSaver
             return NumberParser.ToString(value);
         }
 
-        public override long parseValue(XmlReader xmlReader)
+        public override long parseValue(JsonReader xmlReader)
         {
-            return xmlReader.ReadElementContentAsLong();
+            return NumberParser.ParseLong(xmlReader.ReadAsString());
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Reflection;
 using Logging;
+using Newtonsoft.Json;
 
 namespace Engine.Saving.JsonSaver
 {
@@ -36,22 +37,45 @@ namespace Engine.Saving.JsonSaver
             return value.ToString();
         }
 
-        public override void readValue(LoadControl loadControl, XmlReader xmlReader)
+        /**
+         * Format
+         * { "Enum": { "ClrEnumType" : "Value" } }
+         */
+
+        private void throwReadFormatError()
         {
-            Type enumType = loadControl.TypeFinder.findType(xmlReader.GetAttribute(TYPE));
+            throw new InvalidOperationException(@"The format of an Enum must be { ""Enum:"": { ""ClrEnumType"" : ""Value"" } }");
+        }
+
+        public override void readValue(LoadControl loadControl, String name, JsonReader xmlReader)
+        {
+            if(xmlReader.TokenType != JsonToken.StartObject)
+            {
+                throwReadFormatError();
+            }
+
+            xmlReader.Read();
+            var clrType = xmlReader.ReadAsString();
+            var enumType = loadControl.TypeFinder.findType(clrType);
+
+            xmlReader.Read();
+            var valueStr = xmlReader.ReadAsString();
+
+            //Read to end of object
+            while(xmlReader.TokenType != JsonToken.EndObject && xmlReader.Read()) { }
+
             if (enumType != null)
             {
-                String name = xmlReader.GetAttribute(NAME_ENTRY);
-                Object value = Enum.Parse(enumType, xmlReader.ReadElementContentAsString());
+                Object value = Enum.Parse(enumType, valueStr);
                 loadControl.addValue(name, value, enumType);
             }
             else
             {
-                Log.Default.sendMessage("Could not find enum type {0}. Value not loaded.", LogLevel.Warning, "Saving", xmlReader.GetAttribute(TYPE));
+                Log.Default.sendMessage("Could not find enum type {0}. Value not loaded.", LogLevel.Warning, "Saving", clrType);
             }
         }
 
-        public override Enum parseValue(XmlReader xmlReader)
+        public override Enum parseValue(JsonReader xmlReader)
         {
             throw new SaveException("This ParseValue function should never be called");
         }

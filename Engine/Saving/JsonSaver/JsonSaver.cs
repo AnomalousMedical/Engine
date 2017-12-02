@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,13 +21,13 @@ namespace Engine.Saving.JsonSaver
         private JsonEnum enumValue;
         private XmlWriter xmlWriter;
         private LoadControl loadControl;
-        private Dictionary<String, JsonValueReader> valueReaders = new Dictionary<string,JsonValueReader>();
+        private Dictionary<String, JsonValueReader> valueReaders = new Dictionary<string, JsonValueReader>();
         private TypeFinder typeFinder;
 
         public JsonSaver()
-            :this(new DefaultTypeFinder())
+            : this(new DefaultTypeFinder())
         {
-            
+
         }
 
         public JsonSaver(TypeFinder typeFinder)
@@ -87,38 +88,120 @@ namespace Engine.Saving.JsonSaver
             }
         }
 
-        public object restoreObject(XmlReader xmlReader)
+        /// <summary>
+        /// Read the json header object, it must come first in any saveable object. The reader should
+        /// be on the _saveable PropertyName. It will advance the reader to the node for the end of the
+        /// header object.
+        /// </summary>
+        /// <param name="reader">This must currently be on the _saveable PropertyName</param>
+        /// <param name="version">The version number of the object.</param>
+        /// <returns></returns>
+        private ObjectIdentifier ParseHeaderObject(JsonTextReader reader, ref int version)
+        {
+            if(reader.TokenType != JsonToken.PropertyName && reader.ReadAsString() != "_saveable")
+            {
+                throw new InvalidOperationException("Saveable Json Objects must start with a header object named '_saveable'.");
+            }
+
+            version = 0;
+            long id = 0;
+            String type = null;
+            bool inHeaderObject = true;
+
+            while (inHeaderObject && reader.Read())
+            {
+                switch (reader.TokenType)
+                {
+                    case JsonToken.PropertyName:
+                        var propName = reader.ReadAsString();
+                        reader.Read(); //Advance to value
+                        switch (propName)
+                        {
+                            case "version":
+                                version = reader.ReadAsInt32().Value;
+                                break;
+                            case "id":
+                                id = NumberParser.ParseLong(reader.ReadAsString());
+                                break;
+                            case "type":
+                                type = reader.ReadAsString();
+                                break;
+                        }
+                        break;
+                    case JsonToken.EndObject:
+                        inHeaderObject = false;
+                        break;
+                }
+            }
+
+            return ObjectIdentifierFactory.CreateObjectIdentifier(id, type, typeFinder);
+        }
+
+        private void readProp(JsonTextReader reader)
+        {
+            var name = reader.ReadAsString();
+            //Load value object
+            reader.Read();
+            if(reader.TokenType != JsonToken.StartObject)
+            {
+                throw new InvalidOperationException($@"Property {name} must have a value in the format {{ ""type"" : ""value"" }}");
+            }
+            reader.Read();
+            if(reader.TokenType != JsonToken.PropertyName)
+            {
+                throw new InvalidOperationException($@"Property {name} must have a value in the format {{ ""type"" : ""value"" }}");
+            }
+            String type = reader.ReadAsString();
+            reader.Read(); //Advance to value
+            valueReaders[type].readValue(loadControl, name, reader);
+        }
+
+        private Object readSaveable(JsonTextReader reader)
+        {
+            int version = 0;
+            ObjectIdentifier objectId = ParseHeaderObject(reader, ref version);
+            loadControl.startDefiningObject(objectId, version);
+            bool keepReading = true;
+            while(keepReading && reader.Read())
+            {
+                switch (reader.TokenType)
+                {
+                    case JsonToken.PropertyName:
+                        readProp(reader);
+                        break;
+                    case JsonToken.EndObject:
+                        keepReading = false;
+                        break;
+                }
+            }
+            return loadControl.createCurrentObject();
+        }
+
+        public object restoreObject(JsonTextReader reader)
         {
             Object lastReadObject = null;
             try
             {
-                while (xmlReader.Read())
+                //Read array
+                reader.Read();
+                if(reader.TokenType != JsonToken.StartArray)
                 {
-                    if (xmlReader.NodeType == XmlNodeType.Element)
+                    throw new InvalidOperationException("Saveable Json Files must be an array of objects.");
+                }
+
+                bool keepReading = true;
+                while (keepReading && reader.Read())
+                {
+                    Console.WriteLine("Token: {0}, Value: {1}", reader.TokenType, reader.Value);
+
+                    switch (reader.TokenType)
                     {
-                        if (xmlReader.Name.Equals(SAVEABLE_ELEMENT))
-                        {
-                            int version = 0;
-                            String versionStr = xmlReader.GetAttribute(VERSION_ATTIBUTE);
-                            if (versionStr != null)
-                            {
-                                version = NumberParser.ParseInt(versionStr);
-                            }
-                            ObjectIdentifier objectId = ObjectIdentifierFactory.CreateObjectIdentifier(NumberParser.ParseLong(xmlReader.GetAttribute(ID_ATTIBUTE)), xmlReader.GetAttribute(TYPE_ATTRIBUTE), typeFinder);
-                            loadControl.startDefiningObject(objectId, version);
-                            //If the element is empty do not bother to loop looking for elements.
-                            if (!xmlReader.IsEmptyElement)
-                            {
-                                while (!(xmlReader.Name == SAVEABLE_ELEMENT && xmlReader.NodeType == XmlNodeType.EndElement) && xmlReader.Read())
-                                {
-                                    if (xmlReader.NodeType == XmlNodeType.Element)
-                                    {
-                                        valueReaders[xmlReader.Name].readValue(loadControl, xmlReader);
-                                    }
-                                }
-                            }
-                            lastReadObject = loadControl.createCurrentObject();
-                        }
+                        case JsonToken.StartObject:
+                            lastReadObject = readSaveable(reader);
+                            break;
+                        case JsonToken.EndArray:
+                            keepReading = false;
+                            break;
                     }
                 }
             }
