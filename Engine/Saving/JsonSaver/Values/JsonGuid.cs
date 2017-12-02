@@ -15,9 +15,9 @@ namespace Engine.Saving.JsonSaver
 
         }
 
-        public override string valueToString(Guid value)
+        public override void writeValue(Guid value, JsonWriter writer)
         {
-            return value.ToString();
+            writer.WriteValue(value.ToString());
         }
 
         public override Guid parseValue(JsonReader xmlReader)

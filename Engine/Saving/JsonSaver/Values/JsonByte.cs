@@ -16,9 +16,9 @@ namespace Engine.Saving.JsonSaver
 
         }
 
-        public override string valueToString(byte value)
+        public override void writeValue(byte value, JsonWriter writer)
         {
-            return NumberParser.ToString(value);
+            writer.WriteValue(value);
         }
 
         public override byte parseValue(JsonReader xmlReader)

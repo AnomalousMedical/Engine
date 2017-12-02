@@ -15,9 +15,9 @@ namespace Engine.Saving.JsonSaver
 
         }
 
-        public override string valueToString(float value)
+        public override void writeValue(float value, JsonWriter writer)
         {
-            return NumberParser.ToString(value);
+            writer.WriteValue(value);
         }
 
         public override float parseValue(JsonReader xmlReader)

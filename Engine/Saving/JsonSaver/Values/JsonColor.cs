@@ -15,9 +15,16 @@ namespace Engine.Saving.JsonSaver
 
         }
 
-        public override string valueToString(Color value)
+        public override void writeValue(Color value, JsonWriter writer)
         {
-            return value.ToString();
+            writer.WriteStartArray();
+
+            writer.WriteValue(value.r);
+            writer.WriteValue(value.g);
+            writer.WriteValue(value.b);
+            writer.WriteValue(value.a);
+
+            writer.WriteEndArray();
         }
 
         public override Color parseValue(JsonReader xmlReader)

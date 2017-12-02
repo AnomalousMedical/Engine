@@ -15,9 +15,9 @@ namespace Engine.Saving.JsonSaver
 
         }
 
-        public override string valueToString(ulong value)
+        public override void writeValue(ulong value, JsonWriter writer)
         {
-            return NumberParser.ToString(value);
+            writer.WriteValue(NumberParser.ToString(value));
         }
 
         public override ulong parseValue(JsonReader xmlReader)

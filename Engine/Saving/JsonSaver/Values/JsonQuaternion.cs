@@ -15,9 +15,16 @@ namespace Engine.Saving.JsonSaver
 
         }
 
-        public override string valueToString(Quaternion value)
+        public override void writeValue(Quaternion value, JsonWriter writer)
         {
-            return value.ToString();
+            writer.WriteStartArray();
+
+            writer.WriteValue(value.x);
+            writer.WriteValue(value.y);
+            writer.WriteValue(value.z);
+            writer.WriteValue(value.w);
+
+            writer.WriteEndArray();
         }
 
         public override Quaternion parseValue(JsonReader xmlReader)

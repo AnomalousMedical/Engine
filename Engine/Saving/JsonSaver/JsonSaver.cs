@@ -19,7 +19,7 @@ namespace Engine.Saving.JsonSaver
         private SaveControl saveControl;
         private JsonSaveable saveableValue;
         private JsonEnum enumValue;
-        private XmlWriter xmlWriter;
+        private JsonWriter jsonWriter;
         private LoadControl loadControl;
         private Dictionary<String, JsonValueReader> valueReaders = new Dictionary<string, JsonValueReader>();
         private TypeFinder typeFinder;
@@ -68,24 +68,41 @@ namespace Engine.Saving.JsonSaver
             valueReaders.Add(xmlValue.ElementName, xmlValue);
         }
 
-        public void saveObject(Saveable save, XmlWriter xmlWriter)
+        public void saveObject(Saveable save, JsonWriter jsonWriter)
         {
-            this.xmlWriter = xmlWriter;
-            xmlWriter.WriteStartElement(DOCUMENT);
+            this.jsonWriter = jsonWriter;
             saveControl.saveObject(save);
-            xmlWriter.WriteEndElement();
             saveControl.reset();
         }
 
+        private const String SaveableHeaderName = "_saveable";
+
         public void writeHeader(ObjectIdentifier objectId, int version)
         {
-            xmlWriter.WriteStartElement(SAVEABLE_ELEMENT);
-            xmlWriter.WriteAttributeString(TYPE_ATTRIBUTE, DefaultTypeFinder.CreateShortTypeString(objectId.ObjectType));
-            xmlWriter.WriteAttributeString(ID_ATTIBUTE, objectId.ObjectID.ToString());
-            if (version > 0)
+            jsonWriter.WriteStartObject();
+
+            //Write saveable header
+            jsonWriter.WritePropertyName(SaveableHeaderName);
+            jsonWriter.WriteStartObject();
+
+            jsonWriter.WritePropertyName("id");
+            jsonWriter.WriteValue(NumberParser.ToString(objectId.ObjectID));
+
+            jsonWriter.WritePropertyName("type");
+            jsonWriter.WriteValue(objectId.ObjectType);
+
+            if (version != 0)
             {
-                xmlWriter.WriteAttributeString(VERSION_ATTIBUTE, version.ToString());
+                jsonWriter.WritePropertyName("version");
+                jsonWriter.WriteValue(version);
             }
+
+            jsonWriter.WriteEndObject();
+        }
+
+        public void writeFooter(ObjectIdentifier objectId)
+        {
+            jsonWriter.WriteEndObject();
         }
 
         /// <summary>
@@ -98,9 +115,9 @@ namespace Engine.Saving.JsonSaver
         /// <returns></returns>
         private ObjectIdentifier ParseHeaderObject(JsonTextReader reader, ref int version)
         {
-            if(reader.TokenType != JsonToken.PropertyName && reader.ReadAsString() != "_saveable")
+            if(reader.TokenType != JsonToken.PropertyName && reader.ReadAsString() != SaveableHeaderName)
             {
-                throw new InvalidOperationException("Saveable Json Objects must start with a header object named '_saveable'.");
+                throw new InvalidOperationException($"Saveable Json Objects must start with a header object named '{SaveableHeaderName}'.");
             }
 
             version = 0;
@@ -212,16 +229,11 @@ namespace Engine.Saving.JsonSaver
             return lastReadObject;
         }
 
-        public void writeFooter(ObjectIdentifier objectId)
-        {
-            xmlWriter.WriteEndElement();
-        }
-
-        internal XmlWriter XmlWriter
+        internal JsonWriter Writer
         {
             get
             {
-                return xmlWriter;
+                return jsonWriter;
             }
         }
     }

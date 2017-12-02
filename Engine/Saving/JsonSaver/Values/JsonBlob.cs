@@ -17,23 +17,15 @@ namespace Engine.Saving.JsonSaver
 
         }
 
-        public override void writeValue(SaveEntry entry)
+        public override void writeValue(byte[] value, JsonWriter writer)
         {
-            XmlWriter xmlWriter = xmlSaver.XmlWriter;
-            xmlWriter.WriteStartElement(elementName);
-            xmlWriter.WriteAttributeString(NAME_ENTRY, entry.Name);
-            if (entry.Value != null)
+            //Assuming we can write an array and read it as bytes
+            writer.WriteStartArray();
+            foreach(var v in value)
             {
-                byte[] blobArray = (byte[])entry.Value;
-                xmlWriter.WriteAttributeString(BYTE_SIZE_ENTRY, blobArray.Length.ToString());
-                xmlWriter.WriteBinHex(blobArray, 0, blobArray.Length);
+                writer.WriteValue(v);
             }
-            xmlWriter.WriteEndElement();
-        }
-
-        public override string valueToString(byte[] value)
-        {
-            return null;
+            writer.WriteEndArray();
         }
 
         public override byte[] parseValue(JsonReader xmlReader)

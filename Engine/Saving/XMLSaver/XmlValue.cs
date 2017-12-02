@@ -21,6 +21,10 @@ namespace Engine.Saving.XMLSaver
 
         public virtual void writeValue(SaveEntry entry)
         {
+            //JSON_XML_ISSUE
+            //There is a discrepency here between xml and json, this always writes the fact that the value existed.
+            //This could change how hasValue works since it won't always be written the same way, this might not matter, but need to investigate
+            //Stuff that is using hasValue, likely it can be updated as well
             XmlWriter xmlWriter = xmlSaver.XmlWriter;
             xmlWriter.WriteStartElement(elementName);
             xmlWriter.WriteAttributeString(NAME_ENTRY, entry.Name);

@@ -19,22 +19,14 @@ namespace Engine.Saving.JsonSaver
 
         }
 
-        public override void writeValue(SaveEntry entry)
+        public override void writeValue(Enum value, JsonWriter writer)
         {
-            XmlWriter xmlWriter = xmlSaver.XmlWriter;
-            xmlWriter.WriteStartElement(elementName);
-            xmlWriter.WriteAttributeString(NAME_ENTRY, entry.Name);
-            xmlWriter.WriteAttributeString(TYPE, DefaultTypeFinder.CreateShortTypeString(entry.ObjectType));
-            if (entry.Value != null)
-            {
-                xmlWriter.WriteString(entry.Value.ToString());
-            }
-            xmlWriter.WriteEndElement();
-        }
+            writer.WriteStartObject();
 
-        public override string valueToString(Enum value)
-        {
-            return value.ToString();
+            writer.WritePropertyName(value.GetType().FullName);
+            writer.WriteValue(value.ToString());
+
+            writer.WriteEndObject();
         }
 
         /**

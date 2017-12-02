@@ -15,9 +15,15 @@ namespace Engine.Saving.JsonSaver
 
         }
 
-        public override string valueToString(Vector3 value)
+        public override void writeValue(Vector3 value, JsonWriter writer)
         {
-            return value.ToString();
+            writer.WriteStartArray();
+
+            writer.WriteValue(value.x);
+            writer.WriteValue(value.y);
+            writer.WriteValue(value.z);
+
+            writer.WriteEndArray();
         }
 
         public override Vector3 parseValue(JsonReader xmlReader)

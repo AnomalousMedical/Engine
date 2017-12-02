@@ -15,9 +15,9 @@ namespace Engine.Saving.JsonSaver
 
         }
 
-        public override string valueToString(bool value)
+        public override void writeValue(bool value, JsonWriter writer)
         {
-            return value.ToString();
+            writer.WriteValue(value);
         }
 
         public override bool parseValue(JsonReader xmlReader)

@@ -15,12 +15,14 @@ namespace Engine.Saving.JsonSaver
 
         }
 
-        public override string valueToString(Ray3 value)
+        public override void writeValue(Ray3 value, JsonWriter writer)
         {
-            return value.ToString();
+            writer.WriteStartObject();
+
+            writer.WriteEndObject();
         }
 
-        // { "Ray3" : { [ox, oy, oz], [dx, dy, dz] } }
+        // { "Ray3" : { "origin" : [x, y, z], "dir": [x, y, z] } }
 
         public override Ray3 parseValue(JsonReader xmlReader)
         {
@@ -28,7 +30,21 @@ namespace Engine.Saving.JsonSaver
             {
                 throwReadError();
             }
+
+            xmlReader.Read();
+            if(xmlReader.TokenType != JsonToken.PropertyName && xmlReader.ReadAsString() != "origin")
+            {
+                throwReadError();
+            }
+            xmlReader.Read();
             var o = xmlReader.ReadArray<float>(3, r => (float)r.ReadAsDouble());
+
+            xmlReader.Read();
+            if (xmlReader.TokenType != JsonToken.PropertyName && xmlReader.ReadAsString() != "dir")
+            {
+                throwReadError();
+            }
+            xmlReader.Read();
             var d = xmlReader.ReadArray<float>(3, r => (float)r.ReadAsDouble());
 
             return new Ray3(new Vector3(o[0], o[1], o[2]), new Vector3(d[0], d[1], d[2]));
@@ -36,7 +52,7 @@ namespace Engine.Saving.JsonSaver
 
         private static void throwReadError()
         {
-            throw new InvalidOperationException(@"A Ray3 must be in the format { ""Ray3"" : { [ox, oy, oz], [dx, dy, dz] } } where x is the origin and d is the direction.");
+            throw new InvalidOperationException(@"A Ray3 must be in the format { ""Ray3"" : { ""origin"" : [x, y, z], ""dir"": [x, y, z] } }.");
         }
     }
 }

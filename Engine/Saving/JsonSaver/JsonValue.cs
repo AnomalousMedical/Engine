@@ -22,17 +22,20 @@ namespace Engine.Saving.JsonSaver
 
         public virtual void writeValue(SaveEntry entry)
         {
-            XmlWriter xmlWriter = xmlSaver.XmlWriter;
-            xmlWriter.WriteStartElement(elementName);
-            xmlWriter.WriteAttributeString(NAME_ENTRY, entry.Name);
-            if (entry.Value != null)
+            //JSON_XML_ISSUE
+            //There is a discrepency here between xml and json, this always writes the fact that the value existed.
+            //This could change how hasValue works since it won't always be written the same way, this might not matter, but need to investigate
+            //Stuff that is using hasValue, likely it can be updated as well
+            //That or fix this to write out something
+            var writer = xmlSaver.Writer;
+            if(entry.Value != null)
             {
-                xmlWriter.WriteString(valueToString((T)entry.Value));
+                writer.WritePropertyName(entry.Name);
+                writeValue((T)entry.Value, writer);
             }
-            xmlWriter.WriteEndElement();
         }
 
-        public abstract String valueToString(T value);
+        public abstract void writeValue(T value, JsonWriter writer);
 
         public virtual void readValue(LoadControl loadControl, String name, JsonReader xmlReader)
         {

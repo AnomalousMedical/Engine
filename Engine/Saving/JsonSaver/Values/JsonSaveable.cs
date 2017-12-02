@@ -19,16 +19,22 @@ namespace Engine.Saving.JsonSaver
 
         public override void writeValue(SaveEntry entry)
         {
-            XmlWriter xmlWriter = xmlSaver.XmlWriter;
-            xmlWriter.WriteStartElement(elementName);
-            xmlWriter.WriteAttributeString(NAME_ENTRY, entry.Name);
-            xmlWriter.WriteAttributeString(OBJECT_ID, entry.ObjectID.ToString());
-            xmlWriter.WriteEndElement();
+            //JSON_XML_ISSUE
+            //There is a discrepency here between xml and json, this always writes the fact that the value existed.
+            //This could change how hasValue works since it won't always be written the same way, this might not matter, but need to investigate
+            //Stuff that is using hasValue, likely it can be updated as well
+            //That or fix this to write out something
+            var writer = xmlSaver.Writer;
+            if (entry.Value != null)
+            {
+                writer.WritePropertyName(entry.Name);
+                writer.WriteValue(NumberParser.ToString(entry.ObjectID));
+            }
         }
 
-        public override string valueToString(Saveable value)
+        public override void writeValue(Saveable value, JsonWriter writer)
         {
-            return value.ToString();
+            throw new NotImplementedException("Should not be called overwrote writeValue");
         }
 
         //Format { "Saveable": "Id" }
