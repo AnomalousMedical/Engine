@@ -24,6 +24,8 @@ namespace Engine.Saving.JsonSaver
         {
             var writer = xmlSaver.Writer;
             writer.WritePropertyName(entry.Name);
+            writer.WriteStartObject();
+            writer.WritePropertyName(elementName);
             if (entry.Value != null)
             {
                 writeValue((T)entry.Value, writer);
@@ -32,13 +34,14 @@ namespace Engine.Saving.JsonSaver
             {
                 writer.WriteNull();
             }
+            writer.WriteEndObject();
         }
 
         public abstract void writeValue(T value, JsonWriter writer);
 
         public virtual void readValue(LoadControl loadControl, String name, JsonReader xmlReader)
         {
-            loadControl.addValue(name, parseValue(xmlReader), typeof(T));
+            loadControl.addValue(name, xmlReader.Value != null ? parseValue(xmlReader) : default(T), typeof(T));
         }
 
         public abstract T parseValue(JsonReader xmlReader);

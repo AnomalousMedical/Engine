@@ -21,6 +21,8 @@ namespace Engine.Saving.JsonSaver
         {
             var writer = xmlSaver.Writer;
             writer.WritePropertyName(entry.Name);
+            writer.WriteStartObject();
+            writer.WritePropertyName(elementName);
             if (entry.Value != null)
             {
                 writer.WriteValue(NumberParser.ToString(entry.ObjectID));
@@ -29,6 +31,7 @@ namespace Engine.Saving.JsonSaver
             {
                 writer.WriteNull();
             }
+            writer.WriteEndObject();
         }
 
         public override void writeValue(Saveable value, JsonWriter writer)

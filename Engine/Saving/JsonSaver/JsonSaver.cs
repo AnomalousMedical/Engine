@@ -39,30 +39,30 @@ namespace Engine.Saving.JsonSaver
             enumValue = new JsonEnum(this);
             valueReaders.Add(enumValue.ElementName, enumValue);
             valueWriters = new ValueWriterCollection(saveableValue, enumValue);
-            addXmlValue<bool>(new JsonBool(this));
-            addXmlValue<byte>(new JsonByte(this));
-            addXmlValue<char>(new JsonChar(this));
-            addXmlValue<decimal>(new JsonDecimal(this));
-            addXmlValue<double>(new JsonDouble(this));
-            addXmlValue<float>(new JsonFloat(this));
-            addXmlValue<int>(new JsonInt(this));
-            addXmlValue<long>(new JsonLong(this));
-            addXmlValue<Quaternion>(new JsonQuaternion(this));
-            addXmlValue<Ray3>(new JsonRay3(this));
-            addXmlValue<sbyte>(new JsonSByte(this));
-            addXmlValue<short>(new JsonShort(this));
-            addXmlValue<String>(new JsonString(this));
-            addXmlValue<uint>(new JsonUInt(this));
-            addXmlValue<ulong>(new JsonULong(this));
-            addXmlValue<ushort>(new JsonUShort(this));
-            addXmlValue<Vector3>(new JsonVector3(this));
-            addXmlValue<Color>(new JsonColor(this));
-            addXmlValue<byte[]>(new JsonBlob(this));
-            addXmlValue<Guid>(new JsonGuid(this));
+            addParser<bool>(new JsonBool(this));
+            addParser<byte>(new JsonByte(this));
+            addParser<char>(new JsonChar(this));
+            addParser<decimal>(new JsonDecimal(this));
+            addParser<double>(new JsonDouble(this));
+            addParser<float>(new JsonFloat(this));
+            addParser<int>(new JsonInt(this));
+            addParser<long>(new JsonLong(this));
+            addParser<Quaternion>(new JsonQuaternion(this));
+            addParser<Ray3>(new JsonRay3(this));
+            addParser<sbyte>(new JsonSByte(this));
+            addParser<short>(new JsonShort(this));
+            addParser<String>(new JsonString(this));
+            addParser<uint>(new JsonUInt(this));
+            addParser<ulong>(new JsonULong(this));
+            addParser<ushort>(new JsonUShort(this));
+            addParser<Vector3>(new JsonVector3(this));
+            addParser<Color>(new JsonColor(this));
+            addParser<byte[]>(new JsonBlob(this));
+            addParser<Guid>(new JsonGuid(this));
             saveControl = new SaveControl(this, valueWriters, this);
         }
 
-        private void addXmlValue<T>(JsonValue<T> xmlValue)
+        private void addParser<T>(JsonValue<T> xmlValue)
         {
             valueWriters.addValueWriter(xmlValue);
             valueReaders.Add(xmlValue.ElementName, xmlValue);
@@ -71,8 +71,16 @@ namespace Engine.Saving.JsonSaver
         public void saveObject(Saveable save, JsonWriter jsonWriter)
         {
             this.jsonWriter = jsonWriter;
-            saveControl.saveObject(save);
-            saveControl.reset();
+            try
+            {
+                jsonWriter.WriteStartArray();
+                saveControl.saveObject(save);
+                jsonWriter.WriteEndArray();
+            }
+            finally
+            {
+                saveControl.reset();
+            }
         }
 
         private const String SaveableHeaderName = "_saveable";
@@ -89,7 +97,7 @@ namespace Engine.Saving.JsonSaver
             jsonWriter.WriteValue(NumberParser.ToString(objectId.ObjectID));
 
             jsonWriter.WritePropertyName("type");
-            jsonWriter.WriteValue(objectId.ObjectType);
+            jsonWriter.WriteValue(DefaultTypeFinder.CreateShortTypeString(objectId.ObjectType));
 
             if (version != 0)
             {
@@ -115,7 +123,7 @@ namespace Engine.Saving.JsonSaver
         /// <returns></returns>
         private ObjectIdentifier ParseHeaderObject(JsonTextReader reader, ref int version)
         {
-            if(reader.TokenType != JsonToken.PropertyName && reader.ReadAsString() != SaveableHeaderName)
+            if(reader.TokenType != JsonToken.PropertyName && reader.Value.ToString() != SaveableHeaderName)
             {
                 throw new InvalidOperationException($"Saveable Json Objects must start with a header object named '{SaveableHeaderName}'.");
             }
@@ -130,8 +138,7 @@ namespace Engine.Saving.JsonSaver
                 switch (reader.TokenType)
                 {
                     case JsonToken.PropertyName:
-                        var propName = reader.ReadAsString();
-                        reader.Read(); //Advance to value
+                        var propName = reader.Value.ToString();
                         switch (propName)
                         {
                             case "version":
@@ -156,25 +163,35 @@ namespace Engine.Saving.JsonSaver
 
         private void readProp(JsonTextReader reader)
         {
-            var name = reader.ReadAsString();
+            var name = reader.Value.ToString();
             //Load value object
             reader.Read();
             if(reader.TokenType != JsonToken.StartObject)
             {
-                throw new InvalidOperationException($@"Property {name} must have a value in the format {{ ""type"" : ""value"" }}");
+                readPropError(name);
             }
             reader.Read();
             if(reader.TokenType != JsonToken.PropertyName)
             {
-                throw new InvalidOperationException($@"Property {name} must have a value in the format {{ ""type"" : ""value"" }}");
+                readPropError(name);
             }
-            String type = reader.ReadAsString();
-            reader.Read(); //Advance to value
+            String type = reader.Value.ToString();
             valueReaders[type].readValue(loadControl, name, reader);
+            reader.Read();
+            if(reader.TokenType != JsonToken.EndObject)
+            {
+                readPropError(name);
+            }
+        }
+
+        private static void readPropError(string name)
+        {
+            throw new InvalidOperationException($@"Property {name} must have a value in the format {{ ""type"" : ""value"" }}");
         }
 
         private Object readSaveable(JsonTextReader reader)
         {
+            reader.Read();
             int version = 0;
             ObjectIdentifier objectId = ParseHeaderObject(reader, ref version);
             loadControl.startDefiningObject(objectId, version);
@@ -192,6 +209,11 @@ namespace Engine.Saving.JsonSaver
                 }
             }
             return loadControl.createCurrentObject();
+        }
+
+        public T restoreObject<T>(JsonTextReader reader)
+        {
+            return (T)restoreObject(reader);
         }
 
         public object restoreObject(JsonTextReader reader)

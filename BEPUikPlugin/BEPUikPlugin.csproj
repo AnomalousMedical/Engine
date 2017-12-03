@@ -10,6 +10,9 @@
     <OutputPath>..\Release\netstandard2.0\</OutputPath>
     <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0;LITE_EMBEDDED_LIB</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0;LITE_EMBEDDED_LIB</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\ActiveSet.cs">
       <Link>BEPUik\ActiveSet.cs</Link>
