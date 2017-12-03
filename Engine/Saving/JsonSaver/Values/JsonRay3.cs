@@ -17,42 +17,48 @@ namespace Engine.Saving.JsonSaver
 
         public override void writeValue(Ray3 value, JsonWriter writer)
         {
-            writer.WriteStartObject();
+            writer.WriteStartArray();
 
-            writer.WriteEndObject();
+            writer.WriteStartArray();
+            writer.WriteValue(value.Origin.x);
+            writer.WriteValue(value.Origin.y);
+            writer.WriteValue(value.Origin.z);
+            writer.WriteEndArray();
+
+            writer.WriteStartArray();
+            writer.WriteValue(value.Direction.x);
+            writer.WriteValue(value.Direction.y);
+            writer.WriteValue(value.Direction.z);
+            writer.WriteEndArray();
+
+            writer.WriteEndArray();
         }
 
-        // { "Ray3" : { "origin" : [x, y, z], "dir": [x, y, z] } }
+        // { "Ray3" : [ [x, y, z], [x, y, z] ] }
 
-        public override Ray3 parseValue(JsonReader xmlReader)
+        public override Ray3 parseValue(JsonReader reader)
         {
-            if(xmlReader.TokenType != JsonToken.StartObject)
+            reader.Read();
+            if(reader.TokenType != JsonToken.StartArray)
             {
                 throwReadError();
             }
 
-            xmlReader.Read();
-            if(xmlReader.TokenType != JsonToken.PropertyName && xmlReader.ReadAsString() != "origin")
-            {
-                throwReadError();
-            }
-            xmlReader.Read();
-            var o = xmlReader.ReadArray<float>(3, Convert.ToSingle);
+            var o = reader.ReadArray<float>(3, Convert.ToSingle);
+            var d = reader.ReadArray<float>(3, Convert.ToSingle);
 
-            xmlReader.Read();
-            if (xmlReader.TokenType != JsonToken.PropertyName && xmlReader.ReadAsString() != "dir")
+            reader.Read();
+            if(reader.TokenType != JsonToken.EndArray)
             {
                 throwReadError();
             }
-            xmlReader.Read();
-            var d = xmlReader.ReadArray<float>(3, Convert.ToSingle);
 
             return new Ray3(new Vector3(o[0], o[1], o[2]), new Vector3(d[0], d[1], d[2]));
         }
 
         private static void throwReadError()
         {
-            throw new InvalidOperationException(@"A Ray3 must be in the format { ""Ray3"" : { ""origin"" : [x, y, z], ""dir"": [x, y, z] } }.");
+            throw new InvalidOperationException(@"A Ray3 must be in the format { ""Ray3"" : [ [x, y, z], [x, y, z] ] where the first array is the origin vector and the 2nd is the direction }.");
         }
     }
 }
