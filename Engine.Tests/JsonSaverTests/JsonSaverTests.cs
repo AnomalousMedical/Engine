@@ -30,6 +30,17 @@ namespace Engine.Tests.JsonSaverTests
         }
     }
 
+    public class BlobTest : JsonTestBase<byte[]>
+    {
+        public BlobTest() : base(new byte[] { 1, 2, 3, 4, 5 }) { }
+
+        protected override void Check(SaveTest<byte[]> expected, SaveTest<byte[]> loaded)
+        {
+            throw new NotImplementedException("Do a check that compares the byte arrays");
+            //Assert.(expected.TheProp, loaded.TheProp);
+        }
+    }
+
     public class BooleanTest : JsonTestBase<bool>
     {
         public BooleanTest() : base(true) { }
