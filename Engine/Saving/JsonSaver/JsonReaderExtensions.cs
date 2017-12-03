@@ -7,10 +7,10 @@ namespace Engine.Saving.JsonSaver
 {
     static class JsonReaderExtensions
     {
-        public static T[] ReadArray<T>(this JsonReader xmlReader, int length, Func<JsonReader, T> readCb, bool throwOnLengthMismatch = true)
+        public static T[] ReadArray<T>(this JsonReader xmlReader, int length, Func<Object, T> convert, bool throwOnLengthMismatch = true)
         {
             T[] arr = new T[length];
-            int index = ReadArray(xmlReader, arr, readCb);
+            int index = ReadArray(xmlReader, arr, convert);
 
             if (throwOnLengthMismatch && index != arr.Length)
             {
@@ -20,7 +20,7 @@ namespace Engine.Saving.JsonSaver
             return arr;
         }
 
-        public static int ReadArray<T>(this JsonReader xmlReader, T[] arr, Func<JsonReader, T> readCb)
+        public static int ReadArray<T>(this JsonReader xmlReader, T[] arr, Func<Object, T> convert)
         {
             xmlReader.Read();
             if (xmlReader.TokenType != JsonToken.StartArray)
@@ -32,14 +32,10 @@ namespace Engine.Saving.JsonSaver
             bool keepReading = true;
             while (keepReading)
             {
-                switch (xmlReader.TokenType)
+                xmlReader.Read();
+                if (keepReading = xmlReader.TokenType != JsonToken.EndArray)
                 {
-                    default:
-                        arr[index++] = readCb(xmlReader);
-                        break;
-                    case JsonToken.EndArray:
-                        keepReading = false;
-                        break;
+                    arr[index++] = convert(xmlReader.Value);
                 }
             }
 

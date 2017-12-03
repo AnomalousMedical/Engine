@@ -37,7 +37,7 @@ namespace Engine.Saving.JsonSaver
                 throwReadError();
             }
             xmlReader.Read();
-            var o = xmlReader.ReadArray<float>(3, r => (float)r.ReadAsDouble());
+            var o = xmlReader.ReadArray<float>(3, Convert.ToSingle);
 
             xmlReader.Read();
             if (xmlReader.TokenType != JsonToken.PropertyName && xmlReader.ReadAsString() != "dir")
@@ -45,7 +45,7 @@ namespace Engine.Saving.JsonSaver
                 throwReadError();
             }
             xmlReader.Read();
-            var d = xmlReader.ReadArray<float>(3, r => (float)r.ReadAsDouble());
+            var d = xmlReader.ReadArray<float>(3, Convert.ToSingle);
 
             return new Ray3(new Vector3(o[0], o[1], o[2]), new Vector3(d[0], d[1], d[2]));
         }

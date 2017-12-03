@@ -30,7 +30,7 @@ namespace Engine.Saving.JsonSaver
         public override Color parseValue(JsonReader xmlReader)
         {
             float[] rgba = new float[] { 0.0f, 0.0f, 0.0f, 1.0f };
-            xmlReader.ReadArray(rgba, r => (float)r.ReadAsDouble().Value);
+            xmlReader.ReadArray(rgba, Convert.ToSingle);
             return new Color(rgba[0], rgba[1], rgba[2], rgba[3]);
         }
     }

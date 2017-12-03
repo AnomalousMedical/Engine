@@ -29,7 +29,7 @@ namespace Engine.Saving.JsonSaver
 
         public override Quaternion parseValue(JsonReader xmlReader)
         {
-            var quat = xmlReader.ReadArray<float>(4, r => (float)r.ReadAsDouble());
+            var quat = xmlReader.ReadArray<float>(4, Convert.ToSingle);
             return new Quaternion(quat[0], quat[1], quat[2], quat[3]);
         }
     }

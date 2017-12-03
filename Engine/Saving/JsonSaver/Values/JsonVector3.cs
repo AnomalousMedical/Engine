@@ -28,7 +28,7 @@ namespace Engine.Saving.JsonSaver
 
         public override Vector3 parseValue(JsonReader xmlReader)
         {
-            float[] vector3 = xmlReader.ReadArray<float>(3, r => (float)xmlReader.ReadAsDouble());
+            float[] vector3 = xmlReader.ReadArray<float>(3, Convert.ToSingle);
             return new Vector3(vector3[0], vector3[1], vector3[2]);
         }
     }
