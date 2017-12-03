@@ -22,14 +22,15 @@ namespace Engine.Saving.JsonSaver
 
         public static int ReadArray<T>(this JsonReader xmlReader, T[] arr, Func<JsonReader, T> readCb)
         {
+            xmlReader.Read();
             if (xmlReader.TokenType != JsonToken.StartArray)
             {
                 throw new InvalidOperationException("Array reader is not on a StartArray token.");
             }
-
+            
             int index = 0;
             bool keepReading = true;
-            while (keepReading && xmlReader.Read())
+            while (keepReading)
             {
                 switch (xmlReader.TokenType)
                 {

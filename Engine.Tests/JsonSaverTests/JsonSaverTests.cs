@@ -265,6 +265,7 @@ namespace Engine.Tests.JsonSaverTests
     {
         private Mockup mockup = new Mockup();
         private String filePath;
+        private bool writeFile;
         private SaveTest<T> data;
 
         public JsonTestBase(T value)
@@ -273,7 +274,8 @@ namespace Engine.Tests.JsonSaverTests
 
             mockup.Add<JsonSaver>(s => new JsonSaver(s.Get<TestTypeFinder>()));
 
-            filePath = $"../../../JsonSaverTests/{this.GetType().Name}.json";
+            filePath = $"../../../JsonSaverTests/Examples/{this.GetType().Name}.json";
+            writeFile = Directory.Exists(Path.GetDirectoryName(filePath));
 
             data = new SaveTest<T>()
             {
@@ -289,11 +291,15 @@ namespace Engine.Tests.JsonSaverTests
             var stringWriter = new StringWriter(sb);
             saver.saveObject(data, new JsonTextWriter(stringWriter)
             {
-                Formatting = Formatting.Indented
+                Formatting = Formatting.Indented,
             });
 
             var json = sb.ToString();
-            File.WriteAllText(filePath, json);
+
+            if (writeFile)
+            {
+                File.WriteAllText(filePath, json);
+            }
         }
 
         [Fact]

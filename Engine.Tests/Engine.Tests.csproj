@@ -25,4 +25,8 @@
     <ProjectReference Include="..\Engine\Engine.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="JsonSaverTests\Examples\" />
+  </ItemGroup>
+
 </Project>

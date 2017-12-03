@@ -2,7 +2,7 @@
 using Xunit;
 using Engine;
 
-namespace EngineTest
+namespace Engine.Tests
 {
     public class GeometryTests
     {

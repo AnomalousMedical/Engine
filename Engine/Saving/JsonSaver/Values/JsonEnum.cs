@@ -39,22 +39,28 @@ namespace Engine.Saving.JsonSaver
             throw new InvalidOperationException(@"The format of an Enum must be { ""Enum:"": { ""ClrEnumType"" : ""Value"" } }");
         }
 
-        public override void readValue(LoadControl loadControl, String name, JsonReader xmlReader)
+        public override void readValue(LoadControl loadControl, String name, JsonReader reader)
         {
-            if(xmlReader.TokenType != JsonToken.StartObject)
+            reader.Read();
+            if(reader.TokenType != JsonToken.StartObject)
             {
                 throwReadFormatError();
             }
 
-            xmlReader.Read();
-            var clrType = xmlReader.ReadAsString();
+            reader.Read();
+            if(reader.TokenType != JsonToken.PropertyName)
+            {
+                throwReadFormatError();
+            }
+            var clrType = reader.Value.ToString();
             var enumType = loadControl.TypeFinder.findType(clrType);
+            var valueStr = reader.ReadAsString();
 
-            xmlReader.Read();
-            var valueStr = xmlReader.ReadAsString();
-
-            //Read to end of object
-            while(xmlReader.TokenType != JsonToken.EndObject && xmlReader.Read()) { }
+            reader.Read();
+            if(reader.TokenType != JsonToken.EndObject)
+            {
+                throwReadFormatError();
+            }
 
             if (enumType != null)
             {
