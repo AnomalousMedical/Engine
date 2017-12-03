@@ -1,6 +1,7 @@
 ﻿using Engine.Saving;
 using Engine.Saving.JsonSaver;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -295,14 +296,14 @@ namespace Engine.Tests.JsonSaverTests
         }
 
         [Fact]
-        public void Save()
+        public void SaveJson()
         {
             var saver = mockup.Get<JsonSaver>();
             var sb = new StringBuilder();
             var stringWriter = new StringWriter(sb);
             saver.saveObject(data, new JsonTextWriter(stringWriter)
             {
-                Formatting = Formatting.Indented,
+                Formatting = Formatting.None,
             });
 
             var json = sb.ToString();
@@ -314,7 +315,7 @@ namespace Engine.Tests.JsonSaverTests
         }
 
         [Fact]
-        public void Load()
+        public void LoadJson()
         {
             var saver = mockup.Get<JsonSaver>();
 
@@ -326,6 +327,37 @@ namespace Engine.Tests.JsonSaverTests
 
             var loaded = saver.restoreObject<SaveTest<T>>(new JsonTextReader(new StringReader(json)));
             Check(data, loaded);
+        }
+
+        [Fact]
+        public void SaveBson()
+        {
+            var saver = mockup.Get<JsonSaver>();
+            using (var stream = OpenBsonWriteStream())
+            {
+                saver.saveObject(data, new BsonDataWriter(stream));
+            }
+        }
+
+        private Stream OpenBsonWriteStream()
+        {
+            if (writeFile)
+            {
+                return File.Open(Path.ChangeExtension(filePath, ".bson"), FileMode.Create, FileAccess.ReadWrite, FileShare.None);
+            }
+            return new MemoryStream();
+        }
+
+        [Fact]
+        public void LoadBson()
+        {
+            var saver = mockup.Get<JsonSaver>();
+            using (var stream = new MemoryStream())
+            {
+                saver.saveObject(data, new BsonDataWriter(stream));
+                stream.Seek(0, SeekOrigin.Begin);
+                var loaded = saver.restoreObject<SaveTest<T>>(new BsonDataReader(stream));
+            }
         }
 
         protected abstract void Check(SaveTest<T> expected, SaveTest<T> loaded);

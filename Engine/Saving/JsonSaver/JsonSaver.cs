@@ -121,7 +121,7 @@ namespace Engine.Saving.JsonSaver
         /// <param name="reader">This must currently be on the _saveable PropertyName</param>
         /// <param name="version">The version number of the object.</param>
         /// <returns></returns>
-        private ObjectIdentifier ParseHeaderObject(JsonTextReader reader, ref int version)
+        private ObjectIdentifier ParseHeaderObject(JsonReader reader, ref int version)
         {
             if(reader.TokenType != JsonToken.PropertyName && reader.Value.ToString() != SaveableHeaderName)
             {
@@ -161,7 +161,7 @@ namespace Engine.Saving.JsonSaver
             return ObjectIdentifierFactory.CreateObjectIdentifier(id, type, typeFinder);
         }
 
-        private void readProp(JsonTextReader reader)
+        private void readProp(JsonReader reader)
         {
             var name = reader.Value.ToString();
             //Load value object
@@ -189,7 +189,7 @@ namespace Engine.Saving.JsonSaver
             throw new InvalidOperationException($@"Property {name} must have a value in the format {{ ""type"" : ""value"" }}");
         }
 
-        private Object readSaveable(JsonTextReader reader)
+        private Object readSaveable(JsonReader reader)
         {
             reader.Read();
             int version = 0;
@@ -211,12 +211,12 @@ namespace Engine.Saving.JsonSaver
             return loadControl.createCurrentObject();
         }
 
-        public T restoreObject<T>(JsonTextReader reader)
+        public T restoreObject<T>(JsonReader reader)
         {
             return (T)restoreObject(reader);
         }
 
-        public object restoreObject(JsonTextReader reader)
+        public object restoreObject(JsonReader reader)
         {
             Object lastReadObject = null;
             try
