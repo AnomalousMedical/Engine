@@ -7,7 +7,7 @@ using System.Reflection;
 using Logging;
 using Newtonsoft.Json;
 
-namespace Engine.Saving.JsonSaver
+namespace Engine.Saving.Json
 {
     class JsonEnum : JsonValue<Enum>
     {

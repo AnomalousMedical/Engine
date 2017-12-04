@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace Engine.Saving.JsonSaver
+namespace Engine.Saving.Json
 {
     class JsonByte : JsonValue<byte>
     {

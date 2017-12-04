@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace Engine.Saving.JsonSaver
+namespace Engine.Saving.Json
 {
     abstract class JsonValue<T> : ValueWriterEntry, JsonValueReader
     {

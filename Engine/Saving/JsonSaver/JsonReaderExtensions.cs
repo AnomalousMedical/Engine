@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Engine.Saving.JsonSaver
+namespace Engine.Saving.Json
 {
     static class JsonReaderExtensions
     {
