@@ -37,8 +37,7 @@ namespace Engine.Tests.JsonSaverTests
 
         protected override void Check(SaveTest<byte[]> expected, SaveTest<byte[]> loaded)
         {
-            throw new NotImplementedException("Do a check that compares the byte arrays");
-            //Assert.(expected.TheProp, loaded.TheProp);
+            Assert.Equal(expected.TheProp, loaded.TheProp);
         }
     }
 
