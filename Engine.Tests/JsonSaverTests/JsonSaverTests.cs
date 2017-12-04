@@ -348,7 +348,7 @@ namespace Engine.Tests.JsonSaverTests
             return new MemoryStream();
         }
 
-        [Fact(Skip = "Not Currently Working At All")]
+        [Fact]
         public void LoadBson()
         {
             var saver = mockup.Get<JsonSaver>();
@@ -356,7 +356,10 @@ namespace Engine.Tests.JsonSaverTests
             {
                 saver.saveObject(data, new BsonDataWriter(stream));
                 stream.Seek(0, SeekOrigin.Begin);
-                var loaded = saver.restoreObject<SaveTest<T>>(new BsonDataReader(stream));
+                var loaded = saver.restoreObject<SaveTest<T>>(new BsonDataReader(stream)
+                {
+                    ReadRootValueAsArray = true
+                });
             }
         }
 
