@@ -17,12 +17,12 @@ namespace Engine.Saving.JsonSaver
 
         public override void writeValue(decimal value, JsonWriter writer)
         {
-            writer.WriteValue(value);
+            writer.WriteValue(NumberParser.ToString(value));
         }
 
         public override decimal parseValue(JsonReader xmlReader)
         {
-            return xmlReader.ReadAsDecimal().Value;
+            return NumberParser.ParseDecimal(xmlReader.ReadAsString());
         }
     }
 }
