@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -14,7 +15,7 @@ namespace Engine.Saving
     {
         protected static readonly Type[] constructorArgs = { typeof(LoadInfo) };
 
-        private static Dictionary<Type, ConstructorInfo> ConstructorCache = new Dictionary<Type, ConstructorInfo>();
+        private static ConcurrentDictionary<Type, ConstructorInfo> ConstructorCache = new ConcurrentDictionary<Type, ConstructorInfo>();
 
         long objectID;
         Object value;
@@ -51,7 +52,7 @@ namespace Engine.Saving
             if (!ConstructorCache.TryGetValue(ObjectType, out constructor))
             {
                 constructor = ObjectType.GetTypeInfo().DeclaredConstructors.FirstOrDefault(IsLoadConstructor);
-                ConstructorCache.Add(ObjectType, constructor);
+                ConstructorCache.TryAdd(ObjectType, constructor);
             }
             if (constructor != null)
             {
