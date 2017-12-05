@@ -76,6 +76,7 @@ namespace Engine.Saving.Json
                 jsonWriter.WriteStartArray();
                 saveControl.saveObject(save);
                 jsonWriter.WriteEndArray();
+                jsonWriter.Flush();
             }
             finally
             {

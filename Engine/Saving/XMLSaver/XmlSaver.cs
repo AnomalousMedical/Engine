@@ -74,6 +74,7 @@ namespace Engine.Saving.XMLSaver
             saveControl.saveObject(save);
             xmlWriter.WriteEndElement();
             saveControl.reset();
+            xmlWriter.Flush();
         }
 
         public void writeHeader(ObjectIdentifier objectId, int version)

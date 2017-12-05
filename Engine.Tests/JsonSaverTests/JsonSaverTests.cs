@@ -321,7 +321,6 @@ namespace Engine.Tests.JsonSaverTests
             var sb = new StringBuilder();
             var stringWriter = new StringWriter(sb);
             saver.saveObject(data, new JsonTextWriter(stringWriter));
-            stringWriter.Flush();
 
             var json = sb.ToString();
 

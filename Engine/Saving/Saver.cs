@@ -19,6 +19,21 @@ namespace Engine.Saving
 
     public class Saver
     {
+        private Lazy<JsonSaver> jsonSaver;
+        private Lazy<XmlSaver> xmlSaver;
+
+        public Saver()
+            : this(new DefaultTypeFinder())
+        {
+            
+        }
+
+        public Saver(TypeFinder typeFinder)
+        {
+            jsonSaver = new Lazy<JsonSaver>(() => new JsonSaver(typeFinder));
+            xmlSaver = new Lazy<XmlSaver>(() => new XmlSaver(typeFinder));
+        }
+
         public static SaverOutputType TypeFromFile(String file, bool throwOnError = false, SaverOutputType fallback = SaverOutputType.Json)
         {
             switch (Path.GetExtension(file).ToLowerInvariant())
@@ -78,9 +93,6 @@ namespace Engine.Saving
             }
         }
 
-        private Lazy<JsonSaver> jsonSaver = new Lazy<JsonSaver>(() => new JsonSaver());
-        private Lazy<XmlSaver> xmlSaver = new Lazy<XmlSaver>(() => new XmlSaver());
-
         public void saveObject(Saveable save, Stream stream, SaverOutputType format = SaverOutputType.Json)
         {
             switch (format)
@@ -107,7 +119,10 @@ namespace Engine.Saving
                 case SaverOutputType.Json:
                     return jsonSaver.Value.restoreObject<T>(new JsonTextReader(new StreamReader(stream)));
                 case SaverOutputType.Bson:
-                    return jsonSaver.Value.restoreObject<T>(new BsonDataReader(stream));
+                    return jsonSaver.Value.restoreObject<T>(new BsonDataReader(stream)
+                    {
+                        ReadRootValueAsArray = true
+                    });
                 case SaverOutputType.Xml:
                     return (T)xmlSaver.Value.restoreObject(new XmlTextReader(stream));
                 default:
