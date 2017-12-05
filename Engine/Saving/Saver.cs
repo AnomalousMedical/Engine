@@ -1,5 +1,6 @@
 ﻿using Engine.Saving.Json;
 using Engine.Saving.XMLSaver;
+using Engine.Utility;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 using System;
@@ -25,7 +26,7 @@ namespace Engine.Saving
         public Saver()
             : this(new DefaultTypeFinder())
         {
-            
+
         }
 
         public Saver(TypeFinder typeFinder)
@@ -95,36 +96,56 @@ namespace Engine.Saving
 
         public void saveObject(Saveable save, Stream stream, SaverOutputType format = SaverOutputType.Json)
         {
+            stream = new NoCloseStream(stream);
             switch (format)
             {
                 case SaverOutputType.Json:
-                    jsonSaver.Value.saveObject(save, new JsonTextWriter(new StreamWriter(stream)));
+                    using (var writer = new JsonTextWriter(new StreamWriter(stream)))
+                    {
+                        jsonSaver.Value.saveObject(save, writer);
+                    }
                     break;
                 case SaverOutputType.Bson:
-                    jsonSaver.Value.saveObject(save, new BsonDataWriter(stream));
+                    using (var writer = new BsonDataWriter(stream))
+                    {
+                        jsonSaver.Value.saveObject(save, writer);
+                    }
                     break;
                 case SaverOutputType.Xml:
-                    xmlSaver.Value.saveObject(save, new XmlTextWriter(stream, Encoding.Unicode)
+                    using (var writer = new XmlTextWriter(stream, Encoding.Unicode)
                     {
                         Formatting = System.Xml.Formatting.Indented
-                    });
+                    })
+                    {
+                        xmlSaver.Value.saveObject(save, writer);
+                    }
                     break;
             }
         }
 
         public T restoreObject<T>(Stream stream, SaverOutputType format)
         {
+            stream = new NoCloseStream(stream);
             switch (format)
             {
                 case SaverOutputType.Json:
-                    return jsonSaver.Value.restoreObject<T>(new JsonTextReader(new StreamReader(stream)));
+                    using (var reader = new JsonTextReader(new StreamReader(stream)))
+                    {
+                        return jsonSaver.Value.restoreObject<T>(reader);
+                    }
                 case SaverOutputType.Bson:
-                    return jsonSaver.Value.restoreObject<T>(new BsonDataReader(stream)
+                    using (var reader = new BsonDataReader(stream)
                     {
                         ReadRootValueAsArray = true
-                    });
+                    })
+                    {
+                        return jsonSaver.Value.restoreObject<T>(reader);
+                    }
                 case SaverOutputType.Xml:
-                    return (T)xmlSaver.Value.restoreObject(new XmlTextReader(stream));
+                    using (var reader = new XmlTextReader(stream))
+                    {
+                        return (T)xmlSaver.Value.restoreObject(reader);
+                    }
                 default:
                     throw new NotImplementedException($"{nameof(SaverOutputType)} format {format} not supported.");
             }
