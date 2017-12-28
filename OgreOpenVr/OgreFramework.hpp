@@ -73,24 +73,12 @@ public:
 
         bool isOgreToBeShutDown()const{return m_bShutDownOgre;}  
 
-        /*bool keyPressed(const OIS::KeyEvent &keyEventRef);
-        bool keyReleased(const OIS::KeyEvent &keyEventRef);
-
-        bool mouseMoved(const OIS::MouseEvent &evt);
-        bool mousePressed(const OIS::MouseEvent &evt, OIS::MouseButtonID id); 
-        bool mouseReleased(const OIS::MouseEvent &evt, OIS::MouseButtonID id);*/
-        
-        //Ogre::Root*                                     m_pRoot;
         Ogre::SceneManager*                     m_pSceneManager;
         Ogre::RenderWindow*                     m_pRenderWnd;
         Ogre::Camera*                           m_pCamera;
         Ogre::Viewport*                         m_pViewport;
         Ogre::Log*                                      m_pLog;
 		Ogre::RenderSystem*						m_pRenderSystem;
-        
-        /*OIS::InputManager*                      m_pInputMgr;
-        OIS::Keyboard*                          m_pKeyboard;
-        OIS::Mouse*                             m_pMouse;*/
 
 		Ogre::Vector3	PlayerPos ;
 		float			PlayerSpeed ;
@@ -102,52 +90,18 @@ public:
 		Ogre::ManualObject* m_pWorldMO ;
 		Ogre::SceneNode*	m_pWorldSN ;
 
-		//void CreateWorldGuiMesh(float flSizeX, float flSizeY, float flSizeZ, float flOffsetX, float flOffsetY, float flOffsetZ, float flGuiSize) ;
-		/*Ogre::ManualObject* m_pWorldGuiMO ;
-		Ogre::SceneNode*	m_pWorldGuiSN ;*/
-
-
-
-	
-	//Ogre::Rectangle2D*			miniScreen_WorldGui;
-	//Ogre::SceneNode*			miniScreenNode_WorldGui;
-	//Ogre::TexturePtr			RTT_Texture_WorldGui ;
-	//Ogre::RenderTexture*		renderTexture_WorldGui ;
-	//Ogre::MaterialPtr			RTT_Mat_WorldGui ;
-	//Ogre::Technique*			RTT_Technique_WorldGui ;
-
-	//Ogre::Rectangle2D*			miniScreen_VR_L;
-	//Ogre::SceneNode*			miniScreenNode_VR_L;
 	Ogre::TexturePtr			RTT_Texture_VR_L ;
 	Ogre::RenderTexture*		renderTexture_VR_L ;
 	Ogre::MaterialPtr			RTT_Mat_VR_L ;
 	Ogre::Technique*			RTT_Technique_VR_L ;
 
-	//Ogre::Rectangle2D*			miniScreen_VR_R;
-	//Ogre::SceneNode*			miniScreenNode_VR_R;
 	Ogre::TexturePtr			RTT_Texture_VR_R ;
 	Ogre::RenderTexture*		renderTexture_VR_R ;
 	Ogre::MaterialPtr			RTT_Mat_VR_R ;
 	Ogre::Technique*			RTT_Technique_VR_R ;
 
-	//Ogre::Rectangle2D*			miniScreen_Controller0;
-	//Ogre::SceneNode*			miniScreenNode_Controller0;
-	//Ogre::TexturePtr			Texture_Controller0 ;
-	//Ogre::RenderTexture*		renderTexture_Controller0 ;
-	//Ogre::MaterialPtr			RTT_Mat_Controller0 ;
-	//Ogre::Technique*			RTT_Technique_Controller0 ;
-
-	//Ogre::Rectangle2D*			miniScreen_Controller1;
-	//Ogre::SceneNode*			miniScreenNode_Controller1;
-	//Ogre::TexturePtr			Texture_Controller1 ;
-	//Ogre::RenderTexture*		renderTexture_Controller1 ;
-	//Ogre::MaterialPtr			RTT_Mat_Controller1 ;
-	//Ogre::Technique*			RTT_Technique_Controller1 ;
-
-
 	int m_nBatchCount ;
 	int m_nTriCount ;
-
 
 	bool initOpenVR();
 	std::string GetTrackedDeviceString( vr::IVRSystem *pHmd, vr::TrackedDeviceIndex_t unDevice, vr::TrackedDeviceProperty prop, vr::TrackedPropertyError *peError = NULL ) ;
@@ -170,7 +124,6 @@ public:
 	CONTROLLERDATA m_ControllerData[MAXCONTROLLER] ;
 
 	vr::TrackedDevicePose_t m_rTrackedDevicePose[ vr::k_unMaxTrackedDeviceCount ];
-
 
 	void updateHMDPos() ;
 	bool handleInput() ;
@@ -208,26 +161,13 @@ public:
 	int							g_iValidPoseCount_Last;
 	std::string					g_strPoseClasses;			// what classes we saw poses for this frame
 	char						g_rDevClassChar[vr::k_unMaxTrackedDeviceCount];	// for each device, a character representing its class
-	
-	
-	vr::HmdQuad_t				m_PlayArea ;
-	void UpdateChaperone() ;
-	/*Ogre::ManualObject* m_pPlayAreaMO ;
-	Ogre::SceneNode* m_pPlayAreaSN ;*/
-	bool m_bPlayAreaReady ;
 
 	FramebufferDesc leftEyeDesc;
 	FramebufferDesc rightEyeDesc;
 
 	int					g_frameIndex ;
-	//Ogre::SceneManager *		g_sceneManager;
-	//ID3D11DeviceContext *		g_deviceContext;
-	//Ogre::RenderWindow *		g_window;
 
 	char m_chMessage[1024] ;
-
-	// for text/gui
-	//Ogre2dManager* Ogre2DGui ;
 
 
 private:

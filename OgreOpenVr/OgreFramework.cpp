@@ -69,7 +69,6 @@ bool OgreFramework::initOgre(Ogre::Root* root)
 	m_pWorldMO= m_pSceneManager->createManualObject("WorldMO") ;
 	CreateGenericCubeMesh("WorldMO", "CubeTex", m_pWorldMO, -flSize, flSize, flSize, 0.0f, flSize, 0.0f) ;
 	m_pWorldSN->attachObject(m_pWorldMO) ;
-	m_bPlayAreaReady=false ;
 
 	PlayerPos=Ogre::Vector3(0.0f, 0.0f, 0.0f) ;
 	PlayerSpeed=1 ;
@@ -162,10 +161,6 @@ void OgreFramework::updateOgre(double timeSinceLastFrame)
 	handleInput() ; // vr input, includes HMD and controllers
 
     moveCamera();
-
-	/////////////////////////////////////////////////////////////////////////////////
-
-	UpdateChaperone() ;
 
 	/////////////////////////////////////////////////
 	int nHand=-1 ;
@@ -335,8 +330,6 @@ bool OgreFramework::initOpenVR()
 		return false;
 	}
 
-	UpdateChaperone() ;
-
 	InitOgreCameras() ;
 
 	InitOgreTextures() ;
@@ -344,11 +337,6 @@ bool OgreFramework::initOpenVR()
 	SetupRenderModels() ;
 
 	return true;
-}
-
-void OgreFramework::UpdateChaperone()
-{
-	
 }
 
 
