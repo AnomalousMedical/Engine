@@ -57,6 +57,14 @@ namespace OgrePlugin
             return instance;
         }
 
+        public IntPtr NativePtr
+        {
+            get
+            {
+                return ogreRoot;
+            }
+        }
+
         public Root(String pluginFileName, String configFileName, String logFileName)
         {
             ogreRoot = Root_Create(pluginFileName, configFileName, logFileName);

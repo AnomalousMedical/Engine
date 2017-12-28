@@ -44,5 +44,8 @@
     <ClCompile Include="ogre2d-main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OgreFrameworkWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
