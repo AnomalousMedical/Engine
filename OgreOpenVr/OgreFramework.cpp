@@ -65,11 +65,6 @@ OgreFramework::~OgreFramework()
 
 	//THREAX-TODO: Handle erasing the cameras and their scene nodes here
 
-	//Probably don't want these 3
-	//m_pSceneManager->getRootSceneNode()->removeAndDestroyAllChildren() ; // destroy all scenenodes
-	//m_pSceneManager->destroyAllEntities() ;
-	//m_pSceneManager->destroyAllManualObjects() ;
-
 	Ogre::TextureManager::getSingleton().remove("RttTex_VR_L");
 	RTT_Texture_VR_L->~Texture();
 	RTT_Mat_VR_L->removeAllTechniques();
@@ -93,14 +88,12 @@ OgreFramework::~OgreFramework()
 
 	// Ended up moving shutdown into the DemoApp mainloop, I think the error is related to the main render window.
 	// So in the mainloop, we catch that Ogre is going to shutdown, and then shutdown VR before Ogre shuts down the main render window.
-
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 void OgreFramework::updateOgre(double timeSinceLastFrame)
 {
-
 	m_pRenderSystem->clearFrameBuffer(FBT_COLOUR | FBT_DEPTH, Ogre::ColourValue(0.0, 0.0, 0.0, 1));
 
 	m_nBatchCount = 0;
@@ -269,31 +262,6 @@ std::string OgreFramework::GetTrackedDeviceString(vr::IVRSystem *pHmd, vr::Track
 	return sResult;
 }
 
-/*
-//-----------------------------------------------------------------------------
-// Purpose: Create/destroy GL a Render Model for a single tracked device
-//-----------------------------------------------------------------------------
-void OgreFramework::SetupRenderModelForTrackedDevice( vr::TrackedDeviceIndex_t unTrackedDeviceIndex )
-{
-	if( unTrackedDeviceIndex >= vr::k_unMaxTrackedDeviceCount )
-		return;
-
-	// try to find a model we've already set up
-	std::string sRenderModelName = GetTrackedDeviceString( m_pHMD, unTrackedDeviceIndex, vr::Prop_RenderModelName_String );
-	CGLRenderModel *pRenderModel = FindOrLoadRenderModel( sRenderModelName.c_str() );
-	if( !pRenderModel )
-	{
-		std::string sTrackingSystemName = GetTrackedDeviceString( m_pHMD, unTrackedDeviceIndex, vr::Prop_TrackingSystemName_String );
-		dprintf( "Unable to load render model for tracked device %d (%s.%s)", unTrackedDeviceIndex, sTrackingSystemName.c_str(), sRenderModelName.c_str() );
-	}
-	else
-	{
-		m_rTrackedDeviceToRenderModel[ unTrackedDeviceIndex ] = pRenderModel;
-		m_rbShowTrackedDevice[ unTrackedDeviceIndex ] = true;
-	}
-}
-*/
-
 // I'm only interested in the hand controllers, 2 at most
 void OgreFramework::SetupRenderModels()
 {
@@ -327,7 +295,7 @@ void OgreFramework::SetupRenderModels()
 				//CreateControllerModel(nHand) ;
 			}
 		}
-	}
+	} 
 
 }
 
