@@ -101,7 +101,7 @@ bool OgreFramework::initOgre(Ogre::Root* root)
 
 
 
-    Ogre::String secName, typeName, archName;
+    /*Ogre::String secName, typeName, archName;
     Ogre::ConfigFile cf;
     cf.load("resources.cfg");
 
@@ -117,7 +117,7 @@ bool OgreFramework::initOgre(Ogre::Root* root)
             archName = i->second;
             Ogre::ResourceGroupManager::getSingleton().addResourceLocation(archName, typeName, secName);
         }
-    }
+    }*/
 
 	
 	Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
