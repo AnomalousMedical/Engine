@@ -27,7 +27,7 @@ OgreFramework::OgreFramework()
 
 	m_pSceneManager = 0;
     //m_pRenderWnd                = 0;
-    m_pCamera                   = 0;
+    //m_pCamera                   = 0;
     //m_pViewport                 = 0;
     m_pLog                      = 0;
 	m_pRenderSystem				= 0;
@@ -45,11 +45,11 @@ bool OgreFramework::initOgre(Ogre::Root* root)
 	m_pSceneManager = root->createSceneManager(ST_GENERIC, "SceneManager");
 	m_pSceneManager->setAmbientLight(Ogre::ColourValue(0.7f, 0.7f, 0.7f));
 
-    m_pCamera = m_pSceneManager->createCamera("Camera");
+    /*m_pCamera = m_pSceneManager->createCamera("Camera");
     m_pCamera->setPosition(Vector3(0, 60, 60));
     m_pCamera->lookAt(Vector3(0, 0, 0));
     m_pCamera->setNearClipDistance(8);
-	m_pCamera->setFarClipDistance(32768) ;
+	m_pCamera->setFarClipDistance(32768) ;*/
 
     //m_pViewport = m_pRenderWnd->addViewport(m_pCamera);
     //m_pViewport->setBackgroundColour(ColourValue(0.0f, 0.0f, 0.0f, 1.0f));
@@ -271,7 +271,7 @@ void OgreFramework::updateOgre(double timeSinceLastFrame)
 // ctrl to move fast, shift+ctrol to move slow
 void OgreFramework::moveCamera()
 {
-	m_pCamera->moveRelative(m_TranslateVector*4.0f);
+	//m_pCamera->moveRelative(m_TranslateVector*4.0f);
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
