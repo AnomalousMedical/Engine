@@ -139,7 +139,7 @@ bool OgreFramework::initOgre(Ogre::Root* root)
 	m_pWorldGuiSN->attachObject(m_pWorldGuiMO) ;*/
 	//m_pSceneMgr->getRootSceneNode()->removeChild(m_pWorldGuiSN) ;
 	
-	m_pPlayAreaSN= m_pSceneManager->getRootSceneNode()->createChildSceneNode("PlayAreaSN") ;
+	//m_pPlayAreaSN= m_pSceneManager->getRootSceneNode()->createChildSceneNode("PlayAreaSN") ;
 	//m_pSceneMgr->getRootSceneNode()->removeChild(m_pPlayAreaSN) ;
 	m_bPlayAreaReady=false ;
 
@@ -326,7 +326,7 @@ void OgreFramework::updateOgre(double timeSinceLastFrame)
 			m_ControllerSN[nLoop]->setOrientation(m_ControllerData[nLoop].Orientation) ;
 		}
 
-	if(m_bPlayAreaReady) m_pPlayAreaSN->setPosition(PlayerPos) ;
+	//if(m_bPlayAreaReady) m_pPlayAreaSN->setPosition(PlayerPos) ;
 
 	/*Ogre2DGui->ClearSpriteBuffer() ;
 	Ogre2DGui->UpdateInfoText() ;

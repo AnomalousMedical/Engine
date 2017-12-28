@@ -215,8 +215,8 @@ public:
 	
 	vr::HmdQuad_t				m_PlayArea ;
 	void UpdateChaperone() ;
-	Ogre::ManualObject* m_pPlayAreaMO ;
-	Ogre::SceneNode* m_pPlayAreaSN ;
+	/*Ogre::ManualObject* m_pPlayAreaMO ;
+	Ogre::SceneNode* m_pPlayAreaSN ;*/
 	bool m_bPlayAreaReady ;
 
 	FramebufferDesc leftEyeDesc;
