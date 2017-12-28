@@ -84,6 +84,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameAppTest", "GameAppTest\GameAppTest.csproj", "{29AA0C05-EEAF-4D80-B3DD-AF228ACCA4BC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameAppTestWin32", "GameAppTestWin32\GameAppTestWin32.csproj", "{B80270CA-D7B0-405D-B564-085EB8529E12}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B4E5CD9D-BA0F-4EEA-A274-636B3530796D} = {B4E5CD9D-BA0F-4EEA-A274-636B3530796D}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anomalous.Resources", "Resources\Anomalous.Resources.csproj", "{637425B0-1770-4F28-B09F-392E3FFB44AC}"
 EndProject
@@ -91,7 +94,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Engine.Tests", "Engine.Test
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OgreOpenVr", "OgreOpenVr\OgreOpenVr.vcxproj", "{B4E5CD9D-BA0F-4EEA-A274-636B3530796D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anomalous.OgreOpenVr", "Anomalous.OgreOpenVr\Anomalous.OgreOpenVr.csproj", "{81A28808-13BD-4255-8728-DBDFEE7B734C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anomalous.OgreOpenVr", "Anomalous.OgreOpenVr\Anomalous.OgreOpenVr.csproj", "{81A28808-13BD-4255-8728-DBDFEE7B734C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

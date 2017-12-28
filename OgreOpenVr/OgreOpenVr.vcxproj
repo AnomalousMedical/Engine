@@ -96,7 +96,7 @@
       <AdditionalOptions>/Zm250 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>openvr_api.lib;OgreMain_d.lib;d3d11.lib;dxgi.lib;RenderSystem_Direct3D11.lib</AdditionalDependencies>
+      <AdditionalDependencies>openvr_api.lib;OgreMain_d.lib;d3d11.lib;dxgi.lib;RenderSystem_Direct3D11_d.lib</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AssemblyDebug>true</AssemblyDebug>
       <TargetMachine>MachineX86</TargetMachine>

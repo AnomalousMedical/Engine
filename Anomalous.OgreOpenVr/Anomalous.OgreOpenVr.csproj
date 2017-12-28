@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="media\**" />
+    <EmbeddedResource Remove="media\**" />
+    <None Remove="media\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\OgrePlugin\OgrePlugin.csproj" />
   </ItemGroup>
 

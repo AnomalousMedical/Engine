@@ -46,6 +46,8 @@ OgreFramework::OgreFramework()
 
 bool OgreFramework::initOgre(Ogre::Root* root)
 {
+	m_pLog = Ogre::LogManager::getSingletonPtr()->getDefaultLog();
+
 	m_pRenderSystem = root->getRenderSystem();
 
 	m_pRenderWnd = root->createRenderWindow("Vr", 1920, 1080, false);
@@ -67,64 +69,6 @@ bool OgreFramework::initOgre(Ogre::Root* root)
     m_pViewport->setCamera(m_pCamera);
 	m_pViewport->setClearEveryFrame(false) ;
 	
-
-
-	
-
-
-
-
-
-    /*size_t hWnd = 0;
-    OIS::ParamList paramList;
-    m_pRenderWnd->getCustomAttribute("WINDOW", &hWnd);
-
-    paramList.insert(OIS::ParamList::value_type("WINDOW", Ogre::StringConverter::toString(hWnd)));
-
-    m_pInputMgr = OIS::InputManager::createInputSystem(paramList);
-
-    m_pKeyboard = static_cast<OIS::Keyboard*>(m_pInputMgr->createInputObject(OIS::OISKeyboard, true));
-    m_pMouse = static_cast<OIS::Mouse*>(m_pInputMgr->createInputObject(OIS::OISMouse, true));
-
-    m_pMouse->getMouseState().height = m_pRenderWnd->getHeight();
-    m_pMouse->getMouseState().width      = m_pRenderWnd->getWidth();
-
-    if(pKeyListener == 0)
-        m_pKeyboard->setEventCallback(this);
-    else
-        m_pKeyboard->setEventCallback(pKeyListener);
-
-    if(pMouseListener == 0)
-        m_pMouse->setEventCallback(this);
-    else
-        m_pMouse->setEventCallback(pMouseListener);*/
-
-
-
-    /*Ogre::String secName, typeName, archName;
-    Ogre::ConfigFile cf;
-    cf.load("resources.cfg");
-
-    Ogre::ConfigFile::SectionIterator seci = cf.getSectionIterator();
-    while (seci.hasMoreElements())
-    {
-        secName = seci.peekNextKey();
-        Ogre::ConfigFile::SettingsMultiMap *settings = seci.getNext();
-        Ogre::ConfigFile::SettingsMultiMap::iterator i;
-        for (i = settings->begin(); i != settings->end(); ++i)
-        {
-            typeName = i->first;
-            archName = i->second;
-            Ogre::ResourceGroupManager::getSingleton().addResourceLocation(archName, typeName, secName);
-        }
-    }*/
-
-	
-	Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
-    Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	// create the texture we'll use for RTT
 	RTT_Texture_WorldGui = Ogre::TextureManager::getSingleton().createManual("RttTex_WorldGui",
       ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, TEX_TYPE_2D, VSCREEN_W, VSCREEN_H, 0, PF_FLOAT16_RGBA,
@@ -171,26 +115,15 @@ bool OgreFramework::initOgre(Ogre::Root* root)
 
     
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 	g_IPD=0.065 ;
 	g_poseNeutralPosition=Ogre::Vector3(0.0f, 0.0f, 0.0f);
 	g_poseNeutralOrientation=Ogre::Quaternion(1.0f, 0.0f, 0.0f, 0.0f);
 
-
-
-
-
-
-
-
-
-
-
     m_pTimer = new Ogre::Timer();
     m_pTimer->reset();
-
 
 	float flSize=16.0f ;
 
@@ -210,24 +143,15 @@ bool OgreFramework::initOgre(Ogre::Root* root)
 	m_pSceneMgr->getRootSceneNode()->removeChild(m_pPlayAreaSN) ;
 	m_bPlayAreaReady=false ;
 
-	
-
 	PlayerPos=Ogre::Vector3(0.0f, 0.0f, 0.0f) ;
 	PlayerSpeed=1 ;
 	PlayerSpeedPress=false ;
-	
-
 
     m_pRenderWnd->setActive(true);
 
+	return initOpenVR(m_pSceneMgr, m_pRenderWnd);
 
-	if(!initOpenVR(m_pSceneMgr, m_pRenderWnd)) return false ;
-
-	
-
-
-
-	return true;
+	return false;
 }
 
 
@@ -1372,7 +1296,7 @@ void OgreFramework::InitOgreTextures()
 	miniScreenNode_VR_L->attachObject(miniScreen_VR_L);
 	miniScreen_VR_L->setMaterial("RttMat_VR_L");
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	RTT_Texture_VR_R = Ogre::TextureManager::getSingleton().createManual("RttTex_VR_R",
       ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, TEX_TYPE_2D, m_nRenderWidth, m_nRenderHeight, 0, PF_R8G8B8A8, TU_RENDERTARGET);
@@ -1447,8 +1371,8 @@ void OgreFramework::InitOgreTextures()
 	Texture_Controller1->load() ;
 	*/
 
-	Ogre::TextureManager::getSingleton().load("Controller0.tga", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, TEX_TYPE_2D, 0) ;
-	Ogre::TextureManager::getSingleton().load("Controller1.tga", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, TEX_TYPE_2D, 0) ;
+	Ogre::TextureManager::getSingleton().load("Controller0.tga", "Vr", TEX_TYPE_2D, 0) ;
+	Ogre::TextureManager::getSingleton().load("Controller1.tga", "Vr", TEX_TYPE_2D, 0) ;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////

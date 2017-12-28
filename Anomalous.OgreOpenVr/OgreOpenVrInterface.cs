@@ -39,6 +39,14 @@ namespace Anomalous.OgreOpenVr
 
         public void link(PluginManager pluginManager)
         {
+            //Temp, load resources from fs
+            //C:\Development\openvrtest\Install\media\textures
+            VirtualFileSystem.Instance.addArchive("C:/Development/openvrtest/Install/media");
+            OgreResourceGroupManager.getInstance().addResourceLocation("ShadersDX11/GuiResource_Gui", "EngineArchive", "Vr", false);
+            OgreResourceGroupManager.getInstance().addResourceLocation("ShadersDX11", "EngineArchive", "Vr", false);
+            OgreResourceGroupManager.getInstance().addResourceLocation("textures", "EngineArchive", "Vr", true);
+            OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
+
             var ogreRoot = pluginManager.GlobalScope.Resolve<Root>();
             ogreFramework = new OgreFramework();
             ogreFramework.Init(ogreRoot);
