@@ -68,15 +68,10 @@ public:
 
         bool initOgre(Ogre::Root* root);
         void updateOgre(double timeSinceLastFrame);
-        void moveCamera();
-        void getInput();
 
         bool isOgreToBeShutDown()const{return m_bShutDownOgre;}  
 
         Ogre::SceneManager*                     m_pSceneManager;
-        //Ogre::RenderWindow*                     m_pRenderWnd;
-        //Ogre::Camera*                           m_pCamera;
-        //Ogre::Viewport*                         m_pViewport;
         Ogre::Log*                                      m_pLog;
 		Ogre::RenderSystem*						m_pRenderSystem;
 

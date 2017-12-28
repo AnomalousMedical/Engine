@@ -26,9 +26,6 @@ OgreFramework::OgreFramework()
     m_iNumScreenShots   = 0;
 
 	m_pSceneManager = 0;
-    //m_pRenderWnd                = 0;
-    //m_pCamera                   = 0;
-    //m_pViewport                 = 0;
     m_pLog                      = 0;
 	m_pRenderSystem				= 0;
 }
@@ -40,24 +37,8 @@ bool OgreFramework::initOgre(Ogre::Root* root)
 
 	m_pRenderSystem = root->getRenderSystem();
 
-	//m_pRenderWnd = root->createRenderWindow("Vr", 1920, 1080, false);
-
 	m_pSceneManager = root->createSceneManager(ST_GENERIC, "SceneManager");
 	m_pSceneManager->setAmbientLight(Ogre::ColourValue(0.7f, 0.7f, 0.7f));
-
-    /*m_pCamera = m_pSceneManager->createCamera("Camera");
-    m_pCamera->setPosition(Vector3(0, 60, 60));
-    m_pCamera->lookAt(Vector3(0, 0, 0));
-    m_pCamera->setNearClipDistance(8);
-	m_pCamera->setFarClipDistance(32768) ;*/
-
-    //m_pViewport = m_pRenderWnd->addViewport(m_pCamera);
-    //m_pViewport->setBackgroundColour(ColourValue(0.0f, 0.0f, 0.0f, 1.0f));
-
-    //m_pCamera->setAspectRatio(Real(m_pViewport->getActualWidth()) / Real(m_pViewport->getActualHeight()));
-
-    //m_pViewport->setCamera(m_pCamera);
-	//m_pViewport->setClearEveryFrame(false) ;
 
 	g_IPD=0.065 ;
 	g_poseNeutralPosition=Ogre::Vector3(0.0f, 0.0f, 0.0f);
@@ -73,8 +54,6 @@ bool OgreFramework::initOgre(Ogre::Root* root)
 	PlayerPos=Ogre::Vector3(0.0f, 0.0f, 0.0f) ;
 	PlayerSpeed=1 ;
 	PlayerSpeedPress=false ;
-
-    //m_pRenderWnd->setActive(true);
 
 	return initOpenVR();
 
@@ -157,10 +136,7 @@ void OgreFramework::updateOgre(double timeSinceLastFrame)
 
     m_TranslateVector = Vector3::ZERO;
 
-    getInput();
 	handleInput() ; // vr input, includes HMD and controllers
-
-    moveCamera();
 
 	/////////////////////////////////////////////////
 	int nHand=-1 ;
@@ -236,51 +212,12 @@ void OgreFramework::updateOgre(double timeSinceLastFrame)
 			m_ControllerSN[nLoop]->setOrientation(m_ControllerData[nLoop].Orientation) ;
 		}
 
-	//if(m_bPlayAreaReady) m_pPlayAreaSN->setPosition(PlayerPos) ;
-
-	/*Ogre2DGui->ClearSpriteBuffer() ;
-	Ogre2DGui->UpdateInfoText() ;
-	Ogre2DGui->DrawGui(renderTexture_WorldGui, true, &m_nBatchCount, &m_nTriCount);*/
-	////////////////////////////////////////////////
-	
-	//m_pSceneManager->getRootSceneNode()->removeAllChildren() ;
-	//m_pSceneManager->getRootSceneNode()->addChild(m_pWorldSN) ;
-	//m_pSceneMgr->getRootSceneNode()->addChild(m_pWorldGuiSN) ;
-	//m_pSceneMgr->getRootSceneNode()->addChild(m_pPlayAreaSN) ;
-	/*if(m_nControllerTDI[HAND1]!=NOCONTROLLER) 
-	{
-		m_pSceneMgr->getRootSceneNode()->addChild( m_ControllerSN[HAND1]) ;
-	}
-	if(m_nControllerTDI[HAND0]!=NOCONTROLLER)
-	{
-		m_pSceneMgr->getRootSceneNode()->addChild( m_ControllerSN[HAND0]) ;
-	}*/
-
 	UpdateVR() ;
-
-	// add a window to render on the PC so others can see what's going on.
-	/*m_pSceneMgr->getRootSceneNode()->removeAllChildren() ;
-	m_pSceneMgr->getRootSceneNode()->addChild(miniScreenNode_VR_L) ;*/
-	//m_pRenderWnd->update(true);
 
 	g_frameIndex++ ;
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
-
-// ctrl to move fast, shift+ctrol to move slow
-void OgreFramework::moveCamera()
-{
-	//m_pCamera->moveRelative(m_TranslateVector*4.0f);
-}
-
-//|||||||||||||||||||||||||||||||||||||||||||||||
-
-void OgreFramework::getInput()
-{
-	return ;
-}
-
 
 bool OgreFramework::initOpenVR()
 {
@@ -339,7 +276,6 @@ bool OgreFramework::initOpenVR()
 	return true;
 }
 
-
 // taken directly from OpenVR hellovr_opengl sample
 //-----------------------------------------------------------------------------
 // Purpose: Helper to get a string from a tracked device property and turn it
@@ -382,7 +318,6 @@ void OgreFramework::SetupRenderModelForTrackedDevice( vr::TrackedDeviceIndex_t u
 	}
 }
 */
-
 
 // I'm only interested in the hand controllers, 2 at most
 void OgreFramework::SetupRenderModels()
