@@ -26,9 +26,9 @@ OgreFramework::OgreFramework()
     m_iNumScreenShots   = 0;
 
 	m_pSceneManager = 0;
-    m_pRenderWnd                = 0;
+    //m_pRenderWnd                = 0;
     m_pCamera                   = 0;
-    m_pViewport                 = 0;
+    //m_pViewport                 = 0;
     m_pLog                      = 0;
 	m_pRenderSystem				= 0;
 }
@@ -40,7 +40,7 @@ bool OgreFramework::initOgre(Ogre::Root* root)
 
 	m_pRenderSystem = root->getRenderSystem();
 
-	m_pRenderWnd = root->createRenderWindow("Vr", 1920, 1080, false);
+	//m_pRenderWnd = root->createRenderWindow("Vr", 1920, 1080, false);
 
 	m_pSceneManager = root->createSceneManager(ST_GENERIC, "SceneManager");
 	m_pSceneManager->setAmbientLight(Ogre::ColourValue(0.7f, 0.7f, 0.7f));
@@ -51,13 +51,13 @@ bool OgreFramework::initOgre(Ogre::Root* root)
     m_pCamera->setNearClipDistance(8);
 	m_pCamera->setFarClipDistance(32768) ;
 
-    m_pViewport = m_pRenderWnd->addViewport(m_pCamera);
-    m_pViewport->setBackgroundColour(ColourValue(0.0f, 0.0f, 0.0f, 1.0f));
+    //m_pViewport = m_pRenderWnd->addViewport(m_pCamera);
+    //m_pViewport->setBackgroundColour(ColourValue(0.0f, 0.0f, 0.0f, 1.0f));
 
-    m_pCamera->setAspectRatio(Real(m_pViewport->getActualWidth()) / Real(m_pViewport->getActualHeight()));
+    //m_pCamera->setAspectRatio(Real(m_pViewport->getActualWidth()) / Real(m_pViewport->getActualHeight()));
 
-    m_pViewport->setCamera(m_pCamera);
-	m_pViewport->setClearEveryFrame(false) ;
+    //m_pViewport->setCamera(m_pCamera);
+	//m_pViewport->setClearEveryFrame(false) ;
 
 	g_IPD=0.065 ;
 	g_poseNeutralPosition=Ogre::Vector3(0.0f, 0.0f, 0.0f);
@@ -74,7 +74,7 @@ bool OgreFramework::initOgre(Ogre::Root* root)
 	PlayerSpeed=1 ;
 	PlayerSpeedPress=false ;
 
-    m_pRenderWnd->setActive(true);
+    //m_pRenderWnd->setActive(true);
 
 	return initOpenVR();
 
@@ -570,7 +570,7 @@ void OgreFramework::InitOgreTextures()
 	m_pLog->logMessage(chMessage) ;
 
 	// adjust the dimensions of the renderwindow viewport so we see a copy of the vr texture that isn't distorted.
-	float flScaleX=(float)m_nRenderWidth/(float)m_pRenderWnd->getWidth() ;
+	/*float flScaleX=(float)m_nRenderWidth/(float)m_pRenderWnd->getWidth() ;
 	float flScaleY=(float)m_nRenderHeight/(float)m_pRenderWnd->getHeight() ;
 
 	if(flScaleX>flScaleY)
@@ -586,7 +586,7 @@ void OgreFramework::InitOgreTextures()
 		flScaleY*=flScale ;
 	}
 
-	m_pViewport->setDimensions(0.5f-flScaleX/2.0f, 0.5f-flScaleY/2.0f, flScaleX, flScaleY) ;
+	m_pViewport->setDimensions(0.5f-flScaleX/2.0f, 0.5f-flScaleY/2.0f, flScaleX, flScaleY) ;*/
 
 	Ogre::TextureManager::getSingleton().load("Controller0.tga", "Vr", TEX_TYPE_2D, 0) ;
 	Ogre::TextureManager::getSingleton().load("Controller1.tga", "Vr", TEX_TYPE_2D, 0) ;
