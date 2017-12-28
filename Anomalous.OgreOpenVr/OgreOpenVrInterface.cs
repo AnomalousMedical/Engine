@@ -12,10 +12,11 @@ namespace Anomalous.OgreOpenVr
     {
         public string Name => "OgreOpenVr";
         private OgreFramework ogreFramework;
+        private UpdateTimer mainTimer;
 
         public void Dispose()
         {
-            if(ogreFramework != null)
+            if (ogreFramework != null)
             {
                 ogreFramework.Dispose();
                 ogreFramework = null;
@@ -24,7 +25,7 @@ namespace Anomalous.OgreOpenVr
 
         public void createDebugCommands(List<CommandManager> commands)
         {
-            
+
         }
 
         public DebugInterface getDebugInterface()
@@ -34,7 +35,13 @@ namespace Anomalous.OgreOpenVr
 
         public void initialize(PluginManager pluginManager, ContainerBuilder builder)
         {
-            
+            builder.Register(c =>
+            {
+                var ogreFramework = new OgreFramework();
+                mainTimer.addUpdateListener(new OgreFrameworkUpdateListener(ogreFramework));
+                return ogreFramework;
+            })
+            .SingleInstance();
         }
 
         public void link(PluginManager pluginManager)
@@ -47,19 +54,19 @@ namespace Anomalous.OgreOpenVr
             OgreResourceGroupManager.getInstance().addResourceLocation("textures", "EngineArchive", "Vr", true);
             OgreResourceGroupManager.getInstance().initializeAllResourceGroups();
 
-            var ogreRoot = pluginManager.GlobalScope.Resolve<Root>();
-            ogreFramework = new OgreFramework();
-            ogreFramework.Init(ogreRoot);
+            //var ogreRoot = pluginManager.GlobalScope.Resolve<Root>();
+            //ogreFramework = new OgreFramework();
+            //ogreFramework.Init(ogreRoot);
         }
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
         {
-            mainTimer.addUpdateListener(new OgreFrameworkUpdateListener(ogreFramework));
+            this.mainTimer = mainTimer;
         }
 
         public void setupRenamedSaveableTypes(RenamedTypeMap renamedTypeMap)
         {
-            
+
         }
     }
 }

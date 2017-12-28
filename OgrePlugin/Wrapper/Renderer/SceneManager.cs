@@ -35,6 +35,14 @@ namespace OgrePlugin
         SceneNode rootNode;
         ManagedRenderQueueListener managedRenderQueueListener;
 
+        public IntPtr NativePtr
+        {
+            get
+            {
+                return ogreSceneManager;
+            }
+        }
+
         protected SceneManager(IntPtr ogreSceneManager)
         {
             this.ogreSceneManager = ogreSceneManager;

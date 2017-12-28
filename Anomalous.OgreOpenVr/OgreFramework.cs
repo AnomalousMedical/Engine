@@ -24,9 +24,9 @@ namespace Anomalous.OgreOpenVr
             }
         }
 
-        public void Init(Root root)
+        public void Init(Root root, SceneManager sceneManager)
         {
-            OgreFramework_initOgre(framework, root.NativePtr);
+            OgreFramework_initOgre(framework, root.NativePtr, sceneManager.NativePtr);
         }
 
         public void Update(double timeSinceLastUpdate)
@@ -43,7 +43,7 @@ namespace Anomalous.OgreOpenVr
         private static extern void OgreFramework_Destroy(IntPtr framework);
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
-        private static extern bool OgreFramework_initOgre(IntPtr framework, IntPtr root);
+        private static extern bool OgreFramework_initOgre(IntPtr framework, IntPtr root, IntPtr sceneManager);
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void OgreFramework_updateOgre(IntPtr framework, double timeSinceLastFrame);

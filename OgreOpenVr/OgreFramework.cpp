@@ -31,13 +31,13 @@ OgreFramework::OgreFramework()
 }
 
 
-bool OgreFramework::initOgre(Ogre::Root* root)
+bool OgreFramework::initOgre(Ogre::Root* root, Ogre::SceneManager* sceneManager)
 {
 	m_pLog = Ogre::LogManager::getSingletonPtr()->getDefaultLog();
 
 	m_pRenderSystem = root->getRenderSystem();
 
-	m_pSceneManager = root->createSceneManager(ST_GENERIC, "SceneManager");
+	m_pSceneManager = sceneManager;
 	m_pSceneManager->setAmbientLight(Ogre::ColourValue(0.7f, 0.7f, 0.7f));
 
 	g_IPD=0.065 ;
@@ -46,10 +46,10 @@ bool OgreFramework::initOgre(Ogre::Root* root)
 
 	float flSize=16.0f ;
 
-	m_pWorldSN= m_pSceneManager->getRootSceneNode()->createChildSceneNode("WorldSN") ;
+	/*m_pWorldSN= m_pSceneManager->getRootSceneNode()->createChildSceneNode("WorldSN") ;
 	m_pWorldMO= m_pSceneManager->createManualObject("WorldMO") ;
 	CreateGenericCubeMesh("WorldMO", "CubeTex", m_pWorldMO, -flSize, flSize, flSize, 0.0f, flSize, 0.0f) ;
-	m_pWorldSN->attachObject(m_pWorldMO) ;
+	m_pWorldSN->attachObject(m_pWorldMO) ;*/
 
 	PlayerPos=Ogre::Vector3(0.0f, 0.0f, 0.0f) ;
 	PlayerSpeed=1 ;
@@ -68,10 +68,12 @@ OgreFramework::~OgreFramework()
 	/*DeleteControllerModel(HAND0);
 	DeleteControllerModel(HAND1);*/
 
+	//THREAX-TODO: Handle erasing the cameras and their scene nodes here
+
 	//Probably don't want these 3
-	m_pSceneManager->getRootSceneNode()->removeAndDestroyAllChildren() ; // destroy all scenenodes
-	m_pSceneManager->destroyAllEntities() ;
-	m_pSceneManager->destroyAllManualObjects() ;
+	//m_pSceneManager->getRootSceneNode()->removeAndDestroyAllChildren() ; // destroy all scenenodes
+	//m_pSceneManager->destroyAllEntities() ;
+	//m_pSceneManager->destroyAllManualObjects() ;
 
 	Ogre::TextureManager::getSingleton().remove("RttTex_VR_L") ;
 	RTT_Texture_VR_L->~Texture() ;

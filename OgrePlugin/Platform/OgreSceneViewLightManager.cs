@@ -28,7 +28,13 @@ namespace OgrePlugin
 
             public void preFindVisibleObjects(SceneManager sceneManager, SceneManager.IlluminationRenderStage irs, Viewport viewport)
             {
-                light.setPosition(viewport.getCamera().getParentSceneNode().getPosition());
+                if (viewport != null)
+                {
+                    var camera = viewport.getCamera();
+                    var node = camera.getParentSceneNode();
+                    var position = node.getPosition();
+                    light.setPosition(position);
+                }
             }
 
             public Light Light

@@ -66,7 +66,7 @@ public:
 
 		char m_chBug[10240] ;
 
-        bool initOgre(Ogre::Root* root);
+        bool initOgre(Ogre::Root* root, Ogre::SceneManager* sceneManager);
         void updateOgre(double timeSinceLastFrame);
 
         bool isOgreToBeShutDown()const{return m_bShutDownOgre;}  
@@ -81,9 +81,9 @@ public:
 
 
 
-		void CreateGenericCubeMesh(char chName[], char chMaterial[], Ogre::ManualObject* pMO, float flSizeX, float flSizeY, float flSizeZ, float flOffsetX, float flOffsetY, float flOffsetZ) ;
+		/*void CreateGenericCubeMesh(char chName[], char chMaterial[], Ogre::ManualObject* pMO, float flSizeX, float flSizeY, float flSizeZ, float flOffsetX, float flOffsetY, float flOffsetZ) ;
 		Ogre::ManualObject* m_pWorldMO ;
-		Ogre::SceneNode*	m_pWorldSN ;
+		Ogre::SceneNode*	m_pWorldSN ;*/
 
 	Ogre::TexturePtr			RTT_Texture_VR_L ;
 	Ogre::RenderTexture*		renderTexture_VR_L ;
