@@ -108,9 +108,6 @@ public:
 
 	void SetupRenderModelForTrackedDevice( vr::TrackedDeviceIndex_t unTrackedDeviceIndex ) ;
 	void SetupRenderModels() ;
-	void CreateControllerModel(int nController) ;
-	void DeleteControllerModel(int nController) ;
-	void DefaultControllerModel(int nController) ;
 
 	int m_nControllerTDI[MAXCONTROLLER] ; // Tracked Device Index of the two hand controllers
 	bool m_bControllerHasModel[MAXCONTROLLER] ; // whether we've created assets for this controller.

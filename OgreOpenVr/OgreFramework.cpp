@@ -65,18 +65,13 @@ bool OgreFramework::initOgre(Ogre::Root* root)
 
 OgreFramework::~OgreFramework()
 {
-	DeleteControllerModel(HAND0) ;
-	DeleteControllerModel(HAND1) ;
+	/*DeleteControllerModel(HAND0);
+	DeleteControllerModel(HAND1);*/
 
 	//Probably don't want these 3
 	m_pSceneManager->getRootSceneNode()->removeAndDestroyAllChildren() ; // destroy all scenenodes
 	m_pSceneManager->destroyAllEntities() ;
 	m_pSceneManager->destroyAllManualObjects() ;
-
-	// extra step needed to properly remove the render texture, or else we get a crash on close.
-	/*Ogre::TextureManager::getSingleton().remove("RttTex_WorldGui") ;
-	RTT_Texture_WorldGui->~Texture() ;
-	RTT_Mat_WorldGui->removeAllTechniques() ;*/
 
 	Ogre::TextureManager::getSingleton().remove("RttTex_VR_L") ;
 	RTT_Texture_VR_L->~Texture() ;
@@ -86,24 +81,7 @@ OgreFramework::~OgreFramework()
 	RTT_Texture_VR_R->~Texture() ;
 	RTT_Mat_VR_R->removeAllTechniques() ;
 
-	
-	//Ogre::TextureManager::getSingleton().remove("Texure_Controller0") ;
-	//Texture_Controller0->~Texture() ;
-
-	//Ogre::TextureManager::getSingleton().remove("Texure_Controller1") ;
-	//Texture_Controller1->~Texture() ;
-
-	///////////////////////////////////////////////////////////////////////////////////////
-	
-	/*Ogre2DGui->end() ;
-	delete Ogre2DGui ;*/
-
-	Ogre::MaterialManager::getSingletonPtr()->removeAll() ;
-	Ogre::TextureManager::getSingletonPtr()->removeAll() ;
-
-	Ogre::ResourceGroupManager::getSingleton().clearResourceGroup(ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME) ;
-
-    //if(m_pInputMgr) OIS::InputManager::destroyInputSystem(m_pInputMgr);
+	//THREAX-TODO: Figure out this vr shutdown thing below
 
 	//vr::VR_Shutdown() ; // putting it here causes an debug break in OgreComPtr
 
@@ -349,7 +327,7 @@ void OgreFramework::SetupRenderModels()
 				m_pLog->logMessage(m_chMessage) ;
 
 				m_nControllerTDI[nHand]=unTrackedDevice ;
-				CreateControllerModel(nHand) ;
+				//CreateControllerModel(nHand) ;
 			}
 		}
 	}
@@ -522,9 +500,6 @@ void OgreFramework::InitOgreTextures()
 	}
 
 	m_pViewport->setDimensions(0.5f-flScaleX/2.0f, 0.5f-flScaleY/2.0f, flScaleX, flScaleY) ;*/
-
-	Ogre::TextureManager::getSingleton().load("Controller0.tga", "Vr", TEX_TYPE_2D, 0) ;
-	Ogre::TextureManager::getSingleton().load("Controller1.tga", "Vr", TEX_TYPE_2D, 0) ;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -608,7 +583,7 @@ bool OgreFramework::handleInput()
 							m_pLog->logMessage(m_chMessage) ;
 
 							m_nControllerTDI[nHand]=unTrackedDevice ;
-							CreateControllerModel(nHand) ;
+							//CreateControllerModel(nHand) ;
 						}
 					}
 				}
