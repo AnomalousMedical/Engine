@@ -70,12 +70,12 @@ bool OgreFramework::initOgre(Ogre::Root* root)
 	m_pViewport->setClearEveryFrame(false) ;
 	
 	// create the texture we'll use for RTT
-	RTT_Texture_WorldGui = Ogre::TextureManager::getSingleton().createManual("RttTex_WorldGui",
+	/*RTT_Texture_WorldGui = Ogre::TextureManager::getSingleton().createManual("RttTex_WorldGui",
       ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, TEX_TYPE_2D, VSCREEN_W, VSCREEN_H, 0, PF_FLOAT16_RGBA,
-      TU_RENDERTARGET);
+      TU_RENDERTARGET);*/
 
 	
-	renderTexture_WorldGui = RTT_Texture_WorldGui->getBuffer()->getRenderTarget();
+	/*renderTexture_WorldGui = RTT_Texture_WorldGui->getBuffer()->getRenderTarget();
 	renderTexture_WorldGui->addViewport(m_pCamera);
 	renderTexture_WorldGui->getViewport(0)->setClearEveryFrame(true, FBT_COLOUR|FBT_DEPTH) ;
 	renderTexture_WorldGui->getViewport(0)->setBackgroundColour(ColourValue::Black);
@@ -101,7 +101,7 @@ bool OgreFramework::initOgre(Ogre::Root* root)
 	miniScreen_WorldGui->setBoundingBox(AxisAlignedBox(-100000.0*Vector3::UNIT_SCALE, 100000.0*Vector3::UNIT_SCALE)); 
 	miniScreenNode_WorldGui = m_pSceneManager->getRootSceneNode()->createChildSceneNode("MiniScreenNode_WorldGui");
 	miniScreenNode_WorldGui->attachObject(miniScreen_WorldGui);
-	miniScreen_WorldGui->setMaterial("RttMat_WorldGui");
+	miniScreen_WorldGui->setMaterial("RttMat_WorldGui");*/
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -133,10 +133,10 @@ bool OgreFramework::initOgre(Ogre::Root* root)
 	m_pWorldSN->attachObject(m_pWorldMO) ;
 	//m_pSceneMgr->getRootSceneNode()->removeChild(m_pWorldSN) ;
 	
-	m_pWorldGuiSN= m_pSceneManager->getRootSceneNode()->createChildSceneNode("WorldGuiSN") ;
+	/*m_pWorldGuiSN= m_pSceneManager->getRootSceneNode()->createChildSceneNode("WorldGuiSN") ;
 	m_pWorldGuiMO= m_pSceneManager->createManualObject("WorldGuiMO") ;
 	CreateWorldGuiMesh(flSize, flSize, flSize, 0.0f, flSize, 0.0f, flSize/8.0f) ;
-	m_pWorldGuiSN->attachObject(m_pWorldGuiMO) ;
+	m_pWorldGuiSN->attachObject(m_pWorldGuiMO) ;*/
 	//m_pSceneMgr->getRootSceneNode()->removeChild(m_pWorldGuiSN) ;
 	
 	m_pPlayAreaSN= m_pSceneManager->getRootSceneNode()->createChildSceneNode("PlayAreaSN") ;
@@ -181,9 +181,9 @@ OgreFramework::~OgreFramework()
 	m_pSceneManager->destroyAllManualObjects() ;
 
 	// extra step needed to properly remove the render texture, or else we get a crash on close.
-	Ogre::TextureManager::getSingleton().remove("RttTex_WorldGui") ;
+	/*Ogre::TextureManager::getSingleton().remove("RttTex_WorldGui") ;
 	RTT_Texture_WorldGui->~Texture() ;
-	RTT_Mat_WorldGui->removeAllTechniques() ;
+	RTT_Mat_WorldGui->removeAllTechniques() ;*/
 
 	Ogre::TextureManager::getSingleton().remove("RttTex_VR_L") ;
 	RTT_Texture_VR_L->~Texture() ;

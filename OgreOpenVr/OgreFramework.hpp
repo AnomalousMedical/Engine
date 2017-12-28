@@ -105,19 +105,19 @@ public:
 		Ogre::ManualObject* m_pWorldMO ;
 		Ogre::SceneNode*	m_pWorldSN ;
 
-		void CreateWorldGuiMesh(float flSizeX, float flSizeY, float flSizeZ, float flOffsetX, float flOffsetY, float flOffsetZ, float flGuiSize) ;
-		Ogre::ManualObject* m_pWorldGuiMO ;
-		Ogre::SceneNode*	m_pWorldGuiSN ;
+		//void CreateWorldGuiMesh(float flSizeX, float flSizeY, float flSizeZ, float flOffsetX, float flOffsetY, float flOffsetZ, float flGuiSize) ;
+		/*Ogre::ManualObject* m_pWorldGuiMO ;
+		Ogre::SceneNode*	m_pWorldGuiSN ;*/
 
 
 
 	
-	Ogre::Rectangle2D*			miniScreen_WorldGui;
-	Ogre::SceneNode*			miniScreenNode_WorldGui;
-	Ogre::TexturePtr			RTT_Texture_WorldGui ;
-	Ogre::RenderTexture*		renderTexture_WorldGui ;
-	Ogre::MaterialPtr			RTT_Mat_WorldGui ;
-	Ogre::Technique*			RTT_Technique_WorldGui ;
+	//Ogre::Rectangle2D*			miniScreen_WorldGui;
+	//Ogre::SceneNode*			miniScreenNode_WorldGui;
+	//Ogre::TexturePtr			RTT_Texture_WorldGui ;
+	//Ogre::RenderTexture*		renderTexture_WorldGui ;
+	//Ogre::MaterialPtr			RTT_Mat_WorldGui ;
+	//Ogre::Technique*			RTT_Technique_WorldGui ;
 
 	//Ogre::Rectangle2D*			miniScreen_VR_L;
 	//Ogre::SceneNode*			miniScreenNode_VR_L;
@@ -135,14 +135,14 @@ public:
 
 	//Ogre::Rectangle2D*			miniScreen_Controller0;
 	//Ogre::SceneNode*			miniScreenNode_Controller0;
-	Ogre::TexturePtr			Texture_Controller0 ;
+	//Ogre::TexturePtr			Texture_Controller0 ;
 	//Ogre::RenderTexture*		renderTexture_Controller0 ;
 	//Ogre::MaterialPtr			RTT_Mat_Controller0 ;
 	//Ogre::Technique*			RTT_Technique_Controller0 ;
 
 	//Ogre::Rectangle2D*			miniScreen_Controller1;
 	//Ogre::SceneNode*			miniScreenNode_Controller1;
-	Ogre::TexturePtr			Texture_Controller1 ;
+	//Ogre::TexturePtr			Texture_Controller1 ;
 	//Ogre::RenderTexture*		renderTexture_Controller1 ;
 	//Ogre::MaterialPtr			RTT_Mat_Controller1 ;
 	//Ogre::Technique*			RTT_Technique_Controller1 ;

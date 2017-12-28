@@ -180,146 +180,146 @@ void OgreFramework::CreateGenericCubeMesh(char chName[], char chMaterial[], Ogre
 
 }
 
-void OgreFramework::CreateWorldGuiMesh(float flSizeX, float flSizeY, float flSizeZ, float flOffsetX, float flOffsetY, float flOffsetZ, float flGuiSize)
-{
-
-	// for calculating bounds of mesh
-	float flMinX = 0.0f;
-	float flMinY = 0.0f;
-	float flMinZ = 0.0f;
-	float flMaxX = 0.0f;
-	float flMaxY = 0.0f;
-	float flMaxZ = 0.0f;
-
-	float flDisX = 0.0f;
-	float flDisY = 0.0f;
-	float flDisZ = 0.0f;
-	float flRadius = 0.0f;
-	AxisAlignedBox AABB;
-
-
-
-	float flAspect = (float)VSCREEN_W / (float)VSCREEN_H;
-
-	// setup the manual object
-
-
-	// start defining the manualObject
-	m_pWorldGuiMO->begin("WorldGui", RenderOperation::OT_TRIANGLE_LIST);
-	//m_pWorldGuiMO->begin("CubeTex", RenderOperation::OT_TRIANGLE_LIST) ;
-
-
-	flMinX = -flSizeX + flOffsetX + 4.0f;//flGuiSize/2.0f ;
-	flMinY = -flSizeY + flOffsetY + 4.0f;//flGuiSize/2.0f ;
-	flMinZ = -flSizeZ + flOffsetZ + 2.0f;//flGuiSize/2.0f ;
-
-	flMaxX = flSizeX + flOffsetX - 4.0f;//flGuiSize/2.0f ;
-	flMaxY = flSizeY + flOffsetY - 4.0f;//flGuiSize/2.0f ;
-	flMaxZ = flSizeZ + flOffsetZ - 4.0f;//flGuiSize/2.0f ;
-
-	float flMinXb = flOffsetX - flGuiSize * flAspect;
-	float flMaxXb = flOffsetX + flGuiSize * flAspect;
-	float flMinZb = flOffsetZ - flGuiSize * flAspect;
-	float flMaxZb = flOffsetZ + flGuiSize * flAspect;
-
-	float flMinYb = flMinY;
-	float flMaxYb = flMinYb + flGuiSize * 2.0f;
-
-
-	//////////////////////////////////////////////////////
-	// back face
-	m_pWorldGuiMO->position(flMinXb, flMaxYb, flMinZ);
-	m_pWorldGuiMO->normal(0.0, 0.0, -1);
-	m_pWorldGuiMO->textureCoord(0.0, 0.0);
-
-	m_pWorldGuiMO->position(flMaxXb, flMaxYb, flMinZ);
-	m_pWorldGuiMO->normal(0.0, 0.0, -1);
-	m_pWorldGuiMO->textureCoord(1.0, 0.0);
-
-	m_pWorldGuiMO->position(flMaxXb, flMinYb, flMinZ);
-	m_pWorldGuiMO->normal(0.0, 0.0, -1);
-	m_pWorldGuiMO->textureCoord(1.0, 1.0);
-
-	m_pWorldGuiMO->position(flMinXb, flMinYb, flMinZ);
-	m_pWorldGuiMO->normal(0.0, 0.0, -1);
-	m_pWorldGuiMO->textureCoord(0.0, 1.0);
-
-	m_pWorldGuiMO->quad(3, 2, 1, 0);
-	//m_pWorldGuiMO->quad(3, 2, 1, 0) ;
-
-	//////////////////////////////////////////////////////
-	// front face
-	m_pWorldGuiMO->position(flMinXb, flMaxYb, flMaxZ);
-	m_pWorldGuiMO->normal(0.0, 0.0, 1);
-	m_pWorldGuiMO->textureCoord(1.0, 0.0);
-
-	m_pWorldGuiMO->position(flMaxXb, flMaxYb, flMaxZ);
-	m_pWorldGuiMO->normal(0.0, 0.0, 1);
-	m_pWorldGuiMO->textureCoord(0.0, 0.0);
-
-	m_pWorldGuiMO->position(flMaxXb, flMinYb, flMaxZ);
-	m_pWorldGuiMO->normal(0.0, 0.0, 1);
-	m_pWorldGuiMO->textureCoord(0.0, 1.0);
-
-	m_pWorldGuiMO->position(flMinXb, flMinYb, flMaxZ);
-	m_pWorldGuiMO->normal(0.0, 0.0, 1);
-	m_pWorldGuiMO->textureCoord(1.0, 1.0);
-
-	m_pWorldGuiMO->quad(4, 5, 6, 7);
-	//m_pWorldGuiMO->quad(4, 5, 6, 7) ;
-
-	//////////////////////////////////////////////////////
-	// left face
-	m_pWorldGuiMO->position(flMinX, flMaxYb, flMaxZb);
-	m_pWorldGuiMO->normal(-1.0, 0.0, 0.0);
-	m_pWorldGuiMO->textureCoord(0.0, 0.0);
-
-	m_pWorldGuiMO->position(flMinX, flMaxYb, flMinZb);
-	m_pWorldGuiMO->normal(-1.0, 0.0, 0.0);
-	m_pWorldGuiMO->textureCoord(1.0, 0.0);
-
-	m_pWorldGuiMO->position(flMinX, flMinYb, flMinZb);
-	m_pWorldGuiMO->normal(-1.0, 0.0, 0.0);
-	m_pWorldGuiMO->textureCoord(1.0, 1.0);
-
-	m_pWorldGuiMO->position(flMinX, flMinYb, flMaxZb);
-	m_pWorldGuiMO->normal(-1.0, 0.0, 0.0);
-	m_pWorldGuiMO->textureCoord(0.0, 1.0);
-
-	m_pWorldGuiMO->quad(11, 10, 9, 8);
-	//m_pWorldGuiMO->quad(11, 10, 9, 8) ;
-	//m_pWorldGuiMO->quad(0, 1, 2, 3) ;
-
-	//////////////////////////////////////////////////////
-	// right face
-	m_pWorldGuiMO->position(flMaxX, flMaxYb, flMaxZb);
-	m_pWorldGuiMO->normal(1.0, 0.0, 0.0);
-	m_pWorldGuiMO->textureCoord(1.0, 0.0);
-
-	m_pWorldGuiMO->position(flMaxX, flMaxYb, flMinZb);
-	m_pWorldGuiMO->normal(1.0, 0.0, 0.0);
-	m_pWorldGuiMO->textureCoord(0.0, 0.0);
-
-	m_pWorldGuiMO->position(flMaxX, flMinYb, flMinZb);
-	m_pWorldGuiMO->normal(1.0, 0.0, 0.0);
-	m_pWorldGuiMO->textureCoord(0.0, 1.0);
-
-	m_pWorldGuiMO->position(flMaxX, flMinYb, flMaxZb);
-	m_pWorldGuiMO->normal(1.0, 0.0, 0.0);
-	m_pWorldGuiMO->textureCoord(1.0, 1.0);
-
-	m_pWorldGuiMO->quad(12, 13, 14, 15);
-	//m_pWorldGuiMO->quad(12, 13, 14, 15) ;
-	//m_pWorldGuiMO->quad(4, 5, 6, 7) ;
-	//////////////////////////////////////////////////////
-
-	m_pWorldGuiMO->end();
-
-
-	m_pWorldGuiMO->setCastShadows(false);
-	m_pWorldGuiMO->setDynamic(false);
-
-}
+//void OgreFramework::CreateWorldGuiMesh(float flSizeX, float flSizeY, float flSizeZ, float flOffsetX, float flOffsetY, float flOffsetZ, float flGuiSize)
+//{
+//
+//	// for calculating bounds of mesh
+//	float flMinX = 0.0f;
+//	float flMinY = 0.0f;
+//	float flMinZ = 0.0f;
+//	float flMaxX = 0.0f;
+//	float flMaxY = 0.0f;
+//	float flMaxZ = 0.0f;
+//
+//	float flDisX = 0.0f;
+//	float flDisY = 0.0f;
+//	float flDisZ = 0.0f;
+//	float flRadius = 0.0f;
+//	AxisAlignedBox AABB;
+//
+//
+//
+//	float flAspect = (float)VSCREEN_W / (float)VSCREEN_H;
+//
+//	// setup the manual object
+//
+//
+//	// start defining the manualObject
+//	m_pWorldGuiMO->begin("WorldGui", RenderOperation::OT_TRIANGLE_LIST);
+//	//m_pWorldGuiMO->begin("CubeTex", RenderOperation::OT_TRIANGLE_LIST) ;
+//
+//
+//	flMinX = -flSizeX + flOffsetX + 4.0f;//flGuiSize/2.0f ;
+//	flMinY = -flSizeY + flOffsetY + 4.0f;//flGuiSize/2.0f ;
+//	flMinZ = -flSizeZ + flOffsetZ + 2.0f;//flGuiSize/2.0f ;
+//
+//	flMaxX = flSizeX + flOffsetX - 4.0f;//flGuiSize/2.0f ;
+//	flMaxY = flSizeY + flOffsetY - 4.0f;//flGuiSize/2.0f ;
+//	flMaxZ = flSizeZ + flOffsetZ - 4.0f;//flGuiSize/2.0f ;
+//
+//	float flMinXb = flOffsetX - flGuiSize * flAspect;
+//	float flMaxXb = flOffsetX + flGuiSize * flAspect;
+//	float flMinZb = flOffsetZ - flGuiSize * flAspect;
+//	float flMaxZb = flOffsetZ + flGuiSize * flAspect;
+//
+//	float flMinYb = flMinY;
+//	float flMaxYb = flMinYb + flGuiSize * 2.0f;
+//
+//
+//	//////////////////////////////////////////////////////
+//	// back face
+//	m_pWorldGuiMO->position(flMinXb, flMaxYb, flMinZ);
+//	m_pWorldGuiMO->normal(0.0, 0.0, -1);
+//	m_pWorldGuiMO->textureCoord(0.0, 0.0);
+//
+//	m_pWorldGuiMO->position(flMaxXb, flMaxYb, flMinZ);
+//	m_pWorldGuiMO->normal(0.0, 0.0, -1);
+//	m_pWorldGuiMO->textureCoord(1.0, 0.0);
+//
+//	m_pWorldGuiMO->position(flMaxXb, flMinYb, flMinZ);
+//	m_pWorldGuiMO->normal(0.0, 0.0, -1);
+//	m_pWorldGuiMO->textureCoord(1.0, 1.0);
+//
+//	m_pWorldGuiMO->position(flMinXb, flMinYb, flMinZ);
+//	m_pWorldGuiMO->normal(0.0, 0.0, -1);
+//	m_pWorldGuiMO->textureCoord(0.0, 1.0);
+//
+//	m_pWorldGuiMO->quad(3, 2, 1, 0);
+//	//m_pWorldGuiMO->quad(3, 2, 1, 0) ;
+//
+//	//////////////////////////////////////////////////////
+//	// front face
+//	m_pWorldGuiMO->position(flMinXb, flMaxYb, flMaxZ);
+//	m_pWorldGuiMO->normal(0.0, 0.0, 1);
+//	m_pWorldGuiMO->textureCoord(1.0, 0.0);
+//
+//	m_pWorldGuiMO->position(flMaxXb, flMaxYb, flMaxZ);
+//	m_pWorldGuiMO->normal(0.0, 0.0, 1);
+//	m_pWorldGuiMO->textureCoord(0.0, 0.0);
+//
+//	m_pWorldGuiMO->position(flMaxXb, flMinYb, flMaxZ);
+//	m_pWorldGuiMO->normal(0.0, 0.0, 1);
+//	m_pWorldGuiMO->textureCoord(0.0, 1.0);
+//
+//	m_pWorldGuiMO->position(flMinXb, flMinYb, flMaxZ);
+//	m_pWorldGuiMO->normal(0.0, 0.0, 1);
+//	m_pWorldGuiMO->textureCoord(1.0, 1.0);
+//
+//	m_pWorldGuiMO->quad(4, 5, 6, 7);
+//	//m_pWorldGuiMO->quad(4, 5, 6, 7) ;
+//
+//	//////////////////////////////////////////////////////
+//	// left face
+//	m_pWorldGuiMO->position(flMinX, flMaxYb, flMaxZb);
+//	m_pWorldGuiMO->normal(-1.0, 0.0, 0.0);
+//	m_pWorldGuiMO->textureCoord(0.0, 0.0);
+//
+//	m_pWorldGuiMO->position(flMinX, flMaxYb, flMinZb);
+//	m_pWorldGuiMO->normal(-1.0, 0.0, 0.0);
+//	m_pWorldGuiMO->textureCoord(1.0, 0.0);
+//
+//	m_pWorldGuiMO->position(flMinX, flMinYb, flMinZb);
+//	m_pWorldGuiMO->normal(-1.0, 0.0, 0.0);
+//	m_pWorldGuiMO->textureCoord(1.0, 1.0);
+//
+//	m_pWorldGuiMO->position(flMinX, flMinYb, flMaxZb);
+//	m_pWorldGuiMO->normal(-1.0, 0.0, 0.0);
+//	m_pWorldGuiMO->textureCoord(0.0, 1.0);
+//
+//	m_pWorldGuiMO->quad(11, 10, 9, 8);
+//	//m_pWorldGuiMO->quad(11, 10, 9, 8) ;
+//	//m_pWorldGuiMO->quad(0, 1, 2, 3) ;
+//
+//	//////////////////////////////////////////////////////
+//	// right face
+//	m_pWorldGuiMO->position(flMaxX, flMaxYb, flMaxZb);
+//	m_pWorldGuiMO->normal(1.0, 0.0, 0.0);
+//	m_pWorldGuiMO->textureCoord(1.0, 0.0);
+//
+//	m_pWorldGuiMO->position(flMaxX, flMaxYb, flMinZb);
+//	m_pWorldGuiMO->normal(1.0, 0.0, 0.0);
+//	m_pWorldGuiMO->textureCoord(0.0, 0.0);
+//
+//	m_pWorldGuiMO->position(flMaxX, flMinYb, flMinZb);
+//	m_pWorldGuiMO->normal(1.0, 0.0, 0.0);
+//	m_pWorldGuiMO->textureCoord(0.0, 1.0);
+//
+//	m_pWorldGuiMO->position(flMaxX, flMinYb, flMaxZb);
+//	m_pWorldGuiMO->normal(1.0, 0.0, 0.0);
+//	m_pWorldGuiMO->textureCoord(1.0, 1.0);
+//
+//	m_pWorldGuiMO->quad(12, 13, 14, 15);
+//	//m_pWorldGuiMO->quad(12, 13, 14, 15) ;
+//	//m_pWorldGuiMO->quad(4, 5, 6, 7) ;
+//	//////////////////////////////////////////////////////
+//
+//	m_pWorldGuiMO->end();
+//
+//
+//	m_pWorldGuiMO->setCastShadows(false);
+//	m_pWorldGuiMO->setDynamic(false);
+//
+//}
 
 void OgreFramework::CreateControllerModel(int nController)
 {
