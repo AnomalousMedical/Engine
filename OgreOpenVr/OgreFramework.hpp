@@ -8,8 +8,6 @@
 #ifndef OGRE_FRAMEWORK_HPP
 #define OGRE_FRAMEWORK_HPP
 
-#include "ogre2d-main.h"
-
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 

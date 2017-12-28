@@ -24,9 +24,6 @@
     <ClInclude Include="OgreFramework.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ogre2d-main.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -39,9 +36,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OgreFramework.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ogre2d-main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OgreFrameworkWrapper.cpp">

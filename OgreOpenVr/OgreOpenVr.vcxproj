@@ -163,7 +163,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ogre2d-main.h" />
     <ClInclude Include="OgreFramework.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -171,7 +170,6 @@
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Meshes.cpp" />
-    <ClCompile Include="ogre2d-main.cpp" />
     <ClCompile Include="OgreFramework.cpp" />
     <ClCompile Include="OgreOpenVr.cpp" />
     <ClCompile Include="OgreFrameworkWrapper.cpp" />
