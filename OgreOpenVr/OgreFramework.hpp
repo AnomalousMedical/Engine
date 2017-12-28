@@ -86,7 +86,6 @@ public:
         Ogre::Camera*                           m_pCamera;
         Ogre::Viewport*                         m_pViewport;
         Ogre::Log*                                      m_pLog;
-        Ogre::Timer*                            m_pTimer;
 		Ogre::RenderSystem*						m_pRenderSystem;
         
         /*OIS::InputManager*                      m_pInputMgr;
