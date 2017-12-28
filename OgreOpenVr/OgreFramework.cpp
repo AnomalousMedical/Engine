@@ -26,7 +26,7 @@ OgreFramework::OgreFramework()
     m_iNumScreenShots   = 0;
 
     //m_pRoot                             = 0;
-    m_pSceneMgr                 = 0;
+	m_pSceneManager = 0;
     m_pRenderWnd                = 0;
     m_pCamera                   = 0;
     m_pViewport                 = 0;
@@ -52,10 +52,10 @@ bool OgreFramework::initOgre(Ogre::Root* root)
 
 	m_pRenderWnd = root->createRenderWindow("Vr", 1920, 1080, false);
 
-    m_pSceneMgr = root->createSceneManager(ST_GENERIC, "SceneManager");
-    m_pSceneMgr->setAmbientLight(Ogre::ColourValue(0.7f, 0.7f, 0.7f));
+	m_pSceneManager = root->createSceneManager(ST_GENERIC, "SceneManager");
+	m_pSceneManager->setAmbientLight(Ogre::ColourValue(0.7f, 0.7f, 0.7f));
 
-    m_pCamera = m_pSceneMgr->createCamera("Camera");
+    m_pCamera = m_pSceneManager->createCamera("Camera");
     m_pCamera->setPosition(Vector3(0, 60, 60));
     m_pCamera->lookAt(Vector3(0, 0, 0));
     m_pCamera->setNearClipDistance(8);
@@ -99,19 +99,19 @@ bool OgreFramework::initOgre(Ogre::Root* root)
 	miniScreen_WorldGui = new Ogre::Rectangle2D(true);
 	miniScreen_WorldGui->setCorners(-1.0001, 1.0001, 1.0, -1.0);
 	miniScreen_WorldGui->setBoundingBox(AxisAlignedBox(-100000.0*Vector3::UNIT_SCALE, 100000.0*Vector3::UNIT_SCALE)); 
-	miniScreenNode_WorldGui = m_pSceneMgr->getRootSceneNode()->createChildSceneNode("MiniScreenNode_WorldGui");
+	miniScreenNode_WorldGui = m_pSceneManager->getRootSceneNode()->createChildSceneNode("MiniScreenNode_WorldGui");
 	miniScreenNode_WorldGui->attachObject(miniScreen_WorldGui);
 	miniScreen_WorldGui->setMaterial("RttMat_WorldGui");
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	Ogre2DGui=new Ogre2dManager() ;
-	Ogre2DGui->init(m_pSceneMgr, "Gui", "media/ShadersDX11/", true) ;
+	/*Ogre2DGui=new Ogre2dManager() ;
+	Ogre2DGui->init(m_pSceneManager, "Gui", "media/ShadersDX11/", true) ;
 	Ogre2DGui->SetGuiViewportDimensions(renderTexture_WorldGui->getViewport(0)->getActualWidth(), renderTexture_WorldGui->getViewport(0)->getActualHeight()) ;
 	Ogre2DGui->m_flInfoTextLineHeight=45.0f ;
 	Ogre2DGui->m_flInfoTextFontScaleX=2.0f ;
 	Ogre2DGui->m_flInfoTextFontScaleY=3.0f ;
-	Ogre2DGui->m_nInfoTextLongDisplay=16 ;
+	Ogre2DGui->m_nInfoTextLongDisplay=16 ;*/
 
     
 
@@ -127,20 +127,20 @@ bool OgreFramework::initOgre(Ogre::Root* root)
 
 	float flSize=16.0f ;
 
-	m_pWorldSN=m_pSceneMgr->getRootSceneNode()->createChildSceneNode("WorldSN") ;
-	m_pWorldMO=m_pSceneMgr->createManualObject("WorldMO") ;
+	m_pWorldSN= m_pSceneManager->getRootSceneNode()->createChildSceneNode("WorldSN") ;
+	m_pWorldMO= m_pSceneManager->createManualObject("WorldMO") ;
 	CreateGenericCubeMesh("WorldMO", "CubeTex", m_pWorldMO, -flSize, flSize, flSize, 0.0f, flSize, 0.0f) ;
 	m_pWorldSN->attachObject(m_pWorldMO) ;
-	m_pSceneMgr->getRootSceneNode()->removeChild(m_pWorldSN) ;
+	//m_pSceneMgr->getRootSceneNode()->removeChild(m_pWorldSN) ;
 	
-	m_pWorldGuiSN=m_pSceneMgr->getRootSceneNode()->createChildSceneNode("WorldGuiSN") ;
-	m_pWorldGuiMO=m_pSceneMgr->createManualObject("WorldGuiMO") ;
+	m_pWorldGuiSN= m_pSceneManager->getRootSceneNode()->createChildSceneNode("WorldGuiSN") ;
+	m_pWorldGuiMO= m_pSceneManager->createManualObject("WorldGuiMO") ;
 	CreateWorldGuiMesh(flSize, flSize, flSize, 0.0f, flSize, 0.0f, flSize/8.0f) ;
 	m_pWorldGuiSN->attachObject(m_pWorldGuiMO) ;
-	m_pSceneMgr->getRootSceneNode()->removeChild(m_pWorldGuiSN) ;
+	//m_pSceneMgr->getRootSceneNode()->removeChild(m_pWorldGuiSN) ;
 	
-	m_pPlayAreaSN=m_pSceneMgr->getRootSceneNode()->createChildSceneNode("PlayAreaSN") ;
-	m_pSceneMgr->getRootSceneNode()->removeChild(m_pPlayAreaSN) ;
+	m_pPlayAreaSN= m_pSceneManager->getRootSceneNode()->createChildSceneNode("PlayAreaSN") ;
+	//m_pSceneMgr->getRootSceneNode()->removeChild(m_pPlayAreaSN) ;
 	m_bPlayAreaReady=false ;
 
 	PlayerPos=Ogre::Vector3(0.0f, 0.0f, 0.0f) ;
@@ -148,6 +148,19 @@ bool OgreFramework::initOgre(Ogre::Root* root)
 	PlayerSpeedPress=false ;
 
     m_pRenderWnd->setActive(true);
+
+	/*m_pSceneMgr->getRootSceneNode()->removeAllChildren();
+	m_pSceneMgr->getRootSceneNode()->addChild(m_pWorldSN);
+	m_pSceneMgr->getRootSceneNode()->addChild(m_pWorldGuiSN);
+	m_pSceneMgr->getRootSceneNode()->addChild(m_pPlayAreaSN);*/
+	/*if (m_nControllerTDI[HAND1] != NOCONTROLLER)
+	{
+		m_pSceneMgr->getRootSceneNode()->addChild(m_ControllerSN[HAND1]);
+	}
+	if (m_nControllerTDI[HAND0] != NOCONTROLLER)
+	{
+		m_pSceneMgr->getRootSceneNode()->addChild(m_ControllerSN[HAND0]);
+	}*/
 
 	return initOpenVR();
 
@@ -162,9 +175,10 @@ OgreFramework::~OgreFramework()
 	DeleteControllerModel(HAND0) ;
 	DeleteControllerModel(HAND1) ;
 
-	m_pSceneMgr->getRootSceneNode()->removeAndDestroyAllChildren() ; // destroy all scenenodes
-	m_pSceneMgr->destroyAllEntities() ;
-	m_pSceneMgr->destroyAllManualObjects() ;
+	//Probably don't want these 3
+	m_pSceneManager->getRootSceneNode()->removeAndDestroyAllChildren() ; // destroy all scenenodes
+	m_pSceneManager->destroyAllEntities() ;
+	m_pSceneManager->destroyAllManualObjects() ;
 
 	// extra step needed to properly remove the render texture, or else we get a crash on close.
 	Ogre::TextureManager::getSingleton().remove("RttTex_WorldGui") ;
@@ -188,8 +202,8 @@ OgreFramework::~OgreFramework()
 
 	///////////////////////////////////////////////////////////////////////////////////////
 	
-	Ogre2DGui->end() ;
-	delete Ogre2DGui ;
+	/*Ogre2DGui->end() ;
+	delete Ogre2DGui ;*/
 
 	Ogre::MaterialManager::getSingletonPtr()->removeAll() ;
 	Ogre::TextureManager::getSingletonPtr()->removeAll() ;
@@ -244,8 +258,8 @@ void OgreFramework::updateOgre(double timeSinceLastFrame)
 	{
 		//if(m_ControllerData[HAND0].Updated)
 		//{
-			sprintf(m_chMessage, "C0: A%i G%i PP %i T%i : PT %i X%.2f Y%.2f : T%i", m_ControllerData[HAND0].AppMenu, m_ControllerData[HAND0].Grip, m_ControllerData[HAND0].PadPress, m_ControllerData[HAND0].Trigger, m_ControllerData[HAND0].PadTouch, m_ControllerData[HAND0].Pad.x, m_ControllerData[HAND0].Pad.y, (int)timeSinceLastFrame) ;
-			Ogre2DGui->AddInfoText(m_chMessage, 1,1,1) ;
+			//sprintf(m_chMessage, "C0: A%i G%i PP %i T%i : PT %i X%.2f Y%.2f : T%i", m_ControllerData[HAND0].AppMenu, m_ControllerData[HAND0].Grip, m_ControllerData[HAND0].PadPress, m_ControllerData[HAND0].Trigger, m_ControllerData[HAND0].PadTouch, m_ControllerData[HAND0].Pad.x, m_ControllerData[HAND0].Pad.y, (int)timeSinceLastFrame) ;
+			//Ogre2DGui->AddInfoText(m_chMessage, 1,1,1) ;
 		//}
 		nHand=HAND0 ;
 	}
@@ -254,8 +268,8 @@ void OgreFramework::updateOgre(double timeSinceLastFrame)
 	{
 		//if(m_ControllerData[HAND1].Updated)
 		//{
-			sprintf(m_chMessage, "C1: A%i G%i PP %i T%i : PT %i X%.2f Y%.2f : T%i", m_ControllerData[HAND1].AppMenu, m_ControllerData[HAND1].Grip, m_ControllerData[HAND1].PadPress, m_ControllerData[HAND1].Trigger, m_ControllerData[HAND1].PadTouch, m_ControllerData[HAND1].Pad.x, m_ControllerData[HAND1].Pad.y, (int)timeSinceLastFrame) ;
-			Ogre2DGui->AddInfoText(m_chMessage, 1,1,1) ;
+			//sprintf(m_chMessage, "C1: A%i G%i PP %i T%i : PT %i X%.2f Y%.2f : T%i", m_ControllerData[HAND1].AppMenu, m_ControllerData[HAND1].Grip, m_ControllerData[HAND1].PadPress, m_ControllerData[HAND1].Trigger, m_ControllerData[HAND1].PadTouch, m_ControllerData[HAND1].Pad.x, m_ControllerData[HAND1].Pad.y, (int)timeSinceLastFrame) ;
+			//Ogre2DGui->AddInfoText(m_chMessage, 1,1,1) ;
 		//}
 		nHand=HAND1 ;
 	}
@@ -314,30 +328,30 @@ void OgreFramework::updateOgre(double timeSinceLastFrame)
 
 	if(m_bPlayAreaReady) m_pPlayAreaSN->setPosition(PlayerPos) ;
 
-	Ogre2DGui->ClearSpriteBuffer() ;
+	/*Ogre2DGui->ClearSpriteBuffer() ;
 	Ogre2DGui->UpdateInfoText() ;
-	Ogre2DGui->DrawGui(renderTexture_WorldGui, true, &m_nBatchCount, &m_nTriCount);
+	Ogre2DGui->DrawGui(renderTexture_WorldGui, true, &m_nBatchCount, &m_nTriCount);*/
 	////////////////////////////////////////////////
 	
-	m_pSceneMgr->getRootSceneNode()->removeAllChildren() ;
-	m_pSceneMgr->getRootSceneNode()->addChild(m_pWorldSN) ;
-	m_pSceneMgr->getRootSceneNode()->addChild(m_pWorldGuiSN) ;
-	m_pSceneMgr->getRootSceneNode()->addChild(m_pPlayAreaSN) ;
-	if(m_nControllerTDI[HAND1]!=NOCONTROLLER) 
+	m_pSceneManager->getRootSceneNode()->removeAllChildren() ;
+	m_pSceneManager->getRootSceneNode()->addChild(m_pWorldSN) ;
+	//m_pSceneMgr->getRootSceneNode()->addChild(m_pWorldGuiSN) ;
+	//m_pSceneMgr->getRootSceneNode()->addChild(m_pPlayAreaSN) ;
+	/*if(m_nControllerTDI[HAND1]!=NOCONTROLLER) 
 	{
 		m_pSceneMgr->getRootSceneNode()->addChild( m_ControllerSN[HAND1]) ;
 	}
 	if(m_nControllerTDI[HAND0]!=NOCONTROLLER)
 	{
 		m_pSceneMgr->getRootSceneNode()->addChild( m_ControllerSN[HAND0]) ;
-	}
+	}*/
 
 	UpdateVR() ;
 
 	// add a window to render on the PC so others can see what's going on.
-	m_pSceneMgr->getRootSceneNode()->removeAllChildren() ;
-	m_pSceneMgr->getRootSceneNode()->addChild(miniScreenNode_VR_L) ;
-	m_pRenderWnd->update(true);
+	/*m_pSceneMgr->getRootSceneNode()->removeAllChildren() ;
+	m_pSceneMgr->getRootSceneNode()->addChild(miniScreenNode_VR_L) ;*/
+	//m_pRenderWnd->update(true);
 
 	g_frameIndex++ ;
 }
@@ -427,79 +441,79 @@ bool OgreFramework::initOpenVR()
 
 void OgreFramework::UpdateChaperone()
 {
-	vr::HmdQuad_t TempPlayArea ;
-	vr::VRChaperone()->GetPlayAreaRect(&TempPlayArea) ;
-	// can get some wild numbers and NANs for the play rect when starting up.  If really dodgy values come up, default to a zero sized play area
-	if(			!isnormal(TempPlayArea.vCorners[0].v[0]) || !isnormal(TempPlayArea.vCorners[0].v[2])
-			||	!isnormal(TempPlayArea.vCorners[1].v[0]) || !isnormal(TempPlayArea.vCorners[1].v[2])
-			||	!isnormal(TempPlayArea.vCorners[2].v[0]) || !isnormal(TempPlayArea.vCorners[2].v[2])
-			||	!isnormal(TempPlayArea.vCorners[3].v[0]) || !isnormal(TempPlayArea.vCorners[3].v[2])
-		)
-	{
-		TempPlayArea.vCorners[0].v[0]=0.0f ; TempPlayArea.vCorners[0].v[2]=0.0f ;
-		TempPlayArea.vCorners[1].v[0]=0.0f ; TempPlayArea.vCorners[1].v[2]=0.0f ;
-		TempPlayArea.vCorners[2].v[0]=0.0f ; TempPlayArea.vCorners[2].v[2]=0.0f ;
-		TempPlayArea.vCorners[3].v[0]=0.0f ; TempPlayArea.vCorners[3].v[2]=0.0f ;
-	}
+	//vr::HmdQuad_t TempPlayArea ;
+	//vr::VRChaperone()->GetPlayAreaRect(&TempPlayArea) ;
+	//// can get some wild numbers and NANs for the play rect when starting up.  If really dodgy values come up, default to a zero sized play area
+	//if(			!isnormal(TempPlayArea.vCorners[0].v[0]) || !isnormal(TempPlayArea.vCorners[0].v[2])
+	//		||	!isnormal(TempPlayArea.vCorners[1].v[0]) || !isnormal(TempPlayArea.vCorners[1].v[2])
+	//		||	!isnormal(TempPlayArea.vCorners[2].v[0]) || !isnormal(TempPlayArea.vCorners[2].v[2])
+	//		||	!isnormal(TempPlayArea.vCorners[3].v[0]) || !isnormal(TempPlayArea.vCorners[3].v[2])
+	//	)
+	//{
+	//	TempPlayArea.vCorners[0].v[0]=0.0f ; TempPlayArea.vCorners[0].v[2]=0.0f ;
+	//	TempPlayArea.vCorners[1].v[0]=0.0f ; TempPlayArea.vCorners[1].v[2]=0.0f ;
+	//	TempPlayArea.vCorners[2].v[0]=0.0f ; TempPlayArea.vCorners[2].v[2]=0.0f ;
+	//	TempPlayArea.vCorners[3].v[0]=0.0f ; TempPlayArea.vCorners[3].v[2]=0.0f ;
+	//}
 
-	// has the play area changed?
-	if(		(TempPlayArea.vCorners[0].v[0]!=m_PlayArea.vCorners[0].v[0]) || (TempPlayArea.vCorners[0].v[2]!=m_PlayArea.vCorners[0].v[2])
-		||	(TempPlayArea.vCorners[1].v[0]!=m_PlayArea.vCorners[1].v[0]) || (TempPlayArea.vCorners[1].v[2]!=m_PlayArea.vCorners[1].v[2])
-		||	(TempPlayArea.vCorners[2].v[0]!=m_PlayArea.vCorners[2].v[0]) || (TempPlayArea.vCorners[2].v[2]!=m_PlayArea.vCorners[2].v[2])
-		||	(TempPlayArea.vCorners[3].v[0]!=m_PlayArea.vCorners[3].v[0]) || (TempPlayArea.vCorners[3].v[2]!=m_PlayArea.vCorners[3].v[2])
-		)
-	{
-		m_PlayArea.vCorners[0].v[0]=TempPlayArea.vCorners[0].v[0] ; m_PlayArea.vCorners[0].v[2]=TempPlayArea.vCorners[0].v[2] ;
-		m_PlayArea.vCorners[1].v[0]=TempPlayArea.vCorners[1].v[0] ; m_PlayArea.vCorners[1].v[2]=TempPlayArea.vCorners[1].v[2] ;
-		m_PlayArea.vCorners[2].v[0]=TempPlayArea.vCorners[2].v[0] ; m_PlayArea.vCorners[2].v[2]=TempPlayArea.vCorners[2].v[2] ;
-		m_PlayArea.vCorners[3].v[0]=TempPlayArea.vCorners[3].v[0] ; m_PlayArea.vCorners[3].v[2]=TempPlayArea.vCorners[3].v[2] ;
-		sprintf(m_chMessage, "Chaperone has changed: %0.2f %0.2f  %0.2f %0.2f  %0.2f %0.2f  %0.2f %0.2f", m_PlayArea.vCorners[0].v[0], m_PlayArea.vCorners[0].v[2], m_PlayArea.vCorners[1].v[0], m_PlayArea.vCorners[1].v[2], m_PlayArea.vCorners[2].v[0], m_PlayArea.vCorners[2].v[2], m_PlayArea.vCorners[3].v[0], m_PlayArea.vCorners[3].v[2]) ;
-		m_pLog->logMessage(m_chMessage) ;
+	//// has the play area changed?
+	//if(		(TempPlayArea.vCorners[0].v[0]!=m_PlayArea.vCorners[0].v[0]) || (TempPlayArea.vCorners[0].v[2]!=m_PlayArea.vCorners[0].v[2])
+	//	||	(TempPlayArea.vCorners[1].v[0]!=m_PlayArea.vCorners[1].v[0]) || (TempPlayArea.vCorners[1].v[2]!=m_PlayArea.vCorners[1].v[2])
+	//	||	(TempPlayArea.vCorners[2].v[0]!=m_PlayArea.vCorners[2].v[0]) || (TempPlayArea.vCorners[2].v[2]!=m_PlayArea.vCorners[2].v[2])
+	//	||	(TempPlayArea.vCorners[3].v[0]!=m_PlayArea.vCorners[3].v[0]) || (TempPlayArea.vCorners[3].v[2]!=m_PlayArea.vCorners[3].v[2])
+	//	)
+	//{
+	//	m_PlayArea.vCorners[0].v[0]=TempPlayArea.vCorners[0].v[0] ; m_PlayArea.vCorners[0].v[2]=TempPlayArea.vCorners[0].v[2] ;
+	//	m_PlayArea.vCorners[1].v[0]=TempPlayArea.vCorners[1].v[0] ; m_PlayArea.vCorners[1].v[2]=TempPlayArea.vCorners[1].v[2] ;
+	//	m_PlayArea.vCorners[2].v[0]=TempPlayArea.vCorners[2].v[0] ; m_PlayArea.vCorners[2].v[2]=TempPlayArea.vCorners[2].v[2] ;
+	//	m_PlayArea.vCorners[3].v[0]=TempPlayArea.vCorners[3].v[0] ; m_PlayArea.vCorners[3].v[2]=TempPlayArea.vCorners[3].v[2] ;
+	//	sprintf(m_chMessage, "Chaperone has changed: %0.2f %0.2f  %0.2f %0.2f  %0.2f %0.2f  %0.2f %0.2f", m_PlayArea.vCorners[0].v[0], m_PlayArea.vCorners[0].v[2], m_PlayArea.vCorners[1].v[0], m_PlayArea.vCorners[1].v[2], m_PlayArea.vCorners[2].v[0], m_PlayArea.vCorners[2].v[2], m_PlayArea.vCorners[3].v[0], m_PlayArea.vCorners[3].v[2]) ;
+	//	m_pLog->logMessage(m_chMessage) ;
 
-		// create the play area mesh
-		if(m_bPlayAreaReady) // destroy the old one if needed.
-		{
-			m_pPlayAreaSN->detachObject("PlayAreaMO") ;
-			m_pSceneMgr->destroyManualObject("PlayAreaMO") ;
-		}
+	//	// create the play area mesh
+	//	if(m_bPlayAreaReady) // destroy the old one if needed.
+	//	{
+	//		m_pPlayAreaSN->detachObject("PlayAreaMO") ;
+	//		m_pSceneMgr->destroyManualObject("PlayAreaMO") ;
+	//	}
 
-		float flMinX=m_PlayArea.vCorners[0].v[0] ;
-		float flMinY=0.01f ;
-		float flMinZ=m_PlayArea.vCorners[0].v[2] ;
-		float flMaxX=m_PlayArea.vCorners[2].v[0] ;
-		float flMaxY=0.01f ;
-		float flMaxZ=m_PlayArea.vCorners[2].v[2] ;
+	//	float flMinX=m_PlayArea.vCorners[0].v[0] ;
+	//	float flMinY=0.01f ;
+	//	float flMinZ=m_PlayArea.vCorners[0].v[2] ;
+	//	float flMaxX=m_PlayArea.vCorners[2].v[0] ;
+	//	float flMaxY=0.01f ;
+	//	float flMaxZ=m_PlayArea.vCorners[2].v[2] ;
 
-		m_pPlayAreaMO=m_pSceneMgr->createManualObject("PlayAreaMO") ;
+	//	m_pPlayAreaMO=m_pSceneMgr->createManualObject("PlayAreaMO") ;
 
-		m_pPlayAreaMO->begin("CubeTex", RenderOperation::OT_TRIANGLE_LIST) ;
+	//	m_pPlayAreaMO->begin("CubeTex", RenderOperation::OT_TRIANGLE_LIST) ;
 
-		m_pPlayAreaMO->position(flMinX, flMaxY, flMaxZ) ;
-		m_pPlayAreaMO->normal(0.0, 1.0, 0.0) ;
-		m_pPlayAreaMO->textureCoord(0.0, 1.0) ;
+	//	m_pPlayAreaMO->position(flMinX, flMaxY, flMaxZ) ;
+	//	m_pPlayAreaMO->normal(0.0, 1.0, 0.0) ;
+	//	m_pPlayAreaMO->textureCoord(0.0, 1.0) ;
 
-		m_pPlayAreaMO->position(flMaxX, flMaxY, flMaxZ) ;
-		m_pPlayAreaMO->normal(0.0, 1.0, 0.0) ;
-		m_pPlayAreaMO->textureCoord(1.0, 1.0) ;
+	//	m_pPlayAreaMO->position(flMaxX, flMaxY, flMaxZ) ;
+	//	m_pPlayAreaMO->normal(0.0, 1.0, 0.0) ;
+	//	m_pPlayAreaMO->textureCoord(1.0, 1.0) ;
 
-		m_pPlayAreaMO->position(flMaxX, flMaxY, flMinZ) ;
-		m_pPlayAreaMO->normal(0.0, 1.0, 0.0) ;
-		m_pPlayAreaMO->textureCoord(1.0, 0.0) ;
+	//	m_pPlayAreaMO->position(flMaxX, flMaxY, flMinZ) ;
+	//	m_pPlayAreaMO->normal(0.0, 1.0, 0.0) ;
+	//	m_pPlayAreaMO->textureCoord(1.0, 0.0) ;
 
-		m_pPlayAreaMO->position(flMinX, flMaxY, flMinZ) ;
-		m_pPlayAreaMO->normal(0.0, 1.0, 0.0) ;
-		m_pPlayAreaMO->textureCoord(0.0, 0.0) ;
+	//	m_pPlayAreaMO->position(flMinX, flMaxY, flMinZ) ;
+	//	m_pPlayAreaMO->normal(0.0, 1.0, 0.0) ;
+	//	m_pPlayAreaMO->textureCoord(0.0, 0.0) ;
 
-		m_pPlayAreaMO->quad(0, 1, 2, 3) ;
+	//	m_pPlayAreaMO->quad(0, 1, 2, 3) ;
 
-		m_pPlayAreaMO->end() ;
-		m_pPlayAreaMO->setCastShadows(false) ;
-		m_pPlayAreaMO->setDynamic(false) ;
+	//	m_pPlayAreaMO->end() ;
+	//	m_pPlayAreaMO->setCastShadows(false) ;
+	//	m_pPlayAreaMO->setDynamic(false) ;
 
-		m_pPlayAreaSN->attachObject(m_pPlayAreaMO) ;
+	//	m_pPlayAreaSN->attachObject(m_pPlayAreaMO) ;
 
-		m_bPlayAreaReady=true ;
-	}
+	//	m_bPlayAreaReady=true ;
+	//}
 }
 
 
@@ -586,9 +600,9 @@ void OgreFramework::SetupRenderModels()
 
 void OgreFramework::InitOgreCameras()
 {
-		m_pCameraNode = m_pSceneMgr->getRootSceneNode()->createChildSceneNode();
-		m_pCameraL = m_pSceneMgr->createCamera("EyeL");
-		m_pCameraR = m_pSceneMgr->createCamera("EyeR");
+		m_pCameraNode = m_pSceneManager->getRootSceneNode()->createChildSceneNode();
+		m_pCameraL = m_pSceneManager->createCamera("EyeL");
+		m_pCameraR = m_pSceneManager->createCamera("EyeR");
 
 		Ogre::Camera* pCam ;
 		Ogre::Matrix4 proj;
@@ -701,12 +715,12 @@ void OgreFramework::InitOgreTextures()
 	RTT_Mat_VR_L->getTechnique(0)->getPass(0)->setFragmentProgram("TexProgDefault_ps", true);
 	RTT_Mat_VR_L->load() ;
 
-	miniScreen_VR_L = new Ogre::Rectangle2D(true);
-	miniScreen_VR_L->setCorners(-1.0001, 1.0001, 1.0, -1.0);
-	miniScreen_VR_L->setBoundingBox(AxisAlignedBox(-100000.0*Vector3::UNIT_SCALE, 100000.0*Vector3::UNIT_SCALE)); 
-	miniScreenNode_VR_L = m_pSceneMgr->getRootSceneNode()->createChildSceneNode("MiniScreenNode_VR_L");
-	miniScreenNode_VR_L->attachObject(miniScreen_VR_L);
-	miniScreen_VR_L->setMaterial("RttMat_VR_L");
+	//miniScreen_VR_L = new Ogre::Rectangle2D(true);
+	//miniScreen_VR_L->setCorners(-1.0001, 1.0001, 1.0, -1.0);
+	//miniScreen_VR_L->setBoundingBox(AxisAlignedBox(-100000.0*Vector3::UNIT_SCALE, 100000.0*Vector3::UNIT_SCALE)); 
+	//miniScreenNode_VR_L = m_pSceneManager->getRootSceneNode()->createChildSceneNode("MiniScreenNode_VR_L");
+	//miniScreenNode_VR_L->attachObject(miniScreen_VR_L);
+	//miniScreen_VR_L->setMaterial("RttMat_VR_L");
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -735,12 +749,12 @@ void OgreFramework::InitOgreTextures()
 	RTT_Mat_VR_R->getTechnique(0)->getPass(0)->setFragmentProgram("TexProgDefault_ps", true);
 	RTT_Mat_VR_R->load() ;
 
-	miniScreen_VR_R = new Ogre::Rectangle2D(true);
+	/*miniScreen_VR_R = new Ogre::Rectangle2D(true);
 	miniScreen_VR_R->setCorners(-1.0001, 1.0001, 1.0, -1.0);
 	miniScreen_VR_R->setBoundingBox(AxisAlignedBox(-100000.0*Vector3::UNIT_SCALE, 100000.0*Vector3::UNIT_SCALE)); 
-	miniScreenNode_VR_R = m_pSceneMgr->getRootSceneNode()->createChildSceneNode("MiniScreenNode_VR_R");
+	miniScreenNode_VR_R = m_pSceneManager->getRootSceneNode()->createChildSceneNode("MiniScreenNode_VR_R");
 	miniScreenNode_VR_R->attachObject(miniScreen_VR_R);
-	miniScreen_VR_R->setMaterial("RttMat_VR_R");
+	miniScreen_VR_R->setMaterial("RttMat_VR_R");*/
 
 	char chMessage[1024] ;
 	sprintf(chMessage, "VR size %i %i", m_nRenderWidth, m_nRenderHeight) ;

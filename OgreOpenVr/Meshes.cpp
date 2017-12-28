@@ -438,8 +438,8 @@ void OgreFramework::CreateControllerModel(int nController)
 	char chName[256];
 	sprintf(chName, "Controller%i", nController);
 
-	m_ControllerSN[nController] = m_pSceneMgr->getRootSceneNode()->createChildSceneNode(chName);
-	m_ControllerMO[nController] = m_pSceneMgr->createManualObject(chName);
+	m_ControllerSN[nController] = m_pSceneManager->getRootSceneNode()->createChildSceneNode(chName);
+	m_ControllerMO[nController] = m_pSceneManager->createManualObject(chName);
 
 	m_ControllerMO[nController]->begin(chName, RenderOperation::OT_TRIANGLE_LIST);
 
@@ -470,7 +470,7 @@ void OgreFramework::CreateControllerModel(int nController)
 
 
 	m_ControllerSN[nController]->attachObject(m_ControllerMO[nController]);
-	m_pSceneMgr->getRootSceneNode()->removeChild(m_ControllerSN[nController]);
+	m_pSceneManager->getRootSceneNode()->removeChild(m_ControllerSN[nController]);
 	m_bControllerHasModel[nController] = true;
 
 
@@ -491,13 +491,13 @@ void OgreFramework::DeleteControllerModel(int nController)
 	Ogre::SceneNode* pParent = (Ogre::SceneNode*)m_ControllerSN[nController]->getParent();
 	if (pParent == NULL)
 	{
-		m_pSceneMgr->getRootSceneNode()->addChild(m_ControllerSN[nController]);
-		m_pSceneMgr->getRootSceneNode()->removeAndDestroyChild(m_ControllerSN[nController]->getName());
+		m_pSceneManager->getRootSceneNode()->addChild(m_ControllerSN[nController]);
+		m_pSceneManager->getRootSceneNode()->removeAndDestroyChild(m_ControllerSN[nController]->getName());
 	}
 	else
 		pParent->removeAndDestroyChild(m_ControllerSN[nController]->getName());
 
-	m_pSceneMgr->destroyManualObject(m_ControllerMO[nController]);
+	m_pSceneManager->destroyManualObject(m_ControllerMO[nController]);
 	m_bControllerHasModel[nController] = false;
 }
 
@@ -510,10 +510,10 @@ void OgreFramework::DefaultControllerModel(int nController)
 	char chName[256];
 	sprintf(chName, "Controller%i", nController);
 
-	m_ControllerSN[nController] = m_pSceneMgr->getRootSceneNode()->createChildSceneNode(chName);
-	m_ControllerMO[nController] = m_pSceneMgr->createManualObject(chName);
+	m_ControllerSN[nController] = m_pSceneManager->getRootSceneNode()->createChildSceneNode(chName);
+	m_ControllerMO[nController] = m_pSceneManager->createManualObject(chName);
 	CreateGenericCubeMesh(chName, "CubeTex", m_ControllerMO[nController], flControlSizeX, flControlSizeY, flControlSizeZ, 0.0f, 0.0f, flControlSizeZ / 2.0f);
 	m_ControllerSN[nController]->attachObject(m_ControllerMO[nController]);
-	m_pSceneMgr->getRootSceneNode()->removeChild(m_ControllerSN[nController]);
+	m_pSceneManager->getRootSceneNode()->removeChild(m_ControllerSN[nController]);
 	m_bControllerHasModel[nController] = true;
 }

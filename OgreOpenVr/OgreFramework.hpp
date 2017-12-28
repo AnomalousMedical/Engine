@@ -83,7 +83,7 @@ public:
         bool mouseReleased(const OIS::MouseEvent &evt, OIS::MouseButtonID id);*/
         
         //Ogre::Root*                                     m_pRoot;
-        Ogre::SceneManager*                     m_pSceneMgr;
+        Ogre::SceneManager*                     m_pSceneManager;
         Ogre::RenderWindow*                     m_pRenderWnd;
         Ogre::Camera*                           m_pCamera;
         Ogre::Viewport*                         m_pViewport;
@@ -119,15 +119,15 @@ public:
 	Ogre::MaterialPtr			RTT_Mat_WorldGui ;
 	Ogre::Technique*			RTT_Technique_WorldGui ;
 
-	Ogre::Rectangle2D*			miniScreen_VR_L;
-	Ogre::SceneNode*			miniScreenNode_VR_L;
+	//Ogre::Rectangle2D*			miniScreen_VR_L;
+	//Ogre::SceneNode*			miniScreenNode_VR_L;
 	Ogre::TexturePtr			RTT_Texture_VR_L ;
 	Ogre::RenderTexture*		renderTexture_VR_L ;
 	Ogre::MaterialPtr			RTT_Mat_VR_L ;
 	Ogre::Technique*			RTT_Technique_VR_L ;
 
-	Ogre::Rectangle2D*			miniScreen_VR_R;
-	Ogre::SceneNode*			miniScreenNode_VR_R;
+	//Ogre::Rectangle2D*			miniScreen_VR_R;
+	//Ogre::SceneNode*			miniScreenNode_VR_R;
 	Ogre::TexturePtr			RTT_Texture_VR_R ;
 	Ogre::RenderTexture*		renderTexture_VR_R ;
 	Ogre::MaterialPtr			RTT_Mat_VR_R ;
@@ -230,7 +230,7 @@ public:
 	char m_chMessage[1024] ;
 
 	// for text/gui
-	Ogre2dManager* Ogre2DGui ;
+	//Ogre2dManager* Ogre2DGui ;
 
 
 private:
