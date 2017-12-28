@@ -229,6 +229,11 @@ namespace OgrePlugin
                 deviceLostListener = new DeviceLostListener();
                 rs.addListener(deviceLostListener);
 
+                builder.Register(c => this.root)
+                    .As<Root>()
+                    .SingleInstance()
+                    .ExternallyOwned();
+
                 //Setup builder
                 builder.Register(c => this.PrimaryWindow)
                     .As<RendererWindow>()

@@ -2,6 +2,7 @@
 using Anomalous.GuiFramework;
 using Anomalous.GuiFramework.Cameras;
 using Anomalous.libRocketWidget;
+using Anomalous.OgreOpenVr;
 using Anomalous.OSPlatform;
 using Autofac;
 using BulletPlugin;
@@ -195,6 +196,7 @@ namespace Anomalous.GameApp
             GuiFrameworkCamerasInterface.PanKey = PlatformConfig.PanKey;
 
             pluginManager.addPluginAssembly(typeof(OgreInterface).Assembly());
+            pluginManager.addPluginAssembly(typeof(OgreOpenVrInterface).Assembly());
             pluginManager.addPluginAssembly(typeof(BulletInterface).Assembly());
             pluginManager.addPluginAssembly(typeof(NativePlatformPlugin).Assembly());
             pluginManager.addPluginAssembly(typeof(MyGUIInterface).Assembly());
