@@ -2,6 +2,9 @@
 #include "stdafx.h"
 
 #include "OgreFramework.hpp"
+#include <OgreD3D11RenderSystem.h>
+#include <OgreD3D11Texture.h>
+#include <D3D11.h>
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
@@ -30,9 +33,9 @@ OgreFramework::OgreFramework()
     m_pLog                              = 0;
     m_pTimer                    = 0;
 
-    m_pInputMgr                 = 0;
+    /*m_pInputMgr                 = 0;
     m_pKeyboard                 = 0;
-    m_pMouse                    = 0;
+    m_pMouse                    = 0;*/
 
     //m_pTrayMgr          = 0;
     //m_FrameEvent        = Ogre::FrameEvent();
@@ -40,7 +43,7 @@ OgreFramework::OgreFramework()
 }
 
 
-bool OgreFramework::initOgre(Ogre::String wndTitle, OIS::KeyListener *pKeyListener, OIS::MouseListener *pMouseListener)
+bool OgreFramework::initOgre(Ogre::String wndTitle/*, OIS::KeyListener *pKeyListener, OIS::MouseListener *pMouseListener*/)
 {
 
 
@@ -92,17 +95,17 @@ bool OgreFramework::initOgre(Ogre::String wndTitle, OIS::KeyListener *pKeyListen
 
 
     size_t hWnd = 0;
-    OIS::ParamList paramList;
+    //OIS::ParamList paramList;
     m_pRenderWnd->getCustomAttribute("WINDOW", &hWnd);
 
-    paramList.insert(OIS::ParamList::value_type("WINDOW", Ogre::StringConverter::toString(hWnd)));
+    //paramList.insert(OIS::ParamList::value_type("WINDOW", Ogre::StringConverter::toString(hWnd)));
 
-    m_pInputMgr = OIS::InputManager::createInputSystem(paramList);
+    /*m_pInputMgr = OIS::InputManager::createInputSystem(paramList);
 
     m_pKeyboard = static_cast<OIS::Keyboard*>(m_pInputMgr->createInputObject(OIS::OISKeyboard, true));
-    m_pMouse = static_cast<OIS::Mouse*>(m_pInputMgr->createInputObject(OIS::OISMouse, true));
+    m_pMouse = static_cast<OIS::Mouse*>(m_pInputMgr->createInputObject(OIS::OISMouse, true));*/
 
-    m_pMouse->getMouseState().height = m_pRenderWnd->getHeight();
+    /*m_pMouse->getMouseState().height = m_pRenderWnd->getHeight();
     m_pMouse->getMouseState().width      = m_pRenderWnd->getWidth();
 
     if(pKeyListener == 0)
@@ -113,7 +116,7 @@ bool OgreFramework::initOgre(Ogre::String wndTitle, OIS::KeyListener *pKeyListen
     if(pMouseListener == 0)
         m_pMouse->setEventCallback(this);
     else
-        m_pMouse->setEventCallback(pMouseListener);
+        m_pMouse->setEventCallback(pMouseListener);*/
 
 
 
@@ -168,22 +171,22 @@ bool OgreFramework::initOgre(Ogre::String wndTitle, OIS::KeyListener *pKeyListen
 	RTT_Mat_WorldGui->getTechnique(0)->getPass(0)->setFragmentProgram("TexProgDefault_ps", true);
 	RTT_Mat_WorldGui->load() ;
 
-	miniScreen_WorldGui = new Ogre::Rectangle2D(true);
+	/*miniScreen_WorldGui = new Ogre::Rectangle2D(true);
 	miniScreen_WorldGui->setCorners(-1.0001, 1.0001, 1.0, -1.0);
 	miniScreen_WorldGui->setBoundingBox(AxisAlignedBox(-100000.0*Vector3::UNIT_SCALE, 100000.0*Vector3::UNIT_SCALE)); 
 	miniScreenNode_WorldGui = m_pSceneMgr->getRootSceneNode()->createChildSceneNode("MiniScreenNode_WorldGui");
 	miniScreenNode_WorldGui->attachObject(miniScreen_WorldGui);
-	miniScreen_WorldGui->setMaterial("RttMat_WorldGui");
+	miniScreen_WorldGui->setMaterial("RttMat_WorldGui");*/
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	Ogre2DGui=new Ogre2dManager() ;
+	/*Ogre2DGui=new Ogre2dManager() ;
 	Ogre2DGui->init(m_pSceneMgr, "Gui", "media/ShadersDX11/", true) ;
 	Ogre2DGui->SetGuiViewportDimensions(renderTexture_WorldGui->getViewport(0)->getActualWidth(), renderTexture_WorldGui->getViewport(0)->getActualHeight()) ;
 	Ogre2DGui->m_flInfoTextLineHeight=45.0f ;
 	Ogre2DGui->m_flInfoTextFontScaleX=2.0f ;
 	Ogre2DGui->m_flInfoTextFontScaleY=3.0f ;
-	Ogre2DGui->m_nInfoTextLongDisplay=16 ;
+	Ogre2DGui->m_nInfoTextLongDisplay=16 ;*/
 
     
 
@@ -281,8 +284,8 @@ OgreFramework::~OgreFramework()
 
 	///////////////////////////////////////////////////////////////////////////////////////
 	
-	Ogre2DGui->end() ;
-	delete Ogre2DGui ;
+	/*Ogre2DGui->end() ;
+	delete Ogre2DGui ;*/
 
 	
 
@@ -293,7 +296,7 @@ OgreFramework::~OgreFramework()
 
 	Ogre::ResourceGroupManager::getSingleton().clearResourceGroup(ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME) ;
 
-    if(m_pInputMgr) OIS::InputManager::destroyInputSystem(m_pInputMgr);
+    //if(m_pInputMgr) OIS::InputManager::destroyInputSystem(m_pInputMgr);
 
 	//vr::VR_Shutdown() ; // putting it here causes an debug break in OgreComPtr
 
@@ -313,53 +316,53 @@ OgreFramework::~OgreFramework()
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-bool OgreFramework::keyPressed(const OIS::KeyEvent &keyEventRef)
-{
-
-    if(m_pKeyboard->isKeyDown(OIS::KC_ESCAPE))
-    {
-        m_bShutDownOgre = true;
-        return true;
-    }
-
-    if(m_pKeyboard->isKeyDown(OIS::KC_SYSRQ))
-    {
-        m_pRenderWnd->writeContentsToTimestampedFile("BOF_Screenshot_", ".tga");
-        return true;
-    }
-	
-    return true;
-}
-
-//|||||||||||||||||||||||||||||||||||||||||||||||
-
-bool OgreFramework::keyReleased(const OIS::KeyEvent &keyEventRef)
-{
-    return true;
-}
+//bool OgreFramework::keyPressed(const OIS::KeyEvent &keyEventRef)
+//{
+//
+//    if(m_pKeyboard->isKeyDown(OIS::KC_ESCAPE))
+//    {
+//        m_bShutDownOgre = true;
+//        return true;
+//    }
+//
+//    if(m_pKeyboard->isKeyDown(OIS::KC_SYSRQ))
+//    {
+//        m_pRenderWnd->writeContentsToTimestampedFile("BOF_Screenshot_", ".tga");
+//        return true;
+//    }
+//	
+//    return true;
+//}
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-bool OgreFramework::mouseMoved(const OIS::MouseEvent &evt)
-{
-	m_pCamera->yaw(Degree(evt.state.X.rel * -0.1f));
-	m_pCamera->pitch(Degree(evt.state.Y.rel * -0.1f));
-  return true;
-}
+//bool OgreFramework::keyReleased(const OIS::KeyEvent &keyEventRef)
+//{
+//    return true;
+//}
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-bool OgreFramework::mousePressed(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
-{
-    return true;
-}
+//bool OgreFramework::mouseMoved(const OIS::MouseEvent &evt)
+//{
+//	m_pCamera->yaw(Degree(evt.state.X.rel * -0.1f));
+//	m_pCamera->pitch(Degree(evt.state.Y.rel * -0.1f));
+//  return true;
+//}
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-bool OgreFramework::mouseReleased(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
-{
-    return true;
-}
+//bool OgreFramework::mousePressed(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
+//{
+//    return true;
+//}
+
+//|||||||||||||||||||||||||||||||||||||||||||||||
+
+//bool OgreFramework::mouseReleased(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
+//{
+//    return true;
+//}
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
@@ -395,7 +398,7 @@ void OgreFramework::updateOgre(double timeSinceLastFrame)
 		//if(m_ControllerData[HAND0].Updated)
 		//{
 			sprintf(m_chMessage, "C0: A%i G%i PP %i T%i : PT %i X%.2f Y%.2f : T%i", m_ControllerData[HAND0].AppMenu, m_ControllerData[HAND0].Grip, m_ControllerData[HAND0].PadPress, m_ControllerData[HAND0].Trigger, m_ControllerData[HAND0].PadTouch, m_ControllerData[HAND0].Pad.x, m_ControllerData[HAND0].Pad.y, (int)timeSinceLastFrame) ;
-			Ogre2DGui->AddInfoText(m_chMessage, 1,1,1) ;
+			//Ogre2DGui->AddInfoText(m_chMessage, 1,1,1) ;
 		//}
 		nHand=HAND0 ;
 	}
@@ -405,7 +408,7 @@ void OgreFramework::updateOgre(double timeSinceLastFrame)
 		//if(m_ControllerData[HAND1].Updated)
 		//{
 			sprintf(m_chMessage, "C1: A%i G%i PP %i T%i : PT %i X%.2f Y%.2f : T%i", m_ControllerData[HAND1].AppMenu, m_ControllerData[HAND1].Grip, m_ControllerData[HAND1].PadPress, m_ControllerData[HAND1].Trigger, m_ControllerData[HAND1].PadTouch, m_ControllerData[HAND1].Pad.x, m_ControllerData[HAND1].Pad.y, (int)timeSinceLastFrame) ;
-			Ogre2DGui->AddInfoText(m_chMessage, 1,1,1) ;
+			//Ogre2DGui->AddInfoText(m_chMessage, 1,1,1) ;
 		//}
 		nHand=HAND1 ;
 	}
@@ -472,9 +475,9 @@ void OgreFramework::updateOgre(double timeSinceLastFrame)
 
 
 
-	Ogre2DGui->ClearSpriteBuffer() ;
-	Ogre2DGui->UpdateInfoText() ;
-	Ogre2DGui->DrawGui(renderTexture_WorldGui, true, &m_nBatchCount, &m_nTriCount);
+	//Ogre2DGui->ClearSpriteBuffer() ;
+	//Ogre2DGui->UpdateInfoText() ;
+	//Ogre2DGui->DrawGui(renderTexture_WorldGui, true, &m_nBatchCount, &m_nTriCount);
 	////////////////////////////////////////////////
 
 	
@@ -516,7 +519,7 @@ void OgreFramework::moveCamera()
 
 void OgreFramework::getInput()
 {
-	if(m_pKeyboard->isKeyDown(OIS::KC_A)) m_TranslateVector.x = -m_MoveScale;
+	/*if(m_pKeyboard->isKeyDown(OIS::KC_A)) m_TranslateVector.x = -m_MoveScale;
 
 	if(m_pKeyboard->isKeyDown(OIS::KC_D)) m_TranslateVector.x = m_MoveScale;
 
@@ -524,7 +527,7 @@ void OgreFramework::getInput()
 
 	if(m_pKeyboard->isKeyDown(OIS::KC_S)) m_TranslateVector.z = m_MoveScale;
 
-	return ;
+	return ;*/
 }
 
 void OgreFramework::CreateGenericCubeMesh(char chName[], char chMaterial[], Ogre::ManualObject* pMO, float flSizeX, float flSizeY, float flSizeZ, float flOffsetX, float flOffsetY, float flOffsetZ)
@@ -1311,8 +1314,10 @@ Ogre::Matrix4 OgreFramework::getHMDMatrixProjectionEye(vr::Hmd_Eye nEye)
 		if (!m_pHMD)
 			return Ogre::Matrix4();
 
+		//THREAX-TODO: Check if this matrix needs to be transposed, seems to have dropped api arg
+
 		// there may be a bug in openvr where this is returning a directx style projection matrix regardless of the api specified
-		vr::HmdMatrix44_t mat = m_pHMD->GetProjectionMatrix(nEye, NEARCLIP, FARCLIP, vr::API_DirectX);
+		vr::HmdMatrix44_t mat = m_pHMD->GetProjectionMatrix(nEye, NEARCLIP, FARCLIP);// , vr::API_DirectX);
 				
 		// convert to Ogre::Matrix4
 		return Ogre::Matrix4(
@@ -1321,6 +1326,19 @@ Ogre::Matrix4 OgreFramework::getHMDMatrixProjectionEye(vr::Hmd_Eye nEye)
 			mat.m[2][0], mat.m[2][1], mat.m[2][2], mat.m[2][3],
 			mat.m[3][0], mat.m[3][1], mat.m[3][2], mat.m[3][3]
 		);
+
+		/*
+		
+		The following is from the gl hello world, i'm pretty sure ogre is like dx, so the above is probably correct, this looks transposed
+
+		return Matrix4(
+		mat.m[0][0], mat.m[1][0], mat.m[2][0], mat.m[3][0],
+		mat.m[0][1], mat.m[1][1], mat.m[2][1], mat.m[3][1],
+		mat.m[0][2], mat.m[1][2], mat.m[2][2], mat.m[3][2],
+		mat.m[0][3], mat.m[1][3], mat.m[2][3], mat.m[3][3]
+		);
+
+		*/
 }
 
 // ----------------------------------------------------------------
@@ -1381,12 +1399,12 @@ void OgreFramework::InitOgreTextures()
 	RTT_Mat_VR_L->getTechnique(0)->getPass(0)->setFragmentProgram("TexProgDefault_ps", true);
 	RTT_Mat_VR_L->load() ;
 
-	miniScreen_VR_L = new Ogre::Rectangle2D(true);
+	/*miniScreen_VR_L = new Ogre::Rectangle2D(true);
 	miniScreen_VR_L->setCorners(-1.0001, 1.0001, 1.0, -1.0);
 	miniScreen_VR_L->setBoundingBox(AxisAlignedBox(-100000.0*Vector3::UNIT_SCALE, 100000.0*Vector3::UNIT_SCALE)); 
 	miniScreenNode_VR_L = m_pSceneMgr->getRootSceneNode()->createChildSceneNode("MiniScreenNode_VR_L");
 	miniScreenNode_VR_L->attachObject(miniScreen_VR_L);
-	miniScreen_VR_L->setMaterial("RttMat_VR_L");
+	miniScreen_VR_L->setMaterial("RttMat_VR_L");*/
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1415,12 +1433,12 @@ void OgreFramework::InitOgreTextures()
 	RTT_Mat_VR_R->getTechnique(0)->getPass(0)->setFragmentProgram("TexProgDefault_ps", true);
 	RTT_Mat_VR_R->load() ;
 
-	miniScreen_VR_R = new Ogre::Rectangle2D(true);
+	/*miniScreen_VR_R = new Ogre::Rectangle2D(true);
 	miniScreen_VR_R->setCorners(-1.0001, 1.0001, 1.0, -1.0);
 	miniScreen_VR_R->setBoundingBox(AxisAlignedBox(-100000.0*Vector3::UNIT_SCALE, 100000.0*Vector3::UNIT_SCALE)); 
 	miniScreenNode_VR_R = m_pSceneMgr->getRootSceneNode()->createChildSceneNode("MiniScreenNode_VR_R");
 	miniScreenNode_VR_R->attachObject(miniScreen_VR_R);
-	miniScreen_VR_R->setMaterial("RttMat_VR_R");
+	miniScreen_VR_R->setMaterial("RttMat_VR_R");*/
 
 	char chMessage[1024] ;
 	sprintf(chMessage, "VR size %i %i", m_nRenderWidth, m_nRenderHeight) ;
@@ -1496,7 +1514,7 @@ void OgreFramework::updateHMDPos()
 					case vr::TrackedDeviceClass_Controller:        g_rDevClassChar[nDevice] = 'C'; break;
 					case vr::TrackedDeviceClass_HMD:               g_rDevClassChar[nDevice] = 'H'; break;
 					case vr::TrackedDeviceClass_Invalid:           g_rDevClassChar[nDevice] = 'I'; break;
-					case vr::TrackedDeviceClass_Other:             g_rDevClassChar[nDevice] = 'O'; break;
+					//case vr::TrackedDeviceClass_Other:             g_rDevClassChar[nDevice] = 'O'; break;
 					case vr::TrackedDeviceClass_TrackingReference: g_rDevClassChar[nDevice] = 'T'; break;
 					default:                                       g_rDevClassChar[nDevice] = '?'; break;
 					}
@@ -1592,14 +1610,12 @@ void OgreFramework::UpdateControllerData()
 	for(int nLoop=0 ; nLoop<MAXCONTROLLER ; nLoop++)
 		if(m_nControllerTDI[nLoop]!=NOCONTROLLER)
 		{
-			
-
 			m_ControllerData[nLoop].Position=g_mat4ControllerPose[nLoop].getTrans()-g_poseNeutralPosition ;
 			m_ControllerData[nLoop].Orientation=g_poseNeutralOrientation.Inverse() * g_mat4ControllerPose[nLoop].extractQuaternion();
 
 			// update controller buttons and touchpads
 			vr::VRControllerState_t State ;
-			m_pHMD->GetControllerState(m_nControllerTDI[nLoop], &State) ;
+			m_pHMD->GetControllerState(m_nControllerTDI[nLoop], &State, sizeof(State)) ;
 
 			if(State.unPacketNum==m_ControllerData[nLoop].unPacketNum)
 				m_ControllerData[nLoop].Updated=false ;
@@ -1646,10 +1662,8 @@ void OgreFramework::UpdateVR()
 		const vr::VRTextureBounds_t boundsL = { 0.0f, 0.0f, 1.0f, 1.0f };
 		const vr::VRTextureBounds_t boundsR = { 0.0f, 0.0f, 1.0f, 1.0f };
 
-			
-
-		vr::Texture_t stereoTextureL = { (void*)((Ogre::D3D11Texture*)RTT_Texture_VR_L.get())->GetTex2D() , vr::API_DirectX, vr::ColorSpace_Gamma };
-		vr::Texture_t stereoTextureR = { (void*)((Ogre::D3D11Texture*)RTT_Texture_VR_R.get())->GetTex2D() , vr::API_DirectX, vr::ColorSpace_Gamma };
+		vr::Texture_t stereoTextureL = { (void*)((Ogre::D3D11Texture*)RTT_Texture_VR_L.get())->GetTex2D() , vr::TextureType_DirectX, vr::ColorSpace_Gamma };
+		vr::Texture_t stereoTextureR = { (void*)((Ogre::D3D11Texture*)RTT_Texture_VR_R.get())->GetTex2D() , vr::TextureType_DirectX, vr::ColorSpace_Gamma };
 
 		vr::VRCompositor()->Submit(vr::Eye_Left, &stereoTextureL, &boundsL);
 		vr::VRCompositor()->Submit(vr::Eye_Right, &stereoTextureR, &boundsR);

@@ -8,7 +8,7 @@
 #ifndef OGRE_FRAMEWORK_HPP
 #define OGRE_FRAMEWORK_HPP
 
-#include "ogre2d-main.h"
+//#include "ogre2d-main.h"
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
@@ -56,7 +56,7 @@ struct CONTROLLERDATA
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class OgreFramework : public Ogre::Singleton<OgreFramework>, OIS::KeyListener, OIS::MouseListener//, OgreBites::SdkTrayListener
+class OgreFramework : public Ogre::Singleton<OgreFramework>//, OIS::KeyListener, OIS::MouseListener//, OgreBites::SdkTrayListener
 {
 public:
         OgreFramework();
@@ -68,19 +68,19 @@ public:
 
 		char m_chBug[10240] ;
 
-        bool initOgre(Ogre::String wndTitle, OIS::KeyListener *pKeyListener = 0, OIS::MouseListener *pMouseListener = 0);
+        bool initOgre(Ogre::String wndTitle/*, OIS::KeyListener *pKeyListener = 0, OIS::MouseListener *pMouseListener = 0*/);
         void updateOgre(double timeSinceLastFrame);
         void moveCamera();
         void getInput();
 
         bool isOgreToBeShutDown()const{return m_bShutDownOgre;}  
 
-        bool keyPressed(const OIS::KeyEvent &keyEventRef);
+        /*bool keyPressed(const OIS::KeyEvent &keyEventRef);
         bool keyReleased(const OIS::KeyEvent &keyEventRef);
 
         bool mouseMoved(const OIS::MouseEvent &evt);
         bool mousePressed(const OIS::MouseEvent &evt, OIS::MouseButtonID id); 
-        bool mouseReleased(const OIS::MouseEvent &evt, OIS::MouseButtonID id);
+        bool mouseReleased(const OIS::MouseEvent &evt, OIS::MouseButtonID id);*/
         
         Ogre::Root*                                     m_pRoot;
         Ogre::SceneManager*                     m_pSceneMgr;
@@ -90,9 +90,9 @@ public:
         Ogre::Log*                                      m_pLog;
         Ogre::Timer*                            m_pTimer;
         
-        OIS::InputManager*                      m_pInputMgr;
+        /*OIS::InputManager*                      m_pInputMgr;
         OIS::Keyboard*                          m_pKeyboard;
-        OIS::Mouse*                             m_pMouse;
+        OIS::Mouse*                             m_pMouse;*/
 
 		Ogre::Vector3	PlayerPos ;
 		float			PlayerSpeed ;
@@ -229,7 +229,7 @@ public:
 	char m_chMessage[1024] ;
 
 	// for text/gui
-	Ogre2dManager* Ogre2DGui ;
+	//Ogre2dManager* Ogre2DGui ;
 
 
 private:
