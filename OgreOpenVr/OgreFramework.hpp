@@ -152,7 +152,7 @@ public:
 	int m_nTriCount ;
 
 
-	bool initOpenVR(Ogre::SceneManager *sm, Ogre::RenderWindow *rw);
+	bool initOpenVR();
 	std::string GetTrackedDeviceString( vr::IVRSystem *pHmd, vr::TrackedDeviceIndex_t unDevice, vr::TrackedDeviceProperty prop, vr::TrackedPropertyError *peError = NULL ) ;
 	void InitOgreCameras() ;
 	Ogre::Matrix4 getHMDMatrixProjectionEye(vr::Hmd_Eye nEye) ;

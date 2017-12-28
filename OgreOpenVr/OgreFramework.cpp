@@ -149,7 +149,7 @@ bool OgreFramework::initOgre(Ogre::Root* root)
 
     m_pRenderWnd->setActive(true);
 
-	return initOpenVR(m_pSceneMgr, m_pRenderWnd);
+	return initOpenVR();
 
 	return false;
 }
@@ -366,11 +366,8 @@ void OgreFramework::getInput()
 }
 
 
-bool OgreFramework::initOpenVR(Ogre::SceneManager *sm, Ogre::RenderWindow *rw)
+bool OgreFramework::initOpenVR()
 {
-
-	//g_sceneManager = sm;
-	//g_window = rw;
 	g_frameIndex = 0;
 
 	for(int nLoop=0 ; nLoop<MAXCONTROLLER ; nLoop++)
@@ -419,8 +416,6 @@ bool OgreFramework::initOpenVR(Ogre::SceneManager *sm, Ogre::RenderWindow *rw)
 
 	UpdateChaperone() ;
 
-
-
 	InitOgreCameras() ;
 
 	InitOgreTextures() ;
@@ -428,7 +423,7 @@ bool OgreFramework::initOpenVR(Ogre::SceneManager *sm, Ogre::RenderWindow *rw)
 	SetupRenderModels() ;
 
 	return true;
-	}
+}
 
 void OgreFramework::UpdateChaperone()
 {
