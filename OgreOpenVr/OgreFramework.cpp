@@ -333,8 +333,8 @@ void OgreFramework::updateOgre(double timeSinceLastFrame)
 	Ogre2DGui->DrawGui(renderTexture_WorldGui, true, &m_nBatchCount, &m_nTriCount);*/
 	////////////////////////////////////////////////
 	
-	m_pSceneManager->getRootSceneNode()->removeAllChildren() ;
-	m_pSceneManager->getRootSceneNode()->addChild(m_pWorldSN) ;
+	//m_pSceneManager->getRootSceneNode()->removeAllChildren() ;
+	//m_pSceneManager->getRootSceneNode()->addChild(m_pWorldSN) ;
 	//m_pSceneMgr->getRootSceneNode()->addChild(m_pWorldGuiSN) ;
 	//m_pSceneMgr->getRootSceneNode()->addChild(m_pPlayAreaSN) ;
 	/*if(m_nControllerTDI[HAND1]!=NOCONTROLLER) 
