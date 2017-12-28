@@ -68,7 +68,7 @@ public:
 
 		char m_chBug[10240] ;
 
-        bool initOgre(Ogre::String wndTitle/*, OIS::KeyListener *pKeyListener = 0, OIS::MouseListener *pMouseListener = 0*/);
+        bool initOgre(Ogre::Root* root);
         void updateOgre(double timeSinceLastFrame);
         void moveCamera();
         void getInput();
@@ -82,13 +82,14 @@ public:
         bool mousePressed(const OIS::MouseEvent &evt, OIS::MouseButtonID id); 
         bool mouseReleased(const OIS::MouseEvent &evt, OIS::MouseButtonID id);*/
         
-        Ogre::Root*                                     m_pRoot;
+        //Ogre::Root*                                     m_pRoot;
         Ogre::SceneManager*                     m_pSceneMgr;
         Ogre::RenderWindow*                     m_pRenderWnd;
         Ogre::Camera*                           m_pCamera;
         Ogre::Viewport*                         m_pViewport;
         Ogre::Log*                                      m_pLog;
         Ogre::Timer*                            m_pTimer;
+		Ogre::RenderSystem*						m_pRenderSystem;
         
         /*OIS::InputManager*                      m_pInputMgr;
         OIS::Keyboard*                          m_pKeyboard;
@@ -236,12 +237,6 @@ private:
         OgreFramework(const OgreFramework&);
         OgreFramework& operator= (const OgreFramework&);
 
-		Ogre::String m_PluginsCfg; //mkultra333 needed for correctly loading debug plugins.
-
-		//OgreBites::SdkTrayManager*      m_pTrayMgr;
-		//OgreBites::InputContext			m_InputContext;
-
-    //Ogre::FrameEvent            m_FrameEvent;
         int                                                     m_iNumScreenShots;
 
         bool                                            m_bShutDownOgre;

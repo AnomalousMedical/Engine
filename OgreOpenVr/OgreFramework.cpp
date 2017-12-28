@@ -25,13 +25,14 @@ OgreFramework::OgreFramework()
     m_bShutDownOgre             = false;
     m_iNumScreenShots   = 0;
 
-    m_pRoot                             = 0;
+    //m_pRoot                             = 0;
     m_pSceneMgr                 = 0;
     m_pRenderWnd                = 0;
     m_pCamera                   = 0;
     m_pViewport                 = 0;
     m_pLog                              = 0;
     m_pTimer                    = 0;
+	m_pRenderSystem				= 0;
 
     /*m_pInputMgr                 = 0;
     m_pKeyboard                 = 0;
@@ -43,33 +44,13 @@ OgreFramework::OgreFramework()
 }
 
 
-bool OgreFramework::initOgre(Ogre::String wndTitle/*, OIS::KeyListener *pKeyListener, OIS::MouseListener *pMouseListener*/)
+bool OgreFramework::initOgre(Ogre::Root* root)
 {
+	m_pRenderSystem = root->getRenderSystem();
 
+	m_pRenderWnd = root->createRenderWindow("Vr", 1920, 1080, false);
 
-
-    Ogre::LogManager* logMgr = new Ogre::LogManager();
-
-    m_pLog = Ogre::LogManager::getSingleton().createLog("OgreLogfile.log", true, true, false);
-    m_pLog->setDebugOutputEnabled(true);
-
-
-
-
-
-
-#ifdef _DEBUG
-    m_PluginsCfg = "plugins_d.cfg";
-#else
-    m_PluginsCfg = "plugins.cfg";
-#endif
-    m_pRoot = new Ogre::Root(m_PluginsCfg);
-
-    if(!m_pRoot->showConfigDialog())
-        return false;
-    m_pRenderWnd = m_pRoot->initialise(true, wndTitle);
-
-    m_pSceneMgr = m_pRoot->createSceneManager(ST_GENERIC, "SceneManager");
+    m_pSceneMgr = root->createSceneManager(ST_GENERIC, "SceneManager");
     m_pSceneMgr->setAmbientLight(Ogre::ColourValue(0.7f, 0.7f, 0.7f));
 
     m_pCamera = m_pSceneMgr->createCamera("Camera");
@@ -300,7 +281,7 @@ OgreFramework::~OgreFramework()
 
 	//vr::VR_Shutdown() ; // putting it here causes an debug break in OgreComPtr
 
-    if(m_pRoot)     delete m_pRoot;
+    //if(m_pRoot)     delete m_pRoot;
 
 	
 	//vr::VR_Shutdown() ;  // putting it here causes an debug break in VR_ShutdownInternal
@@ -369,7 +350,7 @@ OgreFramework::~OgreFramework()
 void OgreFramework::updateOgre(double timeSinceLastFrame)
 {
 
-	m_pRoot->getRenderSystem()->clearFrameBuffer(FBT_COLOUR | FBT_DEPTH, Ogre::ColourValue(0.0, 0.0, 0.0, 1));
+	m_pRenderSystem->clearFrameBuffer(FBT_COLOUR | FBT_DEPTH, Ogre::ColourValue(0.0, 0.0, 0.0, 1));
 
 	m_nBatchCount=0 ;
 	m_nTriCount=0 ;
