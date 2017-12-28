@@ -170,6 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="Meshes.cpp" />
     <ClCompile Include="ogre2d-main.cpp" />
     <ClCompile Include="OgreFramework.cpp" />
     <ClCompile Include="OgreOpenVr.cpp" />
