@@ -174,8 +174,8 @@ namespace OgrePlugin
             axesMat.Value.setCullingMode(CullingMode.CULL_NONE);
             axesMat.Value.setDepthWriteEnabled(false);
             axesMat.Value.setDepthCheckEnabled(false);
-
             builtInMaterials.Add(axesMat);
+            createdMaterials.Add(axesMat.Value, new MaterialInfo(axesMat.Value, null));
         }
 
         public void Dispose()
