@@ -60,12 +60,6 @@ public:
 	OgreFramework();
 	~OgreFramework();
 
-	void Safe_ZeroMemory(void* pMemStart, int nSize);
-
-
-
-	char m_chBug[10240];
-
 	bool initOgre(Ogre::Root* root, Ogre::SceneManager* sceneManager);
 	void updateOgre(double timeSinceLastFrame);
 
@@ -100,7 +94,6 @@ public:
 	Ogre::Matrix4 convertSteamVRMatrixToOgreMatrix4(const vr::HmdMatrix34_t &matPose);
 	void InitOgreTextures();
 
-	void SetupRenderModelForTrackedDevice(vr::TrackedDeviceIndex_t unTrackedDeviceIndex);
 	void SetupRenderModels();
 
 	int m_nControllerTDI[MAXCONTROLLER]; // Tracked Device Index of the two hand controllers
@@ -158,18 +151,16 @@ public:
 
 private:
 	OgreFramework(const OgreFramework&);
-	OgreFramework& operator= (const OgreFramework&);
 
-	int                                                     m_iNumScreenShots;
+	int m_iNumScreenShots;
 
-	bool                                            m_bShutDownOgre;
+	bool m_bShutDownOgre;
 
-	Ogre::Vector3                           m_TranslateVector;
-	Ogre::Real                                      m_MoveSpeed;
-	Ogre::Degree                            m_RotateSpeed;
-	float                                           m_MoveScale;
-	Ogre::Degree                            m_RotScale;
-
+	Ogre::Vector3 m_TranslateVector;
+	Ogre::Real m_MoveSpeed;
+	Ogre::Degree m_RotateSpeed;
+	float m_MoveScale;
+	Ogre::Degree m_RotScale;
 };
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
