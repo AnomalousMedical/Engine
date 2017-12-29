@@ -39,6 +39,11 @@ namespace GameAppTest
 
         }
 
+        public void Disposing(GameApp app, PluginManager pluginManager)
+        {
+            
+        }
+
         public void ConfigureServices(ContainerBuilder builder)
         {
             builder.Register(c => new EventLayerKeyInjector<FireControls>(EventLayers.Game))

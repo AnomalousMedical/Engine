@@ -46,8 +46,14 @@ namespace Anomalous.GameApp
 
         public override void Dispose()
         {
+            startup.Disposing(this, pluginManager);
+
             CoreConfig.save();
             PerformanceMonitor.destroyEnabledState();
+
+            var sceneController = pluginManager.GlobalScope.Resolve<SceneController>();
+            sceneController.destroyScene();
+            sceneController.clearResources();
 
             pluginManager.Dispose();
             base.Dispose();

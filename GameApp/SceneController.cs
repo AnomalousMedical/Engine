@@ -56,6 +56,15 @@ namespace Anomalous.GameApp
             sceneResourceManager = pluginManager.createLiveResourceManager("Scene");
         }
 
+        /// <summary>
+        /// Remove all resources from the scene resource manager. This will force anything loaded to unload.
+        /// </summary>
+        public void clearResources()
+        {
+            sceneResourceManager.changeResourcesToMatch(pluginManager.createScratchResourceManager());
+            sceneResourceManager.initializeResources();
+        }
+
         public SimSceneDefinition getSceneDefinition()
         {
             return scenePackage.SceneDefinition;

@@ -25,6 +25,14 @@ namespace Anomalous.GameApp
         void Initialized(GameApp app, PluginManager pluginManager);
 
         /// <summary>
+        /// Called when GameApp is disposing. It is called before any of the game app
+        /// objects are disposed.
+        /// </summary>
+        /// <param name="app">The app instance.</param>
+        /// <param name="pluginManager">The plugin manager.</param>
+        void Disposing(GameApp app, PluginManager pluginManager);
+
+        /// <summary>
         /// The title of the app to use for its window. The user will see this.
         /// </summary>
         String Title { get; }
