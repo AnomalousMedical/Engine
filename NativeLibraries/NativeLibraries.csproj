@@ -51,7 +51,7 @@
       <Link>Debug\x86\RenderSystem_Direct3D11_d.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\Dependencies\Ogre\WindowsBuild\bin\debug\RenderSystem_GLES2_d.dll">
+    <Content Condition="Exists('..\..\Dependencies\Ogre\WindowsBuild\bin\debug\RenderSystem_GLES2_d.dll')" Include="..\..\Dependencies\Ogre\WindowsBuild\bin\debug\RenderSystem_GLES2_d.dll">
       <Link>Debug\x86\RenderSystem_GLES2_d.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -71,7 +71,7 @@
       <Link>Release\x86\RenderSystem_GL.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\Dependencies\Ogre\WindowsBuild\bin\release\RenderSystem_GLES2.dll">
+    <Content Condition="Exists('..\..\Dependencies\Ogre\WindowsBuild\bin\release\RenderSystem_GLES2.dll')" Include="..\..\Dependencies\Ogre\WindowsBuild\bin\release\RenderSystem_GLES2.dll">
       <Link>Release\x86\RenderSystem_GLES2.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -83,7 +83,7 @@
       <Link>Release\x86\OpenAL32.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="C:\Program Files %28x86%29\Windows Kits\8.1\bin\x86\d3dcompiler_47.dll">
+    <Content Include="C:\Program Files %28x86%29\Windows Kits\10\bin\10.0.16299.0\x86\d3dcompiler_47.dll">
       <Link>Release\x86\d3dcompiler_47.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
