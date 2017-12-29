@@ -45,8 +45,14 @@ namespace Anomalous.GameApp
 
         public override void Dispose()
         {
+            startup.Disposing(this, pluginManager);
+
             CoreConfig.save();
             PerformanceMonitor.destroyEnabledState();
+
+            var sceneController = pluginManager.GlobalScope.Resolve<SceneController>();
+            sceneController.destroyScene();
+            sceneController.clearResources();
 
             pluginManager.Dispose();
             base.Dispose();
@@ -163,6 +169,7 @@ namespace Anomalous.GameApp
             MyGUIInterface.CreateGuiGestures = CoreConfig.EnableMultitouch && PlatformConfig.TouchType == TouchType.Screen;
 
             OgreInterface.CompressedTextureSupport = CompressedTextureSupport.None;
+            OgreInterface.TrackMemoryLeaks = true;
 
             //Configure plugins
             pluginManager.OnConfigureDefaultWindow = delegate (out WindowInfo defaultWindow)
