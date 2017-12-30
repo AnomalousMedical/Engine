@@ -663,23 +663,29 @@ void OgreFramework::UpdateVR()
 	bool submittedSuccess = true;
 
 	vr::EVRCompositorError error = vr::VRCompositor()->Submit(vr::Eye_Left, &stereoTextureL, &boundsL);
-	if (error != vr::VRCompositorError_None && error != m_previousError)
+	if (error != vr::VRCompositorError_None)
 	{
+		if (error != m_previousError) 
+		{
+			m_pLog->stream() << "Left Eye Submit error: " << CompositeErrorToString(error);
+		}
 		m_previousError = error;
 		submittedSuccess = false;
-		m_pLog->stream() << "Left Eye Submit error: " << CompositeErrorToString(error);
 	}
 
 	error = vr::VRCompositor()->Submit(vr::Eye_Right, &stereoTextureR, &boundsR);
-	if (error != vr::VRCompositorError_None && error != m_previousError)
+	if (error != vr::VRCompositorError_None)
 	{
+		if (error != m_previousError)
+		{
+			m_pLog->stream() << "Right Eye Submit error: " << CompositeErrorToString(error);
+		}
 		m_previousError = error;
 		submittedSuccess = false;
-		m_pLog->stream() << "Righ Eye Submit error: " << CompositeErrorToString(error);
 	}
 
 	// update the tracked device positions
-	if (submittedSuccess)
+	//if (submittedSuccess) //Need to figure this out, causes problems working normally if this is checked
 	{
 		updateHMDPos();
 	}
