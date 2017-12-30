@@ -109,6 +109,8 @@ public:
 	void UpdateControllerData();
 	void UpdateVR();
 
+	std::string CompositeErrorToString(vr::EVRCompositorError error);
+
 	uint32_t					m_nRenderWidth;
 	uint32_t					m_nRenderHeight;
 	vr::IVRSystem*				m_pHMD;

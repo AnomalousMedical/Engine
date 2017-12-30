@@ -241,6 +241,8 @@ bool OgreFramework::initOpenVR()
 
 	SetupRenderModels();
 
+	m_pLog->stream() << "VR Setup Complete";
+
 	return true;
 }
 
@@ -295,7 +297,7 @@ void OgreFramework::SetupRenderModels()
 				//CreateControllerModel(nHand) ;
 			}
 		}
-	} 
+	}
 
 }
 
@@ -336,6 +338,8 @@ void OgreFramework::InitOgreCameras()
 		proj = getHMDMatrixProjectionEye(static_cast<vr::Hmd_Eye>(i));
 		pCam->setCustomProjectionMatrix(true, proj);
 	}
+
+	m_pLog->stream() << "Created VR Eye Cameras";
 }
 
 // ----------------------------------------------------------------
@@ -443,9 +447,9 @@ void OgreFramework::InitOgreTextures()
 	RTT_Mat_VR_R->getTechnique(0)->getPass(0)->setFragmentProgram("TexProgDefault_ps", true);
 	RTT_Mat_VR_R->load();
 
-	char chMessage[1024];
-	sprintf(chMessage, "VR size %i %i", m_nRenderWidth, m_nRenderHeight);
-	m_pLog->logMessage(chMessage);
+	//char chMessage[1024];
+	//sprintf(chMessage, "Created VR Textures: size %i %i", m_nRenderWidth, m_nRenderHeight);
+	m_pLog->stream() << "Created VR Textures: size " << m_nRenderWidth << " " << m_nRenderHeight;
 
 	// adjust the dimensions of the renderwindow viewport so we see a copy of the vr texture that isn't distorted.
 	/*float flScaleX=(float)m_nRenderWidth/(float)m_pRenderWnd->getWidth() ;
@@ -477,7 +481,11 @@ void OgreFramework::updateHMDPos()
 	if (!m_pHMD)
 		return;
 
-	vr::VRCompositor()->WaitGetPoses(g_rTrackedDevicePose, vr::k_unMaxTrackedDeviceCount, NULL, 0);
+	vr::EVRCompositorError error = vr::VRCompositor()->WaitGetPoses(g_rTrackedDevicePose, vr::k_unMaxTrackedDeviceCount, NULL, 0);
+	if (error != vr::VRCompositorError_None)
+	{
+		m_pLog->stream() << "WaitGetPoses error: " << CompositeErrorToString(error);
+	}
 
 	g_iValidPoseCount = 0;
 	g_strPoseClasses = "";
@@ -651,10 +659,61 @@ void OgreFramework::UpdateVR()
 	vr::Texture_t stereoTextureL = { (void*)((Ogre::D3D11Texture*)RTT_Texture_VR_L.get())->GetTex2D() , vr::TextureType_DirectX, vr::ColorSpace_Gamma };
 	vr::Texture_t stereoTextureR = { (void*)((Ogre::D3D11Texture*)RTT_Texture_VR_R.get())->GetTex2D() , vr::TextureType_DirectX, vr::ColorSpace_Gamma };
 
-	vr::VRCompositor()->Submit(vr::Eye_Left, &stereoTextureL, &boundsL);
-	vr::VRCompositor()->Submit(vr::Eye_Right, &stereoTextureR, &boundsR);
+	bool submittedSuccess = true;
+
+	vr::EVRCompositorError error = vr::VRCompositor()->Submit(vr::Eye_Left, &stereoTextureL, &boundsL);
+	if (error != vr::VRCompositorError_None)
+	{
+		submittedSuccess = false;
+		m_pLog->stream() << "Left Eye Submit error: " << CompositeErrorToString(error);
+	}
+
+	error = vr::VRCompositor()->Submit(vr::Eye_Right, &stereoTextureR, &boundsR);
+	if (error != vr::VRCompositorError_None)
+	{
+		submittedSuccess = false;
+		m_pLog->stream() << "Righ Eye Submit error: " << CompositeErrorToString(error);
+	}
 
 	// update the tracked device positions
-	updateHMDPos();
+	if (submittedSuccess)
+	{
+		updateHMDPos();
+	}
 
+}
+
+std::string OgreFramework::CompositeErrorToString(vr::EVRCompositorError error)
+{
+	switch (error)
+	{
+	case vr::VRCompositorError_None:
+		return "None";
+	case vr::VRCompositorError_RequestFailed:
+		return "RequestFailed";
+	case vr::VRCompositorError_IncompatibleVersion:
+		return "IncompatibleVersion";
+	case vr::VRCompositorError_DoNotHaveFocus:
+		return "DoNotHaveFocus";
+	case vr::VRCompositorError_InvalidTexture:
+		return "InvalidTexture";
+	case vr::VRCompositorError_IsNotSceneApplication:
+		return "IsNotSceneApplication";
+	case vr::VRCompositorError_TextureIsOnWrongDevice:
+		return "TextureIsOnWrongDevice";
+	case vr::VRCompositorError_TextureUsesUnsupportedFormat:
+		return "TextureUsesUnsupportedFormat";
+	case vr::VRCompositorError_SharedTexturesNotSupported:
+		return "SharedTexturesNotSupported";
+	case vr::VRCompositorError_IndexOutOfRange:
+		return "IndexOutOfRange";
+	case vr::VRCompositorError_AlreadySubmitted:
+		return "AlreadySubmitted";
+	case vr::VRCompositorError_InvalidBounds:
+		return "InvalidBounds";
+	default:
+		std::stringstream ss;
+		ss << "Unknown(" << error << ")";
+		return ss.str();
+	}
 }
