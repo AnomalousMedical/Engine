@@ -505,7 +505,7 @@ void OgreFramework::updateHMDPos()
 				case vr::TrackedDeviceClass_Controller:        g_rDevClassChar[nDevice] = 'C'; break;
 				case vr::TrackedDeviceClass_HMD:               g_rDevClassChar[nDevice] = 'H'; break;
 				case vr::TrackedDeviceClass_Invalid:           g_rDevClassChar[nDevice] = 'I'; break;
-					//case vr::TrackedDeviceClass_Other:             g_rDevClassChar[nDevice] = 'O'; break;
+				case vr::TrackedDeviceClass_GenericTracker:    g_rDevClassChar[nDevice] = 'G'; break;
 				case vr::TrackedDeviceClass_TrackingReference: g_rDevClassChar[nDevice] = 'T'; break;
 				default:                                       g_rDevClassChar[nDevice] = '?'; break;
 				}
