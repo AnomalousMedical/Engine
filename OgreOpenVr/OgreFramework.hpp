@@ -110,6 +110,7 @@ public:
 	void UpdateVR();
 
 	std::string CompositeErrorToString(vr::EVRCompositorError error);
+	vr::EVRCompositorError m_previousError;
 
 	uint32_t					m_nRenderWidth;
 	uint32_t					m_nRenderHeight;

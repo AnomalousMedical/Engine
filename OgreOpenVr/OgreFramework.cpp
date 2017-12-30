@@ -28,6 +28,7 @@ OgreFramework::OgreFramework()
 	m_pSceneManager = 0;
 	m_pLog = 0;
 	m_pRenderSystem = 0;
+	m_previousError = vr::VRCompositorError_None;
 }
 
 
@@ -662,15 +663,17 @@ void OgreFramework::UpdateVR()
 	bool submittedSuccess = true;
 
 	vr::EVRCompositorError error = vr::VRCompositor()->Submit(vr::Eye_Left, &stereoTextureL, &boundsL);
-	if (error != vr::VRCompositorError_None)
+	if (error != vr::VRCompositorError_None && error != m_previousError)
 	{
+		m_previousError = error;
 		submittedSuccess = false;
 		m_pLog->stream() << "Left Eye Submit error: " << CompositeErrorToString(error);
 	}
 
 	error = vr::VRCompositor()->Submit(vr::Eye_Right, &stereoTextureR, &boundsR);
-	if (error != vr::VRCompositorError_None)
+	if (error != vr::VRCompositorError_None && error != m_previousError)
 	{
+		m_previousError = error;
 		submittedSuccess = false;
 		m_pLog->stream() << "Righ Eye Submit error: " << CompositeErrorToString(error);
 	}
