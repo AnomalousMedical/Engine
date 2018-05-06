@@ -1,7 +1,7 @@
 ﻿using Anomalous.GameApp;
 using Anomalous.GuiFramework;
 using Anomalous.GuiFramework.Cameras;
-using Anomalous.OgreOpenVr;
+//using Anomalous.OgreOpenVr;
 using Anomalous.OSPlatform;
 using Anomalous.SidescrollerCore;
 using Anomalous.TilesetPlugin;
@@ -26,6 +26,7 @@ namespace GameAppTest
         {
             get
             {
+                //yield return typeof(OgreOpenVrInterface).Assembly();
                 yield return typeof(SidescrollerCorePlugin).Assembly();
                 yield return typeof(TilesetInterface).Assembly();
             }
@@ -162,10 +163,10 @@ namespace GameAppTest
         {
             sceneViewController.createCameras(scene);
             lightManager.sceneLoaded(scene);
-            var vrFramework = scene.Scope.Resolve<OgreFramework>();
+            //var vrFramework = scene.Scope.Resolve<OgreFramework>();
             var subScene = scene.getDefaultSubScene();
             var sceneManager = subScene.getSimElementManager<OgreSceneManager>();
-            vrFramework.Init(OgrePlugin.Root.getSingleton(), sceneManager.SceneManager);
+            //vrFramework.Init(OgrePlugin.Root.getSingleton(), sceneManager.SceneManager);
         }
 
         private void SceneController_OnSceneUnloading(SceneController controller, SimScene scene)
