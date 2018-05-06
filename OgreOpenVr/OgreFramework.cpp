@@ -633,13 +633,15 @@ void OgreFramework::UpdateControllerData()
 // ----------------------------------------------------------------
 void OgreFramework::UpdateVR()
 {
+	//The example has this after submit, the docs show it before submit, both are here but only uncomment 1
+	updateHMDPos();
+
 	// update the parent camera node's orientation and position with the new tracking data
 	g_orientation = g_poseNeutralOrientation.Inverse() * g_mat4HMDPose.extractQuaternion();
 	m_pCameraNode->setOrientation(g_orientation);
 
 	g_position = g_mat4HMDPose.getTrans();
 	m_pCameraNode->setPosition(g_position - g_poseNeutralPosition + PlayerPos);
-
 
 	renderTexture_VR_R->update(true);
 	m_nBatchCount += renderTexture_VR_R->getStatistics().batchCount;
@@ -649,18 +651,13 @@ void OgreFramework::UpdateVR()
 	m_nBatchCount += renderTexture_VR_L->getStatistics().batchCount;
 	m_nTriCount += renderTexture_VR_L->getStatistics().triangleCount;
 
-
 	// UV coords for each eye's texture are as expected for DirectX
 	//                                       u1    v1    u2    v2
 	const vr::VRTextureBounds_t boundsL = { 0.0f, 0.0f, 1.0f, 1.0f };
 	const vr::VRTextureBounds_t boundsR = { 0.0f, 0.0f, 1.0f, 1.0f };
 
-
-
 	vr::Texture_t stereoTextureL = { (void*)((Ogre::D3D11Texture*)RTT_Texture_VR_L.get())->GetTex2D() , vr::TextureType_DirectX, vr::ColorSpace_Gamma };
 	vr::Texture_t stereoTextureR = { (void*)((Ogre::D3D11Texture*)RTT_Texture_VR_R.get())->GetTex2D() , vr::TextureType_DirectX, vr::ColorSpace_Gamma };
-
-	bool submittedSuccess = true;
 
 	vr::EVRCompositorError error = vr::VRCompositor()->Submit(vr::Eye_Left, &stereoTextureL, &boundsL);
 	if (error != vr::VRCompositorError_None)
@@ -670,7 +667,6 @@ void OgreFramework::UpdateVR()
 			m_pLog->stream() << "Left Eye Submit error: " << CompositeErrorToString(error);
 		}
 		m_previousError = error;
-		submittedSuccess = false;
 	}
 
 	error = vr::VRCompositor()->Submit(vr::Eye_Right, &stereoTextureR, &boundsR);
@@ -681,15 +677,10 @@ void OgreFramework::UpdateVR()
 			m_pLog->stream() << "Right Eye Submit error: " << CompositeErrorToString(error);
 		}
 		m_previousError = error;
-		submittedSuccess = false;
 	}
 
-	// update the tracked device positions
-	//if (submittedSuccess) //Need to figure this out, causes problems working normally if this is checked
-	{
-		updateHMDPos();
-	}
-
+	//The example has this after submit, the docs show it before submit, both are here but only uncomment 1
+	//updateHMDPos();
 }
 
 std::string OgreFramework::CompositeErrorToString(vr::EVRCompositorError error)
