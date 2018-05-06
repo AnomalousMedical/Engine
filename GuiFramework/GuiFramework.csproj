@@ -70,7 +70,4 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\Imagesets.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Update="NETStandard.Library" Version="2.0.2" />
-  </ItemGroup>
 </Project>

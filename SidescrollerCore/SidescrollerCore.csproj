@@ -37,7 +37,4 @@
       <Name>OgrePlugin</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Update="NETStandard.Library" Version="2.0.2" />
-  </ItemGroup>
 </Project>
