@@ -111,4 +111,7 @@
     <EmbeddedResource Include="Resources\Shader\Gui\glsles\TexturePS.glsles" />
     <EmbeddedResource Include="Resources\Shader\Gui\glsles\TextureVS.glsles" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="NETStandard.Library" Version="2.0.2" />
+  </ItemGroup>
 </Project>

@@ -47,4 +47,7 @@
   <ItemGroup>
     <EmbeddedResource Include="GUI\SceneStats\SceneStatsDisplay.layout" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="NETStandard.Library" Version="2.0.2" />
+  </ItemGroup>
 </Project>
