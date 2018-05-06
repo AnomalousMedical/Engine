@@ -66,11 +66,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.6.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Autofac" Version="4.8.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.1" />
     <PackageReference Include="System.IO.UnmanagedMemoryStream" Version="4.3.0" />
     <PackageReference Include="System.Threading.Thread" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="NETStandard.Library" Version="2.0.2" />
   </ItemGroup>
   
 </Project>
