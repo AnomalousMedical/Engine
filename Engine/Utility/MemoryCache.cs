@@ -52,7 +52,7 @@ namespace Engine
                     {
                         cahcedValues.RemoveAt(0);
                     }
-                    cahcedValues[key] = value;
+                    cahcedValues.Add(key, value);
                 }
             }
         }
