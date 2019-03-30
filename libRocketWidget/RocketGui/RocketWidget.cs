@@ -322,6 +322,21 @@ namespace Anomalous.libRocketWidget
                     if (cropped != null)
                     {
                         cropped.Rescale(destRect.Width, destRect.Height, FREE_IMAGE_FILTER.FILTER_BILINEAR);
+                        if (ogreTextureFormat == OgrePlugin.PixelFormat.PF_X8R8G8B8)
+                        {
+                            //Use the api to set the alpha channel to 255, this makes sure we dont carry over the x8 channel from ogre
+                            using (var alpha = cropped.GetChannel(FREE_IMAGE_COLOR_CHANNEL.FICC_ALPHA))
+                            {
+                                alpha.FillBackground(new RGBQUAD(new FreeImageAPI.Color()
+                                {
+                                    R = 255,
+                                    G = 255,
+                                    B = 255,
+                                    A = 255
+                                }));
+                                cropped.SetChannel(alpha, FREE_IMAGE_COLOR_CHANNEL.FICC_ALPHA);
+                            }
+                        }
                         g.Paste(cropped, destRect.X, destRect.Y, int.MaxValue);
                     }
                 }
