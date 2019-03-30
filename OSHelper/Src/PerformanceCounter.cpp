@@ -70,22 +70,34 @@ Int64 PerformanceCounter::getCurrentTime()
 	LARGE_INTEGER currentTime;
 	QueryPerformanceCounter(&currentTime);
 
-	//Compute the number of ticks in milliseconds since initialize was called.
-	LONGLONG time = currentTime.QuadPart - startTime.QuadPart;
-	LONGLONG ticks = 1000 * time / frequency.QuadPart;
+	LONGLONG time;
 
-	//Check for performance counter leaps
-	DWORD check = GetTickCount() - startTick;
-	signed long off = (signed long)(ticks - check);
-	if(off < -100 || off > 100)
+	//Getting divide by 0 issues, this is the only variable that is a divisor, so try to detect 0
+	//If frequency is 0, try to refresh it otherwise return the last time
+	if (frequency.QuadPart != 0 || 
+		(QueryPerformanceFrequency(&frequency) && frequency.QuadPart != 0))
 	{
-		//Adjust timer
-		LONGLONG adjust = (std::min)(off * frequency.QuadPart / 1000, time - lastTime);
-        startTime.QuadPart += adjust;
-        time -= adjust;
-	}
+		//Compute the number of ticks in milliseconds since initialize was called.
+		time = currentTime.QuadPart - startTime.QuadPart;
+		LONGLONG ticks = 1000 * time / frequency.QuadPart;
 
-	lastTime = time;
+		//Check for performance counter leaps
+		DWORD check = GetTickCount() - startTick;
+		signed long off = (signed long)(ticks - check);
+		if (off < -100 || off > 100)
+		{
+			//Adjust timer
+			LONGLONG adjust = (std::min)(off * frequency.QuadPart / 1000, time - lastTime);
+			startTime.QuadPart += adjust;
+			time -= adjust;
+		}
+
+		lastTime = time;
+	}
+	else 
+	{
+		time = lastTime;
+	}
 
 	return 1000000 * time / frequency.QuadPart;
 #endif
