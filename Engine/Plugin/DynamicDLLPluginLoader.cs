@@ -61,7 +61,7 @@ namespace Engine
                 }
                 catch (Exception e)
                 {
-                    Log.Default.sendMessage("Error loading plugin: {0}", LogLevel.Error, "Engine", e.Message);
+                    Log.Default.sendMessage("Error loading plugin {1}: {0}", LogLevel.Error, "Engine", e.Message, path);
                     e = e.InnerException;
                     while (e != null)
                     {
