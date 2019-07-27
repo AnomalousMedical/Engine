@@ -6,12 +6,6 @@
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=4.6.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.4.6.0\lib\net45\Autofac.dll</HintPath>
-    </Reference>
-    
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\Dependencies\DotNetZip\DotNetZip.csproj">
       <Project>{5068f53b-8d7b-4aee-af54-7428b0e997a3}</Project>
       <Name>DotNetZip</Name>
