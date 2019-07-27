@@ -83,7 +83,7 @@
       <Link>Release\x86\OpenAL32.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="C:\Program Files %28x86%29\Windows Kits\10\bin\10.0.16299.0\x86\d3dcompiler_47.dll">
+    <Content Include="C:\Program Files %28x86%29\Windows Kits\10\bin\10.0.18362.0\x86\d3dcompiler_47.dll">
       <Link>Release\x86\d3dcompiler_47.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
