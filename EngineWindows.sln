@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Engine", "Engine\Engine.csproj", "{57C253F1-157F-4A6A-9FED-345A776B97D5}"
 EndProject
@@ -96,7 +96,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OgreOpenVr", "OgreOpenVr\Og
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anomalous.OgreOpenVr", "Anomalous.OgreOpenVr\Anomalous.OgreOpenVr.csproj", "{81A28808-13BD-4255-8728-DBDFEE7B734C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameAppTestNetCore", "GameAppTestNetCore\GameAppTestNetCore.csproj", "{22C6879C-0C82-42E4-875A-4F87CFFA87AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameAppTestNetCore", "GameAppTestNetCore\GameAppTestNetCore.csproj", "{22C6879C-0C82-42E4-875A-4F87CFFA87AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -201,12 +201,12 @@ Global
 		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.ReleaseAOT|x64.Build.0 = Release|Any CPU
 		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.ReleaseAOT|x86.ActiveCfg = Release|Any CPU
 		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.ReleaseAOT|x86.Build.0 = Release|Any CPU
-		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.RelMDeb|Any CPU.ActiveCfg = RelMDeb|Any CPU
-		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.RelMDeb|Any CPU.Build.0 = RelMDeb|Any CPU
-		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.RelMDeb|x64.ActiveCfg = RelMDeb|Any CPU
-		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.RelMDeb|x64.Build.0 = RelMDeb|Any CPU
-		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.RelMDeb|x86.ActiveCfg = RelMDeb|Any CPU
-		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.RelMDeb|x86.Build.0 = RelMDeb|Any CPU
+		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.RelMDeb|Any CPU.ActiveCfg = Release|Any CPU
+		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.RelMDeb|Any CPU.Build.0 = Release|Any CPU
+		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.RelMDeb|x64.ActiveCfg = Release|Any CPU
+		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.RelMDeb|x64.Build.0 = Release|Any CPU
+		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.RelMDeb|x86.ActiveCfg = Release|Any CPU
+		{1511A2C3-1C24-405F-8E0E-E1BA2D7E0266}.RelMDeb|x86.Build.0 = Release|Any CPU
 		{49EEC126-950A-4775-8907-142F5A53EFE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{49EEC126-950A-4775-8907-142F5A53EFE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49EEC126-950A-4775-8907-142F5A53EFE5}.Debug|x64.ActiveCfg = Debug|Any CPU
