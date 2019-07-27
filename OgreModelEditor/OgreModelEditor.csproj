@@ -7,6 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="GUI\AnimationWindow\AnimationWindow.layout" />
+    <None Remove="GUI\CustomParametersWindow\CustomParametersWindow.layout" />
+    <None Remove="GUI\Main\OgreModelEditorMain.layout" />
+    <None Remove="GUI\SkeletonWindow\SkeletonWindow.layout" />
+    <None Remove="GUI\SplashScreen\SplashScreen.layout" />
+    <None Remove="GUI\TextureCompiler\TextureCompilerGUI.layout" />
+    <None Remove="Resources\D3D11\DebugParity.hlsl" />
+    <None Remove="Resources\D3D11\DebugTangentSpace.hlsl" />
+    <None Remove="Resources\DebugParity.material" />
+    <None Remove="Resources\DebugParity.program" />
+    <None Remove="Resources\DebugTangentSpace.material" />
+    <None Remove="Resources\DebugTangentSpace.program" />
+    <None Remove="Resources\FixedFunctionTextured.material" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="..\..\Dependencies\OgreDeps\WindowsInstall\bin\Release\FreeImage.dll">
       <Link>x86\FreeImage.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -145,6 +161,21 @@
       <Link>x64\openvr_api.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GUI\AnimationWindow\AnimationWindow.layout" />
+    <EmbeddedResource Include="GUI\CustomParametersWindow\CustomParametersWindow.layout" />
+    <EmbeddedResource Include="GUI\Main\OgreModelEditorMain.layout" />
+    <EmbeddedResource Include="GUI\SkeletonWindow\SkeletonWindow.layout" />
+    <EmbeddedResource Include="GUI\SplashScreen\SplashScreen.layout" />
+    <EmbeddedResource Include="GUI\TextureCompiler\TextureCompilerGUI.layout" />
+    <EmbeddedResource Include="Resources\D3D11\DebugParity.hlsl" />
+    <EmbeddedResource Include="Resources\D3D11\DebugTangentSpace.hlsl" />
+    <EmbeddedResource Include="Resources\DebugParity.material" />
+    <EmbeddedResource Include="Resources\DebugParity.program" />
+    <EmbeddedResource Include="Resources\DebugTangentSpace.material" />
+    <EmbeddedResource Include="Resources\DebugTangentSpace.program" />
+    <EmbeddedResource Include="Resources\FixedFunctionTextured.material" />
   </ItemGroup>
   
   <ItemGroup>
