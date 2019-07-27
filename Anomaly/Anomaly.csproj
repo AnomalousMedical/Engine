@@ -4,6 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationIcon>Anomaly.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,7 +13,10 @@
     <None Remove="GUI\ObfuscateArchive\ObfuscateArchiveWindow.layout" />
     <None Remove="GUI\PublishWindow\PublishWindow.layout" />
     <None Remove="GUI\SolutionWindow\SolutionWindow.layout" />
+    <None Remove="GUI\SplashScreen\SplashIMG.png" />
     <None Remove="GUI\SplashScreen\SplashScreen.layout" />
+    <None Remove="GUI\SplashScreen\SplashScreen.xml" />
+    <None Remove="GUI\SplashScreen\SplashText.png" />
     <None Remove="Resources\AnomalyIcons.png" />
     <None Remove="Resources\AnomalyIcons.xml" />
     <None Remove="Resources\AnomalyImagesets.xml" />
@@ -56,6 +60,7 @@
       <Project>{6e594c78-9cd8-432d-a135-11c4a72f3bcf}</Project>
       <Name>OSPlatform</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ShapeLoader\ShapeLoader.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\Dependencies\OgreDeps\WindowsInstall\bin\Release\FreeImage.dll">
@@ -203,7 +208,10 @@
     <EmbeddedResource Include="GUI\ObfuscateArchive\ObfuscateArchiveWindow.layout" />
     <EmbeddedResource Include="GUI\PublishWindow\PublishWindow.layout" />
     <EmbeddedResource Include="GUI\SolutionWindow\SolutionWindow.layout" />
+    <EmbeddedResource Include="GUI\SplashScreen\SplashIMG.png" />
     <EmbeddedResource Include="GUI\SplashScreen\SplashScreen.layout" />
+    <EmbeddedResource Include="GUI\SplashScreen\SplashScreen.xml" />
+    <EmbeddedResource Include="GUI\SplashScreen\SplashText.png" />
     <EmbeddedResource Include="Resources\AnomalyIcons.png" />
     <EmbeddedResource Include="Resources\AnomalyIcons.xml" />
     <EmbeddedResource Include="Resources\AnomalyImagesets.xml" />
