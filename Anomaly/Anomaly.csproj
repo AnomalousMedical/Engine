@@ -28,6 +28,8 @@
       <Project>{5068f53b-8d7b-4aee-af54-7428b0e997a3}</Project>
       <Name>DotNetZip</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BEPUikPlugin\BEPUikPlugin.csproj" />
+    <ProjectReference Include="..\BulletWrapperPlugin\BulletWrapperPlugin.csproj" />
     <ProjectReference Include="..\Engine\Engine.csproj">
       <Project>{57C253F1-157F-4A6A-9FED-345A776B97D5}</Project>
       <Name>Engine</Name>

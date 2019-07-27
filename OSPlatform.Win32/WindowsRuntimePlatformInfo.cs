@@ -19,8 +19,17 @@ namespace Anomalous.OSPlatform.Win32
     {
         const String LibraryName = "OSHelper";
 
+        /// <summary>
+        /// Calling this function will set the dpi awareness. It should be done first.
+        /// </summary>
+        /// <returns></returns>
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern bool SetProcessDPIAware();
+
         public static void Initialize()
         {
+            SetProcessDPIAware();
+
             NetFrameworkShim.SetShimImpl(new Shim.FullNetFrameworkShim());
             new WindowsRuntimePlatformInfo();
 
