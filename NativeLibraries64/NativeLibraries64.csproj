@@ -1,98 +1,131 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4C333BAE-E797-431B-AF0E-B753BF9AAE2D}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NativeLibraries64</RootNamespace>
-    <AssemblyName>NativeLibraries64</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>false</DebugSymbols>
-    <DebugType>none</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
+
+  <ItemGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Content Include="..\..\Dependencies\OgreDeps\Win64Install\bin\Debug\FreeImage_d.dll">
-      <Link>Debug\x64\FreeImage_d.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\Dependencies\OgreDeps\Win64Install\bin\Release\FreeImage.dll">
-      <Link>Release\x64\FreeImage.dll</Link>
+      <Link>x64\FreeImage_d.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\Dependencies\Ogre\Win64Build\bin\debug\OgreMain_d.dll">
-      <Link>Debug\x64\OgreMain_d.dll</Link>
+      <Link>x64\OgreMain_d.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\Dependencies\Ogre\Win64Build\bin\debug\RenderSystem_Direct3D11_d.dll">
-      <Link>Debug\x64\RenderSystem_Direct3D11_d.dll</Link>
+      <Link>x64\RenderSystem_Direct3D11_d.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\Dependencies\Ogre\Win64Build\bin\debug\RenderSystem_GL_d.dll">
-      <Link>Debug\x64\RenderSystem_GL_d.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\Dependencies\Ogre\Win64Build\bin\release\OgreMain.dll">
-      <Link>Release\x64\OgreMain.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\Dependencies\Ogre\Win64Build\bin\release\RenderSystem_Direct3D11.dll">
-      <Link>Release\x64\RenderSystem_Direct3D11.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\Dependencies\Ogre\Win64Build\bin\release\RenderSystem_GL.dll">
-      <Link>Release\x64\RenderSystem_GL.dll</Link>
+      <Link>x64\RenderSystem_GL_d.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\Dependencies\OpenALSoft\Win64Build\Debug\OpenAL32.dll">
-      <Link>Debug\x64\OpenAL32.dll</Link>
+      <Link>x64\OpenAL32.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\Dependencies\OpenALSoft\Win64Build\Release\OpenAL32.dll">
-      <Link>Release\x64\OpenAL32.dll</Link>
+    <Content Include="..\Debug\x64\BulletWrapper.dll">
+      <Link>x64\BulletWrapper.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="C:\Program Files %28x86%29\Windows Kits\10\bin\10.0.18362.0\x64\d3dcompiler_47.dll">
-      <Link>Release\x64\d3dcompiler_47.dll</Link>
+    <Content Include="..\Debug\x64\libRocketWrapper.dll">
+      <Link>x64\libRocketWrapper.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\Dependencies\openvr\bin\win64\openvr_api.dll">
-      <Link>Release\x64\openvr_api.dll</Link>
+    <Content Include="..\Debug\x64\MyGUIWrapper.dll">
+      <Link>x64\MyGUIWrapper.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Debug\x64\OgreCWrapper.dll">
+      <Link>x64\OgreCWrapper.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Debug\x64\OSHelper.dll">
+      <Link>x64\OSHelper.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Debug\x64\SoundWrapper.dll">
+      <Link>x64\SoundWrapper.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Debug\x64\Win32UniversalBridge.dll">
+      <Link>x64\Win32UniversalBridge.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Debug\x64\WinMTDriver.dll">
+      <Link>x64\WinMTDriver.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Debug\x64\Zip.dll">
+      <Link>x64\Zip.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>copy $(TargetDir)Release\x64\d3dcompiler_47.dll $(TargetDir)Debug\x64\d3dcompiler_47.dll
-del $(TargetPath)</PostBuildEvent>
-  </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
+  <ItemGroup Condition=" '$(Configuration)' == 'Release' ">
+    <Content Include="..\..\Dependencies\OgreDeps\Win64Install\bin\Release\FreeImage.dll">
+      <Link>x64\FreeImage.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\Dependencies\Ogre\Win64Build\bin\release\OgreMain.dll">
+      <Link>x64\OgreMain.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\Dependencies\Ogre\Win64Build\bin\release\RenderSystem_Direct3D11.dll">
+      <Link>x64\RenderSystem_Direct3D11.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\Dependencies\Ogre\Win64Build\bin\release\RenderSystem_GL.dll">
+      <Link>x64\RenderSystem_GL.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\Dependencies\OpenALSoft\Win64Build\Release\OpenAL32.dll">
+      <Link>x64\OpenAL32.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="C:\Program Files %28x86%29\Windows Kits\10\bin\10.0.18362.0\x64\d3dcompiler_47.dll">
+      <Link>x64\d3dcompiler_47.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\Dependencies\openvr\bin\win64\openvr_api.dll">
+      <Link>x64\openvr_api.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Release\x64\BulletWrapper.dll">
+      <Link>x64\BulletWrapper.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Release\x64\libRocketWrapper.dll">
+      <Link>x64\libRocketWrapper.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Release\x64\MyGUIWrapper.dll">
+      <Link>x64\MyGUIWrapper.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Release\x64\OgreCWrapper.dll">
+      <Link>x64\OgreCWrapper.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Release\x64\OSHelper.dll">
+      <Link>x64\OSHelper.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Release\x64\SoundWrapper.dll">
+      <Link>x64\SoundWrapper.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Release\x64\Win32UniversalBridge.dll">
+      <Link>x64\Win32UniversalBridge.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Release\x64\WinMTDriver.dll">
+      <Link>x64\WinMTDriver.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Release\x64\Zip.dll">
+      <Link>x64\Zip.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

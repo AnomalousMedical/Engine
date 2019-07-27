@@ -50,6 +50,8 @@
       <Project>{02d4da85-fd6c-421f-81c3-8f58f790bc81}</Project>
       <Name>MyGUIPlugin</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NativeLibraries64\NativeLibraries64.csproj" />
+    <ProjectReference Include="..\NativeLibraries\NativeLibraries.csproj" />
     <ProjectReference Include="..\OgrePlugin\OgrePlugin.csproj">
       <Project>{e9fd5768-32e1-42c7-8256-4d7b97c22a9b}</Project>
       <Name>OgrePlugin</Name>
@@ -63,146 +65,6 @@
       <Name>OSPlatform</Name>
     </ProjectReference>
     <ProjectReference Include="..\ShapeLoader\ShapeLoader.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\..\Dependencies\OgreDeps\WindowsInstall\bin\Release\FreeImage.dll">
-      <Link>x86\FreeImage.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\Dependencies\Ogre\WindowsBuild\bin\release\OgreMain.dll">
-      <Link>x86\OgreMain.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\Dependencies\Ogre\WindowsBuild\bin\release\RenderSystem_Direct3D11.dll">
-      <Link>x86\RenderSystem_Direct3D11.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\Dependencies\Ogre\WindowsBuild\bin\release\RenderSystem_GL.dll">
-      <Link>x86\RenderSystem_GL.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\Dependencies\OpenALSoft\WindowsBuild\Release\OpenAL32.dll">
-      <Link>x86\OpenAL32.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Release\x64\BulletWrapper.dll">
-      <Link>x64\BulletWrapper.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Release\x64\libRocketWrapper.dll">
-      <Link>x64\libRocketWrapper.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Release\x64\MyGUIWrapper.dll">
-      <Link>x64\MyGUIWrapper.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Release\x64\OgreCWrapper.dll">
-      <Link>x64\OgreCWrapper.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Release\x64\OSHelper.dll">
-      <Link>x64\OSHelper.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Release\x64\SoundWrapper.dll">
-      <Link>x64\SoundWrapper.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Release\x64\Win32UniversalBridge.dll">
-      <Link>x64\Win32UniversalBridge.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Release\x64\WinMTDriver.dll">
-      <Link>x64\WinMTDriver.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Release\x64\Zip.dll">
-      <Link>x64\Zip.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Release\x86\BulletWrapper.dll">
-      <Link>x86\BulletWrapper.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Release\x86\libRocketWrapper.dll">
-      <Link>x86\libRocketWrapper.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Release\x86\MyGUIWrapper.dll">
-      <Link>x86\MyGUIWrapper.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Release\x86\OgreCWrapper.dll">
-      <Link>x86\OgreCWrapper.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Release\x86\OSHelper.dll">
-      <Link>x86\OSHelper.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Release\x86\SoundWrapper.dll">
-      <Link>x86\SoundWrapper.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Release\x86\Win32UniversalBridge.dll">
-      <Link>x86\Win32UniversalBridge.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Release\x86\WinMTDriver.dll">
-      <Link>x86\WinMTDriver.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Release\x86\Zip.dll">
-      <Link>x86\Zip.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="C:\Program Files %28x86%29\Windows Kits\10\Redist\D3D\x86\d3dcompiler_47.dll">
-      <Link>x86\d3dcompiler_47.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\..\Dependencies\OgreDeps\Win64Install\bin\Release\FreeImage.dll">
-      <Link>x64\FreeImage.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\Dependencies\Ogre\Win64Build\bin\release\OgreMain.dll">
-      <Link>x64\OgreMain.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\Dependencies\Ogre\Win64Build\bin\release\RenderSystem_Direct3D11.dll">
-      <Link>x64\RenderSystem_Direct3D11.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\Dependencies\Ogre\Win64Build\bin\release\RenderSystem_GL.dll">
-      <Link>x64\RenderSystem_GL.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\Dependencies\OpenALSoft\Win64Build\Release\OpenAL32.dll">
-      <Link>x64\OpenAL32.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="C:\Program Files %28x86%29\Windows Kits\10\Redist\D3D\x64\d3dcompiler_47.dll">
-      <Link>x64\d3dcompiler_47.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Release\x86\OgreOpenVr.dll">
-      <Link>x86\OgreOpenVr.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Release\x64\OgreOpenVr.dll">
-      <Link>x64\OgreOpenVr.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\Dependencies\openvr\bin\win32\openvr_api.dll">
-      <Link>x86\openvr_api.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\Dependencies\openvr\bin\win64\openvr_api.dll">
-      <Link>x64\openvr_api.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GUI\DebugVisualizer\DebugVisualizer.layout" />
