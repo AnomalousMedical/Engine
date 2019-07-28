@@ -12,7 +12,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <None Include="C:\Microsoft\AndroidNDK64\android-ndk-r13b\sources\cxx-stl\gnu-libstdc++\4.9\libs\armeabi-v7a\libgnustl_shared.so">
+    <None Include="$(ANDROID_NDK)\sources\cxx-stl\gnu-libstdc++\4.9\libs\armeabi-v7a\libgnustl_shared.so">
       <Link>Android\libgnustl_shared.so</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
