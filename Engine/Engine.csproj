@@ -9,7 +9,6 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -20,30 +19,25 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>..\Release\Engine.XML</DocumentationFile>
     <NoWarn>1701;1702;1705;1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelMDeb|AnyCPU'">
     <DebugType>pdbonly</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>..\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>..\Release\Engine.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseAOT|AnyCPU'">
-    <OutputPath>..\ReleaseAOT\</OutputPath>
     <DefineConstants>TRACE;FULL_AOT_COMPILE;STATIC_LINK</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>..\ReleaseAOT\Engine.XML</DocumentationFile>
@@ -55,7 +49,6 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugAOT|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\DebugAOT\</OutputPath>
     <DefineConstants>TRACE;DEBUG;FULL_AOT_COMPILE;STATIC_LINK</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DebugType>full</DebugType>
@@ -69,8 +62,6 @@
     <PackageReference Include="Autofac" Version="4.8.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.1" />
-    <PackageReference Include="System.IO.UnmanagedMemoryStream" Version="4.3.0" />
-    <PackageReference Include="System.Threading.Thread" Version="4.3.0" />
   </ItemGroup>
   
 </Project>

@@ -7,7 +7,6 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\Release\netstandard2.0\</OutputPath>
     <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0;LITE_EMBEDDED_LIB</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
