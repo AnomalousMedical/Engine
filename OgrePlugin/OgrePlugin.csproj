@@ -24,7 +24,6 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>..\Release\OgrePlugin.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelMDeb|AnyCPU'">
     <DebugType>pdbonly</DebugType>
@@ -34,7 +33,6 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>..\Release\OgrePlugin.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugAOT|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -49,7 +47,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseAOT|AnyCPU'">
     <DefineConstants>TRACE;FULL_AOT_COMPILE;STATIC_LINK;DISABLE_STACK_TRACES</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>..\ReleaseAOT\OgrePlugin.XML</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
