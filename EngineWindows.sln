@@ -67,7 +67,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OSHelper", "OSHelper\OSHelp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinMTDriver", "WinMTDriver\WinMTDriver.vcxproj", "{74016E0D-C14D-448E-9AAF-FE8669EF50B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMinimalApplication", "TestMinimalApplication\TestMinimalApplication.csproj", "{E8740DBB-4636-4058-9AF6-64222294EEEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestMinimalApplication", "TestMinimalApplication\TestMinimalApplication.csproj", "{E8740DBB-4636-4058-9AF6-64222294EEEE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSPlatform", "OSPlatform\OSPlatform.csproj", "{6E594C78-9CD8-432D-A135-11C4A72F3BCF}"
 EndProject
@@ -79,7 +79,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuiFramework.Cameras", "Gui
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuiFramework.Editor", "GuiFramework.Editor\GuiFramework.Editor.csproj", "{ACBBA2D0-C648-4798-9D40-CE8B797642AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestLibrary", "TestLibrary\TestLibrary.csproj", "{40428C46-EE61-44C9-B9AD-ADF263B69628}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestLibrary", "TestLibrary\TestLibrary.csproj", "{40428C46-EE61-44C9-B9AD-ADF263B69628}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuiFramework.Debugging", "GuiFramework.Debugging\GuiFramework.Debugging.csproj", "{9183C078-D330-459B-BE70-DA4CC96A361D}"
 EndProject
@@ -970,12 +970,12 @@ Global
 		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.ReleaseAOT|x64.Build.0 = Release|Any CPU
 		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.ReleaseAOT|x86.ActiveCfg = Release|Any CPU
 		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.ReleaseAOT|x86.Build.0 = Release|Any CPU
-		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.RelMDeb|Any CPU.ActiveCfg = RelMDeb|Any CPU
-		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.RelMDeb|Any CPU.Build.0 = RelMDeb|Any CPU
-		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.RelMDeb|x64.ActiveCfg = RelMDeb|Any CPU
-		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.RelMDeb|x64.Build.0 = RelMDeb|Any CPU
-		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.RelMDeb|x86.ActiveCfg = RelMDeb|Any CPU
-		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.RelMDeb|x86.Build.0 = RelMDeb|Any CPU
+		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.RelMDeb|Any CPU.ActiveCfg = Release|Any CPU
+		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.RelMDeb|Any CPU.Build.0 = Release|Any CPU
+		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.RelMDeb|x64.ActiveCfg = Release|Any CPU
+		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.RelMDeb|x64.Build.0 = Release|Any CPU
+		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.RelMDeb|x86.ActiveCfg = Release|Any CPU
+		{4B395F64-4F52-4CC3-B983-33CC38A6450D}.RelMDeb|x86.Build.0 = Release|Any CPU
 		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6598A7CD-8F27-4D3F-A675-5AE63113A7C3}.Debug|x64.ActiveCfg = Debug|Any CPU
