@@ -24,39 +24,39 @@
       <Link>x64\OpenAL32.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Debug\x64\BulletWrapper.dll">
+    <Content Include="..\BulletWrapper\bin\Debug\x64\BulletWrapper.dll">
       <Link>x64\BulletWrapper.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Debug\x64\libRocketWrapper.dll">
+    <Content Include="..\libRocketWrapper\bin\Debug\x64\libRocketWrapper.dll">
       <Link>x64\libRocketWrapper.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Debug\x64\MyGUIWrapper.dll">
+    <Content Include="..\MyGUIWrapper\bin\Debug\x64\MyGUIWrapper.dll">
       <Link>x64\MyGUIWrapper.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Debug\x64\OgreCWrapper.dll">
+    <Content Include="..\OgreCWrapper\bin\Debug\x64\OgreCWrapper.dll">
       <Link>x64\OgreCWrapper.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Debug\x64\OSHelper.dll">
+    <Content Include="..\OSHelper\bin\Debug\x64\OSHelper.dll">
       <Link>x64\OSHelper.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Debug\x64\SoundWrapper.dll">
+    <Content Include="..\SoundWrapper\bin\Debug\x64\SoundWrapper.dll">
       <Link>x64\SoundWrapper.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Debug\x64\Win32UniversalBridge.dll">
+    <Content Include="..\Win32UniversalBridge\bin\Debug\x64\Win32UniversalBridge.dll">
       <Link>x64\Win32UniversalBridge.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Debug\x64\WinMTDriver.dll">
+    <Content Include="..\WinMTDriver\bin\Debug\x64\WinMTDriver.dll">
       <Link>x64\WinMTDriver.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Debug\x64\Zip.dll">
+    <Content Include="..\Zip\bin\Debug\x64\Zip.dll">
       <Link>x64\Zip.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -91,39 +91,39 @@
       <Link>x64\openvr_api.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Release\x64\BulletWrapper.dll">
+    <Content Include="..\BulletWrapper\bin\Release\x64\BulletWrapper.dll">
       <Link>x64\BulletWrapper.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Release\x64\libRocketWrapper.dll">
+    <Content Include="..\libRocketWrapper\bin\Release\x64\libRocketWrapper.dll">
       <Link>x64\libRocketWrapper.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Release\x64\MyGUIWrapper.dll">
+    <Content Include="..\MyGUIWrapper\bin\Release\x64\MyGUIWrapper.dll">
       <Link>x64\MyGUIWrapper.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Release\x64\OgreCWrapper.dll">
+    <Content Include="..\OgreCWrapper\bin\Release\x64\OgreCWrapper.dll">
       <Link>x64\OgreCWrapper.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Release\x64\OSHelper.dll">
+    <Content Include="..\OSHelper\bin\Release\x64\OSHelper.dll">
       <Link>x64\OSHelper.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Release\x64\SoundWrapper.dll">
+    <Content Include="..\SoundWrapper\bin\Release\x64\SoundWrapper.dll">
       <Link>x64\SoundWrapper.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Release\x64\Win32UniversalBridge.dll">
+    <Content Include="..\Win32UniversalBridge\bin\Release\x64\Win32UniversalBridge.dll">
       <Link>x64\Win32UniversalBridge.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Release\x64\WinMTDriver.dll">
+    <Content Include="..\WinMTDriver\bin\Release\x64\WinMTDriver.dll">
       <Link>x64\WinMTDriver.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Release\x64\Zip.dll">
+    <Content Include="..\Zip\bin\Release\x64\Zip.dll">
       <Link>x64\Zip.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
