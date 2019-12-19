@@ -1,5 +1,5 @@
-﻿using Autofac;
-using Engine;
+﻿using Engine;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -15,8 +15,8 @@ namespace Anomalous.GameApp
         /// <summary>
         /// Register any services needed.
         /// </summary>
-        /// <param name="builder">The builder to register.</param>
-        void ConfigureServices(ContainerBuilder builder);
+        /// <param name="serviceCollection">The service collection to register services with.</param>
+        void ConfigureServices(IServiceCollection serviceCollection);
 
         /// <summary>
         /// Called when initialization is complete.

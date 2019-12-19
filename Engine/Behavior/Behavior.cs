@@ -9,7 +9,7 @@ using Engine.Attributes;
 using Engine.Renderer;
 using Engine.Saving;
 using Engine.Editing;
-using Autofac;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Engine
 {
@@ -127,7 +127,7 @@ namespace Engine
 
         }
 
-        protected ILifetimeScope Scope
+        protected IServiceScope Scope
         {
             get
             {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Platform;
 using Engine.Command;
-using Autofac;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Engine
 {
@@ -35,7 +35,7 @@ namespace Engine
             }
         }
 
-        public void initialize(PluginManager pluginManager, ContainerBuilder builder)
+        public void initialize(PluginManager pluginManager, IServiceCollection serviceCollection)
         {
             pluginManager.addCreateSimElementManagerCommand(new AddSimElementManagerCommand("Create Behavior Manager Definition", BehaviorManagerDefinition.Create));
 

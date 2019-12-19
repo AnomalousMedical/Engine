@@ -4,6 +4,8 @@ using Anomalous.Minimus.Full.GUI;
 using Anomalous.OSPlatform;
 using Autofac;
 using Engine;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -25,24 +27,23 @@ namespace Anomalous.Minimus.Full
 
         }
 
-        public void ConfigureServices(ContainerBuilder builder)
+        public void ConfigureServices(IServiceCollection serviceCollection)
         {
-            builder.RegisterType<SceneController>()
-                .SingleInstance();
+            serviceCollection.TryAddSingleton<SceneController>();
 
-            builder.RegisterType<EngineController>()
-                .SingleInstance();
+            serviceCollection.TryAddSingleton<EngineController>();
 
             //Register gui services
 
-            builder.RegisterType<DocumentController>()
-                .SingleInstance();
+            serviceCollection.TryAddSingleton<DocumentController>();
 
-            builder.RegisterType<TaskMenu>()
-                .SingleInstance()
-                .WithParameter(new TypedParameter(typeof(LayoutElementName), new LayoutElementName(GUILocationNames.FullscreenPopup)));
+            serviceCollection.TryAddSingleton<TaskMenu>(
+                s => new TaskMenu(s.GetRequiredService<DocumentController>(), 
+                s.GetRequiredService<TaskController>(), 
+                s.GetRequiredService<GUIManager>(), 
+                new LayoutElementName(GUILocationNames.FullscreenPopup)));
 
-            builder.RegisterType<TaskController>()
+            serviceCollection.RegisterType<TaskController>()
                 .OnActivated(a =>
                 {
                     var app = a.Context.Resolve<App>();
@@ -53,13 +54,13 @@ namespace Anomalous.Minimus.Full
                 })
                 .SingleInstance();
 
-            builder.RegisterType<MDILayoutManager>()
+            serviceCollection.RegisterType<MDILayoutManager>()
                 .SingleInstance();
 
-            builder.RegisterType<GUIManager>()
+            serviceCollection.RegisterType<GUIManager>()
                 .SingleInstance();
 
-            builder.RegisterType<AppButtonTaskbar>()
+            serviceCollection.RegisterType<AppButtonTaskbar>()
                 .SingleInstance()
                 .As<Taskbar>()
                 .OnActivated(a =>
@@ -75,9 +76,9 @@ namespace Anomalous.Minimus.Full
                     taskbar.setAppIcon("AppButton/WideImage", "AppButton/NarrowImage");
                 });
 
-            builder.RegisterType<BorderLayoutChainLink>();
+            serviceCollection.RegisterType<BorderLayoutChainLink>();
 
-            builder.RegisterType<LayoutChain>()
+            serviceCollection.RegisterType<LayoutChain>()
                 .SingleInstance()
                 .OnActivated(a =>
                 {
@@ -98,20 +99,20 @@ namespace Anomalous.Minimus.Full
                     layoutChain.layout();
                 });
 
-            builder.RegisterType<SceneViewController>()
+            serviceCollection.RegisterType<SceneViewController>()
                 .SingleInstance();
 
-            builder.RegisterType<SceneStatsDisplayManager>()
+            serviceCollection.RegisterType<SceneStatsDisplayManager>()
                 .SingleInstance();
 
             //Individual windows, can be created more than once.
-            builder.RegisterType<TestWindow>()
+            serviceCollection.RegisterType<TestWindow>()
                 .OnActivated(a =>
                 {
                     a.Context.Resolve<GUIManager>().addManagedDialog(a.Instance);
                 });
 
-            builder.RegisterType<RocketWindow>()
+            serviceCollection.RegisterType<RocketWindow>()
                 .OnActivated(a =>
                 {
                     a.Context.Resolve<GUIManager>().addManagedDialog(a.Instance);

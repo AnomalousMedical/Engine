@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Anomalous.TilesetPlugin;
-using Autofac;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Anomalous.SidescrollerCore
 {
@@ -90,7 +90,7 @@ namespace Anomalous.SidescrollerCore
 
         protected void drawTile()
         {
-            var tileManager = Scope.Resolve<TilesetManager>();
+            var tileManager = Scope.ServiceProvider.GetRequiredService<TilesetManager>();
             if (tileManager == null)
             {
                 blacklist("No tile manager service");

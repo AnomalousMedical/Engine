@@ -1,7 +1,7 @@
 ﻿using Anomalous.OSPlatform;
-using Autofac;
 using Engine;
 using Engine.Platform;
+using Microsoft.Extensions.DependencyInjection;
 using MyGUIPlugin;
 using System;
 using System.Collections.Generic;
@@ -33,7 +33,7 @@ namespace Anomalous.GuiFramework
 
         }
 
-        public void initialize(PluginManager pluginManager, ContainerBuilder builder)
+        public void initialize(PluginManager pluginManager, IServiceCollection serviceCollection)
         {
             
         }

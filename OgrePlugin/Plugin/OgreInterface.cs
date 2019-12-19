@@ -12,7 +12,8 @@ using System.IO;
 using Engine.ObjectManagement;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using Autofac;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace OgrePlugin
 {
@@ -134,7 +135,7 @@ namespace OgrePlugin
             }
         }
 
-        public void initialize(PluginManager pluginManager, ContainerBuilder builder)
+        public void initialize(PluginManager pluginManager, IServiceCollection serviceCollection)
         {
             //Load config
             new OgreConfig(pluginManager.ConfigFile);
@@ -229,30 +230,15 @@ namespace OgrePlugin
                 deviceLostListener = new DeviceLostListener();
                 rs.addListener(deviceLostListener);
 
-                builder.Register(c => this.root)
-                    .As<Root>()
-                    .SingleInstance()
-                    .ExternallyOwned();
+                serviceCollection.TryAddSingleton<Root>(this.root);
 
-                //Setup builder
-                builder.Register(c => this.PrimaryWindow)
-                    .As<RendererWindow>()
-                    .SingleInstance()
-                    .ExternallyOwned();
+                serviceCollection.TryAddSingleton<RendererWindow>(this.PrimaryWindow);
 
-                builder.Register(c => this.OgrePrimaryWindow.OgreRenderTarget)
-                    .As<RenderTarget>()
-                    .SingleInstance()
-                    .ExternallyOwned();
+                serviceCollection.TryAddSingleton<RenderTarget>(this.OgrePrimaryWindow.OgreRenderTarget);
 
-                builder.Register(c => c.Resolve<PluginManager>().RendererPlugin.createSceneViewLightManager())
-                    .As<SceneViewLightManager>()
-                    .SingleInstance();
+                serviceCollection.TryAddSingleton<SceneViewLightManager>(s => s.GetRequiredService<PluginManager>().RendererPlugin.createSceneViewLightManager());
 
-                builder.RegisterType<FrameClearManager>()
-                    .WithParameter(new TypedParameter(typeof(Color), Color.FromRGB(0x333333)))
-                    .IfNotRegistered(typeof(FrameClearManager))
-                    .SingleInstance();
+                serviceCollection.TryAddSingleton<FrameClearManager>(s => new FrameClearManager(s.GetRequiredService<RenderTarget>(), Color.FromRGB(0x333333)));
             }
             catch (Exception e)
             {

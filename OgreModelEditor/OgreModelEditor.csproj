@@ -7,6 +7,10 @@
     <ApplicationIcon>ogre.ico</ApplicationIcon>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp3.0|AnyCPU'">
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="GUI\AnimationWindow\AnimationWindow.layout" />
     <None Remove="GUI\CustomParametersWindow\CustomParametersWindow.layout" />

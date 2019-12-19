@@ -1,7 +1,7 @@
-﻿using Autofac;
-using Engine;
+﻿using Engine;
 using Engine.Command;
 using Engine.Platform;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +29,7 @@ namespace BEPUikPlugin
 
         }
 
-        public void initialize(PluginManager pluginManager, ContainerBuilder builder)
+        public void initialize(PluginManager pluginManager, IServiceCollection serviceCollection)
         {
             pluginManager.addCreateSimElementManagerCommand(new AddSimElementManagerCommand("Create BEPU Ik Scene Definition", new CreateSimElementManager(BEPUikSceneDefinition.Create)));
 

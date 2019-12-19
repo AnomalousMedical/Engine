@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Logging;
-using Autofac;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Engine.ObjectManagement
 {
@@ -34,7 +34,7 @@ namespace Engine.ObjectManagement
         private List<SimElementManager> simElementManagers = new List<SimElementManager>();
         private Dictionary<String, SimSubScene> simSubScenes = new Dictionary<string, SimSubScene>();
         private SimSubScene defaultScene;
-        private ILifetimeScope scope;
+        private IServiceScope scope;
 
         /// <summary>
         /// Constructor.
@@ -225,7 +225,7 @@ namespace Engine.ObjectManagement
             return definition;
         }
 
-        public ILifetimeScope Scope
+        public IServiceScope Scope
         {
             get
             {

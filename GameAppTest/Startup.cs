@@ -5,7 +5,6 @@ using Anomalous.GuiFramework.Cameras;
 using Anomalous.OSPlatform;
 using Anomalous.SidescrollerCore;
 using Anomalous.TilesetPlugin;
-using Autofac;
 using Engine;
 using Engine.ObjectManagement;
 using Engine.Platform.Input;
@@ -45,7 +44,7 @@ namespace GameAppTest
             
         }
 
-        public void ConfigureServices(ContainerBuilder builder)
+        public void ConfigureServices(IServiceProvider serviceProvider)
         {
             builder.Register(c => new EventLayerKeyInjector<FireControls>(EventLayers.Game))
                 .SingleInstance()

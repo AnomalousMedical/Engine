@@ -9,6 +9,8 @@ using Engine.Platform;
 using Engine.Renderer;
 using libRocketPlugin;
 using Logging;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using MyGUIPlugin;
 using OgrePlugin;
 using SoundPlugin;
@@ -23,7 +25,7 @@ namespace Anomalous.Minimus.Full
         private LogFileListener logListener;
         private PluginManager pluginManager;
 
-        private ContainerBuilder builder = new ContainerBuilder();
+        private IServiceCollection builder = new ServiceCollection();
         private UpdateTimer mainTimer;
         private IStartup startup;
 
@@ -33,10 +35,8 @@ namespace Anomalous.Minimus.Full
         {
             this.startup = startup;
 
-            builder.RegisterInstance(this)
-                .ExternallyOwned()
-                .As<App>()
-                .As<CoreApp>();
+            builder.TryAddSingleton<App>(this);
+            builder.TryAddSingleton<CoreApp>(this);
         }
 
         public override void Dispose()
@@ -65,11 +65,11 @@ namespace Anomalous.Minimus.Full
             var scope = this.pluginManager.GlobalScope;
 
             //Build engine
-            var pluginManager = scope.Resolve<PluginManager>();
-            mainTimer = scope.Resolve<UpdateTimer>();
-            var frameClearManager = scope.Resolve<FrameClearManager>();
+            var pluginManager = scope.ServiceProvider.GetRequiredService<PluginManager>();
+            mainTimer = scope.ServiceProvider.GetRequiredService<UpdateTimer>();
+            var frameClearManager = scope.ServiceProvider.GetRequiredService<FrameClearManager>();
 
-            PerformanceMonitor.setupEnabledState(scope.Resolve<SystemTimer>());
+            PerformanceMonitor.setupEnabledState(scope.ServiceProvider.GetRequiredService<SystemTimer>());
 
             MyGUIInterface.Instance.CommonResourceGroup.addResource(GetType().AssemblyQualifiedName, "EmbeddedScalableResource", true);
             MyGUIInterface.Instance.CommonResourceGroup.addResource(startup.GetType().AssemblyQualifiedName, "EmbeddedScalableResource", true);

@@ -10,6 +10,7 @@ using System.IO;
 using Engine;
 using Engine.Resources;
 using Engine.Renderer;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Anomaly
 {
@@ -75,7 +76,7 @@ namespace Anomaly
         public void createScene()
         {
             scene = sceneDefinition.createScene();
-            scene.Scope = pluginManager.GlobalScope.BeginLifetimeScope(); //Disposed in destroyscene
+            scene.Scope = pluginManager.ServiceProvider.CreateScope(); //Disposed in destroyscene
             if (OnSceneLoading != null)
             {
                 OnSceneLoading.Invoke(this, scene);

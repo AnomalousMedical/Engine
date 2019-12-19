@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Platform;
 using Engine.ObjectManagement;
-using Autofac;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Engine
 {
@@ -26,7 +26,7 @@ namespace Engine
         /// builder, which will make those things available for injection elsewhere.
         /// The scope is created after this funciton is called.
         /// </summary>
-        void initialize(PluginManager pluginManager, ContainerBuilder builder);
+        void initialize(PluginManager pluginManager, IServiceCollection serviceCollection);
 
         /// <summary>
         /// Called after all plugins have been loaded in the PluginManager initializePlugins function.

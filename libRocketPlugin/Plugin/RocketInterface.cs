@@ -6,9 +6,8 @@ using Engine;
 using Engine.Platform;
 using System.Runtime.InteropServices;
 using OgrePlugin;
-using OgrePlugin;
 using Engine.Resources;
-using Autofac;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace libRocketPlugin
 {
@@ -85,7 +84,7 @@ namespace libRocketPlugin
             }
         }
 
-        public void initialize(PluginManager pluginManager, ContainerBuilder builder)
+        public void initialize(PluginManager pluginManager, IServiceCollection serviceCollection)
         {
 
         }

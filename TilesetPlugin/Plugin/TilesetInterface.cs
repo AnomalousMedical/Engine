@@ -6,7 +6,8 @@ using Engine;
 using Engine.Platform;
 using Engine.Resources;
 using Engine.Command;
-using Autofac;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Anomalous.TilesetPlugin
 {
@@ -24,12 +25,11 @@ namespace Anomalous.TilesetPlugin
             
         }
 
-        public void initialize(PluginManager pluginManager, ContainerBuilder builder)
+        public void initialize(PluginManager pluginManager, IServiceCollection serviceCollection)
         {
             var manager = new TilesetManager();
             var loader = new TilesetLoader(manager);
-            builder.RegisterInstance(manager)
-                .As<TilesetManager>();
+            serviceCollection.TryAddSingleton<TilesetManager>(manager);
 	        pluginManager.addSubsystemResources("Tileset", loader);
         }
 

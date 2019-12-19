@@ -7,7 +7,8 @@ using Engine.Platform;
 using OgrePlugin;
 using Logging;
 using Engine.Renderer;
-using Autofac;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace MyGUIPlugin
 {
@@ -86,7 +87,7 @@ namespace MyGUIPlugin
             }
         }
 
-        public void initialize(PluginManager pluginManager, ContainerBuilder builder)
+        public void initialize(PluginManager pluginManager, IServiceCollection serviceCollection)
         {
             if (EventLayerKey == null)
             {
@@ -94,9 +95,7 @@ namespace MyGUIPlugin
             }
 
             //Register services
-            builder.Register(c => this.OgrePlatform.RenderManager)
-                .As<OgreRenderManager>()
-                .ExternallyOwned();
+            serviceCollection.TryAddSingleton<OgreRenderManager>(s => this.ogrePlatform.RenderManager);
         }
 
         public void link(PluginManager pluginManager)

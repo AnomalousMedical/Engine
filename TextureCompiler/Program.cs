@@ -2,6 +2,7 @@
 using Anomalous.OSPlatform.Win32;
 using Engine;
 using Engine.Resources;
+using Microsoft.Extensions.DependencyInjection;
 using OgrePlugin;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,7 @@ namespace Anomalous.TextureCompiler
 
                 Logging.Log.Default.addLogListener(new Logging.LogConsoleListener());
                 WindowsRuntimePlatformInfo.Initialize();
-                PluginManager pluginManager = new PluginManager(new ConfigFile("woot.txt"));
+                PluginManager pluginManager = new PluginManager(new ConfigFile("woot.txt"), new ServiceCollection());
                 VirtualFileSystem.Instance.addArchive(destDirectory);
 
                 TextureCompilerInterface.CompileTextures(sourceDirectory, destDirectory, pluginManager, outFormats, maxSize);

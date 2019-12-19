@@ -3,13 +3,14 @@ using Anomalous.GuiFramework;
 using Anomalous.GuiFramework.Cameras;
 using Anomalous.libRocketWidget;
 using Anomalous.OSPlatform;
-using Autofac;
 using BulletPlugin;
 using Engine;
 using Engine.Platform;
 using Engine.Renderer;
 using libRocketPlugin;
 using Logging;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using MyGUIPlugin;
 using OgrePlugin;
 using SoundPlugin;
@@ -27,7 +28,7 @@ namespace Anomalous.GameApp
         private LogFileListener logListener;
         private PluginManager pluginManager;
 
-        private ContainerBuilder builder = new ContainerBuilder();
+        private IServiceCollection builder = new ServiceCollection();
         private UpdateTimer mainTimer;
         private IStartup startup;
 
@@ -37,10 +38,8 @@ namespace Anomalous.GameApp
         {
             this.startup = startup;
 
-            builder.RegisterInstance(this)
-                .ExternallyOwned()
-                .As<App>()
-                .As<GameApp>();
+            builder.TryAddSingleton<App>(this);
+            builder.TryAddSingleton<GameApp>(this);
         }
 
         public override void Dispose()
@@ -50,7 +49,7 @@ namespace Anomalous.GameApp
             CoreConfig.save();
             PerformanceMonitor.destroyEnabledState();
 
-            var sceneController = pluginManager.GlobalScope.Resolve<SceneController>();
+            var sceneController = pluginManager.GlobalScope.ServiceProvider.GetRequiredService<SceneController>();
             sceneController.destroyScene();
             sceneController.clearResources();
 
@@ -70,19 +69,14 @@ namespace Anomalous.GameApp
             Log.ImportantInfo("Running from directory {0}", FolderFinder.ExecutableFolder);
             startup.ConfigureServices(builder);
 
-            builder.RegisterType<SceneController>()
-                .IfNotRegistered(typeof(SceneController))
-                .SingleInstance()
-                .As<SceneController>()
-                .OnActivated(a =>
-                {
-                    a.Instance.setDynamicMode(true);
-                });
+            builder.TryAddSingleton<SceneController>(s =>
+            {
+                var sc = new SceneController(s.GetRequiredService<PluginManager>());
+                sc.setDynamicMode(true);
+                return sc;
+            });
 
-            builder.RegisterType<VirtualTextureSceneViewLink>()
-                .IfNotRegistered(typeof(VirtualTextureSceneViewLink))
-                .SingleInstance()
-                .As<VirtualTextureSceneViewLink>();
+            builder.TryAddSingleton<VirtualTextureSceneViewLink>();
 
             BuildPluginManager();
 
@@ -90,11 +84,11 @@ namespace Anomalous.GameApp
             var scope = this.pluginManager.GlobalScope;
 
             //Build engine
-            var pluginManager = scope.Resolve<PluginManager>();
-            mainTimer = scope.Resolve<UpdateTimer>();
-            var frameClearManager = scope.Resolve<FrameClearManager>();
+            var pluginManager = scope.ServiceProvider.GetRequiredService<PluginManager>();
+            mainTimer = scope.ServiceProvider.GetRequiredService<UpdateTimer>();
+            var frameClearManager = scope.ServiceProvider.GetRequiredService<FrameClearManager>();
 
-            PerformanceMonitor.setupEnabledState(scope.Resolve<SystemTimer>());
+            PerformanceMonitor.setupEnabledState(scope.ServiceProvider.GetRequiredService<SystemTimer>());
 
             MyGUIInterface.Instance.CommonResourceGroup.addResource(GetType().AssemblyQualifiedName, "EmbeddedScalableResource", true);
             MyGUIInterface.Instance.CommonResourceGroup.addResource(startup.GetType().AssemblyQualifiedName, "EmbeddedScalableResource", true);
@@ -115,9 +109,8 @@ namespace Anomalous.GameApp
                 new IntVector2(-1, -1),
                 new IntSize2(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes));
 
-            builder.RegisterInstance(mainWindow)
-                .As<OSWindow>()
-                .As<NativeOSWindow>();
+            builder.TryAddSingleton<OSWindow>(mainWindow);
+            builder.TryAddSingleton<NativeOSWindow>(mainWindow);
 
             mainWindow.Closed += w =>
             {
@@ -144,26 +137,19 @@ namespace Anomalous.GameApp
 
             pluginManager = new PluginManager(CoreConfig.ConfigFile, builder);
 
-            builder.RegisterType<NativeSystemTimer>()
-                .IfNotRegistered(typeof(SystemTimer))
-                .SingleInstance()
-                .As<SystemTimer>();
+            builder.TryAddSingleton<SystemTimer, NativeSystemTimer>();
 
-            builder.RegisterType<NativeUpdateTimer>()
-                .IfNotRegistered(typeof(UpdateTimer))
-                .SingleInstance()
-                .As<UpdateTimer>()
-                .As<NativeUpdateTimer>();
+            builder.TryAddSingleton<UpdateTimer, NativeUpdateTimer>();
 
-            builder.Register(c => new NativeInputHandler(c.Resolve<NativeOSWindow>(), CoreConfig.EnableMultitouch))
-                .IfNotRegistered(typeof(InputHandler))
-                .SingleInstance()
-                .As<InputHandler>();
+            builder.TryAddSingleton<InputHandler>(s =>
+            {
+                return new NativeInputHandler(s.GetRequiredService<NativeOSWindow>(), CoreConfig.EnableMultitouch);
+            });
 
-            builder.RegisterType<EventManager>()
-                .WithParameter(new TypedParameter(typeof(IEnumerable), Enum.GetValues(typeof(EventLayers))))
-                .SingleInstance()
-                .As<EventManager>();
+            builder.TryAddSingleton<EventManager>(s =>
+            {
+                return new EventManager(s.GetRequiredService<InputHandler>(), Enum.GetValues(typeof(EventLayers)));
+            });
                 
             MyGUIInterface.EventLayerKey = EventLayers.Gui;
             MyGUIInterface.CreateGuiGestures = CoreConfig.EnableMultitouch && PlatformConfig.TouchType == TouchType.Screen;
@@ -218,10 +204,10 @@ namespace Anomalous.GameApp
 
             var scope = pluginManager.GlobalScope;
 
-            var systemTimer = scope.Resolve<SystemTimer>();
-            var mainTimer = scope.Resolve<UpdateTimer>();
-            var inputHandler = this.InputHandler = scope.Resolve<InputHandler>();
-            var eventManager = scope.Resolve<EventManager>();
+            var systemTimer = scope.ServiceProvider.GetRequiredService<SystemTimer>();
+            var mainTimer = scope.ServiceProvider.GetRequiredService<UpdateTimer>();
+            var inputHandler = this.InputHandler = scope.ServiceProvider.GetRequiredService<InputHandler>();
+            var eventManager = scope.ServiceProvider.GetRequiredService<EventManager>();
 
             //Intialize the platform
             BulletInterface.Instance.ShapeMargin = 0.005f;

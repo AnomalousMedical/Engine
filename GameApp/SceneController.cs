@@ -2,6 +2,7 @@
 using Engine.ObjectManagement;
 using Engine.Resources;
 using Engine.Saving.XMLSaver;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -105,7 +106,7 @@ namespace Anomalous.GameApp
             sceneResourceManager.initializeResources();
 
             scene = scenePackage.SceneDefinition.createScene();
-            scene.Scope = pluginManager.GlobalScope.BeginLifetimeScope(Lifetimes.Scene);
+            scene.Scope = pluginManager.ServiceProvider.CreateScope();
             if (OnSceneLoading != null)
             {
                 OnSceneLoading.Invoke(this, scene);

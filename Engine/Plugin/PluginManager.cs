@@ -13,7 +13,8 @@ using Engine.Resources;
 using Engine.Saving;
 using Engine.Threads;
 using Engine.Shim;
-using Autofac;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Engine
 {
@@ -65,9 +66,9 @@ namespace Engine
         private VirtualFileSystem virtualFileSystem;
         private Dictionary<String, Type> typeCache = new Dictionary<string, Type>();//After a type is found for an AssemblyQualifiedName it will be stored here.
         private RenamedTypeMap renamedTypeMap = null;
-        private ContainerBuilder builder;
-        private IContainer container;
-        private ILifetimeScope globalScope;
+        private IServiceCollection serviceCollection;
+        private ServiceProvider serviceProvider;
+        private IServiceScope globalScope;
         private bool shuttingDown = false; //This makes sure Shutdown is always called
 
         #endregion Fields
@@ -88,15 +89,10 @@ namespace Engine
         /// <summary>
         /// Constructor. Must be called once before plugins are used.
         /// </summary>
-        public PluginManager(ConfigFile configFile, ContainerBuilder builder = null)
+        public PluginManager(ConfigFile configFile, IServiceCollection serviceCollection)
         {
-            if(builder == null)
-            {
-                builder = new ContainerBuilder();
-            }
-            this.builder = builder;
-            builder.RegisterInstance(this)
-                .As<PluginManager>();
+            this.serviceCollection = serviceCollection;
+            serviceCollection.TryAddSingleton<PluginManager>(this);
 
             if (instance == null)
             {
@@ -146,7 +142,7 @@ namespace Engine
                 //order and keeps us from having to do other weird stuff.
                 shuttingDown = true;
                 globalScope.Dispose();
-                container.Dispose();
+                serviceProvider.Dispose();
             }
         }
 
@@ -178,8 +174,8 @@ namespace Engine
                 throw new InvalidPluginException("No renderer plugin defined. Please define a renderer plugin.");
             }
 
-            container = builder.Build();
-            globalScope = container.BeginLifetimeScope();
+            serviceProvider = serviceCollection.BuildServiceProvider();
+            globalScope = serviceProvider.CreateScope();
 
             foreach (var plugin in loadedPlugins)
             {
@@ -197,7 +193,7 @@ namespace Engine
         {
             Log.Default.sendMessage("Plugin {0} added.", LogLevel.Info, "Engine", plugin.Name);
             loadedPlugins.Add(plugin);
-            plugin.initialize(this, builder);
+            plugin.initialize(this, serviceCollection);
             if (renamedTypeMap != null)
             {
                 plugin.setupRenamedSaveableTypes(renamedTypeMap);
@@ -546,11 +542,19 @@ namespace Engine
             }
         }
 
-        public ILifetimeScope GlobalScope
+        public IServiceScope GlobalScope
         {
             get
             {
                 return globalScope;
+            }
+        }
+
+        public IServiceProvider ServiceProvider
+        {
+            get
+            {
+                return serviceProvider;
             }
         }
 

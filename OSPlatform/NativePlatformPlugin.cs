@@ -7,7 +7,7 @@ using Engine.Platform;
 using Logging;
 using System.IO;
 using System.Reflection;
-using Autofac;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Anomalous.OSPlatform
 {
@@ -47,7 +47,7 @@ namespace Anomalous.OSPlatform
             managedLogListener.Dispose();
         }
 
-        public void initialize(PluginManager pluginManager, ContainerBuilder builder)
+        public void initialize(PluginManager pluginManager, IServiceCollection serviceCollection)
         {
 
         }

@@ -6,7 +6,7 @@ using Engine;
 using Engine.Platform;
 using Engine.Resources;
 using Engine.Command;
-using Autofac;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BulletPlugin
 {
@@ -50,7 +50,7 @@ namespace BulletPlugin
             
         }
 
-        public void initialize(PluginManager pluginManager, ContainerBuilder builder)
+        public void initialize(PluginManager pluginManager, IServiceCollection serviceCollection)
         {
             pluginManager.addCreateSimElementManagerCommand(new AddSimElementManagerCommand("Create Bullet Scene Definition", new CreateSimElementManager(BulletSceneDefinition.Create)));
             pluginManager.addCreateSimElementManagerCommand(new AddSimElementManagerCommand("Create Transformed Bullet Scene Definition", new CreateSimElementManager(TransformedBulletSceneDefinition.CreateTransformed)));

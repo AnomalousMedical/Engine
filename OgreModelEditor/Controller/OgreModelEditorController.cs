@@ -22,6 +22,7 @@ using Anomalous.GuiFramework.Editor;
 using Anomalous.GuiFramework.Debugging;
 using Anomalous.TextureCompiler;
 using Engine.Threads;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace OgreModelEditor
 {
@@ -110,7 +111,7 @@ namespace OgreModelEditor
 
             RuntimePlatformInfo.addPath(OgreModelEditorConfig.OpenGLESEmulatorPath);
 
-            pluginManager = new PluginManager(OgreModelEditorConfig.ConfigFile);
+            pluginManager = new PluginManager(OgreModelEditorConfig.ConfigFile, new ServiceCollection());
             pluginManager.OnConfigureDefaultWindow = createWindow;
             pluginManager.addPluginAssembly(typeof(OgreInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(NativePlatformPlugin).Assembly);

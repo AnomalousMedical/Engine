@@ -21,7 +21,8 @@ using Anomalous.GuiFramework.Editor;
 using Anomalous.GuiFramework;
 using Anomalous.OSPlatform;
 using Anomaly.GUI;
-using Autofac;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Anomaly
 {
@@ -112,7 +113,7 @@ namespace Anomaly
             float pixelScale = mainWindow.WindowScaling;
             ScaleHelper._setScaleFactor(pixelScale);
 
-            var builder = new ContainerBuilder();
+            var builder = new ServiceCollection();
 
             //Initialize the plugins
             pluginManager = new PluginManager(AnomalyConfig.ConfigFile, builder);
@@ -149,7 +150,7 @@ namespace Anomaly
             eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
             eventUpdate = new EventUpdateListener(eventManager);
 
-            builder.RegisterInstance(eventManager);
+            builder.TryAddSingleton<EventManager>(eventManager);
 
             //Dynamic assemblies
             DynamicDLLPluginLoader pluginLoader = new DynamicDLLPluginLoader();

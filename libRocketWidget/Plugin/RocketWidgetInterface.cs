@@ -1,7 +1,7 @@
-﻿using Autofac;
-using Engine;
+﻿using Engine;
 using Engine.Platform;
 using libRocketPlugin;
+using Microsoft.Extensions.DependencyInjection;
 using MyGUIPlugin;
 using OgrePlugin;
 using System;
@@ -38,7 +38,7 @@ namespace Anomalous.libRocketWidget
             }
         }
 
-        public void initialize(PluginManager pluginManager, ContainerBuilder builder)
+        public void initialize(PluginManager pluginManager, IServiceCollection serviceCollection)
         {
             
         }

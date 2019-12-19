@@ -6,7 +6,7 @@ using Engine.Platform;
 using Engine.ObjectManagement;
 using Logging;
 using Engine.Renderer;
-using Autofac;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Engine
 {
@@ -109,7 +109,7 @@ namespace Engine
             }
         }
 
-        internal ILifetimeScope Scope
+        internal IServiceScope Scope
         {
             get
             {

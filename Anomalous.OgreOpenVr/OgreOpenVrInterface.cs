@@ -1,6 +1,7 @@
-﻿using Autofac;
-using Engine;
+﻿using Engine;
 using Engine.Platform;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using OgrePlugin;
 using System;
 using System.Collections.Generic;
@@ -33,15 +34,13 @@ namespace Anomalous.OgreOpenVr
             return null;
         }
 
-        public void initialize(PluginManager pluginManager, ContainerBuilder builder)
+        public void initialize(PluginManager pluginManager, IServiceCollection serviceCollection)
         {
-            builder.Register(c =>
-            {
+            serviceCollection.TryAddSingleton<OgreFramework>(s =>{
                 var ogreFramework = new OgreFramework();
                 mainTimer.addUpdateListener(new OgreFrameworkUpdateListener(ogreFramework));
                 return ogreFramework;
-            })
-            .SingleInstance();
+            });
         }
 
         public void link(PluginManager pluginManager)

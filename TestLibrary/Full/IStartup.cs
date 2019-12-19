@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Autofac;
 using Engine;
 using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Anomalous.Minimus.Full
 {
@@ -17,8 +18,8 @@ namespace Anomalous.Minimus.Full
         /// <summary>
         /// Register any services needed.
         /// </summary>
-        /// <param name="builder">The builder to register.</param>
-        void ConfigureServices(ContainerBuilder builder);
+        /// <param name="serviceCollection">The service collection to register.</param>
+        void ConfigureServices(IServiceCollection serviceCollection);
 
         /// <summary>
         /// Called when initialization is complete.
