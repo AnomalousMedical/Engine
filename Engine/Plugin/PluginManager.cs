@@ -124,15 +124,8 @@ namespace Engine
         {
             if (shuttingDown)
             {
-                //Then virtual file system
-                virtualFileSystem.Dispose();
-                //Unload plugins in reverse order
-                for (int i = loadedPlugins.Count - 1; i >= 0; --i)
-                {
-                    loadedPlugins[i].Dispose();
-                }
-                loadedPlugins.Clear();
-                ThreadManager.cancelAll();
+                //TODO: Refactor this to be less dumb logic wise.
+                //For ms di it seems like we can do this all at once, still investigating lifecycles.
             }
             else
             {
@@ -143,6 +136,16 @@ namespace Engine
                 shuttingDown = true;
                 globalScope.Dispose();
                 serviceProvider.Dispose();
+
+                //Then virtual file system
+                virtualFileSystem.Dispose();
+                //Unload plugins in reverse order
+                for (int i = loadedPlugins.Count - 1; i >= 0; --i)
+                {
+                    loadedPlugins[i].Dispose();
+                }
+                loadedPlugins.Clear();
+                ThreadManager.cancelAll();
             }
         }
 
