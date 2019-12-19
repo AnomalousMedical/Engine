@@ -553,14 +553,6 @@ namespace Engine
             }
         }
 
-        public IServiceProvider ServiceProvider
-        {
-            get
-            {
-                return serviceProvider;
-            }
-        }
-
         #endregion Properties
     }
 }

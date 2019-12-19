@@ -106,7 +106,7 @@ namespace Anomalous.GameApp
             sceneResourceManager.initializeResources();
 
             scene = scenePackage.SceneDefinition.createScene();
-            scene.Scope = pluginManager.ServiceProvider.CreateScope();
+            scene.Scope = pluginManager.GlobalScope.ServiceProvider.CreateScope();
             if (OnSceneLoading != null)
             {
                 OnSceneLoading.Invoke(this, scene);
