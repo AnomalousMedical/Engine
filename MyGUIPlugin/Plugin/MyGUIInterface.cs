@@ -95,7 +95,7 @@ namespace MyGUIPlugin
             }
 
             //Register services
-            serviceCollection.TryAddSingleton<OgreRenderManager>(s => this.ogrePlatform.RenderManager);
+            serviceCollection.TryAddSingleton<OgrePlatformProvider>();
         }
 
         public void link(PluginManager pluginManager)
@@ -150,6 +150,9 @@ namespace MyGUIPlugin
             resourceManager.load(PointerFile);
             resourceManager.load(LayerFile);
             resourceManager.load(MessageBoxTheme);
+
+            var platformProvider = pluginManager.GlobalScope.ServiceProvider.GetRequiredService<OgrePlatformProvider>();
+            platformProvider.OgrePlatform = ogrePlatform;
 
             Log.Info("Finished initializing MyGUI");
         }
