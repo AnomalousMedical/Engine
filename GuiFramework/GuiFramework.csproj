@@ -12,6 +12,7 @@
   <PropertyGroup Condition="'$(Configuration)'=='RelMDeb'">
     <Optimize>false</Optimize>
   </PropertyGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj">
     </ProjectReference>

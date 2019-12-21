@@ -5,13 +5,22 @@
     <AssemblyName>Anomalous.BEPUikPlugin</AssemblyName>
     <Version>0.0.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Configurations>Debug;Release;RelMDeb</Configurations>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+
+  <PropertyGroup Condition="'$(Configuration)'=='RelMDeb'">
+    <Optimize>false</Optimize>
     <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0;LITE_EMBEDDED_LIB</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0;LITE_EMBEDDED_LIB</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0;LITE_EMBEDDED_LIB</DefineConstants>
   </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="..\..\Dependencies\BEPUPhysics\BEPUik\ActiveSet.cs">
       <Link>BEPUik\ActiveSet.cs</Link>
