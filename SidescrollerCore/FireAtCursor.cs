@@ -18,14 +18,8 @@ namespace Anomalous.SidescrollerCore
         public ButtonEvent Fire { get; private set; }
 
         public FireControls(IEventLayerKeyInjector<FireControls> injector)
-            :this(injector.Key)
         {
-
-        }
-
-        public FireControls(object eventLayerKey)
-        {
-            Fire = new ButtonEvent(eventLayerKey);
+            Fire = new ButtonEvent(injector.Key);
         }
 
         public void Build(EventManager eventManager)
@@ -40,7 +34,7 @@ namespace Anomalous.SidescrollerCore
 
     public class FireControls<T> : FireControls
     {
-        public FireControls(IEventLayerKeyInjector<FireControls<T>> injector) : base(injector)
+        public FireControls(IEventLayerKeyInjector<FireControls> injector) : base(injector)
         {
         }
     }

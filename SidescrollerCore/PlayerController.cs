@@ -23,18 +23,12 @@ namespace Anomalous.SidescrollerCore
         public ButtonEvent JumpEvent { get; private set; }
 
         public PlayerControls(IEventLayerKeyInjector<PlayerControls> injector)
-            :this(injector.Key)
         {
-
-        }
-
-        public PlayerControls(Object eventLayerKey)
-        {
-            MoveRightEvent = new ButtonEvent(eventLayerKey);
-            MoveLeftEvent = new ButtonEvent(eventLayerKey);
-            MoveUpEvent = new ButtonEvent(eventLayerKey);
-            MoveDownEvent = new ButtonEvent(eventLayerKey);
-            JumpEvent = new ButtonEvent(eventLayerKey);
+            MoveRightEvent = new ButtonEvent(injector.Key);
+            MoveLeftEvent = new ButtonEvent(injector.Key);
+            MoveUpEvent = new ButtonEvent(injector.Key);
+            MoveDownEvent = new ButtonEvent(injector.Key);
+            JumpEvent = new ButtonEvent(injector.Key);
         }
 
         public void Build(EventManager eventManager)
@@ -53,16 +47,12 @@ namespace Anomalous.SidescrollerCore
 
     /// <summary>
     /// This class allows us to inject player controls based on a type.
-    /// This allows us to simulate keys with ms di.
+    /// This allows us to inject controls into different player instances based on the PlayerType and PlayerId.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class PlayerControls<T> : PlayerControls
     {
-        public PlayerControls(IEventLayerKeyInjector<PlayerControls<T>> injector) : base(injector)
-        {
-        }
-
-        public PlayerControls(object eventLayerKey) : base(eventLayerKey)
+        public PlayerControls(IEventLayerKeyInjector<PlayerControls> injector) : base(injector)
         {
         }
     }

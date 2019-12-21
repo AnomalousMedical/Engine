@@ -49,44 +49,14 @@ namespace Anomalous.SidescrollerCore
         /// <param name="layerKey"></param>
         public static void RegisterControls(IServiceCollection serviceCollection, Object layerKey)
         {
-            serviceCollection.TryAddSingleton<IEventLayerKeyInjector<FireControls<Player1>>>(s =>
+            serviceCollection.TryAddSingleton<IEventLayerKeyInjector<FireControls>>(s =>
             {
-                return new EventLayerKeyInjector<FireControls<Player1>>(layerKey);
+                return new EventLayerKeyInjector<FireControls>(layerKey);
             });
 
-            serviceCollection.TryAddSingleton<IEventLayerKeyInjector<FireControls<Player2>>>(s =>
+            serviceCollection.TryAddSingleton<IEventLayerKeyInjector<PlayerControls>>(s =>
             {
-                return new EventLayerKeyInjector<FireControls<Player2>>(layerKey);
-            });
-
-            serviceCollection.TryAddSingleton<IEventLayerKeyInjector<FireControls<Player3>>>(s =>
-            {
-                return new EventLayerKeyInjector<FireControls<Player3>>(layerKey);
-            });
-
-            serviceCollection.TryAddSingleton<IEventLayerKeyInjector<FireControls<Player4>>>(s =>
-            {
-                return new EventLayerKeyInjector<FireControls<Player4>>(layerKey);
-            });
-
-            serviceCollection.TryAddSingleton<IEventLayerKeyInjector<PlayerControls<Player1>>>(s =>
-            {
-                return new EventLayerKeyInjector<PlayerControls<Player1>>(layerKey);
-            });
-
-            serviceCollection.TryAddSingleton<IEventLayerKeyInjector<PlayerControls<Player2>>>(s =>
-            {
-                return new EventLayerKeyInjector<PlayerControls<Player2>>(layerKey);
-            });
-
-            serviceCollection.TryAddSingleton<IEventLayerKeyInjector<PlayerControls<Player3>>>(s =>
-            {
-                return new EventLayerKeyInjector<PlayerControls<Player3>>(layerKey);
-            });
-
-            serviceCollection.TryAddSingleton<IEventLayerKeyInjector<PlayerControls<Player4>>>(s =>
-            {
-                return new EventLayerKeyInjector<PlayerControls<Player4>>(layerKey);
+                return new EventLayerKeyInjector<PlayerControls>(layerKey);
             });
         }
 
@@ -99,11 +69,11 @@ namespace Anomalous.SidescrollerCore
             //var perPlayerPlayerControls = playerControlsType.MakeGenericType(typeArgs);
 
             var perPlayerPlayerControls = playerId.GetPlayerKeyedType(typeof(PlayerControls<>));
-            var perPlayerPlayerKeyInjector = typeof(IEventLayerKeyInjector<>).MakeGenericType(perPlayerPlayerControls);
+            //var playerType = playerId.GetPlayerType();
 
             services.AddSingleton(perPlayerPlayerControls, s =>
             {
-                var i = Activator.CreateInstance(perPlayerPlayerControls, s.GetRequiredService(perPlayerPlayerKeyInjector)) as PlayerControls;
+                var i = Activator.CreateInstance(perPlayerPlayerControls, s.GetRequiredService(typeof(IEventLayerKeyInjector<PlayerControls>))) as PlayerControls;
                 //i.MoveRightEvent.addButton(KeyboardButtonCode.KC_D);
                 //i.MoveLeftEvent.addButton(KeyboardButtonCode.KC_A);
                 //i.MoveUpEvent.addButton(KeyboardButtonCode.KC_W);
@@ -128,11 +98,10 @@ namespace Anomalous.SidescrollerCore
             });
 
             var perPlayerFireControls = playerId.GetPlayerKeyedType(typeof(FireControls<>));
-            var perPlayerFireKeyInjector = typeof(IEventLayerKeyInjector<>).MakeGenericType(perPlayerFireControls);
 
             services.AddSingleton(perPlayerFireControls, s =>
             {
-                var i = Activator.CreateInstance(perPlayerFireControls, s.GetRequiredService(perPlayerFireKeyInjector)) as FireControls;
+                var i = Activator.CreateInstance(perPlayerFireControls, s.GetRequiredService(typeof(IEventLayerKeyInjector<FireControls>))) as FireControls;
 
                 //i.Fire.addButton(MouseButtonCode.MB_BUTTON0);
 
