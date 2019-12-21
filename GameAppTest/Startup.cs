@@ -145,6 +145,7 @@ namespace GameAppTest
             var guiManager = scope.ServiceProvider.GetRequiredService<GUIManager>();
             var layoutChain = scope.ServiceProvider.GetRequiredService<LayoutChain>();
             guiManager.createGUILayout(layoutChain);
+            layoutChain.layout();
 
             //Build gui
             sceneViewController = scope.ServiceProvider.GetRequiredService<SceneViewController>();
