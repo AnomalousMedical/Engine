@@ -172,8 +172,8 @@ namespace OgreModelEditor
             layoutChain.addLink(new FinalChainLink("SceneViews", mdiLayout.DocumentArea), true);
             layoutChain.SuppressLayout = false;
 
-            guiManager = new GUIManager();
-            guiManager.createGUI(mdiLayout, layoutChain, mainWindow);
+            guiManager = new GUIManager(mdiLayout, mainWindow);
+            guiManager.createGUILayout(layoutChain);
 
             layoutChain.layout();
 
