@@ -3,7 +3,13 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
+    <Configurations>Debug;Release;RelMDeb</Configurations>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='RelMDeb'">
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\GameAppTest\GameAppTest.csproj" />
     <ProjectReference Include="..\NativeLibraries64\NativeLibraries64.csproj" />

@@ -6,6 +6,7 @@
     <AssemblyName>Anomalous.GameApp</AssemblyName>
     <Version>0.0.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Configurations>Debug;Release;RelMDeb</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelMDeb|AnyCPU'">

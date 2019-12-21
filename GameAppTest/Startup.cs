@@ -7,7 +7,11 @@ using Anomalous.SidescrollerCore;
 using Anomalous.TilesetPlugin;
 using Engine;
 using Engine.ObjectManagement;
+using Engine.Platform;
 using Engine.Platform.Input;
+using Engine.Renderer;
+using Microsoft.Extensions.DependencyInjection;
+using MyGUIPlugin;
 using OgrePlugin;
 using System;
 using System.Collections.Generic;
@@ -44,84 +48,89 @@ namespace GameAppTest
             
         }
 
-        public void ConfigureServices(IServiceProvider serviceProvider)
+        public void ConfigureServices(IServiceCollection services)
         {
-            builder.Register(c => new EventLayerKeyInjector<FireControls>(EventLayers.Game))
-                .SingleInstance()
-                .As<IEventLayerKeyInjector<FireControls>>();
+            SidescrollerCorePlugin.RegisterControls(services, EventLayers.Game);
 
-            builder.Register(c => new EventLayerKeyInjector<PlayerControls>(EventLayers.Game))
-                .SingleInstance()
-                .As<IEventLayerKeyInjector<PlayerControls>>();
+            services.AddSingleton<DocumentController>();
 
-            builder.RegisterType<DocumentController>()
-                .SingleInstance();
+            services.AddSingleton<TaskMenu>(s =>
+            {
+                return new TaskMenu(s.GetRequiredService<DocumentController>(), s.GetRequiredService<TaskController>(), s.GetRequiredService<GUIManager>(), new LayoutElementName(GUILocationNames.FullscreenPopup));
+            });
 
-            builder.RegisterType<TaskMenu>()
-                .SingleInstance()
-                .WithParameter(new TypedParameter(typeof(LayoutElementName), new LayoutElementName(GUILocationNames.FullscreenPopup)));
-
-            builder.RegisterType<TaskController>()
-                .OnActivated(a =>
+            services.AddSingleton<TaskController>(s =>
+            {
+                var app = s.GetRequiredService<App>();
+                var tc = new TaskController();
+                tc.addTask(new CallbackTask("Exit", "Exit", "", "Main", (item) =>
                 {
-                    var app = a.Context.Resolve<App>();
-                    a.Instance.addTask(new CallbackTask("Exit", "Exit", "", "Main", (item) =>
-                    {
-                        app.exit();
-                    }));
-                })
-                .SingleInstance();
+                    app.exit();
+                }));
 
-            builder.RegisterType<MDILayoutManager>()
-                .SingleInstance();
+                return tc;
+            });
 
-            builder.RegisterType<GUIManager>()
-                .SingleInstance();
+            services.AddSingleton<MDILayoutManager>();
 
-            builder.RegisterType<AppButtonTaskbar>()
-                .SingleInstance()
-                .As<Taskbar>()
-                .OnActivated(a =>
+            services.AddSingleton<GUIManager>(s =>
+            {
+                return new GUIManager(s.GetRequiredService<MDILayoutManager>(), s.GetRequiredService<OSWindow>());
+            });
+
+            services.AddSingleton<Taskbar>(s =>
+            {
+                //Taskbar
+                var taskbar = new AppButtonTaskbar();
+                var taskMenu = s.GetRequiredService<TaskMenu>();
+                taskbar.OpenTaskMenu += (int left, int top, int width, int height) =>
                 {
-                    //Taskbar
-                    var taskbar = a.Instance;
-                    var taskMenu = a.Context.Resolve<TaskMenu>();
-                    taskbar.OpenTaskMenu += (int left, int top, int width, int height) =>
-                    {
-                        taskMenu.setSize(width, height);
-                        taskMenu.show(left, top);
-                    };
-                    taskbar.setAppIcon("AppButton/WideImage", "AppButton/NarrowImage");
-                });
+                    taskMenu.setSize(width, height);
+                    taskMenu.show(left, top);
+                };
+                taskbar.setAppIcon("AppButton/WideImage", "AppButton/NarrowImage");
 
-            builder.RegisterType<BorderLayoutChainLink>();
+                return taskbar;
+            });
 
-            builder.RegisterType<LayoutChain>()
-                .SingleInstance()
-                .OnActivated(a =>
-                {
-                    var mdiLayout = a.Context.Resolve<MDILayoutManager>();
-                    LayoutChain layoutChain = a.Instance;
-                    //layoutChain.addLink(new SingleChildChainLink(GUILocationNames.Notifications, controller.NotificationManager.LayoutContainer), true);
-                    layoutChain.addLink(new SingleChildChainLink(GUILocationNames.Taskbar, a.Context.Resolve<Taskbar>()), true);
-                    layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.FullscreenPopup), true);
-                    layoutChain.SuppressLayout = true;
-                    var editorBorder = a.Context.Resolve<BorderLayoutChainLink>(new TypedParameter(typeof(String), GUILocationNames.EditorBorderLayout));
-                    layoutChain.addLink(editorBorder, true);
-                    layoutChain.addLink(new MDIChainLink(GUILocationNames.MDI, mdiLayout), true);
-                    layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.ContentAreaPopup), true);
-                    var contentArea = a.Context.Resolve<BorderLayoutChainLink>(new TypedParameter(typeof(String), GUILocationNames.ContentArea));
-                    layoutChain.addLink(contentArea, true);
-                    layoutChain.addLink(new FinalChainLink("SceneViews", mdiLayout.DocumentArea), true);
-                    layoutChain.SuppressLayout = false;
-                    layoutChain.layout();
-                });
+            services.AddTransient<BorderLayoutChainLink<GUILocationNames.EditorBorderLayoutType>>(s => new BorderLayoutChainLink<GUILocationNames.EditorBorderLayoutType>(GUILocationNames.EditorBorderLayout));
+            services.AddTransient<BorderLayoutChainLink<GUILocationNames.ContentAreaType>>(s => new BorderLayoutChainLink<GUILocationNames.ContentAreaType>(GUILocationNames.ContentArea));
 
-            builder.RegisterType<SceneViewController>()
-                .SingleInstance();
+            services.AddSingleton<LayoutChain>(s =>
+            {
+                var mdiLayout = s.GetRequiredService<MDILayoutManager>();
+                LayoutChain layoutChain = new LayoutChain();
+                //layoutChain.addLink(new SingleChildChainLink(GUILocationNames.Notifications, controller.NotificationManager.LayoutContainer), true);
+                var taskbar = s.GetRequiredService<Taskbar>();
+                layoutChain.addLink(new SingleChildChainLink(GUILocationNames.Taskbar, taskbar), true);
+                layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.FullscreenPopup), true);
+                layoutChain.SuppressLayout = true;
+                var editorBorder = s.GetRequiredService<BorderLayoutChainLink<GUILocationNames.EditorBorderLayoutType>>();
+                layoutChain.addLink(editorBorder, true);
+                layoutChain.addLink(new MDIChainLink(GUILocationNames.MDI, mdiLayout), true);
+                layoutChain.addLink(new PopupAreaChainLink(GUILocationNames.ContentAreaPopup), true);
+                var contentArea = s.GetRequiredService<BorderLayoutChainLink<GUILocationNames.ContentAreaType>>();
+                layoutChain.addLink(contentArea, true);
+                layoutChain.addLink(new FinalChainLink("SceneViews", mdiLayout.DocumentArea), true);
+                layoutChain.SuppressLayout = false;
+                layoutChain.layout();
 
-            builder.RegisterType<SceneStatsDisplayManager>()
-                .SingleInstance();
+                return layoutChain;
+            });
+
+            services.AddSingleton<SceneViewController>(s =>
+            {
+                var ogrePlatformProvider = s.GetRequiredService<OgrePlatformProvider>();
+                return new SceneViewController(
+                    s.GetRequiredService<MDILayoutManager>(), 
+                    s.GetRequiredService<EventManager>(), 
+                    s.GetRequiredService<UpdateTimer>(), 
+                    s.GetRequiredService<RendererWindow>(), 
+                    ogrePlatformProvider.OgrePlatform.RenderManager, 
+                    s.GetService<BackgroundScene>());
+            });
+
+            services.AddSingleton<SceneStatsDisplayManager>();
         }
 
         public void Initialized(GameApp app, PluginManager pluginManager)
@@ -131,19 +140,21 @@ namespace GameAppTest
 
             var scope = pluginManager.GlobalScope;
 
-            scope.Resolve<VirtualTextureSceneViewLink>();
+            scope.ServiceProvider.GetRequiredService<VirtualTextureSceneViewLink>();
 
-            var guiManager = scope.Resolve<GUIManager>();
+            var guiManager = scope.ServiceProvider.GetRequiredService<GUIManager>();
+            var layoutChain = scope.ServiceProvider.GetRequiredService<LayoutChain>();
+            guiManager.createGUILayout(layoutChain);
 
             //Build gui
-            sceneViewController = scope.Resolve<SceneViewController>();
-            var sceneStatsDisplayManager = scope.Resolve<SceneStatsDisplayManager>();
+            sceneViewController = scope.ServiceProvider.GetRequiredService<SceneViewController>();
+            var sceneStatsDisplayManager = scope.ServiceProvider.GetRequiredService<SceneStatsDisplayManager>();
             sceneStatsDisplayManager.StatsVisible = true;
             sceneViewController.createWindow("Camera 1", Vector3.UnitX * 100, Vector3.Zero, Vector3.Min, Vector3.Max, 0.0f, float.MaxValue, 100);
 
-            lightManager = scope.Resolve<SceneViewLightManager>();
+            lightManager = scope.ServiceProvider.GetRequiredService<SceneViewLightManager>();
 
-            var sceneController = scope.Resolve<SceneController>();
+            var sceneController = scope.ServiceProvider.GetRequiredService<SceneController>();
             sceneController.OnSceneLoaded += SceneController_OnSceneLoaded;
             sceneController.OnSceneUnloading += SceneController_OnSceneUnloading;
             var scene = "Scenes\\TestLevel.sim.xml";

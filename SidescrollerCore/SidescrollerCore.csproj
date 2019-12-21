@@ -5,22 +5,13 @@
     <AssemblyName>Anomalous.SidescrollerCore</AssemblyName>
     <Version>0.0.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Configurations>Debug;Release;RelMDeb</Configurations>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
+
+  <PropertyGroup Condition="'$(Configuration)'=='RelMDeb'">
     <Optimize>false</Optimize>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\Engine\BulletWrapperPlugin\BulletWrapperPlugin.csproj">
       <Project>{c331d159-5dab-422c-9ca4-3e3b372d5609}</Project>

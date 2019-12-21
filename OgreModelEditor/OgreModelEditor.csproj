@@ -5,10 +5,11 @@
     <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <ApplicationIcon>ogre.ico</ApplicationIcon>
+    <Configurations>Debug;Release;RelMDeb</Configurations>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp3.0|AnyCPU'">
-    <Optimize>true</Optimize>
+  <PropertyGroup Condition="'$(Configuration)'=='RelMDeb'">
+    <Optimize>false</Optimize>
   </PropertyGroup>
 
   <ItemGroup>

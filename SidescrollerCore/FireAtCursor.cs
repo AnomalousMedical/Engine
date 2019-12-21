@@ -38,6 +38,13 @@ namespace Anomalous.SidescrollerCore
         }
     }
 
+    public class FireControls<T> : FireControls
+    {
+        public FireControls(IEventLayerKeyInjector<FireControls<T>> injector) : base(injector)
+        {
+        }
+    }
+
     public class FireAtCursor : BehaviorInterface
     {
         public FireControls Controls { get { return controls; } }
@@ -79,7 +86,8 @@ namespace Anomalous.SidescrollerCore
 
             objectStartingRot = template.Rotation;
 
-            controls = Scope.ResolveKeyed<FireControls>(PlayerId);
+            var controlsType = this.PlayerId.GetPlayerKeyedType(typeof(FireControls<>));
+            controls = Scope.ServiceProvider.GetService(controlsType) as FireControls;
             controls.Fire.FirstFrameDownEvent += Fire_FirstFrameDownEvent;
         }
 

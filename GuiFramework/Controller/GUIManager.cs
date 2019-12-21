@@ -30,6 +30,9 @@ namespace Anomalous.GuiFramework
         //Dialogs
         private DialogManager dialogManager;
 
+        private MDILayoutManager mdiManager;
+        private OSWindow window;
+
         //Events
         public event Action MainGUIShown;
         public event Action MainGUIHidden;
@@ -43,9 +46,10 @@ namespace Anomalous.GuiFramework
 
         }
 
-        public GUIManager(MDILayoutManager mdiManager, LayoutChain layoutChain, OSWindow window)
+        public GUIManager(MDILayoutManager mdiManager, OSWindow window)
         {
-            this.doCreateGui(mdiManager, layoutChain, window);
+            this.mdiManager = mdiManager;
+            this.window = window;
         }
 
         public void Dispose()
@@ -67,6 +71,15 @@ namespace Anomalous.GuiFramework
         /// <param name="window"></param>
         [Obsolete]
         public void createGUI(MDILayoutManager mdiManager, LayoutChain layoutChain, OSWindow window)
+        {
+            doCreateGui(mdiManager, layoutChain, window);
+        }
+
+        /// <summary>
+        /// Call this on startup to set the layout chain. Can't constructor inject this or we get loops.
+        /// </summary>
+        /// <param name="layoutChain"></param>
+        public void createGUILayout(LayoutChain layoutChain)
         {
             doCreateGui(mdiManager, layoutChain, window);
         }

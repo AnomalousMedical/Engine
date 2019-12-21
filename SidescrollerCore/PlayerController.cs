@@ -1,5 +1,4 @@
-﻿using Autofac;
-using BulletPlugin;
+﻿using BulletPlugin;
 using Engine;
 using Engine.Attributes;
 using Engine.Editing;
@@ -49,6 +48,22 @@ namespace Anomalous.SidescrollerCore
                 eventManager.addEvent(JumpEvent);
             }
             catch (Exception) { }
+        }
+    }
+
+    /// <summary>
+    /// This class allows us to inject player controls based on a type.
+    /// This allows us to simulate keys with ms di.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class PlayerControls<T> : PlayerControls
+    {
+        public PlayerControls(IEventLayerKeyInjector<PlayerControls<T>> injector) : base(injector)
+        {
+        }
+
+        public PlayerControls(object eventLayerKey) : base(eventLayerKey)
+        {
         }
     }
 
@@ -218,7 +233,8 @@ namespace Anomalous.SidescrollerCore
         {
             base.link();
 
-            playerControls = Scope.ResolveKeyed<PlayerControls>(PlayerId);
+            var controlsType = this.PlayerId.GetPlayerKeyedType(typeof(PlayerControls<>));
+            playerControls = Scope.ServiceProvider.GetService(controlsType) as PlayerControls;
 
             rigidBody = Owner.getElement(RigidBodyName) as RigidBody;
             if (rigidBody == null)

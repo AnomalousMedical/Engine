@@ -40,7 +40,7 @@ namespace Anomalous.GuiFramework
             animatedContainer.AnimationComplete += animatedContainer_AnimationComplete;
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             foreach (AnimatedLayoutContainer panel in panels.Values)
             {
@@ -127,6 +127,13 @@ namespace Anomalous.GuiFramework
         void animatedContainer_AnimationComplete(LayoutContainer oldChild)
         {
             activePanels.remove(oldChild);
+        }
+    }
+
+    public class BorderLayoutChainLink<T> : BorderLayoutChainLink
+    {
+        public BorderLayoutChainLink(string name) : base(name)
+        {
         }
     }
 }

@@ -19,5 +19,15 @@ namespace GameAppTest
         public const String Notifications = "Notifications";
 
         public const String Taskbar = "Taskbar";
+
+        public class EditorBorderLayoutType
+        {
+
+        }
+
+        public class ContentAreaType
+        {
+
+        }
     }
 }
