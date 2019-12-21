@@ -27,8 +27,9 @@ namespace Anomalous.GameApp
         private CoreConfig coreConfig;
         private LogFileListener logListener;
         private PluginManager pluginManager;
+        private NativeOSWindow mainWindow;
 
-        private IServiceCollection builder = new ServiceCollection();
+        private IServiceCollection services = new ServiceCollection();
         private UpdateTimer mainTimer;
         private IStartup startup;
 
@@ -38,8 +39,8 @@ namespace Anomalous.GameApp
         {
             this.startup = startup;
 
-            builder.TryAddSingleton<App>(this);
-            builder.TryAddSingleton<GameApp>(this);
+            services.TryAddSingleton<App>(this);
+            services.TryAddSingleton<GameApp>(this);
         }
 
         public override void Dispose()
@@ -54,6 +55,7 @@ namespace Anomalous.GameApp
             sceneController.clearResources();
 
             pluginManager.Dispose();
+            mainWindow.Dispose();
             base.Dispose();
             logListener.Dispose();
         }
@@ -67,16 +69,16 @@ namespace Anomalous.GameApp
             logListener.openLogFile(CoreConfig.LogFile);
             Log.Default.addLogListener(logListener);
             Log.ImportantInfo("Running from directory {0}", FolderFinder.ExecutableFolder);
-            startup.ConfigureServices(builder);
+            startup.ConfigureServices(services);
 
-            builder.TryAddSingleton<SceneController>(s =>
+            services.TryAddSingleton<SceneController>(s =>
             {
                 var sc = new SceneController(s.GetRequiredService<PluginManager>());
                 sc.setDynamicMode(true);
                 return sc;
             });
 
-            builder.TryAddSingleton<VirtualTextureSceneViewLink>();
+            services.TryAddSingleton<VirtualTextureSceneViewLink>();
 
             BuildPluginManager();
 
@@ -105,12 +107,12 @@ namespace Anomalous.GameApp
 
         private void BuildPluginManager()
         {
-            var mainWindow = new NativeOSWindow(startup.Title,
+            mainWindow = new NativeOSWindow(startup.Title,
                 new IntVector2(-1, -1),
                 new IntSize2(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes));
 
-            builder.TryAddSingleton<OSWindow>(mainWindow);
-            builder.TryAddSingleton<NativeOSWindow>(mainWindow);
+            services.TryAddSingleton<OSWindow>(mainWindow);
+            services.TryAddSingleton<NativeOSWindow>(mainWindow);
 
             mainWindow.Closed += w =>
             {
@@ -135,18 +137,18 @@ namespace Anomalous.GameApp
 
             ScaleHelper._setScaleFactor(pixelScale);
 
-            pluginManager = new PluginManager(CoreConfig.ConfigFile, builder);
+            pluginManager = new PluginManager(CoreConfig.ConfigFile, services);
 
-            builder.TryAddSingleton<SystemTimer, NativeSystemTimer>();
+            services.TryAddSingleton<SystemTimer, NativeSystemTimer>();
 
-            builder.TryAddSingleton<UpdateTimer, NativeUpdateTimer>();
+            services.TryAddSingleton<UpdateTimer, NativeUpdateTimer>();
 
-            builder.TryAddSingleton<InputHandler>(s =>
+            services.TryAddSingleton<InputHandler>(s =>
             {
                 return new NativeInputHandler(s.GetRequiredService<NativeOSWindow>(), CoreConfig.EnableMultitouch);
             });
 
-            builder.TryAddSingleton<EventManager>(s =>
+            services.TryAddSingleton<EventManager>(s =>
             {
                 return new EventManager(s.GetRequiredService<InputHandler>(), Enum.GetValues(typeof(EventLayers)));
             });
