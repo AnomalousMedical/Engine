@@ -144,6 +144,17 @@ namespace Anomalous.Minimus
         }
 
         /// <summary>
+        /// A platform forced fps cap, if this is set it will always be used.
+        /// </summary>
+        public static int? FpsCap
+        {
+            get
+            {
+                return currentConfig.FpsCapImpl;
+            }
+        }
+
+        /// <summary>
         /// This function moves the configuration files for a specific os if they need to move.
         /// We can remove this at some point in the future when we no longer need to check if files need
         /// to be moved.
@@ -183,5 +194,7 @@ namespace Anomalous.Minimus
         protected abstract void moveConfigurationIfNeededImpl();
 
         protected abstract bool ForwardTouchAsMouseImpl { get; }
+
+        public virtual int? FpsCapImpl { get { return null; } }
     }
 }

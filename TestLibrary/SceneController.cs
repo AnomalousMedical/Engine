@@ -5,6 +5,7 @@ using System.Text;
 using Engine.ObjectManagement;
 using Engine;
 using Engine.Resources;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Anomalous.Minimus
 {
@@ -77,7 +78,7 @@ namespace Anomalous.Minimus
             sceneResourceManager.initializeResources();
 
             currentScene = scenePackage.SceneDefinition.createScene();
-            currentScene.Scope = pluginManager.GlobalScope.BeginLifetimeScope(Lifetimes.Scene);
+            currentScene.Scope = pluginManager.GlobalScope.ServiceProvider.CreateScope();
             if (OnSceneLoading != null)
             {
                 OnSceneLoading.Invoke(this, currentScene);

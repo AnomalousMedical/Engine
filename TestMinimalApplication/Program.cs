@@ -20,7 +20,6 @@ namespace Anomalous.Minimus
             try
             {
                 app = new CoreApp(new Startup());
-                //app = new Anomalous.Minimus.OgreOnly.OgreOnlyApp();
                 app.run();
             }
             catch (Exception e)

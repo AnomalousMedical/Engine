@@ -2,7 +2,6 @@
 using Anomalous.GuiFramework.Cameras;
 using Anomalous.libRocketWidget;
 using Anomalous.OSPlatform;
-using Autofac;
 using BulletPlugin;
 using Engine;
 using Engine.Platform;
@@ -24,8 +23,9 @@ namespace Anomalous.Minimus.Full
         private CoreConfig coreConfig;
         private LogFileListener logListener;
         private PluginManager pluginManager;
+        private NativeOSWindow mainWindow;
 
-        private IServiceCollection builder = new ServiceCollection();
+        private IServiceCollection services = new ServiceCollection();
         private UpdateTimer mainTimer;
         private IStartup startup;
 
@@ -35,8 +35,8 @@ namespace Anomalous.Minimus.Full
         {
             this.startup = startup;
 
-            builder.TryAddSingleton<App>(this);
-            builder.TryAddSingleton<CoreApp>(this);
+            services.TryAddSingleton<App>(this);
+            services.TryAddSingleton<CoreApp>(this);
         }
 
         public override void Dispose()
@@ -45,6 +45,7 @@ namespace Anomalous.Minimus.Full
             PerformanceMonitor.destroyEnabledState();
 
             pluginManager.Dispose();
+            mainWindow.Dispose();
             base.Dispose();
             logListener.Dispose();
         }
@@ -58,7 +59,7 @@ namespace Anomalous.Minimus.Full
             logListener.openLogFile(CoreConfig.LogFile);
             Log.Default.addLogListener(logListener);
             Log.ImportantInfo("Running from directory {0}", FolderFinder.ExecutableFolder);
-            startup.ConfigureServices(builder);
+            startup.ConfigureServices(services);
             BuildPluginManager();
 
             //Create containers
@@ -86,13 +87,12 @@ namespace Anomalous.Minimus.Full
 
         private void BuildPluginManager()
         {
-            var mainWindow = new NativeOSWindow(startup.Title,
+            mainWindow = new NativeOSWindow(startup.Title,
                 new IntVector2(-1, -1), 
                 new IntSize2(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes));
 
-            builder.RegisterInstance(mainWindow)
-                .As<OSWindow>()
-                .As<NativeOSWindow>();
+            services.TryAddSingleton<OSWindow>(mainWindow);
+            services.TryAddSingleton<NativeOSWindow>(mainWindow);
 
             mainWindow.Closed += w =>
             {
@@ -117,25 +117,21 @@ namespace Anomalous.Minimus.Full
 
             ScaleHelper._setScaleFactor(pixelScale);
 
-            pluginManager = new PluginManager(CoreConfig.ConfigFile, builder);
+            pluginManager = new PluginManager(CoreConfig.ConfigFile, services);
 
-            var systemTimer = new NativeSystemTimer();
-            builder.RegisterInstance(systemTimer)
-                .As<SystemTimer>();
+            services.TryAddSingleton<SystemTimer, NativeSystemTimer>();
 
-            var mainTimer = new NativeUpdateTimer(systemTimer);
-            builder.RegisterInstance(mainTimer)
-                .As<UpdateTimer>()
-                .As<NativeUpdateTimer>();
+            services.TryAddSingleton<UpdateTimer, NativeUpdateTimer>();
 
-            var inputHandler = new NativeInputHandler(mainWindow, CoreConfig.EnableMultitouch);
-            this.InputHandler = inputHandler;
-            builder.RegisterInstance(inputHandler)
-                .As<InputHandler>();
+            services.TryAddSingleton<InputHandler>(s =>
+            {
+                return new NativeInputHandler(s.GetRequiredService<NativeOSWindow>(), CoreConfig.EnableMultitouch);
+            });
 
-            var eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
-            builder.RegisterInstance(eventManager)
-                .As<EventManager>();
+            services.TryAddSingleton<EventManager>(s =>
+            {
+                return new EventManager(s.GetRequiredService<InputHandler>(), Enum.GetValues(typeof(EventLayers)));
+            });
 
             MyGUIInterface.EventLayerKey = EventLayers.Gui;
             MyGUIInterface.CreateGuiGestures = CoreConfig.EnableMultitouch && PlatformConfig.TouchType == TouchType.Screen;
@@ -181,17 +177,36 @@ namespace Anomalous.Minimus.Full
             }
             pluginManager.initializePlugins();
 
+            var scope = pluginManager.GlobalScope;
+
+            var guiManager = scope.ServiceProvider.GetRequiredService<GUIManager>();
+            var layoutChain = scope.ServiceProvider.GetRequiredService<LayoutChain>();
+            guiManager.createGUILayout(layoutChain);
+            layoutChain.layout();
+
+            var systemTimer = scope.ServiceProvider.GetRequiredService<SystemTimer>();
+            var mainTimer = scope.ServiceProvider.GetRequiredService<UpdateTimer>();
+            var inputHandler = this.InputHandler = scope.ServiceProvider.GetRequiredService<InputHandler>();
+            var eventManager = scope.ServiceProvider.GetRequiredService<EventManager>();
+
             //Intialize the platform
             BulletInterface.Instance.ShapeMargin = 0.005f;
 
-            if (OgreConfig.VSync && CoreConfig.EngineConfig.FPSCap < 300)
+            //Setup framerate cap
+            if (PlatformConfig.FpsCap.HasValue)
             {
-                //Use a really high framerate cap if vsync is on since it will cap our 
+                //Use platform cap if it is set always
+                mainTimer.FramerateCap = PlatformConfig.FpsCap.Value;
+            }
+            else if (OgreConfig.VSync)
+            {
+                //Use a unlimited framerate cap if vsync is on since it will cap our 
                 //framerate for us. If the user has requested a higher rate use it anyway.
-                mainTimer.FramerateCap = 300;
+                mainTimer.FramerateCap = 0;
             }
             else
             {
+                //Otherwise config cap
                 mainTimer.FramerateCap = CoreConfig.EngineConfig.FPSCap;
             }
 

@@ -136,5 +136,7 @@ namespace Anomalous.Minimus
         {
 
         }
+
+        public override int? FpsCapImpl => 0;
     }
 }

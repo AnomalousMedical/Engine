@@ -11,11 +11,6 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <Reference Include="Autofac, Version=4.8.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.4.8.0\lib\net45\Autofac.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\BulletWrapperPlugin\BulletWrapperPlugin.csproj">
       <Project>{eba88dc3-837d-45d8-a91a-e291c6ae444e}</Project>
       <Name>BulletWrapperPlugin</Name>
