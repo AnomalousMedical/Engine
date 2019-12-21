@@ -92,7 +92,7 @@ namespace Engine
         public PluginManager(ConfigFile configFile, IServiceCollection serviceCollection)
         {
             this.serviceCollection = serviceCollection;
-            serviceCollection.TryAddSingleton<PluginManager>(this);
+            serviceCollection.TryAddSingleton<PluginManager>(this); //This is externally owned
 
             if (instance == null)
             {

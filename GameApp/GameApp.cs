@@ -39,8 +39,8 @@ namespace Anomalous.GameApp
         {
             this.startup = startup;
 
-            services.TryAddSingleton<App>(this);
-            services.TryAddSingleton<GameApp>(this);
+            services.TryAddSingleton<App>(this); //This is externally owned
+            services.TryAddSingleton<GameApp>(this); //This is externally owned
         }
 
         public override void Dispose()
@@ -111,8 +111,8 @@ namespace Anomalous.GameApp
                 new IntVector2(-1, -1),
                 new IntSize2(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes));
 
-            services.TryAddSingleton<OSWindow>(mainWindow);
-            services.TryAddSingleton<NativeOSWindow>(mainWindow);
+            services.TryAddSingleton<OSWindow>(mainWindow); //This is externally owned
+            services.TryAddSingleton<NativeOSWindow>(mainWindow); //This is externally owned
 
             mainWindow.Closed += w =>
             {

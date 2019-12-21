@@ -35,8 +35,8 @@ namespace Anomalous.Minimus.Full
         {
             this.startup = startup;
 
-            services.TryAddSingleton<App>(this);
-            services.TryAddSingleton<CoreApp>(this);
+            services.TryAddSingleton<App>(this); //This is externally owned
+            services.TryAddSingleton<CoreApp>(this); //This is externally owned
         }
 
         public override void Dispose()
@@ -91,8 +91,8 @@ namespace Anomalous.Minimus.Full
                 new IntVector2(-1, -1), 
                 new IntSize2(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes));
 
-            services.TryAddSingleton<OSWindow>(mainWindow);
-            services.TryAddSingleton<NativeOSWindow>(mainWindow);
+            services.TryAddSingleton<OSWindow>(mainWindow); //This is externally owned
+            services.TryAddSingleton<NativeOSWindow>(mainWindow); //This is externally owned
 
             mainWindow.Closed += w =>
             {

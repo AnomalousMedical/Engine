@@ -230,11 +230,11 @@ namespace OgrePlugin
                 deviceLostListener = new DeviceLostListener();
                 rs.addListener(deviceLostListener);
 
-                serviceCollection.TryAddSingleton<Root>(this.root);
+                serviceCollection.TryAddSingleton<Root>(this.root); //This is externally owned
 
-                serviceCollection.TryAddSingleton<RendererWindow>(this.PrimaryWindow);
+                serviceCollection.TryAddSingleton<RendererWindow>(this.PrimaryWindow); //This is externally owned
 
-                serviceCollection.TryAddSingleton<RenderTarget>(this.OgrePrimaryWindow.OgreRenderTarget);
+                serviceCollection.TryAddSingleton<RenderTarget>(this.OgrePrimaryWindow.OgreRenderTarget); //This is externally owned
 
                 serviceCollection.TryAddSingleton<SceneViewLightManager>(s => s.GetRequiredService<PluginManager>().RendererPlugin.createSceneViewLightManager());
 

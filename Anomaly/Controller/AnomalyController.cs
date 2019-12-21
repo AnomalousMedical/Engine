@@ -150,7 +150,7 @@ namespace Anomaly
             eventManager = new EventManager(inputHandler, Enum.GetValues(typeof(EventLayers)));
             eventUpdate = new EventUpdateListener(eventManager);
 
-            builder.TryAddSingleton<EventManager>(eventManager);
+            builder.TryAddSingleton<EventManager>(eventManager); //This is externally owned
 
             //Dynamic assemblies
             DynamicDLLPluginLoader pluginLoader = new DynamicDLLPluginLoader();
