@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Engine", "Engine\Engine.csproj", "{57C253F1-157F-4A6A-9FED-345A776B97D5}"
 EndProject
@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulletWrapperPlugin", "Bull
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGUIPlugin", "MyGUIPlugin\MyGUIPlugin.csproj", "{02D4DA85-FD6C-421F-81C3-8F58F790BC81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageAtlasPacker", "ImageAtlasPacker\ImageAtlasPacker.csproj", "{A5A6C939-C52E-4A84-9BC5-6BBD763F6A7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageAtlasPacker", "ImageAtlasPacker\ImageAtlasPacker.csproj", "{A5A6C939-C52E-4A84-9BC5-6BBD763F6A7B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoundPlugin", "SoundPlugin\SoundPlugin.csproj", "{CCAEFE0A-AD1F-42E8-88DA-5A685CC7C73D}"
 EndProject
@@ -31,9 +31,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuiFramework.Cameras", "Gui
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuiFramework.Editor", "GuiFramework.Editor\GuiFramework.Editor.csproj", "{ACBBA2D0-C648-4798-9D40-CE8B797642AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestLibrary", "TestLibrary\TestLibrary.csproj", "{40428C46-EE61-44C9-B9AD-ADF263B69628}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestLibrary", "TestLibrary\TestLibrary.csproj", "{40428C46-EE61-44C9-B9AD-ADF263B69628}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NativeLibrariesAndroid", "NativeLibrariesAndroid\NativeLibrariesAndroid.csproj", "{7CD201DD-97E2-4058-96B8-A7CEA136C184}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NativeLibrariesAndroid", "NativeLibrariesAndroid\NativeLibrariesAndroid.csproj", "{7CD201DD-97E2-4058-96B8-A7CEA136C184}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OgreCWrapper", "OgreCWrapper\Android\OgreCWrapper.vcxproj", "{B9B54559-6DC3-4875-852A-784020A1B2F7}"
 EndProject
@@ -190,12 +190,12 @@ Global
 		{A5A6C939-C52E-4A84-9BC5-6BBD763F6A7B}.Release|arm.Build.0 = Release|Any CPU
 		{A5A6C939-C52E-4A84-9BC5-6BBD763F6A7B}.Release|x86.ActiveCfg = Release|Any CPU
 		{A5A6C939-C52E-4A84-9BC5-6BBD763F6A7B}.Release|x86.Build.0 = Release|Any CPU
-		{A5A6C939-C52E-4A84-9BC5-6BBD763F6A7B}.RelMDeb|Any CPU.ActiveCfg = RelMDeb|Any CPU
-		{A5A6C939-C52E-4A84-9BC5-6BBD763F6A7B}.RelMDeb|Any CPU.Build.0 = RelMDeb|Any CPU
-		{A5A6C939-C52E-4A84-9BC5-6BBD763F6A7B}.RelMDeb|arm.ActiveCfg = RelMDeb|Any CPU
-		{A5A6C939-C52E-4A84-9BC5-6BBD763F6A7B}.RelMDeb|arm.Build.0 = RelMDeb|Any CPU
-		{A5A6C939-C52E-4A84-9BC5-6BBD763F6A7B}.RelMDeb|x86.ActiveCfg = RelMDeb|Any CPU
-		{A5A6C939-C52E-4A84-9BC5-6BBD763F6A7B}.RelMDeb|x86.Build.0 = RelMDeb|Any CPU
+		{A5A6C939-C52E-4A84-9BC5-6BBD763F6A7B}.RelMDeb|Any CPU.ActiveCfg = Release|Any CPU
+		{A5A6C939-C52E-4A84-9BC5-6BBD763F6A7B}.RelMDeb|Any CPU.Build.0 = Release|Any CPU
+		{A5A6C939-C52E-4A84-9BC5-6BBD763F6A7B}.RelMDeb|arm.ActiveCfg = Release|Any CPU
+		{A5A6C939-C52E-4A84-9BC5-6BBD763F6A7B}.RelMDeb|arm.Build.0 = Release|Any CPU
+		{A5A6C939-C52E-4A84-9BC5-6BBD763F6A7B}.RelMDeb|x86.ActiveCfg = Release|Any CPU
+		{A5A6C939-C52E-4A84-9BC5-6BBD763F6A7B}.RelMDeb|x86.Build.0 = Release|Any CPU
 		{CCAEFE0A-AD1F-42E8-88DA-5A685CC7C73D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CCAEFE0A-AD1F-42E8-88DA-5A685CC7C73D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCAEFE0A-AD1F-42E8-88DA-5A685CC7C73D}.Debug|arm.ActiveCfg = Debug|Any CPU

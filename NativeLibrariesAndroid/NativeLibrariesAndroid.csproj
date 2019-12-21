@@ -2,16 +2,12 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-  </PropertyGroup>
-  
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>..\$(Configuration)\Android\</OutputPath>
   </PropertyGroup>
   
   <ItemGroup>
     <None Include="$(ANDROID_NDK)\sources\cxx-stl\gnu-libstdc++\4.9\libs\armeabi-v7a\libgnustl_shared.so">
-      <Link>Android\libgnustl_shared.so</Link>
+      <Link>libgnustl_shared.so</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
