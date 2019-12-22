@@ -134,14 +134,7 @@ namespace Anomaly
             OgreInterface.AllowMicrocodeCacheLoad = AnomalyConfig.LastShaderVersion == UnifiedMaterialBuilder.Version;
             AnomalyConfig.LastShaderVersion = UnifiedMaterialBuilder.Version;
 
-            //pluginManager.addPluginAssembly(typeof(NativePlatformPlugin).Assembly);
-            //pluginManager.addPluginAssembly(typeof(OgreInterface).Assembly);
-            //pluginManager.addPluginAssembly(typeof(MyGUIInterface).Assembly);
-            //pluginManager.addPluginAssembly(typeof(GuiFrameworkInterface).Assembly);
-            //pluginManager.addPluginAssembly(typeof(GuiFrameworkCamerasInterface).Assembly);
-            //pluginManager.addPluginAssembly(typeof(GuiFrameworkEditorInterface).Assembly);
             implementation.AddPlugins(pluginManager);
-            pluginManager.addPluginAssembly(typeof(GuiFrameworkEditorInterface).Assembly);
             pluginManager.OnConfigureDefaultWindow = createWindow;
 
             //Create core classes

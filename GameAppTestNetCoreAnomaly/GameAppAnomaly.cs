@@ -1,5 +1,6 @@
 ﻿using Anomalous.GuiFramework;
 using Anomalous.GuiFramework.Cameras;
+using Anomalous.GuiFramework.Editor;
 using Anomalous.libRocketWidget;
 using Anomalous.OSPlatform;
 using Anomaly;
@@ -40,6 +41,7 @@ namespace GameAppTestNetCoreAnomaly
             {
                 pluginManager.addPluginAssembly(assembly);
             }
+            pluginManager.addPluginAssembly(typeof(GuiFrameworkEditorInterface).Assembly);
         }
     }
 }
