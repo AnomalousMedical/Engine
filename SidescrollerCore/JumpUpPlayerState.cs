@@ -43,7 +43,7 @@ namespace Anomalous.SidescrollerCore
                 animation.update(clock.DeltaSeconds);
 
                 Vector3 linearVelocity = playerController.rigidBody.getLinearVelocity();
-                linearVelocity.y = jumpSpeed;
+                linearVelocity.y = jumpSpeed - jumpDecel * jumpTime;
                 playerController.rigidBody.setLinearVelocity(linearVelocity);
 
                 if(playerController.Jump.FirstFrameUp)

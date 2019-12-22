@@ -99,7 +99,7 @@ namespace Anomalous.SidescrollerCore
         public float MaxJumpSpeed { get; set; }
 
         [Editable]
-        public float RunAcceleration { get; set; }
+        public float MoveSpeed { get; set; }
 
         [Editable]
         public float JumpAcceleration { get; set; }
@@ -214,7 +214,7 @@ namespace Anomalous.SidescrollerCore
             JumpEndAnimationName = "JumpEnd";
             MaxRunSpeed = 7.0f;
             MaxJumpSpeed = 10.0f;
-            RunAcceleration = 3.0f;
+            MoveSpeed = 25.0f;
             JumpAcceleration = 3.0f;
             JumpMaxDuration = 0.75f;
         }
@@ -352,6 +352,7 @@ namespace Anomalous.SidescrollerCore
 
         const float fallSpeed = -30;
         const float jumpSpeed = 30;
+        const float jumpDecel = 25;
 
         void Scene_Tick(float timeSpan)
         {
@@ -409,33 +410,28 @@ namespace Anomalous.SidescrollerCore
 
         private void moveDuringPhysics()
         {
-            bool applyImpulse = false;
-            Vector3 impulse = Vector3.Zero;
+            var linearVel = rigidBody.getLinearVelocity();
 
             if (Controls.MoveLeftEvent.Down)
             {
-                impulse += LeftDirVector * RunAcceleration;
+                linearVel += LeftDirVector * MoveSpeed;
             }
             else if (Controls.MoveRightEvent.Down)
             {
-                impulse += RightDirVector * RunAcceleration;
+                linearVel += RightDirVector * MoveSpeed;
             }
 
             if (Controls.MoveUpEvent.Down)
             {
-                impulse += UpDirVector * RunAcceleration;
+                linearVel += UpDirVector * MoveSpeed;
             }
             else if (Controls.MoveDownEvent.Down)
             {
-                impulse += DownDirVector * RunAcceleration;
+                linearVel += DownDirVector * MoveSpeed;
             }
 
-            if(impulse != Vector3.Zero)
-            {
-                rigidBody.applyCentralImpulse(impulse);
-            }
-
-            rigidBody.capLinearVelocity(MaxRunSpeed);
+            rigidBody.setLinearVelocity(linearVel);
+            rigidBody.capLinearVelocity(MoveSpeed);
         }
 
         public override void drawDebugInfo(DebugDrawingSurface debugDrawing)
