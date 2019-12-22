@@ -100,6 +100,17 @@ namespace Anomalous.TextureCompiler
 
         public override void buildMaterial(MaterialDescription description, MaterialRepository repo)
         {
+            if (description.SimpleDiffuseSprite)
+            {
+                Log.Warning("Implement SimpleDiffuseSprite");
+                throw new NotImplementedException();
+                return;
+            }
+
+            // --------------------
+            // Normal Load Process
+            // --------------------
+
             bool saveNormal = shouldSave(description.HasNormalMap, description.NormalMapName);
             bool saveDiffuse = shouldSave(description.HasDiffuseMap, description.DiffuseMapName);
             bool saveSpecular = shouldSave(description.HasSpecularColorMap, description.SpecularMapName);

@@ -106,6 +106,7 @@ namespace OgrePlugin
             this.DepthFunction = toClone.DepthFunction;
             this.DisableBackfaceCulling = toClone.DisableBackfaceCulling;
             this.TilesetReferenceFile = toClone.TilesetReferenceFile;
+            this.SimpleDiffuseSprite = toClone.SimpleDiffuseSprite;
         }
 
         public String localizePath(String path)
@@ -148,6 +149,14 @@ namespace OgrePlugin
         [Editable]
         [JsonProperty]
         public bool HasOpacityMap { get; set; }
+
+        /// <summary>
+        /// This will be true if the input maps are a simple diffuse sprite. This has no effect at runtime, but during compile
+        /// all needed maps will be created from a single input diffuse map.
+        /// </summary>
+        [Editable]
+        [JsonProperty]
+        public bool SimpleDiffuseSprite { get; set; } = false;
 
         [JsonProperty]
         public String Emissive
