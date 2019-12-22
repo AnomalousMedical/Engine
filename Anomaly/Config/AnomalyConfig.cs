@@ -10,7 +10,7 @@ namespace Anomaly
     /// <summary>
     /// This is the configuration for the editor.
     /// </summary>
-    class AnomalyConfig
+    public class AnomalyConfig
     {
         private static ConfigFile configFile;
         private static String docRoot = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Anomalous Software/Anomaly";

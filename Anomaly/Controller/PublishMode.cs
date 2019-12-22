@@ -17,7 +17,7 @@ namespace Anomaly
     //Controller for publish mode, supports the following command line structure
     //publish PROJECT_NAME DESTINATION_FOLDER [-a ARCHIVE_NAME] [-p PROFILE_NAME]
     //Note that publishing does NOT build scenes.
-    class PublishMode
+    public class PublishMode
     {
         public PublishMode()
         {

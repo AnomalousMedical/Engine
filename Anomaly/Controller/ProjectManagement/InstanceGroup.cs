@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Engine;
 using Engine.Editing;
 using Engine.ObjectManagement;
-using System.IO;
 using Engine.Saving;
-using System.Windows.Forms;
 using Logging;
-using System.Xml;
-using Engine;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace Anomaly
 {

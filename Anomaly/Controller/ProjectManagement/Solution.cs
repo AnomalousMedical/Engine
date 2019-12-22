@@ -22,7 +22,6 @@ namespace Anomaly
         private String name;
         private Dictionary<String, Project> projects = new Dictionary<string, Project>();
 
-        private PluginSection pluginSection;
         private ResourceSection resourceSection;
         private ConfigFile engineConfiguration;
         private String workingDirectory;
@@ -44,7 +43,6 @@ namespace Anomaly
             String engineConfigFile = Path.Combine(workingDirectory, name + ".ecfg");
             engineConfiguration = new ConfigFile(engineConfigFile);
             engineConfiguration.loadConfigFile();
-            pluginSection = new PluginSection(engineConfiguration);
             resourceSection = new ResourceSection(engineConfiguration);
         }
 
@@ -185,14 +183,6 @@ namespace Anomaly
             return resourceManager;
         }
 
-        public PluginSection PluginSection
-        {
-            get
-            {
-                return pluginSection;
-            }
-        }
-
         public String ResourceRoot
         {
             get
@@ -301,7 +291,7 @@ namespace Anomaly
         {
             if (currentProject != null)
             {
-                currentProject.getEditInterface().ForeColor = Engine.Color.FromARGB(SystemColors.WindowText.ToArgb());
+                currentProject.getEditInterface().ForeColor = Engine.Color.FromARGB(SystemColors.WindowText);
                 currentProject.unloadScene(anomalyController);
             }
             currentProject = editInterface.resolveSourceObject<Project>(callback.getSelectedEditInterface());

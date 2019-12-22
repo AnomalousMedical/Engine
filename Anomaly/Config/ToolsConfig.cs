@@ -6,7 +6,7 @@ using Engine;
 
 namespace Anomaly
 {
-    class ToolsConfig
+    public class ToolsConfig
     {
         private ConfigSection toolsSection;
 

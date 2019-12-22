@@ -6,7 +6,7 @@ using Engine;
 
 namespace Anomaly
 {
-    class EngineConfig
+    public class EngineConfig
     {
         private ConfigSection section;
 

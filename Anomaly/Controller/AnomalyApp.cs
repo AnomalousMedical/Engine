@@ -12,10 +12,10 @@ namespace Anomaly
         private AnomalyController anomalyController;
         private String projectFileName;
 
-        public AnomalyApp(String projectFileName)
+        public AnomalyApp(String projectFileName, IAnomalyImplementation implementation)
         {
             this.projectFileName = projectFileName;
-            anomalyController = new AnomalyController(this, new Solution(projectFileName));
+            anomalyController = new AnomalyController(this, new Solution(projectFileName), implementation);
         }
 
         public override void Dispose()

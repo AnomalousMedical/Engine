@@ -87,6 +87,7 @@ namespace Anomaly
 
         //Serialization
         private XmlSaver xmlSaver = new XmlSaver();
+        private IAnomalyImplementation implementation;
 
         /// <summary>
         /// This event is fired when the controller has finished loading completely.
@@ -96,10 +97,11 @@ namespace Anomaly
         /// <summary>
         /// Constructor.
         /// </summary>
-        public AnomalyController(App app, Solution solution)
+        public AnomalyController(App app, Solution solution, IAnomalyImplementation implementation)
         {
             this.app = app;
             this.solution = solution;
+            this.implementation = implementation;
 
             //Create the log.
             logListener = new LogFileListener();
@@ -132,11 +134,13 @@ namespace Anomaly
             OgreInterface.AllowMicrocodeCacheLoad = AnomalyConfig.LastShaderVersion == UnifiedMaterialBuilder.Version;
             AnomalyConfig.LastShaderVersion = UnifiedMaterialBuilder.Version;
 
-            pluginManager.addPluginAssembly(typeof(NativePlatformPlugin).Assembly);
-            pluginManager.addPluginAssembly(typeof(OgreInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(MyGUIInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(GuiFrameworkInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(GuiFrameworkCamerasInterface).Assembly);
+            //pluginManager.addPluginAssembly(typeof(NativePlatformPlugin).Assembly);
+            //pluginManager.addPluginAssembly(typeof(OgreInterface).Assembly);
+            //pluginManager.addPluginAssembly(typeof(MyGUIInterface).Assembly);
+            //pluginManager.addPluginAssembly(typeof(GuiFrameworkInterface).Assembly);
+            //pluginManager.addPluginAssembly(typeof(GuiFrameworkCamerasInterface).Assembly);
+            //pluginManager.addPluginAssembly(typeof(GuiFrameworkEditorInterface).Assembly);
+            implementation.AddPlugins(pluginManager);
             pluginManager.addPluginAssembly(typeof(GuiFrameworkEditorInterface).Assembly);
             pluginManager.OnConfigureDefaultWindow = createWindow;
 
@@ -152,15 +156,6 @@ namespace Anomaly
 
             builder.TryAddSingleton<EventManager>(eventManager); //This is externally owned
 
-            //Dynamic assemblies
-            DynamicDLLPluginLoader pluginLoader = new DynamicDLLPluginLoader();
-            ConfigIterator pluginIterator = solution.PluginSection.PluginIterator;
-            pluginIterator.reset();
-            while (pluginIterator.hasNext())
-            {
-                pluginLoader.addPath(pluginIterator.next());
-            }
-            pluginLoader.loadPlugins(pluginManager);
             pluginManager.initializePlugins();
             frameClearManager = new FrameClearManager(OgreInterface.Instance.OgrePrimaryWindow.OgreRenderTarget, new Color(0.2f, 0.2f, 0.2f));
 

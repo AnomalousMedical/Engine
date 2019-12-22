@@ -6,7 +6,7 @@ using Engine;
 
 namespace Anomaly
 {
-    class CameraSection
+    public class CameraSection
     {
         private const String Header = "Cameras";
         private const String MainPosition = "MainCameraPosition";

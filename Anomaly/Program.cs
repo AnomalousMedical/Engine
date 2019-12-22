@@ -11,14 +11,14 @@ using Anomalous.OSPlatform.Win32;
 
 namespace Anomaly
 {
-    static class Program
+    public static class AnomalyProgram
     {
         static PublishMode publishMode;
 
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        static void Main()
+        public static void Run(IAnomalyImplementation implementation)
         {
             WindowsRuntimePlatformInfo.Initialize();
             OgrePlugin.OgreInterface.CompressedTextureSupport = OgrePlugin.CompressedTextureSupport.None;
@@ -49,21 +49,20 @@ namespace Anomaly
             }
             else
             {
-                projectFileName = ProjectSelector.getProjectFile();
-                startGUI = File.Exists(projectFileName);
+                //Handle no arguments
             }
             if (startGUI)
             {
                 AnomalyConfig.RecentDocuments.addDocument(projectFileName);
-                Program.startGUI(projectFileName);
+                runGui(projectFileName, implementation);
             }
         }
 
-        static void startGUI(String projectFileName)
+        static void runGui(String projectFileName, IAnomalyImplementation implementation)
         {
             if (projectFileName != null)
             {
-                using (AnomalyApp app = new AnomalyApp(projectFileName))
+                using (AnomalyApp app = new AnomalyApp(projectFileName, implementation))
                 {
                     app.AnomalyController.FullyLoaded += AnomalyController_FullyLoaded;
                     try
@@ -87,7 +86,7 @@ namespace Anomaly
 
         static void AnomalyController_FullyLoaded(AnomalyController controller)
         {
-            if(publishMode != null)
+            if (publishMode != null)
             {
                 publishMode.publishResources(controller);
             }

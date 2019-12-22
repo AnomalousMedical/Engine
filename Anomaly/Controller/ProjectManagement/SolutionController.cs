@@ -157,15 +157,15 @@ namespace Anomaly
             foreach (InstanceFileInterface selectable in args.ObjectsAdded)
             {
                 EditInterface edit = selectable.getEditInterface();
-                edit.BackColor = Engine.Color.FromARGB(SystemColors.Highlight.ToArgb());
-                edit.ForeColor = Engine.Color.FromARGB(SystemColors.HighlightText.ToArgb());
+                edit.BackColor = Engine.Color.FromARGB(SystemColors.Highlight);
+                edit.ForeColor = Engine.Color.FromARGB(SystemColors.HighlightText);
                 selectedEditInterfaces.Add(edit);
             }
             foreach (InstanceFileInterface selectable in args.ObjectsRemoved)
             {
                 EditInterface edit = selectable.getEditInterface();
-                edit.BackColor = Engine.Color.FromARGB(SystemColors.Window.ToArgb());
-                edit.ForeColor = Engine.Color.FromARGB(SystemColors.WindowText.ToArgb());
+                edit.BackColor = Engine.Color.FromARGB(SystemColors.Window);
+                edit.ForeColor = Engine.Color.FromARGB(SystemColors.WindowText);
                 selectedEditInterfaces.Remove(edit);
             }
         }
