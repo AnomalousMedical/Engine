@@ -2,7 +2,7 @@
   "profiles": {
     "GameAppTestNetCoreAnomaly": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\Development\\Anomalous\\RpgArt\\Scenes\\AnomalyProject\\Rpg.ano"
+      "commandLineArgs": "../../../Project/Scenes/AnomalyProject/GameAppTest.ano"
     }
   }
 }

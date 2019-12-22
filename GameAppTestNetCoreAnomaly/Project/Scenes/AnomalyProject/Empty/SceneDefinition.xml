@@ -1,0 +1,30 @@
+<Save>
+  <Saveable type="OgrePlugin.OgreSceneManagerDefinition, OgrePlugin" id="1">
+    <String name="Name">Ogre</String>
+    <Enum name="SceneTypeMask" type="OgreWrapper.SceneType, OgrePlugin">ST_GENERIC</Enum>
+    <Enum name="ShadowTechnique" type="OgreWrapper.ShadowTechnique, OgrePlugin">SHADOWTYPE_NONE</Enum>
+  </Saveable>
+  <Saveable type="BulletPlugin.BulletSceneDefinition, BulletPlugin" id="2">
+    <String name="Name">Bullet</String>
+    <Vector3 name="WorldAABBMin">-10000, -10000, -10000</Vector3>
+    <Vector3 name="WorldAABBMax">10000, 10000, 10000</Vector3>
+    <Int name="MaxProxies">1024</Int>
+    <Vector3 name="Gravity">0, 0, 0</Vector3>
+  </Saveable>
+  <Saveable type="Engine.BehaviorManagerDefinition, Engine" id="21">
+    <String name="Name">Behavior</String>
+  </Saveable>
+  <Saveable type="Engine.ObjectManagement.SimSubSceneDefinition, Engine" id="22">
+    <String name="Name">Main Subscene</String>
+    <Saveable name="Binding0" id="21" />
+    <Saveable name="Binding1" id="1" />
+    <Saveable name="Binding2" id="2" />
+  </Saveable>
+  <Saveable type="Engine.ObjectManagement.SimSceneDefinition, Engine" id="0">
+    <String name="DefaultSubScene">Main Subscene</String>
+    <Saveable name="ElementManager0" id="1" />
+    <Saveable name="ElementManager1" id="2" />
+    <Saveable name="ElementManager2" id="21" />
+    <Saveable name="SubScene0" id="22" />
+  </Saveable>
+</Save>
