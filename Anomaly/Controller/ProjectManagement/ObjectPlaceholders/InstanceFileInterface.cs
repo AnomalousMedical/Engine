@@ -10,12 +10,13 @@ using System.Xml;
 using Engine.Saving.XMLSaver;
 using System.IO;
 using Anomalous.GuiFramework.Editor;
+using Engine.Saving;
 
 namespace Anomaly
 {
     public class InstanceFileInterface : ObjectPlaceholderInterface, IDisposable, SelectableObject
     {
-        private static XmlSaver xmlSaver = new XmlSaver();
+        private static Saver saver = new Saver();
 
         private SimObjectController simObjectController;
         private bool showInstance = true;
@@ -41,9 +42,9 @@ namespace Anomaly
             {
                 try
                 {
-                    using (XmlTextReader textReader = new XmlTextReader(filename))
+                    using (var stream = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
-                        instance = xmlSaver.restoreObject(textReader) as Instance;
+                        instance = saver.restoreObject<Instance>(stream);
                     }
                 }
                 catch (Exception ex)
@@ -76,10 +77,9 @@ namespace Anomaly
             }
             else if (Modified || forceSave)
             {
-                using (XmlTextWriter textWriter = new XmlTextWriter(filename, Encoding.Unicode))
+                using (var textWriter = File.Open(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.None))
                 {
-                    textWriter.Formatting = Formatting.Indented;
-                    xmlSaver.saveObject(instance, textWriter);
+                    saver.saveObject(instance, textWriter);
                 }
                 Modified = false;
             }

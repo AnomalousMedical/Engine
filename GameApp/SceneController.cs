@@ -1,6 +1,7 @@
 ﻿using Engine;
 using Engine.ObjectManagement;
 using Engine.Resources;
+using Engine.Saving;
 using Engine.Saving.XMLSaver;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -23,7 +24,7 @@ namespace Anomalous.GameApp
         private ScenePackage scenePackage;
         private bool dynamicMode = false;
         private PluginManager pluginManager;
-        private XmlSaver xmlSaver = new XmlSaver();
+        private Saver saver = new Saver();
         private ResourceManager sceneResourceManager;
         private SimObjectManager currentSimObjects;
 
@@ -79,9 +80,9 @@ namespace Anomalous.GameApp
         public IEnumerable<SceneBuildStatus> loadSceneDefinitionCo(String fileName)
         {
             ScenePackage scenePackage;
-            using (var reader = XmlReader.Create(VirtualFileSystem.Instance.openStream(fileName, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read)))
+            using (var stream = VirtualFileSystem.Instance.openStream(fileName, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read))
             {
-                scenePackage = (ScenePackage)xmlSaver.restoreObject(reader);
+                scenePackage = saver.restoreObject<ScenePackage>(stream);
             }
             return loadSceneCo(scenePackage);
         }

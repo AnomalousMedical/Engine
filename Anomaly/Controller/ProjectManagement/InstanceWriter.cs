@@ -7,6 +7,7 @@ using System.IO;
 using Engine.Saving.XMLSaver;
 using System.Xml;
 using Engine.ObjectManagement;
+using Engine.Saving;
 
 namespace Anomaly
 {
@@ -19,7 +20,7 @@ namespace Anomaly
             Instance = new InstanceWriter();
         }
 
-        XmlSaver xmlSaver = new XmlSaver();
+        Saver saver = new Saver();
 
         public String getInstanceFileName(InstanceGroup group, String instanceName)
         {
@@ -93,9 +94,9 @@ namespace Anomaly
         {
             try
             {
-                using(XmlTextReader textReader = new XmlTextReader(Path.GetFullPath(template)))
+                using(var stream = File.Open(Path.GetFullPath(template), FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    return (SimObjectDefinition)xmlSaver.restoreObject(textReader);
+                    return saver.restoreObject<SimObjectDefinition>(stream);
                 }
             }
             catch (Exception e)

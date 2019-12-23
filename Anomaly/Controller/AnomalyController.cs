@@ -86,7 +86,7 @@ namespace Anomaly
         private SolutionWindow solutionWindow;
 
         //Serialization
-        private XmlSaver xmlSaver = new XmlSaver();
+        private Saver saver = new Saver();
         private IAnomalyImplementation implementation;
 
         /// <summary>
@@ -436,10 +436,10 @@ namespace Anomaly
             scenePackage.SceneDefinition = sceneController.getSceneDefinition();
             scenePackage.ResourceManager = resourceController.getResourceManager();
             scenePackage.SimObjectManagerDefinition = simObjectController.getSimObjectManagerDefinition();
-            XmlTextWriter fileWriter = new XmlTextWriter(filename, Encoding.Unicode);
-            fileWriter.Formatting = Formatting.Indented;
-            xmlSaver.saveObject(scenePackage, fileWriter);
-            fileWriter.Close();
+            using(var stream = File.Open(filename, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite, System.IO.FileShare.None))
+            {
+                saver.saveObject(scenePackage, stream);
+            }
             Log.ImportantInfo("Scene saved to {0}.", filename);
         }
 

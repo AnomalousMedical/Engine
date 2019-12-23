@@ -6,6 +6,7 @@ using Engine.Editing;
 using Engine.Saving;
 using Engine.Saving.XMLSaver;
 using System.Xml;
+using System.IO;
 
 namespace Anomaly
 {
@@ -16,7 +17,7 @@ namespace Anomaly
     public abstract class EditableFileInterface<T> : ObjectPlaceholderInterface
         where T : class, Saveable
     {
-        private static XmlSaver xmlSaver = new XmlSaver();
+        private static Saver saver = new Saver();
 
         private string filename;
         protected T fileObj;
@@ -27,9 +28,9 @@ namespace Anomaly
         {
             this.filename = filename;
 
-            using (XmlTextReader textReader = new XmlTextReader(filename))
+            using (var stream = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                fileObj = xmlSaver.restoreObject(textReader) as T;
+                fileObj = saver.restoreObject<T>(stream);
             }
         }
 
@@ -37,10 +38,9 @@ namespace Anomaly
         {
             if (modified)
             {
-                using (XmlTextWriter textWriter = new XmlTextWriter(filename, Encoding.Unicode))
+                using (var stream = File.Open(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.None))
                 {
-                    textWriter.Formatting = Formatting.Indented;
-                    xmlSaver.saveObject(fileObj, textWriter);
+                    saver.saveObject(fileObj, stream);
                 }
                 modified = false;
             }

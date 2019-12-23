@@ -10,12 +10,13 @@ using Engine;
 using Engine.Saving.XMLSaver;
 using Engine.ObjectManagement;
 using Logging;
+using Engine.Saving;
 
 namespace Anomaly
 {
     public partial class Project
     {
-        private static XmlSaver xmlSaver = new XmlSaver();
+        private static Saver saver = new Saver();
 
         private String name;
         private InstanceGroup instanceGroup;
@@ -48,9 +49,9 @@ namespace Anomaly
             {
                 try
                 {
-                    using (XmlTextReader textReader = new XmlTextReader(projectFile))
+                    using (var stream = File.Open(projectFile, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read))
                     {
-                        projectData = xmlSaver.restoreObject(textReader) as ProjectData;
+                        projectData = saver.restoreObject<ProjectData>(stream);
                     }
                 }
                 catch (Exception e)
@@ -58,7 +59,7 @@ namespace Anomaly
                     Log.Error("Could not load project references file {0} because:\n{1}", projectFile, e.Message);
                 }
             }
-            if(projectData == null)
+            if (projectData == null)
             {
                 projectData = new ProjectData();
                 projectData.SceneFileName = name + ".sim.xml";
@@ -68,10 +69,9 @@ namespace Anomaly
             if (!File.Exists(resourcesFile))
             {
                 ResourceManager resources = PluginManager.Instance.createScratchResourceManager();
-                using (XmlTextWriter textWriter = new XmlTextWriter(resourcesFile, Encoding.Unicode))
+                using (var stream = File.Open(resourcesFile, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite, System.IO.FileShare.None))
                 {
-                    textWriter.Formatting = Formatting.Indented;
-                    xmlSaver.saveObject(resources, textWriter);
+                    saver.saveObject(resources, stream);
                 }
             }
 
@@ -79,10 +79,9 @@ namespace Anomaly
             if (!File.Exists(sceneDefinitionFile))
             {
                 SimSceneDefinition sceneDefinition = new SimSceneDefinition();
-                using (XmlTextWriter textWriter = new XmlTextWriter(sceneDefinitionFile, Encoding.Unicode))
+                using (var stream = File.Open(sceneDefinitionFile, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite, System.IO.FileShare.None))
                 {
-                    textWriter.Formatting = Formatting.Indented;
-                    xmlSaver.saveObject(sceneDefinition, textWriter);
+                    saver.saveObject(sceneDefinition, stream);
                 }
             }
 
@@ -174,10 +173,9 @@ namespace Anomaly
                 String sceneFileName = Path.GetFullPath(Path.Combine(workingDirectory, projectData.SceneFileName));
                 try
                 {
-                    using (XmlTextWriter textWriter = new XmlTextWriter(sceneFileName, Encoding.Unicode))
+                    using (var stream = File.Open(sceneFileName, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite, System.IO.FileShare.None))
                     {
-                        textWriter.Formatting = Formatting.Indented;
-                        xmlSaver.saveObject(scenePackage, textWriter);
+                        saver.saveObject(scenePackage, stream);
                         Log.ImportantInfo("Finished building project {0} to {1}.", name, sceneFileName);
                     }
                 }
@@ -215,10 +213,9 @@ namespace Anomaly
 
         public void save(bool forceSave)
         {
-            using (XmlTextWriter textWriter = new XmlTextWriter(projectFile, Encoding.Unicode))
+            using (var textWriter = File.Open(projectFile, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite, System.IO.FileShare.None))
             {
-                textWriter.Formatting = Formatting.Indented;
-                xmlSaver.saveObject(projectData, textWriter);
+                saver.saveObject(projectData, textWriter);
             }
             sceneFileInterface.save();
             resourceFileInterface.save();

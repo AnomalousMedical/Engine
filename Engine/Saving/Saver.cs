@@ -71,16 +71,14 @@ namespace Engine.Saving
                     remaining -= stream.Read(header, 0, header.Length);
                 }
 
-                var headerStr = Encoding.Unicode.GetString(header);
-
-                if (headerStr.StartsWith("<Save>") || headerStr.StartsWith("<?xml"))
-                {
-                    return SaverOutputType.Xml;
-                }
-
-                if (headerStr.StartsWith("["))
+                if (CheckForEncodedString(header, "["))
                 {
                     return SaverOutputType.Json;
+                }
+
+                if (CheckForEncodedString(header, "<Save>") || CheckForEncodedString(header, "<?xml"))
+                {
+                    return SaverOutputType.Xml;
                 }
 
                 return SaverOutputType.Bson;
@@ -92,6 +90,13 @@ namespace Engine.Saving
                     stream.Seek(0, SeekOrigin.Begin);
                 }
             }
+        }
+
+        private static bool CheckForEncodedString(byte[] bytes, String check)
+        {
+            return Encoding.UTF8.GetString(bytes).StartsWith(check) ||
+                Encoding.Unicode.GetString(bytes).StartsWith(check) ||
+                Encoding.ASCII.GetString(bytes).StartsWith(check);
         }
 
         public void saveObject(Saveable save, Stream stream, SaverOutputType format = SaverOutputType.Json)
@@ -121,6 +126,11 @@ namespace Engine.Saving
                     }
                     break;
             }
+        }
+
+        public T restoreObject<T>(Stream stream)
+        {
+            return restoreObject<T>(stream, TypeFromStream(stream));
         }
 
         public T restoreObject<T>(Stream stream, SaverOutputType format)

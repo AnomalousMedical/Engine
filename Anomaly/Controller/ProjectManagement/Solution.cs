@@ -11,12 +11,13 @@ using System.Xml;
 using Engine.Resources;
 using System.Drawing;
 using Logging;
+using Engine.Saving;
 
 namespace Anomaly
 {
     public partial class Solution
     {
-        private static XmlSaver xmlSaver = new XmlSaver();
+        private static Saver saver = new Saver();
         private static Engine.Color ACTIVE_PROJECT_COLOR = new Engine.Color(0.133f, 0.694f, 0.298f);
 
         private String name;
@@ -52,9 +53,9 @@ namespace Anomaly
             {
                 try
                 {
-                    using (XmlTextReader textReader = new XmlTextReader(solutionFile))
+                    using (var stream = File.Open(solutionFile, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read))
                     {
-                        solutionData = xmlSaver.restoreObject(textReader) as SolutionData;
+                        solutionData = saver.restoreObject<SolutionData>(stream);
                     }
                 }
                 catch (Exception e)
@@ -72,10 +73,9 @@ namespace Anomaly
             if (!File.Exists(globalResourcesFile))
             {
                 ResourceManager globalResources = controller.PluginManager.createScratchResourceManager();
-                using (XmlTextWriter textWriter = new XmlTextWriter(globalResourcesFile, Encoding.Unicode))
+                using (var stream = File.Open(globalResourcesFile, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite, System.IO.FileShare.None))
                 {
-                    textWriter.Formatting = Formatting.Indented;
-                    xmlSaver.saveObject(globalResources, textWriter);
+                    saver.saveObject(globalResources, stream);
                 }
             }
 
@@ -156,10 +156,9 @@ namespace Anomaly
 
         public void save(bool forceSave)
         {
-            using (XmlTextWriter xmlWriter = new XmlTextWriter(solutionFile, Encoding.Unicode))
+            using (var stream = File.Open(solutionFile, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite, System.IO.FileShare.None))
             {
-                xmlWriter.Formatting = Formatting.Indented;
-                xmlSaver.saveObject(solutionData, xmlWriter);
+                saver.saveObject(solutionData, stream);
             }
             resourceFileInterface.save();
             foreach (Project project in projects.Values)
