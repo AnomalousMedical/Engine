@@ -107,6 +107,10 @@ namespace Engine.Saving
                 case SaverOutputType.Json:
                     using (var writer = new JsonTextWriter(new StreamWriter(stream)))
                     {
+                        if (WritePretty)
+                        {
+                            writer.Formatting = Newtonsoft.Json.Formatting.Indented;
+                        }
                         jsonSaver.Value.saveObject(save, writer);
                     }
                     break;
@@ -117,11 +121,12 @@ namespace Engine.Saving
                     }
                     break;
                 case SaverOutputType.Xml:
-                    using (var writer = new XmlTextWriter(stream, Encoding.Unicode)
+                    using (var writer = new XmlTextWriter(stream, Encoding.Unicode))
                     {
-                        Formatting = System.Xml.Formatting.Indented
-                    })
-                    {
+                        if (WritePretty)
+                        {
+                            writer.Formatting = System.Xml.Formatting.Indented;
+                        }
                         xmlSaver.Value.saveObject(save, writer);
                     }
                     break;
@@ -160,5 +165,10 @@ namespace Engine.Saving
                     throw new NotImplementedException($"{nameof(SaverOutputType)} format {format} not supported.");
             }
         }
+
+        /// <summary>
+        /// Set this to false to write the output as small as possible instead of in a human readable way.
+        /// </summary>
+        public bool WritePretty { get; set; } = true;
     }
 }
