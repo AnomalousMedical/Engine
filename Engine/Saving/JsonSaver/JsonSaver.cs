@@ -90,6 +90,8 @@ namespace Engine.Saving.Json
 
             //Write saveable header
             jsonWriter.WritePropertyName(DefaultTypeFinder.CreateShortTypeString(objectId.ObjectType));
+            var format = jsonWriter.Formatting;
+            jsonWriter.Formatting = Newtonsoft.Json.Formatting.None;
             jsonWriter.WriteStartObject();
 
             jsonWriter.WritePropertyName("id");
@@ -102,6 +104,7 @@ namespace Engine.Saving.Json
             }
 
             jsonWriter.WriteEndObject();
+            jsonWriter.Formatting = format;
         }
 
         public void writeFooter(ObjectIdentifier objectId)

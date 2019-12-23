@@ -24,6 +24,8 @@ namespace Engine.Saving.Json
         {
             var writer = xmlSaver.Writer;
             writer.WritePropertyName(entry.Name);
+            var format = writer.Formatting;
+            writer.Formatting = Newtonsoft.Json.Formatting.None;
             writer.WriteStartObject();
             writer.WritePropertyName(elementName);
             if (entry.Value != null)
@@ -35,6 +37,7 @@ namespace Engine.Saving.Json
                 writer.WriteNull();
             }
             writer.WriteEndObject();
+            writer.Formatting = format;
         }
 
         public abstract void writeValue(T value, JsonWriter writer);
