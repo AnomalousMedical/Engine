@@ -84,21 +84,16 @@ namespace Engine.Saving.Json
             }
         }
 
-        private const String SaveableHeaderName = "_saveable";
-
         public void writeHeader(ObjectIdentifier objectId, int version)
         {
             jsonWriter.WriteStartObject();
 
             //Write saveable header
-            jsonWriter.WritePropertyName(SaveableHeaderName);
+            jsonWriter.WritePropertyName(DefaultTypeFinder.CreateShortTypeString(objectId.ObjectType));
             jsonWriter.WriteStartObject();
 
             jsonWriter.WritePropertyName("id");
             jsonWriter.WriteValue(NumberParser.ToString(objectId.ObjectID));
-
-            jsonWriter.WritePropertyName("type");
-            jsonWriter.WriteValue(DefaultTypeFinder.CreateShortTypeString(objectId.ObjectType));
 
             if (version != 0)
             {
@@ -124,14 +119,14 @@ namespace Engine.Saving.Json
         /// <returns></returns>
         private ObjectIdentifier ParseHeaderObject(JsonReader reader, ref int version)
         {
-            if(reader.TokenType != JsonToken.PropertyName && reader.Value.ToString() != SaveableHeaderName)
+            if(reader.TokenType != JsonToken.PropertyName)
             {
-                throw new InvalidOperationException($"Saveable Json Objects must start with a header object named '{SaveableHeaderName}'.");
+                throw new InvalidOperationException($"Saveable Json Objects must start with a header object named with the type to load.");
             }
 
             version = 0;
             long id = 0;
-            String type = null;
+            String type = reader.Value.ToString();
             bool inHeaderObject = true;
 
             while (inHeaderObject && reader.Read())
@@ -147,9 +142,6 @@ namespace Engine.Saving.Json
                                 break;
                             case "id":
                                 id = NumberParser.ParseLong(reader.ReadAsString());
-                                break;
-                            case "type":
-                                type = reader.ReadAsString();
                                 break;
                         }
                         break;
