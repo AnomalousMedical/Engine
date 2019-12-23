@@ -100,6 +100,11 @@ namespace Anomalous.TextureCompiler
         private void writeSimpleDiffuseSprite(MaterialDescription description, MaterialRepository repo)
         {
             String diffuseSrc = getSourceFullPath(description.DiffuseMapName);
+            if (!imageNeedsCompression(diffuseSrc))
+            {
+                return;
+            }
+
             String diffuseDest = getDestBasePath(description.DiffuseMapName);
 
             String normalDest = getDestBasePath(description.NormalMapName);
