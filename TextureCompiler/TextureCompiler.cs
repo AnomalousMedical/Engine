@@ -98,12 +98,43 @@ namespace Anomalous.TextureCompiler
             }
         }
 
+        private void writeSimpleDiffuseSprite(MaterialDescription description, MaterialRepository repo)
+        {
+            String diffuseSrc = getSourceFullPath(description.DiffuseMapName);
+            String diffuseDest = getDestBasePath(description.DiffuseMapName);
+
+            String normalDest = getDestBasePath(description.NormalMapName);
+            String normalTmp = getTempPath(description.NormalMapName);
+
+            using (FreeImageBitmap diffuseMap = FreeImageBitmap.FromFile(diffuseSrc))
+            {
+                using (FreeImageBitmap normalMap = new FreeImageBitmap(diffuseMap.Width, diffuseMap.Height, FreeImageAPI.PixelFormat.Format32bppArgb))
+                {
+                    normalMap.FillBackground(new RGBQUAD(new FreeImageAPI.Color()
+                    {
+                        R = 0x80,
+                        G = 0x80,
+                        B = 0,
+                        A = 255
+                    }));
+                    using (FreeImageBitmap combined = createImageFromChannels(normalMap, Channel.Red, normalMap, Channel.Green, diffuseMap, Channel.Alpha))
+                    {
+                        saveImage(combined, normalTmp, TempFileImageFormat);
+                        compressCompositeNormalMap(diffuseSrc, normalTmp, normalDest, description);
+                        deleteFile(normalTmp);
+                    }
+                }
+            }
+
+            Log.Info("Compressing diffuse map {0} directly", description.DiffuseMapName);
+            compressDiffuseMap(diffuseSrc, diffuseDest, description);
+        }
+
         public override void buildMaterial(MaterialDescription description, MaterialRepository repo)
         {
             if (description.SimpleDiffuseSprite)
             {
-                Log.Warning("Implement SimpleDiffuseSprite");
-                throw new NotImplementedException();
+                writeSimpleDiffuseSprite(description, repo);
                 return;
             }
 
