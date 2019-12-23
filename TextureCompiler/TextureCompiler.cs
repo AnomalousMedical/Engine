@@ -1,5 +1,5 @@
 ﻿using Engine;
-using Engine.Saving.XMLSaver;
+using Engine.Saving;
 using FreeImageAPI;
 using Logging;
 using Newtonsoft.Json;
@@ -80,21 +80,20 @@ namespace Anomalous.TextureCompiler
             String hashFile = Path.Combine(sourceDirectory, TextureCompilerInterface.TextureHashFileName);
             if (File.Exists(hashFile))
             {
-                XmlSaver xmlSaver = new XmlSaver();
-                using (XmlTextReader xmlReader = new XmlTextReader(hashFile))
+                Saver saver = new Saver();
+                using (var stream = File.Open(hashFile, FileMode.Open, FileAccess.Read, FileShare.None))
                 {
-                    compiledTextureInfo = (CompiledTextureInfo)xmlSaver.restoreObject(xmlReader);
+                    compiledTextureInfo = saver.restoreObject<CompiledTextureInfo>(stream);
                 }
             }
         }
 
         public void saveTextureInfo()
         {
-            XmlSaver xmlSaver = new XmlSaver();
-            using (XmlTextWriter xmlReader = new XmlTextWriter(Path.Combine(sourceDirectory, TextureCompilerInterface.TextureHashFileName), Encoding.Default))
+            Saver saver = new Saver();
+            using (var stream = File.Open(Path.Combine(sourceDirectory, TextureCompilerInterface.TextureHashFileName), FileMode.Create, FileAccess.ReadWrite, FileShare.None))
             {
-                xmlReader.Formatting = System.Xml.Formatting.Indented;
-                xmlSaver.saveObject(compiledTextureInfo, xmlReader);
+                saver.saveObject(compiledTextureInfo, stream);
             }
         }
 

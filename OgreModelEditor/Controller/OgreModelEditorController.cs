@@ -70,7 +70,6 @@ namespace OgreModelEditor
 
         //Resources
         private Engine.Resources.ResourceManager resourceManager;
-        private XmlSaver xmlSaver = new XmlSaver();
         private Engine.Resources.ResourceManager emptyResourceManager;
         private Engine.Resources.ResourceManager liveResourceManager;
 

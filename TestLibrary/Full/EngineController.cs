@@ -1,6 +1,6 @@
 ﻿using Engine;
 using Engine.ObjectManagement;
-using Engine.Saving.XMLSaver;
+using Engine.Saving;
 using Logging;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace Anomalous.Minimus.Full
         private SceneController sceneController;
 
         //Serialization
-        private XmlSaver xmlSaver = new XmlSaver();
+        private Saver saver = new Saver();
 
         //Scene
         private String currentSceneFile;
@@ -41,24 +41,12 @@ namespace Anomalous.Minimus.Full
                 currentSceneDirectory = VirtualFileSystem.GetDirectoryName(filename);
                 using (Stream file = sceneArchive.openStream(filename, Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read))
                 {
-                    XmlTextReader textReader = null;
-                    ScenePackage scenePackage = null;
-                    try
+                    yield return new SceneBuildStatus()
                     {
-                        yield return new SceneBuildStatus()
-                        {
-                            Message = "Loading Scene File"
-                        };
-                        textReader = new XmlTextReader(file);
-                        scenePackage = xmlSaver.restoreObject(textReader) as ScenePackage;
-                    }
-                    finally
-                    {
-                        if (textReader != null)
-                        {
-                            textReader.Close();
-                        }
-                    }
+                        Message = "Loading Scene File"
+                    };
+
+                    var scenePackage = saver.restoreObject<ScenePackage>(file);
                     if (scenePackage != null)
                     {
                         foreach (var status in sceneController.loadScene(scenePackage, SceneBuildOptions.SingleUseDefinitions))
