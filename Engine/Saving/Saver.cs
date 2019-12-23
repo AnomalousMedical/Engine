@@ -20,6 +20,8 @@ namespace Engine.Saving
 
     public class Saver
     {
+        public static SaverOutputType DefaultOutputType { get; set; } = SaverOutputType.Json;
+
         private Lazy<JsonSaver> jsonSaver;
         private Lazy<XmlSaver> xmlSaver;
 
@@ -99,7 +101,12 @@ namespace Engine.Saving
                 Encoding.ASCII.GetString(bytes).StartsWith(check);
         }
 
-        public void saveObject(Saveable save, Stream stream, SaverOutputType format = SaverOutputType.Json)
+        public void saveObject(Saveable save, Stream stream)
+        {
+            saveObject(save, stream, DefaultOutputType);
+        }
+
+        public void saveObject(Saveable save, Stream stream, SaverOutputType format)
         {
             stream = new NoCloseStream(stream);
             switch (format)
