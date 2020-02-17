@@ -172,10 +172,6 @@ namespace Engine
                     throw new InvalidPluginException(String.Format("Cannot find PluginEntryPointAttribute in assembly {0}. Please add this property to the assembly.", assembly.FullName));
                 }
             }
-            if (rendererPlugin == null)
-            {
-                throw new InvalidPluginException("No renderer plugin defined. Please define a renderer plugin.");
-            }
 
             serviceProvider = serviceCollection.BuildServiceProvider();
             globalScope = serviceProvider.CreateScope();
