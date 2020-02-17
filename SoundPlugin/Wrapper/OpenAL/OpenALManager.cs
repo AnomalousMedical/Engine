@@ -7,7 +7,7 @@ using System.IO;
 
 namespace SoundPlugin
 {
-    enum BufferFormat
+    public enum BufferFormat
     {
         Mono8 = 0,
         Mono16 = 1,

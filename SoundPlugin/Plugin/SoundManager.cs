@@ -47,9 +47,9 @@ namespace SoundPlugin
         /// Open a capture device, you must dispose it when you are done.
         /// </summary>
         /// <returns>A new open capture device.</returns>
-        public CaptureDevice openCaptureDevice()
+        public CaptureDevice openCaptureDevice(BufferFormat format = BufferFormat.Stereo16, int bufferSeconds = 5, int rate = 44100)
         {
-            return openALManager.createCaptureDevice();
+            return openALManager.createCaptureDevice(format, bufferSeconds, rate);
         }
 
         void source_PlaybackFinished(Source source)
