@@ -114,8 +114,8 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 		{
 		case AMOTION_EVENT_ACTION_DOWN:
 			touchInfo.id = AMotionEvent_getPointerId(event, 0);
-			touchInfo.pixelX = AMotionEvent_getRawX(event, 0);
-			touchInfo.pixelY = AMotionEvent_getRawY(event, 0);
+			touchInfo.pixelX = AMotionEvent_getX(event, 0);
+			touchInfo.pixelY = AMotionEvent_getY(event, 0);
 			touchInfo.normalizedX = (float)touchInfo.pixelX / getWidth();
 			touchInfo.normalizedY = (float)touchInfo.pixelY / getHeight();
 			multiTouch->fireTouchStarted(touchInfo);
@@ -124,8 +124,8 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 
 		case AMOTION_EVENT_ACTION_UP:
 			touchInfo.id = AMotionEvent_getPointerId(event, 0);
-			touchInfo.pixelX = AMotionEvent_getRawX(event, 0);
-			touchInfo.pixelY = AMotionEvent_getRawY(event, 0);
+			touchInfo.pixelX = AMotionEvent_getX(event, 0);
+			touchInfo.pixelY = AMotionEvent_getY(event, 0);
 			touchInfo.normalizedX = (float)touchInfo.pixelX / getWidth();
 			touchInfo.normalizedY = (float)touchInfo.pixelY / getHeight();
 			multiTouch->fireTouchEnded(touchInfo);
@@ -137,8 +137,8 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 			for (int i = 0; i < pointerCount; ++i)
 			{
 				touchInfo.id = AMotionEvent_getPointerId(event, i);
-				touchInfo.pixelX = AMotionEvent_getRawX(event, i);
-				touchInfo.pixelY = AMotionEvent_getRawY(event, i);
+				touchInfo.pixelX = AMotionEvent_getX(event, i);
+				touchInfo.pixelY = AMotionEvent_getY(event, i);
 				touchInfo.normalizedX = (float)touchInfo.pixelX / getWidth();
 				touchInfo.normalizedY = (float)touchInfo.pixelY / getHeight();
 				multiTouch->fireTouchMoved(touchInfo);
@@ -154,8 +154,8 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 		case AMOTION_EVENT_ACTION_POINTER_DOWN:
 			eventPointerIndex = (int)(AMOTION_EVENT_ACTION_POINTER_INDEX_MASK & eventAction) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
 			touchInfo.id = AMotionEvent_getPointerId(event, eventPointerIndex);
-			touchInfo.pixelX = AMotionEvent_getRawX(event, eventPointerIndex);
-			touchInfo.pixelY = AMotionEvent_getRawY(event, eventPointerIndex);
+			touchInfo.pixelX = AMotionEvent_getX(event, eventPointerIndex);
+			touchInfo.pixelY = AMotionEvent_getY(event, eventPointerIndex);
 			touchInfo.normalizedX = (float)touchInfo.pixelX / getWidth();
 			touchInfo.normalizedY = (float)touchInfo.pixelY / getHeight();
 			multiTouch->fireTouchStarted(touchInfo);
@@ -165,8 +165,8 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 		case AMOTION_EVENT_ACTION_POINTER_UP:
 			eventPointerIndex = (int)(AMOTION_EVENT_ACTION_POINTER_INDEX_MASK & eventAction) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
 			touchInfo.id = AMotionEvent_getPointerId(event, eventPointerIndex);
-			touchInfo.pixelX = AMotionEvent_getRawX(event, eventPointerIndex);
-			touchInfo.pixelY = AMotionEvent_getRawY(event, eventPointerIndex);
+			touchInfo.pixelX = AMotionEvent_getX(event, eventPointerIndex);
+			touchInfo.pixelY = AMotionEvent_getY(event, eventPointerIndex);
 			touchInfo.normalizedX = (float)touchInfo.pixelX / getWidth();
 			touchInfo.normalizedY = (float)touchInfo.pixelY / getHeight();
 			multiTouch->fireTouchEnded(touchInfo);
@@ -176,8 +176,8 @@ int32_t AndroidWindow::handleInputEvent(struct android_app* app, AInputEvent* ev
 		//The following are more mouse events, will try to handle these also somehow
 		//case AMOTION_EVENT_ACTION_HOVER_MOVE:
 		//	touchInfo.id = AMotionEvent_getPointerId(event, 0);
-		//	touchInfo.pixelX = AMotionEvent_getRawX(event, 0);
-		//	touchInfo.pixelY = AMotionEvent_getRawY(event, 0);
+		//	touchInfo.pixelX = AMotionEvent_getX(event, 0);
+		//	touchInfo.pixelY = AMotionEvent_getY(event, 0);
 		//	touchInfo.normalizedX = (float)touchInfo.pixelX / getWidth();
 		//	touchInfo.normalizedY = (float)touchInfo.pixelY / getHeight();
 		//	LOGI("Motion event hover move id: %i x: %f y: %f", touchInfo.id, touchInfo.pixelX, touchInfo.pixelY);
