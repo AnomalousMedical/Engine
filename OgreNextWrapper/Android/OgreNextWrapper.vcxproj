@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|ARM">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x86">
+      <Configuration>Debug</Configuration>
+      <Platform>x86</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM">
+      <Configuration>Release</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x86">
+      <Configuration>Release</Configuration>
+      <Platform>x86</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(VS_NdkRoot)\sources\android\cpufeatures\cpu-features.c" />
+    <ClCompile Include="..\Src\Animation.cpp" />
+    <ClCompile Include="..\Src\AnimationState.cpp" />
+    <ClCompile Include="..\Src\AnimationStateIterator.cpp" />
+    <ClCompile Include="..\Src\AnimationStateSet.cpp" />
+    <ClCompile Include="..\Src\AnimationTrack.cpp" />
+    <ClCompile Include="..\Src\ArchiveManager.cpp" />
+    <ClCompile Include="..\Src\Bone.cpp" />
+    <ClCompile Include="..\Src\Camera.cpp" />
+    <ClCompile Include="..\Src\CompositorManager.cpp" />
+    <ClCompile Include="..\Src\DataStream.cpp" />
+    <ClCompile Include="..\Src\Entity.cpp" />
+    <ClCompile Include="..\Src\GpuProgram.cpp" />
+    <ClCompile Include="..\Src\GpuProgramManager.cpp" />
+    <ClCompile Include="..\Src\GpuProgramParameters.cpp" />
+    <ClCompile Include="..\Src\HardwareBuffer.cpp" />
+    <ClCompile Include="..\Src\HardwareBufferManager.cpp" />
+    <ClCompile Include="..\Src\HardwareIndexBuffer.cpp" />
+    <ClCompile Include="..\Src\HardwarePixelBuffer.cpp" />
+    <ClCompile Include="..\Src\HardwareVertexBuffer.cpp" />
+    <ClCompile Include="..\Src\HighLevelGpuProgramManager.cpp" />
+    <ClCompile Include="..\Src\Image.cpp" />
+    <ClCompile Include="..\Src\IndexData.cpp" />
+    <ClCompile Include="..\Src\KeyFrame.cpp" />
+    <ClCompile Include="..\Src\Light.cpp" />
+    <ClCompile Include="..\Src\ManagedManualResourceLoader.cpp" />
+    <ClCompile Include="..\Src\ManagedRenderQueueListener.cpp" />
+    <ClCompile Include="..\Src\ManagedRenderSystemListener.cpp" />
+    <ClCompile Include="..\Src\ManagedRenderTargetListener.cpp" />
+    <ClCompile Include="..\Src\ManualObject.cpp" />
+    <ClCompile Include="..\Src\ManualObjectSection.cpp" />
+    <ClCompile Include="..\Src\Material.cpp" />
+    <ClCompile Include="..\Src\MaterialManager.cpp" />
+    <ClCompile Include="..\Src\Mesh.cpp" />
+    <ClCompile Include="..\Src\MeshManager.cpp" />
+    <ClCompile Include="..\Src\MeshSerializer.cpp" />
+    <ClCompile Include="..\Src\MovableObject.cpp" />
+    <ClCompile Include="..\Src\NativeFrameListener.cpp" />
+    <ClCompile Include="..\Src\NativeSceneListener.cpp" />
+    <ClCompile Include="..\Src\NativeWindowListener.cpp" />
+    <ClCompile Include="..\Src\Node.cpp" />
+    <ClCompile Include="..\Src\NodeAnimationTrack.cpp" />
+    <ClCompile Include="..\Src\OgreExceptionManager.cpp" />
+    <ClCompile Include="..\Src\OgreInterface.cpp" />
+    <ClCompile Include="..\Src\OgreLogListener.cpp" />
+    <ClCompile Include="..\Src\OgreManagedArchive.cpp" />
+    <ClCompile Include="..\Src\OgreManagedArchiveFactory.cpp" />
+    <ClCompile Include="..\Src\OgreManagedStream.cpp" />
+    <ClCompile Include="..\Src\OgreResourceGroupManager.cpp" />
+    <ClCompile Include="..\Src\Pass.cpp" />
+    <ClCompile Include="..\Src\PixelBox.cpp" />
+    <ClCompile Include="..\Src\Pose.cpp" />
+    <ClCompile Include="..\Src\RenderQueue.cpp" />
+    <ClCompile Include="..\Src\RenderSystem.cpp" />
+    <ClCompile Include="..\Src\RenderTarget.cpp" />
+    <ClCompile Include="..\Src\RenderWindow.cpp" />
+    <ClCompile Include="..\Src\Resource.cpp" />
+    <ClCompile Include="..\Src\Root.cpp" />
+    <ClCompile Include="..\Src\SceneManager.cpp" />
+    <ClCompile Include="..\Src\SceneNode.cpp" />
+    <ClCompile Include="..\Src\Skeleton.cpp" />
+    <ClCompile Include="..\Src\SkeletonManager.cpp" />
+    <ClCompile Include="..\Src\StaticGeometry.cpp" />
+    <ClCompile Include="..\Src\SubEntity.cpp" />
+    <ClCompile Include="..\Src\SubMesh.cpp" />
+    <ClCompile Include="..\Src\Technique.cpp" />
+    <ClCompile Include="..\Src\Texture.cpp" />
+    <ClCompile Include="..\Src\TextureManager.cpp" />
+    <ClCompile Include="..\Src\TextureUnitState.cpp" />
+    <ClCompile Include="..\Src\VertexAnimationTrack.cpp" />
+    <ClCompile Include="..\Src\VertexBufferBinding.cpp" />
+    <ClCompile Include="..\Src\VertexData.cpp" />
+    <ClCompile Include="..\Src\VertexDeclaration.cpp" />
+    <ClCompile Include="..\Src\VertexElement.cpp" />
+    <ClCompile Include="..\Src\VertexPoseKeyFrame.cpp" />
+    <ClCompile Include="..\Src\Viewport.cpp" />
+    <ClCompile Include="..\Src\WindowEventUtilities.cpp" />
+    <ClCompile Include="..\Src\WrapperMath.cpp" />
+    <ClCompile Include="..\Stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Include\NativeFrameListener.h" />
+    <ClInclude Include="..\Include\NativeSceneListener.h" />
+    <ClInclude Include="..\Include\NativeWindowListener.h" />
+    <ClInclude Include="..\Include\OgreExceptionManager.h" />
+    <ClInclude Include="..\Include\OgreLogListener.h" />
+    <ClInclude Include="..\Include\OgreManagedArchive.h" />
+    <ClInclude Include="..\Include\OgreManagedArchiveFactory.h" />
+    <ClInclude Include="..\Include\OgreManagedStream.h" />
+    <ClInclude Include="..\Stdafx.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{b9b54559-6dc3-4875-852a-784020a1b2f7}</ProjectGuid>
+    <Keyword>Android</Keyword>
+    <RootNamespace>OgreCWrapper</RootNamespace>
+    <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
+    <ApplicationType>Android</ApplicationType>
+    <ApplicationTypeRevision>3.0</ApplicationTypeRevision>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>Gcc_4_9</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>Gcc_4_9</PlatformToolset>
+    <UseOfStl>gnustl_shared</UseOfStl>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>Gcc_4_9</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>Gcc_4_9</PlatformToolset>
+    <UseOfStl>gnustl_shared</UseOfStl>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <OutDir>$(SolutionDir)$(Configuration)\Android\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <OutDir>$(SolutionDir)$(Configuration)\Android\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>Stdafx.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Include;$(ProjectDir)..\;$(SolutionDir)..\Dependencies\Ogre\AndroidBuild\include;$(SolutionDir)..\Dependencies\Ogre\src\OgreMain\include;$(SolutionDir)..\Dependencies\Ogre\src\RenderSystems\GLES2\include;$(SolutionDir)..\Dependencies\Ogre\src\RenderSystems\GLES2\include\EGL;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\include;$(SolutionDir)AndroidBaseApp\Common\native_app_glue;$(SolutionDir)AndroidBaseApp\Common\cpufeatures;$(VS_NdkRoot)\platforms\$(AndroidAPILevel)\arch-arm\usr\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ANDROID</PreprocessorDefinitions>
+      <ExceptionHandling>Enabled</ExceptionHandling>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Include;$(ProjectDir)..\;$(SolutionDir)..\Dependencies\Ogre\AndroidBuild\include;$(SolutionDir)..\Dependencies\Ogre\src\OgreMain\include;$(SolutionDir)..\Dependencies\Ogre\src\RenderSystems\GLES2\include;$(SolutionDir)..\Dependencies\Ogre\src\RenderSystems\GLES2\include\EGL;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\include;$(VS_NdkRoot)\platforms\$(AndroidAPILevel)\arch-arm\usr\include;$(VS_NdkRoot)\sources\android\native_app_glue;$(VS_NdkRoot)\sources\android\cpufeatures;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ANDROID;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Enabled</ExceptionHandling>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <DebugInformationFormat>None</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <LibraryDependencies>FreeImage;c;m;log;gcc;android;EGL;GLESv2;$(StlLibraryName);%(LibraryDependencies)</LibraryDependencies>
+      <AdditionalDependencies>$(SolutionDir)..\Dependencies\Ogre\AndroidBuild\lib\Release\libRenderSystem_GLES2Static.a;$(SolutionDir)..\Dependencies\Ogre\AndroidBuild\lib\Release\libOgreMainStatic.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libfreetype.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libzlib.a;$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\libzziplib.a</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Dependencies\OgreDeps\AndroidInstall\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SharedLibrarySearchPath>%(SharedLibrarySearchPath)</SharedLibrarySearchPath>
+      <VerboseOutput>false</VerboseOutput>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

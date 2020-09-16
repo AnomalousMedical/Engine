@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\Src\Animation.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\AnimationState.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\AnimationStateIterator.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\AnimationStateSet.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\AnimationTrack.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\ArchiveManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Bone.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Camera.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\CompositorManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Entity.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\GpuProgram.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\GpuProgramManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\GpuProgramParameters.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\HardwareBuffer.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\HardwareBufferManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\HardwareIndexBuffer.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\HardwarePixelBuffer.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\HardwareVertexBuffer.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\HighLevelGpuProgramManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Image.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\IndexData.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\KeyFrame.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Light.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\ManagedManualResourceLoader.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\ManagedRenderQueueListener.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\ManagedRenderSystemListener.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\ManagedRenderTargetListener.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\ManualObject.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\ManualObjectSection.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Material.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\MaterialManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Mesh.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\MeshManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\MeshSerializer.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\MovableObject.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\NativeFrameListener.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\NativeSceneListener.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\NativeWindowListener.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Node.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\NodeAnimationTrack.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\OgreExceptionManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\OgreInterface.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\OgreLogListener.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\OgreManagedArchive.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\OgreManagedArchiveFactory.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\OgreManagedStream.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\OgreResourceGroupManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Pass.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\PixelBox.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Pose.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\RenderQueue.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\RenderSystem.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\RenderTarget.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\RenderWindow.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Resource.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Root.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\SceneManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\SceneNode.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Skeleton.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\SkeletonManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\StaticGeometry.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\SubEntity.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\SubMesh.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Technique.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Texture.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\TextureManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\TextureUnitState.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\VertexAnimationTrack.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\VertexBufferBinding.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\VertexData.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\VertexDeclaration.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\VertexElement.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\VertexPoseKeyFrame.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Viewport.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\WindowEventUtilities.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\WrapperMath.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Stdafx.cpp" />
+    <ClCompile Include="$(VS_NdkRoot)\sources\android\cpufeatures\cpu-features.c" />
+    <ClCompile Include="..\Src\DataStream.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Src">
+      <UniqueIdentifier>{759756bd-8aac-4e5b-837e-c43827e0ebe9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include">
+      <UniqueIdentifier>{76b42e7d-6d2f-499f-b3e0-b380f65cc599}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Include\NativeFrameListener.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\NativeSceneListener.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\NativeWindowListener.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\OgreExceptionManager.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\OgreLogListener.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\OgreManagedArchive.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\OgreManagedArchiveFactory.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\OgreManagedStream.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Stdafx.h" />
+  </ItemGroup>
+</Project>
