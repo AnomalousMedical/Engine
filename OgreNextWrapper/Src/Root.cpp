@@ -54,17 +54,17 @@ extern "C" _AnomalousExport Ogre::RenderSystem* Root_getRenderSystem(Ogre::Root*
 	return root->getRenderSystem();
 }
 
-extern "C" _AnomalousExport Ogre::RenderWindow* Root_initialize(Ogre::Root* root, bool autoCreateWindow)
+extern "C" _AnomalousExport Ogre::Window* Root_initialize(Ogre::Root* root, bool autoCreateWindow)
 {
 	return root->initialise(autoCreateWindow);
 }
 
-extern "C" _AnomalousExport Ogre::RenderWindow* Root_initializeTitle(Ogre::Root* root, bool autoCreateWindow, const char* windowTitle)
+extern "C" _AnomalousExport Ogre::Window* Root_initializeTitle(Ogre::Root* root, bool autoCreateWindow, const char* windowTitle)
 {
 	return root->initialise(autoCreateWindow, windowTitle);
 }
 
-extern "C" _AnomalousExport Ogre::RenderWindow* Root_initializeTitleCustomCap(Ogre::Root* root, bool autoCreateWindow, const char* windowTitle, const char* customCapabilitiesConfig)
+extern "C" _AnomalousExport Ogre::Window* Root_initializeTitleCustomCap(Ogre::Root* root, bool autoCreateWindow, const char* windowTitle, const char* customCapabilitiesConfig)
 {
 	return root->initialise(autoCreateWindow, windowTitle, customCapabilitiesConfig);
 }
@@ -74,24 +74,24 @@ extern "C" _AnomalousExport bool Root_isInitialized(Ogre::Root* root)
 	return root->isInitialised();
 }
 
-extern "C" _AnomalousExport Ogre::SceneManager* Root_createSceneManagerTypeName(Ogre::Root* root, const char* typeName)
+extern "C" _AnomalousExport Ogre::SceneManager* Root_createSceneManagerTypeName(Ogre::Root* root, const char* typeName, size_t numWorkerThreads)
 {
-	return root->createSceneManager(typeName);
+	return root->createSceneManager(typeName, numWorkerThreads);
 }
 
-extern "C" _AnomalousExport Ogre::SceneManager* Root_createSceneManagerTypeNameInstanceName(Ogre::Root* root, const char* typeName, const char* instanceName)
+extern "C" _AnomalousExport Ogre::SceneManager* Root_createSceneManagerTypeNameInstanceName(Ogre::Root* root, const char* typeName, size_t numWorkerThreads, const char* instanceName)
 {
-	return root->createSceneManager(typeName, instanceName);
+	return root->createSceneManager(typeName, numWorkerThreads, instanceName);
 }
 
-extern "C" _AnomalousExport Ogre::SceneManager* Root_createSceneManagerTypeMask(Ogre::Root* root, Ogre::SceneType typeMask)
+extern "C" _AnomalousExport Ogre::SceneManager* Root_createSceneManagerTypeMask(Ogre::Root* root, Ogre::SceneType typeMask, size_t numWorkerThreads)
 {
-	return root->createSceneManager(typeMask);
+	return root->createSceneManager(typeMask, numWorkerThreads);
 }
 
-extern "C" _AnomalousExport Ogre::SceneManager* Root_createSceneManagerTypeMaskInstanceName(Ogre::Root* root, Ogre::SceneType typeMask, const char* instanceName)
+extern "C" _AnomalousExport Ogre::SceneManager* Root_createSceneManagerTypeMaskInstanceName(Ogre::Root* root, Ogre::SceneType typeMask, size_t numWorkerThreads, const char* instanceName)
 {
-	return root->createSceneManager(typeMask, instanceName);
+	return root->createSceneManager(typeMask, numWorkerThreads, instanceName);
 }
 
 extern "C" _AnomalousExport void Root_destroySceneManager(Ogre::Root* root, Ogre::SceneManager* sceneManager)
@@ -124,17 +124,17 @@ extern "C" _AnomalousExport void Root_shutdown(Ogre::Root* root)
 	root->shutdown();
 }
 
-extern "C" _AnomalousExport Ogre::RenderWindow* Root_getAutoCreatedWindow(Ogre::Root* root)
+extern "C" _AnomalousExport Ogre::Window* Root_getAutoCreatedWindow(Ogre::Root* root)
 {
 	return root->getAutoCreatedWindow();
 }
 
-extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindow(Ogre::Root* root, const char* name, uint width, uint height, bool fullScreen)
+extern "C" _AnomalousExport Ogre::Window* Root_createRenderWindow(Ogre::Root* root, const char* name, uint width, uint height, bool fullScreen)
 {
 	return root->createRenderWindow(name, width, height, fullScreen);
 }
 
-extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindowParams(Ogre::Root* root, const char* name, uint width, uint height, bool fullScreen, const char* vsync, const char* aaMode, const char* fsaaHint, const char* externalWindowHandle, const char* monitorIndex, const char* nvPerfHud, const char* contentScalingFactor)
+extern "C" _AnomalousExport Ogre::Window* Root_createRenderWindowParams(Ogre::Root* root, const char* name, uint width, uint height, bool fullScreen, const char* vsync, const char* aaMode, const char* fsaaHint, const char* externalWindowHandle, const char* monitorIndex, const char* nvPerfHud, const char* contentScalingFactor)
 {
 #ifdef ANDROID
 	AConfiguration* config = 0;
@@ -192,7 +192,7 @@ extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindowParams(Og
 		width /= scaleFactor;
 		height /= scaleFactor;
 #endif
-	Ogre::RenderWindow* rendWin = root->createRenderWindow(name, width, height, fullScreen, &params);
+	Ogre::Window* rendWin = root->createRenderWindow(name, width, height, fullScreen, &params);
 
 #ifdef ANDROID
 	if(config != 0)
@@ -203,16 +203,6 @@ extern "C" _AnomalousExport Ogre::RenderWindow* Root_createRenderWindowParams(Og
 #endif
 
 	return rendWin;
-}
-
-extern "C" _AnomalousExport void Root_destroyRenderTarget(Ogre::Root* root, Ogre::RenderTarget* pWin)
-{
-	root->destroyRenderTarget(pWin);
-}
-
-extern "C" _AnomalousExport Ogre::RenderTarget* Root_getRenderTarget(Ogre::Root* root, const char* name)
-{
-	return root->getRenderTarget(name);
 }
 
 extern "C" _AnomalousExport void Root_loadPlugin(Ogre::Root* root, const char* pluginName)

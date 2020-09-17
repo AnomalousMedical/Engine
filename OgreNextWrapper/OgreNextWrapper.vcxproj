@@ -161,105 +161,24 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Src\Animation.cpp" />
-    <ClCompile Include="Src\AnimationState.cpp" />
-    <ClCompile Include="src\AnimationStateIterator.cpp" />
-    <ClCompile Include="Src\AnimationStateSet.cpp" />
-    <ClCompile Include="Src\AnimationTrack.cpp" />
-    <ClCompile Include="Src\ArchiveManager.cpp" />
-    <ClCompile Include="Src\Bone.cpp" />
-    <ClCompile Include="Src\Camera.cpp" />
-    <ClCompile Include="src\CompositorManager.cpp" />
-    <ClCompile Include="Src\DataStream.cpp" />
-    <ClCompile Include="Src\Entity.cpp" />
-    <ClCompile Include="Src\GpuProgram.cpp" />
-    <ClCompile Include="Src\GpuProgramManager.cpp" />
-    <ClCompile Include="Src\GpuProgramParameters.cpp" />
-    <ClCompile Include="Src\HardwareBuffer.cpp" />
-    <ClCompile Include="Src\HardwareBufferManager.cpp" />
-    <ClCompile Include="Src\HardwareIndexBuffer.cpp" />
-    <ClCompile Include="Src\HardwarePixelBuffer.cpp" />
-    <ClCompile Include="Src\HardwareVertexBuffer.cpp" />
-    <ClCompile Include="Src\HighLevelGpuProgramManager.cpp" />
-    <ClCompile Include="Src\Image.cpp" />
-    <ClCompile Include="Src\IndexData.cpp" />
-    <ClCompile Include="Src\KeyFrame.cpp" />
-    <ClCompile Include="Src\Light.cpp" />
-    <ClCompile Include="Src\ManagedManualResourceLoader.cpp" />
-    <ClCompile Include="Src\ManagedRenderQueueListener.cpp" />
-    <ClCompile Include="Src\ManagedRenderSystemListener.cpp" />
-    <ClCompile Include="Src\ManagedRenderTargetListener.cpp" />
-    <ClCompile Include="Src\ManualObject.cpp" />
-    <ClCompile Include="Src\ManualObjectSection.cpp" />
-    <ClCompile Include="Src\Material.cpp" />
-    <ClCompile Include="Src\MaterialManager.cpp" />
-    <ClCompile Include="Src\Mesh.cpp" />
-    <ClCompile Include="Src\MeshManager.cpp" />
-    <ClCompile Include="Src\MeshSerializer.cpp" />
-    <ClCompile Include="Src\MovableObject.cpp" />
-    <ClCompile Include="Src\NativeFrameListener.cpp" />
-    <ClCompile Include="Src\NativeSceneListener.cpp" />
-    <ClCompile Include="Src\NativeWindowListener.cpp" />
-    <ClCompile Include="Src\Node.cpp" />
-    <ClCompile Include="Src\NodeAnimationTrack.cpp" />
-    <ClCompile Include="src\OgreExceptionManager.cpp" />
-    <ClCompile Include="Src\OgreInterface.cpp" />
-    <ClCompile Include="Src\OgreLogListener.cpp" />
-    <ClCompile Include="Src\OgreManagedArchive.cpp" />
-    <ClCompile Include="Src\OgreManagedArchiveFactory.cpp" />
-    <ClCompile Include="Src\OgreManagedStream.cpp" />
-    <ClCompile Include="Src\OgreResourceGroupManager.cpp" />
-    <ClCompile Include="Src\Pass.cpp" />
-    <ClCompile Include="Src\PixelBox.cpp" />
-    <ClCompile Include="Src\Pose.cpp" />
-    <ClCompile Include="Src\RenderQueue.cpp" />
+    <ClCompile Include="Src\OgreExceptionManager.cpp" />
     <ClCompile Include="Src\RenderSystem.cpp" />
-    <ClCompile Include="Src\RenderTarget.cpp" />
     <ClCompile Include="Src\RenderWindow.cpp" />
-    <ClCompile Include="Src\Resource.cpp" />
     <ClCompile Include="Src\Root.cpp" />
-    <ClCompile Include="Src\SceneManager.cpp" />
-    <ClCompile Include="Src\SceneNode.cpp" />
-    <ClCompile Include="Src\Skeleton.cpp" />
-    <ClCompile Include="Src\SkeletonManager.cpp" />
-    <ClCompile Include="src\StaticGeometry.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Src\SubEntity.cpp" />
-    <ClCompile Include="Src\SubMesh.cpp" />
-    <ClCompile Include="Src\Technique.cpp" />
-    <ClCompile Include="Src\Texture.cpp" />
-    <ClCompile Include="Src\TextureManager.cpp" />
-    <ClCompile Include="Src\TextureUnitState.cpp" />
-    <ClCompile Include="Src\VertexAnimationTrack.cpp" />
-    <ClCompile Include="Src\VertexBufferBinding.cpp" />
-    <ClCompile Include="Src\VertexData.cpp" />
-    <ClCompile Include="Src\VertexDeclaration.cpp" />
-    <ClCompile Include="Src\VertexElement.cpp" />
-    <ClCompile Include="Src\VertexPoseKeyFrame.cpp" />
-    <ClCompile Include="Src\Viewport.cpp" />
-    <ClCompile Include="Src\WindowEventUtilities.cpp" />
-    <ClCompile Include="Src\WrapperMath.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Include\NativeFrameListener.h" />
-    <ClInclude Include="Include\NativeSceneListener.h" />
-    <ClInclude Include="Include\NativeWindowListener.h" />
-    <ClInclude Include="include\OgreExceptionManager.h" />
-    <ClInclude Include="Include\OgreLogListener.h" />
-    <ClInclude Include="Include\OgreManagedArchive.h" />
-    <ClInclude Include="Include\OgreManagedArchiveFactory.h" />
-    <ClInclude Include="Include\OgreManagedStream.h" />
+    <ClInclude Include="Include\OgreExceptionManager.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.ico" />
-    <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />

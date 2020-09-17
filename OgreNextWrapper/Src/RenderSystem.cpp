@@ -13,11 +13,6 @@ extern "C" _AnomalousExport const char* RenderSystem_validateConfigOptions(Ogre:
 	return createClrFreeableString(renderSystem->validateConfigOptions());
 }
 
-extern "C" _AnomalousExport void RenderSystem__initRenderTargets(Ogre::RenderSystem* renderSystem)
-{
-	renderSystem->_initRenderTargets();
-}
-
 extern "C" _AnomalousExport void RenderSystem_setConfigOption(Ogre::RenderSystem* renderSystem, const char* name, const char* value)
 {
 	renderSystem->setConfigOption(name, value);
@@ -31,11 +26,6 @@ extern "C" _AnomalousExport void RenderSystem__setViewMatrix(Ogre::RenderSystem*
 extern "C" _AnomalousExport void RenderSystem__setProjectionMatrix(Ogre::RenderSystem* renderSystem, Matrix4x4 projection)
 {
 	renderSystem->_setProjectionMatrix(projection.toOgre());
-}
-
-extern "C" _AnomalousExport void RenderSystem__setViewport(Ogre::RenderSystem* renderSystem, Ogre::Viewport* vp)
-{
-	renderSystem->_setViewport(vp);
 }
 
 extern "C" _AnomalousExport bool RenderSystem_hasConfigOption(Ogre::RenderSystem* renderSystem, String option)
@@ -75,14 +65,4 @@ extern "C" _AnomalousExport void RenderSystem_removeListener(Ogre::RenderSystem*
 extern "C" _AnomalousExport const char* RenderSystem_getName(Ogre::RenderSystem* renderSystem)
 {
 	return renderSystem->getName().c_str();
-}
-
-extern "C" _AnomalousExport void RenderSystem_clearFrameBuffer(Ogre::RenderSystem* renderSystem, unsigned int buffers, Color color, float depth, unsigned short stencil)
-{
-	renderSystem->clearFrameBuffer(buffers, color.toOgre(), depth, stencil);
-}
-
-extern "C" _AnomalousExport void RenderSystem__setRenderTarget(Ogre::RenderSystem* renderSystem, Ogre::RenderTarget* target)
-{
-	renderSystem->_setRenderTarget(target);
 }

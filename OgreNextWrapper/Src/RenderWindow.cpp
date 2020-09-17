@@ -1,4 +1,5 @@
 #include "Stdafx.h"
+#include "OgreWindow.h"
 
 #include <sstream>
 
@@ -10,17 +11,17 @@
 #include "Android/OgreAndroidEGLWindow.h"
 #endif
 
-extern "C" _AnomalousExport void RenderWindow_destroy(Ogre::RenderWindow* renderWindow)
+extern "C" _AnomalousExport void RenderWindow_destroy(Ogre::Window* renderWindow)
 {
 	renderWindow->destroy();
 }
 
-extern "C" _AnomalousExport void RenderWindow_windowMovedOrResized(Ogre::RenderWindow* renderWindow)
+extern "C" _AnomalousExport void RenderWindow_windowMovedOrResized(Ogre::Window* renderWindow)
 {
 	renderWindow->windowMovedOrResized();
 }
 
-extern "C" _AnomalousExport void RenderWindow_getWindowHandleStr(Ogre::RenderWindow* renderWindow, StringRetrieverCallback stringCb, void* handle)
+extern "C" _AnomalousExport void RenderWindow_getWindowHandleStr(Ogre::Window* renderWindow, StringRetrieverCallback stringCb, void* handle)
 {
 	size_t winHandle = 0;
 	renderWindow->getCustomAttribute("WINDOW", &winHandle);
@@ -29,32 +30,22 @@ extern "C" _AnomalousExport void RenderWindow_getWindowHandleStr(Ogre::RenderWin
 	stringCb(winHandleStr.str().c_str(), handle);
 }
 
-extern "C" _AnomalousExport void RenderWindow_setFullscreen(Ogre::RenderWindow* renderWindow, bool fullscreen, uint width, uint height)
+extern "C" _AnomalousExport void RenderWindow_requestFullscreenSwitch(Ogre::Window* renderWindow, 
+	bool goFullscreen, bool borderless, uint32 monitorIdx,
+	uint32 widthPt, uint32 heightPt,
+	uint32 frequencyNumerator, uint32 frequencyDenominator)
 {
-	renderWindow->setFullscreen(fullscreen, width, height);
+	renderWindow->requestFullscreenSwitch(goFullscreen, borderless, monitorIdx,
+		widthPt, heightPt,
+		frequencyNumerator, frequencyDenominator);
 }
 
-extern "C" _AnomalousExport bool RenderWindow_isDeactivatedOnFocusChange(Ogre::RenderWindow* renderWindow)
-{
-	return renderWindow->isDeactivatedOnFocusChange();
-}
-
-extern "C" _AnomalousExport void RenderWindow_setDeactivatedOnFocusChange(Ogre::RenderWindow* renderWindow, bool deactivate)
-{
-	renderWindow->setDeactivateOnFocusChange(deactivate);
-}
-
-extern "C" _AnomalousExport bool RenderWindow_isVisible(Ogre::RenderWindow* renderWindow)
+extern "C" _AnomalousExport bool RenderWindow_isVisible(Ogre::Window* renderWindow)
 {
 	return renderWindow->isVisible();
 }
 
-extern "C" _AnomalousExport void RenderWindow_setVisible(Ogre::RenderWindow* renderWindow, bool visible)
-{
-	renderWindow->setVisible(visible);
-}
-
-extern "C" _AnomalousExport void RenderWindow_createInternalResources(Ogre::RenderWindow* renderWindow, void* osWindowHandle)
+extern "C" _AnomalousExport void RenderWindow_createInternalResources(Ogre::Window* renderWindow, void* osWindowHandle)
 {
 #ifdef ANDROID
 	struct android_app* app = (struct android_app*)osWindowHandle;
@@ -68,7 +59,7 @@ extern "C" _AnomalousExport void RenderWindow_createInternalResources(Ogre::Rend
 #endif
 }
 
-extern "C" _AnomalousExport void RenderWindow_destroyInternalResources(Ogre::RenderWindow* renderWindow, void* osWindowHandle)
+extern "C" _AnomalousExport void RenderWindow_destroyInternalResources(Ogre::Window* renderWindow, void* osWindowHandle)
 {
 #ifdef ANDROID
 	static_cast<Ogre::AndroidEGLWindow*>(renderWindow)->_destroyInternalResources();
