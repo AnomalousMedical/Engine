@@ -161,10 +161,14 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Camera.cpp" />
+    <ClCompile Include="Src\MovableObject.cpp" />
     <ClCompile Include="Src\OgreExceptionManager.cpp" />
+    <ClCompile Include="Src\OgreLogListener.cpp" />
     <ClCompile Include="Src\RenderSystem.cpp" />
     <ClCompile Include="Src\RenderWindow.cpp" />
     <ClCompile Include="Src\Root.cpp" />
+    <ClCompile Include="Src\SceneManager.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -174,6 +178,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\OgreExceptionManager.h" />
+    <ClInclude Include="Include\OgreLogListener.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Stdafx.h" />
   </ItemGroup>
