@@ -98,15 +98,29 @@ namespace OgreNextPlugin
             }
         }
 
+        private TextureGpu textureGpu;
+        public TextureGpu Texture
+        {
+            get
+            {
+                if (textureGpu == null)
+                {
+                    textureGpu = new TextureGpu(RenderWindow_getTexture(renderTarget));
+                }
+
+                return textureGpu;
+            }
+        }
+
         #region PInvoke
-        
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void RenderWindow_destroy(IntPtr renderWindow);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void RenderWindow_windowMovedOrResized(IntPtr renderWindow);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void RenderWindow_getWindowHandleStr(IntPtr renderWindow, StringRetriever.Callback stringCb, IntPtr handle);
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
@@ -115,7 +129,7 @@ namespace OgreNextPlugin
             UInt32 widthPt, UInt32 heightPt,
             UInt32 frequencyNumerator, UInt32 frequencyDenominator);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool RenderWindow_isVisible(IntPtr renderWindow);
 
@@ -124,7 +138,10 @@ namespace OgreNextPlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void RenderWindow_destroyInternalResources(IntPtr renderWindow, IntPtr osWindowHandle);
-        
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr RenderWindow_getTexture(IntPtr renderWindow);
+
         #endregion
     }
 }

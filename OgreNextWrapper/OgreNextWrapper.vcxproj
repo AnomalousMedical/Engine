@@ -90,7 +90,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\include;..\..\Dependencies\ogre-next\WindowsBuild\include;..\..\Dependencies\ogre-next\src\OgreMain\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\include;..\..\Dependencies\ogre-next\WindowsBuild\include;..\..\Dependencies\ogre-next\src\OgreMain\include;..\..\Dependencies\ogre-next\src\Components\Hlms\Pbs\include;..\..\Dependencies\ogre-next\src\Components\Hlms\Unlit\include;..\..\Dependencies\ogre-next\src\Components\Hlms\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/Zm250 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
@@ -109,7 +109,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\include;..\..\Dependencies\ogre-next\Win64Build\include;..\..\Dependencies\ogre-next\src\OgreMain\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\include;..\..\Dependencies\ogre-next\Win64Build\include;..\..\Dependencies\ogre-next\src\OgreMain\include;..\..\Dependencies\ogre-next\src\Components\Hlms\Pbs\include;..\..\Dependencies\ogre-next\src\Components\Hlms\Unlit\include;..\..\Dependencies\ogre-next\src\Components\Hlms\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/Zm250 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
@@ -121,7 +121,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\include;..\..\Dependencies\ogre-next\WindowsBuild\include;..\..\Dependencies\ogre-next\src\OgreMain\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\include;..\..\Dependencies\ogre-next\WindowsBuild\include;..\..\Dependencies\ogre-next\src\OgreMain\include;..\..\Dependencies\ogre-next\src\Components\Hlms\Pbs\include;..\..\Dependencies\ogre-next\src\Components\Hlms\Unlit\include;..\..\Dependencies\ogre-next\src\Components\Hlms\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;WINDOWS;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -142,7 +142,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\include;..\..\Dependencies\ogre-next\Win64Build\include;..\..\Dependencies\ogre-next\src\OgreMain\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\include;..\..\Dependencies\ogre-next\Win64Build\include;..\..\Dependencies\ogre-next\src\OgreMain\include;..\..\Dependencies\ogre-next\src\Components\Hlms\Pbs\include;..\..\Dependencies\ogre-next\src\Components\Hlms\Unlit\include;..\..\Dependencies\ogre-next\src\Components\Hlms\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;WINDOWS;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -162,9 +162,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Src\Camera.cpp" />
+    <ClCompile Include="src\CompositorManager2.cpp" />
     <ClCompile Include="Src\MovableObject.cpp" />
     <ClCompile Include="Src\OgreExceptionManager.cpp" />
     <ClCompile Include="Src\OgreLogListener.cpp" />
+    <ClCompile Include="Src\RegisterHlms.cpp" />
     <ClCompile Include="Src\RenderSystem.cpp" />
     <ClCompile Include="Src\RenderWindow.cpp" />
     <ClCompile Include="Src\Root.cpp" />

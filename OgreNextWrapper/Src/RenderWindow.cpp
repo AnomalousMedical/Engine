@@ -65,3 +65,8 @@ extern "C" _AnomalousExport void RenderWindow_destroyInternalResources(Ogre::Win
 	static_cast<Ogre::AndroidEGLWindow*>(renderWindow)->_destroyInternalResources();
 #endif
 }
+
+extern "C" _AnomalousExport Ogre::TextureGpu * RenderWindow_getTexture(Ogre::Window * renderWindow)
+{
+	return renderWindow->getTexture();
+}
