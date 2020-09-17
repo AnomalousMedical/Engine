@@ -15,7 +15,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace OgrePlugin
+namespace OgreNextPlugin
 {
     public enum RenderSystemType
     {
@@ -44,7 +44,8 @@ namespace OgrePlugin
     public class OgreInterface : RendererPlugin
     {
         public const String PluginName = "OgreNextPlugin";
-        
+        private OgreWindow primaryWindow;
+
         /// <summary>
         /// Fired when the OgreInterface is disposed, which means that ogre has been shutdown (Ogre::Root deleted).
         /// </summary>
@@ -139,7 +140,7 @@ namespace OgrePlugin
         /// <returns>A new DebugDrawingSurface configured appropriatly.</returns>
         public DebugDrawingSurface createDebugDrawingSurface(String name, SimSubScene scene)
         {
-            
+            return null;
         }
 
         /// <summary>
