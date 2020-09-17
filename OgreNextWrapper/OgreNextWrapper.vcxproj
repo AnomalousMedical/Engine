@@ -94,7 +94,7 @@
       <AdditionalOptions>/Zm250 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>OgreMain_d.lib;d3d11.lib;dxgi.lib</AdditionalDependencies>
+      <AdditionalDependencies>OgreMain_d.lib;OgreHlmsPbs_d.lib;OgreHlmsUnlit_d.lib;d3d11.lib;dxgi.lib</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AssemblyDebug>true</AssemblyDebug>
       <TargetMachine>MachineX86</TargetMachine>
@@ -113,7 +113,7 @@
       <AdditionalOptions>/Zm250 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>OgreMain_d.lib;d3d11.lib;dxgi.lib</AdditionalDependencies>
+      <AdditionalDependencies>OgreMain_d.lib;OgreHlmsPbs_d.lib;OgreHlmsUnlit_d.lib;d3d11.lib;dxgi.lib</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AssemblyDebug>true</AssemblyDebug>
       <AdditionalLibraryDirectories>..\..\Dependencies\ogre-next\Win64Build\lib\Debug;C:\Program Files (x86)\Windows Kits\8.1\Lib\winv6.3\um\x64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -130,7 +130,7 @@
       <AdditionalOptions>/Zm250 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>OgreMain.lib;d3d11.lib;dxgi.lib</AdditionalDependencies>
+      <AdditionalDependencies>OgreMain.lib;OgreHlmsPbs.lib;OgreHlmsUnlit.lib;d3d11.lib;dxgi.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\Dependencies\ogre-next\WindowsBuild\lib\Release;C:\Program Files (x86)\Windows Kits\8.1\Lib\winv6.3\um\x86\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <TargetMachine>MachineX86</TargetMachine>
@@ -151,7 +151,7 @@
       <AdditionalOptions>/Zm250 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>OgreMain.lib;d3d11.lib;dxgi.lib</AdditionalDependencies>
+      <AdditionalDependencies>OgreMain.lib;OgreHlmsPbs.lib;OgreHlmsUnlit.lib;d3d11.lib;dxgi.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\Dependencies\ogre-next\Win64Build\lib\Release;C:\Program Files (x86)\Windows Kits\8.1\Lib\winv6.3\um\x64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
