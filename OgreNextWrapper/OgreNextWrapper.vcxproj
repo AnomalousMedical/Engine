@@ -165,6 +165,7 @@
     <ClCompile Include="src\CompositorManager2.cpp" />
     <ClCompile Include="Src\MovableObject.cpp" />
     <ClCompile Include="Src\OgreExceptionManager.cpp" />
+    <ClCompile Include="Src\OgreInterface.cpp" />
     <ClCompile Include="Src\OgreLogListener.cpp" />
     <ClCompile Include="Src\RegisterHlms.cpp" />
     <ClCompile Include="Src\RenderSystem.cpp" />

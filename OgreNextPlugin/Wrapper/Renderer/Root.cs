@@ -81,6 +81,16 @@ namespace OgreNextPlugin
             instance = this;
         }
 
+        private CompositorManager2 compositorManager2;
+        public CompositorManager2 CompositorManager2
+        {
+            get
+            {
+                return compositorManager2 
+                    ?? (compositorManager2 = new CompositorManager2(Root_getCompositorManager2(ogreRoot)));
+            }
+        }
+
         public void Dispose()
         {
             callbackHandler.Dispose();
@@ -498,6 +508,9 @@ namespace OgreNextPlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern uint Root_getDisplayMonitorCount(IntPtr ogreRoot);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr Root_getCompositorManager2(IntPtr root);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void FrameEventCallback(float arg0, float arg1); //No special version for aot, we do not need an instance for this one

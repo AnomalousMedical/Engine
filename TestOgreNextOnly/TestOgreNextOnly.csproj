@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+    <Configurations>Debug;Release;RelMDeb</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='RelMDeb'">
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\Engine\NativeLibraries64\NativeLibraries64.csproj" />
+    <ProjectReference Include="..\..\Engine\NativeLibraries\NativeLibraries.csproj" />
+    <ProjectReference Include="..\..\Dependencies\FreeImage.NET\Library\FreeImageDotNet.csproj" />
+    <ProjectReference Include="..\Engine\Engine.csproj" />
+    <ProjectReference Include="..\OgreNextPlugin\OgreNextPlugin.csproj" />
+    <ProjectReference Include="..\OSPlatform.Win32\OSPlatform.Win32.csproj" />
+    <ProjectReference Include="..\OSPlatform\OSPlatform.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+</Project>

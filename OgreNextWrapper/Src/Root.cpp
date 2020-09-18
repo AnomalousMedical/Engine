@@ -311,3 +311,8 @@ extern "C" _AnomalousExport unsigned int Root_getDisplayMonitorCount(Ogre::Root*
 {
 	return ogreRoot->getDisplayMonitorCount();
 }
+
+extern "C" _AnomalousExport Ogre::CompositorManager2 * Root_getCompositorManager2(Ogre::Root * root)
+{
+	return root->getCompositorManager2();
+}

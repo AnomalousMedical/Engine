@@ -3,7 +3,7 @@
 #include "OgreHlmsPbs.h"
 #include "OgreHlmsUnlit.h"
 
-extern "C" _AnomalousExport  void registerHlms()
+extern "C" _AnomalousExport  void HlmsManager_setup()
 {
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
     // Note:  macBundlePath works for iOS too. It's misnamed.
