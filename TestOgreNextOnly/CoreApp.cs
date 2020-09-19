@@ -179,7 +179,7 @@ namespace Anomalous.Minimus.Full
             //layoutChain.layout();
 
             //var systemTimer = scope.ServiceProvider.GetRequiredService<SystemTimer>();
-            //var mainTimer = scope.ServiceProvider.GetRequiredService<UpdateTimer>();
+            var mainTimer = scope.ServiceProvider.GetRequiredService<UpdateTimer>();
             //var inputHandler = this.InputHandler = scope.ServiceProvider.GetRequiredService<InputHandler>();
             var eventManager = scope.ServiceProvider.GetRequiredService<EventManager>();
 
