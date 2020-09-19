@@ -89,7 +89,6 @@ namespace OgreNextPlugin
             rs.setConfigOption("sRGB Gamma Conversion", "Yes");
             root.setRenderSystem(rs);
             root.initialize(false);
-            HlmsManager.setup();
 
             //Create the default window.
             Dictionary<String, String> miscParams = new Dictionary<string, string>();
@@ -122,6 +121,7 @@ namespace OgreNextPlugin
                 renderWindow = root.createRenderWindow(defaultWindowInfo.AutoWindowTitle, (uint)defaultWindowInfo.Width, (uint)defaultWindowInfo.Height, defaultWindowInfo.Fullscreen, miscParams);
                 primaryWindow = new EmbeddedWindow(defaultWindowInfo.EmbedWindow, renderWindow);
             }
+            HlmsManager.setup();
 
             //assuming 1 window
             //temp

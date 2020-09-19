@@ -18,6 +18,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+
+    <Content Include="..\..\Dependencies\ogre-next\Win64Build\bin\release\resources2.cfg">
+      <Link>resources2.cfg</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -98,10 +103,6 @@
     </Content>
     <Content Include="..\..\Dependencies\ogre-next\Win64Build\bin\release\RenderSystem_Direct3D11.dll">
       <Link>x64\RenderSystem_Direct3D11.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\Dependencies\ogre-next\Win64Build\bin\release\resources2.cfg">
-      <Link>resources2.cfg</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\Dependencies\ogre-next\Win64Build\bin\release\RenderSystem_GL3Plus.dll">
