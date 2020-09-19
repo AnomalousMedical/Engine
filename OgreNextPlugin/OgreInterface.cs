@@ -125,7 +125,7 @@ namespace OgreNextPlugin
             }
 
             //Setup Hlms, must come after primary window creation
-            HlmsManager.setup();
+            HlmsManager.setup(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + Path.DirectorySeparatorChar);
 
             //temp test scene
             var sceneManager = root.createSceneManager(SceneType.ST_GENERIC, 1);

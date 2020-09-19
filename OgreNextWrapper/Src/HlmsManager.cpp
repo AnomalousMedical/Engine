@@ -3,30 +3,9 @@
 #include "OgreHlmsPbs.h"
 #include "OgreHlmsUnlit.h"
 
-extern "C" _AnomalousExport  void HlmsManager_setup()
+extern "C" _AnomalousExport  void HlmsManager_setup(String rootFolder)
 {
-#if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
-    // Note:  macBundlePath works for iOS too. It's misnamed.
-    const String resourcePath = Ogre::macBundlePath() + "/Contents/Resources/";
-#elif OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
-    const String resourcePath = Ogre::macBundlePath() + "/";
-#else
-    Ogre::String resourcePath = "";
-#endif
-
-    Ogre::ConfigFile cf;
-    cf.load(resourcePath + "resources2.cfg");
-
-#if OGRE_PLATFORM == OGRE_PLATFORM_APPLE || OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
-    String rootHlmsFolder = macBundlePath() + '/' + cf.getSetting("DoNotUseAsResource", "Hlms", "");
-#else
-    Ogre::String rootHlmsFolder = resourcePath + cf.getSetting("DoNotUseAsResource", "Hlms", "");
-#endif
-
-    if (rootHlmsFolder.empty())
-        rootHlmsFolder = "./";
-    else if (*(rootHlmsFolder.end() - 1) != '/')
-        rootHlmsFolder += "/";
+    Ogre::String rootHlmsFolder = rootFolder;
 
     // At this point rootHlmsFolder should be a valid path to the Hlms data folder
 

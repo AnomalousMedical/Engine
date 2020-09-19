@@ -18,73 +18,75 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
 
-    <Content Include="..\..\Dependencies\ogre-next\Win64Build\bin\release\resources2.cfg">
-      <Link>resources2.cfg</Link>
+  <ItemGroup>
+    <Content Include="..\..\Dependencies\ogre-next\src\Samples\Media\Hlms\**\*.*">
+      <Link>Hlms/%(RecursiveDir)%(Filename)%(Extension)</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-
+  
   <ItemGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Content Include="..\..\Dependencies\ogre-next\Win64Build\bin\debug\OgreMain_d.dll">
       <Link>x64\OgreMain_d.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\Dependencies\ogre-next\Win64Build\bin\debug\RenderSystem_Direct3D11_d.dll">
       <Link>x64\RenderSystem_Direct3D11_d.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\Dependencies\ogre-next\Win64Build\bin\debug\RenderSystem_GL3Plus_d.dll">
       <Link>x64\RenderSystem_GL3Plus_d.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\Dependencies\ogre-next\Win64Build\bin\debug\OgreHlmsPbs_d.dll">
       <Link>x64\OgreHlmsPbs_d.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\Dependencies\ogre-next\Win64Build\bin\debug\OgreHlmsUnlit_d.dll">
       <Link>x64\OgreHlmsUnlit_d.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\Dependencies\OpenALSoft\Win64Build\Debug\OpenAL32.dll">
       <Link>x64\OpenAL32.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\BulletWrapper\bin\Debug\x64\BulletWrapper.dll">
       <Link>x64\BulletWrapper.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\libRocketWrapper\bin\Debug\x64\libRocketWrapper.dll">
       <Link>x64\libRocketWrapper.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\MyGUIWrapper\bin\Debug\x64\MyGUIWrapper.dll">
       <Link>x64\MyGUIWrapper.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\OgreNextWrapper\bin\Debug\x64\OgreNextWrapper.dll">
       <Link>x64\OgreNextWrapper.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\OSHelper\bin\Debug\x64\OSHelper.dll">
       <Link>x64\OSHelper.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\SoundWrapper\bin\Debug\x64\SoundWrapper.dll">
       <Link>x64\SoundWrapper.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Win32UniversalBridge\bin\Debug\x64\Win32UniversalBridge.dll">
       <Link>x64\Win32UniversalBridge.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\WinMTDriver\bin\Debug\x64\WinMTDriver.dll">
       <Link>x64\WinMTDriver.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Zip\bin\Debug\x64\Zip.dll">
       <Link>x64\Zip.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
