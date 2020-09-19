@@ -3,7 +3,7 @@
 #include "OgreHlmsPbs.h"
 #include "OgreHlmsUnlit.h"
 
-extern "C" _AnomalousExport  void HlmsManager_setup(String rootFolder)
+extern "C" _AnomalousExport  void HlmsManager_setup(String rootFolder, String archiveType)
 {
     Ogre::String rootHlmsFolder = rootFolder;
 
@@ -25,14 +25,14 @@ extern "C" _AnomalousExport  void HlmsManager_setup(String rootFolder)
         // Get the path to all the subdirectories used by HlmsUnlit
         Ogre::HlmsUnlit::getDefaultPaths(mainFolderPath, libraryFoldersPaths);
         Ogre::Archive* archiveUnlit =
-            archiveManager.load(rootHlmsFolder + mainFolderPath, "FileSystem", true);
+            archiveManager.load(rootHlmsFolder + mainFolderPath, archiveType, true);
         Ogre::ArchiveVec archiveUnlitLibraryFolders;
         libraryFolderPathIt = libraryFoldersPaths.begin();
         libraryFolderPathEn = libraryFoldersPaths.end();
         while (libraryFolderPathIt != libraryFolderPathEn)
         {
             Ogre::Archive* archiveLibrary =
-                archiveManager.load(rootHlmsFolder + *libraryFolderPathIt, "FileSystem", true);
+                archiveManager.load(rootHlmsFolder + *libraryFolderPathIt, archiveType, true);
             archiveUnlitLibraryFolders.push_back(archiveLibrary);
             ++libraryFolderPathIt;
         }
@@ -46,7 +46,7 @@ extern "C" _AnomalousExport  void HlmsManager_setup(String rootFolder)
         // Create & Register HlmsPbs
         // Do the same for HlmsPbs:
         Ogre::HlmsPbs::getDefaultPaths(mainFolderPath, libraryFoldersPaths);
-        Ogre::Archive* archivePbs = archiveManager.load(rootHlmsFolder + mainFolderPath, "FileSystem", true);
+        Ogre::Archive* archivePbs = archiveManager.load(rootHlmsFolder + mainFolderPath, archiveType, true);
 
         // Get the library archive(s)
         Ogre::ArchiveVec archivePbsLibraryFolders;
@@ -55,7 +55,7 @@ extern "C" _AnomalousExport  void HlmsManager_setup(String rootFolder)
         while (libraryFolderPathIt != libraryFolderPathEn)
         {
             Ogre::Archive* archiveLibrary =
-                archiveManager.load(rootHlmsFolder + *libraryFolderPathIt, "FileSystem", true);
+                archiveManager.load(rootHlmsFolder + *libraryFolderPathIt, archiveType, true);
             archivePbsLibraryFolders.push_back(archiveLibrary);
             ++libraryFolderPathIt;
         }

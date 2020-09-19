@@ -130,7 +130,7 @@ namespace OgreNextPlugin
             }
 
             //Setup Hlms, must come after primary window creation
-            HlmsManager.setup("." + Path.DirectorySeparatorChar);
+            HlmsManager.setup("." + Path.DirectorySeparatorChar, "FileSystem");
 
             //temp test scene
             var sceneManager = root.createSceneManager(SceneType.ST_GENERIC, 1);
