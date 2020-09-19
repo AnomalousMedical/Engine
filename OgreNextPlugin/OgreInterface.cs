@@ -78,10 +78,7 @@ namespace OgreNextPlugin
 
             //Setup ogre root
             root = new Root("", "", "");
-            renderSystemPlugin = OgreInterface_LoadRenderSystem(ref chosenRenderSystem);
-            root.getRenderSystem().setConfigOption("sRGB Gamma Conversion", "Yes");
-            root.initialize(false);
-            HlmsManager.setup();
+            renderSystemPlugin = OgreInterface_LoadRenderSystem(ref chosenRenderSystem);            
 
             //Setup engine
             WindowInfo defaultWindowInfo;
@@ -89,8 +86,10 @@ namespace OgreNextPlugin
 
             //Initialize Ogre
             rs = root._getRenderSystemWrapper(OgreInterface_GetRenderSystem(ref chosenRenderSystem));
+            rs.setConfigOption("sRGB Gamma Conversion", "Yes");
             root.setRenderSystem(rs);
             root.initialize(false);
+            HlmsManager.setup();
 
             //Create the default window.
             Dictionary<String, String> miscParams = new Dictionary<string, string>();
