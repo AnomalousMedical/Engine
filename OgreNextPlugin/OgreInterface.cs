@@ -22,8 +22,7 @@ namespace OgreNextPlugin
     {
         Default = 0,
         D3D11 = 1,
-        OpenGL = 2,
-	    OpenGLES2 = 3
+        OpenGL = 2
     };
 
     [Flags]

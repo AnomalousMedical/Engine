@@ -17,8 +17,7 @@ enum RenderSystemType
 {
 	Default = 0,
 	D3D11 = 1,
-	OpenGL = 2,
-	OpenGLES2 = 3
+	OpenGL = 2
 };
 
 enum CompressedTextureSupport
@@ -95,12 +94,10 @@ bool useD3D11()
 }
 #if _DEBUG
 String Direct3D11_Library = "RenderSystem_Direct3D11_d.dll";
-String OpenGL_Library = "RenderSystem_GL_d.dll";
-String OpenGLES2_Library = "RenderSystem_GLES2_d.dll";
+String OpenGL_Library = "RenderSystem_GL3Plus_d.dll";
 #else
 String Direct3D11_Library = "RenderSystem_Direct3D11.dll";
-String OpenGL_Library = "RenderSystem_GL.dll";
-String OpenGLES2_Library = "RenderSystem_GLES2.dll";
+String OpenGL_Library = "RenderSystem_GL3Plus.dll";
 #endif
 #endif
 
@@ -162,9 +159,6 @@ extern "C" _AnomalousExport Ogre::Plugin* OgreInterface_LoadRenderSystem(RenderS
 	case OpenGL:
 		name = OpenGL_Library;
 		break;
-	case OpenGLES2:
-		name = OpenGLES2_Library;
-		break;
 	}
 #endif
 
@@ -219,10 +213,7 @@ extern "C" _AnomalousExport Ogre::RenderSystem* OgreInterface_GetRenderSystem(Re
 		name = "Direct3D11 Rendering Subsystem";
 		break;
 	case OpenGL:
-		name = "OpenGL Rendering Subsystem";
-		break;
-	case OpenGLES2:
-		name = "OpenGL ES 2.x Rendering Subsystem";
+		name = "OpenGL 3+ Rendering Subsystem";
 		break;
 	}
 

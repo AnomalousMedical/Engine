@@ -9,7 +9,7 @@ namespace Anomalous.Minimus.Full
     {
         public string Title => "Anomalous Minimus with Ogre Next";
 
-        public string Name => "Anomalous Minimus";
+        public string Name => "OgreNextTest";
 
         public IEnumerable<Assembly> AdditionalPluginAssemblies => new Assembly[0];
 

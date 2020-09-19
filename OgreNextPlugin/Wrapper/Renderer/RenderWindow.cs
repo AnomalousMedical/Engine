@@ -10,7 +10,7 @@ using Anomalous.Interop;
 namespace OgreNextPlugin
 {
     [NativeSubsystemType]
-    public class RenderWindow
+    public class RenderWindow : IDisposable
     {
         internal static RenderWindow createWrapper(IntPtr nativePtr, Object[] args)
         {
@@ -23,6 +23,11 @@ namespace OgreNextPlugin
         public RenderWindow(IntPtr renderWindow)
         {
             this.renderTarget = renderWindow;
+        }
+
+        public void Dispose()
+        {
+            //does nothing, might not need destory either.
         }
 
         public void destroy()

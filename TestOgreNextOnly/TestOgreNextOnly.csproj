@@ -10,8 +10,6 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\..\Engine\NativeLibraries64\NativeLibraries64.csproj" />
-    <ProjectReference Include="..\..\Engine\NativeLibraries\NativeLibraries.csproj" />
     <ProjectReference Include="..\..\Dependencies\FreeImage.NET\Library\FreeImageDotNet.csproj" />
     <ProjectReference Include="..\Engine\Engine.csproj" />
     <ProjectReference Include="..\OgreNextPlugin\OgreNextPlugin.csproj" />
@@ -20,5 +18,48 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(Configuration)' == 'Release' OR '$(Configuration)' == 'RelMDeb' ">
+    <Content Include="..\..\Dependencies\ogre-next\Win64Build\bin\release\OgreMain.dll">
+      <Link>x64\OgreMain.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\Dependencies\ogre-next\Win64Build\bin\release\OgreHlmsPbs.dll">
+      <Link>x64\OgreHlmsPbs.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\Dependencies\ogre-next\Win64Build\bin\release\OgreHlmsUnlit.dll">
+      <Link>x64\OgreHlmsUnlit.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\Dependencies\ogre-next\Win64Build\bin\release\RenderSystem_Direct3D11.dll">
+      <Link>x64\RenderSystem_Direct3D11.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\Dependencies\ogre-next\Win64Build\bin\release\RenderSystem_GL3Plus.dll">
+      <Link>x64\RenderSystem_GL3Plus.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\OgreNextWrapper\bin\Release\x64\OgreNextWrapper.dll">
+      <Link>x64\OgreNextWrapper.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\OSHelper\bin\Release\x64\OSHelper.dll">
+      <Link>x64\OSHelper.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Win32UniversalBridge\bin\Release\x64\Win32UniversalBridge.dll">
+      <Link>x64\Win32UniversalBridge.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\WinMTDriver\bin\Release\x64\WinMTDriver.dll">
+      <Link>x64\WinMTDriver.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Zip\bin\Release\x64\Zip.dll">
+      <Link>x64\Zip.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

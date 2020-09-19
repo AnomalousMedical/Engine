@@ -164,6 +164,7 @@
     <ClCompile Include="Src\Camera.cpp" />
     <ClCompile Include="src\CompositorManager2.cpp" />
     <ClCompile Include="Src\MovableObject.cpp" />
+    <ClCompile Include="Src\NativeFrameListener.cpp" />
     <ClCompile Include="Src\OgreExceptionManager.cpp" />
     <ClCompile Include="Src\OgreInterface.cpp" />
     <ClCompile Include="Src\OgreLogListener.cpp" />
@@ -180,6 +181,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\NativeFrameListener.h" />
     <ClInclude Include="Include\OgreExceptionManager.h" />
     <ClInclude Include="Include\OgreLogListener.h" />
     <ClInclude Include="resource.h" />

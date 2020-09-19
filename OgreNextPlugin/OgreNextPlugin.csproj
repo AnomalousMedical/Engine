@@ -2,10 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Configurations>Debug;Release;RelMDeb</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.csproj" />
   </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='RelMDeb'">
+    <Optimize>false</Optimize>
+  </PropertyGroup>
 
 </Project>
