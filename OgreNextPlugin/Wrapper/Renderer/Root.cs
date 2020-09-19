@@ -39,11 +39,11 @@ namespace OgreNextPlugin
         public event Action Disposed;
 
         //Pointers to archive factories (engine archive and embedded)
-        //EmbeddedResourceArchiveFactory embeddedResources = new EmbeddedResourceArchiveFactory();
-        //OgreEngineArchiveFactory engineArchives = new OgreEngineArchiveFactory();
-        //MemoryArchiveFactory memoryArchives = new MemoryArchiveFactory();
-        //EmbeddedScalableResourceArchiveFactory embeddedScalableResources = new EmbeddedScalableResourceArchiveFactory();
-        //OgreScalableEngineArchiveFactory scalableEngineArchives = new OgreScalableEngineArchiveFactory();
+        EmbeddedResourceArchiveFactory embeddedResources = new EmbeddedResourceArchiveFactory();
+        OgreEngineArchiveFactory engineArchives = new OgreEngineArchiveFactory();
+        MemoryArchiveFactory memoryArchives = new MemoryArchiveFactory();
+        EmbeddedScalableResourceArchiveFactory embeddedScalableResources = new EmbeddedScalableResourceArchiveFactory();
+        OgreScalableEngineArchiveFactory scalableEngineArchives = new OgreScalableEngineArchiveFactory();
 
         static Root instance;
 
@@ -73,11 +73,11 @@ namespace OgreNextPlugin
 
             callbackHandler = new CallbackHandler(this);
 
-            //ArchiveManager_addArchiveFactory(embeddedResources.NativeFactory);
-            //ArchiveManager_addArchiveFactory(engineArchives.NativeFactory);
-            //ArchiveManager_addArchiveFactory(memoryArchives.NativeFactory);
-            //ArchiveManager_addArchiveFactory(embeddedScalableResources.NativeFactory);
-            //ArchiveManager_addArchiveFactory(scalableEngineArchives.NativeFactory);
+            ArchiveManager_addArchiveFactory(embeddedResources.NativeFactory);
+            ArchiveManager_addArchiveFactory(engineArchives.NativeFactory);
+            ArchiveManager_addArchiveFactory(memoryArchives.NativeFactory);
+            ArchiveManager_addArchiveFactory(embeddedScalableResources.NativeFactory);
+            ArchiveManager_addArchiveFactory(scalableEngineArchives.NativeFactory);
             instance = this;
         }
 
@@ -98,11 +98,11 @@ namespace OgreNextPlugin
             scenes.Dispose();
             renderTargets.Dispose();
             Root_Delete(ogreRoot);
-            //embeddedResources.Dispose();
-            //engineArchives.Dispose();
-            //memoryArchives.Dispose();
-            //embeddedScalableResources.Dispose();
-            //scalableEngineArchives.Dispose();
+            embeddedResources.Dispose();
+            engineArchives.Dispose();
+            memoryArchives.Dispose();
+            embeddedScalableResources.Dispose();
+            scalableEngineArchives.Dispose();
             ogreLog.Dispose();
             if (Disposed != null)
             {
@@ -316,10 +316,10 @@ namespace OgreNextPlugin
             return Root_getDisplayMonitorCount(ogreRoot);
         }
 
-        //public void addArchiveFactory(OgreManagedArchiveFactory factory)
-        //{
-        //    ArchiveManager_addArchiveFactory(factory.NativeFactory);
-        //}
+        public void addArchiveFactory(OgreManagedArchiveFactory factory)
+        {
+            ArchiveManager_addArchiveFactory(factory.NativeFactory);
+        }
 
         /// <summary>
         /// This function will wrap up a pointer with a RenderSystem object.

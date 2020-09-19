@@ -50,6 +50,7 @@ namespace OgreNextPlugin
         private Root root;
         private RenderSystem rs;
         private OgreUpdate ogreUpdate;
+        private ResourceManager engineResourceManager;
 
         /// <summary>
         /// Fired when the OgreInterface is disposed, which means that ogre has been shutdown (Ogre::Root deleted).
@@ -63,6 +64,10 @@ namespace OgreNextPlugin
 
         public void Dispose()
         {
+            //var ogreSubsystem = engineResourceManager.getSubsystemResource("Ogre");
+            //ogreSubsystem.removeResourceGroup("Internal");
+            //engineResourceManager.initializeResources();
+
             root?.Dispose();
             OgreInterface_UnloadRenderSystem(renderSystemPlugin);
             if (Disposed != null)
@@ -125,7 +130,7 @@ namespace OgreNextPlugin
             }
 
             //Setup Hlms, must come after primary window creation
-            HlmsManager.setup(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + Path.DirectorySeparatorChar);
+            HlmsManager.setup("." + Path.DirectorySeparatorChar);
 
             //temp test scene
             var sceneManager = root.createSceneManager(SceneType.ST_GENERIC, 1);
@@ -151,7 +156,11 @@ namespace OgreNextPlugin
 
         public void link(PluginManager pluginManager)
         {
-
+            //engineResourceManager = pluginManager.createLiveResourceManager("OgrePlugin");
+            //var ogreSubsystem = engineResourceManager.getSubsystemResource("Ogre");
+            //var group = ogreSubsystem.addResourceGroup("Internal");
+            //group.addResource(typeof(OgreInterface).AssemblyQualifiedName, "EmbeddedResource", true);
+            //engineResourceManager.initializeResources();
         }
 
         /// <summary>
@@ -241,6 +250,11 @@ namespace OgreNextPlugin
         {
             
         }
+
+        /// <summary>
+        /// True to track memory leaks, will track leaks from the point this is set to true onward, so set it as early as possible
+        /// </summary>
+        public static bool TrackMemoryLeaks { get; set; }
 
         #region PInvoke
 

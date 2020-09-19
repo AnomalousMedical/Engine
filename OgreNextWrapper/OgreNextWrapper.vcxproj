@@ -169,6 +169,9 @@
     <ClCompile Include="Src\OgreInterface.cpp" />
     <ClCompile Include="Src\OgreLogListener.cpp" />
     <ClCompile Include="Src\HlmsManager.cpp" />
+    <ClCompile Include="Src\OgreManagedArchive.cpp" />
+    <ClCompile Include="Src\OgreManagedArchiveFactory.cpp" />
+    <ClCompile Include="Src\OgreManagedStream.cpp" />
     <ClCompile Include="Src\RenderSystem.cpp" />
     <ClCompile Include="Src\RenderWindow.cpp" />
     <ClCompile Include="Src\Root.cpp" />
@@ -184,6 +187,9 @@
     <ClInclude Include="Include\NativeFrameListener.h" />
     <ClInclude Include="Include\OgreExceptionManager.h" />
     <ClInclude Include="Include\OgreLogListener.h" />
+    <ClInclude Include="Include\OgreManagedArchive.h" />
+    <ClInclude Include="Include\OgreManagedArchiveFactory.h" />
+    <ClInclude Include="Include\OgreManagedStream.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Stdafx.h" />
   </ItemGroup>
