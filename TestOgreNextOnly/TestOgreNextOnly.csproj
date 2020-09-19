@@ -20,6 +20,7 @@
     <Folder Include="Properties\" />
   </ItemGroup>
 
+  <!-- This copies the hlms, which is still on the filesystem. -->
   <ItemGroup>
     <Content Include="..\..\Dependencies\ogre-next\src\Samples\Media\Hlms\**\*.*">
       <Link>Hlms/%(RecursiveDir)%(Filename)%(Extension)</Link>

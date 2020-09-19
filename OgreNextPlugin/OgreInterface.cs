@@ -117,7 +117,7 @@ namespace OgreNextPlugin
             RenderWindow renderWindow;
             if (defaultWindowInfo.AutoCreateWindow)
             {
-                throw new NotImplementedException();
+                throw new NotImplementedException("Auto created windows not supported for Ogre Next.");
                 //RenderWindow renderWindow = root.createRenderWindow(defaultWindowInfo.AutoWindowTitle, (uint)defaultWindowInfo.Width, (uint)defaultWindowInfo.Height, defaultWindowInfo.Fullscreen, miscParams);
                 //OgreOSWindow ogreWindow = new OgreOSWindow(renderWindow);
                 //primaryWindow = new AutomaticWindow(ogreWindow);
@@ -130,7 +130,15 @@ namespace OgreNextPlugin
             }
 
             //Setup Hlms, must come after primary window creation
-            HlmsManager.setup("." + Path.DirectorySeparatorChar, "FileSystem");
+            if(HlmsRootPath == null)
+            {
+                throw new InvalidOperationException($"You must set '{nameof(HlmsRootPath)}'.");
+            }
+            if(HlmsRootPath.EndsWith("\\") == false || HlmsRootPath.EndsWith("/") == false)
+            {
+                HlmsRootPath += Path.DirectorySeparatorChar;
+            }
+            HlmsManager.setup(HlmsRootPath, HlmsArchiveType);
 
             //temp test scene
             var sceneManager = root.createSceneManager(SceneType.ST_GENERIC, 1);
@@ -255,6 +263,16 @@ namespace OgreNextPlugin
         /// True to track memory leaks, will track leaks from the point this is set to true onward, so set it as early as possible
         /// </summary>
         public static bool TrackMemoryLeaks { get; set; }
+
+        /// <summary>
+        /// The root path to the hlms shaders. Defaults to the main executable location.
+        /// </summary>
+        public static string HlmsRootPath { get; set; } = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+
+        /// <summary>
+        /// The ogre archive type to load. You can use any type here like "FileSystem" or "EngineArchive". Default: "FileSystem"
+        /// </summary>
+        public static string HlmsArchiveType { get; set; } = "FileSystem";
 
         #region PInvoke
 
