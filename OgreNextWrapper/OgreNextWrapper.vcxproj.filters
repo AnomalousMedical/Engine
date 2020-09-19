@@ -45,13 +45,13 @@
     <ClCompile Include="src\CompositorManager2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\RegisterHlms.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Src\OgreInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\NativeFrameListener.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\HlmsManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

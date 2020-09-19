@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TestOgreNextOnly": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

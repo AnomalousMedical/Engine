@@ -168,7 +168,7 @@
     <ClCompile Include="Src\OgreExceptionManager.cpp" />
     <ClCompile Include="Src\OgreInterface.cpp" />
     <ClCompile Include="Src\OgreLogListener.cpp" />
-    <ClCompile Include="Src\RegisterHlms.cpp" />
+    <ClCompile Include="Src\HlmsManager.cpp" />
     <ClCompile Include="Src\RenderSystem.cpp" />
     <ClCompile Include="Src\RenderWindow.cpp" />
     <ClCompile Include="Src\Root.cpp" />
