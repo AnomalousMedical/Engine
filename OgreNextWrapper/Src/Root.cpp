@@ -114,9 +114,9 @@ extern "C" _AnomalousExport void Root_startRendering(Ogre::Root* root)
 	root->startRendering();
 }
 
-extern "C" _AnomalousExport bool Root_renderOneFrame(Ogre::Root* root)
+extern "C" _AnomalousExport bool Root_renderOneFrame(Ogre::Root* root, float timeSinceLastFrame)
 {
-	return root->renderOneFrame();
+	return root->renderOneFrame(timeSinceLastFrame);
 }
 
 extern "C" _AnomalousExport void Root_shutdown(Ogre::Root* root)

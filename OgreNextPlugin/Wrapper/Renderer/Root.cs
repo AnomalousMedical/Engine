@@ -207,9 +207,9 @@ namespace OgreNextPlugin
             Root_startRendering(ogreRoot);
         }
 
-        public bool renderOneFrame()
+        public bool renderOneFrame(float timeSinceLastFrame)
         {
-            return Root_renderOneFrame(ogreRoot);
+            return Root_renderOneFrame(ogreRoot, timeSinceLastFrame);
         }
 
         public void shutdown()
@@ -434,7 +434,7 @@ namespace OgreNextPlugin
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool Root_renderOneFrame(IntPtr root);
+        private static extern bool Root_renderOneFrame(IntPtr root, float timeSinceLastFrame);
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void Root_shutdown(IntPtr root);

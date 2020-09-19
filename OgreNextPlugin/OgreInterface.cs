@@ -49,6 +49,7 @@ namespace OgreNextPlugin
         private IntPtr renderSystemPlugin;
         private Root root;
         private RenderSystem rs;
+        private OgreUpdate ogreUpdate;
 
         /// <summary>
         /// Fired when the OgreInterface is disposed, which means that ogre has been shutdown (Ogre::Root deleted).
@@ -78,6 +79,7 @@ namespace OgreNextPlugin
 
             //Setup ogre root
             root = new Root("", "", "");
+            ogreUpdate = new OgreUpdate(root);
             renderSystemPlugin = OgreInterface_LoadRenderSystem(ref chosenRenderSystem);            
 
             //Setup engine
@@ -121,10 +123,11 @@ namespace OgreNextPlugin
                 renderWindow = root.createRenderWindow(defaultWindowInfo.AutoWindowTitle, (uint)defaultWindowInfo.Width, (uint)defaultWindowInfo.Height, defaultWindowInfo.Fullscreen, miscParams);
                 primaryWindow = new EmbeddedWindow(defaultWindowInfo.EmbedWindow, renderWindow);
             }
+
+            //Setup Hlms, must come after primary window creation
             HlmsManager.setup();
 
-            //assuming 1 window
-            //temp
+            //temp test scene
             var sceneManager = root.createSceneManager(SceneType.ST_GENERIC, 1);
             var camera = sceneManager.createCamera("Main Camera");
 
@@ -142,6 +145,8 @@ namespace OgreNextPlugin
             var backgroundColour = new Color(0.2f, 0.4f, 0.6f);
             compositorManager.createBasicWorkspaceDef(workspaceName, backgroundColour);
             compositorManager.addWorkspace(sceneManager, renderWindow.Texture, camera, workspaceName, true);
+
+            //end temp test scene
         }
 
         public void link(PluginManager pluginManager)
@@ -165,7 +170,7 @@ namespace OgreNextPlugin
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
         {
-
+            mainTimer.addUpdateListenerWithBackgrounding("Rendering", ogreUpdate);
         }
 
         public string Name
