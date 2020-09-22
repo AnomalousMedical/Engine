@@ -40,6 +40,7 @@ namespace OgreNextPlugin
 
         //Pointers to archive factories (engine archive and embedded)
         EmbeddedResourceArchiveFactory embeddedResources = new EmbeddedResourceArchiveFactory();
+        HlmsEmbeddedResourceArchiveFactory hlmsEmbeddedResources = new HlmsEmbeddedResourceArchiveFactory();
         OgreEngineArchiveFactory engineArchives = new OgreEngineArchiveFactory();
         MemoryArchiveFactory memoryArchives = new MemoryArchiveFactory();
         EmbeddedScalableResourceArchiveFactory embeddedScalableResources = new EmbeddedScalableResourceArchiveFactory();
@@ -74,6 +75,7 @@ namespace OgreNextPlugin
             callbackHandler = new CallbackHandler(this);
 
             ArchiveManager_addArchiveFactory(embeddedResources.NativeFactory);
+            ArchiveManager_addArchiveFactory(hlmsEmbeddedResources.NativeFactory);
             ArchiveManager_addArchiveFactory(engineArchives.NativeFactory);
             ArchiveManager_addArchiveFactory(memoryArchives.NativeFactory);
             ArchiveManager_addArchiveFactory(embeddedScalableResources.NativeFactory);
@@ -99,15 +101,13 @@ namespace OgreNextPlugin
             renderTargets.Dispose();
             Root_Delete(ogreRoot);
             embeddedResources.Dispose();
+            hlmsEmbeddedResources.Dispose();
             engineArchives.Dispose();
             memoryArchives.Dispose();
             embeddedScalableResources.Dispose();
             scalableEngineArchives.Dispose();
             ogreLog.Dispose();
-            if (Disposed != null)
-            {
-                Disposed.Invoke();
-            }
+            Disposed?.Invoke();
         }
 
         public void saveConfig()

@@ -19,14 +19,6 @@
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
-
-  <!-- This copies the hlms, which is still on the filesystem. -->
-  <ItemGroup>
-    <Content Include="..\..\Dependencies\ogre-next\src\Samples\Media\Hlms\**\*.*">
-      <Link>Hlms/%(RecursiveDir)%(Filename)%(Extension)</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
   
   <ItemGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Content Include="..\..\Dependencies\ogre-next\Win64Build\bin\debug\OgreMain_d.dll">

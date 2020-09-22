@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "EmbeddedFileListGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "../../../../OgreNextPlugin/Hlms ../../../../OgreNextPlugin/Wrapper/CustomArchives/HlmsEmbedded/HlmsEmbeddedResourceArchive.FileMap.cs"
+    }
+  }
+}

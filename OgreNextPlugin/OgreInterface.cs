@@ -25,19 +25,6 @@ namespace OgreNextPlugin
         OpenGL = 2
     };
 
-    [Flags]
-    public enum CompressedTextureSupport : uint
-    {
-        None = 0,
-        DXT = 1,
-        PVRTC = 1 << 1,
-        ATC = 1 << 2,
-        ETC2 = 1 << 3,
-        BC4_BC5 = 1 << 4,
-        DXT_BC4_BC5 = DXT | BC4_BC5,
-        All = DXT | PVRTC | ATC | ETC2 | BC4_BC5
-    }
-
     /// <summary>
     /// The main interface class for the OgrePlugin.
     /// </summary>
@@ -265,14 +252,14 @@ namespace OgreNextPlugin
         public static bool TrackMemoryLeaks { get; set; }
 
         /// <summary>
-        /// The root path to the hlms shaders. Defaults to the main executable location.
+        /// The root path to the hlms shaders. Defaults to empty string.
         /// </summary>
-        public static string HlmsRootPath { get; set; } = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+        public static string HlmsRootPath { get; set; } = "OgreNextPlugin.OgreInterface||";
 
         /// <summary>
-        /// The ogre archive type to load. You can use any type here like "FileSystem" or "EngineArchive". Default: "FileSystem"
+        /// The ogre archive type to load. You can use any type here like "FileSystem" or "EngineArchive". Default: "HlmsEmbeddedResource", load embedded files.
         /// </summary>
-        public static string HlmsArchiveType { get; set; } = "FileSystem";
+        public static string HlmsArchiveType { get; set; } = "HlmsEmbeddedResource";
 
         #region PInvoke
 

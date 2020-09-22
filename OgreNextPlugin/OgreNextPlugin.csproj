@@ -14,4 +14,9 @@
     <Optimize>false</Optimize>
   </PropertyGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="Hlms\**\*.*">
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>
