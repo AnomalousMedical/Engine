@@ -66,10 +66,10 @@ namespace OgreNextPlugin
 
         public abstract void Dispose();
 
-        //public abstract RenderTarget OgreRenderTarget
-        //{
-        //     get;
-        //}
+        public abstract RenderWindow OgreRenderWindow
+        {
+            get;
+        }
 
         public abstract OSWindow OSWindow
         {

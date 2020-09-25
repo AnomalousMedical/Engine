@@ -76,13 +76,13 @@ namespace OgreNextPlugin
         /// <summary>
         /// Get the OgreRenderWindow for this window.
         /// </summary>
-        //public override RenderTarget OgreRenderTarget
-        //{
-        //    get
-        //    {
-        //        return renderWindow;
-        //    }
-        //}
+        public override RenderWindow OgreRenderWindow
+        {
+            get
+            {
+                return renderWindow;
+            }
+        }
 
         public override OSWindow OSWindow
         {

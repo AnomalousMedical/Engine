@@ -65,12 +65,15 @@ namespace OgreNextPlugin
 
         public void initialize(PluginManager pluginManager, IServiceCollection serviceCollection)
         {
+            serviceCollection.AddSingleton<OgreInterface>(this);
+
             //Load config
             new OgreConfig(pluginManager.ConfigFile);
             chosenRenderSystem = OgreConfig.RenderSystemType;
 
             //Setup ogre root
             root = new Root("", "", "");
+            serviceCollection.AddSingleton<Root>(root);
             ogreUpdate = new OgreUpdate(root);
             renderSystemPlugin = OgreInterface_LoadRenderSystem(ref chosenRenderSystem);            
 
@@ -126,43 +129,6 @@ namespace OgreNextPlugin
                 HlmsRootPath += Path.DirectorySeparatorChar;
             }
             HlmsManager.setup(HlmsRootPath, HlmsArchiveType);
-
-            //temp test scene
-            var sceneManager = root.createSceneManager(SceneType.ST_GENERIC, 1);
-            var camera = sceneManager.createCamera("Main Camera");
-
-            // Position it at 500 in Z direction
-            camera.setPosition(new Vector3(0, 5, 15));
-            // Look back along -Z
-            camera.lookAt(new Vector3(0, 0, 0));
-            camera.setNearClipDistance(0.2f);
-            camera.setFarClipDistance(1000.0f);
-            camera.setAutoAspectRatio(true);
-
-            // Setup a basic compositor with a blue clear colour
-            CompositorManager2 compositorManager = root.CompositorManager2;
-            var workspaceName = "Demo Workspace";
-            var backgroundColour = new Color(0.2f, 0.4f, 0.6f);
-            compositorManager.createBasicWorkspaceDef(workspaceName, backgroundColour);
-            compositorManager.addWorkspace(sceneManager, renderWindow.Texture, camera, workspaceName, true);
-
-            var rootNode = sceneManager.getRootSceneNode();
-
-            var light = sceneManager.createLight();
-            var lightNode = sceneManager.createSceneNode();
-            rootNode.addChild(lightNode);
-            lightNode.attachObject(light);
-            light.setPowerScale(1.0f);
-            light.setType(Light.LightTypes.LT_DIRECTIONAL);
-            light.setDirection(new Vector3(-1, -1, -1).normalized());
-
-            sceneManager.setAmbientLight(new Color(0.3f * 0.1f * 0.75f, 0.5f * 0.1f * 0.75f, 0.7f * 0.1f * 0.75f),
-                                           new Color(0.6f * 0.065f * 0.75f, 0.45f * 0.065f * 0.75f, 0.3f * 0.065f * 0.75f),
-                                           -light.getDirection() + Vector3.UnitY * 0.2f);
-
-            var item = sceneManager.createItem("Sphere1000.mesh");
-
-            //end temp test scene
         }
 
         public void link(PluginManager pluginManager)
@@ -207,6 +173,14 @@ namespace OgreNextPlugin
         }
 
         public RendererWindow PrimaryWindow
+        {
+            get
+            {
+                return primaryWindow;
+            }
+        }
+
+        public OgreWindow PrimaryOgreWindow
         {
             get
             {
