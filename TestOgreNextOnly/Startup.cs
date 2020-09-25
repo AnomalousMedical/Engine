@@ -72,6 +72,10 @@ namespace Anomalous.Minimus.Full
                                            -light.getDirection() + Vector3.UnitY * 0.2f);
 
             var item = sceneManager.createItem("Sphere1000.mesh");
+            var itemNode = sceneManager.createSceneNode();
+            rootNode.addChild(itemNode);
+            itemNode.attachObject(item);
+            itemNode.setPosition(new Vector3(0f, 0f, -30f));
 
             //end temp test scene
         }

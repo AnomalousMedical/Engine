@@ -15,7 +15,7 @@ namespace OgreNextPlugin
                     BaseName = "Cubemap_piece_all.any",
                     FileName = "/Hlms/Common/Any/Cubemap_piece_all.any",
                     Path = "/Hlms/Common/Any",
-                    EmbeddedResourcePath = "Hlms.Common.Any.Cubemap_piece_all.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.Any.Cubemap_piece_all.any",
                 };
 
                 fileMap["/Hlms/Common/Any/DualParaboloid_piece_ps.any"] = new HlmsEmbeddedFileInfo()
@@ -24,7 +24,7 @@ namespace OgreNextPlugin
                     BaseName = "DualParaboloid_piece_ps.any",
                     FileName = "/Hlms/Common/Any/DualParaboloid_piece_ps.any",
                     Path = "/Hlms/Common/Any",
-                    EmbeddedResourcePath = "Hlms.Common.Any.DualParaboloid_piece_ps.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.Any.DualParaboloid_piece_ps.any",
                 };
 
                 fileMap["/Hlms/Common/Any/ReverseDepthHelpers_piece_ps.any"] = new HlmsEmbeddedFileInfo()
@@ -33,7 +33,7 @@ namespace OgreNextPlugin
                     BaseName = "ReverseDepthHelpers_piece_ps.any",
                     FileName = "/Hlms/Common/Any/ReverseDepthHelpers_piece_ps.any",
                     Path = "/Hlms/Common/Any",
-                    EmbeddedResourcePath = "Hlms.Common.Any.ReverseDepthHelpers_piece_ps.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.Any.ReverseDepthHelpers_piece_ps.any",
                 };
 
                 fileMap["/Hlms/Common/Any/ShadowCaster_piece_ps.any"] = new HlmsEmbeddedFileInfo()
@@ -42,7 +42,7 @@ namespace OgreNextPlugin
                     BaseName = "ShadowCaster_piece_ps.any",
                     FileName = "/Hlms/Common/Any/ShadowCaster_piece_ps.any",
                     Path = "/Hlms/Common/Any",
-                    EmbeddedResourcePath = "Hlms.Common.Any.ShadowCaster_piece_ps.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.Any.ShadowCaster_piece_ps.any",
                 };
 
                 fileMap["/Hlms/Common/Any/ShadowCaster_piece_vs.any"] = new HlmsEmbeddedFileInfo()
@@ -51,7 +51,7 @@ namespace OgreNextPlugin
                     BaseName = "ShadowCaster_piece_vs.any",
                     FileName = "/Hlms/Common/Any/ShadowCaster_piece_vs.any",
                     Path = "/Hlms/Common/Any",
-                    EmbeddedResourcePath = "Hlms.Common.Any.ShadowCaster_piece_vs.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.Any.ShadowCaster_piece_vs.any",
                 };
 
                 fileMap["/Hlms/Common/Any/UnpackHelpers_piece_all.any"] = new HlmsEmbeddedFileInfo()
@@ -60,7 +60,7 @@ namespace OgreNextPlugin
                     BaseName = "UnpackHelpers_piece_all.any",
                     FileName = "/Hlms/Common/Any/UnpackHelpers_piece_all.any",
                     Path = "/Hlms/Common/Any",
-                    EmbeddedResourcePath = "Hlms.Common.Any.UnpackHelpers_piece_all.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.Any.UnpackHelpers_piece_all.any",
                 };
 
                 fileMap["/Hlms/Common/GLSL/CrossPlatformSettings_piece_all.glsl"] = new HlmsEmbeddedFileInfo()
@@ -69,7 +69,7 @@ namespace OgreNextPlugin
                     BaseName = "CrossPlatformSettings_piece_all.glsl",
                     FileName = "/Hlms/Common/GLSL/CrossPlatformSettings_piece_all.glsl",
                     Path = "/Hlms/Common/GLSL",
-                    EmbeddedResourcePath = "Hlms.Common.GLSL.CrossPlatformSettings_piece_all.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.GLSL.CrossPlatformSettings_piece_all.glsl",
                 };
 
                 fileMap["/Hlms/Common/GLSL/Matrix_piece_all.glsl"] = new HlmsEmbeddedFileInfo()
@@ -78,7 +78,7 @@ namespace OgreNextPlugin
                     BaseName = "Matrix_piece_all.glsl",
                     FileName = "/Hlms/Common/GLSL/Matrix_piece_all.glsl",
                     Path = "/Hlms/Common/GLSL",
-                    EmbeddedResourcePath = "Hlms.Common.GLSL.Matrix_piece_all.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.GLSL.Matrix_piece_all.glsl",
                 };
 
                 fileMap["/Hlms/Common/GLSL/QuaternionCode_piece_all.glsl"] = new HlmsEmbeddedFileInfo()
@@ -87,7 +87,7 @@ namespace OgreNextPlugin
                     BaseName = "QuaternionCode_piece_all.glsl",
                     FileName = "/Hlms/Common/GLSL/QuaternionCode_piece_all.glsl",
                     Path = "/Hlms/Common/GLSL",
-                    EmbeddedResourcePath = "Hlms.Common.GLSL.QuaternionCode_piece_all.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.GLSL.QuaternionCode_piece_all.glsl",
                 };
 
                 fileMap["/Hlms/Common/GLSL/RenderDepthOnly_piece_ps.glsl"] = new HlmsEmbeddedFileInfo()
@@ -96,7 +96,7 @@ namespace OgreNextPlugin
                     BaseName = "RenderDepthOnly_piece_ps.glsl",
                     FileName = "/Hlms/Common/GLSL/RenderDepthOnly_piece_ps.glsl",
                     Path = "/Hlms/Common/GLSL",
-                    EmbeddedResourcePath = "Hlms.Common.GLSL.RenderDepthOnly_piece_ps.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.GLSL.RenderDepthOnly_piece_ps.glsl",
                 };
 
                 fileMap["/Hlms/Common/GLSL/UavCrossPlatform_piece_all.glsl"] = new HlmsEmbeddedFileInfo()
@@ -105,7 +105,7 @@ namespace OgreNextPlugin
                     BaseName = "UavCrossPlatform_piece_all.glsl",
                     FileName = "/Hlms/Common/GLSL/UavCrossPlatform_piece_all.glsl",
                     Path = "/Hlms/Common/GLSL",
-                    EmbeddedResourcePath = "Hlms.Common.GLSL.UavCrossPlatform_piece_all.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.GLSL.UavCrossPlatform_piece_all.glsl",
                 };
 
                 fileMap["/Hlms/Common/GLSLES/CrossPlatformSettings_piece_all.glsl"] = new HlmsEmbeddedFileInfo()
@@ -114,7 +114,7 @@ namespace OgreNextPlugin
                     BaseName = "CrossPlatformSettings_piece_all.glsl",
                     FileName = "/Hlms/Common/GLSLES/CrossPlatformSettings_piece_all.glsl",
                     Path = "/Hlms/Common/GLSLES",
-                    EmbeddedResourcePath = "Hlms.Common.GLSLES.CrossPlatformSettings_piece_all.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.GLSLES.CrossPlatformSettings_piece_all.glsl",
                 };
 
                 fileMap["/Hlms/Common/GLSLES/Matrix_piece_all.glsl"] = new HlmsEmbeddedFileInfo()
@@ -123,7 +123,7 @@ namespace OgreNextPlugin
                     BaseName = "Matrix_piece_all.glsl",
                     FileName = "/Hlms/Common/GLSLES/Matrix_piece_all.glsl",
                     Path = "/Hlms/Common/GLSLES",
-                    EmbeddedResourcePath = "Hlms.Common.GLSLES.Matrix_piece_all.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.GLSLES.Matrix_piece_all.glsl",
                 };
 
                 fileMap["/Hlms/Common/GLSLES/QuaternionCode_piece_all.glsl"] = new HlmsEmbeddedFileInfo()
@@ -132,7 +132,7 @@ namespace OgreNextPlugin
                     BaseName = "QuaternionCode_piece_all.glsl",
                     FileName = "/Hlms/Common/GLSLES/QuaternionCode_piece_all.glsl",
                     Path = "/Hlms/Common/GLSLES",
-                    EmbeddedResourcePath = "Hlms.Common.GLSLES.QuaternionCode_piece_all.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.GLSLES.QuaternionCode_piece_all.glsl",
                 };
 
                 fileMap["/Hlms/Common/GLSLES/RenderDepthOnly_piece_ps.glsl"] = new HlmsEmbeddedFileInfo()
@@ -141,7 +141,7 @@ namespace OgreNextPlugin
                     BaseName = "RenderDepthOnly_piece_ps.glsl",
                     FileName = "/Hlms/Common/GLSLES/RenderDepthOnly_piece_ps.glsl",
                     Path = "/Hlms/Common/GLSLES",
-                    EmbeddedResourcePath = "Hlms.Common.GLSLES.RenderDepthOnly_piece_ps.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.GLSLES.RenderDepthOnly_piece_ps.glsl",
                 };
 
                 fileMap["/Hlms/Common/HLSL/CrossPlatformSettings_piece_all.hlsl"] = new HlmsEmbeddedFileInfo()
@@ -150,7 +150,7 @@ namespace OgreNextPlugin
                     BaseName = "CrossPlatformSettings_piece_all.hlsl",
                     FileName = "/Hlms/Common/HLSL/CrossPlatformSettings_piece_all.hlsl",
                     Path = "/Hlms/Common/HLSL",
-                    EmbeddedResourcePath = "Hlms.Common.HLSL.CrossPlatformSettings_piece_all.hlsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.HLSL.CrossPlatformSettings_piece_all.hlsl",
                 };
 
                 fileMap["/Hlms/Common/HLSL/Matrix_piece_all.hlsl"] = new HlmsEmbeddedFileInfo()
@@ -159,7 +159,7 @@ namespace OgreNextPlugin
                     BaseName = "Matrix_piece_all.hlsl",
                     FileName = "/Hlms/Common/HLSL/Matrix_piece_all.hlsl",
                     Path = "/Hlms/Common/HLSL",
-                    EmbeddedResourcePath = "Hlms.Common.HLSL.Matrix_piece_all.hlsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.HLSL.Matrix_piece_all.hlsl",
                 };
 
                 fileMap["/Hlms/Common/HLSL/QuaternionCode_piece_all.hlsl"] = new HlmsEmbeddedFileInfo()
@@ -168,7 +168,7 @@ namespace OgreNextPlugin
                     BaseName = "QuaternionCode_piece_all.hlsl",
                     FileName = "/Hlms/Common/HLSL/QuaternionCode_piece_all.hlsl",
                     Path = "/Hlms/Common/HLSL",
-                    EmbeddedResourcePath = "Hlms.Common.HLSL.QuaternionCode_piece_all.hlsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.HLSL.QuaternionCode_piece_all.hlsl",
                 };
 
                 fileMap["/Hlms/Common/HLSL/RenderDepthOnly_piece_ps.hlsl"] = new HlmsEmbeddedFileInfo()
@@ -177,7 +177,7 @@ namespace OgreNextPlugin
                     BaseName = "RenderDepthOnly_piece_ps.hlsl",
                     FileName = "/Hlms/Common/HLSL/RenderDepthOnly_piece_ps.hlsl",
                     Path = "/Hlms/Common/HLSL",
-                    EmbeddedResourcePath = "Hlms.Common.HLSL.RenderDepthOnly_piece_ps.hlsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.HLSL.RenderDepthOnly_piece_ps.hlsl",
                 };
 
                 fileMap["/Hlms/Common/HLSL/UavCrossPlatform_piece_all.hlsl"] = new HlmsEmbeddedFileInfo()
@@ -186,7 +186,7 @@ namespace OgreNextPlugin
                     BaseName = "UavCrossPlatform_piece_all.hlsl",
                     FileName = "/Hlms/Common/HLSL/UavCrossPlatform_piece_all.hlsl",
                     Path = "/Hlms/Common/HLSL",
-                    EmbeddedResourcePath = "Hlms.Common.HLSL.UavCrossPlatform_piece_all.hlsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.HLSL.UavCrossPlatform_piece_all.hlsl",
                 };
 
                 fileMap["/Hlms/Common/Metal/CrossPlatformSettings_piece_all.metal"] = new HlmsEmbeddedFileInfo()
@@ -195,7 +195,7 @@ namespace OgreNextPlugin
                     BaseName = "CrossPlatformSettings_piece_all.metal",
                     FileName = "/Hlms/Common/Metal/CrossPlatformSettings_piece_all.metal",
                     Path = "/Hlms/Common/Metal",
-                    EmbeddedResourcePath = "Hlms.Common.Metal.CrossPlatformSettings_piece_all.metal",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.Metal.CrossPlatformSettings_piece_all.metal",
                 };
 
                 fileMap["/Hlms/Common/Metal/Matrix_piece_all.metal"] = new HlmsEmbeddedFileInfo()
@@ -204,7 +204,7 @@ namespace OgreNextPlugin
                     BaseName = "Matrix_piece_all.metal",
                     FileName = "/Hlms/Common/Metal/Matrix_piece_all.metal",
                     Path = "/Hlms/Common/Metal",
-                    EmbeddedResourcePath = "Hlms.Common.Metal.Matrix_piece_all.metal",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.Metal.Matrix_piece_all.metal",
                 };
 
                 fileMap["/Hlms/Common/Metal/QuaternionCode_piece_all.metal"] = new HlmsEmbeddedFileInfo()
@@ -213,7 +213,7 @@ namespace OgreNextPlugin
                     BaseName = "QuaternionCode_piece_all.metal",
                     FileName = "/Hlms/Common/Metal/QuaternionCode_piece_all.metal",
                     Path = "/Hlms/Common/Metal",
-                    EmbeddedResourcePath = "Hlms.Common.Metal.QuaternionCode_piece_all.metal",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.Metal.QuaternionCode_piece_all.metal",
                 };
 
                 fileMap["/Hlms/Common/Metal/RenderDepthOnly_piece_ps.metal"] = new HlmsEmbeddedFileInfo()
@@ -222,7 +222,7 @@ namespace OgreNextPlugin
                     BaseName = "RenderDepthOnly_piece_ps.metal",
                     FileName = "/Hlms/Common/Metal/RenderDepthOnly_piece_ps.metal",
                     Path = "/Hlms/Common/Metal",
-                    EmbeddedResourcePath = "Hlms.Common.Metal.RenderDepthOnly_piece_ps.metal",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.Metal.RenderDepthOnly_piece_ps.metal",
                 };
 
                 fileMap["/Hlms/Common/Metal/UavCrossPlatform_piece_all.metal"] = new HlmsEmbeddedFileInfo()
@@ -231,7 +231,7 @@ namespace OgreNextPlugin
                     BaseName = "UavCrossPlatform_piece_all.metal",
                     FileName = "/Hlms/Common/Metal/UavCrossPlatform_piece_all.metal",
                     Path = "/Hlms/Common/Metal",
-                    EmbeddedResourcePath = "Hlms.Common.Metal.UavCrossPlatform_piece_all.metal",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Common.Metal.UavCrossPlatform_piece_all.metal",
                 };
 
                 fileMap["/Hlms/Pbs/Any/200.TextureRegisters_piece_vs.any"] = new HlmsEmbeddedFileInfo()
@@ -240,7 +240,7 @@ namespace OgreNextPlugin
                     BaseName = "200.TextureRegisters_piece_vs.any",
                     FileName = "/Hlms/Pbs/Any/200.TextureRegisters_piece_vs.any",
                     Path = "/Hlms/Pbs/Any",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.200.TextureRegisters_piece_vs.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.200.TextureRegisters_piece_vs.any",
                 };
 
                 fileMap["/Hlms/Pbs/Any/AmbientLighting_piece_ps.any"] = new HlmsEmbeddedFileInfo()
@@ -249,7 +249,7 @@ namespace OgreNextPlugin
                     BaseName = "AmbientLighting_piece_ps.any",
                     FileName = "/Hlms/Pbs/Any/AmbientLighting_piece_ps.any",
                     Path = "/Hlms/Pbs/Any",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.AmbientLighting_piece_ps.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.AmbientLighting_piece_ps.any",
                 };
 
                 fileMap["/Hlms/Pbs/Any/AreaLights_LTC_piece_ps.any"] = new HlmsEmbeddedFileInfo()
@@ -258,7 +258,7 @@ namespace OgreNextPlugin
                     BaseName = "AreaLights_LTC_piece_ps.any",
                     FileName = "/Hlms/Pbs/Any/AreaLights_LTC_piece_ps.any",
                     Path = "/Hlms/Pbs/Any",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.AreaLights_LTC_piece_ps.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.AreaLights_LTC_piece_ps.any",
                 };
 
                 fileMap["/Hlms/Pbs/Any/AreaLights_piece_ps.any"] = new HlmsEmbeddedFileInfo()
@@ -267,7 +267,7 @@ namespace OgreNextPlugin
                     BaseName = "AreaLights_piece_ps.any",
                     FileName = "/Hlms/Pbs/Any/AreaLights_piece_ps.any",
                     Path = "/Hlms/Pbs/Any",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.AreaLights_piece_ps.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.AreaLights_piece_ps.any",
                 };
 
                 fileMap["/Hlms/Pbs/Any/ForwardPlus_DecalsCubemaps_piece_ps.any"] = new HlmsEmbeddedFileInfo()
@@ -276,7 +276,7 @@ namespace OgreNextPlugin
                     BaseName = "ForwardPlus_DecalsCubemaps_piece_ps.any",
                     FileName = "/Hlms/Pbs/Any/ForwardPlus_DecalsCubemaps_piece_ps.any",
                     Path = "/Hlms/Pbs/Any",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.ForwardPlus_DecalsCubemaps_piece_ps.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.ForwardPlus_DecalsCubemaps_piece_ps.any",
                 };
 
                 fileMap["/Hlms/Pbs/Any/IrradianceField_piece_all.any"] = new HlmsEmbeddedFileInfo()
@@ -285,7 +285,7 @@ namespace OgreNextPlugin
                     BaseName = "IrradianceField_piece_all.any",
                     FileName = "/Hlms/Pbs/Any/IrradianceField_piece_all.any",
                     Path = "/Hlms/Pbs/Any",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.IrradianceField_piece_all.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.IrradianceField_piece_all.any",
                 };
 
                 fileMap["/Hlms/Pbs/Any/IrradianceField_piece_ps.any"] = new HlmsEmbeddedFileInfo()
@@ -294,7 +294,7 @@ namespace OgreNextPlugin
                     BaseName = "IrradianceField_piece_ps.any",
                     FileName = "/Hlms/Pbs/Any/IrradianceField_piece_ps.any",
                     Path = "/Hlms/Pbs/Any",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.IrradianceField_piece_ps.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.IrradianceField_piece_ps.any",
                 };
 
                 fileMap["/Hlms/Pbs/Any/IrradianceVolume_piece_ps.any"] = new HlmsEmbeddedFileInfo()
@@ -303,7 +303,7 @@ namespace OgreNextPlugin
                     BaseName = "IrradianceVolume_piece_ps.any",
                     FileName = "/Hlms/Pbs/Any/IrradianceVolume_piece_ps.any",
                     Path = "/Hlms/Pbs/Any",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.IrradianceVolume_piece_ps.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.IrradianceVolume_piece_ps.any",
                 };
 
                 fileMap["/Hlms/Pbs/Any/LightProfiles_piece_ps.any"] = new HlmsEmbeddedFileInfo()
@@ -312,7 +312,7 @@ namespace OgreNextPlugin
                     BaseName = "LightProfiles_piece_ps.any",
                     FileName = "/Hlms/Pbs/Any/LightProfiles_piece_ps.any",
                     Path = "/Hlms/Pbs/Any",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.LightProfiles_piece_ps.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.LightProfiles_piece_ps.any",
                 };
 
                 fileMap["/Hlms/Pbs/Any/PlanarReflections_piece_all.any"] = new HlmsEmbeddedFileInfo()
@@ -321,7 +321,7 @@ namespace OgreNextPlugin
                     BaseName = "PlanarReflections_piece_all.any",
                     FileName = "/Hlms/Pbs/Any/PlanarReflections_piece_all.any",
                     Path = "/Hlms/Pbs/Any",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.PlanarReflections_piece_all.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.PlanarReflections_piece_all.any",
                 };
 
                 fileMap["/Hlms/Pbs/Any/PlanarReflections_piece_ps.any"] = new HlmsEmbeddedFileInfo()
@@ -330,7 +330,7 @@ namespace OgreNextPlugin
                     BaseName = "PlanarReflections_piece_ps.any",
                     FileName = "/Hlms/Pbs/Any/PlanarReflections_piece_ps.any",
                     Path = "/Hlms/Pbs/Any",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.PlanarReflections_piece_ps.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.PlanarReflections_piece_ps.any",
                 };
 
                 fileMap["/Hlms/Pbs/Any/Refractions_piece_ps.any"] = new HlmsEmbeddedFileInfo()
@@ -339,7 +339,7 @@ namespace OgreNextPlugin
                     BaseName = "Refractions_piece_ps.any",
                     FileName = "/Hlms/Pbs/Any/Refractions_piece_ps.any",
                     Path = "/Hlms/Pbs/Any",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.Refractions_piece_ps.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.Refractions_piece_ps.any",
                 };
 
                 fileMap["/Hlms/Pbs/Any/ShadowMapping_piece_ps.any"] = new HlmsEmbeddedFileInfo()
@@ -348,7 +348,7 @@ namespace OgreNextPlugin
                     BaseName = "ShadowMapping_piece_ps.any",
                     FileName = "/Hlms/Pbs/Any/ShadowMapping_piece_ps.any",
                     Path = "/Hlms/Pbs/Any",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.ShadowMapping_piece_ps.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.ShadowMapping_piece_ps.any",
                 };
 
                 fileMap["/Hlms/Pbs/Any/ShadowMapping_piece_vs.any"] = new HlmsEmbeddedFileInfo()
@@ -357,7 +357,7 @@ namespace OgreNextPlugin
                     BaseName = "ShadowMapping_piece_vs.any",
                     FileName = "/Hlms/Pbs/Any/ShadowMapping_piece_vs.any",
                     Path = "/Hlms/Pbs/Any",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.ShadowMapping_piece_vs.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.ShadowMapping_piece_vs.any",
                 };
 
                 fileMap["/Hlms/Pbs/Any/UvModifierMacros_piece_ps.any"] = new HlmsEmbeddedFileInfo()
@@ -366,7 +366,7 @@ namespace OgreNextPlugin
                     BaseName = "UvModifierMacros_piece_ps.any",
                     FileName = "/Hlms/Pbs/Any/UvModifierMacros_piece_ps.any",
                     Path = "/Hlms/Pbs/Any",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.UvModifierMacros_piece_ps.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.UvModifierMacros_piece_ps.any",
                 };
 
                 fileMap["/Hlms/Pbs/Any/Vct_piece_all.any"] = new HlmsEmbeddedFileInfo()
@@ -375,7 +375,7 @@ namespace OgreNextPlugin
                     BaseName = "Vct_piece_all.any",
                     FileName = "/Hlms/Pbs/Any/Vct_piece_all.any",
                     Path = "/Hlms/Pbs/Any",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.Vct_piece_all.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.Vct_piece_all.any",
                 };
 
                 fileMap["/Hlms/Pbs/Any/Vct_piece_ps.any"] = new HlmsEmbeddedFileInfo()
@@ -384,7 +384,7 @@ namespace OgreNextPlugin
                     BaseName = "Vct_piece_ps.any",
                     FileName = "/Hlms/Pbs/Any/Vct_piece_ps.any",
                     Path = "/Hlms/Pbs/Any",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.Vct_piece_ps.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.Vct_piece_ps.any",
                 };
 
                 fileMap["/Hlms/Pbs/GLSL/Forward3D_piece_ps.glsl"] = new HlmsEmbeddedFileInfo()
@@ -393,7 +393,7 @@ namespace OgreNextPlugin
                     BaseName = "Forward3D_piece_ps.glsl",
                     FileName = "/Hlms/Pbs/GLSL/Forward3D_piece_ps.glsl",
                     Path = "/Hlms/Pbs/GLSL",
-                    EmbeddedResourcePath = "Hlms.Pbs.GLSL.Forward3D_piece_ps.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.GLSL.Forward3D_piece_ps.glsl",
                 };
 
                 fileMap["/Hlms/Pbs/GLSL/PixelShader_ps.glsl"] = new HlmsEmbeddedFileInfo()
@@ -402,7 +402,7 @@ namespace OgreNextPlugin
                     BaseName = "PixelShader_ps.glsl",
                     FileName = "/Hlms/Pbs/GLSL/PixelShader_ps.glsl",
                     Path = "/Hlms/Pbs/GLSL",
-                    EmbeddedResourcePath = "Hlms.Pbs.GLSL.PixelShader_ps.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.GLSL.PixelShader_ps.glsl",
                 };
 
                 fileMap["/Hlms/Pbs/GLSL/VertexShader_vs.glsl"] = new HlmsEmbeddedFileInfo()
@@ -411,7 +411,7 @@ namespace OgreNextPlugin
                     BaseName = "VertexShader_vs.glsl",
                     FileName = "/Hlms/Pbs/GLSL/VertexShader_vs.glsl",
                     Path = "/Hlms/Pbs/GLSL",
-                    EmbeddedResourcePath = "Hlms.Pbs.GLSL.VertexShader_vs.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.GLSL.VertexShader_vs.glsl",
                 };
 
                 fileMap["/Hlms/Pbs/GLSLES/BlendModes_piece_ps.glsl"] = new HlmsEmbeddedFileInfo()
@@ -420,7 +420,7 @@ namespace OgreNextPlugin
                     BaseName = "BlendModes_piece_ps.glsl",
                     FileName = "/Hlms/Pbs/GLSLES/BlendModes_piece_ps.glsl",
                     Path = "/Hlms/Pbs/GLSLES",
-                    EmbeddedResourcePath = "Hlms.Pbs.GLSLES.BlendModes_piece_ps.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.GLSLES.BlendModes_piece_ps.glsl",
                 };
 
                 fileMap["/Hlms/Pbs/GLSLES/BRDFs_piece_ps.glsl"] = new HlmsEmbeddedFileInfo()
@@ -429,7 +429,7 @@ namespace OgreNextPlugin
                     BaseName = "BRDFs_piece_ps.glsl",
                     FileName = "/Hlms/Pbs/GLSLES/BRDFs_piece_ps.glsl",
                     Path = "/Hlms/Pbs/GLSLES",
-                    EmbeddedResourcePath = "Hlms.Pbs.GLSLES.BRDFs_piece_ps.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.GLSLES.BRDFs_piece_ps.glsl",
                 };
 
                 fileMap["/Hlms/Pbs/GLSLES/DetailMaps_piece_ps.glsl"] = new HlmsEmbeddedFileInfo()
@@ -438,7 +438,7 @@ namespace OgreNextPlugin
                     BaseName = "DetailMaps_piece_ps.glsl",
                     FileName = "/Hlms/Pbs/GLSLES/DetailMaps_piece_ps.glsl",
                     Path = "/Hlms/Pbs/GLSLES",
-                    EmbeddedResourcePath = "Hlms.Pbs.GLSLES.DetailMaps_piece_ps.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.GLSLES.DetailMaps_piece_ps.glsl",
                 };
 
                 fileMap["/Hlms/Pbs/GLSLES/Forward3D_piece_ps.glsl"] = new HlmsEmbeddedFileInfo()
@@ -447,7 +447,7 @@ namespace OgreNextPlugin
                     BaseName = "Forward3D_piece_ps.glsl",
                     FileName = "/Hlms/Pbs/GLSLES/Forward3D_piece_ps.glsl",
                     Path = "/Hlms/Pbs/GLSLES",
-                    EmbeddedResourcePath = "Hlms.Pbs.GLSLES.Forward3D_piece_ps.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.GLSLES.Forward3D_piece_ps.glsl",
                 };
 
                 fileMap["/Hlms/Pbs/GLSLES/IrradianceVolume_piece_ps.glsl"] = new HlmsEmbeddedFileInfo()
@@ -456,7 +456,7 @@ namespace OgreNextPlugin
                     BaseName = "IrradianceVolume_piece_ps.glsl",
                     FileName = "/Hlms/Pbs/GLSLES/IrradianceVolume_piece_ps.glsl",
                     Path = "/Hlms/Pbs/GLSLES",
-                    EmbeddedResourcePath = "Hlms.Pbs.GLSLES.IrradianceVolume_piece_ps.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.GLSLES.IrradianceVolume_piece_ps.glsl",
                 };
 
                 fileMap["/Hlms/Pbs/GLSLES/PixelShader_ps.glsl"] = new HlmsEmbeddedFileInfo()
@@ -465,7 +465,7 @@ namespace OgreNextPlugin
                     BaseName = "PixelShader_ps.glsl",
                     FileName = "/Hlms/Pbs/GLSLES/PixelShader_ps.glsl",
                     Path = "/Hlms/Pbs/GLSLES",
-                    EmbeddedResourcePath = "Hlms.Pbs.GLSLES.PixelShader_ps.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.GLSLES.PixelShader_ps.glsl",
                 };
 
                 fileMap["/Hlms/Pbs/GLSLES/Structs_piece_vs_piece_ps.glsl"] = new HlmsEmbeddedFileInfo()
@@ -474,7 +474,7 @@ namespace OgreNextPlugin
                     BaseName = "Structs_piece_vs_piece_ps.glsl",
                     FileName = "/Hlms/Pbs/GLSLES/Structs_piece_vs_piece_ps.glsl",
                     Path = "/Hlms/Pbs/GLSLES",
-                    EmbeddedResourcePath = "Hlms.Pbs.GLSLES.Structs_piece_vs_piece_ps.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.GLSLES.Structs_piece_vs_piece_ps.glsl",
                 };
 
                 fileMap["/Hlms/Pbs/GLSLES/Textures_piece_ps.glsl"] = new HlmsEmbeddedFileInfo()
@@ -483,7 +483,7 @@ namespace OgreNextPlugin
                     BaseName = "Textures_piece_ps.glsl",
                     FileName = "/Hlms/Pbs/GLSLES/Textures_piece_ps.glsl",
                     Path = "/Hlms/Pbs/GLSLES",
-                    EmbeddedResourcePath = "Hlms.Pbs.GLSLES.Textures_piece_ps.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.GLSLES.Textures_piece_ps.glsl",
                 };
 
                 fileMap["/Hlms/Pbs/GLSLES/VertexShader_vs.glsl"] = new HlmsEmbeddedFileInfo()
@@ -492,7 +492,7 @@ namespace OgreNextPlugin
                     BaseName = "VertexShader_vs.glsl",
                     FileName = "/Hlms/Pbs/GLSLES/VertexShader_vs.glsl",
                     Path = "/Hlms/Pbs/GLSLES",
-                    EmbeddedResourcePath = "Hlms.Pbs.GLSLES.VertexShader_vs.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.GLSLES.VertexShader_vs.glsl",
                 };
 
                 fileMap["/Hlms/Pbs/HLSL/Forward3D_piece_ps.hlsl"] = new HlmsEmbeddedFileInfo()
@@ -501,7 +501,7 @@ namespace OgreNextPlugin
                     BaseName = "Forward3D_piece_ps.hlsl",
                     FileName = "/Hlms/Pbs/HLSL/Forward3D_piece_ps.hlsl",
                     Path = "/Hlms/Pbs/HLSL",
-                    EmbeddedResourcePath = "Hlms.Pbs.HLSL.Forward3D_piece_ps.hlsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.HLSL.Forward3D_piece_ps.hlsl",
                 };
 
                 fileMap["/Hlms/Pbs/HLSL/PixelShader_ps.hlsl"] = new HlmsEmbeddedFileInfo()
@@ -510,7 +510,7 @@ namespace OgreNextPlugin
                     BaseName = "PixelShader_ps.hlsl",
                     FileName = "/Hlms/Pbs/HLSL/PixelShader_ps.hlsl",
                     Path = "/Hlms/Pbs/HLSL",
-                    EmbeddedResourcePath = "Hlms.Pbs.HLSL.PixelShader_ps.hlsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.HLSL.PixelShader_ps.hlsl",
                 };
 
                 fileMap["/Hlms/Pbs/HLSL/Textures_piece_ps.hlsl"] = new HlmsEmbeddedFileInfo()
@@ -519,7 +519,7 @@ namespace OgreNextPlugin
                     BaseName = "Textures_piece_ps.hlsl",
                     FileName = "/Hlms/Pbs/HLSL/Textures_piece_ps.hlsl",
                     Path = "/Hlms/Pbs/HLSL",
-                    EmbeddedResourcePath = "Hlms.Pbs.HLSL.Textures_piece_ps.hlsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.HLSL.Textures_piece_ps.hlsl",
                 };
 
                 fileMap["/Hlms/Pbs/HLSL/VertexShader_vs.hlsl"] = new HlmsEmbeddedFileInfo()
@@ -528,7 +528,7 @@ namespace OgreNextPlugin
                     BaseName = "VertexShader_vs.hlsl",
                     FileName = "/Hlms/Pbs/HLSL/VertexShader_vs.hlsl",
                     Path = "/Hlms/Pbs/HLSL",
-                    EmbeddedResourcePath = "Hlms.Pbs.HLSL.VertexShader_vs.hlsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.HLSL.VertexShader_vs.hlsl",
                 };
 
                 fileMap["/Hlms/Pbs/Metal/Forward3D_piece_ps.metal"] = new HlmsEmbeddedFileInfo()
@@ -537,7 +537,7 @@ namespace OgreNextPlugin
                     BaseName = "Forward3D_piece_ps.metal",
                     FileName = "/Hlms/Pbs/Metal/Forward3D_piece_ps.metal",
                     Path = "/Hlms/Pbs/Metal",
-                    EmbeddedResourcePath = "Hlms.Pbs.Metal.Forward3D_piece_ps.metal",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Metal.Forward3D_piece_ps.metal",
                 };
 
                 fileMap["/Hlms/Pbs/Metal/PixelShader_ps.metal"] = new HlmsEmbeddedFileInfo()
@@ -546,7 +546,7 @@ namespace OgreNextPlugin
                     BaseName = "PixelShader_ps.metal",
                     FileName = "/Hlms/Pbs/Metal/PixelShader_ps.metal",
                     Path = "/Hlms/Pbs/Metal",
-                    EmbeddedResourcePath = "Hlms.Pbs.Metal.PixelShader_ps.metal",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Metal.PixelShader_ps.metal",
                 };
 
                 fileMap["/Hlms/Pbs/Metal/Textures_piece_ps.metal"] = new HlmsEmbeddedFileInfo()
@@ -555,7 +555,7 @@ namespace OgreNextPlugin
                     BaseName = "Textures_piece_ps.metal",
                     FileName = "/Hlms/Pbs/Metal/Textures_piece_ps.metal",
                     Path = "/Hlms/Pbs/Metal",
-                    EmbeddedResourcePath = "Hlms.Pbs.Metal.Textures_piece_ps.metal",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Metal.Textures_piece_ps.metal",
                 };
 
                 fileMap["/Hlms/Pbs/Metal/VertexShader_vs.metal"] = new HlmsEmbeddedFileInfo()
@@ -564,7 +564,7 @@ namespace OgreNextPlugin
                     BaseName = "VertexShader_vs.metal",
                     FileName = "/Hlms/Pbs/Metal/VertexShader_vs.metal",
                     Path = "/Hlms/Pbs/Metal",
-                    EmbeddedResourcePath = "Hlms.Pbs.Metal.VertexShader_vs.metal",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Metal.VertexShader_vs.metal",
                 };
 
                 fileMap["/Hlms/Terra/Any/500.Structs_piece_vs_piece_ps.any"] = new HlmsEmbeddedFileInfo()
@@ -573,7 +573,7 @@ namespace OgreNextPlugin
                     BaseName = "500.Structs_piece_vs_piece_ps.any",
                     FileName = "/Hlms/Terra/Any/500.Structs_piece_vs_piece_ps.any",
                     Path = "/Hlms/Terra/Any",
-                    EmbeddedResourcePath = "Hlms.Terra.Any.500.Structs_piece_vs_piece_ps.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Terra.Any.500.Structs_piece_vs_piece_ps.any",
                 };
 
                 fileMap["/Hlms/Terra/Any/800.PixelShader_piece_ps.any"] = new HlmsEmbeddedFileInfo()
@@ -582,7 +582,7 @@ namespace OgreNextPlugin
                     BaseName = "800.PixelShader_piece_ps.any",
                     FileName = "/Hlms/Terra/Any/800.PixelShader_piece_ps.any",
                     Path = "/Hlms/Terra/Any",
-                    EmbeddedResourcePath = "Hlms.Terra.Any.800.PixelShader_piece_ps.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Terra.Any.800.PixelShader_piece_ps.any",
                 };
 
                 fileMap["/Hlms/Terra/Any/800.VertexShader_piece_vs.any"] = new HlmsEmbeddedFileInfo()
@@ -591,7 +591,7 @@ namespace OgreNextPlugin
                     BaseName = "800.VertexShader_piece_vs.any",
                     FileName = "/Hlms/Terra/Any/800.VertexShader_piece_vs.any",
                     Path = "/Hlms/Terra/Any",
-                    EmbeddedResourcePath = "Hlms.Terra.Any.800.VertexShader_piece_vs.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Terra.Any.800.VertexShader_piece_vs.any",
                 };
 
                 fileMap["/Hlms/Terra/GLSL/PixelShader_ps.glsl"] = new HlmsEmbeddedFileInfo()
@@ -600,7 +600,7 @@ namespace OgreNextPlugin
                     BaseName = "PixelShader_ps.glsl",
                     FileName = "/Hlms/Terra/GLSL/PixelShader_ps.glsl",
                     Path = "/Hlms/Terra/GLSL",
-                    EmbeddedResourcePath = "Hlms.Terra.GLSL.PixelShader_ps.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Terra.GLSL.PixelShader_ps.glsl",
                 };
 
                 fileMap["/Hlms/Terra/GLSL/VertexShader_vs.glsl"] = new HlmsEmbeddedFileInfo()
@@ -609,7 +609,7 @@ namespace OgreNextPlugin
                     BaseName = "VertexShader_vs.glsl",
                     FileName = "/Hlms/Terra/GLSL/VertexShader_vs.glsl",
                     Path = "/Hlms/Terra/GLSL",
-                    EmbeddedResourcePath = "Hlms.Terra.GLSL.VertexShader_vs.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Terra.GLSL.VertexShader_vs.glsl",
                 };
 
                 fileMap["/Hlms/Terra/GLSLES/PixelShader_ps.glsl"] = new HlmsEmbeddedFileInfo()
@@ -618,7 +618,7 @@ namespace OgreNextPlugin
                     BaseName = "PixelShader_ps.glsl",
                     FileName = "/Hlms/Terra/GLSLES/PixelShader_ps.glsl",
                     Path = "/Hlms/Terra/GLSLES",
-                    EmbeddedResourcePath = "Hlms.Terra.GLSLES.PixelShader_ps.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Terra.GLSLES.PixelShader_ps.glsl",
                 };
 
                 fileMap["/Hlms/Terra/GLSLES/Structs_piece_vs_piece_ps.glsl"] = new HlmsEmbeddedFileInfo()
@@ -627,7 +627,7 @@ namespace OgreNextPlugin
                     BaseName = "Structs_piece_vs_piece_ps.glsl",
                     FileName = "/Hlms/Terra/GLSLES/Structs_piece_vs_piece_ps.glsl",
                     Path = "/Hlms/Terra/GLSLES",
-                    EmbeddedResourcePath = "Hlms.Terra.GLSLES.Structs_piece_vs_piece_ps.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Terra.GLSLES.Structs_piece_vs_piece_ps.glsl",
                 };
 
                 fileMap["/Hlms/Terra/GLSLES/Textures_piece_ps.glsl"] = new HlmsEmbeddedFileInfo()
@@ -636,7 +636,7 @@ namespace OgreNextPlugin
                     BaseName = "Textures_piece_ps.glsl",
                     FileName = "/Hlms/Terra/GLSLES/Textures_piece_ps.glsl",
                     Path = "/Hlms/Terra/GLSLES",
-                    EmbeddedResourcePath = "Hlms.Terra.GLSLES.Textures_piece_ps.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Terra.GLSLES.Textures_piece_ps.glsl",
                 };
 
                 fileMap["/Hlms/Terra/GLSLES/VertexShader_vs.glsl"] = new HlmsEmbeddedFileInfo()
@@ -645,7 +645,7 @@ namespace OgreNextPlugin
                     BaseName = "VertexShader_vs.glsl",
                     FileName = "/Hlms/Terra/GLSLES/VertexShader_vs.glsl",
                     Path = "/Hlms/Terra/GLSLES",
-                    EmbeddedResourcePath = "Hlms.Terra.GLSLES.VertexShader_vs.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Terra.GLSLES.VertexShader_vs.glsl",
                 };
 
                 fileMap["/Hlms/Terra/HLSL/PixelShader_ps.hlsl"] = new HlmsEmbeddedFileInfo()
@@ -654,7 +654,7 @@ namespace OgreNextPlugin
                     BaseName = "PixelShader_ps.hlsl",
                     FileName = "/Hlms/Terra/HLSL/PixelShader_ps.hlsl",
                     Path = "/Hlms/Terra/HLSL",
-                    EmbeddedResourcePath = "Hlms.Terra.HLSL.PixelShader_ps.hlsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Terra.HLSL.PixelShader_ps.hlsl",
                 };
 
                 fileMap["/Hlms/Terra/HLSL/VertexShader_vs.hlsl"] = new HlmsEmbeddedFileInfo()
@@ -663,7 +663,7 @@ namespace OgreNextPlugin
                     BaseName = "VertexShader_vs.hlsl",
                     FileName = "/Hlms/Terra/HLSL/VertexShader_vs.hlsl",
                     Path = "/Hlms/Terra/HLSL",
-                    EmbeddedResourcePath = "Hlms.Terra.HLSL.VertexShader_vs.hlsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Terra.HLSL.VertexShader_vs.hlsl",
                 };
 
                 fileMap["/Hlms/Terra/Metal/PixelShader_ps.metal"] = new HlmsEmbeddedFileInfo()
@@ -672,7 +672,7 @@ namespace OgreNextPlugin
                     BaseName = "PixelShader_ps.metal",
                     FileName = "/Hlms/Terra/Metal/PixelShader_ps.metal",
                     Path = "/Hlms/Terra/Metal",
-                    EmbeddedResourcePath = "Hlms.Terra.Metal.PixelShader_ps.metal",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Terra.Metal.PixelShader_ps.metal",
                 };
 
                 fileMap["/Hlms/Terra/Metal/VertexShader_vs.metal"] = new HlmsEmbeddedFileInfo()
@@ -681,7 +681,7 @@ namespace OgreNextPlugin
                     BaseName = "VertexShader_vs.metal",
                     FileName = "/Hlms/Terra/Metal/VertexShader_vs.metal",
                     Path = "/Hlms/Terra/Metal",
-                    EmbeddedResourcePath = "Hlms.Terra.Metal.VertexShader_vs.metal",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Terra.Metal.VertexShader_vs.metal",
                 };
 
                 fileMap["/Hlms/Unlit/Any/StructsUnlit_piece_all.any"] = new HlmsEmbeddedFileInfo()
@@ -690,7 +690,7 @@ namespace OgreNextPlugin
                     BaseName = "StructsUnlit_piece_all.any",
                     FileName = "/Hlms/Unlit/Any/StructsUnlit_piece_all.any",
                     Path = "/Hlms/Unlit/Any",
-                    EmbeddedResourcePath = "Hlms.Unlit.Any.StructsUnlit_piece_all.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Unlit.Any.StructsUnlit_piece_all.any",
                 };
 
                 fileMap["/Hlms/Unlit/GLSL/BlendModes_piece_ps.glsl"] = new HlmsEmbeddedFileInfo()
@@ -699,7 +699,7 @@ namespace OgreNextPlugin
                     BaseName = "BlendModes_piece_ps.glsl",
                     FileName = "/Hlms/Unlit/GLSL/BlendModes_piece_ps.glsl",
                     Path = "/Hlms/Unlit/GLSL",
-                    EmbeddedResourcePath = "Hlms.Unlit.GLSL.BlendModes_piece_ps.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Unlit.GLSL.BlendModes_piece_ps.glsl",
                 };
 
                 fileMap["/Hlms/Unlit/GLSL/PixelShader_ps.glsl"] = new HlmsEmbeddedFileInfo()
@@ -708,7 +708,7 @@ namespace OgreNextPlugin
                     BaseName = "PixelShader_ps.glsl",
                     FileName = "/Hlms/Unlit/GLSL/PixelShader_ps.glsl",
                     Path = "/Hlms/Unlit/GLSL",
-                    EmbeddedResourcePath = "Hlms.Unlit.GLSL.PixelShader_ps.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Unlit.GLSL.PixelShader_ps.glsl",
                 };
 
                 fileMap["/Hlms/Unlit/GLSL/Structs_piece_vs_piece_ps.glsl"] = new HlmsEmbeddedFileInfo()
@@ -717,7 +717,7 @@ namespace OgreNextPlugin
                     BaseName = "Structs_piece_vs_piece_ps.glsl",
                     FileName = "/Hlms/Unlit/GLSL/Structs_piece_vs_piece_ps.glsl",
                     Path = "/Hlms/Unlit/GLSL",
-                    EmbeddedResourcePath = "Hlms.Unlit.GLSL.Structs_piece_vs_piece_ps.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Unlit.GLSL.Structs_piece_vs_piece_ps.glsl",
                 };
 
                 fileMap["/Hlms/Unlit/GLSL/VertexShader_vs.glsl"] = new HlmsEmbeddedFileInfo()
@@ -726,7 +726,7 @@ namespace OgreNextPlugin
                     BaseName = "VertexShader_vs.glsl",
                     FileName = "/Hlms/Unlit/GLSL/VertexShader_vs.glsl",
                     Path = "/Hlms/Unlit/GLSL",
-                    EmbeddedResourcePath = "Hlms.Unlit.GLSL.VertexShader_vs.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Unlit.GLSL.VertexShader_vs.glsl",
                 };
 
                 fileMap["/Hlms/Unlit/GLSLES/BlendModes_piece_ps.glsl"] = new HlmsEmbeddedFileInfo()
@@ -735,7 +735,7 @@ namespace OgreNextPlugin
                     BaseName = "BlendModes_piece_ps.glsl",
                     FileName = "/Hlms/Unlit/GLSLES/BlendModes_piece_ps.glsl",
                     Path = "/Hlms/Unlit/GLSLES",
-                    EmbeddedResourcePath = "Hlms.Unlit.GLSLES.BlendModes_piece_ps.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Unlit.GLSLES.BlendModes_piece_ps.glsl",
                 };
 
                 fileMap["/Hlms/Unlit/GLSLES/PixelShader_ps.glsl"] = new HlmsEmbeddedFileInfo()
@@ -744,7 +744,7 @@ namespace OgreNextPlugin
                     BaseName = "PixelShader_ps.glsl",
                     FileName = "/Hlms/Unlit/GLSLES/PixelShader_ps.glsl",
                     Path = "/Hlms/Unlit/GLSLES",
-                    EmbeddedResourcePath = "Hlms.Unlit.GLSLES.PixelShader_ps.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Unlit.GLSLES.PixelShader_ps.glsl",
                 };
 
                 fileMap["/Hlms/Unlit/GLSLES/Structs_piece_vs_piece_ps.glsl"] = new HlmsEmbeddedFileInfo()
@@ -753,7 +753,7 @@ namespace OgreNextPlugin
                     BaseName = "Structs_piece_vs_piece_ps.glsl",
                     FileName = "/Hlms/Unlit/GLSLES/Structs_piece_vs_piece_ps.glsl",
                     Path = "/Hlms/Unlit/GLSLES",
-                    EmbeddedResourcePath = "Hlms.Unlit.GLSLES.Structs_piece_vs_piece_ps.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Unlit.GLSLES.Structs_piece_vs_piece_ps.glsl",
                 };
 
                 fileMap["/Hlms/Unlit/GLSLES/VertexShader_vs.glsl"] = new HlmsEmbeddedFileInfo()
@@ -762,7 +762,7 @@ namespace OgreNextPlugin
                     BaseName = "VertexShader_vs.glsl",
                     FileName = "/Hlms/Unlit/GLSLES/VertexShader_vs.glsl",
                     Path = "/Hlms/Unlit/GLSLES",
-                    EmbeddedResourcePath = "Hlms.Unlit.GLSLES.VertexShader_vs.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Unlit.GLSLES.VertexShader_vs.glsl",
                 };
 
                 fileMap["/Hlms/Unlit/HLSL/BlendModes_piece_ps.hlsl"] = new HlmsEmbeddedFileInfo()
@@ -771,7 +771,7 @@ namespace OgreNextPlugin
                     BaseName = "BlendModes_piece_ps.hlsl",
                     FileName = "/Hlms/Unlit/HLSL/BlendModes_piece_ps.hlsl",
                     Path = "/Hlms/Unlit/HLSL",
-                    EmbeddedResourcePath = "Hlms.Unlit.HLSL.BlendModes_piece_ps.hlsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Unlit.HLSL.BlendModes_piece_ps.hlsl",
                 };
 
                 fileMap["/Hlms/Unlit/HLSL/PixelShader_ps.hlsl"] = new HlmsEmbeddedFileInfo()
@@ -780,7 +780,7 @@ namespace OgreNextPlugin
                     BaseName = "PixelShader_ps.hlsl",
                     FileName = "/Hlms/Unlit/HLSL/PixelShader_ps.hlsl",
                     Path = "/Hlms/Unlit/HLSL",
-                    EmbeddedResourcePath = "Hlms.Unlit.HLSL.PixelShader_ps.hlsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Unlit.HLSL.PixelShader_ps.hlsl",
                 };
 
                 fileMap["/Hlms/Unlit/HLSL/Structs_piece_vs_piece_ps.hlsl"] = new HlmsEmbeddedFileInfo()
@@ -789,7 +789,7 @@ namespace OgreNextPlugin
                     BaseName = "Structs_piece_vs_piece_ps.hlsl",
                     FileName = "/Hlms/Unlit/HLSL/Structs_piece_vs_piece_ps.hlsl",
                     Path = "/Hlms/Unlit/HLSL",
-                    EmbeddedResourcePath = "Hlms.Unlit.HLSL.Structs_piece_vs_piece_ps.hlsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Unlit.HLSL.Structs_piece_vs_piece_ps.hlsl",
                 };
 
                 fileMap["/Hlms/Unlit/HLSL/VertexShader_vs.hlsl"] = new HlmsEmbeddedFileInfo()
@@ -798,7 +798,7 @@ namespace OgreNextPlugin
                     BaseName = "VertexShader_vs.hlsl",
                     FileName = "/Hlms/Unlit/HLSL/VertexShader_vs.hlsl",
                     Path = "/Hlms/Unlit/HLSL",
-                    EmbeddedResourcePath = "Hlms.Unlit.HLSL.VertexShader_vs.hlsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Unlit.HLSL.VertexShader_vs.hlsl",
                 };
 
                 fileMap["/Hlms/Unlit/Metal/BlendModes_piece_ps.metal"] = new HlmsEmbeddedFileInfo()
@@ -807,7 +807,7 @@ namespace OgreNextPlugin
                     BaseName = "BlendModes_piece_ps.metal",
                     FileName = "/Hlms/Unlit/Metal/BlendModes_piece_ps.metal",
                     Path = "/Hlms/Unlit/Metal",
-                    EmbeddedResourcePath = "Hlms.Unlit.Metal.BlendModes_piece_ps.metal",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Unlit.Metal.BlendModes_piece_ps.metal",
                 };
 
                 fileMap["/Hlms/Unlit/Metal/PixelShader_ps.metal"] = new HlmsEmbeddedFileInfo()
@@ -816,7 +816,7 @@ namespace OgreNextPlugin
                     BaseName = "PixelShader_ps.metal",
                     FileName = "/Hlms/Unlit/Metal/PixelShader_ps.metal",
                     Path = "/Hlms/Unlit/Metal",
-                    EmbeddedResourcePath = "Hlms.Unlit.Metal.PixelShader_ps.metal",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Unlit.Metal.PixelShader_ps.metal",
                 };
 
                 fileMap["/Hlms/Unlit/Metal/Structs_piece_vs_piece_ps.metal"] = new HlmsEmbeddedFileInfo()
@@ -825,7 +825,7 @@ namespace OgreNextPlugin
                     BaseName = "Structs_piece_vs_piece_ps.metal",
                     FileName = "/Hlms/Unlit/Metal/Structs_piece_vs_piece_ps.metal",
                     Path = "/Hlms/Unlit/Metal",
-                    EmbeddedResourcePath = "Hlms.Unlit.Metal.Structs_piece_vs_piece_ps.metal",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Unlit.Metal.Structs_piece_vs_piece_ps.metal",
                 };
 
                 fileMap["/Hlms/Unlit/Metal/VertexShader_vs.metal"] = new HlmsEmbeddedFileInfo()
@@ -834,7 +834,7 @@ namespace OgreNextPlugin
                     BaseName = "VertexShader_vs.metal",
                     FileName = "/Hlms/Unlit/Metal/VertexShader_vs.metal",
                     Path = "/Hlms/Unlit/Metal",
-                    EmbeddedResourcePath = "Hlms.Unlit.Metal.VertexShader_vs.metal",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Unlit.Metal.VertexShader_vs.metal",
                 };
 
                 fileMap["/Hlms/Pbs/Any/Main/200.BlendModes_piece_ps.any"] = new HlmsEmbeddedFileInfo()
@@ -843,7 +843,7 @@ namespace OgreNextPlugin
                     BaseName = "200.BlendModes_piece_ps.any",
                     FileName = "/Hlms/Pbs/Any/Main/200.BlendModes_piece_ps.any",
                     Path = "/Hlms/Pbs/Any/Main",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.Main.200.BlendModes_piece_ps.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.Main.200.BlendModes_piece_ps.any",
                 };
 
                 fileMap["/Hlms/Pbs/Any/Main/200.BRDFs_piece_ps.any"] = new HlmsEmbeddedFileInfo()
@@ -852,7 +852,7 @@ namespace OgreNextPlugin
                     BaseName = "200.BRDFs_piece_ps.any",
                     FileName = "/Hlms/Pbs/Any/Main/200.BRDFs_piece_ps.any",
                     Path = "/Hlms/Pbs/Any/Main",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.Main.200.BRDFs_piece_ps.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.Main.200.BRDFs_piece_ps.any",
                 };
 
                 fileMap["/Hlms/Pbs/Any/Main/200.DetailMaps_piece_ps.any"] = new HlmsEmbeddedFileInfo()
@@ -861,7 +861,7 @@ namespace OgreNextPlugin
                     BaseName = "200.DetailMaps_piece_ps.any",
                     FileName = "/Hlms/Pbs/Any/Main/200.DetailMaps_piece_ps.any",
                     Path = "/Hlms/Pbs/Any/Main",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.Main.200.DetailMaps_piece_ps.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.Main.200.DetailMaps_piece_ps.any",
                 };
 
                 fileMap["/Hlms/Pbs/Any/Main/200.ForwardPlus_piece_ps.any"] = new HlmsEmbeddedFileInfo()
@@ -870,7 +870,7 @@ namespace OgreNextPlugin
                     BaseName = "200.ForwardPlus_piece_ps.any",
                     FileName = "/Hlms/Pbs/Any/Main/200.ForwardPlus_piece_ps.any",
                     Path = "/Hlms/Pbs/Any/Main",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.Main.200.ForwardPlus_piece_ps.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.Main.200.ForwardPlus_piece_ps.any",
                 };
 
                 fileMap["/Hlms/Pbs/Any/Main/200.Textures_piece_ps.any"] = new HlmsEmbeddedFileInfo()
@@ -879,7 +879,7 @@ namespace OgreNextPlugin
                     BaseName = "200.Textures_piece_ps.any",
                     FileName = "/Hlms/Pbs/Any/Main/200.Textures_piece_ps.any",
                     Path = "/Hlms/Pbs/Any/Main",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.Main.200.Textures_piece_ps.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.Main.200.Textures_piece_ps.any",
                 };
 
                 fileMap["/Hlms/Pbs/Any/Main/500.Structs_piece_vs_piece_ps.any"] = new HlmsEmbeddedFileInfo()
@@ -888,7 +888,7 @@ namespace OgreNextPlugin
                     BaseName = "500.Structs_piece_vs_piece_ps.any",
                     FileName = "/Hlms/Pbs/Any/Main/500.Structs_piece_vs_piece_ps.any",
                     Path = "/Hlms/Pbs/Any/Main",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.Main.500.Structs_piece_vs_piece_ps.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.Main.500.Structs_piece_vs_piece_ps.any",
                 };
 
                 fileMap["/Hlms/Pbs/Any/Main/800.PixelShader_piece_ps.any"] = new HlmsEmbeddedFileInfo()
@@ -897,7 +897,7 @@ namespace OgreNextPlugin
                     BaseName = "800.PixelShader_piece_ps.any",
                     FileName = "/Hlms/Pbs/Any/Main/800.PixelShader_piece_ps.any",
                     Path = "/Hlms/Pbs/Any/Main",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.Main.800.PixelShader_piece_ps.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.Main.800.PixelShader_piece_ps.any",
                 };
 
                 fileMap["/Hlms/Pbs/Any/Main/800.VertexShader_piece_vs.any"] = new HlmsEmbeddedFileInfo()
@@ -906,7 +906,7 @@ namespace OgreNextPlugin
                     BaseName = "800.VertexShader_piece_vs.any",
                     FileName = "/Hlms/Pbs/Any/Main/800.VertexShader_piece_vs.any",
                     Path = "/Hlms/Pbs/Any/Main",
-                    EmbeddedResourcePath = "Hlms.Pbs.Any.Main.800.VertexShader_piece_vs.any",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Pbs.Any.Main.800.VertexShader_piece_vs.any",
                 };
 
                 fileMap["/Hlms/Terra/GLSL/PbsTerraShadows/PbsTerraShadows_piece_vs_piece_ps.glsl"] = new HlmsEmbeddedFileInfo()
@@ -915,7 +915,7 @@ namespace OgreNextPlugin
                     BaseName = "PbsTerraShadows_piece_vs_piece_ps.glsl",
                     FileName = "/Hlms/Terra/GLSL/PbsTerraShadows/PbsTerraShadows_piece_vs_piece_ps.glsl",
                     Path = "/Hlms/Terra/GLSL/PbsTerraShadows",
-                    EmbeddedResourcePath = "Hlms.Terra.GLSL.PbsTerraShadows.PbsTerraShadows_piece_vs_piece_ps.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Terra.GLSL.PbsTerraShadows.PbsTerraShadows_piece_vs_piece_ps.glsl",
                 };
 
                 fileMap["/Hlms/Terra/GLSLES/PbsTerraShadows/PbsTerraShadows_piece_vs_piece_ps.glsl"] = new HlmsEmbeddedFileInfo()
@@ -924,7 +924,7 @@ namespace OgreNextPlugin
                     BaseName = "PbsTerraShadows_piece_vs_piece_ps.glsl",
                     FileName = "/Hlms/Terra/GLSLES/PbsTerraShadows/PbsTerraShadows_piece_vs_piece_ps.glsl",
                     Path = "/Hlms/Terra/GLSLES/PbsTerraShadows",
-                    EmbeddedResourcePath = "Hlms.Terra.GLSLES.PbsTerraShadows.PbsTerraShadows_piece_vs_piece_ps.glsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Terra.GLSLES.PbsTerraShadows.PbsTerraShadows_piece_vs_piece_ps.glsl",
                 };
 
                 fileMap["/Hlms/Terra/HLSL/PbsTerraShadows/PbsTerraShadows_piece_vs_piece_ps.hlsl"] = new HlmsEmbeddedFileInfo()
@@ -933,7 +933,7 @@ namespace OgreNextPlugin
                     BaseName = "PbsTerraShadows_piece_vs_piece_ps.hlsl",
                     FileName = "/Hlms/Terra/HLSL/PbsTerraShadows/PbsTerraShadows_piece_vs_piece_ps.hlsl",
                     Path = "/Hlms/Terra/HLSL/PbsTerraShadows",
-                    EmbeddedResourcePath = "Hlms.Terra.HLSL.PbsTerraShadows.PbsTerraShadows_piece_vs_piece_ps.hlsl",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Terra.HLSL.PbsTerraShadows.PbsTerraShadows_piece_vs_piece_ps.hlsl",
                 };
 
                 fileMap["/Hlms/Terra/Metal/PbsTerraShadows/PbsTerraShadows_piece_vs_piece_ps.metal"] = new HlmsEmbeddedFileInfo()
@@ -942,7 +942,7 @@ namespace OgreNextPlugin
                     BaseName = "PbsTerraShadows_piece_vs_piece_ps.metal",
                     FileName = "/Hlms/Terra/Metal/PbsTerraShadows/PbsTerraShadows_piece_vs_piece_ps.metal",
                     Path = "/Hlms/Terra/Metal/PbsTerraShadows",
-                    EmbeddedResourcePath = "Hlms.Terra.Metal.PbsTerraShadows.PbsTerraShadows_piece_vs_piece_ps.metal",
+                    EmbeddedResourcePath = "OgreNextPlugin.Hlms.Terra.Metal.PbsTerraShadows.PbsTerraShadows_piece_vs_piece_ps.metal",
                 };
 
         }

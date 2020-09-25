@@ -45,7 +45,7 @@ namespace OgreNextPlugin
                     BaseName = ""{Path.GetFileName(partialFile)}"",
                     FileName = ""{partialFile}"",
                     Path = ""{Path.GetDirectoryName(partialFile).Replace('\\', '/')}"",
-                    EmbeddedResourcePath = ""{embedded}"",
+                    EmbeddedResourcePath = ""OgreNextPlugin.{embedded}"",
                 }};");
 
                 //sb.AppendLine($"fileMap[\"{partialFile}\"] = \"OgreNextPlugin{embedded}\";");

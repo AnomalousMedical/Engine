@@ -73,11 +73,17 @@ namespace OgreNextPlugin
 
         protected internal override System.IO.Stream doOpen(string filename)
         {
-            //This is not yet tested, since ogre is not calling it yet.
-            //Other stuff works
-            filename = fixFilename(filename);
-            var file = fileMap[filename];
-            return assembly.GetManifestResourceStream(file.EmbeddedResourcePath);
+            //This is a bit strange. The filenames will come in full, but handle possibly needing the prefix as well.
+            if(!fileMap.TryGetValue(filename, out var file))
+            {
+                filename = fixFilename(filename);
+                if (!fileMap.TryGetValue(filename, out file))
+                {
+                    throw new FileNotFoundException($"Cannot find '{filename}'.");
+                }
+            }
+            return assembly.GetManifestResourceStream(file.EmbeddedResourcePath) 
+                ?? throw new FileNotFoundException($"Cannot find '{filename}'.");
         }
 
         protected internal override void doList(bool recursive, bool dirs, IntPtr ogreStringVector)
