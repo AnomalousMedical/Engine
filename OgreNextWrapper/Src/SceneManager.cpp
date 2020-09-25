@@ -38,30 +38,20 @@ extern "C" _AnomalousExport void SceneManager_destroyLight(Ogre::SceneManager* s
 	sceneManager->destroyLight(light);
 }
 
-//extern "C" _AnomalousExport Ogre::SceneNode* SceneManager_createSceneNode(Ogre::SceneManager* sceneManager, String name)
-//{
-//	return sceneManager->createSceneNode(name);
-//}
-//
-//extern "C" _AnomalousExport Ogre::SceneNode* SceneManager_getRootSceneNode(Ogre::SceneManager* sceneManager)
-//{
-//	return sceneManager->getRootSceneNode();
-//}
-//
-//extern "C" _AnomalousExport Ogre::SceneNode* SceneManager_getSceneNode(Ogre::SceneManager* sceneManager, String name)
-//{
-//	return sceneManager->getSceneNode(name);
-//}
-//
-//extern "C" _AnomalousExport bool SceneManager_hasSceneNode(Ogre::SceneManager* sceneManager, String name)
-//{
-//	return sceneManager->hasSceneNode(name);
-//}
-//
-//extern "C" _AnomalousExport void SceneManager_destroySceneNode(Ogre::SceneManager* sceneManager, Ogre::SceneNode* node)
-//{
-//	sceneManager->destroySceneNode(node);
-//}
+extern "C" _AnomalousExport Ogre::SceneNode* SceneManager_createSceneNode(Ogre::SceneManager* sceneManager, Ogre::SceneMemoryMgrTypes sceneType)
+{
+	return sceneManager->createSceneNode(sceneType);
+}
+
+extern "C" _AnomalousExport Ogre::SceneNode* SceneManager_getRootSceneNode(Ogre::SceneManager* sceneManager)
+{
+	return sceneManager->getRootSceneNode();
+}
+
+extern "C" _AnomalousExport void SceneManager_destroySceneNode(Ogre::SceneManager* sceneManager, Ogre::SceneNode* node)
+{
+	sceneManager->destroySceneNode(node);
+}
 //
 //extern "C" _AnomalousExport Ogre::Entity* SceneManager_createEntity(Ogre::SceneManager* sceneManager, String entityName, String meshName)
 //{

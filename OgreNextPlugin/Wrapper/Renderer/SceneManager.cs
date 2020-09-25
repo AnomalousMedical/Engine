@@ -32,7 +32,7 @@ namespace OgreNextPlugin
         //WrapperCollection<StaticGeometry> staticGeometries = new WrapperCollection<StaticGeometry>(StaticGeometry.createWrapper);
         //RenderQueue renderQueue;
         //ManagedSceneListener sceneListener;
-        //SceneNode rootNode;
+        SceneNode rootNode;
         //ManagedRenderQueueListener managedRenderQueueListener;
 
         public IntPtr NativePtr
@@ -49,7 +49,7 @@ namespace OgreNextPlugin
             //renderQueue = new RenderQueue(SceneManager_getRenderQueue(ogreSceneManager));
             //sceneListener = new ManagedSceneListener(this);
             //SceneManager_addSceneListener(ogreSceneManager, sceneListener.NativeSceneListener);
-            //rootNode = SceneNode.getManagedNode(SceneManager_getRootSceneNode(ogreSceneManager));
+            rootNode = SceneNode.getManagedNode(SceneManager_getRootSceneNode(ogreSceneManager));
             //managedRenderQueueListener = new ManagedRenderQueueListener(this);
         }
 
@@ -63,7 +63,7 @@ namespace OgreNextPlugin
             //entities.Dispose();
             //manualObjects.Dispose();
             //staticGeometries.Dispose();
-            //SceneNode.destroyManagedNode(rootNode);
+            SceneNode.destroyManagedNode(rootNode);
             //renderQueue.Dispose();
             ogreSceneManager = IntPtr.Zero;
         }
@@ -116,608 +116,588 @@ namespace OgreNextPlugin
             SceneManager_destroyCamera(ogreSceneManager, ogreCamera);
         }
 
-	    ///// <summary>
-	    ///// Creates a new light managed by this SceneManager.
-	    ///// </summary>
-	    ///// <param name="name">The name of the light.</param>
-	    ///// <returns>A new Light wrapping a native light.</returns>
-     //   public Light createLight(String name)
-     //   {
-     //       return lights.getObject(SceneManager_createLight(ogreSceneManager));
-     //   }
-
-	    ///// <summary>
-	    ///// Destroys the passed light
-	    ///// </summary>
-	    ///// <param name="light">The light to destroy.</param>
-     //   public void destroyLight(Light light)
-     //   {
-     //       IntPtr ogreLight = light.OgreObject;
-     //       lights.destroyObject(ogreLight);
-     //       SceneManager_destroyLight(ogreSceneManager, ogreLight);
-     //   }
-
-	    ///// <summary>
-	    ///// Creates a new SceneNode with the given name.
-	    ///// </summary>
-	    ///// <param name="name">The name of the render node.</param>
-	    ///// <returns>A new render node with the given name.</returns>
-     //   public SceneNode createSceneNode(String name)
-     //   {
-     //       return SceneNode.getManagedNode(SceneManager_createSceneNode(ogreSceneManager, name));
-     //   }
-
-	    ///// <summary>
-	    ///// Gets the SceneNode at the root of the scene graph.
-	    ///// </summary>
-	    ///// <returns>The root SceneNode.</returns>
-     //   public SceneNode getRootSceneNode()
-     //   {
-     //       return rootNode;
-     //   }
-
-	    ///// <summary>
-	    ///// Gets the named render node.
-	    ///// </summary>
-	    ///// <param name="name">The name of the node.</param>
-	    ///// <returns>The Render node if it exists or else null.</returns>
-     //   public SceneNode getSceneNode(String name)
-     //   {
-     //       return SceneNode.getManagedNode(SceneManager_getSceneNode(ogreSceneManager, name));
-     //   }
-
-	    ///// <summary>
-	    ///// Returns whether a SceneNode with the given name exists.
-	    ///// </summary>
-	    ///// <param name="name">The name of the node.</param>
-	    ///// <returns>True if the node exists.  False if it does not.</returns>
-     //   public bool hasSceneNode(String name)
-     //   {
-     //       return SceneManager_hasSceneNode(ogreSceneManager, name);
-     //   }
-
-	    ///// <summary>
-	    ///// Destroys the render node passed.  You cannot destroy the root node using this
-	    ///// method it will be destroyed automaticly.
-	    ///// </summary>
-	    ///// <param name="node">The SceneNode to destroy.</param>
-     //   public void destroySceneNode(SceneNode node)
-     //   {
-     //       if(!node.Equals(rootNode))
-     //       {
-     //           IntPtr ogreNode = node.OgreNode;
-     //           SceneNode.destroyManagedNode(node);
-     //           SceneManager_destroySceneNode(ogreSceneManager, ogreNode);
-     //       }
-     //       else
-     //       {
-     //           Log.Warning("Attempted to destroy the root node, node not destroyed.");
-     //       }
-     //   }
-
-	    ///// <summary>
-	    ///// Create a Entity with the given name using the given mesh.
-	    ///// </summary>
-	    ///// <param name="entityName">The name of the entity.</param>
-	    ///// <param name="meshName">The name of the mesh to use on this entity.</param>
-	    ///// <returns>The new Entity.</returns>
-     //   public Entity createEntity(String entityName, String meshName)
-     //   {
-     //       return entities.getObject(SceneManager_createEntity(ogreSceneManager, entityName, meshName));
-     //   }
-
-	    ///// <summary>
-	    ///// Get the named Entity.
-	    ///// </summary>
-	    ///// <param name="name">The name of the render entity.</param>
-	    ///// <returns>The Entity if it exists or null if it does not.</returns>
-     //   public Entity getEntity(String name)
-     //   {
-     //       return entities.getObject(SceneManager_getEntity(ogreSceneManager, name));
-     //   }
-    	
-	    ///// <summary>
-	    ///// Returns whether a Entity with the given name exists.
-	    ///// </summary>
-	    ///// <param name="name">The name of the render entity.</param>
-	    ///// <returns>True if the entity exists.  False if it does not.</returns>
-     //   public bool hasEntity(String name)
-     //   {
-     //       return SceneManager_hasEntity(ogreSceneManager, name);
-     //   }
-
-	    ///// <summary>
-	    ///// Destroys the Entity passed.
-	    ///// </summary>
-	    ///// <param name="entity">The Entity to destroy.</param>
-     //   public void destroyEntity(Entity entity)
-     //   {
-     //       IntPtr ogreEntity = entity.OgreObject;
-     //       entities.destroyObject(ogreEntity);
-     //       SceneManager_destroyEntity(ogreSceneManager, ogreEntity);
-     //   }
-
-	    ///// <summary>
-	    ///// Create a ManualObject, an object which you populate with geometry manually through a 
-	    ///// GL immediate-mode style interface. 
-	    ///// </summary>
-	    ///// <param name="name">The name to be given to the object (must be unique). </param>
-	    ///// <returns>The newly created manual object.</returns>
-     //   public ManualObject createManualObject(String name)
-     //   {
-     //       return manualObjects.getObject(SceneManager_createManualObject(ogreSceneManager, name));
-     //   }
-
-	    ///// <summary>
-	    ///// Retrieves a pointer to the named ManualObject. 
-	    ///// </summary>
-	    ///// <param name="name">The name of the object to look for.</param>
-	    ///// <returns>The manual object identified by name or null if it is not found.</returns>
-     //   public ManualObject getManualObject(String name)
-     //   {
-     //       return manualObjects.getObject(SceneManager_getManualObject(ogreSceneManager, name));
-     //   }
-
-	    ///// <summary>
-	    ///// Returns whether a manual object with the given name exists. 
-	    ///// </summary>
-	    ///// <param name="name">The name to search for.</param>
-	    ///// <returns>True if the object is in the scene.  False if it is not.</returns>
-     //   public bool hasManualObject(String name)
-     //   {
-     //       return SceneManager_hasManualObject(ogreSceneManager, name);
-     //   }
-
-	    ///// <summary>
-	    ///// Removes and destroys a ManualObject from the SceneManager.
-	    ///// </summary>
-	    ///// <param name="obj">The object to destroy.</param>
-     //   public void destroyManualObject(ManualObject obj)
-     //   {
-     //       IntPtr ogreManual = obj.OgreObject;
-     //       manualObjects.destroyObject(ogreManual);
-     //       SceneManager_destroyManualObject(ogreSceneManager, ogreManual);
-     //   }
-
-     //   public StaticGeometry createStaticGeometry(String name)
-     //   {
-     //       return staticGeometries.getObject(SceneManager_createStaticGeometry(ogreSceneManager, name));
-     //   }
-
-     //   public StaticGeometry getStaticGeometry(String name)
-     //   {
-     //       return staticGeometries.getObject(SceneManager_getStaticGeometry(ogreSceneManager, name));
-     //   }
-
-     //   public bool hasStaticGeometry(String name)
-     //   {
-     //       return SceneManager_hasStaticGeometry(ogreSceneManager, name);
-     //   }
-
-     //   public void destroyStaticGeometry(StaticGeometry obj)
-     //   {
-     //       IntPtr ptr = obj.Ptr;
-     //       staticGeometries.destroyObject(ptr);
-     //       SceneManager_destroyStaticGeometry(ogreSceneManager, ptr);
-     //   }
-
-	    ///// <summary>
-	    ///// Sets a mask which is bitwise 'and'ed with objects own visibility masks to determine if 
-	    ///// the object is visible. Note that this is combined with any per-viewport visibility mask 
-	    ///// through an 'and' operation.
-	    ///// </summary>
-	    ///// <param name="mask">The mask to set.</param>
-     //   public void setVisibilityMask(uint mask)
-     //   {
-     //       SceneManager_setVisibilityMask(ogreSceneManager, mask);
-     //   }
-
-	    ///// <summary>
-	    ///// Gets a mask which is bitwise 'and'ed with objects own visibility masks
-	    ///// to determine if the object is visible.
-	    ///// </summary>
-	    ///// <returns>The visibility mask.</returns>
-     //   public uint getVisibilityMask()
-     //   {
-     //       return SceneManager_getVisibilityMask(ogreSceneManager);
-     //   }
-
-	    ///// <summary>
-	    ///// Add a listener which will get called back on scene manager events. 
-	    ///// </summary>
-	    ///// <param name="listener">The listener to add.</param>
-     //   public void addSceneListener(SceneListener listener)
-     //   {
-     //       sceneListener.addSceneListener(listener);
-     //   }
-
-	    ///// <summary>
-	    ///// Remove a listener.
-	    ///// </summary>
-	    ///// <param name="listener">The listener to remove.</param>
-     //   public void removeSceneListener(SceneListener listener)
-     //   {
-     //       sceneListener.removeSceneListener(listener);
-     //   }
-
-	    ///// <summary>
-	    ///// Creates a RaySceneQuery for this scene manager. This method creates a
-     //   /// new instance of a query object for this scene manager, looking for
-     //   /// objects which fall along a ray. See SceneQuery and RaySceneQuery for
-     //   /// full details. 
-	    ///// 
-     //   /// The instance returned from this method must be destroyed by calling
-     //   /// SceneManager::destroyQuery when it is no longer required. 
-	    ///// </summary>
-	    ///// <param name="ray"></param>
-	    ///// <param name="mask"></param>
-	    ///// <returns></returns>
-     //   public RaySceneQuery createRaySceneQuery(Ray3 ray, uint mask)
-     //   {
-     //       throw new NotImplementedException();
-     //       //return SceneManager_createRaySceneQuery(ogreSceneManager);
-     //   }
-
-	    ///// <summary>
-	    ///// Destroys a ray scene query. 
-	    ///// </summary>
-	    ///// <param name="query">The query to destroy.</param>
-     //   public void destroyQuery(RaySceneQuery query)
-     //   {
-     //       throw new NotImplementedException();
-     //       //SceneManager_destroyQuery(ogreSceneManager);
-     //   }
-
-	    ///// <summary>
-	    ///// Creates a PlaneBoundedVolumeListSceneQuery for this scene manager.
-	    ///// 
-	    /////  This method creates a new instance of a query object for this scene
-	    /////  manager, for a region enclosed by a set of planes (normals pointing
-	    /////  inwards). See SceneQuery and PlaneBoundedVolumeListSceneQuery for full
-	    /////  details.
-	    ///// 
-	    /////  The instance returned from this method must be destroyed by calling
-	    /////  SceneManager::destroyQuery when it is no longer required.
-	    ///// </summary>
-	    ///// <param name="volumes">Details of the volumes which describe the region for this query. </param>
-	    ///// <returns>A new PlaneBoundedVolumeListSceneQuery.</returns>
-     //   public PlaneBoundedVolumeListSceneQuery createPlaneBoundedVolumeQuery(LinkedList<PlaneBoundedVolume> volumes)
-     //   {
-     //       throw new NotImplementedException();
-     //       //return SceneManager_createPlaneBoundedVolumeQuery(ogreSceneManager);
-     //   }
-
-	    ///// <summary>
-	    ///// Creates a PlaneBoundedVolumeListSceneQuery for this scene manager.
-	    ///// 
-	    /////  This method creates a new instance of a query object for this scene
-	    /////  manager, for a region enclosed by a set of planes (normals pointing
-	    /////  inwards). See SceneQuery and PlaneBoundedVolumeListSceneQuery for full
-	    /////  details.
-	    ///// 
-	    /////  The instance returned from this method must be destroyed by calling
-	    /////  SceneManager::destroyQuery when it is no longer required.
-	    ///// </summary>
-	    ///// <param name="volumes">Details of the volumes which describe the region for this query. </param>
-	    ///// <param name="mask">The query mask to apply to this query; can be used to filter out certain objects; see SceneQuery for details. </param>
-	    ///// <returns>A new PlaneBoundedVolumeListSceneQuery.</returns>
-     //   public PlaneBoundedVolumeListSceneQuery createPlaneBoundedVolumeQuery(LinkedList<PlaneBoundedVolume> volumes, ulong mask)
-     //   {
-     //       throw new NotImplementedException();
-     //       //return SceneManager_createPlaneBoundedVolumeQuery(ogreSceneManager);
-     //   }
-
-	    ///// <summary>
-	    ///// Destroys a Plane Bounded Volume scene query. 
-	    ///// </summary>
-	    ///// <param name="query">The query to destroy.</param>
-     //   public void destroyQuery(PlaneBoundedVolumeListSceneQuery query)
-     //   {
-     //       throw new NotImplementedException();
-     //       //SceneManager_destroyQuery(ogreSceneManager, query.NavtiveQuery);
-     //   }
-
-	    ///// <summary>
-	    ///// Tells the SceneManager whether it should render the SceneNodes which
-     //   /// make up the scene as well as the objects in the scene.
-     //   /// 
-	    ///// This method is mainly for debugging purposes. If you set this to 'true',
-     //   /// each node will be rendered as a set of 3 axes to allow you to easily see
-     //   /// the orientation of the nodes. 
-	    ///// </summary>
-	    ///// <param name="display">True to display scene nodes.  False to disable.</param>
-     //   public void setDisplaySceneNodes(bool display)
-     //   {
-     //       SceneManager_setDisplaySceneNodes(ogreSceneManager, display);
-     //   }
-
-	    ///// <summary>
-	    ///// Determine if all scene nodes axis are to be displayed. 
-	    ///// </summary>
-	    ///// <returns>True if all scene nodes axis are to be displayed.</returns>
-     //   public bool getDisplaySceneNodes()
-     //   {
-     //       return SceneManager_getDisplaySceneNodes(ogreSceneManager);
-     //   }
-
-	    ///// <summary>
-	    ///// Retrieves the internal render queue, for advanced users only. 
-	    ///// </summary>
-	    ///// <remarks>
-	    ///// The render queue is mainly used internally to manage the scene object
-     //   /// rendering queue, it also exports some methods to allow advanced users to
-     //   /// configure the behavior of rendering process. Most methods provided by
-     //   /// RenderQueue are supposed to be used internally only, you should
-     //   /// reference to the RenderQueue API for more information. Do not access
-     //   /// this directly unless you know what you are doing. 
-	    ///// </remarks>
-	    ///// <returns>The RenderQueue for this SceneManager.</returns>
-     //   public RenderQueue getRenderQueue()
-     //   {
-     //       return renderQueue;
-     //   }
-
-	    ///// <summary>
-	    ///// Allows all bounding boxes of scene nodes to be displayed. 
-	    ///// </summary>
-	    ///// <param name="bShow">True to enable bounding box rendering.</param>
-     //   public void showBoundingBoxes(bool bShow)
-     //   {
-     //       SceneManager_showBoundingBoxes(ogreSceneManager, bShow);
-     //   }
-
-	    ///// <summary>
-	    ///// Determine if all bounding boxes of scene nodes are to be displayed. 
-	    ///// </summary>
-	    ///// <returns>Returns true if all bounding boxes of scene nodes are to be displayed. </returns>
-     //   public bool getShowBoundingBoxes()
-     //   {
-     //       return SceneManager_getShowBoundingBoxes(ogreSceneManager);
-     //   }
-
-     //   public void setShadowTechnique(ShadowTechnique technique)
-     //   {
-     //       SceneManager_setShadowTechnique(ogreSceneManager, technique);
-     //   }
-
-     //   public ShadowTechnique getShadowTechnique()
-     //   {
-     //       return SceneManager_getShadowTechnique(ogreSceneManager);
-     //   }
-
-	    ///// <summary>
-	    ///// Enables / disables the rendering of debug information for shadows.
-	    ///// </summary>
-	    ///// <param name="debug">True to enable debug shadows.  False to disable.</param>
-     //   public void setShowDebugShadows(bool debug)
-     //   {
-     //       SceneManager_setShowDebugShadows(ogreSceneManager, debug);
-     //   }
-
-	    ///// <summary>
-	    ///// Determine if debug shadows are being rendererd.
-	    ///// </summary>
-	    ///// <returns>True if shadows are being rendered.</returns>
-     //   public bool getShowDebugShadows()
-     //   {
-     //       return SceneManager_getShowDebugShadows(ogreSceneManager);
-     //   }
-
-     //   public void setShadowColor(Color color)
-     //   {
-     //       SceneManager_setShadowColor(ogreSceneManager, color);
-     //   }
-
-     //   public Color getShadowColor()
-     //   {
-     //       return SceneManager_getShadowColor(ogreSceneManager);
-     //   }
-
-     //   public void setShadowDirectionalLightExtrusionDistance(float dist)
-     //   {
-     //       SceneManager_setShadowDirectionalLightExtrusionDistance(ogreSceneManager, dist);
-     //   }
-
-     //   public float getShadowDirectionalLightExtrusionDistance()
-     //   {
-     //       return SceneManager_getShadowDirectionalLightExtrusionDistance(ogreSceneManager);
-     //   }
-
-     //   public void setShadowFarDistance(float distance)
-     //   {
-     //       SceneManager_setShadowFarDistance(ogreSceneManager, distance);
-     //   }
-
-     //   public float getShadowFarDistance()
-     //   {
-     //       return SceneManager_getShadowFarDistance(ogreSceneManager);
-     //   }
-
-     //   public float getShadowFarDistanceSquared()
-     //   {
-     //       return SceneManager_getShadowFarDistanceSquared(ogreSceneManager);
-     //   }
-
-     //   public void setShadowIndexBufferSize(int size)
-     //   {
-     //       SceneManager_setShadowIndexBufferSize(ogreSceneManager, size);
-     //   }
-
-     //   public int getShadowIndexBufferSize()
-     //   {
-     //       return SceneManager_getShadowIndexBufferSize(ogreSceneManager);
-     //   }
-
-     //   public void setShadowTextureSize(ushort size)
-     //   {
-     //       SceneManager_setShadowTextureSize(ogreSceneManager, size);
-     //   }
-
-     //   public void setShadowTextureConfig(int shadowIndex, ushort width, ushort height, PixelFormat format)
-     //   {
-     //       SceneManager_setShadowTextureConfig(ogreSceneManager, shadowIndex, width, height, format);
-     //   }
-
-     //   public void setShadowTexturePixelFormat(PixelFormat fmt)
-     //   {
-     //       SceneManager_setShadowTexturePixelFormat(ogreSceneManager, fmt);
-     //   }
-
-     //   public void setShadowTextureCount(int count)
-     //   {
-     //       SceneManager_setShadowTextureCount(ogreSceneManager, count);
-     //   }
-
-     //   public int getShadowTextureCount()
-     //   {
-     //       return SceneManager_getShadowTextureCount(ogreSceneManager);
-     //   }
-
-     //   public void setShadowTextureCountPerLightType(Light.LightTypes type, int count)
-     //   {
-     //       SceneManager_setShadowTextureCountPerLightType(ogreSceneManager, type, count);
-     //   }
-
-     //   public int getShadowTextureCountPerLightType(Light.LightTypes type)
-     //   {
-     //       return SceneManager_getShadowTextureCountPerLightType(ogreSceneManager, type);
-     //   }
-
-     //   public void setShadowTextureSettings(ushort size, ushort count, PixelFormat fmt)
-     //   {
-     //       SceneManager_setShadowTextureSettings(ogreSceneManager, size, count, fmt);
-     //   }
-
-	    ////getShadowTexture
-
-     //   public void setShadowDirLightTextureOffset(float offset)
-     //   {
-     //       SceneManager_setShadowDirLightTextureOffset(ogreSceneManager, offset);
-     //   }
-
-     //   public float getShadowDirLightTextureOffset()
-     //   {
-     //       return SceneManager_getShadowDirLightTextureOffset(ogreSceneManager);
-     //   }
-
-     //   public void setShadowTextureFadeStart(float fadeStart)
-     //   {
-     //       SceneManager_setShadowTextureFadeStart(ogreSceneManager, fadeStart);
-     //   }
-
-     //   public void setShadowTextureFadeEnd(float fadeEnd)
-     //   {
-     //       SceneManager_setShadowTextureFadeEnd(ogreSceneManager, fadeEnd);
-     //   }
-
-     //   public void setShadowTextureSelfShadow(bool selfShadow)
-     //   {
-     //       SceneManager_setShadowTextureSelfShadow(ogreSceneManager, selfShadow);
-     //   }
-
-     //   public bool getShadowTextureSelfShadow()
-     //   {
-     //       return SceneManager_getShadowTextureSelfShadow(ogreSceneManager);
-     //   }
-
-     //   public void setShadowTextureCasterMaterial(String name)
-     //   {
-     //       SceneManager_setShadowTextureCasterMaterial(ogreSceneManager, name);
-     //   }
-
-     //   public void setShadowTextureReceiverMaterial(String name)
-     //   {
-     //       SceneManager_setShadowTextureReceiverMaterial(ogreSceneManager, name);
-     //   }
-
-     //   public void setShadowCasterRenderBackFaces(bool bf)
-     //   {
-     //       SceneManager_setShadowCasterRenderBackFaces(ogreSceneManager, bf);
-     //   }
-
-     //   public bool getShadowCasterRenderBackFaces()
-     //   {
-     //       return SceneManager_getShadowCasterRenderBackFaces(ogreSceneManager);
-     //   }
-    	
-	    ////void setShadowCameraSetup (const ShadowCameraSetupPtr &shadowSetup)
-    	
-	    ////virtual constShadowCameraSetupPtr & 	getShadowCameraSetup () const
-
-     //   public void setShadowUseInfiniteFarPlane(bool enable)
-     //   {
-     //       SceneManager_setShadowUseInfiniteFarPlane(ogreSceneManager, enable);
-     //   }
-
-     //   public bool isShadowTechniqueStencilBased()
-     //   {
-     //       return SceneManager_isShadowTechniqueStencilBased(ogreSceneManager);
-     //   }
-
-     //   public bool isShadowTechniqueTextureBased()
-     //   {
-     //       return SceneManager_isShadowTechniqueTextureBased(ogreSceneManager);
-     //   }
-
-     //   public bool isShadowTechniqueModulative()
-     //   {
-     //       return SceneManager_isShadowTechniqueModulative(ogreSceneManager);
-     //   }
-
-     //   public bool isShadowTechniqueAdditive()
-     //   {
-     //       return SceneManager_isShadowTechniqueAdditive(ogreSceneManager);
-     //   }
-
-     //   public bool isShadowTechniqueIntegrated()
-     //   {
-     //       return SceneManager_isShadowTechniqueIntegrated(ogreSceneManager);
-     //   }
-
-     //   public bool isShadowTechniqueInUse()
-     //   {
-     //       return SceneManager_isShadowTechniqueInUse(ogreSceneManager);
-     //   }
-
-     //   public void setShadowUseLightClipPlanes(bool enabled)
-     //   {
-     //       SceneManager_setShadowUseLightClipPlanes(ogreSceneManager, enabled);
-     //   }
-
-     //   public bool getShadowUseLightClipPlanes()
-     //   {
-     //       return SceneManager_getShadowUseLightClipPlanes(ogreSceneManager);
-     //   }
-
-     //   public void setSkyPlane(bool enabled, float d, Vector3 normal, String matName, float scale, float tiling, bool drawFirst, int bow)
-     //   {
-     //       SceneManager_setSkyPlane(ogreSceneManager, enabled, d, normal, matName, scale, tiling, drawFirst, bow);
-     //   }
-
-     //   public void setSkyBox(bool enabled, String matName, float distance, bool drawFirst)
-     //   {
-     //       SceneManager_setSkyBox(ogreSceneManager, enabled, matName, distance, drawFirst);
-     //   }
-
-     //   public void setSkyDome(bool enabled, String matName)
-     //   {
-     //       SceneManager_setSkyDome(ogreSceneManager, enabled, matName);
-     //   }
-
-     //   public Viewport getCurrentViewport()
-     //   {
-     //       return ViewportManager.getViewportNoCreate(SceneManager_getCurrentViewport(ogreSceneManager));
-     //   }
-
-     //   public void addRenderQueueListener(RenderQueueListener listener)
-     //   {
-     //       managedRenderQueueListener.addListener(listener);
-     //   }
-
-     //   public void removeRenderQueueListener(RenderQueueListener listener)
-     //   {
-     //       managedRenderQueueListener.removeListener(listener);
-     //   }
+        ///// <summary>
+        ///// Creates a new light managed by this SceneManager.
+        ///// </summary>
+        ///// <param name="name">The name of the light.</param>
+        ///// <returns>A new Light wrapping a native light.</returns>
+        //   public Light createLight(String name)
+        //   {
+        //       return lights.getObject(SceneManager_createLight(ogreSceneManager));
+        //   }
+
+        ///// <summary>
+        ///// Destroys the passed light
+        ///// </summary>
+        ///// <param name="light">The light to destroy.</param>
+        //   public void destroyLight(Light light)
+        //   {
+        //       IntPtr ogreLight = light.OgreObject;
+        //       lights.destroyObject(ogreLight);
+        //       SceneManager_destroyLight(ogreSceneManager, ogreLight);
+        //   }
+
+        /// <summary>
+        /// Creates a new SceneNode with the given name.
+        /// </summary>
+        /// <param name="name">The name of the render node.</param>
+        /// <returns>A new render node with the given name.</returns>
+        public SceneNode createSceneNode(SceneMemoryMgrTypes sceneType = SceneMemoryMgrTypes.SCENE_DYNAMIC)
+        {
+            return SceneNode.getManagedNode(SceneManager_createSceneNode(ogreSceneManager, sceneType));
+        }
+
+        /// <summary>
+        /// Gets the SceneNode at the root of the scene graph.
+        /// </summary>
+        /// <returns>The root SceneNode.</returns>
+        public SceneNode getRootSceneNode()
+        {
+            return rootNode;
+        }
+
+        /// <summary>
+        /// Destroys the render node passed.  You cannot destroy the root node using this
+        /// method it will be destroyed automaticly.
+        /// </summary>
+        /// <param name="node">The SceneNode to destroy.</param>
+        public void destroySceneNode(SceneNode node)
+        {
+            if (!node.Equals(rootNode))
+            {
+                IntPtr ogreNode = node.OgreNode;
+                SceneNode.destroyManagedNode(node);
+                SceneManager_destroySceneNode(ogreSceneManager, ogreNode);
+            }
+            else
+            {
+                Log.Warning("Attempted to destroy the root node, node not destroyed.");
+            }
+        }
+
+        ///// <summary>
+        ///// Create a Entity with the given name using the given mesh.
+        ///// </summary>
+        ///// <param name="entityName">The name of the entity.</param>
+        ///// <param name="meshName">The name of the mesh to use on this entity.</param>
+        ///// <returns>The new Entity.</returns>
+        //   public Entity createEntity(String entityName, String meshName)
+        //   {
+        //       return entities.getObject(SceneManager_createEntity(ogreSceneManager, entityName, meshName));
+        //   }
+
+        ///// <summary>
+        ///// Get the named Entity.
+        ///// </summary>
+        ///// <param name="name">The name of the render entity.</param>
+        ///// <returns>The Entity if it exists or null if it does not.</returns>
+        //   public Entity getEntity(String name)
+        //   {
+        //       return entities.getObject(SceneManager_getEntity(ogreSceneManager, name));
+        //   }
+
+        ///// <summary>
+        ///// Returns whether a Entity with the given name exists.
+        ///// </summary>
+        ///// <param name="name">The name of the render entity.</param>
+        ///// <returns>True if the entity exists.  False if it does not.</returns>
+        //   public bool hasEntity(String name)
+        //   {
+        //       return SceneManager_hasEntity(ogreSceneManager, name);
+        //   }
+
+        ///// <summary>
+        ///// Destroys the Entity passed.
+        ///// </summary>
+        ///// <param name="entity">The Entity to destroy.</param>
+        //   public void destroyEntity(Entity entity)
+        //   {
+        //       IntPtr ogreEntity = entity.OgreObject;
+        //       entities.destroyObject(ogreEntity);
+        //       SceneManager_destroyEntity(ogreSceneManager, ogreEntity);
+        //   }
+
+        ///// <summary>
+        ///// Create a ManualObject, an object which you populate with geometry manually through a 
+        ///// GL immediate-mode style interface. 
+        ///// </summary>
+        ///// <param name="name">The name to be given to the object (must be unique). </param>
+        ///// <returns>The newly created manual object.</returns>
+        //   public ManualObject createManualObject(String name)
+        //   {
+        //       return manualObjects.getObject(SceneManager_createManualObject(ogreSceneManager, name));
+        //   }
+
+        ///// <summary>
+        ///// Retrieves a pointer to the named ManualObject. 
+        ///// </summary>
+        ///// <param name="name">The name of the object to look for.</param>
+        ///// <returns>The manual object identified by name or null if it is not found.</returns>
+        //   public ManualObject getManualObject(String name)
+        //   {
+        //       return manualObjects.getObject(SceneManager_getManualObject(ogreSceneManager, name));
+        //   }
+
+        ///// <summary>
+        ///// Returns whether a manual object with the given name exists. 
+        ///// </summary>
+        ///// <param name="name">The name to search for.</param>
+        ///// <returns>True if the object is in the scene.  False if it is not.</returns>
+        //   public bool hasManualObject(String name)
+        //   {
+        //       return SceneManager_hasManualObject(ogreSceneManager, name);
+        //   }
+
+        ///// <summary>
+        ///// Removes and destroys a ManualObject from the SceneManager.
+        ///// </summary>
+        ///// <param name="obj">The object to destroy.</param>
+        //   public void destroyManualObject(ManualObject obj)
+        //   {
+        //       IntPtr ogreManual = obj.OgreObject;
+        //       manualObjects.destroyObject(ogreManual);
+        //       SceneManager_destroyManualObject(ogreSceneManager, ogreManual);
+        //   }
+
+        //   public StaticGeometry createStaticGeometry(String name)
+        //   {
+        //       return staticGeometries.getObject(SceneManager_createStaticGeometry(ogreSceneManager, name));
+        //   }
+
+        //   public StaticGeometry getStaticGeometry(String name)
+        //   {
+        //       return staticGeometries.getObject(SceneManager_getStaticGeometry(ogreSceneManager, name));
+        //   }
+
+        //   public bool hasStaticGeometry(String name)
+        //   {
+        //       return SceneManager_hasStaticGeometry(ogreSceneManager, name);
+        //   }
+
+        //   public void destroyStaticGeometry(StaticGeometry obj)
+        //   {
+        //       IntPtr ptr = obj.Ptr;
+        //       staticGeometries.destroyObject(ptr);
+        //       SceneManager_destroyStaticGeometry(ogreSceneManager, ptr);
+        //   }
+
+        ///// <summary>
+        ///// Sets a mask which is bitwise 'and'ed with objects own visibility masks to determine if 
+        ///// the object is visible. Note that this is combined with any per-viewport visibility mask 
+        ///// through an 'and' operation.
+        ///// </summary>
+        ///// <param name="mask">The mask to set.</param>
+        //   public void setVisibilityMask(uint mask)
+        //   {
+        //       SceneManager_setVisibilityMask(ogreSceneManager, mask);
+        //   }
+
+        ///// <summary>
+        ///// Gets a mask which is bitwise 'and'ed with objects own visibility masks
+        ///// to determine if the object is visible.
+        ///// </summary>
+        ///// <returns>The visibility mask.</returns>
+        //   public uint getVisibilityMask()
+        //   {
+        //       return SceneManager_getVisibilityMask(ogreSceneManager);
+        //   }
+
+        ///// <summary>
+        ///// Add a listener which will get called back on scene manager events. 
+        ///// </summary>
+        ///// <param name="listener">The listener to add.</param>
+        //   public void addSceneListener(SceneListener listener)
+        //   {
+        //       sceneListener.addSceneListener(listener);
+        //   }
+
+        ///// <summary>
+        ///// Remove a listener.
+        ///// </summary>
+        ///// <param name="listener">The listener to remove.</param>
+        //   public void removeSceneListener(SceneListener listener)
+        //   {
+        //       sceneListener.removeSceneListener(listener);
+        //   }
+
+        ///// <summary>
+        ///// Creates a RaySceneQuery for this scene manager. This method creates a
+        //   /// new instance of a query object for this scene manager, looking for
+        //   /// objects which fall along a ray. See SceneQuery and RaySceneQuery for
+        //   /// full details. 
+        ///// 
+        //   /// The instance returned from this method must be destroyed by calling
+        //   /// SceneManager::destroyQuery when it is no longer required. 
+        ///// </summary>
+        ///// <param name="ray"></param>
+        ///// <param name="mask"></param>
+        ///// <returns></returns>
+        //   public RaySceneQuery createRaySceneQuery(Ray3 ray, uint mask)
+        //   {
+        //       throw new NotImplementedException();
+        //       //return SceneManager_createRaySceneQuery(ogreSceneManager);
+        //   }
+
+        ///// <summary>
+        ///// Destroys a ray scene query. 
+        ///// </summary>
+        ///// <param name="query">The query to destroy.</param>
+        //   public void destroyQuery(RaySceneQuery query)
+        //   {
+        //       throw new NotImplementedException();
+        //       //SceneManager_destroyQuery(ogreSceneManager);
+        //   }
+
+        ///// <summary>
+        ///// Creates a PlaneBoundedVolumeListSceneQuery for this scene manager.
+        ///// 
+        /////  This method creates a new instance of a query object for this scene
+        /////  manager, for a region enclosed by a set of planes (normals pointing
+        /////  inwards). See SceneQuery and PlaneBoundedVolumeListSceneQuery for full
+        /////  details.
+        ///// 
+        /////  The instance returned from this method must be destroyed by calling
+        /////  SceneManager::destroyQuery when it is no longer required.
+        ///// </summary>
+        ///// <param name="volumes">Details of the volumes which describe the region for this query. </param>
+        ///// <returns>A new PlaneBoundedVolumeListSceneQuery.</returns>
+        //   public PlaneBoundedVolumeListSceneQuery createPlaneBoundedVolumeQuery(LinkedList<PlaneBoundedVolume> volumes)
+        //   {
+        //       throw new NotImplementedException();
+        //       //return SceneManager_createPlaneBoundedVolumeQuery(ogreSceneManager);
+        //   }
+
+        ///// <summary>
+        ///// Creates a PlaneBoundedVolumeListSceneQuery for this scene manager.
+        ///// 
+        /////  This method creates a new instance of a query object for this scene
+        /////  manager, for a region enclosed by a set of planes (normals pointing
+        /////  inwards). See SceneQuery and PlaneBoundedVolumeListSceneQuery for full
+        /////  details.
+        ///// 
+        /////  The instance returned from this method must be destroyed by calling
+        /////  SceneManager::destroyQuery when it is no longer required.
+        ///// </summary>
+        ///// <param name="volumes">Details of the volumes which describe the region for this query. </param>
+        ///// <param name="mask">The query mask to apply to this query; can be used to filter out certain objects; see SceneQuery for details. </param>
+        ///// <returns>A new PlaneBoundedVolumeListSceneQuery.</returns>
+        //   public PlaneBoundedVolumeListSceneQuery createPlaneBoundedVolumeQuery(LinkedList<PlaneBoundedVolume> volumes, ulong mask)
+        //   {
+        //       throw new NotImplementedException();
+        //       //return SceneManager_createPlaneBoundedVolumeQuery(ogreSceneManager);
+        //   }
+
+        ///// <summary>
+        ///// Destroys a Plane Bounded Volume scene query. 
+        ///// </summary>
+        ///// <param name="query">The query to destroy.</param>
+        //   public void destroyQuery(PlaneBoundedVolumeListSceneQuery query)
+        //   {
+        //       throw new NotImplementedException();
+        //       //SceneManager_destroyQuery(ogreSceneManager, query.NavtiveQuery);
+        //   }
+
+        ///// <summary>
+        ///// Tells the SceneManager whether it should render the SceneNodes which
+        //   /// make up the scene as well as the objects in the scene.
+        //   /// 
+        ///// This method is mainly for debugging purposes. If you set this to 'true',
+        //   /// each node will be rendered as a set of 3 axes to allow you to easily see
+        //   /// the orientation of the nodes. 
+        ///// </summary>
+        ///// <param name="display">True to display scene nodes.  False to disable.</param>
+        //   public void setDisplaySceneNodes(bool display)
+        //   {
+        //       SceneManager_setDisplaySceneNodes(ogreSceneManager, display);
+        //   }
+
+        ///// <summary>
+        ///// Determine if all scene nodes axis are to be displayed. 
+        ///// </summary>
+        ///// <returns>True if all scene nodes axis are to be displayed.</returns>
+        //   public bool getDisplaySceneNodes()
+        //   {
+        //       return SceneManager_getDisplaySceneNodes(ogreSceneManager);
+        //   }
+
+        ///// <summary>
+        ///// Retrieves the internal render queue, for advanced users only. 
+        ///// </summary>
+        ///// <remarks>
+        ///// The render queue is mainly used internally to manage the scene object
+        //   /// rendering queue, it also exports some methods to allow advanced users to
+        //   /// configure the behavior of rendering process. Most methods provided by
+        //   /// RenderQueue are supposed to be used internally only, you should
+        //   /// reference to the RenderQueue API for more information. Do not access
+        //   /// this directly unless you know what you are doing. 
+        ///// </remarks>
+        ///// <returns>The RenderQueue for this SceneManager.</returns>
+        //   public RenderQueue getRenderQueue()
+        //   {
+        //       return renderQueue;
+        //   }
+
+        ///// <summary>
+        ///// Allows all bounding boxes of scene nodes to be displayed. 
+        ///// </summary>
+        ///// <param name="bShow">True to enable bounding box rendering.</param>
+        //   public void showBoundingBoxes(bool bShow)
+        //   {
+        //       SceneManager_showBoundingBoxes(ogreSceneManager, bShow);
+        //   }
+
+        ///// <summary>
+        ///// Determine if all bounding boxes of scene nodes are to be displayed. 
+        ///// </summary>
+        ///// <returns>Returns true if all bounding boxes of scene nodes are to be displayed. </returns>
+        //   public bool getShowBoundingBoxes()
+        //   {
+        //       return SceneManager_getShowBoundingBoxes(ogreSceneManager);
+        //   }
+
+        //   public void setShadowTechnique(ShadowTechnique technique)
+        //   {
+        //       SceneManager_setShadowTechnique(ogreSceneManager, technique);
+        //   }
+
+        //   public ShadowTechnique getShadowTechnique()
+        //   {
+        //       return SceneManager_getShadowTechnique(ogreSceneManager);
+        //   }
+
+        ///// <summary>
+        ///// Enables / disables the rendering of debug information for shadows.
+        ///// </summary>
+        ///// <param name="debug">True to enable debug shadows.  False to disable.</param>
+        //   public void setShowDebugShadows(bool debug)
+        //   {
+        //       SceneManager_setShowDebugShadows(ogreSceneManager, debug);
+        //   }
+
+        ///// <summary>
+        ///// Determine if debug shadows are being rendererd.
+        ///// </summary>
+        ///// <returns>True if shadows are being rendered.</returns>
+        //   public bool getShowDebugShadows()
+        //   {
+        //       return SceneManager_getShowDebugShadows(ogreSceneManager);
+        //   }
+
+        //   public void setShadowColor(Color color)
+        //   {
+        //       SceneManager_setShadowColor(ogreSceneManager, color);
+        //   }
+
+        //   public Color getShadowColor()
+        //   {
+        //       return SceneManager_getShadowColor(ogreSceneManager);
+        //   }
+
+        //   public void setShadowDirectionalLightExtrusionDistance(float dist)
+        //   {
+        //       SceneManager_setShadowDirectionalLightExtrusionDistance(ogreSceneManager, dist);
+        //   }
+
+        //   public float getShadowDirectionalLightExtrusionDistance()
+        //   {
+        //       return SceneManager_getShadowDirectionalLightExtrusionDistance(ogreSceneManager);
+        //   }
+
+        //   public void setShadowFarDistance(float distance)
+        //   {
+        //       SceneManager_setShadowFarDistance(ogreSceneManager, distance);
+        //   }
+
+        //   public float getShadowFarDistance()
+        //   {
+        //       return SceneManager_getShadowFarDistance(ogreSceneManager);
+        //   }
+
+        //   public float getShadowFarDistanceSquared()
+        //   {
+        //       return SceneManager_getShadowFarDistanceSquared(ogreSceneManager);
+        //   }
+
+        //   public void setShadowIndexBufferSize(int size)
+        //   {
+        //       SceneManager_setShadowIndexBufferSize(ogreSceneManager, size);
+        //   }
+
+        //   public int getShadowIndexBufferSize()
+        //   {
+        //       return SceneManager_getShadowIndexBufferSize(ogreSceneManager);
+        //   }
+
+        //   public void setShadowTextureSize(ushort size)
+        //   {
+        //       SceneManager_setShadowTextureSize(ogreSceneManager, size);
+        //   }
+
+        //   public void setShadowTextureConfig(int shadowIndex, ushort width, ushort height, PixelFormat format)
+        //   {
+        //       SceneManager_setShadowTextureConfig(ogreSceneManager, shadowIndex, width, height, format);
+        //   }
+
+        //   public void setShadowTexturePixelFormat(PixelFormat fmt)
+        //   {
+        //       SceneManager_setShadowTexturePixelFormat(ogreSceneManager, fmt);
+        //   }
+
+        //   public void setShadowTextureCount(int count)
+        //   {
+        //       SceneManager_setShadowTextureCount(ogreSceneManager, count);
+        //   }
+
+        //   public int getShadowTextureCount()
+        //   {
+        //       return SceneManager_getShadowTextureCount(ogreSceneManager);
+        //   }
+
+        //   public void setShadowTextureCountPerLightType(Light.LightTypes type, int count)
+        //   {
+        //       SceneManager_setShadowTextureCountPerLightType(ogreSceneManager, type, count);
+        //   }
+
+        //   public int getShadowTextureCountPerLightType(Light.LightTypes type)
+        //   {
+        //       return SceneManager_getShadowTextureCountPerLightType(ogreSceneManager, type);
+        //   }
+
+        //   public void setShadowTextureSettings(ushort size, ushort count, PixelFormat fmt)
+        //   {
+        //       SceneManager_setShadowTextureSettings(ogreSceneManager, size, count, fmt);
+        //   }
+
+        ////getShadowTexture
+
+        //   public void setShadowDirLightTextureOffset(float offset)
+        //   {
+        //       SceneManager_setShadowDirLightTextureOffset(ogreSceneManager, offset);
+        //   }
+
+        //   public float getShadowDirLightTextureOffset()
+        //   {
+        //       return SceneManager_getShadowDirLightTextureOffset(ogreSceneManager);
+        //   }
+
+        //   public void setShadowTextureFadeStart(float fadeStart)
+        //   {
+        //       SceneManager_setShadowTextureFadeStart(ogreSceneManager, fadeStart);
+        //   }
+
+        //   public void setShadowTextureFadeEnd(float fadeEnd)
+        //   {
+        //       SceneManager_setShadowTextureFadeEnd(ogreSceneManager, fadeEnd);
+        //   }
+
+        //   public void setShadowTextureSelfShadow(bool selfShadow)
+        //   {
+        //       SceneManager_setShadowTextureSelfShadow(ogreSceneManager, selfShadow);
+        //   }
+
+        //   public bool getShadowTextureSelfShadow()
+        //   {
+        //       return SceneManager_getShadowTextureSelfShadow(ogreSceneManager);
+        //   }
+
+        //   public void setShadowTextureCasterMaterial(String name)
+        //   {
+        //       SceneManager_setShadowTextureCasterMaterial(ogreSceneManager, name);
+        //   }
+
+        //   public void setShadowTextureReceiverMaterial(String name)
+        //   {
+        //       SceneManager_setShadowTextureReceiverMaterial(ogreSceneManager, name);
+        //   }
+
+        //   public void setShadowCasterRenderBackFaces(bool bf)
+        //   {
+        //       SceneManager_setShadowCasterRenderBackFaces(ogreSceneManager, bf);
+        //   }
+
+        //   public bool getShadowCasterRenderBackFaces()
+        //   {
+        //       return SceneManager_getShadowCasterRenderBackFaces(ogreSceneManager);
+        //   }
+
+        ////void setShadowCameraSetup (const ShadowCameraSetupPtr &shadowSetup)
+
+        ////virtual constShadowCameraSetupPtr & 	getShadowCameraSetup () const
+
+        //   public void setShadowUseInfiniteFarPlane(bool enable)
+        //   {
+        //       SceneManager_setShadowUseInfiniteFarPlane(ogreSceneManager, enable);
+        //   }
+
+        //   public bool isShadowTechniqueStencilBased()
+        //   {
+        //       return SceneManager_isShadowTechniqueStencilBased(ogreSceneManager);
+        //   }
+
+        //   public bool isShadowTechniqueTextureBased()
+        //   {
+        //       return SceneManager_isShadowTechniqueTextureBased(ogreSceneManager);
+        //   }
+
+        //   public bool isShadowTechniqueModulative()
+        //   {
+        //       return SceneManager_isShadowTechniqueModulative(ogreSceneManager);
+        //   }
+
+        //   public bool isShadowTechniqueAdditive()
+        //   {
+        //       return SceneManager_isShadowTechniqueAdditive(ogreSceneManager);
+        //   }
+
+        //   public bool isShadowTechniqueIntegrated()
+        //   {
+        //       return SceneManager_isShadowTechniqueIntegrated(ogreSceneManager);
+        //   }
+
+        //   public bool isShadowTechniqueInUse()
+        //   {
+        //       return SceneManager_isShadowTechniqueInUse(ogreSceneManager);
+        //   }
+
+        //   public void setShadowUseLightClipPlanes(bool enabled)
+        //   {
+        //       SceneManager_setShadowUseLightClipPlanes(ogreSceneManager, enabled);
+        //   }
+
+        //   public bool getShadowUseLightClipPlanes()
+        //   {
+        //       return SceneManager_getShadowUseLightClipPlanes(ogreSceneManager);
+        //   }
+
+        //   public void setSkyPlane(bool enabled, float d, Vector3 normal, String matName, float scale, float tiling, bool drawFirst, int bow)
+        //   {
+        //       SceneManager_setSkyPlane(ogreSceneManager, enabled, d, normal, matName, scale, tiling, drawFirst, bow);
+        //   }
+
+        //   public void setSkyBox(bool enabled, String matName, float distance, bool drawFirst)
+        //   {
+        //       SceneManager_setSkyBox(ogreSceneManager, enabled, matName, distance, drawFirst);
+        //   }
+
+        //   public void setSkyDome(bool enabled, String matName)
+        //   {
+        //       SceneManager_setSkyDome(ogreSceneManager, enabled, matName);
+        //   }
+
+        //   public Viewport getCurrentViewport()
+        //   {
+        //       return ViewportManager.getViewportNoCreate(SceneManager_getCurrentViewport(ogreSceneManager));
+        //   }
+
+        //   public void addRenderQueueListener(RenderQueueListener listener)
+        //   {
+        //       managedRenderQueueListener.addListener(listener);
+        //   }
+
+        //   public void removeRenderQueueListener(RenderQueueListener listener)
+        //   {
+        //       managedRenderQueueListener.removeListener(listener);
+        //   }
 
         #region PInvoke
 
@@ -743,17 +723,10 @@ namespace OgreNextPlugin
         private static extern void SceneManager_destroyLight(IntPtr ogreSceneManager, IntPtr light);
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr SceneManager_createSceneNode(IntPtr ogreSceneManager, String name);
+        private static extern IntPtr SceneManager_createSceneNode(IntPtr ogreSceneManager, SceneMemoryMgrTypes sceneType);
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_getRootSceneNode(IntPtr ogreSceneManager);
-
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
-        private static extern IntPtr SceneManager_getSceneNode(IntPtr ogreSceneManager, String name);
-
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool SceneManager_hasSceneNode(IntPtr ogreSceneManager, String name);
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         private static extern void SceneManager_destroySceneNode(IntPtr ogreSceneManager, IntPtr node);
