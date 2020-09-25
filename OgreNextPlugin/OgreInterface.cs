@@ -146,6 +146,22 @@ namespace OgreNextPlugin
             compositorManager.createBasicWorkspaceDef(workspaceName, backgroundColour);
             compositorManager.addWorkspace(sceneManager, renderWindow.Texture, camera, workspaceName, true);
 
+            var rootNode = sceneManager.getRootSceneNode();
+
+            var light = sceneManager.createLight();
+            var lightNode = sceneManager.createSceneNode();
+            rootNode.addChild(lightNode);
+            lightNode.attachObject(light);
+            light.setPowerScale(1.0f);
+            light.setType(Light.LightTypes.LT_DIRECTIONAL);
+            light.setDirection(new Vector3(-1, -1, -1).normalized());
+
+            sceneManager.setAmbientLight(new Color(0.3f * 0.1f * 0.75f, 0.5f * 0.1f * 0.75f, 0.7f * 0.1f * 0.75f),
+                                           new Color(0.6f * 0.065f * 0.75f, 0.45f * 0.065f * 0.75f, 0.3f * 0.065f * 0.75f),
+                                           -light.getDirection() + Vector3.UnitY * 0.2f);
+
+            var item = sceneManager.createItem("Sphere1000.mesh");
+
             //end temp test scene
         }
 

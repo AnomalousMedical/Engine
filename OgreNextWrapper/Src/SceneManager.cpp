@@ -38,6 +38,14 @@ extern "C" _AnomalousExport void SceneManager_destroyLight(Ogre::SceneManager* s
 	sceneManager->destroyLight(light);
 }
 
+extern "C" _AnomalousExport void SceneManager_setAmbientLight(Ogre::SceneManager * sceneManager, 
+	const Color upperHemisphere, const Color lowerHemisphere,
+	const Vector3 hemisphereDir, float envmapScale,
+	uint32 envFeatures) 
+{
+	sceneManager->setAmbientLight(upperHemisphere.toOgre(), lowerHemisphere.toOgre(), hemisphereDir.toOgre(), envmapScale, envFeatures);
+}
+
 extern "C" _AnomalousExport Ogre::SceneNode* SceneManager_createSceneNode(Ogre::SceneManager* sceneManager, Ogre::SceneMemoryMgrTypes sceneType)
 {
 	return sceneManager->createSceneNode(sceneType);
@@ -52,6 +60,30 @@ extern "C" _AnomalousExport void SceneManager_destroySceneNode(Ogre::SceneManage
 {
 	sceneManager->destroySceneNode(node);
 }
+
+extern "C" _AnomalousExport Ogre::Item* SceneManager_createItem(Ogre::SceneManager * sceneManager, 
+	String meshName,
+	String groupName, /* = ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME */
+	Ogre::SceneMemoryMgrTypes sceneType /*= SCENE_DYNAMIC */)
+{
+	sceneManager->createItem(meshName, groupName, sceneType);
+}
+
+//extern "C" _AnomalousExport extern "C" _AnomalousExport Ogre::Item* SceneManager_createItemMesh(Ogre::SceneManager * sceneManager, const Ogre::MeshPtr& pMesh, Ogre::SceneMemoryMgrTypes sceneType)
+//{
+//	sceneManager->createItem(node);
+//}
+
+extern "C" _AnomalousExport void SceneManager_destroyItem(Ogre::SceneManager * sceneManager, Ogre::Item* i)
+{
+	sceneManager->destroyItem(i);
+}
+
+extern "C" _AnomalousExport void SceneManager_destroyAllItems(Ogre::SceneManager* sceneManager)
+{
+	sceneManager->destroyAllItems();
+}
+
 //
 //extern "C" _AnomalousExport Ogre::Entity* SceneManager_createEntity(Ogre::SceneManager* sceneManager, String entityName, String meshName)
 //{

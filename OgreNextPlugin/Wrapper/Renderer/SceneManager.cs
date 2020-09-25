@@ -12,12 +12,12 @@ namespace OgreNextPlugin
     [NativeSubsystemType]
     public class SceneManager : IDisposable
     {
-	    public enum IlluminationRenderStage : uint
-	    {
-		    IRS_NONE,
-		    IRS_RENDER_TO_TEXTURE,
-		    IRS_RENDER_RECEIVER_PASS
-	    };
+        public enum IlluminationRenderStage : uint
+        {
+            IRS_NONE,
+            IRS_RENDER_TO_TEXTURE,
+            IRS_RENDER_RECEIVER_PASS
+        };
 
         internal static SceneManager createWrapper(IntPtr nativePointer, object[] args)
         {
@@ -26,7 +26,8 @@ namespace OgreNextPlugin
 
         IntPtr ogreSceneManager;
         WrapperCollection<Camera> cameras = new WrapperCollection<Camera>(Camera.createWrapper);
-        //WrapperCollection<Light> lights = new WrapperCollection<Light>(Light.createWrapper);
+        WrapperCollection<Light> lights = new WrapperCollection<Light>(Light.createWrapper);
+        WrapperCollection<Item> items = new WrapperCollection<Item>(Item.createWrapper);
         //WrapperCollection<Entity> entities = new WrapperCollection<Entity>(Entity.createWrapper);
         //WrapperCollection<ManualObject> manualObjects = new WrapperCollection<ManualObject>(ManualObject.createWrapper);
         //WrapperCollection<StaticGeometry> staticGeometries = new WrapperCollection<StaticGeometry>(StaticGeometry.createWrapper);
@@ -59,7 +60,8 @@ namespace OgreNextPlugin
             //SceneManager_removeSceneListener(ogreSceneManager, sceneListener.NativeSceneListener);
             //sceneListener.Dispose();
             cameras.Dispose();
-            //lights.Dispose();
+            lights.Dispose();
+            items.Dispose();
             //entities.Dispose();
             //manualObjects.Dispose();
             //staticGeometries.Dispose();
@@ -85,30 +87,30 @@ namespace OgreNextPlugin
             return Marshal.PtrToStringAnsi(SceneManager_getName(ogreSceneManager));
         }
 
-	    /// <summary>
-	    /// Creates a camera managed by this SceneManager.
-	    /// </summary>
-	    /// <param name="name">The name of the camera.</param>
-	    /// <returns>A new Camera wrapping the native camera.</returns>
+        /// <summary>
+        /// Creates a camera managed by this SceneManager.
+        /// </summary>
+        /// <param name="name">The name of the camera.</param>
+        /// <returns>A new Camera wrapping the native camera.</returns>
         public Camera createCamera(String name)
         {
             return cameras.getObject(SceneManager_createCamera(ogreSceneManager, name));
         }
 
-	    /// <summary>
-	    /// Gets the named Camera.
-	    /// </summary>
-	    /// <param name="name">The name of the camera.</param>
-	    /// <returns>The Camera if the scene contains the camera, or null if it does not.</returns>
+        /// <summary>
+        /// Gets the named Camera.
+        /// </summary>
+        /// <param name="name">The name of the camera.</param>
+        /// <returns>The Camera if the scene contains the camera, or null if it does not.</returns>
         public Camera getCamera(String name)
         {
             return cameras.getObject(SceneManager_getCamera(ogreSceneManager, name));
         }
 
-	    /// <summary>
-	    /// Destroys the passed camera
-	    /// </summary>
-	    /// <param name="camera">The camera to destroy.</param>
+        /// <summary>
+        /// Destroys the passed camera
+        /// </summary>
+        /// <param name="camera">The camera to destroy.</param>
         public void destroyCamera(Camera camera)
         {
             IntPtr ogreCamera = camera.OgreObject;
@@ -116,26 +118,36 @@ namespace OgreNextPlugin
             SceneManager_destroyCamera(ogreSceneManager, ogreCamera);
         }
 
-        ///// <summary>
-        ///// Creates a new light managed by this SceneManager.
-        ///// </summary>
-        ///// <param name="name">The name of the light.</param>
-        ///// <returns>A new Light wrapping a native light.</returns>
-        //   public Light createLight(String name)
-        //   {
-        //       return lights.getObject(SceneManager_createLight(ogreSceneManager));
-        //   }
+        /// <summary>
+        /// Creates a new light managed by this SceneManager.
+        /// </summary>
+        /// <param name="name">The name of the light.</param>
+        /// <returns>A new Light wrapping a native light.</returns>
+        public Light createLight()
+        {
+            return lights.getObject(SceneManager_createLight(ogreSceneManager));
+        }
 
-        ///// <summary>
-        ///// Destroys the passed light
-        ///// </summary>
-        ///// <param name="light">The light to destroy.</param>
-        //   public void destroyLight(Light light)
-        //   {
-        //       IntPtr ogreLight = light.OgreObject;
-        //       lights.destroyObject(ogreLight);
-        //       SceneManager_destroyLight(ogreSceneManager, ogreLight);
-        //   }
+        /// <summary>
+        /// Destroys the passed light
+        /// </summary>
+        /// <param name="light">The light to destroy.</param>
+        public void destroyLight(Light light)
+        {
+            IntPtr ogreLight = light.OgreObject;
+            lights.destroyObject(ogreLight);
+            SceneManager_destroyLight(ogreSceneManager, ogreLight);
+        }
+
+        public void setAmbientLight(Color upperHemisphere, Color lowerHemisphere,
+            Vector3 hemisphereDir, float envmapScale = 1.0f,
+            UInt32 envFeatures = 0xffffffff)
+        {
+            SceneManager_setAmbientLight(ogreSceneManager,
+                upperHemisphere, lowerHemisphere,
+                hemisphereDir, envmapScale,
+                envFeatures);
+        }
 
         /// <summary>
         /// Creates a new SceneNode with the given name.
@@ -173,6 +185,18 @@ namespace OgreNextPlugin
             {
                 Log.Warning("Attempted to destroy the root node, node not destroyed.");
             }
+        }
+
+        public Item createItem(String meshName, String groupName = "Autodetect", SceneMemoryMgrTypes sceneType = SceneMemoryMgrTypes.SCENE_DYNAMIC)
+        {
+            return items.getObject(SceneManager_createItem(ogreSceneManager, meshName, groupName, sceneType));
+        }
+
+        public void SceneManager_destroyItem(Item i)
+        {
+            IntPtr ogreItem = i.OgreObject;
+            items.destroyObject(ogreItem);
+            SceneManager_destroyItem(ogreSceneManager, ogreItem);
         }
 
         ///// <summary>
@@ -701,91 +725,109 @@ namespace OgreNextPlugin
 
         #region PInvoke
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_getRenderQueue(IntPtr ogreSceneManager);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_getName(IntPtr ogreSceneManager);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_createCamera(IntPtr ogreSceneManager, String name);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_getCamera(IntPtr ogreSceneManager, String name);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_destroyCamera(IntPtr ogreSceneManager, IntPtr camera);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_createLight(IntPtr ogreSceneManager);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_destroyLight(IntPtr ogreSceneManager, IntPtr light);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void SceneManager_setAmbientLight(IntPtr ogreSceneManager,
+            Color upperHemisphere, Color lowerHemisphere,
+            Vector3 hemisphereDir, float envmapScale,
+            UInt32 envFeatures);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_createSceneNode(IntPtr ogreSceneManager, SceneMemoryMgrTypes sceneType);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_getRootSceneNode(IntPtr ogreSceneManager);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_destroySceneNode(IntPtr ogreSceneManager, IntPtr node);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr SceneManager_createItem(IntPtr sceneManager,
+            String meshName,
+            String groupName, /* = ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME */
+            SceneMemoryMgrTypes sceneType /*= SCENE_DYNAMIC */);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void SceneManager_destroyItem(IntPtr sceneManager, IntPtr i);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void SceneManager_destroyAllItems(IntPtr sceneManager);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_createEntity(IntPtr ogreSceneManager, String entityName, String meshName);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_getEntity(IntPtr ogreSceneManager, String name);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_hasEntity(IntPtr ogreSceneManager, String name);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_destroyEntity(IntPtr ogreSceneManager, IntPtr entity);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_createManualObject(IntPtr ogreSceneManager, String name);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_getManualObject(IntPtr ogreSceneManager, String name);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_hasManualObject(IntPtr ogreSceneManager, String name);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_destroyManualObject(IntPtr ogreSceneManager, IntPtr obj);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_createStaticGeometry(IntPtr sceneManager, String name);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_getStaticGeometry(IntPtr sceneManager, String name);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_hasStaticGeometry(IntPtr sceneManager, String name);
 
         [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_destroyStaticGeometry(IntPtr sceneManager, IntPtr obj);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_setVisibilityMask(IntPtr ogreSceneManager, uint mask);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern uint SceneManager_getVisibilityMask(IntPtr ogreSceneManager);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_addSceneListener(IntPtr ogreSceneManager, IntPtr listener);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_removeSceneListener(IntPtr ogreSceneManager, IntPtr listener);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_createRaySceneQuery(IntPtr ogreSceneManager, Ray3 ray, uint mask);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_destroyRayQuery(IntPtr ogreSceneManager, IntPtr query);
 
         //[DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
@@ -797,61 +839,61 @@ namespace OgreNextPlugin
         //[DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         //private static extern void SceneManager_destroyPlaneBoundedVolumeListQuery(IntPtr ogreSceneManager, IntPtr query);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_setDisplaySceneNodes(IntPtr ogreSceneManager, bool display);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_getDisplaySceneNodes(IntPtr ogreSceneManager);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_showBoundingBoxes(IntPtr ogreSceneManager, bool bShow);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_getShowBoundingBoxes(IntPtr ogreSceneManager);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowTechnique(IntPtr ogreSceneManager, ShadowTechnique technique);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern ShadowTechnique SceneManager_getShadowTechnique(IntPtr ogreSceneManager);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_setShowDebugShadows(IntPtr ogreSceneManager, bool debug);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_getShowDebugShadows(IntPtr ogreSceneManager);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowColor(IntPtr ogreSceneManager, Color color);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern Color SceneManager_getShadowColor(IntPtr ogreSceneManager);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowDirectionalLightExtrusionDistance(IntPtr ogreSceneManager, float dist);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern float SceneManager_getShadowDirectionalLightExtrusionDistance(IntPtr ogreSceneManager);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowFarDistance(IntPtr ogreSceneManager, float distance);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern float SceneManager_getShadowFarDistance(IntPtr ogreSceneManager);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern float SceneManager_getShadowFarDistanceSquared(IntPtr ogreSceneManager);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowIndexBufferSize(IntPtr ogreSceneManager, int size);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern int SceneManager_getShadowIndexBufferSize(IntPtr ogreSceneManager);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowTextureSize(IntPtr ogreSceneManager, ushort size);
 
         //[DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
@@ -860,10 +902,10 @@ namespace OgreNextPlugin
         //[DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         //private static extern void SceneManager_setShadowTexturePixelFormat(IntPtr ogreSceneManager, PixelFormat fmt);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowTextureCount(IntPtr ogreSceneManager, int count);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern int SceneManager_getShadowTextureCount(IntPtr ogreSceneManager);
 
         //[DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
@@ -875,82 +917,82 @@ namespace OgreNextPlugin
         //[DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         //private static extern void SceneManager_setShadowTextureSettings(IntPtr ogreSceneManager, ushort size, ushort count, PixelFormat fmt);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowDirLightTextureOffset(IntPtr ogreSceneManager, float offset);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern float SceneManager_getShadowDirLightTextureOffset(IntPtr ogreSceneManager);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowTextureFadeStart(IntPtr ogreSceneManager, float fadeStart);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowTextureFadeEnd(IntPtr ogreSceneManager, float fadeEnd);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowTextureSelfShadow(IntPtr ogreSceneManager, bool selfShadow);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_getShadowTextureSelfShadow(IntPtr ogreSceneManager);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowTextureCasterMaterial(IntPtr ogreSceneManager, String name);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowTextureReceiverMaterial(IntPtr ogreSceneManager, String name);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowCasterRenderBackFaces(IntPtr ogreSceneManager, bool bf);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_getShadowCasterRenderBackFaces(IntPtr ogreSceneManager);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowUseInfiniteFarPlane(IntPtr ogreSceneManager, bool enable);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_isShadowTechniqueStencilBased(IntPtr ogreSceneManager);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_isShadowTechniqueTextureBased(IntPtr ogreSceneManager);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_isShadowTechniqueModulative(IntPtr ogreSceneManager);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_isShadowTechniqueAdditive(IntPtr ogreSceneManager);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_isShadowTechniqueIntegrated(IntPtr ogreSceneManager);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_isShadowTechniqueInUse(IntPtr ogreSceneManager);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_setShadowUseLightClipPlanes(IntPtr ogreSceneManager, bool enabled);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool SceneManager_getShadowUseLightClipPlanes(IntPtr ogreSceneManager);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_setSkyPlane(IntPtr ogreSceneManager, bool enabled, float d, Vector3 normal, String matName, float scale, float tiling, bool drawFirst, float bow);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_setSkyBox(IntPtr ogreSceneManager, bool enabled, String matName, float distance, bool drawFirst);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern void SceneManager_setSkyDome(IntPtr ogreSceneManager, bool enabled, String matName);
 
-        [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr SceneManager_getCurrentViewport(IntPtr ogreSceneManager);
 
         #endregion
@@ -960,22 +1002,22 @@ namespace OgreNextPlugin
     {
         /** No shadows */
         SHADOWTYPE_NONE = 0x00,
-	    /** Mask for additive shadows (not for direct use, use  SHADOWTYPE_ enum instead)
+        /** Mask for additive shadows (not for direct use, use  SHADOWTYPE_ enum instead)
 	    */
-	    SHADOWDETAILTYPE_ADDITIVE = 0x01,
-	    /** Mask for modulative shadows (not for direct use, use  SHADOWTYPE_ enum instead)
+        SHADOWDETAILTYPE_ADDITIVE = 0x01,
+        /** Mask for modulative shadows (not for direct use, use  SHADOWTYPE_ enum instead)
 	    */
-	    SHADOWDETAILTYPE_MODULATIVE = 0x02,
-	    /** Mask for integrated shadows (not for direct use, use SHADOWTYPE_ enum instead)
+        SHADOWDETAILTYPE_MODULATIVE = 0x02,
+        /** Mask for integrated shadows (not for direct use, use SHADOWTYPE_ enum instead)
 	    */
-	    SHADOWDETAILTYPE_INTEGRATED = 0x04,
-	    /** Mask for stencil shadows (not for direct use, use  SHADOWTYPE_ enum instead)
+        SHADOWDETAILTYPE_INTEGRATED = 0x04,
+        /** Mask for stencil shadows (not for direct use, use  SHADOWTYPE_ enum instead)
 	    */
-	    SHADOWDETAILTYPE_STENCIL = 0x10,
-	    /** Mask for texture shadows (not for direct use, use  SHADOWTYPE_ enum instead)
+        SHADOWDETAILTYPE_STENCIL = 0x10,
+        /** Mask for texture shadows (not for direct use, use  SHADOWTYPE_ enum instead)
 	    */
-	    SHADOWDETAILTYPE_TEXTURE = 0x20,
-    	
+        SHADOWDETAILTYPE_TEXTURE = 0x20,
+
         /** Stencil shadow technique which renders all shadow volumes as
             a modulation after all the non-transparent areas have been 
             rendered. This technique is considerably less fillrate intensive 
@@ -996,7 +1038,7 @@ namespace OgreNextPlugin
             shadow receivers as a modulative pass. 
         */
         SHADOWTYPE_TEXTURE_MODULATIVE = 0x22,
-    	
+
         /** Texture-based shadow technique which involves a render-to-texture
             of the shadow caster and a projection of that texture onto the 
             shadow receivers, built up per light as additive passes. 
@@ -1007,7 +1049,7 @@ namespace OgreNextPlugin
         */
         SHADOWTYPE_TEXTURE_ADDITIVE = 0x21,
 
-	    /** Texture-based shadow technique which involves a render-to-texture
+        /** Texture-based shadow technique which involves a render-to-texture
 	    of the shadow caster and a projection of that texture on to the shadow
 	    receivers, with the usage of those shadow textures completely controlled
 	    by the materials of the receivers.
@@ -1022,8 +1064,8 @@ namespace OgreNextPlugin
 	    not mean it does the adding on your receivers automatically though, how you
 	    use that result is up to you.
 	    */
-	    SHADOWTYPE_TEXTURE_ADDITIVE_INTEGRATED = 0x25,
-	    /** Texture-based shadow technique which involves a render-to-texture
+        SHADOWTYPE_TEXTURE_ADDITIVE_INTEGRATED = 0x25,
+        /** Texture-based shadow technique which involves a render-to-texture
 		    of the shadow caster and a projection of that texture on to the shadow
 		    receivers, with the usage of those shadow textures completely controlled
 		    by the materials of the receivers.
@@ -1038,6 +1080,6 @@ namespace OgreNextPlugin
 		    not mean it modulates on your receivers automatically though, how you
 		    use that result is up to you.
 	    */
-	    SHADOWTYPE_TEXTURE_MODULATIVE_INTEGRATED = 0x26
+        SHADOWTYPE_TEXTURE_MODULATIVE_INTEGRATED = 0x26
     };
 }

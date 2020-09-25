@@ -163,6 +163,8 @@
   <ItemGroup>
     <ClCompile Include="Src\Camera.cpp" />
     <ClCompile Include="src\CompositorManager2.cpp" />
+    <ClCompile Include="Src\Item.cpp" />
+    <ClCompile Include="Src\Light.cpp" />
     <ClCompile Include="Src\MovableObject.cpp" />
     <ClCompile Include="Src\NativeFrameListener.cpp" />
     <ClCompile Include="Src\Node.cpp" />
