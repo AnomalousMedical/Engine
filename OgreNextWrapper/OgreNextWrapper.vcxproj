@@ -175,6 +175,7 @@
     <ClCompile Include="Src\OgreManagedArchive.cpp" />
     <ClCompile Include="Src\OgreManagedArchiveFactory.cpp" />
     <ClCompile Include="Src\OgreManagedStream.cpp" />
+    <ClCompile Include="Src\OgreResourceGroupManager.cpp" />
     <ClCompile Include="Src\RenderSystem.cpp" />
     <ClCompile Include="Src\RenderWindow.cpp" />
     <ClCompile Include="Src\Root.cpp" />

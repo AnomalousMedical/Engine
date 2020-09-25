@@ -35,6 +35,8 @@ namespace Anomalous.Minimus.Full
 
             var assemblyPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
             VirtualFileSystem.Instance.addArchive(Path.Combine(assemblyPath, "Media"));
+            OgreResourceGroupManager.getInstance().addResourceLocation("", "EngineArchive", "pbstest", true);
+            OgreResourceGroupManager.getInstance().initializeAllResourceGroups(false);
 
             //temp test scene
             var sceneManager = root.createSceneManager(SceneType.ST_GENERIC, 1);
@@ -69,7 +71,7 @@ namespace Anomalous.Minimus.Full
                                            new Color(0.6f * 0.065f * 0.75f, 0.45f * 0.065f * 0.75f, 0.3f * 0.065f * 0.75f),
                                            -light.getDirection() + Vector3.UnitY * 0.2f);
 
-            //var item = sceneManager.createItem("Sphere1000.mesh");
+            var item = sceneManager.createItem("Sphere1000.mesh");
 
             //end temp test scene
         }
