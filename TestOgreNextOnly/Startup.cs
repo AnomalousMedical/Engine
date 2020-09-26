@@ -1,6 +1,7 @@
 ﻿using Engine;
 using Microsoft.Extensions.DependencyInjection;
 using OgreNextPlugin;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -22,7 +23,7 @@ namespace Anomalous.Minimus.Full
 
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
         }
 
         public void Initialized(CoreApp pharosApp, PluginManager pluginManager)
@@ -35,7 +36,15 @@ namespace Anomalous.Minimus.Full
 
             var assemblyPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
             VirtualFileSystem.Instance.addArchive(Path.Combine(assemblyPath, "Media"));
-            OgreResourceGroupManager.getInstance().addResourceLocation("", "EngineArchive", "pbstest", true);
+            OgreResourceGroupManager.getInstance().addResourceLocation("", "EngineArchive", "pbstest", false);
+
+            OgreResourceGroupManager.getInstance().addResourceLocation("Common", "EngineArchive", "pbstest", false);
+            OgreResourceGroupManager.getInstance().addResourceLocation("Common/Any", "EngineArchive", "pbstest", false);
+            OgreResourceGroupManager.getInstance().addResourceLocation("Common/GLSL", "EngineArchive", "pbstest", false);
+            OgreResourceGroupManager.getInstance().addResourceLocation("Common/GLSLES", "EngineArchive", "pbstest", false);
+            OgreResourceGroupManager.getInstance().addResourceLocation("Common/HLSL", "EngineArchive", "pbstest", false);
+            OgreResourceGroupManager.getInstance().addResourceLocation("Common/Metal", "EngineArchive", "pbstest", false);
+
             OgreResourceGroupManager.getInstance().initializeAllResourceGroups(false);
 
             //temp test scene
@@ -52,9 +61,9 @@ namespace Anomalous.Minimus.Full
 
             // Setup a basic compositor with a blue clear colour
             CompositorManager2 compositorManager = root.CompositorManager2;
-            var workspaceName = "Demo Workspace";
+            var workspaceName = "PbsMaterialsWorkspace";
             var backgroundColour = new Color(0.2f, 0.4f, 0.6f);
-            compositorManager.createBasicWorkspaceDef(workspaceName, backgroundColour);
+            //compositorManager.createBasicWorkspaceDef(workspaceName, backgroundColour);
             compositorManager.addWorkspace(sceneManager, renderWindow.OgreRenderWindow.Texture, camera, workspaceName, true);
 
             var rootNode = sceneManager.getRootSceneNode();
@@ -74,10 +83,38 @@ namespace Anomalous.Minimus.Full
             //var item = sceneManager.createItem("Sphere1000.mesh");
             var item = sceneManager.createItem("Cube_d.mesh");
             item.SetDatablock("Rocks");
+            item.setVisibilityFlags(0x000000001);
             var itemNode = sceneManager.createSceneNode();
             rootNode.addChild(itemNode);
             itemNode.attachObject(item);
             itemNode.setPosition(new Vector3(0f, 0f, 0f));
+
+
+            light = sceneManager.createLight();
+            lightNode = sceneManager.createSceneNode();
+            rootNode.addChild(lightNode);
+            lightNode.attachObject(light);
+            light.setDiffuseColor(0.8f, 0.4f, 0.2f); //Warm
+            light.setSpecularColor(0.8f, 0.4f, 0.2f);
+            light.setPowerScale((float)Math.PI);
+            light.setType(Light.LightTypes.LT_SPOTLIGHT);
+            lightNode.setPosition(new Vector3(-10.0f, 10.0f, 10.0f));
+            light.setDirection(new Vector3(1, -1, -1).normalized());
+            light.setAttenuationBasedOnRadius(10.0f, 0.01f);
+
+            //mLightNodes[1] = lightNode;
+
+            light = sceneManager.createLight();
+            lightNode = sceneManager.createSceneNode();
+            rootNode.addChild(lightNode);
+            lightNode.attachObject(light);
+            light.setDiffuseColor(0.2f, 0.4f, 0.8f); //Cold
+            light.setSpecularColor(0.2f, 0.4f, 0.8f);
+            light.setPowerScale((float)Math.PI);
+            light.setType(Light.LightTypes.LT_SPOTLIGHT);
+            lightNode.setPosition(new Vector3(10.0f, 10.0f, -10.0f));
+            light.setDirection(new Vector3(1, -1, -1).normalized());
+            light.setAttenuationBasedOnRadius(10.0f, 0.01f);
 
             //end temp test scene
         }

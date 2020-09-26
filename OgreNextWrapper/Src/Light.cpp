@@ -133,4 +133,9 @@ extern "C" _AnomalousExport bool Light_getCastShadows(Ogre::Light* light)
 	return light->getCastShadows();
 }
 
+extern "C" _AnomalousExport void Light_setAttenuationBasedOnRadius(Ogre::Light * light, float radius, float lumThreshold)
+{
+	light->setAttenuationBasedOnRadius(radius, lumThreshold);
+}
+
 #pragma warning(pop)

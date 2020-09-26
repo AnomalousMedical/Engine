@@ -272,6 +272,11 @@ namespace OgreNextPlugin
             return Light_getCastShadows(ogreObject);
         }
 
+        public void setAttenuationBasedOnRadius(float radius, float lumThreshold)
+        {
+            Light_setAttenuationBasedOnRadius(ogreObject, radius, lumThreshold);
+        }
+
         #region PInvoke
 
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
@@ -352,6 +357,9 @@ namespace OgreNextPlugin
         [DllImport(LibraryInfo.Name, CallingConvention=CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool Light_getCastShadows(IntPtr light);
+
+        [DllImport(LibraryInfo.Name, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void Light_setAttenuationBasedOnRadius(IntPtr light, float radius, float lumThreshold);
 
         #endregion 
     }

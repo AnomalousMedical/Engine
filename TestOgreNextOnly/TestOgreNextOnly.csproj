@@ -19,8 +19,11 @@
     <Content Include="..\..\Dependencies\ogre-next\src\Samples\Media\materials\textures\Rocks_Spec.tga" Link="Media\Rocks_Spec.tga">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\..\Dependencies\ogre-next\src\Samples\Media\2.0\scripts\materials\Common\**\*.*" Link="Media\Common\%(RecursiveDir)%(Filename)%(Extension)">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\..\Dependencies\FreeImage.NET\Library\FreeImageDotNet.csproj" />
     <ProjectReference Include="..\Engine\Engine.csproj" />
