@@ -48,6 +48,7 @@ namespace Anomalous.Minimus.Full
             OgreResourceGroupManager.getInstance().initializeAllResourceGroups(false);
 
             //temp test scene
+            //It is terrible and does not clean up resources
             var sceneManager = root.createSceneManager(SceneType.ST_GENERIC, 1);
             var camera = sceneManager.createCamera("Main Camera");
 
@@ -70,15 +71,14 @@ namespace Anomalous.Minimus.Full
             var rootNode = sceneManager.getRootSceneNode();
 
             //Add item
-            var item = sceneManager.createItem("Sphere1000.mesh");
-            //var item = sceneManager.createItem("Cube_d.mesh");
-            item.SetDatablock("Rocks");
-            //item.SetDatablock("Marble");
-            item.setVisibilityFlags(0x000000001);
-            var itemNode = sceneManager.createSceneNode();
-            rootNode.addChild(itemNode);
-            itemNode.attachObject(item);
-            itemNode.setPosition(new Vector3(0f, 0f, 0f));
+            for(int x = -5; x < 5; ++x)
+            {
+                for (int z = 0; z > -10; --z)
+                {
+                    CreateItem(sceneManager, rootNode, "Sphere1000.mesh", "Rocks", new Vector3(x, 0f, z));
+                    CreateItem(sceneManager, rootNode, "Cube_d.mesh", "Marble", new Vector3(x, -5f, z));
+                }
+            }
 
             //Add lights
             var light = sceneManager.createLight();
@@ -101,8 +101,8 @@ namespace Anomalous.Minimus.Full
             light.setSpecularColor(0.8f, 0.4f, 0.2f);
             light.setPowerScale((float)Math.PI);
             light.setType(Light.LightTypes.LT_SPOTLIGHT);
-            lightNode.setPosition(new Vector3(0.0f, 10.0f, 0.0f));
-            light.setDirection(new Vector3(0, -1, 0).normalized());
+            lightNode.setPosition(new Vector3(-10.0f, 10.0f, 10.0f));
+            light.setDirection(new Vector3(1, -1, -1).normalized());
             light.setAttenuationBasedOnRadius(10.0f, 0.01f);
 
             //mLightNodes[1] = lightNode;
@@ -115,11 +115,22 @@ namespace Anomalous.Minimus.Full
             light.setSpecularColor(0.2f, 0.4f, 0.8f);
             light.setPowerScale((float)Math.PI);
             light.setType(Light.LightTypes.LT_SPOTLIGHT);
-            lightNode.setPosition(new Vector3(0.0f, -10.0f, 0.0f));
-            light.setDirection(new Vector3(0, 1, 0).normalized());
+            lightNode.setPosition(new Vector3(10.0f, 10.0f, -10.0f));
+            light.setDirection(new Vector3(-1, -1, 1).normalized());
             light.setAttenuationBasedOnRadius(10.0f, 0.01f);
 
             //end temp test scene
+        }
+
+        private static void CreateItem(SceneManager sceneManager, SceneNode rootNode, String meshName, String material, Vector3 location)
+        {
+            var item = sceneManager.createItem(meshName);
+            item.SetDatablock(material);
+            item.setVisibilityFlags(0x000000001);
+            var itemNode = sceneManager.createSceneNode();
+            rootNode.addChild(itemNode);
+            itemNode.attachObject(item);
+            itemNode.setPosition(location);
         }
     }
 }
