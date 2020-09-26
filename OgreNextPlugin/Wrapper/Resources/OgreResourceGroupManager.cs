@@ -12,6 +12,10 @@ namespace OgreNextPlugin
     [NativeSubsystemType]
     public class OgreResourceGroupManager
     {
+        public const String AutodetectResourceGroup = "Autodetect";
+        public const String DefaultResourceGroup = "General";
+        public const String InternalResourceGroup = "Internal";
+
         /// <summary>
         /// Called when the resources are initialized.
         /// </summary>

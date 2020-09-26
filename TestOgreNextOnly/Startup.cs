@@ -71,11 +71,13 @@ namespace Anomalous.Minimus.Full
                                            new Color(0.6f * 0.065f * 0.75f, 0.45f * 0.065f * 0.75f, 0.3f * 0.065f * 0.75f),
                                            -light.getDirection() + Vector3.UnitY * 0.2f);
 
-            var item = sceneManager.createItem("Sphere1000.mesh");
+            //var item = sceneManager.createItem("Sphere1000.mesh");
+            var item = sceneManager.createItem("Cube_d.mesh");
+            item.SetDatablock("Rocks");
             var itemNode = sceneManager.createSceneNode();
             rootNode.addChild(itemNode);
             itemNode.attachObject(item);
-            itemNode.setPosition(new Vector3(0f, 0f, -30f));
+            itemNode.setPosition(new Vector3(0f, 0f, 0f));
 
             //end temp test scene
         }

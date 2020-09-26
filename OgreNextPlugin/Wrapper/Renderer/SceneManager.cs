@@ -187,7 +187,7 @@ namespace OgreNextPlugin
             }
         }
 
-        public Item createItem(String meshName, String groupName = "Autodetect", SceneMemoryMgrTypes sceneType = SceneMemoryMgrTypes.SCENE_DYNAMIC)
+        public Item createItem(String meshName, String groupName = OgreResourceGroupManager.AutodetectResourceGroup, SceneMemoryMgrTypes sceneType = SceneMemoryMgrTypes.SCENE_DYNAMIC)
         {
             return items.getObject(SceneManager_createItem(ogreSceneManager, meshName, groupName, sceneType));
         }

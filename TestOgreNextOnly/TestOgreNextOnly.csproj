@@ -8,6 +8,18 @@
   <PropertyGroup Condition="'$(Configuration)'=='RelMDeb'">
     <Optimize>false</Optimize>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\Dependencies\ogre-next\src\Samples\Media\materials\textures\Rocks_Diffuse.tga" Link="Media\Rocks_Diffuse.tga">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\Dependencies\ogre-next\src\Samples\Media\materials\textures\Rocks_Normal.tga" Link="Media\Rocks_Normal.tga">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\Dependencies\ogre-next\src\Samples\Media\materials\textures\Rocks_Spec.tga" Link="Media\Rocks_Spec.tga">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\..\Dependencies\FreeImage.NET\Library\FreeImageDotNet.csproj" />
@@ -127,19 +139,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Media\Cube_d.mesh">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Media\PbsMaterials.compositor">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Media\PbsMaterials.material">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Media\Rocks_Diffuse.tga">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Media\Rocks_Normal.tga">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Media\Rocks_Spec.tga">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Media\Sphere1000.mesh">
