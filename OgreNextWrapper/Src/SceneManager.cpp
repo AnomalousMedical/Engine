@@ -66,7 +66,7 @@ extern "C" _AnomalousExport Ogre::Item* SceneManager_createItem(Ogre::SceneManag
 	String groupName, /* = ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME */
 	Ogre::SceneMemoryMgrTypes sceneType /*= SCENE_DYNAMIC */)
 {
-	sceneManager->createItem(meshName, groupName, sceneType);
+	return sceneManager->createItem(meshName, groupName, sceneType);
 }
 
 //extern "C" _AnomalousExport extern "C" _AnomalousExport Ogre::Item* SceneManager_createItemMesh(Ogre::SceneManager * sceneManager, const Ogre::MeshPtr& pMesh, Ogre::SceneMemoryMgrTypes sceneType)

@@ -152,6 +152,10 @@ extern "C" _AnomalousExport Ogre::Window* Root_createRenderWindowParams(Ogre::Ro
 	}
 	if(externalWindowHandle != 0)
 	{
+		//This is needed when the window is embedded
+		//https://forums.ogre3d.org/viewtopic.php?f=25&t=82826
+		params.insert(std::make_pair("gamma", "true"));
+
 #ifdef APPLE_IOS
         unsigned long* handleArray = (unsigned long *)Ogre::StringConverter::parseUnsignedLong(externalWindowHandle);
         params["externalWindowHandle"] = Ogre::StringConverter::toString(handleArray[0]);

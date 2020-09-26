@@ -13,9 +13,25 @@ namespace OgreNextPlugin
     {
         public enum LightTypes : uint
         {
-	        LT_POINT,
-	        LT_DIRECTIONAL,
-	        LT_SPOTLIGHT
+            /// Directional lights simulate parallel light beams from a distant source, hence have direction but no position
+            LT_DIRECTIONAL = 0,
+            /// Point light sources give off light equally in all directions, so require only position not direction
+            LT_POINT = 1,
+            /// Spotlights simulate a cone of light from a source so require position and direction, plus extra values for falloff
+            LT_SPOTLIGHT = 2,
+            /// Virtual point lights, used for Instant Radiosity (Global Illumination fake / approximation)
+            LT_VPL = 3,
+            MAX_FORWARD_PLUS_LIGHTS = 4,
+            /// Non-PBR version of Area lights. Not an accurate approximation, but
+            /// they're flexible, useful & cheap. They aren't physically correct at all.
+            LT_AREA_APPROX = 4,
+            /// PBR version of Area lights using Linearly Transformed Cosines as researched
+            /// by Eric Heitz, Jonathan Dupuy, Stephen Hill and David Neubelt.
+            /// It's slower than LT_AREA_APPROX, and does not currently support textures.
+            /// However it's physically accurate.
+            LT_AREA_LTC = 5,
+
+            NUM_LIGHT_TYPES
         };
 
         internal static Light createWrapper(IntPtr light, object[] args)

@@ -61,13 +61,26 @@ namespace Anomalous.Minimus.Full
 
             // Setup a basic compositor with a blue clear colour
             CompositorManager2 compositorManager = root.CompositorManager2;
-            var workspaceName = "PbsMaterialsWorkspace";
-            var backgroundColour = new Color(0.2f, 0.4f, 0.6f);
+            var workspaceName = "PbsMaterialsWorkspace"; //This comes from the compositor file
+            //Can create manually too
+            //var backgroundColour = new Color(0.2f, 0.4f, 0.6f);
             //compositorManager.createBasicWorkspaceDef(workspaceName, backgroundColour);
             compositorManager.addWorkspace(sceneManager, renderWindow.OgreRenderWindow.Texture, camera, workspaceName, true);
 
             var rootNode = sceneManager.getRootSceneNode();
 
+            //Add item
+            var item = sceneManager.createItem("Sphere1000.mesh");
+            //var item = sceneManager.createItem("Cube_d.mesh");
+            item.SetDatablock("Rocks");
+            //item.SetDatablock("Marble");
+            item.setVisibilityFlags(0x000000001);
+            var itemNode = sceneManager.createSceneNode();
+            rootNode.addChild(itemNode);
+            itemNode.attachObject(item);
+            itemNode.setPosition(new Vector3(0f, 0f, 0f));
+
+            //Add lights
             var light = sceneManager.createLight();
             var lightNode = sceneManager.createSceneNode();
             rootNode.addChild(lightNode);
@@ -80,16 +93,6 @@ namespace Anomalous.Minimus.Full
                                            new Color(0.6f * 0.065f * 0.75f, 0.45f * 0.065f * 0.75f, 0.3f * 0.065f * 0.75f),
                                            -light.getDirection() + Vector3.UnitY * 0.2f);
 
-            //var item = sceneManager.createItem("Sphere1000.mesh");
-            var item = sceneManager.createItem("Cube_d.mesh");
-            item.SetDatablock("Rocks");
-            item.setVisibilityFlags(0x000000001);
-            var itemNode = sceneManager.createSceneNode();
-            rootNode.addChild(itemNode);
-            itemNode.attachObject(item);
-            itemNode.setPosition(new Vector3(0f, 0f, 0f));
-
-
             light = sceneManager.createLight();
             lightNode = sceneManager.createSceneNode();
             rootNode.addChild(lightNode);
@@ -98,8 +101,8 @@ namespace Anomalous.Minimus.Full
             light.setSpecularColor(0.8f, 0.4f, 0.2f);
             light.setPowerScale((float)Math.PI);
             light.setType(Light.LightTypes.LT_SPOTLIGHT);
-            lightNode.setPosition(new Vector3(-10.0f, 10.0f, 10.0f));
-            light.setDirection(new Vector3(1, -1, -1).normalized());
+            lightNode.setPosition(new Vector3(0.0f, 10.0f, 0.0f));
+            light.setDirection(new Vector3(0, -1, 0).normalized());
             light.setAttenuationBasedOnRadius(10.0f, 0.01f);
 
             //mLightNodes[1] = lightNode;
@@ -112,8 +115,8 @@ namespace Anomalous.Minimus.Full
             light.setSpecularColor(0.2f, 0.4f, 0.8f);
             light.setPowerScale((float)Math.PI);
             light.setType(Light.LightTypes.LT_SPOTLIGHT);
-            lightNode.setPosition(new Vector3(10.0f, 10.0f, -10.0f));
-            light.setDirection(new Vector3(1, -1, -1).normalized());
+            lightNode.setPosition(new Vector3(0.0f, -10.0f, 0.0f));
+            light.setDirection(new Vector3(0, 1, 0).normalized());
             light.setAttenuationBasedOnRadius(10.0f, 0.01f);
 
             //end temp test scene

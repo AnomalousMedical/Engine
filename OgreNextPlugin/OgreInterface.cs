@@ -83,7 +83,7 @@ namespace OgreNextPlugin
 
             //Initialize Ogre
             rs = root._getRenderSystemWrapper(OgreInterface_GetRenderSystem(ref chosenRenderSystem));
-            rs.setConfigOption("sRGB Gamma Conversion", "Yes");
+            //rs.setConfigOption("sRGB Gamma Conversion", "Yes"); //This is for ogre created windows
             root.setRenderSystem(rs);
             root.initialize(false);
 
