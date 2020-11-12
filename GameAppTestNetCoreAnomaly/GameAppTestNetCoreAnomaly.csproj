@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net5.0</TargetFrameworks>
     <Configurations>Debug;Release;RelMDeb</Configurations>
     <ApplicationIcon>Anomaly.ico</ApplicationIcon>
   </PropertyGroup>
