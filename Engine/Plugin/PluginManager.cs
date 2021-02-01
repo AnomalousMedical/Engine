@@ -1,5 +1,4 @@
 ﻿using Engine.Platform;
-using Engine.Renderer;
 using Engine.Threads;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;

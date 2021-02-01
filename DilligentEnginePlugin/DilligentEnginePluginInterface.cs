@@ -2,14 +2,13 @@
 using DilligentEngine;
 using Engine;
 using Engine.Platform;
-using Engine.Renderer;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 
 namespace DilligentEnginePlugin
 {
-    public class DilligentEnginePluginInterface : PluginInterface, RendererPlugin
+    public class DilligentEnginePluginInterface : PluginInterface
     {
         private GenericEngineFactory engineFactory;
 

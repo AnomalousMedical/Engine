@@ -2,7 +2,6 @@
 using DilligentEnginePlugin;
 using Engine;
 using Engine.Platform;
-using Engine.Renderer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
