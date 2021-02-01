@@ -74,6 +74,11 @@ namespace DilligentEnginePlugin
             serviceCollection.AddSingleton<IRenderDevice>(this.engineFactory.RenderDevice);
             serviceCollection.AddSingleton<IDeviceContext>(this.engineFactory.ImmediateContext);
             serviceCollection.AddSingleton<ISwapChain>(this.engineFactory.SwapChain);
+
+            defaultWindowInfo.EmbedWindow.Resized += window =>
+            {
+                this.engineFactory.SwapChain.Resize((uint)window.WindowWidth, (uint)window.WindowHeight);
+            };
         }
 
         public void link(PluginManager pluginManager)
