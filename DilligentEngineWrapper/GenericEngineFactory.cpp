@@ -24,22 +24,22 @@ extern "C" _AnomalousExport CreateDeviceAndSwapChainResult GenericEngineFactory_
 	CreateDeviceAndSwapChainResult result;
 	SwapChainDesc SCDesc;
 
-//#   if EXPLICITLY_LOAD_ENGINE_VK_DLL
-//	// Load the dll and import GetEngineFactoryVk() function
-//	auto GetEngineFactoryVk = LoadGraphicsEngineVk();
-//#   endif
-//
-//	EngineVkCreateInfo EngineCI;
-//
-//#   ifdef DILIGENT_DEBUG
-//	EngineCI.EnableValidation = true;
-//#   endif
-//
-//	auto* pFactoryVk = GetEngineFactoryVk();
-//	pFactoryVk->CreateDeviceAndContextsVk(EngineCI, &(result.m_pDevice), &(result.m_pImmediateContext));
-//
-//	Win32NativeWindow Window{ hWnd };
-//	pFactoryVk->CreateSwapChainVk(result.m_pDevice, result.m_pImmediateContext, SCDesc, Window, &(result.m_pSwapChain));
+#   if EXPLICITLY_LOAD_ENGINE_VK_DLL
+	// Load the dll and import GetEngineFactoryVk() function
+	auto GetEngineFactoryVk = LoadGraphicsEngineVk();
+#   endif
+
+	EngineVkCreateInfo EngineCI;
+
+#   ifdef DILIGENT_DEBUG
+	EngineCI.EnableValidation = true;
+#   endif
+
+	auto* pFactoryVk = GetEngineFactoryVk();
+	pFactoryVk->CreateDeviceAndContextsVk(EngineCI, &(result.m_pDevice), &(result.m_pImmediateContext));
+
+	Win32NativeWindow Window{ hWnd };
+	pFactoryVk->CreateSwapChainVk(result.m_pDevice, result.m_pImmediateContext, SCDesc, Window, &(result.m_pSwapChain));
 
 	return result;
 }

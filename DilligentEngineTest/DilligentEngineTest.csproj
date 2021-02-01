@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -14,10 +14,18 @@
     <None Include="..\DilligentEngineWrapper\bin\Release\x64\DilligentEngineWrapper.dll" Link="DilligentEngineWrapper.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="..\OSHelper\bin\Release\x64\OSHelper.dll">
+      <Link>x64\OSHelper.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DilligentEnginePlugin\DilligentEnginePlugin.csproj" />
     <ProjectReference Include="..\DilligentEngine\DilligentEngine.csproj" />
+    <ProjectReference Include="..\Engine\Engine.csproj" />
+    <ProjectReference Include="..\OSPlatform.Win32\OSPlatform.Win32.csproj" />
+    <ProjectReference Include="..\OSPlatform\OSPlatform.csproj" />
   </ItemGroup>
 
 </Project>
