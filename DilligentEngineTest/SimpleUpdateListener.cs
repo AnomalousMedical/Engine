@@ -38,9 +38,14 @@ namespace DilligentEngineTest
             var pDSV = swapChain.GetDepthBufferDSV();
             immediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
+            var color = new Color();
+            color.r = (clock.CurrentTimeMicro % 3000000f) / 3000000f;
+            color.g = (clock.CurrentTimeMicro % 6000000f) / 6000000f;
+            color.b = (clock.CurrentTimeMicro % 9000000f) / 9000000f;
+
             // Clear the back buffer
             // Let the engine perform required state transitions
-            immediateContext.ClearRenderTarget(pRTV, Color.LightBlue, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            immediateContext.ClearRenderTarget(pRTV, color, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
             this.swapChain.Present();
