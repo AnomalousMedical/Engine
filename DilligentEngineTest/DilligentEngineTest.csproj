@@ -55,6 +55,31 @@
       <Link>x64\OSHelper.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+
+    <Content Include="..\..\Dependencies\OpenALSoft\Win64Build\Release\OpenAL32.dll">
+      <Link>x64\OpenAL32.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    
+    <Content Include="..\SoundWrapper\bin\Release\x64\SoundWrapper.dll">
+      <Link>x64\SoundWrapper.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    
+    <Content Include="..\Win32UniversalBridge\bin\Release\x64\Win32UniversalBridge.dll">
+      <Link>x64\Win32UniversalBridge.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    
+    <Content Include="..\WinMTDriver\bin\Release\x64\WinMTDriver.dll">
+      <Link>x64\WinMTDriver.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    
+    <Content Include="..\Zip\bin\Release\x64\Zip.dll">
+      <Link>x64\Zip.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -63,6 +88,7 @@
     <ProjectReference Include="..\Engine\Engine.csproj" />
     <ProjectReference Include="..\OSPlatform.Win32\OSPlatform.Win32.csproj" />
     <ProjectReference Include="..\OSPlatform\OSPlatform.csproj" />
+    <ProjectReference Include="..\SoundPlugin\SoundPlugin.csproj" />
   </ItemGroup>
 
 </Project>

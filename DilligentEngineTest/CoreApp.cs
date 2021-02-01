@@ -6,6 +6,7 @@ using Engine.Renderer;
 using Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using SoundPlugin;
 using System;
 using System.Globalization;
 using System.IO;
@@ -122,9 +123,6 @@ namespace DilligentEngineTest
 
             services.TryAddSingleton<SimpleUpdateListener>();
 
-            //MyGUIInterface.EventLayerKey = EventLayers.Gui;
-            //MyGUIInterface.CreateGuiGestures = CoreConfig.EnableMultitouch && PlatformConfig.TouchType == TouchType.Screen;
-
             //Configure plugins
             pluginManager.OnConfigureDefaultWindow = (out WindowInfo defaultWindow) =>
             {
@@ -147,20 +145,10 @@ namespace DilligentEngineTest
                 mainWindow.show();
             };
 
-            //GuiFrameworkCamerasInterface.MoveCameraEventLayer = EventLayers.Cameras;
-            //GuiFrameworkCamerasInterface.SelectWindowEventLayer = EventLayers.AfterGui;
-            //GuiFrameworkCamerasInterface.ShortcutEventLayer = EventLayers.AfterGui;
-
-            //pluginManager.addPluginAssembly(typeof(OgreInterface).Assembly);
             //pluginManager.addPluginAssembly(typeof(BulletInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(DilligentEnginePluginInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(NativePlatformPlugin).Assembly);
-            //pluginManager.addPluginAssembly(typeof(MyGUIInterface).Assembly);
-            //pluginManager.addPluginAssembly(typeof(RocketInterface).Assembly);
-            //pluginManager.addPluginAssembly(typeof(SoundPluginInterface).Assembly);
-            //pluginManager.addPluginAssembly(typeof(GuiFrameworkInterface).Assembly);
-            //pluginManager.addPluginAssembly(typeof(RocketWidgetInterface).Assembly);
-            //pluginManager.addPluginAssembly(typeof(GuiFrameworkCamerasInterface).Assembly);
+            pluginManager.addPluginAssembly(typeof(SoundPluginInterface).Assembly);
             //foreach(var assembly in startup.AdditionalPluginAssemblies)
             //{
             //    pluginManager.addPluginAssembly(assembly);
@@ -168,11 +156,6 @@ namespace DilligentEngineTest
             pluginManager.initializePlugins();
 
             var scope = pluginManager.GlobalScope;
-
-            //var guiManager = scope.ServiceProvider.GetRequiredService<GUIManager>();
-            //var layoutChain = scope.ServiceProvider.GetRequiredService<LayoutChain>();
-            //guiManager.createGUILayout(layoutChain);
-            //layoutChain.layout();
 
             var systemTimer = scope.ServiceProvider.GetRequiredService<SystemTimer>();
             var mainTimer = scope.ServiceProvider.GetRequiredService<UpdateTimer>();
@@ -206,15 +189,9 @@ namespace DilligentEngineTest
             var updateListener = scope.ServiceProvider.GetRequiredService<SimpleUpdateListener>();
             mainTimer.addUpdateListener(updateListener);
 
-            //SoundConfig.initialize(CoreConfig.ConfigFile);
+            SoundConfig.initialize(configFile);
 
-            //GuiFrameworkInterface.Instance.handleCursors(mainWindow);
-            //SoundPluginInterface.Instance.setResourceWindow(mainWindow);
-
-            //var touchMouseGuiForwarder = new TouchMouseGuiForwarder(eventManager, inputHandler, systemTimer, mainWindow, EventLayers.Last);
-            //touchMouseGuiForwarder.ForwardTouchesAsMouse = PlatformConfig.ForwardTouchAsMouse;
-            //var myGuiKeyboard = new MyGUIOnscreenKeyboardManager(touchMouseGuiForwarder);
-            //var rocketKeyboard = new RocketWidgetOnscreenKeyboardManager(touchMouseGuiForwarder);
+            SoundPluginInterface.Instance.setResourceWindow(mainWindow);
         }
 
         public override int OnExit()
