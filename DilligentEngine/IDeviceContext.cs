@@ -4,7 +4,10 @@ using System.Text;
 
 namespace DilligentEngine
 {
-    public class IDeviceContext
+    public class IDeviceContext : DilligentObject
     {
+        public IDeviceContext(IntPtr objPtr) : base(objPtr)
+        {
+        }
     }
 }

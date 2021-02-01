@@ -11,6 +11,8 @@ namespace DilligentEnginePlugin
 {
     public class DilligentEnginePluginInterface : PluginInterface, RendererPlugin
     {
+        private GenericEngineFactory engineFactory;
+
         public string Name => "DilligentEngine";
 
         public RendererWindow PrimaryWindow => throw new NotImplementedException();
@@ -52,7 +54,7 @@ namespace DilligentEnginePlugin
 
         public void Dispose()
         {
-            
+            this.engineFactory.Dispose();
         }
 
         public DebugInterface getDebugInterface()
@@ -65,8 +67,8 @@ namespace DilligentEnginePlugin
             WindowInfo defaultWindowInfo;
             pluginManager.setRendererPlugin(this, out defaultWindowInfo);
 
-            var engineFactory = new GenericEngineFactory();
-            engineFactory.CreateDeviceAndSwapChain(defaultWindowInfo.EmbedWindow.WindowHandle);
+            this.engineFactory = new GenericEngineFactory();
+            this.engineFactory.CreateDeviceAndSwapChain(defaultWindowInfo.EmbedWindow.WindowHandle);
         }
 
         public void link(PluginManager pluginManager)

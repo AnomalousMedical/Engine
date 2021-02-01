@@ -4,7 +4,10 @@ using System.Text;
 
 namespace DilligentEngine
 {
-    public class ISwapChain
+    public class ISwapChain : DilligentObject
     {
+        public ISwapChain(IntPtr objPtr) : base(objPtr)
+        {
+        }
     }
 }
