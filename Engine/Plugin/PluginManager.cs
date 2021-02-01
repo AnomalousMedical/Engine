@@ -12,12 +12,6 @@ using System.Reflection;
 namespace Engine
 {
     /// <summary>
-    /// Callback for when the renderer plugin is found and needs to configure its window.
-    /// </summary>
-    /// <param name="defaultWindow">Assign this to a new DefaultWindowInfo instance.</param>
-    public delegate void ConfigureDefaultWindow(out WindowInfo defaultWindow);
-
-    /// <summary>
     /// This class loads and unloads the various plugins for the system.
     /// It will also maintain the di scope using a builder you supply or one it creates.
     /// Any instance of this class will be added to the builder automatically, in addition
@@ -48,11 +42,8 @@ namespace Engine
         #region Fields
 
         private List<PluginInterface> loadedPlugins = new List<PluginInterface>();
-        private RendererPlugin rendererPlugin = null;
         private List<Assembly> pluginAssemblies = new List<Assembly>();
         private String pluginDirectory = null;
-        private VirtualFileSystem virtualFileSystem;
-        private Dictionary<String, Type> typeCache = new Dictionary<string, Type>();//After a type is found for an AssemblyQualifiedName it will be stored here.
         private IServiceCollection serviceCollection;
         private ServiceProvider serviceProvider;
         private IServiceScope globalScope;
@@ -60,17 +51,6 @@ namespace Engine
         private ILogger<PluginManager> logger;
 
         #endregion Fields
-
-        #region Events
-
-        /// <summary>
-        /// This event is called when the RendererPlugin is found, but before
-        /// the Renderer is initialized. This gives the application a chance to
-        /// modify the window auto-creation settings.
-        /// </summary>
-        public ConfigureDefaultWindow OnConfigureDefaultWindow;
-
-        #endregion Events
 
         #region Constructors
 
@@ -81,7 +61,7 @@ namespace Engine
         {
             this.serviceCollection = serviceCollection;
             serviceCollection.TryAddSingleton<PluginManager>(this); //This is externally owned
-            serviceCollection.TryAddSingleton<VirtualFileSystem>(); //Owned externally
+            serviceCollection.TryAddSingleton<VirtualFileSystem>();
 
             if (instance == null)
             {
@@ -162,7 +142,6 @@ namespace Engine
             globalScope = serviceProvider.CreateScope();
 
             logger = globalScope.ServiceProvider.GetRequiredService<ILogger<PluginManager>>();
-            virtualFileSystem = globalScope.ServiceProvider.GetRequiredService<VirtualFileSystem>();
 
             foreach (var plugin in loadedPlugins)
             {
@@ -210,56 +189,6 @@ namespace Engine
         }
 
         /// <summary>
-        /// Set the RendererPlugin for the run of this engine. It is only valid
-        /// to set this one time. Any attempts to set this after the first time
-        /// will throw an InvalidPluginException. This will also fire the
-        /// OnRendererPluginFound where the default window creation settings can
-        /// be overwritten.
-        /// </summary>
-        /// <param name="plugin">The RendererPlugin to use.</param>
-        /// <param name="defaultWindow">Out variable that will contain the setup for the default window.</param>
-        public void setRendererPlugin(RendererPlugin plugin, out WindowInfo defaultWindow)
-        {
-            if (rendererPlugin == null)
-            {
-                rendererPlugin = plugin;
-                logger?.LogInformation("Renderer plugin set to {0}.", plugin.Name);
-                if (OnConfigureDefaultWindow != null)
-                {
-                    OnConfigureDefaultWindow.Invoke(out defaultWindow);
-                    if (defaultWindow == null)
-                    {
-                        throw new InvalidPluginException("A custom window configure function was invoked, but it did not set the default window up correctly. The renderer cannot be initalized.");
-                    }
-                }
-                else
-                {
-                    defaultWindow = new WindowInfo("Anomalous Engine", 640, 480);
-                }
-            }
-            else
-            {
-                throw new InvalidPluginException("A second renderer plugin was added. It is only valid to specify one renderer plugin please correct this issue.");
-            }
-        }
-
-        /// <summary>
-        /// Call this to recall the default window function and setup the window again.
-        /// </summary>
-        /// <param name="defaultWindow">The parameters for the default window.</param>
-        public void reconfigureDefaultWindow(out WindowInfo defaultWindow)
-        {
-            if (OnConfigureDefaultWindow != null)
-            {
-                OnConfigureDefaultWindow.Invoke(out defaultWindow);
-            }
-            else
-            {
-                defaultWindow = new WindowInfo("Anomalous Engine", 640, 480);
-            }
-        }
-
-        /// <summary>
         /// Set the classes from the platform that the plugins may be interested
         /// in. The timer can be subscribed to for updates and the EventManager
         /// will be updated with events every frame. This should be called as
@@ -281,17 +210,6 @@ namespace Engine
         #endregion Functions
 
         #region Properties
-
-        /// <summary>
-        /// The RendererPlugin that has been loaded.
-        /// </summary>
-        public RendererPlugin RendererPlugin
-        {
-            get
-            {
-                return rendererPlugin;
-            }
-        }
 
         public String PluginDirectory
         {

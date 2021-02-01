@@ -1,4 +1,5 @@
-﻿using DilligentEngine;
+﻿using Anomalous.OSPlatform;
+using DilligentEngine;
 using Engine;
 using Engine.Platform;
 using Engine.Renderer;
@@ -21,31 +22,28 @@ namespace DilligentEnginePlugin
 
         public void initialize(PluginManager pluginManager, IServiceCollection serviceCollection)
         {
-            WindowInfo defaultWindowInfo;
-            pluginManager.setRendererPlugin(this, out defaultWindowInfo);
-
             this.engineFactory = new GenericEngineFactory();
-            this.engineFactory.CreateDeviceAndSwapChain(defaultWindowInfo.EmbedWindow.WindowHandle);
 
             serviceCollection.AddSingleton<GenericEngineFactory>(this.engineFactory); //Externally managed
-            serviceCollection.AddSingleton<IRenderDevice>(this.engineFactory.RenderDevice);
-            serviceCollection.AddSingleton<IDeviceContext>(this.engineFactory.ImmediateContext);
-            serviceCollection.AddSingleton<ISwapChain>(this.engineFactory.SwapChain);
-
-            defaultWindowInfo.EmbedWindow.Resized += window =>
-            {
-                this.engineFactory.SwapChain.Resize((uint)window.WindowWidth, (uint)window.WindowHeight);
-            };
+            //serviceCollection.AddSingleton<IRenderDevice>(s => this.engineFactory.RenderDevice);
+            //serviceCollection.AddSingleton<IDeviceContext>(s => this.engineFactory.ImmediateContext);
+            //serviceCollection.AddSingleton<ISwapChain>(s => this.engineFactory.SwapChain);
         }
 
         public void link(PluginManager pluginManager)
         {
-            
+            var window = pluginManager.GlobalScope.ServiceProvider.GetRequiredService<NativeOSWindow>();
+            this.engineFactory.CreateDeviceAndSwapChain(window.WindowHandle);
+
+            window.Resized += w =>
+            {
+                this.engineFactory.SwapChain.Resize((uint)w.WindowWidth, (uint)w.WindowHeight);
+            };
         }
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
         {
-            
+
         }
     }
 }

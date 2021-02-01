@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DilligentEngine\DilligentEngine.csproj" />
     <ProjectReference Include="..\Engine\Engine.csproj" />
+    <ProjectReference Include="..\OSPlatform\OSPlatform.csproj" />
   </ItemGroup>
 
 </Project>

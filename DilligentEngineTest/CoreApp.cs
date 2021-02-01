@@ -68,6 +68,19 @@ namespace DilligentEngineTest
                 new IntVector2(-1, -1), 
                 new IntSize2(1920, 1080));
 
+            //if (CoreConfig.EngineConfig.Fullscreen)
+            //{
+            //    mainWindow.setSize(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes);
+            //    mainWindow.ExclusiveFullscreen = true;
+            //    defaultWindow.Width = CoreConfig.EngineConfig.HorizontalRes;
+            //    defaultWindow.Height = CoreConfig.EngineConfig.VerticalRes;
+            //}
+            //else
+            //{
+            //    mainWindow.Maximized = true;
+            //}
+            mainWindow.show();
+
             services.TryAddSingleton<OSWindow>(mainWindow); //This is externally owned
             services.TryAddSingleton<NativeOSWindow>(mainWindow); //This is externally owned
             
@@ -116,28 +129,6 @@ namespace DilligentEngineTest
             });
 
             services.TryAddSingleton<SimpleUpdateListener>();
-
-            //Configure plugins
-            pluginManager.OnConfigureDefaultWindow = (out WindowInfo defaultWindow) =>
-            {
-                //Setup main window
-                defaultWindow = new WindowInfo(mainWindow, "Primary");
-                defaultWindow.Fullscreen = false;// CoreConfig.EngineConfig.Fullscreen;
-                defaultWindow.MonitorIndex = 0;
-
-                //if (CoreConfig.EngineConfig.Fullscreen)
-                //{
-                //    mainWindow.setSize(CoreConfig.EngineConfig.HorizontalRes, CoreConfig.EngineConfig.VerticalRes);
-                //    mainWindow.ExclusiveFullscreen = true;
-                //    defaultWindow.Width = CoreConfig.EngineConfig.HorizontalRes;
-                //    defaultWindow.Height = CoreConfig.EngineConfig.VerticalRes;
-                //}
-                //else
-                //{
-                //    mainWindow.Maximized = true;
-                //}
-                mainWindow.show();
-            };
 
             //pluginManager.addPluginAssembly(typeof(BulletInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(DilligentEnginePluginInterface).Assembly);

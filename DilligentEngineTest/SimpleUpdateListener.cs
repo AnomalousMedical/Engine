@@ -15,11 +15,11 @@ namespace DilligentEngineTest
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext immediateContext;
 
-        public SimpleUpdateListener(GenericEngineFactory genericEngineFactory, ISwapChain swapChain, IDeviceContext immediateContext)
+        public SimpleUpdateListener(GenericEngineFactory genericEngineFactory)
         {
             this.genericEngineFactory = genericEngineFactory;
-            this.swapChain = swapChain;
-            this.immediateContext = immediateContext;
+            this.swapChain = genericEngineFactory.SwapChain;
+            this.immediateContext = genericEngineFactory.ImmediateContext;
         }
 
         public void exceededMaxDelta()
