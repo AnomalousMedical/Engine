@@ -1,6 +1,0 @@
-//
-// Prefix header for all source files of the 'libRocketWrapper' target in the 'libRocketWrapper' project.
-//
-
-
-#include <iostream>

@@ -25,34 +25,6 @@
       <Project>{57c253f1-157f-4a6a-9fed-345a776b97d5}</Project>
       <Name>Engine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GuiFramework.Cameras\GuiFramework.Cameras.csproj">
-      <Project>{83d4bb54-ff33-4011-9819-582458329d9b}</Project>
-      <Name>GuiFramework.Cameras</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GuiFramework.Editor\GuiFramework.Editor.csproj">
-      <Project>{acbba2d0-c648-4798-9d40-ce8b797642ad}</Project>
-      <Name>GuiFramework.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GuiFramework\GuiFramework.csproj">
-      <Project>{fc299a06-61bd-4562-a315-0f0be454925a}</Project>
-      <Name>GuiFramework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\libRocketPlugin\libRocketPlugin.csproj">
-      <Project>{a221c2f5-2089-495b-b51a-54710507344a}</Project>
-      <Name>libRocketPlugin</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\libRocketWidget\libRocketWidget.csproj">
-      <Project>{922f9aec-9921-4234-89e5-14ce09625a07}</Project>
-      <Name>libRocketWidget</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MyGUIPlugin\MyGUIPlugin.csproj">
-      <Project>{02d4da85-fd6c-421f-81c3-8f58f790bc81}</Project>
-      <Name>MyGUIPlugin</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OgrePlugin\OgrePlugin.csproj">
-      <Project>{e9fd5768-32e1-42c7-8256-4d7b97c22a9b}</Project>
-      <Name>OgrePlugin</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OSPlatform\OSPlatform.csproj">
       <Project>{6e594c78-9cd8-432d-a135-11c4a72f3bcf}</Project>
       <Name>OSPlatform</Name>

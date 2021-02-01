@@ -59,9 +59,6 @@ namespace DilligentEngineTest
 
             PerformanceMonitor.setupEnabledState(scope.ServiceProvider.GetRequiredService<SystemTimer>());
 
-            //MyGUIInterface.Instance.CommonResourceGroup.addResource(GetType().AssemblyQualifiedName, "EmbeddedScalableResource", true);
-            //MyGUIInterface.Instance.CommonResourceGroup.addResource(startup.GetType().AssemblyQualifiedName, "EmbeddedScalableResource", true);
-
             //startup.Initialized(this, pluginManager);
 
             if (Initialized != null)

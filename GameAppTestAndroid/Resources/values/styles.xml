@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
-
-<resources>
-    <style name="AnomalousAndroidTheme" parent="android:Theme.NoTitleBar.Fullscreen">
-        <item name="android:background">#000000</item>
-    </style>
-</resources>

@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "GameAppTestNetCoreAnomaly": {
-      "commandName": "Project",
-      "commandLineArgs": "../../../Project/Scenes/AnomalyProject/GameAppTest.ano"
-    }
-  }
-}
