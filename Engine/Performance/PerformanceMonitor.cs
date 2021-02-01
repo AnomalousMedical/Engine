@@ -5,7 +5,6 @@ using System.Text;
 using Engine.Performance;
 using Engine.Platform;
 using System.Reflection;
-using Engine.Shim;
 
 namespace Engine
 {

@@ -1,6 +1,5 @@
 ﻿using Engine.Platform;
 using Engine.Platform.Input;
-using Engine.Shim;
 using OSPlatform.Win32.XInputDotNetPure;
 using System;
 using System.Collections.Generic;
@@ -30,7 +29,6 @@ namespace Anomalous.OSPlatform.Win32
         {
             SetProcessDPIAware();
 
-            NetFrameworkShim.SetShimImpl(new Shim.FullNetFrameworkShim());
             new WindowsRuntimePlatformInfo();
 
             //Make sure the paths are setup correctly on windows to find 32/64 bit binaries.

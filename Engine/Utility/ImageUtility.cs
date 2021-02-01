@@ -1,5 +1,4 @@
-﻿using Engine.Shim;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -191,7 +190,7 @@ namespace Engine.Utility
         private static void readFromOffset(Stream imageStream, int offset, out int width, out int height)
         {
             imageStream.Seek(offset, SeekOrigin.Begin);
-            using (BinaryReader br = new BinaryReader(imageStream, EncodingShim.Default, true))
+            using (BinaryReader br = new BinaryReader(imageStream, Encoding.Default, true))
             {
                 width = (int)br.ReadUInt32();
                 height = (int)br.ReadUInt32();
@@ -201,7 +200,7 @@ namespace Engine.Utility
         private static void readFromOffsetReverse(Stream imageStream, int offset, out int width, out int height)
         {
             imageStream.Seek(offset, SeekOrigin.Begin);
-            using (BinaryReader br = new BinaryReader(imageStream, EncodingShim.Default, true))
+            using (BinaryReader br = new BinaryReader(imageStream, Encoding.Default, true))
             {
                 height = (int)br.ReadUInt32();
                 width = (int)br.ReadUInt32();
