@@ -47,10 +47,5 @@ namespace DilligentEnginePlugin
         {
             
         }
-
-        public void setupRenamedSaveableTypes(RenamedTypeMap renamedTypeMap)
-        {
-            
-        }
     }
 }

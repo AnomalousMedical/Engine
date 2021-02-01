@@ -1,7 +1,5 @@
 ﻿using Engine.Platform;
 using Engine.Renderer;
-using Engine.Resources;
-using Engine.Saving;
 using Engine.Threads;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -55,7 +53,6 @@ namespace Engine
         private String pluginDirectory = null;
         private VirtualFileSystem virtualFileSystem;
         private Dictionary<String, Type> typeCache = new Dictionary<string, Type>();//After a type is found for an AssemblyQualifiedName it will be stored here.
-        private RenamedTypeMap renamedTypeMap = null;
         private IServiceCollection serviceCollection;
         private ServiceProvider serviceProvider;
         private IServiceScope globalScope;
@@ -184,86 +181,6 @@ namespace Engine
             logger?.LogInformation("Plugin {0} added.", plugin.Name);
             loadedPlugins.Add(plugin);
             plugin.initialize(this, serviceCollection);
-            if (renamedTypeMap != null)
-            {
-                plugin.setupRenamedSaveableTypes(renamedTypeMap);
-            }
-        }
-
-        /// <summary>
-        /// Search for a given type using an assemblyQualifiedName. First this
-        /// will use the standard Type.GetType function. If that fails it will
-        /// search all the plugin loaded assemblies for the type directly. If
-        /// that fails the function will return null. If sucessful the matching
-        /// type will be returned.
-        /// </summary>
-        /// <remarks>
-        /// This function could be optimized. For now it will search all loaded
-        /// assemblies in a loop when the Type.GetType function call fails.
-        /// </remarks>
-        /// <param name="assemblyQualifiedName">The AssemblyQualifiedName to search for.</param>
-        /// <returns>The matching type or null if the type cannot be found.</returns>
-        internal Type findType(String assemblyQualifiedName)
-        {
-            Type type;
-            if (!typeCache.TryGetValue(assemblyQualifiedName, out type))
-            {
-                type = Type.GetType(assemblyQualifiedName, false);
-                //If that fails do the slow search.
-                if (type == null)
-                {
-                    String typeName = DefaultTypeFinder.GetTypeNameWithoutAssembly(assemblyQualifiedName);
-
-                    //If there is not yet a renamed type map, create it.
-                    if (renamedTypeMap == null)
-                    {
-                        renamedTypeMap = new RenamedTypeMap();
-                        foreach (var plugin in loadedPlugins)
-                        {
-                            plugin.setupRenamedSaveableTypes(renamedTypeMap);
-                        }
-                    }
-
-                    //Check the rename cache
-                    if (!renamedTypeMap.tryGetType(typeName, out type))
-                    {
-                        logger.LogWarning("TypeSearch: Had to do slow search looking for type \'{0}\'. You should fix the source file searching for this type or add an entry to the renamed type maps for '{1}'", assemblyQualifiedName, typeName);
-
-                        foreach (Assembly assembly in pluginAssemblies)
-                        {
-                            type = assembly.GetType(typeName);
-                            if (type != null)
-                            {
-                                break;
-                            }
-                        }
-                        //If that fails search all loaded assemblies.
-                        if (type == null)
-                        {
-                            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
-                            {
-                                type = assembly.GetType(typeName);
-                                if (type != null)
-                                {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
-                    //If we found something put it in the slow search cache so it can be found quicker later
-                    if (type != null)
-                    {
-                        logger.LogWarning("TypeSearch: Replacement found for type \'{0}\'. Replacement type is \'{1}\'", assemblyQualifiedName, type.AssemblyQualifiedName);
-                    }
-                    else
-                    {
-                        logger.LogWarning("TypeSearch: Unable to find replacement for type \'{0}\'.", assemblyQualifiedName);
-                    }
-                }
-                typeCache.Add(assemblyQualifiedName, type);
-            }
-            return type;
         }
 
         /// <summary>

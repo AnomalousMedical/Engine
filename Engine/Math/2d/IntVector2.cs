@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
-using Engine.Saving;
 
 namespace Engine
 {
     [StructLayout(LayoutKind.Explicit, Size = 8)]
-    public struct IntVector2 : Saveable
+    public struct IntVector2
     {
         [FieldOffset(0)]
         public int x;
@@ -190,21 +189,5 @@ namespace Engine
         {
             return new IntVector2((int)vec2.x, (int)vec2.y);
         }
-
-        #region Saving
-
-        private IntVector2(LoadInfo info)
-        {
-            x = info.GetInt32("x", 0);
-            y = info.GetInt32("y", 0);
-        }
-
-        public void getInfo(SaveInfo info)
-        {
-            info.AddValue("x", x);
-            info.AddValue("y", y);
-        }
-
-        #endregion
     }
 }

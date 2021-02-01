@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
-using Engine.Saving;
 
 namespace Engine
 {
@@ -11,7 +10,7 @@ namespace Engine
     /// A 2 dimensional size class.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 8)]
-    public struct Size2 : Saveable
+    public struct Size2
     {
         [FieldOffset(0)]
         public float Width;
@@ -136,21 +135,5 @@ namespace Engine
             }
             return success;
         }
-
-        #region Saving
-
-        private Size2(LoadInfo info)
-        {
-            Width = info.GetFloat("Width", 0.0f);
-            Height = info.GetFloat("Height", 0.0f);
-        }
-
-        public void getInfo(SaveInfo info)
-        {
-            info.AddValue("Width", Width);
-            info.AddValue("Height", Height);
-        }
-
-        #endregion
     }
 }

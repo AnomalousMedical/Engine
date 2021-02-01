@@ -93,11 +93,6 @@ namespace SoundPlugin
             }
         }
 
-        public void setupRenamedSaveableTypes(RenamedTypeMap renamedTypeMap)
-        {
-
-        }
-
         void resourceWindow_CreateInternalResources(OSWindow window, InternalResourceType resourceType)
         {
             if ((resourceType & InternalResourceType.Sound) == InternalResourceType.Sound)

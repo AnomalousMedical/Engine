@@ -66,10 +66,5 @@ namespace Anomalous.OSPlatform
                 return "NativePlatform";
             }
         }
-
-        public void setupRenamedSaveableTypes(RenamedTypeMap renamedTypeMap)
-        {
-
-        }
     }
 }

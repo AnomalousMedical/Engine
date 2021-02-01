@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
-using Engine.Saving;
 
 namespace Engine
 {
@@ -11,7 +10,7 @@ namespace Engine
     /// A 2 dimensional size class.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 8)]
-    public struct IntSize2 : Saveable
+    public struct IntSize2
     {
         public static readonly IntSize2 MinValue = new IntSize2(int.MinValue, int.MinValue);
         public static readonly IntSize2 MaxValue = new IntSize2(int.MaxValue, int.MaxValue);
@@ -164,21 +163,5 @@ namespace Engine
             }
             return success;
         }
-
-        #region Saving
-
-        private IntSize2(LoadInfo info)
-        {
-            Width = info.GetInt32("Width", 0);
-            Height = info.GetInt32("Height", 0);
-        }
-
-        public void getInfo(SaveInfo info)
-        {
-            info.AddValue("Width", Width);
-            info.AddValue("Height", Height);
-        }
-
-        #endregion
     }
 }
