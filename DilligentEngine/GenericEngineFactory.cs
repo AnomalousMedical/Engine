@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Engine;
+using System;
 using System.Runtime.InteropServices;
 
 namespace DilligentEngine
@@ -29,11 +30,6 @@ namespace DilligentEngine
             this.SwapChain = new ISwapChain(result.m_pSwapChain);
         }
 
-        public void LazyRender()
-        {
-            GenericEngineFactory_LazyRender(SwapChain.ObjPtr, ImmediateContext.ObjPtr);
-        }
-
         public IRenderDevice RenderDevice { get; private set; }
 
         public IDeviceContext ImmediateContext { get; private set; }
@@ -42,8 +38,5 @@ namespace DilligentEngine
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern CreateDeviceAndSwapChainResult GenericEngineFactory_CreateDeviceAndSwapChain(IntPtr hWnd);
-
-        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void GenericEngineFactory_LazyRender(IntPtr m_pSwapChain, IntPtr m_pImmediateContext);
     }
 }

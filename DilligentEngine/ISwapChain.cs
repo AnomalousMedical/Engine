@@ -21,10 +21,26 @@ namespace DilligentEngine
             ISwapChain_Resize(objPtr, width, height);
         }
 
+        public ITextureView GetCurrentBackBufferRTV()
+        {
+            return new ITextureView(ISwapChain_GetCurrentBackBufferRTV(objPtr));
+        }
+
+        public ITextureView GetDepthBufferDSV()
+        {
+            return new ITextureView(ISwapChain_GetDepthBufferDSV(objPtr));
+        }
+
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ISwapChain_Present(IntPtr objPtr);
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ISwapChain_Resize(IntPtr objPtr, UInt32 NewWidth, UInt32 NewHeight);
+
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr ISwapChain_GetCurrentBackBufferRTV(IntPtr objPtr);
+
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr ISwapChain_GetDepthBufferDSV(IntPtr objPtr);
     }
 }

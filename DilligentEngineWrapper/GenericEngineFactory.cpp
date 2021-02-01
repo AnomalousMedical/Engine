@@ -8,6 +8,7 @@
 #include "Graphics/GraphicsEngine/interface/RenderDevice.h"
 #include "Graphics/GraphicsEngine/interface/DeviceContext.h"
 #include "Graphics/GraphicsEngine/interface/SwapChain.h"
+#include "Color.h"
 
 using namespace Diligent;
 
@@ -41,31 +42,4 @@ extern "C" _AnomalousExport CreateDeviceAndSwapChainResult GenericEngineFactory_
 	pFactoryVk->CreateSwapChainVk(result.m_pDevice, result.m_pImmediateContext, SCDesc, Window, &(result.m_pSwapChain));
 
 	return result;
-}
-
-extern "C" _AnomalousExport void GenericEngineFactory_LazyRender(ISwapChain * m_pSwapChain, IDeviceContext * m_pImmediateContext)
-{
-    // Set render targets before issuing any draw command.
-        // Note that Present() unbinds the back buffer if it is set as render target.
-    auto* pRTV = m_pSwapChain->GetCurrentBackBufferRTV();
-    auto* pDSV = m_pSwapChain->GetDepthBufferDSV();
-    m_pImmediateContext->SetRenderTargets(1, &pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-
-    // Clear the back buffer
-    const float ClearColor[] = { 0, 0, 1, 1.0f };
-    // Let the engine perform required state transitions
-    m_pImmediateContext->ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-    m_pImmediateContext->ClearDepthStencil(pDSV, CLEAR_DEPTH_FLAG, 1.f, 0, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-
-    // Set the pipeline state in the immediate context
-    //m_pImmediateContext->SetPipelineState(m_pPSO);
-
-    //// Typically we should now call CommitShaderResources(), however shaders in this example don't
-    //// use any resources.
-
-    //DrawAttribs drawAttrs;
-    //drawAttrs.NumVertices = 3; // Render 3 vertices
-    //m_pImmediateContext->Draw(drawAttrs);
-
-    //m_pSwapChain->Present();
 }

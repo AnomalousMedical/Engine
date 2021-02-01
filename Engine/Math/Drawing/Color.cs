@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Globalization;
+using System.Runtime.InteropServices;
 
 namespace Engine
 {
     /// <summary>
     /// This is a color struct. Color values are between 0 and 1.
     /// </summary>
+    [StructLayout(LayoutKind.Explicit)]
     public struct Color
     {
         /// <summary>
@@ -86,21 +88,25 @@ namespace Engine
         /// <summary>
         /// Red value.
         /// </summary>
+        [FieldOffset(0)]
         public float r;
 
         /// <summary>
         /// Green value.
         /// </summary>
+        [FieldOffset(4)]
         public float g;
 
         /// <summary>
         /// Blue value.
         /// </summary>
+        [FieldOffset(8)]
         public float b;
 
         /// <summary>
         /// Alpha value.
         /// </summary>
+        [FieldOffset(16)]
         public float a;
 
         /// <summary>

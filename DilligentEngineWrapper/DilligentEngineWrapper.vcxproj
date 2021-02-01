@@ -166,6 +166,7 @@
     <ClCompile Include="DilligentObject.cpp" />
     <ClCompile Include="GenericEngineFactory.cpp" />
     <ClCompile Include="IDeviceContext.cpp" />
+    <ClCompile Include="ITextureView.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -175,6 +176,7 @@
     <ClCompile Include="ISwapChain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Color.h" />
     <ClInclude Include="Stdafx.h" />
   </ItemGroup>
   <ItemGroup>
