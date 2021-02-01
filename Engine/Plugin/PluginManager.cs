@@ -61,7 +61,6 @@ namespace Engine
         private List<Assembly> pluginAssemblies = new List<Assembly>();
         private ResourceManager prototypeResourceManager = new ResourceManager();
         private List<DebugInterface> debugInterfaces;
-        private ConfigFile configFile;
         private String pluginDirectory = null;
         private VirtualFileSystem virtualFileSystem;
         private Dictionary<String, Type> typeCache = new Dictionary<string, Type>();//After a type is found for an AssemblyQualifiedName it will be stored here.
@@ -89,14 +88,13 @@ namespace Engine
         /// <summary>
         /// Constructor. Must be called once before plugins are used.
         /// </summary>
-        public PluginManager(ConfigFile configFile, IServiceCollection serviceCollection)
+        public PluginManager(IServiceCollection serviceCollection)
         {
             this.serviceCollection = serviceCollection;
             serviceCollection.TryAddSingleton<PluginManager>(this); //This is externally owned
 
             if (instance == null)
             {
-                this.configFile = configFile;
                 instance = this;
                 instance.addPlugin(new BehaviorPluginInterface());
                 virtualFileSystem = new VirtualFileSystem();
@@ -511,17 +509,6 @@ namespace Engine
             get
             {
                 return rendererPlugin;
-            }
-        }
-
-        /// <summary>
-        /// The ConfigFile used by the system.
-        /// </summary>
-        public ConfigFile ConfigFile
-        {
-            get
-            {
-                return configFile;
             }
         }
 

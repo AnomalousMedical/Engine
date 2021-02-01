@@ -56,7 +56,6 @@ namespace DilligentEngineTest
             //Build engine
             var pluginManager = scope.ServiceProvider.GetRequiredService<PluginManager>();
             mainTimer = scope.ServiceProvider.GetRequiredService<UpdateTimer>();
-            //var frameClearManager = scope.ServiceProvider.GetRequiredService<FrameClearManager>();
 
             PerformanceMonitor.setupEnabledState(scope.ServiceProvider.GetRequiredService<SystemTimer>());
 
@@ -102,9 +101,7 @@ namespace DilligentEngineTest
 
             ScaleHelper._setScaleFactor(pixelScale);
 
-            ConfigFile configFile = new ConfigFile("config.ini");
-
-            pluginManager = new PluginManager(configFile, services);
+            pluginManager = new PluginManager(services);
 
             services.TryAddSingleton<SystemTimer, NativeSystemTimer>();
 
@@ -189,7 +186,7 @@ namespace DilligentEngineTest
             var updateListener = scope.ServiceProvider.GetRequiredService<SimpleUpdateListener>();
             mainTimer.addUpdateListener(updateListener);
 
-            SoundConfig.initialize(configFile);
+            SoundConfig.MasterVolume = 1.0f;
 
             SoundPluginInterface.Instance.setResourceWindow(mainWindow);
         }

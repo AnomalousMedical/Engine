@@ -10,14 +10,7 @@ namespace SoundPlugin
     {
         public static event EventHandler MasterVolumeChanged;
 
-        private static ConfigSection soundSection;
-        private static float masterVolume;
-
-        public static void initialize(ConfigFile configFile)
-        {
-            soundSection = configFile.createOrRetrieveConfigSection("Sound");
-            MasterVolume = soundSection.getValue("MasterVolume", 1.0f);
-        }
+        private static float masterVolume = 1.0f;
 
         public static float MasterVolume
         {
@@ -36,7 +29,7 @@ namespace SoundPlugin
                 {
                     masterVolume = 1.0f;
                 }
-                soundSection.setValue("MasterVolume", masterVolume);
+
                 if (MasterVolumeChanged != null)
                 {
                     MasterVolumeChanged.Invoke(null, EventArgs.Empty);
