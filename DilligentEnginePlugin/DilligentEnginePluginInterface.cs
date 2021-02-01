@@ -69,6 +69,11 @@ namespace DilligentEnginePlugin
 
             this.engineFactory = new GenericEngineFactory();
             this.engineFactory.CreateDeviceAndSwapChain(defaultWindowInfo.EmbedWindow.WindowHandle);
+
+            serviceCollection.AddSingleton<GenericEngineFactory>(this.engineFactory); //Externally managed
+            serviceCollection.AddSingleton<IRenderDevice>(this.engineFactory.RenderDevice);
+            serviceCollection.AddSingleton<IDeviceContext>(this.engineFactory.ImmediateContext);
+            serviceCollection.AddSingleton<ISwapChain>(this.engineFactory.SwapChain);
         }
 
         public void link(PluginManager pluginManager)

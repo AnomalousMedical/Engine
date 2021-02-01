@@ -7,7 +7,7 @@ namespace DilligentEngine
 {
     public class DilligentObject : IDisposable
     {
-        private IntPtr objPtr;
+        internal protected IntPtr objPtr;
 
         public DilligentObject(IntPtr objPtr)
         {

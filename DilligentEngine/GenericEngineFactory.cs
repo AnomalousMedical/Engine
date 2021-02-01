@@ -14,6 +14,8 @@ namespace DilligentEngine
 
         public void Dispose()
         {
+            this.ImmediateContext.Flush(); //The sample app flushes this out when it shuts down
+
             this.RenderDevice.Dispose();
             this.ImmediateContext.Dispose();
             this.SwapChain.Dispose();
@@ -27,6 +29,11 @@ namespace DilligentEngine
             this.SwapChain = new ISwapChain(result.m_pSwapChain);
         }
 
+        public void LazyRender()
+        {
+            GenericEngineFactory_LazyRender(SwapChain.ObjPtr, ImmediateContext.ObjPtr);
+        }
+
         public IRenderDevice RenderDevice { get; private set; }
 
         public IDeviceContext ImmediateContext { get; private set; }
@@ -35,5 +42,8 @@ namespace DilligentEngine
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern CreateDeviceAndSwapChainResult GenericEngineFactory_CreateDeviceAndSwapChain(IntPtr hWnd);
+
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void GenericEngineFactory_LazyRender(IntPtr m_pSwapChain, IntPtr m_pImmediateContext);
     }
 }

@@ -123,6 +123,8 @@ namespace DilligentEngineTest
                 return new EventManager(s.GetRequiredService<InputHandler>(), Enum.GetValues(typeof(EventLayers)));
             });
 
+            services.TryAddSingleton<SimpleUpdateListener>();
+
             //MyGUIInterface.EventLayerKey = EventLayers.Gui;
             //MyGUIInterface.CreateGuiGestures = CoreConfig.EnableMultitouch && PlatformConfig.TouchType == TouchType.Screen;
 
@@ -142,9 +144,9 @@ namespace DilligentEngineTest
                 //    defaultWindow.Height = CoreConfig.EngineConfig.VerticalRes;
                 //}
                 //else
-                {
-                    mainWindow.Maximized = true;
-                }
+                //{
+                //    mainWindow.Maximized = true;
+                //}
                 mainWindow.show();
             };
 
@@ -203,6 +205,9 @@ namespace DilligentEngineTest
 
             pluginManager.setPlatformInfo(mainTimer, eventManager);
             mainTimer.addUpdateListener(new EventUpdateListener(eventManager));
+
+            var updateListener = scope.ServiceProvider.GetRequiredService<SimpleUpdateListener>();
+            mainTimer.addUpdateListener(updateListener);
 
             //SoundConfig.initialize(CoreConfig.ConfigFile);
 
