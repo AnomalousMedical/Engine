@@ -1,4 +1,5 @@
-﻿using Engine;
+﻿using DilligentEngine;
+using Engine;
 using Engine.ObjectManagement;
 using Engine.Platform;
 using Engine.Renderer;
@@ -63,6 +64,9 @@ namespace DilligentEnginePlugin
         {
             WindowInfo defaultWindowInfo;
             pluginManager.setRendererPlugin(this, out defaultWindowInfo);
+
+            var engineFactory = new GenericEngineFactory();
+            engineFactory.CreateDeviceAndSwapChain(defaultWindowInfo.EmbedWindow.WindowHandle);
         }
 
         public void link(PluginManager pluginManager)

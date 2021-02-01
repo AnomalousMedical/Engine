@@ -15,6 +15,42 @@
       <Link>x64\DilligentEngineWrapper.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+
+    <Content Include="../../DiligentEngine/build/Win64/DiligentCore/Graphics/GraphicsEngineD3D11/Release/GraphicsEngineD3D11_64r.dll">
+      <Link>x64\GraphicsEngineD3D11_64r.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="../../DiligentEngine/build/Win64/DiligentCore/Graphics/GraphicsEngineD3D12/Release/GraphicsEngineD3D12_64r.dll">
+      <Link>x64\GraphicsEngineD3D12_64r.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="../../DiligentEngine/build/Win64/DiligentCore/Graphics/GraphicsEngineOpenGL/Release/GraphicsEngineOpenGL_64r.dll">
+      <Link>x64\GraphicsEngineOpenGL_64r.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="../../DiligentEngine/build/Win64/DiligentCore/Graphics/GraphicsEngineVulkan/Release/GraphicsEngineVk_64r.dll">
+      <Link>x64\GraphicsEngineVk_64r.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="C:\Program Files %28x86%29\Windows Kits\10\bin\10.0.18362.0\x64\D3Dcompiler_47.dll">
+      <Link>x64\D3Dcompiler_47.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="C:\Program Files %28x86%29\Windows Kits\10\bin\10.0.18362.0\x64\dxcompiler.dll">
+      <Link>x64\dxcompiler.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="C:\Program Files %28x86%29\Windows Kits\10\bin\10.0.18362.0\x64\dxil.dll">
+      <Link>x64\dxil.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    
     <Content Include="..\OSHelper\bin\Release\x64\OSHelper.dll">
       <Link>x64\OSHelper.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
