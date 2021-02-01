@@ -23,11 +23,13 @@ namespace DilligentEngine
 
         public ITextureView GetCurrentBackBufferRTV()
         {
+            //TODO: This is a lot of allocation
             return new ITextureView(ISwapChain_GetCurrentBackBufferRTV(objPtr));
         }
 
         public ITextureView GetDepthBufferDSV()
         {
+            //TODO: This is a lot of allocation
             return new ITextureView(ISwapChain_GetDepthBufferDSV(objPtr));
         }
 
