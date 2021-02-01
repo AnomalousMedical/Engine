@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Engine;
 using Engine.Platform;
-using Logging;
 using System.IO;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,8 +17,6 @@ namespace Anomalous.OSPlatform
 #else
         internal const String LibraryName = "OSHelper";
 #endif
-
-        private ManagedLogListener managedLogListener = new ManagedLogListener();
 
         public static NativePlatformPlugin Instance { get; private set; }
 
@@ -44,7 +41,7 @@ namespace Anomalous.OSPlatform
 
         public void Dispose()
         {
-            managedLogListener.Dispose();
+            
         }
 
         public void initialize(PluginManager pluginManager, IServiceCollection serviceCollection)
@@ -68,16 +65,6 @@ namespace Anomalous.OSPlatform
             {
                 return "NativePlatform";
             }
-        }
-
-        public DebugInterface getDebugInterface()
-        {
-            return null;
-        }
-
-        public void createDebugCommands(List<CommandManager> commands)
-        {
-
         }
 
         public void setupRenamedSaveableTypes(RenamedTypeMap renamedTypeMap)

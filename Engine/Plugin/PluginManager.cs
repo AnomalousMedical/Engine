@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
-using Logging;
-using System.IO;
-using Engine.ObjectManagement;
-using Engine.Platform;
+﻿using Engine.Platform;
 using Engine.Renderer;
-using Engine.Command;
 using Engine.Resources;
 using Engine.Saving;
 using Engine.Threads;
-using Engine.Shim;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 
 namespace Engine
 {
@@ -55,12 +50,8 @@ namespace Engine
         #region Fields
 
         private List<PluginInterface> loadedPlugins = new List<PluginInterface>();
-        private List<AddSimElementCommand> addSimElementCommands = new List<AddSimElementCommand>();
-        private List<AddSimElementManagerCommand> addElementManagerCommands = new List<AddSimElementManagerCommand>();
         private RendererPlugin rendererPlugin = null;
         private List<Assembly> pluginAssemblies = new List<Assembly>();
-        private ResourceManager prototypeResourceManager = new ResourceManager();
-        private List<DebugInterface> debugInterfaces;
         private String pluginDirectory = null;
         private VirtualFileSystem virtualFileSystem;
         private Dictionary<String, Type> typeCache = new Dictionary<string, Type>();//After a type is found for an AssemblyQualifiedName it will be stored here.
@@ -69,6 +60,7 @@ namespace Engine
         private ServiceProvider serviceProvider;
         private IServiceScope globalScope;
         private bool shuttingDown = false; //This makes sure Shutdown is always called
+        private ILogger<PluginManager> logger;
 
         #endregion Fields
 
@@ -92,12 +84,12 @@ namespace Engine
         {
             this.serviceCollection = serviceCollection;
             serviceCollection.TryAddSingleton<PluginManager>(this); //This is externally owned
+            serviceCollection.TryAddSingleton<VirtualFileSystem>(); //Owned externally
 
             if (instance == null)
             {
                 instance = this;
-                instance.addPlugin(new BehaviorPluginInterface());
-                virtualFileSystem = new VirtualFileSystem();
+
             }
             else
             {
@@ -135,8 +127,6 @@ namespace Engine
                 globalScope.Dispose();
                 serviceProvider.Dispose();
 
-                //Then virtual file system
-                virtualFileSystem.Dispose();
                 //Unload plugins in reverse order
                 for (int i = loadedPlugins.Count - 1; i >= 0; --i)
                 {
@@ -174,6 +164,9 @@ namespace Engine
             serviceProvider = serviceCollection.BuildServiceProvider();
             globalScope = serviceProvider.CreateScope();
 
+            logger = globalScope.ServiceProvider.GetRequiredService<ILogger<PluginManager>>();
+            virtualFileSystem = globalScope.ServiceProvider.GetRequiredService<VirtualFileSystem>();
+
             foreach (var plugin in loadedPlugins)
             {
                 plugin.link(this);
@@ -188,7 +181,7 @@ namespace Engine
         /// <param name="plugin">The plugin to add.</param>
         public void addPlugin(PluginInterface plugin)
         {
-            Log.Default.sendMessage("Plugin {0} added.", LogLevel.Info, "Engine", plugin.Name);
+            logger?.LogInformation("Plugin {0} added.", plugin.Name);
             loadedPlugins.Add(plugin);
             plugin.initialize(this, serviceCollection);
             if (renamedTypeMap != null)
@@ -234,7 +227,7 @@ namespace Engine
                     //Check the rename cache
                     if (!renamedTypeMap.tryGetType(typeName, out type))
                     {
-                        Log.Warning("TypeSearch: Had to do slow search looking for type \'{0}\'. You should fix the source file searching for this type or add an entry to the renamed type maps for '{1}'", assemblyQualifiedName, typeName);
+                        logger.LogWarning("TypeSearch: Had to do slow search looking for type \'{0}\'. You should fix the source file searching for this type or add an entry to the renamed type maps for '{1}'", assemblyQualifiedName, typeName);
 
                         foreach (Assembly assembly in pluginAssemblies)
                         {
@@ -261,11 +254,11 @@ namespace Engine
                     //If we found something put it in the slow search cache so it can be found quicker later
                     if (type != null)
                     {
-                        Log.Warning("TypeSearch: Replacement found for type \'{0}\'. Replacement type is \'{1}\'", assemblyQualifiedName, type.AssemblyQualifiedName);
+                        logger.LogWarning("TypeSearch: Replacement found for type \'{0}\'. Replacement type is \'{1}\'", assemblyQualifiedName, type.AssemblyQualifiedName);
                     }
                     else
                     {
-                        Log.Warning("TypeSearch: Unable to find replacement for type \'{0}\'.", assemblyQualifiedName);
+                        logger.LogWarning("TypeSearch: Unable to find replacement for type \'{0}\'.", assemblyQualifiedName);
                     }
                 }
                 typeCache.Add(assemblyQualifiedName, type);
@@ -313,7 +306,7 @@ namespace Engine
             if (rendererPlugin == null)
             {
                 rendererPlugin = plugin;
-                Log.Default.sendMessage("Renderer plugin set to {0}.", LogLevel.Info, "Engine", plugin.Name);
+                logger?.LogInformation("Renderer plugin set to {0}.", plugin.Name);
                 if (OnConfigureDefaultWindow != null)
                 {
                     OnConfigureDefaultWindow.Invoke(out defaultWindow);
@@ -350,19 +343,6 @@ namespace Engine
         }
 
         /// <summary>
-        /// Add a set of SubsystemResources to the primary ResourceManager. This
-        /// will allow a plugin to get updates about the resources that are
-        /// requested for a scene. The SubsystemResources passed to this
-        /// function should be configured with a ResourceListener so it can get
-        /// the appropriate callbacks.
-        /// </summary>
-        /// <param name="subsystem">A callback configured SubsystemResources instance.</param>
-        public void addSubsystemResources(String name, ResourceListener subsystemListener)
-        {
-            prototypeResourceManager.addSubsystemResource(new SubsystemResources(name, subsystemListener));
-        }
-
-        /// <summary>
         /// Set the classes from the platform that the plugins may be interested
         /// in. The timer can be subscribed to for updates and the EventManager
         /// will be updated with events every frame. This should be called as
@@ -379,122 +359,6 @@ namespace Engine
                 plugin.setPlatformInfo(mainTimer, eventManager);
             }
             mainTimer.addUpdateListener(new ThreadManagerUpdate());
-        }
-
-        /// <summary>
-        /// Add a command to create a SimElementManagerDescription.
-        /// </summary>
-        /// <param name="command">A command that creates SimElementManagerDescriptions.</param>
-        public void addCreateSimElementManagerCommand(AddSimElementManagerCommand command)
-        {
-            addElementManagerCommands.Add(command);
-        }
-
-        /// <summary>
-        /// Get the list of commands from plugins that create SimElementManagers.
-        /// </summary>
-        /// <returns>The list of commands from plugins that create SimElementManagers.</returns>
-        public IEnumerable<AddSimElementManagerCommand> getCreateSimElementManagerCommands()
-        {
-            return addElementManagerCommands;
-        }
-
-        /// <summary>
-        /// Add a command to create a SimElementDescription.
-        /// </summary>
-        /// <param name="command">A command that creates SimElementDescriptions.</param>
-        public void addCreateSimElementCommand(AddSimElementCommand command)
-        {
-            addSimElementCommands.Add(command);
-        }
-
-        /// <summary>
-        /// Get the commands that create SimElements.
-        /// </summary>
-        /// <returns>A list of commands that create SimElements.</returns>
-        public IEnumerable<AddSimElementCommand> getCreateSimElementCommands()
-        {
-            return addSimElementCommands;
-        }
-
-        /// <summary>
-        /// Create the debugging commands for the various plugins.
-        /// </summary>
-        /// <returns>A list of command managers for each plugin.</returns>
-        public List<CommandManager> createDebugCommands()
-        {
-            List<CommandManager> commands = new List<CommandManager>();
-            foreach (PluginInterface plugin in loadedPlugins)
-            {
-                plugin.createDebugCommands(commands);
-            }
-            return commands;
-        }
-
-        /// <summary>
-        /// Create a live ResourceManager that contains the SubsystemResources for each plugin, but not any groups or locations. 
-        /// Live means that changes to this resource manager will be applied to subsystems. If you add resources to this resource manager
-        /// the subsystems will attempt to load them. It is not very likely that you will create a lot of live resource managers, because even
-        /// though you may create multiple of them they likely map back to a singleton in the subsystems they are hooked up to. Also be careful
-        /// of name collisions between the ResourceManagers you create. The most likely usage is to create one of these for scene resources and
-        /// one for persistant resources, being careful not to have collisions between them.
-        /// You provide a namespace for this ResourceManager that helps to avoid these collisions. You should take care that each live ResourceManager
-        /// you create has a unique name.
-        /// This is the official way to create ResourceManagers because it is unknown until the engine is configured what subsystems need resources.
-        /// </summary>
-        /// <returns>A new empty ResourceManager that is hooked up to the subsystems.</returns>
-        public ResourceManager createLiveResourceManager(String resourceNamespace)
-        {
-            return new ResourceManager(prototypeResourceManager, true)
-            {
-                Namespace = resourceNamespace
-            };
-        }
-
-        /// <summary>
-        /// Create a scratch ResourceManager that contains the SubsystemResources for each plugin, but not any groups or locations. 
-        /// Scratch means that resources added to this resource manager will not alert the subsystems of changes. You could then apply this resource manager
-        /// to a live resource manager or save it or do something else. These will not alter loaded resources.
-        /// This is the official way to create ResourceManagers because it is unknown until the engine is configured what subsystems need resources.
-        /// </summary>
-        /// <returns>A new empty ResourceManager that is not hooked up to the subsystems.</returns>
-        public ResourceManager createScratchResourceManager()
-        {
-            return new ResourceManager(prototypeResourceManager, false);
-        }
-
-        /// <summary>
-        /// Create a resource manager with one subsystem specified by customSubsystemName using the passed listener. This
-        /// does not have any relation to the live and scratch resource managers.
-        /// </summary>
-        /// <param name="customSubsystemName"></param>
-        /// <param name="listener"></param>
-        /// <returns></returns>
-        public ResourceManager createResourceManagerForListener(String customSubsystemName, ResourceListener listener)
-        {
-            ResourceManager resourceManager = new ResourceManager();
-            resourceManager.addSubsystemResource(new SubsystemResources(customSubsystemName, listener));
-            return resourceManager;
-        }
-
-        public IEnumerable<DebugInterface> DebugInterfaces
-        {
-            get
-            {
-                if (debugInterfaces == null)
-                {
-                    debugInterfaces = new List<DebugInterface>();
-                    foreach (PluginInterface plugin in loadedPlugins)
-                    {
-                        DebugInterface debug = plugin.getDebugInterface();
-                        if (debug != null)
-                        {
-                            debugInterfaces.Add(debug);
-                        }
-                    }
-                }
-                return debugInterfaces;
-            }
         }
 
         #endregion Functions

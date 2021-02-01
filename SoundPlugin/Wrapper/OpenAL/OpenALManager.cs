@@ -15,10 +15,10 @@ namespace SoundPlugin
         Stereo16 = 3,
     }
 
-    class OpenALManager : SoundPluginObject, IDisposable
+    public class OpenALManager : SoundPluginObject, IDisposable
     {
         private SourceManager sourceManager = new SourceManager();
-        private ManagedLogListener managedLogListener = new ManagedLogListener();
+        //private ManagedLogListener managedLogListener = new ManagedLogListener();
         private Listener listener;
         private AudioCodecManager codecManager = new AudioCodecManager();
         private CaptureDeviceManager captureDeviceManager = new CaptureDeviceManager();
@@ -40,7 +40,7 @@ namespace SoundPlugin
             sourceManager.Dispose();
             OpenALManager_destroy(Pointer);
             delete();
-            managedLogListener.Dispose();
+            //managedLogListener.Dispose();
         }
 
         public Listener getListener()

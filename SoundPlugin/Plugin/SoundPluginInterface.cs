@@ -5,6 +5,7 @@ using System.Text;
 using Engine;
 using Engine.Platform;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace SoundPlugin
 {
@@ -38,24 +39,23 @@ namespace SoundPlugin
 
         public void Dispose()
         {
-            if (openALManager != null)
-            {
-                mainTimer.removeUpdateListener(soundUpdate);
-                openALManager.Dispose();
-                openALManager = null;
-            }
+            mainTimer.removeUpdateListener(soundUpdate);
         }
 
         public void initialize(PluginManager pluginManager, IServiceCollection serviceCollection)
         {
-            openALManager = new OpenALManager();
-            soundUpdate = new SoundUpdateListener(openALManager);
-            soundManager = new SoundManager(openALManager);
+            serviceCollection.TryAddSingleton<OpenALManager>();
+            serviceCollection.TryAddSingleton<SoundUpdateListener>();
+            serviceCollection.TryAddSingleton<SoundManager>();
         }
 
         public void link(PluginManager pluginManager)
         {
-            
+            var globalScopeProvider = pluginManager.GlobalScope.ServiceProvider;
+
+            openALManager = globalScopeProvider.GetRequiredService<OpenALManager>();
+            soundUpdate = globalScopeProvider.GetRequiredService<SoundUpdateListener>();
+            soundManager = globalScopeProvider.GetRequiredService<SoundManager>();
         }
 
         public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
@@ -72,7 +72,7 @@ namespace SoundPlugin
         /// <param name="window">The OSWindow instance to listen to.</param>
         public void setResourceWindow(OSWindow window)
         {
-            if(resourceWindow != null)
+            if (resourceWindow != null)
             {
                 resourceWindow.CreateInternalResources -= resourceWindow_CreateInternalResources;
                 resourceWindow.DestroyInternalResources -= resourceWindow_DestroyInternalResources;
@@ -93,27 +93,9 @@ namespace SoundPlugin
             }
         }
 
-        public DebugInterface getDebugInterface()
-        {
-            return null;
-        }
-
-        public void createDebugCommands(List<CommandManager> commands)
-        {
-
-        }
-
         public void setupRenamedSaveableTypes(RenamedTypeMap renamedTypeMap)
         {
 
-        }
-
-        public SoundManager SoundManager
-        {
-            get
-            {
-                return soundManager;
-            }
         }
 
         void resourceWindow_CreateInternalResources(OSWindow window, InternalResourceType resourceType)

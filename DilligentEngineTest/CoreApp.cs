@@ -3,9 +3,9 @@ using DilligentEnginePlugin;
 using Engine;
 using Engine.Platform;
 using Engine.Renderer;
-using Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
 using SoundPlugin;
 using System;
 using System.Globalization;
@@ -15,7 +15,6 @@ namespace DilligentEngineTest
 {
     public class CoreApp : App
     {
-        private LogFileListener logListener;
         private PluginManager pluginManager;
         private NativeOSWindow mainWindow;
 
@@ -37,16 +36,10 @@ namespace DilligentEngineTest
             pluginManager.Dispose();
             mainWindow.Dispose();
             base.Dispose();
-            logListener.Dispose();
         }
 
         public override bool OnInit()
         {
-            //Create the log.
-            logListener = new LogFileListener();
-            logListener.openLogFile("test.log");
-            Log.Default.addLogListener(logListener);
-            Log.ImportantInfo("Running from directory {0}", FolderFinder.ExecutableFolder);
             //startup.ConfigureServices(services);
             BuildPluginManager();
 
@@ -102,6 +95,10 @@ namespace DilligentEngineTest
             ScaleHelper._setScaleFactor(pixelScale);
 
             pluginManager = new PluginManager(services);
+            services.AddLogging(o =>
+            {
+                o.AddConsole();
+            });
 
             services.TryAddSingleton<SystemTimer, NativeSystemTimer>();
 
@@ -110,12 +107,12 @@ namespace DilligentEngineTest
             services.TryAddSingleton<InputHandler>(s =>
             {
                 bool makeConfig_EnableMultitouch = false;
-                return new NativeInputHandler(s.GetRequiredService<NativeOSWindow>(), makeConfig_EnableMultitouch);
+                return new NativeInputHandler(s.GetRequiredService<NativeOSWindow>(), makeConfig_EnableMultitouch, s.GetRequiredService<ILogger<NativeInputHandler>>());
             });
 
             services.TryAddSingleton<EventManager>(s =>
             {
-                return new EventManager(s.GetRequiredService<InputHandler>(), Enum.GetValues(typeof(EventLayers)));
+                return new EventManager(s.GetRequiredService<InputHandler>(), Enum.GetValues(typeof(EventLayers)), s.GetRequiredService<ILogger<EventManager>>());
             });
 
             services.TryAddSingleton<SimpleUpdateListener>();
@@ -153,6 +150,9 @@ namespace DilligentEngineTest
             pluginManager.initializePlugins();
 
             var scope = pluginManager.GlobalScope;
+
+            var log = scope.ServiceProvider.GetRequiredService<ILogger<CoreApp>>();
+            log.LogInformation("Running from directory {0}", FolderFinder.ExecutableFolder);
 
             var systemTimer = scope.ServiceProvider.GetRequiredService<SystemTimer>();
             var mainTimer = scope.ServiceProvider.GetRequiredService<UpdateTimer>();
@@ -199,16 +199,6 @@ namespace DilligentEngineTest
         public override void OnIdle()
         {
             mainTimer.OnIdle();
-        }
-
-        internal void saveCrashLog()
-        {
-            if (logListener != null)
-            {
-                DateTime now = DateTime.Now;
-                String crashFile = String.Format(CultureInfo.InvariantCulture, "{0}/log {1}-{2}-{3} {4}.{5}.{6}.log", Directory.GetCurrentDirectory(), now.Month, now.Day, now.Year, now.Hour, now.Minute, now.Second);
-                logListener.saveCrashLog(crashFile);
-            }
         }
 
         public InputHandler InputHandler { get; private set; }

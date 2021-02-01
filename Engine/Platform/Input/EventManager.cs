@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Logging;
 using System.Collections;
 using Engine.Platform.Input;
+using Microsoft.Extensions.Logging;
 
 namespace Engine.Platform
 {
@@ -25,6 +25,7 @@ namespace Engine.Platform
         public delegate Vector3 Unproject(int x, int y);
 
         private InputHandler inputHandler;
+        private readonly ILogger<EventManager> logger;
         private KeyboardHardware keyboardHardware = null;
         private Keyboard keyboard;
         private MouseHardware mouseHardware = null;
@@ -49,9 +50,10 @@ namespace Engine.Platform
         /// Constructor takes the input handler to use and an enumearble over the layer keys in order that they should be processed
         /// </summary>
         /// <param name="inputHandler">The input handler to use.</param>
-        public EventManager(InputHandler inputHandler, IEnumerable layerKeys)
+        public EventManager(InputHandler inputHandler, IEnumerable layerKeys, ILogger<EventManager> logger)
         {
             this.inputHandler = inputHandler;
+            this.logger = logger;
             keyboard = new Keyboard();
             keyboardHardware = inputHandler.createKeyboard(keyboard);
             mouse = new Mouse(this);
@@ -152,7 +154,7 @@ namespace Engine.Platform
             }
             else
             {
-                Logging.Log.Warning($"Could not bind message event to layer {messageEvent.EventLayerKey}");
+                logger.LogWarning($"Could not bind message event to layer {messageEvent.EventLayerKey}");
             }
         }
 
@@ -169,7 +171,7 @@ namespace Engine.Platform
             }
             else
             {
-                Logging.Log.Warning($"Could not unbind message event to layer {messageEvent.EventLayerKey}");
+                logger.LogWarning($"Could not unbind message event to layer {messageEvent.EventLayerKey}");
             }
         }
 

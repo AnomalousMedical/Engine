@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Reflection;
-using Logging;
 
 namespace Engine.Saving.XMLSaver
 {
@@ -47,7 +46,7 @@ namespace Engine.Saving.XMLSaver
             }
             else
             {
-                Log.Default.sendMessage("Could not find enum type {0}. Value not loaded.", LogLevel.Warning, "Saving", xmlReader.GetAttribute(TYPE));
+                //Log.Default.sendMessage("Could not find enum type {0}. Value not loaded.", LogLevel.Warning, "Saving", xmlReader.GetAttribute(TYPE));
             }
         }
 

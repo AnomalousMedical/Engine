@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Logging;
 
 namespace Engine.Saving
 {
@@ -67,7 +66,7 @@ namespace Engine.Saving
             }
             else
             {
-                Log.Default.sendMessage("Attempted to save a variable named {0} of type {1} that has no value writer. Object not written.", LogLevel.Warning, "Engine", entry.Name, entry.ObjectType.Name);
+                //Log.Default.sendMessage("Attempted to save a variable named {0} of type {1} that has no value writer. Object not written.", LogLevel.Warning, "Engine", entry.Name, entry.ObjectType.Name);
             }
         }
     }

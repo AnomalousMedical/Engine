@@ -83,6 +83,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DilligentEnginePlugin\DilligentEnginePlugin.csproj" />
     <ProjectReference Include="..\DilligentEngine\DilligentEngine.csproj" />
     <ProjectReference Include="..\Engine\Engine.csproj" />

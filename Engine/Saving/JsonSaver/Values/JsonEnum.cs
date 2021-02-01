@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Reflection;
-using Logging;
 using Newtonsoft.Json;
 
 namespace Engine.Saving.Json
@@ -69,7 +68,7 @@ namespace Engine.Saving.Json
             }
             else
             {
-                Log.Default.sendMessage("Could not find enum type {0}. Value not loaded.", LogLevel.Warning, "Saving", clrType);
+                //Log.Default.sendMessage("Could not find enum type {0}. Value not loaded.", LogLevel.Warning, "Saving", clrType);
             }
         }
 

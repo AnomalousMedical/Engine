@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Platform;
 using Engine;
+using Microsoft.Extensions.Logging;
 
 namespace Anomalous.OSPlatform
 {
@@ -14,8 +15,8 @@ namespace Anomalous.OSPlatform
         Int64 lastTime;
         Int64 totalFrameTime;
 
-        public NativeUpdateTimer(SystemTimer systemTimer)
-            :base(systemTimer)
+        public NativeUpdateTimer(SystemTimer systemTimer, ILogger<UpdateTimer> logger)
+            :base(systemTimer, logger)
         {
             
         }

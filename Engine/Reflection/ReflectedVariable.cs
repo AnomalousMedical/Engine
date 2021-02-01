@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Engine.ObjectManagement;
-using Engine.Editing;
 
 namespace Engine.Reflection
 {
@@ -169,16 +167,6 @@ namespace Engine.Reflection
         public Type getVariableType()
         {
             return propertyInfo.getWrappedType();
-        }
-
-        public Browser ItemBrowser { get; set; }
-
-        public bool HasItemBrowser
-        {
-            get
-            {
-                return ItemBrowser != null;
-            }
         }
 
         #endregion Functions

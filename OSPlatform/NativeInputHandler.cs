@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Engine.Platform;
 using Engine.Platform.Input;
+using Microsoft.Extensions.Logging;
 
 namespace Anomalous.OSPlatform
 {
@@ -14,11 +15,13 @@ namespace Anomalous.OSPlatform
         private NativeKeyboard createdKeyboard;
         private NativeMouse createdMouse;
         private bool enableMultitouch;
+        private readonly ILogger<NativeInputHandler> logger;
 
-        public NativeInputHandler(NativeOSWindow window, bool enableMultitouch)
+        public NativeInputHandler(NativeOSWindow window, bool enableMultitouch, ILogger<NativeInputHandler> logger)
         {
             this.window = window;
             this.enableMultitouch = enableMultitouch;
+            this.logger = logger;
         }
 
         public void Dispose()
@@ -154,7 +157,7 @@ namespace Anomalous.OSPlatform
         {
             if(enableMultitouch && MultiTouch.IsAvailable)
             {
-                return new MultiTouch(window, touches);
+                return new MultiTouch(window, touches, logger);
             }
             return null;
         }

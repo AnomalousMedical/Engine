@@ -19,7 +19,7 @@ namespace DilligentEngineTest
             }
             catch (Exception e)
             {
-                Logging.Log.Default.printException(e);
+                //Logging.Log.Default.printException(e);
                 if (app != null)
                 {
                     //app.saveCrashLog();

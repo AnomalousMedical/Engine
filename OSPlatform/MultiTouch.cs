@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using Engine.Platform;
-using Logging;
 using Engine;
+using Microsoft.Extensions.Logging;
 
 namespace Anomalous.OSPlatform
 {
@@ -20,13 +20,15 @@ namespace Anomalous.OSPlatform
     {
         private IntPtr nativeMultiTouch;
         private CallbackHandler callbackHandler;
+        private readonly ILogger logger;
 
-        public MultiTouch(NativeOSWindow nativeWindow, Touches touches) 
+        public MultiTouch(NativeOSWindow nativeWindow, Touches touches, ILogger logger) 
             :base(touches)
         {
             callbackHandler = new CallbackHandler();
-            Log.Info("Activating MultiTouch on window {0}", nativeWindow._NativePtr);
+            logger.LogInformation("Activating MultiTouch on window {0}", nativeWindow._NativePtr);
             nativeMultiTouch = callbackHandler.create(this, nativeWindow);
+            this.logger = logger;
         }
 
         public void Dispose()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using Logging;
+using Microsoft.Extensions.Logging;
 
 namespace SoundPlugin
 {
@@ -11,10 +11,12 @@ namespace SoundPlugin
     {
         private Dictionary<Source, Sound> oneTimeSounds = new Dictionary<Source, Sound>();
         private OpenALManager openALManager;
+        private readonly ILogger<SoundManager> logger;
 
-        internal SoundManager(OpenALManager openALManager)
+        public SoundManager(OpenALManager openALManager, ILogger<SoundManager> logger)
         {
             this.openALManager = openALManager;
+            this.logger = logger;
         }
 
         public Source streamPlayAndForgetSound(Stream soundStream)
@@ -30,7 +32,7 @@ namespace SoundPlugin
             }
             else
             {
-                Log.Error("Ran out of sources trying to play sound.");
+                logger.LogError("Ran out of sources trying to play sound.");
             }
             return null;
         }

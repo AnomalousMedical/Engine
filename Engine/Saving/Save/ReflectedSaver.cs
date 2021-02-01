@@ -74,7 +74,7 @@ namespace Engine.Saving
         {
             get
             {
-                return BehaviorSaveMemberScanner.Scanner;
+                return null ;
             }
         }
     }

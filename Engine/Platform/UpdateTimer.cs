@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using Logging;
 
 namespace Engine.Platform
 {
@@ -17,7 +17,7 @@ namespace Engine.Platform
 
         protected Clock clock = new Clock();
         protected SystemTimer systemTimer;
-
+        private readonly ILogger<UpdateTimer> logger;
         protected Int64 maxDelta;
         protected Int64 framerateCap = 0; //The amount of time between frames for the framerate cap.
 
@@ -33,9 +33,10 @@ namespace Engine.Platform
         /// </summary>
         /// <param name="systemTimer">The SystemTimer to get high performance time measurements from.</param>
         /// <param name="systemMessageListener">The UpdateListener that processses system messages.</param>
-        public UpdateTimer(SystemTimer systemTimer)
+        public UpdateTimer(SystemTimer systemTimer, ILogger<UpdateTimer> logger)
         {
             this.systemTimer = systemTimer;
+            this.logger = logger;
             maxDelta = 100000;
         }
 
@@ -82,7 +83,7 @@ namespace Engine.Platform
             }
             catch (KeyNotFoundException)
             {
-                Log.Warning("Could not find background worker supporting update named '{0}'. Be sure to add the update listeners that support background tasks before the background tasks. Listener will not update.", name);
+                logger.LogWarning("Could not find background worker supporting update named '{0}'. Be sure to add the update listeners that support background tasks before the background tasks. Listener will not update.", name);
             }
         }
 

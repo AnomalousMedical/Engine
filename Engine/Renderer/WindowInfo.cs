@@ -6,23 +6,11 @@ using Engine.Platform;
 
 namespace Engine.Renderer
 {
-    public class WindowInfoEventArgs : EventArgs
-    {
-        public WindowInfoEventArgs(RendererWindow createdWindow)
-        {
-            CreatedWindow = createdWindow;
-        }
-
-        public RendererWindow CreatedWindow { get; private set; }
-    }
-
     /// <summary>
     /// This class controls how the windows are created for a RendererPlugin.
     /// </summary>
     public class WindowInfo
     {
-        public event EventHandler WindowCreated;
-
         private int width = -1;
         private int height = -1;
         private bool fullscreen = false;
@@ -33,7 +21,6 @@ namespace Engine.Renderer
         /// <param name="windowTitle">The title to give to the renderer's auto-created window.</param>
         public WindowInfo(String windowTitle, int width, int height)
         {
-            AutoCreateWindow = true;
             AutoWindowTitle = windowTitle;
             this.width = width;
             this.height = height;
@@ -46,22 +33,9 @@ namespace Engine.Renderer
         /// <param name="embedWindow">The OSWindow to embed into.</param>
         public WindowInfo(OSWindow embedWindow, String name)
         {
-            AutoCreateWindow = false;
             AutoWindowTitle = name;
             EmbedWindow = embedWindow;
             MonitorIndex = 0;
-        }
-
-        /// <summary>
-        /// Fire the WindowCreated event. This should only be called by whatever
-        /// class creates the window described by this class.
-        /// </summary>
-        public void _fireWindowCreated(WindowInfoEventArgs eventArgs)
-        {
-            if (WindowCreated != null)
-            {
-                WindowCreated.Invoke(this, eventArgs);
-            }
         }
 
         /// <summary>
@@ -69,11 +43,6 @@ namespace Engine.Renderer
         /// to embed the primary window in.
         /// </summary>
         public OSWindow EmbedWindow { get; private set; }
-
-        /// <summary>
-        /// Returns true if the renderer plugin should create the window automatically.
-        /// </summary>
-        public bool AutoCreateWindow { get; private set; }
 
         /// <summary>
         /// Returns the name to use for the created window if AutoCreateWindow is true.

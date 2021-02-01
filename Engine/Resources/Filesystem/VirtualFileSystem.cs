@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using Engine.Resources;
-using Logging;
+using Microsoft.Extensions.Logging;
 
 namespace Engine
 {
@@ -60,8 +60,9 @@ namespace Engine
         Dictionary<String, DirectoryEntry> directoryMap = new Dictionary<String, DirectoryEntry>(1, StringComparer.OrdinalIgnoreCase);
 
         List<Archive> archives = new List<Archive>();
+        private readonly ILogger<VirtualFileSystem> logger;
 
-        public VirtualFileSystem()
+        public VirtualFileSystem(ILogger<VirtualFileSystem> logger)
         {
             if (instance != null)
             {
@@ -69,6 +70,7 @@ namespace Engine
             }
             instance = this;
             directoryMap.Add("/", new DirectoryEntry());
+            this.logger = logger;
         }
 
         public void Dispose()
@@ -102,13 +104,13 @@ namespace Engine
             Archive archive = FileSystem.OpenArchive(path);
             if (archive != null)
             {
-                Log.Info("Added resource archive {0}.", path);
+                logger.LogInformation("Added resource archive {0}.", path);
                 directoryMap["/"].addArchive(archive);
                 addAndScanArchive(archive);
                 return true;
             }
 
-            Log.Warning("Could not find archive '{0}'. Archive not loaded into virtual file system", path);
+            logger.LogWarning("Could not find archive '{0}'. Archive not loaded into virtual file system", path);
             return false;
         }
 

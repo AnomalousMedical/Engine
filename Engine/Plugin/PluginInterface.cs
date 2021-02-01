@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine.Platform;
-using Engine.ObjectManagement;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Engine
 {
-    public delegate SimElementDefinition CreateElementDefinition(String name);
-    public delegate SimElementManagerDefinition CreateElementManagerDefinition(String name);
-
     /// <summary>
     /// This is an interface for the main plugin class. Each plugin must define
     /// a single class that inherits from this class and implements a blank
@@ -51,21 +47,6 @@ namespace Engine
         /// dll.
         /// </summary>
         String Name { get; }
-
-        /// <summary>
-        /// Get the DebugInterface for this plugin. This function might return
-        /// null, which means that the plugin has no debug interface. Ideally
-        /// plugins will not build their DebugInterface unless this funciton is
-        /// called to speed up loading.
-        /// </summary>
-        /// <returns>The DebugInterface for the plugin or null if it does not have one.</returns>
-        DebugInterface getDebugInterface();
-
-        /// <summary>
-        /// This function will create any debug commands for the plugin and add them to the commands list.
-        /// </summary>
-        /// <param name="commands">A list of CommandManagers to add debug commands to.</param>
-        void createDebugCommands(List<CommandManager> commands);
 
         /// <summary>
         /// This funciton will be called if a type name is missed on loading if the findType function is used on the PluginManager. 
