@@ -19,5 +19,16 @@ namespace DiligentEngineGenerator
                 return false;
             }
         }
+
+        public static String RemoveComments(String line)
+        {
+            var commentIndex = line.IndexOf("//");
+            if (commentIndex == -1)
+            {
+                return line;
+            }
+
+            return line.Substring(0, commentIndex);
+        }
     }
 }

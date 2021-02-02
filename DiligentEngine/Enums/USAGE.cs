@@ -11,12 +11,13 @@ using Uint64 = System.UInt64;
 
 namespace DiligentEngine
 {
-    public enum BUFFER_MODE :  Uint8
+    public enum USAGE :  Uint8
     {
-        BUFFER_MODE_UNDEFINED = 0,
-        BUFFER_MODE_FORMATTED,
-        BUFFER_MODE_STRUCTURED,
-        BUFFER_MODE_RAW,
-        BUFFER_MODE_NUM_MODES,
+        USAGE_IMMUTABLE = 0,
+        USAGE_DEFAULT,
+        USAGE_DYNAMIC,
+        USAGE_STAGING,
+        USAGE_UNIFIED,
+        USAGE_NUM_USAGES,
     }
 }

@@ -11,12 +11,16 @@ using Uint64 = System.UInt64;
 
 namespace DiligentEngine
 {
-    public enum BUFFER_MODE :  Uint8
+    public class DeviceObjectAttribs
     {
-        BUFFER_MODE_UNDEFINED = 0,
-        BUFFER_MODE_FORMATTED,
-        BUFFER_MODE_STRUCTURED,
-        BUFFER_MODE_RAW,
-        BUFFER_MODE_NUM_MODES,
+            internal protected IntPtr objPtr;
+
+            public IntPtr ObjPtr => objPtr;
+
+            public DeviceObjectAttribs(IntPtr objPtr)
+            {
+                this.objPtr = objPtr;
+            }
+        public Char* Name {get; set;}
     }
 }

@@ -11,12 +11,10 @@ using Uint64 = System.UInt64;
 
 namespace DiligentEngine
 {
-    public enum BUFFER_MODE :  Uint8
+    public enum CPU_ACCESS_FLAGS :  Uint8
     {
-        BUFFER_MODE_UNDEFINED = 0,
-        BUFFER_MODE_FORMATTED,
-        BUFFER_MODE_STRUCTURED,
-        BUFFER_MODE_RAW,
-        BUFFER_MODE_NUM_MODES,
+        CPU_ACCESS_NONE = 0x00,
+        CPU_ACCESS_READ = 0x01,
+        CPU_ACCESS_WRITE = 0x02,
     }
 }

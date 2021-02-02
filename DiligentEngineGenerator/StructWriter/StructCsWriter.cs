@@ -5,9 +5,9 @@ using System.Text;
 
 namespace DiligentEngineGenerator
 {
-    static class EnumWriter
+    static class StructCsWriter
     {
-        public static void Write(CodeEnum code, String file)
+        public static void Write(CodeStruct code, String file)
         {
             var dir = Path.GetDirectoryName(file);
             if (!Directory.Exists(dir))
@@ -19,7 +19,7 @@ namespace DiligentEngineGenerator
             Write(code, writer);
         }
 
-        public static void Write(CodeEnum code, StreamWriter writer)
+        public static void Write(CodeStruct code, StreamWriter writer)
         {
             writer.WriteLine(
 $@"using System;
@@ -35,25 +35,35 @@ namespace DiligentEngine
 
             if (code.BaseType != null)
             {
-                writer.WriteLine($"    public enum {code.Name} : {code.BaseType}");
+                writer.WriteLine($"    public class {code.Name} : {code.BaseType}");
+
+                writer.WriteLine(
+$@"    {{
+            public {code.Name}(IntPtr objPtr)
+                : base(objPtr)
+            {{
+
+            }}");
             }
             else
             {
-                writer.WriteLine($"    public enum {code.Name}");
+                writer.WriteLine($"    public class {code.Name}");
+
+                writer.WriteLine(
+$@"    {{
+            internal protected IntPtr objPtr;
+
+            public IntPtr ObjPtr => objPtr;
+
+            public {code.Name}(IntPtr objPtr)
+            {{
+                this.objPtr = objPtr;
+            }}");
             }
 
-            writer.WriteLine("    {");
-
-            foreach(var item in code.Properties)
+            foreach (var item in code.Properties)
             {
-                if (item.Value != null)
-                {
-                    writer.WriteLine($"        {item.Name} = {item.Value},");
-                }
-                else
-                {
-                    writer.WriteLine($"        {item.Name},");
-                }
+                writer.WriteLine($"        public {item.Type} {item.Name} {{get; set;}}");
             }
 
             writer.WriteLine("    }");

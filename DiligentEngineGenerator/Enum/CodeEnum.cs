@@ -29,7 +29,8 @@ namespace DiligentEngineGenerator
                 Console.WriteLine(line);
                 if (!String.IsNullOrWhiteSpace(line) && !CommentParser.Find(line, commentBuilder))
                 {
-                    currentState = currentState.Parse(line, commentBuilder, ref codeEnum);
+                    var parsed = CommentParser.RemoveComments(line);
+                    currentState = currentState.Parse(parsed, commentBuilder, ref codeEnum);
                     commentBuilder.Clear();
                     if (currentState == null)
                     {
