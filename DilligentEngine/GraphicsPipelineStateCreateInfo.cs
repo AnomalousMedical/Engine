@@ -7,24 +7,42 @@ namespace DilligentEngine
 {
     public class GraphicsPipelineStateCreateInfo : IDisposable
     {
-        private IntPtr ptr;
+        private IntPtr objPtr;
 
-        public IntPtr ObjPtr => ptr;
+        public IntPtr ObjPtr => objPtr;
 
         public GraphicsPipelineStateCreateInfo()
         {
-            this.ptr = GraphicsPipelineStateCreateInfo_Create();
+            this.objPtr = GraphicsPipelineStateCreateInfo_Create();
         }
 
         public void Dispose()
         {
-            GraphicsPipelineStateCreateInfo_Delete(this.ptr);
+            GraphicsPipelineStateCreateInfo_Delete(this.objPtr);
         }
+
+        private IShader _pVS;
+        public IShader pVS { get => _pVS; set { _pVS = value; GraphicsPipelineStateCreateInfo_Set_pVS(objPtr, value.objPtr); } }
+
+        private IShader _pPS;
+        public IShader pPS { get => _pPS; set { _pPS = value; GraphicsPipelineStateCreateInfo_Set_pPS(objPtr, value.objPtr); } }
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr GraphicsPipelineStateCreateInfo_Create();
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void GraphicsPipelineStateCreateInfo_Delete(IntPtr obj);
+
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void GraphicsPipelineStateCreateInfo_Set_pVS(IntPtr obj, IntPtr value);
+
+        //[DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        //private static extern IntPtr GraphicsPipelineStateCreateInfo_Get_pVS(IntPtr obj);
+
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void GraphicsPipelineStateCreateInfo_Set_pPS(IntPtr obj, IntPtr value);
+
+        //[DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        //private static extern IntPtr GraphicsPipelineStateCreateInfo_Get_pPS(IntPtr obj);
     }
 }

@@ -29,7 +29,9 @@ namespace DilligentEngineTest
             using var pixelShader = this.genericEngineFactory.RenderDevice.CreateShader(shaderCreate);
 
             using var psoCreate = new GraphicsPipelineStateCreateInfo();
-            this.pipelineState = genericEngineFactory.RenderDevice.CreateGraphicsPipelineState(psoCreate, genericEngineFactory.SwapChain, vertexShader, pixelShader);
+            psoCreate.pVS = vertexShader;
+            psoCreate.pPS = pixelShader;
+            this.pipelineState = genericEngineFactory.RenderDevice.CreateGraphicsPipelineState(psoCreate, genericEngineFactory.SwapChain);
         }
 
         public void Dispose()

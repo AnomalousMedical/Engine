@@ -8,13 +8,8 @@ using namespace Diligent;
 
 extern "C" _AnomalousExport IPipelineState * IRenderDevice_CreateGraphicsPipelineState(IRenderDevice * objPtr, GraphicsPipelineStateCreateInfo * PSOCreateInfo
     //All this is for testing
-    , ISwapChain * m_pSwapChain, IShader * pVS, IShader * pPS)
+    , ISwapChain * m_pSwapChain)
 {
-    //// Finally, create the pipeline state
-    PSOCreateInfo->pVS = pVS;
-    PSOCreateInfo->pPS = pPS;
-
-
     // Pipeline state object encompasses configuration of all GPU stages
 
     // Pipeline state name is used by the engine to report issues.
@@ -27,10 +22,6 @@ extern "C" _AnomalousExport IPipelineState * IRenderDevice_CreateGraphicsPipelin
     // clang-format off
     // This tutorial will render to a single render target
     PSOCreateInfo->GraphicsPipeline.NumRenderTargets = 1;
-    // Set render target format which is the format of the swap chain's color buffer
-    PSOCreateInfo->GraphicsPipeline.RTVFormats[0] = m_pSwapChain->GetDesc().ColorBufferFormat;
-    // Use the depth buffer format from the swap chain
-    PSOCreateInfo->GraphicsPipeline.DSVFormat = m_pSwapChain->GetDesc().DepthBufferFormat;
     // Primitive topology defines what kind of primitives will be rendered by this pipeline state
     PSOCreateInfo->GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
     // No back face culling for this tutorial
@@ -38,6 +29,13 @@ extern "C" _AnomalousExport IPipelineState * IRenderDevice_CreateGraphicsPipelin
     // Disable depth testing
     PSOCreateInfo->GraphicsPipeline.DepthStencilDesc.DepthEnable = False;
     // clang-format on
+
+
+    
+    // Set render target format which is the format of the swap chain's color buffer
+    PSOCreateInfo->GraphicsPipeline.RTVFormats[0] = m_pSwapChain->GetDesc().ColorBufferFormat;
+    // Use the depth buffer format from the swap chain
+    PSOCreateInfo->GraphicsPipeline.DSVFormat = m_pSwapChain->GetDesc().DepthBufferFormat;
 
     IPipelineState* m_pPSO = nullptr;
     objPtr->CreateGraphicsPipelineState(*PSOCreateInfo, &m_pPSO);
