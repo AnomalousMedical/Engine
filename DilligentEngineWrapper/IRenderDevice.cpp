@@ -8,14 +8,14 @@ using namespace Diligent;
 
 extern "C" _AnomalousExport IPipelineState * IRenderDevice_CreateGraphicsPipelineState(IRenderDevice * objPtr, GraphicsPipelineStateCreateInfo * PSOCreateInfo)
 {
-	IPipelineState* ret;
+	IPipelineState* ret = nullptr;
 	objPtr->CreateGraphicsPipelineState(*PSOCreateInfo, &ret);
 	return ret;
 }
 
 extern "C" _AnomalousExport IShader * IRenderDevice_CreateShader(IRenderDevice * objPtr, ShaderCreateInfo * ShaderCI)
 {
-	IShader* shader;
-	objPtr->CreateShader(*ShaderCI, &shader);
-	return shader;
+	IShader* ret = nullptr;
+	objPtr->CreateShader(*ShaderCI, &ret);
+	return ret;
 }
