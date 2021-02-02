@@ -5,3 +5,7 @@ extern "C" _AnomalousExport void ISwapChain_Resize(ISwapChain* objPtr, Uint32 Ne
 {
 	objPtr->Resize(NewWidth, NewHeight, NewTransform);
 }
+extern "C" _AnomalousExport ITextureView* ISwapChain_GetCurrentBackBufferRTV(ISwapChain* objPtr)
+{
+	return objPtr->GetCurrentBackBufferRTV();
+}

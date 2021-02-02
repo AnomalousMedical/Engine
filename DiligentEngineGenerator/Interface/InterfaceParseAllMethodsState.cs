@@ -10,6 +10,11 @@ namespace DiligentEngineGenerator
         {
             if (!String.IsNullOrWhiteSpace(line))
             {
+                if (line.Contains("#if") && line.Contains("DILIGENT_CPP_INTERFACE"))
+                {
+                    return new SkipCppInterface();
+                }
+
                 var parsed = line.Trim().Replace(",", "").Replace("{", "").Replace("}", "");
                 if (!String.IsNullOrWhiteSpace(parsed) && parsed.Contains("METHOD"))
                 {

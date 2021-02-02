@@ -40,7 +40,14 @@ namespace DiligentEngineGenerator
 
                 writer.WriteLine($")");
                 writer.WriteLine("{");
-                writer.Write($"	objPtr->{item.Name}(");
+                if(item.ReturnType != "void")
+                {
+                    writer.Write($"	return objPtr->{item.Name}(");
+                }
+                else
+                {
+                    writer.Write($"	objPtr->{item.Name}(");
+                }
                 var sep = "";
                 foreach (var arg in item.Args)
                 {

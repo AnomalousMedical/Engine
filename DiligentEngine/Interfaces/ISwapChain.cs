@@ -22,9 +22,15 @@ namespace DiligentEngine
         {
             ISwapChain_Resize(this.objPtr, NewWidth, NewHeight, NewTransform);
         }
+        public ITextureView GetCurrentBackBufferRTV()
+        {
+            return new ITextureView(ISwapChain_GetCurrentBackBufferRTV(this.objPtr));
+        }
 
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ISwapChain_Resize(IntPtr objPtr, Uint32 NewWidth, Uint32 NewHeight, SURFACE_TRANSFORM NewTransform);
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr ISwapChain_GetCurrentBackBufferRTV(IntPtr objPtr);
     }
 }

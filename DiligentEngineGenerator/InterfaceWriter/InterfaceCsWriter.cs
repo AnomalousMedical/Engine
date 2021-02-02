@@ -77,14 +77,29 @@ $@"    {{
                 writer.WriteLine(")");
                 writer.WriteLine("        {");
 
-                writer.Write($"            {code.Name}_{item.Name}(this.objPtr");
+                if (item.ReturnType != "void")
+                {
+                    writer.Write($"            return new {GetCSharpType(item.ReturnType)}({code.Name}_{item.Name}(this.objPtr");
+                }
+                else
+                {
+                    writer.Write($"            {code.Name}_{item.Name}(this.objPtr");
+                }
 
                 foreach (var arg in item.Args)
                 {
                     writer.Write($", {arg.Name}");
                 }
 
-                writer.WriteLine($");");
+                if (item.ReturnType != "void")
+                {
+                    writer.WriteLine($"));");
+                }
+                else
+                {
+                    writer.WriteLine($");");
+                }
+
                 writer.WriteLine("        }");
             }
 

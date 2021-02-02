@@ -81,12 +81,36 @@ namespace DiligentEngineGenerator
             }
 
             {
+                var IDeviceObject = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceObject.h", 50, 96);
+                var allowedMethods = new List<String> { "Resize", "GetCurrentBackBufferRTV" };
+                IDeviceObject.Methods = IDeviceObject.Methods
+                    .Where(i => allowedMethods.Contains(i.Name)).ToList();
+                InterfaceCsWriter.Write(IDeviceObject, Path.Combine(baseCSharpInterfaceDir, $"{nameof(IDeviceObject)}.cs"));
+                InterfaceCppWriter.Write(IDeviceObject, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IDeviceObject)}.cpp"), new List<String>()
+                {
+                    "Graphics/GraphicsEngine/interface/SwapChain.h"
+                });
+            }
+
+            {
                 var ISwapChain = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/SwapChain.h", 54, 119);
-                var allowedMethods = new List<String> { "Resize" };
+                var allowedMethods = new List<String> { "Resize", "GetCurrentBackBufferRTV" };
                 ISwapChain.Methods = ISwapChain.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 InterfaceCsWriter.Write(ISwapChain, Path.Combine(baseCSharpInterfaceDir, $"{nameof(ISwapChain)}.cs"));
                 InterfaceCppWriter.Write(ISwapChain, Path.Combine(baseCPlusPlusOutDir, $"{nameof(ISwapChain)}.cpp"), new List<String>()
+                {
+                    "Graphics/GraphicsEngine/interface/SwapChain.h"
+                });
+            }
+
+            {
+                var ITextureView = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/TextureView.h", 195, 227);
+                var allowedMethods = new List<String> {  };
+                ITextureView.Methods = ITextureView.Methods
+                    .Where(i => allowedMethods.Contains(i.Name)).ToList();
+                InterfaceCsWriter.Write(ITextureView, Path.Combine(baseCSharpInterfaceDir, $"{nameof(ITextureView)}.cs"));
+                InterfaceCppWriter.Write(ITextureView, Path.Combine(baseCPlusPlusOutDir, $"{nameof(ITextureView)}.cpp"), new List<String>()
                 {
                     "Graphics/GraphicsEngine/interface/SwapChain.h"
                 });
