@@ -14,7 +14,7 @@ namespace DiligentEngineGenerator
 
         public String Comment { get; set; }
 
-        public List<InterfaceMethod> Properties { get; set; } = new List<InterfaceMethod>(); 
+        public List<InterfaceMethod> Methods { get; set; } = new List<InterfaceMethod>(); 
         
         public static CodeInterface Find(String file, int startLine, int endLine)
         {
@@ -50,6 +50,14 @@ namespace DiligentEngineGenerator
         public String Name { get; set; }
 
         public string ReturnType { get; set; }
+
+        public bool IsRef { get; set; }
+
+        public bool IsConst { get; set; }
+
+        public bool IsPtr { get; set; }
+
+        public bool IsPtrToPtr { get; set; }
 
         public List<InterfaceMethodArgument> Args { get; set; } = new List<InterfaceMethodArgument>();
     }

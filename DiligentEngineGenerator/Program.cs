@@ -42,9 +42,14 @@ namespace DiligentEngineGenerator
             StructCsWriter.Write(BufferDesc, Path.Combine(baseStructDir, $"{nameof(BufferDesc)}.cs"));
 
             //////////// Interfaces
+            var baseInterfaceDir = Path.Combine(baseOutDir, "Interfaces");
 
             var IRenderDevice = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/RenderDevice.h", 72, 330);
-            Console.Write(IRenderDevice);
+            var allowedMethods = new List<String> { "CreateShader" };
+            IRenderDevice.Methods = IRenderDevice.Methods
+                .Where(i => false)
+                .Where(i => allowedMethods.Contains(i.Name)).ToList();
+            InterfaceCsWriter.Write(IRenderDevice, Path.Combine(baseInterfaceDir, $"{nameof(IRenderDevice)}.cs"));
         }
     }
 }

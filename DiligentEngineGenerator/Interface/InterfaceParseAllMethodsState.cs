@@ -22,10 +22,14 @@ namespace DiligentEngineGenerator
                     var method = new InterfaceMethod()
                     {
                         Comment = commentBuilder.ToString(),
-                        ReturnType = typeAndName[0].Trim(),
+                        ReturnType = typeAndName[0].Replace("REF", "").Trim(),
                         Name = typeAndName[1].Substring(0, typeAndName[1].IndexOf(")")).Trim(),
+                        IsConst = line.Contains("const"),
+                        IsRef = line.Contains("REF"),
+                        IsPtr = line.Contains("*"),
+                        IsPtrToPtr = line.Contains("**"),
                     };
-                    code.Properties.Add(method);
+                    code.Methods.Add(method);
                     if (!line.Contains("THIS)"))
                     {
                         return new InterfaceParseMethodState(method);
