@@ -16,6 +16,9 @@ namespace DiligentEngineGenerator
 
             var BufferDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Buffer.h", 72, 108);
             Console.Write(BufferDesc);
+
+            var IRenderDevice = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/RenderDevice.h", 72, 330);
+            Console.Write(IRenderDevice);
         }
     }
 }
