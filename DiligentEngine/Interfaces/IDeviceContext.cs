@@ -18,5 +18,13 @@ namespace DiligentEngine
         {
 
         }
+        public void Flush()
+        {
+            IDeviceContext_Flush(this.objPtr);
+        }
+
+
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void IDeviceContext_Flush(IntPtr objPtr);
     }
 }

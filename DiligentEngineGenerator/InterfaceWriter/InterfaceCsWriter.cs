@@ -74,23 +74,35 @@ $@"    {{
                     sep = ", ";
                 }
 
-                writer.WriteLine($"){{}}");
+                writer.WriteLine(")");
+                writer.WriteLine("        {");
+
+                writer.Write($"            {code.Name}_{item.Name}(this.objPtr");
+
+                foreach (var arg in item.Args)
+                {
+                    writer.Write($", {arg.Name}");
+                }
+
+                writer.WriteLine($");");
+                writer.WriteLine("        }");
             }
+
+            writer.WriteLine();
+            writer.WriteLine();
 
             //PInvoke
             foreach (var item in code.Methods)
             {
-                writer.Write($"        public {GetPInvokeType(item)} {code.Name}_{item.Name}(");
-
-                var sep = "";
+                writer.WriteLine("        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]");
+                writer.Write($"        private static extern {GetPInvokeType(item)} {code.Name}_{item.Name}(IntPtr objPtr");
 
                 foreach (var arg in item.Args)
                 {
-                    writer.Write($"{sep}{GetPInvokeType(arg)} {arg.Name}");
-                    sep = ", ";
+                    writer.Write($", {GetPInvokeType(arg)} {arg.Name}");
                 }
 
-                writer.WriteLine($"){{}}");
+                writer.WriteLine($");");
             }
 
             writer.WriteLine("    }");

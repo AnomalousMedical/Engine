@@ -15,7 +15,7 @@ namespace DiligentEngine
 
         public void Dispose()
         {
-            //this.ImmediateContext.Flush(); //The sample app flushes this out when it shuts down
+            this.ImmediateContext.Flush(); //The sample app flushes this out when it shuts down
 
             this.RenderDevice.Dispose();
             this.ImmediateContext.Dispose();

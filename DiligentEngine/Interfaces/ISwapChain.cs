@@ -18,5 +18,13 @@ namespace DiligentEngine
         {
 
         }
+        public void Resize(Uint32 NewWidth, Uint32 NewHeight, SURFACE_TRANSFORM NewTransform)
+        {
+            ISwapChain_Resize(this.objPtr, NewWidth, NewHeight, NewTransform);
+        }
+
+
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void ISwapChain_Resize(IntPtr objPtr, Uint32 NewWidth, Uint32 NewHeight, SURFACE_TRANSFORM NewTransform);
     }
 }

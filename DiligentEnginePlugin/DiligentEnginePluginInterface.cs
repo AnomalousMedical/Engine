@@ -36,7 +36,7 @@ namespace DiligentEnginePlugin
 
             window.Resized += w =>
             {
-                //this.engineFactory.SwapChain.Resize((uint)w.WindowWidth, (uint)w.WindowHeight);
+                this.engineFactory.SwapChain.Resize((uint)w.WindowWidth, (uint)w.WindowHeight, SURFACE_TRANSFORM.SURFACE_TRANSFORM_OPTIMAL);
             };
         }
 
