@@ -11,11 +11,12 @@ namespace DiligentEngineGenerator
         static void Main(string[] args)
         {
             var baseDir = "C:/Anomalous/DiligentEngine";
-            var baseOutDir = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory() + "../../../../../DiligentEngine"));
+            var baseCSharpOutDir = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory() + "../../../../../DiligentEngine"));
+            var baseCPlusPlusOutDir = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory() + "../../../../../DiligentEngineWrapper"));
 
             //////////// Enums
 
-            var baseEnumDir = Path.Combine(baseOutDir, "Enums");
+            var baseEnumDir = Path.Combine(baseCSharpOutDir, "Enums");
 
             {
                 var BUFFER_MODE = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Buffer.h", 46, 71);
@@ -48,7 +49,7 @@ namespace DiligentEngineGenerator
 
             //////////// Structs
 
-            var baseStructDir = Path.Combine(baseOutDir, "Structs");
+            var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
             var DeviceObjectAttribs = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 1150, 1159);
             StructCsWriter.Write(DeviceObjectAttribs, Path.Combine(baseStructDir, $"{nameof(DeviceObjectAttribs)}.cs"));
 
@@ -56,14 +57,14 @@ namespace DiligentEngineGenerator
             StructCsWriter.Write(BufferDesc, Path.Combine(baseStructDir, $"{nameof(BufferDesc)}.cs"));
 
             //////////// Interfaces
-            var baseInterfaceDir = Path.Combine(baseOutDir, "Interfaces");
+            var baseCSharpInterfaceDir = Path.Combine(baseCSharpOutDir, "Interfaces");
 
             {
                 var IRenderDevice = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/RenderDevice.h", 72, 330);
                 var allowedMethods = new List<String> { /*"CreateShader" */};
                 IRenderDevice.Methods = IRenderDevice.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
-                InterfaceCsWriter.Write(IRenderDevice, Path.Combine(baseInterfaceDir, $"{nameof(IRenderDevice)}.cs"));
+                InterfaceCsWriter.Write(IRenderDevice, Path.Combine(baseCSharpInterfaceDir, $"{nameof(IRenderDevice)}.cs"));
             }
 
             {
@@ -71,7 +72,12 @@ namespace DiligentEngineGenerator
                 var allowedMethods = new List<String> { "Flush" };
                 IDeviceContext.Methods = IDeviceContext.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
-                InterfaceCsWriter.Write(IDeviceContext, Path.Combine(baseInterfaceDir, $"{nameof(IDeviceContext)}.cs"));
+                InterfaceCsWriter.Write(IDeviceContext, Path.Combine(baseCSharpInterfaceDir, $"{nameof(IDeviceContext)}.cs"));
+                InterfaceCppWriter.Write(IDeviceContext, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IDeviceContext)}.cpp"), new List<String>()
+                {
+                    "Graphics/GraphicsEngine/interface/DeviceContext.h",
+                    "Color.h"
+                });
             }
 
             {
@@ -79,7 +85,11 @@ namespace DiligentEngineGenerator
                 var allowedMethods = new List<String> { "Resize" };
                 ISwapChain.Methods = ISwapChain.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
-                InterfaceCsWriter.Write(ISwapChain, Path.Combine(baseInterfaceDir, $"{nameof(ISwapChain)}.cs"));
+                InterfaceCsWriter.Write(ISwapChain, Path.Combine(baseCSharpInterfaceDir, $"{nameof(ISwapChain)}.cs"));
+                InterfaceCppWriter.Write(ISwapChain, Path.Combine(baseCPlusPlusOutDir, $"{nameof(ISwapChain)}.cpp"), new List<String>()
+                {
+                    "Graphics/GraphicsEngine/interface/SwapChain.h"
+                });
             }
         }
     }
