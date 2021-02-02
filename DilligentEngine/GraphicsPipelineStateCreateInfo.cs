@@ -21,26 +21,10 @@ namespace DilligentEngine
             GraphicsPipelineStateCreateInfo_Delete(this.ptr);
         }
 
-        public void LazySetup(ISwapChain m_pSwapChain, IRenderDevice m_pDevice, IShader pVS, IShader pPS)
-        {
-            GraphicsPipelineStateCreateInfo_LazySetup(this.ptr, m_pSwapChain.ObjPtr, m_pDevice.ObjPtr, pVS.ObjPtr, pPS.ObjPtr);
-        }
-
-        public IPipelineState OneShot(ISwapChain m_pSwapChain, IRenderDevice m_pDevice, IShader pVS, IShader pPS)
-        {
-            return new IPipelineState(GraphicsPipelineStateCreateInfo_OneShot(this.ptr, m_pSwapChain.objPtr, m_pDevice.objPtr, pVS.ObjPtr, pPS.ObjPtr));
-        }
-
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr GraphicsPipelineStateCreateInfo_Create();
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void GraphicsPipelineStateCreateInfo_Delete(IntPtr obj);
-
-        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void GraphicsPipelineStateCreateInfo_LazySetup(IntPtr PSOCreateInfo, IntPtr m_pSwapChain, IntPtr m_pDevice, IntPtr pVS, IntPtr pPS);
-
-        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr GraphicsPipelineStateCreateInfo_OneShot(IntPtr PSOCreateInfo, IntPtr m_pSwapChain, IntPtr m_pDevice, IntPtr pVS, IntPtr pPS);
     }
 }
