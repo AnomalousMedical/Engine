@@ -92,11 +92,40 @@ void main(in  PSInput  PSIn,
 }
 )";
 
-extern "C" _AnomalousExport IPipelineState* GraphicsPipelineStateCreateInfo_OneShot(GraphicsPipelineStateCreateInfo * PSOCreateInfo, ISwapChain * m_pSwapChain, IRenderDevice* m_pDevice)
+extern "C" _AnomalousExport IPipelineState* GraphicsPipelineStateCreateInfo_OneShot(GraphicsPipelineStateCreateInfo * PSOCreateInfo, ISwapChain * m_pSwapChain, IRenderDevice* m_pDevice, ShaderCreateInfo * ShaderCI)
 {
-    // Pipeline state object encompasses configuration of all GPU stages
+    // Tell the system that the shader source code is in HLSL.
+    // For OpenGL, the engine will convert this into GLSL under the hood
+    ShaderCI->SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
+    // OpenGL backend requires emulated combined HLSL texture samplers (g_Texture + g_Texture_sampler combination)
+    ShaderCI->UseCombinedTextureSamplers = true;
+    // Create a vertex shader
+    IShader* pVS = nullptr;
+    {
+        ShaderCI->Desc.ShaderType = SHADER_TYPE_VERTEX;
+        ShaderCI->EntryPoint = "main";
+        ShaderCI->Desc.Name = "Triangle vertex shader";
+        ShaderCI->Source = VSSource;
+        m_pDevice->CreateShader(*ShaderCI, &pVS);
+    }
 
-    //GraphicsPipelineStateCreateInfo* PSOCreateInfo = new GraphicsPipelineStateCreateInfo;
+    // Create a pixel shader
+    IShader* pPS = nullptr;
+    {
+        ShaderCI->Desc.ShaderType = SHADER_TYPE_PIXEL;
+        ShaderCI->EntryPoint = "main";
+        ShaderCI->Desc.Name = "Triangle pixel shader";
+        ShaderCI->Source = PSSource;
+        m_pDevice->CreateShader(*ShaderCI, &pPS);
+    }
+
+    IPipelineState* m_pPSO = nullptr;
+    // Finally, create the pipeline state
+    PSOCreateInfo->pVS = pVS;
+    PSOCreateInfo->pPS = pPS;
+
+
+    // Pipeline state object encompasses configuration of all GPU stages
 
     // Pipeline state name is used by the engine to report issues.
     // It is always a good idea to give objects descriptive names.
@@ -120,36 +149,7 @@ extern "C" _AnomalousExport IPipelineState* GraphicsPipelineStateCreateInfo_OneS
     PSOCreateInfo->GraphicsPipeline.DepthStencilDesc.DepthEnable = False;
     // clang-format on
 
-    ShaderCreateInfo ShaderCI;
-    // Tell the system that the shader source code is in HLSL.
-    // For OpenGL, the engine will convert this into GLSL under the hood
-    ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
-    // OpenGL backend requires emulated combined HLSL texture samplers (g_Texture + g_Texture_sampler combination)
-    ShaderCI.UseCombinedTextureSamplers = true;
-    // Create a vertex shader
-    IShader* pVS = nullptr;
-    {
-        ShaderCI.Desc.ShaderType = SHADER_TYPE_VERTEX;
-        ShaderCI.EntryPoint = "main";
-        ShaderCI.Desc.Name = "Triangle vertex shader";
-        ShaderCI.Source = VSSource;
-        m_pDevice->CreateShader(ShaderCI, &pVS);
-    }
-
-    // Create a pixel shader
-    IShader* pPS = nullptr;
-    {
-        ShaderCI.Desc.ShaderType = SHADER_TYPE_PIXEL;
-        ShaderCI.EntryPoint = "main";
-        ShaderCI.Desc.Name = "Triangle pixel shader";
-        ShaderCI.Source = PSSource;
-        m_pDevice->CreateShader(ShaderCI, &pPS);
-    }
-
-    IPipelineState* m_pPSO = nullptr;
-    // Finally, create the pipeline state
-    PSOCreateInfo->pVS = pVS;
-    PSOCreateInfo->pPS = pPS;
+    
     m_pDevice->CreateGraphicsPipelineState(*PSOCreateInfo, &m_pPSO);
     //delete PSOCreateInfo;
     pVS->Release();

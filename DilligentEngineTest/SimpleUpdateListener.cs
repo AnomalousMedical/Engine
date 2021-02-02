@@ -22,7 +22,7 @@ namespace DilligentEngineTest
             this.swapChain = genericEngineFactory.SwapChain;
             this.immediateContext = genericEngineFactory.ImmediateContext;
 
-            //using var shaderCreate = new ShaderCreateInfo();
+            using var shaderCreate = new ShaderCreateInfo();
             //shaderCreate.Lazy_VS();
             //using var vertexShader = this.genericEngineFactory.RenderDevice.CreateShader(shaderCreate);
             //shaderCreate.Lazy_PS();
@@ -32,7 +32,7 @@ namespace DilligentEngineTest
             //psoCreate.LazySetup(genericEngineFactory.SwapChain, genericEngineFactory.RenderDevice, pixelShader, vertexShader);
             //this.pipelineState = genericEngineFactory.RenderDevice.CreateGraphicsPipelineState(psoCreate);
 
-            this.pipelineState = psoCreate.OneShot(genericEngineFactory.SwapChain, genericEngineFactory.RenderDevice);
+            this.pipelineState = psoCreate.OneShot(genericEngineFactory.SwapChain, genericEngineFactory.RenderDevice, shaderCreate);
         }
 
         public void Dispose()
