@@ -13,14 +13,14 @@ namespace DiligentEngine
 {
     public class DeviceObjectAttribs
     {
-            internal protected IntPtr objPtr;
+        internal protected IntPtr objPtr;
 
-            public IntPtr ObjPtr => objPtr;
+        public IntPtr ObjPtr => objPtr;
 
-            public DeviceObjectAttribs(IntPtr objPtr)
-            {
-                this.objPtr = objPtr;
-            }
-        public Char* Name {get; set;}
+        public DeviceObjectAttribs(IntPtr objPtr)
+        {
+            this.objPtr = objPtr;
+        }
+        public String Name {get; set;}
     }
 }

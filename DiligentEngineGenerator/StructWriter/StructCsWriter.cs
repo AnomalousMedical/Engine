@@ -51,24 +51,35 @@ $@"    {{
 
                 writer.WriteLine(
 $@"    {{
-            internal protected IntPtr objPtr;
+        internal protected IntPtr objPtr;
 
-            public IntPtr ObjPtr => objPtr;
+        public IntPtr ObjPtr => objPtr;
 
-            public {code.Name}(IntPtr objPtr)
-            {{
-                this.objPtr = objPtr;
-            }}");
+        public {code.Name}(IntPtr objPtr)
+        {{
+            this.objPtr = objPtr;
+        }}");
             }
 
             foreach (var item in code.Properties)
             {
-                writer.WriteLine($"        public {item.Type} {item.Name} {{get; set;}}");
+                writer.WriteLine($"        public {GetCSharpType(item.Type)} {item.Name} {{get; set;}}");
             }
 
             writer.WriteLine("    }");
 
             writer.WriteLine("}");
+        }
+
+        private static String GetCSharpType(String type)
+        {
+            switch (type)
+            {
+                case "Char*":
+                    return "String";
+            }
+
+            return type;
         }
     }
 }
