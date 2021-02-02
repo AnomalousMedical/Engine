@@ -32,12 +32,12 @@ namespace DilligentEngineTest
             //psoCreate.LazySetup(genericEngineFactory.SwapChain, genericEngineFactory.RenderDevice, pixelShader, vertexShader);
             //this.pipelineState = genericEngineFactory.RenderDevice.CreateGraphicsPipelineState(psoCreate);
 
-            psoCreate.OneShot(genericEngineFactory.SwapChain, genericEngineFactory.RenderDevice);
+            this.pipelineState = psoCreate.OneShot(genericEngineFactory.SwapChain, genericEngineFactory.RenderDevice);
         }
 
         public void Dispose()
         {
-            //pipelineState.Dispose();
+            pipelineState.Dispose();
         }
 
         public void exceededMaxDelta()
@@ -65,6 +65,15 @@ namespace DilligentEngineTest
             // Let the engine perform required state transitions
             immediateContext.ClearRenderTarget(pRTV, color, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+
+            immediateContext.SetPipelineState(this.pipelineState);
+
+            // Typically we should now call CommitShaderResources(), however shaders in this example don't
+            // use any resources.
+
+            //DrawAttribs drawAttrs;
+            //drawAttrs.NumVertices = 3; // Render 3 vertices
+            immediateContext.Draw();
 
             this.swapChain.Present();
         }

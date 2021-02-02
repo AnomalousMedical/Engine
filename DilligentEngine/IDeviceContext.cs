@@ -74,6 +74,16 @@ namespace DilligentEngine
                 StateTransitionMode);
         }
 
+        public void SetPipelineState(IPipelineState pipelineState)
+        {
+            IDeviceContext_SetPipelineState(this.objPtr, pipelineState.objPtr);
+        }
+
+        public void Draw()
+        {
+            IDeviceContext_CheaterDraw(this.objPtr);
+        }
+
         public void ClearDepthStencil(
             ITextureView pView,
             CLEAR_DEPTH_STENCIL_FLAGS ClearFlags,
@@ -112,5 +122,11 @@ namespace DilligentEngine
             float fDepth,
             Byte Stencil,
             RESOURCE_STATE_TRANSITION_MODE StateTransitionMode);
+
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void IDeviceContext_SetPipelineState(IntPtr objPtr, IntPtr pPipelineState);
+
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void IDeviceContext_CheaterDraw(IntPtr objPtr);
     }
 }
