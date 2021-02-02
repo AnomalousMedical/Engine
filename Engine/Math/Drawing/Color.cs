@@ -10,7 +10,7 @@ namespace Engine
     /// <summary>
     /// This is a color struct. Color values are between 0 and 1.
     /// </summary>
-    [StructLayout(LayoutKind.Explicit)]
+    [StructLayout(LayoutKind.Explicit, Size = 16)]
     public struct Color
     {
         /// <summary>
@@ -106,7 +106,7 @@ namespace Engine
         /// <summary>
         /// Alpha value.
         /// </summary>
-        [FieldOffset(16)]
+        [FieldOffset(12)]
         public float a;
 
         /// <summary>

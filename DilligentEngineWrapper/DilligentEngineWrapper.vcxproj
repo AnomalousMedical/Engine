@@ -165,8 +165,11 @@
   <ItemGroup>
     <ClCompile Include="DilligentObject.cpp" />
     <ClCompile Include="GenericEngineFactory.cpp" />
+    <ClCompile Include="GraphicsPipelineStateCreateInfo.cpp" />
     <ClCompile Include="IDeviceContext.cpp" />
+    <ClCompile Include="IRenderDevice.cpp" />
     <ClCompile Include="ITextureView.cpp" />
+    <ClCompile Include="ShaderCreateInfo.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

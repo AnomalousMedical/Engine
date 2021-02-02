@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 
 #include "Graphics/GraphicsEngine/interface/SwapChain.h"
+#include "Graphics/GraphicsEngine/interface/BlendState.h"
 
 using namespace Diligent;
 
@@ -22,4 +23,9 @@ extern "C" _AnomalousExport ITextureView * ISwapChain_GetCurrentBackBufferRTV(IS
 extern "C" _AnomalousExport ITextureView * ISwapChain_GetDepthBufferDSV(ISwapChain * objPtr)
 {
 	return objPtr->GetDepthBufferDSV();
+}
+
+extern "C" _AnomalousExport void TestBlendStateDesc(BlendStateDesc desc)
+{
+	desc.RenderTargets[3].LogicOp = LOGIC_OP_INVERT;
 }
