@@ -10,7 +10,79 @@
     <Optimize>false</Optimize>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(Configuration)'=='Debug'">
+    <Content Include="..\DilligentEngineWrapper\bin\Debug\x64\DilligentEngineWrapper.dll">
+      <Link>x64\DilligentEngineWrapper.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="../../DiligentEngine/build/Win64/DiligentCore/Graphics/GraphicsEngineD3D11/Debug/GraphicsEngineD3D11_64d.dll">
+      <Link>x64\GraphicsEngineD3D11_64d.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="../../DiligentEngine/build/Win64/DiligentCore/Graphics/GraphicsEngineD3D12/Debug/GraphicsEngineD3D12_64d.dll">
+      <Link>x64\GraphicsEngineD3D12_64d.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="../../DiligentEngine/build/Win64/DiligentCore/Graphics/GraphicsEngineOpenGL/Debug/GraphicsEngineOpenGL_64d.dll">
+      <Link>x64\GraphicsEngineOpenGL_64d.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="../../DiligentEngine/build/Win64/DiligentCore/Graphics/GraphicsEngineVulkan/Debug/GraphicsEngineVk_64d.dll">
+      <Link>x64\GraphicsEngineVk_64d.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="C:\Program Files %28x86%29\Windows Kits\10\bin\10.0.18362.0\x64\D3Dcompiler_47.dll">
+      <Link>x64\D3Dcompiler_47.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="C:\Program Files %28x86%29\Windows Kits\10\bin\10.0.18362.0\x64\dxcompiler.dll">
+      <Link>x64\dxcompiler.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="C:\Program Files %28x86%29\Windows Kits\10\bin\10.0.18362.0\x64\dxil.dll">
+      <Link>x64\dxil.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="..\OSHelper\bin\Debug\x64\OSHelper.dll">
+      <Link>x64\OSHelper.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="..\..\Dependencies\OpenALSoft\Win64Build\Debug\OpenAL32.dll">
+      <Link>x64\OpenAL32.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="..\SoundWrapper\bin\Debug\x64\SoundWrapper.dll">
+      <Link>x64\SoundWrapper.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="..\Win32UniversalBridge\bin\Debug\x64\Win32UniversalBridge.dll">
+      <Link>x64\Win32UniversalBridge.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="..\WinMTDriver\bin\Debug\x64\WinMTDriver.dll">
+      <Link>x64\WinMTDriver.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="..\Zip\bin\Debug\x64\Zip.dll">
+      <Link>x64\Zip.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)'=='Release' Or '$(Configuration)'=='RelMDeb' ">
     <Content Include="..\DilligentEngineWrapper\bin\Release\x64\DilligentEngineWrapper.dll">
       <Link>x64\DilligentEngineWrapper.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -50,7 +122,7 @@
       <Link>x64\dxil.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    
+
     <Content Include="..\OSHelper\bin\Release\x64\OSHelper.dll">
       <Link>x64\OSHelper.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -60,22 +132,22 @@
       <Link>x64\OpenAL32.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    
+
     <Content Include="..\SoundWrapper\bin\Release\x64\SoundWrapper.dll">
       <Link>x64\SoundWrapper.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    
+
     <Content Include="..\Win32UniversalBridge\bin\Release\x64\Win32UniversalBridge.dll">
       <Link>x64\Win32UniversalBridge.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    
+
     <Content Include="..\WinMTDriver\bin\Release\x64\WinMTDriver.dll">
       <Link>x64\WinMTDriver.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    
+
     <Content Include="..\Zip\bin\Release\x64\Zip.dll">
       <Link>x64\Zip.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

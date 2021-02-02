@@ -85,12 +85,12 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;PLATFORM_WIN32;WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;PLATFORM_WIN32;WINDOWS;ENGINE_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\include;..\..\Dependencies\Bullet\src\src;..\..\Dependencies\Bullet\src\Extras\ConvexDecomposition;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Anomalous\DiligentEngine\DiligentCore;C:\Anomalous\DiligentEngine\DiligentCore\Graphics\GraphicsEngineD3D11\interface;C:\Anomalous\DiligentEngine\DiligentCore\Graphics\GraphicsEngineD3DBase\interface;C:\Anomalous\DiligentEngine\DiligentCore\Graphics\GraphicsEngine\interface;C:\Anomalous\DiligentEngine\DiligentCore\Primitives\interface;C:\Anomalous\DiligentEngine\DiligentCore\Graphics\GraphicsEngineD3D12\interface;C:\Anomalous\DiligentEngine\DiligentCore\Graphics\GraphicsEngineOpenGL\interface;C:\Anomalous\DiligentEngine\DiligentCore\Graphics\GraphicsEngineVulkan\interface;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>bulletsoftbody_debug.lib;bulletdynamics_debug.lib;bulletcollision_debug.lib;linearmath_debug.lib;convexdecomposition_debug.lib;BulletFileLoader_debug.lib</AdditionalDependencies>
@@ -103,12 +103,12 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;PLATFORM_WIN32;WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;PLATFORM_WIN32;WINDOWS;ENGINE_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\include;..\..\Dependencies\Bullet\src\src;..\..\Dependencies\Bullet\src\Extras\ConvexDecomposition;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Anomalous\DiligentEngine\DiligentCore;C:\Anomalous\DiligentEngine\DiligentCore\Graphics\GraphicsEngineD3D11\interface;C:\Anomalous\DiligentEngine\DiligentCore\Graphics\GraphicsEngineD3DBase\interface;C:\Anomalous\DiligentEngine\DiligentCore\Graphics\GraphicsEngine\interface;C:\Anomalous\DiligentEngine\DiligentCore\Primitives\interface;C:\Anomalous\DiligentEngine\DiligentCore\Graphics\GraphicsEngineD3D12\interface;C:\Anomalous\DiligentEngine\DiligentCore\Graphics\GraphicsEngineOpenGL\interface;C:\Anomalous\DiligentEngine\DiligentCore\Graphics\GraphicsEngineVulkan\interface;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>bulletsoftbody_debug.lib;bulletdynamics_debug.lib;bulletcollision_debug.lib;linearmath_debug.lib;convexdecomposition_debug.lib;BulletFileLoader_debug.lib</AdditionalDependencies>
@@ -119,8 +119,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\include;..\..\Dependencies\Bullet\src\src;..\..\Dependencies\Bullet\src\Extras\ConvexDecomposition;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;PLATFORM_WIN32;WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Anomalous\DiligentEngine\DiligentCore;C:\Anomalous\DiligentEngine\DiligentCore\Graphics\GraphicsEngineD3D11\interface;C:\Anomalous\DiligentEngine\DiligentCore\Graphics\GraphicsEngineD3DBase\interface;C:\Anomalous\DiligentEngine\DiligentCore\Graphics\GraphicsEngine\interface;C:\Anomalous\DiligentEngine\DiligentCore\Primitives\interface;C:\Anomalous\DiligentEngine\DiligentCore\Graphics\GraphicsEngineD3D12\interface;C:\Anomalous\DiligentEngine\DiligentCore\Graphics\GraphicsEngineOpenGL\interface;C:\Anomalous\DiligentEngine\DiligentCore\Graphics\GraphicsEngineVulkan\interface;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;PLATFORM_WIN32;WINDOWS;ENGINE_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
