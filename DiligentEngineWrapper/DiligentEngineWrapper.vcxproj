@@ -169,6 +169,7 @@
     <ClCompile Include="IObject.cpp" />
     <ClCompile Include="ISwapChain.cpp" />
     <ClCompile Include="ITextureView.cpp" />
+    <ClCompile Include="ShaderCreateInfo.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

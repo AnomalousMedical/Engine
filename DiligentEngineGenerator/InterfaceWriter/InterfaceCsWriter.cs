@@ -32,35 +32,7 @@ using Engine;
 
 namespace DiligentEngine
 {{");
-
-
-            if (code.BaseType != null)
-            {
-                writer.WriteLine($"    public partial class {code.Name} : {code.BaseType}");
-
-                writer.WriteLine(
-$@"    {{
-        public {code.Name}(IntPtr objPtr)
-            : base(objPtr)
-        {{
-
-        }}");
-            }
-            else
-            {
-                writer.WriteLine($"    public partial class {code.Name}");
-
-                writer.WriteLine(
-$@"    {{
-        internal protected IntPtr objPtr;
-
-        public IntPtr ObjPtr => objPtr;
-
-        public {code.Name}(IntPtr objPtr)
-        {{
-            this.objPtr = objPtr;
-        }}");
-            }
+            WriteClassDefinitionAndConstructors(code, writer);
 
             //Public interface
             foreach (var item in code.Methods)
@@ -69,7 +41,7 @@ $@"    {{
 
                 var sep = "";
 
-                foreach(var arg in item.Args)
+                foreach (var arg in item.Args)
                 {
                     writer.Write($"{sep}{GetCSharpType(arg.Type)} {arg.Name}");
                     sep = ", ";
@@ -91,7 +63,7 @@ $@"    {{
                 {
                     writer.Write($", {arg.Name}");
                     var pInvokeType = GetPInvokeType(arg);
-                    if(pInvokeType == "IntPtr")
+                    if (pInvokeType == "IntPtr")
                     {
                         writer.Write(".objPtr");
                     }
@@ -129,6 +101,37 @@ $@"    {{
             writer.WriteLine("    }");
 
             writer.WriteLine("}");
+        }
+
+        private static void WriteClassDefinitionAndConstructors(CodeInterface code, StreamWriter writer)
+        {
+            if (code.BaseType != null)
+            {
+                writer.WriteLine($"    public partial class {code.Name} : {code.BaseType}");
+
+                writer.WriteLine(
+$@"    {{
+        public {code.Name}(IntPtr objPtr)
+            : base(objPtr)
+        {{
+
+        }}");
+            }
+            else
+            {
+                writer.WriteLine($"    public partial class {code.Name}");
+
+                writer.WriteLine(
+$@"    {{
+        internal protected IntPtr objPtr;
+
+        public IntPtr ObjPtr => objPtr;
+
+        public {code.Name}(IntPtr objPtr)
+        {{
+            this.objPtr = objPtr;
+        }}");
+            }
         }
 
         private static String GetCSharpType(String type)

@@ -11,32 +11,27 @@ using Uint64 = System.UInt64;
 
 namespace DiligentEngine
 {
-    public partial class DeviceObjectAttribs
+    public partial class ShaderCreateInfo : IDisposable
     {
         internal protected IntPtr objPtr;
 
         public IntPtr ObjPtr => objPtr;
 
-        public DeviceObjectAttribs(IntPtr objPtr)
+        public ShaderCreateInfo()
         {
-            this.objPtr = objPtr;
+            this.objPtr = ShaderCreateInfo_Create();
         }
-        public String Name
+
+        public void Dispose()
         {
-            get
-            {
-                return DeviceObjectAttribs_Get_Name(this.objPtr);
-            }
-            set
-            {
-                DeviceObjectAttribs_Set_Name(this.objPtr, value);
-            }
+            ShaderCreateInfo_Delete(this.objPtr);
         }
 
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern String DeviceObjectAttribs_Get_Name(IntPtr objPtr);
+        private static extern IntPtr ShaderCreateInfo_Create();
+
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void DeviceObjectAttribs_Set_Name(IntPtr objPtr, String value);
+        private static extern void ShaderCreateInfo_Delete(IntPtr obj);
     }
 }

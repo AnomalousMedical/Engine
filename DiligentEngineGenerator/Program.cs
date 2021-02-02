@@ -57,17 +57,34 @@ namespace DiligentEngineGenerator
                 EnumWriter.Write(CLEAR_DEPTH_STENCIL_FLAGS, Path.Combine(baseEnumDir, $"{nameof(CLEAR_DEPTH_STENCIL_FLAGS)}.cs"));
             }
 
-            
 
 
-           //////////// Structs
 
-           var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
-            var DeviceObjectAttribs = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 1150, 1159);
-            StructCsWriter.Write(DeviceObjectAttribs, Path.Combine(baseStructDir, $"{nameof(DeviceObjectAttribs)}.cs"));
+            //////////// Structs
 
-            var BufferDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Buffer.h", 72, 108);
-            StructCsWriter.Write(BufferDesc, Path.Combine(baseStructDir, $"{nameof(BufferDesc)}.cs"));
+            var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
+            {
+                var DeviceObjectAttribs = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 1150, 1159);
+                StructCsWriter.Write(DeviceObjectAttribs, Path.Combine(baseStructDir, $"{nameof(DeviceObjectAttribs)}.cs"));
+            }
+
+            {
+                var BufferDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Buffer.h", 72, 108);
+                StructCsWriter.Write(BufferDesc, Path.Combine(baseStructDir, $"{nameof(BufferDesc)}.cs"));
+            }
+
+            {
+                var ShaderCreateInfo = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Shader.h", 223, 331);
+                var allowed = new List<String> { /*"CreateShader" */};
+                ShaderCreateInfo.Properties = ShaderCreateInfo.Properties
+                    .Where(i => allowed.Contains(i.Name)).ToList();
+                StructCsWriter.Write(ShaderCreateInfo, Path.Combine(baseStructDir, $"{nameof(ShaderCreateInfo)}.cs"), new TopStructCsWriter());
+                StructCppWriter.Write(ShaderCreateInfo, Path.Combine(baseCPlusPlusOutDir, $"{nameof(ShaderCreateInfo)}.cpp"), new List<String>()
+                {
+                    "Graphics/GraphicsEngine/interface/DeviceContext.h",
+                    "Color.h"
+                }, new TopStructCppWriter());
+            }
 
             //////////// Interfaces
             var baseCSharpInterfaceDir = Path.Combine(baseCSharpOutDir, "Interfaces");
@@ -123,7 +140,7 @@ namespace DiligentEngineGenerator
 
             {
                 var ITextureView = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/TextureView.h", 195, 227);
-                var allowedMethods = new List<String> {  };
+                var allowedMethods = new List<String> { };
                 ITextureView.Methods = ITextureView.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 InterfaceCsWriter.Write(ITextureView, Path.Combine(baseCSharpInterfaceDir, $"{nameof(ITextureView)}.cs"));
