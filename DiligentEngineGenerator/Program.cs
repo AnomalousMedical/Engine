@@ -44,12 +44,29 @@ namespace DiligentEngineGenerator
             //////////// Interfaces
             var baseInterfaceDir = Path.Combine(baseOutDir, "Interfaces");
 
-            var IRenderDevice = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/RenderDevice.h", 72, 330);
-            var allowedMethods = new List<String> { "CreateShader" };
-            IRenderDevice.Methods = IRenderDevice.Methods
-                .Where(i => false)
-                .Where(i => allowedMethods.Contains(i.Name)).ToList();
-            InterfaceCsWriter.Write(IRenderDevice, Path.Combine(baseInterfaceDir, $"{nameof(IRenderDevice)}.cs"));
+            {
+                var IRenderDevice = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/RenderDevice.h", 72, 330);
+                var allowedMethods = new List<String> { /*"CreateShader" */};
+                IRenderDevice.Methods = IRenderDevice.Methods
+                    .Where(i => allowedMethods.Contains(i.Name)).ToList();
+                InterfaceCsWriter.Write(IRenderDevice, Path.Combine(baseInterfaceDir, $"{nameof(IRenderDevice)}.cs"));
+            }
+
+            {
+                var IDeviceContext = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 1366, 2203);
+                var allowedMethods = new List<String> { };
+                IDeviceContext.Methods = IDeviceContext.Methods
+                    .Where(i => allowedMethods.Contains(i.Name)).ToList();
+                InterfaceCsWriter.Write(IDeviceContext, Path.Combine(baseInterfaceDir, $"{nameof(IDeviceContext)}.cs"));
+            }
+
+            {
+                var ISwapChain = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/SwapChain.h", 54, 119);
+                var allowedMethods = new List<String> { };
+                ISwapChain.Methods = ISwapChain.Methods
+                    .Where(i => allowedMethods.Contains(i.Name)).ToList();
+                InterfaceCsWriter.Write(ISwapChain, Path.Combine(baseInterfaceDir, $"{nameof(ISwapChain)}.cs"));
+            }
         }
     }
 }

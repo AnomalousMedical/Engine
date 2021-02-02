@@ -15,12 +15,12 @@ namespace DiligentEngine
         }
         public virtual void Dispose()
         {
-            DilligentObject_Release(objPtr);
+            IObject_Release(objPtr);
         }
 
         public IntPtr ObjPtr => objPtr;
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void DilligentObject_Release(IntPtr obj);
+        private static extern void IObject_Release(IntPtr obj);
     }
 }

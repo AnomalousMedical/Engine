@@ -10,11 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Enums\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\DiligentEngine\DiligentEngine.csproj" />
     <ProjectReference Include="..\Engine\Engine.csproj" />
+    <ProjectReference Include="..\OSPlatform\OSPlatform.csproj" />
   </ItemGroup>
 
 </Project>

@@ -9,7 +9,7 @@ namespace DiligentEngine
 #if STATIC_LINK
 		public const String LibraryName = "__Internal";
 #else
-        public const String LibraryName = "DilligentEngineWrapper";
+        public const String LibraryName = "DiligentEngineWrapper";
 #endif
     }
 }
