@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DiligentEngineGenerator
 {
-    class CodeEnum
+    class CodeStruct
     {
         public String BaseType { get; set; }
 
@@ -14,22 +14,22 @@ namespace DiligentEngineGenerator
 
         public String Comment { get; set; }
 
-        public List<EnumProperty> Properties { get; set; } = new List<EnumProperty>(); 
+        public List<StructProperty> Properties { get; set; } = new List<StructProperty>(); 
         
-        public static CodeEnum Find(String file, int startLine, int endLine)
+        public static CodeStruct Find(String file, int startLine, int endLine)
         {
             var commentBuilder = new StringBuilder();
             using var reader = new StreamReader(File.OpenRead(file));
             var lines = reader.ReadLines().Skip(startLine).Take(endLine - startLine);
-            CodeEnum codeEnum = new CodeEnum();
-            ICodeEnumParserState currentState = new StartEnumParseState();
+            CodeStruct code = new CodeStruct();
+            ICodeStructParserState currentState = new StartStructParseState();
 
             foreach (var line in lines.Select(l => l.Replace(";", "")))
             {
                 Console.WriteLine(line);
                 if (!String.IsNullOrWhiteSpace(line) && !CommentParser.Find(line, commentBuilder))
                 {
-                    currentState = currentState.Parse(line, commentBuilder, ref codeEnum);
+                    currentState = currentState.Parse(line, commentBuilder, ref code);
                     commentBuilder.Clear();
                     if (currentState == null)
                     {
@@ -38,16 +38,18 @@ namespace DiligentEngineGenerator
                 }
             }
 
-            return codeEnum;
+            return code;
         }
     }
 
-    class EnumProperty
+    class StructProperty
     {
         public String Comment { get; set; }
 
         public String Name { get; set; }
 
-        public String Value { get; set; }
+        public bool IsConst { get; set; }
+
+        public string Type { get; set; }
     }
 }

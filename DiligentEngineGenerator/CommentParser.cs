@@ -11,7 +11,7 @@ namespace DiligentEngineGenerator
             var trimmed = line.Trim();
             if (trimmed.StartsWith("///"))
             {
-                currentComment.AppendLine(trimmed.Substring(3));
+                currentComment.AppendLine(trimmed.Substring(3).Trim());
                 return true;
             }
             else

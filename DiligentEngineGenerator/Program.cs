@@ -12,7 +12,10 @@ namespace DiligentEngineGenerator
         {
             var baseDir = "C:/Anomalous/DiligentEngine";
 
-            var BUFFER_MODE = CodeEnum.FindEnum(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Buffer.h", 46, 71);
+            var BUFFER_MODE = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Buffer.h", 46, 71);
+
+            var BufferDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Buffer.h", 72, 108);
+            Console.Write(BufferDesc);
         }
     }
 }
