@@ -28,7 +28,7 @@ namespace DilligentEngine
 
         public IPipelineState OneShot(ISwapChain m_pSwapChain, IRenderDevice m_pDevice)
         {
-            return new IPipelineState(GraphicsPipelineStateCreateInfo_OneShot(m_pSwapChain.objPtr, m_pDevice.objPtr));
+            return new IPipelineState(GraphicsPipelineStateCreateInfo_OneShot(this.ptr, m_pSwapChain.objPtr, m_pDevice.objPtr));
         }
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -41,6 +41,6 @@ namespace DilligentEngine
         private static extern void GraphicsPipelineStateCreateInfo_LazySetup(IntPtr PSOCreateInfo, IntPtr m_pSwapChain, IntPtr m_pDevice, IntPtr pVS, IntPtr pPS);
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr GraphicsPipelineStateCreateInfo_OneShot(IntPtr m_pSwapChain, IntPtr m_pDevice);
+        private static extern IntPtr GraphicsPipelineStateCreateInfo_OneShot(IntPtr PSOCreateInfo, IntPtr m_pSwapChain, IntPtr m_pDevice);
     }
 }

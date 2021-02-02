@@ -92,11 +92,11 @@ void main(in  PSInput  PSIn,
 }
 )";
 
-extern "C" _AnomalousExport IPipelineState* GraphicsPipelineStateCreateInfo_OneShot(ISwapChain * m_pSwapChain, IRenderDevice* m_pDevice)
+extern "C" _AnomalousExport IPipelineState* GraphicsPipelineStateCreateInfo_OneShot(GraphicsPipelineStateCreateInfo * PSOCreateInfo, ISwapChain * m_pSwapChain, IRenderDevice* m_pDevice)
 {
     // Pipeline state object encompasses configuration of all GPU stages
 
-    GraphicsPipelineStateCreateInfo* PSOCreateInfo = new GraphicsPipelineStateCreateInfo;
+    //GraphicsPipelineStateCreateInfo* PSOCreateInfo = new GraphicsPipelineStateCreateInfo;
 
     // Pipeline state name is used by the engine to report issues.
     // It is always a good idea to give objects descriptive names.
@@ -151,7 +151,7 @@ extern "C" _AnomalousExport IPipelineState* GraphicsPipelineStateCreateInfo_OneS
     PSOCreateInfo->pVS = pVS;
     PSOCreateInfo->pPS = pPS;
     m_pDevice->CreateGraphicsPipelineState(*PSOCreateInfo, &m_pPSO);
-    delete PSOCreateInfo;
+    //delete PSOCreateInfo;
     pVS->Release();
     pPS->Release();
 
