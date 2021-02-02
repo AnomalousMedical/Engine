@@ -11,7 +11,7 @@ using Uint64 = System.UInt64;
 
 namespace DiligentEngine
 {
-    public class IDeviceContext :  IObject
+    public partial class IDeviceContext :  IObject
     {
         public IDeviceContext(IntPtr objPtr)
             : base(objPtr)

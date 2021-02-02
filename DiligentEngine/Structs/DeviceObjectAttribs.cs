@@ -11,7 +11,7 @@ using Uint64 = System.UInt64;
 
 namespace DiligentEngine
 {
-    public class DeviceObjectAttribs
+    public partial class DeviceObjectAttribs
     {
         internal protected IntPtr objPtr;
 

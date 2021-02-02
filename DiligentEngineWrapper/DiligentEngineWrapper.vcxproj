@@ -165,6 +165,7 @@
   <ItemGroup>
     <ClCompile Include="GenericEngineFactory.cpp" />
     <ClCompile Include="IDeviceContext.cpp" />
+    <ClCompile Include="IDeviceContext.Custom.cpp" />
     <ClCompile Include="IObject.cpp" />
     <ClCompile Include="ISwapChain.cpp" />
     <ClCompile Include="ITextureView.cpp" />

@@ -11,12 +11,16 @@ using Uint64 = System.UInt64;
 
 namespace DiligentEngine
 {
-    public class ISwapChain :  IObject
+    public partial class ISwapChain :  IObject
     {
         public ISwapChain(IntPtr objPtr)
             : base(objPtr)
         {
 
+        }
+        public void Present(Uint32 SyncInterval)
+        {
+            ISwapChain_Present(this.objPtr, SyncInterval);
         }
         public void Resize(Uint32 NewWidth, Uint32 NewHeight, SURFACE_TRANSFORM NewTransform)
         {
@@ -26,11 +30,19 @@ namespace DiligentEngine
         {
             return new ITextureView(ISwapChain_GetCurrentBackBufferRTV(this.objPtr));
         }
+        public ITextureView GetDepthBufferDSV()
+        {
+            return new ITextureView(ISwapChain_GetDepthBufferDSV(this.objPtr));
+        }
 
 
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void ISwapChain_Present(IntPtr objPtr, Uint32 SyncInterval);
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void ISwapChain_Resize(IntPtr objPtr, Uint32 NewWidth, Uint32 NewHeight, SURFACE_TRANSFORM NewTransform);
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr ISwapChain_GetCurrentBackBufferRTV(IntPtr objPtr);
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr ISwapChain_GetDepthBufferDSV(IntPtr objPtr);
     }
 }

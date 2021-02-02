@@ -11,7 +11,7 @@ using Uint64 = System.UInt64;
 
 namespace DiligentEngine
 {
-    public class IRenderDevice :  IObject
+    public partial class IRenderDevice :  IObject
     {
         public IRenderDevice(IntPtr objPtr)
             : base(objPtr)

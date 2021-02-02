@@ -11,14 +11,10 @@ using Uint64 = System.UInt64;
 
 namespace DiligentEngine
 {
-    public partial class ITextureView :  IDeviceObject
+    public enum RESOURCE_STATE_TRANSITION_MODE :  Uint8
     {
-        public ITextureView(IntPtr objPtr)
-            : base(objPtr)
-        {
-
-        }
-
-
+        RESOURCE_STATE_TRANSITION_MODE_NONE = 0,
+        RESOURCE_STATE_TRANSITION_MODE_TRANSITION,
+        RESOURCE_STATE_TRANSITION_MODE_VERIFY,
     }
 }

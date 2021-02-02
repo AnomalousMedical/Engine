@@ -47,9 +47,15 @@ namespace DiligentEngineGenerator
                 EnumWriter.Write(SURFACE_TRANSFORM, Path.Combine(baseEnumDir, $"{nameof(SURFACE_TRANSFORM)}.cs"));
             }
 
-            //////////// Structs
+            {
+                var RESOURCE_STATE_TRANSITION_MODE = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 133, 164);
+                EnumWriter.Write(RESOURCE_STATE_TRANSITION_MODE, Path.Combine(baseEnumDir, $"{nameof(RESOURCE_STATE_TRANSITION_MODE)}.cs"));
+            }
+            
 
-            var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
+           //////////// Structs
+
+           var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
             var DeviceObjectAttribs = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 1150, 1159);
             StructCsWriter.Write(DeviceObjectAttribs, Path.Combine(baseStructDir, $"{nameof(DeviceObjectAttribs)}.cs"));
 
@@ -69,7 +75,7 @@ namespace DiligentEngineGenerator
 
             {
                 var IDeviceContext = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 1366, 2203);
-                var allowedMethods = new List<String> { "Flush" };
+                var allowedMethods = new List<String> { "Flush", /*"SetRenderTargets"*/ };
                 IDeviceContext.Methods = IDeviceContext.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 InterfaceCsWriter.Write(IDeviceContext, Path.Combine(baseCSharpInterfaceDir, $"{nameof(IDeviceContext)}.cs"));
@@ -82,7 +88,7 @@ namespace DiligentEngineGenerator
 
             {
                 var IDeviceObject = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceObject.h", 50, 96);
-                var allowedMethods = new List<String> { "Resize", "GetCurrentBackBufferRTV" };
+                var allowedMethods = new List<String> { "Resize" };
                 IDeviceObject.Methods = IDeviceObject.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 InterfaceCsWriter.Write(IDeviceObject, Path.Combine(baseCSharpInterfaceDir, $"{nameof(IDeviceObject)}.cs"));
@@ -94,7 +100,7 @@ namespace DiligentEngineGenerator
 
             {
                 var ISwapChain = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/SwapChain.h", 54, 119);
-                var allowedMethods = new List<String> { "Resize", "GetCurrentBackBufferRTV" };
+                var allowedMethods = new List<String> { "Resize", "GetCurrentBackBufferRTV", "GetDepthBufferDSV", "Present" };
                 ISwapChain.Methods = ISwapChain.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 InterfaceCsWriter.Write(ISwapChain, Path.Combine(baseCSharpInterfaceDir, $"{nameof(ISwapChain)}.cs"));

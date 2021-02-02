@@ -51,9 +51,9 @@ namespace DiligentEngineTest
 
         public void sendUpdate(Clock clock)
         {
-            //var pRTV = swapChain.GetCurrentBackBufferRTV();
-            //var pDSV = swapChain.GetDepthBufferDSV();
-            //immediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            var pRTV = swapChain.GetCurrentBackBufferRTV();
+            var pDSV = swapChain.GetDepthBufferDSV();
+            immediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
             //var color = Color.LightBlue;
             //color.r = (color.r + (clock.CurrentTimeMicro % 3000000f) / 3000000f) % 1.0f;
@@ -74,7 +74,7 @@ namespace DiligentEngineTest
             ////drawAttrs.NumVertices = 3; // Render 3 vertices
             //immediateContext.Draw();
 
-            //this.swapChain.Present();
+            this.swapChain.Present(1);
         }
     }
 }

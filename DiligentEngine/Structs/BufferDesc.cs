@@ -11,7 +11,7 @@ using Uint64 = System.UInt64;
 
 namespace DiligentEngine
 {
-    public class BufferDesc : DeviceObjectAttribs
+    public partial class BufferDesc : DeviceObjectAttribs
     {
             public BufferDesc(IntPtr objPtr)
                 : base(objPtr)

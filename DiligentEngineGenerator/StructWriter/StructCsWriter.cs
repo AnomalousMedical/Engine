@@ -35,7 +35,7 @@ namespace DiligentEngine
 
             if (code.BaseType != null)
             {
-                writer.WriteLine($"    public class {code.Name} : {code.BaseType}");
+                writer.WriteLine($"    public partial class {code.Name} : {code.BaseType}");
 
                 writer.WriteLine(
 $@"    {{
@@ -47,7 +47,7 @@ $@"    {{
             }
             else
             {
-                writer.WriteLine($"    public class {code.Name}");
+                writer.WriteLine($"    public partial class {code.Name}");
 
                 writer.WriteLine(
 $@"    {{
