@@ -51,7 +51,7 @@ namespace DiligentEngineGenerator
                 var sep = "";
                 foreach (var arg in item.Args)
                 {
-                    writer.Write($"{sep}{arg.Name}");
+                    writer.Write($"{sep}{arg.CppPrefix}{arg.Name}");
                     sep = ", ";
                 }
                 writer.WriteLine(");");

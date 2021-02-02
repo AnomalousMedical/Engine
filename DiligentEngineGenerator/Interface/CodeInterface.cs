@@ -75,5 +75,7 @@ namespace DiligentEngineGenerator
         public bool IsPtr { get; set; }
 
         public bool IsPtrToPtr { get; set; }
+
+        public String CppPrefix { get; set; }
     }
 }

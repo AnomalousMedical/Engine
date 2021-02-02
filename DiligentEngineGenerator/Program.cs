@@ -51,7 +51,14 @@ namespace DiligentEngineGenerator
                 var RESOURCE_STATE_TRANSITION_MODE = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 133, 164);
                 EnumWriter.Write(RESOURCE_STATE_TRANSITION_MODE, Path.Combine(baseEnumDir, $"{nameof(RESOURCE_STATE_TRANSITION_MODE)}.cs"));
             }
+
+            {
+                var CLEAR_DEPTH_STENCIL_FLAGS = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 438, 450);
+                EnumWriter.Write(CLEAR_DEPTH_STENCIL_FLAGS, Path.Combine(baseEnumDir, $"{nameof(CLEAR_DEPTH_STENCIL_FLAGS)}.cs"));
+            }
+
             
+
 
            //////////// Structs
 
@@ -75,9 +82,13 @@ namespace DiligentEngineGenerator
 
             {
                 var IDeviceContext = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 1366, 2203);
-                var allowedMethods = new List<String> { "Flush", /*"SetRenderTargets"*/ };
+                var allowedMethods = new List<String> { "Flush", /*"SetRenderTargets", */ "ClearRenderTarget", "ClearDepthStencil" };
                 IDeviceContext.Methods = IDeviceContext.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
+                var rgbaArgs = IDeviceContext.Methods.First(i => i.Name == "ClearRenderTarget")
+                    .Args.First(i => i.Name == "RGBA");
+                rgbaArgs.Type = "Color";
+                rgbaArgs.CppPrefix = "(float*)&";
                 InterfaceCsWriter.Write(IDeviceContext, Path.Combine(baseCSharpInterfaceDir, $"{nameof(IDeviceContext)}.cs"));
                 InterfaceCppWriter.Write(IDeviceContext, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IDeviceContext)}.cpp"), new List<String>()
                 {

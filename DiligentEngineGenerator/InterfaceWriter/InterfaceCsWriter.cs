@@ -26,6 +26,7 @@ $@"using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using Engine;
 
 {DiligentTypeMapper.Usings}
 
@@ -89,6 +90,11 @@ $@"    {{
                 foreach (var arg in item.Args)
                 {
                     writer.Write($", {arg.Name}");
+                    var pInvokeType = GetPInvokeType(arg);
+                    if(pInvokeType == "IntPtr")
+                    {
+                        writer.Write(".objPtr");
+                    }
                 }
 
                 if (item.ReturnType != "void")
@@ -142,6 +148,8 @@ $@"    {{
             {
                 case "Char*":
                     return "String";
+                case "Color":
+                    return "Color";
             }
 
             if (arg.IsPtr)
