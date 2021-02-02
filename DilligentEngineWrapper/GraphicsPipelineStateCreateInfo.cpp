@@ -18,6 +18,35 @@ extern "C" _AnomalousExport void GraphicsPipelineStateCreateInfo_Delete(Graphics
 	delete obj;
 }
 
+extern "C" _AnomalousExport void GraphicsPipelineStateCreateInfo_LazySetup(GraphicsPipelineStateCreateInfo * PSOCreateInfo, ISwapChain* m_pSwapChain, IShader* pVS, IShader* pPS)
+{
+    // Pipeline state name is used by the engine to report issues.
+        // It is always a good idea to give objects descriptive names.
+    PSOCreateInfo->PSODesc.Name = "Simple triangle PSO";
+
+    // This is a graphics pipeline
+    PSOCreateInfo->PSODesc.PipelineType = PIPELINE_TYPE_GRAPHICS;
+
+    // clang-format off
+    // This tutorial will render to a single render target
+    PSOCreateInfo->GraphicsPipeline.NumRenderTargets = 1;
+    // Set render target format which is the format of the swap chain's color buffer
+    PSOCreateInfo->GraphicsPipeline.RTVFormats[0] = m_pSwapChain->GetDesc().ColorBufferFormat;
+    // Use the depth buffer format from the swap chain
+    PSOCreateInfo->GraphicsPipeline.DSVFormat = m_pSwapChain->GetDesc().DepthBufferFormat;
+    // Primitive topology defines what kind of primitives will be rendered by this pipeline state
+    PSOCreateInfo->GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+    // No back face culling for this tutorial
+    PSOCreateInfo->GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE_NONE;
+    // Disable depth testing
+    PSOCreateInfo->GraphicsPipeline.DepthStencilDesc.DepthEnable = False;
+    // clang-format on
+
+    // Finally, create the pipeline state
+    PSOCreateInfo->pVS = pVS;
+    PSOCreateInfo->pPS = pPS;
+}
+
 static const char* VSSource = R"(
 struct PSInput 
 { 
@@ -63,10 +92,14 @@ void main(in  PSInput  PSIn,
 }
 )";
 
-extern "C" _AnomalousExport void GraphicsPipelineStateCreateInfo_LazySetup(GraphicsPipelineStateCreateInfo * PSOCreateInfo, ISwapChain* m_pSwapChain, IShader* pVS, IShader* pPS)
+extern "C" _AnomalousExport IPipelineState* GraphicsPipelineStateCreateInfo_OneShot(ISwapChain * m_pSwapChain, IRenderDevice* m_pDevice)
 {
+    // Pipeline state object encompasses configuration of all GPU stages
+
+    GraphicsPipelineStateCreateInfo* PSOCreateInfo = new GraphicsPipelineStateCreateInfo;
+
     // Pipeline state name is used by the engine to report issues.
-        // It is always a good idea to give objects descriptive names.
+    // It is always a good idea to give objects descriptive names.
     PSOCreateInfo->PSODesc.Name = "Simple triangle PSO";
 
     // This is a graphics pipeline
@@ -87,7 +120,40 @@ extern "C" _AnomalousExport void GraphicsPipelineStateCreateInfo_LazySetup(Graph
     PSOCreateInfo->GraphicsPipeline.DepthStencilDesc.DepthEnable = False;
     // clang-format on
 
+    ShaderCreateInfo ShaderCI;
+    // Tell the system that the shader source code is in HLSL.
+    // For OpenGL, the engine will convert this into GLSL under the hood
+    ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
+    // OpenGL backend requires emulated combined HLSL texture samplers (g_Texture + g_Texture_sampler combination)
+    ShaderCI.UseCombinedTextureSamplers = true;
+    // Create a vertex shader
+    IShader* pVS = nullptr;
+    {
+        ShaderCI.Desc.ShaderType = SHADER_TYPE_VERTEX;
+        ShaderCI.EntryPoint = "main";
+        ShaderCI.Desc.Name = "Triangle vertex shader";
+        ShaderCI.Source = VSSource;
+        m_pDevice->CreateShader(ShaderCI, &pVS);
+    }
+
+    // Create a pixel shader
+    IShader* pPS = nullptr;
+    {
+        ShaderCI.Desc.ShaderType = SHADER_TYPE_PIXEL;
+        ShaderCI.EntryPoint = "main";
+        ShaderCI.Desc.Name = "Triangle pixel shader";
+        ShaderCI.Source = PSSource;
+        m_pDevice->CreateShader(ShaderCI, &pPS);
+    }
+
+    IPipelineState* m_pPSO = nullptr;
     // Finally, create the pipeline state
     PSOCreateInfo->pVS = pVS;
     PSOCreateInfo->pPS = pPS;
+    m_pDevice->CreateGraphicsPipelineState(*PSOCreateInfo, &m_pPSO);
+    delete PSOCreateInfo;
+    pVS->Release();
+    pPS->Release();
+
+    return m_pPSO;
 }
