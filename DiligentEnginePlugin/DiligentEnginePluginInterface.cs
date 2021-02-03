@@ -29,9 +29,9 @@ namespace DiligentEnginePlugin
             //serviceCollection.AddSingleton<ISwapChain>(s => this.engineFactory.SwapChain);
         }
 
-        public void link(PluginManager pluginManager)
+        public void link(PluginManager pluginManager, IServiceScope globalScope)
         {
-            var window = pluginManager.GlobalScope.ServiceProvider.GetRequiredService<NativeOSWindow>();
+            var window = globalScope.ServiceProvider.GetRequiredService<NativeOSWindow>();
             this.engineFactory.CreateDeviceAndSwapChain(window.WindowHandle);
 
             window.Resized += w =>

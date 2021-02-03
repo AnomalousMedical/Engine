@@ -20,7 +20,6 @@ namespace SoundPlugin
         private OpenALManager openALManager = null;
         private SoundUpdateListener soundUpdate;
         private UpdateTimer mainTimer;
-        private SoundManager soundManager;
         private OSWindow resourceWindow;
 
         public static SoundPluginInterface Instance { get; private set; }
@@ -49,13 +48,12 @@ namespace SoundPlugin
             serviceCollection.TryAddSingleton<SoundManager>();
         }
 
-        public void link(PluginManager pluginManager)
+        public void link(PluginManager pluginManager, IServiceScope globalScope)
         {
-            var globalScopeProvider = pluginManager.GlobalScope.ServiceProvider;
+            var globalScopeProvider = globalScope.ServiceProvider;
 
             openALManager = globalScopeProvider.GetRequiredService<OpenALManager>();
             soundUpdate = globalScopeProvider.GetRequiredService<SoundUpdateListener>();
-            soundManager = globalScopeProvider.GetRequiredService<SoundManager>();
 
             this.mainTimer = globalScopeProvider.GetRequiredService<UpdateTimer>();
             mainTimer.addUpdateListener(soundUpdate);

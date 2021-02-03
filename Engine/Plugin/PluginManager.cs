@@ -21,8 +21,6 @@ namespace Engine
     public class PluginManager : IDisposable
     {
         private List<PluginInterface> loadedPlugins = new List<PluginInterface>();
-        private List<Assembly> pluginAssemblies = new List<Assembly>();
-        private String pluginDirectory = null;
         private IServiceCollection serviceCollection;
         private ServiceProvider serviceProvider;
         private IServiceScope globalScope;
@@ -43,10 +41,6 @@ namespace Engine
         /// entire engine to dispose itself. After calling this the program needs to end or finish
         /// any additional cleanup it may need.
         /// </summary>
-        /// <remarks>
-        /// Internally this will end up being called twice. Once when the user disposes the PluginManager
-        /// and once when the di system disposes the actual instance.
-        /// </remarks>
         public void Dispose()
         {
             globalScope.Dispose();
@@ -61,30 +55,8 @@ namespace Engine
             ThreadManager.cancelAll();
         }
 
-        /// <summary>
-        /// Load all plugins for the assemblies that have been registered. This
-        /// should be called before any plugins are used at the start of the
-        /// program. The plugin assemblies need to be registered using
-        /// addPluginAssembly or by using a PluginLoader.
-        /// </summary>
-        public void initializePlugins()
+        public void InitializePlugins()
         {
-            foreach (Assembly assembly in pluginAssemblies)
-            {
-                PluginEntryPointAttribute[] attributes = (PluginEntryPointAttribute[])assembly.GetCustomAttributes(typeof(PluginEntryPointAttribute));
-                if (attributes.Length > 0)
-                {
-                    foreach (PluginEntryPointAttribute entryPointAttribute in attributes)
-                    {
-                        entryPointAttribute.createPluginInterfaces(this);
-                    }
-                }
-                else
-                {
-                    throw new InvalidPluginException(String.Format("Cannot find PluginEntryPointAttribute in assembly {0}. Please add this property to the assembly.", assembly.FullName));
-                }
-            }
-
             serviceProvider = serviceCollection.BuildServiceProvider();
             globalScope = serviceProvider.CreateScope();
 
@@ -92,30 +64,15 @@ namespace Engine
 
             foreach (var plugin in loadedPlugins)
             {
-                plugin.link(this);
+                plugin.link(this, globalScope);
             }
         }
 
-        /// <summary>
-        /// Add a plugin instance to this manager. This should be called inside
-        /// PluginEntryPoint subclasses. Doing it this way allows a dll to load
-        /// multiple plugins.
-        /// </summary>
-        /// <param name="plugin">The plugin to add.</param>
-        public void addPlugin(PluginInterface plugin)
+        public void AddPlugin(PluginInterface plugin)
         {
             logger?.LogInformation("Plugin {0} added.", plugin.Name);
             loadedPlugins.Add(plugin);
             plugin.initialize(this, serviceCollection);
-        }
-
-        /// <summary>
-        /// Add an assembly that will be searched for a plugin.
-        /// </summary>
-        /// <param name="assembly">The assembly to search.</param>
-        public void addPluginAssembly(Assembly assembly)
-        {
-            pluginAssemblies.Add(assembly);
         }
 
         public IServiceScope GlobalScope

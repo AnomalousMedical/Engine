@@ -59,7 +59,6 @@ namespace DiligentEngineTest
             log.LogInformation("Running from directory {0}", FolderFinder.ExecutableFolder);
 
             mainTimer = globalScope.ServiceProvider.GetRequiredService<UpdateTimer>();
-            var eventManager = globalScope.ServiceProvider.GetRequiredService<EventManager>();
 
             ////Setup framerate cap
             //if (PlatformConfig.FpsCap.HasValue)
@@ -78,8 +77,6 @@ namespace DiligentEngineTest
             //    //Otherwise config cap
             //    mainTimer.FramerateCap = CoreConfig.EngineConfig.FPSCap;
             //}
-
-            mainTimer.addUpdateListener(new EventUpdateListener(eventManager));
 
             var updateListener = globalScope.ServiceProvider.GetRequiredService<SimpleUpdateListener>();
             mainTimer.addUpdateListener(updateListener);

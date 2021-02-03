@@ -10,7 +10,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddDiligentEngine(this IServiceCollection services, PluginManager pluginManager)
         {
-            pluginManager.addPlugin(new DiligentEnginePluginInterface());
+            pluginManager.AddPlugin(new DiligentEnginePluginInterface());
 
             return services;
         }

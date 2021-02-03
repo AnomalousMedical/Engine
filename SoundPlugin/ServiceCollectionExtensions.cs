@@ -10,7 +10,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddSoundPlugin(this IServiceCollection services, PluginManager pluginManager)
         {
-            pluginManager.addPlugin(new SoundPluginInterface());
+            pluginManager.AddPlugin(new SoundPluginInterface());
 
             return services;
         }

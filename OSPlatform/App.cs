@@ -109,7 +109,7 @@ namespace Anomalous.OSPlatform
                 return result;
             }
 
-            pluginManager.initializePlugins();
+            pluginManager.InitializePlugins();
 
             result = OnLink(pluginManager.GlobalScope);
 
