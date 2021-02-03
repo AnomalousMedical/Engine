@@ -2,6 +2,14 @@
 #include "Graphics/GraphicsEngine/interface/DeviceContext.h"
 #include "Color.h"
 using namespace Diligent;
+extern "C" _AnomalousExport void IDeviceContext_SetPipelineState(
+	IDeviceContext* objPtr
+, IPipelineState* pPipelineState)
+{
+	objPtr->SetPipelineState(
+		pPipelineState
+	);
+}
 extern "C" _AnomalousExport void IDeviceContext_Draw(
 	IDeviceContext* objPtr
 	, Uint32 Attribs_NumVertices

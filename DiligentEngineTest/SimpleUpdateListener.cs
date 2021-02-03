@@ -141,14 +141,14 @@ void main(in  PSInput  PSIn,
             immediateContext.ClearRenderTarget(pRTV, color, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            //immediateContext.SetPipelineState(this.pipelineState);
+            immediateContext.SetPipelineState(this.pipelineState);
 
             //// Typically we should now call CommitShaderResources(), however shaders in this example don't
             //// use any resources.
 
-            ////DrawAttribs drawAttrs;
-            ////drawAttrs.NumVertices = 3; // Render 3 vertices
-            //immediateContext.Draw();
+            DrawAttribs drawAttrs = new DrawAttribs();
+            drawAttrs.NumVertices = 3; // Render 3 vertices
+            immediateContext.Draw(drawAttrs);
 
             this.swapChain.Present(1);
         }

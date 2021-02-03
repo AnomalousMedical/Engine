@@ -21,6 +21,13 @@ namespace DiligentEngine
         {
 
         }
+        public void SetPipelineState(IPipelineState pPipelineState)
+        {
+            IDeviceContext_SetPipelineState(
+                this.objPtr
+                , pPipelineState.objPtr
+            );
+        }
         public void Draw(DrawAttribs Attribs)
         {
             IDeviceContext_Draw(
@@ -60,6 +67,11 @@ namespace DiligentEngine
         }
 
 
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void IDeviceContext_SetPipelineState(
+            IntPtr objPtr
+            , IntPtr pPipelineState
+        );
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void IDeviceContext_Draw(
             IntPtr objPtr

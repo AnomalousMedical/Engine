@@ -330,7 +330,7 @@ namespace DiligentEngineGenerator
             {
                 var IDeviceContext = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 1366, 2203);
                 codeTypeInfo.Interfaces[nameof(IDeviceContext)] = IDeviceContext;
-                var allowedMethods = new List<String> { "Flush", /*"SetRenderTargets", */ "ClearRenderTarget", "ClearDepthStencil", "Draw" };
+                var allowedMethods = new List<String> { "Flush", /*"SetRenderTargets", */ "ClearRenderTarget", "ClearDepthStencil", "Draw", "SetPipelineState" };
                 IDeviceContext.Methods = IDeviceContext.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 var rgbaArgs = IDeviceContext.Methods.First(i => i.Name == "ClearRenderTarget")
