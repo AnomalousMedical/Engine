@@ -39,10 +39,5 @@ namespace DiligentEnginePlugin
                 this.engineFactory.SwapChain.Resize((uint)w.WindowWidth, (uint)w.WindowHeight, SURFACE_TRANSFORM.SURFACE_TRANSFORM_OPTIMAL);
             };
         }
-
-        public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
-        {
-
-        }
     }
 }

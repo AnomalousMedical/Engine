@@ -56,11 +56,8 @@ namespace SoundPlugin
             openALManager = globalScopeProvider.GetRequiredService<OpenALManager>();
             soundUpdate = globalScopeProvider.GetRequiredService<SoundUpdateListener>();
             soundManager = globalScopeProvider.GetRequiredService<SoundManager>();
-        }
 
-        public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
-        {
-            this.mainTimer = mainTimer;
+            this.mainTimer = globalScopeProvider.GetRequiredService<UpdateTimer>();
             mainTimer.addUpdateListener(soundUpdate);
         }
 

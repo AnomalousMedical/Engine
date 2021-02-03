@@ -33,15 +33,6 @@ namespace Engine
         void link(PluginManager pluginManager);
 
         /// <summary>
-        /// Set the classes from the platform that a plugin may be interested
-        /// in. The timer can be subscribed to for updates and the EventManager
-        /// will be updated with events every frame.
-        /// </summary>
-        /// <param name="mainTimer">The main update timer.</param>
-        /// <param name="eventManager">The main event manager.</param>
-        void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager);
-
-        /// <summary>
         /// Get a name for this plugin. Care should be taken that this return
         /// value is unique. The best way would be to name it after the plugin
         /// dll.

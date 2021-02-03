@@ -187,25 +187,6 @@ namespace Engine
             return null;
         }
 
-        /// <summary>
-        /// Set the classes from the platform that the plugins may be interested
-        /// in. The timer can be subscribed to for updates and the EventManager
-        /// will be updated with events every frame. This should be called as
-        /// soon as possible and before any plugins are used besides the
-        /// PlatformPlugin.
-        /// </summary>
-        /// <param name="mainTimer">The main update timer.</param>
-        /// <param name="eventManager">The main event manager.</param>
-        public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
-        {
-            GlobalContextEventHandler.setEventManager(eventManager);
-            foreach (PluginInterface plugin in loadedPlugins)
-            {
-                plugin.setPlatformInfo(mainTimer, eventManager);
-            }
-            mainTimer.addUpdateListener(new ThreadManagerUpdate());
-        }
-
         #endregion Functions
 
         #region Properties

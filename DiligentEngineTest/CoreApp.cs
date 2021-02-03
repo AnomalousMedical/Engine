@@ -39,7 +39,6 @@ namespace DiligentEngineTest
 
         public override bool OnInit()
         {
-            //startup.ConfigureServices(services);
             BuildPluginManager();
 
             //Create containers
@@ -50,8 +49,6 @@ namespace DiligentEngineTest
             mainTimer = scope.ServiceProvider.GetRequiredService<UpdateTimer>();
 
             PerformanceMonitor.setupEnabledState(scope.ServiceProvider.GetRequiredService<SystemTimer>());
-
-            //startup.Initialized(this, pluginManager);
 
             if (Initialized != null)
             {
@@ -133,10 +130,6 @@ namespace DiligentEngineTest
             pluginManager.addPluginAssembly(typeof(DiligentEnginePluginInterface).Assembly);
             pluginManager.addPluginAssembly(typeof(NativePlatformPlugin).Assembly);
             pluginManager.addPluginAssembly(typeof(SoundPluginInterface).Assembly);
-            //foreach(var assembly in startup.AdditionalPluginAssemblies)
-            //{
-            //    pluginManager.addPluginAssembly(assembly);
-            //}
             pluginManager.initializePlugins();
 
             var scope = pluginManager.GlobalScope;
@@ -170,7 +163,6 @@ namespace DiligentEngineTest
             //    mainTimer.FramerateCap = CoreConfig.EngineConfig.FPSCap;
             //}
 
-            pluginManager.setPlatformInfo(mainTimer, eventManager);
             mainTimer.addUpdateListener(new EventUpdateListener(eventManager));
 
             var updateListener = scope.ServiceProvider.GetRequiredService<SimpleUpdateListener>();

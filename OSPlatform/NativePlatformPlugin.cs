@@ -54,11 +54,6 @@ namespace Anomalous.OSPlatform
 
         }
 
-        public void setPlatformInfo(UpdateTimer mainTimer, EventManager eventManager)
-        {
-
-        }
-
         public string Name
         {
             get
