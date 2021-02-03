@@ -19,10 +19,32 @@ struct CreateDeviceAndSwapChainResult
 	ISwapChain* m_pSwapChain;
 };
 
-extern "C" _AnomalousExport CreateDeviceAndSwapChainResult GenericEngineFactory_CreateDeviceAndSwapChain(void* hWnd)
+extern "C" _AnomalousExport CreateDeviceAndSwapChainResult GenericEngineFactory_CreateDeviceAndSwapChain(
+	void* hWnd
+	, Uint32 Width
+	, Uint32 Height
+	, TEXTURE_FORMAT ColorBufferFormat
+	, TEXTURE_FORMAT DepthBufferFormat
+	, SWAP_CHAIN_USAGE_FLAGS Usage
+	, SURFACE_TRANSFORM PreTransform
+	, Uint32 BufferCount
+	, Float32 DefaultDepthValue
+	, Uint8 DefaultStencilValue
+	, bool IsPrimary
+)
 {
 	CreateDeviceAndSwapChainResult result;
 	SwapChainDesc SCDesc;
+	SCDesc.Width = Width;
+	SCDesc.Height = Height;
+	SCDesc.ColorBufferFormat = ColorBufferFormat;
+	SCDesc.DepthBufferFormat = DepthBufferFormat;
+	SCDesc.Usage = Usage;
+	SCDesc.PreTransform = PreTransform;
+	SCDesc.BufferCount = BufferCount;
+	SCDesc.DefaultDepthValue = DefaultDepthValue;
+	SCDesc.DefaultStencilValue = DefaultStencilValue;
+	SCDesc.IsPrimary = IsPrimary;
 
 #   if EXPLICITLY_LOAD_ENGINE_VK_DLL
 	// Load the dll and import GetEngineFactoryVk() function

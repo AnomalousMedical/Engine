@@ -161,9 +161,24 @@ namespace DiligentEngineGenerator
                 codeTypeInfo.Enums[nameof(DRAW_FLAGS)] = DRAW_FLAGS;
                 EnumWriter.Write(DRAW_FLAGS, Path.Combine(baseEnumDir, $"{nameof(DRAW_FLAGS)}.cs"));
             }
+
+            {
+                var SWAP_CHAIN_USAGE_FLAGS = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 1249, 1266);
+                codeTypeInfo.Enums[nameof(SWAP_CHAIN_USAGE_FLAGS)] = SWAP_CHAIN_USAGE_FLAGS;
+
+                foreach(var prop in SWAP_CHAIN_USAGE_FLAGS.Properties)
+                {
+                    if (prop.Value?.EndsWith("L") == true)
+                    {
+                        prop.Value = prop.Value.Substring(0, prop.Value.Length - 1);
+                    }
+                }
+
+                EnumWriter.Write(SWAP_CHAIN_USAGE_FLAGS, Path.Combine(baseEnumDir, $"{nameof(SWAP_CHAIN_USAGE_FLAGS)}.cs"));
+            }
+
+
             
-
-
 
            //////////// Structs
 
@@ -172,6 +187,15 @@ namespace DiligentEngineGenerator
                 var DeviceObjectAttribs = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 1150, 1159);
                 codeTypeInfo.Structs[nameof(DeviceObjectAttribs)] = DeviceObjectAttribs;
                 codeWriter.AddWriter(new StructCsWriter(DeviceObjectAttribs), Path.Combine(baseStructDir, $"{nameof(DeviceObjectAttribs)}.cs"));
+            }
+
+            {
+                var SwapChainDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 1301, 1345);
+                codeTypeInfo.Structs[nameof(SwapChainDesc)] = SwapChainDesc;
+
+                SwapChainDesc.Properties.First(i => i.Name == "DefaultDepthValue").DefaultValue = SwapChainDesc.Properties.First(i => i.Name == "DefaultDepthValue").DefaultValue.Replace(".f", "f");
+
+                codeWriter.AddWriter(new StructCsWriter(SwapChainDesc), Path.Combine(baseStructDir, $"{nameof(SwapChainDesc)}.cs"));
             }
 
             {

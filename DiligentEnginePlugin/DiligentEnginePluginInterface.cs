@@ -32,7 +32,8 @@ namespace DiligentEnginePlugin
         public void Link(PluginManager pluginManager, IServiceScope globalScope)
         {
             var window = globalScope.ServiceProvider.GetRequiredService<NativeOSWindow>();
-            this.engineFactory.CreateDeviceAndSwapChain(window.WindowHandle);
+            var swapChainDesc = new SwapChainDesc();
+            this.engineFactory.CreateDeviceAndSwapChain(window.WindowHandle, swapChainDesc);
 
             window.Resized += w =>
             {
