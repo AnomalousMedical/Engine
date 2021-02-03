@@ -14,7 +14,7 @@ namespace DiligentEngineTest
             try
             {
                 app = new CoreApp();
-                app.run();
+                app.Run();
             }
             catch (Exception e)
             {

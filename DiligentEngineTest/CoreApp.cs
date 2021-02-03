@@ -14,54 +14,30 @@ namespace DiligentEngineTest
 {
     public class CoreApp : App
     {
-        private PluginManager pluginManager;
         private NativeOSWindow mainWindow;
-
-        private IServiceCollection services = new ServiceCollection();
         private UpdateTimer mainTimer;
-
-        public event Action<CoreApp> Initialized;
 
         public CoreApp()
         {
-            services.TryAddSingleton<App>(this); //This is externally owned
-            services.TryAddSingleton<CoreApp>(this); //This is externally owned
+
         }
 
         public override void Dispose()
         {
             PerformanceMonitor.destroyEnabledState();
 
-            pluginManager.Dispose();
+            base.BeforeMainWindowDispose(); //replaces pluginManager.Dispose();, needs to be better
             mainWindow.Dispose();
             base.Dispose();
         }
 
-        public override bool OnInit()
+        public override bool OnInit(IServiceCollection services)
         {
-            BuildPluginManager();
+            services.TryAddSingleton<App>(this); //This is externally owned
+            services.TryAddSingleton<CoreApp>(this); //This is externally owned
 
-            //Create containers
-            var scope = this.pluginManager.GlobalScope;
-
-            //Build engine
-            var pluginManager = scope.ServiceProvider.GetRequiredService<PluginManager>();
-            mainTimer = scope.ServiceProvider.GetRequiredService<UpdateTimer>();
-
-            PerformanceMonitor.setupEnabledState(scope.ServiceProvider.GetRequiredService<SystemTimer>());
-
-            if (Initialized != null)
-            {
-                Initialized.Invoke(this);
-            }
-
-            return true;
-        }
-
-        private void BuildPluginManager()
-        {
             mainWindow = new NativeOSWindow("TEST APP TITLE",
-                new IntVector2(-1, -1), 
+                new IntVector2(-1, -1),
                 new IntSize2(1920, 1080));
 
             //if (CoreConfig.EngineConfig.Fullscreen)
@@ -79,14 +55,14 @@ namespace DiligentEngineTest
 
             services.TryAddSingleton<OSWindow>(mainWindow); //This is externally owned
             services.TryAddSingleton<NativeOSWindow>(mainWindow); //This is externally owned
-            
+
             mainWindow.Closed += w =>
             {
                 //if (PlatformConfig.CloseMainWindowOnShutdown)
                 {
                     mainWindow.close();
                 }
-                this.exit();
+                this.Exit();
             };
 
             //Setup DPI
@@ -103,7 +79,6 @@ namespace DiligentEngineTest
 
             ScaleHelper._setScaleFactor(pixelScale);
 
-            pluginManager = new PluginManager(services);
             services.AddLogging(o =>
             {
                 o.AddConsole();
@@ -126,21 +101,23 @@ namespace DiligentEngineTest
 
             services.TryAddSingleton<SimpleUpdateListener>();
 
-            //pluginManager.addPluginAssembly(typeof(BulletInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(DiligentEnginePluginInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(NativePlatformPlugin).Assembly);
-            pluginManager.addPluginAssembly(typeof(SoundPluginInterface).Assembly);
-            pluginManager.initializePlugins();
+            //addPluginAssembly(typeof(BulletInterface).Assembly);
+            addPluginAssembly(typeof(DiligentEnginePluginInterface).Assembly);
+            addPluginAssembly(typeof(NativePlatformPlugin).Assembly);
+            addPluginAssembly(typeof(SoundPluginInterface).Assembly);
 
-            var scope = pluginManager.GlobalScope;
+            return true;
+        }
 
-            var log = scope.ServiceProvider.GetRequiredService<ILogger<CoreApp>>();
+        public override bool OnLink(IServiceScope globalScope)
+        {
+            var log = globalScope.ServiceProvider.GetRequiredService<ILogger<CoreApp>>();
             log.LogInformation("Running from directory {0}", FolderFinder.ExecutableFolder);
 
-            var systemTimer = scope.ServiceProvider.GetRequiredService<SystemTimer>();
-            var mainTimer = scope.ServiceProvider.GetRequiredService<UpdateTimer>();
-            var inputHandler = this.InputHandler = scope.ServiceProvider.GetRequiredService<InputHandler>();
-            var eventManager = scope.ServiceProvider.GetRequiredService<EventManager>();
+            var systemTimer = globalScope.ServiceProvider.GetRequiredService<SystemTimer>();
+            mainTimer = globalScope.ServiceProvider.GetRequiredService<UpdateTimer>();
+            var inputHandler = this.InputHandler = globalScope.ServiceProvider.GetRequiredService<InputHandler>();
+            var eventManager = globalScope.ServiceProvider.GetRequiredService<EventManager>();
 
             //Intialize the platform
             //BulletInterface.Instance.ShapeMargin = 0.005f;
@@ -165,12 +142,16 @@ namespace DiligentEngineTest
 
             mainTimer.addUpdateListener(new EventUpdateListener(eventManager));
 
-            var updateListener = scope.ServiceProvider.GetRequiredService<SimpleUpdateListener>();
+            var updateListener = globalScope.ServiceProvider.GetRequiredService<SimpleUpdateListener>();
             mainTimer.addUpdateListener(updateListener);
 
             SoundConfig.MasterVolume = 1.0f;
 
             SoundPluginInterface.Instance.setResourceWindow(mainWindow);
+
+            PerformanceMonitor.setupEnabledState(globalScope.ServiceProvider.GetRequiredService<SystemTimer>());
+
+            return true;
         }
 
         public override int OnExit()
@@ -180,7 +161,7 @@ namespace DiligentEngineTest
 
         public override void OnIdle()
         {
-            mainTimer.OnIdle();
+            mainTimer?.OnIdle();
         }
 
         public InputHandler InputHandler { get; private set; }

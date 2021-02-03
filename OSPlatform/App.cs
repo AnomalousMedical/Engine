@@ -5,6 +5,9 @@ using System.Text;
 using System.Runtime.InteropServices;
 using Anomalous.Interop;
 using System.Diagnostics;
+using Engine;
+using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace Anomalous.OSPlatform
 {
@@ -17,10 +20,19 @@ namespace Anomalous.OSPlatform
         private bool restartAsAdmin = false;
         private String restartArgs = null;
 
+        private PluginManager pluginManager;
+        private IServiceCollection services = new ServiceCollection();
+
         public App()
         {
             appPtr = App_create();
             callbackHandler = new CallbackHandler(this);
+            pluginManager = new PluginManager(services);
+        }
+
+        public void BeforeMainWindowDispose()
+        {
+            pluginManager.Dispose();
         }
 
         public virtual void Dispose()
@@ -51,12 +63,17 @@ namespace Anomalous.OSPlatform
             }
         }
 
-        public void run()
+        protected void addPluginAssembly(Assembly assembly)
+        {
+            this.pluginManager.addPluginAssembly(assembly);
+        }
+
+        public void Run()
         {
             App_run(appPtr);
         }
 
-        public void exit()
+        public void Exit()
         {
             App_exit(appPtr);
         }
@@ -65,9 +82,9 @@ namespace Anomalous.OSPlatform
         /// Exit the app and set it up to restart when this App instance is disposed.
         /// </summary>
         /// <param name="asAdmin"></param>
-        public void restart(bool asAdmin, String args = null)
+        public void Restart(bool asAdmin, String args = null)
         {
-            exit();
+            Exit();
             restartOnShutdown = true;
             restartAsAdmin = asAdmin;
             restartArgs = args;
@@ -77,12 +94,30 @@ namespace Anomalous.OSPlatform
         /// Call this to cancel a restart request, only really makes sense in the OnExit callback,
         /// can be used to cancel app restarts for any reson.
         /// </summary>
-        public void cancelRestart()
+        public void CancelRestart()
         {
             restartOnShutdown = false;
         }
 
-        public abstract bool OnInit();
+        public bool OnInitCb()
+        {
+            var result = this.OnInit(services);
+
+            if (!result)
+            {
+                return result;
+            }
+
+            pluginManager.initializePlugins();
+
+            result = OnLink(pluginManager.GlobalScope);
+
+            return result;
+        }
+
+        public abstract bool OnInit(IServiceCollection services);
+
+        public abstract bool OnLink(IServiceScope globalScope);
 
         public abstract int OnExit();
 
@@ -224,7 +259,7 @@ namespace Anomalous.OSPlatform
 
             public CallbackHandler(App app)
             {
-                onInitCB = new OnInitDelegate(app.OnInit);
+                onInitCB = new OnInitDelegate(app.OnInitCb);
                 onExitCB = new OnExitDelegate(app.OnExit);
                 onIdleCB = new NativeAction(app.OnIdle);
                 onMovedToBackgroundCB = new NativeAction(app.OnMovedToBackground);

@@ -20,26 +20,6 @@ namespace Engine
     /// </summary>
     public class PluginManager : IDisposable
     {
-        #region Static
-
-        private static PluginManager instance;
-
-        /// <summary>
-        /// Get the singleton for the PluginManager. It must first be created in
-        /// a using statement with the constructor so it will be disposed.
-        /// </summary>
-        public static PluginManager Instance
-        {
-            get
-            {
-                return instance;
-            }
-        }
-
-        #endregion
-
-        #region Fields
-
         private List<PluginInterface> loadedPlugins = new List<PluginInterface>();
         private List<Assembly> pluginAssemblies = new List<Assembly>();
         private String pluginDirectory = null;
@@ -49,10 +29,6 @@ namespace Engine
         private bool shuttingDown = false; //This makes sure Shutdown is always called
         private ILogger<PluginManager> logger;
 
-        #endregion Fields
-
-        #region Constructors
-
         /// <summary>
         /// Constructor. Must be called once before plugins are used.
         /// </summary>
@@ -61,21 +37,7 @@ namespace Engine
             this.serviceCollection = serviceCollection;
             serviceCollection.TryAddSingleton<PluginManager>(this); //This is externally owned
             serviceCollection.TryAddSingleton<VirtualFileSystem>();
-
-            if (instance == null)
-            {
-                instance = this;
-
-            }
-            else
-            {
-                throw new InvalidPluginException("Can only call the constructor for the PluginManager one time");
-            }
         }
-
-        #endregion
-
-        #region Functions
 
         /// <summary>
         /// Dispose function. Calling this will dispose the global scope, which will cause the
@@ -170,43 +132,6 @@ namespace Engine
             pluginAssemblies.Add(assembly);
         }
 
-        /// <summary>
-        /// Get the plugin specified by path.
-        /// </summary>
-        /// <param name="name">The name of the plugin to get.</param>
-        /// <returns>The ElementPlugin if it is found or null if it is not.</returns>
-        public PluginInterface getPlugin(String name)
-        {
-            foreach (PluginInterface plugin in loadedPlugins)
-            {
-                if (plugin.Name == name)
-                {
-                    return plugin;
-                }
-            }
-            return null;
-        }
-
-        #endregion Functions
-
-        #region Properties
-
-        public String PluginDirectory
-        {
-            get
-            {
-                if (pluginDirectory == null)
-                {
-                    String[] args = Environment.GetCommandLineArgs();
-                    if (args.Length > 0)
-                    {
-                        pluginDirectory = Path.GetDirectoryName(args[0]);
-                    }
-                }
-                return pluginDirectory;
-            }
-        }
-
         public IServiceScope GlobalScope
         {
             get
@@ -214,7 +139,5 @@ namespace Engine
                 return globalScope;
             }
         }
-
-        #endregion Properties
     }
 }
