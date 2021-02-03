@@ -32,13 +32,13 @@ namespace DiligentEngine
             //Public interface
             foreach (var item in code.Methods)
             {
-                writer.Write($"        public {GetCSharpType(item.ReturnType)} {item.Name}(");
+                writer.Write($"        public {GetCSharpType(item.ReturnType, context)} {item.Name}(");
 
                 var sep = "";
 
                 foreach (var arg in item.Args)
                 {
-                    writer.Write($"{sep}{GetCSharpType(arg.Type)} {arg.Name}");
+                    writer.Write($"{sep}{GetCSharpType(arg.Type, context)} {arg.Name}");
                     sep = ", ";
                 }
 
@@ -47,30 +47,45 @@ namespace DiligentEngine
 
                 if (item.ReturnType != "void")
                 {
-                    writer.Write($"            return new {GetCSharpType(item.ReturnType)}({code.Name}_{item.Name}(this.objPtr");
+                    writer.WriteLine(
+@$"            return new {GetCSharpType(item.ReturnType, context)}({code.Name}_{item.Name}(
+                this.objPtr");
                 }
                 else
                 {
-                    writer.Write($"            {code.Name}_{item.Name}(this.objPtr");
+                    writer.WriteLine(
+@$"            {code.Name}_{item.Name}(
+                this.objPtr");
                 }
 
                 foreach (var arg in item.Args)
                 {
-                    writer.Write($", {arg.Name}");
-                    var pInvokeType = GetPInvokeType(arg);
-                    if (pInvokeType == "IntPtr")
+                    if (context.CodeTypeInfo.Structs.TryGetValue(arg.LookupType, out var structInfo))
                     {
-                        writer.Write(".objPtr");
+                        var argWriter = new StructCsFunctionCallArgsWriter(arg.Name, structInfo, "                ");
+                        argWriter.Render(writer, context);
+                    }
+                    else
+                    {
+                        writer.Write($"                , {arg.Name}");
+                        if(context.CodeTypeInfo.Interfaces.ContainsKey(arg.LookupType) || context.CodeTypeInfo.Structs.ContainsKey(arg.LookupType))
+                        {
+                            writer.WriteLine(".objPtr");
+                        }
+                        else
+                        {
+                            writer.WriteLine();
+                        }
                     }
                 }
 
                 if (item.ReturnType != "void")
                 {
-                    writer.WriteLine($"));");
+                    writer.WriteLine($"            ));");
                 }
                 else
                 {
-                    writer.WriteLine($");");
+                    writer.WriteLine($"            );");
                 }
 
                 writer.WriteLine("        }");
@@ -83,14 +98,24 @@ namespace DiligentEngine
             foreach (var item in code.Methods)
             {
                 writer.WriteLine("        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]");
-                writer.Write($"        private static extern {GetPInvokeType(item)} {code.Name}_{item.Name}(IntPtr objPtr");
+                writer.WriteLine(
+@$"        private static extern {GetPInvokeType(item, context)} {code.Name}_{item.Name}(
+            IntPtr objPtr");
 
                 foreach (var arg in item.Args)
                 {
-                    writer.Write($", {GetPInvokeType(arg)} {arg.Name}");
+                    if (context.CodeTypeInfo.Structs.TryGetValue(arg.LookupType, out var structInfo))
+                    {
+                        var argWriter = new StructCsFunctionSignatureArgsWriter(structInfo, "            ");
+                        argWriter.Render(writer, context);
+                    }
+                    else
+                    {
+                        writer.WriteLine($"            , {GetPInvokeType(arg, context)} {arg.Name}");
+                    }
                 }
 
-                writer.WriteLine($");");
+                writer.WriteLine($"        );");
             }
 
             writer.WriteLine("    }");
@@ -129,7 +154,7 @@ $@"    {{
             }
         }
 
-        private static String GetCSharpType(String type)
+        private static String GetCSharpType(String type, CodeRendererContext context)
         {
             switch (type)
             {
@@ -140,8 +165,13 @@ $@"    {{
             return type.Replace("*", "");
         }
 
-        private static String GetPInvokeType(InterfaceMethodArgument arg)
+        private static String GetPInvokeType(InterfaceMethodArgument arg, CodeRendererContext context)
         {
+            if (context.CodeTypeInfo.Interfaces.ContainsKey(arg.LookupType))
+            {
+                return "IntPtr";
+            }
+
             switch (arg.Type)
             {
                 case "Char*":
@@ -158,20 +188,25 @@ $@"    {{
             return arg.Type;
         }
 
-        private static String GetPInvokeType(InterfaceMethod arg)
+        private static String GetPInvokeType(InterfaceMethod method, CodeRendererContext context)
         {
-            switch (arg.ReturnType)
+            if (context.CodeTypeInfo.Interfaces.ContainsKey(method.LookupReturnType))
+            {
+                return "IntPtr";
+            }
+
+            switch (method.ReturnType)
             {
                 case "Char*":
                     return "String";
             }
 
-            if (arg.IsPtr)
+            if (method.IsPtr)
             {
                 return "IntPtr";
             }
 
-            return arg.ReturnType;
+            return method.ReturnType;
         }
     }
 }

@@ -51,6 +51,8 @@ namespace DiligentEngineGenerator
 
         public string ReturnType { get; set; }
 
+        public string LookupReturnType => ReturnType.Replace("*", "").Trim();
+
         public bool IsRef { get; set; }
 
         public bool IsConst { get; set; }
@@ -67,6 +69,8 @@ namespace DiligentEngineGenerator
         public String Name { get; set; }
 
         public string Type { get; set; }
+
+        public string LookupType => Type.Replace("*", "").Trim();
 
         public bool IsRef { get; set; }
 

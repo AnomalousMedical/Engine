@@ -21,29 +21,53 @@ namespace DiligentEngine
         }
         public void Present(Uint32 SyncInterval)
         {
-            ISwapChain_Present(this.objPtr, SyncInterval);
+            ISwapChain_Present(
+                this.objPtr
+                , SyncInterval
+            );
         }
         public void Resize(Uint32 NewWidth, Uint32 NewHeight, SURFACE_TRANSFORM NewTransform)
         {
-            ISwapChain_Resize(this.objPtr, NewWidth, NewHeight, NewTransform);
+            ISwapChain_Resize(
+                this.objPtr
+                , NewWidth
+                , NewHeight
+                , NewTransform
+            );
         }
         public ITextureView GetCurrentBackBufferRTV()
         {
-            return new ITextureView(ISwapChain_GetCurrentBackBufferRTV(this.objPtr));
+            return new ITextureView(ISwapChain_GetCurrentBackBufferRTV(
+                this.objPtr
+            ));
         }
         public ITextureView GetDepthBufferDSV()
         {
-            return new ITextureView(ISwapChain_GetDepthBufferDSV(this.objPtr));
+            return new ITextureView(ISwapChain_GetDepthBufferDSV(
+                this.objPtr
+            ));
         }
 
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void ISwapChain_Present(IntPtr objPtr, Uint32 SyncInterval);
+        private static extern void ISwapChain_Present(
+            IntPtr objPtr
+            , Uint32 SyncInterval
+        );
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void ISwapChain_Resize(IntPtr objPtr, Uint32 NewWidth, Uint32 NewHeight, SURFACE_TRANSFORM NewTransform);
+        private static extern void ISwapChain_Resize(
+            IntPtr objPtr
+            , Uint32 NewWidth
+            , Uint32 NewHeight
+            , SURFACE_TRANSFORM NewTransform
+        );
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr ISwapChain_GetCurrentBackBufferRTV(IntPtr objPtr);
+        private static extern IntPtr ISwapChain_GetCurrentBackBufferRTV(
+            IntPtr objPtr
+        );
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr ISwapChain_GetDepthBufferDSV(IntPtr objPtr);
+        private static extern IntPtr ISwapChain_GetDepthBufferDSV(
+            IntPtr objPtr
+        );
     }
 }

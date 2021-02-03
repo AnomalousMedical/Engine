@@ -167,6 +167,7 @@
     <ClCompile Include="IDeviceContext.cpp" />
     <ClCompile Include="IDeviceContext.Custom.cpp" />
     <ClCompile Include="IObject.cpp" />
+    <ClCompile Include="IShader.cpp" />
     <ClCompile Include="ISwapChain.cpp" />
     <ClCompile Include="ITextureView.cpp" />
     <ClCompile Include="ShaderCreateInfo.cpp" />

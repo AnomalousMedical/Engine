@@ -8,17 +8,19 @@ namespace DiligentEngineGenerator
     class StructCsFunctionSignatureArgsWriter : ICodeRenderer
     {
         private CodeStruct code;
+        private readonly string tabs;
 
-        public StructCsFunctionSignatureArgsWriter(CodeStruct code)
+        public StructCsFunctionSignatureArgsWriter(CodeStruct code, String tabs)
         {
             this.code = code;
+            this.tabs = tabs;
         }
 
         public void Render(TextWriter writer, CodeRendererContext context)
         {
             foreach (var item in code.Properties)
             {
-                writer.WriteLine($", {GetCSharpType(item.Type)} {code.Name}_{item.Name}");
+                writer.WriteLine($"{tabs}, {GetCSharpType(item.Type)} {code.Name}_{item.Name}");
             }
         }
 

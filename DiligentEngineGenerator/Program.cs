@@ -104,7 +104,12 @@ namespace DiligentEngineGenerator
             {
                 var IRenderDevice = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/RenderDevice.h", 72, 330);
                 codeTypeInfo.Interfaces[nameof(IRenderDevice)] = IRenderDevice;
-                var allowedMethods = new List<String> { /*"CreateShader" */};
+
+                var CreateShader = IRenderDevice.Methods.First(i => i.Name == "CreateShader");
+                CreateShader.ReturnType = "IShader";
+                CreateShader.Args = CreateShader.Args.Where(i => i.Name != "ppShader").ToList();
+
+                var allowedMethods = new List<String> { "CreateShader" };
                 IRenderDevice.Methods = IRenderDevice.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(IRenderDevice), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IRenderDevice)}.cs"));
@@ -164,6 +169,19 @@ namespace DiligentEngineGenerator
                 InterfaceCppWriter.Write(ITextureView, Path.Combine(baseCPlusPlusOutDir, $"{nameof(ITextureView)}.cpp"), new List<String>()
                 {
                     "Graphics/GraphicsEngine/interface/SwapChain.h"
+                });
+            }
+
+            {
+                var IShader = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Shader.h", 406, 423);
+                codeTypeInfo.Interfaces[nameof(IShader)] = IShader;
+                var allowedMethods = new List<String> {  };
+                IShader.Methods = IShader.Methods
+                    .Where(i => allowedMethods.Contains(i.Name)).ToList();
+                codeWriter.AddWriter(new InterfaceCsWriter(IShader), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IShader)}.cs"));
+                InterfaceCppWriter.Write(IShader, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IShader)}.cpp"), new List<String>()
+                {
+                    "Graphics/GraphicsEngine/interface/Shader.h"
                 });
             }
 

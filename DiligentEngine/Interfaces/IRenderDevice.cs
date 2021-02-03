@@ -19,7 +19,23 @@ namespace DiligentEngine
         {
 
         }
+        public IShader CreateShader(ShaderCreateInfo ShaderCI)
+        {
+            return new IShader(IRenderDevice_CreateShader(
+                this.objPtr
+                , ShaderCI.FilePath
+                , ShaderCI.Source
+                , ShaderCI.EntryPoint
+            ));
+        }
 
 
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr IRenderDevice_CreateShader(
+            IntPtr objPtr
+            , String ShaderCreateInfo_FilePath
+            , String ShaderCreateInfo_Source
+            , String ShaderCreateInfo_EntryPoint
+        );
     }
 }
