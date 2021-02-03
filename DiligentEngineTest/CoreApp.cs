@@ -98,9 +98,8 @@ namespace DiligentEngineTest
             //addPluginAssembly(typeof(BulletInterface).Assembly);
 
             services.AddDiligentEngine(pluginManager);
-
-            pluginManager.addPluginAssembly(typeof(NativePlatformPlugin).Assembly);
-            pluginManager.addPluginAssembly(typeof(SoundPluginInterface).Assembly);
+            services.AddOsPlatform(pluginManager);
+            services.AddSoundPlugin(pluginManager);
 
             return true;
         }
