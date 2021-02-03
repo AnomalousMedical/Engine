@@ -26,7 +26,6 @@ namespace Engine
         private IServiceCollection serviceCollection;
         private ServiceProvider serviceProvider;
         private IServiceScope globalScope;
-        private bool shuttingDown = false; //This makes sure Shutdown is always called
         private ILogger<PluginManager> logger;
 
         /// <summary>
@@ -50,29 +49,16 @@ namespace Engine
         /// </remarks>
         public void Dispose()
         {
-            if (shuttingDown)
-            {
-                //TODO: Refactor this to be less dumb logic wise.
-                //For ms di it seems like we can do this all at once, still investigating lifecycles.
-            }
-            else
-            {
-                //If we are not in dispose from a shutdown set this to true and dispose
-                //the di containers, that will eventually call the real dispose at the correct
-                //time for the shutdown order. This keeps the di system in charge of dispose
-                //order and keeps us from having to do other weird stuff.
-                shuttingDown = true;
-                globalScope.Dispose();
-                serviceProvider.Dispose();
+            globalScope.Dispose();
+            serviceProvider.Dispose();
 
-                //Unload plugins in reverse order
-                for (int i = loadedPlugins.Count - 1; i >= 0; --i)
-                {
-                    loadedPlugins[i].Dispose();
-                }
-                loadedPlugins.Clear();
-                ThreadManager.cancelAll();
+            //Unload plugins in reverse order
+            for (int i = loadedPlugins.Count - 1; i >= 0; --i)
+            {
+                loadedPlugins[i].Dispose();
             }
+            loadedPlugins.Clear();
+            ThreadManager.cancelAll();
         }
 
         /// <summary>
