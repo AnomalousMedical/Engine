@@ -5,21 +5,18 @@ using System.Text;
 
 namespace DiligentEngineGenerator
 {
-    static class InterfaceCppWriter
+    class InterfaceCppWriter : ICodeRenderer
     {
-        public static void Write(CodeInterface code, String file, IEnumerable<String> includeDirs)
-        {
-            var dir = Path.GetDirectoryName(file);
-            if (!Directory.Exists(dir))
-            {
-                Directory.CreateDirectory(dir);
-            }
+        private readonly CodeInterface code;
+        private readonly IEnumerable<string> includeDirs;
 
-            using var writer = new StreamWriter(File.Open(file, FileMode.Create, FileAccess.ReadWrite, FileShare.None));
-            Write(code, writer, includeDirs);
+        public InterfaceCppWriter(CodeInterface code, IEnumerable<String> includeDirs)
+        {
+            this.code = code;
+            this.includeDirs = includeDirs;
         }
 
-        public static void Write(CodeInterface code, StreamWriter writer, IEnumerable<String> includeDirs)
+        public void Render(TextWriter writer, CodeRendererContext context)
         {
             writer.WriteLine("#include \"StdAfx.h\"");
             foreach(var inc in includeDirs)

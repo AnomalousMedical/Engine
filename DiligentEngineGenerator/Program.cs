@@ -126,11 +126,12 @@ namespace DiligentEngineGenerator
                 rgbaArgs.Type = "Color";
                 rgbaArgs.CppPrefix = "(float*)&";
                 codeWriter.AddWriter(new InterfaceCsWriter(IDeviceContext), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IDeviceContext)}.cs"));
-                InterfaceCppWriter.Write(IDeviceContext, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IDeviceContext)}.cpp"), new List<String>()
+                var cppWriter = new InterfaceCppWriter(IDeviceContext, new List<String>()
                 {
                     "Graphics/GraphicsEngine/interface/DeviceContext.h",
                     "Color.h"
                 });
+                codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IDeviceContext)}.cpp"));
             }
 
             {
@@ -140,10 +141,11 @@ namespace DiligentEngineGenerator
                 IDeviceObject.Methods = IDeviceObject.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(IDeviceObject), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IDeviceObject)}.cs"));
-                InterfaceCppWriter.Write(IDeviceObject, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IDeviceObject)}.cpp"), new List<String>()
+                var cppWriter = new InterfaceCppWriter(IDeviceObject, new List<String>()
                 {
                     "Graphics/GraphicsEngine/interface/SwapChain.h"
                 });
+                codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IDeviceObject)}.cpp"));
             }
 
             {
@@ -153,10 +155,11 @@ namespace DiligentEngineGenerator
                 ISwapChain.Methods = ISwapChain.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(ISwapChain), Path.Combine(baseCSharpInterfaceDir, $"{nameof(ISwapChain)}.cs"));
-                InterfaceCppWriter.Write(ISwapChain, Path.Combine(baseCPlusPlusOutDir, $"{nameof(ISwapChain)}.cpp"), new List<String>()
+                var cppWriter = new InterfaceCppWriter(ISwapChain, new List<String>()
                 {
                     "Graphics/GraphicsEngine/interface/SwapChain.h"
                 });
+                codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(ISwapChain)}.cpp"));
             }
 
             {
@@ -166,10 +169,11 @@ namespace DiligentEngineGenerator
                 ITextureView.Methods = ITextureView.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(ITextureView), Path.Combine(baseCSharpInterfaceDir, $"{nameof(ITextureView)}.cs"));
-                InterfaceCppWriter.Write(ITextureView, Path.Combine(baseCPlusPlusOutDir, $"{nameof(ITextureView)}.cpp"), new List<String>()
+                var cppWriter = new InterfaceCppWriter(ITextureView, new List<String>()
                 {
                     "Graphics/GraphicsEngine/interface/SwapChain.h"
                 });
+                codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(ITextureView)}.cpp"));
             }
 
             {
@@ -179,10 +183,11 @@ namespace DiligentEngineGenerator
                 IShader.Methods = IShader.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(IShader), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IShader)}.cs"));
-                InterfaceCppWriter.Write(IShader, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IShader)}.cpp"), new List<String>()
+                var cppWriter = new InterfaceCppWriter(IShader, new List<String>()
                 {
                     "Graphics/GraphicsEngine/interface/Shader.h"
                 });
+                codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IShader)}.cpp"));
             }
 
             codeWriter.WriteFiles(new CodeRendererContext(codeTypeInfo));
