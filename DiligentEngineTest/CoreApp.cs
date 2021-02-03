@@ -96,7 +96,9 @@ namespace DiligentEngineTest
             services.TryAddSingleton<SimpleUpdateListener>();
 
             //addPluginAssembly(typeof(BulletInterface).Assembly);
-            pluginManager.addPluginAssembly(typeof(DiligentEnginePluginInterface).Assembly);
+
+            services.AddDiligentEngine(pluginManager);
+
             pluginManager.addPluginAssembly(typeof(NativePlatformPlugin).Assembly);
             pluginManager.addPluginAssembly(typeof(SoundPluginInterface).Assembly);
 
