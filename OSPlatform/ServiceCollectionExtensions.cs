@@ -11,50 +11,6 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class OSPlatformServiceCollectionExtensions
     {
-        /// <summary>
-        /// Create a native os window
-        /// </summary>
-        /// <param name="services"></param>
-        /// <returns></returns>
-        public static NativeOSWindow CreateAndAddNativeOSWindow(this IServiceCollection services, App app, Action<WindowOptions> configure = null)
-        {
-            var options = new WindowOptions();
-
-            configure?.Invoke(options);
-
-            var mainWindow = new NativeOSWindow(options.Title, options.Position, options.Size);
-            services.TryAddSingleton<OSWindow>(mainWindow); //This is externally owned
-            services.TryAddSingleton<NativeOSWindow>(mainWindow); //This is externally owned
-
-            if (options.Fullscreen)
-            {
-                mainWindow.setSize(options.FullScreenSize.Width, options.FullScreenSize.Height);
-                mainWindow.ExclusiveFullscreen = true;
-            }
-            else
-            {
-                mainWindow.Maximized = options.Maximized;
-            }
-            mainWindow.show();
-
-            mainWindow.Closed += w =>
-            {
-                mainWindow.close();
-                app.Exit();
-            };
-
-            //Setup DPI
-            float pixelScale = mainWindow.WindowScaling;
-            ScaleHelper._setScaleFactor(pixelScale);
-
-            return mainWindow;
-        }
-
-        public static void DestroyNativeOSWindow(NativeOSWindow window)
-        {
-            window.Dispose();
-        }
-
         public static IServiceCollection AddOSPlatform(this IServiceCollection services, PluginManager pluginManager, Action<OSPlatformOptions> configure = null)
         {
             var options = new OSPlatformOptions();

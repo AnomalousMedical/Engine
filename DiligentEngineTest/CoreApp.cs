@@ -27,13 +27,13 @@ namespace DiligentEngineTest
             PerformanceMonitor.destroyEnabledState();
 
             base.DisposeGlobalScope();
-            OSPlatformServiceCollectionExtensions.DestroyNativeOSWindow(mainWindow);
+            EasyNativeWindow.Destroy(mainWindow);
             base.FinalDispose();
         }
 
         public override bool OnInit(IServiceCollection services, PluginManager pluginManager)
         {
-            mainWindow = services.CreateAndAddNativeOSWindow(this, o =>
+            mainWindow = EasyNativeWindow.Create(services, this, o =>
             {
 
             });

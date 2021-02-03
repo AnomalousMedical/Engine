@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using Anomalous.OSPlatform;
 
-namespace DiligentEngineTest
+namespace Anomalous.OSPlatform
 {
     /// <summary>
     /// Provides a common shareable way of finding folders.
