@@ -156,11 +156,18 @@ namespace DiligentEngineGenerator
                 EnumWriter.Write(SHADER_RESOURCE_VARIABLE_TYPE, Path.Combine(baseEnumDir, $"{nameof(SHADER_RESOURCE_VARIABLE_TYPE)}.cs"));
             }
 
+            {
+                var DRAW_FLAGS = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 66, 128);
+                codeTypeInfo.Enums[nameof(DRAW_FLAGS)] = DRAW_FLAGS;
+                EnumWriter.Write(DRAW_FLAGS, Path.Combine(baseEnumDir, $"{nameof(DRAW_FLAGS)}.cs"));
+            }
             
 
-            //////////// Structs
 
-            var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
+
+           //////////// Structs
+
+           var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
             {
                 var DeviceObjectAttribs = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 1150, 1159);
                 codeTypeInfo.Structs[nameof(DeviceObjectAttribs)] = DeviceObjectAttribs;
@@ -212,6 +219,12 @@ namespace DiligentEngineGenerator
                 var DepthStencilStateDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DepthStencilState.h", 151, 188);
                 codeTypeInfo.Structs[nameof(DepthStencilStateDesc)] = DepthStencilStateDesc;
                 codeWriter.AddWriter(new StructCsWriter(DepthStencilStateDesc), Path.Combine(baseStructDir, $"{nameof(DepthStencilStateDesc)}.cs"));
+            }
+
+            {
+                var DrawAttribs = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 167, 188);
+                codeTypeInfo.Structs[nameof(DrawAttribs)] = DrawAttribs;
+                codeWriter.AddWriter(new StructCsWriter(DrawAttribs), Path.Combine(baseStructDir, $"{nameof(DrawAttribs)}.cs"));
             }
 
             //{
@@ -317,7 +330,7 @@ namespace DiligentEngineGenerator
             {
                 var IDeviceContext = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 1366, 2203);
                 codeTypeInfo.Interfaces[nameof(IDeviceContext)] = IDeviceContext;
-                var allowedMethods = new List<String> { "Flush", /*"SetRenderTargets", */ "ClearRenderTarget", "ClearDepthStencil" };
+                var allowedMethods = new List<String> { "Flush", /*"SetRenderTargets", */ "ClearRenderTarget", "ClearDepthStencil", "Draw" };
                 IDeviceContext.Methods = IDeviceContext.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 var rgbaArgs = IDeviceContext.Methods.First(i => i.Name == "ClearRenderTarget")
