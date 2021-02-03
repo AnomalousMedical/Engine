@@ -233,7 +233,7 @@ namespace DiligentEngineGenerator
             {
                 var ShaderCreateInfo = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Shader.h", 223, 331);
                 codeTypeInfo.Structs[nameof(ShaderCreateInfo)] = ShaderCreateInfo;
-                var skip = new List<String> { "pShaderSourceStreamFactory", "IHLSL2GLSLConversionStream**", "ByteCode", "ByteCodeSize", "Macros", "HLSLVersion", "ShaderCompiler" };
+                var skip = new List<String> { "pShaderSourceStreamFactory", "IHLSL2GLSLConversionStream**", "ByteCode", "ByteCodeSize", "Macros", "HLSLVersion", "ShaderCompiler", "GLSLVersion", "GLESSLVersion", "ppCompilerOutput" };
                 ShaderCreateInfo.Properties = ShaderCreateInfo.Properties
                     .Where(i => !skip.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new StructCsWriter(ShaderCreateInfo), Path.Combine(baseStructDir, $"{nameof(ShaderCreateInfo)}.cs"));
@@ -249,7 +249,7 @@ namespace DiligentEngineGenerator
                 var GraphicsPipelineDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 154, 214);
                 codeTypeInfo.Structs[nameof(GraphicsPipelineDesc)] = GraphicsPipelineDesc;
 
-                var remove = new List<String>() { "InputLayout", "RTVFormats[8]" };
+                var remove = new List<String>() { "InputLayout", "RTVFormats[8]", "pRenderPass" };
                 GraphicsPipelineDesc.Properties = GraphicsPipelineDesc.Properties.Where(i => !remove.Contains(i.Name)).ToList();
 
                 codeWriter.AddWriter(new StructCsWriter(GraphicsPipelineDesc), Path.Combine(baseStructDir, $"{nameof(GraphicsPipelineDesc)}.cs"));
@@ -272,7 +272,13 @@ namespace DiligentEngineGenerator
                 codeTypeInfo.Structs[nameof(PipelineStateDesc)] = PipelineStateDesc;
                 codeWriter.AddWriter(new StructCsWriter(PipelineStateDesc), Path.Combine(baseStructDir, $"{nameof(PipelineStateDesc)}.cs"));
             }
-            
+
+            {
+                var SampleDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 52, 61);
+                codeTypeInfo.Structs[nameof(SampleDesc)] = SampleDesc;
+                codeWriter.AddWriter(new StructCsWriter(SampleDesc), Path.Combine(baseStructDir, $"{nameof(SampleDesc)}.cs"));
+            }
+
             //////////// Interfaces
             var baseCSharpInterfaceDir = Path.Combine(baseCSharpOutDir, "Interfaces");
 
@@ -280,11 +286,21 @@ namespace DiligentEngineGenerator
                 var IRenderDevice = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/RenderDevice.h", 72, 330);
                 codeTypeInfo.Interfaces[nameof(IRenderDevice)] = IRenderDevice;
 
-                var CreateShader = IRenderDevice.Methods.First(i => i.Name == "CreateShader");
-                CreateShader.ReturnType = "IShader*";
-                var ppShader = CreateShader.Args.First(i => i.Name == "ppShader");
-                ppShader.MakeReturnVal = true;
-                ppShader.Type = "IShader*";
+                {
+                    var CreateShader = IRenderDevice.Methods.First(i => i.Name == "CreateShader");
+                    CreateShader.ReturnType = "IShader*";
+                    var ppShader = CreateShader.Args.First(i => i.Name == "ppShader");
+                    ppShader.MakeReturnVal = true;
+                    ppShader.Type = "IShader*";
+                }
+
+                {
+                    var CreateGraphicsPipelineState = IRenderDevice.Methods.First(i => i.Name == "CreateGraphicsPipelineState");
+                    CreateGraphicsPipelineState.ReturnType = "IPipelineState*";
+                    var ppPipelineState = CreateGraphicsPipelineState.Args.First(i => i.Name == "ppPipelineState");
+                    ppPipelineState.MakeReturnVal = true;
+                    ppPipelineState.Type = "IPipelineState*";
+                }
 
                 var allowedMethods = new List<String> { "CreateShader", "CreateGraphicsPipelineState" };
                 IRenderDevice.Methods = IRenderDevice.Methods
@@ -326,7 +342,7 @@ namespace DiligentEngineGenerator
                 codeWriter.AddWriter(new InterfaceCsWriter(IDeviceObject), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IDeviceObject)}.cs"));
                 var cppWriter = new InterfaceCppWriter(IDeviceObject, new List<String>()
                 {
-                    "Graphics/GraphicsEngine/interface/SwapChain.h"
+                    "Graphics/GraphicsEngine/interface/DeviceObject.h"
                 });
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IDeviceObject)}.cpp"));
             }
@@ -354,7 +370,7 @@ namespace DiligentEngineGenerator
                 codeWriter.AddWriter(new InterfaceCsWriter(ITextureView), Path.Combine(baseCSharpInterfaceDir, $"{nameof(ITextureView)}.cs"));
                 var cppWriter = new InterfaceCppWriter(ITextureView, new List<String>()
                 {
-                    "Graphics/GraphicsEngine/interface/SwapChain.h"
+                    "Graphics/GraphicsEngine/interface/TextureView.h"
                 });
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(ITextureView)}.cpp"));
             }
@@ -372,6 +388,21 @@ namespace DiligentEngineGenerator
                 });
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IShader)}.cpp"));
             }
+
+            {
+                var IPipelineState = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 510, 604);
+                codeTypeInfo.Interfaces[nameof(IPipelineState)] = IPipelineState;
+                var allowedMethods = new List<String> { };
+                IPipelineState.Methods = IPipelineState.Methods
+                    .Where(i => allowedMethods.Contains(i.Name)).ToList();
+                codeWriter.AddWriter(new InterfaceCsWriter(IPipelineState), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IPipelineState)}.cs"));
+                var cppWriter = new InterfaceCppWriter(IPipelineState, new List<String>()
+                {
+                    "Graphics/GraphicsEngine/interface/PipelineState.h"
+                });
+                codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IPipelineState)}.cpp"));
+            }
+            
 
             codeWriter.WriteFiles(new CodeRendererContext(codeTypeInfo));
         }

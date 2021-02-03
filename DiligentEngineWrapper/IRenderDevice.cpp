@@ -30,7 +30,7 @@ extern "C" _AnomalousExport IShader* IRenderDevice_CreateShader(
 	);
 	return ppShader;
 }
-extern "C" _AnomalousExport void IRenderDevice_CreateGraphicsPipelineState(
+extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipelineState(
 	IRenderDevice* objPtr
 	, Bool PSOCreateInfo_GraphicsPipeline_BlendDesc_AlphaToCoverageEnable
 	, Bool PSOCreateInfo_GraphicsPipeline_BlendDesc_IndependentBlendEnable
@@ -62,6 +62,10 @@ extern "C" _AnomalousExport void IRenderDevice_CreateGraphicsPipelineState(
 	, Uint8 PSOCreateInfo_GraphicsPipeline_NumViewports
 	, Uint8 PSOCreateInfo_GraphicsPipeline_NumRenderTargets
 	, Uint8 PSOCreateInfo_GraphicsPipeline_SubpassIndex
+	, TEXTURE_FORMAT PSOCreateInfo_GraphicsPipeline_DSVFormat
+	, Uint8 PSOCreateInfo_GraphicsPipeline_SmplDesc_Count
+	, Uint8 PSOCreateInfo_GraphicsPipeline_SmplDesc_Quality
+	, Uint32 PSOCreateInfo_GraphicsPipeline_NodeMask
 	, IShader* PSOCreateInfo_pVS
 	, IShader* PSOCreateInfo_pPS
 	, IShader* PSOCreateInfo_pDS
@@ -77,7 +81,7 @@ extern "C" _AnomalousExport void IRenderDevice_CreateGraphicsPipelineState(
 	, Uint32 PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers
 	, Char* PSOCreateInfo_PSODesc_Name
 	, PSO_CREATE_FLAGS PSOCreateInfo_Flags
-, IPipelineState** ppPipelineState)
+)
 {
 	GraphicsPipelineStateCreateInfo PSOCreateInfo;
 	PSOCreateInfo.GraphicsPipeline.BlendDesc.AlphaToCoverageEnable = PSOCreateInfo_GraphicsPipeline_BlendDesc_AlphaToCoverageEnable;
@@ -110,6 +114,10 @@ extern "C" _AnomalousExport void IRenderDevice_CreateGraphicsPipelineState(
 	PSOCreateInfo.GraphicsPipeline.NumViewports = PSOCreateInfo_GraphicsPipeline_NumViewports;
 	PSOCreateInfo.GraphicsPipeline.NumRenderTargets = PSOCreateInfo_GraphicsPipeline_NumRenderTargets;
 	PSOCreateInfo.GraphicsPipeline.SubpassIndex = PSOCreateInfo_GraphicsPipeline_SubpassIndex;
+	PSOCreateInfo.GraphicsPipeline.DSVFormat = PSOCreateInfo_GraphicsPipeline_DSVFormat;
+	PSOCreateInfo.GraphicsPipeline.SmplDesc.Count = PSOCreateInfo_GraphicsPipeline_SmplDesc_Count;
+	PSOCreateInfo.GraphicsPipeline.SmplDesc.Quality = PSOCreateInfo_GraphicsPipeline_SmplDesc_Quality;
+	PSOCreateInfo.GraphicsPipeline.NodeMask = PSOCreateInfo_GraphicsPipeline_NodeMask;
 	PSOCreateInfo.pVS = PSOCreateInfo_pVS;
 	PSOCreateInfo.pPS = PSOCreateInfo_pPS;
 	PSOCreateInfo.pDS = PSOCreateInfo_pDS;
@@ -125,8 +133,10 @@ extern "C" _AnomalousExport void IRenderDevice_CreateGraphicsPipelineState(
 	PSOCreateInfo.PSODesc.ResourceLayout.NumImmutableSamplers = PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers;
 	PSOCreateInfo.PSODesc.Name = PSOCreateInfo_PSODesc_Name;
 	PSOCreateInfo.Flags = PSOCreateInfo_Flags;
+	IPipelineState* ppPipelineState = nullptr;
 	objPtr->CreateGraphicsPipelineState(
 		PSOCreateInfo
-		, ppPipelineState
+		, &ppPipelineState
 	);
+	return ppPipelineState;
 }

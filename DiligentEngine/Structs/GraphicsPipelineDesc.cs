@@ -28,6 +28,9 @@ namespace DiligentEngine
         public Uint8 NumViewports { get; set; } = 1;
         public Uint8 NumRenderTargets { get; set; } = 0;
         public Uint8 SubpassIndex { get; set; } = 0;
+        public TEXTURE_FORMAT DSVFormat { get; set; } = TEXTURE_FORMAT.TEX_FORMAT_UNKNOWN;
+        public SampleDesc SmplDesc { get; set; } = new SampleDesc();
+        public Uint32 NodeMask { get; set; } = 0;
 
 
     }

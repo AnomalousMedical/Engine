@@ -48,7 +48,7 @@ namespace DiligentEngineGenerator
                 }
             }
 
-            if (line.Contains("}"))
+            if (line.Contains("}") && !line.Contains(DEFAULT_INITIALIZER))
             {
                 return null;
             }

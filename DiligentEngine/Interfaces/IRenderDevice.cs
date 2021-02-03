@@ -35,9 +35,9 @@ namespace DiligentEngine
                 , ShaderCI.SourceLanguage
             ));
         }
-        public void CreateGraphicsPipelineState(GraphicsPipelineStateCreateInfo PSOCreateInfo, IPipelineState ppPipelineState)
+        public IPipelineState CreateGraphicsPipelineState(GraphicsPipelineStateCreateInfo PSOCreateInfo)
         {
-            IRenderDevice_CreateGraphicsPipelineState(
+            return new IPipelineState(IRenderDevice_CreateGraphicsPipelineState(
                 this.objPtr
                 , PSOCreateInfo.GraphicsPipeline.BlendDesc.AlphaToCoverageEnable
                 , PSOCreateInfo.GraphicsPipeline.BlendDesc.IndependentBlendEnable
@@ -69,6 +69,10 @@ namespace DiligentEngine
                 , PSOCreateInfo.GraphicsPipeline.NumViewports
                 , PSOCreateInfo.GraphicsPipeline.NumRenderTargets
                 , PSOCreateInfo.GraphicsPipeline.SubpassIndex
+                , PSOCreateInfo.GraphicsPipeline.DSVFormat
+                , PSOCreateInfo.GraphicsPipeline.SmplDesc.Count
+                , PSOCreateInfo.GraphicsPipeline.SmplDesc.Quality
+                , PSOCreateInfo.GraphicsPipeline.NodeMask
                 , PSOCreateInfo.pVS.objPtr
                 , PSOCreateInfo.pPS.objPtr
                 , PSOCreateInfo.pDS.objPtr
@@ -84,8 +88,7 @@ namespace DiligentEngine
                 , PSOCreateInfo.PSODesc.ResourceLayout.NumImmutableSamplers
                 , PSOCreateInfo.PSODesc.Name
                 , PSOCreateInfo.Flags
-                , ppPipelineState
-            );
+            ));
         }
 
 
@@ -102,7 +105,7 @@ namespace DiligentEngine
             , SHADER_SOURCE_LANGUAGE ShaderCI_SourceLanguage
         );
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void IRenderDevice_CreateGraphicsPipelineState(
+        private static extern IntPtr IRenderDevice_CreateGraphicsPipelineState(
             IntPtr objPtr
             , Bool PSOCreateInfo_GraphicsPipeline_BlendDesc_AlphaToCoverageEnable
             , Bool PSOCreateInfo_GraphicsPipeline_BlendDesc_IndependentBlendEnable
@@ -134,6 +137,10 @@ namespace DiligentEngine
             , Uint8 PSOCreateInfo_GraphicsPipeline_NumViewports
             , Uint8 PSOCreateInfo_GraphicsPipeline_NumRenderTargets
             , Uint8 PSOCreateInfo_GraphicsPipeline_SubpassIndex
+            , TEXTURE_FORMAT PSOCreateInfo_GraphicsPipeline_DSVFormat
+            , Uint8 PSOCreateInfo_GraphicsPipeline_SmplDesc_Count
+            , Uint8 PSOCreateInfo_GraphicsPipeline_SmplDesc_Quality
+            , Uint32 PSOCreateInfo_GraphicsPipeline_NodeMask
             , IntPtr PSOCreateInfo_pVS
             , IntPtr PSOCreateInfo_pPS
             , IntPtr PSOCreateInfo_pDS
@@ -149,7 +156,6 @@ namespace DiligentEngine
             , Uint32 PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers
             , String PSOCreateInfo_PSODesc_Name
             , PSO_CREATE_FLAGS PSOCreateInfo_Flags
-            , IntPtr ppPipelineState
         );
     }
 }
