@@ -50,35 +50,24 @@ namespace DiligentEngineGenerator
                     attrs = "[MarshalAs(UnmanagedType.I1)]";
                 }
 
-                writer.WriteLine($"{tabs}, {attrs}{GetCSharpType(item.Type)} {argName}_{item.Name}");
+                writer.WriteLine($"{tabs}, {attrs}{GetCSharpType(item, context)} {argName}_{item.Name}");
             }
         }
 
-        private static String GetCSharpType(String type)
+        private static String GetCSharpType(StructProperty item, CodeRendererContext context)
         {
-            switch (type)
+            if (context.CodeTypeInfo.Interfaces.ContainsKey(item.LookupType))
+            {
+                return "IntPtr";
+            }
+
+            switch (item.Type)
             {
                 case "Char*":
                     return "String";
             }
 
-            return type;
-        }
-
-        private static String GetPInvokeType(StructProperty arg)
-        {
-            switch (arg.Type)
-            {
-                case "Char*":
-                    return "String";
-            }
-
-            //if (arg.IsPtr)
-            //{
-            //    return "IntPtr";
-            //}
-
-            return arg.Type;
+            return item.Type;
         }
     }
 }

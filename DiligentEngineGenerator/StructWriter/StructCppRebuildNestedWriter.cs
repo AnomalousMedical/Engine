@@ -41,7 +41,7 @@ namespace DiligentEngineGenerator
         {
             if (context.CodeTypeInfo.Structs.TryGetValue(item.LookupType, out var st))
             {
-                var nestedWriter = new StructCppRebuildNestedWriter($"{argName}.{item.Name}", $"{argName}_{item.Name}", st, tabs);
+                var nestedWriter = new StructCppRebuildNestedWriter($"{setName}.{item.Name}", $"{argName}_{item.Name}", st, tabs);
                 nestedWriter.Render(writer, context);
             }
             else

@@ -42,6 +42,10 @@ namespace DiligentEngineGenerator
                 var nestedWriter = new StructCsFunctionCallArgsWriter($"{argName}.{item.Name}", st, tabs);
                 nestedWriter.Render(writer, context);
             }
+            else if (context.CodeTypeInfo.Interfaces.TryGetValue(item.LookupType, out var iface))
+            {
+                writer.WriteLine($"{tabs}, {argName}.{item.Name}.objPtr");
+            }
             else
             {
                 writer.WriteLine($"{tabs}, {argName}.{item.Name}");

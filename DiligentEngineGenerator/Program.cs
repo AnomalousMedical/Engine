@@ -286,7 +286,7 @@ namespace DiligentEngineGenerator
                 ppShader.MakeReturnVal = true;
                 ppShader.Type = "IShader*";
 
-                var allowedMethods = new List<String> { "CreateShader" };
+                var allowedMethods = new List<String> { "CreateShader", "CreateGraphicsPipelineState" };
                 IRenderDevice.Methods = IRenderDevice.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(IRenderDevice), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IRenderDevice)}.cs"));
