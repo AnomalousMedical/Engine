@@ -43,19 +43,8 @@ namespace DiligentEngineTest
                 o.AddConsole();
             });
 
-            services.TryAddSingleton<InputHandler>(s =>
-            {
-                bool makeConfig_EnableMultitouch = false;
-                return new NativeInputHandler(s.GetRequiredService<NativeOSWindow>(), makeConfig_EnableMultitouch, s.GetRequiredService<ILogger<NativeInputHandler>>());
-            });
-
-            services.TryAddSingleton<EventManager>(s =>
-            {
-                return new EventManager(s.GetRequiredService<InputHandler>(), Enum.GetValues(typeof(EventLayers)), s.GetRequiredService<ILogger<EventManager>>());
-            });
-
             services.AddDiligentEngine(pluginManager);
-            services.AddOsPlatform(pluginManager);
+            services.AddOSPlatform(pluginManager);
             services.AddSoundPlugin(pluginManager);
 
             //Add this app's services

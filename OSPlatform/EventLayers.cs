@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiligentEngineTest
+namespace Anomalous.OSPlatform
 {
     public enum EventLayers
     {

@@ -2,6 +2,7 @@
 using Engine;
 using Engine.Platform;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,11 +16,11 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static NativeOSWindow CreateAndAddNativeOSWindow(this IServiceCollection services, App app, Action<WindowOptions> configureWindowOptions = null)
+        public static NativeOSWindow CreateAndAddNativeOSWindow(this IServiceCollection services, App app, Action<WindowOptions> configure = null)
         {
             var options = new WindowOptions();
 
-            configureWindowOptions?.Invoke(options);
+            configure?.Invoke(options);
 
             var mainWindow = new NativeOSWindow(options.Title, options.Position, options.Size);
             services.TryAddSingleton<OSWindow>(mainWindow); //This is externally owned
@@ -54,8 +55,22 @@ namespace Microsoft.Extensions.DependencyInjection
             window.Dispose();
         }
 
-        public static IServiceCollection AddOsPlatform(this IServiceCollection services, PluginManager pluginManager)
+        public static IServiceCollection AddOSPlatform(this IServiceCollection services, PluginManager pluginManager, Action<OSPlatformOptions> configure = null)
         {
+            var options = new OSPlatformOptions();
+            configure?.Invoke(options);
+
+            services.TryAddSingleton<InputHandler>(s =>
+            {
+                bool makeConfig_EnableMultitouch = false;
+                return new NativeInputHandler(s.GetRequiredService<NativeOSWindow>(), makeConfig_EnableMultitouch, s.GetRequiredService<ILogger<NativeInputHandler>>());
+            });
+
+            services.TryAddSingleton<EventManager>(s =>
+            {
+                return new EventManager(s.GetRequiredService<InputHandler>(), Enum.GetValues(options.EventLayersType), s.GetRequiredService<ILogger<EventManager>>());
+            });
+
             services.TryAddSingleton<SystemTimer, NativeSystemTimer>();
             services.TryAddSingleton<UpdateTimer, NativeUpdateTimer>();
 
