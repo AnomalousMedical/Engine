@@ -62,6 +62,7 @@ namespace DiligentEngineGenerator
         public bool IsPtrToPtr { get; set; }
 
         public List<InterfaceMethodArgument> Args { get; set; } = new List<InterfaceMethodArgument>();
+        public bool PoolManagedObject { get; set; } = false;
     }
 
     class InterfaceMethodArgument

@@ -33,6 +33,15 @@ namespace DiligentEngine
             //Public interface
             foreach (var item in code.Methods)
             {
+                var cSharpReturnType = GetCSharpType(item.ReturnType, context);
+                var isReturnTypeInterface = context.CodeTypeInfo.Interfaces.ContainsKey(item.LookupReturnType);
+                var isReturnTypePooledInterface = isReturnTypeInterface && item.PoolManagedObject;
+                if (isReturnTypePooledInterface)
+                {
+                    writer.WriteLine(
+@$"        private {cSharpReturnType} _{item.Name};");
+                }
+
                 writer.Write($"        public {GetCSharpType(item.ReturnType, context)} {item.Name}(");
 
                 var sep = "";
@@ -46,7 +55,14 @@ namespace DiligentEngine
                 writer.WriteLine(")");
                 writer.WriteLine("        {");
 
-                if (item.ReturnType != "void")
+                if (isReturnTypePooledInterface)
+                {
+                    writer.WriteLine(
+@$"            // Only create a new instance of the return type if this really changed.
+            var result = {code.Name}_{item.Name}(
+                this.objPtr");
+                }
+                else if(isReturnTypeInterface)
                 {
                     writer.WriteLine(
 @$"            return new {GetCSharpType(item.ReturnType, context)}({code.Name}_{item.Name}(
@@ -70,7 +86,7 @@ namespace DiligentEngine
                     {
 
                         writer.Write($"                , {arg.Name}");
-                        if(context.CodeTypeInfo.Interfaces.ContainsKey(arg.LookupType) || context.CodeTypeInfo.Structs.ContainsKey(arg.LookupType))
+                        if (context.CodeTypeInfo.Interfaces.ContainsKey(arg.LookupType) || context.CodeTypeInfo.Structs.ContainsKey(arg.LookupType))
                         {
                             writer.WriteLine(".objPtr");
                         }
@@ -81,7 +97,17 @@ namespace DiligentEngine
                     }
                 }
 
-                if (item.ReturnType != "void")
+                if (isReturnTypePooledInterface)
+                {
+                    writer.WriteLine(
+@$"            );
+            if(_{item.Name} == null || result != _{item.Name}.objPtr)
+            {{
+                _{item.Name} = new {cSharpReturnType}(result);
+            }}
+            return _{item.Name};");
+                }
+                else if (isReturnTypeInterface)
                 {
                     writer.WriteLine($"            ));");
                 }
