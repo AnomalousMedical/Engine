@@ -59,22 +59,8 @@ namespace SoundPlugin
 
             this.mainTimer = globalScopeProvider.GetRequiredService<UpdateTimer>();
             mainTimer.addUpdateListener(soundUpdate);
-        }
 
-        /// <summary>
-        /// Set the window used to track when to create / destroy internal resources.
-        /// Should be called with the main window, or else audio suspend / resume will
-        /// not be detected.
-        /// </summary>
-        /// <param name="window">The OSWindow instance to listen to.</param>
-        public void setResourceWindow(OSWindow window)
-        {
-            if (resourceWindow != null)
-            {
-                resourceWindow.CreateInternalResources -= resourceWindow_CreateInternalResources;
-                resourceWindow.DestroyInternalResources -= resourceWindow_DestroyInternalResources;
-            }
-            resourceWindow = window;
+            resourceWindow = globalScopeProvider.GetRequiredService<OSWindow>();
             if (resourceWindow != null)
             {
                 resourceWindow.CreateInternalResources += resourceWindow_CreateInternalResources;
