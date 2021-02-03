@@ -22,12 +22,12 @@ namespace DiligentEngineTest
             this.swapChain = genericEngineFactory.SwapChain;
             this.immediateContext = genericEngineFactory.ImmediateContext;
 
-            //using var shaderCreate = new ShaderCreateInfo();
-            //for (int i = 0; i < 100; ++i)
-            //{
-            //    shaderCreate.EntryPoint = "Test " + i;
-            //    Console.WriteLine(shaderCreate.EntryPoint);
-            //}
+            var shaderCreate = new ShaderCreateInfo();
+            for (int i = 0; i < 100; ++i)
+            {
+                shaderCreate.EntryPoint = "Test " + i;
+                Console.WriteLine(shaderCreate.EntryPoint);
+            }
             //shaderCreate.Lazy_VS();
             //using var vertexShader = this.genericEngineFactory.RenderDevice.CreateShader(shaderCreate);
             //shaderCreate.Lazy_PS();

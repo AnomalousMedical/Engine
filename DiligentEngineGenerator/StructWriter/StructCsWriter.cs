@@ -41,33 +41,12 @@ namespace DiligentEngine
 
             foreach (var item in code.Properties)
             {
-                writer.WriteLine($"        public {GetCSharpType(item.Type)} {item.Name}");
-                writer.WriteLine($"        {{");
-                writer.WriteLine($"            get");
-                writer.WriteLine($"            {{");
-                writer.WriteLine($"                return {code.Name}_Get_{item.Name}(this.objPtr);");
-                writer.WriteLine($"            }}");
-                writer.WriteLine($"            set");
-                writer.WriteLine($"            {{");
-                writer.WriteLine($"                {code.Name}_Set_{item.Name}(this.objPtr, value);");
-                writer.WriteLine($"            }}");
-                writer.WriteLine($"        }}");
+                writer.WriteLine($"        public {GetCSharpType(item.Type)} {item.Name} {{ get; set; }}");
             }
 
             //PInvoke
             writer.WriteLine();
             writer.WriteLine();
-
-            CustomPInvoke(code, writer);
-
-            foreach (var item in code.Properties)
-            {
-                writer.WriteLine("        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]");
-                writer.WriteLine($"        private static extern {GetPInvokeType(item)} {code.Name}_Get_{item.Name}(IntPtr objPtr);");
-
-                writer.WriteLine("        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]");
-                writer.WriteLine($"        private static extern void {code.Name}_Set_{item.Name}(IntPtr objPtr, {GetPInvokeType(item)} value);");
-            }
 
             writer.WriteLine("    }");
 
@@ -82,8 +61,7 @@ namespace DiligentEngine
 
                 writer.WriteLine(
 $@"    {{
-        public {code.Name}(IntPtr objPtr)
-            : base(objPtr)
+        public {code.Name}()
         {{
 
         }}");
@@ -94,13 +72,10 @@ $@"    {{
 
                 writer.WriteLine(
 $@"    {{
-        internal protected IntPtr objPtr;
 
-        public IntPtr ObjPtr => objPtr;
-
-        public {code.Name}(IntPtr objPtr)
+        public {code.Name}()
         {{
-            this.objPtr = objPtr;
+            
         }}");
             }
         }

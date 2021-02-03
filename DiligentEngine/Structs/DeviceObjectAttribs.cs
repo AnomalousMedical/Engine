@@ -13,30 +13,13 @@ namespace DiligentEngine
 {
     public partial class DeviceObjectAttribs
     {
-        internal protected IntPtr objPtr;
 
-        public IntPtr ObjPtr => objPtr;
-
-        public DeviceObjectAttribs(IntPtr objPtr)
+        public DeviceObjectAttribs()
         {
-            this.objPtr = objPtr;
+            
         }
-        public String Name
-        {
-            get
-            {
-                return DeviceObjectAttribs_Get_Name(this.objPtr);
-            }
-            set
-            {
-                DeviceObjectAttribs_Set_Name(this.objPtr, value);
-            }
-        }
+        public String Name { get; set; }
 
 
-        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern String DeviceObjectAttribs_Get_Name(IntPtr objPtr);
-        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void DeviceObjectAttribs_Set_Name(IntPtr objPtr, String value);
     }
 }

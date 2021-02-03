@@ -78,12 +78,12 @@ namespace DiligentEngineGenerator
                 var allowed = new List<String> { "FilePath", "Source", "EntryPoint" };
                 ShaderCreateInfo.Properties = ShaderCreateInfo.Properties
                     .Where(i => allowed.Contains(i.Name)).ToList();
-                StructCsWriter.Write(ShaderCreateInfo, Path.Combine(baseStructDir, $"{nameof(ShaderCreateInfo)}.cs"), new TopStructCsWriter());
+                StructCsWriter.Write(ShaderCreateInfo, Path.Combine(baseStructDir, $"{nameof(ShaderCreateInfo)}.cs"));
                 StructCppWriter.Write(ShaderCreateInfo, Path.Combine(baseCPlusPlusOutDir, $"{nameof(ShaderCreateInfo)}.cpp"), new List<String>()
                 {
                     "Graphics/GraphicsEngine/interface/DeviceContext.h",
                     "Color.h"
-                }, new TopStructCppWriter());
+                });
             }
 
             //////////// Interfaces
