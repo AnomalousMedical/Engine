@@ -25,7 +25,11 @@ namespace DiligentEngine
         public void Dispose()
         {
             ShaderCreateInfo_Delete(this.objPtr);
+            stringManager.Dispose();
         }
+
+        private StringManager stringManager = new StringManager();
+
         public String FilePath
         {
             get
@@ -34,7 +38,7 @@ namespace DiligentEngine
             }
             set
             {
-                ShaderCreateInfo_Set_FilePath(this.objPtr, value);
+                ShaderCreateInfo_Set_FilePath(this.objPtr, value, new UIntPtr((ulong)value.Length), stringManager.objPtr);
             }
         }
         public String Source
@@ -45,18 +49,19 @@ namespace DiligentEngine
             }
             set
             {
-                ShaderCreateInfo_Set_Source(this.objPtr, value);
+                ShaderCreateInfo_Set_Source(this.objPtr, value, new UIntPtr((ulong)value.Length), stringManager.objPtr);
             }
         }
         public String EntryPoint
         {
             get
             {
-                return ShaderCreateInfo_Get_EntryPoint(this.objPtr);
+                return "";
+                //return ShaderCreateInfo_Get_EntryPoint(this.objPtr);
             }
             set
             {
-                ShaderCreateInfo_Set_EntryPoint(this.objPtr, value);
+                ShaderCreateInfo_Set_EntryPoint(this.objPtr, value, new UIntPtr((ulong)value.Length), stringManager.objPtr);
             }
         }
 
@@ -69,14 +74,14 @@ namespace DiligentEngine
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern String ShaderCreateInfo_Get_FilePath(IntPtr objPtr);
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void ShaderCreateInfo_Set_FilePath(IntPtr objPtr, String value);
+        private static extern void ShaderCreateInfo_Set_FilePath(IntPtr objPtr, String value, UIntPtr length, IntPtr stringManager);
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern String ShaderCreateInfo_Get_Source(IntPtr objPtr);
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void ShaderCreateInfo_Set_Source(IntPtr objPtr, String value);
+        private static extern void ShaderCreateInfo_Set_Source(IntPtr objPtr, String value, UIntPtr length, IntPtr stringManager);
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern String ShaderCreateInfo_Get_EntryPoint(IntPtr objPtr);
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void ShaderCreateInfo_Set_EntryPoint(IntPtr objPtr, String value);
+        private static extern void ShaderCreateInfo_Set_EntryPoint(IntPtr objPtr, String value, UIntPtr length, IntPtr stringManager);
     }
 }

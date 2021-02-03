@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DiligentEngineTest": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

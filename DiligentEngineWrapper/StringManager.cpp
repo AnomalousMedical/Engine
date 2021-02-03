@@ -1,52 +1,48 @@
 #include "StdAfx.h"
 #include <map>
 #include <string>
-#include <cstdio>
-#include <cstring>
-#include "Graphics/GraphicsEngine/interface/SwapChain.h"
+#include "StringManager.h"
 
 using namespace Diligent;
 using namespace std;
 
-class StringManager 
+StringManager::~StringManager()
 {
-private:
-	map<string, Char*> stringMap;
-
-public: 
-	StringManager() 
+	auto it = stringMap.begin();
+	while (it != stringMap.end())
 	{
+		delete[] it->second;
+		it++;
+	}
+}
 
+const Char* StringManager::SetString(string name, const Char* input, size_t length)
+{
+	auto currentValue = stringMap.find(name);
+	if (currentValue != stringMap.end())
+	{
+		delete[] currentValue->second;
 	}
 
-	~StringManager() 
+	if (input == nullptr)
 	{
-		auto it = stringMap.begin();
-		while (it != stringMap.end()) 
-		{
-			delete[] it->second;
-			it++;
-		}
+		stringMap.erase(name);
+		return nullptr;
 	}
 
-	Char* SetString(string name, Char* input, size_t length)
-	{
-		auto currentValue = stringMap.find(name);
-		if (currentValue != stringMap.end()) 
-		{
-			delete[] currentValue->second;
-		}
+	size_t finalSize = length + 1; //Include null terminator
+	Char* newCopy = new Char[finalSize];
+	strncpy_s(newCopy, finalSize, input, finalSize);
+	stringMap[name] = newCopy;
+	return newCopy;
+}
 
-		if (input == nullptr)
-		{
-			stringMap.erase(name);
-			return nullptr;
-		}
+extern "C" _AnomalousExport StringManager * StringManager_Create()
+{
+	return new StringManager();
+}
 
-		size_t finalSize = length + 1;
-		Char* newCopy = new Char[finalSize]; //Include null terminator
-		strncpy_s(newCopy, finalSize, input, finalSize);
-		stringMap[name] = newCopy;
-		return newCopy;
-	}
-};
+extern "C" _AnomalousExport void StringManager_Delete(StringManager * obj)
+{
+	delete obj;
+}
