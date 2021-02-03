@@ -58,10 +58,7 @@ namespace DiligentEngineTest
 
             mainWindow.Closed += w =>
             {
-                //if (PlatformConfig.CloseMainWindowOnShutdown)
-                {
-                    mainWindow.close();
-                }
+                mainWindow.close();
                 this.Exit();
             };
 
