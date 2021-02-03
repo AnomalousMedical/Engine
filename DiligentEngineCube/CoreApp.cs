@@ -5,7 +5,6 @@ using Engine.Platform;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-using SoundPlugin;
 using System;
 using System.Globalization;
 using System.IO;
@@ -45,7 +44,6 @@ namespace DiligentEngineCube
 
             services.AddDiligentEngine(pluginManager);
             services.AddOSPlatform(pluginManager);
-            services.AddSoundPlugin(pluginManager);
 
             //Add this app's services
             services.TryAddSingleton<CubeUpdateListener>();
