@@ -29,18 +29,39 @@ namespace DiligentEngineGenerator
             //PInvoke
             foreach (var item in code.Methods)
             {
-                writer.Write($"extern \"C\" _AnomalousExport {item.ReturnType} {code.Name}_{item.Name}({code.Name}* objPtr");
+                writer.WriteLine(
+@$"extern ""C"" _AnomalousExport {item.ReturnType} {code.Name}_{item.Name}(
+	{code.Name}* objPtr");
 
                 foreach (var arg in item.Args.Where(i => !i.MakeReturnVal))
                 {
-                    writer.Write($", {arg.Type} {arg.Name}");
+                    if (context.CodeTypeInfo.Structs.TryGetValue(arg.LookupType, out var structInfo))
+                    {
+                        var argWriter = new StructCppFunctionSignatureArgsWriter(arg.Name, structInfo, "	");
+                        argWriter.Render(writer, context);
+                    }
+                    else
+                    {
+                        writer.Write($", {arg.Type} {arg.Name}");
+                    }
                 }
 
                 var makeReturnArg = item.Args.Where(i => i.MakeReturnVal).FirstOrDefault();
 
                 writer.WriteLine($")");
                 writer.WriteLine("{");
-                if(item.ReturnType != "void")
+
+                //Rebuild structs
+                foreach (var arg in item.Args.Where(i => !i.MakeReturnVal))
+                {
+                    if (context.CodeTypeInfo.Structs.TryGetValue(arg.LookupType, out var structInfo))
+                    {
+                        var argWriter = new StructCppRebuildWriter(arg.Name, structInfo, "	");
+                        argWriter.Render(writer, context);
+                    }
+                }
+
+                if (item.ReturnType != "void")
                 {
                     if(makeReturnArg != null)
                     {

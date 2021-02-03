@@ -5,13 +5,13 @@ using System.Text;
 
 namespace DiligentEngineGenerator
 {
-    class StructCppFunctionSignatureArgsWriter : ICodeRenderer
+    class StructCppRebuildWriter : ICodeRenderer
     {
         private readonly string argName;
         private CodeStruct code;
         private readonly string tabs;
 
-        public StructCppFunctionSignatureArgsWriter(String argName, CodeStruct code, String tabs)
+        public StructCppRebuildWriter(String argName, CodeStruct code, String tabs)
         {
             this.argName = argName;
             this.code = code;
@@ -20,9 +20,11 @@ namespace DiligentEngineGenerator
 
         public void Render(TextWriter writer, CodeRendererContext context)
         {
+            writer.WriteLine($"{tabs}{code.Name} {argName};");
+
             foreach (var item in code.Properties)
             {
-                writer.WriteLine($"{tabs}, {item.Type} {argName}_{item.Name}");
+                writer.WriteLine($"{tabs}{argName}.{item.Name} = {argName}_{item.Name};");
             }
         }
     }
