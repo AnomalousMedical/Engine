@@ -5,21 +5,16 @@ using System.Text;
 
 namespace DiligentEngineGenerator
 {
-    static class InterfaceCsWriter
+    class InterfaceCsWriter : ICodeRenderer
     {
-        public static void Write(CodeInterface code, String file)
-        {
-            var dir = Path.GetDirectoryName(file);
-            if (!Directory.Exists(dir))
-            {
-                Directory.CreateDirectory(dir);
-            }
+        private readonly CodeInterface code;
 
-            using var writer = new StreamWriter(File.Open(file, FileMode.Create, FileAccess.ReadWrite, FileShare.None));
-            Write(code, writer);
+        public InterfaceCsWriter(CodeInterface code)
+        {
+            this.code = code;
         }
 
-        public static void Write(CodeInterface code, StreamWriter writer)
+        public void Render(TextWriter writer, CodeRendererContext context)
         {
             writer.WriteLine(
 $@"using System;
@@ -103,7 +98,7 @@ namespace DiligentEngine
             writer.WriteLine("}");
         }
 
-        private static void WriteClassDefinitionAndConstructors(CodeInterface code, StreamWriter writer)
+        private void WriteClassDefinitionAndConstructors(CodeInterface code, TextWriter writer)
         {
             if (code.BaseType != null)
             {

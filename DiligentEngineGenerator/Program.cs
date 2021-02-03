@@ -107,7 +107,7 @@ namespace DiligentEngineGenerator
                 var allowedMethods = new List<String> { /*"CreateShader" */};
                 IRenderDevice.Methods = IRenderDevice.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
-                InterfaceCsWriter.Write(IRenderDevice, Path.Combine(baseCSharpInterfaceDir, $"{nameof(IRenderDevice)}.cs"));
+                codeWriter.AddWriter(new InterfaceCsWriter(IRenderDevice), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IRenderDevice)}.cs"));
             }
 
             {
@@ -120,7 +120,7 @@ namespace DiligentEngineGenerator
                     .Args.First(i => i.Name == "RGBA");
                 rgbaArgs.Type = "Color";
                 rgbaArgs.CppPrefix = "(float*)&";
-                InterfaceCsWriter.Write(IDeviceContext, Path.Combine(baseCSharpInterfaceDir, $"{nameof(IDeviceContext)}.cs"));
+                codeWriter.AddWriter(new InterfaceCsWriter(IDeviceContext), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IDeviceContext)}.cs"));
                 InterfaceCppWriter.Write(IDeviceContext, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IDeviceContext)}.cpp"), new List<String>()
                 {
                     "Graphics/GraphicsEngine/interface/DeviceContext.h",
@@ -134,7 +134,7 @@ namespace DiligentEngineGenerator
                 var allowedMethods = new List<String> { "Resize" };
                 IDeviceObject.Methods = IDeviceObject.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
-                InterfaceCsWriter.Write(IDeviceObject, Path.Combine(baseCSharpInterfaceDir, $"{nameof(IDeviceObject)}.cs"));
+                codeWriter.AddWriter(new InterfaceCsWriter(IDeviceObject), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IDeviceObject)}.cs"));
                 InterfaceCppWriter.Write(IDeviceObject, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IDeviceObject)}.cpp"), new List<String>()
                 {
                     "Graphics/GraphicsEngine/interface/SwapChain.h"
@@ -147,7 +147,7 @@ namespace DiligentEngineGenerator
                 var allowedMethods = new List<String> { "Resize", "GetCurrentBackBufferRTV", "GetDepthBufferDSV", "Present" };
                 ISwapChain.Methods = ISwapChain.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
-                InterfaceCsWriter.Write(ISwapChain, Path.Combine(baseCSharpInterfaceDir, $"{nameof(ISwapChain)}.cs"));
+                codeWriter.AddWriter(new InterfaceCsWriter(ISwapChain), Path.Combine(baseCSharpInterfaceDir, $"{nameof(ISwapChain)}.cs"));
                 InterfaceCppWriter.Write(ISwapChain, Path.Combine(baseCPlusPlusOutDir, $"{nameof(ISwapChain)}.cpp"), new List<String>()
                 {
                     "Graphics/GraphicsEngine/interface/SwapChain.h"
@@ -160,7 +160,7 @@ namespace DiligentEngineGenerator
                 var allowedMethods = new List<String> { };
                 ITextureView.Methods = ITextureView.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
-                InterfaceCsWriter.Write(ITextureView, Path.Combine(baseCSharpInterfaceDir, $"{nameof(ITextureView)}.cs"));
+                codeWriter.AddWriter(new InterfaceCsWriter(ITextureView), Path.Combine(baseCSharpInterfaceDir, $"{nameof(ITextureView)}.cs"));
                 InterfaceCppWriter.Write(ITextureView, Path.Combine(baseCPlusPlusOutDir, $"{nameof(ITextureView)}.cpp"), new List<String>()
                 {
                     "Graphics/GraphicsEngine/interface/SwapChain.h"
