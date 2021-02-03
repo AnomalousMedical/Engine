@@ -54,5 +54,7 @@ namespace DiligentEngineGenerator
         public string Type { get; set; }
 
         public string LookupType => Type.Replace("*", "").Trim();
+
+        public string DefaultValue { get; set; }
     }
 }

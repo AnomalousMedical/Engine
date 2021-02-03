@@ -11,17 +11,13 @@ using Uint64 = System.UInt64;
 
 namespace DiligentEngine
 {
-    public partial class ShaderCreateInfo
+    public partial class ShaderDesc : DeviceObjectAttribs
     {
-
-        public ShaderCreateInfo()
+        public ShaderDesc()
         {
-            
+
         }
-        public String FilePath { get; set; }
-        public String Source { get; set; }
-        public String EntryPoint { get; set; } = "main";
-        public ShaderDesc Desc { get; set; } = new ShaderDesc();
+        public SHADER_TYPE ShaderType { get; set; } = SHADER_TYPE.SHADER_TYPE_UNKNOWN;
 
 
     }

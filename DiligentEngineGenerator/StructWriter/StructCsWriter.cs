@@ -53,7 +53,22 @@ $@"    {{
 
             foreach (var item in code.Properties)
             {
-                writer.WriteLine($"        public {GetCSharpType(item.Type)} {item.Name} {{ get; set; }}");
+                writer.Write($"        public {GetCSharpType(item.Type)} {item.Name} {{ get; set; }}");
+
+                if (context.CodeTypeInfo.Structs.ContainsKey(item.LookupType))
+                {
+                    writer.Write($" = new {item.Type}();");
+                }
+                else if (!String.IsNullOrWhiteSpace(item.DefaultValue))
+                {
+                    var value = GetCSharpValue(item, context);
+                    if (value != null)
+                    {
+                        writer.Write($" = {value};");
+                    }
+                }
+
+                writer.WriteLine();
             }
 
             //PInvoke
@@ -63,6 +78,28 @@ $@"    {{
             writer.WriteLine("    }");
 
             writer.WriteLine("}");
+        }
+
+        /// <summary>
+        /// Get the c# value. Returns a string with the value or null to write nothing.
+        /// </summary>
+        /// <param name="structProperty"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        private static String GetCSharpValue(StructProperty structProperty, CodeRendererContext context)
+        {
+            switch (structProperty.DefaultValue)
+            {
+                case "nullptr":
+                    return null; //Let the language implied null work
+            }
+
+            if (context.CodeTypeInfo.Enums.ContainsKey(structProperty.LookupType))
+            {
+                return $"{structProperty.LookupType}.{structProperty.DefaultValue}";
+            }
+
+            return structProperty.DefaultValue;
         }
 
         private static String GetCSharpType(String type)

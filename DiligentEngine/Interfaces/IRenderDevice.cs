@@ -26,6 +26,7 @@ namespace DiligentEngine
                 , ShaderCI.FilePath
                 , ShaderCI.Source
                 , ShaderCI.EntryPoint
+                , ShaderCI.Desc
             ));
         }
 
@@ -36,6 +37,7 @@ namespace DiligentEngine
             , String ShaderCI_FilePath
             , String ShaderCI_Source
             , String ShaderCI_EntryPoint
+            , ShaderDesc ShaderCI_Desc
         );
     }
 }

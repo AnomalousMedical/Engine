@@ -6,6 +6,8 @@ namespace DiligentEngineGenerator
 {
     class StructParsePropertiesState : ICodeStructParserState
     {
+        private const string DEFAULT_INITIALIZER = "DEFAULT_INITIALIZER";
+
         public ICodeStructParserState Parse(string line, StringBuilder commentBuilder, ref CodeStruct code)
         {
             if (!String.IsNullOrWhiteSpace(line))
@@ -13,22 +15,35 @@ namespace DiligentEngineGenerator
                 var propertyParse = line.Trim().Replace(",", "").Replace("{", "").Replace("}", "");
                 if (!String.IsNullOrWhiteSpace(propertyParse))
                 {
-                    if (propertyParse.Contains("DEFAULT_INITIALIZER"))
-                    {
-                        propertyParse = propertyParse.Substring(0, propertyParse.IndexOf("DEFAULT_INITIALIZER"));
-                    }
-
                     propertyParse = propertyParse.Replace("const", "").Trim();
+
+                    var withInitialize = propertyParse;
+                    bool hasDefault = false;
+                    if (propertyParse.Contains(DEFAULT_INITIALIZER))
+                    {
+                        hasDefault = true;
+                        propertyParse = propertyParse.Substring(0, propertyParse.IndexOf(DEFAULT_INITIALIZER));
+                    }
 
                     var typeAndName = propertyParse.Split(null); //Split on whitespace
 
-                    code.Properties.Add(new StructProperty()
+                    var property = new StructProperty()
                     {
                         Comment = commentBuilder.ToString(),
                         Type = typeAndName[0],
                         Name = typeAndName[1],
                         IsConst = line.Contains("const")
-                    });
+                    };
+                    
+                    if (hasDefault)
+                    {
+                        property.DefaultValue = withInitialize.Substring(withInitialize.IndexOf(DEFAULT_INITIALIZER) + DEFAULT_INITIALIZER.Length)
+                            .Replace("(", "")
+                            .Replace(")", "")
+                            .Trim();
+                    }
+
+                    code.Properties.Add(property);
                 }
             }
 

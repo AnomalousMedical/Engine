@@ -66,7 +66,13 @@ namespace DiligentEngineGenerator
                 EnumWriter.Write(CLEAR_DEPTH_STENCIL_FLAGS, Path.Combine(baseEnumDir, $"{nameof(CLEAR_DEPTH_STENCIL_FLAGS)}.cs"));
             }
 
+            {
+                var SHADER_TYPE = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Shader.h", 44, 64);
+                codeTypeInfo.Enums[nameof(SHADER_TYPE)] = SHADER_TYPE;
+                EnumWriter.Write(SHADER_TYPE, Path.Combine(baseEnumDir, $"{nameof(SHADER_TYPE)}.cs"));
+            }
 
+            
 
 
             //////////// Structs
@@ -85,17 +91,18 @@ namespace DiligentEngineGenerator
             }
 
             {
+                var ShaderDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Shader.h", 131, 138);
+                codeTypeInfo.Structs[nameof(ShaderDesc)] = ShaderDesc;
+                codeWriter.AddWriter(new StructCsWriter(ShaderDesc), Path.Combine(baseStructDir, $"{nameof(ShaderDesc)}.cs"));
+            }
+
+            {
                 var ShaderCreateInfo = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Shader.h", 223, 331);
                 codeTypeInfo.Structs[nameof(ShaderCreateInfo)] = ShaderCreateInfo;
-                var allowed = new List<String> { "FilePath", "Source", "EntryPoint" };
+                var allowed = new List<String> { "FilePath", "Source", "EntryPoint", "Desc" };
                 ShaderCreateInfo.Properties = ShaderCreateInfo.Properties
                     .Where(i => allowed.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new StructCsWriter(ShaderCreateInfo), Path.Combine(baseStructDir, $"{nameof(ShaderCreateInfo)}.cs"));
-                StructCppWriter.Write(ShaderCreateInfo, Path.Combine(baseCPlusPlusOutDir, $"{nameof(ShaderCreateInfo)}.cpp"), new List<String>()
-                {
-                    "Graphics/GraphicsEngine/interface/DeviceContext.h",
-                    "Color.h"
-                });
             }
 
             //////////// Interfaces
