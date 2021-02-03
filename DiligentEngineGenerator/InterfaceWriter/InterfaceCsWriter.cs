@@ -68,6 +68,7 @@ namespace DiligentEngine
                     }
                     else
                     {
+
                         writer.Write($"                , {arg.Name}");
                         if(context.CodeTypeInfo.Interfaces.ContainsKey(arg.LookupType) || context.CodeTypeInfo.Structs.ContainsKey(arg.LookupType))
                         {
@@ -99,6 +100,10 @@ namespace DiligentEngine
             foreach (var item in code.Methods)
             {
                 writer.WriteLine("        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]");
+                if (TypeDetector.IsBool(item.LookupReturnType))
+                {
+                    writer.WriteLine("[return: MarshalAs(UnmanagedType.I1)]");
+                }
                 writer.WriteLine(
 @$"        private static extern {GetPInvokeType(item, context)} {code.Name}_{item.Name}(
             IntPtr objPtr");
@@ -112,7 +117,13 @@ namespace DiligentEngine
                     }
                     else
                     {
-                        writer.WriteLine($"            , {GetPInvokeType(arg, context)} {arg.Name}");
+                        var attrs = "";
+                        if (TypeDetector.IsBool(arg.LookupType))
+                        {
+                            attrs = "[MarshalAs(UnmanagedType.I1)]";
+                        }
+
+                        writer.WriteLine($"            , {attrs}{GetPInvokeType(arg, context)} {arg.Name}");
                     }
                 }
 

@@ -26,8 +26,11 @@ namespace DiligentEngine
                 , ShaderCI.FilePath
                 , ShaderCI.Source
                 , ShaderCI.EntryPoint
+                , ShaderCI.UseCombinedTextureSamplers
+                , ShaderCI.CombinedSamplerSuffix
                 , ShaderCI.Desc.ShaderType
                 , ShaderCI.Desc.Name
+                , ShaderCI.SourceLanguage
             ));
         }
 
@@ -38,8 +41,11 @@ namespace DiligentEngine
             , String ShaderCI_FilePath
             , String ShaderCI_Source
             , String ShaderCI_EntryPoint
+            , [MarshalAs(UnmanagedType.I1)]bool ShaderCI_UseCombinedTextureSamplers
+            , String ShaderCI_CombinedSamplerSuffix
             , SHADER_TYPE ShaderCI_Desc_ShaderType
             , String ShaderCI_Desc_Name
+            , SHADER_SOURCE_LANGUAGE ShaderCI_SourceLanguage
         );
     }
 }

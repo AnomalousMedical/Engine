@@ -44,7 +44,13 @@ namespace DiligentEngineGenerator
             }
             else
             {
-                writer.WriteLine($"{tabs}, {GetCSharpType(item.Type)} {argName}_{item.Name}");
+                var attrs = "";
+                if (TypeDetector.IsBool(item.LookupType))
+                {
+                    attrs = "[MarshalAs(UnmanagedType.I1)]";
+                }
+
+                writer.WriteLine($"{tabs}, {attrs}{GetCSharpType(item.Type)} {argName}_{item.Name}");
             }
         }
 

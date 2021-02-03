@@ -21,7 +21,10 @@ namespace DiligentEngine
         public String FilePath { get; set; }
         public String Source { get; set; }
         public String EntryPoint { get; set; } = "main";
+        public bool UseCombinedTextureSamplers { get; set; } = false;
+        public String CombinedSamplerSuffix { get; set; } = "_sampler";
         public ShaderDesc Desc { get; set; } = new ShaderDesc();
+        public SHADER_SOURCE_LANGUAGE SourceLanguage { get; set; } = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_DEFAULT;
 
 
     }

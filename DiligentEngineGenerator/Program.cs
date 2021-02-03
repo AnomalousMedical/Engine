@@ -72,7 +72,13 @@ namespace DiligentEngineGenerator
                 EnumWriter.Write(SHADER_TYPE, Path.Combine(baseEnumDir, $"{nameof(SHADER_TYPE)}.cs"));
             }
 
-            
+            {
+                var SHADER_SOURCE_LANGUAGE = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Shader.h", 67, 92);
+                codeTypeInfo.Enums[nameof(SHADER_SOURCE_LANGUAGE)] = SHADER_SOURCE_LANGUAGE;
+                EnumWriter.Write(SHADER_SOURCE_LANGUAGE, Path.Combine(baseEnumDir, $"{nameof(SHADER_SOURCE_LANGUAGE)}.cs"));
+            }
+
+
 
 
             //////////// Structs
@@ -99,9 +105,9 @@ namespace DiligentEngineGenerator
             {
                 var ShaderCreateInfo = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Shader.h", 223, 331);
                 codeTypeInfo.Structs[nameof(ShaderCreateInfo)] = ShaderCreateInfo;
-                var allowed = new List<String> { "FilePath", "Source", "EntryPoint", "Desc" };
+                var skip = new List<String> { "pShaderSourceStreamFactory", "IHLSL2GLSLConversionStream**", "ByteCode", "ByteCodeSize", "Macros", "HLSLVersion", "ShaderCompiler" };
                 ShaderCreateInfo.Properties = ShaderCreateInfo.Properties
-                    .Where(i => allowed.Contains(i.Name)).ToList();
+                    .Where(i => !skip.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new StructCsWriter(ShaderCreateInfo), Path.Combine(baseStructDir, $"{nameof(ShaderCreateInfo)}.cs"));
             }
 
