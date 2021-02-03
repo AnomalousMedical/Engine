@@ -43,81 +43,81 @@ namespace SoundPlugin
             //managedLogListener.Dispose();
         }
 
-        public Listener getListener()
+        public Listener GetListener()
         {
             return listener;
         }
 
-        public CaptureDevice createCaptureDevice(BufferFormat format = BufferFormat.Stereo16, int bufferSeconds = 5, int rate = 44100)
+        public CaptureDevice CreateCaptureDevice(BufferFormat format = BufferFormat.Stereo16, int bufferSeconds = 5, int rate = 44100)
         {
             return captureDeviceManager.get(OpenALManager_createCaptureDevice(Pointer, format, bufferSeconds, rate), this);
         }
 
-        public void destroyCaptureDevice(CaptureDevice captureDevice)
+        public void DestroyCaptureDevice(CaptureDevice captureDevice)
         {
             IntPtr ptr = captureDevice.Pointer;
             captureDeviceManager.deleteWrapper(ptr);
             OpenALManager_destroyCaptureDevice(Pointer, ptr);
         }
 
-        public AudioCodec createAudioCodec(Stream stream)
+        public AudioCodec CreateAudioCodec(Stream stream)
         {
             ManagedStream managedStream = new ManagedStream(stream);
             return codecManager.getCodec(OpenALManager_createAudioCodec(Pointer, managedStream.Pointer), this);
         }
 
-        public void destroyAudioCodec(AudioCodec codec)
+        public void DestroyAudioCodec(AudioCodec codec)
         {
             IntPtr codecPointer = codec.Pointer;
             codecManager.deleteWrapper(codec.Pointer);
             OpenALManager_destroyAudioCodec(Pointer, codecPointer);
         }
 
-        public Sound createMemorySound(Stream stream)
+        public Sound CreateMemorySound(Stream stream)
         {
             ManagedStream managedStream = new ManagedStream(stream);
             return new Sound(OpenALManager_createMemorySound(Pointer, managedStream.Pointer));
         }
 
-        public Sound createMemorySound(AudioCodec codec)
+        public Sound CreateMemorySound(AudioCodec codec)
         {
             return new Sound(OpenALManager_createMemorySoundCodec(Pointer, codec.Pointer));
         }
 
-        public Sound createStreamingSound(Stream stream)
+        public Sound CreateStreamingSound(Stream stream)
         {
             ManagedStream managedStream = new ManagedStream(stream);
             return new Sound(OpenALManager_createStreamingSound(Pointer, managedStream.Pointer));
         }
 
-        public Sound createStreamingSound(AudioCodec codec)
+        public Sound CreateStreamingSound(AudioCodec codec)
         {
             return new Sound(OpenALManager_createStreamingSoundCodec(Pointer, codec.Pointer));
         }
 
-        public Sound createStreamingSound(Stream stream, int bufferSize, int numBuffers)
+        public Sound CreateStreamingSound(Stream stream, int bufferSize, int numBuffers)
         {
             ManagedStream managedStream = new ManagedStream(stream);
             return new Sound(OpenALManager_createStreamingSound2(Pointer, managedStream.Pointer, bufferSize, numBuffers));
         }
 
-        public Sound createStreamingSound(AudioCodec codec, int bufferSize, int numBuffers)
+        public Sound CreateStreamingSound(AudioCodec codec, int bufferSize, int numBuffers)
         {
             return new Sound(OpenALManager_createStreamingSound2Codec(Pointer, codec.Pointer, bufferSize, numBuffers));
         }
 
-        public void destroySound(Sound sound)
+        public void DestroySound(Sound sound)
         {
             OpenALManager_destroySound(Pointer, sound.Pointer);
             sound.delete();
         }
 
-        public Source getSource()
+        public Source GetSource()
         {
             return sourceManager.getSource(OpenALManager_getSource(Pointer));
         }
 
-        public void update()
+        public void Update()
         {
             OpenALManager_update(Pointer);
         }
@@ -125,7 +125,7 @@ namespace SoundPlugin
         /// <summary>
         /// Resume app wide audio playback. Called when internal resources need to be recreated.
         /// </summary>
-        internal void resumeAudio()
+        internal void ResumeAudio()
         {
             OpenALManager_resumeAudio(Pointer);
         }
@@ -133,7 +133,7 @@ namespace SoundPlugin
         /// <summary>
         /// Suspend app wide audio playback, called when internal resources need to be destroyed.
         /// </summary>
-        internal void suspendAudio()
+        internal void SuspendAudio()
         {
             OpenALManager_suspendAudio(Pointer);
         }

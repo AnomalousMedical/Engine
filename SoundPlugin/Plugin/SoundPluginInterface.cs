@@ -78,7 +78,7 @@ namespace SoundPlugin
         {
             if ((resourceType & InternalResourceType.Sound) == InternalResourceType.Sound)
             {
-                openALManager.resumeAudio();
+                openALManager.ResumeAudio();
             }
         }
 
@@ -86,7 +86,7 @@ namespace SoundPlugin
         {
             if ((resourceType & InternalResourceType.Sound) == InternalResourceType.Sound)
             {
-                openALManager.suspendAudio();
+                openALManager.SuspendAudio();
             }
         }
     }

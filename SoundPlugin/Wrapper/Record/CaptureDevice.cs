@@ -23,7 +23,7 @@ namespace SoundPlugin
 
         public void Dispose()
         {
-            openAlManager.destroyCaptureDevice(this);
+            openAlManager.DestroyCaptureDevice(this);
             callbackHandler.Dispose();
         }
 

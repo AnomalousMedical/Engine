@@ -19,12 +19,12 @@ namespace SoundPlugin
             this.logger = logger;
         }
 
-        public Source streamPlayAndForgetSound(Stream soundStream)
+        public Source StreamPlayAndForgetSound(Stream soundStream)
         {
-            Source source = openALManager.getSource();
+            Source source = openALManager.GetSource();
             if (source != null)
             {
-                Sound sound = openALManager.createStreamingSound(soundStream);
+                Sound sound = openALManager.CreateStreamingSound(soundStream);
                 oneTimeSounds.Add(source, sound);
                 source.PlaybackFinished += source_PlaybackFinished;
                 source.playSound(sound);
@@ -37,11 +37,11 @@ namespace SoundPlugin
             return null;
         }
 
-        public double getDuration(Stream soundStream)
+        public double GetDuration(Stream soundStream)
         {
-            AudioCodec codec = openALManager.createAudioCodec(soundStream);
+            AudioCodec codec = openALManager.CreateAudioCodec(soundStream);
             double duration = codec.Duration;
-            openALManager.destroyAudioCodec(codec);
+            openALManager.DestroyAudioCodec(codec);
             return duration;
         }
 
@@ -49,16 +49,16 @@ namespace SoundPlugin
         /// Open a capture device, you must dispose it when you are done.
         /// </summary>
         /// <returns>A new open capture device.</returns>
-        public CaptureDevice openCaptureDevice(BufferFormat format = BufferFormat.Stereo16, int bufferSeconds = 5, int rate = 44100)
+        public CaptureDevice OpenCaptureDevice(BufferFormat format = BufferFormat.Stereo16, int bufferSeconds = 5, int rate = 44100)
         {
-            return openALManager.createCaptureDevice(format, bufferSeconds, rate);
+            return openALManager.CreateCaptureDevice(format, bufferSeconds, rate);
         }
 
         void source_PlaybackFinished(Source source)
         {
             source.PlaybackFinished -= source_PlaybackFinished;
             Sound sound = oneTimeSounds[source];
-            openALManager.destroySound(sound);
+            openALManager.DestroySound(sound);
             oneTimeSounds.Remove(source);
         }
     }

@@ -19,7 +19,7 @@ namespace SoundPlugin
         public void sendUpdate(Clock clock)
         {
             PerformanceMonitor.start("Sound");
-            openALManager.update();
+            openALManager.Update();
             PerformanceMonitor.stop("Sound");
         }
 
