@@ -60,28 +60,8 @@ namespace DiligentEngineTest
 
             mainTimer = globalScope.ServiceProvider.GetRequiredService<UpdateTimer>();
 
-            ////Setup framerate cap
-            //if (PlatformConfig.FpsCap.HasValue)
-            //{
-            //    //Use platform cap if it is set always
-            //    mainTimer.FramerateCap = PlatformConfig.FpsCap.Value;
-            //}
-            //else if (OgreConfig.VSync)
-            //{
-            //    //Use a unlimited framerate cap if vsync is on since it will cap our 
-            //    //framerate for us. If the user has requested a higher rate use it anyway.
-            //    mainTimer.FramerateCap = 0;
-            //}
-            //else
-            //{
-            //    //Otherwise config cap
-            //    mainTimer.FramerateCap = CoreConfig.EngineConfig.FPSCap;
-            //}
-
             var updateListener = globalScope.ServiceProvider.GetRequiredService<SimpleUpdateListener>();
             mainTimer.addUpdateListener(updateListener);
-
-            SoundConfig.MasterVolume = 1.0f;
 
             PerformanceMonitor.setupEnabledState(globalScope.ServiceProvider.GetRequiredService<SystemTimer>());
 

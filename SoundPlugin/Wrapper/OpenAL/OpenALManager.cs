@@ -23,16 +23,17 @@ namespace SoundPlugin
         private AudioCodecManager codecManager = new AudioCodecManager();
         private CaptureDeviceManager captureDeviceManager = new CaptureDeviceManager();
 
-        public OpenALManager()
+        public OpenALManager(SoundState soundState)
             :base(OpenALManager_create())
         {
             listener = new Listener(OpenALManager_getListener(Pointer));
-            SoundConfig.MasterVolumeChanged += new EventHandler(SoundConfig_MasterVolumeChanged);
+            soundState.MasterVolumeChanged += SoundState_MasterVolumeChanged;
+            SoundState_MasterVolumeChanged(soundState);
         }
 
-        void SoundConfig_MasterVolumeChanged(object sender, EventArgs e)
+        private void SoundState_MasterVolumeChanged(SoundState sender)
         {
-            listener.Gain = SoundConfig.MasterVolume;
+            listener.Gain = sender.MasterVolume;
         }
 
         public void Dispose()
