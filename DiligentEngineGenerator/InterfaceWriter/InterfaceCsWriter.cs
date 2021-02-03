@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace DiligentEngineGenerator
@@ -36,7 +37,7 @@ namespace DiligentEngine
 
                 var sep = "";
 
-                foreach (var arg in item.Args)
+                foreach (var arg in item.Args.Where(i => !i.MakeReturnVal))
                 {
                     writer.Write($"{sep}{GetCSharpType(arg.Type, context)} {arg.Name}");
                     sep = ", ";
@@ -58,7 +59,7 @@ namespace DiligentEngine
                 this.objPtr");
                 }
 
-                foreach (var arg in item.Args)
+                foreach (var arg in item.Args.Where(i => !i.MakeReturnVal))
                 {
                     if (context.CodeTypeInfo.Structs.TryGetValue(arg.LookupType, out var structInfo))
                     {
@@ -102,11 +103,11 @@ namespace DiligentEngine
 @$"        private static extern {GetPInvokeType(item, context)} {code.Name}_{item.Name}(
             IntPtr objPtr");
 
-                foreach (var arg in item.Args)
+                foreach (var arg in item.Args.Where(i => !i.MakeReturnVal))
                 {
                     if (context.CodeTypeInfo.Structs.TryGetValue(arg.LookupType, out var structInfo))
                     {
-                        var argWriter = new StructCsFunctionSignatureArgsWriter(structInfo, "            ");
+                        var argWriter = new StructCsFunctionSignatureArgsWriter(arg.Name, structInfo, "            ");
                         argWriter.Render(writer, context);
                     }
                     else

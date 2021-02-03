@@ -106,13 +106,21 @@ namespace DiligentEngineGenerator
                 codeTypeInfo.Interfaces[nameof(IRenderDevice)] = IRenderDevice;
 
                 var CreateShader = IRenderDevice.Methods.First(i => i.Name == "CreateShader");
-                CreateShader.ReturnType = "IShader";
-                CreateShader.Args = CreateShader.Args.Where(i => i.Name != "ppShader").ToList();
+                CreateShader.ReturnType = "IShader*";
+                var ppShader = CreateShader.Args.First(i => i.Name == "ppShader");
+                ppShader.MakeReturnVal = true;
+                ppShader.Type = "IShader*";
 
                 var allowedMethods = new List<String> { "CreateShader" };
                 IRenderDevice.Methods = IRenderDevice.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(IRenderDevice), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IRenderDevice)}.cs"));
+                var cppWriter = new InterfaceCppWriter(IRenderDevice, new List<String>()
+                {
+                    "Graphics/GraphicsEngine/interface/RenderDevice.h",
+                    "Color.h"
+                });
+                codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IRenderDevice)}.cpp"));
             }
 
             {

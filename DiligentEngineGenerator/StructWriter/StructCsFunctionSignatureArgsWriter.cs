@@ -7,11 +7,13 @@ namespace DiligentEngineGenerator
 {
     class StructCsFunctionSignatureArgsWriter : ICodeRenderer
     {
+        private readonly string argName;
         private CodeStruct code;
         private readonly string tabs;
 
-        public StructCsFunctionSignatureArgsWriter(CodeStruct code, String tabs)
+        public StructCsFunctionSignatureArgsWriter(String argName, CodeStruct code, String tabs)
         {
+            this.argName = argName;
             this.code = code;
             this.tabs = tabs;
         }
@@ -20,7 +22,7 @@ namespace DiligentEngineGenerator
         {
             foreach (var item in code.Properties)
             {
-                writer.WriteLine($"{tabs}, {GetCSharpType(item.Type)} {code.Name}_{item.Name}");
+                writer.WriteLine($"{tabs}, {GetCSharpType(item.Type)} {argName}_{item.Name}");
             }
         }
 

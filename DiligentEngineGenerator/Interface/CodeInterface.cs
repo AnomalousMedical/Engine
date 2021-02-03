@@ -81,5 +81,7 @@ namespace DiligentEngineGenerator
         public bool IsPtrToPtr { get; set; }
 
         public String CppPrefix { get; set; }
+
+        public bool MakeReturnVal { get; set; }
     }
 }

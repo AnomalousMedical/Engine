@@ -33,9 +33,9 @@ namespace DiligentEngine
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr IRenderDevice_CreateShader(
             IntPtr objPtr
-            , String ShaderCreateInfo_FilePath
-            , String ShaderCreateInfo_Source
-            , String ShaderCreateInfo_EntryPoint
+            , String ShaderCI_FilePath
+            , String ShaderCI_Source
+            , String ShaderCI_EntryPoint
         );
     }
 }

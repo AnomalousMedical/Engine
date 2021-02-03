@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace DiligentEngineGenerator
@@ -30,28 +31,50 @@ namespace DiligentEngineGenerator
             {
                 writer.Write($"extern \"C\" _AnomalousExport {item.ReturnType} {code.Name}_{item.Name}({code.Name}* objPtr");
 
-                foreach (var arg in item.Args)
+                foreach (var arg in item.Args.Where(i => !i.MakeReturnVal))
                 {
                     writer.Write($", {arg.Type} {arg.Name}");
                 }
+
+                var makeReturnArg = item.Args.Where(i => i.MakeReturnVal).FirstOrDefault();
 
                 writer.WriteLine($")");
                 writer.WriteLine("{");
                 if(item.ReturnType != "void")
                 {
-                    writer.Write($"	return objPtr->{item.Name}(");
+                    if(makeReturnArg != null)
+                    {
+                        writer.WriteLine($"	{makeReturnArg.Type} {makeReturnArg.Name} = nullptr;");
+                        writer.WriteLine($"	objPtr->{item.Name}(");
+                    }
+                    else
+                    {
+                        writer.WriteLine($"	return objPtr->{item.Name}(");
+                    }
                 }
                 else
                 {
-                    writer.Write($"	objPtr->{item.Name}(");
+                    writer.WriteLine($"	objPtr->{item.Name}(");
                 }
-                var sep = "";
+                var sep = "		";
                 foreach (var arg in item.Args)
                 {
-                    writer.Write($"{sep}{arg.CppPrefix}{arg.Name}");
-                    sep = ", ";
+                    var typePrefix = "";
+                    if (arg.MakeReturnVal)
+                    {
+                        typePrefix = "&";
+                    }
+
+                    writer.WriteLine($"{sep}{typePrefix}{arg.CppPrefix}{arg.Name}");
+                    sep = "		, ";
                 }
-                writer.WriteLine(");");
+                writer.WriteLine("	);");
+
+                if (makeReturnArg != null)
+                {
+                    writer.WriteLine($"	return {makeReturnArg.Name};");
+                }
+
                 writer.WriteLine("}");
             }
         }

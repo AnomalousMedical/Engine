@@ -167,6 +167,7 @@
     <ClCompile Include="IDeviceContext.cpp" />
     <ClCompile Include="IDeviceContext.Custom.cpp" />
     <ClCompile Include="IObject.cpp" />
+    <ClCompile Include="IRenderDevice.cpp" />
     <ClCompile Include="IShader.cpp" />
     <ClCompile Include="ISwapChain.cpp" />
     <ClCompile Include="ITextureView.cpp" />
@@ -177,12 +178,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="StringManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Color.h" />
     <ClInclude Include="Stdafx.h" />
-    <ClInclude Include="StringManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
