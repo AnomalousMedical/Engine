@@ -13,10 +13,16 @@ using Uint16 = System.UInt16;
 
 namespace DiligentEngine
 {
-    public enum RESOURCE_STATE_TRANSITION_MODE :  Uint8
+    public partial class PipelineStateCreateInfo
     {
-        RESOURCE_STATE_TRANSITION_MODE_NONE = 0,
-        RESOURCE_STATE_TRANSITION_MODE_TRANSITION,
-        RESOURCE_STATE_TRANSITION_MODE_VERIFY,
+
+        public PipelineStateCreateInfo()
+        {
+            
+        }
+        public PipelineStateDesc PSODesc { get; set; } = new PipelineStateDesc();
+        public PSO_CREATE_FLAGS Flags { get; set; } = PSO_CREATE_FLAGS.PSO_CREATE_FLAG_NONE;
+
+
     }
 }

@@ -13,10 +13,11 @@ using Uint16 = System.UInt16;
 
 namespace DiligentEngine
 {
-    public enum RESOURCE_STATE_TRANSITION_MODE :  Uint8
+    public enum FILL_MODE :  Int8
     {
-        RESOURCE_STATE_TRANSITION_MODE_NONE = 0,
-        RESOURCE_STATE_TRANSITION_MODE_TRANSITION,
-        RESOURCE_STATE_TRANSITION_MODE_VERIFY,
+        FILL_MODE_UNDEFINED = 0,
+        FILL_MODE_WIREFRAME,
+        FILL_MODE_SOLID,
+        FILL_MODE_NUM_MODES,
     }
 }

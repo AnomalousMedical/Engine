@@ -13,10 +13,16 @@ using Uint16 = System.UInt16;
 
 namespace DiligentEngine
 {
-    public enum RESOURCE_STATE_TRANSITION_MODE :  Uint8
+    public partial class BlendStateDesc
     {
-        RESOURCE_STATE_TRANSITION_MODE_NONE = 0,
-        RESOURCE_STATE_TRANSITION_MODE_TRANSITION,
-        RESOURCE_STATE_TRANSITION_MODE_VERIFY,
+
+        public BlendStateDesc()
+        {
+            
+        }
+        public Bool AlphaToCoverageEnable { get; set; } = false;
+        public Bool IndependentBlendEnable { get; set; } = false;
+
+
     }
 }

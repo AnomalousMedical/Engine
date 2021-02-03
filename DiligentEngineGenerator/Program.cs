@@ -78,8 +78,85 @@ namespace DiligentEngineGenerator
                 EnumWriter.Write(SHADER_SOURCE_LANGUAGE, Path.Combine(baseEnumDir, $"{nameof(SHADER_SOURCE_LANGUAGE)}.cs"));
             }
 
+            {
+                var PRIMITIVE_TOPOLOGY = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 943, 1100);
+                codeTypeInfo.Enums[nameof(PRIMITIVE_TOPOLOGY)] = PRIMITIVE_TOPOLOGY;
+                EnumWriter.Write(PRIMITIVE_TOPOLOGY, Path.Combine(baseEnumDir, $"{nameof(PRIMITIVE_TOPOLOGY)}.cs"));
+            }
 
+            {
+                var TEXTURE_FORMAT = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 277, 814);
+                codeTypeInfo.Enums[nameof(TEXTURE_FORMAT)] = TEXTURE_FORMAT;
+                EnumWriter.Write(TEXTURE_FORMAT, Path.Combine(baseEnumDir, $"{nameof(TEXTURE_FORMAT)}.cs"));
+            }
 
+            {
+                var BLEND_FACTOR = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/BlendState.h", 42, 126);
+                codeTypeInfo.Enums[nameof(BLEND_FACTOR)] = BLEND_FACTOR;
+                EnumWriter.Write(BLEND_FACTOR, Path.Combine(baseEnumDir, $"{nameof(BLEND_FACTOR)}.cs"));
+            }
+
+            {
+                var BLEND_OPERATION = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/BlendState.h", 130, 165);
+                codeTypeInfo.Enums[nameof(BLEND_OPERATION)] = BLEND_OPERATION;
+                EnumWriter.Write(BLEND_OPERATION, Path.Combine(baseEnumDir, $"{nameof(BLEND_OPERATION)}.cs"));
+            }
+
+            {
+                var COLOR_MASK = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/BlendState.h", 169, 191);
+                codeTypeInfo.Enums[nameof(COLOR_MASK)] = COLOR_MASK;
+                EnumWriter.Write(COLOR_MASK, Path.Combine(baseEnumDir, $"{nameof(COLOR_MASK)}.cs"));
+            }
+
+            {
+                var LOGIC_OPERATION = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/BlendState.h", 195, 269);
+                codeTypeInfo.Enums[nameof(LOGIC_OPERATION)] = LOGIC_OPERATION;
+                EnumWriter.Write(LOGIC_OPERATION, Path.Combine(baseEnumDir, $"{nameof(LOGIC_OPERATION)}.cs"));
+            }
+
+            {
+                var COMPARISON_FUNCTION = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 880, 926);
+                codeTypeInfo.Enums[nameof(COMPARISON_FUNCTION)] = COMPARISON_FUNCTION;
+                EnumWriter.Write(COMPARISON_FUNCTION, Path.Combine(baseEnumDir, $"{nameof(COMPARISON_FUNCTION)}.cs"));
+            }
+
+            {
+                var STENCIL_OP = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DepthStencilState.h", 41, 89);
+                codeTypeInfo.Enums[nameof(STENCIL_OP)] = STENCIL_OP;
+                EnumWriter.Write(STENCIL_OP, Path.Combine(baseEnumDir, $"{nameof(STENCIL_OP)}.cs"));
+            }
+
+            {
+                var PSO_CREATE_FLAGS = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 365, 388);
+                codeTypeInfo.Enums[nameof(PSO_CREATE_FLAGS)] = PSO_CREATE_FLAGS;
+                EnumWriter.Write(PSO_CREATE_FLAGS, Path.Combine(baseEnumDir, $"{nameof(PSO_CREATE_FLAGS)}.cs"));
+            }
+
+            {
+                var FILL_MODE = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/RasterizerState.h", 41, 62);
+                codeTypeInfo.Enums[nameof(FILL_MODE)] = FILL_MODE;
+                EnumWriter.Write(FILL_MODE, Path.Combine(baseEnumDir, $"{nameof(FILL_MODE)}.cs"));
+            }
+
+            {
+                var CULL_MODE = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/RasterizerState.h", 64, 90);
+                codeTypeInfo.Enums[nameof(CULL_MODE)] = CULL_MODE;
+                EnumWriter.Write(CULL_MODE, Path.Combine(baseEnumDir, $"{nameof(CULL_MODE)}.cs"));
+            }
+
+            {
+                var PIPELINE_TYPE = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 318, 336);
+                codeTypeInfo.Enums[nameof(PIPELINE_TYPE)] = PIPELINE_TYPE;
+                EnumWriter.Write(PIPELINE_TYPE, Path.Combine(baseEnumDir, $"{nameof(PIPELINE_TYPE)}.cs"));
+            }
+
+            {
+                var SHADER_RESOURCE_VARIABLE_TYPE = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/ShaderResourceVariable.h", 46, 66);
+                codeTypeInfo.Enums[nameof(SHADER_RESOURCE_VARIABLE_TYPE)] = SHADER_RESOURCE_VARIABLE_TYPE;
+                EnumWriter.Write(SHADER_RESOURCE_VARIABLE_TYPE, Path.Combine(baseEnumDir, $"{nameof(SHADER_RESOURCE_VARIABLE_TYPE)}.cs"));
+            }
+
+            
 
             //////////// Structs
 
@@ -103,6 +180,57 @@ namespace DiligentEngineGenerator
             }
 
             {
+                var PipelineResourceLayoutDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 129, 149);
+                codeTypeInfo.Structs[nameof(PipelineResourceLayoutDesc)] = PipelineResourceLayoutDesc;
+
+                var remove = new List<String>() { "Variables", "ImmutableSamplers" };
+                PipelineResourceLayoutDesc.Properties = PipelineResourceLayoutDesc.Properties.Where(i => !remove.Contains(i.Name)).ToList();
+
+                codeWriter.AddWriter(new StructCsWriter(PipelineResourceLayoutDesc), Path.Combine(baseStructDir, $"{nameof(PipelineResourceLayoutDesc)}.cs"));
+            }
+            
+
+            {
+                var BlendStateDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/BlendState.h", 372, 387);
+                codeTypeInfo.Structs[nameof(BlendStateDesc)] = BlendStateDesc;
+                var remove = new List<String> { "RenderTargets[DILIGENT_MAX_RENDER_TARGETS]" };
+                BlendStateDesc.Properties = BlendStateDesc.Properties.Where(i => !remove.Contains(i.Name)).ToList();
+                codeWriter.AddWriter(new StructCsWriter(BlendStateDesc), Path.Combine(baseStructDir, $"{nameof(BlendStateDesc)}.cs"));
+            }
+
+            {
+                var RasterizerStateDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/RasterizerState.h", 94, 138);
+                codeTypeInfo.Structs[nameof(RasterizerStateDesc)] = RasterizerStateDesc;
+
+                RasterizerStateDesc.Properties.First(i => i.Name == "DepthBiasClamp").DefaultValue = RasterizerStateDesc.Properties.First(i => i.Name == "DepthBiasClamp").DefaultValue.Replace(".f", "f");
+                RasterizerStateDesc.Properties.First(i => i.Name == "SlopeScaledDepthBias").DefaultValue = RasterizerStateDesc.Properties.First(i => i.Name == "SlopeScaledDepthBias").DefaultValue.Replace(".f", "f");
+
+                codeWriter.AddWriter(new StructCsWriter(RasterizerStateDesc), Path.Combine(baseStructDir, $"{nameof(RasterizerStateDesc)}.cs"));
+            }
+
+            {
+                var DepthStencilStateDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DepthStencilState.h", 151, 188);
+                codeTypeInfo.Structs[nameof(DepthStencilStateDesc)] = DepthStencilStateDesc;
+                codeWriter.AddWriter(new StructCsWriter(DepthStencilStateDesc), Path.Combine(baseStructDir, $"{nameof(DepthStencilStateDesc)}.cs"));
+            }
+
+            //{
+            //    var InputLayoutDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/InputLayout.h", 201, 209);
+            //    codeTypeInfo.Structs[nameof(InputLayoutDesc)] = InputLayoutDesc;
+            //    codeWriter.AddWriter(new StructCsWriter(InputLayoutDesc), Path.Combine(baseStructDir, $"{nameof(InputLayoutDesc)}.cs"));
+            //}
+
+            {
+                var RenderTargetBlendDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/BlendState.h", 273, 319);
+                codeTypeInfo.Structs[nameof(RenderTargetBlendDesc)] = RenderTargetBlendDesc;
+                var RenderTargetWriteMask = RenderTargetBlendDesc.Properties.First(i => i.Name == "RenderTargetWriteMask");
+                RenderTargetWriteMask.DefaultValue = "(Uint8)COLOR_MASK.COLOR_MASK_ALL";
+
+                codeWriter.AddWriter(new StructCsWriter(RenderTargetBlendDesc), Path.Combine(baseStructDir, $"{nameof(RenderTargetBlendDesc)}.cs"));
+            }
+            
+
+            {
                 var ShaderCreateInfo = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Shader.h", 223, 331);
                 codeTypeInfo.Structs[nameof(ShaderCreateInfo)] = ShaderCreateInfo;
                 var skip = new List<String> { "pShaderSourceStreamFactory", "IHLSL2GLSLConversionStream**", "ByteCode", "ByteCodeSize", "Macros", "HLSLVersion", "ShaderCompiler" };
@@ -111,6 +239,40 @@ namespace DiligentEngineGenerator
                 codeWriter.AddWriter(new StructCsWriter(ShaderCreateInfo), Path.Combine(baseStructDir, $"{nameof(ShaderCreateInfo)}.cs"));
             }
 
+            {
+                var PipelineStateCreateInfo = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 390, 400);
+                codeTypeInfo.Structs[nameof(PipelineStateCreateInfo)] = PipelineStateCreateInfo;
+                codeWriter.AddWriter(new StructCsWriter(PipelineStateCreateInfo), Path.Combine(baseStructDir, $"{nameof(PipelineStateCreateInfo)}.cs"));
+            }
+
+            {
+                var GraphicsPipelineDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 154, 214);
+                codeTypeInfo.Structs[nameof(GraphicsPipelineDesc)] = GraphicsPipelineDesc;
+
+                var remove = new List<String>() { "InputLayout", "RTVFormats[8]" };
+                GraphicsPipelineDesc.Properties = GraphicsPipelineDesc.Properties.Where(i => !remove.Contains(i.Name)).ToList();
+
+                codeWriter.AddWriter(new StructCsWriter(GraphicsPipelineDesc), Path.Combine(baseStructDir, $"{nameof(GraphicsPipelineDesc)}.cs"));
+            }
+
+            {
+                var GraphicsPipelineStateCreateInfo = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 402, 430);
+                codeTypeInfo.Structs[nameof(GraphicsPipelineStateCreateInfo)] = GraphicsPipelineStateCreateInfo;
+                codeWriter.AddWriter(new StructCsWriter(GraphicsPipelineStateCreateInfo), Path.Combine(baseStructDir, $"{nameof(GraphicsPipelineStateCreateInfo)}.cs"));
+            }
+
+            {
+                var StencilOpDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DepthStencilState.h", 92, 115);
+                codeTypeInfo.Structs[nameof(StencilOpDesc)] = StencilOpDesc;
+                codeWriter.AddWriter(new StructCsWriter(StencilOpDesc), Path.Combine(baseStructDir, $"{nameof(StencilOpDesc)}.cs"));
+            }
+
+            {
+                var PipelineStateDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 338, 356);
+                codeTypeInfo.Structs[nameof(PipelineStateDesc)] = PipelineStateDesc;
+                codeWriter.AddWriter(new StructCsWriter(PipelineStateDesc), Path.Combine(baseStructDir, $"{nameof(PipelineStateDesc)}.cs"));
+            }
+            
             //////////// Interfaces
             var baseCSharpInterfaceDir = Path.Combine(baseCSharpOutDir, "Interfaces");
 

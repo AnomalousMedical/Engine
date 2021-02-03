@@ -13,14 +13,16 @@ using Uint16 = System.UInt16;
 
 namespace DiligentEngine
 {
-    public partial class DeviceObjectAttribs
+    public partial class PipelineResourceLayoutDesc
     {
 
-        public DeviceObjectAttribs()
+        public PipelineResourceLayoutDesc()
         {
             
         }
-        public String Name { get; set; }
+        public SHADER_RESOURCE_VARIABLE_TYPE DefaultVariableType { get; set; } = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
+        public Uint32 NumVariables { get; set; } = 0;
+        public Uint32 NumImmutableSamplers { get; set; } = 0;
 
 
     }

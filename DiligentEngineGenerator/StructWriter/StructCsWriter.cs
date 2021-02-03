@@ -53,7 +53,7 @@ $@"    {{
 
             foreach (var item in code.Properties)
             {
-                writer.Write($"        public {GetCSharpType(item.Type)} {item.Name} {{ get; set; }}");
+                writer.Write($"        public {GetCSharpType(item, context)} {item.Name} {{ get; set; }}");
 
                 if (context.CodeTypeInfo.Structs.ContainsKey(item.LookupType))
                 {
@@ -92,6 +92,10 @@ $@"    {{
             {
                 case "nullptr":
                     return null; //Let the language implied null work
+                case "True":
+                    return "true";
+                case "False":
+                    return "false";
             }
 
             if (context.CodeTypeInfo.Enums.ContainsKey(structProperty.LookupType))
@@ -102,31 +106,20 @@ $@"    {{
             return structProperty.DefaultValue;
         }
 
-        private static String GetCSharpType(String type)
+        private static String GetCSharpType(StructProperty item, CodeRendererContext context)
         {
-            switch (type)
+            if(context.CodeTypeInfo.Interfaces.ContainsKey(item.LookupType) || context.CodeTypeInfo.Structs.ContainsKey(item.LookupType))
+            {
+                return item.LookupType;
+            }
+
+            switch (item.Type)
             {
                 case "Char*":
                     return "String";
             }
 
-            return type;
-        }
-
-        private static String GetPInvokeType(StructProperty arg)
-        {
-            switch (arg.Type)
-            {
-                case "Char*":
-                    return "String";
-            }
-
-            //if (arg.IsPtr)
-            //{
-            //    return "IntPtr";
-            //}
-
-            return arg.Type;
+            return item.Type;
         }
     }
 }

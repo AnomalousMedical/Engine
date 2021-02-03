@@ -9,6 +9,8 @@ using Int8 = System.SByte;
 using Bool = System.Boolean;
 using Uint32 = System.UInt32;
 using Uint64 = System.UInt64;
+using Float32 = System.Single;
+using Uint16 = System.UInt16;
 
 namespace DiligentEngine
 {

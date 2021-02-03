@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DiligentEngineGenerator
@@ -25,13 +26,13 @@ namespace DiligentEngineGenerator
                         propertyParse = propertyParse.Substring(0, propertyParse.IndexOf(DEFAULT_INITIALIZER));
                     }
 
-                    var typeAndName = propertyParse.Split(null); //Split on whitespace
+                    var typeAndName = propertyParse.Split(null).Where(i => !String.IsNullOrWhiteSpace(i)); //Split on whitespace
 
                     var property = new StructProperty()
                     {
                         Comment = commentBuilder.ToString(),
-                        Type = typeAndName[0],
-                        Name = typeAndName[1],
+                        Type = typeAndName.First(),
+                        Name = typeAndName.Skip(1).First(),
                         IsConst = line.Contains("const")
                     };
                     
