@@ -13,15 +13,13 @@ namespace Anomalous.OSPlatform
 {
     public abstract partial class App : IDisposable
     {
-        IntPtr appPtr;
-        CallbackHandler callbackHandler;
-
+        private IntPtr appPtr;
+        private CallbackHandler callbackHandler;
         private bool restartOnShutdown = false;
         private bool restartAsAdmin = false;
         private String restartArgs = null;
-
-        private PluginManager pluginManager;
         private IServiceCollection services = new ServiceCollection();
+        private PluginManager pluginManager;
 
         public App()
         {
@@ -44,7 +42,7 @@ namespace Anomalous.OSPlatform
             {
                 try
                 {
-                    System.Diagnostics.ProcessStartInfo startInfo;
+                    ProcessStartInfo startInfo;
                     if (restartAsAdmin)
                     {
                         startInfo = RuntimePlatformInfo.RestartAdminProcInfo;
@@ -61,11 +59,6 @@ namespace Anomalous.OSPlatform
                     
                 }
             }
-        }
-
-        protected void addPluginAssembly(Assembly assembly)
-        {
-            this.pluginManager.addPluginAssembly(assembly);
         }
 
         public void Run()
@@ -101,7 +94,7 @@ namespace Anomalous.OSPlatform
 
         public bool OnInitCb()
         {
-            var result = this.OnInit(services);
+            var result = this.OnInit(services, pluginManager);
 
             if (!result)
             {
@@ -115,7 +108,7 @@ namespace Anomalous.OSPlatform
             return result;
         }
 
-        public abstract bool OnInit(IServiceCollection services);
+        public abstract bool OnInit(IServiceCollection services, PluginManager pluginManager);
 
         public abstract bool OnLink(IServiceScope globalScope);
 

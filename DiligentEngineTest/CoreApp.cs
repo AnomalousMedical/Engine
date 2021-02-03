@@ -31,7 +31,7 @@ namespace DiligentEngineTest
             base.Dispose();
         }
 
-        public override bool OnInit(IServiceCollection services)
+        public override bool OnInit(IServiceCollection services, PluginManager pluginManager)
         {
             mainWindow = new NativeOSWindow("TEST APP TITLE",
                 new IntVector2(-1, -1),
@@ -96,9 +96,9 @@ namespace DiligentEngineTest
             services.TryAddSingleton<SimpleUpdateListener>();
 
             //addPluginAssembly(typeof(BulletInterface).Assembly);
-            addPluginAssembly(typeof(DiligentEnginePluginInterface).Assembly);
-            addPluginAssembly(typeof(NativePlatformPlugin).Assembly);
-            addPluginAssembly(typeof(SoundPluginInterface).Assembly);
+            pluginManager.addPluginAssembly(typeof(DiligentEnginePluginInterface).Assembly);
+            pluginManager.addPluginAssembly(typeof(NativePlatformPlugin).Assembly);
+            pluginManager.addPluginAssembly(typeof(SoundPluginInterface).Assembly);
 
             return true;
         }
