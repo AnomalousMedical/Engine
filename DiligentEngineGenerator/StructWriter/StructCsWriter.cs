@@ -5,26 +5,16 @@ using System.Text;
 
 namespace DiligentEngineGenerator
 {
-    class StructCsWriter
+    class StructCsWriter : ICodeRenderer
     {
-        public static void Write(CodeStruct code, String file, StructCsWriter fileWriter = null)
+        private CodeStruct code;
+
+        public StructCsWriter(CodeStruct code)
         {
-            if (fileWriter == null)
-            {
-                fileWriter = new StructCsWriter();
-            }
-
-            var dir = Path.GetDirectoryName(file);
-            if (!Directory.Exists(dir))
-            {
-                Directory.CreateDirectory(dir);
-            }
-
-            using var writer = new StreamWriter(File.Open(file, FileMode.Create, FileAccess.ReadWrite, FileShare.None));
-            fileWriter.Write(code, writer);
+            this.code = code;
         }
 
-        public void Write(CodeStruct code, StreamWriter writer)
+        public void Render(TextWriter writer, CodeRendererContext context)
         {
             writer.WriteLine(
 $@"using System;
@@ -37,24 +27,6 @@ using System.Text;
 namespace DiligentEngine
 {{");
 
-            WriteClassNameAndConstructor(code, writer);
-
-            foreach (var item in code.Properties)
-            {
-                writer.WriteLine($"        public {GetCSharpType(item.Type)} {item.Name} {{ get; set; }}");
-            }
-
-            //PInvoke
-            writer.WriteLine();
-            writer.WriteLine();
-
-            writer.WriteLine("    }");
-
-            writer.WriteLine("}");
-        }
-
-        protected virtual void WriteClassNameAndConstructor(CodeStruct code, StreamWriter writer)
-        {
             if (code.BaseType != null)
             {
                 writer.WriteLine($"    public partial class {code.Name} : {code.BaseType}");
@@ -78,6 +50,19 @@ $@"    {{
             
         }}");
             }
+
+            foreach (var item in code.Properties)
+            {
+                writer.WriteLine($"        public {GetCSharpType(item.Type)} {item.Name} {{ get; set; }}");
+            }
+
+            //PInvoke
+            writer.WriteLine();
+            writer.WriteLine();
+
+            writer.WriteLine("    }");
+
+            writer.WriteLine("}");
         }
 
         private static String GetCSharpType(String type)
@@ -105,10 +90,6 @@ $@"    {{
             //}
 
             return arg.Type;
-        }
-
-        protected virtual void CustomPInvoke(CodeStruct code, StreamWriter writer)
-        {
         }
     }
 }
