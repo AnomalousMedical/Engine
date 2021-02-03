@@ -33,9 +33,6 @@ namespace DiligentEngineTest
 
         public override bool OnInit(IServiceCollection services)
         {
-            services.TryAddSingleton<App>(this); //This is externally owned
-            services.TryAddSingleton<CoreApp>(this); //This is externally owned
-
             mainWindow = new NativeOSWindow("TEST APP TITLE",
                 new IntVector2(-1, -1),
                 new IntSize2(1920, 1080));
