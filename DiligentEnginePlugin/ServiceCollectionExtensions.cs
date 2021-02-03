@@ -1,10 +1,10 @@
-﻿using Engine;
-using Microsoft.Extensions.DependencyInjection;
+﻿using DiligentEnginePlugin;
+using Engine;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DiligentEnginePlugin
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
