@@ -32,23 +32,28 @@ namespace DiligentEngineGenerator
                 writer.WriteLine($"#include \"{inc}\"");
             }
             writer.WriteLine("using namespace Diligent;");
+            writer.WriteLine();
 
             WriteCustomPInvoke(code, writer);
 
             //PInvoke
             foreach (var item in code.Properties)
             {
-                writer.WriteLine(
-@$"extern ""C"" _AnomalousExport {item.Type} {code.Name}_Get_{item.Name}({code.Name}* objPtr)
-{{
-    return objPtr->{item.Name};
-}}");
+                var constStr = item.IsConst ? "const " : "";
 
                 writer.WriteLine(
-$@"extern ""C"" _AnomalousExport void {code.Name}_Set_{item.Name}({code.Name}* objPtr, {item.Type} value)
+@$"extern ""C"" _AnomalousExport {constStr}{item.Type} {code.Name}_Get_{item.Name}({code.Name}* objPtr)
+{{
+    return objPtr->{item.Name};
+}}
+");
+
+                writer.WriteLine(
+$@"extern ""C"" _AnomalousExport void {code.Name}_Set_{item.Name}({code.Name}* objPtr, {constStr}{item.Type} value)
 {{
     objPtr->{item.Name} = value;
-}}");
+}}
+");
             }
         }
 

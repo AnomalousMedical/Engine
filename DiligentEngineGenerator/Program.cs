@@ -75,7 +75,7 @@ namespace DiligentEngineGenerator
 
             {
                 var ShaderCreateInfo = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Shader.h", 223, 331);
-                var allowed = new List<String> { /*"CreateShader" */};
+                var allowed = new List<String> { "FilePath", "Source", "EntryPoint" };
                 ShaderCreateInfo.Properties = ShaderCreateInfo.Properties
                     .Where(i => allowed.Contains(i.Name)).ToList();
                 StructCsWriter.Write(ShaderCreateInfo, Path.Combine(baseStructDir, $"{nameof(ShaderCreateInfo)}.cs"), new TopStructCsWriter());

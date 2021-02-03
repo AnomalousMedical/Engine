@@ -9,7 +9,7 @@ namespace DiligentEngineGenerator
     {
         protected override void WriteCustomPInvoke(CodeStruct code, StreamWriter writer)
         {
-            writer.Write(
+            writer.WriteLine(
 $@"extern ""C"" _AnomalousExport {code.Name} * {code.Name}_Create()
 {{
     return new {code.Name};
