@@ -35,7 +35,17 @@ namespace DiligentEngineGenerator
                         Name = typeAndName.Skip(1).First(),
                         IsConst = line.Contains("const")
                     };
-                    
+
+                    //Check name to see if its an array
+                    var name = property.Name;
+                    var bracketIndex = name.IndexOf("[");
+                    if (bracketIndex != -1)
+                    {
+                        property.IsArray = true;
+                        property.ArrayLen = name.Substring(bracketIndex + 1).Replace("]", "").Trim();
+                        property.Name = name.Substring(0, bracketIndex);
+                    }
+
                     if (hasDefault)
                     {
                         property.DefaultValue = withInitialize.Substring(withInitialize.IndexOf(DEFAULT_INITIALIZER) + DEFAULT_INITIALIZER.Length)

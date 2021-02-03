@@ -42,13 +42,33 @@ namespace DiligentEngineGenerator
                 var nestedWriter = new StructCsFunctionCallArgsWriter($"{argName}.{item.Name}", st, tabs);
                 nestedWriter.Render(writer, context);
             }
-            else if (context.CodeTypeInfo.Interfaces.TryGetValue(item.LookupType, out var iface))
+            else
             {
-                writer.WriteLine($"{tabs}, {argName}.{item.Name}.objPtr");
+                if (item.IsArray)
+                {
+                    var max = item.ArrayLenInt;
+                    for (var i = 0; i < max; ++i)
+                    {
+                        WriteSimple(writer, context, item, $"_{i}");
+                    }
+                }
+                else
+                {
+                    WriteSimple(writer, context, item, "");
+                }
+            }
+        }
+
+        private void WriteSimple(TextWriter writer, CodeRendererContext context, StructProperty item, String array)
+        {
+
+            if (context.CodeTypeInfo.Interfaces.TryGetValue(item.LookupType, out var iface))
+            {
+                writer.WriteLine($"{tabs}, {argName}.{item.Name}{array}?.objPtr ?? IntPtr.Zero");
             }
             else
             {
-                writer.WriteLine($"{tabs}, {argName}.{item.Name}");
+                writer.WriteLine($"{tabs}, {argName}.{item.Name}{array}");
             }
         }
     }

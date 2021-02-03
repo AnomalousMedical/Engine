@@ -53,22 +53,18 @@ $@"    {{
 
             foreach (var item in code.Properties)
             {
-                writer.Write($"        public {GetCSharpType(item, context)} {item.Name} {{ get; set; }}");
-
-                if (context.CodeTypeInfo.Structs.ContainsKey(item.LookupType))
+                if (item.IsArray)
                 {
-                    writer.Write($" = new {item.Type}();");
-                }
-                else if (!String.IsNullOrWhiteSpace(item.DefaultValue))
-                {
-                    var value = GetCSharpValue(item, context);
-                    if (value != null)
+                    var len = item.ArrayLenInt;
+                    for(var i = 0; i < len; ++i)
                     {
-                        writer.Write($" = {value};");
+                        WriteItem(writer, context, item, $"_{i}");
                     }
                 }
-
-                writer.WriteLine();
+                else
+                {
+                    WriteItem(writer, context, item, "");
+                }
             }
 
             //PInvoke
@@ -78,6 +74,26 @@ $@"    {{
             writer.WriteLine("    }");
 
             writer.WriteLine("}");
+        }
+
+        private static void WriteItem(TextWriter writer, CodeRendererContext context, StructProperty item, String array)
+        {
+            writer.Write($"        public {GetCSharpType(item, context)} {item.Name}{array} {{ get; set; }}");
+
+            if (context.CodeTypeInfo.Structs.ContainsKey(item.LookupType))
+            {
+                writer.Write($" = new {item.Type}();");
+            }
+            else if (!String.IsNullOrWhiteSpace(item.DefaultValue))
+            {
+                var value = GetCSharpValue(item, context);
+                if (value != null)
+                {
+                    writer.Write($" = {value};");
+                }
+            }
+
+            writer.WriteLine();
         }
 
         /// <summary>

@@ -44,14 +44,30 @@ namespace DiligentEngineGenerator
             }
             else
             {
-                var attrs = "";
-                if (TypeDetector.IsBool(item.LookupType))
+                if (item.IsArray)
                 {
-                    attrs = "[MarshalAs(UnmanagedType.I1)]";
+                    var len = item.ArrayLenInt;
+                    for(int i = 0; i < len; ++i)
+                    {
+                        WriteBasicItem(writer, context, item, $"_{i}");
+                    }
                 }
-
-                writer.WriteLine($"{tabs}, {attrs}{GetCSharpType(item, context)} {argName}_{item.Name}");
+                else
+                {
+                    WriteBasicItem(writer, context, item, "");
+                }
             }
+        }
+
+        private void WriteBasicItem(TextWriter writer, CodeRendererContext context, StructProperty item, String arrayIndex)
+        {
+            var attrs = "";
+            if (TypeDetector.IsBool(item.LookupType))
+            {
+                attrs = "[MarshalAs(UnmanagedType.I1)]";
+            }
+
+            writer.WriteLine($"{tabs}, {attrs}{GetCSharpType(item, context)} {argName}_{item.Name}{arrayIndex}");
         }
 
         private static String GetCSharpType(StructProperty item, CodeRendererContext context)

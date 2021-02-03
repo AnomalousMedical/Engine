@@ -193,7 +193,7 @@ namespace DiligentEngineGenerator
             {
                 var BlendStateDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/BlendState.h", 372, 387);
                 codeTypeInfo.Structs[nameof(BlendStateDesc)] = BlendStateDesc;
-                var remove = new List<String> { "RenderTargets[DILIGENT_MAX_RENDER_TARGETS]" };
+                var remove = new List<String> { "RenderTargets[DILIGENT_MAX_RENDER_TARGETS]", "RenderTargets" };
                 BlendStateDesc.Properties = BlendStateDesc.Properties.Where(i => !remove.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new StructCsWriter(BlendStateDesc), Path.Combine(baseStructDir, $"{nameof(BlendStateDesc)}.cs"));
             }
@@ -249,7 +249,7 @@ namespace DiligentEngineGenerator
                 var GraphicsPipelineDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 154, 214);
                 codeTypeInfo.Structs[nameof(GraphicsPipelineDesc)] = GraphicsPipelineDesc;
 
-                var remove = new List<String>() { "InputLayout", "RTVFormats[8]", "pRenderPass" };
+                var remove = new List<String>() { "InputLayout", "pRenderPass" };
                 GraphicsPipelineDesc.Properties = GraphicsPipelineDesc.Properties.Where(i => !remove.Contains(i.Name)).ToList();
 
                 codeWriter.AddWriter(new StructCsWriter(GraphicsPipelineDesc), Path.Combine(baseStructDir, $"{nameof(GraphicsPipelineDesc)}.cs"));

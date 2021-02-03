@@ -14,8 +14,8 @@ namespace DiligentEngineGenerator
 
         public String Comment { get; set; }
 
-        public List<StructProperty> Properties { get; set; } = new List<StructProperty>(); 
-        
+        public List<StructProperty> Properties { get; set; } = new List<StructProperty>();
+
         public static CodeStruct Find(String file, int startLine, int endLine)
         {
             var commentBuilder = new StringBuilder();
@@ -56,5 +56,22 @@ namespace DiligentEngineGenerator
         public string LookupType => Type.Replace("*", "").Trim();
 
         public string DefaultValue { get; set; }
+
+        public bool IsArray { get; set; }
+
+        public String ArrayLen { get; set; }
+
+        public int ArrayLenInt
+        {
+            get
+            {
+                if (int.TryParse(ArrayLen, out int len))
+                {
+                    return len;
+                }
+                return 0;
+            }
+
+        }
     }
 }

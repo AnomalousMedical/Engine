@@ -94,7 +94,7 @@ void main(in  PSInput  PSIn,
             // This tutorial will render to a single render target
             PSOCreateInfo.GraphicsPipeline.NumRenderTargets = 1;
             // Set render target format which is the format of the swap chain's color buffer
-            PSOCreateInfo.GraphicsPipeline.RTVFormats[0] = TEXTURE_FORMAT.TEX_FORMAT_BGRA8_UNORM_SRGB; //Hardcoded, should use// m_pSwapChain->GetDesc().ColorBufferFormat;
+            PSOCreateInfo.GraphicsPipeline.RTVFormats_0 = TEXTURE_FORMAT.TEX_FORMAT_BGRA8_UNORM_SRGB; //Hardcoded, should use// m_pSwapChain->GetDesc().ColorBufferFormat;
             // Use the depth buffer format from the swap chain
             PSOCreateInfo.GraphicsPipeline.DSVFormat = TEXTURE_FORMAT.TEX_FORMAT_D32_FLOAT;//Hardcoded, should use// m_pSwapChain->GetDesc().DepthBufferFormat;
             // Primitive topology defines what kind of primitives will be rendered by this pipeline state

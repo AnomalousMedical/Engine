@@ -62,6 +62,14 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipeline
 	, Uint8 PSOCreateInfo_GraphicsPipeline_NumViewports
 	, Uint8 PSOCreateInfo_GraphicsPipeline_NumRenderTargets
 	, Uint8 PSOCreateInfo_GraphicsPipeline_SubpassIndex
+	, TEXTURE_FORMAT PSOCreateInfo_GraphicsPipeline_RTVFormats_0
+	, TEXTURE_FORMAT PSOCreateInfo_GraphicsPipeline_RTVFormats_1
+	, TEXTURE_FORMAT PSOCreateInfo_GraphicsPipeline_RTVFormats_2
+	, TEXTURE_FORMAT PSOCreateInfo_GraphicsPipeline_RTVFormats_3
+	, TEXTURE_FORMAT PSOCreateInfo_GraphicsPipeline_RTVFormats_4
+	, TEXTURE_FORMAT PSOCreateInfo_GraphicsPipeline_RTVFormats_5
+	, TEXTURE_FORMAT PSOCreateInfo_GraphicsPipeline_RTVFormats_6
+	, TEXTURE_FORMAT PSOCreateInfo_GraphicsPipeline_RTVFormats_7
 	, TEXTURE_FORMAT PSOCreateInfo_GraphicsPipeline_DSVFormat
 	, Uint8 PSOCreateInfo_GraphicsPipeline_SmplDesc_Count
 	, Uint8 PSOCreateInfo_GraphicsPipeline_SmplDesc_Quality
@@ -114,6 +122,14 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipeline
 	PSOCreateInfo.GraphicsPipeline.NumViewports = PSOCreateInfo_GraphicsPipeline_NumViewports;
 	PSOCreateInfo.GraphicsPipeline.NumRenderTargets = PSOCreateInfo_GraphicsPipeline_NumRenderTargets;
 	PSOCreateInfo.GraphicsPipeline.SubpassIndex = PSOCreateInfo_GraphicsPipeline_SubpassIndex;
+	PSOCreateInfo.GraphicsPipeline.RTVFormats[0] = PSOCreateInfo_GraphicsPipeline_RTVFormats_0;
+	PSOCreateInfo.GraphicsPipeline.RTVFormats[1] = PSOCreateInfo_GraphicsPipeline_RTVFormats_1;
+	PSOCreateInfo.GraphicsPipeline.RTVFormats[2] = PSOCreateInfo_GraphicsPipeline_RTVFormats_2;
+	PSOCreateInfo.GraphicsPipeline.RTVFormats[3] = PSOCreateInfo_GraphicsPipeline_RTVFormats_3;
+	PSOCreateInfo.GraphicsPipeline.RTVFormats[4] = PSOCreateInfo_GraphicsPipeline_RTVFormats_4;
+	PSOCreateInfo.GraphicsPipeline.RTVFormats[5] = PSOCreateInfo_GraphicsPipeline_RTVFormats_5;
+	PSOCreateInfo.GraphicsPipeline.RTVFormats[6] = PSOCreateInfo_GraphicsPipeline_RTVFormats_6;
+	PSOCreateInfo.GraphicsPipeline.RTVFormats[7] = PSOCreateInfo_GraphicsPipeline_RTVFormats_7;
 	PSOCreateInfo.GraphicsPipeline.DSVFormat = PSOCreateInfo_GraphicsPipeline_DSVFormat;
 	PSOCreateInfo.GraphicsPipeline.SmplDesc.Count = PSOCreateInfo_GraphicsPipeline_SmplDesc_Count;
 	PSOCreateInfo.GraphicsPipeline.SmplDesc.Quality = PSOCreateInfo_GraphicsPipeline_SmplDesc_Quality;

@@ -46,8 +46,24 @@ namespace DiligentEngineGenerator
             }
             else
             {
-                writer.WriteLine($"{tabs}{argName}.{item.Name} = {argName}_{item.Name};");
+                if (item.IsArray)
+                {
+                    var len = item.ArrayLenInt;
+                    for (var i = 0; i < len; ++i)
+                    {
+                        WriteSimple(writer, item, $"[{i}]", $"_{i}");
+                    }
+                }
+                else
+                {
+                    WriteSimple(writer, item, "", "");
+                }
             }
+        }
+
+        private void WriteSimple(TextWriter writer, StructProperty item, String arrayIndex, String arrayItem)
+        {
+            writer.WriteLine($"{tabs}{argName}.{item.Name}{arrayIndex} = {argName}_{item.Name}{arrayItem};");
         }
     }
 }

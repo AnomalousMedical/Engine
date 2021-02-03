@@ -69,17 +69,25 @@ namespace DiligentEngine
                 , PSOCreateInfo.GraphicsPipeline.NumViewports
                 , PSOCreateInfo.GraphicsPipeline.NumRenderTargets
                 , PSOCreateInfo.GraphicsPipeline.SubpassIndex
+                , PSOCreateInfo.GraphicsPipeline.RTVFormats_0
+                , PSOCreateInfo.GraphicsPipeline.RTVFormats_1
+                , PSOCreateInfo.GraphicsPipeline.RTVFormats_2
+                , PSOCreateInfo.GraphicsPipeline.RTVFormats_3
+                , PSOCreateInfo.GraphicsPipeline.RTVFormats_4
+                , PSOCreateInfo.GraphicsPipeline.RTVFormats_5
+                , PSOCreateInfo.GraphicsPipeline.RTVFormats_6
+                , PSOCreateInfo.GraphicsPipeline.RTVFormats_7
                 , PSOCreateInfo.GraphicsPipeline.DSVFormat
                 , PSOCreateInfo.GraphicsPipeline.SmplDesc.Count
                 , PSOCreateInfo.GraphicsPipeline.SmplDesc.Quality
                 , PSOCreateInfo.GraphicsPipeline.NodeMask
-                , PSOCreateInfo.pVS.objPtr
-                , PSOCreateInfo.pPS.objPtr
-                , PSOCreateInfo.pDS.objPtr
-                , PSOCreateInfo.pHS.objPtr
-                , PSOCreateInfo.pGS.objPtr
-                , PSOCreateInfo.pAS.objPtr
-                , PSOCreateInfo.pMS.objPtr
+                , PSOCreateInfo.pVS?.objPtr ?? IntPtr.Zero
+                , PSOCreateInfo.pPS?.objPtr ?? IntPtr.Zero
+                , PSOCreateInfo.pDS?.objPtr ?? IntPtr.Zero
+                , PSOCreateInfo.pHS?.objPtr ?? IntPtr.Zero
+                , PSOCreateInfo.pGS?.objPtr ?? IntPtr.Zero
+                , PSOCreateInfo.pAS?.objPtr ?? IntPtr.Zero
+                , PSOCreateInfo.pMS?.objPtr ?? IntPtr.Zero
                 , PSOCreateInfo.PSODesc.PipelineType
                 , PSOCreateInfo.PSODesc.SRBAllocationGranularity
                 , PSOCreateInfo.PSODesc.CommandQueueMask
@@ -137,6 +145,14 @@ namespace DiligentEngine
             , Uint8 PSOCreateInfo_GraphicsPipeline_NumViewports
             , Uint8 PSOCreateInfo_GraphicsPipeline_NumRenderTargets
             , Uint8 PSOCreateInfo_GraphicsPipeline_SubpassIndex
+            , TEXTURE_FORMAT PSOCreateInfo_GraphicsPipeline_RTVFormats_0
+            , TEXTURE_FORMAT PSOCreateInfo_GraphicsPipeline_RTVFormats_1
+            , TEXTURE_FORMAT PSOCreateInfo_GraphicsPipeline_RTVFormats_2
+            , TEXTURE_FORMAT PSOCreateInfo_GraphicsPipeline_RTVFormats_3
+            , TEXTURE_FORMAT PSOCreateInfo_GraphicsPipeline_RTVFormats_4
+            , TEXTURE_FORMAT PSOCreateInfo_GraphicsPipeline_RTVFormats_5
+            , TEXTURE_FORMAT PSOCreateInfo_GraphicsPipeline_RTVFormats_6
+            , TEXTURE_FORMAT PSOCreateInfo_GraphicsPipeline_RTVFormats_7
             , TEXTURE_FORMAT PSOCreateInfo_GraphicsPipeline_DSVFormat
             , Uint8 PSOCreateInfo_GraphicsPipeline_SmplDesc_Count
             , Uint8 PSOCreateInfo_GraphicsPipeline_SmplDesc_Quality
