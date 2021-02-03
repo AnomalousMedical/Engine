@@ -22,7 +22,7 @@ namespace Engine
         /// builder, which will make those things available for injection elsewhere.
         /// The scope is created after this funciton is called.
         /// </summary>
-        void initialize(PluginManager pluginManager, IServiceCollection serviceCollection);
+        void Initialize(PluginManager pluginManager, IServiceCollection serviceCollection);
 
         /// <summary>
         /// Called after all plugins have been loaded in the PluginManager initializePlugins function.
@@ -30,7 +30,7 @@ namespace Engine
         /// up during that phase will be available here. At this point the dependency injection scope will
         /// be setup and can be used.
         /// </summary>
-        void link(PluginManager pluginManager, IServiceScope globalScope);
+        void Link(PluginManager pluginManager, IServiceScope globalScope);
 
         /// <summary>
         /// Get a name for this plugin. Care should be taken that this return

@@ -62,8 +62,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.TryAddSingleton<InputHandler>(s =>
             {
-                bool makeConfig_EnableMultitouch = false;
-                return new NativeInputHandler(s.GetRequiredService<NativeOSWindow>(), makeConfig_EnableMultitouch, s.GetRequiredService<ILogger<NativeInputHandler>>());
+                return new NativeInputHandler(s.GetRequiredService<NativeOSWindow>(), options.EnableMultitiouch, s.GetRequiredService<ILogger<NativeInputHandler>>());
             });
 
             services.TryAddSingleton<EventManager>(s =>

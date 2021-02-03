@@ -44,12 +44,12 @@ namespace Anomalous.OSPlatform
             
         }
 
-        public void initialize(PluginManager pluginManager, IServiceCollection serviceCollection)
+        public void Initialize(PluginManager pluginManager, IServiceCollection serviceCollection)
         {
 
         }
 
-        public void link(PluginManager pluginManager, IServiceScope globalScope)
+        public void Link(PluginManager pluginManager, IServiceScope globalScope)
         {
             var mainTimer = globalScope.ServiceProvider.GetRequiredService<UpdateTimer>();
             var eventManager = globalScope.ServiceProvider.GetRequiredService<EventManager>();

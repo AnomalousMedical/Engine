@@ -41,14 +41,14 @@ namespace SoundPlugin
             mainTimer.removeUpdateListener(soundUpdate);
         }
 
-        public void initialize(PluginManager pluginManager, IServiceCollection serviceCollection)
+        public void Initialize(PluginManager pluginManager, IServiceCollection serviceCollection)
         {
             serviceCollection.TryAddSingleton<OpenALManager>();
             serviceCollection.TryAddSingleton<SoundUpdateListener>();
             serviceCollection.TryAddSingleton<SoundManager>();
         }
 
-        public void link(PluginManager pluginManager, IServiceScope globalScope)
+        public void Link(PluginManager pluginManager, IServiceScope globalScope)
         {
             var globalScopeProvider = globalScope.ServiceProvider;
 

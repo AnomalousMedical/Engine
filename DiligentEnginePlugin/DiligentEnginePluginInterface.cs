@@ -19,7 +19,7 @@ namespace DiligentEnginePlugin
             this.engineFactory.Dispose();
         }
 
-        public void initialize(PluginManager pluginManager, IServiceCollection serviceCollection)
+        public void Initialize(PluginManager pluginManager, IServiceCollection serviceCollection)
         {
             this.engineFactory = new GenericEngineFactory();
 
@@ -29,7 +29,7 @@ namespace DiligentEnginePlugin
             //serviceCollection.AddSingleton<ISwapChain>(s => this.engineFactory.SwapChain);
         }
 
-        public void link(PluginManager pluginManager, IServiceScope globalScope)
+        public void Link(PluginManager pluginManager, IServiceScope globalScope)
         {
             var window = globalScope.ServiceProvider.GetRequiredService<NativeOSWindow>();
             this.engineFactory.CreateDeviceAndSwapChain(window.WindowHandle);

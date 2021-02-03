@@ -64,7 +64,7 @@ namespace Engine
 
             foreach (var plugin in loadedPlugins)
             {
-                plugin.link(this, globalScope);
+                plugin.Link(this, globalScope);
             }
         }
 
@@ -72,7 +72,7 @@ namespace Engine
         {
             logger?.LogInformation("Plugin {0} added.", plugin.Name);
             loadedPlugins.Add(plugin);
-            plugin.initialize(this, serviceCollection);
+            plugin.Initialize(this, serviceCollection);
         }
 
         public IServiceScope GlobalScope
