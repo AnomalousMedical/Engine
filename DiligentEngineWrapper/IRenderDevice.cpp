@@ -7,14 +7,16 @@ extern "C" _AnomalousExport IShader* IRenderDevice_CreateShader(
 	, Char* ShaderCI_FilePath
 	, Char* ShaderCI_Source
 	, Char* ShaderCI_EntryPoint
-	, ShaderDesc ShaderCI_Desc
+	, SHADER_TYPE ShaderCI_Desc_ShaderType
+	, Char* ShaderCI_Desc_Name
 )
 {
 	ShaderCreateInfo ShaderCI;
 	ShaderCI.FilePath = ShaderCI_FilePath;
 	ShaderCI.Source = ShaderCI_Source;
 	ShaderCI.EntryPoint = ShaderCI_EntryPoint;
-	ShaderCI.Desc = ShaderCI_Desc;
+	ShaderCI.Desc.ShaderType = ShaderCI_Desc_ShaderType;
+	ShaderCI.Desc.Name = ShaderCI_Desc_Name;
 	IShader* ppShader = nullptr;
 	objPtr->CreateShader(
 		ShaderCI

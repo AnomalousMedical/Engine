@@ -5,14 +5,16 @@ using System.Text;
 
 namespace DiligentEngineGenerator
 {
-    class StructCsFunctionCallArgsWriter : ICodeRenderer
+    class StructCppRebuildNestedWriter : ICodeRenderer
     {
+        private readonly string setName;
         private readonly string argName;
         private CodeStruct code;
         private readonly string tabs;
 
-        public StructCsFunctionCallArgsWriter(String argName, CodeStruct code, String tabs)
+        public StructCppRebuildNestedWriter(String setName, String argName, CodeStruct code, String tabs)
         {
+            this.setName = setName;
             this.argName = argName;
             this.code = code;
             this.tabs = tabs;
@@ -39,12 +41,12 @@ namespace DiligentEngineGenerator
         {
             if (context.CodeTypeInfo.Structs.TryGetValue(item.LookupType, out var st))
             {
-                var nestedWriter = new StructCsFunctionCallArgsWriter($"{argName}.{item.Name}", st, tabs);
+                var nestedWriter = new StructCppRebuildNestedWriter($"{argName}.{item.Name}", $"{argName}_{item.Name}", st, tabs);
                 nestedWriter.Render(writer, context);
             }
             else
             {
-                writer.WriteLine($"{tabs}, {argName}.{item.Name}");
+                writer.WriteLine($"{tabs}{setName}.{item.Name} = {argName}_{item.Name};");
             }
         }
     }
