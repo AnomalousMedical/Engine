@@ -26,9 +26,9 @@ namespace DiligentEngineTest
         {
             PerformanceMonitor.destroyEnabledState();
 
-            base.BeforeMainWindowDispose(); //replaces pluginManager.Dispose();, needs to be better
+            base.DisposeGlobalScope();
             OSPlatformServiceCollectionExtensions.DestroyNativeOSWindow(mainWindow);
-            base.Dispose();
+            base.FinalDispose();
         }
 
         public override bool OnInit(IServiceCollection services, PluginManager pluginManager)

@@ -28,12 +28,20 @@ namespace Anomalous.OSPlatform
             pluginManager = new PluginManager(services);
         }
 
-        public void BeforeMainWindowDispose()
+        public abstract void Dispose();
+
+        /// <summary>
+        /// Dispose the global scope. Call this before destroying any the main window.
+        /// </summary>
+        public void DisposeGlobalScope()
         {
             pluginManager.Dispose();
         }
 
-        public virtual void Dispose()
+        /// <summary>
+        /// Finish up the app dispose here. Call after destroying the Window.
+        /// </summary>
+        public void FinalDispose()
         {
             App_delete(appPtr);
             appPtr = IntPtr.Zero;
