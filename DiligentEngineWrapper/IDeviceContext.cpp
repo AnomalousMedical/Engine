@@ -61,6 +61,29 @@ extern "C" _AnomalousExport void IDeviceContext_Draw(
 		Attribs
 	);
 }
+extern "C" _AnomalousExport void IDeviceContext_DrawIndexed(
+	IDeviceContext* objPtr
+	, Uint32 Attribs_NumIndices
+	, VALUE_TYPE Attribs_IndexType
+	, DRAW_FLAGS Attribs_Flags
+	, Uint32 Attribs_NumInstances
+	, Uint32 Attribs_FirstIndexLocation
+	, Uint32 Attribs_BaseVertex
+	, Uint32 Attribs_FirstInstanceLocation
+)
+{
+	DrawIndexedAttribs Attribs;
+	Attribs.NumIndices = Attribs_NumIndices;
+	Attribs.IndexType = Attribs_IndexType;
+	Attribs.Flags = Attribs_Flags;
+	Attribs.NumInstances = Attribs_NumInstances;
+	Attribs.FirstIndexLocation = Attribs_FirstIndexLocation;
+	Attribs.BaseVertex = Attribs_BaseVertex;
+	Attribs.FirstInstanceLocation = Attribs_FirstInstanceLocation;
+	objPtr->DrawIndexed(
+		Attribs
+	);
+}
 extern "C" _AnomalousExport void IDeviceContext_ClearDepthStencil(
 	IDeviceContext* objPtr
 , ITextureView* pView, CLEAR_DEPTH_STENCIL_FLAGS ClearFlags, float fDepth, Uint8 Stencil, RESOURCE_STATE_TRANSITION_MODE StateTransitionMode)

@@ -243,6 +243,7 @@ namespace DiligentEngineCube
         {
             var pRTV = swapChain.GetCurrentBackBufferRTV();
             var pDSV = swapChain.GetDepthBufferDSV();
+            m_pImmediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             // Clear the back buffer
             var ClearColor = new Color(0.350f, 0.350f, 0.350f, 1.0f);
 
@@ -272,12 +273,12 @@ namespace DiligentEngineCube
             // makes sure that resources are transitioned to required states.
             m_pImmediateContext.CommitShaderResources(m_pSRB, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            //DrawIndexedAttribs DrawAttrs;     // This is an indexed draw call
-            //DrawAttrs.IndexType = VT_UINT32; // Index type
-            //DrawAttrs.NumIndices = 36;
-            //// Verify the state of vertex and index buffers
-            //DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-            //m_pImmediateContext.DrawIndexed(DrawAttrs);
+            DrawIndexedAttribs DrawAttrs = new DrawIndexedAttribs();     // This is an indexed draw call
+            DrawAttrs.IndexType = VALUE_TYPE.VT_UINT32; // Index type
+            DrawAttrs.NumIndices = 36;
+            // Verify the state of vertex and index buffers
+            DrawAttrs.Flags = DRAW_FLAGS.DRAW_FLAG_VERIFY_ALL;
+            m_pImmediateContext.DrawIndexed(DrawAttrs);
 
             this.swapChain.Present(1);
         }

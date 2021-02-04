@@ -70,6 +70,19 @@ namespace DiligentEngine
                 , Attribs.FirstInstanceLocation
             );
         }
+        public void DrawIndexed(DrawIndexedAttribs Attribs)
+        {
+            IDeviceContext_DrawIndexed(
+                this.objPtr
+                , Attribs.NumIndices
+                , Attribs.IndexType
+                , Attribs.Flags
+                , Attribs.NumInstances
+                , Attribs.FirstIndexLocation
+                , Attribs.BaseVertex
+                , Attribs.FirstInstanceLocation
+            );
+        }
         public void ClearDepthStencil(ITextureView pView, CLEAR_DEPTH_STENCIL_FLAGS ClearFlags, float fDepth, Uint8 Stencil, RESOURCE_STATE_TRANSITION_MODE StateTransitionMode)
         {
             IDeviceContext_ClearDepthStencil(
@@ -150,6 +163,17 @@ namespace DiligentEngine
             , DRAW_FLAGS Attribs_Flags
             , Uint32 Attribs_NumInstances
             , Uint32 Attribs_StartVertexLocation
+            , Uint32 Attribs_FirstInstanceLocation
+        );
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void IDeviceContext_DrawIndexed(
+            IntPtr objPtr
+            , Uint32 Attribs_NumIndices
+            , VALUE_TYPE Attribs_IndexType
+            , DRAW_FLAGS Attribs_Flags
+            , Uint32 Attribs_NumInstances
+            , Uint32 Attribs_FirstIndexLocation
+            , Uint32 Attribs_BaseVertex
             , Uint32 Attribs_FirstInstanceLocation
         );
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
