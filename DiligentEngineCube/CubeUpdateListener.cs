@@ -258,6 +258,43 @@ namespace DiligentEngineCube
                 Matrix4x4* matDat = (Matrix4x4*)data.ToPointer();
                 //Need to actually set matDat here
                 ////*CBConstants = m_WorldViewProjMatrix.Transpose();
+                matDat[0] = new Matrix4x4
+                { 
+                    //This is the transposed version of the below
+m00 = 1.93137038f  ,
+m01 = 0.00000000f  ,
+m02 = 0.00106630987f   ,
+m03 = 0.00000000f  ,
+m10 = -0.000411884801f ,
+m11 = 2.29605341f  ,
+m12 = 0.746032834f ,
+m13 = 0.00000000f  ,
+m20 = -0.000525603944f ,
+m21 = -0.309326321f    ,
+m22 = 0.952008367f ,
+m23 = 4.90490484f  ,
+m30 = -0.000525078329f ,
+m31 = -0.309017003f    ,
+m32 = 0.951056361f ,
+m33 = 5.00000000f  ,
+
+                    //m00 = 1.93137074f,
+                    //m01 = -0.000151892309f,
+                    //m02 = -0.000193828935f,
+                    //m03 = -0.000193635104f,
+                    //m10 = 0.00000000f,
+                    //m11 = 2.29605341f,
+                    //m12 = -0.309326321f,
+                    //m13 = -0.309017003f,
+                    //m20 = 0.000393227063f,
+                    //m21 = 0.746033013f,
+                    //m22 = 0.952008545f,
+                    //m23 = 0.951056540f,
+                    //m30 = 0.00000000f,
+                    //m31 = 0.00000000f,
+                    //m32 = 4.90490484f,
+                    //m33 = 5.00000000f,
+                };//.Transpose();
                 m_pImmediateContext.UnmapBuffer(m_VSConstants, MAP_TYPE.MAP_WRITE);
             }
 
