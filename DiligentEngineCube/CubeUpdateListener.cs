@@ -31,7 +31,7 @@ namespace DiligentEngineCube
             ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
             // OpenGL backend requires emulated combined HLSL texture samplers (g_Texture + g_Texture_sampler combination)
             ShaderCI.UseCombinedTextureSamplers = true;
-            
+
             // Create a vertex shader
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
             ShaderCI.EntryPoint = "main";
@@ -81,16 +81,29 @@ namespace DiligentEngineCube
             // clang-format on
 
             // Define vertex shader input layout
-            LayoutElement LayoutElems[] =
+            LayoutElement[] LayoutElems = new LayoutElement[]
             {
                 // Attribute 0 - vertex position
-                LayoutElement{0, 0, 3, VT_FLOAT32, False},
+                new LayoutElement()
+                {
+                    InputIndex = 0,
+                    BufferSlot = 0,
+                    NumComponents = 3,
+                    ValueType = VALUE_TYPE.VT_FLOAT32,
+                    IsNormalized = false
+                },
                 // Attribute 1 - vertex color
-                LayoutElement{1, 0, 4, VT_FLOAT32, False}
+                new LayoutElement
+                {
+                    InputIndex = 1,
+                    BufferSlot = 0,
+                    NumComponents = 4,
+                    ValueType = VALUE_TYPE.VT_FLOAT32,
+                    IsNormalized = false
+                },
             };
             // clang-format on
             PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements = LayoutElems;
-            PSOCreateInfo.GraphicsPipeline.InputLayout.NumElements = _countof(LayoutElems);
 
             PSOCreateInfo.pVS = pVS;
             PSOCreateInfo.pPS = pPS;
@@ -101,13 +114,13 @@ namespace DiligentEngineCube
 
             this.pipelineState = m_pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
 
-            // Since we did not explcitly specify the type for 'Constants' variable, default
-            // type (SHADER_RESOURCE_VARIABLE_TYPE_STATIC) will be used. Static variables never
-            // change and are bound directly through the pipeline state object.
-            pipelineState.GetStaticVariableByName(SHADER_TYPE_VERTEX, "Constants")->Set(m_VSConstants);
+            //// Since we did not explcitly specify the type for 'Constants' variable, default
+            //// type (SHADER_RESOURCE_VARIABLE_TYPE_STATIC) will be used. Static variables never
+            //// change and are bound directly through the pipeline state object.
+            //pipelineState.GetStaticVariableByName(SHADER_TYPE_VERTEX, "Constants")->Set(m_VSConstants);
 
-            // Create a shader resource binding object and bind all static resources in it
-            pipelineState.CreateShaderResourceBinding(&m_pSRB, true);
+            //// Create a shader resource binding object and bind all static resources in it
+            //pipelineState.CreateShaderResourceBinding(&m_pSRB, true);
         }
 
         public void Dispose()

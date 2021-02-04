@@ -24,6 +24,7 @@ namespace DiligentEngine
         public Uint32 SampleMask { get; set; } = 0xFFFFFFFF;
         public RasterizerStateDesc RasterizerDesc { get; set; } = new RasterizerStateDesc();
         public DepthStencilStateDesc DepthStencilDesc { get; set; } = new DepthStencilStateDesc();
+        public InputLayoutDesc InputLayout { get; set; } = new InputLayoutDesc();
         public PRIMITIVE_TOPOLOGY PrimitiveTopology { get; set; } = PRIMITIVE_TOPOLOGY.PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
         public Uint8 NumViewports { get; set; } = 1;
         public Uint8 NumRenderTargets { get; set; } = 0;

@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "Graphics/GraphicsEngine/interface/RenderDevice.h"
 #include "Color.h"
+#include "LayoutElementPassStruct.h"
 using namespace Diligent;
 extern "C" _AnomalousExport IBuffer* IRenderDevice_CreateBuffer(
 	IRenderDevice* objPtr
@@ -92,6 +93,8 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipeline
 	, STENCIL_OP PSOCreateInfo_GraphicsPipeline_DepthStencilDesc_BackFace_StencilDepthFailOp
 	, STENCIL_OP PSOCreateInfo_GraphicsPipeline_DepthStencilDesc_BackFace_StencilPassOp
 	, COMPARISON_FUNCTION PSOCreateInfo_GraphicsPipeline_DepthStencilDesc_BackFace_StencilFunc
+	, LayoutElementPassStruct* PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements
+	, Uint32 PSOCreateInfo_GraphicsPipeline_InputLayout_NumElements
 	, PRIMITIVE_TOPOLOGY PSOCreateInfo_GraphicsPipeline_PrimitiveTopology
 	, Uint8 PSOCreateInfo_GraphicsPipeline_NumViewports
 	, Uint8 PSOCreateInfo_GraphicsPipeline_NumRenderTargets
@@ -152,6 +155,22 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipeline
 	PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.BackFace.StencilDepthFailOp = PSOCreateInfo_GraphicsPipeline_DepthStencilDesc_BackFace_StencilDepthFailOp;
 	PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.BackFace.StencilPassOp = PSOCreateInfo_GraphicsPipeline_DepthStencilDesc_BackFace_StencilPassOp;
 	PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.BackFace.StencilFunc = PSOCreateInfo_GraphicsPipeline_DepthStencilDesc_BackFace_StencilFunc;
+	LayoutElement* PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array = new LayoutElement[PSOCreateInfo_GraphicsPipeline_InputLayout_NumElements];
+	for (Uint32 i = 0; i < PSOCreateInfo_GraphicsPipeline_InputLayout_NumElements; ++i)
+	{
+		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].BufferSlot = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].BufferSlot;
+		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].Frequency = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].Frequency;
+
+		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].HLSLSemantic = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].HLSLSemantic;
+		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].InputIndex = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].InputIndex;
+		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].InstanceDataStepRate = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].InstanceDataStepRate;
+		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].NumComponents = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].NumComponents;
+		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].RelativeOffset = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].RelativeOffset;
+		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].Stride = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].Stride;
+		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].ValueType = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].ValueType;
+	}
+	PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array;
+	PSOCreateInfo.GraphicsPipeline.InputLayout.NumElements = PSOCreateInfo_GraphicsPipeline_InputLayout_NumElements;
 	PSOCreateInfo.GraphicsPipeline.PrimitiveTopology = PSOCreateInfo_GraphicsPipeline_PrimitiveTopology;
 	PSOCreateInfo.GraphicsPipeline.NumViewports = PSOCreateInfo_GraphicsPipeline_NumViewports;
 	PSOCreateInfo.GraphicsPipeline.NumRenderTargets = PSOCreateInfo_GraphicsPipeline_NumRenderTargets;
@@ -188,5 +207,6 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipeline
 		PSOCreateInfo
 		, &ppPipelineState
 	);
+	delete[] PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array;
 	return ppPipelineState;
 }

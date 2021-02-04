@@ -81,6 +81,8 @@ namespace DiligentEngine
                 , PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.BackFace.StencilDepthFailOp
                 , PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.BackFace.StencilPassOp
                 , PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.BackFace.StencilFunc
+                , LayoutElementPassStruct.ToStruct(PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements)
+                , PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements != null ? (Uint32)PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements.Length : 0
                 , PSOCreateInfo.GraphicsPipeline.PrimitiveTopology
                 , PSOCreateInfo.GraphicsPipeline.NumViewports
                 , PSOCreateInfo.GraphicsPipeline.NumRenderTargets
@@ -171,6 +173,8 @@ namespace DiligentEngine
             , STENCIL_OP PSOCreateInfo_GraphicsPipeline_DepthStencilDesc_BackFace_StencilDepthFailOp
             , STENCIL_OP PSOCreateInfo_GraphicsPipeline_DepthStencilDesc_BackFace_StencilPassOp
             , COMPARISON_FUNCTION PSOCreateInfo_GraphicsPipeline_DepthStencilDesc_BackFace_StencilFunc
+            , LayoutElementPassStruct[] PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements
+            , Uint32 PSOCreateInfo_GraphicsPipeline_InputLayout_NumElements
             , PRIMITIVE_TOPOLOGY PSOCreateInfo_GraphicsPipeline_PrimitiveTopology
             , Uint8 PSOCreateInfo_GraphicsPipeline_NumViewports
             , Uint8 PSOCreateInfo_GraphicsPipeline_NumRenderTargets

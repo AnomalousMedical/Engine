@@ -275,11 +275,11 @@ namespace DiligentEngineGenerator
                 codeWriter.AddWriter(new StructCsWriter(DrawAttribs), Path.Combine(baseStructDir, $"{nameof(DrawAttribs)}.cs"));
             }
 
-            //{
-            //    var InputLayoutDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/InputLayout.h", 201, 209);
-            //    codeTypeInfo.Structs[nameof(InputLayoutDesc)] = InputLayoutDesc;
-            //    codeWriter.AddWriter(new StructCsWriter(InputLayoutDesc), Path.Combine(baseStructDir, $"{nameof(InputLayoutDesc)}.cs"));
-            //}
+            {
+                var InputLayoutDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/InputLayout.h", 201, 209);
+                codeTypeInfo.Structs[nameof(InputLayoutDesc)] = InputLayoutDesc;
+                codeWriter.AddWriter(new StructCsWriter(InputLayoutDesc), Path.Combine(baseStructDir, $"{nameof(InputLayoutDesc)}.cs"));
+            }
 
             {
                 var RenderTargetBlendDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/BlendState.h", 273, 319);
@@ -310,7 +310,7 @@ namespace DiligentEngineGenerator
                 var GraphicsPipelineDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 154, 214);
                 codeTypeInfo.Structs[nameof(GraphicsPipelineDesc)] = GraphicsPipelineDesc;
 
-                var remove = new List<String>() { "InputLayout", "pRenderPass" };
+                var remove = new List<String>() { "pRenderPass" };
                 GraphicsPipelineDesc.Properties = GraphicsPipelineDesc.Properties.Where(i => !remove.Contains(i.Name)).ToList();
 
                 codeWriter.AddWriter(new StructCsWriter(GraphicsPipelineDesc), Path.Combine(baseStructDir, $"{nameof(GraphicsPipelineDesc)}.cs"));
