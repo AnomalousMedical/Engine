@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DiligentEngineGenerator
 {
-    class StructCppRebuildNestedWriter : ICodeRenderer
+    class StructCppRebuildNestedWriter
     {
         private readonly string setName;
         private readonly string argName;
@@ -20,11 +20,11 @@ namespace DiligentEngineGenerator
             this.tabs = tabs;
         }
 
-        public void Render(TextWriter writer, CodeRendererContext context)
+        public void Render(TextWriter writer, CodeRendererContext context, StructCppWriterContext structCppWriterContext)
         {
             foreach (var item in code.Properties)
             {
-                HandleItem(writer, context, item);
+                HandleItem(writer, context, item, structCppWriterContext);
             }
 
             var current = this.code;
@@ -32,17 +32,48 @@ namespace DiligentEngineGenerator
             {
                 foreach (var item in current.Properties)
                 {
-                    HandleItem(writer, context, item);
+                    HandleItem(writer, context, item, structCppWriterContext);
                 }
             }
         }
 
-        private void HandleItem(TextWriter writer, CodeRendererContext context, StructProperty item)
+        private void HandleItem(TextWriter writer, CodeRendererContext context, StructProperty item, StructCppWriterContext structCppWriterContext)
         {
             if (context.CodeTypeInfo.Structs.TryGetValue(item.LookupType, out var st))
             {
-                var nestedWriter = new StructCppRebuildNestedWriter($"{setName}.{item.Name}", $"{argName}_{item.Name}", st, tabs);
-                nestedWriter.Render(writer, context);
+                if (item.IsArray)
+                {
+                    if (item.IsUnknownSizeArray)
+                    {
+                        var nativeArrayName = $"{argName}_{item.Name}_Native_Array";
+
+                        structCppWriterContext.DeleteStatements.Add($"delete[] {nativeArrayName};");
+
+                        writer.WriteLine(
+@$"{tabs}{item.LookupType}* {nativeArrayName} = new {item.LookupType}[{argName}_{item.PutAutoSize}];
+{tabs}for (Uint32 i = 0; i < {argName}_{item.PutAutoSize}; ++i)
+{tabs}{{");
+
+                        foreach(var prop in st.Properties)
+                        {
+                            writer.WriteLine($"{tabs}    {nativeArrayName}[i].{prop.Name} = {argName}_{item.Name}[i].{prop.Name};");
+                        }
+
+                        writer.WriteLine(
+@$"{tabs}}}
+{tabs}{setName}.{item.Name} = {nativeArrayName};");
+                    }
+                    else
+                    {
+                        //Not Supported
+                        //This would be a fixed size array of things that need to pass
+                    }
+                }
+                else
+                {
+                    var nestedWriter = new StructCppRebuildNestedWriter($"{setName}.{item.Name}", $"{argName}_{item.Name}", st, tabs);
+                    nestedWriter.Render(writer, context, structCppWriterContext);
+                }
             }
             else
             {

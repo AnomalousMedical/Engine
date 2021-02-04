@@ -20,6 +20,8 @@ namespace DiligentEngine
         {
             
         }
-        public LayoutElement[] LayoutElements { get; set; }
+        public List<LayoutElement> LayoutElements { get; set; }
+
+
     }
 }

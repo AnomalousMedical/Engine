@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace DiligentEngineGenerator
@@ -51,19 +52,26 @@ $@"    {{
         }}");
             }
 
-            foreach (var item in code.Properties)
+            foreach (var item in code.Properties.Where(i => i.TakeAutoSize == null))
             {
                 if (item.IsArray)
                 {
-                    var len = item.ArrayLenInt;
-                    for(var i = 0; i < len; ++i)
+                    if (item.IsUnknownSizeArray)
                     {
-                        WriteItem(writer, context, item, $"_{i}");
+                        WriteItem(writer, context, item, writeDefaultValue: false, customizeTypeCb: s=> $"List<{s}>");
+                    }
+                    else
+                    {
+                        var len = item.ArrayLenInt;
+                        for (var i = 0; i < len; ++i)
+                        {
+                            WriteItem(writer, context, item, arrayStringCb: () => $"_{i}");
+                        }
                     }
                 }
                 else
                 {
-                    WriteItem(writer, context, item, "");
+                    WriteItem(writer, context, item);
                 }
             }
 
@@ -76,20 +84,26 @@ $@"    {{
             writer.WriteLine("}");
         }
 
-        private static void WriteItem(TextWriter writer, CodeRendererContext context, StructProperty item, String array)
+        private static void WriteItem(TextWriter writer, CodeRendererContext context, StructProperty item, Func<String> arrayStringCb = null, bool writeDefaultValue = true, Func<String, String> customizeTypeCb = null)
         {
-            writer.Write($"        public {GetCSharpType(item, context)} {item.Name}{array} {{ get; set; }}");
+            var cSharpType = GetCSharpType(item, context);
+            cSharpType = customizeTypeCb?.Invoke(cSharpType) ?? cSharpType;
 
-            if (context.CodeTypeInfo.Structs.ContainsKey(item.LookupType))
+            writer.Write($"        public {cSharpType} {item.Name}{arrayStringCb?.Invoke()} {{ get; set; }}");
+
+            if (writeDefaultValue)
             {
-                writer.Write($" = new {item.Type}();");
-            }
-            else if (!String.IsNullOrWhiteSpace(item.DefaultValue))
-            {
-                var value = GetCSharpValue(item, context);
-                if (value != null)
+                if (context.CodeTypeInfo.Structs.ContainsKey(item.LookupType))
                 {
-                    writer.Write($" = {value};");
+                    writer.Write($" = new {item.Type}();");
+                }
+                else if (!String.IsNullOrWhiteSpace(item.DefaultValue))
+                {
+                    var value = GetCSharpValue(item, context);
+                    if (value != null)
+                    {
+                        writer.Write($" = {value};");
+                    }
                 }
             }
 

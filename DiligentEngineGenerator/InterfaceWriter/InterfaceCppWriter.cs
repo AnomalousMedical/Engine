@@ -51,26 +51,39 @@ namespace DiligentEngineGenerator
                 writer.WriteLine($")");
                 writer.WriteLine("{");
 
+                var structCppWriterContext = new StructCppWriterContext();
+
                 //Rebuild structs
                 foreach (var arg in item.Args.Where(i => !i.MakeReturnVal))
                 {
                     if (context.CodeTypeInfo.Structs.TryGetValue(arg.LookupType, out var structInfo))
                     {
                         var argWriter = new StructCppRebuildWriter(arg.Name, structInfo, "	");
-                        argWriter.Render(writer, context);
+                        argWriter.Render(writer, context, structCppWriterContext);
                     }
                 }
 
+                bool hasReturnValue = false;
+                //Write function
                 if (item.ReturnType != "void")
                 {
                     if(makeReturnArg != null)
                     {
-                        writer.WriteLine($"	{makeReturnArg.Type} {makeReturnArg.Name} = nullptr;");
+                        writer.WriteLine($"	{makeReturnArg.Type} theReturnValue = nullptr;");
                         writer.WriteLine($"	objPtr->{item.Name}(");
+                        hasReturnValue = true;
                     }
                     else
                     {
-                        writer.WriteLine($"	return objPtr->{item.Name}(");
+                        if (structCppWriterContext.HasDeletes)
+                        {
+                            writer.WriteLine($"	{item.ReturnType} theReturnValue = objPtr->{item.Name}(");
+                            hasReturnValue = true;
+                        }
+                        else
+                        {
+                            writer.WriteLine($"	return objPtr->{item.Name}(");
+                        }
                     }
                 }
                 else
@@ -80,20 +93,26 @@ namespace DiligentEngineGenerator
                 var sep = "		";
                 foreach (var arg in item.Args)
                 {
-                    var typePrefix = "";
                     if (arg.MakeReturnVal)
                     {
-                        typePrefix = "&";
+                        writer.WriteLine($"{sep}&theReturnValue");
                     }
-
-                    writer.WriteLine($"{sep}{typePrefix}{arg.CppPrefix}{arg.Name}");
+                    else
+                    {
+                        writer.WriteLine($"{sep}{arg.CppPrefix}{arg.Name}");
+                    }
                     sep = "		, ";
                 }
                 writer.WriteLine("	);");
 
-                if (makeReturnArg != null)
+                foreach(var del in structCppWriterContext.DeleteStatements)
                 {
-                    writer.WriteLine($"	return {makeReturnArg.Name};");
+                    writer.WriteLine($"    {del}");
+                }
+
+                if (hasReturnValue)
+                {
+                    writer.WriteLine($"	return theReturnValue;");
                 }
 
                 writer.WriteLine("}");

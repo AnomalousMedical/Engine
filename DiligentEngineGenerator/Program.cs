@@ -189,7 +189,7 @@ namespace DiligentEngineGenerator
                 EnumWriter.Write(INPUT_ELEMENT_FREQUENCY, Path.Combine(baseEnumDir, $"{nameof(INPUT_ELEMENT_FREQUENCY)}.cs"));
             }
 
-            
+
 
 
             //////////// Structs
@@ -278,6 +278,18 @@ namespace DiligentEngineGenerator
             {
                 var InputLayoutDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/InputLayout.h", 201, 209);
                 codeTypeInfo.Structs[nameof(InputLayoutDesc)] = InputLayoutDesc;
+
+                {
+                    var LayoutElements = InputLayoutDesc.Properties.First(i => i.Name == "LayoutElements");
+                    LayoutElements.IsArray = true;
+                    LayoutElements.PutAutoSize = "NumElements";
+                }
+
+                {
+                    var NumElements = InputLayoutDesc.Properties.First(i => i.Name == "NumElements");
+                    NumElements.TakeAutoSize = "LayoutElements";
+                }
+
                 codeWriter.AddWriter(new StructCsWriter(InputLayoutDesc), Path.Combine(baseStructDir, $"{nameof(InputLayoutDesc)}.cs"));
             }
 
@@ -391,7 +403,8 @@ namespace DiligentEngineGenerator
                 var cppWriter = new InterfaceCppWriter(IRenderDevice, new List<String>()
                 {
                     "Graphics/GraphicsEngine/interface/RenderDevice.h",
-                    "Color.h"
+                    "Color.h",
+                    "LayoutElementPassStruct.h"
                 });
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IRenderDevice)}.cpp"));
             }

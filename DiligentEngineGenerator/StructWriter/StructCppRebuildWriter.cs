@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DiligentEngineGenerator
 {
-    class StructCppRebuildWriter : ICodeRenderer
+    class StructCppRebuildWriter
     {
         private readonly string argName;
         private CodeStruct code;
@@ -18,13 +18,13 @@ namespace DiligentEngineGenerator
             this.tabs = tabs;
         }
 
-        public void Render(TextWriter writer, CodeRendererContext context)
+        public void Render(TextWriter writer, CodeRendererContext context, StructCppWriterContext structCppWriterContext)
         {
             writer.WriteLine($"{tabs}{code.Name} {argName};");
 
             foreach (var item in code.Properties)
             {
-                HandleItem(writer, context, item);
+                HandleItem(writer, context, item, structCppWriterContext);
             }
 
             var current = this.code;
@@ -32,17 +32,17 @@ namespace DiligentEngineGenerator
             {
                 foreach (var item in current.Properties)
                 {
-                    HandleItem(writer, context, item);
+                    HandleItem(writer, context, item, structCppWriterContext);
                 }
             }
         }
 
-        private void HandleItem(TextWriter writer, CodeRendererContext context, StructProperty item)
+        private void HandleItem(TextWriter writer, CodeRendererContext context, StructProperty item, StructCppWriterContext structCppWriterContext)
         {
             if (context.CodeTypeInfo.Structs.TryGetValue(item.LookupType, out var st))
             {
                 var nestedWriter = new StructCppRebuildNestedWriter($"{argName}.{item.Name}", $"{argName}_{item.Name}", st, tabs);
-                nestedWriter.Render(writer, context);
+                nestedWriter.Render(writer, context, structCppWriterContext);
             }
             else
             {

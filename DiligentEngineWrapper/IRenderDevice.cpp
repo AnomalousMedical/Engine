@@ -29,13 +29,13 @@ extern "C" _AnomalousExport IBuffer* IRenderDevice_CreateBuffer(
 	BufferData pBuffData;
 	pBuffData.pData = pBuffData_pData;
 	pBuffData.DataSize = pBuffData_DataSize;
-	IBuffer* ppBuffer = nullptr;
+	IBuffer* theReturnValue = nullptr;
 	objPtr->CreateBuffer(
 		BuffDesc
 		, &pBuffData
-		, &ppBuffer
+		, &theReturnValue
 	);
-	return ppBuffer;
+	return theReturnValue;
 }
 extern "C" _AnomalousExport IShader* IRenderDevice_CreateShader(
 	IRenderDevice* objPtr
@@ -58,12 +58,12 @@ extern "C" _AnomalousExport IShader* IRenderDevice_CreateShader(
 	ShaderCI.Desc.ShaderType = ShaderCI_Desc_ShaderType;
 	ShaderCI.Desc.Name = ShaderCI_Desc_Name;
 	ShaderCI.SourceLanguage = ShaderCI_SourceLanguage;
-	IShader* ppShader = nullptr;
+	IShader* theReturnValue = nullptr;
 	objPtr->CreateShader(
 		ShaderCI
-		, &ppShader
+		, &theReturnValue
 	);
-	return ppShader;
+	return theReturnValue;
 }
 extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipelineState(
 	IRenderDevice* objPtr
@@ -158,16 +158,16 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipeline
 	LayoutElement* PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array = new LayoutElement[PSOCreateInfo_GraphicsPipeline_InputLayout_NumElements];
 	for (Uint32 i = 0; i < PSOCreateInfo_GraphicsPipeline_InputLayout_NumElements; ++i)
 	{
-		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].BufferSlot = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].BufferSlot;
-		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].Frequency = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].Frequency;
-
-		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].HLSLSemantic = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].HLSLSemantic;
-		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].InputIndex = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].InputIndex;
-		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].InstanceDataStepRate = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].InstanceDataStepRate;
-		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].NumComponents = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].NumComponents;
-		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].RelativeOffset = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].RelativeOffset;
-		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].Stride = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].Stride;
-		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].ValueType = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].ValueType;
+	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].HLSLSemantic = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].HLSLSemantic;
+	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].InputIndex = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].InputIndex;
+	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].BufferSlot = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].BufferSlot;
+	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].NumComponents = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].NumComponents;
+	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].ValueType = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].ValueType;
+	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].IsNormalized = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].IsNormalized;
+	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].RelativeOffset = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].RelativeOffset;
+	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].Stride = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].Stride;
+	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].Frequency = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].Frequency;
+	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].InstanceDataStepRate = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].InstanceDataStepRate;
 	}
 	PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array;
 	PSOCreateInfo.GraphicsPipeline.InputLayout.NumElements = PSOCreateInfo_GraphicsPipeline_InputLayout_NumElements;
@@ -202,11 +202,11 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipeline
 	PSOCreateInfo.PSODesc.ResourceLayout.NumImmutableSamplers = PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers;
 	PSOCreateInfo.PSODesc.Name = PSOCreateInfo_PSODesc_Name;
 	PSOCreateInfo.Flags = PSOCreateInfo_Flags;
-	IPipelineState* ppPipelineState = nullptr;
+	IPipelineState* theReturnValue = nullptr;
 	objPtr->CreateGraphicsPipelineState(
 		PSOCreateInfo
-		, &ppPipelineState
+		, &theReturnValue
 	);
-	delete[] PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array;
-	return ppPipelineState;
+    delete[] PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array;
+	return theReturnValue;
 }

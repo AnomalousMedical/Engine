@@ -39,8 +39,23 @@ namespace DiligentEngineGenerator
         {
             if (context.CodeTypeInfo.Structs.TryGetValue(item.LookupType, out var st))
             {
-                var nestedWriter = new StructCppFunctionSignatureArgsWriter($"{argName}_{item.Name}", st, tabs);
-                nestedWriter.Render(writer, context);
+                if (item.IsArray)
+                {
+                    if (item.IsUnknownSizeArray)
+                    {
+                        writer.WriteLine($"{tabs}, {item.LookupType}PassStruct* {argName}_{item.Name}");
+                    }
+                    else
+                    {
+                        //Not Supported
+                        //This would be a fixed size array of things that need to pass
+                    }
+                }
+                else
+                {
+                    var nestedWriter = new StructCppFunctionSignatureArgsWriter($"{argName}_{item.Name}", st, tabs);
+                    nestedWriter.Render(writer, context);
+                }
             }
             else
             {

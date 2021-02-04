@@ -61,6 +61,8 @@ namespace DiligentEngineGenerator
 
         public String ArrayLen { get; set; }
 
+        public bool IsUnknownSizeArray => String.IsNullOrWhiteSpace(ArrayLen);
+
         public int ArrayLenInt
         {
             get
@@ -73,5 +75,15 @@ namespace DiligentEngineGenerator
             }
 
         }
+
+        /// <summary>
+        /// The property that this property stores its size on for auto size. Should define TakeAutoSize on that property.
+        /// </summary>
+        public string PutAutoSize { get; set; }
+
+        /// <summary>
+        /// The name of the property to read the size from. Should also set PutAutoSize on that property.
+        /// </summary>
+        public string TakeAutoSize { get; set; }
     }
 }

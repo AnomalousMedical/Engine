@@ -39,36 +39,55 @@ namespace DiligentEngineGenerator
         {
             if (context.CodeTypeInfo.Structs.TryGetValue(item.LookupType, out var st))
             {
-                var nestedWriter = new StructCsFunctionCallArgsWriter($"{argName}.{item.Name}", st, tabs);
-                nestedWriter.Render(writer, context);
-            }
-            else
-            {
                 if (item.IsArray)
                 {
-                    var max = item.ArrayLenInt;
-                    for (var i = 0; i < max; ++i)
+                    if (item.IsUnknownSizeArray)
                     {
-                        WriteSimple(writer, context, item, $"_{i}");
+                        writer.WriteLine($"{tabs}, {item.LookupType}PassStruct.ToStruct({argName}.{item.Name})");
+                    }
+                    else
+                    {
+                        //Not Supported
+                        //This would be a fixed size array of things that need to pass
                     }
                 }
                 else
                 {
-                    WriteSimple(writer, context, item, "");
+                    var nestedWriter = new StructCsFunctionCallArgsWriter($"{argName}.{item.Name}", st, tabs);
+                    nestedWriter.Render(writer, context);
+                }
+            }
+            else
+            {
+                if (item.IsArray && !item.IsUnknownSizeArray) //Yes, pass through is wanted here for unknown size since those can just pass as is here
+                {
+                    var max = item.ArrayLenInt;
+                    for (var i = 0; i < max; ++i)
+                    {
+                        WriteSimple(writer, context, item, array:() => $"_{i}");
+                    }
+                }
+                else
+                {
+                    WriteSimple(writer, context, item);
                 }
             }
         }
 
-        private void WriteSimple(TextWriter writer, CodeRendererContext context, StructProperty item, String array)
+        private void WriteSimple(TextWriter writer, CodeRendererContext context, StructProperty item, Func<String> array = null)
         {
 
             if (context.CodeTypeInfo.Interfaces.TryGetValue(item.LookupType, out var iface))
             {
-                writer.WriteLine($"{tabs}, {argName}.{item.Name}{array}?.objPtr ?? IntPtr.Zero");
+                writer.WriteLine($"{tabs}, {argName}.{item.Name}{array?.Invoke()}?.objPtr ?? IntPtr.Zero");
+            }
+            else if (!String.IsNullOrEmpty(item.TakeAutoSize))
+            {
+                writer.WriteLine($"{tabs}, {argName}.{item.TakeAutoSize} != null ? (Uint32){argName}.{item.TakeAutoSize}.Count : 0");
             }
             else
             {
-                writer.WriteLine($"{tabs}, {argName}.{item.Name}{array}");
+                writer.WriteLine($"{tabs}, {argName}.{item.Name}{array?.Invoke()}");
             }
         }
     }

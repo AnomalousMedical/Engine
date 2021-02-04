@@ -82,7 +82,7 @@ namespace DiligentEngine
                 , PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.BackFace.StencilPassOp
                 , PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.BackFace.StencilFunc
                 , LayoutElementPassStruct.ToStruct(PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements)
-                , PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements != null ? (Uint32)PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements.Length : 0
+                , PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements != null ? (Uint32)PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements.Count : 0
                 , PSOCreateInfo.GraphicsPipeline.PrimitiveTopology
                 , PSOCreateInfo.GraphicsPipeline.NumViewports
                 , PSOCreateInfo.GraphicsPipeline.NumRenderTargets
