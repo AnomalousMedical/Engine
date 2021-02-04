@@ -148,8 +148,17 @@ namespace Engine
                 d20, d21, d22, d23,
                 d30, d31, d32, d33);
         }
+        public Matrix4x4 Transpose()
+        {
+            return new Matrix4x4{
+                m00 = this.m00, m01 = this.m10, m02 = this.m20, m03 = this.m30,
+                m10 = this.m01, m11 = this.m11, m12 = this.m21, m13 = this.m31,
+                m20 = this.m02, m21 = this.m12, m22 = this.m22, m23 = this.m32,
+                m30 = this.m03, m31 = this.m13, m32 = this.m23, m33 = this.m33
+            };
+        }
 
-        public void setRotation(Matrix3x3 rotMat)
+public void setRotation(Matrix3x3 rotMat)
         {
             m00 = rotMat.m00;
             m01 = rotMat.m01;
