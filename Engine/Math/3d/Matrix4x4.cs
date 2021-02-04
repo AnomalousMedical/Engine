@@ -227,6 +227,38 @@ public void setRotation(Matrix3x3 rotMat)
             }
         }
 
+
+        public void SetNearFarClipPlanes(float zNear, float zFar, bool bIsGL)
+        {
+            if (bIsGL)
+            {
+                // https://www.opengl.org/sdk/docs/man2/xhtml/gluPerspective.xml
+                // http://www.terathon.com/gdc07_lengyel.pdf
+                // Note that OpenGL uses right-handed coordinate system, where
+                // camera is looking in negative z direction:
+                //   OO
+                //  |__|<--------------------
+                //         -z             +z
+                // Consequently, OpenGL projection matrix given by these two
+                // references inverts z axis.
+
+                // We do not need to do this, because we use DX coordinate
+                // system for the camera space. Thus we need to invert the
+                // sign of the values in the third column in the matrix
+                // from the references:
+
+                m22 = -(-(zFar + zNear) / (zFar - zNear));
+                m32 = -2 * zNear * zFar / (zFar - zNear);
+                m23 = -(-1);
+            }
+            else
+            {
+                m22 = zFar / (zFar - zNear);
+                m32 = -zNear * zFar / (zFar - zNear);
+                m23 = 1;
+            }
+        }
+
         /// <summary>
         /// Calculate a view matrix. It will match what ogre creates. This method is from their codebase.
         /// </summary>
