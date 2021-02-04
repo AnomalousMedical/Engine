@@ -239,7 +239,7 @@ namespace DiligentEngineCube
 
         }
 
-        public void sendUpdate(Clock clock)
+        public unsafe void sendUpdate(Clock clock)
         {
             var pRTV = swapChain.GetCurrentBackBufferRTV();
             var pDSV = swapChain.GetDepthBufferDSV();
@@ -253,28 +253,31 @@ namespace DiligentEngineCube
 
             {
                 // Map the buffer and write current world-view-projection matrix
-                MapHelper<float4x4> CBConstants(m_pImmediateContext, m_VSConstants, MAP_WRITE, MAP_FLAG_DISCARD);
-                *CBConstants = m_WorldViewProjMatrix.Transpose();
+                IntPtr data = m_pImmediateContext.MapBuffer(m_VSConstants, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
+                Matrix4x4* matDat = (Matrix4x4*)data.ToPointer();
+                //Need to actually set matDat here
+                ////*CBConstants = m_WorldViewProjMatrix.Transpose();
+                m_pImmediateContext.UnmapBuffer(m_VSConstants, MAP_TYPE.MAP_WRITE);
             }
 
             // Bind vertex and index buffers
-            UInt32 offset = 0;
-            IBuffer* pBuffs[] = { m_CubeVertexBuffer };
-            m_pImmediateContext->SetVertexBuffers(0, 1, pBuffs, &offset, RESOURCE_STATE_TRANSITION_MODE_TRANSITION, SET_VERTEX_BUFFERS_FLAG_RESET);
-            m_pImmediateContext->SetIndexBuffer(m_CubeIndexBuffer, 0, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            UInt32[] offset = new UInt32[] { 0 };
+            IBuffer[] pBuffs = new IBuffer[] { m_CubeVertexBuffer };
+            m_pImmediateContext.SetVertexBuffers(0, 1, pBuffs, offset, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION, SET_VERTEX_BUFFERS_FLAGS.SET_VERTEX_BUFFERS_FLAG_RESET);
+            //m_pImmediateContext.SetIndexBuffer(m_CubeIndexBuffer, 0, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            // Set the pipeline state
-            m_pImmediateContext->SetPipelineState(m_pPSO);
-            // Commit shader resources. RESOURCE_STATE_TRANSITION_MODE_TRANSITION mode
-            // makes sure that resources are transitioned to required states.
-            m_pImmediateContext->CommitShaderResources(m_pSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            //// Set the pipeline state
+            //m_pImmediateContext.SetPipelineState(pipelineState);
+            //// Commit shader resources. RESOURCE_STATE_TRANSITION_MODE_TRANSITION mode
+            //// makes sure that resources are transitioned to required states.
+            //m_pImmediateContext.CommitShaderResources(m_pSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            DrawIndexedAttribs DrawAttrs;     // This is an indexed draw call
-            DrawAttrs.IndexType = VT_UINT32; // Index type
-            DrawAttrs.NumIndices = 36;
-            // Verify the state of vertex and index buffers
-            DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
-            m_pImmediateContext->DrawIndexed(DrawAttrs);
+            //DrawIndexedAttribs DrawAttrs;     // This is an indexed draw call
+            //DrawAttrs.IndexType = VT_UINT32; // Index type
+            //DrawAttrs.NumIndices = 36;
+            //// Verify the state of vertex and index buffers
+            //DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
+            //m_pImmediateContext.DrawIndexed(DrawAttrs);
 
             this.swapChain.Present(1);
         }

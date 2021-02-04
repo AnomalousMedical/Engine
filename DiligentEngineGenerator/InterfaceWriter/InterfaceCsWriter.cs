@@ -22,6 +22,7 @@ $@"using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Linq;
 using Engine;
 
 {DiligentTypeMapper.Usings}
@@ -48,7 +49,13 @@ namespace DiligentEngine
 
                 foreach (var arg in item.Args.Where(i => !i.MakeReturnVal))
                 {
-                    writer.Write($"{sep}{GetCSharpType(arg.Type, context)} {arg.Name}");
+                    Func<String, String> enumerableWrapper = s => s;
+                    if (arg.IsArray)
+                    {
+                        enumerableWrapper = s => $"{s}[]";
+                    }
+
+                    writer.Write($"{sep}{enumerableWrapper(GetCSharpType(arg.Type, context))} {arg.Name}");
                     sep = ", ";
                 }
 
@@ -88,18 +95,20 @@ namespace DiligentEngine
                         var argWriter = new StructCsFunctionCallArgsWriter(arg.Name, structInfo, "                ");
                         argWriter.Render(writer, context);
                     }
-                    else
+                    else if (context.CodeTypeInfo.Interfaces.TryGetValue(arg.LookupType, out var ifaceInfo))
                     {
-
-                        writer.Write($"                , {arg.Name}");
-                        if (context.CodeTypeInfo.Interfaces.ContainsKey(arg.LookupType) || context.CodeTypeInfo.Structs.ContainsKey(arg.LookupType))
+                        if (arg.IsArray)
                         {
-                            writer.WriteLine(".objPtr");
+                            writer.WriteLine($"                , {arg.Name}.Select(i => i.objPtr).ToArray() //Not 100% sure on this. When is is gc'd");
                         }
                         else
                         {
-                            writer.WriteLine();
+                            writer.WriteLine($"                , {arg.Name}.objPtr");
                         }
+                    }
+                    else
+                    {
+                        writer.WriteLine($"                , {arg.Name}");
                     }
                 }
 
@@ -213,7 +222,13 @@ $@"    {{
         {
             if (context.CodeTypeInfo.Interfaces.ContainsKey(arg.LookupType))
             {
-                return "IntPtr";
+                var array = "";
+                if (arg.IsArray)
+                {
+                    array = "[]";
+                }
+
+                return $"IntPtr{array}";
             }
 
             switch (arg.Type)
@@ -224,9 +239,9 @@ $@"    {{
                     return "Color";
             }
 
-            if (arg.IsPtr)
+            if (arg.IsArray)
             {
-                return "IntPtr";
+                return $"{arg.LookupType}[]";
             }
 
             return arg.Type;

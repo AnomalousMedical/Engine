@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Linq;
-using Engine;
 
 using Uint8 = System.Byte;
 using Int8 = System.SByte;
@@ -16,14 +14,9 @@ using PVoid = System.IntPtr;
 
 namespace DiligentEngine
 {
-    public partial class IShaderResourceBinding :  IObject
+    public enum SET_VERTEX_BUFFERS_FLAGS :  Uint8
     {
-        public IShaderResourceBinding(IntPtr objPtr)
-            : base(objPtr)
-        {
-
-        }
-
-
+        SET_VERTEX_BUFFERS_FLAG_NONE = 0x00,
+        SET_VERTEX_BUFFERS_FLAG_RESET = 0x01,
     }
 }

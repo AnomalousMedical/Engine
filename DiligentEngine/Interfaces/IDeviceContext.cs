@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Linq;
 using Engine;
 
 using Uint8 = System.Byte;
@@ -27,6 +28,18 @@ namespace DiligentEngine
             IDeviceContext_SetPipelineState(
                 this.objPtr
                 , pPipelineState.objPtr
+            );
+        }
+        public void SetVertexBuffers(Uint32 StartSlot, Uint32 NumBuffersSet, IBuffer[] ppBuffers, Uint32[] pOffsets, RESOURCE_STATE_TRANSITION_MODE StateTransitionMode, SET_VERTEX_BUFFERS_FLAGS Flags)
+        {
+            IDeviceContext_SetVertexBuffers(
+                this.objPtr
+                , StartSlot
+                , NumBuffersSet
+                , ppBuffers.Select(i => i.objPtr).ToArray() //Not 100% sure on this. When is is gc'd
+                , pOffsets
+                , StateTransitionMode
+                , Flags
             );
         }
         public void Draw(DrawAttribs Attribs)
@@ -89,6 +102,16 @@ namespace DiligentEngine
         private static extern void IDeviceContext_SetPipelineState(
             IntPtr objPtr
             , IntPtr pPipelineState
+        );
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void IDeviceContext_SetVertexBuffers(
+            IntPtr objPtr
+            , Uint32 StartSlot
+            , Uint32 NumBuffersSet
+            , IntPtr[] ppBuffers
+            , Uint32[] pOffsets
+            , RESOURCE_STATE_TRANSITION_MODE StateTransitionMode
+            , SET_VERTEX_BUFFERS_FLAGS Flags
         );
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void IDeviceContext_Draw(

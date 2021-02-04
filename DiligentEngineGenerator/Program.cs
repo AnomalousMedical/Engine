@@ -201,6 +201,12 @@ namespace DiligentEngineGenerator
                 EnumWriter.Write(MAP_FLAGS, Path.Combine(baseEnumDir, $"{nameof(MAP_FLAGS)}.cs"));
             }
 
+            {
+                var SET_VERTEX_BUFFERS_FLAGS = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 533, 544);
+                codeTypeInfo.Enums[nameof(SET_VERTEX_BUFFERS_FLAGS)] = SET_VERTEX_BUFFERS_FLAGS;
+                EnumWriter.Write(SET_VERTEX_BUFFERS_FLAGS, Path.Combine(baseEnumDir, $"{nameof(SET_VERTEX_BUFFERS_FLAGS)}.cs"));
+            }
+
             //////////// Structs
 
             var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
@@ -432,7 +438,19 @@ namespace DiligentEngineGenerator
                     pMappedData.Type = "PVoid";
                 }
 
-                var allowedMethods = new List<String> { /*"SetRenderTargets", */ "Flush", "ClearRenderTarget", "ClearDepthStencil", "Draw", "SetPipelineState", "MapBuffer", "UnmapBuffer" };
+                {
+                    var SetVertexBuffers = IDeviceContext.Methods.First(i => i.Name == "SetVertexBuffers");
+                    {
+                        var ppBuffers = SetVertexBuffers.Args.First(i => i.Name == "ppBuffers");
+                        ppBuffers.IsArray = true;
+                    }
+                    {
+                        var pOffsets = SetVertexBuffers.Args.First(i => i.Name == "pOffsets");
+                        pOffsets.IsArray = true;
+                    }
+                }
+
+                var allowedMethods = new List<String> { /*"SetRenderTargets", */ "Flush", "ClearRenderTarget", "ClearDepthStencil", "Draw", "SetPipelineState", "MapBuffer", "UnmapBuffer", "SetVertexBuffers" };
                 IDeviceContext.Methods = IDeviceContext.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 var rgbaArgs = IDeviceContext.Methods.First(i => i.Name == "ClearRenderTarget")

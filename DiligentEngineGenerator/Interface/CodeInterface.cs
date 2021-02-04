@@ -84,5 +84,7 @@ namespace DiligentEngineGenerator
         public String CppPrefix { get; set; }
 
         public bool MakeReturnVal { get; set; }
+
+        public bool IsArray { get; set; }
     }
 }
