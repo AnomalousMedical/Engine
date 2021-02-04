@@ -69,7 +69,14 @@ namespace DiligentEngineGenerator
                 {
                     if(makeReturnArg != null)
                     {
-                        writer.WriteLine($"	{makeReturnArg.Type} theReturnValue = nullptr;");
+                        if (makeReturnArg.IsRef)
+                        {
+                            writer.WriteLine($"	{makeReturnArg.Type} theReturnValue;");
+                        }
+                        else
+                        {
+                            writer.WriteLine($"	{makeReturnArg.Type} theReturnValue = nullptr;");
+                        }
                         writer.WriteLine($"	objPtr->{item.Name}(");
                         hasReturnValue = true;
                     }
@@ -95,7 +102,13 @@ namespace DiligentEngineGenerator
                 {
                     if (arg.MakeReturnVal)
                     {
-                        writer.WriteLine($"{sep}&theReturnValue");
+                        var refStr = "&";
+                        if (arg.IsRef)
+                        {
+                            refStr = ""; //Yes this is removing the deference, this means the func takes a ref not a ptr to ptr
+                        }
+
+                        writer.WriteLine($"{sep}{refStr}theReturnValue");
                     }
                     else
                     {

@@ -10,19 +10,19 @@ extern "C" _AnomalousExport void IDeviceContext_SetPipelineState(
 		pPipelineState
 	);
 }
-//extern "C" _AnomalousExport void IDeviceContext_SetVertexBuffers(
-//	IDeviceContext* objPtr
-//, Uint32 StartSlot, Uint32 NumBuffersSet, IBuffer** ppBuffers, Uint32* pOffsets, RESOURCE_STATE_TRANSITION_MODE StateTransitionMode, SET_VERTEX_BUFFERS_FLAGS Flags)
-//{
-//	objPtr->SetVertexBuffers(
-//		StartSlot
-//		, NumBuffersSet
-//		, ppBuffers
-//		, pOffsets
-//		, StateTransitionMode
-//		, Flags
-//	);
-//}
+extern "C" _AnomalousExport void IDeviceContext_SetVertexBuffers(
+	IDeviceContext* objPtr
+, Uint32 StartSlot, Uint32 NumBuffersSet, IBuffer** ppBuffers, Uint32* pOffsets, RESOURCE_STATE_TRANSITION_MODE StateTransitionMode, SET_VERTEX_BUFFERS_FLAGS Flags)
+{
+	objPtr->SetVertexBuffers(
+		StartSlot
+		, NumBuffersSet
+		, ppBuffers
+		, pOffsets
+		, StateTransitionMode
+		, Flags
+	);
+}
 extern "C" _AnomalousExport void IDeviceContext_Draw(
 	IDeviceContext* objPtr
 	, Uint32 Attribs_NumVertices
@@ -75,13 +75,12 @@ extern "C" _AnomalousExport PVoid IDeviceContext_MapBuffer(
 	IDeviceContext* objPtr
 , IBuffer* pBuffer, MAP_TYPE MapType, MAP_FLAGS MapFlags)
 {
-	PVoid theReturnValue = nullptr;
-	PVoid ptr2 = &theReturnValue;
+	PVoid theReturnValue;
 	objPtr->MapBuffer(
 		pBuffer
 		, MapType
 		, MapFlags
-		, ptr2
+		, theReturnValue
 	);
 	return theReturnValue;
 }
