@@ -14,49 +14,9 @@ namespace DiligentEngineCube
         private readonly GenericEngineFactory genericEngineFactory;
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext immediateContext;
+
         private readonly IPipelineState pipelineState;
-
-        const String VSSource = @"
-struct PSInput
-{
-    float4 Pos   : SV_POSITION; 
-    float3 Color : COLOR; 
-};
-
-void main(in uint VertId : SV_VertexID,
-            out PSInput PSIn)
-{
-    float4 Pos[3];
-    Pos[0] = float4(-0.5, -0.5, 0.0, 1.0);
-    Pos[1] = float4(0.0, +0.5, 0.0, 1.0);
-    Pos[2] = float4(+0.5, -0.5, 0.0, 1.0);
-
-    float3 Col[3];
-    Col[0] = float3(1.0, 0.0, 0.0); // red
-    Col[1] = float3(0.0, 1.0, 0.0); // green
-    Col[2] = float3(0.0, 0.0, 1.0); // blue
-
-    PSIn.Pos = Pos[VertId];
-    PSIn.Color = Col[VertId];
-}";
-
-        const String PSSource = @"
-struct PSInput 
-{ 
-    float4 Pos   : SV_POSITION; 
-    float3 Color : COLOR; 
-};
-
-struct PSOutput
-{ 
-    float4 Color : SV_TARGET; 
-};
-
-void main(in  PSInput  PSIn,
-          out PSOutput PSOut)
-{
-    PSOut.Color = float4(PSIn.Color.rgb, 1.0);
-}";
+        private IBuffer m_VSConstants;
 
         public CubeUpdateListener(GenericEngineFactory genericEngineFactory)
         {
@@ -64,22 +24,36 @@ void main(in  PSInput  PSIn,
             this.swapChain = genericEngineFactory.SwapChain;
             this.immediateContext = genericEngineFactory.ImmediateContext;
 
+            var m_pDevice = genericEngineFactory.RenderDevice;
+
             var ShaderCI = new ShaderCreateInfo();
             ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
             // OpenGL backend requires emulated combined HLSL texture samplers (g_Texture + g_Texture_sampler combination)
             ShaderCI.UseCombinedTextureSamplers = true;
+            
             // Create a vertex shader
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
             ShaderCI.EntryPoint = "main";
-            ShaderCI.Desc.Name = "Triangle vertex shader";
+            ShaderCI.Desc.Name = "Cube VS";
             ShaderCI.Source = VSSource;
-            using var vertexShader = this.genericEngineFactory.RenderDevice.CreateShader(ShaderCI);
+            using var pVS = this.genericEngineFactory.RenderDevice.CreateShader(ShaderCI);
 
+            {
+                BufferDesc CBDesc = new BufferDesc();
+                CBDesc.Name = "VS constants CB";
+                CBDesc.uiSizeInBytes = 64;// sizeof(float4x4);
+                CBDesc.Usage = USAGE.USAGE_DYNAMIC;
+                CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
+                CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
+                m_VSConstants = m_pDevice.CreateBuffer(CBDesc);
+            }
+
+            //Create pixel shader
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_PIXEL;
             ShaderCI.EntryPoint = "main";
-            ShaderCI.Desc.Name = "Triangle pixel shader";
+            ShaderCI.Desc.Name = "Cube PS";
             ShaderCI.Source = PSSource;
-            using var pixelShader = this.genericEngineFactory.RenderDevice.CreateShader(ShaderCI);
+            using var pPS = this.genericEngineFactory.RenderDevice.CreateShader(ShaderCI);
 
             var PSOCreateInfo = new GraphicsPipelineStateCreateInfo();
 
@@ -105,14 +79,15 @@ void main(in  PSInput  PSIn,
             PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.DepthEnable = false;
             // clang-format on
 
-            PSOCreateInfo.pVS = vertexShader;
-            PSOCreateInfo.pPS = pixelShader;
+            PSOCreateInfo.pVS = pVS;
+            PSOCreateInfo.pPS = pPS;
             this.pipelineState = genericEngineFactory.RenderDevice.CreateGraphicsPipelineState(PSOCreateInfo);
         }
 
         public void Dispose()
         {
             pipelineState.Dispose();
+            m_VSConstants.Dispose();
         }
 
         public void exceededMaxDelta()
@@ -152,5 +127,57 @@ void main(in  PSInput  PSIn,
 
             this.swapChain.Present(1);
         }
+
+        const String VSSource =
+@"cbuffer Constants
+{
+    float4x4 g_WorldViewProj;
+};
+
+// Vertex shader takes two inputs: vertex position and color.
+// By convention, Diligent Engine expects vertex shader inputs to be 
+// labeled 'ATTRIBn', where n is the attribute number.
+struct VSInput
+{
+    float3 Pos   : ATTRIB0;
+    float4 Color : ATTRIB1;
+};
+
+struct PSInput 
+{ 
+    float4 Pos   : SV_POSITION; 
+    float4 Color : COLOR0; 
+};
+
+// Note that if separate shader objects are not supported (this is only the case for old GLES3.0 devices), vertex
+// shader output variable name must match exactly the name of the pixel shader input variable.
+// If the variable has structure type (like in this example), the structure declarations must also be indentical.
+void main(in  VSInput VSIn,
+          out PSInput PSIn) 
+{
+    PSIn.Pos   = mul( float4(VSIn.Pos,1.0), g_WorldViewProj);
+    PSIn.Color = VSIn.Color;
+}";
+
+        const String PSSource =
+@"struct PSInput 
+{ 
+    float4 Pos   : SV_POSITION; 
+    float4 Color : COLOR0; 
+};
+
+struct PSOutput
+{ 
+    float4 Color : SV_TARGET; 
+};
+
+// Note that if separate shader objects are not supported (this is only the case for old GLES3.0 devices), vertex
+// shader output variable name must match exactly the name of the pixel shader input variable.
+// If the variable has structure type (like in this example), the structure declarations must also be indentical.
+void main(in  PSInput  PSIn,
+          out PSOutput PSOut)
+{
+    PSOut.Color = PSIn.Color; 
+}";
     }
 }

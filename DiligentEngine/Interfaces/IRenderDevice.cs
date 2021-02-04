@@ -21,6 +21,22 @@ namespace DiligentEngine
         {
 
         }
+        public IBuffer CreateBuffer(BufferDesc BuffDesc, BufferData pBuffData)
+        {
+            return new IBuffer(IRenderDevice_CreateBuffer(
+                this.objPtr
+                , BuffDesc.uiSizeInBytes
+                , BuffDesc.BindFlags
+                , BuffDesc.Usage
+                , BuffDesc.CPUAccessFlags
+                , BuffDesc.Mode
+                , BuffDesc.ElementByteStride
+                , BuffDesc.CommandQueueMask
+                , BuffDesc.Name
+                , pBuffData.pData
+                , pBuffData.DataSize
+            ));
+        }
         public IShader CreateShader(ShaderCreateInfo ShaderCI)
         {
             return new IShader(IRenderDevice_CreateShader(
@@ -100,6 +116,20 @@ namespace DiligentEngine
         }
 
 
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr IRenderDevice_CreateBuffer(
+            IntPtr objPtr
+            , Uint32 BuffDesc_uiSizeInBytes
+            , BIND_FLAGS BuffDesc_BindFlags
+            , USAGE BuffDesc_Usage
+            , CPU_ACCESS_FLAGS BuffDesc_CPUAccessFlags
+            , BUFFER_MODE BuffDesc_Mode
+            , Uint32 BuffDesc_ElementByteStride
+            , Uint64 BuffDesc_CommandQueueMask
+            , String BuffDesc_Name
+            , IntPtr pBuffData_pData
+            , Uint32 pBuffData_DataSize
+        );
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr IRenderDevice_CreateShader(
             IntPtr objPtr

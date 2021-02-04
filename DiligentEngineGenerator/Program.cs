@@ -166,7 +166,7 @@ namespace DiligentEngineGenerator
                 var SWAP_CHAIN_USAGE_FLAGS = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 1249, 1266);
                 codeTypeInfo.Enums[nameof(SWAP_CHAIN_USAGE_FLAGS)] = SWAP_CHAIN_USAGE_FLAGS;
 
-                foreach(var prop in SWAP_CHAIN_USAGE_FLAGS.Properties)
+                foreach (var prop in SWAP_CHAIN_USAGE_FLAGS.Properties)
                 {
                     if (prop.Value?.EndsWith("L") == true)
                     {
@@ -178,15 +178,21 @@ namespace DiligentEngineGenerator
             }
 
 
-            
 
-           //////////// Structs
 
-           var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
+            //////////// Structs
+
+            var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
             {
                 var DeviceObjectAttribs = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 1150, 1159);
                 codeTypeInfo.Structs[nameof(DeviceObjectAttribs)] = DeviceObjectAttribs;
                 codeWriter.AddWriter(new StructCsWriter(DeviceObjectAttribs), Path.Combine(baseStructDir, $"{nameof(DeviceObjectAttribs)}.cs"));
+            }
+
+            {
+                var BufferDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Buffer.h", 72, 108);
+                codeTypeInfo.Structs[nameof(BufferDesc)] = BufferDesc;
+                codeWriter.AddWriter(new StructCsWriter(BufferDesc), Path.Combine(baseStructDir, $"{nameof(BufferDesc)}.cs"));
             }
 
             {
@@ -219,7 +225,7 @@ namespace DiligentEngineGenerator
 
                 codeWriter.AddWriter(new StructCsWriter(PipelineResourceLayoutDesc), Path.Combine(baseStructDir, $"{nameof(PipelineResourceLayoutDesc)}.cs"));
             }
-            
+
 
             {
                 var BlendStateDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/BlendState.h", 372, 387);
@@ -265,7 +271,7 @@ namespace DiligentEngineGenerator
 
                 codeWriter.AddWriter(new StructCsWriter(RenderTargetBlendDesc), Path.Combine(baseStructDir, $"{nameof(RenderTargetBlendDesc)}.cs"));
             }
-            
+
 
             {
                 var ShaderCreateInfo = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Shader.h", 223, 331);
@@ -316,6 +322,12 @@ namespace DiligentEngineGenerator
                 codeWriter.AddWriter(new StructCsWriter(SampleDesc), Path.Combine(baseStructDir, $"{nameof(SampleDesc)}.cs"));
             }
 
+            {
+                var BufferData = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Buffer.h", 153, 162);
+                codeTypeInfo.Structs[nameof(BufferData)] = BufferData;
+                codeWriter.AddWriter(new StructCsWriter(BufferData), Path.Combine(baseStructDir, $"{nameof(BufferData)}.cs"));
+            }
+
             //////////// Interfaces
             var baseCSharpInterfaceDir = Path.Combine(baseCSharpOutDir, "Interfaces");
 
@@ -339,7 +351,22 @@ namespace DiligentEngineGenerator
                     ppPipelineState.Type = "IPipelineState*";
                 }
 
-                var allowedMethods = new List<String> { "CreateShader", "CreateGraphicsPipelineState" };
+                {
+                    var CreateBuffer = IRenderDevice.Methods.First(i => i.Name == "CreateBuffer");
+                    CreateBuffer.ReturnType = "IBuffer*";
+                    {
+                        var ppBuffer = CreateBuffer.Args.First(i => i.Name == "ppBuffer");
+                        ppBuffer.MakeReturnVal = true;
+                        ppBuffer.Type = "IBuffer*";
+                    }
+
+                    {
+                        var pBuffData = CreateBuffer.Args.First(i => i.Name == "pBuffData");
+                        pBuffData.CppPrefix = "&";
+                    }
+                }
+
+                var allowedMethods = new List<String> { "CreateShader", "CreateGraphicsPipelineState", "CreateBuffer" };
                 IRenderDevice.Methods = IRenderDevice.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(IRenderDevice), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IRenderDevice)}.cs"));
@@ -415,7 +442,7 @@ namespace DiligentEngineGenerator
             {
                 var IShader = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Shader.h", 406, 423);
                 codeTypeInfo.Interfaces[nameof(IShader)] = IShader;
-                var allowedMethods = new List<String> {  };
+                var allowedMethods = new List<String> { };
                 IShader.Methods = IShader.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(IShader), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IShader)}.cs"));
@@ -439,7 +466,21 @@ namespace DiligentEngineGenerator
                 });
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IPipelineState)}.cpp"));
             }
-            
+
+            {
+                var IBuffer = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Buffer.h", 185, 241);
+                codeTypeInfo.Interfaces[nameof(IBuffer)] = IBuffer;
+                var allowedMethods = new List<String> { };
+                IBuffer.Methods = IBuffer.Methods
+                    .Where(i => allowedMethods.Contains(i.Name)).ToList();
+                codeWriter.AddWriter(new InterfaceCsWriter(IBuffer), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IBuffer)}.cs"));
+                var cppWriter = new InterfaceCppWriter(IBuffer, new List<String>()
+                {
+                    "Graphics/GraphicsEngine/interface/Buffer.h"
+                });
+                codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IBuffer)}.cpp"));
+            }
+
 
             codeWriter.WriteFiles(new CodeRendererContext(codeTypeInfo));
         }

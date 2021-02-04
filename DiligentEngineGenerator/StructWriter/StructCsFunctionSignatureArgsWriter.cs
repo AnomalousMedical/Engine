@@ -81,6 +81,8 @@ namespace DiligentEngineGenerator
             {
                 case "Char*":
                     return "String";
+                case "void*":
+                    return "IntPtr";
             }
 
             return item.Type;

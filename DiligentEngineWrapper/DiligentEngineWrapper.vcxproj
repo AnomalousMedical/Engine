@@ -164,11 +164,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GenericEngineFactory.cpp" />
+    <ClCompile Include="IBuffer.cpp" />
     <ClCompile Include="IDeviceContext.cpp" />
     <ClCompile Include="IDeviceContext.Custom.cpp" />
     <ClCompile Include="IObject.cpp" />
     <ClCompile Include="IPipelineState.cpp" />
     <ClCompile Include="IRenderDevice.cpp" />
+    <ClCompile Include="IRenderDeviceCustom.cpp" />
     <ClCompile Include="IShader.cpp" />
     <ClCompile Include="ISwapChain.cpp" />
     <ClCompile Include="ITextureView.cpp" />
