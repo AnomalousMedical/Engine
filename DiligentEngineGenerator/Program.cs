@@ -489,7 +489,16 @@ namespace DiligentEngineGenerator
             {
                 var IPipelineState = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 510, 604);
                 codeTypeInfo.Interfaces[nameof(IPipelineState)] = IPipelineState;
-                var allowedMethods = new List<String> { "GetStaticVariableByName" };
+
+                {
+                    var CreateGraphicsPipelineState = IPipelineState.Methods.First(i => i.Name == "CreateShaderResourceBinding");
+                    CreateGraphicsPipelineState.ReturnType = "IShaderResourceBinding*";
+                    var ppShaderResourceBinding = CreateGraphicsPipelineState.Args.First(i => i.Name == "ppShaderResourceBinding");
+                    ppShaderResourceBinding.MakeReturnVal = true;
+                    ppShaderResourceBinding.Type = "IShaderResourceBinding*";
+                }
+
+                var allowedMethods = new List<String> { "GetStaticVariableByName", "CreateShaderResourceBinding" };
                 IPipelineState.Methods = IPipelineState.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(IPipelineState), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IPipelineState)}.cs"));
@@ -527,7 +536,24 @@ namespace DiligentEngineGenerator
                 });
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IShaderResourceVariable)}.cpp"));
             }
+
+            {
+                var IShaderResourceBinding = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/ShaderResourceBinding.h", 55, 132);
+                codeTypeInfo.Interfaces[nameof(IShaderResourceBinding)] = IShaderResourceBinding;
+                var allowedMethods = new List<String> {  };
+                IShaderResourceBinding.Methods = IShaderResourceBinding.Methods
+                    .Where(i => allowedMethods.Contains(i.Name)).ToList();
+                codeWriter.AddWriter(new InterfaceCsWriter(IShaderResourceBinding), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IShaderResourceBinding)}.cs"));
+                var cppWriter = new InterfaceCppWriter(IShaderResourceBinding, new List<String>()
+                {
+                    "Graphics/GraphicsEngine/interface/ShaderResourceBinding.h"
+                });
+                codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IShaderResourceBinding)}.cpp"));
+            }
+
             
+
+
 
             codeWriter.WriteFiles(new CodeRendererContext(codeTypeInfo));
         }

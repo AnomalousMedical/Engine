@@ -29,6 +29,13 @@ namespace DiligentEngine
                 , Name
             ));
         }
+        public IShaderResourceBinding CreateShaderResourceBinding(bool InitStaticResources)
+        {
+            return new IShaderResourceBinding(IPipelineState_CreateShaderResourceBinding(
+                this.objPtr
+                , InitStaticResources
+            ));
+        }
 
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -36,6 +43,11 @@ namespace DiligentEngine
             IntPtr objPtr
             , SHADER_TYPE ShaderType
             , String Name
+        );
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr IPipelineState_CreateShaderResourceBinding(
+            IntPtr objPtr
+            , [MarshalAs(UnmanagedType.I1)]bool InitStaticResources
         );
     }
 }

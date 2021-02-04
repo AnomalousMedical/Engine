@@ -17,6 +17,7 @@ namespace DiligentEngineCube
 
         private readonly IPipelineState pipelineState;
         private IBuffer m_VSConstants;
+        private IShaderResourceBinding m_pSRB;
 
         public CubeUpdateListener(GenericEngineFactory genericEngineFactory)
         {
@@ -119,12 +120,13 @@ namespace DiligentEngineCube
             // change and are bound directly through the pipeline state object.
             pipelineState.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "Constants").Set(m_VSConstants);
 
-            //// Create a shader resource binding object and bind all static resources in it
-            //pipelineState.CreateShaderResourceBinding(&m_pSRB, true);
+            // Create a shader resource binding object and bind all static resources in it
+            m_pSRB = pipelineState.CreateShaderResourceBinding(true);
         }
 
         public void Dispose()
         {
+            m_pSRB.Dispose();
             pipelineState.Dispose();
             m_VSConstants.Dispose();
         }

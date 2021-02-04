@@ -10,3 +10,14 @@ extern "C" _AnomalousExport IShaderResourceVariable* IPipelineState_GetStaticVar
 		, Name
 	);
 }
+extern "C" _AnomalousExport IShaderResourceBinding* IPipelineState_CreateShaderResourceBinding(
+	IPipelineState* objPtr
+, bool InitStaticResources)
+{
+	IShaderResourceBinding* theReturnValue = nullptr;
+	objPtr->CreateShaderResourceBinding(
+		&theReturnValue
+		, InitStaticResources
+	);
+	return theReturnValue;
+}
