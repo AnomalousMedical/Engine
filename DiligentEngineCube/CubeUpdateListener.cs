@@ -255,9 +255,9 @@ namespace DiligentEngineCube
             {
                 // Map the buffer and write current world-view-projection matrix
                 IntPtr data = m_pImmediateContext.MapBuffer(m_VSConstants, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
-                Matrix4x4* matDat = (Matrix4x4*)data.ToPointer();
-                //Need to actually set matDat here
-                matDat[0] = new Matrix4x4
+                Matrix4x4* viewProjMat = (Matrix4x4*)data.ToPointer();
+                //Mat is d3d, ogre style row major, need to transpose to send to diligent
+                viewProjMat[0] = new Matrix4x4
                 {
                     m00 = 1.93137074f,
                     m01 = -0.000151892309f,
