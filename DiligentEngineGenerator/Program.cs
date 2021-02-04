@@ -489,7 +489,7 @@ namespace DiligentEngineGenerator
             {
                 var IPipelineState = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 510, 604);
                 codeTypeInfo.Interfaces[nameof(IPipelineState)] = IPipelineState;
-                var allowedMethods = new List<String> { /*"GetStaticVariableByName"*/ };
+                var allowedMethods = new List<String> { "GetStaticVariableByName" };
                 IPipelineState.Methods = IPipelineState.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(IPipelineState), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IPipelineState)}.cs"));
@@ -514,6 +514,20 @@ namespace DiligentEngineGenerator
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IBuffer)}.cpp"));
             }
 
+            {
+                var IShaderResourceVariable = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/ShaderResourceVariable.h", 115, 158);
+                codeTypeInfo.Interfaces[nameof(IShaderResourceVariable)] = IShaderResourceVariable;
+                var allowedMethods = new List<String> { "Set" };
+                IShaderResourceVariable.Methods = IShaderResourceVariable.Methods
+                    .Where(i => allowedMethods.Contains(i.Name)).ToList();
+                codeWriter.AddWriter(new InterfaceCsWriter(IShaderResourceVariable), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IShaderResourceVariable)}.cs"));
+                var cppWriter = new InterfaceCppWriter(IShaderResourceVariable, new List<String>()
+                {
+                    "Graphics/GraphicsEngine/interface/ShaderResourceVariable.h"
+                });
+                codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IShaderResourceVariable)}.cpp"));
+            }
+            
 
             codeWriter.WriteFiles(new CodeRendererContext(codeTypeInfo));
         }

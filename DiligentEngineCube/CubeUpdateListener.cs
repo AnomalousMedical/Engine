@@ -114,10 +114,10 @@ namespace DiligentEngineCube
 
             this.pipelineState = m_pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
 
-            //// Since we did not explcitly specify the type for 'Constants' variable, default
-            //// type (SHADER_RESOURCE_VARIABLE_TYPE_STATIC) will be used. Static variables never
-            //// change and are bound directly through the pipeline state object.
-            //pipelineState.GetStaticVariableByName(SHADER_TYPE_VERTEX, "Constants")->Set(m_VSConstants);
+            // Since we did not explcitly specify the type for 'Constants' variable, default
+            // type (SHADER_RESOURCE_VARIABLE_TYPE_STATIC) will be used. Static variables never
+            // change and are bound directly through the pipeline state object.
+            pipelineState.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "Constants").Set(m_VSConstants);
 
             //// Create a shader resource binding object and bind all static resources in it
             //pipelineState.CreateShaderResourceBinding(&m_pSRB, true);

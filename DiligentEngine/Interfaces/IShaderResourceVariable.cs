@@ -14,28 +14,26 @@ using Uint16 = System.UInt16;
 
 namespace DiligentEngine
 {
-    public partial class IPipelineState :  IDeviceObject
+    public partial class IShaderResourceVariable :  IObject
     {
-        public IPipelineState(IntPtr objPtr)
+        public IShaderResourceVariable(IntPtr objPtr)
             : base(objPtr)
         {
 
         }
-        public IShaderResourceVariable GetStaticVariableByName(SHADER_TYPE ShaderType, String Name)
+        public void Set(IDeviceObject pObject)
         {
-            return new IShaderResourceVariable(IPipelineState_GetStaticVariableByName(
+            IShaderResourceVariable_Set(
                 this.objPtr
-                , ShaderType
-                , Name
-            ));
+                , pObject.objPtr
+            );
         }
 
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr IPipelineState_GetStaticVariableByName(
+        private static extern void IShaderResourceVariable_Set(
             IntPtr objPtr
-            , SHADER_TYPE ShaderType
-            , String Name
+            , IntPtr pObject
         );
     }
 }
