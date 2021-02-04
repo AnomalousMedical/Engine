@@ -1,18 +1,20 @@
 #pragma once
 #include "Primitives/interface/BasicTypes.h"
-#include "AdditionalTypes.h"
 #include "Graphics/GraphicsEngine/interface/GraphicsTypes.h"
 
+namespace Diligent 
+{
 struct LayoutElementPassStruct
 {
-    char* HLSLSemantic;
-    Diligent::Uint32 InputIndex;
-    Diligent::Uint32 BufferSlot;
-    Diligent::Uint32 NumComponents;
-    Diligent::VALUE_TYPE ValueType;
-    Diligent::Uint32 IsNormalized;
-    Diligent::Uint32 RelativeOffset;
-    Diligent::Uint32 Stride;
-    Diligent::INPUT_ELEMENT_FREQUENCY Frequency;
-    Diligent::Uint32 InstanceDataStepRate;
+        char* HLSLSemantic;
+        Uint32 InputIndex;
+        Uint32 BufferSlot;
+        Uint32 NumComponents;
+        VALUE_TYPE ValueType;
+        Uint32 IsNormalized;
+        Uint32 RelativeOffset;
+        Uint32 Stride;
+        INPUT_ELEMENT_FREQUENCY Frequency;
+        Uint32 InstanceDataStepRate;
 };
+}

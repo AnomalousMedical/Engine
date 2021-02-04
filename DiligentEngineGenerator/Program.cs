@@ -232,6 +232,8 @@ namespace DiligentEngineGenerator
                 var LayoutElement = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/InputLayout.h", 61, 109);
                 codeTypeInfo.Structs[nameof(LayoutElement)] = LayoutElement;
                 codeWriter.AddWriter(new StructCsWriter(LayoutElement), Path.Combine(baseStructDir, $"{nameof(LayoutElement)}.cs"));
+                codeWriter.AddWriter(new StructCsPassStructWriter(LayoutElement), Path.Combine(baseStructDir, $"{nameof(LayoutElement)}.PassStruct.cs"));
+                codeWriter.AddWriter(new StructCppPassStructWriter(LayoutElement), Path.Combine(baseCPlusPlusOutDir, $"{nameof(LayoutElement)}.PassStruct.h"));
             }
 
             {
@@ -404,7 +406,7 @@ namespace DiligentEngineGenerator
                 {
                     "Graphics/GraphicsEngine/interface/RenderDevice.h",
                     "Color.h",
-                    "LayoutElementPassStruct.h"
+                    "LayoutElement.PassStruct.h"
                 });
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IRenderDevice)}.cpp"));
             }
@@ -487,7 +489,7 @@ namespace DiligentEngineGenerator
             {
                 var IPipelineState = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 510, 604);
                 codeTypeInfo.Interfaces[nameof(IPipelineState)] = IPipelineState;
-                var allowedMethods = new List<String> { };
+                var allowedMethods = new List<String> { /*"GetStaticVariableByName"*/ };
                 IPipelineState.Methods = IPipelineState.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(IPipelineState), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IPipelineState)}.cs"));

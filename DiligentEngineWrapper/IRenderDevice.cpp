@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "Graphics/GraphicsEngine/interface/RenderDevice.h"
 #include "Color.h"
-#include "LayoutElementPassStruct.h"
+#include "LayoutElement.PassStruct.h"
 using namespace Diligent;
 extern "C" _AnomalousExport IBuffer* IRenderDevice_CreateBuffer(
 	IRenderDevice* objPtr
