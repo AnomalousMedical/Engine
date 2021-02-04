@@ -81,7 +81,7 @@ namespace DiligentEngineCube
             // clang-format on
 
             // Define vertex shader input layout
-            LayoutElement[] LayoutElems = new LayoutElement[]
+            var LayoutElems = new List<LayoutElement>
             {
                 // Attribute 0 - vertex position
                 new LayoutElement()
