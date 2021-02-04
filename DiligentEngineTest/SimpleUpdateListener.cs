@@ -64,6 +64,9 @@ void main(in  PSInput  PSIn,
             this.swapChain = genericEngineFactory.SwapChain;
             this.immediateContext = genericEngineFactory.ImmediateContext;
 
+            var m_pDevice = genericEngineFactory.RenderDevice;
+            var m_pSwapChain = genericEngineFactory.SwapChain;
+
             var ShaderCI = new ShaderCreateInfo();
             ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
             // OpenGL backend requires emulated combined HLSL texture samplers (g_Texture + g_Texture_sampler combination)
@@ -94,9 +97,10 @@ void main(in  PSInput  PSIn,
             // This tutorial will render to a single render target
             PSOCreateInfo.GraphicsPipeline.NumRenderTargets = 1;
             // Set render target format which is the format of the swap chain's color buffer
-            PSOCreateInfo.GraphicsPipeline.RTVFormats_0 = TEXTURE_FORMAT.TEX_FORMAT_BGRA8_UNORM_SRGB; //Hardcoded, should use// m_pSwapChain->GetDesc().ColorBufferFormat;
+            PSOCreateInfo.GraphicsPipeline.RTVFormats_0 = m_pSwapChain.GetDesc_ColorBufferFormat;
             // Use the depth buffer format from the swap chain
-            PSOCreateInfo.GraphicsPipeline.DSVFormat = TEXTURE_FORMAT.TEX_FORMAT_D32_FLOAT;//Hardcoded, should use// m_pSwapChain->GetDesc().DepthBufferFormat;
+            PSOCreateInfo.GraphicsPipeline.DSVFormat = m_pSwapChain.GetDesc_DepthBufferFormat;
+
             // Primitive topology defines what kind of primitives will be rendered by this pipeline state
             PSOCreateInfo.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY.PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
             // No back face culling for this tutorial

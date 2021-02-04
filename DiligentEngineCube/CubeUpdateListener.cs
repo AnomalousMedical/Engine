@@ -25,6 +25,7 @@ namespace DiligentEngineCube
             this.immediateContext = genericEngineFactory.ImmediateContext;
 
             var m_pDevice = genericEngineFactory.RenderDevice;
+            var m_pSwapChain = genericEngineFactory.SwapChain;
 
             var ShaderCI = new ShaderCreateInfo();
             ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
@@ -59,7 +60,7 @@ namespace DiligentEngineCube
 
             // Pipeline state name is used by the engine to report issues.
             // It is always a good idea to give objects descriptive names.
-            PSOCreateInfo.PSODesc.Name = "Simple triangle PSO";
+            PSOCreateInfo.PSODesc.Name = "Cube PSO";
 
             // This is a graphics pipeline
             PSOCreateInfo.PSODesc.PipelineType = PIPELINE_TYPE.PIPELINE_TYPE_GRAPHICS;
@@ -68,20 +69,45 @@ namespace DiligentEngineCube
             // This tutorial will render to a single render target
             PSOCreateInfo.GraphicsPipeline.NumRenderTargets = 1;
             // Set render target format which is the format of the swap chain's color buffer
-            PSOCreateInfo.GraphicsPipeline.RTVFormats_0 = TEXTURE_FORMAT.TEX_FORMAT_BGRA8_UNORM_SRGB; //Hardcoded, should use// m_pSwapChain->GetDesc().ColorBufferFormat;
+            PSOCreateInfo.GraphicsPipeline.RTVFormats_0 = m_pSwapChain.GetDesc_ColorBufferFormat;
             // Use the depth buffer format from the swap chain
-            PSOCreateInfo.GraphicsPipeline.DSVFormat = TEXTURE_FORMAT.TEX_FORMAT_D32_FLOAT;//Hardcoded, should use// m_pSwapChain->GetDesc().DepthBufferFormat;
+            PSOCreateInfo.GraphicsPipeline.DSVFormat = m_pSwapChain.GetDesc_DepthBufferFormat;
             // Primitive topology defines what kind of primitives will be rendered by this pipeline state
             PSOCreateInfo.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY.PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
-            // No back face culling for this tutorial
-            PSOCreateInfo.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE.CULL_MODE_NONE;
-            // Disable depth testing
-            PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.DepthEnable = false;
+            // Cull back faces
+            PSOCreateInfo.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE.CULL_MODE_BACK;
+            // Enable depth testing
+            PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.DepthEnable = true;
             // clang-format on
+
+            // Define vertex shader input layout
+            LayoutElement LayoutElems[] =
+            {
+                // Attribute 0 - vertex position
+                LayoutElement{0, 0, 3, VT_FLOAT32, False},
+                // Attribute 1 - vertex color
+                LayoutElement{1, 0, 4, VT_FLOAT32, False}
+            };
+            // clang-format on
+            PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements = LayoutElems;
+            PSOCreateInfo.GraphicsPipeline.InputLayout.NumElements = _countof(LayoutElems);
 
             PSOCreateInfo.pVS = pVS;
             PSOCreateInfo.pPS = pPS;
-            this.pipelineState = genericEngineFactory.RenderDevice.CreateGraphicsPipelineState(PSOCreateInfo);
+
+            // Define variable type that will be used by default
+            PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
+
+
+            this.pipelineState = m_pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
+
+            // Since we did not explcitly specify the type for 'Constants' variable, default
+            // type (SHADER_RESOURCE_VARIABLE_TYPE_STATIC) will be used. Static variables never
+            // change and are bound directly through the pipeline state object.
+            pipelineState.GetStaticVariableByName(SHADER_TYPE_VERTEX, "Constants")->Set(m_VSConstants);
+
+            // Create a shader resource binding object and bind all static resources in it
+            pipelineState.CreateShaderResourceBinding(&m_pSRB, true);
         }
 
         public void Dispose()

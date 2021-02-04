@@ -48,6 +48,7 @@ namespace DiligentEngine
             this.RenderDevice = new IRenderDevice(result.m_pDevice);
             this.ImmediateContext = new IDeviceContext(result.m_pImmediateContext);
             this.SwapChain = new ISwapChain(result.m_pSwapChain);
+            this.SwapChainDesc = swapChainDesc;
         }
 
         public IRenderDevice RenderDevice { get; private set; }
@@ -55,6 +56,8 @@ namespace DiligentEngine
         public IDeviceContext ImmediateContext { get; private set; }
 
         public ISwapChain SwapChain { get; private set; }
+
+        public SwapChainDesc SwapChainDesc { get; private set; }
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern CreateDeviceAndSwapChainResult GenericEngineFactory_CreateDeviceAndSwapChain(

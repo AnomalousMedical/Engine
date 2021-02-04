@@ -177,7 +177,19 @@ namespace DiligentEngineGenerator
                 EnumWriter.Write(SWAP_CHAIN_USAGE_FLAGS, Path.Combine(baseEnumDir, $"{nameof(SWAP_CHAIN_USAGE_FLAGS)}.cs"));
             }
 
+            {
+                var VALUE_TYPE = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 45, 62);
+                codeTypeInfo.Enums[nameof(VALUE_TYPE)] = VALUE_TYPE;
+                EnumWriter.Write(VALUE_TYPE, Path.Combine(baseEnumDir, $"{nameof(VALUE_TYPE)}.cs"));
+            }
 
+            {
+                var INPUT_ELEMENT_FREQUENCY = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/InputLayout.h", 45, 60);
+                codeTypeInfo.Enums[nameof(INPUT_ELEMENT_FREQUENCY)] = INPUT_ELEMENT_FREQUENCY;
+                EnumWriter.Write(INPUT_ELEMENT_FREQUENCY, Path.Combine(baseEnumDir, $"{nameof(INPUT_ELEMENT_FREQUENCY)}.cs"));
+            }
+
+            
 
 
             //////////// Structs
@@ -214,6 +226,12 @@ namespace DiligentEngineGenerator
                 var ShaderDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Shader.h", 131, 138);
                 codeTypeInfo.Structs[nameof(ShaderDesc)] = ShaderDesc;
                 codeWriter.AddWriter(new StructCsWriter(ShaderDesc), Path.Combine(baseStructDir, $"{nameof(ShaderDesc)}.cs"));
+            }
+
+            {
+                var LayoutElement = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/InputLayout.h", 61, 109);
+                codeTypeInfo.Structs[nameof(LayoutElement)] = LayoutElement;
+                codeWriter.AddWriter(new StructCsWriter(LayoutElement), Path.Combine(baseStructDir, $"{nameof(LayoutElement)}.cs"));
             }
 
             {

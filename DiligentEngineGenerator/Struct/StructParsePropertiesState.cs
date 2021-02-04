@@ -13,7 +13,7 @@ namespace DiligentEngineGenerator
         {
             if (!String.IsNullOrWhiteSpace(line))
             {
-                var propertyParse = line.Trim().Replace(",", "").Replace("{", "").Replace("}", "");
+                var propertyParse = line.Trim().Replace(",", "").Replace("{", "").Replace("}", "").Replace("enum", "");
                 if (!String.IsNullOrWhiteSpace(propertyParse))
                 {
                     propertyParse = propertyParse.Replace("const", "").Trim();
