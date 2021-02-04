@@ -189,8 +189,17 @@ namespace DiligentEngineGenerator
                 EnumWriter.Write(INPUT_ELEMENT_FREQUENCY, Path.Combine(baseEnumDir, $"{nameof(INPUT_ELEMENT_FREQUENCY)}.cs"));
             }
 
+            {
+                var MAP_TYPE = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 156, 175);
+                codeTypeInfo.Enums[nameof(MAP_TYPE)] = MAP_TYPE;
+                EnumWriter.Write(MAP_TYPE, Path.Combine(baseEnumDir, $"{nameof(MAP_TYPE)}.cs"));
+            }
 
-
+            {
+                var MAP_FLAGS = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 178, 204);
+                codeTypeInfo.Enums[nameof(MAP_FLAGS)] = MAP_FLAGS;
+                EnumWriter.Write(MAP_FLAGS, Path.Combine(baseEnumDir, $"{nameof(MAP_FLAGS)}.cs"));
+            }
 
             //////////// Structs
 
@@ -414,7 +423,16 @@ namespace DiligentEngineGenerator
             {
                 var IDeviceContext = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 1366, 2203);
                 codeTypeInfo.Interfaces[nameof(IDeviceContext)] = IDeviceContext;
-                var allowedMethods = new List<String> { "Flush", /*"SetRenderTargets", */ "ClearRenderTarget", "ClearDepthStencil", "Draw", "SetPipelineState" };
+
+                {
+                    var MapBuffer = IDeviceContext.Methods.First(i => i.Name == "MapBuffer");
+                    MapBuffer.ReturnType = "PVoid";
+                    var pMappedData = MapBuffer.Args.First(i => i.Name == "pMappedData");
+                    pMappedData.MakeReturnVal = true;
+                    pMappedData.Type = "PVoid";
+                }
+
+                var allowedMethods = new List<String> { /*"SetRenderTargets", */ "Flush", "ClearRenderTarget", "ClearDepthStencil", "Draw", "SetPipelineState", "MapBuffer", "UnmapBuffer" };
                 IDeviceContext.Methods = IDeviceContext.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 var rgbaArgs = IDeviceContext.Methods.First(i => i.Name == "ClearRenderTarget")

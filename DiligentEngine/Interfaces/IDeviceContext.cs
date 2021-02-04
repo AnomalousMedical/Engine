@@ -11,6 +11,7 @@ using Uint32 = System.UInt32;
 using Uint64 = System.UInt64;
 using Float32 = System.Single;
 using Uint16 = System.UInt16;
+using PVoid = System.IntPtr;
 
 namespace DiligentEngine
 {
@@ -65,6 +66,23 @@ namespace DiligentEngine
                 this.objPtr
             );
         }
+        public PVoid MapBuffer(IBuffer pBuffer, MAP_TYPE MapType, MAP_FLAGS MapFlags)
+        {
+            return IDeviceContext_MapBuffer(
+                this.objPtr
+                , pBuffer.objPtr
+                , MapType
+                , MapFlags
+            );
+        }
+        public void UnmapBuffer(IBuffer pBuffer, MAP_TYPE MapType)
+        {
+            IDeviceContext_UnmapBuffer(
+                this.objPtr
+                , pBuffer.objPtr
+                , MapType
+            );
+        }
 
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -100,6 +118,19 @@ namespace DiligentEngine
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void IDeviceContext_Flush(
             IntPtr objPtr
+        );
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern PVoid IDeviceContext_MapBuffer(
+            IntPtr objPtr
+            , IntPtr pBuffer
+            , MAP_TYPE MapType
+            , MAP_FLAGS MapFlags
+        );
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void IDeviceContext_UnmapBuffer(
+            IntPtr objPtr
+            , IntPtr pBuffer
+            , MAP_TYPE MapType
         );
     }
 }

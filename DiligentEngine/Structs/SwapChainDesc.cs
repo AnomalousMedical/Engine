@@ -10,6 +10,7 @@ using Uint32 = System.UInt32;
 using Uint64 = System.UInt64;
 using Float32 = System.Single;
 using Uint16 = System.UInt16;
+using PVoid = System.IntPtr;
 
 namespace DiligentEngine
 {

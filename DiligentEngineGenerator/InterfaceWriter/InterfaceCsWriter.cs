@@ -68,6 +68,12 @@ namespace DiligentEngine
 @$"            return new {GetCSharpType(item.ReturnType, context)}({code.Name}_{item.Name}(
                 this.objPtr");
                 }
+                else if(item.LookupReturnType == "PVoid")
+                {
+                    writer.WriteLine(
+@$"            return {code.Name}_{item.Name}(
+                this.objPtr");
+                }
                 else
                 {
                     writer.WriteLine(

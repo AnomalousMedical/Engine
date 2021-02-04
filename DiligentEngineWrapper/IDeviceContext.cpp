@@ -58,3 +58,25 @@ extern "C" _AnomalousExport void IDeviceContext_Flush(
 	objPtr->Flush(
 	);
 }
+extern "C" _AnomalousExport PVoid IDeviceContext_MapBuffer(
+	IDeviceContext* objPtr
+, IBuffer* pBuffer, MAP_TYPE MapType, MAP_FLAGS MapFlags)
+{
+	PVoid theReturnValue = nullptr;
+	objPtr->MapBuffer(
+		pBuffer
+		, MapType
+		, MapFlags
+		, &theReturnValue
+	);
+	return theReturnValue;
+}
+extern "C" _AnomalousExport void IDeviceContext_UnmapBuffer(
+	IDeviceContext* objPtr
+, IBuffer* pBuffer, MAP_TYPE MapType)
+{
+	objPtr->UnmapBuffer(
+		pBuffer
+		, MapType
+	);
+}

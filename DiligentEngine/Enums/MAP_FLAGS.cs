@@ -14,14 +14,11 @@ using PVoid = System.IntPtr;
 
 namespace DiligentEngine
 {
-    public partial class ShaderDesc : DeviceObjectAttribs
+    public enum MAP_FLAGS :  Uint8
     {
-        public ShaderDesc()
-        {
-
-        }
-        public SHADER_TYPE ShaderType { get; set; } = SHADER_TYPE.SHADER_TYPE_UNKNOWN;
-
-
+        MAP_FLAG_NONE = 0x000,
+        MAP_FLAG_DO_NOT_WAIT = 0x001,
+        MAP_FLAG_DISCARD = 0x002,
+        MAP_FLAG_NO_OVERWRITE = 0x004,
     }
 }

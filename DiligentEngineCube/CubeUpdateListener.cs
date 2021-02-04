@@ -4,6 +4,7 @@ using Engine.Platform;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,17 +14,19 @@ namespace DiligentEngineCube
     {
         private readonly GenericEngineFactory genericEngineFactory;
         private readonly ISwapChain swapChain;
-        private readonly IDeviceContext immediateContext;
+        private readonly IDeviceContext m_pImmediateContext;
 
         private readonly IPipelineState pipelineState;
         private IBuffer m_VSConstants;
         private IShaderResourceBinding m_pSRB;
+        private IBuffer m_CubeVertexBuffer;
+        private IBuffer m_CubeIndexBuffer;
 
         public CubeUpdateListener(GenericEngineFactory genericEngineFactory)
         {
             this.genericEngineFactory = genericEngineFactory;
             this.swapChain = genericEngineFactory.SwapChain;
-            this.immediateContext = genericEngineFactory.ImmediateContext;
+            this.m_pImmediateContext = genericEngineFactory.ImmediateContext;
 
             var m_pDevice = genericEngineFactory.RenderDevice;
             var m_pSwapChain = genericEngineFactory.SwapChain;
@@ -122,10 +125,105 @@ namespace DiligentEngineCube
 
             // Create a shader resource binding object and bind all static resources in it
             m_pSRB = pipelineState.CreateShaderResourceBinding(true);
+
+            CreateVertexBuffer();
+            CreateIndexBuffer();
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        struct Vertex
+        {
+            public Vector3 pos;
+            public Vector4 color;
+        };
+
+        unsafe void CreateVertexBuffer()
+        {
+            var m_pDevice = genericEngineFactory.RenderDevice;
+
+            // Layout of this structure matches the one we defined in the pipeline state
+
+            // Cube vertices
+
+            //      (-1,+1,+1)________________(+1,+1,+1)
+            //               /|              /|
+            //              / |             / |
+            //             /  |            /  |
+            //            /   |           /   |
+            //(-1,-1,+1) /____|__________/(+1,-1,+1)
+            //           |    |__________|____|
+            //           |   /(-1,+1,-1) |    /(+1,+1,-1)
+            //           |  /            |   /
+            //           | /             |  /
+            //           |/              | /
+            //           /_______________|/
+            //        (-1,-1,-1)       (+1,-1,-1)
+            //
+
+            // clang-format off
+            var CubeVerts = new Vertex[]
+            {
+                new Vertex{pos = new Vector3(-1,-1,-1), color = new Vector4(1,0,0,1)},
+                new Vertex{pos = new Vector3(-1,+1,-1), color = new Vector4(0,1,0,1)},
+                new Vertex{pos = new Vector3(+1,+1,-1), color = new Vector4(0,0,1,1)},
+                new Vertex{pos = new Vector3(+1,-1,-1), color = new Vector4(1,1,1,1)},
+
+                new Vertex{pos = new Vector3(-1,-1,+1), color = new Vector4(1,1,0,1)},
+                new Vertex{pos = new Vector3(-1,+1,+1), color = new Vector4(0,1,1,1)},
+                new Vertex{pos = new Vector3(+1,+1,+1), color = new Vector4(1,0,1,1)},
+                new Vertex{pos = new Vector3(+1,-1,+1), color = new Vector4(0.2f,0.2f,0.2f,1)},
+            };
+            // clang-format on
+
+            // Create a vertex buffer that stores cube vertices
+            BufferDesc VertBuffDesc = new BufferDesc();
+            VertBuffDesc.Name = "Cube vertex buffer";
+            VertBuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
+            VertBuffDesc.BindFlags = BIND_FLAGS.BIND_VERTEX_BUFFER;
+            VertBuffDesc.uiSizeInBytes = (uint)(sizeof(Vertex) * CubeVerts.Length);
+            BufferData VBData = new BufferData();
+            fixed (Vertex* vertices = CubeVerts)
+            {
+                VBData.pData = new IntPtr(vertices);
+                VBData.DataSize = (uint)(sizeof(Vertex) * CubeVerts.Length);
+                m_CubeVertexBuffer = m_pDevice.CreateBuffer(VertBuffDesc, VBData);
+            }
+        }
+
+        unsafe void CreateIndexBuffer()
+        {
+            var m_pDevice = genericEngineFactory.RenderDevice;
+
+            // clang-format off
+            var Indices = new UInt32[]
+            {
+                2,0,1, 2,3,0,
+                4,6,5, 4,7,6,
+                0,7,4, 0,3,7,
+                1,0,4, 1,4,5,
+                1,5,2, 5,6,2,
+                3,6,7, 3,2,6
+            };
+            // clang-format on
+
+            BufferDesc IndBuffDesc = new BufferDesc();
+            IndBuffDesc.Name = "Cube index buffer";
+            IndBuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
+            IndBuffDesc.BindFlags = BIND_FLAGS.BIND_INDEX_BUFFER;
+            IndBuffDesc.uiSizeInBytes = (uint)(sizeof(UInt32) * Indices.Length);
+            BufferData IBData = new BufferData();
+            fixed (UInt32* pIndices = Indices)
+            {
+                IBData.pData = new IntPtr(pIndices);
+                IBData.DataSize = (uint)(sizeof(UInt32) * Indices.Length);
+                m_CubeIndexBuffer = m_pDevice.CreateBuffer(IndBuffDesc, IBData);
+            }
         }
 
         public void Dispose()
         {
+            m_CubeIndexBuffer.Dispose();
+            m_CubeVertexBuffer.Dispose();
             m_pSRB.Dispose();
             pipelineState.Dispose();
             m_VSConstants.Dispose();
@@ -145,26 +243,38 @@ namespace DiligentEngineCube
         {
             var pRTV = swapChain.GetCurrentBackBufferRTV();
             var pDSV = swapChain.GetDepthBufferDSV();
-            immediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-
-            var color = Color.LightBlue;
-            color.r = (color.r + (clock.CurrentTimeMicro % 3000000f) / 3000000f) % 1.0f;
-            color.g = (color.g + (clock.CurrentTimeMicro % 6000000f) / 6000000f) % 1.0f;
-            color.b = (color.b + (clock.CurrentTimeMicro % 9000000f) / 9000000f) % 1.0f;
+            // Clear the back buffer
+            var ClearColor = new Color(0.350f, 0.350f, 0.350f, 1.0f);
 
             // Clear the back buffer
             // Let the engine perform required state transitions
-            immediateContext.ClearRenderTarget(pRTV, color, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-            immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            m_pImmediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            m_pImmediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            immediateContext.SetPipelineState(this.pipelineState);
+            {
+                // Map the buffer and write current world-view-projection matrix
+                MapHelper<float4x4> CBConstants(m_pImmediateContext, m_VSConstants, MAP_WRITE, MAP_FLAG_DISCARD);
+                *CBConstants = m_WorldViewProjMatrix.Transpose();
+            }
 
-            //// Typically we should now call CommitShaderResources(), however shaders in this example don't
-            //// use any resources.
+            // Bind vertex and index buffers
+            UInt32 offset = 0;
+            IBuffer* pBuffs[] = { m_CubeVertexBuffer };
+            m_pImmediateContext->SetVertexBuffers(0, 1, pBuffs, &offset, RESOURCE_STATE_TRANSITION_MODE_TRANSITION, SET_VERTEX_BUFFERS_FLAG_RESET);
+            m_pImmediateContext->SetIndexBuffer(m_CubeIndexBuffer, 0, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            DrawAttribs drawAttrs = new DrawAttribs();
-            drawAttrs.NumVertices = 3; // Render 3 vertices
-            immediateContext.Draw(drawAttrs);
+            // Set the pipeline state
+            m_pImmediateContext->SetPipelineState(m_pPSO);
+            // Commit shader resources. RESOURCE_STATE_TRANSITION_MODE_TRANSITION mode
+            // makes sure that resources are transitioned to required states.
+            m_pImmediateContext->CommitShaderResources(m_pSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+
+            DrawIndexedAttribs DrawAttrs;     // This is an indexed draw call
+            DrawAttrs.IndexType = VT_UINT32; // Index type
+            DrawAttrs.NumIndices = 36;
+            // Verify the state of vertex and index buffers
+            DrawAttrs.Flags = DRAW_FLAG_VERIFY_ALL;
+            m_pImmediateContext->DrawIndexed(DrawAttrs);
 
             this.swapChain.Present(1);
         }
