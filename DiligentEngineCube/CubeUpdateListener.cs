@@ -253,29 +253,112 @@ namespace DiligentEngineCube
             m_pImmediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
             {
+                var CubeModelTransform = new Matrix4x4
+                {
+                    m00 = -0.611809433f,
+                    m01 = 0.244434059f,
+                    m02 = 0.752290666f,
+                    m03 = 0.00000000f,
+                    m10 = 0.00000000f,
+                    m11 = 0.951056540f,
+                    m12 = -0.309017003f,
+                    m13 = 0.00000000f,
+                    m20 = -0.791005194f,
+                    m21 = -0.189059511f,
+                    m22 = -0.581865370f,
+                    m23 = 0.00000000f,
+                    m30 = 0.00000000f,
+                    m31 = 0.00000000f,
+                    m32 = 0.00000000f,
+                    m33 = 1.00000000f,
+                };
+
+                var View = new Matrix4x4
+                {
+                    m00 = 1.00000000f,
+                    m01 = 0.00000000f,
+                    m02 = 0.00000000f,
+                    m03 = 0.00000000f,
+                    m10 = 0.00000000f,
+                    m11 = 1.00000000f,
+                    m12 = 0.00000000f,
+                    m13 = 0.00000000f,
+                    m20 = 0.00000000f,
+                    m21 = 0.00000000f,
+                    m22 = 1.00000000f,
+                    m23 = 0.00000000f,
+                    m30 = 0.00000000f,
+                    m31 = 0.00000000f,
+                    m32 = 5.00000000f,
+                    m33 = 1.00000000f,
+                };
+
+                var SrfPreTransform = new Matrix4x4
+                {
+                    m00 = 1.00000000f,
+                    m01 = 0.00000000f,
+                    m02 = 0.00000000f,
+                    m03 = 0.00000000f,
+                    m10 = 0.00000000f,
+                    m11 = 1.00000000f,
+                    m12 = 0.00000000f,
+                    m13 = 0.00000000f,
+                    m20 = 0.00000000f,
+                    m21 = 0.00000000f,
+                    m22 = 1.00000000f,
+                    m23 = 0.00000000f,
+                    m30 = 0.00000000f,
+                    m31 = 0.00000000f,
+                    m32 = 0.00000000f,
+                    m33 = 1.00000000f,
+                };
+
+                var Proj = new Matrix4x4
+                {
+                    m00 = 1.28372967f,
+                    m01 = 0.00000000f,
+                    m02 = 0.00000000f,
+                    m03 = 0.00000000f,
+                    m10 = 0.00000000f,
+                    m11 = 2.41421342f,
+                    m12 = 0.00000000f,
+                    m13 = 0.00000000f,
+                    m20 = 0.00000000f,
+                    m21 = 0.00000000f,
+                    m22 = 1.00100100f,
+                    m23 = 1.00000000f,
+                    m30 = 0.00000000f,
+                    m31 = 0.00000000f,
+                    m32 = -0.100100100f,
+                    m33 = 0.00000000f,
+                };
+
+                var m_WorldViewProjMatrix = CubeModelTransform * View * SrfPreTransform * Proj;
+
                 // Map the buffer and write current world-view-projection matrix
                 IntPtr data = m_pImmediateContext.MapBuffer(m_VSConstants, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
                 Matrix4x4* viewProjMat = (Matrix4x4*)data.ToPointer();
                 //Mat is d3d, ogre style row major, need to transpose to send to diligent
-                viewProjMat[0] = new Matrix4x4
-                {
-                    m00 = 1.93137074f,
-                    m01 = -0.000151892309f,
-                    m02 = -0.000193828935f,
-                    m03 = -0.000193635104f,
-                    m10 = 0.00000000f,
-                    m11 = 2.29605341f,
-                    m12 = -0.309326321f,
-                    m13 = -0.309017003f,
-                    m20 = 0.000393227063f,
-                    m21 = 0.746033013f,
-                    m22 = 0.952008545f,
-                    m23 = 0.951056540f,
-                    m30 = 0.00000000f,
-                    m31 = 0.00000000f,
-                    m32 = 4.90490484f,
-                    m33 = 5.00000000f,
-                }.Transpose();
+                viewProjMat[0] = m_WorldViewProjMatrix.Transpose();
+                //viewProjMat[0] = new Matrix4x4
+                //{
+                //    m00 = 1.93137074f,
+                //    m01 = -0.000151892309f,
+                //    m02 = -0.000193828935f,
+                //    m03 = -0.000193635104f,
+                //    m10 = 0.00000000f,
+                //    m11 = 2.29605341f,
+                //    m12 = -0.309326321f,
+                //    m13 = -0.309017003f,
+                //    m20 = 0.000393227063f,
+                //    m21 = 0.746033013f,
+                //    m22 = 0.952008545f,
+                //    m23 = 0.951056540f,
+                //    m30 = 0.00000000f,
+                //    m31 = 0.00000000f,
+                //    m32 = 4.90490484f,
+                //    m33 = 5.00000000f,
+                //}.Transpose();
                 m_pImmediateContext.UnmapBuffer(m_VSConstants, MAP_TYPE.MAP_WRITE);
             }
 
