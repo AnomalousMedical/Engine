@@ -30,6 +30,14 @@ namespace DiligentEngine
                 , pPipelineState.objPtr
             );
         }
+        public void CommitShaderResources(IShaderResourceBinding pShaderResourceBinding, RESOURCE_STATE_TRANSITION_MODE StateTransitionMode)
+        {
+            IDeviceContext_CommitShaderResources(
+                this.objPtr
+                , pShaderResourceBinding.objPtr
+                , StateTransitionMode
+            );
+        }
         public void SetVertexBuffers(Uint32 StartSlot, Uint32 NumBuffersSet, IBuffer[] ppBuffers, Uint32[] pOffsets, RESOURCE_STATE_TRANSITION_MODE StateTransitionMode, SET_VERTEX_BUFFERS_FLAGS Flags)
         {
             IDeviceContext_SetVertexBuffers(
@@ -40,6 +48,15 @@ namespace DiligentEngine
                 , pOffsets
                 , StateTransitionMode
                 , Flags
+            );
+        }
+        public void SetIndexBuffer(IBuffer pIndexBuffer, Uint32 ByteOffset, RESOURCE_STATE_TRANSITION_MODE StateTransitionMode)
+        {
+            IDeviceContext_SetIndexBuffer(
+                this.objPtr
+                , pIndexBuffer.objPtr
+                , ByteOffset
+                , StateTransitionMode
             );
         }
         public void Draw(DrawAttribs Attribs)
@@ -104,6 +121,12 @@ namespace DiligentEngine
             , IntPtr pPipelineState
         );
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void IDeviceContext_CommitShaderResources(
+            IntPtr objPtr
+            , IntPtr pShaderResourceBinding
+            , RESOURCE_STATE_TRANSITION_MODE StateTransitionMode
+        );
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void IDeviceContext_SetVertexBuffers(
             IntPtr objPtr
             , Uint32 StartSlot
@@ -112,6 +135,13 @@ namespace DiligentEngine
             , Uint32[] pOffsets
             , RESOURCE_STATE_TRANSITION_MODE StateTransitionMode
             , SET_VERTEX_BUFFERS_FLAGS Flags
+        );
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void IDeviceContext_SetIndexBuffer(
+            IntPtr objPtr
+            , IntPtr pIndexBuffer
+            , Uint32 ByteOffset
+            , RESOURCE_STATE_TRANSITION_MODE StateTransitionMode
         );
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void IDeviceContext_Draw(

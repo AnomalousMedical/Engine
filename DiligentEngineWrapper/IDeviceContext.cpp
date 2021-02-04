@@ -10,6 +10,15 @@ extern "C" _AnomalousExport void IDeviceContext_SetPipelineState(
 		pPipelineState
 	);
 }
+extern "C" _AnomalousExport void IDeviceContext_CommitShaderResources(
+	IDeviceContext* objPtr
+, IShaderResourceBinding* pShaderResourceBinding, RESOURCE_STATE_TRANSITION_MODE StateTransitionMode)
+{
+	objPtr->CommitShaderResources(
+		pShaderResourceBinding
+		, StateTransitionMode
+	);
+}
 extern "C" _AnomalousExport void IDeviceContext_SetVertexBuffers(
 	IDeviceContext* objPtr
 , Uint32 StartSlot, Uint32 NumBuffersSet, IBuffer** ppBuffers, Uint32* pOffsets, RESOURCE_STATE_TRANSITION_MODE StateTransitionMode, SET_VERTEX_BUFFERS_FLAGS Flags)
@@ -21,6 +30,16 @@ extern "C" _AnomalousExport void IDeviceContext_SetVertexBuffers(
 		, pOffsets
 		, StateTransitionMode
 		, Flags
+	);
+}
+extern "C" _AnomalousExport void IDeviceContext_SetIndexBuffer(
+	IDeviceContext* objPtr
+, IBuffer* pIndexBuffer, Uint32 ByteOffset, RESOURCE_STATE_TRANSITION_MODE StateTransitionMode)
+{
+	objPtr->SetIndexBuffer(
+		pIndexBuffer
+		, ByteOffset
+		, StateTransitionMode
 	);
 }
 extern "C" _AnomalousExport void IDeviceContext_Draw(

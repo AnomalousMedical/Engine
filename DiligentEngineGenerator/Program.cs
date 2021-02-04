@@ -450,7 +450,7 @@ namespace DiligentEngineGenerator
                     }
                 }
 
-                var allowedMethods = new List<String> { /*"SetRenderTargets", */ "Flush", "ClearRenderTarget", "ClearDepthStencil", "Draw", "SetPipelineState", "MapBuffer", "UnmapBuffer", "SetVertexBuffers" };
+                var allowedMethods = new List<String> { /*"SetRenderTargets", */"CommitShaderResources", "SetIndexBuffer", "Flush", "ClearRenderTarget", "ClearDepthStencil", "Draw", "SetPipelineState", "MapBuffer", "UnmapBuffer", "SetVertexBuffers" };
                 IDeviceContext.Methods = IDeviceContext.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 var rgbaArgs = IDeviceContext.Methods.First(i => i.Name == "ClearRenderTarget")

@@ -264,13 +264,13 @@ namespace DiligentEngineCube
             UInt32[] offset = new UInt32[] { 0 };
             IBuffer[] pBuffs = new IBuffer[] { m_CubeVertexBuffer };
             m_pImmediateContext.SetVertexBuffers(0, 1, pBuffs, offset, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION, SET_VERTEX_BUFFERS_FLAGS.SET_VERTEX_BUFFERS_FLAG_RESET);
-            //m_pImmediateContext.SetIndexBuffer(m_CubeIndexBuffer, 0, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            m_pImmediateContext.SetIndexBuffer(m_CubeIndexBuffer, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            //// Set the pipeline state
-            //m_pImmediateContext.SetPipelineState(pipelineState);
-            //// Commit shader resources. RESOURCE_STATE_TRANSITION_MODE_TRANSITION mode
-            //// makes sure that resources are transitioned to required states.
-            //m_pImmediateContext.CommitShaderResources(m_pSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            // Set the pipeline state
+            m_pImmediateContext.SetPipelineState(pipelineState);
+            // Commit shader resources. RESOURCE_STATE_TRANSITION_MODE_TRANSITION mode
+            // makes sure that resources are transitioned to required states.
+            m_pImmediateContext.CommitShaderResources(m_pSRB, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
             //DrawIndexedAttribs DrawAttrs;     // This is an indexed draw call
             //DrawAttrs.IndexType = VT_UINT32; // Index type
