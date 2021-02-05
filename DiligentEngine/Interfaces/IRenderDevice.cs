@@ -57,7 +57,7 @@ namespace DiligentEngine
             );
             return new AutoPtr<IShader>(new IShader(theReturnValue), false);
         }
-        public ITexture CreateTexture(TextureDesc TexDesc, TextureData pData)
+        public AutoPtr<ITexture> CreateTexture(TextureDesc TexDesc, TextureData pData)
         {
             var theReturnValue = 
             IRenderDevice_CreateTexture(
@@ -84,7 +84,7 @@ namespace DiligentEngine
                 , TextureSubResDataPassStruct.ToStruct(pData.pSubResources)
                 , pData.pSubResources != null ? (Uint32)pData.pSubResources.Count : 0
             );
-            return new ITexture(theReturnValue);
+            return new AutoPtr<ITexture>(new ITexture(theReturnValue), false);
         }
         public AutoPtr<IPipelineState> CreateGraphicsPipelineState(GraphicsPipelineStateCreateInfo PSOCreateInfo)
         {

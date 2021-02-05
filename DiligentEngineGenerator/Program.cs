@@ -542,7 +542,7 @@ namespace DiligentEngineGenerator
                 {
                     var CreateTexture = IRenderDevice.Methods.First(i => i.Name == "CreateTexture");
                     CreateTexture.ReturnType = "ITexture*";
-                    //CreateTexture.ReturnAsAutoPtr = true;
+                    CreateTexture.ReturnAsAutoPtr = true;
                     {
                         var ppTexture = CreateTexture.Args.First(i => i.Name == "ppTexture");
                         ppTexture.MakeReturnVal = true;

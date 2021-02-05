@@ -14,7 +14,7 @@ namespace DiligentEngineTest
         private readonly GraphicsEngine graphicsEngine;
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext immediateContext;
-        private readonly IPipelineState pipelineState;
+        private readonly AutoPtr<IPipelineState> pipelineState;
 
         const String VSSource = @"
 struct PSInput
@@ -109,8 +109,8 @@ void main(in  PSInput  PSIn,
             PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.DepthEnable = false;
             // clang-format on
 
-            PSOCreateInfo.pVS = vertexShader;
-            PSOCreateInfo.pPS = pixelShader;
+            PSOCreateInfo.pVS = vertexShader.Obj;
+            PSOCreateInfo.pPS = pixelShader.Obj;
             this.pipelineState = graphicsEngine.RenderDevice.CreateGraphicsPipelineState(PSOCreateInfo);
         }
 
@@ -145,7 +145,7 @@ void main(in  PSInput  PSIn,
             immediateContext.ClearRenderTarget(pRTV, color, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            immediateContext.SetPipelineState(this.pipelineState);
+            immediateContext.SetPipelineState(this.pipelineState.Obj);
 
             //// Typically we should now call CommitShaderResources(), however shaders in this example don't
             //// use any resources.

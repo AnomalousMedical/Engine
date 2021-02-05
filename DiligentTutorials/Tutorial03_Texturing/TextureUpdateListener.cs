@@ -133,8 +133,8 @@ namespace DiligentEngineCube
                 },
             };
 
-            PSOCreateInfo.pVS = pVS;
-            PSOCreateInfo.pPS = pPS;
+            PSOCreateInfo.pVS = pVS.Obj;
+            PSOCreateInfo.pPS = pPS.Obj;
 
             PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements = LayoutElems;
 
@@ -166,11 +166,11 @@ namespace DiligentEngineCube
             // Since we did not explcitly specify the type for 'Constants' variable, default
             // type (SHADER_RESOURCE_VARIABLE_TYPE_STATIC) will be used. Static variables
             // never change and are bound directly through the pipeline state object.
-            m_pPSO.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "Constants").Set(m_VSConstants);
+            m_pPSO.Obj.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "Constants").Set(m_VSConstants.Obj);
 
             // Since we are using mutable variable, we must create a shader resource binding object
             // http://diligentgraphics.com/2016/03/23/resource-binding-model-in-diligent-engine-2-0/
-            m_SRB = m_pPSO.CreateShaderResourceBinding(true);
+            m_SRB = m_pPSO.Obj.CreateShaderResourceBinding(true);
 
             CreateVertexBuffer();
             CreateIndexBuffer();
@@ -296,12 +296,12 @@ namespace DiligentEngineCube
             //bmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
             //TextureLoadInfo loadInfo;
             //loadInfo.IsSRGB = true;
-            using ITexture Tex = CreateTextureFromImage(bmp, 1);
+            using var Tex = CreateTextureFromImage(bmp, 1);
             // Get shader resource view from the texture
-            m_TextureSRV = Tex.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
+            m_TextureSRV = new AutoPtr<ITextureView>(Tex.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
 
             // Set texture SRV in the SRB
-            m_SRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_Texture").Set(m_TextureSRV);
+            m_SRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_Texture").Set(m_TextureSRV.Obj);
         }
 
         TEXTURE_FORMAT GetFormat(FreeImageBitmap bitmap)
@@ -316,7 +316,7 @@ namespace DiligentEngineCube
             }
         }
 
-        ITexture CreateTextureFromImage(FreeImageBitmap bitmap, int MipLevels)
+        AutoPtr<ITexture> CreateTextureFromImage(FreeImageBitmap bitmap, int MipLevels)
         {
             uint width = (uint)bitmap.Width;
             uint height = (uint)bitmap.Height;
@@ -554,24 +554,24 @@ namespace DiligentEngineCube
                 var m_WorldViewProjMatrix = CubeModelTransform * View * Proj;
 
                 // Map the buffer and write current world-view-projection matrix
-                IntPtr data = m_pImmediateContext.MapBuffer(m_VSConstants, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
+                IntPtr data = m_pImmediateContext.MapBuffer(m_VSConstants.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
                 Matrix4x4* viewProjMat = (Matrix4x4*)data.ToPointer();
                 //Mat is d3d, ogre style row major, need to transpose to send to diligent
                 viewProjMat[0] = m_WorldViewProjMatrix.Transpose();
-                m_pImmediateContext.UnmapBuffer(m_VSConstants, MAP_TYPE.MAP_WRITE);
+                m_pImmediateContext.UnmapBuffer(m_VSConstants.Obj, MAP_TYPE.MAP_WRITE);
             }
 
             // Bind vertex and index buffers
             UInt32[] offset = new UInt32[] { 0 };
-            IBuffer[] pBuffs = new IBuffer[] { m_CubeVertexBuffer };
+            IBuffer[] pBuffs = new IBuffer[] { m_CubeVertexBuffer.Obj };
             m_pImmediateContext.SetVertexBuffers(0, 1, pBuffs, offset, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION, SET_VERTEX_BUFFERS_FLAGS.SET_VERTEX_BUFFERS_FLAG_RESET);
-            m_pImmediateContext.SetIndexBuffer(m_CubeIndexBuffer, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            m_pImmediateContext.SetIndexBuffer(m_CubeIndexBuffer.Obj, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
             // Set the pipeline state
-            m_pImmediateContext.SetPipelineState(m_pPSO);
+            m_pImmediateContext.SetPipelineState(m_pPSO.Obj);
             // Commit shader resources. RESOURCE_STATE_TRANSITION_MODE_TRANSITION mode
             // makes sure that resources are transitioned to required states.
-            m_pImmediateContext.CommitShaderResources(m_SRB, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            m_pImmediateContext.CommitShaderResources(m_SRB.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
             DrawIndexedAttribs DrawAttrs = new DrawIndexedAttribs();     // This is an indexed draw call
             DrawAttrs.IndexType = VALUE_TYPE.VT_UINT32; // Index type
