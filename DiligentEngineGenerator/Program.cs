@@ -526,7 +526,7 @@ namespace DiligentEngineGenerator
                 {
                     var CreateBuffer = IRenderDevice.Methods.First(i => i.Name == "CreateBuffer");
                     CreateBuffer.ReturnType = "IBuffer*";
-                    //CreateBuffer.ReturnAsAutoPtr = true;
+                    CreateBuffer.ReturnAsAutoPtr = true;
                     {
                         var ppBuffer = CreateBuffer.Args.First(i => i.Name == "ppBuffer");
                         ppBuffer.MakeReturnVal = true;
@@ -688,7 +688,7 @@ namespace DiligentEngineGenerator
                 {
                     var CreateShaderResourceBinding = IPipelineState.Methods.First(i => i.Name == "CreateShaderResourceBinding");
                     CreateShaderResourceBinding.ReturnType = "IShaderResourceBinding*";
-                    //CreateShaderResourceBinding.ReturnAsAutoPtr = true;
+                    CreateShaderResourceBinding.ReturnAsAutoPtr = true;
                     var ppShaderResourceBinding = CreateShaderResourceBinding.Args.First(i => i.Name == "ppShaderResourceBinding");
                     ppShaderResourceBinding.MakeReturnVal = true;
                     ppShaderResourceBinding.Type = "IShaderResourceBinding*";

@@ -33,14 +33,14 @@ namespace DiligentEngine
             );
             return new IShaderResourceVariable(theReturnValue);
         }
-        public IShaderResourceBinding CreateShaderResourceBinding(bool InitStaticResources)
+        public AutoPtr<IShaderResourceBinding> CreateShaderResourceBinding(bool InitStaticResources)
         {
             var theReturnValue = 
             IPipelineState_CreateShaderResourceBinding(
                 this.objPtr
                 , InitStaticResources
             );
-            return new IShaderResourceBinding(theReturnValue);
+            return new AutoPtr<IShaderResourceBinding>(new IShaderResourceBinding(theReturnValue), false);
         }
 
 

@@ -14,6 +14,8 @@ namespace DiligentEngine
     {
         private readonly T obj;
 
+        public T Obj => obj;
+
         public AutoPtr(T obj)
         {
             obj.AddRef();
@@ -34,6 +36,6 @@ namespace DiligentEngine
             obj.Release();
         }
 
-        public static implicit operator T(AutoPtr<T> d) => d.obj;
+        //public static implicit operator T(AutoPtr<T> d) => d.obj;
     }
 }

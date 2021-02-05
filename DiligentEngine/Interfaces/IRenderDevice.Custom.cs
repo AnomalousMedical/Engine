@@ -16,11 +16,9 @@ namespace DiligentEngine
 {
     public partial class IRenderDevice :  IObject
     {
-        private static BufferData EmptyData = new BufferData();
-
-        public IBuffer CreateBuffer(BufferDesc BuffDesc)
+        public AutoPtr<IBuffer> CreateBuffer(BufferDesc BuffDesc)
         {
-            return new IBuffer(IRenderDevice_CreateBuffer_Null_Data(
+            return new AutoPtr<IBuffer>(new IBuffer(IRenderDevice_CreateBuffer_Null_Data(
                 this.objPtr
                 , BuffDesc.uiSizeInBytes
                 , BuffDesc.BindFlags
@@ -30,7 +28,7 @@ namespace DiligentEngine
                 , BuffDesc.ElementByteStride
                 , BuffDesc.CommandQueueMask
                 , BuffDesc.Name
-            ));
+            )), false);
         }
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]

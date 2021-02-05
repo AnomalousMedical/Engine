@@ -54,11 +54,11 @@ namespace DiligentEngine
             this.SwapChainPtr = new AutoPtr<ISwapChain>(new ISwapChain(result.m_pSwapChain), false);
         }
 
-        public IRenderDevice RenderDevice => this.RenderDevicePtr;
+        public IRenderDevice RenderDevice => this.RenderDevicePtr.Obj;
 
-        public IDeviceContext ImmediateContext => this.ImmediateContextPtr;
+        public IDeviceContext ImmediateContext => this.ImmediateContextPtr.Obj;
 
-        public ISwapChain SwapChain => this.SwapChainPtr;
+        public ISwapChain SwapChain => this.SwapChainPtr.Obj;
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern CreateDeviceAndSwapChainResult GenericEngineFactory_CreateDeviceAndSwapChain(

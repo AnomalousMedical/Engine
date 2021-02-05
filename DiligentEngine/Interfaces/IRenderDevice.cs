@@ -23,7 +23,7 @@ namespace DiligentEngine
         {
 
         }
-        public IBuffer CreateBuffer(BufferDesc BuffDesc, BufferData pBuffData)
+        public AutoPtr<IBuffer> CreateBuffer(BufferDesc BuffDesc, BufferData pBuffData)
         {
             var theReturnValue = 
             IRenderDevice_CreateBuffer(
@@ -39,7 +39,7 @@ namespace DiligentEngine
                 , pBuffData.pData
                 , pBuffData.DataSize
             );
-            return new IBuffer(theReturnValue);
+            return new AutoPtr<IBuffer>(new IBuffer(theReturnValue), false);
         }
         public AutoPtr<IShader> CreateShader(ShaderCreateInfo ShaderCI)
         {

@@ -18,11 +18,11 @@ namespace DiligentEngineCube
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext m_pImmediateContext;
 
-        private readonly IPipelineState pipelineState;
-        private IBuffer m_VSConstants;
-        private IShaderResourceBinding m_pSRB;
-        private IBuffer m_CubeVertexBuffer;
-        private IBuffer m_CubeIndexBuffer;
+        private AutoPtr<IPipelineState> pipelineState;
+        private AutoPtr<IBuffer> m_VSConstants;
+        private AutoPtr<IShaderResourceBinding> m_pSRB;
+        private AutoPtr<IBuffer> m_CubeVertexBuffer;
+        private AutoPtr<IBuffer> m_CubeIndexBuffer;
 
         public CubeUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window)
         {
@@ -112,8 +112,8 @@ namespace DiligentEngineCube
             // clang-format on
             PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements = LayoutElems;
 
-            PSOCreateInfo.pVS = pVS;
-            PSOCreateInfo.pPS = pPS;
+            PSOCreateInfo.pVS = pVS.Obj;
+            PSOCreateInfo.pPS = pPS.Obj;
 
             // Define variable type that will be used by default
             PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
@@ -124,10 +124,10 @@ namespace DiligentEngineCube
             // Since we did not explcitly specify the type for 'Constants' variable, default
             // type (SHADER_RESOURCE_VARIABLE_TYPE_STATIC) will be used. Static variables never
             // change and are bound directly through the pipeline state object.
-            pipelineState.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "Constants").Set(m_VSConstants);
+            pipelineState.Obj.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "Constants").Set(m_VSConstants.Obj);
 
             // Create a shader resource binding object and bind all static resources in it
-            m_pSRB = pipelineState.CreateShaderResourceBinding(true);
+            m_pSRB = pipelineState.Obj.CreateShaderResourceBinding(true);
 
             CreateVertexBuffer();
             CreateIndexBuffer();
@@ -301,24 +301,24 @@ namespace DiligentEngineCube
                 var m_WorldViewProjMatrix = CubeModelTransform * View * Proj;
 
                 // Map the buffer and write current world-view-projection matrix
-                IntPtr data = m_pImmediateContext.MapBuffer(m_VSConstants, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
+                IntPtr data = m_pImmediateContext.MapBuffer(m_VSConstants.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
                 Matrix4x4* viewProjMat = (Matrix4x4*)data.ToPointer();
                 //Mat is d3d, ogre style row major, need to transpose to send to diligent
                 viewProjMat[0] = m_WorldViewProjMatrix.Transpose();
-                m_pImmediateContext.UnmapBuffer(m_VSConstants, MAP_TYPE.MAP_WRITE);
+                m_pImmediateContext.UnmapBuffer(m_VSConstants.Obj, MAP_TYPE.MAP_WRITE);
             }
 
             // Bind vertex and index buffers
             UInt32[] offset = new UInt32[] { 0 };
-            IBuffer[] pBuffs = new IBuffer[] { m_CubeVertexBuffer };
+            IBuffer[] pBuffs = new IBuffer[] { m_CubeVertexBuffer.Obj };
             m_pImmediateContext.SetVertexBuffers(0, 1, pBuffs, offset, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION, SET_VERTEX_BUFFERS_FLAGS.SET_VERTEX_BUFFERS_FLAG_RESET);
-            m_pImmediateContext.SetIndexBuffer(m_CubeIndexBuffer, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            m_pImmediateContext.SetIndexBuffer(m_CubeIndexBuffer.Obj, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
             // Set the pipeline state
-            m_pImmediateContext.SetPipelineState(pipelineState);
+            m_pImmediateContext.SetPipelineState(pipelineState.Obj);
             // Commit shader resources. RESOURCE_STATE_TRANSITION_MODE_TRANSITION mode
             // makes sure that resources are transitioned to required states.
-            m_pImmediateContext.CommitShaderResources(m_pSRB, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            m_pImmediateContext.CommitShaderResources(m_pSRB.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
             DrawIndexedAttribs DrawAttrs = new DrawIndexedAttribs();     // This is an indexed draw call
             DrawAttrs.IndexType = VALUE_TYPE.VT_UINT32; // Index type
