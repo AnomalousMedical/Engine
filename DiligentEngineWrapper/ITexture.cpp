@@ -5,7 +5,9 @@ extern "C" _AnomalousExport ITextureView* ITexture_GetDefaultView(
 	ITexture* objPtr
 , TEXTURE_VIEW_TYPE ViewType)
 {
-	return objPtr->GetDefaultView(
+	ITextureView* ptr = objPtr->GetDefaultView(
 		ViewType
 	);
+	ptr->AddRef();
+	return ptr;
 }

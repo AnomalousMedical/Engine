@@ -83,15 +83,8 @@ namespace DiligentEngineGenerator
                     }
                     else
                     {
-                        if (structCppWriterContext.HasDeletes)
-                        {
-                            writer.WriteLine($"	{item.ReturnType} theReturnValue = objPtr->{item.Name}(");
-                            hasReturnValue = true;
-                        }
-                        else
-                        {
-                            writer.WriteLine($"	return objPtr->{item.Name}(");
-                        }
+                        writer.WriteLine($"	{item.ReturnType} theReturnValue = objPtr->{item.Name}(");
+                        hasReturnValue = true;
                     }
                 }
                 else
@@ -124,9 +117,15 @@ namespace DiligentEngineGenerator
                     writer.WriteLine($"    {del}");
                 }
 
+                //Add a ref to any interface pointers to help simulate the autopointer using dispose
+                if (makeReturnArg != null)
+                {
+                    writer.WriteLine("    theReturnValue->AddRef();");
+                }
+
                 if (hasReturnValue)
                 {
-                    writer.WriteLine($"	return theReturnValue;");
+                    writer.WriteLine($"    return theReturnValue;");
                 }
 
                 writer.WriteLine("}");
