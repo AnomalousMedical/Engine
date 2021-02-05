@@ -72,11 +72,12 @@ namespace DiligentEngineCube
             //using pShaderSourceFactory = m_pEngineFactory->CreateDefaultShaderSourceStreamFactory(nullptr, &pShaderSourceFactory);
             //ShaderCI.pShaderSourceStreamFactory = pShaderSourceFactory;
             // Create a vertex shader
-                ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
-                ShaderCI.EntryPoint = "main";
-                ShaderCI.Desc.Name = "Cube VS";
-                ShaderCI.FilePath = "cube.vsh";
-                using IShader pVS = m_pDevice.CreateShader(ShaderCI);
+            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
+            ShaderCI.EntryPoint = "main";
+            ShaderCI.Desc.Name = "Cube VS";
+            ShaderCI.Source = VSSource;
+            //ShaderCI.FilePath = "cube.vsh";
+            using IShader pVS = m_pDevice.CreateShader(ShaderCI);
             // Create dynamic uniform buffer that will store our transformation matrix
             // Dynamic buffers can be frequently updated by the CPU
 
@@ -90,10 +91,11 @@ namespace DiligentEngineCube
             m_VSConstants = m_pDevice.CreateBuffer(CBDesc);
 
             // Create a pixel shader
-                ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_PIXEL;
-                ShaderCI.EntryPoint = "main";
-                ShaderCI.Desc.Name = "Cube PS";
-                ShaderCI.FilePath = "cube.psh";
+            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_PIXEL;
+            ShaderCI.EntryPoint = "main";
+            ShaderCI.Desc.Name = "Cube PS";
+            ShaderCI.Source = PSSource;
+            //ShaderCI.FilePath = "cube.psh";
             using IShader pPS = m_pDevice.CreateShader(ShaderCI);
 
             // Define vertex shader input layout
@@ -273,7 +275,7 @@ namespace DiligentEngineCube
 
         Matrix4x4 GetAdjustedProjectionMatrix(float FOV, float NearPlane, float FarPlane, float Width, float Height, SURFACE_TRANSFORM PreTransform = SURFACE_TRANSFORM.SURFACE_TRANSFORM_IDENTITY)
         {
-            if(Height == 0.0f)
+            if (Height == 0.0f)
             {
                 Height = 1.0f;
             }
