@@ -308,25 +308,7 @@ namespace DiligentEngineCube
                     m33 = 1.00000000f,
                 };
 
-                var View = new Matrix4x4
-                {
-                    m00 = 1.00000000f,
-                    m01 = 0.00000000f,
-                    m02 = 0.00000000f,
-                    m03 = 0.00000000f,
-                    m10 = 0.00000000f,
-                    m11 = 1.00000000f,
-                    m12 = 0.00000000f,
-                    m13 = 0.00000000f,
-                    m20 = 0.00000000f,
-                    m21 = 0.00000000f,
-                    m22 = 1.00000000f,
-                    m23 = 0.00000000f,
-                    m30 = 0.00000000f,
-                    m31 = 0.00000000f,
-                    m32 = 5.00000000f,
-                    m33 = 1.00000000f,
-                };
+                var View = Matrix4x4.Translation(0f, 0f, 5f + clock.CurrentTimeMicro * Clock.MicroToSeconds % 4.0f);
 
                 var Proj = GetAdjustedProjectionMatrix((float)Math.PI / 4.0f, 0.1f, 100f, window.WindowWidth, window.WindowHeight);
 

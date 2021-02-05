@@ -9,10 +9,26 @@ namespace Engine
     [StructLayout(LayoutKind.Explicit, Size = 64)]
     public unsafe struct Matrix4x4
     {
-        public static Matrix4x4 Identity = new Matrix4x4(1, 0, 0, 0,
+        public static readonly Matrix4x4 Identity = new Matrix4x4(1, 0, 0, 0,
                                                          0, 1, 0, 0,
                                                          0, 0, 1, 0,
                                                          0, 0, 0, 1);
+
+        public static Matrix4x4 Translation(float x, float y, float z)
+        {
+            return new Matrix4x4(1, 0, 0, 0,
+                                 0, 1, 0, 0,
+                                 0, 0, 1, 0,
+                                 x, y, z, 1);
+        }
+
+        public static Matrix4x4 Translation(Vector3 t)
+        {
+            return new Matrix4x4(1, 0, 0, 0,
+                                 0, 1, 0, 0,
+                                 0, 0, 1, 0,
+                                 t.x, t.y, t.z, 1);
+        }
 
         [FieldOffset(0)]
         public float m00;
@@ -300,6 +316,20 @@ public void setRotation(Matrix3x3 rotMat)
             //}
 
             return viewMatrix;
+        }
+
+        public void SetTranslation(Vector3 vector3)
+        {
+            m30 = vector3.x;
+            m31 = vector3.y;
+            m32 = vector3.z;
+        }
+
+        public void SetTranslation(float x, float y, float z)
+        {
+            m30 = x;
+            m31 = y;
+            m32 = z;
         }
     }
 }
