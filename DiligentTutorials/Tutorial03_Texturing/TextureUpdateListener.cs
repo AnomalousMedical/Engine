@@ -292,7 +292,9 @@ namespace DiligentEngineCube
             var logo = Path.GetFullPath("assets/DGLogo.png");
             Console.WriteLine(logo);
 
-            using var bmp = FreeImageBitmap.FromFile(logo);
+            using var stream = File.Open(logo, FileMode.Open, FileAccess.Read, FileShare.Read);
+
+            using var bmp = FreeImageBitmap.FromStream(stream);
             //bmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
             //TextureLoadInfo loadInfo;
             //loadInfo.IsSRGB = true;
