@@ -25,11 +25,13 @@ namespace DiligentEngine
         }
         public IShaderResourceVariable GetVariableByName(SHADER_TYPE ShaderType, String Name)
         {
-            return new IShaderResourceVariable(IShaderResourceBinding_GetVariableByName(
+            var theReturnValue = 
+            IShaderResourceBinding_GetVariableByName(
                 this.objPtr
                 , ShaderType
                 , Name
-            ));
+            );
+            return new IShaderResourceVariable(theReturnValue);
         }
 
 

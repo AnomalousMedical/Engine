@@ -25,7 +25,8 @@ namespace DiligentEngine
         }
         public IBuffer CreateBuffer(BufferDesc BuffDesc, BufferData pBuffData)
         {
-            return new IBuffer(IRenderDevice_CreateBuffer(
+            var theReturnValue = 
+            IRenderDevice_CreateBuffer(
                 this.objPtr
                 , BuffDesc.uiSizeInBytes
                 , BuffDesc.BindFlags
@@ -37,11 +38,13 @@ namespace DiligentEngine
                 , BuffDesc.Name
                 , pBuffData.pData
                 , pBuffData.DataSize
-            ));
+            );
+            return new IBuffer(theReturnValue);
         }
-        public IShader CreateShader(ShaderCreateInfo ShaderCI)
+        public AutoPtr<IShader> CreateShader(ShaderCreateInfo ShaderCI)
         {
-            return new IShader(IRenderDevice_CreateShader(
+            var theReturnValue = 
+            IRenderDevice_CreateShader(
                 this.objPtr
                 , ShaderCI.FilePath
                 , ShaderCI.Source
@@ -51,11 +54,13 @@ namespace DiligentEngine
                 , ShaderCI.Desc.ShaderType
                 , ShaderCI.Desc.Name
                 , ShaderCI.SourceLanguage
-            ));
+            );
+            return new AutoPtr<IShader>(new IShader(theReturnValue), false);
         }
         public ITexture CreateTexture(TextureDesc TexDesc, TextureData pData)
         {
-            return new ITexture(IRenderDevice_CreateTexture(
+            var theReturnValue = 
+            IRenderDevice_CreateTexture(
                 this.objPtr
                 , TexDesc.Type
                 , TexDesc.Width
@@ -78,11 +83,13 @@ namespace DiligentEngine
                 , TexDesc.Name
                 , TextureSubResDataPassStruct.ToStruct(pData.pSubResources)
                 , pData.pSubResources != null ? (Uint32)pData.pSubResources.Count : 0
-            ));
+            );
+            return new ITexture(theReturnValue);
         }
-        public IPipelineState CreateGraphicsPipelineState(GraphicsPipelineStateCreateInfo PSOCreateInfo)
+        public AutoPtr<IPipelineState> CreateGraphicsPipelineState(GraphicsPipelineStateCreateInfo PSOCreateInfo)
         {
-            return new IPipelineState(IRenderDevice_CreateGraphicsPipelineState(
+            var theReturnValue = 
+            IRenderDevice_CreateGraphicsPipelineState(
                 this.objPtr
                 , PSOCreateInfo.GraphicsPipeline.BlendDesc.AlphaToCoverageEnable
                 , PSOCreateInfo.GraphicsPipeline.BlendDesc.IndependentBlendEnable
@@ -145,7 +152,8 @@ namespace DiligentEngine
                 , ImmutableSamplerDescPassStruct.ToStruct(PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers)
                 , PSOCreateInfo.PSODesc.Name
                 , PSOCreateInfo.Flags
-            ));
+            );
+            return new AutoPtr<IPipelineState>(new IPipelineState(theReturnValue), false);
         }
 
 

@@ -14,7 +14,7 @@ namespace DiligentEngineCube
         private readonly GraphicsEngine graphicsEngine;
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext immediateContext;
-        private readonly IPipelineState pipelineState;
+        private readonly AutoPtr<IPipelineState> pipelineState;
 
         const String VSSource = @"
 struct PSInput

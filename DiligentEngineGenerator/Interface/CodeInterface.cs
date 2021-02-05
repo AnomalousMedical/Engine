@@ -63,6 +63,16 @@ namespace DiligentEngineGenerator
 
         public List<InterfaceMethodArgument> Args { get; set; } = new List<InterfaceMethodArgument>();
         public bool PoolManagedObject { get; set; } = false;
+
+        /// <summary>
+        /// Set this to true if the value being returned should be an AutoPtr to indicate that it should be disposed.
+        /// </summary>
+        public bool ReturnAsAutoPtr { get; set; }
+
+        /// <summary>
+        /// Set this to true if you need to add a ref to this pointer. Default is false, which assumes the unmanaged side did it.
+        /// </summary>
+        public bool AddRefToAutoPtr { get; set; }
     }
 
     class InterfaceMethodArgument

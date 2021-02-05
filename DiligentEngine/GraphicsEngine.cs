@@ -14,6 +14,10 @@ namespace DiligentEngine
 {
     public class GraphicsEngine : IDisposable
     {
+        AutoPtr<IRenderDevice> RenderDevicePtr;
+        AutoPtr<IDeviceContext> ImmediateContextPtr;
+        AutoPtr<ISwapChain> SwapChainPtr;
+
         struct CreateDeviceAndSwapChainResult
         {
             public IntPtr m_pDevice;
@@ -25,9 +29,9 @@ namespace DiligentEngine
         {
             this.ImmediateContext.Flush(); //The sample app flushes this out when it shuts down
 
-            this.RenderDevice.Dispose();
-            this.ImmediateContext.Dispose();
-            this.SwapChain.Dispose();
+            this.RenderDevicePtr.Dispose();
+            this.ImmediateContextPtr.Dispose();
+            this.SwapChainPtr.Dispose();
         }
 
         internal void CreateDeviceAndSwapChain(IntPtr hwnd, SwapChainDesc swapChainDesc)
@@ -45,19 +49,16 @@ namespace DiligentEngine
             , swapChainDesc.DefaultStencilValue
             , swapChainDesc.IsPrimary
             );
-            this.RenderDevice = new IRenderDevice(result.m_pDevice);
-            this.ImmediateContext = new IDeviceContext(result.m_pImmediateContext);
-            this.SwapChain = new ISwapChain(result.m_pSwapChain);
-            this.SwapChainDesc = swapChainDesc;
+            this.RenderDevicePtr = new AutoPtr<IRenderDevice>(new IRenderDevice(result.m_pDevice), false);
+            this.ImmediateContextPtr = new AutoPtr<IDeviceContext>(new IDeviceContext(result.m_pImmediateContext), false);
+            this.SwapChainPtr = new AutoPtr<ISwapChain>(new ISwapChain(result.m_pSwapChain), false);
         }
 
-        public IRenderDevice RenderDevice { get; private set; }
+        public IRenderDevice RenderDevice => this.RenderDevicePtr;
 
-        public IDeviceContext ImmediateContext { get; private set; }
+        public IDeviceContext ImmediateContext => this.ImmediateContextPtr;
 
-        public ISwapChain SwapChain { get; private set; }
-
-        public SwapChainDesc SwapChainDesc { get; private set; }
+        public ISwapChain SwapChain => this.SwapChainPtr;
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern CreateDeviceAndSwapChainResult GenericEngineFactory_CreateDeviceAndSwapChain(

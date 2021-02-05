@@ -25,18 +25,22 @@ namespace DiligentEngine
         }
         public IShaderResourceVariable GetStaticVariableByName(SHADER_TYPE ShaderType, String Name)
         {
-            return new IShaderResourceVariable(IPipelineState_GetStaticVariableByName(
+            var theReturnValue = 
+            IPipelineState_GetStaticVariableByName(
                 this.objPtr
                 , ShaderType
                 , Name
-            ));
+            );
+            return new IShaderResourceVariable(theReturnValue);
         }
         public IShaderResourceBinding CreateShaderResourceBinding(bool InitStaticResources)
         {
-            return new IShaderResourceBinding(IPipelineState_CreateShaderResourceBinding(
+            var theReturnValue = 
+            IPipelineState_CreateShaderResourceBinding(
                 this.objPtr
                 , InitStaticResources
-            ));
+            );
+            return new IShaderResourceBinding(theReturnValue);
         }
 
 

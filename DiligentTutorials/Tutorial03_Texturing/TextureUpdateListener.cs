@@ -29,12 +29,12 @@ namespace DiligentEngineCube
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext m_pImmediateContext;
 
-        private readonly IPipelineState m_pPSO;
-        private IBuffer m_VSConstants;
-        private IBuffer m_CubeVertexBuffer;
-        private IBuffer m_CubeIndexBuffer;
-        private IShaderResourceBinding m_SRB;
-        private ITextureView m_TextureSRV;
+        private AutoPtr<IPipelineState> m_pPSO;
+        private AutoPtr<IBuffer> m_VSConstants;
+        private AutoPtr<IBuffer> m_CubeVertexBuffer;
+        private AutoPtr<IBuffer> m_CubeIndexBuffer;
+        private AutoPtr<IShaderResourceBinding> m_SRB;
+        private AutoPtr<ITextureView> m_TextureSRV;
 
         public unsafe TextureUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window)
         {
@@ -89,7 +89,7 @@ namespace DiligentEngineCube
             ShaderCI.Desc.Name = "Cube VS";
             ShaderCI.Source = VSSource;
             //ShaderCI.FilePath = "cube.vsh";
-            using IShader pVS = m_pDevice.CreateShader(ShaderCI);
+            using var pVS = m_pDevice.CreateShader(ShaderCI);
             // Create dynamic uniform buffer that will store our transformation matrix
             // Dynamic buffers can be frequently updated by the CPU
 
@@ -108,7 +108,7 @@ namespace DiligentEngineCube
             ShaderCI.Desc.Name = "Cube PS";
             ShaderCI.Source = PSSource;
             //ShaderCI.FilePath = "cube.psh";
-            using IShader pPS = m_pDevice.CreateShader(ShaderCI);
+            using var pPS = m_pDevice.CreateShader(ShaderCI);
 
             // Define vertex shader input layout
             var LayoutElems = new List<LayoutElement>

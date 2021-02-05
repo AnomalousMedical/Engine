@@ -25,10 +25,12 @@ namespace DiligentEngine
         }
         public ITextureView GetDefaultView(TEXTURE_VIEW_TYPE ViewType)
         {
-            return new ITextureView(ITexture_GetDefaultView(
+            var theReturnValue = 
+            ITexture_GetDefaultView(
                 this.objPtr
                 , ViewType
-            ));
+            );
+            return new ITextureView(theReturnValue);
         }
 
 

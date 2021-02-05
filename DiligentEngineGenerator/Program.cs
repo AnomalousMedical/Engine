@@ -506,6 +506,7 @@ namespace DiligentEngineGenerator
                 {
                     var CreateShader = IRenderDevice.Methods.First(i => i.Name == "CreateShader");
                     CreateShader.ReturnType = "IShader*";
+                    CreateShader.ReturnAsAutoPtr = true;
                     var ppShader = CreateShader.Args.First(i => i.Name == "ppShader");
                     ppShader.MakeReturnVal = true;
                     ppShader.Type = "IShader*";
@@ -514,6 +515,7 @@ namespace DiligentEngineGenerator
                 {
                     var CreateGraphicsPipelineState = IRenderDevice.Methods.First(i => i.Name == "CreateGraphicsPipelineState");
                     CreateGraphicsPipelineState.ReturnType = "IPipelineState*";
+                    CreateGraphicsPipelineState.ReturnAsAutoPtr = true;
                     {
                         var ppPipelineState = CreateGraphicsPipelineState.Args.First(i => i.Name == "ppPipelineState");
                         ppPipelineState.MakeReturnVal = true;
@@ -524,6 +526,7 @@ namespace DiligentEngineGenerator
                 {
                     var CreateBuffer = IRenderDevice.Methods.First(i => i.Name == "CreateBuffer");
                     CreateBuffer.ReturnType = "IBuffer*";
+                    //CreateBuffer.ReturnAsAutoPtr = true;
                     {
                         var ppBuffer = CreateBuffer.Args.First(i => i.Name == "ppBuffer");
                         ppBuffer.MakeReturnVal = true;
@@ -539,6 +542,7 @@ namespace DiligentEngineGenerator
                 {
                     var CreateTexture = IRenderDevice.Methods.First(i => i.Name == "CreateTexture");
                     CreateTexture.ReturnType = "ITexture*";
+                    //CreateTexture.ReturnAsAutoPtr = true;
                     {
                         var ppTexture = CreateTexture.Args.First(i => i.Name == "ppTexture");
                         ppTexture.MakeReturnVal = true;
@@ -682,9 +686,10 @@ namespace DiligentEngineGenerator
                 codeTypeInfo.Interfaces[nameof(IPipelineState)] = IPipelineState;
 
                 {
-                    var CreateGraphicsPipelineState = IPipelineState.Methods.First(i => i.Name == "CreateShaderResourceBinding");
-                    CreateGraphicsPipelineState.ReturnType = "IShaderResourceBinding*";
-                    var ppShaderResourceBinding = CreateGraphicsPipelineState.Args.First(i => i.Name == "ppShaderResourceBinding");
+                    var CreateShaderResourceBinding = IPipelineState.Methods.First(i => i.Name == "CreateShaderResourceBinding");
+                    CreateShaderResourceBinding.ReturnType = "IShaderResourceBinding*";
+                    //CreateShaderResourceBinding.ReturnAsAutoPtr = true;
+                    var ppShaderResourceBinding = CreateShaderResourceBinding.Args.First(i => i.Name == "ppShaderResourceBinding");
                     ppShaderResourceBinding.MakeReturnVal = true;
                     ppShaderResourceBinding.Type = "IShaderResourceBinding*";
                 }

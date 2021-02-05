@@ -111,7 +111,8 @@ namespace DiligentEngine
         }
         public PVoid MapBuffer(IBuffer pBuffer, MAP_TYPE MapType, MAP_FLAGS MapFlags)
         {
-            return IDeviceContext_MapBuffer(
+            return
+            IDeviceContext_MapBuffer(
                 this.objPtr
                 , pBuffer.objPtr
                 , MapType

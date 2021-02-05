@@ -41,15 +41,19 @@ namespace DiligentEngine
         }
         public ITextureView GetCurrentBackBufferRTV()
         {
-            return new ITextureView(ISwapChain_GetCurrentBackBufferRTV(
+            var theReturnValue = 
+            ISwapChain_GetCurrentBackBufferRTV(
                 this.objPtr
-            ));
+            );
+            return new ITextureView(theReturnValue);
         }
         public ITextureView GetDepthBufferDSV()
         {
-            return new ITextureView(ISwapChain_GetDepthBufferDSV(
+            var theReturnValue = 
+            ISwapChain_GetDepthBufferDSV(
                 this.objPtr
-            ));
+            );
+            return new ITextureView(theReturnValue);
         }
 
 

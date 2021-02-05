@@ -37,13 +37,21 @@ namespace DiligentEngine
                 var cSharpReturnType = GetCSharpType(item.ReturnType, context);
                 var isReturnTypeInterface = context.CodeTypeInfo.Interfaces.ContainsKey(item.LookupReturnType);
                 var isReturnTypePooledInterface = isReturnTypeInterface && item.PoolManagedObject;
+                
                 if (isReturnTypePooledInterface)
                 {
                     writer.WriteLine(
 @$"        private {cSharpReturnType} _{item.Name};");
                 }
 
-                writer.Write($"        public {GetCSharpType(item.ReturnType, context)} {item.Name}(");
+                if (item.ReturnAsAutoPtr)
+                {
+                    writer.Write($"        public AutoPtr<{cSharpReturnType}> {item.Name}(");
+                }
+                else
+                {
+                    writer.Write($"        public {cSharpReturnType} {item.Name}(");
+                }
 
                 var sep = "";
 
@@ -65,28 +73,23 @@ namespace DiligentEngine
                 if (isReturnTypePooledInterface)
                 {
                     writer.WriteLine(
-@$"            // Only create a new instance of the return type if this really changed.
-            var result = {code.Name}_{item.Name}(
-                this.objPtr");
+@$"            // Only create a new instance of the return type if this really changed.");
                 }
-                else if(isReturnTypeInterface)
+                
+                if(isReturnTypeInterface)
                 {
                     writer.WriteLine(
-@$"            return new {GetCSharpType(item.ReturnType, context)}({code.Name}_{item.Name}(
-                this.objPtr");
+@$"            var theReturnValue = ");
                 }
                 else if(item.LookupReturnType == "PVoid")
                 {
                     writer.WriteLine(
-@$"            return {code.Name}_{item.Name}(
-                this.objPtr");
+@$"            return");
                 }
-                else
-                {
-                    writer.WriteLine(
+
+                writer.WriteLine(
 @$"            {code.Name}_{item.Name}(
                 this.objPtr");
-                }
 
                 foreach (var arg in item.Args.Where(i => !i.MakeReturnVal))
                 {
@@ -112,23 +115,28 @@ namespace DiligentEngine
                     }
                 }
 
+                writer.WriteLine(
+@$"            );");
+
                 if (isReturnTypePooledInterface)
                 {
                     writer.WriteLine(
-@$"            );
-            if(_{item.Name} == null || result != _{item.Name}.objPtr)
+@$"            if(_{item.Name} == null || theReturnValue != _{item.Name}.objPtr)
             {{
-                _{item.Name} = new {cSharpReturnType}(result);
+                _{item.Name} = new {cSharpReturnType}(theReturnValue);
             }}
             return _{item.Name};");
                 }
                 else if (isReturnTypeInterface)
                 {
-                    writer.WriteLine($"            ));");
-                }
-                else
-                {
-                    writer.WriteLine($"            );");
+                    if (item.ReturnAsAutoPtr)
+                    {
+                        writer.WriteLine($"            return new AutoPtr<{cSharpReturnType}>(new {cSharpReturnType}(theReturnValue), {item.AddRefToAutoPtr.ToString().ToLowerInvariant()});");
+                    }
+                    else
+                    {
+                        writer.WriteLine($"            return new {cSharpReturnType}(theReturnValue);");
+                    }
                 }
 
                 writer.WriteLine("        }");

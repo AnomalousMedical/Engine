@@ -5,20 +5,28 @@ using System.Text;
 
 namespace DiligentEngine
 {
-    public class IObject : IDisposable
+    public class IObject
     {
         internal protected IntPtr objPtr;
+
+        public IntPtr ObjPtr => objPtr;
 
         public IObject(IntPtr objPtr)
         {
             this.objPtr = objPtr;
         }
-        public virtual void Dispose()
+        internal void AddRef()
+        {
+            IObject_AddRef(objPtr);
+        }
+
+        internal void Release()
         {
             IObject_Release(objPtr);
         }
 
-        public IntPtr ObjPtr => objPtr;
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void IObject_AddRef(IntPtr obj);
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void IObject_Release(IntPtr obj);
