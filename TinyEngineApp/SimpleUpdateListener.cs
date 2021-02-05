@@ -11,7 +11,7 @@ namespace DiligentEngineTest
 {
     class SimpleUpdateListener : UpdateListener, IDisposable
     {
-        private readonly GenericEngineFactory genericEngineFactory;
+        private readonly GraphicsEngine graphicsEngine;
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext immediateContext;
         private readonly IPipelineState pipelineState;
@@ -58,14 +58,14 @@ void main(in  PSInput  PSIn,
     PSOut.Color = float4(PSIn.Color.rgb, 1.0);
 }";
 
-        public SimpleUpdateListener(GenericEngineFactory genericEngineFactory)
+        public SimpleUpdateListener(GraphicsEngine graphicsEngine)
         {
-            this.genericEngineFactory = genericEngineFactory;
-            this.swapChain = genericEngineFactory.SwapChain;
-            this.immediateContext = genericEngineFactory.ImmediateContext;
+            this.graphicsEngine = graphicsEngine;
+            this.swapChain = graphicsEngine.SwapChain;
+            this.immediateContext = graphicsEngine.ImmediateContext;
 
-            var m_pDevice = genericEngineFactory.RenderDevice;
-            var m_pSwapChain = genericEngineFactory.SwapChain;
+            var m_pDevice = graphicsEngine.RenderDevice;
+            var m_pSwapChain = graphicsEngine.SwapChain;
 
             var ShaderCI = new ShaderCreateInfo();
             ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
@@ -76,13 +76,13 @@ void main(in  PSInput  PSIn,
             ShaderCI.EntryPoint = "main";
             ShaderCI.Desc.Name = "Triangle vertex shader";
             ShaderCI.Source = VSSource;
-            using var vertexShader = this.genericEngineFactory.RenderDevice.CreateShader(ShaderCI);
+            using var vertexShader = this.graphicsEngine.RenderDevice.CreateShader(ShaderCI);
 
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_PIXEL;
             ShaderCI.EntryPoint = "main";
             ShaderCI.Desc.Name = "Triangle pixel shader";
             ShaderCI.Source = PSSource;
-            using var pixelShader = this.genericEngineFactory.RenderDevice.CreateShader(ShaderCI);
+            using var pixelShader = this.graphicsEngine.RenderDevice.CreateShader(ShaderCI);
 
             var PSOCreateInfo = new GraphicsPipelineStateCreateInfo();
 
@@ -111,7 +111,7 @@ void main(in  PSInput  PSIn,
 
             PSOCreateInfo.pVS = vertexShader;
             PSOCreateInfo.pPS = pixelShader;
-            this.pipelineState = genericEngineFactory.RenderDevice.CreateGraphicsPipelineState(PSOCreateInfo);
+            this.pipelineState = graphicsEngine.RenderDevice.CreateGraphicsPipelineState(PSOCreateInfo);
         }
 
         public void Dispose()

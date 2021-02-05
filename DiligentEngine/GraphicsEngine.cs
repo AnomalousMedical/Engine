@@ -12,7 +12,7 @@ using Uint16 = System.UInt16;
 
 namespace DiligentEngine
 {
-    public class GenericEngineFactory : IDisposable
+    public class GraphicsEngine : IDisposable
     {
         struct CreateDeviceAndSwapChainResult
         {

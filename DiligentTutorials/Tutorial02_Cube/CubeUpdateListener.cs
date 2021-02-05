@@ -13,7 +13,7 @@ namespace DiligentEngineCube
 {
     class CubeUpdateListener : UpdateListener, IDisposable
     {
-        private readonly GenericEngineFactory genericEngineFactory;
+        private readonly GraphicsEngine graphicsEngine;
         private readonly NativeOSWindow window;
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext m_pImmediateContext;
@@ -24,15 +24,15 @@ namespace DiligentEngineCube
         private IBuffer m_CubeVertexBuffer;
         private IBuffer m_CubeIndexBuffer;
 
-        public CubeUpdateListener(GenericEngineFactory genericEngineFactory, NativeOSWindow window)
+        public CubeUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window)
         {
-            this.genericEngineFactory = genericEngineFactory;
+            this.graphicsEngine = graphicsEngine;
             this.window = window;
-            this.swapChain = genericEngineFactory.SwapChain;
-            this.m_pImmediateContext = genericEngineFactory.ImmediateContext;
+            this.swapChain = graphicsEngine.SwapChain;
+            this.m_pImmediateContext = graphicsEngine.ImmediateContext;
 
-            var m_pDevice = genericEngineFactory.RenderDevice;
-            var m_pSwapChain = genericEngineFactory.SwapChain;
+            var m_pDevice = graphicsEngine.RenderDevice;
+            var m_pSwapChain = graphicsEngine.SwapChain;
 
             var ShaderCI = new ShaderCreateInfo();
             ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
@@ -44,7 +44,7 @@ namespace DiligentEngineCube
             ShaderCI.EntryPoint = "main";
             ShaderCI.Desc.Name = "Cube VS";
             ShaderCI.Source = VSSource;
-            using var pVS = this.genericEngineFactory.RenderDevice.CreateShader(ShaderCI);
+            using var pVS = this.graphicsEngine.RenderDevice.CreateShader(ShaderCI);
 
             {
                 BufferDesc CBDesc = new BufferDesc();
@@ -61,7 +61,7 @@ namespace DiligentEngineCube
             ShaderCI.EntryPoint = "main";
             ShaderCI.Desc.Name = "Cube PS";
             ShaderCI.Source = PSSource;
-            using var pPS = this.genericEngineFactory.RenderDevice.CreateShader(ShaderCI);
+            using var pPS = this.graphicsEngine.RenderDevice.CreateShader(ShaderCI);
 
             var PSOCreateInfo = new GraphicsPipelineStateCreateInfo();
 
@@ -142,7 +142,7 @@ namespace DiligentEngineCube
 
         unsafe void CreateVertexBuffer()
         {
-            var m_pDevice = genericEngineFactory.RenderDevice;
+            var m_pDevice = graphicsEngine.RenderDevice;
 
             // Layout of this structure matches the one we defined in the pipeline state
 
@@ -195,7 +195,7 @@ namespace DiligentEngineCube
 
         unsafe void CreateIndexBuffer()
         {
-            var m_pDevice = genericEngineFactory.RenderDevice;
+            var m_pDevice = graphicsEngine.RenderDevice;
 
             // clang-format off
             var Indices = new UInt32[]

@@ -10,7 +10,7 @@ namespace DiligentEnginePlugin
 {
     public class DiligentEnginePluginInterface : PluginInterface
     {
-        private GenericEngineFactory engineFactory;
+        private GraphicsEngine engineFactory;
 
         public string Name => "DilligentEngine";
 
@@ -21,12 +21,9 @@ namespace DiligentEnginePlugin
 
         public void Initialize(PluginManager pluginManager, IServiceCollection serviceCollection)
         {
-            this.engineFactory = new GenericEngineFactory();
+            this.engineFactory = new GraphicsEngine();
 
-            serviceCollection.AddSingleton<GenericEngineFactory>(this.engineFactory); //Externally managed
-            //serviceCollection.AddSingleton<IRenderDevice>(s => this.engineFactory.RenderDevice);
-            //serviceCollection.AddSingleton<IDeviceContext>(s => this.engineFactory.ImmediateContext);
-            //serviceCollection.AddSingleton<ISwapChain>(s => this.engineFactory.SwapChain);
+            serviceCollection.AddSingleton<GraphicsEngine>(this.engineFactory); //Externally managed
         }
 
         public void Link(PluginManager pluginManager, IServiceScope globalScope)
