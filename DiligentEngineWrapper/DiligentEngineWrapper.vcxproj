@@ -175,6 +175,7 @@
     <ClCompile Include="IShaderResourceVariable.cpp" />
     <ClCompile Include="ISwapChain.cpp" />
     <ClCompile Include="ISwapChain.Custom.cpp" />
+    <ClCompile Include="ITexture.cpp" />
     <ClCompile Include="ITextureView.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

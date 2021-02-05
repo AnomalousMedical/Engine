@@ -231,6 +231,12 @@ namespace DiligentEngineGenerator
                 EnumWriter.Write(MISC_TEXTURE_FLAGS, Path.Combine(baseEnumDir, $"{nameof(MISC_TEXTURE_FLAGS)}.cs"));
             }
 
+            {
+                var TEXTURE_VIEW_TYPE = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 227, 253);
+                codeTypeInfo.Enums[nameof(TEXTURE_VIEW_TYPE)] = TEXTURE_VIEW_TYPE;
+                EnumWriter.Write(TEXTURE_VIEW_TYPE, Path.Combine(baseEnumDir, $"{nameof(TEXTURE_VIEW_TYPE)}.cs"));
+            }
+
             //////////// Structs
 
             var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
@@ -660,7 +666,7 @@ namespace DiligentEngineGenerator
             {
                 var ITexture = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Texture.h", 271, 333);
                 codeTypeInfo.Interfaces[nameof(ITexture)] = ITexture;
-                var allowedMethods = new List<String> { };
+                var allowedMethods = new List<String> { "GetDefaultView" };
                 ITexture.Methods = ITexture.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(ITexture), Path.Combine(baseCSharpInterfaceDir, $"{nameof(ITexture)}.cs"));

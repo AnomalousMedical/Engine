@@ -297,9 +297,8 @@ namespace DiligentEngineCube
             //TextureLoadInfo loadInfo;
             //loadInfo.IsSRGB = true;
             using ITexture Tex = CreateTextureFromImage(bmp, 1);
-            ////CreateTextureFromFile("DGLogo.png", loadInfo, m_pDevice, &Tex);
-            //// Get shader resource view from the texture
-            //m_TextureSRV = Tex.GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE);
+            // Get shader resource view from the texture
+            m_TextureSRV = Tex.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
 
             //// Set texture SRV in the SRB
             //m_SRB.GetVariableByName(SHADER_TYPE_PIXEL, "g_Texture")->Set(m_TextureSRV);

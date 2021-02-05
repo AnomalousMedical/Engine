@@ -23,7 +23,19 @@ namespace DiligentEngine
         {
 
         }
+        public ITextureView GetDefaultView(TEXTURE_VIEW_TYPE ViewType)
+        {
+            return new ITextureView(ITexture_GetDefaultView(
+                this.objPtr
+                , ViewType
+            ));
+        }
 
 
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr ITexture_GetDefaultView(
+            IntPtr objPtr
+            , TEXTURE_VIEW_TYPE ViewType
+        );
     }
 }
