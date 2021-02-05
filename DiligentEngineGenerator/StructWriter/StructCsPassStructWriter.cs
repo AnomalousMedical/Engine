@@ -90,7 +90,10 @@ $@"            }}).ToArray();
                         }
                     }
                 }
-                writer.WriteLine($"        public {cSharpType} {name}{arrayStringCb?.Invoke()};");
+                else
+                {
+                    writer.WriteLine($"        public {cSharpType} {name}{arrayStringCb?.Invoke()};");
+                }
             }
         }
 
