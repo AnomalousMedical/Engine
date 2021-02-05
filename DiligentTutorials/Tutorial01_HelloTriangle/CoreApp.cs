@@ -34,7 +34,7 @@ namespace DiligentEngineCube
         {
             mainWindow = EasyNativeWindow.Create(services, this, o =>
             {
-                o.Title = "Diligent - Tutorial 02 - Cube";
+                o.Title = "Diligent - Tutorial 01 - Hello Triangle";
             });
 
             services.AddLogging(o =>
@@ -46,7 +46,7 @@ namespace DiligentEngineCube
             services.AddOSPlatform(pluginManager);
 
             //Add this app's services
-            services.TryAddSingleton<CubeUpdateListener>();
+            services.TryAddSingleton<HelloTriangleUpdateListener>();
 
             return true;
         }
@@ -58,7 +58,7 @@ namespace DiligentEngineCube
 
             mainTimer = globalScope.ServiceProvider.GetRequiredService<UpdateTimer>();
 
-            var updateListener = globalScope.ServiceProvider.GetRequiredService<CubeUpdateListener>();
+            var updateListener = globalScope.ServiceProvider.GetRequiredService<HelloTriangleUpdateListener>();
             mainTimer.addUpdateListener(updateListener);
 
             PerformanceMonitor.setupEnabledState(globalScope.ServiceProvider.GetRequiredService<SystemTimer>());
