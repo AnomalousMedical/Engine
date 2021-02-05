@@ -284,7 +284,20 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipeline
 	{
 	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].ShaderStages = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].ShaderStages;
 	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].SamplerOrTextureName = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].SamplerOrTextureName;
-	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.AddressU = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].AddressU;
+		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.AddressV = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].AddressV;
+		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.AddressW = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].AddressW;
+		//PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.BorderColor = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].BorderColor;
+		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.ComparisonFunc = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].ComparisonFunc;
+		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MagFilter = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].MagFilter;
+		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MaxAnisotropy = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].MaxAnisotropy;
+		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MaxLOD = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].MaxLOD;
+		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MinFilter = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].MinFilter;
+		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MinLOD = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].MinLOD;
+		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MipFilter= PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].MipFilter;
+		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MipLODBias = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].MipLODBias;
+		//PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.Name = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Name;
+
 	}
 	PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array;
 	PSOCreateInfo.PSODesc.Name = PSOCreateInfo_PSODesc_Name;
