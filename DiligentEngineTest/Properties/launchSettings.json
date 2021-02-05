@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "DiligentEngineTest": {
+    "Run App": {
       "commandName": "Project",
       "nativeDebugging": false
     }
