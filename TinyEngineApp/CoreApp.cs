@@ -35,7 +35,7 @@ namespace DiligentEngineTest
         {
             mainWindow = EasyNativeWindow.Create(services, this, o =>
             {
-
+                o.Title = "Tiny Engine App with Sound and Diligent";
             });
 
             services.AddLogging(o =>
