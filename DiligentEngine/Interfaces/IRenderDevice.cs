@@ -114,7 +114,8 @@ namespace DiligentEngine
                 , PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType
                 , PSOCreateInfo.PSODesc.ResourceLayout.Variables != null ? (Uint32)PSOCreateInfo.PSODesc.ResourceLayout.Variables.Count : 0
                 , ShaderResourceVariableDescPassStruct.ToStruct(PSOCreateInfo.PSODesc.ResourceLayout.Variables)
-                , PSOCreateInfo.PSODesc.ResourceLayout.NumImmutableSamplers
+                , PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers != null ? (Uint32)PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers.Count : 0
+                , ImmutableSamplerDescPassStruct.ToStruct(PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers)
                 , PSOCreateInfo.PSODesc.Name
                 , PSOCreateInfo.Flags
             ));
@@ -208,6 +209,7 @@ namespace DiligentEngine
             , Uint32 PSOCreateInfo_PSODesc_ResourceLayout_NumVariables
             , ShaderResourceVariableDescPassStruct[] PSOCreateInfo_PSODesc_ResourceLayout_Variables
             , Uint32 PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers
+            , ImmutableSamplerDescPassStruct[] PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers
             , String PSOCreateInfo_PSODesc_Name
             , PSO_CREATE_FLAGS PSOCreateInfo_Flags
         );

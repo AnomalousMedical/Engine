@@ -3,6 +3,7 @@
 #include "Color.h"
 #include "LayoutElement.PassStruct.h"
 #include "ShaderResourceVariableDesc.PassStruct.h"
+#include "ImmutableSamplerDesc.PassStruct.h"
 using namespace Diligent;
 extern "C" _AnomalousExport IBuffer* IRenderDevice_CreateBuffer(
 	IRenderDevice* objPtr
@@ -126,6 +127,7 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipeline
 	, Uint32 PSOCreateInfo_PSODesc_ResourceLayout_NumVariables
 	, ShaderResourceVariableDescPassStruct* PSOCreateInfo_PSODesc_ResourceLayout_Variables
 	, Uint32 PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers
+	, ImmutableSamplerDescPassStruct* PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers
 	, Char* PSOCreateInfo_PSODesc_Name
 	, PSO_CREATE_FLAGS PSOCreateInfo_Flags
 )
@@ -210,6 +212,14 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipeline
 	}
 	PSOCreateInfo.PSODesc.ResourceLayout.Variables = PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array;
 	PSOCreateInfo.PSODesc.ResourceLayout.NumImmutableSamplers = PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers;
+	ImmutableSamplerDesc* PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array = new ImmutableSamplerDesc[PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers];
+	for (Uint32 i = 0; i < PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers; ++i)
+	{
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].ShaderStages = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].ShaderStages;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].SamplerOrTextureName = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].SamplerOrTextureName;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc;
+	}
+	PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array;
 	PSOCreateInfo.PSODesc.Name = PSOCreateInfo_PSODesc_Name;
 	PSOCreateInfo.Flags = PSOCreateInfo_Flags;
 	IPipelineState* theReturnValue = nullptr;
@@ -219,5 +229,6 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipeline
 	);
     delete[] PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array;
     delete[] PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array;
+    delete[] PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array;
 	return theReturnValue;
 }

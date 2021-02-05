@@ -16,7 +16,7 @@ namespace DiligentEngineGenerator
                 var propertyParse = line.Trim().Replace(",", "").Replace("{", "").Replace("}", "").Replace("enum", "");
                 if (!String.IsNullOrWhiteSpace(propertyParse))
                 {
-                    propertyParse = propertyParse.Replace("const", "").Trim();
+                    propertyParse = propertyParse.Replace("const", "").Replace("struct", "").Trim();
 
                     var withInitialize = propertyParse;
                     bool hasDefault = false;

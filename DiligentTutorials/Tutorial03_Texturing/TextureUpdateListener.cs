@@ -18,13 +18,13 @@ namespace DiligentEngineCube
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext m_pImmediateContext;
 
-        private readonly IPipelineState pipelineState;
+        private readonly IPipelineState m_pPSO;
         private IBuffer m_VSConstants;
         private IShaderResourceBinding m_pSRB;
         private IBuffer m_CubeVertexBuffer;
         private IBuffer m_CubeIndexBuffer;
 
-        public TextureUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window)
+        public unsafe TextureUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window)
         {
             this.graphicsEngine = graphicsEngine;
             this.window = window;
@@ -34,36 +34,9 @@ namespace DiligentEngineCube
             var m_pDevice = graphicsEngine.RenderDevice;
             var m_pSwapChain = graphicsEngine.SwapChain;
 
-            var ShaderCI = new ShaderCreateInfo();
-            ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
-            // OpenGL backend requires emulated combined HLSL texture samplers (g_Texture + g_Texture_sampler combination)
-            ShaderCI.UseCombinedTextureSamplers = true;
+            // Pipeline state object encompasses configuration of all GPU stages
 
-            // Create a vertex shader
-            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
-            ShaderCI.EntryPoint = "main";
-            ShaderCI.Desc.Name = "Cube VS";
-            ShaderCI.Source = VSSource;
-            using var pVS = this.graphicsEngine.RenderDevice.CreateShader(ShaderCI);
-
-            {
-                BufferDesc CBDesc = new BufferDesc();
-                CBDesc.Name = "VS constants CB";
-                CBDesc.uiSizeInBytes = 64;// sizeof(float4x4);
-                CBDesc.Usage = USAGE.USAGE_DYNAMIC;
-                CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
-                CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
-                m_VSConstants = m_pDevice.CreateBuffer(CBDesc);
-            }
-
-            //Create pixel shader
-            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_PIXEL;
-            ShaderCI.EntryPoint = "main";
-            ShaderCI.Desc.Name = "Cube PS";
-            ShaderCI.Source = PSSource;
-            using var pPS = this.graphicsEngine.RenderDevice.CreateShader(ShaderCI);
-
-            var PSOCreateInfo = new GraphicsPipelineStateCreateInfo();
+            GraphicsPipelineStateCreateInfo PSOCreateInfo = new GraphicsPipelineStateCreateInfo();
 
             // Pipeline state name is used by the engine to report issues.
             // It is always a good idea to give objects descriptive names.
@@ -77,7 +50,7 @@ namespace DiligentEngineCube
             PSOCreateInfo.GraphicsPipeline.NumRenderTargets = 1;
             // Set render target format which is the format of the swap chain's color buffer
             PSOCreateInfo.GraphicsPipeline.RTVFormats_0 = m_pSwapChain.GetDesc_ColorBufferFormat;
-            // Use the depth buffer format from the swap chain
+            // Set depth buffer format which is the format of the swap chain's back buffer
             PSOCreateInfo.GraphicsPipeline.DSVFormat = m_pSwapChain.GetDesc_DepthBufferFormat;
             // Primitive topology defines what kind of primitives will be rendered by this pipeline state
             PSOCreateInfo.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY.PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
@@ -86,6 +59,42 @@ namespace DiligentEngineCube
             // Enable depth testing
             PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.DepthEnable = true;
             // clang-format on
+
+            ShaderCreateInfo ShaderCI = new ShaderCreateInfo();
+            // Tell the system that the shader source code is in HLSL.
+            // For OpenGL, the engine will convert this into GLSL under the hood.
+            ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
+
+            // OpenGL backend requires emulated combined HLSL texture samplers (g_Texture + g_Texture_sampler combination)
+            ShaderCI.UseCombinedTextureSamplers = true;
+
+            //// Create a shader source stream factory to load shaders from files.
+            //using pShaderSourceFactory = m_pEngineFactory->CreateDefaultShaderSourceStreamFactory(nullptr, &pShaderSourceFactory);
+            //ShaderCI.pShaderSourceStreamFactory = pShaderSourceFactory;
+            // Create a vertex shader
+                ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
+                ShaderCI.EntryPoint = "main";
+                ShaderCI.Desc.Name = "Cube VS";
+                ShaderCI.FilePath = "cube.vsh";
+                using IShader pVS = m_pDevice.CreateShader(ShaderCI);
+            // Create dynamic uniform buffer that will store our transformation matrix
+            // Dynamic buffers can be frequently updated by the CPU
+
+            BufferDesc CBDesc = new BufferDesc();
+            CBDesc.Name = "VS constants CB";
+            CBDesc.uiSizeInBytes = (uint)sizeof(Matrix4x4);
+            CBDesc.Usage = USAGE.USAGE_DYNAMIC;
+            CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
+            CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
+
+            m_VSConstants = m_pDevice.CreateBuffer(CBDesc);
+
+            // Create a pixel shader
+                ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_PIXEL;
+                ShaderCI.EntryPoint = "main";
+                ShaderCI.Desc.Name = "Cube PS";
+                ShaderCI.FilePath = "cube.psh";
+            using IShader pPS = m_pDevice.CreateShader(ShaderCI);
 
             // Define vertex shader input layout
             var LayoutElems = new List<LayoutElement>
@@ -104,30 +113,50 @@ namespace DiligentEngineCube
                 {
                     InputIndex = 1,
                     BufferSlot = 0,
-                    NumComponents = 4,
+                    NumComponents = 2,
                     ValueType = VALUE_TYPE.VT_FLOAT32,
                     IsNormalized = false
                 },
             };
-            // clang-format on
-            PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements = LayoutElems;
 
             PSOCreateInfo.pVS = pVS;
             PSOCreateInfo.pPS = pPS;
 
+            PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements = LayoutElems;
+
             // Define variable type that will be used by default
             PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
 
+            // clang-format off
+            // Shader variables should typically be mutable, which means they are expected
+            // to change on a per-instance basis
+            var Vars = new List<ShaderResourceVariableDesc>()
+            {
+                new ShaderResourceVariableDesc
+                {ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, Name = "g_Texture", Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE}
+            };
+            PSOCreateInfo.PSODesc.ResourceLayout.Variables = Vars;
 
-            this.pipelineState = m_pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
+            // Define immutable sampler for g_Texture. Immutable samplers should be used whenever possible
+            SamplerDesc SamLinearClampDesc = new SamplerDesc();
+            var ImtblSamplers = new List<ImmutableSamplerDesc>()
+            {
+                new ImmutableSamplerDesc
+                {ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, SamplerOrTextureName = "g_Texture", Desc = SamLinearClampDesc}
+            };
+            // clang-format on
+            PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers = ImtblSamplers;
+
+            m_pPSO = m_pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
 
             // Since we did not explcitly specify the type for 'Constants' variable, default
-            // type (SHADER_RESOURCE_VARIABLE_TYPE_STATIC) will be used. Static variables never
-            // change and are bound directly through the pipeline state object.
-            pipelineState.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "Constants").Set(m_VSConstants);
+            // type (SHADER_RESOURCE_VARIABLE_TYPE_STATIC) will be used. Static variables
+            // never change and are bound directly through the pipeline state object.
+            m_pPSO.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "Constants").Set(m_VSConstants);
 
-            // Create a shader resource binding object and bind all static resources in it
-            m_pSRB = pipelineState.CreateShaderResourceBinding(true);
+            // Since we are using mutable variable, we must create a shader resource binding object
+            // http://diligentgraphics.com/2016/03/23/resource-binding-model-in-diligent-engine-2-0/
+            using var m_SRB = m_pPSO.CreateShaderResourceBinding(true);
 
             CreateVertexBuffer();
             CreateIndexBuffer();
@@ -228,7 +257,7 @@ namespace DiligentEngineCube
             m_CubeIndexBuffer.Dispose();
             m_CubeVertexBuffer.Dispose();
             m_pSRB.Dispose();
-            pipelineState.Dispose();
+            m_pPSO.Dispose();
             m_VSConstants.Dispose();
         }
 
@@ -315,7 +344,7 @@ namespace DiligentEngineCube
             m_pImmediateContext.SetIndexBuffer(m_CubeIndexBuffer, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
             // Set the pipeline state
-            m_pImmediateContext.SetPipelineState(pipelineState);
+            m_pImmediateContext.SetPipelineState(m_pPSO);
             // Commit shader resources. RESOURCE_STATE_TRANSITION_MODE_TRANSITION mode
             // makes sure that resources are transitioned to required states.
             m_pImmediateContext.CommitShaderResources(m_pSRB, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
@@ -336,19 +365,19 @@ namespace DiligentEngineCube
     float4x4 g_WorldViewProj;
 };
 
-// Vertex shader takes two inputs: vertex position and color.
+// Vertex shader takes two inputs: vertex position and uv coordinates.
 // By convention, Diligent Engine expects vertex shader inputs to be 
 // labeled 'ATTRIBn', where n is the attribute number.
 struct VSInput
 {
-    float3 Pos   : ATTRIB0;
-    float4 Color : ATTRIB1;
+    float3 Pos : ATTRIB0;
+    float2 UV  : ATTRIB1;
 };
 
 struct PSInput 
 { 
-    float4 Pos   : SV_POSITION; 
-    float4 Color : COLOR0; 
+    float4 Pos : SV_POSITION; 
+    float2 UV  : TEX_COORD; 
 };
 
 // Note that if separate shader objects are not supported (this is only the case for old GLES3.0 devices), vertex
@@ -357,29 +386,31 @@ struct PSInput
 void main(in  VSInput VSIn,
           out PSInput PSIn) 
 {
-    PSIn.Pos   = mul( float4(VSIn.Pos,1.0), g_WorldViewProj);
-    PSIn.Color = VSIn.Color;
-}";
+    PSIn.Pos = mul( float4(VSIn.Pos,1.0), g_WorldViewProj);
+    PSIn.UV  = VSIn.UV;
+}
+";
 
         const String PSSource =
-@"struct PSInput 
+@"Texture2D    g_Texture;
+SamplerState g_Texture_sampler; // By convention, texture samplers must use the '_sampler' suffix
+
+struct PSInput 
 { 
-    float4 Pos   : SV_POSITION; 
-    float4 Color : COLOR0; 
+    float4 Pos : SV_POSITION; 
+    float2 UV : TEX_COORD; 
 };
 
 struct PSOutput
-{ 
-    float4 Color : SV_TARGET; 
+{
+    float4 Color : SV_TARGET;
 };
 
-// Note that if separate shader objects are not supported (this is only the case for old GLES3.0 devices), vertex
-// shader output variable name must match exactly the name of the pixel shader input variable.
-// If the variable has structure type (like in this example), the structure declarations must also be indentical.
 void main(in  PSInput  PSIn,
           out PSOutput PSOut)
 {
-    PSOut.Color = PSIn.Color; 
-}";
+    PSOut.Color = g_Texture.Sample(g_Texture_sampler, PSIn.UV); 
+}
+";
     }
 }

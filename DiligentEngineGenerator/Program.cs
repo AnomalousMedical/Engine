@@ -207,6 +207,18 @@ namespace DiligentEngineGenerator
                 EnumWriter.Write(SET_VERTEX_BUFFERS_FLAGS, Path.Combine(baseEnumDir, $"{nameof(SET_VERTEX_BUFFERS_FLAGS)}.cs"));
             }
 
+            {
+                var FILTER_TYPE = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 816, 836);
+                codeTypeInfo.Enums[nameof(FILTER_TYPE)] = FILTER_TYPE;
+                EnumWriter.Write(FILTER_TYPE, Path.Combine(baseEnumDir, $"{nameof(FILTER_TYPE)}.cs"));
+            }
+
+            {
+                var TEXTURE_ADDRESS_MODE = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 839, 877);
+                codeTypeInfo.Enums[nameof(TEXTURE_ADDRESS_MODE)] = TEXTURE_ADDRESS_MODE;
+                EnumWriter.Write(TEXTURE_ADDRESS_MODE, Path.Combine(baseEnumDir, $"{nameof(TEXTURE_ADDRESS_MODE)}.cs"));
+            }
+
             //////////// Structs
 
             var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
@@ -252,6 +264,20 @@ namespace DiligentEngineGenerator
             }
 
             {
+                var ImmutableSamplerDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 100, 115);
+                codeTypeInfo.Structs[nameof(ImmutableSamplerDesc)] = ImmutableSamplerDesc;
+                codeWriter.AddWriter(new StructCsWriter(ImmutableSamplerDesc), Path.Combine(baseStructDir, $"{nameof(ImmutableSamplerDesc)}.cs"));
+                codeWriter.AddWriter(new StructCsPassStructWriter(ImmutableSamplerDesc), Path.Combine(baseStructDir, $"{nameof(ImmutableSamplerDesc)}.PassStruct.cs"));
+                codeWriter.AddWriter(new StructCppPassStructWriter(ImmutableSamplerDesc), Path.Combine(baseCPlusPlusOutDir, $"{nameof(ImmutableSamplerDesc)}.PassStruct.h"));
+            }
+
+            {
+                var SamplerDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Sampler.h", 46, 112);
+                codeTypeInfo.Structs[nameof(SamplerDesc)] = SamplerDesc;
+                codeWriter.AddWriter(new StructCsWriter(SamplerDesc), Path.Combine(baseStructDir, $"{nameof(SamplerDesc)}.cs"));
+            }
+
+            {
                 var LayoutElement = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/InputLayout.h", 61, 109);
                 codeTypeInfo.Structs[nameof(LayoutElement)] = LayoutElement;
                 codeWriter.AddWriter(new StructCsWriter(LayoutElement), Path.Combine(baseStructDir, $"{nameof(LayoutElement)}.cs"));
@@ -263,9 +289,6 @@ namespace DiligentEngineGenerator
                 var PipelineResourceLayoutDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 129, 149);
                 codeTypeInfo.Structs[nameof(PipelineResourceLayoutDesc)] = PipelineResourceLayoutDesc;
 
-                var remove = new List<String>() { "ImmutableSamplers" };
-                PipelineResourceLayoutDesc.Properties = PipelineResourceLayoutDesc.Properties.Where(i => !remove.Contains(i.Name)).ToList();
-
                 {
                     var Variables = PipelineResourceLayoutDesc.Properties.First(i => i.Name == "Variables");
                     Variables.IsArray = true;
@@ -274,6 +297,16 @@ namespace DiligentEngineGenerator
                 {
                     var Variables = PipelineResourceLayoutDesc.Properties.First(i => i.Name == "NumVariables");
                     Variables.TakeAutoSize = "Variables";
+                }
+
+                {
+                    var ImmutableSamplers = PipelineResourceLayoutDesc.Properties.First(i => i.Name == "ImmutableSamplers");
+                    ImmutableSamplers.IsArray = true;
+                    ImmutableSamplers.PutAutoSize = "NumImmutableSamplers";
+                }
+                {
+                    var NumImmutableSamplers = PipelineResourceLayoutDesc.Properties.First(i => i.Name == "NumImmutableSamplers");
+                    NumImmutableSamplers.TakeAutoSize = "ImmutableSamplers";
                 }
 
                 codeWriter.AddWriter(new StructCsWriter(PipelineResourceLayoutDesc), Path.Combine(baseStructDir, $"{nameof(PipelineResourceLayoutDesc)}.cs"));
@@ -341,7 +374,7 @@ namespace DiligentEngineGenerator
             {
                 var ShaderCreateInfo = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Shader.h", 223, 331);
                 codeTypeInfo.Structs[nameof(ShaderCreateInfo)] = ShaderCreateInfo;
-                var skip = new List<String> { "pShaderSourceStreamFactory", "IHLSL2GLSLConversionStream**", "ByteCode", "ByteCodeSize", "Macros", "HLSLVersion", "ShaderCompiler", "GLSLVersion", "GLESSLVersion", "ppCompilerOutput" };
+                var skip = new List<String> { "pShaderSourceStreamFactory", "ppConversionStream", "ByteCode", "ByteCodeSize", "Macros", "HLSLVersion", "ShaderCompiler", "GLSLVersion", "GLESSLVersion", "ppCompilerOutput" };
                 ShaderCreateInfo.Properties = ShaderCreateInfo.Properties
                     .Where(i => !skip.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new StructCsWriter(ShaderCreateInfo), Path.Combine(baseStructDir, $"{nameof(ShaderCreateInfo)}.cs"));
@@ -450,7 +483,8 @@ namespace DiligentEngineGenerator
                     "Graphics/GraphicsEngine/interface/RenderDevice.h",
                     "Color.h",
                     "LayoutElement.PassStruct.h",
-                    "ShaderResourceVariableDesc.PassStruct.h"
+                    "ShaderResourceVariableDesc.PassStruct.h",
+                    "ImmutableSamplerDesc.PassStruct.h"
                 });
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IRenderDevice)}.cpp"));
             }
