@@ -288,7 +288,7 @@ namespace DiligentEngineCube
             m_pImmediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
             {
-                var trans = Vector3.UnitZ * -3;
+                var trans = Vector3.UnitY * -0.3f;
                 var rot = new Quaternion(clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * (float)Math.PI), 0f, 0f);
 
                 var CubeModelTransform = rot.toRotationMatrix4x4(trans);
@@ -297,6 +297,7 @@ namespace DiligentEngineCube
 
                 var Proj = GetAdjustedProjectionMatrix((float)Math.PI / 4.0f, 0.1f, 100f, window.WindowWidth, window.WindowHeight);
 
+                //This is missing GetSurfacePretransformMatrix for screen rotation handling
                 var m_WorldViewProjMatrix = CubeModelTransform * View * Proj;
 
                 // Map the buffer and write current world-view-projection matrix
