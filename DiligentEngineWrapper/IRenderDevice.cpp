@@ -287,7 +287,10 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipeline
 	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.AddressU = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].AddressU;
 		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.AddressV = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].AddressV;
 		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.AddressW = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].AddressW;
-		//PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.BorderColor = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].BorderColor;
+		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.BorderColor[0] = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].BorderColor[0];
+		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.BorderColor[1] = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].BorderColor[1];
+		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.BorderColor[2] = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].BorderColor[2];
+		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.BorderColor[3] = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].BorderColor[3];
 		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.ComparisonFunc = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].ComparisonFunc;
 		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MagFilter = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].MagFilter;
 		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MaxAnisotropy = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].MaxAnisotropy;

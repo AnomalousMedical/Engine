@@ -174,6 +174,7 @@ namespace DiligentEngineCube
 
             CreateVertexBuffer();
             CreateIndexBuffer();
+            LoadTexture();
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -284,8 +285,6 @@ namespace DiligentEngineCube
                 IBData.DataSize = (uint)(sizeof(UInt32) * Indices.Length);
                 m_CubeIndexBuffer = m_pDevice.CreateBuffer(IndBuffDesc, IBData);
             }
-
-            LoadTexture();
         }
 
         void LoadTexture()
@@ -294,9 +293,10 @@ namespace DiligentEngineCube
             Console.WriteLine(logo);
 
             using var bmp = FreeImageBitmap.FromFile(logo);
+            //bmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
             //TextureLoadInfo loadInfo;
             //loadInfo.IsSRGB = true;
-            //using ITexture Tex = CreateTextureFromImage();
+            using ITexture Tex = CreateTextureFromImage(bmp, 1);
             ////CreateTextureFromFile("DGLogo.png", loadInfo, m_pDevice, &Tex);
             //// Get shader resource view from the texture
             //m_TextureSRV = Tex.GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE);
@@ -405,11 +405,24 @@ namespace DiligentEngineCube
             }
             else
             {
-                pSubResources.Add(new TextureSubResData()
+                if (bitmap.Stride > 0)
                 {
-                    pData = bitmap.Scan0,// pSrcImage->GetData()->GetDataPtr();
-                    Stride = (Uint32)bitmap.Stride, //ImgDesc.RowStride;
-                });
+                    pSubResources.Add(new TextureSubResData()
+                    {
+                        pData = bitmap.Scan0,
+                        Stride = (Uint32)(bitmap.Stride),
+                    });
+                }
+                else
+                {
+                     //Freeimage scan0 gives the last line for some reason, this gives the first to allow the negative scan to become positive
+                    var stride = -bitmap.Stride;
+                    pSubResources.Add(new TextureSubResData()
+                    {
+                        pData = bitmap.Scan0 - (stride * (bitmap.Height - 1)),
+                        Stride = (Uint32)stride,
+                    });
+                }
             }
 
             //Mip maps
@@ -437,7 +450,7 @@ namespace DiligentEngineCube
             //    MipHeight = CoarseMipHeight;
             //}
 
-            TextureData TexData = new TextureData(); ;
+            TextureData TexData = new TextureData();
             TexData.pSubResources = pSubResources;
 
             var pDevice = graphicsEngine.RenderDevice;
