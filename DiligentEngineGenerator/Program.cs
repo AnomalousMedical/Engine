@@ -731,7 +731,7 @@ namespace DiligentEngineGenerator
             {
                 var IShaderResourceBinding = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/ShaderResourceBinding.h", 55, 132);
                 codeTypeInfo.Interfaces[nameof(IShaderResourceBinding)] = IShaderResourceBinding;
-                var allowedMethods = new List<String> { };
+                var allowedMethods = new List<String> { "GetVariableByName" };
                 IShaderResourceBinding.Methods = IShaderResourceBinding.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(IShaderResourceBinding), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IShaderResourceBinding)}.cs"));

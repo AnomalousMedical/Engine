@@ -172,6 +172,7 @@
     <ClCompile Include="IRenderDevice.cpp" />
     <ClCompile Include="IRenderDeviceCustom.cpp" />
     <ClCompile Include="IShader.cpp" />
+    <ClCompile Include="IShaderResourceBinding.cpp" />
     <ClCompile Include="IShaderResourceVariable.cpp" />
     <ClCompile Include="ISwapChain.cpp" />
     <ClCompile Include="ISwapChain.Custom.cpp" />

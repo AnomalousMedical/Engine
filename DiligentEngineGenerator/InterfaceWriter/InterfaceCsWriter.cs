@@ -211,6 +211,7 @@ $@"    {{
         {
             switch (type)
             {
+                case "char*":
                 case "Char*":
                     return "String";
             }
@@ -233,6 +234,7 @@ $@"    {{
 
             switch (arg.Type)
             {
+                case "char*":
                 case "Char*":
                     return "String";
                 case "Color":
@@ -256,6 +258,7 @@ $@"    {{
 
             switch (method.ReturnType)
             {
+                case "char*":
                 case "Char*":
                     return "String";
             }

@@ -300,8 +300,8 @@ namespace DiligentEngineCube
             // Get shader resource view from the texture
             m_TextureSRV = Tex.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
 
-            //// Set texture SRV in the SRB
-            //m_SRB.GetVariableByName(SHADER_TYPE_PIXEL, "g_Texture")->Set(m_TextureSRV);
+            // Set texture SRV in the SRB
+            m_SRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_Texture").Set(m_TextureSRV);
         }
 
         TEXTURE_FORMAT GetFormat(FreeImageBitmap bitmap)

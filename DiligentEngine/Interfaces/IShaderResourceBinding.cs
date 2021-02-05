@@ -23,7 +23,21 @@ namespace DiligentEngine
         {
 
         }
+        public IShaderResourceVariable GetVariableByName(SHADER_TYPE ShaderType, String Name)
+        {
+            return new IShaderResourceVariable(IShaderResourceBinding_GetVariableByName(
+                this.objPtr
+                , ShaderType
+                , Name
+            ));
+        }
 
 
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr IShaderResourceBinding_GetVariableByName(
+            IntPtr objPtr
+            , SHADER_TYPE ShaderType
+            , String Name
+        );
     }
 }
