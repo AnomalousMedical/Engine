@@ -7,20 +7,13 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <OutputType>WinExe</OutputType>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)'=='RelMDeb'">
     <Optimize>false</Optimize>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Include="../../DiligentEngine/DiligentSamples/Tutorials/Tutorial02_Cube/assets/cube.psh">
-      <Link>assets/cube.psh</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="../../DiligentEngine/DiligentSamples/Tutorials/Tutorial02_Cube/assets/cube.vsh">
-      <Link>assets/cube.vsh</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
   
   <ItemGroup Condition="'$(Configuration)'=='Debug'">
     <Content Include="..\DiligentEngineWrapper\bin\Debug\x64\DiligentEngineWrapper.dll">
