@@ -37,19 +37,41 @@ struct {code.Name}PassStruct
             writer.Write("}");
         }
 
-        private static void WriteItem(TextWriter writer, CodeRendererContext context, StructProperty item, Func<String> arrayStringCb = null)
+        private static void WriteItem(TextWriter writer, CodeRendererContext context, StructProperty item,
+            Func<String> arrayStringCb = null,
+            Func<String, String> customizeName = null)
         {
             var type = GetNativeType(item, context);
 
-            var typePtr = "";
             if (context.CodeTypeInfo.Interfaces.ContainsKey(item.LookupType))
             {
-                typePtr = "*";
+                type = $"{type}*";
             }
 
-            writer.Write($"        {type}{typePtr} {item.Name}{arrayStringCb?.Invoke()};");
+            var name = customizeName?.Invoke(item.Name) ?? item.Name;
 
-            writer.WriteLine();
+            if (item.PullPropertiesIntoStruct && context.CodeTypeInfo.Structs.TryGetValue(item.LookupType, out var stlookup))
+            {
+                foreach (var nestedItem in stlookup.Properties)
+                {
+                    WriteItem(writer, context, nestedItem, customizeName: s => $"{name}_{s}");
+                }
+            }
+            else
+            {
+                if (item.IsArray)
+                {
+                    if (!item.IsUnknownSizeArray)
+                    {
+                        writer.WriteLine($"        {type} {name}[{item.ArrayLenInt}];");
+                    }
+                }
+                else
+                {
+
+                    writer.WriteLine($"        {type} {name}{arrayStringCb?.Invoke()};");
+                }
+            }
         }
 
         private static void WriteSet(TextWriter writer, CodeRendererContext context, StructProperty item, Func<String> arrayStringCb = null)

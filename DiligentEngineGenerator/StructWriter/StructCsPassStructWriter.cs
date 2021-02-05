@@ -64,7 +64,10 @@ $@"            }}).ToArray();
             writer.WriteLine("}");
         }
 
-        private static void WriteItem(TextWriter writer, CodeRendererContext context, StructProperty item, Func<String> arrayStringCb = null, Func<String, String> customizeTypeCb = null, Func<String, String> customizeName = null)
+        private static void WriteItem(TextWriter writer, CodeRendererContext context, StructProperty item, 
+            Func<String> arrayStringCb = null, 
+            Func<String, String> customizeTypeCb = null, 
+            Func<String, String> customizeName = null)
         {
             var cSharpType = GetCSharpType(item, context);
             cSharpType = customizeTypeCb?.Invoke(cSharpType) ?? cSharpType;
