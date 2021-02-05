@@ -211,6 +211,14 @@ namespace DiligentEngineGenerator
 
             var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
             {
+                var ShaderResourceVariableDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 73, 85);
+                codeTypeInfo.Structs[nameof(ShaderResourceVariableDesc)] = ShaderResourceVariableDesc;
+                codeWriter.AddWriter(new StructCsWriter(ShaderResourceVariableDesc), Path.Combine(baseStructDir, $"{nameof(ShaderResourceVariableDesc)}.cs"));
+                codeWriter.AddWriter(new StructCsPassStructWriter(ShaderResourceVariableDesc), Path.Combine(baseStructDir, $"{nameof(ShaderResourceVariableDesc)}.PassStruct.cs"));
+                codeWriter.AddWriter(new StructCppPassStructWriter(ShaderResourceVariableDesc), Path.Combine(baseCPlusPlusOutDir, $"{nameof(ShaderResourceVariableDesc)}.PassStruct.h"));
+            }
+
+            {
                 var DeviceObjectAttribs = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 1150, 1159);
                 codeTypeInfo.Structs[nameof(DeviceObjectAttribs)] = DeviceObjectAttribs;
                 codeWriter.AddWriter(new StructCsWriter(DeviceObjectAttribs), Path.Combine(baseStructDir, $"{nameof(DeviceObjectAttribs)}.cs"));
@@ -255,8 +263,18 @@ namespace DiligentEngineGenerator
                 var PipelineResourceLayoutDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 129, 149);
                 codeTypeInfo.Structs[nameof(PipelineResourceLayoutDesc)] = PipelineResourceLayoutDesc;
 
-                var remove = new List<String>() { "Variables", "ImmutableSamplers" };
+                var remove = new List<String>() { "ImmutableSamplers" };
                 PipelineResourceLayoutDesc.Properties = PipelineResourceLayoutDesc.Properties.Where(i => !remove.Contains(i.Name)).ToList();
+
+                {
+                    var Variables = PipelineResourceLayoutDesc.Properties.First(i => i.Name == "Variables");
+                    Variables.IsArray = true;
+                    Variables.PutAutoSize = "NumVariables";
+                }
+                {
+                    var Variables = PipelineResourceLayoutDesc.Properties.First(i => i.Name == "NumVariables");
+                    Variables.TakeAutoSize = "Variables";
+                }
 
                 codeWriter.AddWriter(new StructCsWriter(PipelineResourceLayoutDesc), Path.Combine(baseStructDir, $"{nameof(PipelineResourceLayoutDesc)}.cs"));
             }
@@ -401,9 +419,11 @@ namespace DiligentEngineGenerator
                 {
                     var CreateGraphicsPipelineState = IRenderDevice.Methods.First(i => i.Name == "CreateGraphicsPipelineState");
                     CreateGraphicsPipelineState.ReturnType = "IPipelineState*";
-                    var ppPipelineState = CreateGraphicsPipelineState.Args.First(i => i.Name == "ppPipelineState");
-                    ppPipelineState.MakeReturnVal = true;
-                    ppPipelineState.Type = "IPipelineState*";
+                    {
+                        var ppPipelineState = CreateGraphicsPipelineState.Args.First(i => i.Name == "ppPipelineState");
+                        ppPipelineState.MakeReturnVal = true;
+                        ppPipelineState.Type = "IPipelineState*";
+                    }
                 }
 
                 {
@@ -429,7 +449,8 @@ namespace DiligentEngineGenerator
                 {
                     "Graphics/GraphicsEngine/interface/RenderDevice.h",
                     "Color.h",
-                    "LayoutElement.PassStruct.h"
+                    "LayoutElement.PassStruct.h",
+                    "ShaderResourceVariableDesc.PassStruct.h"
                 });
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IRenderDevice)}.cpp"));
             }

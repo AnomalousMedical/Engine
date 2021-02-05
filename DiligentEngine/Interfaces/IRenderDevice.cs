@@ -112,7 +112,8 @@ namespace DiligentEngine
                 , PSOCreateInfo.PSODesc.SRBAllocationGranularity
                 , PSOCreateInfo.PSODesc.CommandQueueMask
                 , PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType
-                , PSOCreateInfo.PSODesc.ResourceLayout.NumVariables
+                , PSOCreateInfo.PSODesc.ResourceLayout.Variables != null ? (Uint32)PSOCreateInfo.PSODesc.ResourceLayout.Variables.Count : 0
+                , ShaderResourceVariableDescPassStruct.ToStruct(PSOCreateInfo.PSODesc.ResourceLayout.Variables)
                 , PSOCreateInfo.PSODesc.ResourceLayout.NumImmutableSamplers
                 , PSOCreateInfo.PSODesc.Name
                 , PSOCreateInfo.Flags
@@ -205,6 +206,7 @@ namespace DiligentEngine
             , Uint64 PSOCreateInfo_PSODesc_CommandQueueMask
             , SHADER_RESOURCE_VARIABLE_TYPE PSOCreateInfo_PSODesc_ResourceLayout_DefaultVariableType
             , Uint32 PSOCreateInfo_PSODesc_ResourceLayout_NumVariables
+            , ShaderResourceVariableDescPassStruct[] PSOCreateInfo_PSODesc_ResourceLayout_Variables
             , Uint32 PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers
             , String PSOCreateInfo_PSODesc_Name
             , PSO_CREATE_FLAGS PSOCreateInfo_Flags

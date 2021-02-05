@@ -14,16 +14,16 @@ using PVoid = System.IntPtr;
 
 namespace DiligentEngine
 {
-    public partial class PipelineResourceLayoutDesc
+    public partial class ShaderResourceVariableDesc
     {
 
-        public PipelineResourceLayoutDesc()
+        public ShaderResourceVariableDesc()
         {
             
         }
-        public SHADER_RESOURCE_VARIABLE_TYPE DefaultVariableType { get; set; } = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
-        public List<ShaderResourceVariableDesc> Variables { get; set; }
-        public Uint32 NumImmutableSamplers { get; set; } = 0;
+        public SHADER_TYPE ShaderStages { get; set; } = SHADER_TYPE.SHADER_TYPE_UNKNOWN;
+        public String Name { get; set; }
+        public SHADER_RESOURCE_VARIABLE_TYPE Type { get; set; } = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
 
 
     }

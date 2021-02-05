@@ -2,6 +2,7 @@
 #include "Graphics/GraphicsEngine/interface/RenderDevice.h"
 #include "Color.h"
 #include "LayoutElement.PassStruct.h"
+#include "ShaderResourceVariableDesc.PassStruct.h"
 using namespace Diligent;
 extern "C" _AnomalousExport IBuffer* IRenderDevice_CreateBuffer(
 	IRenderDevice* objPtr
@@ -123,6 +124,7 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipeline
 	, Uint64 PSOCreateInfo_PSODesc_CommandQueueMask
 	, SHADER_RESOURCE_VARIABLE_TYPE PSOCreateInfo_PSODesc_ResourceLayout_DefaultVariableType
 	, Uint32 PSOCreateInfo_PSODesc_ResourceLayout_NumVariables
+	, ShaderResourceVariableDescPassStruct* PSOCreateInfo_PSODesc_ResourceLayout_Variables
 	, Uint32 PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers
 	, Char* PSOCreateInfo_PSODesc_Name
 	, PSO_CREATE_FLAGS PSOCreateInfo_Flags
@@ -199,6 +201,14 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipeline
 	PSOCreateInfo.PSODesc.CommandQueueMask = PSOCreateInfo_PSODesc_CommandQueueMask;
 	PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = PSOCreateInfo_PSODesc_ResourceLayout_DefaultVariableType;
 	PSOCreateInfo.PSODesc.ResourceLayout.NumVariables = PSOCreateInfo_PSODesc_ResourceLayout_NumVariables;
+	ShaderResourceVariableDesc* PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array = new ShaderResourceVariableDesc[PSOCreateInfo_PSODesc_ResourceLayout_NumVariables];
+	for (Uint32 i = 0; i < PSOCreateInfo_PSODesc_ResourceLayout_NumVariables; ++i)
+	{
+	    PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array[i].ShaderStages = PSOCreateInfo_PSODesc_ResourceLayout_Variables[i].ShaderStages;
+	    PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array[i].Name = PSOCreateInfo_PSODesc_ResourceLayout_Variables[i].Name;
+	    PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array[i].Type = PSOCreateInfo_PSODesc_ResourceLayout_Variables[i].Type;
+	}
+	PSOCreateInfo.PSODesc.ResourceLayout.Variables = PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array;
 	PSOCreateInfo.PSODesc.ResourceLayout.NumImmutableSamplers = PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers;
 	PSOCreateInfo.PSODesc.Name = PSOCreateInfo_PSODesc_Name;
 	PSOCreateInfo.Flags = PSOCreateInfo_Flags;
@@ -208,5 +218,6 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipeline
 		, &theReturnValue
 	);
     delete[] PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array;
+    delete[] PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array;
 	return theReturnValue;
 }
