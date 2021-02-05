@@ -180,8 +180,8 @@ namespace DiligentEngineCube
         [StructLayout(LayoutKind.Sequential)]
         struct Vertex
         {
-            public new Vector3 pos;
-            public new Vector2 uv;
+            public Vector3 pos;
+            public Vector2 uv;
         };
 
         unsafe void CreateVertexBuffer()

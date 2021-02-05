@@ -62,7 +62,7 @@ namespace Anomalous.OSPlatform
                     startInfo.Arguments = restartArgs;
                     Process.Start(startInfo);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     
                 }
