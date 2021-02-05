@@ -20,7 +20,7 @@ namespace DiligentEngineGenerator
         public void Render(TextWriter writer, CodeRendererContext context)
         {
             writer.WriteLine("#include \"StdAfx.h\"");
-            foreach(var inc in includeDirs)
+            foreach (var inc in includeDirs)
             {
                 writer.WriteLine($"#include \"{inc}\"");
             }
@@ -68,7 +68,7 @@ namespace DiligentEngineGenerator
                 //Write function
                 if (item.ReturnType != "void")
                 {
-                    if(makeReturnArg != null)
+                    if (makeReturnArg != null)
                     {
                         if (makeReturnArg.IsRef)
                         {
@@ -83,8 +83,15 @@ namespace DiligentEngineGenerator
                     }
                     else
                     {
-                        writer.WriteLine($"	{item.ReturnType} theReturnValue = objPtr->{item.Name}(");
-                        hasReturnValue = true;
+                        if (structCppWriterContext.HasDeletes)
+                        {
+                            writer.WriteLine($"	{item.ReturnType} theReturnValue = objPtr->{item.Name}(");
+                            hasReturnValue = true;
+                        }
+                        else
+                        {
+                            writer.WriteLine($"	return objPtr->{item.Name}(");
+                        }
                     }
                 }
                 else
@@ -112,20 +119,14 @@ namespace DiligentEngineGenerator
                 }
                 writer.WriteLine("	);");
 
-                foreach(var del in structCppWriterContext.DeleteStatements)
+                foreach (var del in structCppWriterContext.DeleteStatements)
                 {
                     writer.WriteLine($"    {del}");
                 }
 
-                //Add a ref to any interface pointers to help simulate the autopointer using dispose
-                if (makeReturnArg != null)
-                {
-                    writer.WriteLine("    theReturnValue->AddRef();");
-                }
-
                 if (hasReturnValue)
                 {
-                    writer.WriteLine($"    return theReturnValue;");
+                    writer.WriteLine($"	return theReturnValue;");
                 }
 
                 writer.WriteLine("}");
