@@ -1,5 +1,4 @@
 ﻿using Anomalous.OSPlatform;
-using DiligentEnginePlugin;
 using Engine;
 using Engine.Platform;
 using Microsoft.Extensions.DependencyInjection;

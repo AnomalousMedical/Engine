@@ -1,14 +1,13 @@
-﻿using Anomalous.OSPlatform;
-using DiligentEngine;
+﻿using DiligentEngine;
 using Engine;
 using Engine.Platform;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 
-namespace DiligentEnginePlugin
+namespace DiligentEngine
 {
-    public class DiligentEnginePluginInterface : PluginInterface
+    class DiligentEnginePluginInterface : PluginInterface
     {
         private GraphicsEngine engineFactory;
 
@@ -28,7 +27,7 @@ namespace DiligentEnginePlugin
 
         public void Link(PluginManager pluginManager, IServiceScope globalScope)
         {
-            var window = globalScope.ServiceProvider.GetRequiredService<NativeOSWindow>();
+            var window = globalScope.ServiceProvider.GetRequiredService<OSWindow>();
             var swapChainDesc = new SwapChainDesc();
             this.engineFactory.CreateDeviceAndSwapChain(window.WindowHandle, swapChainDesc);
 

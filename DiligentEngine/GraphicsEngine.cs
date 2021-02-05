@@ -30,7 +30,7 @@ namespace DiligentEngine
             this.SwapChain.Dispose();
         }
 
-        public void CreateDeviceAndSwapChain(IntPtr hwnd, SwapChainDesc swapChainDesc)
+        internal void CreateDeviceAndSwapChain(IntPtr hwnd, SwapChainDesc swapChainDesc)
         {
             var result = GenericEngineFactory_CreateDeviceAndSwapChain(
                 hwnd

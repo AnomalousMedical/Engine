@@ -18,6 +18,4 @@
 #define _AnomalousExport __attribute__ ((visibility("default")))
 #endif
 
-#include "StringManager.h"
-
 #endif //PCH_H
