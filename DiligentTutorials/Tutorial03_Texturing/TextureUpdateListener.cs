@@ -18,6 +18,7 @@ using Uint32 = System.UInt32;
 using Uint64 = System.UInt64;
 using Float32 = System.Single;
 using Uint16 = System.UInt16;
+using System.IO;
 
 namespace DiligentEngineCube
 {
@@ -30,9 +31,10 @@ namespace DiligentEngineCube
 
         private readonly IPipelineState m_pPSO;
         private IBuffer m_VSConstants;
-        private IShaderResourceBinding m_pSRB;
         private IBuffer m_CubeVertexBuffer;
         private IBuffer m_CubeIndexBuffer;
+        private IShaderResourceBinding m_SRB;
+        private ITextureView m_TextureSRV;
 
         public unsafe TextureUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window)
         {
@@ -168,7 +170,7 @@ namespace DiligentEngineCube
 
             // Since we are using mutable variable, we must create a shader resource binding object
             // http://diligentgraphics.com/2016/03/23/resource-binding-model-in-diligent-engine-2-0/
-            using var m_SRB = m_pPSO.CreateShaderResourceBinding(true);
+            m_SRB = m_pPSO.CreateShaderResourceBinding(true);
 
             CreateVertexBuffer();
             CreateIndexBuffer();
@@ -288,281 +290,289 @@ namespace DiligentEngineCube
 
         void LoadTexture()
         {
+            var logo = Path.GetFullPath("assets/DGLogo.png");
+            Console.WriteLine(logo);
+
+            using var bmp = FreeImageBitmap.FromFile(logo);
             //TextureLoadInfo loadInfo;
             //loadInfo.IsSRGB = true;
-            //RefCntAutoPtr<ITexture> Tex;
-            //CreateTextureFromFile("DGLogo.png", loadInfo, m_pDevice, &Tex);
+            //using ITexture Tex = CreateTextureFromImage();
+            ////CreateTextureFromFile("DGLogo.png", loadInfo, m_pDevice, &Tex);
             //// Get shader resource view from the texture
-            //m_TextureSRV = Tex->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE);
+            //m_TextureSRV = Tex.GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE);
 
             //// Set texture SRV in the SRB
-            //m_SRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_Texture")->Set(m_TextureSRV);
+            //m_SRB.GetVariableByName(SHADER_TYPE_PIXEL, "g_Texture")->Set(m_TextureSRV);
         }
 
-        //TEXTURE_FORMAT GetFormat(FreeImageBitmap bitmap)
-        //{
-        //    switch (bitmap.PixelFormat)
-        //    {
-        //        //case PixelFormat.Format32bppArgb:
-        //        //    return TEXTURE_FORMAT.TEX_FORMAT_RGBA8_UNORM;
-
-        //        default:
-        //            return TEXTURE_FORMAT.TEX_FORMAT_UNKNOWN;
-        //    }
-        //}
-
-    //    void CreateTextureFromImage(FreeImageBitmap bitmap, int MipLevels)
-    //    {
-    //        uint width = (uint)bitmap.Width;
-    //        uint height = (uint)bitmap.Height;
-
-    //        //const auto& ImgDesc = pSrcImage->GetDesc();
-    //        TextureDesc TexDesc = new TextureDesc();
-    //        //TexDesc.Name      = TexLoadInfo.Name;
-    //        TexDesc.Type = RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D;
-    //        TexDesc.Width = width;
-    //        TexDesc.Height = height;
-    //        TexDesc.MipLevels = ComputeMipLevelsCount(TexDesc.Width, TexDesc.Height);
-    //        if (MipLevels > 0)
-    //        {
-    //            TexDesc.MipLevels = (uint)Math.Min(TexDesc.MipLevels, MipLevels);
-    //        }
-    //        TexDesc.Usage = USAGE.USAGE_IMMUTABLE;
-    //        TexDesc.BindFlags = BIND_FLAGS.BIND_SHADER_RESOURCE;
-    //        TexDesc.Format = GetFormat(bitmap);
-    //        TexDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_NONE;
-    //        int ChannelDepth = 8;// GetValueSize(ImgDesc.ComponentType) * 8;
-
-    //        Uint32 NumComponents = 4;// ImgDesc.NumComponents == 3 ? 4 : ImgDesc.NumComponents;
-    //        bool IsSRGB = true;// (ImgDesc.NumComponents >= 3 && ChannelDepth == 8) ? TexLoadInfo.IsSRGB : false;
-    //        if (TexDesc.Format == TEXTURE_FORMAT.TEX_FORMAT_UNKNOWN)
-    //        {
-    //            if (ChannelDepth == 8)
-    //            {
-    //                switch (NumComponents)
-    //                {
-    //                    case 1: TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_R8_UNORM; break;
-    //                    case 2: TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_RG8_UNORM; break;
-    //                    case 4: TexDesc.Format = IsSRGB ? TEXTURE_FORMAT.TEX_FORMAT_RGBA8_UNORM_SRGB : TEXTURE_FORMAT.TEX_FORMAT_RGBA8_UNORM; break;
-    //                        //default: LOG_ERROR_AND_THROW("Unexpected number of color channels (", NumComponents, ")");
-    //                }
-    //            }
-    //            else if (ChannelDepth == 16)
-    //            {
-    //                switch (NumComponents)
-    //                {
-    //                    case 1: TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_R16_UNORM; break;
-    //                    case 2: TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_RG16_UNORM; break;
-    //                    case 4: TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_RGBA16_UNORM; break;
-    //                        //default: LOG_ERROR_AND_THROW("Unexpected number of color channels (", NumComponents, ")");
-    //                }
-    //            }
-    //            else
-    //            {
-    //                throw new Exception($"Unsupported color channel depth ({ChannelDepth})");
-    //            }
-    //        }
-    //        //else
-    //        //{
-    //        //    const auto& TexFmtDesc = GetTextureFormatAttribs(TexDesc.Format);
-    //        //    if (TexFmtDesc.NumComponents != NumComponents)
-    //        //        LOG_ERROR_AND_THROW("Incorrect number of components ", ImgDesc.NumComponents, ") for texture format ", TexFmtDesc.Name);
-    //        //    if (TexFmtDesc.ComponentSize != ChannelDepth / 8)
-    //        //        LOG_ERROR_AND_THROW("Incorrect channel size ", ChannelDepth, ") for texture format ", TexFmtDesc.Name);
-    //        //}
-
-
-    //        var pSubResources = new List<TextureSubResData>(MipLevels);
-    //        //std::vector<std::vector<Uint8>> Mips(MipLevels);
-
-    //        if (NumComponents == 3)
-    //        {
-    //            //VERIFY_EXPR(NumComponents == 4);
-    //            //auto RGBAStride = ImgDesc.Width * NumComponents * ChannelDepth / 8;
-    //            //RGBAStride = (RGBAStride + 3) & (-4);
-    //            //Mips[0].resize(size_t{ RGBAStride}
-    //            //*size_t{ ImgDesc.Height});
-    //            //pSubResources[0].pData = Mips[0].data();
-    //            //pSubResources[0].Stride = RGBAStride;
-    //            //if (ChannelDepth == 8)
-    //            //{
-    //            //    RGBToRGBA<Uint8>(pSrcImage->GetData()->GetDataPtr(), ImgDesc.RowStride,
-    //            //                     Mips[0].data(), RGBAStride,
-    //            //                     ImgDesc.Width, ImgDesc.Height);
-    //            //}
-    //            //else if (ChannelDepth == 16)
-    //            //{
-    //            //    RGBToRGBA<Uint16>(pSrcImage->GetData()->GetDataPtr(), ImgDesc.RowStride,
-    //            //                      Mips[0].data(), RGBAStride,
-    //            //                      ImgDesc.Width, ImgDesc.Height);
-    //            //}
-    //        }
-    //        else
-    //        {
-    //            pSubResources[0].pData = bitmap.Scan0;// pSrcImage->GetData()->GetDataPtr();
-    //            pSubResources[0].Stride = (Uint32)bitmap.Stride; //ImgDesc.RowStride;
-    //        }
-
-    //        //Mip maps
-    //        //var MipWidth = TexDesc.Width;
-    //        //var MipHeight = TexDesc.Height;
-    //        //for (Uint32 m = 1; m < TexDesc.MipLevels; ++m)
-    //        //{
-    //        //    var CoarseMipWidth = Math.Max(MipWidth / 2u, 1u);
-    //        //    var CoarseMipHeight = Math.Max(MipHeight / 2u, 1u);
-    //        //    var CoarseMipStride = CoarseMipWidth * NumComponents * ChannelDepth / 8;
-    //        //    CoarseMipStride = (CoarseMipStride + 3) & (-4);
-    //        //    Mips[m].resize(size_t{ CoarseMipStride} *size_t{ CoarseMipHeight});
-
-    //        //    if (TexLoadInfo.GenerateMips)
-    //        //    {
-    //        //        ComputeMipLevel(MipWidth, MipHeight, TexDesc.Format,
-    //        //                        pSubResources[m - 1].pData, pSubResources[m - 1].Stride,
-    //        //                        Mips[m].data(), CoarseMipStride);
-    //        //    }
-
-    //        //    pSubResources[m].pData = Mips[m].data();
-    //        //    pSubResources[m].Stride = CoarseMipStride;
-
-    //        //    MipWidth = CoarseMipWidth;
-    //        //    MipHeight = CoarseMipHeight;
-    //        //}
-
-    //    TextureData TexData;
-    //    TexData.pSubResources   = pSubResources.data();
-    //TexData.NumSubresources = TexDesc.MipLevels;
-
-    //pDevice->CreateTexture(TexDesc, &TexData, ppTexture);
-    //}
-
-    //Uint32 ComputeMipLevelsCount(Uint32 Width, Uint32 Height)
-    //{
-    //    return ComputeMipLevelsCount(Math.Max(Width, Height));
-    //}
-
-    //Uint32 ComputeMipLevelsCount(Uint32 Width)
-    //{
-    //    if (Width == 0)
-    //        return 0;
-
-    //    Uint32 MipLevels = 0;
-    //    while ((Width >> MipLevels) > 0)
-    //    {
-    //        ++MipLevels;
-    //    }
-    //    //VERIFY(Width >= (1U << (MipLevels - 1)) && Width < (1U << MipLevels), "Incorrect number of Mip levels");
-    //    return MipLevels;
-    //}
-
-    public void Dispose()
-    {
-        m_CubeIndexBuffer.Dispose();
-        m_CubeVertexBuffer.Dispose();
-        m_pSRB.Dispose();
-        m_pPSO.Dispose();
-        m_VSConstants.Dispose();
-    }
-
-    public void exceededMaxDelta()
-    {
-
-    }
-
-    public void loopStarting()
-    {
-
-    }
-
-    Matrix4x4 GetAdjustedProjectionMatrix(float FOV, float NearPlane, float FarPlane, float Width, float Height, SURFACE_TRANSFORM PreTransform = SURFACE_TRANSFORM.SURFACE_TRANSFORM_IDENTITY)
-    {
-        if (Height == 0.0f)
+        TEXTURE_FORMAT GetFormat(FreeImageBitmap bitmap)
         {
-            Height = 1.0f;
+            switch (bitmap.PixelFormat)
+            {
+                //case PixelFormat.Format32bppArgb:
+                //    return TEXTURE_FORMAT.TEX_FORMAT_RGBA8_UNORM;
+
+                default:
+                    return TEXTURE_FORMAT.TEX_FORMAT_UNKNOWN;
+            }
         }
 
-        float AspectRatio = Width / Height;
-        float XScale, YScale;
-        if (PreTransform == SURFACE_TRANSFORM.SURFACE_TRANSFORM_ROTATE_90 ||
-            PreTransform == SURFACE_TRANSFORM.SURFACE_TRANSFORM_ROTATE_270 ||
-            PreTransform == SURFACE_TRANSFORM.SURFACE_TRANSFORM_HORIZONTAL_MIRROR_ROTATE_90 ||
-            PreTransform == SURFACE_TRANSFORM.SURFACE_TRANSFORM_HORIZONTAL_MIRROR_ROTATE_270)
+        ITexture CreateTextureFromImage(FreeImageBitmap bitmap, int MipLevels)
         {
-            // When the screen is rotated, vertical FOV becomes horizontal FOV
-            XScale = 1f / (float)Math.Tan(FOV / 2f);
-            // Aspect ratio is inversed
-            YScale = XScale * AspectRatio;
+            uint width = (uint)bitmap.Width;
+            uint height = (uint)bitmap.Height;
+
+            //const auto& ImgDesc = pSrcImage->GetDesc();
+            TextureDesc TexDesc = new TextureDesc();
+            //TexDesc.Name      = TexLoadInfo.Name;
+            TexDesc.Type = RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D;
+            TexDesc.Width = width;
+            TexDesc.Height = height;
+            TexDesc.MipLevels = ComputeMipLevelsCount(TexDesc.Width, TexDesc.Height);
+            if (MipLevels > 0)
+            {
+                TexDesc.MipLevels = (uint)Math.Min(TexDesc.MipLevels, MipLevels);
+            }
+            TexDesc.Usage = USAGE.USAGE_IMMUTABLE;
+            TexDesc.BindFlags = BIND_FLAGS.BIND_SHADER_RESOURCE;
+            TexDesc.Format = GetFormat(bitmap);
+            TexDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_NONE;
+            int ChannelDepth = 8;// GetValueSize(ImgDesc.ComponentType) * 8;
+
+            Uint32 NumComponents = 4;// ImgDesc.NumComponents == 3 ? 4 : ImgDesc.NumComponents;
+            bool IsSRGB = true;// (ImgDesc.NumComponents >= 3 && ChannelDepth == 8) ? TexLoadInfo.IsSRGB : false;
+            if (TexDesc.Format == TEXTURE_FORMAT.TEX_FORMAT_UNKNOWN)
+            {
+                if (ChannelDepth == 8)
+                {
+                    switch (NumComponents)
+                    {
+                        case 1: TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_R8_UNORM; break;
+                        case 2: TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_RG8_UNORM; break;
+                        case 4: TexDesc.Format = IsSRGB ? TEXTURE_FORMAT.TEX_FORMAT_RGBA8_UNORM_SRGB : TEXTURE_FORMAT.TEX_FORMAT_RGBA8_UNORM; break;
+                            //default: LOG_ERROR_AND_THROW("Unexpected number of color channels (", NumComponents, ")");
+                    }
+                }
+                else if (ChannelDepth == 16)
+                {
+                    switch (NumComponents)
+                    {
+                        case 1: TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_R16_UNORM; break;
+                        case 2: TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_RG16_UNORM; break;
+                        case 4: TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_RGBA16_UNORM; break;
+                            //default: LOG_ERROR_AND_THROW("Unexpected number of color channels (", NumComponents, ")");
+                    }
+                }
+                else
+                {
+                    throw new Exception($"Unsupported color channel depth ({ChannelDepth})");
+                }
+            }
+            //else
+            //{
+            //    const auto& TexFmtDesc = GetTextureFormatAttribs(TexDesc.Format);
+            //    if (TexFmtDesc.NumComponents != NumComponents)
+            //        LOG_ERROR_AND_THROW("Incorrect number of components ", ImgDesc.NumComponents, ") for texture format ", TexFmtDesc.Name);
+            //    if (TexFmtDesc.ComponentSize != ChannelDepth / 8)
+            //        LOG_ERROR_AND_THROW("Incorrect channel size ", ChannelDepth, ") for texture format ", TexFmtDesc.Name);
+            //}
+
+
+            var pSubResources = new List<TextureSubResData>(MipLevels);
+            //std::vector<std::vector<Uint8>> Mips(MipLevels);
+
+            if (NumComponents == 3)
+            {
+                //VERIFY_EXPR(NumComponents == 4);
+                //auto RGBAStride = ImgDesc.Width * NumComponents * ChannelDepth / 8;
+                //RGBAStride = (RGBAStride + 3) & (-4);
+                //Mips[0].resize(size_t{ RGBAStride}
+                //*size_t{ ImgDesc.Height});
+                //pSubResources[0].pData = Mips[0].data();
+                //pSubResources[0].Stride = RGBAStride;
+                //if (ChannelDepth == 8)
+                //{
+                //    RGBToRGBA<Uint8>(pSrcImage->GetData()->GetDataPtr(), ImgDesc.RowStride,
+                //                     Mips[0].data(), RGBAStride,
+                //                     ImgDesc.Width, ImgDesc.Height);
+                //}
+                //else if (ChannelDepth == 16)
+                //{
+                //    RGBToRGBA<Uint16>(pSrcImage->GetData()->GetDataPtr(), ImgDesc.RowStride,
+                //                      Mips[0].data(), RGBAStride,
+                //                      ImgDesc.Width, ImgDesc.Height);
+                //}
+            }
+            else
+            {
+                pSubResources.Add(new TextureSubResData()
+                {
+                    pData = bitmap.Scan0,// pSrcImage->GetData()->GetDataPtr();
+                    Stride = (Uint32)bitmap.Stride, //ImgDesc.RowStride;
+                });
+            }
+
+            //Mip maps
+            //var MipWidth = TexDesc.Width;
+            //var MipHeight = TexDesc.Height;
+            //for (Uint32 m = 1; m < TexDesc.MipLevels; ++m)
+            //{
+            //    var CoarseMipWidth = Math.Max(MipWidth / 2u, 1u);
+            //    var CoarseMipHeight = Math.Max(MipHeight / 2u, 1u);
+            //    var CoarseMipStride = CoarseMipWidth * NumComponents * ChannelDepth / 8;
+            //    CoarseMipStride = (CoarseMipStride + 3) & (-4);
+            //    Mips[m].resize(size_t{ CoarseMipStride} *size_t{ CoarseMipHeight});
+
+            //    if (TexLoadInfo.GenerateMips)
+            //    {
+            //        ComputeMipLevel(MipWidth, MipHeight, TexDesc.Format,
+            //                        pSubResources[m - 1].pData, pSubResources[m - 1].Stride,
+            //                        Mips[m].data(), CoarseMipStride);
+            //    }
+
+            //    pSubResources[m].pData = Mips[m].data();
+            //    pSubResources[m].Stride = CoarseMipStride;
+
+            //    MipWidth = CoarseMipWidth;
+            //    MipHeight = CoarseMipHeight;
+            //}
+
+            TextureData TexData = new TextureData(); ;
+            TexData.pSubResources = pSubResources;
+
+            var pDevice = graphicsEngine.RenderDevice;
+            return pDevice.CreateTexture(TexDesc, TexData);
         }
-        else
+
+        Uint32 ComputeMipLevelsCount(Uint32 Width, Uint32 Height)
         {
-            YScale = 1f / (float)Math.Tan(FOV / 2f);
-            XScale = YScale / AspectRatio;
+            return ComputeMipLevelsCount(Math.Max(Width, Height));
         }
 
-        Matrix4x4 Proj = new Matrix4x4();
-        Proj.m00 = XScale;
-        Proj.m11 = YScale;
-        Proj.SetNearFarClipPlanes(NearPlane, FarPlane, false);// genericEngineFactory.RenderDevice.GetDeviceCaps().IsGLDevice());
-        return Proj;
-    }
-
-    public unsafe void sendUpdate(Clock clock)
-    {
-        var pRTV = swapChain.GetCurrentBackBufferRTV();
-        var pDSV = swapChain.GetDepthBufferDSV();
-        m_pImmediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-        // Clear the back buffer
-        var ClearColor = new Engine.Color(0.350f, 0.350f, 0.350f, 1.0f);
-
-        // Clear the back buffer
-        // Let the engine perform required state transitions
-        m_pImmediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-        m_pImmediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-
+        Uint32 ComputeMipLevelsCount(Uint32 Width)
         {
-            var trans = Vector3.UnitY * -0.3f;
-            var rot = new Quaternion(clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * (float)Math.PI), 0f, 0f);
+            if (Width == 0)
+                return 0;
 
-            var CubeModelTransform = rot.toRotationMatrix4x4(trans);
-
-            var View = Matrix4x4.Translation(0f, 0f, 5f);
-
-            var Proj = GetAdjustedProjectionMatrix((float)Math.PI / 4.0f, 0.1f, 100f, window.WindowWidth, window.WindowHeight);
-
-            //This is missing GetSurfacePretransformMatrix for screen rotation handling
-            var m_WorldViewProjMatrix = CubeModelTransform * View * Proj;
-
-            // Map the buffer and write current world-view-projection matrix
-            IntPtr data = m_pImmediateContext.MapBuffer(m_VSConstants, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
-            Matrix4x4* viewProjMat = (Matrix4x4*)data.ToPointer();
-            //Mat is d3d, ogre style row major, need to transpose to send to diligent
-            viewProjMat[0] = m_WorldViewProjMatrix.Transpose();
-            m_pImmediateContext.UnmapBuffer(m_VSConstants, MAP_TYPE.MAP_WRITE);
+            int MipLevels = 0; //Was Uint32, but c# cannot do that
+            while ((Width >> MipLevels) > 0)
+            {
+                ++MipLevels;
+            }
+            //VERIFY(Width >= (1U << (MipLevels - 1)) && Width < (1U << MipLevels), "Incorrect number of Mip levels");
+            return (Uint32)MipLevels;
         }
 
-        // Bind vertex and index buffers
-        UInt32[] offset = new UInt32[] { 0 };
-        IBuffer[] pBuffs = new IBuffer[] { m_CubeVertexBuffer };
-        m_pImmediateContext.SetVertexBuffers(0, 1, pBuffs, offset, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION, SET_VERTEX_BUFFERS_FLAGS.SET_VERTEX_BUFFERS_FLAG_RESET);
-        m_pImmediateContext.SetIndexBuffer(m_CubeIndexBuffer, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+        public void Dispose()
+        {
+            m_TextureSRV.Dispose();
+            m_CubeIndexBuffer.Dispose();
+            m_CubeVertexBuffer.Dispose();
+            m_SRB.Dispose();
+            m_pPSO.Dispose();
+            m_VSConstants.Dispose();
+        }
 
-        // Set the pipeline state
-        m_pImmediateContext.SetPipelineState(m_pPSO);
-        // Commit shader resources. RESOURCE_STATE_TRANSITION_MODE_TRANSITION mode
-        // makes sure that resources are transitioned to required states.
-        m_pImmediateContext.CommitShaderResources(m_pSRB, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+        public void exceededMaxDelta()
+        {
 
-        DrawIndexedAttribs DrawAttrs = new DrawIndexedAttribs();     // This is an indexed draw call
-        DrawAttrs.IndexType = VALUE_TYPE.VT_UINT32; // Index type
-        DrawAttrs.NumIndices = 36;
-        // Verify the state of vertex and index buffers
-        DrawAttrs.Flags = DRAW_FLAGS.DRAW_FLAG_VERIFY_ALL;
-        m_pImmediateContext.DrawIndexed(DrawAttrs);
+        }
 
-        this.swapChain.Present(1);
-    }
+        public void loopStarting()
+        {
 
-    const String VSSource =
-@"cbuffer Constants
+        }
+
+        Matrix4x4 GetAdjustedProjectionMatrix(float FOV, float NearPlane, float FarPlane, float Width, float Height, SURFACE_TRANSFORM PreTransform = SURFACE_TRANSFORM.SURFACE_TRANSFORM_IDENTITY)
+        {
+            if (Height == 0.0f)
+            {
+                Height = 1.0f;
+            }
+
+            float AspectRatio = Width / Height;
+            float XScale, YScale;
+            if (PreTransform == SURFACE_TRANSFORM.SURFACE_TRANSFORM_ROTATE_90 ||
+                PreTransform == SURFACE_TRANSFORM.SURFACE_TRANSFORM_ROTATE_270 ||
+                PreTransform == SURFACE_TRANSFORM.SURFACE_TRANSFORM_HORIZONTAL_MIRROR_ROTATE_90 ||
+                PreTransform == SURFACE_TRANSFORM.SURFACE_TRANSFORM_HORIZONTAL_MIRROR_ROTATE_270)
+            {
+                // When the screen is rotated, vertical FOV becomes horizontal FOV
+                XScale = 1f / (float)Math.Tan(FOV / 2f);
+                // Aspect ratio is inversed
+                YScale = XScale * AspectRatio;
+            }
+            else
+            {
+                YScale = 1f / (float)Math.Tan(FOV / 2f);
+                XScale = YScale / AspectRatio;
+            }
+
+            Matrix4x4 Proj = new Matrix4x4();
+            Proj.m00 = XScale;
+            Proj.m11 = YScale;
+            Proj.SetNearFarClipPlanes(NearPlane, FarPlane, false);// genericEngineFactory.RenderDevice.GetDeviceCaps().IsGLDevice());
+            return Proj;
+        }
+
+        public unsafe void sendUpdate(Clock clock)
+        {
+            var pRTV = swapChain.GetCurrentBackBufferRTV();
+            var pDSV = swapChain.GetDepthBufferDSV();
+            m_pImmediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            // Clear the back buffer
+            var ClearColor = new Engine.Color(0.350f, 0.350f, 0.350f, 1.0f);
+
+            // Clear the back buffer
+            // Let the engine perform required state transitions
+            m_pImmediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            m_pImmediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+
+            {
+                var trans = Vector3.UnitY * -0.3f;
+                var rot = new Quaternion(clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * (float)Math.PI), 0f, 0f);
+
+                var CubeModelTransform = rot.toRotationMatrix4x4(trans);
+
+                var View = Matrix4x4.Translation(0f, 0f, 5f);
+
+                var Proj = GetAdjustedProjectionMatrix((float)Math.PI / 4.0f, 0.1f, 100f, window.WindowWidth, window.WindowHeight);
+
+                //This is missing GetSurfacePretransformMatrix for screen rotation handling
+                var m_WorldViewProjMatrix = CubeModelTransform * View * Proj;
+
+                // Map the buffer and write current world-view-projection matrix
+                IntPtr data = m_pImmediateContext.MapBuffer(m_VSConstants, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
+                Matrix4x4* viewProjMat = (Matrix4x4*)data.ToPointer();
+                //Mat is d3d, ogre style row major, need to transpose to send to diligent
+                viewProjMat[0] = m_WorldViewProjMatrix.Transpose();
+                m_pImmediateContext.UnmapBuffer(m_VSConstants, MAP_TYPE.MAP_WRITE);
+            }
+
+            // Bind vertex and index buffers
+            UInt32[] offset = new UInt32[] { 0 };
+            IBuffer[] pBuffs = new IBuffer[] { m_CubeVertexBuffer };
+            m_pImmediateContext.SetVertexBuffers(0, 1, pBuffs, offset, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION, SET_VERTEX_BUFFERS_FLAGS.SET_VERTEX_BUFFERS_FLAG_RESET);
+            m_pImmediateContext.SetIndexBuffer(m_CubeIndexBuffer, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+
+            // Set the pipeline state
+            m_pImmediateContext.SetPipelineState(m_pPSO);
+            // Commit shader resources. RESOURCE_STATE_TRANSITION_MODE_TRANSITION mode
+            // makes sure that resources are transitioned to required states.
+            m_pImmediateContext.CommitShaderResources(m_SRB, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+
+            DrawIndexedAttribs DrawAttrs = new DrawIndexedAttribs();     // This is an indexed draw call
+            DrawAttrs.IndexType = VALUE_TYPE.VT_UINT32; // Index type
+            DrawAttrs.NumIndices = 36;
+            // Verify the state of vertex and index buffers
+            DrawAttrs.Flags = DRAW_FLAGS.DRAW_FLAG_VERIFY_ALL;
+            m_pImmediateContext.DrawIndexed(DrawAttrs);
+
+            this.swapChain.Present(1);
+        }
+
+        const String VSSource =
+    @"cbuffer Constants
 {
     float4x4 g_WorldViewProj;
 };
@@ -593,8 +603,8 @@ void main(in  VSInput VSIn,
 }
 ";
 
-    const String PSSource =
-@"Texture2D    g_Texture;
+        const String PSSource =
+    @"Texture2D    g_Texture;
 SamplerState g_Texture_sampler; // By convention, texture samplers must use the '_sampler' suffix
 
 struct PSInput 
@@ -614,5 +624,5 @@ void main(in  PSInput  PSIn,
     PSOut.Color = g_Texture.Sample(g_Texture_sampler, PSIn.UV); 
 }
 ";
-}
+    }
 }
