@@ -95,5 +95,10 @@ namespace DiligentEngineGenerator
         /// The name of the property to read the size from. Should also set PutAutoSize on that property.
         /// </summary>
         public string TakeAutoSize { get; set; }
+
+        /// <summary>
+        /// Pull the properties of this property into the struct when passing it back and forth.
+        /// </summary>
+        public bool PullPropertiesIntoStruct { get; set; }
     }
 }

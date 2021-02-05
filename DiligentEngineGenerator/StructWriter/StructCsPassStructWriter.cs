@@ -29,7 +29,7 @@ using System.Linq;
 namespace DiligentEngine
 {{");
 
-                writer.WriteLine(
+            writer.WriteLine(
 @$"    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     struct {code.Name}PassStruct
     {{");
@@ -64,23 +64,68 @@ $@"            }}).ToArray();
             writer.WriteLine("}");
         }
 
-        private static void WriteItem(TextWriter writer, CodeRendererContext context, StructProperty item, Func<String> arrayStringCb = null, Func<String, String> customizeTypeCb = null)
+        private static void WriteItem(TextWriter writer, CodeRendererContext context, StructProperty item, Func<String> arrayStringCb = null, Func<String, String> customizeTypeCb = null, Func<String, String> customizeName = null)
         {
             var cSharpType = GetCSharpType(item, context);
             cSharpType = customizeTypeCb?.Invoke(cSharpType) ?? cSharpType;
 
-            writer.Write($"        public {cSharpType} {item.Name}{arrayStringCb?.Invoke()};");
+            var name = customizeName?.Invoke(item.Name) ?? item.Name;
 
-            writer.WriteLine();
+            if (item.PullPropertiesIntoStruct && context.CodeTypeInfo.Structs.TryGetValue(item.LookupType, out var stlookup))
+            {
+                foreach (var nestedItem in stlookup.Properties)
+                {
+                    WriteItem(writer, context, nestedItem, customizeName: s => $"{name}_{s}");
+                }
+            }
+            else
+            {
+                if (item.IsArray)
+                {
+                    if (!item.IsUnknownSizeArray)
+                    {
+                        for (var i = 0; i < item.ArrayLenInt; ++i)
+                        {
+                            writer.WriteLine($"        public {cSharpType} {name}_{i};");
+                        }
+                    }
+                }
+                writer.WriteLine($"        public {cSharpType} {name}{arrayStringCb?.Invoke()};");
+            }
         }
 
-        private static void WriteSet(TextWriter writer, CodeRendererContext context, StructProperty item, Func<String> arrayStringCb = null)
+        private static void WriteSet(TextWriter writer, CodeRendererContext context, StructProperty item, Func<String> arrayStringCb = null, Func<String, String> customizeName = null, Func<String, String> customizeDataName = null)
         {
-            var data = ConvertCSharpData(item, context, $"i.{item.Name}{arrayStringCb?.Invoke()}");
 
-            writer.Write($"                {item.Name}{arrayStringCb?.Invoke()} = {data},");
+            var name = customizeName?.Invoke(item.Name) ?? item.Name;
 
-            writer.WriteLine();
+            var dataName = customizeDataName?.Invoke(item.Name) ?? item.Name;
+            var data = ConvertCSharpData(item, context, $"i.{dataName}{arrayStringCb?.Invoke()}");
+
+            if (item.PullPropertiesIntoStruct && context.CodeTypeInfo.Structs.TryGetValue(item.LookupType, out var stlookup))
+            {
+                foreach (var nestedItem in stlookup.Properties)
+                {
+                    WriteSet(writer, context, nestedItem, customizeName: s => $"{name}_{s}", customizeDataName: s => $"{name}.{s}");
+                }
+            }
+            else
+            {
+                if (item.IsArray)
+                {
+                    if (!item.IsUnknownSizeArray)
+                    {
+                        for (var i = 0; i < item.ArrayLenInt; ++i)
+                        {
+                            writer.WriteLine($"                {name}_{i} = {data}_{i},");
+                        }
+                    }
+                }
+                else
+                {
+                    writer.WriteLine($"                {name}{arrayStringCb?.Invoke()} = {data},");
+                }
+            }
         }
 
         private static String ConvertCSharpData(StructProperty item, CodeRendererContext context, String data)
@@ -97,7 +142,7 @@ $@"            }}).ToArray();
 
         private static String GetCSharpType(StructProperty item, CodeRendererContext context)
         {
-            if(context.CodeTypeInfo.Interfaces.ContainsKey(item.LookupType) || context.CodeTypeInfo.Structs.ContainsKey(item.LookupType))
+            if (context.CodeTypeInfo.Interfaces.ContainsKey(item.LookupType) || context.CodeTypeInfo.Structs.ContainsKey(item.LookupType))
             {
                 return item.LookupType;
             }

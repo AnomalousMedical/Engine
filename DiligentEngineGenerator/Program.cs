@@ -309,6 +309,12 @@ namespace DiligentEngineGenerator
             {
                 var ImmutableSamplerDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 100, 115);
                 codeTypeInfo.Structs[nameof(ImmutableSamplerDesc)] = ImmutableSamplerDesc;
+
+                {
+                    var Desc = ImmutableSamplerDesc.Properties.First(i => i.Name == "Desc");
+                    Desc.PullPropertiesIntoStruct = true;
+                }
+
                 codeWriter.AddWriter(new StructCsWriter(ImmutableSamplerDesc), Path.Combine(baseStructDir, $"{nameof(ImmutableSamplerDesc)}.cs"));
                 codeWriter.AddWriter(new StructCsPassStructWriter(ImmutableSamplerDesc), Path.Combine(baseStructDir, $"{nameof(ImmutableSamplerDesc)}.PassStruct.cs"));
                 codeWriter.AddWriter(new StructCppPassStructWriter(ImmutableSamplerDesc), Path.Combine(baseCPlusPlusOutDir, $"{nameof(ImmutableSamplerDesc)}.PassStruct.h"));
