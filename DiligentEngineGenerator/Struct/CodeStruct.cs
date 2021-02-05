@@ -16,17 +16,27 @@ namespace DiligentEngineGenerator
 
         public List<StructProperty> Properties { get; set; } = new List<StructProperty>();
 
-        public static CodeStruct Find(String file, int startLine, int endLine)
+        public static CodeStruct Find(String file, int startLine, int endLine, IEnumerable<int> skipLines = null)
         {
+            if(skipLines == null)
+            {
+                skipLines = new List<int>(0);
+            }
+
             var commentBuilder = new StringBuilder();
             using var reader = new StreamReader(File.OpenRead(file));
             var lines = reader.ReadLines().Skip(startLine).Take(endLine - startLine);
             CodeStruct code = new CodeStruct();
             ICodeStructParserState currentState = new StartStructParseState();
 
+            var lineNumber = startLine;
             foreach (var line in lines.Select(l => l.Replace(";", "")))
             {
-                Console.WriteLine(line);
+                Console.WriteLine($"{lineNumber}: {line}");
+                if (skipLines.Contains(lineNumber++))
+                {
+                    continue;
+                }
                 if (!String.IsNullOrWhiteSpace(line) && !CommentParser.Find(line, commentBuilder))
                 {
                     var parsed = CommentParser.RemoveComments(line);

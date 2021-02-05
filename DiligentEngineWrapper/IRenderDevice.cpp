@@ -4,6 +4,7 @@
 #include "LayoutElement.PassStruct.h"
 #include "ShaderResourceVariableDesc.PassStruct.h"
 #include "ImmutableSamplerDesc.PassStruct.h"
+#include "TextureSubResData.PassStruct.h"
 using namespace Diligent;
 extern "C" _AnomalousExport IBuffer* IRenderDevice_CreateBuffer(
 	IRenderDevice* objPtr
@@ -63,6 +64,66 @@ extern "C" _AnomalousExport IShader* IRenderDevice_CreateShader(
 	IShader* theReturnValue = nullptr;
 	objPtr->CreateShader(
 		ShaderCI
+		, &theReturnValue
+	);
+	return theReturnValue;
+}
+extern "C" _AnomalousExport ITexture* IRenderDevice_CreateTexture(
+	IRenderDevice* objPtr
+	, RESOURCE_DIMENSION TexDesc_Type
+	, Uint32 TexDesc_Width
+	, Uint32 TexDesc_Height
+	, TEXTURE_FORMAT TexDesc_Format
+	, Uint32 TexDesc_MipLevels
+	, Uint32 TexDesc_SampleCount
+	, USAGE TexDesc_Usage
+	, BIND_FLAGS TexDesc_BindFlags
+	, CPU_ACCESS_FLAGS TexDesc_CPUAccessFlags
+	, MISC_TEXTURE_FLAGS TexDesc_MiscFlags
+	, TEXTURE_FORMAT TexDesc_ClearValue_Format
+	, Float32 TexDesc_ClearValue_Color_0
+	, Float32 TexDesc_ClearValue_Color_1
+	, Float32 TexDesc_ClearValue_Color_2
+	, Float32 TexDesc_ClearValue_Color_3
+	, Float32 TexDesc_ClearValue_DepthStencil_Depth
+	, Uint8 TexDesc_ClearValue_DepthStencil_Stencil
+	, Uint64 TexDesc_CommandQueueMask
+	, Char* TexDesc_Name
+	, TextureSubResDataPassStruct* pData_pSubResources
+	, Uint32 pData_NumSubresources
+)
+{
+	TextureDesc TexDesc;
+	TexDesc.Type = TexDesc_Type;
+	TexDesc.Width = TexDesc_Width;
+	TexDesc.Height = TexDesc_Height;
+	TexDesc.Format = TexDesc_Format;
+	TexDesc.MipLevels = TexDesc_MipLevels;
+	TexDesc.SampleCount = TexDesc_SampleCount;
+	TexDesc.Usage = TexDesc_Usage;
+	TexDesc.BindFlags = TexDesc_BindFlags;
+	TexDesc.CPUAccessFlags = TexDesc_CPUAccessFlags;
+	TexDesc.MiscFlags = TexDesc_MiscFlags;
+	TexDesc.ClearValue.Format = TexDesc_ClearValue_Format;
+	TexDesc.ClearValue.Color[0] = TexDesc_ClearValue_Color_0;
+	TexDesc.ClearValue.Color[1] = TexDesc_ClearValue_Color_1;
+	TexDesc.ClearValue.Color[2] = TexDesc_ClearValue_Color_2;
+	TexDesc.ClearValue.Color[3] = TexDesc_ClearValue_Color_3;
+	TexDesc.ClearValue.DepthStencil.Depth = TexDesc_ClearValue_DepthStencil_Depth;
+	TexDesc.ClearValue.DepthStencil.Stencil = TexDesc_ClearValue_DepthStencil_Stencil;
+	TexDesc.CommandQueueMask = TexDesc_CommandQueueMask;
+	TexDesc.Name = TexDesc_Name;
+	TextureData pData;
+	pData.pSubResources.pData = pData_pSubResources_pData;
+	pData.pSubResources.pSrcBuffer = pData_pSubResources_pSrcBuffer;
+	pData.pSubResources.SrcOffset = pData_pSubResources_SrcOffset;
+	pData.pSubResources.Stride = pData_pSubResources_Stride;
+	pData.pSubResources.DepthStride = pData_pSubResources_DepthStride;
+	pData.NumSubresources = pData_NumSubresources;
+	ITexture* theReturnValue = nullptr;
+	objPtr->CreateTexture(
+		TexDesc
+		, &pData
 		, &theReturnValue
 	);
 	return theReturnValue;

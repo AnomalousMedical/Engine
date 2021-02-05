@@ -53,6 +53,33 @@ namespace DiligentEngine
                 , ShaderCI.SourceLanguage
             ));
         }
+        public ITexture CreateTexture(TextureDesc TexDesc, TextureData pData)
+        {
+            return new ITexture(IRenderDevice_CreateTexture(
+                this.objPtr
+                , TexDesc.Type
+                , TexDesc.Width
+                , TexDesc.Height
+                , TexDesc.Format
+                , TexDesc.MipLevels
+                , TexDesc.SampleCount
+                , TexDesc.Usage
+                , TexDesc.BindFlags
+                , TexDesc.CPUAccessFlags
+                , TexDesc.MiscFlags
+                , TexDesc.ClearValue.Format
+                , TexDesc.ClearValue.Color_0
+                , TexDesc.ClearValue.Color_1
+                , TexDesc.ClearValue.Color_2
+                , TexDesc.ClearValue.Color_3
+                , TexDesc.ClearValue.DepthStencil.Depth
+                , TexDesc.ClearValue.DepthStencil.Stencil
+                , TexDesc.CommandQueueMask
+                , TexDesc.Name
+                , TextureSubResDataPassStruct.ToStruct(pData.pSubResources)
+                , pData.pSubResources != null ? (Uint32)pData.pSubResources.Count : 0
+            ));
+        }
         public IPipelineState CreateGraphicsPipelineState(GraphicsPipelineStateCreateInfo PSOCreateInfo)
         {
             return new IPipelineState(IRenderDevice_CreateGraphicsPipelineState(
@@ -147,6 +174,31 @@ namespace DiligentEngine
             , SHADER_TYPE ShaderCI_Desc_ShaderType
             , String ShaderCI_Desc_Name
             , SHADER_SOURCE_LANGUAGE ShaderCI_SourceLanguage
+        );
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr IRenderDevice_CreateTexture(
+            IntPtr objPtr
+            , RESOURCE_DIMENSION TexDesc_Type
+            , Uint32 TexDesc_Width
+            , Uint32 TexDesc_Height
+            , TEXTURE_FORMAT TexDesc_Format
+            , Uint32 TexDesc_MipLevels
+            , Uint32 TexDesc_SampleCount
+            , USAGE TexDesc_Usage
+            , BIND_FLAGS TexDesc_BindFlags
+            , CPU_ACCESS_FLAGS TexDesc_CPUAccessFlags
+            , MISC_TEXTURE_FLAGS TexDesc_MiscFlags
+            , TEXTURE_FORMAT TexDesc_ClearValue_Format
+            , Float32 TexDesc_ClearValue_Color_0
+            , Float32 TexDesc_ClearValue_Color_1
+            , Float32 TexDesc_ClearValue_Color_2
+            , Float32 TexDesc_ClearValue_Color_3
+            , Float32 TexDesc_ClearValue_DepthStencil_Depth
+            , Uint8 TexDesc_ClearValue_DepthStencil_Stencil
+            , Uint64 TexDesc_CommandQueueMask
+            , String TexDesc_Name
+            , TextureSubResDataPassStruct[] pData_pSubResources
+            , Uint32 pData_NumSubresources
         );
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr IRenderDevice_CreateGraphicsPipelineState(

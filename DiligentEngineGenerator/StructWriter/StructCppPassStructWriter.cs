@@ -41,7 +41,13 @@ struct {code.Name}PassStruct
         {
             var type = GetNativeType(item, context);
 
-            writer.Write($"        {type} {item.Name}{arrayStringCb?.Invoke()};");
+            var typePtr = "";
+            if (context.CodeTypeInfo.Interfaces.ContainsKey(item.LookupType))
+            {
+                typePtr = "*";
+            }
+
+            writer.Write($"        {type}{typePtr} {item.Name}{arrayStringCb?.Invoke()};");
 
             writer.WriteLine();
         }

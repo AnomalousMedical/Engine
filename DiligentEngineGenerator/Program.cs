@@ -219,6 +219,18 @@ namespace DiligentEngineGenerator
                 EnumWriter.Write(TEXTURE_ADDRESS_MODE, Path.Combine(baseEnumDir, $"{nameof(TEXTURE_ADDRESS_MODE)}.cs"));
             }
 
+            {
+                var RESOURCE_DIMENSION = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 206, 224);
+                codeTypeInfo.Enums[nameof(RESOURCE_DIMENSION)] = RESOURCE_DIMENSION;
+                EnumWriter.Write(RESOURCE_DIMENSION, Path.Combine(baseEnumDir, $"{nameof(RESOURCE_DIMENSION)}.cs"));
+            }
+
+            {
+                var MISC_TEXTURE_FLAGS = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 929, 939);
+                codeTypeInfo.Enums[nameof(MISC_TEXTURE_FLAGS)] = MISC_TEXTURE_FLAGS;
+                EnumWriter.Write(MISC_TEXTURE_FLAGS, Path.Combine(baseEnumDir, $"{nameof(MISC_TEXTURE_FLAGS)}.cs"));
+            }
+
             //////////// Structs
 
             var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
@@ -228,6 +240,31 @@ namespace DiligentEngineGenerator
                 codeWriter.AddWriter(new StructCsWriter(ShaderResourceVariableDesc), Path.Combine(baseStructDir, $"{nameof(ShaderResourceVariableDesc)}.cs"));
                 codeWriter.AddWriter(new StructCsPassStructWriter(ShaderResourceVariableDesc), Path.Combine(baseStructDir, $"{nameof(ShaderResourceVariableDesc)}.PassStruct.cs"));
                 codeWriter.AddWriter(new StructCppPassStructWriter(ShaderResourceVariableDesc), Path.Combine(baseCPlusPlusOutDir, $"{nameof(ShaderResourceVariableDesc)}.PassStruct.h"));
+            }
+
+            {
+                var TextureData = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Texture.h", 219, 232);
+                codeTypeInfo.Structs[nameof(TextureData)] = TextureData;
+
+                {
+                    var pSubResources = TextureData.Properties.First(i => i.Name == "pSubResources");
+                    pSubResources.IsArray = true;
+                    pSubResources.PutAutoSize = "NumSubresources";
+                }
+                {
+                    var NumSubresources = TextureData.Properties.First(i => i.Name == "NumSubresources");
+                    NumSubresources.TakeAutoSize = "pSubResources";
+                }
+
+                codeWriter.AddWriter(new StructCsWriter(TextureData), Path.Combine(baseStructDir, $"{nameof(TextureData)}.cs"));
+            }
+
+            {
+                var TextureSubResData = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Texture.h", 163, 185);
+                codeTypeInfo.Structs[nameof(TextureSubResData)] = TextureSubResData;
+                codeWriter.AddWriter(new StructCsWriter(TextureSubResData), Path.Combine(baseStructDir, $"{nameof(TextureSubResData)}.cs"));
+                codeWriter.AddWriter(new StructCsPassStructWriter(TextureSubResData), Path.Combine(baseStructDir, $"{nameof(TextureSubResData)}.PassStruct.cs"));
+                codeWriter.AddWriter(new StructCppPassStructWriter(TextureSubResData), Path.Combine(baseCPlusPlusOutDir, $"{nameof(TextureSubResData)}.PassStruct.h"));
             }
 
             {
@@ -432,7 +469,26 @@ namespace DiligentEngineGenerator
                 codeWriter.AddWriter(new StructCsWriter(DrawIndexedAttribs), Path.Combine(baseStructDir, $"{nameof(DrawIndexedAttribs)}.cs"));
             }
 
-            
+            {
+                var TextureDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Texture.h", 45, 100, skipLines: Sequence(57, 66));
+                codeTypeInfo.Structs[nameof(TextureDesc)] = TextureDesc;
+                codeWriter.AddWriter(new StructCsWriter(TextureDesc), Path.Combine(baseStructDir, $"{nameof(TextureDesc)}.cs"));
+            }
+
+            {
+                var OptimizedClearValue = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 1122, 1134);
+                codeTypeInfo.Structs[nameof(OptimizedClearValue)] = OptimizedClearValue;
+                codeWriter.AddWriter(new StructCsWriter(OptimizedClearValue), Path.Combine(baseStructDir, $"{nameof(OptimizedClearValue)}.cs"));
+            }
+
+            {
+                var DepthStencilClearValue = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 1102, 1110);
+                codeTypeInfo.Structs[nameof(DepthStencilClearValue)] = DepthStencilClearValue;
+
+                DepthStencilClearValue.Properties.First(i => i.Name == "Depth").DefaultValue = DepthStencilClearValue.Properties.First(i => i.Name == "Depth").DefaultValue.Replace(".f", "f");
+
+                codeWriter.AddWriter(new StructCsWriter(DepthStencilClearValue), Path.Combine(baseStructDir, $"{nameof(DepthStencilClearValue)}.cs"));
+            }
 
             //////////// Interfaces
             var baseCSharpInterfaceDir = Path.Combine(baseCSharpOutDir, "Interfaces");
@@ -474,7 +530,22 @@ namespace DiligentEngineGenerator
                     }
                 }
 
-                var allowedMethods = new List<String> { "CreateShader", "CreateGraphicsPipelineState", "CreateBuffer" };
+                {
+                    var CreateTexture = IRenderDevice.Methods.First(i => i.Name == "CreateTexture");
+                    CreateTexture.ReturnType = "ITexture*";
+                    {
+                        var ppTexture = CreateTexture.Args.First(i => i.Name == "ppTexture");
+                        ppTexture.MakeReturnVal = true;
+                        ppTexture.Type = "ITexture*";
+                    }
+
+                    {
+                        var pData = CreateTexture.Args.First(i => i.Name == "pData");
+                        pData.CppPrefix = "&";
+                    }
+                }
+
+                var allowedMethods = new List<String> { "CreateShader", "CreateGraphicsPipelineState", "CreateBuffer", "CreateTexture" };
                 IRenderDevice.Methods = IRenderDevice.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(IRenderDevice), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IRenderDevice)}.cs"));
@@ -484,7 +555,8 @@ namespace DiligentEngineGenerator
                     "Color.h",
                     "LayoutElement.PassStruct.h",
                     "ShaderResourceVariableDesc.PassStruct.h",
-                    "ImmutableSamplerDesc.PassStruct.h"
+                    "ImmutableSamplerDesc.PassStruct.h",
+                    "TextureSubResData.PassStruct.h"
                 });
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IRenderDevice)}.cpp"));
             }
@@ -586,6 +658,20 @@ namespace DiligentEngineGenerator
             }
 
             {
+                var ITexture = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Texture.h", 271, 333);
+                codeTypeInfo.Interfaces[nameof(ITexture)] = ITexture;
+                var allowedMethods = new List<String> { };
+                ITexture.Methods = ITexture.Methods
+                    .Where(i => allowedMethods.Contains(i.Name)).ToList();
+                codeWriter.AddWriter(new InterfaceCsWriter(ITexture), Path.Combine(baseCSharpInterfaceDir, $"{nameof(ITexture)}.cs"));
+                var cppWriter = new InterfaceCppWriter(ITexture, new List<String>()
+                {
+                    "Graphics/GraphicsEngine/interface/Texture.h"
+                });
+                codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(ITexture)}.cpp"));
+            }
+
+            {
                 var IPipelineState = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 510, 604);
                 codeTypeInfo.Interfaces[nameof(IPipelineState)] = IPipelineState;
 
@@ -639,7 +725,7 @@ namespace DiligentEngineGenerator
             {
                 var IShaderResourceBinding = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/ShaderResourceBinding.h", 55, 132);
                 codeTypeInfo.Interfaces[nameof(IShaderResourceBinding)] = IShaderResourceBinding;
-                var allowedMethods = new List<String> {  };
+                var allowedMethods = new List<String> { };
                 IShaderResourceBinding.Methods = IShaderResourceBinding.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(IShaderResourceBinding), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IShaderResourceBinding)}.cs"));
@@ -650,11 +736,20 @@ namespace DiligentEngineGenerator
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IShaderResourceBinding)}.cpp"));
             }
 
-            
+
 
 
 
             codeWriter.WriteFiles(new CodeRendererContext(codeTypeInfo));
+        }
+
+        public static IEnumerable<int> Sequence(int start, int end)
+        {
+            var i = start;
+            while (i != end)
+            {
+                yield return i++;
+            }
         }
     }
 }
