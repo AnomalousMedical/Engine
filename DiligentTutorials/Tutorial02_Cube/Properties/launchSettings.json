@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DiligentEngineCube": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    }
+  }
+}
