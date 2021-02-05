@@ -288,27 +288,12 @@ namespace DiligentEngineCube
             m_pImmediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
             {
-                var CubeModelTransform = new Matrix4x4
-                {
-                    m00 = -0.611809433f,
-                    m01 = 0.244434059f,
-                    m02 = 0.752290666f,
-                    m03 = 0.00000000f,
-                    m10 = 0.00000000f,
-                    m11 = 0.951056540f,
-                    m12 = -0.309017003f,
-                    m13 = 0.00000000f,
-                    m20 = -0.791005194f,
-                    m21 = -0.189059511f,
-                    m22 = -0.581865370f,
-                    m23 = 0.00000000f,
-                    m30 = 0.00000000f,
-                    m31 = 0.00000000f,
-                    m32 = 0.00000000f,
-                    m33 = 1.00000000f,
-                };
+                var trans = Vector3.UnitZ * -3;
+                var rot = new Quaternion(clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * (float)Math.PI), 0f, 0f);
 
-                var View = Matrix4x4.Translation(0f, 0f, 5f + clock.CurrentTimeMicro * Clock.MicroToSeconds % 4.0f);
+                var CubeModelTransform = rot.toRotationMatrix4x4(trans);
+
+                var View = Matrix4x4.Translation(0f, 0f, 5f);
 
                 var Proj = GetAdjustedProjectionMatrix((float)Math.PI / 4.0f, 0.1f, 100f, window.WindowWidth, window.WindowHeight);
 

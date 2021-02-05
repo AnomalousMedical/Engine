@@ -423,7 +423,7 @@ namespace Engine
             }
         }
 
-        public Matrix3x3 toRotationMatrix()
+        public Matrix3x3 toRotationMatrix3x3()
         {
             float fTx = x + x;
             float fTy = y + y;
@@ -438,7 +438,7 @@ namespace Engine
             float fTyz = fTz * y;
             float fTzz = fTz * z;
 
-            Matrix3x3 kRot;
+            Matrix3x3 kRot = new Matrix3x3();
             kRot.m00 = 1.0f - (fTyy + fTzz);
             kRot.m01 = fTxy - fTwz;
             kRot.m02 = fTxz + fTwy;
@@ -448,6 +448,72 @@ namespace Engine
             kRot.m20 = fTxz - fTwy;
             kRot.m21 = fTyz + fTwx;
             kRot.m22 = 1.0f - (fTxx + fTyy);
+
+            return kRot;
+        }
+
+        public Matrix4x4 toRotationMatrix4x4()
+        {
+            float fTx = x + x;
+            float fTy = y + y;
+            float fTz = z + z;
+            float fTwx = fTx * w;
+            float fTwy = fTy * w;
+            float fTwz = fTz * w;
+            float fTxx = fTx * x;
+            float fTxy = fTy * x;
+            float fTxz = fTz * x;
+            float fTyy = fTy * y;
+            float fTyz = fTz * y;
+            float fTzz = fTz * z;
+
+            Matrix4x4 kRot = new Matrix4x4();
+            kRot.m00 = 1.0f - (fTyy + fTzz);
+            kRot.m01 = fTxy - fTwz;
+            kRot.m02 = fTxz + fTwy;
+            kRot.m10 = fTxy + fTwz;
+            kRot.m11 = 1.0f - (fTxx + fTzz);
+            kRot.m12 = fTyz - fTwx;
+            kRot.m20 = fTxz - fTwy;
+            kRot.m21 = fTyz + fTwx;
+            kRot.m22 = 1.0f - (fTxx + fTyy);
+            kRot.m30 = 0.0f;
+            kRot.m31 = 0.0f;
+            kRot.m32 = 0.0f;
+            kRot.m33 = 1.0f;
+
+            return kRot;
+        }
+
+        public Matrix4x4 toRotationMatrix4x4(Vector3 translation)
+        {
+            float fTx = x + x;
+            float fTy = y + y;
+            float fTz = z + z;
+            float fTwx = fTx * w;
+            float fTwy = fTy * w;
+            float fTwz = fTz * w;
+            float fTxx = fTx * x;
+            float fTxy = fTy * x;
+            float fTxz = fTz * x;
+            float fTyy = fTy * y;
+            float fTyz = fTz * y;
+            float fTzz = fTz * z;
+
+            Matrix4x4 kRot = new Matrix4x4();
+            kRot.m00 = 1.0f - (fTyy + fTzz);
+            kRot.m01 = fTxy - fTwz;
+            kRot.m02 = fTxz + fTwy;
+            kRot.m10 = fTxy + fTwz;
+            kRot.m11 = 1.0f - (fTxx + fTzz);
+            kRot.m12 = fTyz - fTwx;
+            kRot.m20 = fTxz - fTwy;
+            kRot.m21 = fTyz + fTwx;
+            kRot.m22 = 1.0f - (fTxx + fTyy);
+            kRot.m30 = translation.x;
+            kRot.m31 = translation.y;
+            kRot.m32 = translation.z;
+            kRot.m33 = 1.0f;
 
             return kRot;
         }
@@ -502,7 +568,7 @@ namespace Engine
 
         public void toAxes(Vector3[] axis)
         {
-            Matrix3x3 kRot = toRotationMatrix();
+            Matrix3x3 kRot = toRotationMatrix3x3();
 
             axis[0].x = kRot.m00;
             axis[0].y = kRot.m10;
@@ -776,6 +842,16 @@ namespace Engine
             return success;
         }
 
+        /// <summary>
+        /// Set with Euler angles.
+        /// </summary>
+        /// <param name="yaw">Rotate about y axis</param>
+        /// <param name="pitch">Rotate about z axis</param>
+        /// <param name="roll">Rotate about x axis</param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        /// <param name="w"></param>
         private static void setEuler(ref float yaw, ref float pitch, ref float roll, out float x, out float y, out float z, out float w)
         {
             double cosYaw = System.Math.Cos(yaw / 2);

@@ -174,7 +174,7 @@ namespace Engine
             };
         }
 
-public void setRotation(Matrix3x3 rotMat)
+        public void setRotation(Matrix3x3 rotMat)
         {
             m00 = rotMat.m00;
             m01 = rotMat.m01;
@@ -296,7 +296,7 @@ public void setRotation(Matrix3x3 rotMat)
             // Where T = -(Transposed(Rot) * Pos)
 
             // This is most efficiently done using 3x3 Matrices
-            Matrix3x3 rot = orientation.toRotationMatrix();
+            Matrix3x3 rot = orientation.toRotationMatrix3x3();
 
             // Make the translation relative to new axes
             Matrix3x3 rotT = rot.transpose();
