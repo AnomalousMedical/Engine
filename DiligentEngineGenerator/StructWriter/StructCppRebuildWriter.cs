@@ -7,12 +7,14 @@ namespace DiligentEngineGenerator
 {
     class StructCppRebuildWriter
     {
+        private readonly string setName;
         private readonly string argName;
         private CodeStruct code;
         private readonly string tabs;
 
-        public StructCppRebuildWriter(String argName, CodeStruct code, String tabs)
+        public StructCppRebuildWriter(String setName, String argName, CodeStruct code, String tabs)
         {
+            this.setName = setName;
             this.argName = argName;
             this.code = code;
             this.tabs = tabs;
@@ -20,8 +22,6 @@ namespace DiligentEngineGenerator
 
         public void Render(TextWriter writer, CodeRendererContext context, StructCppWriterContext structCppWriterContext)
         {
-            writer.WriteLine($"{tabs}{code.Name} {argName};");
-
             foreach (var item in code.Properties)
             {
                 HandleItem(writer, context, item, structCppWriterContext);
@@ -41,8 +41,39 @@ namespace DiligentEngineGenerator
         {
             if (context.CodeTypeInfo.Structs.TryGetValue(item.LookupType, out var st))
             {
-                var nestedWriter = new StructCppRebuildNestedWriter($"{argName}.{item.Name}", $"{argName}_{item.Name}", st, tabs);
-                nestedWriter.Render(writer, context, structCppWriterContext);
+                if (item.IsArray)
+                {
+                    if (item.IsUnknownSizeArray)
+                    {
+                        var nativeArrayName = $"{argName}_{item.Name}_Native_Array";
+
+                        structCppWriterContext.DeleteStatements.Add($"delete[] {nativeArrayName};");
+
+                        writer.WriteLine(
+@$"{tabs}{item.LookupType}* {nativeArrayName} = new {item.LookupType}[{argName}_{item.PutAutoSize}];
+{tabs}for (Uint32 i = 0; i < {argName}_{item.PutAutoSize}; ++i)
+{tabs}{{");
+
+                        foreach(var prop in st.Properties)
+                        {
+                            writer.WriteLine($"{tabs}    {nativeArrayName}[i].{prop.Name} = {argName}_{item.Name}[i].{prop.Name};");
+                        }
+
+                        writer.WriteLine(
+@$"{tabs}}}
+{tabs}{setName}.{item.Name} = {nativeArrayName};");
+                    }
+                    else
+                    {
+                        //Not Supported
+                        //This would be a fixed size array of things that need to pass
+                    }
+                }
+                else
+                {
+                    var nestedWriter = new StructCppRebuildWriter($"{setName}.{item.Name}", $"{argName}_{item.Name}", st, tabs);
+                    nestedWriter.Render(writer, context, structCppWriterContext);
+                }
             }
             else
             {
@@ -63,7 +94,7 @@ namespace DiligentEngineGenerator
 
         private void WriteSimple(TextWriter writer, StructProperty item, String arrayIndex, String arrayItem)
         {
-            writer.WriteLine($"{tabs}{argName}.{item.Name}{arrayIndex} = {argName}_{item.Name}{arrayItem};");
+            writer.WriteLine($"{tabs}{setName}.{item.Name}{arrayIndex} = {argName}_{item.Name}{arrayItem};");
         }
     }
 }

@@ -58,7 +58,8 @@ namespace DiligentEngineGenerator
                 {
                     if (context.CodeTypeInfo.Structs.TryGetValue(arg.LookupType, out var structInfo))
                     {
-                        var argWriter = new StructCppRebuildWriter(arg.Name, structInfo, "	");
+                        var argWriter = new StructCppRebuildWriter(arg.Name, arg.Name, structInfo, "	");
+                        writer.WriteLine($"	{structInfo.Name} {arg.Name};");
                         argWriter.Render(writer, context, structCppWriterContext);
                     }
                 }

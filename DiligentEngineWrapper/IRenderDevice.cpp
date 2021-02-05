@@ -114,11 +114,16 @@ extern "C" _AnomalousExport ITexture* IRenderDevice_CreateTexture(
 	TexDesc.CommandQueueMask = TexDesc_CommandQueueMask;
 	TexDesc.Name = TexDesc_Name;
 	TextureData pData;
-	pData.pSubResources.pData = pData_pSubResources_pData;
-	pData.pSubResources.pSrcBuffer = pData_pSubResources_pSrcBuffer;
-	pData.pSubResources.SrcOffset = pData_pSubResources_SrcOffset;
-	pData.pSubResources.Stride = pData_pSubResources_Stride;
-	pData.pSubResources.DepthStride = pData_pSubResources_DepthStride;
+	TextureSubResData* pData_pSubResources_Native_Array = new TextureSubResData[pData_NumSubresources];
+	for (Uint32 i = 0; i < pData_NumSubresources; ++i)
+	{
+	    pData_pSubResources_Native_Array[i].pData = pData_pSubResources[i].pData;
+	    pData_pSubResources_Native_Array[i].pSrcBuffer = pData_pSubResources[i].pSrcBuffer;
+	    pData_pSubResources_Native_Array[i].SrcOffset = pData_pSubResources[i].SrcOffset;
+	    pData_pSubResources_Native_Array[i].Stride = pData_pSubResources[i].Stride;
+	    pData_pSubResources_Native_Array[i].DepthStride = pData_pSubResources[i].DepthStride;
+	}
+	pData.pSubResources = pData_pSubResources_Native_Array;
 	pData.NumSubresources = pData_NumSubresources;
 	ITexture* theReturnValue = nullptr;
 	objPtr->CreateTexture(
@@ -126,6 +131,7 @@ extern "C" _AnomalousExport ITexture* IRenderDevice_CreateTexture(
 		, &pData
 		, &theReturnValue
 	);
+    delete[] pData_pSubResources_Native_Array;
 	return theReturnValue;
 }
 extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipelineState(
