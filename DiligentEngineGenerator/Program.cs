@@ -317,15 +317,22 @@ namespace DiligentEngineGenerator
                 var LightAttribs = CodeStruct.Find(baseDir + "/DiligentFX/Shaders/Common/public/BasicStructures.fxh", 103, 111);
                 codeTypeInfo.Structs[nameof(LightAttribs)] = LightAttribs;
 
-                {
-                    var ShadowAttribs = LightAttribs.Properties.First(i => i.Name == "ShadowAttribs");
-                    ShadowAttribs.PullPropertiesIntoStruct = true;
-                }
-
                 codeWriter.AddWriter(new StructCsWriter(LightAttribs), Path.Combine(baseStructDir, $"{nameof(LightAttribs)}.cs"));
-                codeWriter.AddWriter(new StructCsPassStructWriter(LightAttribs), Path.Combine(baseStructDir, $"{nameof(LightAttribs)}.PassStruct.cs"));
-                codeWriter.AddWriter(new StructCppPassStructWriter(LightAttribs), Path.Combine(baseCPlusPlusOutDir, $"{nameof(LightAttribs)}.PassStruct.h"));
             }
+
+            {
+                var CameraAttribs = CodeStruct.Find(baseDir + "/DiligentFX/Shaders/Common/public/BasicStructures.fxh", 116, 143, skipLines: new int[] { 125 }.Concat(Sequence(132, 139)));
+                codeTypeInfo.Structs[nameof(CameraAttribs)] = CameraAttribs;
+
+                codeWriter.AddWriter(new StructCsWriter(CameraAttribs), Path.Combine(baseStructDir, $"{nameof(CameraAttribs)}.cs"));
+            }
+
+            //{
+            //    var ToneMappingAttribs = CodeStruct.Find(baseDir + "/DiligentFX/Shaders/PostProcess/ToneMapping/public/ToneMappingStructures.fxh", 47, 64);
+            //    codeTypeInfo.Structs[nameof(ToneMappingAttribs)] = ToneMappingAttribs;
+
+            //    codeWriter.AddWriter(new StructCsWriter(ToneMappingAttribs), Path.Combine(baseStructDir, $"{nameof(ToneMappingAttribs)}.cs"));
+            //}
 
             {
                 var ShadowMapAttribs = CodeStruct.Find(baseDir + "/DiligentFX/Shaders/Common/public/BasicStructures.fxh", 57, 111,
