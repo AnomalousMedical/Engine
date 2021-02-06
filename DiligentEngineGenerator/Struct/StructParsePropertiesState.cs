@@ -18,14 +18,6 @@ namespace DiligentEngineGenerator
                 {
                     propertyParse = propertyParse.Replace("const", "").Replace("struct", "").Trim();
 
-                    var withInitialize = propertyParse;
-                    bool hasDefault = false;
-                    if (propertyParse.Contains(DEFAULT_INITIALIZER))
-                    {
-                        hasDefault = true;
-                        propertyParse = propertyParse.Substring(0, propertyParse.IndexOf(DEFAULT_INITIALIZER));
-                    }
-
                     var typeAndName = propertyParse.Split(null).Where(i => !String.IsNullOrWhiteSpace(i)); //Split on whitespace
 
                     var property = new StructProperty()
@@ -36,6 +28,19 @@ namespace DiligentEngineGenerator
                         IsConst = line.Contains("const")
                     };
 
+                    if (propertyParse.Contains(DEFAULT_INITIALIZER))
+                    {
+                        property.DefaultValue = propertyParse.Substring(propertyParse.IndexOf(DEFAULT_INITIALIZER) + DEFAULT_INITIALIZER.Length)
+                            .Replace("(", "")
+                            .Replace(")", "")
+                            .Trim();
+                    }
+                    else if (propertyParse.Contains("="))
+                    {
+                        property.DefaultValue = propertyParse.Substring(propertyParse.IndexOf("=") + 1)
+                           .Trim();
+                    }
+
                     //Check name to see if its an array
                     var name = property.Name;
                     var bracketIndex = name.IndexOf("[");
@@ -44,14 +49,6 @@ namespace DiligentEngineGenerator
                         property.IsArray = true;
                         property.ArrayLen = name.Substring(bracketIndex + 1).Replace("]", "").Trim();
                         property.Name = name.Substring(0, bracketIndex);
-                    }
-
-                    if (hasDefault)
-                    {
-                        property.DefaultValue = withInitialize.Substring(withInitialize.IndexOf(DEFAULT_INITIALIZER) + DEFAULT_INITIALIZER.Length)
-                            .Replace("(", "")
-                            .Replace(")", "")
-                            .Trim();
                     }
 
                     code.Properties.Add(property);

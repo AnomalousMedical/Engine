@@ -21,21 +21,21 @@ namespace DiligentEngine
         {
             
         }
-        public TEXTURE_FORMAT RTVFmt { get; set; }
-        public TEXTURE_FORMAT DSVFmt { get; set; }
-        public bool FrontCCW { get; set; }
-        public bool AllowDebugView { get; set; }
-        public bool UseIBL { get; set; }
-        public bool UseAO { get; set; }
-        public bool UseEmissive { get; set; }
-        public bool UseImmutableSamplers { get; set; }
-        public bool UseTextureAtals { get; set; }
+        public TEXTURE_FORMAT RTVFmt { get; set; } = TEXTURE_FORMAT.TEX_FORMAT_UNKNOWN;
+        public TEXTURE_FORMAT DSVFmt { get; set; } = TEXTURE_FORMAT.TEX_FORMAT_UNKNOWN;
+        public bool FrontCCW { get; set; } = false;
+        public bool AllowDebugView { get; set; } = false;
+        public bool UseIBL { get; set; } = false;
+        public bool UseAO { get; set; } = true;
+        public bool UseEmissive { get; set; } = true;
+        public bool UseImmutableSamplers { get; set; } = true;
+        public bool UseTextureAtals { get; set; } = false;
         public SamplerDesc ColorMapImmutableSampler { get; set; } = new SamplerDesc();
         public SamplerDesc PhysDescMapImmutableSampler { get; set; } = new SamplerDesc();
         public SamplerDesc NormalMapImmutableSampler { get; set; } = new SamplerDesc();
         public SamplerDesc AOMapImmutableSampler { get; set; } = new SamplerDesc();
         public SamplerDesc EmissiveMapImmutableSampler { get; set; } = new SamplerDesc();
-        public Uint32 MaxJointCount { get; set; }
+        public Uint32 MaxJointCount { get; set; } = 64;
 
 
     }
