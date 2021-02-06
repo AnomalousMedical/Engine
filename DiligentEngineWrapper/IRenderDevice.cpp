@@ -73,6 +73,7 @@ extern "C" _AnomalousExport ITexture* IRenderDevice_CreateTexture(
 	, RESOURCE_DIMENSION TexDesc_Type
 	, Uint32 TexDesc_Width
 	, Uint32 TexDesc_Height
+	, Uint32 TexDesc_ArraySize
 	, TEXTURE_FORMAT TexDesc_Format
 	, Uint32 TexDesc_MipLevels
 	, Uint32 TexDesc_SampleCount
@@ -97,6 +98,7 @@ extern "C" _AnomalousExport ITexture* IRenderDevice_CreateTexture(
 	TexDesc.Type = TexDesc_Type;
 	TexDesc.Width = TexDesc_Width;
 	TexDesc.Height = TexDesc_Height;
+	TexDesc.ArraySize = TexDesc_ArraySize;
 	TexDesc.Format = TexDesc_Format;
 	TexDesc.MipLevels = TexDesc_MipLevels;
 	TexDesc.SampleCount = TexDesc_SampleCount;

@@ -33,7 +33,7 @@ namespace Tutorial_99_Pbo
         {
             mainWindow = EasyNativeWindow.Create(services, this, o =>
             {
-                o.Title = "Diligent - Tutorial 03 - Texturing";
+                o.Title = "Diligent - Tutorial 99 - PBO";
             });
 
             services.AddLogging(o =>

@@ -528,7 +528,7 @@ namespace DiligentEngineGenerator
             }
 
             {
-                var TextureDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Texture.h", 45, 100, skipLines: Sequence(58, 65));
+                var TextureDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Texture.h", 45, 100, skipLines: Sequence(58, 59).Concat(Sequence(62, 66)));
                 codeTypeInfo.Structs[nameof(TextureDesc)] = TextureDesc;
                 codeWriter.AddWriter(new StructCsWriter(TextureDesc), Path.Combine(baseStructDir, $"{nameof(TextureDesc)}.cs"));
             }

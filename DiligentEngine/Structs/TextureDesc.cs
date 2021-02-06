@@ -28,6 +28,7 @@ namespace DiligentEngine
         public RESOURCE_DIMENSION Type { get; set; } = RESOURCE_DIMENSION.RESOURCE_DIM_UNDEFINED;
         public Uint32 Width { get; set; } = 0;
         public Uint32 Height { get; set; } = 0;
+        public Uint32 ArraySize { get; set; } = 1;
         public TEXTURE_FORMAT Format { get; set; } = TEXTURE_FORMAT.TEX_FORMAT_UNKNOWN;
         public Uint32 MipLevels { get; set; } = 1;
         public Uint32 SampleCount { get; set; } = 1;

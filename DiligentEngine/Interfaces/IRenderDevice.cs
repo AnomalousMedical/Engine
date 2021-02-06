@@ -120,6 +120,7 @@ namespace DiligentEngine
                 , TexDesc.Type
                 , TexDesc.Width
                 , TexDesc.Height
+                , TexDesc.ArraySize
                 , TexDesc.Format
                 , TexDesc.MipLevels
                 , TexDesc.SampleCount
@@ -252,6 +253,7 @@ namespace DiligentEngine
             , RESOURCE_DIMENSION TexDesc_Type
             , Uint32 TexDesc_Width
             , Uint32 TexDesc_Height
+            , Uint32 TexDesc_ArraySize
             , TEXTURE_FORMAT TexDesc_Format
             , Uint32 TexDesc_MipLevels
             , Uint32 TexDesc_SampleCount

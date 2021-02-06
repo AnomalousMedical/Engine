@@ -23,7 +23,11 @@ namespace Tutorial_99_Pbo
 {
     class GLTF_PBR_Renderer : IDisposable
     {
-        static Uint32     BRDF_LUT_Dim = 512;
+        const Uint32 BRDF_LUT_Dim = 512;
+        const TEXTURE_FORMAT IrradianceCubeFmt    = TEXTURE_FORMAT.TEX_FORMAT_RGBA32_FLOAT;
+        const TEXTURE_FORMAT PrefilteredEnvMapFmt = TEXTURE_FORMAT.TEX_FORMAT_RGBA16_FLOAT;
+        const Uint32         IrradianceCubeDim    = 64;
+        const Uint32         PrefilteredEnvMapDim = 256;
 
         public class CreateInfo
         {
@@ -83,6 +87,9 @@ namespace Tutorial_99_Pbo
         private CreateInfo m_Settings;
         AutoPtr<ITextureView> m_pBRDF_LUT_SRV;
 
+        AutoPtr<ITextureView> m_pIrradianceCubeSRV;
+        AutoPtr<ITextureView> m_pPrefilteredEnvMapSRV;
+
         public GLTF_PBR_Renderer(IRenderDevice pDevice, IDeviceContext pCtx, CreateInfo CI, ShaderLoader shaderLoader)
         {
             this.m_Settings = CI;
@@ -91,107 +98,107 @@ namespace Tutorial_99_Pbo
             {
                 PrecomputeBRDF(pDevice, pCtx, shaderLoader);
 
-                //TextureDesc TexDesc;
-                //TexDesc.Name = "Irradiance cube map for GLTF renderer";
-                //TexDesc.Type = RESOURCE_DIM_TEX_CUBE;
-                //TexDesc.Usage = USAGE_DEFAULT;
-                //TexDesc.BindFlags = BIND_SHADER_RESOURCE | BIND_RENDER_TARGET;
-                //TexDesc.Width = IrradianceCubeDim;
-                //TexDesc.Height = IrradianceCubeDim;
-                //TexDesc.Format = IrradianceCubeFmt;
-                //TexDesc.ArraySize = 6;
-                //TexDesc.MipLevels = 0;
+                TextureDesc TexDesc = new TextureDesc();
+                TexDesc.Name = "Irradiance cube map for GLTF renderer";
+                TexDesc.Type = RESOURCE_DIMENSION.RESOURCE_DIM_TEX_CUBE;
+                TexDesc.Usage = USAGE.USAGE_DEFAULT;
+                TexDesc.BindFlags = BIND_FLAGS.BIND_SHADER_RESOURCE | BIND_FLAGS.BIND_RENDER_TARGET;
+                TexDesc.Width = IrradianceCubeDim;
+                TexDesc.Height = IrradianceCubeDim;
+                TexDesc.Format = IrradianceCubeFmt;
+                TexDesc.ArraySize = 6;
+                TexDesc.MipLevels = 0;
 
-                //RefCntAutoPtr<ITexture> IrradainceCubeTex;
-                //pDevice->CreateTexture(TexDesc, nullptr, &IrradainceCubeTex);
-                //m_pIrradianceCubeSRV = IrradainceCubeTex->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE);
+                using var IrradainceCubeTex = pDevice.CreateTexture(TexDesc, null);
+                m_pIrradianceCubeSRV = new AutoPtr<ITextureView>(IrradainceCubeTex.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
 
-                //TexDesc.Name = "Prefiltered environment map for GLTF renderer";
-                //TexDesc.Width = PrefilteredEnvMapDim;
-                //TexDesc.Height = PrefilteredEnvMapDim;
-                //TexDesc.Format = PrefilteredEnvMapFmt;
-                //RefCntAutoPtr<ITexture> PrefilteredEnvMapTex;
-                //pDevice->CreateTexture(TexDesc, nullptr, &PrefilteredEnvMapTex);
-                //m_pPrefilteredEnvMapSRV = PrefilteredEnvMapTex->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE);
+                TexDesc.Name = "Prefiltered environment map for GLTF renderer";
+                TexDesc.Width = PrefilteredEnvMapDim;
+                TexDesc.Height = PrefilteredEnvMapDim;
+                TexDesc.Format = PrefilteredEnvMapFmt;
+                using var PrefilteredEnvMapTex = pDevice.CreateTexture(TexDesc, null);
+                m_pPrefilteredEnvMapSRV = new AutoPtr<ITextureView>(PrefilteredEnvMapTex.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
             }
 
-        //    {
-        //        static constexpr Uint32 TexDim = 8;
+            //    {
+            //        static constexpr Uint32 TexDim = 8;
 
-        //        TextureDesc TexDesc;
-        //        TexDesc.Name = "White texture for GLTF renderer";
-        //        TexDesc.Type = RESOURCE_DIM_TEX_2D_ARRAY;
-        //        TexDesc.Usage = USAGE_IMMUTABLE;
-        //        TexDesc.BindFlags = BIND_SHADER_RESOURCE;
-        //        TexDesc.Width = TexDim;
-        //        TexDesc.Height = TexDim;
-        //        TexDesc.Format = TEX_FORMAT_RGBA8_UNORM;
-        //        TexDesc.MipLevels = 1;
-        //        std::vector<Uint32> Data(TexDim* TexDim, 0xFFFFFFFF);
-        //        TextureSubResData Level0Data{ Data.data(), TexDim * 4};
-        //        TextureData InitData{ &Level0Data, 1};
-        //        RefCntAutoPtr<ITexture> pWhiteTex;
-        //        pDevice->CreateTexture(TexDesc, &InitData, &pWhiteTex);
-        //        m_pWhiteTexSRV = pWhiteTex->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE);
+            //        TextureDesc TexDesc;
+            //        TexDesc.Name = "White texture for GLTF renderer";
+            //        TexDesc.Type = RESOURCE_DIM_TEX_2D_ARRAY;
+            //        TexDesc.Usage = USAGE_IMMUTABLE;
+            //        TexDesc.BindFlags = BIND_SHADER_RESOURCE;
+            //        TexDesc.Width = TexDim;
+            //        TexDesc.Height = TexDim;
+            //        TexDesc.Format = TEX_FORMAT_RGBA8_UNORM;
+            //        TexDesc.MipLevels = 1;
+            //        std::vector<Uint32> Data(TexDim* TexDim, 0xFFFFFFFF);
+            //        TextureSubResData Level0Data{ Data.data(), TexDim * 4};
+            //        TextureData InitData{ &Level0Data, 1};
+            //        RefCntAutoPtr<ITexture> pWhiteTex;
+            //        pDevice->CreateTexture(TexDesc, &InitData, &pWhiteTex);
+            //        m_pWhiteTexSRV = pWhiteTex->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE);
 
-        //        TexDesc.Name = "Black texture for GLTF renderer";
-        //        for (auto & c : Data) c = 0;
-        //        RefCntAutoPtr<ITexture> pBlackTex;
-        //        pDevice->CreateTexture(TexDesc, &InitData, &pBlackTex);
-        //        m_pBlackTexSRV = pBlackTex->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE);
+            //        TexDesc.Name = "Black texture for GLTF renderer";
+            //        for (auto & c : Data) c = 0;
+            //        RefCntAutoPtr<ITexture> pBlackTex;
+            //        pDevice->CreateTexture(TexDesc, &InitData, &pBlackTex);
+            //        m_pBlackTexSRV = pBlackTex->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE);
 
-        //        TexDesc.Name = "Default normal map for GLTF renderer";
-        //        for (auto & c : Data) c = 0x00FF7F7F;
-        //        RefCntAutoPtr<ITexture> pDefaultNormalMap;
-        //        pDevice->CreateTexture(TexDesc, &InitData, &pDefaultNormalMap);
-        //        m_pDefaultNormalMapSRV = pDefaultNormalMap->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE);
+            //        TexDesc.Name = "Default normal map for GLTF renderer";
+            //        for (auto & c : Data) c = 0x00FF7F7F;
+            //        RefCntAutoPtr<ITexture> pDefaultNormalMap;
+            //        pDevice->CreateTexture(TexDesc, &InitData, &pDefaultNormalMap);
+            //        m_pDefaultNormalMapSRV = pDefaultNormalMap->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE);
 
-        //        TexDesc.Name = "Default physical description map for GLTF renderer";
-        //        for (auto & c : Data) c = 0x0000FF00;
-        //        RefCntAutoPtr<ITexture> pDefaultPhysDesc;
-        //        pDevice->CreateTexture(TexDesc, &InitData, &pDefaultPhysDesc);
-        //        m_pDefaultPhysDescSRV = pDefaultPhysDesc->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE);
+            //        TexDesc.Name = "Default physical description map for GLTF renderer";
+            //        for (auto & c : Data) c = 0x0000FF00;
+            //        RefCntAutoPtr<ITexture> pDefaultPhysDesc;
+            //        pDevice->CreateTexture(TexDesc, &InitData, &pDefaultPhysDesc);
+            //        m_pDefaultPhysDescSRV = pDefaultPhysDesc->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE);
 
-        //        // clang-format off
-        //        StateTransitionDesc Barriers[] =
-        //        {
-        //    {pWhiteTex,         RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true},
-        //    {pBlackTex,         RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true},
-        //    {pDefaultNormalMap, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true},
-        //    {pDefaultPhysDesc,  RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true}
-        //};
-        //        // clang-format on
-        //        pCtx->TransitionResourceStates(_countof(Barriers), Barriers);
+            //        // clang-format off
+            //        StateTransitionDesc Barriers[] =
+            //        {
+            //    {pWhiteTex,         RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true},
+            //    {pBlackTex,         RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true},
+            //    {pDefaultNormalMap, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true},
+            //    {pDefaultPhysDesc,  RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true}
+            //};
+            //        // clang-format on
+            //        pCtx->TransitionResourceStates(_countof(Barriers), Barriers);
 
-        //        RefCntAutoPtr<ISampler> pDefaultSampler;
-        //        pDevice->CreateSampler(Sam_LinearClamp, &pDefaultSampler);
-        //        m_pWhiteTexSRV->SetSampler(pDefaultSampler);
-        //        m_pBlackTexSRV->SetSampler(pDefaultSampler);
-        //        m_pDefaultNormalMapSRV->SetSampler(pDefaultSampler);
-        //    }
+            //        RefCntAutoPtr<ISampler> pDefaultSampler;
+            //        pDevice->CreateSampler(Sam_LinearClamp, &pDefaultSampler);
+            //        m_pWhiteTexSRV->SetSampler(pDefaultSampler);
+            //        m_pBlackTexSRV->SetSampler(pDefaultSampler);
+            //        m_pDefaultNormalMapSRV->SetSampler(pDefaultSampler);
+            //    }
 
-        //    if (CI.RTVFmt != TEX_FORMAT_UNKNOWN || CI.DSVFmt != TEX_FORMAT_UNKNOWN)
-        //    {
-        //        CreateUniformBuffer(pDevice, sizeof(GLTFNodeShaderTransforms), "GLTF node transforms CB", &m_TransformsCB);
-        //        CreateUniformBuffer(pDevice, sizeof(GLTFMaterialShaderInfo) + sizeof(GLTFRendererShaderParameters), "GLTF attribs CB", &m_GLTFAttribsCB);
-        //        CreateUniformBuffer(pDevice, static_cast<Uint32>(sizeof(float4x4) * m_Settings.MaxJointCount), "GLTF joint tranforms", &m_JointsBuffer);
+            //    if (CI.RTVFmt != TEX_FORMAT_UNKNOWN || CI.DSVFmt != TEX_FORMAT_UNKNOWN)
+            //    {
+            //        CreateUniformBuffer(pDevice, sizeof(GLTFNodeShaderTransforms), "GLTF node transforms CB", &m_TransformsCB);
+            //        CreateUniformBuffer(pDevice, sizeof(GLTFMaterialShaderInfo) + sizeof(GLTFRendererShaderParameters), "GLTF attribs CB", &m_GLTFAttribsCB);
+            //        CreateUniformBuffer(pDevice, static_cast<Uint32>(sizeof(float4x4) * m_Settings.MaxJointCount), "GLTF joint tranforms", &m_JointsBuffer);
 
-        //        // clang-format off
-        //        StateTransitionDesc Barriers[] =
-        //        {
-        //    {m_TransformsCB,  RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_CONSTANT_BUFFER, true},
-        //    {m_GLTFAttribsCB, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_CONSTANT_BUFFER, true},
-        //    {m_JointsBuffer,  RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_CONSTANT_BUFFER, true}
-        //};
-        //        // clang-format on
-        //        pCtx->TransitionResourceStates(_countof(Barriers), Barriers);
+            //        // clang-format off
+            //        StateTransitionDesc Barriers[] =
+            //        {
+            //    {m_TransformsCB,  RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_CONSTANT_BUFFER, true},
+            //    {m_GLTFAttribsCB, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_CONSTANT_BUFFER, true},
+            //    {m_JointsBuffer,  RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_CONSTANT_BUFFER, true}
+            //};
+            //        // clang-format on
+            //        pCtx->TransitionResourceStates(_countof(Barriers), Barriers);
 
-        //        CreatePSO(pDevice);
-        //    }
+            //        CreatePSO(pDevice);
+            //    }
         }
 
         public void Dispose()
         {
+            m_pPrefilteredEnvMapSRV.Dispose();
+            m_pIrradianceCubeSRV.Dispose();
             m_pBRDF_LUT_SRV.Dispose();
         }
         public void PrecomputeBRDF(IRenderDevice pDevice, IDeviceContext pCtx, ShaderLoader shaderLoader)
