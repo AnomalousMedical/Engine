@@ -238,12 +238,6 @@ namespace DiligentEngineGenerator
             }
 
             {
-                var RESOURCE_STATE = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 2709, 2784);
-                codeTypeInfo.Enums[nameof(RESOURCE_STATE)] = RESOURCE_STATE;
-                EnumWriter.Write(RESOURCE_STATE, Path.Combine(baseEnumDir, $"{nameof(RESOURCE_STATE)}.cs"));
-            }
-
-            {
                 var STATE_TRANSITION_TYPE = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 2787, 2804);
                 codeTypeInfo.Enums[nameof(STATE_TRANSITION_TYPE)] = STATE_TRANSITION_TYPE;
                 EnumWriter.Write(STATE_TRANSITION_TYPE, Path.Combine(baseEnumDir, $"{nameof(STATE_TRANSITION_TYPE)}.cs"));
@@ -320,13 +314,6 @@ namespace DiligentEngineGenerator
             }
 
             {
-                //PBR Create Info
-                var CreateInfo = CodeStruct.Find(baseDir + "/DiligentFX/GLTF_PBR_Renderer/interface/GLTF_PBR_Renderer.hpp", 49, 105, skipLines: Sequence(85, 87));
-                codeTypeInfo.Structs[nameof(CreateInfo)] = CreateInfo;
-                codeWriter.AddWriter(new StructCsWriter(CreateInfo), Path.Combine(baseStructDir, $"{nameof(CreateInfo)}.cs"));
-            }
-
-            {
                 var LightAttribs = CodeStruct.Find(baseDir + "/DiligentFX/Shaders/Common/public/BasicStructures.fxh", 103, 111);
                 codeTypeInfo.Structs[nameof(LightAttribs)] = LightAttribs;
 
@@ -375,12 +362,6 @@ namespace DiligentEngineGenerator
                 var SamplerDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Sampler.h", 46, 112);
                 codeTypeInfo.Structs[nameof(SamplerDesc)] = SamplerDesc;
                 codeWriter.AddWriter(new StructCsWriter(SamplerDesc), Path.Combine(baseStructDir, $"{nameof(SamplerDesc)}.cs"));
-            }
-
-            {
-                var StateTransitionDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 1243, 1282);
-                codeTypeInfo.Structs[nameof(StateTransitionDesc)] = StateTransitionDesc;
-                codeWriter.AddWriter(new StructCsWriter(StateTransitionDesc), Path.Combine(baseStructDir, $"{nameof(StateTransitionDesc)}.cs"));
             }
 
             {
@@ -809,29 +790,6 @@ namespace DiligentEngineGenerator
                 });
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IShaderResourceBinding)}.cpp"));
             }
-
-
-            {
-                var GLTF_PBR_Renderer = CodeInterface.Find(baseDir + "/DiligentFX/GLTF_PBR_Renderer/interface/GLTF_PBR_Renderer.hpp", 44, 287, 
-                    skipLines: 
-                    Sequence(49,106)
-                    .Concat(Sequence(112, 180))
-                    .Concat(Sequence(181,191))
-                    .Concat(Sequence(192,200))
-                );
-                codeTypeInfo.Interfaces[nameof(GLTF_PBR_Renderer)] = GLTF_PBR_Renderer;
-                var allowedMethods = new List<String> {  };
-                GLTF_PBR_Renderer.Methods = GLTF_PBR_Renderer.Methods
-                    .Where(i => allowedMethods.Contains(i.Name)).ToList();
-                codeWriter.AddWriter(new InterfaceCsWriter(GLTF_PBR_Renderer), Path.Combine(baseCSharpInterfaceDir, $"{nameof(GLTF_PBR_Renderer)}.cs"));
-                var cppWriter = new InterfaceCppWriter(GLTF_PBR_Renderer, new List<String>()
-                {
-                    "DiligentFX/GLTF_PBR_Renderer/interface/GLTF_PBR_Renderer.hpp"
-                });
-                codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(GLTF_PBR_Renderer)}.cpp"));
-            }
-
-
 
             codeWriter.WriteFiles(new CodeRendererContext(codeTypeInfo));
         }
