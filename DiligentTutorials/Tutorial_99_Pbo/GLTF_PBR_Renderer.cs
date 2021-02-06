@@ -90,6 +90,7 @@ namespace Tutorial_99_Pbo
         AutoPtr<ITextureView> m_pBRDF_LUT_SRV;
 
         AutoPtr<ITextureView> m_pWhiteTexSRV;
+        AutoPtr<ITextureView> m_pBlackTexSRV; 
 
         AutoPtr<ITextureView> m_pIrradianceCubeSRV;
         AutoPtr<ITextureView> m_pPrefilteredEnvMapSRV;
@@ -145,40 +146,39 @@ namespace Tutorial_99_Pbo
                 using var pWhiteTex = pDevice.CreateTexture(TexDesc, InitData);
                 m_pWhiteTexSRV = new AutoPtr<ITextureView>(pWhiteTex.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
 
-            //    TexDesc.Name = "Black texture for GLTF renderer";
-            //    for (auto & c : Data) c = 0;
-            //    RefCntAutoPtr<ITexture> pBlackTex;
-            //    pDevice->CreateTexture(TexDesc, &InitData, &pBlackTex);
-            //    m_pBlackTexSRV = pBlackTex->GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
+                TexDesc.Name = "Black texture for GLTF renderer";
+                DataSpan.Fill(0); //for (auto & c : Data) c = 0;
+                using var pBlackTex = pDevice.CreateTexture(TexDesc, InitData);
+                m_pBlackTexSRV = new AutoPtr<ITextureView>(pBlackTex.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
 
-            //    TexDesc.Name = "Default normal map for GLTF renderer";
-            //    for (auto & c : Data) c = 0x00FF7F7F;
-            //    RefCntAutoPtr<ITexture> pDefaultNormalMap;
-            //    pDevice->CreateTexture(TexDesc, &InitData, &pDefaultNormalMap);
-            //    m_pDefaultNormalMapSRV = pDefaultNormalMap->GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
+                //    TexDesc.Name = "Default normal map for GLTF renderer";
+                //    for (auto & c : Data) c = 0x00FF7F7F;
+                //    RefCntAutoPtr<ITexture> pDefaultNormalMap;
+                //    pDevice->CreateTexture(TexDesc, &InitData, &pDefaultNormalMap);
+                //    m_pDefaultNormalMapSRV = pDefaultNormalMap->GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
 
-            //    TexDesc.Name = "Default physical description map for GLTF renderer";
-            //    for (auto & c : Data) c = 0x0000FF00;
-            //    RefCntAutoPtr<ITexture> pDefaultPhysDesc;
-            //    pDevice->CreateTexture(TexDesc, &InitData, &pDefaultPhysDesc);
-            //    m_pDefaultPhysDescSRV = pDefaultPhysDesc->GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
+                //    TexDesc.Name = "Default physical description map for GLTF renderer";
+                //    for (auto & c : Data) c = 0x0000FF00;
+                //    RefCntAutoPtr<ITexture> pDefaultPhysDesc;
+                //    pDevice->CreateTexture(TexDesc, &InitData, &pDefaultPhysDesc);
+                //    m_pDefaultPhysDescSRV = pDefaultPhysDesc->GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
 
-            //    // clang-format off
-            //    StateTransitionDesc Barriers[] =
-            //    {
-            //    {pWhiteTex,         RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true},
-            //    {pBlackTex,         RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true},
-            //    {pDefaultNormalMap, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true},
-            //    {pDefaultPhysDesc,  RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true}
-            //};
-            //    // clang-format on
-            //    pCtx->TransitionResourceStates(_countof(Barriers), Barriers);
+                //    // clang-format off
+                //    StateTransitionDesc Barriers[] =
+                //    {
+                //    {pWhiteTex,         RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true},
+                //    {pBlackTex,         RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true},
+                //    {pDefaultNormalMap, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true},
+                //    {pDefaultPhysDesc,  RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true}
+                //};
+                //    // clang-format on
+                //    pCtx->TransitionResourceStates(_countof(Barriers), Barriers);
 
-            //    RefCntAutoPtr<ISampler> pDefaultSampler;
-            //    pDevice->CreateSampler(Sam_LinearClamp, &pDefaultSampler);
-            //    m_pWhiteTexSRV->SetSampler(pDefaultSampler);
-            //    m_pBlackTexSRV->SetSampler(pDefaultSampler);
-            //    m_pDefaultNormalMapSRV->SetSampler(pDefaultSampler);
+                //    RefCntAutoPtr<ISampler> pDefaultSampler;
+                //    pDevice->CreateSampler(Sam_LinearClamp, &pDefaultSampler);
+                //    m_pWhiteTexSRV->SetSampler(pDefaultSampler);
+                //    m_pBlackTexSRV->SetSampler(pDefaultSampler);
+                //    m_pDefaultNormalMapSRV->SetSampler(pDefaultSampler);
             }
 
             //if (CI.RTVFmt != TEX_FORMAT_UNKNOWN || CI.DSVFmt != TEX_FORMAT_UNKNOWN)
@@ -203,6 +203,7 @@ namespace Tutorial_99_Pbo
 
         public void Dispose()
         {
+            m_pBlackTexSRV.Dispose();
             m_pWhiteTexSRV.Dispose();
             m_pPrefilteredEnvMapSRV.Dispose();
             m_pIrradianceCubeSRV.Dispose();
