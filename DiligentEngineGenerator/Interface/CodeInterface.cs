@@ -16,17 +16,16 @@ namespace DiligentEngineGenerator
 
         public List<InterfaceMethod> Methods { get; set; } = new List<InterfaceMethod>(); 
         
-        public static CodeInterface Find(String file, int startLine, int endLine)
+        public static CodeInterface Find(String file, int startLine, int endLine, IEnumerable<int> skipLines = null)
         {
             var commentBuilder = new StringBuilder();
             using var reader = new StreamReader(File.OpenRead(file));
-            var lines = reader.ReadLines().Skip(startLine).Take(endLine - startLine);
+            var lines = LineReader.ReadLines(reader.ReadLines(), startLine, endLine, skipLines);
             CodeInterface code = new CodeInterface();
             ICodeInterfaceParserState currentState = new StartInterfaceParseState();
 
             foreach (var line in lines.Select(l => l.Replace(";", "")))
             {
-                Console.WriteLine(line);
                 if (!String.IsNullOrWhiteSpace(line) && !CommentParser.Find(line, commentBuilder))
                 {
                     var parsed = CommentParser.RemoveComments(line);

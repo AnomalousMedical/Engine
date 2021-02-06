@@ -314,6 +314,22 @@ namespace DiligentEngineGenerator
             }
 
             {
+                var LightAttribs = CodeStruct.Find(baseDir + "/DiligentFX/Shaders/Common/public/BasicStructures.fxh", 103, 111);
+                codeTypeInfo.Structs[nameof(LightAttribs)] = LightAttribs;
+                codeWriter.AddWriter(new StructCsWriter(LightAttribs), Path.Combine(baseStructDir, $"{nameof(LightAttribs)}.cs"));
+            }
+
+            //{
+            //    var ShadowMapAttribs = CodeStruct.Find(baseDir + "/DiligentFX/Shaders/Common/public/BasicStructures.fxh", 57, 111, 
+            //        skipLines: new int[] { 60 }
+            //        .Concat(Sequence(62,64))
+            //        .Concat(new int[] { 68 })
+            //        .Concat(Sequence(71, 74)));
+            //    codeTypeInfo.Structs[nameof(ShadowMapAttribs)] = ShadowMapAttribs;
+            //    codeWriter.AddWriter(new StructCsWriter(ShadowMapAttribs), Path.Combine(baseStructDir, $"{nameof(ShadowMapAttribs)}.cs"));
+            //}
+
+            {
                 var ImmutableSamplerDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 100, 115);
                 codeTypeInfo.Structs[nameof(ImmutableSamplerDesc)] = ImmutableSamplerDesc;
 
@@ -489,7 +505,7 @@ namespace DiligentEngineGenerator
             }
 
             {
-                var TextureDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Texture.h", 45, 100, skipLines: Sequence(57, 66));
+                var TextureDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Texture.h", 45, 100, skipLines: Sequence(58, 65));
                 codeTypeInfo.Structs[nameof(TextureDesc)] = TextureDesc;
                 codeWriter.AddWriter(new StructCsWriter(TextureDesc), Path.Combine(baseStructDir, $"{nameof(TextureDesc)}.cs"));
             }
@@ -767,13 +783,9 @@ namespace DiligentEngineGenerator
             codeWriter.WriteFiles(new CodeRendererContext(codeTypeInfo));
         }
 
-        public static IEnumerable<int> Sequence(int start)
-        {
-            return Sequence(start, start + 1);
-        }
-
         public static IEnumerable<int> Sequence(int start, int end)
         {
+            ++end;
             var i = start;
             while (i != end)
             {

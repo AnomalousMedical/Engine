@@ -17,3 +17,5 @@ using Uint16 = System.UInt16;
 using PVoid = System.IntPtr;";
     }
 }
+
+//using float4 = Engine.Vector4;

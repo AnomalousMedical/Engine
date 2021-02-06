@@ -6,7 +6,7 @@ namespace DiligentEngineGenerator
 {
     class StartStructParseState : ICodeStructParserState
     {
-        public ICodeStructParserState Parse(string line, StringBuilder comment, ref CodeStruct codeStruct)
+        public ICodeStructParserState Parse(string line, StringBuilder comment, CodeStruct codeStruct)
         {
             if (line.Contains("struct"))
             {

@@ -40,6 +40,11 @@ namespace GLTFViewer
 
         void Initialize()
         {
+            //Seems like anything could be loaded for this
+            //RefCntAutoPtr<ITexture> EnvironmentMap;
+            //CreateTextureFromFile("textures/papermill.ktx", TextureLoadInfo{ "Environment map"}, m_pDevice, &EnvironmentMap);
+            //m_EnvironmentMapSRV = EnvironmentMap->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE);
+
             var BackBufferFmt = m_pSwapChain.GetDesc_ColorBufferFormat;
             var DepthBufferFmt = m_pSwapChain.GetDesc_DepthBufferFormat;
 

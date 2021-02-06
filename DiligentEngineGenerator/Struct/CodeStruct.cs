@@ -18,29 +18,18 @@ namespace DiligentEngineGenerator
 
         public static CodeStruct Find(String file, int startLine, int endLine, IEnumerable<int> skipLines = null)
         {
-            if(skipLines == null)
-            {
-                skipLines = new List<int>(0);
-            }
-
             var commentBuilder = new StringBuilder();
             using var reader = new StreamReader(File.OpenRead(file));
-            var lines = reader.ReadLines().Skip(startLine).Take(endLine - startLine);
+            var lines = LineReader.ReadLines(reader.ReadLines(), startLine, endLine, skipLines);
             CodeStruct code = new CodeStruct();
             ICodeStructParserState currentState = new StartStructParseState();
 
-            var lineNumber = startLine;
             foreach (var line in lines.Select(l => l.Replace(";", "")))
             {
-                Console.WriteLine($"{lineNumber}: {line}");
-                if (skipLines.Contains(lineNumber++))
-                {
-                    continue;
-                }
                 if (!String.IsNullOrWhiteSpace(line) && !CommentParser.Find(line, commentBuilder))
                 {
                     var parsed = CommentParser.RemoveComments(line);
-                    currentState = currentState.Parse(parsed, commentBuilder, ref code);
+                    currentState = currentState.Parse(parsed, commentBuilder, code);
                     commentBuilder.Clear();
                     if (currentState == null)
                     {

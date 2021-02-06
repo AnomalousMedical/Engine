@@ -16,17 +16,16 @@ namespace DiligentEngineGenerator
 
         public List<EnumProperty> Properties { get; set; } = new List<EnumProperty>(); 
         
-        public static CodeEnum Find(String file, int startLine, int endLine)
+        public static CodeEnum Find(String file, int startLine, int endLine, IEnumerable<int> skipLines = null)
         {
             var commentBuilder = new StringBuilder();
             using var reader = new StreamReader(File.OpenRead(file));
-            var lines = reader.ReadLines().Skip(startLine).Take(endLine - startLine);
+            var lines = LineReader.ReadLines(reader.ReadLines(), startLine, endLine, skipLines);
             CodeEnum codeEnum = new CodeEnum();
             ICodeEnumParserState currentState = new StartEnumParseState();
 
             foreach (var line in lines.Select(l => l.Replace(";", "")))
             {
-                Console.WriteLine(line);
                 if (!String.IsNullOrWhiteSpace(line) && !CommentParser.Find(line, commentBuilder))
                 {
                     var parsed = CommentParser.RemoveComments(line);

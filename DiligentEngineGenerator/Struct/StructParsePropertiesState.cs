@@ -9,7 +9,7 @@ namespace DiligentEngineGenerator
     {
         private const string DEFAULT_INITIALIZER = "DEFAULT_INITIALIZER";
 
-        public ICodeStructParserState Parse(string line, StringBuilder commentBuilder, ref CodeStruct code)
+        public ICodeStructParserState Parse(string line, StringBuilder commentBuilder, CodeStruct code)
         {
             if (!String.IsNullOrWhiteSpace(line))
             {
