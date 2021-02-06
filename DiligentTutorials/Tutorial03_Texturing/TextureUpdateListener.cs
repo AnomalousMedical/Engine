@@ -295,7 +295,7 @@ namespace DiligentEngineCube
             using var stream = File.Open(logo, FileMode.Open, FileAccess.Read, FileShare.Read);
 
             using var bmp = FreeImageBitmap.FromStream(stream);
-            //bmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
+            bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
             //TextureLoadInfo loadInfo;
             //loadInfo.IsSRGB = true;
             using var Tex = CreateTextureFromImage(bmp, 1);
@@ -306,12 +306,12 @@ namespace DiligentEngineCube
             m_SRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_Texture").Set(m_TextureSRV.Obj);
         }
 
-        TEXTURE_FORMAT GetFormat(FreeImageBitmap bitmap)
+        TEXTURE_FORMAT GetFormat(FreeImageBitmap bitmap, bool isSRGB)
         {
             switch (bitmap.PixelFormat)
             {
-                //case PixelFormat.Format32bppArgb:
-                //    return TEXTURE_FORMAT.TEX_FORMAT_RGBA8_UNORM;
+                case PixelFormat.Format32bppArgb:
+                    return isSRGB ? TEXTURE_FORMAT.TEX_FORMAT_BGRA8_UNORM_SRGB : TEXTURE_FORMAT.TEX_FORMAT_BGRA8_UNORM;
 
                 default:
                     return TEXTURE_FORMAT.TEX_FORMAT_UNKNOWN;
@@ -336,39 +336,10 @@ namespace DiligentEngineCube
             }
             TexDesc.Usage = USAGE.USAGE_IMMUTABLE;
             TexDesc.BindFlags = BIND_FLAGS.BIND_SHADER_RESOURCE;
-            TexDesc.Format = GetFormat(bitmap);
+            TexDesc.Format = GetFormat(bitmap, true); //bool IsSRGB = true;// (ImgDesc.NumComponents >= 3 && ChannelDepth == 8) ? TexLoadInfo.IsSRGB : false;
             TexDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_NONE;
-            int ChannelDepth = 8;// GetValueSize(ImgDesc.ComponentType) * 8;
 
-            Uint32 NumComponents = 4;// ImgDesc.NumComponents == 3 ? 4 : ImgDesc.NumComponents;
-            bool IsSRGB = true;// (ImgDesc.NumComponents >= 3 && ChannelDepth == 8) ? TexLoadInfo.IsSRGB : false;
-            if (TexDesc.Format == TEXTURE_FORMAT.TEX_FORMAT_UNKNOWN)
-            {
-                if (ChannelDepth == 8)
-                {
-                    switch (NumComponents)
-                    {
-                        case 1: TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_R8_UNORM; break;
-                        case 2: TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_RG8_UNORM; break;
-                        case 4: TexDesc.Format = IsSRGB ? TEXTURE_FORMAT.TEX_FORMAT_RGBA8_UNORM_SRGB : TEXTURE_FORMAT.TEX_FORMAT_RGBA8_UNORM; break;
-                            //default: LOG_ERROR_AND_THROW("Unexpected number of color channels (", NumComponents, ")");
-                    }
-                }
-                else if (ChannelDepth == 16)
-                {
-                    switch (NumComponents)
-                    {
-                        case 1: TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_R16_UNORM; break;
-                        case 2: TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_RG16_UNORM; break;
-                        case 4: TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_RGBA16_UNORM; break;
-                            //default: LOG_ERROR_AND_THROW("Unexpected number of color channels (", NumComponents, ")");
-                    }
-                }
-                else
-                {
-                    throw new Exception($"Unsupported color channel depth ({ChannelDepth})");
-                }
-            }
+            Uint32 NumComponents = 4;// ImgDesc.NumComponents == 3 ? 4 : ImgDesc.NumComponents;            
             //else
             //{
             //    const auto& TexFmtDesc = GetTextureFormatAttribs(TexDesc.Format);
