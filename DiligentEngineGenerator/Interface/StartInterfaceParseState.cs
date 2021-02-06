@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DiligentEngineGenerator
@@ -18,6 +19,19 @@ namespace DiligentEngineGenerator
                 code.Comment = comment;
                 code.Name = splitName[0];
                 code.BaseType = splitName[1];
+            }
+            else if (line.Contains("class"))
+            {
+                //Makes sure we have class with whitespace around it.
+                var lineSplit = line.Split(null).ToList();
+                var doubleCheckClass = lineSplit.IndexOf("class");
+                if (doubleCheckClass != -1)
+                {
+                    var name = lineSplit.Skip(doubleCheckClass + 1).First();
+                    code.Comment = comment;
+                    code.Name = name;
+                    //code.BaseType = splitName[1];
+                }
             }
 
             if (line.Contains("{"))

@@ -811,6 +811,25 @@ namespace DiligentEngineGenerator
             }
 
 
+            {
+                var GLTF_PBR_Renderer = CodeInterface.Find(baseDir + "/DiligentFX/GLTF_PBR_Renderer/interface/GLTF_PBR_Renderer.hpp", 44, 287, 
+                    skipLines: 
+                    Sequence(49,106)
+                    .Concat(Sequence(112, 180))
+                    .Concat(Sequence(181,191))
+                    .Concat(Sequence(192,200))
+                );
+                codeTypeInfo.Interfaces[nameof(GLTF_PBR_Renderer)] = GLTF_PBR_Renderer;
+                var allowedMethods = new List<String> {  };
+                GLTF_PBR_Renderer.Methods = GLTF_PBR_Renderer.Methods
+                    .Where(i => allowedMethods.Contains(i.Name)).ToList();
+                codeWriter.AddWriter(new InterfaceCsWriter(GLTF_PBR_Renderer), Path.Combine(baseCSharpInterfaceDir, $"{nameof(GLTF_PBR_Renderer)}.cs"));
+                var cppWriter = new InterfaceCppWriter(GLTF_PBR_Renderer, new List<String>()
+                {
+                    "DiligentFX/GLTF_PBR_Renderer/interface/GLTF_PBR_Renderer.hpp"
+                });
+                codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(GLTF_PBR_Renderer)}.cpp"));
+            }
 
 
 

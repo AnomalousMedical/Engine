@@ -26,9 +26,9 @@ namespace DiligentEngineGenerator
             {
                 try
                 {
-                    Console.WriteLine($"{lineNumber}: {line}");
                     if (!skipLines.Contains(lineNumber))
                     {
+                        Console.WriteLine($"{lineNumber}: {line}");
                         yield return line;
                     }
 
