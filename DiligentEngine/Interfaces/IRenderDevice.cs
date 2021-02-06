@@ -271,22 +271,22 @@ namespace DiligentEngine
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr IRenderDevice_CreateGraphicsPipelineState(
             IntPtr objPtr
-            , Bool PSOCreateInfo_GraphicsPipeline_BlendDesc_AlphaToCoverageEnable
-            , Bool PSOCreateInfo_GraphicsPipeline_BlendDesc_IndependentBlendEnable
+            , [MarshalAs(UnmanagedType.I1)]Bool PSOCreateInfo_GraphicsPipeline_BlendDesc_AlphaToCoverageEnable
+            , [MarshalAs(UnmanagedType.I1)]Bool PSOCreateInfo_GraphicsPipeline_BlendDesc_IndependentBlendEnable
             , Uint32 PSOCreateInfo_GraphicsPipeline_SampleMask
             , FILL_MODE PSOCreateInfo_GraphicsPipeline_RasterizerDesc_FillMode
             , CULL_MODE PSOCreateInfo_GraphicsPipeline_RasterizerDesc_CullMode
-            , Bool PSOCreateInfo_GraphicsPipeline_RasterizerDesc_FrontCounterClockwise
-            , Bool PSOCreateInfo_GraphicsPipeline_RasterizerDesc_DepthClipEnable
-            , Bool PSOCreateInfo_GraphicsPipeline_RasterizerDesc_ScissorEnable
-            , Bool PSOCreateInfo_GraphicsPipeline_RasterizerDesc_AntialiasedLineEnable
+            , [MarshalAs(UnmanagedType.I1)]Bool PSOCreateInfo_GraphicsPipeline_RasterizerDesc_FrontCounterClockwise
+            , [MarshalAs(UnmanagedType.I1)]Bool PSOCreateInfo_GraphicsPipeline_RasterizerDesc_DepthClipEnable
+            , [MarshalAs(UnmanagedType.I1)]Bool PSOCreateInfo_GraphicsPipeline_RasterizerDesc_ScissorEnable
+            , [MarshalAs(UnmanagedType.I1)]Bool PSOCreateInfo_GraphicsPipeline_RasterizerDesc_AntialiasedLineEnable
             , Int32 PSOCreateInfo_GraphicsPipeline_RasterizerDesc_DepthBias
             , Float32 PSOCreateInfo_GraphicsPipeline_RasterizerDesc_DepthBiasClamp
             , Float32 PSOCreateInfo_GraphicsPipeline_RasterizerDesc_SlopeScaledDepthBias
-            , Bool PSOCreateInfo_GraphicsPipeline_DepthStencilDesc_DepthEnable
-            , Bool PSOCreateInfo_GraphicsPipeline_DepthStencilDesc_DepthWriteEnable
+            , [MarshalAs(UnmanagedType.I1)]Bool PSOCreateInfo_GraphicsPipeline_DepthStencilDesc_DepthEnable
+            , [MarshalAs(UnmanagedType.I1)]Bool PSOCreateInfo_GraphicsPipeline_DepthStencilDesc_DepthWriteEnable
             , COMPARISON_FUNCTION PSOCreateInfo_GraphicsPipeline_DepthStencilDesc_DepthFunc
-            , Bool PSOCreateInfo_GraphicsPipeline_DepthStencilDesc_StencilEnable
+            , [MarshalAs(UnmanagedType.I1)]Bool PSOCreateInfo_GraphicsPipeline_DepthStencilDesc_StencilEnable
             , Uint8 PSOCreateInfo_GraphicsPipeline_DepthStencilDesc_StencilReadMask
             , Uint8 PSOCreateInfo_GraphicsPipeline_DepthStencilDesc_StencilWriteMask
             , STENCIL_OP PSOCreateInfo_GraphicsPipeline_DepthStencilDesc_FrontFace_StencilFailOp

@@ -319,15 +319,15 @@ namespace DiligentEngineGenerator
                 codeWriter.AddWriter(new StructCsWriter(LightAttribs), Path.Combine(baseStructDir, $"{nameof(LightAttribs)}.cs"));
             }
 
-            //{
-            //    var ShadowMapAttribs = CodeStruct.Find(baseDir + "/DiligentFX/Shaders/Common/public/BasicStructures.fxh", 57, 111, 
-            //        skipLines: new int[] { 60 }
-            //        .Concat(Sequence(62,64))
-            //        .Concat(new int[] { 68 })
-            //        .Concat(Sequence(71, 74)));
-            //    codeTypeInfo.Structs[nameof(ShadowMapAttribs)] = ShadowMapAttribs;
-            //    codeWriter.AddWriter(new StructCsWriter(ShadowMapAttribs), Path.Combine(baseStructDir, $"{nameof(ShadowMapAttribs)}.cs"));
-            //}
+            {
+                var ShadowMapAttribs = CodeStruct.Find(baseDir + "/DiligentFX/Shaders/Common/public/BasicStructures.fxh", 57, 111,
+                    skipLines: new int[] { 60 }
+                    .Concat(Sequence(62, 64))
+                    .Concat(new int[] { 68 })
+                    .Concat(Sequence(71, 74)));
+                codeTypeInfo.Structs[nameof(ShadowMapAttribs)] = ShadowMapAttribs;
+                codeWriter.AddWriter(new StructCsWriter(ShadowMapAttribs), Path.Combine(baseStructDir, $"{nameof(ShadowMapAttribs)}.cs"));
+            }
 
             {
                 var ImmutableSamplerDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 100, 115);

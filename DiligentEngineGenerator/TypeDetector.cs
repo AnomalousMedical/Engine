@@ -8,7 +8,7 @@ namespace DiligentEngineGenerator
     {
         public static bool IsBool(String lookupType)
         {
-            return lookupType?.Equals("bool") == true || lookupType?.Equals("boolean") == true;
+            return lookupType?.Equals("bool", StringComparison.InvariantCultureIgnoreCase) == true || lookupType?.Equals("boolean", StringComparison.InvariantCultureIgnoreCase) == true;
         }
     }
 }
