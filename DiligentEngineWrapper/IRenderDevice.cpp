@@ -6,8 +6,8 @@
 #include "ImmutableSamplerDesc.PassStruct.h"
 #include "TextureSubResData.PassStruct.h"
 using namespace Diligent;
-extern "C" _AnomalousExport IBuffer * IRenderDevice_CreateBuffer(
-	IRenderDevice * objPtr
+extern "C" _AnomalousExport IBuffer* IRenderDevice_CreateBuffer(
+	IRenderDevice* objPtr
 	, Uint32 BuffDesc_uiSizeInBytes
 	, BIND_FLAGS BuffDesc_BindFlags
 	, USAGE BuffDesc_Usage
@@ -15,7 +15,7 @@ extern "C" _AnomalousExport IBuffer * IRenderDevice_CreateBuffer(
 	, BUFFER_MODE BuffDesc_Mode
 	, Uint32 BuffDesc_ElementByteStride
 	, Uint64 BuffDesc_CommandQueueMask
-	, Char * BuffDesc_Name
+	, Char* BuffDesc_Name
 	, void* pBuffData_pData
 	, Uint32 pBuffData_DataSize
 )
@@ -40,15 +40,15 @@ extern "C" _AnomalousExport IBuffer * IRenderDevice_CreateBuffer(
 	);
 	return theReturnValue;
 }
-extern "C" _AnomalousExport IShader * IRenderDevice_CreateShader(
-	IRenderDevice * objPtr
-	, Char * ShaderCI_FilePath
-	, Char * ShaderCI_Source
-	, Char * ShaderCI_EntryPoint
+extern "C" _AnomalousExport IShader* IRenderDevice_CreateShader(
+	IRenderDevice* objPtr
+	, Char* ShaderCI_FilePath
+	, Char* ShaderCI_Source
+	, Char* ShaderCI_EntryPoint
 	, bool ShaderCI_UseCombinedTextureSamplers
-	, Char * ShaderCI_CombinedSamplerSuffix
+	, Char* ShaderCI_CombinedSamplerSuffix
 	, SHADER_TYPE ShaderCI_Desc_ShaderType
-	, Char * ShaderCI_Desc_Name
+	, Char* ShaderCI_Desc_Name
 	, SHADER_SOURCE_LANGUAGE ShaderCI_SourceLanguage
 )
 {
@@ -68,8 +68,8 @@ extern "C" _AnomalousExport IShader * IRenderDevice_CreateShader(
 	);
 	return theReturnValue;
 }
-extern "C" _AnomalousExport ITexture * IRenderDevice_CreateTexture(
-	IRenderDevice * objPtr
+extern "C" _AnomalousExport ITexture* IRenderDevice_CreateTexture(
+	IRenderDevice* objPtr
 	, RESOURCE_DIMENSION TexDesc_Type
 	, Uint32 TexDesc_Width
 	, Uint32 TexDesc_Height
@@ -88,8 +88,8 @@ extern "C" _AnomalousExport ITexture * IRenderDevice_CreateTexture(
 	, Float32 TexDesc_ClearValue_DepthStencil_Depth
 	, Uint8 TexDesc_ClearValue_DepthStencil_Stencil
 	, Uint64 TexDesc_CommandQueueMask
-	, Char * TexDesc_Name
-	, TextureSubResDataPassStruct * pData_pSubResources
+	, Char* TexDesc_Name
+	, TextureSubResDataPassStruct* pData_pSubResources
 	, Uint32 pData_NumSubresources
 )
 {
@@ -117,11 +117,11 @@ extern "C" _AnomalousExport ITexture * IRenderDevice_CreateTexture(
 	TextureSubResData* pData_pSubResources_Native_Array = new TextureSubResData[pData_NumSubresources];
 	for (Uint32 i = 0; i < pData_NumSubresources; ++i)
 	{
-		pData_pSubResources_Native_Array[i].pData = pData_pSubResources[i].pData;
-		pData_pSubResources_Native_Array[i].pSrcBuffer = pData_pSubResources[i].pSrcBuffer;
-		pData_pSubResources_Native_Array[i].SrcOffset = pData_pSubResources[i].SrcOffset;
-		pData_pSubResources_Native_Array[i].Stride = pData_pSubResources[i].Stride;
-		pData_pSubResources_Native_Array[i].DepthStride = pData_pSubResources[i].DepthStride;
+	    pData_pSubResources_Native_Array[i].pData = pData_pSubResources[i].pData;
+	    pData_pSubResources_Native_Array[i].pSrcBuffer = pData_pSubResources[i].pSrcBuffer;
+	    pData_pSubResources_Native_Array[i].SrcOffset = pData_pSubResources[i].SrcOffset;
+	    pData_pSubResources_Native_Array[i].Stride = pData_pSubResources[i].Stride;
+	    pData_pSubResources_Native_Array[i].DepthStride = pData_pSubResources[i].DepthStride;
 	}
 	pData.pSubResources = pData_pSubResources_Native_Array;
 	pData.NumSubresources = pData_NumSubresources;
@@ -131,11 +131,11 @@ extern "C" _AnomalousExport ITexture * IRenderDevice_CreateTexture(
 		, &pData
 		, &theReturnValue
 	);
-	delete[] pData_pSubResources_Native_Array;
+    delete[] pData_pSubResources_Native_Array;
 	return theReturnValue;
 }
-extern "C" _AnomalousExport IPipelineState * IRenderDevice_CreateGraphicsPipelineState(
-	IRenderDevice * objPtr
+extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipelineState(
+	IRenderDevice* objPtr
 	, Bool PSOCreateInfo_GraphicsPipeline_BlendDesc_AlphaToCoverageEnable
 	, Bool PSOCreateInfo_GraphicsPipeline_BlendDesc_IndependentBlendEnable
 	, Uint32 PSOCreateInfo_GraphicsPipeline_SampleMask
@@ -162,7 +162,7 @@ extern "C" _AnomalousExport IPipelineState * IRenderDevice_CreateGraphicsPipelin
 	, STENCIL_OP PSOCreateInfo_GraphicsPipeline_DepthStencilDesc_BackFace_StencilDepthFailOp
 	, STENCIL_OP PSOCreateInfo_GraphicsPipeline_DepthStencilDesc_BackFace_StencilPassOp
 	, COMPARISON_FUNCTION PSOCreateInfo_GraphicsPipeline_DepthStencilDesc_BackFace_StencilFunc
-	, LayoutElementPassStruct * PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements
+	, LayoutElementPassStruct* PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements
 	, Uint32 PSOCreateInfo_GraphicsPipeline_InputLayout_NumElements
 	, PRIMITIVE_TOPOLOGY PSOCreateInfo_GraphicsPipeline_PrimitiveTopology
 	, Uint8 PSOCreateInfo_GraphicsPipeline_NumViewports
@@ -180,22 +180,22 @@ extern "C" _AnomalousExport IPipelineState * IRenderDevice_CreateGraphicsPipelin
 	, Uint8 PSOCreateInfo_GraphicsPipeline_SmplDesc_Count
 	, Uint8 PSOCreateInfo_GraphicsPipeline_SmplDesc_Quality
 	, Uint32 PSOCreateInfo_GraphicsPipeline_NodeMask
-	, IShader * PSOCreateInfo_pVS
-	, IShader * PSOCreateInfo_pPS
-	, IShader * PSOCreateInfo_pDS
-	, IShader * PSOCreateInfo_pHS
-	, IShader * PSOCreateInfo_pGS
-	, IShader * PSOCreateInfo_pAS
-	, IShader * PSOCreateInfo_pMS
+	, IShader* PSOCreateInfo_pVS
+	, IShader* PSOCreateInfo_pPS
+	, IShader* PSOCreateInfo_pDS
+	, IShader* PSOCreateInfo_pHS
+	, IShader* PSOCreateInfo_pGS
+	, IShader* PSOCreateInfo_pAS
+	, IShader* PSOCreateInfo_pMS
 	, PIPELINE_TYPE PSOCreateInfo_PSODesc_PipelineType
 	, Uint32 PSOCreateInfo_PSODesc_SRBAllocationGranularity
 	, Uint64 PSOCreateInfo_PSODesc_CommandQueueMask
 	, SHADER_RESOURCE_VARIABLE_TYPE PSOCreateInfo_PSODesc_ResourceLayout_DefaultVariableType
 	, Uint32 PSOCreateInfo_PSODesc_ResourceLayout_NumVariables
-	, ShaderResourceVariableDescPassStruct * PSOCreateInfo_PSODesc_ResourceLayout_Variables
+	, ShaderResourceVariableDescPassStruct* PSOCreateInfo_PSODesc_ResourceLayout_Variables
 	, Uint32 PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers
-	, ImmutableSamplerDescPassStruct * PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers
-	, Char * PSOCreateInfo_PSODesc_Name
+	, ImmutableSamplerDescPassStruct* PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers
+	, Char* PSOCreateInfo_PSODesc_Name
 	, PSO_CREATE_FLAGS PSOCreateInfo_Flags
 )
 {
@@ -229,16 +229,16 @@ extern "C" _AnomalousExport IPipelineState * IRenderDevice_CreateGraphicsPipelin
 	LayoutElement* PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array = new LayoutElement[PSOCreateInfo_GraphicsPipeline_InputLayout_NumElements];
 	for (Uint32 i = 0; i < PSOCreateInfo_GraphicsPipeline_InputLayout_NumElements; ++i)
 	{
-		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].HLSLSemantic = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].HLSLSemantic;
-		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].InputIndex = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].InputIndex;
-		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].BufferSlot = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].BufferSlot;
-		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].NumComponents = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].NumComponents;
-		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].ValueType = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].ValueType;
-		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].IsNormalized = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].IsNormalized;
-		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].RelativeOffset = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].RelativeOffset;
-		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].Stride = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].Stride;
-		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].Frequency = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].Frequency;
-		PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].InstanceDataStepRate = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].InstanceDataStepRate;
+	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].HLSLSemantic = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].HLSLSemantic;
+	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].InputIndex = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].InputIndex;
+	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].BufferSlot = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].BufferSlot;
+	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].NumComponents = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].NumComponents;
+	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].ValueType = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].ValueType;
+	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].IsNormalized = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].IsNormalized;
+	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].RelativeOffset = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].RelativeOffset;
+	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].Stride = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].Stride;
+	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].Frequency = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].Frequency;
+	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].InstanceDataStepRate = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].InstanceDataStepRate;
 	}
 	PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array;
 	PSOCreateInfo.GraphicsPipeline.InputLayout.NumElements = PSOCreateInfo_GraphicsPipeline_InputLayout_NumElements;
@@ -273,34 +273,32 @@ extern "C" _AnomalousExport IPipelineState * IRenderDevice_CreateGraphicsPipelin
 	ShaderResourceVariableDesc* PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array = new ShaderResourceVariableDesc[PSOCreateInfo_PSODesc_ResourceLayout_NumVariables];
 	for (Uint32 i = 0; i < PSOCreateInfo_PSODesc_ResourceLayout_NumVariables; ++i)
 	{
-		PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array[i].ShaderStages = PSOCreateInfo_PSODesc_ResourceLayout_Variables[i].ShaderStages;
-		PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array[i].Name = PSOCreateInfo_PSODesc_ResourceLayout_Variables[i].Name;
-		PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array[i].Type = PSOCreateInfo_PSODesc_ResourceLayout_Variables[i].Type;
+	    PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array[i].ShaderStages = PSOCreateInfo_PSODesc_ResourceLayout_Variables[i].ShaderStages;
+	    PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array[i].Name = PSOCreateInfo_PSODesc_ResourceLayout_Variables[i].Name;
+	    PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array[i].Type = PSOCreateInfo_PSODesc_ResourceLayout_Variables[i].Type;
 	}
 	PSOCreateInfo.PSODesc.ResourceLayout.Variables = PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array;
 	PSOCreateInfo.PSODesc.ResourceLayout.NumImmutableSamplers = PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers;
 	ImmutableSamplerDesc* PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array = new ImmutableSamplerDesc[PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers];
 	for (Uint32 i = 0; i < PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers; ++i)
 	{
-		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].ShaderStages = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].ShaderStages;
-		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].SamplerOrTextureName = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].SamplerOrTextureName;
-		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.AddressU = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].AddressU;
-		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.AddressV = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].AddressV;
-		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.AddressW = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].AddressW;
-		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.BorderColor[0] = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].BorderColor[0];
-		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.BorderColor[1] = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].BorderColor[1];
-		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.BorderColor[2] = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].BorderColor[2];
-		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.BorderColor[3] = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].BorderColor[3];
-		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.ComparisonFunc = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].ComparisonFunc;
-		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MagFilter = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].MagFilter;
-		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MaxAnisotropy = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].MaxAnisotropy;
-		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MaxLOD = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].MaxLOD;
-		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MinFilter = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].MinFilter;
-		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MinLOD = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].MinLOD;
-		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MipFilter = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].MipFilter;
-		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MipLODBias = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].MipLODBias;
-		//PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.Name = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Name;
-
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].ShaderStages = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].ShaderStages;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].SamplerOrTextureName = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].SamplerOrTextureName;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MinFilter = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_MinFilter;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MagFilter = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_MagFilter;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MipFilter = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_MipFilter;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.AddressU = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_AddressU;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.AddressV = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_AddressV;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.AddressW = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_AddressW;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MipLODBias = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_MipLODBias;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MaxAnisotropy = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_MaxAnisotropy;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.ComparisonFunc = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_ComparisonFunc;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.BorderColor[0] = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_BorderColor[0];
+		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.BorderColor[1] = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_BorderColor[1];
+		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.BorderColor[2] = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_BorderColor[2];
+		PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.BorderColor[3] = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_BorderColor[3];
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MinLOD = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_MinLOD;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MaxLOD = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_MaxLOD;
 	}
 	PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array;
 	PSOCreateInfo.PSODesc.Name = PSOCreateInfo_PSODesc_Name;
@@ -310,8 +308,8 @@ extern "C" _AnomalousExport IPipelineState * IRenderDevice_CreateGraphicsPipelin
 		PSOCreateInfo
 		, &theReturnValue
 	);
-	delete[] PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array;
-	delete[] PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array;
-	delete[] PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array;
+    delete[] PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array;
+    delete[] PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array;
+    delete[] PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array;
 	return theReturnValue;
 }

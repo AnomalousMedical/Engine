@@ -20,24 +20,24 @@ namespace DiligentEngine
     {
         public SHADER_TYPE ShaderStages;
         public String SamplerOrTextureName;
-        public FILTER_TYPE MinFilter;
-        public FILTER_TYPE MagFilter;
-        public FILTER_TYPE MipFilter;
-        public TEXTURE_ADDRESS_MODE AddressU;
-        public TEXTURE_ADDRESS_MODE AddressV;
-        public TEXTURE_ADDRESS_MODE AddressW;
-        public Float32 MipLODBias;
-        public Uint32 MaxAnisotropy;
-        public COMPARISON_FUNCTION ComparisonFunc;
-        public Float32 BorderColor_0;
-        public Float32 BorderColor_1;
-        public Float32 BorderColor_2;
-        public Float32 BorderColor_3;
-        public float MinLOD;
-        public float MaxLOD;
+        public FILTER_TYPE Desc_MinFilter;
+        public FILTER_TYPE Desc_MagFilter;
+        public FILTER_TYPE Desc_MipFilter;
+        public TEXTURE_ADDRESS_MODE Desc_AddressU;
+        public TEXTURE_ADDRESS_MODE Desc_AddressV;
+        public TEXTURE_ADDRESS_MODE Desc_AddressW;
+        public Float32 Desc_MipLODBias;
+        public Uint32 Desc_MaxAnisotropy;
+        public COMPARISON_FUNCTION Desc_ComparisonFunc;
+        public Float32 Desc_BorderColor_0;
+        public Float32 Desc_BorderColor_1;
+        public Float32 Desc_BorderColor_2;
+        public Float32 Desc_BorderColor_3;
+        public float Desc_MinLOD;
+        public float Desc_MaxLOD;
         public static ImmutableSamplerDescPassStruct[] ToStruct(IEnumerable<ImmutableSamplerDesc> vals)
         {
-            if (vals == null)
+            if(vals == null)
             {
                 return null;
             }
@@ -46,21 +46,21 @@ namespace DiligentEngine
             {
                 ShaderStages = i.ShaderStages,
                 SamplerOrTextureName = i.SamplerOrTextureName,
-                MinFilter = i.Desc.MinFilter,
-                MagFilter = i.Desc.MagFilter,
-                MipFilter = i.Desc.MipFilter,
-                AddressU = i.Desc.AddressU,
-                AddressV = i.Desc.AddressV,
-                AddressW = i.Desc.AddressW,
-                MipLODBias = i.Desc.MipLODBias,
-                MaxAnisotropy = i.Desc.MaxAnisotropy,
-                ComparisonFunc = i.Desc.ComparisonFunc,
-                BorderColor_0 = i.Desc.BorderColor_0,
-                BorderColor_1 = i.Desc.BorderColor_1,
-                BorderColor_2 = i.Desc.BorderColor_2,
-                BorderColor_3 = i.Desc.BorderColor_3,
-                MinLOD = i.Desc.MinLOD,
-                MaxLOD = i.Desc.MaxLOD,
+                Desc_MinFilter = i.Desc.MinFilter,
+                Desc_MagFilter = i.Desc.MagFilter,
+                Desc_MipFilter = i.Desc.MipFilter,
+                Desc_AddressU = i.Desc.AddressU,
+                Desc_AddressV = i.Desc.AddressV,
+                Desc_AddressW = i.Desc.AddressW,
+                Desc_MipLODBias = i.Desc.MipLODBias,
+                Desc_MaxAnisotropy = i.Desc.MaxAnisotropy,
+                Desc_ComparisonFunc = i.Desc.ComparisonFunc,
+                Desc_BorderColor_0 = i.Desc.BorderColor_0,
+                Desc_BorderColor_1 = i.Desc.BorderColor_1,
+                Desc_BorderColor_2 = i.Desc.BorderColor_2,
+                Desc_BorderColor_3 = i.Desc.BorderColor_3,
+                Desc_MinLOD = i.Desc.MinLOD,
+                Desc_MaxLOD = i.Desc.MaxLOD,
             }).ToArray();
         }
     }

@@ -94,12 +94,37 @@ namespace DiligentEngineGenerator
 
         private void WriteNestedProperty(TextWriter writer, CodeRendererContext context, StructProperty nestedProp, StructProperty item, string nativeArrayName,
             Func<String, String> customizeName = null,
-            Func<String, String> customizeNestedPropName = null)
+            Func<String, String> customizeNestedPropName = null,
+            Func<String, String> customizeNestedGetPropName = null)
         {
             var name = customizeName?.Invoke(item.Name) ?? item.Name;
-            var nestedPropName = customizeNestedPropName?.Invoke(nestedProp.Name) ?? nestedProp.Name;
+            var nestedPropSetName = customizeNestedPropName?.Invoke(nestedProp.Name) ?? nestedProp.Name;
+            var nestedPropGetName = customizeNestedGetPropName?.Invoke(nestedProp.Name) ?? nestedPropSetName;
 
-            writer.WriteLine($"{tabs}    {nativeArrayName}[i].{nestedPropName} = {argName}_{name}[i].{nestedPropName};");
+            if (nestedProp.PullPropertiesIntoStruct && context.CodeTypeInfo.Structs.TryGetValue(nestedProp.LookupType, out var stlookup))
+            {
+                foreach (var pullItem in stlookup.Properties)
+                {
+                    WriteNestedProperty(writer, context, pullItem, item, nativeArrayName, 
+                        customizeName: s => $"{name}_{s}", 
+                        customizeNestedPropName: s => $"{nestedPropSetName}.{s}",
+                        customizeNestedGetPropName: s => s);
+                }
+            }
+            else
+            {
+                if (item.IsArray && !item.IsUnknownSizeArray)
+                {
+                    for (var i = 0; i < item.ArrayLenInt; ++i)
+                    {
+                        writer.WriteLine($"        public {{cSharpType}} {name}_{i};");
+                    }
+                }
+                else
+                {
+                    writer.WriteLine($"{tabs}    {nativeArrayName}[i].{nestedPropSetName} = {argName}_{name}[i].{nestedPropGetName};");
+                }
+            }
         }
 
         private void WriteSimple(TextWriter writer, StructProperty item, String arrayIndex, String arrayItem)
