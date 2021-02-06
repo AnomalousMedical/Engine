@@ -27,7 +27,7 @@ namespace DiligentEngine
         {
             IDeviceContext_SetRenderTarget(objPtr,
                 renderTarget.objPtr,
-                depthStencil.objPtr,
+                depthStencil == null ? IntPtr.Zero : depthStencil.objPtr,
                 StateTransitionMode);
         }
         /// <summary>
