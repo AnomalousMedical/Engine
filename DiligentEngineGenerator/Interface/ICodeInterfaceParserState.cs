@@ -6,6 +6,6 @@ namespace DiligentEngineGenerator
 {
     interface ICodeInterfaceParserState
     {
-        ICodeInterfaceParserState Parse(String line, StringBuilder commentBuilder, ref CodeInterface code);
+        ICodeInterfaceParserState Parse(String line, List<String> comments, CodeInterface code);
     }
 }

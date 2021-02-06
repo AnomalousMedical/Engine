@@ -6,7 +6,7 @@ namespace DiligentEngineGenerator
 {
     class EnumParsePropertiesState : ICodeEnumParserState
     {
-        public ICodeEnumParserState Parse(string line, StringBuilder commentBuilder, ref CodeEnum codeEnum)
+        public ICodeEnumParserState Parse(string line, List<String> comment, CodeEnum codeEnum)
         {
             if (!String.IsNullOrWhiteSpace(line))
             {
@@ -18,7 +18,7 @@ namespace DiligentEngineGenerator
                         var split = propertyParse.Split("=");
                         codeEnum.Properties.Add(new EnumProperty()
                         {
-                            Comment = commentBuilder.ToString(),
+                            Comment = comment,
                             Name = split[0].Trim(),
                             Value = split[1].Trim()
                         });
@@ -27,7 +27,7 @@ namespace DiligentEngineGenerator
                     {
                         codeEnum.Properties.Add(new EnumProperty()
                         {
-                            Comment = commentBuilder.ToString(),
+                            Comment = comment,
                             Name = propertyParse.Trim(),
                         });
                     }

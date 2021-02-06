@@ -20,6 +20,20 @@ namespace DiligentEngineGenerator
             }
         }
 
+        public static bool Find(String line, List<String> comments)
+        {
+            var trimmed = line.Trim();
+            if (trimmed.StartsWith("///"))
+            {
+                comments.Add(trimmed.Substring(3).Trim());
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public static String RemoveComments(String line)
         {
             var commentIndex = line.IndexOf("//");

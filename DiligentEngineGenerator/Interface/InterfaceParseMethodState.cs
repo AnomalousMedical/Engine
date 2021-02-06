@@ -14,7 +14,7 @@ namespace DiligentEngineGenerator
             this.method = method;
         }
 
-        public ICodeInterfaceParserState Parse(string line, StringBuilder commentBuilder, ref CodeInterface code)
+        public ICodeInterfaceParserState Parse(string line, List<String> comments, CodeInterface code)
         {
             if (!String.IsNullOrWhiteSpace(line))
             {

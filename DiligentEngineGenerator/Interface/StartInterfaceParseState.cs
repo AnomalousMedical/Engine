@@ -6,7 +6,7 @@ namespace DiligentEngineGenerator
 {
     class StartInterfaceParseState : ICodeInterfaceParserState
     {
-        public ICodeInterfaceParserState Parse(string line, StringBuilder comment, ref CodeInterface code)
+        public ICodeInterfaceParserState Parse(string line, List<String> comment, CodeInterface code)
         {
             if (line.Contains("DILIGENT_BEGIN_INTERFACE"))
             {
@@ -15,7 +15,7 @@ namespace DiligentEngineGenerator
                 nameParse = nameParse.Replace(")", "");
                 nameParse = nameParse.Trim();
                 var splitName = nameParse.Split(',');
-                code.Comment = comment.ToString();
+                code.Comment = comment;
                 code.Name = splitName[0];
                 code.BaseType = splitName[1];
             }

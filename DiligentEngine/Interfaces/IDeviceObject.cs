@@ -16,6 +16,9 @@ using PVoid = System.IntPtr;
 
 namespace DiligentEngine
 {
+    /// <summary>
+    /// Base interface for all objects created by the render device Diligent::IRenderDevice
+    /// </summary>
     public partial class IDeviceObject :  IObject
     {
         public IDeviceObject(IntPtr objPtr)

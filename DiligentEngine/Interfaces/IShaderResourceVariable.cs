@@ -16,6 +16,9 @@ using PVoid = System.IntPtr;
 
 namespace DiligentEngine
 {
+    /// <summary>
+    /// Shader resource variable
+    /// </summary>
     public partial class IShaderResourceVariable :  IObject
     {
         public IShaderResourceVariable(IntPtr objPtr)
@@ -23,6 +26,12 @@ namespace DiligentEngine
         {
 
         }
+        /// <summary>
+        /// Binds resource to the variable
+        /// \remark The method performs run-time correctness checks.
+        /// For instance, shader resource view cannot
+        /// be assigned to a constant buffer variable.
+        /// </summary>
         public void Set(IDeviceObject pObject)
         {
             IShaderResourceVariable_Set(

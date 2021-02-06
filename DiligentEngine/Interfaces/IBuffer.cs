@@ -16,6 +16,9 @@ using PVoid = System.IntPtr;
 
 namespace DiligentEngine
 {
+    /// <summary>
+    /// Defines the methods to manipulate a buffer object
+    /// </summary>
     public partial class IBuffer :  IDeviceObject
     {
         public IBuffer(IntPtr objPtr)

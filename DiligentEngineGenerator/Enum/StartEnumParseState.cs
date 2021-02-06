@@ -6,7 +6,7 @@ namespace DiligentEngineGenerator
 {
     class StartEnumParseState : ICodeEnumParserState
     {
-        public ICodeEnumParserState Parse(string line, StringBuilder comment, ref CodeEnum code)
+        public ICodeEnumParserState Parse(string line, List<String> comment, CodeEnum code)
         {
             if (line.Contains("DILIGENT_TYPED_ENUM"))
             {
@@ -15,14 +15,13 @@ namespace DiligentEngineGenerator
                 nameParse = nameParse.Replace(")", "");
                 nameParse = nameParse.Trim();
                 var splitName = nameParse.Split(',');
-                code.Comment = comment.ToString();
+                code.Comment = comment;
                 code.Name = splitName[0];
                 code.BaseType = splitName[1];
             }
-
-            if (line.Contains("enum"))
+            else if (line.Contains("enum"))
             {
-                code.Comment = comment.ToString();
+                code.Comment = comment;
 
                 var nameParse = line.Replace("enum", "");
                 code.Name = nameParse;

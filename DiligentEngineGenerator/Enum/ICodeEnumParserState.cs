@@ -6,6 +6,6 @@ namespace DiligentEngineGenerator
 {
     interface ICodeEnumParserState
     {
-        ICodeEnumParserState Parse(String line, StringBuilder commentBuilder, ref CodeEnum codeEnum);
+        ICodeEnumParserState Parse(String line, List<String> comment, CodeEnum codeEnum);
     }
 }

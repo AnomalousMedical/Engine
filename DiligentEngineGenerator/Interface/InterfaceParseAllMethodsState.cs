@@ -6,7 +6,7 @@ namespace DiligentEngineGenerator
 {
     class InterfaceParseAllMethodsState : ICodeInterfaceParserState
     {
-        public ICodeInterfaceParserState Parse(string line, StringBuilder commentBuilder, ref CodeInterface code)
+        public ICodeInterfaceParserState Parse(string line, List<String> comment, CodeInterface code)
         {
             if (!String.IsNullOrWhiteSpace(line))
             {
@@ -26,7 +26,7 @@ namespace DiligentEngineGenerator
 
                     var method = new InterfaceMethod()
                     {
-                        Comment = commentBuilder.ToString(),
+                        Comment = comment,
                         ReturnType = typeAndName[0].Replace("REF", "").Trim(),
                         Name = typeAndName[1].Substring(0, typeAndName[1].IndexOf(")")).Trim(),
                         IsConst = line.Contains("const"),

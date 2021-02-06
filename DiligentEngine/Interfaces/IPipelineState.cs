@@ -16,6 +16,9 @@ using PVoid = System.IntPtr;
 
 namespace DiligentEngine
 {
+    /// <summary>
+    /// Pipeline state interface
+    /// </summary>
     public partial class IPipelineState :  IDeviceObject
     {
         public IPipelineState(IntPtr objPtr)
@@ -23,6 +26,15 @@ namespace DiligentEngine
         {
 
         }
+        /// <summary>
+        /// Returns static shader resource variable. If the variable is not found,
+        /// returns nullptr.
+        /// \param [in] ShaderType - Type of the shader to look up the variable.
+        /// Must be one of Diligent::SHADER_TYPE.
+        /// \param [in] Name - Name of the variable.
+        /// \remark The method does not increment the reference counter
+        /// of the returned interface.
+        /// </summary>
         public IShaderResourceVariable GetStaticVariableByName(SHADER_TYPE ShaderType, String Name)
         {
             var theReturnValue = 
@@ -33,6 +45,14 @@ namespace DiligentEngine
             );
             return new IShaderResourceVariable(theReturnValue);
         }
+        /// <summary>
+        /// Creates a shader resource binding object
+        /// \param [out] ppShaderResourceBinding - memory location where pointer to the new shader resource
+        /// binding object is written.
+        /// \param [in] InitStaticResources      - if set to true, the method will initialize static resources in
+        /// the created object, which has the exact same effect as calling
+        /// IShaderResourceBinding::InitializeStaticResources().
+        /// </summary>
         public AutoPtr<IShaderResourceBinding> CreateShaderResourceBinding(bool InitStaticResources)
         {
             var theReturnValue = 

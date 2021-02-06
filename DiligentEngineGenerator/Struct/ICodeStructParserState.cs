@@ -6,6 +6,6 @@ namespace DiligentEngineGenerator
 {
     interface ICodeStructParserState
     {
-        ICodeStructParserState Parse(String line, StringBuilder commentBuilder, CodeStruct code);
+        ICodeStructParserState Parse(String line, List<String> comment, CodeStruct code);
     }
 }

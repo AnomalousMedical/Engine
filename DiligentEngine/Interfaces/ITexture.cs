@@ -16,6 +16,9 @@ using PVoid = System.IntPtr;
 
 namespace DiligentEngine
 {
+    /// <summary>
+    /// Texture inteface
+    /// </summary>
     public partial class ITexture :  IDeviceObject
     {
         public ITexture(IntPtr objPtr)
@@ -23,6 +26,14 @@ namespace DiligentEngine
         {
 
         }
+        /// <summary>
+        /// Returns the pointer to the default view.
+        /// \param [in] ViewType - Type of the requested view. See Diligent::TEXTURE_VIEW_TYPE.
+        /// \return Pointer to the interface
+        /// 
+        /// \note The function does not increase the reference counter for the returned interface, so
+        /// Release() must *NOT* be called.
+        /// </summary>
         public ITextureView GetDefaultView(TEXTURE_VIEW_TYPE ViewType)
         {
             var theReturnValue = 

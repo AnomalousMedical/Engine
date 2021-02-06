@@ -37,6 +37,16 @@ namespace DiligentEngine
                 var cSharpReturnType = GetCSharpType(item.ReturnType, context);
                 var isReturnTypeInterface = context.CodeTypeInfo.Interfaces.ContainsKey(item.LookupReturnType);
                 var isReturnTypePooledInterface = isReturnTypeInterface && item.PoolManagedObject;
+
+                if (item.Comment != null && item.Comment.Any())
+                {
+                    writer.WriteLine("        /// <summary>");
+                    foreach(var comment in item.Comment)
+                    {
+                        writer.WriteLine($"        /// {comment}");
+                    }
+                    writer.WriteLine("        /// </summary>");
+                }
                 
                 if (isReturnTypePooledInterface)
                 {
@@ -186,6 +196,16 @@ namespace DiligentEngine
 
         private void WriteClassDefinitionAndConstructors(CodeInterface code, TextWriter writer)
         {
+            if (code.Comment != null && code.Comment.Any())
+            {
+                writer.WriteLine("    /// <summary>");
+                foreach (var comment in code.Comment)
+                {
+                    writer.WriteLine($"    /// {comment}");
+                }
+                writer.WriteLine("    /// </summary>");
+            }
+
             if (code.BaseType != null)
             {
                 writer.WriteLine($"    public partial class {code.Name} : {code.BaseType}");

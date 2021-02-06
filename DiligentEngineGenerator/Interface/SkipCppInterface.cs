@@ -6,7 +6,7 @@ namespace DiligentEngineGenerator
 {
     class SkipCppInterface : ICodeInterfaceParserState
     {
-        public ICodeInterfaceParserState Parse(string line, StringBuilder commentBuilder, ref CodeInterface code)
+        public ICodeInterfaceParserState Parse(string line, List<String> comment, CodeInterface code)
         {
             if (line.Contains("#endif"))
             {

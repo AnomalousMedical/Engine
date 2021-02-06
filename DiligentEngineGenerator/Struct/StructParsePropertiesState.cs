@@ -9,7 +9,7 @@ namespace DiligentEngineGenerator
     {
         private const string DEFAULT_INITIALIZER = "DEFAULT_INITIALIZER";
 
-        public ICodeStructParserState Parse(string line, StringBuilder commentBuilder, CodeStruct code)
+        public ICodeStructParserState Parse(string line, List<String> comment, CodeStruct code)
         {
             if (!String.IsNullOrWhiteSpace(line))
             {
@@ -22,7 +22,7 @@ namespace DiligentEngineGenerator
 
                     var property = new StructProperty()
                     {
-                        Comment = commentBuilder.ToString(),
+                        Comment = comment,
                         Type = typeAndName.First(),
                         Name = typeAndName.Skip(1).First(),
                         IsConst = line.Contains("const")

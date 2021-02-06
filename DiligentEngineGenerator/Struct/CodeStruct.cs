@@ -12,13 +12,13 @@ namespace DiligentEngineGenerator
 
         public String Name { get; set; }
 
-        public String Comment { get; set; }
+        public List<String> Comment { get; set; }
 
         public List<StructProperty> Properties { get; set; } = new List<StructProperty>();
 
         public static CodeStruct Find(String file, int startLine, int endLine, IEnumerable<int> skipLines = null)
         {
-            var commentBuilder = new StringBuilder();
+            var commentBuilder = new List<String>();
             using var reader = new StreamReader(File.OpenRead(file));
             var lines = LineReader.ReadLines(reader.ReadLines(), startLine, endLine, skipLines);
             CodeStruct code = new CodeStruct();
@@ -44,7 +44,7 @@ namespace DiligentEngineGenerator
 
     class StructProperty
     {
-        public String Comment { get; set; }
+        public List<String> Comment { get; set; }
 
         public String Name { get; set; }
 

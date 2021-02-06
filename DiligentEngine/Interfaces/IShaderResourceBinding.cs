@@ -16,6 +16,9 @@ using PVoid = System.IntPtr;
 
 namespace DiligentEngine
 {
+    /// <summary>
+    /// Shader resource binding interface
+    /// </summary>
     public partial class IShaderResourceBinding :  IObject
     {
         public IShaderResourceBinding(IntPtr objPtr)
@@ -23,6 +26,15 @@ namespace DiligentEngine
         {
 
         }
+        /// <summary>
+        /// Returns variable
+        /// \param [in] ShaderType - Type of the shader to look up the variable.
+        /// Must be one of Diligent::SHADER_TYPE.
+        /// \param [in] Name       - Variable name
+        /// 
+        /// \note  This operation may potentially be expensive. If the variable will be used often, it is
+        /// recommended to store and reuse the pointer as it never changes.
+        /// </summary>
         public IShaderResourceVariable GetVariableByName(SHADER_TYPE ShaderType, String Name)
         {
             var theReturnValue = 

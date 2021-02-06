@@ -6,11 +6,11 @@ namespace DiligentEngineGenerator
 {
     class StartStructParseState : ICodeStructParserState
     {
-        public ICodeStructParserState Parse(string line, StringBuilder comment, CodeStruct codeStruct)
+        public ICodeStructParserState Parse(string line, List<String> comment, CodeStruct codeStruct)
         {
             if (line.Contains("struct"))
             {
-                codeStruct.Comment = comment.ToString();
+                codeStruct.Comment = comment;
 
                 var nameParse = line.Replace("struct", "");
                 var split = nameParse.Split("DILIGENT_DERIVE(");

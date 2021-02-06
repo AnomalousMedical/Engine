@@ -16,6 +16,9 @@ using PVoid = System.IntPtr;
 
 namespace DiligentEngine
 {
+    /// <summary>
+    /// Shader interface
+    /// </summary>
     public partial class IShader :  IDeviceObject
     {
         public IShader(IntPtr objPtr)

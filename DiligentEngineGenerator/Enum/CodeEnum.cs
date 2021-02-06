@@ -12,13 +12,13 @@ namespace DiligentEngineGenerator
 
         public String Name { get; set; }
 
-        public String Comment { get; set; }
+        public IEnumerable<String> Comment { get; set; }
 
         public List<EnumProperty> Properties { get; set; } = new List<EnumProperty>(); 
         
         public static CodeEnum Find(String file, int startLine, int endLine, IEnumerable<int> skipLines = null)
         {
-            var commentBuilder = new StringBuilder();
+            var comment = new List<String>();
             using var reader = new StreamReader(File.OpenRead(file));
             var lines = LineReader.ReadLines(reader.ReadLines(), startLine, endLine, skipLines);
             CodeEnum codeEnum = new CodeEnum();
@@ -26,11 +26,11 @@ namespace DiligentEngineGenerator
 
             foreach (var line in lines.Select(l => l.Replace(";", "")))
             {
-                if (!String.IsNullOrWhiteSpace(line) && !CommentParser.Find(line, commentBuilder))
+                if (!String.IsNullOrWhiteSpace(line) && !CommentParser.Find(line, comment))
                 {
                     var parsed = CommentParser.RemoveComments(line);
-                    currentState = currentState.Parse(parsed, commentBuilder, ref codeEnum);
-                    commentBuilder.Clear();
+                    currentState = currentState.Parse(parsed, comment, codeEnum);
+                    comment.Clear();
                     if (currentState == null)
                     {
                         break;
@@ -44,7 +44,7 @@ namespace DiligentEngineGenerator
 
     class EnumProperty
     {
-        public String Comment { get; set; }
+        public IEnumerable<String> Comment { get; set; }
 
         public String Name { get; set; }
 

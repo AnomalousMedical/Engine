@@ -12,13 +12,13 @@ namespace DiligentEngineGenerator
 
         public String Name { get; set; }
 
-        public String Comment { get; set; }
+        public IEnumerable<String> Comment { get; set; }
 
         public List<InterfaceMethod> Methods { get; set; } = new List<InterfaceMethod>(); 
         
         public static CodeInterface Find(String file, int startLine, int endLine, IEnumerable<int> skipLines = null)
         {
-            var commentBuilder = new StringBuilder();
+            var comments = new List<String>();
             using var reader = new StreamReader(File.OpenRead(file));
             var lines = LineReader.ReadLines(reader.ReadLines(), startLine, endLine, skipLines);
             CodeInterface code = new CodeInterface();
@@ -26,11 +26,11 @@ namespace DiligentEngineGenerator
 
             foreach (var line in lines.Select(l => l.Replace(";", "")))
             {
-                if (!String.IsNullOrWhiteSpace(line) && !CommentParser.Find(line, commentBuilder))
+                if (!String.IsNullOrWhiteSpace(line) && !CommentParser.Find(line, comments))
                 {
                     var parsed = CommentParser.RemoveComments(line);
-                    currentState = currentState.Parse(parsed, commentBuilder, ref code);
-                    commentBuilder.Clear();
+                    currentState = currentState.Parse(parsed, comments, code);
+                    comments = new List<string>();
                     if (currentState == null)
                     {
                         break;
@@ -44,7 +44,7 @@ namespace DiligentEngineGenerator
 
     class InterfaceMethod
     {
-        public String Comment { get; set; }
+        public IEnumerable<String> Comment { get; set; }
 
         public String Name { get; set; }
 
