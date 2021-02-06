@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 using Uint8 = System.Byte;
 using Int8 = System.SByte;
@@ -21,6 +22,67 @@ using BOOL = System.Boolean;
 
 namespace Tutorial_99_Pbo
 {
+    [StructLayout(LayoutKind.Sequential)]
+    struct GLTFNodeShaderTransforms
+    {
+        public float4x4 NodeMatrix;
+
+        public int JointCount;
+        public float Dummy0;
+        public float Dummy1;
+        public float Dummy2;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    struct GLTFMaterialShaderInfo
+    {
+        float4 BaseColorFactor;
+        float4 EmissiveFactor;
+        float4 SpecularFactor;
+
+        int Workflow;
+        float BaseColorTextureUVSelector;
+        float PhysicalDescriptorTextureUVSelector;
+        float NormalTextureUVSelector;
+
+        float OcclusionTextureUVSelector;
+        float EmissiveTextureUVSelector;
+        float BaseColorSlice;
+        float PhysicalDescriptorSlice;
+
+        float NormalSlice;
+        float OcclusionSlice;
+        float EmissiveSlice;
+        float MetallicFactor;
+
+        float RoughnessFactor;
+        int AlphaMode;
+        float AlphaMaskCutoff;
+        float Dummy0;
+
+        // When texture atlas is used, UV scale and bias applied to
+        // each texture coordinate set
+        float4 BaseColorUVScaleBias;
+        float4 PhysicalDescriptorUVScaleBias;
+        float4 NormalMapUVScaleBias;
+        float4 OcclusionUVScaleBias;
+        float4 EmissiveUVScaleBias;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    struct GLTFRendererShaderParameters
+    {
+        float AverageLogLum;
+        float MiddleGray;
+        float WhitePoint;
+        float PrefilteredCubeMipLevels;
+
+        float IBLScale;
+        int DebugViewType;
+        float OcclusionStrength;
+        float EmissionScale;
+    };
+
     class GLTF_PBR_Renderer : IDisposable
     {
         static readonly SamplerDesc Sam_LinearClamp = new SamplerDesc
@@ -33,7 +95,7 @@ namespace Tutorial_99_Pbo
             AddressW = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_CLAMP
         };
 
-    const Uint32 TexDim = 8;
+        const Uint32 TexDim = 8;
 
         const Uint32 BRDF_LUT_Dim = 512;
         const TEXTURE_FORMAT IrradianceCubeFmt = TEXTURE_FORMAT.TEX_FORMAT_RGBA32_FLOAT;
@@ -106,6 +168,10 @@ namespace Tutorial_99_Pbo
 
         AutoPtr<ITextureView> m_pIrradianceCubeSRV;
         AutoPtr<ITextureView> m_pPrefilteredEnvMapSRV;
+
+        AutoPtr<IBuffer> m_TransformsCB;
+        AutoPtr<IBuffer> m_GLTFAttribsCB;
+        AutoPtr<IBuffer> m_JointsBuffer;
 
         public GLTF_PBR_Renderer(IRenderDevice pDevice, IDeviceContext pCtx, CreateInfo CI, ShaderLoader shaderLoader)
         {
@@ -189,28 +255,54 @@ namespace Tutorial_99_Pbo
                 m_pDefaultNormalMapSRV.Obj.SetSampler(pDefaultSampler.Obj);
             }
 
-            //if (CI.RTVFmt != TEX_FORMAT_UNKNOWN || CI.DSVFmt != TEX_FORMAT_UNKNOWN)
-            //{
-            //    CreateUniformBuffer(pDevice, sizeof(GLTFNodeShaderTransforms), "GLTF node transforms CB", &m_TransformsCB);
-            //    CreateUniformBuffer(pDevice, sizeof(GLTFMaterialShaderInfo) + sizeof(GLTFRendererShaderParameters), "GLTF attribs CB", &m_GLTFAttribsCB);
-            //    CreateUniformBuffer(pDevice, static_cast<Uint32>(sizeof(float4x4) * m_Settings.MaxJointCount), "GLTF joint tranforms", &m_JointsBuffer);
+            if (CI.RTVFmt != TEXTURE_FORMAT.TEX_FORMAT_UNKNOWN || CI.DSVFmt != TEXTURE_FORMAT.TEX_FORMAT_UNKNOWN)
+            {
+                unsafe {
+                    BufferDesc CBDesc = new BufferDesc();
+                    CBDesc.Name = "GLTF node transforms CB";
+                    CBDesc.uiSizeInBytes = (uint)sizeof(GLTFNodeShaderTransforms);
+                    CBDesc.Usage = USAGE.USAGE_DYNAMIC;
+                    CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
+                    CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
 
-            //    // clang-format off
-            //    StateTransitionDesc Barriers[] =
-            //    {
-            //        {m_TransformsCB,  RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_CONSTANT_BUFFER, true},
-            //        {m_GLTFAttribsCB, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_CONSTANT_BUFFER, true},
-            //        {m_JointsBuffer,  RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_CONSTANT_BUFFER, true}
-            //    };
-            //    // clang-format on
-            //    pCtx->TransitionResourceStates(_countof(Barriers), Barriers);
+                    m_TransformsCB = pDevice.CreateBuffer(CBDesc);
 
-            //    CreatePSO(pDevice);
-            //}
+                    CBDesc.Name = "GLTF attribs CB";
+                    CBDesc.uiSizeInBytes = (uint)(sizeof(GLTFMaterialShaderInfo) + sizeof(GLTFRendererShaderParameters));
+                    CBDesc.Usage = USAGE.USAGE_DYNAMIC;
+                    CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
+                    CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
+
+                    m_GLTFAttribsCB = pDevice.CreateBuffer(CBDesc);
+
+                    CBDesc.Name = "GLTF joint tranforms";
+                    CBDesc.uiSizeInBytes = (uint)sizeof(float4x4) * m_Settings.MaxJointCount;
+                    CBDesc.Usage = USAGE.USAGE_DYNAMIC;
+                    CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
+                    CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
+
+                    m_JointsBuffer = pDevice.CreateBuffer(CBDesc);
+
+                    // clang-format off
+                    var Barriers = new List<StateTransitionDesc>
+                    {
+                    new StateTransitionDesc{pResource = m_TransformsCB.Obj,  OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true},
+                    new StateTransitionDesc{pResource = m_GLTFAttribsCB.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true},
+                    new StateTransitionDesc{pResource = m_JointsBuffer.Obj,  OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true}
+                };
+                    // clang-format on
+                    pCtx.TransitionResourceStates(Barriers);
+
+                    //CreatePSO(pDevice);
+                }
+            }
         }
 
         public void Dispose()
         {
+            m_TransformsCB.Dispose();
+            m_GLTFAttribsCB.Dispose();
+            m_JointsBuffer.Dispose();
             m_pDefaultPhysDescSRV.Dispose();
             m_pDefaultNormalMapSRV.Dispose();
             m_pBlackTexSRV.Dispose();
