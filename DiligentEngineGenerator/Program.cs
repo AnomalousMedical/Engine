@@ -508,6 +508,14 @@ namespace DiligentEngineGenerator
             }
 
             {
+                var StateTransitionDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 1242, 1282);
+                codeTypeInfo.Structs[nameof(StateTransitionDesc)] = StateTransitionDesc;
+                codeWriter.AddWriter(new StructCsWriter(StateTransitionDesc), Path.Combine(baseStructDir, $"{nameof(StateTransitionDesc)}.cs"));
+                codeWriter.AddWriter(new StructCsPassStructWriter(StateTransitionDesc), Path.Combine(baseStructDir, $"{nameof(StateTransitionDesc)}.PassStruct.cs"));
+                codeWriter.AddWriter(new StructCppPassStructWriter(StateTransitionDesc), Path.Combine(baseCPlusPlusOutDir, $"{nameof(StateTransitionDesc)}.PassStruct.h"));
+            }
+            
+            {
                 var BufferData = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Buffer.h", 153, 162);
                 codeTypeInfo.Structs[nameof(BufferData)] = BufferData;
                 codeWriter.AddWriter(new StructCsWriter(BufferData), Path.Combine(baseStructDir, $"{nameof(BufferData)}.cs"));
