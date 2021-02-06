@@ -24,7 +24,7 @@ namespace DiligentEngine
     struct TextureSubResDataPassStruct
     {
         public IntPtr pData;
-        public IBuffer pSrcBuffer;
+        public IntPtr pSrcBuffer;
         public Uint32 SrcOffset;
         public Uint32 Stride;
         public Uint32 DepthStride;
@@ -38,7 +38,7 @@ namespace DiligentEngine
             return vals.Select(i => new TextureSubResDataPassStruct
             {
                 pData = i.pData,
-                pSrcBuffer = i.pSrcBuffer,
+                pSrcBuffer = i.pSrcBuffer == null ? IntPtr.Zero : i.pSrcBuffer.objPtr,
                 SrcOffset = i.SrcOffset,
                 Stride = i.Stride,
                 DepthStride = i.DepthStride,

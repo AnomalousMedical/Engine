@@ -41,7 +41,7 @@ namespace DiligentEngine
 
             return vals.Select(i => new StateTransitionDescPassStruct
             {
-                pResource = i.pResource.objPtr,
+                pResource = i.pResource == null ? IntPtr.Zero : i.pResource.objPtr,
                 FirstMipLevel = i.FirstMipLevel,
                 MipLevelsCount = i.MipLevelsCount,
                 FirstArraySlice = i.FirstArraySlice,

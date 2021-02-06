@@ -136,6 +136,11 @@ $@"            }}).ToArray();
 
         private static String ConvertCSharpData(StructProperty item, CodeRendererContext context, String data)
         {
+            if (context.CodeTypeInfo.Interfaces.ContainsKey(item.LookupType))
+            {
+                return $"{data} == null ? IntPtr.Zero : {data}.objPtr";
+            }
+
             switch (item.Type)
             {
                 case "bool":
@@ -148,7 +153,12 @@ $@"            }}).ToArray();
 
         private static String GetCSharpType(StructProperty item, CodeRendererContext context)
         {
-            if (context.CodeTypeInfo.Interfaces.ContainsKey(item.LookupType) || context.CodeTypeInfo.Structs.ContainsKey(item.LookupType))
+            if (context.CodeTypeInfo.Interfaces.ContainsKey(item.LookupType))
+            {
+                return "IntPtr";
+            }
+
+            if (context.CodeTypeInfo.Structs.ContainsKey(item.LookupType))
             {
                 return item.LookupType;
             }
