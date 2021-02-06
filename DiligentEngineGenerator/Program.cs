@@ -307,6 +307,13 @@ namespace DiligentEngineGenerator
             }
 
             {
+                //PBR Create Info
+                var CreateInfo = CodeStruct.Find(baseDir + "/DiligentFX/GLTF_PBR_Renderer/interface/GLTF_PBR_Renderer.hpp", 49, 105, skipLines: Sequence(85, 87));
+                codeTypeInfo.Structs[nameof(CreateInfo)] = CreateInfo;
+                codeWriter.AddWriter(new StructCsWriter(CreateInfo), Path.Combine(baseStructDir, $"{nameof(CreateInfo)}.cs"));
+            }
+
+            {
                 var ImmutableSamplerDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 100, 115);
                 codeTypeInfo.Structs[nameof(ImmutableSamplerDesc)] = ImmutableSamplerDesc;
 
@@ -758,6 +765,11 @@ namespace DiligentEngineGenerator
 
 
             codeWriter.WriteFiles(new CodeRendererContext(codeTypeInfo));
+        }
+
+        public static IEnumerable<int> Sequence(int start)
+        {
+            return Sequence(start, start + 1);
         }
 
         public static IEnumerable<int> Sequence(int start, int end)
