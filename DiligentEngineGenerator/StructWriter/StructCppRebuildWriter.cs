@@ -106,9 +106,9 @@ namespace DiligentEngineGenerator
                 foreach (var pullItem in stlookup.Properties)
                 {
                     WriteNestedProperty(writer, context, pullItem, item, nativeArrayName, 
-                        customizeName: s => $"{name}_{s}", 
+                        customizeName: s => s, 
                         customizeNestedPropName: s => $"{nestedPropSetName}.{s}",
-                        customizeNestedGetPropName: s => s);
+                        customizeNestedGetPropName: s => $"{nestedProp.Name}_{s}");
                 }
             }
             else
