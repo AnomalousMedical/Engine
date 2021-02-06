@@ -26,6 +26,7 @@ namespace Tutorial_99_Pbo
     {
         private readonly GraphicsEngine graphicsEngine;
         private readonly NativeOSWindow window;
+        private readonly ShaderLoader shaderLoader;
         private bool m_bUseResourceCache = false;
 
         private ISwapChain m_pSwapChain;
@@ -34,14 +35,14 @@ namespace Tutorial_99_Pbo
 
         private GLTF_PBR_Renderer m_GLTFRenderer;
 
-        public unsafe PboUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window)
+        public unsafe PboUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ShaderLoader shaderLoader)
         {
             this.graphicsEngine = graphicsEngine;
             this.m_pSwapChain = graphicsEngine.SwapChain;
             this.m_pDevice = graphicsEngine.RenderDevice;
             this.m_pImmediateContext = graphicsEngine.ImmediateContext;
             this.window = window;
-
+            this.shaderLoader = shaderLoader;
             Initialize();
         }
 
@@ -62,7 +63,7 @@ namespace Tutorial_99_Pbo
             RendererCI.UseIBL = true;
             RendererCI.FrontCCW = true;
             RendererCI.UseTextureAtals = m_bUseResourceCache;
-            m_GLTFRenderer = new GLTF_PBR_Renderer(m_pDevice, m_pImmediateContext, RendererCI);
+            m_GLTFRenderer = new GLTF_PBR_Renderer(m_pDevice, m_pImmediateContext, RendererCI, shaderLoader);
         }
 
         public void exceededMaxDelta()

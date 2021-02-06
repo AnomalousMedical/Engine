@@ -83,13 +83,13 @@ namespace Tutorial_99_Pbo
         private CreateInfo m_Settings;
         AutoPtr<ITextureView> m_pBRDF_LUT_SRV;
 
-        public GLTF_PBR_Renderer(IRenderDevice pDevice, IDeviceContext pCtx, CreateInfo CI)
+        public GLTF_PBR_Renderer(IRenderDevice pDevice, IDeviceContext pCtx, CreateInfo CI, ShaderLoader shaderLoader)
         {
             this.m_Settings = CI;
 
             if (m_Settings.UseIBL)
             {
-                PrecomputeBRDF(pDevice, pCtx);
+                PrecomputeBRDF(pDevice, pCtx, shaderLoader);
 
                 //TextureDesc TexDesc;
                 //TexDesc.Name = "Irradiance cube map for GLTF renderer";
@@ -194,7 +194,7 @@ namespace Tutorial_99_Pbo
         {
             m_pBRDF_LUT_SRV.Dispose();
         }
-        public void PrecomputeBRDF(IRenderDevice pDevice, IDeviceContext pCtx)
+        public void PrecomputeBRDF(IRenderDevice pDevice, IDeviceContext pCtx, ShaderLoader shaderLoader)
         {
             TextureDesc TexDesc = new TextureDesc();
             TexDesc.Name = "GLTF BRDF Look-up texture";
@@ -230,14 +230,14 @@ namespace Tutorial_99_Pbo
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
             ShaderCI.EntryPoint = "FullScreenTriangleVS";
             ShaderCI.Desc.Name = "Full screen triangle VS";
-            ShaderCI.FilePath = "FullScreenTriangleVS.fx";
+            ShaderCI.Source = shaderLoader.LoadShader("Common/private/FullScreenTriangleVS.fx");
             using var pVS = pDevice.CreateShader(ShaderCI);
 
             // Create pixel shader
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_PIXEL;
             ShaderCI.EntryPoint = "PrecomputeBRDF_PS";
             ShaderCI.Desc.Name = "Precompute GLTF BRDF PS";
-            ShaderCI.FilePath = "PrecomputeGLTF_BRDF.psh";
+            ShaderCI.Source = shaderLoader.LoadShader("GLTF_PBR/private/PrecomputeGLTF_BRDF.psh", "Common/private/", "Common/public/");
             using var pPS = pDevice.CreateShader(ShaderCI);
 
             // Finally, create the pipeline state

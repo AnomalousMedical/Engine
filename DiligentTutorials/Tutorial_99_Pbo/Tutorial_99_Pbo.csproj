@@ -21,6 +21,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="../../../DiligentEngine/DiligentFX/Shaders/**/*.*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\Dependencies\FreeImage.NET\Library\FreeImageDotNet.csproj" />
     <ProjectReference Include="..\..\DiligentEngine\DiligentEngine.csproj" />
     <ProjectReference Include="..\..\Engine\Engine.csproj" />
