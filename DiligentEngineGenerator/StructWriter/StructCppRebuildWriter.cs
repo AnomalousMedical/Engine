@@ -113,11 +113,11 @@ namespace DiligentEngineGenerator
             }
             else
             {
-                if (item.IsArray && !item.IsUnknownSizeArray)
+                if (nestedProp.IsArray && !nestedProp.IsUnknownSizeArray)
                 {
-                    for (var i = 0; i < item.ArrayLenInt; ++i)
+                    for (var i = 0; i < nestedProp.ArrayLenInt; ++i)
                     {
-                        writer.WriteLine($"        public {{cSharpType}} {name}_{i};");
+                        writer.WriteLine($"{tabs}    {nativeArrayName}[i].{nestedPropSetName}[{i}] = {argName}_{name}[i].{nestedPropGetName}[{i}];");
                     }
                 }
                 else
