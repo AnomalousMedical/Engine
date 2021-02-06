@@ -224,8 +224,6 @@ namespace Tutorial_99_Pbo
             ShaderCreateInfo ShaderCI = new ShaderCreateInfo();
             ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
             ShaderCI.UseCombinedTextureSamplers = true;
-            //ShaderCI.pShaderSourceStreamFactory = &DiligentFXShaderSourceStreamFactory::GetInstance();
-            //Need to figure out shader sources
 
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
             ShaderCI.EntryPoint = "FullScreenTriangleVS";
