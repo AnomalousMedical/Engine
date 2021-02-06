@@ -316,7 +316,15 @@ namespace DiligentEngineGenerator
             {
                 var LightAttribs = CodeStruct.Find(baseDir + "/DiligentFX/Shaders/Common/public/BasicStructures.fxh", 103, 111);
                 codeTypeInfo.Structs[nameof(LightAttribs)] = LightAttribs;
+
+                {
+                    var ShadowAttribs = LightAttribs.Properties.First(i => i.Name == "ShadowAttribs");
+                    ShadowAttribs.PullPropertiesIntoStruct = true;
+                }
+
                 codeWriter.AddWriter(new StructCsWriter(LightAttribs), Path.Combine(baseStructDir, $"{nameof(LightAttribs)}.cs"));
+                codeWriter.AddWriter(new StructCsPassStructWriter(LightAttribs), Path.Combine(baseStructDir, $"{nameof(LightAttribs)}.PassStruct.cs"));
+                codeWriter.AddWriter(new StructCppPassStructWriter(LightAttribs), Path.Combine(baseCPlusPlusOutDir, $"{nameof(LightAttribs)}.PassStruct.h"));
             }
 
             {
