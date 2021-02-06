@@ -237,9 +237,22 @@ namespace DiligentEngineGenerator
                 EnumWriter.Write(TEXTURE_VIEW_TYPE, Path.Combine(baseEnumDir, $"{nameof(TEXTURE_VIEW_TYPE)}.cs"));
             }
 
-            //////////// Structs
+            {
+                var RESOURCE_STATE = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 2709, 2784);
+                codeTypeInfo.Enums[nameof(RESOURCE_STATE)] = RESOURCE_STATE;
+                EnumWriter.Write(RESOURCE_STATE, Path.Combine(baseEnumDir, $"{nameof(RESOURCE_STATE)}.cs"));
+            }
 
-            var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
+            {
+                var STATE_TRANSITION_TYPE = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 2787, 2804);
+                codeTypeInfo.Enums[nameof(STATE_TRANSITION_TYPE)] = STATE_TRANSITION_TYPE;
+                EnumWriter.Write(STATE_TRANSITION_TYPE, Path.Combine(baseEnumDir, $"{nameof(STATE_TRANSITION_TYPE)}.cs"));
+            }
+            
+
+          //////////// Structs
+
+          var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
             {
                 var ShaderResourceVariableDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 73, 85);
                 codeTypeInfo.Structs[nameof(ShaderResourceVariableDesc)] = ShaderResourceVariableDesc;
@@ -362,6 +375,12 @@ namespace DiligentEngineGenerator
                 var SamplerDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Sampler.h", 46, 112);
                 codeTypeInfo.Structs[nameof(SamplerDesc)] = SamplerDesc;
                 codeWriter.AddWriter(new StructCsWriter(SamplerDesc), Path.Combine(baseStructDir, $"{nameof(SamplerDesc)}.cs"));
+            }
+
+            {
+                var StateTransitionDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 1243, 1282);
+                codeTypeInfo.Structs[nameof(StateTransitionDesc)] = StateTransitionDesc;
+                codeWriter.AddWriter(new StructCsWriter(StateTransitionDesc), Path.Combine(baseStructDir, $"{nameof(StateTransitionDesc)}.cs"));
             }
 
             {
