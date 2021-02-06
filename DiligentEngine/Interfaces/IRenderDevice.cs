@@ -143,6 +143,41 @@ namespace DiligentEngine
             return new AutoPtr<ITexture>(new ITexture(theReturnValue), false);
         }
         /// <summary>
+        /// Creates a new sampler object
+        /// \param [in]  SamDesc   - Sampler description, see Diligent::SamplerDesc for details.
+        /// \param [out] ppSampler - Address of the memory location where the pointer to the
+        /// sampler interface will be stored.
+        /// The function calls AddRef(), so that the new object will contain
+        /// one reference.
+        /// \remark If an application attempts to create a sampler interface with the same attributes
+        /// as an existing interface, the same interface will be returned.
+        /// \note   In D3D11, 4096 unique sampler state objects can be created on a device at a time.
+        /// </summary>
+        public AutoPtr<ISampler> CreateSampler(SamplerDesc SamDesc)
+        {
+            var theReturnValue = 
+            IRenderDevice_CreateSampler(
+                this.objPtr
+                , SamDesc.MinFilter
+                , SamDesc.MagFilter
+                , SamDesc.MipFilter
+                , SamDesc.AddressU
+                , SamDesc.AddressV
+                , SamDesc.AddressW
+                , SamDesc.MipLODBias
+                , SamDesc.MaxAnisotropy
+                , SamDesc.ComparisonFunc
+                , SamDesc.BorderColor_0
+                , SamDesc.BorderColor_1
+                , SamDesc.BorderColor_2
+                , SamDesc.BorderColor_3
+                , SamDesc.MinLOD
+                , SamDesc.MaxLOD
+                , SamDesc.Name
+            );
+            return new AutoPtr<ISampler>(new ISampler(theReturnValue), false);
+        }
+        /// <summary>
         /// Creates a new graphics pipeline state object
         /// \param [in]  PSOCreateInfo   - Graphics pipeline state create info, see Diligent::GraphicsPipelineStateCreateInfo for details.
         /// \param [out] ppPipelineState - Address of the memory location where the pointer to the
@@ -272,6 +307,26 @@ namespace DiligentEngine
             , String TexDesc_Name
             , TextureSubResDataPassStruct[] pData_pSubResources
             , Uint32 pData_NumSubresources
+        );
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr IRenderDevice_CreateSampler(
+            IntPtr objPtr
+            , FILTER_TYPE SamDesc_MinFilter
+            , FILTER_TYPE SamDesc_MagFilter
+            , FILTER_TYPE SamDesc_MipFilter
+            , TEXTURE_ADDRESS_MODE SamDesc_AddressU
+            , TEXTURE_ADDRESS_MODE SamDesc_AddressV
+            , TEXTURE_ADDRESS_MODE SamDesc_AddressW
+            , Float32 SamDesc_MipLODBias
+            , Uint32 SamDesc_MaxAnisotropy
+            , COMPARISON_FUNCTION SamDesc_ComparisonFunc
+            , Float32 SamDesc_BorderColor_0
+            , Float32 SamDesc_BorderColor_1
+            , Float32 SamDesc_BorderColor_2
+            , Float32 SamDesc_BorderColor_3
+            , float SamDesc_MinLOD
+            , float SamDesc_MaxLOD
+            , String SamDesc_Name
         );
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr IRenderDevice_CreateGraphicsPipelineState(

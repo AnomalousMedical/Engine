@@ -607,7 +607,18 @@ namespace DiligentEngineGenerator
                     }
                 }
 
-                var allowedMethods = new List<String> { "CreateShader", "CreateGraphicsPipelineState", "CreateBuffer", "CreateTexture" };
+                {
+                    var CreateSampler = IRenderDevice.Methods.First(i => i.Name == "CreateSampler");
+                    CreateSampler.ReturnType = "ISampler*";
+                    CreateSampler.ReturnAsAutoPtr = true;
+                    {
+                        var ppSampler = CreateSampler.Args.First(i => i.Name == "ppSampler");
+                        ppSampler.MakeReturnVal = true;
+                        ppSampler.Type = "ISampler*";
+                    }
+                }
+
+                var allowedMethods = new List<String> { "CreateShader", "CreateGraphicsPipelineState", "CreateBuffer", "CreateTexture", "CreateSampler" };
                 IRenderDevice.Methods = IRenderDevice.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(IRenderDevice), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IRenderDevice)}.cs"));
@@ -694,7 +705,15 @@ namespace DiligentEngineGenerator
             {
                 var ITextureView = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/TextureView.h", 195, 227);
                 codeTypeInfo.Interfaces[nameof(ITextureView)] = ITextureView;
-                var allowedMethods = new List<String> { };
+
+                {
+                    var SetSampler = ITextureView.Methods.First(i => i.Name == "SetSampler");
+                    var pSampler = SetSampler.Args.First(i => i.Name == "ISampler*");
+                    pSampler.Type = "ISampler*";
+                    pSampler.Name = "pSampler";
+                }
+
+                var allowedMethods = new List<String> { "SetSampler" };
                 ITextureView.Methods = ITextureView.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(ITextureView), Path.Combine(baseCSharpInterfaceDir, $"{nameof(ITextureView)}.cs"));
@@ -731,6 +750,20 @@ namespace DiligentEngineGenerator
                     "Graphics/GraphicsEngine/interface/Texture.h"
                 });
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(ITexture)}.cpp"));
+            }
+
+            {
+                var ISampler = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Sampler.h", 186, 193);
+                codeTypeInfo.Interfaces[nameof(ISampler)] = ISampler;
+                var allowedMethods = new List<String> { "GetDefaultView" };
+                ISampler.Methods = ISampler.Methods
+                    .Where(i => allowedMethods.Contains(i.Name)).ToList();
+                codeWriter.AddWriter(new InterfaceCsWriter(ISampler), Path.Combine(baseCSharpInterfaceDir, $"{nameof(ISampler)}.cs"));
+                var cppWriter = new InterfaceCppWriter(ISampler, new List<String>()
+                {
+                    "Graphics/GraphicsEngine/interface/Sampler.h"
+                });
+                codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(ISampler)}.cpp"));
             }
 
             {

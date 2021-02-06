@@ -36,7 +36,25 @@ namespace DiligentEngine
         {
 
         }
+        /// <summary>
+        /// Sets the texture sampler to use for filtering operations
+        /// when accessing a texture from shaders. Only
+        /// shader resource views can be assigned a sampler.
+        /// The view will keep strong reference to the sampler.
+        /// </summary>
+        public void SetSampler(ISampler pSampler)
+        {
+            ITextureView_SetSampler(
+                this.objPtr
+                , pSampler.objPtr
+            );
+        }
 
 
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr ITextureView_SetSampler(
+            IntPtr objPtr
+            , IntPtr pSampler
+        );
     }
 }

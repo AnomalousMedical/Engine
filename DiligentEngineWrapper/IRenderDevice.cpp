@@ -136,6 +136,50 @@ extern "C" _AnomalousExport ITexture* IRenderDevice_CreateTexture(
     delete[] pData_pSubResources_Native_Array;
 	return theReturnValue;
 }
+extern "C" _AnomalousExport ISampler* IRenderDevice_CreateSampler(
+	IRenderDevice* objPtr
+	, FILTER_TYPE SamDesc_MinFilter
+	, FILTER_TYPE SamDesc_MagFilter
+	, FILTER_TYPE SamDesc_MipFilter
+	, TEXTURE_ADDRESS_MODE SamDesc_AddressU
+	, TEXTURE_ADDRESS_MODE SamDesc_AddressV
+	, TEXTURE_ADDRESS_MODE SamDesc_AddressW
+	, Float32 SamDesc_MipLODBias
+	, Uint32 SamDesc_MaxAnisotropy
+	, COMPARISON_FUNCTION SamDesc_ComparisonFunc
+	, Float32 SamDesc_BorderColor_0
+	, Float32 SamDesc_BorderColor_1
+	, Float32 SamDesc_BorderColor_2
+	, Float32 SamDesc_BorderColor_3
+	, float SamDesc_MinLOD
+	, float SamDesc_MaxLOD
+	, Char* SamDesc_Name
+)
+{
+	SamplerDesc SamDesc;
+	SamDesc.MinFilter = SamDesc_MinFilter;
+	SamDesc.MagFilter = SamDesc_MagFilter;
+	SamDesc.MipFilter = SamDesc_MipFilter;
+	SamDesc.AddressU = SamDesc_AddressU;
+	SamDesc.AddressV = SamDesc_AddressV;
+	SamDesc.AddressW = SamDesc_AddressW;
+	SamDesc.MipLODBias = SamDesc_MipLODBias;
+	SamDesc.MaxAnisotropy = SamDesc_MaxAnisotropy;
+	SamDesc.ComparisonFunc = SamDesc_ComparisonFunc;
+	SamDesc.BorderColor[0] = SamDesc_BorderColor_0;
+	SamDesc.BorderColor[1] = SamDesc_BorderColor_1;
+	SamDesc.BorderColor[2] = SamDesc_BorderColor_2;
+	SamDesc.BorderColor[3] = SamDesc_BorderColor_3;
+	SamDesc.MinLOD = SamDesc_MinLOD;
+	SamDesc.MaxLOD = SamDesc_MaxLOD;
+	SamDesc.Name = SamDesc_Name;
+	ISampler* theReturnValue = nullptr;
+	objPtr->CreateSampler(
+		SamDesc
+		, &theReturnValue
+	);
+	return theReturnValue;
+}
 extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipelineState(
 	IRenderDevice* objPtr
 	, Bool PSOCreateInfo_GraphicsPipeline_BlendDesc_AlphaToCoverageEnable

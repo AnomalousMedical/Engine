@@ -23,7 +23,17 @@ namespace Tutorial_99_Pbo
 {
     class GLTF_PBR_Renderer : IDisposable
     {
-        const Uint32 TexDim = 8;
+        static readonly SamplerDesc Sam_LinearClamp = new SamplerDesc
+        {
+            MinFilter = FILTER_TYPE.FILTER_TYPE_LINEAR,
+            MagFilter = FILTER_TYPE.FILTER_TYPE_LINEAR,
+            MipFilter = FILTER_TYPE.FILTER_TYPE_LINEAR,
+            AddressU = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_CLAMP,
+            AddressV = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_CLAMP,
+            AddressW = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_CLAMP
+        };
+
+    const Uint32 TexDim = 8;
 
         const Uint32 BRDF_LUT_Dim = 512;
         const TEXTURE_FORMAT IrradianceCubeFmt = TEXTURE_FORMAT.TEX_FORMAT_RGBA32_FLOAT;
@@ -92,6 +102,7 @@ namespace Tutorial_99_Pbo
         AutoPtr<ITextureView> m_pWhiteTexSRV;
         AutoPtr<ITextureView> m_pBlackTexSRV;
         AutoPtr<ITextureView> m_pDefaultNormalMapSRV;
+        AutoPtr<ITextureView> m_pDefaultPhysDescSRV;
 
         AutoPtr<ITextureView> m_pIrradianceCubeSRV;
         AutoPtr<ITextureView> m_pPrefilteredEnvMapSRV;
@@ -157,28 +168,25 @@ namespace Tutorial_99_Pbo
                 using var pDefaultNormalMap = pDevice.CreateTexture(TexDesc, InitData);
                 m_pDefaultNormalMapSRV = new AutoPtr<ITextureView>(pDefaultNormalMap.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
 
-                //    TexDesc.Name = "Default physical description map for GLTF renderer";
-                //    for (auto & c : Data) c = 0x0000FF00;
-                //    RefCntAutoPtr<ITexture> pDefaultPhysDesc;
-                //    pDevice->CreateTexture(TexDesc, &InitData, &pDefaultPhysDesc);
-                //    m_pDefaultPhysDescSRV = pDefaultPhysDesc->GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
+                TexDesc.Name = "Default physical description map for GLTF renderer";
+                DataSpan.Fill(0x0000FF00);  //for (auto & c : Data) c = 0x0000FF00;
+                using var pDefaultPhysDesc = pDevice.CreateTexture(TexDesc, InitData);
+                m_pDefaultPhysDescSRV = new AutoPtr<ITextureView>(pDefaultPhysDesc.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
 
-                //    // clang-format off
-                //    StateTransitionDesc Barriers[] =
-                //    {
-                //    {pWhiteTex,         RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true},
-                //    {pBlackTex,         RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true},
-                //    {pDefaultNormalMap, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true},
-                //    {pDefaultPhysDesc,  RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true}
-                //};
-                //    // clang-format on
-                //    pCtx->TransitionResourceStates(_countof(Barriers), Barriers);
+                var Barriers = new List<StateTransitionDesc>
+                {
+                    new StateTransitionDesc{pResource = pWhiteTex.Obj,         OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true},
+                    new StateTransitionDesc{pResource = pBlackTex.Obj,         OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true},
+                    new StateTransitionDesc{pResource = pDefaultNormalMap.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true},
+                    new StateTransitionDesc{pResource = pDefaultPhysDesc.Obj,  OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true}
+                };
 
-                //    RefCntAutoPtr<ISampler> pDefaultSampler;
-                //    pDevice->CreateSampler(Sam_LinearClamp, &pDefaultSampler);
-                //    m_pWhiteTexSRV->SetSampler(pDefaultSampler);
-                //    m_pBlackTexSRV->SetSampler(pDefaultSampler);
-                //    m_pDefaultNormalMapSRV->SetSampler(pDefaultSampler);
+                pCtx.TransitionResourceStates(Barriers);
+
+                using var pDefaultSampler = pDevice.CreateSampler(Sam_LinearClamp);
+                m_pWhiteTexSRV.Obj.SetSampler(pDefaultSampler.Obj);
+                m_pBlackTexSRV.Obj.SetSampler(pDefaultSampler.Obj);
+                m_pDefaultNormalMapSRV.Obj.SetSampler(pDefaultSampler.Obj);
             }
 
             //if (CI.RTVFmt != TEX_FORMAT_UNKNOWN || CI.DSVFmt != TEX_FORMAT_UNKNOWN)
@@ -203,6 +211,7 @@ namespace Tutorial_99_Pbo
 
         public void Dispose()
         {
+            m_pDefaultPhysDescSRV.Dispose();
             m_pDefaultNormalMapSRV.Dispose();
             m_pBlackTexSRV.Dispose();
             m_pWhiteTexSRV.Dispose();
