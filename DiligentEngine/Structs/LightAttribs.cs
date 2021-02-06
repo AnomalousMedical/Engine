@@ -13,6 +13,8 @@ using Uint16 = System.UInt16;
 using PVoid = System.IntPtr;
 using float4 = Engine.Vector4;
 using float3 = Engine.Vector3;
+using float4x4 = Engine.Matrix4x4;
+using BOOL = System.Boolean;
 
 namespace DiligentEngine
 {
@@ -26,7 +28,7 @@ namespace DiligentEngine
         public float4 f4Direction { get; set; }
         public float4 f4AmbientLight { get; set; }
         public float4 f4Intensity { get; set; }
-        public ShadowMapAttribs ShadowAttribs { get; set; }
+        public ShadowMapAttribs ShadowAttribs { get; set; } = new ShadowMapAttribs();
 
 
     }

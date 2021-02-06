@@ -14,6 +14,8 @@ using Uint16 = System.UInt16;
 using PVoid = System.IntPtr;
 using float4 = Engine.Vector4;
 using float3 = Engine.Vector3;
+using float4x4 = Engine.Matrix4x4;
+using BOOL = System.Boolean;
 
 namespace DiligentEngine
 {
