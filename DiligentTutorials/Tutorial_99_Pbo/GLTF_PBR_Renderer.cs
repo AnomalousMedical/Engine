@@ -90,7 +90,8 @@ namespace Tutorial_99_Pbo
         AutoPtr<ITextureView> m_pBRDF_LUT_SRV;
 
         AutoPtr<ITextureView> m_pWhiteTexSRV;
-        AutoPtr<ITextureView> m_pBlackTexSRV; 
+        AutoPtr<ITextureView> m_pBlackTexSRV;
+        AutoPtr<ITextureView> m_pDefaultNormalMapSRV;
 
         AutoPtr<ITextureView> m_pIrradianceCubeSRV;
         AutoPtr<ITextureView> m_pPrefilteredEnvMapSRV;
@@ -151,11 +152,10 @@ namespace Tutorial_99_Pbo
                 using var pBlackTex = pDevice.CreateTexture(TexDesc, InitData);
                 m_pBlackTexSRV = new AutoPtr<ITextureView>(pBlackTex.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
 
-                //    TexDesc.Name = "Default normal map for GLTF renderer";
-                //    for (auto & c : Data) c = 0x00FF7F7F;
-                //    RefCntAutoPtr<ITexture> pDefaultNormalMap;
-                //    pDevice->CreateTexture(TexDesc, &InitData, &pDefaultNormalMap);
-                //    m_pDefaultNormalMapSRV = pDefaultNormalMap->GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
+                TexDesc.Name = "Default normal map for GLTF renderer";
+                DataSpan.Fill(0x00FF7F7F); //for (auto & c : Data) c = 0x00FF7F7F;
+                using var pDefaultNormalMap = pDevice.CreateTexture(TexDesc, InitData);
+                m_pDefaultNormalMapSRV = new AutoPtr<ITextureView>(pDefaultNormalMap.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
 
                 //    TexDesc.Name = "Default physical description map for GLTF renderer";
                 //    for (auto & c : Data) c = 0x0000FF00;
@@ -203,6 +203,7 @@ namespace Tutorial_99_Pbo
 
         public void Dispose()
         {
+            m_pDefaultNormalMapSRV.Dispose();
             m_pBlackTexSRV.Dispose();
             m_pWhiteTexSRV.Dispose();
             m_pPrefilteredEnvMapSRV.Dispose();
