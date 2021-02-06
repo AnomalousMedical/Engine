@@ -23,7 +23,7 @@ namespace DiligentEngine
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     struct StateTransitionDescPassStruct
     {
-        public IDeviceObject pResource;
+        public IntPtr pResource;
         public Uint32 FirstMipLevel;
         public Uint32 MipLevelsCount;
         public Uint32 FirstArraySlice;
@@ -41,7 +41,7 @@ namespace DiligentEngine
 
             return vals.Select(i => new StateTransitionDescPassStruct
             {
-                pResource = i.pResource,
+                pResource = i.pResource.objPtr,
                 FirstMipLevel = i.FirstMipLevel,
                 MipLevelsCount = i.MipLevelsCount,
                 FirstArraySlice = i.FirstArraySlice,

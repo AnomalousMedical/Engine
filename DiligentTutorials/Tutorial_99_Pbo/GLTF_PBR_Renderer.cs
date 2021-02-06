@@ -249,11 +249,11 @@ namespace Tutorial_99_Pbo
             var attrs = new DrawAttribs { NumVertices = 3, Flags = DRAW_FLAGS.DRAW_FLAG_VERIFY_ALL };
             pCtx.Draw(attrs);
 
-            //var Barriers = new List<StateTransitionDesc>()
-            //{
-            //    new StateTransitionDesc{pResource = pBRDF_LUT.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true}
-            //};
-            //pCtx.TransitionResourceStates(Barriers);
+            var Barriers = new List<StateTransitionDesc>()
+            {
+                new StateTransitionDesc{pResource = pBRDF_LUT.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true}
+            };
+            pCtx.TransitionResourceStates(Barriers);
         }
     }
 }
