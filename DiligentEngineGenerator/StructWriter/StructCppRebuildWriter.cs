@@ -54,9 +54,9 @@ namespace DiligentEngineGenerator
 {tabs}for (Uint32 i = 0; i < {argName}_{item.PutAutoSize}; ++i)
 {tabs}{{");
 
-                        foreach(var prop in st.Properties)
+                        foreach(var nestedProp in st.Properties)
                         {
-                            writer.WriteLine($"{tabs}    {nativeArrayName}[i].{prop.Name} = {argName}_{item.Name}[i].{prop.Name};");
+                            WriteNestedProperty(writer, context, nestedProp, item, nativeArrayName);
                         }
 
                         writer.WriteLine(
@@ -90,6 +90,16 @@ namespace DiligentEngineGenerator
                     WriteSimple(writer, item, "", "");
                 }
             }
+        }
+
+        private void WriteNestedProperty(TextWriter writer, CodeRendererContext context, StructProperty nestedProp, StructProperty item, string nativeArrayName,
+            Func<String, String> customizeName = null,
+            Func<String, String> customizeNestedPropName = null)
+        {
+            var name = customizeName?.Invoke(item.Name) ?? item.Name;
+            var nestedPropName = customizeNestedPropName?.Invoke(nestedProp.Name) ?? nestedProp.Name;
+
+            writer.WriteLine($"{tabs}    {nativeArrayName}[i].{nestedPropName} = {argName}_{name}[i].{nestedPropName};");
         }
 
         private void WriteSimple(TextWriter writer, StructProperty item, String arrayIndex, String arrayItem)
