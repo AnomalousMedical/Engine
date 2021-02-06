@@ -8,7 +8,7 @@ using System;
 using System.Globalization;
 using System.IO;
 
-namespace GLTFViewer
+namespace Tutorial_99_Pbo
 {
     public class CoreApp : App
     {

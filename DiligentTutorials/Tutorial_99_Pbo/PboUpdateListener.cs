@@ -20,7 +20,7 @@ using Float32 = System.Single;
 using Uint16 = System.UInt16;
 using System.IO;
 
-namespace GLTFViewer
+namespace Tutorial_99_Pbo
 {
     class PboUpdateListener : UpdateListener, IDisposable
     {
@@ -31,6 +31,8 @@ namespace GLTFViewer
         private ISwapChain m_pSwapChain;
         private IRenderDevice m_pDevice;
         private IDeviceContext m_pImmediateContext;
+
+        private GLTF_PBR_Renderer m_GLTFRenderer;
 
         public unsafe PboUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window)
         {
@@ -45,11 +47,22 @@ namespace GLTFViewer
 
         public void Dispose()
         {
+            m_GLTFRenderer.Dispose();
         }
 
         unsafe void Initialize()
         {
-            
+            var BackBufferFmt = m_pSwapChain.GetDesc_ColorBufferFormat;
+            var DepthBufferFmt = m_pSwapChain.GetDesc_DepthBufferFormat;
+
+            var RendererCI = new GLTF_PBR_Renderer.CreateInfo();
+            RendererCI.RTVFmt = BackBufferFmt;
+            RendererCI.DSVFmt = DepthBufferFmt;
+            RendererCI.AllowDebugView = true;
+            RendererCI.UseIBL = true;
+            RendererCI.FrontCCW = true;
+            RendererCI.UseTextureAtals = m_bUseResourceCache;
+            m_GLTFRenderer = new GLTF_PBR_Renderer(m_pDevice, m_pImmediateContext, RendererCI);
         }
 
         public void exceededMaxDelta()

@@ -43,7 +43,7 @@ namespace DiligentEngineGenerator
                 {
                     if (item.IsUnknownSizeArray)
                     {
-                        writer.WriteLine($"{tabs}, {item.LookupType}PassStruct.ToStruct({argName}.{item.Name})");
+                        writer.WriteLine($"{tabs}, {item.LookupType}PassStruct.ToStruct({argName}?.{item.Name})");
                     }
                     else
                     {
@@ -83,7 +83,7 @@ namespace DiligentEngineGenerator
             }
             else if (!String.IsNullOrEmpty(item.TakeAutoSize))
             {
-                writer.WriteLine($"{tabs}, {argName}.{item.TakeAutoSize} != null ? (Uint32){argName}.{item.TakeAutoSize}.Count : 0");
+                writer.WriteLine($"{tabs}, {argName}?.{item.TakeAutoSize} != null ? (Uint32){argName}.{item.TakeAutoSize}.Count : 0");
             }
             else
             {

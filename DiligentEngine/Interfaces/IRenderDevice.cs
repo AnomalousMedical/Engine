@@ -136,8 +136,8 @@ namespace DiligentEngine
                 , TexDesc.ClearValue.DepthStencil.Stencil
                 , TexDesc.CommandQueueMask
                 , TexDesc.Name
-                , TextureSubResDataPassStruct.ToStruct(pData.pSubResources)
-                , pData.pSubResources != null ? (Uint32)pData.pSubResources.Count : 0
+                , TextureSubResDataPassStruct.ToStruct(pData?.pSubResources)
+                , pData?.pSubResources != null ? (Uint32)pData.pSubResources.Count : 0
             );
             return new AutoPtr<ITexture>(new ITexture(theReturnValue), false);
         }
@@ -180,8 +180,8 @@ namespace DiligentEngine
                 , PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.BackFace.StencilDepthFailOp
                 , PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.BackFace.StencilPassOp
                 , PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.BackFace.StencilFunc
-                , LayoutElementPassStruct.ToStruct(PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements)
-                , PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements != null ? (Uint32)PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements.Count : 0
+                , LayoutElementPassStruct.ToStruct(PSOCreateInfo.GraphicsPipeline.InputLayout?.LayoutElements)
+                , PSOCreateInfo.GraphicsPipeline.InputLayout?.LayoutElements != null ? (Uint32)PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements.Count : 0
                 , PSOCreateInfo.GraphicsPipeline.PrimitiveTopology
                 , PSOCreateInfo.GraphicsPipeline.NumViewports
                 , PSOCreateInfo.GraphicsPipeline.NumRenderTargets
@@ -209,10 +209,10 @@ namespace DiligentEngine
                 , PSOCreateInfo.PSODesc.SRBAllocationGranularity
                 , PSOCreateInfo.PSODesc.CommandQueueMask
                 , PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType
-                , PSOCreateInfo.PSODesc.ResourceLayout.Variables != null ? (Uint32)PSOCreateInfo.PSODesc.ResourceLayout.Variables.Count : 0
-                , ShaderResourceVariableDescPassStruct.ToStruct(PSOCreateInfo.PSODesc.ResourceLayout.Variables)
-                , PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers != null ? (Uint32)PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers.Count : 0
-                , ImmutableSamplerDescPassStruct.ToStruct(PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers)
+                , PSOCreateInfo.PSODesc.ResourceLayout?.Variables != null ? (Uint32)PSOCreateInfo.PSODesc.ResourceLayout.Variables.Count : 0
+                , ShaderResourceVariableDescPassStruct.ToStruct(PSOCreateInfo.PSODesc.ResourceLayout?.Variables)
+                , PSOCreateInfo.PSODesc.ResourceLayout?.ImmutableSamplers != null ? (Uint32)PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers.Count : 0
+                , ImmutableSamplerDescPassStruct.ToStruct(PSOCreateInfo.PSODesc.ResourceLayout?.ImmutableSamplers)
                 , PSOCreateInfo.PSODesc.Name
                 , PSOCreateInfo.Flags
             );
