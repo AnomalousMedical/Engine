@@ -620,7 +620,95 @@ namespace Tutorial_99_Pbo
             }
         }
 
+        void InitCommonSRBVars(IShaderResourceBinding pSRB,
+                                          IBuffer pCameraAttribs,
+                                          IBuffer pLightAttribs)
+        {
+            //VERIFY_EXPR(pSRB != nullptr);
 
+            if (pCameraAttribs != null)
+            {
+                pSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "cbCameraAttribs")?.Set(pCameraAttribs);
+                pSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "cbCameraAttribs")?.Set(pCameraAttribs);
+            }
+
+            if (pLightAttribs != null)
+            {
+                pSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "cbLightAttribs")?.Set(pLightAttribs);
+            }
+
+            if (m_Settings.UseIBL)
+            {
+                pSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_IrradianceMap")?.Set(m_pIrradianceCubeSRV.Obj);
+                pSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_PrefilteredEnvMap")?.Set(m_pPrefilteredEnvMapSRV.Obj);
+            }
+        }
+
+        private static void SetTexture(ITexture pTexture, ITextureView pDefaultTexSRV, String VarName, IShaderResourceBinding pSRB) //
+        {
+            ITextureView pTexSRV = null;
+
+            if (pTexture != null)
+            {
+                // if (pTexture->GetDesc().Type == RESOURCE_DIM_TEX_2D_ARRAY) //This is the only one
+                pTexSRV = pTexture.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
+                //else
+                //{
+                //    TextureViewDesc SRVDesc;
+                //    SRVDesc.ViewType = TEXTURE_VIEW_SHADER_RESOURCE;
+                //    SRVDesc.TextureDim = RESOURCE_DIM_TEX_2D_ARRAY;
+                //    pTexture->CreateView(SRVDesc, &pTexSRV);
+                //}
+            }
+
+            if (pTexSRV == null)
+            {
+                pTexSRV = pDefaultTexSRV;
+            }
+
+            pSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, VarName)?.Set(pTexSRV);
+        }
+
+        AutoPtr<IShaderResourceBinding> CreateMaterialSRB(
+                                          //GLTF::Model&             Model,
+                                          //GLTF::Material&          Material,
+                                          IBuffer pCameraAttribs = null,
+                                          IBuffer pLightAttribs = null,
+                                          IPipelineState pPSO = null,
+                                          ITexture baseColorMap = null,
+                                          ITexture physicalDescriptorMap = null,
+                                          ITexture normalMap = null,
+                                          ITexture aoMap = null,
+                                          ITexture emissiveMap = null)
+        {
+            if (pPSO == null)
+            {
+                pPSO = m_PSOCache.GetPSO(new PSOKey());
+            }
+
+            //Replaces ppMaterialSRB, this is returned
+            var pSRB = pPSO.CreateShaderResourceBinding(true);
+            if (pSRB == null)
+            {
+                throw new Exception("Failed to create material SRB");
+            }
+
+            InitCommonSRBVars(pSRB.Obj, pCameraAttribs, pLightAttribs);
+
+            SetTexture(baseColorMap, m_pWhiteTexSRV.Obj, "g_ColorMap", pSRB.Obj);
+            SetTexture(physicalDescriptorMap, m_pDefaultPhysDescSRV.Obj, "g_PhysicalDescriptorMap", pSRB.Obj);
+            SetTexture(normalMap, m_pDefaultNormalMapSRV.Obj, "g_NormalMap", pSRB.Obj);
+            if (m_Settings.UseAO)
+            {
+                SetTexture(aoMap, m_pWhiteTexSRV.Obj, "g_AOMap", pSRB.Obj);
+            }
+            if (m_Settings.UseEmissive)
+            {
+                SetTexture(emissiveMap, m_pBlackTexSRV.Obj, "g_EmissiveMap", pSRB.Obj);
+            }
+
+            return pSRB;
+        }
 
         [StructLayout(LayoutKind.Sequential)]
         struct PrecomputeEnvMapAttribs
@@ -856,6 +944,11 @@ namespace Tutorial_99_Pbo
                 new StateTransitionDesc{pResource = m_pIrradianceCubeSRV.Obj.GetTexture(),    OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true}
             };
             pCtx.TransitionResourceStates(Barriers);
+        }
+
+        public void Begin(IDeviceContext m_pImmediateContext)
+        {
+            
         }
     }
 }
