@@ -61,6 +61,12 @@ namespace DiligentEngineGenerator
             }
 
             {
+                var RESOURCE_STATE = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 2708, 2775); //This is set short to skip RESOURCE_STATE_MAX_BIT
+                codeTypeInfo.Enums[nameof(RESOURCE_STATE)] = RESOURCE_STATE;
+                EnumWriter.Write(RESOURCE_STATE, Path.Combine(baseEnumDir, $"{nameof(RESOURCE_STATE)}.cs"));
+            }
+
+            {
                 var CLEAR_DEPTH_STENCIL_FLAGS = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 438, 450);
                 codeTypeInfo.Enums[nameof(CLEAR_DEPTH_STENCIL_FLAGS)] = CLEAR_DEPTH_STENCIL_FLAGS;
                 EnumWriter.Write(CLEAR_DEPTH_STENCIL_FLAGS, Path.Combine(baseEnumDir, $"{nameof(CLEAR_DEPTH_STENCIL_FLAGS)}.cs"));
