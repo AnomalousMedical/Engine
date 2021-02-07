@@ -625,28 +625,28 @@ namespace Tutorial_99_Pbo
             float Dummy;
         };
 
-        void PrecomputeCubemaps(IRenderDevice pDevice, IDeviceContext pCtx, ITextureView pEnvironmentMap)
+        public void PrecomputeCubemaps(IRenderDevice pDevice, IDeviceContext pCtx, ITextureView pEnvironmentMap)
         {
-            //if (!m_Settings.UseIBL)
-            //{
-            //    //LOG_WARNING_MESSAGE("IBL is disabled, so precomputing cube maps will have no effect");
-            //    return;
-            //}
+            if (!m_Settings.UseIBL)
+            {
+                //LOG_WARNING_MESSAGE("IBL is disabled, so precomputing cube maps will have no effect");
+                return;
+            }
 
-            //if (m_PrecomputeEnvMapAttribsCB == null)
-            //{
-            //    unsafe
-            //    {
-            //        BufferDesc CBDesc = new BufferDesc();
-            //        CBDesc.Name = "Precompute env map attribs CB";
-            //        CBDesc.uiSizeInBytes = (uint)sizeof(PrecomputeEnvMapAttribs);
-            //        CBDesc.Usage = USAGE.USAGE_DYNAMIC;
-            //        CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
-            //        CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
+            if (m_PrecomputeEnvMapAttribsCB == null)
+            {
+                unsafe
+                {
+                    BufferDesc CBDesc = new BufferDesc();
+                    CBDesc.Name = "Precompute env map attribs CB";
+                    CBDesc.uiSizeInBytes = (uint)sizeof(PrecomputeEnvMapAttribs);
+                    CBDesc.Usage = USAGE.USAGE_DYNAMIC;
+                    CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
+                    CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
 
-            //        m_PrecomputeEnvMapAttribsCB = pDevice.CreateBuffer(CBDesc);
-            //    }
-            //}
+                    m_PrecomputeEnvMapAttribsCB = pDevice.CreateBuffer(CBDesc);
+                }
+            }
 
             //    if (!m_pPrecomputeIrradianceCubePSO)
             //    {

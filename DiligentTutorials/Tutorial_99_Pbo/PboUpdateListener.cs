@@ -130,7 +130,7 @@ namespace Tutorial_99_Pbo
                 };
                 m_pImmediateContext.TransitionResourceStates(Barriers);
 
-                //m_GLTFRenderer->PrecomputeCubemaps(m_pDevice, m_pImmediateContext, m_EnvironmentMapSRV);
+                m_GLTFRenderer.PrecomputeCubemaps(m_pDevice, m_pImmediateContext, m_EnvironmentMapSRV.Obj);
 
                 //CreateEnvMapPSO();
 
