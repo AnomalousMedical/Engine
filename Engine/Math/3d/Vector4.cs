@@ -56,5 +56,15 @@ namespace Engine
                 v.x * mat.m03 + v.y * mat.m13 + v.z * mat.m23 + v.w * mat.m33
                 );
         }
+
+        public static Vector4 operator *(Vector4 v, float s)
+        {
+            return new Vector4(v.x * s, v.y * s, v.z * s, v.w * s);
+        }
+
+        public static Vector4 operator *(float s, Vector4 v)
+        {
+            return v * s;
+        }
     }
 }

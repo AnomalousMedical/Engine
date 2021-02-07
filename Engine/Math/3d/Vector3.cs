@@ -379,6 +379,11 @@ namespace Engine
             return String.Format(CultureInfo.InvariantCulture, "{0}, {1}, {2}", x, y, z);
         }
 
+        public Vector4 ToVector4()
+        {
+            return new Vector4(x, y, z, 0);
+        }
+
         /// <summary>
         /// Determine if all components are numbers i.e != float.NaN.
         /// </summary>

@@ -318,6 +318,11 @@ namespace Engine
             return viewMatrix;
         }
 
+        public Vector3 GetTranslation()
+        {
+            return new Vector3(m30, m31, m32);
+        }
+
         public void SetTranslation(Vector3 vector3)
         {
             m30 = vector3.x;
