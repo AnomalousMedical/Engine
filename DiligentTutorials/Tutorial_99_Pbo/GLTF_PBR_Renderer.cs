@@ -49,7 +49,7 @@ namespace Tutorial_99_Pbo
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    struct GLTFMaterialShaderInfo
+    struct GLTFShaderAttribs
     {
         float4 BaseColorFactor;
         float4 EmissiveFactor;
@@ -85,17 +85,24 @@ namespace Tutorial_99_Pbo
     }
 
     [StructLayout(LayoutKind.Sequential)]
+    struct GLTFAttribs
+    {
+        public GLTFShaderAttribs MaterialInfo;
+        public GLTFRendererShaderParameters RenderParameters;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
     struct GLTFRendererShaderParameters
     {
-        float AverageLogLum;
-        float MiddleGray;
-        float WhitePoint;
-        float PrefilteredCubeMipLevels;
+        public float AverageLogLum;
+        public float MiddleGray;
+        public float WhitePoint;
+        public float PrefilteredCubeMipLevels;
 
-        float IBLScale;
-        int DebugViewType;
-        float OcclusionStrength;
-        float EmissionScale;
+        public float IBLScale;
+        public int DebugViewType;
+        public float OcclusionStrength;
+        public float EmissionScale;
     };
 
     class GLTF_PBR_Renderer : IDisposable
@@ -356,7 +363,7 @@ namespace Tutorial_99_Pbo
                     {
                         BufferDesc CBDesc = new BufferDesc();
                         CBDesc.Name = "GLTF attribs CB";
-                        CBDesc.uiSizeInBytes = (uint)(sizeof(GLTFMaterialShaderInfo) + sizeof(GLTFRendererShaderParameters));
+                        CBDesc.uiSizeInBytes = (uint)(sizeof(GLTFAttribs));
                         CBDesc.Usage = USAGE.USAGE_DYNAMIC;
                         CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
                         CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
@@ -946,9 +953,69 @@ namespace Tutorial_99_Pbo
             pCtx.TransitionResourceStates(Barriers);
         }
 
-        public void Begin(IDeviceContext m_pImmediateContext)
+        public unsafe void Begin(IDeviceContext pCtx)
         {
-            
+            ////Not quite sure what this does, seems to be a no-op
+            //if (m_JointsBuffer != null)
+            //{
+            //    IntPtr data = pCtx.MapBuffer(m_JointsBuffer.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
+            //    // In next-gen backends, dynamic buffers must be mapped before the first use in every frame
+            //    var pJoints = (float4x4*)data.ToPointer();
+
+            //    pCtx.UnmapBuffer(m_JointsBuffer.Obj, MAP_TYPE.MAP_WRITE);
+            //}
+        }
+
+        public unsafe void Render(IDeviceContext pCtx,
+            IShaderResourceBinding materialSRB,
+            IBuffer vertexBuffer,
+            IBuffer indexBuffer,
+            Uint32 numIndices,
+            ALPHA_MODE AlphaMode
+            )
+        {
+            var doubleSided = false;
+
+            UInt32[] offset = new UInt32[] { 0 };
+            IBuffer[] pBuffs = new IBuffer[] { vertexBuffer };
+            pCtx.SetVertexBuffers(0, 1, pBuffs, offset, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION, SET_VERTEX_BUFFERS_FLAGS.SET_VERTEX_BUFFERS_FLAG_RESET);
+            pCtx.SetIndexBuffer(indexBuffer, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+
+            var Key = new PSOKey { AlphaMode = AlphaMode, DoubleSided = doubleSided };
+            var pCurrPSO = m_PSOCache.GetPSO(Key);
+            pCtx.SetPipelineState(pCurrPSO);
+
+            pCtx.CommitShaderResources(materialSRB, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_VERIFY);
+
+            unsafe
+            {
+                IntPtr data = pCtx.MapBuffer(m_GLTFAttribsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
+                var pGLTFAttribs = (GLTFAttribs*)data.ToPointer();// { pCtx, m_GLTFAttribsCB, MAP_WRITE, MAP_FLAG_DISCARD};
+
+                //pGLTFAttribs->MaterialInfo = material.Attribs;
+
+                //var ShaderParams = pGLTFAttribs->RenderParameters;
+
+                //ShaderParams.DebugViewType = static_cast<int>(m_RenderParams.DebugView);
+                //ShaderParams.OcclusionStrength = m_RenderParams.OcclusionStrength;
+                //ShaderParams.EmissionScale = m_RenderParams.EmissionScale;
+                //ShaderParams.AverageLogLum = m_RenderParams.AverageLogLum;
+                //ShaderParams.MiddleGray = m_RenderParams.MiddleGray;
+                //ShaderParams.WhitePoint = m_RenderParams.WhitePoint;
+                //ShaderParams.IBLScale = m_RenderParams.IBLScale;
+                //ShaderParams.PrefilteredCubeMipLevels = m_Settings.UseIBL ? static_cast<float>(m_pPrefilteredEnvMapSRV->GetTexture()->GetDesc().MipLevels) : 0f;
+
+
+                pCtx.UnmapBuffer(m_GLTFAttribsCB.Obj, MAP_TYPE.MAP_WRITE);
+            }
+
+            //  This could work
+            DrawIndexedAttribs DrawAttrs = new DrawIndexedAttribs();     // This is an indexed draw call for the cube 
+            DrawAttrs.IndexType = VALUE_TYPE.VT_UINT32; // Index type
+            DrawAttrs.NumIndices = numIndices;
+            // Verify the state of vertex and index buffers
+            DrawAttrs.Flags = DRAW_FLAGS.DRAW_FLAG_VERIFY_ALL;
+            pCtx.DrawIndexed(DrawAttrs);
         }
     }
 }

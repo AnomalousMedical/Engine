@@ -286,7 +286,7 @@ namespace Tutorial_99_Pbo
             //else
             //{
             m_GLTFRenderer.Begin(m_pImmediateContext);
-            //m_GLTFRenderer->Render(m_pImmediateContext, *m_Model, m_RenderParams, &m_ModelResourceBindings); //m_ModelResourceBindings aka the result of AutoPtr<IShaderResourceBinding> CreateMaterialSRB
+            //m_GLTFRenderer.Render(m_pImmediateContext, *m_Model, m_RenderParams, &m_ModelResourceBindings); //m_ModelResourceBindings aka the result of AutoPtr<IShaderResourceBinding> CreateMaterialSRB
             //}
 
             this.m_pSwapChain.Present(1);
