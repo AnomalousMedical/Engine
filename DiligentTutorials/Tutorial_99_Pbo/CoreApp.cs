@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Globalization;
 using System.IO;
+using Tutorial_99_Pbo.Shapes;
 
 namespace Tutorial_99_Pbo
 {
@@ -47,6 +48,7 @@ namespace Tutorial_99_Pbo
             //Add this app's services
             services.TryAddSingleton<ShaderLoader>();
             services.TryAddSingleton<PboUpdateListener>();
+            services.TryAddSingleton<Cube>();
 
             return true;
         }

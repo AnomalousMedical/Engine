@@ -22,6 +22,7 @@ using float3 = Engine.Vector3;
 using float4 = Engine.Vector4;
 using float4x4 = Engine.Matrix4x4;
 using System.IO;
+using Tutorial_99_Pbo.Shapes;
 
 namespace Tutorial_99_Pbo
 {
@@ -30,6 +31,7 @@ namespace Tutorial_99_Pbo
         private readonly GraphicsEngine graphicsEngine;
         private readonly NativeOSWindow window;
         private readonly ShaderLoader shaderLoader;
+        private readonly Cube cube;
         private bool m_bUseResourceCache = false; //This is just here, not everything is implemented for it
 
         private ISwapChain m_pSwapChain;
@@ -41,8 +43,9 @@ namespace Tutorial_99_Pbo
         AutoPtr<IBuffer> m_LightAttribsCB;
         AutoPtr<IBuffer> m_EnvMapRenderAttribsCB;
         AutoPtr<ITextureView> m_EnvironmentMapSRV;
+        AutoPtr<IShaderResourceBinding> pboMatBinding;
 
-        public unsafe PboUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ShaderLoader shaderLoader)
+        public unsafe PboUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ShaderLoader shaderLoader, Cube cube)
         {
             this.graphicsEngine = graphicsEngine;
             this.m_pSwapChain = graphicsEngine.SwapChain;
@@ -50,11 +53,13 @@ namespace Tutorial_99_Pbo
             this.m_pImmediateContext = graphicsEngine.ImmediateContext;
             this.window = window;
             this.shaderLoader = shaderLoader;
+            this.cube = cube;
             Initialize();
         }
 
         public void Dispose()
         {
+            pboMatBinding.Dispose();
             m_CameraAttribsCB.Dispose();
             m_LightAttribsCB.Dispose();
             m_EnvMapRenderAttribsCB.Dispose();
@@ -146,7 +151,10 @@ namespace Tutorial_99_Pbo
                 //    CreateGLTFResourceCache();
 
                 //LoadModel(GLTFModels[m_SelectedModel].second);
-
+                pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
+                    pCameraAttribs: m_CameraAttribsCB.Obj,
+                    pLightAttribs: m_LightAttribsCB.Obj
+                    );
             }
             finally
             {
@@ -202,6 +210,7 @@ namespace Tutorial_99_Pbo
         {
             var pRTV = m_pSwapChain.GetCurrentBackBufferRTV();
             var pDSV = m_pSwapChain.GetDepthBufferDSV();
+            m_pImmediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             // Clear the back buffer
             var ClearColor = new Engine.Color(0.032f, 0.032f, 0.032f, 1.0f);
             m_pImmediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
@@ -285,8 +294,8 @@ namespace Tutorial_99_Pbo
             //}
             //else
             //{
-            m_GLTFRenderer.Begin(m_pImmediateContext);
-            //m_GLTFRenderer.Render(m_pImmediateContext, *m_Model, m_RenderParams, &m_ModelResourceBindings); //m_ModelResourceBindings aka the result of AutoPtr<IShaderResourceBinding> CreateMaterialSRB
+            //m_GLTFRenderer.Begin(m_pImmediateContext);
+            //m_GLTFRenderer.Render(m_pImmediateContext, pboMatBinding.Obj, cube.VertexBuffer, cube.IndexBuffer, cube.NumIndices, ALPHA_MODE.ALPHA_MODE_OPAQUE);//, *m_Model, m_RenderParams, &m_ModelResourceBindings); //m_ModelResourceBindings aka the result of AutoPtr<IShaderResourceBinding> CreateMaterialSRB
             //}
 
             this.m_pSwapChain.Present(1);

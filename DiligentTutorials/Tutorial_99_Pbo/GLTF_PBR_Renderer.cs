@@ -385,10 +385,10 @@ namespace Tutorial_99_Pbo
                     // clang-format off
                     var Barriers = new List<StateTransitionDesc>
                     {
-                    new StateTransitionDesc{pResource = m_TransformsCB.Obj,  OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true},
-                    new StateTransitionDesc{pResource = m_GLTFAttribsCB.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true},
-                    new StateTransitionDesc{pResource = m_JointsBuffer.Obj,  OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true}
-                };
+                        new StateTransitionDesc{pResource = m_TransformsCB.Obj,  OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true},
+                        new StateTransitionDesc{pResource = m_GLTFAttribsCB.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true},
+                        new StateTransitionDesc{pResource = m_JointsBuffer.Obj,  OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true}
+                    };
                     // clang-format on
                     pCtx.TransitionResourceStates(Barriers);
 
@@ -676,7 +676,7 @@ namespace Tutorial_99_Pbo
             pSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, VarName)?.Set(pTexSRV);
         }
 
-        AutoPtr<IShaderResourceBinding> CreateMaterialSRB(
+        public AutoPtr<IShaderResourceBinding> CreateMaterialSRB(
                                           //GLTF::Model&             Model,
                                           //GLTF::Material&          Material,
                                           IBuffer pCameraAttribs = null,
@@ -955,15 +955,14 @@ namespace Tutorial_99_Pbo
 
         public unsafe void Begin(IDeviceContext pCtx)
         {
-            ////Not quite sure what this does, seems to be a no-op
-            //if (m_JointsBuffer != null)
-            //{
-            //    IntPtr data = pCtx.MapBuffer(m_JointsBuffer.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
-            //    // In next-gen backends, dynamic buffers must be mapped before the first use in every frame
-            //    var pJoints = (float4x4*)data.ToPointer();
+            if (m_JointsBuffer != null)
+            {
+                IntPtr data = pCtx.MapBuffer(m_JointsBuffer.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
+                // In next-gen backends, dynamic buffers must be mapped before the first use in every frame
+                var pJoints = (float4x4*)data.ToPointer();
 
-            //    pCtx.UnmapBuffer(m_JointsBuffer.Obj, MAP_TYPE.MAP_WRITE);
-            //}
+                pCtx.UnmapBuffer(m_JointsBuffer.Obj, MAP_TYPE.MAP_WRITE);
+            }
         }
 
         public unsafe void Render(IDeviceContext pCtx,
@@ -978,7 +977,7 @@ namespace Tutorial_99_Pbo
 
             UInt32[] offset = new UInt32[] { 0 };
             IBuffer[] pBuffs = new IBuffer[] { vertexBuffer };
-            pCtx.SetVertexBuffers(0, 1, pBuffs, offset, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION, SET_VERTEX_BUFFERS_FLAGS.SET_VERTEX_BUFFERS_FLAG_RESET);
+            pCtx.SetVertexBuffers(0, (uint)pBuffs.Length, pBuffs, offset, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION, SET_VERTEX_BUFFERS_FLAGS.SET_VERTEX_BUFFERS_FLAG_RESET);
             pCtx.SetIndexBuffer(indexBuffer, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
             var Key = new PSOKey { AlphaMode = AlphaMode, DoubleSided = doubleSided };
@@ -986,6 +985,24 @@ namespace Tutorial_99_Pbo
             pCtx.SetPipelineState(pCurrPSO);
 
             pCtx.CommitShaderResources(materialSRB, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_VERIFY);
+
+            //--START -- Probably don't have to do these, but errors if not, can probably remove them if we dont want animations
+            unsafe
+            {
+                IntPtr data = pCtx.MapBuffer(m_TransformsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
+                var pGLTFAttribs = (GLTFNodeShaderTransforms*)data.ToPointer();
+
+                pCtx.UnmapBuffer(m_TransformsCB.Obj, MAP_TYPE.MAP_WRITE);
+            }
+
+            unsafe
+            {
+                IntPtr data = pCtx.MapBuffer(m_JointsBuffer.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
+                var pGLTFAttribs = (float4x4*)data.ToPointer();
+
+                pCtx.UnmapBuffer(m_JointsBuffer.Obj, MAP_TYPE.MAP_WRITE);
+            }
+            //--END
 
             unsafe
             {
