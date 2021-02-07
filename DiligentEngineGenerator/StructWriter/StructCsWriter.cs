@@ -128,6 +128,21 @@ $@"    {{
                     return "false";
             }
 
+            if (TypeDetector.IsBool(structProperty.Type))
+            {
+                if(long.TryParse(structProperty.DefaultValue, out long value))
+                {
+                    if(value > 0)
+                    {
+                        return "true";
+                    }
+                    else
+                    {
+                        return "false";
+                    }
+                }
+            }
+
             if (context.CodeTypeInfo.Enums.ContainsKey(structProperty.LookupType))
             {
                 return $"{structProperty.LookupType}.{structProperty.DefaultValue}";

@@ -322,7 +322,10 @@ namespace DiligentEngineGenerator
             {
                 var LightAttribs = CodeStruct.Find(baseDir + "/DiligentFX/Shaders/Common/public/BasicStructures.fxh", 103, 111);
                 codeTypeInfo.Structs[nameof(LightAttribs)] = LightAttribs;
-
+                foreach(var attrib in LightAttribs.Properties.Where(i => i.DefaultValue?.Contains("float4") == true))
+                {
+                    attrib.DefaultValue = "new " + attrib.DefaultValue.Replace("float4", "float4(").Trim().Replace(" ", ", ").Replace("-", ",-") + ")";
+                }
                 codeWriter.AddWriter(new StructCsWriter(LightAttribs), Path.Combine(baseStructDir, $"{nameof(LightAttribs)}.cs"));
             }
 
