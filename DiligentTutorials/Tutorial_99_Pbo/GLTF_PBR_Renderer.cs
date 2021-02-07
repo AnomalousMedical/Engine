@@ -625,12 +625,12 @@ namespace Tutorial_99_Pbo
         [StructLayout(LayoutKind.Sequential)]
         struct PrecomputeEnvMapAttribs
         {
-            float4x4 Rotation;
+            public float4x4 Rotation;
 
-            float Roughness;
-            float EnvMapDim;
-            uint NumSamples;
-            float Dummy;
+            public float Roughness;
+            public float EnvMapDim;
+            public uint NumSamples;
+            public float Dummy;
         };
 
         public void PrecomputeCubemaps(IRenderDevice pDevice, IDeviceContext pCtx, ITextureView pEnvironmentMap, ShaderLoader shaderLoader)
@@ -797,15 +797,21 @@ namespace Tutorial_99_Pbo
                     RTVDesc.FirstArraySlice = face;
                     RTVDesc.NumArraySlices = 1;
                     using var pRTV = pIrradianceCube.CreateView(RTVDesc);
-                    ITextureView* ppRTVs[] = { pRTV };
-                    pCtx->SetRenderTargets(_countof(ppRTVs), ppRTVs, nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+                    pCtx.SetRenderTarget(pRTV.Obj, null, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+
+                    unsafe
                     {
-                        MapHelper<PrecomputeEnvMapAttribs> Attribs(pCtx, m_PrecomputeEnvMapAttribsCB, MAP_WRITE, MAP_FLAG_DISCARD);
+                        IntPtr data = pCtx.MapBuffer(m_PrecomputeEnvMapAttribsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
+
+                        PrecomputeEnvMapAttribs* Attribs = (PrecomputeEnvMapAttribs*)data.ToPointer(); //(pCtx, m_PrecomputeEnvMapAttribsCB, MAP_WRITE, MAP_FLAG_DISCARD);
                         Attribs->Rotation = Matrices[face];
+
+                        pCtx.UnmapBuffer(m_PrecomputeEnvMapAttribsCB.Obj, MAP_TYPE.MAP_WRITE);
                     }
-                    DrawAttribs drawAttrs(4, DRAW_FLAG_VERIFY_ALL);
-            pCtx->Draw(drawAttrs);
-        }
+
+                    var drawAttrs = new DrawAttribs { NumVertices = 4, Flags = DRAW_FLAGS.DRAW_FLAG_VERIFY_ALL };
+                    pCtx.Draw(drawAttrs);
+                }
             }
 
             //    pCtx->SetPipelineState(m_pPrefilterEnvMapPSO);

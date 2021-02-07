@@ -753,10 +753,20 @@ namespace DiligentEngineGenerator
             {
                 var ITexture = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Texture.h", 271, 333);
                 codeTypeInfo.Interfaces[nameof(ITexture)] = ITexture;
-                var allowedMethods = new List<String> { "GetDefaultView" };
+                var allowedMethods = new List<String> { "GetDefaultView", "CreateView" };
                 ITexture.Methods = ITexture.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(ITexture), Path.Combine(baseCSharpInterfaceDir, $"{nameof(ITexture)}.cs"));
+
+                {
+                    var CreateView = ITexture.Methods.First(i => i.Name == "CreateView");
+                    CreateView.ReturnType = "ITextureView*";
+                    CreateView.ReturnAsAutoPtr = true;
+                    var ppView = CreateView.Args.First(i => i.Name == "ppView");
+                    ppView.MakeReturnVal = true;
+                    ppView.Type = "ITextureView*";
+                }
+
                 var cppWriter = new InterfaceCppWriter(ITexture, new List<String>()
                 {
                     "Graphics/GraphicsEngine/interface/Texture.h"
