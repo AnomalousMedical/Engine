@@ -18,6 +18,7 @@ using Uint32 = System.UInt32;
 using Uint64 = System.UInt64;
 using Float32 = System.Single;
 using Uint16 = System.UInt16;
+using float4x4 = Engine.Matrix4x4;
 using System.IO;
 
 namespace Tutorial_99_Pbo
@@ -27,7 +28,7 @@ namespace Tutorial_99_Pbo
         private readonly GraphicsEngine graphicsEngine;
         private readonly NativeOSWindow window;
         private readonly ShaderLoader shaderLoader;
-        private bool m_bUseResourceCache = false;
+        private bool m_bUseResourceCache = false; //This is just here, not everything is implemented for it
 
         private ISwapChain m_pSwapChain;
         private IRenderDevice m_pDevice;
@@ -132,6 +133,7 @@ namespace Tutorial_99_Pbo
 
                 m_GLTFRenderer.PrecomputeCubemaps(m_pDevice, m_pImmediateContext, m_EnvironmentMapSRV.Obj, shaderLoader);
 
+                //These probably don't matter
                 //CreateEnvMapPSO();
 
                 //CreateBoundBoxPSO(BackBufferFmt, DepthBufferFmt);
@@ -160,9 +162,88 @@ namespace Tutorial_99_Pbo
 
         }
 
+        static readonly float PI_F = (float)Math.PI;
+
         public unsafe void sendUpdate(Clock clock)
         {
+            var pRTV = m_pSwapChain.GetCurrentBackBufferRTV();
+            var pDSV = m_pSwapChain.GetDepthBufferDSV();
+            // Clear the back buffer
+            var ClearColor = new Engine.Color(0.032f, 0.032f, 0.032f, 1.0f);
+            m_pImmediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            m_pImmediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
+            //float YFov  = PI_F / 4.0f;
+            //float ZNear = 0.1f;
+            //float ZFar  = 100f;
+
+            //float4x4 CameraView;
+            ////if (m_CameraId == 0)
+            ////{
+            ////CameraView = m_CameraRotation.ToMatrix() * float4x4.Translation(0.0f, 0.0f, m_CameraDist);
+            //CameraView = float4x4.Identity * float4x4.Translation(0.0f, 0.0f, 9.0f);
+
+            ////m_RenderParams.ModelTransform = m_ModelRotation.ToMatrix();
+            ////}
+            ////else
+            ////{
+            ////    const auto* pCamera = m_Cameras[m_CameraId - 1];
+
+            ////    // GLTF camera is defined such that the local +X axis is to the right,
+            ////    // the lens looks towards the local -Z axis, and the top of the camera
+            ////    // is aligned with the local +Y axis.
+            ////    // https://github.com/KhronosGroup/glTF/tree/master/specification/2.0#cameras
+            ////    // We need to inverse the Z axis as our camera looks towards +Z.
+            ////    float4x4 InvZAxis = float4x4::Identity();
+            ////    InvZAxis._33 = -1;
+
+            ////    CameraView = pCamera->matrix.Inverse() * InvZAxis;
+            ////    YFov = pCamera->Perspective.YFov;
+            ////    ZNear = pCamera->Perspective.ZNear;
+            ////    ZFar = pCamera->Perspective.ZFar;
+
+            ////    m_RenderParams.ModelTransform = float4x4::Identity();
+            ////}
+
+            //// Apply pretransform matrix that rotates the scene according the surface orientation
+            ////Skip for now
+            ////CameraView *= GetSurfacePretransformMatrix(float3{0, 0, 1});
+
+            //float4x4 CameraWorld = CameraView.Inverse();
+
+            //// Get projection matrix adjusted to the current screen orientation
+            //const auto CameraProj     = GetAdjustedProjectionMatrix(YFov, ZNear, ZFar);
+            //const auto CameraViewProj = CameraView * CameraProj;
+
+            //float3 CameraWorldPos = float3::MakeVector(CameraWorld[3]);
+
+            //unsafe
+            //{
+            //    MapHelper<CameraAttribs> CamAttribs(m_pImmediateContext, m_CameraAttribsCB, MAP_WRITE, MAP_FLAG_DISCARD);
+            //    CamAttribs->mProjT        = CameraProj.Transpose();
+            //    CamAttribs->mViewProjT    = CameraViewProj.Transpose();
+            //    CamAttribs->mViewProjInvT = CameraViewProj.Inverse().Transpose();
+            //    CamAttribs->f4Position    = float4(CameraWorldPos, 1);
+            //}
+
+            //{
+            //    MapHelper<LightAttribs> lightAttribs(m_pImmediateContext, m_LightAttribsCB, MAP_WRITE, MAP_FLAG_DISCARD);
+            //    lightAttribs->f4Direction = m_LightDirection;
+            //    lightAttribs->f4Intensity = m_LightColor * m_LightIntensity;
+            //}
+
+            //if (m_bUseResourceCache)
+            //{
+            //    m_GLTFRenderer->Begin(m_pDevice, m_pImmediateContext, m_CacheUseInfo, m_CacheBindings, m_CameraAttribsCB, m_LightAttribsCB);
+            //    m_GLTFRenderer->Render(m_pImmediateContext, *m_Model, m_RenderParams, nullptr, &m_CacheBindings);
+            //}
+            //else
+            //{
+            //    m_GLTFRenderer->Begin(m_pImmediateContext);
+            //    m_GLTFRenderer->Render(m_pImmediateContext, *m_Model, m_RenderParams, &m_ModelResourceBindings);
+            //}
+
+            this.m_pSwapChain.Present(1);
         }
     }
 }
