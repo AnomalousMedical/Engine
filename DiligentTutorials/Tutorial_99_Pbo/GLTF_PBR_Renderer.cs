@@ -19,6 +19,7 @@ using float3 = Engine.Vector3;
 using float2 = Engine.Vector2;
 using float4x4 = Engine.Matrix4x4;
 using BOOL = System.Boolean;
+using System.Collections;
 
 namespace Tutorial_99_Pbo
 {
@@ -196,7 +197,7 @@ namespace Tutorial_99_Pbo
             /// </summary>
             /// <param name="Key"></param>
             /// <param name="pPSO"></param>
-            public void AddPSO(PSOKey Key, AutoPtr<IPipelineState> pPSO)
+            public void AddPSO(PSOKey Key, IPipelineState pPSO)
             {
                 var Idx = GetPSOIdx(Key);
                 if(m_PSOCache.Count <= Idx)
@@ -212,7 +213,7 @@ namespace Tutorial_99_Pbo
 
                 m_PSOCache[(int)Idx]?.Dispose();
 
-                m_PSOCache[(int)Idx] = new AutoPtr<IPipelineState>(pPSO.Obj);
+                m_PSOCache[(int)Idx] = new AutoPtr<IPipelineState>(pPSO);
             }
 
             public IPipelineState GetPSO(PSOKey Key)
@@ -228,6 +229,9 @@ namespace Tutorial_99_Pbo
                     pso.Dispose();
                 }
             }
+
+            public IEnumerable<IPipelineState> Items =>
+                m_PSOCache.Where(i => i != null).Select(i => i.Obj);
         }
 
         private CreateInfo m_Settings;
@@ -493,7 +497,7 @@ namespace Tutorial_99_Pbo
             ShaderCI.EntryPoint = "main";
             ShaderCI.Desc.Name = "GLTF PBR PS";
             ShaderCI.Source = shaderLoader.LoadShader("GLTF_PBR/private/RenderGLTF_PBR.psh", "Common/public", "GLTF_PBR/public", "PostProcess/ToneMapping/public");
-            using var pPS = pDevice.CreateShader(ShaderCI);
+            using var pPS = pDevice.CreateShader(ShaderCI, Macros);
 
             var Inputs = new List<LayoutElement>
             {
@@ -551,55 +555,51 @@ namespace Tutorial_99_Pbo
                 var Key = new PSOKey { AlphaMode = ALPHA_MODE.ALPHA_MODE_OPAQUE, DoubleSided = false };
 
                 using var pSingleSidedOpaquePSO = pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
-                m_PSOCache.AddPSO(Key, pSingleSidedOpaquePSO);
+                m_PSOCache.AddPSO(Key, pSingleSidedOpaquePSO.Obj);
 
                 PSOCreateInfo.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE.CULL_MODE_NONE;
 
                 Key.DoubleSided = true;
 
                 using var pDobleSidedOpaquePSO = pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
-                m_PSOCache.AddPSO(Key, pDobleSidedOpaquePSO);
+                m_PSOCache.AddPSO(Key, pDobleSidedOpaquePSO.Obj);
             }
 
-            //PSOCreateInfo.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE.CULL_MODE_BACK;
+            PSOCreateInfo.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE.CULL_MODE_BACK;
 
-            //var RT0 = PSOCreateInfo.GraphicsPipeline.BlendDesc.RenderTargets[0];
-            //RT0.BlendEnable = true;
-            //RT0.SrcBlend = BLEND_FACTOR.BLEND_FACTOR_SRC_ALPHA;
-            //RT0.DestBlend = BLEND_FACTOR.BLEND_FACTOR_INV_SRC_ALPHA;
-            //RT0.BlendOp = BLEND_OPERATION.BLEND_OPERATION_ADD;
-            //RT0.SrcBlendAlpha = BLEND_FACTOR.BLEND_FACTOR_INV_SRC_ALPHA;
-            //RT0.DestBlendAlpha = BLEND_FACTOR.BLEND_FACTOR_ZERO;
-            //RT0.BlendOpAlpha = BLEND_OPERATION.BLEND_OPERATION_ADD;
+            var RT0 = PSOCreateInfo.GraphicsPipeline.BlendDesc.RenderTargets_0;
+            RT0.BlendEnable = true;
+            RT0.SrcBlend = BLEND_FACTOR.BLEND_FACTOR_SRC_ALPHA;
+            RT0.DestBlend = BLEND_FACTOR.BLEND_FACTOR_INV_SRC_ALPHA;
+            RT0.BlendOp = BLEND_OPERATION.BLEND_OPERATION_ADD;
+            RT0.SrcBlendAlpha = BLEND_FACTOR.BLEND_FACTOR_INV_SRC_ALPHA;
+            RT0.DestBlendAlpha = BLEND_FACTOR.BLEND_FACTOR_ZERO;
+            RT0.BlendOpAlpha = BLEND_OPERATION.BLEND_OPERATION_ADD;
 
-            //{
-            //    PSOKey Key{ GLTF::Material::ALPHA_MODE_BLEND, false};
+            {
+                var Key = new PSOKey{ AlphaMode = ALPHA_MODE.ALPHA_MODE_BLEND, DoubleSided = false };
 
-            //    RefCntAutoPtr<IPipelineState> pSingleSidedBlendPSO;
-            //    pDevice->CreateGraphicsPipelineState(PSOCreateInfo, &pSingleSidedBlendPSO);
-            //    AddPSO(Key, std::move(pSingleSidedBlendPSO));
+                using var pSingleSidedBlendPSO = pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
+                m_PSOCache.AddPSO(Key, pSingleSidedBlendPSO.Obj);
 
-            //    PSOCreateInfo.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE_NONE;
+                PSOCreateInfo.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE.CULL_MODE_NONE;
 
-            //    Key.DoubleSided = true;
+                Key.DoubleSided = true;
 
-            //    RefCntAutoPtr<IPipelineState> pDoubleSidedBlendPSO;
-            //    pDevice->CreateGraphicsPipelineState(PSOCreateInfo, &pDoubleSidedBlendPSO);
-            //    AddPSO(Key, std::move(pDoubleSidedBlendPSO));
-            //}
+                using var pDoubleSidedBlendPSO = pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
+                m_PSOCache.AddPSO(Key, pDoubleSidedBlendPSO.Obj);
+            }
 
-            //for (auto & PSO : m_PSOCache)
-            //{
-            //    if (m_Settings.UseIBL)
-            //    {
-            //        PSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "g_BRDF_LUT")->Set(m_pBRDF_LUT_SRV);
-            //    }
-            //    // clang-format off
-            //    PSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "cbTransforms")->Set(m_TransformsCB);
-            //    PSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "cbGLTFAttribs")->Set(m_GLTFAttribsCB);
-            //    PSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "cbJointTransforms")->Set(m_JointsBuffer);
-            //    // clang-format on
-            //}
+            foreach (var PSO in m_PSOCache.Items)
+            {
+                if (m_Settings.UseIBL)
+                {
+                    PSO.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_BRDF_LUT").Set(m_pBRDF_LUT_SRV.Obj);
+                }
+                PSO.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "cbTransforms").Set(m_TransformsCB.Obj);
+                PSO.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "cbGLTFAttribs").Set(m_GLTFAttribsCB.Obj);
+                PSO.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "cbJointTransforms").Set(m_JointsBuffer.Obj);
+            }
         }
     }
 }

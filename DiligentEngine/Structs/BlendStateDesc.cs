@@ -28,6 +28,14 @@ namespace DiligentEngine
         }
         public Bool AlphaToCoverageEnable { get; set; } = false;
         public Bool IndependentBlendEnable { get; set; } = false;
+        public RenderTargetBlendDesc RenderTargets_0 { get; set; } = new RenderTargetBlendDesc();
+        public RenderTargetBlendDesc RenderTargets_1 { get; set; } = new RenderTargetBlendDesc();
+        public RenderTargetBlendDesc RenderTargets_2 { get; set; } = new RenderTargetBlendDesc();
+        public RenderTargetBlendDesc RenderTargets_3 { get; set; } = new RenderTargetBlendDesc();
+        public RenderTargetBlendDesc RenderTargets_4 { get; set; } = new RenderTargetBlendDesc();
+        public RenderTargetBlendDesc RenderTargets_5 { get; set; } = new RenderTargetBlendDesc();
+        public RenderTargetBlendDesc RenderTargets_6 { get; set; } = new RenderTargetBlendDesc();
+        public RenderTargetBlendDesc RenderTargets_7 { get; set; } = new RenderTargetBlendDesc();
 
 
     }

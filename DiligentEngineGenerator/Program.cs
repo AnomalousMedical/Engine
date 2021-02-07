@@ -403,8 +403,12 @@ namespace DiligentEngineGenerator
             {
                 var BlendStateDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/BlendState.h", 372, 387);
                 codeTypeInfo.Structs[nameof(BlendStateDesc)] = BlendStateDesc;
-                var remove = new List<String> { "RenderTargets[DILIGENT_MAX_RENDER_TARGETS]", "RenderTargets" };
-                BlendStateDesc.Properties = BlendStateDesc.Properties.Where(i => !remove.Contains(i.Name)).ToList();
+
+                {
+                    var RenderTargets = BlendStateDesc.Properties.First(i => i.Name == "RenderTargets");
+                    RenderTargets.ArrayLen = "8"; //Constants.h line 44 - #define DILIGENT_MAX_RENDER_TARGETS 8
+                }
+
                 codeWriter.AddWriter(new StructCsWriter(BlendStateDesc), Path.Combine(baseStructDir, $"{nameof(BlendStateDesc)}.cs"));
             }
 
