@@ -791,22 +791,21 @@ namespace Tutorial_99_Pbo
             {
                 for (Uint32 face = 0; face < 6; ++face)
                 {
-                    //TextureViewDesc RTVDesc(TEXTURE_VIEW_RENDER_TARGET, RESOURCE_DIM_TEX_2D_ARRAY);
-                    //RTVDesc.Name            = "RTV for irradiance cube texture";
-                    //RTVDesc.MostDetailedMip = mip;
-                    //RTVDesc.FirstArraySlice = face;
-                    //RTVDesc.NumArraySlices  = 1;
-                    //RefCntAutoPtr<ITextureView> pRTV;
-                    //pIrradianceCube->CreateView(RTVDesc, &pRTV);
-                    //ITextureView* ppRTVs[] = {pRTV};
-                    //pCtx->SetRenderTargets(_countof(ppRTVs), ppRTVs, nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-                    //{
-                    //    MapHelper<PrecomputeEnvMapAttribs> Attribs(pCtx, m_PrecomputeEnvMapAttribsCB, MAP_WRITE, MAP_FLAG_DISCARD);
-                    //    Attribs->Rotation = Matrices[face];
-                    //}
-                    //DrawAttribs drawAttrs(4, DRAW_FLAG_VERIFY_ALL);
-                    //pCtx->Draw(drawAttrs);
-                }
+                    var RTVDesc = new TextureViewDesc { ViewType = TEXTURE_VIEW_TYPE.TEXTURE_VIEW_RENDER_TARGET, TextureDim = RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY };
+                    RTVDesc.Name = "RTV for irradiance cube texture";
+                    RTVDesc.MostDetailedMip = mip;
+                    RTVDesc.FirstArraySlice = face;
+                    RTVDesc.NumArraySlices = 1;
+                    using var pRTV = pIrradianceCube.CreateView(RTVDesc);
+                    ITextureView* ppRTVs[] = { pRTV };
+                    pCtx->SetRenderTargets(_countof(ppRTVs), ppRTVs, nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+                    {
+                        MapHelper<PrecomputeEnvMapAttribs> Attribs(pCtx, m_PrecomputeEnvMapAttribsCB, MAP_WRITE, MAP_FLAG_DISCARD);
+                        Attribs->Rotation = Matrices[face];
+                    }
+                    DrawAttribs drawAttrs(4, DRAW_FLAG_VERIFY_ALL);
+            pCtx->Draw(drawAttrs);
+        }
             }
 
             //    pCtx->SetPipelineState(m_pPrefilterEnvMapPSO);

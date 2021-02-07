@@ -249,10 +249,21 @@ namespace DiligentEngineGenerator
                 EnumWriter.Write(STATE_TRANSITION_TYPE, Path.Combine(baseEnumDir, $"{nameof(STATE_TRANSITION_TYPE)}.cs"));
             }
 
+            {
+                var UAV_ACCESS_FLAG = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/TextureView.h", 47, 62);
+                codeTypeInfo.Enums[nameof(UAV_ACCESS_FLAG)] = UAV_ACCESS_FLAG;
+                EnumWriter.Write(UAV_ACCESS_FLAG, Path.Combine(baseEnumDir, $"{nameof(UAV_ACCESS_FLAG)}.cs"));
+            }
 
-            //////////// Structs
+            {
+                var TEXTURE_VIEW_FLAGS = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/TextureView.h", 64, 75);
+                codeTypeInfo.Enums[nameof(TEXTURE_VIEW_FLAGS)] = TEXTURE_VIEW_FLAGS;
+                EnumWriter.Write(TEXTURE_VIEW_FLAGS, Path.Combine(baseEnumDir, $"{nameof(TEXTURE_VIEW_FLAGS)}.cs"));
+            }
+            
+           //////////// Structs
 
-            var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
+           var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
             {
                 var ShaderResourceVariableDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 73, 85);
                 codeTypeInfo.Structs[nameof(ShaderResourceVariableDesc)] = ShaderResourceVariableDesc;
@@ -343,6 +354,17 @@ namespace DiligentEngineGenerator
                 var SamplerDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Sampler.h", 46, 112);
                 codeTypeInfo.Structs[nameof(SamplerDesc)] = SamplerDesc;
                 codeWriter.AddWriter(new StructCsWriter(SamplerDesc), Path.Combine(baseStructDir, $"{nameof(SamplerDesc)}.cs"));
+            }
+
+            {
+                var TextureViewDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/TextureView.h", 78, 132, 
+                    skipLines: Sequence(106, 107)
+                               .Concat(Sequence(110, 113))
+                               .Concat(Sequence(115, 116))
+                               .Concat(Sequence(120, 125))
+                            );
+                codeTypeInfo.Structs[nameof(TextureViewDesc)] = TextureViewDesc;
+                codeWriter.AddWriter(new StructCsWriter(TextureViewDesc), Path.Combine(baseStructDir, $"{nameof(TextureViewDesc)}.cs"));
             }
 
             {
