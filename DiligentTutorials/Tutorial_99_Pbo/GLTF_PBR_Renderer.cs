@@ -786,28 +786,28 @@ namespace Tutorial_99_Pbo
             m_pPrecomputeIrradianceCubeSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_EnvironmentMap").Set(pEnvironmentMap);
             pCtx.CommitShaderResources(m_pPrecomputeIrradianceCubeSRB.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             var pIrradianceCube = m_pIrradianceCubeSRV.Obj.GetTexture();
-            //    const auto& IrradianceCubeDesc = pIrradianceCube->GetDesc();
-            //    for (Uint32 mip = 0; mip < IrradianceCubeDesc.MipLevels; ++mip)
-            //    {
-            //        for (Uint32 face = 0; face < 6; ++face)
-            //        {
-            //            TextureViewDesc RTVDesc(TEXTURE_VIEW_RENDER_TARGET, RESOURCE_DIM_TEX_2D_ARRAY);
-            //            RTVDesc.Name            = "RTV for irradiance cube texture";
-            //            RTVDesc.MostDetailedMip = mip;
-            //            RTVDesc.FirstArraySlice = face;
-            //            RTVDesc.NumArraySlices  = 1;
-            //            RefCntAutoPtr<ITextureView> pRTV;
-            //            pIrradianceCube->CreateView(RTVDesc, &pRTV);
-            //            ITextureView* ppRTVs[] = {pRTV};
-            //            pCtx->SetRenderTargets(_countof(ppRTVs), ppRTVs, nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-            //            {
-            //                MapHelper<PrecomputeEnvMapAttribs> Attribs(pCtx, m_PrecomputeEnvMapAttribsCB, MAP_WRITE, MAP_FLAG_DISCARD);
-            //                Attribs->Rotation = Matrices[face];
-            //            }
-            //            DrawAttribs drawAttrs(4, DRAW_FLAG_VERIFY_ALL);
-            //            pCtx->Draw(drawAttrs);
-            //        }
-            //    }
+            var IrradianceCubeDesc_MipLevels = pIrradianceCube.GetDesc_MipLevels;
+            for (Uint32 mip = 0; mip < IrradianceCubeDesc_MipLevels; ++mip)
+            {
+                for (Uint32 face = 0; face < 6; ++face)
+                {
+                    //TextureViewDesc RTVDesc(TEXTURE_VIEW_RENDER_TARGET, RESOURCE_DIM_TEX_2D_ARRAY);
+                    //RTVDesc.Name            = "RTV for irradiance cube texture";
+                    //RTVDesc.MostDetailedMip = mip;
+                    //RTVDesc.FirstArraySlice = face;
+                    //RTVDesc.NumArraySlices  = 1;
+                    //RefCntAutoPtr<ITextureView> pRTV;
+                    //pIrradianceCube->CreateView(RTVDesc, &pRTV);
+                    //ITextureView* ppRTVs[] = {pRTV};
+                    //pCtx->SetRenderTargets(_countof(ppRTVs), ppRTVs, nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+                    //{
+                    //    MapHelper<PrecomputeEnvMapAttribs> Attribs(pCtx, m_PrecomputeEnvMapAttribsCB, MAP_WRITE, MAP_FLAG_DISCARD);
+                    //    Attribs->Rotation = Matrices[face];
+                    //}
+                    //DrawAttribs drawAttrs(4, DRAW_FLAG_VERIFY_ALL);
+                    //pCtx->Draw(drawAttrs);
+                }
+            }
 
             //    pCtx->SetPipelineState(m_pPrefilterEnvMapPSO);
             //    m_pPrefilterEnvMapSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_EnvironmentMap")->Set(pEnvironmentMap);

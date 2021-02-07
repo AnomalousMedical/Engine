@@ -177,6 +177,7 @@
     <ClCompile Include="ISwapChain.cpp" />
     <ClCompile Include="ISwapChain.Custom.cpp" />
     <ClCompile Include="ITexture.cpp" />
+    <ClCompile Include="ITexture.Custom.cpp" />
     <ClCompile Include="ITextureView.cpp" />
     <ClCompile Include="KtxLoader.cpp" />
     <ClCompile Include="Stdafx.cpp">
