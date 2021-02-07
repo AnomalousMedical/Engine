@@ -43,5 +43,47 @@ namespace DiligentEngine
             , Uint64 BuffDesc_CommandQueueMask
             , String BuffDesc_Name
         );
+
+        /// <summary>
+        /// Creates a new shader object
+        /// \param [in] ShaderCI  - Shader create info, see Diligent::ShaderCreateInfo for details.
+        /// \param [out] ppShader - Address of the memory location where the pointer to the
+        /// shader interface will be stored.
+        /// The function calls AddRef(), so that the new object will contain
+        /// one reference.
+        /// </summary>
+        public AutoPtr<IShader> CreateShader(ShaderCreateInfo ShaderCI, ShaderMacroHelper macros)
+        {
+            var macrosArray = macros.CreatePassStructArray();
+            var theReturnValue =
+            IRenderDevice_CreateShader_Macros(
+                this.objPtr
+                , ShaderCI.FilePath
+                , ShaderCI.Source
+                , ShaderCI.EntryPoint
+                , ShaderCI.UseCombinedTextureSamplers
+                , ShaderCI.CombinedSamplerSuffix
+                , ShaderCI.Desc.ShaderType
+                , ShaderCI.Desc.Name
+                , ShaderCI.SourceLanguage
+                , macrosArray
+                , (Uint32)macrosArray.Length
+            );
+            return new AutoPtr<IShader>(new IShader(theReturnValue), false);
+        }
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr IRenderDevice_CreateShader_Macros(
+            IntPtr objPtr
+            , String ShaderCI_FilePath
+            , String ShaderCI_Source
+            , String ShaderCI_EntryPoint
+            , [MarshalAs(UnmanagedType.I1)] bool ShaderCI_UseCombinedTextureSamplers
+            , String ShaderCI_CombinedSamplerSuffix
+            , SHADER_TYPE ShaderCI_Desc_ShaderType
+            , String ShaderCI_Desc_Name
+            , SHADER_SOURCE_LANGUAGE ShaderCI_SourceLanguage
+            , MacroPassStruct[] macros
+            , Uint32 macrosCount
+        );
     }
 }

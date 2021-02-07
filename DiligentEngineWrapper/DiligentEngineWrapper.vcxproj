@@ -188,6 +188,7 @@
   <ItemGroup>
     <ClInclude Include="Color.h" />
     <ClInclude Include="LayoutElement.PassStruct.h" />
+    <ClInclude Include="MacroPassStruct.h" />
     <ClInclude Include="Stdafx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

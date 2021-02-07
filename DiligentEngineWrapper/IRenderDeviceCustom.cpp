@@ -1,6 +1,9 @@
 #include "StdAfx.h"
 #include "Graphics/GraphicsEngine/interface/RenderDevice.h"
+#include "Graphics/GraphicsEngine/interface/Shader.h"
+#include "Graphics/GraphicsTools/interface/ShaderMacroHelper.hpp"
 #include "Color.h"
+#include "MacroPassStruct.h";
 using namespace Diligent;
 extern "C" _AnomalousExport IBuffer * IRenderDevice_CreateBuffer_Null_Data(
 	IRenderDevice * objPtr
@@ -30,4 +33,43 @@ extern "C" _AnomalousExport IBuffer * IRenderDevice_CreateBuffer_Null_Data(
 		, &ppBuffer
 	);
 	return ppBuffer;
+}
+extern "C" _AnomalousExport IShader * IRenderDevice_CreateShader_Macros(
+	IRenderDevice * objPtr
+	, Char * ShaderCI_FilePath
+	, Char * ShaderCI_Source
+	, Char * ShaderCI_EntryPoint
+	, bool ShaderCI_UseCombinedTextureSamplers
+	, Char * ShaderCI_CombinedSamplerSuffix
+	, SHADER_TYPE ShaderCI_Desc_ShaderType
+	, Char * ShaderCI_Desc_Name
+	, SHADER_SOURCE_LANGUAGE ShaderCI_SourceLanguage
+	, MacroPassStruct* macros
+	, Uint32 macrosCount
+)
+{
+	ShaderCreateInfo ShaderCI;
+	ShaderCI.FilePath = ShaderCI_FilePath;
+	ShaderCI.Source = ShaderCI_Source;
+	ShaderCI.EntryPoint = ShaderCI_EntryPoint;
+	ShaderCI.UseCombinedTextureSamplers = ShaderCI_UseCombinedTextureSamplers;
+	ShaderCI.CombinedSamplerSuffix = ShaderCI_CombinedSamplerSuffix;
+	ShaderCI.Desc.ShaderType = ShaderCI_Desc_ShaderType;
+	ShaderCI.Desc.Name = ShaderCI_Desc_Name;
+	ShaderCI.SourceLanguage = ShaderCI_SourceLanguage;
+
+	ShaderMacroHelper Macros;
+	for (Uint32 i = 0; i < macrosCount; ++i)
+	{
+		MacroPassStruct& macro = macros[i];
+		Macros.AddShaderMacro(macro.name, macro.definition);
+	}
+	ShaderCI.Macros = Macros;
+
+	IShader* theReturnValue = nullptr;
+	objPtr->CreateShader(
+		ShaderCI
+		, &theReturnValue
+	);
+	return theReturnValue;
 }
