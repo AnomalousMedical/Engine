@@ -473,7 +473,7 @@ namespace Tutorial_99_Pbo
             ShaderCI.EntryPoint = "main";
             ShaderCI.Desc.Name = "GLTF PBR VS";
             ShaderCI.FilePath = "RenderGLTF_PBR.vsh";
-            using var pVS = pDevice.CreateShader(ShaderCI, Macros); //This won't actually send the macros yet
+            using var pVS = pDevice.CreateShader(ShaderCI, Macros);
 
             // Create pixel shader
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_PIXEL;
