@@ -326,16 +326,6 @@ namespace DiligentEngineGenerator
             }
 
             {
-                var LightAttribs = CodeStruct.Find(baseDir + "/DiligentFX/Shaders/Common/public/BasicStructures.fxh", 103, 111);
-                codeTypeInfo.Structs[nameof(LightAttribs)] = LightAttribs;
-                foreach(var attrib in LightAttribs.Properties.Where(i => i.DefaultValue?.Contains("float4") == true))
-                {
-                    attrib.DefaultValue = "new " + attrib.DefaultValue.Replace("float4", "float4(").Trim().Replace(" ", ", ").Replace("-", ",-") + ")";
-                }
-                codeWriter.AddWriter(new StructCsWriter(LightAttribs), Path.Combine(baseStructDir, $"{nameof(LightAttribs)}.cs"));
-            }
-
-            {
                 var ImmutableSamplerDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 100, 115);
                 codeTypeInfo.Structs[nameof(ImmutableSamplerDesc)] = ImmutableSamplerDesc;
 
@@ -703,12 +693,17 @@ namespace DiligentEngineGenerator
 
                 {
                     var SetSampler = ITextureView.Methods.First(i => i.Name == "SetSampler");
-                    var pSampler = SetSampler.Args.First(i => i.Name == "ISampler*");
+                    var pSampler = SetSampler.Args.First(i => i.Name == "METHOD(GetSampler");
                     pSampler.Type = "ISampler*";
                     pSampler.Name = "pSampler";
                 }
 
-                var allowedMethods = new List<String> { "SetSampler" };
+                {
+                    var GetTexture = ITextureView.Methods.First(i => i.Name == "GetTexture");
+                    GetTexture.ReturnType = GetTexture.ReturnType.Replace("struct", "");
+                }
+
+                var allowedMethods = new List<String> { "SetSampler", "GetTexture" };
                 ITextureView.Methods = ITextureView.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(ITextureView), Path.Combine(baseCSharpInterfaceDir, $"{nameof(ITextureView)}.cs"));

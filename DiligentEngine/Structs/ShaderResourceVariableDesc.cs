@@ -21,6 +21,7 @@ namespace DiligentEngine
 {
     public partial class ShaderResourceVariableDesc
     {
+
         public ShaderResourceVariableDesc()
         {
             

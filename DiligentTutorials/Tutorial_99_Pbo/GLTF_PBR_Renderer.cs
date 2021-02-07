@@ -782,10 +782,10 @@ namespace Tutorial_99_Pbo
                 /* -Z */ float4x4.RotationY((float)Math.PI)
             };
 
-            //    pCtx->SetPipelineState(m_pPrecomputeIrradianceCubePSO);
-            //    m_pPrecomputeIrradianceCubeSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_EnvironmentMap")->Set(pEnvironmentMap);
-            //    pCtx->CommitShaderResources(m_pPrecomputeIrradianceCubeSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-            //    auto*       pIrradianceCube    = m_pIrradianceCubeSRV->GetTexture();
+            pCtx.SetPipelineState(m_pPrecomputeIrradianceCubePSO.Obj);
+            m_pPrecomputeIrradianceCubeSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_EnvironmentMap").Set(pEnvironmentMap);
+            pCtx.CommitShaderResources(m_pPrecomputeIrradianceCubeSRB.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            var pIrradianceCube = m_pIrradianceCubeSRV.Obj.GetTexture();
             //    const auto& IrradianceCubeDesc = pIrradianceCube->GetDesc();
             //    for (Uint32 mip = 0; mip < IrradianceCubeDesc.MipLevels; ++mip)
             //    {

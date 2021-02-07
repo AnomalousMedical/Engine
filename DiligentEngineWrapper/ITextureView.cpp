@@ -9,3 +9,10 @@ extern "C" _AnomalousExport void ITextureView_SetSampler(
 		pSampler
 	);
 }
+extern "C" _AnomalousExport  ITexture* ITextureView_GetTexture(
+	ITextureView* objPtr
+)
+{
+	return objPtr->GetTexture(
+	);
+}

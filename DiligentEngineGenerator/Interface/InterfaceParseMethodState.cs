@@ -29,6 +29,7 @@ namespace DiligentEngineGenerator
                     propertyParse = propertyParse.Replace("const", "");
                     propertyParse = propertyParse.Replace("REF", "");
                     propertyParse = propertyParse.Replace("VIRTUAL", "");
+                    propertyParse = propertyParse.Replace("struct", "");
                     propertyParse = propertyParse.Trim();
 
                     var typeAndName = propertyParse.Split(null).Where(i => !String.IsNullOrWhiteSpace(i)); //Split on whitespace

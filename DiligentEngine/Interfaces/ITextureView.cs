@@ -49,12 +49,29 @@ namespace DiligentEngine
                 , pSampler.objPtr
             );
         }
+        /// <summary>
+        /// Returns the pointer to the referenced texture object.
+        /// The method does *NOT* call AddRef() on the returned interface,
+        /// so Release() must not be called.
+        /// </summary>
+        public  ITexture GetTexture()
+        {
+            var theReturnValue = 
+            ITextureView_GetTexture(
+                this.objPtr
+            );
+            return theReturnValue != IntPtr.Zero ? new  ITexture(theReturnValue) : null;
+        }
 
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr ITextureView_SetSampler(
             IntPtr objPtr
             , IntPtr pSampler
+        );
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr ITextureView_GetTexture(
+            IntPtr objPtr
         );
     }
 }
