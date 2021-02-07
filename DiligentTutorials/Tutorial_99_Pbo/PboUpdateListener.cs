@@ -121,6 +121,30 @@ namespace Tutorial_99_Pbo
                     m_EnvMapRenderAttribsCB = m_pDevice.CreateBuffer(CBDesc);
                 }
 
+                //// clang-format off
+                //StateTransitionDesc Barriers[] =
+                //{
+                //    {m_CameraAttribsCB,        RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_CONSTANT_BUFFER, true},
+                //    {m_LightAttribsCB,         RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_CONSTANT_BUFFER, true},
+                //    {m_EnvMapRenderAttribsCB,  RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_CONSTANT_BUFFER, true},
+                //    {EnvironmentMap,           RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true}
+                //};
+                //// clang-format on
+                //m_pImmediateContext->TransitionResourceStates(_countof(Barriers), Barriers);
+
+                //m_GLTFRenderer->PrecomputeCubemaps(m_pDevice, m_pImmediateContext, m_EnvironmentMapSRV);
+
+                //CreateEnvMapPSO();
+
+                //CreateBoundBoxPSO(BackBufferFmt, DepthBufferFmt);
+
+                //m_LightDirection = normalize(float3(0.5f, -0.6f, -0.2f));
+
+                //if (m_bUseResourceCache)
+                //    CreateGLTFResourceCache();
+
+                //LoadModel(GLTFModels[m_SelectedModel].second);
+
             }
             finally
             {
