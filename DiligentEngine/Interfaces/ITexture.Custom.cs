@@ -33,5 +33,19 @@ namespace DiligentEngine
         private static extern Uint32 ITexture_GetDesc_MipLevels(
             IntPtr objPtr
         );
+        public Uint32 GetDesc_Width => ITexture_GetDesc_Width(objPtr);
+
+
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern Uint32 ITexture_GetDesc_Width(
+            IntPtr objPtr
+        );
+        public Uint32 GetDesc_Height => ITexture_GetDesc_Height(objPtr);
+
+
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern Uint32 ITexture_GetDesc_Height(
+            IntPtr objPtr
+        );
     }
 }

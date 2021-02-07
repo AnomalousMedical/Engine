@@ -712,7 +712,7 @@ namespace Tutorial_99_Pbo
                 m_pPrecomputeIrradianceCubeSRB = m_pPrecomputeIrradianceCubePSO.Obj.CreateShaderResourceBinding(true);
             }
 
-            if (m_pPrefilterEnvMapPSO != null)
+            if (m_pPrefilterEnvMapPSO == null)
             {
                 ShaderCreateInfo ShaderCI = new ShaderCreateInfo();
                 ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
@@ -725,14 +725,14 @@ namespace Tutorial_99_Pbo
                 ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
                 ShaderCI.EntryPoint = "main";
                 ShaderCI.Desc.Name = "Cubemap face VS";
-                ShaderCI.FilePath = "CubemapFace.vsh";
+                ShaderCI.Source = shaderLoader.LoadShader("GLTF_PBR/private/CubemapFace.vsh", "Common/public");
                 using var pVS = pDevice.CreateShader(ShaderCI, Macros);
 
                 // Create pixel shader
                 ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_PIXEL;
                 ShaderCI.EntryPoint = "main";
                 ShaderCI.Desc.Name = "Prefilter environment map PS";
-                ShaderCI.FilePath = "PrefilterEnvMap.psh";
+                ShaderCI.Source = shaderLoader.LoadShader("GLTF_PBR/private/PrefilterEnvMap.psh", "Common/public");
                 using var pPS = pDevice.CreateShader(ShaderCI, Macros);
 
                 GraphicsPipelineStateCreateInfo PSOCreateInfo = new GraphicsPipelineStateCreateInfo();
@@ -814,37 +814,41 @@ namespace Tutorial_99_Pbo
                 }
             }
 
-            //    pCtx->SetPipelineState(m_pPrefilterEnvMapPSO);
-            //    m_pPrefilterEnvMapSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_EnvironmentMap")->Set(pEnvironmentMap);
-            //    pCtx->CommitShaderResources(m_pPrefilterEnvMapSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-            //    auto*       pPrefilteredEnvMap    = m_pPrefilteredEnvMapSRV->GetTexture();
-            //    const auto& PrefilteredEnvMapDesc = pPrefilteredEnvMap->GetDesc();
-            //    for (Uint32 mip = 0; mip < PrefilteredEnvMapDesc.MipLevels; ++mip)
-            //    {
-            //        for (Uint32 face = 0; face < 6; ++face)
-            //        {
-            //            TextureViewDesc RTVDesc(TEXTURE_VIEW_RENDER_TARGET, RESOURCE_DIM_TEX_2D_ARRAY);
-            //            RTVDesc.Name            = "RTV for prefiltered env map cube texture";
-            //            RTVDesc.MostDetailedMip = mip;
-            //            RTVDesc.FirstArraySlice = face;
-            //            RTVDesc.NumArraySlices  = 1;
-            //            RefCntAutoPtr<ITextureView> pRTV;
-            //            pPrefilteredEnvMap->CreateView(RTVDesc, &pRTV);
-            //            ITextureView* ppRTVs[] = {pRTV};
-            //            pCtx->SetRenderTargets(_countof(ppRTVs), ppRTVs, nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            pCtx.SetPipelineState(m_pPrefilterEnvMapPSO.Obj);
+            m_pPrefilterEnvMapSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_EnvironmentMap").Set(pEnvironmentMap);
+            pCtx.CommitShaderResources(m_pPrefilterEnvMapSRB.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            var pPrefilteredEnvMap = m_pPrefilteredEnvMapSRV.Obj.GetTexture();
+            var PrefilteredEnvMapDesc_MipLevels = pPrefilteredEnvMap.GetDesc_MipLevels;
+            var PrefilteredEnvMapDesc_Width = pPrefilteredEnvMap.GetDesc_Width;
+            for (Uint32 mip = 0; mip < PrefilteredEnvMapDesc_MipLevels; ++mip)
+            {
+                for (Uint32 face = 0; face < 6; ++face)
+                {
+                    var RTVDesc = new TextureViewDesc { ViewType = TEXTURE_VIEW_TYPE.TEXTURE_VIEW_RENDER_TARGET, TextureDim = RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY };
+                    RTVDesc.Name = "RTV for prefiltered env map cube texture";
+                    RTVDesc.MostDetailedMip = mip;
+                    RTVDesc.FirstArraySlice = face;
+                    RTVDesc.NumArraySlices = 1;
+                    using var pRTV = pPrefilteredEnvMap.CreateView(RTVDesc);
+                    pCtx.SetRenderTarget(pRTV.Obj, null, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            //            {
-            //                MapHelper<PrecomputeEnvMapAttribs> Attribs(pCtx, m_PrecomputeEnvMapAttribsCB, MAP_WRITE, MAP_FLAG_DISCARD);
-            //                Attribs->Rotation   = Matrices[face];
-            //                Attribs->Roughness  = static_cast<float>(mip) / static_cast<float>(PrefilteredEnvMapDesc.MipLevels);
-            //                Attribs->EnvMapDim  = static_cast<float>(PrefilteredEnvMapDesc.Width);
-            //                Attribs->NumSamples = 256;
-            //            }
+                    unsafe
+                    {
+                        IntPtr data = pCtx.MapBuffer(m_PrecomputeEnvMapAttribsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
 
-            //            DrawAttribs drawAttrs(4, DRAW_FLAG_VERIFY_ALL);
-            //            pCtx->Draw(drawAttrs);
-            //        }
-            //    }
+                        PrecomputeEnvMapAttribs* Attribs = (PrecomputeEnvMapAttribs*)data;// (pCtx, m_PrecomputeEnvMapAttribsCB, MAP_WRITE, MAP_FLAG_DISCARD);
+                        Attribs->Rotation = Matrices[face];
+                        Attribs->Roughness = (float)(mip) / (float)(PrefilteredEnvMapDesc_MipLevels);
+                        Attribs->EnvMapDim = (float)(PrefilteredEnvMapDesc_Width);
+                        Attribs->NumSamples = 256;
+
+                        pCtx.UnmapBuffer(m_PrecomputeEnvMapAttribsCB.Obj, MAP_TYPE.MAP_WRITE);
+                    }
+
+                    var drawAttrs = new DrawAttribs { NumVertices = 4, Flags = DRAW_FLAGS.DRAW_FLAG_VERIFY_ALL };
+                    pCtx.Draw(drawAttrs);
+                }
+            }
 
             //    // clang-format off
             //    StateTransitionDesc Barriers[] = 

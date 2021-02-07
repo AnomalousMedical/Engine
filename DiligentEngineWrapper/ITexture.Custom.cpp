@@ -8,3 +8,17 @@ extern "C" _AnomalousExport Uint32 ITexture_GetDesc_MipLevels(
 {
 	return objPtr->GetDesc().MipLevels;
 }
+
+extern "C" _AnomalousExport Uint32 ITexture_GetDesc_Width(
+	ITexture * objPtr
+)
+{
+	return objPtr->GetDesc().Width;
+}
+
+extern "C" _AnomalousExport Uint32 ITexture_GetDesc_Height(
+	ITexture * objPtr
+)
+{
+	return objPtr->GetDesc().Height;
+}
