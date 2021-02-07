@@ -850,14 +850,12 @@ namespace Tutorial_99_Pbo
                 }
             }
 
-            //    // clang-format off
-            //    StateTransitionDesc Barriers[] = 
-            //    {
-            //        {m_pPrefilteredEnvMapSRV->GetTexture(), RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true},
-            //        {m_pIrradianceCubeSRV->GetTexture(),    RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true}
-            //    };
-            //    // clang-format on
-            //    pCtx->TransitionResourceStates(_countof(Barriers), Barriers);
+            var Barriers = new List<StateTransitionDesc>
+            {
+                new StateTransitionDesc{pResource = m_pPrefilteredEnvMapSRV.Obj.GetTexture(), OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true },
+                new StateTransitionDesc{pResource = m_pIrradianceCubeSRV.Obj.GetTexture(),    OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true}
+            };
+            pCtx.TransitionResourceStates(Barriers);
         }
     }
 }
