@@ -63,7 +63,7 @@ namespace DiligentEngine
                 , pBuffData.pData
                 , pBuffData.DataSize
             );
-            return new AutoPtr<IBuffer>(new IBuffer(theReturnValue), false);
+            return theReturnValue != IntPtr.Zero ? new AutoPtr<IBuffer>(new IBuffer(theReturnValue), false) : null;
         }
         /// <summary>
         /// Creates a new shader object
@@ -87,7 +87,7 @@ namespace DiligentEngine
                 , ShaderCI.Desc.Name
                 , ShaderCI.SourceLanguage
             );
-            return new AutoPtr<IShader>(new IShader(theReturnValue), false);
+            return theReturnValue != IntPtr.Zero ? new AutoPtr<IShader>(new IShader(theReturnValue), false) : null;
         }
         /// <summary>
         /// Creates a new texture object
@@ -140,7 +140,7 @@ namespace DiligentEngine
                 , TextureSubResDataPassStruct.ToStruct(pData?.pSubResources)
                 , pData?.pSubResources != null ? (Uint32)pData.pSubResources.Count : 0
             );
-            return new AutoPtr<ITexture>(new ITexture(theReturnValue), false);
+            return theReturnValue != IntPtr.Zero ? new AutoPtr<ITexture>(new ITexture(theReturnValue), false) : null;
         }
         /// <summary>
         /// Creates a new sampler object
@@ -175,7 +175,7 @@ namespace DiligentEngine
                 , SamDesc.MaxLOD
                 , SamDesc.Name
             );
-            return new AutoPtr<ISampler>(new ISampler(theReturnValue), false);
+            return theReturnValue != IntPtr.Zero ? new AutoPtr<ISampler>(new ISampler(theReturnValue), false) : null;
         }
         /// <summary>
         /// Creates a new graphics pipeline state object
@@ -252,7 +252,7 @@ namespace DiligentEngine
                 , PSOCreateInfo.PSODesc.Name
                 , PSOCreateInfo.Flags
             );
-            return new AutoPtr<IPipelineState>(new IPipelineState(theReturnValue), false);
+            return theReturnValue != IntPtr.Zero ? new AutoPtr<IPipelineState>(new IPipelineState(theReturnValue), false) : null;
         }
 
 

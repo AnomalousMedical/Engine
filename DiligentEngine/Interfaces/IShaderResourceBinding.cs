@@ -48,7 +48,7 @@ namespace DiligentEngine
                 , ShaderType
                 , Name
             );
-            return new IShaderResourceVariable(theReturnValue);
+            return theReturnValue != IntPtr.Zero ? new IShaderResourceVariable(theReturnValue) : null;
         }
 
 

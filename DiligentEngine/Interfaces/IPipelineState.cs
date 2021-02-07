@@ -48,7 +48,7 @@ namespace DiligentEngine
                 , ShaderType
                 , Name
             );
-            return new IShaderResourceVariable(theReturnValue);
+            return theReturnValue != IntPtr.Zero ? new IShaderResourceVariable(theReturnValue) : null;
         }
         /// <summary>
         /// Creates a shader resource binding object
@@ -65,7 +65,7 @@ namespace DiligentEngine
                 this.objPtr
                 , InitStaticResources
             );
-            return new AutoPtr<IShaderResourceBinding>(new IShaderResourceBinding(theReturnValue), false);
+            return theReturnValue != IntPtr.Zero ? new AutoPtr<IShaderResourceBinding>(new IShaderResourceBinding(theReturnValue), false) : null;
         }
 
 

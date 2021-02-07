@@ -46,7 +46,7 @@ namespace DiligentEngine
                 this.objPtr
                 , ViewType
             );
-            return new ITextureView(theReturnValue);
+            return theReturnValue != IntPtr.Zero ? new ITextureView(theReturnValue) : null;
         }
 
 

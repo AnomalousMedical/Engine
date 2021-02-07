@@ -141,11 +141,11 @@ namespace DiligentEngine
                 {
                     if (item.ReturnAsAutoPtr)
                     {
-                        writer.WriteLine($"            return new AutoPtr<{cSharpReturnType}>(new {cSharpReturnType}(theReturnValue), {item.AddRefToAutoPtr.ToString().ToLowerInvariant()});");
+                        writer.WriteLine($"            return theReturnValue != IntPtr.Zero ? new AutoPtr<{cSharpReturnType}>(new {cSharpReturnType}(theReturnValue), {item.AddRefToAutoPtr.ToString().ToLowerInvariant()}) : null;");
                     }
                     else
                     {
-                        writer.WriteLine($"            return new {cSharpReturnType}(theReturnValue);");
+                        writer.WriteLine($"            return theReturnValue != IntPtr.Zero ? new {cSharpReturnType}(theReturnValue) : null;");
                     }
                 }
 

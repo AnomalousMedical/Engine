@@ -84,7 +84,7 @@ namespace DiligentEngine
             ISwapChain_GetCurrentBackBufferRTV(
                 this.objPtr
             );
-            return new ITextureView(theReturnValue);
+            return theReturnValue != IntPtr.Zero ? new ITextureView(theReturnValue) : null;
         }
         /// <summary>
         /// Returns depth-stencil view of the depth buffer
@@ -97,7 +97,7 @@ namespace DiligentEngine
             ISwapChain_GetDepthBufferDSV(
                 this.objPtr
             );
-            return new ITextureView(theReturnValue);
+            return theReturnValue != IntPtr.Zero ? new ITextureView(theReturnValue) : null;
         }
 
 
