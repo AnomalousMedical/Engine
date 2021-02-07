@@ -245,6 +245,7 @@ namespace Tutorial_99_Pbo
         AutoPtr<ITextureView> m_pDefaultPhysDescSRV;
 
         AutoPtr<ITextureView> m_pIrradianceCubeSRV;
+        AutoPtr<IPipelineState> m_pPrecomputeIrradianceCubePSO;
         AutoPtr<ITextureView> m_pPrefilteredEnvMapSRV;
 
         AutoPtr<IBuffer> m_TransformsCB;
@@ -388,6 +389,7 @@ namespace Tutorial_99_Pbo
 
         public void Dispose()
         {
+            m_pPrecomputeIrradianceCubePSO?.Dispose();
             m_PrecomputeEnvMapAttribsCB?.Dispose();
             m_PSOCache.Dispose();
             m_TransformsCB.Dispose();
@@ -625,7 +627,7 @@ namespace Tutorial_99_Pbo
             float Dummy;
         };
 
-        public void PrecomputeCubemaps(IRenderDevice pDevice, IDeviceContext pCtx, ITextureView pEnvironmentMap)
+        public void PrecomputeCubemaps(IRenderDevice pDevice, IDeviceContext pCtx, ITextureView pEnvironmentMap, ShaderLoader shaderLoader)
         {
             if (!m_Settings.UseIBL)
             {
@@ -648,75 +650,67 @@ namespace Tutorial_99_Pbo
                 }
             }
 
-            //    if (!m_pPrecomputeIrradianceCubePSO)
-            //    {
-            //        ShaderCreateInfo ShaderCI;
-            //        ShaderCI.SourceLanguage             = SHADER_SOURCE_LANGUAGE_HLSL;
-            //        ShaderCI.UseCombinedTextureSamplers = true;
-            //        ShaderCI.pShaderSourceStreamFactory = &DiligentFXShaderSourceStreamFactory::GetInstance();
+            if (m_pPrecomputeIrradianceCubePSO == null)
+            {
+                ShaderCreateInfo ShaderCI = new ShaderCreateInfo();
+                ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
+                ShaderCI.UseCombinedTextureSamplers = true;
 
-            //        ShaderMacroHelper Macros;
-            //        Macros.AddShaderMacro("NUM_PHI_SAMPLES", 64);
-            //        Macros.AddShaderMacro("NUM_THETA_SAMPLES", 32);
-            //        ShaderCI.Macros = Macros;
-            //        RefCntAutoPtr<IShader> pVS;
-            //        {
-            //            ShaderCI.Desc.ShaderType = SHADER_TYPE_VERTEX;
-            //            ShaderCI.EntryPoint      = "main";
-            //            ShaderCI.Desc.Name       = "Cubemap face VS";
-            //            ShaderCI.FilePath        = "CubemapFace.vsh";
-            //            pDevice->CreateShader(ShaderCI, &pVS);
-            //        }
+                ShaderMacroHelper Macros = new ShaderMacroHelper();
+                Macros.AddShaderMacro("NUM_PHI_SAMPLES", 64);
+                Macros.AddShaderMacro("NUM_THETA_SAMPLES", 32);
+                ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
+                ShaderCI.EntryPoint = "main";
+                ShaderCI.Desc.Name = "Cubemap face VS";
+                ShaderCI.Source = shaderLoader.LoadShader("GLTF_PBR/private/CubemapFace.vsh");
+                using var pVS = pDevice.CreateShader(ShaderCI, Macros);
 
-            //        // Create pixel shader
-            //        RefCntAutoPtr<IShader> pPS;
-            //        {
-            //            ShaderCI.Desc.ShaderType = SHADER_TYPE_PIXEL;
-            //            ShaderCI.EntryPoint      = "main";
-            //            ShaderCI.Desc.Name       = "Precompute irradiance cube map PS";
-            //            ShaderCI.FilePath        = "ComputeIrradianceMap.psh";
-            //            pDevice->CreateShader(ShaderCI, &pPS);
-            //        }
+                // Create pixel shader
+                ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_PIXEL;
+                ShaderCI.EntryPoint = "main";
+                ShaderCI.Desc.Name = "Precompute irradiance cube map PS";
+                ShaderCI.Source = shaderLoader.LoadShader("GLTF_PBR/private/ComputeIrradianceMap.psh");
+                using var pPS = pDevice.CreateShader(ShaderCI, Macros);
 
-            //        GraphicsPipelineStateCreateInfo PSOCreateInfo;
-            //        PipelineStateDesc&              PSODesc          = PSOCreateInfo.PSODesc;
-            //        GraphicsPipelineDesc&           GraphicsPipeline = PSOCreateInfo.GraphicsPipeline;
+                //GraphicsPipelineStateCreateInfo PSOCreateInfo;
+                //PipelineStateDesc & PSODesc = PSOCreateInfo.PSODesc;
+                //GraphicsPipelineDesc & GraphicsPipeline = PSOCreateInfo.GraphicsPipeline;
 
-            //        PSODesc.Name         = "Precompute irradiance cube PSO";
-            //        PSODesc.PipelineType = PIPELINE_TYPE_GRAPHICS;
+                //PSODesc.Name = "Precompute irradiance cube PSO";
+                //PSODesc.PipelineType = PIPELINE_TYPE_GRAPHICS;
 
-            //        GraphicsPipeline.NumRenderTargets             = 1;
-            //        GraphicsPipeline.RTVFormats[0]                = IrradianceCubeFmt;
-            //        GraphicsPipeline.PrimitiveTopology            = PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
-            //        GraphicsPipeline.RasterizerDesc.CullMode      = CULL_MODE_NONE;
-            //        GraphicsPipeline.DepthStencilDesc.DepthEnable = False;
+                //GraphicsPipeline.NumRenderTargets = 1;
+                //GraphicsPipeline.RTVFormats[0] = IrradianceCubeFmt;
+                //GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
+                //GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE_NONE;
+                //GraphicsPipeline.DepthStencilDesc.DepthEnable = False;
 
-            //        PSOCreateInfo.pVS = pVS;
-            //        PSOCreateInfo.pPS = pPS;
+                //PSOCreateInfo.pVS = pVS;
+                //PSOCreateInfo.pPS = pPS;
 
-            //        PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
-            //        // clang-format off
-            //        ShaderResourceVariableDesc Vars[] = 
-            //        {
-            //            {SHADER_TYPE_PIXEL, "g_EnvironmentMap", SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC}
-            //        };
-            //        // clang-format on
-            //        PSODesc.ResourceLayout.NumVariables = _countof(Vars);
-            //        PSODesc.ResourceLayout.Variables    = Vars;
+                //PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
+                //// clang-format off
+                //ShaderResourceVariableDesc Vars[] =
+                //{
+                //        {SHADER_TYPE_PIXEL, "g_EnvironmentMap", SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC}
+                //    };
+                //// clang-format on
+                //PSODesc.ResourceLayout.NumVariables = _countof(Vars);
+                //PSODesc.ResourceLayout.Variables = Vars;
 
-            //        // clang-format off
-            //        ImmutableSamplerDesc ImtblSamplers[] =
-            //        {
-            //            {SHADER_TYPE_PIXEL, "g_EnvironmentMap", Sam_LinearClamp}
-            //        };
-            //        // clang-format on
-            //        PSODesc.ResourceLayout.NumImmutableSamplers = _countof(ImtblSamplers);
-            //        PSODesc.ResourceLayout.ImmutableSamplers    = ImtblSamplers;
+                //// clang-format off
+                //ImmutableSamplerDesc ImtblSamplers[] =
+                //{
+                //        {SHADER_TYPE_PIXEL, "g_EnvironmentMap", Sam_LinearClamp}
+                //    };
+                //// clang-format on
+                //PSODesc.ResourceLayout.NumImmutableSamplers = _countof(ImtblSamplers);
+                //PSODesc.ResourceLayout.ImmutableSamplers = ImtblSamplers;
 
-            //        pDevice->CreateGraphicsPipelineState(PSOCreateInfo, &m_pPrecomputeIrradianceCubePSO);
-            //        m_pPrecomputeIrradianceCubePSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "cbTransform")->Set(m_PrecomputeEnvMapAttribsCB);
-            //        m_pPrecomputeIrradianceCubePSO->CreateShaderResourceBinding(&m_pPrecomputeIrradianceCubeSRB, true);
-            //    }
+                //pDevice->CreateGraphicsPipelineState(PSOCreateInfo, &m_pPrecomputeIrradianceCubePSO);
+                //m_pPrecomputeIrradianceCubePSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "cbTransform")->Set(m_PrecomputeEnvMapAttribsCB);
+                //m_pPrecomputeIrradianceCubePSO->CreateShaderResourceBinding(&m_pPrecomputeIrradianceCubeSRB, true);
+            }
 
             //    if (!m_pPrefilterEnvMapPSO)
             //    {
