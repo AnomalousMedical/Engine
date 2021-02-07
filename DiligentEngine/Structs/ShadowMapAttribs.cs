@@ -28,21 +28,21 @@ namespace DiligentEngine
         }
         public float4x4 mWorldToLightViewT { get; set; }
         public float4 f4ShadowMapDim { get; set; }
-        public int iNumCascades { get; set; }
-        public float fNumCascades { get; set; }
-        public BOOL bVisualizeCascades { get; set; }
-        public BOOL bVisualizeShadowing { get; set; }
-        public float fReceiverPlaneDepthBiasClamp { get; set; }
-        public float fFixedDepthBias { get; set; }
-        public float fCascadeTransitionRegion { get; set; }
-        public int iMaxAnisotropy { get; set; }
-        public float fVSMBias { get; set; }
-        public float fVSMLightBleedingReduction { get; set; }
-        public float fEVSMPositiveExponent { get; set; }
-        public float fEVSMNegativeExponent { get; set; }
-        public BOOL bIs32BitEVSM { get; set; }
-        public int iFixedFilterSize { get; set; }
-        public float fFilterWorldSize { get; set; }
+        public int iNumCascades { get; set; } = 0;
+        public float fNumCascades { get; set; } = 0;
+        public BOOL bVisualizeCascades { get; set; } = false;
+        public BOOL bVisualizeShadowing { get; set; } = false;
+        public float fReceiverPlaneDepthBiasClamp { get; set; } = 10;
+        public float fFixedDepthBias { get; set; } = 1e-5f;
+        public float fCascadeTransitionRegion { get; set; } = 0.1f;
+        public int iMaxAnisotropy { get; set; } = 4;
+        public float fVSMBias { get; set; } = 1e-4f;
+        public float fVSMLightBleedingReduction { get; set; } = 0;
+        public float fEVSMPositiveExponent { get; set; } = 40;
+        public float fEVSMNegativeExponent { get; set; } = 5;
+        public BOOL bIs32BitEVSM { get; set; } = true;
+        public int iFixedFilterSize { get; set; } = 3;
+        public float fFilterWorldSize { get; set; } = 0;
         public bool fDummy { get; set; }
 
 

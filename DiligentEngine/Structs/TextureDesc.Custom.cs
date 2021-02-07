@@ -19,18 +19,18 @@ using BOOL = System.Boolean;
 
 namespace DiligentEngine
 {
-    public partial class LightAttribs
+    public partial class TextureDesc : DeviceObjectAttribs
     {
-
-        public LightAttribs()
+        public Uint32 Depth //This is a union on the unmanaged side that points to ArraySize. This property simulates that.
         {
-            
+            get
+            {
+                return this.ArraySize;
+            }
+            set
+            {
+                this.ArraySize = value;
+            }
         }
-        public float4 f4Direction { get; set; } = new float4(0, 0,-1, 0);
-        public float4 f4AmbientLight { get; set; } = new float4(0, 0, 0, 0);
-        public float4 f4Intensity { get; set; } = new float4(1, 1, 1, 1);
-        public ShadowMapAttribs ShadowAttribs { get; set; } = new ShadowMapAttribs();
-
-
     }
 }

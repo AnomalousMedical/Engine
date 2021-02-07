@@ -242,11 +242,11 @@ namespace DiligentEngineGenerator
                 codeTypeInfo.Enums[nameof(STATE_TRANSITION_TYPE)] = STATE_TRANSITION_TYPE;
                 EnumWriter.Write(STATE_TRANSITION_TYPE, Path.Combine(baseEnumDir, $"{nameof(STATE_TRANSITION_TYPE)}.cs"));
             }
-            
 
-          //////////// Structs
 
-          var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
+            //////////// Structs
+
+            var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
             {
                 var ShaderResourceVariableDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 73, 85);
                 codeTypeInfo.Structs[nameof(ShaderResourceVariableDesc)] = ShaderResourceVariableDesc;
@@ -278,6 +278,12 @@ namespace DiligentEngineGenerator
                 codeWriter.AddWriter(new StructCsWriter(TextureSubResData), Path.Combine(baseStructDir, $"{nameof(TextureSubResData)}.cs"));
                 codeWriter.AddWriter(new StructCsPassStructWriter(TextureSubResData), Path.Combine(baseStructDir, $"{nameof(TextureSubResData)}.PassStruct.cs"));
                 codeWriter.AddWriter(new StructCppPassStructWriter(TextureSubResData), Path.Combine(baseCPlusPlusOutDir, $"{nameof(TextureSubResData)}.PassStruct.h"));
+            }
+
+            {
+                var TextureLoadInfo = CodeStruct.Find(baseDir + "/DiligentTools/TextureLoader/interface/TextureLoader.h", 37, 65);
+                codeTypeInfo.Structs[nameof(TextureLoadInfo)] = TextureLoadInfo;
+                codeWriter.AddWriter(new StructCsWriter(TextureLoadInfo), Path.Combine(baseStructDir, $"{nameof(TextureLoadInfo)}.cs"));
             }
 
             {
@@ -518,7 +524,7 @@ namespace DiligentEngineGenerator
                 codeWriter.AddWriter(new StructCsPassStructWriter(StateTransitionDesc), Path.Combine(baseStructDir, $"{nameof(StateTransitionDesc)}.PassStruct.cs"));
                 codeWriter.AddWriter(new StructCppPassStructWriter(StateTransitionDesc), Path.Combine(baseCPlusPlusOutDir, $"{nameof(StateTransitionDesc)}.PassStruct.h"));
             }
-            
+
             {
                 var BufferData = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Buffer.h", 153, 162);
                 codeTypeInfo.Structs[nameof(BufferData)] = BufferData;
@@ -836,7 +842,62 @@ namespace DiligentEngineGenerator
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IShaderResourceBinding)}.cpp"));
             }
 
+            //Don't use this one all the time since its different
+            //CreateKtxLoader(baseCPlusPlusOutDir, codeTypeInfo, codeWriter, baseCSharpInterfaceDir);
+
             codeWriter.WriteFiles(new CodeRendererContext(codeTypeInfo));
+        }
+
+        private static void CreateKtxLoader(string baseCPlusPlusOutDir, CodeTypeInfo codeTypeInfo, CodeWriter codeWriter, string baseCSharpInterfaceDir)
+        {
+            var KtxLoader = new CodeInterface()// CodeInterface.Find(baseDir + "/DiligentTools/TextureLoader/interface/TextureLoader.h", 118, 131, startState: new InterfaceParseAllMethodsState());
+            {
+                Name = "KtxLoader",
+                Methods = new List<InterfaceMethod>()
+                    {
+                        new InterfaceMethod()
+                        {
+                            Name = "CreateTextureFromKTX",
+                            ReturnType = "ITexture*",
+                            Args = new List<InterfaceMethodArgument>()
+                            {
+                                new InterfaceMethodArgument()
+                                {
+                                    Name = "pKTXData",
+                                    Type = "void*",
+                                },
+                                new InterfaceMethodArgument()
+                                {
+                                    Name = "DataSize",
+                                    Type = "size_t",
+                                },
+                                new InterfaceMethodArgument()
+                                {
+                                    Name = "TexLoadInfo",
+                                    Type = "TextureLoadInfo",
+                                },
+                                new InterfaceMethodArgument()
+                                {
+                                    Name = "pDevice",
+                                    Type = "IRenderDevice*",
+                                },
+                                new InterfaceMethodArgument()
+                                {
+                                    Name = "ppTexture",
+                                    Type = "ITexture*",
+                                    MakeReturnVal = true
+                                }
+                            }
+                        }
+                    }
+            };
+            codeTypeInfo.Interfaces[nameof(KtxLoader)] = KtxLoader;
+            codeWriter.AddWriter(new InterfaceCsWriter(KtxLoader), Path.Combine(baseCSharpInterfaceDir, $"{nameof(KtxLoader)}.cs"));
+            var cppWriter = new InterfaceCppWriter(KtxLoader, new List<String>()
+                {
+                    "DiligentTools/TextureLoader/interface/TextureLoader.h"
+                });
+            codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(KtxLoader)}.cpp"));
         }
 
         public static IEnumerable<int> Sequence(int start, int end)

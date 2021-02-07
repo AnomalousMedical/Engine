@@ -242,6 +242,10 @@ $@"    {{
                 case "char*":
                 case "Char*":
                     return "String";
+                case "void*":
+                    return "IntPtr";
+                case "size_t":
+                    return "UIntPtr";
             }
 
             return type.Replace("*", "");
@@ -267,6 +271,10 @@ $@"    {{
                     return "String";
                 case "Color":
                     return "Color";
+                case "void*":
+                    return "IntPtr";
+                case "size_t":
+                    return "UIntPtr";
             }
 
             if (arg.IsArray)

@@ -8,6 +8,7 @@ namespace DiligentEngineGenerator
     class StructParsePropertiesState : ICodeStructParserState
     {
         private const string DEFAULT_INITIALIZER = "DEFAULT_INITIALIZER";
+        private const string DEFAULT_VALUE = "DEFAULT_VALUE";
 
         public ICodeStructParserState Parse(string line, List<String> comment, CodeStruct code)
         {
@@ -35,6 +36,13 @@ namespace DiligentEngineGenerator
                             .Replace(")", "")
                             .Trim();
                     }
+                    else if (propertyParse.Contains(DEFAULT_VALUE))
+                    {
+                        property.DefaultValue = propertyParse.Substring(propertyParse.IndexOf(DEFAULT_VALUE) + DEFAULT_VALUE.Length)
+                            .Replace("(", "")
+                            .Replace(")", "")
+                            .Trim();
+                    }
                     else if (propertyParse.Contains("="))
                     {
                         property.DefaultValue = propertyParse.Substring(propertyParse.IndexOf("=") + 1)
@@ -55,7 +63,7 @@ namespace DiligentEngineGenerator
                 }
             }
 
-            if (line.Contains("}") && !line.Contains(DEFAULT_INITIALIZER))
+            if (line.Contains("}") && !line.Contains(DEFAULT_INITIALIZER) && !line.Contains(DEFAULT_VALUE))
             {
                 return null;
             }

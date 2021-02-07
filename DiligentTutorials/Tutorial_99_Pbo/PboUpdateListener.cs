@@ -53,17 +53,36 @@ namespace Tutorial_99_Pbo
 
         unsafe void Initialize()
         {
-            var BackBufferFmt = m_pSwapChain.GetDesc_ColorBufferFormat;
-            var DepthBufferFmt = m_pSwapChain.GetDesc_DepthBufferFormat;
+            AutoPtr<ITexture> EnvironmentMap = null;
+            try
+            {
+                var bytes = File.ReadAllBytes("textures/papermill.ktx");
+                //Create environment map texture
+                var loadInfo = new TextureLoadInfo()
+                {
+                    Name = "Environment map",
+                };
+                fixed (byte* data = bytes)
+                {
+                    EnvironmentMap = KtxLoader.CreateTextureFromKTX(new IntPtr(data), new UIntPtr((uint)bytes.Length), loadInfo, m_pDevice);
+                }
 
-            var RendererCI = new GLTF_PBR_Renderer.CreateInfo();
-            RendererCI.RTVFmt = BackBufferFmt;
-            RendererCI.DSVFmt = DepthBufferFmt;
-            RendererCI.AllowDebugView = true;
-            RendererCI.UseIBL = true;
-            RendererCI.FrontCCW = true;
-            RendererCI.UseTextureAtals = m_bUseResourceCache;
-            m_GLTFRenderer = new GLTF_PBR_Renderer(m_pDevice, m_pImmediateContext, RendererCI, shaderLoader);
+                var BackBufferFmt = m_pSwapChain.GetDesc_ColorBufferFormat;
+                var DepthBufferFmt = m_pSwapChain.GetDesc_DepthBufferFormat;
+
+                var RendererCI = new GLTF_PBR_Renderer.CreateInfo();
+                RendererCI.RTVFmt = BackBufferFmt;
+                RendererCI.DSVFmt = DepthBufferFmt;
+                RendererCI.AllowDebugView = true;
+                RendererCI.UseIBL = true;
+                RendererCI.FrontCCW = true;
+                RendererCI.UseTextureAtals = m_bUseResourceCache;
+                m_GLTFRenderer = new GLTF_PBR_Renderer(m_pDevice, m_pImmediateContext, RendererCI, shaderLoader);
+            }
+            finally
+            {
+                EnvironmentMap?.Dispose();
+            }
         }
 
         public void exceededMaxDelta()

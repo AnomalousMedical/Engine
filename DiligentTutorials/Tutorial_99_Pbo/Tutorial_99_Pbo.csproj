@@ -27,6 +27,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="../../../DiligentEngine/DiligentSamples/Samples/GLTFViewer/assets/textures/papermill.ktx">
+      <Link>textures\papermill.ktx</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\Dependencies\FreeImage.NET\Library\FreeImageDotNet.csproj" />
     <ProjectReference Include="..\..\DiligentEngine\DiligentEngine.csproj" />
     <ProjectReference Include="..\..\Engine\Engine.csproj" />
