@@ -21,14 +21,12 @@ namespace DiligentEngine
 {
     public partial class ShaderResourceVariableDesc
     {
-        public ShaderResourceVariableDesc()
+        public ShaderResourceVariableDesc(SHADER_TYPE ShaderStages, String Name, SHADER_RESOURCE_VARIABLE_TYPE Type)
         {
-            
+            this.ShaderStages = ShaderStages;
+            this.Name = Name;
+            this.Type = Type;
         }
-        public SHADER_TYPE ShaderStages { get; set; } = SHADER_TYPE.SHADER_TYPE_UNKNOWN;
-        public String Name { get; set; }
-        public SHADER_RESOURCE_VARIABLE_TYPE Type { get; set; } = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
-
 
     }
 }

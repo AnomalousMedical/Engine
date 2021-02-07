@@ -247,7 +247,9 @@ namespace Tutorial_99_Pbo
         AutoPtr<ITextureView> m_pIrradianceCubeSRV;
         AutoPtr<ITextureView> m_pPrefilteredEnvMapSRV;
         AutoPtr<IPipelineState> m_pPrecomputeIrradianceCubePSO;
+        AutoPtr<IPipelineState> m_pPrefilterEnvMapPSO;
         AutoPtr<IShaderResourceBinding> m_pPrecomputeIrradianceCubeSRB;
+        AutoPtr<IShaderResourceBinding> m_pPrefilterEnvMapSRB;
 
         AutoPtr<IBuffer> m_TransformsCB;
         AutoPtr<IBuffer> m_GLTFAttribsCB;
@@ -390,6 +392,8 @@ namespace Tutorial_99_Pbo
 
         public void Dispose()
         {
+            m_pPrefilterEnvMapSRB?.Dispose();
+            m_pPrefilterEnvMapPSO?.Dispose();
             m_pPrecomputeIrradianceCubeSRB?.Dispose();
             m_pPrecomputeIrradianceCubePSO?.Dispose();
             m_PrecomputeEnvMapAttribsCB?.Dispose();
@@ -708,76 +712,64 @@ namespace Tutorial_99_Pbo
                 m_pPrecomputeIrradianceCubeSRB = m_pPrecomputeIrradianceCubePSO.Obj.CreateShaderResourceBinding(true);
             }
 
-            //    if (!m_pPrefilterEnvMapPSO)
-            //    {
-            //        ShaderCreateInfo ShaderCI;
-            //        ShaderCI.SourceLanguage             = SHADER_SOURCE_LANGUAGE_HLSL;
-            //        ShaderCI.UseCombinedTextureSamplers = true;
-            //        ShaderCI.pShaderSourceStreamFactory = &DiligentFXShaderSourceStreamFactory::GetInstance();
+            if (m_pPrefilterEnvMapPSO != null)
+            {
+                ShaderCreateInfo ShaderCI = new ShaderCreateInfo();
+                ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
+                ShaderCI.UseCombinedTextureSamplers = true;
 
-            //        ShaderMacroHelper Macros;
-            //        Macros.AddShaderMacro("OPTIMIZE_SAMPLES", 1);
-            //        ShaderCI.Macros = Macros;
+                ShaderMacroHelper Macros = new ShaderMacroHelper();
+                Macros.AddShaderMacro("OPTIMIZE_SAMPLES", 1);
 
-            //        RefCntAutoPtr<IShader> pVS;
-            //        {
-            //            ShaderCI.Desc.ShaderType = SHADER_TYPE_VERTEX;
-            //            ShaderCI.EntryPoint      = "main";
-            //            ShaderCI.Desc.Name       = "Cubemap face VS";
-            //            ShaderCI.FilePath        = "CubemapFace.vsh";
-            //            pDevice->CreateShader(ShaderCI, &pVS);
-            //        }
+                // Create vertex shader
+                ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
+                ShaderCI.EntryPoint = "main";
+                ShaderCI.Desc.Name = "Cubemap face VS";
+                ShaderCI.FilePath = "CubemapFace.vsh";
+                using var pVS = pDevice.CreateShader(ShaderCI, Macros);
 
-            //        // Create pixel shader
-            //        RefCntAutoPtr<IShader> pPS;
-            //        {
-            //            ShaderCI.Desc.ShaderType = SHADER_TYPE_PIXEL;
-            //            ShaderCI.EntryPoint      = "main";
-            //            ShaderCI.Desc.Name       = "Prefilter environment map PS";
-            //            ShaderCI.FilePath        = "PrefilterEnvMap.psh";
-            //            pDevice->CreateShader(ShaderCI, &pPS);
-            //        }
+                // Create pixel shader
+                ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_PIXEL;
+                ShaderCI.EntryPoint = "main";
+                ShaderCI.Desc.Name = "Prefilter environment map PS";
+                ShaderCI.FilePath = "PrefilterEnvMap.psh";
+                using var pPS = pDevice.CreateShader(ShaderCI, Macros);
 
-            //        GraphicsPipelineStateCreateInfo PSOCreateInfo;
-            //        PipelineStateDesc&              PSODesc          = PSOCreateInfo.PSODesc;
-            //        GraphicsPipelineDesc&           GraphicsPipeline = PSOCreateInfo.GraphicsPipeline;
+                GraphicsPipelineStateCreateInfo PSOCreateInfo = new GraphicsPipelineStateCreateInfo();
+                PipelineStateDesc PSODesc = PSOCreateInfo.PSODesc;
+                GraphicsPipelineDesc GraphicsPipeline = PSOCreateInfo.GraphicsPipeline;
 
-            //        PSODesc.Name         = "Prefilter environment map PSO";
-            //        PSODesc.PipelineType = PIPELINE_TYPE_GRAPHICS;
+                PSODesc.Name = "Prefilter environment map PSO";
+                PSODesc.PipelineType = PIPELINE_TYPE.PIPELINE_TYPE_GRAPHICS;
 
-            //        GraphicsPipeline.NumRenderTargets             = 1;
-            //        GraphicsPipeline.RTVFormats[0]                = PrefilteredEnvMapFmt;
-            //        GraphicsPipeline.PrimitiveTopology            = PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
-            //        GraphicsPipeline.RasterizerDesc.CullMode      = CULL_MODE_NONE;
-            //        GraphicsPipeline.DepthStencilDesc.DepthEnable = False;
+                GraphicsPipeline.NumRenderTargets = 1;
+                GraphicsPipeline.RTVFormats_0 = PrefilteredEnvMapFmt;
+                GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY.PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
+                GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE.CULL_MODE_NONE;
+                GraphicsPipeline.DepthStencilDesc.DepthEnable = false;
 
-            //        PSOCreateInfo.pVS = pVS;
-            //        PSOCreateInfo.pPS = pPS;
+                PSOCreateInfo.pVS = pVS.Obj;
+                PSOCreateInfo.pPS = pPS.Obj;
 
-            //        PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
-            //        // clang-format off
-            //        ShaderResourceVariableDesc Vars[] = 
-            //        {
-            //            {SHADER_TYPE_PIXEL, "g_EnvironmentMap", SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC}
-            //        };
-            //        // clang-format on
-            //        PSODesc.ResourceLayout.NumVariables = _countof(Vars);
-            //        PSODesc.ResourceLayout.Variables    = Vars;
+                PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
+                // clang-format off
+                var Vars = new List<ShaderResourceVariableDesc>
+                {
+                    new ShaderResourceVariableDesc(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_EnvironmentMap", SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC)
+                };
+                PSODesc.ResourceLayout.Variables = Vars;
 
-            //        // clang-format off
-            //        ImmutableSamplerDesc ImtblSamplers[] =
-            //        {
-            //            {SHADER_TYPE_PIXEL, "g_EnvironmentMap", Sam_LinearClamp}
-            //        };
-            //        // clang-format on
-            //        PSODesc.ResourceLayout.NumImmutableSamplers = _countof(ImtblSamplers);
-            //        PSODesc.ResourceLayout.ImmutableSamplers    = ImtblSamplers;
+                var ImtblSamplers = new List<ImmutableSamplerDesc>
+                {
+                    new ImmutableSamplerDesc(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_EnvironmentMap", Sam_LinearClamp)
+                };
+                PSODesc.ResourceLayout.ImmutableSamplers = ImtblSamplers;
 
-            //        pDevice->CreateGraphicsPipelineState(PSOCreateInfo, &m_pPrefilterEnvMapPSO);
-            //        m_pPrefilterEnvMapPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "cbTransform")->Set(m_PrecomputeEnvMapAttribsCB);
-            //        m_pPrefilterEnvMapPSO->GetStaticVariableByName(SHADER_TYPE_PIXEL, "FilterAttribs")->Set(m_PrecomputeEnvMapAttribsCB);
-            //        m_pPrefilterEnvMapPSO->CreateShaderResourceBinding(&m_pPrefilterEnvMapSRB, true);
-            //    }
+                m_pPrefilterEnvMapPSO = pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
+                m_pPrefilterEnvMapPSO.Obj.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "cbTransform").Set(m_PrecomputeEnvMapAttribsCB.Obj);
+                m_pPrefilterEnvMapPSO.Obj.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "FilterAttribs").Set(m_PrecomputeEnvMapAttribsCB.Obj);
+                m_pPrefilterEnvMapSRB = m_pPrefilterEnvMapPSO.Obj.CreateShaderResourceBinding(true);
+            }
 
 
             //    // clang-format off
