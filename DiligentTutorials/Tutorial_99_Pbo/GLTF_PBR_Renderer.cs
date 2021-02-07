@@ -192,14 +192,27 @@ namespace Tutorial_99_Pbo
             }
 
             /// <summary>
-            /// This takes ownership of the passed pipeline state
+            /// Add a pso. Creates its own AutoPtr. Caller must dispose their AutoPtr.
             /// </summary>
             /// <param name="Key"></param>
             /// <param name="pPSO"></param>
             public void AddPSO(PSOKey Key, AutoPtr<IPipelineState> pPSO)
             {
                 var Idx = GetPSOIdx(Key);
-                m_PSOCache[(int)Idx] = pPSO;
+                if(m_PSOCache.Count <= Idx)
+                {
+                    var start = m_PSOCache.Count;
+                    var end = (int)Idx + 1;
+                    m_PSOCache.Capacity = end;
+                    for(var i = start; i < end; ++i)
+                    {
+                        m_PSOCache.Add(null);
+                    }
+                }
+
+                m_PSOCache[(int)Idx]?.Dispose();
+
+                m_PSOCache[(int)Idx] = new AutoPtr<IPipelineState>(pPSO.Obj);
             }
 
             public IPipelineState GetPSO(PSOKey Key)
@@ -210,7 +223,7 @@ namespace Tutorial_99_Pbo
 
             public void Dispose()
             {
-                foreach (var pso in m_PSOCache)
+                foreach (var pso in m_PSOCache.Where(i => i != null))
                 {
                     pso.Dispose();
                 }
@@ -355,7 +368,7 @@ namespace Tutorial_99_Pbo
                     // clang-format on
                     pCtx.TransitionResourceStates(Barriers);
 
-                    CreatePSO(pDevice);
+                    CreatePSO(pDevice, shaderLoader);
                 }
             }
         }
@@ -436,7 +449,7 @@ namespace Tutorial_99_Pbo
             pCtx.TransitionResourceStates(Barriers);
         }
 
-        private void CreatePSO(IRenderDevice pDevice)
+        private void CreatePSO(IRenderDevice pDevice, ShaderLoader shaderLoader)
         {
             GraphicsPipelineStateCreateInfo PSOCreateInfo = new GraphicsPipelineStateCreateInfo();
             PipelineStateDesc PSODesc = PSOCreateInfo.PSODesc;
@@ -472,14 +485,14 @@ namespace Tutorial_99_Pbo
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
             ShaderCI.EntryPoint = "main";
             ShaderCI.Desc.Name = "GLTF PBR VS";
-            ShaderCI.FilePath = "RenderGLTF_PBR.vsh";
+            ShaderCI.Source = shaderLoader.LoadShader("GLTF_PBR/private/RenderGLTF_PBR.vsh", "Common/public", "GLTF_PBR/public");
             using var pVS = pDevice.CreateShader(ShaderCI, Macros);
 
             // Create pixel shader
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_PIXEL;
             ShaderCI.EntryPoint = "main";
             ShaderCI.Desc.Name = "GLTF PBR PS";
-            ShaderCI.FilePath = "RenderGLTF_PBR.psh";
+            ShaderCI.Source = shaderLoader.LoadShader("GLTF_PBR/private/RenderGLTF_PBR.psh", "Common/public", "GLTF_PBR/public", "PostProcess/ToneMapping/public");
             using var pPS = pDevice.CreateShader(ShaderCI);
 
             var Inputs = new List<LayoutElement>
