@@ -245,8 +245,9 @@ namespace Tutorial_99_Pbo
         AutoPtr<ITextureView> m_pDefaultPhysDescSRV;
 
         AutoPtr<ITextureView> m_pIrradianceCubeSRV;
-        AutoPtr<IPipelineState> m_pPrecomputeIrradianceCubePSO;
         AutoPtr<ITextureView> m_pPrefilteredEnvMapSRV;
+        AutoPtr<IPipelineState> m_pPrecomputeIrradianceCubePSO;
+        AutoPtr<IShaderResourceBinding> m_pPrecomputeIrradianceCubeSRB;
 
         AutoPtr<IBuffer> m_TransformsCB;
         AutoPtr<IBuffer> m_GLTFAttribsCB;
@@ -389,6 +390,7 @@ namespace Tutorial_99_Pbo
 
         public void Dispose()
         {
+            m_pPrecomputeIrradianceCubeSRB?.Dispose();
             m_pPrecomputeIrradianceCubePSO?.Dispose();
             m_PrecomputeEnvMapAttribsCB?.Dispose();
             m_PSOCache.Dispose();
@@ -672,44 +674,38 @@ namespace Tutorial_99_Pbo
                 ShaderCI.Source = shaderLoader.LoadShader("GLTF_PBR/private/ComputeIrradianceMap.psh");
                 using var pPS = pDevice.CreateShader(ShaderCI, Macros);
 
-                //GraphicsPipelineStateCreateInfo PSOCreateInfo;
-                //PipelineStateDesc & PSODesc = PSOCreateInfo.PSODesc;
-                //GraphicsPipelineDesc & GraphicsPipeline = PSOCreateInfo.GraphicsPipeline;
+                GraphicsPipelineStateCreateInfo PSOCreateInfo = new GraphicsPipelineStateCreateInfo();
+                PipelineStateDesc PSODesc = PSOCreateInfo.PSODesc;
+                GraphicsPipelineDesc GraphicsPipeline = PSOCreateInfo.GraphicsPipeline;
 
-                //PSODesc.Name = "Precompute irradiance cube PSO";
-                //PSODesc.PipelineType = PIPELINE_TYPE_GRAPHICS;
+                PSODesc.Name = "Precompute irradiance cube PSO";
+                PSODesc.PipelineType = PIPELINE_TYPE.PIPELINE_TYPE_GRAPHICS;
 
-                //GraphicsPipeline.NumRenderTargets = 1;
-                //GraphicsPipeline.RTVFormats[0] = IrradianceCubeFmt;
-                //GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
-                //GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE_NONE;
-                //GraphicsPipeline.DepthStencilDesc.DepthEnable = False;
+                GraphicsPipeline.NumRenderTargets = 1;
+                GraphicsPipeline.RTVFormats_0 = IrradianceCubeFmt;
+                GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY.PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
+                GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE.CULL_MODE_NONE;
+                GraphicsPipeline.DepthStencilDesc.DepthEnable = false;
 
-                //PSOCreateInfo.pVS = pVS;
-                //PSOCreateInfo.pPS = pPS;
+                PSOCreateInfo.pVS = pVS.Obj;
+                PSOCreateInfo.pPS = pPS.Obj;
 
-                //PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
-                //// clang-format off
-                //ShaderResourceVariableDesc Vars[] =
-                //{
-                //        {SHADER_TYPE_PIXEL, "g_EnvironmentMap", SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC}
-                //    };
-                //// clang-format on
-                //PSODesc.ResourceLayout.NumVariables = _countof(Vars);
-                //PSODesc.ResourceLayout.Variables = Vars;
+                PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
+                var Vars = new List<ShaderResourceVariableDesc>
+                {
+                    new ShaderResourceVariableDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, Name = "g_EnvironmentMap", Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC}
+                };
+                PSODesc.ResourceLayout.Variables = Vars;
 
-                //// clang-format off
-                //ImmutableSamplerDesc ImtblSamplers[] =
-                //{
-                //        {SHADER_TYPE_PIXEL, "g_EnvironmentMap", Sam_LinearClamp}
-                //    };
-                //// clang-format on
-                //PSODesc.ResourceLayout.NumImmutableSamplers = _countof(ImtblSamplers);
-                //PSODesc.ResourceLayout.ImmutableSamplers = ImtblSamplers;
+                var ImtblSamplers = new List<ImmutableSamplerDesc>
+                {
+                    new ImmutableSamplerDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, SamplerOrTextureName = "g_EnvironmentMap", Desc = Sam_LinearClamp}
+                };
+                PSODesc.ResourceLayout.ImmutableSamplers = ImtblSamplers;
 
-                //pDevice->CreateGraphicsPipelineState(PSOCreateInfo, &m_pPrecomputeIrradianceCubePSO);
-                //m_pPrecomputeIrradianceCubePSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "cbTransform")->Set(m_PrecomputeEnvMapAttribsCB);
-                //m_pPrecomputeIrradianceCubePSO->CreateShaderResourceBinding(&m_pPrecomputeIrradianceCubeSRB, true);
+                m_pPrecomputeIrradianceCubePSO = pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
+                m_pPrecomputeIrradianceCubePSO.Obj.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "cbTransform").Set(m_PrecomputeEnvMapAttribsCB.Obj);
+                m_pPrecomputeIrradianceCubeSRB = m_pPrecomputeIrradianceCubePSO.Obj.CreateShaderResourceBinding(true);
             }
 
             //    if (!m_pPrefilterEnvMapPSO)
