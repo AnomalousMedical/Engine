@@ -34,6 +34,9 @@ namespace Tutorial_99_Pbo
         private IDeviceContext m_pImmediateContext;
 
         private GLTF_PBR_Renderer m_GLTFRenderer;
+        AutoPtr<IBuffer> m_CameraAttribsCB;
+        AutoPtr<IBuffer> m_LightAttribsCB;
+        AutoPtr<IBuffer> m_EnvMapRenderAttribsCB;
         AutoPtr<ITextureView> m_EnvironmentMapSRV;
 
         public unsafe PboUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ShaderLoader shaderLoader)
@@ -49,6 +52,9 @@ namespace Tutorial_99_Pbo
 
         public void Dispose()
         {
+            m_CameraAttribsCB.Dispose();
+            m_LightAttribsCB.Dispose();
+            m_EnvMapRenderAttribsCB.Dispose();
             m_GLTFRenderer.Dispose();
             m_EnvironmentMapSRV.Dispose();
         }
@@ -81,6 +87,40 @@ namespace Tutorial_99_Pbo
                 RendererCI.FrontCCW = true;
                 RendererCI.UseTextureAtals = m_bUseResourceCache;
                 m_GLTFRenderer = new GLTF_PBR_Renderer(m_pDevice, m_pImmediateContext, RendererCI, shaderLoader);
+
+                unsafe{
+                    BufferDesc CBDesc = new BufferDesc();
+                    CBDesc.Name = "Camera attribs buffer";
+                    CBDesc.uiSizeInBytes = (uint)sizeof(CameraAttribs);
+                    CBDesc.Usage = USAGE.USAGE_DYNAMIC;
+                    CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
+                    CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
+
+                    m_CameraAttribsCB = m_pDevice.CreateBuffer(CBDesc);
+                }
+
+                {
+                    BufferDesc CBDesc = new BufferDesc();
+                    CBDesc.Name = "Light attribs buffer";
+                    CBDesc.uiSizeInBytes = (uint)sizeof(LightAttribs);
+                    CBDesc.Usage = USAGE.USAGE_DYNAMIC;
+                    CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
+                    CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
+
+                    m_LightAttribsCB = m_pDevice.CreateBuffer(CBDesc);
+                }
+
+                {
+                    BufferDesc CBDesc = new BufferDesc();
+                    CBDesc.Name = "Env map render attribs buffer";
+                    CBDesc.uiSizeInBytes = (uint)sizeof(EnvMapRenderAttribs);
+                    CBDesc.Usage = USAGE.USAGE_DYNAMIC;
+                    CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
+                    CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
+
+                    m_EnvMapRenderAttribsCB = m_pDevice.CreateBuffer(CBDesc);
+                }
+
             }
             finally
             {

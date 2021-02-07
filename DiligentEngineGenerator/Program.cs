@@ -336,30 +336,6 @@ namespace DiligentEngineGenerator
             }
 
             {
-                var CameraAttribs = CodeStruct.Find(baseDir + "/DiligentFX/Shaders/Common/public/BasicStructures.fxh", 116, 143, skipLines: new int[] { 125 }.Concat(Sequence(132, 139)));
-                codeTypeInfo.Structs[nameof(CameraAttribs)] = CameraAttribs;
-
-                codeWriter.AddWriter(new StructCsWriter(CameraAttribs), Path.Combine(baseStructDir, $"{nameof(CameraAttribs)}.cs"));
-            }
-
-            //{
-            //    var ToneMappingAttribs = CodeStruct.Find(baseDir + "/DiligentFX/Shaders/PostProcess/ToneMapping/public/ToneMappingStructures.fxh", 47, 64);
-            //    codeTypeInfo.Structs[nameof(ToneMappingAttribs)] = ToneMappingAttribs;
-
-            //    codeWriter.AddWriter(new StructCsWriter(ToneMappingAttribs), Path.Combine(baseStructDir, $"{nameof(ToneMappingAttribs)}.cs"));
-            //}
-
-            {
-                var ShadowMapAttribs = CodeStruct.Find(baseDir + "/DiligentFX/Shaders/Common/public/BasicStructures.fxh", 57, 111,
-                    skipLines: new int[] { 60 }
-                    .Concat(Sequence(62, 64))
-                    .Concat(new int[] { 68 })
-                    .Concat(Sequence(71, 74)));
-                codeTypeInfo.Structs[nameof(ShadowMapAttribs)] = ShadowMapAttribs;
-                codeWriter.AddWriter(new StructCsWriter(ShadowMapAttribs), Path.Combine(baseStructDir, $"{nameof(ShadowMapAttribs)}.cs"));
-            }
-
-            {
                 var ImmutableSamplerDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 100, 115);
                 codeTypeInfo.Structs[nameof(ImmutableSamplerDesc)] = ImmutableSamplerDesc;
 

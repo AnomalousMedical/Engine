@@ -17,15 +17,11 @@ using float2 = Engine.Vector2;
 using float4x4 = Engine.Matrix4x4;
 using BOOL = System.Boolean;
 
-namespace DiligentEngine
+namespace Tutorial_99_Pbo
 {
-    public partial class CameraAttribs
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CameraAttribs
     {
-
-        public CameraAttribs()
-        {
-            
-        }
         public float4 f4Position { get; set; }
         public float4 f4ViewportSize { get; set; }
         public float2 f2ViewportOrigin { get; set; }

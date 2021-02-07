@@ -338,30 +338,38 @@ namespace Tutorial_99_Pbo
             {
                 unsafe
                 {
-                    BufferDesc CBDesc = new BufferDesc();
-                    CBDesc.Name = "GLTF node transforms CB";
-                    CBDesc.uiSizeInBytes = (uint)sizeof(GLTFNodeShaderTransforms);
-                    CBDesc.Usage = USAGE.USAGE_DYNAMIC;
-                    CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
-                    CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
+                    {
+                        BufferDesc CBDesc = new BufferDesc();
+                        CBDesc.Name = "GLTF node transforms CB";
+                        CBDesc.uiSizeInBytes = (uint)sizeof(GLTFNodeShaderTransforms);
+                        CBDesc.Usage = USAGE.USAGE_DYNAMIC;
+                        CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
+                        CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
 
-                    m_TransformsCB = pDevice.CreateBuffer(CBDesc);
+                        m_TransformsCB = pDevice.CreateBuffer(CBDesc);
+                    }
 
-                    CBDesc.Name = "GLTF attribs CB";
-                    CBDesc.uiSizeInBytes = (uint)(sizeof(GLTFMaterialShaderInfo) + sizeof(GLTFRendererShaderParameters));
-                    CBDesc.Usage = USAGE.USAGE_DYNAMIC;
-                    CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
-                    CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
+                    {
+                        BufferDesc CBDesc = new BufferDesc();
+                        CBDesc.Name = "GLTF attribs CB";
+                        CBDesc.uiSizeInBytes = (uint)(sizeof(GLTFMaterialShaderInfo) + sizeof(GLTFRendererShaderParameters));
+                        CBDesc.Usage = USAGE.USAGE_DYNAMIC;
+                        CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
+                        CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
 
-                    m_GLTFAttribsCB = pDevice.CreateBuffer(CBDesc);
+                        m_GLTFAttribsCB = pDevice.CreateBuffer(CBDesc);
+                    }
 
-                    CBDesc.Name = "GLTF joint tranforms";
-                    CBDesc.uiSizeInBytes = (uint)sizeof(float4x4) * m_Settings.MaxJointCount;
-                    CBDesc.Usage = USAGE.USAGE_DYNAMIC;
-                    CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
-                    CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
+                    {
+                        BufferDesc CBDesc = new BufferDesc();
+                        CBDesc.Name = "GLTF joint tranforms";
+                        CBDesc.uiSizeInBytes = (uint)sizeof(float4x4) * m_Settings.MaxJointCount;
+                        CBDesc.Usage = USAGE.USAGE_DYNAMIC;
+                        CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
+                        CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
 
-                    m_JointsBuffer = pDevice.CreateBuffer(CBDesc);
+                        m_JointsBuffer = pDevice.CreateBuffer(CBDesc);
+                    }
 
                     // clang-format off
                     var Barriers = new List<StateTransitionDesc>
