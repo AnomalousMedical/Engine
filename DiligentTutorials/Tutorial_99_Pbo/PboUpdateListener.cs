@@ -34,6 +34,7 @@ namespace Tutorial_99_Pbo
         private IDeviceContext m_pImmediateContext;
 
         private GLTF_PBR_Renderer m_GLTFRenderer;
+        AutoPtr<ITextureView> m_EnvironmentMapSRV;
 
         public unsafe PboUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ShaderLoader shaderLoader)
         {
@@ -49,6 +50,7 @@ namespace Tutorial_99_Pbo
         public void Dispose()
         {
             m_GLTFRenderer.Dispose();
+            m_EnvironmentMapSRV.Dispose();
         }
 
         unsafe void Initialize()
@@ -66,6 +68,7 @@ namespace Tutorial_99_Pbo
                 {
                     EnvironmentMap = KtxLoader.CreateTextureFromKTX(new IntPtr(data), new UIntPtr((uint)bytes.Length), loadInfo, m_pDevice);
                 }
+                m_EnvironmentMapSRV = new AutoPtr<ITextureView>(EnvironmentMap.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
 
                 var BackBufferFmt = m_pSwapChain.GetDesc_ColorBufferFormat;
                 var DepthBufferFmt = m_pSwapChain.GetDesc_DepthBufferFormat;
