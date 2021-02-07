@@ -10,9 +10,9 @@ namespace Engine
     public unsafe struct Matrix4x4
     {
         public static readonly Matrix4x4 Identity = new Matrix4x4(1, 0, 0, 0,
-                                                         0, 1, 0, 0,
-                                                         0, 0, 1, 0,
-                                                         0, 0, 0, 1);
+                                                                  0, 1, 0, 0,
+                                                                  0, 0, 1, 0,
+                                                                  0, 0, 0, 1);
 
         public static Matrix4x4 Translation(float x, float y, float z)
         {
@@ -330,6 +330,66 @@ namespace Engine
             m30 = x;
             m31 = y;
             m32 = z;
+        }
+
+        /// <summary>
+        /// D3D-style left-handed matrix that rotates a point around the x axis. Angle (in radians)
+        /// is measured clockwise when looking along the rotation axis toward the origin:
+        /// (x' y' z' 1) = (x y z 1) * RotationX
+        /// </summary>
+        /// <param name="angleInRadians">The angle on the z axis in radians.</param>
+        public static Matrix4x4 RotationX(float angleInRadians)
+        {
+            float s = (float)Math.Sin(angleInRadians);
+            float c = (float)Math.Cos(angleInRadians);
+
+            return new Matrix4x4 // clang-format off
+            (
+                1,  0,  0,  0,
+                0,  c,  s,  0,
+                0, -s,  c,  0,
+                0,  0,  0,  1 // clang-format on
+            );
+        }
+
+        /// <summary>
+        /// D3D-style left-handed matrix that rotates a point around the y axis. Angle (in radians)
+        /// is measured clockwise when looking along the rotation axis toward the origin:
+        /// (x' y' z' 1) = (x y z 1) * RotationY
+        /// </summary>
+        /// <param name="angleInRadians">The angle on the z axis in radians.</param>
+        public static Matrix4x4 RotationY(float angleInRadians)
+        {
+            float s = (float)Math.Sin(angleInRadians);
+            float c = (float)Math.Cos(angleInRadians);
+
+            return new Matrix4x4
+            (
+                c,  0, -s,  0,
+                0,  1,  0,  0,
+                s,  0,  c,  0,
+                0,  0,  0,  1
+            );
+        }
+
+        /// <summary>
+        /// D3D-style left-handed matrix that rotates a point around the z axis. Angle (in radians)
+        /// is measured clockwise when looking along the rotation axis toward the origin:
+        /// (x' y' z' 1) = (x y z 1) * RotationZ 
+        /// </summary>
+        /// <param name="angleInRadians">The angle on the z axis in radians.</param>
+        public static Matrix4x4 RotationZ(float angleInRadians)
+        {
+            float s = (float)Math.Sin(angleInRadians);
+            float c = (float)Math.Cos(angleInRadians);
+
+            return new Matrix4x4 // clang-format off
+            (
+                c, s, 0, 0,
+                -s, c, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1 // clang-format on
+            );
         }
     }
 }

@@ -772,17 +772,15 @@ namespace Tutorial_99_Pbo
             }
 
 
-            //    // clang-format off
-            // const std::array<float4x4, 6> Matrices =
-            //    {
-            ///* +X */ float4x4::RotationY(+PI_F / 2.f),
-            ///* -X */ float4x4::RotationY(-PI_F / 2.f),
-            ///* +Y */ float4x4::RotationX(-PI_F / 2.f),
-            ///* -Y */ float4x4::RotationX(+PI_F / 2.f),
-            ///* +Z */ float4x4::Identity(),
-            ///* -Z */ float4x4::RotationY(PI_F)
-            // };
-            //    // clang-format on
+            var Matrices = new float4x4[6]
+            {
+                /* +X */ float4x4.RotationY(+(float)Math.PI / 2f),
+                /* -X */ float4x4.RotationY(-(float)Math.PI / 2f),
+                /* +Y */ float4x4.RotationX(-(float)Math.PI / 2f),
+                /* -Y */ float4x4.RotationX(+(float)Math.PI / 2f),
+                /* +Z */ float4x4.Identity,
+                /* -Z */ float4x4.RotationY((float)Math.PI)
+            };
 
             //    pCtx->SetPipelineState(m_pPrecomputeIrradianceCubePSO);
             //    m_pPrecomputeIrradianceCubeSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_EnvironmentMap")->Set(pEnvironmentMap);
