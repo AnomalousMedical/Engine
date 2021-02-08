@@ -162,17 +162,37 @@ namespace Tutorial_99_Pbo.Shapes
 
         unsafe void CreateIndexBuffer(IRenderDevice m_pDevice)
         {
-            // clang-format off
+            // Original ccw indices (culled by backface cull, cube was inside out)
+            //var Indices = new UInt32[]
+            //{
+            //    //ccw
+            //    2,0,1,    2,3,0,
+            //    4,6,5,    4,7,6,
+            //    8,10,9,   8,11,10,
+            //    12,14,13, 12,15,14,
+            //    16,18,17, 16,19,18,
+            //    20,21,22, 20,22,23
+            //};
+
+            ////make cw
+            //for (var i = 0; i < Indices.Length; i += 3)
+            //{
+            //    var temp = Indices[i];
+            //    Indices[i] = Indices[i + 2];
+            //    Indices[i + 2] = temp;
+            //}
+            //// END
+
+            //Clockwise indices
             var Indices = new UInt32[]
             {
-                2,0,1,    2,3,0,
-                4,6,5,    4,7,6,
-                8,10,9,   8,11,10,
-                12,14,13, 12,15,14,
-                16,18,17, 16,19,18,
-                20,21,22, 20,22,23
+                1,0,2,       0,3,2,
+                5,6,4,       6,7,4,
+                9,10,8,      10,11,8,
+                13,14,12,    14,15,12,
+                17,18,16,    18,19,16,
+                22,21,20,    23,22,20,
             };
-            // clang-format on
 
             BufferDesc IndBuffDesc = new BufferDesc();
             IndBuffDesc.Name = "Cube index buffer";
