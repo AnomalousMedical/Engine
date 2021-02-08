@@ -1072,7 +1072,41 @@ namespace Tutorial_99_Pbo
                 var pGLTFAttribs = (GLTFAttribs*)data.ToPointer();// { pCtx, m_GLTFAttribsCB, MAP_WRITE, MAP_FLAG_DISCARD};
 
                 //Just using hardcoded values for now
-                pGLTFAttribs->MaterialInfo = GLTFShaderAttribs.CreateDefault();
+                //pGLTFAttribs->MaterialInfo = GLTFShaderAttribs.CreateDefault();
+                pGLTFAttribs->MaterialInfo = new GLTFShaderAttribs()
+                {
+                    BaseColorFactor = new float4(1, 1, 1, 1),
+                    EmissiveFactor = new float4(1, 1, 1, 1),
+                    SpecularFactor = new float4(1, 1, 1, 1),
+
+                    Workflow = (int)PBR_WORKFLOW.PBR_WORKFLOW_METALL_ROUGH,
+                    BaseColorTextureUVSelector = 0, //changed
+                    PhysicalDescriptorTextureUVSelector = 0, //changed
+                    NormalTextureUVSelector = -1,
+
+                    OcclusionTextureUVSelector = -1,
+                    EmissiveTextureUVSelector = -1,
+                    BaseColorSlice = 0,
+                    PhysicalDescriptorSlice = 0,
+
+                    NormalSlice = 0,
+                    OcclusionSlice = 0,
+                    EmissiveSlice = 0,
+                    MetallicFactor = 1,
+
+                    RoughnessFactor = 1,
+                    AlphaMode = (int)ALPHA_MODE.ALPHA_MODE_OPAQUE,
+                    AlphaMaskCutoff = 0.5f,
+                    Dummy0 = -107374176f, //changed might just be from garbage, who knows
+
+                    // When texture atlas is used, UV scale and bias applied to
+                    // each texture coordinate set
+                    BaseColorUVScaleBias = new float4(1, 1, 0, 0),
+                    PhysicalDescriptorUVScaleBias = new float4(1, 1, 0, 0),
+                    NormalMapUVScaleBias = new float4(1, 1, 0, 0),
+                    OcclusionUVScaleBias = new float4(1, 1, 0, 0),
+                    EmissiveUVScaleBias = new float4(1, 1, 0, 0),
+                };
 
                 var ShaderParams = pGLTFAttribs->RenderParameters;
 
