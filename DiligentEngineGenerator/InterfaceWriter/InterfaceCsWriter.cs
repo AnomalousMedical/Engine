@@ -112,7 +112,7 @@ namespace DiligentEngine
                     {
                         if (arg.IsArray)
                         {
-                            writer.WriteLine($"                , {arg.Name}.Select(i => i.objPtr).ToArray() //Not 100% sure on this. When is is gc'd");
+                            writer.WriteLine($"                , {arg.Name}.Select(i => i.objPtr).ToArray()");
                         }
                         else
                         {

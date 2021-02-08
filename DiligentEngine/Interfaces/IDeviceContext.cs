@@ -128,7 +128,7 @@ namespace DiligentEngine
                 this.objPtr
                 , StartSlot
                 , NumBuffersSet
-                , ppBuffers.Select(i => i.objPtr).ToArray() //Not 100% sure on this. When is is gc'd
+                , ppBuffers.Select(i => i.objPtr).ToArray()
                 , pOffsets
                 , StateTransitionMode
                 , Flags
