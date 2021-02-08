@@ -32,6 +32,7 @@ namespace Tutorial_99_Pbo
         private readonly NativeOSWindow window;
         private readonly ShaderLoader shaderLoader;
         private readonly Plane shape;
+        private readonly TextureLoader textureLoader;
         private bool m_bUseResourceCache = false; //This is just here, not everything is implemented for it
 
         private ISwapChain m_pSwapChain;
@@ -45,7 +46,7 @@ namespace Tutorial_99_Pbo
         AutoPtr<ITextureView> m_EnvironmentMapSRV;
         AutoPtr<IShaderResourceBinding> pboMatBinding;
 
-        public unsafe PboUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ShaderLoader shaderLoader, Plane shape)
+        public unsafe PboUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ShaderLoader shaderLoader, Plane shape, TextureLoader textureLoader)
         {
             this.graphicsEngine = graphicsEngine;
             this.m_pSwapChain = graphicsEngine.SwapChain;
@@ -54,6 +55,7 @@ namespace Tutorial_99_Pbo
             this.window = window;
             this.shaderLoader = shaderLoader;
             this.shape = shape;
+            this.textureLoader = textureLoader;
             Initialize();
         }
 
@@ -151,10 +153,19 @@ namespace Tutorial_99_Pbo
                 //    CreateGLTFResourceCache();
 
                 //LoadModel(GLTFModels[m_SelectedModel].second);
-                pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
-                    pCameraAttribs: m_CameraAttribsCB.Obj,
-                    pLightAttribs: m_LightAttribsCB.Obj
+                using (var stream = File.Open("textures/Spheres_BaseColor.png", FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var physicalDescriptorStream = File.Open("textures/Spheres_MetalRough.png", FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    using var baseColorMap = textureLoader.LoadTexture(stream);
+                    using var physicalDescriptorMap = textureLoader.LoadTexture(physicalDescriptorStream);
+
+                    pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
+                        pCameraAttribs: m_CameraAttribsCB.Obj,
+                        pLightAttribs: m_LightAttribsCB.Obj,
+                        baseColorMap: baseColorMap.Obj,
+                        physicalDescriptorMap: physicalDescriptorMap.Obj
                     );
+                }
             }
             finally
             {
