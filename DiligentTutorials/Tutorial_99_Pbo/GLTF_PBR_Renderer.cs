@@ -20,6 +20,7 @@ using float2 = Engine.Vector2;
 using float4x4 = Engine.Matrix4x4;
 using BOOL = System.Boolean;
 using System.Collections;
+using Engine;
 
 namespace Tutorial_99_Pbo
 {
@@ -991,6 +992,7 @@ namespace Tutorial_99_Pbo
             {
                 IntPtr data = pCtx.MapBuffer(m_TransformsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
                 var transform = (GLTFNodeShaderTransforms*)data.ToPointer();
+                transform->NodeMatrix = Matrix4x4.Identity;
 
                 pCtx.UnmapBuffer(m_TransformsCB.Obj, MAP_TYPE.MAP_WRITE);
             }
@@ -1011,7 +1013,7 @@ namespace Tutorial_99_Pbo
 
                 //pGLTFAttribs->MaterialInfo = material.Attribs;
 
-                //var ShaderParams = pGLTFAttribs->RenderParameters;
+                var ShaderParams = pGLTFAttribs->RenderParameters;
 
                 //ShaderParams.DebugViewType = static_cast<int>(m_RenderParams.DebugView);
                 //ShaderParams.OcclusionStrength = m_RenderParams.OcclusionStrength;
@@ -1022,6 +1024,16 @@ namespace Tutorial_99_Pbo
                 //ShaderParams.IBLScale = m_RenderParams.IBLScale;
                 //ShaderParams.PrefilteredCubeMipLevels = m_Settings.UseIBL ? static_cast<float>(m_pPrefilteredEnvMapSRV->GetTexture()->GetDesc().MipLevels) : 0f;
 
+                //Take from c++ app, don't just use
+                ShaderParams.AverageLogLum = 0.300000012f;
+                ShaderParams.MiddleGray = 0.180000007f;
+                ShaderParams.WhitePoint = 3.00000000f;
+                ShaderParams.PrefilteredCubeMipLevels = 0.00000000f;
+                ShaderParams.IBLScale = 1.00000000f;
+                ShaderParams.DebugViewType = 0;
+                ShaderParams.OcclusionStrength = 1.00000000f;
+                ShaderParams.EmissionScale = 1.00000000f;
+                ShaderParams.PrefilteredCubeMipLevels = m_Settings.UseIBL ? m_pPrefilteredEnvMapSRV.Obj.GetTexture().GetDesc_MipLevels : 0f; //This line is valid
 
                 pCtx.UnmapBuffer(m_GLTFAttribsCB.Obj, MAP_TYPE.MAP_WRITE);
             }
