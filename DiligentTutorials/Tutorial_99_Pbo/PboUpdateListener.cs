@@ -156,8 +156,8 @@ namespace Tutorial_99_Pbo
                 using (var baseColorStream = File.Open("textures/Spheres_BaseColor.png", FileMode.Open, FileAccess.Read, FileShare.Read))
                 using (var physicalDescriptorStream = File.Open("textures/Spheres_MetalRough.png", FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    using var baseColorMap = textureLoader.LoadTexture(baseColorStream, "baseColorMap");
-                    using var physicalDescriptorMap = textureLoader.LoadTexture(physicalDescriptorStream, "physicalDescriptorMap");
+                    using var baseColorMap = textureLoader.LoadTexture(baseColorStream, "baseColorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY);
+                    using var physicalDescriptorMap = textureLoader.LoadTexture(physicalDescriptorStream, "physicalDescriptorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY);
 
                     pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
                         pCameraAttribs: m_CameraAttribsCB.Obj,
