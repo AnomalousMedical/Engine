@@ -1010,7 +1010,8 @@ namespace Tutorial_99_Pbo
             IBuffer skinVertexBuffer,
             IBuffer indexBuffer,
             Uint32 numIndices,
-            ALPHA_MODE AlphaMode
+            ALPHA_MODE AlphaMode,
+            ref Matrix4x4 position
             )
         {
             var doubleSided = false;
@@ -1030,7 +1031,8 @@ namespace Tutorial_99_Pbo
             {
                 IntPtr data = pCtx.MapBuffer(m_TransformsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
                 var transform = (GLTFNodeShaderTransforms*)data.ToPointer();
-                transform->NodeMatrix = Matrix4x4.Identity;
+
+                transform->NodeMatrix = position;
 
                 pCtx.UnmapBuffer(m_TransformsCB.Obj, MAP_TYPE.MAP_WRITE);
             }

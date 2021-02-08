@@ -294,8 +294,13 @@ namespace Tutorial_99_Pbo
             //}
             //else
             //{
+            var trans = Vector3.UnitY * -0.3f;
+            var rot = Quaternion.Identity;// new Quaternion(clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * (float)Math.PI), 0f, 0f);
+
+            var CubeModelTransform = rot.toRotationMatrix4x4(trans);
+
             m_GLTFRenderer.Begin(m_pImmediateContext);
-            m_GLTFRenderer.Render(m_pImmediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, ALPHA_MODE.ALPHA_MODE_OPAQUE);//, *m_Model, m_RenderParams, &m_ModelResourceBindings); //m_ModelResourceBindings aka the result of AutoPtr<IShaderResourceBinding> CreateMaterialSRB
+            m_GLTFRenderer.Render(m_pImmediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, ALPHA_MODE.ALPHA_MODE_OPAQUE, ref CubeModelTransform);//, *m_Model, m_RenderParams, &m_ModelResourceBindings); //m_ModelResourceBindings aka the result of AutoPtr<IShaderResourceBinding> CreateMaterialSRB
             //}
 
             this.m_pSwapChain.Present(1);
