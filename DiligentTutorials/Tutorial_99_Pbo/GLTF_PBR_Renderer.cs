@@ -130,6 +130,27 @@ namespace Tutorial_99_Pbo
         public GLTFRendererShaderParameters RenderParameters;
     }
 
+    enum DebugViewType : int
+    {
+        None            = 0,
+        BaseColor       = 1,
+        Transparency    = 2,
+        NormalMap       = 3,
+        Occlusion       = 4,
+        Emissive        = 5,
+        Metallic        = 6,
+        Roughness       = 7,
+        DiffuseColor    = 8,
+        SpecularColor   = 9,
+        Reflectance90   = 10,
+        MeshNormal      = 11,
+        PerturbedNormal = 12,
+        NdotV           = 13,
+        DiffuseIBL      = 14,
+        SpecularIBL     = 15,
+        NumDebugViews
+    }
+
     [StructLayout(LayoutKind.Sequential)]
     struct GLTFRendererShaderParameters
     {
@@ -1033,6 +1054,7 @@ namespace Tutorial_99_Pbo
                 var transform = (GLTFNodeShaderTransforms*)data.ToPointer();
 
                 transform->NodeMatrix = position;
+                transform->JointCount = 0;
 
                 pCtx.UnmapBuffer(m_TransformsCB.Obj, MAP_TYPE.MAP_WRITE);
             }
@@ -1071,7 +1093,7 @@ namespace Tutorial_99_Pbo
                 ShaderParams.WhitePoint = 3.00000000f;
                 ShaderParams.PrefilteredCubeMipLevels = 0.00000000f;
                 ShaderParams.IBLScale = 1.00000000f;
-                ShaderParams.DebugViewType = 0;
+                ShaderParams.DebugViewType = 0;// (int)DebugViewType.DiffuseColor;
                 ShaderParams.OcclusionStrength = 1.00000000f;
                 ShaderParams.EmissionScale = 1.00000000f;
                 ShaderParams.PrefilteredCubeMipLevels = m_Settings.UseIBL ? m_pPrefilteredEnvMapSRV.Obj.GetTexture().GetDesc_MipLevels : 0f; //This line is valid
