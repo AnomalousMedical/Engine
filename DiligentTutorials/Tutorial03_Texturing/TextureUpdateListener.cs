@@ -35,7 +35,6 @@ namespace DiligentEngineCube
         private AutoPtr<IBuffer> m_CubeVertexBuffer;
         private AutoPtr<IBuffer> m_CubeIndexBuffer;
         private AutoPtr<IShaderResourceBinding> m_SRB;
-        private AutoPtr<ITextureView> m_TextureSRV;
 
         public unsafe TextureUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, TextureLoader textureLoader)
         {
@@ -291,17 +290,16 @@ namespace DiligentEngineCube
             Console.WriteLine(logo);
 
             using var stream = File.Open(logo, FileMode.Open, FileAccess.Read, FileShare.Read);
-            using var Tex = textureLoader.LoadTexture(stream);
+            using var Tex = textureLoader.LoadTexture(stream, "DGLogo.png");
             // Get shader resource view from the texture
-            m_TextureSRV = new AutoPtr<ITextureView>(Tex.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
+            var m_TextureSRV = Tex.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
 
             // Set texture SRV in the SRB
-            m_SRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_Texture").Set(m_TextureSRV.Obj);
+            m_SRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_Texture").Set(m_TextureSRV);
         }
 
         public void Dispose()
         {
-            m_TextureSRV.Dispose();
             m_CubeIndexBuffer.Dispose();
             m_CubeVertexBuffer.Dispose();
             m_SRB.Dispose();

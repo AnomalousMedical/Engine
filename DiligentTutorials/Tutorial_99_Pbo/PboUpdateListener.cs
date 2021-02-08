@@ -152,12 +152,12 @@ namespace Tutorial_99_Pbo
                 //if (m_bUseResourceCache)
                 //    CreateGLTFResourceCache();
 
-                //LoadModel(GLTFModels[m_SelectedModel].second);
-                using (var stream = File.Open("textures/Spheres_BaseColor.png", FileMode.Open, FileAccess.Read, FileShare.Read))
+                
+                using (var baseColorStream = File.Open("textures/Spheres_BaseColor.png", FileMode.Open, FileAccess.Read, FileShare.Read))
                 using (var physicalDescriptorStream = File.Open("textures/Spheres_MetalRough.png", FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    using var baseColorMap = textureLoader.LoadTexture(stream);
-                    using var physicalDescriptorMap = textureLoader.LoadTexture(physicalDescriptorStream);
+                    using var baseColorMap = textureLoader.LoadTexture(baseColorStream, "baseColorMap");
+                    using var physicalDescriptorMap = textureLoader.LoadTexture(physicalDescriptorStream, "physicalDescriptorMap");
 
                     pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
                         pCameraAttribs: m_CameraAttribsCB.Obj,

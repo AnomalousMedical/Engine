@@ -41,7 +41,7 @@ namespace DiligentEngine
             }
         }
 
-        public AutoPtr<ITexture> LoadTexture(Stream stream)
+        public AutoPtr<ITexture> LoadTexture(Stream stream, String name)
         {
             using (var bmp = FreeImageBitmap.FromStream(stream))
             {
@@ -49,7 +49,7 @@ namespace DiligentEngine
                 bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
                 //TextureLoadInfo loadInfo;
                 //loadInfo.IsSRGB = true;
-                return CreateTextureFromImage(bmp, 1);
+                return CreateTextureFromImage(bmp, 1, name);
             }
         }
 
@@ -60,14 +60,14 @@ namespace DiligentEngine
         /// <param name="MipLevels"></param>
         /// <param name="pDevice"></param>
         /// <returns></returns>
-        public AutoPtr<ITexture> CreateTextureFromImage(FreeImageBitmap bitmap, int MipLevels)
+        public AutoPtr<ITexture> CreateTextureFromImage(FreeImageBitmap bitmap, int MipLevels, String name)
         {
             uint width = (uint)bitmap.Width;
             uint height = (uint)bitmap.Height;
 
             //const auto& ImgDesc = pSrcImage->GetDesc();
             TextureDesc TexDesc = new TextureDesc();
-            //TexDesc.Name      = TexLoadInfo.Name;
+            TexDesc.Name = name;
             TexDesc.Type = RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D;
             TexDesc.Width = width;
             TexDesc.Height = height;

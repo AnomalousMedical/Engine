@@ -82,45 +82,45 @@ namespace Tutorial_99_Pbo
 
                 // When texture atlas is used, UV scale and bias applied to
                 // each texture coordinate set
-                BaseColorUVScaleBias = new float4( 1, 1, 0, 0 ),
-                PhysicalDescriptorUVScaleBias = new float4 ( 1, 1, 0, 0 ),
-                NormalMapUVScaleBias = new float4 ( 1, 1, 0, 0 ),
-                OcclusionUVScaleBias = new float4 ( 1, 1, 0, 0 ),
-                EmissiveUVScaleBias = new float4 ( 1, 1, 0, 0 ),
+                BaseColorUVScaleBias = new float4(1, 1, 0, 0),
+                PhysicalDescriptorUVScaleBias = new float4(1, 1, 0, 0),
+                NormalMapUVScaleBias = new float4(1, 1, 0, 0),
+                OcclusionUVScaleBias = new float4(1, 1, 0, 0),
+                EmissiveUVScaleBias = new float4(1, 1, 0, 0),
             };
         }
 
-        float4 BaseColorFactor;
-        float4 EmissiveFactor;
-        float4 SpecularFactor;
+        public float4 BaseColorFactor;
+        public float4 EmissiveFactor;
+        public float4 SpecularFactor;
 
-        int Workflow;
-        float BaseColorTextureUVSelector;
-        float PhysicalDescriptorTextureUVSelector;
-        float NormalTextureUVSelector;
+        public int Workflow;
+        public float BaseColorTextureUVSelector;
+        public float PhysicalDescriptorTextureUVSelector;
+        public float NormalTextureUVSelector;
 
-        float OcclusionTextureUVSelector;
-        float EmissiveTextureUVSelector;
-        float BaseColorSlice;
-        float PhysicalDescriptorSlice;
+        public float OcclusionTextureUVSelector;
+        public float EmissiveTextureUVSelector;
+        public float BaseColorSlice;
+        public float PhysicalDescriptorSlice;
 
-        float NormalSlice;
-        float OcclusionSlice;
-        float EmissiveSlice;
-        float MetallicFactor;
+        public float NormalSlice;
+        public float OcclusionSlice;
+        public float EmissiveSlice;
+        public float MetallicFactor;
 
-        float RoughnessFactor;
-        int AlphaMode;
-        float AlphaMaskCutoff;
-        float Dummy0;
+        public float RoughnessFactor;
+        public int AlphaMode;
+        public float AlphaMaskCutoff;
+        public float Dummy0;
 
         // When texture atlas is used, UV scale and bias applied to
         // each texture coordinate set
-        float4 BaseColorUVScaleBias;
-        float4 PhysicalDescriptorUVScaleBias;
-        float4 NormalMapUVScaleBias;
-        float4 OcclusionUVScaleBias;
-        float4 EmissiveUVScaleBias;
+        public float4 BaseColorUVScaleBias;
+        public float4 PhysicalDescriptorUVScaleBias;
+        public float4 NormalMapUVScaleBias;
+        public float4 OcclusionUVScaleBias;
+        public float4 EmissiveUVScaleBias;
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -132,22 +132,22 @@ namespace Tutorial_99_Pbo
 
     enum DebugViewType : int
     {
-        None            = 0,
-        BaseColor       = 1,
-        Transparency    = 2,
-        NormalMap       = 3,
-        Occlusion       = 4,
-        Emissive        = 5,
-        Metallic        = 6,
-        Roughness       = 7,
-        DiffuseColor    = 8,
-        SpecularColor   = 9,
-        Reflectance90   = 10,
-        MeshNormal      = 11,
+        None = 0,
+        BaseColor = 1,
+        Transparency = 2,
+        NormalMap = 3,
+        Occlusion = 4,
+        Emissive = 5,
+        Metallic = 6,
+        Roughness = 7,
+        DiffuseColor = 8,
+        SpecularColor = 9,
+        Reflectance90 = 10,
+        MeshNormal = 11,
         PerturbedNormal = 12,
-        NdotV           = 13,
-        DiffuseIBL      = 14,
-        SpecularIBL     = 15,
+        NdotV = 13,
+        DiffuseIBL = 14,
+        SpecularIBL = 15,
         NumDebugViews
     }
 
@@ -1045,9 +1045,8 @@ namespace Tutorial_99_Pbo
             var pCurrPSO = m_PSOCache.GetPSO(Key);
             pCtx.SetPipelineState(pCurrPSO);
 
-            pCtx.CommitShaderResources(materialSRB, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_VERIFY);
+            pCtx.CommitShaderResources(materialSRB, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            //--START -- Probably don't have to do these, but errors if not, can probably remove them if we dont want animations
             unsafe
             {
                 IntPtr data = pCtx.MapBuffer(m_TransformsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
@@ -1066,7 +1065,6 @@ namespace Tutorial_99_Pbo
 
                 pCtx.UnmapBuffer(m_JointsBuffer.Obj, MAP_TYPE.MAP_WRITE);
             }
-            //--END
 
             unsafe
             {
