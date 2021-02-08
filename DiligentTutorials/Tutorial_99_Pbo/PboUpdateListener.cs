@@ -31,7 +31,7 @@ namespace Tutorial_99_Pbo
         private readonly GraphicsEngine graphicsEngine;
         private readonly NativeOSWindow window;
         private readonly ShaderLoader shaderLoader;
-        private readonly Plane shape;
+        private readonly Cube shape;
         private readonly TextureLoader textureLoader;
         private bool m_bUseResourceCache = false; //This is just here, not everything is implemented for it
 
@@ -46,7 +46,7 @@ namespace Tutorial_99_Pbo
         AutoPtr<ITextureView> m_EnvironmentMapSRV;
         AutoPtr<IShaderResourceBinding> pboMatBinding;
 
-        public unsafe PboUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ShaderLoader shaderLoader, Plane shape, TextureLoader textureLoader)
+        public unsafe PboUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ShaderLoader shaderLoader, Cube shape, TextureLoader textureLoader)
         {
             this.graphicsEngine = graphicsEngine;
             this.m_pSwapChain = graphicsEngine.SwapChain;
@@ -235,7 +235,7 @@ namespace Tutorial_99_Pbo
             //if (m_CameraId == 0)
             //{
             //CameraView = m_CameraRotation.ToMatrix() * float4x4.Translation(0.0f, 0.0f, m_CameraDist);
-            CameraView = float4x4.Identity * float4x4.Translation(0.0f, 0.0f, 9.0f);
+            CameraView = float4x4.Identity * float4x4.Translation(0.0f, 0.0f, 5.0f);
 
             //m_RenderParams.ModelTransform = m_ModelRotation.ToMatrix();
             //}
@@ -305,8 +305,9 @@ namespace Tutorial_99_Pbo
             //}
             //else
             //{
-            var trans = Vector3.UnitY * -0.3f;
-            var rot = Quaternion.Identity;// new Quaternion(clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * (float)Math.PI), 0f, 0f);
+            var trans = Vector3.Zero;
+            //var rot = Quaternion.Identity;
+            var rot = new Quaternion(clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * (float)Math.PI), 0f, 0f);
 
             var CubeModelTransform = rot.toRotationMatrix4x4(trans);
 

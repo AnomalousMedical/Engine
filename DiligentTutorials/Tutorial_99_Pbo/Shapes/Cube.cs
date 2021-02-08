@@ -7,6 +7,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
+using float3 = Engine.Vector3;
+using float2 = Engine.Vector2;
+
 namespace Tutorial_99_Pbo.Shapes
 {
     class Cube : IDisposable
@@ -60,35 +63,35 @@ namespace Tutorial_99_Pbo.Shapes
             // be shared
             var CubeVerts = new GLTFVertex[]
             {
-                new GLTFVertex{pos = new Vector3(-1,-1,-1), uv0 = new Vector2(0,1)},
-                new GLTFVertex{pos = new Vector3(-1,+1,-1), uv0 = new Vector2(0,0)},
-                new GLTFVertex{pos = new Vector3(+1,+1,-1), uv0 = new Vector2(1,0)},
-                new GLTFVertex{pos = new Vector3(+1,-1,-1), uv0 = new Vector2(1,1)},
-
-                new GLTFVertex{pos = new Vector3(-1,-1,-1), uv0 = new Vector2(0,1)},
-                new GLTFVertex{pos = new Vector3(-1,-1,+1), uv0 = new Vector2(0,0)},
-                new GLTFVertex{pos = new Vector3(+1,-1,+1), uv0 = new Vector2(1,0)},
-                new GLTFVertex{pos = new Vector3(+1,-1,-1), uv0 = new Vector2(1,1)},
-
-                new GLTFVertex{pos = new Vector3(+1,-1,-1), uv0 = new Vector2(0,1)},
-                new GLTFVertex{pos = new Vector3(+1,-1,+1), uv0 = new Vector2(1,1)},
-                new GLTFVertex{pos = new Vector3(+1,+1,+1), uv0 = new Vector2(1,0)},
-                new GLTFVertex{pos = new Vector3(+1,+1,-1), uv0 = new Vector2(0,0)},
-
-                new GLTFVertex{pos = new Vector3(+1,+1,-1), uv0 = new Vector2(0,1)},
-                new GLTFVertex{pos = new Vector3(+1,+1,+1), uv0 = new Vector2(0,0)},
-                new GLTFVertex{pos = new Vector3(-1,+1,+1), uv0 = new Vector2(1,0)},
-                new GLTFVertex{pos = new Vector3(-1,+1,-1), uv0 = new Vector2(1,1)},
-
-                new GLTFVertex{pos = new Vector3(-1,+1,-1), uv0 = new Vector2(1,0)},
-                new GLTFVertex{pos = new Vector3(-1,+1,+1), uv0 = new Vector2(0,0)},
-                new GLTFVertex{pos = new Vector3(-1,-1,+1), uv0 = new Vector2(0,1)},
-                new GLTFVertex{pos = new Vector3(-1,-1,-1), uv0 = new Vector2(1,1)},
-
-                new GLTFVertex{pos = new Vector3(-1,-1,+1), uv0 = new Vector2(1,1)},
-                new GLTFVertex{pos = new Vector3(+1,-1,+1), uv0 = new Vector2(0,1)},
-                new GLTFVertex{pos = new Vector3(+1,+1,+1), uv0 = new Vector2(0,0)},
-                new GLTFVertex{pos = new Vector3(-1,+1,+1), uv0 = new Vector2(1,0)}
+                new GLTFVertex{pos = new float3(-1,-1,-1), uv0 = new float2(0,1), normal = new float3(0, 0, -1)},
+                new GLTFVertex{pos = new float3(-1,+1,-1), uv0 = new float2(0,0), normal = new float3(0, 0, -1)},
+                new GLTFVertex{pos = new float3(+1,+1,-1), uv0 = new float2(1,0), normal = new float3(0, 0, -1)},
+                new GLTFVertex{pos = new float3(+1,-1,-1), uv0 = new float2(1,1), normal = new float3(0, 0, -1)},
+//                                     new                   uv0 = new              normal = new 
+                new GLTFVertex{pos = new float3(-1,-1,-1), uv0 = new float2(0,1), normal = new float3(0, -1, 0)},
+                new GLTFVertex{pos = new float3(-1,-1,+1), uv0 = new float2(0,0), normal = new float3(0, -1, 0)},
+                new GLTFVertex{pos = new float3(+1,-1,+1), uv0 = new float2(1,0), normal = new float3(0, -1, 0)},
+                new GLTFVertex{pos = new float3(+1,-1,-1), uv0 = new float2(1,1), normal = new float3(0, -1, 0)},
+//                                     new                   uv0 = new              normal = new 
+                new GLTFVertex{pos = new float3(+1,-1,-1), uv0 = new float2(0,1), normal = new float3(+1, 0, 0)},
+                new GLTFVertex{pos = new float3(+1,-1,+1), uv0 = new float2(1,1), normal = new float3(+1, 0, 0)},
+                new GLTFVertex{pos = new float3(+1,+1,+1), uv0 = new float2(1,0), normal = new float3(+1, 0, 0)},
+                new GLTFVertex{pos = new float3(+1,+1,-1), uv0 = new float2(0,0), normal = new float3(+1, 0, 0)},
+//                                     new                   uv0 = new              normal = new 
+                new GLTFVertex{pos = new float3(+1,+1,-1), uv0 = new float2(0,1), normal = new float3(0, +1, 0)},
+                new GLTFVertex{pos = new float3(+1,+1,+1), uv0 = new float2(0,0), normal = new float3(0, +1, 0)},
+                new GLTFVertex{pos = new float3(-1,+1,+1), uv0 = new float2(1,0), normal = new float3(0, +1, 0)},
+                new GLTFVertex{pos = new float3(-1,+1,-1), uv0 = new float2(1,1), normal = new float3(0, +1, 0)},
+//                                     new                   uv0 = new              normal = new 
+                new GLTFVertex{pos = new float3(-1,+1,-1), uv0 = new float2(1,0), normal = new float3(-1, 0, 0)},
+                new GLTFVertex{pos = new float3(-1,+1,+1), uv0 = new float2(0,0), normal = new float3(-1, 0, 0)},
+                new GLTFVertex{pos = new float3(-1,-1,+1), uv0 = new float2(0,1), normal = new float3(-1, 0, 0)},
+                new GLTFVertex{pos = new float3(-1,-1,-1), uv0 = new float2(1,1), normal = new float3(-1, 0, 0)},
+//                                     new                   uv0 = new              normal = new 
+                new GLTFVertex{pos = new float3(-1,-1,+1), uv0 = new float2(1,1), normal = new float3(0, 0, +1)},
+                new GLTFVertex{pos = new float3(+1,-1,+1), uv0 = new float2(0,1), normal = new float3(0, 0, +1)},
+                new GLTFVertex{pos = new float3(+1,+1,+1), uv0 = new float2(0,0), normal = new float3(0, 0, +1)},
+                new GLTFVertex{pos = new float3(-1,+1,+1), uv0 = new float2(1,0), normal = new float3(0, 0, +1)}
             };
 
             {
