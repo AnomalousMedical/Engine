@@ -52,6 +52,44 @@ namespace Tutorial_99_Pbo
     [StructLayout(LayoutKind.Sequential)]
     struct GLTFShaderAttribs
     {
+        public static GLTFShaderAttribs CreateDefault()
+        {
+            return new GLTFShaderAttribs()
+            {
+                BaseColorFactor = new float4(1, 1, 1, 1),
+                EmissiveFactor = new float4(1, 1, 1, 1),
+                SpecularFactor = new float4(1, 1, 1, 1),
+
+                Workflow = (int)PBR_WORKFLOW.PBR_WORKFLOW_METALL_ROUGH,
+                BaseColorTextureUVSelector = -1,
+                PhysicalDescriptorTextureUVSelector = -1,
+                NormalTextureUVSelector = -1,
+
+                OcclusionTextureUVSelector = -1,
+                EmissiveTextureUVSelector = -1,
+                BaseColorSlice = 0,
+                PhysicalDescriptorSlice = 0,
+
+                NormalSlice = 0,
+                OcclusionSlice = 0,
+                EmissiveSlice = 0,
+                MetallicFactor = 1,
+
+                RoughnessFactor = 1,
+                AlphaMode = (int)ALPHA_MODE.ALPHA_MODE_OPAQUE,
+                AlphaMaskCutoff = 0.5f,
+                //Dummy0,
+
+                // When texture atlas is used, UV scale and bias applied to
+                // each texture coordinate set
+                BaseColorUVScaleBias = new float4( 1, 1, 0, 0 ),
+                PhysicalDescriptorUVScaleBias = new float4 ( 1, 1, 0, 0 ),
+                NormalMapUVScaleBias = new float4 ( 1, 1, 0, 0 ),
+                OcclusionUVScaleBias = new float4 ( 1, 1, 0, 0 ),
+                EmissiveUVScaleBias = new float4 ( 1, 1, 0, 0 ),
+            };
+        }
+
         float4 BaseColorFactor;
         float4 EmissiveFactor;
         float4 SpecularFactor;
@@ -1011,7 +1049,8 @@ namespace Tutorial_99_Pbo
                 IntPtr data = pCtx.MapBuffer(m_GLTFAttribsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
                 var pGLTFAttribs = (GLTFAttribs*)data.ToPointer();// { pCtx, m_GLTFAttribsCB, MAP_WRITE, MAP_FLAG_DISCARD};
 
-                //pGLTFAttribs->MaterialInfo = material.Attribs;
+                //Just using hardcoded values for now
+                pGLTFAttribs->MaterialInfo = GLTFShaderAttribs.CreateDefault();
 
                 var ShaderParams = pGLTFAttribs->RenderParameters;
 
