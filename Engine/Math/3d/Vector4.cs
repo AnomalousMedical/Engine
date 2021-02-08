@@ -9,6 +9,8 @@ namespace Engine
     [StructLayout(LayoutKind.Explicit, Size = 16)]
     public unsafe struct Vector4
     {
+        public static readonly Vector4 Zero = new Vector4(0.0f, 0.0f, 0.0f, 0.0f);
+
         [FieldOffset(0)]
         public float x;
 

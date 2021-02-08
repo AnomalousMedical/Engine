@@ -968,6 +968,7 @@ namespace Tutorial_99_Pbo
         public unsafe void Render(IDeviceContext pCtx,
             IShaderResourceBinding materialSRB,
             IBuffer vertexBuffer,
+            IBuffer skinVertexBuffer,
             IBuffer indexBuffer,
             Uint32 numIndices,
             ALPHA_MODE AlphaMode
@@ -975,9 +976,8 @@ namespace Tutorial_99_Pbo
         {
             var doubleSided = false;
 
-            UInt32[] offset = new UInt32[] { 0 };
-            IBuffer[] pBuffs = new IBuffer[] { vertexBuffer };
-            pCtx.SetVertexBuffers(0, (uint)pBuffs.Length, pBuffs, offset, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION, SET_VERTEX_BUFFERS_FLAGS.SET_VERTEX_BUFFERS_FLAG_RESET);
+            IBuffer[] pBuffs = new IBuffer[] { vertexBuffer, skinVertexBuffer };//This should be 2 to fix the warning, see gltf_pbr_renderer.cpp line 870
+            pCtx.SetVertexBuffers(0, (uint)pBuffs.Length, pBuffs, null, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION, SET_VERTEX_BUFFERS_FLAGS.SET_VERTEX_BUFFERS_FLAG_RESET);
             pCtx.SetIndexBuffer(indexBuffer, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
             var Key = new PSOKey { AlphaMode = AlphaMode, DoubleSided = doubleSided };
@@ -990,7 +990,7 @@ namespace Tutorial_99_Pbo
             unsafe
             {
                 IntPtr data = pCtx.MapBuffer(m_TransformsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
-                var pGLTFAttribs = (GLTFNodeShaderTransforms*)data.ToPointer();
+                var transform = (GLTFNodeShaderTransforms*)data.ToPointer();
 
                 pCtx.UnmapBuffer(m_TransformsCB.Obj, MAP_TYPE.MAP_WRITE);
             }
@@ -998,7 +998,7 @@ namespace Tutorial_99_Pbo
             unsafe
             {
                 IntPtr data = pCtx.MapBuffer(m_JointsBuffer.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
-                var pGLTFAttribs = (float4x4*)data.ToPointer();
+                var joints = (float4x4*)data.ToPointer();
 
                 pCtx.UnmapBuffer(m_JointsBuffer.Obj, MAP_TYPE.MAP_WRITE);
             }
