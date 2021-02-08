@@ -23,6 +23,7 @@ namespace DiligentEngine
             this.engineFactory = new GraphicsEngine();
 
             serviceCollection.AddSingleton<GraphicsEngine>(this.engineFactory); //Externally managed
+            serviceCollection.AddSingleton<TextureLoader>();
         }
 
         public void Link(PluginManager pluginManager, IServiceScope globalScope)
