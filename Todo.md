@@ -12,3 +12,7 @@ This works with optimal for now, but need to implement this.
 
  ## Remove bullet libraris from diligen
  Don't need bullet libraries in diligent wrapper.
+
+ ## Change passing lists to pointers to arrays in diligent wrapper.
+  * This will be faster and match other code, can use stackalloc or fixed to make it work
+  * This would include getting rid of the take size from stuff.
