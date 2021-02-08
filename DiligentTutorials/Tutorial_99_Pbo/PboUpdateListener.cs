@@ -31,7 +31,7 @@ namespace Tutorial_99_Pbo
         private readonly GraphicsEngine graphicsEngine;
         private readonly NativeOSWindow window;
         private readonly ShaderLoader shaderLoader;
-        private readonly Cube cube;
+        private readonly Plane shape;
         private bool m_bUseResourceCache = false; //This is just here, not everything is implemented for it
 
         private ISwapChain m_pSwapChain;
@@ -45,7 +45,7 @@ namespace Tutorial_99_Pbo
         AutoPtr<ITextureView> m_EnvironmentMapSRV;
         AutoPtr<IShaderResourceBinding> pboMatBinding;
 
-        public unsafe PboUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ShaderLoader shaderLoader, Cube cube)
+        public unsafe PboUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ShaderLoader shaderLoader, Plane shape)
         {
             this.graphicsEngine = graphicsEngine;
             this.m_pSwapChain = graphicsEngine.SwapChain;
@@ -53,7 +53,7 @@ namespace Tutorial_99_Pbo
             this.m_pImmediateContext = graphicsEngine.ImmediateContext;
             this.window = window;
             this.shaderLoader = shaderLoader;
-            this.cube = cube;
+            this.shape = shape;
             Initialize();
         }
 
@@ -295,7 +295,7 @@ namespace Tutorial_99_Pbo
             //else
             //{
             m_GLTFRenderer.Begin(m_pImmediateContext);
-            m_GLTFRenderer.Render(m_pImmediateContext, pboMatBinding.Obj, cube.VertexBuffer, cube.SkinVertexBuffer, cube.IndexBuffer, cube.NumIndices, ALPHA_MODE.ALPHA_MODE_OPAQUE);//, *m_Model, m_RenderParams, &m_ModelResourceBindings); //m_ModelResourceBindings aka the result of AutoPtr<IShaderResourceBinding> CreateMaterialSRB
+            m_GLTFRenderer.Render(m_pImmediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, ALPHA_MODE.ALPHA_MODE_OPAQUE);//, *m_Model, m_RenderParams, &m_ModelResourceBindings); //m_ModelResourceBindings aka the result of AutoPtr<IShaderResourceBinding> CreateMaterialSRB
             //}
 
             this.m_pSwapChain.Present(1);

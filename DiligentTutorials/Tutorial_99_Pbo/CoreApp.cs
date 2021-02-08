@@ -49,6 +49,7 @@ namespace Tutorial_99_Pbo
             services.TryAddSingleton<ShaderLoader>();
             services.TryAddSingleton<PboUpdateListener>();
             services.TryAddSingleton<Cube>();
+            services.TryAddSingleton<Plane>();
 
             return true;
         }
