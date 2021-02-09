@@ -46,7 +46,6 @@ namespace Tutorial_99_Pbo
             services.AddOSPlatform(pluginManager);
 
             //Add this app's services
-            services.TryAddSingleton<ShaderLoader>();
             services.TryAddSingleton<PboUpdateListener>();
             services.TryAddSingleton<Cube>();
             services.TryAddSingleton<Plane>();

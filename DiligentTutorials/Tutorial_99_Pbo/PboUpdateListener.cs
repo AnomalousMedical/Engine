@@ -23,6 +23,7 @@ using float4 = Engine.Vector4;
 using float4x4 = Engine.Matrix4x4;
 using System.IO;
 using Tutorial_99_Pbo.Shapes;
+using DiligentEngine.GltfPbr;
 
 namespace Tutorial_99_Pbo
 {
@@ -161,14 +162,14 @@ namespace Tutorial_99_Pbo
 
                 //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Wood049_1K");
                 //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chainmail001_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chainmail004_1K");
+                using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chainmail004_1K");
                 //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/SheetMetal001_1K");
                 //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/SheetMetal002_1K");
                 //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/SheetMetal004_1K");
                 //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/ChristmasTreeOrnament007_1K");
                 //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Carpet008_1K");
                 //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Fabric026_1K");
-                using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Fabric020_1K");
+                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Fabric020_1K");
                 //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Metal032_1K");
                 //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Leather026_1K");
                 //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Leather011_1K");

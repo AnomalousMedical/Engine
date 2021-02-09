@@ -22,15 +22,15 @@ using BOOL = System.Boolean;
 using System.Collections;
 using Engine;
 
-namespace Tutorial_99_Pbo
+namespace DiligentEngine.GltfPbr
 {
-    enum PBR_WORKFLOW
+    public enum PBR_WORKFLOW
     {
         PBR_WORKFLOW_METALL_ROUGH = 0,
         PBR_WORKFLOW_SPEC_GLOSS
     };
 
-    enum ALPHA_MODE
+    public enum ALPHA_MODE
     {
         ALPHA_MODE_OPAQUE = 0,
         ALPHA_MODE_MASK,
@@ -39,7 +39,7 @@ namespace Tutorial_99_Pbo
     };
 
     [StructLayout(LayoutKind.Sequential)]
-    struct GLTFNodeShaderTransforms
+    public struct GLTFNodeShaderTransforms
     {
         public float4x4 NodeMatrix;
 
@@ -50,7 +50,7 @@ namespace Tutorial_99_Pbo
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    struct GLTFShaderAttribs
+    public struct GLTFShaderAttribs
     {
         public static GLTFShaderAttribs CreateDefault()
         {
@@ -124,7 +124,7 @@ namespace Tutorial_99_Pbo
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    struct GLTFRendererShaderParameters
+    public struct GLTFRendererShaderParameters
     {
         public float AverageLogLum;
         public float MiddleGray;
@@ -138,13 +138,13 @@ namespace Tutorial_99_Pbo
     };
 
     [StructLayout(LayoutKind.Sequential)]
-    struct GLTFAttribs
+    public struct GLTFAttribs
     {
         public GLTFRendererShaderParameters RenderParameters;
         public GLTFShaderAttribs MaterialInfo;
     }
 
-    enum DebugViewType : int
+    public enum DebugViewType : int
     {
         None = 0,
         BaseColor = 1,
@@ -165,7 +165,7 @@ namespace Tutorial_99_Pbo
         NumDebugViews
     }
 
-    class GLTF_PBR_Renderer : IDisposable
+    public class GLTF_PBR_Renderer : IDisposable
     {
 
         static readonly SamplerDesc Sam_LinearClamp = new SamplerDesc

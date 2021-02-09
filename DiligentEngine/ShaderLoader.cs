@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tutorial_99_Pbo
+namespace DiligentEngine
 {
-    class ShaderLoader
+    public class ShaderLoader
     {
         private readonly char[] Include = new char[] { '#', 'i', 'n', 'c', 'l', 'u', 'd', 'e' };
 
