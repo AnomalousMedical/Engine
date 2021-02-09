@@ -141,17 +141,54 @@ namespace Tutorial_99_Pbo
                 m_pImmediateContext.TransitionResourceStates(Barriers);
 
                 m_GLTFRenderer.PrecomputeCubemaps(m_pDevice, m_pImmediateContext, m_EnvironmentMapSRV.Obj, shaderLoader);
-                
-                using (var baseColorStream = File.Open("textures/Spheres_BaseColor.png", FileMode.Open, FileAccess.Read, FileShare.Read))
-                using (var physicalDescriptorStream = File.Open("textures/Spheres_MetalRough.png", FileMode.Open, FileAccess.Read, FileShare.Read))
+
+                //Spheres
+                //using (var baseColorStream = File.Open("textures/Spheres_BaseColor.png", FileMode.Open, FileAccess.Read, FileShare.Read))
+                //using (var physicalDescriptorStream = File.Open("textures/Spheres_MetalRough.png", FileMode.Open, FileAccess.Read, FileShare.Read))
+                //{
+                //    using var baseColorMap = textureLoader.LoadTexture(baseColorStream, "baseColorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
+                //    using var physicalDescriptorMap = textureLoader.LoadTexture(physicalDescriptorStream, "physicalDescriptorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
+
+                //    pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
+                //        pCameraAttribs: m_CameraAttribsCB.Obj,
+                //        pLightAttribs: m_LightAttribsCB.Obj,
+                //        baseColorMap: baseColorMap.Obj,
+                //        physicalDescriptorMap: physicalDescriptorMap.Obj
+                //    );
+                //}
+
+                //Flight helmet
+                //using (var baseColorStream = File.Open("textures/FlightHelmet_baseColor1.jpg", FileMode.Open, FileAccess.Read, FileShare.Read))
+                //using (var normalStream = File.Open("textures/FlightHelmet_normal1.jpg", FileMode.Open, FileAccess.Read, FileShare.Read))
+                //using (var physicalDescriptorStream = File.Open("textures/FlightHelmet_occlusionRoughnessMetallic1.jpg", FileMode.Open, FileAccess.Read, FileShare.Read))
+                //{
+                //    using var baseColorMap = textureLoader.LoadTexture(baseColorStream, "baseColorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
+                //    using var normalMap = textureLoader.LoadTexture(normalStream, "baseColorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
+                //    using var physicalDescriptorMap = textureLoader.LoadTexture(physicalDescriptorStream, "physicalDescriptorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
+
+                //    pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
+                //        pCameraAttribs: m_CameraAttribsCB.Obj,
+                //        pLightAttribs: m_LightAttribsCB.Obj,
+                //        baseColorMap: baseColorMap.Obj,
+                //        normalMap: normalMap.Obj,
+                //        physicalDescriptorMap: physicalDescriptorMap.Obj
+                //    );
+                //}
+
+                //CC0 Wood 049
+                using (var baseColorStream = File.Open("cc0Textures/Wood049_1K_Color.jpg", FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var normalStream = File.Open("cc0Textures/Wood049_1K_Normal.jpg", FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var physicalDescriptorStream = File.Open("cc0Textures/Wood049_1K_Roughness.jpg", FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     using var baseColorMap = textureLoader.LoadTexture(baseColorStream, "baseColorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
+                    using var normalMap = textureLoader.LoadTexture(normalStream, "baseColorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
                     using var physicalDescriptorMap = textureLoader.LoadTexture(physicalDescriptorStream, "physicalDescriptorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
 
                     pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
                         pCameraAttribs: m_CameraAttribsCB.Obj,
                         pLightAttribs: m_LightAttribsCB.Obj,
                         baseColorMap: baseColorMap.Obj,
+                        normalMap: normalMap.Obj,
                         physicalDescriptorMap: physicalDescriptorMap.Obj
                     );
                 }
@@ -264,7 +301,7 @@ namespace Tutorial_99_Pbo
             var trans = Vector3.Zero;
             //var rot = Quaternion.Identity;
             var rotAmount = clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * (float)Math.PI);
-            var rot = new Quaternion(rotAmount, 0f, 0f);
+            var rot = new Quaternion(rotAmount, 0f, rotAmount);
 
             var CubeModelTransform = rot.toRotationMatrix4x4(trans);
 

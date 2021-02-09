@@ -62,6 +62,11 @@ namespace DiligentEngine
         /// <returns></returns>
         public AutoPtr<ITexture> CreateTextureFromImage(FreeImageBitmap bitmap, int MipLevels, String name, RESOURCE_DIMENSION resouceDimension, bool isSRGB)
         {
+            if (bitmap.PixelFormat != PixelFormat.Format32bppArgb)
+            {
+                bitmap.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_32_BPP);
+            }
+
             uint width = (uint)bitmap.Width;
             uint height = (uint)bitmap.Height;
 
