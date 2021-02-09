@@ -39,7 +39,7 @@ namespace Engine
             else
             {
                 this.Origin = Vector3.Zero;
-                this.Direction = Vector3.Backward;
+                this.Direction = Vector3.Forward;
             }
         }
 

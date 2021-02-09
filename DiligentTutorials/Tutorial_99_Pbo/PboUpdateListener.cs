@@ -158,6 +158,8 @@ namespace Tutorial_99_Pbo
                 //    );
                 //}
 
+                
+                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Wood049_1K");
                 using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/ManholeCover004_1K");
                 pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
                     pCameraAttribs: m_CameraAttribsCB.Obj,
@@ -258,7 +260,7 @@ namespace Tutorial_99_Pbo
             }
 
             {
-                float3 m_LightDirection = (new float3(0.5f, -0.6f, -0.2f)).normalized();
+                float3 m_LightDirection = Vector3.Forward;// (new float3(0.5f, -0.6f, -0.2f)).normalized();
                 float4 m_LightColor = new float4(1, 1, 1, 1);
                 float m_LightIntensity = 3.0f;
 
@@ -275,7 +277,7 @@ namespace Tutorial_99_Pbo
             var trans = Vector3.Zero;
             //var rot = Quaternion.Identity;
             var rotAmount = clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * (float)Math.PI);
-            var rot = new Quaternion(rotAmount, 0f, rotAmount);
+            var rot = new Quaternion(rotAmount, 0f, 0f);
 
             var CubeModelTransform = rot.toRotationMatrix4x4(trans);
 
