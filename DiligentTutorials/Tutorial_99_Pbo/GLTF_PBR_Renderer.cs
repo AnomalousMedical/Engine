@@ -713,27 +713,38 @@ namespace Tutorial_99_Pbo
 
         private static void SetTexture(ITexture pTexture, ITextureView pDefaultTexSRV, String VarName, IShaderResourceBinding pSRB) //
         {
-            ITextureView pTexSRV = null;
-
-            if (pTexture != null)
+            AutoPtr<ITextureView> textureViewPtr = null;
+            try
             {
-                // if (pTexture->GetDesc().Type == RESOURCE_DIM_TEX_2D_ARRAY) //This is the only one
-                pTexSRV = pTexture.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
-                //else
-                //{
-                //    TextureViewDesc SRVDesc;
-                //    SRVDesc.ViewType = TEXTURE_VIEW_SHADER_RESOURCE;
-                //    SRVDesc.TextureDim = RESOURCE_DIM_TEX_2D_ARRAY;
-                //    pTexture->CreateView(SRVDesc, &pTexSRV);
-                //}
-            }
+                ITextureView pTexSRV = null;
 
-            if (pTexSRV == null)
+                if (pTexture != null)
+                {
+                    if (pTexture.GetDesc_Type == RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY) //This is the only one
+                    {
+                        pTexSRV = pTexture.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
+                    }
+                    else
+                    {
+                        TextureViewDesc SRVDesc = new TextureViewDesc();
+                        SRVDesc.ViewType = TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE;
+                        SRVDesc.TextureDim = RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY;
+                        textureViewPtr = pTexture.CreateView(SRVDesc);
+                        pTexSRV = textureViewPtr.Obj;
+                    }
+                }
+
+                if (pTexSRV == null)
+                {
+                    pTexSRV = pDefaultTexSRV;
+                }
+
+                pSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, VarName)?.Set(pTexSRV);
+            }
+            finally
             {
-                pTexSRV = pDefaultTexSRV;
+                textureViewPtr?.Dispose();
             }
-
-            pSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, VarName)?.Set(pTexSRV);
         }
 
         public AutoPtr<IShaderResourceBinding> CreateMaterialSRB(
@@ -1108,7 +1119,7 @@ namespace Tutorial_99_Pbo
                     EmissiveUVScaleBias = new float4(1, 1, 0, 0),
                 };
 
-                var ShaderParams = pGLTFAttribs->RenderParameters;
+                var ShaderParams = &pGLTFAttribs->RenderParameters;
 
                 //ShaderParams.DebugViewType = static_cast<int>(m_RenderParams.DebugView);
                 //ShaderParams.OcclusionStrength = m_RenderParams.OcclusionStrength;
@@ -1120,15 +1131,15 @@ namespace Tutorial_99_Pbo
                 //ShaderParams.PrefilteredCubeMipLevels = m_Settings.UseIBL ? static_cast<float>(m_pPrefilteredEnvMapSRV->GetTexture()->GetDesc().MipLevels) : 0f;
 
                 //Take from c++ app, don't just use
-                ShaderParams.AverageLogLum = 0.300000012f;
-                ShaderParams.MiddleGray = 0.180000007f;
-                ShaderParams.WhitePoint = 3.00000000f;
-                ShaderParams.PrefilteredCubeMipLevels = 0.00000000f;
-                ShaderParams.IBLScale = 1.00000000f;
-                ShaderParams.DebugViewType = 0;// (int)DebugViewType.DiffuseColor;
-                ShaderParams.OcclusionStrength = 1.00000000f;
-                ShaderParams.EmissionScale = 1.00000000f;
-                ShaderParams.PrefilteredCubeMipLevels = m_Settings.UseIBL ? m_pPrefilteredEnvMapSRV.Obj.GetTexture().GetDesc_MipLevels : 0f; //This line is valid
+                ShaderParams->AverageLogLum = 0.300000012f;
+                ShaderParams->MiddleGray = 0.180000007f;
+                ShaderParams->WhitePoint = 3.00000000f;
+                ShaderParams->PrefilteredCubeMipLevels = 0.00000000f;
+                ShaderParams->IBLScale = 1.00000000f;
+                ShaderParams->DebugViewType = 1;// (int)DebugViewType.DiffuseColor;
+                ShaderParams->OcclusionStrength = 1.00000000f;
+                ShaderParams->EmissionScale = 1.00000000f;
+                ShaderParams->PrefilteredCubeMipLevels = m_Settings.UseIBL ? m_pPrefilteredEnvMapSRV.Obj.GetTexture().GetDesc_MipLevels : 0f; //This line is valid
 
                 pCtx.UnmapBuffer(m_GLTFAttribsCB.Obj, MAP_TYPE.MAP_WRITE);
             }
