@@ -231,33 +231,7 @@ namespace Tutorial_99_Pbo
             float ZNear = 0.1f;
             float ZFar = 100f;
 
-            float4x4 CameraView;
-            //if (m_CameraId == 0)
-            //{
-            //CameraView = m_CameraRotation.ToMatrix() * float4x4.Translation(0.0f, 0.0f, m_CameraDist);
-            CameraView = float4x4.Identity * float4x4.Translation(0.0f, 0.0f, 5.0f);
-
-            //m_RenderParams.ModelTransform = m_ModelRotation.ToMatrix();
-            //}
-            //else
-            //{
-            //const auto* pCamera = m_Cameras[m_CameraId - 1];
-
-            //// GLTF camera is defined such that the local +X axis is to the right,
-            //// the lens looks towards the local -Z axis, and the top of the camera
-            //// is aligned with the local +Y axis.
-            //// https://github.com/KhronosGroup/glTF/tree/master/specification/2.0#cameras
-            //// We need to inverse the Z axis as our camera looks towards +Z.
-            //float4x4 InvZAxis = float4x4.Identity;
-            //InvZAxis.m22 = -1;
-
-            //CameraView = pCamera->matrix.Inverse() * InvZAxis;
-            //YFov = pCamera->Perspective.YFov;
-            //ZNear = pCamera->Perspective.ZNear;
-            //ZFar = pCamera->Perspective.ZFar;
-
-            //m_RenderParams.ModelTransform = float4x4::Identity();
-            //}
+            float4x4 CameraView = float4x4.Identity * float4x4.Translation(0.0f, 0.0f, 5.0f);
 
             // Apply pretransform matrix that rotates the scene according the surface orientation
             //Skip for now
@@ -271,11 +245,10 @@ namespace Tutorial_99_Pbo
 
             var CameraWorldPos = CameraWorld.GetTranslation();
 
-            unsafe
             {
                 IntPtr data = m_pImmediateContext.MapBuffer(m_CameraAttribsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
 
-                var CamAttribs = (CameraAttribs*)data.ToPointer();// (m_pImmediateContext, m_CameraAttribsCB, MAP_WRITE, MAP_FLAG_DISCARD);
+                var CamAttribs = (CameraAttribs*)data.ToPointer();
                 CamAttribs->mProjT = CameraProj.Transpose();
                 CamAttribs->mViewProjT = CameraViewProj.Transpose();
                 CamAttribs->mViewProjInvT = CameraViewProj.inverse().Transpose();
@@ -285,26 +258,20 @@ namespace Tutorial_99_Pbo
             }
 
             {
-                float3 m_LightDirection = new float3(0.5f, -0.6f, -0.2f);
+                float3 m_LightDirection = (new float3(0.5f, -0.6f, -0.2f)).normalized();
                 float4 m_LightColor = new float4(1, 1, 1, 1);
                 float m_LightIntensity = 3.0f;
 
                 IntPtr data = m_pImmediateContext.MapBuffer(m_LightAttribsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
 
-                var lightAttribs = (LightAttribs*)data.ToPointer();// (m_pImmediateContext, m_LightAttribsCB, MAP_WRITE, MAP_FLAG_DISCARD);
+                //Looks like only direction and intensity matter here, setting more did not help
+                var lightAttribs = (LightAttribs*)data.ToPointer();
                 lightAttribs->f4Direction = m_LightDirection.ToVector4();
                 lightAttribs->f4Intensity = m_LightColor * m_LightIntensity;
 
                 m_pImmediateContext.UnmapBuffer(m_LightAttribsCB.Obj, MAP_TYPE.MAP_WRITE);
             }
 
-            //if (m_bUseResourceCache)
-            //{
-            //    m_GLTFRenderer->Begin(m_pDevice, m_pImmediateContext, m_CacheUseInfo, m_CacheBindings, m_CameraAttribsCB, m_LightAttribsCB);
-            //    m_GLTFRenderer->Render(m_pImmediateContext, *m_Model, m_RenderParams, nullptr, &m_CacheBindings);
-            //}
-            //else
-            //{
             var trans = Vector3.Zero;
             //var rot = Quaternion.Identity;
             var rot = new Quaternion(clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * (float)Math.PI), 0f, 0f);
@@ -312,8 +279,7 @@ namespace Tutorial_99_Pbo
             var CubeModelTransform = rot.toRotationMatrix4x4(trans);
 
             m_GLTFRenderer.Begin(m_pImmediateContext);
-            m_GLTFRenderer.Render(m_pImmediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, ALPHA_MODE.ALPHA_MODE_OPAQUE, ref CubeModelTransform);//, *m_Model, m_RenderParams, &m_ModelResourceBindings); //m_ModelResourceBindings aka the result of AutoPtr<IShaderResourceBinding> CreateMaterialSRB
-            //}
+            m_GLTFRenderer.Render(m_pImmediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, ALPHA_MODE.ALPHA_MODE_OPAQUE, ref CubeModelTransform);
 
             this.m_pSwapChain.Present(1);
         }
