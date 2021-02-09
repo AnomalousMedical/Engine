@@ -39,7 +39,7 @@ namespace Tutorial_99_Pbo.Shapes
         {
             var CubeVerts = new GLTFVertex[]
             {
-                new GLTFVertex{pos = new Vector3(-1,+1,0), uv0 = new Vector2(0,0), normal = new Vector3(0, 0, 1)}, //1 for clockwise (-1 for ccw?)
+                new GLTFVertex{pos = new Vector3(-1,+1,0), uv0 = new Vector2(0,0), normal = new Vector3(0, 0, 1)},
                 new GLTFVertex{pos = new Vector3(+1,+1,0), uv0 = new Vector2(1,0), normal = new Vector3(0, 0, 1)},
                 new GLTFVertex{pos = new Vector3(+1,-1,0), uv0 = new Vector2(1,1), normal = new Vector3(0, 0, 1)},
                 new GLTFVertex{pos = new Vector3(-1,-1,0), uv0 = new Vector2(0,1), normal = new Vector3(0, 0, 1)},
@@ -91,8 +91,7 @@ namespace Tutorial_99_Pbo.Shapes
         {
             var Indices = new UInt32[]
             {
-                //0,1,2,   2,3,0 //Clockwise, want this
-                2,1,0,  0,3,2 //CCW, this works, maybe my understanding is wrong
+                0,1,2,   2,3,0
             };
 
             BufferDesc IndBuffDesc = new BufferDesc();

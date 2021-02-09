@@ -33,7 +33,6 @@ namespace Tutorial_99_Pbo
         private readonly ShaderLoader shaderLoader;
         private readonly Cube shape;
         private readonly TextureLoader textureLoader;
-        private bool m_bUseResourceCache = false; //This is just here, not everything is implemented for it
 
         private ISwapChain m_pSwapChain;
         private IRenderDevice m_pDevice;
@@ -94,8 +93,8 @@ namespace Tutorial_99_Pbo
                 RendererCI.DSVFmt = DepthBufferFmt;
                 RendererCI.AllowDebugView = true;
                 RendererCI.UseIBL = true;
-                RendererCI.FrontCCW = true;
-                RendererCI.UseTextureAtals = m_bUseResourceCache;
+                // RendererCI.FrontCCW = true; //This makes it ccw, the shapes are defined cw
+                //RendererCI.UseTextureAtals = m_bUseResourceCache;
                 m_GLTFRenderer = new GLTF_PBR_Renderer(m_pDevice, m_pImmediateContext, RendererCI, shaderLoader);
 
                 unsafe{
@@ -141,17 +140,6 @@ namespace Tutorial_99_Pbo
                 m_pImmediateContext.TransitionResourceStates(Barriers);
 
                 m_GLTFRenderer.PrecomputeCubemaps(m_pDevice, m_pImmediateContext, m_EnvironmentMapSRV.Obj, shaderLoader);
-
-                //These probably don't matter
-                //CreateEnvMapPSO();
-
-                //CreateBoundBoxPSO(BackBufferFmt, DepthBufferFmt);
-
-                //m_LightDirection = normalize(float3(0.5f, -0.6f, -0.2f));
-
-                //if (m_bUseResourceCache)
-                //    CreateGLTFResourceCache();
-
                 
                 using (var baseColorStream = File.Open("textures/Spheres_BaseColor.png", FileMode.Open, FileAccess.Read, FileShare.Read))
                 using (var physicalDescriptorStream = File.Open("textures/Spheres_MetalRough.png", FileMode.Open, FileAccess.Read, FileShare.Read))
