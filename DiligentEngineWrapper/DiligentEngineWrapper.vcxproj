@@ -93,7 +93,7 @@
       <AdditionalIncludeDirectories>C:\Anomalous\DiligentEngine\DiligentCore;C:\Anomalous\DiligentEngine\DiligentTools;C:\Anomalous\DiligentEngine\DiligentCore\Graphics\GraphicsEngineD3D11\interface;C:\Anomalous\DiligentEngine\DiligentCore\Graphics\GraphicsEngineD3DBase\interface;C:\Anomalous\DiligentEngine\DiligentCore\Graphics\GraphicsEngine\interface;C:\Anomalous\DiligentEngine\DiligentCore\Primitives\interface;C:\Anomalous\DiligentEngine\DiligentCore\Graphics\GraphicsEngineD3D12\interface;C:\Anomalous\DiligentEngine\DiligentCore\Graphics\GraphicsEngineOpenGL\interface;C:\Anomalous\DiligentEngine\DiligentCore\Graphics\GraphicsEngineVulkan\interface;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>bulletsoftbody_debug.lib;bulletdynamics_debug.lib;bulletcollision_debug.lib;linearmath_debug.lib;convexdecomposition_debug.lib;BulletFileLoader_debug.lib</AdditionalDependencies>
+      <AdditionalDependencies></AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AssemblyDebug>true</AssemblyDebug>
       <TargetMachine>MachineX86</TargetMachine>
@@ -114,7 +114,7 @@
       <AdditionalDependencies>..\..\DiligentEngine\build\Win64\DiligentTools\TextureLoader\Debug\Diligent-TextureLoader.lib;..\..\DiligentEngine\build\Win64\DiligentCore\Graphics\GraphicsAccessories\Debug\Diligent-GraphicsAccessories.lib;..\..\DiligentEngine\build\Win64\DiligentCore\Platforms\Basic\Debug\Diligent-BasicPlatform.lib;..\..\DiligentEngine\build\Win64\DiligentCore\Platforms\Win32\Debug\Diligent-Win32Platform.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AssemblyDebug>true</AssemblyDebug>
-      <AdditionalLibraryDirectories>..\..\Dependencies\Bullet\Win64Build\lib\Debug;$(SolutionDir)\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -127,8 +127,8 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>bulletsoftbody.lib;bulletdynamics.lib;bulletcollision.lib;linearmath.lib;convexdecomposition.lib;BulletFileLoader.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\Dependencies\Bullet\WindowsBuild\lib\Release;$(SolutionDir)\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies></AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
@@ -143,8 +143,8 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>..\..\DiligentEngine\build\Win64\DiligentTools\TextureLoader\Release\Diligent-TextureLoader.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\Dependencies\Bullet\Win64Build\lib\Release;$(SolutionDir)\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>..\..\DiligentEngine\build\Win64\DiligentTools\TextureLoader\Release\Diligent-TextureLoader.lib;..\..\DiligentEngine\build\Win64\DiligentCore\Graphics\GraphicsAccessories\Release\Diligent-GraphicsAccessories.lib;..\..\DiligentEngine\build\Win64\DiligentCore\Platforms\Basic\Release\Diligent-BasicPlatform.lib;..\..\DiligentEngine\build\Win64\DiligentCore\Platforms\Win32\Release\Diligent-Win32Platform.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
