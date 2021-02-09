@@ -50,6 +50,7 @@ namespace Tutorial_99_Pbo
             services.TryAddSingleton<PboUpdateListener>();
             services.TryAddSingleton<Cube>();
             services.TryAddSingleton<Plane>();
+            services.TryAddSingleton<CC0TextureLoader>();
 
             return true;
         }

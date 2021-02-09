@@ -39,18 +39,6 @@
       <Link>textures\Spheres_MetalRough.png</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="../../../DiligentEngine/DiligentSamples/Samples/GLTFViewer/assets/models/FlightHelmet/FlightHelmet_baseColor1.jpg">
-      <Link>textures\FlightHelmet_baseColor1.jpg</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="../../../DiligentEngine/DiligentSamples/Samples/GLTFViewer/assets/models/FlightHelmet/FlightHelmet_normal1.jpg">
-      <Link>textures\FlightHelmet_normal1.jpg</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="../../../DiligentEngine/DiligentSamples/Samples/GLTFViewer/assets/models/FlightHelmet/FlightHelmet_occlusionRoughnessMetallic1.jpg">
-      <Link>textures\FlightHelmet_occlusionRoughnessMetallic1.jpg</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>

@@ -16,3 +16,7 @@ This works with optimal for now, but need to implement this.
  ## Change passing lists to pointers to arrays in diligent wrapper.
   * This will be faster and match other code, can use stackalloc or fixed to make it work
   * This would include getting rid of the take size from stuff.
+
+## Figure out how to create environment maps, load these manually
+
+## Get rid of ktx loader

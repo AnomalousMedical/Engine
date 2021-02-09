@@ -33,7 +33,7 @@ namespace Tutorial_99_Pbo
         private readonly ShaderLoader shaderLoader;
         private readonly Cube shape;
         private readonly TextureLoader textureLoader;
-
+        private readonly CC0TextureLoader cc0TextureLoader;
         private ISwapChain m_pSwapChain;
         private IRenderDevice m_pDevice;
         private IDeviceContext m_pImmediateContext;
@@ -45,7 +45,7 @@ namespace Tutorial_99_Pbo
         AutoPtr<ITextureView> m_EnvironmentMapSRV;
         AutoPtr<IShaderResourceBinding> pboMatBinding;
 
-        public unsafe PboUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ShaderLoader shaderLoader, Cube shape, TextureLoader textureLoader)
+        public unsafe PboUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ShaderLoader shaderLoader, Cube shape, TextureLoader textureLoader, CC0TextureLoader cc0TextureLoader)
         {
             this.graphicsEngine = graphicsEngine;
             this.m_pSwapChain = graphicsEngine.SwapChain;
@@ -55,6 +55,7 @@ namespace Tutorial_99_Pbo
             this.shaderLoader = shaderLoader;
             this.shape = shape;
             this.textureLoader = textureLoader;
+            this.cc0TextureLoader = cc0TextureLoader;
             Initialize();
         }
 
@@ -157,41 +158,14 @@ namespace Tutorial_99_Pbo
                 //    );
                 //}
 
-                //Flight helmet
-                //using (var baseColorStream = File.Open("textures/FlightHelmet_baseColor1.jpg", FileMode.Open, FileAccess.Read, FileShare.Read))
-                //using (var normalStream = File.Open("textures/FlightHelmet_normal1.jpg", FileMode.Open, FileAccess.Read, FileShare.Read))
-                //using (var physicalDescriptorStream = File.Open("textures/FlightHelmet_occlusionRoughnessMetallic1.jpg", FileMode.Open, FileAccess.Read, FileShare.Read))
-                //{
-                //    using var baseColorMap = textureLoader.LoadTexture(baseColorStream, "baseColorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
-                //    using var normalMap = textureLoader.LoadTexture(normalStream, "baseColorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
-                //    using var physicalDescriptorMap = textureLoader.LoadTexture(physicalDescriptorStream, "physicalDescriptorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
-
-                //    pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
-                //        pCameraAttribs: m_CameraAttribsCB.Obj,
-                //        pLightAttribs: m_LightAttribsCB.Obj,
-                //        baseColorMap: baseColorMap.Obj,
-                //        normalMap: normalMap.Obj,
-                //        physicalDescriptorMap: physicalDescriptorMap.Obj
-                //    );
-                //}
-
-                //CC0 Wood 049
-                using (var baseColorStream = File.Open("cc0Textures/Wood049_1K_Color.jpg", FileMode.Open, FileAccess.Read, FileShare.Read))
-                using (var normalStream = File.Open("cc0Textures/Wood049_1K_Normal.jpg", FileMode.Open, FileAccess.Read, FileShare.Read))
-                using (var physicalDescriptorStream = File.Open("cc0Textures/Wood049_1K_Roughness.jpg", FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    using var baseColorMap = textureLoader.LoadTexture(baseColorStream, "baseColorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
-                    using var normalMap = textureLoader.LoadTexture(normalStream, "baseColorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
-                    using var physicalDescriptorMap = textureLoader.LoadTexture(physicalDescriptorStream, "physicalDescriptorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
-
-                    pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
-                        pCameraAttribs: m_CameraAttribsCB.Obj,
-                        pLightAttribs: m_LightAttribsCB.Obj,
-                        baseColorMap: baseColorMap.Obj,
-                        normalMap: normalMap.Obj,
-                        physicalDescriptorMap: physicalDescriptorMap.Obj
-                    );
-                }
+                using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/ManholeCover004_1K");
+                pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
+                    pCameraAttribs: m_CameraAttribsCB.Obj,
+                    pLightAttribs: m_LightAttribsCB.Obj,
+                    baseColorMap: ccoTextures.BaseColorMap,
+                    normalMap: ccoTextures.NormalMap,
+                    physicalDescriptorMap: ccoTextures.PhysicalDescriptorMap
+                );
             }
             finally
             {
