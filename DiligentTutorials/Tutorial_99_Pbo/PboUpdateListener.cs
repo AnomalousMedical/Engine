@@ -96,6 +96,7 @@ namespace Tutorial_99_Pbo
                 // RendererCI.FrontCCW = true; //This makes it ccw, the shapes are defined cw
                 //RendererCI.UseTextureAtals = m_bUseResourceCache;
                 m_GLTFRenderer = new GLTF_PBR_Renderer(m_pDevice, m_pImmediateContext, RendererCI, shaderLoader);
+                //m_GLTFRenderer.DebugViewType = DebugViewType.DiffuseColor;
 
                 unsafe{
                     BufferDesc CBDesc = new BufferDesc();
@@ -262,7 +263,8 @@ namespace Tutorial_99_Pbo
 
             var trans = Vector3.Zero;
             //var rot = Quaternion.Identity;
-            var rot = new Quaternion(clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * (float)Math.PI), 0f, 0f);
+            var rotAmount = clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * (float)Math.PI);
+            var rot = new Quaternion(rotAmount, 0f, rotAmount);
 
             var CubeModelTransform = rot.toRotationMatrix4x4(trans);
 

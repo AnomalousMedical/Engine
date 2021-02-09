@@ -323,6 +323,13 @@ namespace Tutorial_99_Pbo
         AutoPtr<IBuffer> m_PrecomputeEnvMapAttribsCB;
         AutoPtr<IBuffer> m_JointsBuffer;
 
+        /// <summary>
+        /// Change the DebugViewType of the renderer to see various debug stages.
+        /// Set to none for normal rendering.
+        /// </summary>
+        public DebugViewType DebugViewType { get { return (DebugViewType)_DebugViewType; } set { _DebugViewType = (int)value; } }
+        private int _DebugViewType = (int)DebugViewType.None;
+
         public GLTF_PBR_Renderer(IRenderDevice pDevice, IDeviceContext pCtx, CreateInfo CI, ShaderLoader shaderLoader)
         {
             this.m_Settings = CI;
@@ -1136,7 +1143,7 @@ namespace Tutorial_99_Pbo
                 ShaderParams->WhitePoint = 3.00000000f;
                 ShaderParams->PrefilteredCubeMipLevels = 0.00000000f;
                 ShaderParams->IBLScale = 1.00000000f;
-                ShaderParams->DebugViewType = 0;// (int)DebugViewType.DiffuseColor;
+                ShaderParams->DebugViewType = _DebugViewType;
                 ShaderParams->OcclusionStrength = 1.00000000f;
                 ShaderParams->EmissionScale = 1.00000000f;
                 ShaderParams->PrefilteredCubeMipLevels = m_Settings.UseIBL ? m_pPrefilteredEnvMapSRV.Obj.GetTexture().GetDesc_MipLevels : 0f; //This line is valid
