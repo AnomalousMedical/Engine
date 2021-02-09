@@ -47,5 +47,12 @@ namespace DiligentEngine
         private static extern Uint32 ITexture_GetDesc_Height(
             IntPtr objPtr
         );
+        public RESOURCE_DIMENSION GetDesc_Type => ITexture_GetDesc_Type(objPtr);
+
+
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern RESOURCE_DIMENSION ITexture_GetDesc_Type(
+            IntPtr objPtr
+        );
     }
 }

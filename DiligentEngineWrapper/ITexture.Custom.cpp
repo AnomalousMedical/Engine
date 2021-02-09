@@ -22,3 +22,10 @@ extern "C" _AnomalousExport Uint32 ITexture_GetDesc_Height(
 {
 	return objPtr->GetDesc().Height;
 }
+
+extern "C" _AnomalousExport RESOURCE_DIMENSION ITexture_GetDesc_Type(
+	ITexture * objPtr
+)
+{
+	return objPtr->GetDesc().Type;
+}
