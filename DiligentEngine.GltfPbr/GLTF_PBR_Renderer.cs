@@ -23,151 +23,9 @@ using System.Collections;
 using Engine;
 
 namespace DiligentEngine.GltfPbr
-{
-    public enum PBR_WORKFLOW
-    {
-        PBR_WORKFLOW_METALL_ROUGH = 0,
-        PBR_WORKFLOW_SPEC_GLOSS
-    };
-
-    public enum ALPHA_MODE
-    {
-        ALPHA_MODE_OPAQUE = 0,
-        ALPHA_MODE_MASK,
-        ALPHA_MODE_BLEND,
-        ALPHA_MODE_NUM_MODES
-    };
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct GLTFNodeShaderTransforms
-    {
-        public float4x4 NodeMatrix;
-
-        public int JointCount;
-        public float Dummy0;
-        public float Dummy1;
-        public float Dummy2;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct GLTFShaderAttribs
-    {
-        public static GLTFShaderAttribs CreateDefault()
-        {
-            return new GLTFShaderAttribs()
-            {
-                BaseColorFactor = new float4(1, 1, 1, 1),
-                EmissiveFactor = new float4(1, 1, 1, 1),
-                SpecularFactor = new float4(1, 1, 1, 1),
-
-                Workflow = (int)PBR_WORKFLOW.PBR_WORKFLOW_METALL_ROUGH,
-                BaseColorTextureUVSelector = -1,
-                PhysicalDescriptorTextureUVSelector = -1,
-                NormalTextureUVSelector = -1,
-
-                OcclusionTextureUVSelector = -1,
-                EmissiveTextureUVSelector = -1,
-                BaseColorSlice = 0,
-                PhysicalDescriptorSlice = 0,
-
-                NormalSlice = 0,
-                OcclusionSlice = 0,
-                EmissiveSlice = 0,
-                MetallicFactor = 1,
-
-                RoughnessFactor = 1,
-                AlphaMode = (int)ALPHA_MODE.ALPHA_MODE_OPAQUE,
-                AlphaMaskCutoff = 0.5f,
-                //Dummy0,
-
-                // When texture atlas is used, UV scale and bias applied to
-                // each texture coordinate set
-                BaseColorUVScaleBias = new float4(1, 1, 0, 0),
-                PhysicalDescriptorUVScaleBias = new float4(1, 1, 0, 0),
-                NormalMapUVScaleBias = new float4(1, 1, 0, 0),
-                OcclusionUVScaleBias = new float4(1, 1, 0, 0),
-                EmissiveUVScaleBias = new float4(1, 1, 0, 0),
-            };
-        }
-
-        public float4 BaseColorFactor;
-        public float4 EmissiveFactor;
-        public float4 SpecularFactor;
-
-        public int Workflow;
-        public float BaseColorTextureUVSelector;
-        public float PhysicalDescriptorTextureUVSelector;
-        public float NormalTextureUVSelector;
-
-        public float OcclusionTextureUVSelector;
-        public float EmissiveTextureUVSelector;
-        public float BaseColorSlice;
-        public float PhysicalDescriptorSlice;
-
-        public float NormalSlice;
-        public float OcclusionSlice;
-        public float EmissiveSlice;
-        public float MetallicFactor;
-
-        public float RoughnessFactor;
-        public int AlphaMode;
-        public float AlphaMaskCutoff;
-        public float Dummy0;
-
-        // When texture atlas is used, UV scale and bias applied to
-        // each texture coordinate set
-        public float4 BaseColorUVScaleBias;
-        public float4 PhysicalDescriptorUVScaleBias;
-        public float4 NormalMapUVScaleBias;
-        public float4 OcclusionUVScaleBias;
-        public float4 EmissiveUVScaleBias;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct GLTFRendererShaderParameters
-    {
-        public float AverageLogLum;
-        public float MiddleGray;
-        public float WhitePoint;
-        public float PrefilteredCubeMipLevels;
-
-        public float IBLScale;
-        public int DebugViewType;
-        public float OcclusionStrength;
-        public float EmissionScale;
-    };
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct GLTFAttribs
-    {
-        public GLTFRendererShaderParameters RenderParameters;
-        public GLTFShaderAttribs MaterialInfo;
-    }
-
-    public enum DebugViewType : int
-    {
-        None = 0,
-        BaseColor = 1,
-        Transparency = 2,
-        NormalMap = 3,
-        Occlusion = 4,
-        Emissive = 5,
-        Metallic = 6,
-        Roughness = 7,
-        DiffuseColor = 8,
-        SpecularColor = 9,
-        Reflectance90 = 10,
-        MeshNormal = 11,
-        PerturbedNormal = 12,
-        NdotV = 13,
-        DiffuseIBL = 14,
-        SpecularIBL = 15,
-        NumDebugViews
-    }
-
+{ 
     public class GLTF_PBR_Renderer : IDisposable
     {
-
         static readonly SamplerDesc Sam_LinearClamp = new SamplerDesc
         {
             MinFilter = FILTER_TYPE.FILTER_TYPE_LINEAR,
@@ -184,124 +42,9 @@ namespace DiligentEngine.GltfPbr
         const TEXTURE_FORMAT IrradianceCubeFmt = TEXTURE_FORMAT.TEX_FORMAT_RGBA32_FLOAT;
         const TEXTURE_FORMAT PrefilteredEnvMapFmt = TEXTURE_FORMAT.TEX_FORMAT_RGBA16_FLOAT;
         const Uint32 IrradianceCubeDim = 64;
-        const Uint32 PrefilteredEnvMapDim = 256;
+        const Uint32 PrefilteredEnvMapDim = 256;        
 
-        public class CreateInfo
-        {
-            /// Render target format.
-            public TEXTURE_FORMAT RTVFmt = TEXTURE_FORMAT.TEX_FORMAT_UNKNOWN;
-
-            /// Depth-buffer format.
-
-            /// \note   If both RTV and DSV formats are TEX_FORMAT_UNKNOWN,
-            ///         the renderer will not initialize PSO, uniform buffers and other
-            ///         resources. It is expected that an application will use custom
-            ///         render callback function.
-            public TEXTURE_FORMAT DSVFmt = TEXTURE_FORMAT.TEX_FORMAT_UNKNOWN;
-
-            /// Indicates if front face is CCW.
-            public bool FrontCCW = false;
-
-            /// Indicates if the renderer should allow debug views.
-            /// Rendering with debug views disabled is more efficient.
-            public bool AllowDebugView = false;
-
-            /// Indicates whether to use IBL.
-            public bool UseIBL = false;
-
-            /// Whether to use ambient occlusion texture.
-            public bool UseAO = true;
-
-            /// Whether to use emissive texture.
-            public bool UseEmissive = true;
-
-            /// When set to true, pipeline state will be compiled with immutable samplers.
-            /// When set to false, samplers from the texture views will be used.
-            public bool UseImmutableSamplers = true;
-
-            /// Whether to use texture atlas (e.g. apply UV transforms when sampling textures).
-            public bool UseTextureAtlas = false;
-
-            /// Immutable sampler for color map texture.
-            public SamplerDesc ColorMapImmutableSampler = new SamplerDesc();
-
-            /// Immutable sampler for physical description map texture.
-            public SamplerDesc PhysDescMapImmutableSampler = new SamplerDesc();
-
-            /// Immutable sampler for normal map texture.
-            public SamplerDesc NormalMapImmutableSampler = new SamplerDesc();
-
-            /// Immutable sampler for AO texture.
-            public SamplerDesc AOMapImmutableSampler = new SamplerDesc();
-
-            /// Immutable sampler for emissive map texture.
-            public SamplerDesc EmissiveMapImmutableSampler = new SamplerDesc();
-
-            /// Maximum number of joints
-            public Uint32 MaxJointCount = 64;
-        }
-        class PSOKey
-        {
-            public ALPHA_MODE AlphaMode = ALPHA_MODE.ALPHA_MODE_OPAQUE;
-            public bool DoubleSided = false;
-        }
-
-        class PSOCache : IDisposable
-        {
-            private List<AutoPtr<IPipelineState>> m_PSOCache = new List<AutoPtr<IPipelineState>>();
-
-            static uint GetPSOIdx(PSOKey Key)
-            {
-                uint PSOIdx;
-
-                PSOIdx = Key.AlphaMode == ALPHA_MODE.ALPHA_MODE_BLEND ? 1 : 0;
-                PSOIdx = (uint)(PSOIdx * 2 + (Key.DoubleSided ? 1 : 0));
-                return PSOIdx;
-            }
-
-            /// <summary>
-            /// Add a pso. Creates its own AutoPtr. Caller must dispose their AutoPtr.
-            /// </summary>
-            /// <param name="Key"></param>
-            /// <param name="pPSO"></param>
-            public void AddPSO(PSOKey Key, IPipelineState pPSO)
-            {
-                var Idx = GetPSOIdx(Key);
-                if (m_PSOCache.Count <= Idx)
-                {
-                    var start = m_PSOCache.Count;
-                    var end = (int)Idx + 1;
-                    m_PSOCache.Capacity = end;
-                    for (var i = start; i < end; ++i)
-                    {
-                        m_PSOCache.Add(null);
-                    }
-                }
-
-                m_PSOCache[(int)Idx]?.Dispose();
-
-                m_PSOCache[(int)Idx] = new AutoPtr<IPipelineState>(pPSO);
-            }
-
-            public IPipelineState GetPSO(PSOKey Key)
-            {
-                var Idx = GetPSOIdx(Key);
-                return Idx < m_PSOCache.Count ? m_PSOCache[(int)Idx].Obj : null;
-            }
-
-            public void Dispose()
-            {
-                foreach (var pso in m_PSOCache.Where(i => i != null))
-                {
-                    pso.Dispose();
-                }
-            }
-
-            public IEnumerable<IPipelineState> Items =>
-                m_PSOCache.Where(i => i != null).Select(i => i.Obj);
-        }
-
-        private CreateInfo m_Settings;
+        private PbrRendererCreateInfo m_Settings;
         AutoPtr<ITextureView> m_pBRDF_LUT_SRV;
 
         private PSOCache m_PSOCache = new PSOCache();
@@ -330,7 +73,7 @@ namespace DiligentEngine.GltfPbr
         public DebugViewType DebugViewType { get { return (DebugViewType)_DebugViewType; } set { _DebugViewType = (int)value; } }
         private int _DebugViewType = (int)DebugViewType.None;
 
-        public GLTF_PBR_Renderer(IRenderDevice pDevice, IDeviceContext pCtx, CreateInfo CI, ShaderLoader shaderLoader)
+        public GLTF_PBR_Renderer(IRenderDevice pDevice, IDeviceContext pCtx, PbrRendererCreateInfo CI, ShaderLoader shaderLoader)
         {
             this.m_Settings = CI;
 
@@ -573,11 +316,11 @@ namespace DiligentEngine.GltfPbr
             Macros.AddShaderMacro("GLTF_PBR_USE_AO", m_Settings.UseAO);
             Macros.AddShaderMacro("GLTF_PBR_USE_EMISSIVE", m_Settings.UseEmissive);
             Macros.AddShaderMacro("USE_TEXTURE_ATLAS", m_Settings.UseTextureAtlas);
-            Macros.AddShaderMacro("PBR_WORKFLOW_METALLIC_ROUGHNESS", (Int32)PBR_WORKFLOW.PBR_WORKFLOW_METALL_ROUGH);
-            Macros.AddShaderMacro("PBR_WORKFLOW_SPECULAR_GLOSINESS", (Int32)PBR_WORKFLOW.PBR_WORKFLOW_SPEC_GLOSS);
-            Macros.AddShaderMacro("GLTF_ALPHA_MODE_OPAQUE", (Int32)ALPHA_MODE.ALPHA_MODE_OPAQUE);
-            Macros.AddShaderMacro("GLTF_ALPHA_MODE_MASK", (Int32)ALPHA_MODE.ALPHA_MODE_MASK);
-            Macros.AddShaderMacro("GLTF_ALPHA_MODE_BLEND", (Int32)ALPHA_MODE.ALPHA_MODE_BLEND);
+            Macros.AddShaderMacro("PBR_WORKFLOW_METALLIC_ROUGHNESS", (Int32)PbrWorkflow.PBR_WORKFLOW_METALL_ROUGH);
+            Macros.AddShaderMacro("PBR_WORKFLOW_SPECULAR_GLOSINESS", (Int32)PbrWorkflow.PBR_WORKFLOW_SPEC_GLOSS);
+            Macros.AddShaderMacro("GLTF_ALPHA_MODE_OPAQUE", (Int32)PbrAlphaMode.ALPHA_MODE_OPAQUE);
+            Macros.AddShaderMacro("GLTF_ALPHA_MODE_MASK", (Int32)PbrAlphaMode.ALPHA_MODE_MASK);
+            Macros.AddShaderMacro("GLTF_ALPHA_MODE_BLEND", (Int32)PbrAlphaMode.ALPHA_MODE_BLEND);
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
             ShaderCI.EntryPoint = "main";
             ShaderCI.Desc.Name = "GLTF PBR VS";
@@ -644,7 +387,7 @@ namespace DiligentEngine.GltfPbr
             PSOCreateInfo.pPS = pPS.Obj;
 
             {
-                var Key = new PSOKey { AlphaMode = ALPHA_MODE.ALPHA_MODE_OPAQUE, DoubleSided = false };
+                var Key = new PSOKey { AlphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE, DoubleSided = false };
 
                 using var pSingleSidedOpaquePSO = pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
                 m_PSOCache.AddPSO(Key, pSingleSidedOpaquePSO.Obj);
@@ -669,7 +412,7 @@ namespace DiligentEngine.GltfPbr
             RT0.BlendOpAlpha = BLEND_OPERATION.BLEND_OPERATION_ADD;
 
             {
-                var Key = new PSOKey { AlphaMode = ALPHA_MODE.ALPHA_MODE_BLEND, DoubleSided = false };
+                var Key = new PSOKey { AlphaMode = PbrAlphaMode.ALPHA_MODE_BLEND, DoubleSided = false };
 
                 using var pSingleSidedBlendPSO = pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
                 m_PSOCache.AddPSO(Key, pSingleSidedBlendPSO.Obj);
@@ -794,17 +537,6 @@ namespace DiligentEngine.GltfPbr
 
             return pSRB;
         }
-
-        [StructLayout(LayoutKind.Sequential)]
-        struct PrecomputeEnvMapAttribs
-        {
-            public float4x4 Rotation;
-
-            public float Roughness;
-            public float EnvMapDim;
-            public uint NumSamples;
-            public float Dummy;
-        };
 
         public void PrecomputeCubemaps(IRenderDevice pDevice, IDeviceContext pCtx, ITextureView pEnvironmentMap, ShaderLoader shaderLoader)
         {
@@ -1049,7 +781,7 @@ namespace DiligentEngine.GltfPbr
             IBuffer skinVertexBuffer,
             IBuffer indexBuffer,
             Uint32 numIndices,
-            ALPHA_MODE AlphaMode,
+            PbrAlphaMode AlphaMode,
             ref Matrix4x4 position
             )
         {
@@ -1097,7 +829,7 @@ namespace DiligentEngine.GltfPbr
                     EmissiveFactor = new float4(1, 1, 1, 1),
                     SpecularFactor = new float4(1, 1, 1, 1),
 
-                    Workflow = (int)PBR_WORKFLOW.PBR_WORKFLOW_METALL_ROUGH,
+                    Workflow = (int)PbrWorkflow.PBR_WORKFLOW_METALL_ROUGH,
                     BaseColorTextureUVSelector = 0,
                     PhysicalDescriptorTextureUVSelector = 0,
                     NormalTextureUVSelector = 0,
@@ -1113,7 +845,7 @@ namespace DiligentEngine.GltfPbr
                     MetallicFactor = 1,
 
                     RoughnessFactor = 1,
-                    AlphaMode = (int)ALPHA_MODE.ALPHA_MODE_OPAQUE,
+                    AlphaMode = (int)PbrAlphaMode.ALPHA_MODE_OPAQUE,
                     AlphaMaskCutoff = 0.5f,
                     Dummy0 = -107374176f, //changed might just be from garbage, who knows
 

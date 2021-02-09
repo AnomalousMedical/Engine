@@ -90,7 +90,7 @@ namespace Tutorial_99_Pbo
                 var BackBufferFmt = m_pSwapChain.GetDesc_ColorBufferFormat;
                 var DepthBufferFmt = m_pSwapChain.GetDesc_DepthBufferFormat;
 
-                var RendererCI = new GLTF_PBR_Renderer.CreateInfo();
+                var RendererCI = new PbrRendererCreateInfo();
                 RendererCI.RTVFmt = BackBufferFmt;
                 RendererCI.DSVFmt = DepthBufferFmt;
                 RendererCI.AllowDebugView = true;
@@ -309,7 +309,7 @@ namespace Tutorial_99_Pbo
             var CubeModelTransform = rot.toRotationMatrix4x4(trans);
 
             m_GLTFRenderer.Begin(m_pImmediateContext);
-            m_GLTFRenderer.Render(m_pImmediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, ALPHA_MODE.ALPHA_MODE_OPAQUE, ref CubeModelTransform);
+            m_GLTFRenderer.Render(m_pImmediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, PbrAlphaMode.ALPHA_MODE_OPAQUE, ref CubeModelTransform);
 
             this.m_pSwapChain.Present(1);
         }
