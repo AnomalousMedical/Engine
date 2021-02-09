@@ -264,7 +264,7 @@ namespace Tutorial_99_Pbo
             var trans = Vector3.Zero;
             //var rot = Quaternion.Identity;
             var rotAmount = clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * (float)Math.PI);
-            var rot = new Quaternion(0f, 0f, 0f);
+            var rot = new Quaternion(rotAmount, 0f, 0f);
 
             var CubeModelTransform = rot.toRotationMatrix4x4(trans);
 
