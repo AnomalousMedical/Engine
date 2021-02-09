@@ -124,6 +124,20 @@ namespace Tutorial_99_Pbo
     }
 
     [StructLayout(LayoutKind.Sequential)]
+    struct GLTFRendererShaderParameters
+    {
+        public float AverageLogLum;
+        public float MiddleGray;
+        public float WhitePoint;
+        public float PrefilteredCubeMipLevels;
+
+        public float IBLScale;
+        public int DebugViewType;
+        public float OcclusionStrength;
+        public float EmissionScale;
+    };
+
+    [StructLayout(LayoutKind.Sequential)]
     struct GLTFAttribs
     {
         public GLTFShaderAttribs MaterialInfo;
@@ -150,20 +164,6 @@ namespace Tutorial_99_Pbo
         SpecularIBL = 15,
         NumDebugViews
     }
-
-    [StructLayout(LayoutKind.Sequential)]
-    struct GLTFRendererShaderParameters
-    {
-        public float AverageLogLum;
-        public float MiddleGray;
-        public float WhitePoint;
-        public float PrefilteredCubeMipLevels;
-
-        public float IBLScale;
-        public int DebugViewType;
-        public float OcclusionStrength;
-        public float EmissionScale;
-    };
 
     class GLTF_PBR_Renderer : IDisposable
     {
