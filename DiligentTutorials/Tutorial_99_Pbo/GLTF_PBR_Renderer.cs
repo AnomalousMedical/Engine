@@ -761,8 +761,8 @@ namespace Tutorial_99_Pbo
                                           IBuffer pLightAttribs = null,
                                           IPipelineState pPSO = null,
                                           ITexture baseColorMap = null,
-                                          ITexture physicalDescriptorMap = null,
                                           ITexture normalMap = null,
+                                          ITexture physicalDescriptorMap = null,
                                           ITexture aoMap = null,
                                           ITexture emissiveMap = null)
         {
@@ -1098,12 +1098,12 @@ namespace Tutorial_99_Pbo
                     SpecularFactor = new float4(1, 1, 1, 1),
 
                     Workflow = (int)PBR_WORKFLOW.PBR_WORKFLOW_METALL_ROUGH,
-                    BaseColorTextureUVSelector = 0, //changed
-                    PhysicalDescriptorTextureUVSelector = 0, //changed
-                    NormalTextureUVSelector = -1,
+                    BaseColorTextureUVSelector = 0,
+                    PhysicalDescriptorTextureUVSelector = 0,
+                    NormalTextureUVSelector = 0,
 
-                    OcclusionTextureUVSelector = -1,
-                    EmissiveTextureUVSelector = -1,
+                    OcclusionTextureUVSelector = 0,
+                    EmissiveTextureUVSelector = 0,
                     BaseColorSlice = 0,
                     PhysicalDescriptorSlice = 0,
 

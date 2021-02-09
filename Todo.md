@@ -20,3 +20,6 @@ This works with optimal for now, but need to implement this.
 ## Figure out how to create environment maps, load these manually
 
 ## Get rid of ktx loader
+
+## Move hardcoded values out of Render in GLTF_PBR_Renderer
+There are too many hardcoded values here, move them further out.

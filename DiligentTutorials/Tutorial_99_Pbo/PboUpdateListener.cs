@@ -166,7 +166,8 @@ namespace Tutorial_99_Pbo
                     pLightAttribs: m_LightAttribsCB.Obj,
                     baseColorMap: ccoTextures.BaseColorMap,
                     normalMap: ccoTextures.NormalMap,
-                    physicalDescriptorMap: ccoTextures.PhysicalDescriptorMap
+                    physicalDescriptorMap: ccoTextures.PhysicalDescriptorMap,
+                    aoMap: ccoTextures.AmbientOcclusionMap
                 );
             }
             finally

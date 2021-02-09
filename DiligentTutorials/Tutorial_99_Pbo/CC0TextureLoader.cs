@@ -17,6 +17,7 @@ namespace Tutorial_99_Pbo
         private AutoPtr<ITexture> baseColorMap;
         private AutoPtr<ITexture> normalMap;
         private AutoPtr<ITexture> physicalDescriptorMap;
+        private AutoPtr<ITexture> ambientOcclusionMap;
 
         internal CC0TextureResult()
         {
@@ -27,6 +28,7 @@ namespace Tutorial_99_Pbo
             baseColorMap?.Dispose();
             normalMap?.Dispose();
             physicalDescriptorMap?.Dispose();
+            ambientOcclusionMap?.Dispose();
         }
 
         public ITexture BaseColorMap => baseColorMap?.Obj;
@@ -44,6 +46,11 @@ namespace Tutorial_99_Pbo
         internal void SetPhysicalDescriptorMap(AutoPtr<ITexture> value)
         {
             this.physicalDescriptorMap = value;
+        }
+        public ITexture AmbientOcclusionMap => ambientOcclusionMap?.Obj;
+        internal void SetAmbientOcclusionMap(AutoPtr<ITexture> value)
+        {
+            this.ambientOcclusionMap = value;
         }
 
     }
@@ -66,24 +73,26 @@ namespace Tutorial_99_Pbo
             var normalMapPath = $"{basePath}_Normal.{ext}";
             var roughnessMapPath = $"{basePath}_Roughness.{ext}";
             var metalnessMapPath = $"{basePath}_Metalness.{ext}";
+            var ambientOcclusionMapPath = $"{basePath}_AmbientOcclusion.{ext}";
 
             if (File.Exists(colorMapPath))
             {
-                using (var baseColorStream = File.Open(colorMapPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var stream = File.Open(colorMapPath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    var baseColorMap = textureLoader.LoadTexture(baseColorStream, "baseColorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
+                    var baseColorMap = textureLoader.LoadTexture(stream, "baseColorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
                     result.SetBaseColorMap(baseColorMap);
                 }
             }
 
             if (File.Exists(normalMapPath))
             {
-                using (var normalStream = File.Open(normalMapPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var stream = File.Open(normalMapPath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    var normalMap = textureLoader.LoadTexture(normalStream, "baseColorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
+                    var normalMap = textureLoader.LoadTexture(stream, "normalMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
                     result.SetNormalMap(normalMap);
                 }
             }
+
             {
                 FreeImageBitmap roughnessBmp = null;
                 FreeImageBitmap metalnessBmp = null;
@@ -91,14 +100,14 @@ namespace Tutorial_99_Pbo
                 {
                     if (File.Exists(roughnessMapPath))
                     {
-                        using var roughnessStream = File.Open(roughnessMapPath, FileMode.Open, FileAccess.Read, FileShare.Read);
-                        roughnessBmp = FreeImageBitmap.FromStream(roughnessStream);
+                        using var stream = File.Open(roughnessMapPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                        roughnessBmp = FreeImageBitmap.FromStream(stream);
                     }
 
                     if (File.Exists(metalnessMapPath))
                     {
-                        using var metalnessStream = File.Open(metalnessMapPath, FileMode.Open, FileAccess.Read, FileShare.Read);
-                        metalnessBmp = FreeImageBitmap.FromStream(metalnessStream);
+                        using var stream = File.Open(metalnessMapPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                        metalnessBmp = FreeImageBitmap.FromStream(stream);
                     }
 
                     FreeImageBitmap physicalDescriptorBmp = null; //Just a pointer, won't need its own disposal
@@ -132,6 +141,15 @@ namespace Tutorial_99_Pbo
                     metalnessBmp?.Dispose();
                 }
 
+            }
+
+            if (File.Exists(ambientOcclusionMapPath))
+            {
+                using (var stream = File.Open(normalMapPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    var map = textureLoader.LoadTexture(stream, "ambientOcclusionMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
+                    result.SetAmbientOcclusionMap(map);
+                }
             }
 
             return result;
