@@ -28,3 +28,5 @@ There are too many hardcoded values here, move them further out.
 Chainmail004 shows this pretty well. if you watch an edge pass over the center it looks like the light meets at the edge instead of going along it.
 It might be ok too, just need to look at it later.
 These might be ok too, with the env map the lighting is more complicated.
+
+## Embed shaders in pbr binary
