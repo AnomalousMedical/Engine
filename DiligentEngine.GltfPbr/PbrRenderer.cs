@@ -24,7 +24,7 @@ using Engine;
 
 namespace DiligentEngine.GltfPbr
 { 
-    public class GLTF_PBR_Renderer : IDisposable
+    public class PbrRenderer : IDisposable
     {
         static readonly SamplerDesc Sam_LinearClamp = new SamplerDesc
         {
@@ -73,7 +73,7 @@ namespace DiligentEngine.GltfPbr
         public DebugViewType DebugViewType { get { return (DebugViewType)_DebugViewType; } set { _DebugViewType = (int)value; } }
         private int _DebugViewType = (int)DebugViewType.None;
 
-        public GLTF_PBR_Renderer(IRenderDevice pDevice, IDeviceContext pCtx, PbrRendererCreateInfo CI, ShaderLoader shaderLoader)
+        public PbrRenderer(IRenderDevice pDevice, IDeviceContext pCtx, PbrRendererCreateInfo CI, ShaderLoader shaderLoader)
         {
             this.m_Settings = CI;
 

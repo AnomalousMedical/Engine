@@ -39,7 +39,7 @@ namespace Tutorial_99_Pbo
         private IRenderDevice m_pDevice;
         private IDeviceContext m_pImmediateContext;
 
-        private GLTF_PBR_Renderer m_GLTFRenderer;
+        private PbrRenderer m_GLTFRenderer;
         AutoPtr<IBuffer> m_CameraAttribsCB;
         AutoPtr<IBuffer> m_LightAttribsCB;
         AutoPtr<IBuffer> m_EnvMapRenderAttribsCB;
@@ -97,7 +97,7 @@ namespace Tutorial_99_Pbo
                 RendererCI.UseIBL = true;
                 // RendererCI.FrontCCW = true; //This makes it ccw, the shapes are defined cw
                 //RendererCI.UseTextureAtals = m_bUseResourceCache;
-                m_GLTFRenderer = new GLTF_PBR_Renderer(m_pDevice, m_pImmediateContext, RendererCI, shaderLoader);
+                m_GLTFRenderer = new PbrRenderer(m_pDevice, m_pImmediateContext, RendererCI, shaderLoader);
                 //m_GLTFRenderer.DebugViewType = DebugViewType.SpecularIBL;
 
                 unsafe{
