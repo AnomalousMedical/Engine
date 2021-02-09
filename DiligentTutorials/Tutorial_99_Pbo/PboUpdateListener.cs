@@ -96,7 +96,7 @@ namespace Tutorial_99_Pbo
                 // RendererCI.FrontCCW = true; //This makes it ccw, the shapes are defined cw
                 //RendererCI.UseTextureAtals = m_bUseResourceCache;
                 m_GLTFRenderer = new GLTF_PBR_Renderer(m_pDevice, m_pImmediateContext, RendererCI, shaderLoader);
-                //m_GLTFRenderer.DebugViewType = DebugViewType.DiffuseColor;
+                //m_GLTFRenderer.DebugViewType = DebugViewType.SpecularIBL;
 
                 unsafe{
                     BufferDesc CBDesc = new BufferDesc();
@@ -145,8 +145,8 @@ namespace Tutorial_99_Pbo
                 using (var baseColorStream = File.Open("textures/Spheres_BaseColor.png", FileMode.Open, FileAccess.Read, FileShare.Read))
                 using (var physicalDescriptorStream = File.Open("textures/Spheres_MetalRough.png", FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    using var baseColorMap = textureLoader.LoadTexture(baseColorStream, "baseColorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY);
-                    using var physicalDescriptorMap = textureLoader.LoadTexture(physicalDescriptorStream, "physicalDescriptorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY);
+                    using var baseColorMap = textureLoader.LoadTexture(baseColorStream, "baseColorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
+                    using var physicalDescriptorMap = textureLoader.LoadTexture(physicalDescriptorStream, "physicalDescriptorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
 
                     pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
                         pCameraAttribs: m_CameraAttribsCB.Obj,
@@ -264,7 +264,7 @@ namespace Tutorial_99_Pbo
             var trans = Vector3.Zero;
             //var rot = Quaternion.Identity;
             var rotAmount = clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * (float)Math.PI);
-            var rot = new Quaternion(rotAmount, 0f, rotAmount);
+            var rot = new Quaternion(0f, 0f, 0f);
 
             var CubeModelTransform = rot.toRotationMatrix4x4(trans);
 

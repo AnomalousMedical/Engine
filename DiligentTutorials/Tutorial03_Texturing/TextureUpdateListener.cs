@@ -290,7 +290,7 @@ namespace DiligentEngineCube
             Console.WriteLine(logo);
 
             using var stream = File.Open(logo, FileMode.Open, FileAccess.Read, FileShare.Read);
-            using var Tex = textureLoader.LoadTexture(stream, "DGLogo.png", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D);
+            using var Tex = textureLoader.LoadTexture(stream, "DGLogo.png", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true);
             // Get shader resource view from the texture
             var m_TextureSRV = Tex.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
 

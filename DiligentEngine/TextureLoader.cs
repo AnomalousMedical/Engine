@@ -41,7 +41,7 @@ namespace DiligentEngine
             }
         }
 
-        public AutoPtr<ITexture> LoadTexture(Stream stream, String name, RESOURCE_DIMENSION resouceDimension)
+        public AutoPtr<ITexture> LoadTexture(Stream stream, String name, RESOURCE_DIMENSION resouceDimension, bool isSRGB)
         {
             using (var bmp = FreeImageBitmap.FromStream(stream))
             {
@@ -49,7 +49,7 @@ namespace DiligentEngine
                 bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
                 //TextureLoadInfo loadInfo;
                 //loadInfo.IsSRGB = true;
-                return CreateTextureFromImage(bmp, 1, name, resouceDimension);
+                return CreateTextureFromImage(bmp, 1, name, resouceDimension, isSRGB);
             }
         }
 
@@ -60,7 +60,7 @@ namespace DiligentEngine
         /// <param name="MipLevels"></param>
         /// <param name="pDevice"></param>
         /// <returns></returns>
-        public AutoPtr<ITexture> CreateTextureFromImage(FreeImageBitmap bitmap, int MipLevels, String name, RESOURCE_DIMENSION resouceDimension)
+        public AutoPtr<ITexture> CreateTextureFromImage(FreeImageBitmap bitmap, int MipLevels, String name, RESOURCE_DIMENSION resouceDimension, bool isSRGB)
         {
             uint width = (uint)bitmap.Width;
             uint height = (uint)bitmap.Height;
@@ -78,7 +78,7 @@ namespace DiligentEngine
             }
             TexDesc.Usage = USAGE.USAGE_IMMUTABLE;
             TexDesc.BindFlags = BIND_FLAGS.BIND_SHADER_RESOURCE;
-            TexDesc.Format = GetFormat(bitmap, true); //bool IsSRGB = true;// (ImgDesc.NumComponents >= 3 && ChannelDepth == 8) ? TexLoadInfo.IsSRGB : false;
+            TexDesc.Format = GetFormat(bitmap, isSRGB);
             TexDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_NONE;
 
             Uint32 NumComponents = 4;// ImgDesc.NumComponents == 3 ? 4 : ImgDesc.NumComponents;            
