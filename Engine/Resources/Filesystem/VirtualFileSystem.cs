@@ -12,16 +12,6 @@ namespace Engine
     {
         #region Static
 
-        static VirtualFileSystem instance;
-
-        public static VirtualFileSystem Instance
-        {
-            get
-            {
-                return instance;
-            }
-        }
-
         public static String GetFileName(String url)
         {
             url = url.Replace('\\', '/');
@@ -64,11 +54,6 @@ namespace Engine
 
         public VirtualFileSystem(ILogger<VirtualFileSystem> logger)
         {
-            if (instance != null)
-            {
-                throw new Exception("Only one VirtualFileSystem can be created at a time.");
-            }
-            instance = this;
             directoryMap.Add("/", new DirectoryEntry());
             this.logger = logger;
         }
@@ -79,7 +64,6 @@ namespace Engine
             {
                 archive.Dispose();
             }
-            instance = null;
         }
 
         public bool containsRealAbsolutePath(String path)
