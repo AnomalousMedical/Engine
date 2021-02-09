@@ -29,6 +29,7 @@ namespace Tutorial_99_Pbo.Shapes
         public Cube(GraphicsEngine graphicsEngine)
         {
             CreateVertexBuffer(graphicsEngine.RenderDevice);
+            CreateSkinVertexBuffer(graphicsEngine.RenderDevice);
             CreateIndexBuffer(graphicsEngine.RenderDevice);
         }
 
@@ -92,7 +93,9 @@ namespace Tutorial_99_Pbo.Shapes
                 new GLTFVertex{pos = new float3(+1,-1,+1), uv0 = new float2(0,1), normal = new float3(0, 0, +1)},
                 new GLTFVertex{pos = new float3(+1,+1,+1), uv0 = new float2(0,0), normal = new float3(0, 0, +1)},
                 new GLTFVertex{pos = new float3(-1,+1,+1), uv0 = new float2(1,0), normal = new float3(0, 0, +1)}
-            };
+            }
+            //.Select(i => { i.normal *= -1; return i; }).ToArray(); //Reverse normals
+            ;
 
             {
                 // Create a vertex buffer that stores cube vertices
@@ -109,7 +112,10 @@ namespace Tutorial_99_Pbo.Shapes
                     m_CubeVertexBuffer = m_pDevice.CreateBuffer(VertBuffDesc, VBData);
                 }
             }
+        }
 
+        private unsafe void CreateSkinVertexBuffer(IRenderDevice m_pDevice)
+        {
             var CubeSkinVerts = new GLTFVertexSkinAttribs[]
             {
                 new GLTFVertexSkinAttribs{joint0 = Vector4.Zero, weight0 = Vector4.Zero},
@@ -149,12 +155,12 @@ namespace Tutorial_99_Pbo.Shapes
                 VertBuffDesc.Name = "Cube skin vertex buffer";
                 VertBuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
                 VertBuffDesc.BindFlags = BIND_FLAGS.BIND_VERTEX_BUFFER;
-                VertBuffDesc.uiSizeInBytes = (uint)(sizeof(GLTFVertex) * CubeVerts.Length);
+                VertBuffDesc.uiSizeInBytes = (uint)(sizeof(GLTFVertexSkinAttribs) * CubeSkinVerts.Length);
                 BufferData VBData = new BufferData();
-                fixed (GLTFVertex* vertices = CubeVerts)
+                fixed (GLTFVertexSkinAttribs* vertices = CubeSkinVerts)
                 {
                     VBData.pData = new IntPtr(vertices);
-                    VBData.DataSize = (uint)(sizeof(GLTFVertex) * CubeVerts.Length);
+                    VBData.DataSize = (uint)(sizeof(GLTFVertexSkinAttribs) * CubeSkinVerts.Length);
                     m_CubeSkinVertexBuffer = m_pDevice.CreateBuffer(VertBuffDesc, VBData);
                 }
             }
