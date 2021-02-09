@@ -140,8 +140,8 @@ namespace Tutorial_99_Pbo
     [StructLayout(LayoutKind.Sequential)]
     struct GLTFAttribs
     {
-        public GLTFShaderAttribs MaterialInfo;
         public GLTFRendererShaderParameters RenderParameters;
+        public GLTFShaderAttribs MaterialInfo;
     }
 
     enum DebugViewType : int
@@ -220,7 +220,7 @@ namespace Tutorial_99_Pbo
             public bool UseImmutableSamplers = true;
 
             /// Whether to use texture atlas (e.g. apply UV transforms when sampling textures).
-            public bool UseTextureAtals = false;
+            public bool UseTextureAtlas = false;
 
             /// Immutable sampler for color map texture.
             public SamplerDesc ColorMapImmutableSampler = new SamplerDesc();
@@ -565,7 +565,7 @@ namespace Tutorial_99_Pbo
             Macros.AddShaderMacro("GLTF_PBR_USE_IBL", m_Settings.UseIBL);
             Macros.AddShaderMacro("GLTF_PBR_USE_AO", m_Settings.UseAO);
             Macros.AddShaderMacro("GLTF_PBR_USE_EMISSIVE", m_Settings.UseEmissive);
-            Macros.AddShaderMacro("USE_TEXTURE_ATLAS", m_Settings.UseTextureAtals);
+            Macros.AddShaderMacro("USE_TEXTURE_ATLAS", m_Settings.UseTextureAtlas);
             Macros.AddShaderMacro("PBR_WORKFLOW_METALLIC_ROUGHNESS", (Int32)PBR_WORKFLOW.PBR_WORKFLOW_METALL_ROUGH);
             Macros.AddShaderMacro("PBR_WORKFLOW_SPECULAR_GLOSINESS", (Int32)PBR_WORKFLOW.PBR_WORKFLOW_SPEC_GLOSS);
             Macros.AddShaderMacro("GLTF_ALPHA_MODE_OPAQUE", (Int32)ALPHA_MODE.ALPHA_MODE_OPAQUE);
@@ -1136,7 +1136,7 @@ namespace Tutorial_99_Pbo
                 ShaderParams->WhitePoint = 3.00000000f;
                 ShaderParams->PrefilteredCubeMipLevels = 0.00000000f;
                 ShaderParams->IBLScale = 1.00000000f;
-                ShaderParams->DebugViewType = 1;// (int)DebugViewType.DiffuseColor;
+                ShaderParams->DebugViewType = 0;// (int)DebugViewType.DiffuseColor;
                 ShaderParams->OcclusionStrength = 1.00000000f;
                 ShaderParams->EmissionScale = 1.00000000f;
                 ShaderParams->PrefilteredCubeMipLevels = m_Settings.UseIBL ? m_pPrefilteredEnvMapSRV.Obj.GetTexture().GetDesc_MipLevels : 0f; //This line is valid
@@ -1144,7 +1144,6 @@ namespace Tutorial_99_Pbo
                 pCtx.UnmapBuffer(m_GLTFAttribsCB.Obj, MAP_TYPE.MAP_WRITE);
             }
 
-            //  This could work
             DrawIndexedAttribs DrawAttrs = new DrawIndexedAttribs();     // This is an indexed draw call for the cube 
             DrawAttrs.IndexType = VALUE_TYPE.VT_UINT32; // Index type
             DrawAttrs.NumIndices = numIndices;
