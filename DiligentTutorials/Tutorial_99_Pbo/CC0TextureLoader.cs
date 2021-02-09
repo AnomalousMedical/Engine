@@ -110,27 +110,35 @@ namespace Tutorial_99_Pbo
                         metalnessBmp = FreeImageBitmap.FromStream(stream);
                     }
 
-                    FreeImageBitmap physicalDescriptorBmp = null; //Just a pointer, won't need its own disposal
-                    if (roughnessBmp != null && metalnessBmp != null)
+                    if (roughnessBmp != null || metalnessBmp != null)
                     {
-                        roughnessBmp.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_32_BPP);
-                        roughnessBmp.SetChannel(metalnessBmp, FREE_IMAGE_COLOR_CHANNEL.FICC_BLUE);
-                        physicalDescriptorBmp = roughnessBmp;
-                    }
-                    else if(metalnessBmp != null)
-                    {
-                        metalnessBmp.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_32_BPP);
-                        physicalDescriptorBmp = metalnessBmp;
-                    }
-                    else if(roughnessBmp != null)
-                    {
-                        roughnessBmp.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_32_BPP);
-                        physicalDescriptorBmp = roughnessBmp;
-                    }
+                        int width = 0;
+                        int height = 0;
 
-                    if (physicalDescriptorBmp != null)
-                    {
+                        if(roughnessBmp != null)
+                        {
+                            width = roughnessBmp.Width;
+                            height = roughnessBmp.Height;
+                        }
+
+                        if(metalnessBmp != null)
+                        {
+                            width = metalnessBmp.Width;
+                            height = metalnessBmp.Height;
+                        }
+
+                        using var physicalDescriptorBmp = new FreeImageBitmap(width, height, PixelFormat.Format32bppArgb);
+                        physicalDescriptorBmp.FillBackground(0);
+                        if (metalnessBmp != null)
+                        {
+                            physicalDescriptorBmp.SetChannel(metalnessBmp, FREE_IMAGE_COLOR_CHANNEL.FICC_BLUE);
+                        }
+                        if (roughnessBmp != null)
+                        {
+                            physicalDescriptorBmp.SetChannel(roughnessBmp, FREE_IMAGE_COLOR_CHANNEL.FICC_GREEN);
+                        }
                         physicalDescriptorBmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
+
                         var physicalDescriptorMap = textureLoader.CreateTextureFromImage(physicalDescriptorBmp, 1, "physicalDescriptorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
                         result.SetPhysicalDescriptorMap(physicalDescriptorMap);
                     }

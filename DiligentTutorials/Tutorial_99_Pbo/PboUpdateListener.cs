@@ -158,9 +158,27 @@ namespace Tutorial_99_Pbo
                 //    );
                 //}
 
-                
+
                 //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Wood049_1K");
-                using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/ManholeCover004_1K");
+                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chainmail001_1K");
+                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chainmail004_1K");
+                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Metal032_1K");
+                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Leather026_1K");
+                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Leather011_1K");
+                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Ground037_1K");
+                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chip005_1K");
+                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Pipe002_1K");
+                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/AcousticFoam003_1K");
+                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/AsphaltDamage001_1K");
+                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Rope001_1K");
+                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/SolarPanel003_1K");
+                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Ice004_1K");
+                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Snow006_1K");
+                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Snow005_1K");
+                using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Snow004_1K");
+                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/RoofingTiles003_1K");
+                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/RoofingTiles006_1K");
+                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/ManholeCover004_1K");
                 pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
                     pCameraAttribs: m_CameraAttribsCB.Obj,
                     pLightAttribs: m_LightAttribsCB.Obj,
