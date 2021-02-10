@@ -43,6 +43,7 @@ namespace Tutorial_99_Pbo
             });
 
             services.AddDiligentEngine(pluginManager);
+            services.AddDiligentEnginePbr();
             services.AddOSPlatform(pluginManager);
 
             //Add this app's services

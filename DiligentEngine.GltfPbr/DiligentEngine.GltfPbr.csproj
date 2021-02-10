@@ -11,64 +11,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DiligentEngine\DiligentEngine.csproj" />
+    <EmbeddedResource Include="Common\**\*">
+    </EmbeddedResource>
+    <EmbeddedResource Include="GLTF_PBR\**\*">
+    </EmbeddedResource>
+    <EmbeddedResource Include="PostProcess\**\*">
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Common\private\FullScreenTriangleVS.fx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Common\private\FullScreenTriangleVSOutput.fxh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Common\public\BasicStructures.fxh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Common\public\PBR_Common.fxh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Common\public\ShaderUtilities.fxh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Common\public\Shadows.fxh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="GLTF_PBR\private\ComputeIrradianceMap.psh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="GLTF_PBR\private\CubemapFace.vsh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="GLTF_PBR\private\GLTF_PBR_PrecomputeCommon.fxh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="GLTF_PBR\private\PrecomputeGLTF_BRDF.psh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="GLTF_PBR\private\PrefilterEnvMap.psh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="GLTF_PBR\private\RenderGLTF_PBR.psh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="GLTF_PBR\private\RenderGLTF_PBR.vsh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="GLTF_PBR\public\GLTF_PBR_Shading.fxh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="GLTF_PBR\public\GLTF_PBR_Structures.fxh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="GLTF_PBR\public\GLTF_PBR_VertexProcessing.fxh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="PostProcess\ToneMapping\public\ToneMapping.fxh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="PostProcess\ToneMapping\public\ToneMappingStructures.fxh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\DiligentEngine\DiligentEngine.csproj" />
   </ItemGroup>
 
 </Project>

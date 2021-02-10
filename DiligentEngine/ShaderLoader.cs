@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Engine.Resources;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,15 +8,21 @@ using System.Threading.Tasks;
 
 namespace DiligentEngine
 {
-    public class ShaderLoader
+    public class ShaderLoader<T>
     {
         private readonly char[] Include = new char[] { '#', 'i', 'n', 'c', 'l', 'u', 'd', 'e' };
+        private readonly IResourceProvider resourceProvider;
+
+        public ShaderLoader(IResourceProvider resourceProvider)
+        {
+            this.resourceProvider = resourceProvider;
+        }
 
         private String GetIncludePath(String original, String include)
         {
             var dir = Path.GetDirectoryName(original);
             var combined = Path.Combine(dir, include);
-            return Path.GetFullPath(combined);
+            return combined;
         }
 
         public String LoadShader(String file, params String[] additionalIncludeDirs)
@@ -25,23 +32,23 @@ namespace DiligentEngine
 
         public String LoadShaderInclude(String file, IEnumerable<String> additionalIncludeDirs)
         {
-            using var stream = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read);
+            using var stream = resourceProvider.openFile(file);
             return LoadShader(stream,
                 getIncludeContent: s =>
                 {
                     var incPath = GetIncludePath(file, s);
-                    if (!File.Exists(incPath))
+                    if (!resourceProvider.fileExists(incPath))
                     {
                         if(additionalIncludeDirs == null)
                         {
-                            throw new FileNotFoundException($"Cannot find file '{incPath}' Full Path '{Path.GetFullPath(incPath)}'");
+                            throw new FileNotFoundException($"Cannot find file '{incPath}' Full Path '{resourceProvider.getFullFilePath(incPath)}'");
                         }
                         else
                         {
                             foreach(var inc in additionalIncludeDirs)
                             {
                                 incPath = Path.Combine(inc, s);
-                                if (File.Exists(incPath))
+                                if (resourceProvider.fileExists(incPath))
                                 {
                                     break;
                                 }

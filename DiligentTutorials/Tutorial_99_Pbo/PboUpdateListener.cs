@@ -31,7 +31,7 @@ namespace Tutorial_99_Pbo
     {
         private readonly GraphicsEngine graphicsEngine;
         private readonly NativeOSWindow window;
-        private readonly ShaderLoader shaderLoader;
+        private readonly ShaderLoader<PbrRenderer> shaderLoader;
         private readonly Cube shape;
         private readonly TextureLoader textureLoader;
         private readonly CC0TextureLoader cc0TextureLoader;
@@ -47,7 +47,7 @@ namespace Tutorial_99_Pbo
         AutoPtr<ITextureView> m_EnvironmentMapSRV;
         AutoPtr<IShaderResourceBinding> pboMatBinding;
 
-        public unsafe PboUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ShaderLoader shaderLoader, Cube shape, TextureLoader textureLoader, CC0TextureLoader cc0TextureLoader)
+        public unsafe PboUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ShaderLoader<PbrRenderer> shaderLoader, Cube shape, TextureLoader textureLoader, CC0TextureLoader cc0TextureLoader)
         {
             this.graphicsEngine = graphicsEngine;
             this.m_pSwapChain = graphicsEngine.SwapChain;
@@ -143,7 +143,7 @@ namespace Tutorial_99_Pbo
                 };
                 m_pImmediateContext.TransitionResourceStates(Barriers);
 
-                m_GLTFRenderer.PrecomputeCubemaps(m_pDevice, m_pImmediateContext, m_EnvironmentMapSRV.Obj, shaderLoader);
+                m_GLTFRenderer.PrecomputeCubemaps(m_pDevice, m_pImmediateContext, m_EnvironmentMapSRV.Obj);
 
                 //Spheres
                 //using (var baseColorStream = File.Open("textures/Spheres_BaseColor.png", FileMode.Open, FileAccess.Read, FileShare.Read))

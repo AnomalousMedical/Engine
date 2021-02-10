@@ -45,34 +45,36 @@ namespace DiligentEngine.GltfPbr
         const Uint32 PrefilteredEnvMapDim = 256;        
 
         private PbrRendererCreateInfo m_Settings;
-        AutoPtr<ITextureView> m_pBRDF_LUT_SRV;
+        private readonly ShaderLoader<PbrRenderer> shaderLoader;
+        private AutoPtr<ITextureView> m_pBRDF_LUT_SRV;
 
         private PSOCache m_PSOCache = new PSOCache();
 
-        AutoPtr<ITextureView> m_pWhiteTexSRV;
-        AutoPtr<ITextureView> m_pBlackTexSRV;
-        AutoPtr<ITextureView> m_pDefaultNormalMapSRV;
-        AutoPtr<ITextureView> m_pDefaultPhysDescSRV;
+        private AutoPtr<ITextureView> m_pWhiteTexSRV;
+        private AutoPtr<ITextureView> m_pBlackTexSRV;
+        private AutoPtr<ITextureView> m_pDefaultNormalMapSRV;
+        private AutoPtr<ITextureView> m_pDefaultPhysDescSRV;
 
-        AutoPtr<ITextureView> m_pIrradianceCubeSRV;
-        AutoPtr<ITextureView> m_pPrefilteredEnvMapSRV;
-        AutoPtr<IPipelineState> m_pPrecomputeIrradianceCubePSO;
-        AutoPtr<IPipelineState> m_pPrefilterEnvMapPSO;
-        AutoPtr<IShaderResourceBinding> m_pPrecomputeIrradianceCubeSRB;
-        AutoPtr<IShaderResourceBinding> m_pPrefilterEnvMapSRB;
+        private AutoPtr<ITextureView> m_pIrradianceCubeSRV;
+        private AutoPtr<ITextureView> m_pPrefilteredEnvMapSRV;
+        private AutoPtr<IPipelineState> m_pPrecomputeIrradianceCubePSO;
+        private AutoPtr<IPipelineState> m_pPrefilterEnvMapPSO;
+        private AutoPtr<IShaderResourceBinding> m_pPrecomputeIrradianceCubeSRB;
+        private AutoPtr<IShaderResourceBinding> m_pPrefilterEnvMapSRB;
+        
+        private AutoPtr<IBuffer> m_TransformsCB;
+        private AutoPtr<IBuffer> m_GLTFAttribsCB;
+        private AutoPtr<IBuffer> m_PrecomputeEnvMapAttribsCB;
+        private AutoPtr<IBuffer> m_JointsBuffer;
 
-        AutoPtr<IBuffer> m_TransformsCB;
-        AutoPtr<IBuffer> m_GLTFAttribsCB;
-        AutoPtr<IBuffer> m_PrecomputeEnvMapAttribsCB;
-        AutoPtr<IBuffer> m_JointsBuffer;
-
-        public PbrRenderer(IRenderDevice pDevice, IDeviceContext pCtx, PbrRendererCreateInfo CI, ShaderLoader shaderLoader)
+        public PbrRenderer(IRenderDevice pDevice, IDeviceContext pCtx, PbrRendererCreateInfo CI, ShaderLoader<PbrRenderer> shaderLoader)
         {
             this.m_Settings = CI;
+            this.shaderLoader = shaderLoader;
 
             if (m_Settings.UseIBL)
             {
-                PrecomputeBRDF(pDevice, pCtx, shaderLoader);
+                PrecomputeBRDF(pDevice, pCtx);
 
                 TextureDesc TexDesc = new TextureDesc();
                 TexDesc.Name = "Irradiance cube map for GLTF renderer";
@@ -195,7 +197,7 @@ namespace DiligentEngine.GltfPbr
                     // clang-format on
                     pCtx.TransitionResourceStates(Barriers);
 
-                    CreatePSO(pDevice, shaderLoader);
+                    CreatePSO(pDevice);
                 }
             }
         }
@@ -219,7 +221,7 @@ namespace DiligentEngine.GltfPbr
             m_pIrradianceCubeSRV.Dispose();
             m_pBRDF_LUT_SRV.Dispose();
         }
-        public void PrecomputeBRDF(IRenderDevice pDevice, IDeviceContext pCtx, ShaderLoader shaderLoader)
+        public void PrecomputeBRDF(IRenderDevice pDevice, IDeviceContext pCtx)
         {
             TextureDesc TexDesc = new TextureDesc();
             TexDesc.Name = "GLTF BRDF Look-up texture";
@@ -281,7 +283,7 @@ namespace DiligentEngine.GltfPbr
             pCtx.TransitionResourceStates(Barriers);
         }
 
-        private void CreatePSO(IRenderDevice pDevice, ShaderLoader shaderLoader)
+        private void CreatePSO(IRenderDevice pDevice)
         {
             GraphicsPipelineStateCreateInfo PSOCreateInfo = new GraphicsPipelineStateCreateInfo();
             PipelineStateDesc PSODesc = PSOCreateInfo.PSODesc;
@@ -531,7 +533,7 @@ namespace DiligentEngine.GltfPbr
             return pSRB;
         }
 
-        public void PrecomputeCubemaps(IRenderDevice pDevice, IDeviceContext pCtx, ITextureView pEnvironmentMap, ShaderLoader shaderLoader)
+        public void PrecomputeCubemaps(IRenderDevice pDevice, IDeviceContext pCtx, ITextureView pEnvironmentMap)
         {
             if (!m_Settings.UseIBL)
             {

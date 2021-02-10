@@ -12,7 +12,6 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddDiligentEngine(this IServiceCollection services, PluginManager pluginManager)
         {
             pluginManager.AddPlugin(new DiligentEnginePluginInterface());
-            services.TryAddSingleton<ShaderLoader>();
 
             return services;
         }
