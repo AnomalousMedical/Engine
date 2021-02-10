@@ -18,21 +18,11 @@ namespace DiligentEngine.GltfPbr
 
         public unsafe AutoPtr<ITextureView> BuildEnvMapView(IRenderDevice m_pDevice, IDeviceContext m_pImmediateContext, String baseName, String ext)
         {
-            //Freeimage
-            //Cubemap array layout, what it should be
-            //The papermill is different, still figuring this out
-            //The faces are rotated diffrerently either because of gltf or maybe its wrong
-            //https://docs.unrealengine.com/en-US/RenderingAndGraphics/Textures/Cubemaps/CreatingCubemaps/index.html
-            //positive x, negative x, positive y, negative y, positive z, negative z
-            //Or if lying on back looking at sky
-            //left, right, head back (up), head forward (tword feet), forward, backward
-            //But these need additional fixes to images when standing, to make them like your lying down
-            //Positive X - Rotated 90 degrees CCW
-            //Negative X -Rotated 90 degrees CW
-            //Positive Y -Rotated 180 degrees
-            //Negative Y - No Rotation
-            //Positive Z - The side that must align with positive Y should be at the top
-            //Negative Z -The side that must align with positive Y should be at the top
+            //For these cubemaps 
+            //PosX, NegX, PosZ, NegZ are around the view - all aligned normally, no rotations
+            //PosY is above head
+            //PosZ is below head
+            //Still load in normal order, but addressing must be different in shader.
 
             var InitData = new TextureData
             {
