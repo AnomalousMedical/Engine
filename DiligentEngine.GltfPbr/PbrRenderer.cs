@@ -217,9 +217,9 @@ namespace DiligentEngine.GltfPbr
             m_pDefaultNormalMapSRV.Dispose();
             m_pBlackTexSRV.Dispose();
             m_pWhiteTexSRV.Dispose();
-            m_pPrefilteredEnvMapSRV.Dispose();
-            m_pIrradianceCubeSRV.Dispose();
-            m_pBRDF_LUT_SRV.Dispose();
+            m_pPrefilteredEnvMapSRV?.Dispose();
+            m_pIrradianceCubeSRV?.Dispose();
+            m_pBRDF_LUT_SRV?.Dispose();
         }
         public void PrecomputeBRDF(IRenderDevice pDevice, IDeviceContext pCtx)
         {

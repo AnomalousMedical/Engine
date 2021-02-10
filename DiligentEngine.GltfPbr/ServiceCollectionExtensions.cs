@@ -12,8 +12,11 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddDiligentEnginePbr(this IServiceCollection services)
+        public static IServiceCollection AddDiligentEnginePbr(this IServiceCollection services, Action<PbrOptions> configure = null)
         {
+            var options = new PbrOptions();
+            configure?.Invoke(options);
+
             services.AddSingleton<ShaderLoader<PbrRenderer>>(s =>
             {
                 return new ShaderLoader<PbrRenderer>(new EmbeddedResourceProvider(Assembly.GetExecutingAssembly(), "DiligentEngine.GltfPbr."));
@@ -23,16 +26,17 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 var shapeLoader = s.GetRequiredService<ShaderLoader<PbrRenderer>>();
                 var ge = s.GetRequiredService<GraphicsEngine>();
-                var m_pSwapChain = ge.SwapChain;
-
-                var BackBufferFmt = m_pSwapChain.GetDesc_ColorBufferFormat;
-                var DepthBufferFmt = m_pSwapChain.GetDesc_DepthBufferFormat;
 
                 var RendererCI = new PbrRendererCreateInfo();
-                RendererCI.RTVFmt = BackBufferFmt;
-                RendererCI.DSVFmt = DepthBufferFmt;
-                RendererCI.AllowDebugView = true;
-                RendererCI.UseIBL = true;
+                options.CustomizePbrOptions?.Invoke(RendererCI);
+                if (RendererCI.RTVFmt == TEXTURE_FORMAT.TEX_FORMAT_UNKNOWN)
+                {
+                    RendererCI.RTVFmt = ge.SwapChain.GetDesc_ColorBufferFormat;
+                }
+                if (RendererCI.DSVFmt == TEXTURE_FORMAT.TEX_FORMAT_UNKNOWN)
+                { 
+                    RendererCI.DSVFmt = ge.SwapChain.GetDesc_DepthBufferFormat;
+                }
                 
                 return new PbrRenderer(ge.RenderDevice, ge.ImmediateContext, RendererCI, shapeLoader);
             });

@@ -90,7 +90,6 @@ namespace Tutorial_99_Pbo
                 }
                 m_EnvironmentMapSRV = new AutoPtr<ITextureView>(EnvironmentMap.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
 
-
                 unsafe
                 {
                     BufferDesc CBDesc = new BufferDesc();
