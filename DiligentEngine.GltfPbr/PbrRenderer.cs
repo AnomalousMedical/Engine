@@ -66,13 +66,6 @@ namespace DiligentEngine.GltfPbr
         AutoPtr<IBuffer> m_PrecomputeEnvMapAttribsCB;
         AutoPtr<IBuffer> m_JointsBuffer;
 
-        /// <summary>
-        /// Change the DebugViewType of the renderer to see various debug stages.
-        /// Set to none for normal rendering.
-        /// </summary>
-        public DebugViewType DebugViewType { get { return (DebugViewType)_DebugViewType; } set { _DebugViewType = (int)value; } }
-        private int _DebugViewType = (int)DebugViewType.None;
-
         public PbrRenderer(IRenderDevice pDevice, IDeviceContext pCtx, PbrRendererCreateInfo CI, ShaderLoader shaderLoader)
         {
             this.m_Settings = CI;
@@ -819,63 +812,50 @@ namespace DiligentEngine.GltfPbr
             unsafe
             {
                 IntPtr data = pCtx.MapBuffer(m_GLTFAttribsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
-                var pGLTFAttribs = (GLTFAttribs*)data.ToPointer();// { pCtx, m_GLTFAttribsCB, MAP_WRITE, MAP_FLAG_DISCARD};
+                var pGLTFAttribs = (GLTFAttribs*)data.ToPointer();
 
-                //Just using hardcoded values for now
-                //pGLTFAttribs->MaterialInfo = GLTFShaderAttribs.CreateDefault();
-                pGLTFAttribs->MaterialInfo = new GLTFShaderAttribs()
-                {
-                    BaseColorFactor = new float4(1, 1, 1, 1),
-                    EmissiveFactor = new float4(1, 1, 1, 1),
-                    SpecularFactor = new float4(1, 1, 1, 1),
+                var MaterialInfo = &pGLTFAttribs->MaterialInfo;
 
-                    Workflow = (int)PbrWorkflow.PBR_WORKFLOW_METALL_ROUGH,
-                    BaseColorTextureUVSelector = 0,
-                    PhysicalDescriptorTextureUVSelector = 0,
-                    NormalTextureUVSelector = 0,
+                MaterialInfo->BaseColorFactor = new float4(1, 1, 1, 1);
+                MaterialInfo->EmissiveFactor = new float4(1, 1, 1, 1);
+                MaterialInfo->SpecularFactor = new float4(1, 1, 1, 1);
 
-                    OcclusionTextureUVSelector = 0,
-                    EmissiveTextureUVSelector = 0,
-                    BaseColorSlice = 0,
-                    PhysicalDescriptorSlice = 0,
+                MaterialInfo->Workflow = (int)PbrWorkflow.PBR_WORKFLOW_METALL_ROUGH;
+                MaterialInfo->BaseColorTextureUVSelector = 0;
+                MaterialInfo->PhysicalDescriptorTextureUVSelector = 0;
+                MaterialInfo->NormalTextureUVSelector = 0;
 
-                    NormalSlice = 0,
-                    OcclusionSlice = 0,
-                    EmissiveSlice = 0,
-                    MetallicFactor = 1,
+                MaterialInfo->OcclusionTextureUVSelector = 0;
+                MaterialInfo->EmissiveTextureUVSelector = 0;
+                MaterialInfo->BaseColorSlice = 0;
+                MaterialInfo->PhysicalDescriptorSlice = 0;
 
-                    RoughnessFactor = 1,
-                    AlphaMode = (int)PbrAlphaMode.ALPHA_MODE_OPAQUE,
-                    AlphaMaskCutoff = 0.5f,
-                    Dummy0 = -107374176f, //changed might just be from garbage, who knows
+                MaterialInfo->NormalSlice = 0;
+                MaterialInfo->OcclusionSlice = 0;
+                MaterialInfo->EmissiveSlice = 0;
+                MaterialInfo->MetallicFactor = 1;
 
-                    // When texture atlas is used, UV scale and bias applied to
-                    // each texture coordinate set
-                    BaseColorUVScaleBias = new float4(1, 1, 0, 0),
-                    PhysicalDescriptorUVScaleBias = new float4(1, 1, 0, 0),
-                    NormalMapUVScaleBias = new float4(1, 1, 0, 0),
-                    OcclusionUVScaleBias = new float4(1, 1, 0, 0),
-                    EmissiveUVScaleBias = new float4(1, 1, 0, 0),
-                };
+                MaterialInfo->RoughnessFactor = 1;
+                MaterialInfo->AlphaMode = (int)PbrAlphaMode.ALPHA_MODE_OPAQUE;
+                MaterialInfo->AlphaMaskCutoff = 0.5f;
+                MaterialInfo->Dummy0 = -107374176f; //changed might just be from garbage, who knows
+
+                // When texture atlas is used, UV scale and bias applied to
+                // each texture coordinate set
+                MaterialInfo->BaseColorUVScaleBias = new float4(1, 1, 0, 0);
+                MaterialInfo->PhysicalDescriptorUVScaleBias = new float4(1, 1, 0, 0);
+                MaterialInfo->NormalMapUVScaleBias = new float4(1, 1, 0, 0);
+                MaterialInfo->OcclusionUVScaleBias = new float4(1, 1, 0, 0);
+                MaterialInfo->EmissiveUVScaleBias = new float4(1, 1, 0, 0);
 
                 var ShaderParams = &pGLTFAttribs->RenderParameters;
-
-                //ShaderParams.DebugViewType = static_cast<int>(m_RenderParams.DebugView);
-                //ShaderParams.OcclusionStrength = m_RenderParams.OcclusionStrength;
-                //ShaderParams.EmissionScale = m_RenderParams.EmissionScale;
-                //ShaderParams.AverageLogLum = m_RenderParams.AverageLogLum;
-                //ShaderParams.MiddleGray = m_RenderParams.MiddleGray;
-                //ShaderParams.WhitePoint = m_RenderParams.WhitePoint;
-                //ShaderParams.IBLScale = m_RenderParams.IBLScale;
-                //ShaderParams.PrefilteredCubeMipLevels = m_Settings.UseIBL ? static_cast<float>(m_pPrefilteredEnvMapSRV->GetTexture()->GetDesc().MipLevels) : 0f;
 
                 //Take from c++ app, don't just use
                 ShaderParams->AverageLogLum = 0.300000012f;
                 ShaderParams->MiddleGray = 0.180000007f;
                 ShaderParams->WhitePoint = 3.00000000f;
-                ShaderParams->PrefilteredCubeMipLevels = 0.00000000f;
                 ShaderParams->IBLScale = 1.00000000f;
-                ShaderParams->DebugViewType = _DebugViewType;
+                ShaderParams->DebugViewType = 0;
                 ShaderParams->OcclusionStrength = 1.00000000f;
                 ShaderParams->EmissionScale = 1.00000000f;
                 ShaderParams->PrefilteredCubeMipLevels = m_Settings.UseIBL ? m_pPrefilteredEnvMapSRV.Obj.GetTexture().GetDesc_MipLevels : 0f; //This line is valid
