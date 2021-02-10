@@ -29,9 +29,7 @@ namespace Tutorial_99_Pbo
 {
     class PboUpdateListener : UpdateListener, IDisposable
     {
-        private readonly GraphicsEngine graphicsEngine;
         private readonly NativeOSWindow window;
-        private readonly ShaderLoader<PbrRenderer> shaderLoader;
         private readonly Cube shape;
         private readonly TextureLoader textureLoader;
         private readonly CC0TextureLoader cc0TextureLoader;
@@ -41,20 +39,25 @@ namespace Tutorial_99_Pbo
         private PbrRenderAttribs pbrRenderAttribs = PbrRenderAttribs.CreateDefault();
 
         private PbrRenderer m_GLTFRenderer;
-        AutoPtr<IBuffer> m_CameraAttribsCB;
-        AutoPtr<IBuffer> m_LightAttribsCB;
-        AutoPtr<IBuffer> m_EnvMapRenderAttribsCB;
-        AutoPtr<ITextureView> m_EnvironmentMapSRV;
-        AutoPtr<IShaderResourceBinding> pboMatBinding;
+        private AutoPtr<IBuffer> m_CameraAttribsCB;
+        private AutoPtr<IBuffer> m_LightAttribsCB;
+        private AutoPtr<IBuffer> m_EnvMapRenderAttribsCB;
+        private AutoPtr<ITextureView> m_EnvironmentMapSRV;
+        private AutoPtr<IShaderResourceBinding> pboMatBinding;
 
-        public unsafe PboUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ShaderLoader<PbrRenderer> shaderLoader, Cube shape, TextureLoader textureLoader, CC0TextureLoader cc0TextureLoader)
+        public unsafe PboUpdateListener(
+            GraphicsEngine graphicsEngine, 
+            NativeOSWindow window, 
+            PbrRenderer m_GLTFRenderer, 
+            Cube shape, 
+            TextureLoader textureLoader, 
+            CC0TextureLoader cc0TextureLoader)
         {
-            this.graphicsEngine = graphicsEngine;
+            this.m_GLTFRenderer = m_GLTFRenderer;
             this.m_pSwapChain = graphicsEngine.SwapChain;
             this.m_pDevice = graphicsEngine.RenderDevice;
             this.m_pImmediateContext = graphicsEngine.ImmediateContext;
             this.window = window;
-            this.shaderLoader = shaderLoader;
             this.shape = shape;
             this.textureLoader = textureLoader;
             this.cc0TextureLoader = cc0TextureLoader;
@@ -67,7 +70,6 @@ namespace Tutorial_99_Pbo
             m_CameraAttribsCB.Dispose();
             m_LightAttribsCB.Dispose();
             m_EnvMapRenderAttribsCB.Dispose();
-            m_GLTFRenderer.Dispose();
             m_EnvironmentMapSRV.Dispose();
         }
 
@@ -88,20 +90,9 @@ namespace Tutorial_99_Pbo
                 }
                 m_EnvironmentMapSRV = new AutoPtr<ITextureView>(EnvironmentMap.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
 
-                var BackBufferFmt = m_pSwapChain.GetDesc_ColorBufferFormat;
-                var DepthBufferFmt = m_pSwapChain.GetDesc_DepthBufferFormat;
 
-                var RendererCI = new PbrRendererCreateInfo();
-                RendererCI.RTVFmt = BackBufferFmt;
-                RendererCI.DSVFmt = DepthBufferFmt;
-                RendererCI.AllowDebugView = true;
-                RendererCI.UseIBL = true;
-                // RendererCI.FrontCCW = true; //This makes it ccw, the shapes are defined cw
-                //RendererCI.UseTextureAtals = m_bUseResourceCache;
-                m_GLTFRenderer = new PbrRenderer(m_pDevice, m_pImmediateContext, RendererCI, shaderLoader);
-                //m_GLTFRenderer.DebugViewType = DebugViewType.SpecularIBL;
-
-                unsafe{
+                unsafe
+                {
                     BufferDesc CBDesc = new BufferDesc();
                     CBDesc.Name = "Camera attribs buffer";
                     CBDesc.uiSizeInBytes = (uint)sizeof(CameraAttribs);
