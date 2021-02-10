@@ -205,46 +205,68 @@ namespace Tutorial_99_Pbo
 
                 m_GLTFRenderer.PrecomputeCubemaps(m_pDevice, m_pImmediateContext, m_EnvironmentMapSRV.Obj);
 
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Wood049_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chainmail001_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chainmail004_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/SheetMetal001_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/SheetMetal002_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/SheetMetal004_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/ChristmasTreeOrnament007_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Carpet008_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Fabric026_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Fabric020_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Metal032_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Leather026_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Leather011_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Ground037_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chip005_1K");
-                using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Pipe002_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/AcousticFoam003_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/AsphaltDamage001_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Rope001_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/SolarPanel003_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Ice004_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Snow006_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Snow005_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Snow004_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/RoofingTiles003_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/RoofingTiles006_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/ManholeCover004_1K");
-                pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
-                    pCameraAttribs: m_CameraAttribsCB.Obj,
-                    pLightAttribs: m_LightAttribsCB.Obj,
-                    baseColorMap: ccoTextures.BaseColorMap,
-                    normalMap: ccoTextures.NormalMap,
-                    physicalDescriptorMap: ccoTextures.PhysicalDescriptorMap,
-                    aoMap: ccoTextures.AmbientOcclusionMap
-                );
+                //Load a cc0 texture
+                //LoadCCoTexture();
+
+                //Create a manual texture
+                CreateTexture();
             }
             finally
             {
                 EnvironmentMap?.Dispose();
             }
+        }
+
+        private unsafe void CreateTexture()
+        {
+            pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
+                pCameraAttribs: m_CameraAttribsCB.Obj,
+                pLightAttribs: m_LightAttribsCB.Obj
+                //baseColorMap: ccoTextures.BaseColorMap,
+                //normalMap: ccoTextures.NormalMap,
+                //physicalDescriptorMap: ccoTextures.PhysicalDescriptorMap,
+                //aoMap: ccoTextures.AmbientOcclusionMap
+            );
+        }
+
+        private unsafe void LoadCCoTexture()
+        {
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Wood049_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chainmail001_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chainmail004_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/SheetMetal001_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/SheetMetal002_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/SheetMetal004_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/ChristmasTreeOrnament007_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Carpet008_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Fabric026_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Fabric020_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Metal032_1K");
+            using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Metal012_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Leather026_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Leather011_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Ground037_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chip005_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Pipe002_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/AcousticFoam003_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/AsphaltDamage001_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Rope001_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/SolarPanel003_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Ice004_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Snow006_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Snow005_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Snow004_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/RoofingTiles003_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/RoofingTiles006_1K");
+            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/ManholeCover004_1K");
+            pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
+                pCameraAttribs: m_CameraAttribsCB.Obj,
+                pLightAttribs: m_LightAttribsCB.Obj,
+                baseColorMap: ccoTextures.BaseColorMap,
+                normalMap: ccoTextures.NormalMap,
+                physicalDescriptorMap: ccoTextures.PhysicalDescriptorMap,
+                aoMap: ccoTextures.AmbientOcclusionMap
+            );
         }
 
         public void exceededMaxDelta()
@@ -349,8 +371,8 @@ namespace Tutorial_99_Pbo
 
             var trans = Vector3.Zero;
             //var rot = Quaternion.Identity;
-            var rotAmount = (clock.CurrentTimeMicro * Clock.MicroToSeconds) / 2 % (2 * (float)Math.PI);
-            var rot = new Quaternion(rotAmount, 0f, 0f);
+            var rotAmount = (clock.CurrentTimeMicro * Clock.MicroToSeconds) / 10 % (2 * (float)Math.PI);
+            var rot = new Quaternion(rotAmount, 0f, rotAmount);
 
             var CubeModelTransform = rot.toRotationMatrix4x4(trans);
 
