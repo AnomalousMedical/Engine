@@ -94,7 +94,6 @@ namespace DiligentEngine.GltfPbr
                         {
                             physicalDescriptorBmp.SetChannel(roughnessBmp, FREE_IMAGE_COLOR_CHANNEL.FICC_GREEN);
                         }
-                        physicalDescriptorBmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
                         var physicalDescriptorMap = textureLoader.CreateTextureFromImage(physicalDescriptorBmp, 1, "physicalDescriptorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
                         result.SetPhysicalDescriptorMap(physicalDescriptorMap);

@@ -84,19 +84,76 @@ namespace Tutorial_99_Pbo
                     TexDesc.Type = RESOURCE_DIMENSION.RESOURCE_DIM_TEX_CUBE;
                     TexDesc.Usage = USAGE.USAGE_IMMUTABLE;
                     TexDesc.BindFlags = BIND_FLAGS.BIND_SHADER_RESOURCE;
-                    TexDesc.Width = 512;
-                    TexDesc.Height = 512;
                     TexDesc.Depth = 6;
                     TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_BGRA8_UNORM;
                     TexDesc.MipLevels = 1;
 
-                    var size = TexDesc.Width * TexDesc.Height;
-                    var envMapArray = stackalloc uint[(int)size];
-                    var span = new Span<uint>(envMapArray, (int)size);
-                    span.Fill(0xff646464);
+                    //Single color texture
+                    //TexDesc.Width = 512;
+                    //TexDesc.Height = 512;
+                    //var size = TexDesc.Width * TexDesc.Height;
+                    //var envMapArray = stackalloc uint[(int)size];
+                    //var span = new Span<uint>(envMapArray, (int)size);
+                    //span.Fill(0xff646464);
+                    //var Level0Data = new TextureSubResData { pData = new IntPtr(envMapArray), Stride = TexDesc.Width * 4 };
+                    //var InitData = new TextureData { pSubResources = new List<TextureSubResData> { Level0Data, Level0Data, Level0Data, Level0Data, Level0Data, Level0Data } };
 
-                    var Level0Data = new TextureSubResData { pData = new IntPtr(envMapArray), Stride = TexDesc.Width * 4 };
-                    var InitData = new TextureData { pSubResources = new List<TextureSubResData> { Level0Data, Level0Data, Level0Data, Level0Data, Level0Data, Level0Data } };
+                    //Freeimage
+                    //Cubemap array layout, what it should be
+                    //The papermill is different, still figuring this out
+                    //The faces are rotated diffrerently either because of gltf or maybe its wrong
+                    //https://docs.unrealengine.com/en-US/RenderingAndGraphics/Textures/Cubemaps/CreatingCubemaps/index.html
+                    //positive x, negative x, positive y, negative y, positive z, negative z
+                    //Or if lying on back looking at sky
+                    //left, right, head back (up), head forward (tword feet), forward, backward
+                    //But these need additional fixes to images when standing, to make them like your lying down
+                    //Positive X - Rotated 90 degrees CCW
+                    //Negative X -Rotated 90 degrees CW
+                    //Positive Y -Rotated 180 degrees
+                    //Negative Y - No Rotation
+                    //Positive Z - The side that must align with positive Y should be at the top
+                    //Negative Z -The side that must align with positive Y should be at the top
+
+                    var InitData = new TextureData
+                    {
+                        pSubResources = new List<TextureSubResData>()
+                    };
+
+                    using var positiveXBmp = FreeImageBitmap.FromFile("papermill/PositiveX.png");
+                    textureLoader.FixBitmap(positiveXBmp);
+                    using var negativeXBmp = FreeImageBitmap.FromFile("papermill/NegativeX.png");
+                    textureLoader.FixBitmap(negativeXBmp);
+                    using var positiveYBmp = FreeImageBitmap.FromFile("papermill/PositiveY.png");
+                    textureLoader.FixBitmap(positiveYBmp);
+                    using var negativeYBmp = FreeImageBitmap.FromFile("papermill/NegativeY.png");
+                    textureLoader.FixBitmap(negativeYBmp);
+                    using var positiveZBmp = FreeImageBitmap.FromFile("papermill/PositiveZ.png");
+                    textureLoader.FixBitmap(positiveZBmp);
+                    using var negativeZBmp = FreeImageBitmap.FromFile("papermill/NegativeZ.png");
+                    textureLoader.FixBitmap(negativeZBmp);
+
+                    TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_BGRA8_UNORM;
+                    TexDesc.Width = (uint)positiveXBmp.Width;
+                    TexDesc.Height = (uint)positiveXBmp.Height;
+                    var stride = -positiveXBmp.Stride;
+
+                    var positiveX = new TextureSubResData { pData = positiveXBmp.Scan0 - (stride * (positiveXBmp.Height - 1)), Stride = (Uint32)stride };
+                    InitData.pSubResources.Add(positiveX);
+
+                    var negativeX = new TextureSubResData { pData = negativeXBmp.Scan0 - (stride * (negativeXBmp.Height - 1)), Stride = (Uint32)stride };
+                    InitData.pSubResources.Add(negativeX);
+
+                    var positiveY = new TextureSubResData { pData = positiveYBmp.Scan0 - (stride * (positiveYBmp.Height - 1)), Stride = (Uint32)stride };
+                    InitData.pSubResources.Add(positiveY);
+
+                    var negativeY = new TextureSubResData { pData = negativeYBmp.Scan0 - (stride * (negativeYBmp.Height - 1)), Stride = (Uint32)stride };
+                    InitData.pSubResources.Add(negativeY);
+
+                    var positiveZ = new TextureSubResData { pData = positiveZBmp.Scan0 - (stride * (positiveZBmp.Height - 1)), Stride = (Uint32)stride };
+                    InitData.pSubResources.Add(positiveZ);
+
+                    var negativeZ = new TextureSubResData { pData = negativeZBmp.Scan0 - (stride * (negativeZBmp.Height - 1)), Stride = (Uint32)stride };
+                    InitData.pSubResources.Add(negativeZ);
 
                     EnvironmentMap = m_pDevice.CreateTexture(TexDesc, InitData);
 
@@ -148,25 +205,9 @@ namespace Tutorial_99_Pbo
 
                 m_GLTFRenderer.PrecomputeCubemaps(m_pDevice, m_pImmediateContext, m_EnvironmentMapSRV.Obj);
 
-                //Spheres
-                //using (var baseColorStream = File.Open("textures/Spheres_BaseColor.png", FileMode.Open, FileAccess.Read, FileShare.Read))
-                //using (var physicalDescriptorStream = File.Open("textures/Spheres_MetalRough.png", FileMode.Open, FileAccess.Read, FileShare.Read))
-                //{
-                //    using var baseColorMap = textureLoader.LoadTexture(baseColorStream, "baseColorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
-                //    using var physicalDescriptorMap = textureLoader.LoadTexture(physicalDescriptorStream, "physicalDescriptorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
-
-                //    pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
-                //        pCameraAttribs: m_CameraAttribsCB.Obj,
-                //        pLightAttribs: m_LightAttribsCB.Obj,
-                //        baseColorMap: baseColorMap.Obj,
-                //        physicalDescriptorMap: physicalDescriptorMap.Obj
-                //    );
-                //}
-
-
                 //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Wood049_1K");
                 //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chainmail001_1K");
-                using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chainmail004_1K");
+                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chainmail004_1K");
                 //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/SheetMetal001_1K");
                 //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/SheetMetal002_1K");
                 //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/SheetMetal004_1K");
@@ -179,7 +220,7 @@ namespace Tutorial_99_Pbo
                 //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Leather011_1K");
                 //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Ground037_1K");
                 //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chip005_1K");
-                //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Pipe002_1K");
+                using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Pipe002_1K");
                 //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/AcousticFoam003_1K");
                 //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/AsphaltDamage001_1K");
                 //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Rope001_1K");
@@ -291,6 +332,7 @@ namespace Tutorial_99_Pbo
             }
 
             {
+                //float3 m_LightDirection = (Vector3.Up + Vector3.Left).normalized();// (new float3(0.5f, -0.6f, -0.2f)).normalized();
                 float3 m_LightDirection = Vector3.Forward;// (new float3(0.5f, -0.6f, -0.2f)).normalized();
                 float4 m_LightColor = new float4(1, 1, 1, 1);
                 float m_LightIntensity = 3.0f;

@@ -93,9 +93,7 @@ namespace Tutorial_99_Pbo.Shapes
                 new GLTFVertex{pos = new float3(+1,-1,+1), uv0 = new float2(0,1), normal = new float3(0, 0, +1)},
                 new GLTFVertex{pos = new float3(+1,+1,+1), uv0 = new float2(0,0), normal = new float3(0, 0, +1)},
                 new GLTFVertex{pos = new float3(-1,+1,+1), uv0 = new float2(1,0), normal = new float3(0, 0, +1)}
-            }
-            //.Select(i => { i.normal *= -1; return i; }).ToArray(); //Reverse normals
-            ;
+            };
 
             {
                 // Create a vertex buffer that stores cube vertices
