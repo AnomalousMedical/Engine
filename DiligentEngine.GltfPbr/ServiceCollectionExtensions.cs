@@ -17,7 +17,7 @@ namespace Microsoft.Extensions.DependencyInjection
             var options = new PbrOptions();
             configure?.Invoke(options);
 
-            services.AddSingleton<ShaderLoader<PbrRenderer>>(s =>
+            services.TryAddSingleton<ShaderLoader<PbrRenderer>>(s =>
             {
                 return new ShaderLoader<PbrRenderer>(new EmbeddedResourceProvider(Assembly.GetExecutingAssembly(), "DiligentEngine.GltfPbr."));
             });
@@ -34,11 +34,43 @@ namespace Microsoft.Extensions.DependencyInjection
                     RendererCI.RTVFmt = ge.SwapChain.GetDesc_ColorBufferFormat;
                 }
                 if (RendererCI.DSVFmt == TEXTURE_FORMAT.TEX_FORMAT_UNKNOWN)
-                { 
+                {
                     RendererCI.DSVFmt = ge.SwapChain.GetDesc_DepthBufferFormat;
                 }
-                
+
                 return new PbrRenderer(ge.RenderDevice, ge.ImmediateContext, RendererCI, shapeLoader);
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddDiligentEnginePbr<T>(this IServiceCollection services, Action<PbrOptions> configure = null)
+        {
+            var options = new PbrOptions();
+            configure?.Invoke(options);
+
+            services.TryAddSingleton<ShaderLoader<PbrRenderer>>(s =>
+            {
+                return new ShaderLoader<PbrRenderer>(new EmbeddedResourceProvider(Assembly.GetExecutingAssembly(), "DiligentEngine.GltfPbr."));
+            });
+
+            services.AddSingleton<PbrRenderer<T>>(s =>
+            {
+                var shapeLoader = s.GetRequiredService<ShaderLoader<PbrRenderer>>();
+                var ge = s.GetRequiredService<GraphicsEngine>();
+            
+                var RendererCI = new PbrRendererCreateInfo();
+                options.CustomizePbrOptions?.Invoke(RendererCI);
+                if (RendererCI.RTVFmt == TEXTURE_FORMAT.TEX_FORMAT_UNKNOWN)
+                {
+                    RendererCI.RTVFmt = ge.SwapChain.GetDesc_ColorBufferFormat;
+                }
+                if (RendererCI.DSVFmt == TEXTURE_FORMAT.TEX_FORMAT_UNKNOWN)
+                {
+                    RendererCI.DSVFmt = ge.SwapChain.GetDesc_DepthBufferFormat;
+                }
+            
+                return new PbrRenderer<T>(ge.RenderDevice, ge.ImmediateContext, RendererCI, shapeLoader);
             });
 
             return services;

@@ -23,7 +23,14 @@ using System.Collections;
 using Engine;
 
 namespace DiligentEngine.GltfPbr
-{ 
+{
+    public class PbrRenderer<T> : PbrRenderer
+    {
+        public PbrRenderer(IRenderDevice pDevice, IDeviceContext pCtx, PbrRendererCreateInfo CI, ShaderLoader<PbrRenderer> shaderLoader) : base(pDevice, pCtx, CI, shaderLoader)
+        {
+        }
+    }
+
     public class PbrRenderer : IDisposable
     {
         static readonly SamplerDesc Sam_LinearClamp = new SamplerDesc
