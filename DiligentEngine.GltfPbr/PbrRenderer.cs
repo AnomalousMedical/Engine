@@ -784,13 +784,13 @@ namespace DiligentEngine.GltfPbr
             IBuffer indexBuffer,
             Uint32 numIndices,
             PbrAlphaMode AlphaMode,
-            ref Matrix4x4 position, 
+            ref float4x4 position, 
             PbrRenderAttribs renderAttribs
             )
         {
             var doubleSided = false;
 
-            IBuffer[] pBuffs = new IBuffer[] { vertexBuffer, skinVertexBuffer };//This should be 2 to fix the warning, see gltf_pbr_renderer.cpp line 870
+            IBuffer[] pBuffs = new IBuffer[] { vertexBuffer, skinVertexBuffer };
             pCtx.SetVertexBuffers(0, (uint)pBuffs.Length, pBuffs, null, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION, SET_VERTEX_BUFFERS_FLAGS.SET_VERTEX_BUFFERS_FLAG_RESET);
             pCtx.SetIndexBuffer(indexBuffer, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
@@ -870,10 +870,9 @@ namespace DiligentEngine.GltfPbr
                 pCtx.UnmapBuffer(m_GLTFAttribsCB.Obj, MAP_TYPE.MAP_WRITE);
             }
 
-            DrawIndexedAttribs DrawAttrs = new DrawIndexedAttribs();     // This is an indexed draw call for the cube 
-            DrawAttrs.IndexType = VALUE_TYPE.VT_UINT32; // Index type
+            DrawIndexedAttribs DrawAttrs = new DrawIndexedAttribs();
+            DrawAttrs.IndexType = VALUE_TYPE.VT_UINT32;
             DrawAttrs.NumIndices = numIndices;
-            // Verify the state of vertex and index buffers
             DrawAttrs.Flags = DRAW_FLAGS.DRAW_FLAG_VERIFY_ALL;
             pCtx.DrawIndexed(DrawAttrs);
         }
