@@ -854,62 +854,7 @@ namespace DiligentEngineGenerator
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IShaderResourceBinding)}.cpp"));
             }
 
-            //Don't use this one all the time since its different
-            //CreateKtxLoader(baseCPlusPlusOutDir, codeTypeInfo, codeWriter, baseCSharpInterfaceDir);
-
             codeWriter.WriteFiles(new CodeRendererContext(codeTypeInfo));
-        }
-
-        private static void CreateKtxLoader(string baseCPlusPlusOutDir, CodeTypeInfo codeTypeInfo, CodeWriter codeWriter, string baseCSharpInterfaceDir)
-        {
-            var KtxLoader = new CodeInterface()// CodeInterface.Find(baseDir + "/DiligentTools/TextureLoader/interface/TextureLoader.h", 118, 131, startState: new InterfaceParseAllMethodsState());
-            {
-                Name = "KtxLoader",
-                Methods = new List<InterfaceMethod>()
-                    {
-                        new InterfaceMethod()
-                        {
-                            Name = "CreateTextureFromKTX",
-                            ReturnType = "ITexture*",
-                            Args = new List<InterfaceMethodArgument>()
-                            {
-                                new InterfaceMethodArgument()
-                                {
-                                    Name = "pKTXData",
-                                    Type = "void*",
-                                },
-                                new InterfaceMethodArgument()
-                                {
-                                    Name = "DataSize",
-                                    Type = "size_t",
-                                },
-                                new InterfaceMethodArgument()
-                                {
-                                    Name = "TexLoadInfo",
-                                    Type = "TextureLoadInfo",
-                                },
-                                new InterfaceMethodArgument()
-                                {
-                                    Name = "pDevice",
-                                    Type = "IRenderDevice*",
-                                },
-                                new InterfaceMethodArgument()
-                                {
-                                    Name = "ppTexture",
-                                    Type = "ITexture*",
-                                    MakeReturnVal = true
-                                }
-                            }
-                        }
-                    }
-            };
-            codeTypeInfo.Interfaces[nameof(KtxLoader)] = KtxLoader;
-            codeWriter.AddWriter(new InterfaceCsWriter(KtxLoader), Path.Combine(baseCSharpInterfaceDir, $"{nameof(KtxLoader)}.cs"));
-            var cppWriter = new InterfaceCppWriter(KtxLoader, new List<String>()
-                {
-                    "DiligentTools/TextureLoader/interface/TextureLoader.h"
-                });
-            codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(KtxLoader)}.cpp"));
         }
 
         public static IEnumerable<int> Sequence(int start, int end)
