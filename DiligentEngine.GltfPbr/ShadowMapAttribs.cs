@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 using BOOL = System.Int32; //The bools for these structs are defined as 4 byte see BasicStructures.fxh for more
 
-namespace Tutorial_99_Pbo
+namespace DiligentEngine.GltfPbr
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct ShadowMapAttribs

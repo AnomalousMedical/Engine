@@ -17,7 +17,7 @@ using float2 = Engine.Vector2;
 using float4x4 = Engine.Matrix4x4;
 using BOOL = System.Boolean;
 
-namespace Tutorial_99_Pbo
+namespace DiligentEngine.GltfPbr
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct CameraAttribs

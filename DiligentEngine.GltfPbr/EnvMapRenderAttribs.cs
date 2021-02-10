@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tutorial_99_Pbo
+namespace DiligentEngine.GltfPbr
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct EnvMapRenderAttribs
