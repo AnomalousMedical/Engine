@@ -24,9 +24,4 @@ This works with optimal for now, but need to implement this.
 ## Move hardcoded values out of Render in GLTF_PBR_Renderer
 There are too many hardcoded values here, move them further out.
 
-##Normals still don't seem 100% 
-Chainmail004 shows this pretty well. if you watch an edge pass over the center it looks like the light meets at the edge instead of going along it.
-It might be ok too, just need to look at it later.
-These might be ok too, with the env map the lighting is more complicated.
-
 ## Embed shaders in pbr binary
