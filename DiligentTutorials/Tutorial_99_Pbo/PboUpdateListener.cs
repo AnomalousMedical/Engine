@@ -38,6 +38,7 @@ namespace Tutorial_99_Pbo
         private ISwapChain m_pSwapChain;
         private IRenderDevice m_pDevice;
         private IDeviceContext m_pImmediateContext;
+        private PbrRenderAttribs pbrRenderAttribs = PbrRenderAttribs.CreateDefault();
 
         private PbrRenderer m_GLTFRenderer;
         AutoPtr<IBuffer> m_CameraAttribsCB;
@@ -309,7 +310,7 @@ namespace Tutorial_99_Pbo
             var CubeModelTransform = rot.toRotationMatrix4x4(trans);
 
             m_GLTFRenderer.Begin(m_pImmediateContext);
-            m_GLTFRenderer.Render(m_pImmediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, PbrAlphaMode.ALPHA_MODE_OPAQUE, ref CubeModelTransform);
+            m_GLTFRenderer.Render(m_pImmediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, PbrAlphaMode.ALPHA_MODE_OPAQUE, ref CubeModelTransform, pbrRenderAttribs);
 
             this.m_pSwapChain.Present(1);
         }

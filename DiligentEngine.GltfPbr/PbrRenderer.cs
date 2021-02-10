@@ -775,7 +775,8 @@ namespace DiligentEngine.GltfPbr
             IBuffer indexBuffer,
             Uint32 numIndices,
             PbrAlphaMode AlphaMode,
-            ref Matrix4x4 position
+            ref Matrix4x4 position, 
+            PbrRenderAttribs renderAttribs
             )
         {
             var doubleSided = false;
@@ -816,48 +817,45 @@ namespace DiligentEngine.GltfPbr
 
                 var MaterialInfo = &pGLTFAttribs->MaterialInfo;
 
-                MaterialInfo->BaseColorFactor = new float4(1, 1, 1, 1);
-                MaterialInfo->EmissiveFactor = new float4(1, 1, 1, 1);
-                MaterialInfo->SpecularFactor = new float4(1, 1, 1, 1);
+                MaterialInfo->BaseColorFactor = renderAttribs.BaseColorFactor;
+                MaterialInfo->EmissiveFactor = renderAttribs.EmissiveFactor;
+                MaterialInfo->SpecularFactor = renderAttribs.SpecularFactor;
 
-                MaterialInfo->Workflow = (int)PbrWorkflow.PBR_WORKFLOW_METALL_ROUGH;
-                MaterialInfo->BaseColorTextureUVSelector = 0;
-                MaterialInfo->PhysicalDescriptorTextureUVSelector = 0;
-                MaterialInfo->NormalTextureUVSelector = 0;
+                MaterialInfo->Workflow = (int)renderAttribs.Workflow;
+                MaterialInfo->BaseColorTextureUVSelector = renderAttribs.BaseColorTextureUVSelector;
+                MaterialInfo->PhysicalDescriptorTextureUVSelector = renderAttribs.PhysicalDescriptorTextureUVSelector;
+                MaterialInfo->NormalTextureUVSelector = renderAttribs.NormalTextureUVSelector;
 
-                MaterialInfo->OcclusionTextureUVSelector = 0;
-                MaterialInfo->EmissiveTextureUVSelector = 0;
-                MaterialInfo->BaseColorSlice = 0;
-                MaterialInfo->PhysicalDescriptorSlice = 0;
+                MaterialInfo->OcclusionTextureUVSelector = renderAttribs.OcclusionTextureUVSelector;
+                MaterialInfo->EmissiveTextureUVSelector = renderAttribs.EmissiveTextureUVSelector;
+                MaterialInfo->BaseColorSlice = renderAttribs.BaseColorSlice;
+                MaterialInfo->PhysicalDescriptorSlice = renderAttribs.PhysicalDescriptorSlice;
 
-                MaterialInfo->NormalSlice = 0;
-                MaterialInfo->OcclusionSlice = 0;
-                MaterialInfo->EmissiveSlice = 0;
-                MaterialInfo->MetallicFactor = 1;
+                MaterialInfo->NormalSlice = renderAttribs.NormalSlice;
+                MaterialInfo->OcclusionSlice = renderAttribs.OcclusionSlice;
+                MaterialInfo->EmissiveSlice = renderAttribs.EmissiveSlice;
+                MaterialInfo->MetallicFactor = renderAttribs.MetallicFactor;
 
-                MaterialInfo->RoughnessFactor = 1;
-                MaterialInfo->AlphaMode = (int)PbrAlphaMode.ALPHA_MODE_OPAQUE;
-                MaterialInfo->AlphaMaskCutoff = 0.5f;
-                MaterialInfo->Dummy0 = -107374176f; //changed might just be from garbage, who knows
+                MaterialInfo->RoughnessFactor = renderAttribs.RoughnessFactor;
+                MaterialInfo->AlphaMode = (int)renderAttribs.AlphaMode;
+                MaterialInfo->AlphaMaskCutoff = renderAttribs.AlphaMaskCutoff;
+                MaterialInfo->Dummy0 = renderAttribs.Dummy0;
 
-                // When texture atlas is used, UV scale and bias applied to
-                // each texture coordinate set
-                MaterialInfo->BaseColorUVScaleBias = new float4(1, 1, 0, 0);
-                MaterialInfo->PhysicalDescriptorUVScaleBias = new float4(1, 1, 0, 0);
-                MaterialInfo->NormalMapUVScaleBias = new float4(1, 1, 0, 0);
-                MaterialInfo->OcclusionUVScaleBias = new float4(1, 1, 0, 0);
-                MaterialInfo->EmissiveUVScaleBias = new float4(1, 1, 0, 0);
+                MaterialInfo->BaseColorUVScaleBias = renderAttribs.BaseColorUVScaleBias;
+                MaterialInfo->PhysicalDescriptorUVScaleBias = renderAttribs.PhysicalDescriptorUVScaleBias;
+                MaterialInfo->NormalMapUVScaleBias = renderAttribs.NormalMapUVScaleBias;
+                MaterialInfo->OcclusionUVScaleBias = renderAttribs.OcclusionUVScaleBias;
+                MaterialInfo->EmissiveUVScaleBias = renderAttribs.EmissiveUVScaleBias;
 
                 var ShaderParams = &pGLTFAttribs->RenderParameters;
 
-                //Take from c++ app, don't just use
-                ShaderParams->AverageLogLum = 0.300000012f;
-                ShaderParams->MiddleGray = 0.180000007f;
-                ShaderParams->WhitePoint = 3.00000000f;
-                ShaderParams->IBLScale = 1.00000000f;
-                ShaderParams->DebugViewType = 0;
-                ShaderParams->OcclusionStrength = 1.00000000f;
-                ShaderParams->EmissionScale = 1.00000000f;
+                ShaderParams->AverageLogLum = renderAttribs.AverageLogLum;
+                ShaderParams->MiddleGray = renderAttribs.MiddleGray;
+                ShaderParams->WhitePoint = renderAttribs.WhitePoint;
+                ShaderParams->IBLScale = renderAttribs.IBLScale;
+                ShaderParams->DebugViewType = (int)renderAttribs.DebugViewType;
+                ShaderParams->OcclusionStrength = renderAttribs.OcclusionStrength;
+                ShaderParams->EmissionScale = renderAttribs.EmissionScale;
                 ShaderParams->PrefilteredCubeMipLevels = m_Settings.UseIBL ? m_pPrefilteredEnvMapSRV.Obj.GetTexture().GetDesc_MipLevels : 0f; //This line is valid
 
                 pCtx.UnmapBuffer(m_GLTFAttribsCB.Obj, MAP_TYPE.MAP_WRITE);
