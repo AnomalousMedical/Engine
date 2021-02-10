@@ -33,6 +33,7 @@ namespace Tutorial_99_Pbo
         private readonly Cube shape;
         private readonly TextureLoader textureLoader;
         private readonly CC0TextureLoader cc0TextureLoader;
+        private readonly EnvironmentMapBuilder envMapBuilder;
         private ISwapChain m_pSwapChain;
         private IRenderDevice m_pDevice;
         private IDeviceContext m_pImmediateContext;
@@ -51,7 +52,8 @@ namespace Tutorial_99_Pbo
             PbrRenderer m_GLTFRenderer,
             Cube shape,
             TextureLoader textureLoader,
-            CC0TextureLoader cc0TextureLoader)
+            CC0TextureLoader cc0TextureLoader,
+            EnvironmentMapBuilder envMapBuilder)
         {
             this.m_GLTFRenderer = m_GLTFRenderer;
             this.m_pSwapChain = graphicsEngine.SwapChain;
@@ -61,6 +63,7 @@ namespace Tutorial_99_Pbo
             this.shape = shape;
             this.textureLoader = textureLoader;
             this.cc0TextureLoader = cc0TextureLoader;
+            this.envMapBuilder = envMapBuilder;
             Initialize();
         }
 
@@ -75,90 +78,7 @@ namespace Tutorial_99_Pbo
 
         unsafe void Initialize()
         {
-            AutoPtr<ITexture> EnvironmentMap = null;
-            try
-            {
-                //Create env map manually, need to make this something actually cool.
-                {
-                    var TexDesc = new TextureDesc();
-                    TexDesc.Type = RESOURCE_DIMENSION.RESOURCE_DIM_TEX_CUBE;
-                    TexDesc.Usage = USAGE.USAGE_IMMUTABLE;
-                    TexDesc.BindFlags = BIND_FLAGS.BIND_SHADER_RESOURCE;
-                    TexDesc.Depth = 6;
-                    TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_BGRA8_UNORM;
-                    TexDesc.MipLevels = 1;
-
-                    //Single color texture
-                    //TexDesc.Width = 512;
-                    //TexDesc.Height = 512;
-                    //var size = TexDesc.Width * TexDesc.Height;
-                    //var envMapArray = stackalloc uint[(int)size];
-                    //var span = new Span<uint>(envMapArray, (int)size);
-                    //span.Fill(0xff646464);
-                    //var Level0Data = new TextureSubResData { pData = new IntPtr(envMapArray), Stride = TexDesc.Width * 4 };
-                    //var InitData = new TextureData { pSubResources = new List<TextureSubResData> { Level0Data, Level0Data, Level0Data, Level0Data, Level0Data, Level0Data } };
-
-                    //Freeimage
-                    //Cubemap array layout, what it should be
-                    //The papermill is different, still figuring this out
-                    //The faces are rotated diffrerently either because of gltf or maybe its wrong
-                    //https://docs.unrealengine.com/en-US/RenderingAndGraphics/Textures/Cubemaps/CreatingCubemaps/index.html
-                    //positive x, negative x, positive y, negative y, positive z, negative z
-                    //Or if lying on back looking at sky
-                    //left, right, head back (up), head forward (tword feet), forward, backward
-                    //But these need additional fixes to images when standing, to make them like your lying down
-                    //Positive X - Rotated 90 degrees CCW
-                    //Negative X -Rotated 90 degrees CW
-                    //Positive Y -Rotated 180 degrees
-                    //Negative Y - No Rotation
-                    //Positive Z - The side that must align with positive Y should be at the top
-                    //Negative Z -The side that must align with positive Y should be at the top
-
-                    var InitData = new TextureData
-                    {
-                        pSubResources = new List<TextureSubResData>()
-                    };
-
-                    using var positiveXBmp = FreeImageBitmap.FromFile("papermill/PositiveX.png");
-                    textureLoader.FixBitmap(positiveXBmp);
-                    using var negativeXBmp = FreeImageBitmap.FromFile("papermill/NegativeX.png");
-                    textureLoader.FixBitmap(negativeXBmp);
-                    using var positiveYBmp = FreeImageBitmap.FromFile("papermill/PositiveY.png");
-                    textureLoader.FixBitmap(positiveYBmp);
-                    using var negativeYBmp = FreeImageBitmap.FromFile("papermill/NegativeY.png");
-                    textureLoader.FixBitmap(negativeYBmp);
-                    using var positiveZBmp = FreeImageBitmap.FromFile("papermill/PositiveZ.png");
-                    textureLoader.FixBitmap(positiveZBmp);
-                    using var negativeZBmp = FreeImageBitmap.FromFile("papermill/NegativeZ.png");
-                    textureLoader.FixBitmap(negativeZBmp);
-
-                    TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_BGRA8_UNORM;
-                    TexDesc.Width = (uint)positiveXBmp.Width;
-                    TexDesc.Height = (uint)positiveXBmp.Height;
-                    var stride = -positiveXBmp.Stride;
-
-                    var positiveX = new TextureSubResData { pData = positiveXBmp.Scan0 - (stride * (positiveXBmp.Height - 1)), Stride = (Uint32)stride };
-                    InitData.pSubResources.Add(positiveX);
-
-                    var negativeX = new TextureSubResData { pData = negativeXBmp.Scan0 - (stride * (negativeXBmp.Height - 1)), Stride = (Uint32)stride };
-                    InitData.pSubResources.Add(negativeX);
-
-                    var positiveY = new TextureSubResData { pData = positiveYBmp.Scan0 - (stride * (positiveYBmp.Height - 1)), Stride = (Uint32)stride };
-                    InitData.pSubResources.Add(positiveY);
-
-                    var negativeY = new TextureSubResData { pData = negativeYBmp.Scan0 - (stride * (negativeYBmp.Height - 1)), Stride = (Uint32)stride };
-                    InitData.pSubResources.Add(negativeY);
-
-                    var positiveZ = new TextureSubResData { pData = positiveZBmp.Scan0 - (stride * (positiveZBmp.Height - 1)), Stride = (Uint32)stride };
-                    InitData.pSubResources.Add(positiveZ);
-
-                    var negativeZ = new TextureSubResData { pData = negativeZBmp.Scan0 - (stride * (negativeZBmp.Height - 1)), Stride = (Uint32)stride };
-                    InitData.pSubResources.Add(negativeZ);
-
-                    EnvironmentMap = m_pDevice.CreateTexture(TexDesc, InitData);
-
-                    m_EnvironmentMapSRV = new AutoPtr<ITextureView>(EnvironmentMap.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
-                }
+                m_EnvironmentMapSRV = envMapBuilder.BuildEnvMapView(m_pDevice, m_pImmediateContext);
 
                 unsafe
                 {
@@ -199,7 +119,6 @@ namespace Tutorial_99_Pbo
                     new StateTransitionDesc{pResource = m_CameraAttribsCB.Obj,        OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true},
                     new StateTransitionDesc{pResource = m_LightAttribsCB.Obj,         OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true},
                     new StateTransitionDesc{pResource = m_EnvMapRenderAttribsCB.Obj,  OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true},
-                    new StateTransitionDesc{pResource = EnvironmentMap.Obj,           OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true}
                 };
                 m_pImmediateContext.TransitionResourceStates(Barriers);
 
@@ -210,11 +129,6 @@ namespace Tutorial_99_Pbo
 
                 //Create a manual texture
                 CreateTexture();
-            }
-            finally
-            {
-                EnvironmentMap?.Dispose();
-            }
         }
 
         private unsafe void CreateTexture()
@@ -396,7 +310,7 @@ namespace Tutorial_99_Pbo
             var trans = Vector3.Zero;
             //var rot = Quaternion.Identity;
             var rotAmount = (clock.CurrentTimeMicro * Clock.MicroToSeconds) / 10 % (2 * (float)Math.PI);
-            var rot = new Quaternion(rotAmount, 0f, 0f);
+            var rot = new Quaternion(0f, 0f, rotAmount);
 
             var CubeModelTransform = rot.toRotationMatrix4x4(trans);
 

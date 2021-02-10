@@ -60,6 +60,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 return new ShaderLoader<PbrRenderer>(new EmbeddedResourceProvider(Assembly.GetExecutingAssembly(), "DiligentEngine.GltfPbr."));
             });
             services.TryAddSingleton<CC0TextureLoader>();
+            services.TryAddSingleton<EnvironmentMapBuilder>();
             return options;
         }
 
