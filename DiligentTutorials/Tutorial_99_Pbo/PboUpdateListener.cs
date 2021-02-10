@@ -78,7 +78,7 @@ namespace Tutorial_99_Pbo
 
         unsafe void Initialize()
         {
-                m_EnvironmentMapSRV = envMapBuilder.BuildEnvMapView(m_pDevice, m_pImmediateContext);
+                m_EnvironmentMapSRV = envMapBuilder.BuildEnvMapView(m_pDevice, m_pImmediateContext, "papermill/Fixed-", "png");
 
                 unsafe
                 {
@@ -265,7 +265,9 @@ namespace Tutorial_99_Pbo
             float ZNear = 0.1f;
             float ZFar = 100f;
 
-            float4x4 CameraView = float4x4.Identity * float4x4.Translation(0.0f, 0.0f, 5.0f);
+            //var camRotAmount = (clock.CurrentTimeMicro * Clock.MicroToSeconds) / 10 % (2 * (float)Math.PI);
+            var camRotAmount = 0f;
+            float4x4 CameraView = float4x4.RotationX(camRotAmount) * float4x4.Translation(0.0f, 0.0f, 5.0f);
 
             // Apply pretransform matrix that rotates the scene according the surface orientation
             //Skip for now
@@ -310,7 +312,7 @@ namespace Tutorial_99_Pbo
             var trans = Vector3.Zero;
             //var rot = Quaternion.Identity;
             var rotAmount = (clock.CurrentTimeMicro * Clock.MicroToSeconds) / 10 % (2 * (float)Math.PI);
-            var rot = new Quaternion(0f, 0f, rotAmount);
+            var rot = new Quaternion(rotAmount, 0f, 0f);
 
             var CubeModelTransform = rot.toRotationMatrix4x4(trans);
 

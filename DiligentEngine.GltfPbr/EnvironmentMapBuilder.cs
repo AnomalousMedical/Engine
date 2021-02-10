@@ -16,7 +16,7 @@ namespace DiligentEngine.GltfPbr
             this.textureLoader = textureLoader;
         }
 
-        public unsafe AutoPtr<ITextureView> BuildEnvMapView(IRenderDevice m_pDevice, IDeviceContext m_pImmediateContext)
+        public unsafe AutoPtr<ITextureView> BuildEnvMapView(IRenderDevice m_pDevice, IDeviceContext m_pImmediateContext, String baseName, String ext)
         {
             //Freeimage
             //Cubemap array layout, what it should be
@@ -39,17 +39,17 @@ namespace DiligentEngine.GltfPbr
                 pSubResources = new List<TextureSubResData>()
             };
 
-            using var positiveXBmp = FreeImageBitmap.FromFile("papermill/PositiveX.png");
+            using var positiveXBmp = FreeImageBitmap.FromFile($"{baseName}PositiveX.{ext}");
             textureLoader.FixBitmap(positiveXBmp);
-            using var negativeXBmp = FreeImageBitmap.FromFile("papermill/NegativeX.png");
+            using var negativeXBmp = FreeImageBitmap.FromFile($"{baseName}NegativeX.{ext}");
             textureLoader.FixBitmap(negativeXBmp);
-            using var positiveYBmp = FreeImageBitmap.FromFile("papermill/PositiveY.png");
+            using var positiveYBmp = FreeImageBitmap.FromFile($"{baseName}PositiveY.{ext}");
             textureLoader.FixBitmap(positiveYBmp);
-            using var negativeYBmp = FreeImageBitmap.FromFile("papermill/NegativeY.png");
+            using var negativeYBmp = FreeImageBitmap.FromFile($"{baseName}NegativeY.{ext}");
             textureLoader.FixBitmap(negativeYBmp);
-            using var positiveZBmp = FreeImageBitmap.FromFile("papermill/PositiveZ.png");
+            using var positiveZBmp = FreeImageBitmap.FromFile($"{baseName}PositiveZ.{ext}");
             textureLoader.FixBitmap(positiveZBmp);
-            using var negativeZBmp = FreeImageBitmap.FromFile("papermill/NegativeZ.png");
+            using var negativeZBmp = FreeImageBitmap.FromFile($"{baseName}NegativeZ.{ext}");
             textureLoader.FixBitmap(negativeZBmp);
 
             var TexDesc = new TextureDesc();
