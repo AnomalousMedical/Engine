@@ -46,11 +46,11 @@ namespace Tutorial_99_Pbo
         private AutoPtr<IShaderResourceBinding> pboMatBinding;
 
         public unsafe PboUpdateListener(
-            GraphicsEngine graphicsEngine, 
-            NativeOSWindow window, 
-            PbrRenderer m_GLTFRenderer, 
-            Cube shape, 
-            TextureLoader textureLoader, 
+            GraphicsEngine graphicsEngine,
+            NativeOSWindow window,
+            PbrRenderer m_GLTFRenderer,
+            Cube shape,
+            TextureLoader textureLoader,
             CC0TextureLoader cc0TextureLoader)
         {
             this.m_GLTFRenderer = m_GLTFRenderer;
@@ -219,14 +219,38 @@ namespace Tutorial_99_Pbo
 
         private unsafe void CreateTexture()
         {
-            pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
-                pCameraAttribs: m_CameraAttribsCB.Obj,
-                pLightAttribs: m_LightAttribsCB.Obj
-                //baseColorMap: ccoTextures.BaseColorMap,
-                //normalMap: ccoTextures.NormalMap,
-                //physicalDescriptorMap: ccoTextures.PhysicalDescriptorMap,
-                //aoMap: ccoTextures.AmbientOcclusionMap
-            );
+            const uint texDim = 10;
+            var physDesc = new Uint32[texDim * texDim];
+            var physDescSpan = new Span<Uint32>(physDesc);
+            physDescSpan.Fill(0xff0000ff);
+
+            var TexDesc = new TextureDesc();
+            TexDesc.Type = RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D;
+            TexDesc.Usage = USAGE.USAGE_IMMUTABLE;
+            TexDesc.BindFlags = BIND_FLAGS.BIND_SHADER_RESOURCE;
+            TexDesc.Depth = 1;
+            TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_BGRA8_UNORM;
+            TexDesc.MipLevels = 1;
+            TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_BGRA8_UNORM;
+            TexDesc.Width = 10;
+            TexDesc.Height = 10;
+
+            fixed (Uint32* pPhysDesc = physDesc)
+            {
+                var Level0Data = new TextureSubResData { pData = new IntPtr(pPhysDesc), Stride = texDim * 4 };
+                var InitData = new TextureData { pSubResources = new List<TextureSubResData> { Level0Data } };
+
+                using var physicalDescriptorMap = m_pDevice.CreateTexture(TexDesc, InitData);
+
+                pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
+                    pCameraAttribs: m_CameraAttribsCB.Obj,
+                    pLightAttribs: m_LightAttribsCB.Obj,
+                    //baseColorMap: ccoTextures.BaseColorMap,
+                    //normalMap: ccoTextures.NormalMap,
+                    physicalDescriptorMap: physicalDescriptorMap.Obj
+                    //aoMap: ccoTextures.AmbientOcclusionMap
+                );
+            }
         }
 
         private unsafe void LoadCCoTexture()
@@ -372,7 +396,7 @@ namespace Tutorial_99_Pbo
             var trans = Vector3.Zero;
             //var rot = Quaternion.Identity;
             var rotAmount = (clock.CurrentTimeMicro * Clock.MicroToSeconds) / 10 % (2 * (float)Math.PI);
-            var rot = new Quaternion(rotAmount, 0f, rotAmount);
+            var rot = new Quaternion(rotAmount, 0f, 0f);
 
             var CubeModelTransform = rot.toRotationMatrix4x4(trans);
 
