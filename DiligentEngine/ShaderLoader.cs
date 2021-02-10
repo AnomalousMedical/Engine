@@ -8,7 +8,14 @@ using System.Threading.Tasks;
 
 namespace DiligentEngine
 {
-    public class ShaderLoader<T>
+    public class ShaderLoader<T> : ShaderLoader
+    {
+        public ShaderLoader(IResourceProvider resourceProvider) : base(resourceProvider)
+        {
+        }
+    }
+
+    public class ShaderLoader
     {
         private readonly char[] Include = new char[] { '#', 'i', 'n', 'c', 'l', 'u', 'd', 'e' };
         private readonly IResourceProvider resourceProvider;
