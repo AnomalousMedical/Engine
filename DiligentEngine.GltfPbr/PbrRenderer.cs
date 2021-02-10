@@ -116,7 +116,7 @@ namespace DiligentEngine.GltfPbr
                 TexDesc.Height = TexDim;
                 TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_RGBA8_UNORM;
                 TexDesc.MipLevels = 1;
-                //std::vector<Uint32> Data(TexDim* TexDim, 0xFFFFFFFF); //Fill an array with 0xFFFFFFFF
+                
                 int dataLength = (int)(TexDim * TexDim);
                 Uint32* Data = stackalloc Uint32[dataLength];
                 Span<Uint32> DataSpan = new Span<Uint32>(Data, dataLength);

@@ -78,17 +78,41 @@ namespace Tutorial_99_Pbo
             AutoPtr<ITexture> EnvironmentMap = null;
             try
             {
-                var bytes = File.ReadAllBytes("textures/papermill.ktx");
-                //Create environment map texture
-                var loadInfo = new TextureLoadInfo()
+                //var bytes = File.ReadAllBytes("textures/papermill.ktx");
+                ////Create environment map texture
+                //var loadInfo = new TextureLoadInfo()
+                //{
+                //    Name = "Environment map",
+                //};
+                //fixed (byte* data = bytes)
+                //{
+                //    EnvironmentMap = KtxLoader.CreateTextureFromKTX(new IntPtr(data), new UIntPtr((uint)bytes.Length), loadInfo, m_pDevice);
+                //}
+
+                //Create env map manually, need to make this something actually cool.
                 {
-                    Name = "Environment map",
-                };
-                fixed (byte* data = bytes)
-                {
-                    EnvironmentMap = KtxLoader.CreateTextureFromKTX(new IntPtr(data), new UIntPtr((uint)bytes.Length), loadInfo, m_pDevice);
+                    var TexDesc = new TextureDesc();
+                    TexDesc.Type = RESOURCE_DIMENSION.RESOURCE_DIM_TEX_CUBE;
+                    TexDesc.Usage = USAGE.USAGE_IMMUTABLE;
+                    TexDesc.BindFlags = BIND_FLAGS.BIND_SHADER_RESOURCE;
+                    TexDesc.Width = 512;
+                    TexDesc.Height = 512;
+                    TexDesc.Depth = 6;
+                    TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_BGRA8_UNORM;
+                    TexDesc.MipLevels = 1;
+
+                    var size = TexDesc.Width * TexDesc.Height;
+                    var envMapArray = stackalloc uint[(int)size];
+                    var span = new Span<uint>(envMapArray, (int)size);
+                    span.Fill(0xff323232);
+
+                    var Level0Data = new TextureSubResData { pData = new IntPtr(envMapArray), Stride = TexDesc.Width * 4 };
+                    var InitData = new TextureData { pSubResources = new List<TextureSubResData> { Level0Data, Level0Data, Level0Data, Level0Data, Level0Data, Level0Data } };
+
+                    EnvironmentMap = m_pDevice.CreateTexture(TexDesc, InitData);
+
+                    m_EnvironmentMapSRV = new AutoPtr<ITextureView>(EnvironmentMap.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
                 }
-                m_EnvironmentMapSRV = new AutoPtr<ITextureView>(EnvironmentMap.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
 
                 unsafe
                 {
