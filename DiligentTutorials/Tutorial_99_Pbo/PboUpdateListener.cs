@@ -23,12 +23,13 @@ namespace Tutorial_99_Pbo
         float yawFactor = 1.0f;
         float pitchFactor = 0.0f;
         float rollFactor = 0.0f;
+        float cubeRotSpeed = 4.0f;
 
         //Clear Color
         Engine.Color ClearColor = new Engine.Color(0.032f, 0.032f, 0.032f, 1.0f);
 
         //Light
-        Vector3 lightDirection = Vector3.Forward;// (new float3(0.5f, -0.6f, -0.2f)).normalized();
+        Vector3 lightDirection = Vector3.Forward;
         Vector4 lightColor = new Vector4(1, 1, 1, 1);
         float lightIntensity = 3.0f;
 
@@ -176,7 +177,7 @@ namespace Tutorial_99_Pbo
             pbrCameraAndLight.SetLight(ref lightDirection, ref lightColor, lightIntensity);
 
             var trans = Vector3.Zero;
-            var rotAmount = (clock.CurrentTimeMicro * Clock.MicroToSeconds) / 10 % (2 * (float)Math.PI);
+            var rotAmount = cubeRotSpeed < 0.0001f ? 0f : (clock.CurrentTimeMicro * Clock.MicroToSeconds) / cubeRotSpeed % (2 * (float)Math.PI);
             var rot = new Quaternion(rotAmount * yawFactor, rotAmount * pitchFactor, rotAmount * rollFactor);
 
             var CubeModelTransform = rot.toRotationMatrix4x4(trans);
