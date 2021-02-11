@@ -17,6 +17,13 @@ namespace Tutorial_99_Pbo
         float ZNear = 0.1f;
         float ZFar = 100f;
 
+        float camRotSpeed = 0f;
+
+        //Cube
+        float yawFactor = 1.0f;
+        float pitchFactor = 0.0f;
+        float rollFactor = 0.0f;
+
         //Clear Color
         Engine.Color ClearColor = new Engine.Color(0.032f, 0.032f, 0.032f, 1.0f);
 
@@ -152,7 +159,7 @@ namespace Tutorial_99_Pbo
             m_pImmediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             m_pImmediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            var camRotAmount = 0f; // (clock.CurrentTimeMicro * Clock.MicroToSeconds) / 10 % (2 * (float)Math.PI);
+            var camRotAmount = camRotSpeed < 0.00001f ? 0f : (clock.CurrentTimeMicro * Clock.MicroToSeconds) / camRotSpeed % (2 * (float)Math.PI);
             Matrix4x4 CameraView = Matrix4x4.RotationX(camRotAmount) * Matrix4x4.Translation(0.0f, 0.0f, 5.0f);
 
             // Apply pretransform matrix that rotates the scene according the surface orientation
@@ -170,7 +177,7 @@ namespace Tutorial_99_Pbo
 
             var trans = Vector3.Zero;
             var rotAmount = (clock.CurrentTimeMicro * Clock.MicroToSeconds) / 10 % (2 * (float)Math.PI);
-            var rot = new Quaternion(rotAmount, 0f, 0f);
+            var rot = new Quaternion(rotAmount * yawFactor, rotAmount * pitchFactor, rotAmount * rollFactor);
 
             var CubeModelTransform = rot.toRotationMatrix4x4(trans);
 
