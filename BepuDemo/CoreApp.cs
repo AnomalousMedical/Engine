@@ -33,7 +33,7 @@ namespace Tutorial_99_Pbo
         {
             mainWindow = EasyNativeWindow.Create(services, this, o =>
             {
-                o.Title = "Diligent - Tutorial 99 - PBO";
+                o.Title = "BEPU Physics 2";
             });
 
             services.AddLogging(o =>
