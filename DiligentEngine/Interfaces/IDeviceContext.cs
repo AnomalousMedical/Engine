@@ -32,8 +32,9 @@ namespace DiligentEngine
         public IDeviceContext(IntPtr objPtr)
             : base(objPtr)
         {
-
+            this._ConstructorCalled();
         }
+        partial void _ConstructorCalled();
         /// <summary>
         /// Sets the pipeline state.
         /// \param [in] pPipelineState - Pointer to IPipelineState interface to bind to the context.

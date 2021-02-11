@@ -29,8 +29,9 @@ namespace DiligentEngine
         public IShaderResourceVariable(IntPtr objPtr)
             : base(objPtr)
         {
-
+            this._ConstructorCalled();
         }
+        partial void _ConstructorCalled();
         /// <summary>
         /// Binds resource to the variable
         /// \remark The method performs run-time correctness checks.

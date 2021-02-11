@@ -32,8 +32,9 @@ namespace DiligentEngine
         public ISampler(IntPtr objPtr)
             : base(objPtr)
         {
-
+            this._ConstructorCalled();
         }
+        partial void _ConstructorCalled();
 
 
     }

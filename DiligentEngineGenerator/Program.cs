@@ -714,7 +714,8 @@ namespace DiligentEngineGenerator
                     GetDepthBufferDSV.PoolManagedObject = true;
                 }
 
-                var allowedMethods = new List<String> { "Resize", "GetCurrentBackBufferRTV", "GetDepthBufferDSV", "Present" };
+                var allowedMethods = new List<String> { "Resize", "GetDepthBufferDSV", "Present" };
+                //The following have custom implementations: "GetCurrentBackBufferRTV"
                 ISwapChain.Methods = ISwapChain.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(ISwapChain), Path.Combine(baseCSharpInterfaceDir, $"{nameof(ISwapChain)}.cs"));

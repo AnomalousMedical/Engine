@@ -29,8 +29,9 @@ namespace DiligentEngine
         public ITexture(IntPtr objPtr)
             : base(objPtr)
         {
-
+            this._ConstructorCalled();
         }
+        partial void _ConstructorCalled();
         /// <summary>
         /// Creates a new texture view
         /// \param [in] ViewDesc - View description. See Diligent::TextureViewDesc for details.

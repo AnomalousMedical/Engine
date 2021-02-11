@@ -215,7 +215,7 @@ $@"    {{
         public {code.Name}(IntPtr objPtr)
             : base(objPtr)
         {{
-
+            this._ConstructorCalled();
         }}");
             }
             else
@@ -231,8 +231,11 @@ $@"    {{
         public {code.Name}(IntPtr objPtr)
         {{
             this.objPtr = objPtr;
+            this._ConstructorCalled();
         }}");
             }
+
+            writer.WriteLine("        partial void _ConstructorCalled();");
         }
 
         private static String GetCSharpType(String type, CodeRendererContext context)

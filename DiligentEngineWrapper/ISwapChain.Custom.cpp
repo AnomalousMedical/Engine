@@ -15,3 +15,17 @@ extern "C" _AnomalousExport TEXTURE_FORMAT ISwapChain_GetDesc_DepthBufferFormat(
 {
 	return objPtr->GetDesc().DepthBufferFormat;
 }
+
+extern "C" _AnomalousExport Uint32 ISwapChain_GetDesc_BufferCount(
+	ISwapChain * objPtr
+)
+{
+	return objPtr->GetDesc().BufferCount;
+}
+
+extern "C" _AnomalousExport ITextureView * ISwapChain_GetCurrentBackBufferRTV(
+	ISwapChain * objPtr
+)
+{
+	return objPtr->GetCurrentBackBufferRTV();
+}

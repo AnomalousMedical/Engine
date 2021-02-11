@@ -19,13 +19,6 @@ extern "C" _AnomalousExport void ISwapChain_Resize(
 		, NewTransform
 	);
 }
-extern "C" _AnomalousExport ITextureView* ISwapChain_GetCurrentBackBufferRTV(
-	ISwapChain* objPtr
-)
-{
-	return objPtr->GetCurrentBackBufferRTV(
-	);
-}
 extern "C" _AnomalousExport ITextureView* ISwapChain_GetDepthBufferDSV(
 	ISwapChain* objPtr
 )

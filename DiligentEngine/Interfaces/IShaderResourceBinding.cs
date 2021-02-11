@@ -29,8 +29,9 @@ namespace DiligentEngine
         public IShaderResourceBinding(IntPtr objPtr)
             : base(objPtr)
         {
-
+            this._ConstructorCalled();
         }
+        partial void _ConstructorCalled();
         /// <summary>
         /// Returns variable
         /// \param [in] ShaderType - Type of the shader to look up the variable.

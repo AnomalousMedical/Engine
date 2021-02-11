@@ -29,8 +29,9 @@ namespace DiligentEngine
         public ISwapChain(IntPtr objPtr)
             : base(objPtr)
         {
-
+            this._ConstructorCalled();
         }
+        partial void _ConstructorCalled();
         /// <summary>
         /// Presents a rendered image to the user
         /// </summary>
@@ -68,25 +69,6 @@ namespace DiligentEngine
             );
         }
         /// <summary>
-        /// Returns render target view of the current back buffer in the swap chain
-        /// \note For Direct3D12 and Vulkan backends, the function returns
-        /// different pointer for every offscreen buffer in the swap chain
-        /// (flipped by every call to ISwapChain::Present()). For Direct3D11
-        /// backend it always returns the same pointer. For OpenGL/GLES backends
-        /// the method returns null.
-        /// 
-        /// The method does *NOT* call AddRef() on the returned interface,
-        /// so Release() must not be called.
-        /// </summary>
-        public ITextureView GetCurrentBackBufferRTV()
-        {
-            var theReturnValue = 
-            ISwapChain_GetCurrentBackBufferRTV(
-                this.objPtr
-            );
-            return theReturnValue != IntPtr.Zero ? new ITextureView(theReturnValue) : null;
-        }
-        /// <summary>
         /// Returns depth-stencil view of the depth buffer
         /// The method does *NOT* call AddRef() on the returned interface,
         /// so Release() must not be called.
@@ -118,10 +100,6 @@ namespace DiligentEngine
             , Uint32 NewWidth
             , Uint32 NewHeight
             , SURFACE_TRANSFORM NewTransform
-        );
-        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr ISwapChain_GetCurrentBackBufferRTV(
-            IntPtr objPtr
         );
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr ISwapChain_GetDepthBufferDSV(

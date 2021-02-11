@@ -29,8 +29,9 @@ namespace DiligentEngine
         public IPipelineState(IntPtr objPtr)
             : base(objPtr)
         {
-
+            this._ConstructorCalled();
         }
+        partial void _ConstructorCalled();
         /// <summary>
         /// Returns static shader resource variable. If the variable is not found,
         /// returns nullptr.

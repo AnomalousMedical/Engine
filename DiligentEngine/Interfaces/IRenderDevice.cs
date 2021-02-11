@@ -29,8 +29,9 @@ namespace DiligentEngine
         public IRenderDevice(IntPtr objPtr)
             : base(objPtr)
         {
-
+            this._ConstructorCalled();
         }
+        partial void _ConstructorCalled();
         /// <summary>
         /// Creates a new buffer object
         /// \param [in] BuffDesc   - Buffer description, see Diligent::BufferDesc for details.

@@ -29,8 +29,9 @@ namespace DiligentEngine
         public IBuffer(IntPtr objPtr)
             : base(objPtr)
         {
-
+            this._ConstructorCalled();
         }
+        partial void _ConstructorCalled();
 
 
     }

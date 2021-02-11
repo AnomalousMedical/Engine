@@ -34,8 +34,9 @@ namespace DiligentEngine
         public ITextureView(IntPtr objPtr)
             : base(objPtr)
         {
-
+            this._ConstructorCalled();
         }
+        partial void _ConstructorCalled();
         /// <summary>
         /// Sets the texture sampler to use for filtering operations
         /// when accessing a texture from shaders. Only
