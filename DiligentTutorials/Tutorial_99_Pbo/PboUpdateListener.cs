@@ -173,7 +173,7 @@ namespace Tutorial_99_Pbo
             var CameraViewProj = CameraView * CameraProj;
             var CameraWorldPos = CameraWorld.GetTranslation();
 
-            pbrCameraAndLight.SetCamera(ref CameraProj, ref CameraViewProj, ref CameraWorldPos);
+            pbrCameraAndLight.SetCameraMatrices(ref CameraProj, ref CameraViewProj, ref CameraWorldPos);
             pbrCameraAndLight.SetLight(ref lightDirection, ref lightColor, lightIntensity);
 
             var trans = Vector3.Zero;

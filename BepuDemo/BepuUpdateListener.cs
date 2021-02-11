@@ -21,8 +21,6 @@ namespace BepuDemo
         float ZNear = 0.1f;
         float ZFar = 100f;
 
-        float camRotSpeed = 0f;
-
         //Clear Color
         Engine.Color ClearColor = new Engine.Color(0.032f, 0.032f, 0.032f, 1.0f);
 
@@ -54,10 +52,7 @@ namespace BepuDemo
         SimpleThreadDispatcher threadDispatcher;
         BufferPool bufferPool;
 
-        BodyHandle sphereHandle;
-        StaticHandle staticBoxHandle;
-
-        BodyReference bodRef;
+        private BodyPositionSync spherePositionSync;
         //END
 
         public unsafe BepuUpdateListener(
@@ -127,13 +122,14 @@ namespace BepuDemo
             //Drop a ball on a big static box.
             var sphere = new Sphere(1);
             sphere.ComputeInertia(1, out var sphereInertia);
-            this.sphereHandle = simulation.Bodies.Add(BodyDescription.CreateDynamic(new System.Numerics.Vector3(0, 5, 0), sphereInertia, new CollidableDescription(simulation.Shapes.Add(sphere), 0.1f), new BodyActivityDescription(0.01f)));
+            var sphereHandle = simulation.Bodies.Add(
+                BodyDescription.CreateDynamic(new System.Numerics.Vector3(-0.8f, 5, 0), sphereInertia, new CollidableDescription(simulation.Shapes.Add(new Box(1, 1, 1)), 0.1f), new BodyActivityDescription(0.01f)));
+            
+            spherePositionSync = new BodyPositionSync(simulation.Bodies.GetBodyReference(sphereHandle));
 
-            this.staticBoxHandle = simulation.Statics.Add(new StaticDescription(new System.Numerics.Vector3(0, 0, 0), new CollidableDescription(simulation.Shapes.Add(new Box(500, 1, 500)), 0.1f)));
+            simulation.Statics.Add(new StaticDescription(new System.Numerics.Vector3(0, 0, 0), new CollidableDescription(simulation.Shapes.Add(new Box(1, 1, 1)), 0.1f)));
 
             threadDispatcher = new SimpleThreadDispatcher(Environment.ProcessorCount);
-
-            bodRef = simulation.Bodies.GetBodyReference(sphereHandle);
         }
 
         private unsafe void LoadCCoTexture()
@@ -174,27 +170,23 @@ namespace BepuDemo
             immediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            var CameraView = Matrix4x4.Translation(0.0f, -4.0f, 15.0f); //For some reason camera is backward on x, y
+            // Set Camera
+            var preTransform = CameraHelpers.GetSurfacePretransformMatrix(new Vector3(0, 0, 1), PreTransform);
+            var cameraProj = CameraHelpers.GetAdjustedProjectionMatrix(YFov, ZNear, ZFar, window.WindowWidth, window.WindowHeight, PreTransform);
+            var camPos = new Vector3(0, 2, 7);
+            var camRot = Quaternion.Identity;
+            pbrCameraAndLight.SetCameraPosition(ref camPos, ref camRot, ref preTransform, ref cameraProj);
 
-            // Apply pretransform matrix that rotates the scene according the surface orientation
-            CameraView *= CameraHelpers.GetSurfacePretransformMatrix(new Vector3(0, 0, 1), PreTransform);
-
-            var CameraWorld = CameraView.inverse();
-
-            // Get projection matrix adjusted to the current screen orientation
-            var CameraProj = CameraHelpers.GetAdjustedProjectionMatrix(YFov, ZNear, ZFar, window.WindowWidth, window.WindowHeight, PreTransform);
-            var CameraViewProj = CameraView * CameraProj;
-            var CameraWorldPos = CameraWorld.GetTranslation();
-
-            pbrCameraAndLight.SetCamera(ref CameraProj, ref CameraViewProj, ref CameraWorldPos);
+            // Set Light
             pbrCameraAndLight.SetLight(ref lightDirection, ref lightColor, lightIntensity);
 
-            var bodOrientation = bodRef.Pose.Orientation;
-            var bodPos = bodRef.Pose.Position;
-            var rot = new Quaternion(bodOrientation.X, bodOrientation.Y, bodOrientation.Z, bodOrientation.W);
-            var pos = new Vector3(bodPos.X, bodPos.Y, bodPos.Z);
+            //Draw cubes
+            var CubeModelTransform = spherePositionSync.GetWorldPositionMatrix(); //Can get translations using the sync object
 
-            var CubeModelTransform = rot.toRotationMatrix4x4(pos);
+            pbrRenderer.Begin(immediateContext);
+            pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, PbrAlphaMode.ALPHA_MODE_OPAQUE, ref CubeModelTransform, pbrRenderAttribs);
+
+            CubeModelTransform = Matrix4x4.Identity;
 
             pbrRenderer.Begin(immediateContext);
             pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, PbrAlphaMode.ALPHA_MODE_OPAQUE, ref CubeModelTransform, pbrRenderAttribs);

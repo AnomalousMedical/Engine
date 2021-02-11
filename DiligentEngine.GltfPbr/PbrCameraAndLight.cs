@@ -73,7 +73,7 @@ namespace DiligentEngine.GltfPbr
         public IBuffer LightAttribs => m_LightAttribsCB.Obj;
         public IBuffer EnvMapRenderAttribs => m_EnvMapRenderAttribsCB.Obj;
 
-        public unsafe void SetCamera(ref Matrix4x4 CameraProj, ref Matrix4x4 CameraViewProj, ref Vector3 CameraWorldPos)
+        public unsafe void SetCameraMatrices(ref Matrix4x4 CameraProj, ref Matrix4x4 CameraViewProj, ref Vector3 CameraWorldPos)
         {
             IntPtr data = m_pImmediateContext.MapBuffer(m_CameraAttribsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
 
@@ -96,6 +96,23 @@ namespace DiligentEngine.GltfPbr
             lightAttribs->f4Intensity = lightColor * intensity;
 
             m_pImmediateContext.UnmapBuffer(m_LightAttribsCB.Obj, MAP_TYPE.MAP_WRITE);
+        }
+
+        public void SetCameraPosition(ref Vector3 position, ref Quaternion rotation, ref Matrix4x4 preTransformMatrix, ref Matrix4x4 CameraProj)
+        {
+
+            var CameraView = rotation.toRotationMatrix4x4(position * new Vector3(-1, -1, 1)); //For some reason camera is backward on x, y, so this will reverse it
+
+            // Apply pretransform matrix that rotates the scene according the surface orientation
+            CameraView *= preTransformMatrix;
+
+            var CameraWorld = CameraView.inverse();
+
+            // Get projection matrix adjusted to the current screen orientation
+            var CameraViewProj = CameraView * CameraProj;
+            var CameraWorldPos = CameraWorld.GetTranslation();
+
+            this.SetCameraMatrices(ref CameraProj, ref CameraViewProj, ref CameraWorldPos);
         }
     }
 }
