@@ -30,8 +30,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="../../../DiligentEngine/DiligentSamples/Tutorials/Tutorial03_Texturing/assets/DGLogo.png">
-      <Link>assets\DGLogo.png</Link>
+    <Content Include="../assets/AnomalousEngine.png">
+      <Link>assets\AnomalousEngine.png</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
