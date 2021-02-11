@@ -6,10 +6,11 @@ using Engine;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using DiligentEngine.GltfPbr;
 
-namespace Tutorial_99_Pbo.Shapes
+namespace DiligentEngine.GltfPbr.Shapes
 {
-    class Plane : IDisposable
+    public class Plane : IDisposable
     {
         private AutoPtr<IBuffer> vertexBuffer;
         private AutoPtr<IBuffer> skinVertexBuffer;

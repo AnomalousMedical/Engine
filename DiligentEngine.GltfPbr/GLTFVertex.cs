@@ -9,7 +9,7 @@ using float4 = Engine.Vector4;
 using float3 = Engine.Vector3;
 using float2 = Engine.Vector2;
 
-namespace Tutorial_99_Pbo.Shapes
+namespace DiligentEngine.GltfPbr
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct GLTFVertex

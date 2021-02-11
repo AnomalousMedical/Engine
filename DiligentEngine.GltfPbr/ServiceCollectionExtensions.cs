@@ -1,5 +1,6 @@
 ﻿using DiligentEngine;
 using DiligentEngine.GltfPbr;
+using DiligentEngine.GltfPbr.Shapes;
 using Engine;
 using Engine.Resources;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -12,6 +13,14 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
+        public static IServiceCollection AddDiligentEnginePbrShapes(this IServiceCollection services)
+        {
+            services.TryAddSingleton<Cube>();
+            services.TryAddSingleton<Plane>();
+
+            return services;
+        }
+
         public static IServiceCollection AddDiligentEnginePbr(this IServiceCollection services, Action<PbrOptions> configure = null)
         {
             PbrOptions options = CommonRegister(services, configure);

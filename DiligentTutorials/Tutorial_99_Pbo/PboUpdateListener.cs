@@ -4,8 +4,8 @@ using Engine;
 using Engine.Platform;
 using System;
 using System.Collections.Generic;
-using Tutorial_99_Pbo.Shapes;
 using DiligentEngine.GltfPbr;
+using DiligentEngine.GltfPbr.Shapes;
 
 namespace Tutorial_99_Pbo
 {
@@ -39,13 +39,13 @@ namespace Tutorial_99_Pbo
         private readonly CC0TextureLoader cc0TextureLoader;
         private readonly EnvironmentMapBuilder envMapBuilder;
         private readonly IPbrCameraAndLight pbrCameraAndLight;
-        private ISwapChain m_pSwapChain;
-        private IRenderDevice m_pDevice;
-        private IDeviceContext m_pImmediateContext;
+        private ISwapChain swapChain;
+        private IRenderDevice renderDevice;
+        private IDeviceContext immediateContext;
         private PbrRenderAttribs pbrRenderAttribs = PbrRenderAttribs.CreateDefault();
 
-        private PbrRenderer m_GLTFRenderer;
-        private AutoPtr<ITextureView> m_EnvironmentMapSRV;
+        private PbrRenderer pbrRenderer;
+        private AutoPtr<ITextureView> environmentMapSRV;
         private AutoPtr<IShaderResourceBinding> pboMatBinding;
 
         public unsafe PboUpdateListener(
@@ -58,10 +58,10 @@ namespace Tutorial_99_Pbo
             EnvironmentMapBuilder envMapBuilder,
             IPbrCameraAndLight pbrCameraAndLight)
         {
-            this.m_GLTFRenderer = m_GLTFRenderer;
-            this.m_pSwapChain = graphicsEngine.SwapChain;
-            this.m_pDevice = graphicsEngine.RenderDevice;
-            this.m_pImmediateContext = graphicsEngine.ImmediateContext;
+            this.pbrRenderer = m_GLTFRenderer;
+            this.swapChain = graphicsEngine.SwapChain;
+            this.renderDevice = graphicsEngine.RenderDevice;
+            this.immediateContext = graphicsEngine.ImmediateContext;
             this.window = window;
             this.shape = shape;
             this.textureLoader = textureLoader;
@@ -74,16 +74,16 @@ namespace Tutorial_99_Pbo
         public void Dispose()
         {
             pboMatBinding.Dispose();
-            m_EnvironmentMapSRV.Dispose();
+            environmentMapSRV.Dispose();
         }
 
         unsafe void Initialize()
         {
-            m_EnvironmentMapSRV = envMapBuilder.BuildEnvMapView(m_pDevice, m_pImmediateContext, "papermill/Fixed-", "png");
+            environmentMapSRV = envMapBuilder.BuildEnvMapView(renderDevice, immediateContext, "papermill/Fixed-", "png");
 
             
 
-            m_GLTFRenderer.PrecomputeCubemaps(m_pDevice, m_pImmediateContext, m_EnvironmentMapSRV.Obj);
+            pbrRenderer.PrecomputeCubemaps(renderDevice, immediateContext, environmentMapSRV.Obj);
 
 
             //Only one of these
@@ -117,9 +117,9 @@ namespace Tutorial_99_Pbo
                 var Level0Data = new TextureSubResData { pData = new IntPtr(pPhysDesc), Stride = texDim * 4 };
                 var InitData = new TextureData { pSubResources = new List<TextureSubResData> { Level0Data } };
 
-                using var physicalDescriptorMap = m_pDevice.CreateTexture(TexDesc, InitData);
+                using var physicalDescriptorMap = renderDevice.CreateTexture(TexDesc, InitData);
 
-                pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
+                pboMatBinding = pbrRenderer.CreateMaterialSRB(
                     pCameraAttribs: pbrCameraAndLight.CameraAttribs,
                     pLightAttribs: pbrCameraAndLight.LightAttribs,
                     physicalDescriptorMap: physicalDescriptorMap.Obj
@@ -130,7 +130,7 @@ namespace Tutorial_99_Pbo
         private unsafe void LoadCCoTexture()
         {
             using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chainmail004_1K");
-            pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
+            pboMatBinding = pbrRenderer.CreateMaterialSRB(
                 pCameraAttribs: pbrCameraAndLight.CameraAttribs,
                 pLightAttribs: pbrCameraAndLight.LightAttribs,
                 baseColorMap: ccoTextures.BaseColorMap,
@@ -152,21 +152,21 @@ namespace Tutorial_99_Pbo
 
         public unsafe void sendUpdate(Clock clock)
         {
-            var pRTV = m_pSwapChain.GetCurrentBackBufferRTV();
-            var pDSV = m_pSwapChain.GetDepthBufferDSV();
-            var PreTransform = m_pSwapChain.GetDesc_PreTransform;
-            m_pImmediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            var pRTV = swapChain.GetCurrentBackBufferRTV();
+            var pDSV = swapChain.GetDepthBufferDSV();
+            var PreTransform = swapChain.GetDesc_PreTransform;
+            immediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             // Clear the back buffer
-            m_pImmediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-            m_pImmediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            immediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
             var camRotAmount = camRotSpeed < 0.00001f ? 0f : (clock.CurrentTimeMicro * Clock.MicroToSeconds) / camRotSpeed % (2 * (float)Math.PI);
-            Matrix4x4 CameraView = Matrix4x4.RotationX(camRotAmount) * Matrix4x4.Translation(0.0f, 0.0f, 5.0f);
+            var CameraView = Matrix4x4.RotationX(camRotAmount) * Matrix4x4.Translation(0.0f, 0.0f, 5.0f);
 
             // Apply pretransform matrix that rotates the scene according the surface orientation
             CameraView *= CameraHelpers.GetSurfacePretransformMatrix(new Vector3(0, 0, 1), PreTransform);
 
-            Matrix4x4 CameraWorld = CameraView.inverse();
+            var CameraWorld = CameraView.inverse();
 
             // Get projection matrix adjusted to the current screen orientation
             var CameraProj = CameraHelpers.GetAdjustedProjectionMatrix(YFov, ZNear, ZFar, window.WindowWidth, window.WindowHeight, PreTransform);
@@ -182,10 +182,10 @@ namespace Tutorial_99_Pbo
 
             var CubeModelTransform = rot.toRotationMatrix4x4(trans);
 
-            m_GLTFRenderer.Begin(m_pImmediateContext);
-            m_GLTFRenderer.Render(m_pImmediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, PbrAlphaMode.ALPHA_MODE_OPAQUE, ref CubeModelTransform, pbrRenderAttribs);
+            pbrRenderer.Begin(immediateContext);
+            pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, PbrAlphaMode.ALPHA_MODE_OPAQUE, ref CubeModelTransform, pbrRenderAttribs);
 
-            this.m_pSwapChain.Present(1);
+            this.swapChain.Present(1);
         }
     }
 }

@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 
 using float3 = Engine.Vector3;
 using float2 = Engine.Vector2;
+using DiligentEngine.GltfPbr;
 
-namespace Tutorial_99_Pbo.Shapes
+namespace DiligentEngine.GltfPbr.Shapes
 {
-    class Cube : IDisposable
+    public class Cube : IDisposable
     {
         private AutoPtr<IBuffer> m_CubeVertexBuffer;
         private AutoPtr<IBuffer> m_CubeSkinVertexBuffer;

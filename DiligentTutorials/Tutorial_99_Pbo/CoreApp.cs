@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Globalization;
 using System.IO;
-using Tutorial_99_Pbo.Shapes;
 
 namespace Tutorial_99_Pbo
 {
@@ -42,21 +41,21 @@ namespace Tutorial_99_Pbo
                 o.AddConsole();
             });
 
-            services.AddDiligentEngine(pluginManager);
-            services.AddDiligentEnginePbr(o =>
-            {
-                o.CustomizePbrOptions = RendererCI =>
-                {
-                    RendererCI.AllowDebugView = true;
-                    RendererCI.UseIBL = true;
-                };
-            });
+            services.AddDiligentEngine(pluginManager)
+                    .AddDiligentEnginePbr(o =>
+                    {
+                        o.CustomizePbrOptions = RendererCI =>
+                        {
+                            RendererCI.AllowDebugView = true;
+                            RendererCI.UseIBL = true;
+                        };
+                    })
+                    .AddDiligentEnginePbrShapes();
+
             services.AddOSPlatform(pluginManager);
 
             //Add this app's services
             services.TryAddSingleton<PboUpdateListener>();
-            services.TryAddSingleton<Cube>();
-            services.TryAddSingleton<Plane>();
 
             return true;
         }
