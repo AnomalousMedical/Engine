@@ -2,25 +2,8 @@
 using DiligentEngine;
 using Engine;
 using Engine.Platform;
-using FreeImageAPI;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-
-using Uint8 = System.Byte;
-using Int8 = System.SByte;
-using Bool = System.Boolean;
-using Uint32 = System.UInt32;
-using Uint64 = System.UInt64;
-using Float32 = System.Single;
-using Uint16 = System.UInt16;
-using float3 = Engine.Vector3;
-using float4 = Engine.Vector4;
-using float4x4 = Engine.Matrix4x4;
-using System.IO;
 using Tutorial_99_Pbo.Shapes;
 using DiligentEngine.GltfPbr;
 
@@ -85,15 +68,15 @@ namespace Tutorial_99_Pbo
             //Load a cc0 texture
             LoadCCoTexture();
 
-            //Create a manual texture
-            //CreateTexture();
+            //Create a manual shiny texture to see env map
+            //CreateShinyTexture();
         }
 
-        private unsafe void CreateTexture()
+        private unsafe void CreateShinyTexture()
         {
             const uint texDim = 10;
-            var physDesc = new Uint32[texDim * texDim];
-            var physDescSpan = new Span<Uint32>(physDesc);
+            var physDesc = new UInt32[texDim * texDim];
+            var physDescSpan = new Span<UInt32>(physDesc);
             physDescSpan.Fill(0xff0000ff);
 
             var TexDesc = new TextureDesc();
@@ -107,7 +90,7 @@ namespace Tutorial_99_Pbo
             TexDesc.Width = 10;
             TexDesc.Height = 10;
 
-            fixed (Uint32* pPhysDesc = physDesc)
+            fixed (UInt32* pPhysDesc = physDesc)
             {
                 var Level0Data = new TextureSubResData { pData = new IntPtr(pPhysDesc), Stride = texDim * 4 };
                 var InitData = new TextureData { pSubResources = new List<TextureSubResData> { Level0Data } };
@@ -117,43 +100,14 @@ namespace Tutorial_99_Pbo
                 pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
                     pCameraAttribs: pbrCameraAndLight.CameraAttribs,
                     pLightAttribs: pbrCameraAndLight.LightAttribs,
-                    //baseColorMap: ccoTextures.BaseColorMap,
-                    //normalMap: ccoTextures.NormalMap,
                     physicalDescriptorMap: physicalDescriptorMap.Obj
-                //aoMap: ccoTextures.AmbientOcclusionMap
                 );
             }
         }
 
         private unsafe void LoadCCoTexture()
         {
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Wood049_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chainmail001_1K");
             using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chainmail004_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/SheetMetal001_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/SheetMetal002_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/SheetMetal004_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/ChristmasTreeOrnament007_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Carpet008_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Fabric026_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Fabric020_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Metal032_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Leather026_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Leather011_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Ground037_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chip005_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Pipe002_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/AcousticFoam003_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/AsphaltDamage001_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Rope001_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/SolarPanel003_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Ice004_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Snow006_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Snow005_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Snow004_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/RoofingTiles003_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/RoofingTiles006_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/ManholeCover004_1K");
             pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
                 pCameraAttribs: pbrCameraAndLight.CameraAttribs,
                 pLightAttribs: pbrCameraAndLight.LightAttribs,
@@ -183,8 +137,8 @@ namespace Tutorial_99_Pbo
         Engine.Color ClearColor = new Engine.Color(0.032f, 0.032f, 0.032f, 1.0f);
 
         //Light
-        float3 lightDirection = Vector3.Forward;// (new float3(0.5f, -0.6f, -0.2f)).normalized();
-        float4 lightColor = new float4(1, 1, 1, 1);
+        Vector3 lightDirection = Vector3.Forward;// (new float3(0.5f, -0.6f, -0.2f)).normalized();
+        Vector4 lightColor = new Vector4(1, 1, 1, 1);
         float lightIntensity = 3.0f;
 
         public unsafe void sendUpdate(Clock clock)
@@ -198,12 +152,12 @@ namespace Tutorial_99_Pbo
             m_pImmediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
             var camRotAmount = 0f; // (clock.CurrentTimeMicro * Clock.MicroToSeconds) / 10 % (2 * (float)Math.PI);
-            float4x4 CameraView = float4x4.RotationX(camRotAmount) * float4x4.Translation(0.0f, 0.0f, 5.0f);
+            Matrix4x4 CameraView = Matrix4x4.RotationX(camRotAmount) * Matrix4x4.Translation(0.0f, 0.0f, 5.0f);
 
             // Apply pretransform matrix that rotates the scene according the surface orientation
             CameraView *= CameraHelpers.GetSurfacePretransformMatrix(new Vector3(0, 0, 1), PreTransform);
 
-            float4x4 CameraWorld = CameraView.inverse();
+            Matrix4x4 CameraWorld = CameraView.inverse();
 
             // Get projection matrix adjusted to the current screen orientation
             var CameraProj = CameraHelpers.GetAdjustedProjectionMatrix(YFov, ZNear, ZFar, window.WindowWidth, window.WindowHeight, PreTransform);
