@@ -20,7 +20,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
 
-    <Content Include="../../DiligentEngine/build/Win64/DiligentCore/Graphics/GraphicsEngineVulkan/Debug/GraphicsEngineVk_64d.dll">
+    <Content Include="../../Dependencies/Diligent/Win64Build/Graphics/GraphicsEngineVulkan/Debug/GraphicsEngineVk_64d.dll">
       <Link>x64\GraphicsEngineVk_64d.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -67,7 +67,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
 
-    <Content Include="../../DiligentEngine/build/Win64/DiligentCore/Graphics/GraphicsEngineVulkan/Release/GraphicsEngineVk_64r.dll">
+    <Content Include="../../Dependencies/Diligent/Win64Build/Graphics/GraphicsEngineVulkan/Release/GraphicsEngineVk_64r.dll">
       <Link>x64\GraphicsEngineVk_64r.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

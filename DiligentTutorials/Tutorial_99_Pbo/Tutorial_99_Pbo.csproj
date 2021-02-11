@@ -27,21 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="../../../DiligentEngine/DiligentSamples/Samples/GLTFViewer/assets/textures/papermill.ktx">
-      <Link>textures\papermill.ktx</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="../../../DiligentEngine/DiligentSamples/Samples/GLTFViewer/assets/models/MetalRoughSpheres/Spheres_BaseColor.png">
-      <Link>textures\Spheres_BaseColor.png</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="../../../DiligentEngine/DiligentSamples/Samples/GLTFViewer/assets/models/MetalRoughSpheres/Spheres_MetalRough.png">
-      <Link>textures\Spheres_MetalRough.png</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\Dependencies\FreeImage.NET\Library\FreeImageDotNet.csproj" />
     <ProjectReference Include="..\..\DiligentEngine.GltfPbr\DiligentEngine.GltfPbr.csproj" />
     <ProjectReference Include="..\..\DiligentEngine\DiligentEngine.csproj" />
