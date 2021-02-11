@@ -4,12 +4,11 @@ using Engine.Platform;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-using SoundPlugin;
 using System;
 using System.Globalization;
 using System.IO;
 
-namespace BepuTest
+namespace Tutorial_99_Pbo
 {
     public class CoreApp : App
     {
@@ -34,7 +33,7 @@ namespace BepuTest
         {
             mainWindow = EasyNativeWindow.Create(services, this, o =>
             {
-                o.Title = "Tiny Engine App with Sound and Diligent";
+                o.Title = "Diligent - Tutorial 99 - PBO";
             });
 
             services.AddLogging(o =>
@@ -42,12 +41,21 @@ namespace BepuTest
                 o.AddConsole();
             });
 
-            services.AddDiligentEngine(pluginManager);
+            services.AddDiligentEngine(pluginManager)
+                    .AddDiligentEnginePbr(o =>
+                    {
+                        o.CustomizePbrOptions = RendererCI =>
+                        {
+                            RendererCI.AllowDebugView = true;
+                            RendererCI.UseIBL = true;
+                        };
+                    })
+                    .AddDiligentEnginePbrShapes();
+
             services.AddOSPlatform(pluginManager);
-            services.AddSoundPlugin(pluginManager);
 
             //Add this app's services
-            services.TryAddSingleton<SimpleUpdateListener>();
+            services.TryAddSingleton<PboUpdateListener>();
 
             return true;
         }
@@ -57,9 +65,14 @@ namespace BepuTest
             var log = globalScope.ServiceProvider.GetRequiredService<ILogger<CoreApp>>();
             log.LogInformation("Running from directory {0}", FolderFinder.ExecutableFolder);
 
+            //Setup virtual file system
+            var vfs = globalScope.ServiceProvider.GetRequiredService<VirtualFileSystem>();
+            var assetPath = Path.GetFullPath("../../../../../Engine-Next-Assets"); //This needs to be less hardcoded.
+            vfs.addArchive(assetPath);
+
             mainTimer = globalScope.ServiceProvider.GetRequiredService<UpdateTimer>();
 
-            var updateListener = globalScope.ServiceProvider.GetRequiredService<SimpleUpdateListener>();
+            var updateListener = globalScope.ServiceProvider.GetRequiredService<PboUpdateListener>();
             mainTimer.addUpdateListener(updateListener);
 
             PerformanceMonitor.setupEnabledState(globalScope.ServiceProvider.GetRequiredService<SystemTimer>());

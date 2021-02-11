@@ -4,6 +4,11 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <Configurations>Debug;Release;RelMDeb</Configurations>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <OutputType>WinExe</OutputType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='RelMDeb'">
@@ -16,12 +21,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Dependencies\FreeImage.NET\Library\FreeImageDotNet.csproj" />
+    <ProjectReference Include="..\DiligentEngine.GltfPbr\DiligentEngine.GltfPbr.csproj" />
     <ProjectReference Include="..\DiligentEngine\DiligentEngine.csproj" />
     <ProjectReference Include="..\Engine\Engine.csproj" />
     <ProjectReference Include="..\NativeLibs64\NativeLibs64.csproj" />
     <ProjectReference Include="..\OSPlatform.Win32\OSPlatform.Win32.csproj" />
     <ProjectReference Include="..\OSPlatform\OSPlatform.csproj" />
-    <ProjectReference Include="..\SoundPlugin\SoundPlugin.csproj" />
   </ItemGroup>
 
 </Project>

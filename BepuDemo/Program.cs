@@ -2,7 +2,7 @@
 using Anomalous.OSPlatform.Win32;
 using System;
 
-namespace BepuTest
+namespace Tutorial_99_Pbo
 {
     class Program
     {
