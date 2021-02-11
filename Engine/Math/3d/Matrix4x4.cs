@@ -396,5 +396,39 @@ namespace Engine
                 0, 0, 0, 1 // clang-format on
             );
         }
+
+        // 3D Rotation matrix for an arbitrary axis specified by x, y and z
+        public static Matrix4x4 RotationArbitrary(Vector3 axis, float angleInRadians)
+        {
+            axis = axis.normalized();
+
+            float sinAngle = (float)Math.Sin(angleInRadians);
+            float cosAngle = (float)Math.Cos(angleInRadians);
+            float oneMinusCosAngle = 1 - cosAngle;
+
+            Matrix4x4 mOut;
+
+            mOut.m00 = 1 + oneMinusCosAngle * (axis.x * axis.x - 1);
+            mOut.m01 = axis.z * sinAngle + oneMinusCosAngle * axis.x * axis.y;
+            mOut.m02 = -axis.y * sinAngle + oneMinusCosAngle * axis.x * axis.z;
+            mOut.m03 = 0;
+
+            mOut.m10 = -axis.z * sinAngle + oneMinusCosAngle * axis.y * axis.x;
+            mOut.m11 = 1 + oneMinusCosAngle * (axis.y * axis.y - 1);
+            mOut.m12 = axis.x * sinAngle + oneMinusCosAngle * axis.y * axis.z;
+            mOut.m13 = 0;
+
+            mOut.m20 = axis.y * sinAngle + oneMinusCosAngle * axis.z * axis.x;
+            mOut.m21 = -axis.x * sinAngle + oneMinusCosAngle * axis.z * axis.y;
+            mOut.m22 = 1 + oneMinusCosAngle * (axis.z * axis.z - 1);
+            mOut.m23 = 0;
+
+            mOut.m30 = 0;
+            mOut.m31 = 0;
+            mOut.m32 = 0;
+            mOut.m33 = 1;
+
+            return mOut;
+        }
     }
 }

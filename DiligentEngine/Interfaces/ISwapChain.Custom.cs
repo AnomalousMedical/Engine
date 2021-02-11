@@ -63,6 +63,8 @@ namespace DiligentEngine
 
         public Uint32 GetDesc_BufferCount => ISwapChain_GetDesc_BufferCount(objPtr);
 
+        public SURFACE_TRANSFORM GetDesc_PreTransform => ISwapChain_GetDesc_PreTransform(objPtr);
+
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern TEXTURE_FORMAT ISwapChain_GetDesc_ColorBufferFormat(
@@ -74,6 +76,10 @@ namespace DiligentEngine
         );
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern Uint32 ISwapChain_GetDesc_BufferCount(
+            IntPtr objPtr
+        );
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern SURFACE_TRANSFORM ISwapChain_GetDesc_PreTransform(
             IntPtr objPtr
         );
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]

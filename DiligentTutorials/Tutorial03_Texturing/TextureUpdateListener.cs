@@ -317,42 +317,11 @@ namespace DiligentEngineCube
 
         }
 
-        Matrix4x4 GetAdjustedProjectionMatrix(float FOV, float NearPlane, float FarPlane, float Width, float Height, SURFACE_TRANSFORM PreTransform = SURFACE_TRANSFORM.SURFACE_TRANSFORM_IDENTITY)
-        {
-            if (Height == 0.0f)
-            {
-                Height = 1.0f;
-            }
-
-            float AspectRatio = Width / Height;
-            float XScale, YScale;
-            if (PreTransform == SURFACE_TRANSFORM.SURFACE_TRANSFORM_ROTATE_90 ||
-                PreTransform == SURFACE_TRANSFORM.SURFACE_TRANSFORM_ROTATE_270 ||
-                PreTransform == SURFACE_TRANSFORM.SURFACE_TRANSFORM_HORIZONTAL_MIRROR_ROTATE_90 ||
-                PreTransform == SURFACE_TRANSFORM.SURFACE_TRANSFORM_HORIZONTAL_MIRROR_ROTATE_270)
-            {
-                // When the screen is rotated, vertical FOV becomes horizontal FOV
-                XScale = 1f / (float)Math.Tan(FOV / 2f);
-                // Aspect ratio is inversed
-                YScale = XScale * AspectRatio;
-            }
-            else
-            {
-                YScale = 1f / (float)Math.Tan(FOV / 2f);
-                XScale = YScale / AspectRatio;
-            }
-
-            Matrix4x4 Proj = new Matrix4x4();
-            Proj.m00 = XScale;
-            Proj.m11 = YScale;
-            Proj.SetNearFarClipPlanes(NearPlane, FarPlane, false);// genericEngineFactory.RenderDevice.GetDeviceCaps().IsGLDevice());
-            return Proj;
-        }
-
         public unsafe void sendUpdate(Clock clock)
         {
             var pRTV = swapChain.GetCurrentBackBufferRTV();
             var pDSV = swapChain.GetDepthBufferDSV();
+            var preTransform = swapChain.GetDesc_PreTransform;
             m_pImmediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             // Clear the back buffer
             var ClearColor = new Engine.Color(0.350f, 0.350f, 0.350f, 1.0f);
@@ -370,10 +339,14 @@ namespace DiligentEngineCube
 
                 var View = Matrix4x4.Translation(0f, 0f, 5f);
 
-                var Proj = GetAdjustedProjectionMatrix((float)Math.PI / 4.0f, 0.1f, 100f, window.WindowWidth, window.WindowHeight);
+                // Get pretransform matrix that rotates the scene according the surface orientation
+                var SrfPreTransform = CameraHelpers.GetSurfacePretransformMatrix(new Vector3(0, 0, 1), preTransform);
 
-                //This is missing GetSurfacePretransformMatrix for screen rotation handling
-                var m_WorldViewProjMatrix = CubeModelTransform * View * Proj;
+                // Get projection matrix adjusted to the current screen orientation
+                var Proj = CameraHelpers.GetAdjustedProjectionMatrix((float)Math.PI / 4.0f, 0.1f, 100f, window.WindowWidth, window.WindowHeight, preTransform);
+
+                // Compute world-view-projection matrix
+                var m_WorldViewProjMatrix = CubeModelTransform * View * SrfPreTransform * Proj;
 
                 // Map the buffer and write current world-view-projection matrix
                 IntPtr data = m_pImmediateContext.MapBuffer(m_VSConstants.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);

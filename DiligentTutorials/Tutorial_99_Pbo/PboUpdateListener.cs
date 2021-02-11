@@ -220,42 +220,11 @@ namespace Tutorial_99_Pbo
 
         static readonly float PI_F = (float)Math.PI;
 
-        Matrix4x4 GetAdjustedProjectionMatrix(float FOV, float NearPlane, float FarPlane, float Width, float Height, SURFACE_TRANSFORM PreTransform = SURFACE_TRANSFORM.SURFACE_TRANSFORM_IDENTITY)
-        {
-            if (Height == 0.0f)
-            {
-                Height = 1.0f;
-            }
-
-            float AspectRatio = Width / Height;
-            float XScale, YScale;
-            if (PreTransform == SURFACE_TRANSFORM.SURFACE_TRANSFORM_ROTATE_90 ||
-                PreTransform == SURFACE_TRANSFORM.SURFACE_TRANSFORM_ROTATE_270 ||
-                PreTransform == SURFACE_TRANSFORM.SURFACE_TRANSFORM_HORIZONTAL_MIRROR_ROTATE_90 ||
-                PreTransform == SURFACE_TRANSFORM.SURFACE_TRANSFORM_HORIZONTAL_MIRROR_ROTATE_270)
-            {
-                // When the screen is rotated, vertical FOV becomes horizontal FOV
-                XScale = 1f / (float)Math.Tan(FOV / 2f);
-                // Aspect ratio is inversed
-                YScale = XScale * AspectRatio;
-            }
-            else
-            {
-                YScale = 1f / (float)Math.Tan(FOV / 2f);
-                XScale = YScale / AspectRatio;
-            }
-
-            Matrix4x4 Proj = new Matrix4x4();
-            Proj.m00 = XScale;
-            Proj.m11 = YScale;
-            Proj.SetNearFarClipPlanes(NearPlane, FarPlane, false);// genericEngineFactory.RenderDevice.GetDeviceCaps().IsGLDevice());
-            return Proj;
-        }
-
         public unsafe void sendUpdate(Clock clock)
         {
             var pRTV = m_pSwapChain.GetCurrentBackBufferRTV();
             var pDSV = m_pSwapChain.GetDepthBufferDSV();
+            var PreTransform = m_pSwapChain.GetDesc_PreTransform;
             m_pImmediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             // Clear the back buffer
             var ClearColor = new Engine.Color(0.032f, 0.032f, 0.032f, 1.0f);
@@ -272,12 +241,12 @@ namespace Tutorial_99_Pbo
 
             // Apply pretransform matrix that rotates the scene according the surface orientation
             //Skip for now
-            //CameraView *= GetSurfacePretransformMatrix(float3{0, 0, 1});
+            CameraView *= CameraHelpers.GetSurfacePretransformMatrix(new Vector3(0, 0, 1), PreTransform);
 
             float4x4 CameraWorld = CameraView.inverse();
 
             // Get projection matrix adjusted to the current screen orientation
-            var CameraProj = GetAdjustedProjectionMatrix(YFov, ZNear, ZFar, window.WindowWidth, window.WindowHeight);
+            var CameraProj = CameraHelpers.GetAdjustedProjectionMatrix(YFov, ZNear, ZFar, window.WindowWidth, window.WindowHeight, PreTransform);
             var CameraViewProj = CameraView * CameraProj;
 
             var CameraWorldPos = CameraWorld.GetTranslation();

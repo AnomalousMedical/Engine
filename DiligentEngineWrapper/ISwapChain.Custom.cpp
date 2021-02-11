@@ -23,6 +23,13 @@ extern "C" _AnomalousExport Uint32 ISwapChain_GetDesc_BufferCount(
 	return objPtr->GetDesc().BufferCount;
 }
 
+extern "C" _AnomalousExport SURFACE_TRANSFORM ISwapChain_GetDesc_PreTransform(
+	ISwapChain * objPtr
+)
+{
+	return objPtr->GetDesc().PreTransform;
+}
+
 extern "C" _AnomalousExport ITextureView * ISwapChain_GetCurrentBackBufferRTV(
 	ISwapChain * objPtr
 )
