@@ -10,7 +10,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-
 using Uint8 = System.Byte;
 using Int8 = System.SByte;
 using Bool = System.Boolean;
@@ -175,7 +174,18 @@ namespace Tutorial_99_Pbo
 
         }
 
-        static readonly float PI_F = (float)Math.PI;
+        //Camera Settings
+        float YFov = (float)Math.PI / 4.0f;
+        float ZNear = 0.1f;
+        float ZFar = 100f;
+
+        //Clear Color
+        Engine.Color ClearColor = new Engine.Color(0.032f, 0.032f, 0.032f, 1.0f);
+
+        //Light
+        float3 lightDirection = Vector3.Forward;// (new float3(0.5f, -0.6f, -0.2f)).normalized();
+        float4 lightColor = new float4(1, 1, 1, 1);
+        float lightIntensity = 3.0f;
 
         public unsafe void sendUpdate(Clock clock)
         {
@@ -184,20 +194,13 @@ namespace Tutorial_99_Pbo
             var PreTransform = m_pSwapChain.GetDesc_PreTransform;
             m_pImmediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             // Clear the back buffer
-            var ClearColor = new Engine.Color(0.032f, 0.032f, 0.032f, 1.0f);
             m_pImmediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             m_pImmediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            float YFov = PI_F / 4.0f;
-            float ZNear = 0.1f;
-            float ZFar = 100f;
-
-            //var camRotAmount = (clock.CurrentTimeMicro * Clock.MicroToSeconds) / 10 % (2 * (float)Math.PI);
-            var camRotAmount = 0f;
+            var camRotAmount = 0f; // (clock.CurrentTimeMicro * Clock.MicroToSeconds) / 10 % (2 * (float)Math.PI);
             float4x4 CameraView = float4x4.RotationX(camRotAmount) * float4x4.Translation(0.0f, 0.0f, 5.0f);
 
             // Apply pretransform matrix that rotates the scene according the surface orientation
-            //Skip for now
             CameraView *= CameraHelpers.GetSurfacePretransformMatrix(new Vector3(0, 0, 1), PreTransform);
 
             float4x4 CameraWorld = CameraView.inverse();
@@ -205,15 +208,9 @@ namespace Tutorial_99_Pbo
             // Get projection matrix adjusted to the current screen orientation
             var CameraProj = CameraHelpers.GetAdjustedProjectionMatrix(YFov, ZNear, ZFar, window.WindowWidth, window.WindowHeight, PreTransform);
             var CameraViewProj = CameraView * CameraProj;
-
             var CameraWorldPos = CameraWorld.GetTranslation();
-            pbrCameraAndLight.SetCamera(ref CameraProj, ref CameraViewProj, ref CameraWorldPos);
 
-            //Light
-            //float3 lightDirection = (Vector3.Up + Vector3.Left).normalized();// (new float3(0.5f, -0.6f, -0.2f)).normalized();
-            float3 lightDirection = Vector3.Forward;// (new float3(0.5f, -0.6f, -0.2f)).normalized();
-            float4 lightColor = new float4(1, 1, 1, 1);
-            float lightIntensity = 3.0f;
+            pbrCameraAndLight.SetCamera(ref CameraProj, ref CameraViewProj, ref CameraWorldPos);
             pbrCameraAndLight.SetLight(ref lightDirection, ref lightColor, lightIntensity);
 
             var trans = Vector3.Zero;
