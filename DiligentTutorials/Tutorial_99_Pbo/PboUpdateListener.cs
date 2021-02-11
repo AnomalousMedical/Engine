@@ -127,10 +127,10 @@ namespace Tutorial_99_Pbo
 
             //Only one of these
             //Load a cc0 texture
-            //LoadCCoTexture();
+            LoadCCoTexture();
 
             //Create a manual texture
-            CreateTexture();
+            //CreateTexture();
         }
 
         private unsafe void CreateTexture()

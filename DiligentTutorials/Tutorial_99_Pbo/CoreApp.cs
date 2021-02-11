@@ -66,6 +66,11 @@ namespace Tutorial_99_Pbo
             var log = globalScope.ServiceProvider.GetRequiredService<ILogger<CoreApp>>();
             log.LogInformation("Running from directory {0}", FolderFinder.ExecutableFolder);
 
+            //Setup virtual file system
+            var vfs = globalScope.ServiceProvider.GetRequiredService<VirtualFileSystem>();
+            var assetPath = Path.GetFullPath("../../../../../../Engine-Next-Assets"); //This needs to be less hardcoded.
+            vfs.addArchive(assetPath);
+
             mainTimer = globalScope.ServiceProvider.GetRequiredService<UpdateTimer>();
 
             var updateListener = globalScope.ServiceProvider.GetRequiredService<PboUpdateListener>();

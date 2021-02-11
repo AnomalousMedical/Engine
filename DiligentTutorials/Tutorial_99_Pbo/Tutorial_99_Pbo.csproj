@@ -21,12 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="../../../Engine-Next-Assets/**/*.*">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\Dependencies\FreeImage.NET\Library\FreeImageDotNet.csproj" />
     <ProjectReference Include="..\..\DiligentEngine.GltfPbr\DiligentEngine.GltfPbr.csproj" />
     <ProjectReference Include="..\..\DiligentEngine\DiligentEngine.csproj" />

@@ -1,4 +1,5 @@
-﻿using FreeImageAPI;
+﻿using Engine.Resources;
+using FreeImageAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,18 @@ namespace DiligentEngine.GltfPbr
     public class EnvironmentMapBuilder
     {
         private readonly TextureLoader textureLoader;
+        private readonly IResourceProvider<EnvironmentMapBuilder> resourceProvider;
 
-        public EnvironmentMapBuilder(TextureLoader textureLoader)
+        public EnvironmentMapBuilder(TextureLoader textureLoader, IResourceProvider<EnvironmentMapBuilder> resourceProvider)
         {
             this.textureLoader = textureLoader;
+            this.resourceProvider = resourceProvider;
+        }
+
+        private FreeImageBitmap OpenFreeImageBmp(String file)
+        {
+            using var stream = resourceProvider.openFile(file);
+            return FreeImageBitmap.FromStream(stream);
         }
 
         public unsafe AutoPtr<ITextureView> BuildEnvMapView(IRenderDevice m_pDevice, IDeviceContext m_pImmediateContext, String baseName, String ext)
@@ -29,17 +38,17 @@ namespace DiligentEngine.GltfPbr
                 pSubResources = new List<TextureSubResData>()
             };
 
-            using var positiveXBmp = FreeImageBitmap.FromFile($"{baseName}PositiveX.{ext}");
+            using var positiveXBmp = OpenFreeImageBmp($"{baseName}PositiveX.{ext}");
             textureLoader.FixBitmap(positiveXBmp);
-            using var negativeXBmp = FreeImageBitmap.FromFile($"{baseName}NegativeX.{ext}");
+            using var negativeXBmp = OpenFreeImageBmp($"{baseName}NegativeX.{ext}");
             textureLoader.FixBitmap(negativeXBmp);
-            using var positiveYBmp = FreeImageBitmap.FromFile($"{baseName}PositiveY.{ext}");
+            using var positiveYBmp = OpenFreeImageBmp($"{baseName}PositiveY.{ext}");
             textureLoader.FixBitmap(positiveYBmp);
-            using var negativeYBmp = FreeImageBitmap.FromFile($"{baseName}NegativeY.{ext}");
+            using var negativeYBmp = OpenFreeImageBmp($"{baseName}NegativeY.{ext}");
             textureLoader.FixBitmap(negativeYBmp);
-            using var positiveZBmp = FreeImageBitmap.FromFile($"{baseName}PositiveZ.{ext}");
+            using var positiveZBmp = OpenFreeImageBmp($"{baseName}PositiveZ.{ext}");
             textureLoader.FixBitmap(positiveZBmp);
-            using var negativeZBmp = FreeImageBitmap.FromFile($"{baseName}NegativeZ.{ext}");
+            using var negativeZBmp = OpenFreeImageBmp($"{baseName}NegativeZ.{ext}");
             textureLoader.FixBitmap(negativeZBmp);
 
             var TexDesc = new TextureDesc();

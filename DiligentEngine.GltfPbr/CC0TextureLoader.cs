@@ -1,8 +1,8 @@
 ﻿using DiligentEngine;
+using Engine.Resources;
 using FreeImageAPI;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,10 +15,12 @@ namespace DiligentEngine.GltfPbr
     public class CC0TextureLoader
     {
         private readonly TextureLoader textureLoader;
+        private readonly IResourceProvider<CC0TextureLoader> resourceProvider;
 
-        public CC0TextureLoader(TextureLoader textureLoader)
+        public CC0TextureLoader(TextureLoader textureLoader, IResourceProvider<CC0TextureLoader> resourceProvider)
         {
             this.textureLoader = textureLoader;
+            this.resourceProvider = resourceProvider;
         }
 
         public CC0TextureResult LoadTextureSet(String basePath, String ext = "jpg")
@@ -32,18 +34,18 @@ namespace DiligentEngine.GltfPbr
             var metalnessMapPath = $"{basePath}_Metalness.{ext}";
             var ambientOcclusionMapPath = $"{basePath}_AmbientOcclusion.{ext}";
 
-            if (File.Exists(colorMapPath))
+            if (resourceProvider.fileExists(colorMapPath))
             {
-                using (var stream = File.Open(colorMapPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var stream = resourceProvider.openFile(colorMapPath))
                 {
                     var baseColorMap = textureLoader.LoadTexture(stream, "baseColorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
                     result.SetBaseColorMap(baseColorMap);
                 }
             }
 
-            if (File.Exists(normalMapPath))
+            if (resourceProvider.fileExists(normalMapPath))
             {
-                using (var stream = File.Open(normalMapPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var stream = resourceProvider.openFile(normalMapPath))
                 {
                     var normalMap = textureLoader.LoadTexture(stream, "normalMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
                     result.SetNormalMap(normalMap);
@@ -55,15 +57,15 @@ namespace DiligentEngine.GltfPbr
                 FreeImageBitmap metalnessBmp = null;
                 try
                 {
-                    if (File.Exists(roughnessMapPath))
+                    if (resourceProvider.fileExists(roughnessMapPath))
                     {
-                        using var stream = File.Open(roughnessMapPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                        using var stream = resourceProvider.openFile(roughnessMapPath);
                         roughnessBmp = FreeImageBitmap.FromStream(stream);
                     }
 
-                    if (File.Exists(metalnessMapPath))
+                    if (resourceProvider.fileExists(metalnessMapPath))
                     {
-                        using var stream = File.Open(metalnessMapPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                        using var stream = resourceProvider.openFile(metalnessMapPath);
                         metalnessBmp = FreeImageBitmap.FromStream(stream);
                     }
 
@@ -107,9 +109,9 @@ namespace DiligentEngine.GltfPbr
 
             }
 
-            if (File.Exists(ambientOcclusionMapPath))
+            if (resourceProvider.fileExists(ambientOcclusionMapPath))
             {
-                using (var stream = File.Open(normalMapPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var stream = resourceProvider.openFile(normalMapPath))
                 {
                     var map = textureLoader.LoadTexture(stream, "ambientOcclusionMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
                     result.SetAmbientOcclusionMap(map);
