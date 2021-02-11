@@ -8,7 +8,7 @@ using System;
 using System.Globalization;
 using System.IO;
 
-namespace Tutorial_99_Pbo
+namespace BepuDemo
 {
     public class CoreApp : App
     {
@@ -55,7 +55,7 @@ namespace Tutorial_99_Pbo
             services.AddOSPlatform(pluginManager);
 
             //Add this app's services
-            services.TryAddSingleton<PboUpdateListener>();
+            services.TryAddSingleton<BepuUpdateListener>();
 
             return true;
         }
@@ -72,7 +72,7 @@ namespace Tutorial_99_Pbo
 
             mainTimer = globalScope.ServiceProvider.GetRequiredService<UpdateTimer>();
 
-            var updateListener = globalScope.ServiceProvider.GetRequiredService<PboUpdateListener>();
+            var updateListener = globalScope.ServiceProvider.GetRequiredService<BepuUpdateListener>();
             mainTimer.addUpdateListener(updateListener);
 
             PerformanceMonitor.setupEnabledState(globalScope.ServiceProvider.GetRequiredService<SystemTimer>());
