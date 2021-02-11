@@ -11,6 +11,20 @@ namespace Tutorial_99_Pbo
 {
     class PboUpdateListener : UpdateListener, IDisposable
     {
+
+        //Camera Settings
+        float YFov = (float)Math.PI / 4.0f;
+        float ZNear = 0.1f;
+        float ZFar = 100f;
+
+        //Clear Color
+        Engine.Color ClearColor = new Engine.Color(0.032f, 0.032f, 0.032f, 1.0f);
+
+        //Light
+        Vector3 lightDirection = Vector3.Forward;// (new float3(0.5f, -0.6f, -0.2f)).normalized();
+        Vector4 lightColor = new Vector4(1, 1, 1, 1);
+        float lightIntensity = 3.0f;
+
         private readonly NativeOSWindow window;
         private readonly Cube shape;
         private readonly TextureLoader textureLoader;
@@ -127,19 +141,6 @@ namespace Tutorial_99_Pbo
         {
 
         }
-
-        //Camera Settings
-        float YFov = (float)Math.PI / 4.0f;
-        float ZNear = 0.1f;
-        float ZFar = 100f;
-
-        //Clear Color
-        Engine.Color ClearColor = new Engine.Color(0.032f, 0.032f, 0.032f, 1.0f);
-
-        //Light
-        Vector3 lightDirection = Vector3.Forward;// (new float3(0.5f, -0.6f, -0.2f)).normalized();
-        Vector4 lightColor = new Vector4(1, 1, 1, 1);
-        float lightIntensity = 3.0f;
 
         public unsafe void sendUpdate(Clock clock)
         {
