@@ -34,15 +34,13 @@ namespace Tutorial_99_Pbo
         private readonly TextureLoader textureLoader;
         private readonly CC0TextureLoader cc0TextureLoader;
         private readonly EnvironmentMapBuilder envMapBuilder;
+        private readonly IPbrCameraAndLight pbrCameraAndLight;
         private ISwapChain m_pSwapChain;
         private IRenderDevice m_pDevice;
         private IDeviceContext m_pImmediateContext;
         private PbrRenderAttribs pbrRenderAttribs = PbrRenderAttribs.CreateDefault();
 
         private PbrRenderer m_GLTFRenderer;
-        private AutoPtr<IBuffer> m_CameraAttribsCB;
-        private AutoPtr<IBuffer> m_LightAttribsCB;
-        private AutoPtr<IBuffer> m_EnvMapRenderAttribsCB;
         private AutoPtr<ITextureView> m_EnvironmentMapSRV;
         private AutoPtr<IShaderResourceBinding> pboMatBinding;
 
@@ -53,7 +51,8 @@ namespace Tutorial_99_Pbo
             Cube shape,
             TextureLoader textureLoader,
             CC0TextureLoader cc0TextureLoader,
-            EnvironmentMapBuilder envMapBuilder)
+            EnvironmentMapBuilder envMapBuilder,
+            IPbrCameraAndLight pbrCameraAndLight)
         {
             this.m_GLTFRenderer = m_GLTFRenderer;
             this.m_pSwapChain = graphicsEngine.SwapChain;
@@ -64,15 +63,13 @@ namespace Tutorial_99_Pbo
             this.textureLoader = textureLoader;
             this.cc0TextureLoader = cc0TextureLoader;
             this.envMapBuilder = envMapBuilder;
+            this.pbrCameraAndLight = pbrCameraAndLight;
             Initialize();
         }
 
         public void Dispose()
         {
             pboMatBinding.Dispose();
-            m_CameraAttribsCB.Dispose();
-            m_LightAttribsCB.Dispose();
-            m_EnvMapRenderAttribsCB.Dispose();
             m_EnvironmentMapSRV.Dispose();
         }
 
@@ -80,47 +77,7 @@ namespace Tutorial_99_Pbo
         {
             m_EnvironmentMapSRV = envMapBuilder.BuildEnvMapView(m_pDevice, m_pImmediateContext, "papermill/Fixed-", "png");
 
-            unsafe
-            {
-                BufferDesc CBDesc = new BufferDesc();
-                CBDesc.Name = "Camera attribs buffer";
-                CBDesc.uiSizeInBytes = (uint)sizeof(CameraAttribs);
-                CBDesc.Usage = USAGE.USAGE_DYNAMIC;
-                CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
-                CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
-
-                m_CameraAttribsCB = m_pDevice.CreateBuffer(CBDesc);
-            }
-
-            {
-                BufferDesc CBDesc = new BufferDesc();
-                CBDesc.Name = "Light attribs buffer";
-                CBDesc.uiSizeInBytes = (uint)sizeof(LightAttribs);
-                CBDesc.Usage = USAGE.USAGE_DYNAMIC;
-                CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
-                CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
-
-                m_LightAttribsCB = m_pDevice.CreateBuffer(CBDesc);
-            }
-
-            {
-                BufferDesc CBDesc = new BufferDesc();
-                CBDesc.Name = "Env map render attribs buffer";
-                CBDesc.uiSizeInBytes = (uint)sizeof(EnvMapRenderAttribs);
-                CBDesc.Usage = USAGE.USAGE_DYNAMIC;
-                CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
-                CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
-
-                m_EnvMapRenderAttribsCB = m_pDevice.CreateBuffer(CBDesc);
-            }
-
-            var Barriers = new List<StateTransitionDesc>
-                {
-                    new StateTransitionDesc{pResource = m_CameraAttribsCB.Obj,        OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true},
-                    new StateTransitionDesc{pResource = m_LightAttribsCB.Obj,         OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true},
-                    new StateTransitionDesc{pResource = m_EnvMapRenderAttribsCB.Obj,  OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true},
-                };
-            m_pImmediateContext.TransitionResourceStates(Barriers);
+            
 
             m_GLTFRenderer.PrecomputeCubemaps(m_pDevice, m_pImmediateContext, m_EnvironmentMapSRV.Obj);
 
@@ -159,8 +116,8 @@ namespace Tutorial_99_Pbo
                 using var physicalDescriptorMap = m_pDevice.CreateTexture(TexDesc, InitData);
 
                 pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
-                    pCameraAttribs: m_CameraAttribsCB.Obj,
-                    pLightAttribs: m_LightAttribsCB.Obj,
+                    pCameraAttribs: pbrCameraAndLight.CameraAttribs,
+                    pLightAttribs: pbrCameraAndLight.LightAttribs,
                     //baseColorMap: ccoTextures.BaseColorMap,
                     //normalMap: ccoTextures.NormalMap,
                     physicalDescriptorMap: physicalDescriptorMap.Obj
@@ -199,8 +156,8 @@ namespace Tutorial_99_Pbo
             //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/RoofingTiles006_1K");
             //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/ManholeCover004_1K");
             pboMatBinding = m_GLTFRenderer.CreateMaterialSRB(
-                pCameraAttribs: m_CameraAttribsCB.Obj,
-                pLightAttribs: m_LightAttribsCB.Obj,
+                pCameraAttribs: pbrCameraAndLight.CameraAttribs,
+                pLightAttribs: pbrCameraAndLight.LightAttribs,
                 baseColorMap: ccoTextures.BaseColorMap,
                 normalMap: ccoTextures.NormalMap,
                 physicalDescriptorMap: ccoTextures.PhysicalDescriptorMap,
@@ -250,37 +207,16 @@ namespace Tutorial_99_Pbo
             var CameraViewProj = CameraView * CameraProj;
 
             var CameraWorldPos = CameraWorld.GetTranslation();
+            pbrCameraAndLight.SetCamera(ref CameraProj, ref CameraViewProj, ref CameraWorldPos);
 
-            {
-                IntPtr data = m_pImmediateContext.MapBuffer(m_CameraAttribsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
-
-                var CamAttribs = (CameraAttribs*)data.ToPointer();
-                CamAttribs->mProjT = CameraProj.Transpose();
-                CamAttribs->mViewProjT = CameraViewProj.Transpose();
-                CamAttribs->mViewProjInvT = CameraViewProj.inverse().Transpose();
-                CamAttribs->f4Position = new Vector4(CameraWorldPos.x, CameraWorldPos.y, CameraWorldPos.z, 1);
-
-                m_pImmediateContext.UnmapBuffer(m_CameraAttribsCB.Obj, MAP_TYPE.MAP_WRITE);
-            }
-
-            {
-                //float3 m_LightDirection = (Vector3.Up + Vector3.Left).normalized();// (new float3(0.5f, -0.6f, -0.2f)).normalized();
-                float3 m_LightDirection = Vector3.Forward;// (new float3(0.5f, -0.6f, -0.2f)).normalized();
-                float4 m_LightColor = new float4(1, 1, 1, 1);
-                float m_LightIntensity = 3.0f;
-
-                IntPtr data = m_pImmediateContext.MapBuffer(m_LightAttribsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
-
-                //Looks like only direction and intensity matter here, setting more did not help
-                var lightAttribs = (LightAttribs*)data.ToPointer();
-                lightAttribs->f4Direction = m_LightDirection.ToVector4();
-                lightAttribs->f4Intensity = m_LightColor * m_LightIntensity;
-
-                m_pImmediateContext.UnmapBuffer(m_LightAttribsCB.Obj, MAP_TYPE.MAP_WRITE);
-            }
+            //Light
+            //float3 lightDirection = (Vector3.Up + Vector3.Left).normalized();// (new float3(0.5f, -0.6f, -0.2f)).normalized();
+            float3 lightDirection = Vector3.Forward;// (new float3(0.5f, -0.6f, -0.2f)).normalized();
+            float4 lightColor = new float4(1, 1, 1, 1);
+            float lightIntensity = 3.0f;
+            pbrCameraAndLight.SetLight(ref lightDirection, ref lightColor, lightIntensity);
 
             var trans = Vector3.Zero;
-            //var rot = Quaternion.Identity;
             var rotAmount = (clock.CurrentTimeMicro * Clock.MicroToSeconds) / 10 % (2 * (float)Math.PI);
             var rot = new Quaternion(rotAmount, 0f, 0f);
 

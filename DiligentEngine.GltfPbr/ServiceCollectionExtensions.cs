@@ -66,6 +66,9 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<IResourceProvider<EnvironmentMapBuilder>>(s =>
                             new VirtualFilesystemResourceProvider<EnvironmentMapBuilder>(s.GetRequiredService<VirtualFileSystem>()));
             services.TryAddSingleton<EnvironmentMapBuilder>();
+
+            services.AddSingleton<IPbrCameraAndLight, PbrCameraAndLight>();
+
             return options;
         }
 
