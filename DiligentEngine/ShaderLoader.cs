@@ -10,7 +10,7 @@ namespace DiligentEngine
 {
     public class ShaderLoader<T> : ShaderLoader
     {
-        public ShaderLoader(IResourceProvider resourceProvider) : base(resourceProvider)
+        public ShaderLoader(IResourceProvider<ShaderLoader<T>> resourceProvider) : base(resourceProvider)
         {
         }
     }

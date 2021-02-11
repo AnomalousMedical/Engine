@@ -55,10 +55,10 @@ namespace Microsoft.Extensions.DependencyInjection
             var options = new PbrOptions();
             configure?.Invoke(options);
 
-            services.TryAddSingleton<ShaderLoader<PbrRenderer>>(s =>
-            {
-                return new ShaderLoader<PbrRenderer>(new EmbeddedResourceProvider(Assembly.GetExecutingAssembly(), "DiligentEngine.GltfPbr."));
-            });
+            services.AddSingleton<IResourceProvider<ShaderLoader<PbrRenderer>>>(s =>
+                new EmbeddedResourceProvider<ShaderLoader<PbrRenderer>>(Assembly.GetExecutingAssembly(), "DiligentEngine.GltfPbr."));
+
+            services.TryAddSingleton<ShaderLoader<PbrRenderer>>();
             services.TryAddSingleton<CC0TextureLoader>();
             services.TryAddSingleton<EnvironmentMapBuilder>();
             return options;

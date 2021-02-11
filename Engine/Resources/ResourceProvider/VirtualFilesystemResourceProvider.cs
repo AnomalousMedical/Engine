@@ -7,7 +7,7 @@ using Engine;
 
 namespace Engine.Resources
 {
-    public class VirtualFilesystemResourceProvider : IResourceProvider
+    public class VirtualFilesystemResourceProvider<T> : IResourceProvider<T>
     {
         private String parentPath;
         private int parentPathLength;

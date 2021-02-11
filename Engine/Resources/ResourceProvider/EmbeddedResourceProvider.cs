@@ -9,7 +9,7 @@ using Engine;
 
 namespace Engine.Resources
 {
-    public class EmbeddedResourceProvider : IResourceProvider
+    public class EmbeddedResourceProvider<T> : IResourceProvider<T>
     {
         private Assembly assembly;
         private String baseResourceString;

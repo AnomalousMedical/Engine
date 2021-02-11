@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Engine.Resources
 {
-    public class FilesystemResourceProvider : IResourceProvider
+    public class FilesystemResourceProvider<T> : IResourceProvider<T>
     {
         private String parentPath;
         private int parentPathLength;

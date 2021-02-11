@@ -6,6 +6,11 @@ using System.IO;
 
 namespace Engine.Resources
 {
+    public interface IResourceProvider<T> : IResourceProvider
+    {
+
+    }
+
     public interface IResourceProvider
     {
         /// <summary>
@@ -153,7 +158,7 @@ namespace Engine.Resources
 
     public static class ResourceProviderExtensions
     {
-        public static void cloneTo(IResourceProvider source, IResourceProvider destination)
+        public static void cloneTo<TSrc, TDest>(IResourceProvider<TSrc> source, IResourceProvider<TDest> destination)
         {
             foreach (String dir in source.listDirectories("*", "", true))
             {
