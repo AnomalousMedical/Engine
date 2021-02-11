@@ -13,6 +13,17 @@ extern "C" _AnomalousExport void IDeviceContext_SetRenderTarget(IDeviceContext *
 	objPtr->SetRenderTargets(1, &pRenderTarget, pDepthStencil, StateTransitionMode);
 }
 
+extern "C" _AnomalousExport void IDeviceContext_SetRenderTargets(
+	IDeviceContext * objPtr
+	, Uint32 NumRenderTargets, ITextureView * ppRenderTargets[], ITextureView * pDepthStencil, RESOURCE_STATE_TRANSITION_MODE StateTransitionMode)
+{
+	objPtr->SetRenderTargets(
+		NumRenderTargets
+		, ppRenderTargets
+		, pDepthStencil
+		, StateTransitionMode
+	);
+}
 
 extern "C" _AnomalousExport void IDeviceContext_TransitionResourceStates(
 	IDeviceContext * objPtr

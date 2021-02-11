@@ -133,7 +133,7 @@ namespace DiligentEngine
                     writer.WriteLine(
 @$"            if(_{item.Name} == null || theReturnValue != _{item.Name}.objPtr)
             {{
-                _{item.Name} = new {cSharpReturnType}(theReturnValue);
+                _{item.Name} = theReturnValue == null ? null : new {cSharpReturnType}(theReturnValue);
             }}
             return _{item.Name};");
                 }

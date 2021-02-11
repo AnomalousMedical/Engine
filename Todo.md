@@ -7,8 +7,6 @@ This works with optimal for now, but need to implement this.
  * These make a new value every frame. Pool them, seems to be 1 per buffer, so need more than one. It switches back and forth
  * Find other things that can be adjusted this way
 
-## Change passing lists to pointers to arrays in diligent wrapper.
- * This will be faster and match other code, can use stackalloc or fixed to make it work
- * This would include getting rid of the take size from stuff.
+## Make a dependencies-next branch and put diligent in there
 
-## Figure out how to create environment maps, load these manually
+## Figure out how to build only diligent core

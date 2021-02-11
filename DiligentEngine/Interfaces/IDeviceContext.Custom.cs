@@ -60,12 +60,51 @@ namespace DiligentEngine
         /// Refer to http://diligentgraphics.com/2018/12/09/resource-state-management/ for detailed explanation
         /// of resource state management in Diligent Engine.
         /// </summary>
+        /// TODO: Could this be more efficient? Its not called per frame and looks like it can be in multiple threads, so maybe ok?
         public void TransitionResourceStates(List<StateTransitionDesc> pResourceBarriers)
         {
             IDeviceContext_TransitionResourceStates(
                 this.objPtr
                 , (Uint32)pResourceBarriers.Count
                 , StateTransitionDescPassStruct.ToStruct(pResourceBarriers)
+            );
+        }
+        /// <summary>
+        /// Binds one or more render targets and the depth-stencil buffer to the context. It also
+        /// sets the viewport to match the first non-null render target or depth-stencil buffer.
+        /// \param [in] NumRenderTargets    - Number of render targets to bind.
+        /// \param [in] ppRenderTargets     - Array of pointers to ITextureView that represent the render
+        /// targets to bind to the device. The type of each view in the
+        /// array must be Diligent::TEXTURE_VIEW_RENDER_TARGET.
+        /// \param [in] pDepthStencil       - Pointer to the ITextureView that represents the depth stencil to
+        /// bind to the device. The view type must be
+        /// Diligent::TEXTURE_VIEW_DEPTH_STENCIL.
+        /// \param [in] StateTransitionMode - State transition mode of the render targets and depth stencil buffer being set (see Diligent::RESOURCE_STATE_TRANSITION_MODE).
+        /// 
+        /// \remarks     The device context will keep strong references to all bound render target
+        /// and depth-stencil views. Thus these views (and consequently referenced textures)
+        /// cannot be released until they are unbound from the context.\n
+        /// Any render targets not defined by this call are set to nullptr.\n\n
+        /// 
+        /// \remarks When StateTransitionMode is Diligent::RESOURCE_STATE_TRANSITION_MODE_TRANSITION, the method will
+        /// transition all render targets in known states to Diligent::RESOURCE_STATE_REDER_TARGET,
+        /// and the depth-stencil buffer to Diligent::RESOURCE_STATE_DEPTH_WRITE state.
+        /// Resource state transitioning is not thread safe, so no other thread is allowed to read or write
+        /// the states of resources used by the command.
+        /// 
+        /// If the application intends to use the same resource in other threads simultaneously, it needs to
+        /// explicitly manage the states using IDeviceContext::TransitionResourceStates() method.
+        /// Refer to http://diligentgraphics.com/2018/12/09/resource-state-management/ for detailed explanation
+        /// of resource state management in Diligent Engine.
+        /// </summary>
+        public void SetRenderTargets(ITextureView[] ppRenderTargets, ITextureView pDepthStencil, RESOURCE_STATE_TRANSITION_MODE StateTransitionMode)
+        {
+            IDeviceContext_SetRenderTargets(
+                this.objPtr
+                , (uint)ppRenderTargets.Length
+                , ppRenderTargets.Select(i => i.objPtr).ToArray()
+                , pDepthStencil.objPtr
+                , StateTransitionMode
             );
         }
 
@@ -81,6 +120,15 @@ namespace DiligentEngine
             IntPtr objPtr
             , Uint32 BarrierCount
             , StateTransitionDescPassStruct[] pResourceBarriers_pResource
+        );
+
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void IDeviceContext_SetRenderTargets(
+            IntPtr objPtr
+            , Uint32 NumRenderTargets
+            , IntPtr[] ppRenderTargets
+            , IntPtr pDepthStencil
+            , RESOURCE_STATE_TRANSITION_MODE StateTransitionMode
         );
     }
 }

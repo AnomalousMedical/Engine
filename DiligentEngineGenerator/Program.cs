@@ -665,7 +665,17 @@ namespace DiligentEngineGenerator
                     }
                 }
 
-                var allowedMethods = new List<String> { /*"SetRenderTargets", */"DrawIndexed", "CommitShaderResources", "SetIndexBuffer", "Flush", "ClearRenderTarget", "ClearDepthStencil", "Draw", "SetPipelineState", "MapBuffer", "UnmapBuffer", "SetVertexBuffers" };
+                {
+                    var SetRenderTargets = IDeviceContext.Methods.First(i => i.Name == "SetRenderTargets");
+                    {
+                        var ppRenderTargets = SetRenderTargets.Args.First(i => i.Name == "ppRenderTargets[]");
+                        ppRenderTargets.Name = "ppRenderTargets";
+                        ppRenderTargets.IsArray = true;
+                    }
+                }
+
+                var allowedMethods = new List<String> { "DrawIndexed", "CommitShaderResources", "SetIndexBuffer", "Flush", "ClearRenderTarget", "ClearDepthStencil", "Draw", "SetPipelineState", "MapBuffer", "UnmapBuffer", "SetVertexBuffers" };
+                //The following have custom implementations: "SetRenderTargets"
                 IDeviceContext.Methods = IDeviceContext.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 var rgbaArgs = IDeviceContext.Methods.First(i => i.Name == "ClearRenderTarget")
@@ -698,6 +708,12 @@ namespace DiligentEngineGenerator
             {
                 var ISwapChain = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/SwapChain.h", 54, 119);
                 codeTypeInfo.Interfaces[nameof(ISwapChain)] = ISwapChain;
+
+                {
+                    var GetDepthBufferDSV = ISwapChain.Methods.First(i => i.Name == "GetDepthBufferDSV");
+                    GetDepthBufferDSV.PoolManagedObject = true;
+                }
+
                 var allowedMethods = new List<String> { "Resize", "GetCurrentBackBufferRTV", "GetDepthBufferDSV", "Present" };
                 ISwapChain.Methods = ISwapChain.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();

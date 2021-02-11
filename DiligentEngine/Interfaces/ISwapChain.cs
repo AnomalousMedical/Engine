@@ -91,13 +91,19 @@ namespace DiligentEngine
         /// The method does *NOT* call AddRef() on the returned interface,
         /// so Release() must not be called.
         /// </summary>
+        private ITextureView _GetDepthBufferDSV;
         public ITextureView GetDepthBufferDSV()
         {
+            // Only create a new instance of the return type if this really changed.
             var theReturnValue = 
             ISwapChain_GetDepthBufferDSV(
                 this.objPtr
             );
-            return theReturnValue != IntPtr.Zero ? new ITextureView(theReturnValue) : null;
+            if(_GetDepthBufferDSV == null || theReturnValue != _GetDepthBufferDSV.objPtr)
+            {
+                _GetDepthBufferDSV = theReturnValue == null ? null : new ITextureView(theReturnValue);
+            }
+            return _GetDepthBufferDSV;
         }
 
 

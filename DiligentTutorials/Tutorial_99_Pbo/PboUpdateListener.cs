@@ -78,57 +78,59 @@ namespace Tutorial_99_Pbo
 
         unsafe void Initialize()
         {
-                m_EnvironmentMapSRV = envMapBuilder.BuildEnvMapView(m_pDevice, m_pImmediateContext, "papermill/Fixed-", "png");
+            m_EnvironmentMapSRV = envMapBuilder.BuildEnvMapView(m_pDevice, m_pImmediateContext, "papermill/Fixed-", "png");
 
-                unsafe
-                {
-                    BufferDesc CBDesc = new BufferDesc();
-                    CBDesc.Name = "Camera attribs buffer";
-                    CBDesc.uiSizeInBytes = (uint)sizeof(CameraAttribs);
-                    CBDesc.Usage = USAGE.USAGE_DYNAMIC;
-                    CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
-                    CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
+            unsafe
+            {
+                BufferDesc CBDesc = new BufferDesc();
+                CBDesc.Name = "Camera attribs buffer";
+                CBDesc.uiSizeInBytes = (uint)sizeof(CameraAttribs);
+                CBDesc.Usage = USAGE.USAGE_DYNAMIC;
+                CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
+                CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
 
-                    m_CameraAttribsCB = m_pDevice.CreateBuffer(CBDesc);
-                }
+                m_CameraAttribsCB = m_pDevice.CreateBuffer(CBDesc);
+            }
 
-                {
-                    BufferDesc CBDesc = new BufferDesc();
-                    CBDesc.Name = "Light attribs buffer";
-                    CBDesc.uiSizeInBytes = (uint)sizeof(LightAttribs);
-                    CBDesc.Usage = USAGE.USAGE_DYNAMIC;
-                    CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
-                    CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
+            {
+                BufferDesc CBDesc = new BufferDesc();
+                CBDesc.Name = "Light attribs buffer";
+                CBDesc.uiSizeInBytes = (uint)sizeof(LightAttribs);
+                CBDesc.Usage = USAGE.USAGE_DYNAMIC;
+                CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
+                CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
 
-                    m_LightAttribsCB = m_pDevice.CreateBuffer(CBDesc);
-                }
+                m_LightAttribsCB = m_pDevice.CreateBuffer(CBDesc);
+            }
 
-                {
-                    BufferDesc CBDesc = new BufferDesc();
-                    CBDesc.Name = "Env map render attribs buffer";
-                    CBDesc.uiSizeInBytes = (uint)sizeof(EnvMapRenderAttribs);
-                    CBDesc.Usage = USAGE.USAGE_DYNAMIC;
-                    CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
-                    CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
+            {
+                BufferDesc CBDesc = new BufferDesc();
+                CBDesc.Name = "Env map render attribs buffer";
+                CBDesc.uiSizeInBytes = (uint)sizeof(EnvMapRenderAttribs);
+                CBDesc.Usage = USAGE.USAGE_DYNAMIC;
+                CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
+                CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
 
-                    m_EnvMapRenderAttribsCB = m_pDevice.CreateBuffer(CBDesc);
-                }
+                m_EnvMapRenderAttribsCB = m_pDevice.CreateBuffer(CBDesc);
+            }
 
-                var Barriers = new List<StateTransitionDesc>
+            var Barriers = new List<StateTransitionDesc>
                 {
                     new StateTransitionDesc{pResource = m_CameraAttribsCB.Obj,        OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true},
                     new StateTransitionDesc{pResource = m_LightAttribsCB.Obj,         OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true},
                     new StateTransitionDesc{pResource = m_EnvMapRenderAttribsCB.Obj,  OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true},
                 };
-                m_pImmediateContext.TransitionResourceStates(Barriers);
+            m_pImmediateContext.TransitionResourceStates(Barriers);
 
-                m_GLTFRenderer.PrecomputeCubemaps(m_pDevice, m_pImmediateContext, m_EnvironmentMapSRV.Obj);
+            m_GLTFRenderer.PrecomputeCubemaps(m_pDevice, m_pImmediateContext, m_EnvironmentMapSRV.Obj);
 
-                //Load a cc0 texture
-                //LoadCCoTexture();
 
-                //Create a manual texture
-                CreateTexture();
+            //Only one of these
+            //Load a cc0 texture
+            //LoadCCoTexture();
+
+            //Create a manual texture
+            CreateTexture();
         }
 
         private unsafe void CreateTexture()
@@ -162,7 +164,7 @@ namespace Tutorial_99_Pbo
                     //baseColorMap: ccoTextures.BaseColorMap,
                     //normalMap: ccoTextures.NormalMap,
                     physicalDescriptorMap: physicalDescriptorMap.Obj
-                    //aoMap: ccoTextures.AmbientOcclusionMap
+                //aoMap: ccoTextures.AmbientOcclusionMap
                 );
             }
         }
@@ -171,7 +173,7 @@ namespace Tutorial_99_Pbo
         {
             //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Wood049_1K");
             //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chainmail001_1K");
-            //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chainmail004_1K");
+            using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chainmail004_1K");
             //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/SheetMetal001_1K");
             //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/SheetMetal002_1K");
             //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/SheetMetal004_1K");
@@ -180,7 +182,6 @@ namespace Tutorial_99_Pbo
             //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Fabric026_1K");
             //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Fabric020_1K");
             //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Metal032_1K");
-            using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Metal012_1K");
             //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Leather026_1K");
             //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Leather011_1K");
             //using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Ground037_1K");
