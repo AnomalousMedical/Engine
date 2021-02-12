@@ -13,6 +13,8 @@ namespace Engine
     [StructLayout(LayoutKind.Explicit, Size=12)]
     public struct IntVector3
     {
+        public static readonly IntVector3 Zero = new IntVector3(0, 0, 0);
+
         [FieldOffset(0)]
         public int x;
         

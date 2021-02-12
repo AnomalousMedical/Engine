@@ -16,6 +16,12 @@ namespace Engine.CameraMovement
         float moveSpeed = 10.0f;
         float viewSpeed = 1.0f;
 
+        float xSensitivity = 0.005f;
+        float ySensitivity = 0.005f;
+
+        Vector3 currentForward = Vector3.Forward;
+        Vector3 currentLeft = Vector3.Left;
+
         ButtonEvent moveForward = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_W });
         ButtonEvent moveBackward = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_S });
         ButtonEvent moveLeft = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_A });
@@ -27,6 +33,8 @@ namespace Engine.CameraMovement
         ButtonEvent pitchDown = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_DOWN });
         ButtonEvent yawLeft = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_LEFT });
         ButtonEvent yawRight = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_RIGHT });
+
+        ButtonEvent mouseLook = new ButtonEvent(EventLayers.Default, mouseButtons: new MouseButtonCode[] { MouseButtonCode.MB_BUTTON1 });
 
         public FirstPersonFlyCamera(EventManager eventManager)
         {
@@ -40,6 +48,7 @@ namespace Engine.CameraMovement
             eventManager.addEvent(pitchDown);
             eventManager.addEvent(yawLeft);
             eventManager.addEvent(yawRight);
+            eventManager.addEvent(mouseLook);
             this.eventManager = eventManager;
         }
 
@@ -55,40 +64,11 @@ namespace Engine.CameraMovement
             eventManager.removeEvent(pitchDown);
             eventManager.removeEvent(yawLeft);
             eventManager.removeEvent(yawRight);
+            eventManager.removeEvent(mouseLook);
         }
 
         public void UpdateInput(Clock clock)
         {
-            if (moveForward.Down)
-            {
-                camPos += Vector3.Forward * clock.DeltaSeconds * moveSpeed;
-            }
-
-            if (moveBackward.Down)
-            {
-                camPos += Vector3.Backward * clock.DeltaSeconds * moveSpeed;
-            }
-
-            if (moveLeft.Down)
-            {
-                camPos += Vector3.Left * clock.DeltaSeconds * moveSpeed;
-            }
-
-            if (moveRight.Down)
-            {
-                camPos += Vector3.Right * clock.DeltaSeconds * moveSpeed;
-            }
-
-            if (moveUp.Down)
-            {
-                camPos += Vector3.Up * clock.DeltaSeconds * moveSpeed;
-            }
-
-            if (moveDown.Down)
-            {
-                camPos += Vector3.Down * clock.DeltaSeconds * moveSpeed;
-            }
-
             bool updateRotation = false;
 
             if (pitchUp.Down)
@@ -115,6 +95,21 @@ namespace Engine.CameraMovement
                 updateRotation = true;
             }
 
+            if (mouseLook.Down)
+            {
+                var mousePos = eventManager.Mouse.RelativePosition;
+                if (mousePos != IntVector3.Zero)
+                {
+                    updateRotation = true;
+                    
+                    mousePos.x = Math.Min(mousePos.x, 10);
+                    mousePos.y = Math.Min(mousePos.y, 10);
+                    
+                    yaw += mousePos.x * xSensitivity;
+                    pitch -= mousePos.y * ySensitivity;
+                }
+            }
+
             if (updateRotation)
             {
                 if (pitch > HALF_PI)
@@ -129,6 +124,39 @@ namespace Engine.CameraMovement
                 var yawRot = new Quaternion(Vector3.Up, yaw);
                 var pitchRot = new Quaternion(Vector3.Left, pitch);
                 camRot = yawRot * pitchRot;
+
+                currentForward = Quaternion.quatRotate(camRot, Vector3.Forward);
+                currentLeft = Quaternion.quatRotate(camRot, Vector3.Left);
+            }
+
+            if (moveForward.Down)
+            {
+                camPos += currentForward * clock.DeltaSeconds * moveSpeed;
+            }
+
+            if (moveBackward.Down)
+            {
+                camPos -= currentForward * clock.DeltaSeconds * moveSpeed;
+            }
+
+            if (moveLeft.Down)
+            {
+                camPos += currentLeft * clock.DeltaSeconds * moveSpeed;
+            }
+
+            if (moveRight.Down)
+            {
+                camPos -= currentLeft * clock.DeltaSeconds * moveSpeed;
+            }
+
+            if (moveUp.Down)
+            {
+                camPos += Vector3.Up * clock.DeltaSeconds * moveSpeed;
+            }
+
+            if (moveDown.Down)
+            {
+                camPos += Vector3.Down * clock.DeltaSeconds * moveSpeed;
             }
         }
 
