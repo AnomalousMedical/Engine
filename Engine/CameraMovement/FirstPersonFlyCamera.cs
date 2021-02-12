@@ -15,6 +15,7 @@ namespace Engine.CameraMovement
         float pitch = 0;
         float moveSpeed = 10.0f;
         float viewSpeed = 1.0f;
+        float rStickSensitivity = 3;
 
         float xSensitivity = 0.005f;
         float ySensitivity = 0.005f;
@@ -110,6 +111,14 @@ namespace Engine.CameraMovement
                 }
             }
 
+            var rStick = eventManager.Pad1.RStick;
+            if (rStick.x != 0 || rStick.y != 0)
+            {
+                updateRotation = true;
+                yaw += rStick.x * rStickSensitivity * clock.DeltaSeconds;
+                pitch -= rStick.y * rStickSensitivity * clock.DeltaSeconds;
+            }
+
             if (updateRotation)
             {
                 if (pitch > HALF_PI)
@@ -127,6 +136,13 @@ namespace Engine.CameraMovement
 
                 currentForward = Quaternion.quatRotate(camRot, Vector3.Forward);
                 currentLeft = Quaternion.quatRotate(camRot, Vector3.Left);
+            }
+
+            var lStick = eventManager.Pad1.LStick;
+            if (lStick.x != 0 || lStick.y != 0)
+            {
+                camPos += currentForward * lStick.y * clock.DeltaSeconds * moveSpeed;
+                camPos -= currentLeft * lStick.x * clock.DeltaSeconds * moveSpeed;
             }
 
             if (moveForward.Down)
@@ -173,29 +189,5 @@ namespace Engine.CameraMovement
         }
 
         public Quaternion Orientation => camRot;
-
-        public float Yaw
-        {
-            get
-            {
-                return yaw;
-            }
-            set
-            {
-                yaw = value;
-            }
-        }
-
-        public float Pitch
-        {
-            get
-            {
-                return pitch;
-            }
-            set
-            {
-                pitch = value;
-            }
-        }
     }
 }
