@@ -52,7 +52,7 @@ namespace BepuDemo
         SimpleThreadDispatcher threadDispatcher;
         BufferPool bufferPool;
 
-        private BodyPositionSync spherePositionSync;
+        private List<BodyPositionSync> spherePositionSyncs = new List<BodyPositionSync>();
         //END
 
         public unsafe BepuUpdateListener(
@@ -120,16 +120,30 @@ namespace BepuDemo
             simulation = Simulation.Create(bufferPool, new NarrowPhaseCallbacks(), new PoseIntegratorCallbacks(new System.Numerics.Vector3(0, -10, 0)), new PositionLastTimestepper());
 
             //Drop a ball on a big static box.
-            var sphere = new Sphere(1);
-            sphere.ComputeInertia(1, out var sphereInertia);
-            var sphereHandle = simulation.Bodies.Add(
-                BodyDescription.CreateDynamic(new System.Numerics.Vector3(-0.8f, 5, 0), sphereInertia, new CollidableDescription(simulation.Shapes.Add(new Box(1, 1, 1)), 0.1f), new BodyActivityDescription(0.01f)));
-            
-            spherePositionSync = new BodyPositionSync(simulation.Bodies.GetBodyReference(sphereHandle));
+            var box = new Box(1, 1, 1);
+            box.ComputeInertia(1, out var boxInertia);
+
+            for (var i = 0; i < 10; ++i)
+            {
+                CreateBox(box, boxInertia, new System.Numerics.Vector3(0.8f, 5 + 5 * i, -0.8f));
+            }
 
             simulation.Statics.Add(new StaticDescription(new System.Numerics.Vector3(0, 0, 0), new CollidableDescription(simulation.Shapes.Add(new Box(1, 1, 1)), 0.1f)));
 
+            simulation.Statics.Add(new StaticDescription(new System.Numerics.Vector3(0, -6, 0), new CollidableDescription(simulation.Shapes.Add(new Box(100, 10, 100)), 0.1f)));
+
             threadDispatcher = new SimpleThreadDispatcher(Environment.ProcessorCount);
+        }
+
+        private void CreateBox(Box box, BodyInertia boxInertia, System.Numerics.Vector3 position)
+        {
+            var sphereHandle = simulation.Bodies.Add(
+                BodyDescription.CreateDynamic(
+                    position,
+                    boxInertia, new CollidableDescription(simulation.Shapes.Add(box), 0.1f), new BodyActivityDescription(0.01f)));
+
+            var spherePositionSync = new BodyPositionSync(simulation.Bodies.GetBodyReference(sphereHandle));
+            spherePositionSyncs.Add(spherePositionSync);
         }
 
         private unsafe void LoadCCoTexture()
@@ -181,10 +195,14 @@ namespace BepuDemo
             pbrCameraAndLight.SetLight(ref lightDirection, ref lightColor, lightIntensity);
 
             //Draw cubes
-            var CubeModelTransform = spherePositionSync.GetWorldPositionMatrix(); //Can get translations using the sync object
+            Matrix4x4 CubeModelTransform;
+            foreach (var spherePositionSync in spherePositionSyncs)
+            {
+                CubeModelTransform = spherePositionSync.GetWorldPositionMatrix();
 
-            pbrRenderer.Begin(immediateContext);
-            pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, PbrAlphaMode.ALPHA_MODE_OPAQUE, ref CubeModelTransform, pbrRenderAttribs);
+                pbrRenderer.Begin(immediateContext);
+                pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, PbrAlphaMode.ALPHA_MODE_OPAQUE, ref CubeModelTransform, pbrRenderAttribs);
+            }
 
             CubeModelTransform = Matrix4x4.Identity;
 
