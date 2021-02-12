@@ -170,7 +170,7 @@ namespace BepuDemo
             //instead of outside the timestep, too, but it's a little more complicated.)
             simulation = Simulation.Create(bufferPool, new NarrowPhaseCallbacks(), new PoseIntegratorCallbacks(new System.Numerics.Vector3(0, -10, 0)), new PositionLastTimestepper());
 
-            //Drop a ball on a big static box.
+            //Drop boxes on a big static box.
             boxShape = new Box(1, 1, 1);
             boxShape.ComputeInertia(1, out boxInertia);
 

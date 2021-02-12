@@ -103,8 +103,8 @@ namespace Engine.CameraMovement
                 {
                     updateRotation = true;
                     
-                    mousePos.x = Math.Min(mousePos.x, 10);
-                    mousePos.y = Math.Min(mousePos.y, 10);
+                    mousePos.x = Math.Min(mousePos.x, ScaleHelper.Scaled(10));
+                    mousePos.y = Math.Min(mousePos.y, ScaleHelper.Scaled(10));
                     
                     yaw += mousePos.x * xSensitivity;
                     pitch -= mousePos.y * ySensitivity;
