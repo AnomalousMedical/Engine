@@ -11,6 +11,7 @@ using BepuUtilities;
 using BepuUtilities.Memory;
 using BepuPhysics.Collidables;
 using Microsoft.Extensions.Logging;
+using Engine.CameraMovement;
 
 namespace BepuDemo
 {
@@ -22,12 +23,6 @@ namespace BepuDemo
         float YFov = (float)Math.PI / 4.0f;
         float ZNear = 0.1f;
         float ZFar = 100f;
-        Vector3 camPos = new Vector3(0, 2, -11);
-
-        private const float HALF_PI = (float)Math.PI / 2.0f - 0.001f;
-        Quaternion camRot = Quaternion.Identity;
-        float yaw = 0;
-        float pitch = 0;
 
         //Clear Color
         Engine.Color ClearColor = new Engine.Color(0.032f, 0.032f, 0.032f, 1.0f);
@@ -45,6 +40,7 @@ namespace BepuDemo
         private readonly IPbrCameraAndLight pbrCameraAndLight;
         private readonly ILogger<BepuUpdateListener> logger;
         private readonly EventManager eventManager;
+        private readonly FirstPersonFlyCamera cameraControls;
         private ISwapChain swapChain;
         private IRenderDevice renderDevice;
         private IDeviceContext immediateContext;
@@ -67,17 +63,6 @@ namespace BepuDemo
         private List<BodyPositionSync> spherePositionSyncs = new List<BodyPositionSync>();
         //END
 
-        ButtonEvent moveForward = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_W });
-        ButtonEvent moveBackward = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_S });
-        ButtonEvent moveLeft = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_A });
-        ButtonEvent moveRight = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_D });
-        ButtonEvent moveUp = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_E });
-        ButtonEvent moveDown = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_Q });
-        ButtonEvent pitchUp = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_UP });
-        ButtonEvent pitchDown = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_DOWN });
-        ButtonEvent yawLeft = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_LEFT });
-        ButtonEvent yawRight = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_RIGHT });
-
         public unsafe BepuUpdateListener(
             GraphicsEngine graphicsEngine,
             NativeOSWindow window,
@@ -88,18 +73,10 @@ namespace BepuDemo
             EnvironmentMapBuilder envMapBuilder,
             IPbrCameraAndLight pbrCameraAndLight,
             ILogger<BepuUpdateListener> logger,
-            EventManager eventManager)
+            EventManager eventManager,
+            FirstPersonFlyCamera cameraControls)
         {
-            eventManager.addEvent(moveForward);
-            eventManager.addEvent(moveBackward);
-            eventManager.addEvent(moveLeft);
-            eventManager.addEvent(moveRight);
-            eventManager.addEvent(moveUp);
-            eventManager.addEvent(moveDown);
-            eventManager.addEvent(pitchUp);
-            eventManager.addEvent(pitchDown);
-            eventManager.addEvent(yawLeft);
-            eventManager.addEvent(yawRight);
+
 
             this.pbrRenderer = m_GLTFRenderer;
             this.swapChain = graphicsEngine.SwapChain;
@@ -113,6 +90,8 @@ namespace BepuDemo
             this.pbrCameraAndLight = pbrCameraAndLight;
             this.logger = logger;
             this.eventManager = eventManager;
+            this.cameraControls = cameraControls;
+            cameraControls.Position = new Vector3(0, 2, -11);
             Initialize();
         }
 
@@ -243,86 +222,9 @@ namespace BepuDemo
 
         public unsafe void sendUpdate(Clock clock)
         {
-            UpdateInput(clock);
+            cameraControls.UpdateInput(clock);
             UpdatePhysics(clock);
             Render();
-        }
-
-        float moveSpeed = 10.0f;
-        float viewSpeed = 1.0f;
-        private void UpdateInput(Clock clock)
-        {
-            if (moveForward.Down)
-            {
-                camPos += Vector3.Forward * clock.DeltaSeconds * moveSpeed;
-            }
-
-            if (moveBackward.Down)
-            {
-                camPos += Vector3.Backward * clock.DeltaSeconds * moveSpeed;
-            }
-
-            if (moveLeft.Down)
-            {
-                camPos += Vector3.Left * clock.DeltaSeconds * moveSpeed;
-            }
-
-            if (moveRight.Down)
-            {
-                camPos += Vector3.Right * clock.DeltaSeconds * moveSpeed;
-            }
-
-            if (moveUp.Down)
-            {
-                camPos += Vector3.Up * clock.DeltaSeconds * moveSpeed;
-            }
-
-            if (moveDown.Down)
-            {
-                camPos += Vector3.Down * clock.DeltaSeconds * moveSpeed;
-            }
-
-            bool updateRotation = false;
-
-            if (pitchUp.Down)
-            {
-                pitch += clock.DeltaSeconds * viewSpeed;
-                updateRotation = true;
-            }
-
-            if (pitchDown.Down)
-            {
-                pitch -= clock.DeltaSeconds * viewSpeed;
-                updateRotation = true;
-            }
-
-            if (yawLeft.Down)
-            {
-                yaw -= clock.DeltaSeconds * viewSpeed;
-                updateRotation = true;
-            }
-
-            if (yawRight.Down)
-            {
-                yaw += clock.DeltaSeconds * viewSpeed;
-                updateRotation = true;
-            }
-
-            if (updateRotation)
-            {
-                if (pitch > HALF_PI)
-                {
-                    pitch = HALF_PI;
-                }
-                if (pitch < -HALF_PI)
-                {
-                    pitch = -HALF_PI;
-                }
-
-                var yawRot = new Quaternion(Vector3.Up, yaw);
-                var pitchRot = new Quaternion(Vector3.Left, pitch);
-                camRot = yawRot * pitchRot;
-            }
         }
 
         private unsafe void UpdatePhysics(Clock clock)
@@ -353,7 +255,7 @@ namespace BepuDemo
             // Set Camera, the rot can probably be cached between frames
             var preTransform = CameraHelpers.GetSurfacePretransformMatrix(new Vector3(0, 0, 1), PreTransform);
             var cameraProj = CameraHelpers.GetAdjustedProjectionMatrix(YFov, ZNear, ZFar, window.WindowWidth, window.WindowHeight, PreTransform);
-            pbrCameraAndLight.SetCameraPosition(ref camPos, ref camRot, ref preTransform, ref cameraProj);
+            pbrCameraAndLight.SetCameraPosition(cameraControls.Position, cameraControls.Orientation, ref preTransform, ref cameraProj);
 
             // Set Light
             pbrCameraAndLight.SetLight(ref lightDirection, ref lightColor, lightIntensity);

@@ -16,7 +16,7 @@ namespace DiligentEngine.GltfPbr
         /// <param name="rotation"></param>
         /// <param name="preTransformMatrix"></param>
         /// <param name="CameraProj"></param>
-        void SetCameraPosition(ref Vector3 position, ref Quaternion rotation, ref Matrix4x4 preTransformMatrix, ref Matrix4x4 CameraProj);
+        void SetCameraPosition(Vector3 position, Quaternion rotation, ref Matrix4x4 preTransformMatrix, ref Matrix4x4 CameraProj);
 
         /// <summary>
         /// Set the camera from a set of matrices.

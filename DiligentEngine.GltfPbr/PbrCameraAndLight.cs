@@ -98,7 +98,7 @@ namespace DiligentEngine.GltfPbr
             m_pImmediateContext.UnmapBuffer(m_LightAttribsCB.Obj, MAP_TYPE.MAP_WRITE);
         }
 
-        public void SetCameraPosition(ref Vector3 position, ref Quaternion rotation, ref Matrix4x4 preTransformMatrix, ref Matrix4x4 CameraProj)
+        public void SetCameraPosition(Vector3 position, Quaternion rotation, ref Matrix4x4 preTransformMatrix, ref Matrix4x4 CameraProj)
         {
             //For some reason camera defined backward, so take -position
             var CameraView = Matrix4x4.Translation(-position) * rotation.toRotationMatrix4x4();

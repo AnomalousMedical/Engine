@@ -54,6 +54,8 @@ namespace BepuDemo
 
             services.AddOSPlatform(pluginManager);
 
+            services.AddFirstPersonFlyCamera();
+
             //Add this app's services
             services.TryAddSingleton<BepuUpdateListener>();
 
