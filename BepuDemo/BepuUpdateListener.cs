@@ -125,7 +125,7 @@ namespace BepuDemo
 
             for (var i = 0; i < 10; ++i)
             {
-                CreateBox(box, boxInertia, new System.Numerics.Vector3(0.8f, 5 + 5 * i, -0.8f));
+                CreateBox(box, boxInertia, new System.Numerics.Vector3(-0.8f, 5 + 5 * i, 0.8f));
             }
 
             simulation.Statics.Add(new StaticDescription(new System.Numerics.Vector3(0, 0, 0), new CollidableDescription(simulation.Shapes.Add(new Box(1, 1, 1)), 0.1f)));

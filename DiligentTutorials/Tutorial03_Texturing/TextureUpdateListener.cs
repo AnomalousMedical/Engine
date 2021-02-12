@@ -332,7 +332,7 @@ namespace DiligentEngineCube
             m_pImmediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
             {
-                var trans = Vector3.UnitY * -0.3f;
+                var trans = new Vector3(0, 0, 0);
                 var rot = new Quaternion(clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * (float)Math.PI), 0f, 0f);
 
                 var CubeModelTransform = rot.toRotationMatrix4x4(trans);

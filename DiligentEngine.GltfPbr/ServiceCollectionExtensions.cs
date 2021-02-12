@@ -16,6 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddDiligentEnginePbrShapes(this IServiceCollection services)
         {
             services.TryAddSingleton<Cube>();
+            services.TryAddSingleton<DoubleSizeCube>();
             services.TryAddSingleton<Plane>();
 
             return services;

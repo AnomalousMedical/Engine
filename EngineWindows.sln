@@ -64,6 +64,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BepuPhysics", "..\Dependenc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BepuDemo", "BepuDemo\BepuDemo.csproj", "{50A1E1DC-0BAE-424A-84B7-D0EED567FE58}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{14B98EA1-487A-40F4-BB66-6BDFF27FEACC}"
+	ProjectSection(SolutionItems) = preProject
+		Readme.md = Readme.md
+		Todo.md = Todo.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

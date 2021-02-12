@@ -34,7 +34,7 @@ namespace Tutorial_99_Pbo
         float lightIntensity = 3.0f;
 
         private readonly NativeOSWindow window;
-        private readonly Cube shape;
+        private readonly DoubleSizeCube shape;
         private readonly TextureLoader textureLoader;
         private readonly CC0TextureLoader cc0TextureLoader;
         private readonly EnvironmentMapBuilder envMapBuilder;
@@ -52,7 +52,7 @@ namespace Tutorial_99_Pbo
             GraphicsEngine graphicsEngine,
             NativeOSWindow window,
             PbrRenderer m_GLTFRenderer,
-            Cube shape,
+            DoubleSizeCube shape,
             TextureLoader textureLoader,
             CC0TextureLoader cc0TextureLoader,
             EnvironmentMapBuilder envMapBuilder,
@@ -176,7 +176,7 @@ namespace Tutorial_99_Pbo
             pbrCameraAndLight.SetCameraMatrices(ref CameraProj, ref CameraViewProj, ref CameraWorldPos);
             pbrCameraAndLight.SetLight(ref lightDirection, ref lightColor, lightIntensity);
 
-            var trans = Vector3.Zero;
+            var trans = new Vector3(0, 0, 0);
             var rotAmount = cubeRotSpeed < 0.0001f ? 0f : (clock.CurrentTimeMicro * Clock.MicroToSeconds) / cubeRotSpeed % (2 * (float)Math.PI);
             var rot = new Quaternion(rotAmount * yawFactor, rotAmount * pitchFactor, rotAmount * rollFactor);
 

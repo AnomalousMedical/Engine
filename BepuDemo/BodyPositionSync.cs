@@ -25,9 +25,8 @@ namespace BepuDemo
             var bodOrientation = bodyReference.Pose.Orientation;
             var bodPos = bodyReference.Pose.Position;
             var rot = new Quaternion(bodOrientation.X, bodOrientation.Y, bodOrientation.Z, bodOrientation.W);
-            //rot = rot.inverse(); //Need this if you don't invert x and z below
-            var pos = new Vector3(-bodPos.X, bodPos.Y, -bodPos.Z);//This position doesn't set correctly and rots are backward, something messed up with camera
-                                                                  //Try this without the pbr renderer and see what happens
+            rot = rot.inverse(); //For some reason inverting the rot makes this work
+            var pos = new Vector3(bodPos.X, bodPos.Y, bodPos.Z);
 
             return rot.toRotationMatrix4x4(pos);
         }
