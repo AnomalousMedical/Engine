@@ -168,7 +168,9 @@ namespace BepuDemo
 
             simulation.Statics.Add(new StaticDescription(new System.Numerics.Vector3(0, -6, 0), new CollidableDescription(simulation.Shapes.Add(new Box(100, 10, 100)), 0.1f)));
 
-            threadDispatcher = new SimpleThreadDispatcher(Environment.ProcessorCount);
+            //Taking off 1 thread could help stability https://github.com/bepu/bepuphysics2/blob/master/Documentation/PerformanceTips.md#general
+            var numThreads = Math.Max(Environment.ProcessorCount - 1, 1);
+            threadDispatcher = new SimpleThreadDispatcher(numThreads); 
         }
 
         private void CreateBox(Box box, BodyInertia boxInertia, System.Numerics.Vector3 position)
