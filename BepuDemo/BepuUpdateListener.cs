@@ -52,6 +52,8 @@ namespace BepuDemo
         SimpleThreadDispatcher threadDispatcher;
         BufferPool bufferPool;
 
+        Box boxShape;
+        BodyInertia boxInertia;
         private List<BodyPositionSync> spherePositionSyncs = new List<BodyPositionSync>();
         //END
 
@@ -120,13 +122,8 @@ namespace BepuDemo
             simulation = Simulation.Create(bufferPool, new NarrowPhaseCallbacks(), new PoseIntegratorCallbacks(new System.Numerics.Vector3(0, -10, 0)), new PositionLastTimestepper());
 
             //Drop a ball on a big static box.
-            var box = new Box(1, 1, 1);
-            box.ComputeInertia(1, out var boxInertia);
-
-            for (var i = 0; i < 10; ++i)
-            {
-                CreateBox(box, boxInertia, new System.Numerics.Vector3(-0.8f, 5 + 5 * i, 0.8f));
-            }
+            boxShape = new Box(1, 1, 1);
+            boxShape.ComputeInertia(1, out boxInertia);
 
             simulation.Statics.Add(new StaticDescription(new System.Numerics.Vector3(0, 0, 0), new CollidableDescription(simulation.Shapes.Add(new Box(1, 1, 1)), 0.1f)));
 
@@ -169,8 +166,17 @@ namespace BepuDemo
 
         }
 
+        private long nextCubeSpawnTime = 0;
+        private long nextCubeSpawnFrequency = 1 * Clock.SecondsToMicro;
+
         public unsafe void sendUpdate(Clock clock)
         {
+            if(clock.CurrentTimeMicro > nextCubeSpawnTime)
+            {
+                CreateBox(boxShape, boxInertia, new System.Numerics.Vector3(-0.8f, 5, 0.8f));
+                nextCubeSpawnTime += nextCubeSpawnFrequency;
+            }
+
             //Multithreading is pretty pointless for a simulation of one ball, but passing a IThreadDispatcher instance is all you have to do to enable multithreading.
             //If you don't want to use multithreading, don't pass a IThreadDispatcher.
             simulation.Timestep(clock.DeltaSeconds, threadDispatcher); //Careful of variable timestep here, not so good
@@ -187,7 +193,7 @@ namespace BepuDemo
             // Set Camera
             var preTransform = CameraHelpers.GetSurfacePretransformMatrix(new Vector3(0, 0, 1), PreTransform);
             var cameraProj = CameraHelpers.GetAdjustedProjectionMatrix(YFov, ZNear, ZFar, window.WindowWidth, window.WindowHeight, PreTransform);
-            var camPos = new Vector3(0, 2, 7);
+            var camPos = new Vector3(0, 2, 9);
             var camRot = Quaternion.Identity;
             pbrCameraAndLight.SetCameraPosition(ref camPos, ref camRot, ref preTransform, ref cameraProj);
 
