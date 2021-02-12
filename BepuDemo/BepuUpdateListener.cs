@@ -10,11 +10,13 @@ using BepuPhysics;
 using BepuUtilities;
 using BepuUtilities.Memory;
 using BepuPhysics.Collidables;
+using Microsoft.Extensions.Logging;
 
 namespace BepuDemo
 {
     class BepuUpdateListener : UpdateListener, IDisposable
     {
+        private const string CC0TexturePath = "cc0Textures/Pipe002_1K";
 
         //Camera Settings
         float YFov = (float)Math.PI / 4.0f;
@@ -26,8 +28,8 @@ namespace BepuDemo
 
         //Light
         Vector3 lightDirection = Vector3.Forward;
-        Vector4 lightColor = new Vector4(1, 1, 1, 1);
-        float lightIntensity = 3.0f;
+        Vector4 lightColor = new Vector4(0, 0, 0, 0);
+        float lightIntensity = 3f;
 
         private readonly NativeOSWindow window;
         private readonly Cube shape;
@@ -35,6 +37,7 @@ namespace BepuDemo
         private readonly CC0TextureLoader cc0TextureLoader;
         private readonly EnvironmentMapBuilder envMapBuilder;
         private readonly IPbrCameraAndLight pbrCameraAndLight;
+        private readonly ILogger<BepuUpdateListener> logger;
         private ISwapChain swapChain;
         private IRenderDevice renderDevice;
         private IDeviceContext immediateContext;
@@ -65,7 +68,8 @@ namespace BepuDemo
             TextureLoader textureLoader,
             CC0TextureLoader cc0TextureLoader,
             EnvironmentMapBuilder envMapBuilder,
-            IPbrCameraAndLight pbrCameraAndLight)
+            IPbrCameraAndLight pbrCameraAndLight,
+            ILogger<BepuUpdateListener> logger)
         {
             this.pbrRenderer = m_GLTFRenderer;
             this.swapChain = graphicsEngine.SwapChain;
@@ -77,6 +81,7 @@ namespace BepuDemo
             this.cc0TextureLoader = cc0TextureLoader;
             this.envMapBuilder = envMapBuilder;
             this.pbrCameraAndLight = pbrCameraAndLight;
+            this.logger = logger;
             Initialize();
         }
 
@@ -105,8 +110,42 @@ namespace BepuDemo
             //Only one of these
             //Load a cc0 texture
             LoadCCoTexture();
+            //CreateShinyTexture();
 
             SetupBepu();
+        }
+
+        private unsafe void CreateShinyTexture()
+        {
+            const uint texDim = 10;
+            var physDesc = new UInt32[texDim * texDim];
+            var physDescSpan = new Span<UInt32>(physDesc);
+            physDescSpan.Fill(0xff0000ff);
+
+            var TexDesc = new TextureDesc();
+            TexDesc.Type = RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D;
+            TexDesc.Usage = USAGE.USAGE_IMMUTABLE;
+            TexDesc.BindFlags = BIND_FLAGS.BIND_SHADER_RESOURCE;
+            TexDesc.Depth = 1;
+            TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_BGRA8_UNORM;
+            TexDesc.MipLevels = 1;
+            TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_BGRA8_UNORM;
+            TexDesc.Width = 10;
+            TexDesc.Height = 10;
+
+            fixed (UInt32* pPhysDesc = physDesc)
+            {
+                var Level0Data = new TextureSubResData { pData = new IntPtr(pPhysDesc), Stride = texDim * 4 };
+                var InitData = new TextureData { pSubResources = new List<TextureSubResData> { Level0Data } };
+
+                using var physicalDescriptorMap = renderDevice.CreateTexture(TexDesc, InitData);
+
+                pboMatBinding = pbrRenderer.CreateMaterialSRB(
+                    pCameraAttribs: pbrCameraAndLight.CameraAttribs,
+                    pLightAttribs: pbrCameraAndLight.LightAttribs,
+                    physicalDescriptorMap: physicalDescriptorMap.Obj
+                );
+            }
         }
 
         private void SetupBepu()
@@ -141,11 +180,12 @@ namespace BepuDemo
 
             var spherePositionSync = new BodyPositionSync(simulation.Bodies.GetBodyReference(sphereHandle));
             spherePositionSyncs.Add(spherePositionSync);
+            logger.LogInformation($"Box {spherePositionSyncs.Count} added");
         }
 
         private unsafe void LoadCCoTexture()
         {
-            using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chainmail004_1K");
+            using var ccoTextures = cc0TextureLoader.LoadTextureSet(CC0TexturePath);
             pboMatBinding = pbrRenderer.CreateMaterialSRB(
                 pCameraAttribs: pbrCameraAndLight.CameraAttribs,
                 pLightAttribs: pbrCameraAndLight.LightAttribs,
@@ -193,7 +233,7 @@ namespace BepuDemo
             // Set Camera
             var preTransform = CameraHelpers.GetSurfacePretransformMatrix(new Vector3(0, 0, 1), PreTransform);
             var cameraProj = CameraHelpers.GetAdjustedProjectionMatrix(YFov, ZNear, ZFar, window.WindowWidth, window.WindowHeight, PreTransform);
-            var camPos = new Vector3(0, 2, 9);
+            var camPos = new Vector3(0, 2, -11);
             var camRot = Quaternion.Identity;
             pbrCameraAndLight.SetCameraPosition(ref camPos, ref camRot, ref preTransform, ref cameraProj);
 
