@@ -1,5 +1,8 @@
 # TODO
 
 ## Figure out why orientation has to be inverted from physics to rendering
-1. Check compared to a simple renderer like the colored cube, would show if issue is pbr specific.
-2. Compare final matrices created by inverting vs not inverting.
+This is all handled by the pbr renderer, but it is strange that rotations have to be inverted to render correctly.
+
+## Figure out why camera position is backward
+In order to move the camera through the world in the same coords as the rest the position must be inverted before setting the shader. This is
+handled in pbr camera and lights.
