@@ -9,6 +9,5 @@ handled in pbr camera and lights.
 
 ## Fix physics timestep
 use a fixed timestep with an accumulator, interpolate in between values
-for the bodypositionsyncs don't worry about keeping them up to date. cache the last requested value along with the time or some identifier of when
-the sim frame ran. use this to interpolate unless its too old then just use the current value. assumption is nothing cared about its position until just now
+keep everything position seen on this frame, throw away results from last frame use this to interpolate unless its too old then just use the current value. assumption is nothing cared about its position until just now
 otherwise can we make a copy of the whole simulation since it uses a buffer?

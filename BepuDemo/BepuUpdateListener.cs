@@ -17,7 +17,7 @@ namespace BepuDemo
 {
     class BepuUpdateListener : UpdateListener, IDisposable
     {
-        private const string CC0TexturePath = "cc0Textures/Pipe002_1K";
+        private const string CC0TexturePath = "cc0Textures/Wood049_1K";
 
         //Camera Settings
         float YFov = (float)Math.PI / 4.0f;
@@ -29,8 +29,8 @@ namespace BepuDemo
 
         //Light
         Vector3 lightDirection = Vector3.Forward;
-        Vector4 lightColor = new Vector4(0, 0, 0, 0);
-        float lightIntensity = 3f;
+        Vector4 lightColor = new Vector4(1, 1, 1, 1);
+        float lightIntensity = 1f;
 
         private readonly NativeOSWindow window;
         private readonly Cube shape;
@@ -231,7 +231,19 @@ namespace BepuDemo
         {
             if (clock.CurrentTimeMicro > nextCubeSpawnTime)
             {
-                CreateBox(boxShape, boxInertia, new System.Numerics.Vector3(-0.8f, 5, 0.8f));
+                float highest = 2;
+                //Find highest box
+                foreach(var body in spherePositionSyncs)
+                {
+                    var world = body.GetWorldPosition();
+                    world.y += 1.5f;
+                    if(world.y > highest)
+                    {
+                        highest = world.y;
+                    }
+                }
+
+                CreateBox(boxShape, boxInertia, new System.Numerics.Vector3(-0.8f, highest, 0.8f));
                 nextCubeSpawnTime += nextCubeSpawnFrequency;
                 window.Title = $"BepuDemo - {spherePositionSyncs.Count} boxes.";
             }

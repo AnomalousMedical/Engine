@@ -46,7 +46,7 @@ namespace BepuDemo
                     {
                         o.CustomizePbrOptions = RendererCI =>
                         {
-                            RendererCI.AllowDebugView = true;
+                            //RendererCI.AllowDebugView = true;
                             RendererCI.UseIBL = true;
                         };
                     })
