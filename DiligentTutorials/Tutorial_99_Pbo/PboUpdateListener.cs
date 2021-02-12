@@ -180,10 +180,8 @@ namespace Tutorial_99_Pbo
             var rotAmount = cubeRotSpeed < 0.0001f ? 0f : (clock.CurrentTimeMicro * Clock.MicroToSeconds) / cubeRotSpeed % (2 * (float)Math.PI);
             var rot = new Quaternion(rotAmount * yawFactor, rotAmount * pitchFactor, rotAmount * rollFactor);
 
-            var CubeModelTransform = rot.toRotationMatrix4x4(trans);
-
             pbrRenderer.Begin(immediateContext);
-            pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, PbrAlphaMode.ALPHA_MODE_OPAQUE, ref CubeModelTransform, pbrRenderAttribs);
+            pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, PbrAlphaMode.ALPHA_MODE_OPAQUE, ref trans, ref rot, pbrRenderAttribs);
 
             this.swapChain.Present(1);
         }

@@ -20,15 +20,16 @@ namespace BepuDemo
             this.bodyReference = bodyReference;
         }
 
-        public Matrix4x4 GetWorldPositionMatrix()
+        public Vector3 GetWorldPosition()
+        {
+            var bodPos = bodyReference.Pose.Position;
+            return new Vector3(bodPos.X, bodPos.Y, bodPos.Z);
+        }
+
+        public Quaternion GetWorldOrientation()
         {
             var bodOrientation = bodyReference.Pose.Orientation;
-            var bodPos = bodyReference.Pose.Position;
-            var rot = new Quaternion(bodOrientation.X, bodOrientation.Y, bodOrientation.Z, bodOrientation.W);
-            rot = rot.inverse(); //For some reason inverting the rot makes this work
-            var pos = new Vector3(bodPos.X, bodPos.Y, bodPos.Z);
-
-            return rot.toRotationMatrix4x4(pos);
+            return new Quaternion(bodOrientation.X, bodOrientation.Y, bodOrientation.Z, bodOrientation.W);
         }
     }
 }

@@ -100,8 +100,8 @@ namespace DiligentEngine.GltfPbr
 
         public void SetCameraPosition(ref Vector3 position, ref Quaternion rotation, ref Matrix4x4 preTransformMatrix, ref Matrix4x4 CameraProj)
         {
-
-            var CameraView = rotation.toRotationMatrix4x4(new Vector3(-position.x, -position.y, -position.z)); //For some reason camera is so this will reverse it
+            //For some reason camera defined backward, so take -position
+            var CameraView = Matrix4x4.Translation(-position) * rotation.toRotationMatrix4x4();
 
             // Apply pretransform matrix that rotates the scene according the surface orientation
             CameraView *= preTransformMatrix;

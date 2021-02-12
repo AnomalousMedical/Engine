@@ -22,6 +22,10 @@ namespace BepuDemo
         float YFov = (float)Math.PI / 4.0f;
         float ZNear = 0.1f;
         float ZFar = 100f;
+        Vector3 camPos = new Vector3(0, 2, -11);
+
+        private const float HALF_PI = (float)Math.PI / 2.0f - 0.001f;
+        Quaternion camRot = Quaternion.Identity;
 
         //Clear Color
         Engine.Color ClearColor = new Engine.Color(0.032f, 0.032f, 0.032f, 1.0f);
@@ -38,6 +42,7 @@ namespace BepuDemo
         private readonly EnvironmentMapBuilder envMapBuilder;
         private readonly IPbrCameraAndLight pbrCameraAndLight;
         private readonly ILogger<BepuUpdateListener> logger;
+        private readonly EventManager eventManager;
         private ISwapChain swapChain;
         private IRenderDevice renderDevice;
         private IDeviceContext immediateContext;
@@ -60,6 +65,17 @@ namespace BepuDemo
         private List<BodyPositionSync> spherePositionSyncs = new List<BodyPositionSync>();
         //END
 
+        ButtonEvent moveForward = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_W });
+        ButtonEvent moveBackward = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_S });
+        ButtonEvent moveLeft = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_A });
+        ButtonEvent moveRight = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_D });
+        ButtonEvent moveUp = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_E });
+        ButtonEvent moveDown = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_Q });
+        ButtonEvent pitchUp = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_UP });
+        ButtonEvent pitchDown = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_DOWN });
+        ButtonEvent yawLeft = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_LEFT });
+        ButtonEvent yawRight = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_RIGHT });
+
         public unsafe BepuUpdateListener(
             GraphicsEngine graphicsEngine,
             NativeOSWindow window,
@@ -69,8 +85,20 @@ namespace BepuDemo
             CC0TextureLoader cc0TextureLoader,
             EnvironmentMapBuilder envMapBuilder,
             IPbrCameraAndLight pbrCameraAndLight,
-            ILogger<BepuUpdateListener> logger)
+            ILogger<BepuUpdateListener> logger,
+            EventManager eventManager)
         {
+            eventManager.addEvent(moveForward);
+            eventManager.addEvent(moveBackward);
+            eventManager.addEvent(moveLeft);
+            eventManager.addEvent(moveRight);
+            eventManager.addEvent(moveUp);
+            eventManager.addEvent(moveDown);
+            eventManager.addEvent(pitchUp);
+            eventManager.addEvent(pitchDown);
+            eventManager.addEvent(yawLeft);
+            eventManager.addEvent(yawRight);
+
             this.pbrRenderer = m_GLTFRenderer;
             this.swapChain = graphicsEngine.SwapChain;
             this.renderDevice = graphicsEngine.RenderDevice;
@@ -82,6 +110,7 @@ namespace BepuDemo
             this.envMapBuilder = envMapBuilder;
             this.pbrCameraAndLight = pbrCameraAndLight;
             this.logger = logger;
+            this.eventManager = eventManager;
             Initialize();
         }
 
@@ -182,7 +211,6 @@ namespace BepuDemo
 
             var spherePositionSync = new BodyPositionSync(simulation.Bodies.GetBodyReference(sphereHandle));
             spherePositionSyncs.Add(spherePositionSync);
-            logger.LogInformation($"Box {spherePositionSyncs.Count} added");
         }
 
         private unsafe void LoadCCoTexture()
@@ -213,16 +241,106 @@ namespace BepuDemo
 
         public unsafe void sendUpdate(Clock clock)
         {
-            if(clock.CurrentTimeMicro > nextCubeSpawnTime)
+            UpdateInput(clock);
+            UpdatePhysics(clock);
+            Render();
+        }
+
+        float moveSpeed = 10.0f;
+        float viewSpeed = 1.0f;
+        private void UpdateInput(Clock clock)
+        {
+            if (moveForward.Down)
+            {
+                camPos += Vector3.Forward * clock.DeltaSeconds * moveSpeed;
+            }
+
+            if (moveBackward.Down)
+            {
+                camPos += Vector3.Backward * clock.DeltaSeconds * moveSpeed;
+            }
+
+            if (moveLeft.Down)
+            {
+                camPos += Vector3.Left * clock.DeltaSeconds * moveSpeed;
+            }
+
+            if (moveRight.Down)
+            {
+                camPos += Vector3.Right * clock.DeltaSeconds * moveSpeed;
+            }
+
+            if (moveUp.Down)
+            {
+                camPos += Vector3.Up * clock.DeltaSeconds * moveSpeed;
+            }
+
+            if (moveDown.Down)
+            {
+                camPos += Vector3.Down * clock.DeltaSeconds * moveSpeed;
+            }
+
+            bool updateRotation = false;
+            var yaw = 0.0f;
+            var pitch = 0.0f;
+
+            if (pitchUp.Down)
+            {
+                pitch = clock.DeltaSeconds * viewSpeed;
+                updateRotation = true;
+            }
+
+            if (pitchDown.Down)
+            {
+                pitch = -clock.DeltaSeconds * viewSpeed;
+                updateRotation = true;
+            }
+
+            if (yawLeft.Down)
+            {
+                yaw = -clock.DeltaSeconds * viewSpeed;
+                updateRotation = true;
+            }
+
+            if (yawRight.Down)
+            {
+                yaw = clock.DeltaSeconds * viewSpeed;
+                updateRotation = true;
+            }
+
+            if (updateRotation)
+            {
+                if (pitch > HALF_PI)
+                {
+                    pitch = HALF_PI;
+                }
+                if (pitch < -HALF_PI)
+                {
+                    pitch = -HALF_PI;
+                }
+
+                var yawRot = new Quaternion(Vector3.Up, yaw);
+                var pitchRot = new Quaternion(Vector3.Left, pitch);
+                camRot = camRot * yawRot * pitchRot;
+            }
+        }
+
+        private unsafe void UpdatePhysics(Clock clock)
+        {
+            if (clock.CurrentTimeMicro > nextCubeSpawnTime)
             {
                 CreateBox(boxShape, boxInertia, new System.Numerics.Vector3(-0.8f, 5, 0.8f));
                 nextCubeSpawnTime += nextCubeSpawnFrequency;
+                window.Title = $"BepuDemo - {spherePositionSyncs.Count} boxes.";
             }
 
             //Multithreading is pretty pointless for a simulation of one ball, but passing a IThreadDispatcher instance is all you have to do to enable multithreading.
             //If you don't want to use multithreading, don't pass a IThreadDispatcher.
             simulation.Timestep(clock.DeltaSeconds, threadDispatcher); //Careful of variable timestep here, not so good
-            
+        }
+
+        private unsafe void Render()
+        {
             //Render
             var pRTV = swapChain.GetCurrentBackBufferRTV();
             var pDSV = swapChain.GetDepthBufferDSV();
@@ -232,30 +350,32 @@ namespace BepuDemo
             immediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            // Set Camera
+            // Set Camera, the rot can probably be cached between frames
             var preTransform = CameraHelpers.GetSurfacePretransformMatrix(new Vector3(0, 0, 1), PreTransform);
             var cameraProj = CameraHelpers.GetAdjustedProjectionMatrix(YFov, ZNear, ZFar, window.WindowWidth, window.WindowHeight, PreTransform);
-            var camPos = new Vector3(0, 2, -11);
-            var camRot = Quaternion.Identity;
             pbrCameraAndLight.SetCameraPosition(ref camPos, ref camRot, ref preTransform, ref cameraProj);
 
             // Set Light
             pbrCameraAndLight.SetLight(ref lightDirection, ref lightColor, lightIntensity);
 
             //Draw cubes
-            Matrix4x4 CubeModelTransform;
+            Vector3 cubePosition;
+            Quaternion cubeOrientation;
+
             foreach (var spherePositionSync in spherePositionSyncs)
             {
-                CubeModelTransform = spherePositionSync.GetWorldPositionMatrix();
+                cubePosition = spherePositionSync.GetWorldPosition();
+                cubeOrientation = spherePositionSync.GetWorldOrientation();
 
                 pbrRenderer.Begin(immediateContext);
-                pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, PbrAlphaMode.ALPHA_MODE_OPAQUE, ref CubeModelTransform, pbrRenderAttribs);
+                pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, PbrAlphaMode.ALPHA_MODE_OPAQUE, ref cubePosition, ref cubeOrientation, pbrRenderAttribs);
             }
 
-            CubeModelTransform = Matrix4x4.Identity;
+            cubePosition = Vector3.Zero;
+            cubeOrientation = Quaternion.Identity;
 
             pbrRenderer.Begin(immediateContext);
-            pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, PbrAlphaMode.ALPHA_MODE_OPAQUE, ref CubeModelTransform, pbrRenderAttribs);
+            pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, PbrAlphaMode.ALPHA_MODE_OPAQUE, ref cubePosition, ref cubeOrientation, pbrRenderAttribs);
 
             this.swapChain.Present(1);
         }

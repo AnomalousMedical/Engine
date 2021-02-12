@@ -784,7 +784,8 @@ namespace DiligentEngine.GltfPbr
             IBuffer indexBuffer,
             Uint32 numIndices,
             PbrAlphaMode AlphaMode,
-            ref float4x4 position, 
+            ref Vector3 position,
+            ref Quaternion rotation,
             PbrRenderAttribs renderAttribs
             )
         {
@@ -805,7 +806,8 @@ namespace DiligentEngine.GltfPbr
                 IntPtr data = pCtx.MapBuffer(m_TransformsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
                 var transform = (GLTFNodeShaderTransforms*)data.ToPointer();
 
-                transform->NodeMatrix = position;
+                //Have to take inverse of rotations to have renderer render them correctly
+                transform->NodeMatrix = rotation.inverse().toRotationMatrix4x4(position);
                 transform->JointCount = 0;
 
                 pCtx.UnmapBuffer(m_TransformsCB.Obj, MAP_TYPE.MAP_WRITE);
