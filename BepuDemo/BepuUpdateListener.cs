@@ -26,6 +26,8 @@ namespace BepuDemo
 
         private const float HALF_PI = (float)Math.PI / 2.0f - 0.001f;
         Quaternion camRot = Quaternion.Identity;
+        float yaw = 0;
+        float pitch = 0;
 
         //Clear Color
         Engine.Color ClearColor = new Engine.Color(0.032f, 0.032f, 0.032f, 1.0f);
@@ -281,30 +283,28 @@ namespace BepuDemo
             }
 
             bool updateRotation = false;
-            var yaw = 0.0f;
-            var pitch = 0.0f;
 
             if (pitchUp.Down)
             {
-                pitch = clock.DeltaSeconds * viewSpeed;
+                pitch += clock.DeltaSeconds * viewSpeed;
                 updateRotation = true;
             }
 
             if (pitchDown.Down)
             {
-                pitch = -clock.DeltaSeconds * viewSpeed;
+                pitch -= clock.DeltaSeconds * viewSpeed;
                 updateRotation = true;
             }
 
             if (yawLeft.Down)
             {
-                yaw = -clock.DeltaSeconds * viewSpeed;
+                yaw -= clock.DeltaSeconds * viewSpeed;
                 updateRotation = true;
             }
 
             if (yawRight.Down)
             {
-                yaw = clock.DeltaSeconds * viewSpeed;
+                yaw += clock.DeltaSeconds * viewSpeed;
                 updateRotation = true;
             }
 
@@ -321,7 +321,7 @@ namespace BepuDemo
 
                 var yawRot = new Quaternion(Vector3.Up, yaw);
                 var pitchRot = new Quaternion(Vector3.Left, pitch);
-                camRot = camRot * yawRot * pitchRot;
+                camRot = yawRot * pitchRot;
             }
         }
 
