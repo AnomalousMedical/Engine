@@ -48,6 +48,9 @@ namespace Tutorial_99_Pbo
                         {
                             RendererCI.AllowDebugView = true;
                             RendererCI.UseIBL = true;
+                            RendererCI.ColorMapImmutableSampler.MinFilter = DiligentEngine.FILTER_TYPE.FILTER_TYPE_POINT;
+                            RendererCI.ColorMapImmutableSampler.MagFilter = DiligentEngine.FILTER_TYPE.FILTER_TYPE_POINT;
+                            RendererCI.ColorMapImmutableSampler.MipFilter = DiligentEngine.FILTER_TYPE.FILTER_TYPE_POINT;
                         };
                     })
                     .AddDiligentEnginePbrShapes();
