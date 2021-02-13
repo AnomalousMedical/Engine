@@ -79,6 +79,10 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddSingleton<IPbrCameraAndLight, PbrCameraAndLight>();
 
+            services.AddSingleton<IResourceProvider<CC0MaterialTextureBuilder>>(s =>
+                            new VirtualFilesystemResourceProvider<CC0MaterialTextureBuilder>(s.GetRequiredService<VirtualFileSystem>()));
+            services.AddSingleton<ICC0MaterialTextureBuilder, CC0MaterialTextureBuilder>();
+
             return options;
         }
 

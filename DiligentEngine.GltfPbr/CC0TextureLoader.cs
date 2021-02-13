@@ -87,7 +87,13 @@ namespace DiligentEngine.GltfPbr
                         }
 
                         using var physicalDescriptorBmp = new FreeImageBitmap(width, height, PixelFormat.Format32bppArgb);
-                        physicalDescriptorBmp.FillBackground(0);
+                        unsafe 
+                        { 
+                            var firstPixel = ((uint*)physicalDescriptorBmp.Scan0.ToPointer()) - ((physicalDescriptorBmp.Height - 1) * physicalDescriptorBmp.Width);
+                            var size = physicalDescriptorBmp.Width * physicalDescriptorBmp.Height;
+                            var span = new Span<UInt32>(firstPixel, size);
+                            span.Fill(PbrRenderer.DefaultPhysical);
+                        }
                         if (metalnessBmp != null)
                         {
                             physicalDescriptorBmp.SetChannel(metalnessBmp, FREE_IMAGE_COLOR_CHANNEL.FICC_BLUE);

@@ -71,27 +71,30 @@ namespace DiligentEngine.GltfPbr
             {
                 foreach (var textureSet in materialIds.Values)
                 {
-                    var textures = LoadTextureSet(textureSet.basePath, textureSet.ext ?? "jpg");
-                    materialSets.Add(textureSet.basePath, textures);
-
-                    var exampleSet = materialSets.First().Value;
-                    var example = exampleSet.NormalMap ?? exampleSet.PhysicalDescriptorMap ?? exampleSet.AmbientOcclusionMap;
-
-                    unsafe
+                    if (!materialSets.ContainsKey(textureSet.basePath))
                     {
-                        var indexScan0 = (UInt32*)indexImage.Scan0.ToPointer();
-                        for (var y = 0; y < indexImage.Height; ++y)
+                        var textures = LoadTextureSet(textureSet.basePath, textureSet.ext ?? "jpg");
+                        materialSets.Add(textureSet.basePath, textures);
+                    }
+                }
+
+                var exampleSet = materialSets.First().Value;
+                var example = exampleSet.NormalMap ?? exampleSet.PhysicalDescriptorMap ?? exampleSet.AmbientOcclusionMap;
+
+                unsafe
+                {
+                    var indexScan0 = (UInt32*)indexImage.Scan0.ToPointer();
+                    for (var y = 0; y < indexImage.Height; ++y)
+                    {
+                        var scanline = indexScan0 - y * indexImage.Width;
+                        for (var x = 0; x < indexImage.Width; ++x)
                         {
-                            var scanline = indexScan0 - y * indexImage.Width;
-                            for (var x = 0; x < indexImage.Width; ++x)
+                            if (materialIds.TryGetValue(scanline[x], out var mat)
+                             && materialSets.TryGetValue(mat.basePath, out var matSet))
                             {
-                                if (materialIds.TryGetValue(scanline[x], out var mat)
-                                 && materialSets.TryGetValue(mat.basePath, out var matSet))
-                                {
-                                    var scaledX = x * scale;
-                                    var scaledY = y * scale;
-                                    SetMaterialPixel(scaledX, scaledY, scale, scale, matSet, result, destSize);
-                                }
+                                var scaledX = x * scale;
+                                var scaledY = y * scale;
+                                SetMaterialPixel(scaledX, scaledY, scale, scale, matSet, result, destSize);
                             }
                         }
                     }
@@ -163,7 +166,7 @@ namespace DiligentEngine.GltfPbr
                         }
 
                         var physicalDescriptorBmp = new FreeImageBitmap(width, height, PixelFormat.Format32bppArgb);
-                        physicalDescriptorBmp.FillBackground(PbrRenderer.DefaultPhysical);
+                        FillWithColor(PbrRenderer.DefaultPhysical, physicalDescriptorBmp);
                         if (metalnessBmp != null)
                         {
                             physicalDescriptorBmp.SetChannel(metalnessBmp, FREE_IMAGE_COLOR_CHANNEL.FICC_BLUE);
@@ -197,6 +200,14 @@ namespace DiligentEngine.GltfPbr
             return result;
         }
 
+        private unsafe void FillWithColor(UInt32 color, FreeImageBitmap bmp)
+        {
+            var firstPixel = ((uint*)bmp.Scan0.ToPointer()) - ((bmp.Height - 1) * bmp.Width);
+            var size = bmp.Width * bmp.Height;
+            var span = new Span<UInt32>(firstPixel, size);
+            span.Fill(color);
+        }
+
         private void SetMaterialPixel(int x, int y, int width, int height, CC0MaterialTextureBuffers src, CC0MaterialTextureBuffers dest, IntSize2 destSize)
         {
             if (src.NormalMap != null)
@@ -204,7 +215,7 @@ namespace DiligentEngine.GltfPbr
                 if (dest.NormalMap == null)
                 {
                     var bmp = new FreeImageBitmap(destSize.Width, destSize.Height, src.NormalMap.PixelFormat);
-                    bmp.FillBackground(PbrRenderer.DefaultNormal);
+                    FillWithColor(PbrRenderer.DefaultNormal, bmp);
                     dest.SetNormalMap(bmp);
                 }
 
@@ -216,7 +227,7 @@ namespace DiligentEngine.GltfPbr
                 if (dest.PhysicalDescriptorMap == null)
                 {
                     var bmp = new FreeImageBitmap(destSize.Width, destSize.Height, src.PhysicalDescriptorMap.PixelFormat);
-                    bmp.FillBackground(PbrRenderer.DefaultPhysical);
+                    FillWithColor(PbrRenderer.DefaultPhysical, bmp);
                     dest.SetPhysicalDescriptorMap(bmp);
                 }
 
@@ -228,7 +239,7 @@ namespace DiligentEngine.GltfPbr
                 if (dest.AmbientOcclusionMap == null)
                 {
                     var bmp = new FreeImageBitmap(destSize.Width, destSize.Height, src.AmbientOcclusionMap.PixelFormat);
-                    bmp.FillBackground(0xffffffff);
+                    FillWithColor(0xffffffff, bmp);
                     dest.SetAmbientOcclusionMap(bmp);
                 }
 
@@ -298,7 +309,6 @@ namespace DiligentEngine.GltfPbr
                 var spDest = new Span<uint>(pDest - ((destRect.Top + i) * dest.Width) + destRect.Left, destRect.Width);
 
                 spSrc.CopyTo(spDest);
-                Console.WriteLine($"{i}, {i * src.Width} {destRect.Left}");
             }
         }
     }

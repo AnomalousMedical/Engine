@@ -17,3 +17,10 @@ otherwise can we make a copy of the whole simulation since it uses a buffer?
 
 ## Figure out if you can keep BodyReference or if BodyHandle should get a new one each time
 You can use one BodyReference and its position will change, but some bepu demos show getting it each time. Figure this out.
+
+## Get rid of custom file modes for virtual file system
+Engine.Resources.FileMode
+
+## Add wrapping support for material textures
+Right now the material textures only work if the dest size is smaller than the source size
+make it so the source can be wrapped to get pixels that would lay outside it, the groundwork is there

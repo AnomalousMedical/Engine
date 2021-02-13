@@ -33,6 +33,9 @@ namespace DiligentEngine.GltfPbr
 
     public class PbrRenderer : IDisposable
     {
+        public const int DefaultNormal = 0x00FF7F7F;
+        public const int DefaultPhysical = 0x0000FF00;
+
         static readonly SamplerDesc Sam_LinearClamp = new SamplerDesc
         {
             MinFilter = FILTER_TYPE.FILTER_TYPE_LINEAR,
@@ -49,8 +52,8 @@ namespace DiligentEngine.GltfPbr
         const TEXTURE_FORMAT IrradianceCubeFmt = TEXTURE_FORMAT.TEX_FORMAT_RGBA32_FLOAT;
         const TEXTURE_FORMAT PrefilteredEnvMapFmt = TEXTURE_FORMAT.TEX_FORMAT_RGBA16_FLOAT;
         const Uint32 IrradianceCubeDim = 64;
-        const Uint32 PrefilteredEnvMapDim = 256;        
-
+        const Uint32 PrefilteredEnvMapDim = 256;
+        
         private PbrRendererCreateInfo m_Settings;
         private readonly ShaderLoader<PbrRenderer> shaderLoader;
         private AutoPtr<ITextureView> m_pBRDF_LUT_SRV;
@@ -132,12 +135,12 @@ namespace DiligentEngine.GltfPbr
                 m_pBlackTexSRV = new AutoPtr<ITextureView>(pBlackTex.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
 
                 TexDesc.Name = "Default normal map for GLTF renderer";
-                DataSpan.Fill(0x00FF7F7F); //for (auto & c : Data) c = 0x00FF7F7F;
+                DataSpan.Fill(DefaultNormal); //for (auto & c : Data) c = 0x00FF7F7F;
                 using var pDefaultNormalMap = pDevice.CreateTexture(TexDesc, InitData);
                 m_pDefaultNormalMapSRV = new AutoPtr<ITextureView>(pDefaultNormalMap.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
 
                 TexDesc.Name = "Default physical description map for GLTF renderer";
-                DataSpan.Fill(0x0000FF00);  //for (auto & c : Data) c = 0x0000FF00;
+                DataSpan.Fill(DefaultPhysical);  //for (auto & c : Data) c = 0x0000FF00;
                 using var pDefaultPhysDesc = pDevice.CreateTexture(TexDesc, InitData);
                 m_pDefaultPhysDescSRV = new AutoPtr<ITextureView>(pDefaultPhysDesc.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
 

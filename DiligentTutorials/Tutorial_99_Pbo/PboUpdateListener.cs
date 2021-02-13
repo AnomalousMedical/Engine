@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using DiligentEngine.GltfPbr;
 using DiligentEngine.GltfPbr.Shapes;
+using FreeImageAPI;
 
 namespace Tutorial_99_Pbo
 {
@@ -39,6 +40,8 @@ namespace Tutorial_99_Pbo
         private readonly CC0TextureLoader cc0TextureLoader;
         private readonly EnvironmentMapBuilder envMapBuilder;
         private readonly IPbrCameraAndLight pbrCameraAndLight;
+        private readonly ICC0MaterialTextureBuilder cC0MaterialTextureBuilder;
+        private readonly VirtualFileSystem virtualFileSystem;
         private ISwapChain swapChain;
         private IRenderDevice renderDevice;
         private IDeviceContext immediateContext;
@@ -56,7 +59,9 @@ namespace Tutorial_99_Pbo
             TextureLoader textureLoader,
             CC0TextureLoader cc0TextureLoader,
             EnvironmentMapBuilder envMapBuilder,
-            IPbrCameraAndLight pbrCameraAndLight)
+            IPbrCameraAndLight pbrCameraAndLight,
+            ICC0MaterialTextureBuilder cC0MaterialTextureBuilder,
+            VirtualFileSystem virtualFileSystem)
         {
             this.pbrRenderer = m_GLTFRenderer;
             this.swapChain = graphicsEngine.SwapChain;
@@ -68,6 +73,8 @@ namespace Tutorial_99_Pbo
             this.cc0TextureLoader = cc0TextureLoader;
             this.envMapBuilder = envMapBuilder;
             this.pbrCameraAndLight = pbrCameraAndLight;
+            this.cC0MaterialTextureBuilder = cC0MaterialTextureBuilder;
+            this.virtualFileSystem = virtualFileSystem;
             Initialize();
         }
 
@@ -88,7 +95,9 @@ namespace Tutorial_99_Pbo
 
             //Only one of these
             //Load a cc0 texture
-            LoadCCoTexture();
+            //LoadCCoTexture();
+
+            LoadCCoMaterial();
 
             //Create a manual shiny texture to see env map
             //CreateShinyTexture();
@@ -129,7 +138,7 @@ namespace Tutorial_99_Pbo
 
         private unsafe void LoadCCoTexture()
         {
-            using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Carpet008_1K", colorPath: "spritewalk/Simple", colorExt: "png");
+            using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Leather026_1K", colorPath: "spritewalk/Simple", colorExt: "png");
             pboMatBinding = pbrRenderer.CreateMaterialSRB(
                 pCameraAttribs: pbrCameraAndLight.CameraAttribs,
                 pLightAttribs: pbrCameraAndLight.LightAttribs,
@@ -137,6 +146,43 @@ namespace Tutorial_99_Pbo
                 normalMap: ccoTextures.NormalMap,
                 physicalDescriptorMap: ccoTextures.PhysicalDescriptorMap,
                 aoMap: ccoTextures.AmbientOcclusionMap
+            );
+        }
+
+        private unsafe void LoadCCoMaterial()
+        {
+            using var stream = virtualFileSystem.openStream("spritewalk/Simple_Color.png", Engine.Resources.FileMode.Open);
+            using var image = FreeImageBitmap.FromStream(stream);
+            var materials = new Dictionary<uint, (String, String)>()
+            {
+                { 0xff6a0e91, ( "cc0Textures/Fabric048_1K", "jpg" ) }, //Shirt (purple)
+                { 0xffbf1b00, ( "cc0Textures/Fabric045_1K", "jpg" ) }, //Pants (red)
+                //{ 0xfff0b878, ( "cc0Textures/Carpet008_1K", "jpg" ) }, //Skin
+                { 0xff492515, ( "cc0Textures/Carpet008_1K", "jpg" ) }, //Hair (brown)
+                { 0xff0002bf, ( "cc0Textures/Leather026_1K", "jpg" ) } //Shoes (blue)
+            };
+            var scale = Math.Min(1024 / image.Width, 1024 / image.Height);
+
+            using var ccoTextures = cC0MaterialTextureBuilder.CreateMaterialSet(image, scale, materials);
+            
+            using var colorTexture = textureLoader.CreateTextureFromImage(image, 1, "colorTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
+            
+            using var normalTexture = ccoTextures.NormalMap != null ? 
+                textureLoader.CreateTextureFromImage(ccoTextures.NormalMap, 1, "normalTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false) : null;
+            
+            using var physicalTexture = ccoTextures.PhysicalDescriptorMap != null ? 
+                textureLoader.CreateTextureFromImage(ccoTextures.PhysicalDescriptorMap, 1, "physicalTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false) : null;
+            
+            using var aoTexture = ccoTextures.AmbientOcclusionMap != null ? 
+                textureLoader.CreateTextureFromImage(ccoTextures.AmbientOcclusionMap, 1, "aoTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false) : null;
+
+            pboMatBinding = pbrRenderer.CreateMaterialSRB(
+                pCameraAttribs: pbrCameraAndLight.CameraAttribs,
+                pLightAttribs: pbrCameraAndLight.LightAttribs,
+                baseColorMap: colorTexture?.Obj,
+                normalMap: normalTexture?.Obj,
+                physicalDescriptorMap: physicalTexture?.Obj,
+                aoMap: aoTexture?.Obj
             );
         }
 
