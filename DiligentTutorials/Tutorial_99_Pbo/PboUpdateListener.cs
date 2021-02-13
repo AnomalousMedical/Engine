@@ -31,7 +31,7 @@ namespace Tutorial_99_Pbo
         //Light
         Vector3 lightDirection = Vector3.Forward;
         Vector4 lightColor = new Vector4(1, 1, 1, 1);
-        float lightIntensity = 3.0f;
+        float lightIntensity = 1;
 
         private readonly NativeOSWindow window;
         private readonly DoubleSizeCube shape;
@@ -129,7 +129,7 @@ namespace Tutorial_99_Pbo
 
         private unsafe void LoadCCoTexture()
         {
-            using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chainmail004_1K");
+            using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Carpet008_1K", colorPath: "spritewalk/Simple", colorExt: "png");
             pboMatBinding = pbrRenderer.CreateMaterialSRB(
                 pCameraAttribs: pbrCameraAndLight.CameraAttribs,
                 pLightAttribs: pbrCameraAndLight.LightAttribs,
@@ -181,7 +181,8 @@ namespace Tutorial_99_Pbo
             var rot = new Quaternion(rotAmount * yawFactor, rotAmount * pitchFactor, rotAmount * rollFactor);
 
             pbrRenderer.Begin(immediateContext);
-            pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, PbrAlphaMode.ALPHA_MODE_OPAQUE, ref trans, ref rot, pbrRenderAttribs);
+            pbrRenderAttribs.AlphaMode = PbrAlphaMode.ALPHA_MODE_MASK;
+            pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, ref trans, ref rot, pbrRenderAttribs);
 
             this.swapChain.Present(1);
         }

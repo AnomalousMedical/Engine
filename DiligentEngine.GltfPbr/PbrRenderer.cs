@@ -783,7 +783,6 @@ namespace DiligentEngine.GltfPbr
             IBuffer skinVertexBuffer,
             IBuffer indexBuffer,
             Uint32 numIndices,
-            PbrAlphaMode AlphaMode,
             ref Vector3 position,
             ref Quaternion rotation,
             PbrRenderAttribs renderAttribs
@@ -795,7 +794,7 @@ namespace DiligentEngine.GltfPbr
             pCtx.SetVertexBuffers(0, (uint)pBuffs.Length, pBuffs, null, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION, SET_VERTEX_BUFFERS_FLAGS.SET_VERTEX_BUFFERS_FLAG_RESET);
             pCtx.SetIndexBuffer(indexBuffer, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            var Key = new PSOKey { AlphaMode = AlphaMode, DoubleSided = doubleSided };
+            var Key = new PSOKey { AlphaMode = renderAttribs.AlphaMode, DoubleSided = doubleSided };
             var pCurrPSO = m_PSOCache.GetPSO(Key);
             pCtx.SetPipelineState(pCurrPSO);
 

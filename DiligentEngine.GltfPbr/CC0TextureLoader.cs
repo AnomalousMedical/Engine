@@ -23,12 +23,12 @@ namespace DiligentEngine.GltfPbr
             this.resourceProvider = resourceProvider;
         }
 
-        public CC0TextureResult LoadTextureSet(String basePath, String ext = "jpg")
+        public CC0TextureResult LoadTextureSet(String basePath, String ext = "jpg", string colorPath = null, string colorExt = null)
         {
             //In this function the auto pointers are handed off to the result, which will be managed by the caller to erase the resources.
             var result = new CC0TextureResult();
 
-            var colorMapPath = $"{basePath}_Color.{ext}";
+            var colorMapPath = $"{colorPath ?? basePath}_Color.{colorExt ?? ext}";
             var normalMapPath = $"{basePath}_Normal.{ext}";
             var roughnessMapPath = $"{basePath}_Roughness.{ext}";
             var metalnessMapPath = $"{basePath}_Metalness.{ext}";

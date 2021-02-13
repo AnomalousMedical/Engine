@@ -282,14 +282,14 @@ namespace BepuDemo
                 cubeOrientation = spherePositionSync.GetWorldOrientation();
 
                 pbrRenderer.Begin(immediateContext);
-                pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, PbrAlphaMode.ALPHA_MODE_OPAQUE, ref cubePosition, ref cubeOrientation, pbrRenderAttribs);
+                pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, ref cubePosition, ref cubeOrientation, pbrRenderAttribs);
             }
 
             cubePosition = Vector3.Zero;
             cubeOrientation = Quaternion.Identity;
 
             pbrRenderer.Begin(immediateContext);
-            pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, PbrAlphaMode.ALPHA_MODE_OPAQUE, ref cubePosition, ref cubeOrientation, pbrRenderAttribs);
+            pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, ref cubePosition, ref cubeOrientation, pbrRenderAttribs);
 
             this.swapChain.Present(1);
         }
