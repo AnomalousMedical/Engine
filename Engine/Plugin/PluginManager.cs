@@ -1,4 +1,5 @@
 ﻿using Engine.Platform;
+using Engine.Resources;
 using Engine.Threads;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -34,6 +35,7 @@ namespace Engine
             this.serviceCollection = serviceCollection;
             serviceCollection.TryAddSingleton<PluginManager>(this); //This is externally owned
             serviceCollection.TryAddSingleton<VirtualFileSystem>();
+            serviceCollection.AddSingleton(typeof(IResourceProvider<>), typeof(VirtualFilesystemResourceProvider<>));
         }
 
         /// <summary>

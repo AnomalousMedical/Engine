@@ -69,19 +69,11 @@ namespace Microsoft.Extensions.DependencyInjection
                 new EmbeddedResourceProvider<ShaderLoader<PbrRenderer>>(Assembly.GetExecutingAssembly(), "DiligentEngine.GltfPbr."));
             services.TryAddSingleton<ShaderLoader<PbrRenderer>>();
 
-            services.AddSingleton<IResourceProvider<CC0TextureLoader>>(s =>
-                            new VirtualFilesystemResourceProvider<CC0TextureLoader>(s.GetRequiredService<VirtualFileSystem>()));
             services.TryAddSingleton<CC0TextureLoader>();
-
-            services.AddSingleton<IResourceProvider<EnvironmentMapBuilder>>(s =>
-                            new VirtualFilesystemResourceProvider<EnvironmentMapBuilder>(s.GetRequiredService<VirtualFileSystem>()));
+            services.TryAddSingleton<ICC0MaterialTextureBuilder, CC0MaterialTextureBuilder>();
             services.TryAddSingleton<EnvironmentMapBuilder>();
 
-            services.AddSingleton<IPbrCameraAndLight, PbrCameraAndLight>();
-
-            services.AddSingleton<IResourceProvider<CC0MaterialTextureBuilder>>(s =>
-                            new VirtualFilesystemResourceProvider<CC0MaterialTextureBuilder>(s.GetRequiredService<VirtualFileSystem>()));
-            services.AddSingleton<ICC0MaterialTextureBuilder, CC0MaterialTextureBuilder>();
+            services.TryAddSingleton<IPbrCameraAndLight, PbrCameraAndLight>();
 
             return options;
         }

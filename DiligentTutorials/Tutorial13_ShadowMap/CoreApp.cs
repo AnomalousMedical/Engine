@@ -1,4 +1,5 @@
 ﻿using Anomalous.OSPlatform;
+using DiligentEngine;
 using Engine;
 using Engine.Platform;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,7 +46,8 @@ namespace Tutorial13_ShadowMap
             services.AddOSPlatform(pluginManager);
 
             //Add this app's services
-            services.TryAddSingleton<TextureUpdateListener>();
+            services.TryAddSingleton<ShadowMapUpdateListener>();
+            services.TryAddSingleton<ShaderLoader<ShadowMapUpdateListener>>();
 
             return true;
         }
@@ -57,7 +59,7 @@ namespace Tutorial13_ShadowMap
 
             mainTimer = globalScope.ServiceProvider.GetRequiredService<UpdateTimer>();
 
-            var updateListener = globalScope.ServiceProvider.GetRequiredService<TextureUpdateListener>();
+            var updateListener = globalScope.ServiceProvider.GetRequiredService<ShadowMapUpdateListener>();
             mainTimer.addUpdateListener(updateListener);
 
             PerformanceMonitor.setupEnabledState(globalScope.ServiceProvider.GetRequiredService<SystemTimer>());

@@ -28,27 +28,28 @@ using System.IO;
 
 namespace Tutorial13_ShadowMap
 {
-    class TextureUpdateListener : UpdateListener, IDisposable
+    class ShadowMapUpdateListener : UpdateListener, IDisposable
     {
         private readonly GraphicsEngine graphicsEngine;
         private readonly NativeOSWindow window;
         private readonly TextureLoader textureLoader;
-        private readonly ISwapChain swapChain;
+        private readonly ShaderLoader<ShadowMapUpdateListener> shaderLoader;
+        private readonly ISwapChain m_pSwapChain;
         private readonly IDeviceContext m_pImmediateContext;
+        private readonly IRenderDevice m_pDevice;
 
         private AutoPtr<IBuffer> m_VSConstants;
+        private AutoPtr<IPipelineState> m_pCubePSO;
 
-        public unsafe TextureUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, TextureLoader textureLoader)
+        public unsafe ShadowMapUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, TextureLoader textureLoader, ShaderLoader<ShadowMapUpdateListener> shaderLoader)
         {
             this.graphicsEngine = graphicsEngine;
             this.window = window;
             this.textureLoader = textureLoader;
-            this.swapChain = graphicsEngine.SwapChain;
+            this.shaderLoader = shaderLoader;
+            this.m_pSwapChain = graphicsEngine.SwapChain;
             this.m_pImmediateContext = graphicsEngine.ImmediateContext;
-            var pDevice = graphicsEngine.RenderDevice;
-
-            var m_pDevice = graphicsEngine.RenderDevice;
-            var m_pSwapChain = graphicsEngine.SwapChain;
+            this.m_pDevice = graphicsEngine.RenderDevice;
 
             var Barriers = new List<StateTransitionDesc>();
             // Create dynamic uniform buffer that will store our transformation matrices
@@ -62,7 +63,7 @@ namespace Tutorial13_ShadowMap
                 CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
                 CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
 
-                m_VSConstants = pDevice.CreateBuffer(CBDesc);
+                m_VSConstants = m_pDevice.CreateBuffer(CBDesc);
                 Barriers.Add(new StateTransitionDesc()
                 {
                     pResource = m_VSConstants.Obj,
@@ -72,7 +73,7 @@ namespace Tutorial13_ShadowMap
                 });
             }
 
-            //CreateCubePSO();
+            CreateCubePSO();
             //CreatePlanePSO();
             //CreateShadowMapVisPSO();
 
@@ -96,8 +97,199 @@ namespace Tutorial13_ShadowMap
             m_pImmediateContext.TransitionResourceStates(Barriers);
         }
 
+        static readonly List<LayoutElement> DefaultLayoutElems = new List<LayoutElement>
+        {
+            // Per-vertex data - first buffer slot
+            // Attribute 0 - vertex position
+            new LayoutElement{InputIndex = 0, BufferSlot = 0, NumComponents = 3, ValueType = VALUE_TYPE.VT_FLOAT32, IsNormalized = false},
+            // Attribute 1 - texture coordinates
+            new LayoutElement{InputIndex = 1, BufferSlot = 0, NumComponents = 2, ValueType = VALUE_TYPE.VT_FLOAT32, IsNormalized = false}
+        };
+
+        private static AutoPtr<IPipelineState> CreateTexCubePipelineState(IRenderDevice                   pDevice,
+                                                  TEXTURE_FORMAT                   RTVFormat,
+                                                  TEXTURE_FORMAT                   DSVFormat,
+                                                  String                      VSSource,
+                                                  String                      PSSource,
+                                                  List<LayoutElement>                   LayoutElements = null,
+                                                  Uint8                            SampleCount = 1)
+        {
+            var PSOCreateInfo    = new GraphicsPipelineStateCreateInfo();
+            var PSODesc          = PSOCreateInfo.PSODesc;
+            var ResourceLayout   = PSODesc.ResourceLayout;
+            var GraphicsPipeline = PSOCreateInfo.GraphicsPipeline;
+
+            // This is a graphics pipeline
+            PSODesc.PipelineType = PIPELINE_TYPE.PIPELINE_TYPE_GRAPHICS;
+
+            // Pipeline state name is used by the engine to report issues.
+            // It is always a good idea to give objects descriptive names.
+            PSODesc.Name = "Cube PSO";
+
+            // clang-format off
+            // This tutorial will render to a single render target
+            GraphicsPipeline.NumRenderTargets             = 1;
+            // Set render target format which is the format of the swap chain's color buffer
+            GraphicsPipeline.RTVFormats_0                 = RTVFormat;
+            // Set depth buffer format which is the format of the swap chain's back buffer
+            GraphicsPipeline.DSVFormat                    = DSVFormat;
+            // Set the desired number of samples
+            GraphicsPipeline.SmplDesc.Count               = SampleCount;
+            // Primitive topology defines what kind of primitives will be rendered by this pipeline state
+            GraphicsPipeline.PrimitiveTopology            = PRIMITIVE_TOPOLOGY.PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+            // Cull back faces
+            GraphicsPipeline.RasterizerDesc.CullMode      = CULL_MODE.CULL_MODE_BACK;
+            // Enable depth testing
+            GraphicsPipeline.DepthStencilDesc.DepthEnable = true;
+            // clang-format on
+            var ShaderCI = new ShaderCreateInfo();
+            // Tell the system that the shader source code is in HLSL.
+            // For OpenGL, the engine will convert this into GLSL under the hood.
+            ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
+
+            // OpenGL backend requires emulated combined HLSL texture samplers (g_Texture + g_Texture_sampler combination)
+            ShaderCI.UseCombinedTextureSamplers = true;
+
+            // Create a vertex shader
+            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
+            ShaderCI.EntryPoint      = "main";
+            ShaderCI.Desc.Name       = "Cube VS";
+            ShaderCI.Source          = VSSource;
+            using var pVS = pDevice.CreateShader(ShaderCI);
+
+            // Create a pixel shader
+            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_PIXEL;
+            ShaderCI.EntryPoint      = "main";
+            ShaderCI.Desc.Name       = "Cube PS";
+            ShaderCI.FilePath        = PSSource;
+            using var pPS = pDevice.CreateShader(ShaderCI);
+
+            // Define vertex shader input layout
+            // This tutorial uses two types of input: per-vertex data and per-instance data.
+            // clang-format off
+
+            // clang-format on
+
+            PSOCreateInfo.pVS = pVS.Obj;
+            PSOCreateInfo.pPS = pPS.Obj;
+
+            GraphicsPipeline.InputLayout.LayoutElements = LayoutElements != null ? LayoutElements : DefaultLayoutElems;
+
+            // Define variable type that will be used by default
+            ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
+
+            // Shader variables should typically be mutable, which means they are expected
+            // to change on a per-instance basis
+            var Vars = new List<ShaderResourceVariableDesc>
+            {
+                new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, Name = "g_Texture", Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE}
+            };
+            ResourceLayout.Variables    = Vars;
+
+            // Define immutable sampler for g_Texture. Immutable samplers should be used whenever possible
+            var SamLinearClampDesc = new SamplerDesc();
+            var ImtblSamplers = new List<ImmutableSamplerDesc>
+            {
+                new ImmutableSamplerDesc{ ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, SamplerOrTextureName = "g_Texture", Desc = SamLinearClampDesc}
+            };
+            ResourceLayout.ImmutableSamplers    = ImtblSamplers;
+
+            return pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
+        }
+
+        void CreateCubePSO()
+        {
+            // Define vertex shader input layout
+            var LayoutElems = new List<LayoutElement>
+            {
+                // Attribute 0 - vertex position
+                new LayoutElement{InputIndex = 0, BufferSlot = 0, NumComponents = 3, ValueType = VALUE_TYPE.VT_FLOAT32, IsNormalized = false},
+                // Attribute 1 - texture coordinates
+                new LayoutElement{InputIndex = 1, BufferSlot = 0, NumComponents = 2, ValueType = VALUE_TYPE.VT_FLOAT32, IsNormalized = false},
+                // Attribute 2 - normal
+                new LayoutElement{InputIndex = 2, BufferSlot = 0, NumComponents = 3, ValueType = VALUE_TYPE.VT_FLOAT32, IsNormalized = false},
+            };
+
+            m_pCubePSO = CreateTexCubePipelineState(m_pDevice,
+                                                    m_pSwapChain.GetDesc_ColorBufferFormat,
+                                                    m_pSwapChain.GetDesc_DepthBufferFormat,
+                                                    shaderLoader.LoadShader("cube.vsh"),
+                                                    shaderLoader.LoadShader("cube.psh"),
+                                                    LayoutElems);
+
+            // Since we did not explcitly specify the type for 'Constants' variable, default
+            // type (SHADER_RESOURCE_VARIABLE_TYPE_STATIC) will be used. Static variables never
+            // change and are bound directly through the pipeline state object.
+            m_pCubePSO.Obj.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "Constants").Set(m_VSConstants.Obj);
+
+            //// Since we are using mutable variable, we must create a shader resource binding object
+            //// http://diligentgraphics.com/2016/03/23/resource-binding-model-in-diligent-engine-2-0/
+            //m_pCubePSO->CreateShaderResourceBinding(&m_CubeSRB, true);
+
+
+            //// Create shadow pass PSO
+            //GraphicsPipelineStateCreateInfo PSOCreateInfo;
+
+            //PSOCreateInfo.PSODesc.Name = "Cube shadow PSO";
+
+            //// This is a graphics pipeline
+            //PSOCreateInfo.PSODesc.PipelineType = PIPELINE_TYPE_GRAPHICS;
+
+            //// clang-format off
+            //// Shadow pass doesn't use any render target outputs
+            //PSOCreateInfo.GraphicsPipeline.NumRenderTargets             = 0;
+            //PSOCreateInfo.GraphicsPipeline.RTVFormats[0]                = TEX_FORMAT_UNKNOWN;
+            //// The DSV format is the shadow map format
+            //PSOCreateInfo.GraphicsPipeline.DSVFormat                    = m_ShadowMapFormat;
+            //PSOCreateInfo.GraphicsPipeline.PrimitiveTopology            = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+            //// Cull back faces
+            //PSOCreateInfo.GraphicsPipeline.RasterizerDesc.CullMode      = CULL_MODE_BACK;
+            //// Enable depth testing
+            //PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.DepthEnable = True;
+            //// clang-format on
+
+            //ShaderCreateInfo ShaderCI;
+            //ShaderCI.pShaderSourceStreamFactory = pShaderSourceFactory;
+            //// Tell the system that the shader source code is in HLSL.
+            //// For OpenGL, the engine will convert this into GLSL under the hood.
+            //ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
+            //// OpenGL backend requires emulated combined HLSL texture samplers (g_Texture + g_Texture_sampler combination)
+            //ShaderCI.UseCombinedTextureSamplers = true;
+            //// Create shadow vertex shader
+            //RefCntAutoPtr<IShader> pShadowVS;
+            //{
+            //    ShaderCI.Desc.ShaderType = SHADER_TYPE_VERTEX;
+            //    ShaderCI.EntryPoint      = "main";
+            //    ShaderCI.Desc.Name       = "Cube Shadow VS";
+            //    ShaderCI.FilePath        = "cube_shadow.vsh";
+            //    m_pDevice->CreateShader(ShaderCI, &pShadowVS);
+            //}
+            //PSOCreateInfo.pVS = pShadowVS;
+
+            //// We don't use pixel shader as we are only interested in populating the depth buffer
+            //PSOCreateInfo.pPS = nullptr;
+
+            //PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements = LayoutElems;
+            //PSOCreateInfo.GraphicsPipeline.InputLayout.NumElements    = _countof(LayoutElems);
+
+            //PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
+
+            //if (m_pDevice->GetDeviceCaps().Features.DepthClamp)
+            //{
+            //    // Disable depth clipping to render objects that are closer than near
+            //    // clipping plane. This is not required for this tutorial, but real applications
+            //    // will most likely want to do this.
+            //    PSOCreateInfo.GraphicsPipeline.RasterizerDesc.DepthClipEnable = False;
+            //}
+
+            //m_pDevice->CreateGraphicsPipelineState(PSOCreateInfo, &m_pCubeShadowPSO);
+            //m_pCubeShadowPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "Constants")->Set(m_VSConstants);
+            //m_pCubeShadowPSO->CreateShaderResourceBinding(&m_CubeShadowSRB, true);
+        }
+
         public void Dispose()
         {
+            m_pCubePSO.Dispose();
             m_VSConstants.Dispose();
         }
 
@@ -113,9 +305,9 @@ namespace Tutorial13_ShadowMap
 
         public unsafe void sendUpdate(Clock clock)
         {
-            var pRTV = swapChain.GetCurrentBackBufferRTV();
-            var pDSV = swapChain.GetDepthBufferDSV();
-            var preTransform = swapChain.GetDesc_PreTransform;
+            var pRTV = m_pSwapChain.GetCurrentBackBufferRTV();
+            var pDSV = m_pSwapChain.GetDepthBufferDSV();
+            var preTransform = m_pSwapChain.GetDesc_PreTransform;
             m_pImmediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             // Clear the back buffer
             var ClearColor = new Engine.Color(0.350f, 0.350f, 0.350f, 1.0f);
@@ -127,7 +319,7 @@ namespace Tutorial13_ShadowMap
 
             
 
-            this.swapChain.Present(1);
+            this.m_pSwapChain.Present(1);
         }
 
         const String VSSource =
