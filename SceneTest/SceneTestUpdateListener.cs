@@ -22,9 +22,9 @@ namespace SceneTest
         Engine.Color ClearColor = Engine.Color.FromARGB(0xff2a63cc);
 
         //Light
-        Vector3 lightDirection = Vector3.Forward;
+        Vector3 lightDirection = Vector3.Up;
         Vector4 lightColor = new Vector4(1, 1, 1, 1);
-        float lightIntensity = 2;
+        float lightIntensity = 3;
 
         private readonly NativeOSWindow window;
         private readonly DoubleSizeCube shape;
@@ -264,7 +264,27 @@ namespace SceneTest
             pbrCameraAndLight.SetCameraPosition(cameraControls.Position, cameraControls.Orientation, ref preTransform, ref cameraProj);
 
             //Set Light
-            pbrCameraAndLight.SetLight(ref lightDirection, ref lightColor, lightIntensity);
+            {
+                var rotAmount = clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * (float)Math.PI);
+                var rot = new Quaternion(0f, rotAmount, 0f);
+                lightDirection = rot.toRotationMatrix4x4() * Vector3.Down;
+                Console.WriteLine(lightDirection);
+                //if(lightDirection.y > 0)
+                //{
+                //    This shoudl not be right, light direction positive is upward light, but normals on loaded textures will be lit from above
+                //    lightIntensity = 3 * lightDirection.y;
+                //}
+                if (lightDirection.y < 0)
+                {
+                    //This is the right math for light facing down, but normals on textures will be lit from below, which is wrong
+                    lightIntensity = -3 * lightDirection.y;
+                }
+                else
+                {
+                    lightIntensity = 0;
+                }
+                pbrCameraAndLight.SetLight(ref lightDirection, ref lightColor, lightIntensity);
+            }
 
             //Draw Scene
             pbrRenderer.Begin(immediateContext);

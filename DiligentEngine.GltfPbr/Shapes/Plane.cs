@@ -40,10 +40,10 @@ namespace DiligentEngine.GltfPbr.Shapes
         {
             var CubeVerts = new GLTFVertex[]
             {
-                new GLTFVertex{pos = new Vector3(-1,+1,0), uv0 = new Vector2(0,0), normal = new Vector3(0, 0, 1)},
-                new GLTFVertex{pos = new Vector3(+1,+1,0), uv0 = new Vector2(1,0), normal = new Vector3(0, 0, 1)},
-                new GLTFVertex{pos = new Vector3(+1,-1,0), uv0 = new Vector2(1,1), normal = new Vector3(0, 0, 1)},
-                new GLTFVertex{pos = new Vector3(-1,-1,0), uv0 = new Vector2(0,1), normal = new Vector3(0, 0, 1)},
+                new GLTFVertex{pos = new Vector3(-1,+1,0), uv0 = new Vector2(0,0), normal = new Vector3(0, 0, -1)},
+                new GLTFVertex{pos = new Vector3(+1,+1,0), uv0 = new Vector2(1,0), normal = new Vector3(0, 0, -1)},
+                new GLTFVertex{pos = new Vector3(+1,-1,0), uv0 = new Vector2(1,1), normal = new Vector3(0, 0, -1)},
+                new GLTFVertex{pos = new Vector3(-1,-1,0), uv0 = new Vector2(0,1), normal = new Vector3(0, 0, -1)},
             };
 
             {
