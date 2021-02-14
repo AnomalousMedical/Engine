@@ -29,11 +29,4 @@
     <ProjectReference Include="..\..\OSPlatform\OSPlatform.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="../assets/AnomalousEngine.png">
-      <Link>assets\AnomalousEngine.png</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
 </Project>

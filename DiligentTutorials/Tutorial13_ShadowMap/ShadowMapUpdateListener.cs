@@ -161,7 +161,7 @@ namespace Tutorial13_ShadowMap
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_PIXEL;
             ShaderCI.EntryPoint      = "main";
             ShaderCI.Desc.Name       = "Cube PS";
-            ShaderCI.FilePath        = PSSource;
+            ShaderCI.Source          = PSSource;
             using var pPS = pDevice.CreateShader(ShaderCI);
 
             // Define vertex shader input layout

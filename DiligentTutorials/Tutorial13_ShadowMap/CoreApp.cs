@@ -56,6 +56,9 @@ namespace Tutorial13_ShadowMap
             var log = globalScope.ServiceProvider.GetRequiredService<ILogger<CoreApp>>();
             log.LogInformation("Running from directory {0}", FolderFinder.ExecutableFolder);
 
+            var vfs = globalScope.ServiceProvider.GetRequiredService<VirtualFileSystem>();
+            vfs.addArchive("../../../../Assets");
+
             mainTimer = globalScope.ServiceProvider.GetRequiredService<UpdateTimer>();
 
             var updateListener = globalScope.ServiceProvider.GetRequiredService<ShadowMapUpdateListener>();

@@ -88,7 +88,7 @@ namespace Engine
             Archive archive = FileSystem.OpenArchive(path);
             if (archive != null)
             {
-                logger.LogInformation("Added resource archive {0}.", path);
+                logger.LogInformation("Added resource archive {0}.", Path.GetFullPath(path));
                 directoryMap["/"].addArchive(archive);
                 addAndScanArchive(archive);
                 return true;
