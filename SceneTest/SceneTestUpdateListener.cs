@@ -317,7 +317,7 @@ namespace SceneTest
 
             {
                 //Player
-                var trans = new Vector3(0, 0, 0);
+                var trans = new Vector3(0, 0.291666666666667f, 0);
                 var rot = Quaternion.Identity;
                 var scale = new Vector3(1, 1.291666666666667f, 1);
                 pbrRenderAttribs.AlphaMode = PbrAlphaMode.ALPHA_MODE_MASK;
