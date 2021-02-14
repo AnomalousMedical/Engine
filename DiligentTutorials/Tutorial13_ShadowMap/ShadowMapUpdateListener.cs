@@ -38,8 +38,13 @@ namespace Tutorial13_ShadowMap
         private readonly IDeviceContext m_pImmediateContext;
         private readonly IRenderDevice m_pDevice;
 
-        private AutoPtr<IBuffer> m_VSConstants;
         private AutoPtr<IPipelineState> m_pCubePSO;
+        private AutoPtr<IPipelineState> m_pCubeShadowPSO;
+        private AutoPtr<IBuffer> m_VSConstants;
+        private AutoPtr<IShaderResourceBinding> m_CubeSRB;
+        private AutoPtr<IShaderResourceBinding> m_CubeShadowSRB;
+
+        TEXTURE_FORMAT m_ShadowMapFormat = TEXTURE_FORMAT.TEX_FORMAT_D16_UNORM;
 
         public unsafe ShadowMapUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, TextureLoader textureLoader, ShaderLoader<ShadowMapUpdateListener> shaderLoader)
         {
@@ -222,73 +227,71 @@ namespace Tutorial13_ShadowMap
             // change and are bound directly through the pipeline state object.
             m_pCubePSO.Obj.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "Constants").Set(m_VSConstants.Obj);
 
-            //// Since we are using mutable variable, we must create a shader resource binding object
-            //// http://diligentgraphics.com/2016/03/23/resource-binding-model-in-diligent-engine-2-0/
-            //m_pCubePSO->CreateShaderResourceBinding(&m_CubeSRB, true);
+            // Since we are using mutable variable, we must create a shader resource binding object
+            // http://diligentgraphics.com/2016/03/23/resource-binding-model-in-diligent-engine-2-0/
+            m_CubeSRB = m_pCubePSO.Obj.CreateShaderResourceBinding(true);
 
 
-            //// Create shadow pass PSO
-            //GraphicsPipelineStateCreateInfo PSOCreateInfo;
+            // Create shadow pass PSO
+            var PSOCreateInfo = new GraphicsPipelineStateCreateInfo();
 
-            //PSOCreateInfo.PSODesc.Name = "Cube shadow PSO";
+            PSOCreateInfo.PSODesc.Name = "Cube shadow PSO";
 
-            //// This is a graphics pipeline
-            //PSOCreateInfo.PSODesc.PipelineType = PIPELINE_TYPE_GRAPHICS;
+            // This is a graphics pipeline
+            PSOCreateInfo.PSODesc.PipelineType = PIPELINE_TYPE.PIPELINE_TYPE_GRAPHICS;
 
-            //// clang-format off
-            //// Shadow pass doesn't use any render target outputs
-            //PSOCreateInfo.GraphicsPipeline.NumRenderTargets             = 0;
-            //PSOCreateInfo.GraphicsPipeline.RTVFormats[0]                = TEX_FORMAT_UNKNOWN;
-            //// The DSV format is the shadow map format
-            //PSOCreateInfo.GraphicsPipeline.DSVFormat                    = m_ShadowMapFormat;
-            //PSOCreateInfo.GraphicsPipeline.PrimitiveTopology            = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
-            //// Cull back faces
-            //PSOCreateInfo.GraphicsPipeline.RasterizerDesc.CullMode      = CULL_MODE_BACK;
-            //// Enable depth testing
-            //PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.DepthEnable = True;
-            //// clang-format on
+            // clang-format off
+            // Shadow pass doesn't use any render target outputs
+            PSOCreateInfo.GraphicsPipeline.NumRenderTargets = 0;
+            PSOCreateInfo.GraphicsPipeline.RTVFormats_0 = TEXTURE_FORMAT.TEX_FORMAT_UNKNOWN;
+            // The DSV format is the shadow map format
+            PSOCreateInfo.GraphicsPipeline.DSVFormat = m_ShadowMapFormat;
+            PSOCreateInfo.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY.PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+            // Cull back faces
+            PSOCreateInfo.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE.CULL_MODE_BACK;
+            // Enable depth testing
+            PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.DepthEnable = true;
+            // clang-format on
 
-            //ShaderCreateInfo ShaderCI;
-            //ShaderCI.pShaderSourceStreamFactory = pShaderSourceFactory;
-            //// Tell the system that the shader source code is in HLSL.
-            //// For OpenGL, the engine will convert this into GLSL under the hood.
-            //ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE_HLSL;
-            //// OpenGL backend requires emulated combined HLSL texture samplers (g_Texture + g_Texture_sampler combination)
-            //ShaderCI.UseCombinedTextureSamplers = true;
-            //// Create shadow vertex shader
-            //RefCntAutoPtr<IShader> pShadowVS;
-            //{
-            //    ShaderCI.Desc.ShaderType = SHADER_TYPE_VERTEX;
-            //    ShaderCI.EntryPoint      = "main";
-            //    ShaderCI.Desc.Name       = "Cube Shadow VS";
-            //    ShaderCI.FilePath        = "cube_shadow.vsh";
-            //    m_pDevice->CreateShader(ShaderCI, &pShadowVS);
-            //}
-            //PSOCreateInfo.pVS = pShadowVS;
+            var ShaderCI = new ShaderCreateInfo();
+            // Tell the system that the shader source code is in HLSL.
+            // For OpenGL, the engine will convert this into GLSL under the hood.
+            ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
+            // OpenGL backend requires emulated combined HLSL texture samplers (g_Texture + g_Texture_sampler combination)
+            ShaderCI.UseCombinedTextureSamplers = true;
+            // Create shadow vertex shader
+            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
+            ShaderCI.EntryPoint = "main";
+            ShaderCI.Desc.Name = "Cube Shadow VS";
+            ShaderCI.Source = shaderLoader.LoadShader("cube_shadow.vsh");
+            using var pShadowVS = m_pDevice.CreateShader(ShaderCI);
+            PSOCreateInfo.pVS = pShadowVS.Obj;
 
-            //// We don't use pixel shader as we are only interested in populating the depth buffer
-            //PSOCreateInfo.pPS = nullptr;
+            // We don't use pixel shader as we are only interested in populating the depth buffer
+            PSOCreateInfo.pPS = null;
 
-            //PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements = LayoutElems;
-            //PSOCreateInfo.GraphicsPipeline.InputLayout.NumElements    = _countof(LayoutElems);
+            PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements = LayoutElems;
 
-            //PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
+            PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
 
-            //if (m_pDevice->GetDeviceCaps().Features.DepthClamp)
-            //{
-            //    // Disable depth clipping to render objects that are closer than near
-            //    // clipping plane. This is not required for this tutorial, but real applications
-            //    // will most likely want to do this.
-            //    PSOCreateInfo.GraphicsPipeline.RasterizerDesc.DepthClipEnable = False;
-            //}
+            //if (m_pDevice.GetDeviceCaps().Features.DepthClamp) //Should look for this, need to wrap
+            {
+                // Disable depth clipping to render objects that are closer than near
+                // clipping plane. This is not required for this tutorial, but real applications
+                // will most likely want to do this.
+                PSOCreateInfo.GraphicsPipeline.RasterizerDesc.DepthClipEnable = false;
+            }
 
-            //m_pDevice->CreateGraphicsPipelineState(PSOCreateInfo, &m_pCubeShadowPSO);
-            //m_pCubeShadowPSO->GetStaticVariableByName(SHADER_TYPE_VERTEX, "Constants")->Set(m_VSConstants);
-            //m_pCubeShadowPSO->CreateShaderResourceBinding(&m_CubeShadowSRB, true);
+            m_pCubeShadowPSO = m_pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
+            m_pCubeShadowPSO.Obj.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "Constants").Set(m_VSConstants.Obj);
+            m_CubeShadowSRB = m_pCubeShadowPSO.Obj.CreateShaderResourceBinding(true);
         }
 
         public void Dispose()
         {
+            m_CubeShadowSRB.Dispose();
+            m_pCubeShadowPSO.Dispose();
+            m_CubeSRB.Dispose();
             m_pCubePSO.Dispose();
             m_VSConstants.Dispose();
         }
