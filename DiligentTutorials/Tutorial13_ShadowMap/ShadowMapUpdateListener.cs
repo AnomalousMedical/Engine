@@ -40,6 +40,7 @@ namespace Tutorial13_ShadowMap
 
         private AutoPtr<IPipelineState> m_pCubePSO;
         private AutoPtr<IPipelineState> m_pCubeShadowPSO;
+        private AutoPtr<IPipelineState> m_pPlanePSO;
         private AutoPtr<IBuffer> m_VSConstants;
         private AutoPtr<IShaderResourceBinding> m_CubeSRB;
         private AutoPtr<IShaderResourceBinding> m_CubeShadowSRB;
@@ -79,7 +80,7 @@ namespace Tutorial13_ShadowMap
             }
 
             CreateCubePSO();
-            //CreatePlanePSO();
+            CreatePlanePSO();
             //CreateShadowMapVisPSO();
 
             //// Load cube
@@ -287,8 +288,89 @@ namespace Tutorial13_ShadowMap
             m_CubeShadowSRB = m_pCubeShadowPSO.Obj.CreateShaderResourceBinding(true);
         }
 
+        void CreatePlanePSO()
+        {
+            var PSOCreateInfo = new GraphicsPipelineStateCreateInfo();
+
+            // Pipeline state name is used by the engine to report issues.
+            // It is always a good idea to give objects descriptive names.
+            PSOCreateInfo.PSODesc.Name = "Plane PSO";
+
+            // This is a graphics pipeline
+            PSOCreateInfo.PSODesc.PipelineType = PIPELINE_TYPE.PIPELINE_TYPE_GRAPHICS;
+
+            // This tutorial renders to a single render target
+            PSOCreateInfo.GraphicsPipeline.NumRenderTargets             = 1;
+            // Set render target format which is the format of the swap chain's color buffer
+            PSOCreateInfo.GraphicsPipeline.RTVFormats_0                = m_pSwapChain.GetDesc_ColorBufferFormat;
+            // Set depth buffer format which is the format of the swap chain's back buffer
+            PSOCreateInfo.GraphicsPipeline.DSVFormat                    = m_pSwapChain.GetDesc_DepthBufferFormat;
+            // Primitive topology defines what kind of primitives will be rendered by this pipeline state
+            PSOCreateInfo.GraphicsPipeline.PrimitiveTopology            = PRIMITIVE_TOPOLOGY.PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
+            // No cull
+            PSOCreateInfo.GraphicsPipeline.RasterizerDesc.CullMode      = CULL_MODE.CULL_MODE_NONE;
+            // Enable depth testing
+            PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.DepthEnable = true;
+
+            var ShaderCI = new ShaderCreateInfo();
+            // Tell the system that the shader source code is in HLSL.
+            // For OpenGL, the engine will convert this into GLSL under the hood.
+            ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
+
+            // OpenGL backend requires emulated combined HLSL texture samplers (g_Texture + g_Texture_sampler combination)
+            ShaderCI.UseCombinedTextureSamplers = true;
+
+            // Create plane vertex shader
+            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
+            ShaderCI.EntryPoint = "main";
+            ShaderCI.Desc.Name = "Plane VS";
+            ShaderCI.Source = shaderLoader.LoadShader("plane.vsh");
+            using var pPlaneVS = m_pDevice.CreateShader(ShaderCI);
+
+            // Create plane pixel shader
+            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_PIXEL;
+            ShaderCI.EntryPoint = "main";
+            ShaderCI.Desc.Name = "Plane PS";
+            ShaderCI.Source = shaderLoader.LoadShader("plane.psh");
+            using var pPlanePS = m_pDevice.CreateShader(ShaderCI);
+
+            PSOCreateInfo.pVS = pPlaneVS.Obj;
+            PSOCreateInfo.pPS = pPlanePS.Obj;
+
+            // Define variable type that will be used by default
+            PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
+
+            // Shader variables should typically be mutable, which means they are expected
+            // to change on a per-instance basis
+            var Vars = new List<ShaderResourceVariableDesc>
+            {
+                new ShaderResourceVariableDesc{ ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, Name = "g_ShadowMap", Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE }
+            };
+            PSOCreateInfo.PSODesc.ResourceLayout.Variables    = Vars;
+
+            // Define immutable comparison sampler for g_ShadowMap. Immutable samplers should be used whenever possible
+            var ComparsionSampler = new SamplerDesc();
+            ComparsionSampler.ComparisonFunc = COMPARISON_FUNCTION.COMPARISON_FUNC_LESS;
+            ComparsionSampler.MinFilter      = FILTER_TYPE.FILTER_TYPE_COMPARISON_LINEAR;
+            ComparsionSampler.MagFilter      = FILTER_TYPE.FILTER_TYPE_COMPARISON_LINEAR;
+            ComparsionSampler.MipFilter      = FILTER_TYPE.FILTER_TYPE_COMPARISON_LINEAR;
+            var ImtblSamplers = new List<ImmutableSamplerDesc>
+            {
+                new ImmutableSamplerDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, SamplerOrTextureName = "g_ShadowMap", Desc = ComparsionSampler}
+            };
+            PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers    = ImtblSamplers;
+
+            m_pPlanePSO = m_pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
+
+            // Since we did not explcitly specify the type for 'Constants' variable, default
+            // type (SHADER_RESOURCE_VARIABLE_TYPE_STATIC) will be used. Static variables never
+            // change and are bound directly through the pipeline state object.
+            m_pPlanePSO.Obj.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "Constants").Set(m_VSConstants.Obj);
+        }
+
         public void Dispose()
         {
+            m_pPlanePSO.Dispose();
             m_CubeShadowSRB.Dispose();
             m_pCubeShadowPSO.Dispose();
             m_CubeSRB.Dispose();
