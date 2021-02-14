@@ -32,7 +32,7 @@ namespace Tutorial_99_Pbo
         //Light
         Vector3 lightDirection = Vector3.Forward;
         Vector4 lightColor = new Vector4(1, 1, 1, 1);
-        float lightIntensity = 1;
+        float lightIntensity = 3;
 
         private readonly NativeOSWindow window;
         private readonly DoubleSizeCube shape;
@@ -95,9 +95,10 @@ namespace Tutorial_99_Pbo
 
             //Only one of these
             //Load a cc0 texture
-            //LoadCCoTexture();
+            LoadCCoTexture();
 
-            LoadCCoMaterial();
+            //Load a multi texture material
+            //LoadCCoMaterial();
 
             //Create a manual shiny texture to see env map
             //CreateShinyTexture();
@@ -138,7 +139,7 @@ namespace Tutorial_99_Pbo
 
         private unsafe void LoadCCoTexture()
         {
-            using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Leather026_1K", colorPath: "spritewalk/Simple", colorExt: "png");
+            using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Chainmail004_1K");
             pboMatBinding = pbrRenderer.CreateMaterialSRB(
                 pCameraAttribs: pbrCameraAndLight.CameraAttribs,
                 pLightAttribs: pbrCameraAndLight.LightAttribs,
