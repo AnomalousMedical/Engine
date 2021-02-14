@@ -56,9 +56,10 @@ namespace SceneTest
                     .AddDiligentEnginePbrShapes();
 
             services.AddOSPlatform(pluginManager);
+            services.AddFirstPersonFlyCamera();
 
             //Add this app's services
-            services.TryAddSingleton<PboUpdateListener>();
+            services.TryAddSingleton<SceneTestUpdateListener>();
 
             return true;
         }
@@ -75,7 +76,7 @@ namespace SceneTest
 
             mainTimer = globalScope.ServiceProvider.GetRequiredService<UpdateTimer>();
 
-            var updateListener = globalScope.ServiceProvider.GetRequiredService<PboUpdateListener>();
+            var updateListener = globalScope.ServiceProvider.GetRequiredService<SceneTestUpdateListener>();
             mainTimer.addUpdateListener(updateListener);
 
             PerformanceMonitor.setupEnabledState(globalScope.ServiceProvider.GetRequiredService<SystemTimer>());

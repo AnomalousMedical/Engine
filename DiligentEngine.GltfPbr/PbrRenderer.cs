@@ -53,7 +53,7 @@ namespace DiligentEngine.GltfPbr
         const TEXTURE_FORMAT PrefilteredEnvMapFmt = TEXTURE_FORMAT.TEX_FORMAT_RGBA16_FLOAT;
         const Uint32 IrradianceCubeDim = 64;
         const Uint32 PrefilteredEnvMapDim = 256;
-        
+
         private PbrRendererCreateInfo m_Settings;
         private readonly ShaderLoader<PbrRenderer> shaderLoader;
         private AutoPtr<ITextureView> m_pBRDF_LUT_SRV;
@@ -71,7 +71,7 @@ namespace DiligentEngine.GltfPbr
         private AutoPtr<IPipelineState> m_pPrefilterEnvMapPSO;
         private AutoPtr<IShaderResourceBinding> m_pPrecomputeIrradianceCubeSRB;
         private AutoPtr<IShaderResourceBinding> m_pPrefilterEnvMapSRB;
-        
+
         private AutoPtr<IBuffer> m_TransformsCB;
         private AutoPtr<IBuffer> m_GLTFAttribsCB;
         private AutoPtr<IBuffer> m_PrecomputeEnvMapAttribsCB;
@@ -119,7 +119,7 @@ namespace DiligentEngine.GltfPbr
                 TexDesc.Height = TexDim;
                 TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_RGBA8_UNORM;
                 TexDesc.MipLevels = 1;
-                
+
                 int dataLength = (int)(TexDim * TexDim);
                 Uint32* Data = stackalloc Uint32[dataLength];
                 Span<Uint32> DataSpan = new Span<Uint32>(Data, dataLength);
@@ -780,7 +780,7 @@ namespace DiligentEngine.GltfPbr
             }
         }
 
-        public unsafe void Render(IDeviceContext pCtx,
+        public void Render(IDeviceContext pCtx,
             IShaderResourceBinding materialSRB,
             IBuffer vertexBuffer,
             IBuffer skinVertexBuffer,
@@ -788,6 +788,38 @@ namespace DiligentEngine.GltfPbr
             Uint32 numIndices,
             ref Vector3 position,
             ref Quaternion rotation,
+            PbrRenderAttribs renderAttribs
+            )
+        {
+            //Have to take inverse of rotations to have renderer render them correctly
+            var nodeMatrix = rotation.inverse().toRotationMatrix4x4(position);
+            Render(pCtx, materialSRB, vertexBuffer, skinVertexBuffer, indexBuffer, numIndices, ref nodeMatrix, renderAttribs);
+        }
+
+        public void Render(IDeviceContext pCtx,
+            IShaderResourceBinding materialSRB,
+            IBuffer vertexBuffer,
+            IBuffer skinVertexBuffer,
+            IBuffer indexBuffer,
+            Uint32 numIndices,
+            ref Vector3 position,
+            ref Quaternion rotation,
+            ref Vector3 scale,
+            PbrRenderAttribs renderAttribs
+            )
+        {
+            //Have to take inverse of rotations to have renderer render them correctly
+            var nodeMatrix = rotation.inverse().toRotationMatrix4x4() * Matrix4x4.Scale(scale) * Matrix4x4.Translation(position);
+            Render(pCtx, materialSRB, vertexBuffer, skinVertexBuffer, indexBuffer, numIndices, ref nodeMatrix, renderAttribs);
+        }
+
+        private unsafe void Render(IDeviceContext pCtx,
+            IShaderResourceBinding materialSRB,
+            IBuffer vertexBuffer,
+            IBuffer skinVertexBuffer,
+            IBuffer indexBuffer,
+            Uint32 numIndices,
+            ref Matrix4x4 nodeMatrix,
             PbrRenderAttribs renderAttribs
             )
         {
@@ -808,8 +840,7 @@ namespace DiligentEngine.GltfPbr
                 IntPtr data = pCtx.MapBuffer(m_TransformsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
                 var transform = (GLTFNodeShaderTransforms*)data.ToPointer();
 
-                //Have to take inverse of rotations to have renderer render them correctly
-                transform->NodeMatrix = rotation.inverse().toRotationMatrix4x4(position);
+                transform->NodeMatrix = nodeMatrix;
                 transform->JointCount = 0;
 
                 pCtx.UnmapBuffer(m_TransformsCB.Obj, MAP_TYPE.MAP_WRITE);

@@ -30,6 +30,26 @@ namespace Engine
                                  t.x, t.y, t.z, 1);
         }
 
+        public static Matrix4x4 Scale(float x, float y, float z)
+        {
+            return new Matrix4x4(
+                x, 0, 0, 0,
+                0, y, 0, 0,
+                0, 0, z, 0,
+                0, 0, 0, 1
+            );
+        }
+
+        public static Matrix4x4 Scale(Vector3 v)
+        {
+            return new Matrix4x4(
+                v.x, 0,   0,   0,
+                0,   v.y, 0,   0,
+                0,   0,   v.z, 0,
+                0,   0,   0,   1
+            );
+        }
+
         [FieldOffset(0)]
         public float m00;
         [FieldOffset(4)]
