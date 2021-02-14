@@ -1,5 +1,17 @@
 # TODO
 
+## Normal Issue With cc0 textures
+the cc0 textures seem to have normals upside down, flipping the image fixes it, but that isn't a great fix. Its not a material issue since the walls on just the plain cubes will
+light upside down too.
+
+Just disabling the flip in TextureLoader will fix these, so maybe thats it.
+
+Probably though you will need to flip them to make materials then load those with a flip as well (that way they were upright to build the mat, this does fix it)
+
+Also don't flip when loading cc0 images (make flipping an option when loading textures)
+
+all this seems wrong, but need to fix it, the lighting isn't right. Down lighting lights mats from below when it should be above.
+
 ## Don't forget mipmaps
 Make / load mipmaps for things.
 
