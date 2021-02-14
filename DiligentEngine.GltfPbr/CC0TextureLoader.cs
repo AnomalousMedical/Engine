@@ -47,7 +47,11 @@ namespace DiligentEngine.GltfPbr
             {
                 using (var stream = resourceProvider.openFile(normalMapPath))
                 {
-                    var normalMap = textureLoader.LoadTexture(stream, "normalMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
+                    using var map = FreeImageBitmap.FromStream(stream);
+                    map.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_32_BPP); //Cheat and convert color depth
+                    CC0TextureLoader.FixCC0Normal(map);
+
+                    var normalMap = textureLoader.CreateTextureFromImage(map, 1, "normalTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
                     result.SetNormalMap(normalMap);
                 }
             }
@@ -125,6 +129,27 @@ namespace DiligentEngine.GltfPbr
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// CC0 textures use an inverted y axis compared to our lights, so invert it here.
+        /// </summary>
+        /// <param name="map"></param>
+        public static void FixCC0Normal(FreeImageBitmap map)
+        {
+            unsafe
+            {
+                //This is assuming bgra layout like everything else
+                //index 1 is g or the y axis we want to invert, if g changes invert that index instead
+                var firstPixel = (byte*)map.Scan0.ToPointer() + (map.Height - 1) * map.Stride;
+                var lastPixel = map.Width * map.Height * 4;
+                for (var i = 1; i < lastPixel; i += 4)
+                {
+                    var unpacked = (firstPixel[i] / 255.0f) * 2f - 1f;
+                    unpacked *= -1f;
+                    firstPixel[i] = (byte)((unpacked + 1) / 2 * 255.0f);
+                }
+            }
         }
     }
 }
