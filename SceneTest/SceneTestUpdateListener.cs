@@ -268,19 +268,15 @@ namespace SceneTest
                 var rotAmount = clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * (float)Math.PI);
                 var rot = new Quaternion(0f, rotAmount, 0f);
                 lightDirection = rot.toRotationMatrix4x4() * Vector3.Down;
-                Console.WriteLine(lightDirection);
-                //if(lightDirection.y > 0)
-                //{
-                //    This shoudl not be right, light direction positive is upward light, but normals on loaded textures will be lit from above
-                //    lightIntensity = 3 * lightDirection.y;
-                //}
                 if (lightDirection.y < 0)
                 {
                     //This is the right math for light facing down, but normals on textures will be lit from below, which is wrong
                     lightIntensity = -3 * lightDirection.y;
+                    pbrRenderAttribs.AverageLogLum = 0.3f;
                 }
                 else
                 {
+                    pbrRenderAttribs.AverageLogLum = Math.Max(lightDirection.y * 4f, 0.3f);
                     lightIntensity = 0;
                 }
                 pbrCameraAndLight.SetLight(ref lightDirection, ref lightColor, lightIntensity);
