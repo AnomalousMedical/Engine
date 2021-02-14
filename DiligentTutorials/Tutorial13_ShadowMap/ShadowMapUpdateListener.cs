@@ -18,6 +18,12 @@ using Uint32 = System.UInt32;
 using Uint64 = System.UInt64;
 using Float32 = System.Single;
 using Uint16 = System.UInt16;
+using PVoid = System.IntPtr;
+using float4 = Engine.Vector4;
+using float3 = Engine.Vector3;
+using float2 = Engine.Vector2;
+using float4x4 = Engine.Matrix4x4;
+using BOOL = System.Boolean;
 using System.IO;
 
 namespace Tutorial13_ShadowMap
@@ -30,6 +36,8 @@ namespace Tutorial13_ShadowMap
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext m_pImmediateContext;
 
+        private AutoPtr<IBuffer> m_VSConstants;
+
         public unsafe TextureUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, TextureLoader textureLoader)
         {
             this.graphicsEngine = graphicsEngine;
@@ -37,16 +45,60 @@ namespace Tutorial13_ShadowMap
             this.textureLoader = textureLoader;
             this.swapChain = graphicsEngine.SwapChain;
             this.m_pImmediateContext = graphicsEngine.ImmediateContext;
+            var pDevice = graphicsEngine.RenderDevice;
 
             var m_pDevice = graphicsEngine.RenderDevice;
             var m_pSwapChain = graphicsEngine.SwapChain;
 
-            
+            var Barriers = new List<StateTransitionDesc>();
+            // Create dynamic uniform buffer that will store our transformation matrices
+            // Dynamic buffers can be frequently updated by the CPU
+
+            {
+                BufferDesc CBDesc = new BufferDesc();
+                CBDesc.Name = "VS constants CB";
+                CBDesc.uiSizeInBytes = (uint)(sizeof(float4x4) * 2 + sizeof(float4));
+                CBDesc.Usage = USAGE.USAGE_DYNAMIC;
+                CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
+                CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
+
+                m_VSConstants = pDevice.CreateBuffer(CBDesc);
+                Barriers.Add(new StateTransitionDesc()
+                {
+                    pResource = m_VSConstants.Obj,
+                    OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN,
+                    NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER,
+                    UpdateResourceState = true
+                });
+            }
+
+            //CreateCubePSO();
+            //CreatePlanePSO();
+            //CreateShadowMapVisPSO();
+
+            //// Load cube
+
+            //// In this tutorial we need vertices with normals
+            //CreateVertexBuffer();
+            //// Load index buffer
+            //m_CubeIndexBuffer = TexturedCube::CreateIndexBuffer(m_pDevice);
+            //// Explicitly transition vertex and index buffers to required states
+            //Barriers.emplace_back(m_CubeVertexBuffer, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_VERTEX_BUFFER, true);
+            //Barriers.emplace_back(m_CubeIndexBuffer, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_INDEX_BUFFER, true);
+            //// Load texture
+            //auto CubeTexture = TexturedCube::LoadTexture(m_pDevice, "DGLogo.png");
+            //m_CubeSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_Texture")->Set(CubeTexture->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE));
+            //// Transition the texture to shader resource state
+            //Barriers.emplace_back(CubeTexture, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true);
+
+            //CreateShadowMap();
+
+            m_pImmediateContext.TransitionResourceStates(Barriers);
         }
 
         public void Dispose()
         {
-            
+            m_VSConstants.Dispose();
         }
 
         public void exceededMaxDelta()
