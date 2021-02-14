@@ -41,6 +41,7 @@ namespace Tutorial13_ShadowMap
         private AutoPtr<IPipelineState> m_pCubePSO;
         private AutoPtr<IPipelineState> m_pCubeShadowPSO;
         private AutoPtr<IPipelineState> m_pPlanePSO;
+        private AutoPtr<IPipelineState> m_pShadowMapVisPSO;
         private AutoPtr<IBuffer> m_VSConstants;
         private AutoPtr<IShaderResourceBinding> m_CubeSRB;
         private AutoPtr<IShaderResourceBinding> m_CubeShadowSRB;
@@ -81,7 +82,7 @@ namespace Tutorial13_ShadowMap
 
             CreateCubePSO();
             CreatePlanePSO();
-            //CreateShadowMapVisPSO();
+            CreateShadowMapVisPSO();
 
             //// Load cube
 
@@ -368,8 +369,69 @@ namespace Tutorial13_ShadowMap
             m_pPlanePSO.Obj.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "Constants").Set(m_VSConstants.Obj);
         }
 
+        void CreateShadowMapVisPSO()
+        {
+            var PSOCreateInfo = new GraphicsPipelineStateCreateInfo();
+
+            PSOCreateInfo.PSODesc.Name = "Shadow Map Vis PSO";
+
+            // This is a graphics pipeline
+            PSOCreateInfo.PSODesc.PipelineType = PIPELINE_TYPE.PIPELINE_TYPE_GRAPHICS;
+
+            // This tutorial renders to a single render target
+            PSOCreateInfo.GraphicsPipeline.NumRenderTargets             = 1;
+            // Set render target format which is the format of the swap chain's color buffer
+            PSOCreateInfo.GraphicsPipeline.RTVFormats_0                 = m_pSwapChain.GetDesc_ColorBufferFormat;
+            // Set depth buffer format which is the format of the swap chain's back buffer
+            PSOCreateInfo.GraphicsPipeline.DSVFormat                    = m_pSwapChain.GetDesc_DepthBufferFormat;
+            // Primitive topology defines what kind of primitives will be rendered by this pipeline state
+            PSOCreateInfo.GraphicsPipeline.PrimitiveTopology            = PRIMITIVE_TOPOLOGY.PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
+            // No cull
+            PSOCreateInfo.GraphicsPipeline.RasterizerDesc.CullMode      = CULL_MODE.CULL_MODE_NONE;
+            // Disable depth testing
+            PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.DepthEnable = false;
+
+            var ShaderCI = new ShaderCreateInfo();
+            // Tell the system that the shader source code is in HLSL.
+            // For OpenGL, the engine will convert this into GLSL under the hood.
+            ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
+
+            // OpenGL backend requires emulated combined HLSL texture samplers (g_Texture + g_Texture_sampler combination)
+            ShaderCI.UseCombinedTextureSamplers = true;
+
+            // Create shadow map visualization vertex shader
+            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
+            ShaderCI.EntryPoint      = "main";
+            ShaderCI.Desc.Name       = "Shadow Map Vis VS";
+            ShaderCI.Source          = shaderLoader.LoadShader("shadow_map_vis.vsh");
+            using var pShadowMapVisVS = m_pDevice.CreateShader(ShaderCI);
+
+            // Create shadow map visualization pixel shader
+            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_PIXEL;
+            ShaderCI.EntryPoint = "main";
+            ShaderCI.Desc.Name  = "Shadow Map Vis PS";
+            ShaderCI.Source     = shaderLoader.LoadShader("shadow_map_vis.psh");
+            using var pShadowMapVisPS = m_pDevice.CreateShader(ShaderCI);
+
+            PSOCreateInfo.pVS = pShadowMapVisVS.Obj;
+            PSOCreateInfo.pPS = pShadowMapVisPS.Obj;
+
+            // Define variable type that will be used by default
+            PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE;
+
+            var SamLinearClampDesc = new SamplerDesc();
+            var ImtblSamplers = new List<ImmutableSamplerDesc>
+            {
+                new ImmutableSamplerDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, SamplerOrTextureName = "g_ShadowMap", Desc = SamLinearClampDesc}
+            };
+            PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers = ImtblSamplers;
+
+            m_pShadowMapVisPSO = m_pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
+        }
+
         public void Dispose()
         {
+            m_pShadowMapVisPSO.Dispose();
             m_pPlanePSO.Dispose();
             m_CubeShadowSRB.Dispose();
             m_pCubeShadowPSO.Dispose();
