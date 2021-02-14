@@ -24,3 +24,7 @@ Engine.Resources.FileMode
 ## Add wrapping support for material textures
 Right now the material textures only work if the dest size is smaller than the source size
 make it so the source can be wrapped to get pixels that would lay outside it, the groundwork is there
+
+## Make more pbr instances or figure out how to have different texturing modes
+All textures are filtered to make the little color textures look good, but need to use filtering on the larger ones to make them look nice.
+Should this be 2 instances of the pbr or can multilple filterings be setup from the renderer we have.

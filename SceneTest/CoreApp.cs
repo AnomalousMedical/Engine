@@ -48,6 +48,8 @@ namespace SceneTest
                         {
                             RendererCI.AllowDebugView = true;
                             RendererCI.UseIBL = true;
+
+                            //This filtering is changed for everything, will eventually want 2 renderers
                             RendererCI.ColorMapImmutableSampler.MinFilter = DiligentEngine.FILTER_TYPE.FILTER_TYPE_POINT;
                             RendererCI.ColorMapImmutableSampler.MagFilter = DiligentEngine.FILTER_TYPE.FILTER_TYPE_POINT;
                             RendererCI.ColorMapImmutableSampler.MipFilter = DiligentEngine.FILTER_TYPE.FILTER_TYPE_POINT;
