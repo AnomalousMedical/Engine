@@ -47,7 +47,6 @@ namespace Tutorial13_ShadowMap
 
             //Add this app's services
             services.TryAddSingleton<ShadowMapUpdateListener>();
-            services.TryAddSingleton<ShaderLoader<ShadowMapUpdateListener>>();
 
             return true;
         }

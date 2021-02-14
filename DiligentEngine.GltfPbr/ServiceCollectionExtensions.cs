@@ -65,9 +65,10 @@ namespace Microsoft.Extensions.DependencyInjection
             var options = new PbrOptions();
             configure?.Invoke(options);
 
+            //The Pbr Renderer Shaders are embedded, so override the resource provider to get them from
+            //the embedded file resources
             services.AddSingleton<IResourceProvider<ShaderLoader<PbrRenderer>>>(s =>
                 new EmbeddedResourceProvider<ShaderLoader<PbrRenderer>>(Assembly.GetExecutingAssembly(), "DiligentEngine.GltfPbr."));
-            services.TryAddSingleton<ShaderLoader<PbrRenderer>>();
 
             services.TryAddSingleton<CC0TextureLoader>();
             services.TryAddSingleton<ICC0MaterialTextureBuilder, CC0MaterialTextureBuilder>();
