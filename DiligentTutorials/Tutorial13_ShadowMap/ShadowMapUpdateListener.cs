@@ -53,6 +53,7 @@ namespace Tutorial13_ShadowMap
         private AutoPtr<ITextureView> m_ShadowMapDSV;
         private AutoPtr<ITextureView> m_ShadowMapSRV;
 
+        float4x4 m_CubeWorldMatrix = float4x4.Identity;
         float3 m_LightDirection = new float3(-0.49f, -0.60f, 0.64f).normalized();
         float4x4 m_WorldToShadowMapUVDepthMatr;
         Uint32 m_ShadowMapSize = 512;
@@ -687,7 +688,53 @@ namespace Tutorial13_ShadowMap
 
             m_WorldToShadowMapUVDepthMatr = WorldToLightProjSpaceMatr * ProjToUVScale * ProjToUVBias;
 
-            //RenderCube(WorldToLightProjSpaceMatr, true);
+            RenderCube(ref WorldToLightProjSpaceMatr, true);
+        }
+
+        struct Constants
+        {
+            public float4x4 WorldViewProj;
+            public float4x4 NormalTranform;
+            public float4 LightDirection;
+        };
+
+        void RenderCube(ref float4x4 CameraViewProj, bool IsShadowPass)
+        {
+            // Update constant buffer
+            unsafe
+            {
+                // Map the buffer and write current world-view-projection matrix
+                IntPtr data = m_pImmediateContext.MapBuffer(m_VSConstants.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
+                Constants* CBConstants = (Constants*)data.ToPointer();
+                CBConstants->WorldViewProj = (m_CubeWorldMatrix * CameraViewProj).Transpose();
+                var NormalMatrix = m_CubeWorldMatrix.RemoveTranslation().inverse();
+                // We need to do inverse-transpose, but we also need to transpose the matrix
+                // before writing it to the buffer
+                CBConstants->NormalTranform = NormalMatrix;
+                CBConstants->LightDirection = new float4(m_LightDirection.x, m_LightDirection.y, m_LightDirection.z, 0);
+                m_pImmediateContext.UnmapBuffer(m_VSConstants.Obj, MAP_TYPE.MAP_WRITE);
+            }
+
+            // Bind vertex buffer
+            var pBuffs =  new IBuffer[] { m_CubeVertexBuffer.Obj };
+            // Note that since resouces have been explicitly transitioned to required states, we use RESOURCE_STATE_TRANSITION_MODE_VERIFY flag
+            m_pImmediateContext.SetVertexBuffers(0, 1, pBuffs, null, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_VERIFY, SET_VERTEX_BUFFERS_FLAGS.SET_VERTEX_BUFFERS_FLAG_RESET);
+            m_pImmediateContext.SetIndexBuffer(m_CubeIndexBuffer.Obj, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_VERIFY);
+
+            // Set pipeline state and commit resources
+            if (IsShadowPass)
+            {
+                m_pImmediateContext.SetPipelineState(m_pCubeShadowPSO.Obj);
+                m_pImmediateContext.CommitShaderResources(m_CubeShadowSRB.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_VERIFY);
+            }
+            else
+            {
+                m_pImmediateContext.SetPipelineState(m_pCubePSO.Obj);
+                m_pImmediateContext.CommitShaderResources(m_CubeSRB.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_VERIFY);
+            }
+
+            var DrawAttrs = new DrawIndexedAttribs {NumIndices = 36, IndexType = VALUE_TYPE.VT_UINT32, Flags = DRAW_FLAGS.DRAW_FLAG_VERIFY_ALL };
+            m_pImmediateContext.DrawIndexed(DrawAttrs);
         }
     }
 }

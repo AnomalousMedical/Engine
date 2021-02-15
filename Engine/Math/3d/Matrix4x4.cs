@@ -61,7 +61,18 @@ namespace Engine
             );
         }
 
-        [FieldOffset(0)]
+        public Matrix4x4 RemoveTranslation()
+        {
+            return new Matrix4x4
+            (
+                m00, m01, m02, m03,
+                m10, m11, m12, m13,
+                m20, m21, m22, m23,
+                  0,   0,   0, m33
+            );
+        }
+
+[FieldOffset(0)]
         public float m00;
         [FieldOffset(4)]
         public float m01;
