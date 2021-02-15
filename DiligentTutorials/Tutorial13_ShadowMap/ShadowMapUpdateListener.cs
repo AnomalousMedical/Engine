@@ -595,38 +595,32 @@ namespace Tutorial13_ShadowMap
 
         public unsafe void sendUpdate(Clock clock)
         {
-            var pRTV = m_pSwapChain.GetCurrentBackBufferRTV();
-            var pDSV = m_pSwapChain.GetDepthBufferDSV();
-            var preTransform = m_pSwapChain.GetDesc_PreTransform;
-
             // Render shadow map
             m_pImmediateContext.SetRenderTargets(null, m_ShadowMapDSV.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             m_pImmediateContext.ClearDepthStencil(m_ShadowMapDSV.Obj, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             RenderShadowMap();
 
-            //// Bind main back buffer
-            //auto* pRTV = m_pSwapChain->GetCurrentBackBufferRTV();
-            //auto* pDSV = m_pSwapChain->GetDepthBufferDSV();
-            //m_pImmediateContext->SetRenderTargets(1, &pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-            //const float ClearColor[] = { 0.350f, 0.350f, 0.350f, 1.0f };
-            //m_pImmediateContext->ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-            //m_pImmediateContext->ClearDepthStencil(pDSV, CLEAR_DEPTH_FLAG, 1.f, 0, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            // Bind main back buffer
+            var pRTV = m_pSwapChain.GetCurrentBackBufferRTV();
+            var pDSV = m_pSwapChain.GetDepthBufferDSV();
+            var preTransform = m_pSwapChain.GetDesc_PreTransform;
+            m_pImmediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            var ClearColor = new Engine.Color(0.350f, 0.350f, 0.350f, 1.0f);
+            m_pImmediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            m_pImmediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            //RenderCube(m_CameraViewProjMatrix, false);
+            // Get projection matrix adjusted to the current screen orientation
+            var SrfPreTransform = CameraHelpers.GetSurfacePretransformMatrix(new Vector3(0, 0, 1), preTransform);
+            var Proj = CameraHelpers.GetAdjustedProjectionMatrix((float)Math.PI / 4.0f, 0.1f, 100.0f, window.WindowWidth, window.WindowHeight, preTransform);
+
+            float4x4 CameraView = float4x4.Translation(0.0f, -5.0f, -10.0f) * float4x4.RotationY((float)Math.PI) * float4x4.RotationX(-(float)Math.PI * 0.2f);
+
+            // Compute camera view-projection matrix
+            var m_CameraViewProjMatrix = CameraView * SrfPreTransform * Proj;
+
+            RenderCube(ref m_CameraViewProjMatrix, false);
             //RenderPlane();
             //RenderShadowMapVis();
-
-            //----------- ORIGINAL RENDER ---------------
-            //m_pImmediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-            //// Clear the back buffer
-            //var ClearColor = new Engine.Color(0.350f, 0.350f, 0.350f, 1.0f);
-
-            //// Clear the back buffer
-            //// Let the engine perform required state transitions
-            //m_pImmediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-            //m_pImmediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-
-
 
             this.m_pSwapChain.Present(1);
         }
