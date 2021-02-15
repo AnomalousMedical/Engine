@@ -42,6 +42,7 @@ namespace Tutorial13_ShadowMap
         private AutoPtr<IPipelineState> m_pCubeShadowPSO;
         private AutoPtr<IPipelineState> m_pPlanePSO;
         private AutoPtr<IPipelineState> m_pShadowMapVisPSO;
+        private AutoPtr<IBuffer> m_CubeVertexBuffer;
         private AutoPtr<IBuffer> m_VSConstants;
         private AutoPtr<IShaderResourceBinding> m_CubeSRB;
         private AutoPtr<IShaderResourceBinding> m_CubeShadowSRB;
@@ -86,8 +87,8 @@ namespace Tutorial13_ShadowMap
 
             //// Load cube
 
-            //// In this tutorial we need vertices with normals
-            //CreateVertexBuffer();
+            // In this tutorial we need vertices with normals
+            CreateVertexBuffer();
             //// Load index buffer
             //m_CubeIndexBuffer = TexturedCube::CreateIndexBuffer(m_pDevice);
             //// Explicitly transition vertex and index buffers to required states
@@ -429,8 +430,83 @@ namespace Tutorial13_ShadowMap
             m_pShadowMapVisPSO = m_pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
         }
 
+        // Layout of this structure matches the one we defined in pipeline state
+        struct Vertex
+        {
+            public float3 pos;
+            public float2 uv;
+            public float3 normal;
+        };
+
+        unsafe void CreateVertexBuffer()
+        {
+            // Cube vertices
+
+            //      (-1,+1,+1)________________(+1,+1,+1)
+            //               /|              /|
+            //              / |             / |
+            //             /  |            /  |
+            //            /   |           /   |
+            //(-1,-1,+1) /____|__________/(+1,-1,+1)
+            //           |    |__________|____|
+            //           |   /(-1,+1,-1) |    /(+1,+1,-1)
+            //           |  /            |   /
+            //           | /             |  /
+            //           |/              | /
+            //           /_______________|/
+            //        (-1,-1,-1)       (+1,-1,-1)
+            //
+
+            var CubeVerts = new Vertex[]
+            {
+                new Vertex{pos = new float3(-1,-1,-1), uv = new float2(0,1), normal = new float3(0, 0, -1)},
+                new Vertex{pos = new float3(-1,+1,-1), uv = new float2(0,0), normal = new float3(0, 0, -1)},
+                new Vertex{pos = new float3(+1,+1,-1), uv = new float2(1,0), normal = new float3(0, 0, -1)},
+                new Vertex{pos = new float3(+1,-1,-1), uv = new float2(1,1), normal = new float3(0, 0, -1)},
+//              new Vertex pos = new                   uv = new              normal = new 
+                new Vertex{pos = new float3(-1,-1,-1), uv = new float2(0,1), normal = new float3(0, -1, 0)},
+                new Vertex{pos = new float3(-1,-1,+1), uv = new float2(0,0), normal = new float3(0, -1, 0)},
+                new Vertex{pos = new float3(+1,-1,+1), uv = new float2(1,0), normal = new float3(0, -1, 0)},
+                new Vertex{pos = new float3(+1,-1,-1), uv = new float2(1,1), normal = new float3(0, -1, 0)},
+//              new Vertex pos = new                   uv = new              normal = new 
+                new Vertex{pos = new float3(+1,-1,-1), uv = new float2(0,1), normal = new float3(+1, 0, 0)},
+                new Vertex{pos = new float3(+1,-1,+1), uv = new float2(1,1), normal = new float3(+1, 0, 0)},
+                new Vertex{pos = new float3(+1,+1,+1), uv = new float2(1,0), normal = new float3(+1, 0, 0)},
+                new Vertex{pos = new float3(+1,+1,-1), uv = new float2(0,0), normal = new float3(+1, 0, 0)},
+//              new Vertex pos = new                   uv = new              normal = new 
+                new Vertex{pos = new float3(+1,+1,-1), uv = new float2(0,1), normal = new float3(0, +1, 0)},
+                new Vertex{pos = new float3(+1,+1,+1), uv = new float2(0,0), normal = new float3(0, +1, 0)},
+                new Vertex{pos = new float3(-1,+1,+1), uv = new float2(1,0), normal = new float3(0, +1, 0)},
+                new Vertex{pos = new float3(-1,+1,-1), uv = new float2(1,1), normal = new float3(0, +1, 0)},
+//              new Vertex pos = new                   uv = new              normal = new 
+                new Vertex{pos = new float3(-1,+1,-1), uv = new float2(1,0), normal = new float3(-1, 0, 0)},
+                new Vertex{pos = new float3(-1,+1,+1), uv = new float2(0,0), normal = new float3(-1, 0, 0)},
+                new Vertex{pos = new float3(-1,-1,+1), uv = new float2(0,1), normal = new float3(-1, 0, 0)},
+                new Vertex{pos = new float3(-1,-1,-1), uv = new float2(1,1), normal = new float3(-1, 0, 0)},
+//              new Vertex pos = new                   uv = new              normal = new 
+                new Vertex{pos = new float3(-1,-1,+1), uv = new float2(1,1), normal = new float3(0, 0, +1)},
+                new Vertex{pos = new float3(+1,-1,+1), uv = new float2(0,1), normal = new float3(0, 0, +1)},
+                new Vertex{pos = new float3(+1,+1,+1), uv = new float2(0,0), normal = new float3(0, 0, +1)},
+                new Vertex{pos = new float3(-1,+1,+1), uv = new float2(1,0), normal = new float3(0, 0, +1)}
+            };
+
+            var VertBuffDesc = new BufferDesc();
+            VertBuffDesc.Name          = "Cube vertex buffer";
+            VertBuffDesc.Usage         = USAGE.USAGE_IMMUTABLE;
+            VertBuffDesc.BindFlags     = BIND_FLAGS.BIND_VERTEX_BUFFER;
+            VertBuffDesc.uiSizeInBytes = (uint)(sizeof(Vertex) * CubeVerts.Length);
+            fixed (Vertex* vertices = CubeVerts)
+            {
+                var VBData = new BufferData();
+                VBData.pData = new IntPtr(vertices);
+                VBData.DataSize = (uint)(sizeof(Vertex) * CubeVerts.Length);
+                m_CubeVertexBuffer = m_pDevice.CreateBuffer(VertBuffDesc, VBData);
+            }
+        }
+
         public void Dispose()
         {
+            m_CubeVertexBuffer.Dispose();
             m_pShadowMapVisPSO.Dispose();
             m_pPlanePSO.Dispose();
             m_CubeShadowSRB.Dispose();
