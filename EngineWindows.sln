@@ -74,6 +74,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SceneTest", "SceneTest\Scen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tutorial13_ShadowMap", "DiligentTutorials\Tutorial13_ShadowMap\Tutorial13_ShadowMap.csproj", "{010BD9FB-8576-41FD-A841-DCD9BC7EA6DE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{00B2D5D2-F04F-446E-A8B4-C6EA19D18F46}"
+	ProjectSection(SolutionItems) = preProject
+		DiligentTutorials\Assets\AnomalousEngine.png = DiligentTutorials\Assets\AnomalousEngine.png
+		DiligentTutorials\Assets\cube.psh = DiligentTutorials\Assets\cube.psh
+		DiligentTutorials\Assets\cube.vsh = DiligentTutorials\Assets\cube.vsh
+		DiligentTutorials\Assets\cube_shadow.vsh = DiligentTutorials\Assets\cube_shadow.vsh
+		DiligentTutorials\Assets\plane.psh = DiligentTutorials\Assets\plane.psh
+		DiligentTutorials\Assets\plane.vsh = DiligentTutorials\Assets\plane.vsh
+		DiligentTutorials\Assets\shadow_map_vis.psh = DiligentTutorials\Assets\shadow_map_vis.psh
+		DiligentTutorials\Assets\shadow_map_vis.vsh = DiligentTutorials\Assets\shadow_map_vis.vsh
+		DiligentTutorials\Assets\structures.fxh = DiligentTutorials\Assets\structures.fxh
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1186,6 +1199,7 @@ Global
 		{4E764115-2CE7-49F6-9A41-C8330547A279} = {791F6C2D-1574-4AA5-A4BB-D1A75DA5A446}
 		{6EE0A3AF-E444-4EDA-BD76-23EB2FBBCD71} = {791F6C2D-1574-4AA5-A4BB-D1A75DA5A446}
 		{010BD9FB-8576-41FD-A841-DCD9BC7EA6DE} = {791F6C2D-1574-4AA5-A4BB-D1A75DA5A446}
+		{00B2D5D2-F04F-446E-A8B4-C6EA19D18F46} = {791F6C2D-1574-4AA5-A4BB-D1A75DA5A446}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {810024D2-F1B7-4056-A5FD-2893AF1C3851}
