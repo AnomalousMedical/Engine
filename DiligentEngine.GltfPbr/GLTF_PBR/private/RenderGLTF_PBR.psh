@@ -60,6 +60,9 @@ Texture2DArray g_EmissiveMap;
 SamplerState   g_EmissiveMap_sampler;
 #endif
 
+Texture2D              g_ShadowMap;
+SamplerComparisonState g_ShadowMap_sampler; // By convention, texture samplers must use the '_sampler' suffix
+
 float4 SampleGLTFTexture(Texture2DArray Tex,
                          SamplerState   Tex_sampler,
                          float2         UV0,
@@ -90,6 +93,8 @@ void main(in  float4 ClipPos     : SV_Position,
           in  float2 UV0         : UV0,
           in  float2 UV1         : UV1,
           in  bool   IsFrontFace : SV_IsFrontFace,
+          in  float3 ShadowMapPos : SHADOW_MAP_POS,
+          in  float  NdotL        : N_DOT_L,
           out float4 OutColor    : SV_Target)
 {
     float4 BaseColor = SampleGLTFTexture(g_ColorMap, g_ColorMap_sampler, UV0, UV1, g_MaterialInfo.BaseColorTextureUVSelector,
@@ -214,6 +219,10 @@ void main(in  float4 ClipPos     : SV_Position,
     TMAttribs.fLuminanceSaturation = 1.0;
     color = ToneMap(color, TMAttribs, g_RenderParameters.AverageLogLum);
     OutColor = float4(color, BaseColor.a);
+
+    //Shadow calculation
+    float LightAmount = g_ShadowMap.SampleCmp(g_ShadowMap_sampler, ShadowMapPos.xy, max(ShadowMapPos.z, 1e-7));
+    OutColor.rgb = OutColor.rgb * (NdotL * LightAmount * 0.8 + 0.2);
 
 #if ALLOW_DEBUG_VIEW
     // Shader inputs debug visualization

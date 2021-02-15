@@ -371,6 +371,8 @@ namespace DiligentEngine.GltfPbr
                 ImtblSamplers.Add(new ImmutableSamplerDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, SamplerOrTextureName = "g_ColorMap", Desc = m_Settings.ColorMapImmutableSampler });
                 ImtblSamplers.Add(new ImmutableSamplerDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, SamplerOrTextureName = "g_PhysicalDescriptorMap", Desc = m_Settings.PhysDescMapImmutableSampler });
                 ImtblSamplers.Add(new ImmutableSamplerDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, SamplerOrTextureName = "g_NormalMap", Desc = m_Settings.NormalMapImmutableSampler });
+                var SamLinearClampDesc = new SamplerDesc();
+                ImtblSamplers.Add(new ImmutableSamplerDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, SamplerOrTextureName = "g_ShadowMap", Desc = SamLinearClampDesc });
             }
 
             if (m_Settings.UseAO)
@@ -566,9 +568,7 @@ namespace DiligentEngine.GltfPbr
                 SetTexture(emissiveMap, m_pBlackTexSRV.Obj, "g_EmissiveMap", pSRB.Obj);
             }
 
-            // This is how you would bind the shadow to a srb
-            //m_PlaneSRB = m_pPlanePSO.Obj.CreateShaderResourceBinding(true);
-            //m_PlaneSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_ShadowMap").Set(m_ShadowMapSRV.Obj);
+            pSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_ShadowMap").Set(m_ShadowMapSRV.Obj);
 
             return pSRB;
         }
