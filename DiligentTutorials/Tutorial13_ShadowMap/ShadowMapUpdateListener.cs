@@ -25,6 +25,7 @@ using float2 = Engine.Vector2;
 using float4x4 = Engine.Matrix4x4;
 using BOOL = System.Boolean;
 using System.IO;
+using Engine.CameraMovement;
 
 namespace Tutorial13_ShadowMap
 {
@@ -35,6 +36,7 @@ namespace Tutorial13_ShadowMap
         private readonly TextureLoader textureLoader;
         private readonly ShaderLoader<ShadowMapUpdateListener> shaderLoader;
         private readonly VirtualFileSystem virtualFileSystem;
+        private readonly FirstPersonFlyCamera firstPersonFlyCamera;
         private readonly ISwapChain m_pSwapChain;
         private readonly IDeviceContext m_pImmediateContext;
         private readonly IRenderDevice m_pDevice;
@@ -100,16 +102,20 @@ namespace Tutorial13_ShadowMap
             ,NativeOSWindow window
             ,TextureLoader textureLoader
             ,ShaderLoader<ShadowMapUpdateListener> shaderLoader
-            ,VirtualFileSystem virtualFileSystem)
+            ,VirtualFileSystem virtualFileSystem
+            ,FirstPersonFlyCamera firstPersonFlyCamera)
         {
             this.graphicsEngine = graphicsEngine;
             this.window = window;
             this.textureLoader = textureLoader;
             this.shaderLoader = shaderLoader;
             this.virtualFileSystem = virtualFileSystem;
+            this.firstPersonFlyCamera = firstPersonFlyCamera;
             this.m_pSwapChain = graphicsEngine.SwapChain;
             this.m_pImmediateContext = graphicsEngine.ImmediateContext;
             this.m_pDevice = graphicsEngine.RenderDevice;
+
+            firstPersonFlyCamera.Position = new float3(0, 0, -12);
 
             var Barriers = new List<StateTransitionDesc>();
             // Create dynamic uniform buffer that will store our transformation matrices
@@ -613,6 +619,8 @@ namespace Tutorial13_ShadowMap
 
         public unsafe void sendUpdate(Clock clock)
         {
+            firstPersonFlyCamera.UpdateInput(clock);
+
             // Render shadow map
             m_pImmediateContext.SetRenderTargets(null, m_ShadowMapDSV.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             m_pImmediateContext.ClearDepthStencil(m_ShadowMapDSV.Obj, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
@@ -631,10 +639,11 @@ namespace Tutorial13_ShadowMap
             var SrfPreTransform = CameraHelpers.GetSurfacePretransformMatrix(new Vector3(0, 0, 1), preTransform);
             var Proj = CameraHelpers.GetAdjustedProjectionMatrix((float)Math.PI / 4.0f, 0.1f, 100.0f, window.WindowWidth, window.WindowHeight, preTransform);
 
-            float4x4 CameraView = float4x4.Translation(0.0f, -5.0f, -10.0f) * float4x4.RotationY((float)Math.PI) * float4x4.RotationX(-(float)Math.PI * 0.2f);
+            var trans = Matrix4x4.Translation(-firstPersonFlyCamera.Position);
+            var rot = firstPersonFlyCamera.Orientation.toRotationMatrix4x4();
 
             // Compute camera view-projection matrix
-            m_CameraViewProjMatrix = CameraView * SrfPreTransform * Proj;
+            m_CameraViewProjMatrix = trans * rot * SrfPreTransform * Proj;
 
             RenderCube(ref m_CameraViewProjMatrix, false);
             RenderPlane();

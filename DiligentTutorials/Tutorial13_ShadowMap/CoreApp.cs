@@ -44,6 +44,7 @@ namespace Tutorial13_ShadowMap
 
             services.AddDiligentEngine(pluginManager);
             services.AddOSPlatform(pluginManager);
+            services.AddFirstPersonFlyCamera();
 
             //Add this app's services
             services.TryAddSingleton<ShadowMapUpdateListener>();
