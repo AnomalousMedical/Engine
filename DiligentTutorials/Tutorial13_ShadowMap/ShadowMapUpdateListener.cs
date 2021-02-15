@@ -43,6 +43,7 @@ namespace Tutorial13_ShadowMap
         private AutoPtr<IPipelineState> m_pPlanePSO;
         private AutoPtr<IPipelineState> m_pShadowMapVisPSO;
         private AutoPtr<IBuffer> m_CubeVertexBuffer;
+        private AutoPtr<IBuffer> m_CubeIndexBuffer;
         private AutoPtr<IBuffer> m_VSConstants;
         private AutoPtr<IShaderResourceBinding> m_CubeSRB;
         private AutoPtr<IShaderResourceBinding> m_CubeShadowSRB;
@@ -72,13 +73,7 @@ namespace Tutorial13_ShadowMap
                 CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
 
                 m_VSConstants = m_pDevice.CreateBuffer(CBDesc);
-                Barriers.Add(new StateTransitionDesc()
-                {
-                    pResource = m_VSConstants.Obj,
-                    OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN,
-                    NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER,
-                    UpdateResourceState = true
-                });
+                Barriers.Add(new StateTransitionDesc(){pResource = m_VSConstants.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true });
             }
 
             CreateCubePSO();
@@ -89,11 +84,11 @@ namespace Tutorial13_ShadowMap
 
             // In this tutorial we need vertices with normals
             CreateVertexBuffer();
-            //// Load index buffer
-            //m_CubeIndexBuffer = TexturedCube::CreateIndexBuffer(m_pDevice);
-            //// Explicitly transition vertex and index buffers to required states
-            //Barriers.emplace_back(m_CubeVertexBuffer, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_VERTEX_BUFFER, true);
-            //Barriers.emplace_back(m_CubeIndexBuffer, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_INDEX_BUFFER, true);
+            // Load index buffer
+            m_CubeIndexBuffer = CreateIndexBuffer(m_pDevice);
+            // Explicitly transition vertex and index buffers to required states
+            Barriers.Add(new StateTransitionDesc() { pResource = m_CubeVertexBuffer.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_VERTEX_BUFFER, UpdateResourceState = true });
+            Barriers.Add(new StateTransitionDesc() { pResource = m_CubeIndexBuffer.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_INDEX_BUFFER, UpdateResourceState = true });
             //// Load texture
             //auto CubeTexture = TexturedCube::LoadTexture(m_pDevice, "DGLogo.png");
             //m_CubeSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_Texture")->Set(CubeTexture->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE));
@@ -504,8 +499,37 @@ namespace Tutorial13_ShadowMap
             }
         }
 
+        unsafe AutoPtr<IBuffer> CreateIndexBuffer(IRenderDevice m_pDevice)
+        {
+            // clang-format off
+            var Indices = new UInt32[]
+            {
+                2,0,1,    2,3,0,
+                4,6,5,    4,7,6,
+                8,10,9,   8,11,10,
+                12,14,13, 12,15,14,
+                16,18,17, 16,19,18,
+                20,21,22, 20,22,23
+            };
+            // clang-format on
+
+            BufferDesc IndBuffDesc = new BufferDesc();
+            IndBuffDesc.Name = "Cube index buffer";
+            IndBuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
+            IndBuffDesc.BindFlags = BIND_FLAGS.BIND_INDEX_BUFFER;
+            IndBuffDesc.uiSizeInBytes = (uint)(sizeof(UInt32) * Indices.Length);
+            BufferData IBData = new BufferData();
+            fixed (UInt32* pIndices = Indices)
+            {
+                IBData.pData = new IntPtr(pIndices);
+                IBData.DataSize = (uint)(sizeof(UInt32) * Indices.Length);
+                return m_pDevice.CreateBuffer(IndBuffDesc, IBData);
+            }
+        }
+
         public void Dispose()
         {
+            m_CubeIndexBuffer.Dispose();
             m_CubeVertexBuffer.Dispose();
             m_pShadowMapVisPSO.Dispose();
             m_pPlanePSO.Dispose();
