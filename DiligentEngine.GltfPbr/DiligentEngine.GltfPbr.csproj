@@ -20,6 +20,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Shadow\shadow_map_vis.psh" />
+    <None Remove="Shadow\shadow_map_vis.vsh" />
+    <None Remove="Shadow\structures.fxh" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Shadow\shadow_map_vis.psh" />
+    <EmbeddedResource Include="Shadow\shadow_map_vis.vsh" />
+    <EmbeddedResource Include="Shadow\structures.fxh" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DiligentEngine\DiligentEngine.csproj" />
   </ItemGroup>
 
