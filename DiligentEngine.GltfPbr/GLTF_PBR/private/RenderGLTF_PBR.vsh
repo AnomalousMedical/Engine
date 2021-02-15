@@ -67,7 +67,8 @@ void main(in  GLTF_VS_Input  VSIn,
     UV0      = VSIn.UV0;
     UV1      = VSIn.UV1;
 
-    float4 ShadowMapPos4 = mul(ClipPos, g_LightAttribs.ShadowAttribs.mWorldToShadowMapUVDepth[0]);
+    float4 locPos = mul(Transform, float4(VSIn.Pos, 1.0)); //Can shadows be done without the extra transform?
+    float4 ShadowMapPos4 = mul(locPos, g_LightAttribs.ShadowAttribs.mWorldToShadowMapUVDepth[0]);
     ShadowMapPos = ShadowMapPos4.xyz / ShadowMapPos4.w;
     NdotL = saturate(dot(float3(0.0, 1.0, 0.0), -g_LightAttribs.f4Direction.xyz));
 }

@@ -116,14 +116,13 @@ namespace SceneTest
                 //Background cubes
                 pbrRenderAttribs.AlphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE;
 
-                AddBrick(new Vector3(0, 0, 0), Quaternion.Identity);
-                //AddBrick(new Vector3(-1, 0, 1), Quaternion.Identity);
-                //AddBrick(new Vector3(-1, 0, 2), Quaternion.Identity);
-                //AddBrick(new Vector3(-1, 0, 3), Quaternion.Identity);
-                //AddBrick(new Vector3(0, 0, 3), Quaternion.Identity);
-                //AddBrick(new Vector3(1, 0, 3), Quaternion.Identity);
-                //AddBrick(new Vector3(1, 0, 2), Quaternion.Identity);
-                //AddBrick(new Vector3(1, 0, 1), Quaternion.Identity);
+                AddBrick(new Vector3(-1, 0, 1), Quaternion.Identity);
+                AddBrick(new Vector3(-1, 0, 2), Quaternion.Identity);
+                AddBrick(new Vector3(-1, 0, 3), Quaternion.Identity);
+                AddBrick(new Vector3(0, 0, 3), Quaternion.Identity);
+                AddBrick(new Vector3(1, 0, 3), Quaternion.Identity);
+                AddBrick(new Vector3(1, 0, 2), Quaternion.Identity);
+                AddBrick(new Vector3(1, 0, 1), Quaternion.Identity);
             }
 
             {
@@ -135,44 +134,44 @@ namespace SceneTest
                     indexBuffer = plane.IndexBuffer,
                     numIndices = plane.NumIndices,
                     pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE,
-                    position = new Vector3(0, -2, 0),
+                    position = new Vector3(0, -1, 0),
                     orientation = Quaternion.shortestArcQuat(Vector3.Forward, Vector3.Down),
                     scale = new Vector3(10, 10, 10),
                     shaderResourceBinding = pboMatBindingFloor.Obj
                 });
             }
 
-            //{
-            //    //Tiny Dino
-            //    sceneObjects.Add(new SceneObject()
-            //    {
-            //        vertexBuffer = plane.VertexBuffer,
-            //        skinVertexBuffer = plane.SkinVertexBuffer,
-            //        indexBuffer = plane.IndexBuffer,
-            //        numIndices = plane.NumIndices,
-            //        pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
-            //        position = new Vector3(-4, 0, -3),
-            //        orientation = Quaternion.Identity,
-            //        scale = new Vector3(1.466666666666667f, 1, 1),
-            //        shaderResourceBinding = pboMatBindingTinyDinoSprite.Obj
-            //    });
-            //}
+            {
+                //Tiny Dino
+                sceneObjects.Add(new SceneObject()
+                {
+                    vertexBuffer = plane.VertexBuffer,
+                    skinVertexBuffer = plane.SkinVertexBuffer,
+                    indexBuffer = plane.IndexBuffer,
+                    numIndices = plane.NumIndices,
+                    pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
+                    position = new Vector3(-4, 0, -3),
+                    orientation = Quaternion.Identity,
+                    scale = new Vector3(1.466666666666667f, 1, 1),
+                    shaderResourceBinding = pboMatBindingTinyDinoSprite.Obj
+                });
+            }
 
-            //{
-            //    //Player
-            //    sceneObjects.Add(new SceneObject()
-            //    {
-            //        vertexBuffer = plane.VertexBuffer,
-            //        skinVertexBuffer = plane.SkinVertexBuffer,
-            //        indexBuffer = plane.IndexBuffer,
-            //        numIndices = plane.NumIndices,
-            //        pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
-            //        position = new Vector3(0, 0.291666666666667f, 0),
-            //        orientation = Quaternion.Identity,
-            //        scale = new Vector3(1, 1.291666666666667f, 1),
-            //        shaderResourceBinding = pboMatBindingSprite.Obj
-            //    });
-            //}
+            {
+                //Player
+                sceneObjects.Add(new SceneObject()
+                {
+                    vertexBuffer = plane.VertexBuffer,
+                    skinVertexBuffer = plane.SkinVertexBuffer,
+                    indexBuffer = plane.IndexBuffer,
+                    numIndices = plane.NumIndices,
+                    pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
+                    position = new Vector3(0, 0.291666666666667f, 0),
+                    orientation = Quaternion.Identity,
+                    scale = new Vector3(1, 1.291666666666667f, 1),
+                    shaderResourceBinding = pboMatBindingSprite.Obj
+                });
+            }
         }
 
         private unsafe void CreateShinyTexture()
@@ -333,9 +332,6 @@ namespace SceneTest
             pbrRenderer.Begin(immediateContext);
             // Render shadow map
             pbrRenderer.BeginShadowMap(renderDevice, immediateContext, lightDirection);
-            var WorldToShadowMapUVDepthMatrix = pbrRenderer.WorldToShadowMapUVDepthMatr;
-            pbrCameraAndLight.SetCameraMatrices(ref cameraProjMatrix, ref WorldToShadowMapUVDepthMatrix, ref Vector3.Forward);
-            pbrCameraAndLight.SetLightAndShadow(ref lightDirection, ref lightColor, lightIntensity, ref WorldToShadowMapUVDepthMatrix);
             foreach (var sceneObj in sceneObjects.Where(i => i.shaderResourceBinding == pboMatBindingSceneObject.Obj)) //Render all bricks for shadow map
             {
                 pbrRenderAttribs.AlphaMode = sceneObj.pbrAlphaMode;
@@ -347,6 +343,10 @@ namespace SceneTest
             // Clear the back buffer
             immediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+
+            // Set Light
+            var WorldToShadowMapUVDepthMatrix = pbrRenderer.WorldToShadowMapUVDepthMatr;
+            pbrCameraAndLight.SetLightAndShadow(ref lightDirection, ref lightColor, lightIntensity, ref WorldToShadowMapUVDepthMatrix);
 
             // Set Camera
             //pbrCameraAndLight.SetCameraMatrices(ref cameraProjMatrix, ref WorldToShadowMapUVDepthMatr, ref Vector3.Forward);
