@@ -494,27 +494,27 @@ namespace Tutorial13_ShadowMap
                 new Vertex{pos = new float3(-1,+1,-1), uv = new float2(0,0), normal = new float3(0, 0, -1)},
                 new Vertex{pos = new float3(+1,+1,-1), uv = new float2(1,0), normal = new float3(0, 0, -1)},
                 new Vertex{pos = new float3(+1,-1,-1), uv = new float2(1,1), normal = new float3(0, 0, -1)},
-//              new Vertex pos = new                   uv = new              normal = new 
+
                 new Vertex{pos = new float3(-1,-1,-1), uv = new float2(0,1), normal = new float3(0, -1, 0)},
                 new Vertex{pos = new float3(-1,-1,+1), uv = new float2(0,0), normal = new float3(0, -1, 0)},
                 new Vertex{pos = new float3(+1,-1,+1), uv = new float2(1,0), normal = new float3(0, -1, 0)},
                 new Vertex{pos = new float3(+1,-1,-1), uv = new float2(1,1), normal = new float3(0, -1, 0)},
-//              new Vertex pos = new                   uv = new              normal = new 
+
                 new Vertex{pos = new float3(+1,-1,-1), uv = new float2(0,1), normal = new float3(+1, 0, 0)},
                 new Vertex{pos = new float3(+1,-1,+1), uv = new float2(1,1), normal = new float3(+1, 0, 0)},
                 new Vertex{pos = new float3(+1,+1,+1), uv = new float2(1,0), normal = new float3(+1, 0, 0)},
                 new Vertex{pos = new float3(+1,+1,-1), uv = new float2(0,0), normal = new float3(+1, 0, 0)},
-//              new Vertex pos = new                   uv = new              normal = new 
+
                 new Vertex{pos = new float3(+1,+1,-1), uv = new float2(0,1), normal = new float3(0, +1, 0)},
                 new Vertex{pos = new float3(+1,+1,+1), uv = new float2(0,0), normal = new float3(0, +1, 0)},
                 new Vertex{pos = new float3(-1,+1,+1), uv = new float2(1,0), normal = new float3(0, +1, 0)},
                 new Vertex{pos = new float3(-1,+1,-1), uv = new float2(1,1), normal = new float3(0, +1, 0)},
-//              new Vertex pos = new                   uv = new              normal = new 
+
                 new Vertex{pos = new float3(-1,+1,-1), uv = new float2(1,0), normal = new float3(-1, 0, 0)},
                 new Vertex{pos = new float3(-1,+1,+1), uv = new float2(0,0), normal = new float3(-1, 0, 0)},
                 new Vertex{pos = new float3(-1,-1,+1), uv = new float2(0,1), normal = new float3(-1, 0, 0)},
                 new Vertex{pos = new float3(-1,-1,-1), uv = new float2(1,1), normal = new float3(-1, 0, 0)},
-//              new Vertex pos = new                   uv = new              normal = new 
+
                 new Vertex{pos = new float3(-1,-1,+1), uv = new float2(1,1), normal = new float3(0, 0, +1)},
                 new Vertex{pos = new float3(+1,-1,+1), uv = new float2(0,1), normal = new float3(0, 0, +1)},
                 new Vertex{pos = new float3(+1,+1,+1), uv = new float2(0,0), normal = new float3(0, 0, +1)},
@@ -638,7 +638,7 @@ namespace Tutorial13_ShadowMap
 
             RenderCube(ref m_CameraViewProjMatrix, false);
             RenderPlane();
-            //RenderShadowMapVis();
+            RenderShadowMapVis();
 
             this.m_pSwapChain.Present(1);
         }
@@ -761,6 +761,15 @@ namespace Tutorial13_ShadowMap
             m_pImmediateContext.CommitShaderResources(m_PlaneSRB.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
             var DrawAttrs = new DrawAttribs {NumVertices = 4, Flags = DRAW_FLAGS.DRAW_FLAG_VERIFY_ALL };
+            m_pImmediateContext.Draw(DrawAttrs);
+        }
+
+        void RenderShadowMapVis()
+        {
+            m_pImmediateContext.SetPipelineState(m_pShadowMapVisPSO.Obj);
+            m_pImmediateContext.CommitShaderResources(m_ShadowMapVisSRB.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_VERIFY);
+
+            var DrawAttrs = new DrawAttribs { NumVertices = 4, Flags = DRAW_FLAGS.DRAW_FLAG_VERIFY_ALL };
             m_pImmediateContext.Draw(DrawAttrs);
         }
     }
