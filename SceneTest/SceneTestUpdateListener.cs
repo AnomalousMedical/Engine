@@ -98,7 +98,7 @@ namespace SceneTest
             
 
             pbrRenderer.PrecomputeCubemaps(renderDevice, immediateContext, environmentMapSRV.Obj);
-            pbrRenderer.CreateShadowPSO(swapChain, renderDevice, pbrCameraAndLight.CameraAttribs, pbrCameraAndLight.LightAttribs);
+            pbrRenderer.CreateShadowPSO(swapChain, renderDevice, pbrCameraAndLight.CameraAttribs);
 
 
             LoadFloorTexture();
@@ -332,7 +332,7 @@ namespace SceneTest
             pbrRenderer.BeginShadowMap(renderDevice, immediateContext, lightDirection);
             var WorldToShadowMapUVDepthMatr = pbrRenderer.WorldToShadowMapUVDepthMatr;
             pbrCameraAndLight.SetCameraMatrices(ref cameraProjMatrix, ref WorldToShadowMapUVDepthMatr, ref Vector3.Forward);
-            foreach (var sceneObj in sceneObjects.Where(i => i.pbrAlphaMode == PbrAlphaMode.ALPHA_MODE_OPAQUE))
+            foreach (var sceneObj in sceneObjects.Where(i => i.shaderResourceBinding == pboMatBindingSceneObject.Obj)) //Render all bricks for shadow map
             {
                 pbrRenderAttribs.AlphaMode = sceneObj.pbrAlphaMode;
                 pbrRenderer.RenderShadowMap(immediateContext, sceneObj.vertexBuffer, sceneObj.skinVertexBuffer, sceneObj.indexBuffer, sceneObj.numIndices, ref sceneObj.position, ref sceneObj.orientation, ref sceneObj.scale, pbrRenderAttribs);
