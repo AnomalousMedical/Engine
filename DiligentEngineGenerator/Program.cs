@@ -10,7 +10,7 @@ namespace DiligentEngineGenerator
     {
         static void Main(string[] args)
         {
-            var baseDir = "C:/Anomalous/DiligentEngine";
+            var baseDir = "../../../../../Dependencies/Diligent";
             var baseCSharpOutDir = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory() + "../../../../../DiligentEngine"));
             var baseCPlusPlusOutDir = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory() + "../../../../../DiligentEngineWrapper"));
             var codeTypeInfo = new CodeTypeInfo();
@@ -260,7 +260,13 @@ namespace DiligentEngineGenerator
                 codeTypeInfo.Enums[nameof(TEXTURE_VIEW_FLAGS)] = TEXTURE_VIEW_FLAGS;
                 EnumWriter.Write(TEXTURE_VIEW_FLAGS, Path.Combine(baseEnumDir, $"{nameof(TEXTURE_VIEW_FLAGS)}.cs"));
             }
-            
+
+            {
+                var RENDER_DEVICE_TYPE = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 1433, 1444);
+                codeTypeInfo.Enums[nameof(RENDER_DEVICE_TYPE)] = RENDER_DEVICE_TYPE;
+                EnumWriter.Write(RENDER_DEVICE_TYPE, Path.Combine(baseEnumDir, $"{nameof(RENDER_DEVICE_TYPE)}.cs"));
+            }
+
            //////////// Structs
 
            var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
@@ -295,12 +301,6 @@ namespace DiligentEngineGenerator
                 codeWriter.AddWriter(new StructCsWriter(TextureSubResData), Path.Combine(baseStructDir, $"{nameof(TextureSubResData)}.cs"));
                 codeWriter.AddWriter(new StructCsPassStructWriter(TextureSubResData), Path.Combine(baseStructDir, $"{nameof(TextureSubResData)}.PassStruct.cs"));
                 codeWriter.AddWriter(new StructCppPassStructWriter(TextureSubResData), Path.Combine(baseCPlusPlusOutDir, $"{nameof(TextureSubResData)}.PassStruct.h"));
-            }
-
-            {
-                var TextureLoadInfo = CodeStruct.Find(baseDir + "/DiligentTools/TextureLoader/interface/TextureLoader.h", 37, 65);
-                codeTypeInfo.Structs[nameof(TextureLoadInfo)] = TextureLoadInfo;
-                codeWriter.AddWriter(new StructCsWriter(TextureLoadInfo), Path.Combine(baseStructDir, $"{nameof(TextureLoadInfo)}.cs"));
             }
 
             {
@@ -554,6 +554,30 @@ namespace DiligentEngineGenerator
 
                 codeWriter.AddWriter(new StructCsWriter(DepthStencilClearValue), Path.Combine(baseStructDir, $"{nameof(DepthStencilClearValue)}.cs"));
             }
+
+            {
+                var NDCAttribs = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 1811, 1816);
+                codeTypeInfo.Structs[nameof(NDCAttribs)] = NDCAttribs;
+                codeWriter.AddWriter(new StructCsWriter(NDCAttribs), Path.Combine(baseStructDir, $"{nameof(NDCAttribs)}.cs"));
+                codeWriter.AddWriter(new StructCsPassStructWriter(NDCAttribs), Path.Combine(baseStructDir, $"{nameof(NDCAttribs)}.PassStruct.cs"));
+                codeWriter.AddWriter(new StructCppPassStructWriter(NDCAttribs), Path.Combine(baseCPlusPlusOutDir, $"{nameof(NDCAttribs)}.PassStruct.h"));
+            }
+
+            //{
+            //    var DeviceCaps = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 1763, 1792);
+            //    codeTypeInfo.Structs[nameof(DeviceCaps)] = DeviceCaps;
+            //    codeWriter.AddWriter(new StructCsWriter(DeviceCaps), Path.Combine(baseStructDir, $"{nameof(DeviceCaps)}.cs"));
+            //    codeWriter.AddWriter(new StructCsPassStructWriter(DeviceCaps), Path.Combine(baseStructDir, $"{nameof(DeviceCaps)}.PassStruct.cs"));
+            //    codeWriter.AddWriter(new StructCppPassStructWriter(DeviceCaps), Path.Combine(baseCPlusPlusOutDir, $"{nameof(DeviceCaps)}.PassStruct.h"));
+            //}
+
+            //{
+            //    var GraphicsAdapterInfo = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 1711, 1758);
+            //    codeTypeInfo.Structs[nameof(GraphicsAdapterInfo)] = GraphicsAdapterInfo;
+            //    codeWriter.AddWriter(new StructCsWriter(GraphicsAdapterInfo), Path.Combine(baseStructDir, $"{nameof(GraphicsAdapterInfo)}.cs"));
+            //    codeWriter.AddWriter(new StructCsPassStructWriter(GraphicsAdapterInfo), Path.Combine(baseStructDir, $"{nameof(GraphicsAdapterInfo)}.PassStruct.cs"));
+            //    codeWriter.AddWriter(new StructCppPassStructWriter(GraphicsAdapterInfo), Path.Combine(baseCPlusPlusOutDir, $"{nameof(GraphicsAdapterInfo)}.PassStruct.h"));
+            //}
 
             //////////// Interfaces
             var baseCSharpInterfaceDir = Path.Combine(baseCSharpOutDir, "Interfaces");

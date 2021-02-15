@@ -53,9 +53,28 @@ namespace Tutorial13_ShadowMap
         private AutoPtr<ITextureView> m_ShadowMapDSV;
         private AutoPtr<ITextureView> m_ShadowMapSRV;
 
+        float3 m_LightDirection = new float3(-0.49f, -0.60f, 0.64f).normalized();
+        float4x4 m_WorldToShadowMapUVDepthMatr;
         Uint32 m_ShadowMapSize = 512;
 
         TEXTURE_FORMAT m_ShadowMapFormat = TEXTURE_FORMAT.TEX_FORMAT_D16_UNORM;
+
+        static readonly List<LayoutElement> DefaultLayoutElems = new List<LayoutElement>
+        {
+            // Per-vertex data - first buffer slot
+            // Attribute 0 - vertex position
+            new LayoutElement{InputIndex = 0, BufferSlot = 0, NumComponents = 3, ValueType = VALUE_TYPE.VT_FLOAT32, IsNormalized = false},
+            // Attribute 1 - texture coordinates
+            new LayoutElement{InputIndex = 1, BufferSlot = 0, NumComponents = 2, ValueType = VALUE_TYPE.VT_FLOAT32, IsNormalized = false}
+        };
+
+        // Layout of this structure matches the one we defined in pipeline state
+        struct Vertex
+        {
+            public float3 pos;
+            public float2 uv;
+            public float3 normal;
+        };
 
         public unsafe ShadowMapUpdateListener(
             GraphicsEngine graphicsEngine
@@ -114,15 +133,6 @@ namespace Tutorial13_ShadowMap
 
             m_pImmediateContext.TransitionResourceStates(Barriers);
         }
-
-        static readonly List<LayoutElement> DefaultLayoutElems = new List<LayoutElement>
-        {
-            // Per-vertex data - first buffer slot
-            // Attribute 0 - vertex position
-            new LayoutElement{InputIndex = 0, BufferSlot = 0, NumComponents = 3, ValueType = VALUE_TYPE.VT_FLOAT32, IsNormalized = false},
-            // Attribute 1 - texture coordinates
-            new LayoutElement{InputIndex = 1, BufferSlot = 0, NumComponents = 2, ValueType = VALUE_TYPE.VT_FLOAT32, IsNormalized = false}
-        };
 
         private static AutoPtr<IPipelineState> CreateTexCubePipelineState(IRenderDevice pDevice,
                                                   TEXTURE_FORMAT RTVFormat,
@@ -440,14 +450,6 @@ namespace Tutorial13_ShadowMap
             m_pShadowMapVisPSO = m_pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
         }
 
-        // Layout of this structure matches the one we defined in pipeline state
-        struct Vertex
-        {
-            public float3 pos;
-            public float2 uv;
-            public float3 normal;
-        };
-
         unsafe void CreateVertexBuffer()
         {
             // Cube vertices
@@ -595,18 +597,97 @@ namespace Tutorial13_ShadowMap
             var pRTV = m_pSwapChain.GetCurrentBackBufferRTV();
             var pDSV = m_pSwapChain.GetDepthBufferDSV();
             var preTransform = m_pSwapChain.GetDesc_PreTransform;
-            m_pImmediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-            // Clear the back buffer
-            var ClearColor = new Engine.Color(0.350f, 0.350f, 0.350f, 1.0f);
 
-            // Clear the back buffer
-            // Let the engine perform required state transitions
-            m_pImmediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-            m_pImmediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            // Render shadow map
+            m_pImmediateContext.SetRenderTargets(null, m_ShadowMapDSV.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            m_pImmediateContext.ClearDepthStencil(m_ShadowMapDSV.Obj, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            RenderShadowMap();
 
-            
+            //// Bind main back buffer
+            //auto* pRTV = m_pSwapChain->GetCurrentBackBufferRTV();
+            //auto* pDSV = m_pSwapChain->GetDepthBufferDSV();
+            //m_pImmediateContext->SetRenderTargets(1, &pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            //const float ClearColor[] = { 0.350f, 0.350f, 0.350f, 1.0f };
+            //m_pImmediateContext->ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            //m_pImmediateContext->ClearDepthStencil(pDSV, CLEAR_DEPTH_FLAG, 1.f, 0, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+
+            //RenderCube(m_CameraViewProjMatrix, false);
+            //RenderPlane();
+            //RenderShadowMapVis();
+
+            //----------- ORIGINAL RENDER ---------------
+            //m_pImmediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            //// Clear the back buffer
+            //var ClearColor = new Engine.Color(0.350f, 0.350f, 0.350f, 1.0f);
+
+            //// Clear the back buffer
+            //// Let the engine perform required state transitions
+            //m_pImmediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            //m_pImmediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+
+
 
             this.m_pSwapChain.Present(1);
+        }
+
+        void RenderShadowMap()
+        {
+            float3 f3LightSpaceX, f3LightSpaceY, f3LightSpaceZ;
+            f3LightSpaceZ = m_LightDirection.normalized();
+
+            var min_cmp = Math.Min(Math.Min(Math.Abs(m_LightDirection.x), Math.Abs(m_LightDirection.y)), Math.Abs(m_LightDirection.z));
+            if (min_cmp == Math.Abs(m_LightDirection.x))
+                f3LightSpaceX = new float3(1, 0, 0);
+            else if (min_cmp == Math.Abs(m_LightDirection.y))
+                f3LightSpaceX = new float3(0, 1, 0);
+            else
+                f3LightSpaceX = new float3(0, 0, 1);
+
+            f3LightSpaceY = f3LightSpaceZ.cross(ref f3LightSpaceX);
+            f3LightSpaceX = f3LightSpaceY.cross(ref f3LightSpaceZ);
+            f3LightSpaceX = f3LightSpaceX.normalized();
+            f3LightSpaceY = f3LightSpaceY.normalized();
+
+            float4x4 WorldToLightViewSpaceMatr = float4x4.ViewFromBasis(ref f3LightSpaceX, ref f3LightSpaceY, ref f3LightSpaceZ);
+
+            // For this tutorial we know that the scene center is at (0,0,0).
+            // Real applications will want to compute tight bounds
+
+            float3 f3SceneCenter = new float3(0, 0, 0);
+            float SceneRadius = (float)Math.Sqrt(3);
+            float3 f3MinXYZ = f3SceneCenter - new float3(SceneRadius, SceneRadius, SceneRadius);
+            float3 f3MaxXYZ = f3SceneCenter + new float3(SceneRadius, SceneRadius, SceneRadius * 5);
+            float3 f3SceneExtent = f3MaxXYZ - f3MinXYZ;
+
+            //var DevCaps = m_pDevice->GetDeviceCaps();
+            bool IsGL = false;// DevCaps.IsGLDevice();
+            float4 f4LightSpaceScale;
+            f4LightSpaceScale.x = 2.0f / f3SceneExtent.x;
+            f4LightSpaceScale.y = 2.0f / f3SceneExtent.y;
+            f4LightSpaceScale.z = (IsGL ? 2.0f : 1.0f) / f3SceneExtent.z;
+            // Apply bias to shift the extent to [-1,1]x[-1,1]x[0,1] for DX or to [-1,1]x[-1,1]x[-1,1] for GL
+            // Find bias such that f3MinXYZ -> (-1,-1,0) for DX or (-1,-1,-1) for GL
+            float4 f4LightSpaceScaledBias;
+            f4LightSpaceScaledBias.x = -f3MinXYZ.x * f4LightSpaceScale.x - 1.0f;
+            f4LightSpaceScaledBias.y = -f3MinXYZ.y * f4LightSpaceScale.y - 1.0f;
+            f4LightSpaceScaledBias.z = -f3MinXYZ.z * f4LightSpaceScale.z + (IsGL ? -1.0f : 0.0f);
+
+            float4x4 ScaleMatrix = float4x4.Scale(f4LightSpaceScale.x, f4LightSpaceScale.y, f4LightSpaceScale.z);
+            float4x4 ScaledBiasMatrix = float4x4.Translation(f4LightSpaceScaledBias.x, f4LightSpaceScaledBias.y, f4LightSpaceScaledBias.z);
+
+            // Note: bias is applied after scaling!
+            float4x4 ShadowProjMatr = ScaleMatrix * ScaledBiasMatrix;
+
+            // Adjust the world to light space transformation matrix
+            float4x4 WorldToLightProjSpaceMatr = WorldToLightViewSpaceMatr * ShadowProjMatr;
+
+            var NDCAttribs = m_pDevice.GetDeviceCaps_GetNDCAttribs();
+            float4x4 ProjToUVScale = float4x4.Scale(0.5f, NDCAttribs.YtoVScale, NDCAttribs.ZtoDepthScale);
+            float4x4 ProjToUVBias = float4x4.Translation(0.5f, 0.5f, NDCAttribs.GetZtoDepthBias());
+
+            m_WorldToShadowMapUVDepthMatr = WorldToLightProjSpaceMatr * ProjToUVScale * ProjToUVBias;
+
+            //RenderCube(WorldToLightProjSpaceMatr, true);
         }
     }
 }

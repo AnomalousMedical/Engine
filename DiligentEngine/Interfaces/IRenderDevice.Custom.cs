@@ -14,7 +14,7 @@ using Uint16 = System.UInt16;
 
 namespace DiligentEngine
 {
-    public partial class IRenderDevice :  IObject
+    public partial class IRenderDevice : IObject
     {
         public AutoPtr<IBuffer> CreateBuffer(BufferDesc BuffDesc)
         {
@@ -85,5 +85,20 @@ namespace DiligentEngine
             , MacroPassStruct[] macros
             , Uint32 macrosCount
         );
+
+        public NDCAttribs GetDeviceCaps_GetNDCAttribs()
+        {
+            //This is not fast, does this on the unmanaged side too
+            var result = IRenderDevice_GetDeviceCaps_GetNDCAttribs(this.objPtr);
+            return new NDCAttribs()
+            {
+                MinZ = result.MinZ,
+                YtoVScale = result.YtoVScale,
+                ZtoDepthScale = result.ZtoDepthScale
+            };
+        }
+
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern NDCAttribsPassStruct IRenderDevice_GetDeviceCaps_GetNDCAttribs(IntPtr objPtr);
     }
 }

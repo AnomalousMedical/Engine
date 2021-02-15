@@ -50,6 +50,17 @@ namespace Engine
             );
         }
 
+        public static Matrix4x4 ViewFromBasis(ref Vector3 f3X, ref Vector3 f3Y, ref Vector3 f3Z)
+        {
+            return new Matrix4x4
+            (
+                f3X.x, f3Y.x, f3Z.x,   0,
+                f3X.y, f3Y.y, f3Z.y,   0,
+                f3X.z, f3Y.z, f3Z.z,   0,
+                    0,     0,     0,   1
+            );
+        }
+
         [FieldOffset(0)]
         public float m00;
         [FieldOffset(4)]

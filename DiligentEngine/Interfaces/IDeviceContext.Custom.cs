@@ -101,13 +101,12 @@ namespace DiligentEngine
         {
             IDeviceContext_SetRenderTargets(
                 this.objPtr
-                , (uint)ppRenderTargets.Length
-                , ppRenderTargets.Select(i => i.objPtr).ToArray()
+                , ppRenderTargets != null ? (uint)ppRenderTargets.Length : 0
+                , ppRenderTargets?.Select(i => i.objPtr)?.ToArray()
                 , pDepthStencil.objPtr
                 , StateTransitionMode
             );
         }
-
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void IDeviceContext_SetRenderTarget(IntPtr objPtr,

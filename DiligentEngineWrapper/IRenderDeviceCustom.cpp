@@ -4,6 +4,7 @@
 #include "Graphics/GraphicsTools/interface/ShaderMacroHelper.hpp"
 #include "Color.h"
 #include "MacroPassStruct.h";
+#include "NDCAttribs.PassStruct.h"
 using namespace Diligent;
 extern "C" _AnomalousExport IBuffer * IRenderDevice_CreateBuffer_Null_Data(
 	IRenderDevice * objPtr
@@ -72,4 +73,14 @@ extern "C" _AnomalousExport IShader * IRenderDevice_CreateShader_Macros(
 		, &theReturnValue
 	);
 	return theReturnValue;
+}
+
+extern "C" _AnomalousExport NDCAttribsPassStruct IRenderDevice_GetDeviceCaps_GetNDCAttribs(IRenderDevice * objPtr)
+{
+	auto attribs = objPtr->GetDeviceCaps().GetNDCAttribs();
+	NDCAttribsPassStruct result;
+	result.MinZ = attribs.MinZ;
+	result.YtoVScale = attribs.YtoVScale;
+	result.ZtoDepthScale = attribs.ZtoDepthScale;
+	return result;
 }
