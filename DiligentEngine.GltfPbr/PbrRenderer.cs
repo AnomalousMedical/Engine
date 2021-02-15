@@ -84,9 +84,11 @@ namespace DiligentEngine.GltfPbr
         private AutoPtr<ITextureView> m_ShadowMapDSV;
         private AutoPtr<ITextureView> m_ShadowMapSRV;
         private AutoPtr<IShaderResourceBinding> m_ShadowMapVisSRB;
+        private AutoPtr<IBuffer> m_ShadowTransformsCB;
 
         TEXTURE_FORMAT m_ShadowMapFormat = TEXTURE_FORMAT.TEX_FORMAT_D16_UNORM;
         float4x4 m_WorldToShadowMapUVDepthMatr;
+        float4x4 m_WorldToLightProjSpaceMatr;
         Uint32 m_ShadowMapSize = 512;
 
         public PbrRenderer(IRenderDevice pDevice, IDeviceContext pCtx, PbrRendererCreateInfo CI, ShaderLoader<PbrRenderer> shaderLoader)
@@ -209,12 +211,24 @@ namespace DiligentEngine.GltfPbr
                         m_JointsBuffer = pDevice.CreateBuffer(CBDesc);
                     }
 
+                    {
+                        BufferDesc CBDesc = new BufferDesc();
+                        CBDesc.Name = "GLTF shadow transform CB";
+                        CBDesc.uiSizeInBytes = (uint)sizeof(GLTFShadowTransform);
+                        CBDesc.Usage = USAGE.USAGE_DYNAMIC;
+                        CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
+                        CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
+
+                        m_ShadowTransformsCB = pDevice.CreateBuffer(CBDesc);
+                    }
+
                     // clang-format off
                     var Barriers = new List<StateTransitionDesc>
                     {
                         new StateTransitionDesc{pResource = m_TransformsCB.Obj,  OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true},
                         new StateTransitionDesc{pResource = m_GLTFAttribsCB.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true},
-                        new StateTransitionDesc{pResource = m_JointsBuffer.Obj,  OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true}
+                        new StateTransitionDesc{pResource = m_JointsBuffer.Obj,  OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true},
+                        new StateTransitionDesc{pResource = m_ShadowTransformsCB.Obj,  OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true}
                     };
                     // clang-format on
                     pCtx.TransitionResourceStates(Barriers);
@@ -226,6 +240,7 @@ namespace DiligentEngine.GltfPbr
 
         public void Dispose()
         {
+            m_ShadowTransformsCB?.Dispose();
             m_pShadowMapVisPSO?.Dispose();
             m_pShadowPSO?.Dispose();
             m_ShadowMapVisSRB?.Dispose();
@@ -845,16 +860,13 @@ namespace DiligentEngine.GltfPbr
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
             ShaderCI.EntryPoint = "main";
             ShaderCI.Desc.Name = "Shadow VS";
-            ShaderCI.Source = shaderLoader.LoadShader("GLTF_PBR/private/RenderGLTF_PBR.vsh", "Common/public", "GLTF_PBR/public");
+            ShaderCI.Source = shaderLoader.LoadShader("GLTF_PBR/private/shadow.vsh");
             using var pShadowVS = pDevice.CreateShader(ShaderCI, Macros);
 
             PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE;
             var Vars = new List<ShaderResourceVariableDesc>
             {
-                new ShaderResourceVariableDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_VERTEX, Name = "cbTransforms",      Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC},
-                new ShaderResourceVariableDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_VERTEX, Name = "cbCameraAttribs",   Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC},
-                new ShaderResourceVariableDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_VERTEX, Name = "cbLightAttribs",   Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC},
-                new ShaderResourceVariableDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_VERTEX, Name = "cbJointTransforms", Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC}
+                new ShaderResourceVariableDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_VERTEX, Name = "cbTransform",      Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC}
             };
             PSOCreateInfo.PSODesc.ResourceLayout.Variables = Vars;
 
@@ -876,10 +888,7 @@ namespace DiligentEngine.GltfPbr
             }
 
             m_pShadowPSO = pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
-            m_pShadowPSO.Obj.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "cbTransforms").Set(m_TransformsCB.Obj);
-            m_pShadowPSO.Obj.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "cbCameraAttribs").Set(pCameraAttribs);
-            m_pShadowPSO.Obj.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "cbLightAttribs").Set(pLightAttribs);
-            m_pShadowPSO.Obj.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "cbJointTransforms").Set(m_JointsBuffer.Obj);
+            m_pShadowPSO.Obj.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "cbTransform").Set(m_ShadowTransformsCB.Obj);
             m_ShadowSRB = m_pShadowPSO.Obj.CreateShaderResourceBinding(true);
 
             //Create the shadow map now that we have a pso
@@ -1169,6 +1178,7 @@ namespace DiligentEngine.GltfPbr
             float4x4 ProjToUVBias = float4x4.Translation(0.5f, 0.5f, NDCAttribs.GetZtoDepthBias());
 
             m_WorldToShadowMapUVDepthMatr = WorldToLightProjSpaceMatr * ProjToUVScale * ProjToUVBias;
+            m_WorldToLightProjSpaceMatr = WorldToLightProjSpaceMatr;
         }
 
         public float4x4 WorldToShadowMapUVDepthMatr => m_WorldToShadowMapUVDepthMatr;
@@ -1223,72 +1233,12 @@ namespace DiligentEngine.GltfPbr
 
             unsafe
             {
-                IntPtr data = pCtx.MapBuffer(m_TransformsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
-                var transform = (GLTFNodeShaderTransforms*)data.ToPointer();
+                IntPtr data = pCtx.MapBuffer(m_ShadowTransformsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
+                var transform = (GLTFShadowTransform*)data.ToPointer();
 
-                transform->NodeMatrix = nodeMatrix;
-                transform->JointCount = 0;
+                transform->WorldViewProj = (nodeMatrix * m_WorldToLightProjSpaceMatr).Transpose();
 
-                pCtx.UnmapBuffer(m_TransformsCB.Obj, MAP_TYPE.MAP_WRITE);
-            }
-
-            unsafe
-            {
-                IntPtr data = pCtx.MapBuffer(m_JointsBuffer.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
-                var joints = (float4x4*)data.ToPointer();
-
-                pCtx.UnmapBuffer(m_JointsBuffer.Obj, MAP_TYPE.MAP_WRITE);
-            }
-
-            unsafe
-            {
-                IntPtr data = pCtx.MapBuffer(m_GLTFAttribsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
-                var pGLTFAttribs = (GLTFAttribs*)data.ToPointer();
-
-                var MaterialInfo = &pGLTFAttribs->MaterialInfo;
-
-                MaterialInfo->BaseColorFactor = renderAttribs.BaseColorFactor;
-                MaterialInfo->EmissiveFactor = renderAttribs.EmissiveFactor;
-                MaterialInfo->SpecularFactor = renderAttribs.SpecularFactor;
-
-                MaterialInfo->Workflow = (int)renderAttribs.Workflow;
-                MaterialInfo->BaseColorTextureUVSelector = renderAttribs.BaseColorTextureUVSelector;
-                MaterialInfo->PhysicalDescriptorTextureUVSelector = renderAttribs.PhysicalDescriptorTextureUVSelector;
-                MaterialInfo->NormalTextureUVSelector = renderAttribs.NormalTextureUVSelector;
-
-                MaterialInfo->OcclusionTextureUVSelector = renderAttribs.OcclusionTextureUVSelector;
-                MaterialInfo->EmissiveTextureUVSelector = renderAttribs.EmissiveTextureUVSelector;
-                MaterialInfo->BaseColorSlice = renderAttribs.BaseColorSlice;
-                MaterialInfo->PhysicalDescriptorSlice = renderAttribs.PhysicalDescriptorSlice;
-
-                MaterialInfo->NormalSlice = renderAttribs.NormalSlice;
-                MaterialInfo->OcclusionSlice = renderAttribs.OcclusionSlice;
-                MaterialInfo->EmissiveSlice = renderAttribs.EmissiveSlice;
-                MaterialInfo->MetallicFactor = renderAttribs.MetallicFactor;
-
-                MaterialInfo->RoughnessFactor = renderAttribs.RoughnessFactor;
-                MaterialInfo->AlphaMode = (int)renderAttribs.AlphaMode;
-                MaterialInfo->AlphaMaskCutoff = renderAttribs.AlphaMaskCutoff;
-                MaterialInfo->Dummy0 = renderAttribs.Dummy0;
-
-                MaterialInfo->BaseColorUVScaleBias = renderAttribs.BaseColorUVScaleBias;
-                MaterialInfo->PhysicalDescriptorUVScaleBias = renderAttribs.PhysicalDescriptorUVScaleBias;
-                MaterialInfo->NormalMapUVScaleBias = renderAttribs.NormalMapUVScaleBias;
-                MaterialInfo->OcclusionUVScaleBias = renderAttribs.OcclusionUVScaleBias;
-                MaterialInfo->EmissiveUVScaleBias = renderAttribs.EmissiveUVScaleBias;
-
-                var ShaderParams = &pGLTFAttribs->RenderParameters;
-
-                ShaderParams->AverageLogLum = renderAttribs.AverageLogLum;
-                ShaderParams->MiddleGray = renderAttribs.MiddleGray;
-                ShaderParams->WhitePoint = renderAttribs.WhitePoint;
-                ShaderParams->IBLScale = renderAttribs.IBLScale;
-                ShaderParams->DebugViewType = (int)renderAttribs.DebugViewType;
-                ShaderParams->OcclusionStrength = renderAttribs.OcclusionStrength;
-                ShaderParams->EmissionScale = renderAttribs.EmissionScale;
-                ShaderParams->PrefilteredCubeMipLevels = m_Settings.UseIBL ? m_pPrefilteredEnvMapSRV.Obj.GetTexture().GetDesc_MipLevels : 0f; //This line is valid
-
-                pCtx.UnmapBuffer(m_GLTFAttribsCB.Obj, MAP_TYPE.MAP_WRITE);
+                pCtx.UnmapBuffer(m_ShadowTransformsCB.Obj, MAP_TYPE.MAP_WRITE);
             }
 
             DrawIndexedAttribs DrawAttrs = new DrawIndexedAttribs();

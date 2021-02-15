@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Shadow\shadow.vsh" />
     <None Remove="Shadow\shadow_map_vis.psh" />
     <None Remove="Shadow\shadow_map_vis.vsh" />
     <None Remove="Shadow\structures.fxh" />

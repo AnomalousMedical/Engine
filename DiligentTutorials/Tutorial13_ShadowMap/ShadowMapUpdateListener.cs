@@ -620,6 +620,7 @@ namespace Tutorial13_ShadowMap
         public unsafe void sendUpdate(Clock clock)
         {
             firstPersonFlyCamera.UpdateInput(clock);
+            UpdateLight(clock);
 
             // Render shadow map
             m_pImmediateContext.SetRenderTargets(null, m_ShadowMapDSV.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
@@ -780,6 +781,14 @@ namespace Tutorial13_ShadowMap
 
             var DrawAttrs = new DrawAttribs { NumVertices = 4, Flags = DRAW_FLAGS.DRAW_FLAG_VERIFY_ALL };
             m_pImmediateContext.Draw(DrawAttrs);
+        }
+
+        private unsafe void UpdateLight(Clock clock)
+        {
+            var rotAmount = clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * (float)Math.PI);
+            var rot = new Quaternion(0f, rotAmount, 0f);
+            m_LightDirection = rot.toRotationMatrix4x4() * Vector3.Down;
+            //m_LightDirection = Vector3.Down;
         }
     }
 }

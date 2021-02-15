@@ -65,6 +65,8 @@ namespace SceneTest
             VirtualFileSystem virtualFileSystem,
             FirstPersonFlyCamera cameraControls)
         {
+            cameraControls.Position = new Vector3(0, 0, -12);
+
             this.pbrRenderer = m_GLTFRenderer;
             this.swapChain = graphicsEngine.SwapChain;
             this.renderDevice = graphicsEngine.RenderDevice;
@@ -114,13 +116,14 @@ namespace SceneTest
                 //Background cubes
                 pbrRenderAttribs.AlphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE;
 
-                AddBrick(new Vector3(-1, 0, 1), Quaternion.Identity);
-                AddBrick(new Vector3(-1, 0, 2), Quaternion.Identity);
-                AddBrick(new Vector3(-1, 0, 3), Quaternion.Identity);
-                AddBrick(new Vector3(0, 0, 3), Quaternion.Identity);
-                AddBrick(new Vector3(1, 0, 3), Quaternion.Identity);
-                AddBrick(new Vector3(1, 0, 2), Quaternion.Identity);
-                AddBrick(new Vector3(1, 0, 1), Quaternion.Identity);
+                AddBrick(new Vector3(0, 0, 0), Quaternion.Identity);
+                //AddBrick(new Vector3(-1, 0, 1), Quaternion.Identity);
+                //AddBrick(new Vector3(-1, 0, 2), Quaternion.Identity);
+                //AddBrick(new Vector3(-1, 0, 3), Quaternion.Identity);
+                //AddBrick(new Vector3(0, 0, 3), Quaternion.Identity);
+                //AddBrick(new Vector3(1, 0, 3), Quaternion.Identity);
+                //AddBrick(new Vector3(1, 0, 2), Quaternion.Identity);
+                //AddBrick(new Vector3(1, 0, 1), Quaternion.Identity);
             }
 
             {
@@ -132,44 +135,44 @@ namespace SceneTest
                     indexBuffer = plane.IndexBuffer,
                     numIndices = plane.NumIndices,
                     pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE,
-                    position = new Vector3(0, -1, 0),
+                    position = new Vector3(0, -2, 0),
                     orientation = Quaternion.shortestArcQuat(Vector3.Forward, Vector3.Down),
                     scale = new Vector3(10, 10, 10),
                     shaderResourceBinding = pboMatBindingFloor.Obj
                 });
             }
 
-            {
-                //Tiny Dino
-                sceneObjects.Add(new SceneObject()
-                {
-                    vertexBuffer = plane.VertexBuffer,
-                    skinVertexBuffer = plane.SkinVertexBuffer,
-                    indexBuffer = plane.IndexBuffer,
-                    numIndices = plane.NumIndices,
-                    pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
-                    position = new Vector3(-4, 0, -3),
-                    orientation = Quaternion.Identity,
-                    scale = new Vector3(1.466666666666667f, 1, 1),
-                    shaderResourceBinding = pboMatBindingTinyDinoSprite.Obj
-                });
-            }
+            //{
+            //    //Tiny Dino
+            //    sceneObjects.Add(new SceneObject()
+            //    {
+            //        vertexBuffer = plane.VertexBuffer,
+            //        skinVertexBuffer = plane.SkinVertexBuffer,
+            //        indexBuffer = plane.IndexBuffer,
+            //        numIndices = plane.NumIndices,
+            //        pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
+            //        position = new Vector3(-4, 0, -3),
+            //        orientation = Quaternion.Identity,
+            //        scale = new Vector3(1.466666666666667f, 1, 1),
+            //        shaderResourceBinding = pboMatBindingTinyDinoSprite.Obj
+            //    });
+            //}
 
-            {
-                //Player
-                sceneObjects.Add(new SceneObject()
-                {
-                    vertexBuffer = plane.VertexBuffer,
-                    skinVertexBuffer = plane.SkinVertexBuffer,
-                    indexBuffer = plane.IndexBuffer,
-                    numIndices = plane.NumIndices,
-                    pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
-                    position = new Vector3(0, 0.291666666666667f, 0),
-                    orientation = Quaternion.Identity,
-                    scale = new Vector3(1, 1.291666666666667f, 1),
-                    shaderResourceBinding = pboMatBindingSprite.Obj
-                });
-            }
+            //{
+            //    //Player
+            //    sceneObjects.Add(new SceneObject()
+            //    {
+            //        vertexBuffer = plane.VertexBuffer,
+            //        skinVertexBuffer = plane.SkinVertexBuffer,
+            //        indexBuffer = plane.IndexBuffer,
+            //        numIndices = plane.NumIndices,
+            //        pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
+            //        position = new Vector3(0, 0.291666666666667f, 0),
+            //        orientation = Quaternion.Identity,
+            //        scale = new Vector3(1, 1.291666666666667f, 1),
+            //        shaderResourceBinding = pboMatBindingSprite.Obj
+            //    });
+            //}
         }
 
         private unsafe void CreateShinyTexture()
@@ -329,7 +332,6 @@ namespace SceneTest
 
             pbrRenderer.Begin(immediateContext);
             // Render shadow map
-            //I think this is close, but need to render shadow as if the light is the camera
             pbrRenderer.BeginShadowMap(renderDevice, immediateContext, lightDirection);
             var WorldToShadowMapUVDepthMatrix = pbrRenderer.WorldToShadowMapUVDepthMatr;
             pbrCameraAndLight.SetCameraMatrices(ref cameraProjMatrix, ref WorldToShadowMapUVDepthMatrix, ref Vector3.Forward);
@@ -368,7 +370,6 @@ namespace SceneTest
             lightDirection = rot.toRotationMatrix4x4() * Vector3.Down;
             if (lightDirection.y < 0)
             {
-                //This is the right math for light facing down, but normals on textures will be lit from below, which is wrong
                 lightIntensity = -3 * lightDirection.y;
                 pbrRenderAttribs.AverageLogLum = 0.3f;
             }
@@ -377,6 +378,7 @@ namespace SceneTest
                 pbrRenderAttribs.AverageLogLum = Math.Max(lightDirection.y * 4f, 0.3f);
                 lightIntensity = 0;
             }
+            //lightDirection = Vector3.Down;
         }
 
         private void AddBrick(Vector3 trans, Quaternion rot)

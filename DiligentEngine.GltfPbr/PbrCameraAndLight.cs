@@ -106,7 +106,7 @@ namespace DiligentEngine.GltfPbr
             lightAttribs->f4Direction = direction.ToVector4();
             lightAttribs->f4Intensity = lightColor * intensity;
             var shadowAttribs = &lightAttribs->ShadowAttribs;
-            shadowAttribs->mWorldToShadowMapUVDepthT_0 = WorldToShadowMapUVDepth;
+            shadowAttribs->mWorldToShadowMapUVDepthT_0 = WorldToShadowMapUVDepth.Transpose();
 
             m_pImmediateContext.UnmapBuffer(m_LightAttribsCB.Obj, MAP_TYPE.MAP_WRITE);
         }
