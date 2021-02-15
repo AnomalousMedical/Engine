@@ -48,6 +48,12 @@ namespace Tutorial13_ShadowMap
         private AutoPtr<IBuffer> m_VSConstants;
         private AutoPtr<IShaderResourceBinding> m_CubeSRB;
         private AutoPtr<IShaderResourceBinding> m_CubeShadowSRB;
+        private AutoPtr<IShaderResourceBinding> m_PlaneSRB;
+        private AutoPtr<IShaderResourceBinding> m_ShadowMapVisSRB;
+        private AutoPtr<ITextureView> m_ShadowMapDSV;
+        private AutoPtr<ITextureView> m_ShadowMapSRV;
+
+        Uint32 m_ShadowMapSize = 512;
 
         TEXTURE_FORMAT m_ShadowMapFormat = TEXTURE_FORMAT.TEX_FORMAT_D16_UNORM;
 
@@ -104,7 +110,7 @@ namespace Tutorial13_ShadowMap
             // Transition the texture to shader resource state
             Barriers.Add(new StateTransitionDesc() { pResource = CubeTexture.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true });
 
-            //CreateShadowMap();
+            CreateShadowMap();
 
             m_pImmediateContext.TransitionResourceStates(Barriers);
         }
@@ -536,8 +542,33 @@ namespace Tutorial13_ShadowMap
             }
         }
 
+        void CreateShadowMap()
+        {
+            var SMDesc = new TextureDesc();
+            SMDesc.Name = "Shadow map";
+            SMDesc.Type = RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D;
+            SMDesc.Width = m_ShadowMapSize;
+            SMDesc.Height = m_ShadowMapSize;
+            SMDesc.Format = m_ShadowMapFormat;
+            SMDesc.BindFlags = BIND_FLAGS.BIND_SHADER_RESOURCE | BIND_FLAGS.BIND_DEPTH_STENCIL;
+            using var ShadowMap = m_pDevice.CreateTexture(SMDesc, null);
+            m_ShadowMapSRV = new AutoPtr<ITextureView>(ShadowMap.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
+            m_ShadowMapDSV = new AutoPtr<ITextureView>(ShadowMap.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_DEPTH_STENCIL));
+
+            // Create SRBs that use shadow map as mutable variable
+            m_PlaneSRB = m_pPlanePSO.Obj.CreateShaderResourceBinding(true);
+            m_PlaneSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_ShadowMap").Set(m_ShadowMapSRV.Obj);
+
+            m_ShadowMapVisSRB = m_pShadowMapVisPSO.Obj.CreateShaderResourceBinding(true);
+            m_ShadowMapVisSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_ShadowMap").Set(m_ShadowMapSRV.Obj);
+        }
+
         public void Dispose()
         {
+            m_ShadowMapVisSRB.Dispose();
+            m_PlaneSRB.Dispose();
+            m_ShadowMapDSV.Dispose();
+            m_ShadowMapSRV.Dispose();
             m_CubeIndexBuffer.Dispose();
             m_CubeVertexBuffer.Dispose();
             m_pShadowMapVisPSO.Dispose();
