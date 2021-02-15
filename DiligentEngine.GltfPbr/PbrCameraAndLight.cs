@@ -98,6 +98,19 @@ namespace DiligentEngine.GltfPbr
             m_pImmediateContext.UnmapBuffer(m_LightAttribsCB.Obj, MAP_TYPE.MAP_WRITE);
         }
 
+        public unsafe void SetLightAndShadow(ref Vector3 direction, ref Vector4 lightColor, float intensity, ref Matrix4x4 WorldToShadowMapUVDepth)
+        {
+            IntPtr data = m_pImmediateContext.MapBuffer(m_LightAttribsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
+
+            var lightAttribs = (LightAttribs*)data.ToPointer();
+            lightAttribs->f4Direction = direction.ToVector4();
+            lightAttribs->f4Intensity = lightColor * intensity;
+            var shadowAttribs = &lightAttribs->ShadowAttribs;
+            shadowAttribs->mWorldToShadowMapUVDepthT_0 = WorldToShadowMapUVDepth;
+
+            m_pImmediateContext.UnmapBuffer(m_LightAttribsCB.Obj, MAP_TYPE.MAP_WRITE);
+        }
+
         public void SetCameraPosition(Vector3 position, Quaternion rotation, ref Matrix4x4 preTransformMatrix, ref Matrix4x4 CameraProj)
         {
             //For some reason camera defined backward, so take -position

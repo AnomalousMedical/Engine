@@ -98,7 +98,7 @@ namespace SceneTest
             
 
             pbrRenderer.PrecomputeCubemaps(renderDevice, immediateContext, environmentMapSRV.Obj);
-            pbrRenderer.CreateShadowPSO(swapChain, renderDevice, pbrCameraAndLight.CameraAttribs);
+            pbrRenderer.CreateShadowPSO(swapChain, renderDevice, pbrCameraAndLight.CameraAttribs, pbrCameraAndLight.LightAttribs);
 
 
             LoadFloorTexture();
@@ -326,12 +326,14 @@ namespace SceneTest
             var cameraProjMatrix = CameraHelpers.GetAdjustedProjectionMatrix(YFov, ZNear, ZFar, window.WindowWidth, window.WindowHeight, PreTransform);
 
             //Draw Scene
+
             pbrRenderer.Begin(immediateContext);
             // Render shadow map
             //I think this is close, but need to render shadow as if the light is the camera
             pbrRenderer.BeginShadowMap(renderDevice, immediateContext, lightDirection);
-            var WorldToShadowMapUVDepthMatr = pbrRenderer.WorldToShadowMapUVDepthMatr;
-            pbrCameraAndLight.SetCameraMatrices(ref cameraProjMatrix, ref WorldToShadowMapUVDepthMatr, ref Vector3.Forward);
+            var WorldToShadowMapUVDepthMatrix = pbrRenderer.WorldToShadowMapUVDepthMatr;
+            pbrCameraAndLight.SetCameraMatrices(ref cameraProjMatrix, ref WorldToShadowMapUVDepthMatrix, ref Vector3.Forward);
+            pbrCameraAndLight.SetLightAndShadow(ref lightDirection, ref lightColor, lightIntensity, ref WorldToShadowMapUVDepthMatrix);
             foreach (var sceneObj in sceneObjects.Where(i => i.shaderResourceBinding == pboMatBindingSceneObject.Obj)) //Render all bricks for shadow map
             {
                 pbrRenderAttribs.AlphaMode = sceneObj.pbrAlphaMode;
@@ -347,9 +349,6 @@ namespace SceneTest
             // Set Camera
             //pbrCameraAndLight.SetCameraMatrices(ref cameraProjMatrix, ref WorldToShadowMapUVDepthMatr, ref Vector3.Forward);
             pbrCameraAndLight.SetCameraPosition(cameraControls.Position, cameraControls.Orientation, ref preTransformMatrix, ref cameraProjMatrix);
-
-            //Set Light
-            pbrCameraAndLight.SetLight(ref lightDirection, ref lightColor, lightIntensity);
 
             foreach (var sceneObj in sceneObjects)
             {

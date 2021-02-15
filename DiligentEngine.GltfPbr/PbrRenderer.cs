@@ -481,6 +481,7 @@ namespace DiligentEngine.GltfPbr
 
             if (pLightAttribs != null)
             {
+                pSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "cbLightAttribs")?.Set(pLightAttribs);
                 pSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "cbLightAttribs")?.Set(pLightAttribs);
             }
 
@@ -797,7 +798,7 @@ namespace DiligentEngine.GltfPbr
             pCtx.TransitionResourceStates(Barriers);
         }
 
-        public void CreateShadowPSO(ISwapChain swapChain, IRenderDevice pDevice, IBuffer pCameraAttribs)
+        public void CreateShadowPSO(ISwapChain swapChain, IRenderDevice pDevice, IBuffer pCameraAttribs, IBuffer pLightAttribs)
         {
             CreateShadowMapVisPSO(swapChain, pDevice);
 
@@ -852,6 +853,7 @@ namespace DiligentEngine.GltfPbr
             {
                 new ShaderResourceVariableDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_VERTEX, Name = "cbTransforms",      Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC},
                 new ShaderResourceVariableDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_VERTEX, Name = "cbCameraAttribs",   Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC},
+                new ShaderResourceVariableDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_VERTEX, Name = "cbLightAttribs",   Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC},
                 new ShaderResourceVariableDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_VERTEX, Name = "cbJointTransforms", Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC}
             };
             PSOCreateInfo.PSODesc.ResourceLayout.Variables = Vars;
@@ -876,6 +878,7 @@ namespace DiligentEngine.GltfPbr
             m_pShadowPSO = pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
             m_pShadowPSO.Obj.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "cbTransforms").Set(m_TransformsCB.Obj);
             m_pShadowPSO.Obj.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "cbCameraAttribs").Set(pCameraAttribs);
+            m_pShadowPSO.Obj.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "cbLightAttribs").Set(pLightAttribs);
             m_pShadowPSO.Obj.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "cbJointTransforms").Set(m_JointsBuffer.Obj);
             m_ShadowSRB = m_pShadowPSO.Obj.CreateShaderResourceBinding(true);
 

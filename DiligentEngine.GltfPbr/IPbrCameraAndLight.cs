@@ -27,5 +27,7 @@ namespace DiligentEngine.GltfPbr
         void SetCameraMatrices(ref Matrix4x4 CameraProj, ref Matrix4x4 CameraViewProj, ref Vector3 CameraWorldPos);
 
         void SetLight(ref Vector3 direction, ref Vector4 lightColor, float intensity);
+
+        void SetLightAndShadow(ref Vector3 direction, ref Vector4 lightColor, float intensity, ref Matrix4x4 WorldToShadowMapUVDepth);
     }
 }
