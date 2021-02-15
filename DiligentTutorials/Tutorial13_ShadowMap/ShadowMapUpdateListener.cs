@@ -54,6 +54,7 @@ namespace Tutorial13_ShadowMap
         private AutoPtr<ITextureView> m_ShadowMapSRV;
 
         float4x4 m_CubeWorldMatrix = float4x4.Identity;
+        float4x4 m_CameraViewProjMatrix;
         float3 m_LightDirection = new float3(-0.49f, -0.60f, 0.64f).normalized();
         float4x4 m_WorldToShadowMapUVDepthMatr;
         Uint32 m_ShadowMapSize = 512;
@@ -70,11 +71,28 @@ namespace Tutorial13_ShadowMap
         };
 
         // Layout of this structure matches the one we defined in pipeline state
+        [StructLayout(LayoutKind.Sequential)]
         struct Vertex
         {
             public float3 pos;
             public float2 uv;
             public float3 normal;
+        };
+
+        [StructLayout(LayoutKind.Sequential)]
+        struct CubeConstants //This is meant to be the same as PlaneConstants
+        {
+            public float4x4 WorldViewProj;
+            public float4x4 NormalTranform;
+            public float4 LightDirection;
+        };
+
+        [StructLayout(LayoutKind.Sequential)]
+        struct PlaneConstants //This is meant to be the same as CubeConstants
+        {
+            public float4x4 CameraViewProj;
+            public float4x4 WorldToShadowMapUVDepth;
+            public float4 LightDirection;
         };
 
         public unsafe ShadowMapUpdateListener(
@@ -616,10 +634,10 @@ namespace Tutorial13_ShadowMap
             float4x4 CameraView = float4x4.Translation(0.0f, -5.0f, -10.0f) * float4x4.RotationY((float)Math.PI) * float4x4.RotationX(-(float)Math.PI * 0.2f);
 
             // Compute camera view-projection matrix
-            var m_CameraViewProjMatrix = CameraView * SrfPreTransform * Proj;
+            m_CameraViewProjMatrix = CameraView * SrfPreTransform * Proj;
 
             RenderCube(ref m_CameraViewProjMatrix, false);
-            //RenderPlane();
+            RenderPlane();
             //RenderShadowMapVis();
 
             this.m_pSwapChain.Present(1);
@@ -685,13 +703,6 @@ namespace Tutorial13_ShadowMap
             RenderCube(ref WorldToLightProjSpaceMatr, true);
         }
 
-        struct Constants
-        {
-            public float4x4 WorldViewProj;
-            public float4x4 NormalTranform;
-            public float4 LightDirection;
-        };
-
         void RenderCube(ref float4x4 CameraViewProj, bool IsShadowPass)
         {
             // Update constant buffer
@@ -699,7 +710,7 @@ namespace Tutorial13_ShadowMap
             {
                 // Map the buffer and write current world-view-projection matrix
                 IntPtr data = m_pImmediateContext.MapBuffer(m_VSConstants.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
-                Constants* CBConstants = (Constants*)data.ToPointer();
+                CubeConstants* CBConstants = (CubeConstants*)data.ToPointer();
                 CBConstants->WorldViewProj = (m_CubeWorldMatrix * CameraViewProj).Transpose();
                 var NormalMatrix = m_CubeWorldMatrix.RemoveTranslation().inverse();
                 // We need to do inverse-transpose, but we also need to transpose the matrix
@@ -729,6 +740,28 @@ namespace Tutorial13_ShadowMap
 
             var DrawAttrs = new DrawIndexedAttribs {NumIndices = 36, IndexType = VALUE_TYPE.VT_UINT32, Flags = DRAW_FLAGS.DRAW_FLAG_VERIFY_ALL };
             m_pImmediateContext.DrawIndexed(DrawAttrs);
+        }
+
+        void RenderPlane()
+        {
+            unsafe
+            {
+                IntPtr data = m_pImmediateContext.MapBuffer(m_VSConstants.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
+                PlaneConstants* CBConstants = (PlaneConstants*)data.ToPointer();
+                CBConstants->CameraViewProj = m_CameraViewProjMatrix.Transpose();
+                CBConstants->WorldToShadowMapUVDepth = m_WorldToShadowMapUVDepthMatr.Transpose();
+                CBConstants->LightDirection = new Vector4(m_LightDirection.x, m_LightDirection.y, m_LightDirection.z, 0);
+                m_pImmediateContext.UnmapBuffer(m_VSConstants.Obj, MAP_TYPE.MAP_WRITE);
+            }
+
+            m_pImmediateContext.SetPipelineState(m_pPlanePSO.Obj);
+            // Commit shader resources. RESOURCE_STATE_TRANSITION_MODE_TRANSITION mode
+            // makes sure that resources are transitioned to required states.
+            // Note that Vulkan requires shadow map to be transitioned to DEPTH_READ state, not SHADER_RESOURCE
+            m_pImmediateContext.CommitShaderResources(m_PlaneSRB.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+
+            var DrawAttrs = new DrawAttribs {NumVertices = 4, Flags = DRAW_FLAGS.DRAW_FLAG_VERIFY_ALL };
+            m_pImmediateContext.Draw(DrawAttrs);
         }
     }
 }

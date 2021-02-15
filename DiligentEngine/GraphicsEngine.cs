@@ -18,6 +18,7 @@ namespace DiligentEngine
         AutoPtr<IDeviceContext> ImmediateContextPtr;
         AutoPtr<ISwapChain> SwapChainPtr;
 
+        [StructLayout(LayoutKind.Sequential)]
         struct CreateDeviceAndSwapChainResult
         {
             public IntPtr m_pDevice;
