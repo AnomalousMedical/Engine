@@ -1129,11 +1129,17 @@ namespace DiligentEngine.GltfPbr
 
             var min_cmp = Math.Min(Math.Min(Math.Abs(m_LightDirection.x), Math.Abs(m_LightDirection.y)), Math.Abs(m_LightDirection.z));
             if (min_cmp == Math.Abs(m_LightDirection.x))
+            {
                 f3LightSpaceX = new float3(1, 0, 0);
+            }
             else if (min_cmp == Math.Abs(m_LightDirection.y))
+            {
                 f3LightSpaceX = new float3(0, 1, 0);
+            }
             else
+            {
                 f3LightSpaceX = new float3(0, 0, 1);
+            }
 
             f3LightSpaceY = f3LightSpaceZ.cross(ref f3LightSpaceX);
             f3LightSpaceX = f3LightSpaceY.cross(ref f3LightSpaceZ);
@@ -1146,7 +1152,7 @@ namespace DiligentEngine.GltfPbr
             // Real applications will want to compute tight bounds
 
             float3 f3SceneCenter = new float3(0, 0, 0);
-            float SceneRadius = (float)Math.Sqrt(3);
+            float SceneRadius = (float)Math.Sqrt(90);
             float3 f3MinXYZ = f3SceneCenter - new float3(SceneRadius, SceneRadius, SceneRadius);
             float3 f3MaxXYZ = f3SceneCenter + new float3(SceneRadius, SceneRadius, SceneRadius * 5);
             float3 f3SceneExtent = f3MaxXYZ - f3MinXYZ;

@@ -116,13 +116,16 @@ namespace SceneTest
                 //Background cubes
                 pbrRenderAttribs.AlphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE;
 
-                AddBrick(new Vector3(-1, 0, 1), Quaternion.Identity);
-                AddBrick(new Vector3(-1, 0, 2), Quaternion.Identity);
-                AddBrick(new Vector3(-1, 0, 3), Quaternion.Identity);
+                AddBrick(new Vector3(-3, 0, 1), Quaternion.Identity);
+                AddBrick(new Vector3(-3, 0, 2), Quaternion.Identity);
+                AddBrick(new Vector3(-3, 0, 3), Quaternion.Identity);
                 AddBrick(new Vector3(0, 0, 3), Quaternion.Identity);
                 AddBrick(new Vector3(1, 0, 3), Quaternion.Identity);
                 AddBrick(new Vector3(1, 0, 2), Quaternion.Identity);
                 AddBrick(new Vector3(1, 0, 1), Quaternion.Identity);
+                AddBrick(new Vector3(1, 0, 0), Quaternion.Identity);
+                AddBrick(new Vector3(1, 0, -1), Quaternion.Identity);
+                AddBrick(new Vector3(1, 0, -2), Quaternion.Identity);
             }
 
             {
@@ -375,7 +378,7 @@ namespace SceneTest
             }
             else
             {
-                pbrRenderAttribs.AverageLogLum = Math.Max(lightDirection.y * 4f, 0.3f);
+                pbrRenderAttribs.AverageLogLum = Math.Max(lightDirection.y * .7f, 0.3f);
                 lightIntensity = 0;
             }
             //lightDirection = Vector3.Down;

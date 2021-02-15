@@ -34,3 +34,7 @@ This will do a copy on the native side into a pass struct then into a class on t
 Seems like you could pass a pass struct as ref then fill it out and have it "returned" that way. Not sure about putting that into a class. That still
 seems smart to avoid passing around huge c# structs, even with some overhead. Depends on if its per frame or not (and you could pass the struct in as ref
 if you had a big one per frame).
+
+## Computing vertex position a 2nd time in RenderGLTF_PBR.vsh
+To fix shadows the locPos had to be calculated again. This makes them work, but its a duplicate of what is already done in the vertex shader transform func, we just
+can't get that value.
