@@ -682,7 +682,7 @@ namespace Tutorial13_ShadowMap
             // Adjust the world to light space transformation matrix
             float4x4 WorldToLightProjSpaceMatr = WorldToLightViewSpaceMatr * ShadowProjMatr;
 
-            var NDCAttribs = m_pDevice.GetDeviceCaps_GetNDCAttribs();
+            var NDCAttribs = m_pDevice.GetDeviceCaps_GetNDCAttribs(); //If this does not have to be called every frame avoid it, its very slow
             float4x4 ProjToUVScale = float4x4.Scale(0.5f, NDCAttribs.YtoVScale, NDCAttribs.ZtoDepthScale);
             float4x4 ProjToUVBias = float4x4.Translation(0.5f, 0.5f, NDCAttribs.GetZtoDepthBias());
 
