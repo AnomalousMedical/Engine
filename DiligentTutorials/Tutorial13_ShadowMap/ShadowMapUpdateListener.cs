@@ -34,6 +34,7 @@ namespace Tutorial13_ShadowMap
         private readonly NativeOSWindow window;
         private readonly TextureLoader textureLoader;
         private readonly ShaderLoader<ShadowMapUpdateListener> shaderLoader;
+        private readonly VirtualFileSystem virtualFileSystem;
         private readonly ISwapChain m_pSwapChain;
         private readonly IDeviceContext m_pImmediateContext;
         private readonly IRenderDevice m_pDevice;
@@ -50,12 +51,18 @@ namespace Tutorial13_ShadowMap
 
         TEXTURE_FORMAT m_ShadowMapFormat = TEXTURE_FORMAT.TEX_FORMAT_D16_UNORM;
 
-        public unsafe ShadowMapUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, TextureLoader textureLoader, ShaderLoader<ShadowMapUpdateListener> shaderLoader)
+        public unsafe ShadowMapUpdateListener(
+            GraphicsEngine graphicsEngine
+            ,NativeOSWindow window
+            ,TextureLoader textureLoader
+            ,ShaderLoader<ShadowMapUpdateListener> shaderLoader
+            ,VirtualFileSystem virtualFileSystem)
         {
             this.graphicsEngine = graphicsEngine;
             this.window = window;
             this.textureLoader = textureLoader;
             this.shaderLoader = shaderLoader;
+            this.virtualFileSystem = virtualFileSystem;
             this.m_pSwapChain = graphicsEngine.SwapChain;
             this.m_pImmediateContext = graphicsEngine.ImmediateContext;
             this.m_pDevice = graphicsEngine.RenderDevice;
@@ -89,11 +96,13 @@ namespace Tutorial13_ShadowMap
             // Explicitly transition vertex and index buffers to required states
             Barriers.Add(new StateTransitionDesc() { pResource = m_CubeVertexBuffer.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_VERTEX_BUFFER, UpdateResourceState = true });
             Barriers.Add(new StateTransitionDesc() { pResource = m_CubeIndexBuffer.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_INDEX_BUFFER, UpdateResourceState = true });
-            //// Load texture
+            // Load texture
+            using var textureStream = virtualFileSystem.openStream("AnomalousEngine.png", Engine.Resources.FileMode.Open);
+            using var CubeTexture = textureLoader.LoadTexture(textureStream, "Cube Texture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true);
             //auto CubeTexture = TexturedCube::LoadTexture(m_pDevice, "DGLogo.png");
-            //m_CubeSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_Texture")->Set(CubeTexture->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE));
-            //// Transition the texture to shader resource state
-            //Barriers.emplace_back(CubeTexture, RESOURCE_STATE_UNKNOWN, RESOURCE_STATE_SHADER_RESOURCE, true);
+            m_CubeSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_Texture").Set(CubeTexture.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
+            // Transition the texture to shader resource state
+            Barriers.Add(new StateTransitionDesc() { pResource = CubeTexture.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true });
 
             //CreateShadowMap();
 
@@ -109,13 +118,13 @@ namespace Tutorial13_ShadowMap
             new LayoutElement{InputIndex = 1, BufferSlot = 0, NumComponents = 2, ValueType = VALUE_TYPE.VT_FLOAT32, IsNormalized = false}
         };
 
-        private static AutoPtr<IPipelineState> CreateTexCubePipelineState(IRenderDevice                   pDevice,
-                                                  TEXTURE_FORMAT                   RTVFormat,
-                                                  TEXTURE_FORMAT                   DSVFormat,
-                                                  String                      VSSource,
-                                                  String                      PSSource,
-                                                  List<LayoutElement>                   LayoutElements = null,
-                                                  Uint8                            SampleCount = 1)
+        private static AutoPtr<IPipelineState> CreateTexCubePipelineState(IRenderDevice pDevice,
+                                                  TEXTURE_FORMAT RTVFormat,
+                                                  TEXTURE_FORMAT DSVFormat,
+                                                  String VSSource,
+                                                  String PSSource,
+                                                  List<LayoutElement> LayoutElements = null,
+                                                  Uint8 SampleCount = 1)
         {
             var PSOCreateInfo    = new GraphicsPipelineStateCreateInfo();
             var PSODesc          = PSOCreateInfo.PSODesc;
@@ -568,59 +577,5 @@ namespace Tutorial13_ShadowMap
 
             this.m_pSwapChain.Present(1);
         }
-
-        const String VSSource =
-    @"cbuffer Constants
-{
-    float4x4 g_WorldViewProj;
-};
-
-// Vertex shader takes two inputs: vertex position and uv coordinates.
-// By convention, Diligent Engine expects vertex shader inputs to be 
-// labeled 'ATTRIBn', where n is the attribute number.
-struct VSInput
-{
-    float3 Pos : ATTRIB0;
-    float2 UV  : ATTRIB1;
-};
-
-struct PSInput 
-{ 
-    float4 Pos : SV_POSITION; 
-    float2 UV  : TEX_COORD; 
-};
-
-// Note that if separate shader objects are not supported (this is only the case for old GLES3.0 devices), vertex
-// shader output variable name must match exactly the name of the pixel shader input variable.
-// If the variable has structure type (like in this example), the structure declarations must also be indentical.
-void main(in  VSInput VSIn,
-          out PSInput PSIn) 
-{
-    PSIn.Pos = mul( float4(VSIn.Pos,1.0), g_WorldViewProj);
-    PSIn.UV  = VSIn.UV;
-}
-";
-
-        const String PSSource =
-    @"Texture2D    g_Texture;
-SamplerState g_Texture_sampler; // By convention, texture samplers must use the '_sampler' suffix
-
-struct PSInput 
-{ 
-    float4 Pos : SV_POSITION; 
-    float2 UV : TEX_COORD; 
-};
-
-struct PSOutput
-{
-    float4 Color : SV_TARGET;
-};
-
-void main(in  PSInput  PSIn,
-          out PSOutput PSOut)
-{
-    PSOut.Color = g_Texture.Sample(g_Texture_sampler, PSIn.UV); 
-}
-";
     }
 }
