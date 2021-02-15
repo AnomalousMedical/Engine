@@ -1177,8 +1177,8 @@ namespace DiligentEngine.GltfPbr
             float4x4 ProjToUVScale = float4x4.Scale(0.5f, NDCAttribs.YtoVScale, NDCAttribs.ZtoDepthScale);
             float4x4 ProjToUVBias = float4x4.Translation(0.5f, 0.5f, NDCAttribs.GetZtoDepthBias());
 
-            m_WorldToShadowMapUVDepthMatr = WorldToLightProjSpaceMatr * ProjToUVScale * ProjToUVBias;
-            m_WorldToLightProjSpaceMatr = WorldToLightProjSpaceMatr;
+            this.m_WorldToShadowMapUVDepthMatr = WorldToLightProjSpaceMatr * ProjToUVScale * ProjToUVBias;
+            this.m_WorldToLightProjSpaceMatr = WorldToLightProjSpaceMatr;
         }
 
         public float4x4 WorldToShadowMapUVDepthMatr => m_WorldToShadowMapUVDepthMatr;
