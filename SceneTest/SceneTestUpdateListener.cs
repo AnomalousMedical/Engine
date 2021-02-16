@@ -452,7 +452,8 @@ namespace SceneTest
                 lightDirection = (Vector3.Down * noonFactor + new Vector3(dayFactor, 0, dayFactor * 0.3f + 0.1f)).normalized();
                 lightIntensity = 3 * noonFactor;
 
-                //pbrRenderAttribs.AverageLogLum = 0.3f;
+                pbrRenderAttribs.AverageLogLum = 0.3f;
+                ClearColor = Engine.Color.FromARGB(0xff2a63cc);
             }
             else
             {
@@ -460,9 +461,10 @@ namespace SceneTest
                 var midnightFactor = 1.0f - Math.Abs(nightFactor);
                 lightDirection = (Vector3.Down * midnightFactor + new Vector3(nightFactor, 0, nightFactor * 0.3f + 0.1f)).normalized();
 
-                lightIntensity = 3f * midnightFactor;
+                lightIntensity = 0.7f * midnightFactor;
 
-                //pbrRenderAttribs.AverageLogLum = 0.7f;
+                pbrRenderAttribs.AverageLogLum = 0.8f;
+                ClearColor = Engine.Color.FromARGB(0xff070707);
             }
         }
 
