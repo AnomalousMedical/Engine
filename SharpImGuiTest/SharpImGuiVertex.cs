@@ -13,6 +13,6 @@ namespace SharpImGuiTest
     struct SharpImGuiVertex
     {
         public Vector3 pos;
-        public Vector4 color;
+        public Color color;
     };
 }

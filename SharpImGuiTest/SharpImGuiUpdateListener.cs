@@ -133,6 +133,15 @@ namespace SharpImGuiTest
 
         public unsafe void sendUpdate(Clock clock)
         {
+            sharpGuiBuffer.Begin();
+            //sharpGuiBuffer.DrawQuad(50, 50, 100, 100, Color.Blue);
+            //sharpGuiBuffer.DrawQuad(250, 250, 100, 100, Color.Green);
+            //sharpGuiBuffer.DrawQuad(550, 550, 100, 100, Color.Red);
+
+            sharpGuiBuffer.DrawQuad(0, 0, window.WindowWidth / 3, window.WindowHeight / 3, Color.Blue);
+            sharpGuiBuffer.DrawQuad(window.WindowWidth / 3, window.WindowHeight / 3, window.WindowWidth / 3, window.WindowHeight / 3, Color.Green);
+            sharpGuiBuffer.DrawQuad(window.WindowWidth - window.WindowWidth / 3, window.WindowHeight - window.WindowHeight / 3, window.WindowWidth / 3, window.WindowHeight / 3, Color.Red);
+
             var pRTV = swapChain.GetCurrentBackBufferRTV();
             var pDSV = swapChain.GetDepthBufferDSV();
             var preTransform = swapChain.GetDesc_PreTransform;
@@ -146,6 +155,8 @@ namespace SharpImGuiTest
             m_pImmediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
             // Bind vertex and index buffers
+            sharpGuiBuffer.MapBuffers();
+
             UInt32[] offset = new UInt32[] { 0 };
             IBuffer[] pBuffs = new IBuffer[] { sharpGuiBuffer.VertexBuffer };
             m_pImmediateContext.SetVertexBuffers(0, 1, pBuffs, offset, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION, SET_VERTEX_BUFFERS_FLAGS.SET_VERTEX_BUFFERS_FLAG_RESET);
