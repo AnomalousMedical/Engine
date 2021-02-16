@@ -38,8 +38,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 return new PbrRenderer(ge.RenderDevice, ge.ImmediateContext, RendererCI, shapeLoader);
             });
 
-            services.AddSingleton<SimpleShadowMapRenderer>();
-
             return services;
         }
 
@@ -49,14 +47,14 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddSingleton<PbrRenderer<T>>(s =>
             {
-                var shapeLoader = s.GetRequiredService<ShaderLoader<PbrRenderer>>();
+                var shaderLoader = s.GetRequiredService<ShaderLoader<PbrRenderer>>();
                 var ge = s.GetRequiredService<GraphicsEngine>();
             
                 var RendererCI = new PbrRendererCreateInfo();
                 options.CustomizePbrOptions?.Invoke(RendererCI);
                 CheckTextureFormats(ge, RendererCI);
 
-                return new PbrRenderer<T>(ge.RenderDevice, ge.ImmediateContext, RendererCI, shapeLoader);
+                return new PbrRenderer<T>(ge.RenderDevice, ge.ImmediateContext, RendererCI, shaderLoader);
             });
 
             return services;
@@ -72,6 +70,14 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<IResourceProvider<ShaderLoader<PbrRenderer>>>(s =>
                 new EmbeddedResourceProvider<ShaderLoader<PbrRenderer>>(Assembly.GetExecutingAssembly(), "DiligentEngine.GltfPbr."));
 
+
+            services.AddSingleton<SimpleShadowMapRenderer>(s =>
+            {
+                var shaderLoader = s.GetRequiredService<ShaderLoader<SimpleShadowMapRenderer>>();
+                var ge = s.GetRequiredService<GraphicsEngine>();
+
+                return new SimpleShadowMapRenderer(shaderLoader, ge, options.EnableShadowMapVis);
+            });
             services.AddSingleton<IResourceProvider<ShaderLoader<SimpleShadowMapRenderer>>>(s =>
                 new EmbeddedResourceProvider<ShaderLoader<SimpleShadowMapRenderer>>(Assembly.GetExecutingAssembly(), "DiligentEngine.GltfPbr."));
 

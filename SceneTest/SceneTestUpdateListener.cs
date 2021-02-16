@@ -106,7 +106,6 @@ namespace SceneTest
             environmentMapSRV = envMapBuilder.BuildEnvMapView(renderDevice, immediateContext, "papermill/Fixed-", "png");
 
             pbrRenderer.PrecomputeCubemaps(renderDevice, immediateContext, environmentMapSRV.Obj);
-            shadowMapRenderer.CreateShadowPSO(swapChain, renderDevice, pbrCameraAndLight.CameraAttribs, pbrCameraAndLight.LightAttribs);
 
             LoadFloorTexture();
             LoadSceneObjectTexture();
@@ -450,7 +449,7 @@ namespace SceneTest
             {
                 var dayFactor = (timeClock.DayFactor - 0.5f) * 2.0f;
                 var noonFactor = 1.0f - Math.Abs(dayFactor);
-                lightDirection = (Vector3.Down * noonFactor + new Vector3(dayFactor, 0, 0)).normalized();
+                lightDirection = (Vector3.Down * noonFactor + new Vector3(dayFactor, 0, dayFactor * 0.3f + 0.1f)).normalized();
                 lightIntensity = 3 * noonFactor;
 
                 //pbrRenderAttribs.AverageLogLum = 0.3f;
@@ -459,9 +458,9 @@ namespace SceneTest
             {
                 var nightFactor = (timeClock.NightFactor - 0.5f) * 2.0f;
                 var midnightFactor = 1.0f - Math.Abs(nightFactor);
-                lightDirection = (Vector3.Down * midnightFactor + new Vector3(nightFactor, 0, 0)).normalized();
+                lightDirection = (Vector3.Down * midnightFactor + new Vector3(nightFactor, 0, nightFactor * 0.3f + 0.1f)).normalized();
 
-                lightIntensity = 0.3f * midnightFactor;
+                lightIntensity = 3f * midnightFactor;
 
                 //pbrRenderAttribs.AverageLogLum = 0.7f;
             }

@@ -43,7 +43,7 @@ namespace DiligentEngine.GltfPbr
 
         public ITextureView ShadowMapSRV => m_ShadowMapSRV.Obj;
 
-        public SimpleShadowMapRenderer(ShaderLoader<SimpleShadowMapRenderer> shaderLoader, GraphicsEngine graphicsEngine)
+        public SimpleShadowMapRenderer(ShaderLoader<SimpleShadowMapRenderer> shaderLoader, GraphicsEngine graphicsEngine, bool enableShadowMapVis)
         {
             this.shaderLoader = shaderLoader;
             IRenderDevice pDevice = graphicsEngine.RenderDevice;
@@ -66,6 +66,13 @@ namespace DiligentEngine.GltfPbr
                 new StateTransitionDesc{pResource = m_ShadowTransformsCB.Obj,  OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true}
             };
             pCtx.TransitionResourceStates(Barriers);
+
+            if (enableShadowMapVis)
+            {
+                CreateShadowMapVisPSO(graphicsEngine.SwapChain, pDevice);
+            }
+
+            CreateShadowPSO(graphicsEngine.RenderDevice);
         }
 
         public void Dispose()
@@ -79,10 +86,8 @@ namespace DiligentEngine.GltfPbr
             m_ShadowTransformsCB?.Dispose();
         }
 
-        public void CreateShadowPSO(ISwapChain swapChain, IRenderDevice pDevice, IBuffer pCameraAttribs, IBuffer pLightAttribs)
+        private void CreateShadowPSO(IRenderDevice pDevice)
         {
-            CreateShadowMapVisPSO(swapChain, pDevice);
-
             // Define vertex shader input layout
             var Inputs = new List<LayoutElement>
             {
@@ -168,8 +173,11 @@ namespace DiligentEngine.GltfPbr
             m_ShadowMapSRV = new AutoPtr<ITextureView>(ShadowMap.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
             m_ShadowMapDSV = new AutoPtr<ITextureView>(ShadowMap.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_DEPTH_STENCIL));
 
-            m_ShadowMapVisSRB = m_pShadowMapVisPSO.Obj.CreateShaderResourceBinding(true);
-            m_ShadowMapVisSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_ShadowMap").Set(m_ShadowMapSRV.Obj);
+            if (m_pShadowMapVisPSO != null)
+            {
+                m_ShadowMapVisSRB = m_pShadowMapVisPSO.Obj.CreateShaderResourceBinding(true);
+                m_ShadowMapVisSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_ShadowMap").Set(m_ShadowMapSRV.Obj);
+            }
         }
 
         void CreateShadowMapVisPSO(ISwapChain m_pSwapChain, IRenderDevice m_pDevice)
@@ -372,11 +380,14 @@ namespace DiligentEngine.GltfPbr
 
         public void RenderShadowMapVis(IDeviceContext m_pImmediateContext)
         {
-            m_pImmediateContext.SetPipelineState(m_pShadowMapVisPSO.Obj);
-            m_pImmediateContext.CommitShaderResources(m_ShadowMapVisSRB.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            if (m_pShadowMapVisPSO != null)
+            {
+                m_pImmediateContext.SetPipelineState(m_pShadowMapVisPSO.Obj);
+                m_pImmediateContext.CommitShaderResources(m_ShadowMapVisSRB.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            var DrawAttrs = new DrawAttribs { NumVertices = 4, Flags = DRAW_FLAGS.DRAW_FLAG_VERIFY_ALL };
-            m_pImmediateContext.Draw(DrawAttrs);
+                var DrawAttrs = new DrawAttribs { NumVertices = 4, Flags = DRAW_FLAGS.DRAW_FLAG_VERIFY_ALL };
+                m_pImmediateContext.Draw(DrawAttrs);
+            }
         }
     }
 }
