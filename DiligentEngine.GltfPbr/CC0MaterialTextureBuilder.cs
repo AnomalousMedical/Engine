@@ -201,8 +201,23 @@ namespace DiligentEngine.GltfPbr
             return result;
         }
 
+        /// <summary>
+        /// Fill the image with a ARGB color.
+        /// </summary>
+        /// <param name="color"></param>
+        /// <param name="bmp"></param>
         private unsafe void FillWithColor(UInt32 color, FreeImageBitmap bmp)
         {
+            //Convert to abgr
+            var newNum = color & 0xff00ff00;
+            var r = color & 0x00ff0000;
+            var b = color & 0x000000ff;
+
+            r = r >> 16;
+            b = b << 16;
+
+            color = newNum + r + b;
+
             var firstPixel = ((uint*)bmp.Scan0.ToPointer()) - ((bmp.Height - 1) * bmp.Width);
             var size = bmp.Width * bmp.Height;
             var span = new Span<UInt32>(firstPixel, size);
