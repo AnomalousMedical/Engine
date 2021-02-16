@@ -37,6 +37,7 @@ namespace SceneTest
         private readonly ICC0MaterialTextureBuilder cC0MaterialTextureBuilder;
         private readonly VirtualFileSystem virtualFileSystem;
         private readonly FirstPersonFlyCamera cameraControls;
+        private readonly SimpleShadowMapRenderer shadowMapRenderer;
         private ISwapChain swapChain;
         private IRenderDevice renderDevice;
         private IDeviceContext immediateContext;
@@ -64,7 +65,8 @@ namespace SceneTest
             IPbrCameraAndLight pbrCameraAndLight,
             ICC0MaterialTextureBuilder cC0MaterialTextureBuilder,
             VirtualFileSystem virtualFileSystem,
-            FirstPersonFlyCamera cameraControls)
+            FirstPersonFlyCamera cameraControls,
+            SimpleShadowMapRenderer shadowMapRenderer)
         {
             cameraControls.Position = new Vector3(0, 0, -12);
 
@@ -82,6 +84,7 @@ namespace SceneTest
             this.cC0MaterialTextureBuilder = cC0MaterialTextureBuilder;
             this.virtualFileSystem = virtualFileSystem;
             this.cameraControls = cameraControls;
+            this.shadowMapRenderer = shadowMapRenderer;
             Initialize();
         }
 
@@ -99,11 +102,8 @@ namespace SceneTest
         {
             environmentMapSRV = envMapBuilder.BuildEnvMapView(renderDevice, immediateContext, "papermill/Fixed-", "png");
 
-            
-
             pbrRenderer.PrecomputeCubemaps(renderDevice, immediateContext, environmentMapSRV.Obj);
-            pbrRenderer.CreateShadowPSO(swapChain, renderDevice, pbrCameraAndLight.CameraAttribs, pbrCameraAndLight.LightAttribs);
-
+            shadowMapRenderer.CreateShadowPSO(swapChain, renderDevice, pbrCameraAndLight.CameraAttribs, pbrCameraAndLight.LightAttribs);
 
             LoadFloorTexture();
             LoadSceneObjectTexture();
@@ -240,7 +240,7 @@ namespace SceneTest
                 normalMap: ccoTextures.NormalMap,
                 physicalDescriptorMap: ccoTextures.PhysicalDescriptorMap,
                 aoMap: ccoTextures.AmbientOcclusionMap,
-                enableShadows: true
+                shadowMapSRV: shadowMapRenderer.ShadowMapSRV
             );
         }
 
@@ -389,24 +389,23 @@ namespace SceneTest
             var cameraProjMatrix = CameraHelpers.GetAdjustedProjectionMatrix(YFov, ZNear, ZFar, window.WindowWidth, window.WindowHeight, PreTransform);
 
             //Draw Scene
-
-            pbrRenderer.Begin(immediateContext);
             // Render shadow map
-            pbrRenderer.BeginShadowMap(renderDevice, immediateContext, lightDirection);
+            shadowMapRenderer.BeginShadowMap(renderDevice, immediateContext, lightDirection);
             foreach (var sceneObj in sceneObjects.Where(i => i.shaderResourceBinding == pboMatBindingSceneObject.Obj)) //Render all bricks for shadow map
             {
                 pbrRenderAttribs.AlphaMode = sceneObj.pbrAlphaMode;
-                pbrRenderer.RenderShadowMap(immediateContext, sceneObj.vertexBuffer, sceneObj.skinVertexBuffer, sceneObj.indexBuffer, sceneObj.numIndices, ref sceneObj.position, ref sceneObj.orientation, ref sceneObj.scale, pbrRenderAttribs);
+                shadowMapRenderer.RenderShadowMap(immediateContext, sceneObj.vertexBuffer, sceneObj.skinVertexBuffer, sceneObj.indexBuffer, sceneObj.numIndices, ref sceneObj.position, ref sceneObj.orientation, ref sceneObj.scale, pbrRenderAttribs);
             }
 
             //Render scene colors
+            pbrRenderer.Begin(immediateContext);
             immediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             // Clear the back buffer
             immediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
             // Set Light
-            var WorldToShadowMapUVDepthMatrix = pbrRenderer.WorldToShadowMapUVDepthMatr;
+            var WorldToShadowMapUVDepthMatrix = shadowMapRenderer.WorldToShadowMapUVDepthMatr;
             pbrCameraAndLight.SetLightAndShadow(ref lightDirection, ref lightColor, lightIntensity, ref WorldToShadowMapUVDepthMatrix);
 
             // Set Camera
@@ -420,7 +419,7 @@ namespace SceneTest
                 pbrRenderer.Render(immediateContext, sceneObj.shaderResourceBinding, sceneObj.vertexBuffer, sceneObj.skinVertexBuffer, sceneObj.indexBuffer, sceneObj.numIndices, ref sceneObj.position, ref sceneObj.orientation, ref sceneObj.scale, pbrRenderAttribs);
             }
 
-            this.pbrRenderer.RenderShadowMapVis(immediateContext);
+            this.shadowMapRenderer.RenderShadowMapVis(immediateContext);
 
             this.swapChain.Present(1);
         }

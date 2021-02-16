@@ -38,6 +38,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 return new PbrRenderer(ge.RenderDevice, ge.ImmediateContext, RendererCI, shapeLoader);
             });
 
+            services.AddSingleton<SimpleShadowMapRenderer>();
+
             return services;
         }
 
@@ -69,6 +71,9 @@ namespace Microsoft.Extensions.DependencyInjection
             //the embedded file resources
             services.AddSingleton<IResourceProvider<ShaderLoader<PbrRenderer>>>(s =>
                 new EmbeddedResourceProvider<ShaderLoader<PbrRenderer>>(Assembly.GetExecutingAssembly(), "DiligentEngine.GltfPbr."));
+
+            services.AddSingleton<IResourceProvider<ShaderLoader<SimpleShadowMapRenderer>>>(s =>
+                new EmbeddedResourceProvider<ShaderLoader<SimpleShadowMapRenderer>>(Assembly.GetExecutingAssembly(), "DiligentEngine.GltfPbr."));
 
             services.TryAddSingleton<CC0TextureLoader>();
             services.TryAddSingleton<ICC0MaterialTextureBuilder, CC0MaterialTextureBuilder>();
