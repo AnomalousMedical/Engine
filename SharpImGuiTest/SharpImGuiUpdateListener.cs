@@ -20,7 +20,6 @@ namespace SharpImGuiTest
         private readonly IDeviceContext m_pImmediateContext;
 
         private AutoPtr<IPipelineState> pipelineState;
-        private AutoPtr<IBuffer> m_VSConstants;
         private AutoPtr<IShaderResourceBinding> m_pSRB;
 
         public SharpImGuiUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, SharpGuiBuffer sharpGuiBuffer)
@@ -45,16 +44,6 @@ namespace SharpImGuiTest
             ShaderCI.Desc.Name = "Cube VS";
             ShaderCI.Source = VSSource;
             using var pVS = this.graphicsEngine.RenderDevice.CreateShader(ShaderCI);
-
-            {
-                BufferDesc CBDesc = new BufferDesc();
-                CBDesc.Name = "VS constants CB";
-                CBDesc.uiSizeInBytes = 64;// sizeof(float4x4);
-                CBDesc.Usage = USAGE.USAGE_DYNAMIC;
-                CBDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
-                CBDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
-                m_VSConstants = m_pDevice.CreateBuffer(CBDesc);
-            }
 
             //Create pixel shader
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_PIXEL;
@@ -121,11 +110,6 @@ namespace SharpImGuiTest
 
             this.pipelineState = m_pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
 
-            // Since we did not explcitly specify the type for 'Constants' variable, default
-            // type (SHADER_RESOURCE_VARIABLE_TYPE_STATIC) will be used. Static variables never
-            // change and are bound directly through the pipeline state object.
-            pipelineState.Obj.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "Constants").Set(m_VSConstants.Obj);
-
             // Create a shader resource binding object and bind all static resources in it
             m_pSRB = pipelineState.Obj.CreateShaderResourceBinding(true);
         }
@@ -135,7 +119,6 @@ namespace SharpImGuiTest
 
             m_pSRB.Dispose();
             pipelineState.Dispose();
-            m_VSConstants.Dispose();
         }
 
         public void exceededMaxDelta()
@@ -162,28 +145,6 @@ namespace SharpImGuiTest
             m_pImmediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             m_pImmediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            {
-                var CubeModelTransform = Matrix4x4.Identity;
-
-                var View = Matrix4x4.Translation(0f, 0f, 5f);
-
-                // Get pretransform matrix that rotates the scene according the surface orientation
-                var SrfPreTransform = CameraHelpers.GetSurfacePretransformMatrix(new Vector3(0, 0, 1), preTransform);
-
-                // Get projection matrix adjusted to the current screen orientation
-                var Proj = CameraHelpers.GetAdjustedProjectionMatrix((float)Math.PI / 4.0f, 0.1f, 100f, window.WindowWidth, window.WindowHeight, preTransform);
-
-                // Compute world-view-projection matrix
-                var m_WorldViewProjMatrix = CubeModelTransform * View * SrfPreTransform * Proj;
-
-                // Map the buffer and write current world-view-projection matrix
-                IntPtr data = m_pImmediateContext.MapBuffer(m_VSConstants.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
-                Matrix4x4* viewProjMat = (Matrix4x4*)data.ToPointer();
-                //Mat is d3d, ogre style row major, need to transpose to send to diligent
-                viewProjMat[0] = m_WorldViewProjMatrix.Transpose();
-                m_pImmediateContext.UnmapBuffer(m_VSConstants.Obj, MAP_TYPE.MAP_WRITE);
-            }
-
             // Bind vertex and index buffers
             UInt32[] offset = new UInt32[] { 0 };
             IBuffer[] pBuffs = new IBuffer[] { sharpGuiBuffer.VertexBuffer };
@@ -207,11 +168,7 @@ namespace SharpImGuiTest
         }
 
         const String VSSource =
-@"cbuffer Constants
-{
-    float4x4 g_WorldViewProj;
-};
-
+@"
 // Vertex shader takes two inputs: vertex position and color.
 // By convention, Diligent Engine expects vertex shader inputs to be 
 // labeled 'ATTRIBn', where n is the attribute number.
@@ -233,7 +190,7 @@ struct PSInput
 void main(in  VSInput VSIn,
           out PSInput PSIn) 
 {
-    PSIn.Pos   = mul( float4(VSIn.Pos,1.0), g_WorldViewProj);
+    PSIn.Pos   = float4(VSIn.Pos, 1);
     PSIn.Color = VSIn.Color;
 }";
 

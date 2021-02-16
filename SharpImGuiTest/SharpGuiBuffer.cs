@@ -38,10 +38,10 @@ namespace SharpImGuiTest
 
             var verts = new SharpImGuiVertex[]
             {
-                new SharpImGuiVertex{pos = new Vector3(-1,+1,0), color = new Vector4(1,0,0,1)},
-                new SharpImGuiVertex{pos = new Vector3(+1,+1,0), color = new Vector4(0,1,0,1)},
-                new SharpImGuiVertex{pos = new Vector3(+1,-1,0), color = new Vector4(0,0,1,1)},
-                new SharpImGuiVertex{pos = new Vector3(-1,-1,0), color = new Vector4(1,1,1,1)},
+                new SharpImGuiVertex{pos = new Vector3(-1,+1,0) * 0.5f, color = new Vector4(1,0,0,1)},
+                new SharpImGuiVertex{pos = new Vector3(+1,+1,0) * 0.5f, color = new Vector4(0,1,0,1)},
+                new SharpImGuiVertex{pos = new Vector3(+1,-1,0) * 0.5f, color = new Vector4(0,0,1,1)},
+                new SharpImGuiVertex{pos = new Vector3(-1,-1,0) * 0.5f, color = new Vector4(1,1,1,1)},
             };
 
             // Create a vertex buffer that stores cube vertices
