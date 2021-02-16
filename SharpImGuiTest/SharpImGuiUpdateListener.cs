@@ -163,10 +163,7 @@ namespace SharpImGuiTest
             m_pImmediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
             {
-                var trans = Vector3.UnitY * -0.3f;
-                var rot = new Quaternion(clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * (float)Math.PI), 0f, 0f);
-
-                var CubeModelTransform = rot.toRotationMatrix4x4(trans);
+                var CubeModelTransform = Matrix4x4.Identity;
 
                 var View = Matrix4x4.Translation(0f, 0f, 5f);
 
@@ -201,7 +198,7 @@ namespace SharpImGuiTest
 
             DrawIndexedAttribs DrawAttrs = new DrawIndexedAttribs();     // This is an indexed draw call
             DrawAttrs.IndexType = VALUE_TYPE.VT_UINT32; // Index type
-            DrawAttrs.NumIndices = 36;
+            DrawAttrs.NumIndices = sharpGuiBuffer.NumIndices;
             // Verify the state of vertex and index buffers
             DrawAttrs.Flags = DRAW_FLAGS.DRAW_FLAG_VERIFY_ALL;
             m_pImmediateContext.DrawIndexed(DrawAttrs);
