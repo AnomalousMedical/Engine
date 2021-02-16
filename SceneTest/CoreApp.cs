@@ -62,6 +62,7 @@ namespace SceneTest
 
             //Add this app's services
             services.TryAddSingleton<SceneTestUpdateListener>();
+            services.TryAddSingleton<TimeClock>();
 
             return true;
         }

@@ -38,6 +38,7 @@ namespace SceneTest
         private readonly VirtualFileSystem virtualFileSystem;
         private readonly FirstPersonFlyCamera cameraControls;
         private readonly SimpleShadowMapRenderer shadowMapRenderer;
+        private readonly TimeClock timeClock;
         private ISwapChain swapChain;
         private IRenderDevice renderDevice;
         private IDeviceContext immediateContext;
@@ -66,7 +67,8 @@ namespace SceneTest
             ICC0MaterialTextureBuilder cC0MaterialTextureBuilder,
             VirtualFileSystem virtualFileSystem,
             FirstPersonFlyCamera cameraControls,
-            SimpleShadowMapRenderer shadowMapRenderer)
+            SimpleShadowMapRenderer shadowMapRenderer,
+            TimeClock timeClock)
         {
             cameraControls.Position = new Vector3(0, 0, -12);
 
@@ -85,6 +87,7 @@ namespace SceneTest
             this.virtualFileSystem = virtualFileSystem;
             this.cameraControls = cameraControls;
             this.shadowMapRenderer = shadowMapRenderer;
+            this.timeClock = timeClock;
             Initialize();
         }
 
@@ -378,6 +381,7 @@ namespace SceneTest
         public unsafe void sendUpdate(Clock clock)
         {
             //Update
+            timeClock.Update(clock);
             cameraControls.UpdateInput(clock);
             UpdateLight(clock);
 
@@ -426,20 +430,41 @@ namespace SceneTest
 
         private unsafe void UpdateLight(Clock clock)
         {
-            var rotAmount = clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * (float)Math.PI);
-            var rot = new Quaternion(0f, rotAmount, 0f);
-            lightDirection = rot.toRotationMatrix4x4() * Vector3.Down;
-            if (lightDirection.y < 0)
+            //var rotAmount = clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * (float)Math.PI);
+            //var rot = new Quaternion(0f, rotAmount, 0f);
+            //lightDirection = rot.toRotationMatrix4x4() * Vector3.Down;
+            //if (lightDirection.y < 0)
+            //{
+            //    lightIntensity = -3 * lightDirection.y;
+            //    pbrRenderAttribs.AverageLogLum = 0.3f;
+            //}
+            //else
+            //{
+            //    pbrRenderAttribs.AverageLogLum = Math.Max(lightDirection.y * .7f, 0.3f);
+            //    lightIntensity = 0;
+            //}
+
+            //lightDirection = Vector3.Down;
+
+            if (timeClock.IsDay)
             {
-                lightIntensity = -3 * lightDirection.y;
-                pbrRenderAttribs.AverageLogLum = 0.3f;
+                var dayFactor = (timeClock.DayFactor - 0.5f) * 2.0f;
+                var noonFactor = 1.0f - Math.Abs(dayFactor);
+                lightDirection = (Vector3.Down * noonFactor + new Vector3(dayFactor, 0, 0)).normalized();
+                lightIntensity = 3 * noonFactor;
+
+                //pbrRenderAttribs.AverageLogLum = 0.3f;
             }
             else
             {
-                pbrRenderAttribs.AverageLogLum = Math.Max(lightDirection.y * .7f, 0.3f);
-                lightIntensity = 0;
+                var nightFactor = (timeClock.NightFactor - 0.5f) * 2.0f;
+                var midnightFactor = 1.0f - Math.Abs(nightFactor);
+                lightDirection = (Vector3.Down * midnightFactor + new Vector3(nightFactor, 0, 0)).normalized();
+
+                lightIntensity = 0.3f * midnightFactor;
+
+                //pbrRenderAttribs.AverageLogLum = 0.7f;
             }
-            //lightDirection = Vector3.Down;
         }
 
         private void AddBrick(Vector3 trans, Quaternion rot)
