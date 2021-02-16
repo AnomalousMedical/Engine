@@ -162,7 +162,8 @@ namespace SceneTest
                     position = new Vector3(-4, 0, -3),
                     orientation = Quaternion.Identity,
                     scale = new Vector3(1.466666666666667f, 1, 1),
-                    shaderResourceBinding = pboMatBindingTinyDinoSprite.Obj
+                    shaderResourceBinding = pboMatBindingTinyDinoSprite.Obj,
+                    RenderShadowPlaceholder = true
                 });
             }
 
@@ -178,7 +179,8 @@ namespace SceneTest
                     position = new Vector3(0, 0.291666666666667f, 0),
                     orientation = Quaternion.Identity,
                     scale = new Vector3(1, 1.291666666666667f, 1),
-                    shaderResourceBinding = pboMatBindingSprite.Obj
+                    shaderResourceBinding = pboMatBindingSprite.Obj,
+                    RenderShadowPlaceholder = true
                 });
             }
 
@@ -194,7 +196,8 @@ namespace SceneTest
                     position = new Vector3(-1, 0, 0),
                     orientation = Quaternion.Identity,
                     scale = new Vector3(1, 1.714285714285714f, 1) * 0.5f,
-                    shaderResourceBinding = pboMatBindingSwordSprite.Obj
+                    shaderResourceBinding = pboMatBindingSwordSprite.Obj,
+                    RenderShadowPlaceholder = true
                 });
             }
         }
@@ -339,7 +342,7 @@ namespace SceneTest
             var materials = new Dictionary<uint, (String, String)>()
             {
                 { 0xff6c351c, ( "cc0Textures/Wood049_1K", "jpg" ) }, //Hilt (brown)
-                { 0xffadadad, ( "cc0Textures/Metal038_1K", "jpg" ) }, //Blade (grey)
+                { 0xffadadad, ( "cc0Textures/Metal032_1K", "jpg" ) }, //Blade (grey)
             };
             var scale = Math.Min(1024 / image.Width, 1024 / image.Height);
 
@@ -394,10 +397,9 @@ namespace SceneTest
             //Draw Scene
             // Render shadow map
             shadowMapRenderer.BeginShadowMap(renderDevice, immediateContext, lightDirection);
-            foreach (var sceneObj in sceneObjects.Where(i => i.shaderResourceBinding == pboMatBindingSceneObject.Obj)) //Render all bricks for shadow map
+            foreach (var sceneObj in sceneObjects.Where(i => i.shaderResourceBinding == pboMatBindingSceneObject.Obj || i.RenderShadowPlaceholder)) //Render all bricks for shadow map
             {
-                pbrRenderAttribs.AlphaMode = sceneObj.pbrAlphaMode;
-                shadowMapRenderer.RenderShadowMap(immediateContext, sceneObj.vertexBuffer, sceneObj.skinVertexBuffer, sceneObj.indexBuffer, sceneObj.numIndices, ref sceneObj.position, ref sceneObj.orientation, ref sceneObj.scale, pbrRenderAttribs);
+                shadowMapRenderer.RenderShadowMap(immediateContext, sceneObj.vertexBuffer, sceneObj.skinVertexBuffer, sceneObj.indexBuffer, sceneObj.numIndices, ref sceneObj.position, ref sceneObj.orientation, ref sceneObj.scale);
             }
 
             //Render scene colors
@@ -429,22 +431,6 @@ namespace SceneTest
 
         private unsafe void UpdateLight(Clock clock)
         {
-            //var rotAmount = clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * (float)Math.PI);
-            //var rot = new Quaternion(0f, rotAmount, 0f);
-            //lightDirection = rot.toRotationMatrix4x4() * Vector3.Down;
-            //if (lightDirection.y < 0)
-            //{
-            //    lightIntensity = -3 * lightDirection.y;
-            //    pbrRenderAttribs.AverageLogLum = 0.3f;
-            //}
-            //else
-            //{
-            //    pbrRenderAttribs.AverageLogLum = Math.Max(lightDirection.y * .7f, 0.3f);
-            //    lightIntensity = 0;
-            //}
-
-            //lightDirection = Vector3.Down;
-
             if (timeClock.IsDay)
             {
                 var dayFactor = (timeClock.DayFactor - 0.5f) * 2.0f;
@@ -464,7 +450,7 @@ namespace SceneTest
                 lightIntensity = 0.7f * midnightFactor;
 
                 pbrRenderAttribs.AverageLogLum = 0.8f;
-                ClearColor = Engine.Color.FromARGB(0xff070707);
+                ClearColor = Engine.Color.FromARGB(0xff030303);
             }
         }
 

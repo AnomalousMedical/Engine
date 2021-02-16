@@ -13,7 +13,8 @@ namespace SceneTest
         const long HoursPerDay = 24L;
 
         long currentTime = 0;
-        long timeFactor = 500L * Clock.SecondsToMicro;
+        //long timeFactor = 25000L; //Pretty Fast
+        long timeFactor = 10000L;
         long period = HoursPerDay * HoursToMicro;
         long halfPeriod;
         long dayStart = 6L * HoursToMicro;
@@ -30,15 +31,8 @@ namespace SceneTest
 
         public void Update(Clock clock)
         {
-            currentTime += clock.DeltaTimeMicro * 25000l;// * timeFactor;
+            currentTime += clock.DeltaTimeMicro * timeFactor;
             currentTime %= period;
-
-            //Console.WriteLine("--------");
-            //Console.WriteLine(currentTime);
-            //Console.WriteLine(clock.CurrentTimeMicro);
-            //Console.WriteLine(IsDay);
-            //Console.WriteLine(DayFactor);
-            //Console.WriteLine(NightFactor);
         }
 
         public bool IsDay => currentTime > dayStart && currentTime <= dayEnd;

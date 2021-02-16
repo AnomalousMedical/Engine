@@ -115,7 +115,7 @@ namespace DiligentEngine.GltfPbr
             PSOCreateInfo.GraphicsPipeline.DSVFormat = m_ShadowMapFormat;
             PSOCreateInfo.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY.PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
             // Cull back faces
-            PSOCreateInfo.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE.CULL_MODE_BACK;
+            PSOCreateInfo.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE.CULL_MODE_NONE; //Might want to make this an option or something, but makes plane shadows render
             // Enable depth testing
             PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.DepthEnable = true;
             // clang-format on
@@ -319,13 +319,12 @@ namespace DiligentEngine.GltfPbr
             IBuffer indexBuffer,
             Uint32 numIndices,
             ref Vector3 position,
-            ref Quaternion rotation,
-            PbrRenderAttribs renderAttribs
+            ref Quaternion rotation
             )
         {
             //Have to take inverse of rotations to have renderer render them correctly
             var nodeMatrix = rotation.inverse().toRotationMatrix4x4(position);
-            RenderShadowMap(pCtx, vertexBuffer, skinVertexBuffer, indexBuffer, numIndices, ref nodeMatrix, renderAttribs);
+            RenderShadowMap(pCtx, vertexBuffer, skinVertexBuffer, indexBuffer, numIndices, ref nodeMatrix);
         }
 
         public void RenderShadowMap(IDeviceContext pCtx,
@@ -335,13 +334,12 @@ namespace DiligentEngine.GltfPbr
             Uint32 numIndices,
             ref Vector3 position,
             ref Quaternion rotation,
-            ref Vector3 scale,
-            PbrRenderAttribs renderAttribs
+            ref Vector3 scale
             )
         {
             //Have to take inverse of rotations to have renderer render them correctly
             var nodeMatrix = rotation.inverse().toRotationMatrix4x4() * Matrix4x4.Scale(scale) * Matrix4x4.Translation(position);
-            RenderShadowMap(pCtx, vertexBuffer, skinVertexBuffer, indexBuffer, numIndices, ref nodeMatrix, renderAttribs);
+            RenderShadowMap(pCtx, vertexBuffer, skinVertexBuffer, indexBuffer, numIndices, ref nodeMatrix);
         }
 
         public unsafe void RenderShadowMap(IDeviceContext pCtx,
@@ -349,8 +347,7 @@ namespace DiligentEngine.GltfPbr
             IBuffer skinVertexBuffer,
             IBuffer indexBuffer,
             Uint32 numIndices,
-            ref Matrix4x4 nodeMatrix,
-            PbrRenderAttribs renderAttribs
+            ref Matrix4x4 nodeMatrix
             )
         {
             IBuffer[] pBuffs = new IBuffer[] { vertexBuffer, skinVertexBuffer };
