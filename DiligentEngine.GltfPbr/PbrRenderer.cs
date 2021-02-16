@@ -347,7 +347,20 @@ namespace DiligentEngine.GltfPbr
             ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
             ShaderCI.UseCombinedTextureSamplers = true;
 
-            ShaderMacroHelper Macros = CreateShaderMacros();
+            var Macros = new ShaderMacroHelper();
+            Macros.AddShaderMacro("MAX_JOINT_COUNT", m_Settings.MaxJointCount);
+            Macros.AddShaderMacro("ALLOW_DEBUG_VIEW", m_Settings.AllowDebugView);
+            Macros.AddShaderMacro("TONE_MAPPING_MODE", "TONE_MAPPING_MODE_UNCHARTED2");
+            Macros.AddShaderMacro("GLTF_PBR_USE_IBL", m_Settings.UseIBL);
+            Macros.AddShaderMacro("GLTF_PBR_USE_AO", m_Settings.UseAO);
+            Macros.AddShaderMacro("GLTF_PBR_USE_EMISSIVE", m_Settings.UseEmissive);
+            Macros.AddShaderMacro("USE_TEXTURE_ATLAS", m_Settings.UseTextureAtlas);
+            Macros.AddShaderMacro("PBR_WORKFLOW_METALLIC_ROUGHNESS", (Int32)PbrWorkflow.PBR_WORKFLOW_METALL_ROUGH);
+            Macros.AddShaderMacro("PBR_WORKFLOW_SPECULAR_GLOSINESS", (Int32)PbrWorkflow.PBR_WORKFLOW_SPEC_GLOSS);
+            Macros.AddShaderMacro("GLTF_ALPHA_MODE_OPAQUE", (Int32)PbrAlphaMode.ALPHA_MODE_OPAQUE);
+            Macros.AddShaderMacro("GLTF_ALPHA_MODE_MASK", (Int32)PbrAlphaMode.ALPHA_MODE_MASK);
+            Macros.AddShaderMacro("GLTF_ALPHA_MODE_BLEND", (Int32)PbrAlphaMode.ALPHA_MODE_BLEND);
+            Macros.AddShaderMacro("ANOMALOUS_USE_SIMPLE_SHADOW", true);
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
             ShaderCI.EntryPoint = "main";
             ShaderCI.Desc.Name = "GLTF PBR VS";
@@ -464,25 +477,6 @@ namespace DiligentEngine.GltfPbr
                 PSO.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "cbGLTFAttribs").Set(m_GLTFAttribsCB.Obj);
                 PSO.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "cbJointTransforms").Set(m_JointsBuffer.Obj);
             }
-        }
-
-        private ShaderMacroHelper CreateShaderMacros()
-        {
-            var Macros = new ShaderMacroHelper();
-            Macros.AddShaderMacro("MAX_JOINT_COUNT", m_Settings.MaxJointCount);
-            Macros.AddShaderMacro("ALLOW_DEBUG_VIEW", m_Settings.AllowDebugView);
-            Macros.AddShaderMacro("TONE_MAPPING_MODE", "TONE_MAPPING_MODE_UNCHARTED2");
-            Macros.AddShaderMacro("GLTF_PBR_USE_IBL", m_Settings.UseIBL);
-            Macros.AddShaderMacro("GLTF_PBR_USE_AO", m_Settings.UseAO);
-            Macros.AddShaderMacro("GLTF_PBR_USE_EMISSIVE", m_Settings.UseEmissive);
-            Macros.AddShaderMacro("USE_TEXTURE_ATLAS", m_Settings.UseTextureAtlas);
-            Macros.AddShaderMacro("PBR_WORKFLOW_METALLIC_ROUGHNESS", (Int32)PbrWorkflow.PBR_WORKFLOW_METALL_ROUGH);
-            Macros.AddShaderMacro("PBR_WORKFLOW_SPECULAR_GLOSINESS", (Int32)PbrWorkflow.PBR_WORKFLOW_SPEC_GLOSS);
-            Macros.AddShaderMacro("GLTF_ALPHA_MODE_OPAQUE", (Int32)PbrAlphaMode.ALPHA_MODE_OPAQUE);
-            Macros.AddShaderMacro("GLTF_ALPHA_MODE_MASK", (Int32)PbrAlphaMode.ALPHA_MODE_MASK);
-            Macros.AddShaderMacro("GLTF_ALPHA_MODE_BLEND", (Int32)PbrAlphaMode.ALPHA_MODE_BLEND);
-            Macros.AddShaderMacro("ANOMALOUS_USE_SIMPLE_SHADOW", true);
-            return Macros;
         }
 
         void InitCommonSRBVars(IShaderResourceBinding pSRB,
@@ -848,7 +842,6 @@ namespace DiligentEngine.GltfPbr
             PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.DepthEnable = true;
             // clang-format on
 
-            ShaderMacroHelper Macros = CreateShaderMacros();
             var ShaderCI = new ShaderCreateInfo();
             // Tell the system that the shader source code is in HLSL.
             // For OpenGL, the engine will convert this into GLSL under the hood.
@@ -860,7 +853,7 @@ namespace DiligentEngine.GltfPbr
             ShaderCI.EntryPoint = "main";
             ShaderCI.Desc.Name = "Shadow VS";
             ShaderCI.Source = shaderLoader.LoadShader("GLTF_PBR/private/shadow.vsh");
-            using var pShadowVS = pDevice.CreateShader(ShaderCI, Macros);
+            using var pShadowVS = pDevice.CreateShader(ShaderCI);
 
             PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE;
             var Vars = new List<ShaderResourceVariableDesc>
