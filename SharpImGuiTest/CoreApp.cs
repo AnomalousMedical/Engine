@@ -43,6 +43,7 @@ namespace SharpImGuiTest
 
             services.AddDiligentEngine(pluginManager);
             services.AddOSPlatform(pluginManager);
+            services.AddSharpGui();
 
             //Add this app's services
             services.TryAddSingleton<SharpImGuiUpdateListener>();
