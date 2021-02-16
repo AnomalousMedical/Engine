@@ -16,6 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.TryAddSingleton<SharpGuiState>();
             services.TryAddSingleton<SharpGuiBuffer>();
+            services.TryAddSingleton<SharpGuiRenderer>();
 
             return services;
         }
