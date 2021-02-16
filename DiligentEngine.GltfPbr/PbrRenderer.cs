@@ -481,6 +481,7 @@ namespace DiligentEngine.GltfPbr
             Macros.AddShaderMacro("GLTF_ALPHA_MODE_OPAQUE", (Int32)PbrAlphaMode.ALPHA_MODE_OPAQUE);
             Macros.AddShaderMacro("GLTF_ALPHA_MODE_MASK", (Int32)PbrAlphaMode.ALPHA_MODE_MASK);
             Macros.AddShaderMacro("GLTF_ALPHA_MODE_BLEND", (Int32)PbrAlphaMode.ALPHA_MODE_BLEND);
+            Macros.AddShaderMacro("ANOMALOUS_USE_SIMPLE_SHADOW", true);
             return Macros;
         }
 
@@ -546,10 +547,8 @@ namespace DiligentEngine.GltfPbr
         }
 
         public AutoPtr<IShaderResourceBinding> CreateMaterialSRB(
-                                          //GLTF::Model&             Model,
-                                          //GLTF::Material&          Material,
-                                          IBuffer pCameraAttribs = null,
-                                          IBuffer pLightAttribs = null,
+                                          IBuffer pCameraAttribs,
+                                          IBuffer pLightAttribs,
                                           IPipelineState pPSO = null,
                                           ITexture baseColorMap = null,
                                           ITexture normalMap = null,
