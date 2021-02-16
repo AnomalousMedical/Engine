@@ -543,18 +543,16 @@ namespace DiligentEngine.GltfPbr
         public AutoPtr<IShaderResourceBinding> CreateMaterialSRB(
                                           IBuffer pCameraAttribs,
                                           IBuffer pLightAttribs,
-                                          IPipelineState pPSO = null,
                                           ITexture baseColorMap = null,
                                           ITexture normalMap = null,
                                           ITexture physicalDescriptorMap = null,
                                           ITexture aoMap = null,
                                           ITexture emissiveMap = null,
-                                          bool enableShadows = false)
+                                          PbrAlphaMode alphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE,
+                                          bool enableShadows = false,
+                                          bool doubleSided = false)
         {
-            if (pPSO == null)
-            {
-                pPSO = m_PSOCache.GetPSO(new PSOKey() { GetShadows = enableShadows });
-            }
+            var pPSO = m_PSOCache.GetPSO(new PSOKey() { GetShadows = enableShadows, DoubleSided = doubleSided, AlphaMode = alphaMode });
 
             //Replaces ppMaterialSRB, this is returned
             var pSRB = pPSO.CreateShaderResourceBinding(true);

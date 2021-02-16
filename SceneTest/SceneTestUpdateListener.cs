@@ -290,7 +290,8 @@ namespace SceneTest
                 baseColorMap: colorTexture?.Obj,
                 normalMap: normalTexture?.Obj,
                 physicalDescriptorMap: physicalTexture?.Obj,
-                aoMap: aoTexture?.Obj
+                aoMap: aoTexture?.Obj,
+                alphaMode: PbrAlphaMode.ALPHA_MODE_MASK
             );
         }
 
@@ -324,7 +325,8 @@ namespace SceneTest
                 baseColorMap: colorTexture?.Obj,
                 normalMap: normalTexture?.Obj,
                 physicalDescriptorMap: physicalTexture?.Obj,
-                aoMap: aoTexture?.Obj
+                aoMap: aoTexture?.Obj,
+                alphaMode: PbrAlphaMode.ALPHA_MODE_MASK
             );
         }
 
@@ -358,7 +360,8 @@ namespace SceneTest
                 baseColorMap: colorTexture?.Obj,
                 normalMap: normalTexture?.Obj,
                 physicalDescriptorMap: physicalTexture?.Obj,
-                aoMap: aoTexture?.Obj
+                aoMap: aoTexture?.Obj,
+                alphaMode: PbrAlphaMode.ALPHA_MODE_MASK
             );
         }
 
