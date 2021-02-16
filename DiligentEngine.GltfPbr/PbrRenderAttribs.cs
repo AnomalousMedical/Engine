@@ -115,5 +115,8 @@ namespace DiligentEngine.GltfPbr
         public DebugViewType DebugViewType;
         public float OcclusionStrength;
         public float EmissionScale;
+
+        public bool DoubleSided;
+        public bool GetShadows;
     }
 }

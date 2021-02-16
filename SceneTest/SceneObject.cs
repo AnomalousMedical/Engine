@@ -20,5 +20,6 @@ namespace SceneTest
         public uint numIndices;
         public IShaderResourceBinding shaderResourceBinding;
         public PbrAlphaMode pbrAlphaMode;
+        public bool GetShadows;
     }
 }

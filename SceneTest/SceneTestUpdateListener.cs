@@ -143,7 +143,8 @@ namespace SceneTest
                     position = new Vector3(0, -1, 0),
                     orientation = Quaternion.shortestArcQuat(Vector3.Forward, Vector3.Down),
                     scale = new Vector3(10, 10, 10),
-                    shaderResourceBinding = pboMatBindingFloor.Obj
+                    shaderResourceBinding = pboMatBindingFloor.Obj,
+                    GetShadows = true,
                 });
             }
 
@@ -238,7 +239,8 @@ namespace SceneTest
                 baseColorMap: ccoTextures.BaseColorMap,
                 normalMap: ccoTextures.NormalMap,
                 physicalDescriptorMap: ccoTextures.PhysicalDescriptorMap,
-                aoMap: ccoTextures.AmbientOcclusionMap
+                aoMap: ccoTextures.AmbientOcclusionMap,
+                enableShadows: true
             );
         }
 
@@ -411,6 +413,7 @@ namespace SceneTest
             foreach (var sceneObj in sceneObjects)
             {
                 pbrRenderAttribs.AlphaMode = sceneObj.pbrAlphaMode;
+                pbrRenderAttribs.GetShadows = sceneObj.GetShadows;
                 pbrRenderer.Render(immediateContext, sceneObj.shaderResourceBinding, sceneObj.vertexBuffer, sceneObj.skinVertexBuffer, sceneObj.indexBuffer, sceneObj.numIndices, ref sceneObj.position, ref sceneObj.orientation, ref sceneObj.scale, pbrRenderAttribs);
             }
 

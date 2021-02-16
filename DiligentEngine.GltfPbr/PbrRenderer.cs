@@ -222,7 +222,6 @@ namespace DiligentEngine.GltfPbr
                         m_ShadowTransformsCB = pDevice.CreateBuffer(CBDesc);
                     }
 
-                    // clang-format off
                     var Barriers = new List<StateTransitionDesc>
                     {
                         new StateTransitionDesc{pResource = m_TransformsCB.Obj,  OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true},
@@ -230,10 +229,10 @@ namespace DiligentEngine.GltfPbr
                         new StateTransitionDesc{pResource = m_JointsBuffer.Obj,  OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true},
                         new StateTransitionDesc{pResource = m_ShadowTransformsCB.Obj,  OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_CONSTANT_BUFFER, UpdateResourceState = true}
                     };
-                    // clang-format on
                     pCtx.TransitionResourceStates(Barriers);
 
-                    CreatePSO(pDevice);
+                    CreatePSO(pDevice, false);
+                    CreatePSO(pDevice, true);
                 }
             }
         }
@@ -327,7 +326,7 @@ namespace DiligentEngine.GltfPbr
             pCtx.TransitionResourceStates(Barriers);
         }
 
-        private void CreatePSO(IRenderDevice pDevice)
+        private void CreatePSO(IRenderDevice pDevice, bool enableShadows)
         {
             GraphicsPipelineStateCreateInfo PSOCreateInfo = new GraphicsPipelineStateCreateInfo();
             PipelineStateDesc PSODesc = PSOCreateInfo.PSODesc;
@@ -360,7 +359,7 @@ namespace DiligentEngine.GltfPbr
             Macros.AddShaderMacro("GLTF_ALPHA_MODE_OPAQUE", (Int32)PbrAlphaMode.ALPHA_MODE_OPAQUE);
             Macros.AddShaderMacro("GLTF_ALPHA_MODE_MASK", (Int32)PbrAlphaMode.ALPHA_MODE_MASK);
             Macros.AddShaderMacro("GLTF_ALPHA_MODE_BLEND", (Int32)PbrAlphaMode.ALPHA_MODE_BLEND);
-            Macros.AddShaderMacro("ANOMALOUS_USE_SIMPLE_SHADOW", true);
+            Macros.AddShaderMacro("ANOMALOUS_USE_SIMPLE_SHADOW", enableShadows);
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
             ShaderCI.EntryPoint = "main";
             ShaderCI.Desc.Name = "GLTF PBR VS";
@@ -399,8 +398,11 @@ namespace DiligentEngine.GltfPbr
                 ImtblSamplers.Add(new ImmutableSamplerDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, SamplerOrTextureName = "g_ColorMap", Desc = m_Settings.ColorMapImmutableSampler });
                 ImtblSamplers.Add(new ImmutableSamplerDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, SamplerOrTextureName = "g_PhysicalDescriptorMap", Desc = m_Settings.PhysDescMapImmutableSampler });
                 ImtblSamplers.Add(new ImmutableSamplerDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, SamplerOrTextureName = "g_NormalMap", Desc = m_Settings.NormalMapImmutableSampler });
-                var SamLinearClampDesc = new SamplerDesc();
-                ImtblSamplers.Add(new ImmutableSamplerDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, SamplerOrTextureName = "g_ShadowMap", Desc = SamLinearClampDesc });
+                if (enableShadows)
+                {
+                    var SamLinearClampDesc = new SamplerDesc();
+                    ImtblSamplers.Add(new ImmutableSamplerDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, SamplerOrTextureName = "g_ShadowMap", Desc = SamLinearClampDesc });
+                }
             }
 
             if (m_Settings.UseAO)
@@ -429,7 +431,7 @@ namespace DiligentEngine.GltfPbr
             PSOCreateInfo.pPS = pPS.Obj;
 
             {
-                var Key = new PSOKey { AlphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE, DoubleSided = false };
+                var Key = new PSOKey { AlphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE, DoubleSided = false, GetShadows = enableShadows };
 
                 using var pSingleSidedOpaquePSO = pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
                 m_PSOCache.AddPSO(Key, pSingleSidedOpaquePSO.Obj);
@@ -454,7 +456,7 @@ namespace DiligentEngine.GltfPbr
             RT0.BlendOpAlpha = BLEND_OPERATION.BLEND_OPERATION_ADD;
 
             {
-                var Key = new PSOKey { AlphaMode = PbrAlphaMode.ALPHA_MODE_BLEND, DoubleSided = false };
+                var Key = new PSOKey { AlphaMode = PbrAlphaMode.ALPHA_MODE_BLEND, DoubleSided = false, GetShadows = enableShadows };
 
                 using var pSingleSidedBlendPSO = pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
                 m_PSOCache.AddPSO(Key, pSingleSidedBlendPSO.Obj);
@@ -483,8 +485,6 @@ namespace DiligentEngine.GltfPbr
                                           IBuffer pCameraAttribs,
                                           IBuffer pLightAttribs)
         {
-            //VERIFY_EXPR(pSRB != nullptr);
-
             if (pCameraAttribs != null)
             {
                 pSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_VERTEX, "cbCameraAttribs")?.Set(pCameraAttribs);
@@ -548,11 +548,12 @@ namespace DiligentEngine.GltfPbr
                                           ITexture normalMap = null,
                                           ITexture physicalDescriptorMap = null,
                                           ITexture aoMap = null,
-                                          ITexture emissiveMap = null)
+                                          ITexture emissiveMap = null,
+                                          bool enableShadows = false)
         {
             if (pPSO == null)
             {
-                pPSO = m_PSOCache.GetPSO(new PSOKey());
+                pPSO = m_PSOCache.GetPSO(new PSOKey() { GetShadows = enableShadows });
             }
 
             //Replaces ppMaterialSRB, this is returned
@@ -576,7 +577,10 @@ namespace DiligentEngine.GltfPbr
                 SetTexture(emissiveMap, m_pBlackTexSRV.Obj, "g_EmissiveMap", pSRB.Obj);
             }
 
-            pSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_ShadowMap").Set(m_ShadowMapSRV.Obj);
+            if (enableShadows)
+            {
+                pSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_ShadowMap").Set(m_ShadowMapSRV.Obj);
+            }
 
             return pSRB;
         }
@@ -1016,13 +1020,11 @@ namespace DiligentEngine.GltfPbr
             PbrRenderAttribs renderAttribs
             )
         {
-            var doubleSided = false;
-
             IBuffer[] pBuffs = new IBuffer[] { vertexBuffer, skinVertexBuffer };
             pCtx.SetVertexBuffers(0, (uint)pBuffs.Length, pBuffs, null, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION, SET_VERTEX_BUFFERS_FLAGS.SET_VERTEX_BUFFERS_FLAG_RESET);
             pCtx.SetIndexBuffer(indexBuffer, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            var Key = new PSOKey { AlphaMode = renderAttribs.AlphaMode, DoubleSided = doubleSided };
+            var Key = new PSOKey { AlphaMode = renderAttribs.AlphaMode, DoubleSided = renderAttribs.DoubleSided, GetShadows = renderAttribs.GetShadows };
             var pCurrPSO = m_PSOCache.GetPSO(Key);
             pCtx.SetPipelineState(pCurrPSO);
 
