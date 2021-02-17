@@ -41,14 +41,14 @@ namespace SharpImGuiTest
             var shadowWidth = width;
             var shadowHeight = height;
             //Make shadow bigger if keyboard focused
-            if (state.KbdItem == button.Id)
+            if (state.FocusedItem == button.Id)
             {
                 shadowWidth += 12;
                 shadowHeight += 12;
             }
             buffer.DrawQuad(shadowX, shadowY, shadowWidth, shadowHeight, ShadowColor);
             //Draw keyboard focus
-            if (state.KbdItem == button.Id)
+            if (state.FocusedItem == button.Id)
             {
                 buffer.DrawQuad(x - 6, y - 6, width + 12, height + 12, FocusColor);
             }
@@ -76,7 +76,12 @@ namespace SharpImGuiTest
             }
             if (state.ProcessKeyboardFocus(id))
             {
-                //Do more
+                switch (state.KeyEntered)
+                {
+                    case Engine.Platform.KeyboardButtonCode.KC_RETURN:
+                        clicked = true;
+                        break;
+                }
             }
             return clicked;
         }

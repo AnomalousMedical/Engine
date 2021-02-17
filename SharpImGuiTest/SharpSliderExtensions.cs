@@ -44,7 +44,7 @@ namespace SharpImGuiTest
                 }
             }
 
-            if (state.KbdItem == slider.Id)
+            if (state.FocusedItem == slider.Id)
             {
                 buffer.DrawQuad(x - 6, y - 6, width + 12, height + 12, FocusColor);
             }
@@ -68,28 +68,45 @@ namespace SharpImGuiTest
             buffer.DrawQuad(buttonX, buttonY, buttonWidth, buttonHeight, color);
 
             // Update widget value
-            var returnVal = false;
+            bool returnVal = false;
+            int v = value;
             if (state.ActiveItem == id)
             {
                 int mousepos = state.MouseY - (y + ButtonMargin);
                 if (mousepos < 0) { mousepos = 0; }
                 if (mousepos > withinMarginHeight) { mousepos = withinMarginHeight; }
 
-                int v = mousepos / buttonHeight;
-                if (v > max)
-                {
-                    v = max;
-                }
-                if (v != value)
-                {
-                    value = v;
-                    returnVal = true;
-                }
+                v = mousepos / buttonHeight;
             }
 
             if (state.ProcessKeyboardFocus(id))
             {
-                //Do more
+                switch (state.KeyEntered)
+                {
+                    case Engine.Platform.KeyboardButtonCode.KC_DOWN:
+                    case Engine.Platform.KeyboardButtonCode.KC_LEFT:
+                        --v;
+                        break;
+                    case Engine.Platform.KeyboardButtonCode.KC_UP:
+                    case Engine.Platform.KeyboardButtonCode.KC_RIGHT:
+                        ++v;
+                        break;
+                }
+            }
+
+            if(v < 0)
+            {
+                v = 0;
+            }
+            else if (v > max)
+            {
+                v = max;
+            }
+
+            if (v != value)
+            {
+                value = v;
+                returnVal = true;
             }
 
             return returnVal;

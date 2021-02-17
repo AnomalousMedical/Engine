@@ -62,48 +62,51 @@ namespace SharpImGuiTest
         /// <param name="id"></param>
         public void GrabKeyboardFocus(Guid id)
         {
-            if (KbdItem == Guid.Empty)
+            if (FocusedItem == Guid.Empty)
             {
-                KbdItem = id;
+                FocusedItem = id;
             }
         }
 
         /// <summary>
-        /// Handle common keyboard focus code. This will return true if nothing was done and false if
-        /// the input was handled. If this returns true the calling code should do its own input processing.
+        /// Handle common keyboard focus code. This will return true if the calling code should further process
+        /// input and false if it should do nothing more.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         public bool ProcessKeyboardFocus(Guid id)
         {
-            bool processedNoInput = true;
-            if (KbdItem == id)
+            bool callerHandlesInput = false;
+            if (FocusedItem == id)
             {
+                callerHandlesInput = true;
                 //If tab is pressed, drop to allow next widget to pick it up.
                 switch (KeyEntered)
                 {
                     case KeyboardButtonCode.KC_TAB:
                         if (IsShift)
                         {
-                            KbdItem = LastWidget;
+                            FocusedItem = LastWidget;
                         }
                         else
                         {
-                            KbdItem = Guid.Empty;
+                            FocusedItem = Guid.Empty;
                         }
-                        processedNoInput = false;
+                        callerHandlesInput = false;
                         break;
+                }
+
+                //If input was handled by anything here, clear the current key so nothing else processes it.
+                if (!callerHandlesInput)
+                {
+                    KeyEntered = KeyboardButtonCode.KC_UNASSIGNED;
                 }
             }
             LastWidget = id;
-            if (!processedNoInput) //If input was handled by anything clear the current key
-            {
-                KeyEntered = KeyboardButtonCode.KC_UNASSIGNED;
-            }
-            return processedNoInput;
+            return callerHandlesInput;
         }
 
-        public Guid KbdItem { get; internal set; } //Focused
+        public Guid FocusedItem { get; internal set; } //Focused
 
         public KeyboardButtonCode KeyEntered { get; private set; }
 
