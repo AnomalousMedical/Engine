@@ -20,6 +20,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
 
+    <Content Include="..\MyGUIFontLoader\bin\Debug\x64\MyGUIFontLoader.dll">
+      <Link>x64\MyGUIFontLoader.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+
     <Content Include="../../Dependencies/Diligent/Win64Build/Graphics/GraphicsEngineVulkan/Debug/GraphicsEngineVk_64d.dll">
       <Link>x64\GraphicsEngineVk_64d.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -64,6 +69,11 @@
 
     <Content Include="..\DiligentEngineWrapper\bin\Release\x64\DiligentEngineWrapper.dll">
       <Link>x64\DiligentEngineWrapper.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="..\MyGUIFontLoader\bin\Release\x64\MyGUIFontLoader.dll">
+      <Link>x64\MyGUIFontLoader.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
 

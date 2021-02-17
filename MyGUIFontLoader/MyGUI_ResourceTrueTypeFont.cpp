@@ -575,7 +575,8 @@ namespace MyGUI
 		// Create the texture and render the glyphs onto it.
 		//-------------------------------------------------------------------//
 
-		textureBuffer = new uint8[texWidth * texHeight];
+		textureBufferSize = texWidth * texHeight * Pixel<LAMode>::getNumBytes();
+		textureBuffer = new uint8[textureBufferSize];
 
 		if (textureBuffer != nullptr)
 		{
