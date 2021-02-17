@@ -79,7 +79,7 @@ namespace SharpImGuiTest
                 Console.WriteLine("Clicked button 3");
             }
 
-            if(sharpGui.Slider(sliderId, 350, 250, 32, 300, 15, ref sliderValue))
+            if(sharpGui.Slider(sliderId, 350, 250, 32, 500, 15, ref sliderValue))
             {
                 Console.WriteLine($"New slider value {sliderValue}");
             }

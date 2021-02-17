@@ -134,11 +134,11 @@ namespace SharpImGuiTest
             int buttonHeight = 16;
 
             // Calculate mouse cursor's relative y offset
-            int ypos = ((height - buttonHeight) * value) / max;
+            int ypos = ((height - buttonHeight - SliderBoxMargin * 2) * value) / max;
             buttonY += ypos;
 
             // Check for hotness
-            if (RegionHit(x + 8, y + 8, width, height))
+            if (RegionHit(x, y, width, height))
             {
                 FocusItem = id;
                 if (ActiveItem == Guid.Empty && MouseDown)
@@ -146,6 +146,19 @@ namespace SharpImGuiTest
                     ActiveItem = id;
                 }
             }
+
+            //if(ActiveItem == id)
+            //{
+            //    buttonY = MouseY;
+            //    if (buttonY < y + SliderBoxMargin)
+            //    {
+            //        buttonY = y + buttonHeight;
+            //    }
+            //    else if (buttonY > y + height - SliderBoxMargin - buttonHeight)
+            //    {
+            //        buttonY = y + height - SliderBoxMargin - buttonHeight;
+            //    }
+            //}
 
             // Render the scrollbar
             buffer.DrawQuad(x, y, width, height, SliderBoxBackgroundColor);
@@ -168,10 +181,12 @@ namespace SharpImGuiTest
             // Update widget value
             if (ActiveItem == id)
             {
-                int mousepos = MouseY - (y + SliderBoxMargin);
-                if (mousepos < 0) mousepos = 0;
-                if (mousepos > height) mousepos = height;
-                int v = (mousepos * max) / height;
+                var scrollHeight = height - SliderBoxMargin * 2;
+                int mousepos = MouseY - (y + SliderBoxMargin - buttonHeight / 2);
+                if (mousepos < 0) { mousepos = 0; }
+                if (mousepos > scrollHeight) { mousepos = scrollHeight; }
+                Console.WriteLine(mousepos);
+                int v = (mousepos * max) / scrollHeight;
                 if (v != value)
                 {
                     value = v;
