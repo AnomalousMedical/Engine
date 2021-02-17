@@ -50,9 +50,9 @@ namespace SharpImGuiTest
 
         }
 
-        Guid button1Guid = Guid.NewGuid();
-        Guid button2Guid = Guid.NewGuid();
-        Guid button3Guid = Guid.NewGuid();
+        SharpButton button1 = new SharpButton(50, 50, 100, 100);
+        SharpButton button2 = new SharpButton(600, 250, 100, 100);
+        SharpButton button3 = new SharpButton(550, 500, 100, 100);
 
         Guid sliderId = Guid.NewGuid();
         private int sliderValue = 0;
@@ -66,15 +66,15 @@ namespace SharpImGuiTest
             sharpGui.Begin();
             
             //Buttons
-            if(sharpGui.Button(button1Guid, 50, 50, 100, 100))
+            if(sharpGui.Button(button1))
             {
                 Console.WriteLine("Clicked button 1");
             }
-            if(sharpGui.Button(button2Guid, 600, 250, 100, 100))
+            if(sharpGui.Button(button2))
             {
                 Console.WriteLine("Clicked button 2");
             }
-            if(sharpGui.Button(button3Guid, 550, 550, 100, 100))
+            if(sharpGui.Button(button3))
             {
                 Console.WriteLine("Clicked button 3");
             }

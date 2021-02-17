@@ -49,60 +49,14 @@ namespace SharpImGuiTest
             }
         }
 
-        private Color ButtonFocusAndActive = Color.FromARGB(0xffff0000);
-        private Color ButtonFocus = Color.FromARGB(0xffffffff);
-        private Color ButtonNormal = Color.FromARGB(0xffaaaaaa);
-        private Color ButtonShadowColor = Color.FromARGB(0xff000000);
-
         /// <summary>
         /// Draw a button. Returns true if the button was clicked.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <returns></returns>
-        public bool Button(Guid id, int x, int y, int width, int height)
+        /// <param name="button">The button to draw.</param>
+        /// <returns>True if clicked.</returns>
+        public bool Button(SharpButton button)
         {
-            // Check whether the button should be hot
-            bool regionHit = state.RegionHit(x, y, width, height);
-            if (regionHit)
-            {
-                state.FocusItem = id;
-                if (state.ActiveItem == Guid.Empty && state.MouseDown)
-                {
-                    state.ActiveItem = id;
-                }
-            }
-
-            //Draw shadow
-            buffer.DrawQuad(x + 8, y + 8, width, height, ButtonShadowColor);
-
-            //Draw button
-            if (state.FocusItem == id)
-            {
-                if (state.ActiveItem == id)
-                {
-                    buffer.DrawQuad(x, y, width, height, ButtonFocusAndActive);
-                }
-                else
-                {
-                    buffer.DrawQuad(x, y, width, height, ButtonFocus);
-                }
-            }
-            else
-            {
-                buffer.DrawQuad(x, y, width, height, ButtonNormal);
-            }
-
-            //Determine clicked
-            bool clicked = false;
-            if (regionHit && !state.MouseDown && state.ActiveItem == id)
-            {
-                clicked = true;
-            }
-            return clicked;
+            return button.Button(state, buffer);
         }
 
         private int SliderBoxMargin = 8;
