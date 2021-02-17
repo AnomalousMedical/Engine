@@ -9,13 +9,13 @@ namespace SharpImGuiTest
 { 
     static class SharpSliderExtensions
     {
-        private static int SliderBoxMargin = 8;
-        private static Color SliderBoxBackgroundColor = Color.FromARGB(0xff777777);
-        private static Color SliderFocusAndActive = Color.FromARGB(0xffff0000);
-        private static Color SliderFocus = Color.FromARGB(0xffffffff);
-        private static Color SliderNormal = Color.FromARGB(0xffaaaaaa);
+        private static int ButtonMargin = 8;
+        private static Color ButtonBackgroundColor = Color.FromARGB(0xff777777);
+        private static Color FocusAndActive = Color.FromARGB(0xffff0000);
+        private static Color Focus = Color.FromARGB(0xffffffff);
+        private static Color Normal = Color.FromARGB(0xffaaaaaa);
 
-        public static bool Slider(this SharpSlider slider, ref int value, SharpGuiState state, SharpGuiBuffer buffer)
+        public static bool Process(this SharpSlider slider, ref int value, SharpGuiState state, SharpGuiBuffer buffer)
         {
             Guid id = slider.Id;
             int x = slider.X;
@@ -24,10 +24,10 @@ namespace SharpImGuiTest
             int height = slider.Height;
             int max = slider.Max;
 
-            var doubleMargin = SliderBoxMargin * 2;
+            var doubleMargin = ButtonMargin * 2;
             var withinMarginHeight = height - doubleMargin;
-            var buttonX = x + SliderBoxMargin;
-            var buttonY = y + SliderBoxMargin;
+            var buttonX = x + ButtonMargin;
+            var buttonY = y + ButtonMargin;
             int buttonWidth = width - doubleMargin;
             int buttonHeight = withinMarginHeight / (max + 1);
 
@@ -46,19 +46,19 @@ namespace SharpImGuiTest
             }
 
             // Render the scrollbar
-            buffer.DrawQuad(x, y, width, height, SliderBoxBackgroundColor);
+            buffer.DrawQuad(x, y, width, height, ButtonBackgroundColor);
 
             // Render scroll button
-            var color = SliderNormal;
+            var color = Normal;
             if (state.FocusItem == id)
             {
                 if (state.ActiveItem == id)
                 {
-                    color = SliderFocusAndActive;
+                    color = FocusAndActive;
                 }
                 else
                 {
-                    color = SliderFocus;
+                    color = Focus;
                 }
             }
             buffer.DrawQuad(buttonX, buttonY, buttonWidth, buttonHeight, color);
@@ -66,7 +66,7 @@ namespace SharpImGuiTest
             // Update widget value
             if (state.ActiveItem == id)
             {
-                int mousepos = state.MouseY - (y + SliderBoxMargin);
+                int mousepos = state.MouseY - (y + ButtonMargin);
                 if (mousepos < 0) { mousepos = 0; }
                 if (mousepos > withinMarginHeight) { mousepos = withinMarginHeight; }
 

@@ -14,7 +14,7 @@ namespace SharpImGuiTest
         private static Color Normal = Color.FromARGB(0xffaaaaaa);
         private static Color ShadowColor = Color.FromARGB(0xff000000);
 
-        public static bool Button(this SharpButton button, SharpGuiState state, SharpGuiBuffer buffer)
+        public static bool Process(this SharpButton button, SharpGuiState state, SharpGuiBuffer buffer)
         {
             Guid id = button.Id;
             int x = button.X;

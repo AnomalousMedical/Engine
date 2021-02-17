@@ -56,14 +56,18 @@ namespace SharpImGuiTest
         /// <returns>True if clicked.</returns>
         public bool Button(SharpButton button)
         {
-            return button.Button(state, buffer);
+            return button.Process(state, buffer);
         }
 
-
-
+        /// <summary>
+        /// Draw a slider. Returns true if the passed in value changed.
+        /// </summary>
+        /// <param name="slider">The slider to draw.</param>
+        /// <param name="value">The current value of the slider.</param>
+        /// <returns>True if value changed.</returns>
         public bool Slider(SharpSlider slider, ref int value)
         {
-            return slider.Slider(ref value, state, buffer);
+            return slider.Process(ref value, state, buffer);
         }
 
         public void Render(IDeviceContext immediateContext)
