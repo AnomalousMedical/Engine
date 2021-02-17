@@ -61,9 +61,18 @@ namespace SharpImGuiTest
 
             //Put things on the gui
             sharpGui.Begin();
-            sharpGui.DrawButton(button1Guid, 50, 50, 100, 100);
-            sharpGui.DrawButton(button2Guid, 250, 250, 100, 100);
-            sharpGui.DrawButton(button3Guid, 550, 550, 100, 100);
+            if(sharpGui.DrawButton(button1Guid, 50, 50, 100, 100))
+            {
+                Console.WriteLine("Clicked button 1");
+            }
+            if(sharpGui.DrawButton(button2Guid, 250, 250, 100, 100))
+            {
+                Console.WriteLine("Clicked button 2");
+            }
+            if(sharpGui.DrawButton(button3Guid, 550, 550, 100, 100))
+            {
+                Console.WriteLine("Clicked button 3");
+            }
             sharpGui.End();
 
             var pRTV = swapChain.GetCurrentBackBufferRTV();

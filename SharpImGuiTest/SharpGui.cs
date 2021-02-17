@@ -10,6 +10,7 @@ namespace SharpImGuiTest
 {
     public class SharpGui
     {
+        private Guid EmptySpace = Guid.NewGuid(); //A guid for when the user clicks on empty space. This gets considered to be active
         private readonly SharpGuiBuffer buffer;
         private readonly SharpGuiRenderer renderer;
 
@@ -48,7 +49,16 @@ namespace SharpImGuiTest
 
         public void End()
         {
-            if (!MouseDown)
+            if (MouseDown)
+            {
+                //This needs to say nested, above check is just mouse up / down
+                //If ActiveItem is empty at the end of the frame, consider empty space to be clicked.
+                if (ActiveItem == Guid.Empty)
+                {
+                    ActiveItem = EmptySpace;
+                }
+            }
+            else
             {
                 ActiveItem = Guid.Empty;
             }
@@ -59,10 +69,11 @@ namespace SharpImGuiTest
         private Color ButtonActive = Color.FromARGB(0xffaaaaaa);
         private Color ButtonShadowColor = Color.FromARGB(0xff000000);
 
-        internal void DrawButton(Guid id, int x, int y, int width, int height)
+        internal bool DrawButton(Guid id, int x, int y, int width, int height)
         {
             // Check whether the button should be hot
-            if (RegionHit(x, y, width, height))
+            bool regionHit = RegionHit(x, y, width, height);
+            if (regionHit)
             {
                 HotItem = id;
                 if (ActiveItem == Guid.Empty && MouseDown)
@@ -92,6 +103,13 @@ namespace SharpImGuiTest
                 // button is not hot, but it may be active    
                 buffer.DrawQuad(x, y, width, height, ButtonActive);
             }
+
+            bool clicked = false;
+            if (regionHit && !MouseDown && ActiveItem == id)
+            {
+                clicked = true;
+            }
+            return clicked;
         }
 
         internal void Render(IDeviceContext immediateContext)
