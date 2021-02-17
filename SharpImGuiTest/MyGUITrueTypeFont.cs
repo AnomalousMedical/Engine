@@ -10,34 +10,8 @@ namespace SharpImGuiTest
 {
     class MyGUITrueTypeFont : IDisposable
     {
-        [StructLayout(LayoutKind.Sequential)]
-        struct CharMapPassStruct
-        {
-            public uint key;
-            public uint value;
-        };
-
-        [StructLayout(LayoutKind.Sequential)]
-        struct GlyphInfoPassStruct
-        {
-            public uint key;
-            public GlyphInfoEntryPassStruct value;
-        };
-
-        [StructLayout(LayoutKind.Sequential)]
-        struct FontInfoPassStruct
-        {
-            public UIntPtr charMapLength;
-            public UIntPtr glyphInfoLength;
-            public uint substituteCodePoint;
-            public GlyphInfoEntryPassStruct substituteGlyphInfo;
-            public IntPtr textureBuffer;
-            public UIntPtr textureBufferSize;
-        };
-
-        public const String LibraryName = "MyGUIFontLoader.dll";
         private IntPtr objPtr;
-        private Dictionary<uint, uint> charMap = new Dictionary<uint, uint>();
+        private Dictionary<char, uint> charMap = new Dictionary<char, uint>();
         private Dictionary<uint, GlyphInfo> glyphInfo = new Dictionary<uint, GlyphInfo>();
         private uint substituteCodePoint;
         private GlyphInfoEntryPassStruct substituteCodePointGlyphInfo;
@@ -47,6 +21,14 @@ namespace SharpImGuiTest
         public IntPtr TextureBuffer => textureBuffer;
 
         public UIntPtr TextureBufferSize => textureBufferSize;
+
+        public Dictionary<char, uint> CharMap => charMap;
+
+        public Dictionary<uint, GlyphInfo> GlyphInfo => glyphInfo;
+
+        public uint SubstituteCodePoint => substituteCodePoint;
+
+        public GlyphInfoEntryPassStruct SubstituteCodePointGlyphInfo => substituteCodePointGlyphInfo;
 
         public unsafe MyGUITrueTypeFont(byte[] fontBytes)
         {
@@ -68,7 +50,7 @@ namespace SharpImGuiTest
 
             foreach(var i in charMapPass)
             {
-                charMap.Add(i.key, i.value);
+                charMap.Add((char)i.key, i.value); //Typecast only at load time this way
             }
 
             //Convert these to ref types. That will be better for overall perf frame by frame.
@@ -93,7 +75,8 @@ namespace SharpImGuiTest
             MyGUIFontLoader_DestoryFont(objPtr);
         }
 
-
+        public const String LibraryName = "MyGUIFontLoader.dll";
+        
         [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr MyGUIFontLoader_LoadFont(byte[] fontBuffer, UIntPtr fontBufferSize);
 
@@ -105,5 +88,30 @@ namespace SharpImGuiTest
 
         [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void MyGUIFontLoader_DestoryFont(IntPtr obj);
+
+        [StructLayout(LayoutKind.Sequential)]
+        struct CharMapPassStruct
+        {
+            public uint key;
+            public uint value;
+        };
+
+        [StructLayout(LayoutKind.Sequential)]
+        struct GlyphInfoPassStruct
+        {
+            public uint key;
+            public GlyphInfoEntryPassStruct value;
+        };
+
+        [StructLayout(LayoutKind.Sequential)]
+        struct FontInfoPassStruct
+        {
+            public UIntPtr charMapLength;
+            public UIntPtr glyphInfoLength;
+            public uint substituteCodePoint;
+            public GlyphInfoEntryPassStruct substituteGlyphInfo;
+            public IntPtr textureBuffer;
+            public UIntPtr textureBufferSize;
+        };
     }
 }
