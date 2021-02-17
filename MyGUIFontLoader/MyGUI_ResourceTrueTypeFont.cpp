@@ -47,95 +47,6 @@
 namespace MyGUI
 {
 
-#ifndef MYGUI_USE_FREETYPE
-	ResourceTrueTypeFont::ResourceTrueTypeFont()
-	{
-	}
-
-	ResourceTrueTypeFont::~ResourceTrueTypeFont()
-	{
-	}
-
-	void ResourceTrueTypeFont::deserialization(xml::ElementPtr _node, Version _version)
-	{
-		Base::deserialization(_node, _version);
-		MYGUI_LOG(Error, "ResourceTrueTypeFont: TrueType font '" << getResourceName() << "' disabled. Define MYGUI_USE_FREETYE if you need TrueType fonts.");
-	}
-
-	GlyphInfo* ResourceTrueTypeFont::getGlyphInfo(Char _id)
-	{
-		return nullptr;
-	}
-
-	ITexture* ResourceTrueTypeFont::getTextureFont()
-	{
-		return nullptr;
-	}
-
-	int ResourceTrueTypeFont::getDefaultHeight()
-	{
-		return 0;
-	}
-
-	std::vector<std::pair<Char, Char> > ResourceTrueTypeFont::getCodePointRanges() const
-	{
-		return std::vector<std::pair<Char, Char> >();
-	}
-
-	Char ResourceTrueTypeFont::getSubstituteCodePoint() const
-	{
-		return Char();
-	}
-
-	void ResourceTrueTypeFont::initialise()
-	{
-	}
-
-	void ResourceTrueTypeFont::setSource(const std::string& _value)
-	{
-	}
-
-	void ResourceTrueTypeFont::setSize(float _value)
-	{
-	}
-
-	void ResourceTrueTypeFont::setResolution(uint _value)
-	{
-	}
-
-	void ResourceTrueTypeFont::setHinting(const std::string& _value)
-	{
-	}
-
-	void ResourceTrueTypeFont::setAntialias(bool _value)
-	{
-	}
-
-	void ResourceTrueTypeFont::setTabWidth(float _value)
-	{
-	}
-
-	void ResourceTrueTypeFont::setOffsetHeight(int _value)
-	{
-	}
-
-	void ResourceTrueTypeFont::setSubstituteCode(int _value)
-	{
-	}
-
-	void ResourceTrueTypeFont::setDistance(int _value)
-	{
-	}
-
-	void ResourceTrueTypeFont::addCodePointRange(Char _first, Char _second)
-	{
-	}
-
-	void ResourceTrueTypeFont::removeCodePointRange(Char _first, Char _second)
-	{
-	}
-
-#else // MYGUI_USE_FREETYPE
 	namespace
 	{
 
@@ -1117,7 +1028,4 @@ namespace MyGUI
 	{
 		mGlyphSpacing = _value;
 	}
-
-#endif // MYGUI_USE_FREETYPE
-
 } // namespace MyGUI
