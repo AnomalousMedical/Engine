@@ -55,6 +55,7 @@ namespace SharpImGuiTest
         SharpButton button3 = new SharpButton(550, 500, 100, 100);
 
         Guid sliderId = Guid.NewGuid();
+        SharpSlider slider = new SharpSlider(350, 250, 32, 500, 15);
         private int sliderValue = 0;
 
         public unsafe void sendUpdate(Clock clock)
@@ -79,7 +80,7 @@ namespace SharpImGuiTest
                 Console.WriteLine("Clicked button 3");
             }
 
-            if(sharpGui.Slider(sliderId, 350, 250, 32, 500, 15, ref sliderValue))
+            if(sharpGui.Slider(slider, ref sliderValue))
             {
                 Console.WriteLine($"New slider value {sliderValue}");
             }
@@ -88,7 +89,7 @@ namespace SharpImGuiTest
 
             var pRTV = swapChain.GetCurrentBackBufferRTV();
             var pDSV = swapChain.GetDepthBufferDSV();
-            var preTransform = swapChain.GetDesc_PreTransform;
+
             m_pImmediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             // Clear the back buffer
             var ClearColor = new Color(0.350f, 0.350f, 0.350f, 1.0f);

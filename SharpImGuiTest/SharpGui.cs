@@ -59,73 +59,11 @@ namespace SharpImGuiTest
             return button.Button(state, buffer);
         }
 
-        private int SliderBoxMargin = 8;
-        private Color SliderBoxBackgroundColor = Color.FromARGB(0xff777777);
-        private Color SliderFocusAndActive = Color.FromARGB(0xffff0000);
-        private Color SliderFocus = Color.FromARGB(0xffffffff);
-        private Color SliderNormal = Color.FromARGB(0xffaaaaaa);
 
-        public bool Slider(Guid id, int x, int y, int width, int height, int max, ref int value)
+
+        public bool Slider(SharpSlider slider, ref int value)
         {
-            var doubleMargin = SliderBoxMargin * 2;
-            var withinMarginHeight = height - doubleMargin;
-            var buttonX = x + SliderBoxMargin;
-            var buttonY = y + SliderBoxMargin;
-            int buttonWidth = width - doubleMargin;
-            int buttonHeight = withinMarginHeight / (max + 1);
-
-            // Calculate mouse cursor's relative y offset
-            int ypos = value * buttonHeight;
-            buttonY += ypos;
-
-            // Check for hotness
-            if (state.RegionHit(x, y, width, height))
-            {
-                state.FocusItem = id;
-                if (state.ActiveItem == Guid.Empty && state.MouseDown)
-                {
-                    state.ActiveItem = id;
-                }
-            }
-
-            // Render the scrollbar
-            buffer.DrawQuad(x, y, width, height, SliderBoxBackgroundColor);
-
-            // Render scroll button
-            var color = SliderNormal;
-            if (state.FocusItem == id)
-            {
-                if (state.ActiveItem == id)
-                {
-                    color = SliderFocusAndActive;
-                }
-                else
-                {
-                    color = SliderFocus;
-                }
-            }
-            buffer.DrawQuad(buttonX, buttonY, buttonWidth, buttonHeight, color);
-
-            // Update widget value
-            if (state.ActiveItem == id)
-            {
-                int mousepos = state.MouseY - (y + SliderBoxMargin);
-                if (mousepos < 0) { mousepos = 0; }
-                if (mousepos > withinMarginHeight) { mousepos = withinMarginHeight; }
-
-                int v = mousepos / buttonHeight;
-                if(v > max)
-                {
-                    v = max;
-                }
-                if (v != value)
-                {
-                    value = v;
-                    return true;
-                }
-            }
-
-            return false;
+            return slider.Slider(ref value, state, buffer);
         }
 
         public void Render(IDeviceContext immediateContext)

@@ -9,10 +9,10 @@ namespace SharpImGuiTest
 {
     static class SharpButtonExtensions
     {
-        private static Color ButtonFocusAndActive = Color.FromARGB(0xffff0000);
-        private static Color ButtonFocus = Color.FromARGB(0xffffffff);
-        private static Color ButtonNormal = Color.FromARGB(0xffaaaaaa);
-        private static Color ButtonShadowColor = Color.FromARGB(0xff000000);
+        private static Color FocusAndActive = Color.FromARGB(0xffff0000);
+        private static Color Focus = Color.FromARGB(0xffffffff);
+        private static Color Normal = Color.FromARGB(0xffaaaaaa);
+        private static Color ShadowColor = Color.FromARGB(0xff000000);
 
         public static bool Button(this SharpButton button, SharpGuiState state, SharpGuiBuffer buffer)
         {
@@ -34,23 +34,23 @@ namespace SharpImGuiTest
             }
 
             //Draw shadow
-            buffer.DrawQuad(x + 8, y + 8, width, height, ButtonShadowColor);
+            buffer.DrawQuad(x + 8, y + 8, width, height, ShadowColor);
 
             //Draw button
             if (state.FocusItem == id)
             {
                 if (state.ActiveItem == id)
                 {
-                    buffer.DrawQuad(x, y, width, height, ButtonFocusAndActive);
+                    buffer.DrawQuad(x, y, width, height, FocusAndActive);
                 }
                 else
                 {
-                    buffer.DrawQuad(x, y, width, height, ButtonFocus);
+                    buffer.DrawQuad(x, y, width, height, Focus);
                 }
             }
             else
             {
-                buffer.DrawQuad(x, y, width, height, ButtonNormal);
+                buffer.DrawQuad(x, y, width, height, Normal);
             }
 
             //Determine clicked
