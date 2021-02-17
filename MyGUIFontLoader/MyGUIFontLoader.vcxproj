@@ -90,7 +90,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\Dependencies\MyGUI\Src\MyGUIEngine\include;..\..\Dependencies\MyGUI\Src\Platforms\Ogre\OgrePlatform\include;..\..\Dependencies\MyGUI\Src\Common;..\..\Dependencies\Ogre\src\OgreMain\include;..\..\Dependencies\Ogre\WindowsBuild\include;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Dependencies\MyGUI\Src\MyGUIEngine\include;..\..\Dependencies\MyGUI\Src\Platforms\Ogre\OgrePlatform\include;..\..\Dependencies\MyGUI\Src\Common;..\..\Dependencies\Ogre\src\OgreMain\include;..\..\Dependencies\Ogre\WindowsBuild\include;..\..\Dependencies\OgreDeps\Win64Install\include;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>freetype_d.lib;MyGUI.OgrePlatform_d.lib;MyGUIEngineStatic_d.lib;OgreMain_d.lib;User32.lib</AdditionalDependencies>
@@ -108,7 +108,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\Dependencies\MyGUI\Src\MyGUIEngine\include;..\..\Dependencies\MyGUI\Src\Platforms\Ogre\OgrePlatform\include;..\..\Dependencies\MyGUI\Src\Common;..\..\Dependencies\Ogre\src\OgreMain\include;..\..\Dependencies\Ogre\Win64Build\include;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Dependencies\MyGUI\Src\MyGUIEngine\include;..\..\Dependencies\MyGUI\Src\Platforms\Ogre\OgrePlatform\include;..\..\Dependencies\MyGUI\Src\Common;..\..\Dependencies\Ogre\src\OgreMain\include;..\..\Dependencies\Ogre\Win64Build\include;..\..\Dependencies\OgreDeps\Win64Install\include;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>freetype_d.lib;MyGUI.OgrePlatform_d.lib;MyGUIEngineStatic_d.lib;OgreMain_d.lib;User32.lib</AdditionalDependencies>
@@ -119,7 +119,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\Dependencies\MyGUI\Src\MyGUIEngine\include;..\..\Dependencies\MyGUI\Src\Platforms\Ogre\OgrePlatform\include;..\..\Dependencies\MyGUI\Src\Common;..\..\Dependencies\Ogre\src\OgreMain\include;..\..\Dependencies\Ogre\WindowsBuild\include;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Dependencies\MyGUI\Src\MyGUIEngine\include;..\..\Dependencies\MyGUI\Src\Platforms\Ogre\OgrePlatform\include;..\..\Dependencies\MyGUI\Src\Common;..\..\Dependencies\Ogre\src\OgreMain\include;..\..\Dependencies\Ogre\WindowsBuild\include;..\..\Dependencies\OgreDeps\Win64Install\include;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WINDOWS;WIN32;NDEBUG;MYGUI_STATIC;_WINDOWS;MYGUI_USE_FREETYPE;MYGUI_BUILD;NOMINMAX;CMAKE_INTDIR="Release";MyGUIEngine_EXPORTS;MYGUI_DONT_USE_OBSOLETE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -135,7 +135,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\Dependencies\MyGUI\Src\MyGUIEngine\include;..\..\Dependencies\MyGUI\Src\Platforms\Ogre\OgrePlatform\include;..\..\Dependencies\MyGUI\Src\Common;..\..\Dependencies\Ogre\src\OgreMain\include;..\..\Dependencies\Ogre\Win64Build\include;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Dependencies\MyGUI\Src\MyGUIEngine\include;..\..\Dependencies\MyGUI\Src\Platforms\Ogre\OgrePlatform\include;..\..\Dependencies\MyGUI\Src\Common;..\..\Dependencies\Ogre\src\OgreMain\include;..\..\Dependencies\Ogre\Win64Build\include;..\..\Dependencies\OgreDeps\Win64Install\include;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WINDOWS;WIN32;NDEBUG;MYGUI_STATIC;_WINDOWS;MYGUI_USE_FREETYPE;MYGUI_BUILD;NOMINMAX;CMAKE_INTDIR="Release";MyGUIEngine_EXPORTS;MYGUI_DONT_USE_OBSOLETE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -171,6 +171,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="MyGUI_ResourceTrueTypeFont.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
