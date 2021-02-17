@@ -12,9 +12,9 @@ namespace SharpImGuiTest
     public class SharpGuiRenderer : IDisposable
     {
         private AutoPtr<IPipelineState> pipelineState;
-        private AutoPtr<IShaderResourceBinding> m_pSRB;
-        private AutoPtr<IBuffer> m_CubeVertexBuffer;
-        private AutoPtr<IBuffer> m_CubeIndexBuffer;
+        private AutoPtr<IShaderResourceBinding> shaderResourceBinding;
+        private AutoPtr<IBuffer> vertexBuffer;
+        private AutoPtr<IBuffer> indexBuffer;
         private readonly GraphicsEngine graphicsEngine;
         private readonly OSWindow osWindow;
 
@@ -46,28 +46,14 @@ namespace SharpImGuiTest
             using var pPS = this.graphicsEngine.RenderDevice.CreateShader(ShaderCI);
 
             var PSOCreateInfo = new GraphicsPipelineStateCreateInfo();
-
-            // Pipeline state name is used by the engine to report issues.
-            // It is always a good idea to give objects descriptive names.
-            PSOCreateInfo.PSODesc.Name = "Cube PSO";
-
-            // This is a graphics pipeline
+            PSOCreateInfo.PSODesc.Name = "SharpGui PSO";
             PSOCreateInfo.PSODesc.PipelineType = PIPELINE_TYPE.PIPELINE_TYPE_GRAPHICS;
-
-            // clang-format off
-            // This tutorial will render to a single render target
             PSOCreateInfo.GraphicsPipeline.NumRenderTargets = 1;
-            // Set render target format which is the format of the swap chain's color buffer
             PSOCreateInfo.GraphicsPipeline.RTVFormats_0 = m_pSwapChain.GetDesc_ColorBufferFormat;
-            // Use the depth buffer format from the swap chain
             PSOCreateInfo.GraphicsPipeline.DSVFormat = m_pSwapChain.GetDesc_DepthBufferFormat;
-            // Primitive topology defines what kind of primitives will be rendered by this pipeline state
             PSOCreateInfo.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY.PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
-            // Cull back faces
             PSOCreateInfo.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE.CULL_MODE_BACK;
-            // Enable depth testing
             PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.DepthEnable = true;
-            // clang-format on
 
             // Define vertex shader input layout
             var LayoutElems = new List<LayoutElement>
@@ -91,7 +77,7 @@ namespace SharpImGuiTest
                     IsNormalized = false
                 },
             };
-            // clang-format on
+
             PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements = LayoutElems;
 
             PSOCreateInfo.pVS = pVS.Obj;
@@ -100,11 +86,10 @@ namespace SharpImGuiTest
             // Define variable type that will be used by default
             PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
 
-
             this.pipelineState = m_pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
 
             // Create a shader resource binding object and bind all static resources in it
-            m_pSRB = pipelineState.Obj.CreateShaderResourceBinding(true);
+            shaderResourceBinding = pipelineState.Obj.CreateShaderResourceBinding(true);
 
             CreateVertexBuffer();
             CreateIndexBuffer();
@@ -112,9 +97,9 @@ namespace SharpImGuiTest
 
         public void Dispose()
         {
-            m_CubeIndexBuffer.Dispose();
-            m_CubeVertexBuffer.Dispose();
-            m_pSRB.Dispose();
+            indexBuffer.Dispose();
+            vertexBuffer.Dispose();
+            shaderResourceBinding.Dispose();
             pipelineState.Dispose();
         }
 
@@ -123,27 +108,23 @@ namespace SharpImGuiTest
             // Set the pipeline state
             m_pImmediateContext.SetPipelineState(pipelineState.Obj);
 
-            IntPtr data = graphicsEngine.ImmediateContext.MapBuffer(m_CubeVertexBuffer.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
+            IntPtr data = graphicsEngine.ImmediateContext.MapBuffer(vertexBuffer.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
 
             var dest = new Span<SharpImGuiVertex>(data.ToPointer(), SharpGuiBuffer.MaxNumberOfQuads * 4);
             var src = new Span<SharpImGuiVertex>(buffer.Verts);
             src.CopyTo(dest);
 
-            graphicsEngine.ImmediateContext.UnmapBuffer(m_CubeVertexBuffer.Obj, MAP_TYPE.MAP_WRITE);
+            graphicsEngine.ImmediateContext.UnmapBuffer(vertexBuffer.Obj, MAP_TYPE.MAP_WRITE);
 
             UInt32[] offset = new UInt32[] { 0 };
-            IBuffer[] pBuffs = new IBuffer[] { m_CubeVertexBuffer.Obj };
+            IBuffer[] pBuffs = new IBuffer[] { vertexBuffer.Obj };
             m_pImmediateContext.SetVertexBuffers(0, 1, pBuffs, offset, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION, SET_VERTEX_BUFFERS_FLAGS.SET_VERTEX_BUFFERS_FLAG_RESET);
-            m_pImmediateContext.SetIndexBuffer(m_CubeIndexBuffer.Obj, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            m_pImmediateContext.SetIndexBuffer(indexBuffer.Obj, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            m_pImmediateContext.CommitShaderResources(shaderResourceBinding.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            // Commit shader resources. RESOURCE_STATE_TRANSITION_MODE_TRANSITION mode
-            // makes sure that resources are transitioned to required states.
-            m_pImmediateContext.CommitShaderResources(m_pSRB.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-
-            DrawIndexedAttribs DrawAttrs = new DrawIndexedAttribs();     // This is an indexed draw call
-            DrawAttrs.IndexType = VALUE_TYPE.VT_UINT32; // Index type
+            DrawIndexedAttribs DrawAttrs = new DrawIndexedAttribs();
+            DrawAttrs.IndexType = VALUE_TYPE.VT_UINT32;
             DrawAttrs.NumIndices = buffer.NumIndices;
-            // Verify the state of vertex and index buffers
             DrawAttrs.Flags = DRAW_FLAGS.DRAW_FLAG_VERIFY_ALL;
             m_pImmediateContext.DrawIndexed(DrawAttrs);
         }
@@ -154,7 +135,6 @@ namespace SharpImGuiTest
         {
             var m_pDevice = graphicsEngine.RenderDevice;
 
-            // Create a vertex buffer that stores cube vertices
             BufferDesc VertBuffDesc = new BufferDesc();
             VertBuffDesc.Name = "Cube vertex buffer";
             VertBuffDesc.Usage = USAGE.USAGE_DYNAMIC;
@@ -162,7 +142,7 @@ namespace SharpImGuiTest
             VertBuffDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
             VertBuffDesc.uiSizeInBytes = (uint)(sizeof(SharpImGuiVertex) * SharpGuiBuffer.MaxNumberOfQuads * 4);
             
-            m_CubeVertexBuffer = m_pDevice.CreateBuffer(VertBuffDesc);
+            vertexBuffer = m_pDevice.CreateBuffer(VertBuffDesc);
             
         }
 
@@ -196,7 +176,7 @@ namespace SharpImGuiTest
             {
                 IBData.pData = new IntPtr(pIndices);
                 IBData.DataSize = (uint)(sizeof(UInt32) * Indices.Length);
-                m_CubeIndexBuffer = m_pDevice.CreateBuffer(IndBuffDesc, IBData);
+                indexBuffer = m_pDevice.CreateBuffer(IndBuffDesc, IBData);
             }
         }
 
