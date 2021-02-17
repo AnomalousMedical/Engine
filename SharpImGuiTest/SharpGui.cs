@@ -13,6 +13,7 @@ namespace SharpImGuiTest
         private Guid EmptySpace = Guid.NewGuid(); //A guid for when the user clicks on empty space. This gets considered to be active
         private readonly SharpGuiBuffer buffer;
         private readonly SharpGuiRenderer renderer;
+        private readonly SharpGuiState state = new SharpGuiState();
 
         public SharpGui(SharpGuiBuffer buffer, SharpGuiRenderer renderer)
         {
@@ -22,45 +23,29 @@ namespace SharpImGuiTest
 
         public void SetMouseState(int x, int y, bool mouseDown)
         {
-            MouseX = x;
-            MouseY = y;
-            MouseDown = mouseDown;
-        }
-
-        public Guid FocusItem { get; internal set; }
-        public Guid ActiveItem { get; internal set; }
-        public int MouseX { get; private set; }
-        public int MouseY { get; private set; }
-        public bool MouseDown { get; private set; }
-
-        bool RegionHit(int x, int y, int w, int h)
-        {
-            return !(MouseX < x ||
-                   MouseY < y ||
-                   MouseX >= x + w ||
-                   MouseY >= y + h);
+            state.SetMouseState(x, y, mouseDown);
         }
 
         public void Begin()
         {
-            FocusItem = Guid.Empty;
+            state.FocusItem = Guid.Empty;
             buffer.Begin();
         }
 
         public void End()
         {
-            if (MouseDown)
+            if (state.MouseDown)
             {
                 //This needs to say nested, above check is just mouse up / down
                 //If ActiveItem is empty at the end of the frame, consider empty space to be clicked.
-                if (ActiveItem == Guid.Empty)
+                if (state.ActiveItem == Guid.Empty)
                 {
-                    ActiveItem = EmptySpace;
+                    state.ActiveItem = EmptySpace;
                 }
             }
             else
             {
-                ActiveItem = Guid.Empty;
+                state.ActiveItem = Guid.Empty;
             }
         }
 
@@ -81,13 +66,13 @@ namespace SharpImGuiTest
         public bool Button(Guid id, int x, int y, int width, int height)
         {
             // Check whether the button should be hot
-            bool regionHit = RegionHit(x, y, width, height);
+            bool regionHit = state.RegionHit(x, y, width, height);
             if (regionHit)
             {
-                FocusItem = id;
-                if (ActiveItem == Guid.Empty && MouseDown)
+                state.FocusItem = id;
+                if (state.ActiveItem == Guid.Empty && state.MouseDown)
                 {
-                    ActiveItem = id;
+                    state.ActiveItem = id;
                 }
             }
 
@@ -95,9 +80,9 @@ namespace SharpImGuiTest
             buffer.DrawQuad(x + 8, y + 8, width, height, ButtonShadowColor);
 
             //Draw button
-            if (FocusItem == id)
+            if (state.FocusItem == id)
             {
-                if (ActiveItem == id)
+                if (state.ActiveItem == id)
                 {
                     buffer.DrawQuad(x, y, width, height, ButtonFocusAndActive);
                 }
@@ -113,7 +98,7 @@ namespace SharpImGuiTest
 
             //Determine clicked
             bool clicked = false;
-            if (regionHit && !MouseDown && ActiveItem == id)
+            if (regionHit && !state.MouseDown && state.ActiveItem == id)
             {
                 clicked = true;
             }
@@ -140,12 +125,12 @@ namespace SharpImGuiTest
             buttonY += ypos;
 
             // Check for hotness
-            if (RegionHit(x, y, width, height))
+            if (state.RegionHit(x, y, width, height))
             {
-                FocusItem = id;
-                if (ActiveItem == Guid.Empty && MouseDown)
+                state.FocusItem = id;
+                if (state.ActiveItem == Guid.Empty && state.MouseDown)
                 {
-                    ActiveItem = id;
+                    state.ActiveItem = id;
                 }
             }
 
@@ -154,9 +139,9 @@ namespace SharpImGuiTest
 
             // Render scroll button
             var color = SliderNormal;
-            if (FocusItem == id)
+            if (state.FocusItem == id)
             {
-                if (ActiveItem == id)
+                if (state.ActiveItem == id)
                 {
                     color = SliderFocusAndActive;
                 }
@@ -168,9 +153,9 @@ namespace SharpImGuiTest
             buffer.DrawQuad(buttonX, buttonY, buttonWidth, buttonHeight, color);
 
             // Update widget value
-            if (ActiveItem == id)
+            if (state.ActiveItem == id)
             {
-                int mousepos = MouseY - (y + SliderBoxMargin);
+                int mousepos = state.MouseY - (y + SliderBoxMargin);
                 if (mousepos < 0) { mousepos = 0; }
                 if (mousepos > withinMarginHeight) { mousepos = withinMarginHeight; }
 
