@@ -8,7 +8,7 @@ namespace SharpImGuiTest
 {
     class SharpGuiState
     {
-        public Guid FocusItem { get; internal set; }
+        public Guid MouseHoverItem { get; internal set; }
         public Guid ActiveItem { get; internal set; }
         public int MouseX { get; private set; }
         public int MouseY { get; private set; }
@@ -29,10 +29,21 @@ namespace SharpImGuiTest
                    MouseY >= y + h);
         }
 
-        //Guid KbdItem; //Focused
-        //int KeyEntered;
-        //int KeyMod;
+        /// <summary>
+        /// Call this in every widget to try to get keyboard focus. Only changes if nothing has focus.
+        /// </summary>
+        /// <param name="id"></param>
+        public void GrabKeyboardFocus(Guid id)
+        {
+            if(KbdItem == Guid.Empty)
+            {
+                KbdItem = id;
+            }
+        }
 
-        //Guid LastWidget;
+        public Guid KbdItem { get; internal set; } //Focused
+        public int KeyEntered { get; private set; }
+        public int KeyMod { get; private set; }
+        public Guid LastWidget { get; internal set; }
     }
 }

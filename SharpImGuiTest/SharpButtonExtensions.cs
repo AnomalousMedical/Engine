@@ -9,10 +9,11 @@ namespace SharpImGuiTest
 {
     static class SharpButtonExtensions
     {
-        private static Color FocusAndActive = Color.FromARGB(0xffff0000);
-        private static Color Focus = Color.FromARGB(0xffffffff);
+        private static Color HoverAndActive = Color.FromARGB(0xffff0000);
+        private static Color Hover = Color.FromARGB(0xffffffff);
         private static Color Normal = Color.FromARGB(0xffaaaaaa);
         private static Color ShadowColor = Color.FromARGB(0xff000000);
+        private static Color FocusColor = Color.FromARGB(0xff0000ff);
 
         public static bool Process(this SharpButton button, SharpGuiState state, SharpGuiBuffer buffer)
         {
@@ -22,11 +23,13 @@ namespace SharpImGuiTest
             int width = button.Width;
             int height = button.Height;
 
+            state.GrabKeyboardFocus(id);
+
             // Check whether the button should be hot
             bool regionHit = state.RegionHit(x, y, width, height);
             if (regionHit)
             {
-                state.FocusItem = id;
+                state.MouseHoverItem = id;
                 if (state.ActiveItem == Guid.Empty && state.MouseDown)
                 {
                     state.ActiveItem = id;
@@ -37,21 +40,19 @@ namespace SharpImGuiTest
             buffer.DrawQuad(x + 8, y + 8, width, height, ShadowColor);
 
             //Draw button
-            if (state.FocusItem == id)
+            var color = Normal;
+            if (state.MouseHoverItem == id)
             {
                 if (state.ActiveItem == id)
                 {
-                    buffer.DrawQuad(x, y, width, height, FocusAndActive);
+                    color = HoverAndActive;
                 }
                 else
                 {
-                    buffer.DrawQuad(x, y, width, height, Focus);
+                    color = Hover;
                 }
             }
-            else
-            {
-                buffer.DrawQuad(x, y, width, height, Normal);
-            }
+            buffer.DrawQuad(x, y, width, height, color);
 
             //Determine clicked
             bool clicked = false;

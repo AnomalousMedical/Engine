@@ -11,8 +11,8 @@ namespace SharpImGuiTest
     {
         private static int ButtonMargin = 8;
         private static Color ButtonBackgroundColor = Color.FromARGB(0xff777777);
-        private static Color FocusAndActive = Color.FromARGB(0xffff0000);
-        private static Color Focus = Color.FromARGB(0xffffffff);
+        private static Color HoverAndActive = Color.FromARGB(0xffff0000);
+        private static Color Hover = Color.FromARGB(0xffffffff);
         private static Color Normal = Color.FromARGB(0xffaaaaaa);
 
         public static bool Process(this SharpSlider slider, ref int value, SharpGuiState state, SharpGuiBuffer buffer)
@@ -24,21 +24,19 @@ namespace SharpImGuiTest
             int height = slider.Height;
             int max = slider.Max;
 
+            state.GrabKeyboardFocus(id);
+
             var doubleMargin = ButtonMargin * 2;
             var withinMarginHeight = height - doubleMargin;
-            var buttonX = x + ButtonMargin;
-            var buttonY = y + ButtonMargin;
             int buttonWidth = width - doubleMargin;
             int buttonHeight = withinMarginHeight / (max + 1);
+            var buttonX = x + ButtonMargin;
+            var buttonY = y + ButtonMargin + value * buttonHeight;
 
-            // Calculate mouse cursor's relative y offset
-            int ypos = value * buttonHeight;
-            buttonY += ypos;
-
-            // Check for hotness
+            // Check for focus
             if (state.RegionHit(x, y, width, height))
             {
-                state.FocusItem = id;
+                state.MouseHoverItem = id;
                 if (state.ActiveItem == Guid.Empty && state.MouseDown)
                 {
                     state.ActiveItem = id;
@@ -50,15 +48,15 @@ namespace SharpImGuiTest
 
             // Render scroll button
             var color = Normal;
-            if (state.FocusItem == id)
+            if (state.MouseHoverItem == id)
             {
                 if (state.ActiveItem == id)
                 {
-                    color = FocusAndActive;
+                    color = HoverAndActive;
                 }
                 else
                 {
-                    color = Focus;
+                    color = Hover;
                 }
             }
             buffer.DrawQuad(buttonX, buttonY, buttonWidth, buttonHeight, color);

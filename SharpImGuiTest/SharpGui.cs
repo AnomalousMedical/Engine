@@ -28,7 +28,7 @@ namespace SharpImGuiTest
 
         public void Begin()
         {
-            state.FocusItem = Guid.Empty;
+            state.MouseHoverItem = Guid.Empty;
             buffer.Begin();
         }
 
