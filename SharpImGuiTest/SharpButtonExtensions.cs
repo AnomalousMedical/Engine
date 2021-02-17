@@ -26,7 +26,7 @@ namespace SharpImGuiTest
             state.GrabKeyboardFocus(id);
 
             // Check whether the button should be hot
-            bool regionHit = state.RegionHit(x, y, width, height);
+            bool regionHit = state.RegionHitByMouse(x, y, width, height);
             if (regionHit)
             {
                 state.MouseHoverItem = id;
@@ -36,8 +36,22 @@ namespace SharpImGuiTest
                 }
             }
 
-            //Draw shadow
-            buffer.DrawQuad(x + 8, y + 8, width, height, ShadowColor);
+            var shadowX = x + 8;
+            var shadowY = y + 8;
+            var shadowWidth = width;
+            var shadowHeight = height;
+            //Make shadow bigger if keyboard focused
+            if (state.KbdItem == button.Id)
+            {
+                shadowWidth += 12;
+                shadowHeight += 12;
+            }
+            buffer.DrawQuad(shadowX, shadowY, shadowWidth, shadowHeight, ShadowColor);
+            //Draw keyboard focus
+            if (state.KbdItem == button.Id)
+            {
+                buffer.DrawQuad(x - 6, y - 6, width + 12, height + 12, FocusColor);
+            }
 
             //Draw button
             var color = Normal;
@@ -59,6 +73,10 @@ namespace SharpImGuiTest
             if (regionHit && !state.MouseDown && state.ActiveItem == id)
             {
                 clicked = true;
+            }
+            if (state.ProcessKeyboardFocus(id))
+            {
+                //Do more
             }
             return clicked;
         }

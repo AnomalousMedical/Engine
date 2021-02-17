@@ -60,9 +60,6 @@ namespace SharpImGuiTest
 
         public unsafe void sendUpdate(Clock clock)
         {
-            var mouse = eventManager.Mouse;
-            sharpGui.SetMouseState(mouse.AbsolutePosition.x, mouse.AbsolutePosition.y, mouse.buttonDown(MouseButtonCode.MB_BUTTON0));
-
             //Put things on the gui
             sharpGui.Begin();
             

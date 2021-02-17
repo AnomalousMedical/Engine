@@ -1,5 +1,6 @@
 ﻿using DiligentEngine;
 using Engine;
+using Engine.Platform;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,45 +9,51 @@ using System.Threading.Tasks;
 
 namespace SharpImGuiTest
 {
-    public class SharpGui
+    public class SharpGui : IDisposable
     {
-        private Guid EmptySpace = Guid.NewGuid(); //A guid for when the user clicks on empty space. This gets considered to be active
         private readonly SharpGuiBuffer buffer;
         private readonly SharpGuiRenderer renderer;
+        private readonly EventManager eventManager;
         private readonly SharpGuiState state = new SharpGuiState();
+        private KeyboardButtonCode lastKeyPressed = KeyboardButtonCode.KC_UNASSIGNED;
 
-        public SharpGui(SharpGuiBuffer buffer, SharpGuiRenderer renderer)
+        public SharpGui(SharpGuiBuffer buffer, SharpGuiRenderer renderer, EventManager eventManager)
         {
             this.buffer = buffer;
             this.renderer = renderer;
+            this.eventManager = eventManager;
+            eventManager.Keyboard.KeyReleased += Keyboard_KeyReleased;
         }
 
-        public void SetMouseState(int x, int y, bool mouseDown)
+        public void Dispose()
         {
-            state.SetMouseState(x, y, mouseDown);
+            eventManager.Keyboard.KeyReleased -= Keyboard_KeyReleased;
+        }
+
+        private void Keyboard_KeyReleased(KeyboardButtonCode keyCode)
+        {
+            lastKeyPressed = keyCode;
         }
 
         public void Begin()
         {
-            state.MouseHoverItem = Guid.Empty;
+            var keyboard = eventManager.Keyboard;
+            var mouse = eventManager.Mouse;
+            state.Begin(
+                mouse.AbsolutePosition.x, mouse.AbsolutePosition.y, 
+                mouse.buttonDown(MouseButtonCode.MB_BUTTON0), 
+                lastKeyPressed, 
+                keyboard.isModifierDown(Modifier.Shift), 
+                keyboard.isModifierDown(Modifier.Alt), 
+                keyboard.isModifierDown(Modifier.Ctrl));
+
+            lastKeyPressed = KeyboardButtonCode.KC_UNASSIGNED;
             buffer.Begin();
         }
 
         public void End()
         {
-            if (state.MouseDown)
-            {
-                //This needs to say nested, above check is just mouse up / down
-                //If ActiveItem is empty at the end of the frame, consider empty space to be clicked.
-                if (state.ActiveItem == Guid.Empty)
-                {
-                    state.ActiveItem = EmptySpace;
-                }
-            }
-            else
-            {
-                state.ActiveItem = Guid.Empty;
-            }
+            state.End();
         }
 
         /// <summary>
