@@ -17,9 +17,16 @@ namespace SharpImGuiTest
         private AutoPtr<IBuffer> indexBuffer;
         private readonly GraphicsEngine graphicsEngine;
         private readonly OSWindow osWindow;
+        private DrawIndexedAttribs DrawAttrs;
 
         public SharpGuiRenderer(GraphicsEngine graphicsEngine, OSWindow osWindow)
         {
+            DrawAttrs = new DrawIndexedAttribs()
+            {
+                IndexType = VALUE_TYPE.VT_UINT32,
+                Flags = DRAW_FLAGS.DRAW_FLAG_VERIFY_ALL,
+            };
+
             var m_pSwapChain = graphicsEngine.SwapChain;
             var m_pDevice = graphicsEngine.RenderDevice;
 
@@ -122,10 +129,7 @@ namespace SharpImGuiTest
             m_pImmediateContext.SetIndexBuffer(indexBuffer.Obj, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             m_pImmediateContext.CommitShaderResources(shaderResourceBinding.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            DrawIndexedAttribs DrawAttrs = new DrawIndexedAttribs();
-            DrawAttrs.IndexType = VALUE_TYPE.VT_UINT32;
             DrawAttrs.NumIndices = buffer.NumIndices;
-            DrawAttrs.Flags = DRAW_FLAGS.DRAW_FLAG_VERIFY_ALL;
             m_pImmediateContext.DrawIndexed(DrawAttrs);
         }
 

@@ -1,6 +1,7 @@
 ﻿using DiligentEngine;
 using Engine;
 using Engine.Platform;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,15 +13,17 @@ namespace SharpImGuiTest
     public class SharpGuiBuffer
     {
         private readonly OSWindow osWindow;
+        private readonly ILogger<SharpGuiBuffer> logger;
         public const int MaxNumberOfQuads = 1000;
         SharpImGuiVertex[] verts;
         private int currentQuad = 0;
 
-        public SharpGuiBuffer(GraphicsEngine graphicsEngine, OSWindow osWindow)
+        public SharpGuiBuffer(OSWindow osWindow, ILogger<SharpGuiBuffer> logger)
         {
             verts = new SharpImGuiVertex[MaxNumberOfQuads * 4];
 
             this.osWindow = osWindow;
+            this.logger = logger;
         }
 
         public void Begin()
@@ -31,6 +34,12 @@ namespace SharpImGuiTest
 
         public void DrawQuad(int x, int y, int width, int height, Color color)
         {
+            if(currentQuad >= verts.Length)
+            {
+                logger.LogWarning($"Exceeded maximum number of quads '{verts.Length / 4}'.");
+                return;
+            }
+
             float left = x / (float)osWindow.WindowWidth * 2.0f - 1.0f;
             float right = (x + width) / (float)osWindow.WindowWidth * 2.0f - 1.0f;
             float top = y / (float)osWindow.WindowHeight * -2.0f + 1.0f;
