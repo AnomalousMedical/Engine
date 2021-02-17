@@ -27,7 +27,7 @@ namespace SharpImGuiTest
             MouseDown = mouseDown;
         }
 
-        public Guid HotItem { get; internal set; }
+        public Guid FocusItem { get; internal set; }
         public Guid ActiveItem { get; internal set; }
         public int MouseX { get; private set; }
         public int MouseY { get; private set; }
@@ -43,7 +43,7 @@ namespace SharpImGuiTest
 
         public void Begin()
         {
-            HotItem = Guid.Empty;
+            FocusItem = Guid.Empty;
             buffer.Begin();
         }
 
@@ -64,18 +64,27 @@ namespace SharpImGuiTest
             }
         }
 
-        private Color ButtonHotAndActive = Color.FromARGB(0xffff0000);
-        private Color ButtonHot = Color.FromARGB(0xffffffff);
-        private Color ButtonActive = Color.FromARGB(0xffaaaaaa);
+        private Color ButtonFocusAndActive = Color.FromARGB(0xffff0000);
+        private Color ButtonFocus = Color.FromARGB(0xffffffff);
+        private Color ButtonNormal = Color.FromARGB(0xffaaaaaa);
         private Color ButtonShadowColor = Color.FromARGB(0xff000000);
 
-        internal bool DrawButton(Guid id, int x, int y, int width, int height)
+        /// <summary>
+        /// Draw a button. Returns true if the button was clicked.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        public bool Button(Guid id, int x, int y, int width, int height)
         {
             // Check whether the button should be hot
             bool regionHit = RegionHit(x, y, width, height);
             if (regionHit)
             {
-                HotItem = id;
+                FocusItem = id;
                 if (ActiveItem == Guid.Empty && MouseDown)
                 {
                     ActiveItem = id;
@@ -85,25 +94,24 @@ namespace SharpImGuiTest
             //Draw shadow
             buffer.DrawQuad(x + 8, y + 8, width, height, ButtonShadowColor);
 
-            if (HotItem == id)
+            //Draw button
+            if (FocusItem == id)
             {
                 if (ActiveItem == id)
                 {
-                    // Button is both 'hot' and 'active'
-                    buffer.DrawQuad(x, y, width, height, ButtonHotAndActive);
+                    buffer.DrawQuad(x, y, width, height, ButtonFocusAndActive);
                 }
                 else
                 {
-                    // Button is merely 'hot'
-                    buffer.DrawQuad(x, y, width, height, ButtonHot);
+                    buffer.DrawQuad(x, y, width, height, ButtonFocus);
                 }
             }
             else
             {
-                // button is not hot, but it may be active    
-                buffer.DrawQuad(x, y, width, height, ButtonActive);
+                buffer.DrawQuad(x, y, width, height, ButtonNormal);
             }
 
+            //Determine clicked
             bool clicked = false;
             if (regionHit && !MouseDown && ActiveItem == id)
             {
@@ -112,7 +120,69 @@ namespace SharpImGuiTest
             return clicked;
         }
 
-        internal void Render(IDeviceContext immediateContext)
+        private int SliderBoxMargin = 8;
+        private Color SliderBoxBackgroundColor = Color.FromARGB(0xff777777);
+        private Color SliderFocusAndActive = Color.FromARGB(0xffff0000);
+        private Color SliderFocus = Color.FromARGB(0xffffffff);
+        private Color SliderNormal = Color.FromARGB(0xffaaaaaa);
+
+        public bool Slider(Guid id, int x, int y, int width, int height, int max, ref int value)
+        {
+            var buttonX = x + SliderBoxMargin;
+            var buttonY = y + SliderBoxMargin;
+            int buttonWidth = width - SliderBoxMargin * 2;
+            int buttonHeight = 16;
+
+            // Calculate mouse cursor's relative y offset
+            int ypos = ((height - buttonHeight) * value) / max;
+            buttonY += ypos;
+
+            // Check for hotness
+            if (RegionHit(x + 8, y + 8, width, height))
+            {
+                FocusItem = id;
+                if (ActiveItem == Guid.Empty && MouseDown)
+                {
+                    ActiveItem = id;
+                }
+            }
+
+            // Render the scrollbar
+            buffer.DrawQuad(x, y, width, height, SliderBoxBackgroundColor);
+
+            // Render scroll button
+            var color = SliderNormal;
+            if (FocusItem == id)
+            {
+                if (ActiveItem == id)
+                {
+                    color = SliderFocusAndActive;
+                }
+                else
+                {
+                    color = SliderFocus;
+                }
+            }
+            buffer.DrawQuad(buttonX, buttonY, buttonWidth, buttonHeight, color);
+
+            // Update widget value
+            if (ActiveItem == id)
+            {
+                int mousepos = MouseY - (y + SliderBoxMargin);
+                if (mousepos < 0) mousepos = 0;
+                if (mousepos > height) mousepos = height;
+                int v = (mousepos * max) / height;
+                if (v != value)
+                {
+                    value = v;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public void Render(IDeviceContext immediateContext)
         {
             renderer.Render(buffer, immediateContext);
         }

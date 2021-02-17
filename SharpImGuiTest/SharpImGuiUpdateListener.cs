@@ -54,6 +54,9 @@ namespace SharpImGuiTest
         Guid button2Guid = Guid.NewGuid();
         Guid button3Guid = Guid.NewGuid();
 
+        Guid sliderId = Guid.NewGuid();
+        private int sliderValue = 0;
+
         public unsafe void sendUpdate(Clock clock)
         {
             var mouse = eventManager.Mouse;
@@ -61,18 +64,26 @@ namespace SharpImGuiTest
 
             //Put things on the gui
             sharpGui.Begin();
-            if(sharpGui.DrawButton(button1Guid, 50, 50, 100, 100))
+            
+            //Buttons
+            if(sharpGui.Button(button1Guid, 50, 50, 100, 100))
             {
                 Console.WriteLine("Clicked button 1");
             }
-            if(sharpGui.DrawButton(button2Guid, 250, 250, 100, 100))
+            if(sharpGui.Button(button2Guid, 600, 250, 100, 100))
             {
                 Console.WriteLine("Clicked button 2");
             }
-            if(sharpGui.DrawButton(button3Guid, 550, 550, 100, 100))
+            if(sharpGui.Button(button3Guid, 550, 550, 100, 100))
             {
                 Console.WriteLine("Clicked button 3");
             }
+
+            if(sharpGui.Slider(sliderId, 350, 250, 32, 300, 15, ref sliderValue))
+            {
+                Console.WriteLine($"New slider value {sliderValue}");
+            }
+
             sharpGui.End();
 
             var pRTV = swapChain.GetCurrentBackBufferRTV();
