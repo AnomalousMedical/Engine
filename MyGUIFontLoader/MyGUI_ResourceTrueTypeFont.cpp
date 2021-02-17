@@ -189,13 +189,17 @@ namespace MyGUI
 		mOffsetHeight(0),
 		mSubstituteCodePoint(static_cast<Char>(FontCodeType::NotDefined)),
 		mDefaultHeight(0),
-		mSubstituteGlyphInfo(nullptr)
+		mSubstituteGlyphInfo(nullptr),
+		textureBuffer(nullptr)
 	{
 	}
 
 	ResourceTrueTypeFont::~ResourceTrueTypeFont()
 	{
-		
+		if (textureBuffer != nullptr)
+		{
+			delete[] textureBuffer;
+		}
 	}
 
 	GlyphInfo* ResourceTrueTypeFont::getGlyphInfo(Char _id)
@@ -571,29 +575,15 @@ namespace MyGUI
 		// Create the texture and render the glyphs onto it.
 		//-------------------------------------------------------------------//
 
-		//if (!mTexture)
-		//{
-		//	//mTexture = RenderManager::getInstance().createTexture(MyGUI::utility::toString((size_t)this, "_TrueTypeFont"));
-		//}
-		//else
-		//{
-		//	mTexture->destroy();
-		//}
+		textureBuffer = new uint8[texWidth * texHeight];
 
-		/*mTexture->setInvalidateListener(nullptr);
-		mTexture->createManual(texWidth, texHeight, TextureUsage::Static | TextureUsage::Write, Pixel<LAMode>::getFormat());
-		mTexture->setInvalidateListener(this);*/
-
-		//THIS IS THE LINE
-		uint8* texBuffer = new uint8[0];// static_cast<uint8*>(mTexture->lock(TextureUsage::Write)); //So need a big uint8* buffer texWidth x texHeight
-
-		if (texBuffer != nullptr)
+		if (textureBuffer != nullptr)
 		{
 			// Make the texture background transparent white.
-			for (uint8* dest = texBuffer, *endDest = dest + texWidth * texHeight * Pixel<LAMode>::getNumBytes(); dest != endDest; )
+			for (uint8* dest = textureBuffer, *endDest = dest + texWidth * texHeight * Pixel<LAMode>::getNumBytes(); dest != endDest; )
 				Pixel<LAMode, false, false>::set(dest, charMaskWhite, charMaskBlack);
 
-			renderGlyphs<LAMode, Antialias>(glyphHeightMap, ftLibrary, ftFace, ftLoadFlags, texBuffer, texWidth, texHeight);
+			renderGlyphs<LAMode, Antialias>(glyphHeightMap, ftLibrary, ftFace, ftLoadFlags, textureBuffer, texWidth, texHeight);
 
 			//mTexture->unlock();
 
