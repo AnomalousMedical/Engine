@@ -8,15 +8,26 @@ using System.Threading.Tasks;
 
 namespace SharpImGuiTest
 {
-	[StructLayout(LayoutKind.Sequential)]
-    struct GlyphInfo
+    [StructLayout(LayoutKind.Sequential)]
+    struct GlyphInfoEntryPassStruct
     {
-		public uint codePoint;
-		public float width;
-		public float height;
-		public float advance;
-		public float bearingX;
-		public float bearingY;
-		public Rect uvRect;
-	}
+        public uint codePoint;
+        public float width;
+        public float height;
+        public float advance;
+        public float bearingX;
+        public float bearingY;
+        public Rect uvRect;
+    }
+
+    public class GlyphInfo
+    {
+        public uint codePoint;
+        public float width;
+        public float height;
+        public float advance;
+        public float bearingX;
+        public float bearingY;
+        public Rect uvRect;
+    }
 }

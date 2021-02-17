@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Engine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -20,7 +21,7 @@ namespace SharpImGuiTest
         struct GlyphInfoPassStruct
         {
             public uint key;
-            public GlyphInfo value;
+            public GlyphInfoEntryPassStruct value;
         };
 
         [StructLayout(LayoutKind.Sequential)]
@@ -29,7 +30,7 @@ namespace SharpImGuiTest
             public UIntPtr charMapLength;
             public UIntPtr glyphInfoLength;
             public uint substituteCodePoint;
-            public GlyphInfo substituteGlyphInfo;
+            public GlyphInfoEntryPassStruct substituteGlyphInfo;
             public IntPtr textureBuffer;
             public UIntPtr textureBufferSize;
         };
@@ -39,9 +40,13 @@ namespace SharpImGuiTest
         private Dictionary<uint, uint> charMap = new Dictionary<uint, uint>();
         private Dictionary<uint, GlyphInfo> glyphInfo = new Dictionary<uint, GlyphInfo>();
         private uint substituteCodePoint;
-        private GlyphInfo substituteCodePointGlyphInfo;
+        private GlyphInfoEntryPassStruct substituteCodePointGlyphInfo;
         private IntPtr textureBuffer;
         private UIntPtr textureBufferSize;
+
+        public IntPtr TextureBuffer => textureBuffer;
+
+        public UIntPtr TextureBufferSize => textureBufferSize;
 
         public unsafe MyGUITrueTypeFont(byte[] fontBytes)
         {
@@ -66,9 +71,20 @@ namespace SharpImGuiTest
                 charMap.Add(i.key, i.value);
             }
 
+            //Convert these to ref types. That will be better for overall perf frame by frame.
             foreach(var i in glyphInfoPass)
             {
-                glyphInfo.Add(i.key, i.value);
+                var src = i.value;
+                glyphInfo.Add(i.key, new GlyphInfo()
+                {
+                    codePoint = src.codePoint,
+                    width = src.width,
+                    height = src.height,
+                    advance = src.advance,
+                    bearingX = src.bearingX,
+                    bearingY = src.bearingY,
+                    uvRect = src.uvRect,
+                });
             }
         }
 
