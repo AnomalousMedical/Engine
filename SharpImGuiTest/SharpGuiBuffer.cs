@@ -45,10 +45,11 @@ namespace SharpImGuiTest
             float top = y / (float)osWindow.WindowHeight * -2.0f + 1.0f;
             float bottom = (y + height) / (float)osWindow.WindowHeight * -2.0f + 1.0f;
 
-            verts[currentQuad].pos = new Vector3(left, top, 0);
-            verts[currentQuad + 1].pos = new Vector3(right, top, 0);
-            verts[currentQuad + 2].pos = new Vector3(right, bottom, 0);
-            verts[currentQuad + 3].pos = new Vector3(left, bottom, 0);
+            float z = 1.0f - (float)currentQuad / (float)MaxNumberOfQuads;
+            verts[currentQuad].pos = new Vector3(left, top, z);
+            verts[currentQuad + 1].pos = new Vector3(right, top, z);
+            verts[currentQuad + 2].pos = new Vector3(right, bottom, z);
+            verts[currentQuad + 3].pos = new Vector3(left, bottom, z);
 
             verts[currentQuad].color = color;
             verts[currentQuad + 1].color = color;

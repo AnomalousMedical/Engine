@@ -58,7 +58,7 @@ namespace SharpImGuiTest
             PSOCreateInfo.GraphicsPipeline.DSVFormat = m_pSwapChain.GetDesc_DepthBufferFormat;
             PSOCreateInfo.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY.PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
             PSOCreateInfo.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE.CULL_MODE_BACK;
-            PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.DepthEnable = false;
+            PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.DepthEnable = true;
 
             // Define vertex shader input layout
             var LayoutElems = new List<LayoutElement>
