@@ -190,105 +190,13 @@ namespace MyGUI
 		mSubstituteCodePoint(static_cast<Char>(FontCodeType::NotDefined)),
 		mDefaultHeight(0),
 		mSubstituteGlyphInfo(nullptr)
-		//mTexture(nullptr)
 	{
 	}
 
 	ResourceTrueTypeFont::~ResourceTrueTypeFont()
 	{
-		//if (mTexture != nullptr)
-		//{
-		//	//RenderManager::getInstance().destroyTexture(mTexture);
-		//	mTexture = nullptr;
-		//}
+		
 	}
-
-	//void ResourceTrueTypeFont::deserialization(xml::ElementPtr _node, Version _version)
-	//{
-	//	float scaleFactor = 1.0f;// Gui::getInstance().getScaleFactor();
-
-	//	Base::deserialization(_node, _version);
-
-	//	xml::ElementEnumerator node = _node->getElementEnumerator();
-	//	while (node.next())
-	//	{
-	//		if (node->getName() == "Property")
-	//		{
-	//			const std::string& key = node->findAttribute("key");
-	//			const std::string& value = node->findAttribute("value");
-	//			if (key == "Source")
-	//				setSource(value);
-	//			else if (key == "Size")
-	//				setSize(utility::parseFloat(value) * scaleFactor);
-	//			else if (key == "Resolution")
-	//				setResolution(utility::parseUInt(value));
-	//			else if (key == "Antialias")
-	//				setAntialias(utility::parseBool(value));
-	//			else if (key == "TabWidth")
-	//				setTabWidth(utility::parseFloat(value) * scaleFactor);
-	//			else if (key == "OffsetHeight")
-	//				setOffsetHeight(utility::parseInt(value) * scaleFactor);
-	//			else if (key == "SubstituteCode")
-	//				setSubstituteCode(utility::parseInt(value));
-	//			else if (key == "Distance")
-	//				setDistance(utility::parseInt(value));
-	//			else if (key == "Hinting")
-	//				setHinting(value);
-	//			else if (key == "SpaceWidth")
-	//			{
-	//				mSpaceWidth = utility::parseFloat(value) * scaleFactor;
-	//				MYGUI_LOG(Warning, _node->findAttribute("type") << ": Property '" << key << "' in font '" << _node->findAttribute("name") << "' is deprecated; remove it to use automatic calculation.");
-	//			}
-	//			else if (key == "CursorWidth")
-	//			{
-	//				MYGUI_LOG(Warning, _node->findAttribute("type") << ": Property '" << key << "' in font '" << _node->findAttribute("name") << "' is deprecated; value ignored.");
-	//			}
-	//		}
-	//		else if (node->getName() == "Codes")
-	//		{
-	//			// Range of inclusions.
-	//			xml::ElementEnumerator range = node->getElementEnumerator();
-	//			while (range.next("Code"))
-	//			{
-	//				std::string range_value;
-	//				if (range->findAttribute("range", range_value))
-	//				{
-	//					std::vector<std::string> parse_range = utility::split(range_value);
-	//					if (!parse_range.empty())
-	//					{
-	//						Char first = utility::parseUInt(parse_range[0]);
-	//						Char last = parse_range.size() > 1 ? utility::parseUInt(parse_range[1]) : first;
-	//						addCodePointRange(first, last);
-	//					}
-	//				}
-	//			}
-
-	//			// If no code points have been included, include the Unicode Basic Multilingual Plane by default before processing
-	//			//	any exclusions.
-	//			if (mCharMap.empty())
-	//				addCodePointRange(0, 0xFFFF);
-
-	//			// Range of exclusions.
-	//			range = node->getElementEnumerator();
-	//			while (range.next("Code"))
-	//			{
-	//				std::string range_value;
-	//				if (range->findAttribute("hide", range_value))
-	//				{
-	//					std::vector<std::string> parse_range = utility::split(range_value);
-	//					if (!parse_range.empty())
-	//					{
-	//						Char first = utility::parseUInt(parse_range[0]);
-	//						Char last = parse_range.size() > 1 ? utility::parseUInt(parse_range[1]) : first;
-	//						removeCodePointRange(first, last);
-	//					}
-	//				}
-	//			}
-	//		}
-	//	}
-
-	//	initialise();
-	//}
 
 	GlyphInfo* ResourceTrueTypeFont::getGlyphInfo(Char _id)
 	{
@@ -305,21 +213,10 @@ namespace MyGUI
 		return mSubstituteGlyphInfo;
 	}
 
-	//ITexture* ResourceTrueTypeFont::getTextureFont()
-	//{
-	//	return mTexture;
-	//}
-
 	int ResourceTrueTypeFont::getDefaultHeight()
 	{
 		return mDefaultHeight;
 	}
-
-	//void ResourceTrueTypeFont::textureInvalidate(ITexture* _texture)
-	//{
-	//	mGlyphMap.clear();
-	//	initialise();
-	//}
 
 	std::vector<std::pair<Char, Char> > ResourceTrueTypeFont::getCodePointRanges() const
 	{
