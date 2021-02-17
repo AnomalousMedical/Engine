@@ -5,13 +5,16 @@
  */
 #include "Stdafx.h"
 
-#include "MyGUI_Precompiled.h"
+#include "MyGUI_Platform.h"
 #include "MyGUI_ResourceTrueTypeFont.h"
-#include "MyGUI_DataManager.h"
-#include "MyGUI_DataStreamHolder.h"
-#include "MyGUI_RenderManager.h"
 #include "MyGUI_Bitwise.h"
-#include "MyGUI_Gui.h"
+
+#define MYGUI_EXCEPT(dest) \
+{ \
+\
+}
+
+#define MYGUI_LOG(level, text) {}
 
 #ifdef MYGUI_USE_FREETYPE
 
@@ -275,106 +278,106 @@ namespace MyGUI
 		mOffsetHeight(0),
 		mSubstituteCodePoint(static_cast<Char>(FontCodeType::NotDefined)),
 		mDefaultHeight(0),
-		mSubstituteGlyphInfo(nullptr),
-		mTexture(nullptr)
+		mSubstituteGlyphInfo(nullptr)
+		//mTexture(nullptr)
 	{
 	}
 
 	ResourceTrueTypeFont::~ResourceTrueTypeFont()
 	{
-		if (mTexture != nullptr)
-		{
-			RenderManager::getInstance().destroyTexture(mTexture);
-			mTexture = nullptr;
-		}
+		//if (mTexture != nullptr)
+		//{
+		//	//RenderManager::getInstance().destroyTexture(mTexture);
+		//	mTexture = nullptr;
+		//}
 	}
 
-	void ResourceTrueTypeFont::deserialization(xml::ElementPtr _node, Version _version)
-	{
-		float scaleFactor = Gui::getInstance().getScaleFactor();
+	//void ResourceTrueTypeFont::deserialization(xml::ElementPtr _node, Version _version)
+	//{
+	//	float scaleFactor = 1.0f;// Gui::getInstance().getScaleFactor();
 
-		Base::deserialization(_node, _version);
+	//	Base::deserialization(_node, _version);
 
-		xml::ElementEnumerator node = _node->getElementEnumerator();
-		while (node.next())
-		{
-			if (node->getName() == "Property")
-			{
-				const std::string& key = node->findAttribute("key");
-				const std::string& value = node->findAttribute("value");
-				if (key == "Source")
-					setSource(value);
-				else if (key == "Size")
-					setSize(utility::parseFloat(value) * scaleFactor);
-				else if (key == "Resolution")
-					setResolution(utility::parseUInt(value));
-				else if (key == "Antialias")
-					setAntialias(utility::parseBool(value));
-				else if (key == "TabWidth")
-					setTabWidth(utility::parseFloat(value) * scaleFactor);
-				else if (key == "OffsetHeight")
-					setOffsetHeight(utility::parseInt(value) * scaleFactor);
-				else if (key == "SubstituteCode")
-					setSubstituteCode(utility::parseInt(value));
-				else if (key == "Distance")
-					setDistance(utility::parseInt(value));
-				else if (key == "Hinting")
-					setHinting(value);
-				else if (key == "SpaceWidth")
-				{
-					mSpaceWidth = utility::parseFloat(value) * scaleFactor;
-					MYGUI_LOG(Warning, _node->findAttribute("type") << ": Property '" << key << "' in font '" << _node->findAttribute("name") << "' is deprecated; remove it to use automatic calculation.");
-				}
-				else if (key == "CursorWidth")
-				{
-					MYGUI_LOG(Warning, _node->findAttribute("type") << ": Property '" << key << "' in font '" << _node->findAttribute("name") << "' is deprecated; value ignored.");
-				}
-			}
-			else if (node->getName() == "Codes")
-			{
-				// Range of inclusions.
-				xml::ElementEnumerator range = node->getElementEnumerator();
-				while (range.next("Code"))
-				{
-					std::string range_value;
-					if (range->findAttribute("range", range_value))
-					{
-						std::vector<std::string> parse_range = utility::split(range_value);
-						if (!parse_range.empty())
-						{
-							Char first = utility::parseUInt(parse_range[0]);
-							Char last = parse_range.size() > 1 ? utility::parseUInt(parse_range[1]) : first;
-							addCodePointRange(first, last);
-						}
-					}
-				}
+	//	xml::ElementEnumerator node = _node->getElementEnumerator();
+	//	while (node.next())
+	//	{
+	//		if (node->getName() == "Property")
+	//		{
+	//			const std::string& key = node->findAttribute("key");
+	//			const std::string& value = node->findAttribute("value");
+	//			if (key == "Source")
+	//				setSource(value);
+	//			else if (key == "Size")
+	//				setSize(utility::parseFloat(value) * scaleFactor);
+	//			else if (key == "Resolution")
+	//				setResolution(utility::parseUInt(value));
+	//			else if (key == "Antialias")
+	//				setAntialias(utility::parseBool(value));
+	//			else if (key == "TabWidth")
+	//				setTabWidth(utility::parseFloat(value) * scaleFactor);
+	//			else if (key == "OffsetHeight")
+	//				setOffsetHeight(utility::parseInt(value) * scaleFactor);
+	//			else if (key == "SubstituteCode")
+	//				setSubstituteCode(utility::parseInt(value));
+	//			else if (key == "Distance")
+	//				setDistance(utility::parseInt(value));
+	//			else if (key == "Hinting")
+	//				setHinting(value);
+	//			else if (key == "SpaceWidth")
+	//			{
+	//				mSpaceWidth = utility::parseFloat(value) * scaleFactor;
+	//				MYGUI_LOG(Warning, _node->findAttribute("type") << ": Property '" << key << "' in font '" << _node->findAttribute("name") << "' is deprecated; remove it to use automatic calculation.");
+	//			}
+	//			else if (key == "CursorWidth")
+	//			{
+	//				MYGUI_LOG(Warning, _node->findAttribute("type") << ": Property '" << key << "' in font '" << _node->findAttribute("name") << "' is deprecated; value ignored.");
+	//			}
+	//		}
+	//		else if (node->getName() == "Codes")
+	//		{
+	//			// Range of inclusions.
+	//			xml::ElementEnumerator range = node->getElementEnumerator();
+	//			while (range.next("Code"))
+	//			{
+	//				std::string range_value;
+	//				if (range->findAttribute("range", range_value))
+	//				{
+	//					std::vector<std::string> parse_range = utility::split(range_value);
+	//					if (!parse_range.empty())
+	//					{
+	//						Char first = utility::parseUInt(parse_range[0]);
+	//						Char last = parse_range.size() > 1 ? utility::parseUInt(parse_range[1]) : first;
+	//						addCodePointRange(first, last);
+	//					}
+	//				}
+	//			}
 
-				// If no code points have been included, include the Unicode Basic Multilingual Plane by default before processing
-				//	any exclusions.
-				if (mCharMap.empty())
-					addCodePointRange(0, 0xFFFF);
+	//			// If no code points have been included, include the Unicode Basic Multilingual Plane by default before processing
+	//			//	any exclusions.
+	//			if (mCharMap.empty())
+	//				addCodePointRange(0, 0xFFFF);
 
-				// Range of exclusions.
-				range = node->getElementEnumerator();
-				while (range.next("Code"))
-				{
-					std::string range_value;
-					if (range->findAttribute("hide", range_value))
-					{
-						std::vector<std::string> parse_range = utility::split(range_value);
-						if (!parse_range.empty())
-						{
-							Char first = utility::parseUInt(parse_range[0]);
-							Char last = parse_range.size() > 1 ? utility::parseUInt(parse_range[1]) : first;
-							removeCodePointRange(first, last);
-						}
-					}
-				}
-			}
-		}
+	//			// Range of exclusions.
+	//			range = node->getElementEnumerator();
+	//			while (range.next("Code"))
+	//			{
+	//				std::string range_value;
+	//				if (range->findAttribute("hide", range_value))
+	//				{
+	//					std::vector<std::string> parse_range = utility::split(range_value);
+	//					if (!parse_range.empty())
+	//					{
+	//						Char first = utility::parseUInt(parse_range[0]);
+	//						Char last = parse_range.size() > 1 ? utility::parseUInt(parse_range[1]) : first;
+	//						removeCodePointRange(first, last);
+	//					}
+	//				}
+	//			}
+	//		}
+	//	}
 
-		initialise();
-	}
+	//	initialise();
+	//}
 
 	GlyphInfo* ResourceTrueTypeFont::getGlyphInfo(Char _id)
 	{
@@ -391,21 +394,21 @@ namespace MyGUI
 		return mSubstituteGlyphInfo;
 	}
 
-	ITexture* ResourceTrueTypeFont::getTextureFont()
-	{
-		return mTexture;
-	}
+	//ITexture* ResourceTrueTypeFont::getTextureFont()
+	//{
+	//	return mTexture;
+	//}
 
 	int ResourceTrueTypeFont::getDefaultHeight()
 	{
 		return mDefaultHeight;
 	}
 
-	void ResourceTrueTypeFont::textureInvalidate(ITexture* _texture)
-	{
-		mGlyphMap.clear();
-		initialise();
-	}
+	//void ResourceTrueTypeFont::textureInvalidate(ITexture* _texture)
+	//{
+	//	mGlyphMap.clear();
+	//	initialise();
+	//}
 
 	std::vector<std::pair<Char, Char> > ResourceTrueTypeFont::getCodePointRanges() const
 	{
@@ -762,20 +765,21 @@ namespace MyGUI
 		// Create the texture and render the glyphs onto it.
 		//-------------------------------------------------------------------//
 
-		if (!mTexture)
-		{
-			mTexture = RenderManager::getInstance().createTexture(MyGUI::utility::toString((size_t)this, "_TrueTypeFont"));
-		}
-		else
-		{
-			mTexture->destroy();
-		}
+		//if (!mTexture)
+		//{
+		//	//mTexture = RenderManager::getInstance().createTexture(MyGUI::utility::toString((size_t)this, "_TrueTypeFont"));
+		//}
+		//else
+		//{
+		//	mTexture->destroy();
+		//}
 
-		mTexture->setInvalidateListener(nullptr);
+		/*mTexture->setInvalidateListener(nullptr);
 		mTexture->createManual(texWidth, texHeight, TextureUsage::Static | TextureUsage::Write, Pixel<LAMode>::getFormat());
-		mTexture->setInvalidateListener(this);
+		mTexture->setInvalidateListener(this);*/
 
-		uint8* texBuffer = static_cast<uint8*>(mTexture->lock(TextureUsage::Write));
+		//THIS IS THE LINE
+		uint8* texBuffer = new uint8[0];// static_cast<uint8*>(mTexture->lock(TextureUsage::Write)); //So need a big uint8* buffer texWidth x texHeight
 
 		if (texBuffer != nullptr)
 		{
@@ -785,7 +789,7 @@ namespace MyGUI
 
 			renderGlyphs<LAMode, Antialias>(glyphHeightMap, ftLibrary, ftFace, ftLoadFlags, texBuffer, texWidth, texHeight);
 
-			mTexture->unlock();
+			//mTexture->unlock();
 
 			MYGUI_LOG(Info, "ResourceTrueTypeFont: Font '" << getResourceName() << "' using texture size " << texWidth << " x " << texHeight << ".");
 			MYGUI_LOG(Info, "ResourceTrueTypeFont: Font '" << getResourceName() << "' using real height " << mDefaultHeight << " pixels.");
@@ -801,22 +805,9 @@ namespace MyGUI
 		delete[] fontBuffer;
 	}
 
-	FT_Face ResourceTrueTypeFont::loadFace(const FT_Library& _ftLibrary, uint8*& _fontBuffer)
+	FT_Face ResourceTrueTypeFont::loadFace(const FT_Library& _ftLibrary, uint8* _fontBuffer, size_t fontBufferSize)
 	{
 		FT_Face result = nullptr;
-
-		// Load the font file.
-		IDataStream* datastream = DataManager::getInstance().getData(mSource);
-
-		if (datastream == nullptr)
-			return result;
-
-		size_t fontBufferSize = datastream->size();
-		_fontBuffer = new uint8[fontBufferSize];
-		datastream->read(_fontBuffer, fontBufferSize);
-
-		DataManager::getInstance().freeData(datastream);
-		datastream = nullptr;
 
 		// Determine how many faces the font contains.
 		if (FT_New_Memory_Face(_ftLibrary, _fontBuffer, (FT_Long)fontBufferSize, -1, &result) != 0)
