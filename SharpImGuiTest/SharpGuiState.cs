@@ -45,12 +45,6 @@ namespace SharpImGuiTest
                 ActiveItem = Guid.Empty;
             }
 
-            //If nothing is focused at the end tab must have been hit on the last widget, loop back around to the first one in that case.
-            if (KbdItem == Guid.Empty)
-            {
-                KbdItem = firstWidget;
-            }
-
             KeyEntered = KeyboardButtonCode.KC_UNASSIGNED;
         }
 
@@ -119,22 +113,6 @@ namespace SharpImGuiTest
 
         public bool IsCtrl { get; set; }
 
-        private Guid firstWidget = Guid.Empty;
-        private Guid lastWidget = Guid.Empty;
-        public Guid LastWidget
-        {
-            get
-            {
-                return lastWidget;
-            }
-            private set
-            {
-                lastWidget = value;
-                if (firstWidget == Guid.Empty)
-                {
-
-                }
-            }
-        }
+        public Guid LastWidget { get; set; }
     }
 }
