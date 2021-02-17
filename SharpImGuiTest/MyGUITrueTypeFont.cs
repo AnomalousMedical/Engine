@@ -12,15 +12,15 @@ namespace SharpImGuiTest
         [StructLayout(LayoutKind.Sequential)]
         struct CharMapPassStruct
         {
-            uint key;
-            uint value;
+            public uint key;
+            public uint value;
         };
 
         [StructLayout(LayoutKind.Sequential)]
         struct GlyphInfoPassStruct
         {
-            uint key;
-            GlyphInfo value;
+            public uint key;
+            public GlyphInfo value;
         };
 
         [StructLayout(LayoutKind.Sequential)]
@@ -30,22 +30,45 @@ namespace SharpImGuiTest
             public UIntPtr glyphInfoLength;
             public uint substituteCodePoint;
             public GlyphInfo substituteGlyphInfo;
+            public IntPtr textureBuffer;
+            public UIntPtr textureBufferSize;
         };
 
         public const String LibraryName = "MyGUIFontLoader.dll";
         private IntPtr objPtr;
+        private Dictionary<uint, uint> charMap = new Dictionary<uint, uint>();
+        private Dictionary<uint, GlyphInfo> glyphInfo = new Dictionary<uint, GlyphInfo>();
+        private uint substituteCodePoint;
+        private GlyphInfo substituteCodePointGlyphInfo;
+        private IntPtr textureBuffer;
+        private UIntPtr textureBufferSize;
 
         public unsafe MyGUITrueTypeFont(byte[] fontBytes)
         {
             objPtr = MyGUIFontLoader_LoadFont(fontBytes, new UIntPtr((uint)fontBytes.Length));
             var fontInfo = MyGUIFontLoader_GetFontInfo(objPtr);
+            this.substituteCodePoint = fontInfo.substituteCodePoint;
+            this.substituteCodePointGlyphInfo = fontInfo.substituteGlyphInfo;
+            this.textureBuffer = fontInfo.textureBuffer;
+            this.textureBufferSize = fontInfo.textureBufferSize;
+
             var charMapPass = new CharMapPassStruct[fontInfo.charMapLength.ToUInt64()];
-            var glyphInfoPass = new GlyphInfoPassStruct[fontInfo.charMapLength.ToUInt64()];
+            var glyphInfoPass = new GlyphInfoPassStruct[fontInfo.glyphInfoLength.ToUInt64()];
 
             fixed (CharMapPassStruct* pCharMap = charMapPass)
             fixed (GlyphInfoPassStruct* pGlyphInfo = glyphInfoPass)
             {
                 MyGUIFontLoader_GetArrayInfo(objPtr, new IntPtr(pCharMap), new IntPtr(pGlyphInfo));
+            }
+
+            foreach(var i in charMapPass)
+            {
+                charMap.Add(i.key, i.value);
+            }
+
+            foreach(var i in glyphInfoPass)
+            {
+                glyphInfo.Add(i.key, i.value);
             }
         }
 

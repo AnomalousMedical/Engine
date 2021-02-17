@@ -27,6 +27,8 @@ struct FontInfoPassStruct {
 	size_t glyphInfoLength;
 	MyGUI::Char substituteCodePoint;
 	MyGUI::GlyphInfo substituteGlyphInfo;
+	MyGUI::uint8* textureBuffer;
+	size_t textureBufferSize;
 };
 
 extern "C" _AnomalousExport FontInfoPassStruct MyGUIFontLoader_GetFontInfo(MyGUI::ResourceTrueTypeFont * font)
@@ -36,6 +38,8 @@ extern "C" _AnomalousExport FontInfoPassStruct MyGUIFontLoader_GetFontInfo(MyGUI
 	ret.glyphInfoLength = font->mGlyphMap.size();
 	ret.substituteCodePoint = font->getSubstituteCodePoint();
 	ret.substituteGlyphInfo = *font->getSubstituteGlyphInfo();
+	ret.textureBuffer = font->textureBuffer;
+	ret.textureBufferSize = font->textureBufferSize;
 	return ret;
 }
 

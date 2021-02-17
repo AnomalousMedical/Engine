@@ -11,12 +11,12 @@ namespace SharpImGuiTest
 	[StructLayout(LayoutKind.Sequential)]
     struct GlyphInfo
     {
-		uint codePoint;
-		float width;
-		float height;
-		float advance;
-		float bearingX;
-		float bearingY;
-		Rect uvRect;
+		public uint codePoint;
+		public float width;
+		public float height;
+		public float advance;
+		public float bearingX;
+		public float bearingY;
+		public Rect uvRect;
 	}
 }

@@ -113,10 +113,6 @@ namespace MyGUI
 		int mDefaultHeight; // The nominal height of the font in pixels.
 		GlyphInfo* mSubstituteGlyphInfo; // The glyph info to use as a substitute for code points that don't exist in the font.
 
-		//The buffer with the created character map
-		uint8* textureBuffer;
-		size_t textureBufferSize;
-
 		// The following constants used to be mutable, but they no longer need to be. Do not modify their values!
 		static const int mDefaultGlyphSpacing; // How far apart the glyphs are placed from each other in the font texture, in pixels.
 		static const float mDefaultTabWidth; // Default "Tab" width, used only when tab width is no specified.
@@ -172,6 +168,10 @@ namespace MyGUI
 public: //Make these available so they can be copied quickly.
 		CharMap mCharMap; // A map of code points to glyph indices.
 		GlyphMap mGlyphMap; // A map of glyph indices to glyph info objects.
+
+		//The buffer with the created character map
+		uint8* textureBuffer;
+		size_t textureBufferSize;
 
 #endif // MYGUI_USE_FREETYPE
 
