@@ -69,7 +69,6 @@ namespace MyGUI
 		// creating a resource based on current values
 		void initialise(uint8* _fontBuffer, size_t fontBufferSize);
 
-		void setSource(const std::string& _value);
 		void setSize(float _value);
 		void setResolution(uint _value);
 		void setHinting(const std::string& _value);
@@ -98,7 +97,6 @@ namespace MyGUI
 		void clearCodePoints();
 
 		// The following variables are set directly from values specified by the user.
-		std::string mSource; // Source (filename) of the font.
 		float mSize; // Size of the font, in points (there are 72 points per inch).
 		uint mResolution; // Resolution of the font, in pixels per inch.
 		Hinting mHinting; // What type of hinting to use when rendering the font.

@@ -975,11 +975,6 @@ namespace MyGUI
 			_texX += mGlyphSpacing + width;
 	}
 
-	void ResourceTrueTypeFont::setSource(const std::string& _value)
-	{
-		mSource = _value;
-	}
-
 	void ResourceTrueTypeFont::setSize(float _value)
 	{
 		mSize = _value;
