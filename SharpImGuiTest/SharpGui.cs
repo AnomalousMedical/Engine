@@ -128,13 +128,15 @@ namespace SharpImGuiTest
 
         public bool Slider(Guid id, int x, int y, int width, int height, int max, ref int value)
         {
+            var doubleMargin = SliderBoxMargin * 2;
+            var withinMarginHeight = height - doubleMargin;
             var buttonX = x + SliderBoxMargin;
             var buttonY = y + SliderBoxMargin;
-            int buttonWidth = width - SliderBoxMargin * 2;
-            int buttonHeight = 16;
+            int buttonWidth = width - doubleMargin;
+            int buttonHeight = withinMarginHeight / (max + 1);
 
             // Calculate mouse cursor's relative y offset
-            int ypos = ((height - buttonHeight - SliderBoxMargin * 2) * value) / max;
+            int ypos = value * buttonHeight;
             buttonY += ypos;
 
             // Check for hotness
@@ -146,19 +148,6 @@ namespace SharpImGuiTest
                     ActiveItem = id;
                 }
             }
-
-            //if(ActiveItem == id)
-            //{
-            //    buttonY = MouseY;
-            //    if (buttonY < y + SliderBoxMargin)
-            //    {
-            //        buttonY = y + buttonHeight;
-            //    }
-            //    else if (buttonY > y + height - SliderBoxMargin - buttonHeight)
-            //    {
-            //        buttonY = y + height - SliderBoxMargin - buttonHeight;
-            //    }
-            //}
 
             // Render the scrollbar
             buffer.DrawQuad(x, y, width, height, SliderBoxBackgroundColor);
@@ -181,12 +170,15 @@ namespace SharpImGuiTest
             // Update widget value
             if (ActiveItem == id)
             {
-                var scrollHeight = height - SliderBoxMargin * 2;
-                int mousepos = MouseY - (y + SliderBoxMargin - buttonHeight / 2);
+                int mousepos = MouseY - (y + SliderBoxMargin);
                 if (mousepos < 0) { mousepos = 0; }
-                if (mousepos > scrollHeight) { mousepos = scrollHeight; }
-                Console.WriteLine(mousepos);
-                int v = (mousepos * max) / scrollHeight;
+                if (mousepos > withinMarginHeight) { mousepos = withinMarginHeight; }
+
+                int v = mousepos / buttonHeight;
+                if(v > max)
+                {
+                    v = max;
+                }
                 if (v != value)
                 {
                     value = v;
