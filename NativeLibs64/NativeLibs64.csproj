@@ -12,7 +12,7 @@
 
     <Content Include="..\..\Dependencies\OgreDeps\Win64Install\bin\Release\FreeImage.dll">
       <Link>x64\FreeImage.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>    
 
     <Content Include="..\DiligentEngineWrapper\bin\Debug\x64\DiligentEngineWrapper.dll">
@@ -64,7 +64,7 @@
   <ItemGroup Condition="'$(Configuration)'=='Release' ">
     <Content Include="..\..\Dependencies\OgreDeps\Win64Install\bin\Release\FreeImage.dll">
       <Link>x64\FreeImage.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
 
     <Content Include="..\DiligentEngineWrapper\bin\Release\x64\DiligentEngineWrapper.dll">

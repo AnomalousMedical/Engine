@@ -263,6 +263,10 @@ namespace MyGUI
 		return mSubstituteCodePoint;
 	}
 
+	GlyphInfo* ResourceTrueTypeFont::getSubstituteGlyphInfo() const {
+		return mSubstituteGlyphInfo;
+	}
+
 	void ResourceTrueTypeFont::addCodePoint(Char _codePoint)
 	{
 		mCharMap.insert(CharMap::value_type(_codePoint, 0));

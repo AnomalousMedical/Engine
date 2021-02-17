@@ -66,6 +66,8 @@ namespace MyGUI
 		// code point is FontCodeType::NotDefined, but it can be customized in the font definition file.
 		Char getSubstituteCodePoint() const;
 
+		GlyphInfo* getSubstituteGlyphInfo() const;
+
 		// creating a resource based on current values
 		void initialise(uint8* _fontBuffer, size_t fontBufferSize);
 
@@ -106,13 +108,14 @@ namespace MyGUI
 		float mTabWidth; // The width of the "Tab" special character, in pixels.
 		int mOffsetHeight; // How far up to nudge text rendered in this font, in pixels. May be negative to nudge text down.
 		Char mSubstituteCodePoint; // The code point to use as a substitute for code points that don't exist in the font.
-		uint8* textureBuffer;
-		size_t textureBufferSize;
 
 		// The following variables are calculated automatically.
 		int mDefaultHeight; // The nominal height of the font in pixels.
 		GlyphInfo* mSubstituteGlyphInfo; // The glyph info to use as a substitute for code points that don't exist in the font.
-		//MyGUI::ITexture* mTexture; // The texture that contains all of the rendered glyphs in the font.
+
+		//The buffer with the created character map
+		uint8* textureBuffer;
+		size_t textureBufferSize;
 
 		// The following constants used to be mutable, but they no longer need to be. Do not modify their values!
 		static const int mDefaultGlyphSpacing; // How far apart the glyphs are placed from each other in the font texture, in pixels.
@@ -120,13 +123,14 @@ namespace MyGUI
 		static const float mSelectedWidth; // The width of the "Selected" and "SelectedBack" special characters, in pixels.
 		static const float mCursorWidth; // The width of the "Cursor" special character, in pixels.
 
-	private:
+	public:
 		// A map of code points to glyph indices.
 		typedef std::map<Char, FT_UInt> CharMap;
 
 		// A map of glyph indices to glyph info objects.
 		typedef std::map<FT_UInt, GlyphInfo> GlyphMap;
 
+	private:
 		// A map of glyph heights to the set of paired glyph indices and glyph info objects that are of that height.
 		typedef std::map<FT_Pos, std::map<FT_UInt, GlyphInfo*> > GlyphHeightMap;
 
@@ -165,6 +169,7 @@ namespace MyGUI
 		template<bool LAMode, bool UseBuffer, bool Antialias>
 		void renderGlyph(GlyphInfo& _info, uint8 _luminance0, uint8 _luminance1, uint8 _alpha, int _lineHeight, uint8* _texBuffer, int _texWidth, int _texHeight, int& _texX, int& _texY, uint8* _glyphBuffer = nullptr);
 
+public: //Make these available so they can be copied quickly.
 		CharMap mCharMap; // A map of code points to glyph indices.
 		GlyphMap mGlyphMap; // A map of glyph indices to glyph info objects.
 
