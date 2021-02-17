@@ -45,7 +45,7 @@ namespace SharpImGuiTest
             float top = y / (float)osWindow.WindowHeight * -2.0f + 1.0f;
             float bottom = (y + height) / (float)osWindow.WindowHeight * -2.0f + 1.0f;
 
-            float z = 1.0f - (float)currentQuad / (float)MaxNumberOfQuads;
+            float z = 1.0f - (float)currentQuad / (float)MaxNumberOfQuads - 1.0f / MaxNumberOfQuads;
             verts[currentQuad].pos = new Vector3(left, top, z);
             verts[currentQuad + 1].pos = new Vector3(right, top, z);
             verts[currentQuad + 2].pos = new Vector3(right, bottom, z);
