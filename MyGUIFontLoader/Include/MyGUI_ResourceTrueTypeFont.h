@@ -67,7 +67,7 @@ namespace MyGUI
 		Char getSubstituteCodePoint() const;
 
 		// creating a resource based on current values
-		void initialise();
+		void initialise(uint8* _fontBuffer, size_t fontBufferSize);
 
 		void setSource(const std::string& _value);
 		void setSize(float _value);
@@ -131,7 +131,7 @@ namespace MyGUI
 		typedef std::map<FT_Pos, std::map<FT_UInt, GlyphInfo*> > GlyphHeightMap;
 
 		template<bool LAMode, bool Antialias>
-		void initialiseFreeType();
+		void initialiseFreeType(uint8* _fontBuffer, size_t fontBufferSize);
 
 		// Loads the font face as specified by mSource, mSize, and mResolution. Automatically adjusts code-point ranges according
 		// to the capabilities of the font face.

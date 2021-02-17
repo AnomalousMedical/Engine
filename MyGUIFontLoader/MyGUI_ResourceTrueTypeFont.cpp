@@ -482,7 +482,7 @@ namespace MyGUI
 		mCharMap.clear();
 	}
 
-	void ResourceTrueTypeFont::initialise()
+	void ResourceTrueTypeFont::initialise(uint8* _fontBuffer, size_t fontBufferSize)
 	{
 		if (mGlyphSpacing == -1)
 			mGlyphSpacing = mDefaultGlyphSpacing;
@@ -501,22 +501,22 @@ namespace MyGUI
 		switch (init)
 		{
 		case 0:
-			ResourceTrueTypeFont::initialiseFreeType<false, false>();
+			ResourceTrueTypeFont::initialiseFreeType<false, false>(_fontBuffer, fontBufferSize);
 			break;
 		case 1:
-			ResourceTrueTypeFont::initialiseFreeType<false, true>();
+			ResourceTrueTypeFont::initialiseFreeType<false, true>(_fontBuffer, fontBufferSize);
 			break;
 		case 2:
-			ResourceTrueTypeFont::initialiseFreeType<true, false>();
+			ResourceTrueTypeFont::initialiseFreeType<true, false>(_fontBuffer, fontBufferSize);
 			break;
 		case 3:
-			ResourceTrueTypeFont::initialiseFreeType<true, true>();
+			ResourceTrueTypeFont::initialiseFreeType<true, true>(_fontBuffer, fontBufferSize);
 			break;
 		}
 	}
 
 	template<bool LAMode, bool Antialias>
-	void ResourceTrueTypeFont::initialiseFreeType()
+	void ResourceTrueTypeFont::initialiseFreeType(uint8* fontBuffer, size_t fontBufferSize)
 	{
 		//-------------------------------------------------------------------//
 		// Initialise FreeType and load the font.
@@ -527,9 +527,7 @@ namespace MyGUI
 		if (FT_Init_FreeType(&ftLibrary) != 0)
 			MYGUI_EXCEPT("ResourceTrueTypeFont: Could not init the FreeType library!");
 
-		uint8* fontBuffer = nullptr;
-
-		FT_Face ftFace = loadFace(ftLibrary, fontBuffer);
+		FT_Face ftFace = loadFace(ftLibrary, fontBuffer, fontBufferSize);
 
 		if (ftFace == nullptr)
 		{
@@ -801,8 +799,6 @@ namespace MyGUI
 
 		FT_Done_Face(ftFace);
 		FT_Done_FreeType(ftLibrary);
-
-		delete[] fontBuffer;
 	}
 
 	FT_Face ResourceTrueTypeFont::loadFace(const FT_Library& _ftLibrary, uint8* _fontBuffer, size_t fontBufferSize)
