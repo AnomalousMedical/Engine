@@ -14,7 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddSharpGui(this IServiceCollection services)
         {
-            services.TryAddSingleton<SharpGuiState>();
+            services.TryAddSingleton<SharpGui>();
             services.TryAddSingleton<SharpGuiBuffer>();
             services.TryAddSingleton<SharpGuiRenderer>();
 

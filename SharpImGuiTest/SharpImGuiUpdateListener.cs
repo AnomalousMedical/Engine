@@ -15,17 +15,17 @@ namespace SharpImGuiTest
     {
         private readonly GraphicsEngine graphicsEngine;
         private readonly NativeOSWindow window;
-        private readonly SharpGuiBuffer sharpGuiBuffer;
-        private readonly SharpGuiRenderer guiRenderer;
+        private readonly SharpGui sharpGui;
+        private readonly EventManager eventManager;
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext m_pImmediateContext;
 
-        public SharpImGuiUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, SharpGuiBuffer sharpGuiBuffer, SharpGuiRenderer guiRenderer)
+        public SharpImGuiUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, SharpGui sharpGui, EventManager eventManager)
         {
             this.graphicsEngine = graphicsEngine;
             this.window = window;
-            this.sharpGuiBuffer = sharpGuiBuffer;
-            this.guiRenderer = guiRenderer;
+            this.sharpGui = sharpGui;
+            this.eventManager = eventManager;
             this.swapChain = graphicsEngine.SwapChain;
             this.m_pImmediateContext = graphicsEngine.ImmediateContext;
 
@@ -50,17 +50,21 @@ namespace SharpImGuiTest
 
         }
 
+        Guid button1Guid = Guid.NewGuid();
+        Guid button2Guid = Guid.NewGuid();
+        Guid button3Guid = Guid.NewGuid();
+
         public unsafe void sendUpdate(Clock clock)
         {
-            //Put things on the gui
-            sharpGuiBuffer.Begin();
-            sharpGuiBuffer.DrawQuad(50, 50, 100, 100, Color.Blue);
-            sharpGuiBuffer.DrawQuad(250, 250, 100, 100, Color.Green);
-            sharpGuiBuffer.DrawQuad(550, 550, 100, 100, Color.Red);
+            var mouse = eventManager.Mouse;
+            sharpGui.SetMouseState(mouse.AbsolutePosition.x, mouse.AbsolutePosition.y, mouse.buttonDown(MouseButtonCode.MB_BUTTON0));
 
-            //sharpGuiBuffer.DrawQuad(0, 0, window.WindowWidth / 3, window.WindowHeight / 3, Color.Blue);
-            //sharpGuiBuffer.DrawQuad(window.WindowWidth / 3, window.WindowHeight / 3, window.WindowWidth / 3, window.WindowHeight / 3, Color.Green);
-            //sharpGuiBuffer.DrawQuad(window.WindowWidth - window.WindowWidth / 3, window.WindowHeight - window.WindowHeight / 3, window.WindowWidth / 3, window.WindowHeight / 3, Color.Red);
+            //Put things on the gui
+            sharpGui.Begin();
+            sharpGui.DrawButton(button1Guid, 50, 50, 100, 100);
+            sharpGui.DrawButton(button2Guid, 250, 250, 100, 100);
+            sharpGui.DrawButton(button3Guid, 550, 550, 100, 100);
+            sharpGui.End();
 
             var pRTV = swapChain.GetCurrentBackBufferRTV();
             var pDSV = swapChain.GetDepthBufferDSV();
@@ -75,7 +79,7 @@ namespace SharpImGuiTest
             m_pImmediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
             //Draw the gui
-            guiRenderer.Render(sharpGuiBuffer, m_pImmediateContext);
+            sharpGui.Render(m_pImmediateContext);
 
             this.swapChain.Present(1);
         }
