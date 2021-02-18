@@ -65,8 +65,19 @@ namespace DiligentEngineGenerator
                     }
                     else
                     {
-                        //Not Supported
-                        //This would be a fixed size array of things that need to pass
+                        var nativeArrayName = $"{setName}.{item.Name}";
+
+                        writer.WriteLine(
+@$"{tabs}for (Uint32 i = 0; i < {item.ArrayLenInt}; ++i)
+{tabs}{{");
+
+                        foreach (var nestedProp in st.Properties)
+                        {
+                            WriteNestedProperty(writer, context, nestedProp, item, nativeArrayName);
+                        }
+
+                        writer.WriteLine(
+@$"{tabs}}}");
                     }
                 }
                 else

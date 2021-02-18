@@ -47,8 +47,7 @@ namespace DiligentEngineGenerator
                     }
                     else
                     {
-                        //Not Supported
-                        //This would be a fixed size array of things that need to pass
+                        writer.WriteLine($"{tabs}, {item.LookupType}PassStruct* {argName}_{item.Name}");
                     }
                 }
                 else

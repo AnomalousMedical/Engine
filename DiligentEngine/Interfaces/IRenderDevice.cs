@@ -193,6 +193,7 @@ namespace DiligentEngine
                 this.objPtr
                 , PSOCreateInfo.GraphicsPipeline.BlendDesc.AlphaToCoverageEnable
                 , PSOCreateInfo.GraphicsPipeline.BlendDesc.IndependentBlendEnable
+                , RenderTargetBlendDescPassStruct.ToStruct(PSOCreateInfo.GraphicsPipeline.BlendDesc?.RenderTargets)
                 , PSOCreateInfo.GraphicsPipeline.SampleMask
                 , PSOCreateInfo.GraphicsPipeline.RasterizerDesc.FillMode
                 , PSOCreateInfo.GraphicsPipeline.RasterizerDesc.CullMode
@@ -334,6 +335,7 @@ namespace DiligentEngine
             IntPtr objPtr
             , [MarshalAs(UnmanagedType.I1)]Bool PSOCreateInfo_GraphicsPipeline_BlendDesc_AlphaToCoverageEnable
             , [MarshalAs(UnmanagedType.I1)]Bool PSOCreateInfo_GraphicsPipeline_BlendDesc_IndependentBlendEnable
+            , RenderTargetBlendDescPassStruct[] PSOCreateInfo_GraphicsPipeline_BlendDesc_RenderTargets
             , Uint32 PSOCreateInfo_GraphicsPipeline_SampleMask
             , FILL_MODE PSOCreateInfo_GraphicsPipeline_RasterizerDesc_FillMode
             , CULL_MODE PSOCreateInfo_GraphicsPipeline_RasterizerDesc_CullMode

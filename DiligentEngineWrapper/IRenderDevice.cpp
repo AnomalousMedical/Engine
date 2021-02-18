@@ -5,6 +5,7 @@
 #include "ShaderResourceVariableDesc.PassStruct.h"
 #include "ImmutableSamplerDesc.PassStruct.h"
 #include "TextureSubResData.PassStruct.h"
+#include "RenderTargetBlendDesc.PassStruct.h"
 using namespace Diligent;
 extern "C" _AnomalousExport IBuffer* IRenderDevice_CreateBuffer(
 	IRenderDevice* objPtr
@@ -184,6 +185,7 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipeline
 	IRenderDevice* objPtr
 	, Bool PSOCreateInfo_GraphicsPipeline_BlendDesc_AlphaToCoverageEnable
 	, Bool PSOCreateInfo_GraphicsPipeline_BlendDesc_IndependentBlendEnable
+	, RenderTargetBlendDescPassStruct* PSOCreateInfo_GraphicsPipeline_BlendDesc_RenderTargets
 	, Uint32 PSOCreateInfo_GraphicsPipeline_SampleMask
 	, FILL_MODE PSOCreateInfo_GraphicsPipeline_RasterizerDesc_FillMode
 	, CULL_MODE PSOCreateInfo_GraphicsPipeline_RasterizerDesc_CullMode
@@ -248,6 +250,19 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipeline
 	GraphicsPipelineStateCreateInfo PSOCreateInfo;
 	PSOCreateInfo.GraphicsPipeline.BlendDesc.AlphaToCoverageEnable = PSOCreateInfo_GraphicsPipeline_BlendDesc_AlphaToCoverageEnable;
 	PSOCreateInfo.GraphicsPipeline.BlendDesc.IndependentBlendEnable = PSOCreateInfo_GraphicsPipeline_BlendDesc_IndependentBlendEnable;
+	for (Uint32 i = 0; i < 8; ++i)
+	{
+	    PSOCreateInfo.GraphicsPipeline.BlendDesc.RenderTargets[i].BlendEnable = PSOCreateInfo_GraphicsPipeline_BlendDesc_RenderTargets[i].BlendEnable;
+	    PSOCreateInfo.GraphicsPipeline.BlendDesc.RenderTargets[i].LogicOperationEnable = PSOCreateInfo_GraphicsPipeline_BlendDesc_RenderTargets[i].LogicOperationEnable;
+	    PSOCreateInfo.GraphicsPipeline.BlendDesc.RenderTargets[i].SrcBlend = PSOCreateInfo_GraphicsPipeline_BlendDesc_RenderTargets[i].SrcBlend;
+	    PSOCreateInfo.GraphicsPipeline.BlendDesc.RenderTargets[i].DestBlend = PSOCreateInfo_GraphicsPipeline_BlendDesc_RenderTargets[i].DestBlend;
+	    PSOCreateInfo.GraphicsPipeline.BlendDesc.RenderTargets[i].BlendOp = PSOCreateInfo_GraphicsPipeline_BlendDesc_RenderTargets[i].BlendOp;
+	    PSOCreateInfo.GraphicsPipeline.BlendDesc.RenderTargets[i].SrcBlendAlpha = PSOCreateInfo_GraphicsPipeline_BlendDesc_RenderTargets[i].SrcBlendAlpha;
+	    PSOCreateInfo.GraphicsPipeline.BlendDesc.RenderTargets[i].DestBlendAlpha = PSOCreateInfo_GraphicsPipeline_BlendDesc_RenderTargets[i].DestBlendAlpha;
+	    PSOCreateInfo.GraphicsPipeline.BlendDesc.RenderTargets[i].BlendOpAlpha = PSOCreateInfo_GraphicsPipeline_BlendDesc_RenderTargets[i].BlendOpAlpha;
+	    PSOCreateInfo.GraphicsPipeline.BlendDesc.RenderTargets[i].LogicOp = PSOCreateInfo_GraphicsPipeline_BlendDesc_RenderTargets[i].LogicOp;
+	    PSOCreateInfo.GraphicsPipeline.BlendDesc.RenderTargets[i].RenderTargetWriteMask = PSOCreateInfo_GraphicsPipeline_BlendDesc_RenderTargets[i].RenderTargetWriteMask;
+	}
 	PSOCreateInfo.GraphicsPipeline.SampleMask = PSOCreateInfo_GraphicsPipeline_SampleMask;
 	PSOCreateInfo.GraphicsPipeline.RasterizerDesc.FillMode = PSOCreateInfo_GraphicsPipeline_RasterizerDesc_FillMode;
 	PSOCreateInfo.GraphicsPipeline.RasterizerDesc.CullMode = PSOCreateInfo_GraphicsPipeline_RasterizerDesc_CullMode;

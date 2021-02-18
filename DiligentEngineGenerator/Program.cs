@@ -462,6 +462,8 @@ namespace DiligentEngineGenerator
                 RenderTargetWriteMask.DefaultValue = "(Uint8)COLOR_MASK.COLOR_MASK_ALL";
 
                 codeWriter.AddWriter(new StructCsWriter(RenderTargetBlendDesc), Path.Combine(baseStructDir, $"{nameof(RenderTargetBlendDesc)}.cs"));
+                codeWriter.AddWriter(new StructCsPassStructWriter(RenderTargetBlendDesc), Path.Combine(baseStructDir, $"{nameof(RenderTargetBlendDesc)}.PassStruct.cs"));
+                codeWriter.AddWriter(new StructCppPassStructWriter(RenderTargetBlendDesc), Path.Combine(baseCPlusPlusOutDir, $"{nameof(RenderTargetBlendDesc)}.PassStruct.h"));
             }
 
 
@@ -660,7 +662,8 @@ namespace DiligentEngineGenerator
                     "LayoutElement.PassStruct.h",
                     "ShaderResourceVariableDesc.PassStruct.h",
                     "ImmutableSamplerDesc.PassStruct.h",
-                    "TextureSubResData.PassStruct.h"
+                    "TextureSubResData.PassStruct.h",
+                    "RenderTargetBlendDesc.PassStruct.h"
                 });
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IRenderDevice)}.cpp"));
             }

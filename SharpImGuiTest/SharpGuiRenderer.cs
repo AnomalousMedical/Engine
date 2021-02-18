@@ -1,6 +1,7 @@
 ﻿using DiligentEngine;
 using Engine;
 using Engine.Platform;
+using Engine.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,12 +24,12 @@ namespace SharpImGuiTest
         private Font font;
 
         private readonly OSWindow osWindow;
-        private readonly VirtualFileSystem virtualFileSystem;
+        private readonly IResourceProvider<SharpGuiRenderer> resourceProvider;
         private DrawIndexedAttribs DrawAttrs;
         private uint maxNumberOfQuads;
         private uint maxNumberOfTextQuads;
 
-        public unsafe SharpGuiRenderer(GraphicsEngine graphicsEngine, OSWindow osWindow, SharpGuiOptions options, VirtualFileSystem virtualFileSystem)
+        public unsafe SharpGuiRenderer(GraphicsEngine graphicsEngine, OSWindow osWindow, SharpGuiOptions options, IResourceProvider<SharpGuiRenderer> resourceProvider)
         {
             this.maxNumberOfQuads = options.MaxNumberOfQuads;
             this.maxNumberOfTextQuads = options.MaxNumberOfTextQuads;
@@ -43,7 +44,7 @@ namespace SharpImGuiTest
             var m_pDevice = graphicsEngine.RenderDevice;
 
             this.osWindow = osWindow;
-            this.virtualFileSystem = virtualFileSystem;
+            this.resourceProvider = resourceProvider;
             CreateQuadPso(graphicsEngine, m_pSwapChain, m_pDevice);
             CreateTextPso(graphicsEngine, m_pSwapChain, m_pDevice);
 
@@ -238,11 +239,23 @@ namespace SharpImGuiTest
         private void LoadFontTexture(GraphicsEngine graphicsEngine)
         {
             //Load Font Texture
-            using var fontStream = virtualFileSystem.openStream("fonts/Roboto-Regular.ttf", Engine.Resources.FileMode.Open);
+            using var fontStream = resourceProvider.openFile("fonts/Roboto-Regular.ttf");
             var bytes = new byte[fontStream.Length];
             var span = new Span<byte>(bytes);
             while (fontStream.Read(span) != 0) { }
             using var font = new MyGUITrueTypeFont(bytes);
+
+            //Debug
+            //unsafe {
+            //    using var fib = new FreeImageAPI.FreeImageBitmap(font.TextureBufferWidth, font.TextureBufferHeight, FreeImageAPI.PixelFormat.Format32bppRgb);
+            //    var fibStart = (byte*)fib.Scan0.ToPointer() - (-fib.Stride * (fib.Height - 1));
+            //    var fibSpan = new Span<byte>(fibStart, fib.DataSize);
+            //    var ftSpan = new Span<byte>(font.TextureBuffer.ToPointer(), (int)font.TextureBufferSize.ToUInt64());
+            //    ftSpan.CopyTo(fibSpan);
+            //    using var saveStream = System.IO.File.Open("test.png", System.IO.FileMode.Create);
+            //    fib.Save(saveStream, FreeImageAPI.FREE_IMAGE_FORMAT.FIF_PNG);
+            //}
+            ////End
 
             uint width = (uint)font.TextureBufferWidth;
             uint height = (uint)font.TextureBufferHeight;
@@ -487,7 +500,9 @@ struct PSOutput
 void main(in  PSInput  PSIn,
           out PSOutput PSOut)
 {
-    PSOut.Color = PSIn.Color * g_Texture.Sample(g_Texture_sampler, PSIn.UV); 
+    float4 texColor = g_Texture.Sample(g_Texture_sampler, PSIn.UV);
+    PSOut.Color.rgb = PSIn.Color.rgb * texColor.rgb;
+    PSOut.Color.a = texColor.a;
 }";
     }
 }
