@@ -82,7 +82,7 @@ namespace SharpImGuiTest
                 Console.WriteLine($"New slider value {sliderValue}");
             }
 
-            sharpGui.Text(650, 400, Color.Black, "Hello World!");
+            sharpGui.Text(550, 500, Color.Black, "Hello World!");
 
             sharpGui.End();
 

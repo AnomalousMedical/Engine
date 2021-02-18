@@ -22,10 +22,15 @@ namespace SharpImGuiTest
         private uint currentText = 0;
         private uint maxNumberOfTextQuads;
 
+        private float zStep;
+        private float currentZ;
+
         public SharpGuiBuffer(OSWindow osWindow, ILogger<SharpGuiBuffer> logger, SharpGuiOptions options)
         {
             this.maxNumberOfQuads = options.MaxNumberOfQuads;
             this.maxNumberOfTextQuads = options.MaxNumberOfTextQuads;
+
+            zStep = 1.0f / (float)(this.maxNumberOfQuads + this.maxNumberOfTextQuads);
 
             quadVerts = new SharpImGuiVertex[maxNumberOfQuads * 4];
             textVerts = new SharpImGuiTextVertex[maxNumberOfTextQuads * 4];
@@ -36,6 +41,7 @@ namespace SharpImGuiTest
 
         public void Begin()
         {
+            currentZ =  1.0f - zStep;
             currentText = 0;
             currentQuad = 0;
             NumQuadIndices = 0;
@@ -55,11 +61,10 @@ namespace SharpImGuiTest
             float top = y / (float)osWindow.WindowHeight * -2.0f + 1.0f;
             float bottom = (y + height) / (float)osWindow.WindowHeight * -2.0f + 1.0f;
 
-            float z = 1.0f - (float)currentQuad / (float)maxNumberOfQuads - 1.0f / maxNumberOfQuads;
-            quadVerts[currentQuad].pos = new Vector3(left, top, z);
-            quadVerts[currentQuad + 1].pos = new Vector3(right, top, z);
-            quadVerts[currentQuad + 2].pos = new Vector3(right, bottom, z);
-            quadVerts[currentQuad + 3].pos = new Vector3(left, bottom, z);
+            quadVerts[currentQuad].pos = new Vector3(left, top, currentZ);
+            quadVerts[currentQuad + 1].pos = new Vector3(right, top, currentZ);
+            quadVerts[currentQuad + 2].pos = new Vector3(right, bottom, currentZ);
+            quadVerts[currentQuad + 3].pos = new Vector3(left, bottom, currentZ);
 
             quadVerts[currentQuad].color = color;
             quadVerts[currentQuad + 1].color = color;
@@ -68,6 +73,7 @@ namespace SharpImGuiTest
 
             currentQuad += 4;
             NumQuadIndices += 6;
+            currentZ -= zStep;
         }
 
         public void DrawTextQuad(int x, int y, int width, int height, ref Color color, ref GlyphRect uvRect)
@@ -83,11 +89,10 @@ namespace SharpImGuiTest
             float top = y / (float)osWindow.WindowHeight * -2.0f + 1.0f;
             float bottom = (y + height) / (float)osWindow.WindowHeight * -2.0f + 1.0f;
 
-            float z = 1.0f - (float)currentText / (float)maxNumberOfTextQuads - 1.0f / maxNumberOfTextQuads; //This won't be right, need to work on z index
-            textVerts[currentText].pos = new Vector3(left, top, z);
-            textVerts[currentText + 1].pos = new Vector3(right, top, z);
-            textVerts[currentText + 2].pos = new Vector3(right, bottom, z);
-            textVerts[currentText + 3].pos = new Vector3(left, bottom, z);
+            textVerts[currentText].pos = new Vector3(left, top, currentZ);
+            textVerts[currentText + 1].pos = new Vector3(right, top, currentZ);
+            textVerts[currentText + 2].pos = new Vector3(right, bottom, currentZ);
+            textVerts[currentText + 3].pos = new Vector3(left, bottom, currentZ);
             
             textVerts[currentText].color = color;
             textVerts[currentText + 1].color = color;
@@ -101,6 +106,7 @@ namespace SharpImGuiTest
 
             currentText += 4;
             NumTextIndices += 6;
+            currentZ -= zStep;
         }
 
         public uint NumQuadIndices { get; private set; }
