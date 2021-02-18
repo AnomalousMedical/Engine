@@ -15,12 +15,12 @@ namespace SharpImGuiTest
         private readonly OSWindow osWindow;
         private readonly ILogger<SharpGuiBuffer> logger;
         public const int MaxNumberOfQuads = 1000;
-        SharpImGuiVertex[] verts;
+        SharpImGuiVertex[] quadVerts;
         private int currentQuad = 0;
 
         public SharpGuiBuffer(OSWindow osWindow, ILogger<SharpGuiBuffer> logger)
         {
-            verts = new SharpImGuiVertex[MaxNumberOfQuads * 4];
+            quadVerts = new SharpImGuiVertex[MaxNumberOfQuads * 4];
 
             this.osWindow = osWindow;
             this.logger = logger;
@@ -29,14 +29,14 @@ namespace SharpImGuiTest
         public void Begin()
         {
             currentQuad = 0;
-            NumIndices = 0;
+            NumQuadIndices = 0;
         }
 
         public void DrawQuad(int x, int y, int width, int height, Color color)
         {
-            if(currentQuad >= verts.Length)
+            if(currentQuad >= quadVerts.Length)
             {
-                logger.LogWarning($"Exceeded maximum number of quads '{verts.Length / 4}'.");
+                logger.LogWarning($"Exceeded maximum number of quads '{quadVerts.Length / 4}'.");
                 return;
             }
 
@@ -46,22 +46,22 @@ namespace SharpImGuiTest
             float bottom = (y + height) / (float)osWindow.WindowHeight * -2.0f + 1.0f;
 
             float z = 1.0f - (float)currentQuad / (float)MaxNumberOfQuads - 1.0f / MaxNumberOfQuads;
-            verts[currentQuad].pos = new Vector3(left, top, z);
-            verts[currentQuad + 1].pos = new Vector3(right, top, z);
-            verts[currentQuad + 2].pos = new Vector3(right, bottom, z);
-            verts[currentQuad + 3].pos = new Vector3(left, bottom, z);
+            quadVerts[currentQuad].pos = new Vector3(left, top, z);
+            quadVerts[currentQuad + 1].pos = new Vector3(right, top, z);
+            quadVerts[currentQuad + 2].pos = new Vector3(right, bottom, z);
+            quadVerts[currentQuad + 3].pos = new Vector3(left, bottom, z);
 
-            verts[currentQuad].color = color;
-            verts[currentQuad + 1].color = color;
-            verts[currentQuad + 2].color = color;
-            verts[currentQuad + 3].color = color;
+            quadVerts[currentQuad].color = color;
+            quadVerts[currentQuad + 1].color = color;
+            quadVerts[currentQuad + 2].color = color;
+            quadVerts[currentQuad + 3].color = color;
 
             currentQuad += 4;
-            NumIndices += 6;
+            NumQuadIndices += 6;
         }
 
-        public uint NumIndices { get; private set; }
+        public uint NumQuadIndices { get; private set; }
 
-        internal SharpImGuiVertex[] Verts => verts;
+        internal SharpImGuiVertex[] QuadVerts => quadVerts;
     }
 }

@@ -59,6 +59,14 @@ namespace SharpImGuiTest
             PSOCreateInfo.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY.PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
             PSOCreateInfo.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE.CULL_MODE_BACK;
             PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.DepthEnable = true;
+            var RT0 = PSOCreateInfo.GraphicsPipeline.BlendDesc.RenderTargets_0;
+            RT0.BlendEnable = true;
+            RT0.SrcBlend = BLEND_FACTOR.BLEND_FACTOR_SRC_ALPHA;
+            RT0.DestBlend = BLEND_FACTOR.BLEND_FACTOR_INV_SRC_ALPHA;
+            RT0.BlendOp = BLEND_OPERATION.BLEND_OPERATION_ADD;
+            RT0.SrcBlendAlpha = BLEND_FACTOR.BLEND_FACTOR_INV_SRC_ALPHA;
+            RT0.DestBlendAlpha = BLEND_FACTOR.BLEND_FACTOR_ZERO;
+            RT0.BlendOpAlpha = BLEND_OPERATION.BLEND_OPERATION_ADD;
 
             // Define vertex shader input layout
             var LayoutElems = new List<LayoutElement>
@@ -115,7 +123,7 @@ namespace SharpImGuiTest
             IntPtr data = immediateContext.MapBuffer(vertexBuffer.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
 
             var dest = new Span<SharpImGuiVertex>(data.ToPointer(), SharpGuiBuffer.MaxNumberOfQuads * 4);
-            var src = new Span<SharpImGuiVertex>(buffer.Verts);
+            var src = new Span<SharpImGuiVertex>(buffer.QuadVerts);
             src.CopyTo(dest);
 
             immediateContext.UnmapBuffer(vertexBuffer.Obj, MAP_TYPE.MAP_WRITE);
@@ -126,7 +134,7 @@ namespace SharpImGuiTest
             immediateContext.SetIndexBuffer(indexBuffer.Obj, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             immediateContext.CommitShaderResources(shaderResourceBinding.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            DrawAttrs.NumIndices = buffer.NumIndices;
+            DrawAttrs.NumIndices = buffer.NumQuadIndices;
             immediateContext.DrawIndexed(DrawAttrs);
         }
 
@@ -194,9 +202,6 @@ struct PSInput
     float4 Color : COLOR0; 
 };
 
-// Note that if separate shader objects are not supported (this is only the case for old GLES3.0 devices), vertex
-// shader output variable name must match exactly the name of the pixel shader input variable.
-// If the variable has structure type (like in this example), the structure declarations must also be indentical.
 void main(in  VSInput VSIn,
           out PSInput PSIn) 
 {
@@ -216,13 +221,56 @@ struct PSOutput
     float4 Color : SV_TARGET; 
 };
 
-// Note that if separate shader objects are not supported (this is only the case for old GLES3.0 devices), vertex
-// shader output variable name must match exactly the name of the pixel shader input variable.
-// If the variable has structure type (like in this example), the structure declarations must also be indentical.
 void main(in  PSInput  PSIn,
           out PSOutput PSOut)
 {
     PSOut.Color = PSIn.Color; 
+}";
+
+        const String TextVSSource =
+@"
+struct VSInput
+{
+    float3 Pos   : ATTRIB0;
+    float4 Color : ATTRIB1;
+    float2 UV    : ATTRIB2;
+};
+
+struct PSInput 
+{ 
+    float4 Pos   : SV_POSITION; 
+    float4 Color : COLOR0; 
+    float2 UV    : TEX_COORD; 
+};
+
+void main(in  VSInput VSIn,
+          out PSInput PSIn) 
+{
+    PSIn.Pos   = float4(VSIn.Pos, 1);
+    PSIn.Color = VSIn.Color;
+    PSIn.UV    = VSIn.UV;
+}";
+
+        const String TextPSSource =
+@"
+Texture2D    g_Texture;
+SamplerState g_Texture_sampler;
+
+struct PSInput 
+{ 
+    float4 Pos   : SV_POSITION; 
+    float4 Color : COLOR0; 
+};
+
+struct PSOutput
+{ 
+    float4 Color : SV_TARGET; 
+};
+
+void main(in  PSInput  PSIn,
+          out PSOutput PSOut)
+{
+    PSOut.Color = PSIn.Color * g_Texture.Sample(g_Texture_sampler, PSIn.UV); 
 }";
     }
 }

@@ -15,4 +15,12 @@ namespace SharpImGuiTest
         public Vector3 pos;
         public Color color;
     };
+
+    [StructLayout(LayoutKind.Sequential)]
+    struct SharpImGuiTextVertex
+    {
+        public Vector3 pos;
+        public Color color;
+        public Vector2 uv;
+    };
 }
