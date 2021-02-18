@@ -79,7 +79,7 @@ namespace SharpImGuiTest
 
         public void Text(int x, int y, Color color, String text)
         {
-            buffer.Text(x, y, color, text, renderer.Font);
+            buffer.DrawText(x, y, color, text, renderer.Font);
         }
 
         public void Render(IDeviceContext immediateContext)

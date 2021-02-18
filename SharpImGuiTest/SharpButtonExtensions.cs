@@ -72,7 +72,7 @@ namespace SharpImGuiTest
             //Draw text
             if(button.Text != null)
             {
-                buffer.Text(x, y, TextColor, button.Text, font);
+                buffer.DrawText(x, y, TextColor, button.Text, font);
             }
 
             //Determine clicked
