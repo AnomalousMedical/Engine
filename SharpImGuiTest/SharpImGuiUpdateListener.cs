@@ -15,12 +15,12 @@ namespace SharpImGuiTest
     {
         private readonly GraphicsEngine graphicsEngine;
         private readonly NativeOSWindow window;
-        private readonly SharpGui sharpGui;
+        private readonly ISharpGui sharpGui;
         private readonly EventManager eventManager;
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext m_pImmediateContext;
 
-        public SharpImGuiUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, SharpGui sharpGui, EventManager eventManager)
+        public SharpImGuiUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ISharpGui sharpGui, EventManager eventManager)
         {
             this.graphicsEngine = graphicsEngine;
             this.window = window;

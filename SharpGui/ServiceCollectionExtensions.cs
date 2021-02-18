@@ -17,7 +17,7 @@ namespace Microsoft.Extensions.DependencyInjection
             configure?.Invoke(options);
 
             services.AddSingleton<SharpGuiOptions>(options);
-            services.TryAddSingleton<SharpGui>();
+            services.TryAddSingleton<ISharpGui, SharpGuiImpl>();
             services.TryAddSingleton<SharpGuiBuffer>();
             services.TryAddSingleton<SharpGuiRenderer>();
 

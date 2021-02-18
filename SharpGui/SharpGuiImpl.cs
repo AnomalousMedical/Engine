@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SharpImGuiTest
 {
-    public class SharpGui : IDisposable
+    public class SharpGuiImpl : ISharpGui, IDisposable
     {
         private readonly SharpGuiBuffer buffer;
         private readonly SharpGuiRenderer renderer;
@@ -17,7 +17,7 @@ namespace SharpImGuiTest
         private readonly SharpGuiState state = new SharpGuiState();
         private KeyboardButtonCode lastKeyPressed = KeyboardButtonCode.KC_UNASSIGNED;
 
-        public SharpGui(SharpGuiBuffer buffer, SharpGuiRenderer renderer, EventManager eventManager)
+        public SharpGuiImpl(SharpGuiBuffer buffer, SharpGuiRenderer renderer, EventManager eventManager)
         {
             this.buffer = buffer;
             this.renderer = renderer;
@@ -40,11 +40,11 @@ namespace SharpImGuiTest
             var keyboard = eventManager.Keyboard;
             var mouse = eventManager.Mouse;
             state.Begin(
-                mouse.AbsolutePosition.x, mouse.AbsolutePosition.y, 
-                mouse.buttonDown(MouseButtonCode.MB_BUTTON0), 
-                lastKeyPressed, 
-                keyboard.isModifierDown(Modifier.Shift), 
-                keyboard.isModifierDown(Modifier.Alt), 
+                mouse.AbsolutePosition.x, mouse.AbsolutePosition.y,
+                mouse.buttonDown(MouseButtonCode.MB_BUTTON0),
+                lastKeyPressed,
+                keyboard.isModifierDown(Modifier.Shift),
+                keyboard.isModifierDown(Modifier.Alt),
                 keyboard.isModifierDown(Modifier.Ctrl));
 
             lastKeyPressed = KeyboardButtonCode.KC_UNASSIGNED;
