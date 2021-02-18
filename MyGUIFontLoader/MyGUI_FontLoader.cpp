@@ -4,7 +4,7 @@
 extern "C" _AnomalousExport MyGUI::ResourceTrueTypeFont* MyGUIFontLoader_LoadFont(MyGUI::uint8 * fontBuffer, size_t fontBufferSize)
 {
 	MyGUI::ResourceTrueTypeFont* font = new MyGUI::ResourceTrueTypeFont();
-	font->setSize(16);
+	font->setSize(25);
 	font->setResolution(50);
 	font->setAntialias(false);
 	font->setTabWidth(8);

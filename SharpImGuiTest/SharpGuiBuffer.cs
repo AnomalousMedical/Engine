@@ -70,7 +70,7 @@ namespace SharpImGuiTest
             NumQuadIndices += 6;
         }
 
-        public void DrawTextQuad(int x, int y, int width, int height, Color color, GlyphRect uvRect)
+        public void DrawTextQuad(int x, int y, int width, int height, ref Color color, ref GlyphRect uvRect)
         {
             if (currentText >= textVerts.Length)
             {

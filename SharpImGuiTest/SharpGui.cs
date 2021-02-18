@@ -77,19 +77,24 @@ namespace SharpImGuiTest
             return slider.Process(ref value, state, buffer);
         }
 
-        public void Text(int x, int y, String text)
+        public void Text(int x, int y, Color color, String text)
         {
+            int xOffset = 0;
             var font = renderer.Font;
-            char c = text[0];
-            uint charCode = c;
-            if(font.CharMap.TryGetValue(c, out var charMap))
+            foreach (var c in text)
             {
-                charCode = charMap;
-            }
-            GlyphInfo glyphInfo;
-            if (font.GlyphInfo.TryGetValue(charCode, out glyphInfo))
-            {
-                buffer.DrawTextQuad(x, y, (int)glyphInfo.width, (int)glyphInfo.height, Color.Black, glyphInfo.uvRect);
+                uint charCode = c;
+                if (font.CharMap.TryGetValue(c, out var charMap))
+                {
+                    charCode = charMap;
+                }
+                GlyphInfo glyphInfo;
+                if (font.GlyphInfo.TryGetValue(charCode, out glyphInfo))
+                {
+                    buffer.DrawTextQuad(x + xOffset + (int)glyphInfo.bearingX, y + (int)glyphInfo.bearingY, (int)glyphInfo.width, (int)glyphInfo.height, ref color, ref glyphInfo.uvRect);
+                    int fullAdvance = (int)glyphInfo.advance + (int)glyphInfo.bearingX;
+                    xOffset += fullAdvance;
+                }
             }
         }
 
