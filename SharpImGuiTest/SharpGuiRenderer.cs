@@ -17,9 +17,12 @@ namespace SharpImGuiTest
         private AutoPtr<IBuffer> indexBuffer;
         private readonly OSWindow osWindow;
         private DrawIndexedAttribs DrawAttrs;
+        private int maxNumberOfQuads;
 
-        public SharpGuiRenderer(GraphicsEngine graphicsEngine, OSWindow osWindow)
+        public SharpGuiRenderer(GraphicsEngine graphicsEngine, OSWindow osWindow, SharpGuiOptions options)
         {
+            this.maxNumberOfQuads = options.MaxNumberOfQuads;
+
             DrawAttrs = new DrawIndexedAttribs()
             {
                 IndexType = VALUE_TYPE.VT_UINT32,
@@ -39,14 +42,14 @@ namespace SharpImGuiTest
             // Create a vertex shader
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
             ShaderCI.EntryPoint = "main";
-            ShaderCI.Desc.Name = "Cube VS";
+            ShaderCI.Desc.Name = "SharpGui Quad VS";
             ShaderCI.Source = VSSource;
             using var pVS = graphicsEngine.RenderDevice.CreateShader(ShaderCI);
 
             //Create pixel shader
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_PIXEL;
             ShaderCI.EntryPoint = "main";
-            ShaderCI.Desc.Name = "Cube PS";
+            ShaderCI.Desc.Name = "SharpGui Quad PS";
             ShaderCI.Source = PSSource;
             using var pPS = graphicsEngine.RenderDevice.CreateShader(ShaderCI);
 
@@ -104,8 +107,8 @@ namespace SharpImGuiTest
             // Create a shader resource binding object and bind all static resources in it
             shaderResourceBinding = pipelineState.Obj.CreateShaderResourceBinding(true);
 
-            CreateVertexBuffer(graphicsEngine.RenderDevice);
-            CreateIndexBuffer(graphicsEngine.RenderDevice);
+            vertexBuffer = CreateVertexBuffer(graphicsEngine.RenderDevice, maxNumberOfQuads);
+            indexBuffer = CreateIndexBuffer(graphicsEngine.RenderDevice, maxNumberOfQuads);
         }
 
         public void Dispose()
@@ -122,7 +125,7 @@ namespace SharpImGuiTest
 
             IntPtr data = immediateContext.MapBuffer(vertexBuffer.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
 
-            var dest = new Span<SharpImGuiVertex>(data.ToPointer(), SharpGuiBuffer.MaxNumberOfQuads * 4);
+            var dest = new Span<SharpImGuiVertex>(data.ToPointer(), maxNumberOfQuads * 4);
             var src = new Span<SharpImGuiVertex>(buffer.QuadVerts);
             src.CopyTo(dest);
 
@@ -140,22 +143,22 @@ namespace SharpImGuiTest
 
         public uint NumIndices { get; private set; }
 
-        unsafe void CreateVertexBuffer(IRenderDevice device)
+        unsafe static AutoPtr<IBuffer> CreateVertexBuffer(IRenderDevice device, int maxNumberOfQuads)
         {
             BufferDesc VertBuffDesc = new BufferDesc();
             VertBuffDesc.Name = "Cube vertex buffer";
             VertBuffDesc.Usage = USAGE.USAGE_DYNAMIC;
             VertBuffDesc.BindFlags = BIND_FLAGS.BIND_VERTEX_BUFFER;
             VertBuffDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
-            VertBuffDesc.uiSizeInBytes = (uint)(sizeof(SharpImGuiVertex) * SharpGuiBuffer.MaxNumberOfQuads * 4);
+            VertBuffDesc.uiSizeInBytes = (uint)(sizeof(SharpImGuiVertex) * maxNumberOfQuads * 4);
             
-            vertexBuffer = device.CreateBuffer(VertBuffDesc);
+            return device.CreateBuffer(VertBuffDesc);
             
         }
 
-        unsafe void CreateIndexBuffer(IRenderDevice device)
+        unsafe static AutoPtr<IBuffer> CreateIndexBuffer(IRenderDevice device, int maxNumberOfQuads)
         {
-            var Indices = new UInt32[SharpGuiBuffer.MaxNumberOfQuads * 6];
+            var Indices = new UInt32[maxNumberOfQuads * 6];
 
             uint indexBlock = 0;
             for(int i = 0; i < Indices.Length; i += 6)
@@ -181,7 +184,7 @@ namespace SharpImGuiTest
             {
                 IBData.pData = new IntPtr(pIndices);
                 IBData.DataSize = (uint)(sizeof(UInt32) * Indices.Length);
-                indexBuffer = device.CreateBuffer(IndBuffDesc, IBData);
+                return device.CreateBuffer(IndBuffDesc, IBData);
             }
         }
 

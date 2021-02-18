@@ -14,13 +14,14 @@ namespace SharpImGuiTest
     {
         private readonly OSWindow osWindow;
         private readonly ILogger<SharpGuiBuffer> logger;
-        public const int MaxNumberOfQuads = 1000;
         SharpImGuiVertex[] quadVerts;
         private int currentQuad = 0;
+        private int maxNumberOfQuads;
 
-        public SharpGuiBuffer(OSWindow osWindow, ILogger<SharpGuiBuffer> logger)
+        public SharpGuiBuffer(OSWindow osWindow, ILogger<SharpGuiBuffer> logger, SharpGuiOptions options)
         {
-            quadVerts = new SharpImGuiVertex[MaxNumberOfQuads * 4];
+            this.maxNumberOfQuads = options.MaxNumberOfQuads;
+            quadVerts = new SharpImGuiVertex[maxNumberOfQuads * 4];
 
             this.osWindow = osWindow;
             this.logger = logger;
@@ -45,7 +46,7 @@ namespace SharpImGuiTest
             float top = y / (float)osWindow.WindowHeight * -2.0f + 1.0f;
             float bottom = (y + height) / (float)osWindow.WindowHeight * -2.0f + 1.0f;
 
-            float z = 1.0f - (float)currentQuad / (float)MaxNumberOfQuads - 1.0f / MaxNumberOfQuads;
+            float z = 1.0f - (float)currentQuad / (float)maxNumberOfQuads - 1.0f / maxNumberOfQuads;
             quadVerts[currentQuad].pos = new Vector3(left, top, z);
             quadVerts[currentQuad + 1].pos = new Vector3(right, top, z);
             quadVerts[currentQuad + 2].pos = new Vector3(right, bottom, z);
