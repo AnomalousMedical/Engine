@@ -63,7 +63,7 @@ namespace SharpImGuiTest
         /// <returns>True if clicked.</returns>
         public bool Button(SharpButton button)
         {
-            return button.Process(state, buffer);
+            return button.Process(state, buffer, renderer.Font);
         }
 
         /// <summary>
@@ -79,23 +79,7 @@ namespace SharpImGuiTest
 
         public void Text(int x, int y, Color color, String text)
         {
-            int xOffset = 0;
-            var font = renderer.Font;
-            foreach (var c in text)
-            {
-                uint charCode = c;
-                if (font.CharMap.TryGetValue(c, out var charMap))
-                {
-                    charCode = charMap;
-                }
-                GlyphInfo glyphInfo;
-                if (font.GlyphInfo.TryGetValue(charCode, out glyphInfo))
-                {
-                    buffer.DrawTextQuad(x + xOffset + (int)glyphInfo.bearingX, y + (int)glyphInfo.bearingY, (int)glyphInfo.width, (int)glyphInfo.height, ref color, ref glyphInfo.uvRect);
-                    int fullAdvance = (int)glyphInfo.advance + (int)glyphInfo.bearingX;
-                    xOffset += fullAdvance;
-                }
-            }
+            buffer.Text(x, y, color, text, renderer.Font);
         }
 
         public void Render(IDeviceContext immediateContext)

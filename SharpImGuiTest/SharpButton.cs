@@ -13,13 +13,14 @@ namespace SharpImGuiTest
             Id = Guid.NewGuid();
         }
 
-        public SharpButton(int x, int y, int width, int height)
+        public SharpButton(int x, int y, int width, int height, String text = null)
             : this()
         {
             this.X = x;
             this.Y = y;
             this.Width = width;
             this.Height = height;
+            this.Text = text;
         }
 
         public void SetRect(int x, int y, int width, int height)
@@ -35,5 +36,6 @@ namespace SharpImGuiTest
         public int Y { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
+        public String Text { get; set; }
     }
 }

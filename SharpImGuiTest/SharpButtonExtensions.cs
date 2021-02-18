@@ -14,8 +14,9 @@ namespace SharpImGuiTest
         private static Color Normal = Color.FromARGB(0xffaaaaaa);
         private static Color ShadowColor = Color.FromARGB(0xff000000);
         private static Color FocusColor = Color.FromARGB(0xff0000ff);
+        private static Color TextColor = Color.FromARGB(0xff000000);
 
-        public static bool Process(this SharpButton button, SharpGuiState state, SharpGuiBuffer buffer)
+        public static bool Process(this SharpButton button, SharpGuiState state, SharpGuiBuffer buffer, Font font)
         {
             Guid id = button.Id;
             int x = button.X;
@@ -67,6 +68,12 @@ namespace SharpImGuiTest
                 }
             }
             buffer.DrawQuad(x, y, width, height, color);
+
+            //Draw text
+            if(button.Text != null)
+            {
+                buffer.Text(x, y, TextColor, button.Text, font);
+            }
 
             //Determine clicked
             bool clicked = false;

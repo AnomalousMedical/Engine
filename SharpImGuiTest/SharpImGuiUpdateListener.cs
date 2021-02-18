@@ -50,9 +50,9 @@ namespace SharpImGuiTest
 
         }
 
-        SharpButton button1 = new SharpButton(50, 50, 100, 100);
-        SharpButton button2 = new SharpButton(600, 250, 100, 100);
-        SharpButton button3 = new SharpButton(550, 500, 100, 100);
+        SharpButton button1 = new SharpButton(50, 50, 100, 100, text: "Button 1");
+        SharpButton button2 = new SharpButton(600, 250, 100, 100, text: "Button 2");
+        SharpButton button3 = new SharpButton(550, 500, 100, 100, text: "Button 3");
 
         Guid sliderId = Guid.NewGuid();
         SharpSlider slider = new SharpSlider(350, 250, 32, 500, 15);
@@ -82,7 +82,7 @@ namespace SharpImGuiTest
                 Console.WriteLine($"New slider value {sliderValue}");
             }
 
-            sharpGui.Text(550, 500, Color.Black, "Hello World!");
+            sharpGui.Text(750, 500, Color.Black, "Hello World!");
 
             sharpGui.End();
 

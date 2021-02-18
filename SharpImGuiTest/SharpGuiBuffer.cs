@@ -76,6 +76,26 @@ namespace SharpImGuiTest
             currentZ -= zStep;
         }
 
+        public void Text(int x, int y, Color color, String text, Font font)
+        {
+            int xOffset = 0;
+            foreach (var c in text)
+            {
+                uint charCode = c;
+                if (font.CharMap.TryGetValue(c, out var charMap))
+                {
+                    charCode = charMap;
+                }
+                GlyphInfo glyphInfo;
+                if (font.GlyphInfo.TryGetValue(charCode, out glyphInfo))
+                {
+                    DrawTextQuad(x + xOffset + (int)glyphInfo.bearingX, y + (int)glyphInfo.bearingY, (int)glyphInfo.width, (int)glyphInfo.height, ref color, ref glyphInfo.uvRect);
+                    int fullAdvance = (int)glyphInfo.advance + (int)glyphInfo.bearingX;
+                    xOffset += fullAdvance;
+                }
+            }
+        }
+
         public void DrawTextQuad(int x, int y, int width, int height, ref Color color, ref GlyphRect uvRect)
         {
             if (currentText >= textVerts.Length)
