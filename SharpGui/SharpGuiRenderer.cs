@@ -48,10 +48,10 @@ namespace SharpImGuiTest
             CreateQuadPso(graphicsEngine, m_pSwapChain, m_pDevice);
             CreateTextPso(graphicsEngine, m_pSwapChain, m_pDevice);
 
-            quadVertexBuffer = CreateVertexBuffer(graphicsEngine.RenderDevice, "SharpGui Quad Vertex Buffer", (uint)sizeof(SharpImGuiVertex), maxNumberOfQuads);
+            quadVertexBuffer = CreateVertexBuffer(graphicsEngine.RenderDevice, "SharpGui Quad Vertex Buffer", (uint)sizeof(SharpGuiVertex), maxNumberOfQuads);
             quadIndexBuffer = CreateIndexBuffer(graphicsEngine.RenderDevice, "SharpGui Quad Index Buffer", maxNumberOfQuads);
 
-            textVertexBuffer = CreateVertexBuffer(graphicsEngine.RenderDevice, "SharpGui Text Vertex Buffer", (uint)sizeof(SharpImGuiTextVertex), maxNumberOfQuads);
+            textVertexBuffer = CreateVertexBuffer(graphicsEngine.RenderDevice, "SharpGui Text Vertex Buffer", (uint)sizeof(SharpGuiTextVertex), maxNumberOfQuads);
             textIndexBuffer = CreateIndexBuffer(graphicsEngine.RenderDevice, "SharpGui Text Index Buffer", maxNumberOfQuads);
         }
 
@@ -320,8 +320,8 @@ namespace SharpImGuiTest
                 {
                     IntPtr data = immediateContext.MapBuffer(quadVertexBuffer.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
 
-                    var dest = new Span<SharpImGuiVertex>(data.ToPointer(), (int)maxNumberOfQuads * 4); //Yea this typecast is bad
-                    var src = new Span<SharpImGuiVertex>(buffer.QuadVerts);
+                    var dest = new Span<SharpGuiVertex>(data.ToPointer(), (int)maxNumberOfQuads * 4); //Yea this typecast is bad
+                    var src = new Span<SharpGuiVertex>(buffer.QuadVerts);
                     src.CopyTo(dest);
 
                     immediateContext.UnmapBuffer(quadVertexBuffer.Obj, MAP_TYPE.MAP_WRITE);
@@ -347,8 +347,8 @@ namespace SharpImGuiTest
                 {
                     IntPtr data = immediateContext.MapBuffer(textVertexBuffer.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
 
-                    var dest = new Span<SharpImGuiTextVertex>(data.ToPointer(), (int)maxNumberOfTextQuads * 4); //Yea this typecast is bad
-                    var src = new Span<SharpImGuiTextVertex>(buffer.TextVerts);
+                    var dest = new Span<SharpGuiTextVertex>(data.ToPointer(), (int)maxNumberOfTextQuads * 4); //Yea this typecast is bad
+                    var src = new Span<SharpGuiTextVertex>(buffer.TextVerts);
                     src.CopyTo(dest);
 
                     immediateContext.UnmapBuffer(textVertexBuffer.Obj, MAP_TYPE.MAP_WRITE);

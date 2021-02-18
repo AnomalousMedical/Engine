@@ -14,11 +14,11 @@ namespace SharpImGuiTest
     {
         private readonly OSWindow osWindow;
         private readonly ILogger<SharpGuiBuffer> logger;
-        SharpImGuiVertex[] quadVerts;
+        SharpGuiVertex[] quadVerts;
         private uint currentQuad = 0;
         private uint maxNumberOfQuads;
 
-        SharpImGuiTextVertex[] textVerts;
+        SharpGuiTextVertex[] textVerts;
         private uint currentText = 0;
         private uint maxNumberOfTextQuads;
 
@@ -32,8 +32,8 @@ namespace SharpImGuiTest
 
             zStep = 1.0f / (float)(this.maxNumberOfQuads + this.maxNumberOfTextQuads);
 
-            quadVerts = new SharpImGuiVertex[maxNumberOfQuads * 4];
-            textVerts = new SharpImGuiTextVertex[maxNumberOfTextQuads * 4];
+            quadVerts = new SharpGuiVertex[maxNumberOfQuads * 4];
+            textVerts = new SharpGuiTextVertex[maxNumberOfTextQuads * 4];
 
             this.osWindow = osWindow;
             this.logger = logger;
@@ -128,9 +128,9 @@ namespace SharpImGuiTest
 
         public uint NumTextIndices { get; private set; }
 
-        internal SharpImGuiVertex[] QuadVerts => quadVerts;
+        internal SharpGuiVertex[] QuadVerts => quadVerts;
 
-        internal SharpImGuiTextVertex[] TextVerts => textVerts;
+        internal SharpGuiTextVertex[] TextVerts => textVerts;
 
         // vertices
 

@@ -10,14 +10,14 @@ namespace SharpImGuiTest
 {
 
     [StructLayout(LayoutKind.Sequential)]
-    struct SharpImGuiVertex
+    struct SharpGuiVertex
     {
         public Vector3 pos;
         public Color color;
     };
 
     [StructLayout(LayoutKind.Sequential)]
-    struct SharpImGuiTextVertex
+    struct SharpGuiTextVertex
     {
         public Vector3 pos;
         public Color color;
