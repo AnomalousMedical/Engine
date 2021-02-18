@@ -243,7 +243,7 @@ namespace SharpGui
             var bytes = new byte[fontStream.Length];
             var span = new Span<byte>(bytes);
             while (fontStream.Read(span) != 0) { }
-            using var font = new MyGUITrueTypeFont(bytes);
+            using var font = new MyGUITrueTypeFont(MyGUITrueTypeFontDesc.CreateDefault(), bytes);
 
             //Debug
             //unsafe {

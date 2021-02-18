@@ -8,6 +8,51 @@ using System.Threading.Tasks;
 
 namespace SharpGui
 {
+    [StructLayout(LayoutKind.Sequential)]
+    struct MyGUITrueTypeFontDesc
+    {
+        /// <summary>
+        /// Size of the font, in points (there are 72 points per inch).
+        /// </summary>
+        public float size;
+
+        /// <summary>
+        /// Resolution of the font, in pixels per inch.
+        /// </summary>
+        public uint resolution;
+
+        /// <summary>
+        /// Whether or not to anti-alias the font by copying its alpha channel to its luminance channel.
+        /// </summary>
+        public bool antialias;
+
+        /// <summary>
+        /// The width of the "Tab" special character, in pixels.
+        /// </summary>
+        public float tabWidth;
+
+        /// <summary>
+        /// How far up to nudge text rendered in this font, in pixels. May be negative to nudge text down.
+        /// </summary>
+        public int offsetHeight;
+
+        /// <summary>
+        /// The code point to use as a substitute for code points that don't exist in the font.
+        /// </summary>
+        public uint substituteCodePoint;
+
+        public static MyGUITrueTypeFontDesc CreateDefault()
+        {
+            return new MyGUITrueTypeFontDesc() {
+                size = 25,
+                resolution = 50,
+                antialias = false,
+                tabWidth = 8,
+                offsetHeight = 0
+            };
+        }
+    }
+
     class MyGUITrueTypeFont : IDisposable
     {
         private IntPtr objPtr;
@@ -36,9 +81,9 @@ namespace SharpGui
 
         public GlyphInfoEntryPassStruct SubstituteCodePointGlyphInfo => substituteCodePointGlyphInfo;
 
-        public unsafe MyGUITrueTypeFont(byte[] fontBytes)
+        public unsafe MyGUITrueTypeFont(MyGUITrueTypeFontDesc desc, byte[] fontBytes)
         {
-            objPtr = MyGUIFontLoader_LoadFont(fontBytes, new UIntPtr((uint)fontBytes.Length));
+            objPtr = MyGUIFontLoader_LoadFont(ref desc, fontBytes, new UIntPtr((uint)fontBytes.Length));
             var fontInfo = MyGUIFontLoader_GetFontInfo(objPtr);
             this.substituteCodePoint = fontInfo.substituteCodePoint;
             this.substituteCodePointGlyphInfo = fontInfo.substituteGlyphInfo;
@@ -86,7 +131,7 @@ namespace SharpGui
         public const String LibraryName = "MyGUIFontLoader.dll";
         
         [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr MyGUIFontLoader_LoadFont(byte[] fontBuffer, UIntPtr fontBufferSize);
+        private static extern IntPtr MyGUIFontLoader_LoadFont(ref MyGUITrueTypeFontDesc fontDesc, byte[] fontBuffer, UIntPtr fontBufferSize);
 
         [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern FontInfoPassStruct MyGUIFontLoader_GetFontInfo(IntPtr font);

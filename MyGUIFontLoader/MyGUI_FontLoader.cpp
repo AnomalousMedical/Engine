@@ -1,14 +1,25 @@
 #include "Stdafx.h"
 #include "MyGUI_ResourceTrueTypeFont.h"
 
-extern "C" _AnomalousExport MyGUI::ResourceTrueTypeFont* MyGUIFontLoader_LoadFont(MyGUI::uint8 * fontBuffer, size_t fontBufferSize)
+struct MyGUITrueTypeFontDesc
+{
+	float size; // Size of the font, in points (there are 72 points per inch).
+	MyGUI::uint resolution; // Resolution of the font, in pixels per inch.
+	bool antialias; // Whether or not to anti-alias the font by copying its alpha channel to its luminance channel.
+	float tabWidth; // The width of the "Tab" special character, in pixels.
+	int offsetHeight; // How far up to nudge text rendered in this font, in pixels. May be negative to nudge text down.
+	MyGUI::uint substituteCodePoint; // The code point to use as a substitute for code points that don't exist in the font.
+};
+
+extern "C" _AnomalousExport MyGUI::ResourceTrueTypeFont* MyGUIFontLoader_LoadFont(MyGUITrueTypeFontDesc &fontDesc, MyGUI::uint8 * fontBuffer, size_t fontBufferSize)
 {
 	MyGUI::ResourceTrueTypeFont* font = new MyGUI::ResourceTrueTypeFont();
-	font->setSize(25);
-	font->setResolution(50);
-	font->setAntialias(false);
-	font->setTabWidth(8);
-	font->setOffsetHeight(0);
+	font->setSize(fontDesc.size);
+	font->setResolution(fontDesc.resolution);
+	font->setAntialias(fontDesc.antialias);
+	font->setTabWidth(fontDesc.tabWidth);
+	font->setOffsetHeight(fontDesc.offsetHeight);
+	font->setSubstituteCode(fontDesc.substituteCodePoint);
 	font->addCodePointRange(33, 126);
 	font->addCodePointRange(161, 255);
 	font->addCodePointRange(1025, 1105);
