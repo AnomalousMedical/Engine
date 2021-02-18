@@ -19,10 +19,11 @@ namespace SharpGui
         public static bool Process(this SharpButton button, SharpGuiState state, SharpGuiBuffer buffer, Font font)
         {
             Guid id = button.Id;
-            int x = button.X;
-            int y = button.Y;
-            int width = button.Width;
-            int height = button.Height;
+            var rect = button.Rect;
+            int x = rect.Left;
+            int y = rect.Top;
+            int width = rect.Width;
+            int height = rect.Height;
 
             state.GrabKeyboardFocus(id);
 
@@ -30,11 +31,7 @@ namespace SharpGui
             bool regionHit = state.RegionHitByMouse(x, y, width, height);
             if (regionHit)
             {
-                state.MouseHoverItem = id;
-                if (state.ActiveItem == Guid.Empty && state.MouseDown)
-                {
-                    state.ActiveItem = id;
-                }
+                state.TrySetActiveItem(id, state.MouseDown);
             }
 
             var shadowX = x + 8;

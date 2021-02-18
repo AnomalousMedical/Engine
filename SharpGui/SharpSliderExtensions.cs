@@ -37,11 +37,7 @@ namespace SharpGui
             // Check for focus
             if (state.RegionHitByMouse(x, y, width, height))
             {
-                state.MouseHoverItem = id;
-                if (state.ActiveItem == Guid.Empty && state.MouseDown)
-                {
-                    state.ActiveItem = id;
-                }
+                state.TrySetActiveItem(id, state.MouseDown);
             }
 
             if (state.FocusedItem == slider.Id)

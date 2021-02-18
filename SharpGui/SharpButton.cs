@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Engine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,29 +14,28 @@ namespace SharpGui
             Id = Guid.NewGuid();
         }
 
-        public SharpButton(int x, int y, int width, int height, String text = null)
+        public SharpButton(int left, int top, int width, int height, String text = null)
             : this()
         {
-            this.X = x;
-            this.Y = y;
-            this.Width = width;
-            this.Height = height;
+            this.Rect.Left = left;
+            this.Rect.Top = top;
+            this.Rect.Width = width;
+            this.Rect.Height = height;
             this.Text = text;
         }
 
-        public void SetRect(int x, int y, int width, int height)
+        public void SetRect(int left, int top, int width, int height)
         {
-            this.X = x;
-            this.Y = y;
-            this.Width = width;
-            this.Height = height;
+            this.Rect.Left = left;
+            this.Rect.Top = top;
+            this.Rect.Width = width;
+            this.Rect.Height = height;
         }
 
         public Guid Id { get; private set; }
-        public int X { get; set; }
-        public int Y { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
+
+        public IntRect Rect;
+        
         public String Text { get; set; }
     }
 }

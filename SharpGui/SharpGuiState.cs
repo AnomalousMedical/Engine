@@ -9,13 +9,19 @@ namespace SharpGui
 {
     class SharpGuiState
     {
-        private Guid EmptySpace = Guid.NewGuid(); //A guid for when the user clicks on empty space. This gets considered to be active
+        private static readonly Guid EmptySpace = Guid.NewGuid(); //A guid for when the user clicks on empty space. This gets considered to be active
 
-        public Guid MouseHoverItem { get; internal set; }
-        public Guid ActiveItem { get; internal set; }
+        public Guid MouseHoverItem { get; private set; }
+        public Guid ActiveItem { get; private set; }
         public int MouseX { get; private set; }
         public int MouseY { get; private set; }
         public bool MouseDown { get; private set; }
+        public Guid FocusedItem { get; private set; }
+        public KeyboardButtonCode KeyEntered { get; private set; }
+        public bool IsShift { get; private set; }
+        public bool IsAlt { get; private set; }
+        public bool IsCtrl { get; private set; }
+        public Guid LastWidget { get; private set; }
 
         public void Begin(int mouseX, int mouseY, bool mouseDown, KeyboardButtonCode lastKeyPressed, bool isShift, bool isAlt, bool isCtrl)
         {
@@ -54,6 +60,15 @@ namespace SharpGui
                    MouseY < y ||
                    MouseX >= x + w ||
                    MouseY >= y + h);
+        }
+
+        public void TrySetActiveItem(Guid id, bool shouldActivate)
+        {
+            MouseHoverItem = id;
+            if (ActiveItem == Guid.Empty && MouseDown)
+            {
+                ActiveItem = id;
+            }
         }
 
         /// <summary>
@@ -105,17 +120,5 @@ namespace SharpGui
             LastWidget = id;
             return callerHandlesInput;
         }
-
-        public Guid FocusedItem { get; internal set; } //Focused
-
-        public KeyboardButtonCode KeyEntered { get; private set; }
-
-        public bool IsShift { get; set; }
-
-        public bool IsAlt { get; set; }
-
-        public bool IsCtrl { get; set; }
-
-        public Guid LastWidget { get; set; }
     }
 }
