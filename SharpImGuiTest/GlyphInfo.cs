@@ -8,6 +8,19 @@ using System.Threading.Tasks;
 
 namespace SharpImGuiTest
 {
+    [StructLayout(LayoutKind.Explicit, Size = 16)]
+    public struct GlyphRect
+    {
+        [FieldOffset(0)]
+        public float Left;
+        [FieldOffset(4)]
+        public float Top;
+        [FieldOffset(8)]
+        public float Right;
+        [FieldOffset(12)]
+        public float Bottom;
+    }
+
     [StructLayout(LayoutKind.Sequential)]
     struct GlyphInfoEntryPassStruct
     {
@@ -17,7 +30,7 @@ namespace SharpImGuiTest
         public float advance;
         public float bearingX;
         public float bearingY;
-        public Rect uvRect;
+        public GlyphRect uvRect;
     }
 
     public class GlyphInfo
@@ -28,6 +41,6 @@ namespace SharpImGuiTest
         public float advance;
         public float bearingX;
         public float bearingY;
-        public Rect uvRect;
+        public GlyphRect uvRect;
     }
 }
