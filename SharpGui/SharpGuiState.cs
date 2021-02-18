@@ -84,6 +84,19 @@ namespace SharpGui
         }
 
         /// <summary>
+        /// Take keyboard focus, but any previous items with focus may have already run.
+        /// Treat it as not having focus until the next frame. This is good for taking focus
+        /// when things happen like clicking on the item with the mouse. It would be ideal
+        /// to call this at the end of your widget where input is being handled. The FocusedItem
+        /// property is changed immediately after this is called.
+        /// </summary>
+        /// <param name="id"></param>
+        public void StealKeyboardFocus(Guid id)
+        {
+            FocusedItem = id;
+        }
+
+        /// <summary>
         /// Handle common keyboard focus code. This will return true if the calling code should further process
         /// input and false if it should do nothing more.
         /// </summary>

@@ -76,6 +76,7 @@ namespace SharpGui
             bool clicked = false;
             if (regionHit && !state.MouseDown && state.ActiveItem == id)
             {
+                state.StealKeyboardFocus(id);
                 clicked = true;
             }
             if (state.ProcessKeyboardFocus(id))

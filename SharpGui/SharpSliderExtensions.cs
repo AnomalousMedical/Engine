@@ -64,6 +64,7 @@ namespace SharpGui
             buffer.DrawQuad(buttonX, buttonY, buttonWidth, buttonHeight, color);
 
             // Update widget value
+            bool stealFocus = false;
             bool returnVal = false;
             int v = value;
             if (state.ActiveItem == id)
@@ -73,6 +74,7 @@ namespace SharpGui
                 if (mousepos > withinMarginHeight) { mousepos = withinMarginHeight; }
 
                 v = mousepos / buttonHeight;
+                stealFocus = true;
             }
 
             if (state.ProcessKeyboardFocus(id))
@@ -103,6 +105,11 @@ namespace SharpGui
             {
                 value = v;
                 returnVal = true;
+            }
+
+            if(stealFocus)
+            {
+                state.StealKeyboardFocus(id);
             }
 
             return returnVal;
