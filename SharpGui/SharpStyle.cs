@@ -27,7 +27,7 @@ namespace SharpGui
             {
                 Normal = new SharpLook()
                 {
-                    Background = Color.FromARGB(0xffaaaaaa).ToSrgb(),
+                    Background = Color.FromARGB(0xffdedede).ToSrgb(),
                     Color = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowColor = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowOffset = new IntVector2(8, 8),
@@ -36,7 +36,7 @@ namespace SharpGui
                 },
                 Hover = new SharpLook()
                 {
-                    Background = Color.FromARGB(0xffffffff).ToSrgb(),
+                    Background = Color.FromARGB(0xffd2d2d2).ToSrgb(),
                     Color = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowColor = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowOffset = new IntVector2(8, 8),
@@ -45,7 +45,7 @@ namespace SharpGui
                 },
                 Active = new SharpLook()
                 {
-                    Background = Color.FromARGB(0xffaaaaaa).ToSrgb(),
+                    Background = Color.FromARGB(0xffdedede).ToSrgb(),
                     Color = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowColor = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowOffset = new IntVector2(8, 8),
@@ -54,7 +54,7 @@ namespace SharpGui
                 },
                 HoverAndActive = new SharpLook()
                 {
-                    Background = Color.FromARGB(0xffff0000).ToSrgb(),
+                    Background = Color.FromARGB(0xffdadada).ToSrgb(),
                     Color = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowColor = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowOffset = new IntVector2(8, 8),
@@ -63,7 +63,7 @@ namespace SharpGui
                 },
                 Focus = new SharpLook()
                 {
-                    Background = Color.FromARGB(0xffaaaaaa).ToSrgb(),
+                    Background = Color.FromARGB(0xffdedede).ToSrgb(),
                     Color = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowColor = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowOffset = new IntVector2(8, 8),
@@ -72,7 +72,7 @@ namespace SharpGui
                 },
                 HoverAndFocus = new SharpLook()
                 {
-                    Background = Color.FromARGB(0xffffffff).ToSrgb(),
+                    Background = Color.FromARGB(0xffd2d2d2).ToSrgb(),
                     Color = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowColor = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowOffset = new IntVector2(8, 8),
@@ -81,7 +81,7 @@ namespace SharpGui
                 },
                 HoverAndActiveAndFocus = new SharpLook()
                 {
-                    Background = Color.FromARGB(0xffff0000).ToSrgb(),
+                    Background = Color.FromARGB(0xffdadada).ToSrgb(),
                     Color = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowColor = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowOffset = new IntVector2(8, 8),
