@@ -20,6 +20,7 @@ namespace SharpImGuiTest
         private AutoPtr<IShaderResourceBinding> textShaderResourceBinding;
         private AutoPtr<IBuffer> textVertexBuffer;
         private AutoPtr<IBuffer> textIndexBuffer;
+        private Font font;
 
         private readonly OSWindow osWindow;
         private readonly VirtualFileSystem virtualFileSystem;
@@ -273,7 +274,15 @@ namespace SharpImGuiTest
 
             // Set texture SRV in the SRB
             textShaderResourceBinding.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_Texture").Set(m_TextureSRV);
+
+            this.font = new Font()
+            {
+                CharMap = font.CharMap,
+                GlyphInfo = font.GlyphInfo
+            };
         }
+
+        public Font Font => this.font;
 
         public void Dispose()
         {

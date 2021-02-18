@@ -77,6 +77,22 @@ namespace SharpImGuiTest
             return slider.Process(ref value, state, buffer);
         }
 
+        public void Text(int x, int y, String text)
+        {
+            var font = renderer.Font;
+            char c = text[0];
+            uint charCode = c;
+            if(font.CharMap.TryGetValue(c, out var charMap))
+            {
+                charCode = charMap;
+            }
+            GlyphInfo glyphInfo;
+            if (font.GlyphInfo.TryGetValue(charCode, out glyphInfo))
+            {
+                buffer.DrawTextQuad(x, y, (int)glyphInfo.width, (int)glyphInfo.height, Color.Black, glyphInfo.uvRect);
+            }
+        }
+
         public void Render(IDeviceContext immediateContext)
         {
             renderer.Render(buffer, immediateContext);
