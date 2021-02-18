@@ -50,7 +50,7 @@ namespace SharpGui
 
             // Render scroll button
             var color = Normal;
-            if (state.MouseHoverItem == id)
+            if (state.HoverItem == id)
             {
                 if (state.ActiveItem == id)
                 {

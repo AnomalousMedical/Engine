@@ -9,12 +9,7 @@ namespace SharpGui
 {
     static class SharpButtonExtensions
     {
-        private static Color HoverAndActive = Color.FromARGB(0xffff0000);
-        private static Color Hover = Color.FromARGB(0xffffffff);
-        private static Color Normal = Color.FromARGB(0xffaaaaaa);
-        private static Color ShadowColor = Color.FromARGB(0xff000000);
-        private static Color FocusColor = Color.FromARGB(0xff0000ff);
-        private static Color TextColor = Color.FromARGB(0xff000000);
+        private static SharpStyle style = SharpStyle.CreateComplete();
 
         public static bool Process(this SharpButton button, SharpGuiState state, SharpGuiBuffer buffer, Font font)
         {
@@ -27,49 +22,53 @@ namespace SharpGui
 
             state.GrabKeyboardFocus(id);
 
-            // Check whether the button should be hot
+            // Check whether the button should be active
             bool regionHit = state.RegionHitByMouse(x, y, width, height);
             if (regionHit)
             {
                 state.TrySetActiveItem(id, state.MouseDown);
             }
 
-            var shadowX = x + 8;
-            var shadowY = y + 8;
-            var shadowWidth = width;
-            var shadowHeight = height;
-            //Make shadow bigger if keyboard focused
-            if (state.FocusedItem == button.Id)
+            //Draw
+            var look = state.GetLookForId(id, style);
+
+            //Draw shadow
+            if (look.ShadowOffset.x > 0 && look.ShadowOffset.y > 0)
             {
-                shadowWidth += 12;
-                shadowHeight += 12;
-            }
-            buffer.DrawQuad(shadowX, shadowY, shadowWidth, shadowHeight, ShadowColor);
-            //Draw keyboard focus
-            if (state.FocusedItem == button.Id)
-            {
-                buffer.DrawQuad(x - 6, y - 6, width + 12, height + 12, FocusColor);
+                var shadowX = x + look.ShadowOffset.x;
+                var shadowY = y + look.ShadowOffset.y;
+                var shadowWidth = width;
+                var shadowHeight = height;
+
+                if (state.FocusedItem == button.Id)
+                {
+                    shadowWidth += look.FocusSize.Width;
+                    shadowHeight += look.FocusSize.Height;
+                }
+
+                buffer.DrawQuad(shadowX, shadowY, shadowWidth, shadowHeight, look.ShadowColor);
             }
 
-            //Draw button
-            var color = Normal;
-            if (state.MouseHoverItem == id)
+            //Draw keyboard focus
+            if (state.FocusedItem == button.Id && look.FocusSize.Width > 0 && look.FocusSize.Height > 0)
             {
-                if (state.ActiveItem == id)
-                {
-                    color = HoverAndActive;
-                }
-                else
-                {
-                    color = Hover;
-                }
+                buffer.DrawQuad
+                (
+                    x - look.FocusSize.Width / 2, 
+                    y - look.FocusSize.Height / 2, 
+                    width + look.FocusSize.Width, 
+                    height + look.FocusSize.Height, 
+                    look.FocusHighlightColor
+                );
             }
-            buffer.DrawQuad(x, y, width, height, color);
+
+            //Draw main button
+            buffer.DrawQuad(x, y, width, height, look.Background);
 
             //Draw text
             if(button.Text != null)
             {
-                buffer.DrawText(x, y, TextColor, button.Text, font);
+                buffer.DrawText(x, y, look.Color, button.Text, font);
             }
 
             //Determine clicked

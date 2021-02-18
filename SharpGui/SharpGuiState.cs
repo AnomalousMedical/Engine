@@ -11,7 +11,7 @@ namespace SharpGui
     {
         private static readonly Guid EmptySpace = Guid.NewGuid(); //A guid for when the user clicks on empty space. This gets considered to be active
 
-        public Guid MouseHoverItem { get; private set; }
+        public Guid HoverItem { get; private set; }
         public Guid ActiveItem { get; private set; }
         public int MouseX { get; private set; }
         public int MouseY { get; private set; }
@@ -29,7 +29,7 @@ namespace SharpGui
             MouseX = mouseX;
             MouseY = mouseY;
             MouseDown = mouseDown;
-            MouseHoverItem = Guid.Empty;
+            HoverItem = Guid.Empty;
             this.IsShift = isShift;
             this.IsAlt = isAlt;
             this.IsCtrl = isCtrl;
@@ -64,7 +64,7 @@ namespace SharpGui
 
         public void TrySetActiveItem(Guid id, bool shouldActivate)
         {
-            MouseHoverItem = id;
+            HoverItem = id;
             if (ActiveItem == Guid.Empty && MouseDown)
             {
                 ActiveItem = id;
@@ -132,6 +132,41 @@ namespace SharpGui
             }
             LastWidget = id;
             return callerHandlesInput;
+        }
+
+        public SharpLook GetLookForId(Guid id, SharpStyle style)
+        {
+            if (HoverItem == id)
+            {
+                if (ActiveItem == id)
+                {
+                    if (FocusedItem == id)
+                    {
+                        return style.HoverAndActiveAndFocus;
+                    }
+
+                    return style.HoverAndActive;
+                }
+                
+                if (FocusedItem == id)
+                {
+                    return style.HoverAndFocus;
+                }
+
+                return style.Hover;
+            }
+
+            if(ActiveItem == id)
+            {
+                return style.Active;
+            }
+
+            if(FocusedItem == id)
+            {
+                return style.Focus;
+            }
+
+            return style.Normal;
         }
     }
 }
