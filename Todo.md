@@ -38,3 +38,8 @@ if you had a big one per frame).
 ## Computing vertex position a 2nd time in RenderGLTF_PBR.vsh
 To fix shadows the locPos had to be calculated again. This makes them work, but its a duplicate of what is already done in the vertex shader transform func, we just
 can't get that value.
+
+## Figure out SRGB
+Figure out how to deal with srgb. The colors for the UI have been shifted with a ToSrgb function on Color. This can be found easily enough.
+No changes to any shaders were made to deal with it. Need to figure out if we want to keep srgb or change to linear rgb. It looks like the gltf
+shaders can do either mode with some defines.
