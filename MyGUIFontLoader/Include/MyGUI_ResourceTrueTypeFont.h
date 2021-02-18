@@ -172,6 +172,8 @@ public: //Make these available so they can be copied quickly.
 		//The buffer with the created character map
 		uint8* textureBuffer;
 		size_t textureBufferSize;
+		int textureBufferWidth;
+		int textureBufferHeight;
 
 #endif // MYGUI_USE_FREETYPE
 

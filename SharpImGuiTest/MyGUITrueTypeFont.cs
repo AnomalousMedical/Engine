@@ -17,10 +17,16 @@ namespace SharpImGuiTest
         private GlyphInfoEntryPassStruct substituteCodePointGlyphInfo;
         private IntPtr textureBuffer;
         private UIntPtr textureBufferSize;
+        private int textureBufferWidth;
+        private int textureBufferHeight;
 
         public IntPtr TextureBuffer => textureBuffer;
 
         public UIntPtr TextureBufferSize => textureBufferSize;
+
+        public int TextureBufferWidth => textureBufferWidth;
+
+        public int TextureBufferHeight => textureBufferHeight;
 
         public Dictionary<char, uint> CharMap => charMap;
 
@@ -38,6 +44,8 @@ namespace SharpImGuiTest
             this.substituteCodePointGlyphInfo = fontInfo.substituteGlyphInfo;
             this.textureBuffer = fontInfo.textureBuffer;
             this.textureBufferSize = fontInfo.textureBufferSize;
+            this.textureBufferWidth = fontInfo.textureBufferWidth;
+            this.textureBufferHeight = fontInfo.textureBufferHeight;
 
             var charMapPass = new CharMapPassStruct[fontInfo.charMapLength.ToUInt64()];
             var glyphInfoPass = new GlyphInfoPassStruct[fontInfo.glyphInfoLength.ToUInt64()];
@@ -112,6 +120,8 @@ namespace SharpImGuiTest
             public GlyphInfoEntryPassStruct substituteGlyphInfo;
             public IntPtr textureBuffer;
             public UIntPtr textureBufferSize;
+            public int textureBufferWidth;
+            public int textureBufferHeight;
         };
     }
 }

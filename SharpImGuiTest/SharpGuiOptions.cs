@@ -9,6 +9,8 @@ namespace SharpImGuiTest
     public class SharpGuiOptions
     {
 
-        public int MaxNumberOfQuads = 1000;
+        public uint MaxNumberOfQuads = 1000;
+
+        public uint MaxNumberOfTextQuads = 1000;
     }
 }

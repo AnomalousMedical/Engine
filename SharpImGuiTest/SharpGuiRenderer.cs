@@ -11,17 +11,26 @@ namespace SharpImGuiTest
 {
     public class SharpGuiRenderer : IDisposable
     {
-        private AutoPtr<IPipelineState> pipelineState;
-        private AutoPtr<IShaderResourceBinding> shaderResourceBinding;
-        private AutoPtr<IBuffer> vertexBuffer;
-        private AutoPtr<IBuffer> indexBuffer;
-        private readonly OSWindow osWindow;
-        private DrawIndexedAttribs DrawAttrs;
-        private int maxNumberOfQuads;
+        private AutoPtr<IPipelineState> quadPipelineState;
+        private AutoPtr<IShaderResourceBinding> quadShaderResourceBinding;
+        private AutoPtr<IBuffer> quadVertexBuffer;
+        private AutoPtr<IBuffer> quadIndexBuffer;
 
-        public SharpGuiRenderer(GraphicsEngine graphicsEngine, OSWindow osWindow, SharpGuiOptions options)
+        private AutoPtr<IPipelineState> textPipelineState;
+        private AutoPtr<IShaderResourceBinding> textShaderResourceBinding;
+        private AutoPtr<IBuffer> textVertexBuffer;
+        private AutoPtr<IBuffer> textIndexBuffer;
+
+        private readonly OSWindow osWindow;
+        private readonly VirtualFileSystem virtualFileSystem;
+        private DrawIndexedAttribs DrawAttrs;
+        private uint maxNumberOfQuads;
+        private uint maxNumberOfTextQuads;
+
+        public unsafe SharpGuiRenderer(GraphicsEngine graphicsEngine, OSWindow osWindow, SharpGuiOptions options, VirtualFileSystem virtualFileSystem)
         {
             this.maxNumberOfQuads = options.MaxNumberOfQuads;
+            this.maxNumberOfTextQuads = options.MaxNumberOfTextQuads;
 
             DrawAttrs = new DrawIndexedAttribs()
             {
@@ -33,7 +42,19 @@ namespace SharpImGuiTest
             var m_pDevice = graphicsEngine.RenderDevice;
 
             this.osWindow = osWindow;
+            this.virtualFileSystem = virtualFileSystem;
+            CreateQuadPso(graphicsEngine, m_pSwapChain, m_pDevice);
+            CreateTextPso(graphicsEngine, m_pSwapChain, m_pDevice);
 
+            quadVertexBuffer = CreateVertexBuffer(graphicsEngine.RenderDevice, "SharpGui Quad Vertex Buffer", (uint)sizeof(SharpImGuiVertex), maxNumberOfQuads);
+            quadIndexBuffer = CreateIndexBuffer(graphicsEngine.RenderDevice, "SharpGui Quad Index Buffer", maxNumberOfQuads);
+
+            textVertexBuffer = CreateVertexBuffer(graphicsEngine.RenderDevice, "SharpGui Text Vertex Buffer", (uint)sizeof(SharpImGuiTextVertex), maxNumberOfQuads);
+            textIndexBuffer = CreateIndexBuffer(graphicsEngine.RenderDevice, "SharpGui Text Index Buffer", maxNumberOfQuads);
+        }
+
+        private void CreateQuadPso(GraphicsEngine graphicsEngine, ISwapChain m_pSwapChain, IRenderDevice m_pDevice)
+        {
             var ShaderCI = new ShaderCreateInfo();
             ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
             // OpenGL backend requires emulated combined HLSL texture samplers (g_Texture + g_Texture_sampler combination)
@@ -54,7 +75,7 @@ namespace SharpImGuiTest
             using var pPS = graphicsEngine.RenderDevice.CreateShader(ShaderCI);
 
             var PSOCreateInfo = new GraphicsPipelineStateCreateInfo();
-            PSOCreateInfo.PSODesc.Name = "SharpGui PSO";
+            PSOCreateInfo.PSODesc.Name = "SharpGui Quad PSO";
             PSOCreateInfo.PSODesc.PipelineType = PIPELINE_TYPE.PIPELINE_TYPE_GRAPHICS;
             PSOCreateInfo.GraphicsPipeline.NumRenderTargets = 1;
             PSOCreateInfo.GraphicsPipeline.RTVFormats_0 = m_pSwapChain.GetDesc_ColorBufferFormat;
@@ -102,61 +123,244 @@ namespace SharpImGuiTest
             // Define variable type that will be used by default
             PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
 
-            this.pipelineState = m_pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
+            this.quadPipelineState = m_pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
 
             // Create a shader resource binding object and bind all static resources in it
-            shaderResourceBinding = pipelineState.Obj.CreateShaderResourceBinding(true);
+            this.quadShaderResourceBinding = quadPipelineState.Obj.CreateShaderResourceBinding(true);
+        }
 
-            vertexBuffer = CreateVertexBuffer(graphicsEngine.RenderDevice, maxNumberOfQuads);
-            indexBuffer = CreateIndexBuffer(graphicsEngine.RenderDevice, maxNumberOfQuads);
+        private void CreateTextPso(GraphicsEngine graphicsEngine, ISwapChain m_pSwapChain, IRenderDevice m_pDevice)
+        {
+            var ShaderCI = new ShaderCreateInfo();
+            ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
+            // OpenGL backend requires emulated combined HLSL texture samplers (g_Texture + g_Texture_sampler combination)
+            ShaderCI.UseCombinedTextureSamplers = true;
+
+            // Create a vertex shader
+            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
+            ShaderCI.EntryPoint = "main";
+            ShaderCI.Desc.Name = "SharpGui Text VS";
+            ShaderCI.Source = TextVSSource;
+            using var pVS = graphicsEngine.RenderDevice.CreateShader(ShaderCI);
+
+            //Create pixel shader
+            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_PIXEL;
+            ShaderCI.EntryPoint = "main";
+            ShaderCI.Desc.Name = "SharpGui Text PS";
+            ShaderCI.Source = TextPSSource;
+            using var pPS = graphicsEngine.RenderDevice.CreateShader(ShaderCI);
+
+            var PSOCreateInfo = new GraphicsPipelineStateCreateInfo();
+            PSOCreateInfo.PSODesc.Name = "SharpGui Text PSO";
+            PSOCreateInfo.PSODesc.PipelineType = PIPELINE_TYPE.PIPELINE_TYPE_GRAPHICS;
+            PSOCreateInfo.GraphicsPipeline.NumRenderTargets = 1;
+            PSOCreateInfo.GraphicsPipeline.RTVFormats_0 = m_pSwapChain.GetDesc_ColorBufferFormat;
+            PSOCreateInfo.GraphicsPipeline.DSVFormat = m_pSwapChain.GetDesc_DepthBufferFormat;
+            PSOCreateInfo.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY.PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+            PSOCreateInfo.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE.CULL_MODE_BACK;
+            PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.DepthEnable = true;
+            var RT0 = PSOCreateInfo.GraphicsPipeline.BlendDesc.RenderTargets_0;
+            RT0.BlendEnable = true;
+            RT0.SrcBlend = BLEND_FACTOR.BLEND_FACTOR_SRC_ALPHA;
+            RT0.DestBlend = BLEND_FACTOR.BLEND_FACTOR_INV_SRC_ALPHA;
+            RT0.BlendOp = BLEND_OPERATION.BLEND_OPERATION_ADD;
+            RT0.SrcBlendAlpha = BLEND_FACTOR.BLEND_FACTOR_INV_SRC_ALPHA;
+            RT0.DestBlendAlpha = BLEND_FACTOR.BLEND_FACTOR_ZERO;
+            RT0.BlendOpAlpha = BLEND_OPERATION.BLEND_OPERATION_ADD;
+
+            // Define vertex shader input layout
+            var LayoutElems = new List<LayoutElement>
+            {
+                // Attribute 0 - vertex position
+                new LayoutElement()
+                {
+                    InputIndex = 0,
+                    BufferSlot = 0,
+                    NumComponents = 3,
+                    ValueType = VALUE_TYPE.VT_FLOAT32,
+                    IsNormalized = false
+                },
+                // Attribute 1 - vertex color
+                new LayoutElement
+                {
+                    InputIndex = 1,
+                    BufferSlot = 0,
+                    NumComponents = 4,
+                    ValueType = VALUE_TYPE.VT_FLOAT32,
+                    IsNormalized = false
+                },
+                // Attribute 2 - uv
+                new LayoutElement
+                {
+                    InputIndex = 2,
+                    BufferSlot = 0,
+                    NumComponents = 2,
+                    ValueType = VALUE_TYPE.VT_FLOAT32,
+                    IsNormalized = false
+                },
+            };
+
+            PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements = LayoutElems;
+
+            PSOCreateInfo.pVS = pVS.Obj;
+            PSOCreateInfo.pPS = pPS.Obj;
+
+            // Define variable type that will be used by default
+            PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
+
+            // Shader variables should typically be mutable, which means they are expected
+            // to change on a per-instance basis
+            var Vars = new List<ShaderResourceVariableDesc>()
+            {
+                new ShaderResourceVariableDesc
+                {ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, Name = "g_Texture", Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE}
+            };
+            PSOCreateInfo.PSODesc.ResourceLayout.Variables = Vars;
+
+            // Define immutable sampler for g_Texture. Immutable samplers should be used whenever possible
+            SamplerDesc SamLinearClampDesc = new SamplerDesc();
+            var ImtblSamplers = new List<ImmutableSamplerDesc>()
+            {
+                new ImmutableSamplerDesc
+                {ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, SamplerOrTextureName = "g_Texture", Desc = SamLinearClampDesc}
+            };
+            PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers = ImtblSamplers;
+
+            this.textPipelineState = m_pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
+
+            // Create a shader resource binding object and bind all static resources in it
+            this.textShaderResourceBinding = textPipelineState.Obj.CreateShaderResourceBinding(true);
+
+            LoadFontTexture(graphicsEngine);
+        }
+
+        private void LoadFontTexture(GraphicsEngine graphicsEngine)
+        {
+            //Load Font Texture
+            using var fontStream = virtualFileSystem.openStream("fonts/Roboto-Regular.ttf", Engine.Resources.FileMode.Open);
+            var bytes = new byte[fontStream.Length];
+            var span = new Span<byte>(bytes);
+            while (fontStream.Read(span) != 0) { }
+            using var font = new MyGUITrueTypeFont(bytes);
+
+            uint width = (uint)font.TextureBufferWidth;
+            uint height = (uint)font.TextureBufferHeight;
+
+            //const auto& ImgDesc = pSrcImage->GetDesc();
+            TextureDesc TexDesc = new TextureDesc();
+            TexDesc.Name = "Font texture";
+            TexDesc.Type = RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D;
+            TexDesc.Width = width;
+            TexDesc.Height = height;
+            TexDesc.MipLevels = 1;// (uint)Math.Min(TexDesc.MipLevels, MipLevels);
+            TexDesc.Usage = USAGE.USAGE_IMMUTABLE;
+            TexDesc.BindFlags = BIND_FLAGS.BIND_SHADER_RESOURCE;
+            TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_RGBA8_UNORM;
+            TexDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_NONE;
+
+            var pSubResources = new List<TextureSubResData>(1);
+            pSubResources.Add(new TextureSubResData()
+            {
+                pData = font.TextureBuffer,
+                Stride = sizeof(UInt32) * width,
+            });
+
+            TextureData TexData = new TextureData();
+            TexData.pSubResources = pSubResources;
+
+            using var tex = graphicsEngine.RenderDevice.CreateTexture(TexDesc, TexData); //This does not do anything with this pointer, just pass it along and let the caller handle it
+            var m_TextureSRV = tex.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
+
+            // Set texture SRV in the SRB
+            textShaderResourceBinding.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_Texture").Set(m_TextureSRV);
         }
 
         public void Dispose()
         {
-            indexBuffer.Dispose();
-            vertexBuffer.Dispose();
-            shaderResourceBinding.Dispose();
-            pipelineState.Dispose();
+            textIndexBuffer.Dispose();
+            textVertexBuffer.Dispose();
+            textShaderResourceBinding.Dispose();
+            textPipelineState.Dispose();
+
+            quadIndexBuffer.Dispose();
+            quadVertexBuffer.Dispose();
+            quadShaderResourceBinding.Dispose();
+            quadPipelineState.Dispose();
         }
 
         public unsafe void Render(SharpGuiBuffer buffer, IDeviceContext immediateContext)
         {
-            immediateContext.SetPipelineState(pipelineState.Obj);
+            if (buffer.NumQuadIndices != 0)
+            {
+                immediateContext.SetPipelineState(quadPipelineState.Obj);
 
-            IntPtr data = immediateContext.MapBuffer(vertexBuffer.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
+                //Copy quad vertices
+                {
+                    IntPtr data = immediateContext.MapBuffer(quadVertexBuffer.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
 
-            var dest = new Span<SharpImGuiVertex>(data.ToPointer(), maxNumberOfQuads * 4);
-            var src = new Span<SharpImGuiVertex>(buffer.QuadVerts);
-            src.CopyTo(dest);
+                    var dest = new Span<SharpImGuiVertex>(data.ToPointer(), (int)maxNumberOfQuads * 4); //Yea this typecast is bad
+                    var src = new Span<SharpImGuiVertex>(buffer.QuadVerts);
+                    src.CopyTo(dest);
 
-            immediateContext.UnmapBuffer(vertexBuffer.Obj, MAP_TYPE.MAP_WRITE);
+                    immediateContext.UnmapBuffer(quadVertexBuffer.Obj, MAP_TYPE.MAP_WRITE);
+                }
 
-            UInt32[] offset = new UInt32[] { 0 };
-            IBuffer[] pBuffs = new IBuffer[] { vertexBuffer.Obj };
-            immediateContext.SetVertexBuffers(0, 1, pBuffs, offset, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION, SET_VERTEX_BUFFERS_FLAGS.SET_VERTEX_BUFFERS_FLAG_RESET);
-            immediateContext.SetIndexBuffer(indexBuffer.Obj, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-            immediateContext.CommitShaderResources(shaderResourceBinding.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+                //Render quad vertices
+                {
+                    IBuffer[] pBuffs = new IBuffer[] { quadVertexBuffer.Obj };
+                    immediateContext.SetVertexBuffers(0, 1, pBuffs, null, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION, SET_VERTEX_BUFFERS_FLAGS.SET_VERTEX_BUFFERS_FLAG_RESET);
+                    immediateContext.SetIndexBuffer(quadIndexBuffer.Obj, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+                    immediateContext.CommitShaderResources(quadShaderResourceBinding.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            DrawAttrs.NumIndices = buffer.NumQuadIndices;
-            immediateContext.DrawIndexed(DrawAttrs);
+                    DrawAttrs.NumIndices = buffer.NumQuadIndices;
+                    immediateContext.DrawIndexed(DrawAttrs);
+                }
+            }
+
+            if (buffer.NumTextIndices != 0)
+            {
+                immediateContext.SetPipelineState(textPipelineState.Obj);
+
+                //Copy text vertices
+                {
+                    IntPtr data = immediateContext.MapBuffer(textVertexBuffer.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
+
+                    var dest = new Span<SharpImGuiTextVertex>(data.ToPointer(), (int)maxNumberOfTextQuads * 4); //Yea this typecast is bad
+                    var src = new Span<SharpImGuiTextVertex>(buffer.TextVerts);
+                    src.CopyTo(dest);
+
+                    immediateContext.UnmapBuffer(textVertexBuffer.Obj, MAP_TYPE.MAP_WRITE);
+                }
+
+                //Render text vertices
+                {
+                    IBuffer[] pBuffs = new IBuffer[] { textVertexBuffer.Obj };
+                    immediateContext.SetVertexBuffers(0, 1, pBuffs, null, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION, SET_VERTEX_BUFFERS_FLAGS.SET_VERTEX_BUFFERS_FLAG_RESET);
+                    immediateContext.SetIndexBuffer(textIndexBuffer.Obj, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+                    immediateContext.CommitShaderResources(textShaderResourceBinding.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+
+                    DrawAttrs.NumIndices = buffer.NumTextIndices;
+                    immediateContext.DrawIndexed(DrawAttrs);
+                }
+            }
         }
 
         public uint NumIndices { get; private set; }
 
-        unsafe static AutoPtr<IBuffer> CreateVertexBuffer(IRenderDevice device, int maxNumberOfQuads)
+        unsafe static AutoPtr<IBuffer> CreateVertexBuffer(IRenderDevice device, string name, uint vertexSize, uint maxNumberOfQuads)
         {
             BufferDesc VertBuffDesc = new BufferDesc();
-            VertBuffDesc.Name = "Cube vertex buffer";
+            VertBuffDesc.Name = name;
             VertBuffDesc.Usage = USAGE.USAGE_DYNAMIC;
             VertBuffDesc.BindFlags = BIND_FLAGS.BIND_VERTEX_BUFFER;
             VertBuffDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_WRITE;
-            VertBuffDesc.uiSizeInBytes = (uint)(sizeof(SharpImGuiVertex) * maxNumberOfQuads * 4);
+            VertBuffDesc.uiSizeInBytes = vertexSize * maxNumberOfQuads * 4;
             
             return device.CreateBuffer(VertBuffDesc);
             
         }
 
-        unsafe static AutoPtr<IBuffer> CreateIndexBuffer(IRenderDevice device, int maxNumberOfQuads)
+        unsafe static AutoPtr<IBuffer> CreateIndexBuffer(IRenderDevice device, string name, uint maxNumberOfQuads)
         {
             var Indices = new UInt32[maxNumberOfQuads * 6];
 
@@ -175,7 +379,7 @@ namespace SharpImGuiTest
             }
 
             BufferDesc IndBuffDesc = new BufferDesc();
-            IndBuffDesc.Name = "Cube index buffer";
+            IndBuffDesc.Name = name;
             IndBuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
             IndBuffDesc.BindFlags = BIND_FLAGS.BIND_INDEX_BUFFER;
             IndBuffDesc.uiSizeInBytes = (uint)(sizeof(UInt32) * Indices.Length);
@@ -263,6 +467,7 @@ struct PSInput
 { 
     float4 Pos   : SV_POSITION; 
     float4 Color : COLOR0; 
+    float2 UV    : TEX_COORD; 
 };
 
 struct PSOutput

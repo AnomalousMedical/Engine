@@ -61,13 +61,6 @@ namespace SharpImGuiTest
             var assetPath = Path.GetFullPath("../../../../../Engine-Next-Assets"); //This needs to be less hardcoded.
             vfs.addArchive(assetPath);
 
-            //Test loading a font
-            using var fontStream = vfs.openStream("fonts/Roboto-Regular.ttf", Engine.Resources.FileMode.Open);
-            var bytes = new byte[fontStream.Length];
-            var span = new Span<byte>(bytes);
-            while (fontStream.Read(span) != 0) { }
-            using var font = new MyGUITrueTypeFont(bytes);
-
             mainTimer = globalScope.ServiceProvider.GetRequiredService<UpdateTimer>();
 
             var updateListener = globalScope.ServiceProvider.GetRequiredService<SharpImGuiUpdateListener>();
