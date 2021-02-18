@@ -23,6 +23,11 @@ namespace Engine
             return (int)(originalValue * scaleFactor);
         }
 
+        public static uint Scaled(uint originalValue)
+        {
+            return (uint)(originalValue * scaleFactor);
+        }
+
         //[MethodImpl(MethodImplOptions.AggressiveInlining)] //When .net 4.5
         public static int Unscaled(int originalValue)
         {

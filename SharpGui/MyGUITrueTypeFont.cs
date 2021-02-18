@@ -45,7 +45,7 @@ namespace SharpGui
         {
             return new MyGUITrueTypeFontDesc() {
                 size = 25,
-                resolution = 50,
+                resolution = ScaleHelper.Scaled(96u),
                 antialias = false,
                 tabWidth = 8,
                 offsetHeight = 0
