@@ -145,6 +145,18 @@ namespace Engine
             setValue(value, out r, out g, out b, out a);
         }
 
+        public Color ToSrgb()
+        {
+            //This is the lame conversion
+            return new Color
+            (
+                (float)Math.Pow(r, 2.2),
+                (float)Math.Pow(g, 2.2),
+                (float)Math.Pow(b, 2.2),
+                a
+            );
+        }
+
         /// <summary>
         /// Output as a string in RGBA format R, G, B, A.
         /// </summary>

@@ -27,65 +27,65 @@ namespace SharpGui
             {
                 Normal = new SharpLook()
                 {
-                    Background = Color.FromARGB(0xffaaaaaa),
-                    Color = Color.FromARGB(0xff000000),
-                    ShadowColor = Color.FromARGB(0xff000000),
+                    Background = Color.FromARGB(0xffaaaaaa).ToSrgb(),
+                    Color = Color.FromARGB(0xff000000).ToSrgb(),
+                    ShadowColor = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowOffset = new IntVector2(8, 8),
-                    FocusHighlightColor = Color.FromARGB(0xff0000ff),
+                    FocusHighlightColor = Color.FromARGB(0xff4376a9).ToSrgb(),
                     FocusSize = new IntSize2(12, 12)
                 },
                 Hover = new SharpLook()
                 {
-                    Background = Color.FromARGB(0xffffffff),
-                    Color = Color.FromARGB(0xff000000),
-                    ShadowColor = Color.FromARGB(0xff000000),
+                    Background = Color.FromARGB(0xffffffff).ToSrgb(),
+                    Color = Color.FromARGB(0xff000000).ToSrgb(),
+                    ShadowColor = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowOffset = new IntVector2(8, 8),
-                    FocusHighlightColor = Color.FromARGB(0xff0000ff),
+                    FocusHighlightColor = Color.FromARGB(0xff4376a9).ToSrgb(),
                     FocusSize = new IntSize2(12, 12)
                 },
                 Active = new SharpLook()
                 {
-                    Background = Color.FromARGB(0xffaaaaaa),
-                    Color = Color.FromARGB(0xff000000),
-                    ShadowColor = Color.FromARGB(0xff000000),
+                    Background = Color.FromARGB(0xffaaaaaa).ToSrgb(),
+                    Color = Color.FromARGB(0xff000000).ToSrgb(),
+                    ShadowColor = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowOffset = new IntVector2(8, 8),
-                    FocusHighlightColor = Color.FromARGB(0xff0000ff),
+                    FocusHighlightColor = Color.FromARGB(0xff4376a9).ToSrgb(),
                     FocusSize = new IntSize2(12, 12)
                 },
                 HoverAndActive = new SharpLook()
                 {
-                    Background = Color.FromARGB(0xffff0000),
-                    Color = Color.FromARGB(0xff000000),
-                    ShadowColor = Color.FromARGB(0xff000000),
+                    Background = Color.FromARGB(0xffff0000).ToSrgb(),
+                    Color = Color.FromARGB(0xff000000).ToSrgb(),
+                    ShadowColor = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowOffset = new IntVector2(8, 8),
-                    FocusHighlightColor = Color.FromARGB(0xff0000ff),
+                    FocusHighlightColor = Color.FromARGB(0xff4376a9).ToSrgb(),
                     FocusSize = new IntSize2(12, 12)
                 },
                 Focus = new SharpLook()
                 {
-                    Background = Color.FromARGB(0xffaaaaaa),
-                    Color = Color.FromARGB(0xff000000),
-                    ShadowColor = Color.FromARGB(0xff000000),
+                    Background = Color.FromARGB(0xffaaaaaa).ToSrgb(),
+                    Color = Color.FromARGB(0xff000000).ToSrgb(),
+                    ShadowColor = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowOffset = new IntVector2(8, 8),
-                    FocusHighlightColor = Color.FromARGB(0xff0000ff),
+                    FocusHighlightColor = Color.FromARGB(0xff4376a9).ToSrgb(),
                     FocusSize = new IntSize2(12, 12)
                 },
                 HoverAndFocus = new SharpLook()
                 {
-                    Background = Color.FromARGB(0xffaaaaaa),
-                    Color = Color.FromARGB(0xff000000),
-                    ShadowColor = Color.FromARGB(0xff000000),
+                    Background = Color.FromARGB(0xffffffff).ToSrgb(),
+                    Color = Color.FromARGB(0xff000000).ToSrgb(),
+                    ShadowColor = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowOffset = new IntVector2(8, 8),
-                    FocusHighlightColor = Color.FromARGB(0xff0000ff),
+                    FocusHighlightColor = Color.FromARGB(0xff4376a9).ToSrgb(),
                     FocusSize = new IntSize2(12, 12)
                 },
                 HoverAndActiveAndFocus = new SharpLook()
                 {
-                    Background = Color.FromARGB(0xffff0000),
-                    Color = Color.FromARGB(0xff000000),
-                    ShadowColor = Color.FromARGB(0xff000000),
+                    Background = Color.FromARGB(0xffff0000).ToSrgb(),
+                    Color = Color.FromARGB(0xff000000).ToSrgb(),
+                    ShadowColor = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowOffset = new IntVector2(8, 8),
-                    FocusHighlightColor = Color.FromARGB(0xff0000ff),
+                    FocusHighlightColor = Color.FromARGB(0xff4376a9).ToSrgb(),
                     FocusSize = new IntSize2(12, 12)
                 }
             };
