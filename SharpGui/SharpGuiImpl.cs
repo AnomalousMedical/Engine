@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpImGuiTest
+namespace SharpGui
 {
-    public class SharpGuiImpl : ISharpGui, IDisposable
+    class SharpGuiImpl : ISharpGui, IDisposable
     {
         private readonly SharpGuiBuffer buffer;
         private readonly SharpGuiRenderer renderer;

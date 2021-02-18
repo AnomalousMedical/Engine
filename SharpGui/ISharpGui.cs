@@ -1,7 +1,7 @@
 ﻿using DiligentEngine;
 using Engine;
 
-namespace SharpImGuiTest
+namespace SharpGui
 {
     public interface ISharpGui
     {

@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpImGuiTest
+namespace SharpGui
 {
-    public class SharpGuiRenderer : IDisposable
+    class SharpGuiRenderer : IDisposable
     {
         private AutoPtr<IPipelineState> quadPipelineState;
         private AutoPtr<IShaderResourceBinding> quadShaderResourceBinding;

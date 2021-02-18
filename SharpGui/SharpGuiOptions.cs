@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpImGuiTest
+namespace SharpGui
 {
     public class SharpGuiOptions
     {
