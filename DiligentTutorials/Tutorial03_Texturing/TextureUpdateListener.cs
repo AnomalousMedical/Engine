@@ -138,7 +138,6 @@ namespace DiligentEngineCube
             // Define variable type that will be used by default
             PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
 
-            // clang-format off
             // Shader variables should typically be mutable, which means they are expected
             // to change on a per-instance basis
             var Vars = new List<ShaderResourceVariableDesc>()
@@ -155,7 +154,6 @@ namespace DiligentEngineCube
                 new ImmutableSamplerDesc
                 {ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, SamplerOrTextureName = "g_Texture", Desc = SamLinearClampDesc}
             };
-            // clang-format on
             PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers = ImtblSamplers;
 
             m_pPSO = m_pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
