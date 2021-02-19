@@ -87,6 +87,7 @@ namespace SharpImGuiTest
             //    Console.WriteLine($"New slider value {sliderValue}");
             //}
 
+            sharpGui.Text(450, 400, Color.Black, $"Program has been running for {TimeSpan.FromMilliseconds(clock.CurrentTimeMicro * Clock.MicroToMilliseconds)}");
             sharpGui.Text(750, 500, Color.Black, displayText);
 
             sharpGui.End();
