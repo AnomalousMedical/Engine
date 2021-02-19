@@ -43,3 +43,9 @@ can't get that value.
 Figure out how to deal with srgb. The colors for the UI have been shifted with a ToSrgb function on Color. This can be found easily enough.
 No changes to any shaders were made to deal with it. Need to figure out if we want to keep srgb or change to linear rgb. It looks like the gltf
 shaders can do either mode with some defines.
+
+## Make backspace better
+Make backspace work better, it needs to work on key down not just repeat and key up
+
+## Filter out characters
+currently filtering out anything below 32 in the ascii table, could do this in the control, currently at the higher input level

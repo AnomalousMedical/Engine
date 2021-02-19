@@ -77,6 +77,12 @@ namespace SharpGui
 
         private void Keyboard_KeyPressed(KeyboardButtonCode keyCode, uint keyChar)
         {
+            //Some keys are not valid, filter them out
+            if(keyChar < 32)
+            {
+                keyChar = uint.MaxValue;
+            }
+
             nextRepeatCountdown = StartRepeatMs;
             lastKeyPressed = keyCode;
             immediateInjectChar = lastKeyCharPressed = keyChar;
@@ -112,8 +118,7 @@ namespace SharpGui
                     nextRepeatCountdown = RepeatMs;
                     keyToSend = lastKeyPressed;
                     sentRepeat = true;
-                    if (lastKeyCharPressed != uint.MaxValue
-                        && lastKeyCharPressed > 31)
+                    if (lastKeyCharPressed != uint.MaxValue)
                     {
                         keyCharToSend = lastKeyCharPressed;
                     }
@@ -122,8 +127,7 @@ namespace SharpGui
 
             //This is the highest priority since it will have just been pressed
             //Do it last so it overrides anything else
-            if(immediateInjectChar != uint.MaxValue
-                && immediateInjectChar > 31)
+            if(immediateInjectChar != uint.MaxValue)
             {
                 keyCharToSend = immediateInjectChar;
             }
