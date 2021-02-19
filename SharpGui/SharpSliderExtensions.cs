@@ -53,13 +53,13 @@ namespace SharpGui
             buffer.DrawQuad(mainLeft, mainTop, mainRight, mainBottom, look.Background);
 
             // Render scroll button
-            var buttonAreaTop = mainTop + look.Padding.Top;
-            var withinMarginHeight = mainBottom - buttonAreaTop - look.Padding.Bottom;
-            int buttonHeight = withinMarginHeight / max;
-            var buttonLeft = mainLeft + look.Padding.Left;
-            var buttonTop = buttonAreaTop + value * buttonHeight;
-            int buttonRight = mainRight - look.Padding.Right;
-            int buttonBottom = buttonTop + buttonHeight;
+            var buttonAreaLeft = mainLeft + look.Padding.Left;
+            var withinMarginWidth = mainRight - buttonAreaLeft - look.Padding.Right;
+            int buttonWidth = withinMarginWidth / max;
+            var buttonLeft = buttonAreaLeft + value * buttonWidth;
+            var buttonTop = mainTop + look.Padding.Top;
+            int buttonRight = buttonLeft + buttonWidth;
+            int buttonBottom = mainBottom - look.Padding.Bottom;
             buffer.DrawQuad(buttonLeft, buttonTop, buttonRight, buttonBottom, look.Color);
 
             // Update widget value
@@ -68,11 +68,11 @@ namespace SharpGui
             int v = value;
             if (state.ActiveItem == id)
             {
-                int mousepos = state.MouseY - buttonAreaTop;
+                int mousepos = state.MouseX - buttonAreaLeft;
                 if (mousepos < 0) { mousepos = 0; }
-                if (mousepos > withinMarginHeight) { mousepos = withinMarginHeight; }
+                if (mousepos > withinMarginWidth) { mousepos = withinMarginWidth; }
 
-                v = mousepos / buttonHeight;
+                v = mousepos / buttonWidth;
                 stealFocus = true;
             }
 
@@ -80,11 +80,9 @@ namespace SharpGui
             {
                 switch (state.KeyEntered)
                 {
-                    case Engine.Platform.KeyboardButtonCode.KC_DOWN:
                     case Engine.Platform.KeyboardButtonCode.KC_LEFT:
                         --v;
                         break;
-                    case Engine.Platform.KeyboardButtonCode.KC_UP:
                     case Engine.Platform.KeyboardButtonCode.KC_RIGHT:
                         ++v;
                         break;
@@ -92,11 +90,9 @@ namespace SharpGui
 
                 switch (state.GamepadButtonEntered)
                 {
-                    case Engine.Platform.GamepadButtonCode.XInput_DPadDown:
                     case Engine.Platform.GamepadButtonCode.XInput_DPadLeft:
                         --v;
                         break;
-                    case Engine.Platform.GamepadButtonCode.XInput_DPadUp:
                     case Engine.Platform.GamepadButtonCode.XInput_DPadRight:
                         ++v;
                         break;
