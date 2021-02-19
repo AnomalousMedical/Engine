@@ -20,12 +20,24 @@ namespace Engine
         //[MethodImpl(MethodImplOptions.AggressiveInlining)] //When .net 4.5
         public static int Scaled(int originalValue)
         {
-            return (int)(originalValue * scaleFactor);
+            int scaled = (int)(originalValue * scaleFactor);
+            //Keep at least 1 if the original value wasn't 0.
+            if(originalValue > 0 && scaled == 0)
+            {
+                scaled = 1;
+            }
+            return scaled;
         }
 
         public static uint Scaled(uint originalValue)
         {
-            return (uint)(originalValue * scaleFactor);
+            uint scaled = (uint)(originalValue * scaleFactor);
+            //Keep at least 1 if the original value wasn't 0.
+            if (originalValue > 0 && scaled == 0)
+            {
+                scaled = 1;
+            }
+            return scaled;
         }
 
         //[MethodImpl(MethodImplOptions.AggressiveInlining)] //When .net 4.5
