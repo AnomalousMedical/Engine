@@ -1,4 +1,5 @@
 ﻿using Engine;
+using Engine.Platform;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,29 +64,38 @@ namespace SharpGui
                 buffer.DrawText(textLeft, textTop, look.Color, input.Text, font);
             }
 
-            //Determine clicked
+            //Handle input
             bool result = false;
+            if (state.LastKeyChar != uint.MaxValue)
+            {
+                Console.WriteLine(state.LastKeyChar);
+                input.Text.Append((char)state.LastKeyChar);
+            }
+
+            //Determine clicked
             if (regionHit && !state.MouseDown && state.ActiveItem == id)
             {
                 state.StealFocus(id);
-                result = true;
             }
             
             if (state.ProcessFocus(id, navUp: navUp, navDown: navDown, navLeft: navLeft, navRight: navRight))
             {
                 switch (state.KeyEntered)
                 {
-                    case Engine.Platform.KeyboardButtonCode.KC_RETURN:
-                        result = true;
+                    case Engine.Platform.KeyboardButtonCode.KC_BACK:
+                        if (input.Text.Length > 0)
+                        {
+                            input.Text.Remove(input.Text.Length - 1, 1);
+                        }
                         break;
                 }
 
-                switch (state.GamepadButtonEntered)
-                {
-                    case Engine.Platform.GamepadButtonCode.XInput_A:
-                        result = true;
-                        break;
-                }
+                //switch (state.GamepadButtonEntered)
+                //{
+                //    case Engine.Platform.GamepadButtonCode.XInput_A:
+                //        result = true;
+                //        break;
+                //}
             }
             return result;
         }
@@ -95,7 +105,7 @@ namespace SharpGui
             var look = state.GetLookForId(input.Id, style);
 
             IntSize2 result = look.Border.ToSize() + look.Padding.ToSize();
-            if (!String.IsNullOrEmpty(input.Text))
+            if (input.Text?.Length > 0)
             {
                 result += font.MeasureText(input.Text);
             }

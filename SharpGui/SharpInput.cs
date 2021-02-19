@@ -14,6 +14,12 @@ namespace SharpGui
             Id = Guid.NewGuid();
         }
 
+        public SharpInput(String text)
+            :this()
+        {
+            Text.Append(text);
+        }
+
         public void SetRect(int left, int top, int width, int height)
         {
             this.Rect.Left = left;
@@ -35,7 +41,7 @@ namespace SharpGui
         public Guid Id { get; private set; }
 
         public IntRect Rect;
-        
-        public String Text { get; set; }
+
+        public StringBuilder Text { get; set; } = new StringBuilder();
     }
 }

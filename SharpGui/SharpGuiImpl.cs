@@ -11,6 +11,7 @@ namespace SharpGui
 {
     class SharpGuiImpl : ISharpGui, IDisposable
     {
+        private const int StartRepeatMs = 300;
         private const int RepeatMs = 150;
 
         private readonly SharpGuiBuffer buffer;
@@ -18,6 +19,7 @@ namespace SharpGui
         private readonly EventManager eventManager;
         private readonly SharpGuiState state = new SharpGuiState();
         private KeyboardButtonCode lastKeyPressed = KeyboardButtonCode.KC_UNASSIGNED;
+        private uint lastKeyCharPressed = uint.MaxValue;
         private KeyboardButtonCode lastKeyReleased = KeyboardButtonCode.KC_UNASSIGNED;
         private GamepadButtonCode lastGamepadPressed = GamepadButtonCode.NUM_BUTTONS;
         private GamepadButtonCode lastGamepadReleased = GamepadButtonCode.NUM_BUTTONS;
@@ -48,8 +50,9 @@ namespace SharpGui
 
         private void Pad1_ButtonDown(Engine.Platform.Input.Gamepad pad, GamepadButtonCode buttonCode)
         {
-            nextRepeatCountdown = RepeatMs;
+            nextRepeatCountdown = StartRepeatMs;
             lastKeyPressed = KeyboardButtonCode.KC_UNASSIGNED;
+            lastKeyCharPressed = uint.MaxValue;
             lastGamepadPressed = buttonCode;
             sentRepeat = false;
         }
@@ -73,8 +76,9 @@ namespace SharpGui
 
         private void Keyboard_KeyPressed(KeyboardButtonCode keyCode, uint keyChar)
         {
-            nextRepeatCountdown = RepeatMs;
+            nextRepeatCountdown = StartRepeatMs;
             lastKeyPressed = keyCode;
+            lastKeyCharPressed = keyChar;
             lastGamepadPressed = GamepadButtonCode.NUM_BUTTONS;
             sentRepeat = false;
         }
@@ -93,6 +97,7 @@ namespace SharpGui
             var keyboard = eventManager.Keyboard;
             var mouse = eventManager.Mouse;
 
+            uint keyCharToSend = uint.MaxValue;
             var keyToSend = lastKeyReleased;
             if (sentRepeat)
             {
@@ -107,6 +112,12 @@ namespace SharpGui
                     keyToSend = lastKeyPressed;
                     sentRepeat = true;
                 }
+            }
+            if (keyToSend != KeyboardButtonCode.KC_UNASSIGNED 
+                && lastKeyCharPressed != uint.MaxValue 
+                && lastKeyCharPressed > 31)
+            {
+                keyCharToSend = lastKeyCharPressed;
             }
 
             var buttonToSend = lastGamepadReleased;
@@ -129,6 +140,7 @@ namespace SharpGui
                 mouse.AbsolutePosition.x, mouse.AbsolutePosition.y,
                 mouse.buttonDown(MouseButtonCode.MB_BUTTON0),
                 keyToSend,
+                keyCharToSend,
                 keyboard.isModifierDown(Modifier.Shift),
                 keyboard.isModifierDown(Modifier.Alt),
                 keyboard.isModifierDown(Modifier.Ctrl),
