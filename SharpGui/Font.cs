@@ -42,20 +42,31 @@ namespace SharpGui
 
         public IntSize2 MeasureText(String text)
         {
-            int width = 0;
-            int height = 0;
-            int smallestBearingY = (int)SmallestBearingY;
+            int xOffset = 0;
+            int yOffset = 0;
+            int widest = 0;
+            int tallestLineChar = 0;
             foreach (var c in text)
             {
                 uint charCode = c;
                 if (TryGetGlyphInfo(c, out var glyphInfo))
                 {
                     int fullAdvance = (int)glyphInfo.advance + (int)glyphInfo.bearingX;
-                    width += fullAdvance;
-                    height = Math.Max(height, (int)glyphInfo.height + (int)glyphInfo.bearingY);
+                    xOffset += fullAdvance;
+                    tallestLineChar = Math.Max((int)glyphInfo.height + (int)glyphInfo.bearingY, tallestLineChar);
+                }
+                if (c == '\n')
+                {
+                    widest = Math.Max(widest, xOffset);
+                    yOffset += tallestLineChar;
+                    tallestLineChar = 0;
+                    xOffset = 0;
                 }
             }
-            return new IntSize2(width, height - smallestBearingY);
+
+            widest = Math.Max(widest, xOffset);
+
+            return new IntSize2(widest, yOffset + tallestLineChar - (int)SmallestBearingY);
         }
     }
 }

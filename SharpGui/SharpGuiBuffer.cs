@@ -79,16 +79,25 @@ namespace SharpGui
         public void DrawText(int x, int y, Color color, String text, Font font)
         {
             int xOffset = x;
+            
             int smallestBearingY = (int)font.SmallestBearingY;
-            y -= smallestBearingY;
+            int yOffset = y - smallestBearingY;
+            int tallestLineChar = 0;
             foreach (var c in text)
             {
                 uint charCode = c;
                 if (font.TryGetGlyphInfo(c, out var glyphInfo))
                 {
-                    DrawTextQuad(xOffset + (int)glyphInfo.bearingX, y + (int)glyphInfo.bearingY, (int)glyphInfo.width, (int)glyphInfo.height, ref color, ref glyphInfo.uvRect);
+                    DrawTextQuad(xOffset + (int)glyphInfo.bearingX, yOffset + (int)glyphInfo.bearingY, (int)glyphInfo.width, (int)glyphInfo.height, ref color, ref glyphInfo.uvRect);
                     int fullAdvance = (int)glyphInfo.advance + (int)glyphInfo.bearingX;
                     xOffset += fullAdvance;
+                    tallestLineChar = Math.Max((int)glyphInfo.height + (int)glyphInfo.bearingY, tallestLineChar);
+                }
+                if(c == '\n')
+                {
+                    yOffset += tallestLineChar;
+                    tallestLineChar = 0;
+                    xOffset = x;
                 }
             }
         }
