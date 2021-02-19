@@ -48,7 +48,7 @@ namespace SharpGui
             NumTextIndices = 0;
         }
 
-        public void DrawQuad(int x, int y, int width, int height, Color color)
+        public void DrawQuad(int left, int top, int right, int bottom, Color color)
         {
             if(currentQuad >= quadVerts.Length)
             {
@@ -56,15 +56,15 @@ namespace SharpGui
                 return;
             }
 
-            float left = x / (float)osWindow.WindowWidth * 2.0f - 1.0f;
-            float right = (x + width) / (float)osWindow.WindowWidth * 2.0f - 1.0f;
-            float top = y / (float)osWindow.WindowHeight * -2.0f + 1.0f;
-            float bottom = (y + height) / (float)osWindow.WindowHeight * -2.0f + 1.0f;
+            float fleft = left / (float)osWindow.WindowWidth * 2.0f - 1.0f;
+            float ftop = top / (float)osWindow.WindowHeight * -2.0f + 1.0f;
+            float fright = right / (float)osWindow.WindowWidth * 2.0f - 1.0f;
+            float fbottom = bottom / (float)osWindow.WindowHeight * -2.0f + 1.0f;
 
-            quadVerts[currentQuad].pos = new Vector3(left, top, currentZ);
-            quadVerts[currentQuad + 1].pos = new Vector3(right, top, currentZ);
-            quadVerts[currentQuad + 2].pos = new Vector3(right, bottom, currentZ);
-            quadVerts[currentQuad + 3].pos = new Vector3(left, bottom, currentZ);
+            quadVerts[currentQuad].pos = new Vector3(fleft, ftop, currentZ);
+            quadVerts[currentQuad + 1].pos = new Vector3(fright, ftop, currentZ);
+            quadVerts[currentQuad + 2].pos = new Vector3(fright, fbottom, currentZ);
+            quadVerts[currentQuad + 3].pos = new Vector3(fleft, fbottom, currentZ);
 
             quadVerts[currentQuad].color = color;
             quadVerts[currentQuad + 1].color = color;

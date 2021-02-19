@@ -14,61 +14,53 @@ namespace SharpGui
         public static bool Process(this SharpButton button, SharpGuiState state, SharpGuiBuffer buffer, Font font)
         {
             Guid id = button.Id;
-            var rect = button.Rect;
-            int x = rect.Left;
-            int y = rect.Top;
-            int width = rect.Width;
-            int height = rect.Height;
-
             state.GrabKeyboardFocus(id);
+            var look = state.GetLookForId(id, style);
+
+            var rect = button.Rect;
+            int left = rect.Left + look.Margin.Left;
+            int top = rect.Top + look.Margin.Top;
+            int right = rect.Right - look.Margin.Right;
+            int bottom = rect.Bottom - look.Margin.Bottom;
 
             // Check whether the button should be active
-            bool regionHit = state.RegionHitByMouse(x, y, width, height);
+            bool regionHit = state.RegionHitByMouse(left, top, right, bottom);
             if (regionHit)
             {
                 state.TrySetActiveItem(id, state.MouseDown);
             }
 
             //Draw
-            var look = state.GetLookForId(id, style);
-
             //Draw shadow
             if (look.ShadowOffset.x > 0 && look.ShadowOffset.y > 0)
             {
-                var shadowX = x + look.ShadowOffset.x;
-                var shadowY = y + look.ShadowOffset.y;
-                var shadowWidth = width;
-                var shadowHeight = height;
+                var shadowOffset = look.ShadowOffset;
+                var shadowLeft = left + shadowOffset.x;
+                var shadowTop = top + shadowOffset.y;
+                var shadowRight = right + shadowOffset.x;
+                var shadowBottom = bottom + shadowOffset.y;
 
-                //if (state.FocusedItem == button.Id)
-                //{
-                //    shadowWidth += look.FocusSize.Width;
-                //    shadowHeight += look.FocusSize.Height;
-                //}
-
-                buffer.DrawQuad(shadowX, shadowY, shadowWidth, shadowHeight, look.ShadowColor);
+                buffer.DrawQuad(shadowLeft, shadowTop, shadowRight, shadowBottom, look.ShadowColor);
             }
 
-            //Draw keyboard focus
-            //if (state.FocusedItem == button.Id && look.FocusSize.Width > 0 && look.FocusSize.Height > 0)
-            //{
-            //    buffer.DrawQuad
-            //    (
-            //        x - look.FocusSize.Width / 2, 
-            //        y - look.FocusSize.Height / 2, 
-            //        width + look.FocusSize.Width, 
-            //        height + look.FocusSize.Height, 
-            //        look.FocusHighlightColor
-            //    );
-            //}
+            //Draw border
+            buffer.DrawQuad(left, top, right, bottom, look.BorderColor);
 
             //Draw main button
-            buffer.DrawQuad(x, y, width, height, look.Background);
+            var mainLeft = left + look.Border.Left;
+            var mainTop = top + look.Border.Top;
+            var mainRight = right - look.Border.Right;
+            var mainBottom = bottom - look.Border.Bottom;
+
+            buffer.DrawQuad(mainLeft, mainTop, mainRight, mainBottom, look.Background);
 
             //Draw text
             if(button.Text != null)
             {
-                buffer.DrawText(x, y, look.Color, button.Text, font);
+                var textLeft = mainLeft + look.Padding.Left;
+                var textTop = mainTop + look.Padding.Right;
+
+                buffer.DrawText(textLeft, textTop, look.Color, button.Text, font);
             }
 
             //Determine clicked
@@ -94,7 +86,7 @@ namespace SharpGui
         {
             var look = state.GetLookForId(button.Id, style);
 
-            IntSize2 result = new IntSize2();
+            IntSize2 result = look.Margin.ToSize() + look.Border.ToSize() + look.Padding.ToSize();
             if (button.Text != null)
             {
                 result += font.MeasureText(button.Text);

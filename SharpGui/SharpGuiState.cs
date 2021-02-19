@@ -54,12 +54,12 @@ namespace SharpGui
             KeyEntered = KeyboardButtonCode.KC_UNASSIGNED;
         }
 
-        public bool RegionHitByMouse(int x, int y, int w, int h)
+        public bool RegionHitByMouse(int left, int top, int right, int bottom)
         {
-            return !(MouseX < x ||
-                   MouseY < y ||
-                   MouseX >= x + w ||
-                   MouseY >= y + h);
+            return !(MouseX < left ||
+                   MouseY < top ||
+                   MouseX >= right ||
+                   MouseY >= bottom);
         }
 
         public void TrySetActiveItem(Guid id, bool shouldActivate)

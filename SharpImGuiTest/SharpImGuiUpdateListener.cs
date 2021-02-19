@@ -88,10 +88,10 @@ namespace SharpImGuiTest
                 Console.WriteLine("Clicked button 3");
             }
 
-            if(sharpGui.Slider(slider, ref sliderValue))
-            {
-                Console.WriteLine($"New slider value {sliderValue}");
-            }
+            //if(sharpGui.Slider(slider, ref sliderValue))
+            //{
+            //    Console.WriteLine($"New slider value {sliderValue}");
+            //}
 
             sharpGui.Text(750, 500, Color.Black, "Hello World!");
 

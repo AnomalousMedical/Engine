@@ -10,8 +10,10 @@ namespace SharpGui
         public Color Background;
         public Color Color;
         public Color ShadowColor;
-        public Color FocusHighlightColor;
         public IntVector2 ShadowOffset;
-        public IntSize2 FocusSize;
+        public Color BorderColor;
+        public IntPad Margin;
+        public IntPad Border;
+        public IntPad Padding;
     }
 }
