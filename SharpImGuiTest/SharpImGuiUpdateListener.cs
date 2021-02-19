@@ -51,11 +51,10 @@ namespace SharpImGuiTest
 
         }
 
-        SharpButton button1 = new SharpButton(50, 50, 250, 100, text: "Button 1");
-        SharpButton button2 = new SharpButton(600, 250, 100, 100, text: "Button 2");
-        SharpButton button3 = new SharpButton(550, 500, 100, 100, text: "Button 3");
+        SharpButton button1 = new SharpButton() { Text = "Button 1" };
+        SharpButton button2 = new SharpButton() { Text = "Button 2" };
+        SharpButton button3 = new SharpButton() { Text = "Button 3" };
 
-        Guid sliderId = Guid.NewGuid();
         SharpSlider slider = new SharpSlider(350, 250, 32, 500, 15);
         private int sliderValue = 0;
 
@@ -72,7 +71,7 @@ namespace SharpImGuiTest
             };
 
             var desiredSize = columnLayout.GetDesiredSize(sharpGui);
-            columnLayout.SetRect(new IntRect(0, 0, desiredSize.Width, desiredSize.Height));
+            columnLayout.SetRect(new IntRect(window.WindowWidth - 15 - desiredSize.Width, window.WindowHeight - 15 - desiredSize.Height, desiredSize.Width, desiredSize.Height));
             
             //Buttons
             if(sharpGui.Button(button1))

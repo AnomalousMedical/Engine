@@ -14,16 +14,6 @@ namespace SharpGui
             Id = Guid.NewGuid();
         }
 
-        public SharpButton(int left, int top, int width, int height, String text = null)
-            : this()
-        {
-            this.Rect.Left = left;
-            this.Rect.Top = top;
-            this.Rect.Width = width;
-            this.Rect.Height = height;
-            this.Text = text;
-        }
-
         public void SetRect(int left, int top, int width, int height)
         {
             this.Rect.Left = left;
