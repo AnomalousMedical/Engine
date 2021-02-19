@@ -89,6 +89,18 @@ namespace SharpGui
                         ++v;
                         break;
                 }
+
+                switch (state.GamepadButtonEntered)
+                {
+                    case Engine.Platform.GamepadButtonCode.XInput_DPadDown:
+                    case Engine.Platform.GamepadButtonCode.XInput_DPadLeft:
+                        --v;
+                        break;
+                    case Engine.Platform.GamepadButtonCode.XInput_DPadUp:
+                    case Engine.Platform.GamepadButtonCode.XInput_DPadRight:
+                        ++v;
+                        break;
+                }
             }
 
             if(v < 0)
