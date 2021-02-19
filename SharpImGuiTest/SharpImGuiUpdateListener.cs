@@ -50,7 +50,7 @@ namespace SharpImGuiTest
         SharpButton button2 = new SharpButton() { Text = "Button 2" };
         SharpButton button3 = new SharpButton() { Text = "Button 3" };
 
-        SharpSlider slider = new SharpSlider(350, 250, 32, 500, 15);
+        SharpSlider slider = new SharpSlider() { Rect = new IntRect(350, 250, 32, 500), Max = 15 };
         private int sliderValue = 0;
 
         public unsafe void sendUpdate(Clock clock)
@@ -77,10 +77,10 @@ namespace SharpImGuiTest
                 displayText = "Clicked button 3";
             }
 
-            //if(sharpGui.Slider(slider, ref sliderValue))
-            //{
-            //    Console.WriteLine($"New slider value {sliderValue}");
-            //}
+            if (sharpGui.Slider(slider, ref sliderValue))
+            {
+                displayText = $"New slider value {sliderValue}";
+            }
 
             sharpGui.Text(450, 400, Color.Black, $"Program has been running for {TimeSpan.FromMilliseconds(clock.CurrentTimeMicro * Clock.MicroToMilliseconds)}");
             sharpGui.Text(750, 500, Color.Black, displayText);

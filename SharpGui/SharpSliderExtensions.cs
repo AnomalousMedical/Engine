@@ -19,34 +19,34 @@ namespace SharpGui
         public static bool Process(this SharpSlider slider, ref int value, SharpGuiState state, SharpGuiBuffer buffer)
         {
             Guid id = slider.Id;
-            int x = slider.X;
-            int y = slider.Y;
-            int width = slider.Width;
-            int height = slider.Height;
+            int left = slider.Rect.Left;
+            int top = slider.Rect.Top;
+            int right = slider.Rect.Right;
+            int bottom = slider.Rect.Bottom;
             int max = slider.Max;
 
             state.GrabKeyboardFocus(id);
 
-            var doubleMargin = ButtonMargin * 2;
-            var withinMarginHeight = height - doubleMargin;
-            int buttonWidth = width - doubleMargin;
-            int buttonHeight = withinMarginHeight / (max + 1);
-            var buttonX = x + ButtonMargin;
-            var buttonY = y + ButtonMargin + value * buttonHeight;
+            var withinMarginHeight = slider.Rect.Height - ButtonMargin * 2;
+            int buttonHeight = withinMarginHeight / max;
+            var buttonLeft = left + ButtonMargin;
+            var buttonTop = top + ButtonMargin + value * buttonHeight;
+            int buttonRight = right - ButtonMargin;
+            int buttonBottom = buttonTop + buttonHeight;
 
             // Check for focus
-            if (state.RegionHitByMouse(x, y, width, height))
+            if (state.RegionHitByMouse(left, top, right, bottom))
             {
                 state.TrySetActiveItem(id, state.MouseDown);
             }
 
             if (state.FocusedItem == slider.Id)
             {
-                buffer.DrawQuad(x - 6, y - 6, width + 12, height + 12, FocusColor);
+                buffer.DrawQuad(left - 6, top - 6, right + 6, bottom + 6, FocusColor);
             }
 
             // Render the scrollbar
-            buffer.DrawQuad(x, y, width, height, ButtonBackgroundColor);
+            buffer.DrawQuad(left, top, right, bottom, ButtonBackgroundColor);
 
             // Render scroll button
             var color = Normal;
@@ -61,7 +61,7 @@ namespace SharpGui
                     color = Hover;
                 }
             }
-            buffer.DrawQuad(buttonX, buttonY, buttonWidth, buttonHeight, color);
+            buffer.DrawQuad(buttonLeft, buttonTop, buttonRight, buttonBottom, color);
 
             // Update widget value
             bool stealFocus = false;
@@ -69,7 +69,7 @@ namespace SharpGui
             int v = value;
             if (state.ActiveItem == id)
             {
-                int mousepos = state.MouseY - (y + ButtonMargin);
+                int mousepos = state.MouseY - (top + ButtonMargin);
                 if (mousepos < 0) { mousepos = 0; }
                 if (mousepos > withinMarginHeight) { mousepos = withinMarginHeight; }
 
@@ -96,9 +96,9 @@ namespace SharpGui
             {
                 v = 0;
             }
-            else if (v > max)
+            else if (v >= max)
             {
-                v = max;
+                v = max - 1;
             }
 
             if (v != value)
