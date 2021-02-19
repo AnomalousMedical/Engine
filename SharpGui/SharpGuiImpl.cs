@@ -160,7 +160,18 @@ namespace SharpGui
         /// <param name="slider">The slider to draw.</param>
         /// <param name="value">The current value of the slider.</param>
         /// <returns>True if value changed.</returns>
-        public bool Slider(SharpSlider slider, ref int value)
+        public bool Slider(SharpSliderHorizontal slider, ref int value)
+        {
+            return slider.Process(ref value, state, buffer, sliderStyle);
+        }
+
+        /// <summary>
+        /// Draw a slider. Returns true if the passed in value changed.
+        /// </summary>
+        /// <param name="slider">The slider to draw.</param>
+        /// <param name="value">The current value of the slider.</param>
+        /// <returns>True if value changed.</returns>
+        public bool Slider(SharpSliderVertical slider, ref int value)
         {
             return slider.Process(ref value, state, buffer, sliderStyle);
         }

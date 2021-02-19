@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SharpGui
 {
-    public class SharpSlider
+    public abstract class SharpSlider
     {
         public SharpSlider()
         {
@@ -18,5 +18,14 @@ namespace SharpGui
 
         public IntRect Rect;
         public int Max { get; set; }
+    }
+
+    public class SharpSliderHorizontal : SharpSlider
+    {
+        
+    }
+
+    public class SharpSliderVertical : SharpSlider
+    {
     }
 }

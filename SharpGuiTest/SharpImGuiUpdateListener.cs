@@ -25,12 +25,14 @@ namespace SharpImGuiTest
         SharpButton button2 = new SharpButton() { Text = "Button 2" };
         SharpButton button3 = new SharpButton() { Text = "Button 3" };
 
-        SharpSlider slider;
+        SharpSliderVertical sliderVert;
+        SharpSliderHorizontal sliderHorz;
         private int sliderValue = 0;
 
         public SharpImGuiUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ISharpGui sharpGui, IScaleHelper scaleHelper)
         {
-            slider = new SharpSlider() { Rect = scaleHelper.Scaled(new IntRect(10, 10, 35, 500)), Max = 15 };
+            sliderVert = new SharpSliderVertical() { Rect = scaleHelper.Scaled(new IntRect(10, 10, 35, 500)), Max = 15 };
+            sliderHorz = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 10, 500, 35)), Max = 15 };
 
             PerformanceMonitor.Enabled = true;
 
@@ -104,7 +106,12 @@ namespace SharpImGuiTest
                     break;
             }
 
-            if (sharpGui.Slider(slider, ref sliderValue))
+            if (sharpGui.Slider(sliderVert, ref sliderValue))
+            {
+                displayText = $"New slider value {sliderValue}";
+            }
+
+            if (sharpGui.Slider(sliderHorz, ref sliderValue))
             {
                 displayText = $"New slider value {sliderValue}";
             }

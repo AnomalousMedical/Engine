@@ -7,12 +7,60 @@ namespace SharpGui
 {
     public interface ISharpGui
     {
+        /// <summary>
+        /// Start a gui frame.
+        /// </summary>
+        /// <param name="clock"></param>
         void Begin(Clock clock);
-        SharpButtonResult Button(SharpButton button);
+        
+        /// <summary>
+        /// End a gui frame. Call after begin and before render.
+        /// </summary>
         void End();
+        
+        /// <summary>
+        /// Render the gui frame to the context.
+        /// </summary>
+        /// <param name="immediateContext"></param>
         void Render(IDeviceContext immediateContext);
-        bool Slider(SharpSlider slider, ref int value);
+
+        /// <summary>
+        /// Draw a slider. Returns true if the passed in value changed.
+        /// </summary>
+        /// <param name="slider">The slider to draw.</param>
+        /// <param name="value">The current value of the slider.</param>
+        /// <returns>True if value changed.</returns>
+        public bool Slider(SharpSliderHorizontal slider, ref int value);
+
+        /// <summary>
+        /// Draw a slider. Returns true if the passed in value changed.
+        /// </summary>
+        /// <param name="slider">The slider to draw.</param>
+        /// <param name="value">The current value of the slider.</param>
+        /// <returns>True if value changed.</returns>
+        public bool Slider(SharpSliderVertical slider, ref int value);
+
+        /// <summary>
+        /// Draw text
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="color"></param>
+        /// <param name="text"></param>
         void Text(int x, int y, Color color, string text);
+
+        /// <summary>
+        /// Draw a button.
+        /// </summary>
+        /// <param name="button"></param>
+        /// <returns></returns>
+        SharpButtonResult Button(SharpButton button);
+
+        /// <summary>
+        /// Measure the size of a button.
+        /// </summary>
+        /// <param name="sharpButton"></param>
+        /// <returns></returns>
         IntSize2 MeasureButton(SharpButton sharpButton);
 
         /// <summary>
