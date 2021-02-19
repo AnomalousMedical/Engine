@@ -33,7 +33,7 @@ namespace SharpImGuiTest
         {
             mainWindow = EasyNativeWindow.Create(services, this, o =>
             {
-                o.Title = "Sharp ImGui Test";
+                o.Title = "SharpGui Test";
             });
 
             services.AddLogging(o =>
