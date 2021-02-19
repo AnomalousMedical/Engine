@@ -144,33 +144,21 @@ namespace SharpGui
             state.End();
         }
 
-        /// <summary>
-        /// Draw a button. Returns true if the button was clicked.
-        /// </summary>
-        /// <param name="button">The button to draw.</param>
-        /// <returns>True if clicked.</returns>
         public bool Button(SharpButton button, Guid? navUp = null, Guid? navDown = null, Guid? navLeft = null, Guid? navRight = null)
         {
             return button.Process(state, buffer, renderer.Font, buttonStyle, navUp, navDown, navLeft, navRight);
         }
 
-        /// <summary>
-        /// Draw a slider. Returns true if the passed in value changed.
-        /// </summary>
-        /// <param name="slider">The slider to draw.</param>
-        /// <param name="value">The current value of the slider.</param>
-        /// <returns>True if value changed.</returns>
+        public bool Input(SharpInput input, Guid? navUp = null, Guid? navDown = null, Guid? navLeft = null, Guid? navRight = null)
+        {
+            return input.Process(state, buffer, renderer.Font, buttonStyle, navUp, navDown, navLeft, navRight);
+        }
+
         public bool Slider(SharpSliderHorizontal slider, ref int value, Guid? navUp = null, Guid? navDown = null)
         {
             return slider.Process(ref value, state, buffer, sliderStyle, navUp, navDown);
         }
 
-        /// <summary>
-        /// Draw a slider. Returns true if the passed in value changed.
-        /// </summary>
-        /// <param name="slider">The slider to draw.</param>
-        /// <param name="value">The current value of the slider.</param>
-        /// <returns>True if value changed.</returns>
         public bool Slider(SharpSliderVertical slider, ref int value, Guid? navLeft = null, Guid? navRight = null)
         {
             return slider.Process(ref value, state, buffer, sliderStyle, navLeft, navRight);
@@ -189,6 +177,11 @@ namespace SharpGui
         public IntSize2 MeasureButton(SharpButton sharpButton)
         {
             return sharpButton.GetDesiredSize(renderer.Font, state, buttonStyle);
+        }
+
+        public IntSize2 MeasureInput(SharpInput sharpInput)
+        {
+            return sharpInput.GetDesiredSize(renderer.Font, state, buttonStyle);
         }
 
         public void StealFocus(Guid id)

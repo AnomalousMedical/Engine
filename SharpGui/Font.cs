@@ -42,6 +42,7 @@ namespace SharpGui
 
         public IntSize2 MeasureText(String text)
         {
+            ///This is closely related to <see cref="SharpGuiBuffer.DrawText(int, int, Color, string, Font)"/>
             int xOffset = 0;
             int yOffset = 0;
             int widest = 0;

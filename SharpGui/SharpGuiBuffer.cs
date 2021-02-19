@@ -78,6 +78,7 @@ namespace SharpGui
 
         public void DrawText(int x, int y, Color color, String text, Font font)
         {
+            ///This is closely related to <see cref="Font.MeasureText(string)"/>
             int xOffset = x;
             
             int smallestBearingY = (int)font.SmallestBearingY;

@@ -57,11 +57,25 @@ namespace SharpGui
         bool Button(SharpButton button, Guid? navUp = null, Guid? navDown = null, Guid? navLeft = null, Guid? navRight = null);
 
         /// <summary>
+        /// Draw a text input.
+        /// </summary>
+        /// <param name="button"></param>
+        /// <returns></returns>
+        bool Input(SharpInput input, Guid? navUp = null, Guid? navDown = null, Guid? navLeft = null, Guid? navRight = null);
+
+        /// <summary>
         /// Measure the size of a button.
         /// </summary>
         /// <param name="sharpButton"></param>
         /// <returns></returns>
         IntSize2 MeasureButton(SharpButton sharpButton);
+
+        /// <summary>
+        /// Measure the size of an input text.
+        /// </summary>
+        /// <param name="sharpInput"></param>
+        /// <returns></returns>
+        IntSize2 MeasureInput(SharpInput sharpInput);
 
         /// <summary>
         /// This should be used carefully ideally before begin or after end is called.

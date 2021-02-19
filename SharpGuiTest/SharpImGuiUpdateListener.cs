@@ -24,6 +24,7 @@ namespace SharpImGuiTest
         SharpButton button1 = new SharpButton() { Text = "Button 1" };
         SharpButton button2 = new SharpButton() { Text = "Button 2" };
         SharpButton button3 = new SharpButton() { Text = "Button 3" };
+        SharpInput input = new SharpInput() { };
 
         SharpSliderVertical sliderVert;
         SharpSliderHorizontal sliderHorz;
@@ -63,7 +64,7 @@ namespace SharpImGuiTest
             //Put things on the gui
             sharpGui.Begin(clock);
 
-            var columnLayout = new ColumnLayout(button1, button2, button3) { Margin = new IntPad(10) };
+            var columnLayout = new ColumnLayout(button1, button2, button3, input) { Margin = new IntPad(10) };
             var desiredSize = columnLayout.GetDesiredSize(sharpGui);
             columnLayout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
 
@@ -82,6 +83,11 @@ namespace SharpImGuiTest
             if (sharpGui.Button(button3, navUp: button2.Id, navDown: button1.Id, navLeft: sliderHorz.Id, navRight: sliderVert.Id))
             {
                 displayText = "Activated button 3";
+            }
+
+            if (sharpGui.Input(input))
+            {
+
             }
 
             if (sharpGui.Slider(sliderVert, ref sliderValue, navLeft: button1.Id, navRight: sliderHorz.Id))
