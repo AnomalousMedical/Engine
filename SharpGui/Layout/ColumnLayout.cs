@@ -184,5 +184,47 @@ namespace SharpGui
                 throw new IndexOutOfRangeException($"Index '{index}' is out of the range 0-11.");
             }
         }
+
+        public ColumnLayout(
+            ILayoutItem item0,
+            ILayoutItem item1 = null,
+            ILayoutItem item2 = null,
+            ILayoutItem item3 = null,
+            ILayoutItem item4 = null,
+            ILayoutItem item5 = null,
+            ILayoutItem item6 = null,
+            ILayoutItem item7 = null,
+            ILayoutItem item8 = null,
+            ILayoutItem item9 = null,
+            ILayoutItem item10 = null,
+            ILayoutItem item11 = null
+        )
+        {
+            this.Item0 = item0;
+            this.Item1 = item1;
+            this.Item2 = item2;
+            this.Item3 = item3;
+            this.Item4 = item4;
+            this.Item5 = item5;
+            this.Item6 = item6;
+            this.Item7 = item7;
+            this.Item8 = item8;
+            this.Item9 = item9;
+            this.Item10 = item10;
+            this.Item11 = item11;
+
+            ItemDesiredHeight0 = 0;
+            ItemDesiredHeight1 = 0;
+            ItemDesiredHeight2 = 0;
+            ItemDesiredHeight3 = 0;
+            ItemDesiredHeight4 = 0;
+            ItemDesiredHeight5 = 0;
+            ItemDesiredHeight6 = 0;
+            ItemDesiredHeight7 = 0;
+            ItemDesiredHeight8 = 0;
+            ItemDesiredHeight9 = 0;
+            ItemDesiredHeight10 = 0;
+            ItemDesiredHeight11 = 0;
+        }
     }
 }

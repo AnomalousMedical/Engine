@@ -63,15 +63,9 @@ namespace SharpImGuiTest
             //Put things on the gui
             sharpGui.Begin();
 
-            var columnLayout = new ColumnLayout()
-            {
-                Item0 = button1,
-                Item1 = button2,
-                Item2 = button3
-            };
-
+            var columnLayout = new ColumnLayout(button1, button2, button3);
             var desiredSize = columnLayout.GetDesiredSize(sharpGui);
-            columnLayout.SetRect(new IntRect(window.WindowWidth - 15 - desiredSize.Width, window.WindowHeight - 15 - desiredSize.Height, desiredSize.Width, desiredSize.Height));
+            columnLayout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
             
             //Buttons
             if(sharpGui.Button(button1))
