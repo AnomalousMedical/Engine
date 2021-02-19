@@ -16,16 +16,23 @@ namespace SharpGui
             var look = state.GetLookForId(id, style);
 
             var rect = slider.Rect;
+            int max = slider.Max;
+
             int left = rect.Left + look.Margin.Left;
             int top = rect.Top + look.Margin.Top;
             int right = rect.Right - look.Margin.Right;
             int bottom = rect.Bottom - look.Margin.Bottom;
-            int max = slider.Max;
 
             // Check for mouse activation
             if (state.RegionHitByMouse(left, top, right, bottom))
             {
                 state.TrySetActiveItem(id, state.MouseDown);
+                //If mouse hover need to update the look
+                look = state.GetLookForId(id, style);
+                left = rect.Left + look.Margin.Left;
+                top = rect.Top + look.Margin.Top;
+                right = rect.Right - look.Margin.Right;
+                bottom = rect.Bottom - look.Margin.Bottom;
             }
 
             //Draw

@@ -16,7 +16,8 @@ namespace SharpGui
         private readonly EventManager eventManager;
         private readonly SharpGuiState state = new SharpGuiState();
         private KeyboardButtonCode lastKeyPressed = KeyboardButtonCode.KC_UNASSIGNED;
-        private static SharpStyle style;
+        private SharpStyle buttonStyle;
+        private SharpStyle sliderStyle;
 
         public SharpGuiImpl(SharpGuiBuffer buffer, SharpGuiRenderer renderer, EventManager eventManager, IScaleHelper scaleHelper)
         {
@@ -24,7 +25,9 @@ namespace SharpGui
             this.renderer = renderer;
             this.eventManager = eventManager;
             eventManager.Keyboard.KeyReleased += Keyboard_KeyReleased;
-            style = SharpStyle.CreateComplete(scaleHelper);
+            buttonStyle = SharpStyle.CreateComplete(scaleHelper);
+            sliderStyle = SharpStyle.CreateComplete(scaleHelper);
+
         }
 
         public void Dispose()
@@ -65,7 +68,7 @@ namespace SharpGui
         /// <returns>True if clicked.</returns>
         public bool Button(SharpButton button)
         {
-            return button.Process(state, buffer, renderer.Font, style);
+            return button.Process(state, buffer, renderer.Font, buttonStyle);
         }
 
         /// <summary>
@@ -76,7 +79,7 @@ namespace SharpGui
         /// <returns>True if value changed.</returns>
         public bool Slider(SharpSlider slider, ref int value)
         {
-            return slider.Process(ref value, state, buffer, style);
+            return slider.Process(ref value, state, buffer, sliderStyle);
         }
 
         public void Text(int x, int y, Color color, String text)
@@ -91,7 +94,7 @@ namespace SharpGui
 
         public IntSize2 MeasureButton(SharpButton sharpButton)
         {
-            return sharpButton.GetDesiredSize(renderer.Font, state, style);
+            return sharpButton.GetDesiredSize(renderer.Font, state, buttonStyle);
         }
     }
 }

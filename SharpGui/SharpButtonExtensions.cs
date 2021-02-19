@@ -26,6 +26,12 @@ namespace SharpGui
             if (regionHit)
             {
                 state.TrySetActiveItem(id, state.MouseDown);
+                //If mouse hover need to update the look
+                look = state.GetLookForId(id, style);
+                left = rect.Left + look.Margin.Left;
+                top = rect.Top + look.Margin.Top;
+                right = rect.Right - look.Margin.Right;
+                bottom = rect.Bottom - look.Margin.Bottom;
             }
 
             //Draw

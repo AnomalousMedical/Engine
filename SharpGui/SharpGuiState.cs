@@ -62,10 +62,17 @@ namespace SharpGui
                    MouseY >= bottom);
         }
 
+        /// <summary>
+        /// Try to set this item active. Will also make it the hover item.
+        /// Returns true if the item was set active, otherwise false.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="shouldActivate"></param>
+        /// <returns></returns>
         public void TrySetActiveItem(Guid id, bool shouldActivate)
         {
             HoverItem = id;
-            if (ActiveItem == Guid.Empty && MouseDown)
+            if (ActiveItem == Guid.Empty && shouldActivate)
             {
                 ActiveItem = id;
             }
