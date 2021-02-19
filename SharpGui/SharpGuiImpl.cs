@@ -76,7 +76,7 @@ namespace SharpGui
         /// <returns>True if value changed.</returns>
         public bool Slider(SharpSlider slider, ref int value)
         {
-            return slider.Process(ref value, state, buffer);
+            return slider.Process(ref value, state, buffer, style);
         }
 
         public void Text(int x, int y, Color color, String text)

@@ -50,7 +50,7 @@ namespace SharpImGuiTest
         SharpButton button2 = new SharpButton() { Text = "Button 2" };
         SharpButton button3 = new SharpButton() { Text = "Button 3" };
 
-        SharpSlider slider = new SharpSlider() { Rect = new IntRect(350, 250, 32, 500), Max = 15 };
+        SharpSlider slider = new SharpSlider() { Rect = new IntRect(350, 250, 500, 500), Max = 15 };
         private int sliderValue = 0;
 
         public unsafe void sendUpdate(Clock clock)
