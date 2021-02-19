@@ -80,12 +80,12 @@ namespace SharpImGuiTest
                 displayText = "Activated button 2";
             }
 
-            if (sharpGui.Button(button3, navUp: button2.Id, navDown: button1.Id, navLeft: sliderHorz.Id, navRight: sliderVert.Id))
+            if (sharpGui.Button(button3, navUp: button2.Id, navDown: input.Id, navLeft: sliderHorz.Id, navRight: sliderVert.Id))
             {
                 displayText = "Activated button 3";
             }
 
-            if (sharpGui.Input(input))
+            if (sharpGui.Input(input, navUp: button3.Id, navDown: button1.Id))
             {
 
             }

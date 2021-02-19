@@ -24,6 +24,8 @@ namespace SharpGui
 
         public GlyphInfo SubstituteCodePointGlyphInfo { get; private set; }
 
+        public int SubstituteGlyphInfoSize => (int)SubstituteCodePointGlyphInfo.height + (int)SubstituteCodePointGlyphInfo.bearingY - (int)SmallestBearingY;
+
         const String TallEnglishLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         float? smallestBearingY;

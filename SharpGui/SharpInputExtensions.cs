@@ -95,9 +95,13 @@ namespace SharpGui
             var look = state.GetLookForId(input.Id, style);
 
             IntSize2 result = look.Border.ToSize() + look.Padding.ToSize();
-            if (input.Text != null)
+            if (!String.IsNullOrEmpty(input.Text))
             {
                 result += font.MeasureText(input.Text);
+            }
+            else
+            {
+                result += new IntSize2(0, font.SubstituteGlyphInfoSize);
             }
             return result;
         }
