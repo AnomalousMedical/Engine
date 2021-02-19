@@ -17,7 +17,6 @@ namespace Engine
             inverseScaleFactor = 1.0f;
         }
 
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)] //When .net 4.5
         public static int Scaled(int originalValue)
         {
             int scaled = (int)(originalValue * scaleFactor);
@@ -40,7 +39,16 @@ namespace Engine
             return scaled;
         }
 
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)] //When .net 4.5
+        public static IntVector2 Scaled(IntVector2 originalValue)
+        {
+            return new IntVector2(Scaled(originalValue.x), Scaled(originalValue.y));
+        }
+
+        public static IntPad Scaled(IntPad originalValue)
+        {
+            return new IntPad(Scaled(originalValue.Left), Scaled(originalValue.Top), Scaled(originalValue.Right), Scaled(originalValue.Bottom));
+        }
+
         public static int Unscaled(int originalValue)
         {
             return (int)(originalValue * inverseScaleFactor);
