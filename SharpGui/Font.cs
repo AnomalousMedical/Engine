@@ -12,6 +12,28 @@ namespace SharpGui
         public Dictionary<char, uint> CharMap { get; internal set; }
         public Dictionary<uint, GlyphInfo> GlyphInfo { get; internal set; }
 
+        const String TallEnglishLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        float? smallestBearingY;
+        public float SmallestBearingY
+        {
+            get
+            {
+                if(smallestBearingY == null)
+                {
+                    smallestBearingY = float.MaxValue;
+                    foreach(var c in TallEnglishLetters)
+                    {
+                        if (TryGetGlyphInfo(c, out var g))
+                        {
+                            smallestBearingY = Math.Min(SmallestBearingY, g.bearingY);
+                        }
+                    }
+                }
+                return smallestBearingY.Value;
+            }
+        }
+
         public bool TryGetGlyphInfo(char c, out GlyphInfo glyphInfo)
         {
             glyphInfo = null;
@@ -22,6 +44,7 @@ namespace SharpGui
         {
             int width = 0;
             int height = 0;
+            int smallestBearingY = (int)SmallestBearingY;
             foreach (var c in text)
             {
                 uint charCode = c;
@@ -32,7 +55,7 @@ namespace SharpGui
                     height = Math.Max(height, (int)glyphInfo.height + (int)glyphInfo.bearingY);
                 }
             }
-            return new IntSize2(width, height);
+            return new IntSize2(width, height - smallestBearingY);
         }
     }
 }
