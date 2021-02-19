@@ -14,30 +14,21 @@ namespace SharpImGuiTest
 {
     class SharpImGuiUpdateListener : UpdateListener, IDisposable
     {
-        private readonly GraphicsEngine graphicsEngine;
         private readonly NativeOSWindow window;
         private readonly ISharpGui sharpGui;
-        private readonly EventManager eventManager;
         private readonly ISwapChain swapChain;
-        private readonly IDeviceContext m_pImmediateContext;
+        private readonly IDeviceContext immediateContext;
         private String displayText = "Click on something!";
         private StringBuilder lastUpdateTimeBuilder = new StringBuilder();
 
-        public SharpImGuiUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ISharpGui sharpGui, EventManager eventManager)
+        public SharpImGuiUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ISharpGui sharpGui)
         {
             PerformanceMonitor.Enabled = true;
 
-            this.graphicsEngine = graphicsEngine;
             this.window = window;
             this.sharpGui = sharpGui;
-            this.eventManager = eventManager;
             this.swapChain = graphicsEngine.SwapChain;
-            this.m_pImmediateContext = graphicsEngine.ImmediateContext;
-
-            var m_pDevice = graphicsEngine.RenderDevice;
-            var m_pSwapChain = graphicsEngine.SwapChain;
-
-            
+            this.immediateContext = graphicsEngine.ImmediateContext;            
         }
 
         public void Dispose()
@@ -100,17 +91,17 @@ namespace SharpImGuiTest
             var pRTV = swapChain.GetCurrentBackBufferRTV();
             var pDSV = swapChain.GetDepthBufferDSV();
 
-            m_pImmediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            immediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             // Clear the back buffer
             var ClearColor = new Color(0.350f, 0.350f, 0.350f, 1.0f);
 
             // Clear the back buffer
             // Let the engine perform required state transitions
-            m_pImmediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-            m_pImmediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            immediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
             //Draw the gui
-            sharpGui.Render(m_pImmediateContext);
+            sharpGui.Render(immediateContext);
 
             PerformanceMonitor.stop("Sharp Gui");
 
