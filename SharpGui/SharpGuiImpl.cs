@@ -160,9 +160,9 @@ namespace SharpGui
         /// <param name="slider">The slider to draw.</param>
         /// <param name="value">The current value of the slider.</param>
         /// <returns>True if value changed.</returns>
-        public bool Slider(SharpSliderHorizontal slider, ref int value)
+        public bool Slider(SharpSliderHorizontal slider, ref int value, Guid? navUp = null, Guid? navDown = null)
         {
-            return slider.Process(ref value, state, buffer, sliderStyle);
+            return slider.Process(ref value, state, buffer, sliderStyle, navUp, navDown);
         }
 
         /// <summary>
@@ -171,9 +171,9 @@ namespace SharpGui
         /// <param name="slider">The slider to draw.</param>
         /// <param name="value">The current value of the slider.</param>
         /// <returns>True if value changed.</returns>
-        public bool Slider(SharpSliderVertical slider, ref int value)
+        public bool Slider(SharpSliderVertical slider, ref int value, Guid? navLeft = null, Guid? navRight = null)
         {
-            return slider.Process(ref value, state, buffer, sliderStyle);
+            return slider.Process(ref value, state, buffer, sliderStyle, navLeft, navRight);
         }
 
         public void Text(int x, int y, Color color, String text)

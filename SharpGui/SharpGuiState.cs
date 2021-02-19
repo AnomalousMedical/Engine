@@ -84,7 +84,7 @@ namespace SharpGui
         /// Call this in every widget to try to get keyboard focus. Only changes if nothing has focus.
         /// </summary>
         /// <param name="id"></param>
-        public void GrabKeyboardFocus(Guid id)
+        public void GrabFocus(Guid id)
         {
             if (FocusedItem == Guid.Empty)
             {
@@ -106,7 +106,7 @@ namespace SharpGui
         }
 
         /// <summary>
-        /// Handle common keyboard focus code. This will return true if the calling code should further process
+        /// Handle common focus code like changing between items. This will return true if the calling code should further process
         /// input and false if it should do nothing more.
         /// </summary>
         /// <param name="id"></param>

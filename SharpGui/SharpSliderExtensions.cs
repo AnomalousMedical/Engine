@@ -9,7 +9,7 @@ namespace SharpGui
 {
     static class SharpSliderExtensions
     {
-        public static bool Process(this SharpSliderHorizontal slider, ref int value, SharpGuiState state, SharpGuiBuffer buffer, SharpStyle style)
+        public static bool Process(this SharpSliderHorizontal slider, ref int value, SharpGuiState state, SharpGuiBuffer buffer, SharpStyle style, Guid? navUp, Guid? navDown)
         {
             Guid id = slider.Id;
             var rect = slider.Rect;
@@ -19,7 +19,7 @@ namespace SharpGui
             int bottom = rect.Bottom;
             int max = slider.Max;
 
-            state.GrabKeyboardFocus(id);
+            state.GrabFocus(id);
 
             // Check for mouse activation
             if (state.RegionHitByMouse(left, top, right, bottom))
@@ -76,7 +76,7 @@ namespace SharpGui
                 stealFocus = true;
             }
 
-            if (state.ProcessFocus(id))
+            if (state.ProcessFocus(id, navUp: navUp, navDown: navDown))
             {
                 switch (state.KeyEntered)
                 {
@@ -122,7 +122,7 @@ namespace SharpGui
             return returnVal;
         }
 
-        public static bool Process(this SharpSliderVertical slider, ref int value, SharpGuiState state, SharpGuiBuffer buffer, SharpStyle style)
+        public static bool Process(this SharpSliderVertical slider, ref int value, SharpGuiState state, SharpGuiBuffer buffer, SharpStyle style, Guid? navLeft, Guid? navRight)
         {
             Guid id = slider.Id;
             var rect = slider.Rect;
@@ -132,7 +132,7 @@ namespace SharpGui
             int bottom = rect.Bottom;
             int max = slider.Max;
 
-            state.GrabKeyboardFocus(id);
+            state.GrabFocus(id);
 
             // Check for mouse activation
             if (state.RegionHitByMouse(left, top, right, bottom))
@@ -190,7 +190,7 @@ namespace SharpGui
                 stealFocus = true;
             }
 
-            if (state.ProcessFocus(id))
+            if (state.ProcessFocus(id, navLeft: navLeft, navRight: navRight))
             {
                 switch (state.KeyEntered)
                 {

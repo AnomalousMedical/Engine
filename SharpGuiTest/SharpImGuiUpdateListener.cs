@@ -84,12 +84,12 @@ namespace SharpImGuiTest
                 displayText = "Activated button 3";
             }
 
-            if (sharpGui.Slider(sliderVert, ref sliderValue))
+            if (sharpGui.Slider(sliderVert, ref sliderValue, navLeft: button1.Id, navRight: sliderHorz.Id))
             {
                 displayText = $"New slider value {sliderValue}";
             }
 
-            if (sharpGui.Slider(sliderHorz, ref sliderValue))
+            if (sharpGui.Slider(sliderHorz, ref sliderValue, navUp: sliderVert.Id, navDown: sliderVert.Id))
             {
                 displayText = $"New slider value {sliderValue}";
             }

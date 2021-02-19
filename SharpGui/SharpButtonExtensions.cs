@@ -19,7 +19,7 @@ namespace SharpGui
             int right = rect.Right;
             int bottom = rect.Bottom;
 
-            state.GrabKeyboardFocus(id);
+            state.GrabFocus(id);
 
             // Check whether the button should be active
             bool regionHit = state.RegionHitByMouse(left, top, right, bottom);
