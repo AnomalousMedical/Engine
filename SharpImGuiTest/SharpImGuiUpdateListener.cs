@@ -51,7 +51,7 @@ namespace SharpImGuiTest
 
         }
 
-        SharpButton button1 = new SharpButton(50, 50, 100, 100, text: "Button 1");
+        SharpButton button1 = new SharpButton(50, 50, 250, 100, text: "Button 1");
         SharpButton button2 = new SharpButton(600, 250, 100, 100, text: "Button 2");
         SharpButton button3 = new SharpButton(550, 500, 100, 100, text: "Button 3");
 
@@ -63,6 +63,16 @@ namespace SharpImGuiTest
         {
             //Put things on the gui
             sharpGui.Begin();
+
+            var columnLayout = new ColumnLayout()
+            {
+                Item0 = button1,
+                Item1 = button2,
+                Item2 = button3
+            };
+
+            var desiredSize = columnLayout.GetDesiredSize(sharpGui);
+            columnLayout.SetRect(new IntRect(0, 0, desiredSize.Width, desiredSize.Height));
             
             //Buttons
             if(sharpGui.Button(button1))

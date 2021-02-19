@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SharpGui
 {
-    public class SharpButton
+    public class SharpButton : ILayoutItem
     {
         public SharpButton()
         {
@@ -30,6 +30,16 @@ namespace SharpGui
             this.Rect.Top = top;
             this.Rect.Width = width;
             this.Rect.Height = height;
+        }
+
+        public IntSize2 GetDesiredSize(ISharpGui sharpGui)
+        {
+            return new IntSize2(this.Rect.Width, this.Rect.Height);
+        }
+
+        public void SetRect(IntRect rect)
+        {
+            this.Rect = rect;
         }
 
         public Guid Id { get; private set; }
