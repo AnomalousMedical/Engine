@@ -11,5 +11,6 @@ namespace SharpGui
         void Render(IDeviceContext immediateContext);
         bool Slider(SharpSlider slider, ref int value);
         void Text(int x, int y, Color color, string text);
+        IntSize2 MeasureButton(SharpButton sharpButton);
     }
 }

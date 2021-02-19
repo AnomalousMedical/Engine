@@ -86,5 +86,10 @@ namespace SharpGui
         {
             renderer.Render(buffer, immediateContext);
         }
+
+        public IntSize2 MeasureButton(SharpButton sharpButton)
+        {
+            return sharpButton.GetDesiredSize(renderer.Font, state);
+        }
     }
 }

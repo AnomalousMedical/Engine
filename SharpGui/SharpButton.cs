@@ -34,7 +34,7 @@ namespace SharpGui
 
         public IntSize2 GetDesiredSize(ISharpGui sharpGui)
         {
-            return new IntSize2(this.Rect.Width, this.Rect.Height);
+            return sharpGui.MeasureButton(this);
         }
 
         public void SetRect(IntRect rect)

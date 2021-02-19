@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Engine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,9 +18,10 @@ namespace SharpGui
             return CharMap.TryGetValue(c, out var cMap) && GlyphInfo.TryGetValue(cMap, out glyphInfo);
         }
 
-        public int MeasureText(String text)
+        public IntSize2 MeasureText(String text)
         {
             int width = 0;
+            int height = 0;
             foreach (var c in text)
             {
                 uint charCode = c;
@@ -27,9 +29,10 @@ namespace SharpGui
                 {
                     int fullAdvance = (int)glyphInfo.advance + (int)glyphInfo.bearingX;
                     width += fullAdvance;
+                    height = Math.Max(height, (int)glyphInfo.height + (int)glyphInfo.bearingY);
                 }
             }
-            return width;
+            return new IntSize2(width, height);
         }
     }
 }

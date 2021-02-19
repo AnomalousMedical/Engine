@@ -40,27 +40,27 @@ namespace SharpGui
                 var shadowWidth = width;
                 var shadowHeight = height;
 
-                if (state.FocusedItem == button.Id)
-                {
-                    shadowWidth += look.FocusSize.Width;
-                    shadowHeight += look.FocusSize.Height;
-                }
+                //if (state.FocusedItem == button.Id)
+                //{
+                //    shadowWidth += look.FocusSize.Width;
+                //    shadowHeight += look.FocusSize.Height;
+                //}
 
                 buffer.DrawQuad(shadowX, shadowY, shadowWidth, shadowHeight, look.ShadowColor);
             }
 
             //Draw keyboard focus
-            if (state.FocusedItem == button.Id && look.FocusSize.Width > 0 && look.FocusSize.Height > 0)
-            {
-                buffer.DrawQuad
-                (
-                    x - look.FocusSize.Width / 2, 
-                    y - look.FocusSize.Height / 2, 
-                    width + look.FocusSize.Width, 
-                    height + look.FocusSize.Height, 
-                    look.FocusHighlightColor
-                );
-            }
+            //if (state.FocusedItem == button.Id && look.FocusSize.Width > 0 && look.FocusSize.Height > 0)
+            //{
+            //    buffer.DrawQuad
+            //    (
+            //        x - look.FocusSize.Width / 2, 
+            //        y - look.FocusSize.Height / 2, 
+            //        width + look.FocusSize.Width, 
+            //        height + look.FocusSize.Height, 
+            //        look.FocusHighlightColor
+            //    );
+            //}
 
             //Draw main button
             buffer.DrawQuad(x, y, width, height, look.Background);
@@ -88,6 +88,18 @@ namespace SharpGui
                 }
             }
             return clicked;
+        }
+
+        public static IntSize2 GetDesiredSize(this SharpButton button, Font font, SharpGuiState state)
+        {
+            var look = state.GetLookForId(button.Id, style);
+
+            IntSize2 result = new IntSize2();
+            if (button.Text != null)
+            {
+                result += font.MeasureText(button.Text);
+            }
+            return result;
         }
     }
 }
