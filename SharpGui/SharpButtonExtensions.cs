@@ -9,7 +9,7 @@ namespace SharpGui
 {
     static class SharpButtonExtensions
     {
-        public static SharpButtonResult Process(this SharpButton button, SharpGuiState state, SharpGuiBuffer buffer, Font font, SharpStyle style)
+        public static bool Process(this SharpButton button, SharpGuiState state, SharpGuiBuffer buffer, Font font, SharpStyle style, Guid? navUp, Guid? navDown, Guid? navLeft, Guid? navRight)
         {
             Guid id = button.Id;
 
@@ -64,49 +64,26 @@ namespace SharpGui
             }
 
             //Determine clicked
-            SharpButtonResult result = SharpButtonResult.Nothing;
+            bool result = false;
             if (regionHit && !state.MouseDown && state.ActiveItem == id)
             {
                 state.StealFocus(id);
-                result = SharpButtonResult.Activated;
+                result = true;
             }
-            if (state.ProcessKeyboardFocus(id))
+            
+            if (state.ProcessFocus(id, navUp: navUp, navDown: navDown, navLeft: navLeft, navRight: navRight))
             {
                 switch (state.KeyEntered)
                 {
                     case Engine.Platform.KeyboardButtonCode.KC_RETURN:
-                        result = SharpButtonResult.Activated;
-                        break;
-                    case Engine.Platform.KeyboardButtonCode.KC_UP:
-                        result = SharpButtonResult.NavUp;
-                        break;
-                    case Engine.Platform.KeyboardButtonCode.KC_DOWN:
-                        result = SharpButtonResult.NavDown;
-                        break;
-                    case Engine.Platform.KeyboardButtonCode.KC_LEFT:
-                        result = SharpButtonResult.NavLeft;
-                        break;
-                    case Engine.Platform.KeyboardButtonCode.KC_RIGHT:
-                        result = SharpButtonResult.NavRight;
+                        result = true;
                         break;
                 }
 
                 switch (state.GamepadButtonEntered)
                 {
                     case Engine.Platform.GamepadButtonCode.XInput_A:
-                        result = SharpButtonResult.Activated;
-                        break;
-                    case Engine.Platform.GamepadButtonCode.XInput_DPadUp:
-                        result = SharpButtonResult.NavUp;
-                        break;
-                    case Engine.Platform.GamepadButtonCode.XInput_DPadDown:
-                        result = SharpButtonResult.NavDown;
-                        break;
-                    case Engine.Platform.GamepadButtonCode.XInput_DPadLeft:
-                        result = SharpButtonResult.NavLeft;
-                        break;
-                    case Engine.Platform.GamepadButtonCode.XInput_DPadRight:
-                        result = SharpButtonResult.NavRight;
+                        result = true;
                         break;
                 }
             }

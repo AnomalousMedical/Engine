@@ -111,7 +111,7 @@ namespace SharpGui
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public bool ProcessKeyboardFocus(Guid id)
+        public bool ProcessFocus(Guid id, Guid? navUp = null, Guid? navDown = null, Guid? navLeft = null, Guid? navRight = null)
         {
             bool callerHandlesInput = false;
             if (FocusedItem == id)
@@ -131,12 +131,73 @@ namespace SharpGui
                         }
                         callerHandlesInput = false;
                         break;
+                    case KeyboardButtonCode.KC_UP:
+                        if (navUp != null)
+                        {
+                            FocusedItem = navUp.Value;
+                            callerHandlesInput = false;
+                        }
+                        break;
+                    case KeyboardButtonCode.KC_DOWN:
+                        if (navDown != null)
+                        {
+                            FocusedItem = navDown.Value;
+                            callerHandlesInput = false;
+                        }
+                        break;
+                    case KeyboardButtonCode.KC_LEFT:
+                        if (navLeft != null)
+                        {
+                            FocusedItem = navLeft.Value;
+                            callerHandlesInput = false;
+                        }
+                        break;
+                    case KeyboardButtonCode.KC_RIGHT:
+                        if (navRight != null)
+                        {
+                            FocusedItem = navRight.Value;
+                            callerHandlesInput = false;
+                        }
+                        break;
+                }
+
+                switch (GamepadButtonEntered)
+                {
+                    case GamepadButtonCode.XInput_DPadUp:
+                        if (navUp != null)
+                        {
+                            FocusedItem = navUp.Value;
+                            callerHandlesInput = false;
+                        }
+                        break;
+                    case GamepadButtonCode.XInput_DPadDown:
+                        if (navDown != null)
+                        {
+                            FocusedItem = navDown.Value;
+                            callerHandlesInput = false;
+                        }
+                        break;
+                    case GamepadButtonCode.XInput_DPadLeft:
+                        if (navLeft != null)
+                        {
+                            FocusedItem = navLeft.Value;
+                            callerHandlesInput = false;
+                        }
+                        break;
+                    case GamepadButtonCode.XInput_DPadRight:
+                        if (navRight != null)
+                        {
+                            FocusedItem = navRight.Value;
+                            callerHandlesInput = false;
+                        }
+                        break;
                 }
 
                 //If input was handled by anything here, clear the current key so nothing else processes it.
                 if (!callerHandlesInput)
                 {
                     KeyEntered = KeyboardButtonCode.KC_UNASSIGNED;
+                    GamepadButtonEntered = GamepadButtonCode.NUM_BUTTONS;
                 }
             }
             LastWidget = id;
@@ -156,7 +217,7 @@ namespace SharpGui
 
                     return style.HoverAndActive;
                 }
-                
+
                 if (FocusedItem == id)
                 {
                     return style.HoverAndFocus;
@@ -165,12 +226,12 @@ namespace SharpGui
                 return style.Hover;
             }
 
-            if(ActiveItem == id)
+            if (ActiveItem == id)
             {
                 return style.Active;
             }
 
-            if(FocusedItem == id)
+            if (FocusedItem == id)
             {
                 return style.Focus;
             }

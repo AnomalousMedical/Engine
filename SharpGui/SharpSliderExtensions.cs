@@ -76,7 +76,7 @@ namespace SharpGui
                 stealFocus = true;
             }
 
-            if (state.ProcessKeyboardFocus(id))
+            if (state.ProcessFocus(id))
             {
                 switch (state.KeyEntered)
                 {
@@ -190,7 +190,7 @@ namespace SharpGui
                 stealFocus = true;
             }
 
-            if (state.ProcessKeyboardFocus(id))
+            if (state.ProcessFocus(id))
             {
                 switch (state.KeyEntered)
                 {

@@ -54,7 +54,7 @@ namespace SharpGui
         /// </summary>
         /// <param name="button"></param>
         /// <returns></returns>
-        SharpButtonResult Button(SharpButton button);
+        bool Button(SharpButton button, Guid? navUp = null, Guid? navDown = null, Guid? navLeft = null, Guid? navRight = null);
 
         /// <summary>
         /// Measure the size of a button.

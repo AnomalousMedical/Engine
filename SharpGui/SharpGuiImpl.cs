@@ -149,9 +149,9 @@ namespace SharpGui
         /// </summary>
         /// <param name="button">The button to draw.</param>
         /// <returns>True if clicked.</returns>
-        public SharpButtonResult Button(SharpButton button)
+        public bool Button(SharpButton button, Guid? navUp = null, Guid? navDown = null, Guid? navLeft = null, Guid? navRight = null)
         {
-            return button.Process(state, buffer, renderer.Font, buttonStyle);
+            return button.Process(state, buffer, renderer.Font, buttonStyle, navUp, navDown, navLeft, navRight);
         }
 
         /// <summary>

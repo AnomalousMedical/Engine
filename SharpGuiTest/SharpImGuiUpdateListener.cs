@@ -69,41 +69,19 @@ namespace SharpImGuiTest
 
             //Buttons
             Guid stealFocus = Guid.Empty;
-            switch (sharpGui.Button(button1))
+            if (sharpGui.Button(button1, navUp: button3.Id, navDown: button2.Id, navLeft: sliderHorz.Id, navRight: sliderVert.Id))
             {
-                case SharpButtonResult.Activated:
-                    displayText = "Activated button 1";
-                    break;
-                case SharpButtonResult.NavUp:
-                    stealFocus = button3.Id;
-                    break;
-                case SharpButtonResult.NavDown:
-                    stealFocus = button2.Id;
-                    break;
+                displayText = "Activated button 1";
             }
-            switch (sharpGui.Button(button2))
+
+            if (sharpGui.Button(button2, navUp: button1.Id, navDown: button3.Id, navLeft: sliderHorz.Id, navRight: sliderVert.Id))
             {
-                case SharpButtonResult.Activated:
-                    displayText = "Activated button 2";
-                    break;
-                case SharpButtonResult.NavUp:
-                    stealFocus = button1.Id;
-                    break;
-                case SharpButtonResult.NavDown:
-                    stealFocus = button3.Id;
-                    break;
+                displayText = "Activated button 2";
             }
-            switch (sharpGui.Button(button3))
+
+            if (sharpGui.Button(button3, navUp: button2.Id, navDown: button1.Id, navLeft: sliderHorz.Id, navRight: sliderVert.Id))
             {
-                case SharpButtonResult.Activated:
-                    displayText = "Activated button 3";
-                    break;
-                case SharpButtonResult.NavUp:
-                    stealFocus = button2.Id;
-                    break;
-                case SharpButtonResult.NavDown:
-                    stealFocus = button1.Id;
-                    break;
+                displayText = "Activated button 3";
             }
 
             if (sharpGui.Slider(sliderVert, ref sliderValue))
