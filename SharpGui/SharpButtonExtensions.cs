@@ -90,6 +90,25 @@ namespace SharpGui
                         result = SharpButtonResult.NavRight;
                         break;
                 }
+
+                switch (state.GamepadButtonEntered)
+                {
+                    case Engine.Platform.GamepadButtonCode.XInput_A:
+                        result = SharpButtonResult.Activated;
+                        break;
+                    case Engine.Platform.GamepadButtonCode.XInput_DPadUp:
+                        result = SharpButtonResult.NavUp;
+                        break;
+                    case Engine.Platform.GamepadButtonCode.XInput_DPadDown:
+                        result = SharpButtonResult.NavDown;
+                        break;
+                    case Engine.Platform.GamepadButtonCode.XInput_DPadLeft:
+                        result = SharpButtonResult.NavLeft;
+                        break;
+                    case Engine.Platform.GamepadButtonCode.XInput_DPadRight:
+                        result = SharpButtonResult.NavRight;
+                        break;
+                }
             }
             return result;
         }

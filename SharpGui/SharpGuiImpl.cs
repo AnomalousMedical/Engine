@@ -19,6 +19,8 @@ namespace SharpGui
         private readonly SharpGuiState state = new SharpGuiState();
         private KeyboardButtonCode lastKeyPressed = KeyboardButtonCode.KC_UNASSIGNED;
         private KeyboardButtonCode lastKeyReleased = KeyboardButtonCode.KC_UNASSIGNED;
+        private GamepadButtonCode lastGamepadPressed = GamepadButtonCode.NUM_BUTTONS;
+        private GamepadButtonCode lastGamepadReleased = GamepadButtonCode.NUM_BUTTONS;
         private int nextRepeatCountdown = 0;
         private bool sentRepeat = false;
         private SharpStyle buttonStyle;
@@ -31,7 +33,12 @@ namespace SharpGui
             this.eventManager = eventManager;
             eventManager.Keyboard.KeyPressed += Keyboard_KeyPressed;
             eventManager.Keyboard.KeyReleased += Keyboard_KeyReleased;
+
+            eventManager.Pad1.ButtonDown += Pad1_ButtonDown;
+            eventManager.Pad1.ButtonUp += Pad1_ButtonUp;
+
             buttonStyle = SharpStyle.CreateComplete(scaleHelper);
+            
             sliderStyle = SharpStyle.CreateComplete(scaleHelper);
             sliderStyle.Padding = new IntPad(8);
             sliderStyle.Active.Color = Color.FromARGB(0xff4376a9).ToSrgb();
@@ -39,8 +46,27 @@ namespace SharpGui
             sliderStyle.HoverAndActiveAndFocus.Color = Color.FromARGB(0xff4376a9).ToSrgb();
         }
 
+        private void Pad1_ButtonDown(Engine.Platform.Input.Gamepad pad, GamepadButtonCode buttonCode)
+        {
+            nextRepeatCountdown = RepeatMs;
+            lastKeyPressed = KeyboardButtonCode.KC_UNASSIGNED;
+            lastGamepadPressed = buttonCode;
+            sentRepeat = false;
+        }
+
+        private void Pad1_ButtonUp(Engine.Platform.Input.Gamepad pad, GamepadButtonCode buttonCode)
+        {
+            lastGamepadReleased = buttonCode;
+            if (lastGamepadPressed == buttonCode)
+            {
+                lastGamepadPressed = GamepadButtonCode.NUM_BUTTONS;
+            }
+        }
+
         public void Dispose()
         {
+            eventManager.Pad1.ButtonDown -= Pad1_ButtonDown;
+            eventManager.Pad1.ButtonUp -= Pad1_ButtonUp;
             eventManager.Keyboard.KeyPressed -= Keyboard_KeyPressed;
             eventManager.Keyboard.KeyReleased -= Keyboard_KeyReleased;
         }
@@ -49,6 +75,7 @@ namespace SharpGui
         {
             nextRepeatCountdown = RepeatMs;
             lastKeyPressed = keyCode;
+            lastGamepadPressed = GamepadButtonCode.NUM_BUTTONS;
             sentRepeat = false;
         }
 
@@ -82,15 +109,33 @@ namespace SharpGui
                 }
             }
 
+            var buttonToSend = lastGamepadReleased;
+            if (sentRepeat)
+            {
+                buttonToSend = GamepadButtonCode.NUM_BUTTONS;
+            }
+            if(lastGamepadPressed != GamepadButtonCode.NUM_BUTTONS)
+            {
+                nextRepeatCountdown -= (int)(clock.DeltaTimeMicro * Clock.MicroToMilliseconds);
+                if (nextRepeatCountdown < 0)
+                {
+                    nextRepeatCountdown = RepeatMs;
+                    buttonToSend = lastGamepadPressed;
+                    sentRepeat = true;
+                }
+            }
+
             state.Begin(
                 mouse.AbsolutePosition.x, mouse.AbsolutePosition.y,
                 mouse.buttonDown(MouseButtonCode.MB_BUTTON0),
                 keyToSend,
                 keyboard.isModifierDown(Modifier.Shift),
                 keyboard.isModifierDown(Modifier.Alt),
-                keyboard.isModifierDown(Modifier.Ctrl));
+                keyboard.isModifierDown(Modifier.Ctrl),
+                buttonToSend);
 
             lastKeyReleased = KeyboardButtonCode.KC_UNASSIGNED;
+            lastGamepadReleased = GamepadButtonCode.NUM_BUTTONS;
             buffer.Begin();
         }
 

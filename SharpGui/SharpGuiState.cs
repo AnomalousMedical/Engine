@@ -18,14 +18,16 @@ namespace SharpGui
         public bool MouseDown { get; private set; }
         public Guid FocusedItem { get; private set; }
         public KeyboardButtonCode KeyEntered { get; private set; }
+        public GamepadButtonCode GamepadButtonEntered { get; private set; }
         public bool IsShift { get; private set; }
         public bool IsAlt { get; private set; }
         public bool IsCtrl { get; private set; }
         public Guid LastWidget { get; private set; }
 
-        public void Begin(int mouseX, int mouseY, bool mouseDown, KeyboardButtonCode lastKeyPressed, bool isShift, bool isAlt, bool isCtrl)
+        public void Begin(int mouseX, int mouseY, bool mouseDown, KeyboardButtonCode lastKeyPressed, bool isShift, bool isAlt, bool isCtrl, GamepadButtonCode lastGamepadKey)
         {
             KeyEntered = lastKeyPressed;
+            GamepadButtonEntered = lastGamepadKey;
             MouseX = mouseX;
             MouseY = mouseY;
             MouseDown = mouseDown;
