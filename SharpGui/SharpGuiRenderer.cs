@@ -287,11 +287,7 @@ namespace SharpGui
             // Set texture SRV in the SRB
             textShaderResourceBinding.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_Texture").Set(m_TextureSRV);
 
-            this.font = new Font()
-            {
-                CharMap = font.CharMap,
-                GlyphInfo = font.GlyphInfo
-            };
+            this.font = new Font(font.CharMap, font.GlyphInfo, font.SubstituteCodePoint, font.SubstituteCodePointGlyphInfo);
         }
 
         public Font Font => this.font;

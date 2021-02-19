@@ -48,7 +48,8 @@ namespace SharpGui
                 resolution = scaleHelper.Scaled(96u),
                 antialias = false,
                 tabWidth = 8,
-                offsetHeight = 0
+                offsetHeight = 0,
+                substituteCodePoint = 1073
             };
         }
     }
@@ -59,7 +60,7 @@ namespace SharpGui
         private Dictionary<char, uint> charMap = new Dictionary<char, uint>();
         private Dictionary<uint, GlyphInfo> glyphInfo = new Dictionary<uint, GlyphInfo>();
         private uint substituteCodePoint;
-        private GlyphInfoEntryPassStruct substituteCodePointGlyphInfo;
+        private GlyphInfo substituteCodePointGlyphInfo;
         private IntPtr textureBuffer;
         private UIntPtr textureBufferSize;
         private int textureBufferWidth;
@@ -79,14 +80,14 @@ namespace SharpGui
 
         public uint SubstituteCodePoint => substituteCodePoint;
 
-        public GlyphInfoEntryPassStruct SubstituteCodePointGlyphInfo => substituteCodePointGlyphInfo;
+        public GlyphInfo SubstituteCodePointGlyphInfo => substituteCodePointGlyphInfo;
 
         public unsafe MyGUITrueTypeFont(MyGUITrueTypeFontDesc desc, byte[] fontBytes)
         {
             objPtr = MyGUIFontLoader_LoadFont(ref desc, fontBytes, new UIntPtr((uint)fontBytes.Length));
             var fontInfo = MyGUIFontLoader_GetFontInfo(objPtr);
             this.substituteCodePoint = fontInfo.substituteCodePoint;
-            this.substituteCodePointGlyphInfo = fontInfo.substituteGlyphInfo;
+            this.substituteCodePointGlyphInfo = fontInfo.substituteGlyphInfo.ToGlyphInfo();
             this.textureBuffer = fontInfo.textureBuffer;
             this.textureBufferSize = fontInfo.textureBufferSize;
             this.textureBufferWidth = fontInfo.textureBufferWidth;
@@ -110,16 +111,7 @@ namespace SharpGui
             foreach(var i in glyphInfoPass)
             {
                 var src = i.value;
-                glyphInfo.Add(i.key, new GlyphInfo()
-                {
-                    codePoint = src.codePoint,
-                    width = src.width,
-                    height = src.height,
-                    advance = src.advance,
-                    bearingX = src.bearingX,
-                    bearingY = src.bearingY,
-                    uvRect = src.uvRect,
-                });
+                glyphInfo.Add(i.key, src.ToGlyphInfo());
             }
         }
 

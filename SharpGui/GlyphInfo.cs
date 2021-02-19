@@ -31,6 +31,20 @@ namespace SharpGui
         public float bearingX;
         public float bearingY;
         public GlyphRect uvRect;
+
+        public GlyphInfo ToGlyphInfo()
+        {
+            return new GlyphInfo()
+            {
+                codePoint = this.codePoint,
+                width = this.width,
+                height = this.height,
+                advance = this.advance,
+                bearingX = this.bearingX,
+                bearingY = this.bearingY,
+                uvRect = this.uvRect,
+            };
+        }
     }
 
     public class GlyphInfo

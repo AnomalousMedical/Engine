@@ -9,8 +9,20 @@ namespace SharpGui
 {
     public class Font
     {
-        public Dictionary<char, uint> CharMap { get; internal set; }
-        public Dictionary<uint, GlyphInfo> GlyphInfo { get; internal set; }
+        private Dictionary<char, uint> CharMap;
+        private Dictionary<uint, GlyphInfo> GlyphInfo;
+
+        public Font(Dictionary<char, uint> charMap, Dictionary<uint, GlyphInfo> glyphInfo, uint substituteCodePoint, GlyphInfo substituteCodePointGlyphInfo)
+        {
+            this.CharMap = charMap;
+            this.GlyphInfo = glyphInfo;
+            this.SubstituteCodePoint = substituteCodePoint;
+            this.SubstituteCodePointGlyphInfo = substituteCodePointGlyphInfo;
+        }
+
+        public uint SubstituteCodePoint { get; private set; }
+
+        public GlyphInfo SubstituteCodePointGlyphInfo { get; private set; }
 
         const String TallEnglishLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
