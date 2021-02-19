@@ -68,8 +68,8 @@ namespace SharpGui
             bool result = false;
             if (state.LastKeyChar != uint.MaxValue)
             {
-                Console.WriteLine(state.LastKeyChar);
                 input.Text.Append((char)state.LastKeyChar);
+                result = true;
             }
 
             //Determine clicked
@@ -86,6 +86,7 @@ namespace SharpGui
                         if (input.Text.Length > 0)
                         {
                             input.Text.Remove(input.Text.Length - 1, 1);
+                            result = true;
                         }
                         break;
                 }

@@ -70,7 +70,7 @@ namespace SharpImGuiTest
 
             //Buttons
             Guid stealFocus = Guid.Empty;
-            if (sharpGui.Button(button1, navUp: button3.Id, navDown: button2.Id, navLeft: sliderHorz.Id, navRight: sliderVert.Id))
+            if (sharpGui.Button(button1, navUp: input.Id, navDown: button2.Id, navLeft: sliderHorz.Id, navRight: sliderVert.Id))
             {
                 displayText = "Activated button 1";
             }
@@ -87,7 +87,7 @@ namespace SharpImGuiTest
 
             if (sharpGui.Input(input, navUp: button3.Id, navDown: button1.Id))
             {
-
+                displayText = $"Changed input to: {input.Text.ToString()}";
             }
 
             if (sharpGui.Slider(sliderVert, ref sliderValue, navLeft: button1.Id, navRight: sliderHorz.Id))

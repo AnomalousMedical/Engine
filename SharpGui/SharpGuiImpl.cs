@@ -20,6 +20,7 @@ namespace SharpGui
         private readonly SharpGuiState state = new SharpGuiState();
         private KeyboardButtonCode lastKeyPressed = KeyboardButtonCode.KC_UNASSIGNED;
         private uint lastKeyCharPressed = uint.MaxValue;
+        private uint immediateInjectChar = uint.MaxValue;
         private KeyboardButtonCode lastKeyReleased = KeyboardButtonCode.KC_UNASSIGNED;
         private GamepadButtonCode lastGamepadPressed = GamepadButtonCode.NUM_BUTTONS;
         private GamepadButtonCode lastGamepadReleased = GamepadButtonCode.NUM_BUTTONS;
@@ -52,7 +53,7 @@ namespace SharpGui
         {
             nextRepeatCountdown = StartRepeatMs;
             lastKeyPressed = KeyboardButtonCode.KC_UNASSIGNED;
-            lastKeyCharPressed = uint.MaxValue;
+            immediateInjectChar = lastKeyCharPressed = uint.MaxValue;
             lastGamepadPressed = buttonCode;
             sentRepeat = false;
         }
@@ -78,7 +79,7 @@ namespace SharpGui
         {
             nextRepeatCountdown = StartRepeatMs;
             lastKeyPressed = keyCode;
-            lastKeyCharPressed = keyChar;
+            immediateInjectChar = lastKeyCharPressed = keyChar;
             lastGamepadPressed = GamepadButtonCode.NUM_BUTTONS;
             sentRepeat = false;
         }
@@ -111,13 +112,20 @@ namespace SharpGui
                     nextRepeatCountdown = RepeatMs;
                     keyToSend = lastKeyPressed;
                     sentRepeat = true;
+                    if (lastKeyCharPressed != uint.MaxValue
+                        && lastKeyCharPressed > 31)
+                    {
+                        keyCharToSend = lastKeyCharPressed;
+                    }
                 }
             }
-            if (keyToSend != KeyboardButtonCode.KC_UNASSIGNED 
-                && lastKeyCharPressed != uint.MaxValue 
-                && lastKeyCharPressed > 31)
+
+            //This is the highest priority since it will have just been pressed
+            //Do it last so it overrides anything else
+            if(immediateInjectChar != uint.MaxValue
+                && immediateInjectChar > 31)
             {
-                keyCharToSend = lastKeyCharPressed;
+                keyCharToSend = immediateInjectChar;
             }
 
             var buttonToSend = lastGamepadReleased;
@@ -148,6 +156,7 @@ namespace SharpGui
 
             lastKeyReleased = KeyboardButtonCode.KC_UNASSIGNED;
             lastGamepadReleased = GamepadButtonCode.NUM_BUTTONS;
+            immediateInjectChar = uint.MaxValue;
             buffer.Begin();
         }
 
