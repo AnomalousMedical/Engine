@@ -23,7 +23,7 @@ namespace Anomalous.OSPlatform
 
         private int currentFingerId = int.MinValue;
         private long fingerDownTime = long.MinValue;
-        private TravelTracker captureClickZone = new TravelTracker(ScaleHelper.Scaled(5));
+        private TravelTracker captureClickZone;
         private MouseStatus mouseInjectionMode = MouseStatus.Released;
 
         private Touches touches;
@@ -41,8 +41,9 @@ namespace Anomalous.OSPlatform
         /// <param name="inputHandler">The InputHandler to use.</param>
         /// <param name="window">The window to show the onscreen keyboard on.</param>
         /// <param name="lastEventLayer">The last event layer in the eventManager.</param>
-        public TouchMouseGuiForwarder(EventManager eventManager, InputHandler inputHandler, SystemTimer systemTimer, NativeOSWindow window, Object lastEventLayer)
+        public TouchMouseGuiForwarder(EventManager eventManager, InputHandler inputHandler, SystemTimer systemTimer, NativeOSWindow window, Object lastEventLayer, IScaleHelper scaleHelper)
         {
+            captureClickZone = new TravelTracker(scaleHelper.Scaled(5));
             this.touches = eventManager.Touches;
             this.touches.FingerStarted += HandleFingerStarted;
             this.inputHandler = inputHandler;

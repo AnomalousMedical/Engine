@@ -9,6 +9,7 @@ namespace Engine.CameraMovement
     {
         private const float HALF_PI = (float)Math.PI / 2.0f - 0.001f;
         private readonly EventManager eventManager;
+        private readonly IScaleHelper scaleHelper;
         Vector3 camPos = Vector3.Zero;
         Quaternion camRot = Quaternion.Identity;
         float yaw = 0;
@@ -37,7 +38,7 @@ namespace Engine.CameraMovement
 
         ButtonEvent mouseLook = new ButtonEvent(EventLayers.Default, mouseButtons: new MouseButtonCode[] { MouseButtonCode.MB_BUTTON1 });
 
-        public FirstPersonFlyCamera(EventManager eventManager)
+        public FirstPersonFlyCamera(EventManager eventManager, IScaleHelper scaleHelper)
         {
             eventManager.addEvent(moveForward);
             eventManager.addEvent(moveBackward);
@@ -51,6 +52,7 @@ namespace Engine.CameraMovement
             eventManager.addEvent(yawRight);
             eventManager.addEvent(mouseLook);
             this.eventManager = eventManager;
+            this.scaleHelper = scaleHelper;
         }
 
         public void Dispose()
@@ -103,8 +105,8 @@ namespace Engine.CameraMovement
                 {
                     updateRotation = true;
                     
-                    mousePos.x = Math.Min(mousePos.x, ScaleHelper.Scaled(10));
-                    mousePos.y = Math.Min(mousePos.y, ScaleHelper.Scaled(10));
+                    mousePos.x = Math.Min(mousePos.x, scaleHelper.Scaled(10));
+                    mousePos.y = Math.Min(mousePos.y, scaleHelper.Scaled(10));
                     
                     yaw += mousePos.x * xSensitivity;
                     pitch -= mousePos.y * ySensitivity;

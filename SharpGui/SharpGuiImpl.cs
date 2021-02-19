@@ -16,13 +16,15 @@ namespace SharpGui
         private readonly EventManager eventManager;
         private readonly SharpGuiState state = new SharpGuiState();
         private KeyboardButtonCode lastKeyPressed = KeyboardButtonCode.KC_UNASSIGNED;
+        private static SharpStyle style;
 
-        public SharpGuiImpl(SharpGuiBuffer buffer, SharpGuiRenderer renderer, EventManager eventManager)
+        public SharpGuiImpl(SharpGuiBuffer buffer, SharpGuiRenderer renderer, EventManager eventManager, IScaleHelper scaleHelper)
         {
             this.buffer = buffer;
             this.renderer = renderer;
             this.eventManager = eventManager;
             eventManager.Keyboard.KeyReleased += Keyboard_KeyReleased;
+            style = SharpStyle.CreateComplete(scaleHelper);
         }
 
         public void Dispose()
@@ -63,7 +65,7 @@ namespace SharpGui
         /// <returns>True if clicked.</returns>
         public bool Button(SharpButton button)
         {
-            return button.Process(state, buffer, renderer.Font);
+            return button.Process(state, buffer, renderer.Font, style);
         }
 
         /// <summary>
@@ -89,7 +91,7 @@ namespace SharpGui
 
         public IntSize2 MeasureButton(SharpButton sharpButton)
         {
-            return sharpButton.GetDesiredSize(renderer.Font, state);
+            return sharpButton.GetDesiredSize(renderer.Font, state, style);
         }
     }
 }

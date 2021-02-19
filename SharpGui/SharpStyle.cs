@@ -21,7 +21,7 @@ namespace SharpGui
 
         public SharpLook HoverAndActiveAndFocus { get; set; }
 
-        public static SharpStyle CreateComplete()
+        public static SharpStyle CreateComplete(IScaleHelper scaleHelper)
         {
             return new SharpStyle()
             {
@@ -31,10 +31,10 @@ namespace SharpGui
                     Color = Color.FromARGB(0xff000000).ToSrgb(),
                     BorderColor = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowColor = Color.FromARGB(0x80000000).ToSrgb(),
-                    ShadowOffset = ScaleHelper.Scaled(new IntVector2(8, 8)),
-                    Padding = ScaleHelper.Scaled(new IntPad(40)),
-                    Border = ScaleHelper.Scaled(new IntPad(5)),
-                    Margin = ScaleHelper.Scaled(new IntPad(40)),
+                    ShadowOffset = scaleHelper.Scaled(new IntVector2(8, 8)),
+                    Padding = scaleHelper.Scaled(new IntPad(40)),
+                    Border = scaleHelper.Scaled(new IntPad(5)),
+                    Margin = scaleHelper.Scaled(new IntPad(40)),
                 },
                 Hover = new SharpLook()
                 {
@@ -42,10 +42,10 @@ namespace SharpGui
                     Color = Color.FromARGB(0xff000000).ToSrgb(),
                     BorderColor = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowColor = Color.FromARGB(0x80000000).ToSrgb(),
-                    ShadowOffset = ScaleHelper.Scaled(new IntVector2(8, 8)),
-                    Padding = ScaleHelper.Scaled(new IntPad(40)),
-                    Border = ScaleHelper.Scaled(new IntPad(5)),
-                    Margin = ScaleHelper.Scaled(new IntPad(40)),
+                    ShadowOffset = scaleHelper.Scaled(new IntVector2(8, 8)),
+                    Padding = scaleHelper.Scaled(new IntPad(40)),
+                    Border = scaleHelper.Scaled(new IntPad(5)),
+                    Margin = scaleHelper.Scaled(new IntPad(40)),
                 },
                 Active = new SharpLook()
                 {
@@ -53,10 +53,10 @@ namespace SharpGui
                     Color = Color.FromARGB(0xff000000).ToSrgb(),
                     BorderColor = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowColor = Color.FromARGB(0x80000000).ToSrgb(),
-                    ShadowOffset = ScaleHelper.Scaled(new IntVector2(8, 8)),
-                    Padding = ScaleHelper.Scaled(new IntPad(40)),
-                    Border = ScaleHelper.Scaled(new IntPad(5)),
-                    Margin = ScaleHelper.Scaled(new IntPad(40)),
+                    ShadowOffset = scaleHelper.Scaled(new IntVector2(8, 8)),
+                    Padding = scaleHelper.Scaled(new IntPad(40)),
+                    Border = scaleHelper.Scaled(new IntPad(5)),
+                    Margin = scaleHelper.Scaled(new IntPad(40)),
                 },
                 HoverAndActive = new SharpLook()
                 {
@@ -64,10 +64,10 @@ namespace SharpGui
                     Color = Color.FromARGB(0xff000000).ToSrgb(),
                     BorderColor = Color.FromARGB(0xff000000).ToSrgb(),
                     ShadowColor = Color.FromARGB(0x80000000).ToSrgb(),
-                    ShadowOffset = ScaleHelper.Scaled(new IntVector2(8, 8)),
-                    Padding = ScaleHelper.Scaled(new IntPad(40)),
-                    Border = ScaleHelper.Scaled(new IntPad(5)),
-                    Margin = ScaleHelper.Scaled(new IntPad(40)),
+                    ShadowOffset = scaleHelper.Scaled(new IntVector2(8, 8)),
+                    Padding = scaleHelper.Scaled(new IntPad(40)),
+                    Border = scaleHelper.Scaled(new IntPad(5)),
+                    Margin = scaleHelper.Scaled(new IntPad(40)),
                 },
                 Focus = new SharpLook()
                 {
@@ -75,10 +75,10 @@ namespace SharpGui
                     Color = Color.FromARGB(0xff000000).ToSrgb(),
                     BorderColor = Color.FromARGB(0xff4376a9).ToSrgb(),
                     ShadowColor = Color.FromARGB(0x80000000).ToSrgb(),
-                    ShadowOffset = ScaleHelper.Scaled(new IntVector2(8, 8)),
-                    Padding = ScaleHelper.Scaled(new IntPad(40)),
-                    Border = ScaleHelper.Scaled(new IntPad(5)),
-                    Margin = ScaleHelper.Scaled(new IntPad(40)),
+                    ShadowOffset = scaleHelper.Scaled(new IntVector2(8, 8)),
+                    Padding = scaleHelper.Scaled(new IntPad(40)),
+                    Border = scaleHelper.Scaled(new IntPad(5)),
+                    Margin = scaleHelper.Scaled(new IntPad(40)),
                 },
                 HoverAndFocus = new SharpLook()
                 {
@@ -86,10 +86,10 @@ namespace SharpGui
                     Color = Color.FromARGB(0xff000000).ToSrgb(),
                     BorderColor = Color.FromARGB(0xff4376a9).ToSrgb(),
                     ShadowColor = Color.FromARGB(0x80000000).ToSrgb(),
-                    ShadowOffset = ScaleHelper.Scaled(new IntVector2(8, 8)),
-                    Padding = ScaleHelper.Scaled(new IntPad(40)),
-                    Border = ScaleHelper.Scaled(new IntPad(5)),
-                    Margin = ScaleHelper.Scaled(new IntPad(40)),
+                    ShadowOffset = scaleHelper.Scaled(new IntVector2(8, 8)),
+                    Padding = scaleHelper.Scaled(new IntPad(40)),
+                    Border = scaleHelper.Scaled(new IntPad(5)),
+                    Margin = scaleHelper.Scaled(new IntPad(40)),
                 },
                 HoverAndActiveAndFocus = new SharpLook()
                 {
@@ -97,10 +97,10 @@ namespace SharpGui
                     Color = Color.FromARGB(0xff000000).ToSrgb(),
                     BorderColor = Color.FromARGB(0xff4376a9).ToSrgb(),
                     ShadowColor = Color.FromARGB(0x80000000).ToSrgb(),
-                    ShadowOffset = ScaleHelper.Scaled(new IntVector2(8, 8)),
-                    Padding = ScaleHelper.Scaled(new IntPad(40)),
-                    Border = ScaleHelper.Scaled(new IntPad(5)),
-                    Margin = ScaleHelper.Scaled(new IntPad(40)),
+                    ShadowOffset = scaleHelper.Scaled(new IntVector2(8, 8)),
+                    Padding = scaleHelper.Scaled(new IntPad(40)),
+                    Border = scaleHelper.Scaled(new IntPad(5)),
+                    Margin = scaleHelper.Scaled(new IntPad(40)),
                 }
             };
         }

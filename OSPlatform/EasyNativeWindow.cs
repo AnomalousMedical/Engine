@@ -24,6 +24,7 @@ namespace Anomalous.OSPlatform
             var mainWindow = new NativeOSWindow(options.Title, options.Position, options.Size);
             services.TryAddSingleton<OSWindow>(mainWindow); //This is externally owned
             services.TryAddSingleton<NativeOSWindow>(mainWindow); //This is externally owned
+            services.TryAddSingleton<IScaleHelper, ScaleHelper>(); //Can add this now that the window is known
 
             if (options.Fullscreen)
             {
@@ -41,10 +42,6 @@ namespace Anomalous.OSPlatform
                 mainWindow.close();
                 app.Exit();
             };
-
-            //Setup DPI
-            float pixelScale = mainWindow.WindowScaling;
-            ScaleHelper._setScaleFactor(pixelScale);
 
             return mainWindow;
         }

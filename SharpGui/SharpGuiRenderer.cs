@@ -29,7 +29,7 @@ namespace SharpGui
         private uint maxNumberOfQuads;
         private uint maxNumberOfTextQuads;
 
-        public unsafe SharpGuiRenderer(GraphicsEngine graphicsEngine, OSWindow osWindow, SharpGuiOptions options, IResourceProvider<SharpGuiRenderer> resourceProvider)
+        public unsafe SharpGuiRenderer(GraphicsEngine graphicsEngine, OSWindow osWindow, SharpGuiOptions options, IResourceProvider<SharpGuiRenderer> resourceProvider, IScaleHelper scaleHelper)
         {
             this.maxNumberOfQuads = options.MaxNumberOfQuads;
             this.maxNumberOfTextQuads = options.MaxNumberOfTextQuads;
@@ -46,7 +46,7 @@ namespace SharpGui
             this.osWindow = osWindow;
             this.resourceProvider = resourceProvider;
             CreateQuadPso(graphicsEngine, m_pSwapChain, m_pDevice);
-            CreateTextPso(graphicsEngine, m_pSwapChain, m_pDevice);
+            CreateTextPso(graphicsEngine, m_pSwapChain, m_pDevice, scaleHelper);
 
             quadVertexBuffer = CreateVertexBuffer(graphicsEngine.RenderDevice, "SharpGui Quad Vertex Buffer", (uint)sizeof(SharpGuiVertex), maxNumberOfQuads);
             quadIndexBuffer = CreateIndexBuffer(graphicsEngine.RenderDevice, "SharpGui Quad Index Buffer", maxNumberOfQuads);
@@ -131,7 +131,7 @@ namespace SharpGui
             this.quadShaderResourceBinding = quadPipelineState.Obj.CreateShaderResourceBinding(true);
         }
 
-        private void CreateTextPso(GraphicsEngine graphicsEngine, ISwapChain m_pSwapChain, IRenderDevice m_pDevice)
+        private void CreateTextPso(GraphicsEngine graphicsEngine, ISwapChain m_pSwapChain, IRenderDevice m_pDevice, IScaleHelper scaleHelper)
         {
             var ShaderCI = new ShaderCreateInfo();
             ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
@@ -233,17 +233,17 @@ namespace SharpGui
             // Create a shader resource binding object and bind all static resources in it
             this.textShaderResourceBinding = textPipelineState.Obj.CreateShaderResourceBinding(true);
 
-            LoadFontTexture(graphicsEngine);
+            LoadFontTexture(graphicsEngine, scaleHelper);
         }
 
-        private void LoadFontTexture(GraphicsEngine graphicsEngine)
+        private void LoadFontTexture(GraphicsEngine graphicsEngine, IScaleHelper scaleHelper)
         {
             //Load Font Texture
             using var fontStream = resourceProvider.openFile("fonts/Roboto-Regular.ttf");
             var bytes = new byte[fontStream.Length];
             var span = new Span<byte>(bytes);
             while (fontStream.Read(span) != 0) { }
-            using var font = new MyGUITrueTypeFont(MyGUITrueTypeFontDesc.CreateDefault(), bytes);
+            using var font = new MyGUITrueTypeFont(MyGUITrueTypeFontDesc.CreateDefault(scaleHelper), bytes);
 
             //Debug
             //unsafe {
@@ -260,7 +260,6 @@ namespace SharpGui
             uint width = (uint)font.TextureBufferWidth;
             uint height = (uint)font.TextureBufferHeight;
 
-            //const auto& ImgDesc = pSrcImage->GetDesc();
             TextureDesc TexDesc = new TextureDesc();
             TexDesc.Name = "Font texture";
             TexDesc.Type = RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D;

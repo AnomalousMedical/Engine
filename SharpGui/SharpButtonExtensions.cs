@@ -9,9 +9,7 @@ namespace SharpGui
 {
     static class SharpButtonExtensions
     {
-        private static SharpStyle style = SharpStyle.CreateComplete();
-
-        public static bool Process(this SharpButton button, SharpGuiState state, SharpGuiBuffer buffer, Font font)
+        public static bool Process(this SharpButton button, SharpGuiState state, SharpGuiBuffer buffer, Font font, SharpStyle style)
         {
             Guid id = button.Id;
             state.GrabKeyboardFocus(id);
@@ -82,7 +80,7 @@ namespace SharpGui
             return clicked;
         }
 
-        public static IntSize2 GetDesiredSize(this SharpButton button, Font font, SharpGuiState state)
+        public static IntSize2 GetDesiredSize(this SharpButton button, Font font, SharpGuiState state, SharpStyle style)
         {
             var look = state.GetLookForId(button.Id, style);
 

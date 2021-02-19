@@ -41,11 +41,11 @@ namespace SharpGui
         /// </summary>
         public uint substituteCodePoint;
 
-        public static MyGUITrueTypeFontDesc CreateDefault()
+        public static MyGUITrueTypeFontDesc CreateDefault(IScaleHelper scaleHelper)
         {
             return new MyGUITrueTypeFontDesc() {
                 size = 25,
-                resolution = ScaleHelper.Scaled(96u),
+                resolution = scaleHelper.Scaled(96u),
                 antialias = false,
                 tabWidth = 8,
                 offsetHeight = 0
