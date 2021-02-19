@@ -12,7 +12,6 @@ namespace SharpGui
         public Color ShadowColor;
         public IntVector2 ShadowOffset;
         public Color BorderColor;
-        public IntPad Margin;
         public IntPad Border;
         public IntPad Padding;
     }

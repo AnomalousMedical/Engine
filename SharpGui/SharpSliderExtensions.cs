@@ -12,30 +12,24 @@ namespace SharpGui
         public static bool Process(this SharpSlider slider, ref int value, SharpGuiState state, SharpGuiBuffer buffer, SharpStyle style)
         {
             Guid id = slider.Id;
-            state.GrabKeyboardFocus(id);
-            var look = state.GetLookForId(id, style);
-
             var rect = slider.Rect;
+            int left = rect.Left;
+            int top = rect.Top;
+            int right = rect.Right;
+            int bottom = rect.Bottom;
             int max = slider.Max;
 
-            int left = rect.Left + look.Margin.Left;
-            int top = rect.Top + look.Margin.Top;
-            int right = rect.Right - look.Margin.Right;
-            int bottom = rect.Bottom - look.Margin.Bottom;
+            state.GrabKeyboardFocus(id);
 
             // Check for mouse activation
             if (state.RegionHitByMouse(left, top, right, bottom))
             {
                 state.TrySetActiveItem(id, state.MouseDown);
-                //If mouse hover need to update the look
-                look = state.GetLookForId(id, style);
-                left = rect.Left + look.Margin.Left;
-                top = rect.Top + look.Margin.Top;
-                right = rect.Right - look.Margin.Right;
-                bottom = rect.Bottom - look.Margin.Bottom;
             }
 
             //Draw
+            var look = state.GetLookForId(id, style);
+
             //Draw shadow
             if (look.ShadowOffset.x > 0 && look.ShadowOffset.y > 0)
             {

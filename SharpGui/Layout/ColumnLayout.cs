@@ -7,6 +7,8 @@ namespace SharpGui
 {
     public struct ColumnLayout : ILayoutItem
     {
+        public IntPad Margin;
+
         public ILayoutItem Item0;
         public ILayoutItem Item1;
         public ILayoutItem Item2;
@@ -52,10 +54,10 @@ namespace SharpGui
             GetDesiredSizeItem(sharpGui, ref width, ref height, Item10, ref ItemDesiredHeight10) &&
             GetDesiredSizeItem(sharpGui, ref width, ref height, Item11, ref ItemDesiredHeight11);
 
-            return new IntSize2(width, height);
+            return new IntSize2(width + Margin.Left + Margin.Right, height);
         }
 
-        private static bool GetDesiredSizeItem(ISharpGui sharpGui, ref int width, ref int height, ILayoutItem item, ref int desiredHeight)
+        private bool GetDesiredSizeItem(ISharpGui sharpGui, ref int width, ref int height, ILayoutItem item, ref int desiredHeight)
         {
             if(item == null)
             {
@@ -63,11 +65,8 @@ namespace SharpGui
             }
 
             var itemSize = item.GetDesiredSize(sharpGui);
-            if (itemSize.Width > width)
-            {
-                width = itemSize.Width;
-            }
-            desiredHeight = itemSize.Height;
+            width = Math.Max(width, itemSize.Width + Margin.Left + Margin.Right);
+            desiredHeight = itemSize.Height + Margin.Top + Margin.Bottom;
             height += desiredHeight;
 
             return true;
@@ -94,14 +93,14 @@ namespace SharpGui
             SetRectItem(Item11, left, ref top, width, ItemDesiredHeight11);
         }
 
-        private static bool SetRectItem(ILayoutItem item, int left, ref int top, int width, int height)
+        private bool SetRectItem(ILayoutItem item, int left, ref int top, int width, int height)
         {
             if(item == null)
             {
                 return false;
             }
 
-            item.SetRect(new IntRect(left, top, width, height));
+            item.SetRect(new IntRect(left + Margin.Left, top + Margin.Top, width - Margin.Left - Margin.Right, height - Margin.Top - Margin.Bottom));
             top += height;
 
             return true;
@@ -225,6 +224,8 @@ namespace SharpGui
             ItemDesiredHeight9 = 0;
             ItemDesiredHeight10 = 0;
             ItemDesiredHeight11 = 0;
+
+            Margin = new IntPad();
         }
     }
 }

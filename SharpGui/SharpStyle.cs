@@ -86,19 +86,6 @@ namespace SharpGui
                 HoverAndActiveAndFocus.BorderColor = value;
             }
         }
-        public IntPad Margin
-        {
-            set
-            {
-                Normal.Margin = value;
-                Hover.Margin = value;
-                Active.Margin = value;
-                HoverAndActive.Margin = value;
-                Focus.Margin = value;
-                HoverAndFocus.Margin = value;
-                HoverAndActiveAndFocus.Margin = value;
-            }
-        }
         public IntPad Border
         {
             set
@@ -137,7 +124,6 @@ namespace SharpGui
                 ShadowOffset = scaleHelper.Scaled(new IntVector2(6, 6)),
                 Padding = scaleHelper.Scaled(new IntPad(40)),
                 Border = scaleHelper.Scaled(new IntPad(5)),
-                Margin = scaleHelper.Scaled(new IntPad(8)),
                 Hover =
                 {
                     Background = Color.FromARGB(0xffd2d2d2).ToSrgb(),

@@ -30,7 +30,7 @@ namespace SharpImGuiTest
 
         public SharpImGuiUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ISharpGui sharpGui, IScaleHelper scaleHelper)
         {
-            slider = new SharpSlider() { Rect = scaleHelper.Scaled(new IntRect(0, 0, 55, 500)), Max = 15 };
+            slider = new SharpSlider() { Rect = scaleHelper.Scaled(new IntRect(10, 10, 35, 500)), Max = 15 };
 
             PerformanceMonitor.Enabled = true;
 
@@ -61,7 +61,7 @@ namespace SharpImGuiTest
             //Put things on the gui
             sharpGui.Begin();
 
-            var columnLayout = new ColumnLayout(button1, button2, button3);
+            var columnLayout = new ColumnLayout(button1, button2, button3) { Margin = new IntPad(10) };
             var desiredSize = columnLayout.GetDesiredSize(sharpGui);
             columnLayout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
 
