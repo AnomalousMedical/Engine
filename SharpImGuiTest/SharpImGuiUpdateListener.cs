@@ -20,6 +20,7 @@ namespace SharpImGuiTest
         private readonly EventManager eventManager;
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext m_pImmediateContext;
+        private String displayText = "Click on something!";
 
         public SharpImGuiUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ISharpGui sharpGui, EventManager eventManager)
         {
@@ -70,15 +71,15 @@ namespace SharpImGuiTest
             //Buttons
             if(sharpGui.Button(button1))
             {
-                Console.WriteLine("Clicked button 1");
+                displayText = "Clicked button 1";
             }
             if(sharpGui.Button(button2))
             {
-                Console.WriteLine("Clicked button 2");
+                displayText = "Clicked button 2";
             }
             if(sharpGui.Button(button3))
             {
-                Console.WriteLine("Clicked button 3");
+                displayText = "Clicked button 3";
             }
 
             //if(sharpGui.Slider(slider, ref sliderValue))
@@ -86,7 +87,7 @@ namespace SharpImGuiTest
             //    Console.WriteLine($"New slider value {sliderValue}");
             //}
 
-            sharpGui.Text(750, 500, Color.Black, "Hello World!");
+            sharpGui.Text(750, 500, Color.Black, displayText);
 
             sharpGui.End();
 
