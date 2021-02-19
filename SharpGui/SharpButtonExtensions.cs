@@ -9,7 +9,7 @@ namespace SharpGui
 {
     static class SharpButtonExtensions
     {
-        public static bool Process(this SharpButton button, SharpGuiState state, SharpGuiBuffer buffer, Font font, SharpStyle style)
+        public static SharpButtonResult Process(this SharpButton button, SharpGuiState state, SharpGuiBuffer buffer, Font font, SharpStyle style)
         {
             Guid id = button.Id;
 
@@ -64,22 +64,34 @@ namespace SharpGui
             }
 
             //Determine clicked
-            bool clicked = false;
+            SharpButtonResult result = SharpButtonResult.Nothing;
             if (regionHit && !state.MouseDown && state.ActiveItem == id)
             {
-                state.StealKeyboardFocus(id);
-                clicked = true;
+                state.StealFocus(id);
+                result = SharpButtonResult.Activated;
             }
             if (state.ProcessKeyboardFocus(id))
             {
                 switch (state.KeyEntered)
                 {
                     case Engine.Platform.KeyboardButtonCode.KC_RETURN:
-                        clicked = true;
+                        result = SharpButtonResult.Activated;
+                        break;
+                    case Engine.Platform.KeyboardButtonCode.KC_UP:
+                        result = SharpButtonResult.NavUp;
+                        break;
+                    case Engine.Platform.KeyboardButtonCode.KC_DOWN:
+                        result = SharpButtonResult.NavDown;
+                        break;
+                    case Engine.Platform.KeyboardButtonCode.KC_LEFT:
+                        result = SharpButtonResult.NavLeft;
+                        break;
+                    case Engine.Platform.KeyboardButtonCode.KC_RIGHT:
+                        result = SharpButtonResult.NavRight;
                         break;
                 }
             }
-            return clicked;
+            return result;
         }
 
         public static IntSize2 GetDesiredSize(this SharpButton button, Font font, SharpGuiState state, SharpStyle style)

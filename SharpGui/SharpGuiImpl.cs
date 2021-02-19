@@ -104,7 +104,7 @@ namespace SharpGui
         /// </summary>
         /// <param name="button">The button to draw.</param>
         /// <returns>True if clicked.</returns>
-        public bool Button(SharpButton button)
+        public SharpButtonResult Button(SharpButton button)
         {
             return button.Process(state, buffer, renderer.Font, buttonStyle);
         }
@@ -133,6 +133,11 @@ namespace SharpGui
         public IntSize2 MeasureButton(SharpButton sharpButton)
         {
             return sharpButton.GetDesiredSize(renderer.Font, state, buttonStyle);
+        }
+
+        public void StealFocus(Guid id)
+        {
+            state.StealFocus(id);
         }
     }
 }

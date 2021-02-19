@@ -98,7 +98,7 @@ namespace SharpGui
         /// property is changed immediately after this is called.
         /// </summary>
         /// <param name="id"></param>
-        public void StealKeyboardFocus(Guid id)
+        public void StealFocus(Guid id)
         {
             FocusedItem = id;
         }

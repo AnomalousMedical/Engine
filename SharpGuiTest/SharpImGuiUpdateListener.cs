@@ -66,17 +66,42 @@ namespace SharpImGuiTest
             columnLayout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
 
             //Buttons
-            if (sharpGui.Button(button1))
+            Guid stealFocus = Guid.Empty;
+            switch (sharpGui.Button(button1))
             {
-                displayText = "Clicked button 1";
+                case SharpButtonResult.Activated:
+                    displayText = "Activated button 1";
+                    break;
+                case SharpButtonResult.NavUp:
+                    stealFocus = button3.Id;
+                    break;
+                case SharpButtonResult.NavDown:
+                    stealFocus = button2.Id;
+                    break;
             }
-            if (sharpGui.Button(button2))
+            switch (sharpGui.Button(button2))
             {
-                displayText = "Clicked button 2";
+                case SharpButtonResult.Activated:
+                    displayText = "Activated button 2";
+                    break;
+                case SharpButtonResult.NavUp:
+                    stealFocus = button1.Id;
+                    break;
+                case SharpButtonResult.NavDown:
+                    stealFocus = button3.Id;
+                    break;
             }
-            if (sharpGui.Button(button3))
+            switch (sharpGui.Button(button3))
             {
-                displayText = "Clicked button 3";
+                case SharpButtonResult.Activated:
+                    displayText = "Activated button 3";
+                    break;
+                case SharpButtonResult.NavUp:
+                    stealFocus = button2.Id;
+                    break;
+                case SharpButtonResult.NavDown:
+                    stealFocus = button1.Id;
+                    break;
             }
 
             if (sharpGui.Slider(slider, ref sliderValue))
@@ -89,6 +114,10 @@ namespace SharpImGuiTest
             sharpGui.Text(750, 600, Color.Black, lastUpdateTimeBuilder.ToString());
 
             sharpGui.End();
+            if (stealFocus != Guid.Empty)
+            {
+                sharpGui.StealFocus(stealFocus);
+            }
 
             var pRTV = swapChain.GetCurrentBackBufferRTV();
             var pDSV = swapChain.GetDepthBufferDSV();

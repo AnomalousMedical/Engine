@@ -108,7 +108,7 @@ namespace SharpGui
 
             if(stealFocus)
             {
-                state.StealKeyboardFocus(id);
+                state.StealFocus(id);
             }
 
             return returnVal;
