@@ -27,7 +27,10 @@ namespace SharpGui
             eventManager.Keyboard.KeyReleased += Keyboard_KeyReleased;
             buttonStyle = SharpStyle.CreateComplete(scaleHelper);
             sliderStyle = SharpStyle.CreateComplete(scaleHelper);
-
+            sliderStyle.Padding = new IntPad(8);
+            sliderStyle.Active.Color = Color.FromARGB(0xff4376a9).ToSrgb();
+            sliderStyle.HoverAndActive.Color = Color.FromARGB(0xff4376a9).ToSrgb();
+            sliderStyle.HoverAndActiveAndFocus.Color = Color.FromARGB(0xff4376a9).ToSrgb();
         }
 
         public void Dispose()

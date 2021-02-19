@@ -50,6 +50,11 @@ namespace Engine
             return new IntPad(Scaled(originalValue.Left), Scaled(originalValue.Top), Scaled(originalValue.Right), Scaled(originalValue.Bottom));
         }
 
+        public IntRect Scaled(IntRect originalValue)
+        {
+            return new IntRect(Scaled(originalValue.Left), Scaled(originalValue.Top), Scaled(originalValue.Width), Scaled(originalValue.Height));
+        }
+
         public int Unscaled(int originalValue)
         {
             return (int)(originalValue * inverseScaleFactor);

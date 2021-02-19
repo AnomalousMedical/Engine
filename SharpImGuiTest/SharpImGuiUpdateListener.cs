@@ -21,8 +21,17 @@ namespace SharpImGuiTest
         private String displayText = "Click on something!";
         private StringBuilder lastUpdateTimeBuilder = new StringBuilder();
 
-        public SharpImGuiUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ISharpGui sharpGui)
+        SharpButton button1 = new SharpButton() { Text = "Button 1" };
+        SharpButton button2 = new SharpButton() { Text = "Button 2" };
+        SharpButton button3 = new SharpButton() { Text = "Button 3" };
+
+        SharpSlider slider;
+        private int sliderValue = 0;
+
+        public SharpImGuiUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ISharpGui sharpGui, IScaleHelper scaleHelper)
         {
+            slider = new SharpSlider() { Rect = scaleHelper.Scaled(new IntRect(0, 0, 55, 500)), Max = 15 };
+
             PerformanceMonitor.Enabled = true;
 
             this.window = window;
@@ -45,13 +54,6 @@ namespace SharpImGuiTest
         {
 
         }
-
-        SharpButton button1 = new SharpButton() { Text = "Button 1" };
-        SharpButton button2 = new SharpButton() { Text = "Button 2" };
-        SharpButton button3 = new SharpButton() { Text = "Button 3" };
-
-        SharpSlider slider = new SharpSlider() { Rect = new IntRect(350, 250, 500, 500), Max = 15 };
-        private int sliderValue = 0;
 
         public unsafe void sendUpdate(Clock clock)
         {
