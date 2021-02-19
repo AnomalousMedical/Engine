@@ -1,11 +1,12 @@
 ﻿using DiligentEngine;
 using Engine;
+using Engine.Platform;
 
 namespace SharpGui
 {
     public interface ISharpGui
     {
-        void Begin();
+        void Begin(Clock clock);
         bool Button(SharpButton button);
         void End();
         void Render(IDeviceContext immediateContext);

@@ -59,7 +59,7 @@ namespace SharpImGuiTest
         {
             PerformanceMonitor.start("Sharp Gui");
             //Put things on the gui
-            sharpGui.Begin();
+            sharpGui.Begin(clock);
 
             var columnLayout = new ColumnLayout(button1, button2, button3) { Margin = new IntPad(10) };
             var desiredSize = columnLayout.GetDesiredSize(sharpGui);

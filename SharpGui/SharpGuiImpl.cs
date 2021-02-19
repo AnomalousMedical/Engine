@@ -11,11 +11,16 @@ namespace SharpGui
 {
     class SharpGuiImpl : ISharpGui, IDisposable
     {
+        private const int RepeatMs = 150;
+
         private readonly SharpGuiBuffer buffer;
         private readonly SharpGuiRenderer renderer;
         private readonly EventManager eventManager;
         private readonly SharpGuiState state = new SharpGuiState();
         private KeyboardButtonCode lastKeyPressed = KeyboardButtonCode.KC_UNASSIGNED;
+        private KeyboardButtonCode lastKeyReleased = KeyboardButtonCode.KC_UNASSIGNED;
+        private int nextRepeatCountdown = 0;
+        private bool sentRepeat = false;
         private SharpStyle buttonStyle;
         private SharpStyle sliderStyle;
 
@@ -24,6 +29,7 @@ namespace SharpGui
             this.buffer = buffer;
             this.renderer = renderer;
             this.eventManager = eventManager;
+            eventManager.Keyboard.KeyPressed += Keyboard_KeyPressed;
             eventManager.Keyboard.KeyReleased += Keyboard_KeyReleased;
             buttonStyle = SharpStyle.CreateComplete(scaleHelper);
             sliderStyle = SharpStyle.CreateComplete(scaleHelper);
@@ -35,27 +41,56 @@ namespace SharpGui
 
         public void Dispose()
         {
+            eventManager.Keyboard.KeyPressed -= Keyboard_KeyPressed;
             eventManager.Keyboard.KeyReleased -= Keyboard_KeyReleased;
+        }
+
+        private void Keyboard_KeyPressed(KeyboardButtonCode keyCode, uint keyChar)
+        {
+            nextRepeatCountdown = RepeatMs;
+            lastKeyPressed = keyCode;
+            sentRepeat = false;
         }
 
         private void Keyboard_KeyReleased(KeyboardButtonCode keyCode)
         {
-            lastKeyPressed = keyCode;
+            lastKeyReleased = keyCode;
+            if (lastKeyPressed == keyCode)
+            {
+                lastKeyPressed = KeyboardButtonCode.KC_UNASSIGNED;
+            }
         }
 
-        public void Begin()
+        public void Begin(Clock clock)
         {
             var keyboard = eventManager.Keyboard;
             var mouse = eventManager.Mouse;
+
+            var keyToSend = lastKeyReleased;
+            if (sentRepeat)
+            {
+                keyToSend = KeyboardButtonCode.KC_UNASSIGNED;
+            }
+            if(lastKeyPressed != KeyboardButtonCode.KC_UNASSIGNED)
+            {
+                nextRepeatCountdown -= (int)(clock.DeltaTimeMicro * Clock.MicroToMilliseconds);
+                if(nextRepeatCountdown < 0)
+                {
+                    nextRepeatCountdown = RepeatMs;
+                    keyToSend = lastKeyPressed;
+                    sentRepeat = true;
+                }
+            }
+
             state.Begin(
                 mouse.AbsolutePosition.x, mouse.AbsolutePosition.y,
                 mouse.buttonDown(MouseButtonCode.MB_BUTTON0),
-                lastKeyPressed,
+                keyToSend,
                 keyboard.isModifierDown(Modifier.Shift),
                 keyboard.isModifierDown(Modifier.Alt),
                 keyboard.isModifierDown(Modifier.Ctrl));
 
-            lastKeyPressed = KeyboardButtonCode.KC_UNASSIGNED;
+            lastKeyReleased = KeyboardButtonCode.KC_UNASSIGNED;
             buffer.Begin();
         }
 
