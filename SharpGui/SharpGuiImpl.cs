@@ -28,6 +28,8 @@ namespace SharpGui
         private bool sentRepeat = false;
         private SharpStyle buttonStyle;
         private SharpStyle sliderStyle;
+        private SharpStyle inputStyle;
+        private SharpStyle panelStyle;
 
         public SharpGuiImpl(SharpGuiBuffer buffer, SharpGuiRenderer renderer, EventManager eventManager, IScaleHelper scaleHelper)
         {
@@ -47,6 +49,10 @@ namespace SharpGui
             sliderStyle.Active.Color = Color.FromARGB(0xff4376a9).ToSrgb();
             sliderStyle.HoverAndActive.Color = Color.FromARGB(0xff4376a9).ToSrgb();
             sliderStyle.HoverAndActiveAndFocus.Color = Color.FromARGB(0xff4376a9).ToSrgb();
+
+            inputStyle = SharpStyle.CreateComplete(scaleHelper);
+
+            panelStyle = SharpStyle.CreateComplete(scaleHelper);
         }
 
         private void Pad1_ButtonDown(Engine.Platform.Input.Gamepad pad, GamepadButtonCode buttonCode)
@@ -176,7 +182,7 @@ namespace SharpGui
 
         public bool Input(SharpInput input, Guid? navUp = null, Guid? navDown = null, Guid? navLeft = null, Guid? navRight = null)
         {
-            return input.Process(state, buffer, renderer.Font, buttonStyle, navUp, navDown, navLeft, navRight);
+            return input.Process(state, buffer, renderer.Font, inputStyle, navUp, navDown, navLeft, navRight);
         }
 
         public bool Slider(SharpSliderHorizontal slider, ref int value, Guid? navUp = null, Guid? navDown = null)
@@ -187,6 +193,11 @@ namespace SharpGui
         public bool Slider(SharpSliderVertical slider, ref int value, Guid? navLeft = null, Guid? navRight = null)
         {
             return slider.Process(ref value, state, buffer, sliderStyle, navLeft, navRight);
+        }
+
+        public void Panel(SharpPanel panel)
+        {
+            panel.Process(state, buffer, panelStyle);
         }
 
         public void Text(int x, int y, Color color, String text)
@@ -204,14 +215,19 @@ namespace SharpGui
             renderer.Render(buffer, immediateContext);
         }
 
-        public IntSize2 MeasureButton(SharpButton sharpButton)
+        public IntSize2 MeasureButton(SharpButton button)
         {
-            return sharpButton.GetDesiredSize(renderer.Font, state, buttonStyle);
+            return button.GetDesiredSize(renderer.Font, state, buttonStyle);
         }
 
-        public IntSize2 MeasureInput(SharpInput sharpInput)
+        public IntSize2 MeasureInput(SharpInput input)
         {
-            return sharpInput.GetDesiredSize(renderer.Font, state, buttonStyle);
+            return input.GetDesiredSize(renderer.Font, state, inputStyle);
+        }
+
+        public IntSize2 MeasurePanel(SharpPanel panel)
+        {
+            return panel.GetDesiredSize(state, panelStyle);
         }
 
         public void StealFocus(Guid id)

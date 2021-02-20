@@ -31,6 +31,8 @@ namespace SharpImGuiTest
         SharpSliderHorizontal sliderHorz;
         private int sliderValue = 0;
 
+        private SharpPanel panel = new SharpPanel();
+
         public SharpImGuiUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ISharpGui sharpGui, IScaleHelper scaleHelper)
         {
             sliderVert = new SharpSliderVertical() { Rect = scaleHelper.Scaled(new IntRect(10, 10, 35, 500)), Max = 15 };
@@ -66,12 +68,14 @@ namespace SharpImGuiTest
             //Put things on the gui
             sharpGui.Begin(clock);
 
-            var layout = new MaxWidthLayout(scaleHelper.Scaled(300), new ColumnLayout(button1, button2, button3, input) { Margin = new IntPad(10) }); ;
+            var layout = new PanelLayout(panel, new MaxWidthLayout(scaleHelper.Scaled(300), new ColumnLayout(button1, button2, button3, input) { Margin = new IntPad(10) })); 
             var desiredSize = layout.GetDesiredSize(sharpGui);
             layout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
 
             //Buttons
             Guid stealFocus = Guid.Empty;
+            sharpGui.Panel(panel);
+
             if (sharpGui.Button(button1, navUp: input.Id, navDown: button2.Id, navLeft: sliderHorz.Id, navRight: sliderVert.Id))
             {
                 displayText = "Activated button 1";

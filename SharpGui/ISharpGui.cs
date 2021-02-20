@@ -40,10 +40,17 @@ namespace SharpGui
         /// <returns>True if value changed.</returns>
         public bool Slider(SharpSliderVertical slider, ref int value, Guid? navLeft = null, Guid? navRight = null);
 
+        /// <summary>
+        /// Draw some text of unlimited width.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="color"></param>
+        /// <param name="text"></param>
         void Text(int x, int y, Color color, string text);
 
         /// <summary>
-        /// Draw text
+        /// Draw text up to a max width.
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
@@ -66,18 +73,31 @@ namespace SharpGui
         bool Input(SharpInput input, Guid? navUp = null, Guid? navDown = null, Guid? navLeft = null, Guid? navRight = null);
 
         /// <summary>
+        /// Draw a panel.
+        /// </summary>
+        /// <param name="input"></param>
+        void Panel(SharpPanel input);
+
+        /// <summary>
         /// Measure the size of a button.
         /// </summary>
-        /// <param name="sharpButton"></param>
+        /// <param name="button"></param>
         /// <returns></returns>
-        IntSize2 MeasureButton(SharpButton sharpButton);
+        IntSize2 MeasureButton(SharpButton button);
 
         /// <summary>
         /// Measure the size of an input text.
         /// </summary>
-        /// <param name="sharpInput"></param>
+        /// <param name="input"></param>
         /// <returns></returns>
-        IntSize2 MeasureInput(SharpInput sharpInput);
+        IntSize2 MeasureInput(SharpInput input);
+
+        /// <summary>
+        /// Measure the size of a panel.
+        /// </summary>
+        /// <param name="panel"></param>
+        /// <returns></returns>
+        IntSize2 MeasurePanel(SharpPanel panel);
 
         /// <summary>
         /// This should be used carefully ideally before begin or after end is called.

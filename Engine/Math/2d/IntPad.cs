@@ -36,5 +36,10 @@ namespace Engine
         {
             return new IntSize2(Left + Right, Top + Bottom);
         }
+
+        public static IntPad operator + (IntPad v1, IntPad v2)
+        {
+            return new IntPad(v1.Left + v2.Left, v1.Top+ v2.Top, v1.Right + v2.Right, v1.Bottom + v2.Bottom);
+        }
     }
 }
