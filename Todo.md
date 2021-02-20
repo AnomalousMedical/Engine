@@ -49,6 +49,3 @@ Make backspace work better, it needs to work on key down not just repeat and key
 
 ## Filter out characters
 currently filtering out anything below 32 in the ascii table, could do this in the control, currently at the higher input level
-
-## Typecast font info early
-Typecast all the font info to ints early so you don't have to do it per frame
