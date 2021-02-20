@@ -10,6 +10,7 @@ using FreeImageAPI;
 using Engine.CameraMovement;
 using System.Linq;
 using SharpGui;
+using SoundPlugin;
 
 namespace SceneTest
 {
@@ -42,10 +43,11 @@ namespace SceneTest
         private readonly TimeClock timeClock;
         private readonly ISharpGui sharpGui;
         private readonly IScaleHelper scaleHelper;
-        private ISwapChain swapChain;
-        private IRenderDevice renderDevice;
-        private IDeviceContext immediateContext;
-        private PbrRenderAttribs pbrRenderAttribs = PbrRenderAttribs.CreateDefault();
+        private readonly SoundManager soundManager;
+        private readonly ISwapChain swapChain;
+        private readonly IRenderDevice renderDevice;
+        private readonly IDeviceContext immediateContext;
+        private readonly PbrRenderAttribs pbrRenderAttribs = PbrRenderAttribs.CreateDefault();
 
         private PbrRenderer pbrRenderer;
         private AutoPtr<ITextureView> environmentMapSRV;
@@ -76,7 +78,8 @@ namespace SceneTest
             SimpleShadowMapRenderer shadowMapRenderer,
             TimeClock timeClock, 
             ISharpGui sharpGui, 
-            IScaleHelper scaleHelper)
+            IScaleHelper scaleHelper,
+            SoundManager soundManager)
         {
             cameraControls.Position = new Vector3(0, 0, -12);
 
@@ -98,6 +101,7 @@ namespace SceneTest
             this.timeClock = timeClock;
             this.sharpGui = sharpGui;
             this.scaleHelper = scaleHelper;
+            this.soundManager = soundManager;
             Initialize();
         }
 
@@ -411,6 +415,8 @@ namespace SceneTest
             if (sharpGui.Button(makeDusk, navUp: makeDawn.Id, navDown: makeDawn.Id))
             {
                 timeClock.CurrentTimeMicro = timeClock.DayEnd;
+                var stream = virtualFileSystem.openStream("freepd/untitled.ogg", Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read, Engine.Resources.FileShare.Read);
+                soundManager.StreamPlayAndForgetSound(stream);
             }
 
             sharpGui.End();

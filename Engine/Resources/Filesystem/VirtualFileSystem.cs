@@ -228,6 +228,17 @@ namespace Engine
             throw new FileNotFoundException(String.Format("Could not find file \"{0}\" in virtual file system.", url), url);
         }
 
+        public Stream openStream(String url, Resources.FileMode mode, Resources.FileAccess access, Resources.FileShare share)
+        {
+            url = FileSystem.fixPathFile(url);
+            Archive targetArchive;
+            if (fileMap.TryGetValue(url, out targetArchive))
+            {
+                return targetArchive.openStream(url, mode, access, share);
+            }
+            throw new FileNotFoundException(String.Format("Could not find file \"{0}\" in virtual file system.", url), url);
+        }
+
         public bool isDirectory(String url)
         {
             url = FileSystem.fixPathDir(url);
