@@ -147,19 +147,19 @@ bool StreamingSound::stream(ALuint buffer)
 		readBuffers(data, size);
 	}
     
+	bool ret = false;
 	//Make sure some data was read.
-    if(size == 0)
+    if(size > 0)
 	{
-        return false;
+		//Queue the buffer
+		alBufferData(buffer, format, data, size, freq);
+		checkOpenAL();
+		ret = true;
 	}
- 
-	//Queue the buffer
-    alBufferData(buffer, format, data, size, freq);
-    checkOpenAL();
 
 	delete[] data;
 
-    return true;
+    return ret;
 }
 
 double StreamingSound::getDuration()
