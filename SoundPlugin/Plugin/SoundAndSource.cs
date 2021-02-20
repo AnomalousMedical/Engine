@@ -13,7 +13,6 @@ namespace SoundPlugin
             Sound = sound;
             Source = source;
             this.openALManager = openALManager;
-            Source.PlaybackFinished += Source_PlaybackFinished;
         }
 
         public Sound Sound { get; private set; }
@@ -21,13 +20,11 @@ namespace SoundPlugin
 
         public void Dispose()
         {
-            Source?.stop();
-        }
-
-        private void Source_PlaybackFinished(Source source)
-        {
-            openALManager.DestroySound(Sound);
-            Source.PlaybackFinished -= Source_PlaybackFinished;
+            if (Source?.Playing == true)
+            {
+                Source.stop();
+            }
+            openALManager?.DestroySound(Sound);
             openALManager = null;
             Sound = null;
             Source = null;
