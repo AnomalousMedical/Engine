@@ -2,6 +2,7 @@
 using Engine;
 using Engine.Platform;
 using System;
+using System.Text;
 
 namespace SharpGui
 {
@@ -59,6 +60,11 @@ namespace SharpGui
         void Text(int x, int y, Color color, string text, int maxWidth);
 
         /// <summary>
+        /// Draw the given sharp text.
+        /// </summary>
+        void Text(SharpText text);
+
+        /// <summary>
         /// Draw a button.
         /// </summary>
         /// <param name="button"></param>
@@ -106,5 +112,19 @@ namespace SharpGui
         /// </summary>
         /// <param name="id"></param>
         void StealFocus(Guid id);
+
+        /// <summary>
+        /// Measure the size of the text in the given string.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public IntSize2 MeasureText(String text);
+
+        /// <summary>
+        /// Measure the size of the text in the string builder.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public IntSize2 MeasureText(StringBuilder text);
     }
 }

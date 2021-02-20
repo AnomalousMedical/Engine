@@ -210,6 +210,11 @@ namespace SharpGui
             buffer.DrawText(x, y, x + maxWidth, color, text, renderer.Font);
         }
 
+        public void Text(SharpText text)
+        {
+            buffer.DrawText(text.Rect.Left, text.Rect.Top, text.Rect.Right, text.color, text.Text, renderer.Font);
+        }
+
         public void Render(IDeviceContext immediateContext)
         {
             renderer.Render(buffer, immediateContext);
@@ -228,6 +233,16 @@ namespace SharpGui
         public IntSize2 MeasurePanel(SharpPanel panel)
         {
             return panel.GetDesiredSize(state, panelStyle);
+        }
+
+        public IntSize2 MeasureText(String text)
+        {
+            return renderer.Font.MeasureText(text);
+        }
+
+        public IntSize2 MeasureText(StringBuilder text)
+        {
+            return renderer.Font.MeasureText(text);
         }
 
         public void StealFocus(Guid id)

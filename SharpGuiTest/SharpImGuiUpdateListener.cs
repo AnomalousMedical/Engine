@@ -33,6 +33,10 @@ namespace SharpImGuiTest
 
         private SharpPanel panel = new SharpPanel();
 
+        private SharpText runtimeLabel = new SharpText();
+        private SharpText displayLabel = new SharpText();
+        private SharpText lastUpdateLabel = new SharpText();
+
         public SharpImGuiUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ISharpGui sharpGui, IScaleHelper scaleHelper)
         {
             sliderVert = new SharpSliderVertical() { Rect = scaleHelper.Scaled(new IntRect(10, 10, 35, 500)), Max = 15 };
@@ -111,9 +115,17 @@ namespace SharpImGuiTest
                 displayText = $"New slider value {sliderValue}";
             }
 
-            sharpGui.Text(450, 400, Color.Black, $"Program has been running for {TimeSpan.FromMilliseconds(clock.CurrentTimeMicro * Clock.MicroToMilliseconds)}");
-            sharpGui.Text(750, 500, Color.Black, displayText);
-            sharpGui.Text(750, 600, Color.Black, lastUpdateTimeBuilder.ToString());
+            var textColumn = new ColumnLayout(
+                runtimeLabel.UpdateText($"Program has been running for {TimeSpan.FromMilliseconds(clock.CurrentTimeMicro * Clock.MicroToMilliseconds)}"),
+                displayLabel.UpdateText(displayText),
+                lastUpdateLabel.UpdateText(lastUpdateTimeBuilder.ToString())
+                ) { Margin = new IntPad(scaleHelper.Scaled(4)) };
+            var desiredTextSize = textColumn.GetDesiredSize(sharpGui);
+            textColumn.SetRect(new IntRect(0, window.WindowHeight - desiredTextSize.Height, desiredTextSize.Width, desiredTextSize.Height));
+
+            sharpGui.Text(runtimeLabel);
+            sharpGui.Text(displayLabel);
+            sharpGui.Text(lastUpdateLabel);
 
             sharpGui.End();
             if (stealFocus != Guid.Empty)
