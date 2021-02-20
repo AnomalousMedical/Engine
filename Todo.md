@@ -49,3 +49,6 @@ Make backspace work better, it needs to work on key down not just repeat and key
 
 ## Filter out characters
 currently filtering out anything below 32 in the ascii table, could do this in the control, currently at the higher input level
+
+## Tabs in fonts still need to be figrued out
+Haven't tried tabs yet in the fonts. They are their own setting so need to mess with it.
