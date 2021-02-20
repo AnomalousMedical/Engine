@@ -139,15 +139,18 @@ namespace DiligentEngine.GltfPbr
         {
             unsafe
             {
-                //This is assuming bgra layout like everything else
-                //index 1 is g or the y axis we want to invert, if g changes invert that index instead
-                var firstPixel = (byte*)map.Scan0.ToPointer() + (map.Height - 1) * map.Stride;
-                var lastPixel = map.Width * map.Height * 4;
-                for (var i = 1; i < lastPixel; i += 4)
+                //This is assuming axgx layout like everything else, dont really care about r and b since g is
+                //always the same and that is what we want to flip.
+                var firstPixel = (uint*)((byte*)map.Scan0.ToPointer() + (map.Height - 1) * map.Stride);
+                var lastPixel = map.Width * map.Height;
+                for (var i = 0; i < lastPixel; ++i)
                 {
-                    var unpacked = (firstPixel[i] / 255.0f) * 2f - 1f;
-                    unpacked *= -1f;
-                    firstPixel[i] = (byte)((unpacked + 1) / 2 * 255.0f);
+                    uint pixelValue = firstPixel[i];
+                    uint normalY = 0x0000ff00 & pixelValue;
+                    normalY >>= 8;
+                    normalY = 255 - normalY;
+                    normalY <<= 8;
+                    firstPixel[i] = (pixelValue & 0xffff00ff) + normalY;
                 }
             }
         }
