@@ -16,6 +16,7 @@ namespace SharpImGuiTest
     {
         private readonly NativeOSWindow window;
         private readonly ISharpGui sharpGui;
+        private readonly IScaleHelper scaleHelper;
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext immediateContext;
         private String displayText = "Click on something!";
@@ -39,6 +40,7 @@ namespace SharpImGuiTest
 
             this.window = window;
             this.sharpGui = sharpGui;
+            this.scaleHelper = scaleHelper;
             this.swapChain = graphicsEngine.SwapChain;
             this.immediateContext = graphicsEngine.ImmediateContext;            
         }
@@ -64,9 +66,9 @@ namespace SharpImGuiTest
             //Put things on the gui
             sharpGui.Begin(clock);
 
-            var columnLayout = new ColumnLayout(button1, button2, button3, input) { Margin = new IntPad(10) };
-            var desiredSize = columnLayout.GetDesiredSize(sharpGui);
-            columnLayout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
+            var layout = new MaxWidthLayout(scaleHelper.Scaled(300), new ColumnLayout(button1, button2, button3, input) { Margin = new IntPad(10) }); ;
+            var desiredSize = layout.GetDesiredSize(sharpGui);
+            layout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
 
             //Buttons
             Guid stealFocus = Guid.Empty;
