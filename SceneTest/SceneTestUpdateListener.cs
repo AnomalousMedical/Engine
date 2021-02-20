@@ -43,11 +43,13 @@ namespace SceneTest
         private readonly TimeClock timeClock;
         private readonly ISharpGui sharpGui;
         private readonly IScaleHelper scaleHelper;
-        private readonly SoundManager soundManager;
         private readonly ISwapChain swapChain;
         private readonly IRenderDevice renderDevice;
         private readonly IDeviceContext immediateContext;
         private readonly PbrRenderAttribs pbrRenderAttribs = PbrRenderAttribs.CreateDefault();
+
+        private readonly SoundManager soundManager;
+        private SoundAndSource bgMusicSound;
 
         private PbrRenderer pbrRenderer;
         private AutoPtr<ITextureView> environmentMapSRV;
@@ -107,6 +109,7 @@ namespace SceneTest
 
         public void Dispose()
         {
+            bgMusicSound?.Dispose();
             pboMatBindingSwordSprite.Dispose();
             pboMatBindingTinyDinoSprite.Dispose();
             pboMatBindingFloor.Dispose();
@@ -414,9 +417,12 @@ namespace SceneTest
 
             if (sharpGui.Button(makeDusk, navUp: makeDawn.Id, navDown: makeDawn.Id))
             {
+                bgMusicSound?.Dispose();
+
                 timeClock.CurrentTimeMicro = timeClock.DayEnd;
-                var stream = virtualFileSystem.openStream("freepd/untitled.ogg", Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read, Engine.Resources.FileShare.Read);
-                soundManager.StreamPlayAndForgetSound(stream);
+                var stream = virtualFileSystem.openStream("freepd/Rafael Krux - The Range-10.ogg", Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read, Engine.Resources.FileShare.Read);
+                bgMusicSound = soundManager.StreamPlaySound(stream);
+                bgMusicSound.Sound.Repeat = true;
             }
 
             sharpGui.End();

@@ -37,6 +37,28 @@ namespace SoundPlugin
             return null;
         }
 
+        /// <summary>
+        /// Play a sound, the returned item must be disposed when the caller is done with it.
+        /// </summary>
+        /// <param name="soundStream"></param>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public SoundAndSource StreamPlaySound(Stream soundStream)
+        {
+            Source source = openALManager.GetSource();
+            if (source != null)
+            {
+                Sound sound = openALManager.CreateStreamingSound(soundStream);
+                source.playSound(sound);
+                return new SoundAndSource(sound, source, openALManager);
+            }
+            else
+            {
+                logger.LogError("Ran out of sources trying to play sound.");
+            }
+            return null;
+        }
+
         public double GetDuration(Stream soundStream)
         {
             AudioCodec codec = openALManager.CreateAudioCodec(soundStream);
