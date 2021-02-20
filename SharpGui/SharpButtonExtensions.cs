@@ -58,7 +58,7 @@ namespace SharpGui
             if(button.Text != null)
             {
                 var textLeft = mainLeft + look.Padding.Left;
-                var textTop = mainTop + look.Padding.Right;
+                var textTop = mainTop + look.Padding.Top;
                 var textRight = mainRight - look.Padding.Right;
 
                 buffer.DrawText(textLeft, textTop, textRight, look.Color, button.Text, font);

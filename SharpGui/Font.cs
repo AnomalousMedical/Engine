@@ -112,5 +112,34 @@ namespace SharpGui
 
             return new IntSize2(widest, yOffset + tallestLineChar - SmallestBearingY);
         }
+
+        public bool IsTextWider(StringBuilder text, int width)
+        {
+            ///This is closely related to <see cref="SharpGuiBuffer.DrawText(int, int, Color, StringBuilder, Font)"/>
+            int xOffset = 0;
+            for (int i = 0; i < text.Length; ++i)
+            {
+                var c = text[i];
+                if (TryGetGlyphInfo(c, out var glyphInfo))
+                {
+                    int fullAdvance = glyphInfo.advance + glyphInfo.bearingX;
+                    xOffset += fullAdvance;
+                }
+
+                //Wider, done, return true
+                if(xOffset > width)
+                {
+                    return true;
+                }
+
+                if (c == '\n')
+                {
+                    xOffset = 0;
+                }
+            }
+
+            //Not wider
+            return false;
+        }
     }
 }

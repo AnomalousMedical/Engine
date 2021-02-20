@@ -59,9 +59,16 @@ namespace SharpGui
             if(input.Text != null)
             {
                 var textLeft = mainLeft + look.Padding.Left;
-                var textTop = mainTop + look.Padding.Right;
-
-                buffer.DrawText(textLeft, textTop, look.Color, input.Text, font);
+                var textTop = mainTop + look.Padding.Top;
+                var textRight = mainRight - look.Padding.Right;
+                if (font.IsTextWider(input.Text, textRight - textLeft))
+                {
+                    buffer.DrawTextReverse(textLeft, textTop, textRight, look.Color, input.Text, font);
+                }
+                else
+                {
+                    buffer.DrawText(textLeft, textTop, textRight, look.Color, input.Text, font);
+                }
             }
 
             //Handle input
