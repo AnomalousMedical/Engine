@@ -110,6 +110,9 @@ namespace SharpImGuiTest
                 sharpGui.StealFocus(stealFocus);
             }
 
+            PerformanceMonitor.stop("Sharp Gui");
+
+            PerformanceMonitor.start("Render");
             var pRTV = swapChain.GetCurrentBackBufferRTV();
             var pDSV = swapChain.GetDepthBufferDSV();
 
@@ -125,8 +128,7 @@ namespace SharpImGuiTest
             //Draw the gui
             sharpGui.Render(immediateContext);
 
-            PerformanceMonitor.stop("Sharp Gui");
-
+            PerformanceMonitor.stop("Render");
             lastUpdateTimeBuilder.Clear();
             foreach (var value in PerformanceMonitor.Timelapses)
             {
