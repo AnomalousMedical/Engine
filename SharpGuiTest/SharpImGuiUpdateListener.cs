@@ -68,7 +68,12 @@ namespace SharpImGuiTest
             //Put things on the gui
             sharpGui.Begin(clock);
 
-            var layout = new PanelLayout(panel, new MaxWidthLayout(scaleHelper.Scaled(300), new ColumnLayout(button1, button2, button3, input) { Margin = new IntPad(10) })); 
+            var layout =
+                new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
+                new PanelLayout(panel,
+                new MaxWidthLayout(scaleHelper.Scaled(300),
+                new ColumnLayout(button1, button2, button3, input) { Margin = new IntPad(10) }
+                )));
             var desiredSize = layout.GetDesiredSize(sharpGui);
             layout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
 
