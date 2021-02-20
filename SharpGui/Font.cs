@@ -24,18 +24,18 @@ namespace SharpGui
 
         public GlyphInfo SubstituteCodePointGlyphInfo { get; private set; }
 
-        public int SubstituteGlyphInfoSize => (int)SubstituteCodePointGlyphInfo.height + (int)SubstituteCodePointGlyphInfo.bearingY - (int)SmallestBearingY;
+        public int SubstituteGlyphInfoSize => SubstituteCodePointGlyphInfo.height + SubstituteCodePointGlyphInfo.bearingY - SmallestBearingY;
 
         const String TallEnglishLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-        float? smallestBearingY;
-        public float SmallestBearingY
+        int? smallestBearingY;
+        public int SmallestBearingY
         {
             get
             {
                 if(smallestBearingY == null)
                 {
-                    smallestBearingY = float.MaxValue;
+                    smallestBearingY = int.MaxValue;
                     foreach(var c in TallEnglishLetters)
                     {
                         if (TryGetGlyphInfo(c, out var g))
@@ -65,9 +65,9 @@ namespace SharpGui
             {
                 if (TryGetGlyphInfo(c, out var glyphInfo))
                 {
-                    int fullAdvance = (int)glyphInfo.advance + (int)glyphInfo.bearingX;
+                    int fullAdvance = glyphInfo.advance + glyphInfo.bearingX;
                     xOffset += fullAdvance;
-                    tallestLineChar = Math.Max((int)glyphInfo.height + (int)glyphInfo.bearingY, tallestLineChar);
+                    tallestLineChar = Math.Max(glyphInfo.height + glyphInfo.bearingY, tallestLineChar);
                 }
                 if (c == '\n')
                 {
@@ -80,7 +80,7 @@ namespace SharpGui
 
             widest = Math.Max(widest, xOffset);
 
-            return new IntSize2(widest, yOffset + tallestLineChar - (int)SmallestBearingY);
+            return new IntSize2(widest, yOffset + tallestLineChar - SmallestBearingY);
         }
 
         public IntSize2 MeasureText(StringBuilder text)
@@ -95,9 +95,9 @@ namespace SharpGui
                 var c = text[i];
                 if (TryGetGlyphInfo(c, out var glyphInfo))
                 {
-                    int fullAdvance = (int)glyphInfo.advance + (int)glyphInfo.bearingX;
+                    int fullAdvance = glyphInfo.advance + glyphInfo.bearingX;
                     xOffset += fullAdvance;
-                    tallestLineChar = Math.Max((int)glyphInfo.height + (int)glyphInfo.bearingY, tallestLineChar);
+                    tallestLineChar = Math.Max(glyphInfo.height + glyphInfo.bearingY, tallestLineChar);
                 }
                 if (c == '\n')
                 {
@@ -110,7 +110,7 @@ namespace SharpGui
 
             widest = Math.Max(widest, xOffset);
 
-            return new IntSize2(widest, yOffset + tallestLineChar - (int)SmallestBearingY);
+            return new IntSize2(widest, yOffset + tallestLineChar - SmallestBearingY);
         }
     }
 }

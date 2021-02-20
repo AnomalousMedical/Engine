@@ -81,17 +81,17 @@ namespace SharpGui
             ///This is closely related to <see cref="Font.MeasureText(string)"/>
             int xOffset = x;
             
-            int smallestBearingY = (int)font.SmallestBearingY;
+            int smallestBearingY = font.SmallestBearingY;
             int yOffset = y - smallestBearingY;
             int tallestLineChar = 0;
             foreach (var c in text)
             {
                 if (font.TryGetGlyphInfo(c, out var glyphInfo))
                 {
-                    DrawTextQuad(xOffset + (int)glyphInfo.bearingX, yOffset + (int)glyphInfo.bearingY, (int)glyphInfo.width, (int)glyphInfo.height, ref color, ref glyphInfo.uvRect);
-                    int fullAdvance = (int)glyphInfo.advance + (int)glyphInfo.bearingX;
+                    DrawTextQuad(xOffset + glyphInfo.bearingX, yOffset + glyphInfo.bearingY, glyphInfo.width, glyphInfo.height, ref color, ref glyphInfo.uvRect);
+                    int fullAdvance = glyphInfo.advance + glyphInfo.bearingX;
                     xOffset += fullAdvance;
-                    tallestLineChar = Math.Max((int)glyphInfo.height + (int)glyphInfo.bearingY, tallestLineChar);
+                    tallestLineChar = Math.Max(glyphInfo.height + glyphInfo.bearingY, tallestLineChar);
                 }
                 if(c == '\n')
                 {
@@ -107,7 +107,7 @@ namespace SharpGui
             ///This is closely related to <see cref="Font.MeasureText(StringBuilder)"/>
             int xOffset = x;
 
-            int smallestBearingY = (int)font.SmallestBearingY;
+            int smallestBearingY = font.SmallestBearingY;
             int yOffset = y - smallestBearingY;
             int tallestLineChar = 0;
             for(int i = 0; i < text.Length; ++i)
@@ -115,10 +115,10 @@ namespace SharpGui
                 var c = text[i];
                 if (font.TryGetGlyphInfo(c, out var glyphInfo))
                 {
-                    DrawTextQuad(xOffset + (int)glyphInfo.bearingX, yOffset + (int)glyphInfo.bearingY, (int)glyphInfo.width, (int)glyphInfo.height, ref color, ref glyphInfo.uvRect);
-                    int fullAdvance = (int)glyphInfo.advance + (int)glyphInfo.bearingX;
+                    DrawTextQuad(xOffset + glyphInfo.bearingX, yOffset + glyphInfo.bearingY, glyphInfo.width, glyphInfo.height, ref color, ref glyphInfo.uvRect);
+                    int fullAdvance = glyphInfo.advance + glyphInfo.bearingX;
                     xOffset += fullAdvance;
-                    tallestLineChar = Math.Max((int)glyphInfo.height + (int)glyphInfo.bearingY, tallestLineChar);
+                    tallestLineChar = Math.Max(glyphInfo.height + glyphInfo.bearingY, tallestLineChar);
                 }
                 if (c == '\n')
                 {

@@ -36,12 +36,13 @@ namespace SharpGui
         {
             return new GlyphInfo()
             {
+                //Handle all typecasting here instead of per frame
                 codePoint = this.codePoint,
-                width = this.width,
-                height = this.height,
-                advance = this.advance,
-                bearingX = this.bearingX,
-                bearingY = this.bearingY,
+                width = (int)this.width,
+                height = (int)this.height,
+                advance = (int)this.advance,
+                bearingX = (int)this.bearingX,
+                bearingY = (int)this.bearingY,
                 uvRect = this.uvRect,
             };
         }
@@ -50,11 +51,11 @@ namespace SharpGui
     public class GlyphInfo
     {
         public uint codePoint;
-        public float width;
-        public float height;
-        public float advance;
-        public float bearingX;
-        public float bearingY;
+        public int width;
+        public int height;
+        public int advance;
+        public int bearingX;
+        public int bearingY;
         public GlyphRect uvRect;
     }
 }
