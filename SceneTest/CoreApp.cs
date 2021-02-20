@@ -58,6 +58,7 @@ namespace SceneTest
                     .AddDiligentEnginePbrShapes();
 
             services.AddOSPlatform(pluginManager);
+            services.AddSharpGui();
             services.AddFirstPersonFlyCamera();
 
             //Add this app's services

@@ -37,6 +37,42 @@ namespace SceneTest
 
         public bool IsDay => currentTime > dayStart && currentTime <= dayEnd;
 
+        public long CurrentTimeMicro
+        {
+            get
+            {
+                return currentTime;
+            }
+            set
+            {
+                currentTime = value % period;
+            }
+        }
+
+        public long DayStart
+        {
+            get
+            {
+                return dayStart;
+            }
+            set
+            {
+                dayStart = value % period;
+            }
+        }
+
+        public long DayEnd
+        {
+            get
+            {
+                return dayEnd;
+            }
+            set
+            {
+                dayEnd = value % period;
+            }
+        }
+
         public float DayFactor
         {
             get
@@ -57,7 +93,7 @@ namespace SceneTest
                 {
                     return 0.0f;
                 }
-                if(currentTime > dayEnd)
+                if (currentTime > dayEnd)
                 {
                     return (currentTime - dayEnd) * Clock.MicroToSeconds / nightEndFactor;
                 }

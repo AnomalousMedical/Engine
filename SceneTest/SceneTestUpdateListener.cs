@@ -9,6 +9,7 @@ using DiligentEngine.GltfPbr.Shapes;
 using FreeImageAPI;
 using Engine.CameraMovement;
 using System.Linq;
+using SharpGui;
 
 namespace SceneTest
 {
@@ -39,6 +40,8 @@ namespace SceneTest
         private readonly FirstPersonFlyCamera cameraControls;
         private readonly SimpleShadowMapRenderer shadowMapRenderer;
         private readonly TimeClock timeClock;
+        private readonly ISharpGui sharpGui;
+        private readonly IScaleHelper scaleHelper;
         private ISwapChain swapChain;
         private IRenderDevice renderDevice;
         private IDeviceContext immediateContext;
@@ -54,6 +57,9 @@ namespace SceneTest
 
         private List<SceneObject> sceneObjects = new List<SceneObject>();
 
+        SharpButton makeDawn = new SharpButton() { Text = "Make Dawn" };
+        SharpButton makeDusk = new SharpButton() { Text = "Make Dusk" };
+
         public unsafe SceneTestUpdateListener(
             GraphicsEngine graphicsEngine,
             NativeOSWindow window,
@@ -68,7 +74,9 @@ namespace SceneTest
             VirtualFileSystem virtualFileSystem,
             FirstPersonFlyCamera cameraControls,
             SimpleShadowMapRenderer shadowMapRenderer,
-            TimeClock timeClock)
+            TimeClock timeClock, 
+            ISharpGui sharpGui, 
+            IScaleHelper scaleHelper)
         {
             cameraControls.Position = new Vector3(0, 0, -12);
 
@@ -88,6 +96,8 @@ namespace SceneTest
             this.cameraControls = cameraControls;
             this.shadowMapRenderer = shadowMapRenderer;
             this.timeClock = timeClock;
+            this.sharpGui = sharpGui;
+            this.scaleHelper = scaleHelper;
             Initialize();
         }
 
@@ -380,9 +390,44 @@ namespace SceneTest
 
         }
 
+        private void UpdateGui(Clock clock)
+        {
+            sharpGui.Begin(clock);
+
+            var layout =
+                new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
+                new MaxWidthLayout(scaleHelper.Scaled(300),
+                new ColumnLayout(makeDawn, makeDusk) { Margin = new IntPad(10) }
+                ));
+            var desiredSize = layout.GetDesiredSize(sharpGui);
+            layout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
+
+            //Buttons
+            if (sharpGui.Button(makeDawn, navUp: makeDusk.Id, navDown: makeDusk.Id))
+            {
+                timeClock.CurrentTimeMicro = timeClock.DayStart;
+            }
+
+            if (sharpGui.Button(makeDusk, navUp: makeDawn.Id, navDown: makeDawn.Id))
+            {
+                timeClock.CurrentTimeMicro = timeClock.DayEnd;
+            }
+
+            sharpGui.End();
+        }
+
+        private void RenderGui()
+        {
+            //Draw the gui
+            var pDSV = swapChain.GetDepthBufferDSV();
+            immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            sharpGui.Render(immediateContext);
+        }
+
         public unsafe void sendUpdate(Clock clock)
         {
             //Update
+            UpdateGui(clock);
             timeClock.Update(clock);
             cameraControls.UpdateInput(clock);
             UpdateLight(clock);
@@ -425,6 +470,8 @@ namespace SceneTest
             }
 
             this.shadowMapRenderer.RenderShadowMapVis(immediateContext);
+
+            RenderGui();
 
             this.swapChain.Present(1);
         }

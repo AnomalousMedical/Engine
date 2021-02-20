@@ -99,12 +99,15 @@ namespace SharpGui
         /// Treat it as not having focus until the next frame. This is good for taking focus
         /// when things happen like clicking on the item with the mouse. It would be ideal
         /// to call this at the end of your widget where input is being handled. The FocusedItem
-        /// property is changed immediately after this is called.
+        /// property is changed immediately after this is called. This will also clear any input
+        /// for this frame from the keyboard and gamepad.
         /// </summary>
         /// <param name="id"></param>
         public void StealFocus(Guid id)
         {
             FocusedItem = id;
+            KeyEntered = KeyboardButtonCode.KC_UNASSIGNED;
+            GamepadButtonEntered = GamepadButtonCode.NUM_BUTTONS;
         }
 
         /// <summary>
