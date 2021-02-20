@@ -59,8 +59,9 @@ namespace SharpGui
             {
                 var textLeft = mainLeft + look.Padding.Left;
                 var textTop = mainTop + look.Padding.Right;
+                var textRight = mainRight - look.Padding.Right;
 
-                buffer.DrawText(textLeft, textTop, look.Color, button.Text, font);
+                buffer.DrawText(textLeft, textTop, textRight, look.Color, button.Text, font);
             }
 
             //Determine clicked

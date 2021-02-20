@@ -76,7 +76,7 @@ namespace SharpGui
             currentZ -= zStep;
         }
 
-        public void DrawText(int x, int y, Color color, String text, Font font)
+        public void DrawText(int x, int y, int right, Color color, String text, Font font)
         {
             ///This is closely related to <see cref="Font.MeasureText(string)"/>
             int xOffset = x;
@@ -86,13 +86,14 @@ namespace SharpGui
             int tallestLineChar = 0;
             foreach (var c in text)
             {
-                if (font.TryGetGlyphInfo(c, out var glyphInfo))
+                if (xOffset < right && font.TryGetGlyphInfo(c, out var glyphInfo))
                 {
                     DrawTextQuad(xOffset + glyphInfo.bearingX, yOffset + glyphInfo.bearingY, glyphInfo.width, glyphInfo.height, ref color, ref glyphInfo.uvRect);
                     int fullAdvance = glyphInfo.advance + glyphInfo.bearingX;
                     xOffset += fullAdvance;
                     tallestLineChar = Math.Max(glyphInfo.height + glyphInfo.bearingY, tallestLineChar);
                 }
+
                 if(c == '\n')
                 {
                     yOffset += tallestLineChar;

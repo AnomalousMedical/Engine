@@ -40,6 +40,8 @@ namespace SharpGui
         /// <returns>True if value changed.</returns>
         public bool Slider(SharpSliderVertical slider, ref int value, Guid? navLeft = null, Guid? navRight = null);
 
+        void Text(int x, int y, Color color, string text);
+
         /// <summary>
         /// Draw text
         /// </summary>
@@ -47,7 +49,7 @@ namespace SharpGui
         /// <param name="y"></param>
         /// <param name="color"></param>
         /// <param name="text"></param>
-        void Text(int x, int y, Color color, string text);
+        void Text(int x, int y, Color color, string text, int maxWidth);
 
         /// <summary>
         /// Draw a button.

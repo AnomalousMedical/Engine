@@ -191,7 +191,12 @@ namespace SharpGui
 
         public void Text(int x, int y, Color color, String text)
         {
-            buffer.DrawText(x, y, color, text, renderer.Font);
+            buffer.DrawText(x, y, int.MaxValue, color, text, renderer.Font);
+        }
+
+        public void Text(int x, int y, Color color, String text, int maxWidth)
+        {
+            buffer.DrawText(x, y, x + maxWidth, color, text, renderer.Font);
         }
 
         public void Render(IDeviceContext immediateContext)
