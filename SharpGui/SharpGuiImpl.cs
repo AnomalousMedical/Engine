@@ -249,5 +249,11 @@ namespace SharpGui
         {
             state.StealFocus(id);
         }
+
+        public Guid ActiveItem => state.ActiveItem;
+
+        public Guid HoverItem => state.HoverItem;
+
+        public Guid FocusedItem => state.FocusedItem;
     }
 }

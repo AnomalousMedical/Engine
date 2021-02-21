@@ -63,6 +63,7 @@ namespace SceneTest
 
         SharpButton makeDawn = new SharpButton() { Text = "Make Dawn" };
         SharpButton makeDusk = new SharpButton() { Text = "Make Dusk" };
+        SharpSliderHorizontal currentHour;
 
         public unsafe SceneTestUpdateListener(
             GraphicsEngine graphicsEngine,
@@ -104,6 +105,7 @@ namespace SceneTest
             this.sharpGui = sharpGui;
             this.scaleHelper = scaleHelper;
             this.soundManager = soundManager;
+            currentHour = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 10, 500, 35)), Max = 24 };
             Initialize();
         }
 
@@ -431,6 +433,14 @@ namespace SceneTest
                 bgMusicSound.Sound.Repeat = true;
             }
 
+            int currentTime = (int)(timeClock.CurrentTimeMicro * Clock.MicroToSeconds / (60 * 60));
+            if(sharpGui.Slider(currentHour, ref currentTime) || sharpGui.ActiveItem == currentHour.Id)
+            {
+                timeClock.CurrentTimeMicro = (long)currentTime * 60L * 60L * Clock.SecondsToMicro;
+            }
+            var time = TimeSpan.FromMilliseconds(timeClock.CurrentTimeMicro * Clock.MicroToMilliseconds);
+            sharpGui.Text(currentHour.Rect.Right, currentHour.Rect.Top, Engine.Color.Black, $"Time: {time}");
+
             sharpGui.End();
         }
 
@@ -445,8 +455,8 @@ namespace SceneTest
         public unsafe void sendUpdate(Clock clock)
         {
             //Update
-            UpdateGui(clock);
             timeClock.Update(clock);
+            UpdateGui(clock);
             cameraControls.UpdateInput(clock);
             UpdateLight(clock);
 

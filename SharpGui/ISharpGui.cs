@@ -25,6 +25,12 @@ namespace SharpGui
         /// <param name="immediateContext"></param>
         void Render(IDeviceContext immediateContext);
 
+        Guid ActiveItem { get; }
+
+        Guid HoverItem { get; }
+
+        Guid FocusedItem { get; }
+
         /// <summary>
         /// Draw a slider. Returns true if the passed in value changed.
         /// </summary>
