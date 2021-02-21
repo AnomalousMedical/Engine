@@ -22,6 +22,6 @@ namespace SceneTest
         public PbrAlphaMode pbrAlphaMode;
         public bool GetShadows;
         public bool RenderShadowPlaceholder;
-        public bool IsSprite;
+        public Sprite Sprite;
     }
 }

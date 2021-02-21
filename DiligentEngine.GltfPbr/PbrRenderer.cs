@@ -329,6 +329,7 @@ namespace DiligentEngine.GltfPbr
             Macros.AddShaderMacro("GLTF_ALPHA_MODE_MASK", (Int32)PbrAlphaMode.ALPHA_MODE_MASK);
             Macros.AddShaderMacro("GLTF_ALPHA_MODE_BLEND", (Int32)PbrAlphaMode.ALPHA_MODE_BLEND);
             Macros.AddShaderMacro("ANOMALOUS_USE_SIMPLE_SHADOW", enableShadows);
+            Macros.AddShaderMacro("ANOMALOUS_USE_SPRITE", isSprite);
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
             ShaderCI.EntryPoint = "main";
             ShaderCI.Desc.Name = "GLTF PBR VS";
@@ -865,6 +866,24 @@ namespace DiligentEngine.GltfPbr
             {
                 IntPtr data = pCtx.MapBuffer(m_JointsBuffer.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
                 var joints = (float4x4*)data.ToPointer();
+
+                if (renderAttribs.IsSprite) //Get rid of this if
+                {
+                    float left = renderAttribs.SpriteUVLeft;
+                    float top = renderAttribs.SpriteUVTop;
+                    float right = renderAttribs.SpriteUVRight;
+                    float bottom = renderAttribs.SpriteUVBottom;
+                    //Cramming uv index into the Joint0 part of the struct for now and using the first joint matrix to pass the uvs
+                    joints[0] = new float4x4(
+                        //For some reason the shader reads this as column, then row
+                        //It seems like the uvs would go down the first 2 columns not across these rows
+                        //This needs to be refactored with its own data structures
+                        left, right, right, left,
+                        top, top, bottom, bottom,
+                        0, 0, 0, 0,
+                        0, 0, 0, 0
+                        );
+                }
 
                 pCtx.UnmapBuffer(m_JointsBuffer.Obj, MAP_TYPE.MAP_WRITE);
             }

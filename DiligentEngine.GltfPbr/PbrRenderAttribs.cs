@@ -68,6 +68,9 @@ namespace DiligentEngine.GltfPbr
                 DebugViewType = DebugViewType.None,
                 OcclusionStrength = 1.00000000f,
                 EmissionScale = 1.00000000f,
+
+                SpriteUVRight = 1.0f,
+                SpriteUVBottom = 1.0f,
         };
         }
 
@@ -121,5 +124,9 @@ namespace DiligentEngine.GltfPbr
 
         //Sprite info
         public bool IsSprite;
+        public float SpriteUVLeft;
+        public float SpriteUVTop;
+        public float SpriteUVRight;
+        public float SpriteUVBottom;
     }
 }

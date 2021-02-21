@@ -67,10 +67,12 @@ namespace DiligentEngine.GltfPbr.Shapes
         {
             var CubeSkinVerts = new GLTFVertexSkinAttribs[]
             {
-                new GLTFVertexSkinAttribs{joint0 = Vector4.Zero, weight0 = Vector4.Zero},
-                new GLTFVertexSkinAttribs{joint0 = Vector4.Zero, weight0 = Vector4.Zero},
-                new GLTFVertexSkinAttribs{joint0 = Vector4.Zero, weight0 = Vector4.Zero},
-                new GLTFVertexSkinAttribs{joint0 = Vector4.Zero, weight0 = Vector4.Zero},
+                //These are set to indices that should be looked up in the passed in uv matrix to determine
+                //the frame to draw
+                new GLTFVertexSkinAttribs{joint0 = new Vector4(0, 0, 0, 0), weight0 = Vector4.Zero},
+                new GLTFVertexSkinAttribs{joint0 = new Vector4(1, 0, 0, 0), weight0 = Vector4.Zero},
+                new GLTFVertexSkinAttribs{joint0 = new Vector4(2, 0, 0, 0), weight0 = Vector4.Zero},
+                new GLTFVertexSkinAttribs{joint0 = new Vector4(3, 0, 0, 0), weight0 = Vector4.Zero},
             };
 
             // Create a vertex buffer that stores cube vertices

@@ -10,6 +10,9 @@ This is all handled by the pbr renderer, but it is strange that rotations have t
 In order to move the camera through the world in the same coords as the rest the position must be inverted before setting the shader. This is
 handled in pbr camera and lights.
 
+## Refactor Sprites to have better vertex shader
+Right now the sprite info is hacked into the bone matrix. Refactor the shader to have better input for sprites and take out what it doesnt need like the bones
+
 ## Fix physics timestep
 use a fixed timestep with an accumulator, interpolate in between values
 keep everything position seen on this frame, throw away results from last frame use this to interpolate unless its too old then just use the current value. assumption is nothing cared about its position until just now

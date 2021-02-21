@@ -78,4 +78,10 @@ void main(in  GLTF_VS_Input  VSIn,
     ShadowMapPos = ShadowMapPos4.xyz / ShadowMapPos4.w;
     NdotL = saturate(dot(float3(0.0, 1.0, 0.0), -g_LightAttribs.f4Direction.xyz));
 #endif
+
+#if ANOMALOUS_USE_SPRITE
+    UV0 = g_Joints[0][int(VSIn.Joint0.x)].xy; //Cramming uv index into the Joint0 part of the struct for now and using the first joint matrix to pass the uvs
+                                              //This all needs to be refactored
+    UV1 = UV0;
+#endif
 }

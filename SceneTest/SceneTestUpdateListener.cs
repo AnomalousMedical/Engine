@@ -60,6 +60,7 @@ namespace SceneTest
         private AutoPtr<IShaderResourceBinding> pboMatBindingFloor;
 
         private List<SceneObject> sceneObjects = new List<SceneObject>();
+        private List<Sprite> sprites = new List<Sprite>();
 
         SharpButton makeDawn = new SharpButton() { Text = "Make Dawn" };
         SharpButton makeDusk = new SharpButton() { Text = "Make Dusk" };
@@ -170,6 +171,7 @@ namespace SceneTest
             }
 
             {
+                var sprite = new Sprite();
                 //Tiny Dino
                 sceneObjects.Add(new SceneObject()
                 {
@@ -183,11 +185,24 @@ namespace SceneTest
                     scale = new Vector3(1.466666666666667f, 1, 1),
                     shaderResourceBinding = pboMatBindingTinyDinoSprite.Obj,
                     RenderShadowPlaceholder = true,
-                    IsSprite = true
+                    Sprite = sprite,
                 });
             }
 
             {
+                var sprite = new Sprite(new Dictionary<string, SpriteAnimation>()
+                {
+                { "default", new SpriteAnimation() { 
+                    duration = 1, 
+                    frameTime = 1, 
+                    frames = new SpriteFrame[]{ new SpriteFrame()
+                    {
+                        Left = 0f,
+                        Top = 0f,
+                        Right = 24f / 192f,
+                        Bottom = 32f / 128f
+                    } } } }
+                });
                 //Player
                 sceneObjects.Add(new SceneObject()
                 {
@@ -201,11 +216,13 @@ namespace SceneTest
                     scale = new Vector3(1, 1.291666666666667f, 1),
                     shaderResourceBinding = pboMatBindingSprite.Obj,
                     RenderShadowPlaceholder = true,
-                    IsSprite = true
+                    Sprite = sprite,
                 });
+                sprites.Add(sprite);
             }
 
             {
+                var sprite = new Sprite();
                 //Sword
                 sceneObjects.Add(new SceneObject()
                 {
@@ -219,7 +236,7 @@ namespace SceneTest
                     scale = new Vector3(1, 1.714285714285714f, 1) * 0.5f,
                     shaderResourceBinding = pboMatBindingSwordSprite.Obj,
                     RenderShadowPlaceholder = true,
-                    IsSprite = true
+                    Sprite = sprite,
                 });
             }
         }
@@ -286,15 +303,15 @@ namespace SceneTest
 
         private unsafe void LoadPlayerSprite()
         {
-            using var stream = virtualFileSystem.openStream("spritewalk/Simple_Color.png", Engine.Resources.FileMode.Open);
+            using var stream = virtualFileSystem.openStream("spritewalk/rpg_sprite_walk_Color.png", Engine.Resources.FileMode.Open);
             using var image = FreeImageBitmap.FromStream(stream);
             var materials = new Dictionary<uint, (String, String)>()
             {
-                { 0xff6a0e91, ( "cc0Textures/Fabric012_1K", "jpg" ) }, //Shirt (purple)
-                { 0xffbf1b00, ( "cc0Textures/Fabric045_1K", "jpg" ) }, //Pants (red)
-                //{ 0xfff0b878, ( "cc0Textures/Carpet008_1K", "jpg" ) }, //Skin
-                { 0xff492515, ( "cc0Textures/Carpet008_1K", "jpg" ) }, //Hair (brown)
-                { 0xff0002bf, ( "cc0Textures/Leather026_1K", "jpg" ) }, //Shoes (blue)
+                //{ 0xff6a0e91, ( "cc0Textures/Fabric012_1K", "jpg" ) }, //Shirt (purple)
+                //{ 0xffbf1b00, ( "cc0Textures/Fabric045_1K", "jpg" ) }, //Pants (red)
+                ////{ 0xfff0b878, ( "cc0Textures/Carpet008_1K", "jpg" ) }, //Skin
+                //{ 0xff492515, ( "cc0Textures/Carpet008_1K", "jpg" ) }, //Hair (brown)
+                //{ 0xff0002bf, ( "cc0Textures/Leather026_1K", "jpg" ) }, //Shoes (blue)
             };
             var scale = Math.Min(1024 / image.Width, 1024 / image.Height);
 
@@ -395,6 +412,22 @@ namespace SceneTest
             );
         }
 
+        private void AddBrick(Vector3 trans, Quaternion rot)
+        {
+            sceneObjects.Add(new SceneObject()
+            {
+                vertexBuffer = shape.VertexBuffer,
+                skinVertexBuffer = shape.SkinVertexBuffer,
+                indexBuffer = shape.IndexBuffer,
+                numIndices = shape.NumIndices,
+                pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE,
+                position = trans * 2,
+                orientation = rot,
+                scale = Vector3.ScaleIdentity,
+                shaderResourceBinding = pboMatBindingSceneObject.Obj
+            });
+        }
+
         public void exceededMaxDelta()
         {
 
@@ -444,12 +477,37 @@ namespace SceneTest
             sharpGui.End();
         }
 
-        private void RenderGui()
+        private unsafe void UpdateLight(Clock clock)
         {
-            //Draw the gui
-            var pDSV = swapChain.GetDepthBufferDSV();
-            immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-            sharpGui.Render(immediateContext);
+            if (timeClock.IsDay)
+            {
+                var dayFactor = (timeClock.DayFactor - 0.5f) * 2.0f;
+                var noonFactor = 1.0f - Math.Abs(dayFactor);
+                lightDirection = (Vector3.Down * noonFactor + new Vector3(dayFactor, 0, dayFactor * 0.3f + 0.1f)).normalized();
+                lightIntensity = 3 * noonFactor;
+
+                pbrRenderAttribs.AverageLogLum = 0.3f;
+                ClearColor = Engine.Color.FromARGB(0xff2a63cc);
+            }
+            else
+            {
+                var nightFactor = (timeClock.NightFactor - 0.5f) * 2.0f;
+                var midnightFactor = 1.0f - Math.Abs(nightFactor);
+                lightDirection = (Vector3.Down * midnightFactor + new Vector3(nightFactor, 0, nightFactor * 0.3f + 0.1f)).normalized();
+
+                lightIntensity = 0.7f * midnightFactor;
+
+                pbrRenderAttribs.AverageLogLum = 0.8f;
+                ClearColor = Engine.Color.FromARGB(0xff030303);
+            }
+        }
+
+        private void UpdateSprites(Clock clock)
+        {
+            foreach(var sprite in sprites)
+            {
+                sprite.Update(clock);
+            }
         }
 
         public unsafe void sendUpdate(Clock clock)
@@ -459,6 +517,7 @@ namespace SceneTest
             UpdateGui(clock);
             cameraControls.UpdateInput(clock);
             UpdateLight(clock);
+            UpdateSprites(clock);
 
             //Render
             var pRTV = swapChain.GetCurrentBackBufferRTV();
@@ -494,7 +553,15 @@ namespace SceneTest
             {
                 pbrRenderAttribs.AlphaMode = sceneObj.pbrAlphaMode;
                 pbrRenderAttribs.GetShadows = sceneObj.GetShadows;
-                pbrRenderAttribs.IsSprite = sceneObj.IsSprite;
+                pbrRenderAttribs.IsSprite = sceneObj.Sprite != null;
+                if (pbrRenderAttribs.IsSprite)
+                {
+                    var frame = sceneObj.Sprite.GetCurrentFrame();
+                    pbrRenderAttribs.SpriteUVLeft = frame.Left;
+                    pbrRenderAttribs.SpriteUVTop = frame.Top;
+                    pbrRenderAttribs.SpriteUVRight = frame.Right;
+                    pbrRenderAttribs.SpriteUVBottom = frame.Bottom;
+                }
                 pbrRenderer.Render(immediateContext, sceneObj.shaderResourceBinding, sceneObj.vertexBuffer, sceneObj.skinVertexBuffer, sceneObj.indexBuffer, sceneObj.numIndices, ref sceneObj.position, ref sceneObj.orientation, ref sceneObj.scale, pbrRenderAttribs);
             }
 
@@ -505,45 +572,12 @@ namespace SceneTest
             this.swapChain.Present(1);
         }
 
-        private unsafe void UpdateLight(Clock clock)
+        private void RenderGui()
         {
-            if (timeClock.IsDay)
-            {
-                var dayFactor = (timeClock.DayFactor - 0.5f) * 2.0f;
-                var noonFactor = 1.0f - Math.Abs(dayFactor);
-                lightDirection = (Vector3.Down * noonFactor + new Vector3(dayFactor, 0, dayFactor * 0.3f + 0.1f)).normalized();
-                lightIntensity = 3 * noonFactor;
-
-                pbrRenderAttribs.AverageLogLum = 0.3f;
-                ClearColor = Engine.Color.FromARGB(0xff2a63cc);
-            }
-            else
-            {
-                var nightFactor = (timeClock.NightFactor - 0.5f) * 2.0f;
-                var midnightFactor = 1.0f - Math.Abs(nightFactor);
-                lightDirection = (Vector3.Down * midnightFactor + new Vector3(nightFactor, 0, nightFactor * 0.3f + 0.1f)).normalized();
-
-                lightIntensity = 0.7f * midnightFactor;
-
-                pbrRenderAttribs.AverageLogLum = 0.8f;
-                ClearColor = Engine.Color.FromARGB(0xff030303);
-            }
-        }
-
-        private void AddBrick(Vector3 trans, Quaternion rot)
-        {
-            sceneObjects.Add(new SceneObject()
-            {
-                vertexBuffer = shape.VertexBuffer,
-                skinVertexBuffer = shape.SkinVertexBuffer,
-                indexBuffer = shape.IndexBuffer,
-                numIndices = shape.NumIndices,
-                pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE,
-                position = trans * 2,
-                orientation = rot,
-                scale = Vector3.ScaleIdentity,
-                shaderResourceBinding = pboMatBindingSceneObject.Obj
-            });
+            //Draw the gui
+            var pDSV = swapChain.GetDepthBufferDSV();
+            immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            sharpGui.Render(immediateContext);
         }
     }
 }
