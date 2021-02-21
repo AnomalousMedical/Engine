@@ -439,7 +439,7 @@ namespace SceneTest
                 timeClock.CurrentTimeMicro = (long)currentTime * 60L * 60L * Clock.SecondsToMicro;
             }
             var time = TimeSpan.FromMilliseconds(timeClock.CurrentTimeMicro * Clock.MicroToMilliseconds);
-            sharpGui.Text(currentHour.Rect.Right, currentHour.Rect.Top, Engine.Color.Black, $"Time: {time}");
+            sharpGui.Text(currentHour.Rect.Right, currentHour.Rect.Top, timeClock.IsDay ? Engine.Color.Black : Engine.Color.White, $"Time: {time}");
 
             sharpGui.End();
         }
