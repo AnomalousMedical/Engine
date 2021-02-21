@@ -59,11 +59,6 @@ namespace DiligentEngine.GltfPbr
 
         public CC0MaterialTextureBuffers CreateMaterialSet(FreeImageBitmap indexImage, int scale, Dictionary<uint, (String basePath, String ext)> materialIds)
         {
-            if (materialIds.Count == 0)
-            {
-                throw new InvalidOperationException("No material ids defined.");
-            }
-
             var destSize = new IntSize2(indexImage.Width * scale, indexImage.Height * scale);
             var result = new CC0MaterialTextureBuffers();
             var materialSets = new Dictionary<string, CC0MaterialTextureBuffers>();
@@ -77,9 +72,6 @@ namespace DiligentEngine.GltfPbr
                         materialSets.Add(textureSet.basePath, textures);
                     }
                 }
-
-                var exampleSet = materialSets.First().Value;
-                var example = exampleSet.NormalMap ?? exampleSet.PhysicalDescriptorMap ?? exampleSet.AmbientOcclusionMap;
 
                 unsafe
                 {
