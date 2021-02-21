@@ -11,6 +11,16 @@ namespace DiligentEngine.GltfPbr
         public PbrAlphaMode AlphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE;
         public bool DoubleSided = false;
         public bool GetShadows = false;
+        public bool IsSprite = false;
+
+        public PSOKey(PbrAlphaMode alphaMode, bool doubleSided, bool getShadows, bool isSprite)
+        {
+            this.AlphaMode = alphaMode;
+            this.DoubleSided = doubleSided;
+            this.GetShadows = getShadows;
+            this.GetShadows = getShadows;
+            this.IsSprite = isSprite;
+        }
     }
 
     class PSOCache : IDisposable
@@ -21,6 +31,7 @@ namespace DiligentEngine.GltfPbr
         {
             uint PSOIdx = 0;
 
+            PSOIdx += (uint)(Key.IsSprite ? 1 : 0) << 3;
             PSOIdx += (uint)(Key.GetShadows ? 1 : 0) << 2;
             PSOIdx += (uint)(Key.AlphaMode == PbrAlphaMode.ALPHA_MODE_BLEND ? 1 : 0) << 1;
             PSOIdx += (uint)(Key.DoubleSided ? 1 : 0);

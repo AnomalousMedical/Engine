@@ -180,7 +180,8 @@ namespace SceneTest
                     orientation = Quaternion.Identity,
                     scale = new Vector3(1.466666666666667f, 1, 1),
                     shaderResourceBinding = pboMatBindingTinyDinoSprite.Obj,
-                    RenderShadowPlaceholder = true
+                    RenderShadowPlaceholder = true,
+                    IsSprite = true
                 });
             }
 
@@ -197,7 +198,8 @@ namespace SceneTest
                     orientation = Quaternion.Identity,
                     scale = new Vector3(1, 1.291666666666667f, 1),
                     shaderResourceBinding = pboMatBindingSprite.Obj,
-                    RenderShadowPlaceholder = true
+                    RenderShadowPlaceholder = true,
+                    IsSprite = true
                 });
             }
 
@@ -214,7 +216,8 @@ namespace SceneTest
                     orientation = Quaternion.Identity,
                     scale = new Vector3(1, 1.714285714285714f, 1) * 0.5f,
                     shaderResourceBinding = pboMatBindingSwordSprite.Obj,
-                    RenderShadowPlaceholder = true
+                    RenderShadowPlaceholder = true,
+                    IsSprite = true
                 });
             }
         }
@@ -313,7 +316,8 @@ namespace SceneTest
                 normalMap: normalTexture?.Obj,
                 physicalDescriptorMap: physicalTexture?.Obj,
                 aoMap: aoTexture?.Obj,
-                alphaMode: PbrAlphaMode.ALPHA_MODE_MASK
+                alphaMode: PbrAlphaMode.ALPHA_MODE_MASK,
+                isSprite: true
             );
         }
 
@@ -348,7 +352,8 @@ namespace SceneTest
                 normalMap: normalTexture?.Obj,
                 physicalDescriptorMap: physicalTexture?.Obj,
                 aoMap: aoTexture?.Obj,
-                alphaMode: PbrAlphaMode.ALPHA_MODE_MASK
+                alphaMode: PbrAlphaMode.ALPHA_MODE_MASK,
+                isSprite: true
             );
         }
 
@@ -383,7 +388,8 @@ namespace SceneTest
                 normalMap: normalTexture?.Obj,
                 physicalDescriptorMap: physicalTexture?.Obj,
                 aoMap: aoTexture?.Obj,
-                alphaMode: PbrAlphaMode.ALPHA_MODE_MASK
+                alphaMode: PbrAlphaMode.ALPHA_MODE_MASK,
+                isSprite: true
             );
         }
 
@@ -478,6 +484,7 @@ namespace SceneTest
             {
                 pbrRenderAttribs.AlphaMode = sceneObj.pbrAlphaMode;
                 pbrRenderAttribs.GetShadows = sceneObj.GetShadows;
+                pbrRenderAttribs.IsSprite = sceneObj.IsSprite;
                 pbrRenderer.Render(immediateContext, sceneObj.shaderResourceBinding, sceneObj.vertexBuffer, sceneObj.skinVertexBuffer, sceneObj.indexBuffer, sceneObj.numIndices, ref sceneObj.position, ref sceneObj.orientation, ref sceneObj.scale, pbrRenderAttribs);
             }
 

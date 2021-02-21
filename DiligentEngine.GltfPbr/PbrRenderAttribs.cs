@@ -118,5 +118,8 @@ namespace DiligentEngine.GltfPbr
 
         public bool DoubleSided;
         public bool GetShadows;
+
+        //Sprite info
+        public bool IsSprite;
     }
 }

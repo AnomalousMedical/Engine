@@ -40,8 +40,8 @@ namespace DiligentEngine.GltfPbr
         /// Rendering with debug views disabled is more efficient.
         public bool AllowDebugView = false;
 
-        /// Indicates whether to use IBL.
-        public bool UseIBL = false;
+        /// Indicates whether to use IBL. Default: true.
+        public bool UseIBL = true;
 
         /// Whether to use ambient occlusion texture.
         public bool UseAO = true;
@@ -58,6 +58,13 @@ namespace DiligentEngine.GltfPbr
 
         /// Immutable sampler for color map texture.
         public SamplerDesc ColorMapImmutableSampler = new SamplerDesc();
+
+        public SamplerDesc ColorMapImmutableSamplerSprite = new SamplerDesc()
+        {
+            MinFilter = FILTER_TYPE.FILTER_TYPE_POINT,
+            MagFilter = FILTER_TYPE.FILTER_TYPE_POINT,
+            MipFilter = FILTER_TYPE.FILTER_TYPE_POINT,
+        };
 
         /// Immutable sampler for physical description map texture.
         public SamplerDesc PhysDescMapImmutableSampler = new SamplerDesc();
