@@ -25,10 +25,6 @@ Engine.Resources.FileMode
 Right now the material textures only work if the dest size is smaller than the source size
 make it so the source can be wrapped to get pixels that would lay outside it, the groundwork is there
 
-## Make more pbr instances or figure out how to have different texturing modes
-All textures are filtered to make the little color textures look good, but need to use filtering on the larger ones to make them look nice.
-Should this be 2 instances of the pbr or can multilple filterings be setup from the renderer we have.
-
 ## GetDeviceCaps_GetNDCAttribs is pretty slow
 This will do a copy on the native side into a pass struct then into a class on the managed side. Not so great. See if you can do other stuff.
 Seems like you could pass a pass struct as ref then fill it out and have it "returned" that way. Not sure about putting that into a class. That still
