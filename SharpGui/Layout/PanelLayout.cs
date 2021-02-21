@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SharpGui
 {
-    public struct PanelLayout : ILayoutItem
+    public class PanelLayout : ILayoutItem
     {
         public SharpPanel Panel;
         public ILayoutItem Child;

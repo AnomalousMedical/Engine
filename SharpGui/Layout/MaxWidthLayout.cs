@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SharpGui
 {
-    public struct MaxWidthLayout : ILayoutItem
+    public class MaxWidthLayout : ILayoutItem
     {
         public ILayoutItem Child;
         public int MaxWidth;

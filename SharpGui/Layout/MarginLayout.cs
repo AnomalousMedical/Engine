@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SharpGui
 {
-    public struct MarginLayout : ILayoutItem
+    public class MarginLayout : ILayoutItem
     {
         public ILayoutItem Child;
         public IntPad Margin;
