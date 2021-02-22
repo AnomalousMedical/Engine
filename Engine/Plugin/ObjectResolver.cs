@@ -9,6 +9,7 @@ namespace Engine
     {
         private readonly ServiceProvider serviceProvider;
         private List<IDisposable> resolvedObjects = new List<IDisposable>();
+        private List<IDisposable> destructionQueue = new List<IDisposable>();
 
         public ObjectResolver(ServiceProvider serviceProvider)
         {
@@ -22,6 +23,15 @@ namespace Engine
             {
                 resolvedObjects[--count].Dispose();
             }
+            //Do not have to deal with destructionQueue here.
+            //If those have not yet been flushed they will have been destroyed
+            //as part of the resolved objects above. Items are only removed
+            //from that collection when their scope is disposed.
+        }
+
+        internal void QueueDestroy(ResolvedObject resolvedObject)
+        {
+            destructionQueue.Add(resolvedObject);
         }
 
         public T Resolve<T>()
@@ -34,6 +44,20 @@ namespace Engine
             resolvedObjects.Add(resolved);
 
             return instance;
+        }
+
+        /// <summary>
+        /// Flush out all destruction requested objects and actually destroy them.
+        /// If this is never called the objects are not really destroyed until
+        /// the program resolver is destroyed.
+        /// </summary>
+        public void Flush()
+        {
+            foreach(var item in destructionQueue)
+            {
+                item.Dispose();
+            }
+            destructionQueue.Clear();
         }
 
         internal void Remove(IDisposable resolvedObject)

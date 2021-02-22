@@ -90,14 +90,16 @@ namespace ObjectTest
 
         public unsafe void sendUpdate(Clock clock)
         {
-            var ClearColor = new Color(0.350f, 0.350f, 0.350f, 1.0f);
-
             //Update
             UpdateGui(clock);
+
+            //Flush any removed objects
+            objectResolver.Flush();
 
             //Render
             var pRTV = swapChain.GetCurrentBackBufferRTV();
             var pDSV = swapChain.GetDepthBufferDSV();
+            var ClearColor = new Color(0.350f, 0.350f, 0.350f, 1.0f);
 
             //Draw Scene
             immediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);

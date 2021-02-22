@@ -6,12 +6,15 @@ namespace ObjectTest
 {
     class Thing : IDisposable
     {
+        private static int CurrentIndex = 0;
+
         private readonly IDestructionRequest destructionRequest;
         private readonly ILogger<Thing> logger;
+        private int index = CurrentIndex++;
 
         public Thing(IDestructionRequest destructionRequest, ILogger<Thing> logger)
         {
-            logger.LogInformation("Created Thing");
+            logger.LogInformation($"Created Thing {index}");
 
             this.destructionRequest = destructionRequest;
             this.logger = logger;
@@ -19,7 +22,7 @@ namespace ObjectTest
 
         public void Dispose()
         {
-            logger.LogInformation("Disposed Thing");
+            logger.LogInformation($"Disposed Thing {index}");
         }
 
         public void RequestDestruction()
