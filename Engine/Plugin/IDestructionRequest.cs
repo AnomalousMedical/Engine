@@ -6,14 +6,14 @@ namespace Engine
 {
     public interface IDestructionRequest
     {
-        void Destroy();
+        void RequestDestruction();
     }
 
     class DestructionRequest : IDestructionRequest
     {
         internal Action Destroy;
 
-        void IDestructionRequest.Destroy()
+        void IDestructionRequest.RequestDestruction()
         {
             Destroy.Invoke();
         }
