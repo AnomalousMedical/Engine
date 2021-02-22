@@ -35,6 +35,10 @@ namespace Engine
             serviceCollection.TryAddSingleton<PluginManager>(this); //This is externally owned
             serviceCollection.TryAddSingleton<VirtualFileSystem>();
             serviceCollection.AddSingleton(typeof(IResourceProvider<>), typeof(VirtualFilesystemResourceProvider<>));
+            serviceCollection.AddSingleton<IObjectResolverFactory>(s => new ObjectResolverFactory(serviceProvider));
+            serviceCollection.AddScoped<IDestructionRequest>(s => s.GetRequiredService<DestructionRequest>());
+            serviceCollection.AddScoped<DestructionRequest>();
+            serviceCollection.AddScoped<ResolvedObject>();
         }
 
         /// <summary>

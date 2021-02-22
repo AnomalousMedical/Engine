@@ -17,6 +17,7 @@ namespace SceneTest
         private readonly AutoPtr<IShaderResourceBinding> pboMatBindingSprite;
         private readonly SceneObjectManager sceneObjectManager;
         private readonly SpriteManager sprites;
+        private readonly IDestructionRequest destructionRequest;
         private readonly SceneObject sceneObject;
         private readonly Sprite sprite = new Sprite(new Dictionary<string, SpriteAnimation>()
         {
@@ -31,10 +32,12 @@ namespace SceneTest
             VirtualFileSystem virtualFileSystem,
             TextureLoader textureLoader,
             IPbrCameraAndLight pbrCameraAndLight,
-            PbrRenderer pbrRenderer)
+            PbrRenderer pbrRenderer,
+            IDestructionRequest destructionRequest)
         {
             this.sceneObjectManager = sceneObjectManager;
             this.sprites = sprites;
+            this.destructionRequest = destructionRequest;
             sprites.Add(sprite);
 
             using var stream = virtualFileSystem.openStream("spritewalk/rpg_sprite_walk_Color.png", Engine.Resources.FileMode.Open);
@@ -94,7 +97,6 @@ namespace SceneTest
         {
             sprites.Remove(sprite);
             sceneObjectManager.Remove(sceneObject);
-
             pboMatBindingSprite.Dispose();
         }
     }

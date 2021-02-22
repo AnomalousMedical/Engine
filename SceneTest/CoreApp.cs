@@ -55,7 +55,7 @@ namespace SceneTest
             services.TryAddSingleton<TimeClock>();
             services.TryAddSingleton<SpriteManager>();
             services.TryAddSingleton<SceneObjectManager>();
-            services.TryAddSingleton<Player>();
+            services.TryAddScoped<Player>();
 
             return true;
         }

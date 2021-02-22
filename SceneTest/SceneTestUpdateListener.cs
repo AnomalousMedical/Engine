@@ -51,7 +51,7 @@ namespace SceneTest
         private readonly SoundManager soundManager;
         private readonly SceneObjectManager sceneObjects;
         private readonly SpriteManager sprites;
-        private readonly Player player;
+        private readonly IObjectResolver objectResolver;
         private SoundAndSource bgMusicSound;
 
         private PbrRenderer pbrRenderer;
@@ -85,7 +85,7 @@ namespace SceneTest
             SoundManager soundManager,
             SceneObjectManager sceneObjects,
             SpriteManager sprites,
-            Player player)
+            IObjectResolverFactory objectResolverFactory)
         {
             cameraControls.Position = new Vector3(0, 0, -12);
 
@@ -110,13 +110,16 @@ namespace SceneTest
             this.soundManager = soundManager;
             this.sceneObjects = sceneObjects;
             this.sprites = sprites;
-            this.player = player;
+            this.objectResolver = objectResolverFactory.Create();
             currentHour = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 10, 500, 35)), Max = 24 };
             Initialize();
+
+            this.objectResolver.Resolve<Player>();
         }
 
         public void Dispose()
         {
+            objectResolver.Dispose();
             bgMusicSound?.Dispose();
             pboMatBindingSwordSprite.Dispose();
             pboMatBindingTinyDinoSprite.Dispose();
