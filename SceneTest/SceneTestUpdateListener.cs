@@ -192,16 +192,7 @@ namespace SceneTest
             {
                 var sprite = new Sprite(new Dictionary<string, SpriteAnimation>()
                 {
-                { "default", new SpriteAnimation() { 
-                    duration = 1, 
-                    frameTime = 1, 
-                    frames = new SpriteFrame[]{ new SpriteFrame()
-                    {
-                        Left = 0f,
-                        Top = 0f,
-                        Right = 24f / 192f,
-                        Bottom = 32f / 128f
-                    } } } }
+                { "default", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro), SpriteFrame.MakeFramesFromHorizontal(24f / 192f, 32f / 128f, 192f, 8, 0).ToArray()) }
                 });
                 //Player
                 sceneObjects.Add(new SceneObject()

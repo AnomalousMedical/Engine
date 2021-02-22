@@ -13,10 +13,35 @@ namespace SceneTest
         public float Top;
         public float Right;
         public float Bottom;
+
+        public static IEnumerable<SpriteFrame> MakeFramesFromHorizontal(float xStep, float yStep, float width, int numFrames, int start = 0)
+        {
+            var end = start + numFrames;
+            for(var i = start; i < end; ++i)
+            {
+                var step = i * xStep;
+                float x = step % width;
+                float y = step / width;
+                yield return new SpriteFrame()
+                {
+                    Left = x,
+                    Top = y,
+                    Right = x + xStep,
+                    Bottom = y + yStep
+                };
+            }
+        }
     }
 
     public class SpriteAnimation
     {
+        public SpriteAnimation(long frameTime, SpriteFrame[] frames)
+        {
+            this.frameTime = frameTime;
+            this.frames = frames;
+            this.duration = frameTime * frames.Length;
+        }
+
         public long duration;
         public long frameTime;
         public SpriteFrame[] frames;
@@ -33,16 +58,14 @@ namespace SceneTest
         public Sprite()
             : this(new Dictionary<string, SpriteAnimation>()
             {
-                { "default", new SpriteAnimation() { 
-                    duration = 1, 
-                    frameTime = 1, 
-                    frames = new SpriteFrame[]{ new SpriteFrame()
+                { "default", new SpriteAnimation(1, new SpriteFrame[]{ new SpriteFrame()
                     {
                         Left = 0f,
                         Top = 0f,
                         Right = 1f,
                         Bottom = 1f
-                    } } } }
+                    } }) 
+                }
             })
         {
 
@@ -68,7 +91,7 @@ namespace SceneTest
         {
             frameTime += clock.DeltaTimeMicro;
             frameTime %= duration;
-            frame = (int)((float)(frameTime / duration) * current.frames.Length);
+            frame = (int)((float)frameTime / duration * current.frames.Length);
         }
 
         public SpriteFrame GetCurrentFrame()
