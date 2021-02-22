@@ -30,7 +30,7 @@ namespace Engine
         /// up during that phase will be available here. At this point the dependency injection scope will
         /// be setup and can be used.
         /// </summary>
-        void Link(PluginManager pluginManager, IServiceScope globalScope);
+        void Link(PluginManager pluginManager, IServiceProvider serviceProvider);
 
         /// <summary>
         /// Get a name for this plugin. Care should be taken that this return

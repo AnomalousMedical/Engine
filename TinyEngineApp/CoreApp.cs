@@ -52,17 +52,17 @@ namespace DiligentEngineTest
             return true;
         }
 
-        public override bool OnLink(IServiceScope globalScope)
+        public override bool OnLink(IServiceProvider serviceProvider)
         {
-            var log = globalScope.ServiceProvider.GetRequiredService<ILogger<CoreApp>>();
+            var log = serviceProvider.GetRequiredService<ILogger<CoreApp>>();
             log.LogInformation("Running from directory {0}", FolderFinder.ExecutableFolder);
 
-            mainTimer = globalScope.ServiceProvider.GetRequiredService<UpdateTimer>();
+            mainTimer = serviceProvider.GetRequiredService<UpdateTimer>();
 
-            var updateListener = globalScope.ServiceProvider.GetRequiredService<SimpleUpdateListener>();
+            var updateListener = serviceProvider.GetRequiredService<SimpleUpdateListener>();
             mainTimer.addUpdateListener(updateListener);
 
-            PerformanceMonitor.setupEnabledState(globalScope.ServiceProvider.GetRequiredService<SystemTimer>());
+            PerformanceMonitor.setupEnabledState(serviceProvider.GetRequiredService<SystemTimer>());
 
             return true;
         }

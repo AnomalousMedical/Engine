@@ -62,22 +62,22 @@ namespace BepuDemo
             return true;
         }
 
-        public override bool OnLink(IServiceScope globalScope)
+        public override bool OnLink(IServiceProvider serviceProvider)
         {
-            var log = globalScope.ServiceProvider.GetRequiredService<ILogger<CoreApp>>();
+            var log = serviceProvider.GetRequiredService<ILogger<CoreApp>>();
             log.LogInformation("Running from directory {0}", FolderFinder.ExecutableFolder);
 
             //Setup virtual file system
-            var vfs = globalScope.ServiceProvider.GetRequiredService<VirtualFileSystem>();
+            var vfs = serviceProvider.GetRequiredService<VirtualFileSystem>();
             var assetPath = Path.GetFullPath("../../../../../Engine-Next-Assets"); //This needs to be less hardcoded.
             vfs.addArchive(assetPath);
 
-            mainTimer = globalScope.ServiceProvider.GetRequiredService<UpdateTimer>();
+            mainTimer = serviceProvider.GetRequiredService<UpdateTimer>();
 
-            var updateListener = globalScope.ServiceProvider.GetRequiredService<BepuUpdateListener>();
+            var updateListener = serviceProvider.GetRequiredService<BepuUpdateListener>();
             mainTimer.addUpdateListener(updateListener);
 
-            PerformanceMonitor.setupEnabledState(globalScope.ServiceProvider.GetRequiredService<SystemTimer>());
+            PerformanceMonitor.setupEnabledState(serviceProvider.GetRequiredService<SystemTimer>());
 
             return true;
         }

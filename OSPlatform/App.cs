@@ -111,14 +111,14 @@ namespace Anomalous.OSPlatform
 
             pluginManager.InitializePlugins();
 
-            result = OnLink(pluginManager.GlobalScope);
+            result = OnLink(pluginManager.ServiceProvider);
 
             return result;
         }
 
         public abstract bool OnInit(IServiceCollection services, PluginManager pluginManager);
 
-        public abstract bool OnLink(IServiceScope globalScope);
+        public abstract bool OnLink(IServiceProvider serviceProvider);
 
         public abstract int OnExit();
 

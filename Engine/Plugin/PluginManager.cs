@@ -24,7 +24,6 @@ namespace Engine
         private List<PluginInterface> loadedPlugins = new List<PluginInterface>();
         private IServiceCollection serviceCollection;
         private ServiceProvider serviceProvider;
-        private IServiceScope globalScope;
         private ILogger<PluginManager> logger;
 
         /// <summary>
@@ -45,7 +44,6 @@ namespace Engine
         /// </summary>
         public void Dispose()
         {
-            globalScope.Dispose();
             serviceProvider.Dispose();
 
             //Unload plugins in reverse order
@@ -60,13 +58,12 @@ namespace Engine
         public void InitializePlugins()
         {
             serviceProvider = serviceCollection.BuildServiceProvider();
-            globalScope = serviceProvider.CreateScope();
 
-            logger = globalScope.ServiceProvider.GetRequiredService<ILogger<PluginManager>>();
+            logger = serviceProvider.GetRequiredService<ILogger<PluginManager>>();
 
             foreach (var plugin in loadedPlugins)
             {
-                plugin.Link(this, globalScope);
+                plugin.Link(this, serviceProvider);
             }
         }
 
@@ -77,11 +74,11 @@ namespace Engine
             plugin.Initialize(this, serviceCollection);
         }
 
-        public IServiceScope GlobalScope
+        public IServiceProvider ServiceProvider
         {
             get
             {
-                return globalScope;
+                return serviceProvider;
             }
         }
     }

@@ -26,9 +26,9 @@ namespace DiligentEngine
             serviceCollection.AddSingleton<TextureLoader>();
         }
 
-        public void Link(PluginManager pluginManager, IServiceScope globalScope)
+        public void Link(PluginManager pluginManager, IServiceProvider serviceProvider)
         {
-            var window = globalScope.ServiceProvider.GetRequiredService<OSWindow>();
+            var window = serviceProvider.GetRequiredService<OSWindow>();
             var swapChainDesc = new SwapChainDesc();
             this.engineFactory.CreateDeviceAndSwapChain(window.WindowHandle, swapChainDesc);
 

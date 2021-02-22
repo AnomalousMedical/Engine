@@ -49,10 +49,10 @@ namespace Anomalous.OSPlatform
 
         }
 
-        public void Link(PluginManager pluginManager, IServiceScope globalScope)
+        public void Link(PluginManager pluginManager, IServiceProvider serviceProvider)
         {
-            var mainTimer = globalScope.ServiceProvider.GetRequiredService<UpdateTimer>();
-            var eventManager = globalScope.ServiceProvider.GetRequiredService<EventManager>();
+            var mainTimer = serviceProvider.GetRequiredService<UpdateTimer>();
+            var eventManager = serviceProvider.GetRequiredService<EventManager>();
             mainTimer.addUpdateListener(new EventUpdateListener(eventManager));
         }
 

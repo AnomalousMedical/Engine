@@ -48,17 +48,15 @@ namespace SoundPlugin
             serviceCollection.TryAddSingleton<SoundManager>();
         }
 
-        public void Link(PluginManager pluginManager, IServiceScope globalScope)
+        public void Link(PluginManager pluginManager, IServiceProvider serviceProvider)
         {
-            var globalScopeProvider = globalScope.ServiceProvider;
+            openALManager = serviceProvider.GetRequiredService<OpenALManager>();
+            soundUpdate = serviceProvider.GetRequiredService<SoundUpdateListener>();
 
-            openALManager = globalScopeProvider.GetRequiredService<OpenALManager>();
-            soundUpdate = globalScopeProvider.GetRequiredService<SoundUpdateListener>();
-
-            this.mainTimer = globalScopeProvider.GetRequiredService<UpdateTimer>();
+            this.mainTimer = serviceProvider.GetRequiredService<UpdateTimer>();
             mainTimer.addUpdateListener(soundUpdate);
 
-            resourceWindow = globalScopeProvider.GetRequiredService<OSWindow>();
+            resourceWindow = serviceProvider.GetRequiredService<OSWindow>();
             if (resourceWindow != null)
             {
                 resourceWindow.CreateInternalResources += resourceWindow_CreateInternalResources;
