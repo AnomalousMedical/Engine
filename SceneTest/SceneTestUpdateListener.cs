@@ -421,6 +421,8 @@ namespace SceneTest
             UpdateLight(clock);
             UpdateSprites(clock);
 
+            objectResolver.Flush();
+
             //Render
             var pRTV = swapChain.GetCurrentBackBufferRTV();
             var pDSV = swapChain.GetDepthBufferDSV();
