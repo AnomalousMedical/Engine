@@ -42,9 +42,7 @@ namespace ObjectTest
             });
 
             services.AddDiligentEngine(pluginManager);
-
             services.AddOSPlatform(pluginManager);
-            services.AddSoundPlugin(pluginManager);
             services.AddSharpGui();
             services.AddFirstPersonFlyCamera();
 

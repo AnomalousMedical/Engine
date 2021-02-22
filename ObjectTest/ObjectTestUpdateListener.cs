@@ -3,7 +3,6 @@ using DiligentEngine;
 using Engine;
 using Engine.Platform;
 using SharpGui;
-using SoundPlugin;
 using System;
 
 namespace ObjectTest
@@ -26,7 +25,6 @@ namespace ObjectTest
             NativeOSWindow window,
             ISharpGui sharpGui, 
             IScaleHelper scaleHelper,
-            SoundManager soundManager,
             IObjectResolverFactory objectResolverFactory)
         {
             this.swapChain = graphicsEngine.SwapChain;
