@@ -34,6 +34,7 @@ namespace ObjectTest
             this.scaleHelper = scaleHelper;
             this.objectResolver = objectResolverFactory.Create();
 
+            //Some fire and forget things, these will be destroyed when the objectResolved is disposed in Dispose here.
             this.objectResolver.Resolve<Thing>();
             this.objectResolver.Resolve<Thing>();
             this.objectResolver.Resolve<Thing>();

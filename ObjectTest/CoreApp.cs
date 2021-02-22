@@ -48,7 +48,10 @@ namespace ObjectTest
 
             //Add this app's services
             services.TryAddSingleton<ObjectTestUpdateListener>();
+
+            //Add resolved items as scoped, each resolve gets its own scope
             services.TryAddScoped<Thing>();
+            services.TryAddScoped<InjectedThing>();
 
             return true;
         }

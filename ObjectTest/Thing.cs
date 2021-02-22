@@ -10,18 +10,21 @@ namespace ObjectTest
 
         private readonly IDestructionRequest destructionRequest;
         private readonly ILogger<Thing> logger;
+        private readonly InjectedThing injectedThing;
         private int index = CurrentIndex++;
 
-        public Thing(IDestructionRequest destructionRequest, ILogger<Thing> logger)
+        public Thing(IDestructionRequest destructionRequest, ILogger<Thing> logger, InjectedThing injectedThing)
         {
             logger.LogInformation($"Created Thing {index}");
 
             this.destructionRequest = destructionRequest;
             this.logger = logger;
+            this.injectedThing = injectedThing;
         }
 
         public void Dispose()
         {
+            //Don't have to dispose injectedThing since it was created as part of this object's scope.
             logger.LogInformation($"Disposed Thing {index}");
         }
 
