@@ -53,6 +53,9 @@ namespace SceneTest
             //Add this app's services
             services.TryAddSingleton<SceneTestUpdateListener>();
             services.TryAddSingleton<TimeClock>();
+            services.TryAddSingleton<SpriteManager>();
+            services.TryAddSingleton<SceneObjectManager>();
+            services.TryAddSingleton<Player>();
 
             return true;
         }
