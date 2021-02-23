@@ -26,6 +26,7 @@ namespace Engine
     public class CoroutineRunner : ICoroutineRunner
     {
         private List<IEnumerator<YieldAction>> queued = new List<IEnumerator<YieldAction>>();
+        private List<IEnumerator<YieldAction>> queuedIter = new List<IEnumerator<YieldAction>>(); //Used to iterate the queue, this and the queud pointer above are swapped
         private List<YieldAction> waitActions = new List<YieldAction>();
         private readonly ILogger<CoroutineRunner> logger;
 
@@ -93,14 +94,20 @@ namespace Engine
                     ++i;
                 }
             }
-            foreach (IEnumerator<YieldAction> coroutine in queued)
+
+            //Swap queued and queuedIter pointers
+            var deck = queued;
+            queued = queuedIter;
+            queuedIter = deck;
+
+            foreach (IEnumerator<YieldAction> coroutine in queuedIter)
             {
                 if (coroutine.MoveNext())
                 {
                     coroutine.Current.setEnumeration(coroutine);
                 }
             }
-            queued.Clear();
+            queuedIter.Clear();
         }
     }
 }

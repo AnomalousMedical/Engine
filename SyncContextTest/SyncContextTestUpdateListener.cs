@@ -60,6 +60,7 @@ namespace SyncContextTest
                     //throw new Exception("Broken");
                 });
                 Console.WriteLine($"Inside coroutine - await complete {Thread.CurrentThread.ManagedThreadId}");
+                objectResolver.Resolve<SyncThing>();
             }
             coroutine.Run(woot());
         }

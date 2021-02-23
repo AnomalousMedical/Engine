@@ -43,6 +43,7 @@ namespace Engine
             serviceCollection.AddScoped<IDestructionRequest>(s => s.GetRequiredService<DestructionRequest>());
             serviceCollection.AddScoped<DestructionRequest>();
             serviceCollection.AddScoped<ResolvedObject>();
+            serviceCollection.AddScoped<IScopedCoroutine, ScopedCoroutine>();
 
             serviceCollection.TryAddSingleton<MainThreadSynchronizationContext>(s =>
             {
