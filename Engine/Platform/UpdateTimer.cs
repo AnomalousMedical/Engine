@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Engine.Threads;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +8,7 @@ using System.Threading;
 
 namespace Engine.Platform
 {
-    /// <summary>
-    /// This class is an abstract base class for a timer.
-    /// </summary>
-    public abstract class UpdateTimer
+    public class UpdateTimer
     {
         protected List<UpdateListener> updateListeners = new List<UpdateListener>();
         private Dictionary<String, UpdateListenerWithBackgrounding> multiThreadedWorkerListeners = new Dictionary<string, UpdateListenerWithBackgrounding>();
@@ -24,6 +22,11 @@ namespace Engine.Platform
         protected bool started = false;
 
         private int fixedUpdateIndex = -1;
+
+        private Int64 deltaTime;
+        private Int64 frameStartTime;
+        private Int64 lastTime;
+        private Int64 totalFrameTime;
 
         /// <summary>
         /// Create a new UpdateTimer. The SystemMesssageListener field specifies
@@ -40,7 +43,45 @@ namespace Engine.Platform
             maxDelta = 100000;
         }
 
-        public abstract void OnIdle();
+        public void OnIdle()
+        {
+            if (started)
+            {
+                frameStartTime = systemTimer.getCurrentTime();
+                deltaTime = frameStartTime - lastTime;
+
+                if (deltaTime > maxDelta)
+                {
+                    deltaTime = maxDelta;
+                    fireExceededMaxDelta();
+                }
+
+                fireUpdate(frameStartTime, deltaTime);
+
+                ThreadManager._doInvoke();
+
+                //cap the framerate if required
+                PerformanceMonitor.start("Energy Saver");
+                totalFrameTime = systemTimer.getCurrentTime() - frameStartTime;
+                while (totalFrameTime < framerateCap)
+                {
+                    long sleepTime = framerateCap - totalFrameTime;
+                    int sleepMs = (int)(sleepTime / 1000);
+                    if (sleepMs > 0)
+                    {
+                        System.Threading.Thread.Sleep(sleepMs);
+                    }
+                    totalFrameTime = systemTimer.getCurrentTime() - frameStartTime;
+                }
+                PerformanceMonitor.stop("Energy Saver");
+
+                lastTime = frameStartTime;
+            }
+            else
+            {
+                startLoop();
+            }
+        }
 
         /// <summary>
         /// Add an update listener to get updates from the fixed updater part of the timer.
@@ -133,7 +174,25 @@ namespace Engine.Platform
         /// Starts the loop iterating at the set update frequency.  This function will return
         /// once the loop is stopped.
         /// </summary>
-        public abstract bool startLoop();
+        public bool startLoop()
+        {
+            if (!systemTimer.initialize())
+            {
+                return false;
+            }
+            systemTimer.Accurate = framerateCap > 0;
+
+            fireLoopStarted();
+
+            deltaTime = 0;
+            frameStartTime = 0;
+            lastTime = systemTimer.getCurrentTime();
+            totalFrameTime = 0;
+
+            started = true;
+
+            return true;
+        }
 
         /// <summary>
         /// Stops the loop.
@@ -146,7 +205,10 @@ namespace Engine.Platform
         /// <summary>
         /// Reset the last time to be the current time. Call after a long delay to avoid falling way behind.
         /// </summary>
-        public abstract void resetLastTime();
+        public void resetLastTime()
+        {
+            frameStartTime = systemTimer.getCurrentTime();
+        }
 
         /// <summary>
         /// Set the maximum delta that the timer can report. If the true delta

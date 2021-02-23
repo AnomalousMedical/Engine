@@ -27,7 +27,6 @@ namespace Microsoft.Extensions.DependencyInjection
             });
 
             services.TryAddSingleton<SystemTimer, NativeSystemTimer>();
-            services.TryAddSingleton<UpdateTimer, NativeUpdateTimer>();
 
             pluginManager.AddPlugin(new NativePlatformPlugin());
 
