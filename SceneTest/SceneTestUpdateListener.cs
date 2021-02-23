@@ -1,16 +1,14 @@
 ﻿using Anomalous.OSPlatform;
 using DiligentEngine;
-using Engine;
-using Engine.Platform;
-using System;
-using System.Collections.Generic;
 using DiligentEngine.GltfPbr;
 using DiligentEngine.GltfPbr.Shapes;
-using FreeImageAPI;
+using Engine;
 using Engine.CameraMovement;
-using System.Linq;
+using Engine.Platform;
 using SharpGui;
 using SoundPlugin;
+using System;
+using System.Linq;
 
 namespace SceneTest
 {
@@ -32,11 +30,9 @@ namespace SceneTest
         private readonly NativeOSWindow window;
         private readonly DoubleSizeCube shape;
         private readonly Plane plane;
-        private readonly TextureLoader textureLoader;
         private readonly CC0TextureLoader cc0TextureLoader;
         private readonly EnvironmentMapBuilder envMapBuilder;
         private readonly IPbrCameraAndLight pbrCameraAndLight;
-        private readonly ICC0MaterialTextureBuilder cC0MaterialTextureBuilder;
         private readonly VirtualFileSystem virtualFileSystem;
         private readonly FirstPersonFlyCamera cameraControls;
         private readonly SimpleShadowMapRenderer shadowMapRenderer;
@@ -69,11 +65,9 @@ namespace SceneTest
             PbrRenderer m_GLTFRenderer,
             DoubleSizeCube shape,
             Plane plane,
-            TextureLoader textureLoader,
             CC0TextureLoader cc0TextureLoader,
             EnvironmentMapBuilder envMapBuilder,
             IPbrCameraAndLight pbrCameraAndLight,
-            ICC0MaterialTextureBuilder cC0MaterialTextureBuilder,
             VirtualFileSystem virtualFileSystem,
             FirstPersonFlyCamera cameraControls,
             SimpleShadowMapRenderer shadowMapRenderer,
@@ -83,7 +77,8 @@ namespace SceneTest
             SoundManager soundManager,
             SceneObjectManager sceneObjects,
             SpriteManager sprites,
-            IObjectResolverFactory objectResolverFactory)
+            IObjectResolverFactory objectResolverFactory,
+            ICoroutineRunner coroutineRunner)
         {
             cameraControls.Position = new Vector3(0, 0, -12);
 
@@ -94,11 +89,9 @@ namespace SceneTest
             this.window = window;
             this.shape = shape;
             this.plane = plane;
-            this.textureLoader = textureLoader;
             this.cc0TextureLoader = cc0TextureLoader;
             this.envMapBuilder = envMapBuilder;
             this.pbrCameraAndLight = pbrCameraAndLight;
-            this.cC0MaterialTextureBuilder = cC0MaterialTextureBuilder;
             this.virtualFileSystem = virtualFileSystem;
             this.cameraControls = cameraControls;
             this.shadowMapRenderer = shadowMapRenderer;
