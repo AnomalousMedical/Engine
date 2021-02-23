@@ -19,5 +19,11 @@ namespace Engine
         {
 
         }
+
+        public CoroutineException(String message, Exception innerException)
+            : base(message, innerException)
+        {
+
+        }
     }
 }

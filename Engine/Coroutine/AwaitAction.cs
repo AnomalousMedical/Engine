@@ -41,8 +41,10 @@ namespace Engine
                 switch (task.Status)
                 {
                     case TaskStatus.Faulted:
-                        logger.LogError(task.Exception, $"{task.Exception.GetType().Name} running task for coroutine. Coroutine execution canceled.");
-                        break;
+                        //An error happened in the task.
+                        //This is the main thread so just propagate causing the program to crash most likely
+                        //No way to recover from errors here and coroutines can't just be left to hang since that could cause more issues.
+                        throw new CoroutineException($"{task.Exception.GetType().Name} running Task for coroutine.\nMessage: {task.Exception.Message}", task.Exception);
                     default:
                         execute();
                         break;

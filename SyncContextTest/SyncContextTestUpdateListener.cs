@@ -58,6 +58,8 @@ namespace SyncContextTest
                     Console.WriteLine($"Task hi after task wait {Thread.CurrentThread.ManagedThreadId}");
                     await Task.Delay(4000);
                     Console.WriteLine($"Task hi after task wait again {Thread.CurrentThread.ManagedThreadId}");
+                    //await Task.Delay(2000);
+                    //throw new Exception("Broken");
                 });
                 Console.WriteLine($"Hi after await task {Thread.CurrentThread.ManagedThreadId}");
             }
