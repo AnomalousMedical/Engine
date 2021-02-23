@@ -6,6 +6,7 @@ using Engine.Platform;
 using FreeImageAPI;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,8 +43,13 @@ namespace SceneTest
                 this.sprites = sprites;
                 this.destructionRequest = destructionRequest;
 
-                using var stream = virtualFileSystem.openStream("spritewalk/rpg_sprite_walk_Color.png", Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read, Engine.Resources.FileShare.Read);
-                using var image = FreeImageBitmap.FromStream(stream);
+                using var image = new UsingProxy<FreeImageBitmap>();
+                yield return coroutine.Await(Task.Run(() =>
+                {
+                    using var stream = 
+                        virtualFileSystem.openStream("spritewalk/rpg_sprite_walk_Color.png", Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read, Engine.Resources.FileShare.Read);
+                    image.Value = FreeImageBitmap.FromStream(stream);
+                }));
                 var materials = new Dictionary<uint, (String, String)>()
                 {
                     //{ 0xff6a0e91, ( "cc0Textures/Fabric012_1K", "jpg" ) }, //Shirt (purple)
@@ -52,14 +58,14 @@ namespace SceneTest
                     //{ 0xff492515, ( "cc0Textures/Carpet008_1K", "jpg" ) }, //Hair (brown)
                     //{ 0xff0002bf, ( "cc0Textures/Leather026_1K", "jpg" ) }, //Shoes (blue)
                 };
-                var scale = Math.Min(1024 / image.Width, 1024 / image.Height);
+                var scale = Math.Min(1024 / image.Value.Width, 1024 / image.Value.Height);
 
                 using var ccoTextures = new UsingProxy<CC0MaterialTextureBuffers>();
                 yield return coroutine.Await(Task.Run(() =>
-                    ccoTextures.Value = cc0MaterialTextureBuilder.CreateMaterialSet(image, scale, materials)
+                    ccoTextures.Value = cc0MaterialTextureBuilder.CreateMaterialSet(image.Value, scale, materials)
                 ));
 
-                using var colorTexture = textureLoader.CreateTextureFromImage(image, 1, "colorTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
+                using var colorTexture = textureLoader.CreateTextureFromImage(image.Value, 1, "colorTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
 
                 using var normalTexture = ccoTextures.Value.NormalMap != null ?
                     textureLoader.CreateTextureFromImage(ccoTextures.Value.NormalMap, 1, "normalTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false) : null;

@@ -39,21 +39,27 @@ namespace SceneTest
                 this.sprites = sprites;
                 this.destructionRequest = destructionRequest;
 
-                using var stream = virtualFileSystem.openStream("original/TinyDino_Color.png", Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read, Engine.Resources.FileShare.Read);
-                using var image = FreeImageBitmap.FromStream(stream);
+                using var image = new UsingProxy<FreeImageBitmap>();
+                yield return coroutine.Await(Task.Run(() =>
+                {
+                    using var stream =
+                        virtualFileSystem.openStream("original/TinyDino_Color.png", Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read, Engine.Resources.FileShare.Read);
+                    image.Value = FreeImageBitmap.FromStream(stream);
+                }));
+
                 var materials = new Dictionary<uint, (String, String)>()
                 {
                 { 0xff168516, ( "cc0Textures/Leather008_1K", "jpg" ) }, //Skin (green)
                 { 0xffff0000, ( "cc0Textures/SheetMetal004_1K", "jpg" ) }, //Spines (red)
                 };
-                var scale = Math.Min(1024 / image.Width, 1024 / image.Height);
+                var scale = Math.Min(1024 / image.Value.Width, 1024 / image.Value.Height);
 
                 using var ccoTextures = new UsingProxy<CC0MaterialTextureBuffers>();
                 yield return coroutine.Await(Task.Run(() =>
-                    ccoTextures.Value = cc0MaterialTextureBuilder.CreateMaterialSet(image, scale, materials)
+                    ccoTextures.Value = cc0MaterialTextureBuilder.CreateMaterialSet(image.Value, scale, materials)
                 ));
 
-                using var colorTexture = textureLoader.CreateTextureFromImage(image, 1, "colorTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
+                using var colorTexture = textureLoader.CreateTextureFromImage(image.Value, 1, "colorTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
 
                 using var normalTexture = ccoTextures.Value.NormalMap != null ?
                     textureLoader.CreateTextureFromImage(ccoTextures.Value.NormalMap, 1, "normalTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false) : null;
