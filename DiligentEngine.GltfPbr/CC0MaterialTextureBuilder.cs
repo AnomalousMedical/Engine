@@ -48,12 +48,10 @@ namespace DiligentEngine.GltfPbr
     /// </summary>
     public class CC0MaterialTextureBuilder : ICC0MaterialTextureBuilder
     {
-        private readonly TextureLoader textureLoader;
         private readonly IResourceProvider<CC0MaterialTextureBuilder> resourceProvider;
 
-        public CC0MaterialTextureBuilder(TextureLoader textureLoader, IResourceProvider<CC0MaterialTextureBuilder> resourceProvider)
+        public CC0MaterialTextureBuilder(IResourceProvider<CC0MaterialTextureBuilder> resourceProvider)
         {
-            this.textureLoader = textureLoader;
             this.resourceProvider = resourceProvider;
         }
 
