@@ -13,6 +13,7 @@ namespace Engine
     public interface IScopedCoroutine
     {
         YieldAction Await(Func<Task> task);
+        YieldAction Await(Task task);
         void Queue(IEnumerator<YieldAction> coroutine);
         void Run(IEnumerator<YieldAction> coroutine);
         YieldAction WaitSeconds(double seconds);

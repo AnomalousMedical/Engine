@@ -47,5 +47,10 @@ namespace Engine
         {
             return coroutineRunner.Await(task);
         }
+
+        public YieldAction Await(Task task)
+        {
+            return coroutineRunner.Await(task);
+        }
     }
 }
