@@ -34,6 +34,8 @@ namespace Engine
             this.serviceCollection = serviceCollection;
             serviceCollection.TryAddSingleton<PluginManager>(this); //This is externally owned
             serviceCollection.TryAddSingleton<VirtualFileSystem>();
+            serviceCollection.TryAddSingleton<ICoroutineRunner>(s => s.GetRequiredService<CoroutineRunner>());
+            serviceCollection.TryAddSingleton<CoroutineRunner>();
             serviceCollection.TryAddSingleton<UpdateTimer>();
             serviceCollection.AddSingleton(typeof(IResourceProvider<>), typeof(VirtualFilesystemResourceProvider<>));
             serviceCollection.AddSingleton<IObjectResolverFactory>(s => new ObjectResolverFactory(serviceProvider));

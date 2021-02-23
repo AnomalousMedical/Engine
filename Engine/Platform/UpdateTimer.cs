@@ -16,12 +16,13 @@ namespace Engine.Platform
         protected Clock clock = new Clock();
         protected SystemTimer systemTimer;
         private readonly ILogger<UpdateTimer> logger;
+        private readonly CoroutineRunner coroutineRunner;
         protected Int64 maxDelta;
         protected Int64 framerateCap = 0; //The amount of time between frames for the framerate cap.
 
         protected bool started = false;
 
-        private int fixedUpdateIndex = -1;
+        private int listenerUpdateIndex = -1;
 
         private Int64 deltaTime;
         private Int64 frameStartTime;
@@ -36,10 +37,11 @@ namespace Engine.Platform
         /// </summary>
         /// <param name="systemTimer">The SystemTimer to get high performance time measurements from.</param>
         /// <param name="systemMessageListener">The UpdateListener that processses system messages.</param>
-        public UpdateTimer(SystemTimer systemTimer, ILogger<UpdateTimer> logger)
+        public UpdateTimer(SystemTimer systemTimer, ILogger<UpdateTimer> logger, CoroutineRunner coroutineRunner)
         {
             this.systemTimer = systemTimer;
             this.logger = logger;
+            this.coroutineRunner = coroutineRunner;
             maxDelta = 100000;
         }
 
@@ -57,8 +59,6 @@ namespace Engine.Platform
                 }
 
                 fireUpdate(frameStartTime, deltaTime);
-
-                ThreadManager._doInvoke();
 
                 //cap the framerate if required
                 PerformanceMonitor.start("Energy Saver");
@@ -104,9 +104,9 @@ namespace Engine.Platform
                 updateListeners.RemoveAt(index);
                 //Adjust the iteration index backwards if the element being removed is before or on the index.
                 //This way nothing gets skipped.
-                if (index <= fixedUpdateIndex)
+                if (index <= listenerUpdateIndex)
                 {
-                    --fixedUpdateIndex;
+                    --listenerUpdateIndex;
                 }
             }
         }
@@ -269,13 +269,20 @@ namespace Engine.Platform
         {
             clock.setTimeMicroseconds(currentTimeMicro, deltaTimeMicro);
 
-            //Iterate manually, this way fixedListeners can be added/removed during the iteration of this loop.
+            //Update active coroutines, do this first so later steps can add them and they won't
+            //have their counters increased until the next frame
+            coroutineRunner.Update(clock);
+
+            //Iterate manually, this way listeners can be added/removed during the iteration of this loop.
             //If a listener is removed the fixedUpdateIndex will be adjusted if needed.
-            for (fixedUpdateIndex = 0; fixedUpdateIndex < updateListeners.Count; fixedUpdateIndex++)
+            for (listenerUpdateIndex = 0; listenerUpdateIndex < updateListeners.Count; ++listenerUpdateIndex)
             {
-                updateListeners[fixedUpdateIndex].sendUpdate(clock);
+                updateListeners[listenerUpdateIndex].sendUpdate(clock);
             }
-            fixedUpdateIndex = -1;
+            listenerUpdateIndex = -1;
+
+            //Sync the thread manager frames back to the main thread
+            ThreadManager._doInvoke();
         }
 
         /// <summary>

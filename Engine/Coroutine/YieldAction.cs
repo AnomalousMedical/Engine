@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Engine.Platform;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,15 +15,21 @@ namespace Engine
     /// </summary>
     public abstract class YieldAction
     {
-        IEnumerator<YieldAction> coroutine;
+        IEnumerator<YieldAction> enumeration;
+        private readonly CoroutineRunner coroutineRunner;
+
+        internal YieldAction(CoroutineRunner coroutineRunner)
+        {
+            this.coroutineRunner = coroutineRunner;
+        }
 
         /// <summary>
         /// Set the coroutine that this action will execute when it is completed.
         /// </summary>
-        /// <param name="coroutine">The coroutine to execute.</param>
-        internal void setCoroutine(IEnumerator<YieldAction> coroutine)
+        /// <param name="enumeration">The enumeration to execute.</param>
+        internal void setEnumeration(IEnumerator<YieldAction> enumeration)
         {
-            this.coroutine = coroutine;
+            this.enumeration = enumeration;
         }
 
         /// <summary>
@@ -35,14 +42,16 @@ namespace Engine
         /// </throws>
         protected void execute()
         {
-            if (coroutine != null)
+            if (enumeration != null)
             {
-                Coroutine.Continue(coroutine);
+                coroutineRunner.Continue(enumeration);
             }
             else
             {
                 throw new CoroutineException(String.Format("There was an error resuming a coroutine for the action {0}. It is possible that the action was created outside of a yield return statement, which is invalid. Make sure all actions are created only as part of a yield return statement.", this.GetType().Name));
             }
         }
+
+        public abstract bool tick(Clock clock);
     }
 }

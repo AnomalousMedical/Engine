@@ -1,0 +1,120 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Engine.Platform;
+using Microsoft.Extensions.Logging;
+
+namespace Engine
+{
+    /// <summary>
+    /// This is the controller class for Coroutines. To execute a new coroutine
+    /// call the Start function.
+    /// </summary>
+    /// <remarks>
+    /// Coroutines can be executed using this class. In order to create a new
+    /// coroutine a funciton must be created that has a return type of
+    /// IEnumerator&lt;YieldAction&gt;. This function can then be executed
+    /// inside of a call to Coroutine.Start. Inside of a coroutine it is valid
+    /// to call yield return Coroutine.Wait to make the coroutine wait. There
+    /// may also be plugin specific wait extensions. It is not valid to call
+    /// these functions without proceeding it with a yield return.
+    /// </remarks>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public class CoroutineRunner : ICoroutineRunner
+    {
+        private List<IEnumerator<YieldAction>> queued = new List<IEnumerator<YieldAction>>();
+        private List<YieldAction> waitActions = new List<YieldAction>();
+        private readonly ILogger<CoroutineRunner> logger;
+
+        public CoroutineRunner(ILogger<CoroutineRunner> logger)
+        {
+            this.logger = logger;
+        }
+
+        /// <summary>
+        /// Start executing a new coroutine.
+        /// </summary>
+        /// <param name="coroutine">The coroutine to start executing.</param>
+        public void Start(IEnumerator<YieldAction> coroutine)
+        {
+            queued.Add(coroutine);
+        }
+
+        /// <summary>
+        /// Make a coroutine wait for the given number of seconds before
+        /// continuing execution. This function is only valid to be called as
+        /// part of a yield return statement, or else it will cause an exception
+        /// to be thrown when the timer expires. To call from within a coroutine
+        /// write "yield return Coroutine.Wait(time);" This is the only valid
+        /// way to call this function.
+        /// </summary>
+        /// <param name="seconds">The number of seconds to wait.</param>
+        /// <returns>A YieldAction that will wait for the specified number of seconds before continuing execution of the coroutine.</returns>
+        public YieldAction WaitSeconds(double seconds)
+        {
+            WaitAction wait = new WaitAction(this, (Int64)(seconds * Clock.SecondsToMicro));
+            waitActions.Add(wait);
+            return wait;
+        }
+
+        /// <summary>
+        /// Make a coroutine wait for the given task to complete before
+        /// continuing execution. This function is only valid to be called as
+        /// part of a yield return statement, or else it will cause an exception
+        /// to be thrown when the timer expires. To call from within a coroutine
+        /// write "yield return Coroutine.Await(Task);" This is the only valid
+        /// way to call this function.
+        /// </summary>
+        /// <param name="seconds">The number of seconds to wait.</param>
+        /// <returns>A YieldAction that will wait for the specified number of seconds before continuing execution of the coroutine.</returns>
+        public YieldAction Await(Func<Task> task)
+        {
+            AwaitAction wait = new AwaitAction(this, task(), logger);
+            waitActions.Add(wait);
+            return wait;
+        }
+
+        /// <summary>
+        /// This is an internal function to continue executing a coroutine.
+        /// </summary>
+        /// <param name="coroutine">The coroutine to continue executing.</param>
+        internal void Continue(IEnumerator<YieldAction> coroutine)
+        {
+            queued.Add(coroutine);
+        }
+
+        /// <summary>
+        /// This is an internal function to update all coroutines. It should be
+        /// called once per frame. It will cause all queued coroutines to
+        /// execute and then clear the queue. It will also update all the
+        /// WaitAction timers and execute any coroutines that have waited their
+        /// alloted time.
+        /// </summary>
+        /// <param name="time">The amount of time since the last update in seconds.</param>
+        internal void Update(Clock clock)
+        {
+            for (int i = 0; i < waitActions.Count;)
+            {
+                if (waitActions[i].tick(clock))
+                {
+                    waitActions.RemoveAt(i);
+                }
+                else
+                {
+                    ++i;
+                }
+            }
+            foreach (IEnumerator<YieldAction> coroutine in queued)
+            {
+                if (coroutine.MoveNext())
+                {
+                    coroutine.Current.setEnumeration(coroutine);
+                }
+            }
+            queued.Clear();
+        }
+    }
+}

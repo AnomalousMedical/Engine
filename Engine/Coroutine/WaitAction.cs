@@ -19,9 +19,10 @@ namespace Engine
         /// Constructor.
         /// </summary>
         /// <param name="delay">The amount of time to wait in milliseconds.</param>
-        public WaitAction(Int64 delayMs)
+        public WaitAction(CoroutineRunner coroutineRunner, Int64 delayMicro)
+            :base(coroutineRunner)
         {
-            this.delay = delayMs * 1000; //Clock uses microseconds, so convert.
+            this.delay = delayMicro;
             this.elapsed = 0;
         }
 
@@ -31,7 +32,7 @@ namespace Engine
         /// </summary>
         /// <param name="seconds">The amount of seconds since the last update.</param>
         /// <returns>True if the wait is completed, false if it has more time to go.</returns>
-        public bool tick(Clock clock)
+        public override bool tick(Clock clock)
         {
             elapsed += clock.DeltaTimeMicro;
             if (elapsed > delay)
