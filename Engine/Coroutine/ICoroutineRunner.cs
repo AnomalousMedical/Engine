@@ -31,6 +31,15 @@ namespace Engine
         YieldAction Await(Func<Task> task);
 
         /// <summary>
+        /// Yield a coroutine until the given task is completed. Since coroutines run on the
+        /// main thread they will use a synchronization context that keeps all await tasks
+        /// on the main thread.
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns></returns>
+        YieldAction Await(Task task);
+
+        /// <summary>
         /// Wait the given number of seconds before continuing the coroutine.
         /// </summary>
         /// <param name="seconds"></param>

@@ -39,17 +39,33 @@ namespace SyncContextTest
             this.coroutine = coroutine;
             this.objectResolver = objectResolverFactory.Create();
 
+            //This is a coroutine function
+            //These can be any IEnumerator function.
             IEnumerator<YieldAction> woot()
             {
+                //Do a normal time based wait
                 Console.WriteLine($"Inside coroutine {Thread.CurrentThread.ManagedThreadId}");
                 yield return coroutine.WaitSeconds(1);
-                //yield return coroutine.WaitSeconds(2);
-                //Console.WriteLine($"Hi again {Thread.CurrentThread.ManagedThreadId}");
-                //yield return coroutine.WaitSeconds(2);
-                //Console.WriteLine($"Hi again {Thread.CurrentThread.ManagedThreadId}");
-                //yield return coroutine.WaitSeconds(2);
-                //Console.WriteLine($"Hi again {Thread.CurrentThread.ManagedThreadId}");
-                Console.WriteLine($"Inside coroutine - start await {Thread.CurrentThread.ManagedThreadId}");
+
+                //Run a background task.
+                Console.WriteLine($"Inside coroutine - start background thread await {Thread.CurrentThread.ManagedThreadId}");
+                //Start the bg task
+                var bgTask = Task.Run(async () =>
+                {
+                    //This runs on a background thread
+                    //Must be careful in these since the owning object could be destroyed after any await
+                    //This does not have the automatic management the coroutines do since nothing can see inside this
+                    //async task
+                    Console.WriteLine($"Inside background task await {Thread.CurrentThread.ManagedThreadId}");
+                    await Task.Delay(3000);
+                    Console.WriteLine($"Inside background task after await {Thread.CurrentThread.ManagedThreadId}");
+                });
+                //Pretend other processing happens here. The task will be going at this time.
+                yield return coroutine.Await(bgTask); //When you need the results from the task, await it
+                Console.WriteLine($"Inside coroutine - end background thread await {Thread.CurrentThread.ManagedThreadId}");
+
+                //Run and await a task that will happen totally on the main thread
+                Console.WriteLine($"Inside coroutine - start same thread await {Thread.CurrentThread.ManagedThreadId}");
                 yield return coroutine.Await(async () =>
                 {
                     Console.WriteLine($"Task start {Thread.CurrentThread.ManagedThreadId}");
@@ -60,10 +76,10 @@ namespace SyncContextTest
                     //await Task.Delay(2000);
                     //throw new Exception("Broken");
                 });
-                Console.WriteLine($"Inside coroutine - await complete {Thread.CurrentThread.ManagedThreadId}");
+                Console.WriteLine($"Inside coroutine - await same thread complete {Thread.CurrentThread.ManagedThreadId}");
                 objectResolver.Resolve<SyncThing>();
             }
-            coroutine.Run(woot());
+            coroutine.Run(woot()); //This is where the function above actually starts running.
         }
 
         public void Dispose()

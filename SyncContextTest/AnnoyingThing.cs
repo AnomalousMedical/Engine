@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SyncContextTest
@@ -21,7 +22,7 @@ namespace SyncContextTest
             {
                 while (true)
                 {
-                    Console.WriteLine($"Annoying Thing {guid}");
+                    Console.WriteLine($"Annoying Thing {guid} {Thread.CurrentThread.ManagedThreadId}");
                     yield return coroutine.WaitSeconds(1);
                 }
             }

@@ -64,6 +64,13 @@ namespace Engine
             return wait;
         }
 
+        public YieldAction Await(Task task)
+        {
+            AwaitAction wait = new AwaitAction(this, task, logger);
+            waitActions.Add(wait);
+            return wait;
+        }
+
         /// <summary>
         /// This is an internal function to continue executing a coroutine.
         /// </summary>
