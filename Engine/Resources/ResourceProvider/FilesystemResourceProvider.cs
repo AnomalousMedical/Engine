@@ -23,7 +23,7 @@ namespace Engine.Resources
 
         public Stream openFile(string filename)
         {
-            return File.OpenRead(Path.Combine(parentPath, filename));
+            return File.Open(Path.Combine(parentPath, filename), System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read);
         }
 
         public Stream openWriteStream(String filename)

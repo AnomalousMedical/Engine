@@ -116,7 +116,7 @@ namespace Engine.Resources
 
         public override Stream openStream(String url, FileMode mode)
         {
-            return File.Open(fixIncomingFileURL(url), (System.IO.FileMode)mode, System.IO.FileAccess.ReadWrite);
+            return File.Open(fixIncomingFileURL(url), (System.IO.FileMode)mode);
         }
 
         public override Stream openStream(String url, FileMode mode, FileAccess access)

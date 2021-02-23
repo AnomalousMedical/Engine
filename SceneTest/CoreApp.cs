@@ -56,6 +56,8 @@ namespace SceneTest
             services.TryAddSingleton<SpriteManager>();
             services.TryAddSingleton<SceneObjectManager>();
             services.TryAddScoped<Player>();
+            services.TryAddScoped<TinyDino>();
+            services.TryAddScoped<Sword>();
 
             return true;
         }

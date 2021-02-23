@@ -56,8 +56,6 @@ namespace SceneTest
 
         private PbrRenderer pbrRenderer;
         private AutoPtr<ITextureView> environmentMapSRV;
-        private AutoPtr<IShaderResourceBinding> pboMatBindingTinyDinoSprite;
-        private AutoPtr<IShaderResourceBinding> pboMatBindingSwordSprite;
         private AutoPtr<IShaderResourceBinding> pboMatBindingSceneObject;
         private AutoPtr<IShaderResourceBinding> pboMatBindingFloor;
 
@@ -115,14 +113,14 @@ namespace SceneTest
             Initialize();
 
             this.objectResolver.Resolve<Player>();
+            this.objectResolver.Resolve<Sword>();
+            this.objectResolver.Resolve<TinyDino>();
         }
 
         public void Dispose()
         {
             objectResolver.Dispose();
             bgMusicSound?.Dispose();
-            pboMatBindingSwordSprite.Dispose();
-            pboMatBindingTinyDinoSprite.Dispose();
             pboMatBindingFloor.Dispose();
             pboMatBindingSceneObject.Dispose();
             environmentMapSRV.Dispose();
@@ -136,8 +134,6 @@ namespace SceneTest
 
             LoadFloorTexture();
             LoadSceneObjectTexture();
-            LoadTinyDinoSprite();
-            LoadSwordSprite();
 
             //Create a manual shiny texture to see env map
             //CreateShinyTexture();
@@ -175,44 +171,6 @@ namespace SceneTest
                     GetShadows = true,
                 });
             }
-
-            {
-                var sprite = new Sprite();
-                //Tiny Dino
-                sceneObjects.Add(new SceneObject()
-                {
-                    vertexBuffer = plane.VertexBuffer,
-                    skinVertexBuffer = plane.SkinVertexBuffer,
-                    indexBuffer = plane.IndexBuffer,
-                    numIndices = plane.NumIndices,
-                    pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
-                    position = new Vector3(-4, 0, -3),
-                    orientation = Quaternion.Identity,
-                    scale = new Vector3(1.466666666666667f, 1, 1),
-                    shaderResourceBinding = pboMatBindingTinyDinoSprite.Obj,
-                    RenderShadowPlaceholder = true,
-                    Sprite = sprite,
-                });
-            }
-
-            {
-                var sprite = new Sprite();
-                //Sword
-                sceneObjects.Add(new SceneObject()
-                {
-                    vertexBuffer = plane.VertexBuffer,
-                    skinVertexBuffer = plane.SkinVertexBuffer,
-                    indexBuffer = plane.IndexBuffer,
-                    numIndices = plane.NumIndices,
-                    pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
-                    position = new Vector3(-1, 0, 0),
-                    orientation = Quaternion.Identity,
-                    scale = new Vector3(1, 1.714285714285714f, 1) * 0.5f,
-                    shaderResourceBinding = pboMatBindingSwordSprite.Obj,
-                    RenderShadowPlaceholder = true,
-                    Sprite = sprite,
-                });
-            }
         }
 
         private unsafe void LoadFloorTexture()
@@ -239,78 +197,6 @@ namespace SceneTest
                 normalMap: ccoTextures.NormalMap,
                 physicalDescriptorMap: ccoTextures.PhysicalDescriptorMap,
                 aoMap: ccoTextures.AmbientOcclusionMap
-            );
-        }
-
-        private unsafe void LoadTinyDinoSprite()
-        {
-            using var stream = virtualFileSystem.openStream("original/TinyDino_Color.png", Engine.Resources.FileMode.Open);
-            using var image = FreeImageBitmap.FromStream(stream);
-            var materials = new Dictionary<uint, (String, String)>()
-            {
-                { 0xff168516, ( "cc0Textures/Leather008_1K", "jpg" ) }, //Skin (green)
-                { 0xffff0000, ( "cc0Textures/SheetMetal004_1K", "jpg" ) }, //Spines (red)
-            };
-            var scale = Math.Min(1024 / image.Width, 1024 / image.Height);
-
-            using var ccoTextures = cC0MaterialTextureBuilder.CreateMaterialSet(image, scale, materials);
-
-            using var colorTexture = textureLoader.CreateTextureFromImage(image, 1, "colorTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
-
-            using var normalTexture = ccoTextures.NormalMap != null ?
-                textureLoader.CreateTextureFromImage(ccoTextures.NormalMap, 1, "normalTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false) : null;
-
-            using var physicalTexture = ccoTextures.PhysicalDescriptorMap != null ?
-                textureLoader.CreateTextureFromImage(ccoTextures.PhysicalDescriptorMap, 1, "physicalTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false) : null;
-
-            using var aoTexture = ccoTextures.AmbientOcclusionMap != null ?
-                textureLoader.CreateTextureFromImage(ccoTextures.AmbientOcclusionMap, 1, "aoTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false) : null;
-
-            pboMatBindingTinyDinoSprite = pbrRenderer.CreateMaterialSRB(
-                pCameraAttribs: pbrCameraAndLight.CameraAttribs,
-                pLightAttribs: pbrCameraAndLight.LightAttribs,
-                baseColorMap: colorTexture?.Obj,
-                normalMap: normalTexture?.Obj,
-                physicalDescriptorMap: physicalTexture?.Obj,
-                aoMap: aoTexture?.Obj,
-                alphaMode: PbrAlphaMode.ALPHA_MODE_MASK,
-                isSprite: true
-            );
-        }
-
-        private unsafe void LoadSwordSprite()
-        {
-            using var stream = virtualFileSystem.openStream("original/Sword.png", Engine.Resources.FileMode.Open);
-            using var image = FreeImageBitmap.FromStream(stream);
-            var materials = new Dictionary<uint, (String, String)>()
-            {
-                { 0xff6c351c, ( "cc0Textures/Wood049_1K", "jpg" ) }, //Hilt (brown)
-                { 0xffadadad, ( "cc0Textures/Metal032_1K", "jpg" ) }, //Blade (grey)
-            };
-            var scale = Math.Min(1024 / image.Width, 1024 / image.Height);
-
-            using var ccoTextures = cC0MaterialTextureBuilder.CreateMaterialSet(image, scale, materials);
-
-            using var colorTexture = textureLoader.CreateTextureFromImage(image, 1, "colorTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
-
-            using var normalTexture = ccoTextures.NormalMap != null ?
-                textureLoader.CreateTextureFromImage(ccoTextures.NormalMap, 1, "normalTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false) : null;
-
-            using var physicalTexture = ccoTextures.PhysicalDescriptorMap != null ?
-                textureLoader.CreateTextureFromImage(ccoTextures.PhysicalDescriptorMap, 1, "physicalTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false) : null;
-
-            using var aoTexture = ccoTextures.AmbientOcclusionMap != null ?
-                textureLoader.CreateTextureFromImage(ccoTextures.AmbientOcclusionMap, 1, "aoTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false) : null;
-
-            pboMatBindingSwordSprite = pbrRenderer.CreateMaterialSRB(
-                pCameraAttribs: pbrCameraAndLight.CameraAttribs,
-                pLightAttribs: pbrCameraAndLight.LightAttribs,
-                baseColorMap: colorTexture?.Obj,
-                normalMap: normalTexture?.Obj,
-                physicalDescriptorMap: physicalTexture?.Obj,
-                aoMap: aoTexture?.Obj,
-                alphaMode: PbrAlphaMode.ALPHA_MODE_MASK,
-                isSprite: true
             );
         }
 

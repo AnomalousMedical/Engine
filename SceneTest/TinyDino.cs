@@ -12,19 +12,16 @@ using System.Threading.Tasks;
 
 namespace SceneTest
 {
-    class Player : IDisposable
+    class TinyDino : IDisposable
     {
         private AutoPtr<IShaderResourceBinding> pboMatBindingSprite;
         private SceneObjectManager sceneObjectManager;
         private SpriteManager sprites;
         private IDestructionRequest destructionRequest;
         private SceneObject sceneObject;
-        private Sprite sprite = new Sprite(new Dictionary<string, SpriteAnimation>()
-        {
-        { "default", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro), SpriteFrame.MakeFramesFromHorizontal(24f / 192f, 32f / 128f, 192f, 8, 0).ToArray()) }
-        });
+        private Sprite sprite = new Sprite();
 
-        public Player(
+        public TinyDino(
             SceneObjectManager sceneObjectManager,
             SpriteManager sprites,
             Plane plane,
@@ -42,15 +39,12 @@ namespace SceneTest
                 this.sprites = sprites;
                 this.destructionRequest = destructionRequest;
 
-                using var stream = virtualFileSystem.openStream("spritewalk/rpg_sprite_walk_Color.png", Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read, Engine.Resources.FileShare.Read);
+                using var stream = virtualFileSystem.openStream("original/TinyDino_Color.png", Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read, Engine.Resources.FileShare.Read);
                 using var image = FreeImageBitmap.FromStream(stream);
                 var materials = new Dictionary<uint, (String, String)>()
                 {
-                    //{ 0xff6a0e91, ( "cc0Textures/Fabric012_1K", "jpg" ) }, //Shirt (purple)
-                    //{ 0xffbf1b00, ( "cc0Textures/Fabric045_1K", "jpg" ) }, //Pants (red)
-                    ////{ 0xfff0b878, ( "cc0Textures/Carpet008_1K", "jpg" ) }, //Skin
-                    //{ 0xff492515, ( "cc0Textures/Carpet008_1K", "jpg" ) }, //Hair (brown)
-                    //{ 0xff0002bf, ( "cc0Textures/Leather026_1K", "jpg" ) }, //Shoes (blue)
+                { 0xff168516, ( "cc0Textures/Leather008_1K", "jpg" ) }, //Skin (green)
+                { 0xffff0000, ( "cc0Textures/SheetMetal004_1K", "jpg" ) }, //Spines (red)
                 };
                 var scale = Math.Min(1024 / image.Width, 1024 / image.Height);
 
@@ -88,9 +82,9 @@ namespace SceneTest
                     indexBuffer = plane.IndexBuffer,
                     numIndices = plane.NumIndices,
                     pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
-                    position = new Vector3(0, 0.291666666666667f, 0),
+                    position = new Vector3(-4, 0, -3),
                     orientation = Quaternion.Identity,
-                    scale = new Vector3(1, 1.291666666666667f, 1),
+                    scale = new Vector3(1.466666666666667f, 1, 1),
                     shaderResourceBinding = pboMatBindingSprite.Obj,
                     RenderShadowPlaceholder = true,
                     Sprite = sprite,
