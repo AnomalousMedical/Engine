@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Engine.Platform;
+using Engine.Threads;
 using Microsoft.Extensions.Logging;
 
 namespace Engine
@@ -47,7 +48,10 @@ namespace Engine
 
         public void Queue(IEnumerator<YieldAction> coroutine)
         {
-            queued.Add(coroutine);
+            ThreadManager.invoke(() =>
+            {
+                queued.Add(coroutine);
+            });
         }
 
         public YieldAction WaitSeconds(double seconds)
