@@ -23,6 +23,10 @@ namespace SyncContextTest
         private SharpButton thingButton = new SharpButton();
         private AnnoyingThing annoyingThing;
 
+        private SharpButton breakInCoroutineButton = new SharpButton() { Text = "Break In Coroutine" };
+        private SharpButton breakFgButton = new SharpButton() { Text = "Break Coroutine Async" };
+        private SharpButton breakBgButton = new SharpButton() { Text = "Break Coroutine Background Async" };
+
         public SyncContextTestUpdateListener(
             GraphicsEngine graphicsEngine,
             NativeOSWindow window,
@@ -107,7 +111,7 @@ namespace SyncContextTest
             var layout =
                 new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
                 new MaxWidthLayout(scaleHelper.Scaled(500),
-                new ColumnLayout(thingButton) { Margin = new IntPad(10) }
+                new ColumnLayout(thingButton, breakInCoroutineButton, breakFgButton, breakBgButton) { Margin = new IntPad(10) }
                 ));
             var desiredSize = layout.GetDesiredSize(sharpGui);
             layout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
@@ -124,6 +128,47 @@ namespace SyncContextTest
                     annoyingThing.RequestDestruction();
                     annoyingThing = null;
                 }
+            }
+
+            //All of these should throw exceptions back to the main thread and cause
+            //the message box to appear (when appropriate).
+            if (sharpGui.Button(breakInCoroutineButton))
+            {
+                IEnumerator<YieldAction> co()
+                {
+                    Console.WriteLine("Going to break in 1 second!");
+                    yield return coroutine.WaitSeconds(1);
+                    throw new Exception("Broken inside a queued coroutine. Thread: {Thread.CurrentThread.ManagedThreadId}");
+                }
+                coroutine.Queue(co());
+            }
+
+            if (sharpGui.Button(breakFgButton))
+            {
+                IEnumerator<YieldAction> co()
+                {
+                    yield return coroutine.Await(async () =>
+                    {
+                        Console.WriteLine("Going to break in 1 second!");
+                        await Task.Delay(1000);
+                        throw new Exception($"Broken inside a coroutine await. Thread: {Thread.CurrentThread.ManagedThreadId}");
+                    });
+                }
+                coroutine.Queue(co());
+            }
+
+            if (sharpGui.Button(breakBgButton))
+            {
+                IEnumerator<YieldAction> co()
+                {
+                    yield return coroutine.Await(Task.Run(async () =>
+                    {
+                        Console.WriteLine("Going to break in 1 second!");
+                        await Task.Delay(1000);
+                        throw new Exception($"Broken inside a coroutine background thread await. Thread: {Thread.CurrentThread.ManagedThreadId}");
+                    }));
+                }
+                coroutine.Queue(co());
             }
 
             sharpGui.End();
