@@ -20,7 +20,8 @@ namespace SyncContextTest
         private readonly IDeviceContext immediateContext;
         private readonly IObjectResolver objectResolver;
 
-        SharpButton thingButton = new SharpButton();
+        private SharpButton thingButton = new SharpButton();
+        private AnnoyingThing annoyingThing;
 
         public SyncContextTestUpdateListener(
             GraphicsEngine graphicsEngine,
@@ -84,12 +85,12 @@ namespace SyncContextTest
         {
             sharpGui.Begin(clock);
 
-            bool createThing = false;
-            thingButton.Text = createThing ? "Create Thing" : "Destory Thing";
+            bool createThing = annoyingThing == null;
+            thingButton.Text = createThing ? "Create Annoying Thing" : "Destory Annoying Thing";
 
             var layout =
                 new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
-                new MaxWidthLayout(scaleHelper.Scaled(300),
+                new MaxWidthLayout(scaleHelper.Scaled(500),
                 new ColumnLayout(thingButton) { Margin = new IntPad(10) }
                 ));
             var desiredSize = layout.GetDesiredSize(sharpGui);
@@ -100,11 +101,12 @@ namespace SyncContextTest
             {
                 if (createThing)
                 {
-                    
+                    annoyingThing = objectResolver.Resolve<AnnoyingThing>();
                 }
                 else
                 {
-                   
+                    annoyingThing.RequestDestruction();
+                    annoyingThing = null;
                 }
             }
 

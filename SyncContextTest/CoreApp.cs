@@ -50,6 +50,7 @@ namespace SyncContextTest
             //Add this app's services
             services.TryAddSingleton<SyncContextTestUpdateListener>();
             services.TryAddScoped<SyncThing>();
+            services.TryAddScoped<AnnoyingThing>();
 
             return true;
         }
