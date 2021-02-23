@@ -49,12 +49,6 @@ namespace SyncContextTest
 
             //Add this app's services
             services.TryAddSingleton<SyncContextTestUpdateListener>();
-            services.TryAddSingleton<SingleThreadSynchronizationContext>(s =>
-          {
-              var syncContext = new SingleThreadSynchronizationContext();
-              SynchronizationContext.SetSynchronizationContext(syncContext);
-              return syncContext;
-          });
 
             return true;
         }

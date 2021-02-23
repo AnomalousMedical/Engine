@@ -16,7 +16,6 @@ namespace SyncContextTest
         private readonly ISharpGui sharpGui;
         private readonly IScaleHelper scaleHelper;
         private readonly ICoroutineRunner coroutine;
-        private readonly SingleThreadSynchronizationContext singleThreadSynchronizationContext;
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext immediateContext;
         private readonly IObjectResolver objectResolver;
@@ -29,8 +28,7 @@ namespace SyncContextTest
             ISharpGui sharpGui, 
             IScaleHelper scaleHelper,
             IObjectResolverFactory objectResolverFactory,
-            ICoroutineRunner coroutine,
-            SingleThreadSynchronizationContext singleThreadSynchronizationContext)
+            ICoroutineRunner coroutine)
         {
             this.swapChain = graphicsEngine.SwapChain;
             this.immediateContext = graphicsEngine.ImmediateContext;
@@ -38,32 +36,32 @@ namespace SyncContextTest
             this.sharpGui = sharpGui;
             this.scaleHelper = scaleHelper;
             this.coroutine = coroutine;
-            this.singleThreadSynchronizationContext = singleThreadSynchronizationContext;
             this.objectResolver = objectResolverFactory.Create();
 
             IEnumerator<YieldAction> woot()
             {
-                //yield return coroutine.WaitSeconds(1);
-                //Console.WriteLine($"Hi {Thread.CurrentThread.ManagedThreadId}");
+                Console.WriteLine($"Inside coroutine {Thread.CurrentThread.ManagedThreadId}");
+                yield return coroutine.WaitSeconds(1);
                 //yield return coroutine.WaitSeconds(2);
                 //Console.WriteLine($"Hi again {Thread.CurrentThread.ManagedThreadId}");
                 //yield return coroutine.WaitSeconds(2);
                 //Console.WriteLine($"Hi again {Thread.CurrentThread.ManagedThreadId}");
                 //yield return coroutine.WaitSeconds(2);
                 //Console.WriteLine($"Hi again {Thread.CurrentThread.ManagedThreadId}");
+                Console.WriteLine($"Inside coroutine - start await {Thread.CurrentThread.ManagedThreadId}");
                 yield return coroutine.Await(async () =>
                 {
-                    Console.WriteLine($"Task hi {Thread.CurrentThread.ManagedThreadId}");
+                    Console.WriteLine($"Task start {Thread.CurrentThread.ManagedThreadId}");
                     await Task.Delay(1000);
-                    Console.WriteLine($"Task hi after task wait {Thread.CurrentThread.ManagedThreadId}");
+                    Console.WriteLine($"Task wait {Thread.CurrentThread.ManagedThreadId}");
                     await Task.Delay(4000);
-                    Console.WriteLine($"Task hi after task wait again {Thread.CurrentThread.ManagedThreadId}");
+                    Console.WriteLine($"Task wait again {Thread.CurrentThread.ManagedThreadId}");
                     //await Task.Delay(2000);
                     //throw new Exception("Broken");
                 });
-                Console.WriteLine($"Hi after await task {Thread.CurrentThread.ManagedThreadId}");
+                Console.WriteLine($"Inside coroutine - await complete {Thread.CurrentThread.ManagedThreadId}");
             }
-            coroutine.Start(woot());
+            coroutine.Run(woot());
         }
 
         public void Dispose()
@@ -114,8 +112,6 @@ namespace SyncContextTest
 
         public unsafe void sendUpdate(Clock clock)
         {
-            singleThreadSynchronizationContext.PumpCurrentQueue();
-
             //Update
             UpdateGui(clock);
 

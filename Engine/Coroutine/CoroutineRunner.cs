@@ -34,25 +34,21 @@ namespace Engine
             this.logger = logger;
         }
 
-        /// <summary>
-        /// Start executing a new coroutine.
-        /// </summary>
-        /// <param name="coroutine">The coroutine to start executing.</param>
-        public void Start(IEnumerator<YieldAction> coroutine)
+        public void Run(IEnumerator<YieldAction> coroutine)
+        {
+            //Fire coroutine start right away. If it returns anything it will get queued.
+            if (coroutine.MoveNext()) //Fire the first steps right away
+            {
+                //If it returns anything add it to the queue
+                coroutine.Current.setEnumeration(coroutine);
+            }
+        }
+
+        public void Queue(IEnumerator<YieldAction> coroutine)
         {
             queued.Add(coroutine);
         }
 
-        /// <summary>
-        /// Make a coroutine wait for the given number of seconds before
-        /// continuing execution. This function is only valid to be called as
-        /// part of a yield return statement, or else it will cause an exception
-        /// to be thrown when the timer expires. To call from within a coroutine
-        /// write "yield return Coroutine.Wait(time);" This is the only valid
-        /// way to call this function.
-        /// </summary>
-        /// <param name="seconds">The number of seconds to wait.</param>
-        /// <returns>A YieldAction that will wait for the specified number of seconds before continuing execution of the coroutine.</returns>
         public YieldAction WaitSeconds(double seconds)
         {
             WaitAction wait = new WaitAction(this, (Int64)(seconds * Clock.SecondsToMicro));
@@ -60,16 +56,6 @@ namespace Engine
             return wait;
         }
 
-        /// <summary>
-        /// Make a coroutine wait for the given task to complete before
-        /// continuing execution. This function is only valid to be called as
-        /// part of a yield return statement, or else it will cause an exception
-        /// to be thrown when the timer expires. To call from within a coroutine
-        /// write "yield return Coroutine.Await(Task);" This is the only valid
-        /// way to call this function.
-        /// </summary>
-        /// <param name="seconds">The number of seconds to wait.</param>
-        /// <returns>A YieldAction that will wait for the specified number of seconds before continuing execution of the coroutine.</returns>
         public YieldAction Await(Func<Task> task)
         {
             AwaitAction wait = new AwaitAction(this, task(), logger);

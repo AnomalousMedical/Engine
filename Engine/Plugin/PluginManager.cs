@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 
 namespace Engine
 {
@@ -42,6 +43,14 @@ namespace Engine
             serviceCollection.AddScoped<IDestructionRequest>(s => s.GetRequiredService<DestructionRequest>());
             serviceCollection.AddScoped<DestructionRequest>();
             serviceCollection.AddScoped<ResolvedObject>();
+
+            serviceCollection.TryAddSingleton<MainThreadSynchronizationContext>(s =>
+            {
+                //This must run on the main thread that executes updates
+                var syncContext = new MainThreadSynchronizationContext();
+                SynchronizationContext.SetSynchronizationContext(syncContext);
+                return syncContext;
+            });
         }
 
         /// <summary>

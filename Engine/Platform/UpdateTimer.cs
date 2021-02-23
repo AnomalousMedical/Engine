@@ -17,6 +17,7 @@ namespace Engine.Platform
         protected SystemTimer systemTimer;
         private readonly ILogger<UpdateTimer> logger;
         private readonly CoroutineRunner coroutineRunner;
+        private readonly MainThreadSynchronizationContext mainThreadSynchronizationContext;
         protected Int64 maxDelta;
         protected Int64 framerateCap = 0; //The amount of time between frames for the framerate cap.
 
@@ -37,11 +38,12 @@ namespace Engine.Platform
         /// </summary>
         /// <param name="systemTimer">The SystemTimer to get high performance time measurements from.</param>
         /// <param name="systemMessageListener">The UpdateListener that processses system messages.</param>
-        public UpdateTimer(SystemTimer systemTimer, ILogger<UpdateTimer> logger, CoroutineRunner coroutineRunner)
+        public UpdateTimer(SystemTimer systemTimer, ILogger<UpdateTimer> logger, CoroutineRunner coroutineRunner, MainThreadSynchronizationContext mainThreadSynchronizationContext)
         {
             this.systemTimer = systemTimer;
             this.logger = logger;
             this.coroutineRunner = coroutineRunner;
+            this.mainThreadSynchronizationContext = mainThreadSynchronizationContext;
             maxDelta = 100000;
         }
 
@@ -280,6 +282,8 @@ namespace Engine.Platform
                 updateListeners[listenerUpdateIndex].sendUpdate(clock);
             }
             listenerUpdateIndex = -1;
+
+            mainThreadSynchronizationContext.PumpCurrentQueue();
 
             //Sync the thread manager frames back to the main thread
             ThreadManager._doInvoke();

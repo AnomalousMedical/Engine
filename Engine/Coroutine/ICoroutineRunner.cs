@@ -7,20 +7,24 @@ namespace Engine
     public interface ICoroutineRunner
     {
         /// <summary>
-        /// Start running a coroutine.
+        /// Start executing a coroutine. Any code up to the first yield return in the enumerator
+        /// will execute right away on the current thread. On background threads use Queue
+        /// to queue a coroutine to run later.
         /// </summary>
-        /// <param name="coroutine"></param>
-        void Start(IEnumerator<YieldAction> coroutine);
+        /// <param name="coroutine">The coroutine to start executing.</param>
+        void Run(IEnumerator<YieldAction> coroutine);
 
         /// <summary>
-        /// Yield a coroutine until the given task is completed. You can write
-        /// complex statements in here, but there are no guarentees about which thread
-        /// your code will run on. The passed in task will be started on the current
-        /// thread right away, but anything after await statements will depend on the current
-        /// context. This might be fine if you need to further post process your data, but don't
-        /// assume you are running on the main thread inside async calls. This only applies to
-        /// code in the task. Other code in your coroutine enum will still only run on the main
-        /// thread.
+        /// Queue a coroutine to start running on the next update. This is safe to use from any
+        /// thread and the entire coroutine will execute on the main thread.
+        /// </summary>
+        /// <param name="coroutine"></param>
+        void Queue(IEnumerator<YieldAction> coroutine);
+
+        /// <summary>
+        /// Yield a coroutine until the given task is completed. Since coroutines run on the
+        /// main thread they will use a synchronization context that keeps all await tasks
+        /// on the main thread.
         /// </summary>
         /// <param name="task"></param>
         /// <returns></returns>
