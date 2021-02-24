@@ -116,19 +116,20 @@ namespace SceneTest
             this.objectResolver.Resolve<Sword>();
             this.objectResolver.Resolve<TinyDino, TinyDino.Desc>(c =>
             {
-                c.Translation = new Vector3(-4, 0, -3);
+                c.Translation = new Vector3(-4, 0, -1);
             });
             this.objectResolver.Resolve<TinyDino, TinyDino.Desc>(c =>
             {
                 c.Translation = new Vector3(-5, 0, -2);
+                c.SkinMaterial = "cc0Textures/Leather011_1K";
             });
             this.objectResolver.Resolve<TinyDino, TinyDino.Desc>(c =>
             {
-                c.Translation = new Vector3(-7, 0, 2);
+                c.Translation = new Vector3(-7, 0, 0);
             });
             this.objectResolver.Resolve<TinyDino, TinyDino.Desc>(c =>
             {
-                c.Translation = new Vector3(-6, 0, -2);
+                c.Translation = new Vector3(-6, 0, -3);
             });
             this.objectResolver.Resolve<Floor>();
 
