@@ -37,15 +37,15 @@ namespace SceneTest
             {
                 yield return coroutine.Await(async () =>
                 {
-                    spriteMaterial = await materialSpriteBuilder.CreateSpriteMaterialAsync(new MaterialSpriteBindingDescription()
-                    {
-                        ColorMap = "original/TinyDino_Color.png",
-                        Materials = new Dictionary<uint, (String, String)>()
+                    spriteMaterial = await materialSpriteBuilder.CreateSpriteMaterialAsync(new MaterialSpriteBindingDescription
+                    (
+                        colorMap: "original/TinyDino_Color.png",
+                        materials: new HashSet<MaterialSpriteMaterialDescription>
                         {
-                            { 0xff168516, ( "cc0Textures/Leather008_1K", "jpg" ) }, //Skin (green)
-                            { 0xffff0000, ( "cc0Textures/SheetMetal004_1K", "jpg" ) }, //Spines (red)
+                            new MaterialSpriteMaterialDescription(0xff168516, "cc0Textures/Leather008_1K", "jpg"), //Skin (green)
+                            new MaterialSpriteMaterialDescription(0xffff0000, "cc0Textures/SheetMetal004_1K", "jpg"), //Spines (red)
                         }
-                    });
+                    ));
                 });
 
                 sceneObject = new SceneObject()

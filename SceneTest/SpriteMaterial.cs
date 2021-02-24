@@ -7,26 +7,36 @@ using System.Threading.Tasks;
 
 namespace SceneTest
 {
-    public class SpriteMaterial : ISpriteMaterial
+    class SpriteMaterial : ISpriteMaterial
     {
         private AutoPtr<IShaderResourceBinding> shaderResourceBinding;
+        private readonly ISpriteMaterialTextureManager spriteMaterialTextureManager;
+        private readonly SpriteMaterialTextures textures;
 
-        public SpriteMaterial(AutoPtr<IShaderResourceBinding> shaderResourceBinding, int imageWidth, int imageHeight)
+        public SpriteMaterial(
+            AutoPtr<IShaderResourceBinding> shaderResourceBinding, 
+            int imageWidth, 
+            int imageHeight, 
+            ISpriteMaterialTextureManager spriteMaterialTextureManager, 
+            SpriteMaterialTextures textures)
         {
             this.shaderResourceBinding = shaderResourceBinding;
             this.ImageWidth = imageWidth;
             this.ImageHeight = imageHeight;
+            this.spriteMaterialTextureManager = spriteMaterialTextureManager;
+            this.textures = textures;
         }
 
         public void Dispose()
         {
+            spriteMaterialTextureManager.Return(textures);
             shaderResourceBinding.Dispose();
         }
 
         public IShaderResourceBinding ShaderResourceBinding => shaderResourceBinding.Obj;
 
-        public int ImageWidth { get; private set; }
+        public int ImageWidth { get; }
 
-        public int ImageHeight { get; private set; }
+        public int ImageHeight { get; }
     }
 }

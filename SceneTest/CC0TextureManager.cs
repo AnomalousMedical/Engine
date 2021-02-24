@@ -16,14 +16,15 @@ namespace SceneTest
         {
         }
 
-        public CCOTextureBindingDescription(string baseName)
+        public CCOTextureBindingDescription(string baseName, bool getShadow = false)
         {
-            BaseName = baseName;
+            this.BaseName = baseName;
+            this.GetShadow = getShadow;
         }
 
-        public String BaseName { get; set; }
+        public String BaseName { get; }
 
-        public bool GetShadow { get; set; }
+        public bool GetShadow { get; }
 
         public override bool Equals(object obj)
         {
@@ -40,7 +41,7 @@ namespace SceneTest
 
     class CC0TextureManager : ICC0TextureManager
     {
-        private PooledResourceManager<String, IShaderResourceBinding> pooledResources = new PooledResourceManager<String, IShaderResourceBinding>();
+        private PooledResourceManager<CCOTextureBindingDescription, IShaderResourceBinding> pooledResources = new PooledResourceManager<CCOTextureBindingDescription, IShaderResourceBinding>();
         private readonly CC0TextureLoader textureLoader;
         private readonly PbrRenderer pbrRenderer;
         private readonly IPbrCameraAndLight pbrCameraAndLight;
@@ -61,7 +62,7 @@ namespace SceneTest
 
         public Task<IShaderResourceBinding> Checkout(CCOTextureBindingDescription desc)
         {
-            return pooledResources.Checkout(desc.BaseName, async () =>
+            return pooledResources.Checkout(desc, async () =>
             {
                 AutoPtr<IShaderResourceBinding> result = null;
                 await Task.Run(() =>

@@ -57,6 +57,7 @@ namespace SceneTest
             services.TryAddSingleton<SceneObjectManager>();
             services.TryAddSingleton<IMaterialSpriteBuilder, MaterialSpriteBuilder>();
             services.TryAddSingleton<ICC0TextureManager, CC0TextureManager>();
+            services.TryAddSingleton<ISpriteMaterialTextureManager, SpriteMaterialTextureManager>();
             services.TryAddScoped<Player>();
             services.TryAddScoped<TinyDino>();
             services.TryAddScoped<Sword>();

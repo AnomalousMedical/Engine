@@ -41,10 +41,11 @@ namespace SceneTest
             {
                 yield return coroutine.Await(async () =>
                 {
-                    spriteMaterial = await materialSpriteBuilder.CreateSpriteMaterialAsync(new MaterialSpriteBindingDescription()
-                    {
-                        ColorMap = "spritewalk/rpg_sprite_walk_Color.png"
-                    });
+                    spriteMaterial = await materialSpriteBuilder.CreateSpriteMaterialAsync(new MaterialSpriteBindingDescription
+                    (
+                        colorMap: "spritewalk/rpg_sprite_walk_Color.png",
+                        materials: null
+                    ));
                 });
 
                 sceneObject = new SceneObject()

@@ -44,7 +44,7 @@ namespace SceneTest
                 //This will load 1 texture per brick
                 yield return coroutine.Await(async () =>
                 {
-                    matBinding = await textureManager.Checkout(new CCOTextureBindingDescription("cc0Textures/Ground037_1K") { GetShadow = true });
+                    matBinding = await textureManager.Checkout(new CCOTextureBindingDescription("cc0Textures/Ground037_1K", getShadow: true));
                 });
 
                 sceneObject.shaderResourceBinding = matBinding;

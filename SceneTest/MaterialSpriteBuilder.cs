@@ -10,11 +10,69 @@ using System.Threading.Tasks;
 
 namespace SceneTest
 {
+    public class MaterialSpriteMaterialDescription
+    {
+        public uint Color { get; }
+        public String BasePath { get; }
+        public String Ext { get; }
+
+        public MaterialSpriteMaterialDescription(uint color, string basePath, string ext)
+        {
+            this.Color = color;
+            this.BasePath = basePath;
+            this.Ext = ext;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is MaterialSpriteMaterialDescription description &&
+                   Color == description.Color &&
+                   BasePath == description.BasePath &&
+                   Ext == description.Ext;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Color, BasePath, Ext);
+        }
+    }
+
     public class MaterialSpriteBindingDescription
     {
-        public String ColorMap { get; set; }
+        public MaterialSpriteBindingDescription(string colorMap, HashSet<MaterialSpriteMaterialDescription> materials)
+        {
+            ColorMap = colorMap;
+            Materials = materials;
+        }
 
-        public Dictionary<uint, (String basePath, String ext)> Materials { get; set; }
+        public String ColorMap { get; }
+
+        public HashSet<MaterialSpriteMaterialDescription> Materials { get; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is MaterialSpriteBindingDescription description &&
+                   ColorMap == description.ColorMap &&
+                   EqualityComparer<HashSet<MaterialSpriteMaterialDescription>>.Default.Equals(Materials, description.Materials);
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = new HashCode();
+            hashCode.Add(ColorMap);
+            if (Materials != null)
+            {
+                foreach (var mat in Materials.OrderBy(i => i.Color))
+                {
+                    hashCode.Add(mat);
+                }
+            }
+            else
+            {
+                hashCode.Add<Object>(null);
+            }
+            return hashCode.ToHashCode();
+        }
     }
 
     class MaterialSpriteBuilder : IMaterialSpriteBuilder
@@ -24,13 +82,15 @@ namespace SceneTest
         private readonly TextureLoader textureLoader;
         private readonly IPbrCameraAndLight pbrCameraAndLight;
         private readonly PbrRenderer pbrRenderer;
+        private readonly ISpriteMaterialTextureManager spriteMaterialTextureManager;
 
         public MaterialSpriteBuilder(
             ICC0MaterialTextureBuilder cc0MaterialTextureBuilder,
             IResourceProvider<MaterialSpriteBuilder> resourceProvider,
             TextureLoader textureLoader,
             IPbrCameraAndLight pbrCameraAndLight,
-            PbrRenderer pbrRenderer
+            PbrRenderer pbrRenderer,
+            ISpriteMaterialTextureManager spriteMaterialTextureManager
         )
         {
             this.cc0MaterialTextureBuilder = cc0MaterialTextureBuilder;
@@ -38,43 +98,34 @@ namespace SceneTest
             this.textureLoader = textureLoader;
             this.pbrCameraAndLight = pbrCameraAndLight;
             this.pbrRenderer = pbrRenderer;
+            this.spriteMaterialTextureManager = spriteMaterialTextureManager;
         }
 
         public Task<ISpriteMaterial> CreateSpriteMaterialAsync(MaterialSpriteBindingDescription desc)
         {
-            return Task.Run<ISpriteMaterial>(() =>
+            return Task.Run<ISpriteMaterial>(async () =>
             {
                 using var stream =
                             resourceProvider.openFile(desc.ColorMap);
                 using var image = FreeImageBitmap.FromStream(stream);
 
-                var scale = Math.Min(1024 / image.Width, 1024 / image.Height);
-
-                using var ccoTextures = cc0MaterialTextureBuilder.CreateMaterialSet(image, scale, desc.Materials);
+                //Order is important here, image is flipped when the texture is created below
+                var spriteMatTextures = await spriteMaterialTextureManager.Checkout(image, new SpriteMaterialTextureDescription(desc.ColorMap, desc.Materials));
 
                 using var colorTexture = textureLoader.CreateTextureFromImage(image, 1, "colorTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
-
-                using var normalTexture = ccoTextures.NormalMap != null ?
-                    textureLoader.CreateTextureFromImage(ccoTextures.NormalMap, 1, "normalTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false) : null;
-
-                using var physicalTexture = ccoTextures.PhysicalDescriptorMap != null ?
-                    textureLoader.CreateTextureFromImage(ccoTextures.PhysicalDescriptorMap, 1, "physicalTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false) : null;
-
-                using var aoTexture = ccoTextures.AmbientOcclusionMap != null ?
-                    textureLoader.CreateTextureFromImage(ccoTextures.AmbientOcclusionMap, 1, "aoTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false) : null;
 
                 var srb = pbrRenderer.CreateMaterialSRB(
                     pCameraAttribs: pbrCameraAndLight.CameraAttribs,
                     pLightAttribs: pbrCameraAndLight.LightAttribs,
                     baseColorMap: colorTexture?.Obj,
-                    normalMap: normalTexture?.Obj,
-                    physicalDescriptorMap: physicalTexture?.Obj,
-                    aoMap: aoTexture?.Obj,
+                    normalMap: spriteMatTextures.NormalTexture,
+                    physicalDescriptorMap: spriteMatTextures.PhysicalTexture,
+                    aoMap: spriteMatTextures.AoTexture,
                     alphaMode: PbrAlphaMode.ALPHA_MODE_MASK,
                     isSprite: true
                 );
 
-                return new SpriteMaterial(srb, image.Width, image.Height);
+                return new SpriteMaterial(srb, image.Width, image.Height, spriteMaterialTextureManager, spriteMatTextures);
             });
         }
     }
