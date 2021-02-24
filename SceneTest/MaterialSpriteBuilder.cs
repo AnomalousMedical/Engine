@@ -101,17 +101,23 @@ namespace SceneTest
             this.spriteMaterialTextureManager = spriteMaterialTextureManager;
         }
 
-        public Task<ISpriteMaterial> CreateSpriteMaterialAsync(MaterialSpriteBindingDescription desc)
+        public async Task<ISpriteMaterial> CreateSpriteMaterialAsync(MaterialSpriteBindingDescription desc)
         {
-            return Task.Run<ISpriteMaterial>(async () =>
+            using var image = await Task.Run(() =>
             {
-                using var stream =
-                            resourceProvider.openFile(desc.ColorMap);
-                using var image = FreeImageBitmap.FromStream(stream);
+                using var stream = resourceProvider.openFile(desc.ColorMap);
+                return FreeImageBitmap.FromStream(stream);
+            });
 
-                //Order is important here, image is flipped when the texture is created below
-                var spriteMatTextures = await spriteMaterialTextureManager.Checkout(image, new SpriteMaterialTextureDescription(desc.ColorMap, desc.Materials));
+            //Order is important here, image is flipped when the texture is created below
+            //Also need to get back onto the main thread to lookup the textures in the other manager
+            //This makes it take multiple frames, but living with that for now
+            //Ideally this should go back into 1 task.run to run at full speed, but this manager only
+            //has main thread sync support
+            var spriteMatTextures = await spriteMaterialTextureManager.Checkout(image, new SpriteMaterialTextureDescription(desc.ColorMap, desc.Materials));
 
+            return await Task.Run(() =>
+            {
                 using var colorTexture = textureLoader.CreateTextureFromImage(image, 1, "colorTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
 
                 var srb = pbrRenderer.CreateMaterialSRB(
