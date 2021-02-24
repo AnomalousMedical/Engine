@@ -54,7 +54,10 @@ namespace SceneTest
         {
             return obj is MaterialSpriteBindingDescription description &&
                    ColorMap == description.ColorMap &&
-                   EqualityComparer<HashSet<MaterialSpriteMaterialDescription>>.Default.Equals(Materials, description.Materials);
+                    (
+                        (Materials == null && description.Materials == null) ||
+                        (Materials?.SetEquals(description.Materials) == true)
+                    );
         }
 
         public override int GetHashCode()

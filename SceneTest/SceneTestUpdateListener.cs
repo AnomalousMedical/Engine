@@ -114,7 +114,22 @@ namespace SceneTest
             //Make scene
             this.objectResolver.Resolve<Player>();
             this.objectResolver.Resolve<Sword>();
-            this.objectResolver.Resolve<TinyDino>();
+            this.objectResolver.Resolve<TinyDino, TinyDino.Desc>(c =>
+            {
+                c.Translation = new Vector3(-4, 0, -3);
+            });
+            this.objectResolver.Resolve<TinyDino, TinyDino.Desc>(c =>
+            {
+                c.Translation = new Vector3(-5, 0, -2);
+            });
+            this.objectResolver.Resolve<TinyDino, TinyDino.Desc>(c =>
+            {
+                c.Translation = new Vector3(-7, 0, 2);
+            });
+            this.objectResolver.Resolve<TinyDino, TinyDino.Desc>(c =>
+            {
+                c.Translation = new Vector3(-6, 0, -2);
+            });
             this.objectResolver.Resolve<Floor>();
 
             AddBrick(new Vector3(-3, 0, 1), Quaternion.Identity);

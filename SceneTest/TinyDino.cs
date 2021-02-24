@@ -14,6 +14,13 @@ namespace SceneTest
 {
     class TinyDino : IDisposable
     {
+        public class Desc : SceneObjectDesc
+        {
+            public String SkinMaterial { get; set; } = "cc0Textures/Leather008_1K"; //Skin (green)
+
+            public String SpinesMaterial { get; set; } = "cc0Textures/SheetMetal004_1K"; //Spines (red)
+        }
+
         private ISpriteMaterial spriteMaterial;
         private SceneObjectManager sceneObjectManager;
         private SpriteManager sprites;
@@ -28,7 +35,8 @@ namespace SceneTest
             Plane plane,
             IDestructionRequest destructionRequest,
             IScopedCoroutine coroutine,
-            ISpriteMaterialManager spriteMaterialManager)
+            ISpriteMaterialManager spriteMaterialManager,
+            Desc tinyDinoDesc)
         {
             this.sceneObjectManager = sceneObjectManager;
             this.sprites = sprites;
@@ -43,8 +51,8 @@ namespace SceneTest
                         colorMap: "original/TinyDino_Color.png",
                         materials: new HashSet<MaterialSpriteMaterialDescription>
                         {
-                            new MaterialSpriteMaterialDescription(0xff168516, "cc0Textures/Leather008_1K", "jpg"), //Skin (green)
-                            new MaterialSpriteMaterialDescription(0xffff0000, "cc0Textures/SheetMetal004_1K", "jpg"), //Spines (red)
+                            new MaterialSpriteMaterialDescription(0xff168516, tinyDinoDesc.SkinMaterial, "jpg"), 
+                            new MaterialSpriteMaterialDescription(0xffff0000, tinyDinoDesc.SpinesMaterial, "jpg"),
                         }
                     ));
                 });
@@ -56,9 +64,9 @@ namespace SceneTest
                     indexBuffer = plane.IndexBuffer,
                     numIndices = plane.NumIndices,
                     pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
-                    position = new Vector3(-4, 0, -3),
-                    orientation = Quaternion.Identity,
-                    scale = sprite.BaseScale,
+                    position = tinyDinoDesc.Translation,
+                    orientation = tinyDinoDesc.Orientation,
+                    scale = sprite.BaseScale * tinyDinoDesc.Scale,
                     shaderResourceBinding = spriteMaterial.ShaderResourceBinding,
                     RenderShadow = true,
                     Sprite = sprite,
