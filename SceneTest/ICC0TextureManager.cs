@@ -11,7 +11,7 @@ namespace SceneTest
         /// </summary>
         /// <param name="baseName"></param>
         /// <returns></returns>
-        Task<IShaderResourceBinding> Checkout(string baseName);
+        Task<IShaderResourceBinding> Checkout(string baseName, bool getShadow = false);
 
         /// <summary>
         /// Return a srb to the texture manager. When all checked out instances are returned

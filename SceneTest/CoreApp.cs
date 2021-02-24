@@ -61,6 +61,7 @@ namespace SceneTest
             services.TryAddScoped<TinyDino>();
             services.TryAddScoped<Sword>();
             services.TryAddScoped<Brick>();
+            services.TryAddScoped<Floor>();
 
             return true;
         }

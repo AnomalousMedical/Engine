@@ -10,44 +10,52 @@ using System.Threading.Tasks;
 
 namespace SceneTest
 {
-    class CC0TextureManager : PooledResourceManager<IShaderResourceBinding>, ICC0TextureManager
+    class CC0TextureManager : ICC0TextureManager
     {
+        private PooledResourceManager<String, IShaderResourceBinding> pooledResources = new PooledResourceManager<String, IShaderResourceBinding>();
         private readonly CC0TextureLoader textureLoader;
         private readonly PbrRenderer pbrRenderer;
         private readonly IPbrCameraAndLight pbrCameraAndLight;
+        private readonly SimpleShadowMapRenderer shadowMapRenderer;
 
         public CC0TextureManager(
             CC0TextureLoader textureLoader,
             PbrRenderer pbrRenderer,
-            IPbrCameraAndLight pbrCameraAndLight,
-            ILogger<PooledResourceManager<IShaderResourceBinding>> logger)
-            :base(logger)
+            IPbrCameraAndLight pbrCameraAndLight, 
+            SimpleShadowMapRenderer shadowMapRenderer
+            )
         {
             this.textureLoader = textureLoader;
             this.pbrRenderer = pbrRenderer;
             this.pbrCameraAndLight = pbrCameraAndLight;
+            this.shadowMapRenderer = shadowMapRenderer;
         }
 
-        protected override async Task<CreateResult> Create(string baseName)
+        public Task<IShaderResourceBinding> Checkout(string baseName, bool getShadow = false)
         {
-            AutoPtr<IShaderResourceBinding> result = null;
-            await Task.Run(() =>
+            return pooledResources.Checkout(baseName, async () =>
             {
-                using var ccoTextures = textureLoader.LoadTextureSet(baseName);
-                result = pbrRenderer.CreateMaterialSRB(
-                    pCameraAttribs: pbrCameraAndLight.CameraAttribs,
-                    pLightAttribs: pbrCameraAndLight.LightAttribs,
-                    baseColorMap: ccoTextures.BaseColorMap,
-                    normalMap: ccoTextures.NormalMap,
-                    physicalDescriptorMap: ccoTextures.PhysicalDescriptorMap,
-                    aoMap: ccoTextures.AmbientOcclusionMap
-                );
+                AutoPtr<IShaderResourceBinding> result = null;
+                await Task.Run(() =>
+                {
+                    using var ccoTextures = textureLoader.LoadTextureSet(baseName);
+                    result = pbrRenderer.CreateMaterialSRB(
+                        pCameraAttribs: pbrCameraAndLight.CameraAttribs,
+                        pLightAttribs: pbrCameraAndLight.LightAttribs,
+                        baseColorMap: ccoTextures.BaseColorMap,
+                        normalMap: ccoTextures.NormalMap,
+                        physicalDescriptorMap: ccoTextures.PhysicalDescriptorMap,
+                        aoMap: ccoTextures.AmbientOcclusionMap,
+                        shadowMapSRV: getShadow ? shadowMapRenderer.ShadowMapSRV : null
+                    );
+                });
+                return pooledResources.CreateResult(result.Obj, result);
             });
-            return new CreateResult()
-            {
-                disposable = result,
-                pooled = result.Obj,
-            };
+        }
+
+        public void Return(IShaderResourceBinding binding)
+        {
+            pooledResources.Return(binding);
         }
     }
 }

@@ -55,7 +55,6 @@ namespace SceneTest
 
         private PbrRenderer pbrRenderer;
         private AutoPtr<ITextureView> environmentMapSRV;
-        private AutoPtr<IShaderResourceBinding> pboMatBindingFloor;
 
         SharpButton makeDawn = new SharpButton() { Text = "Make Dawn" };
         SharpButton makeDusk = new SharpButton() { Text = "Make Dusk" };
@@ -113,7 +112,6 @@ namespace SceneTest
         {
             objectResolver.Dispose();
             bgMusicSound?.Dispose();
-            pboMatBindingFloor.Dispose();
             environmentMapSRV.Dispose();
         }
 
@@ -124,52 +122,11 @@ namespace SceneTest
             pbrRenderer.PrecomputeCubemaps(renderDevice, immediateContext, environmentMapSRV.Obj);
 
             //Make scene
-            LoadFloorTexture();
-            LoadSceneObject();
-
             this.objectResolver.Resolve<Player>();
             this.objectResolver.Resolve<Sword>();
             this.objectResolver.Resolve<TinyDino>();
-        }
+            this.objectResolver.Resolve<Floor>();
 
-        private void LoadFloorTexture()
-        {
-            IEnumerator<YieldAction> co()
-            {
-                yield return coroutineRunner.Await(Task.Run(() =>
-                {
-                    using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Ground037_1K");
-                    pboMatBindingFloor = pbrRenderer.CreateMaterialSRB(
-                        pCameraAttribs: pbrCameraAndLight.CameraAttribs,
-                        pLightAttribs: pbrCameraAndLight.LightAttribs,
-                        baseColorMap: ccoTextures.BaseColorMap,
-                        normalMap: ccoTextures.NormalMap,
-                        physicalDescriptorMap: ccoTextures.PhysicalDescriptorMap,
-                        aoMap: ccoTextures.AmbientOcclusionMap,
-                        shadowMapSRV: shadowMapRenderer.ShadowMapSRV
-                    );
-                }));
-
-                //Floor
-                sceneObjects.Add(new SceneObject()
-                {
-                    vertexBuffer = plane.VertexBuffer,
-                    skinVertexBuffer = plane.SkinVertexBuffer,
-                    indexBuffer = plane.IndexBuffer,
-                    numIndices = plane.NumIndices,
-                    pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE,
-                    position = new Vector3(0, -1, 0),
-                    orientation = Quaternion.shortestArcQuat(Vector3.Forward, Vector3.Down),
-                    scale = new Vector3(10, 10, 10),
-                    shaderResourceBinding = pboMatBindingFloor.Obj,
-                    GetShadows = true,
-                });
-            }
-            coroutineRunner.Run(co());
-        }
-
-        private void LoadSceneObject()
-        {
             AddBrick(new Vector3(-3, 0, 1), Quaternion.Identity);
             AddBrick(new Vector3(-3, 0, 2), Quaternion.Identity);
             AddBrick(new Vector3(-3, 0, 3), Quaternion.Identity);

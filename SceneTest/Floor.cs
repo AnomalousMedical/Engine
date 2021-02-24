@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace SceneTest
 {
-    class Brick : IDisposable
+    class Floor : IDisposable
     {
         private readonly SceneObjectManager sceneObjectManager;
         private readonly ICC0TextureManager textureManager;
         private IShaderResourceBinding matBinding;
         private SceneObject sceneObject;
 
-        public Brick(
+        public Floor(
             SceneObjectManager sceneObjectManager,
-            DoubleSizeCube cube,
+            Plane plane,
             IDestructionRequest destructionRequest,
             IScopedCoroutine coroutine,
             ICC0TextureManager textureManager)
@@ -28,15 +28,15 @@ namespace SceneTest
             this.textureManager = textureManager;
             sceneObject = new SceneObject()
             {
-                vertexBuffer = cube.VertexBuffer,
-                skinVertexBuffer = cube.SkinVertexBuffer,
-                indexBuffer = cube.IndexBuffer,
-                numIndices = cube.NumIndices,
+                vertexBuffer = plane.VertexBuffer,
+                skinVertexBuffer = plane.SkinVertexBuffer,
+                indexBuffer = plane.IndexBuffer,
+                numIndices = plane.NumIndices,
                 pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE,
-                position = Vector3.Zero,
-                orientation = Quaternion.Identity,
-                scale = Vector3.ScaleIdentity,
-                RenderShadow = true
+                position = new Vector3(0, -1, 0),
+                orientation = Quaternion.shortestArcQuat(Vector3.Forward, Vector3.Down),
+                scale = new Vector3(10, 10, 10),
+                GetShadows = true,
             };
 
             IEnumerator<YieldAction> co()
@@ -44,7 +44,7 @@ namespace SceneTest
                 //This will load 1 texture per brick
                 yield return coroutine.Await(async () =>
                 {
-                    matBinding = await textureManager.Checkout("cc0Textures/Bricks045_1K");
+                    matBinding = await textureManager.Checkout("cc0Textures/Ground037_1K", true);
                 });
 
                 sceneObject.shaderResourceBinding = matBinding;
