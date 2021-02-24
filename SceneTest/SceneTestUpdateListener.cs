@@ -55,7 +55,6 @@ namespace SceneTest
 
         private PbrRenderer pbrRenderer;
         private AutoPtr<ITextureView> environmentMapSRV;
-        private AutoPtr<IShaderResourceBinding> pboMatBindingSceneObject;
         private AutoPtr<IShaderResourceBinding> pboMatBindingFloor;
 
         SharpButton makeDawn = new SharpButton() { Text = "Make Dawn" };
@@ -115,7 +114,6 @@ namespace SceneTest
             objectResolver.Dispose();
             bgMusicSound?.Dispose();
             pboMatBindingFloor.Dispose();
-            pboMatBindingSceneObject.Dispose();
             environmentMapSRV.Dispose();
         }
 
@@ -172,51 +170,22 @@ namespace SceneTest
 
         private void LoadSceneObject()
         {
-            IEnumerator<YieldAction> co()
-            {
-                yield return coroutineRunner.Await(Task.Run(() =>
-                {
-                    using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Bricks045_1K");
-                    pboMatBindingSceneObject = pbrRenderer.CreateMaterialSRB(
-                        pCameraAttribs: pbrCameraAndLight.CameraAttribs,
-                        pLightAttribs: pbrCameraAndLight.LightAttribs,
-                        baseColorMap: ccoTextures.BaseColorMap,
-                        normalMap: ccoTextures.NormalMap,
-                        physicalDescriptorMap: ccoTextures.PhysicalDescriptorMap,
-                        aoMap: ccoTextures.AmbientOcclusionMap
-                    );
-                }));
-
-                //Background cubes
-                AddBrick(new Vector3(-3, 0, 1), Quaternion.Identity);
-                AddBrick(new Vector3(-3, 0, 2), Quaternion.Identity);
-                AddBrick(new Vector3(-3, 0, 3), Quaternion.Identity);
-                AddBrick(new Vector3(0, 0, 3), Quaternion.Identity);
-                AddBrick(new Vector3(1, 0, 3), Quaternion.Identity);
-                AddBrick(new Vector3(1, 0, 2), Quaternion.Identity);
-                AddBrick(new Vector3(1, 0, 1), Quaternion.Identity);
-                AddBrick(new Vector3(1, 0, 0), Quaternion.Identity);
-                AddBrick(new Vector3(1, 0, -1), Quaternion.Identity);
-                AddBrick(new Vector3(1, 0, -2), Quaternion.Identity);
-            }
-            coroutineRunner.Run(co());
+            AddBrick(new Vector3(-3, 0, 1), Quaternion.Identity);
+            AddBrick(new Vector3(-3, 0, 2), Quaternion.Identity);
+            AddBrick(new Vector3(-3, 0, 3), Quaternion.Identity);
+            AddBrick(new Vector3(0, 0, 3), Quaternion.Identity);
+            AddBrick(new Vector3(1, 0, 3), Quaternion.Identity);
+            AddBrick(new Vector3(1, 0, 2), Quaternion.Identity);
+            AddBrick(new Vector3(1, 0, 1), Quaternion.Identity);
+            AddBrick(new Vector3(1, 0, 0), Quaternion.Identity);
+            AddBrick(new Vector3(1, 0, -1), Quaternion.Identity);
+            AddBrick(new Vector3(1, 0, -2), Quaternion.Identity);
         }
 
         private void AddBrick(Vector3 trans, Quaternion rot)
         {
-            sceneObjects.Add(new SceneObject()
-            {
-                vertexBuffer = shape.VertexBuffer,
-                skinVertexBuffer = shape.SkinVertexBuffer,
-                indexBuffer = shape.IndexBuffer,
-                numIndices = shape.NumIndices,
-                pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE,
-                position = trans * 2,
-                orientation = rot,
-                scale = Vector3.ScaleIdentity,
-                shaderResourceBinding = pboMatBindingSceneObject.Obj,
-                RenderShadow = true
-            });
+            var brick = objectResolver.Resolve<Brick>();
+            brick.SetLocation(trans * 2, rot);
         }
 
         public void exceededMaxDelta()
