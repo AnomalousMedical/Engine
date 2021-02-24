@@ -57,6 +57,11 @@ namespace DiligentEngine.GltfPbr
 
         public CC0MaterialTextureBuffers CreateMaterialSet(FreeImageBitmap indexImage, int scale, Dictionary<uint, (String basePath, String ext)> materialIds)
         {
+            if(materialIds == null)
+            {
+                materialIds = new Dictionary<uint, (string basePath, string ext)>();
+            }
+
             var destSize = new IntSize2(indexImage.Width * scale, indexImage.Height * scale);
             var result = new CC0MaterialTextureBuffers();
             var materialSets = new Dictionary<string, CC0MaterialTextureBuffers>();
