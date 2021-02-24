@@ -98,7 +98,7 @@ namespace SceneTest
                     orientation = Quaternion.Identity,
                     scale = new Vector3(1, 1.291666666666667f, 1),
                     shaderResourceBinding = pboMatBindingSprite.Obj,
-                    RenderShadowPlaceholder = true,
+                    RenderShadow = true,
                     Sprite = sprite,
                 };
                 sprites.Add(sprite);

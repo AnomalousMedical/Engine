@@ -21,7 +21,7 @@ namespace SceneTest
         public IShaderResourceBinding shaderResourceBinding;
         public PbrAlphaMode pbrAlphaMode;
         public bool GetShadows;
-        public bool RenderShadowPlaceholder;
+        public bool RenderShadow;
         public Sprite Sprite;
     }
 }

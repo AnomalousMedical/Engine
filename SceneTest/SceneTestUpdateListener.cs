@@ -8,7 +8,9 @@ using Engine.Platform;
 using SharpGui;
 using SoundPlugin;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SceneTest
 {
@@ -47,6 +49,7 @@ namespace SceneTest
         private readonly SoundManager soundManager;
         private readonly SceneObjectManager sceneObjects;
         private readonly SpriteManager sprites;
+        private readonly ICoroutineRunner coroutineRunner;
         private readonly IObjectResolver objectResolver;
         private SoundAndSource bgMusicSound;
 
@@ -101,13 +104,10 @@ namespace SceneTest
             this.soundManager = soundManager;
             this.sceneObjects = sceneObjects;
             this.sprites = sprites;
+            this.coroutineRunner = coroutineRunner;
             this.objectResolver = objectResolverFactory.Create();
             currentHour = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 10, 500, 35)), Max = 24 };
             Initialize();
-
-            this.objectResolver.Resolve<Player>();
-            this.objectResolver.Resolve<Sword>();
-            this.objectResolver.Resolve<TinyDino>();
         }
 
         public void Dispose()
@@ -125,30 +125,33 @@ namespace SceneTest
 
             pbrRenderer.PrecomputeCubemaps(renderDevice, immediateContext, environmentMapSRV.Obj);
 
-            LoadFloorTexture();
-            LoadSceneObjectTexture();
-
-            //Create a manual shiny texture to see env map
-            //CreateShinyTexture();
-
             //Make scene
-            {
-                //Background cubes
-                pbrRenderAttribs.AlphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE;
+            LoadFloorTexture();
+            LoadSceneObject();
 
-                AddBrick(new Vector3(-3, 0, 1), Quaternion.Identity);
-                AddBrick(new Vector3(-3, 0, 2), Quaternion.Identity);
-                AddBrick(new Vector3(-3, 0, 3), Quaternion.Identity);
-                AddBrick(new Vector3(0, 0, 3), Quaternion.Identity);
-                AddBrick(new Vector3(1, 0, 3), Quaternion.Identity);
-                AddBrick(new Vector3(1, 0, 2), Quaternion.Identity);
-                AddBrick(new Vector3(1, 0, 1), Quaternion.Identity);
-                AddBrick(new Vector3(1, 0, 0), Quaternion.Identity);
-                AddBrick(new Vector3(1, 0, -1), Quaternion.Identity);
-                AddBrick(new Vector3(1, 0, -2), Quaternion.Identity);
-            }
+            this.objectResolver.Resolve<Player>();
+            this.objectResolver.Resolve<Sword>();
+            this.objectResolver.Resolve<TinyDino>();
+        }
 
+        private void LoadFloorTexture()
+        {
+            IEnumerator<YieldAction> co()
             {
+                yield return coroutineRunner.Await(Task.Run(() =>
+                {
+                    using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Ground037_1K");
+                    pboMatBindingFloor = pbrRenderer.CreateMaterialSRB(
+                        pCameraAttribs: pbrCameraAndLight.CameraAttribs,
+                        pLightAttribs: pbrCameraAndLight.LightAttribs,
+                        baseColorMap: ccoTextures.BaseColorMap,
+                        normalMap: ccoTextures.NormalMap,
+                        physicalDescriptorMap: ccoTextures.PhysicalDescriptorMap,
+                        aoMap: ccoTextures.AmbientOcclusionMap,
+                        shadowMapSRV: shadowMapRenderer.ShadowMapSRV
+                    );
+                }));
+
                 //Floor
                 sceneObjects.Add(new SceneObject()
                 {
@@ -164,33 +167,39 @@ namespace SceneTest
                     GetShadows = true,
                 });
             }
+            coroutineRunner.Run(co());
         }
 
-        private unsafe void LoadFloorTexture()
+        private void LoadSceneObject()
         {
-            using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Ground037_1K");
-            pboMatBindingFloor = pbrRenderer.CreateMaterialSRB(
-                pCameraAttribs: pbrCameraAndLight.CameraAttribs,
-                pLightAttribs: pbrCameraAndLight.LightAttribs,
-                baseColorMap: ccoTextures.BaseColorMap,
-                normalMap: ccoTextures.NormalMap,
-                physicalDescriptorMap: ccoTextures.PhysicalDescriptorMap,
-                aoMap: ccoTextures.AmbientOcclusionMap,
-                shadowMapSRV: shadowMapRenderer.ShadowMapSRV
-            );
-        }
+            IEnumerator<YieldAction> co()
+            {
+                yield return coroutineRunner.Await(Task.Run(() =>
+                {
+                    using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Bricks045_1K");
+                    pboMatBindingSceneObject = pbrRenderer.CreateMaterialSRB(
+                        pCameraAttribs: pbrCameraAndLight.CameraAttribs,
+                        pLightAttribs: pbrCameraAndLight.LightAttribs,
+                        baseColorMap: ccoTextures.BaseColorMap,
+                        normalMap: ccoTextures.NormalMap,
+                        physicalDescriptorMap: ccoTextures.PhysicalDescriptorMap,
+                        aoMap: ccoTextures.AmbientOcclusionMap
+                    );
+                }));
 
-        private unsafe void LoadSceneObjectTexture()
-        {
-            using var ccoTextures = cc0TextureLoader.LoadTextureSet("cc0Textures/Bricks045_1K");
-            pboMatBindingSceneObject = pbrRenderer.CreateMaterialSRB(
-                pCameraAttribs: pbrCameraAndLight.CameraAttribs,
-                pLightAttribs: pbrCameraAndLight.LightAttribs,
-                baseColorMap: ccoTextures.BaseColorMap,
-                normalMap: ccoTextures.NormalMap,
-                physicalDescriptorMap: ccoTextures.PhysicalDescriptorMap,
-                aoMap: ccoTextures.AmbientOcclusionMap
-            );
+                //Background cubes
+                AddBrick(new Vector3(-3, 0, 1), Quaternion.Identity);
+                AddBrick(new Vector3(-3, 0, 2), Quaternion.Identity);
+                AddBrick(new Vector3(-3, 0, 3), Quaternion.Identity);
+                AddBrick(new Vector3(0, 0, 3), Quaternion.Identity);
+                AddBrick(new Vector3(1, 0, 3), Quaternion.Identity);
+                AddBrick(new Vector3(1, 0, 2), Quaternion.Identity);
+                AddBrick(new Vector3(1, 0, 1), Quaternion.Identity);
+                AddBrick(new Vector3(1, 0, 0), Quaternion.Identity);
+                AddBrick(new Vector3(1, 0, -1), Quaternion.Identity);
+                AddBrick(new Vector3(1, 0, -2), Quaternion.Identity);
+            }
+            coroutineRunner.Run(co());
         }
 
         private void AddBrick(Vector3 trans, Quaternion rot)
@@ -205,7 +214,8 @@ namespace SceneTest
                 position = trans * 2,
                 orientation = rot,
                 scale = Vector3.ScaleIdentity,
-                shaderResourceBinding = pboMatBindingSceneObject.Obj
+                shaderResourceBinding = pboMatBindingSceneObject.Obj,
+                RenderShadow = true
             });
         }
 
@@ -312,7 +322,7 @@ namespace SceneTest
             //Draw Scene
             // Render shadow map
             shadowMapRenderer.BeginShadowMap(renderDevice, immediateContext, lightDirection);
-            foreach (var sceneObj in sceneObjects.Where(i => i.shaderResourceBinding == pboMatBindingSceneObject.Obj || i.RenderShadowPlaceholder)) //Render all bricks for shadow map
+            foreach (var sceneObj in sceneObjects.Where(i => i.RenderShadow))
             {
                 shadowMapRenderer.RenderShadowMap(immediateContext, sceneObj.vertexBuffer, sceneObj.skinVertexBuffer, sceneObj.indexBuffer, sceneObj.numIndices, ref sceneObj.position, ref sceneObj.orientation, ref sceneObj.scale);
             }
