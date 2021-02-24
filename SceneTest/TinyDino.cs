@@ -29,12 +29,12 @@ namespace SceneTest
             IScopedCoroutine coroutine,
             IMaterialSpriteBuilder materialSpriteBuilder)
         {
+            this.sceneObjectManager = sceneObjectManager;
+            this.sprites = sprites;
+            this.destructionRequest = destructionRequest;
+
             IEnumerator<YieldAction> co()
             {
-                this.sceneObjectManager = sceneObjectManager;
-                this.sprites = sprites;
-                this.destructionRequest = destructionRequest;
-
                 yield return coroutine.Await(async () =>
                 {
                     pboMatBindingSprite = await materialSpriteBuilder.CreateSpriteAsync(new MaterialSpriteBindingDescription()
