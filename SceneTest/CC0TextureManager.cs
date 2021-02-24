@@ -10,6 +10,34 @@ using System.Threading.Tasks;
 
 namespace SceneTest
 {
+    public class CCOTextureBindingDescription
+    {
+        public CCOTextureBindingDescription()
+        {
+        }
+
+        public CCOTextureBindingDescription(string baseName)
+        {
+            BaseName = baseName;
+        }
+
+        public String BaseName { get; set; }
+
+        public bool GetShadow { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is CCOTextureBindingDescription description &&
+                   BaseName == description.BaseName &&
+                   GetShadow == description.GetShadow;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(BaseName, GetShadow);
+        }
+    }
+
     class CC0TextureManager : ICC0TextureManager
     {
         private PooledResourceManager<String, IShaderResourceBinding> pooledResources = new PooledResourceManager<String, IShaderResourceBinding>();
@@ -21,7 +49,7 @@ namespace SceneTest
         public CC0TextureManager(
             CC0TextureLoader textureLoader,
             PbrRenderer pbrRenderer,
-            IPbrCameraAndLight pbrCameraAndLight, 
+            IPbrCameraAndLight pbrCameraAndLight,
             SimpleShadowMapRenderer shadowMapRenderer
             )
         {
@@ -31,14 +59,14 @@ namespace SceneTest
             this.shadowMapRenderer = shadowMapRenderer;
         }
 
-        public Task<IShaderResourceBinding> Checkout(string baseName, bool getShadow = false)
+        public Task<IShaderResourceBinding> Checkout(CCOTextureBindingDescription desc)
         {
-            return pooledResources.Checkout(baseName, async () =>
+            return pooledResources.Checkout(desc.BaseName, async () =>
             {
                 AutoPtr<IShaderResourceBinding> result = null;
                 await Task.Run(() =>
                 {
-                    using var ccoTextures = textureLoader.LoadTextureSet(baseName);
+                    using var ccoTextures = textureLoader.LoadTextureSet(desc.BaseName);
                     result = pbrRenderer.CreateMaterialSRB(
                         pCameraAttribs: pbrCameraAndLight.CameraAttribs,
                         pLightAttribs: pbrCameraAndLight.LightAttribs,
@@ -46,7 +74,7 @@ namespace SceneTest
                         normalMap: ccoTextures.NormalMap,
                         physicalDescriptorMap: ccoTextures.PhysicalDescriptorMap,
                         aoMap: ccoTextures.AmbientOcclusionMap,
-                        shadowMapSRV: getShadow ? shadowMapRenderer.ShadowMapSRV : null
+                        shadowMapSRV: desc.GetShadow ? shadowMapRenderer.ShadowMapSRV : null
                     );
                 });
                 return pooledResources.CreateResult(result.Obj, result);
