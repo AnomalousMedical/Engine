@@ -49,6 +49,7 @@ namespace DiligentEngine.GltfPbr
                 {
                     using var map = FreeImageBitmap.FromStream(stream);
                     map.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_32_BPP); //Cheat and convert color depth
+                    CC0TextureLoader.FixCC0Normal(map);
 
                     var normalMap = textureLoader.CreateTextureFromImage(map, 1, "normalTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
                     result.SetNormalMap(normalMap);
@@ -128,6 +129,30 @@ namespace DiligentEngine.GltfPbr
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// CC0 textures use an inverted y axis compared to our lights, so invert it here.
+        /// </summary>
+        /// <param name="map"></param>
+        public static void FixCC0Normal(FreeImageBitmap map)
+        {
+            unsafe
+            {
+                //This is assuming axgx layout like everything else, dont really care about r and b since g is
+                //always the same and that is what we want to flip.
+                var firstPixel = (uint*)((byte*)map.Scan0.ToPointer() + (map.Height - 1) * map.Stride);
+                var lastPixel = map.Width * map.Height;
+                for (var i = 0; i < lastPixel; ++i)
+                {
+                    uint pixelValue = firstPixel[i];
+                    uint normalY = 0x0000ff00 & pixelValue;
+                    normalY >>= 8;
+                    normalY = 255 - normalY;
+                    normalY <<= 8;
+                    firstPixel[i] = (pixelValue & 0xffff00ff) + normalY;
+                }
+            }
         }
     }
 }
