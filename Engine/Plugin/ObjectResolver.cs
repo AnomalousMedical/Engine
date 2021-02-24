@@ -46,6 +46,20 @@ namespace Engine
             return instance;
         }
 
+        public T Resolve<T, TConfig>(Action<TConfig> configure)
+        {
+            var scope = serviceProvider.CreateScope();
+            var options = scope.ServiceProvider.GetRequiredService<TConfig>();
+            configure(options);
+            var instance = scope.ServiceProvider.GetRequiredService<T>();
+            var resolved = scope.ServiceProvider.GetRequiredService<ResolvedObject>();
+            resolved.Scope = scope;
+            resolved.ObjectResolver = this;
+            resolvedObjects.Add(resolved);
+
+            return instance;
+        }
+
         /// <summary>
         /// Flush out all destruction requested objects and actually destroy them.
         /// If this is never called the objects are not really destroyed until
