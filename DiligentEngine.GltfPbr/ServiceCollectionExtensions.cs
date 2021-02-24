@@ -28,33 +28,14 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddSingleton<PbrRenderer>(s =>
             {
-                var shapeLoader = s.GetRequiredService<ShaderLoader<PbrRenderer>>();
-                var ge = s.GetRequiredService<GraphicsEngine>();
-
-                var RendererCI = new PbrRendererCreateInfo();
-                options.CustomizePbrOptions?.Invoke(RendererCI);
-                CheckTextureFormats(ge, RendererCI);
-
-                return new PbrRenderer(ge.RenderDevice, ge.ImmediateContext, RendererCI, shapeLoader);
-            });
-
-            return services;
-        }
-
-        public static IServiceCollection AddDiligentEnginePbr<T>(this IServiceCollection services, Action<PbrOptions> configure = null)
-        {
-            PbrOptions options = CommonRegister(services, configure);
-
-            services.AddSingleton<PbrRenderer<T>>(s =>
-            {
                 var shaderLoader = s.GetRequiredService<ShaderLoader<PbrRenderer>>();
                 var ge = s.GetRequiredService<GraphicsEngine>();
-            
+
                 var RendererCI = new PbrRendererCreateInfo();
                 options.CustomizePbrOptions?.Invoke(RendererCI);
                 CheckTextureFormats(ge, RendererCI);
 
-                return new PbrRenderer<T>(ge.RenderDevice, ge.ImmediateContext, RendererCI, shaderLoader);
+                return new PbrRenderer(ge.RenderDevice, ge.ImmediateContext, RendererCI, shaderLoader);
             });
 
             return services;

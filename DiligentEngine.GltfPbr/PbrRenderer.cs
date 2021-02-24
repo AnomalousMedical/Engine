@@ -23,14 +23,7 @@ using System.Collections;
 using Engine;
 
 namespace DiligentEngine.GltfPbr
-{
-    public class PbrRenderer<T> : PbrRenderer
-    {
-        public PbrRenderer(IRenderDevice pDevice, IDeviceContext pCtx, PbrRendererCreateInfo CI, ShaderLoader<PbrRenderer> shaderLoader) : base(pDevice, pCtx, CI, shaderLoader)
-        {
-        }
-    }
-
+{ 
     public class PbrRenderer : IDisposable
     {
         public const int DefaultNormal = 0x00FF7F7F;
@@ -77,7 +70,12 @@ namespace DiligentEngine.GltfPbr
         private AutoPtr<IBuffer> m_PrecomputeEnvMapAttribsCB;
         private AutoPtr<IBuffer> m_JointsBuffer;
 
-        public PbrRenderer(IRenderDevice pDevice, IDeviceContext pCtx, PbrRendererCreateInfo CI, ShaderLoader<PbrRenderer> shaderLoader)
+        public PbrRenderer(
+            IRenderDevice pDevice, 
+            IDeviceContext pCtx, 
+            PbrRendererCreateInfo CI, 
+            ShaderLoader<PbrRenderer> shaderLoader
+        )
         {
             this.m_Settings = CI;
             this.shaderLoader = shaderLoader;
@@ -205,11 +203,14 @@ namespace DiligentEngine.GltfPbr
                     };
                     pCtx.TransitionResourceStates(Barriers);
 
-                    CreatePSO(pDevice, false, false);
-                    CreatePSO(pDevice, true, false);
+                    var vsSource = shaderLoader.LoadShader("GLTF_PBR/private/RenderGLTF_PBR.vsh", "Common/public", "GLTF_PBR/public");
+                    var psSource = shaderLoader.LoadShader("GLTF_PBR/private/RenderGLTF_PBR.psh", "Common/public", "GLTF_PBR/public", "PostProcess/ToneMapping/public");
 
-                    CreatePSO(pDevice, false, true);
-                    CreatePSO(pDevice, true, true);
+                    CreatePSO(pDevice, false, false, vsSource, psSource);
+                    CreatePSO(pDevice, true, false, vsSource, psSource);
+
+                    CreatePSO(pDevice, false, true, vsSource, psSource);
+                    //CreatePSO(pDevice, true, true, vsSource, psSource); //Sprites don't need shadows
                 }
             }
         }
@@ -295,7 +296,7 @@ namespace DiligentEngine.GltfPbr
             pCtx.TransitionResourceStates(Barriers);
         }
 
-        private void CreatePSO(IRenderDevice pDevice, bool enableShadows, bool isSprite)
+        private void CreatePSO(IRenderDevice pDevice, bool enableShadows, bool isSprite, String vsSource, String psSource)
         {
             GraphicsPipelineStateCreateInfo PSOCreateInfo = new GraphicsPipelineStateCreateInfo();
             PipelineStateDesc PSODesc = PSOCreateInfo.PSODesc;
@@ -333,14 +334,14 @@ namespace DiligentEngine.GltfPbr
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
             ShaderCI.EntryPoint = "main";
             ShaderCI.Desc.Name = "GLTF PBR VS";
-            ShaderCI.Source = shaderLoader.LoadShader("GLTF_PBR/private/RenderGLTF_PBR.vsh", "Common/public", "GLTF_PBR/public");
+            ShaderCI.Source = vsSource;
             using var pVS = pDevice.CreateShader(ShaderCI, Macros);
 
             // Create pixel shader
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_PIXEL;
             ShaderCI.EntryPoint = "main";
             ShaderCI.Desc.Name = "GLTF PBR PS";
-            ShaderCI.Source = shaderLoader.LoadShader("GLTF_PBR/private/RenderGLTF_PBR.psh", "Common/public", "GLTF_PBR/public", "PostProcess/ToneMapping/public");
+            ShaderCI.Source = psSource;
             using var pPS = pDevice.CreateShader(ShaderCI, Macros);
 
             var Inputs = new List<LayoutElement>
