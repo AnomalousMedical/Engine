@@ -1,7 +1,6 @@
 ﻿using Anomalous.OSPlatform;
 using DiligentEngine;
 using DiligentEngine.GltfPbr;
-using DiligentEngine.GltfPbr.Shapes;
 using Engine;
 using Engine.CameraMovement;
 using Engine.Platform;
@@ -30,9 +29,6 @@ namespace SceneTest
         float lightIntensity = 3;
 
         private readonly NativeOSWindow window;
-        private readonly DoubleSizeCube shape;
-        private readonly Plane plane;
-        private readonly CC0TextureLoader cc0TextureLoader;
         private readonly EnvironmentMapBuilder envMapBuilder;
         private readonly IPbrCameraAndLight pbrCameraAndLight;
         private readonly VirtualFileSystem virtualFileSystem;
@@ -64,9 +60,6 @@ namespace SceneTest
             GraphicsEngine graphicsEngine,
             NativeOSWindow window,
             PbrRenderer m_GLTFRenderer,
-            DoubleSizeCube shape,
-            Plane plane,
-            CC0TextureLoader cc0TextureLoader,
             EnvironmentMapBuilder envMapBuilder,
             IPbrCameraAndLight pbrCameraAndLight,
             VirtualFileSystem virtualFileSystem,
@@ -88,9 +81,6 @@ namespace SceneTest
             this.renderDevice = graphicsEngine.RenderDevice;
             this.immediateContext = graphicsEngine.ImmediateContext;
             this.window = window;
-            this.shape = shape;
-            this.plane = plane;
-            this.cc0TextureLoader = cc0TextureLoader;
             this.envMapBuilder = envMapBuilder;
             this.pbrCameraAndLight = pbrCameraAndLight;
             this.virtualFileSystem = virtualFileSystem;
