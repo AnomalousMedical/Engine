@@ -34,7 +34,7 @@ namespace SceneTest
         {
             var hashCode = new HashCode();
             hashCode.Add(BaseMap);
-            if (Materials != null)
+            if (Materials != null && Materials.Count > 0) //Null and empty considered the same
             {
                 foreach (var mat in Materials.OrderBy(i => i.Color))
                 {

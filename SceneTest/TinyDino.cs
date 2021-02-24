@@ -18,6 +18,7 @@ namespace SceneTest
         private SceneObjectManager sceneObjectManager;
         private SpriteManager sprites;
         private IDestructionRequest destructionRequest;
+        private readonly ISpriteMaterialManager materialSpriteBuilder;
         private SceneObject sceneObject;
         private Sprite sprite = new Sprite() { BaseScale = new Vector3(1.466666666666667f, 1, 1) };
 
@@ -27,17 +28,17 @@ namespace SceneTest
             Plane plane,
             IDestructionRequest destructionRequest,
             IScopedCoroutine coroutine,
-            IMaterialSpriteBuilder materialSpriteBuilder)
+            ISpriteMaterialManager materialSpriteBuilder)
         {
             this.sceneObjectManager = sceneObjectManager;
             this.sprites = sprites;
             this.destructionRequest = destructionRequest;
-
+            this.materialSpriteBuilder = materialSpriteBuilder;
             IEnumerator<YieldAction> co()
             {
                 yield return coroutine.Await(async () =>
                 {
-                    spriteMaterial = await materialSpriteBuilder.CreateSpriteMaterialAsync(new MaterialSpriteBindingDescription
+                    spriteMaterial = await this.materialSpriteBuilder.Checkout(new MaterialSpriteBindingDescription
                     (
                         colorMap: "original/TinyDino_Color.png",
                         materials: new HashSet<MaterialSpriteMaterialDescription>
@@ -73,7 +74,7 @@ namespace SceneTest
         {
             sprites.Remove(sprite);
             sceneObjectManager.Remove(sceneObject);
-            spriteMaterial.Dispose();
+            materialSpriteBuilder.Return(spriteMaterial);
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SceneTest
 {
-    class SpriteMaterial : ISpriteMaterial
+    class SpriteMaterial : ISpriteMaterial, IDisposable
     {
         private AutoPtr<IShaderResourceBinding> shaderResourceBinding;
         private readonly ISpriteMaterialTextureManager spriteMaterialTextureManager;

@@ -3,7 +3,7 @@ using System;
 
 namespace SceneTest
 {
-    public interface ISpriteMaterial : IDisposable
+    public interface ISpriteMaterial
     {
         int ImageHeight { get; }
         int ImageWidth { get; }

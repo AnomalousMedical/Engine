@@ -19,6 +19,7 @@ namespace SceneTest
         private SceneObjectManager sceneObjectManager;
         private SpriteManager sprites;
         private IDestructionRequest destructionRequest;
+        private readonly ISpriteMaterialManager spriteMaterialManager;
         private SceneObject sceneObject;
         private Sprite sprite = new Sprite(new Dictionary<string, SpriteAnimation>()
         {
@@ -31,17 +32,17 @@ namespace SceneTest
             Plane plane,
             IDestructionRequest destructionRequest,
             IScopedCoroutine coroutine,
-            IMaterialSpriteBuilder materialSpriteBuilder)
+            ISpriteMaterialManager spriteMaterialManager)
         {
             this.sceneObjectManager = sceneObjectManager;
             this.sprites = sprites;
             this.destructionRequest = destructionRequest;
-
+            this.spriteMaterialManager = spriteMaterialManager;
             IEnumerator<YieldAction> co()
             {
                 yield return coroutine.Await(async () =>
                 {
-                    spriteMaterial = await materialSpriteBuilder.CreateSpriteMaterialAsync(new MaterialSpriteBindingDescription
+                    spriteMaterial = await this.spriteMaterialManager.Checkout(new MaterialSpriteBindingDescription
                     (
                         colorMap: "spritewalk/rpg_sprite_walk_Color.png",
                         materials: null
@@ -73,7 +74,7 @@ namespace SceneTest
         {
             sprites.Remove(sprite);
             sceneObjectManager.Remove(sceneObject);
-            spriteMaterial.Dispose();
+            spriteMaterialManager.Return(spriteMaterial);
         }
     }
 }

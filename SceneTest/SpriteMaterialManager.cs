@@ -1,5 +1,6 @@
 ﻿using DiligentEngine;
 using DiligentEngine.GltfPbr;
+using Engine;
 using Engine.Resources;
 using FreeImageAPI;
 using System;
@@ -60,7 +61,7 @@ namespace SceneTest
         {
             var hashCode = new HashCode();
             hashCode.Add(ColorMap);
-            if (Materials != null)
+            if (Materials != null && Materials.Count > 0) //Null and empty considered the same
             {
                 foreach (var mat in Materials.OrderBy(i => i.Color))
                 {
@@ -75,25 +76,25 @@ namespace SceneTest
         }
     }
 
-    class MaterialSpriteBuilder : IMaterialSpriteBuilder
+    class SpriteMaterialManager : ISpriteMaterialManager
     {
-        private readonly ICC0MaterialTextureBuilder cc0MaterialTextureBuilder;
-        private readonly IResourceProvider<MaterialSpriteBuilder> resourceProvider;
+        private readonly PooledResourceManager<MaterialSpriteBindingDescription, ISpriteMaterial> pooledResources
+            = new PooledResourceManager<MaterialSpriteBindingDescription, ISpriteMaterial>();
+
+        private readonly IResourceProvider<SpriteMaterialManager> resourceProvider;
         private readonly TextureLoader textureLoader;
         private readonly IPbrCameraAndLight pbrCameraAndLight;
         private readonly PbrRenderer pbrRenderer;
         private readonly ISpriteMaterialTextureManager spriteMaterialTextureManager;
 
-        public MaterialSpriteBuilder(
-            ICC0MaterialTextureBuilder cc0MaterialTextureBuilder,
-            IResourceProvider<MaterialSpriteBuilder> resourceProvider,
+        public SpriteMaterialManager(
+            IResourceProvider<SpriteMaterialManager> resourceProvider,
             TextureLoader textureLoader,
             IPbrCameraAndLight pbrCameraAndLight,
             PbrRenderer pbrRenderer,
             ISpriteMaterialTextureManager spriteMaterialTextureManager
         )
         {
-            this.cc0MaterialTextureBuilder = cc0MaterialTextureBuilder;
             this.resourceProvider = resourceProvider;
             this.textureLoader = textureLoader;
             this.pbrCameraAndLight = pbrCameraAndLight;
@@ -101,38 +102,47 @@ namespace SceneTest
             this.spriteMaterialTextureManager = spriteMaterialTextureManager;
         }
 
-        public async Task<ISpriteMaterial> CreateSpriteMaterialAsync(MaterialSpriteBindingDescription desc)
+        public Task<ISpriteMaterial> Checkout(MaterialSpriteBindingDescription desc)
         {
-            using var image = await Task.Run(() =>
+            return pooledResources.Checkout(desc, async () =>
             {
-                using var stream = resourceProvider.openFile(desc.ColorMap);
-                return FreeImageBitmap.FromStream(stream);
+                using var image = await Task.Run(() =>
+                {
+                    using var stream = resourceProvider.openFile(desc.ColorMap);
+                    return FreeImageBitmap.FromStream(stream);
+                });
+
+                //Order is important here, image is flipped when the texture is created below
+                //Also need to get back onto the main thread to lookup the textures in the other manager
+                //This makes it take multiple frames, but living with that for now
+                //Ideally this should go back into 1 task.run to run at full speed, but this manager only
+                //has main thread sync support
+                var spriteMatTextures = await spriteMaterialTextureManager.Checkout(image, new SpriteMaterialTextureDescription(desc.ColorMap, desc.Materials));
+
+                return await Task.Run(() =>
+                {
+                    using var colorTexture = textureLoader.CreateTextureFromImage(image, 1, "colorTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
+
+                    var srb = pbrRenderer.CreateMaterialSRB(
+                        pCameraAttribs: pbrCameraAndLight.CameraAttribs,
+                        pLightAttribs: pbrCameraAndLight.LightAttribs,
+                        baseColorMap: colorTexture?.Obj,
+                        normalMap: spriteMatTextures.NormalTexture,
+                        physicalDescriptorMap: spriteMatTextures.PhysicalTexture,
+                        aoMap: spriteMatTextures.AoTexture,
+                        alphaMode: PbrAlphaMode.ALPHA_MODE_MASK,
+                        isSprite: true
+                    );
+
+                    var result = new SpriteMaterial(srb, image.Width, image.Height, spriteMaterialTextureManager, spriteMatTextures);
+                    return pooledResources.CreateResult(result);
+                });
             });
+        }
 
-            //Order is important here, image is flipped when the texture is created below
-            //Also need to get back onto the main thread to lookup the textures in the other manager
-            //This makes it take multiple frames, but living with that for now
-            //Ideally this should go back into 1 task.run to run at full speed, but this manager only
-            //has main thread sync support
-            var spriteMatTextures = await spriteMaterialTextureManager.Checkout(image, new SpriteMaterialTextureDescription(desc.ColorMap, desc.Materials));
-
-            return await Task.Run(() =>
-            {
-                using var colorTexture = textureLoader.CreateTextureFromImage(image, 1, "colorTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
-
-                var srb = pbrRenderer.CreateMaterialSRB(
-                    pCameraAttribs: pbrCameraAndLight.CameraAttribs,
-                    pLightAttribs: pbrCameraAndLight.LightAttribs,
-                    baseColorMap: colorTexture?.Obj,
-                    normalMap: spriteMatTextures.NormalTexture,
-                    physicalDescriptorMap: spriteMatTextures.PhysicalTexture,
-                    aoMap: spriteMatTextures.AoTexture,
-                    alphaMode: PbrAlphaMode.ALPHA_MODE_MASK,
-                    isSprite: true
-                );
-
-                return new SpriteMaterial(srb, image.Width, image.Height, spriteMaterialTextureManager, spriteMatTextures);
-            });
+        public void Return(ISpriteMaterial item)
+        {
+            pooledResources.Return(item);
         }
     }
 }
