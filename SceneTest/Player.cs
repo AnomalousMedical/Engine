@@ -15,7 +15,7 @@ namespace SceneTest
 {
     class Player : IDisposable
     {
-        private AutoPtr<IShaderResourceBinding> pboMatBindingSprite;
+        private ISpriteMaterial spriteMaterial;
         private SceneObjectManager sceneObjectManager;
         private SpriteManager sprites;
         private IDestructionRequest destructionRequest;
@@ -41,7 +41,7 @@ namespace SceneTest
             {
                 yield return coroutine.Await(async () =>
                 {
-                    pboMatBindingSprite = await materialSpriteBuilder.CreateSpriteAsync(new MaterialSpriteBindingDescription()
+                    spriteMaterial = await materialSpriteBuilder.CreateSpriteMaterialAsync(new MaterialSpriteBindingDescription()
                     {
                         ColorMap = "spritewalk/rpg_sprite_walk_Color.png"
                     });
@@ -57,7 +57,7 @@ namespace SceneTest
                     position = new Vector3(0, 0.291666666666667f, 0),
                     orientation = Quaternion.Identity,
                     scale = new Vector3(1, 1.291666666666667f, 1),
-                    shaderResourceBinding = pboMatBindingSprite.Obj,
+                    shaderResourceBinding = spriteMaterial.ShaderResourceBinding,
                     RenderShadow = true,
                     Sprite = sprite,
                 };
@@ -72,7 +72,7 @@ namespace SceneTest
         {
             sprites.Remove(sprite);
             sceneObjectManager.Remove(sceneObject);
-            pboMatBindingSprite.Dispose();
+            spriteMaterial.Dispose();
         }
     }
 }

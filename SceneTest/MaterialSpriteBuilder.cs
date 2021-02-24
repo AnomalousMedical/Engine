@@ -15,7 +15,7 @@ namespace SceneTest
         public String ColorMap { get; set; }
 
         public Dictionary<uint, (String basePath, String ext)> Materials { get; set; }
-}
+    }
 
     class MaterialSpriteBuilder : IMaterialSpriteBuilder
     {
@@ -40,9 +40,9 @@ namespace SceneTest
             this.pbrRenderer = pbrRenderer;
         }
 
-        public Task<AutoPtr<IShaderResourceBinding>> CreateSpriteAsync(MaterialSpriteBindingDescription desc)
+        public Task<ISpriteMaterial> CreateSpriteMaterialAsync(MaterialSpriteBindingDescription desc)
         {
-            return Task.Run(() =>
+            return Task.Run<ISpriteMaterial>(() =>
             {
                 using var stream =
                             resourceProvider.openFile(desc.ColorMap);
@@ -63,7 +63,7 @@ namespace SceneTest
                 using var aoTexture = ccoTextures.AmbientOcclusionMap != null ?
                     textureLoader.CreateTextureFromImage(ccoTextures.AmbientOcclusionMap, 1, "aoTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false) : null;
 
-                return pbrRenderer.CreateMaterialSRB(
+                var srb = pbrRenderer.CreateMaterialSRB(
                     pCameraAttribs: pbrCameraAndLight.CameraAttribs,
                     pLightAttribs: pbrCameraAndLight.LightAttribs,
                     baseColorMap: colorTexture?.Obj,
@@ -73,6 +73,8 @@ namespace SceneTest
                     alphaMode: PbrAlphaMode.ALPHA_MODE_MASK,
                     isSprite: true
                 );
+
+                return new SpriteMaterial(srb, image.Width, image.Height);
             });
         }
     }

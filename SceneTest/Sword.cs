@@ -14,12 +14,12 @@ namespace SceneTest
 {
     class Sword : IDisposable
     {
-        private AutoPtr<IShaderResourceBinding> pboMatBindingSprite;
+        private ISpriteMaterial spriteMaterial;
         private SceneObjectManager sceneObjectManager;
         private SpriteManager sprites;
         private IDestructionRequest destructionRequest;
         private SceneObject sceneObject;
-        private Sprite sprite = new Sprite();
+        private Sprite sprite = new Sprite() { BaseScale = new Vector3(1, 1.714285714285714f, 1) };
 
         public Sword(
             SceneObjectManager sceneObjectManager,
@@ -37,7 +37,7 @@ namespace SceneTest
             {
                 yield return coroutine.Await(async () =>
                 {
-                    pboMatBindingSprite = await materialSpriteBuilder.CreateSpriteAsync(new MaterialSpriteBindingDescription()
+                    spriteMaterial = await materialSpriteBuilder.CreateSpriteMaterialAsync(new MaterialSpriteBindingDescription()
                     {
                         ColorMap = "original/Sword.png",
                         Materials = new Dictionary<uint, (String, String)>()
@@ -57,8 +57,8 @@ namespace SceneTest
                     pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
                     position = new Vector3(-1, 0, 0),
                     orientation = Quaternion.Identity,
-                    scale = new Vector3(1, 1.714285714285714f, 1) * 0.5f,
-                    shaderResourceBinding = pboMatBindingSprite.Obj,
+                    scale = sprite.BaseScale * 0.5f,
+                    shaderResourceBinding = spriteMaterial.ShaderResourceBinding,
                     RenderShadow = true,
                     Sprite = sprite,
                 };
@@ -72,7 +72,7 @@ namespace SceneTest
         {
             sprites.Remove(sprite);
             sceneObjectManager.Remove(sceneObject);
-            pboMatBindingSprite.Dispose();
+            spriteMaterial.Dispose();
         }
     }
 }

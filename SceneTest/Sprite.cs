@@ -1,4 +1,5 @@
-﻿using Engine.Platform;
+﻿using Engine;
+using Engine.Platform;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,6 +55,8 @@ namespace SceneTest
         private long frameTime;
         private long duration;
         private int frame;
+
+        public Vector3 BaseScale;
 
         public Sprite()
             : this(new Dictionary<string, SpriteAnimation>()

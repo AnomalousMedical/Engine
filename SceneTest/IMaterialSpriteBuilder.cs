@@ -1,10 +1,9 @@
-﻿using DiligentEngine;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace SceneTest
 {
     interface IMaterialSpriteBuilder
     {
-        Task<AutoPtr<IShaderResourceBinding>> CreateSpriteAsync(MaterialSpriteBindingDescription desc);
+        Task<ISpriteMaterial> CreateSpriteMaterialAsync(MaterialSpriteBindingDescription desc);
     }
 }
