@@ -122,7 +122,6 @@ namespace DiligentEngine.GltfPbr
                 {
                     var map = FreeImageBitmap.FromStream(stream);
                     map.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_32_BPP); //Cheat and convert color depth
-                    CC0TextureLoader.FixCC0Normal(map);
                     result.SetNormalMap(map); //Pointer handled by returned collection
                 }
             }
