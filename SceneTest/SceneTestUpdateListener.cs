@@ -197,6 +197,8 @@ namespace SceneTest
             var time = TimeSpan.FromMilliseconds(timeClock.CurrentTimeMicro * Clock.MicroToMilliseconds);
             sharpGui.Text(currentHour.Rect.Right, currentHour.Rect.Top, timeClock.IsDay ? Engine.Color.Black : Engine.Color.White, $"Time: {time}");
 
+            UpdateLightGui(clock);
+
             sharpGui.End();
         }
 
@@ -225,6 +227,33 @@ namespace SceneTest
             }
         }
 
+        SharpSliderHorizontal xSlider = new SharpSliderHorizontal() { Rect = new IntRect(0, 200, 500, 40), Max = 100 };
+        SharpSliderHorizontal ySlider = new SharpSliderHorizontal() { Rect = new IntRect(0, 250, 500, 40), Max = 100 };
+        SharpSliderHorizontal zSlider = new SharpSliderHorizontal() { Rect = new IntRect(0, 300, 500, 40), Max = 100 };
+        private int x, y, z;
+
+        private unsafe void UpdateLightGui(Clock clock)
+        {
+            if(sharpGui.Slider(xSlider, ref x))
+            {
+                
+            }
+
+            if (sharpGui.Slider(ySlider, ref y))
+            {
+                
+            }
+
+            if (sharpGui.Slider(zSlider, ref z))
+            {
+                
+            }
+            lightDirection = (new Vector3(x, y, z) / 50 - new Vector3(1, 1, 1)).normalized();
+
+            sharpGui.Text(0, 350, Color.Black, new Vector3(x, y, z).ToString());
+            sharpGui.Text(0, 400, Color.Black, lightDirection.ToString());
+        }
+
         private void UpdateSprites(Clock clock)
         {
             foreach(var sprite in sprites)
@@ -239,7 +268,7 @@ namespace SceneTest
             timeClock.Update(clock);
             UpdateGui(clock);
             cameraControls.UpdateInput(clock);
-            UpdateLight(clock);
+            //UpdateLight(clock);
             UpdateSprites(clock);
 
             objectResolver.Flush();
