@@ -21,9 +21,16 @@ namespace SceneTest
         private IDestructionRequest destructionRequest;
         private readonly ISpriteMaterialManager spriteMaterialManager;
         private SceneObject sceneObject;
+
+        const float SpriteStepX = 32f / 128f;
+        const float SpriteStepY = 32f / 64f;
+
         private Sprite sprite = new Sprite(new Dictionary<string, SpriteAnimation>()
         {
-        { "default", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro), SpriteFrame.MakeFramesFromHorizontal(24f / 192f, 32f / 128f, 192f, 8, 0).ToArray()) }
+            { "down", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro), new SpriteFrame(SpriteStepX * 1, SpriteStepY * 0, SpriteStepX * 2, SpriteStepY * 1), new SpriteFrame(SpriteStepX * 1, SpriteStepY * 1, SpriteStepX * 2, SpriteStepY * 2) ) },
+            { "up", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro), new SpriteFrame(SpriteStepX * 0, SpriteStepY * 0, SpriteStepX * 1, SpriteStepY * 1), new SpriteFrame(SpriteStepX * 0, SpriteStepY * 1, SpriteStepX * 1, SpriteStepY * 2) ) },
+            { "left", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro), new SpriteFrame(SpriteStepX * 2, SpriteStepY * 0, SpriteStepX * 3, SpriteStepY * 1), new SpriteFrame(SpriteStepX * 3, SpriteStepY * 0, SpriteStepX * 4, SpriteStepY * 1) ) },
+            { "right", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro), new SpriteFrame(SpriteStepX * 2, SpriteStepY * 1, SpriteStepX * 3, SpriteStepY * 2), new SpriteFrame(SpriteStepX * 3, SpriteStepY * 1, SpriteStepX * 4, SpriteStepY * 2) ) },
         });
 
         public Player(
@@ -44,8 +51,14 @@ namespace SceneTest
                 {
                     spriteMaterial = await this.spriteMaterialManager.Checkout(new MaterialSpriteBindingDescription
                     (
-                        colorMap: "spritewalk/rpg_sprite_walk_Color.png",
-                        materials: null
+                        colorMap: "original/amg1_full4.png",
+                        materials: new HashSet<MaterialSpriteMaterialDescription>
+                        {
+                            new MaterialSpriteMaterialDescription(0xffa854ff, "cc0Textures/Fabric012_1K", "jpg"),
+                            new MaterialSpriteMaterialDescription(0xff909090, "cc0Textures/Fabric020_1K", "jpg"),
+                            new MaterialSpriteMaterialDescription(0xff8c4800, "cc0Textures/Leather026_1K", "jpg"),
+                            new MaterialSpriteMaterialDescription(0xffffe254, "cc0Textures/Metal038_1K", "jpg"),
+                        }
                     ));
                 });
 
@@ -56,9 +69,9 @@ namespace SceneTest
                     indexBuffer = plane.IndexBuffer,
                     numIndices = plane.NumIndices,
                     pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
-                    position = new Vector3(0, 0.291666666666667f, 0),
+                    position = new Vector3(0, 0, 0),
                     orientation = Quaternion.Identity,
-                    scale = new Vector3(1, 1.291666666666667f, 1),
+                    scale = new Vector3(1, 1, 1),
                     shaderResourceBinding = spriteMaterial.ShaderResourceBinding,
                     RenderShadow = true,
                     Sprite = sprite,

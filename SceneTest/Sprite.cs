@@ -10,33 +10,28 @@ namespace SceneTest
 {
     public class SpriteFrame
     {
+        public SpriteFrame()
+        {
+
+        }
+
+        public SpriteFrame(float left, float top, float right, float bottom)
+        {
+            Left = left;
+            Top = top;
+            Right = right;
+            Bottom = bottom;
+        }
+
         public float Left;
         public float Top;
         public float Right;
         public float Bottom;
-
-        public static IEnumerable<SpriteFrame> MakeFramesFromHorizontal(float xStep, float yStep, float width, int numFrames, int start = 0)
-        {
-            var end = start + numFrames;
-            for(var i = start; i < end; ++i)
-            {
-                var step = i * xStep;
-                float x = step % width;
-                float y = step / width;
-                yield return new SpriteFrame()
-                {
-                    Left = x,
-                    Top = y,
-                    Right = x + xStep,
-                    Bottom = y + yStep
-                };
-            }
-        }
     }
 
     public class SpriteAnimation
     {
-        public SpriteAnimation(long frameTime, SpriteFrame[] frames)
+        public SpriteAnimation(long frameTime, params SpriteFrame[] frames)
         {
             this.frameTime = frameTime;
             this.frames = frames;

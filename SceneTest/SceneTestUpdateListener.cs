@@ -230,6 +230,7 @@ namespace SceneTest
         SharpSliderHorizontal xSlider = new SharpSliderHorizontal() { Rect = new IntRect(0, 200, 500, 40), Max = 100 };
         SharpSliderHorizontal ySlider = new SharpSliderHorizontal() { Rect = new IntRect(0, 250, 500, 40), Max = 100 };
         SharpSliderHorizontal zSlider = new SharpSliderHorizontal() { Rect = new IntRect(0, 300, 500, 40), Max = 100 };
+        SharpSliderHorizontal lightIntensitySlider = new SharpSliderHorizontal() { Rect = new IntRect(0, 350, 2000, 40), Max = 50 * 100 };
         private int x, y, z;
 
         private unsafe void UpdateLightGui(Clock clock)
@@ -250,8 +251,15 @@ namespace SceneTest
             }
             lightDirection = (new Vector3(x, y, z) / 50 - new Vector3(1, 1, 1)).normalized();
 
-            sharpGui.Text(0, 350, Color.Black, new Vector3(x, y, z).ToString());
-            sharpGui.Text(0, 400, Color.Black, lightDirection.ToString());
+            int intIntensity = (int)(lightIntensity * 100f);
+            if (sharpGui.Slider(lightIntensitySlider, ref intIntensity))
+            {
+                lightIntensity = intIntensity / 100f;
+            }
+
+            sharpGui.Text(0, 400, Color.Black, new Vector3(x, y, z).ToString());
+            sharpGui.Text(0, 450, Color.Black, lightDirection.ToString());
+            sharpGui.Text(0, 500, Color.Black, lightIntensity.ToString());
         }
 
         private void UpdateSprites(Clock clock)
