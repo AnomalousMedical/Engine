@@ -206,7 +206,7 @@ namespace SceneTest
                 var dayFactor = (timeClock.DayFactor - 0.5f) * 2.0f;
                 var noonFactor = 1.0f - Math.Abs(dayFactor);
                 lightDirection = new Vector3(dayFactor, -0.5f * noonFactor - 0.1f, 1f).normalized();
-                lightIntensity = 8.29f * noonFactor;
+                lightIntensity = 7f * noonFactor;
 
                 pbrRenderAttribs.AverageLogLum = 0.3f;
                 ClearColor = Engine.Color.FromARGB(0xff2a63cc);
