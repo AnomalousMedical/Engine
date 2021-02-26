@@ -208,8 +208,8 @@ namespace SceneTest
             {
                 var dayFactor = (timeClock.DayFactor - 0.5f) * 2.0f;
                 var noonFactor = 1.0f - Math.Abs(dayFactor);
-                lightDirection = (Vector3.Down * noonFactor + new Vector3(dayFactor, 0, dayFactor * 0.3f + 0.1f)).normalized();
-                lightIntensity = 3 * noonFactor;
+                lightDirection = new Vector3(dayFactor, -0.5f * noonFactor - 0.1f, 1f).normalized();
+                lightIntensity = 8.29f * noonFactor;
 
                 pbrRenderAttribs.AverageLogLum = 0.3f;
                 ClearColor = Engine.Color.FromARGB(0xff2a63cc);
@@ -218,7 +218,7 @@ namespace SceneTest
             {
                 var nightFactor = (timeClock.NightFactor - 0.5f) * 2.0f;
                 var midnightFactor = 1.0f - Math.Abs(nightFactor);
-                lightDirection = (Vector3.Down * midnightFactor + new Vector3(nightFactor, 0, nightFactor * 0.3f + 0.1f)).normalized();
+                lightDirection = new Vector3(nightFactor, -0.5f * midnightFactor - 0.1f, 1f).normalized();
 
                 lightIntensity = 0.7f * midnightFactor;
 
@@ -276,7 +276,7 @@ namespace SceneTest
             timeClock.Update(clock);
             UpdateGui(clock);
             cameraControls.UpdateInput(clock);
-            //UpdateLight(clock);
+            UpdateLight(clock);
             UpdateSprites(clock);
 
             objectResolver.Flush();
