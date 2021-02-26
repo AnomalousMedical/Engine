@@ -55,7 +55,7 @@ namespace SharpGui
             // Render scroll button
             var buttonAreaLeft = mainLeft + look.Padding.Left;
             var withinMarginWidth = mainRight - buttonAreaLeft - look.Padding.Right;
-            int buttonWidth = withinMarginWidth / max;
+            int buttonWidth = Math.Max(withinMarginWidth / max, 1);
             var buttonLeft = buttonAreaLeft + value * buttonWidth;
             var buttonTop = mainTop + look.Padding.Top;
             int buttonRight = buttonLeft + buttonWidth;
