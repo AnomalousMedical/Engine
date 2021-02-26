@@ -37,7 +37,7 @@ namespace SceneTest
                     Attachments = new List<Vector3>()
                     {
                         new Vector3(-0.8f, +0.2f, -0.01f), //Right Hand
-                        new Vector3(+1f, +0.1f, -0.01f), //Left Hand
+                        new Vector3(0.65f, -0.2f, -0.01f), //Left Hand
                     }
                 },
                 new SpriteFrame(SpriteStepX * 1, SpriteStepY * 1, SpriteStepX * 2, SpriteStepY * 2)
@@ -45,7 +45,7 @@ namespace SceneTest
                     Attachments = new List<Vector3>()
                     {
                         new Vector3(-0.65f, +0.4f, -0.01f), //Right Hand
-                        new Vector3(+1f, -0.1f, -0.01f), //Left Hand
+                        new Vector3(0.8f, -0.4f, -0.01f), //Left Hand
                     }
                 } )
             },
@@ -64,6 +64,7 @@ namespace SceneTest
         });
 
         private Sword sword;
+        private Shield shield;
 
         public Player(
             SceneObjectManager sceneObjectManager,
@@ -77,6 +78,7 @@ namespace SceneTest
             objectResolver = objectResolverFactory.Create();
 
             sword = objectResolver.Resolve<Sword>();
+            shield = objectResolver.Resolve<Shield>();
 
             sprite.FrameChanged += Sprite_FrameChanged;
 
@@ -115,7 +117,7 @@ namespace SceneTest
                 indexBuffer = plane.IndexBuffer,
                 numIndices = plane.NumIndices,
                 pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
-                position = new Vector3(0, 0, 0),
+                position = new Vector3(-1, 0, 0),
                 orientation = Quaternion.Identity,
                 scale = new Vector3(1, 1, 1),
                 RenderShadow = true,
@@ -130,6 +132,9 @@ namespace SceneTest
             var frame = obj.GetCurrentFrame();
             var offset = frame.Attachments[RightHand] + sceneObject.position;
             sword.SetPosition(ref offset);
+
+            offset = frame.Attachments[LeftHand] + sceneObject.position;
+            shield.SetPosition(ref offset);
         }
 
         public void Dispose()
