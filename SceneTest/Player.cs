@@ -29,37 +29,49 @@ namespace SceneTest
         const float SpriteStepX = 32f / 128f;
         const float SpriteStepY = 32f / 64f;
 
+        static Vector3 CreateAttachment(float x, float y, float z, float width, float height)
+        {
+            float fx = x / (float)width;
+            float fy = y / (float)height;
+
+            fx = (fx - 0.5f) * 2f;
+            fy = (fy - 0.5f) * 2f;
+            fy *= -1f;
+
+            return new Vector3(fx, fy, z);
+        }
+
         private FrameEventSprite sprite = new FrameEventSprite(new Dictionary<string, SpriteAnimation>()
         {
-            { "down", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro),
+            { "down", new SpriteAnimation((int)(0.7f * Clock.SecondsToMicro),
                 new SpriteFrame(SpriteStepX * 1, SpriteStepY * 0, SpriteStepX * 2, SpriteStepY * 1)
                 {
                     Attachments = new List<Vector3>()
                     {
-                        new Vector3(-0.8f, +0.2f, -0.01f), //Right Hand
-                        new Vector3(0.65f, -0.2f, -0.01f), //Left Hand
+                        CreateAttachment(3, 22, -0.01f, 32, 32), //Right Hand
+                        CreateAttachment(26, 20, -0.01f, 32, 32), //Left Hand
                     }
                 },
                 new SpriteFrame(SpriteStepX * 1, SpriteStepY * 1, SpriteStepX * 2, SpriteStepY * 2)
                 {
                     Attachments = new List<Vector3>()
                     {
-                        new Vector3(-0.65f, +0.4f, -0.01f), //Right Hand
-                        new Vector3(0.8f, -0.4f, -0.01f), //Left Hand
+                        CreateAttachment(6, 20, -0.01f, 32, 32), //Right Hand
+                        CreateAttachment(29, 22, -0.01f, 32, 32), //Left Hand
                     }
                 } )
             },
-            { "left", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro), 
-                new SpriteFrame(SpriteStepX * 2, SpriteStepY * 0, SpriteStepX * 3, SpriteStepY * 1), 
-                new SpriteFrame(SpriteStepX * 3, SpriteStepY * 0, SpriteStepX * 4, SpriteStepY * 1) ) 
+            { "left", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro),
+                new SpriteFrame(SpriteStepX * 2, SpriteStepY * 0, SpriteStepX * 3, SpriteStepY * 1),
+                new SpriteFrame(SpriteStepX * 3, SpriteStepY * 0, SpriteStepX * 4, SpriteStepY * 1) )
             },
-            { "up", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro), 
-                new SpriteFrame(SpriteStepX * 0, SpriteStepY * 0, SpriteStepX * 1, SpriteStepY * 1), 
-                new SpriteFrame(SpriteStepX * 0, SpriteStepY * 1, SpriteStepX * 1, SpriteStepY * 2) ) 
+            { "up", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro),
+                new SpriteFrame(SpriteStepX * 0, SpriteStepY * 0, SpriteStepX * 1, SpriteStepY * 1),
+                new SpriteFrame(SpriteStepX * 0, SpriteStepY * 1, SpriteStepX * 1, SpriteStepY * 2) )
             },
-            { "right", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro), 
-                new SpriteFrame(SpriteStepX * 2, SpriteStepY * 1, SpriteStepX * 3, SpriteStepY * 2), 
-                new SpriteFrame(SpriteStepX * 3, SpriteStepY * 1, SpriteStepX * 4, SpriteStepY * 2) ) 
+            { "right", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro),
+                new SpriteFrame(SpriteStepX * 2, SpriteStepY * 1, SpriteStepX * 3, SpriteStepY * 2),
+                new SpriteFrame(SpriteStepX * 3, SpriteStepY * 1, SpriteStepX * 4, SpriteStepY * 2) )
             },
         });
 

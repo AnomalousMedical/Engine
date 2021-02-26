@@ -41,6 +41,7 @@ namespace SceneTest
                     spriteMaterial = await this.spriteMaterialManager.Checkout(new SpriteMaterialDescription
                     (
                         colorMap: "original/greatsword_01.png",
+                        //colorMap: "opengameart/Dungeon Crawl Stone Soup Full/misc/cursor_red.png",
                         materials: new HashSet<SpriteMaterialTextureItem>
                         {
                             new SpriteMaterialTextureItem(0xff802000, "cc0Textures/Leather001_1K", "jpg"), //Hilt (brown)
