@@ -13,7 +13,7 @@ namespace SceneTest
 {
     public class SpriteMaterialTextureDescription
     {
-        public SpriteMaterialTextureDescription(string baseMap, HashSet<MaterialSpriteMaterialDescription> materials)
+        public SpriteMaterialTextureDescription(string baseMap, HashSet<SpriteMaterialTextureItem> materials)
         {
             BaseMap = baseMap;
             Materials = materials;
@@ -21,7 +21,7 @@ namespace SceneTest
 
         String BaseMap { get; }
 
-        public HashSet<MaterialSpriteMaterialDescription> Materials { get; }
+        public HashSet<SpriteMaterialTextureItem> Materials { get; }
 
         public override bool Equals(object obj)
         {

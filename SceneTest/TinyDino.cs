@@ -46,13 +46,13 @@ namespace SceneTest
             {
                 yield return coroutine.Await(async () =>
                 {
-                    spriteMaterial = await this.spriteMaterialManager.Checkout(new MaterialSpriteBindingDescription
+                    spriteMaterial = await this.spriteMaterialManager.Checkout(new SpriteMaterialDescription
                     (
                         colorMap: "original/TinyDino_Color.png",
-                        materials: new HashSet<MaterialSpriteMaterialDescription>
+                        materials: new HashSet<SpriteMaterialTextureItem>
                         {
-                            new MaterialSpriteMaterialDescription(0xff168516, tinyDinoDesc.SkinMaterial, "jpg"), 
-                            new MaterialSpriteMaterialDescription(0xffff0000, tinyDinoDesc.SpinesMaterial, "jpg"),
+                            new SpriteMaterialTextureItem(0xff168516, tinyDinoDesc.SkinMaterial, "jpg"), 
+                            new SpriteMaterialTextureItem(0xffff0000, tinyDinoDesc.SpinesMaterial, "jpg"),
                         }
                     ));
                 });

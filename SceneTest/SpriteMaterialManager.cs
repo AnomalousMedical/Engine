@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace SceneTest
 {
-    public class MaterialSpriteMaterialDescription
+    public class SpriteMaterialTextureItem
     {
         public uint Color { get; }
         public String BasePath { get; }
         public String Ext { get; }
 
-        public MaterialSpriteMaterialDescription(uint color, string basePath, string ext)
+        public SpriteMaterialTextureItem(uint color, string basePath, string ext)
         {
             this.Color = color;
             this.BasePath = basePath;
@@ -26,7 +26,7 @@ namespace SceneTest
 
         public override bool Equals(object obj)
         {
-            return obj is MaterialSpriteMaterialDescription description &&
+            return obj is SpriteMaterialTextureItem description &&
                    Color == description.Color &&
                    BasePath == description.BasePath &&
                    Ext == description.Ext;
@@ -38,9 +38,9 @@ namespace SceneTest
         }
     }
 
-    public class MaterialSpriteBindingDescription
+    public class SpriteMaterialDescription
     {
-        public MaterialSpriteBindingDescription(string colorMap, HashSet<MaterialSpriteMaterialDescription> materials)
+        public SpriteMaterialDescription(string colorMap, HashSet<SpriteMaterialTextureItem> materials)
         {
             ColorMap = colorMap;
             Materials = materials;
@@ -48,11 +48,11 @@ namespace SceneTest
 
         public String ColorMap { get; }
 
-        public HashSet<MaterialSpriteMaterialDescription> Materials { get; }
+        public HashSet<SpriteMaterialTextureItem> Materials { get; }
 
         public override bool Equals(object obj)
         {
-            return obj is MaterialSpriteBindingDescription description &&
+            return obj is SpriteMaterialDescription description &&
                    ColorMap == description.ColorMap &&
                     (
                         (Materials == null && description.Materials == null) ||
@@ -81,8 +81,8 @@ namespace SceneTest
 
     class SpriteMaterialManager : ISpriteMaterialManager
     {
-        private readonly PooledResourceManager<MaterialSpriteBindingDescription, ISpriteMaterial> pooledResources
-            = new PooledResourceManager<MaterialSpriteBindingDescription, ISpriteMaterial>();
+        private readonly PooledResourceManager<SpriteMaterialDescription, ISpriteMaterial> pooledResources
+            = new PooledResourceManager<SpriteMaterialDescription, ISpriteMaterial>();
 
         private readonly IResourceProvider<SpriteMaterialManager> resourceProvider;
         private readonly TextureLoader textureLoader;
@@ -105,7 +105,7 @@ namespace SceneTest
             this.spriteMaterialTextureManager = spriteMaterialTextureManager;
         }
 
-        public Task<ISpriteMaterial> Checkout(MaterialSpriteBindingDescription desc)
+        public Task<ISpriteMaterial> Checkout(SpriteMaterialDescription desc)
         {
             return pooledResources.Checkout(desc, async () =>
             {

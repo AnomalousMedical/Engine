@@ -4,7 +4,7 @@ namespace SceneTest
 {
     interface ISpriteMaterialManager
     {
-        Task<ISpriteMaterial> Checkout(MaterialSpriteBindingDescription desc);
+        Task<ISpriteMaterial> Checkout(SpriteMaterialDescription desc);
         void Return(ISpriteMaterial item);
     }
 }

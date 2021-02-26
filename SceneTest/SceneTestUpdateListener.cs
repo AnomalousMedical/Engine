@@ -197,8 +197,6 @@ namespace SceneTest
             var time = TimeSpan.FromMilliseconds(timeClock.CurrentTimeMicro * Clock.MicroToMilliseconds);
             sharpGui.Text(currentHour.Rect.Right, currentHour.Rect.Top, timeClock.IsDay ? Engine.Color.Black : Engine.Color.White, $"Time: {time}");
 
-            UpdateLightGui(clock);
-
             sharpGui.End();
         }
 
@@ -225,41 +223,6 @@ namespace SceneTest
                 pbrRenderAttribs.AverageLogLum = 0.8f;
                 ClearColor = Engine.Color.FromARGB(0xff030303);
             }
-        }
-
-        SharpSliderHorizontal xSlider = new SharpSliderHorizontal() { Rect = new IntRect(0, 200, 500, 40), Max = 100 };
-        SharpSliderHorizontal ySlider = new SharpSliderHorizontal() { Rect = new IntRect(0, 250, 500, 40), Max = 100 };
-        SharpSliderHorizontal zSlider = new SharpSliderHorizontal() { Rect = new IntRect(0, 300, 500, 40), Max = 100 };
-        SharpSliderHorizontal lightIntensitySlider = new SharpSliderHorizontal() { Rect = new IntRect(0, 350, 2000, 40), Max = 50 * 100 };
-        private int x, y, z;
-
-        private unsafe void UpdateLightGui(Clock clock)
-        {
-            if(sharpGui.Slider(xSlider, ref x))
-            {
-                
-            }
-
-            if (sharpGui.Slider(ySlider, ref y))
-            {
-                
-            }
-
-            if (sharpGui.Slider(zSlider, ref z))
-            {
-                
-            }
-            lightDirection = (new Vector3(x, y, z) / 50 - new Vector3(1, 1, 1)).normalized();
-
-            int intIntensity = (int)(lightIntensity * 100f);
-            if (sharpGui.Slider(lightIntensitySlider, ref intIntensity))
-            {
-                lightIntensity = intIntensity / 100f;
-            }
-
-            sharpGui.Text(0, 400, Color.Black, new Vector3(x, y, z).ToString());
-            sharpGui.Text(0, 450, Color.Black, lightDirection.ToString());
-            sharpGui.Text(0, 500, Color.Black, lightIntensity.ToString());
         }
 
         private void UpdateSprites(Clock clock)

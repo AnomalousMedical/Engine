@@ -20,7 +20,7 @@ namespace SceneTest
         private IDestructionRequest destructionRequest;
         private readonly ISpriteMaterialManager spriteMaterialManager;
         private SceneObject sceneObject;
-        private Sprite sprite = new Sprite() { BaseScale = new Vector3(1, 1.714285714285714f, 1) };
+        private Sprite sprite = new Sprite() { BaseScale = new Vector3(1, 1, 1) };
 
         public Sword(
             SceneObjectManager sceneObjectManager,
@@ -38,13 +38,15 @@ namespace SceneTest
             {
                 yield return coroutine.Await(async () =>
                 {
-                    spriteMaterial = await this.spriteMaterialManager.Checkout(new MaterialSpriteBindingDescription
+                    spriteMaterial = await this.spriteMaterialManager.Checkout(new SpriteMaterialDescription
                     (
-                        colorMap: "original/Sword.png",
-                        materials: new HashSet<MaterialSpriteMaterialDescription>
+                        colorMap: "original/greatsword_01.png",
+                        materials: new HashSet<SpriteMaterialTextureItem>
                         {
-                            new MaterialSpriteMaterialDescription(0xff6c351c, "cc0Textures/Wood049_1K", "jpg"), //Hilt (brown)
-                            new MaterialSpriteMaterialDescription(0xffadadad, "cc0Textures/Metal032_1K", "jpg"), //Blade (grey)
+                            new SpriteMaterialTextureItem(0xff802000, "cc0Textures/Leather001_1K", "jpg"), //Hilt (brown)
+                            new SpriteMaterialTextureItem(0xffadadad, "cc0Textures/Metal032_1K", "jpg"), //Blade (grey)
+                            new SpriteMaterialTextureItem(0xff5e5e5f, "cc0Textures/Metal032_1K", "jpg"), //Blade (grey)
+                            new SpriteMaterialTextureItem(0xffe4ac26, "cc0Textures/Metal038_1K", "jpg"), //Blade (grey)
                         }
                     ));
                 });
@@ -57,8 +59,8 @@ namespace SceneTest
                     numIndices = plane.NumIndices,
                     pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
                     position = new Vector3(-1, 0, 0),
-                    orientation = Quaternion.Identity,
-                    scale = sprite.BaseScale * 0.5f,
+                    orientation = new Quaternion(0, 3.14f / 4f, 0),
+                    scale = sprite.BaseScale * 0.75f,
                     shaderResourceBinding = spriteMaterial.ShaderResourceBinding,
                     RenderShadow = true,
                     Sprite = sprite,
