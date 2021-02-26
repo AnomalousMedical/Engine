@@ -15,23 +15,55 @@ namespace SceneTest
 {
     class Player : IDisposable
     {
+        public const int RightHand = 0;
+        public const int LeftHand = 1;
+
         private ISpriteMaterial spriteMaterial;
         private SceneObjectManager sceneObjectManager;
         private SpriteManager sprites;
         private IDestructionRequest destructionRequest;
         private readonly ISpriteMaterialManager spriteMaterialManager;
         private SceneObject sceneObject;
+        private IObjectResolver objectResolver;
 
         const float SpriteStepX = 32f / 128f;
         const float SpriteStepY = 32f / 64f;
 
-        private Sprite sprite = new Sprite(new Dictionary<string, SpriteAnimation>()
+        private FrameEventSprite sprite = new FrameEventSprite(new Dictionary<string, SpriteAnimation>()
         {
-            { "left", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro), new SpriteFrame(SpriteStepX * 2, SpriteStepY * 0, SpriteStepX * 3, SpriteStepY * 1), new SpriteFrame(SpriteStepX * 3, SpriteStepY * 0, SpriteStepX * 4, SpriteStepY * 1) ) },
-            { "down", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro), new SpriteFrame(SpriteStepX * 1, SpriteStepY * 0, SpriteStepX * 2, SpriteStepY * 1), new SpriteFrame(SpriteStepX * 1, SpriteStepY * 1, SpriteStepX * 2, SpriteStepY * 2) ) },
-            { "up", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro), new SpriteFrame(SpriteStepX * 0, SpriteStepY * 0, SpriteStepX * 1, SpriteStepY * 1), new SpriteFrame(SpriteStepX * 0, SpriteStepY * 1, SpriteStepX * 1, SpriteStepY * 2) ) },
-            { "right", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro), new SpriteFrame(SpriteStepX * 2, SpriteStepY * 1, SpriteStepX * 3, SpriteStepY * 2), new SpriteFrame(SpriteStepX * 3, SpriteStepY * 1, SpriteStepX * 4, SpriteStepY * 2) ) },
+            { "down", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro),
+                new SpriteFrame(SpriteStepX * 1, SpriteStepY * 0, SpriteStepX * 2, SpriteStepY * 1)
+                {
+                    Attachments = new List<Vector3>()
+                    {
+                        new Vector3(-0.8f, +0.2f, -0.01f), //Right Hand
+                        new Vector3(+1f, +0.1f, -0.01f), //Left Hand
+                    }
+                },
+                new SpriteFrame(SpriteStepX * 1, SpriteStepY * 1, SpriteStepX * 2, SpriteStepY * 2)
+                {
+                    Attachments = new List<Vector3>()
+                    {
+                        new Vector3(-0.65f, +0.4f, -0.01f), //Right Hand
+                        new Vector3(+1f, -0.1f, -0.01f), //Left Hand
+                    }
+                } )
+            },
+            { "left", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro), 
+                new SpriteFrame(SpriteStepX * 2, SpriteStepY * 0, SpriteStepX * 3, SpriteStepY * 1), 
+                new SpriteFrame(SpriteStepX * 3, SpriteStepY * 0, SpriteStepX * 4, SpriteStepY * 1) ) 
+            },
+            { "up", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro), 
+                new SpriteFrame(SpriteStepX * 0, SpriteStepY * 0, SpriteStepX * 1, SpriteStepY * 1), 
+                new SpriteFrame(SpriteStepX * 0, SpriteStepY * 1, SpriteStepX * 1, SpriteStepY * 2) ) 
+            },
+            { "right", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro), 
+                new SpriteFrame(SpriteStepX * 2, SpriteStepY * 1, SpriteStepX * 3, SpriteStepY * 2), 
+                new SpriteFrame(SpriteStepX * 3, SpriteStepY * 1, SpriteStepX * 4, SpriteStepY * 2) ) 
+            },
         });
+
+        private Sword sword;
 
         public Player(
             SceneObjectManager sceneObjectManager,
@@ -39,8 +71,15 @@ namespace SceneTest
             Plane plane,
             IDestructionRequest destructionRequest,
             IScopedCoroutine coroutine,
-            ISpriteMaterialManager spriteMaterialManager)
+            ISpriteMaterialManager spriteMaterialManager,
+            IObjectResolverFactory objectResolverFactory)
         {
+            objectResolver = objectResolverFactory.Create();
+
+            sword = objectResolver.Resolve<Sword>();
+
+            sprite.FrameChanged += Sprite_FrameChanged;
+
             this.sceneObjectManager = sceneObjectManager;
             this.sprites = sprites;
             this.destructionRequest = destructionRequest;
@@ -60,34 +99,46 @@ namespace SceneTest
                             new SpriteMaterialTextureItem(0xffffe254, "cc0Textures/Metal038_1K", "jpg"),
                         }
                     ));
-                });
 
-                sceneObject = new SceneObject()
-                {
-                    vertexBuffer = plane.VertexBuffer,
-                    skinVertexBuffer = plane.SkinVertexBuffer,
-                    indexBuffer = plane.IndexBuffer,
-                    numIndices = plane.NumIndices,
-                    pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
-                    position = new Vector3(0, 0, 0),
-                    orientation = Quaternion.Identity,
-                    scale = new Vector3(1, 1, 1),
-                    shaderResourceBinding = spriteMaterial.ShaderResourceBinding,
-                    RenderShadow = true,
-                    Sprite = sprite,
-                };
+                    sceneObject.shaderResourceBinding = spriteMaterial.ShaderResourceBinding;
+                });
 
                 sprites.Add(sprite);
                 sceneObjectManager.Add(sceneObject);
             }
             coroutine.Run(co());
+
+            sceneObject = new SceneObject()
+            {
+                vertexBuffer = plane.VertexBuffer,
+                skinVertexBuffer = plane.SkinVertexBuffer,
+                indexBuffer = plane.IndexBuffer,
+                numIndices = plane.NumIndices,
+                pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
+                position = new Vector3(0, 0, 0),
+                orientation = Quaternion.Identity,
+                scale = new Vector3(1, 1, 1),
+                RenderShadow = true,
+                Sprite = sprite,
+            };
+
+            Sprite_FrameChanged(sprite);
+        }
+
+        private void Sprite_FrameChanged(FrameEventSprite obj)
+        {
+            var frame = obj.GetCurrentFrame();
+            var offset = frame.Attachments[RightHand] + sceneObject.position;
+            sword.SetPosition(ref offset);
         }
 
         public void Dispose()
         {
+            sprite.FrameChanged -= Sprite_FrameChanged;
             sprites.Remove(sprite);
             sceneObjectManager.Remove(sceneObject);
             spriteMaterialManager.Return(spriteMaterial);
+            objectResolver.Dispose();
         }
     }
 }

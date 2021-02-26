@@ -49,26 +49,32 @@ namespace SceneTest
                             new SpriteMaterialTextureItem(0xffe4ac26, "cc0Textures/Metal038_1K", "jpg"), //Blade (grey)
                         }
                     ));
-                });
 
-                sceneObject = new SceneObject()
-                {
-                    vertexBuffer = plane.VertexBuffer,
-                    skinVertexBuffer = plane.SkinVertexBuffer,
-                    indexBuffer = plane.IndexBuffer,
-                    numIndices = plane.NumIndices,
-                    pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
-                    position = new Vector3(-1, 0, 0),
-                    orientation = new Quaternion(0, 3.14f / 4f, 0),
-                    scale = sprite.BaseScale * 0.75f,
-                    shaderResourceBinding = spriteMaterial.ShaderResourceBinding,
-                    RenderShadow = true,
-                    Sprite = sprite,
-                };
+                    sceneObject.shaderResourceBinding = spriteMaterial.ShaderResourceBinding;
+                });
                 sprites.Add(sprite);
                 sceneObjectManager.Add(sceneObject);
             }
             coroutine.Run(co());
+
+            sceneObject = new SceneObject()
+            {
+                vertexBuffer = plane.VertexBuffer,
+                skinVertexBuffer = plane.SkinVertexBuffer,
+                indexBuffer = plane.IndexBuffer,
+                numIndices = plane.NumIndices,
+                pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
+                position = new Vector3(-1, 0, 0),
+                orientation = new Quaternion(0, 3.14f / 4f, 0),
+                scale = sprite.BaseScale * 0.75f,
+                RenderShadow = true,
+                Sprite = sprite,
+            };
+        }
+
+        public void SetPosition(ref Vector3 position)
+        {
+            this.sceneObject.position = position;
         }
 
         public void Dispose()

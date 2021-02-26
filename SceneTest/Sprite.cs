@@ -27,6 +27,8 @@ namespace SceneTest
         public float Top;
         public float Right;
         public float Bottom;
+
+        public List<Vector3> Attachments { get; set; }
     }
 
     public class SpriteAnimation
@@ -43,7 +45,7 @@ namespace SceneTest
         public SpriteFrame[] frames;
     }
 
-    public class Sprite
+    public class Sprite : ISprite
     {
         private Dictionary<String, SpriteAnimation> animations;
         private SpriteAnimation current;
@@ -62,7 +64,7 @@ namespace SceneTest
                         Top = 0f,
                         Right = 1f,
                         Bottom = 1f
-                    } }) 
+                    } })
                 }
             })
         {
@@ -77,7 +79,7 @@ namespace SceneTest
 
         public void SetAnimation(String animationName)
         {
-            if(!animations.TryGetValue(animationName, out current))
+            if (!animations.TryGetValue(animationName, out current))
             {
                 current = animations.Values.First();
             }
@@ -90,6 +92,68 @@ namespace SceneTest
             frameTime += clock.DeltaTimeMicro;
             frameTime %= duration;
             frame = (int)((float)frameTime / duration * current.frames.Length);
+        }
+
+        public SpriteFrame GetCurrentFrame()
+        {
+            return current.frames[frame];
+        }
+    }
+
+    public class FrameEventSprite : ISprite
+    {
+        private Dictionary<String, SpriteAnimation> animations;
+        private SpriteAnimation current;
+        private long frameTime;
+        private long duration;
+        private int frame;
+
+        public Vector3 BaseScale;
+
+        public event Action<FrameEventSprite> FrameChanged;
+
+        public FrameEventSprite()
+            : this(new Dictionary<string, SpriteAnimation>()
+            {
+                { "default", new SpriteAnimation(1, new SpriteFrame[]{ new SpriteFrame()
+                    {
+                        Left = 0f,
+                        Top = 0f,
+                        Right = 1f,
+                        Bottom = 1f
+                    } })
+                }
+            })
+        {
+
+        }
+
+        public FrameEventSprite(Dictionary<String, SpriteAnimation> animations)
+        {
+            this.animations = animations;
+            SetAnimation(animations.Keys.First());
+        }
+
+        public void SetAnimation(String animationName)
+        {
+            if (!animations.TryGetValue(animationName, out current))
+            {
+                current = animations.Values.First();
+            }
+            frameTime = 0;
+            duration = current.duration;
+        }
+
+        public void Update(Clock clock)
+        {
+            var oldFrame = frame;
+            frameTime += clock.DeltaTimeMicro;
+            frameTime %= duration;
+            frame = (int)((float)frameTime / duration * current.frames.Length);
+            if(FrameChanged != null && frame != oldFrame)
+            {
+                FrameChanged.Invoke(this);
+            }
         }
 
         public SpriteFrame GetCurrentFrame()

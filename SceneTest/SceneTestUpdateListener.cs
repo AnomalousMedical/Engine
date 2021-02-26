@@ -113,7 +113,6 @@ namespace SceneTest
 
             //Make scene
             this.objectResolver.Resolve<Player>();
-            this.objectResolver.Resolve<Sword>();
             this.objectResolver.Resolve<TinyDino, TinyDino.Desc>(c =>
             {
                 c.Translation = new Vector3(-4, 0, -1);

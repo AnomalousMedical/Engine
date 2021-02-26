@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SceneTest
 {
-    class SpriteManager : List<Sprite>
+    class SpriteManager : List<ISprite>
     {
     }
 }
