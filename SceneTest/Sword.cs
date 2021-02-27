@@ -14,17 +14,28 @@ namespace SceneTest
 {
     class Sword : IDisposable
     {
+        private const int PrimaryAttachment = 0;
+
         private ISpriteMaterial spriteMaterial;
         private SceneObjectManager sceneObjectManager;
         private SpriteManager sprites;
         private IDestructionRequest destructionRequest;
         private readonly ISpriteMaterialManager spriteMaterialManager;
         private SceneObject sceneObject;
-        private Sprite sprite = new Sprite() { BaseScale = new Vector3(1, 1, 1) };
+        private Sprite sprite = new Sprite(new Dictionary<string, SpriteAnimation>()
+        {
+            { "default", new SpriteAnimation((int)(0.7f * Clock.SecondsToMicro),
+                new SpriteFrame(0, 0, 1, 1)
+                {
+                    Attachments = new List<SpriteFrameAttachment>()
+                    {
+                        SpriteFrameAttachment.FromFramePosition(6, 25, 0, 32, 32), //Center of grip
+                    }
+                } )
+            },
+        }) { BaseScale = new Vector3(0.75f, 0.75f, 0.75f) };
 
-        private Vector3 position = new Vector3(0f, .65f, 0f);
         private Quaternion orientation = new Quaternion(0, MathFloat.PI / 4f, 0);
-        private Vector3 scale = new Vector3(0.75f, 0.75f, 0.75f);
 
         //private Vector3 position = Vector3.Zero;
         //private Quaternion orientation = Quaternion.Identity;
@@ -73,21 +84,27 @@ namespace SceneTest
                 indexBuffer = plane.IndexBuffer,
                 numIndices = plane.NumIndices,
                 pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
-                position = this.position,
+                position = Vector3.Zero,
                 orientation = this.orientation,
-                scale = sprite.BaseScale * this.scale,
+                scale = sprite.BaseScale,
                 RenderShadow = true,
                 Sprite = sprite,
             };
         }
 
-        public void SetPosition(ref Vector3 position, ref Quaternion rotation, ref Vector3 scale)
+        public void SetPosition(ref Vector3 parentPosition, ref Quaternion parentRotation, ref Vector3 parentScale)
         {
-            var translate = scale * Quaternion.quatRotate(ref rotation, ref this.position);
+            var frame = sprite.GetCurrentFrame();
+            var primaryAttach = frame.Attachments[PrimaryAttachment];
 
-            this.sceneObject.position = position + translate;
-            this.sceneObject.orientation = rotation * this.orientation;
-            this.sceneObject.scale = scale * sprite.BaseScale * this.scale;
+            //Get the primary attachment out of sprite space into world space
+            var scale = sprite.BaseScale * parentScale;
+            var translate = scale * primaryAttach.translate;
+            translate = Quaternion.quatRotate(ref this.orientation, ref translate);
+
+            this.sceneObject.position = parentPosition - translate; //The attachment point on the sprite is an offset to where that sprite attaches, subtract it
+            this.sceneObject.orientation = parentRotation * this.orientation;
+            this.sceneObject.scale = scale;
         }
 
         public void Dispose()

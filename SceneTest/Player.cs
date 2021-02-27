@@ -29,35 +29,23 @@ namespace SceneTest
         const float SpriteStepX = 32f / 128f;
         const float SpriteStepY = 32f / 64f;
 
-        static Vector3 CreateAttachment(float x, float y, float z, float width, float height)
-        {
-            float fx = x / (float)width;
-            float fy = y / (float)height;
-
-            fx = (fx - 0.5f) * 2f;
-            fy = (fy - 0.5f) * 2f;
-            fy *= -1f;
-
-            return new Vector3(fx, fy, z);
-        }
-
         private FrameEventSprite sprite = new FrameEventSprite(new Dictionary<string, SpriteAnimation>()
         {
             { "down", new SpriteAnimation((int)(0.7f * Clock.SecondsToMicro),
                 new SpriteFrame(SpriteStepX * 1, SpriteStepY * 0, SpriteStepX * 2, SpriteStepY * 1)
                 {
-                    Attachments = new List<Vector3>()
+                    Attachments = new List<SpriteFrameAttachment>()
                     {
-                        CreateAttachment(3, 23, -0.01f, 32, 32), //Right Hand
-                        CreateAttachment(26, 20, -0.01f, 32, 32), //Left Hand
+                        SpriteFrameAttachment.FromFramePosition(3, 23, -0.01f, 32, 32), //Right Hand
+                        SpriteFrameAttachment.FromFramePosition(26, 20, -0.01f, 32, 32), //Left Hand
                     }
                 },
                 new SpriteFrame(SpriteStepX * 1, SpriteStepY * 1, SpriteStepX * 2, SpriteStepY * 2)
                 {
-                    Attachments = new List<Vector3>()
+                    Attachments = new List<SpriteFrameAttachment>()
                     {
-                        CreateAttachment(6, 20, -0.01f, 32, 32), //Right Hand
-                        CreateAttachment(29, 23, -0.01f, 32, 32), //Left Hand
+                        SpriteFrameAttachment.FromFramePosition(6, 20, -0.01f, 32, 32), //Right Hand
+                        SpriteFrameAttachment.FromFramePosition(29, 23, -0.01f, 32, 32), //Left Hand
                     }
                 } )
             },
@@ -77,6 +65,14 @@ namespace SceneTest
 
         private Sword sword;
         private Shield shield;
+
+        //Make these configurable
+        private int primaryHand = RightHand;
+        private int secondaryHand = LeftHand;
+
+        private Vector3 position = new Vector3(-1, 0, 0);
+        private Quaternion rotation = Quaternion.Identity;
+        private Vector3 scale = Vector3.ScaleIdentity;
 
         public Player(
             SceneObjectManager sceneObjectManager,
@@ -129,9 +125,9 @@ namespace SceneTest
                 indexBuffer = plane.IndexBuffer,
                 numIndices = plane.NumIndices,
                 pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
-                position = new Vector3(-1, 0, 0),
-                orientation = Quaternion.Identity,
-                scale = new Vector3(1, 1, 1),
+                position = this.position,
+                orientation = this.rotation,
+                scale = this.scale,
                 RenderShadow = true,
                 Sprite = sprite,
             };
@@ -142,11 +138,20 @@ namespace SceneTest
         private void Sprite_FrameChanged(FrameEventSprite obj)
         {
             var frame = obj.GetCurrentFrame();
-            var offset = frame.Attachments[RightHand] + sceneObject.position;
-            sword.SetPosition(ref offset, ref Quaternion.Identity, ref Vector3.ScaleIdentity);
+            var primaryAttach = frame.Attachments[this.primaryHand];
 
-            offset = frame.Attachments[LeftHand] + sceneObject.position;
-            shield.SetPosition(ref offset);
+            {
+                var scale = sprite.BaseScale * this.scale;
+                var offset = scale * primaryAttach.translate;
+                offset = Quaternion.quatRotate(ref this.rotation, ref offset) + this.position;
+                sword.SetPosition(ref offset, ref this.rotation, ref scale);
+            }
+
+            {
+                var secondaryAttach = frame.Attachments[this.secondaryHand];
+                var offset = secondaryAttach.translate + sceneObject.position;
+                shield.SetPosition(ref offset);
+            }
         }
 
         public void Dispose()

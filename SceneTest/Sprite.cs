@@ -8,6 +8,33 @@ using System.Threading.Tasks;
 
 namespace SceneTest
 {
+    public class SpriteFrameAttachment
+    {
+        public Vector3 translate;
+
+        public static SpriteFrameAttachment FromFramePosition(float x, float y, float z, float width, float height)
+        {
+            float fx = x / (float)width;
+            float fy = y / (float)height;
+
+            fx = (fx - 0.5f) * 2f;
+            fy = (fy - 0.5f) * 2f;
+            fy *= -1f;
+
+            return new SpriteFrameAttachment(new Vector3(fx, fy, z));
+        }
+
+        public SpriteFrameAttachment()
+        {
+            this.translate = Vector3.Zero;
+        }
+
+        public SpriteFrameAttachment(Vector3 translate)
+        {
+            this.translate = translate;
+        }
+    }
+
     public class SpriteFrame
     {
         public SpriteFrame()
@@ -28,7 +55,7 @@ namespace SceneTest
         public float Right;
         public float Bottom;
 
-        public List<Vector3> Attachments { get; set; }
+        public List<SpriteFrameAttachment> Attachments { get; set; }
     }
 
     public class SpriteAnimation
@@ -108,7 +135,7 @@ namespace SceneTest
         private long duration;
         private int frame;
 
-        public Vector3 BaseScale;
+        public Vector3 BaseScale = Vector3.ScaleIdentity;
 
         public event Action<FrameEventSprite> FrameChanged;
 
