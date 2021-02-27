@@ -16,7 +16,7 @@ namespace SceneTest
     class SceneTestUpdateListener : UpdateListener, IDisposable
     {
         //Camera Settings
-        float YFov = (float)Math.PI / 4.0f;
+        float YFov = MathFloat.PI / 4.0f;
         float ZNear = 0.1f;
         float ZFar = 100f;
 

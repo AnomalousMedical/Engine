@@ -48,7 +48,7 @@ namespace SceneTest
                 {
                     Attachments = new List<Vector3>()
                     {
-                        CreateAttachment(3, 22, -0.01f, 32, 32), //Right Hand
+                        CreateAttachment(3, 23, -0.01f, 32, 32), //Right Hand
                         CreateAttachment(26, 20, -0.01f, 32, 32), //Left Hand
                     }
                 },
@@ -57,7 +57,7 @@ namespace SceneTest
                     Attachments = new List<Vector3>()
                     {
                         CreateAttachment(6, 20, -0.01f, 32, 32), //Right Hand
-                        CreateAttachment(29, 22, -0.01f, 32, 32), //Left Hand
+                        CreateAttachment(29, 23, -0.01f, 32, 32), //Left Hand
                     }
                 } )
             },
@@ -143,7 +143,7 @@ namespace SceneTest
         {
             var frame = obj.GetCurrentFrame();
             var offset = frame.Attachments[RightHand] + sceneObject.position;
-            sword.SetPosition(ref offset);
+            sword.SetPosition(ref offset, ref Quaternion.Identity, ref Vector3.ScaleIdentity);
 
             offset = frame.Attachments[LeftHand] + sceneObject.position;
             shield.SetPosition(ref offset);
