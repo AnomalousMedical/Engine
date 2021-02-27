@@ -12,8 +12,17 @@ using System.Threading.Tasks;
 
 namespace SceneTest
 {
-    class Sword : IDisposable
+    class Attachment : IDisposable
     {
+        public class Description
+        {
+            public Quaternion Orientation { get; set; } = Quaternion.Identity;
+
+            public Sprite Sprite { get; set; }
+
+            public SpriteMaterialDescription SpriteMaterial { get; set; }
+        }
+
         private const int PrimaryAttachment = 0;
 
         private ISpriteMaterial spriteMaterial;
@@ -22,33 +31,22 @@ namespace SceneTest
         private IDestructionRequest destructionRequest;
         private readonly ISpriteMaterialManager spriteMaterialManager;
         private SceneObject sceneObject;
-        private Sprite sprite = new Sprite(new Dictionary<string, SpriteAnimation>()
-        {
-            { "default", new SpriteAnimation((int)(0.7f * Clock.SecondsToMicro),
-                new SpriteFrame(0, 0, 1, 1)
-                {
-                    Attachments = new List<SpriteFrameAttachment>()
-                    {
-                        SpriteFrameAttachment.FromFramePosition(6, 25, 0, 32, 32), //Center of grip
-                    }
-                } )
-            },
-        }) { BaseScale = new Vector3(0.75f, 0.75f, 0.75f) };
+        private Sprite sprite;
 
-        private Quaternion orientation = new Quaternion(0, MathFloat.PI / 4f, 0);
+        private Quaternion orientation;
 
-        //private Vector3 position = Vector3.Zero;
-        //private Quaternion orientation = Quaternion.Identity;
-        //private Vector3 scale = Vector3.ScaleIdentity * 0.5f;
-
-        public Sword(
+        public Attachment(
             SceneObjectManager sceneObjectManager,
             SpriteManager sprites,
             Plane plane,
             IDestructionRequest destructionRequest,
             IScopedCoroutine coroutine,
-            ISpriteMaterialManager spriteMaterialManager)
+            ISpriteMaterialManager spriteMaterialManager,
+            Description attachmentDescription)
         {
+            this.orientation = attachmentDescription.Orientation;
+            this.sprite = attachmentDescription.Sprite;
+
             this.sceneObjectManager = sceneObjectManager;
             this.sprites = sprites;
             this.destructionRequest = destructionRequest;
@@ -57,18 +55,7 @@ namespace SceneTest
             {
                 yield return coroutine.Await(async () =>
                 {
-                    spriteMaterial = await this.spriteMaterialManager.Checkout(new SpriteMaterialDescription
-                    (
-                        colorMap: "original/greatsword_01.png",
-                        //colorMap: "opengameart/Dungeon Crawl Stone Soup Full/misc/cursor_red.png",
-                        materials: new HashSet<SpriteMaterialTextureItem>
-                        {
-                            new SpriteMaterialTextureItem(0xff802000, "cc0Textures/Leather001_1K", "jpg"), //Hilt (brown)
-                            new SpriteMaterialTextureItem(0xffadadad, "cc0Textures/Metal032_1K", "jpg"), //Blade (grey)
-                            new SpriteMaterialTextureItem(0xff5e5e5f, "cc0Textures/Metal032_1K", "jpg"), //Blade (grey)
-                            new SpriteMaterialTextureItem(0xffe4ac26, "cc0Textures/Metal038_1K", "jpg"), //Blade (grey)
-                        }
-                    ));
+                    spriteMaterial = await this.spriteMaterialManager.Checkout(attachmentDescription.SpriteMaterial);
 
                     sceneObject.shaderResourceBinding = spriteMaterial.ShaderResourceBinding;
                 });

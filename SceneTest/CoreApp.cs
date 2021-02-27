@@ -61,7 +61,8 @@ namespace SceneTest
             services.TryAddScoped<Player>();
             services.TryAddScoped<TinyDino>();
             services.TryAddScoped<TinyDino.Desc>();
-            services.TryAddScoped<Sword>();
+            services.TryAddScoped<Attachment>();
+            services.TryAddScoped<Attachment.Description>();
             services.TryAddScoped<Shield>();
             services.TryAddScoped<Brick>();
             services.TryAddScoped<Floor>();
