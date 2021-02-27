@@ -51,3 +51,7 @@ currently filtering out anything below 32 in the ascii table, could do this in t
 
 ## Tabs in fonts still need to be figrued out
 Haven't tried tabs yet in the fonts. They are their own setting so need to mess with it.
+
+## Physics character input seems backward
+The input for the charcter seems to need a reversed x axis to work. Left / right are +1 and -1 vs -1 and + as would be expected.
+Things collide correctly, so it must be right, but its strange.

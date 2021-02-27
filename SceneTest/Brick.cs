@@ -1,4 +1,7 @@
-﻿using DiligentEngine;
+﻿using BepuPhysics;
+using BepuPhysics.Collidables;
+using BepuPlugin;
+using DiligentEngine;
 using DiligentEngine.GltfPbr;
 using DiligentEngine.GltfPbr.Shapes;
 using Engine;
@@ -12,19 +15,29 @@ namespace SceneTest
 {
     class Brick : IDisposable
     {
+        public class Description : SceneObjectDesc
+        {
+
+        }
+
         private readonly SceneObjectManager sceneObjectManager;
+        private readonly IBepuScene bepuScene;
         private readonly ICC0TextureManager textureManager;
         private IShaderResourceBinding matBinding;
         private SceneObject sceneObject;
+        private StaticHandle staticHandle;
 
         public Brick(
             SceneObjectManager sceneObjectManager,
             DoubleSizeCube cube,
             IDestructionRequest destructionRequest,
             IScopedCoroutine coroutine,
-            ICC0TextureManager textureManager)
+            IBepuScene bepuScene,
+            ICC0TextureManager textureManager,
+            Description description)
         {
             this.sceneObjectManager = sceneObjectManager;
+            this.bepuScene = bepuScene;
             this.textureManager = textureManager;
             sceneObject = new SceneObject()
             {
@@ -33,9 +46,9 @@ namespace SceneTest
                 indexBuffer = cube.IndexBuffer,
                 numIndices = cube.NumIndices,
                 pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE,
-                position = Vector3.Zero,
-                orientation = Quaternion.Identity,
-                scale = Vector3.ScaleIdentity,
+                position = description.Translation,
+                orientation = description.Orientation,
+                scale = description.Scale,
                 RenderShadow = true
             };
 
@@ -52,16 +65,17 @@ namespace SceneTest
                 this.sceneObjectManager.Add(sceneObject);
             }
             coroutine.Run(co());
-        }
 
-        public void SetLocation(Vector3 position, Quaternion orientation)
-        {
-            this.sceneObject.position = position;
-            this.sceneObject.orientation = orientation;
+            staticHandle = bepuScene.Simulation.Statics.Add(
+                new StaticDescription(
+                    new System.Numerics.Vector3(description.Translation.x, description.Translation.y, description.Translation.z),
+                    new System.Numerics.Quaternion(description.Orientation.x, description.Orientation.y, description.Orientation.z, description.Orientation.w),
+                    new CollidableDescription(bepuScene.Simulation.Shapes.Add(new Box(1, 1, 1)), 0.1f)));
         }
 
         public void Dispose()
         {
+            bepuScene.Simulation.Statics.Remove(staticHandle);
             sceneObjectManager.Remove(sceneObject);
             textureManager.Return(matBinding);
         }

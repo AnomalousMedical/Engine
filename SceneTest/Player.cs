@@ -1,4 +1,6 @@
-﻿using DiligentEngine;
+﻿using BepuPlugin;
+using BepuPlugin.Characters;
+using DiligentEngine;
 using DiligentEngine.GltfPbr;
 using DiligentEngine.GltfPbr.Shapes;
 using Engine;
@@ -23,6 +25,7 @@ namespace SceneTest
         private SpriteManager sprites;
         private IDestructionRequest destructionRequest;
         private readonly ISpriteMaterialManager spriteMaterialManager;
+        private readonly IBepuScene bepuScene;
         private SceneObject sceneObject;
         private IObjectResolver objectResolver;
 
@@ -74,6 +77,8 @@ namespace SceneTest
         private Quaternion rotation = Quaternion.Identity;
         private Vector3 scale = Vector3.ScaleIdentity;
 
+        private CharacterInput characterInput;
+
         public Player(
             SceneObjectManager sceneObjectManager,
             SpriteManager sprites,
@@ -81,7 +86,8 @@ namespace SceneTest
             IDestructionRequest destructionRequest,
             IScopedCoroutine coroutine,
             ISpriteMaterialManager spriteMaterialManager,
-            IObjectResolverFactory objectResolverFactory)
+            IObjectResolverFactory objectResolverFactory,
+            IBepuScene bepuScene)
         {
             objectResolver = objectResolverFactory.Create();
 
@@ -135,6 +141,7 @@ namespace SceneTest
             this.sprites = sprites;
             this.destructionRequest = destructionRequest;
             this.spriteMaterialManager = spriteMaterialManager;
+            this.bepuScene = bepuScene;
             IEnumerator<YieldAction> co()
             {
                 yield return coroutine.Await(async () =>
@@ -174,6 +181,18 @@ namespace SceneTest
             };
 
             Sprite_FrameChanged(sprite);
+
+            characterInput = bepuScene.CreateCharacter(new System.Numerics.Vector3(this.position.x, this.position.y, this.position.z));
+        }
+
+        public void Dispose()
+        {
+            bepuScene.DestroyCharacter(characterInput);
+            sprite.FrameChanged -= Sprite_FrameChanged;
+            sprites.Remove(sprite);
+            sceneObjectManager.Remove(sceneObject);
+            spriteMaterialManager.Return(spriteMaterial);
+            objectResolver.Dispose();
         }
 
         private void Sprite_FrameChanged(FrameEventSprite obj)
@@ -196,13 +215,16 @@ namespace SceneTest
             }
         }
 
-        public void Dispose()
+        public void SyncPhysics(Clock clock)
         {
-            sprite.FrameChanged -= Sprite_FrameChanged;
-            sprites.Remove(sprite);
-            sceneObjectManager.Remove(sceneObject);
-            spriteMaterialManager.Return(spriteMaterial);
-            objectResolver.Dispose();
+            var body = bepuScene.Simulation.Bodies.GetBodyReference(characterInput.BodyHandle);
+            var pose = body.Pose;
+            var bodPos = pose.Position;
+            this.sceneObject.position = this.position = new Vector3(bodPos.X, bodPos.Y, bodPos.Z);
+            var bodOrientation = pose.Orientation;
+            this.sceneObject.orientation = this.rotation = new Quaternion(bodOrientation.X, bodOrientation.Y, bodOrientation.Z, bodOrientation.W);
+            Sprite_FrameChanged(sprite);
+            Console.WriteLine(this.sceneObject.position);
         }
     }
 }

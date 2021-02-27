@@ -51,6 +51,8 @@ namespace SceneTest
         private readonly IObjectResolver objectResolver;
         private SoundAndSource bgMusicSound;
 
+        private Player player;
+
         private PbrRenderer pbrRenderer;
         private AutoPtr<ITextureView> environmentMapSRV;
 
@@ -116,7 +118,7 @@ namespace SceneTest
             pbrRenderer.PrecomputeCubemaps(renderDevice, immediateContext, environmentMapSRV.Obj);
 
             //Make scene
-            this.objectResolver.Resolve<Player>();
+            this.player = this.objectResolver.Resolve<Player>();
             this.objectResolver.Resolve<TinyDino, TinyDino.Desc>(c =>
             {
                 c.Translation = new Vector3(-4, 0, -1);
@@ -150,8 +152,11 @@ namespace SceneTest
 
         private void AddBrick(Vector3 trans, Quaternion rot)
         {
-            var brick = objectResolver.Resolve<Brick>();
-            brick.SetLocation(trans * 2, rot);
+            var brick = objectResolver.Resolve<Brick, Brick.Description>(o =>
+            {
+                o.Translation = trans * 2;
+                o.Orientation = rot;
+            });
         }
 
         public void exceededMaxDelta()
@@ -240,6 +245,7 @@ namespace SceneTest
         {
             //Update
             bepuScene.Update(clock, new System.Numerics.Vector3(0, 0, 1));
+            player.SyncPhysics(clock);
             timeClock.Update(clock);
             UpdateGui(clock);
             cameraControls.UpdateInput(clock);

@@ -65,6 +65,7 @@ namespace SceneTest
             services.TryAddScoped<Attachment>();
             services.TryAddScoped<Attachment.Description>();
             services.TryAddScoped<Brick>();
+            services.TryAddScoped<Brick.Description>();
             services.TryAddScoped<Floor>();
             services.TryAddScoped<Floor.Description>();
 

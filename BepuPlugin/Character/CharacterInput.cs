@@ -25,6 +25,13 @@ namespace BepuPlugin.Characters
         float speed;
         Capsule shape;
 
+        ButtonEvent moveForward = new ButtonEvent(Engine.EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_W });
+        ButtonEvent moveBackward = new ButtonEvent(Engine.EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_S });
+        ButtonEvent moveRight = new ButtonEvent(Engine.EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_D });
+        ButtonEvent moveLeft = new ButtonEvent(Engine.EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_A });
+        ButtonEvent sprint = new ButtonEvent(Engine.EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_LSHIFT });
+        ButtonEvent jump = new ButtonEvent(Engine.EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_SPACE });
+
         public BodyHandle BodyHandle { get { return bodyHandle; } }
 
         public CharacterInput(EventManager eventManager, CharacterControllers characters, Vector3 initialPosition, Capsule shape,
@@ -32,6 +39,14 @@ namespace BepuPlugin.Characters
             float jumpVelocity, float speed, float maximumSlope = MathF.PI * 0.25f)
         {
             this.eventManager = eventManager;
+
+            eventManager.addEvent(moveForward);
+            eventManager.addEvent(moveBackward);
+            eventManager.addEvent(moveLeft);
+            eventManager.addEvent(moveRight);
+            eventManager.addEvent(sprint);
+            eventManager.addEvent(jump);
+
             this.characters = characters;
             var shapeIndex = characters.Simulation.Shapes.Add(shape);
 
@@ -50,13 +65,6 @@ namespace BepuPlugin.Characters
             this.shape = shape;
         }
 
-        ButtonEvent moveForward = new ButtonEvent(Engine.EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_W });
-        ButtonEvent moveBackward = new ButtonEvent(Engine.EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_S });
-        ButtonEvent moveLeft = new ButtonEvent(Engine.EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_A });
-        ButtonEvent moveRight = new ButtonEvent(Engine.EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_D });
-        ButtonEvent sprint = new ButtonEvent(Engine.EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_LSHIFT });
-        ButtonEvent jump = new ButtonEvent(Engine.EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_SPACE });
-
         public void UpdateCharacterGoals(Vector3 viewDirection, float simulationTimestepDuration)
         {
             Vector2 movementDirection = default;
@@ -70,11 +78,15 @@ namespace BepuPlugin.Characters
             }
             if (moveLeft.Down)
             {
-                movementDirection += new Vector2(-1, 0);
+                //This seems backward, but there must be something different about this scene setup vs the demo
+                //Would think left is -1
+                movementDirection += new Vector2(1, 0);
             }
             if (moveRight.Down)
             {
-                movementDirection += new Vector2(1, 0);
+                //This seems backward, but there must be something different about this scene setup vs the demo
+                //Would think right is +1
+                movementDirection += new Vector2(-1, 0);
             }
             var movementDirectionLengthSquared = movementDirection.LengthSquared();
             if (movementDirectionLengthSquared > 0)

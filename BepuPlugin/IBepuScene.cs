@@ -1,4 +1,5 @@
 ﻿using BepuPhysics;
+using BepuPlugin.Characters;
 using Engine.Platform;
 using System.Numerics;
 
@@ -8,7 +9,10 @@ namespace BepuPlugin
     {
         Simulation Simulation { get; }
 
-        void CreateCharacter(Vector3 position);
+        CharacterInput CreateCharacter(Vector3 position);
+
+        void DestroyCharacter(CharacterInput character);
+
         void Update(Clock clock, Vector3 cameraForward);
     }
 }

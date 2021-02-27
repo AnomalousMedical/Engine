@@ -40,7 +40,6 @@ namespace BepuPlugin
 
         public void Dispose()
         {
-            character?.Dispose();
             //If you intend to reuse the BufferPool, disposing the simulation is a good idea- it returns all the buffers to the pool for reuse.
             //Here, we dispose it, but it's not really required; we immediately thereafter clear the BufferPool of all held memory.
             //Note that failing to dispose buffer pools can result in memory leaks.
@@ -58,9 +57,15 @@ namespace BepuPlugin
             simulation.Timestep(timestep, threadDispatcher);
         }
 
-        public void CreateCharacter(Vector3 position)
+        public CharacterInput CreateCharacter(Vector3 position)
         {
             character = new CharacterInput(eventManager, characters, position, new Capsule(0.5f, 1), 0.1f, 1, 20, 100, 6, 4, MathF.PI * 0.4f);
+            return character;
+        }
+
+        public void DestroyCharacter(CharacterInput character)
+        {
+            character.Dispose();
         }
 
         public Simulation Simulation => simulation;
