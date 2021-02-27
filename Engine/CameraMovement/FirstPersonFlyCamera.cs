@@ -7,7 +7,7 @@ namespace Engine.CameraMovement
 {
     public class FirstPersonFlyCamera : IDisposable
     {
-        private const float HALF_PI = (float)Math.PI / 2.0f - 0.001f;
+        private const float HALF_PI = MathFloat.PI / 2.0f - 0.001f;
         private readonly EventManager eventManager;
         private readonly IScaleHelper scaleHelper;
         Vector3 camPos = Vector3.Zero;

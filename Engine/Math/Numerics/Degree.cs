@@ -13,7 +13,7 @@ namespace Engine
         /// <summary>
         /// Conversion factor from radians to degrees.
         /// </summary>
-        public const float FromRadian = 180.0f / (float)Math.PI;
+        public const float FromRadian = 180.0f / MathFloat.PI;
 
         public float Value;
 

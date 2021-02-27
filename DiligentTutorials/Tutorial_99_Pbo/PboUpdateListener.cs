@@ -14,7 +14,7 @@ namespace Tutorial_99_Pbo
     {
 
         //Camera Settings
-        float YFov = (float)Math.PI / 4.0f;
+        float YFov = MathFloat.PI / 4.0f;
         float ZNear = 0.1f;
         float ZFar = 100f;
 
@@ -207,7 +207,7 @@ namespace Tutorial_99_Pbo
             immediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            var camRotAmount = camRotSpeed < 0.00001f ? 0f : (clock.CurrentTimeMicro * Clock.MicroToSeconds) / camRotSpeed % (2 * (float)Math.PI);
+            var camRotAmount = camRotSpeed < 0.00001f ? 0f : (clock.CurrentTimeMicro * Clock.MicroToSeconds) / camRotSpeed % (2 * MathFloat.PI);
             var CameraView = Matrix4x4.RotationX(camRotAmount) * Matrix4x4.Translation(0.0f, 0.0f, 5.0f);
 
             // Apply pretransform matrix that rotates the scene according the surface orientation
@@ -224,7 +224,7 @@ namespace Tutorial_99_Pbo
             pbrCameraAndLight.SetLight(ref lightDirection, ref lightColor, lightIntensity);
 
             var trans = new Vector3(0, 0, 0);
-            var rotAmount = cubeRotSpeed < 0.0001f ? 0f : (clock.CurrentTimeMicro * Clock.MicroToSeconds) / cubeRotSpeed % (2 * (float)Math.PI);
+            var rotAmount = cubeRotSpeed < 0.0001f ? 0f : (clock.CurrentTimeMicro * Clock.MicroToSeconds) / cubeRotSpeed % (2 * MathFloat.PI);
             var rot = new Quaternion(rotAmount * yawFactor, rotAmount * pitchFactor, rotAmount * rollFactor);
 
             pbrRenderer.Begin(immediateContext);

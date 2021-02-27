@@ -701,12 +701,12 @@ namespace DiligentEngine.GltfPbr
 
             var Matrices = new float4x4[6]
             {
-                /* +X */ float4x4.RotationY(+(float)Math.PI / 2f),
-                /* -X */ float4x4.RotationY(-(float)Math.PI / 2f),
-                /* +Y */ float4x4.RotationX(-(float)Math.PI / 2f),
-                /* -Y */ float4x4.RotationX(+(float)Math.PI / 2f),
+                /* +X */ float4x4.RotationY(+MathFloat.PI / 2f),
+                /* -X */ float4x4.RotationY(-MathFloat.PI / 2f),
+                /* +Y */ float4x4.RotationX(-MathFloat.PI / 2f),
+                /* -Y */ float4x4.RotationX(+MathFloat.PI / 2f),
                 /* +Z */ float4x4.Identity,
-                /* -Z */ float4x4.RotationY((float)Math.PI)
+                /* -Z */ float4x4.RotationY(MathFloat.PI)
             };
 
             pCtx.SetPipelineState(m_pPrecomputeIrradianceCubePSO.Obj);

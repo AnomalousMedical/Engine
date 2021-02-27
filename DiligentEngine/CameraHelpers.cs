@@ -47,15 +47,15 @@ namespace DiligentEngine
             {
                 case SURFACE_TRANSFORM.SURFACE_TRANSFORM_ROTATE_90:
                     // The image content is rotated 90 degrees clockwise.
-                    return Matrix4x4.RotationArbitrary(f3CameraViewAxis, -(float)Math.PI / 2.0f);
+                    return Matrix4x4.RotationArbitrary(f3CameraViewAxis, -MathFloat.PI / 2.0f);
 
                 case SURFACE_TRANSFORM.SURFACE_TRANSFORM_ROTATE_180:
                     // The image content is rotated 180 degrees clockwise.
-                    return Matrix4x4.RotationArbitrary(f3CameraViewAxis, -(float)Math.PI);
+                    return Matrix4x4.RotationArbitrary(f3CameraViewAxis, -MathFloat.PI);
 
                 case SURFACE_TRANSFORM.SURFACE_TRANSFORM_ROTATE_270:
                     // The image content is rotated 270 degrees clockwise.
-                    return Matrix4x4.RotationArbitrary(f3CameraViewAxis, -(float)Math.PI * 3.0f / 2.0f);
+                    return Matrix4x4.RotationArbitrary(f3CameraViewAxis, -MathFloat.PI * 3.0f / 2.0f);
 
                 case SURFACE_TRANSFORM.SURFACE_TRANSFORM_OPTIMAL:
                     //UNEXPECTED("SURFACE_TRANSFORM_OPTIMAL is only valid as parameter during swap chain initialization.");

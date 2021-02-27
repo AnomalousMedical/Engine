@@ -638,7 +638,7 @@ namespace Tutorial13_ShadowMap
 
             // Get projection matrix adjusted to the current screen orientation
             var SrfPreTransform = CameraHelpers.GetSurfacePretransformMatrix(new Vector3(0, 0, 1), preTransform);
-            var Proj = CameraHelpers.GetAdjustedProjectionMatrix((float)Math.PI / 4.0f, 0.1f, 100.0f, window.WindowWidth, window.WindowHeight, preTransform);
+            var Proj = CameraHelpers.GetAdjustedProjectionMatrix(MathFloat.PI / 4.0f, 0.1f, 100.0f, window.WindowWidth, window.WindowHeight, preTransform);
 
             var trans = Matrix4x4.Translation(-firstPersonFlyCamera.Position);
             var rot = firstPersonFlyCamera.Orientation.toRotationMatrix4x4();
@@ -785,7 +785,7 @@ namespace Tutorial13_ShadowMap
 
         private unsafe void UpdateLight(Clock clock)
         {
-            var rotAmount = clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * (float)Math.PI);
+            var rotAmount = clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * MathFloat.PI);
             var rot = new Quaternion(0f, rotAmount, 0f);
             m_LightDirection = rot.toRotationMatrix4x4() * Vector3.Down;
             //m_LightDirection = Vector3.Down;

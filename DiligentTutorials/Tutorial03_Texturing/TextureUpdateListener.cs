@@ -331,7 +331,7 @@ namespace DiligentEngineCube
 
             {
                 var trans = new Vector3(0, 0, 0);
-                var rot = new Quaternion(clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * (float)Math.PI), 0f, 0f);
+                var rot = new Quaternion(clock.CurrentTimeMicro * Clock.MicroToSeconds % (2 * MathFloat.PI), 0f, 0f);
 
                 var CubeModelTransform = rot.toRotationMatrix4x4(trans);
 
@@ -341,7 +341,7 @@ namespace DiligentEngineCube
                 var SrfPreTransform = CameraHelpers.GetSurfacePretransformMatrix(new Vector3(0, 0, 1), preTransform);
 
                 // Get projection matrix adjusted to the current screen orientation
-                var Proj = CameraHelpers.GetAdjustedProjectionMatrix((float)Math.PI / 4.0f, 0.1f, 100f, window.WindowWidth, window.WindowHeight, preTransform);
+                var Proj = CameraHelpers.GetAdjustedProjectionMatrix(MathFloat.PI / 4.0f, 0.1f, 100f, window.WindowWidth, window.WindowHeight, preTransform);
 
                 // Compute world-view-projection matrix
                 var m_WorldViewProjMatrix = CubeModelTransform * View * SrfPreTransform * Proj;

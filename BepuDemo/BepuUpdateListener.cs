@@ -20,7 +20,7 @@ namespace BepuDemo
         private const string CC0TexturePath = "cc0Textures/Wood049_1K";
 
         //Camera Settings
-        float YFov = (float)Math.PI / 4.0f;
+        float YFov = MathFloat.PI / 4.0f;
         float ZNear = 0.1f;
         float ZFar = 100f;
 
