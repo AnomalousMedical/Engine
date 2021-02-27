@@ -87,10 +87,11 @@ namespace SceneTest
             //Get the primary attachment out of sprite space into world space
             var scale = sprite.BaseScale * parentScale;
             var translate = scale * primaryAttach.translate;
-            translate = Quaternion.quatRotate(ref this.orientation, ref translate);
+            var fullRot = parentRotation * this.orientation;
+            translate = Quaternion.quatRotate(ref fullRot, ref translate);
 
             this.sceneObject.position = parentPosition - translate; //The attachment point on the sprite is an offset to where that sprite attaches, subtract it
-            this.sceneObject.orientation = parentRotation * this.orientation;
+            this.sceneObject.orientation = fullRot;
             this.sceneObject.scale = scale;
         }
 
