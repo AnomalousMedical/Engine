@@ -64,7 +64,7 @@ namespace SceneTest
         });
 
         private Attachment sword;
-        private Shield shield;
+        private Attachment shield;
 
         //Make these configurable
         private int primaryHand = RightHand;
@@ -114,7 +114,20 @@ namespace SceneTest
                     }
                 );
             });
-            shield = objectResolver.Resolve<Shield>();
+
+            shield = objectResolver.Resolve<Attachment, Attachment.Description>(o =>
+            {
+                o.Sprite = new Sprite() { BaseScale = new Vector3(0.75f, 0.75f, 0.75f) };
+                o.SpriteMaterial = new SpriteMaterialDescription
+                (
+                    colorMap: "original/shield_of_reflection.png",
+                    //colorMap: "opengameart/Dungeon Crawl Stone Soup Full/misc/cursor_red.png",
+                    materials: new HashSet<SpriteMaterialTextureItem>
+                    {
+                        new SpriteMaterialTextureItem(0xffa0a0a0, "cc0Textures/Pipe002_1K", "jpg"), //Blade (grey)
+                    }
+                );
+            });
 
             sprite.FrameChanged += Sprite_FrameChanged;
 
@@ -166,10 +179,10 @@ namespace SceneTest
         private void Sprite_FrameChanged(FrameEventSprite obj)
         {
             var frame = obj.GetCurrentFrame();
-            var primaryAttach = frame.Attachments[this.primaryHand];
 
+            var scale = sprite.BaseScale * this.scale;
             {
-                var scale = sprite.BaseScale * this.scale;
+                var primaryAttach = frame.Attachments[this.primaryHand];
                 var offset = scale * primaryAttach.translate;
                 offset = Quaternion.quatRotate(ref this.rotation, ref offset) + this.position;
                 sword.SetPosition(ref offset, ref this.rotation, ref scale);
@@ -177,8 +190,9 @@ namespace SceneTest
 
             {
                 var secondaryAttach = frame.Attachments[this.secondaryHand];
-                var offset = secondaryAttach.translate + sceneObject.position;
-                shield.SetPosition(ref offset);
+                var offset = scale * secondaryAttach.translate;
+                offset = Quaternion.quatRotate(ref this.rotation, ref offset) + this.position;
+                shield.SetPosition(ref offset, ref this.rotation, ref scale);
             }
         }
 

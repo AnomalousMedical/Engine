@@ -90,7 +90,8 @@ namespace SceneTest
                         Left = 0f,
                         Top = 0f,
                         Right = 1f,
-                        Bottom = 1f
+                        Bottom = 1f,
+                        Attachments = new List<SpriteFrameAttachment>(){ new SpriteFrameAttachment() }
                     } })
                 }
             })
