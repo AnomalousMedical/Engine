@@ -70,7 +70,7 @@ namespace SceneTest
                 new StaticDescription(
                     new System.Numerics.Vector3(description.Translation.x, description.Translation.y, description.Translation.z),
                     new System.Numerics.Quaternion(description.Orientation.x, description.Orientation.y, description.Orientation.z, description.Orientation.w),
-                    new CollidableDescription(bepuScene.Simulation.Shapes.Add(new Box(1, 1, 1)), 0.1f)));
+                    new CollidableDescription(bepuScene.Simulation.Shapes.Add(new Box(2, 2, 2)), 0.1f))); //Boxes are full extents
         }
 
         public void Dispose()

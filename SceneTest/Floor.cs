@@ -61,7 +61,8 @@ namespace SceneTest
 
             //Load this stuff better
             var simulation = bepuScene.Simulation;
-            var box = new Box(description.Scale.x, description.Scale.y, description.Scale.z);
+            var floorBoxSize = description.Scale * 2;
+            var box = new Box(floorBoxSize.x, floorBoxSize.y, floorBoxSize.z);
             staticHandle = simulation.Statics.Add(
                 new StaticDescription(
                     new System.Numerics.Vector3(description.Translation.x, description.Translation.y, description.Translation.z),
