@@ -49,6 +49,7 @@ namespace SceneTest
             services.AddSoundPlugin(pluginManager);
             services.AddSharpGui();
             services.AddFirstPersonFlyCamera();
+            services.AddBepuPlugin();
 
             //Add this app's services
             services.TryAddSingleton<SceneTestUpdateListener>();
@@ -65,6 +66,7 @@ namespace SceneTest
             services.TryAddScoped<Attachment.Description>();
             services.TryAddScoped<Brick>();
             services.TryAddScoped<Floor>();
+            services.TryAddScoped<Floor.Description>();
 
             return true;
         }

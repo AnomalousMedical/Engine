@@ -828,7 +828,7 @@ namespace DiligentEngine.GltfPbr
             )
         {
             //Have to take inverse of rotations to have renderer render them correctly
-            var nodeMatrix = rotation.inverse().toRotationMatrix4x4() * Matrix4x4.Scale(scale) * Matrix4x4.Translation(position);
+            var nodeMatrix = Matrix4x4.Scale(scale) * rotation.inverse().toRotationMatrix4x4() * Matrix4x4.Translation(position);
             Render(pCtx, materialSRB, vertexBuffer, skinVertexBuffer, indexBuffer, numIndices, ref nodeMatrix, renderAttribs);
         }
 

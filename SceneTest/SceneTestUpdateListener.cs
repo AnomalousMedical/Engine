@@ -1,4 +1,5 @@
 ﻿using Anomalous.OSPlatform;
+using BepuPlugin;
 using DiligentEngine;
 using DiligentEngine.GltfPbr;
 using Engine;
@@ -46,6 +47,7 @@ namespace SceneTest
         private readonly SceneObjectManager sceneObjects;
         private readonly SpriteManager sprites;
         private readonly ICoroutineRunner coroutineRunner;
+        private readonly IBepuScene bepuScene;
         private readonly IObjectResolver objectResolver;
         private SoundAndSource bgMusicSound;
 
@@ -72,7 +74,8 @@ namespace SceneTest
             SceneObjectManager sceneObjects,
             SpriteManager sprites,
             IObjectResolverFactory objectResolverFactory,
-            ICoroutineRunner coroutineRunner)
+            ICoroutineRunner coroutineRunner,
+            IBepuScene bepuScene)
         {
             cameraControls.Position = new Vector3(0, 0, -12);
 
@@ -93,6 +96,7 @@ namespace SceneTest
             this.sceneObjects = sceneObjects;
             this.sprites = sprites;
             this.coroutineRunner = coroutineRunner;
+            this.bepuScene = bepuScene;
             this.objectResolver = objectResolverFactory.Create();
             currentHour = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 10, 500, 35)), Max = 24 };
             Initialize();
@@ -235,6 +239,7 @@ namespace SceneTest
         public unsafe void sendUpdate(Clock clock)
         {
             //Update
+            bepuScene.Update(clock, new System.Numerics.Vector3(0, 0, 1));
             timeClock.Update(clock);
             UpdateGui(clock);
             cameraControls.UpdateInput(clock);

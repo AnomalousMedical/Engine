@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Dependencies\FreeImage.NET\Library\FreeImageDotNet.csproj" />
+    <ProjectReference Include="..\BepuPlugin\BepuPlugin.csproj" />
     <ProjectReference Include="..\DiligentEngine.GltfPbr\DiligentEngine.GltfPbr.csproj" />
     <ProjectReference Include="..\DiligentEngine\DiligentEngine.csproj" />
     <ProjectReference Include="..\Engine\Engine.csproj" />
