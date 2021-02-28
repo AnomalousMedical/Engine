@@ -62,17 +62,18 @@ namespace BepuPlugin.Characters
 
         public void UpdateCharacterGoals(Vector3 viewDirection, float simulationTimestepDuration)
         {
-            var movementDirectionLengthSquared = movementDirection.LengthSquared();
+            var movementDirectionCalc = this.movementDirection;
+            var movementDirectionLengthSquared = movementDirectionCalc.LengthSquared();
             if (movementDirectionLengthSquared > 0)
             {
-                movementDirection /= MathF.Sqrt(movementDirectionLengthSquared);
+                movementDirectionCalc /= MathF.Sqrt(movementDirectionLengthSquared);
             }
 
             ref var character = ref characters.GetCharacterByBodyHandle(bodyHandle);
             character.TryJump = tryJump;
             var characterBody = new BodyReference(bodyHandle, characters.Simulation.Bodies);
             var effectiveSpeed = sprint ? speed * sprintMultiple : speed;
-            var newTargetVelocity = movementDirection * effectiveSpeed;
+            var newTargetVelocity = movementDirectionCalc * effectiveSpeed;
             
             //Modifying the character's raw data does not automatically wake the character up, so we do so explicitly if necessary.
             //If you don't explicitly wake the character up, it won't respond to the changed motion goals.
@@ -103,7 +104,7 @@ namespace BepuPlugin.Characters
                 {
                     characterRight /= MathF.Sqrt(rightLengthSquared);
                     var characterForward = Vector3.Cross(characterUp, characterRight);
-                    var worldMovementDirection = characterRight * movementDirection.X + characterForward * movementDirection.Y;
+                    var worldMovementDirection = characterRight * movementDirectionCalc.X + characterForward * movementDirectionCalc.Y;
                     var currentVelocity = Vector3.Dot(characterBody.Velocity.Linear, worldMovementDirection);
                     //We'll arbitrarily set air control to be a fraction of supported movement's speed/force.
                     const float airControlForceScale = .2f;

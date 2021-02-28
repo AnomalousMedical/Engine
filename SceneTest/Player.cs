@@ -19,6 +19,14 @@ namespace SceneTest
 {
     class Player : IDisposable
     {
+        public class Description : SceneObjectDesc
+        {
+            public int PrimaryHand = RightHand;
+            public int SecondaryHand = LeftHand;
+            public EventLayers EventLayer = EventLayers.Default;
+            public GamepadId Gamepad = GamepadId.Pad1;
+        }
+
         public const int RightHand = 0;
         public const int LeftHand = 1;
 
@@ -28,6 +36,8 @@ namespace SceneTest
         private IDestructionRequest destructionRequest;
         private readonly ISpriteMaterialManager spriteMaterialManager;
         private readonly IBepuScene bepuScene;
+        private readonly EventManager eventManager;
+        private readonly EventLayer eventLayer;
         private SceneObject sceneObject;
         private IObjectResolver objectResolver;
 
@@ -71,16 +81,20 @@ namespace SceneTest
         private Attachment sword;
         private Attachment shield;
 
-        //Make these configurable
-        private int primaryHand = RightHand;
-        private int secondaryHand = LeftHand;
-
-        private Vector3 position = new Vector3(-1, 0, 0);
-        private Quaternion rotation = Quaternion.Identity;
-        private Vector3 scale = Vector3.ScaleIdentity;
-
         private CharacterMover characterMover;
         private Box shape;
+
+        private int primaryHand;
+        private int secondaryHand;
+        private GamepadId gamepadId;
+        private bool allowJoystickInput;
+
+        ButtonEvent moveForward = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_W });
+        ButtonEvent moveBackward = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_S });
+        ButtonEvent moveRight = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_D });
+        ButtonEvent moveLeft = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_A });
+        ButtonEvent sprint = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_LSHIFT });
+        ButtonEvent jump = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_SPACE });
 
         public Player(
             SceneObjectManager sceneObjectManager,
@@ -90,8 +104,133 @@ namespace SceneTest
             IScopedCoroutine coroutine,
             ISpriteMaterialManager spriteMaterialManager,
             IObjectResolverFactory objectResolverFactory,
-            IBepuScene bepuScene)
+            IBepuScene bepuScene,
+            EventManager eventManager,
+            Description description)
         {
+            this.primaryHand = description.PrimaryHand;
+            this.secondaryHand = description.SecondaryHand;
+            this.gamepadId = description.Gamepad;
+
+            //Events
+            eventManager.addEvent(moveForward);
+            eventManager.addEvent(moveBackward);
+            eventManager.addEvent(moveLeft);
+            eventManager.addEvent(moveRight);
+            eventManager.addEvent(sprint);
+            eventManager.addEvent(jump);
+
+            eventLayer = eventManager[description.EventLayer];
+            eventLayer.OnUpdate += EventLayer_OnUpdate;
+
+            //These events are owned by this class, so don't have to unsubscribe
+            moveForward.FirstFrameDownEvent += l =>
+            {
+                if (l.EventProcessingAllowed)
+                {
+                    characterMover.movementDirection.Y = 1;
+                    l.alertEventsHandled();
+                    allowJoystickInput = false;
+                }
+            };
+            moveForward.FirstFrameUpEvent += l =>
+            {
+                if (l.EventProcessingAllowed)
+                {
+                    if (characterMover.movementDirection.Y > 0.5f) { characterMover.movementDirection.Y = 0; }
+                    l.alertEventsHandled();
+                    allowJoystickInput = moveForward.Up && moveBackward.Up && moveLeft.Up && moveRight.Up;
+                }
+            };
+            moveBackward.FirstFrameDownEvent += l =>
+            {
+                if (l.EventProcessingAllowed)
+                {
+                    characterMover.movementDirection.Y = -1;
+                    l.alertEventsHandled();
+                    allowJoystickInput = false;
+                }
+            };
+            moveBackward.FirstFrameUpEvent += l =>
+            {
+                if (l.EventProcessingAllowed)
+                {
+                    if (characterMover.movementDirection.Y < -0.5f) { characterMover.movementDirection.Y = 0; }
+                    l.alertEventsHandled();
+                    allowJoystickInput = moveForward.Up && moveBackward.Up && moveLeft.Up && moveRight.Up;
+                }
+            };
+            //The x directions for left and right here seem reversed, but work
+            moveLeft.FirstFrameDownEvent += l =>
+            {
+                if (l.EventProcessingAllowed)
+                {
+                    characterMover.movementDirection.X = 1;
+                    l.alertEventsHandled();
+                    allowJoystickInput = false;
+                }
+            };
+            moveLeft.FirstFrameUpEvent += l =>
+            {
+                if (l.EventProcessingAllowed)
+                {
+                    if (characterMover.movementDirection.X > 0.5f) { characterMover.movementDirection.X = 0; }
+                    l.alertEventsHandled();
+                    allowJoystickInput = moveForward.Up && moveBackward.Up && moveLeft.Up && moveRight.Up;
+                }
+            };
+            moveRight.FirstFrameDownEvent += l =>
+            {
+                if (l.EventProcessingAllowed)
+                {
+                    characterMover.movementDirection.X = -1;
+                    l.alertEventsHandled();
+                    allowJoystickInput = false;
+                }
+            };
+            moveRight.FirstFrameUpEvent += l =>
+            {
+                if (l.EventProcessingAllowed)
+                {
+                    if (characterMover.movementDirection.X < 0.5f) { characterMover.movementDirection.X = 0; }
+                    l.alertEventsHandled();
+                    allowJoystickInput = moveForward.Up && moveBackward.Up && moveLeft.Up && moveRight.Up;
+                }
+            };
+            jump.FirstFrameDownEvent += l =>
+            {
+                if (l.EventProcessingAllowed)
+                {
+                    characterMover.tryJump = true;
+                    l.alertEventsHandled();
+                }
+            };
+            jump.FirstFrameUpEvent += l =>
+            {
+                if (l.EventProcessingAllowed)
+                {
+                    characterMover.tryJump = false;
+                    l.alertEventsHandled();
+                }
+            };
+            sprint.FirstFrameDownEvent += l =>
+            {
+                if (l.EventProcessingAllowed)
+                {
+                    characterMover.sprint = true;
+                    l.alertEventsHandled();
+                }
+            };
+            sprint.FirstFrameUpEvent += l =>
+            {
+                if (l.EventProcessingAllowed)
+                {
+                    characterMover.sprint = false;
+                    l.alertEventsHandled();
+                }
+            };
+
+            //Sub objects
             objectResolver = objectResolverFactory.Create();
 
             sword = objectResolver.Resolve<Attachment, Attachment.Description>(o =>
@@ -145,6 +284,7 @@ namespace SceneTest
             this.destructionRequest = destructionRequest;
             this.spriteMaterialManager = spriteMaterialManager;
             this.bepuScene = bepuScene;
+            this.eventManager = eventManager;
             IEnumerator<YieldAction> co()
             {
                 yield return coroutine.Await(async () =>
@@ -176,9 +316,9 @@ namespace SceneTest
                 indexBuffer = plane.IndexBuffer,
                 numIndices = plane.NumIndices,
                 pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
-                position = this.position,
-                orientation = this.rotation,
-                scale = this.scale,
+                position = description.Translation,
+                orientation = description.Orientation,
+                scale = description.Scale,
                 RenderShadow = true,
                 Sprite = sprite,
             };
@@ -198,15 +338,35 @@ namespace SceneTest
             //This is effectively equivalent to giving it an infinite inertia tensor- in other words, no torque will cause it to rotate.
             var mass = 1f;
             var bodyDesc = 
-                BodyDescription.CreateDynamic(this.position.ToSystemNumerics(), new BodyInertia { InverseMass = 1f / mass },
+                BodyDescription.CreateDynamic(description.Translation.ToSystemNumerics(), new BodyInertia { InverseMass = 1f / mass },
                 new CollidableDescription(shapeIndex, moverDesc.SpeculativeMargin),
                 new BodyActivityDescription(shape.HalfHeight * 0.02f));
 
             characterMover = bepuScene.CreateCharacterMover(bodyDesc, moverDesc);
         }
 
+        private void EventLayer_OnUpdate(EventLayer eventLayer)
+        {
+            if (eventLayer.EventProcessingAllowed && allowJoystickInput)
+            {
+                var pad = eventLayer.getGamepad(gamepadId);
+                var stick = pad.LStick;
+                stick.x *= -1f;
+                characterMover.movementDirection = stick.ToSystemNumerics();
+            }
+        }
+
         public void Dispose()
         {
+            eventManager.removeEvent(moveForward);
+            eventManager.removeEvent(moveBackward);
+            eventManager.removeEvent(moveLeft);
+            eventManager.removeEvent(moveRight);
+            eventManager.removeEvent(sprint);
+            eventManager.removeEvent(jump);
+
+            eventLayer.OnUpdate -= EventLayer_OnUpdate; //Do have to remove this since its on the layer itself
+
             bepuScene.DestroyCharacterMover(characterMover);
             sprite.FrameChanged -= Sprite_FrameChanged;
             sprites.Remove(sprite);
@@ -219,19 +379,19 @@ namespace SceneTest
         {
             var frame = obj.GetCurrentFrame();
 
-            var scale = sprite.BaseScale * this.scale;
+            var scale = sprite.BaseScale * this.sceneObject.scale;
             {
                 var primaryAttach = frame.Attachments[this.primaryHand];
                 var offset = scale * primaryAttach.translate;
-                offset = Quaternion.quatRotate(ref this.rotation, ref offset) + this.position;
-                sword.SetPosition(ref offset, ref this.rotation, ref scale);
+                offset = Quaternion.quatRotate(ref this.sceneObject.orientation, ref offset) + this.sceneObject.position;
+                sword.SetPosition(ref offset, ref this.sceneObject.orientation, ref scale);
             }
 
             {
                 var secondaryAttach = frame.Attachments[this.secondaryHand];
                 var offset = scale * secondaryAttach.translate;
-                offset = Quaternion.quatRotate(ref this.rotation, ref offset) + this.position;
-                shield.SetPosition(ref offset, ref this.rotation, ref scale);
+                offset = Quaternion.quatRotate(ref this.sceneObject.orientation, ref offset) + this.sceneObject.position;
+                shield.SetPosition(ref offset, ref this.sceneObject.orientation, ref scale);
             }
         }
 
@@ -240,9 +400,9 @@ namespace SceneTest
             var body = bepuScene.Simulation.Bodies.GetBodyReference(characterMover.BodyHandle);
             var pose = body.Pose;
             var bodPos = pose.Position;
-            this.sceneObject.position = this.position = new Vector3(bodPos.X, bodPos.Y, bodPos.Z);
+            this.sceneObject.position = new Vector3(bodPos.X, bodPos.Y, bodPos.Z);
             var bodOrientation = pose.Orientation;
-            this.sceneObject.orientation = this.rotation = new Quaternion(bodOrientation.X, bodOrientation.Y, bodOrientation.Z, bodOrientation.W);
+            this.sceneObject.orientation = new Quaternion(bodOrientation.X, bodOrientation.Y, bodOrientation.Z, bodOrientation.W);
             Sprite_FrameChanged(sprite);
         }
     }

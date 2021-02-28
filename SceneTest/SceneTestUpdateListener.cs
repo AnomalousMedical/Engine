@@ -60,6 +60,8 @@ namespace SceneTest
         SharpButton makeDusk = new SharpButton() { Text = "Make Dusk" };
         SharpSliderHorizontal currentHour;
 
+        private bool useFirstPersonCamera = false;
+
         public unsafe SceneTestUpdateListener(
             GraphicsEngine graphicsEngine,
             NativeOSWindow window,
@@ -256,7 +258,10 @@ namespace SceneTest
             player.SyncPhysics(clock);
             timeClock.Update(clock);
             UpdateGui(clock);
-            cameraControls.UpdateInput(clock);
+            if (useFirstPersonCamera)
+            {
+                cameraControls.UpdateInput(clock);
+            }
             UpdateLight(clock);
             UpdateSprites(clock);
 
