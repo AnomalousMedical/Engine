@@ -142,21 +142,24 @@ namespace SceneTest
             }
             coroutineRunner.Run(playerCo());
 
-            this.objectResolver.Resolve<TinyDino, TinyDino.Desc>(c =>
+            this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
+                Enemy.Desc.MakeTinyDino(c);
                 c.Translation = new Vector3(-4, 0, -1);
             });
-            this.objectResolver.Resolve<TinyDino, TinyDino.Desc>(c =>
+            this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
+                Enemy.Desc.MakeTinyDino(c, skinMaterial: "cc0Textures/Leather011_1K");
                 c.Translation = new Vector3(-5, 0, -2);
-                c.SkinMaterial = "cc0Textures/Leather011_1K";
             });
-            this.objectResolver.Resolve<TinyDino, TinyDino.Desc>(c =>
+            this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
+                Enemy.Desc.MakeSkeleton(c);
                 c.Translation = new Vector3(-7, 0, 0);
             });
-            this.objectResolver.Resolve<TinyDino, TinyDino.Desc>(c =>
+            this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
+                Enemy.Desc.MakeTinyDino(c);
                 c.Translation = new Vector3(-6, 0, -3);
             });
             this.objectResolver.Resolve<Brick, Brick.Description>(o =>

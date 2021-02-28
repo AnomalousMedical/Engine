@@ -61,8 +61,8 @@ namespace SceneTest
             services.TryAddSingleton<ISpriteMaterialTextureManager, SpriteMaterialTextureManager>();
             services.TryAddScoped<Player>();
             services.TryAddScoped<Player.Description>();
-            services.TryAddScoped<TinyDino>();
-            services.TryAddScoped<TinyDino.Desc>();
+            services.TryAddScoped<Enemy>();
+            services.TryAddScoped<Enemy.Desc>();
             services.TryAddScoped<Attachment>();
             services.TryAddScoped<Attachment.Description>();
             services.TryAddScoped<Brick>();

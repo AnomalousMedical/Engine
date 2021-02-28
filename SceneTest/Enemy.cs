@@ -12,13 +12,41 @@ using System.Threading.Tasks;
 
 namespace SceneTest
 {
-    class TinyDino : IDisposable
+    class Enemy : IDisposable
     {
         public class Desc : SceneObjectDesc
         {
-            public String SkinMaterial { get; set; } = "cc0Textures/Leather008_1K"; //Skin (green)
+            public Sprite Sprite { get; set; }
 
-            public String SpinesMaterial { get; set; } = "cc0Textures/SheetMetal004_1K"; //Spines (red)
+            public SpriteMaterialDescription SpriteMaterial { get; set; }
+
+            public static void MakeTinyDino(Desc desc, String skinMaterial = "cc0Textures/Leather008_1K", String spineMaterial = "cc0Textures/SheetMetal004_1K")
+            {
+                desc.Sprite = new Sprite() { BaseScale = new Vector3(1.466666666666667f, 1, 1) };
+                desc.SpriteMaterial = new SpriteMaterialDescription
+                (
+                    colorMap: "original/TinyDino_Color.png",
+                    materials: new HashSet<SpriteMaterialTextureItem>
+                    {
+                        new SpriteMaterialTextureItem(0xff168516, skinMaterial, "jpg"),//Skin (green)
+                        new SpriteMaterialTextureItem(0xffff0000, spineMaterial, "jpg"),//Spines (red)
+                    }
+                );
+            }
+
+            public static void MakeSkeleton(Desc desc)
+            {
+                desc.Sprite = new Sprite() { BaseScale = new Vector3(1, 1, 1) };
+                desc.SpriteMaterial = new SpriteMaterialDescription
+                (
+                    colorMap: "original/skeletal_warrior_new.png",
+                    materials: new HashSet<SpriteMaterialTextureItem>
+                    {
+                        new SpriteMaterialTextureItem(0xff168516, "cc0Textures/Leather008_1K", "jpg"),//Skin (green)
+                        new SpriteMaterialTextureItem(0xffff0000, "cc0Textures/SheetMetal004_1K", "jpg"),//Spines (red)
+                    }
+                );
+            }
         }
 
         private ISpriteMaterial spriteMaterial;
@@ -27,22 +55,24 @@ namespace SceneTest
         private IDestructionRequest destructionRequest;
         private readonly ISpriteMaterialManager spriteMaterialManager;
         private SceneObject sceneObject;
-        private Sprite sprite = new Sprite() { BaseScale = new Vector3(1.466666666666667f, 1, 1) };
+        private Sprite sprite;
         private bool disposed;
 
-        public TinyDino(
+        public Enemy(
             SceneObjectManager sceneObjectManager,
             SpriteManager sprites,
             Plane plane,
             IDestructionRequest destructionRequest,
             IScopedCoroutine coroutine,
             ISpriteMaterialManager spriteMaterialManager,
-            Desc tinyDinoDesc)
+            Desc description)
         {
             this.sceneObjectManager = sceneObjectManager;
             this.sprites = sprites;
             this.destructionRequest = destructionRequest;
             this.spriteMaterialManager = spriteMaterialManager;
+
+            this.sprite = description.Sprite;
 
             sceneObject = new SceneObject()
             {
@@ -51,9 +81,9 @@ namespace SceneTest
                 indexBuffer = plane.IndexBuffer,
                 numIndices = plane.NumIndices,
                 pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
-                position = tinyDinoDesc.Translation,
-                orientation = tinyDinoDesc.Orientation,
-                scale = sprite.BaseScale * tinyDinoDesc.Scale,
+                position = description.Translation,
+                orientation = description.Orientation,
+                scale = sprite.BaseScale * description.Scale,
                 RenderShadow = true,
                 Sprite = sprite,
             };
@@ -62,15 +92,7 @@ namespace SceneTest
             {
                 using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until coroutine is finished and this is disposed.
 
-                spriteMaterial = await this.spriteMaterialManager.Checkout(new SpriteMaterialDescription
-                (
-                    colorMap: "original/TinyDino_Color.png",
-                    materials: new HashSet<SpriteMaterialTextureItem>
-                    {
-                        new SpriteMaterialTextureItem(0xff168516, tinyDinoDesc.SkinMaterial, "jpg"), 
-                        new SpriteMaterialTextureItem(0xffff0000, tinyDinoDesc.SpinesMaterial, "jpg"),
-                    }
-                ));
+                spriteMaterial = await this.spriteMaterialManager.Checkout(description.SpriteMaterial);
 
                 if (disposed)
                 {
