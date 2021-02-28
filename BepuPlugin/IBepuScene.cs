@@ -13,6 +13,10 @@ namespace BepuPlugin
 
         void DestroyCharacter(CharacterInput character);
 
+        CharacterMover CreateCharacterMover(in BodyDescription bodyDescription, CharacterMoverDescription desc);
+
+        void DestroyCharacterMover(CharacterMover mover);
+
         void Update(Clock clock, Vector3 cameraForward);
     }
 }

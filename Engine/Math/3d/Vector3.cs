@@ -70,6 +70,13 @@ namespace Engine
             parseString(value, out x, out y, out z);
         }
 
+        public Vector3(in System.Numerics.Vector3 src)
+        {
+            this.x = src.X;
+            this.y = src.Y;
+            this.z = src.Z;
+        }
+
         #endregion Constructors
 
         #region Members
@@ -402,6 +409,11 @@ namespace Engine
                 small &= small && z > 0 ? z < float.Epsilon : z > float.Epsilon;
                 return small;
             }
+        }
+
+        public System.Numerics.Vector3 ToSystemNumerics()
+        {
+            return new System.Numerics.Vector3(x, y, z);
         }
 
         #endregion Memebers

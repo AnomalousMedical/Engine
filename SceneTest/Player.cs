@@ -1,4 +1,6 @@
-﻿using BepuPlugin;
+﻿using BepuPhysics;
+using BepuPhysics.Collidables;
+using BepuPlugin;
 using BepuPlugin.Characters;
 using DiligentEngine;
 using DiligentEngine.GltfPbr;
@@ -77,7 +79,8 @@ namespace SceneTest
         private Quaternion rotation = Quaternion.Identity;
         private Vector3 scale = Vector3.ScaleIdentity;
 
-        private CharacterInput characterInput;
+        private CharacterMover characterMover;
+        private Box shape;
 
         public Player(
             SceneObjectManager sceneObjectManager,
@@ -182,12 +185,29 @@ namespace SceneTest
 
             Sprite_FrameChanged(sprite);
 
-            characterInput = bepuScene.CreateCharacter(new System.Numerics.Vector3(this.position.x, this.position.y, this.position.z));
+            //Character Mover
+            shape = new Box(1, 1, 1);
+            var shapeIndex = bepuScene.Simulation.Shapes.Add(shape);
+
+            var moverDesc = new CharacterMoverDescription()
+            {
+                MinimumSupportDepth = shape.HalfHeight * -0.01f
+            };
+
+            //Because characters are dynamic, they require a defined BodyInertia. For the purposes of the demos, we don't want them to rotate or fall over, so the inverse inertia tensor is left at its default value of all zeroes.
+            //This is effectively equivalent to giving it an infinite inertia tensor- in other words, no torque will cause it to rotate.
+            var mass = 1f;
+            var bodyDesc = 
+                BodyDescription.CreateDynamic(this.position.ToSystemNumerics(), new BodyInertia { InverseMass = 1f / mass },
+                new CollidableDescription(shapeIndex, moverDesc.SpeculativeMargin),
+                new BodyActivityDescription(shape.HalfHeight * 0.02f));
+
+            characterMover = bepuScene.CreateCharacterMover(bodyDesc, moverDesc);
         }
 
         public void Dispose()
         {
-            bepuScene.DestroyCharacter(characterInput);
+            bepuScene.DestroyCharacterMover(characterMover);
             sprite.FrameChanged -= Sprite_FrameChanged;
             sprites.Remove(sprite);
             sceneObjectManager.Remove(sceneObject);
@@ -217,7 +237,7 @@ namespace SceneTest
 
         public void SyncPhysics(Clock clock)
         {
-            var body = bepuScene.Simulation.Bodies.GetBodyReference(characterInput.BodyHandle);
+            var body = bepuScene.Simulation.Bodies.GetBodyReference(characterMover.BodyHandle);
             var pose = body.Pose;
             var bodPos = pose.Position;
             this.sceneObject.position = this.position = new Vector3(bodPos.X, bodPos.Y, bodPos.Z);

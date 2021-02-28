@@ -17,55 +17,36 @@ namespace BepuPlugin.Characters
     /// It's just a fairly convenient interface for demos usage.</para>
     /// <para>Note that all characters are dynamic and respond to constraints and forces in the simulation.</para>
     /// </remarks>
-    public class CharacterInput
+    public class CharacterMover
     {
         BodyHandle bodyHandle;
-        private readonly EventManager eventManager;
         CharacterControllers characters;
         float speed;
+        float sprintMultiple;
 
-        ButtonEvent moveForward = new ButtonEvent(Engine.EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_W });
-        ButtonEvent moveBackward = new ButtonEvent(Engine.EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_S });
-        ButtonEvent moveRight = new ButtonEvent(Engine.EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_D });
-        ButtonEvent moveLeft = new ButtonEvent(Engine.EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_A });
-        ButtonEvent sprint = new ButtonEvent(Engine.EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_LSHIFT });
-        ButtonEvent jump = new ButtonEvent(Engine.EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_SPACE });
+        public Vector2 movementDirection;
+        public bool sprint;
+        public bool tryJump;
 
         public BodyHandle BodyHandle { get { return bodyHandle; } }
 
-        public CharacterInput(EventManager eventManager, CharacterControllers characters, Vector3 initialPosition, Box shape,
-            float speculativeMargin, float mass, float maximumHorizontalForce, float maximumVerticalGlueForce,
-            float jumpVelocity, float speed, float maximumSlope = MathF.PI * 0.25f)
+        public CharacterMover(CharacterControllers characters, in BodyDescription bodyDescription, CharacterMoverDescription description)
         {
-            this.eventManager = eventManager;
-
-            eventManager.addEvent(moveForward);
-            eventManager.addEvent(moveBackward);
-            eventManager.addEvent(moveLeft);
-            eventManager.addEvent(moveRight);
-            eventManager.addEvent(sprint);
-            eventManager.addEvent(jump);
-
             this.characters = characters;
-            var shapeIndex = characters.Simulation.Shapes.Add(shape);
+            this.bodyHandle = characters.Simulation.Bodies.Add(bodyDescription);
 
-            //Because characters are dynamic, they require a defined BodyInertia. For the purposes of the demos, we don't want them to rotate or fall over, so the inverse inertia tensor is left at its default value of all zeroes.
-            //This is effectively equivalent to giving it an infinite inertia tensor- in other words, no torque will cause it to rotate.
-            bodyHandle = characters.Simulation.Bodies.Add(
-                BodyDescription.CreateDynamic(initialPosition, new BodyInertia { InverseMass = 1f / mass }, 
-                new CollidableDescription(shapeIndex, speculativeMargin), 
-                new BodyActivityDescription(shape.HalfHeight * 0.02f)));
-
+            
             ref var character = ref characters.AllocateCharacter(bodyHandle);
-            character.LocalUp = new Vector3(0, 1, 0);
-            character.CosMaximumSlope = MathF.Cos(maximumSlope);
-            character.JumpVelocity = jumpVelocity;
-            character.MaximumVerticalForce = maximumVerticalGlueForce;
-            character.MaximumHorizontalForce = maximumHorizontalForce;
-            character.MinimumSupportDepth = shape.HalfHeight * -0.01f;
-            character.MinimumSupportContinuationDepth = -speculativeMargin;
-            this.speed = speed;
-            //this.shape = shape;
+            character.LocalUp = description.LocalUp.ToSystemNumerics();
+            character.CosMaximumSlope = MathF.Cos(description.MaximumSlope);
+            character.JumpVelocity = description.JumpVelocity;
+            character.MaximumVerticalForce = description.MaximumVerticalForce;
+            character.MaximumHorizontalForce = description.MaximumHorizontalForce;
+            character.MinimumSupportDepth = description.MinimumSupportDepth;
+            character.MinimumSupportContinuationDepth = -description.SpeculativeMargin;
+
+            this.speed = description.Speed;
+            this.sprintMultiple = description.SprintMultiple;
         }
 
         /// <summary>
@@ -73,13 +54,7 @@ namespace BepuPlugin.Characters
         /// </summary>
         public void Dispose()
         {
-            eventManager.removeEvent(moveForward);
-            eventManager.removeEvent(moveBackward);
-            eventManager.removeEvent(moveLeft);
-            eventManager.removeEvent(moveRight);
-            eventManager.removeEvent(sprint);
-            eventManager.removeEvent(jump);
-
+            //Not 100% sure if the shape should be managed by the player or here, this is closer to the demo
             characters.Simulation.Shapes.Remove(new BodyReference(bodyHandle, characters.Simulation.Bodies).Collidable.Shape);
             characters.Simulation.Bodies.Remove(bodyHandle);
             characters.RemoveCharacterByBodyHandle(bodyHandle);
@@ -87,27 +62,6 @@ namespace BepuPlugin.Characters
 
         public void UpdateCharacterGoals(Vector3 viewDirection, float simulationTimestepDuration)
         {
-            Vector2 movementDirection = default;
-            if (moveForward.Down)
-            {
-                movementDirection = new Vector2(0, 1);
-            }
-            if (moveBackward.Down)
-            {
-                movementDirection += new Vector2(0, -1);
-            }
-            if (moveLeft.Down)
-            {
-                //This seems backward, but there must be something different about this scene setup vs the demo
-                //Would think left is -1
-                movementDirection += new Vector2(1, 0);
-            }
-            if (moveRight.Down)
-            {
-                //This seems backward, but there must be something different about this scene setup vs the demo
-                //Would think right is +1
-                movementDirection += new Vector2(-1, 0);
-            }
             var movementDirectionLengthSquared = movementDirection.LengthSquared();
             if (movementDirectionLengthSquared > 0)
             {
@@ -115,11 +69,11 @@ namespace BepuPlugin.Characters
             }
 
             ref var character = ref characters.GetCharacterByBodyHandle(bodyHandle);
-            character.TryJump = jump.Down;
+            character.TryJump = tryJump;
             var characterBody = new BodyReference(bodyHandle, characters.Simulation.Bodies);
-            var effectiveSpeed = sprint.Down ? speed * 1.75f : speed;
+            var effectiveSpeed = sprint ? speed * sprintMultiple : speed;
             var newTargetVelocity = movementDirection * effectiveSpeed;
-            //var viewDirection = camera.Forward;
+            
             //Modifying the character's raw data does not automatically wake the character up, so we do so explicitly if necessary.
             //If you don't explicitly wake the character up, it won't respond to the changed motion goals.
             //(You can also specify a negative deactivation threshold in the BodyActivityDescription to prevent the character from sleeping at all.)
