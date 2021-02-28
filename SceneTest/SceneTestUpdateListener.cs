@@ -119,6 +119,13 @@ namespace SceneTest
 
             //Make scene
             this.objectResolver.Resolve<Player>();
+
+            this.objectResolver.Resolve<Player, Player.Description>(c =>
+            {
+                c.Translation = new Vector3(-1, 0, 0);
+                c.Gamepad = GamepadId.Pad2;
+            });
+
             this.objectResolver.Resolve<TinyDino, TinyDino.Desc>(c =>
             {
                 c.Translation = new Vector3(-4, 0, -1);
