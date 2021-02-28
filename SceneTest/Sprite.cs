@@ -17,8 +17,8 @@ namespace SceneTest
             float fx = x / (float)width;
             float fy = y / (float)height;
 
-            fx = (fx - 0.5f) * 2f;
-            fy = (fy - 0.5f) * 2f;
+            fx = fx - 0.5f;
+            fy = fy - 0.5f;
             fy *= -1f;
 
             return new SpriteFrameAttachment(new Vector3(fx, fy, z));

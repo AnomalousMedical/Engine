@@ -224,7 +224,6 @@ namespace SceneTest
             var bodOrientation = pose.Orientation;
             this.sceneObject.orientation = this.rotation = new Quaternion(bodOrientation.X, bodOrientation.Y, bodOrientation.Z, bodOrientation.W);
             Sprite_FrameChanged(sprite);
-            Console.WriteLine(this.sceneObject.position);
         }
     }
 }

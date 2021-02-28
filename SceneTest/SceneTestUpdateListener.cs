@@ -136,7 +136,14 @@ namespace SceneTest
             {
                 c.Translation = new Vector3(-6, 0, -3);
             });
-            this.objectResolver.Resolve<Floor>();
+            this.objectResolver.Resolve<Brick, Brick.Description>(o =>
+            {
+                o.Translation = new Vector3(0, -1.05f, 0);
+                o.Scale = new Vector3(20, .1f, 20);
+                o.Texture = "cc0Textures/Ground037_1K";
+                o.GetShadow = true;
+                o.RenderShadow = false;
+            });
 
             AddBrick(new Vector3(-3, 0, 1), Quaternion.Identity);
             AddBrick(new Vector3(-3, 0, 2), Quaternion.Identity);
@@ -156,6 +163,7 @@ namespace SceneTest
             {
                 o.Translation = trans * 2;
                 o.Orientation = rot;
+                o.Scale = new Vector3(2, 2, 2);
             });
         }
 

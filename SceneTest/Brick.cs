@@ -17,7 +17,11 @@ namespace SceneTest
     {
         public class Description : SceneObjectDesc
         {
+            public String Texture { get; set; } = "cc0Textures/Bricks045_1K";
 
+            public bool RenderShadow { get; set; } = true;
+
+            public bool GetShadow { get; set; } = false;
         }
 
         private readonly SceneObjectManager sceneObjectManager;
@@ -29,7 +33,7 @@ namespace SceneTest
 
         public Brick(
             SceneObjectManager sceneObjectManager,
-            DoubleSizeCube cube,
+            Cube cube,
             IDestructionRequest destructionRequest,
             IScopedCoroutine coroutine,
             IBepuScene bepuScene,
@@ -49,7 +53,8 @@ namespace SceneTest
                 position = description.Translation,
                 orientation = description.Orientation,
                 scale = description.Scale,
-                RenderShadow = true
+                RenderShadow = description.RenderShadow,
+                GetShadows = description.GetShadow
             };
 
             IEnumerator<YieldAction> co()
@@ -57,7 +62,7 @@ namespace SceneTest
                 //This will load 1 texture per brick
                 yield return coroutine.Await(async () =>
                 {
-                    matBinding = await textureManager.Checkout(new CCOTextureBindingDescription("cc0Textures/Bricks045_1K"));
+                    matBinding = await textureManager.Checkout(new CCOTextureBindingDescription(description.Texture, getShadow: description.GetShadow));
                 });
 
                 sceneObject.shaderResourceBinding = matBinding;
@@ -70,7 +75,7 @@ namespace SceneTest
                 new StaticDescription(
                     new System.Numerics.Vector3(description.Translation.x, description.Translation.y, description.Translation.z),
                     new System.Numerics.Quaternion(description.Orientation.x, description.Orientation.y, description.Orientation.z, description.Orientation.w),
-                    new CollidableDescription(bepuScene.Simulation.Shapes.Add(new Box(2, 2, 2)), 0.1f))); //Boxes are full extents
+                    new CollidableDescription(bepuScene.Simulation.Shapes.Add(new Box(description.Scale.x, description.Scale.y, description.Scale.z)), 0.1f)));
         }
 
         public void Dispose()
