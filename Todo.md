@@ -18,9 +18,6 @@ use a fixed timestep with an accumulator, interpolate in between values
 keep everything position seen on this frame, throw away results from last frame use this to interpolate unless its too old then just use the current value. assumption is nothing cared about its position until just now
 otherwise can we make a copy of the whole simulation since it uses a buffer?
 
-## Figure out if you can keep BodyReference or if BodyHandle should get a new one each time
-You can use one BodyReference and its position will change, but some bepu demos show getting it each time. Figure this out.
-
 ## Get rid of custom file modes for virtual file system
 Engine.Resources.FileMode
 
@@ -52,9 +49,14 @@ currently filtering out anything below 32 in the ascii table, could do this in t
 ## Tabs in fonts still need to be figrued out
 Haven't tried tabs yet in the fonts. They are their own setting so need to mess with it.
 
+## Use new in keyword
+Switch ref to in where possible and pass as many structs as possible with in. See if things like Vector3.Forward can be made readonly then.
+
+# Low Priority
+Stuff that is partially solved or maybe doesn't matter.
+
 ## Physics character input seems backward
 The input for the charcter seems to need a reversed x axis to work. Left / right are +1 and -1 vs -1 and + as would be expected.
 Things collide correctly, so it must be right, but its strange.
 
-## Use new in keyword
-Switch ref to in where possible and pass as many structs as possible with in. See if things like Vector3.Forward can be made readonly then.
+This is currently fixed in the CharacterMover, since this is part of the physics this is should be enough for now.

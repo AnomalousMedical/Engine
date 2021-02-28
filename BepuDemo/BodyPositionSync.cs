@@ -13,21 +13,25 @@ namespace BepuDemo
     /// </summary>
     class BodyPositionSync
     {
-        private readonly BodyReference bodyReference;
+        private readonly BodyHandle bodyHandle;
+        private readonly Simulation simulation;
 
-        public BodyPositionSync(BodyReference bodyReference)
+        public BodyPositionSync(BodyHandle bodyHandle, Simulation simulation)
         {
-            this.bodyReference = bodyReference;
+            this.bodyHandle = bodyHandle;
+            this.simulation = simulation;
         }
 
         public Vector3 GetWorldPosition()
         {
+            var bodyReference = simulation.Bodies.GetBodyReference(bodyHandle);
             var bodPos = bodyReference.Pose.Position;
             return new Vector3(bodPos.X, bodPos.Y, bodPos.Z);
         }
 
         public Quaternion GetWorldOrientation()
         {
+            var bodyReference = simulation.Bodies.GetBodyReference(bodyHandle);
             var bodOrientation = bodyReference.Pose.Orientation;
             return new Quaternion(bodOrientation.X, bodOrientation.Y, bodOrientation.Z, bodOrientation.W);
         }

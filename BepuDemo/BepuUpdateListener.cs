@@ -185,12 +185,12 @@ namespace BepuDemo
 
         private void CreateBox(Box box, BodyInertia boxInertia, System.Numerics.Vector3 position)
         {
-            var sphereHandle = simulation.Bodies.Add(
+            var bodyHandle = simulation.Bodies.Add(
                 BodyDescription.CreateDynamic(
                     position,
                     boxInertia, new CollidableDescription(simulation.Shapes.Add(box), 0.1f), new BodyActivityDescription(0.01f)));
 
-            var spherePositionSync = new BodyPositionSync(simulation.Bodies.GetBodyReference(sphereHandle));
+            var spherePositionSync = new BodyPositionSync(bodyHandle, simulation);
             spherePositionSyncs.Add(spherePositionSync);
         }
 
