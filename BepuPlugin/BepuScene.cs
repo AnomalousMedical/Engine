@@ -18,7 +18,6 @@ namespace BepuPlugin
         BufferPool bufferPool;
         CharacterControllers characterControllers;
         private readonly EventManager eventManager;
-        CharacterInput character;
         private List<CharacterMover> characterMovers = new List<CharacterMover>();
 
         public BepuScene(EventManager eventManager)
@@ -54,25 +53,13 @@ namespace BepuPlugin
         {
             var timestep = clock.DeltaSeconds; //NEED to make this fixed.
 
-            character?.UpdateCharacterGoals(cameraForward, timestep);
-
+            //Both the movers and the physics tick are 1 physics update
             foreach(var mover in characterMovers)
             {
                 mover.UpdateCharacterGoals(cameraForward, timestep);
             }
 
             simulation.Timestep(timestep, threadDispatcher);
-        }
-
-        public CharacterInput CreateCharacter(Vector3 position)
-        {
-            character = new CharacterInput(eventManager, characterControllers, position, new Box(1, 1, 1), 0.1f, 1, 20, 100, 6, 4, MathF.PI * 0.4f);
-            return character;
-        }
-
-        public void DestroyCharacter(CharacterInput character)
-        {
-            character.Dispose();
         }
 
         public CharacterMover CreateCharacterMover(in BodyDescription bodyDescription, CharacterMoverDescription desc)

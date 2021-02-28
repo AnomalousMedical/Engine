@@ -9,10 +9,6 @@ namespace BepuPlugin
     {
         Simulation Simulation { get; }
 
-        CharacterInput CreateCharacter(Vector3 position);
-
-        void DestroyCharacter(CharacterInput character);
-
         CharacterMover CreateCharacterMover(in BodyDescription bodyDescription, CharacterMoverDescription desc);
 
         void DestroyCharacterMover(CharacterMover mover);
