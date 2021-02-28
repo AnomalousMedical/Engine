@@ -54,8 +54,6 @@ namespace BepuPlugin.Characters
         /// </summary>
         public void Dispose()
         {
-            //Not 100% sure if the shape should be managed by the player or here, this is closer to the demo
-            characters.Simulation.Shapes.Remove(new BodyReference(bodyHandle, characters.Simulation.Bodies).Collidable.Shape);
             characters.Simulation.Bodies.Remove(bodyHandle);
             characters.RemoveCharacterByBodyHandle(bodyHandle);
         }

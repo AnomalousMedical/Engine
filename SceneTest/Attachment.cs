@@ -51,18 +51,6 @@ namespace SceneTest
             this.sprites = sprites;
             this.destructionRequest = destructionRequest;
             this.spriteMaterialManager = spriteMaterialManager;
-            IEnumerator<YieldAction> co()
-            {
-                yield return coroutine.Await(async () =>
-                {
-                    spriteMaterial = await this.spriteMaterialManager.Checkout(attachmentDescription.SpriteMaterial);
-
-                    sceneObject.shaderResourceBinding = spriteMaterial.ShaderResourceBinding;
-                });
-                sprites.Add(sprite);
-                sceneObjectManager.Add(sceneObject);
-            }
-            coroutine.Run(co());
 
             sceneObject = new SceneObject()
             {
@@ -77,6 +65,19 @@ namespace SceneTest
                 RenderShadow = true,
                 Sprite = sprite,
             };
+
+            IEnumerator<YieldAction> co()
+            {
+                yield return coroutine.Await(async () =>
+                {
+                    spriteMaterial = await this.spriteMaterialManager.Checkout(attachmentDescription.SpriteMaterial);
+
+                    sceneObject.shaderResourceBinding = spriteMaterial.ShaderResourceBinding;
+                });
+                sprites.Add(sprite);
+                sceneObjectManager.Add(sceneObject);
+            }
+            coroutine.Run(co());
         }
 
         public void SetPosition(ref Vector3 parentPosition, ref Quaternion parentRotation, ref Vector3 parentScale)

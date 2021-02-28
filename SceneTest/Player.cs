@@ -82,7 +82,7 @@ namespace SceneTest
         private Attachment shield;
 
         private CharacterMover characterMover;
-        private Box shape;
+        private TypedIndex shapeIndex;
 
         private int primaryHand;
         private int secondaryHand;
@@ -285,6 +285,21 @@ namespace SceneTest
             this.bepuScene = bepuScene;
             this.bepuScene.OnUpdated += BepuScene_OnUpdated;
             this.eventManager = eventManager;
+
+            sceneObject = new SceneObject()
+            {
+                vertexBuffer = plane.VertexBuffer,
+                skinVertexBuffer = plane.SkinVertexBuffer,
+                indexBuffer = plane.IndexBuffer,
+                numIndices = plane.NumIndices,
+                pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
+                position = description.Translation,
+                orientation = description.Orientation,
+                scale = description.Scale,
+                RenderShadow = true,
+                Sprite = sprite,
+            };
+
             IEnumerator<YieldAction> co()
             {
                 yield return coroutine.Await(async () =>
@@ -309,25 +324,11 @@ namespace SceneTest
             }
             coroutine.Run(co());
 
-            sceneObject = new SceneObject()
-            {
-                vertexBuffer = plane.VertexBuffer,
-                skinVertexBuffer = plane.SkinVertexBuffer,
-                indexBuffer = plane.IndexBuffer,
-                numIndices = plane.NumIndices,
-                pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
-                position = description.Translation,
-                orientation = description.Orientation,
-                scale = description.Scale,
-                RenderShadow = true,
-                Sprite = sprite,
-            };
-
             Sprite_FrameChanged(sprite);
 
             //Character Mover
-            shape = new Box(1, 1, 1);
-            var shapeIndex = bepuScene.Simulation.Shapes.Add(shape);
+            var shape = new Box(1, 1, 1); //Each character creates a shape, try to load from resources somehow
+            shapeIndex = bepuScene.Simulation.Shapes.Add(shape);
 
             var moverDesc = new CharacterMoverDescription()
             {
@@ -343,6 +344,11 @@ namespace SceneTest
                 new BodyActivityDescription(shape.HalfHeight * 0.02f));
 
             characterMover = bepuScene.CreateCharacterMover(bodyDesc, moverDesc);
+        }
+
+        internal void RequestDestruction()
+        {
+            destructionRequest.RequestDestruction();
         }
 
         private void BepuScene_OnUpdated(IBepuScene obj)
@@ -378,6 +384,7 @@ namespace SceneTest
 
             this.bepuScene.OnUpdated -= BepuScene_OnUpdated;
             bepuScene.DestroyCharacterMover(characterMover);
+            bepuScene.Simulation.Shapes.Remove(shapeIndex);
             sprite.FrameChanged -= Sprite_FrameChanged;
             sprites.Remove(sprite);
             sceneObjectManager.Remove(sceneObject);
