@@ -300,30 +300,6 @@ namespace SceneTest
                 Sprite = sprite,
             };
 
-            IEnumerator<YieldAction> co()
-            {
-                yield return coroutine.Await(async () =>
-                {
-                    spriteMaterial = await this.spriteMaterialManager.Checkout(new SpriteMaterialDescription
-                    (
-                        colorMap: "original/amg1_full4.png",
-                        materials: new HashSet<SpriteMaterialTextureItem>
-                        {
-                            new SpriteMaterialTextureItem(0xffa854ff, "cc0Textures/Fabric012_1K", "jpg"),
-                            new SpriteMaterialTextureItem(0xff909090, "cc0Textures/Fabric020_1K", "jpg"),
-                            new SpriteMaterialTextureItem(0xff8c4800, "cc0Textures/Leather026_1K", "jpg"),
-                            new SpriteMaterialTextureItem(0xffffe254, "cc0Textures/Metal038_1K", "jpg"),
-                        }
-                    ));
-
-                    sceneObject.shaderResourceBinding = spriteMaterial.ShaderResourceBinding;
-                });
-
-                sprites.Add(sprite);
-                sceneObjectManager.Add(sceneObject);
-            }
-            coroutine.Run(co());
-
             Sprite_FrameChanged(sprite);
 
             //Character Mover
@@ -344,6 +320,35 @@ namespace SceneTest
                 new BodyActivityDescription(shape.HalfHeight * 0.02f));
 
             characterMover = bepuScene.CreateCharacterMover(bodyDesc, moverDesc);
+
+            IEnumerator<YieldAction> co()
+            {
+                using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until coroutine is finished and this is disposed.
+
+                yield return coroutine.Await(async () =>
+                {
+                    spriteMaterial = await this.spriteMaterialManager.Checkout(new SpriteMaterialDescription
+                    (
+                        colorMap: "original/amg1_full4.png",
+                        materials: new HashSet<SpriteMaterialTextureItem>
+                        {
+                            new SpriteMaterialTextureItem(0xffa854ff, "cc0Textures/Fabric012_1K", "jpg"),
+                            new SpriteMaterialTextureItem(0xff909090, "cc0Textures/Fabric020_1K", "jpg"),
+                            new SpriteMaterialTextureItem(0xff8c4800, "cc0Textures/Leather026_1K", "jpg"),
+                            new SpriteMaterialTextureItem(0xffffe254, "cc0Textures/Metal038_1K", "jpg"),
+                        }
+                    ));
+
+                    sceneObject.shaderResourceBinding = spriteMaterial.ShaderResourceBinding;
+                });
+
+                if (!destructionRequest.DestructionRequested)
+                {
+                    sprites.Add(sprite);
+                    sceneObjectManager.Add(sceneObject);
+                }
+            }
+            coroutine.Run(co());
         }
 
         internal void RequestDestruction()

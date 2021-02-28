@@ -120,11 +120,22 @@ namespace SceneTest
             //Make scene
             this.objectResolver.Resolve<Player>();
 
-            this.objectResolver.Resolve<Player, Player.Description>(c =>
+            var otherPlayer = this.objectResolver.Resolve<Player, Player.Description>(c =>
             {
                 c.Translation = new Vector3(-1, 0, 0);
                 c.Gamepad = GamepadId.Pad2;
             });
+
+            IEnumerator<YieldAction> playerCo()
+            {
+                var instantDestroy = objectResolver.Resolve<Player>();
+                instantDestroy.RequestDestruction();
+                yield return coroutineRunner.WaitSeconds(5);
+                otherPlayer.RequestDestruction();
+                yield return coroutineRunner.WaitSeconds(5);
+                this.objectResolver.Resolve<Player>();
+            }
+            coroutineRunner.Run(playerCo());
 
             this.objectResolver.Resolve<TinyDino, TinyDino.Desc>(c =>
             {

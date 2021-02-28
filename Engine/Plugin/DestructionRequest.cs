@@ -7,10 +7,33 @@ namespace Engine
     class DestructionRequest : IDestructionRequest
     {
         internal Action Destroy;
+        private int outstandingBlocks = 0;
+        private bool destructionRequested = false;
 
-        void IDestructionRequest.RequestDestruction()
+        public void RequestDestruction()
         {
-            Destroy.Invoke();
+            destructionRequested = true;
+            if (outstandingBlocks == 0)
+            {
+                Destroy.Invoke();
+            }
         }
+
+        public IDisposable BlockDestruction()
+        {
+            ++outstandingBlocks;
+            return new DestructionDelay(this);
+        }
+
+        internal void RemoveBlock()
+        {
+            --outstandingBlocks;
+            if (destructionRequested)
+            {
+                RequestDestruction();
+            }
+        }
+
+        public bool DestructionRequested => destructionRequested;
     }
 }
