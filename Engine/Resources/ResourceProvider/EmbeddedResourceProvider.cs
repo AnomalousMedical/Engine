@@ -92,7 +92,7 @@ namespace Engine.Resources
 
         public IEnumerable<String> listDirectories(String pattern, String directory, bool recursive)
         {
-            return IEnumerableUtil<String>.EmptyIterator;
+            return Enumerable.Empty<String>();
         }
 
         public bool directoryHasEntries(String path)
