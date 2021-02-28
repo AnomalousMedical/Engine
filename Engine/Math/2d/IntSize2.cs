@@ -32,30 +32,6 @@ namespace Engine
             parseString(value, out Width, out Height);
         }
 
-        //public int Width
-        //{
-        //    get
-        //    {
-        //        return width;
-        //    }
-        //    set
-        //    {
-        //        width = value;
-        //    }
-        //}
-
-        //public int Height
-        //{
-        //    get
-        //    {
-        //        return height;
-        //    }
-        //    set
-        //    {
-        //        height = value;
-        //    }
-        //}
-
         public bool fromString(String value)
         {
             return parseString(value, out Width, out Height);
@@ -64,6 +40,25 @@ namespace Engine
         public override string ToString()
         {
             return String.Format("{0}, {1}", Width, Height);
+        }
+
+        /// <summary>
+        /// Equals function.
+        /// </summary>
+        /// <param name="obj">The object to compare to.</param>
+        /// <returns>True if the objects are equal.</returns>
+        public override bool Equals(object obj)
+        {
+            return obj.GetType() == typeof(IntSize2) && this == (IntSize2)obj;
+        }
+
+        /// <summary>
+        /// Hash code function.
+        /// </summary>
+        /// <returns>A hash code for this Vector3.</returns>
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Width, Height);
         }
 
         public static IntSize2 operator +(IntSize2 v1, IntSize2 v2)

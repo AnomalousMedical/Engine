@@ -37,6 +37,25 @@ namespace Engine
             this.z = z;
         }
 
+        /// <summary>
+        /// Equals function.
+        /// </summary>
+        /// <param name="obj">The object to compare to.</param>
+        /// <returns>True if the objects are equal.</returns>
+        public override bool Equals(object obj)
+        {
+            return obj.GetType() == typeof(IntVector3) && this == (IntVector3)obj;
+        }
+
+        /// <summary>
+        /// Hash code function.
+        /// </summary>
+        /// <returns>A hash code for this Vector3.</returns>
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(x, y, z);
+        }
+
         public static IntVector3 operator +(IntVector3 v1, IntVector3 v2)
         {
             return new IntVector3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);

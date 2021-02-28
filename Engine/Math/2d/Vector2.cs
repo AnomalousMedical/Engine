@@ -130,7 +130,12 @@ namespace Engine
         /// <returns>A hash code for this Vector3.</returns>
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return HashCode.Combine(x, y);
+        }
+
+        public System.Numerics.Vector2 ToSystemNumerics()
+        {
+            return new System.Numerics.Vector2(x, y);
         }
 
         public static Vector2 operator +(Vector2 v1, Vector2 v2)

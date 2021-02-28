@@ -63,6 +63,25 @@ namespace Engine
             return String.Format("{0}, {1}", Width, Height);
         }
 
+        /// <summary>
+        /// Equals function.
+        /// </summary>
+        /// <param name="obj">The object to compare to.</param>
+        /// <returns>True if the objects are equal.</returns>
+        public override bool Equals(object obj)
+        {
+            return obj.GetType() == typeof(Size2) && this == (Size2)obj;
+        }
+
+        /// <summary>
+        /// Hash code function.
+        /// </summary>
+        /// <returns>A hash code for this Vector3.</returns>
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Width, Height);
+        }
+
         public static Size2 operator +(Size2 v1, Size2 v2)
         {
             return new Size2(v1.Width + v2.Width, v1.Height + v2.Height);

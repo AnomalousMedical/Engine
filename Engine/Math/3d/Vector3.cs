@@ -374,7 +374,7 @@ namespace Engine
         /// <returns>A hash code for this Vector3.</returns>
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return HashCode.Combine(x, y, z);
         }
 
         /// <summary>

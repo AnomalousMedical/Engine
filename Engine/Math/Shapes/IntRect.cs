@@ -143,6 +143,15 @@ namespace Engine
             return obj.GetType() == typeof(IntRect) && this == (IntRect)obj;
         }
 
+        /// <summary>
+        /// Hash code function.
+        /// </summary>
+        /// <returns>A hash code for this Quaternion.</returns>
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(left, top, width, height);
+        }
+
         public static bool operator ==(IntRect p1, IntRect p2)
         {
             return p1.left == p2.left && p1.top == p2.top && p1.width == p2.width && p1.height == p2.height;

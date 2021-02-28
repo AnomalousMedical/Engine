@@ -88,6 +88,25 @@ namespace Engine
             return String.Format("{0}, {1}", x, y);
         }
 
+        /// <summary>
+        /// Equals function.
+        /// </summary>
+        /// <param name="obj">The object to compare to.</param>
+        /// <returns>True if the objects are equal.</returns>
+        public override bool Equals(object obj)
+        {
+            return obj.GetType() == typeof(IntVector2) && this == (IntVector2)obj;
+        }
+
+        /// <summary>
+        /// Hash code function.
+        /// </summary>
+        /// <returns>A hash code for this Vector3.</returns>
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(x, y);
+        }
+
         public static IntVector2 operator +(IntVector2 v1, IntVector2 v2)
         {
             return new IntVector2(v1.x + v2.x, v1.y + v2.y);
