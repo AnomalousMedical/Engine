@@ -194,8 +194,6 @@ namespace Anomalous.OSPlatform
             get { return NativeOSWindow_getWidth(nativeWindow); }
         }
 
-        public event OSWindowEvent Moved;
-
         public event OSWindowEvent Resized;
 
         public event OSWindowEvent Closing;

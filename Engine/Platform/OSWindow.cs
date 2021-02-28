@@ -56,11 +56,6 @@ namespace Engine.Platform
         bool Focused { get; }
 
         /// <summary>
-        /// Called when the window is moved.
-        /// </summary>
-        event OSWindowEvent Moved;
-
-        /// <summary>
         /// Called when the window is resized.
         /// </summary>
         event OSWindowEvent Resized;
