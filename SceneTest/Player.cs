@@ -353,6 +353,28 @@ namespace SceneTest
             });
         }
 
+        public void Dispose()
+        {
+            disposed = true;
+            eventManager.removeEvent(moveForward);
+            eventManager.removeEvent(moveBackward);
+            eventManager.removeEvent(moveLeft);
+            eventManager.removeEvent(moveRight);
+            eventManager.removeEvent(sprint);
+            eventManager.removeEvent(jump);
+
+            eventLayer.OnUpdate -= EventLayer_OnUpdate; //Do have to remove this since its on the layer itself
+
+            this.bepuScene.OnUpdated -= BepuScene_OnUpdated;
+            bepuScene.DestroyCharacterMover(characterMover);
+            bepuScene.Simulation.Shapes.Remove(shapeIndex);
+            sprite.FrameChanged -= Sprite_FrameChanged;
+            sprites.Remove(sprite);
+            sceneObjectManager.Remove(sceneObject);
+            spriteMaterialManager.TryReturn(spriteMaterial);
+            objectResolver.Dispose();
+        }
+
         internal void RequestDestruction()
         {
             destructionRequest.RequestDestruction();
@@ -376,28 +398,6 @@ namespace SceneTest
                 var pad = eventLayer.getGamepad(gamepadId);
                 characterMover.movementDirection = pad.LStick.ToSystemNumerics();
             }
-        }
-
-        public void Dispose()
-        {
-            disposed = true;
-            eventManager.removeEvent(moveForward);
-            eventManager.removeEvent(moveBackward);
-            eventManager.removeEvent(moveLeft);
-            eventManager.removeEvent(moveRight);
-            eventManager.removeEvent(sprint);
-            eventManager.removeEvent(jump);
-
-            eventLayer.OnUpdate -= EventLayer_OnUpdate; //Do have to remove this since its on the layer itself
-
-            this.bepuScene.OnUpdated -= BepuScene_OnUpdated;
-            bepuScene.DestroyCharacterMover(characterMover);
-            bepuScene.Simulation.Shapes.Remove(shapeIndex);
-            sprite.FrameChanged -= Sprite_FrameChanged;
-            sprites.Remove(sprite);
-            sceneObjectManager.Remove(sceneObject);
-            spriteMaterialManager.TryReturn(spriteMaterial);
-            objectResolver.Dispose();
         }
 
         private void Sprite_FrameChanged(FrameEventSprite obj)
