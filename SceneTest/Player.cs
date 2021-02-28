@@ -323,41 +323,34 @@ namespace SceneTest
 
             characterMover = bepuScene.CreateCharacterMover(bodyDesc, moverDesc);
 
-            IEnumerator<YieldAction> co()
-            {
+            coroutine.RunTask(async () => {
                 using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until coroutine is finished and this is disposed.
 
-                yield return coroutine.Await(async () =>
-                {
-                    spriteMaterial = await this.spriteMaterialManager.Checkout(new SpriteMaterialDescription
-                    (
-                        colorMap: "original/amg1_full4.png",
-                        materials: new HashSet<SpriteMaterialTextureItem>
-                        {
-                            new SpriteMaterialTextureItem(0xffa854ff, "cc0Textures/Fabric012_1K", "jpg"),
-                            new SpriteMaterialTextureItem(0xff909090, "cc0Textures/Fabric020_1K", "jpg"),
-                            new SpriteMaterialTextureItem(0xff8c4800, "cc0Textures/Leather026_1K", "jpg"),
-                            new SpriteMaterialTextureItem(0xffffe254, "cc0Textures/Metal038_1K", "jpg"),
-                        }
-                    ));
+                spriteMaterial = await this.spriteMaterialManager.Checkout(new SpriteMaterialDescription
+                (
+                    colorMap: "original/amg1_full4.png",
+                    materials: new HashSet<SpriteMaterialTextureItem>
+                    {
+                        new SpriteMaterialTextureItem(0xffa854ff, "cc0Textures/Fabric012_1K", "jpg"),
+                        new SpriteMaterialTextureItem(0xff909090, "cc0Textures/Fabric020_1K", "jpg"),
+                        new SpriteMaterialTextureItem(0xff8c4800, "cc0Textures/Leather026_1K", "jpg"),
+                        new SpriteMaterialTextureItem(0xffffe254, "cc0Textures/Metal038_1K", "jpg"),
+                    }
+                ));
 
-                    if (disposed)
-                    {
-                        spriteMaterialManager.Return(spriteMaterial);
-                    }
-                    else
-                    {
-                        sceneObject.shaderResourceBinding = spriteMaterial.ShaderResourceBinding;
-                    }
-                });
+                if (disposed)
+                {
+                    spriteMaterialManager.Return(spriteMaterial);
+                    return; //Stop loading
+                }
 
                 if (!destructionRequest.DestructionRequested)
                 {
+                    sceneObject.shaderResourceBinding = spriteMaterial.ShaderResourceBinding;
                     sprites.Add(sprite);
                     sceneObjectManager.Add(sceneObject);
                 }
-            }
-            coroutine.Run(co());
+            });
         }
 
         internal void RequestDestruction()

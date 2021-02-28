@@ -126,10 +126,11 @@ namespace SceneTest
                 c.Gamepad = GamepadId.Pad2;
             });
 
+            var instantDestroy = objectResolver.Resolve<Player>();
+            instantDestroy.RequestDestruction();
+
             IEnumerator<YieldAction> playerCo()
             {
-                var instantDestroy = objectResolver.Resolve<Player>();
-                instantDestroy.RequestDestruction();
                 yield return coroutineRunner.WaitSeconds(5);
                 otherPlayer.RequestDestruction();
                 yield return coroutineRunner.WaitSeconds(5);

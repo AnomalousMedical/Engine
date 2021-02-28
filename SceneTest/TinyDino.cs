@@ -58,39 +58,35 @@ namespace SceneTest
                 Sprite = sprite,
             };
 
-            IEnumerator<YieldAction> co()
+            coroutine.RunTask(async () =>
             {
                 using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until coroutine is finished and this is disposed.
 
-                yield return coroutine.Await(async () =>
-                {
-                    spriteMaterial = await this.spriteMaterialManager.Checkout(new SpriteMaterialDescription
-                    (
-                        colorMap: "original/TinyDino_Color.png",
-                        materials: new HashSet<SpriteMaterialTextureItem>
-                        {
-                            new SpriteMaterialTextureItem(0xff168516, tinyDinoDesc.SkinMaterial, "jpg"), 
-                            new SpriteMaterialTextureItem(0xffff0000, tinyDinoDesc.SpinesMaterial, "jpg"),
-                        }
-                    ));
+                spriteMaterial = await this.spriteMaterialManager.Checkout(new SpriteMaterialDescription
+                (
+                    colorMap: "original/TinyDino_Color.png",
+                    materials: new HashSet<SpriteMaterialTextureItem>
+                    {
+                        new SpriteMaterialTextureItem(0xff168516, tinyDinoDesc.SkinMaterial, "jpg"), 
+                        new SpriteMaterialTextureItem(0xffff0000, tinyDinoDesc.SpinesMaterial, "jpg"),
+                    }
+                ));
 
-                    if (disposed)
-                    {
-                        spriteMaterialManager.Return(spriteMaterial);
-                    }
-                    else
-                    {
-                        sceneObject.shaderResourceBinding = spriteMaterial.ShaderResourceBinding;
-                    }
-                });
+                if (disposed)
+                {
+                    spriteMaterialManager.Return(spriteMaterial);
+                }
+                else
+                {
+                    sceneObject.shaderResourceBinding = spriteMaterial.ShaderResourceBinding;
+                }
 
                 if (!destructionRequest.DestructionRequested)
                 {
                     sprites.Add(sprite);
                     sceneObjectManager.Add(sceneObject);
                 }
-            }
-            coroutine.Run(co());
+            });
         }
 
         public void Dispose()

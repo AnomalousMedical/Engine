@@ -68,28 +68,23 @@ namespace SceneTest
                     new System.Numerics.Quaternion(description.Orientation.x, description.Orientation.y, description.Orientation.z, description.Orientation.w),
                     new CollidableDescription(shapeIndex, 0.1f)));
 
-            IEnumerator<YieldAction> co()
+            coroutine.RunTask(async () =>
             {
-                //This will load 1 texture per brick
-                yield return coroutine.Await(async () =>
+                using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until coroutine is finished and this is disposed.
+
+                matBinding = await textureManager.Checkout(new CCOTextureBindingDescription(description.Texture, getShadow: description.GetShadow));
+                if (disposed)
                 {
-                    matBinding = await textureManager.Checkout(new CCOTextureBindingDescription(description.Texture, getShadow: description.GetShadow));
-                    if (disposed)
-                    {
-                        textureManager.Return(matBinding);
-                    }
-                    else
-                    {
-                        sceneObject.shaderResourceBinding = matBinding;
-                    }
-                });
+                    textureManager.Return(matBinding);
+                    return; //Stop loading
+                }
 
                 if (!destructionRequest.DestructionRequested)
                 {
+                    sceneObject.shaderResourceBinding = matBinding;
                     this.sceneObjectManager.Add(sceneObject);
                 }
-            }
-            coroutine.Run(co());
+            });
         }
 
         public void Dispose()
