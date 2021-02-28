@@ -63,6 +63,7 @@ namespace BepuPlugin.Characters
         public void UpdateCharacterGoals(Vector3 viewDirection, float simulationTimestepDuration)
         {
             var movementDirectionCalc = this.movementDirection;
+            movementDirectionCalc.X *= -1; //Need to invert this vs our input
             var movementDirectionLengthSquared = movementDirectionCalc.LengthSquared();
             if (movementDirectionLengthSquared > 0)
             {

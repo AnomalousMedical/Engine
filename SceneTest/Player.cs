@@ -87,7 +87,7 @@ namespace SceneTest
         private int primaryHand;
         private int secondaryHand;
         private GamepadId gamepadId;
-        private bool allowJoystickInput;
+        private bool allowJoystickInput = true;
 
         ButtonEvent moveForward = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_W });
         ButtonEvent moveBackward = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_S });
@@ -160,26 +160,7 @@ namespace SceneTest
                     allowJoystickInput = moveForward.Up && moveBackward.Up && moveLeft.Up && moveRight.Up;
                 }
             };
-            //The x directions for left and right here seem reversed, but work
             moveLeft.FirstFrameDownEvent += l =>
-            {
-                if (l.EventProcessingAllowed)
-                {
-                    characterMover.movementDirection.X = 1;
-                    l.alertEventsHandled();
-                    allowJoystickInput = false;
-                }
-            };
-            moveLeft.FirstFrameUpEvent += l =>
-            {
-                if (l.EventProcessingAllowed)
-                {
-                    if (characterMover.movementDirection.X > 0.5f) { characterMover.movementDirection.X = 0; }
-                    l.alertEventsHandled();
-                    allowJoystickInput = moveForward.Up && moveBackward.Up && moveLeft.Up && moveRight.Up;
-                }
-            };
-            moveRight.FirstFrameDownEvent += l =>
             {
                 if (l.EventProcessingAllowed)
                 {
@@ -188,11 +169,29 @@ namespace SceneTest
                     allowJoystickInput = false;
                 }
             };
-            moveRight.FirstFrameUpEvent += l =>
+            moveLeft.FirstFrameUpEvent += l =>
             {
                 if (l.EventProcessingAllowed)
                 {
                     if (characterMover.movementDirection.X < 0.5f) { characterMover.movementDirection.X = 0; }
+                    l.alertEventsHandled();
+                    allowJoystickInput = moveForward.Up && moveBackward.Up && moveLeft.Up && moveRight.Up;
+                }
+            };
+            moveRight.FirstFrameDownEvent += l =>
+            {
+                if (l.EventProcessingAllowed)
+                {
+                    characterMover.movementDirection.X = 1;
+                    l.alertEventsHandled();
+                    allowJoystickInput = false;
+                }
+            };
+            moveRight.FirstFrameUpEvent += l =>
+            {
+                if (l.EventProcessingAllowed)
+                {
+                    if (characterMover.movementDirection.X > 0.5f) { characterMover.movementDirection.X = 0; }
                     l.alertEventsHandled();
                     allowJoystickInput = moveForward.Up && moveBackward.Up && moveLeft.Up && moveRight.Up;
                 }
@@ -350,9 +349,7 @@ namespace SceneTest
             if (eventLayer.EventProcessingAllowed && allowJoystickInput)
             {
                 var pad = eventLayer.getGamepad(gamepadId);
-                var stick = pad.LStick;
-                stick.x *= -1f;
-                characterMover.movementDirection = stick.ToSystemNumerics();
+                characterMover.movementDirection = pad.LStick.ToSystemNumerics();
             }
         }
 
