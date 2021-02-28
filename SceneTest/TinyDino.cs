@@ -28,6 +28,7 @@ namespace SceneTest
         private readonly ISpriteMaterialManager spriteMaterialManager;
         private SceneObject sceneObject;
         private Sprite sprite = new Sprite() { BaseScale = new Vector3(1.466666666666667f, 1, 1) };
+        private bool disposed;
 
         public TinyDino(
             SceneObjectManager sceneObjectManager,
@@ -42,8 +43,25 @@ namespace SceneTest
             this.sprites = sprites;
             this.destructionRequest = destructionRequest;
             this.spriteMaterialManager = spriteMaterialManager;
+
+            sceneObject = new SceneObject()
+            {
+                vertexBuffer = plane.VertexBuffer,
+                skinVertexBuffer = plane.SkinVertexBuffer,
+                indexBuffer = plane.IndexBuffer,
+                numIndices = plane.NumIndices,
+                pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
+                position = tinyDinoDesc.Translation,
+                orientation = tinyDinoDesc.Orientation,
+                scale = sprite.BaseScale * tinyDinoDesc.Scale,
+                RenderShadow = true,
+                Sprite = sprite,
+            };
+
             IEnumerator<YieldAction> co()
             {
+                using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until coroutine is finished and this is disposed.
+
                 yield return coroutine.Await(async () =>
                 {
                     spriteMaterial = await this.spriteMaterialManager.Checkout(new SpriteMaterialDescription
@@ -55,31 +73,29 @@ namespace SceneTest
                             new SpriteMaterialTextureItem(0xffff0000, tinyDinoDesc.SpinesMaterial, "jpg"),
                         }
                     ));
+
+                    if (disposed)
+                    {
+                        spriteMaterialManager.Return(spriteMaterial);
+                    }
+                    else
+                    {
+                        sceneObject.shaderResourceBinding = spriteMaterial.ShaderResourceBinding;
+                    }
                 });
 
-                sceneObject = new SceneObject()
+                if (!destructionRequest.DestructionRequested)
                 {
-                    vertexBuffer = plane.VertexBuffer,
-                    skinVertexBuffer = plane.SkinVertexBuffer,
-                    indexBuffer = plane.IndexBuffer,
-                    numIndices = plane.NumIndices,
-                    pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
-                    position = tinyDinoDesc.Translation,
-                    orientation = tinyDinoDesc.Orientation,
-                    scale = sprite.BaseScale * tinyDinoDesc.Scale,
-                    shaderResourceBinding = spriteMaterial.ShaderResourceBinding,
-                    RenderShadow = true,
-                    Sprite = sprite,
-                };
-
-                sprites.Add(sprite);
-                sceneObjectManager.Add(sceneObject);
+                    sprites.Add(sprite);
+                    sceneObjectManager.Add(sceneObject);
+                }
             }
             coroutine.Run(co());
         }
 
         public void Dispose()
         {
+            disposed = true;
             sprites.Remove(sprite);
             sceneObjectManager.Remove(sceneObject);
             spriteMaterialManager.TryReturn(spriteMaterial);

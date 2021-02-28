@@ -75,7 +75,7 @@ namespace SceneTest
                 {
                     spriteMaterial = await this.spriteMaterialManager.Checkout(attachmentDescription.SpriteMaterial);
 
-                    if (this.disposed)
+                    if (this.disposed) //Could be disposed here, tasks fire in their own queue
                     {
                         this.spriteMaterialManager.Return(spriteMaterial);
                     }
@@ -85,8 +85,8 @@ namespace SceneTest
                     }
                 });
 
-                if (!destructionRequest.DestructionRequested && !this.disposed)
-                {
+                if (!destructionRequest.DestructionRequested) //If we are already being destroyed, don't add to the scene any further
+                {                                             //Don't have to check for dispose since the coroutine will stop on dispose, due to scoped coroutine
                     sprites.Add(sprite);
                     sceneObjectManager.Add(sceneObject);
                 }

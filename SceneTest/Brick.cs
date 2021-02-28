@@ -31,6 +31,7 @@ namespace SceneTest
         private SceneObject sceneObject;
         private StaticHandle staticHandle;
         private TypedIndex shapeIndex;
+        private bool disposed;
 
         public Brick(
             SceneObjectManager sceneObjectManager,
@@ -73,17 +74,27 @@ namespace SceneTest
                 yield return coroutine.Await(async () =>
                 {
                     matBinding = await textureManager.Checkout(new CCOTextureBindingDescription(description.Texture, getShadow: description.GetShadow));
+                    if (disposed)
+                    {
+                        textureManager.Return(matBinding);
+                    }
+                    else
+                    {
+                        sceneObject.shaderResourceBinding = matBinding;
+                    }
                 });
 
-                sceneObject.shaderResourceBinding = matBinding;
-
-                this.sceneObjectManager.Add(sceneObject);
+                if (!destructionRequest.DestructionRequested)
+                {
+                    this.sceneObjectManager.Add(sceneObject);
+                }
             }
             coroutine.Run(co());
         }
 
         public void Dispose()
         {
+            disposed = true;
             bepuScene.Simulation.Shapes.Remove(shapeIndex);
             bepuScene.Simulation.Statics.Remove(staticHandle);
             sceneObjectManager.Remove(sceneObject);

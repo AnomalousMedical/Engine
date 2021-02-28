@@ -96,6 +96,8 @@ namespace SceneTest
         ButtonEvent sprint = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_LSHIFT });
         ButtonEvent jump = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_SPACE });
 
+        private bool disposed;
+
         public Player(
             SceneObjectManager sceneObjectManager,
             SpriteManager sprites,
@@ -339,7 +341,14 @@ namespace SceneTest
                         }
                     ));
 
-                    sceneObject.shaderResourceBinding = spriteMaterial.ShaderResourceBinding;
+                    if (disposed)
+                    {
+                        spriteMaterialManager.Return(spriteMaterial);
+                    }
+                    else
+                    {
+                        sceneObject.shaderResourceBinding = spriteMaterial.ShaderResourceBinding;
+                    }
                 });
 
                 if (!destructionRequest.DestructionRequested)
@@ -378,6 +387,7 @@ namespace SceneTest
 
         public void Dispose()
         {
+            disposed = true;
             eventManager.removeEvent(moveForward);
             eventManager.removeEvent(moveBackward);
             eventManager.removeEvent(moveLeft);
