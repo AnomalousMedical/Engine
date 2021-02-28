@@ -60,7 +60,7 @@ namespace BepuPlugin.Characters
             characters.RemoveCharacterByBodyHandle(bodyHandle);
         }
 
-        public void UpdateCharacterGoals(Vector3 viewDirection, float simulationTimestepDuration)
+        public void UpdateCharacterGoals(in Vector3 viewDirection, float simulationTimestepDuration)
         {
             var movementDirectionCalc = this.movementDirection;
             movementDirectionCalc.X *= -1; //Need to invert this vs our input

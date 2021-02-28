@@ -283,6 +283,7 @@ namespace SceneTest
             this.destructionRequest = destructionRequest;
             this.spriteMaterialManager = spriteMaterialManager;
             this.bepuScene = bepuScene;
+            this.bepuScene.OnUpdated += BepuScene_OnUpdated;
             this.eventManager = eventManager;
             IEnumerator<YieldAction> co()
             {
@@ -344,6 +345,17 @@ namespace SceneTest
             characterMover = bepuScene.CreateCharacterMover(bodyDesc, moverDesc);
         }
 
+        private void BepuScene_OnUpdated(IBepuScene obj)
+        {
+            var body = bepuScene.Simulation.Bodies.GetBodyReference(characterMover.BodyHandle);
+            var pose = body.Pose;
+            var bodPos = pose.Position;
+            this.sceneObject.position = new Vector3(bodPos.X, bodPos.Y, bodPos.Z);
+            var bodOrientation = pose.Orientation;
+            this.sceneObject.orientation = new Quaternion(bodOrientation.X, bodOrientation.Y, bodOrientation.Z, bodOrientation.W);
+            Sprite_FrameChanged(sprite);
+        }
+
         private void EventLayer_OnUpdate(EventLayer eventLayer)
         {
             if (eventLayer.EventProcessingAllowed && allowJoystickInput)
@@ -364,6 +376,7 @@ namespace SceneTest
 
             eventLayer.OnUpdate -= EventLayer_OnUpdate; //Do have to remove this since its on the layer itself
 
+            this.bepuScene.OnUpdated -= BepuScene_OnUpdated;
             bepuScene.DestroyCharacterMover(characterMover);
             sprite.FrameChanged -= Sprite_FrameChanged;
             sprites.Remove(sprite);
@@ -390,17 +403,6 @@ namespace SceneTest
                 offset = Quaternion.quatRotate(ref this.sceneObject.orientation, ref offset) + this.sceneObject.position;
                 shield.SetPosition(ref offset, ref this.sceneObject.orientation, ref scale);
             }
-        }
-
-        public void SyncPhysics(Clock clock)
-        {
-            var body = bepuScene.Simulation.Bodies.GetBodyReference(characterMover.BodyHandle);
-            var pose = body.Pose;
-            var bodPos = pose.Position;
-            this.sceneObject.position = new Vector3(bodPos.X, bodPos.Y, bodPos.Z);
-            var bodOrientation = pose.Orientation;
-            this.sceneObject.orientation = new Quaternion(bodOrientation.X, bodOrientation.Y, bodOrientation.Z, bodOrientation.W);
-            Sprite_FrameChanged(sprite);
         }
     }
 }

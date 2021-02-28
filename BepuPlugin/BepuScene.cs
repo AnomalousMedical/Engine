@@ -20,6 +20,8 @@ namespace BepuPlugin
         private readonly EventManager eventManager;
         private List<CharacterMover> characterMovers = new List<CharacterMover>();
 
+        public event Action<IBepuScene> OnUpdated;
+
         public BepuScene(EventManager eventManager)
         {
             //The buffer pool is a source of raw memory blobs for the engine to use.
@@ -49,7 +51,7 @@ namespace BepuPlugin
             bufferPool.Clear();
         }
 
-        public void Update(Clock clock, Vector3 cameraForward)
+        public void Update(Clock clock, in Vector3 cameraForward)
         {
             var timestep = clock.DeltaSeconds; //NEED to make this fixed.
 
@@ -60,6 +62,8 @@ namespace BepuPlugin
             }
 
             simulation.Timestep(timestep, threadDispatcher);
+
+            this.OnUpdated?.Invoke(this);
         }
 
         public CharacterMover CreateCharacterMover(in BodyDescription bodyDescription, CharacterMoverDescription desc)

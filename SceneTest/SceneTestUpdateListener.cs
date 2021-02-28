@@ -51,8 +51,6 @@ namespace SceneTest
         private readonly IObjectResolver objectResolver;
         private SoundAndSource bgMusicSound;
 
-        private Player player;
-
         private PbrRenderer pbrRenderer;
         private AutoPtr<ITextureView> environmentMapSRV;
 
@@ -120,7 +118,7 @@ namespace SceneTest
             pbrRenderer.PrecomputeCubemaps(renderDevice, immediateContext, environmentMapSRV.Obj);
 
             //Make scene
-            this.player = this.objectResolver.Resolve<Player>();
+            this.objectResolver.Resolve<Player>();
             this.objectResolver.Resolve<TinyDino, TinyDino.Desc>(c =>
             {
                 c.Translation = new Vector3(-4, 0, -1);
@@ -255,7 +253,6 @@ namespace SceneTest
         {
             //Update
             bepuScene.Update(clock, new System.Numerics.Vector3(0, 0, 1));
-            player.SyncPhysics(clock);
             timeClock.Update(clock);
             UpdateGui(clock);
             if (useFirstPersonCamera)

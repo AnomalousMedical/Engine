@@ -55,3 +55,6 @@ Haven't tried tabs yet in the fonts. They are their own setting so need to mess 
 ## Physics character input seems backward
 The input for the charcter seems to need a reversed x axis to work. Left / right are +1 and -1 vs -1 and + as would be expected.
 Things collide correctly, so it must be right, but its strange.
+
+## Use new in keyword
+Switch ref to in where possible and pass as many structs as possible with in. See if things like Vector3.Forward can be made readonly then.
