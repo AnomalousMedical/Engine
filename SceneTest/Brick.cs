@@ -58,6 +58,15 @@ namespace SceneTest
                 GetShadows = description.GetShadow
             };
 
+            var shape = new Box(description.Scale.x, description.Scale.y, description.Scale.z); //Each one creates its own, try to load from resources
+            shapeIndex = bepuScene.Simulation.Shapes.Add(shape);
+
+            staticHandle = bepuScene.Simulation.Statics.Add(
+                new StaticDescription(
+                    new System.Numerics.Vector3(description.Translation.x, description.Translation.y, description.Translation.z),
+                    new System.Numerics.Quaternion(description.Orientation.x, description.Orientation.y, description.Orientation.z, description.Orientation.w),
+                    new CollidableDescription(shapeIndex, 0.1f)));
+
             IEnumerator<YieldAction> co()
             {
                 //This will load 1 texture per brick
@@ -71,15 +80,6 @@ namespace SceneTest
                 this.sceneObjectManager.Add(sceneObject);
             }
             coroutine.Run(co());
-
-            var shape = new Box(description.Scale.x, description.Scale.y, description.Scale.z); //Each one creates its own, try to load from resources
-            shapeIndex = bepuScene.Simulation.Shapes.Add(shape);
-
-            staticHandle = bepuScene.Simulation.Statics.Add(
-                new StaticDescription(
-                    new System.Numerics.Vector3(description.Translation.x, description.Translation.y, description.Translation.z),
-                    new System.Numerics.Quaternion(description.Orientation.x, description.Orientation.y, description.Orientation.z, description.Orientation.w),
-                    new CollidableDescription(shapeIndex, 0.1f)));
         }
 
         public void Dispose()
@@ -87,7 +87,7 @@ namespace SceneTest
             bepuScene.Simulation.Shapes.Remove(shapeIndex);
             bepuScene.Simulation.Statics.Remove(staticHandle);
             sceneObjectManager.Remove(sceneObject);
-            textureManager.Return(matBinding);
+            textureManager.TryReturn(matBinding);
         }
     }
 }

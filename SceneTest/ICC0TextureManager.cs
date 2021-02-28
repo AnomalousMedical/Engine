@@ -15,6 +15,13 @@ namespace SceneTest
 
         /// <summary>
         /// Return a srb to the texture manager. When all checked out instances are returned
+        /// the srb is destroyed. This can safely be passed null and will check for it.
+        /// </summary>
+        /// <param name="binding"></param>
+        void TryReturn(IShaderResourceBinding binding);
+
+        /// <summary>
+        /// Return a srb to the texture manager. When all checked out instances are returned
         /// the srb is destroyed.
         /// </summary>
         /// <param name="binding"></param>

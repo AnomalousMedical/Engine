@@ -32,6 +32,7 @@ namespace SceneTest
         private readonly ISpriteMaterialManager spriteMaterialManager;
         private SceneObject sceneObject;
         private Sprite sprite;
+        private bool disposed;
 
         private Quaternion orientation;
 
@@ -68,14 +69,27 @@ namespace SceneTest
 
             IEnumerator<YieldAction> co()
             {
+                using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until coroutine is finished and this is disposed.
+
                 yield return coroutine.Await(async () =>
                 {
                     spriteMaterial = await this.spriteMaterialManager.Checkout(attachmentDescription.SpriteMaterial);
 
-                    sceneObject.shaderResourceBinding = spriteMaterial.ShaderResourceBinding;
+                    if (this.disposed)
+                    {
+                        this.spriteMaterialManager.Return(spriteMaterial);
+                    }
+                    else
+                    {
+                        sceneObject.shaderResourceBinding = spriteMaterial.ShaderResourceBinding;
+                    }
                 });
-                sprites.Add(sprite);
-                sceneObjectManager.Add(sceneObject);
+
+                if (!destructionRequest.DestructionRequested && !this.disposed)
+                {
+                    sprites.Add(sprite);
+                    sceneObjectManager.Add(sceneObject);
+                }
             }
             coroutine.Run(co());
         }
@@ -98,9 +112,10 @@ namespace SceneTest
 
         public void Dispose()
         {
+            disposed = true;
             sprites.Remove(sprite);
             sceneObjectManager.Remove(sceneObject);
-            spriteMaterialManager.Return(spriteMaterial);
+            spriteMaterialManager.TryReturn(spriteMaterial);
         }
     }
 }

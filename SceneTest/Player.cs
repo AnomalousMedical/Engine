@@ -393,7 +393,7 @@ namespace SceneTest
             sprite.FrameChanged -= Sprite_FrameChanged;
             sprites.Remove(sprite);
             sceneObjectManager.Remove(sceneObject);
-            spriteMaterialManager.Return(spriteMaterial);
+            spriteMaterialManager.TryReturn(spriteMaterial);
             objectResolver.Dispose();
         }
 

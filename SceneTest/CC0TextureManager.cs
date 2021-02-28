@@ -86,5 +86,13 @@ namespace SceneTest
         {
             pooledResources.Return(binding);
         }
+
+        public void TryReturn(IShaderResourceBinding binding)
+        {
+            if(binding != null)
+            {
+                Return(binding);
+            }
+        }
     }
 }

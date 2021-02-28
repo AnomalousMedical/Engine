@@ -82,7 +82,7 @@ namespace SceneTest
         {
             sprites.Remove(sprite);
             sceneObjectManager.Remove(sceneObject);
-            spriteMaterialManager.Return(spriteMaterial);
+            spriteMaterialManager.TryReturn(spriteMaterial);
         }
     }
 }

@@ -143,6 +143,14 @@ namespace SceneTest
             });
         }
 
+        public void TryReturn(ISpriteMaterial item)
+        {
+            if (item != null)
+            {
+                Return(item);
+            }
+        }
+
         public void Return(ISpriteMaterial item)
         {
             pooledResources.Return(item);
