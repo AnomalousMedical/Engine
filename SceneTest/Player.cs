@@ -46,6 +46,46 @@ namespace SceneTest
 
         private FrameEventSprite sprite = new FrameEventSprite(new Dictionary<string, SpriteAnimation>()
         {
+            { "stand-down", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro),
+                new SpriteFrame(SpriteStepX * 2, SpriteStepY * 1, SpriteStepX * 3, SpriteStepY * 2)
+                {
+                    Attachments = new List<SpriteFrameAttachment>()
+                    {
+                        SpriteFrameAttachment.FromFramePosition(3, 23, -0.01f, 32, 32), //Right Hand
+                        SpriteFrameAttachment.FromFramePosition(29, 23, -0.01f, 32, 32), //Left Hand
+                    }
+                } )
+            },
+            { "stand-left", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro),
+                new SpriteFrame(SpriteStepX * 3, SpriteStepY * 0, SpriteStepX * 4, SpriteStepY * 1)
+                {
+                    Attachments = new List<SpriteFrameAttachment>()
+                    {
+                        SpriteFrameAttachment.FromFramePosition(16, 23, +0.01f, 32, 32), //Right Hand
+                        SpriteFrameAttachment.FromFramePosition(16, 23, -0.01f, 32, 32), //Left Hand
+                    }
+                })
+            },
+            { "stand-right", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro),
+                new SpriteFrame(SpriteStepX * 4, SpriteStepY * 0, SpriteStepX * 3, SpriteStepY * 1)
+                {
+                    Attachments = new List<SpriteFrameAttachment>()
+                    {
+                        SpriteFrameAttachment.FromFramePosition(16, 23, -0.01f, 32, 32), //Right Hand
+                        SpriteFrameAttachment.FromFramePosition(16, 23, +0.01f, 32, 32), //Left Hand
+                    }
+                } )
+            },
+            { "stand-up", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro),
+                new SpriteFrame(SpriteStepX * 3, SpriteStepY * 1, SpriteStepX * 4, SpriteStepY * 2)
+                {
+                    Attachments = new List<SpriteFrameAttachment>()
+                    {
+                        SpriteFrameAttachment.FromFramePosition(29, 23, +0.01f, 32, 32), //Right Hand
+                        SpriteFrameAttachment.FromFramePosition(3, 23, +0.01f, 32, 32), //Left Hand
+                    }
+                } )
+            },
             { "down", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro),
                 new SpriteFrame(SpriteStepX * 1, SpriteStepY * 0, SpriteStepX * 2, SpriteStepY * 1)
                 {
@@ -175,6 +215,7 @@ namespace SceneTest
                     characterMover.movementDirection.Y = 1;
                     l.alertEventsHandled();
                     allowJoystickInput = false;
+                    this.sprite.SetAnimation("up");
                 }
             };
             moveForward.FirstFrameUpEvent += l =>
@@ -193,6 +234,7 @@ namespace SceneTest
                     characterMover.movementDirection.Y = -1;
                     l.alertEventsHandled();
                     allowJoystickInput = false;
+                    this.sprite.SetAnimation("down");
                 }
             };
             moveBackward.FirstFrameUpEvent += l =>
@@ -211,6 +253,7 @@ namespace SceneTest
                     characterMover.movementDirection.X = -1;
                     l.alertEventsHandled();
                     allowJoystickInput = false;
+                    this.sprite.SetAnimation("left");
                 }
             };
             moveLeft.FirstFrameUpEvent += l =>
@@ -229,6 +272,7 @@ namespace SceneTest
                     characterMover.movementDirection.X = 1;
                     l.alertEventsHandled();
                     allowJoystickInput = false;
+                    this.sprite.SetAnimation("right");
                 }
             };
             moveRight.FirstFrameUpEvent += l =>
@@ -438,7 +482,39 @@ namespace SceneTest
             if (eventLayer.EventProcessingAllowed && allowJoystickInput)
             {
                 var pad = eventLayer.getGamepad(gamepadId);
-                characterMover.movementDirection = pad.LStick.ToSystemNumerics();
+                var movementDir = pad.LStick;
+                characterMover.movementDirection = movementDir.ToSystemNumerics();
+
+                //Figure out orientation, need a better way to do this
+                if (movementDir.y > 0.3f)
+                {
+                    sprite.SetAnimation("up");
+                }
+                else if (movementDir.y < -0.3f)
+                {
+                    sprite.SetAnimation("down");
+                }
+                else if(movementDir.x > 0)
+                {
+                    sprite.SetAnimation("right");
+                }
+                else if(movementDir.x < 0)
+                {
+                    sprite.SetAnimation("left");
+                }
+            }
+
+            if(characterMover.movementDirection.X == 0 && characterMover.movementDirection.Y == 0)
+            {
+                switch (sprite.CurrentAnimationName)
+                {
+                    case "up":
+                    case "down":
+                    case "left":
+                    case "right":
+                        sprite.SetAnimation($"stand-{sprite.CurrentAnimationName}");
+                        break;
+                }
             }
         }
 

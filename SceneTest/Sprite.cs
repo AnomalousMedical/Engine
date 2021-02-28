@@ -132,6 +132,7 @@ namespace SceneTest
     {
         private Dictionary<String, SpriteAnimation> animations;
         private SpriteAnimation current;
+        private String currentName;
         private long frameTime;
         private long duration;
         private int frame;
@@ -164,12 +165,20 @@ namespace SceneTest
 
         public void SetAnimation(String animationName)
         {
+            if(animationName == currentName)
+            {
+                return;
+            }
+
+            currentName = animationName;
+
             if (!animations.TryGetValue(animationName, out current))
             {
                 current = animations.Values.First();
             }
             frameTime = 0;
             duration = current.duration;
+            frame = 0;
         }
 
         public void Update(Clock clock)
@@ -188,5 +197,7 @@ namespace SceneTest
         {
             return current.frames[frame];
         }
+
+        public String CurrentAnimationName => currentName;
     }
 }
