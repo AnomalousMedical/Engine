@@ -46,6 +46,42 @@ namespace SceneTest
 
         private FrameEventSprite sprite = new FrameEventSprite(new Dictionary<string, SpriteAnimation>()
         {
+            { "right", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro),
+                new SpriteFrame(SpriteStepX * 3, SpriteStepY * 0, SpriteStepX * 2, SpriteStepY * 1)
+                {
+                    Attachments = new List<SpriteFrameAttachment>()
+                    {
+                        SpriteFrameAttachment.FromFramePosition(12, 24, -0.01f, 32, 32), //Right Hand
+                        SpriteFrameAttachment.FromFramePosition(23, 21, +0.01f, 32, 32), //Left Hand
+                    }
+                },
+                new SpriteFrame(SpriteStepX * 4, SpriteStepY * 0, SpriteStepX * 3, SpriteStepY * 1)
+                {
+                    Attachments = new List<SpriteFrameAttachment>()
+                    {
+                        SpriteFrameAttachment.FromFramePosition(16, 23, -0.01f, 32, 32), //Right Hand
+                        SpriteFrameAttachment.FromFramePosition(16, 23, +0.01f, 32, 32), //Left Hand
+                    }
+                } )
+            },
+            { "left", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro),
+                new SpriteFrame(SpriteStepX * 2, SpriteStepY * 0, SpriteStepX * 3, SpriteStepY * 1)
+                {
+                    Attachments = new List<SpriteFrameAttachment>()
+                    {
+                        SpriteFrameAttachment.FromFramePosition(9, 21, +0.01f, 32, 32), //Right Hand
+                        SpriteFrameAttachment.FromFramePosition(20, 24, -0.01f, 32, 32), //Left Hand
+                    }
+                },
+                new SpriteFrame(SpriteStepX * 3, SpriteStepY * 0, SpriteStepX * 4, SpriteStepY * 1)
+                {
+                    Attachments = new List<SpriteFrameAttachment>()
+                    {
+                        SpriteFrameAttachment.FromFramePosition(16, 23, +0.01f, 32, 32), //Right Hand
+                        SpriteFrameAttachment.FromFramePosition(16, 23, -0.01f, 32, 32), //Left Hand
+                    }
+                } )
+            },
             { "down", new SpriteAnimation((int)(0.7f * Clock.SecondsToMicro),
                 new SpriteFrame(SpriteStepX * 1, SpriteStepY * 0, SpriteStepX * 2, SpriteStepY * 1)
                 {
@@ -64,17 +100,9 @@ namespace SceneTest
                     }
                 } )
             },
-            { "left", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro),
-                new SpriteFrame(SpriteStepX * 2, SpriteStepY * 0, SpriteStepX * 3, SpriteStepY * 1),
-                new SpriteFrame(SpriteStepX * 3, SpriteStepY * 0, SpriteStepX * 4, SpriteStepY * 1) )
-            },
             { "up", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro),
                 new SpriteFrame(SpriteStepX * 0, SpriteStepY * 0, SpriteStepX * 1, SpriteStepY * 1),
                 new SpriteFrame(SpriteStepX * 0, SpriteStepY * 1, SpriteStepX * 1, SpriteStepY * 2) )
-            },
-            { "right", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro),
-                new SpriteFrame(SpriteStepX * 2, SpriteStepY * 1, SpriteStepX * 3, SpriteStepY * 2),
-                new SpriteFrame(SpriteStepX * 3, SpriteStepY * 1, SpriteStepX * 4, SpriteStepY * 2) )
             },
         });
 
