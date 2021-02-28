@@ -6,10 +6,6 @@ Make / load mipmaps for things.
 ## Figure out why orientation has to be inverted from physics to rendering
 This is all handled by the pbr renderer, but it is strange that rotations have to be inverted to render correctly.
 
-## Figure out why camera position is backward
-In order to move the camera through the world in the same coords as the rest the position must be inverted before setting the shader. This is
-handled in pbr camera and lights.
-
 ## Refactor Sprites to have better vertex shader
 Right now the sprite info is hacked into the bone matrix. Refactor the shader to have better input for sprites and take out what it doesnt need like the bones
 
@@ -17,9 +13,6 @@ Right now the sprite info is hacked into the bone matrix. Refactor the shader to
 use a fixed timestep with an accumulator, interpolate in between values
 keep everything position seen on this frame, throw away results from last frame use this to interpolate unless its too old then just use the current value. assumption is nothing cared about its position until just now
 otherwise can we make a copy of the whole simulation since it uses a buffer?
-
-## Get rid of custom file modes for virtual file system
-Engine.Resources.FileMode
 
 ## Add wrapping support for material textures
 Right now the material textures only work if the dest size is smaller than the source size
@@ -52,6 +45,8 @@ Haven't tried tabs yet in the fonts. They are their own setting so need to mess 
 ## Use new in keyword
 Switch ref to in where possible and pass as many structs as possible with in. See if things like Vector3.Forward can be made readonly then.
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 # Low Priority
 Stuff that is partially solved or maybe doesn't matter.
 
@@ -60,3 +55,9 @@ The input for the charcter seems to need a reversed x axis to work. Left / right
 Things collide correctly, so it must be right, but its strange.
 
 This is currently fixed in the CharacterMover, since this is part of the physics this is should be enough for now.
+
+## Figure out why camera position is backward
+In order to move the camera through the world in the same coords as the rest the position must be inverted before setting the shader. This is
+handled in pbr camera and lights.
+
+This is fixed in the pbr renderer when setting position via vector3, quaternion. Probably not a big deal for now. Everything else seems right.

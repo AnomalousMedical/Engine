@@ -147,7 +147,7 @@ namespace Tutorial13_ShadowMap
             Barriers.Add(new StateTransitionDesc() { pResource = m_CubeVertexBuffer.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_VERTEX_BUFFER, UpdateResourceState = true });
             Barriers.Add(new StateTransitionDesc() { pResource = m_CubeIndexBuffer.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_INDEX_BUFFER, UpdateResourceState = true });
             // Load texture
-            using var textureStream = virtualFileSystem.openStream("AnomalousEngine.png", Engine.Resources.FileMode.Open);
+            using var textureStream = virtualFileSystem.openStream("AnomalousEngine.png", FileMode.Open);
             using var CubeTexture = textureLoader.LoadTexture(textureStream, "Cube Texture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true);
             //auto CubeTexture = TexturedCube::LoadTexture(m_pDevice, "DGLogo.png");
             m_CubeSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_Texture").Set(CubeTexture.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));

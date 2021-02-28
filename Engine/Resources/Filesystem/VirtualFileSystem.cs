@@ -206,7 +206,7 @@ namespace Engine
             throw new FileNotFoundException(String.Format("Could not find directory \"{0}\" in virtual file system.", url), url);
         }
 
-        public Stream openStream(String url, Resources.FileMode mode)
+        public Stream openStream(String url, FileMode mode)
         {
             url = FileSystem.fixPathFile(url);
             Archive targetArchive;
@@ -217,7 +217,7 @@ namespace Engine
             throw new FileNotFoundException(String.Format("Could not find file \"{0}\" in virtual file system.", url), url);
         }
 
-        public Stream openStream(String url, Resources.FileMode mode, Resources.FileAccess access)
+        public Stream openStream(String url, FileMode mode, FileAccess access)
         {
             url = FileSystem.fixPathFile(url);
             Archive targetArchive;
@@ -228,7 +228,7 @@ namespace Engine
             throw new FileNotFoundException(String.Format("Could not find file \"{0}\" in virtual file system.", url), url);
         }
 
-        public Stream openStream(String url, Resources.FileMode mode, Resources.FileAccess access, Resources.FileShare share)
+        public Stream openStream(String url, FileMode mode, FileAccess access, FileShare share)
         {
             url = FileSystem.fixPathFile(url);
             Archive targetArchive;

@@ -9,6 +9,7 @@ using SharpGui;
 using SoundPlugin;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -222,7 +223,7 @@ namespace SceneTest
                 bgMusicSound?.Dispose();
 
                 timeClock.CurrentTimeMicro = timeClock.DayEnd;
-                var stream = virtualFileSystem.openStream("freepd/Rafael Krux - The Range-10.ogg", Engine.Resources.FileMode.Open, Engine.Resources.FileAccess.Read, Engine.Resources.FileShare.Read);
+                var stream = virtualFileSystem.openStream("freepd/Rafael Krux - The Range-10.ogg", FileMode.Open, FileAccess.Read, FileShare.Read);
                 bgMusicSound = soundManager.StreamPlaySound(stream);
                 bgMusicSound.Sound.Repeat = true;
             }

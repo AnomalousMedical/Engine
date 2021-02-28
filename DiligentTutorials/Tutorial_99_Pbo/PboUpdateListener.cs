@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using DiligentEngine.GltfPbr;
 using DiligentEngine.GltfPbr.Shapes;
 using FreeImageAPI;
+using System.IO;
 
 namespace Tutorial_99_Pbo
 {
@@ -152,7 +153,7 @@ namespace Tutorial_99_Pbo
 
         private unsafe void LoadCCoMaterial()
         {
-            using var stream = virtualFileSystem.openStream("spritewalk/Simple_Color.png", Engine.Resources.FileMode.Open);
+            using var stream = virtualFileSystem.openStream("spritewalk/Simple_Color.png", FileMode.Open);
             using var image = FreeImageBitmap.FromStream(stream);
             var materials = new Dictionary<uint, (String, String)>()
             {

@@ -32,7 +32,7 @@ namespace Engine.Resources
 
         public Stream openFile(string filename)
         {
-            return virtualFileSystem.openStream(Path.Combine(parentPath, filename), Engine.Resources.FileMode.Open, FileAccess.Read, FileShare.Read);
+            return virtualFileSystem.openStream(Path.Combine(parentPath, filename), FileMode.Open, FileAccess.Read, FileShare.Read);
         }
 
         public Stream openWriteStream(String filename)
