@@ -52,5 +52,15 @@ namespace Engine
         {
             return coroutineRunner.Await(task);
         }
+
+        public void RunTask(Task t)
+        {
+            coroutineRunner.RunTask(t);
+        }
+
+        public void RunTask(Func<Task> t)
+        {
+            coroutineRunner.RunTask(t);
+        }
     }
 }

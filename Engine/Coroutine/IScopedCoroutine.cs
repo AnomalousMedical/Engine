@@ -16,6 +16,29 @@ namespace Engine
         YieldAction Await(Task task);
         void Queue(IEnumerator<YieldAction> coroutine);
         void Run(IEnumerator<YieldAction> coroutine);
+
+        /// <summary>
+        /// Run a task using the coroutine runner. The task will be started on a tiny 1 step
+        /// coroutine with it inside. The task will pump all the way to completion like any
+        /// coroutine task. Essentially the task will run and any coroutine stuff can be safely
+        /// ignored. Good for loading resources, but for precise timing use coroutines directly with Run.
+        /// Tasks execute on their own queue and they will not stop like coroutines started by this
+        /// scope. This is true of yield return coroutine.Async as well.
+        /// </summary>
+        /// <param name="t">The task to run.</param>
+        public void RunTask(Task t);
+
+        /// <summary>
+        /// Run a task using the coroutine runner. The task will be started on a tiny 1 step
+        /// coroutine with it inside. The task will pump all the way to completion like any
+        /// coroutine task. Essentially the task will run and any coroutine stuff can be safely
+        /// ignored. Good for loading resources, but for precise timing use coroutines directly with Run.
+        /// Tasks execute on their own queue and they will not stop like coroutines started by this
+        /// scope. This is true of yield return coroutine.Async as well.
+        /// </summary>
+        /// <param name="t">The task to run.</param>
+        public void RunTask(Func<Task> t);
+
         YieldAction WaitSeconds(double seconds);
     }
 }

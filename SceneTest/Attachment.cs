@@ -67,31 +67,25 @@ namespace SceneTest
                 Sprite = sprite,
             };
 
-            IEnumerator<YieldAction> co()
+            coroutine.RunTask(async () =>
             {
-                using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until coroutine is finished and this is disposed.
+                using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until task is finished and this is disposed.
 
-                yield return coroutine.Await(async () =>
+                spriteMaterial = await this.spriteMaterialManager.Checkout(attachmentDescription.SpriteMaterial);
+
+                if (this.disposed)
                 {
-                    spriteMaterial = await this.spriteMaterialManager.Checkout(attachmentDescription.SpriteMaterial);
+                    this.spriteMaterialManager.Return(spriteMaterial);
+                    return; //Stop loading
+                }
 
-                    if (this.disposed) //Could be disposed here, tasks fire in their own queue
-                    {
-                        this.spriteMaterialManager.Return(spriteMaterial);
-                    }
-                    else
-                    {
-                        sceneObject.shaderResourceBinding = spriteMaterial.ShaderResourceBinding;
-                    }
-                });
-
-                if (!destructionRequest.DestructionRequested) //If we are already being destroyed, don't add to the scene any further
-                {                                             //Don't have to check for dispose since the coroutine will stop on dispose, due to scoped coroutine
+                if (!destructionRequest.DestructionRequested) //This is more to prevent a flash for 1 frame of the object
+                {
+                    sceneObject.shaderResourceBinding = spriteMaterial.ShaderResourceBinding;
                     sprites.Add(sprite);
                     sceneObjectManager.Add(sceneObject);
                 }
-            }
-            coroutine.Run(co());
+            });
         }
 
         public void SetPosition(ref Vector3 parentPosition, ref Quaternion parentRotation, ref Vector3 parentScale)

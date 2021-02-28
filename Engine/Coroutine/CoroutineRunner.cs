@@ -46,6 +46,24 @@ namespace Engine
             }
         }
 
+        public void RunTask(Task t)
+        {
+            IEnumerator<YieldAction> co()
+            {
+                yield return this.Await(t);
+            }
+            Run(co());
+        }
+
+        public void RunTask(Func<Task> t)
+        {
+            IEnumerator<YieldAction> co()
+            {
+                yield return this.Await(t);
+            }
+            Run(co());
+        }
+
         public void Queue(IEnumerator<YieldAction> coroutine)
         {
             ThreadManager.invoke(() =>

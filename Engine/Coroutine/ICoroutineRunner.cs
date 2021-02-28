@@ -15,6 +15,24 @@ namespace Engine
         void Run(IEnumerator<YieldAction> coroutine);
 
         /// <summary>
+        /// Run a task using the coroutine runner. The task will be started on a tiny 1 step
+        /// coroutine with it inside. The task will pump all the way to completion like any
+        /// coroutine task. Essentially the task will run and any coroutine stuff can be safely
+        /// ignored. Good for loading resources, but for precise timing use coroutines directly with Run.
+        /// </summary>
+        /// <param name="t">The task to run.</param>
+        public void RunTask(Task t);
+
+        /// <summary>
+        /// Run a task using the coroutine runner. The task will be started on a tiny 1 step
+        /// coroutine with it inside. The task will pump all the way to completion like any
+        /// coroutine task. Essentially the task will run and any coroutine stuff can be safely
+        /// ignored. Good for loading resources, but for precise timing use coroutines directly with Run.
+        /// </summary>
+        /// <param name="t">The task to run.</param>
+        public void RunTask(Func<Task> t);
+
+        /// <summary>
         /// Queue a coroutine to start running on the next update. This is safe to use from any
         /// thread and the entire coroutine will execute on the main thread.
         /// </summary>
