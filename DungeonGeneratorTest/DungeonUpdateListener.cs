@@ -114,7 +114,9 @@ namespace DungeonGeneratorTest
                         }
                         Console.WriteLine();
                     }
-                    yield return coroutineRunner.WaitSeconds(0.3f);
+                    Console.WriteLine(mapBuilder.StartRoom);
+                    Console.WriteLine(mapBuilder.EndRoom);
+                    yield return coroutineRunner.WaitSeconds(3);
                 }
             }
             coroutineRunner.Run(co());

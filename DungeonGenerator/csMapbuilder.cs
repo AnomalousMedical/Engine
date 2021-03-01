@@ -38,6 +38,13 @@ namespace RogueLikeMapBuilder
         /// </summary>
         private Rectangle rctCurrentRoom;
 
+        private Rectangle startRoom;
+        private Rectangle endRoom;
+
+        public Rectangle StartRoom => startRoom;
+
+        public Rectangle EndRoom => endRoom;
+
 
         #region builder public properties
 
@@ -280,7 +287,6 @@ namespace RogueLikeMapBuilder
             Room_Build();
         }
 
-
         /// <summary>
         /// Place a start room anywhere on the map
         /// </summary>
@@ -311,6 +317,7 @@ namespace RogueLikeMapBuilder
                             };
                     rctCurrentRoom.Left = rnd.Next(0, Map_Size.Width - rctCurrentRoom.Width);
                     rctCurrentRoom.Top = 1;
+                    endRoom = rctCurrentRoom;
                     Room_Build();
 
                     //at the bottom of the map
@@ -319,6 +326,7 @@ namespace RogueLikeMapBuilder
                     rctCurrentRoom.Height = rnd.Next(Room_Min.Height, Room_Max.Height);
                     rctCurrentRoom.Left = rnd.Next(0, Map_Size.Width - rctCurrentRoom.Width);
                     rctCurrentRoom.Top = Map_Size.Height - rctCurrentRoom.Height - 1;
+                    startRoom = rctCurrentRoom;
                     Room_Build();
 
 
@@ -331,6 +339,7 @@ namespace RogueLikeMapBuilder
                     rctCurrentRoom.Height = rnd.Next(Room_Min.Height, Room_Max.Height);
                     rctCurrentRoom.Top = rnd.Next(0, Map_Size.Height - rctCurrentRoom.Height);
                     rctCurrentRoom.Left = 1;
+                    startRoom = rctCurrentRoom;
                     Room_Build();
 
                     rctCurrentRoom = new Rectangle();
@@ -338,6 +347,7 @@ namespace RogueLikeMapBuilder
                     rctCurrentRoom.Height = rnd.Next(Room_Min.Height, Room_Max.Height);
                     rctCurrentRoom.Top = rnd.Next(0, Map_Size.Height - rctCurrentRoom.Height);
                     rctCurrentRoom.Left = Map_Size.Width - rctCurrentRoom.Width - 2;
+                    endRoom = rctCurrentRoom;
                     Room_Build();
 
                 }
