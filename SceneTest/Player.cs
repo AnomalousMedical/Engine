@@ -391,12 +391,12 @@ namespace SceneTest
             Sprite_FrameChanged(sprite);
 
             //Character Mover
-            var shape = new Box(1, 1, 1); //Each character creates a shape, try to load from resources somehow
+            var shape = new Sphere(0.5f); //Each character creates a shape, try to load from resources somehow
             shapeIndex = bepuScene.Simulation.Shapes.Add(shape);
 
             var moverDesc = new CharacterMoverDescription()
             {
-                MinimumSupportDepth = shape.HalfHeight * -0.01f
+                MinimumSupportDepth = shape.Radius * -0.01f
             };
 
             //Because characters are dynamic, they require a defined BodyInertia. For the purposes of the demos, we don't want them to rotate or fall over, so the inverse inertia tensor is left at its default value of all zeroes.
@@ -405,7 +405,7 @@ namespace SceneTest
             var bodyDesc = 
                 BodyDescription.CreateDynamic(description.Translation.ToSystemNumerics(), new BodyInertia { InverseMass = 1f / mass },
                 new CollidableDescription(shapeIndex, moverDesc.SpeculativeMargin),
-                new BodyActivityDescription(shape.HalfHeight * 0.02f));
+                new BodyActivityDescription(shape.Radius * 0.02f));
 
             characterMover = bepuScene.CreateCharacterMover(bodyDesc, moverDesc);
             bepuScene.AddToInterpolation(characterMover.BodyHandle);
