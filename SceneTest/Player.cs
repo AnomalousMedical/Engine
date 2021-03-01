@@ -408,6 +408,7 @@ namespace SceneTest
                 new BodyActivityDescription(shape.HalfHeight * 0.02f));
 
             characterMover = bepuScene.CreateCharacterMover(bodyDesc, moverDesc);
+            bepuScene.AddToInterpolation(characterMover.BodyHandle);
 
             coroutine.RunTask(async () => {
                 using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until coroutine is finished and this is disposed.
@@ -452,6 +453,7 @@ namespace SceneTest
             eventLayer.OnUpdate -= EventLayer_OnUpdate; //Do have to remove this since its on the layer itself
 
             this.bepuScene.OnUpdated -= BepuScene_OnUpdated;
+            bepuScene.RemoveFromInterpolation(characterMover.BodyHandle);
             bepuScene.DestroyCharacterMover(characterMover);
             bepuScene.Simulation.Shapes.Remove(shapeIndex);
             sprite.FrameChanged -= Sprite_FrameChanged;
@@ -468,12 +470,7 @@ namespace SceneTest
 
         private void BepuScene_OnUpdated(IBepuScene obj)
         {
-            var body = bepuScene.Simulation.Bodies.GetBodyReference(characterMover.BodyHandle);
-            var pose = body.Pose;
-            var bodPos = pose.Position;
-            this.sceneObject.position = new Vector3(bodPos.X, bodPos.Y, bodPos.Z);
-            var bodOrientation = pose.Orientation;
-            this.sceneObject.orientation = new Quaternion(bodOrientation.X, bodOrientation.Y, bodOrientation.Z, bodOrientation.W);
+            bepuScene.GetInterpolatedPosition(characterMover.BodyHandle, ref this.sceneObject.position, ref this.sceneObject.orientation);
             Sprite_FrameChanged(sprite);
         }
 

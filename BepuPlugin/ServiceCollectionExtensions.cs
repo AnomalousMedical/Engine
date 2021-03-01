@@ -12,6 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddBepuPlugin(this IServiceCollection services)
         {
             services.TryAddSingleton<IBepuScene, BepuScene>();
+            services.TryAddSingleton<BepuScene.Description>();
 
             return services;
         }
