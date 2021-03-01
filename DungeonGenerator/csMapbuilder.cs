@@ -275,8 +275,8 @@ namespace RogueLikeMapBuilder
                 ,
                 Height = rnd.Next(Room_Min.Height, Room_Max.Height)
             };
-            rctCurrentRoom.X = Map_Size.Width / 2;
-            rctCurrentRoom.Y = Map_Size.Height / 2;
+            rctCurrentRoom.Left = Map_Size.Width / 2;
+            rctCurrentRoom.Top = Map_Size.Height / 2;
             Room_Build();
         }
 
@@ -300,7 +300,7 @@ namespace RogueLikeMapBuilder
                 startdirection = Direction_Get(new Point());
 
                 //place a room on the top and bottom
-                if (startdirection.X == 0)
+                if (startdirection.x == 0)
                 {
 
                     //room at the top of the map
@@ -309,16 +309,16 @@ namespace RogueLikeMapBuilder
                                 Width = rnd.Next(Room_Min.Width, Room_Max.Width)
                                 , Height = rnd.Next(Room_Min.Height, Room_Max.Height)
                             };
-                    rctCurrentRoom.X = rnd.Next(0, Map_Size.Width - rctCurrentRoom.Width);
-                    rctCurrentRoom.Y = 1;
+                    rctCurrentRoom.Left = rnd.Next(0, Map_Size.Width - rctCurrentRoom.Width);
+                    rctCurrentRoom.Top = 1;
                     Room_Build();
 
                     //at the bottom of the map
                     rctCurrentRoom = new Rectangle();
                     rctCurrentRoom.Width = rnd.Next(Room_Min.Width, Room_Max.Width);
                     rctCurrentRoom.Height = rnd.Next(Room_Min.Height, Room_Max.Height);
-                    rctCurrentRoom.X = rnd.Next(0, Map_Size.Width - rctCurrentRoom.Width);
-                    rctCurrentRoom.Y = Map_Size.Height - rctCurrentRoom.Height - 1;
+                    rctCurrentRoom.Left = rnd.Next(0, Map_Size.Width - rctCurrentRoom.Width);
+                    rctCurrentRoom.Top = Map_Size.Height - rctCurrentRoom.Height - 1;
                     Room_Build();
 
 
@@ -329,15 +329,15 @@ namespace RogueLikeMapBuilder
                     rctCurrentRoom = new Rectangle();
                     rctCurrentRoom.Width = rnd.Next(Room_Min.Width, Room_Max.Width);
                     rctCurrentRoom.Height = rnd.Next(Room_Min.Height, Room_Max.Height);
-                    rctCurrentRoom.Y = rnd.Next(0, Map_Size.Height - rctCurrentRoom.Height);
-                    rctCurrentRoom.X = 1;
+                    rctCurrentRoom.Top = rnd.Next(0, Map_Size.Height - rctCurrentRoom.Height);
+                    rctCurrentRoom.Left = 1;
                     Room_Build();
 
                     rctCurrentRoom = new Rectangle();
                     rctCurrentRoom.Width = rnd.Next(Room_Min.Width, Room_Max.Width);
                     rctCurrentRoom.Height = rnd.Next(Room_Min.Height, Room_Max.Height);
-                    rctCurrentRoom.Y = rnd.Next(0, Map_Size.Height - rctCurrentRoom.Height);
-                    rctCurrentRoom.X = Map_Size.Width - rctCurrentRoom.Width - 2;
+                    rctCurrentRoom.Top = rnd.Next(0, Map_Size.Height - rctCurrentRoom.Height);
+                    rctCurrentRoom.Left = Map_Size.Width - rctCurrentRoom.Width - 2;
                     Room_Build();
 
                 }
@@ -379,25 +379,25 @@ namespace RogueLikeMapBuilder
             //startbuilding room from this point
             Point lc = lPotentialCorridor.Last();
 
-            if (pDirection.X == 0) //north/south direction
+            if (pDirection.x == 0) //north/south direction
             {
-                rctCurrentRoom.X = rnd.Next(lc.X - rctCurrentRoom.Width + 1, lc.X);
+                rctCurrentRoom.Left = rnd.Next(lc.x - rctCurrentRoom.Width + 1, lc.x);
 
-                if (pDirection.Y == 1)
-                    rctCurrentRoom.Y = lc.Y + 1;//south
+                if (pDirection.y == 1)
+                    rctCurrentRoom.Top = lc.y + 1;//south
                 else
-                    rctCurrentRoom.Y = lc.Y - rctCurrentRoom.Height - 1;//north
+                    rctCurrentRoom.Top = lc.y - rctCurrentRoom.Height - 1;//north
 
 
             }
-            else if (pDirection.Y == 0)//east / west direction
+            else if (pDirection.y == 0)//east / west direction
             {
-                rctCurrentRoom.Y = rnd.Next(lc.Y - rctCurrentRoom.Height + 1, lc.Y);
+                rctCurrentRoom.Top = rnd.Next(lc.y - rctCurrentRoom.Height + 1, lc.y);
 
-                if (pDirection.X == -1)//west
-                    rctCurrentRoom.X = lc.X - rctCurrentRoom.Width;
+                if (pDirection.x == -1)//west
+                    rctCurrentRoom.Left = lc.x - rctCurrentRoom.Width;
                 else
-                    rctCurrentRoom.X = lc.X + 1;//east
+                    rctCurrentRoom.Left = lc.x + 1;//east
             }
 
             return Room_Verify();
@@ -429,11 +429,11 @@ namespace RogueLikeMapBuilder
                 //move in that direction
                 pLocation.Offset(pDirection);
 
-                if (!Point_Valid(pLocation.X, pLocation.Y))
+                if (!Point_Valid(pLocation.x, pLocation.y))
                     return;
 
                 //until we meet an empty cell
-            } while (Point_Get(pLocation.X, pLocation.Y) != filledcell);
+            } while (Point_Get(pLocation.x, pLocation.y) != filledcell);
 
         }
 
@@ -458,8 +458,8 @@ namespace RogueLikeMapBuilder
                 //attempt to locate all the empy map points around the location
                 //using the directions to offset the randomly chosen point
                 foreach (Point p in directions_straight)
-                    if (Point_Valid(pLocation.X + p.X, pLocation.Y + p.Y))
-                        if (Point_Get(pLocation.X + p.X, pLocation.Y + p.Y) == filledcell)
+                    if (Point_Valid(pLocation.x + p.x, pLocation.y + p.y))
+                        if (Point_Get(pLocation.x + p.x, pLocation.y + p.y) == filledcell)
                             validdirections.Add(p);
 
 
@@ -478,7 +478,7 @@ namespace RogueLikeMapBuilder
         {
             foreach (Point p in lPotentialCorridor)
             {
-                Point_Set(p.X, p.Y, emptycell);
+                Point_Set(p.x, p.y, emptycell);
                 lBuilltCorridors.Add(p);
             }
 
@@ -523,7 +523,7 @@ namespace RogueLikeMapBuilder
             lPotentialCorridor.Add(pStart);
 
             int corridorlength;
-            Point startdirection = new Point(pDirection.X, pDirection.Y);
+            Point startdirection = new Point(pDirection.x, pDirection.y);
             CorridorItemHit outcome;
 
             while (pTurns > 0)
@@ -566,7 +566,7 @@ namespace RogueLikeMapBuilder
         private CorridorItemHit Corridor_PointTest(Point pPoint, Point pDirection)
         {
 
-            if (!Point_Valid(pPoint.X, pPoint.Y))//invalid point hit, exit
+            if (!Point_Valid(pPoint.x, pPoint.y))//invalid point hit, exit
                 return CorridorItemHit.invalid;
             else if (lBuilltCorridors.Contains(pPoint))//in an existing corridor
                 return CorridorItemHit.existingcorridor;
@@ -587,16 +587,16 @@ namespace RogueLikeMapBuilder
             //either side of the point are empty
             foreach (int r in Enumerable.Range(-CorridorSpace, 2 * CorridorSpace + 1).ToList())
             {
-                if (pDirection.X == 0)//north or south
+                if (pDirection.x == 0)//north or south
                 {
-                    if (Point_Valid(pPoint.X + r, pPoint.Y))
-                        if (Point_Get(pPoint.X + r, pPoint.Y) != filledcell)
+                    if (Point_Valid(pPoint.x + r, pPoint.y))
+                        if (Point_Get(pPoint.x + r, pPoint.y) != filledcell)
                             return CorridorItemHit.tooclose;
                 }
-                else if (pDirection.Y == 0)//east west
+                else if (pDirection.y == 0)//east west
                 {
-                    if (Point_Valid(pPoint.X, pPoint.Y + r))
-                        if (Point_Get(pPoint.X, pPoint.Y + r) != filledcell)
+                    if (Point_Valid(pPoint.x, pPoint.y + r))
+                        if (Point_Get(pPoint.x, pPoint.y + r) != filledcell)
                             return CorridorItemHit.tooclose;
                 }
 
@@ -656,7 +656,7 @@ namespace RogueLikeMapBuilder
 
         private Point Direction_Reverse(Point pDir)
         {
-            return new Point(-pDir.X, -pDir.Y);
+            return new Point(-pDir.x, -pDir.y);
         }
 
         #endregion

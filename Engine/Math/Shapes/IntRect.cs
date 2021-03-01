@@ -34,18 +34,6 @@ namespace Engine
             this.height = height;
         }
 
-        public int X
-        {
-            get
-            {
-                return left;
-            }
-            set
-            {
-                left = value;
-            }
-        }
-
         public int Left
         {
             get
@@ -55,18 +43,6 @@ namespace Engine
             set
             {
                 left = value;
-            }
-        }
-
-        public int Y
-        {
-            get
-            {
-                return top;
-            }
-            set
-            {
-                top = value;
             }
         }
 
@@ -145,7 +121,7 @@ namespace Engine
         /// <summary>
         /// Adjusts the location of this rectangle by the specified amount.
         /// </summary>
-        public void Offset(in IntVector2 pos) => Offset(pos.X, pos.Y);
+        public void Offset(in IntVector2 pos) => Offset(pos.x, pos.y);
 
         /// <summary>
         /// Adjusts the location of this rectangle by the specified amount.
@@ -154,8 +130,8 @@ namespace Engine
         {
             unchecked
             {
-                X += x;
-                Y += y;
+                Left += x;
+                Top += y;
             }
         }
 
@@ -166,8 +142,8 @@ namespace Engine
         {
             unchecked
             {
-                X -= width;
-                Y -= height;
+                Left -= width;
+                Top -= height;
 
                 Width += 2 * width;
                 Height += 2 * height;

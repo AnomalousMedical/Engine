@@ -446,8 +446,8 @@ namespace maze
                 //attempt to locate all the empy map points around the location
                 //using the directions to offset the randomly chosen point
                 foreach (Point p in Directions)
-                    if (Point_Check(new Point(pLocation.X + p.X, pLocation.Y + p.Y)))
-                        if (Point_Get(new Point(pLocation.X + p.X, pLocation.Y + p.Y)) == 0)
+                    if (Point_Check(new Point(pLocation.x + p.x, pLocation.y + p.y)))
+                        if (Point_Get(new Point(pLocation.x + p.x, pLocation.y + p.y)) == 0)
                             validdirections.Add(p);
 
 
@@ -472,7 +472,7 @@ namespace maze
             lPotentialCorridor.Add(pStart);
 
             int corridorlength;
-            Point startdirection = new Point(pDirection.X, pDirection.Y);
+            Point startdirection = new Point(pDirection.x, pDirection.y);
 
             int pTurns = Corridor_MaxTurns;
 
@@ -521,16 +521,16 @@ namespace maze
             //either side of the point are empty
             foreach (int r in Enumerable.Range(-CorridorSpace, 2 * CorridorSpace + 1).ToList())
             {
-                if (pDirection.X == 0)//north or south
+                if (pDirection.x == 0)//north or south
                 {
-                    if (Point_Check(new Point(pPoint.X + r, pPoint.Y)))
-                        if (Point_Get(new Point(pPoint.X + r, pPoint.Y)) != 0)
+                    if (Point_Check(new Point(pPoint.x + r, pPoint.y)))
+                        if (Point_Get(new Point(pPoint.x + r, pPoint.y)) != 0)
                             return false;
                 }
-                else if (pDirection.Y == 0)//east west
+                else if (pDirection.y == 0)//east west
                 {
-                    if (Point_Check(new Point(pPoint.X, pPoint.Y + r)))
-                        if (Point_Get(new Point(pPoint.X, pPoint.Y + r)) != 0)
+                    if (Point_Check(new Point(pPoint.x, pPoint.y + r)))
+                        if (Point_Get(new Point(pPoint.x, pPoint.y + r)) != 0)
                             return false;
                 }
 
@@ -551,7 +551,7 @@ namespace maze
         /// <returns></returns>
         private List<Point> Neighbours_Get(Point p)
         {
-            return Directions.Select(d => new Point(p.X + d.X, p.Y + d.Y))
+            return Directions.Select(d => new Point(p.x + d.x, p.y + d.y))
                     .Where(d => Point_Check(d)).ToList();
         }
 
@@ -560,7 +560,7 @@ namespace maze
         /// using north, south, east, ne,nw,se,sw
         private List<Point> Neighbours_Get1(Point p)
         {
-            return Directions1.Select(d => new Point(p.X + d.X, p.Y + d.Y))
+            return Directions1.Select(d => new Point(p.x + d.x, p.y + d.y))
                     .Where(d => Point_Check(d)).ToList();
         }
 
@@ -576,7 +576,7 @@ namespace maze
             {
                 newdir = Directions[rnd.Next(0, Directions.Count())];
 
-            } while (newdir.X != -p.X & newdir.Y != -p.Y);
+            } while (newdir.x != -p.x & newdir.y != -p.y);
 
             return newdir;
         }
@@ -610,7 +610,7 @@ namespace maze
 
         private Point Direction_Reverse(Point pDir)
         {
-            return new Point(-pDir.X, -pDir.Y);
+            return new Point(-pDir.x, -pDir.y);
         }
 
         #endregion
@@ -624,7 +624,7 @@ namespace maze
         /// <returns></returns>
         private bool Point_Check(Point p)
         {
-            return p.X >= 0 & p.X < MapSize.Width & p.Y >= 0 & p.Y < MapSize.Height;
+            return p.x >= 0 & p.x < MapSize.Width & p.y >= 0 & p.y < MapSize.Height;
         }
 
         /// <summary>
@@ -634,7 +634,7 @@ namespace maze
         /// <param name="val"></param>
         private void Point_Set(Point p, int val)
         {
-            Map[p.X, p.Y] = val;
+            Map[p.x, p.y] = val;
         }
 
         /// <summary>
@@ -644,7 +644,7 @@ namespace maze
         /// <returns></returns>
         private int Point_Get(Point p)
         {
-            return Map[p.X, p.Y];
+            return Map[p.x, p.y];
         }
 
         #endregion
