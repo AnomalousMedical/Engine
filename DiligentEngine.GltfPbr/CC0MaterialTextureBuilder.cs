@@ -279,14 +279,14 @@ namespace DiligentEngine.GltfPbr
             else if (xEnd < src.Width)
             {
                 //Copy height we can
-                var srcRect = new IntRect(srcX, srcY, width, src.Height);
-                var destRect = new IntRect(x, y, width, src.Height);
-                CopyPixels(srcRect, destRect, src, dest);
-                //Wrap around and copy the rest
-                var remaining = height - src.Height;
-                srcRect = new IntRect(srcX, 0, width, remaining);
-                destRect = new IntRect(x, y + src.Height, width, remaining);
-                CopyPixels(srcRect, destRect, src, dest);
+                //var srcRect = new IntRect(srcX, srcY, width, src.Height - 1);
+                //var destRect = new IntRect(x, y, width, src.Height - 1);
+                //CopyPixels(srcRect, destRect, src, dest);
+                ////Wrap around and copy the rest
+                //var remaining = height - src.Height;
+                //srcRect = new IntRect(srcX, 0, width, remaining);
+                //destRect = new IntRect(x, y + src.Height, width, remaining);
+                //CopyPixels(srcRect, destRect, src, dest);
             }
             //Does height fit
             else if (yEnd < src.Height)

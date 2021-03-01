@@ -155,7 +155,7 @@ namespace SceneTest
             this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
                 Enemy.Desc.MakeSkeleton(c);
-                c.Translation = new Vector3(-7, 0, 0);
+                c.Translation = new Vector3(0, 0, -3);
             });
             this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {

@@ -147,25 +147,25 @@ namespace Engine.CameraMovement
                 camPos -= currentLeft * lStick.x * clock.DeltaSeconds * moveSpeed;
             }
 
-            //if (moveForward.Down)
-            //{
-            //    camPos += currentForward * clock.DeltaSeconds * moveSpeed;
-            //}
+            if (moveForward.Down)
+            {
+                camPos += currentForward * clock.DeltaSeconds * moveSpeed;
+            }
 
-            //if (moveBackward.Down)
-            //{
-            //    camPos -= currentForward * clock.DeltaSeconds * moveSpeed;
-            //}
+            if (moveBackward.Down)
+            {
+                camPos -= currentForward * clock.DeltaSeconds * moveSpeed;
+            }
 
-            //if (moveLeft.Down)
-            //{
-            //    camPos += currentLeft * clock.DeltaSeconds * moveSpeed;
-            //}
+            if (moveLeft.Down)
+            {
+                camPos += currentLeft * clock.DeltaSeconds * moveSpeed;
+            }
 
-            //if (moveRight.Down)
-            //{
-            //    camPos -= currentLeft * clock.DeltaSeconds * moveSpeed;
-            //}
+            if (moveRight.Down)
+            {
+                camPos -= currentLeft * clock.DeltaSeconds * moveSpeed;
+            }
 
             if (moveUp.Down)
             {
