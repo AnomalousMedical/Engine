@@ -49,6 +49,7 @@ namespace SceneTest
         private readonly SpriteManager sprites;
         private readonly ICoroutineRunner coroutineRunner;
         private readonly IBepuScene bepuScene;
+        private readonly CameraMover cameraMover;
         private readonly IObjectResolver objectResolver;
         private SoundAndSource bgMusicSound;
 
@@ -78,7 +79,8 @@ namespace SceneTest
             SpriteManager sprites,
             IObjectResolverFactory objectResolverFactory,
             ICoroutineRunner coroutineRunner,
-            IBepuScene bepuScene)
+            IBepuScene bepuScene,
+            CameraMover cameraMover)
         {
             cameraControls.Position = new Vector3(0, 0, -12);
 
@@ -100,6 +102,7 @@ namespace SceneTest
             this.sprites = sprites;
             this.coroutineRunner = coroutineRunner;
             this.bepuScene = bepuScene;
+            this.cameraMover = cameraMover;
             this.objectResolver = objectResolverFactory.Create();
             currentHour = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 10, 500, 35)), Max = 24 };
             Initialize();
@@ -281,10 +284,6 @@ namespace SceneTest
             bepuScene.Update(clock, new System.Numerics.Vector3(0, 0, 1));
             timeClock.Update(clock);
             UpdateGui(clock);
-            if (useFirstPersonCamera)
-            {
-                cameraControls.UpdateInput(clock);
-            }
             UpdateLight(clock);
             UpdateSprites(clock);
 
@@ -317,8 +316,15 @@ namespace SceneTest
             pbrCameraAndLight.SetLightAndShadow(ref lightDirection, ref lightColor, lightIntensity, ref WorldToShadowMapUVDepthMatrix);
 
             // Set Camera
-            //pbrCameraAndLight.SetCameraMatrices(ref cameraProjMatrix, ref WorldToShadowMapUVDepthMatr, ref Vector3.Forward);
-            pbrCameraAndLight.SetCameraPosition(cameraControls.Position, cameraControls.Orientation, ref preTransformMatrix, ref cameraProjMatrix);
+            if (useFirstPersonCamera)
+            {
+                cameraControls.UpdateInput(clock);
+                pbrCameraAndLight.SetCameraPosition(cameraControls.Position, cameraControls.Orientation, ref preTransformMatrix, ref cameraProjMatrix);
+            }
+            else
+            {
+                pbrCameraAndLight.SetCameraPosition(cameraMover.Position, cameraMover.Orientation, ref preTransformMatrix, ref cameraProjMatrix);
+            }
 
             foreach (var sceneObj in sceneObjects)
             {

@@ -37,6 +37,7 @@ namespace SceneTest
         private readonly ISpriteMaterialManager spriteMaterialManager;
         private readonly IBepuScene bepuScene;
         private readonly EventManager eventManager;
+        private readonly CameraMover cameraMover;
         private readonly EventLayer eventLayer;
         private SceneObject sceneObject;
         private IObjectResolver objectResolver;
@@ -179,6 +180,8 @@ namespace SceneTest
         ButtonEvent jump = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_SPACE });
 
         private bool disposed;
+        private Vector3 cameraOffset = new Vector3(0, 3, -15);
+        private Quaternion cameraAngle = new Quaternion(Vector3.Left, -MathF.PI / 9f);
 
         public Player(
             SceneObjectManager sceneObjectManager,
@@ -190,7 +193,8 @@ namespace SceneTest
             IObjectResolverFactory objectResolverFactory,
             IBepuScene bepuScene,
             EventManager eventManager,
-            Description description)
+            Description description,
+            CameraMover cameraMover)
         {
             this.primaryHand = description.PrimaryHand;
             this.secondaryHand = description.SecondaryHand;
@@ -373,7 +377,7 @@ namespace SceneTest
             this.bepuScene = bepuScene;
             this.bepuScene.OnUpdated += BepuScene_OnUpdated;
             this.eventManager = eventManager;
-
+            this.cameraMover = cameraMover;
             sceneObject = new SceneObject()
             {
                 vertexBuffer = plane.VertexBuffer,
@@ -472,6 +476,8 @@ namespace SceneTest
         {
             bepuScene.GetInterpolatedPosition(characterMover.BodyHandle, ref this.sceneObject.position, ref this.sceneObject.orientation);
             Sprite_FrameChanged(sprite);
+            cameraMover.Position = this.sceneObject.position + cameraOffset;
+            cameraMover.Orientation = cameraAngle;
         }
 
         private void EventLayer_OnUpdate(EventLayer eventLayer)
