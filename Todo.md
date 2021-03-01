@@ -3,9 +3,6 @@
 ## Don't forget mipmaps
 Make / load mipmaps for things.
 
-## Figure out why orientation has to be inverted from physics to rendering
-This is all handled by the pbr renderer, but it is strange that rotations have to be inverted to render correctly.
-
 ## Refactor Sprites to have better vertex shader
 Right now the sprite info is hacked into the bone matrix. Refactor the shader to have better input for sprites and take out what it doesnt need like the bones
 
@@ -34,7 +31,7 @@ Make backspace work better, it needs to work on key down not just repeat and key
 ## Filter out characters
 currently filtering out anything below 32 in the ascii table, could do this in the control, currently at the higher input level
 
-## Tabs in fonts still need to be figrued out
+## Tabs in fonts still need to be figured out
 Haven't tried tabs yet in the fonts. They are their own setting so need to mess with it.
 
 ## Use new in keyword
@@ -56,3 +53,8 @@ In order to move the camera through the world in the same coords as the rest the
 handled in pbr camera and lights.
 
 This is fixed in the pbr renderer when setting position via vector3, quaternion. Probably not a big deal for now. Everything else seems right.
+
+## Figure out why orientation has to be inverted from physics to rendering
+This is all handled by the pbr renderer, but it is strange that rotations have to be inverted to render correctly.
+
+Seems to work, but not sure what the deal is
