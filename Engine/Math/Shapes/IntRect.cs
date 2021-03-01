@@ -34,6 +34,18 @@ namespace Engine
             this.height = height;
         }
 
+        public int X
+        {
+            get
+            {
+                return left;
+            }
+            set
+            {
+                left = value;
+            }
+        }
+
         public int Left
         {
             get
@@ -43,6 +55,18 @@ namespace Engine
             set
             {
                 left = value;
+            }
+        }
+
+        public int Y
+        {
+            get
+            {
+                return top;
+            }
+            set
+            {
+                top = value;
             }
         }
 
@@ -97,6 +121,70 @@ namespace Engine
                 return top + height;
             }
         }
+
+        /// <summary>
+        /// Determines if the specified point is contained within the rectangular region defined by this
+        /// <see cref='IntRect'/> .
+        /// </summary>
+        public readonly bool Contains(int x, int y) => left <= x && x < left + width && top <= y && y < top + height;
+
+        /// <summary>
+        /// Determines if the specified point is contained within the rectangular region defined by this
+        /// <see cref='IntRect'/> .
+        /// </summary>
+        public readonly bool Contains(in IntVector2 pt) => Contains(pt.x, pt.y);
+
+        /// <summary>
+        /// Determines if the rectangular region represented by <paramref name="rect"/> is entirely contained within the
+        /// rectangular region represented by this <see cref='IntRect'/> .
+        /// </summary>
+        public readonly bool Contains(in IntRect rect) =>
+            (left <= rect.left) && (rect.left + rect.width <= left + width) &&
+            (top <= rect.top) && (rect.top + rect.height <= top + height);
+
+        /// <summary>
+        /// Adjusts the location of this rectangle by the specified amount.
+        /// </summary>
+        public void Offset(in IntVector2 pos) => Offset(pos.X, pos.Y);
+
+        /// <summary>
+        /// Adjusts the location of this rectangle by the specified amount.
+        /// </summary>
+        public void Offset(int x, int y)
+        {
+            unchecked
+            {
+                X += x;
+                Y += y;
+            }
+        }
+
+        /// <summary>
+        /// Inflates this <see cref='IntRect'/> by the specified amount.
+        /// </summary>
+        public void Inflate(int width, int height)
+        {
+            unchecked
+            {
+                X -= width;
+                Y -= height;
+
+                Width += 2 * width;
+                Height += 2 * height;
+            }
+        }
+
+        /// <summary>
+        /// Inflates this <see cref='IntRect'/> by the specified amount.
+        /// </summary>
+        public void Inflate(in IntSize2 size) => Inflate(size.Width, size.Height);
+
+        /// <summary>
+        /// Determines if this rectangle intersects with rect.
+        /// </summary>
+        public readonly bool IntersectsWith(in IntRect rect) =>
+            (rect.left < left + width) && (left < rect.left + rect.width) &&
+            (rect.top < top + height) && (top < rect.top + rect.height);
 
         public static IntRect operator *(IntRect v, int s)
         {

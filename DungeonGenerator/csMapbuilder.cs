@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Linq;
+using Engine;
+
+using Rectangle = Engine.IntRect;
+using Point = Engine.IntVector2;
+using Size = Engine.IntSize2;
 
 namespace RogueLikeMapBuilder
 {

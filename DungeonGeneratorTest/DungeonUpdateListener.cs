@@ -71,7 +71,8 @@ namespace DungeonGeneratorTest
             IPbrCameraAndLight pbrCameraAndLight,
             ILogger<BepuUpdateListener> logger,
             EventManager eventManager,
-            FirstPersonFlyCamera cameraControls)
+            FirstPersonFlyCamera cameraControls,
+            ICoroutineRunner coroutineRunner)
         {
             this.pbrRenderer = m_GLTFRenderer;
             this.swapChain = graphicsEngine.SwapChain;
@@ -89,25 +90,34 @@ namespace DungeonGeneratorTest
             cameraControls.Position = new Vector3(0, 2, -11);
             Initialize();
 
-            //Quick test with the console
-            var mapBuilder = new csMapbuilder(new Random(1), 150, 150);
-            mapBuilder.Build_ConnectedStartRooms();
-            var map = mapBuilder.map;
-            for (int y = 0; y < 150; ++y)
+            var random = new Random(1);
+            IEnumerator<YieldAction> co()
             {
-                for (int x = 0; x < 150; ++x)
+                while (true)
                 {
-                    if (map[x, y] == 0)
+                    //Quick test with the console
+                    var mapBuilder = new csMapbuilder(random, 150, 150);
+                    mapBuilder.Build_ConnectedStartRooms();
+                    var map = mapBuilder.map;
+                    for (int y = 0; y < 150; ++y)
                     {
-                        Console.Write('X');
+                        for (int x = 0; x < 150; ++x)
+                        {
+                            if (map[x, y] == 0)
+                            {
+                                Console.Write('X');
+                            }
+                            else
+                            {
+                                Console.Write('0');
+                            }
+                        }
+                        Console.WriteLine();
                     }
-                    else
-                    {
-                        Console.Write('0');
-                    }
+                    yield return coroutineRunner.WaitSeconds(2);
                 }
-                Console.WriteLine();
             }
+            coroutineRunner.Run(co());
         }
 
         public void Dispose()

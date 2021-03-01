@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.ComponentModel;
 
+using Rectangle = Engine.IntRect;
+using Point = Engine.IntVector2;
+using Size = Engine.IntSize2;
 
 namespace maze
 {

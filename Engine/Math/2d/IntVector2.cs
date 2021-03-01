@@ -15,6 +15,32 @@ namespace Engine
         [FieldOffset(4)]
         public int y;
 
+
+
+        public int X
+        {
+            get
+            {
+                return x;
+            }
+            set
+            {
+                x = value;
+            }
+        }
+
+        public int Y
+        {
+            get
+            {
+                return y;
+            }
+            set
+            {
+                y = value;
+            }
+        }
+
         public IntVector2(int x, int y)
         {
             this.x = x;
@@ -87,6 +113,23 @@ namespace Engine
         {
             return String.Format("{0}, {1}", x, y);
         }
+
+        /// <summary>
+        /// Translates this <see cref='IntRect'/> by the specified amount.
+        /// </summary>
+        public void Offset(int dx, int dy)
+        {
+            unchecked
+            {
+                X += dx;
+                Y += dy;
+            }
+        }
+
+        /// <summary>
+        /// Translates this <see cref='System.Drawing.Point'/> by the specified amount.
+        /// </summary>
+        public void Offset(in IntVector2 p) => Offset(p.X, p.Y);
 
         /// <summary>
         /// Equals function.
