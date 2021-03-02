@@ -23,10 +23,6 @@ namespace SceneTest
 
             public String WallTexture { get; set; } = "cc0Textures/Bricks045_1K";
 
-            public bool RenderShadow { get; set; } = true;
-
-            public bool GetShadow { get; set; } = false;
-
             public int RandomSeed { get; set; } = 1;
 
             public int Width { get; set; } = 150;
@@ -79,7 +75,7 @@ namespace SceneTest
                 position = description.Translation,
                 orientation = description.Orientation,
                 scale = description.Scale,
-                RenderShadow = description.RenderShadow,
+                RenderShadow = true,
                 GetShadows = false
             };
             floorSceneObject = new SceneObject()
@@ -92,7 +88,7 @@ namespace SceneTest
                 position = description.Translation,
                 orientation = description.Orientation,
                 scale = description.Scale,
-                RenderShadow = description.RenderShadow,
+                RenderShadow = false,
                 GetShadows = true
             };
 
