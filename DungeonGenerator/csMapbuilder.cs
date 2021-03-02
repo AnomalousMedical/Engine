@@ -130,7 +130,6 @@ namespace RogueLikeMapBuilder
             Corridor_Min = 3;
             Corridor_Max = 15;
             MaxRooms = 15;
-            Map_Size = new Size(150, 150);
 
             RoomDistance = 5;
             CorridorDistance = 2;

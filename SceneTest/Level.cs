@@ -13,6 +13,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Rectangle = Engine.IntRect;
+using Point = Engine.IntVector2;
+using Size = Engine.IntSize2;
+
 namespace SceneTest
 {
     class Level : IDisposable
@@ -25,9 +29,62 @@ namespace SceneTest
 
             public int RandomSeed { get; set; } = 1;
 
-            public int Width { get; set; } = 100;
+            public int Width { get; set; } = 75;
 
-            public int Height { get; set; } = 100;
+            public int Height { get; set; } = 75;
+
+            /// <summary>
+            /// Room minimum size
+            /// </summary>
+            public Size RoomMin { get; set; } = new Size(3, 3);
+
+            /// <summary>
+            /// Room max size
+            /// </summary>
+            public Size RoomMax { get; set; } = new Size(15, 15);
+
+            /// <summary>
+            /// Number of rooms to build
+            /// </summary>
+            public int MaxRooms { get; set; } = 15;
+
+            /// <summary>
+            /// Minimum distance between rooms
+            /// </summary>
+            public int RoomDistance { get; set; } = 5;
+
+            /// <summary>
+            /// Minimum distance of room from existing corridors
+            /// </summary>
+            public int CorridorDistance { get; set; } = 2;
+
+            /// <summary>
+            /// Minimum corridor length
+            /// </summary>
+            public int CorridorMinLength { get; set; } = 3;
+            /// <summary>
+            /// Maximum corridor length
+            /// </summary>
+            public int CorridorMaxLength { get; set; } = 15;
+            /// <summary>
+            /// Maximum turns
+            /// </summary>
+            public int CorridorMaxTurns { get; set; } = 5;
+            /// <summary>
+            /// The distance a corridor has to be away from a closed cell for it to be built
+            /// </summary>
+            public int CorridorSpace { get; set; } = 2;
+
+
+            /// <summary>
+            /// Probability of building a corridor from a room or corridor. Greater than value = room
+            /// </summary>
+            public int BuildProb { get; set; } = 50;
+
+            /// <summary>
+            /// Break out
+            /// </summary>
+            public int BreakOut { get; set; } = 250;
         }
 
         private readonly SceneObjectManager sceneObjectManager;
@@ -54,7 +111,20 @@ namespace SceneTest
             GraphicsEngine graphicsEngine)
         {
             var random = new Random(description.RandomSeed);
-            var mapBuilder = new csMapbuilder(random, description.Width, description.Height);
+            var mapBuilder = new csMapbuilder(random, description.Width, description.Height)
+            {
+                BreakOut = description.BreakOut,
+                BuildProb = description.BuildProb,
+                CorridorDistance = description.CorridorDistance,
+                CorridorSpace = description.CorridorSpace,
+                Corridor_Max = description.CorridorMaxLength,
+                Corridor_MaxTurns = description.CorridorMaxTurns,
+                Corridor_Min = description.CorridorMinLength,
+                MaxRooms = description.MaxRooms,
+                RoomDistance = description.RoomDistance,
+                Room_Max = description.RoomMax,
+                Room_Min = description.RoomMin
+            };
             mapBuilder.Build_ConnectedStartRooms();
             mapMesh = new MapMesh(mapBuilder, graphicsEngine.RenderDevice, mapUnitX: 3, mapUnitY: 0.5f, mapUnitZ:3);
             var startRoom = mapBuilder.StartRoom;

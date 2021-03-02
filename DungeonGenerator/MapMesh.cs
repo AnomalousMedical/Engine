@@ -98,6 +98,10 @@ namespace DungeonGenerator
                             ++numBoundaryCubes;
                         }
                     }
+                    else
+                    {
+                        ++numWallQuads;
+                    }
                 }
             }
 
@@ -203,6 +207,22 @@ namespace DungeonGenerator
 
                             boundaryCubeCenterPoints.Add(new Vector3(right + halfUnitX, centerY, near + halfUnitZ));
                         }
+                    }
+                    else
+                    {
+                        //Floor outside
+                        //Floor
+
+                        var left = mapX * MapUnitX;
+                        var right = left + MapUnitX;
+                        var far = mapY * MapUnitZ;
+                        var near = far - MapUnitZ;
+                        wallMesh.AddQuad(
+                            new Vector3(left, topY, far),
+                            new Vector3(right, topY, far),
+                            new Vector3(right, topY, near),
+                            new Vector3(left, topY, near),
+                            Vector3.Up);
                     }
                 }
             }
