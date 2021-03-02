@@ -23,15 +23,15 @@ namespace SceneTest
     {
         public class Description : SceneObjectDesc
         {
-            public String FloorTexture { get; set; } = "cc0Textures/Ground037_1K";
+            public String FloorTexture { get; set; } = "cc0Textures/Snow006_1K";
 
             public String WallTexture { get; set; } = "cc0Textures/Bricks045_1K";
 
-            public int RandomSeed { get; set; } = 1;
+            public int RandomSeed { get; set; } = 0;
 
-            public int Width { get; set; } = 75;
+            public int Width { get; set; } = 50;
 
-            public int Height { get; set; } = 75;
+            public int Height { get; set; } = 50;
 
             /// <summary>
             /// Room minimum size
@@ -41,7 +41,7 @@ namespace SceneTest
             /// <summary>
             /// Room max size
             /// </summary>
-            public Size RoomMax { get; set; } = new Size(15, 15);
+            public Size RoomMax { get; set; } = new Size(10, 10);
 
             /// <summary>
             /// Number of rooms to build
@@ -73,7 +73,7 @@ namespace SceneTest
             /// <summary>
             /// The distance a corridor has to be away from a closed cell for it to be built
             /// </summary>
-            public int CorridorSpace { get; set; } = 2;
+            public int CorridorSpace { get; set; } = 10;
 
 
             /// <summary>

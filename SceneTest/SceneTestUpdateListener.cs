@@ -124,7 +124,7 @@ namespace SceneTest
             //Make scene
             var level = this.objectResolver.Resolve<Level, Level.Description>(o =>
             {
-                o.CorridorSpace = 10;
+                
             });
 
             this.objectResolver.Resolve<Player, Player.Description>(c =>
