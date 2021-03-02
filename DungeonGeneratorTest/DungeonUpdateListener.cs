@@ -289,7 +289,10 @@ namespace DungeonGeneratorTest
             pbrRenderer.Begin(immediateContext);
             pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, ref cubePosition, ref cubeOrientation, pbrRenderAttribs);
 
-            var mesh = mapMesh.Mesh;
+            var mesh = mapMesh.FloorMesh;
+            pbrRenderer.Render(immediateContext, pboMatBinding.Obj, mesh.VertexBuffer, mesh.SkinVertexBuffer, mesh.IndexBuffer, mesh.NumIndices, ref Vector3.Zero, ref Quaternion.Identity, pbrRenderAttribs);
+
+            mesh = mapMesh.WallMesh;
             pbrRenderer.Render(immediateContext, pboMatBinding.Obj, mesh.VertexBuffer, mesh.SkinVertexBuffer, mesh.IndexBuffer, mesh.NumIndices, ref Vector3.Zero, ref Quaternion.Identity, pbrRenderAttribs);
 
             this.swapChain.Present(1);
