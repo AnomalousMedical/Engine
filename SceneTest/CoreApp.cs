@@ -67,6 +67,8 @@ namespace SceneTest
             services.TryAddScoped<Attachment.Description>();
             services.TryAddScoped<Brick>();
             services.TryAddScoped<Brick.Description>();
+            services.TryAddScoped<Level>();
+            services.TryAddScoped<Level.Description>();
             services.TryAddSingleton<CameraMover>();
 
             return true;

@@ -184,6 +184,13 @@ namespace DungeonGenerator
             wallMesh.End(renderDevice);
         }
 
+        public Vector3 PointToVector(int x, int y)
+        {
+            var left = x * MapUnitX;
+            var far = y * MapUnitZ;
+            return new Vector3(left + MapUnitX / 2f, 0f, far - MapUnitZ / 2f);
+        }
+
         public void Dispose()
         {
             this.floorMesh.Dispose();
