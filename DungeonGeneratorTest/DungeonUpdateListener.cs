@@ -13,6 +13,7 @@ using BepuPhysics.Collidables;
 using Microsoft.Extensions.Logging;
 using Engine.CameraMovement;
 using RogueLikeMapBuilder;
+using DungeonGenerator;
 
 namespace DungeonGeneratorTest
 {
@@ -50,6 +51,8 @@ namespace DungeonGeneratorTest
         private PbrRenderer pbrRenderer;
         private AutoPtr<ITextureView> environmentMapSRV;
         private AutoPtr<IShaderResourceBinding> pboMatBinding;
+
+        private MapMesh mapMesh;
 
         //BEPU
         //If you intend to reuse the BufferPool, disposing the simulation is a good idea- it returns all the buffers to the pool for reuse.
@@ -91,35 +94,39 @@ namespace DungeonGeneratorTest
             Initialize();
 
             var random = new Random(1);
-            IEnumerator<YieldAction> co()
-            {
-                while (true)
-                {
-                    //Quick test with the console
-                    var mapBuilder = new csMapbuilder(random, 150, 150);
-                    mapBuilder.Build_ConnectedStartRooms();
-                    var map = mapBuilder.map;
-                    for (int y = 0; y < 150; ++y)
-                    {
-                        for (int x = 0; x < 150; ++x)
-                        {
-                            if (map[x, y])
-                            {
-                                Console.Write('X');
-                            }
-                            else
-                            {
-                                Console.Write(' ');
-                            }
-                        }
-                        Console.WriteLine();
-                    }
-                    Console.WriteLine(mapBuilder.StartRoom);
-                    Console.WriteLine(mapBuilder.EndRoom);
-                    yield return coroutineRunner.WaitSeconds(0.3f);
-                }
-            }
-            coroutineRunner.Run(co());
+            var mapBuilder = new csMapbuilder(random, 150, 150);
+            mapBuilder.Build_ConnectedStartRooms();
+            mapMesh = new MapMesh(mapBuilder, graphicsEngine.RenderDevice);
+
+            //IEnumerator<YieldAction> co()
+            //{
+            //    while (true)
+            //    {
+            //        //Quick test with the console
+            //        var mapBuilder = new csMapbuilder(random, 150, 150);
+            //        mapBuilder.Build_ConnectedStartRooms();
+            //        var map = mapBuilder.map;
+            //        for (int y = 0; y < 150; ++y)
+            //        {
+            //            for (int x = 0; x < 150; ++x)
+            //            {
+            //                if (map[x, y])
+            //                {
+            //                    Console.Write('X');
+            //                }
+            //                else
+            //                {
+            //                    Console.Write(' ');
+            //                }
+            //            }
+            //            Console.WriteLine();
+            //        }
+            //        Console.WriteLine(mapBuilder.StartRoom);
+            //        Console.WriteLine(mapBuilder.EndRoom);
+            //        yield return coroutineRunner.WaitSeconds(0.3f);
+            //    }
+            //}
+            //coroutineRunner.Run(co());
         }
 
         public void Dispose()
@@ -130,6 +137,8 @@ namespace DungeonGeneratorTest
             simulation.Dispose();
             threadDispatcher.Dispose();
             bufferPool.Clear();
+
+            mapMesh.Dispose();
 
             pboMatBinding.Dispose();
             environmentMapSRV.Dispose();
@@ -279,6 +288,9 @@ namespace DungeonGeneratorTest
 
             pbrRenderer.Begin(immediateContext);
             pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, ref cubePosition, ref cubeOrientation, pbrRenderAttribs);
+
+            var mesh = mapMesh.Mesh;
+            pbrRenderer.Render(immediateContext, pboMatBinding.Obj, mesh.VertexBuffer, mesh.SkinVertexBuffer, mesh.IndexBuffer, mesh.NumIndices, ref Vector3.Zero, ref Quaternion.Identity, pbrRenderAttribs);
 
             this.swapChain.Present(1);
         }
