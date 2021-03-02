@@ -12,9 +12,10 @@ namespace SceneTest
         const long HoursToMicro = 60L * 60L * Clock.SecondsToMicro;
         const long HoursPerDay = 24L;
 
-        long currentTime = 0;
+        long currentTime = 6L * HoursToMicro;
         //long timeFactor = 25000L; //Pretty Fast
-        long timeFactor = 10000L;
+        //long timeFactor = 10000L;
+        long timeFactor = 100L;
         long period = HoursPerDay * HoursToMicro;
         long halfPeriod;
         long dayStart = 6L * HoursToMicro;
