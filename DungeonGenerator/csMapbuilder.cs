@@ -150,7 +150,7 @@ namespace RogueLikeMapBuilder
 
             map = new bool[Map_Size.Width, Map_Size.Height];
             for (int x = 0; x < Map_Size.Width; x++)
-                for (int y = 0; y < Map_Size.Width; y++)
+                for (int y = 0; y < Map_Size.Height; y++)
                     map[x, y] = filledcell;
         }
 
