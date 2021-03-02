@@ -52,6 +52,7 @@ namespace DungeonGenerator
             //Figure out number of quads
             uint numFloorQuads = 0;
             uint numWallQuads = 0;
+            uint numBoundaryCubes = 0;
             var mapWidth = mapbuilder.Map_Size.Width;
             var mapHeight = mapbuilder.Map_Size.Height;
             for (int mapY = mapbuilder.Map_Size.Height - 1; mapY > -1; --mapY)
@@ -61,6 +62,7 @@ namespace DungeonGenerator
                     if (map[mapX, mapY])
                     {
                         ++numFloorQuads;
+                        ++numBoundaryCubes;
                         
                         int test;
 
@@ -68,7 +70,8 @@ namespace DungeonGenerator
                         test = mapY - 1;
                         if (test < 0 || !map[mapX, test])
                         {
-                            ++numWallQuads;
+                            //++numWallQuads;
+                            ++numBoundaryCubes;
                         }
 
                         //North wall
@@ -76,6 +79,7 @@ namespace DungeonGenerator
                         if (test >= mapHeight || !map[mapX, test])
                         {
                             ++numWallQuads;
+                            ++numBoundaryCubes;
                         }
 
                         //West wall
@@ -83,6 +87,7 @@ namespace DungeonGenerator
                         if (test < 0 || !map[test, mapY])
                         {
                             numWallQuads += 2;
+                            ++numBoundaryCubes;
                         }
 
                         //East wall
@@ -90,6 +95,7 @@ namespace DungeonGenerator
                         if (test > mapWidth || !map[test, mapY])
                         {
                             numWallQuads += 2;
+                            ++numBoundaryCubes;
                         }
                     }
                 }
@@ -99,7 +105,7 @@ namespace DungeonGenerator
             floorMesh.Begin(numFloorQuads);
             wallMesh.Begin(numWallQuads);
 
-            boundaryCubeCenterPoints = new List<Vector3>((int)(numFloorQuads + numWallQuads));
+            boundaryCubeCenterPoints = new List<Vector3>((int)(numBoundaryCubes));
 
             var floorY = -halfUnitY;
             var centerY = 0;
@@ -131,12 +137,12 @@ namespace DungeonGenerator
                         test = mapY - 1;
                         if (test < 0 || !map[mapX, test])
                         {
-                            wallMesh.AddQuad(
-                                new Vector3(left, topY, near),
-                                new Vector3(right, topY, near),
-                                new Vector3(right, floorY, near),
-                                new Vector3(left, floorY, near),
-                                Vector3.Backward);
+                            //wallMesh.AddQuad(
+                            //    new Vector3(left, topY, near),
+                            //    new Vector3(right, topY, near),
+                            //    new Vector3(right, floorY, near),
+                            //    new Vector3(left, floorY, near),
+                            //    Vector3.Backward);
 
                             boundaryCubeCenterPoints.Add(new Vector3(left + halfUnitX, centerY, near - halfUnitZ));
                         }

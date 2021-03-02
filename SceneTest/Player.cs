@@ -180,8 +180,8 @@ namespace SceneTest
         ButtonEvent jump = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_SPACE });
 
         private bool disposed;
-        private Vector3 cameraOffset = new Vector3(0, 3, -15);
-        private Quaternion cameraAngle = new Quaternion(Vector3.Left, -MathF.PI / 9f);
+        private Vector3 cameraOffset = new Vector3(0, 3, -12);
+        private Quaternion cameraAngle = new Quaternion(Vector3.Left, -MathF.PI / 14f);
 
         public Player(
             SceneObjectManager sceneObjectManager,
@@ -308,7 +308,7 @@ namespace SceneTest
             {
                 if (l.EventProcessingAllowed)
                 {
-                    characterMover.sprint = true;
+                    characterMover.sprint = false;
                     l.alertEventsHandled();
                 }
             };
@@ -316,7 +316,7 @@ namespace SceneTest
             {
                 if (l.EventProcessingAllowed)
                 {
-                    characterMover.sprint = false;
+                    characterMover.sprint = true;
                     l.alertEventsHandled();
                 }
             };
@@ -400,7 +400,8 @@ namespace SceneTest
 
             var moverDesc = new CharacterMoverDescription()
             {
-                MinimumSupportDepth = shape.Radius * -0.01f
+                MinimumSupportDepth = shape.Radius * -0.01f,
+                
             };
 
             //Because characters are dynamic, they require a defined BodyInertia. For the purposes of the demos, we don't want them to rotate or fall over, so the inverse inertia tensor is left at its default value of all zeroes.
@@ -412,6 +413,7 @@ namespace SceneTest
                 new BodyActivityDescription(shape.Radius * 0.02f));
 
             characterMover = bepuScene.CreateCharacterMover(bodyDesc, moverDesc);
+            characterMover.sprint = true;
             bepuScene.AddToInterpolation(characterMover.BodyHandle);
 
             coroutine.RunTask(async () => {

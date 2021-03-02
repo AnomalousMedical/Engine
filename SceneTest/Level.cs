@@ -56,7 +56,7 @@ namespace SceneTest
             var random = new Random(description.RandomSeed);
             var mapBuilder = new csMapbuilder(random, description.Width, description.Height);
             mapBuilder.Build_ConnectedStartRooms();
-            mapMesh = new MapMesh(mapBuilder, graphicsEngine.RenderDevice);
+            mapMesh = new MapMesh(mapBuilder, graphicsEngine.RenderDevice, mapUnitX: 3, mapUnitY: 3.5f, mapUnitZ:3);
             var startRoom = mapBuilder.StartRoom;
             var startX = startRoom.Left + startRoom.Width / 2;
             var startY = startRoom.Top + startRoom.Height / 2;
