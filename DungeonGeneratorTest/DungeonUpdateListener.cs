@@ -103,20 +103,20 @@ namespace DungeonGeneratorTest
                     {
                         for (int x = 0; x < 150; ++x)
                         {
-                            if (map[x, y] == 0)
+                            if (map[x, y])
                             {
                                 Console.Write('X');
                             }
                             else
                             {
-                                Console.Write('0');
+                                Console.Write(' ');
                             }
                         }
                         Console.WriteLine();
                     }
                     Console.WriteLine(mapBuilder.StartRoom);
                     Console.WriteLine(mapBuilder.EndRoom);
-                    yield return coroutineRunner.WaitSeconds(3);
+                    yield return coroutineRunner.WaitSeconds(0.3f);
                 }
             }
             coroutineRunner.Run(co());

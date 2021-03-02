@@ -16,7 +16,7 @@ namespace RogueLikeMapBuilder
     /// </summary>
     public class csMapbuilder
     {
-        public int[,] map;
+        public bool[,] map;
 
         /// <summary>
         /// Built rooms stored here
@@ -44,6 +44,8 @@ namespace RogueLikeMapBuilder
         public Rectangle StartRoom => startRoom;
 
         public Rectangle EndRoom => endRoom;
+
+        public IEnumerable<Rectangle> Rooms => rctBuiltRooms;
 
 
         #region builder public properties
@@ -112,8 +114,8 @@ namespace RogueLikeMapBuilder
                                             , new Point(-1, 0)//e
                                         };
 
-        private int filledcell = 1;
-        private int emptycell = 0;
+        private bool filledcell = false;
+        private bool emptycell = true;
 
         Random rnd;
 
@@ -121,7 +123,7 @@ namespace RogueLikeMapBuilder
         {
             this.rnd = random;
             Map_Size = new Size(x, y);
-            map = new int[Map_Size.Width, Map_Size.Height];
+            map = new bool[Map_Size.Width, Map_Size.Height];
             Corridor_MaxTurns = 5;
             Room_Min = new Size(3, 3);
             Room_Max = new Size(15, 15);
@@ -147,7 +149,7 @@ namespace RogueLikeMapBuilder
             rctBuiltRooms = new List<Rectangle>();
             lBuilltCorridors = new List<Point>();
 
-            map = new int[Map_Size.Width, Map_Size.Height];
+            map = new bool[Map_Size.Width, Map_Size.Height];
             for (int x = 0; x < Map_Size.Width; x++)
                 for (int y = 0; y < Map_Size.Width; y++)
                     map[x, y] = filledcell;
@@ -741,7 +743,7 @@ namespace RogueLikeMapBuilder
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="val"></param>
-        private void Point_Set(int x, int y, int val)
+        private void Point_Set(int x, int y, bool val)
         {
             map[x, y] = val;
         }
@@ -752,7 +754,7 @@ namespace RogueLikeMapBuilder
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        private int Point_Get(int x, int y)
+        private bool Point_Get(int x, int y)
         {
             return map[x, y];
         }
