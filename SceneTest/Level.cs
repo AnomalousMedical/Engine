@@ -145,8 +145,8 @@ namespace SceneTest
                 position = description.Translation,
                 orientation = description.Orientation,
                 scale = description.Scale,
-                RenderShadow = true,
-                GetShadows = false
+                RenderShadow = false,
+                GetShadows = true
             };
             floorSceneObject = new SceneObject()
             {
@@ -181,7 +181,7 @@ namespace SceneTest
             {
                 using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until coroutine is finished and this is disposed.
 
-                var wallTextureTask = textureManager.Checkout(new CCOTextureBindingDescription(description.WallTexture, getShadow: false));
+                var wallTextureTask = textureManager.Checkout(new CCOTextureBindingDescription(description.WallTexture, getShadow: true));
                 var floorTextureTask = textureManager.Checkout(new CCOTextureBindingDescription(description.FloorTexture, getShadow: true));
                 wallMatBinding = await wallTextureTask;
                 floorMatBinding = await floorTextureTask;

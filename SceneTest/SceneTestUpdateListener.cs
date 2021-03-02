@@ -122,7 +122,10 @@ namespace SceneTest
             pbrRenderer.PrecomputeCubemaps(renderDevice, immediateContext, environmentMapSRV.Obj);
 
             //Make scene
-            var level = this.objectResolver.Resolve<Level>();
+            var level = this.objectResolver.Resolve<Level, Level.Description>(o =>
+            {
+                o.CorridorSpace = 10;
+            });
 
             this.objectResolver.Resolve<Player, Player.Description>(c =>
             {
@@ -308,7 +311,7 @@ namespace SceneTest
 
             //Draw Scene
             // Render shadow map
-            shadowMapRenderer.BeginShadowMap(renderDevice, immediateContext, lightDirection, Vector3.Zero, 500); //Centering scene on player seems to work the best
+            shadowMapRenderer.BeginShadowMap(renderDevice, immediateContext, lightDirection, Vector3.Zero, 90); //Centering scene on player seems to work the best
             foreach (var sceneObj in sceneObjects.Where(i => i.RenderShadow))
             {
                 var pos = sceneObj.position - cameraMover.SceneCenter;
