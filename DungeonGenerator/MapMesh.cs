@@ -19,20 +19,24 @@ namespace DungeonGenerator
         /// <summary>
         /// The number of units on the generated map to make on the real map in the X direction.
         /// </summary>
-        public float MapUnitX { get; set; } = 2f;
+        public float MapUnitX { get; } = 2f;
 
         /// <summary>
         /// The number of units on the generated map to make on the real map in the Y direction.
         /// </summary>
-        public float MapUnitY { get; set; } = 2f;
+        public float MapUnitY { get; } = 2f;
 
         /// <summary>
         /// The number of units on the generated map to make on the real map in the Z direction.
         /// </summary>
-        public float MapUnitZ { get; set; } = 2f;
+        public float MapUnitZ { get; } = 2f;
 
-        public MapMesh(csMapbuilder mapbuilder, IRenderDevice renderDevice)
+        public MapMesh(csMapbuilder mapbuilder, IRenderDevice renderDevice, float mapUnitX = 2f, float mapUnitY = 2f, float mapUnitZ = 2f)
         {
+            MapUnitX = mapUnitX;
+            MapUnitY = mapUnitY;
+            MapUnitZ = mapUnitZ;
+
             var halfUnitX = MapUnitX / 2.0f;
             var halfUnitY = MapUnitY / 2.0f;
             var halfUnitZ = MapUnitZ / 2.0f;
