@@ -70,7 +70,7 @@ namespace DungeonGenerator
                         test = mapY - 1;
                         if (test < 0 || !map[mapX, test])
                         {
-                            //++numWallQuads;
+                            ++numWallQuads;
                             ++numBoundaryCubes;
                         }
 
@@ -137,12 +137,12 @@ namespace DungeonGenerator
                         test = mapY - 1;
                         if (test < 0 || !map[mapX, test])
                         {
-                            //wallMesh.AddQuad(
-                            //    new Vector3(left, topY, near),
-                            //    new Vector3(right, topY, near),
-                            //    new Vector3(right, floorY, near),
-                            //    new Vector3(left, floorY, near),
-                            //    Vector3.Backward);
+                            wallMesh.AddQuad(
+                                new Vector3(left, topY, near),
+                                new Vector3(right, topY, near),
+                                new Vector3(right, floorY, near),
+                                new Vector3(left, floorY, near),
+                                Vector3.Backward);
 
                             boundaryCubeCenterPoints.Add(new Vector3(left + halfUnitX, centerY, near - halfUnitZ));
                         }
