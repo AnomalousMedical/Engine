@@ -256,7 +256,7 @@ namespace DungeonGenerator
         {
             var left = x * MapUnitX;
             var far = y * MapUnitZ;
-            return new Vector3(left + MapUnitX / 2f, 0f, far - MapUnitZ / 2f);
+            return new Vector3(left + MapUnitX / 2f, MapUnitY / 2f, far - MapUnitZ / 2f);
         }
 
         public void Dispose()
