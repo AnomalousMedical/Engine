@@ -25,7 +25,7 @@ namespace SceneTest
         {
             public String FloorTexture { get; set; } = "cc0Textures/Snow006_1K";
 
-            public String WallTexture { get; set; } = "cc0Textures/Bricks045_1K";
+            public String WallTexture { get; set; } = "cc0Textures/Rock022_1K";
 
             public int RandomSeed { get; set; } = 0;
 

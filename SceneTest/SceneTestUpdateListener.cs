@@ -124,7 +124,15 @@ namespace SceneTest
             //Make scene
             var level = this.objectResolver.Resolve<Level, Level.Description>(o =>
             {
-                
+                o.FloorTexture = "cc0Textures/Ground041_1K";
+
+                o.Width = 50;
+                o.Height = 50;
+                o.CorridorSpace = 10;
+                o.RoomDistance = 3;
+                o.RoomMin = new IntSize2(2, 2);
+                o.RoomMax = new IntSize2(6, 6); //Between 3-6 is good here, 3 for more cityish with small rooms, 6 for more open with more big rooms, sometimes connected
+                o.CorridorMaxLength = 4;
             });
 
             this.objectResolver.Resolve<Player, Player.Description>(c =>
@@ -132,80 +140,25 @@ namespace SceneTest
                 c.Translation = level.StartPoint;
             });
 
-            var otherPlayer = this.objectResolver.Resolve<Player, Player.Description>(c =>
-            {
-                c.Translation = level.StartPoint + new Vector3(-1, 0, 0);
-                c.Gamepad = GamepadId.Pad2;
-            });
-
-            var instantDestroy = objectResolver.Resolve<Player, Player.Description>(c =>
-            {
-                c.Translation = level.StartPoint + new Vector3(-1, 0, 0);
-                c.Gamepad = GamepadId.Pad2;
-            });
-            instantDestroy.RequestDestruction();
-
-            IEnumerator<YieldAction> playerCo()
-            {
-                yield return coroutineRunner.WaitSeconds(5);
-                otherPlayer.RequestDestruction();
-                yield return coroutineRunner.WaitSeconds(5);
-                this.objectResolver.Resolve<Player, Player.Description>(c =>
-                {
-                    c.Translation = level.StartPoint;
-                    c.Gamepad = GamepadId.Pad2;
-                });
-            }
-            coroutineRunner.Run(playerCo());
-
             this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
                 Enemy.Desc.MakeTinyDino(c);
-                c.Translation = new Vector3(-4, 0, -1);
+                c.Translation = level.StartPoint + new Vector3(-4, 0, -1);
             });
             this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
                 Enemy.Desc.MakeTinyDino(c, skinMaterial: "cc0Textures/Leather011_1K");
-                c.Translation = new Vector3(-5, 0, -2);
+                c.Translation = level.StartPoint + new Vector3(-5, 0, -2);
             });
             this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
                 Enemy.Desc.MakeSkeleton(c);
-                c.Translation = new Vector3(0, 0, -3);
+                c.Translation = level.StartPoint + new Vector3(0, 0, -3);
             });
             this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
                 Enemy.Desc.MakeTinyDino(c);
-                c.Translation = new Vector3(-6, 0, -3);
-            });
-            this.objectResolver.Resolve<Brick, Brick.Description>(o =>
-            {
-                o.Translation = new Vector3(0, -1.05f, 0);
-                o.Scale = new Vector3(20, .1f, 20);
-                o.Texture = "cc0Textures/Ground037_1K";
-                o.GetShadow = true;
-                o.RenderShadow = false;
-            });
-
-            AddBrick(new Vector3(-3, 0, 1), Quaternion.Identity);
-            AddBrick(new Vector3(-3, 0, 2), Quaternion.Identity);
-            AddBrick(new Vector3(-3, 0, 3), Quaternion.Identity);
-            AddBrick(new Vector3(0, 0, 3), Quaternion.Identity);
-            AddBrick(new Vector3(1, 0, 3), Quaternion.Identity);
-            AddBrick(new Vector3(1, 0, 2), Quaternion.Identity);
-            AddBrick(new Vector3(1, 0, 1), Quaternion.Identity);
-            AddBrick(new Vector3(1, 0, 0), Quaternion.Identity);
-            AddBrick(new Vector3(1, 0, -1), Quaternion.Identity);
-            AddBrick(new Vector3(1, 0, -2), Quaternion.Identity);
-        }
-
-        private void AddBrick(Vector3 trans, Quaternion rot)
-        {
-            var brick = objectResolver.Resolve<Brick, Brick.Description>(o =>
-            {
-                o.Translation = trans * 2;
-                o.Orientation = rot;
-                o.Scale = new Vector3(2, 2, 2);
+                c.Translation = level.StartPoint + new Vector3(-6, 0, -3);
             });
         }
 
