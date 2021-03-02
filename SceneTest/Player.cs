@@ -45,9 +45,11 @@ namespace SceneTest
         const float SpriteStepX = 32f / 128f;
         const float SpriteStepY = 32f / 64f;
 
+        const int spriteWalkFrameSpeed = (int)(0.2f * Clock.SecondsToMicro);
+
         private FrameEventSprite sprite = new FrameEventSprite(new Dictionary<string, SpriteAnimation>()
         {
-            { "stand-down", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro),
+            { "stand-down", new SpriteAnimation(spriteWalkFrameSpeed,
                 new SpriteFrame(SpriteStepX * 2, SpriteStepY * 1, SpriteStepX * 3, SpriteStepY * 2)
                 {
                     Attachments = new List<SpriteFrameAttachment>()
@@ -57,7 +59,7 @@ namespace SceneTest
                     }
                 } )
             },
-            { "stand-left", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro),
+            { "stand-left", new SpriteAnimation(spriteWalkFrameSpeed,
                 new SpriteFrame(SpriteStepX * 3, SpriteStepY * 0, SpriteStepX * 4, SpriteStepY * 1)
                 {
                     Attachments = new List<SpriteFrameAttachment>()
@@ -67,7 +69,7 @@ namespace SceneTest
                     }
                 })
             },
-            { "stand-right", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro),
+            { "stand-right", new SpriteAnimation(spriteWalkFrameSpeed,
                 new SpriteFrame(SpriteStepX * 4, SpriteStepY * 0, SpriteStepX * 3, SpriteStepY * 1)
                 {
                     Attachments = new List<SpriteFrameAttachment>()
@@ -77,7 +79,7 @@ namespace SceneTest
                     }
                 } )
             },
-            { "stand-up", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro),
+            { "stand-up", new SpriteAnimation(spriteWalkFrameSpeed,
                 new SpriteFrame(SpriteStepX * 3, SpriteStepY * 1, SpriteStepX * 4, SpriteStepY * 2)
                 {
                     Attachments = new List<SpriteFrameAttachment>()
@@ -87,7 +89,7 @@ namespace SceneTest
                     }
                 } )
             },
-            { "down", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro),
+            { "down", new SpriteAnimation(spriteWalkFrameSpeed,
                 new SpriteFrame(SpriteStepX * 1, SpriteStepY * 0, SpriteStepX * 2, SpriteStepY * 1)
                 {
                     Attachments = new List<SpriteFrameAttachment>()
@@ -105,7 +107,7 @@ namespace SceneTest
                     }
                 } )
             },
-            { "up", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro),
+            { "up", new SpriteAnimation(spriteWalkFrameSpeed,
                 new SpriteFrame(SpriteStepX * 0, SpriteStepY * 0, SpriteStepX * 1, SpriteStepY * 1)
                 {
                     Attachments = new List<SpriteFrameAttachment>()
@@ -123,7 +125,7 @@ namespace SceneTest
                     }
                 } )
             },
-            { "right", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro),
+            { "right", new SpriteAnimation(spriteWalkFrameSpeed,
                 new SpriteFrame(SpriteStepX * 4, SpriteStepY * 0, SpriteStepX * 3, SpriteStepY * 1)
                 {
                     Attachments = new List<SpriteFrameAttachment>()
@@ -141,7 +143,7 @@ namespace SceneTest
                     }
                 })
             },
-            { "left", new SpriteAnimation((int)(0.3f * Clock.SecondsToMicro),
+            { "left", new SpriteAnimation(spriteWalkFrameSpeed,
                 new SpriteFrame(SpriteStepX * 3, SpriteStepY * 0, SpriteStepX * 4, SpriteStepY * 1)
                 {
                     Attachments = new List<SpriteFrameAttachment>()
