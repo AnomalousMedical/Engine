@@ -50,33 +50,33 @@ namespace DiligentEngine.GltfPbr.Shapes
             indices = new UInt32[numIndices];
         }
 
-        public void AddQuad(in Vector3 topLeft, in Vector3 topRight, in Vector3 bottomRight, in Vector3 bottomLeft, in Vector3 normal)
+        public void AddQuad(in Vector3 topLeft, in Vector3 topRight, in Vector3 bottomRight, in Vector3 bottomLeft, in Vector3 normal, in Vector2 uvTopLeft, in Vector2 uvBottomRight)
         {
             quadVerts[currentVert].pos = topLeft;
             quadVerts[currentVert].normal = normal;
-            quadVerts[currentVert].uv0 = new Vector2(0, 0);
-            quadVerts[currentVert].uv1 = new Vector2(0, 0);
+            quadVerts[currentVert].uv0 = new Vector2(uvTopLeft.x, uvTopLeft.y);
+            quadVerts[currentVert].uv1 = new Vector2(uvTopLeft.x, uvTopLeft.y);
             quadSkinVerts[currentVert] = new GLTFVertexSkinAttribs { joint0 = new Vector4(0, 0, 0, 0), weight0 = Vector4.Zero };
 
             ++currentVert;
             quadVerts[currentVert].pos = topRight;
             quadVerts[currentVert].normal = normal;
-            quadVerts[currentVert].uv0 = new Vector2(1, 0);
-            quadVerts[currentVert].uv1 = new Vector2(1, 0);
+            quadVerts[currentVert].uv0 = new Vector2(uvBottomRight.x, uvTopLeft.y);
+            quadVerts[currentVert].uv1 = new Vector2(uvBottomRight.x, uvTopLeft.y);
             quadSkinVerts[currentVert] = new GLTFVertexSkinAttribs { joint0 = new Vector4(0, 0, 0, 0), weight0 = Vector4.Zero };
 
             ++currentVert;
             quadVerts[currentVert].pos = bottomRight;
             quadVerts[currentVert].normal = normal;
-            quadVerts[currentVert].uv0 = new Vector2(1, 1);
-            quadVerts[currentVert].uv1 = new Vector2(1, 1);
+            quadVerts[currentVert].uv0 = new Vector2(uvBottomRight.x, uvBottomRight.y);
+            quadVerts[currentVert].uv1 = new Vector2(uvBottomRight.x, uvBottomRight.y);
             quadSkinVerts[currentVert] = new GLTFVertexSkinAttribs { joint0 = new Vector4(0, 0, 0, 0), weight0 = Vector4.Zero };
 
             ++currentVert;
             quadVerts[currentVert].pos = bottomLeft;
             quadVerts[currentVert].normal = normal;
-            quadVerts[currentVert].uv0 = new Vector2(0, 1);
-            quadVerts[currentVert].uv1 = new Vector2(0, 1);
+            quadVerts[currentVert].uv0 = new Vector2(uvTopLeft.x, uvBottomRight.y);
+            quadVerts[currentVert].uv1 = new Vector2(uvTopLeft.x, uvBottomRight.y);
             quadSkinVerts[currentVert] = new GLTFVertexSkinAttribs { joint0 = new Vector4(0, 0, 0, 0), weight0 = Vector4.Zero };
 
             ++currentVert;

@@ -114,6 +114,11 @@ namespace DungeonGenerator
             var floorY = -halfUnitY;
             var centerY = 0;
             var topY = halfUnitY;
+            var yUvBottom = 1.0f;
+            if(MapUnitY < 1.0f)
+            {
+                yUvBottom = MapUnitY / MapUnitX;
+            }
             for (int mapY = mapbuilder.Map_Size.Height - 1; mapY > -1; --mapY)
             {
                 for (int mapX = 0; mapX < mapWidth; ++mapX)
@@ -131,7 +136,9 @@ namespace DungeonGenerator
                             new Vector3(right, floorY, far),
                             new Vector3(right, floorY, near),
                             new Vector3(left, floorY, near),
-                            Vector3.Up);
+                            Vector3.Up,
+                            new Vector2(0, 0),
+                            new Vector2(1, 1));
 
                         boundaryCubeCenterPoints.Add(new Vector3(left + halfUnitX, floorY - halfUnitY, far - halfUnitZ));
 
@@ -146,7 +153,9 @@ namespace DungeonGenerator
                                 new Vector3(right, topY, near),
                                 new Vector3(right, floorY, near),
                                 new Vector3(left, floorY, near),
-                                Vector3.Backward);
+                                Vector3.Backward,
+                                new Vector2(0, 0),
+                                new Vector2(1, yUvBottom));
 
                             boundaryCubeCenterPoints.Add(new Vector3(left + halfUnitX, centerY, near - halfUnitZ));
                         }
@@ -161,7 +170,9 @@ namespace DungeonGenerator
                                 new Vector3(right, topY, far),
                                 new Vector3(right, floorY, far),
                                 new Vector3(left, floorY, far),
-                                Vector3.Backward);
+                                Vector3.Backward,
+                                new Vector2(0, 0),
+                                new Vector2(1, yUvBottom));
 
                             boundaryCubeCenterPoints.Add(new Vector3(left + halfUnitX, centerY, far + halfUnitZ));
                         }
@@ -175,14 +186,18 @@ namespace DungeonGenerator
                                 new Vector3(left, topY, far),
                                 new Vector3(left, floorY, far),
                                 new Vector3(left, floorY, near),
-                                Vector3.Right);
+                                Vector3.Right,
+                                new Vector2(0, 0),
+                                new Vector2(1, yUvBottom));
 
                             wallMesh.AddQuad(
                                 new Vector3(left, topY, far),
                                 new Vector3(left, topY, near),
                                 new Vector3(left, floorY, near),
                                 new Vector3(left, floorY, far),
-                                Vector3.Left);
+                                Vector3.Left,
+                                new Vector2(0, 0),
+                                new Vector2(1, yUvBottom));
 
                             boundaryCubeCenterPoints.Add(new Vector3(left - halfUnitX, centerY, near + halfUnitZ));
                         }
@@ -196,14 +211,18 @@ namespace DungeonGenerator
                                 new Vector3(right, topY, far),
                                 new Vector3(right, floorY, far),
                                 new Vector3(right, floorY, near),
-                                Vector3.Right);
+                                Vector3.Right,
+                                new Vector2(0, 0),
+                                new Vector2(1, 1));
 
                             wallMesh.AddQuad(
                                 new Vector3(right, topY, far),
                                 new Vector3(right, topY, near),
                                 new Vector3(right, floorY, near),
                                 new Vector3(right, floorY, far),
-                                Vector3.Left);
+                                Vector3.Left,
+                                new Vector2(0, 0),
+                                new Vector2(1, 1));
 
                             boundaryCubeCenterPoints.Add(new Vector3(right + halfUnitX, centerY, near + halfUnitZ));
                         }
@@ -222,7 +241,9 @@ namespace DungeonGenerator
                             new Vector3(right, topY, far),
                             new Vector3(right, topY, near),
                             new Vector3(left, topY, near),
-                            Vector3.Up);
+                            Vector3.Up,
+                            new Vector2(0, 0),
+                            new Vector2(1, 1));
                     }
                 }
             }
