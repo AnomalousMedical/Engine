@@ -243,7 +243,9 @@ namespace DiligentEngine.GltfPbr
         public void BeginShadowMap(
             IRenderDevice renderDevice,
             IDeviceContext immediateContext,
-            Vector3 m_LightDirection)
+            in Vector3 m_LightDirection,
+            in float3 f3SceneCenter,
+            float SceneRadius)
         {
             immediateContext.SetRenderTargets(null, m_ShadowMapDSV.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             immediateContext.ClearDepthStencil(m_ShadowMapDSV.Obj, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
@@ -272,11 +274,7 @@ namespace DiligentEngine.GltfPbr
 
             float4x4 WorldToLightViewSpaceMatr = float4x4.ViewFromBasis(ref f3LightSpaceX, ref f3LightSpaceY, ref f3LightSpaceZ);
 
-            // For this tutorial we know that the scene center is at (0,0,0).
-            // Real applications will want to compute tight bounds
-
-            float3 f3SceneCenter = new float3(0, 0, 0);
-            float SceneRadius = (float)Math.Sqrt(90);
+            SceneRadius = (float)Math.Sqrt(SceneRadius);
             float3 f3MinXYZ = f3SceneCenter - new float3(SceneRadius, SceneRadius, SceneRadius);
             float3 f3MaxXYZ = f3SceneCenter + new float3(SceneRadius, SceneRadius, SceneRadius * 5);
             float3 f3SceneExtent = f3MaxXYZ - f3MinXYZ;

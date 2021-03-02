@@ -478,6 +478,7 @@ namespace SceneTest
             Sprite_FrameChanged(sprite);
             cameraMover.Position = this.sceneObject.position + cameraOffset;
             cameraMover.Orientation = cameraAngle;
+            cameraMover.SceneCenter = this.sceneObject.position;
         }
 
         private void EventLayer_OnUpdate(EventLayer eventLayer)

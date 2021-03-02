@@ -71,8 +71,8 @@ namespace SceneTest
             VirtualFileSystem virtualFileSystem,
             FirstPersonFlyCamera cameraControls,
             SimpleShadowMapRenderer shadowMapRenderer,
-            TimeClock timeClock, 
-            ISharpGui sharpGui, 
+            TimeClock timeClock,
+            ISharpGui sharpGui,
             IScaleHelper scaleHelper,
             SoundManager soundManager,
             SceneObjectManager sceneObjects,
@@ -245,7 +245,7 @@ namespace SceneTest
             }
 
             int currentTime = (int)(timeClock.CurrentTimeMicro * Clock.MicroToSeconds / (60 * 60));
-            if(sharpGui.Slider(currentHour, ref currentTime) || sharpGui.ActiveItem == currentHour.Id)
+            if (sharpGui.Slider(currentHour, ref currentTime) || sharpGui.ActiveItem == currentHour.Id)
             {
                 timeClock.CurrentTimeMicro = (long)currentTime * 60L * 60L * Clock.SecondsToMicro;
             }
@@ -282,7 +282,7 @@ namespace SceneTest
 
         private void UpdateSprites(Clock clock)
         {
-            foreach(var sprite in sprites)
+            foreach (var sprite in sprites)
             {
                 sprite.Update(clock);
             }
@@ -308,10 +308,11 @@ namespace SceneTest
 
             //Draw Scene
             // Render shadow map
-            shadowMapRenderer.BeginShadowMap(renderDevice, immediateContext, lightDirection);
+            shadowMapRenderer.BeginShadowMap(renderDevice, immediateContext, lightDirection, Vector3.Zero, 500); //Centering scene on player seems to work the best
             foreach (var sceneObj in sceneObjects.Where(i => i.RenderShadow))
             {
-                shadowMapRenderer.RenderShadowMap(immediateContext, sceneObj.vertexBuffer, sceneObj.skinVertexBuffer, sceneObj.indexBuffer, sceneObj.numIndices, ref sceneObj.position, ref sceneObj.orientation, ref sceneObj.scale);
+                var pos = sceneObj.position - cameraMover.SceneCenter;
+                shadowMapRenderer.RenderShadowMap(immediateContext, sceneObj.vertexBuffer, sceneObj.skinVertexBuffer, sceneObj.indexBuffer, sceneObj.numIndices, ref pos, ref sceneObj.orientation, ref sceneObj.scale);
             }
 
             //Render scene colors
@@ -333,7 +334,7 @@ namespace SceneTest
             }
             else
             {
-                pbrCameraAndLight.SetCameraPosition(cameraMover.Position, cameraMover.Orientation, ref preTransformMatrix, ref cameraProjMatrix);
+                pbrCameraAndLight.SetCameraPosition(cameraMover.Position - cameraMover.SceneCenter, cameraMover.Orientation, ref preTransformMatrix, ref cameraProjMatrix);
             }
 
             foreach (var sceneObj in sceneObjects)
@@ -349,7 +350,10 @@ namespace SceneTest
                     pbrRenderAttribs.SpriteUVRight = frame.Right;
                     pbrRenderAttribs.SpriteUVBottom = frame.Bottom;
                 }
-                pbrRenderer.Render(immediateContext, sceneObj.shaderResourceBinding, sceneObj.vertexBuffer, sceneObj.skinVertexBuffer, sceneObj.indexBuffer, sceneObj.numIndices, ref sceneObj.position, ref sceneObj.orientation, ref sceneObj.scale, pbrRenderAttribs);
+
+                var pos = sceneObj.position - cameraMover.SceneCenter;
+
+                pbrRenderer.Render(immediateContext, sceneObj.shaderResourceBinding, sceneObj.vertexBuffer, sceneObj.skinVertexBuffer, sceneObj.indexBuffer, sceneObj.numIndices, ref pos, ref sceneObj.orientation, ref sceneObj.scale, pbrRenderAttribs);
             }
 
             this.shadowMapRenderer.RenderShadowMapVis(immediateContext);
