@@ -12,6 +12,9 @@ namespace DungeonGenerator
     {
         private Mesh floorMesh;
         private Mesh wallMesh;
+        private List<Vector3> boundaryCubeCenterPoints;
+
+        public IEnumerable<Vector3> BoundaryCubeCenterPoints => boundaryCubeCenterPoints;
 
         /// <summary>
         /// The number of units on the generated map to make on the real map in the X direction.
@@ -32,6 +35,7 @@ namespace DungeonGenerator
         {
             var halfUnitX = MapUnitX / 2.0f;
             var halfUnitY = MapUnitY / 2.0f;
+            var halfUnitZ = MapUnitZ / 2.0f;
 
             var map = mapbuilder.map;
 
@@ -91,7 +95,10 @@ namespace DungeonGenerator
             floorMesh.Begin(numFloorQuads);
             wallMesh.Begin(numWallQuads);
 
+            boundaryCubeCenterPoints = new List<Vector3>((int)(numFloorQuads + numWallQuads));
+
             var floorY = -halfUnitY;
+            var centerY = 0;
             var topY = halfUnitY;
             for (int mapY = mapbuilder.Map_Size.Height - 1; mapY > -1; --mapY)
             {
@@ -112,6 +119,8 @@ namespace DungeonGenerator
                             new Vector3(left, floorY, near),
                             Vector3.Up);
 
+                        boundaryCubeCenterPoints.Add(new Vector3(left + halfUnitX, floorY - halfUnitY, far - halfUnitZ));
+
                         int test;
 
                         //South wall
@@ -124,6 +133,8 @@ namespace DungeonGenerator
                                 new Vector3(right, floorY, near),
                                 new Vector3(left, floorY, near),
                                 Vector3.Backward);
+
+                            boundaryCubeCenterPoints.Add(new Vector3(left + halfUnitX, centerY, near - halfUnitZ));
                         }
 
                         //North wall
@@ -137,6 +148,8 @@ namespace DungeonGenerator
                                 new Vector3(right, floorY, far),
                                 new Vector3(left, floorY, far),
                                 Vector3.Backward);
+
+                            boundaryCubeCenterPoints.Add(new Vector3(left + halfUnitX, centerY, far + halfUnitZ));
                         }
 
                         //West wall
@@ -156,6 +169,8 @@ namespace DungeonGenerator
                                 new Vector3(left, floorY, near),
                                 new Vector3(left, floorY, far),
                                 Vector3.Left);
+
+                            boundaryCubeCenterPoints.Add(new Vector3(left - halfUnitX, centerY, near + halfUnitZ));
                         }
 
                         //East wall
@@ -175,6 +190,8 @@ namespace DungeonGenerator
                                 new Vector3(right, floorY, near),
                                 new Vector3(right, floorY, far),
                                 Vector3.Left);
+
+                            boundaryCubeCenterPoints.Add(new Vector3(right + halfUnitX, centerY, near + halfUnitZ));
                         }
                     }
                 }

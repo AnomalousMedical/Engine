@@ -37,6 +37,9 @@ Haven't tried tabs yet in the fonts. They are their own setting so need to mess 
 ## Use new in keyword
 Switch ref to in where possible and pass as many structs as possible with in. See if things like Vector3.Forward can be made readonly then.
 
+## Level Generation - boundaryCubeCenterPoints will add extra cubes
+If you keep this method of boundary cubes know that L shaped corners will get an extra cube. Should try to prevent this for less per frame physics work.
+
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Low Priority

@@ -41,7 +41,7 @@ namespace SceneTest
         private IShaderResourceBinding floorMatBinding;
         private SceneObject wallSceneObject;
         private SceneObject floorSceneObject;
-        private StaticHandle staticHandle;
+        private List<StaticHandle> staticHandles = new List<StaticHandle>();
         private TypedIndex shapeIndex;
         private bool disposed;
         private MapMesh mapMesh;
@@ -96,14 +96,20 @@ namespace SceneTest
                 GetShadows = true
             };
 
-            var shape = new Box(description.Scale.x, description.Scale.y, description.Scale.z); //Each one creates its own, try to load from resources
+            var shape = new Box(mapMesh.MapUnitX, mapMesh.MapUnitY, mapMesh.MapUnitZ); //Each one creates its own, try to load from resources
             shapeIndex = bepuScene.Simulation.Shapes.Add(shape);
 
-            staticHandle = bepuScene.Simulation.Statics.Add(
-                new StaticDescription(
-                    new System.Numerics.Vector3(description.Translation.x, description.Translation.y, description.Translation.z),
-                    new System.Numerics.Quaternion(description.Orientation.x, description.Orientation.y, description.Orientation.z, description.Orientation.w),
-                    new CollidableDescription(shapeIndex, 0.1f)));
+            var orientation = System.Numerics.Quaternion.Identity;
+            foreach (var boundary in mapMesh.BoundaryCubeCenterPoints)
+            {
+                var staticHandle = bepuScene.Simulation.Statics.Add(
+                    new StaticDescription(
+                        boundary.ToSystemNumerics(),
+                        orientation,
+                        new CollidableDescription(shapeIndex, 0.1f)));
+
+                staticHandles.Add(staticHandle);
+            }
 
             coroutine.RunTask(async () =>
             {
@@ -135,7 +141,11 @@ namespace SceneTest
         {
             disposed = true;
             bepuScene.Simulation.Shapes.Remove(shapeIndex);
-            bepuScene.Simulation.Statics.Remove(staticHandle);
+            var statics = bepuScene.Simulation.Statics;
+            foreach (var staticHandle in staticHandles)
+            {
+                statics.Remove(staticHandle);
+            }
             sceneObjectManager.Remove(wallSceneObject);
             sceneObjectManager.Remove(floorSceneObject);
             textureManager.TryReturn(wallMatBinding);

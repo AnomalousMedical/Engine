@@ -122,15 +122,24 @@ namespace SceneTest
             pbrRenderer.PrecomputeCubemaps(renderDevice, immediateContext, environmentMapSRV.Obj);
 
             //Make scene
-            this.objectResolver.Resolve<Player>();
+            var level = this.objectResolver.Resolve<Level>();
+
+            this.objectResolver.Resolve<Player, Player.Description>(c =>
+            {
+                c.Translation = level.StartPoint;
+            });
 
             var otherPlayer = this.objectResolver.Resolve<Player, Player.Description>(c =>
             {
-                c.Translation = new Vector3(-1, 0, 0);
+                c.Translation = level.StartPoint + new Vector3(-1, 0, 0);
                 c.Gamepad = GamepadId.Pad2;
             });
 
-            var instantDestroy = objectResolver.Resolve<Player>();
+            var instantDestroy = objectResolver.Resolve<Player, Player.Description>(c =>
+            {
+                c.Translation = level.StartPoint + new Vector3(-1, 0, 0);
+                c.Gamepad = GamepadId.Pad2;
+            });
             instantDestroy.RequestDestruction();
 
             IEnumerator<YieldAction> playerCo()
@@ -140,6 +149,7 @@ namespace SceneTest
                 yield return coroutineRunner.WaitSeconds(5);
                 this.objectResolver.Resolve<Player, Player.Description>(c =>
                 {
+                    c.Translation = level.StartPoint;
                     c.Gamepad = GamepadId.Pad2;
                 });
             }
