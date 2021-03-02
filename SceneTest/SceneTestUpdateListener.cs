@@ -115,50 +115,55 @@ namespace SceneTest
             environmentMapSRV.Dispose();
         }
 
-        unsafe void Initialize()
+        void Initialize()
         {
             environmentMapSRV = envMapBuilder.BuildEnvMapView(renderDevice, immediateContext, "papermill/Fixed-", "png");
 
             pbrRenderer.PrecomputeCubemaps(renderDevice, immediateContext, environmentMapSRV.Obj);
 
             //Make scene
-            var level = this.objectResolver.Resolve<Level, Level.Description>(o =>
+            coroutineRunner.RunTask(async () =>
             {
-                o.FloorTexture = "cc0Textures/Ground041_1K";
+                var level = this.objectResolver.Resolve<Level, Level.Description>(o =>
+                {
+                    o.FloorTexture = "cc0Textures/Ground041_1K";
 
-                o.Width = 50;
-                o.Height = 50;
-                o.CorridorSpace = 10;
-                o.RoomDistance = 3;
-                o.RoomMin = new IntSize2(2, 2);
-                o.RoomMax = new IntSize2(6, 6); //Between 3-6 is good here, 3 for more cityish with small rooms, 6 for more open with more big rooms, sometimes connected
-                o.CorridorMaxLength = 4;
-            });
+                    o.Width = 50;
+                    o.Height = 50;
+                    o.CorridorSpace = 10;
+                    o.RoomDistance = 3;
+                    o.RoomMin = new IntSize2(2, 2);
+                    o.RoomMax = new IntSize2(6, 6); //Between 3-6 is good here, 3 for more cityish with small rooms, 6 for more open with more big rooms, sometimes connected
+                    o.CorridorMaxLength = 4;
+                });
 
-            this.objectResolver.Resolve<Player, Player.Description>(c =>
-            {
-                c.Translation = level.StartPoint;
-            });
+                await level.WaitForLevelGeneration();
 
-            this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
-            {
-                Enemy.Desc.MakeTinyDino(c);
-                c.Translation = level.StartPoint + new Vector3(-4, 0, -1);
-            });
-            this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
-            {
-                Enemy.Desc.MakeTinyDino(c, skinMaterial: "cc0Textures/Leather011_1K");
-                c.Translation = level.StartPoint + new Vector3(-5, 0, -2);
-            });
-            this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
-            {
-                Enemy.Desc.MakeSkeleton(c);
-                c.Translation = level.StartPoint + new Vector3(0, 0, -3);
-            });
-            this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
-            {
-                Enemy.Desc.MakeTinyDino(c);
-                c.Translation = level.StartPoint + new Vector3(-6, 0, -3);
+                this.objectResolver.Resolve<Player, Player.Description>(c =>
+                {
+                    c.Translation = level.StartPoint;
+                });
+
+                this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
+                {
+                    Enemy.Desc.MakeTinyDino(c);
+                    c.Translation = level.StartPoint + new Vector3(-4, 0, -1);
+                });
+                this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
+                {
+                    Enemy.Desc.MakeTinyDino(c, skinMaterial: "cc0Textures/Leather011_1K");
+                    c.Translation = level.StartPoint + new Vector3(-5, 0, -2);
+                });
+                this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
+                {
+                    Enemy.Desc.MakeSkeleton(c);
+                    c.Translation = level.StartPoint + new Vector3(0, 0, -3);
+                });
+                this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
+                {
+                    Enemy.Desc.MakeTinyDino(c);
+                    c.Translation = level.StartPoint + new Vector3(-6, 0, -3);
+                });
             });
         }
 

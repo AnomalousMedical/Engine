@@ -99,6 +99,8 @@ namespace SceneTest
         private bool disposed;
         private MapMesh mapMesh;
 
+        private Task levelGenerationTask;
+
         public Vector3 StartPoint { get; set; }
 
         public Level(
@@ -110,37 +112,11 @@ namespace SceneTest
             Description description,
             GraphicsEngine graphicsEngine)
         {
-            var random = new Random(description.RandomSeed);
-            var mapBuilder = new csMapbuilder(random, description.Width, description.Height)
-            {
-                BreakOut = description.BreakOut,
-                BuildProb = description.BuildProb,
-                CorridorDistance = description.CorridorDistance,
-                CorridorSpace = description.CorridorSpace,
-                Corridor_Max = description.CorridorMaxLength,
-                Corridor_MaxTurns = description.CorridorMaxTurns,
-                Corridor_Min = description.CorridorMinLength,
-                MaxRooms = description.MaxRooms,
-                RoomDistance = description.RoomDistance,
-                Room_Max = description.RoomMax,
-                Room_Min = description.RoomMin
-            };
-            mapBuilder.Build_ConnectedStartRooms();
-            mapMesh = new MapMesh(mapBuilder, graphicsEngine.RenderDevice, mapUnitX: 3, mapUnitY: 0.5f, mapUnitZ:3);
-            var startRoom = mapBuilder.StartRoom;
-            var startX = startRoom.Left + startRoom.Width / 2;
-            var startY = startRoom.Top + startRoom.Height / 2;
-            StartPoint = mapMesh.PointToVector(startX, startY);
-
             this.sceneObjectManager = sceneObjectManager;
             this.bepuScene = bepuScene;
             this.textureManager = textureManager;
             wallSceneObject = new SceneObject()
             {
-                vertexBuffer = mapMesh.WallMesh.VertexBuffer,
-                skinVertexBuffer = mapMesh.WallMesh.SkinVertexBuffer,
-                indexBuffer = mapMesh.WallMesh.IndexBuffer,
-                numIndices = mapMesh.WallMesh.NumIndices,
                 pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE,
                 position = description.Translation,
                 orientation = description.Orientation,
@@ -150,10 +126,6 @@ namespace SceneTest
             };
             floorSceneObject = new SceneObject()
             {
-                vertexBuffer = mapMesh.FloorMesh.VertexBuffer,
-                skinVertexBuffer = mapMesh.FloorMesh.SkinVertexBuffer,
-                indexBuffer = mapMesh.FloorMesh.IndexBuffer,
-                numIndices = mapMesh.FloorMesh.NumIndices,
                 pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE,
                 position = description.Translation,
                 orientation = description.Orientation,
@@ -162,35 +134,78 @@ namespace SceneTest
                 GetShadows = true
             };
 
-            var shape = new Box(mapMesh.MapUnitX, mapMesh.MapUnitY, mapMesh.MapUnitZ); //Each one creates its own, try to load from resources
-            shapeIndex = bepuScene.Simulation.Shapes.Add(shape);
-
-            var orientation = System.Numerics.Quaternion.Identity;
-            foreach (var boundary in mapMesh.BoundaryCubeCenterPoints)
-            {
-                var staticHandle = bepuScene.Simulation.Statics.Add(
-                    new StaticDescription(
-                        boundary.ToSystemNumerics(),
-                        orientation,
-                        new CollidableDescription(shapeIndex, 0.1f)));
-
-                staticHandles.Add(staticHandle);
-            }
-
             coroutine.RunTask(async () =>
             {
                 using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until coroutine is finished and this is disposed.
 
+                this.levelGenerationTask = Task.Run(() =>
+                {
+                    var random = new Random(description.RandomSeed);
+                    var mapBuilder = new csMapbuilder(random, description.Width, description.Height)
+                    {
+                        BreakOut = description.BreakOut,
+                        BuildProb = description.BuildProb,
+                        CorridorDistance = description.CorridorDistance,
+                        CorridorSpace = description.CorridorSpace,
+                        Corridor_Max = description.CorridorMaxLength,
+                        Corridor_MaxTurns = description.CorridorMaxTurns,
+                        Corridor_Min = description.CorridorMinLength,
+                        MaxRooms = description.MaxRooms,
+                        RoomDistance = description.RoomDistance,
+                        Room_Max = description.RoomMax,
+                        Room_Min = description.RoomMin
+                    };
+                    mapBuilder.Build_ConnectedStartRooms();
+                    mapMesh = new MapMesh(mapBuilder, graphicsEngine.RenderDevice, mapUnitX: 3, mapUnitY: 0.5f, mapUnitZ: 3);
+                    var startRoom = mapBuilder.StartRoom;
+                    var startX = startRoom.Left + startRoom.Width / 2;
+                    var startY = startRoom.Top + startRoom.Height / 2;
+                    StartPoint = mapMesh.PointToVector(startX, startY);
+                });
                 var wallTextureTask = textureManager.Checkout(new CCOTextureBindingDescription(description.WallTexture, getShadow: true));
                 var floorTextureTask = textureManager.Checkout(new CCOTextureBindingDescription(description.FloorTexture, getShadow: true));
+
+                await levelGenerationTask;
+
+                if (!disposed)
+                {
+                    //Add stuff to physics scene
+                    var shape = new Box(mapMesh.MapUnitX, mapMesh.MapUnitY, mapMesh.MapUnitZ); //Each one creates its own, try to load from resources
+                    shapeIndex = bepuScene.Simulation.Shapes.Add(shape);
+
+                    var orientation = System.Numerics.Quaternion.Identity;
+                    foreach (var boundary in mapMesh.BoundaryCubeCenterPoints)
+                    {
+                        var staticHandle = bepuScene.Simulation.Statics.Add(
+                            new StaticDescription(
+                                boundary.ToSystemNumerics(),
+                                orientation,
+                                new CollidableDescription(shapeIndex, 0.1f)));
+
+                        staticHandles.Add(staticHandle);
+                    }
+                }
+
                 wallMatBinding = await wallTextureTask;
                 floorMatBinding = await floorTextureTask;
                 if (disposed)
                 {
+                    mapMesh.Dispose();
                     textureManager.Return(wallMatBinding);
                     textureManager.Return(floorMatBinding);
                     return; //Stop loading
                 }
+
+                //Setup vertex buffers
+                wallSceneObject.vertexBuffer = mapMesh.WallMesh.VertexBuffer;
+                wallSceneObject.skinVertexBuffer = mapMesh.WallMesh.SkinVertexBuffer;
+                wallSceneObject.indexBuffer = mapMesh.WallMesh.IndexBuffer;
+                wallSceneObject.numIndices = mapMesh.WallMesh.NumIndices;
+
+                floorSceneObject.vertexBuffer = mapMesh.FloorMesh.VertexBuffer;
+                floorSceneObject.skinVertexBuffer = mapMesh.FloorMesh.SkinVertexBuffer;
+                floorSceneObject.indexBuffer = mapMesh.FloorMesh.IndexBuffer;
+                floorSceneObject.numIndices = mapMesh.FloorMesh.NumIndices;
 
                 if (!destructionRequest.DestructionRequested)
                 {
@@ -217,6 +232,19 @@ namespace SceneTest
             textureManager.TryReturn(wallMatBinding);
             textureManager.TryReturn(floorMatBinding);
             mapMesh.Dispose();
+        }
+
+        /// <summary>
+        /// Levels are created in the background. Await this function to wait until it has finished
+        /// being created. This only means the level is defined, not that its mesh is created or textures loaded.
+        /// </summary>
+        /// <returns></returns>
+        public async Task WaitForLevelGeneration()
+        {
+            if(levelGenerationTask != null)
+            {
+                await levelGenerationTask;
+            }
         }
     }
 }
