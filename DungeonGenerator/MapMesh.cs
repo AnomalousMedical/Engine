@@ -127,10 +127,13 @@ namespace DungeonGenerator
                 yUvBottom = MapUnitY / MapUnitX;
             }
 
-            float yOffset = -1f;
+            //These two are settings
+            float yOffset = -1f; //Up or down amount
+            bool xDir = true;
+
             float halfYOffset = Math.Abs(yOffset / 2f);
 
-            float xInfluence = 1;
+            float xInfluence = xDir ? 1 : 0; //1 for x 0 for y
             float yInfluence = 1.0f - xInfluence;
 
             float xHeightStep = yOffset * xInfluence;
@@ -145,7 +148,6 @@ namespace DungeonGenerator
             float xHeightBegin = xHeightStep * mapbuilder.Map_Size.Height;
 
             bool yIncreasing = yOffset > 0;
-            bool isXDir = xInfluence > 0.1f;
 
             if (yIncreasing)
             {
@@ -167,9 +169,9 @@ namespace DungeonGenerator
                     float floorFarRightY = 0;
                     float floorNearRightY = 0;
                     float floorNearLeftY = 0;
-                    if (yOffset > 0)
+                    if (yIncreasing)
                     {
-                        if(isXDir)
+                        if(xDir)
                         {
                             floorFarLeftY = floorY - halfYOffset;
                             floorFarRightY = floorY + halfYOffset;
@@ -186,7 +188,7 @@ namespace DungeonGenerator
                     }
                     else
                     {
-                        if (isXDir)
+                        if (xDir)
                         {
                             
                             floorFarLeftY = floorY + halfYOffset;
