@@ -118,16 +118,13 @@ namespace DungeonGenerator
             boundaryCubeCenterPoints = new List<Vector3>((int)(numBoundaryCubes));
             floorCubeCenterPoints = new List<Vector3>((int)(numFloorCubes));
 
-            float floorY = -halfUnitY;
-            float centerY = 0f;
-            float topY = halfUnitY;
             float yUvBottom = 1.0f;
             if(MapUnitY < 1.0f)
             {
                 yUvBottom = MapUnitY / MapUnitX;
             }
 
-            float yOffset = 0.3f;
+            float yOffset = 0.5f;
             float halfYOffset = yOffset / 2f;
 
             //Vector3 floorCubeRotationVec = new Vector3(halfUnitX, -halfYOffset, 0).normalized();
@@ -136,21 +133,23 @@ namespace DungeonGenerator
             Vector3 floorCubeRotationVec = new Vector3(0, halfYOffset, halfUnitZ).normalized();
             floorCubeRot = Quaternion.shortestArcQuat(ref Vector3.Forward, ref floorCubeRotationVec);
 
+            float xHeightBegin = 0;
+            float xHeightStep = 0;
+            float yHeightStep = yOffset;
+            float xHeightAdjust = 0;
+            float yHeightAdjust = 0;
+
             for (int mapY = mapbuilder.Map_Size.Height - 1; mapY > -1; --mapY)
             {
-                //floorY = -halfUnitY;
-                //centerY = 0f;
-                //topY = halfUnitY;
-
-                floorY -= yOffset;
-                centerY -= yOffset;
-                topY -= yOffset;
+                xHeightAdjust = xHeightBegin;
+                yHeightAdjust -= yHeightStep;
 
                 for (int mapX = 0; mapX < mapWidth; ++mapX)
                 {
-                    //floorY -= yOffset;
-                    //centerY -= yOffset;
-                    //topY -= yOffset;
+                    xHeightAdjust -= xHeightStep;
+
+                    var centerY = xHeightAdjust + yHeightAdjust;
+                    var floorY = centerY - halfUnitY;
 
                     //Build quad for surface first
                     var center = new Vector3(mapX * MapUnitX, floorY, mapY * MapUnitZ);
