@@ -260,7 +260,7 @@ namespace SceneTest
             sceneObjectManager.Remove(floorSceneObject);
             textureManager.TryReturn(wallMatBinding);
             textureManager.TryReturn(floorMatBinding);
-            mapMesh.Dispose();
+            mapMesh?.Dispose();
         }
 
         /// <summary>
