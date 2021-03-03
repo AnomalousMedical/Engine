@@ -7,9 +7,9 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+  <!--<PropertyGroup Condition="'$(Configuration)'=='Release'">
     <OutputType>WinExe</OutputType>
-  </PropertyGroup>
+  </PropertyGroup>-->
 
   <PropertyGroup Condition="'$(Configuration)'=='RelMDeb'">
     <Optimize>false</Optimize>

@@ -16,6 +16,8 @@ using System.Threading.Tasks;
 using Rectangle = Engine.IntRect;
 using Point = Engine.IntVector2;
 using Size = Engine.IntSize2;
+using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace SceneTest
 {
@@ -90,6 +92,7 @@ namespace SceneTest
         private readonly SceneObjectManager sceneObjectManager;
         private readonly IBepuScene bepuScene;
         private readonly ICC0TextureManager textureManager;
+        private readonly ILogger<Level> logger;
         private IShaderResourceBinding wallMatBinding;
         private IShaderResourceBinding floorMatBinding;
         private SceneObject wallSceneObject;
@@ -110,11 +113,13 @@ namespace SceneTest
             IBepuScene bepuScene,
             ICC0TextureManager textureManager,
             Description description,
-            GraphicsEngine graphicsEngine)
+            GraphicsEngine graphicsEngine,
+            ILogger<Level> logger)
         {
             this.sceneObjectManager = sceneObjectManager;
             this.bepuScene = bepuScene;
             this.textureManager = textureManager;
+            this.logger = logger;
             wallSceneObject = new SceneObject()
             {
                 pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE,
@@ -140,6 +145,8 @@ namespace SceneTest
 
                 this.levelGenerationTask = Task.Run(() =>
                 {
+                    var sw = new Stopwatch();
+                    sw.Start();
                     var random = new Random(description.RandomSeed);
                     var mapBuilder = new csMapbuilder(random, description.Width, description.Height)
                     {
@@ -161,6 +168,8 @@ namespace SceneTest
                     var startX = startRoom.Left + startRoom.Width / 2;
                     var startY = startRoom.Top + startRoom.Height / 2;
                     StartPoint = mapMesh.PointToVector(startX, startY);
+                    sw.Stop();
+                    logger.LogInformation($"Generated level in {sw.ElapsedMilliseconds} ms.");
                 });
                 var wallTextureTask = textureManager.Checkout(new CCOTextureBindingDescription(description.WallTexture, getShadow: true));
                 var floorTextureTask = textureManager.Checkout(new CCOTextureBindingDescription(description.FloorTexture, getShadow: true));

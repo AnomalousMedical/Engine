@@ -4,6 +4,7 @@ using Engine;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,24 +47,29 @@ namespace SceneTest
         private readonly PbrRenderer pbrRenderer;
         private readonly IPbrCameraAndLight pbrCameraAndLight;
         private readonly SimpleShadowMapRenderer shadowMapRenderer;
+        private readonly ILogger<CC0TextureManager> logger;
 
         public CC0TextureManager(
             CC0TextureLoader textureLoader,
             PbrRenderer pbrRenderer,
             IPbrCameraAndLight pbrCameraAndLight,
-            SimpleShadowMapRenderer shadowMapRenderer
+            SimpleShadowMapRenderer shadowMapRenderer,
+            ILogger<CC0TextureManager> logger
             )
         {
             this.textureLoader = textureLoader;
             this.pbrRenderer = pbrRenderer;
             this.pbrCameraAndLight = pbrCameraAndLight;
             this.shadowMapRenderer = shadowMapRenderer;
+            this.logger = logger;
         }
 
         public Task<IShaderResourceBinding> Checkout(CCOTextureBindingDescription desc)
         {
             return pooledResources.Checkout(desc, async () =>
             {
+                var sw = new Stopwatch();
+                sw.Start();
                 AutoPtr<IShaderResourceBinding> result = null;
                 await Task.Run(() =>
                 {
@@ -78,6 +84,10 @@ namespace SceneTest
                         shadowMapSRV: desc.GetShadow ? shadowMapRenderer.ShadowMapSRV : null
                     );
                 });
+
+                sw.Stop();
+                logger.LogInformation($"Loaded cc0 texture '{desc.BaseName}' in {sw.ElapsedMilliseconds} ms.");
+
                 return pooledResources.CreateResult(result.Obj, result);
             });
         }
