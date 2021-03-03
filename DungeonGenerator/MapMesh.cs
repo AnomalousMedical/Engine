@@ -124,12 +124,15 @@ namespace DungeonGenerator
                 yUvBottom = MapUnitY / MapUnitX;
             }
 
-            float yOffset = 0.5f;
+            float yOffset = 1F;
             float halfYOffset = yOffset / 2f;
 
-            float xHeightBegin = 0;
-            float xHeightStep = 0;
-            float yHeightStep = yOffset;
+            float xInfluence = 0.5F;
+            float yInfluence = 1.0f - xInfluence;
+
+            float xHeightStep = yOffset * xInfluence;
+            float yHeightStep = yOffset * yInfluence;
+            float xHeightBegin = -xHeightStep * mapbuilder.Map_Size.Height;
             float xHeightAdjust = 0;
             float yHeightAdjust = 0;
 
@@ -144,7 +147,7 @@ namespace DungeonGenerator
 
                 for (int mapX = 0; mapX < mapWidth; ++mapX)
                 {
-                    xHeightAdjust -= xHeightStep;
+                    xHeightAdjust += xHeightStep;
 
                     var centerY = xHeightAdjust + yHeightAdjust;
                     var floorY = centerY - halfUnitY;
