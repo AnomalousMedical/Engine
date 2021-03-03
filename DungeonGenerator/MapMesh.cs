@@ -12,7 +12,10 @@ namespace DungeonGenerator
     {
         private Mesh floorMesh;
         private Mesh wallMesh;
+        private List<Vector3> floorCubeCenterPoints;
         private List<Vector3> boundaryCubeCenterPoints;
+
+        public IEnumerable<Vector3> FloorCubeCenterPoints => floorCubeCenterPoints;
 
         public IEnumerable<Vector3> BoundaryCubeCenterPoints => boundaryCubeCenterPoints;
 
@@ -53,6 +56,7 @@ namespace DungeonGenerator
             uint numFloorQuads = 0;
             uint numWallQuads = 0;
             uint numBoundaryCubes = 0;
+            uint numFloorCubes = 0;
             var mapWidth = mapbuilder.Map_Size.Width;
             var mapHeight = mapbuilder.Map_Size.Height;
             for (int mapY = mapbuilder.Map_Size.Height - 1; mapY > -1; --mapY)
@@ -62,8 +66,8 @@ namespace DungeonGenerator
                     if (map[mapX, mapY])
                     {
                         ++numFloorQuads;
-                        ++numBoundaryCubes;
-                        
+                        ++numFloorCubes;
+
                         int test;
 
                         //South wall
@@ -110,6 +114,7 @@ namespace DungeonGenerator
             wallMesh.Begin(numWallQuads);
 
             boundaryCubeCenterPoints = new List<Vector3>((int)(numBoundaryCubes));
+            floorCubeCenterPoints = new List<Vector3>((int)(numFloorCubes));
 
             var floorY = -halfUnitY;
             var centerY = 0;
@@ -140,7 +145,7 @@ namespace DungeonGenerator
                             new Vector2(0, 0),
                             new Vector2(1, 1));
 
-                        boundaryCubeCenterPoints.Add(new Vector3(left + halfUnitX, floorY - halfUnitY, far - halfUnitZ));
+                        floorCubeCenterPoints.Add(new Vector3(left + halfUnitX, floorY - halfUnitY, far - halfUnitZ));
 
                         int test;
 

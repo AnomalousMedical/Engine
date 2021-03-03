@@ -98,7 +98,8 @@ namespace SceneTest
         private SceneObject wallSceneObject;
         private SceneObject floorSceneObject;
         private List<StaticHandle> staticHandles = new List<StaticHandle>();
-        private TypedIndex shapeIndex;
+        private TypedIndex boundaryCubeShapeIndex;
+        private TypedIndex floorCubeShapeIndex;
         private bool disposed;
         private MapMesh mapMesh;
 
@@ -178,18 +179,35 @@ namespace SceneTest
 
                 if (!disposed)
                 {
+                    float yBoundaryScale = 50f;
+
                     //Add stuff to physics scene
-                    var shape = new Box(mapMesh.MapUnitX, mapMesh.MapUnitY, mapMesh.MapUnitZ); //Each one creates its own, try to load from resources
-                    shapeIndex = bepuScene.Simulation.Shapes.Add(shape);
+                    var boundaryCubeShape = new Box(mapMesh.MapUnitX, mapMesh.MapUnitY * yBoundaryScale, mapMesh.MapUnitZ); //Each one creates its own, try to load from resources
+                    boundaryCubeShapeIndex = bepuScene.Simulation.Shapes.Add(boundaryCubeShape);
+
+                    var floorCubeShape = new Box(mapMesh.MapUnitX, mapMesh.MapUnitY, mapMesh.MapUnitZ); //Each one creates its own, try to load from resources
+                    floorCubeShapeIndex = bepuScene.Simulation.Shapes.Add(floorCubeShape);
 
                     var orientation = System.Numerics.Quaternion.Identity;
+
+                    foreach (var boundary in mapMesh.FloorCubeCenterPoints)
+                    {
+                        var staticHandle = bepuScene.Simulation.Statics.Add(
+                            new StaticDescription(
+                                boundary.ToSystemNumerics(),
+                                orientation,
+                                new CollidableDescription(floorCubeShapeIndex, 0.1f)));
+
+                        staticHandles.Add(staticHandle);
+                    }
+
                     foreach (var boundary in mapMesh.BoundaryCubeCenterPoints)
                     {
                         var staticHandle = bepuScene.Simulation.Statics.Add(
                             new StaticDescription(
                                 boundary.ToSystemNumerics(),
                                 orientation,
-                                new CollidableDescription(shapeIndex, 0.1f)));
+                                new CollidableDescription(boundaryCubeShapeIndex, 0.1f)));
 
                         staticHandles.Add(staticHandle);
                     }
@@ -230,12 +248,13 @@ namespace SceneTest
         public void Dispose()
         {
             disposed = true;
-            bepuScene.Simulation.Shapes.Remove(shapeIndex);
             var statics = bepuScene.Simulation.Statics;
             foreach (var staticHandle in staticHandles)
             {
                 statics.Remove(staticHandle);
             }
+            bepuScene.Simulation.Shapes.Remove(boundaryCubeShapeIndex);
+            bepuScene.Simulation.Shapes.Remove(floorCubeShapeIndex);
             sceneObjectManager.Remove(wallSceneObject);
             sceneObjectManager.Remove(floorSceneObject);
             textureManager.TryReturn(wallMatBinding);
