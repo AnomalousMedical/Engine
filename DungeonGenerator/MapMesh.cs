@@ -128,7 +128,7 @@ namespace DungeonGenerator
             }
 
             float yOffset = -1f;
-            float halfYOffset = yOffset / 2f;
+            float halfYOffset = Math.Abs(yOffset / 2f);
 
             float xInfluence = 1;
             float yInfluence = 1.0f - xInfluence;
@@ -193,10 +193,10 @@ namespace DungeonGenerator
                         if (isXDir)
                         {
                             
-                            floorFarLeftY = floorY - halfYOffset;
-                            floorFarRightY = floorY + halfYOffset;
-                            floorNearRightY = floorY + halfYOffset;
-                            floorNearLeftY = floorY - halfYOffset;
+                            floorFarLeftY = floorY + halfYOffset;
+                            floorFarRightY = floorY - halfYOffset;
+                            floorNearRightY = floorY - halfYOffset;
+                            floorNearLeftY = floorY + halfYOffset;
                         }
                         else
                         {
@@ -300,12 +300,6 @@ namespace DungeonGenerator
                             new Vector2(1, 1));
                     }
                 }
-            }
-
-            if(!yIncreasing)
-            {
-                //Physics will need this inverted in some directions due to shortest arc quat
-                floorCubeRot = floorCubeRot.inverse();
             }
 
             floorMesh.End(renderDevice);
