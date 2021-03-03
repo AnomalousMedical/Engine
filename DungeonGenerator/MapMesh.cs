@@ -144,7 +144,7 @@ namespace DungeonGenerator
             floorCubeRot = Quaternion.shortestArcQuat(ref dirInfluence, ref floorCubeRotationVec);
 
             Vector3 forwardRotTest = Quaternion.quatRotate(floorCubeRot, Vector3.Forward);
-            Vector3 leftRotTest = Quaternion.quatRotate(floorCubeRot, Vector3.Right);
+            Vector3 rightRotTest = Quaternion.quatRotate(floorCubeRot, Vector3.Right);
 
             for (int mapY = mapbuilder.Map_Size.Height - 1; mapY > -1; --mapY)
             {
@@ -164,14 +164,39 @@ namespace DungeonGenerator
                     float floorNearLeftY = 0;
                     if (forwardRotTest.y > 0)
                     {
-                        floorFarLeftY = floorY + halfYOffset;
-                        floorFarRightY = floorY + halfYOffset;
-                        floorNearRightY = floorY - halfYOffset;
-                        floorNearLeftY = floorY - halfYOffset;
+                        //Forward facing up
+                        if(rightRotTest.y > 0)
+                        {
+                            floorFarLeftY = floorY - halfYOffset;
+                            floorFarRightY = floorY + halfYOffset;
+                            floorNearRightY = floorY + halfYOffset;
+                            floorNearLeftY = floorY - halfYOffset;
+                        }
+                        else
+                        {
+                            floorFarLeftY = floorY + halfYOffset;
+                            floorFarRightY = floorY + halfYOffset;
+                            floorNearRightY = floorY - halfYOffset;
+                            floorNearLeftY = floorY - halfYOffset;
+                        }
                     }
                     else
                     {
-                        floorFarLeftY = floorY - halfYOffset;
+                        //Forward facing down
+                        if (rightRotTest.y > 0)
+                        {
+                            floorFarLeftY = floorY - halfYOffset;
+                            floorFarRightY = floorY + halfYOffset;
+                            floorNearRightY = floorY + halfYOffset;
+                            floorNearLeftY = floorY - halfYOffset;
+                        }
+                        else
+                        {
+                            floorFarLeftY = floorY + halfYOffset;
+                            floorFarRightY = floorY + halfYOffset;
+                            floorNearRightY = floorY - halfYOffset;
+                            floorNearLeftY = floorY - halfYOffset;
+                        }
                     }
 
                     var left = mapX * MapUnitX;
