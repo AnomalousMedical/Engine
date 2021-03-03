@@ -152,9 +152,6 @@ namespace DungeonGenerator
                 xHeightBegin *= -1;
             }
 
-            //Vector3 forwardRotTest = Quaternion.quatRotate(floorCubeRot, Vector3.Forward);
-            //Vector3 rightRotTest = Quaternion.quatRotate(floorCubeRot, Vector3.Right);
-
             for (int mapY = mapbuilder.Map_Size.Height - 1; mapY > -1; --mapY)
             {
                 xHeightAdjust = xHeightBegin;
@@ -189,7 +186,6 @@ namespace DungeonGenerator
                     }
                     else
                     {
-                        
                         if (isXDir)
                         {
                             
@@ -200,11 +196,10 @@ namespace DungeonGenerator
                         }
                         else
                         {
-                            
                             floorFarLeftY = floorY - halfYOffset;
-                            floorFarRightY = floorY + halfYOffset;
+                            floorFarRightY = floorY - halfYOffset;
                             floorNearRightY = floorY + halfYOffset;
-                            floorNearLeftY = floorY - halfYOffset;
+                            floorNearLeftY = floorY + halfYOffset;
                         }
                     }
 
@@ -291,10 +286,10 @@ namespace DungeonGenerator
                     {
                         //Floor outside
                         wallMesh.AddQuad(
-                            new Vector3(left, floorFarLeftY + halfYOffset, far),
-                            new Vector3(right, floorFarRightY + halfYOffset, far),
-                            new Vector3(right, floorNearRightY + halfYOffset, near),
-                            new Vector3(left, floorNearLeftY + halfYOffset, near),
+                            new Vector3(left, floorFarLeftY + MapUnitY, far),
+                            new Vector3(right, floorFarRightY + MapUnitY, far),
+                            new Vector3(right, floorNearRightY + MapUnitY, near),
+                            new Vector3(left, floorNearLeftY + MapUnitY, near),
                             Vector3.Up,
                             new Vector2(0, 0),
                             new Vector2(1, 1));
