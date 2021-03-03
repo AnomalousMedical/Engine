@@ -97,7 +97,7 @@ namespace SceneTest
             var scale = sprite.BaseScale * parentScale;
             var translate = scale * primaryAttach.translate;
             var fullRot = parentRotation * this.orientation;
-            translate = Quaternion.quatRotate(ref fullRot, ref translate);
+            translate = Quaternion.quatRotate(fullRot, translate);
 
             this.sceneObject.position = parentPosition - translate; //The attachment point on the sprite is an offset to where that sprite attaches, subtract it
             this.sceneObject.orientation = fullRot;

@@ -626,22 +626,11 @@ namespace Engine
         /// <param name="v">The vector to rotate.</param>
         /// <param name="rotation">The quaternion containing how far to rotate.</param>
         /// <returns>The rotated vector.</returns>
-        public static Vector3 quatRotate(ref Quaternion rotation, ref Vector3 v)
+        public static Vector3 quatRotate(in Quaternion rotation, in Vector3 v)
         {
             Quaternion q = rotation * v;
             q *= rotation.inverse();
             return new Vector3(q.x, q.y, q.z);
-        }
-
-        /// <summary>
-        /// Rotate the v by q.
-        /// </summary>
-        /// <param name="v">The vector to rotate.</param>
-        /// <param name="rotation">The quaternion containing how far to rotate.</param>
-        /// <returns>The rotated vector.</returns>
-        public static Vector3 quatRotate(Quaternion rotation, Vector3 v)
-        {
-            return Quaternion.quatRotate(ref rotation, ref v);
         }
 
         /// <summary>

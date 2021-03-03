@@ -534,14 +534,14 @@ namespace SceneTest
             {
                 var primaryAttach = frame.Attachments[this.primaryHand];
                 var offset = scale * primaryAttach.translate;
-                offset = Quaternion.quatRotate(ref this.sceneObject.orientation, ref offset) + this.sceneObject.position;
+                offset = Quaternion.quatRotate(this.sceneObject.orientation, offset) + this.sceneObject.position;
                 sword.SetPosition(ref offset, ref this.sceneObject.orientation, ref scale);
             }
 
             {
                 var secondaryAttach = frame.Attachments[this.secondaryHand];
                 var offset = scale * secondaryAttach.translate;
-                offset = Quaternion.quatRotate(ref this.sceneObject.orientation, ref offset) + this.sceneObject.position;
+                offset = Quaternion.quatRotate(this.sceneObject.orientation, offset) + this.sceneObject.position;
                 shield.SetPosition(ref offset, ref this.sceneObject.orientation, ref scale);
             }
         }
