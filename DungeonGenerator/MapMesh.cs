@@ -184,10 +184,10 @@ namespace DungeonGenerator
                         {
                             //Face backward too, north facing camera
                             wallMesh.AddQuad(
-                                new Vector3(left, topY, far),
-                                new Vector3(right, topY, far),
-                                new Vector3(right, floorY, far),
-                                new Vector3(left, floorY, far),
+                                new Vector3(left, topY + halfYOffset, far),
+                                new Vector3(right, topY + halfYOffset, far),
+                                new Vector3(right, floorY + halfYOffset, far),
+                                new Vector3(left, floorY + halfYOffset, far),
                                 Vector3.Backward,
                                 new Vector2(0, 0),
                                 new Vector2(1, yUvBottom));
@@ -200,10 +200,10 @@ namespace DungeonGenerator
                         if (test < 0 || !map[test, mapY])
                         {
                             wallMesh.AddQuad(
-                                new Vector3(left, topY, near),
-                                new Vector3(left, topY, far),
-                                new Vector3(left, floorY, far),
-                                new Vector3(left, floorY, near),
+                                new Vector3(left, topY - halfYOffset, near),
+                                new Vector3(left, topY + halfYOffset, far),
+                                new Vector3(left, floorY + halfYOffset, far),
+                                new Vector3(left, floorY - halfYOffset, near),
                                 Vector3.Right,
                                 new Vector2(0, 0),
                                 new Vector2(1, yUvBottom));
@@ -225,19 +225,19 @@ namespace DungeonGenerator
                         if (test > mapWidth || !map[test, mapY])
                         {
                             wallMesh.AddQuad(
-                                new Vector3(right, topY, near),
-                                new Vector3(right, topY, far),
-                                new Vector3(right, floorY, far),
-                                new Vector3(right, floorY, near),
+                                new Vector3(right, topY - halfYOffset, near),
+                                new Vector3(right, topY + halfYOffset, far),
+                                new Vector3(right, floorY + halfYOffset, far),
+                                new Vector3(right, floorY - halfYOffset, near),
                                 Vector3.Right,
                                 new Vector2(0, 0),
                                 new Vector2(1, 1));
 
                             wallMesh.AddQuad(
-                                new Vector3(right, topY, far),
-                                new Vector3(right, topY, near),
-                                new Vector3(right, floorY, near),
-                                new Vector3(right, floorY, far),
+                                new Vector3(right, topY + halfYOffset, far),
+                                new Vector3(right, topY - halfYOffset, near),
+                                new Vector3(right, floorY - halfYOffset, near),
+                                new Vector3(right, floorY + halfYOffset, far),
                                 Vector3.Left,
                                 new Vector2(0, 0),
                                 new Vector2(1, 1));
