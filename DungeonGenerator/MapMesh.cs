@@ -77,7 +77,6 @@ namespace DungeonGenerator
                         test = mapY - 1;
                         if (test < 0 || !map[mapX, test])
                         {
-                            ++numWallQuads;
                             ++numBoundaryCubes;
                         }
 
@@ -93,7 +92,7 @@ namespace DungeonGenerator
                         test = mapX - 1;
                         if (test < 0 || !map[test, mapY])
                         {
-                            numWallQuads += 2;
+                            ++numWallQuads;
                             ++numBoundaryCubes;
                         }
 
@@ -101,7 +100,7 @@ namespace DungeonGenerator
                         test = mapX + 1;
                         if (test > mapWidth || !map[test, mapY])
                         {
-                            numWallQuads += 2;
+                            ++numWallQuads;
                             ++numBoundaryCubes;
                         }
                     }
@@ -166,14 +165,7 @@ namespace DungeonGenerator
                         test = mapY - 1;
                         if (test < 0 || !map[mapX, test])
                         {
-                            wallMesh.AddQuad(
-                                new Vector3(left, topY, near),
-                                new Vector3(right, topY, near),
-                                new Vector3(right, floorY, near),
-                                new Vector3(left, floorY, near),
-                                Vector3.Backward,
-                                new Vector2(0, 0),
-                                new Vector2(1, yUvBottom));
+                            //No mesh needed here, can't see it
 
                             boundaryCubeCenterPoints.Add(new Vector3(left + halfUnitX, centerY, near - halfUnitZ));
                         }
@@ -208,15 +200,6 @@ namespace DungeonGenerator
                                 new Vector2(0, 0),
                                 new Vector2(1, yUvBottom));
 
-                            wallMesh.AddQuad(
-                                new Vector3(left, topY, far),
-                                new Vector3(left, topY, near),
-                                new Vector3(left, floorY, near),
-                                new Vector3(left, floorY, far),
-                                Vector3.Left,
-                                new Vector2(0, 0),
-                                new Vector2(1, yUvBottom));
-
                             boundaryCubeCenterPoints.Add(new Vector3(left - halfUnitX, centerY, near + halfUnitZ));
                         }
 
@@ -224,15 +207,6 @@ namespace DungeonGenerator
                         test = mapX + 1;
                         if (test > mapWidth || !map[test, mapY])
                         {
-                            wallMesh.AddQuad(
-                                new Vector3(right, topY - halfYOffset, near),
-                                new Vector3(right, topY + halfYOffset, far),
-                                new Vector3(right, floorY + halfYOffset, far),
-                                new Vector3(right, floorY - halfYOffset, near),
-                                Vector3.Right,
-                                new Vector2(0, 0),
-                                new Vector2(1, 1));
-
                             wallMesh.AddQuad(
                                 new Vector3(right, topY + halfYOffset, far),
                                 new Vector3(right, topY - halfYOffset, near),
