@@ -234,9 +234,6 @@ namespace DungeonGeneratorTest
 
         }
 
-        private long nextCubeSpawnTime = 0;
-        private long nextCubeSpawnFrequency = 1 * Clock.SecondsToMicro;
-
         public unsafe void sendUpdate(Clock clock)
         {
             cameraControls.UpdateInput(clock);

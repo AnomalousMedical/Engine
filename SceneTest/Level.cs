@@ -188,14 +188,15 @@ namespace SceneTest
                     var floorCubeShape = new Box(mapMesh.MapUnitX, mapMesh.MapUnitY, mapMesh.MapUnitZ); //Each one creates its own, try to load from resources
                     floorCubeShapeIndex = bepuScene.Simulation.Shapes.Add(floorCubeShape);
 
-                    var orientation = System.Numerics.Quaternion.Identity;
+                    var floorOrientation = mapMesh.FloorCubeRot.ToSystemNumerics();
+                    var boundaryOrientation = System.Numerics.Quaternion.Identity;
 
                     foreach (var boundary in mapMesh.FloorCubeCenterPoints)
                     {
                         var staticHandle = bepuScene.Simulation.Statics.Add(
                             new StaticDescription(
                                 boundary.ToSystemNumerics(),
-                                orientation,
+                                floorOrientation,
                                 new CollidableDescription(floorCubeShapeIndex, 0.1f)));
 
                         staticHandles.Add(staticHandle);
@@ -206,7 +207,7 @@ namespace SceneTest
                         var staticHandle = bepuScene.Simulation.Statics.Add(
                             new StaticDescription(
                                 boundary.ToSystemNumerics(),
-                                orientation,
+                                boundaryOrientation,
                                 new CollidableDescription(boundaryCubeShapeIndex, 0.1f)));
 
                         staticHandles.Add(staticHandle);

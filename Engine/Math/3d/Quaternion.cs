@@ -74,19 +74,9 @@ namespace Engine
         /// </summary>
         /// <param name="axis">Rotation axis.</param>
         /// <param name="angle">Angle of rotation around that axis.</param>
-        public Quaternion(ref Vector3 axis, float angle)
+        public Quaternion(in Vector3 axis, float angle)
         {
-            setRotation(ref axis, ref angle, out x, out y, out z, out w);
-        }
-
-        /// <summary>
-        /// Constructor.  Set the value using axis angle.
-        /// </summary>
-        /// <param name="axis">Rotation axis.</param>
-        /// <param name="angle">Angle of rotation around that axis.</param>
-        public Quaternion(Vector3 axis, float angle)
-        {
-            setRotation(ref axis, ref angle, out x, out y, out z, out w);
+            setRotation(axis, angle, out x, out y, out z, out w);
         }
 
         /// <summary>
@@ -114,9 +104,9 @@ namespace Engine
         /// </summary>
         /// <param name="axis">Rotation axis.</param>
         /// <param name="angle">Angle of rotation around that axis. In Radians.</param>
-        public void setRotation(ref Vector3 axis, float angle)
+        public void setRotation(in Vector3 axis, float angle)
         {
-            setRotation(ref axis, ref angle, out x, out y, out z, out w);
+            setRotation(axis, angle, out x, out y, out z, out w);
         }
 
         /// <summary>
@@ -747,6 +737,11 @@ namespace Engine
             return HashCode.Combine(x, y, z, w);
         }
 
+        public System.Numerics.Quaternion ToSystemNumerics()
+        {
+            return new System.Numerics.Quaternion(x, y, z, w);
+        }
+
         #endregion Members
 
         #region Operators
@@ -896,7 +891,7 @@ namespace Engine
         /// <param name="y"></param>
         /// <param name="z"></param>
         /// <param name="w"></param>
-        private static void setRotation(ref Vector3 axis, ref float angle, out float x, out float y, out float z, out float w)
+        private static void setRotation(in Vector3 axis, in float angle, out float x, out float y, out float z, out float w)
         {
             float d = axis.length();
             float s = (float)System.Math.Sin(angle * 0.5f) / d;

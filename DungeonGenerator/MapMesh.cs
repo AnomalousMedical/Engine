@@ -14,10 +14,13 @@ namespace DungeonGenerator
         private Mesh wallMesh;
         private List<Vector3> floorCubeCenterPoints;
         private List<Vector3> boundaryCubeCenterPoints;
+        private Quaternion floorCubeRot;
 
         public IEnumerable<Vector3> FloorCubeCenterPoints => floorCubeCenterPoints;
 
         public IEnumerable<Vector3> BoundaryCubeCenterPoints => boundaryCubeCenterPoints;
+
+        public Quaternion FloorCubeRot => floorCubeRot;
 
         /// <summary>
         /// The number of units on the generated map to make on the real map in the X direction.
@@ -116,16 +119,26 @@ namespace DungeonGenerator
             boundaryCubeCenterPoints = new List<Vector3>((int)(numBoundaryCubes));
             floorCubeCenterPoints = new List<Vector3>((int)(numFloorCubes));
 
-            var floorY = -halfUnitY;
-            var centerY = 0;
-            var topY = halfUnitY;
-            var yUvBottom = 1.0f;
+            float floorY = -halfUnitY;
+            float centerY = 0f;
+            float topY = halfUnitY;
+            float yUvBottom = 1.0f;
             if(MapUnitY < 1.0f)
             {
                 yUvBottom = MapUnitY / MapUnitX;
             }
+
+            float yOffset = 0.5f;
+            float halfYOffset = yOffset / 2f;
+
+            Vector3 floorCubeRotationVec = new Vector3(0, halfYOffset, halfUnitZ).normalized();
+            floorCubeRot = Quaternion.shortestArcQuat(ref Vector3.Forward, ref floorCubeRotationVec);
+
             for (int mapY = mapbuilder.Map_Size.Height - 1; mapY > -1; --mapY)
             {
+                floorY -= yOffset;
+                centerY -= yOffset;
+                topY -= yOffset;
                 for (int mapX = 0; mapX < mapWidth; ++mapX)
                 {
                     if (map[mapX, mapY])
@@ -137,10 +150,10 @@ namespace DungeonGenerator
                         var far = mapY * MapUnitZ;
                         var near = far - MapUnitZ;
                         floorMesh.AddQuad(
-                            new Vector3(left, floorY, far),
-                            new Vector3(right, floorY, far),
-                            new Vector3(right, floorY, near),
-                            new Vector3(left, floorY, near),
+                            new Vector3(left, floorY + halfYOffset, far),
+                            new Vector3(right, floorY + halfYOffset, far),
+                            new Vector3(right, floorY - halfYOffset, near),
+                            new Vector3(left, floorY - halfYOffset, near),
                             Vector3.Up,
                             new Vector2(0, 0),
                             new Vector2(1, 1));
@@ -242,10 +255,10 @@ namespace DungeonGenerator
                         var far = mapY * MapUnitZ;
                         var near = far - MapUnitZ;
                         wallMesh.AddQuad(
-                            new Vector3(left, topY, far),
-                            new Vector3(right, topY, far),
-                            new Vector3(right, topY, near),
-                            new Vector3(left, topY, near),
+                            new Vector3(left, topY + halfYOffset, far),
+                            new Vector3(right, topY + halfYOffset, far),
+                            new Vector3(right, topY - halfYOffset, near),
+                            new Vector3(left, topY - halfYOffset, near),
                             Vector3.Up,
                             new Vector2(0, 0),
                             new Vector2(1, 1));
