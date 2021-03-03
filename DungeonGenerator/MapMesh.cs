@@ -143,6 +143,9 @@ namespace DungeonGenerator
             Vector3 floorCubeRotationVec = new Vector3(halfUnitX * dirInfluence.x, halfYOffset, halfUnitZ * dirInfluence.z).normalized();
             floorCubeRot = Quaternion.shortestArcQuat(ref dirInfluence, ref floorCubeRotationVec);
 
+            Vector3 forwardRotTest = Quaternion.quatRotate(floorCubeRot, Vector3.Forward);
+            Vector3 leftRotTest = Quaternion.quatRotate(floorCubeRot, Vector3.Right);
+
             for (int mapY = mapbuilder.Map_Size.Height - 1; mapY > -1; --mapY)
             {
                 xHeightAdjust = xHeightBegin;
@@ -154,21 +157,36 @@ namespace DungeonGenerator
 
                     var centerY = xHeightAdjust + yHeightAdjust;
                     var floorY = centerY - halfUnitY;
-                    var topY = centerY + halfUnitY;
+                    //var topY = centerY + halfUnitY;
+                    float floorFarLeftY = 0;
+                    float floorFarRightY = 0;
+                    float floorNearRightY = 0;
+                    float floorNearLeftY = 0;
+                    if (forwardRotTest.y > 0)
+                    {
+                        floorFarLeftY = floorY + halfYOffset;
+                        floorFarRightY = floorY + halfYOffset;
+                        floorNearRightY = floorY - halfYOffset;
+                        floorNearLeftY = floorY - halfYOffset;
+                    }
+                    else
+                    {
+                        floorFarLeftY = floorY - halfYOffset;
+                    }
+
+                    var left = mapX * MapUnitX;
+                    var right = left + MapUnitX;
+                    var far = mapY * MapUnitZ;
+                    var near = far - MapUnitZ;
 
                     if (map[mapX, mapY])
                     {
                         //Floor
-
-                        var left = mapX * MapUnitX;
-                        var right = left + MapUnitX;
-                        var far = mapY * MapUnitZ;
-                        var near = far - MapUnitZ;
                         floorMesh.AddQuad(
-                            new Vector3(left, floorY + halfYOffset, far),
-                            new Vector3(right, floorY + halfYOffset, far),
-                            new Vector3(right, floorY - halfYOffset, near),
-                            new Vector3(left, floorY - halfYOffset, near),
+                            new Vector3(left, floorFarLeftY, far),
+                            new Vector3(right, floorFarRightY, far),
+                            new Vector3(right, floorNearRightY, near),
+                            new Vector3(left, floorNearLeftY, near),
                             Vector3.Up,
                             new Vector2(0, 0),
                             new Vector2(1, 1));
@@ -192,10 +210,10 @@ namespace DungeonGenerator
                         {
                             //Face backward too, north facing camera
                             wallMesh.AddQuad(
-                                new Vector3(left, topY + halfYOffset, far),
-                                new Vector3(right, topY + halfYOffset, far),
-                                new Vector3(right, floorY + halfYOffset, far),
-                                new Vector3(left, floorY + halfYOffset, far),
+                                new Vector3(left, floorFarLeftY + MapUnitY, far),
+                                new Vector3(right, floorFarRightY + MapUnitY, far),
+                                new Vector3(right, floorFarRightY, far),
+                                new Vector3(left, floorFarLeftY, far),
                                 Vector3.Backward,
                                 new Vector2(0, 0),
                                 new Vector2(1, yUvBottom));
@@ -208,10 +226,10 @@ namespace DungeonGenerator
                         if (test < 0 || !map[test, mapY])
                         {
                             wallMesh.AddQuad(
-                                new Vector3(left, topY - halfYOffset, near),
-                                new Vector3(left, topY + halfYOffset, far),
-                                new Vector3(left, floorY + halfYOffset, far),
-                                new Vector3(left, floorY - halfYOffset, near),
+                                new Vector3(left, floorNearLeftY + MapUnitY, near),
+                                new Vector3(left, floorFarLeftY + MapUnitY, far),
+                                new Vector3(left, floorFarLeftY, far),
+                                new Vector3(left, floorNearLeftY, near),
                                 Vector3.Right,
                                 new Vector2(0, 0),
                                 new Vector2(1, yUvBottom));
@@ -224,10 +242,10 @@ namespace DungeonGenerator
                         if (test > mapWidth || !map[test, mapY])
                         {
                             wallMesh.AddQuad(
-                                new Vector3(right, topY + halfYOffset, far),
-                                new Vector3(right, topY - halfYOffset, near),
-                                new Vector3(right, floorY - halfYOffset, near),
-                                new Vector3(right, floorY + halfYOffset, far),
+                                new Vector3(right, floorFarRightY + MapUnitY, far),
+                                new Vector3(right, floorNearRightY + MapUnitY, near),
+                                new Vector3(right, floorNearRightY, near),
+                                new Vector3(right, floorFarRightY, far),
                                 Vector3.Left,
                                 new Vector2(0, 0),
                                 new Vector2(1, 1));
@@ -238,17 +256,11 @@ namespace DungeonGenerator
                     else
                     {
                         //Floor outside
-                        //Floor
-
-                        var left = mapX * MapUnitX;
-                        var right = left + MapUnitX;
-                        var far = mapY * MapUnitZ;
-                        var near = far - MapUnitZ;
                         wallMesh.AddQuad(
-                            new Vector3(left, topY + halfYOffset, far),
-                            new Vector3(right, topY + halfYOffset, far),
-                            new Vector3(right, topY - halfYOffset, near),
-                            new Vector3(left, topY - halfYOffset, near),
+                            new Vector3(left, floorFarLeftY + halfYOffset, far),
+                            new Vector3(right, floorFarRightY + halfYOffset, far),
+                            new Vector3(right, floorNearRightY + halfYOffset, near),
+                            new Vector3(left, floorNearLeftY + halfYOffset, near),
                             Vector3.Up,
                             new Vector2(0, 0),
                             new Vector2(1, 1));
