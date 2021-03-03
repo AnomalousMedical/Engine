@@ -130,29 +130,27 @@ namespace DungeonGenerator
             float yOffset = 0.3f;
             float halfYOffset = yOffset / 2f;
 
-            Vector3 floorCubeRotationVec = new Vector3(halfUnitX, -halfYOffset, 0).normalized();
-            floorCubeRot = Quaternion.shortestArcQuat(ref Vector3.Right, ref floorCubeRotationVec);
-
-            //Vector3 floorCubeRotationVec = new Vector3(0, halfYOffset, halfUnitZ).normalized();
+            //Vector3 floorCubeRotationVec = new Vector3(halfUnitX, -halfYOffset, 0).normalized();
             //floorCubeRot = Quaternion.shortestArcQuat(ref Vector3.Right, ref floorCubeRotationVec);
+
+            Vector3 floorCubeRotationVec = new Vector3(0, halfYOffset, halfUnitZ).normalized();
+            floorCubeRot = Quaternion.shortestArcQuat(ref Vector3.Forward, ref floorCubeRotationVec);
 
             for (int mapY = mapbuilder.Map_Size.Height - 1; mapY > -1; --mapY)
             {
-                floorY = -halfUnitY;
-                centerY = 0f;
-                topY = halfUnitY;
+                //floorY = -halfUnitY;
+                //centerY = 0f;
+                //topY = halfUnitY;
 
-                //floorY -= yOffset;
-                //centerY -= yOffset;
-                //topY -= yOffset;
+                floorY -= yOffset;
+                centerY -= yOffset;
+                topY -= yOffset;
 
                 for (int mapX = 0; mapX < mapWidth; ++mapX)
                 {
-                    floorY -= yOffset;
-                    centerY -= yOffset;
-                    topY -= yOffset;
-
-                    var floorYOffsetVector = new Vector3(0, floorY, 0);
+                    //floorY -= yOffset;
+                    //centerY -= yOffset;
+                    //topY -= yOffset;
 
                     //Build quad for surface first
                     var center = new Vector3(mapX * MapUnitX, floorY, mapY * MapUnitZ);
