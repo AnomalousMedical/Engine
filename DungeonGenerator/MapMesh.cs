@@ -127,24 +127,33 @@ namespace DungeonGenerator
                 yUvBottom = MapUnitY / MapUnitX;
             }
 
-            float yOffset = 1F;
+            float yOffset = -1f;
             float halfYOffset = yOffset / 2f;
 
-            float xInfluence = 0;
+            float xInfluence = 1;
             float yInfluence = 1.0f - xInfluence;
 
             float xHeightStep = yOffset * xInfluence;
             float yHeightStep = yOffset * yInfluence;
-            float xHeightBegin = -xHeightStep * mapbuilder.Map_Size.Height;
             float xHeightAdjust = 0;
             float yHeightAdjust = 0;
 
             Vector3 dirInfluence = new Vector3(xHeightStep, 0, yHeightStep).normalized();
             Vector3 floorCubeRotationVec = new Vector3(halfUnitX * dirInfluence.x, halfYOffset, halfUnitZ * dirInfluence.z).normalized();
             floorCubeRot = Quaternion.shortestArcQuat(ref dirInfluence, ref floorCubeRotationVec);
+            
+            float xHeightBegin = xHeightStep * mapbuilder.Map_Size.Height;
 
-            Vector3 forwardRotTest = Quaternion.quatRotate(floorCubeRot, Vector3.Forward);
-            Vector3 rightRotTest = Quaternion.quatRotate(floorCubeRot, Vector3.Right);
+            bool yIncreasing = yOffset > 0;
+            bool isXDir = xInfluence > 0.1f;
+
+            if (yIncreasing)
+            {
+                xHeightBegin *= -1;
+            }
+
+            //Vector3 forwardRotTest = Quaternion.quatRotate(floorCubeRot, Vector3.Forward);
+            //Vector3 rightRotTest = Quaternion.quatRotate(floorCubeRot, Vector3.Right);
 
             for (int mapY = mapbuilder.Map_Size.Height - 1; mapY > -1; --mapY)
             {
@@ -157,15 +166,13 @@ namespace DungeonGenerator
 
                     var centerY = xHeightAdjust + yHeightAdjust;
                     var floorY = centerY - halfUnitY;
-                    //var topY = centerY + halfUnitY;
                     float floorFarLeftY = 0;
                     float floorFarRightY = 0;
                     float floorNearRightY = 0;
                     float floorNearLeftY = 0;
-                    if (forwardRotTest.y > 0)
+                    if (yOffset > 0)
                     {
-                        //Forward facing up
-                        if(rightRotTest.y > 0)
+                        if(isXDir)
                         {
                             floorFarLeftY = floorY - halfYOffset;
                             floorFarRightY = floorY + halfYOffset;
@@ -182,9 +189,10 @@ namespace DungeonGenerator
                     }
                     else
                     {
-                        //Forward facing down
-                        if (rightRotTest.y > 0)
+                        
+                        if (isXDir)
                         {
+                            
                             floorFarLeftY = floorY - halfYOffset;
                             floorFarRightY = floorY + halfYOffset;
                             floorNearRightY = floorY + halfYOffset;
@@ -192,9 +200,10 @@ namespace DungeonGenerator
                         }
                         else
                         {
-                            floorFarLeftY = floorY + halfYOffset;
+                            
+                            floorFarLeftY = floorY - halfYOffset;
                             floorFarRightY = floorY + halfYOffset;
-                            floorNearRightY = floorY - halfYOffset;
+                            floorNearRightY = floorY + halfYOffset;
                             floorNearLeftY = floorY - halfYOffset;
                         }
                     }
@@ -291,6 +300,12 @@ namespace DungeonGenerator
                             new Vector2(1, 1));
                     }
                 }
+            }
+
+            if(!yIncreasing)
+            {
+                //Physics will need this inverted in some directions due to shortest arc quat
+                floorCubeRot = floorCubeRot.inverse();
             }
 
             floorMesh.End(renderDevice);
