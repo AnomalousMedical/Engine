@@ -128,8 +128,8 @@ namespace DungeonGenerator
             }
 
             //These two are settings
-            float yOffset = -1f; //Up or down amount
-            bool xDir = true;
+            float yOffset = 1f; //Up or down amount
+            bool xDir = false;
 
             float halfYOffset = Math.Abs(yOffset / 2f);
 
@@ -210,6 +210,8 @@ namespace DungeonGenerator
                     var far = mapY * MapUnitZ;
                     var near = far - MapUnitZ;
 
+                    var floorNormal = Quaternion.quatRotate(floorCubeRot, Vector3.Up);
+
                     if (map[mapX, mapY])
                     {
                         //Floor
@@ -218,7 +220,7 @@ namespace DungeonGenerator
                             new Vector3(right, floorFarRightY, far),
                             new Vector3(right, floorNearRightY, near),
                             new Vector3(left, floorNearLeftY, near),
-                            Vector3.Up,
+                            floorNormal,
                             new Vector2(0, 0),
                             new Vector2(1, 1));
 
@@ -292,7 +294,7 @@ namespace DungeonGenerator
                             new Vector3(right, floorFarRightY + MapUnitY, far),
                             new Vector3(right, floorNearRightY + MapUnitY, near),
                             new Vector3(left, floorNearLeftY + MapUnitY, near),
-                            Vector3.Up,
+                            floorNormal,
                             new Vector2(0, 0),
                             new Vector2(1, 1));
                     }
