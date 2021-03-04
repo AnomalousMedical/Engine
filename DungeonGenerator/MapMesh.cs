@@ -60,7 +60,8 @@ namespace DungeonGenerator
                 {
                     slopeMap[mapX, mapY] = new Slope()
                     {
-                        PreviousPoint = new IntVector2(0, 1),
+                        //PreviousPoint = new IntVector2(-1, 0), //for x-flow use -1 the gird is calculated from left to right
+                        PreviousPoint = new IntVector2(0, 1), //for y-flow use 1 the grid is calcualated from height to 0
                         YOffset = 0.3f
                     };
                 }
@@ -133,35 +134,14 @@ namespace DungeonGenerator
             boundaryCubeCenterPoints = new List<Vector3>((int)(numBoundaryCubes));
             floorCubeCenterPoints = new List<Vector3>((int)(numFloorCubes));
 
-            //float floorY = -halfUnitY;
-            //float centerY = 0f;
-            //float topY = halfUnitY;
             float yUvBottom = 1.0f;
             if (MapUnitY < 1.0f)
             {
                 yUvBottom = MapUnitY / MapUnitX;
             }
 
-            //These two are settings
-            //float yOffset = .3f; //Up or down amount
-            //bool xDir = false;
-
-            
-
-            //float xHeightBegin = xHeightStep * mapHeight;
-
-            //bool yIncreasing = yOffset > 0;
-
-            //if (yIncreasing)
-            //{
-            //    xHeightBegin *= -1;
-            //}
-
             for (int mapY = mapHeight - 1; mapY > -1; --mapY)
             {
-                //xHeightAdjust = 0;
-                //yHeightAdjust -= yHeightStep;
-
                 for (int mapX = 0; mapX < mapWidth; ++mapX)
                 {
                     var left = mapX * MapUnitX;
@@ -169,7 +149,6 @@ namespace DungeonGenerator
                     var far = (mapHeight - mapY) * MapUnitZ;
                     var near = far - MapUnitZ;
 
-                    //xHeightAdjust += xHeightStep;
                     var slopeMapX = mapX + 1;
                     var slopeMapY = mapY + 1;
 
@@ -184,8 +163,6 @@ namespace DungeonGenerator
 
                     float xHeightStep = slope.YOffset * xInfluence;
                     float yHeightStep = slope.YOffset * yInfluence;
-                    //float xHeightAdjust = 0;
-                    //float yHeightAdjust = 0;
 
                     Vector3 dirInfluence = new Vector3(xHeightStep, 0, yHeightStep).normalized();
                     Vector3 floorCubeRotationVec = new Vector3(halfUnitX * dirInfluence.x, halfYOffset, halfUnitZ * dirInfluence.z).normalized();
@@ -199,8 +176,6 @@ namespace DungeonGenerator
 
                     //Update our center point in the slope grid
                     slope.Center = new Vector3(left + halfUnitX, centerY, far - halfUnitZ);
-
-                    Console.WriteLine($"{mapX}, {mapY}: {slope.Center}");
 
                     var floorY = centerY - halfUnitY;
                     float floorFarLeftY = 0;
