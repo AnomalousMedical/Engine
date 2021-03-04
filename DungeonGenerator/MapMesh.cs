@@ -12,16 +12,13 @@ namespace DungeonGenerator
     {
         private Mesh floorMesh;
         private Mesh wallMesh;
-        private List<Vector3> floorCubeCenterPoints;
+        private List<MapMeshPosition> floorCubeCenterPoints;
         private List<Vector3> boundaryCubeCenterPoints;
         private Vector3[,] squareCenters; //This array is 1 larger in each dimension, use accessor to translate points
-        private Quaternion floorCubeRot;
 
-        public IEnumerable<Vector3> FloorCubeCenterPoints => floorCubeCenterPoints;
+        public IEnumerable<MapMeshPosition> FloorCubeCenterPoints => floorCubeCenterPoints;
 
         public IEnumerable<Vector3> BoundaryCubeCenterPoints => boundaryCubeCenterPoints;
-
-        public Quaternion FloorCubeRot => floorCubeRot;
 
         /// <summary>
         /// The number of units on the generated map to make on the real map in the X direction.
@@ -57,11 +54,22 @@ namespace DungeonGenerator
             {
                 for (int mapX = 0; mapX < mapWidth; ++mapX)
                 {
+                    float yOffset = 0;
+                    switch(mapX % 4)
+                    {
+                        case 0:
+                            yOffset = 0.3f;
+                            break;
+                        case 2:
+                            yOffset = -0.3f;
+                            break;
+                    }
+
                     slopeMap[mapX, mapY] = new Slope()
                     {
-                        //PreviousPoint = new IntVector2(-1, 0), //for x-flow use -1 the gird is calculated from left to right
-                        PreviousPoint = new IntVector2(0, 1), //for y-flow use 1 the grid is calcualated from height to 0
-                        YOffset = 0.3f
+                        PreviousPoint = new IntVector2(-1, 0), //for x-flow use -1 the gird is calculated from left to right
+                        //PreviousPoint = new IntVector2(0, 1), //for y-flow use 1 the grid is calcualated from height to 0
+                        YOffset = yOffset
                     };
                 }
             }
@@ -135,7 +143,7 @@ namespace DungeonGenerator
             wallMesh.Begin(numWallQuads);
 
             boundaryCubeCenterPoints = new List<Vector3>((int)(numBoundaryCubes));
-            floorCubeCenterPoints = new List<Vector3>((int)(numFloorCubes));
+            floorCubeCenterPoints = new List<MapMeshPosition>((int)(numFloorCubes));
 
             float yUvBottom = 1.0f;
             if (MapUnitY < 1.0f)
@@ -166,7 +174,7 @@ namespace DungeonGenerator
 
                     Vector3 dirInfluence = new Vector3(xHeightStep, 0, yHeightStep).normalized();
                     Vector3 floorCubeRotationVec = new Vector3(halfUnitX * dirInfluence.x, halfYOffset, halfUnitZ * dirInfluence.z).normalized();
-                    floorCubeRot = Quaternion.shortestArcQuat(ref dirInfluence, ref floorCubeRotationVec);
+                    var floorCubeRot = Quaternion.shortestArcQuat(ref dirInfluence, ref floorCubeRotationVec);
 
                     //Get previous square center
                     var previousSlope = squareCenters[mapX + slope.PreviousPoint.x + 1, mapY + slope.PreviousPoint.y + 1];
@@ -230,7 +238,7 @@ namespace DungeonGenerator
                             new Vector2(0, 0),
                             new Vector2(1, 1));
 
-                        floorCubeCenterPoints.Add(new Vector3(left + halfUnitX, floorY - halfUnitY, far - halfUnitZ));
+                        floorCubeCenterPoints.Add(new MapMeshPosition(new Vector3(left + halfUnitX, floorY - halfUnitY, far - halfUnitZ), floorCubeRot));
 
                         int test;
 

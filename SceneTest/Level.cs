@@ -188,15 +188,16 @@ namespace SceneTest
                     var floorCubeShape = new Box(mapMesh.MapUnitX, mapMesh.MapUnitY, mapMesh.MapUnitZ); //Each one creates its own, try to load from resources
                     floorCubeShapeIndex = bepuScene.Simulation.Shapes.Add(floorCubeShape);
 
-                    var floorOrientation = mapMesh.FloorCubeRot.ToSystemNumerics();
                     var boundaryOrientation = System.Numerics.Quaternion.Identity;
 
                     foreach (var boundary in mapMesh.FloorCubeCenterPoints)
                     {
+                        //TODO: Figure out where nans are coming from
+                        var orientation = boundary.Orientation.isNumber() ? boundary.Orientation : Quaternion.Identity;
                         var staticHandle = bepuScene.Simulation.Statics.Add(
                             new StaticDescription(
-                                boundary.ToSystemNumerics(),
-                                floorOrientation,
+                                boundary.Position.ToSystemNumerics(),
+                                orientation.ToSystemNumerics(),
                                 new CollidableDescription(floorCubeShapeIndex, 0.1f)));
 
                         staticHandles.Add(staticHandle);
