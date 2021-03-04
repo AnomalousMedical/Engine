@@ -98,7 +98,7 @@ namespace DungeonGenerator
 
                         //East wall
                         test = mapX + 1;
-                        if (test > mapWidth || map[test, mapY] == csMapbuilder.EmptyCell)
+                        if (test >= mapWidth || map[test, mapY] == csMapbuilder.EmptyCell)
                         {
                             ++numWallQuads;
                             ++numBoundaryCubes;
@@ -272,7 +272,7 @@ namespace DungeonGenerator
 
                         //East wall
                         test = mapX + 1;
-                        if (test > mapWidth || map[test, mapY] == csMapbuilder.EmptyCell)
+                        if (test >= mapWidth || map[test, mapY] == csMapbuilder.EmptyCell)
                         {
                             wallMesh.AddQuad(
                                 new Vector3(right, floorFarRightY + MapUnitY, far),
