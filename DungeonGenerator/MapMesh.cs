@@ -62,7 +62,7 @@ namespace DungeonGenerator
             uint numFloorCubes = 0;
             var mapWidth = mapbuilder.Map_Size.Width;
             var mapHeight = mapbuilder.Map_Size.Height;
-            for (int mapY = mapbuilder.Map_Size.Height - 1; mapY > -1; --mapY)
+            for (int mapY = mapHeight - 1; mapY > -1; --mapY)
             {
                 for (int mapX = 0; mapX < mapWidth; ++mapX)
                 {
@@ -145,7 +145,7 @@ namespace DungeonGenerator
             Vector3 floorCubeRotationVec = new Vector3(halfUnitX * dirInfluence.x, halfYOffset, halfUnitZ * dirInfluence.z).normalized();
             floorCubeRot = Quaternion.shortestArcQuat(ref dirInfluence, ref floorCubeRotationVec);
             
-            float xHeightBegin = xHeightStep * mapbuilder.Map_Size.Height;
+            float xHeightBegin = xHeightStep * mapHeight;
 
             bool yIncreasing = yOffset > 0;
 
@@ -154,7 +154,7 @@ namespace DungeonGenerator
                 xHeightBegin *= -1;
             }
 
-            for (int mapY = mapbuilder.Map_Size.Height - 1; mapY > -1; --mapY)
+            for (int mapY = mapHeight - 1; mapY > -1; --mapY)
             {
                 xHeightAdjust = xHeightBegin;
                 yHeightAdjust -= yHeightStep;

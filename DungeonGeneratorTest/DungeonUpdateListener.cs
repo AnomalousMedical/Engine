@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Engine.CameraMovement;
 using RogueLikeMapBuilder;
 using DungeonGenerator;
+using System.Diagnostics;
 
 namespace DungeonGeneratorTest
 {
@@ -93,40 +94,80 @@ namespace DungeonGeneratorTest
             cameraControls.Position = new Vector3(0, 2, -11);
             Initialize();
 
-            var random = new Random(1);
-            var mapBuilder = new csMapbuilder(random, 150, 150);
-            mapBuilder.Build_ConnectedStartRooms();
-            mapMesh = new MapMesh(mapBuilder, graphicsEngine.RenderDevice);
+            //var random = new Random(1);
+            //var mapBuilder = new csMapbuilder(random, 150, 150);
+            //mapBuilder.Build_ConnectedStartRooms();
+            //mapMesh = new MapMesh(mapBuilder, graphicsEngine.RenderDevice);
 
-            //IEnumerator<YieldAction> co()
-            //{
-            //    while (true)
-            //    {
-            //        //Quick test with the console
-            //        var mapBuilder = new csMapbuilder(random, 150, 150);
-            //        mapBuilder.Build_ConnectedStartRooms();
-            //        var map = mapBuilder.map;
-            //        for (int y = 0; y < 150; ++y)
-            //        {
-            //            for (int x = 0; x < 150; ++x)
-            //            {
-            //                if (map[x, y])
-            //                {
-            //                    Console.Write('X');
-            //                }
-            //                else
-            //                {
-            //                    Console.Write(' ');
-            //                }
-            //            }
-            //            Console.WriteLine();
-            //        }
-            //        Console.WriteLine(mapBuilder.StartRoom);
-            //        Console.WriteLine(mapBuilder.EndRoom);
-            //        yield return coroutineRunner.WaitSeconds(0.3f);
-            //    }
-            //}
-            //coroutineRunner.Run(co());
+            IEnumerator<YieldAction> co()
+            {
+                var seed = 1;
+                while (true)
+                {
+                    var sw = new Stopwatch();
+                    sw.Start();
+                    //Quick test with the console
+                    var mapBuilder = new csMapbuilder(new Random(seed++), 50, 50);
+                    mapBuilder.CorridorSpace = 10;
+                    mapBuilder.RoomDistance = 3;
+                    mapBuilder.Room_Min = new IntSize2(2, 2);
+                    mapBuilder.Room_Max = new IntSize2(6, 6); //Between 3-6 is good here, 3 for more cityish with small rooms, 6 for more open with more big rooms, sometimes connected
+                    mapBuilder.Corridor_Max = 4;
+                    mapBuilder.Build_ConnectedStartRooms();
+                    sw.Stop();
+                    var map = mapBuilder.map;
+                    var mapWidth = mapBuilder.Map_Size.Width;
+                    var mapHeight = mapBuilder.Map_Size.Height;
+
+                    for (int mapY = mapBuilder.Map_Size.Height - 1; mapY > -1; --mapY)
+                    {
+                        for (int mapX = 0; mapX < mapWidth; ++mapX)
+                        {
+                            switch(map[mapX, mapY])
+                            {
+                                case csMapbuilder.EmptyCell:
+                                    Console.Write(' ');
+                                    break;
+                                case csMapbuilder.MainCorridorCell:
+                                    Console.Write('M');
+                                    break;
+                                case csMapbuilder.RoomCell:
+                                    Console.Write('S');
+                                    break;
+                                case csMapbuilder.RoomCell + 1:
+                                    Console.Write('E');
+                                    break;
+                                default:
+                                    Console.Write('X');
+                                    break;
+                            }
+                        }
+                        Console.WriteLine();
+                    }
+
+                    for (int mapY = mapBuilder.Map_Size.Height - 1; mapY > -1; --mapY)
+                    {
+                        for (int mapX = 0; mapX < mapWidth; ++mapX)
+                        {
+                            if (map[mapX, mapY] == csMapbuilder.EmptyCell)
+                            {
+                                Console.Write(' '); 
+                            }
+                            else
+                            {
+                                Console.Write(map[mapX,mapY]);
+                            }
+                        }
+                        Console.WriteLine();
+                    }
+                    Console.WriteLine($"Created in {sw.ElapsedMilliseconds}");
+                    Console.WriteLine(mapBuilder.StartRoom);
+                    Console.WriteLine(mapBuilder.EndRoom);
+                    Console.WriteLine("--------------------------------------------------");
+                    yield return coroutineRunner.WaitSeconds(0.3f);
+                }
+            }
+            coroutineRunner.Run(co());
         }
 
         public void Dispose()
@@ -138,7 +179,7 @@ namespace DungeonGeneratorTest
             threadDispatcher.Dispose();
             bufferPool.Clear();
 
-            mapMesh.Dispose();
+            mapMesh?.Dispose();
 
             pboMatBinding.Dispose();
             environmentMapSRV.Dispose();
@@ -286,11 +327,11 @@ namespace DungeonGeneratorTest
             pbrRenderer.Begin(immediateContext);
             pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, ref cubePosition, ref cubeOrientation, pbrRenderAttribs);
 
-            var mesh = mapMesh.FloorMesh;
-            pbrRenderer.Render(immediateContext, pboMatBinding.Obj, mesh.VertexBuffer, mesh.SkinVertexBuffer, mesh.IndexBuffer, mesh.NumIndices, ref Vector3.Zero, ref Quaternion.Identity, pbrRenderAttribs);
+            //var mesh = mapMesh.FloorMesh;
+            //pbrRenderer.Render(immediateContext, pboMatBinding.Obj, mesh.VertexBuffer, mesh.SkinVertexBuffer, mesh.IndexBuffer, mesh.NumIndices, ref Vector3.Zero, ref Quaternion.Identity, pbrRenderAttribs);
 
-            mesh = mapMesh.WallMesh;
-            pbrRenderer.Render(immediateContext, pboMatBinding.Obj, mesh.VertexBuffer, mesh.SkinVertexBuffer, mesh.IndexBuffer, mesh.NumIndices, ref Vector3.Zero, ref Quaternion.Identity, pbrRenderAttribs);
+            //mesh = mapMesh.WallMesh;
+            //pbrRenderer.Render(immediateContext, pboMatBinding.Obj, mesh.VertexBuffer, mesh.SkinVertexBuffer, mesh.IndexBuffer, mesh.NumIndices, ref Vector3.Zero, ref Quaternion.Identity, pbrRenderAttribs);
 
             this.swapChain.Present(1);
         }

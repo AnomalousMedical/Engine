@@ -16,7 +16,7 @@ namespace RogueLikeMapBuilder
     /// </summary>
     public class csMapbuilder
     {
-        public Int16[,] map;
+        public UInt16[,] map;
 
         /// <summary>
         /// Built rooms stored here
@@ -114,16 +114,19 @@ namespace RogueLikeMapBuilder
                                             , new Point(-1, 0)//e
                                         };
 
-        public const Int16 EmptyCell = 0;
-        public const Int16 RoomCell = 1;
+        public const UInt16 EmptyCell = 0;
+        public const UInt16 RoomCell = 1;
+        public const UInt16 CorridorCell = UInt16.MaxValue / 2;
+        public const UInt16 MainCorridorCell = CorridorCell;
 
-        Random rnd;
+        private UInt16 currentRoomCell = RoomCell;
+        private UInt16 currentCorridorCell = CorridorCell;
+        private Random rnd;
 
         public csMapbuilder(Random random, int x, int y)
         {
             this.rnd = random;
             Map_Size = new Size(x, y);
-            map = new Int16[Map_Size.Width, Map_Size.Height];
             Corridor_MaxTurns = 5;
             Room_Min = new Size(3, 3);
             Room_Max = new Size(15, 15);
@@ -147,8 +150,10 @@ namespace RogueLikeMapBuilder
             lPotentialCorridor = new List<Point>();
             rctBuiltRooms = new List<Rectangle>();
             lBuilltCorridors = new List<Point>();
+            currentRoomCell = RoomCell;
+            currentCorridorCell = CorridorCell;
 
-            map = new Int16[Map_Size.Width, Map_Size.Height];
+            map = new UInt16[Map_Size.Width, Map_Size.Height];
             for (int x = 0; x < Map_Size.Width; x++)
                 for (int y = 0; y < Map_Size.Height; y++)
                     map[x, y] = EmptyCell;
@@ -318,7 +323,7 @@ namespace RogueLikeMapBuilder
                             };
                     rctCurrentRoom.Left = rnd.Next(0, Map_Size.Width - rctCurrentRoom.Width);
                     rctCurrentRoom.Top = 1;
-                    endRoom = rctCurrentRoom;
+                    startRoom = rctCurrentRoom;
                     Room_Build();
 
                     //at the bottom of the map
@@ -327,7 +332,7 @@ namespace RogueLikeMapBuilder
                     rctCurrentRoom.Height = rnd.Next(Room_Min.Height, Room_Max.Height);
                     rctCurrentRoom.Left = rnd.Next(0, Map_Size.Width - rctCurrentRoom.Width);
                     rctCurrentRoom.Top = Map_Size.Height - rctCurrentRoom.Height - 1;
-                    startRoom = rctCurrentRoom;
+                    endRoom = rctCurrentRoom;
                     Room_Build();
 
 
@@ -489,9 +494,11 @@ namespace RogueLikeMapBuilder
         {
             foreach (Point p in lPotentialCorridor)
             {
-                Point_Set(p.x, p.y, RoomCell);
+                Point_Set(p.x, p.y, currentCorridorCell);
                 lBuilltCorridors.Add(p);
             }
+
+            ++currentCorridorCell;
 
             lPotentialCorridor.Clear();
         }
@@ -716,8 +723,14 @@ namespace RogueLikeMapBuilder
             rctBuiltRooms.Add(rctCurrentRoom);
 
             for (int x = rctCurrentRoom.Left; x <= rctCurrentRoom.Right; x++)
+            {
                 for (int y = rctCurrentRoom.Top; y <= rctCurrentRoom.Bottom; y++)
-                    map[x, y] = RoomCell;
+                {
+                    map[x, y] = currentRoomCell;
+                }
+            }
+
+            ++currentRoomCell;
 
         }
 
@@ -742,7 +755,7 @@ namespace RogueLikeMapBuilder
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="val"></param>
-        private void Point_Set(int x, int y, Int16 val)
+        private void Point_Set(int x, int y, UInt16 val)
         {
             map[x, y] = val;
         }
@@ -753,7 +766,7 @@ namespace RogueLikeMapBuilder
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        private Int16 Point_Get(int x, int y)
+        private UInt16 Point_Get(int x, int y)
         {
             return map[x, y];
         }
