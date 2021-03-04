@@ -216,7 +216,7 @@ namespace DungeonGenerator
                     var near = far - MapUnitZ;
 
                     var slope = slopeMap[mapX, mapY];
-                    bool yIncreasing = slope.YOffset > 0;
+                    bool positivePrevious = slope.PreviousPoint.x > 0 || slope.PreviousPoint.y > 0;
 
                     var realHalfY = slope.YOffset / 2f;
                     float halfYOffset = Math.Abs(realHalfY);
@@ -231,6 +231,10 @@ namespace DungeonGenerator
                     Vector3 dirInfluence = new Vector3(xHeightStep, 0, yHeightStep).normalized();
                     Vector3 floorCubeRotationVec = new Vector3(halfUnitX * dirInfluence.x, halfYOffset, halfUnitZ * dirInfluence.z).normalized();
                     var floorCubeRot = Quaternion.shortestArcQuat(ref dirInfluence, ref floorCubeRotationVec);
+                    if (positivePrevious)
+                    {
+                        floorCubeRot = floorCubeRot.inverse();
+                    }
 
                     //Get previous square center
                     var previousSlope = squareInfo[mapX + slope.PreviousPoint.x + 1, mapY + slope.PreviousPoint.y + 1];
@@ -246,7 +250,7 @@ namespace DungeonGenerator
                     float floorFarRightY = 0;
                     float floorNearRightY = 0;
                     float floorNearLeftY = 0;
-                    if (yIncreasing)
+                    if (slope.YOffset > 0 && !positivePrevious)
                     {
                         if (xDir)
                         {
