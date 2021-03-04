@@ -15,6 +15,7 @@ using Engine.CameraMovement;
 using RogueLikeMapBuilder;
 using DungeonGenerator;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace DungeonGeneratorTest
 {
@@ -44,6 +45,7 @@ namespace DungeonGeneratorTest
         private readonly ILogger<BepuUpdateListener> logger;
         private readonly EventManager eventManager;
         private readonly FirstPersonFlyCamera cameraControls;
+        private readonly ICoroutineRunner coroutineRunner;
         private ISwapChain swapChain;
         private IRenderDevice renderDevice;
         private IDeviceContext immediateContext;
@@ -64,7 +66,7 @@ namespace DungeonGeneratorTest
         BufferPool bufferPool;
         //END
 
-        public unsafe BepuUpdateListener(
+        public BepuUpdateListener(
             GraphicsEngine graphicsEngine,
             NativeOSWindow window,
             PbrRenderer m_GLTFRenderer,
@@ -91,19 +93,16 @@ namespace DungeonGeneratorTest
             this.logger = logger;
             this.eventManager = eventManager;
             this.cameraControls = cameraControls;
+            this.coroutineRunner = coroutineRunner;
             cameraControls.Position = new Vector3(0, 2, -11);
             Initialize();
 
-            //var random = new Random(1);
-            //var mapBuilder = new csMapbuilder(random, 150, 150);
-            //mapBuilder.Build_ConnectedStartRooms();
-            //mapMesh = new MapMesh(mapBuilder, graphicsEngine.RenderDevice);
-
-            IEnumerator<YieldAction> co()
+            coroutineRunner.RunTask(async () =>
             {
-                var seed = 1;
-                while (true)
+                MapMesh newMapMesh = null;
+                await Task.Run(() =>
                 {
+                    var seed = 1;
                     var sw = new Stopwatch();
                     sw.Start();
                     //Quick test with the console
@@ -124,7 +123,7 @@ namespace DungeonGeneratorTest
                     {
                         for (int mapX = 0; mapX < mapWidth; ++mapX)
                         {
-                            switch(map[mapX, mapY])
+                            switch (map[mapX, mapY])
                             {
                                 case csMapbuilder.EmptyCell:
                                     Console.Write(' ');
@@ -152,11 +151,11 @@ namespace DungeonGeneratorTest
                         {
                             if (map[mapX, mapY] == csMapbuilder.EmptyCell)
                             {
-                                Console.Write(' '); 
+                                Console.Write(' ');
                             }
                             else
                             {
-                                Console.Write(map[mapX,mapY]);
+                                Console.Write(map[mapX, mapY]);
                             }
                         }
                         Console.WriteLine();
@@ -165,10 +164,13 @@ namespace DungeonGeneratorTest
                     Console.WriteLine(mapBuilder.StartRoom);
                     Console.WriteLine(mapBuilder.EndRoom);
                     Console.WriteLine("--------------------------------------------------");
-                    yield return coroutineRunner.WaitSeconds(0.3f);
-                }
-            }
-            coroutineRunner.Run(co());
+
+                    newMapMesh = new MapMesh(mapBuilder, renderDevice);
+                });
+
+                mapMesh?.Dispose();
+                mapMesh = newMapMesh;
+            });
         }
 
         public void Dispose()
@@ -190,50 +192,12 @@ namespace DungeonGeneratorTest
         {
             environmentMapSRV = envMapBuilder.BuildEnvMapView(renderDevice, immediateContext, "papermill/Fixed-", "png");
 
-            
-
             pbrRenderer.PrecomputeCubemaps(renderDevice, immediateContext, environmentMapSRV.Obj);
 
-
-            //Only one of these
             //Load a cc0 texture
             LoadCCoTexture();
-            //CreateShinyTexture();
 
             SetupBepu();
-        }
-
-        private unsafe void CreateShinyTexture()
-        {
-            const uint texDim = 10;
-            var physDesc = new UInt32[texDim * texDim];
-            var physDescSpan = new Span<UInt32>(physDesc);
-            physDescSpan.Fill(0xff0000ff);
-
-            var TexDesc = new TextureDesc();
-            TexDesc.Type = RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D;
-            TexDesc.Usage = USAGE.USAGE_IMMUTABLE;
-            TexDesc.BindFlags = BIND_FLAGS.BIND_SHADER_RESOURCE;
-            TexDesc.Depth = 1;
-            TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_BGRA8_UNORM;
-            TexDesc.MipLevels = 1;
-            TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_BGRA8_UNORM;
-            TexDesc.Width = 10;
-            TexDesc.Height = 10;
-
-            fixed (UInt32* pPhysDesc = physDesc)
-            {
-                var Level0Data = new TextureSubResData { pData = new IntPtr(pPhysDesc), Stride = texDim * 4 };
-                var InitData = new TextureData { pSubResources = new List<TextureSubResData> { Level0Data } };
-
-                using var physicalDescriptorMap = renderDevice.CreateTexture(TexDesc, InitData);
-
-                pboMatBinding = pbrRenderer.CreateMaterialSRB(
-                    pCameraAttribs: pbrCameraAndLight.CameraAttribs,
-                    pLightAttribs: pbrCameraAndLight.LightAttribs,
-                    physicalDescriptorMap: physicalDescriptorMap.Obj
-                );
-            }
         }
 
         private void SetupBepu()
@@ -328,11 +292,14 @@ namespace DungeonGeneratorTest
             pbrRenderer.Begin(immediateContext);
             pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, ref cubePosition, ref cubeOrientation, pbrRenderAttribs);
 
-            //var mesh = mapMesh.FloorMesh;
-            //pbrRenderer.Render(immediateContext, pboMatBinding.Obj, mesh.VertexBuffer, mesh.SkinVertexBuffer, mesh.IndexBuffer, mesh.NumIndices, ref Vector3.Zero, ref Quaternion.Identity, pbrRenderAttribs);
+            if (mapMesh != null)
+            {
+                var mesh = mapMesh.FloorMesh;
+                pbrRenderer.Render(immediateContext, pboMatBinding.Obj, mesh.VertexBuffer, mesh.SkinVertexBuffer, mesh.IndexBuffer, mesh.NumIndices, ref Vector3.Zero, ref Quaternion.Identity, pbrRenderAttribs);
 
-            //mesh = mapMesh.WallMesh;
-            //pbrRenderer.Render(immediateContext, pboMatBinding.Obj, mesh.VertexBuffer, mesh.SkinVertexBuffer, mesh.IndexBuffer, mesh.NumIndices, ref Vector3.Zero, ref Quaternion.Identity, pbrRenderAttribs);
+                mesh = mapMesh.WallMesh;
+                pbrRenderer.Render(immediateContext, pboMatBinding.Obj, mesh.VertexBuffer, mesh.SkinVertexBuffer, mesh.IndexBuffer, mesh.NumIndices, ref Vector3.Zero, ref Quaternion.Identity, pbrRenderAttribs);
+            }
 
             this.swapChain.Present(1);
         }
