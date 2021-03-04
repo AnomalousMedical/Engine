@@ -57,6 +57,7 @@ namespace DungeonGenerator
 
             IntVector2 previousCorridor = new IntVector2();
             var currentCorridor = 0;
+            bool[] seenRooms = new bool[mapbuilder.Rooms.Count];
             foreach (var corridor in mapbuilder.Corridors)
             {
                 var corridorSlope = 0.2f;
@@ -127,20 +128,24 @@ namespace DungeonGenerator
                 }
 
                 //Check for terminating rooms
-                if(north < csMapbuilder.CorridorCell && north >= csMapbuilder.RoomCell)
+                if(north < csMapbuilder.CorridorCell && north >= csMapbuilder.RoomCell && !seenRooms[north - csMapbuilder.RoomCell])
                 {
+                    seenRooms[north - csMapbuilder.RoomCell] = true;
                     SetRoomPrevious(mapbuilder.Rooms[north - csMapbuilder.RoomCell], corridor, slopeMap);
                 }
-                if (south < csMapbuilder.CorridorCell && south >= csMapbuilder.RoomCell)
+                if (south < csMapbuilder.CorridorCell && south >= csMapbuilder.RoomCell && !seenRooms[south - csMapbuilder.RoomCell])
                 {
+                    seenRooms[south - csMapbuilder.RoomCell] = true;
                     SetRoomPrevious(mapbuilder.Rooms[south - csMapbuilder.RoomCell], corridor, slopeMap);
                 }
-                if (east < csMapbuilder.CorridorCell && east >= csMapbuilder.RoomCell)
+                if (east < csMapbuilder.CorridorCell && east >= csMapbuilder.RoomCell && !seenRooms[east - csMapbuilder.RoomCell])
                 {
+                    seenRooms[east - csMapbuilder.RoomCell] = true;
                     SetRoomPrevious(mapbuilder.Rooms[east - csMapbuilder.RoomCell], corridor, slopeMap);
                 }
-                if (west < csMapbuilder.CorridorCell && west >= csMapbuilder.RoomCell)
+                if (west < csMapbuilder.CorridorCell && west >= csMapbuilder.RoomCell && !seenRooms[west - csMapbuilder.RoomCell])
                 {
+                    seenRooms[west - csMapbuilder.RoomCell] = true;
                     SetRoomPrevious(mapbuilder.Rooms[west - csMapbuilder.RoomCell], corridor, slopeMap);
                 }
 
