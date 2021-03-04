@@ -60,7 +60,7 @@ namespace DungeonGenerator
                 {
                     slopeMap[mapX, mapY] = new Slope()
                     {
-                        PreviousPoint = new IntVector2(-1, 0),
+                        PreviousPoint = new IntVector2(0, 1),
                         YOffset = 0.3f
                     };
                 }
@@ -89,15 +89,15 @@ namespace DungeonGenerator
                         int test;
 
                         //South wall
-                        test = mapY - 1;
-                        if (test < 0 || map[mapX, test] == csMapbuilder.EmptyCell)
+                        test = mapY + 1;
+                        if (test >= mapHeight || map[mapX, test] == csMapbuilder.EmptyCell)
                         {
                             ++numBoundaryCubes;
                         }
 
                         //North wall
-                        test = mapY + 1;
-                        if (test >= mapHeight || map[mapX, test] == csMapbuilder.EmptyCell)
+                        test = mapY - 1;
+                        if (test < 0 || map[mapX, test] == csMapbuilder.EmptyCell)
                         {
                             ++numWallQuads;
                             ++numBoundaryCubes;
@@ -166,7 +166,7 @@ namespace DungeonGenerator
                 {
                     var left = mapX * MapUnitX;
                     var right = left + MapUnitX;
-                    var far = mapY * MapUnitZ;
+                    var far = (mapHeight - mapY) * MapUnitZ;
                     var near = far - MapUnitZ;
 
                     //xHeightAdjust += xHeightStep;
@@ -191,15 +191,16 @@ namespace DungeonGenerator
                     Vector3 floorCubeRotationVec = new Vector3(halfUnitX * dirInfluence.x, halfYOffset, halfUnitZ * dirInfluence.z).normalized();
                     floorCubeRot = Quaternion.shortestArcQuat(ref dirInfluence, ref floorCubeRotationVec);
 
-                    //Need the previous position, centerpoint?
+                    //Get previous square center
                     var previousSquareX = slopeMapX + slope.PreviousPoint.x;
                     var previousSquareY = slopeMapY + slope.PreviousPoint.y;
                     var previousSlope = slopeMap[previousSquareX, previousSquareY];
-
                     var centerY = previousSlope.Center.y + slope.YOffset;
 
                     //Update our center point in the slope grid
                     slope.Center = new Vector3(left + halfUnitX, centerY, far - halfUnitZ);
+
+                    Console.WriteLine($"{mapX}, {mapY}: {slope.Center}");
 
                     var floorY = centerY - halfUnitY;
                     float floorFarLeftY = 0;
@@ -261,8 +262,8 @@ namespace DungeonGenerator
                         int test;
 
                         //South wall
-                        test = mapY - 1;
-                        if (test < 0 || map[mapX, test] == csMapbuilder.EmptyCell)
+                        test = mapY + 1;
+                        if (test >= mapHeight || map[mapX, test] == csMapbuilder.EmptyCell)
                         {
                             //No mesh needed here, can't see it
 
@@ -270,8 +271,8 @@ namespace DungeonGenerator
                         }
 
                         //North wall
-                        test = mapY + 1;
-                        if (test >= mapHeight || map[mapX, test] == csMapbuilder.EmptyCell)
+                        test = mapY - 1;
+                        if (test < 0 || map[mapX, test] == csMapbuilder.EmptyCell)
                         {
                             //Face backward too, north facing camera
                             wallMesh.AddQuad(
