@@ -160,21 +160,21 @@ namespace DungeonGeneratorTest
                         Console.WriteLine();
                     }
 
-                    for (int mapY = mapBuilder.Map_Size.Height - 1; mapY > -1; --mapY)
-                    {
-                        for (int mapX = 0; mapX < mapWidth; ++mapX)
-                        {
-                            if (map[mapX, mapY] == csMapbuilder.EmptyCell)
-                            {
-                                Console.Write(' ');
-                            }
-                            else
-                            {
-                                Console.Write(map[mapX, mapY]);
-                            }
-                        }
-                        Console.WriteLine();
-                    }
+                    //for (int mapY = mapBuilder.Map_Size.Height - 1; mapY > -1; --mapY)
+                    //{
+                    //    for (int mapX = 0; mapX < mapWidth; ++mapX)
+                    //    {
+                    //        if (map[mapX, mapY] == csMapbuilder.EmptyCell)
+                    //        {
+                    //            Console.Write(' ');
+                    //        }
+                    //        else
+                    //        {
+                    //            Console.Write(map[mapX, mapY]);
+                    //        }
+                    //    }
+                    //    Console.WriteLine();
+                    //}
                     Console.WriteLine($"Created in {sw.ElapsedMilliseconds}");
                     Console.WriteLine(mapBuilder.StartRoom);
                     Console.WriteLine(mapBuilder.EndRoom);
