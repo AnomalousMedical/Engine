@@ -46,8 +46,25 @@ namespace DungeonGenerator
             var halfUnitX = MapUnitX / 2.0f;
             var halfUnitY = MapUnitY / 2.0f;
             var halfUnitZ = MapUnitZ / 2.0f;
+            var mapWidth = mapbuilder.Map_Size.Width;
+            var mapHeight = mapbuilder.Map_Size.Height;
 
             var map = mapbuilder.map;
+            var slopeMapWidth = mapWidth + 2;
+            var slopeMapHeight = mapHeight + 2;
+            var slopeMap = new Slope[slopeMapWidth, slopeMapHeight];
+
+            for (int mapY = slopeMapHeight - 1; mapY > -1; --mapY)
+            {
+                for (int mapX = 0; mapX < slopeMapWidth; ++mapX)
+                {
+                    slopeMap[mapX, mapY] = new Slope()
+                    {
+                        PreviousPoint = new IntVector2(-1, 0),
+                        YOffset = 0.3f
+                    };
+                }
+            }
 
             this.floorMesh = new Mesh();
             this.wallMesh = new Mesh();
@@ -60,8 +77,6 @@ namespace DungeonGenerator
             uint numWallQuads = 0;
             uint numBoundaryCubes = 0;
             uint numFloorCubes = 0;
-            var mapWidth = mapbuilder.Map_Size.Width;
-            var mapHeight = mapbuilder.Map_Size.Height;
             for (int mapY = mapHeight - 1; mapY > -1; --mapY)
             {
                 for (int mapX = 0; mapX < mapWidth; ++mapX)
@@ -128,42 +143,64 @@ namespace DungeonGenerator
             }
 
             //These two are settings
-            float yOffset = .3f; //Up or down amount
-            bool xDir = false;
+            //float yOffset = .3f; //Up or down amount
+            //bool xDir = false;
 
-            float halfYOffset = Math.Abs(yOffset / 2f);
-
-            float xInfluence = xDir ? 1 : 0; //1 for x 0 for y
-            float yInfluence = 1.0f - xInfluence;
-
-            float xHeightStep = yOffset * xInfluence;
-            float yHeightStep = yOffset * yInfluence;
-            float xHeightAdjust = 0;
-            float yHeightAdjust = 0;
-
-            Vector3 dirInfluence = new Vector3(xHeightStep, 0, yHeightStep).normalized();
-            Vector3 floorCubeRotationVec = new Vector3(halfUnitX * dirInfluence.x, halfYOffset, halfUnitZ * dirInfluence.z).normalized();
-            floorCubeRot = Quaternion.shortestArcQuat(ref dirInfluence, ref floorCubeRotationVec);
             
-            float xHeightBegin = xHeightStep * mapHeight;
 
-            bool yIncreasing = yOffset > 0;
+            //float xHeightBegin = xHeightStep * mapHeight;
 
-            if (yIncreasing)
-            {
-                xHeightBegin *= -1;
-            }
+            //bool yIncreasing = yOffset > 0;
+
+            //if (yIncreasing)
+            //{
+            //    xHeightBegin *= -1;
+            //}
 
             for (int mapY = mapHeight - 1; mapY > -1; --mapY)
             {
-                xHeightAdjust = xHeightBegin;
-                yHeightAdjust -= yHeightStep;
+                //xHeightAdjust = 0;
+                //yHeightAdjust -= yHeightStep;
 
                 for (int mapX = 0; mapX < mapWidth; ++mapX)
                 {
-                    xHeightAdjust += xHeightStep;
+                    var left = mapX * MapUnitX;
+                    var right = left + MapUnitX;
+                    var far = mapY * MapUnitZ;
+                    var near = far - MapUnitZ;
 
-                    var centerY = xHeightAdjust + yHeightAdjust;
+                    //xHeightAdjust += xHeightStep;
+                    var slopeMapX = mapX + 1;
+                    var slopeMapY = mapY + 1;
+
+                    var slope = slopeMap[slopeMapX, slopeMapY];
+                    bool yIncreasing = slope.YOffset > 0;
+
+                    float halfYOffset = Math.Abs(slope.YOffset / 2f);
+
+                    bool xDir = slope.PreviousPoint.x != 0;
+                    float xInfluence = xDir ? 1 : 0; //1 for x 0 for y
+                    float yInfluence = 1.0f - xInfluence;
+
+                    float xHeightStep = slope.YOffset * xInfluence;
+                    float yHeightStep = slope.YOffset * yInfluence;
+                    //float xHeightAdjust = 0;
+                    //float yHeightAdjust = 0;
+
+                    Vector3 dirInfluence = new Vector3(xHeightStep, 0, yHeightStep).normalized();
+                    Vector3 floorCubeRotationVec = new Vector3(halfUnitX * dirInfluence.x, halfYOffset, halfUnitZ * dirInfluence.z).normalized();
+                    floorCubeRot = Quaternion.shortestArcQuat(ref dirInfluence, ref floorCubeRotationVec);
+
+                    //Need the previous position, centerpoint?
+                    var previousSquareX = slopeMapX + slope.PreviousPoint.x;
+                    var previousSquareY = slopeMapY + slope.PreviousPoint.y;
+                    var previousSlope = slopeMap[previousSquareX, previousSquareY];
+
+                    var centerY = previousSlope.Center.y + slope.YOffset;
+
+                    //Update our center point in the slope grid
+                    slope.Center = new Vector3(left + halfUnitX, centerY, far - halfUnitZ);
+
                     var floorY = centerY - halfUnitY;
                     float floorFarLeftY = 0;
                     float floorFarRightY = 0;
@@ -171,7 +208,7 @@ namespace DungeonGenerator
                     float floorNearLeftY = 0;
                     if (yIncreasing)
                     {
-                        if(xDir)
+                        if (xDir)
                         {
                             floorFarLeftY = floorY - halfYOffset;
                             floorFarRightY = floorY + halfYOffset;
@@ -190,7 +227,7 @@ namespace DungeonGenerator
                     {
                         if (xDir)
                         {
-                            
+
                             floorFarLeftY = floorY + halfYOffset;
                             floorFarRightY = floorY - halfYOffset;
                             floorNearRightY = floorY - halfYOffset;
@@ -204,11 +241,6 @@ namespace DungeonGenerator
                             floorNearLeftY = floorY + halfYOffset;
                         }
                     }
-
-                    var left = mapX * MapUnitX;
-                    var right = left + MapUnitX;
-                    var far = mapY * MapUnitZ;
-                    var near = far - MapUnitZ;
 
                     var floorNormal = Quaternion.quatRotate(floorCubeRot, Vector3.Up);
 
