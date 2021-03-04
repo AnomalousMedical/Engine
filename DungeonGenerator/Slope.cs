@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DungeonGenerator
 {
-    struct Slope
+    class Slope
     {
         public float YOffset;
 
