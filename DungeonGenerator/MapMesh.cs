@@ -66,7 +66,7 @@ namespace DungeonGenerator
             {
                 for (int mapX = 0; mapX < mapWidth; ++mapX)
                 {
-                    if (map[mapX, mapY])
+                    if (map[mapX, mapY] >= csMapbuilder.RoomCell)
                     {
                         ++numFloorQuads;
                         ++numFloorCubes;
@@ -75,14 +75,14 @@ namespace DungeonGenerator
 
                         //South wall
                         test = mapY - 1;
-                        if (test < 0 || !map[mapX, test])
+                        if (test < 0 || map[mapX, test] == csMapbuilder.EmptyCell)
                         {
                             ++numBoundaryCubes;
                         }
 
                         //North wall
                         test = mapY + 1;
-                        if (test >= mapHeight || !map[mapX, test])
+                        if (test >= mapHeight || map[mapX, test] == csMapbuilder.EmptyCell)
                         {
                             ++numWallQuads;
                             ++numBoundaryCubes;
@@ -90,7 +90,7 @@ namespace DungeonGenerator
 
                         //West wall
                         test = mapX - 1;
-                        if (test < 0 || !map[test, mapY])
+                        if (test < 0 || map[test, mapY] == csMapbuilder.EmptyCell)
                         {
                             ++numWallQuads;
                             ++numBoundaryCubes;
@@ -98,7 +98,7 @@ namespace DungeonGenerator
 
                         //East wall
                         test = mapX + 1;
-                        if (test > mapWidth || !map[test, mapY])
+                        if (test > mapWidth || map[test, mapY] == csMapbuilder.EmptyCell)
                         {
                             ++numWallQuads;
                             ++numBoundaryCubes;
@@ -128,7 +128,7 @@ namespace DungeonGenerator
             }
 
             //These two are settings
-            float yOffset = 1f; //Up or down amount
+            float yOffset = .3f; //Up or down amount
             bool xDir = false;
 
             float halfYOffset = Math.Abs(yOffset / 2f);
@@ -212,7 +212,7 @@ namespace DungeonGenerator
 
                     var floorNormal = Quaternion.quatRotate(floorCubeRot, Vector3.Up);
 
-                    if (map[mapX, mapY])
+                    if (map[mapX, mapY] >= csMapbuilder.RoomCell)
                     {
                         //Floor
                         floorMesh.AddQuad(
@@ -230,7 +230,7 @@ namespace DungeonGenerator
 
                         //South wall
                         test = mapY - 1;
-                        if (test < 0 || !map[mapX, test])
+                        if (test < 0 || map[mapX, test] == csMapbuilder.EmptyCell)
                         {
                             //No mesh needed here, can't see it
 
@@ -239,7 +239,7 @@ namespace DungeonGenerator
 
                         //North wall
                         test = mapY + 1;
-                        if (test >= mapHeight || !map[mapX, test])
+                        if (test >= mapHeight || map[mapX, test] == csMapbuilder.EmptyCell)
                         {
                             //Face backward too, north facing camera
                             wallMesh.AddQuad(
@@ -256,7 +256,7 @@ namespace DungeonGenerator
 
                         //West wall
                         test = mapX - 1;
-                        if (test < 0 || !map[test, mapY])
+                        if (test < 0 || map[test, mapY] == csMapbuilder.EmptyCell)
                         {
                             wallMesh.AddQuad(
                                 new Vector3(left, floorNearLeftY + MapUnitY, near),
@@ -272,7 +272,7 @@ namespace DungeonGenerator
 
                         //East wall
                         test = mapX + 1;
-                        if (test > mapWidth || !map[test, mapY])
+                        if (test > mapWidth || map[test, mapY] == csMapbuilder.EmptyCell)
                         {
                             wallMesh.AddQuad(
                                 new Vector3(right, floorFarRightY + MapUnitY, far),

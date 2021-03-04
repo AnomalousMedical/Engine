@@ -16,7 +16,7 @@ namespace RogueLikeMapBuilder
     /// </summary>
     public class csMapbuilder
     {
-        public bool[,] map;
+        public Int16[,] map;
 
         /// <summary>
         /// Built rooms stored here
@@ -114,8 +114,8 @@ namespace RogueLikeMapBuilder
                                             , new Point(-1, 0)//e
                                         };
 
-        private bool filledcell = false;
-        private bool emptycell = true;
+        public const Int16 EmptyCell = 0;
+        public const Int16 RoomCell = 1;
 
         Random rnd;
 
@@ -123,7 +123,7 @@ namespace RogueLikeMapBuilder
         {
             this.rnd = random;
             Map_Size = new Size(x, y);
-            map = new bool[Map_Size.Width, Map_Size.Height];
+            map = new Int16[Map_Size.Width, Map_Size.Height];
             Corridor_MaxTurns = 5;
             Room_Min = new Size(3, 3);
             Room_Max = new Size(15, 15);
@@ -148,10 +148,10 @@ namespace RogueLikeMapBuilder
             rctBuiltRooms = new List<Rectangle>();
             lBuilltCorridors = new List<Point>();
 
-            map = new bool[Map_Size.Width, Map_Size.Height];
+            map = new Int16[Map_Size.Width, Map_Size.Height];
             for (int x = 0; x < Map_Size.Width; x++)
                 for (int y = 0; y < Map_Size.Height; y++)
-                    map[x, y] = filledcell;
+                    map[x, y] = EmptyCell;
         }
 
         #region build methods()
@@ -444,7 +444,7 @@ namespace RogueLikeMapBuilder
                     return;
 
                 //until we meet an empty cell
-            } while (Point_Get(pLocation.x, pLocation.y) != filledcell);
+            } while (Point_Get(pLocation.x, pLocation.y) != EmptyCell);
 
         }
 
@@ -470,7 +470,7 @@ namespace RogueLikeMapBuilder
                 //using the directions to offset the randomly chosen point
                 foreach (Point p in directions_straight)
                     if (Point_Valid(pLocation.x + p.x, pLocation.y + p.y))
-                        if (Point_Get(pLocation.x + p.x, pLocation.y + p.y) == filledcell)
+                        if (Point_Get(pLocation.x + p.x, pLocation.y + p.y) == EmptyCell)
                             validdirections.Add(p);
 
 
@@ -489,7 +489,7 @@ namespace RogueLikeMapBuilder
         {
             foreach (Point p in lPotentialCorridor)
             {
-                Point_Set(p.x, p.y, emptycell);
+                Point_Set(p.x, p.y, RoomCell);
                 lBuilltCorridors.Add(p);
             }
 
@@ -601,13 +601,13 @@ namespace RogueLikeMapBuilder
                 if (pDirection.x == 0)//north or south
                 {
                     if (Point_Valid(pPoint.x + r, pPoint.y))
-                        if (Point_Get(pPoint.x + r, pPoint.y) != filledcell)
+                        if (Point_Get(pPoint.x + r, pPoint.y) != EmptyCell)
                             return CorridorItemHit.tooclose;
                 }
                 else if (pDirection.y == 0)//east west
                 {
                     if (Point_Valid(pPoint.x, pPoint.y + r))
-                        if (Point_Get(pPoint.x, pPoint.y + r) != filledcell)
+                        if (Point_Get(pPoint.x, pPoint.y + r) != EmptyCell)
                             return CorridorItemHit.tooclose;
                 }
 
@@ -686,7 +686,7 @@ namespace RogueLikeMapBuilder
             //check it occupies legal, empty coordinates
             for (int x = rctCurrentRoom.Left; x <= rctCurrentRoom.Right; x++)
                 for (int y = rctCurrentRoom.Top; y <= rctCurrentRoom.Bottom; y++)
-                    if (!Point_Valid(x, y) || Point_Get(x, y) != filledcell)
+                    if (!Point_Valid(x, y) || Point_Get(x, y) != EmptyCell)
                         return false;
 
             //check it doesn't encroach onto existing rooms
@@ -717,7 +717,7 @@ namespace RogueLikeMapBuilder
 
             for (int x = rctCurrentRoom.Left; x <= rctCurrentRoom.Right; x++)
                 for (int y = rctCurrentRoom.Top; y <= rctCurrentRoom.Bottom; y++)
-                    map[x, y] = emptycell;
+                    map[x, y] = RoomCell;
 
         }
 
@@ -742,7 +742,7 @@ namespace RogueLikeMapBuilder
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="val"></param>
-        private void Point_Set(int x, int y, bool val)
+        private void Point_Set(int x, int y, Int16 val)
         {
             map[x, y] = val;
         }
@@ -753,16 +753,12 @@ namespace RogueLikeMapBuilder
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        private bool Point_Get(int x, int y)
+        private Int16 Point_Get(int x, int y)
         {
             return map[x, y];
         }
 
         #endregion
-
-        public delegate void moveDelegate();
-        public event moveDelegate playerMoved;
-
     }
 }
 
