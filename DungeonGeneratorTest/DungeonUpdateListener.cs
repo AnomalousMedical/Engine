@@ -113,6 +113,7 @@ namespace DungeonGeneratorTest
                     mapBuilder.Room_Min = new IntSize2(2, 2);
                     mapBuilder.Room_Max = new IntSize2(6, 6); //Between 3-6 is good here, 3 for more cityish with small rooms, 6 for more open with more big rooms, sometimes connected
                     mapBuilder.Corridor_Max = 4;
+                    mapBuilder.Horizontal = false;
                     mapBuilder.Build_ConnectedStartRooms();
                     sw.Stop();
                     var map = mapBuilder.map;

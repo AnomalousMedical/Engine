@@ -81,7 +81,10 @@ namespace RogueLikeMapBuilder
         [Category("Map"), DisplayName("Break Out"), Description("")]
         public int BreakOut { get; set; }
 
-
+        /// <summary>
+        /// Set this to true to give the room a horizontal, east/west layout. False to be vertical, north/south.
+        /// </summary>
+        public bool Horizontal { get; set; }
 
         #endregion
 
@@ -298,8 +301,6 @@ namespace RogueLikeMapBuilder
         /// </summary>
         private void PlaceStartRooms()
         {
-
-            Point startdirection;
             bool connection = false;
             Point Location = new Point();
             Point Direction = new Point();
@@ -309,35 +310,8 @@ namespace RogueLikeMapBuilder
             {
 
                 Clear();
-                startdirection = Direction_Get(new Point());
 
-                //place a room on the top and bottom
-                if (startdirection.x == 0)
-                {
-
-                    //room at the top of the map
-                    rctCurrentRoom = new Rectangle()
-                            {
-                                Width = rnd.Next(Room_Min.Width, Room_Max.Width)
-                                , Height = rnd.Next(Room_Min.Height, Room_Max.Height)
-                            };
-                    rctCurrentRoom.Left = rnd.Next(0, Map_Size.Width - rctCurrentRoom.Width);
-                    rctCurrentRoom.Top = 1;
-                    startRoom = rctCurrentRoom;
-                    Room_Build();
-
-                    //at the bottom of the map
-                    rctCurrentRoom = new Rectangle();
-                    rctCurrentRoom.Width = rnd.Next(Room_Min.Width, Room_Max.Width);
-                    rctCurrentRoom.Height = rnd.Next(Room_Min.Height, Room_Max.Height);
-                    rctCurrentRoom.Left = rnd.Next(0, Map_Size.Width - rctCurrentRoom.Width);
-                    rctCurrentRoom.Top = Map_Size.Height - rctCurrentRoom.Height - 1;
-                    endRoom = rctCurrentRoom;
-                    Room_Build();
-
-
-                }
-                else//place a room on the east and west side
+                if (Horizontal)//place a room on the east and west side
                 {
                     //west side of room
                     rctCurrentRoom = new Rectangle();
@@ -355,16 +329,32 @@ namespace RogueLikeMapBuilder
                     rctCurrentRoom.Left = Map_Size.Width - rctCurrentRoom.Width - 2;
                     endRoom = rctCurrentRoom;
                     Room_Build();
-
                 }
+                else //place a room on the top and bottom
+                {
+                    //room at the bottom of the map
+                    rctCurrentRoom = new Rectangle()
+                            {
+                                Width = rnd.Next(Room_Min.Width, Room_Max.Width)
+                                , Height = rnd.Next(Room_Min.Height, Room_Max.Height)
+                            };
+                    rctCurrentRoom.Left = rnd.Next(0, Map_Size.Width - rctCurrentRoom.Width);
+                    rctCurrentRoom.Top = 1;
+                    startRoom = rctCurrentRoom;
+                    Room_Build();
 
-
-
+                    //at the top of the map
+                    rctCurrentRoom = new Rectangle();
+                    rctCurrentRoom.Width = rnd.Next(Room_Min.Width, Room_Max.Width);
+                    rctCurrentRoom.Height = rnd.Next(Room_Min.Height, Room_Max.Height);
+                    rctCurrentRoom.Left = rnd.Next(0, Map_Size.Width - rctCurrentRoom.Width);
+                    rctCurrentRoom.Top = Map_Size.Height - rctCurrentRoom.Height - 1;
+                    endRoom = rctCurrentRoom;
+                    Room_Build();
+                }
+                
                 if (Corridor_GetStart(out Location, out Direction))
                 {
-
-                    
-
                     CorBuildOutcome = CorridorMake_Straight(ref Location, ref Direction, 100, true);
 
                     switch (CorBuildOutcome)
