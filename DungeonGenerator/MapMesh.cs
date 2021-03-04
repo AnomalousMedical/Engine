@@ -61,28 +61,28 @@ namespace DungeonGenerator
                 var mapX = corridor.x;
                 var mapY = corridor.y;
                 var north = GetNorthSquare(mapX, mapY, map, mapHeight);
-                if (north == csMapbuilder.RoomCell)
+                if (north == csMapbuilder.MainCorridorCell)
                 {
                     previousCorridor = new IntVector2(mapX, mapY + 1);
                 }
                 else
                 {
                     var south = GetSouthSquare(mapX, mapY, map);
-                    if (south == csMapbuilder.RoomCell)
+                    if (south == csMapbuilder.MainCorridorCell)
                     {
                         previousCorridor = new IntVector2(mapX, mapY - 1);
                     }
                     else
                     {
                         var east = GetEastSquare(mapX, mapY, map, mapWidth);
-                        if (east == csMapbuilder.RoomCell)
+                        if (east == csMapbuilder.MainCorridorCell)
                         {
                             previousCorridor = new IntVector2(mapX + 1, mapY);
                         }
                         else
                         {
                             var west = GetWestSquare(mapX, mapY, map);
-                            if (west == csMapbuilder.RoomCell)
+                            if (west == csMapbuilder.MainCorridorCell)
                             {
                                 previousCorridor = new IntVector2(mapX - 1, mapY);
                             }
@@ -97,7 +97,7 @@ namespace DungeonGenerator
                 var mapY = corridor.y;
                 var slope = new Slope()
                 {
-                    PreviousPoint = previousCorridor - corridor
+                    PreviousPoint = previousCorridor
                 };
                 previousCorridor = corridor;
                 var north = GetNorthSquare(mapX, mapY, map, mapHeight);
@@ -127,19 +127,19 @@ namespace DungeonGenerator
                 //Check for terminating rooms
                 if(north < csMapbuilder.CorridorCell && north >= csMapbuilder.RoomCell)
                 {
-                    HandleRoom(mapX, mapY + 1, mapbuilder.Rooms[north - csMapbuilder.RoomCell], corridor, slopeMap);
+                    SetRoomPrevious(mapbuilder.Rooms[north - csMapbuilder.RoomCell], corridor, slopeMap);
                 }
                 if (south < csMapbuilder.CorridorCell && south >= csMapbuilder.RoomCell)
                 {
-                    HandleRoom(mapX, mapY - 1, mapbuilder.Rooms[south - csMapbuilder.RoomCell], corridor, slopeMap);
+                    SetRoomPrevious(mapbuilder.Rooms[south - csMapbuilder.RoomCell], corridor, slopeMap);
                 }
                 if (east < csMapbuilder.CorridorCell && east >= csMapbuilder.RoomCell)
                 {
-                    HandleRoom(mapX, mapY + 1, mapbuilder.Rooms[east - csMapbuilder.RoomCell], corridor, slopeMap);
+                    SetRoomPrevious(mapbuilder.Rooms[east - csMapbuilder.RoomCell], corridor, slopeMap);
                 }
                 if (west < csMapbuilder.CorridorCell && west >= csMapbuilder.RoomCell)
                 {
-                    HandleRoom(mapX, mapY - 1, mapbuilder.Rooms[west - csMapbuilder.RoomCell], corridor, slopeMap);
+                    SetRoomPrevious(mapbuilder.Rooms[west - csMapbuilder.RoomCell], corridor, slopeMap);
                 }
 
                 slopeMap[mapX, mapY] = slope;
@@ -248,18 +248,22 @@ namespace DungeonGenerator
 
         private void ProcessSquare(float halfUnitX, float halfUnitY, float halfUnitZ, int mapWidth, int mapHeight, ushort[,] map, Slope[,] slopeMap, float yUvBottom, int mapX, int mapY)
         {
+            //This is a bit odd, corridors previous points are the previous square, but room previous points are their terminating corrdor square
+            //This will work ok with some of the calculations below since rooms are always 0 rotation anyway
+
             var left = mapX * MapUnitX;
             var right = left + MapUnitX;
             var far = mapY * MapUnitZ;
             var near = far - MapUnitZ;
 
             var slope = slopeMap[mapX, mapY];
-            bool positivePrevious = slope.PreviousPoint.x > 0 || slope.PreviousPoint.y > 0;
+            var previousOffset = slope.PreviousPoint - new IntVector2(mapX, mapY);
+            bool positivePrevious = previousOffset.x > 0 || previousOffset.y > 0;
 
             var realHalfY = slope.YOffset / 2f;
             float halfYOffset = Math.Abs(realHalfY);
 
-            bool xDir = slope.PreviousPoint.x != 0;
+            bool xDir = previousOffset.x != 0;
             float xInfluence = xDir ? 1 : 0; //1 for x 0 for y
             float yInfluence = 1.0f - xInfluence;
 
@@ -275,7 +279,7 @@ namespace DungeonGenerator
             }
 
             //Get previous square center
-            var previousSlope = squareInfo[mapX + slope.PreviousPoint.x + 1, mapY + slope.PreviousPoint.y + 1];
+            var previousSlope = squareInfo[slope.PreviousPoint.x + 1, slope.PreviousPoint.y + 1];
 
             var totalYOffset = previousSlope.HalfYOffset + realHalfY;
             var centerY = previousSlope.Center.y + totalYOffset;
@@ -468,19 +472,19 @@ namespace DungeonGenerator
             return map[x, y];
         }
 
-        private void HandleRoom(int mapX, int mapY, IntRect room, in IntVector2 previous, Slope[,] slopeMap)
+        private void SetRoomPrevious(IntRect room, in IntVector2 previous, Slope[,] slopeMap)
         {
             var slope = new Slope()
             {
-                PreviousPoint = previous - new IntVector2(mapX, mapY)
+                PreviousPoint = previous
             };
 
             //Set the slope to be the same for everything in the room, note that this makes the previous point for the whole room the same terminating ramp point
             var bottom = room.Bottom;
             var right = room.Right;
-            for(var y = room.Top; y < bottom; ++y)
+            for(var y = room.Top; y <= bottom; ++y)
             {
-                for(var x = room.Left; x < right; ++x)
+                for(var x = room.Left; x <= right; ++x)
                 {
                     slopeMap[x, y] = slope;
                 }
