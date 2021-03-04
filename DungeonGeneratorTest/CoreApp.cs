@@ -53,6 +53,7 @@ namespace DungeonGeneratorTest
                     .AddDiligentEnginePbrShapes();
 
             services.AddOSPlatform(pluginManager);
+            services.AddSharpGui();
 
             services.AddFirstPersonFlyCamera();
 

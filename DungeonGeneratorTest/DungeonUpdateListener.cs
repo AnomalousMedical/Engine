@@ -16,6 +16,7 @@ using RogueLikeMapBuilder;
 using DungeonGenerator;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using SharpGui;
 
 namespace DungeonGeneratorTest
 {
@@ -45,6 +46,8 @@ namespace DungeonGeneratorTest
         private readonly ILogger<BepuUpdateListener> logger;
         private readonly EventManager eventManager;
         private readonly FirstPersonFlyCamera cameraControls;
+        private readonly ISharpGui sharpGui;
+        private readonly IScaleHelper scaleHelper;
         private readonly ICoroutineRunner coroutineRunner;
         private ISwapChain swapChain;
         private IRenderDevice renderDevice;
@@ -56,6 +59,10 @@ namespace DungeonGeneratorTest
         private AutoPtr<IShaderResourceBinding> pboMatBinding;
 
         private MapMesh mapMesh;
+
+        private SharpButton nextScene = new SharpButton() { Text = "Next Scene" };
+        private bool loadingLevel = false;
+        private int currentSeed = 1;
 
         //BEPU
         //If you intend to reuse the BufferPool, disposing the simulation is a good idea- it returns all the buffers to the pool for reuse.
@@ -78,6 +85,8 @@ namespace DungeonGeneratorTest
             ILogger<BepuUpdateListener> logger,
             EventManager eventManager,
             FirstPersonFlyCamera cameraControls,
+            ISharpGui sharpGui,
+            IScaleHelper scaleHelper,
             ICoroutineRunner coroutineRunner)
         {
             this.pbrRenderer = m_GLTFRenderer;
@@ -93,20 +102,26 @@ namespace DungeonGeneratorTest
             this.logger = logger;
             this.eventManager = eventManager;
             this.cameraControls = cameraControls;
+            this.sharpGui = sharpGui;
+            this.scaleHelper = scaleHelper;
             this.coroutineRunner = coroutineRunner;
             cameraControls.Position = new Vector3(0, 2, -11);
             Initialize();
+            LoadNextScene();
+        }
 
+        private void LoadNextScene()
+        {
             coroutineRunner.RunTask(async () =>
             {
                 MapMesh newMapMesh = null;
                 await Task.Run(() =>
                 {
-                    var seed = 1;
+                    loadingLevel = true;
                     var sw = new Stopwatch();
                     sw.Start();
                     //Quick test with the console
-                    var mapBuilder = new csMapbuilder(new Random(seed++), 50, 50);
+                    var mapBuilder = new csMapbuilder(new Random(currentSeed++), 50, 50);
                     mapBuilder.CorridorSpace = 10;
                     mapBuilder.RoomDistance = 3;
                     mapBuilder.Room_Min = new IntSize2(2, 2);
@@ -166,6 +181,7 @@ namespace DungeonGeneratorTest
                     Console.WriteLine("--------------------------------------------------");
 
                     newMapMesh = new MapMesh(mapBuilder, renderDevice);
+                    loadingLevel = false;
                 });
 
                 mapMesh?.Dispose();
@@ -244,6 +260,7 @@ namespace DungeonGeneratorTest
         {
             cameraControls.UpdateInput(clock);
             UpdatePhysics(clock);
+            UpdateGui(clock);
             Render();
         }
 
@@ -252,6 +269,30 @@ namespace DungeonGeneratorTest
             //Multithreading is pretty pointless for a simulation of one ball, but passing a IThreadDispatcher instance is all you have to do to enable multithreading.
             //If you don't want to use multithreading, don't pass a IThreadDispatcher.
             simulation.Timestep(clock.DeltaSeconds, threadDispatcher); //Careful of variable timestep here, not so good
+        }
+
+        private void UpdateGui(Clock clock)
+        {
+            sharpGui.Begin(clock);
+
+            if (!loadingLevel)
+            {
+                var layout =
+                    new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
+                    new MaxWidthLayout(scaleHelper.Scaled(300),
+                    new ColumnLayout(nextScene) { Margin = new IntPad(10) }
+                    ));
+                var desiredSize = layout.GetDesiredSize(sharpGui);
+                layout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
+
+                //Buttons
+                if (sharpGui.Button(nextScene))
+                {
+                    LoadNextScene();
+                }
+            }
+
+            sharpGui.End();
         }
 
         private unsafe void Render()
@@ -301,7 +342,17 @@ namespace DungeonGeneratorTest
                 pbrRenderer.Render(immediateContext, pboMatBinding.Obj, mesh.VertexBuffer, mesh.SkinVertexBuffer, mesh.IndexBuffer, mesh.NumIndices, ref Vector3.Zero, ref Quaternion.Identity, pbrRenderAttribs);
             }
 
+            RenderGui();
+
             this.swapChain.Present(1);
+        }
+
+        private void RenderGui()
+        {
+            //Draw the gui
+            var pDSV = swapChain.GetDepthBufferDSV();
+            immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            sharpGui.Render(immediateContext);
         }
     }
 }
