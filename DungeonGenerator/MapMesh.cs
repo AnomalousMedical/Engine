@@ -4,6 +4,7 @@ using Engine;
 using RogueLikeMapBuilder;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DungeonGenerator
@@ -35,6 +36,8 @@ namespace DungeonGenerator
         /// </summary>
         public float MapUnitZ { get; } = 2f;
 
+        public float MaxSlopeY { get; set; } = 1f;
+
         public MapMesh(csMapbuilder mapbuilder, IRenderDevice renderDevice, float mapUnitX = 2f, float mapUnitY = 2f, float mapUnitZ = 2f)
         {
             MapUnitX = mapUnitX;
@@ -50,42 +53,81 @@ namespace DungeonGenerator
             var map = mapbuilder.map;
             var slopeMap = new Slope[mapWidth, mapHeight];
 
-            for (int mapY = 0; mapY < mapHeight; ++mapY)
-            {
-                for (int mapX = 0; mapX < mapWidth; ++mapX)
-                {
-                    float yOffset = 0;
-                    //switch (mapX % 6) //Use mapx for x dir
-                    switch (mapY % 6) //Use mapy for y dir
-                    {
-                        case 0:
-                            yOffset = 0.3f;
-                            break;
-                        case 1:
-                            yOffset = 0.6f;
-                            break;
-                        case 2:
-                            yOffset = 0.0f;
-                            break;
-                        case 3:
-                            yOffset = 0.6f;
-                            break;
-                        case 4:
-                            yOffset = 0.3f;
-                            break;
-                        case 5:
-                            yOffset = 0.0f;
-                            break;
-                    }
+            int mainCorridorSlopeSquareCount = 0;
 
-                    slopeMap[mapX, mapY] = new Slope()
+            IntVector2 previousCorridor = new IntVector2();
+            {
+                var corridor = mapbuilder.Corridors.First();
+                var mapX = corridor.x;
+                var mapY = corridor.y;
+                var north = GetNorthSquare(mapX, mapY, map, mapHeight);
+                if (north == csMapbuilder.RoomCell)
+                {
+                    previousCorridor = new IntVector2(mapX, mapY + 1);
+                }
+                else 
+                {
+                    var south = GetSouthSquare(mapX, mapY, map);
+                    if (south == csMapbuilder.RoomCell)
                     {
-                        //PreviousPoint = new IntVector2(-1, 0), //for x-flow use -1 the gird is calculated from left to right
-                        PreviousPoint = new IntVector2(0, -1), //for y-flow use 1 the grid is calcualated from height to 0
-                        YOffset = yOffset
-                    };
+                        previousCorridor = new IntVector2(mapX, mapY - 1);
+                    }
+                    else
+                    {
+                        var east = GetEastSquare(mapX, mapY, map, mapWidth);
+                        if (east == csMapbuilder.RoomCell)
+                        {
+                            previousCorridor = new IntVector2(mapX + 1, mapY);
+                        }
+                        else
+                        {
+                            var west = GetWestSquare(mapX, mapY, map);
+                            if (west == csMapbuilder.RoomCell)
+                            {
+                                previousCorridor = new IntVector2(mapX - 1, mapY);
+                            }
+                        }
+                    }
                 }
             }
+
+            foreach(var corridor in mapbuilder.Corridors.Where(i => map[i.x, i.y] == csMapbuilder.MainCorridorCell))
+            {
+                var mapX = corridor.x;
+                var mapY = corridor.y;
+                var slope = new Slope()
+                {
+                    PreviousPoint = previousCorridor - corridor
+                };
+                previousCorridor = corridor;
+                var north = GetNorthSquare(mapX, mapY, map, mapHeight);
+                if (north == csMapbuilder.MainCorridorCell || north == csMapbuilder.EmptyCell)
+                {
+                    var south = GetSouthSquare(mapX, mapY, map);
+                    if (south == csMapbuilder.MainCorridorCell || south == csMapbuilder.EmptyCell)
+                    {
+                        var east = GetEastSquare(mapX, mapY, map, mapWidth);
+                        if (east == csMapbuilder.MainCorridorCell || east == csMapbuilder.EmptyCell)
+                        {
+                            var west = GetWestSquare(mapX, mapY, map);
+                            if (west == csMapbuilder.MainCorridorCell || west == csMapbuilder.EmptyCell)
+                            {
+                                //Allowed to slope if going in 1 direction, not a corner
+                                if((north == csMapbuilder.MainCorridorCell && south == csMapbuilder.MainCorridorCell)
+                                    || (east == csMapbuilder.MainCorridorCell && west == csMapbuilder.MainCorridorCell))
+                                { 
+                                    ++mainCorridorSlopeSquareCount;
+                                    slope.YOffset = 0.2f;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                slopeMap[mapX, mapY] = slope;
+            }
+
+            float mainCorridorMaxSlope = mainCorridorSlopeSquareCount * MaxSlopeY;
 
             var squareCenterMapWidth = mapWidth + 2;
             var squareCenterMapHeight = mapHeight + 2;
@@ -348,5 +390,45 @@ namespace DungeonGenerator
         public Mesh FloorMesh => floorMesh;
 
         public Mesh WallMesh => wallMesh;
+
+        private UInt16 GetNorthSquare(int x, int y, ushort[,] map, int height)
+        {
+            y += 1;
+            if (y >= height)
+            {
+                return csMapbuilder.EmptyCell;
+            }
+            return map[x, y];
+        }
+
+        private UInt16 GetSouthSquare(int x, int y, ushort[,] map)
+        {
+            y -= 1;
+            if (y < 0)
+            {
+                return csMapbuilder.EmptyCell;
+            }
+            return map[x, y];
+        }
+
+        private UInt16 GetWestSquare(int x, int y, ushort[,] map)
+        {
+            x -= 1;
+            if (x < 0)
+            {
+                return csMapbuilder.EmptyCell;
+            }
+            return map[x, y];
+        }
+
+        private UInt16 GetEastSquare(int x, int y, ushort[,] map, int width)
+        {
+            x += 1;
+            if (x >= width)
+            {
+                return csMapbuilder.EmptyCell;
+            }
+            return map[x, y];
+        }
     }
 }

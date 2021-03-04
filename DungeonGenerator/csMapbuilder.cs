@@ -47,6 +47,8 @@ namespace RogueLikeMapBuilder
 
         public IEnumerable<Rectangle> Rooms => rctBuiltRooms;
 
+        public IEnumerable<Point> Corridors => lBuilltCorridors;
+
 
         #region builder public properties
 
