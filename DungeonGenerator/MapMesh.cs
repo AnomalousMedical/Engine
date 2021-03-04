@@ -14,6 +14,7 @@ namespace DungeonGenerator
         private Mesh wallMesh;
         private List<Vector3> floorCubeCenterPoints;
         private List<Vector3> boundaryCubeCenterPoints;
+        private Vector3[,] squareCenters; //This array is 1 larger in each dimension, use accessor to translate points
         private Quaternion floorCubeRot;
 
         public IEnumerable<Vector3> FloorCubeCenterPoints => floorCubeCenterPoints;
@@ -50,13 +51,11 @@ namespace DungeonGenerator
             var mapHeight = mapbuilder.Map_Size.Height;
 
             var map = mapbuilder.map;
-            var slopeMapWidth = mapWidth + 2;
-            var slopeMapHeight = mapHeight + 2;
-            var slopeMap = new Slope[slopeMapWidth, slopeMapHeight];
+            var slopeMap = new Slope[mapWidth, mapHeight];
 
-            for (int mapY = slopeMapHeight - 1; mapY > -1; --mapY)
+            for (int mapY = mapHeight - 1; mapY > -1; --mapY)
             {
-                for (int mapX = 0; mapX < slopeMapWidth; ++mapX)
+                for (int mapX = 0; mapX < mapWidth; ++mapX)
                 {
                     slopeMap[mapX, mapY] = new Slope()
                     {
@@ -66,6 +65,10 @@ namespace DungeonGenerator
                     };
                 }
             }
+
+            var squareCenterMapWidth = mapWidth + 2;
+            var squareCenterMapHeight = mapHeight + 2;
+            squareCenters = new Vector3[squareCenterMapWidth, squareCenterMapHeight];
 
             this.floorMesh = new Mesh();
             this.wallMesh = new Mesh();
@@ -149,10 +152,7 @@ namespace DungeonGenerator
                     var far = (mapHeight - mapY) * MapUnitZ;
                     var near = far - MapUnitZ;
 
-                    var slopeMapX = mapX + 1;
-                    var slopeMapY = mapY + 1;
-
-                    var slope = slopeMap[slopeMapX, slopeMapY];
+                    var slope = slopeMap[mapX, mapY];
                     bool yIncreasing = slope.YOffset > 0;
 
                     float halfYOffset = Math.Abs(slope.YOffset / 2f);
@@ -169,13 +169,11 @@ namespace DungeonGenerator
                     floorCubeRot = Quaternion.shortestArcQuat(ref dirInfluence, ref floorCubeRotationVec);
 
                     //Get previous square center
-                    var previousSquareX = slopeMapX + slope.PreviousPoint.x;
-                    var previousSquareY = slopeMapY + slope.PreviousPoint.y;
-                    var previousSlope = slopeMap[previousSquareX, previousSquareY];
-                    var centerY = previousSlope.Center.y + slope.YOffset;
+                    var previousSlope = squareCenters[mapX + slope.PreviousPoint.x + 1, mapY + slope.PreviousPoint.y + 1];
+                    var centerY = previousSlope.y + slope.YOffset;
 
                     //Update our center point in the slope grid
-                    slope.Center = new Vector3(left + halfUnitX, centerY, far - halfUnitZ);
+                    squareCenters[mapX + 1, mapY + 1] = new Vector3(left + halfUnitX, centerY, far - halfUnitZ);
 
                     var floorY = centerY - halfUnitY;
                     float floorFarLeftY = 0;
@@ -315,9 +313,7 @@ namespace DungeonGenerator
 
         public Vector3 PointToVector(int x, int y)
         {
-            var left = x * MapUnitX;
-            var far = y * MapUnitZ;
-            return new Vector3(left + MapUnitX / 2f, MapUnitY / 2f, far - MapUnitZ / 2f);
+            return squareCenters[x + 1, y + 1];
         }
 
         public void Dispose()
