@@ -50,7 +50,7 @@ namespace DungeonGenerator
             var map = mapbuilder.map;
             var slopeMap = new Slope[mapWidth, mapHeight];
 
-            for (int mapY = mapHeight - 1; mapY > -1; --mapY)
+            for (int mapY = 0; mapY < mapHeight; ++mapY)
             {
                 for (int mapX = 0; mapX < mapWidth; ++mapX)
                 {
@@ -81,7 +81,7 @@ namespace DungeonGenerator
                     slopeMap[mapX, mapY] = new Slope()
                     {
                         //PreviousPoint = new IntVector2(-1, 0), //for x-flow use -1 the gird is calculated from left to right
-                        PreviousPoint = new IntVector2(0, 1), //for y-flow use 1 the grid is calcualated from height to 0
+                        PreviousPoint = new IntVector2(0, -1), //for y-flow use 1 the grid is calcualated from height to 0
                         YOffset = yOffset
                     };
                 }
@@ -102,7 +102,7 @@ namespace DungeonGenerator
             uint numWallQuads = 0;
             uint numBoundaryCubes = 0;
             uint numFloorCubes = 0;
-            for (int mapY = mapHeight - 1; mapY > -1; --mapY)
+            for (int mapY = 0; mapY < mapHeight; ++mapY)
             {
                 for (int mapX = 0; mapX < mapWidth; ++mapX)
                 {
@@ -114,15 +114,15 @@ namespace DungeonGenerator
                         int test;
 
                         //South wall
-                        test = mapY + 1;
-                        if (test >= mapHeight || map[mapX, test] == csMapbuilder.EmptyCell)
+                        test = mapY - 1;
+                        if (test < 0 || map[mapX, test] == csMapbuilder.EmptyCell)
                         {
                             ++numBoundaryCubes;
                         }
 
                         //North wall
-                        test = mapY - 1;
-                        if (test < 0 || map[mapX, test] == csMapbuilder.EmptyCell)
+                        test = mapY + 1;
+                        if (test >= mapHeight || map[mapX, test] == csMapbuilder.EmptyCell)
                         {
                             ++numWallQuads;
                             ++numBoundaryCubes;
@@ -164,13 +164,13 @@ namespace DungeonGenerator
                 yUvBottom = MapUnitY / MapUnitX;
             }
 
-            for (int mapY = mapHeight - 1; mapY > -1; --mapY)
+            for (int mapY = 0; mapY < mapHeight; ++mapY)
             {
                 for (int mapX = 0; mapX < mapWidth; ++mapX)
                 {
                     var left = mapX * MapUnitX;
                     var right = left + MapUnitX;
-                    var far = (mapHeight - mapY) * MapUnitZ;
+                    var far = mapY * MapUnitZ;
                     var near = far - MapUnitZ;
 
                     var slope = slopeMap[mapX, mapY];
@@ -259,16 +259,16 @@ namespace DungeonGenerator
                         int test;
 
                         //South wall
-                        test = mapY + 1;
-                        if (test >= mapHeight || map[mapX, test] == csMapbuilder.EmptyCell)
+                        test = mapY - 1;
+                        if (test < 0 || map[mapX, test] == csMapbuilder.EmptyCell)
                         {
                             //No mesh needed here, can't see it
                             boundaryCubeCenterPoints.Add(new Vector3(left + halfUnitX, centerY, near - halfUnitZ));
                         }
 
                         //North wall
-                        test = mapY - 1;
-                        if (test < 0 || map[mapX, test] == csMapbuilder.EmptyCell)
+                        test = mapY + 1;
+                        if (test >= mapHeight || map[mapX, test] == csMapbuilder.EmptyCell)
                         {
                             //Face backward too, north facing camera
                             wallMesh.AddQuad(
