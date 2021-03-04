@@ -55,20 +55,33 @@ namespace DungeonGenerator
                 for (int mapX = 0; mapX < mapWidth; ++mapX)
                 {
                     float yOffset = 0;
-                    switch (mapX % 4)
+                    //switch (mapX % 6) //Use mapx for x dir
+                    switch (mapY % 6) //Use mapy for y dir
                     {
                         case 0:
                             yOffset = 0.3f;
                             break;
+                        case 1:
+                            yOffset = 0.6f;
+                            break;
                         case 2:
-                            yOffset = -0.3f;
+                            yOffset = 0.0f;
+                            break;
+                        case 3:
+                            yOffset = 0.6f;
+                            break;
+                        case 4:
+                            yOffset = 0.3f;
+                            break;
+                        case 5:
+                            yOffset = 0.0f;
                             break;
                     }
 
                     slopeMap[mapX, mapY] = new Slope()
                     {
-                        PreviousPoint = new IntVector2(-1, 0), //for x-flow use -1 the gird is calculated from left to right
-                        //PreviousPoint = new IntVector2(0, 1), //for y-flow use 1 the grid is calcualated from height to 0
+                        //PreviousPoint = new IntVector2(-1, 0), //for x-flow use -1 the gird is calculated from left to right
+                        PreviousPoint = new IntVector2(0, 1), //for y-flow use 1 the grid is calcualated from height to 0
                         YOffset = yOffset
                     };
                 }
@@ -163,7 +176,8 @@ namespace DungeonGenerator
                     var slope = slopeMap[mapX, mapY];
                     bool yIncreasing = slope.YOffset > 0;
 
-                    float halfYOffset = Math.Abs(slope.YOffset / 2f);
+                    var realHalfY = slope.YOffset / 2f;
+                    float halfYOffset = Math.Abs(realHalfY);
 
                     bool xDir = slope.PreviousPoint.x != 0;
                     float xInfluence = xDir ? 1 : 0; //1 for x 0 for y
@@ -178,7 +192,7 @@ namespace DungeonGenerator
 
                     //Get previous square center
                     var previousSlope = squareInfo[mapX + slope.PreviousPoint.x + 1, mapY + slope.PreviousPoint.y + 1];
-                    var realHalfY = slope.YOffset / 2f;
+                    
                     var totalYOffset = previousSlope.HalfYOffset + realHalfY;
                     var centerY = previousSlope.Center.y + totalYOffset;
 
