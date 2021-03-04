@@ -91,10 +91,12 @@ namespace DungeonGenerator
                 }
             }
 
-            foreach (var corridor in mapbuilder.Corridors.Where(i => map[i.x, i.y] == csMapbuilder.MainCorridorCell))
+            foreach (var corridor in mapbuilder.Corridors)
             {
+                var corridorSlope = 0.2f;
                 var mapX = corridor.x;
                 var mapY = corridor.y;
+                var cellType = map[mapX, mapY];
                 var slope = new Slope()
                 {
                     PreviousPoint = previousCorridor
@@ -104,20 +106,20 @@ namespace DungeonGenerator
                 var south = GetSouthSquare(mapX, mapY, map);
                 var east = GetEastSquare(mapX, mapY, map, mapWidth);
                 var west = GetWestSquare(mapX, mapY, map);
-                if (north == csMapbuilder.MainCorridorCell || north == csMapbuilder.EmptyCell)
+                if (north == cellType || north == csMapbuilder.EmptyCell)
                 {
-                    if (south == csMapbuilder.MainCorridorCell || south == csMapbuilder.EmptyCell)
+                    if (south == cellType || south == csMapbuilder.EmptyCell)
                     {
-                        if (east == csMapbuilder.MainCorridorCell || east == csMapbuilder.EmptyCell)
+                        if (east == cellType || east == csMapbuilder.EmptyCell)
                         {
-                            if (west == csMapbuilder.MainCorridorCell || west == csMapbuilder.EmptyCell)
+                            if (west == cellType || west == csMapbuilder.EmptyCell)
                             {
                                 //Allowed to slope if going in 1 direction, not a corner
-                                if ((north == csMapbuilder.MainCorridorCell && south == csMapbuilder.MainCorridorCell)
-                                    || (east == csMapbuilder.MainCorridorCell && west == csMapbuilder.MainCorridorCell))
+                                if ((north == cellType && south == cellType)
+                                    || (east == cellType && west == cellType))
                                 {
                                     ++mainCorridorSlopeSquareCount;
-                                    slope.YOffset = 0.2f;
+                                    slope.YOffset = corridorSlope;
                                 }
                             }
                         }
@@ -224,10 +226,12 @@ namespace DungeonGenerator
                 yUvBottom = MapUnitY / MapUnitX;
             }
 
-            foreach (var corridor in mapbuilder.Corridors.Where(i => map[i.x, i.y] == csMapbuilder.MainCorridorCell))
+            var processedSquares = new bool[mapWidth, mapHeight]; //Its too hard to prevent duplicates from the source, corridors and rooms intersect sometimes
+            foreach (var corridor in mapbuilder.Corridors)
             {
                 var mapX = corridor.x;
                 var mapY = corridor.y;
+                processedSquares[mapX, mapY] = true;
                 ProcessSquare(halfUnitX, halfUnitY, halfUnitZ, mapWidth, mapHeight, map, slopeMap, yUvBottom, mapX, mapY);
             }
 
@@ -235,7 +239,7 @@ namespace DungeonGenerator
             {
                 for (int mapX = 0; mapX < mapWidth; ++mapX)
                 {
-                    if (map[mapX, mapY] != csMapbuilder.MainCorridorCell)
+                    if (!processedSquares[mapX, mapY])
                     {
                         ProcessSquare(halfUnitX, halfUnitY, halfUnitZ, mapWidth, mapHeight, map, slopeMap, yUvBottom, mapX, mapY);
                     }
