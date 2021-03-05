@@ -63,9 +63,9 @@ namespace DungeonGenerator
             IntVector2 previousCorridor = new IntVector2();
             UInt16 currentCorridor = 0;
             bool[] seenRooms = new bool[mapbuilder.Rooms.Count];
+            var corridorSlope = 0.2f;
             foreach (var corridor in mapbuilder.Corridors)
             {
-                var corridorSlope = 0.2f;
                 var mapX = corridor.x;
                 var mapY = corridor.y;
                 var cellType = map[mapX, mapY];
@@ -343,7 +343,7 @@ namespace DungeonGenerator
             float floorFarRightY = 0;
             float floorNearRightY = 0;
             float floorNearLeftY = 0;
-            if (slope.YOffset > 0 && !positivePrevious)
+            if (slope.YOffset > 0 && !positivePrevious || slope.YOffset < 0 && positivePrevious)
             {
                 if (xDir)
                 {
