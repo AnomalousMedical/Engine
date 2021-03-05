@@ -33,6 +33,8 @@ namespace RogueLikeMapBuilder
         /// </summary>
         private List<Point> lPotentialCorridor;
 
+        private Dictionary<UInt16, UInt16> corridorTerminatingRooms = new Dictionary<UInt16, UInt16>();
+
         /// <summary>
         /// Room to be built stored here
         /// </summary>
@@ -157,6 +159,7 @@ namespace RogueLikeMapBuilder
             lBuilltCorridors = new List<Point>();
             currentRoomCell = RoomCell;
             currentCorridorCell = CorridorCell;
+            corridorTerminatingRooms[csMapbuilder.CorridorCell] = csMapbuilder.RoomCell + 1; //This will always be true, first corridor connected to 2nd room
 
             map = new UInt16[Map_Size.Width, Map_Size.Height];
             for (int x = 0; x < Map_Size.Width; x++)
@@ -210,6 +213,7 @@ namespace RogueLikeMapBuilder
                         case CorridorItemHit.completed:
                             if (Room_AttemptBuildOnCorridor(Direction))
                             {
+                                RecordCurrentCorridorTerminatingRoom();
                                 Corridor_Build();
                                 Room_Build();
                             }
@@ -265,6 +269,7 @@ namespace RogueLikeMapBuilder
                         case CorridorItemHit.completed:
                             if (Room_AttemptBuildOnCorridor(Direction))
                             {
+                                RecordCurrentCorridorTerminatingRoom();
                                 Corridor_Build();
                                 Room_Build();
                             }
@@ -277,10 +282,34 @@ namespace RogueLikeMapBuilder
 
         }
 
+        /// <summary>
+        /// Get the terminating room for the given corridor id. If the corridor does not terminate in a room
+        /// you will get <see cref="csMapbuilder.CorridorCell"/>. This does not mean that it terminates in that
+        /// corridor, just that it does not terminate in a room.
+        /// </summary>
+        /// <param name="corridorId"></param>
+        /// <returns></returns>
+        public UInt16 GetCorridorTerminatingRoom(UInt16 corridorId)
+        {
+            if(corridorTerminatingRooms.TryGetValue(corridorId, out var value))
+            {
+                return (UInt16)(value - csMapbuilder.RoomCell);
+            }
+            return csMapbuilder.CorridorCell;
+        }
+
         #endregion
 
-
         #region room utilities
+
+        /// <summary>
+        /// When building a corridor with a room call this function to record the corridor terminating room.
+        /// Do this before callig Corridor_Build and Room_Build since the counters get incremented in those functions.
+        /// </summary>
+        private void RecordCurrentCorridorTerminatingRoom()
+        {
+            corridorTerminatingRooms[currentCorridorCell] = currentRoomCell;
+        }
 
         /// <summary>
         /// Place a random sized room in the middle of the map

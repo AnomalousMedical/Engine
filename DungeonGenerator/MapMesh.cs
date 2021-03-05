@@ -56,7 +56,7 @@ namespace DungeonGenerator
             //int mainCorridorSlopeSquareCount = 0;
 
             IntVector2 previousCorridor = new IntVector2();
-            var currentCorridor = 0;
+            UInt16 currentCorridor = 0;
             bool[] seenRooms = new bool[mapbuilder.Rooms.Count];
             foreach (var corridor in mapbuilder.Corridors)
             {
@@ -75,25 +75,25 @@ namespace DungeonGenerator
                 {
                     currentCorridor = cellType;
 
-                    if (north == csMapbuilder.MainCorridorCell)
+                    if (north != currentCorridor && north != csMapbuilder.EmptyCell)
                     {
                         previousCorridor = new IntVector2(mapX, mapY + 1);
                     }
                     else
                     {
-                        if (south == csMapbuilder.MainCorridorCell)
+                        if (south != currentCorridor && south != csMapbuilder.EmptyCell)
                         {
                             previousCorridor = new IntVector2(mapX, mapY - 1);
                         }
                         else
                         {
-                            if (east == csMapbuilder.MainCorridorCell)
+                            if (east != currentCorridor && east != csMapbuilder.EmptyCell)
                             {
                                 previousCorridor = new IntVector2(mapX + 1, mapY);
                             }
                             else
                             {
-                                if (west == csMapbuilder.MainCorridorCell)
+                                if (west != currentCorridor && west != csMapbuilder.EmptyCell)
                                 {
                                     previousCorridor = new IntVector2(mapX - 1, mapY);
                                 }
@@ -232,13 +232,34 @@ namespace DungeonGenerator
             }
 
             var processedSquares = new bool[mapWidth, mapHeight]; //Its too hard to prevent duplicates from the source, corridors and rooms intersect sometimes
+            var firstCorridor = mapbuilder.Corridors[0];
+            currentCorridor = map[firstCorridor.x, firstCorridor.y];
+            ProcessRoom(mapbuilder, halfUnitX, halfUnitY, halfUnitZ, mapWidth, mapHeight, map, slopeMap, yUvBottom, processedSquares, 0);
             foreach (var corridor in mapbuilder.Corridors)
             {
                 var mapX = corridor.x;
                 var mapY = corridor.y;
-                processedSquares[mapX, mapY] = true;
-                ProcessSquare(halfUnitX, halfUnitY, halfUnitZ, mapWidth, mapHeight, map, slopeMap, yUvBottom, mapX, mapY);
+                var cellType = map[mapX, mapY];
+                if (cellType != currentCorridor)
+                {
+                    //Check for terminating room
+                    var roomId = mapbuilder.GetCorridorTerminatingRoom(currentCorridor);
+                    if(roomId != csMapbuilder.CorridorCell)
+                    {
+                        ProcessRoom(mapbuilder, halfUnitX, halfUnitY, halfUnitZ, mapWidth, mapHeight, map, slopeMap, yUvBottom, processedSquares, roomId);
+                    }
+
+                    currentCorridor = cellType;
+                }
+
+                if (!processedSquares[mapX, mapY])
+                {
+                    processedSquares[mapX, mapY] = true;
+                    ProcessSquare(halfUnitX, halfUnitY, halfUnitZ, mapWidth, mapHeight, map, slopeMap, yUvBottom, mapX, mapY);
+                }
             }
+            UInt16 lastRoomId = (UInt16)(mapbuilder.Rooms.Count - 1);
+            ProcessRoom(mapbuilder, halfUnitX, halfUnitY, halfUnitZ, mapWidth, mapHeight, map, slopeMap, yUvBottom, processedSquares, lastRoomId);
 
             for (int mapY = 0; mapY < mapHeight; ++mapY)
             {
@@ -253,6 +274,24 @@ namespace DungeonGenerator
 
             floorMesh.End(renderDevice);
             wallMesh.End(renderDevice);
+        }
+
+        private void ProcessRoom(csMapbuilder mapbuilder, float halfUnitX, float halfUnitY, float halfUnitZ, int mapWidth, int mapHeight, ushort[,] map, Slope[,] slopeMap, float yUvBottom, bool[,] processedSquares, ushort roomId)
+        {
+            var room = mapbuilder.Rooms[roomId];
+            var bottom = room.Bottom;
+            var right = room.Right;
+            for (var roomY = room.Top; roomY <= bottom; ++roomY)
+            {
+                for (var roomX = room.Left; roomX <= right; ++roomX)
+                {
+                    if (!processedSquares[roomX, roomY])
+                    {
+                        processedSquares[roomX, roomY] = true;
+                        ProcessSquare(halfUnitX, halfUnitY, halfUnitZ, mapWidth, mapHeight, map, slopeMap, yUvBottom, roomX, roomY);
+                    }
+                }
+            }
         }
 
         private void ProcessSquare(float halfUnitX, float halfUnitY, float halfUnitZ, int mapWidth, int mapHeight, ushort[,] map, Slope[,] slopeMap, float yUvBottom, int mapX, int mapY)
