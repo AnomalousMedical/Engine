@@ -164,7 +164,7 @@ namespace SceneTest
                         Room_Min = description.RoomMin
                     };
                     mapBuilder.Build_ConnectedStartRooms();
-                    mapMesh = new MapMesh(mapBuilder, graphicsEngine.RenderDevice, mapUnitX: 3, mapUnitY: 0.5f, mapUnitZ: 3);
+                    mapMesh = new MapMesh(mapBuilder, random, graphicsEngine.RenderDevice, mapUnitX: 3, mapUnitY: 0.5f, mapUnitZ: 3);
                     var startRoom = mapBuilder.StartRoom;
                     var startX = startRoom.Left + startRoom.Width / 2;
                     var startY = startRoom.Top + startRoom.Height / 2;

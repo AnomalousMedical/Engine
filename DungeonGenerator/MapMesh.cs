@@ -38,7 +38,7 @@ namespace DungeonGenerator
 
         public float MaxSlopeY { get; set; } = 1f;
 
-        public MapMesh(csMapbuilder mapbuilder, IRenderDevice renderDevice, float mapUnitX = 2f, float mapUnitY = 2f, float mapUnitZ = 2f)
+        public MapMesh(csMapbuilder mapbuilder, Random random, IRenderDevice renderDevice, float mapUnitX = 2f, float mapUnitY = 2f, float mapUnitZ = 2f)
         {
             if (mapbuilder.AllowOtherCorridors)
             {
@@ -63,7 +63,7 @@ namespace DungeonGenerator
             IntVector2 previousCorridor = new IntVector2();
             UInt16 currentCorridor = 0;
             bool[] seenRooms = new bool[mapbuilder.Rooms.Count];
-            var corridorSlope = 0.2f;
+            float corridorSlope = 0; //This will be changed before its used
             foreach (var corridor in mapbuilder.Corridors)
             {
                 var mapX = corridor.x;
@@ -78,6 +78,7 @@ namespace DungeonGenerator
                 //New corridor, find new starting point
                 if (cellType != currentCorridor)
                 {
+                    corridorSlope = (float)random.NextDouble() * random.Next(2) == 0 ? -1f : 1f;
                     currentCorridor = cellType;
 
                     if (north != currentCorridor && north != csMapbuilder.EmptyCell)

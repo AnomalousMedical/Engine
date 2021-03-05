@@ -122,7 +122,8 @@ namespace DungeonGeneratorTest
                     sw.Start();
                     //Quick test with the console
                     var seed = currentSeed++;
-                    var mapBuilder = new csMapbuilder(new Random(seed), 50, 50);
+                    var random = new Random(seed);
+                    var mapBuilder = new csMapbuilder(random, 50, 50);
                     mapBuilder.CorridorSpace = 10;
                     mapBuilder.RoomDistance = 3;
                     mapBuilder.Room_Min = new IntSize2(2, 2);
@@ -182,7 +183,7 @@ namespace DungeonGeneratorTest
                     Console.WriteLine(mapBuilder.EndRoom);
                     Console.WriteLine("--------------------------------------------------");
 
-                    newMapMesh = new MapMesh(mapBuilder, renderDevice);
+                    newMapMesh = new MapMesh(mapBuilder, random, renderDevice);
                     loadingLevel = false;
                 });
 
