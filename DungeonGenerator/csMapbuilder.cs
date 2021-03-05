@@ -391,6 +391,32 @@ namespace RogueLikeMapBuilder
                     switch (CorBuildOutcome)
                     {
                         case CorridorItemHit.existingroom:
+                            //If the starting room is the ending room reverse the list so it always starts at the starting room
+                            var checkRoom = csMapbuilder.RoomCell + 1;
+                            var firstPoint = lPotentialCorridor[0];
+                            var test = firstPoint.x + 1;
+                            bool reverse = test < Map_Size.Width && map[test, firstPoint.y] == checkRoom;
+                            if(!reverse)
+                            {
+                                test = firstPoint.x - 1;
+                                reverse = test > 0 && map[test, firstPoint.y] == checkRoom;
+                                if (!reverse)
+                                {
+                                    test = firstPoint.y + 1;
+                                    reverse = test < Map_Size.Height && map[firstPoint.x, test] == checkRoom;
+                                    if (!reverse)
+                                    {
+                                        test = firstPoint.y - 1;
+                                        reverse = test > 0 && map[firstPoint.x, test] == checkRoom;
+                                    }
+                                }
+                            }
+
+                            if (reverse)
+                            {
+                                lPotentialCorridor.Reverse();
+                            }
+
                             Corridor_Build();
                             connection = true;
                             break;
