@@ -62,7 +62,7 @@ namespace DungeonGeneratorTest
 
         private SharpButton nextScene = new SharpButton() { Text = "Next Scene" };
         private bool loadingLevel = false;
-        private int currentSeed = 1;
+        private int currentSeed = 12;
 
         //BEPU
         //If you intend to reuse the BufferPool, disposing the simulation is a good idea- it returns all the buffers to the pool for reuse.
@@ -121,7 +121,8 @@ namespace DungeonGeneratorTest
                     var sw = new Stopwatch();
                     sw.Start();
                     //Quick test with the console
-                    var mapBuilder = new csMapbuilder(new Random(currentSeed++), 50, 50);
+                    var seed = currentSeed++;
+                    var mapBuilder = new csMapbuilder(new Random(seed), 50, 50);
                     mapBuilder.CorridorSpace = 10;
                     mapBuilder.RoomDistance = 3;
                     mapBuilder.Room_Min = new IntSize2(2, 2);
@@ -175,6 +176,7 @@ namespace DungeonGeneratorTest
                         }
                         Console.WriteLine();
                     }
+                    Console.WriteLine($"Level seed {seed}");
                     Console.WriteLine($"Created in {sw.ElapsedMilliseconds}");
                     Console.WriteLine(mapBuilder.StartRoom);
                     Console.WriteLine(mapBuilder.EndRoom);

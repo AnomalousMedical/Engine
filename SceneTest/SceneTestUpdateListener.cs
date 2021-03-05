@@ -128,7 +128,7 @@ namespace SceneTest
                 {
                     o.FloorTexture = "cc0Textures/Ground041_1K";
 
-                    o.RandomSeed = 1; //1 is pretty fast to build
+                    o.RandomSeed = 12; //1 is pretty fast to build
                     o.Width = 50;
                     o.Height = 50;
                     o.CorridorSpace = 10;

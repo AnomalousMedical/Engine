@@ -170,7 +170,7 @@ namespace SceneTest
                     var startY = startRoom.Top + startRoom.Height / 2;
                     StartPoint = mapMesh.PointToVector(startX, startY);
                     sw.Stop();
-                    logger.LogInformation($"Generated level in {sw.ElapsedMilliseconds} ms.");
+                    logger.LogInformation($"Generated level {description.RandomSeed} in {sw.ElapsedMilliseconds} ms.");
                 });
                 var wallTextureTask = textureManager.Checkout(new CCOTextureBindingDescription(description.WallTexture, getShadow: true));
                 var floorTextureTask = textureManager.Checkout(new CCOTextureBindingDescription(description.FloorTexture, getShadow: true));
