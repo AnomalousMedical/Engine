@@ -86,6 +86,13 @@ namespace RogueLikeMapBuilder
         public int BreakOut { get; set; }
 
         /// <summary>
+        /// Allow corrdiors that connect to existing rooms / corridors. If this is false 
+        /// any of these created will not be added into the final map. 
+        /// Default: false, but the original algo would be true.
+        /// </summary>
+        public bool AllowOtherCorridors { get; set; }
+
+        /// <summary>
         /// Set this to true to give the room a horizontal, east/west layout. False to be vertical, north/south.
         /// </summary>
         public bool Horizontal { get; set; }
@@ -114,7 +121,7 @@ namespace RogueLikeMapBuilder
                 , OK //point OK
         }
 
-        Point[] directions_straight = new Point[]{ 
+        Point[] directions_straight = new Point[]{
                                             new Point(0, -1) //n
                                             , new Point(0, 1)//s
                                             , new Point(1, 0)//w
@@ -123,11 +130,13 @@ namespace RogueLikeMapBuilder
 
         public const UInt16 EmptyCell = 0;
         public const UInt16 RoomCell = 1;
-        public const UInt16 CorridorCell = UInt16.MaxValue / 2;
+        public const UInt16 CorridorCell = UInt16.MaxValue / 3;
+        public const UInt16 OtherCorridorCell = (UInt16)((int)UInt16.MaxValue * 2 / 3);
         public const UInt16 MainCorridorCell = CorridorCell;
 
         private UInt16 currentRoomCell = RoomCell;
         private UInt16 currentCorridorCell = CorridorCell;
+        private UInt16 currentOtherCorridorCell = OtherCorridorCell;
         private Random rnd;
 
         public csMapbuilder(Random random, int x, int y)
@@ -159,6 +168,7 @@ namespace RogueLikeMapBuilder
             lBuilltCorridors = new List<Point>();
             currentRoomCell = RoomCell;
             currentCorridorCell = CorridorCell;
+            currentOtherCorridorCell = OtherCorridorCell;
             corridorTerminatingRooms[csMapbuilder.CorridorCell] = csMapbuilder.RoomCell + 1; //This will always be true, first corridor connected to 2nd room
 
             map = new UInt16[Map_Size.Width, Map_Size.Height];
@@ -200,21 +210,21 @@ namespace RogueLikeMapBuilder
                 {
 
                     CorBuildOutcome = CorridorMake_Straight(ref Location, ref Direction, rnd.Next(1, Corridor_MaxTurns)
-                        , rnd.Next(0,100) > 50 ? true : false);
+                        , rnd.Next(0, 100) > 50 ? true : false);
 
                     switch (CorBuildOutcome)
                     {
                         case CorridorItemHit.existingroom:
                         case CorridorItemHit.existingcorridor:
                         case CorridorItemHit.self:
-                            Corridor_Build();
+                            Corridor_Build(false);
                             break;
 
                         case CorridorItemHit.completed:
                             if (Room_AttemptBuildOnCorridor(Direction))
                             {
                                 RecordCurrentCorridorTerminatingRoom();
-                                Corridor_Build();
+                                Corridor_Build(true);
                                 Room_Build();
                             }
                             break;
@@ -263,14 +273,14 @@ namespace RogueLikeMapBuilder
                         case CorridorItemHit.existingroom:
                         case CorridorItemHit.existingcorridor:
                         case CorridorItemHit.self:
-                            Corridor_Build();
+                            Corridor_Build(false);
                             break;
 
                         case CorridorItemHit.completed:
                             if (Room_AttemptBuildOnCorridor(Direction))
                             {
                                 RecordCurrentCorridorTerminatingRoom();
-                                Corridor_Build();
+                                Corridor_Build(true);
                                 Room_Build();
                             }
                             break;
@@ -291,7 +301,7 @@ namespace RogueLikeMapBuilder
         /// <returns></returns>
         public UInt16 GetCorridorTerminatingRoom(UInt16 corridorId)
         {
-            if(corridorTerminatingRooms.TryGetValue(corridorId, out var value))
+            if (corridorTerminatingRooms.TryGetValue(corridorId, out var value))
             {
                 return (UInt16)(value - csMapbuilder.RoomCell);
             }
@@ -337,7 +347,7 @@ namespace RogueLikeMapBuilder
             Point Direction = new Point();
             CorridorItemHit CorBuildOutcome;
 
-           while (!connection)
+            while (!connection)
             {
 
                 Clear();
@@ -365,10 +375,10 @@ namespace RogueLikeMapBuilder
                 {
                     //room at the bottom of the map
                     rctCurrentRoom = new Rectangle()
-                            {
-                                Width = rnd.Next(Room_Min.Width, Room_Max.Width)
-                                , Height = rnd.Next(Room_Min.Height, Room_Max.Height)
-                            };
+                    {
+                        Width = rnd.Next(Room_Min.Width, Room_Max.Width),
+                        Height = rnd.Next(Room_Min.Height, Room_Max.Height)
+                    };
                     rctCurrentRoom.Left = rnd.Next(0, Map_Size.Width - rctCurrentRoom.Width);
                     rctCurrentRoom.Top = 1;
                     startRoom = rctCurrentRoom;
@@ -383,7 +393,7 @@ namespace RogueLikeMapBuilder
                     endRoom = rctCurrentRoom;
                     Room_Build();
                 }
-                
+
                 if (Corridor_GetStart(out Location, out Direction))
                 {
                     CorBuildOutcome = CorridorMake_Straight(ref Location, ref Direction, 100, true);
@@ -396,7 +406,7 @@ namespace RogueLikeMapBuilder
                             var firstPoint = lPotentialCorridor[0];
                             var test = firstPoint.x + 1;
                             bool reverse = test < Map_Size.Width && map[test, firstPoint.y] == checkRoom;
-                            if(!reverse)
+                            if (!reverse)
                             {
                                 test = firstPoint.x - 1;
                                 reverse = test > 0 && map[test, firstPoint.y] == checkRoom;
@@ -417,7 +427,7 @@ namespace RogueLikeMapBuilder
                                 lPotentialCorridor.Reverse();
                             }
 
-                            Corridor_Build();
+                            Corridor_Build(true);
                             connection = true;
                             break;
                     }
@@ -433,11 +443,11 @@ namespace RogueLikeMapBuilder
         private bool Room_AttemptBuildOnCorridor(Point pDirection)
         {
             rctCurrentRoom = new Rectangle()
-                {
-                    Width = rnd.Next(Room_Min.Width, Room_Max.Width)
+            {
+                Width = rnd.Next(Room_Min.Width, Room_Max.Width)
                     ,
-                    Height = rnd.Next(Room_Min.Height, Room_Max.Height)
-                };
+                Height = rnd.Next(Room_Min.Height, Room_Max.Height)
+            };
 
             //startbuilding room from this point
             Point lc = lPotentialCorridor.Last();
@@ -537,15 +547,28 @@ namespace RogueLikeMapBuilder
         /// Build the contents of lPotentialCorridor, adding it's points to the builtCorridors
         /// list then empty
         /// </summary>
-        private void Corridor_Build()
+        private void Corridor_Build(bool walkable)
         {
-            foreach (Point p in lPotentialCorridor)
+            UInt16 cellId;
+            bool add = true;
+            if (walkable)
             {
-                Point_Set(p.x, p.y, currentCorridorCell);
-                lBuilltCorridors.Add(p);
+                cellId = currentCorridorCell++;
+            }
+            else
+            {
+                add = AllowOtherCorridors;
+                cellId = currentOtherCorridorCell++;
             }
 
-            ++currentCorridorCell;
+            if (add)
+            {
+                foreach (Point p in lPotentialCorridor)
+                {
+                    Point_Set(p.x, p.y, cellId);
+                    lBuilltCorridors.Add(p);
+                }
+            }
 
             lPotentialCorridor.Clear();
         }
@@ -712,7 +735,7 @@ namespace RogueLikeMapBuilder
                 NewDir = directions_straight[rnd.Next(0, directions_straight.GetLength(0))];
             } while (
                         Direction_Reverse(NewDir) == pDir
-                         | Direction_Reverse( NewDir) == pDirExclude
+                         | Direction_Reverse(NewDir) == pDirExclude
                     );
 
 

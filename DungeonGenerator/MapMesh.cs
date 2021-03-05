@@ -40,6 +40,13 @@ namespace DungeonGenerator
 
         public MapMesh(csMapbuilder mapbuilder, IRenderDevice renderDevice, float mapUnitX = 2f, float mapUnitY = 2f, float mapUnitZ = 2f)
         {
+            if (mapbuilder.AllowOtherCorridors)
+            {
+                //The 'other' connection corridors between rooms that are not part of the main pathway for rooms
+                //are not supported by this algorithm since z can end up way off.
+                throw new InvalidOperationException($"Cannot create map meshes for MapBuilders with '{nameof(csMapbuilder.AllowOtherCorridors)}' turned on.");
+            }
+
             MapUnitX = mapUnitX;
             MapUnitY = mapUnitY;
             MapUnitZ = mapUnitZ;
@@ -52,8 +59,6 @@ namespace DungeonGenerator
 
             var map = mapbuilder.map;
             var slopeMap = new Slope[mapWidth, mapHeight];
-
-            //int mainCorridorSlopeSquareCount = 0;
 
             IntVector2 previousCorridor = new IntVector2();
             UInt16 currentCorridor = 0;
@@ -119,7 +124,6 @@ namespace DungeonGenerator
                                 if ((north == cellType && south == cellType)
                                     || (east == cellType && west == cellType))
                                 {
-                                    //++mainCorridorSlopeSquareCount;
                                     slope.YOffset = corridorSlope;
                                 }
                             }
@@ -151,8 +155,6 @@ namespace DungeonGenerator
 
                 slopeMap[mapX, mapY] = slope;
             }
-
-            //float mainCorridorMaxSlope = mainCorridorSlopeSquareCount * MaxSlopeY;
 
             var squareCenterMapWidth = mapWidth + 2;
             var squareCenterMapHeight = mapHeight + 2;
@@ -231,7 +233,7 @@ namespace DungeonGenerator
                 yUvBottom = MapUnitY / MapUnitX;
             }
 
-            var processedSquares = new bool[mapWidth, mapHeight]; //Its too hard to prevent duplicates from the source, corridors and rooms intersect sometimes
+            var processedSquares = new bool[mapWidth, mapHeight]; //Its too hard to prevent duplicates from the source just record if a room is done
             var firstCorridor = mapbuilder.Corridors[0];
             currentCorridor = map[firstCorridor.x, firstCorridor.y];
             ProcessRoom(mapbuilder, halfUnitX, halfUnitY, halfUnitZ, mapWidth, mapHeight, map, slopeMap, yUvBottom, processedSquares, 0);
@@ -261,6 +263,7 @@ namespace DungeonGenerator
             UInt16 lastRoomId = (UInt16)(mapbuilder.Rooms.Count - 1);
             ProcessRoom(mapbuilder, halfUnitX, halfUnitY, halfUnitZ, mapWidth, mapHeight, map, slopeMap, yUvBottom, processedSquares, lastRoomId);
 
+            //Render remaining squares that have not been processed
             for (int mapY = 0; mapY < mapHeight; ++mapY)
             {
                 for (int mapX = 0; mapX < mapWidth; ++mapX)
