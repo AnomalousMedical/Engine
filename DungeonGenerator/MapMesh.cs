@@ -412,11 +412,11 @@ namespace DungeonGenerator
                                     ++denominator;
                                 }
                             }
-                            //This makes it hard to see
-                            //if (!finished)
-                            //{
-                            //    topLeft.y = accumulatedY / denominator;
-                            //}
+                            
+                            if (!finished)
+                            {
+                                topLeft.y = accumulatedY / denominator;
+                            }
                         }
                         Vector3 topRight = new Vector3(right, square.Center.y + squareUnitY - halfUnitY, far);
                         {
@@ -470,11 +470,11 @@ namespace DungeonGenerator
                                     ++denominator;
                                 }
                             }
-                            //This makes it hard to see
-                            //if (!finished)
-                            //{
-                            //    topRight.y = accumulatedY / denominator;
-                            //}
+                            
+                            if (!finished)
+                            {
+                                topRight.y = accumulatedY / denominator;
+                            }
                         }
                         Vector3 bottomRight = new Vector3(right, square.Center.y - halfUnitY, near);
                         {
@@ -528,11 +528,11 @@ namespace DungeonGenerator
                                     ++denominator;
                                 }
                             }
-                            //This makes it hard to see
-                            //if (!finished)
-                            //{
-                            //    bottomRight.y = accumulatedY / denominator;
-                            //}
+                            
+                            if (!finished)
+                            {
+                                bottomRight.y = accumulatedY / denominator;
+                            }
                         }
                         Vector3 bottomLeft = new Vector3(left, square.Center.y - halfUnitY, near);
                         {
@@ -558,39 +558,39 @@ namespace DungeonGenerator
                             }
                             if (!finished && testX > 0)
                             {
-                                var east = map[testX, mapY];
-                                var eastY = squareInfo[testX + 1, mapY + 1].RightNearY;
-                                if (east != csMapbuilder.EmptyCell)
+                                var west = map[testX, mapY];
+                                var westY = squareInfo[testX + 1, mapY + 1].RightNearY;
+                                if (west != csMapbuilder.EmptyCell)
                                 {
-                                    bottomLeft.y = eastY;
+                                    bottomLeft.y = westY;
                                     finished = true;
                                 }
                                 else
                                 {
-                                    accumulatedY += eastY;
+                                    accumulatedY += westY;
                                     ++denominator;
                                 }
                             }
                             if (!finished && testY > 0 && testX > 0)
                             {
-                                var southEast = map[testX, testY];
-                                var southEastY = squareInfo[testX + 1, testY + 1].RightFarY;
-                                if (southEast != csMapbuilder.EmptyCell)
+                                var southWest = map[testX, testY];
+                                var southWestY = squareInfo[testX + 1, testY + 1].RightFarY;
+                                if (southWest != csMapbuilder.EmptyCell)
                                 {
-                                    bottomLeft.y = southEastY;
+                                    bottomLeft.y = southWestY;
                                     finished = true;
                                 }
                                 else
                                 {
-                                    accumulatedY += southEastY;
+                                    accumulatedY += southWestY;
                                     ++denominator;
                                 }
                             }
-                            //This makes it hard to see
-                            //if (!finished)
-                            //{
-                            //    bottomLeft.y = accumulatedY / denominator;
-                            //}
+                            
+                            if (!finished)
+                            {
+                                bottomLeft.y = accumulatedY / denominator;
+                            }
                         }
 
                         wallMesh.AddQuad(
