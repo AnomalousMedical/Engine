@@ -160,6 +160,7 @@ namespace DungeonGenerator
             var squareCenterMapWidth = mapWidth + 2;
             var squareCenterMapHeight = mapHeight + 2;
             squareInfo = new MapMeshSquareInfo[squareCenterMapWidth, squareCenterMapHeight];
+            MapMeshTempSquareInfo[,] tempSquareInfo = new MapMeshTempSquareInfo[squareCenterMapWidth, squareCenterMapHeight];
 
             this.floorMesh = new Mesh();
             this.wallMesh = new Mesh();
@@ -235,7 +236,7 @@ namespace DungeonGenerator
             var processedSquares = new bool[mapWidth, mapHeight]; //Its too hard to prevent duplicates from the source just record if a room is done
             var firstCorridor = mapbuilder.Corridors[0];
             currentCorridor = map[firstCorridor.x, firstCorridor.y];
-            ProcessRoom(mapbuilder, halfUnitX, halfUnitY, halfUnitZ, mapWidth, mapHeight, map, slopeMap, yUvBottom, processedSquares, 0);
+            ProcessRoom(mapbuilder, halfUnitX, halfUnitY, halfUnitZ, mapWidth, mapHeight, map, slopeMap, tempSquareInfo, yUvBottom, processedSquares, 0);
             foreach (var corridor in mapbuilder.Corridors)
             {
                 var mapX = corridor.x;
@@ -247,7 +248,7 @@ namespace DungeonGenerator
                     var roomId = mapbuilder.GetCorridorTerminatingRoom(currentCorridor);
                     if (roomId != csMapbuilder.CorridorCell)
                     {
-                        ProcessRoom(mapbuilder, halfUnitX, halfUnitY, halfUnitZ, mapWidth, mapHeight, map, slopeMap, yUvBottom, processedSquares, roomId);
+                        ProcessRoom(mapbuilder, halfUnitX, halfUnitY, halfUnitZ, mapWidth, mapHeight, map, slopeMap, tempSquareInfo, yUvBottom, processedSquares, roomId);
                     }
 
                     currentCorridor = cellType;
@@ -256,11 +257,11 @@ namespace DungeonGenerator
                 if (!processedSquares[mapX, mapY])
                 {
                     processedSquares[mapX, mapY] = true;
-                    ProcessSquare(halfUnitX, halfUnitY, halfUnitZ, mapWidth, mapHeight, map, slopeMap, yUvBottom, mapX, mapY);
+                    ProcessSquare(halfUnitX, halfUnitY, halfUnitZ, mapWidth, mapHeight, map, slopeMap, tempSquareInfo, yUvBottom, mapX, mapY);
                 }
             }
             UInt16 lastRoomId = (UInt16)(mapbuilder.Rooms.Count - 1);
-            ProcessRoom(mapbuilder, halfUnitX, halfUnitY, halfUnitZ, mapWidth, mapHeight, map, slopeMap, yUvBottom, processedSquares, lastRoomId);
+            ProcessRoom(mapbuilder, halfUnitX, halfUnitY, halfUnitZ, mapWidth, mapHeight, map, slopeMap, tempSquareInfo, yUvBottom, processedSquares, lastRoomId);
 
             //Figure out heights for remaining squares, which are just empty squares
             //This will make a smooth terrain
@@ -288,13 +289,13 @@ namespace DungeonGenerator
                                 var far = mapY * MapUnitZ;
                                 var centerY = yOffset * (walk - startCell) + walkYOffset;
 
-                                squareInfo[mapX + 1, walk + 1] = new MapMeshSquareInfo(new Vector3(left + halfUnitX, centerY, far - halfUnitZ), halfOffset)
-                                {
-                                    LeftFarY = centerY + yOffset - halfUnitY,
-                                    RightFarY = centerY + yOffset - halfUnitY,
-                                    RightNearY = centerY - halfUnitY,
-                                    LeftNearY = centerY - halfUnitY,
-                                };
+                                squareInfo[mapX + 1, walk + 1] = new MapMeshSquareInfo(new Vector3(left + halfUnitX, centerY, far - halfUnitZ), halfOffset);
+                                tempSquareInfo[mapX + 1, walk + 1] = new MapMeshTempSquareInfo(
+                                    leftFarY: centerY + yOffset - halfUnitY,
+                                    rightFarY: centerY + yOffset - halfUnitY,
+                                    rightNearY: centerY - halfUnitY,
+                                    leftNearY: centerY - halfUnitY
+                                );
                             }
                         }
                         else if (cellType == csMapbuilder.EmptyCell) //Going to an empty cell
@@ -314,7 +315,7 @@ namespace DungeonGenerator
                 {
                     if (!processedSquares[mapX, mapY])
                     {
-                        var square = squareInfo[mapX + 1, mapY + 1];
+                        var square = tempSquareInfo[mapX + 1, mapY + 1];
                         {
                             bool finished = false;
                             float accumulatedY = square.LeftFarY;
@@ -324,7 +325,7 @@ namespace DungeonGenerator
                             if (testY < mapHeight)
                             {
                                 var north = map[mapX, testY];
-                                var testSquare = squareInfo[mapX + 1, testY + 1];
+                                var testSquare = tempSquareInfo[mapX + 1, testY + 1];
                                 var northY = testSquare.LeftNearY;
                                 if (north != csMapbuilder.EmptyCell || testSquare.Visited)
                                 {
@@ -340,7 +341,7 @@ namespace DungeonGenerator
                             if (!finished && testX > 0)
                             {
                                 var west = map[testX, mapY];
-                                var testSquare = squareInfo[testX + 1, mapY + 1];
+                                var testSquare = tempSquareInfo[testX + 1, mapY + 1];
                                 var westY = testSquare.RightFarY;
                                 if (west != csMapbuilder.EmptyCell || testSquare.Visited)
                                 {
@@ -356,7 +357,7 @@ namespace DungeonGenerator
                             if (!finished && testY < mapHeight && testX > 0)
                             {
                                 var northWest = map[testX, testY];
-                                var testSquare = squareInfo[testX + 1, testY + 1];
+                                var testSquare = tempSquareInfo[testX + 1, testY + 1];
                                 var northWestY = testSquare.RightNearY;
                                 if (northWest != csMapbuilder.EmptyCell || testSquare.Visited)
                                 {
@@ -385,7 +386,7 @@ namespace DungeonGenerator
                             if (testY < mapHeight)
                             {
                                 var north = map[mapX, testY];
-                                var testSquare = squareInfo[mapX + 1, testY + 1];
+                                var testSquare = tempSquareInfo[mapX + 1, testY + 1];
                                 var northY = testSquare.RightNearY;
                                 if (north != csMapbuilder.EmptyCell || testSquare.Visited)
                                 {
@@ -401,7 +402,7 @@ namespace DungeonGenerator
                             if (!finished && testX < mapWidth)
                             {
                                 var east = map[testX, mapY];
-                                var testSquare = squareInfo[testX + 1, mapY + 1];
+                                var testSquare = tempSquareInfo[testX + 1, mapY + 1];
                                 var eastY = testSquare.LeftFarY;
                                 if (east != csMapbuilder.EmptyCell || testSquare.Visited)
                                 {
@@ -417,7 +418,7 @@ namespace DungeonGenerator
                             if (!finished && testY < mapHeight && testX < mapWidth)
                             {
                                 var northEast = map[testX, testY];
-                                var testSquare = squareInfo[testX + 1, testY + 1];
+                                var testSquare = tempSquareInfo[testX + 1, testY + 1];
                                 var northEastY = testSquare.LeftNearY;
                                 if (northEast != csMapbuilder.EmptyCell || testSquare.Visited)
                                 {
@@ -446,7 +447,7 @@ namespace DungeonGenerator
                             if (testY > 0)
                             {
                                 var south = map[mapX, testY];
-                                var testSquare = squareInfo[mapX + 1, testY + 1];
+                                var testSquare = tempSquareInfo[mapX + 1, testY + 1];
                                 var southY = testSquare.RightFarY;
                                 if (south != csMapbuilder.EmptyCell || testSquare.Visited)
                                 {
@@ -462,7 +463,7 @@ namespace DungeonGenerator
                             if (!finished && testX < mapWidth)
                             {
                                 var east = map[testX, mapY];
-                                var testSquare = squareInfo[testX + 1, mapY + 1];
+                                var testSquare = tempSquareInfo[testX + 1, mapY + 1];
                                 var eastY = testSquare.LeftNearY;
                                 if (east != csMapbuilder.EmptyCell || testSquare.Visited)
                                 {
@@ -478,7 +479,7 @@ namespace DungeonGenerator
                             if (!finished && testY > 0 && testX < mapWidth)
                             {
                                 var southEast = map[testX, testY];
-                                var testSquare = squareInfo[testX + 1, testY + 1];
+                                var testSquare = tempSquareInfo[testX + 1, testY + 1];
                                 var southEastY = testSquare.LeftFarY;
                                 if (southEast != csMapbuilder.EmptyCell || testSquare.Visited)
                                 {
@@ -507,7 +508,7 @@ namespace DungeonGenerator
                             if (testY > 0)
                             {
                                 var south = map[mapX, testY];
-                                var testSquare = squareInfo[mapX + 1, testY + 1];
+                                var testSquare = tempSquareInfo[mapX + 1, testY + 1];
                                 var southY = testSquare.LeftFarY;
                                 if (south != csMapbuilder.EmptyCell || testSquare.Visited)
                                 {
@@ -523,7 +524,7 @@ namespace DungeonGenerator
                             if (!finished && testX > 0)
                             {
                                 var west = map[testX, mapY];
-                                var testSquare = squareInfo[testX + 1, mapY + 1];
+                                var testSquare = tempSquareInfo[testX + 1, mapY + 1];
                                 var westY = testSquare.RightNearY;
                                 if (west != csMapbuilder.EmptyCell || testSquare.Visited)
                                 {
@@ -539,7 +540,7 @@ namespace DungeonGenerator
                             if (!finished && testY > 0 && testX > 0)
                             {
                                 var southWest = map[testX, testY];
-                                var testSquare = squareInfo[testX + 1, testY + 1];
+                                var testSquare = tempSquareInfo[testX + 1, testY + 1];
                                 var southWestY = testSquare.RightFarY;
                                 if (southWest != csMapbuilder.EmptyCell || testSquare.Visited)
                                 {
@@ -560,7 +561,7 @@ namespace DungeonGenerator
                         }
 
                         square.Visited = true;
-                        squareInfo[mapX + 1, mapY + 1] = square;
+                        tempSquareInfo[mapX + 1, mapY + 1] = square;
                     }
                 }
             }
@@ -577,11 +578,12 @@ namespace DungeonGenerator
                         var far = mapY * MapUnitZ;
                         var near = far - MapUnitZ;
                         var square = squareInfo[mapX + 1, mapY + 1];
+                        var tempSquare = tempSquareInfo[mapX + 1, mapY + 1];
 
-                        Vector3 leftFar = new Vector3(left, square.LeftFarY, far);
-                        Vector3 rightFar = new Vector3(right, square.RightFarY, far);
-                        Vector3 rightNear = new Vector3(right, square.RightNearY, near);
-                        Vector3 leftNear = new Vector3(left, square.LeftNearY, near);
+                        Vector3 leftFar = new Vector3(left, tempSquare.LeftFarY, far);
+                        Vector3 rightFar = new Vector3(right, tempSquare.RightFarY, far);
+                        Vector3 rightNear = new Vector3(right, tempSquare.RightNearY, near);
+                        Vector3 leftNear = new Vector3(left, tempSquare.LeftNearY, near);
 
                         var u = rightFar - leftFar;
                         var v = rightNear - leftFar;
@@ -604,7 +606,7 @@ namespace DungeonGenerator
             wallMesh.End(renderDevice);
         }
 
-        private void ProcessRoom(csMapbuilder mapbuilder, float halfUnitX, float halfUnitY, float halfUnitZ, int mapWidth, int mapHeight, ushort[,] map, Slope[,] slopeMap, float yUvBottom, bool[,] processedSquares, ushort roomId)
+        private void ProcessRoom(csMapbuilder mapbuilder, float halfUnitX, float halfUnitY, float halfUnitZ, int mapWidth, int mapHeight, ushort[,] map, Slope[,] slopeMap, MapMeshTempSquareInfo[,] tempSquareInfo, float yUvBottom, bool[,] processedSquares, ushort roomId)
         {
             var room = mapbuilder.Rooms[roomId];
             var bottom = room.Bottom;
@@ -616,13 +618,13 @@ namespace DungeonGenerator
                     if (!processedSquares[roomX, roomY])
                     {
                         processedSquares[roomX, roomY] = true;
-                        ProcessSquare(halfUnitX, halfUnitY, halfUnitZ, mapWidth, mapHeight, map, slopeMap, yUvBottom, roomX, roomY);
+                        ProcessSquare(halfUnitX, halfUnitY, halfUnitZ, mapWidth, mapHeight, map, slopeMap, tempSquareInfo, yUvBottom, roomX, roomY);
                     }
                 }
             }
         }
 
-        private void ProcessSquare(float halfUnitX, float halfUnitY, float halfUnitZ, int mapWidth, int mapHeight, ushort[,] map, Slope[,] slopeMap, float yUvBottom, int mapX, int mapY)
+        private void ProcessSquare(float halfUnitX, float halfUnitY, float halfUnitZ, int mapWidth, int mapHeight, ushort[,] map, Slope[,] slopeMap, MapMeshTempSquareInfo[,] tempSquareInfo, float yUvBottom, int mapX, int mapY)
         {
             //This is a bit odd, corridors previous points are the previous square, but room previous points are their terminating corrdor square
             //This will work ok with some of the calculations below since rooms are always 0 rotation anyway
@@ -702,13 +704,14 @@ namespace DungeonGenerator
             }
 
             //Update our center point in the slope grid
-            squareInfo[mapX + 1, mapY + 1] = new MapMeshSquareInfo(new Vector3(left + halfUnitX, centerY, far - halfUnitZ), realHalfY)
-            {
-                LeftFarY = floorFarLeftY,
-                RightFarY = floorFarRightY,
-                RightNearY = floorNearRightY,
-                LeftNearY = floorNearLeftY,
-            };
+            squareInfo[mapX + 1, mapY + 1] = new MapMeshSquareInfo(new Vector3(left + halfUnitX, centerY, far - halfUnitZ), realHalfY);
+            tempSquareInfo[mapX + 1, mapY + 1] = new MapMeshTempSquareInfo
+            (
+                leftFarY: floorFarLeftY,
+                rightFarY: floorFarRightY,
+                rightNearY: floorNearRightY,
+                leftNearY: floorNearLeftY
+            );
 
             var floorNormal = Quaternion.quatRotate(floorCubeRot, Vector3.Up);
 
