@@ -133,7 +133,7 @@ namespace DungeonGenerator
                 }
 
                 //Check for terminating rooms
-                if(north < csMapbuilder.CorridorCell && north >= csMapbuilder.RoomCell && !seenRooms[north - csMapbuilder.RoomCell])
+                if (north < csMapbuilder.CorridorCell && north >= csMapbuilder.RoomCell && !seenRooms[north - csMapbuilder.RoomCell])
                 {
                     seenRooms[north - csMapbuilder.RoomCell] = true;
                     SetRoomPrevious(mapbuilder.Rooms[north - csMapbuilder.RoomCell], corridor, slopeMap);
@@ -247,7 +247,7 @@ namespace DungeonGenerator
                 {
                     //Check for terminating room
                     var roomId = mapbuilder.GetCorridorTerminatingRoom(currentCorridor);
-                    if(roomId != csMapbuilder.CorridorCell)
+                    if (roomId != csMapbuilder.CorridorCell)
                     {
                         ProcessRoom(mapbuilder, halfUnitX, halfUnitY, halfUnitZ, mapWidth, mapHeight, map, slopeMap, yUvBottom, processedSquares, roomId);
                     }
@@ -280,20 +280,17 @@ namespace DungeonGenerator
                         {
                             var end = squareInfo[mapX + 1, mapY + 1];
                             var start = squareInfo[mapX + 1, emptyCellStart + 1];
-                            float yOffset = (end.Center.y - start.Center.y) / (mapY - emptyCellStart - 1);
-                            float realHalfY = yOffset / 2f;
-                            for (var walk = emptyCellStart + 1; walk < mapY; ++walk)
+                            var startCell = emptyCellStart + 1;
+                            float yOffset = (end.Center.y - start.Center.y) / (mapY - startCell);
+                            var halfOffset = Math.Abs(yOffset / 2f);
+                            var walkYOffset = start.Center.y;
+                            for (var walk = startCell; walk < mapY; ++walk)
                             {
-                                slopeMap[mapX, walk] = new Slope()
-                                {
-                                    PreviousPoint = new IntVector2(mapX, walk - 1), //This is safe since previous points are read from an array 1 size larger
-                                    YOffset = yOffset
-                                };
-                                //var left = mapX * MapUnitX;
-                                //var far = mapY * MapUnitZ;
-                                //var centerY = yOffset * walk;
+                                var left = mapX * MapUnitX;
+                                var far = mapY * MapUnitZ;
+                                var centerY = yOffset * (walk - startCell) + walkYOffset;
 
-                                //squareInfo[mapX + 1, mapY + 1] = new MapMeshSquareInfo(new Vector3(left + halfUnitX, centerY, far - halfUnitZ), realHalfY);
+                                squareInfo[mapX + 1, walk + 1] = new MapMeshSquareInfo(new Vector3(left + halfUnitX, centerY, far - halfUnitZ), halfOffset);
                             }
                         }
                         else if (cellType == csMapbuilder.EmptyCell) //Going to an empty cell
@@ -307,7 +304,7 @@ namespace DungeonGenerator
             }
 
             //Walk Horizontal
-            var walkWidth = mapWidth + 1;
+            //var walkWidth = mapWidth + 1;
             //for (int mapY = 0; mapY < mapHeight; ++mapY)
             //{
             //    var currentCell = map[0, mapY];
@@ -325,16 +322,17 @@ namespace DungeonGenerator
             //                float realHalfY = yOffset / 2f;
             //                for (var walk = emptyCellStart + 1; walk < mapX; ++walk)
             //                {
-            //                    slopeMap[walk, mapY] = new Slope()
-            //                    {
-            //                        PreviousPoint = new IntVector2(walk - 1, mapY), //This is safe since previous points are read from an array 1 size larger
-            //                        YOffset = yOffset
-            //                    };
+            //                    //slopeMap[walk, mapY] = new Slope()
+            //                    //{
+            //                    //    PreviousPoint = new IntVector2(walk - 1, mapY), //This is safe since previous points are read from an array 1 size larger
+            //                    //    YOffset = yOffset
+            //                    //};
             //                    //var left = mapX * MapUnitX;
             //                    //var far = mapY * MapUnitZ;
-            //                    //var centerY = yOffset * walk;
+            //                    var centerY = yOffset * walk;
+            //                    var otherCenterY = squareInfo[walk + 1, mapY + 1].Center.y;
 
-            //                    //squareInfo[mapX + 1, mapY + 1] = new MapMeshSquareInfo(new Vector3(left + halfUnitX, centerY, far - halfUnitZ), realHalfY);
+            //                    squareInfo[walk + 1, mapY + 1].Center.y = otherCenterY;// (otherCenterY + centerY) / 2.0f;
             //                }
             //            }
             //            else if (cellType == csMapbuilder.EmptyCell) //Going to an empty cell
@@ -350,11 +348,27 @@ namespace DungeonGenerator
             //Render remaining squares that have not been processed
             for (int mapY = 0; mapY < mapHeight; ++mapY)
             {
+                Console.WriteLine();
                 for (int mapX = 0; mapX < mapWidth; ++mapX)
                 {
+                    Console.Write(String.Format("{0, -5}", squareInfo[mapX + 1, mapY + 1].Center.y.ToString("n2")));
                     if (!processedSquares[mapX, mapY])
                     {
-                        ProcessSquare(halfUnitX, halfUnitY, halfUnitZ, mapWidth, mapHeight, map, slopeMap, yUvBottom, mapX, mapY);
+                        var left = mapX * MapUnitX;
+                        var right = left + MapUnitX;
+                        var far = mapY * MapUnitZ;
+                        var near = far - MapUnitZ;
+                        var square = squareInfo[mapX + 1, mapY + 1];
+                        var squareHalfUnitY = square.HalfYOffset * 2;
+
+                        wallMesh.AddQuad(
+                            new Vector3(left, square.Center.y + squareHalfUnitY - halfUnitY, far),
+                            new Vector3(right, square.Center.y + squareHalfUnitY - halfUnitY, far),
+                            new Vector3(right, square.Center.y - halfUnitY, near),
+                            new Vector3(left, square.Center.y - halfUnitY, near),
+                            Vector3.Backward,
+                            new Vector2(0, 0),
+                            new Vector2(1, 1));
                     }
                 }
             }
@@ -617,9 +631,9 @@ namespace DungeonGenerator
             //Set the slope to be the same for everything in the room, note that this makes the previous point for the whole room the same terminating ramp point
             var bottom = room.Bottom;
             var right = room.Right;
-            for(var y = room.Top; y <= bottom; ++y)
+            for (var y = room.Top; y <= bottom; ++y)
             {
-                for(var x = room.Left; x <= right; ++x)
+                for (var x = room.Left; x <= right; ++x)
                 {
                     slopeMap[x, y] = slope;
                 }
