@@ -290,7 +290,13 @@ namespace DungeonGenerator
                                 var far = mapY * MapUnitZ;
                                 var centerY = yOffset * (walk - startCell) + walkYOffset;
 
-                                squareInfo[mapX + 1, walk + 1] = new MapMeshSquareInfo(new Vector3(left + halfUnitX, centerY, far - halfUnitZ), halfOffset);
+                                squareInfo[mapX + 1, walk + 1] = new MapMeshSquareInfo(new Vector3(left + halfUnitX, centerY, far - halfUnitZ), halfOffset)
+                                {
+                                    LeftFarY = centerY,
+                                    RightFarY = centerY,
+                                    RightNearY = centerY,
+                                    LeftNearY = centerY,
+                                };
                             }
                         }
                         else if (cellType == csMapbuilder.EmptyCell) //Going to an empty cell
@@ -302,48 +308,6 @@ namespace DungeonGenerator
                     }
                 }
             }
-
-            //Walk Horizontal
-            //var walkWidth = mapWidth + 1;
-            //for (int mapY = 0; mapY < mapHeight; ++mapY)
-            //{
-            //    var currentCell = map[0, mapY];
-            //    var emptyCellStart = -1;
-            //    for (int mapX = 0; mapX < walkWidth; ++mapX)
-            //    {
-            //        var cellType = mapX == mapWidth ? UInt16.MaxValue : map[mapX, mapY];
-            //        if (cellType != currentCell)
-            //        {
-            //            if (currentCell == csMapbuilder.EmptyCell) //Coming from an empty cell
-            //            {
-            //                var end = squareInfo[mapX + 1, mapY + 1];
-            //                var start = squareInfo[emptyCellStart + 1, mapY + 1];
-            //                float yOffset = (end.Center.y - start.Center.y) / (mapX - emptyCellStart - 1);
-            //                float realHalfY = yOffset / 2f;
-            //                for (var walk = emptyCellStart + 1; walk < mapX; ++walk)
-            //                {
-            //                    //slopeMap[walk, mapY] = new Slope()
-            //                    //{
-            //                    //    PreviousPoint = new IntVector2(walk - 1, mapY), //This is safe since previous points are read from an array 1 size larger
-            //                    //    YOffset = yOffset
-            //                    //};
-            //                    //var left = mapX * MapUnitX;
-            //                    //var far = mapY * MapUnitZ;
-            //                    var centerY = yOffset * walk;
-            //                    var otherCenterY = squareInfo[walk + 1, mapY + 1].Center.y;
-
-            //                    squareInfo[walk + 1, mapY + 1].Center.y = otherCenterY;// (otherCenterY + centerY) / 2.0f;
-            //                }
-            //            }
-            //            else if (cellType == csMapbuilder.EmptyCell) //Going to an empty cell
-            //            {
-            //                emptyCellStart = mapX - 1;
-            //            }
-
-            //            currentCell = cellType;
-            //        }
-            //    }
-            //}
 
             //Render remaining squares that have not been processed
             for (int mapY = 0; mapY < mapHeight; ++mapY)
