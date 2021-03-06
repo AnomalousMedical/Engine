@@ -312,7 +312,6 @@ namespace DungeonGenerator
             //Render remaining squares that have not been processed
             for (int mapY = 0; mapY < mapHeight; ++mapY)
             {
-                Console.WriteLine();
                 for (int mapX = 0; mapX < mapWidth; ++mapX)
                 {
                     if (!processedSquares[mapX, mapY])
