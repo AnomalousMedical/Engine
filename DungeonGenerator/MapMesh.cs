@@ -194,7 +194,6 @@ namespace DungeonGenerator
                         test = mapY + 1;
                         if (test >= mapHeight || map[mapX, test] == csMapbuilder.EmptyCell)
                         {
-                            ++numWallQuads;
                             ++numBoundaryCubes;
                         }
 
@@ -202,7 +201,6 @@ namespace DungeonGenerator
                         test = mapX - 1;
                         if (test < 0 || map[test, mapY] == csMapbuilder.EmptyCell)
                         {
-                            ++numWallQuads;
                             ++numBoundaryCubes;
                         }
 
@@ -210,7 +208,6 @@ namespace DungeonGenerator
                         test = mapX + 1;
                         if (test >= mapWidth || map[test, mapY] == csMapbuilder.EmptyCell)
                         {
-                            ++numWallQuads;
                             ++numBoundaryCubes;
                         }
                     }
@@ -738,16 +735,6 @@ namespace DungeonGenerator
                 test = mapY + 1;
                 if (test >= mapHeight || map[mapX, test] == csMapbuilder.EmptyCell)
                 {
-                    //Face backward too, north facing camera
-                    wallMesh.AddQuad(
-                        new Vector3(left, floorFarLeftY + MapUnitY, far),
-                        new Vector3(right, floorFarRightY + MapUnitY, far),
-                        new Vector3(right, floorFarRightY, far),
-                        new Vector3(left, floorFarLeftY, far),
-                        Vector3.Backward,
-                        new Vector2(0, 0),
-                        new Vector2(1, yUvBottom));
-
                     boundaryCubeCenterPoints.Add(new Vector3(left + halfUnitX, centerY, far + halfUnitZ));
                 }
 
@@ -755,15 +742,6 @@ namespace DungeonGenerator
                 test = mapX - 1;
                 if (test < 0 || map[test, mapY] == csMapbuilder.EmptyCell)
                 {
-                    wallMesh.AddQuad(
-                        new Vector3(left, floorNearLeftY + MapUnitY, near),
-                        new Vector3(left, floorFarLeftY + MapUnitY, far),
-                        new Vector3(left, floorFarLeftY, far),
-                        new Vector3(left, floorNearLeftY, near),
-                        Vector3.Right,
-                        new Vector2(0, 0),
-                        new Vector2(1, yUvBottom));
-
                     boundaryCubeCenterPoints.Add(new Vector3(left - halfUnitX, centerY, near + halfUnitZ));
                 }
 
@@ -771,29 +749,8 @@ namespace DungeonGenerator
                 test = mapX + 1;
                 if (test >= mapWidth || map[test, mapY] == csMapbuilder.EmptyCell)
                 {
-                    wallMesh.AddQuad(
-                        new Vector3(right, floorFarRightY + MapUnitY, far),
-                        new Vector3(right, floorNearRightY + MapUnitY, near),
-                        new Vector3(right, floorNearRightY, near),
-                        new Vector3(right, floorFarRightY, far),
-                        Vector3.Left,
-                        new Vector2(0, 0),
-                        new Vector2(1, 1));
-
                     boundaryCubeCenterPoints.Add(new Vector3(right + halfUnitX, centerY, near + halfUnitZ));
                 }
-            }
-            else
-            {
-                //Floor outside
-                wallMesh.AddQuad(
-                    new Vector3(left, floorFarLeftY + MapUnitY, far),
-                    new Vector3(right, floorFarRightY + MapUnitY, far),
-                    new Vector3(right, floorNearRightY + MapUnitY, near),
-                    new Vector3(left, floorNearLeftY + MapUnitY, near),
-                    floorNormal,
-                    new Vector2(0, 0),
-                    new Vector2(1, 1));
             }
         }
 
