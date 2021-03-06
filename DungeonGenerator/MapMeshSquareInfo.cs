@@ -11,22 +11,22 @@ namespace DungeonGenerator
 
         public float HalfYOffset;
 
-        public Vector3 LeftFar;
+        public float LeftFarY;
 
-        public Vector3 RightFar;
+        public float RightFarY;
 
-        public Vector3 RightNear;
+        public float RightNearY;
 
-        public Vector3 LeftNear;
+        public float LeftNearY;
 
         public MapMeshSquareInfo(Vector3 center, float halfHeight)
         {
             this.Center = center;
             this.HalfYOffset = halfHeight;
-            LeftFar = new Vector3();
-            RightFar = new Vector3();
-            RightNear = new Vector3();
-            LeftNear = new Vector3();
+            LeftFarY = 0;
+            RightFarY = 0;
+            RightNearY = 0;
+            LeftNearY = 0;
         }
     }
 }

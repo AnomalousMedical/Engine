@@ -365,37 +365,233 @@ namespace DungeonGenerator
                             bool finished = false;
                             float accumulatedY = topLeft.y;
                             float denominator = 1f;
+                            var testX = mapX - 1;
                             var testY = mapY + 1;
                             if (testY < mapHeight)
                             {
                                 var north = map[mapX, testY];
-                                var northSquare = squareInfo[mapX + 1, testY + 1];
+                                var northY = squareInfo[mapX + 1, testY + 1].LeftNearY;
                                 if (north != csMapbuilder.EmptyCell)
                                 {
-                                    topLeft.y = northSquare.LeftNear.y;
+                                    topLeft.y = northY;
+                                    finished = true;
                                 }
-                                finished = true;
+                                else
+                                {
+                                    accumulatedY += northY;
+                                    ++denominator;
+                                }
                             }
+                            if (!finished && testX > 0)
+                            {
+                                var west = map[testX, mapY];
+                                var westY = squareInfo[testX + 1, mapY + 1].RightFarY;
+                                if (west != csMapbuilder.EmptyCell)
+                                {
+                                    topLeft.y = westY;
+                                    finished = true;
+                                }
+                                else
+                                {
+                                    accumulatedY += westY;
+                                    ++denominator;
+                                }
+                            }
+                            if (!finished && testY < mapHeight && testX > 0)
+                            {
+                                var northWest = map[testX, testY];
+                                var northWestY = squareInfo[testX + 1, testY + 1].RightNearY;
+                                if (northWest != csMapbuilder.EmptyCell)
+                                {
+                                    topLeft.y = northWestY;
+                                    finished = true;
+                                }
+                                else
+                                {
+                                    accumulatedY += northWestY;
+                                    ++denominator;
+                                }
+                            }
+                            //This makes it hard to see
+                            //if (!finished)
+                            //{
+                            //    topLeft.y = accumulatedY / denominator;
+                            //}
                         }
                         Vector3 topRight = new Vector3(right, square.Center.y + squareUnitY - halfUnitY, far);
                         {
                             bool finished = false;
-                            float accumulatedY = topLeft.y;
+                            float accumulatedY = topRight.y;
                             float denominator = 1f;
+                            var testX = mapX + 1;
                             var testY = mapY + 1;
                             if (testY < mapHeight)
                             {
                                 var north = map[mapX, testY];
-                                var northSquare = squareInfo[mapX + 1, testY + 1];
+                                var northY = squareInfo[mapX + 1, testY + 1].RightNearY;
                                 if (north != csMapbuilder.EmptyCell)
                                 {
-                                    topRight.y = northSquare.RightNear.y;
+                                    topRight.y = northY;
+                                    finished = true;
                                 }
-                                finished = true;
+                                else
+                                {
+                                    accumulatedY += northY;
+                                    ++denominator;
+                                }
                             }
+                            if (!finished && testX < mapWidth)
+                            {
+                                var east = map[testX, mapY];
+                                var eastY = squareInfo[testX + 1, mapY + 1].LeftFarY;
+                                if (east != csMapbuilder.EmptyCell)
+                                {
+                                    topRight.y = eastY;
+                                    finished = true;
+                                }
+                                else
+                                {
+                                    accumulatedY += eastY;
+                                    ++denominator;
+                                }
+                            }
+                            if (!finished && testY < mapHeight && testX < mapWidth)
+                            {
+                                var northEast = map[testX, testY];
+                                var northEastY = squareInfo[testX + 1, testY + 1].LeftNearY;
+                                if (northEast != csMapbuilder.EmptyCell)
+                                {
+                                    topRight.y = northEastY;
+                                    finished = true;
+                                }
+                                else
+                                {
+                                    accumulatedY += northEastY;
+                                    ++denominator;
+                                }
+                            }
+                            //This makes it hard to see
+                            //if (!finished)
+                            //{
+                            //    topRight.y = accumulatedY / denominator;
+                            //}
                         }
                         Vector3 bottomRight = new Vector3(right, square.Center.y - halfUnitY, near);
+                        {
+                            bool finished = false;
+                            float accumulatedY = bottomRight.y;
+                            float denominator = 1f;
+                            var testX = mapX + 1;
+                            var testY = mapY - 1;
+                            if (testY > 0)
+                            {
+                                var south = map[mapX, testY];
+                                var southY = squareInfo[mapX + 1, testY + 1].RightFarY;
+                                if (south != csMapbuilder.EmptyCell)
+                                {
+                                    bottomRight.y = southY;
+                                    finished = true;
+                                }
+                                else
+                                {
+                                    accumulatedY += southY;
+                                    ++denominator;
+                                }
+                            }
+                            if (!finished && testX < mapWidth)
+                            {
+                                var east = map[testX, mapY];
+                                var eastY = squareInfo[testX + 1, mapY + 1].LeftNearY;
+                                if (east != csMapbuilder.EmptyCell)
+                                {
+                                    bottomRight.y = eastY;
+                                    finished = true;
+                                }
+                                else
+                                {
+                                    accumulatedY += eastY;
+                                    ++denominator;
+                                }
+                            }
+                            if (!finished && testY > 0 && testX < mapWidth)
+                            {
+                                var southEast = map[testX, testY];
+                                var southEastY = squareInfo[testX + 1, testY + 1].LeftFarY;
+                                if (southEast != csMapbuilder.EmptyCell)
+                                {
+                                    bottomRight.y = southEastY;
+                                    finished = true;
+                                }
+                                else
+                                {
+                                    accumulatedY += southEastY;
+                                    ++denominator;
+                                }
+                            }
+                            //This makes it hard to see
+                            //if (!finished)
+                            //{
+                            //    bottomRight.y = accumulatedY / denominator;
+                            //}
+                        }
                         Vector3 bottomLeft = new Vector3(left, square.Center.y - halfUnitY, near);
+                        {
+                            bool finished = false;
+                            float accumulatedY = bottomLeft.y;
+                            float denominator = 1f;
+                            var testX = mapX - 1;
+                            var testY = mapY - 1;
+                            if (testY > 0)
+                            {
+                                var south = map[mapX, testY];
+                                var southY = squareInfo[mapX + 1, testY + 1].LeftFarY;
+                                if (south != csMapbuilder.EmptyCell)
+                                {
+                                    bottomLeft.y = southY;
+                                    finished = true;
+                                }
+                                else
+                                {
+                                    accumulatedY += southY;
+                                    ++denominator;
+                                }
+                            }
+                            if (!finished && testX > 0)
+                            {
+                                var east = map[testX, mapY];
+                                var eastY = squareInfo[testX + 1, mapY + 1].RightNearY;
+                                if (east != csMapbuilder.EmptyCell)
+                                {
+                                    bottomLeft.y = eastY;
+                                    finished = true;
+                                }
+                                else
+                                {
+                                    accumulatedY += eastY;
+                                    ++denominator;
+                                }
+                            }
+                            if (!finished && testY > 0 && testX > 0)
+                            {
+                                var southEast = map[testX, testY];
+                                var southEastY = squareInfo[testX + 1, testY + 1].RightFarY;
+                                if (southEast != csMapbuilder.EmptyCell)
+                                {
+                                    bottomLeft.y = southEastY;
+                                    finished = true;
+                                }
+                                else
+                                {
+                                    accumulatedY += southEastY;
+                                    ++denominator;
+                                }
+                            }
+                            //This makes it hard to see
+                            //if (!finished)
+                            //{
+                            //    bottomLeft.y = accumulatedY / denominator;
+                            //}
+                        }
 
                         wallMesh.AddQuad(
                             topLeft,
@@ -513,10 +709,10 @@ namespace DungeonGenerator
             //Update our center point in the slope grid
             squareInfo[mapX + 1, mapY + 1] = new MapMeshSquareInfo(new Vector3(left + halfUnitX, centerY, far - halfUnitZ), realHalfY)
             {
-                LeftFar = new Vector3(left, floorFarLeftY, far),
-                RightFar = new Vector3(right, floorFarRightY, far),
-                RightNear = new Vector3(right, floorNearRightY, near),
-                LeftNear = new Vector3(left, floorNearLeftY, near),
+                LeftFarY = floorFarLeftY,
+                RightFarY = floorFarRightY,
+                RightNearY = floorNearRightY,
+                LeftNearY = floorNearLeftY,
             };
 
             var floorNormal = Quaternion.quatRotate(floorCubeRot, Vector3.Up);
