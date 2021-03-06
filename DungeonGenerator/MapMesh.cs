@@ -317,7 +317,6 @@ namespace DungeonGenerator
                     if (!processedSquares[mapX, mapY])
                     {
                         var square = squareInfo[mapX + 1, mapY + 1];
-                        
                         {
                             bool finished = false;
                             float accumulatedY = square.LeftFarY;
@@ -327,8 +326,9 @@ namespace DungeonGenerator
                             if (testY < mapHeight)
                             {
                                 var north = map[mapX, testY];
-                                var northY = squareInfo[mapX + 1, testY + 1].LeftNearY;
-                                if (north != csMapbuilder.EmptyCell)
+                                var testSquare = squareInfo[mapX + 1, testY + 1];
+                                var northY = testSquare.LeftNearY;
+                                if (north != csMapbuilder.EmptyCell || testSquare.Visited)
                                 {
                                     square.LeftFarY = northY;
                                     finished = true;
@@ -342,8 +342,9 @@ namespace DungeonGenerator
                             if (!finished && testX > 0)
                             {
                                 var west = map[testX, mapY];
-                                var westY = squareInfo[testX + 1, mapY + 1].RightFarY;
-                                if (west != csMapbuilder.EmptyCell)
+                                var testSquare = squareInfo[testX + 1, mapY + 1];
+                                var westY = testSquare.RightFarY;
+                                if (west != csMapbuilder.EmptyCell || testSquare.Visited)
                                 {
                                     square.LeftFarY = westY;
                                     finished = true;
@@ -357,8 +358,9 @@ namespace DungeonGenerator
                             if (!finished && testY < mapHeight && testX > 0)
                             {
                                 var northWest = map[testX, testY];
-                                var northWestY = squareInfo[testX + 1, testY + 1].RightNearY;
-                                if (northWest != csMapbuilder.EmptyCell)
+                                var testSquare = squareInfo[testX + 1, testY + 1];
+                                var northWestY = testSquare.RightNearY;
+                                if (northWest != csMapbuilder.EmptyCell || testSquare.Visited)
                                 {
                                     square.LeftFarY = northWestY;
                                     finished = true;
@@ -385,8 +387,9 @@ namespace DungeonGenerator
                             if (testY < mapHeight)
                             {
                                 var north = map[mapX, testY];
-                                var northY = squareInfo[mapX + 1, testY + 1].RightNearY;
-                                if (north != csMapbuilder.EmptyCell)
+                                var testSquare = squareInfo[mapX + 1, testY + 1];
+                                var northY = testSquare.RightNearY;
+                                if (north != csMapbuilder.EmptyCell || testSquare.Visited)
                                 {
                                     square.RightFarY = northY;
                                     finished = true;
@@ -400,8 +403,9 @@ namespace DungeonGenerator
                             if (!finished && testX < mapWidth)
                             {
                                 var east = map[testX, mapY];
-                                var eastY = squareInfo[testX + 1, mapY + 1].LeftFarY;
-                                if (east != csMapbuilder.EmptyCell)
+                                var testSquare = squareInfo[testX + 1, mapY + 1];
+                                var eastY = testSquare.LeftFarY;
+                                if (east != csMapbuilder.EmptyCell || testSquare.Visited)
                                 {
                                     square.RightFarY = eastY;
                                     finished = true;
@@ -415,8 +419,9 @@ namespace DungeonGenerator
                             if (!finished && testY < mapHeight && testX < mapWidth)
                             {
                                 var northEast = map[testX, testY];
-                                var northEastY = squareInfo[testX + 1, testY + 1].LeftNearY;
-                                if (northEast != csMapbuilder.EmptyCell)
+                                var testSquare = squareInfo[testX + 1, testY + 1];
+                                var northEastY = testSquare.LeftNearY;
+                                if (northEast != csMapbuilder.EmptyCell || testSquare.Visited)
                                 {
                                     square.RightFarY = northEastY;
                                     finished = true;
@@ -443,8 +448,9 @@ namespace DungeonGenerator
                             if (testY > 0)
                             {
                                 var south = map[mapX, testY];
-                                var southY = squareInfo[mapX + 1, testY + 1].RightFarY;
-                                if (south != csMapbuilder.EmptyCell)
+                                var testSquare = squareInfo[mapX + 1, testY + 1];
+                                var southY = testSquare.RightFarY;
+                                if (south != csMapbuilder.EmptyCell || testSquare.Visited)
                                 {
                                     square.RightNearY = southY;
                                     finished = true;
@@ -458,8 +464,9 @@ namespace DungeonGenerator
                             if (!finished && testX < mapWidth)
                             {
                                 var east = map[testX, mapY];
-                                var eastY = squareInfo[testX + 1, mapY + 1].LeftNearY;
-                                if (east != csMapbuilder.EmptyCell)
+                                var testSquare = squareInfo[testX + 1, mapY + 1];
+                                var eastY = testSquare.LeftNearY;
+                                if (east != csMapbuilder.EmptyCell || testSquare.Visited)
                                 {
                                     square.RightNearY = eastY;
                                     finished = true;
@@ -473,8 +480,9 @@ namespace DungeonGenerator
                             if (!finished && testY > 0 && testX < mapWidth)
                             {
                                 var southEast = map[testX, testY];
-                                var southEastY = squareInfo[testX + 1, testY + 1].LeftFarY;
-                                if (southEast != csMapbuilder.EmptyCell)
+                                var testSquare = squareInfo[testX + 1, testY + 1];
+                                var southEastY = testSquare.LeftFarY;
+                                if (southEast != csMapbuilder.EmptyCell || testSquare.Visited)
                                 {
                                     square.RightNearY = southEastY;
                                     finished = true;
@@ -501,8 +509,9 @@ namespace DungeonGenerator
                             if (testY > 0)
                             {
                                 var south = map[mapX, testY];
-                                var southY = squareInfo[mapX + 1, testY + 1].LeftFarY;
-                                if (south != csMapbuilder.EmptyCell)
+                                var testSquare = squareInfo[mapX + 1, testY + 1];
+                                var southY = testSquare.LeftFarY;
+                                if (south != csMapbuilder.EmptyCell || testSquare.Visited)
                                 {
                                     square.LeftNearY = southY;
                                     finished = true;
@@ -516,8 +525,9 @@ namespace DungeonGenerator
                             if (!finished && testX > 0)
                             {
                                 var west = map[testX, mapY];
-                                var westY = squareInfo[testX + 1, mapY + 1].RightNearY;
-                                if (west != csMapbuilder.EmptyCell)
+                                var testSquare = squareInfo[testX + 1, mapY + 1];
+                                var westY = testSquare.RightNearY;
+                                if (west != csMapbuilder.EmptyCell || testSquare.Visited)
                                 {
                                     square.LeftNearY = westY;
                                     finished = true;
@@ -531,8 +541,9 @@ namespace DungeonGenerator
                             if (!finished && testY > 0 && testX > 0)
                             {
                                 var southWest = map[testX, testY];
-                                var southWestY = squareInfo[testX + 1, testY + 1].RightFarY;
-                                if (southWest != csMapbuilder.EmptyCell)
+                                var testSquare = squareInfo[testX + 1, testY + 1];
+                                var southWestY = testSquare.RightFarY;
+                                if (southWest != csMapbuilder.EmptyCell || testSquare.Visited)
                                 {
                                     square.LeftNearY = southWestY;
                                     finished = true;
@@ -550,6 +561,7 @@ namespace DungeonGenerator
                             }
                         }
 
+                        square.Visited = true;
                         squareInfo[mapX + 1, mapY + 1] = square;
                     }
                 }

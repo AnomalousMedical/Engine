@@ -19,6 +19,8 @@ namespace DungeonGenerator
 
         public float LeftNearY;
 
+        public bool Visited;
+
         public MapMeshSquareInfo(Vector3 center, float halfHeight)
         {
             this.Center = center;
@@ -27,6 +29,7 @@ namespace DungeonGenerator
             RightFarY = 0;
             RightNearY = 0;
             LeftNearY = 0;
+            Visited = false;
         }
     }
 }
