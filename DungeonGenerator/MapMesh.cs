@@ -596,6 +596,9 @@ namespace DungeonGenerator
                             rightNear,
                             leftNear,
                             cross,
+                            cross,
+                            cross,
+                            cross,
                             new Vector2(0, 0),
                             new Vector2(1, 1));
                     }
@@ -723,6 +726,9 @@ namespace DungeonGenerator
                     new Vector3(right, floorFarRightY, far),
                     new Vector3(right, floorNearRightY, near),
                     new Vector3(left, floorNearLeftY, near),
+                    floorNormal,
+                    floorNormal,
+                    floorNormal,
                     floorNormal,
                     new Vector2(0, 0),
                     new Vector2(1, 1));
