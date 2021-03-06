@@ -234,6 +234,7 @@ namespace DungeonGenerator
                 yUvBottom = MapUnitY / MapUnitX;
             }
 
+            //Walk all corridors and rooms, this forms the baseline heightmap
             var processedSquares = new bool[mapWidth, mapHeight]; //Its too hard to prevent duplicates from the source just record if a room is done
             var firstCorridor = mapbuilder.Corridors[0];
             currentCorridor = map[firstCorridor.x, firstCorridor.y];
@@ -264,8 +265,8 @@ namespace DungeonGenerator
             UInt16 lastRoomId = (UInt16)(mapbuilder.Rooms.Count - 1);
             ProcessRoom(mapbuilder, halfUnitX, halfUnitY, halfUnitZ, mapWidth, mapHeight, map, slopeMap, yUvBottom, processedSquares, lastRoomId);
 
-            //Figure out heights for remaining squares, which should be just empty squares
-            //Walk vertical
+            //Figure out heights for remaining squares, which are just empty squares
+            //This will make a smooth terrain
             var walkHeight = mapHeight + 1;
             for (int mapX = 0; mapX < mapWidth; ++mapX)
             {
