@@ -583,7 +583,10 @@ namespace DungeonGenerator
                         Vector3 rightNear = new Vector3(right, square.RightNearY, near);
                         Vector3 leftNear = new Vector3(left, square.LeftNearY, near);
 
-                        var cross = leftFar.cross(ref rightFar).normalized();
+                        var u = rightFar - leftFar;
+                        var v = rightNear - leftFar;
+
+                        var cross = u.cross(ref v).normalized();
 
                         wallMesh.AddQuad(
                             leftFar,
