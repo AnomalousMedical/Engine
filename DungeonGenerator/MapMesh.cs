@@ -264,6 +264,41 @@ namespace DungeonGenerator
             UInt16 lastRoomId = (UInt16)(mapbuilder.Rooms.Count - 1);
             ProcessRoom(mapbuilder, halfUnitX, halfUnitY, halfUnitZ, mapWidth, mapHeight, map, slopeMap, yUvBottom, processedSquares, lastRoomId);
 
+            //Figure out heights for remaining squares, which should be just empty squares
+            //Walk vertical
+            for (int mapX = 0; mapX < mapWidth; ++mapX)
+            {
+                var currentCell = map[mapX, 0];
+                var emptyCellStart = -1;
+                for (int mapY = 0; mapY < mapHeight; ++mapY) 
+                {
+                    var cellType = map[mapX, mapY];
+                    if(cellType != currentCell)
+                    {
+                        if(currentCell == csMapbuilder.EmptyCell) //Coming from an empty cell
+                        {
+                            var end = squareInfo[mapX + 1, mapY + 1];
+                            var start = squareInfo[mapX + 1, emptyCellStart + 1];
+                            float yOffset = (end.Center.y - start.Center.y) / (mapY - emptyCellStart - 1);
+                            for(var walk = emptyCellStart + 1; walk < mapY; ++walk)
+                            {
+                                slopeMap[mapX, walk] = new Slope()
+                                {
+                                    PreviousPoint = new IntVector2(mapX, walk - 1), //This is safe since previous points are read from an array 1 size larger
+                                    YOffset = yOffset
+                                };
+                            }
+                        }
+                        else if(cellType == csMapbuilder.EmptyCell) //Going to an empty cell
+                        {
+                            emptyCellStart = mapY - 1;
+                        }
+
+                        currentCell = cellType;
+                    }
+                }
+            }
+
             //Render remaining squares that have not been processed
             for (int mapY = 0; mapY < mapHeight; ++mapY)
             {
