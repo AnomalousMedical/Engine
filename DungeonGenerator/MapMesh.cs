@@ -292,10 +292,10 @@ namespace DungeonGenerator
 
                                 squareInfo[mapX + 1, walk + 1] = new MapMeshSquareInfo(new Vector3(left + halfUnitX, centerY, far - halfUnitZ), halfOffset)
                                 {
-                                    LeftFarY = centerY,
-                                    RightFarY = centerY,
-                                    RightNearY = centerY,
-                                    LeftNearY = centerY,
+                                    LeftFarY = centerY + yOffset - halfUnitY,
+                                    RightFarY = centerY + yOffset - halfUnitY,
+                                    RightNearY = centerY - halfUnitY,
+                                    LeftNearY = centerY - halfUnitY,
                                 };
                             }
                         }
@@ -309,24 +309,18 @@ namespace DungeonGenerator
                 }
             }
 
-            //Render remaining squares that have not been processed
+            //Figure out location for remaining squares
             for (int mapY = 0; mapY < mapHeight; ++mapY)
             {
                 for (int mapX = 0; mapX < mapWidth; ++mapX)
                 {
                     if (!processedSquares[mapX, mapY])
                     {
-                        var left = mapX * MapUnitX;
-                        var right = left + MapUnitX;
-                        var far = mapY * MapUnitZ;
-                        var near = far - MapUnitZ;
                         var square = squareInfo[mapX + 1, mapY + 1];
-                        var squareUnitY = square.HalfYOffset * 2;
-
-                        Vector3 topLeft = new Vector3(left, square.Center.y + squareUnitY - halfUnitY, far);
+                        
                         {
                             bool finished = false;
-                            float accumulatedY = topLeft.y;
+                            float accumulatedY = square.LeftFarY;
                             float denominator = 1f;
                             var testX = mapX - 1;
                             var testY = mapY + 1;
@@ -336,7 +330,7 @@ namespace DungeonGenerator
                                 var northY = squareInfo[mapX + 1, testY + 1].LeftNearY;
                                 if (north != csMapbuilder.EmptyCell)
                                 {
-                                    topLeft.y = northY;
+                                    square.LeftFarY = northY;
                                     finished = true;
                                 }
                                 else
@@ -351,7 +345,7 @@ namespace DungeonGenerator
                                 var westY = squareInfo[testX + 1, mapY + 1].RightFarY;
                                 if (west != csMapbuilder.EmptyCell)
                                 {
-                                    topLeft.y = westY;
+                                    square.LeftFarY = westY;
                                     finished = true;
                                 }
                                 else
@@ -366,7 +360,7 @@ namespace DungeonGenerator
                                 var northWestY = squareInfo[testX + 1, testY + 1].RightNearY;
                                 if (northWest != csMapbuilder.EmptyCell)
                                 {
-                                    topLeft.y = northWestY;
+                                    square.LeftFarY = northWestY;
                                     finished = true;
                                 }
                                 else
@@ -378,13 +372,13 @@ namespace DungeonGenerator
                             
                             if (!finished)
                             {
-                                topLeft.y = accumulatedY / denominator;
+                                square.LeftFarY = accumulatedY / denominator;
                             }
                         }
-                        Vector3 topRight = new Vector3(right, square.Center.y + squareUnitY - halfUnitY, far);
+                        
                         {
                             bool finished = false;
-                            float accumulatedY = topRight.y;
+                            float accumulatedY = square.RightFarY;
                             float denominator = 1f;
                             var testX = mapX + 1;
                             var testY = mapY + 1;
@@ -394,7 +388,7 @@ namespace DungeonGenerator
                                 var northY = squareInfo[mapX + 1, testY + 1].RightNearY;
                                 if (north != csMapbuilder.EmptyCell)
                                 {
-                                    topRight.y = northY;
+                                    square.RightFarY = northY;
                                     finished = true;
                                 }
                                 else
@@ -409,7 +403,7 @@ namespace DungeonGenerator
                                 var eastY = squareInfo[testX + 1, mapY + 1].LeftFarY;
                                 if (east != csMapbuilder.EmptyCell)
                                 {
-                                    topRight.y = eastY;
+                                    square.RightFarY = eastY;
                                     finished = true;
                                 }
                                 else
@@ -424,7 +418,7 @@ namespace DungeonGenerator
                                 var northEastY = squareInfo[testX + 1, testY + 1].LeftNearY;
                                 if (northEast != csMapbuilder.EmptyCell)
                                 {
-                                    topRight.y = northEastY;
+                                    square.RightFarY = northEastY;
                                     finished = true;
                                 }
                                 else
@@ -436,13 +430,13 @@ namespace DungeonGenerator
                             
                             if (!finished)
                             {
-                                topRight.y = accumulatedY / denominator;
+                                square.RightFarY = accumulatedY / denominator;
                             }
                         }
-                        Vector3 bottomRight = new Vector3(right, square.Center.y - halfUnitY, near);
+                        
                         {
                             bool finished = false;
-                            float accumulatedY = bottomRight.y;
+                            float accumulatedY = square.RightNearY;
                             float denominator = 1f;
                             var testX = mapX + 1;
                             var testY = mapY - 1;
@@ -452,7 +446,7 @@ namespace DungeonGenerator
                                 var southY = squareInfo[mapX + 1, testY + 1].RightFarY;
                                 if (south != csMapbuilder.EmptyCell)
                                 {
-                                    bottomRight.y = southY;
+                                    square.RightNearY = southY;
                                     finished = true;
                                 }
                                 else
@@ -467,7 +461,7 @@ namespace DungeonGenerator
                                 var eastY = squareInfo[testX + 1, mapY + 1].LeftNearY;
                                 if (east != csMapbuilder.EmptyCell)
                                 {
-                                    bottomRight.y = eastY;
+                                    square.RightNearY = eastY;
                                     finished = true;
                                 }
                                 else
@@ -482,7 +476,7 @@ namespace DungeonGenerator
                                 var southEastY = squareInfo[testX + 1, testY + 1].LeftFarY;
                                 if (southEast != csMapbuilder.EmptyCell)
                                 {
-                                    bottomRight.y = southEastY;
+                                    square.RightNearY = southEastY;
                                     finished = true;
                                 }
                                 else
@@ -494,13 +488,13 @@ namespace DungeonGenerator
                             
                             if (!finished)
                             {
-                                bottomRight.y = accumulatedY / denominator;
+                                square.RightNearY = accumulatedY / denominator;
                             }
                         }
-                        Vector3 bottomLeft = new Vector3(left, square.Center.y - halfUnitY, near);
+                        
                         {
                             bool finished = false;
-                            float accumulatedY = bottomLeft.y;
+                            float accumulatedY = square.LeftNearY;
                             float denominator = 1f;
                             var testX = mapX - 1;
                             var testY = mapY - 1;
@@ -510,7 +504,7 @@ namespace DungeonGenerator
                                 var southY = squareInfo[mapX + 1, testY + 1].LeftFarY;
                                 if (south != csMapbuilder.EmptyCell)
                                 {
-                                    bottomLeft.y = southY;
+                                    square.LeftNearY = southY;
                                     finished = true;
                                 }
                                 else
@@ -525,7 +519,7 @@ namespace DungeonGenerator
                                 var westY = squareInfo[testX + 1, mapY + 1].RightNearY;
                                 if (west != csMapbuilder.EmptyCell)
                                 {
-                                    bottomLeft.y = westY;
+                                    square.LeftNearY = westY;
                                     finished = true;
                                 }
                                 else
@@ -540,7 +534,7 @@ namespace DungeonGenerator
                                 var southWestY = squareInfo[testX + 1, testY + 1].RightFarY;
                                 if (southWest != csMapbuilder.EmptyCell)
                                 {
-                                    bottomLeft.y = southWestY;
+                                    square.LeftNearY = southWestY;
                                     finished = true;
                                 }
                                 else
@@ -552,15 +546,38 @@ namespace DungeonGenerator
                             
                             if (!finished)
                             {
-                                bottomLeft.y = accumulatedY / denominator;
+                                square.LeftNearY = accumulatedY / denominator;
                             }
                         }
 
+                        squareInfo[mapX + 1, mapY + 1] = square;
+                    }
+                }
+            }
+
+            //Render remaining squares
+            for (int mapY = 0; mapY < mapHeight; ++mapY)
+            {
+                for (int mapX = 0; mapX < mapWidth; ++mapX)
+                {
+                    if (!processedSquares[mapX, mapY])
+                    {
+                        var left = mapX * MapUnitX;
+                        var right = left + MapUnitX;
+                        var far = mapY * MapUnitZ;
+                        var near = far - MapUnitZ;
+                        var square = squareInfo[mapX + 1, mapY + 1];
+
+                        Vector3 leftFar = new Vector3(left, square.LeftFarY, far);
+                        Vector3 rightFar = new Vector3(right, square.RightFarY, far);
+                        Vector3 rightNear = new Vector3(right, square.RightNearY, near);
+                        Vector3 leftNear = new Vector3(left, square.LeftNearY, near);
+
                         wallMesh.AddQuad(
-                            topLeft,
-                            topRight,
-                            bottomRight,
-                            bottomLeft,
+                            leftFar,
+                            rightFar,
+                            rightNear,
+                            leftNear,
                             Vector3.Backward,
                             new Vector2(0, 0),
                             new Vector2(1, 1));
