@@ -351,7 +351,6 @@ namespace DungeonGenerator
                 Console.WriteLine();
                 for (int mapX = 0; mapX < mapWidth; ++mapX)
                 {
-                    Console.Write(String.Format("{0, -5}", squareInfo[mapX + 1, mapY + 1].Center.y.ToString("n2")));
                     if (!processedSquares[mapX, mapY])
                     {
                         var left = mapX * MapUnitX;
@@ -359,13 +358,50 @@ namespace DungeonGenerator
                         var far = mapY * MapUnitZ;
                         var near = far - MapUnitZ;
                         var square = squareInfo[mapX + 1, mapY + 1];
-                        var squareHalfUnitY = square.HalfYOffset * 2;
+                        var squareUnitY = square.HalfYOffset * 2;
+
+                        Vector3 topLeft = new Vector3(left, square.Center.y + squareUnitY - halfUnitY, far);
+                        {
+                            bool finished = false;
+                            float accumulatedY = topLeft.y;
+                            float denominator = 1f;
+                            var testY = mapY + 1;
+                            if (testY < mapHeight)
+                            {
+                                var north = map[mapX, testY];
+                                var northSquare = squareInfo[mapX + 1, testY + 1];
+                                if (north != csMapbuilder.EmptyCell)
+                                {
+                                    topLeft.y = northSquare.LeftNear.y;
+                                }
+                                finished = true;
+                            }
+                        }
+                        Vector3 topRight = new Vector3(right, square.Center.y + squareUnitY - halfUnitY, far);
+                        {
+                            bool finished = false;
+                            float accumulatedY = topLeft.y;
+                            float denominator = 1f;
+                            var testY = mapY + 1;
+                            if (testY < mapHeight)
+                            {
+                                var north = map[mapX, testY];
+                                var northSquare = squareInfo[mapX + 1, testY + 1];
+                                if (north != csMapbuilder.EmptyCell)
+                                {
+                                    topRight.y = northSquare.RightNear.y;
+                                }
+                                finished = true;
+                            }
+                        }
+                        Vector3 bottomRight = new Vector3(right, square.Center.y - halfUnitY, near);
+                        Vector3 bottomLeft = new Vector3(left, square.Center.y - halfUnitY, near);
 
                         wallMesh.AddQuad(
-                            new Vector3(left, square.Center.y + squareHalfUnitY - halfUnitY, far),
-                            new Vector3(right, square.Center.y + squareHalfUnitY - halfUnitY, far),
-                            new Vector3(right, square.Center.y - halfUnitY, near),
-                            new Vector3(left, square.Center.y - halfUnitY, near),
+                            topLeft,
+                            topRight,
+                            bottomRight,
+                            bottomLeft,
                             Vector3.Backward,
                             new Vector2(0, 0),
                             new Vector2(1, 1));
@@ -433,9 +469,6 @@ namespace DungeonGenerator
             var totalYOffset = previousSlope.HalfYOffset + realHalfY;
             var centerY = previousSlope.Center.y + totalYOffset;
 
-            //Update our center point in the slope grid
-            squareInfo[mapX + 1, mapY + 1] = new MapMeshSquareInfo(new Vector3(left + halfUnitX, centerY, far - halfUnitZ), realHalfY);
-
             var floorY = centerY - halfUnitY;
             float floorFarLeftY = 0;
             float floorFarRightY = 0;
@@ -476,6 +509,15 @@ namespace DungeonGenerator
                     floorNearLeftY = floorY + halfYOffset;
                 }
             }
+
+            //Update our center point in the slope grid
+            squareInfo[mapX + 1, mapY + 1] = new MapMeshSquareInfo(new Vector3(left + halfUnitX, centerY, far - halfUnitZ), realHalfY)
+            {
+                LeftFar = new Vector3(left, floorFarLeftY, far),
+                RightFar = new Vector3(right, floorFarRightY, far),
+                RightNear = new Vector3(right, floorNearRightY, near),
+                LeftNear = new Vector3(left, floorNearLeftY, near),
+            };
 
             var floorNormal = Quaternion.quatRotate(floorCubeRot, Vector3.Up);
 
