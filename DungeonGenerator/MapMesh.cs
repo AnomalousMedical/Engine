@@ -722,30 +722,32 @@ namespace DungeonGenerator
 
         private Vector3 ComputeNormal(float Zleft, float Zright, float Zdown, float Zup, float Zupright, float Zdownleft, float ax, float ay)
         {
-            //Original
-            //return new Vector3((zLeft - zRight) / ax,
-            //    (zDown - zUp) / ay,
-            //     2).normalized();
-
             return new Vector3((2 * (Zleft - Zright) - Zupright + Zdownleft + Zup - Zdown) / ax,
                   (2 * (Zdown - Zup) + Zupright + Zdownleft - Zup - Zleft) / ay,
-                   6).normalized();
+                   6).normalized() * new Vector3(-1, -1, -1);
 
             /*
              * https://stackoverflow.com/questions/6656358/calculating-normals-in-a-triangle-mesh/6661242#6661242
-                                             |   \|/   |
-N = N1 + N2 + N3 + N4                    ..--+----U----+--..
-  = ( (Zleft - Zright) / ax,                 |   /|\   |
-      (Zdown -  Zup  ) / ay,                 |  / | \  |
-       2 )                                 \ | / 1|2 \ | /
-                                            \|/   |   \|/
-                                         ..--L----P----R--...
-                                            /|\   |   /|\
-                                           / | \ 4|3 / | \
-                                             |  \ | /  |
-                                             |   \|/   |
-                                         ..--+----D----+--..
-                                             |   /|\   |
+     |/   |/   |/   |/
+...--+----U----UR---+--...
+    /|   /| 2 /|   /|           Y
+   / |  / |  / |  / |           ^
+     | /  | /  | /  | /         |
+     |/ 1 |/ 3 |/   |/          |
+...--L----P----R----+--...      +-----> X
+    /| 6 /| 4 /|   /|          
+   / |  / |  / |  / |         
+     | /5 | /  | /  | /      
+     |/   |/   |/   |/
+...--DL---D----+----+--...
+    /|   /|   /|   /|
+
+            N1 = up x left =
+   = (Yup*Zleft - Yleft*Zup, Xleft*Zup - Xup*ZLeft, Xleft*Yup - Yleft*Xup) 
+
+   =( (y0 + ay)*Zleft - y0*Zup, 
+      (x0 - ax)*Zup   - x0*Zleft, 
+      x0*y0 - (y0 + ay)*(x0 - ax) ) 
              */
         }
 
