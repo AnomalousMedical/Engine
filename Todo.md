@@ -1,5 +1,8 @@
 # TODO
 
+## Level hole
+Random seen 40 or 19 has a hole in the geometry. The collision seems ok though.
+
 ## Don't forget mipmaps
 Have mipmaps, but need to renormalize normals when creating normal mipmaps.
 

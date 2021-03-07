@@ -58,9 +58,20 @@ namespace SceneTest
 
         SharpButton makeDawn = new SharpButton() { Text = "Make Dawn" };
         SharpButton makeDusk = new SharpButton() { Text = "Make Dusk" };
+        SharpButton goNextLevel = new SharpButton() { Text = "Next Level" };
         SharpSliderHorizontal currentHour;
 
-        private bool useFirstPersonCamera = false;
+        private bool useFirstPersonCamera = true;
+
+        private Player player;
+
+        private bool changingLevels = false;
+        private List<int> createdLevelSeeds = new List<int>();
+        private int currentLevelIndex = 0;
+        private Random levelRandom;
+        private Level currentLevel;
+        private Level nextLevel;
+        private Level previousLevel;
 
         public unsafe SceneTestUpdateListener(
             GraphicsEngine graphicsEngine,
@@ -82,6 +93,8 @@ namespace SceneTest
             IBepuScene bepuScene,
             CameraMover cameraMover)
         {
+            levelRandom = new Random(0);
+
             cameraControls.Position = new Vector3(0, 0, -12);
 
             this.pbrRenderer = m_GLTFRenderer;
@@ -124,24 +137,10 @@ namespace SceneTest
             //Make scene
             coroutineRunner.RunTask(async () =>
             {
-                var level = this.objectResolver.Resolve<Level, Level.Description>(o =>
-                {
-                    o.FloorTexture = "cc0Textures/Ground025_1K";
-                    o.WallTexture = "cc0Textures/Rock029_1K";
+                createdLevelSeeds.Add(levelRandom.Next(int.MinValue, int.MaxValue));
+                createdLevelSeeds.Add(levelRandom.Next(int.MinValue, int.MaxValue));
 
-                    o.RandomSeed = 19; //1 is pretty fast to build
-                    o.Width = 50;
-                    o.Height = 50;
-                    o.CorridorSpace = 10;
-                    o.RoomDistance = 3;
-                    o.RoomMin = new IntSize2(2, 2);
-                    o.RoomMax = new IntSize2(6, 6); //Between 3-6 is good here, 3 for more cityish with small rooms, 6 for more open with more big rooms, sometimes connected
-                    o.CorridorMaxLength = 4;
-                });
-
-                await level.WaitForLevelGeneration();
-
-                var level2 = this.objectResolver.Resolve<Level, Level.Description>(o =>
+                currentLevel = this.objectResolver.Resolve<Level, Level.Description>(o =>
                 {
                     //o.FloorTexture = "cc0Textures/Ground037_1K";
                     //o.WallTexture = "cc0Textures/Rock019_1K";
@@ -149,8 +148,8 @@ namespace SceneTest
                     o.FloorTexture = "cc0Textures/Rocks023_1K";
                     o.WallTexture = "cc0Textures/Ground037_1K";
 
-                    o.Translation = new Vector3(-150, 0, 0);
-                    o.RandomSeed = 40; //1 is pretty fast to build
+                    o.Translation = new Vector3(0, 0, 0);
+                    o.RandomSeed = createdLevelSeeds[0];
                     o.Width = 50;
                     o.Height = 50;
                     o.CorridorSpace = 10;
@@ -160,33 +159,53 @@ namespace SceneTest
                     o.CorridorMaxLength = 4;
                 });
 
-                await level2.WaitForLevelGeneration();
-
-                this.objectResolver.Resolve<Player, Player.Description>(c =>
+                nextLevel = this.objectResolver.Resolve<Level, Level.Description>(o =>
                 {
-                    c.Translation = level2.StartPoint;
+                    o.FloorTexture = "cc0Textures/Ground025_1K";
+                    o.WallTexture = "cc0Textures/Rock029_1K";
+
+                    o.Translation = new Vector3(150, 0, 0);
+                    o.RandomSeed = createdLevelSeeds[1];
+                    o.Width = 50;
+                    o.Height = 50;
+                    o.CorridorSpace = 10;
+                    o.RoomDistance = 3;
+                    o.RoomMin = new IntSize2(2, 2);
+                    o.RoomMax = new IntSize2(6, 6); //Between 3-6 is good here, 3 for more cityish with small rooms, 6 for more open with more big rooms, sometimes connected
+                    o.CorridorMaxLength = 4;
+                });
+
+                await currentLevel.WaitForLevelGeneration();
+
+                currentLevel.SetupPhysics();
+
+                player = this.objectResolver.Resolve<Player, Player.Description>(c =>
+                {
+                    c.Translation = currentLevel.StartPoint;
                 });
 
                 this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
                 {
                     Enemy.Desc.MakeTinyDino(c);
-                    c.Translation = level.StartPoint + new Vector3(-4, 0, -1);
+                    c.Translation = currentLevel.StartPoint + new Vector3(-4, 0, -1);
                 });
                 this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
                 {
                     Enemy.Desc.MakeTinyDino(c, skinMaterial: "cc0Textures/Leather011_1K");
-                    c.Translation = level.StartPoint + new Vector3(-5, 0, -2);
+                    c.Translation = currentLevel.StartPoint + new Vector3(-5, 0, -2);
                 });
                 this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
                 {
                     Enemy.Desc.MakeSkeleton(c);
-                    c.Translation = level.StartPoint + new Vector3(0, 0, -3);
+                    c.Translation = currentLevel.StartPoint + new Vector3(0, 0, -3);
                 });
                 this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
                 {
                     Enemy.Desc.MakeTinyDino(c);
-                    c.Translation = level.StartPoint + new Vector3(-6, 0, -3);
+                    c.Translation = currentLevel.StartPoint + new Vector3(-6, 0, -3);
                 });
+
+                await nextLevel.WaitForLevelGeneration();
             });
         }
 
@@ -207,7 +226,7 @@ namespace SceneTest
             var layout =
                 new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
                 new MaxWidthLayout(scaleHelper.Scaled(300),
-                new ColumnLayout(makeDawn, makeDusk) { Margin = new IntPad(10) }
+                new ColumnLayout(makeDawn, makeDusk, goNextLevel) { Margin = new IntPad(10) }
                 ));
             var desiredSize = layout.GetDesiredSize(sharpGui);
             layout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
@@ -228,6 +247,11 @@ namespace SceneTest
                 bgMusicSound.Sound.Repeat = true;
             }
 
+            if (!changingLevels && sharpGui.Button(goNextLevel))
+            {
+                coroutineRunner.RunTask(GoNextLevel());
+            }
+
             int currentTime = (int)(timeClock.CurrentTimeMicro * Clock.MicroToSeconds / (60 * 60));
             if (sharpGui.Slider(currentHour, ref currentTime) || sharpGui.ActiveItem == currentHour.Id)
             {
@@ -237,6 +261,53 @@ namespace SceneTest
             sharpGui.Text(currentHour.Rect.Right, currentHour.Rect.Top, timeClock.IsDay ? Engine.Color.Black : Engine.Color.White, $"Time: {time}");
 
             sharpGui.End();
+        }
+
+        private async Task GoNextLevel()
+        {
+            changingLevels = true;
+            await nextLevel.WaitForLevelGeneration(); //This is pretty unlikely, but have to stop here if level isn't created yet
+
+            //Shuffle levels
+            previousLevel?.RequestDestruction();
+            previousLevel = currentLevel;
+            currentLevel = nextLevel;
+
+            //Change level index
+            ++currentLevelIndex;
+            if (currentLevelIndex == createdLevelSeeds.Count)
+            {
+                createdLevelSeeds.Add(levelRandom.Next(int.MinValue, int.MaxValue));
+            }
+            var levelSeed = createdLevelSeeds[currentLevelIndex];
+
+            //Create new level
+            nextLevel = this.objectResolver.Resolve<Level, Level.Description>(o =>
+            {
+                //o.MapUnitY = 1.0f;
+                o.FloorTexture = "cc0Textures/Rocks023_1K";
+                o.WallTexture = "cc0Textures/Ground037_1K";
+
+                o.Translation = new Vector3(150, 0, 0);
+                o.RandomSeed = levelSeed;
+                o.Width = 50;
+                o.Height = 50;
+                o.CorridorSpace = 10;
+                o.RoomDistance = 3;
+                o.RoomMin = new IntSize2(2, 2);
+                o.RoomMax = new IntSize2(6, 6); //Between 3-6 is good here, 3 for more cityish with small rooms, 6 for more open with more big rooms, sometimes connected
+                o.CorridorMaxLength = 4;
+            });
+
+            //Physics changeover
+            previousLevel.DestroyPhysics();
+            previousLevel.SetPosition(new Vector3(-150, 0, 0));
+            currentLevel.SetPosition(new Vector3(0, 0, 0));
+            currentLevel.SetupPhysics();
+
+            player.SetLocation(currentLevel.StartPoint);
+
+            changingLevels = false;
         }
 
         private unsafe void UpdateLight(Clock clock)

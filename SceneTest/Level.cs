@@ -92,6 +92,7 @@ namespace SceneTest
         }
 
         private readonly SceneObjectManager sceneObjectManager;
+        private readonly IDestructionRequest destructionRequest;
         private readonly IBepuScene bepuScene;
         private readonly ICC0TextureManager textureManager;
         private readonly ILogger<Level> logger;
@@ -104,10 +105,12 @@ namespace SceneTest
         private TypedIndex floorCubeShapeIndex;
         private bool disposed;
         private MapMesh mapMesh;
+        private bool physicsActive = false;
 
         private Task levelGenerationTask;
 
-        public Vector3 StartPoint { get; set; }
+        private Vector3 startPointLocal;
+        public Vector3 StartPoint => startPointLocal + wallSceneObject.position;
 
         public Level(
             SceneObjectManager sceneObjectManager,
@@ -120,6 +123,7 @@ namespace SceneTest
             ILogger<Level> logger)
         {
             this.sceneObjectManager = sceneObjectManager;
+            this.destructionRequest = destructionRequest;
             this.bepuScene = bepuScene;
             this.textureManager = textureManager;
             this.logger = logger;
@@ -170,7 +174,7 @@ namespace SceneTest
                     var startRoom = mapBuilder.StartRoom;
                     var startX = startRoom.Left + startRoom.Width / 2;
                     var startY = startRoom.Top + startRoom.Height / 2;
-                    StartPoint = mapMesh.PointToVector(startX, startY) + description.Translation;
+                    startPointLocal = mapMesh.PointToVector(startX, startY);
                     sw.Stop();
                     logger.LogInformation($"Generated level {description.RandomSeed} in {sw.ElapsedMilliseconds} ms.");
                 });
@@ -178,44 +182,6 @@ namespace SceneTest
                 var floorTextureTask = textureManager.Checkout(new CCOTextureBindingDescription(description.FloorTexture, getShadow: true));
 
                 await levelGenerationTask;
-
-                if (!disposed)
-                {
-                    float yBoundaryScale = 50f;
-
-                    //Add stuff to physics scene
-                    var boundaryCubeShape = new Box(mapMesh.MapUnitX, mapMesh.MapUnitY * yBoundaryScale, mapMesh.MapUnitZ); //Each one creates its own, try to load from resources
-                    boundaryCubeShapeIndex = bepuScene.Simulation.Shapes.Add(boundaryCubeShape);
-
-                    var floorCubeShape = new Box(mapMesh.MapUnitX, mapMesh.MapUnitY, mapMesh.MapUnitZ); //Each one creates its own, try to load from resources
-                    floorCubeShapeIndex = bepuScene.Simulation.Shapes.Add(floorCubeShape);
-
-                    var boundaryOrientation = System.Numerics.Quaternion.Identity;
-
-                    foreach (var boundary in mapMesh.FloorCubeCenterPoints)
-                    {
-                        //TODO: Figure out where nans are coming from
-                        var orientation = boundary.Orientation.isNumber() ? boundary.Orientation : Quaternion.Identity;
-                        var staticHandle = bepuScene.Simulation.Statics.Add(
-                            new StaticDescription(
-                                (boundary.Position + description.Translation).ToSystemNumerics(),
-                                orientation.ToSystemNumerics(),
-                                new CollidableDescription(floorCubeShapeIndex, 0.1f)));
-
-                        staticHandles.Add(staticHandle);
-                    }
-
-                    foreach (var boundary in mapMesh.BoundaryCubeCenterPoints)
-                    {
-                        var staticHandle = bepuScene.Simulation.Statics.Add(
-                            new StaticDescription(
-                                (boundary + description.Translation).ToSystemNumerics(),
-                                boundaryOrientation,
-                                new CollidableDescription(boundaryCubeShapeIndex, 0.1f)));
-
-                        staticHandles.Add(staticHandle);
-                    }
-                }
 
                 wallMatBinding = await wallTextureTask;
                 floorMatBinding = await floorTextureTask;
@@ -249,16 +215,15 @@ namespace SceneTest
             });
         }
 
+        internal void RequestDestruction()
+        {
+            this.destructionRequest.RequestDestruction();
+        }
+
         public void Dispose()
         {
             disposed = true;
-            var statics = bepuScene.Simulation.Statics;
-            foreach (var staticHandle in staticHandles)
-            {
-                statics.Remove(staticHandle);
-            }
-            bepuScene.Simulation.Shapes.Remove(boundaryCubeShapeIndex);
-            bepuScene.Simulation.Shapes.Remove(floorCubeShapeIndex);
+            DestroyPhysics();
             sceneObjectManager.Remove(wallSceneObject);
             sceneObjectManager.Remove(floorSceneObject);
             textureManager.TryReturn(wallMatBinding);
@@ -277,6 +242,82 @@ namespace SceneTest
             {
                 await levelGenerationTask;
             }
+        }
+
+        public void SetPosition(in Vector3 position)
+        {
+            this.floorSceneObject.position = position;
+            this.wallSceneObject.position = position;
+        }
+
+        /// <summary>
+        /// Add physics shapes to scene. Should wait until the level generation is complete first.
+        /// </summary>
+        public void SetupPhysics()
+        {
+            if (physicsActive)
+            {
+                //Don't do anything if physics are active
+                return;
+            }
+
+            physicsActive = true;
+
+            float yBoundaryScale = 50f;
+
+            //Add stuff to physics scene
+            var boundaryCubeShape = new Box(mapMesh.MapUnitX, mapMesh.MapUnitY * yBoundaryScale, mapMesh.MapUnitZ); //Each one creates its own, try to load from resources
+            boundaryCubeShapeIndex = bepuScene.Simulation.Shapes.Add(boundaryCubeShape);
+
+            var floorCubeShape = new Box(mapMesh.MapUnitX, mapMesh.MapUnitY, mapMesh.MapUnitZ); //Each one creates its own, try to load from resources
+            floorCubeShapeIndex = bepuScene.Simulation.Shapes.Add(floorCubeShape);
+
+            var boundaryOrientation = System.Numerics.Quaternion.Identity;
+
+            foreach (var boundary in mapMesh.FloorCubeCenterPoints)
+            {
+                //TODO: Figure out where nans are coming from
+                var orientation = boundary.Orientation.isNumber() ? boundary.Orientation : Quaternion.Identity;
+                var staticHandle = bepuScene.Simulation.Statics.Add(
+                    new StaticDescription(
+                        (boundary.Position + wallSceneObject.position).ToSystemNumerics(),
+                        orientation.ToSystemNumerics(),
+                        new CollidableDescription(floorCubeShapeIndex, 0.1f)));
+
+                staticHandles.Add(staticHandle);
+            }
+
+            foreach (var boundary in mapMesh.BoundaryCubeCenterPoints)
+            {
+                var staticHandle = bepuScene.Simulation.Statics.Add(
+                    new StaticDescription(
+                        (boundary + wallSceneObject.position).ToSystemNumerics(),
+                        boundaryOrientation,
+                        new CollidableDescription(boundaryCubeShapeIndex, 0.1f)));
+
+                staticHandles.Add(staticHandle);
+            }
+        }
+
+        /// <summary>
+        /// Remove physics shapes from scene. Should wait until the level generation is complete first.
+        /// </summary>
+        public void DestroyPhysics()
+        {
+            if (!physicsActive)
+            {
+                //Do nothing if physics aren't active.
+                return;
+            }
+            physicsActive = false;
+
+            var statics = bepuScene.Simulation.Statics;
+            foreach (var staticHandle in staticHandles)
+            {
+                statics.Remove(staticHandle);
+            }
+            bepuScene.Simulation.Shapes.Remove(boundaryCubeShapeIndex);
+            bepuScene.Simulation.Shapes.Remove(floorCubeShapeIndex);
         }
     }
 }

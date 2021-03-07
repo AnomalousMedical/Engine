@@ -58,6 +58,12 @@ namespace BepuPlugin.Characters
             characters.RemoveCharacterByBodyHandle(bodyHandle);
         }
 
+        public void SetLocation(in Vector3 location)
+        {
+            var characterBody = new BodyReference(bodyHandle, characters.Simulation.Bodies);
+            characterBody.Pose.Position = location;
+        }
+
         public void UpdateCharacterGoals(in Vector3 viewDirection, float simulationTimestepDuration)
         {
             var movementDirectionCalc = this.movementDirection;

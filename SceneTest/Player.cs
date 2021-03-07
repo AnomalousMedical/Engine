@@ -471,6 +471,11 @@ namespace SceneTest
             objectResolver.Dispose();
         }
 
+        public void SetLocation(in Vector3 location)
+        {
+            this.characterMover.SetLocation(location.ToSystemNumerics());
+        }
+
         internal void RequestDestruction()
         {
             destructionRequest.RequestDestruction();
