@@ -172,7 +172,7 @@ namespace Engine
                 return false;
 	        }
 
-            Vector3 kWxD = ray.Direction.cross(ref kDiff);
+            Vector3 kWxD = ray.Direction.cross(kDiff);
 
             fAWxDdU[0] = System.Math.Abs(kWxD.dot(ref axis[0]));
             fRhs = extents.y*fAWdU[2] + extents.z*fAWdU[1];

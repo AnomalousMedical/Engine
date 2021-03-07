@@ -180,7 +180,7 @@ namespace Engine
 	        Vector3 x = this - o;
 	        Vector3 y;
 
-	        y = wAxis.cross(ref this);
+	        y = wAxis.cross(this);
 
 	        return ( o + x * (float)System.Math.Cos( angle ) + y * (float)System.Math.Sin( angle ) );
         }
@@ -213,23 +213,13 @@ namespace Engine
 	    /// </summary>
 	    /// <param name="v">The other vector.</param>
 	    /// <returns>The cross product of the two vectors.</returns>
-        public Vector3 cross(ref Vector3 v) 
+        public Vector3 cross(in Vector3 v) 
 	    {
 		    return new Vector3(
 			    y * v.z - z * v.y,
 			    z * v.x - x * v.z,
 			    x * v.y - y * v.x);
 	    }
-
-        /// <summary>
-        /// Compute the cross product of two vectors. Passing by value.
-        /// </summary>
-        /// <param name="v">The other vector.</param>
-        /// <returns>The cross product of the two vectors.</returns>
-        public Vector3 crossV(Vector3 v)
-        {
-            return cross(ref v);
-        }
 
 	    /// <summary>
 	    /// Compute the triple product with this vector as the dot product.

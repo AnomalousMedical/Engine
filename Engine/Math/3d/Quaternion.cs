@@ -641,7 +641,7 @@ namespace Engine
         /// <returns>The quaternion with the shortest arc.</returns>
         public static Quaternion shortestArcQuat(ref Vector3 v0, ref Vector3 v1)
         {
-            Vector3 c = v0.cross(ref v1);
+            Vector3 c = v0.cross(v1);
             float d = v0.dot(ref v1);
 
             if (d < -1.0 + FLT_EPSILON)
@@ -695,10 +695,10 @@ namespace Engine
         /// <returns>The quaternion that will get to this orientation.</returns>
         public static Quaternion shortestArcQuatFixedYaw(ref Vector3 direction, ref Vector3 yawFixedAxis)
         {
-            Vector3 xVec = yawFixedAxis.cross(ref direction);
+            Vector3 xVec = yawFixedAxis.cross(direction);
             xVec.normalize();
 
-            Vector3 yVec = direction.cross(ref xVec);
+            Vector3 yVec = direction.cross(xVec);
             yVec.normalize();
 
             Quaternion targetWorldOrientation = new Quaternion();

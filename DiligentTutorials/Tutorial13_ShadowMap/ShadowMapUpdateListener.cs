@@ -666,8 +666,8 @@ namespace Tutorial13_ShadowMap
             else
                 f3LightSpaceX = new float3(0, 0, 1);
 
-            f3LightSpaceY = f3LightSpaceZ.cross(ref f3LightSpaceX);
-            f3LightSpaceX = f3LightSpaceY.cross(ref f3LightSpaceZ);
+            f3LightSpaceY = f3LightSpaceZ.cross(f3LightSpaceX);
+            f3LightSpaceX = f3LightSpaceY.cross(f3LightSpaceZ);
             f3LightSpaceX = f3LightSpaceX.normalized();
             f3LightSpaceY = f3LightSpaceY.normalized();
 
