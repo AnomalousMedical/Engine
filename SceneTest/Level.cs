@@ -318,6 +318,7 @@ namespace SceneTest
             }
             bepuScene.Simulation.Shapes.Remove(boundaryCubeShapeIndex);
             bepuScene.Simulation.Shapes.Remove(floorCubeShapeIndex);
+            staticHandles.Clear();
         }
     }
 }

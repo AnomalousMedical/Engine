@@ -59,6 +59,7 @@ namespace SceneTest
         SharpButton makeDawn = new SharpButton() { Text = "Make Dawn" };
         SharpButton makeDusk = new SharpButton() { Text = "Make Dusk" };
         SharpButton goNextLevel = new SharpButton() { Text = "Next Level" };
+        SharpButton goPreviousLevel = new SharpButton() { Text = "Previous Level" };
         SharpSliderHorizontal currentHour;
 
         private bool useFirstPersonCamera = true;
@@ -226,7 +227,7 @@ namespace SceneTest
             var layout =
                 new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
                 new MaxWidthLayout(scaleHelper.Scaled(300),
-                new ColumnLayout(makeDawn, makeDusk, goNextLevel) { Margin = new IntPad(10) }
+                new ColumnLayout(makeDawn, makeDusk, goNextLevel, goPreviousLevel) { Margin = new IntPad(10) }
                 ));
             var desiredSize = layout.GetDesiredSize(sharpGui);
             layout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
@@ -252,6 +253,11 @@ namespace SceneTest
                 coroutineRunner.RunTask(GoNextLevel());
             }
 
+            if (!changingLevels && sharpGui.Button(goPreviousLevel))
+            {
+                coroutineRunner.RunTask(GoPreviousLevel());
+            }
+
             int currentTime = (int)(timeClock.CurrentTimeMicro * Clock.MicroToSeconds / (60 * 60));
             if (sharpGui.Slider(currentHour, ref currentTime) || sharpGui.ActiveItem == currentHour.Id)
             {
@@ -265,8 +271,17 @@ namespace SceneTest
 
         private async Task GoNextLevel()
         {
+            if (changingLevels)
+            {
+                return;
+            }
+
             changingLevels = true;
-            await nextLevel.WaitForLevelGeneration(); //This is pretty unlikely, but have to stop here if level isn't created yet
+            if (previousLevel != null)
+            {
+                await previousLevel.WaitForLevelGeneration(); //This is pretty unlikely, but have to stop here if level isn't created yet
+            }
+            await nextLevel.WaitForLevelGeneration(); //Also unlikely, but next level might not be loaded yet
 
             //Shuffle levels
             previousLevel?.RequestDestruction();
@@ -275,11 +290,12 @@ namespace SceneTest
 
             //Change level index
             ++currentLevelIndex;
-            if (currentLevelIndex == createdLevelSeeds.Count)
+            var nextLevelIndex = currentLevelIndex + 1;
+            if (nextLevelIndex == createdLevelSeeds.Count)
             {
                 createdLevelSeeds.Add(levelRandom.Next(int.MinValue, int.MaxValue));
             }
-            var levelSeed = createdLevelSeeds[currentLevelIndex];
+            var levelSeed = createdLevelSeeds[nextLevelIndex];
 
             //Create new level
             nextLevel = this.objectResolver.Resolve<Level, Level.Description>(o =>
@@ -302,6 +318,73 @@ namespace SceneTest
             //Physics changeover
             previousLevel.DestroyPhysics();
             previousLevel.SetPosition(new Vector3(-150, 0, 0));
+            currentLevel.SetPosition(new Vector3(0, 0, 0));
+            currentLevel.SetupPhysics();
+
+            player.SetLocation(currentLevel.StartPoint);
+
+            changingLevels = false;
+        }
+
+        private async Task GoPreviousLevel()
+        {
+            if (changingLevels)
+            {
+                return;
+            }
+
+            //Change level index
+            --currentLevelIndex;
+            if (currentLevelIndex < 0)
+            {
+                //Below 0, do nothing
+                currentLevelIndex = 0;
+                return;
+            }
+
+            changingLevels = true;
+            if (previousLevel != null)
+            {
+                await previousLevel.WaitForLevelGeneration(); //This is pretty unlikely, but have to stop here if level isn't created yet
+            }
+            await nextLevel.WaitForLevelGeneration(); //Also unlikely, but next level might not be loaded yet
+
+            //Shuffle levels
+            nextLevel?.RequestDestruction();
+            nextLevel = currentLevel;
+            currentLevel = previousLevel;
+
+            if (currentLevelIndex > 0)
+            {
+                var levelSeed = createdLevelSeeds[currentLevelIndex - 1];
+                Console.WriteLine(levelSeed);
+
+                //Create new level
+                previousLevel = this.objectResolver.Resolve<Level, Level.Description>(o =>
+                {
+                    //o.MapUnitY = 1.0f;
+                    o.FloorTexture = "cc0Textures/Rocks023_1K";
+                    o.WallTexture = "cc0Textures/Ground037_1K";
+
+                    o.Translation = new Vector3(-150, 0, 0);
+                    o.RandomSeed = levelSeed;
+                    o.Width = 50;
+                    o.Height = 50;
+                    o.CorridorSpace = 10;
+                    o.RoomDistance = 3;
+                    o.RoomMin = new IntSize2(2, 2);
+                    o.RoomMax = new IntSize2(6, 6); //Between 3-6 is good here, 3 for more cityish with small rooms, 6 for more open with more big rooms, sometimes connected
+                    o.CorridorMaxLength = 4;
+                });
+            }
+            else
+            {
+                previousLevel = null;
+            }
+
+            //Physics changeover
+            nextLevel.DestroyPhysics();
+            nextLevel.SetPosition(new Vector3(150, 0, 0));
             currentLevel.SetPosition(new Vector3(0, 0, 0));
             currentLevel.SetupPhysics();
 
