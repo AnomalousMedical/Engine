@@ -573,235 +573,13 @@ namespace DungeonGenerator
                 {
                     if (!processedSquares[mapX, mapY])
                     {
-                        var left = mapX * MapUnitX;
-                        var right = left + MapUnitX;
-                        var far = mapY * MapUnitZ;
-                        var near = far - MapUnitZ;
-                        var square = squareInfo[mapX + 1, mapY + 1];
-                        var tempSquare = tempSquareInfo[mapX + 1, mapY + 1];
-
-                        //
-                        // LF ----- RF
-                        //  |       |
-                        //  |       |
-                        // LN ----- RN
-                        //
-                        Vector3 leftFar = new Vector3(left, tempSquare.LeftFarY, far);
-                        Vector3 rightFar = new Vector3(right, tempSquare.RightFarY, far);
-                        Vector3 rightNear = new Vector3(right, tempSquare.RightNearY, near);
-                        Vector3 leftNear = new Vector3(left, tempSquare.LeftNearY, near);
-
-                        var north = tempSquareInfo[mapX + 1, mapY + 1 + 1];
-                        var west = tempSquareInfo[mapX - 1 + 1, mapY + 1];
-                        var northWest = tempSquareInfo[mapX - 1 + 1, mapY + 1 + 1];
-                        var east = tempSquareInfo[mapX + 1 + 1, mapY + 1];
-                        var south = tempSquareInfo[mapX + 1, mapY - 1 + 1];
-                        var southEast = tempSquareInfo[mapX + 1 + 1, mapY - 1 + 1];
-
-                        Vector3 leftFarNormal;
-                        {
-                            //         Far
-                            //    \|   \|   \|   \| 
-                            //...--UL---U----+---+--...      
-                            //     |\   |\   |\   |\          Y
-                            //     | \  | \  | \  | \         ^
-                            //   \ |  \ |  \ |  \ |           |
-                            //    \| NW\| N \|   \|           |
-                            //...--L----P----R----+--...      +-----> X
-                            //     |\ W |\ T |\   |\         
-                            //     | \  | \  | \  | \       
-                            //   \ |  \ |  \ |  \ |        
-                            //    \|   \|   \|   \| 
-                            //...--+----D----DR---+--...
-                            //     |\   |\   |\   |\
-                            //         Near
-
-                            var yBasis = tempSquare.LeftFarY;
-
-                            leftFarNormal = ComputeNormal(
-                                west.LeftFarY - yBasis, tempSquare.RightFarY - yBasis, 
-                                tempSquare.LeftNearY - yBasis, north.LeftFarY - yBasis, 
-                                northWest.LeftFarY - yBasis, tempSquare.RightNearY - yBasis, 
-                                MapUnitX, MapUnitZ);
-                        }
-
-                        Vector3 rightFarNormal;
-                        {
-                            //         Far
-                            //    \|   \|   \|   \| 
-                            //...--UL---U----+---+--...      
-                            //     |\   |\   |\   |\          Y
-                            //     | \  | \  | \  | \         ^
-                            //   \ |  \ |  \ |  \ |           |
-                            //    \| N \|   \|   \|           |
-                            //...--L----P----R----+--...      +-----> X
-                            //     |\ T |\ E |\   |\         
-                            //     | \  | \  | \  | \       
-                            //   \ |  \ |  \ |  \ |        
-                            //    \|   \|   \|   \| 
-                            //...--+----D----DR---+--...
-                            //     |\   |\   |\   |\
-                            //         Near
-
-                            var yBasis = tempSquare.RightFarY;
-
-                            rightFarNormal = ComputeNormal(
-                                tempSquare.LeftFarY - yBasis, east.RightFarY - yBasis, 
-                                tempSquare.RightNearY - yBasis, north.RightFarY - yBasis, 
-                                north.LeftFarY - yBasis, east.RightNearY - yBasis, 
-                                MapUnitX, MapUnitZ);
-                        }
-
-                        Vector3 rightNearNormal;
-                        {
-                            //         Far
-                            //    \|   \|   \|   \| 
-                            //...--UL---U----+---+--...      
-                            //     |\   |\   |\   |\          Y
-                            //     | \  | \  | \  | \         ^
-                            //   \ |  \ |  \ |  \ |           |
-                            //    \| T \| E \|   \|           |
-                            //...--L----P----R----+--...      +-----> X
-                            //     |\ S |\ SE|\   |\         
-                            //     | \  | \  | \  | \       
-                            //   \ |  \ |  \ |  \ |        
-                            //    \|   \|   \|   \| 
-                            //...--+----D----DR---+--...
-                            //     |\   |\   |\   |\
-                            //         Near
-
-                            var yBasis = tempSquare.RightNearY;
-
-                            rightNearNormal = ComputeNormal(
-                                tempSquare.LeftNearY - yBasis, east.RightNearY - yBasis, 
-                                south.RightNearY - yBasis, tempSquare.RightFarY - yBasis, 
-                                tempSquare.LeftFarY - yBasis, southEast.RightNearY - yBasis, 
-                                MapUnitX, MapUnitZ);
-                        }
-
-                        Vector3 leftNearNormal;
-                        {
-                            //         Far
-                            //    \|   \|   \|   \| 
-                            //...--UL---U----+---+--...      
-                            //     |\   |\   |\   |\          Y
-                            //     | \  | \  | \  | \         ^
-                            //   \ |  \ |  \ |  \ |           |
-                            //    \| W \| T \|   \|           |
-                            //...--L----P----R----+--...      +-----> X
-                            //     |\   |\ S |\   |\         
-                            //     | \  | \  | \  | \       
-                            //   \ |  \ |  \ |  \ |        
-                            //    \|   \|   \|   \| 
-                            //...--+----D----DR---+--...
-                            //     |\   |\   |\   |\
-                            //         Near
-
-                            var yBasis = tempSquare.LeftNearY;
-
-                            leftNearNormal = ComputeNormal(
-                                west.LeftNearY - yBasis, tempSquare.RightNearY - yBasis, 
-                                south.LeftNearY - yBasis, tempSquare.LeftFarY - yBasis, 
-                                west.LeftFarY - yBasis, south.RightNearY - yBasis, 
-                                MapUnitX, MapUnitZ);
-                        }
-
-                        //Both should work, this is better
-                        //var u = new Vector3(MapUnitX, tempSquare.RightFarY - tempSquare.LeftFarY, 0);
-                        //var v = new Vector3(MapUnitX, tempSquare.RightNearY - tempSquare.LeftFarY, -MapUnitZ);
-
-                        ////var u = rightFar - leftFar;
-                        ////var v = rightNear - leftFar;
-
-                        //var cross = u.cross(v).normalized();
-
-                        wallMesh.AddQuad(
-                            leftFar,
-                            rightFar,
-                            rightNear,
-                            leftNear,
-                            leftFarNormal,
-                            rightFarNormal,
-                            rightNearNormal,
-                            leftNearNormal,
-                            //cross,
-                            //cross,
-                            //cross,
-                            //cross,
-                            new Vector2(0, 0),
-                            new Vector2(1, 1));
+                        RenderEmptySquare(tempSquareInfo, mapY, mapX);
                     }
                 }
             }
 
             floorMesh.End(renderDevice);
             wallMesh.End(renderDevice);
-        }
-
-        private Vector3 ComputeNormal(float zLeft, float zRight, float zDown, float zUp, float zUpleft, float zDownright, float ax, float ay)
-        {
-            Vector3 accumulatedNormal = new Vector3(0, 0, 0);
-            var pl = new Vector3(-ax, zLeft, 0);
-            var pul = new Vector3(-ax, zUpleft, ay);
-            var pu = new Vector3(0, zUp, ay);
-            var pr = new Vector3(ax, zRight, 0);
-            var pdr = new Vector3(ax, zDownright, -ay);
-            var pd = new Vector3(0, zDown, -ay);
-
-            //Triangle 1
-            {
-                var cross = pl.cross(pul);
-                accumulatedNormal += cross;
-            }
-
-            //Triangle 2
-            {
-                var cross = pul.cross(pu);
-                accumulatedNormal += cross;
-            }
-
-            //Triangle 3
-            {
-                var cross = pu.cross(pr);
-                accumulatedNormal += cross;
-            }
-
-            //Triangle 4
-            {
-                var cross = pr.cross(pdr);
-                accumulatedNormal += cross;
-            }
-
-            //Triangle 5
-            {
-                var cross = pdr.cross(pd);
-                accumulatedNormal += cross;
-            }
-
-            //Triangle 6
-            {
-                var cross = pd.cross(pl);
-                accumulatedNormal += cross;
-            }
-
-            return accumulatedNormal.normalized();
-            /*
-             * Based on this, but our mesh is different
-             * https://stackoverflow.com/questions/6656358/calculating-normals-in-a-triangle-mesh/6661242#6661242
-                    \|   \|   \|   \| 
-                ...--UL---U----+---+--...      
-                     |\ 2 |\   |\   |\          Y
-                     | \  | \  | \  | \         ^
-                   \ |  \ |  \ |  \ |           |
-                    \| 1 \| 3 \|   \|           |
-                ...--L----P----R----+--...      +-----> X
-                     |\ 6 |\ 4 |\   |\         
-                     | \  | \  | \  | \       
-                   \ |  \ |  \ |  \ |        
-                    \|   \| 5 \|   \| 
-                ...--+----D----DR---+--...
-                     |\   |\   |\   |\
-             */
         }
 
         private void ProcessRoom(csMapbuilder mapbuilder, float halfUnitX, float halfUnitY, float halfUnitZ, int mapWidth, int mapHeight, ushort[,] map, Slope[,] slopeMap, MapMeshTempSquareInfo[,] tempSquareInfo, float yUvBottom, bool[,] processedSquares, ushort roomId)
@@ -1035,6 +813,233 @@ namespace DungeonGenerator
                     slopeMap[x, y] = slope;
                 }
             }
+        }
+
+        private void RenderEmptySquare(MapMeshTempSquareInfo[,] tempSquareInfo, int mapY, int mapX)
+        {
+            var left = mapX * MapUnitX;
+            var right = left + MapUnitX;
+            var far = mapY * MapUnitZ;
+            var near = far - MapUnitZ;
+            var square = squareInfo[mapX + 1, mapY + 1];
+            var tempSquare = tempSquareInfo[mapX + 1, mapY + 1];
+
+            //
+            // LF ----- RF
+            //  |       |
+            //  |       |
+            // LN ----- RN
+            //
+            Vector3 leftFar = new Vector3(left, tempSquare.LeftFarY, far);
+            Vector3 rightFar = new Vector3(right, tempSquare.RightFarY, far);
+            Vector3 rightNear = new Vector3(right, tempSquare.RightNearY, near);
+            Vector3 leftNear = new Vector3(left, tempSquare.LeftNearY, near);
+
+            var north = tempSquareInfo[mapX + 1, mapY + 1 + 1];
+            var west = tempSquareInfo[mapX - 1 + 1, mapY + 1];
+            var northWest = tempSquareInfo[mapX - 1 + 1, mapY + 1 + 1];
+            var east = tempSquareInfo[mapX + 1 + 1, mapY + 1];
+            var south = tempSquareInfo[mapX + 1, mapY - 1 + 1];
+            var southEast = tempSquareInfo[mapX + 1 + 1, mapY - 1 + 1];
+
+            Vector3 leftFarNormal;
+            {
+                //         Far
+                //    \|   \|   \|   \| 
+                //...--UL---U----+---+--...      
+                //     |\   |\   |\   |\          Y
+                //     | \  | \  | \  | \         ^
+                //   \ |  \ |  \ |  \ |           |
+                //    \| NW\| N \|   \|           |
+                //...--L----P----R----+--...      +-----> X
+                //     |\ W |\ T |\   |\         
+                //     | \  | \  | \  | \       
+                //   \ |  \ |  \ |  \ |        
+                //    \|   \|   \|   \| 
+                //...--+----D----DR---+--...
+                //     |\   |\   |\   |\
+                //         Near
+
+                var yBasis = tempSquare.LeftFarY;
+
+                leftFarNormal = ComputeNormal(
+                    west.LeftFarY - yBasis, tempSquare.RightFarY - yBasis,
+                    tempSquare.LeftNearY - yBasis, north.LeftFarY - yBasis,
+                    northWest.LeftFarY - yBasis, tempSquare.RightNearY - yBasis,
+                    MapUnitX, MapUnitZ);
+            }
+
+            Vector3 rightFarNormal;
+            {
+                //         Far
+                //    \|   \|   \|   \| 
+                //...--UL---U----+---+--...      
+                //     |\   |\   |\   |\          Y
+                //     | \  | \  | \  | \         ^
+                //   \ |  \ |  \ |  \ |           |
+                //    \| N \|   \|   \|           |
+                //...--L----P----R----+--...      +-----> X
+                //     |\ T |\ E |\   |\         
+                //     | \  | \  | \  | \       
+                //   \ |  \ |  \ |  \ |        
+                //    \|   \|   \|   \| 
+                //...--+----D----DR---+--...
+                //     |\   |\   |\   |\
+                //         Near
+
+                var yBasis = tempSquare.RightFarY;
+
+                rightFarNormal = ComputeNormal(
+                    tempSquare.LeftFarY - yBasis, east.RightFarY - yBasis,
+                    tempSquare.RightNearY - yBasis, north.RightFarY - yBasis,
+                    north.LeftFarY - yBasis, east.RightNearY - yBasis,
+                    MapUnitX, MapUnitZ);
+            }
+
+            Vector3 rightNearNormal;
+            {
+                //         Far
+                //    \|   \|   \|   \| 
+                //...--UL---U----+---+--...      
+                //     |\   |\   |\   |\          Y
+                //     | \  | \  | \  | \         ^
+                //   \ |  \ |  \ |  \ |           |
+                //    \| T \| E \|   \|           |
+                //...--L----P----R----+--...      +-----> X
+                //     |\ S |\ SE|\   |\         
+                //     | \  | \  | \  | \       
+                //   \ |  \ |  \ |  \ |        
+                //    \|   \|   \|   \| 
+                //...--+----D----DR---+--...
+                //     |\   |\   |\   |\
+                //         Near
+
+                var yBasis = tempSquare.RightNearY;
+
+                rightNearNormal = ComputeNormal(
+                    tempSquare.LeftNearY - yBasis, east.RightNearY - yBasis,
+                    south.RightNearY - yBasis, tempSquare.RightFarY - yBasis,
+                    tempSquare.LeftFarY - yBasis, southEast.RightNearY - yBasis,
+                    MapUnitX, MapUnitZ);
+            }
+
+            Vector3 leftNearNormal;
+            {
+                //         Far
+                //    \|   \|   \|   \| 
+                //...--UL---U----+---+--...      
+                //     |\   |\   |\   |\          Y
+                //     | \  | \  | \  | \         ^
+                //   \ |  \ |  \ |  \ |           |
+                //    \| W \| T \|   \|           |
+                //...--L----P----R----+--...      +-----> X
+                //     |\   |\ S |\   |\         
+                //     | \  | \  | \  | \       
+                //   \ |  \ |  \ |  \ |        
+                //    \|   \|   \|   \| 
+                //...--+----D----DR---+--...
+                //     |\   |\   |\   |\
+                //         Near
+
+                var yBasis = tempSquare.LeftNearY;
+
+                leftNearNormal = ComputeNormal(
+                    west.LeftNearY - yBasis, tempSquare.RightNearY - yBasis,
+                    south.LeftNearY - yBasis, tempSquare.LeftFarY - yBasis,
+                    west.LeftFarY - yBasis, south.RightNearY - yBasis,
+                    MapUnitX, MapUnitZ);
+            }
+
+            //Both should work, this is better
+            //var u = new Vector3(MapUnitX, tempSquare.RightFarY - tempSquare.LeftFarY, 0);
+            //var v = new Vector3(MapUnitX, tempSquare.RightNearY - tempSquare.LeftFarY, -MapUnitZ);
+
+            ////var u = rightFar - leftFar;
+            ////var v = rightNear - leftFar;
+
+            //var cross = u.cross(v).normalized();
+
+            wallMesh.AddQuad(
+                leftFar,
+                rightFar,
+                rightNear,
+                leftNear,
+                leftFarNormal,
+                rightFarNormal,
+                rightNearNormal,
+                leftNearNormal,
+                //cross,
+                //cross,
+                //cross,
+                //cross,
+                new Vector2(0, 0),
+                new Vector2(1, 1));
+        }
+
+        private Vector3 ComputeNormal(float zLeft, float zRight, float zDown, float zUp, float zUpleft, float zDownright, float ax, float ay)
+        {
+            Vector3 accumulatedNormal = new Vector3(0, 0, 0);
+            var pl = new Vector3(-ax, zLeft, 0);
+            var pul = new Vector3(-ax, zUpleft, ay);
+            var pu = new Vector3(0, zUp, ay);
+            var pr = new Vector3(ax, zRight, 0);
+            var pdr = new Vector3(ax, zDownright, -ay);
+            var pd = new Vector3(0, zDown, -ay);
+
+            //Triangle 1
+            {
+                var cross = pl.cross(pul);
+                accumulatedNormal += cross;
+            }
+
+            //Triangle 2
+            {
+                var cross = pul.cross(pu);
+                accumulatedNormal += cross;
+            }
+
+            //Triangle 3
+            {
+                var cross = pu.cross(pr);
+                accumulatedNormal += cross;
+            }
+
+            //Triangle 4
+            {
+                var cross = pr.cross(pdr);
+                accumulatedNormal += cross;
+            }
+
+            //Triangle 5
+            {
+                var cross = pdr.cross(pd);
+                accumulatedNormal += cross;
+            }
+
+            //Triangle 6
+            {
+                var cross = pd.cross(pl);
+                accumulatedNormal += cross;
+            }
+
+            return accumulatedNormal.normalized();
+            /*
+             * Based on this, but our mesh is different
+             * https://stackoverflow.com/questions/6656358/calculating-normals-in-a-triangle-mesh/6661242#6661242
+                    \|   \|   \|   \| 
+                ...--UL---U----+---+--...      
+                     |\ 2 |\   |\   |\          Y
+                     | \  | \  | \  | \         ^
+                   \ |  \ |  \ |  \ |           |
+                    \| 1 \| 3 \|   \|           |
+                ...--L----P----R----+--...      +-----> X
+                     |\ 6 |\ 4 |\   |\         
+                     | \  | \  | \  | \       
+                   \ |  \ |  \ |  \ |        
+                    \|   \| 5 \|   \| 
+                ...--+----D----DR---+--...
+                     |\   |\   |\   |\
+             */
         }
     }
 }
