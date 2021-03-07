@@ -62,7 +62,7 @@ namespace SceneTest
         SharpButton goPreviousLevel = new SharpButton() { Text = "Previous Level" };
         SharpSliderHorizontal currentHour;
 
-        private bool useFirstPersonCamera = true;
+        private bool useFirstPersonCamera = false;
 
         private Player player;
 
@@ -73,6 +73,22 @@ namespace SceneTest
         private Level currentLevel;
         private Level nextLevel;
         private Level previousLevel;
+
+        private List<(String floorTexture, String wallTexture)> biomes = new List<(String floorTexture, String wallTexture)>()
+        {
+            (
+                floorTexture: "cc0Textures/Rocks023_1K",
+                wallTexture: "cc0Textures/Ground037_1K"
+            ),
+            (
+                floorTexture: "cc0Textures/Ground025_1K",
+                wallTexture: "cc0Textures/Rock029_1K"
+            ),
+            (
+                floorTexture: "cc0Textures/Snow006_1K",
+                wallTexture: "cc0Textures/Rock022_1K"
+            )
+        };
 
         public unsafe SceneTestUpdateListener(
             GraphicsEngine graphicsEngine,
@@ -330,11 +346,14 @@ namespace SceneTest
 
         private Level CreateLevel(int levelSeed, Vector3 translation)
         {
+            var random = new Random(levelSeed);
+            var biome = biomes[random.Next(0, biomes.Count)];
+
             return this.objectResolver.Resolve<Level, Level.Description>(o =>
             {
                 //o.MapUnitY = 1.0f;
-                o.FloorTexture = "cc0Textures/Rocks023_1K";
-                o.WallTexture = "cc0Textures/Ground037_1K";
+                o.FloorTexture = biome.floorTexture;
+                o.WallTexture = biome.wallTexture;
 
                 o.Translation = translation;
                 o.RandomSeed = levelSeed;
