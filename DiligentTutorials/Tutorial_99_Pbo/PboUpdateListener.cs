@@ -167,16 +167,16 @@ namespace Tutorial_99_Pbo
 
             using var ccoTextures = cC0MaterialTextureBuilder.CreateMaterialSet(image, scale, materials);
             
-            using var colorTexture = textureLoader.CreateTextureFromImage(image, 1, "colorTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
+            using var colorTexture = textureLoader.CreateTextureFromImage(image, 0, "colorTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
             
             using var normalTexture = ccoTextures.NormalMap != null ? 
-                textureLoader.CreateTextureFromImage(ccoTextures.NormalMap, 1, "normalTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false) : null;
+                textureLoader.CreateTextureFromImage(ccoTextures.NormalMap, 0, "normalTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false) : null;
             
             using var physicalTexture = ccoTextures.PhysicalDescriptorMap != null ? 
-                textureLoader.CreateTextureFromImage(ccoTextures.PhysicalDescriptorMap, 1, "physicalTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false) : null;
+                textureLoader.CreateTextureFromImage(ccoTextures.PhysicalDescriptorMap, 0, "physicalTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false) : null;
             
             using var aoTexture = ccoTextures.AmbientOcclusionMap != null ? 
-                textureLoader.CreateTextureFromImage(ccoTextures.AmbientOcclusionMap, 1, "aoTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false) : null;
+                textureLoader.CreateTextureFromImage(ccoTextures.AmbientOcclusionMap, 0, "aoTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false) : null;
 
             pboMatBinding = pbrRenderer.CreateMaterialSRB(
                 pCameraAttribs: pbrCameraAndLight.CameraAttribs,

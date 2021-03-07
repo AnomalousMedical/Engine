@@ -1,7 +1,7 @@
 # TODO
 
 ## Don't forget mipmaps
-Make / load mipmaps for things.
+Have mipmaps, but need to renormalize normals when creating normal mipmaps.
 
 ## Refactor Sprites to have better vertex shader
 Right now the sprite info is hacked into the bone matrix. Refactor the shader to have better input for sprites and take out what it doesnt need like the bones

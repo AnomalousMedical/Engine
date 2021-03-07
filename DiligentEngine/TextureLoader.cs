@@ -45,7 +45,7 @@ namespace DiligentEngine
         {
             using (var bmp = FreeImageBitmap.FromStream(stream))
             {
-                return CreateTextureFromImage(bmp, 1, name, resouceDimension, isSRGB);
+                return CreateTextureFromImage(bmp, 0, name, resouceDimension, isSRGB);
             }
         }
 
@@ -58,114 +58,84 @@ namespace DiligentEngine
         /// <returns></returns>
         public AutoPtr<ITexture> CreateTextureFromImage(FreeImageBitmap bitmap, int MipLevels, String name, RESOURCE_DIMENSION resouceDimension, bool isSRGB)
         {
-            FixBitmap(bitmap);
+            var mips = new List<FreeImageBitmap>(MipLevels);
 
-            uint width = (uint)bitmap.Width;
-            uint height = (uint)bitmap.Height;
-
-            //const auto& ImgDesc = pSrcImage->GetDesc();
-            TextureDesc TexDesc = new TextureDesc();
-            TexDesc.Name = name;
-            TexDesc.Type = resouceDimension;
-            TexDesc.Width = width;
-            TexDesc.Height = height;
-            TexDesc.MipLevels = ComputeMipLevelsCount(TexDesc.Width, TexDesc.Height);
-            if (MipLevels > 0)
+            try
             {
-                TexDesc.MipLevels = (uint)Math.Min(TexDesc.MipLevels, MipLevels);
+                FixBitmap(bitmap);
+
+                uint width = (uint)bitmap.Width;
+                uint height = (uint)bitmap.Height;
+
+                TextureDesc TexDesc = new TextureDesc();
+                TexDesc.Name = name;
+                TexDesc.Type = resouceDimension;
+                TexDesc.Width = width;
+                TexDesc.Height = height;
+                TexDesc.MipLevels = ComputeMipLevelsCount(TexDesc.Width, TexDesc.Height);
+                if (MipLevels > 0)
+                {
+                    TexDesc.MipLevels = (uint)Math.Min(TexDesc.MipLevels, MipLevels);
+                }
+                TexDesc.Usage = USAGE.USAGE_IMMUTABLE;
+                TexDesc.BindFlags = BIND_FLAGS.BIND_SHADER_RESOURCE;
+                TexDesc.Format = GetFormat(bitmap, isSRGB);
+                TexDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_NONE;
+
+                var pSubResources = new List<TextureSubResData>(MipLevels);
+
+                AddBitmapToResources(bitmap, pSubResources);
+
+                //Mip maps
+                var MipWidth = TexDesc.Width;
+                var MipHeight = TexDesc.Height;
+                for (Uint32 m = 1; m < TexDesc.MipLevels; ++m)
+                {
+                    var CoarseMipWidth = Math.Max(MipWidth / 2u, 1u);
+                    var CoarseMipHeight = Math.Max(MipHeight / 2u, 1u);
+                    var mip = bitmap.Copy(0, 0, bitmap.Width, bitmap.Height);
+                    mip.Rescale(new Size((int)CoarseMipWidth, (int)CoarseMipHeight), FREE_IMAGE_FILTER.FILTER_BILINEAR);
+                    mips.Add(mip);
+                    AddBitmapToResources(mip, pSubResources);
+
+                    MipWidth = CoarseMipWidth;
+                    MipHeight = CoarseMipHeight;
+                }
+
+                TextureData TexData = new TextureData();
+                TexData.pSubResources = pSubResources;
+
+                return graphicsEngine.RenderDevice.CreateTexture(TexDesc, TexData); //This does not do anything with this pointer, just pass it along and let the caller handle it
             }
-            TexDesc.Usage = USAGE.USAGE_IMMUTABLE;
-            TexDesc.BindFlags = BIND_FLAGS.BIND_SHADER_RESOURCE;
-            TexDesc.Format = GetFormat(bitmap, isSRGB);
-            TexDesc.CPUAccessFlags = CPU_ACCESS_FLAGS.CPU_ACCESS_NONE;
-
-            Uint32 NumComponents = 4;// ImgDesc.NumComponents == 3 ? 4 : ImgDesc.NumComponents;            
-            //else
-            //{
-            //    const auto& TexFmtDesc = GetTextureFormatAttribs(TexDesc.Format);
-            //    if (TexFmtDesc.NumComponents != NumComponents)
-            //        LOG_ERROR_AND_THROW("Incorrect number of components ", ImgDesc.NumComponents, ") for texture format ", TexFmtDesc.Name);
-            //    if (TexFmtDesc.ComponentSize != ChannelDepth / 8)
-            //        LOG_ERROR_AND_THROW("Incorrect channel size ", ChannelDepth, ") for texture format ", TexFmtDesc.Name);
-            //}
-
-
-            var pSubResources = new List<TextureSubResData>(MipLevels);
-            //std::vector<std::vector<Uint8>> Mips(MipLevels);
-
-            if (NumComponents == 3)
+            finally
             {
-                //VERIFY_EXPR(NumComponents == 4);
-                //auto RGBAStride = ImgDesc.Width * NumComponents * ChannelDepth / 8;
-                //RGBAStride = (RGBAStride + 3) & (-4);
-                //Mips[0].resize(size_t{ RGBAStride}
-                //*size_t{ ImgDesc.Height});
-                //pSubResources[0].pData = Mips[0].data();
-                //pSubResources[0].Stride = RGBAStride;
-                //if (ChannelDepth == 8)
-                //{
-                //    RGBToRGBA<Uint8>(pSrcImage->GetData()->GetDataPtr(), ImgDesc.RowStride,
-                //                     Mips[0].data(), RGBAStride,
-                //                     ImgDesc.Width, ImgDesc.Height);
-                //}
-                //else if (ChannelDepth == 16)
-                //{
-                //    RGBToRGBA<Uint16>(pSrcImage->GetData()->GetDataPtr(), ImgDesc.RowStride,
-                //                      Mips[0].data(), RGBAStride,
-                //                      ImgDesc.Width, ImgDesc.Height);
-                //}
+                foreach(var mip in mips)
+                {
+                    mip.Dispose();
+                }
+            }
+        }
+
+        private static void AddBitmapToResources(FreeImageBitmap bitmap, List<TextureSubResData> pSubResources)
+        {
+            if (bitmap.Stride > 0)
+            {
+                pSubResources.Add(new TextureSubResData()
+                {
+                    pData = bitmap.Scan0,
+                    Stride = (Uint32)(bitmap.Stride),
+                });
             }
             else
             {
-                if (bitmap.Stride > 0)
+                //Freeimage scan0 gives the last line for some reason, this gives the first to allow the negative scan to become positive
+                var stride = -bitmap.Stride;
+                pSubResources.Add(new TextureSubResData()
                 {
-                    pSubResources.Add(new TextureSubResData()
-                    {
-                        pData = bitmap.Scan0,
-                        Stride = (Uint32)(bitmap.Stride),
-                    });
-                }
-                else
-                {
-                    //Freeimage scan0 gives the last line for some reason, this gives the first to allow the negative scan to become positive
-                    var stride = -bitmap.Stride;
-                    pSubResources.Add(new TextureSubResData()
-                    {
-                        pData = bitmap.Scan0 - (stride * (bitmap.Height - 1)),
-                        Stride = (Uint32)stride,
-                    });
-                }
+                    pData = bitmap.Scan0 - (stride * (bitmap.Height - 1)),
+                    Stride = (Uint32)stride,
+                });
             }
-
-            //Mip maps
-            //var MipWidth = TexDesc.Width;
-            //var MipHeight = TexDesc.Height;
-            //for (Uint32 m = 1; m < TexDesc.MipLevels; ++m)
-            //{
-            //    var CoarseMipWidth = Math.Max(MipWidth / 2u, 1u);
-            //    var CoarseMipHeight = Math.Max(MipHeight / 2u, 1u);
-            //    var CoarseMipStride = CoarseMipWidth * NumComponents * ChannelDepth / 8;
-            //    CoarseMipStride = (CoarseMipStride + 3) & (-4);
-            //    Mips[m].resize(size_t{ CoarseMipStride} *size_t{ CoarseMipHeight});
-
-            //    if (TexLoadInfo.GenerateMips)
-            //    {
-            //        ComputeMipLevel(MipWidth, MipHeight, TexDesc.Format,
-            //                        pSubResources[m - 1].pData, pSubResources[m - 1].Stride,
-            //                        Mips[m].data(), CoarseMipStride);
-            //    }
-
-            //    pSubResources[m].pData = Mips[m].data();
-            //    pSubResources[m].Stride = CoarseMipStride;
-
-            //    MipWidth = CoarseMipWidth;
-            //    MipHeight = CoarseMipHeight;
-            //}
-
-            TextureData TexData = new TextureData();
-            TexData.pSubResources = pSubResources;
-
-            return graphicsEngine.RenderDevice.CreateTexture(TexDesc, TexData); //This does not do anything with this pointer, just pass it along and let the caller handle it
         }
 
         /// <summary>

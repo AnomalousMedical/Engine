@@ -51,7 +51,7 @@ namespace DiligentEngine.GltfPbr
                     map.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_32_BPP); //Cheat and convert color depth
                     CC0TextureLoader.FixCC0Normal(map);
 
-                    var normalMap = textureLoader.CreateTextureFromImage(map, 1, "normalTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
+                    var normalMap = textureLoader.CreateTextureFromImage(map, 0, "normalTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
                     result.SetNormalMap(normalMap);
                 }
             }
@@ -107,7 +107,7 @@ namespace DiligentEngine.GltfPbr
                             physicalDescriptorBmp.SetChannel(roughnessBmp, FREE_IMAGE_COLOR_CHANNEL.FICC_GREEN);
                         }
 
-                        var physicalDescriptorMap = textureLoader.CreateTextureFromImage(physicalDescriptorBmp, 1, "physicalDescriptorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
+                        var physicalDescriptorMap = textureLoader.CreateTextureFromImage(physicalDescriptorBmp, 0, "physicalDescriptorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY, false);
                         result.SetPhysicalDescriptorMap(physicalDescriptorMap);
                     }
                 }

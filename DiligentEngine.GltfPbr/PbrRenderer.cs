@@ -498,6 +498,7 @@ namespace DiligentEngine.GltfPbr
                         TextureViewDesc SRVDesc = new TextureViewDesc();
                         SRVDesc.ViewType = TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE;
                         SRVDesc.TextureDim = RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D_ARRAY;
+                        SRVDesc.NumMipLevels = pTexture.GetDesc_MipLevels;
                         textureViewPtr = pTexture.CreateView(SRVDesc);
                         pTexSRV = textureViewPtr.Obj;
                     }
