@@ -126,7 +126,8 @@ namespace SceneTest
             {
                 var level = this.objectResolver.Resolve<Level, Level.Description>(o =>
                 {
-                    o.FloorTexture = "cc0Textures/Ground041_1K";
+                    o.FloorTexture = "cc0Textures/Ground025_1K";
+                    o.WallTexture = "cc0Textures/Rock029_1K";
 
                     o.RandomSeed = 19; //1 is pretty fast to build
                     o.Width = 50;
@@ -140,9 +141,30 @@ namespace SceneTest
 
                 await level.WaitForLevelGeneration();
 
+                var level2 = this.objectResolver.Resolve<Level, Level.Description>(o =>
+                {
+                    //o.FloorTexture = "cc0Textures/Ground037_1K";
+                    //o.WallTexture = "cc0Textures/Rock019_1K";
+                    //o.MapUnitY = 1.0f;
+                    o.FloorTexture = "cc0Textures/Rocks023_1K";
+                    o.WallTexture = "cc0Textures/Ground037_1K";
+
+                    o.Translation = new Vector3(-150, 0, 0);
+                    o.RandomSeed = 40; //1 is pretty fast to build
+                    o.Width = 50;
+                    o.Height = 50;
+                    o.CorridorSpace = 10;
+                    o.RoomDistance = 3;
+                    o.RoomMin = new IntSize2(2, 2);
+                    o.RoomMax = new IntSize2(6, 6); //Between 3-6 is good here, 3 for more cityish with small rooms, 6 for more open with more big rooms, sometimes connected
+                    o.CorridorMaxLength = 4;
+                });
+
+                await level2.WaitForLevelGeneration();
+
                 this.objectResolver.Resolve<Player, Player.Description>(c =>
                 {
-                    c.Translation = level.StartPoint;
+                    c.Translation = level2.StartPoint;
                 });
 
                 this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>

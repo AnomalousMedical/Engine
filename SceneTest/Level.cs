@@ -35,6 +35,8 @@ namespace SceneTest
 
             public int Height { get; set; } = 50;
 
+            public float MapUnitY { get; set; } = 0.1f;
+
             /// <summary>
             /// Room minimum size
             /// </summary>
@@ -164,11 +166,11 @@ namespace SceneTest
                         Room_Min = description.RoomMin
                     };
                     mapBuilder.Build_ConnectedStartRooms();
-                    mapMesh = new MapMesh(mapBuilder, random, graphicsEngine.RenderDevice, mapUnitX: 3, mapUnitY: 0.5f, mapUnitZ: 3);
+                    mapMesh = new MapMesh(mapBuilder, random, graphicsEngine.RenderDevice, mapUnitX: 3, mapUnitY: description.MapUnitY, mapUnitZ: 3);
                     var startRoom = mapBuilder.StartRoom;
                     var startX = startRoom.Left + startRoom.Width / 2;
                     var startY = startRoom.Top + startRoom.Height / 2;
-                    StartPoint = mapMesh.PointToVector(startX, startY);
+                    StartPoint = mapMesh.PointToVector(startX, startY) + description.Translation;
                     sw.Stop();
                     logger.LogInformation($"Generated level {description.RandomSeed} in {sw.ElapsedMilliseconds} ms.");
                 });
@@ -196,7 +198,7 @@ namespace SceneTest
                         var orientation = boundary.Orientation.isNumber() ? boundary.Orientation : Quaternion.Identity;
                         var staticHandle = bepuScene.Simulation.Statics.Add(
                             new StaticDescription(
-                                boundary.Position.ToSystemNumerics(),
+                                (boundary.Position + description.Translation).ToSystemNumerics(),
                                 orientation.ToSystemNumerics(),
                                 new CollidableDescription(floorCubeShapeIndex, 0.1f)));
 
@@ -207,7 +209,7 @@ namespace SceneTest
                     {
                         var staticHandle = bepuScene.Simulation.Statics.Add(
                             new StaticDescription(
-                                boundary.ToSystemNumerics(),
+                                (boundary + description.Translation).ToSystemNumerics(),
                                 boundaryOrientation,
                                 new CollidableDescription(boundaryCubeShapeIndex, 0.1f)));
 

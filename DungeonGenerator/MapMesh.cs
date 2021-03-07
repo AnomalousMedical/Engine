@@ -79,7 +79,7 @@ namespace DungeonGenerator
                 //New corridor, find new starting point
                 if (cellType != currentCorridor)
                 {
-                    corridorSlope = (float)random.NextDouble() * random.Next(2) == 0 ? -1f : 1f;
+                    corridorSlope = (float)random.NextDouble() * random.Next(2) == 0 ? -halfUnitY : halfUnitY;
                     currentCorridor = cellType;
 
                     if (north != currentCorridor && north != csMapbuilder.EmptyCell)
