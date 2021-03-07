@@ -582,6 +582,21 @@ namespace DungeonGenerator
             wallMesh.End(renderDevice);
         }
 
+        public void Dispose()
+        {
+            this.floorMesh.Dispose();
+            this.wallMesh.Dispose();
+        }
+
+        public Vector3 PointToVector(int x, int y)
+        {
+            return squareInfo[x + 1, y + 1].Center;
+        }
+
+        public Mesh FloorMesh => floorMesh;
+
+        public Mesh WallMesh => wallMesh;
+
         private void ProcessRoom(csMapbuilder mapbuilder, float halfUnitX, float halfUnitY, float halfUnitZ, int mapWidth, int mapHeight, ushort[,] map, Slope[,] slopeMap, MapMeshTempSquareInfo[,] tempSquareInfo, float yUvBottom, bool[,] processedSquares, ushort roomId)
         {
             var room = mapbuilder.Rooms[roomId];
@@ -740,21 +755,6 @@ namespace DungeonGenerator
                 }
             }
         }
-
-        public Vector3 PointToVector(int x, int y)
-        {
-            return squareInfo[x + 1, y + 1].Center;
-        }
-
-        public void Dispose()
-        {
-            this.floorMesh.Dispose();
-            this.wallMesh.Dispose();
-        }
-
-        public Mesh FloorMesh => floorMesh;
-
-        public Mesh WallMesh => wallMesh;
 
         private UInt16 GetNorthSquare(int x, int y, ushort[,] map, int height)
         {
