@@ -141,40 +141,8 @@ namespace SceneTest
                 createdLevelSeeds.Add(levelRandom.Next(int.MinValue, int.MaxValue));
                 createdLevelSeeds.Add(levelRandom.Next(int.MinValue, int.MaxValue));
 
-                currentLevel = this.objectResolver.Resolve<Level, Level.Description>(o =>
-                {
-                    //o.FloorTexture = "cc0Textures/Ground037_1K";
-                    //o.WallTexture = "cc0Textures/Rock019_1K";
-                    //o.MapUnitY = 1.0f;
-                    o.FloorTexture = "cc0Textures/Rocks023_1K";
-                    o.WallTexture = "cc0Textures/Ground037_1K";
-
-                    o.Translation = new Vector3(0, 0, 0);
-                    o.RandomSeed = createdLevelSeeds[0];
-                    o.Width = 50;
-                    o.Height = 50;
-                    o.CorridorSpace = 10;
-                    o.RoomDistance = 3;
-                    o.RoomMin = new IntSize2(2, 2);
-                    o.RoomMax = new IntSize2(6, 6); //Between 3-6 is good here, 3 for more cityish with small rooms, 6 for more open with more big rooms, sometimes connected
-                    o.CorridorMaxLength = 4;
-                });
-
-                nextLevel = this.objectResolver.Resolve<Level, Level.Description>(o =>
-                {
-                    o.FloorTexture = "cc0Textures/Ground025_1K";
-                    o.WallTexture = "cc0Textures/Rock029_1K";
-
-                    o.Translation = new Vector3(150, 0, 0);
-                    o.RandomSeed = createdLevelSeeds[1];
-                    o.Width = 50;
-                    o.Height = 50;
-                    o.CorridorSpace = 10;
-                    o.RoomDistance = 3;
-                    o.RoomMin = new IntSize2(2, 2);
-                    o.RoomMax = new IntSize2(6, 6); //Between 3-6 is good here, 3 for more cityish with small rooms, 6 for more open with more big rooms, sometimes connected
-                    o.CorridorMaxLength = 4;
-                });
+                currentLevel = CreateLevel(createdLevelSeeds[0], new Vector3(0, 0, 0));
+                nextLevel = CreateLevel(createdLevelSeeds[1], new Vector3(150, 0, 0));
 
                 await currentLevel.WaitForLevelGeneration();
 
@@ -298,22 +266,7 @@ namespace SceneTest
             var levelSeed = createdLevelSeeds[nextLevelIndex];
 
             //Create new level
-            nextLevel = this.objectResolver.Resolve<Level, Level.Description>(o =>
-            {
-                //o.MapUnitY = 1.0f;
-                o.FloorTexture = "cc0Textures/Rocks023_1K";
-                o.WallTexture = "cc0Textures/Ground037_1K";
-
-                o.Translation = new Vector3(150, 0, 0);
-                o.RandomSeed = levelSeed;
-                o.Width = 50;
-                o.Height = 50;
-                o.CorridorSpace = 10;
-                o.RoomDistance = 3;
-                o.RoomMin = new IntSize2(2, 2);
-                o.RoomMax = new IntSize2(6, 6); //Between 3-6 is good here, 3 for more cityish with small rooms, 6 for more open with more big rooms, sometimes connected
-                o.CorridorMaxLength = 4;
-            });
+            nextLevel = CreateLevel(levelSeed, new Vector3(150, 0, 0));
 
             //Physics changeover
             previousLevel.DestroyPhysics();
@@ -357,25 +310,7 @@ namespace SceneTest
             if (currentLevelIndex > 0)
             {
                 var levelSeed = createdLevelSeeds[currentLevelIndex - 1];
-                Console.WriteLine(levelSeed);
-
-                //Create new level
-                previousLevel = this.objectResolver.Resolve<Level, Level.Description>(o =>
-                {
-                    //o.MapUnitY = 1.0f;
-                    o.FloorTexture = "cc0Textures/Rocks023_1K";
-                    o.WallTexture = "cc0Textures/Ground037_1K";
-
-                    o.Translation = new Vector3(-150, 0, 0);
-                    o.RandomSeed = levelSeed;
-                    o.Width = 50;
-                    o.Height = 50;
-                    o.CorridorSpace = 10;
-                    o.RoomDistance = 3;
-                    o.RoomMin = new IntSize2(2, 2);
-                    o.RoomMax = new IntSize2(6, 6); //Between 3-6 is good here, 3 for more cityish with small rooms, 6 for more open with more big rooms, sometimes connected
-                    o.CorridorMaxLength = 4;
-                });
+                previousLevel = CreateLevel(levelSeed, new Vector3(-150, 0, 0));
             }
             else
             {
@@ -391,6 +326,26 @@ namespace SceneTest
             player.SetLocation(currentLevel.StartPoint);
 
             changingLevels = false;
+        }
+
+        private Level CreateLevel(int levelSeed, Vector3 translation)
+        {
+            return this.objectResolver.Resolve<Level, Level.Description>(o =>
+            {
+                //o.MapUnitY = 1.0f;
+                o.FloorTexture = "cc0Textures/Rocks023_1K";
+                o.WallTexture = "cc0Textures/Ground037_1K";
+
+                o.Translation = translation;
+                o.RandomSeed = levelSeed;
+                o.Width = 50;
+                o.Height = 50;
+                o.CorridorSpace = 10;
+                o.RoomDistance = 3;
+                o.RoomMin = new IntSize2(2, 2);
+                o.RoomMax = new IntSize2(6, 6); //Between 3-6 is good here, 3 for more cityish with small rooms, 6 for more open with more big rooms, sometimes connected
+                o.CorridorMaxLength = 4;
+            });
         }
 
         private unsafe void UpdateLight(Clock clock)

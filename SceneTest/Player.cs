@@ -473,7 +473,7 @@ namespace SceneTest
 
         public void SetLocation(in Vector3 location)
         {
-            this.characterMover.SetLocation(location.ToSystemNumerics());
+            this.characterMover.SetLocation((location + new Vector3(0f, 0.5f, 0f)).ToSystemNumerics());
         }
 
         internal void RequestDestruction()
