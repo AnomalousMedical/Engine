@@ -60,6 +60,7 @@ namespace DungeonGenerator
             var map = mapbuilder.map;
             var slopeMap = new Slope[mapWidth, mapHeight];
 
+            //Walk the corridors and figure out the main level flow, slopes are set here
             IntVector2 previousCorridor = new IntVector2();
             UInt16 currentCorridor = 0;
             bool[] seenRooms = new bool[mapbuilder.Rooms.Count];
@@ -164,9 +165,6 @@ namespace DungeonGenerator
 
             this.floorMesh = new Mesh();
             this.wallMesh = new Mesh();
-
-            //Build map from the bottom up since camera always faces north
-            //This will allow depth buffer to cancel pixel shaders
 
             //Figure out number of quads
             uint numFloorQuads = 0;
