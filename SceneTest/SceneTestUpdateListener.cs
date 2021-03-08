@@ -374,7 +374,7 @@ namespace SceneTest
                 var dayFactor = (timeClock.DayFactor - 0.5f) * 2.0f;
                 var noonFactor = 1.0f - Math.Abs(dayFactor);
                 lightDirection = new Vector3(dayFactor, -0.5f * noonFactor - 0.1f, 1f).normalized();
-                lightIntensity = 7f * noonFactor;
+                lightIntensity = 6f * noonFactor + 1.0f;
 
                 pbrRenderAttribs.AverageLogLum = 0.3f;
                 ClearColor = Engine.Color.FromARGB(0xff2a63cc);
@@ -385,10 +385,22 @@ namespace SceneTest
                 var midnightFactor = 1.0f - Math.Abs(nightFactor);
                 lightDirection = new Vector3(nightFactor, -0.5f * midnightFactor - 0.1f, 1f).normalized();
 
-                lightIntensity = 0.7f * midnightFactor;
+                lightIntensity = 0.7f * midnightFactor + 1.0f;
 
                 pbrRenderAttribs.AverageLogLum = 0.8f;
                 ClearColor = Engine.Color.FromARGB(0xff030303);
+            }
+
+            var oneHour = 60l * 60l * Clock.SecondsToMicro;
+
+            if (timeClock.CurrentTimeMicro > timeClock.DayStart - oneHour && timeClock.CurrentTimeMicro < timeClock.DayStart + oneHour)
+            {
+                ClearColor = Engine.Color.FromARGB(0xff242148);
+            }
+
+            if (timeClock.CurrentTimeMicro > timeClock.DayEnd - oneHour && timeClock.CurrentTimeMicro < timeClock.DayEnd + oneHour)
+            {
+                ClearColor = Engine.Color.FromARGB(0xff242148);
             }
         }
 
