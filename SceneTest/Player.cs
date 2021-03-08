@@ -417,6 +417,7 @@ namespace SceneTest
             characterMover = bepuScene.CreateCharacterMover(bodyDesc, moverDesc);
             characterMover.sprint = true;
             bepuScene.AddToInterpolation(characterMover.BodyHandle);
+            //bepuScene.RegisterCollisionListener(new CollidableReference(CollidableMobility.Dynamic, characterMover.BodyHandle));
 
             coroutine.RunTask(async () => {
                 using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until coroutine is finished and this is disposed.
@@ -461,6 +462,7 @@ namespace SceneTest
             eventLayer.OnUpdate -= EventLayer_OnUpdate; //Do have to remove this since its on the layer itself
 
             this.bepuScene.OnUpdated -= BepuScene_OnUpdated;
+            //bepuScene.UnregisterCollisionListener(new CollidableReference(CollidableMobility.Dynamic, characterMover.BodyHandle));
             bepuScene.RemoveFromInterpolation(characterMover.BodyHandle);
             bepuScene.DestroyCharacterMover(characterMover);
             bepuScene.Simulation.Shapes.Remove(shapeIndex);

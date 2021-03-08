@@ -9,13 +9,15 @@ namespace BepuPlugin.Characters
     /// <summary>
     /// Implements simple callbacks to inform the CharacterControllers system of created contacts.
     /// </summary>
-    struct CharacterNarrowphaseCallbacks : INarrowPhaseCallbacks
+    struct CharacterNarrowphaseCallbacks<TEventHandler> : INarrowPhaseCallbacks where TEventHandler : IContactEventHandler
     {
         public CharacterControllers Characters;
+        ContactEvents<TEventHandler> events;
 
-        public CharacterNarrowphaseCallbacks(CharacterControllers characters)
+        public CharacterNarrowphaseCallbacks(CharacterControllers characters, ContactEvents<TEventHandler> events)
         {
-            Characters = characters;
+            this.Characters = characters;
+            this.events = events;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -35,6 +37,7 @@ namespace BepuPlugin.Characters
         {
             pairMaterial = new PairMaterialProperties { FrictionCoefficient = 1, MaximumRecoveryVelocity = 2, SpringSettings = new SpringSettings(30, 1) };
             Characters.TryReportContacts(pair, ref manifold, workerIndex, ref pairMaterial);
+            events.HandleManifold(workerIndex, pair, ref manifold);
             return true;
         }
 
@@ -52,6 +55,7 @@ namespace BepuPlugin.Characters
         public void Initialize(Simulation simulation)
         {
             Characters.Initialize(simulation);
+            events.Initialize(simulation.Bodies);
         }
     }
 }

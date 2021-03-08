@@ -2,6 +2,7 @@
 using BepuPhysics.Collidables;
 using BepuPlugin.Characters;
 using BepuPlugin.Demo;
+using BepuUtilities.Collections;
 using BepuUtilities.Memory;
 using Engine;
 using Engine.Platform;
@@ -24,6 +25,7 @@ namespace BepuPlugin
         SimpleThreadDispatcher threadDispatcher;
         BufferPool bufferPool;
         CharacterControllers characterControllers;
+        ContactEvents<CollisionEventHandler> events;
         private List<CharacterMover> characterMovers = new List<CharacterMover>();
         private FastIteratorMap<BodyHandle, BodyPosition> interpolatedPositions = new FastIteratorMap<BodyHandle, BodyPosition>();
 
@@ -40,19 +42,25 @@ namespace BepuPlugin
             timestepSeconds = description.TimestepSeconds;
             timestepAccumulator = 0;
 
+            //Taking off 1 thread could help stability https://github.com/bepu/bepuphysics2/blob/master/Documentation/PerformanceTips.md#general
+            var numThreads = Math.Max(Environment.ProcessorCount - 1, 1);
+            threadDispatcher = new SimpleThreadDispatcher(numThreads);
+
             //The buffer pool is a source of raw memory blobs for the engine to use.
             bufferPool = new BufferPool();
 
             characterControllers = new CharacterControllers(bufferPool);
+            events = new ContactEvents<CollisionEventHandler>(new CollisionEventHandler(), bufferPool, threadDispatcher);
 
             //The PositionFirstTimestepper is the simplest timestepping mode, but since it integrates velocity into position at the start of the frame, directly modified velocities outside of the timestep
             //will be integrated before collision detection or the solver has a chance to intervene. That's fine in this demo. Other built-in options include the PositionLastTimestepper and the SubsteppingTimestepper.
             //Note that the timestepper also has callbacks that you can use for executing logic between processing stages, like BeforeCollisionDetection.
-            simulation = Simulation.Create(bufferPool, new CharacterNarrowphaseCallbacks(characterControllers), new DemoPoseIntegratorCallbacks(new Vector3(0, -10, 0)), new PositionFirstTimestepper());
+            simulation = Simulation.Create(bufferPool, 
+                new CharacterNarrowphaseCallbacks<CollisionEventHandler>(characterControllers, events), 
+                new DemoPoseIntegratorCallbacks(new Vector3(0, -10, 0)), 
+                new PositionFirstTimestepper());
 
-            //Taking off 1 thread could help stability https://github.com/bepu/bepuphysics2/blob/master/Documentation/PerformanceTips.md#general
-            var numThreads = Math.Max(Environment.ProcessorCount - 1, 1);
-            threadDispatcher = new SimpleThreadDispatcher(numThreads);
+            events.EventHandler.Simulation = simulation;
         }
 
         public void Dispose()
@@ -98,6 +106,8 @@ namespace BepuPlugin
                     position.Position = pose.Position;
                     position.Orientation = pose.Orientation;
                 }
+
+                events.Flush();
             }
 
             interpolationValue = (float)timestepAccumulator / timestepMicro;
@@ -169,6 +179,16 @@ namespace BepuPlugin
             orientation.y = orienSlerp.Y;
             orientation.z = orienSlerp.Z;
             orientation.w = orienSlerp.W;
+        }
+
+        public void RegisterCollisionListener(CollidableReference collidable)
+        {
+            events.RegisterListener(collidable);
+        }
+
+        public void UnregisterCollisionListener(CollidableReference collidable)
+        {
+            events.UnregisterListener(collidable);
         }
 
         public Simulation Simulation => simulation;

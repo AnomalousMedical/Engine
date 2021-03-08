@@ -106,11 +106,17 @@ namespace SceneTest
         private bool disposed;
         private MapMesh mapMesh;
         private bool physicsActive = false;
+        private IObjectResolver objectResolver;
+        private LevelConnector levelConnector;
 
         private Task levelGenerationTask;
 
         private Vector3 startPointLocal;
         public Vector3 StartPoint => startPointLocal + wallSceneObject.position;
+
+        public IntRect StartRoom { get; private set; }
+
+        public IntRect EndRoom { get; private set; }
 
         public Level(
             SceneObjectManager sceneObjectManager,
@@ -120,8 +126,10 @@ namespace SceneTest
             ICC0TextureManager textureManager,
             Description description,
             GraphicsEngine graphicsEngine,
-            ILogger<Level> logger)
+            ILogger<Level> logger,
+            IObjectResolverFactory objectResolverFactory)
         {
+            this.objectResolver = objectResolverFactory.Create();
             this.sceneObjectManager = sceneObjectManager;
             this.destructionRequest = destructionRequest;
             this.bepuScene = bepuScene;
@@ -175,6 +183,8 @@ namespace SceneTest
                     var startX = startRoom.Left + startRoom.Width / 2;
                     var startY = startRoom.Top + startRoom.Height / 2;
                     startPointLocal = mapMesh.PointToVector(startX, startY);
+                    StartRoom = mapBuilder.StartRoom;
+                    EndRoom = mapBuilder.EndRoom;
                     sw.Stop();
                     logger.LogInformation($"Generated level {description.RandomSeed} in {sw.ElapsedMilliseconds} ms.");
                 });
@@ -182,6 +192,13 @@ namespace SceneTest
                 var floorTextureTask = textureManager.Checkout(new CCOTextureBindingDescription(description.FloorTexture, getShadow: true));
 
                 await levelGenerationTask;
+
+                this.levelConnector = objectResolver.Resolve<LevelConnector, LevelConnector.Description>(o =>
+                {
+                    o.Scale = new Vector3(3.0f, 0.05f, 3.0f);
+                    o.Texture = description.FloorTexture;
+                    o.Translation = StartPoint;
+                });
 
                 wallMatBinding = await wallTextureTask;
                 floorMatBinding = await floorTextureTask;
@@ -223,6 +240,7 @@ namespace SceneTest
         public void Dispose()
         {
             disposed = true;
+            objectResolver.Dispose();
             DestroyPhysics();
             sceneObjectManager.Remove(wallSceneObject);
             sceneObjectManager.Remove(floorSceneObject);
@@ -248,6 +266,7 @@ namespace SceneTest
         {
             this.floorSceneObject.position = position;
             this.wallSceneObject.position = position;
+            this.levelConnector?.SetPosition(StartPoint);
         }
 
         /// <summary>
