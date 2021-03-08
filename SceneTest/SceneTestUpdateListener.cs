@@ -367,6 +367,8 @@ namespace SceneTest
             });
         }
 
+        const long OneHour = 60L * 60L * Clock.SecondsToMicro;
+
         private unsafe void UpdateLight(Clock clock)
         {
             if (timeClock.IsDay)
@@ -378,6 +380,16 @@ namespace SceneTest
 
                 pbrRenderAttribs.AverageLogLum = 0.3f;
                 ClearColor = Engine.Color.FromARGB(0xff2a63cc);
+
+                if (timeClock.CurrentTimeMicro < timeClock.DayStart + OneHour)
+                {
+                    ClearColor = Engine.Color.FromARGB(0xff242148);
+                }
+
+                if (timeClock.CurrentTimeMicro > timeClock.DayEnd - OneHour)
+                {
+                    ClearColor = Engine.Color.FromARGB(0xff242148);
+                }
             }
             else
             {
@@ -389,18 +401,16 @@ namespace SceneTest
 
                 pbrRenderAttribs.AverageLogLum = 0.8f;
                 ClearColor = Engine.Color.FromARGB(0xff030303);
-            }
 
-            var oneHour = 60l * 60l * Clock.SecondsToMicro;
+                if (timeClock.CurrentTimeMicro > timeClock.DayStart - OneHour && timeClock.CurrentTimeMicro <= timeClock.DayStart)
+                {
+                    ClearColor = Engine.Color.FromARGB(0xff242148);
+                }
 
-            if (timeClock.CurrentTimeMicro > timeClock.DayStart - oneHour && timeClock.CurrentTimeMicro < timeClock.DayStart + oneHour)
-            {
-                ClearColor = Engine.Color.FromARGB(0xff242148);
-            }
-
-            if (timeClock.CurrentTimeMicro > timeClock.DayEnd - oneHour && timeClock.CurrentTimeMicro < timeClock.DayEnd + oneHour)
-            {
-                ClearColor = Engine.Color.FromARGB(0xff242148);
+                if (timeClock.CurrentTimeMicro >= timeClock.DayEnd && timeClock.CurrentTimeMicro < timeClock.DayEnd + OneHour)
+                {
+                    ClearColor = Engine.Color.FromARGB(0xff242148);
+                }
             }
         }
 
