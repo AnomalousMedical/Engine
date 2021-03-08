@@ -368,6 +368,10 @@ namespace SceneTest
         }
 
         const long OneHour = 60L * 60L * Clock.SecondsToMicro;
+        readonly Color DaySky = Color.FromARGB(0xff2a63cc);
+        readonly Color NightSky = Color.FromARGB(0xff030303);
+        readonly Color DawnSky = Color.FromARGB(0xff242148);
+        readonly Color DuskSky = Color.FromARGB(0xff242148);
 
         private unsafe void UpdateLight(Clock clock)
         {
@@ -379,16 +383,18 @@ namespace SceneTest
                 lightIntensity = 6f * noonFactor + 1.0f;
 
                 pbrRenderAttribs.AverageLogLum = 0.3f;
-                ClearColor = Engine.Color.FromARGB(0xff2a63cc);
+                ClearColor = DaySky;
 
                 if (timeClock.CurrentTimeMicro < timeClock.DayStart + OneHour)
                 {
-                    ClearColor = Engine.Color.FromARGB(0xff242148);
+                    float timeFactor = (timeClock.CurrentTimeMicro - timeClock.DayStart) / (float)OneHour;
+                    ClearColor = Color.FadeColors(timeFactor, DawnSky, DaySky);
                 }
 
                 if (timeClock.CurrentTimeMicro > timeClock.DayEnd - OneHour)
                 {
-                    ClearColor = Engine.Color.FromARGB(0xff242148);
+                    float timeFactor = (timeClock.CurrentTimeMicro - (timeClock.DayEnd - OneHour)) / (float)OneHour;
+                    ClearColor = Color.FadeColors(timeFactor, DaySky, DuskSky);
                 }
             }
             else
@@ -400,16 +406,18 @@ namespace SceneTest
                 lightIntensity = 0.7f * midnightFactor + 1.0f;
 
                 pbrRenderAttribs.AverageLogLum = 0.8f;
-                ClearColor = Engine.Color.FromARGB(0xff030303);
+                ClearColor = NightSky;
 
                 if (timeClock.CurrentTimeMicro > timeClock.DayStart - OneHour && timeClock.CurrentTimeMicro <= timeClock.DayStart)
                 {
-                    ClearColor = Engine.Color.FromARGB(0xff242148);
+                    float timeFactor = (timeClock.CurrentTimeMicro - (timeClock.DayStart - OneHour)) / (float)OneHour;
+                    ClearColor = Color.FadeColors(timeFactor, NightSky, DawnSky);
                 }
 
                 if (timeClock.CurrentTimeMicro >= timeClock.DayEnd && timeClock.CurrentTimeMicro < timeClock.DayEnd + OneHour)
                 {
-                    ClearColor = Engine.Color.FromARGB(0xff242148);
+                    float timeFactor = (timeClock.CurrentTimeMicro - timeClock.DayEnd) / (float)OneHour;
+                    ClearColor = Color.FadeColors(timeFactor, DuskSky, NightSky);
                 }
             }
         }

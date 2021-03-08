@@ -166,6 +166,31 @@ namespace Engine
             return String.Format(CultureInfo.InvariantCulture, FORMAT, r, g, b, a);
         }
 
+        /// <summary>
+        /// Scale rgb components into new color.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public Color ScaleRgb(float s)
+        {
+            return new Color(r * s, g * s, b * s, a);
+        }
+
+        /// <summary>
+        /// Add rgb components together into new color
+        /// </summary>
+        /// <param name="c1"></param>
+        /// <param name="c2"></param>
+        /// <returns></returns>
+        public Color AddRgb(in Color c2)
+        {
+            return new Color(
+                r + c2.r,
+                g + c2.g,
+                b + c2.b,
+                a);
+        }
+
         public bool FromString(String value)
         {
             return setValue(value, out r, out g, out b, out a);
@@ -184,6 +209,26 @@ namespace Engine
         #region Static Helpers
 
         const float maxValue = (float)0xff;
+
+        /// <summary>
+        /// Blend 2 colors. The amount to blend is between 0.0 and 1.0
+        /// </summary>
+        /// <param name="amount"></param>
+        /// <param name="startColor"></param>
+        /// <param name="endColor"></param>
+        /// <returns></returns>
+        public static Color FadeColors(float amount, in Color startColor, in Color endColor)
+        {
+            //Nicola Pezzotti
+            //https://stackoverflow.com/questions/20461691/c-fade-between-colors-arduino
+            //Modified to blend between 0 and 1
+            float cosArg = amount * MathF.PI / 2;
+            float fade = MathF.Abs(MathF.Cos(cosArg));
+
+            var finalColor = startColor.ScaleRgb(fade).AddRgb(endColor.ScaleRgb(1 - fade));
+
+            return finalColor;
+        }
 
         /// <summary>
         /// Compute the color value from a #RGBA string, the A part can be ommitted.
