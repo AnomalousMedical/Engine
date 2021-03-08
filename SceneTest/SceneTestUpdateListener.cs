@@ -380,7 +380,7 @@ namespace SceneTest
                 var dayFactor = (timeClock.DayFactor - 0.5f) * 2.0f;
                 var noonFactor = 1.0f - Math.Abs(dayFactor);
                 lightDirection = new Vector3(dayFactor, -0.5f * noonFactor - 0.1f, 1f).normalized();
-                lightIntensity = 6f * noonFactor + 1.0f;
+                lightIntensity = 5f * noonFactor + 2.0f;
 
                 pbrRenderAttribs.AverageLogLum = 0.3f;
                 ClearColor = DaySky;
@@ -403,7 +403,7 @@ namespace SceneTest
                 var midnightFactor = 1.0f - Math.Abs(nightFactor);
                 lightDirection = new Vector3(nightFactor, -0.5f * midnightFactor - 0.1f, 1f).normalized();
 
-                lightIntensity = 0.7f * midnightFactor + 1.0f;
+                lightIntensity = 0.7f * midnightFactor + 2.0f;
 
                 pbrRenderAttribs.AverageLogLum = 0.8f;
                 ClearColor = NightSky;
