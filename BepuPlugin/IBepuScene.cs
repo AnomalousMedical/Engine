@@ -2,6 +2,7 @@
 using BepuPhysics.Collidables;
 using BepuPlugin.Characters;
 using Engine.Platform;
+using System;
 
 namespace BepuPlugin
 {
@@ -17,10 +18,10 @@ namespace BepuPlugin
         void GetInterpolatedPosition(in BodyHandle body, ref Engine.Vector3 position, ref Engine.Quaternion orientation);
         void RemoveFromInterpolation(in BodyHandle body);
         /// <summary>
-        /// Starts listening for events related to the given collidable.
+        /// Starts listening for events related to the given collidable. When an event is fired call the given event handler.
         /// </summary>
         /// <param name="collidable">Collidable to start listening for.</param>
-        void RegisterCollisionListener(CollidableReference collidable);
+        void RegisterCollisionListener(CollidableReference collidable, Action<CollisionEvent> eventHandler);
 
         /// <summary>
         /// Stops listening for events related to the given collidable.

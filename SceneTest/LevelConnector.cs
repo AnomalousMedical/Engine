@@ -68,7 +68,7 @@ namespace SceneTest
                     new System.Numerics.Quaternion(description.Orientation.x, description.Orientation.y, description.Orientation.z, description.Orientation.w),
                     new CollidableDescription(shapeIndex, 0.1f)));
 
-            bepuScene.RegisterCollisionListener(new CollidableReference(staticHandle));
+            bepuScene.RegisterCollisionListener(new CollidableReference(staticHandle), HandleCollision);
 
             coroutine.RunTask(async () =>
             {
@@ -111,7 +111,12 @@ namespace SceneTest
                 position.ToSystemNumerics(),
                 this.sceneObject.orientation.ToSystemNumerics(),
                 new CollidableDescription(shapeIndex, 0.1f)));
-            bepuScene.RegisterCollisionListener(new CollidableReference(staticHandle));
+            bepuScene.RegisterCollisionListener(new CollidableReference(staticHandle), HandleCollision);
+        }
+
+        private void HandleCollision(CollisionEvent evt)
+        {
+            
         }
     }
 }

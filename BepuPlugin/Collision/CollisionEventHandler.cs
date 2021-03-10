@@ -4,6 +4,7 @@ using BepuPhysics.CollisionDetection;
 using Engine.Utility;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Numerics;
 
 namespace BepuPlugin
@@ -14,6 +15,7 @@ namespace BepuPlugin
 
         private ConcurrentBag<CollisionEvent> currentEvents;
         private ThreadSafePool<CollisionEvent> eventPool;
+        private Dictionary<CollidableReference, Action<CollisionEvent>> collisionEventHandlers;
 
         /// <summary>
         /// You must call this constructor. The value of callMe does not matter.
@@ -23,6 +25,7 @@ namespace BepuPlugin
         {
             currentEvents = new ConcurrentBag<CollisionEvent>();
             eventPool = new ThreadSafePool<CollisionEvent>(() => new CollisionEvent());
+            collisionEventHandlers = new Dictionary<CollidableReference, Action<CollisionEvent>>();
             Simulation = null;
         }
 
@@ -51,11 +54,24 @@ namespace BepuPlugin
             currentEvents.Add(evt);
         }
 
+        public void AddEventHandler(CollidableReference collidable, Action<CollisionEvent> handler)
+        {
+            collisionEventHandlers.Add(collidable, handler);
+        }
+
+        public void RemoveEventHandler(CollidableReference collidable)
+        {
+            collisionEventHandlers.Remove(collidable);
+        }
+
         public void FireCollisionEvents()
         {
             while(currentEvents.TryTake(out var evt))
             {
-                Console.WriteLine(evt.Pair);
+                if(collisionEventHandlers.TryGetValue(evt.EventSource, out var handler))
+                {
+                    handler.Invoke(evt);
+                }
                 eventPool.Return(evt);
             }
         }
