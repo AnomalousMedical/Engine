@@ -28,6 +28,7 @@ namespace BepuPlugin
         ContactEvents<CollisionEventHandler> events;
         private List<CharacterMover> characterMovers = new List<CharacterMover>();
         private FastIteratorMap<BodyHandle, BodyPosition> interpolatedPositions = new FastIteratorMap<BodyHandle, BodyPosition>();
+        private CollisionEventHandler collisionEventHandler = new CollisionEventHandler(true);
 
         public event Action<IBepuScene> OnUpdated;
 
@@ -50,7 +51,7 @@ namespace BepuPlugin
             bufferPool = new BufferPool();
 
             characterControllers = new CharacterControllers(bufferPool);
-            events = new ContactEvents<CollisionEventHandler>(new CollisionEventHandler(), bufferPool, threadDispatcher);
+            events = new ContactEvents<CollisionEventHandler>(collisionEventHandler, bufferPool, threadDispatcher);
 
             //The PositionFirstTimestepper is the simplest timestepping mode, but since it integrates velocity into position at the start of the frame, directly modified velocities outside of the timestep
             //will be integrated before collision detection or the solver has a chance to intervene. That's fine in this demo. Other built-in options include the PositionLastTimestepper and the SubsteppingTimestepper.
@@ -108,6 +109,7 @@ namespace BepuPlugin
                 }
 
                 events.Flush();
+                collisionEventHandler.FireCollisionEvents();
             }
 
             interpolationValue = (float)timestepAccumulator / timestepMicro;
