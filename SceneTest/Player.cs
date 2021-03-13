@@ -380,6 +380,12 @@ namespace SceneTest
             this.bepuScene.OnUpdated += BepuScene_OnUpdated;
             this.eventManager = eventManager;
             this.cameraMover = cameraMover;
+
+            var scale = description.Scale * sprite.BaseScale;
+            var halfScale = scale.y / 2f;
+            var startPos = description.Translation;
+            startPos.y += halfScale;
+
             sceneObject = new SceneObject()
             {
                 vertexBuffer = plane.VertexBuffer,
@@ -387,9 +393,9 @@ namespace SceneTest
                 indexBuffer = plane.IndexBuffer,
                 numIndices = plane.NumIndices,
                 pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
-                position = description.Translation,
+                position = startPos,
                 orientation = description.Orientation,
-                scale = description.Scale,
+                scale = scale,
                 RenderShadow = true,
                 Sprite = sprite,
             };
@@ -397,7 +403,7 @@ namespace SceneTest
             Sprite_FrameChanged(sprite);
 
             //Character Mover
-            var shape = new Sphere(0.5f); //Each character creates a shape, try to load from resources somehow
+            var shape = new Sphere(halfScale); //Each character creates a shape, try to load from resources somehow
             shapeIndex = bepuScene.Simulation.Shapes.Add(shape);
 
             var moverDesc = new CharacterMoverDescription()
@@ -410,7 +416,7 @@ namespace SceneTest
             //This is effectively equivalent to giving it an infinite inertia tensor- in other words, no torque will cause it to rotate.
             var mass = 1f;
             var bodyDesc = 
-                BodyDescription.CreateDynamic(description.Translation.ToSystemNumerics(), new BodyInertia { InverseMass = 1f / mass },
+                BodyDescription.CreateDynamic(startPos.ToSystemNumerics(), new BodyInertia { InverseMass = 1f / mass },
                 new CollidableDescription(shapeIndex, moverDesc.SpeculativeMargin),
                 new BodyActivityDescription(shape.Radius * 0.02f));
 
@@ -475,7 +481,7 @@ namespace SceneTest
 
         public void SetLocation(in Vector3 location)
         {
-            this.characterMover.SetLocation((location + new Vector3(0f, 0.5f, 0f)).ToSystemNumerics());
+            this.characterMover.SetLocation((location + new Vector3(0f, sprite.BaseScale.y / 2f, 0f)).ToSystemNumerics());
         }
 
         internal void RequestDestruction()
