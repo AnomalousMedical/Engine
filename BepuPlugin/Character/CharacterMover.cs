@@ -64,6 +64,14 @@ namespace BepuPlugin.Characters
             characterBody.Pose.Position = location;
         }
 
+        public void SetVelocity(in Vector3 velocity)
+        {
+            var characterBody = new BodyReference(bodyHandle, characters.Simulation.Bodies);
+            characterBody.Velocity.Linear = velocity;
+            ref var character = ref characters.GetCharacterByBodyHandle(bodyHandle);
+            character.TargetVelocity = new Vector2(velocity.X, velocity.Z);
+        }
+
         public void UpdateCharacterGoals(in Vector3 viewDirection, float simulationTimestepDuration)
         {
             var movementDirectionCalc = this.movementDirection;

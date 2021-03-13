@@ -486,6 +486,7 @@ namespace SceneTest
         public void SetLocation(in Vector3 location)
         {
             this.characterMover.SetLocation((location + new Vector3(0f, sprite.BaseScale.y / 2f, 0f)).ToSystemNumerics());
+            this.characterMover.SetVelocity(new System.Numerics.Vector3(0f, 0f, 0f));
         }
 
         internal void RequestDestruction()
