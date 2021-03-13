@@ -52,31 +52,32 @@ namespace SceneTest
             services.AddBepuPlugin();
 
             //Add this app's services
-            services.TryAddSingleton<SceneTestUpdateListener>();
-            services.TryAddSingleton<TimeClock>();
-            services.TryAddSingleton<SpriteManager>();
-            services.TryAddSingleton<SceneObjectManager>();
-            services.TryAddSingleton<ISpriteMaterialManager, SpriteMaterialManager>();
-            services.TryAddSingleton<ICC0TextureManager, CC0TextureManager>();
-            services.TryAddSingleton<ISpriteMaterialTextureManager, SpriteMaterialTextureManager>();
-            services.TryAddScoped<Player>();
-            services.TryAddScoped<Player.Description>();
-            services.TryAddScoped<Enemy>();
-            services.TryAddScoped<Enemy.Desc>();
-            services.TryAddScoped<Attachment>();
-            services.TryAddScoped<Attachment.Description>();
-            services.TryAddScoped<Brick>();
-            services.TryAddScoped<Brick.Description>();
-            services.TryAddScoped<Level>();
-            services.TryAddScoped<Level.Description>();
-            services.TryAddScoped<LevelConnector>();
-            services.TryAddScoped<LevelConnector.Description>();
-            services.TryAddSingleton<LevelManager>();
-            services.TryAddSingleton<LevelManager.Desc>(new LevelManager.Desc()
+            services.AddSingleton<SceneTestUpdateListener>();
+            services.AddSingleton<TimeClock>();
+            services.AddSingleton<SpriteManager>();
+            services.AddSingleton<SceneObjectManager>();
+            services.AddSingleton<ISpriteMaterialManager, SpriteMaterialManager>();
+            services.AddSingleton<ICC0TextureManager, CC0TextureManager>();
+            services.AddSingleton<ISpriteMaterialTextureManager, SpriteMaterialTextureManager>();
+            services.AddScoped<Player>();
+            services.AddScoped<Player.Description>();
+            services.AddScoped<Enemy>();
+            services.AddScoped<Enemy.Desc>();
+            services.AddScoped<Attachment>();
+            services.AddScoped<Attachment.Description>();
+            services.AddScoped<Brick>();
+            services.AddScoped<Brick.Description>();
+            services.AddScoped<Level>();
+            services.AddScoped<Level.Description>();
+            services.AddScoped<LevelConnector>();
+            services.AddScoped<LevelConnector.Description>();
+            services.AddSingleton<ILevelManager, LevelManager>();
+            services.AddSingleton<LevelManager.Desc>(new LevelManager.Desc()
             {
                 RandomSeed = 0
             });
-            services.TryAddSingleton<CameraMover>();
+            services.AddSingleton<CameraMover>();
+            services.AddSingleton<ICollidableTypeIdentifier, CollidableTypeIdentifier>();
 
             return true;
         }

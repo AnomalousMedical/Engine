@@ -51,7 +51,7 @@ namespace SceneTest
         private readonly ICoroutineRunner coroutineRunner;
         private readonly IBepuScene bepuScene;
         private readonly CameraMover cameraMover;
-        private readonly LevelManager levelManager;
+        private readonly ILevelManager levelManager;
         private readonly IObjectResolver objectResolver;
         private SoundAndSource bgMusicSound;
 
@@ -85,7 +85,7 @@ namespace SceneTest
             ICoroutineRunner coroutineRunner,
             IBepuScene bepuScene,
             CameraMover cameraMover,
-            LevelManager levelManager)
+            ILevelManager levelManager)
         {
             cameraControls.Position = new Vector3(0, 0, -12);
 

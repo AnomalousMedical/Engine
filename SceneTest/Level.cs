@@ -197,7 +197,7 @@ namespace SceneTest
                 {
                     o.Scale = new Vector3(3.0f, 0.05f, 3.0f);
                     o.Texture = description.FloorTexture;
-                    o.Translation = StartPoint;
+                    o.Translation = StartPoint + new Vector3(0f, 0f, -(o.Scale.z / 2f + 0.5f));
                 });
 
                 wallMatBinding = await wallTextureTask;

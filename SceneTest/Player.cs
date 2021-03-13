@@ -38,6 +38,7 @@ namespace SceneTest
         private readonly IBepuScene bepuScene;
         private readonly EventManager eventManager;
         private readonly CameraMover cameraMover;
+        private readonly ICollidableTypeIdentifier collidableIdentifier;
         private readonly EventLayer eventLayer;
         private SceneObject sceneObject;
         private IObjectResolver objectResolver;
@@ -196,7 +197,8 @@ namespace SceneTest
             IBepuScene bepuScene,
             EventManager eventManager,
             Description description,
-            CameraMover cameraMover)
+            CameraMover cameraMover,
+            ICollidableTypeIdentifier collidableIdentifier)
         {
             this.primaryHand = description.PrimaryHand;
             this.secondaryHand = description.SecondaryHand;
@@ -380,7 +382,7 @@ namespace SceneTest
             this.bepuScene.OnUpdated += BepuScene_OnUpdated;
             this.eventManager = eventManager;
             this.cameraMover = cameraMover;
-
+            this.collidableIdentifier = collidableIdentifier;
             var scale = description.Scale * sprite.BaseScale;
             var halfScale = scale.y / 2f;
             var startPos = description.Translation;
@@ -424,6 +426,7 @@ namespace SceneTest
             characterMover.sprint = true;
             bepuScene.AddToInterpolation(characterMover.BodyHandle);
             //bepuScene.RegisterCollisionListener(new CollidableReference(CollidableMobility.Dynamic, characterMover.BodyHandle));
+            collidableIdentifier.AddIdentifier(new CollidableReference(CollidableMobility.Dynamic, characterMover.BodyHandle), this);
 
             coroutine.RunTask(async () => {
                 using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until coroutine is finished and this is disposed.
@@ -469,6 +472,7 @@ namespace SceneTest
 
             this.bepuScene.OnUpdated -= BepuScene_OnUpdated;
             //bepuScene.UnregisterCollisionListener(new CollidableReference(CollidableMobility.Dynamic, characterMover.BodyHandle));
+            collidableIdentifier.RemoveIdentifier(new CollidableReference(CollidableMobility.Dynamic, characterMover.BodyHandle));
             bepuScene.RemoveFromInterpolation(characterMover.BodyHandle);
             bepuScene.DestroyCharacterMover(characterMover);
             bepuScene.Simulation.Shapes.Remove(shapeIndex);

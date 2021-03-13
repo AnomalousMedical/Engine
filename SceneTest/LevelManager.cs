@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SceneTest
 {
-    class LevelManager : IDisposable
+    class LevelManager : IDisposable, ILevelManager
     {
         public class Desc
         {

@@ -27,6 +27,9 @@ namespace SceneTest
         private readonly SceneObjectManager sceneObjectManager;
         private readonly IBepuScene bepuScene;
         private readonly ICC0TextureManager textureManager;
+        private readonly ICollidableTypeIdentifier collidableIdentifier;
+        private readonly ICoroutineRunner coroutineRunner;
+        private readonly ILevelManager levelManager;
         private IShaderResourceBinding matBinding;
         private SceneObject sceneObject;
         private StaticHandle staticHandle;
@@ -40,11 +43,17 @@ namespace SceneTest
             IScopedCoroutine coroutine,
             IBepuScene bepuScene,
             ICC0TextureManager textureManager,
-            Description description)
+            Description description,
+            ICollidableTypeIdentifier collidableIdentifier,
+            ICoroutineRunner coroutineRunner,
+            ILevelManager levelManager)
         {
             this.sceneObjectManager = sceneObjectManager;
             this.bepuScene = bepuScene;
             this.textureManager = textureManager;
+            this.collidableIdentifier = collidableIdentifier;
+            this.coroutineRunner = coroutineRunner;
+            this.levelManager = levelManager;
             sceneObject = new SceneObject()
             {
                 vertexBuffer = cube.VertexBuffer,
@@ -116,7 +125,18 @@ namespace SceneTest
 
         private void HandleCollision(CollisionEvent evt)
         {
-            
+            Console.WriteLine(evt.Pair);
+            Console.WriteLine(evt.EventSource);
+            //Don't want to do this during the physics update. Trigger to run later.
+
+            if (collidableIdentifier.TryGetIdentifier<Player>(evt.Pair.A, out var _)
+                || collidableIdentifier.TryGetIdentifier<Player>(evt.Pair.B, out var _))
+            {
+                coroutineRunner.RunTask(async () =>
+                {
+                    await levelManager.GoNextLevel();
+                });
+            }            
         }
     }
 }
