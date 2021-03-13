@@ -15,6 +15,7 @@ namespace SyncContextTest
         private readonly NativeOSWindow window;
         private readonly ISharpGui sharpGui;
         private readonly IScaleHelper scaleHelper;
+        private readonly IObjectResolverFactory objectResolverFactory;
         private readonly ICoroutineRunner coroutine;
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext immediateContext;
@@ -40,6 +41,7 @@ namespace SyncContextTest
             this.window = window;
             this.sharpGui = sharpGui;
             this.scaleHelper = scaleHelper;
+            this.objectResolverFactory = objectResolverFactory;
             this.coroutine = coroutine;
             this.objectResolver = objectResolverFactory.Create();
 
@@ -180,7 +182,7 @@ namespace SyncContextTest
             UpdateGui(clock);
 
             //Flush any removed objects
-            objectResolver.Flush();
+            objectResolverFactory.Flush();
 
             //Render
             var pRTV = swapChain.GetCurrentBackBufferRTV();

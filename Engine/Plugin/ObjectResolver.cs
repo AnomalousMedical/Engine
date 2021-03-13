@@ -8,12 +8,14 @@ namespace Engine
     class ObjectResolver : IObjectResolver
     {
         private readonly ServiceProvider serviceProvider;
+        private readonly ObjectResolverFactory factory;
         private List<IDisposable> resolvedObjects = new List<IDisposable>();
         private List<IDisposable> destructionQueue = new List<IDisposable>();
 
-        public ObjectResolver(ServiceProvider serviceProvider)
+        public ObjectResolver(ServiceProvider serviceProvider, ObjectResolverFactory factory)
         {
             this.serviceProvider = serviceProvider;
+            this.factory = factory;
         }
 
         public void Dispose()
@@ -27,6 +29,7 @@ namespace Engine
             //If those have not yet been flushed they will have been destroyed
             //as part of the resolved objects above. Items are only removed
             //from that collection when their scope is disposed.
+            factory.AlertDestroyed(this);
         }
 
         internal void QueueDestroy(ResolvedObject resolvedObject)
@@ -65,7 +68,7 @@ namespace Engine
         /// If this is never called the objects are not really destroyed until
         /// the program resolver is destroyed.
         /// </summary>
-        public void Flush()
+        internal void Flush()
         {
             foreach(var item in destructionQueue)
             {

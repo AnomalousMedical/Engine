@@ -71,6 +71,11 @@ namespace SceneTest
             services.TryAddScoped<Level.Description>();
             services.TryAddScoped<LevelConnector>();
             services.TryAddScoped<LevelConnector.Description>();
+            services.TryAddSingleton<LevelManager>();
+            services.TryAddSingleton<LevelManager.Desc>(new LevelManager.Desc()
+            {
+                RandomSeed = 0
+            });
             services.TryAddSingleton<CameraMover>();
 
             return true;

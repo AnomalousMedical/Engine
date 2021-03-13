@@ -12,6 +12,7 @@ namespace ObjectTest
         private readonly NativeOSWindow window;
         private readonly ISharpGui sharpGui;
         private readonly IScaleHelper scaleHelper;
+        private readonly IObjectResolverFactory objectResolverFactory;
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext immediateContext;
         private readonly IObjectResolver objectResolver;
@@ -32,6 +33,7 @@ namespace ObjectTest
             this.window = window;
             this.sharpGui = sharpGui;
             this.scaleHelper = scaleHelper;
+            this.objectResolverFactory = objectResolverFactory;
             this.objectResolver = objectResolverFactory.Create();
 
             //Some fire and forget things, these will be destroyed when the objectResolved is disposed in Dispose here.
@@ -93,7 +95,7 @@ namespace ObjectTest
             UpdateGui(clock);
 
             //Flush any removed objects
-            objectResolver.Flush();
+            objectResolverFactory.Flush();
 
             //Render
             var pRTV = swapChain.GetCurrentBackBufferRTV();
