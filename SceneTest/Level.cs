@@ -35,7 +35,11 @@ namespace SceneTest
 
             public int Height { get; set; } = 50;
 
+            public float MapUnitX { get; set; } = 3.0f;
+
             public float MapUnitY { get; set; } = 0.1f;
+
+            public float MapUnitZ { get; set; } = 3.0f;
 
             /// <summary>
             /// Room minimum size
@@ -89,6 +93,11 @@ namespace SceneTest
             /// Break out
             /// </summary>
             public int BreakOut { get; set; } = 250;
+
+            /// <summary>
+            /// True if this level has a go previous level connector. Default: true
+            /// </summary>
+            public bool GoPrevious { get; set; } = true;
         }
 
         private readonly SceneObjectManager sceneObjectManager;
@@ -107,9 +116,11 @@ namespace SceneTest
         private MapMesh mapMesh;
         private bool physicsActive = false;
         private IObjectResolver objectResolver;
-        private LevelConnector levelConnector;
+        private LevelConnector nextLevelConnector;
+        private LevelConnector previousLevelConnector;
 
         private Task levelGenerationTask;
+        private Vector3 mapUnits;
 
         private Vector3 endPointLocal;
         private Vector3 startPointLocal;
@@ -127,6 +138,7 @@ namespace SceneTest
             ILogger<Level> logger,
             IObjectResolverFactory objectResolverFactory)
         {
+            this.mapUnits = new Vector3(description.MapUnitX, description.MapUnitY, description.MapUnitZ);
             this.objectResolver = objectResolverFactory.Create();
             this.sceneObjectManager = sceneObjectManager;
             this.destructionRequest = destructionRequest;
@@ -191,14 +203,14 @@ namespace SceneTest
                         }
                     }
 
-                    mapMesh = new MapMesh(mapBuilder, random, graphicsEngine.RenderDevice, mapUnitX: 3, mapUnitY: description.MapUnitY, mapUnitZ: 3);
+                    mapMesh = new MapMesh(mapBuilder, random, graphicsEngine.RenderDevice, mapUnitX: description.MapUnitX, mapUnitY: description.MapUnitY, mapUnitZ: description.MapUnitZ);
                     var startRoom = eastmostRoom;
-                    var startX = startRoom.Left + startRoom.Width / 2;
+                    var startX = startRoom.Left;
                     var startY = startRoom.Top + startRoom.Height / 2;
                     startPointLocal = mapMesh.PointToVector(startX, startY);
 
                     var endRoom = westmostRoom;
-                    var endX = endRoom.Left + endRoom.Width / 2;
+                    var endX = endRoom.Right;
                     var endY = endRoom.Top + endRoom.Height / 2;
                     endPointLocal = mapMesh.PointToVector(endX, endY);
                     sw.Stop();
@@ -209,11 +221,23 @@ namespace SceneTest
 
                 await levelGenerationTask;
 
-                this.levelConnector = objectResolver.Resolve<LevelConnector, LevelConnector.Description>(o =>
+                if (description.GoPrevious)
+                {
+                    this.previousLevelConnector = objectResolver.Resolve<LevelConnector, LevelConnector.Description>(o =>
+                    {
+                        o.Scale = new Vector3(description.MapUnitX, 0.05f, description.MapUnitZ);
+                        o.Texture = description.FloorTexture;
+                        o.Translation = StartPoint + new Vector3(-(mapUnits.x / 2f + 0.5f), 0f, 0f);
+                        o.GoPrevious = true;
+                    });
+                }
+
+                this.nextLevelConnector = objectResolver.Resolve<LevelConnector, LevelConnector.Description>(o =>
                 {
                     o.Scale = new Vector3(3.0f, 0.05f, 3.0f);
                     o.Texture = description.FloorTexture;
-                    o.Translation = StartPoint + new Vector3(0f, 0f, -(o.Scale.z / 2f + 0.5f));
+                    o.Translation = EndPoint + new Vector3(mapUnits.x / 2f + 0.5f, 0f, 0f);
+                    o.GoPrevious = false;
                 });
 
                 wallMatBinding = await wallTextureTask;
@@ -282,7 +306,8 @@ namespace SceneTest
         {
             this.floorSceneObject.position = position;
             this.wallSceneObject.position = position;
-            this.levelConnector?.SetPosition(StartPoint);
+            this.previousLevelConnector?.SetPosition(StartPoint + new Vector3(-(mapUnits.x / 2f + 0.5f), 0f, 0f));
+            this.nextLevelConnector?.SetPosition(EndPoint + new Vector3((mapUnits.x / 2f + 0.5f), 0f, 0f));
         }
 
         /// <summary>

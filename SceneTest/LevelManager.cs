@@ -53,8 +53,8 @@ namespace SceneTest
 
         public async Task Initialize()
         {
-            currentLevel = CreateLevel(createdLevelSeeds[0], new Vector3(0, 0, 0));
-            nextLevel = CreateLevel(createdLevelSeeds[1], new Vector3(150, 0, 0));
+            currentLevel = CreateLevel(createdLevelSeeds[0], new Vector3(0, 0, 0), false);
+            nextLevel = CreateLevel(createdLevelSeeds[1], new Vector3(150, 0, 0), true);
 
             await currentLevel.WaitForLevelGeneration();
 
@@ -138,7 +138,7 @@ namespace SceneTest
             var levelSeed = createdLevelSeeds[nextLevelIndex];
 
             //Create new level
-            nextLevel = CreateLevel(levelSeed, new Vector3(150, 0, 0));
+            nextLevel = CreateLevel(levelSeed, new Vector3(150, 0, 0), true);
 
             //Physics changeover
             previousLevel.DestroyPhysics();
@@ -181,8 +181,9 @@ namespace SceneTest
 
             if (currentLevelIndex > 0)
             {
-                var levelSeed = createdLevelSeeds[currentLevelIndex - 1];
-                previousLevel = CreateLevel(levelSeed, new Vector3(-150, 0, 0));
+                var previousLevelIndex = currentLevelIndex - 1;
+                var levelSeed = createdLevelSeeds[previousLevelIndex];
+                previousLevel = CreateLevel(levelSeed, new Vector3(-150, 0, 0), previousLevelIndex > 0);
             }
             else
             {
@@ -195,12 +196,12 @@ namespace SceneTest
             currentLevel.SetPosition(new Vector3(0, 0, 0));
             currentLevel.SetupPhysics();
 
-            player.SetLocation(currentLevel.StartPoint);
+            player.SetLocation(currentLevel.EndPoint);
 
             changingLevels = false;
         }
 
-        private Level CreateLevel(int levelSeed, Vector3 translation)
+        private Level CreateLevel(int levelSeed, Vector3 translation, bool goPrevious)
         {
             var random = new Random(levelSeed);
             var biome = biomes[random.Next(0, biomes.Count)];
@@ -220,6 +221,7 @@ namespace SceneTest
                 o.RoomMin = new IntSize2(2, 2);
                 o.RoomMax = new IntSize2(6, 6); //Between 3-6 is good here, 3 for more cityish with small rooms, 6 for more open with more big rooms, sometimes connected
                 o.CorridorMaxLength = 4;
+                o.GoPrevious = goPrevious;
             });
         }
     }

@@ -22,6 +22,11 @@ namespace SceneTest
             public bool RenderShadow { get; set; } = false;
 
             public bool GetShadow { get; set; } = true;
+
+            /// <summary>
+            /// Set this to true to go to the previous level. False to go to the next.
+            /// </summary>
+            public bool GoPrevious { get; set; }
         }
 
         private readonly SceneObjectManager sceneObjectManager;
@@ -35,6 +40,7 @@ namespace SceneTest
         private StaticHandle staticHandle;
         private TypedIndex shapeIndex;
         private bool disposed;
+        private bool goPrevious;
 
         public LevelConnector(
             SceneObjectManager sceneObjectManager,
@@ -48,6 +54,7 @@ namespace SceneTest
             ICoroutineRunner coroutineRunner,
             ILevelManager levelManager)
         {
+            this.goPrevious = description.GoPrevious;
             this.sceneObjectManager = sceneObjectManager;
             this.bepuScene = bepuScene;
             this.textureManager = textureManager;
@@ -134,7 +141,14 @@ namespace SceneTest
             {
                 coroutineRunner.RunTask(async () =>
                 {
-                    await levelManager.GoNextLevel();
+                    if (this.goPrevious)
+                    {
+                        await levelManager.GoPreviousLevel();
+                    }
+                    else
+                    {
+                        await levelManager.GoNextLevel();
+                    }
                 });
             }            
         }
