@@ -111,12 +111,10 @@ namespace SceneTest
 
         private Task levelGenerationTask;
 
+        private Vector3 endPointLocal;
         private Vector3 startPointLocal;
         public Vector3 StartPoint => startPointLocal + wallSceneObject.position;
-
-        public IntRect StartRoom { get; private set; }
-
-        public IntRect EndRoom { get; private set; }
+        public Vector3 EndPoint => endPointLocal + wallSceneObject.position;
 
         public Level(
             SceneObjectManager sceneObjectManager,
@@ -178,13 +176,31 @@ namespace SceneTest
                         Room_Min = description.RoomMin
                     };
                     mapBuilder.Build_ConnectedStartRooms();
+
+                    Rectangle eastmostRoom = new Rectangle(int.MaxValue, 0, 0, 0);
+                    Rectangle westmostRoom = new Rectangle(0, 0, 0, 0);
+                    foreach(var room in mapBuilder.Rooms)
+                    {
+                        if(room.Left < eastmostRoom.Left)
+                        {
+                            eastmostRoom = room;
+                        }
+                        if(room.Right > westmostRoom.Right)
+                        {
+                            westmostRoom = room;
+                        }
+                    }
+
                     mapMesh = new MapMesh(mapBuilder, random, graphicsEngine.RenderDevice, mapUnitX: 3, mapUnitY: description.MapUnitY, mapUnitZ: 3);
-                    var startRoom = mapBuilder.StartRoom;
+                    var startRoom = eastmostRoom;
                     var startX = startRoom.Left + startRoom.Width / 2;
                     var startY = startRoom.Top + startRoom.Height / 2;
                     startPointLocal = mapMesh.PointToVector(startX, startY);
-                    StartRoom = mapBuilder.StartRoom;
-                    EndRoom = mapBuilder.EndRoom;
+
+                    var endRoom = westmostRoom;
+                    var endX = endRoom.Left + endRoom.Width / 2;
+                    var endY = endRoom.Top + endRoom.Height / 2;
+                    endPointLocal = mapMesh.PointToVector(endX, endY);
                     sw.Stop();
                     logger.LogInformation($"Generated level {description.RandomSeed} in {sw.ElapsedMilliseconds} ms.");
                 });
