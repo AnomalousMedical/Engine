@@ -152,10 +152,7 @@ namespace SceneTest
             //Buttons
             if (sharpGui.Button(playMusic))
             {
-                bgMusicSound?.Dispose();
-                var stream = virtualFileSystem.openStream("freepd/Rafael Krux - The Range-10.ogg", FileMode.Open, FileAccess.Read, FileShare.Read);
-                bgMusicSound = soundManager.StreamPlaySound(stream);
-                bgMusicSound.Sound.Repeat = true;
+                PlaySong("freepd/Rafael Krux - The Range-10.ogg");
             }
 
             if (!levelManager.ChangingLevels && sharpGui.Button(goNextLevel))
@@ -175,7 +172,7 @@ namespace SceneTest
 
             if (sharpGui.Button(battle))
             {
-                
+                PlaySong("freepd/Rafael Krux - Hit n Smash.ogg");
             }
 
             int currentTime = (int)(timeClock.CurrentTimeMicro * Clock.MicroToSeconds / (60 * 60));
@@ -187,6 +184,14 @@ namespace SceneTest
             sharpGui.Text(currentHour.Rect.Right, currentHour.Rect.Top, timeClock.IsDay ? Engine.Color.Black : Engine.Color.White, $"Time: {time}");
 
             sharpGui.End();
+        }
+
+        private void PlaySong(String songFile)
+        {
+            bgMusicSound?.Dispose();
+            var stream = virtualFileSystem.openStream(songFile, FileMode.Open, FileAccess.Read, FileShare.Read);
+            bgMusicSound = soundManager.StreamPlaySound(stream);
+            bgMusicSound.Sound.Repeat = true;
         }
 
         private void UpdateSprites(Clock clock)
