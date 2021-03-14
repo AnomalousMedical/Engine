@@ -22,14 +22,6 @@ namespace SceneTest
         float ZNear = 0.1f;
         float ZFar = 350f;
 
-        //Clear Color
-        Engine.Color ClearColor = Engine.Color.FromARGB(0xff2a63cc);
-
-        //Light
-        Vector3 lightDirection = Vector3.Up;
-        Vector4 lightColor = new Vector4(1, 1, 1, 1);
-        float lightIntensity = 3;
-
         private readonly NativeOSWindow window;
         private readonly EnvironmentMapBuilder envMapBuilder;
         private readonly IPbrCameraAndLight pbrCameraAndLight;
@@ -52,17 +44,18 @@ namespace SceneTest
         private readonly IBepuScene bepuScene;
         private readonly CameraMover cameraMover;
         private readonly ILevelManager levelManager;
+        private readonly Sky sky;
         private readonly IObjectResolver objectResolver;
         private SoundAndSource bgMusicSound;
 
         private PbrRenderer pbrRenderer;
         private AutoPtr<ITextureView> environmentMapSRV;
 
-        SharpButton makeDawn = new SharpButton() { Text = "Make Dawn" };
-        SharpButton makeDusk = new SharpButton() { Text = "Make Dusk" };
+        SharpButton playMusic = new SharpButton() { Text = "Play Music" };
         SharpButton goNextLevel = new SharpButton() { Text = "Next Level" };
         SharpButton goPreviousLevel = new SharpButton() { Text = "Previous Level" };
         SharpButton toggleCamera = new SharpButton() { Text = "Toggle Camera" };
+        SharpButton battle = new SharpButton() { Text = "Battle" };
         SharpSliderHorizontal currentHour;
 
         private bool useFirstPersonCamera = false;
@@ -86,7 +79,8 @@ namespace SceneTest
             ICoroutineRunner coroutineRunner,
             IBepuScene bepuScene,
             CameraMover cameraMover,
-            ILevelManager levelManager)
+            ILevelManager levelManager,
+            Sky sky)
         {
             cameraControls.Position = new Vector3(0, 0, -12);
 
@@ -111,6 +105,7 @@ namespace SceneTest
             this.bepuScene = bepuScene;
             this.cameraMover = cameraMover;
             this.levelManager = levelManager;
+            this.sky = sky;
             this.objectResolver = objectResolverFactory.Create();
             currentHour = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 10, 500, 35)), Max = 24 };
             coroutineRunner.RunTask(Initialize());
@@ -149,22 +144,15 @@ namespace SceneTest
             var layout =
                 new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
                 new MaxWidthLayout(scaleHelper.Scaled(300),
-                new ColumnLayout(makeDawn, makeDusk, goNextLevel, goPreviousLevel, toggleCamera) { Margin = new IntPad(10) }
+                new ColumnLayout(playMusic, goNextLevel, goPreviousLevel, toggleCamera, battle) { Margin = new IntPad(10) }
                 ));
             var desiredSize = layout.GetDesiredSize(sharpGui);
             layout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
 
             //Buttons
-            if (sharpGui.Button(makeDawn, navUp: makeDusk.Id, navDown: makeDusk.Id))
-            {
-                timeClock.CurrentTimeMicro = timeClock.DayStart;
-            }
-
-            if (sharpGui.Button(makeDusk, navUp: makeDawn.Id, navDown: makeDawn.Id))
+            if (sharpGui.Button(playMusic))
             {
                 bgMusicSound?.Dispose();
-
-                timeClock.CurrentTimeMicro = timeClock.DayEnd;
                 var stream = virtualFileSystem.openStream("freepd/Rafael Krux - The Range-10.ogg", FileMode.Open, FileAccess.Read, FileShare.Read);
                 bgMusicSound = soundManager.StreamPlaySound(stream);
                 bgMusicSound.Sound.Repeat = true;
@@ -185,6 +173,11 @@ namespace SceneTest
                 useFirstPersonCamera = !useFirstPersonCamera;
             }
 
+            if (sharpGui.Button(battle))
+            {
+                
+            }
+
             int currentTime = (int)(timeClock.CurrentTimeMicro * Clock.MicroToSeconds / (60 * 60));
             if (sharpGui.Slider(currentHour, ref currentTime) || sharpGui.ActiveItem == currentHour.Id)
             {
@@ -194,61 +187,6 @@ namespace SceneTest
             sharpGui.Text(currentHour.Rect.Right, currentHour.Rect.Top, timeClock.IsDay ? Engine.Color.Black : Engine.Color.White, $"Time: {time}");
 
             sharpGui.End();
-        }
-
-        const long OneHour = 60L * 60L * Clock.SecondsToMicro;
-        readonly Color DaySky = Color.FromARGB(0xff2a63cc);
-        readonly Color NightSky = Color.FromARGB(0xff030303);
-        readonly Color DawnSky = Color.FromARGB(0xff242148);
-        readonly Color DuskSky = Color.FromARGB(0xff242148);
-
-        private unsafe void UpdateLight(Clock clock)
-        {
-            if (timeClock.IsDay)
-            {
-                var dayFactor = (timeClock.DayFactor - 0.5f) * 2.0f;
-                var noonFactor = 1.0f - Math.Abs(dayFactor);
-                lightDirection = new Vector3(dayFactor, -0.5f * noonFactor - 0.1f, 1f).normalized();
-                lightIntensity = 5f * noonFactor + 2.0f;
-
-                pbrRenderAttribs.AverageLogLum = 0.3f;
-                ClearColor = DaySky;
-
-                if (timeClock.CurrentTimeMicro < timeClock.DayStart + OneHour)
-                {
-                    float timeFactor = (timeClock.CurrentTimeMicro - timeClock.DayStart) / (float)OneHour;
-                    ClearColor = Color.FadeColors(timeFactor, DawnSky, DaySky);
-                }
-
-                if (timeClock.CurrentTimeMicro > timeClock.DayEnd - OneHour)
-                {
-                    float timeFactor = (timeClock.CurrentTimeMicro - (timeClock.DayEnd - OneHour)) / (float)OneHour;
-                    ClearColor = Color.FadeColors(timeFactor, DaySky, DuskSky);
-                }
-            }
-            else
-            {
-                var nightFactor = (timeClock.NightFactor - 0.5f) * 2.0f;
-                var midnightFactor = 1.0f - Math.Abs(nightFactor);
-                lightDirection = new Vector3(nightFactor, -0.5f * midnightFactor - 0.1f, 1f).normalized();
-
-                lightIntensity = 0.7f * midnightFactor + 2.0f;
-
-                pbrRenderAttribs.AverageLogLum = 0.8f;
-                ClearColor = NightSky;
-
-                if (timeClock.CurrentTimeMicro > timeClock.DayStart - OneHour && timeClock.CurrentTimeMicro <= timeClock.DayStart)
-                {
-                    float timeFactor = (timeClock.CurrentTimeMicro - (timeClock.DayStart - OneHour)) / (float)OneHour;
-                    ClearColor = Color.FadeColors(timeFactor, NightSky, DawnSky);
-                }
-
-                if (timeClock.CurrentTimeMicro >= timeClock.DayEnd && timeClock.CurrentTimeMicro < timeClock.DayEnd + OneHour)
-                {
-                    float timeFactor = (timeClock.CurrentTimeMicro - timeClock.DayEnd) / (float)OneHour;
-                    ClearColor = Color.FadeColors(timeFactor, DuskSky, NightSky);
-                }
-            }
         }
 
         private void UpdateSprites(Clock clock)
@@ -265,8 +203,10 @@ namespace SceneTest
             bepuScene.Update(clock, new System.Numerics.Vector3(0, 0, 1));
             timeClock.Update(clock);
             UpdateGui(clock);
-            UpdateLight(clock);
+            sky.UpdateLight(clock);
             UpdateSprites(clock);
+
+            pbrRenderAttribs.AverageLogLum = sky.AverageLogLum;
 
             objectResolverFactory.Flush();
 
@@ -279,7 +219,7 @@ namespace SceneTest
 
             //Draw Scene
             // Render shadow map
-            shadowMapRenderer.BeginShadowMap(renderDevice, immediateContext, lightDirection, Vector3.Zero, 90); //Centering scene on player seems to work the best
+            shadowMapRenderer.BeginShadowMap(renderDevice, immediateContext, sky.LightDirection, Vector3.Zero, 90); //Centering scene on player seems to work the best
             foreach (var sceneObj in sceneObjects.Where(i => i.RenderShadow))
             {
                 var pos = sceneObj.position - cameraMover.SceneCenter;
@@ -290,22 +230,22 @@ namespace SceneTest
             pbrRenderer.Begin(immediateContext);
             immediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             // Clear the back buffer
-            immediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            immediateContext.ClearRenderTarget(pRTV, sky.ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
             // Set Light
             var WorldToShadowMapUVDepthMatrix = shadowMapRenderer.WorldToShadowMapUVDepthMatr;
-            pbrCameraAndLight.SetLightAndShadow(ref lightDirection, ref lightColor, lightIntensity, ref WorldToShadowMapUVDepthMatrix);
+            pbrCameraAndLight.SetLightAndShadow(sky.LightDirection, sky.LightColor, sky.LightIntensity, WorldToShadowMapUVDepthMatrix);
 
             // Set Camera
             if (useFirstPersonCamera)
             {
                 cameraControls.UpdateInput(clock);
-                pbrCameraAndLight.SetCameraPosition(cameraControls.Position, cameraControls.Orientation, ref preTransformMatrix, ref cameraProjMatrix);
+                pbrCameraAndLight.SetCameraPosition(cameraControls.Position, cameraControls.Orientation, preTransformMatrix, cameraProjMatrix);
             }
             else
             {
-                pbrCameraAndLight.SetCameraPosition(cameraMover.Position - cameraMover.SceneCenter, cameraMover.Orientation, ref preTransformMatrix, ref cameraProjMatrix);
+                pbrCameraAndLight.SetCameraPosition(cameraMover.Position - cameraMover.SceneCenter, cameraMover.Orientation, preTransformMatrix, cameraProjMatrix);
             }
 
             foreach (var sceneObj in sceneObjects)

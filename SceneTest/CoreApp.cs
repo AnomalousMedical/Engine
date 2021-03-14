@@ -71,6 +71,7 @@ namespace SceneTest
             services.AddScoped<Level.Description>();
             services.AddScoped<LevelConnector>();
             services.AddScoped<LevelConnector.Description>();
+            services.AddScoped<Sky>();
             services.AddSingleton<ILevelManager, LevelManager>();
             services.AddSingleton<LevelManager.Desc>(new LevelManager.Desc()
             {

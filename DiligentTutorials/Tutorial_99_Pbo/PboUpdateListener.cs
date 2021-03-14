@@ -221,8 +221,8 @@ namespace Tutorial_99_Pbo
             var CameraViewProj = CameraView * CameraProj;
             var CameraWorldPos = CameraWorld.GetTranslation();
 
-            pbrCameraAndLight.SetCameraMatrices(ref CameraProj, ref CameraViewProj, ref CameraWorldPos);
-            pbrCameraAndLight.SetLight(ref lightDirection, ref lightColor, lightIntensity);
+            pbrCameraAndLight.SetCameraMatrices(CameraProj, CameraViewProj, CameraWorldPos);
+            pbrCameraAndLight.SetLight(lightDirection, lightColor, lightIntensity);
 
             var trans = new Vector3(0, 0, 0);
             var rotAmount = cubeRotSpeed < 0.0001f ? 0f : (clock.CurrentTimeMicro * Clock.MicroToSeconds) / cubeRotSpeed % (2 * MathFloat.PI);

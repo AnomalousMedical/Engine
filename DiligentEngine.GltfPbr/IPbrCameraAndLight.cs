@@ -16,7 +16,7 @@ namespace DiligentEngine.GltfPbr
         /// <param name="rotation"></param>
         /// <param name="preTransformMatrix"></param>
         /// <param name="CameraProj"></param>
-        void SetCameraPosition(Vector3 position, Quaternion rotation, ref Matrix4x4 preTransformMatrix, ref Matrix4x4 CameraProj);
+        void SetCameraPosition(Vector3 position, Quaternion rotation, in Matrix4x4 preTransformMatrix, in Matrix4x4 CameraProj);
 
         /// <summary>
         /// Set the camera from a set of matrices.
@@ -24,10 +24,10 @@ namespace DiligentEngine.GltfPbr
         /// <param name="CameraProj"></param>
         /// <param name="CameraViewProj"></param>
         /// <param name="CameraWorldPos"></param>
-        void SetCameraMatrices(ref Matrix4x4 CameraProj, ref Matrix4x4 CameraViewProj, ref Vector3 CameraWorldPos);
+        void SetCameraMatrices(in Matrix4x4 CameraProj, in Matrix4x4 CameraViewProj, in Vector3 CameraWorldPos);
 
-        void SetLight(ref Vector3 direction, ref Vector4 lightColor, float intensity);
+        void SetLight(in Vector3 direction, in Vector4 lightColor, float intensity);
 
-        void SetLightAndShadow(ref Vector3 direction, ref Vector4 lightColor, float intensity, ref Matrix4x4 WorldToShadowMapUVDepth);
+        void SetLightAndShadow(in Vector3 direction, in Vector4 lightColor, float intensity, in Matrix4x4 WorldToShadowMapUVDepth);
     }
 }

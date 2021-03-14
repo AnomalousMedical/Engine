@@ -73,7 +73,7 @@ namespace DiligentEngine.GltfPbr
         public IBuffer LightAttribs => m_LightAttribsCB.Obj;
         public IBuffer EnvMapRenderAttribs => m_EnvMapRenderAttribsCB.Obj;
 
-        public unsafe void SetCameraMatrices(ref Matrix4x4 CameraProj, ref Matrix4x4 CameraViewProj, ref Vector3 CameraWorldPos)
+        public unsafe void SetCameraMatrices(in Matrix4x4 CameraProj, in Matrix4x4 CameraViewProj, in Vector3 CameraWorldPos)
         {
             IntPtr data = m_pImmediateContext.MapBuffer(m_CameraAttribsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
 
@@ -86,7 +86,7 @@ namespace DiligentEngine.GltfPbr
             m_pImmediateContext.UnmapBuffer(m_CameraAttribsCB.Obj, MAP_TYPE.MAP_WRITE);
         }
 
-        public unsafe void SetLight(ref Vector3 direction, ref Vector4 lightColor, float intensity)
+        public unsafe void SetLight(in Vector3 direction, in Vector4 lightColor, float intensity)
         {
             IntPtr data = m_pImmediateContext.MapBuffer(m_LightAttribsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
 
@@ -98,7 +98,7 @@ namespace DiligentEngine.GltfPbr
             m_pImmediateContext.UnmapBuffer(m_LightAttribsCB.Obj, MAP_TYPE.MAP_WRITE);
         }
 
-        public unsafe void SetLightAndShadow(ref Vector3 direction, ref Vector4 lightColor, float intensity, ref Matrix4x4 WorldToShadowMapUVDepth)
+        public unsafe void SetLightAndShadow(in Vector3 direction, in Vector4 lightColor, float intensity, in Matrix4x4 WorldToShadowMapUVDepth)
         {
             IntPtr data = m_pImmediateContext.MapBuffer(m_LightAttribsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
 
@@ -111,7 +111,7 @@ namespace DiligentEngine.GltfPbr
             m_pImmediateContext.UnmapBuffer(m_LightAttribsCB.Obj, MAP_TYPE.MAP_WRITE);
         }
 
-        public void SetCameraPosition(Vector3 position, Quaternion rotation, ref Matrix4x4 preTransformMatrix, ref Matrix4x4 CameraProj)
+        public void SetCameraPosition(Vector3 position, Quaternion rotation, in Matrix4x4 preTransformMatrix, in Matrix4x4 CameraProj)
         {
             //For some reason camera defined backward, so take -position
             var CameraView = Matrix4x4.Translation(-position) * rotation.toRotationMatrix4x4();
@@ -125,7 +125,7 @@ namespace DiligentEngine.GltfPbr
             var CameraViewProj = CameraView * CameraProj;
             var CameraWorldPos = CameraWorld.GetTranslation();
 
-            this.SetCameraMatrices(ref CameraProj, ref CameraViewProj, ref CameraWorldPos);
+            this.SetCameraMatrices(CameraProj, CameraViewProj, CameraWorldPos);
         }
     }
 }

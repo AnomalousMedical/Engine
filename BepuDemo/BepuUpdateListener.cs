@@ -267,10 +267,10 @@ namespace BepuDemo
             // Set Camera
             var preTransform = CameraHelpers.GetSurfacePretransformMatrix(new Vector3(0, 0, 1), PreTransform);
             var cameraProj = CameraHelpers.GetAdjustedProjectionMatrix(YFov, ZNear, ZFar, window.WindowWidth, window.WindowHeight, PreTransform);
-            pbrCameraAndLight.SetCameraPosition(cameraControls.Position, cameraControls.Orientation, ref preTransform, ref cameraProj);
+            pbrCameraAndLight.SetCameraPosition(cameraControls.Position, cameraControls.Orientation, preTransform, cameraProj);
 
             // Set Light
-            pbrCameraAndLight.SetLight(ref lightDirection, ref lightColor, lightIntensity);
+            pbrCameraAndLight.SetLight(lightDirection, lightColor, lightIntensity);
 
             //Draw cubes
             Vector3 cubePosition;
