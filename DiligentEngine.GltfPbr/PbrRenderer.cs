@@ -376,8 +376,12 @@ namespace DiligentEngine.GltfPbr
                 ImtblSamplers.Add(new ImmutableSamplerDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, SamplerOrTextureName = "g_NormalMap", Desc = m_Settings.NormalMapImmutableSampler });
                 if (enableShadows)
                 {
-                    var SamLinearClampDesc = new SamplerDesc();
-                    ImtblSamplers.Add(new ImmutableSamplerDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, SamplerOrTextureName = "g_ShadowMap", Desc = SamLinearClampDesc });
+                    var ComparsionSampler = new SamplerDesc();
+                    ComparsionSampler.ComparisonFunc = COMPARISON_FUNCTION.COMPARISON_FUNC_LESS;
+                    ComparsionSampler.MinFilter = FILTER_TYPE.FILTER_TYPE_COMPARISON_LINEAR;
+                    ComparsionSampler.MagFilter = FILTER_TYPE.FILTER_TYPE_COMPARISON_LINEAR;
+                    ComparsionSampler.MipFilter = FILTER_TYPE.FILTER_TYPE_COMPARISON_LINEAR;
+                    ImtblSamplers.Add(new ImmutableSamplerDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, SamplerOrTextureName = "g_ShadowMap", Desc = ComparsionSampler });
                 }
             }
 

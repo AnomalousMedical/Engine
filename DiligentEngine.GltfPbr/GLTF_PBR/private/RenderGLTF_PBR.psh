@@ -227,7 +227,7 @@ void main(in  float4 ClipPos     : SV_Position,
 #if ANOMALOUS_USE_SIMPLE_SHADOW
     //Shadow calculation
     float LightAmount = g_ShadowMap.SampleCmp(g_ShadowMap_sampler, ShadowMapPos.xy, max(ShadowMapPos.z, 1e-7));
-    OutColor.rgb = OutColor.rgb * (NdotL * LightAmount * 0.8 + 0.2);
+    OutColor.rgb = OutColor.rgb * (LightAmount * 0.8 + 0.2);
 #endif
 
 #if ALLOW_DEBUG_VIEW

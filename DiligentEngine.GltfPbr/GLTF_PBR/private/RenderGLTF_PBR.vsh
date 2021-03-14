@@ -45,7 +45,6 @@ void main(in  GLTF_VS_Input  VSIn,
           out float2 UV1      : UV1
 #if ANOMALOUS_USE_SIMPLE_SHADOW
           ,out float3 ShadowMapPos : SHADOW_MAP_POS
-          ,out float  NdotL : N_DOT_L
 #endif
 )
 {
@@ -76,7 +75,6 @@ void main(in  GLTF_VS_Input  VSIn,
     float4 locPos = mul(Transform, float4(VSIn.Pos, 1.0)); //Can shadows be done without the extra transform?
     float4 ShadowMapPos4 = mul(locPos, g_LightAttribs.ShadowAttribs.mWorldToShadowMapUVDepth[0]);
     ShadowMapPos = ShadowMapPos4.xyz / ShadowMapPos4.w;
-    NdotL = saturate(dot(float3(0.0, 1.0, 0.0), -g_LightAttribs.f4Direction.xyz));
 #endif
 
 #if ANOMALOUS_USE_SPRITE
