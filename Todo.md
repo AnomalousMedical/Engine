@@ -4,9 +4,6 @@
 This level will make the connection in a corridor, since the easternmost room could have an
 eastern corridor this will have to be delt with somehow. Same for other directions too.
 
-## Get Shadow makes everything darker
-no matter if its shadowed or not running stuff with GetShadow turned on makes it darker.
-
 ## Level hole
 Random seen 40 or 19 has a hole in the geometry. The collision seems ok though.
 
