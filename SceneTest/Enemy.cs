@@ -112,6 +112,11 @@ namespace SceneTest
             });
         }
 
+        public void RequestDestruction()
+        {
+            this.destructionRequest.RequestDestruction();
+        }
+
         public void Dispose()
         {
             disposed = true;

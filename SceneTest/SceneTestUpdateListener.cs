@@ -37,7 +37,7 @@ namespace SceneTest
         private readonly PbrRenderAttribs pbrRenderAttribs = PbrRenderAttribs.CreateDefault();
 
         private readonly SoundManager soundManager;
-        private readonly SceneObjectManager<LevelManager> sceneObjects;
+        private readonly SceneObjectManager<LevelManager> levelSceneObjects;
         private readonly SceneObjectManager<BattleManager> battleSceneObjects;
         private readonly SpriteManager sprites;
         private readonly IObjectResolverFactory objectResolverFactory;
@@ -102,7 +102,7 @@ namespace SceneTest
             this.sharpGui = sharpGui;
             this.scaleHelper = scaleHelper;
             this.soundManager = soundManager;
-            this.sceneObjects = sceneObjects;
+            this.levelSceneObjects = sceneObjects;
             this.battleSceneObjects = battleSceneObjects;
             this.sprites = sprites;
             this.objectResolverFactory = objectResolverFactory;
@@ -177,6 +177,7 @@ namespace SceneTest
             if (sharpGui.Button(battle))
             {
                 //PlaySong("freepd/Rafael Krux - Hit n Smash.ogg");
+                battleManager.SetupBattle();
                 battleManager.SetActive(true);
             }
 
@@ -207,15 +208,19 @@ namespace SceneTest
 
         public unsafe void sendUpdate(Clock clock)
         {
+            IEnumerable<SceneObject> sceneObjects;
+
             //Update
             timeClock.Update(clock);
             sharpGui.Begin(clock);
             if (battleManager.Active)
             {
+                sceneObjects = battleSceneObjects;
                 battleManager.UpdateGui();
             }
             else
             {
+                sceneObjects = levelSceneObjects;
                 bepuScene.Update(clock, new System.Numerics.Vector3(0, 0, 1));
                 UpdateDebugGui();
             }
