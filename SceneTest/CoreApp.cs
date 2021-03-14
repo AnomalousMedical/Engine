@@ -4,6 +4,7 @@ using Engine.Platform;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using SceneTest.Sprites;
 using System;
 using System.Globalization;
 using System.IO;
@@ -45,7 +46,10 @@ namespace SceneTest
                     .AddDiligentEnginePbr()
                     .AddDiligentEnginePbrShapes();
 
-            services.AddOSPlatform(pluginManager);
+            services.AddOSPlatform(pluginManager, o =>
+            {
+                o.EventLayersType = typeof(EventLayers);
+            });
             services.AddSoundPlugin(pluginManager);
             services.AddSharpGui();
             services.AddFirstPersonFlyCamera();
@@ -55,12 +59,14 @@ namespace SceneTest
             services.AddSingleton<SceneTestUpdateListener>();
             services.AddSingleton<TimeClock>();
             services.AddSingleton<SpriteManager>();
-            services.AddSingleton<SceneObjectManager>();
+            services.AddSingleton<SceneObjectManager<LevelManager>>();
+            services.AddSingleton<SceneObjectManager<BattleManager>>();
             services.AddSingleton<ISpriteMaterialManager, SpriteMaterialManager>();
             services.AddSingleton<ICC0TextureManager, CC0TextureManager>();
             services.AddSingleton<ISpriteMaterialTextureManager, SpriteMaterialTextureManager>();
             services.AddScoped<Player>();
             services.AddScoped<Player.Description>();
+            services.AddScoped<PlayerSprite>();
             services.AddScoped<Enemy>();
             services.AddScoped<Enemy.Desc>();
             services.AddScoped<Attachment>();
@@ -73,6 +79,7 @@ namespace SceneTest
             services.AddScoped<LevelConnector.Description>();
             services.AddScoped<Sky>();
             services.AddSingleton<ILevelManager, LevelManager>();
+            services.AddSingleton<BattleManager>();
             services.AddSingleton<LevelManager.Desc>(new LevelManager.Desc()
             {
                 RandomSeed = 0

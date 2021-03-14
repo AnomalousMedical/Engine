@@ -100,7 +100,7 @@ namespace SceneTest
             public bool GoPrevious { get; set; } = true;
         }
 
-        private readonly SceneObjectManager sceneObjectManager;
+        private readonly SceneObjectManager<LevelManager> sceneObjectManager;
         private readonly IDestructionRequest destructionRequest;
         private readonly IBepuScene bepuScene;
         private readonly ICC0TextureManager textureManager;
@@ -128,7 +128,7 @@ namespace SceneTest
         public Vector3 EndPoint => endPointLocal + wallSceneObject.position;
 
         public Level(
-            SceneObjectManager sceneObjectManager,
+            SceneObjectManager<LevelManager> sceneObjectManager,
             IDestructionRequest destructionRequest,
             IScopedCoroutine coroutine,
             IBepuScene bepuScene,

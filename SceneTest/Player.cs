@@ -24,7 +24,7 @@ namespace SceneTest
         {
             public int PrimaryHand = RightHand;
             public int SecondaryHand = LeftHand;
-            public EventLayers EventLayer = EventLayers.Default;
+            public EventLayers EventLayer = EventLayers.Exploration;
             public GamepadId Gamepad = GamepadId.Pad1;
         }
 
@@ -32,7 +32,8 @@ namespace SceneTest
         public const int LeftHand = 1;
 
         private ISpriteMaterial spriteMaterial;
-        private SceneObjectManager sceneObjectManager;
+        private SceneObjectManager<LevelManager> sceneObjectManager;
+        private readonly SceneObjectManager<BattleManager> sceneObjectManagerBattle;
         private SpriteManager sprites;
         private IDestructionRequest destructionRequest;
         private readonly ISpriteMaterialManager spriteMaterialManager;
@@ -57,19 +58,20 @@ namespace SceneTest
         private GamepadId gamepadId;
         private bool allowJoystickInput = true;
 
-        ButtonEvent moveForward = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_W });
-        ButtonEvent moveBackward = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_S });
-        ButtonEvent moveRight = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_D });
-        ButtonEvent moveLeft = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_A });
-        ButtonEvent sprint = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_LSHIFT });
-        ButtonEvent jump = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_SPACE });
+        ButtonEvent moveForward;
+        ButtonEvent moveBackward;
+        ButtonEvent moveRight;
+        ButtonEvent moveLeft;
+        ButtonEvent sprint;
+        ButtonEvent jump;
 
         private bool disposed;
         private Vector3 cameraOffset = new Vector3(0, 3, -12);
         private Quaternion cameraAngle = new Quaternion(Vector3.Left, -MathF.PI / 14f);
 
         public Player(
-            SceneObjectManager sceneObjectManager,
+            SceneObjectManager<LevelManager> sceneObjectManager,
+            SceneObjectManager<BattleManager> sceneObjectManagerBattle,
             SpriteManager sprites,
             Plane plane,
             IDestructionRequest destructionRequest,
@@ -83,6 +85,13 @@ namespace SceneTest
             ICollidableTypeIdentifier collidableIdentifier,
             PlayerSprite playerSpriteInfo)
         {
+            this.moveForward = new ButtonEvent(description.EventLayer, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_W });
+            this.moveBackward = new ButtonEvent(description.EventLayer, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_S });
+            this.moveRight = new ButtonEvent(description.EventLayer, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_D });
+            this.moveLeft = new ButtonEvent(description.EventLayer, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_A });
+            this.sprint = new ButtonEvent(description.EventLayer, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_LSHIFT });
+            this.jump = new ButtonEvent(description.EventLayer, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_SPACE });
+
             this.primaryHand = description.PrimaryHand;
             this.secondaryHand = description.SecondaryHand;
             this.gamepadId = description.Gamepad;
@@ -152,6 +161,7 @@ namespace SceneTest
             sprite.FrameChanged += Sprite_FrameChanged;
 
             this.sceneObjectManager = sceneObjectManager;
+            this.sceneObjectManagerBattle = sceneObjectManagerBattle;
             this.sprites = sprites;
             this.destructionRequest = destructionRequest;
             this.spriteMaterialManager = spriteMaterialManager;

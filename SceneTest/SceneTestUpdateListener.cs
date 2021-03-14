@@ -37,7 +37,8 @@ namespace SceneTest
         private readonly PbrRenderAttribs pbrRenderAttribs = PbrRenderAttribs.CreateDefault();
 
         private readonly SoundManager soundManager;
-        private readonly SceneObjectManager sceneObjects;
+        private readonly SceneObjectManager<LevelManager> sceneObjects;
+        private readonly SceneObjectManager<BattleManager> battleSceneObjects;
         private readonly SpriteManager sprites;
         private readonly IObjectResolverFactory objectResolverFactory;
         private readonly ICoroutineRunner coroutineRunner;
@@ -45,6 +46,7 @@ namespace SceneTest
         private readonly CameraMover cameraMover;
         private readonly ILevelManager levelManager;
         private readonly Sky sky;
+        private readonly BattleManager battleManager;
         private readonly IObjectResolver objectResolver;
         private SoundAndSource bgMusicSound;
 
@@ -73,14 +75,16 @@ namespace SceneTest
             ISharpGui sharpGui,
             IScaleHelper scaleHelper,
             SoundManager soundManager,
-            SceneObjectManager sceneObjects,
+            SceneObjectManager<LevelManager> sceneObjects,
+            SceneObjectManager<BattleManager> battleSceneObjects,
             SpriteManager sprites,
             IObjectResolverFactory objectResolverFactory,
             ICoroutineRunner coroutineRunner,
             IBepuScene bepuScene,
             CameraMover cameraMover,
             ILevelManager levelManager,
-            Sky sky)
+            Sky sky,
+            BattleManager battleManager)
         {
             cameraControls.Position = new Vector3(0, 0, -12);
 
@@ -99,6 +103,7 @@ namespace SceneTest
             this.scaleHelper = scaleHelper;
             this.soundManager = soundManager;
             this.sceneObjects = sceneObjects;
+            this.battleSceneObjects = battleSceneObjects;
             this.sprites = sprites;
             this.objectResolverFactory = objectResolverFactory;
             this.coroutineRunner = coroutineRunner;
@@ -106,6 +111,7 @@ namespace SceneTest
             this.cameraMover = cameraMover;
             this.levelManager = levelManager;
             this.sky = sky;
+            this.battleManager = battleManager;
             this.objectResolver = objectResolverFactory.Create();
             currentHour = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 10, 500, 35)), Max = 24 };
             coroutineRunner.RunTask(Initialize());
@@ -137,10 +143,8 @@ namespace SceneTest
 
         }
 
-        private void UpdateGui(Clock clock)
+        private void UpdateDebugGui()
         {
-            sharpGui.Begin(clock);
-
             var layout =
                 new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
                 new MaxWidthLayout(scaleHelper.Scaled(300),
@@ -172,7 +176,8 @@ namespace SceneTest
 
             if (sharpGui.Button(battle))
             {
-                PlaySong("freepd/Rafael Krux - Hit n Smash.ogg");
+                //PlaySong("freepd/Rafael Krux - Hit n Smash.ogg");
+                battleManager.SetActive(true);
             }
 
             int currentTime = (int)(timeClock.CurrentTimeMicro * Clock.MicroToSeconds / (60 * 60));
@@ -182,8 +187,6 @@ namespace SceneTest
             }
             var time = TimeSpan.FromMilliseconds(timeClock.CurrentTimeMicro * Clock.MicroToMilliseconds);
             sharpGui.Text(currentHour.Rect.Right, currentHour.Rect.Top, timeClock.IsDay ? Engine.Color.Black : Engine.Color.White, $"Time: {time}");
-
-            sharpGui.End();
         }
 
         private void PlaySong(String songFile)
@@ -205,9 +208,18 @@ namespace SceneTest
         public unsafe void sendUpdate(Clock clock)
         {
             //Update
-            bepuScene.Update(clock, new System.Numerics.Vector3(0, 0, 1));
             timeClock.Update(clock);
-            UpdateGui(clock);
+            sharpGui.Begin(clock);
+            if (battleManager.Active)
+            {
+                battleManager.UpdateGui();
+            }
+            else
+            {
+                bepuScene.Update(clock, new System.Numerics.Vector3(0, 0, 1));
+                UpdateDebugGui();
+            }
+            sharpGui.End();
             sky.UpdateLight(clock);
             UpdateSprites(clock);
 

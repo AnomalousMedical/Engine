@@ -65,27 +65,6 @@ namespace SceneTest
                 c.Translation = currentLevel.StartPoint;
             });
 
-            this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
-            {
-                Enemy.Desc.MakeTinyDino(c);
-                c.Translation = currentLevel.StartPoint + new Vector3(-4, 0, -1);
-            });
-            this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
-            {
-                Enemy.Desc.MakeTinyDino(c, skinMaterial: "cc0Textures/Leather011_1K");
-                c.Translation = currentLevel.StartPoint + new Vector3(-5, 0, -2);
-            });
-            this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
-            {
-                Enemy.Desc.MakeSkeleton(c);
-                c.Translation = currentLevel.StartPoint + new Vector3(0, 0, -3);
-            });
-            this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
-            {
-                Enemy.Desc.MakeTinyDino(c);
-                c.Translation = currentLevel.StartPoint + new Vector3(-6, 0, -3);
-            });
-
             await nextLevel.WaitForLevelGeneration();
         }
 

@@ -26,7 +26,7 @@ namespace SceneTest
         private const int PrimaryAttachment = 0;
 
         private ISpriteMaterial spriteMaterial;
-        private SceneObjectManager sceneObjectManager;
+        private SceneObjectManager<LevelManager> sceneObjectManager;
         private SpriteManager sprites;
         private IDestructionRequest destructionRequest;
         private readonly ISpriteMaterialManager spriteMaterialManager;
@@ -37,7 +37,7 @@ namespace SceneTest
         private Quaternion orientation;
 
         public Attachment(
-            SceneObjectManager sceneObjectManager,
+            SceneObjectManager<LevelManager> sceneObjectManager,
             SpriteManager sprites,
             Plane plane,
             IDestructionRequest destructionRequest,

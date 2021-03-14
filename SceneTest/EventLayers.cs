@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace SceneTest
 {
-    class SceneObjectManager<T> : List<SceneObject>
+    enum EventLayers
     {
+        Gui, 
+        Battle,
+        Exploration,
     }
 }

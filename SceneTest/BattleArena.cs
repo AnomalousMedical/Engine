@@ -13,54 +13,38 @@ using System.Threading.Tasks;
 
 namespace SceneTest
 {
-    class LevelConnector : IDisposable
+    class BattleArena : IDisposable
     {
         public class Description : SceneObjectDesc
         {
             public String Texture { get; set; } = "cc0Textures/Bricks045_1K";
 
-            public bool RenderShadow { get; set; } = false;
+            public bool RenderShadow { get; set; } = true;
 
-            public bool GetShadow { get; set; } = true;
-
-            /// <summary>
-            /// Set this to true to go to the previous level. False to go to the next.
-            /// </summary>
-            public bool GoPrevious { get; set; }
+            public bool GetShadow { get; set; } = false;
         }
 
-        private readonly SceneObjectManager<LevelManager> sceneObjectManager;
+        private readonly SceneObjectManager<BattleManager> sceneObjectManager;
         private readonly IBepuScene bepuScene;
         private readonly ICC0TextureManager textureManager;
-        private readonly ICollidableTypeIdentifier collidableIdentifier;
-        private readonly ICoroutineRunner coroutineRunner;
-        private readonly ILevelManager levelManager;
         private IShaderResourceBinding matBinding;
         private SceneObject sceneObject;
         private StaticHandle staticHandle;
         private TypedIndex shapeIndex;
         private bool disposed;
-        private bool goPrevious;
 
-        public LevelConnector(
-            SceneObjectManager<LevelManager> sceneObjectManager,
+        public BattleArena(
+            SceneObjectManager<BattleManager> sceneObjectManager,
             Cube cube,
             IDestructionRequest destructionRequest,
             IScopedCoroutine coroutine,
             IBepuScene bepuScene,
             ICC0TextureManager textureManager,
-            Description description,
-            ICollidableTypeIdentifier collidableIdentifier,
-            ICoroutineRunner coroutineRunner,
-            ILevelManager levelManager)
+            Description description)
         {
-            this.goPrevious = description.GoPrevious;
             this.sceneObjectManager = sceneObjectManager;
             this.bepuScene = bepuScene;
             this.textureManager = textureManager;
-            this.collidableIdentifier = collidableIdentifier;
-            this.coroutineRunner = coroutineRunner;
-            this.levelManager = levelManager;
             sceneObject = new SceneObject()
             {
                 vertexBuffer = cube.VertexBuffer,
@@ -84,8 +68,6 @@ namespace SceneTest
                     new System.Numerics.Quaternion(description.Orientation.x, description.Orientation.y, description.Orientation.z, description.Orientation.w),
                     new CollidableDescription(shapeIndex, 0.1f)));
 
-            bepuScene.RegisterCollisionListener(new CollidableReference(staticHandle), HandleCollision);
-
             coroutine.RunTask(async () =>
             {
                 using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until coroutine is finished and this is disposed.
@@ -108,49 +90,10 @@ namespace SceneTest
         public void Dispose()
         {
             disposed = true;
-            bepuScene.UnregisterCollisionListener(new CollidableReference(staticHandle));
             bepuScene.Simulation.Shapes.Remove(shapeIndex);
             bepuScene.Simulation.Statics.Remove(staticHandle);
             sceneObjectManager.Remove(sceneObject);
             textureManager.TryReturn(matBinding);
-        }
-
-        internal void SetPosition(in Vector3 position)
-        {
-            this.sceneObject.position = position;
-
-            bepuScene.UnregisterCollisionListener(new CollidableReference(staticHandle));
-            bepuScene.Simulation.Statics.Remove(this.staticHandle);
-
-            staticHandle = bepuScene.Simulation.Statics.Add(
-            new StaticDescription(
-                position.ToSystemNumerics(),
-                this.sceneObject.orientation.ToSystemNumerics(),
-                new CollidableDescription(shapeIndex, 0.1f)));
-            bepuScene.RegisterCollisionListener(new CollidableReference(staticHandle), HandleCollision);
-        }
-
-        private void HandleCollision(CollisionEvent evt)
-        {
-            Console.WriteLine(evt.Pair);
-            Console.WriteLine(evt.EventSource);
-            //Don't want to do this during the physics update. Trigger to run later.
-
-            if (collidableIdentifier.TryGetIdentifier<Player>(evt.Pair.A, out var _)
-                || collidableIdentifier.TryGetIdentifier<Player>(evt.Pair.B, out var _))
-            {
-                coroutineRunner.RunTask(async () =>
-                {
-                    if (this.goPrevious)
-                    {
-                        await levelManager.GoPreviousLevel();
-                    }
-                    else
-                    {
-                        await levelManager.GoNextLevel();
-                    }
-                });
-            }            
         }
     }
 }
