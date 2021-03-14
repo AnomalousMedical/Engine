@@ -207,11 +207,55 @@ namespace SceneTest
                     var startRoom = eastmostRoom;
                     var startX = startRoom.Left;
                     var startY = startRoom.Top + startRoom.Height / 2;
+                    if(startX > 0)
+                    {
+                        var xOffset = startX - 1;
+                        var cell = mapBuilder.map[xOffset, startY];
+                        if(cell >= csMapbuilder.CorridorCell)
+                        {
+                            startY = startRoom.Top;
+                            cell = mapBuilder.map[xOffset, startY];
+                            var bottom = startRoom.Bottom;
+                            while(cell >= csMapbuilder.CorridorCell && startY < startRoom.Bottom)
+                            {
+                                cell = mapBuilder.map[xOffset, ++startY];
+                            }
+
+                            if(startY == startRoom.Bottom)
+                            {
+                                //Pretty unlikely, but use center of room in this case, this means the whole east wall is corridors
+                                startX = startRoom.Left + startRoom.Width / 2;
+                                startY = startRoom.Top + startRoom.Height / 2;
+                            }
+                        }
+                    }
                     startPointLocal = mapMesh.PointToVector(startX, startY);
 
                     var endRoom = westmostRoom;
                     var endX = endRoom.Right;
                     var endY = endRoom.Top + endRoom.Height / 2;
+                    if (endX + 1 < mapBuilder.Map_Size.Width)
+                    {
+                        var xOffset = endX + 1;
+                        var cell = mapBuilder.map[xOffset, endY];
+                        if (cell >= csMapbuilder.CorridorCell)
+                        {
+                            endY = endRoom.Top;
+                            cell = mapBuilder.map[xOffset, endY];
+                            var bottom = endRoom.Bottom;
+                            while (cell >= csMapbuilder.CorridorCell && endY < endRoom.Bottom)
+                            {
+                                cell = mapBuilder.map[xOffset, ++endY];
+                            }
+
+                            if (endY == endRoom.Bottom)
+                            {
+                                //Pretty unlikely, but use center of room in this case, this means the whole east wall is corridors
+                                endX = endRoom.Left + endRoom.Width / 2;
+                                endY = endRoom.Top + endRoom.Height / 2;
+                            }
+                        }
+                    }
                     endPointLocal = mapMesh.PointToVector(endX, endY);
                     sw.Stop();
                     logger.LogInformation($"Generated level {description.RandomSeed} in {sw.ElapsedMilliseconds} ms.");
