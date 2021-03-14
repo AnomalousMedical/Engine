@@ -62,6 +62,7 @@ namespace SceneTest
         SharpButton makeDusk = new SharpButton() { Text = "Make Dusk" };
         SharpButton goNextLevel = new SharpButton() { Text = "Next Level" };
         SharpButton goPreviousLevel = new SharpButton() { Text = "Previous Level" };
+        SharpButton toggleCamera = new SharpButton() { Text = "Toggle Camera" };
         SharpSliderHorizontal currentHour;
 
         private bool useFirstPersonCamera = false;
@@ -148,7 +149,7 @@ namespace SceneTest
             var layout =
                 new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
                 new MaxWidthLayout(scaleHelper.Scaled(300),
-                new ColumnLayout(makeDawn, makeDusk, goNextLevel, goPreviousLevel) { Margin = new IntPad(10) }
+                new ColumnLayout(makeDawn, makeDusk, goNextLevel, goPreviousLevel, toggleCamera) { Margin = new IntPad(10) }
                 ));
             var desiredSize = layout.GetDesiredSize(sharpGui);
             layout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
@@ -177,6 +178,11 @@ namespace SceneTest
             if (!levelManager.ChangingLevels && sharpGui.Button(goPreviousLevel))
             {
                 coroutineRunner.RunTask(levelManager.GoPreviousLevel());
+            }
+
+            if (sharpGui.Button(toggleCamera))
+            {
+                useFirstPersonCamera = !useFirstPersonCamera;
             }
 
             int currentTime = (int)(timeClock.CurrentTimeMicro * Clock.MicroToSeconds / (60 * 60));
