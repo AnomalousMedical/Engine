@@ -52,7 +52,10 @@ namespace SceneTest
             });
             services.AddSoundPlugin(pluginManager);
             services.AddSharpGui();
-            services.AddFirstPersonFlyCamera();
+            services.AddFirstPersonFlyCamera(o =>
+            {
+                o.EventLayer = EventLayers.Exploration;
+            });
             services.AddBepuPlugin();
 
             //Add this app's services

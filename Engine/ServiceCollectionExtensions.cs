@@ -11,9 +11,13 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class AnomalousEngineServiceCollectionExtensions
     {
-        public static IServiceCollection AddFirstPersonFlyCamera(this IServiceCollection services)
+        public static IServiceCollection AddFirstPersonFlyCamera(this IServiceCollection services, Action<FirstPersonFlyCamera.Description> configure = null)
         {
-            services.AddScoped<FirstPersonFlyCamera>();
+            var desc = new FirstPersonFlyCamera.Description();
+            configure?.Invoke(desc);
+
+            services.AddSingleton<FirstPersonFlyCamera>();
+            services.AddSingleton<FirstPersonFlyCamera.Description>(desc);
 
             return services;
         }

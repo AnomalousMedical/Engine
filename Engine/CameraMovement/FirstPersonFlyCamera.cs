@@ -7,6 +7,11 @@ namespace Engine.CameraMovement
 {
     public class FirstPersonFlyCamera : IDisposable
     {
+        public class Description
+        {
+            public Object EventLayer { get; set; } = EventLayers.Default;
+        }
+
         private const float HALF_PI = MathFloat.PI / 2.0f - 0.001f;
         private readonly EventManager eventManager;
         private readonly IScaleHelper scaleHelper;
@@ -24,22 +29,36 @@ namespace Engine.CameraMovement
         Vector3 currentForward = Vector3.Forward;
         Vector3 currentLeft = Vector3.Left;
 
-        ButtonEvent moveForward = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_W });
-        ButtonEvent moveBackward = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_S });
-        ButtonEvent moveLeft = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_A });
-        ButtonEvent moveRight = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_D });
-        ButtonEvent moveUp = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_E });
-        ButtonEvent moveDown = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_Q });
-        ButtonEvent pitchUp = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_UP });
+        ButtonEvent moveForward;
+        ButtonEvent moveBackward;
+        ButtonEvent moveLeft;
+        ButtonEvent moveRight;
+        ButtonEvent moveUp;
+        ButtonEvent moveDown;
+        ButtonEvent pitchUp;
 
-        ButtonEvent pitchDown = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_DOWN });
-        ButtonEvent yawLeft = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_LEFT });
-        ButtonEvent yawRight = new ButtonEvent(EventLayers.Default, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_RIGHT });
+        ButtonEvent pitchDown;
+        ButtonEvent yawLeft;
+        ButtonEvent yawRight;
 
-        ButtonEvent mouseLook = new ButtonEvent(EventLayers.Default, mouseButtons: new MouseButtonCode[] { MouseButtonCode.MB_BUTTON1 });
+        ButtonEvent mouseLook;
 
-        public FirstPersonFlyCamera(EventManager eventManager, IScaleHelper scaleHelper)
+        public FirstPersonFlyCamera(EventManager eventManager, Description description, IScaleHelper scaleHelper)
         {
+            moveForward = new ButtonEvent(description.EventLayer, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_W });
+            moveBackward = new ButtonEvent(description.EventLayer, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_S });
+            moveLeft = new ButtonEvent(description.EventLayer, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_A });
+            moveRight = new ButtonEvent(description.EventLayer, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_D });
+            moveUp = new ButtonEvent(description.EventLayer, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_E });
+            moveDown = new ButtonEvent(description.EventLayer, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_Q });
+            pitchUp = new ButtonEvent(description.EventLayer, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_UP });
+
+            pitchDown = new ButtonEvent(description.EventLayer, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_DOWN });
+            yawLeft = new ButtonEvent(description.EventLayer, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_LEFT });
+            yawRight = new ButtonEvent(description.EventLayer, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_RIGHT });
+
+            mouseLook = new ButtonEvent(description.EventLayer, mouseButtons: new MouseButtonCode[] { MouseButtonCode.MB_BUTTON1 });
+
             eventManager.addEvent(moveForward);
             eventManager.addEvent(moveBackward);
             eventManager.addEvent(moveLeft);
