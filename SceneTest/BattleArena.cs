@@ -25,12 +25,11 @@ namespace SceneTest
         }
 
         private readonly SceneObjectManager<BattleManager> sceneObjectManager;
-        //private readonly IBepuScene bepuScene;
+        private readonly IDestructionRequest destructionRequest;
+
         private readonly ICC0TextureManager textureManager;
         private IShaderResourceBinding matBinding;
         private SceneObject sceneObject;
-        private StaticHandle staticHandle;
-        private TypedIndex shapeIndex;
         private bool disposed;
 
         public BattleArena(
@@ -38,12 +37,11 @@ namespace SceneTest
             Cube cube,
             IDestructionRequest destructionRequest,
             IScopedCoroutine coroutine,
-            //IBepuScene bepuScene,
             ICC0TextureManager textureManager,
             Description description)
         {
             this.sceneObjectManager = sceneObjectManager;
-            //this.bepuScene = bepuScene;
+            this.destructionRequest = destructionRequest;
             this.textureManager = textureManager;
             sceneObject = new SceneObject()
             {
@@ -58,15 +56,6 @@ namespace SceneTest
                 RenderShadow = description.RenderShadow,
                 GetShadows = description.GetShadow
             };
-
-            //var shape = new Box(description.Scale.x, description.Scale.y, description.Scale.z); //Each one creates its own, try to load from resources
-            //shapeIndex = bepuScene.Simulation.Shapes.Add(shape);
-
-            //staticHandle = bepuScene.Simulation.Statics.Add(
-            //    new StaticDescription(
-            //        new System.Numerics.Vector3(description.Translation.x, description.Translation.y, description.Translation.z),
-            //        new System.Numerics.Quaternion(description.Orientation.x, description.Orientation.y, description.Orientation.z, description.Orientation.w),
-            //        new CollidableDescription(shapeIndex, 0.1f)));
 
             coroutine.RunTask(async () =>
             {
@@ -90,10 +79,13 @@ namespace SceneTest
         public void Dispose()
         {
             disposed = true;
-            //bepuScene.Simulation.Shapes.Remove(shapeIndex);
-            //bepuScene.Simulation.Statics.Remove(staticHandle);
             sceneObjectManager.Remove(sceneObject);
             textureManager.TryReturn(matBinding);
+        }
+
+        internal void RequestDestruction()
+        {
+            destructionRequest.RequestDestruction();
         }
     }
 }

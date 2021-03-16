@@ -25,23 +25,11 @@ namespace SceneTest
         private Player player;
         private IObjectResolver objectResolver;
 
+        public event Action<LevelManager> LevelChanged;
+
         public bool ChangingLevels => changingLevels;
 
-        private List<(String floorTexture, String wallTexture)> biomes = new List<(String floorTexture, String wallTexture)>()
-        {
-            (
-                floorTexture: "cc0Textures/Rocks023_1K",
-                wallTexture: "cc0Textures/Ground037_1K"
-            ),
-            (
-                floorTexture: "cc0Textures/Ground025_1K",
-                wallTexture: "cc0Textures/Rock029_1K"
-            ),
-            (
-                floorTexture: "cc0Textures/Snow006_1K",
-                wallTexture: "cc0Textures/Rock022_1K"
-            )
-        };
+        public Level CurrentLevel => currentLevel;
 
         public LevelManager(Desc description, IObjectResolverFactory objectResolverFactory)
         {
@@ -64,6 +52,8 @@ namespace SceneTest
             {
                 c.Translation = currentLevel.StartPoint;
             });
+
+            LevelChanged?.Invoke(this);
 
             await nextLevel.WaitForLevelGeneration();
         }
@@ -127,6 +117,8 @@ namespace SceneTest
 
             player.SetLocation(currentLevel.StartPoint);
 
+            LevelChanged?.Invoke(this);
+
             changingLevels = false;
         }
 
@@ -177,20 +169,15 @@ namespace SceneTest
 
             player.SetLocation(currentLevel.EndPoint);
 
+            LevelChanged?.Invoke(this);
+
             changingLevels = false;
         }
 
         private Level CreateLevel(int levelSeed, Vector3 translation, bool goPrevious)
         {
-            var random = new Random(levelSeed);
-            var biome = biomes[random.Next(0, biomes.Count)];
-
             return this.objectResolver.Resolve<Level, Level.Description>(o =>
             {
-                //o.MapUnitY = 1.0f;
-                o.FloorTexture = biome.floorTexture;
-                o.WallTexture = biome.wallTexture;
-
                 o.Translation = translation;
                 o.RandomSeed = levelSeed;
                 o.Width = 50;

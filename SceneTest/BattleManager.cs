@@ -17,7 +17,9 @@ namespace SceneTest
         private readonly IScaleHelper scaleHelper;
         private readonly NativeOSWindow window;
         private readonly CameraMover cameraMover;
+        private readonly ILevelManager levelManager;
         private readonly IObjectResolver objectResolver;
+        private BattleArena battleArena;
 
         private SharpButton endBattle = new SharpButton() { Text = "End Battle" };
 
@@ -28,23 +30,23 @@ namespace SceneTest
             IScaleHelper scaleHelper,
             NativeOSWindow window,
             IObjectResolverFactory objectResolverFactory,
-            CameraMover cameraMover)
+            CameraMover cameraMover,
+            ILevelManager levelManager)
         {
             this.eventManager = eventManager;
             this.sharpGui = sharpGui;
             this.scaleHelper = scaleHelper;
             this.window = window;
             this.cameraMover = cameraMover;
+            this.levelManager = levelManager;
             this.objectResolver = objectResolverFactory.Create();
-            objectResolver.Resolve<BattleArena, BattleArena.Description>(o =>
-            {
-                o.Scale = new Vector3(20, 0.1f, 20);
-                o.Texture = "cc0Textures/Snow006_1K";
-            });
+
+            levelManager.LevelChanged += LevelManager_LevelChanged;
         }
 
         public void Dispose()
         {
+            levelManager.LevelChanged -= LevelManager_LevelChanged;
             objectResolver.Dispose();
         }
 
@@ -115,6 +117,17 @@ namespace SceneTest
         private void eventManager_OnUpdate(EventLayer eventLayer)
         {
             eventLayer.alertEventsHandled();
+        }
+
+        private void LevelManager_LevelChanged(LevelManager levelManager)
+        {
+            battleArena?.RequestDestruction();
+
+            battleArena = objectResolver.Resolve<BattleArena, BattleArena.Description>(o =>
+            {
+                o.Scale = new Vector3(20, 0.1f, 20);
+                o.Texture = levelManager.CurrentLevel.Biome.FloorTexture;
+            });
         }
     }
 }

@@ -85,6 +85,7 @@ namespace SceneTest
             services.AddSingleton<BattleManager>();
             services.AddScoped<BattleArena>();
             services.AddScoped<BattleArena.Description>();
+            services.AddSingleton<IBiomeManager, BiomeManager>();
             services.AddSingleton<LevelManager.Desc>(new LevelManager.Desc()
             {
                 RandomSeed = 0

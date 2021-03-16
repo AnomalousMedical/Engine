@@ -25,10 +25,6 @@ namespace SceneTest
     {
         public class Description : SceneObjectDesc
         {
-            public String FloorTexture { get; set; } = "cc0Textures/Snow006_1K";
-
-            public String WallTexture { get; set; } = "cc0Textures/Rock022_1K";
-
             public int RandomSeed { get; set; } = 0;
 
             public int Width { get; set; } = 50;
@@ -105,6 +101,7 @@ namespace SceneTest
         private readonly IBepuScene bepuScene;
         private readonly ICC0TextureManager textureManager;
         private readonly ILogger<Level> logger;
+        private readonly IBiomeManager biomeManager;
         private IShaderResourceBinding wallMatBinding;
         private IShaderResourceBinding floorMatBinding;
         private SceneObject wallSceneObject;
@@ -118,6 +115,7 @@ namespace SceneTest
         private IObjectResolver objectResolver;
         private LevelConnector nextLevelConnector;
         private LevelConnector previousLevelConnector;
+        private Biome biome;
 
         private Task levelGenerationTask;
         private Vector3 mapUnits;
@@ -136,7 +134,8 @@ namespace SceneTest
             Description description,
             GraphicsEngine graphicsEngine,
             ILogger<Level> logger,
-            IObjectResolverFactory objectResolverFactory)
+            IObjectResolverFactory objectResolverFactory,
+            IBiomeManager biomeManager)
         {
             this.mapUnits = new Vector3(description.MapUnitX, description.MapUnitY, description.MapUnitZ);
             this.objectResolver = objectResolverFactory.Create();
@@ -145,6 +144,7 @@ namespace SceneTest
             this.bepuScene = bepuScene;
             this.textureManager = textureManager;
             this.logger = logger;
+            this.biomeManager = biomeManager;
             wallSceneObject = new SceneObject()
             {
                 pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE,
@@ -163,6 +163,9 @@ namespace SceneTest
                 RenderShadow = false,
                 GetShadows = true
             };
+
+            var random = new Random(description.RandomSeed);
+            biome = biomeManager.GetBiome(random.Next(0, biomeManager.Count));
 
             coroutine.RunTask(async () =>
             {
@@ -260,8 +263,8 @@ namespace SceneTest
                     sw.Stop();
                     logger.LogInformation($"Generated level {description.RandomSeed} in {sw.ElapsedMilliseconds} ms.");
                 });
-                var wallTextureTask = textureManager.Checkout(new CCOTextureBindingDescription(description.WallTexture, getShadow: true));
-                var floorTextureTask = textureManager.Checkout(new CCOTextureBindingDescription(description.FloorTexture, getShadow: true));
+                var wallTextureTask = textureManager.Checkout(new CCOTextureBindingDescription(biome.WallTexture, getShadow: true));
+                var floorTextureTask = textureManager.Checkout(new CCOTextureBindingDescription(biome.FloorTexture, getShadow: true));
 
                 await levelGenerationTask;
 
@@ -270,7 +273,7 @@ namespace SceneTest
                     this.previousLevelConnector = objectResolver.Resolve<LevelConnector, LevelConnector.Description>(o =>
                     {
                         o.Scale = new Vector3(description.MapUnitX, 0.05f, description.MapUnitZ);
-                        o.Texture = description.FloorTexture;
+                        o.Texture = biome.FloorTexture;
                         o.Translation = StartPoint + new Vector3(-(mapUnits.x / 2f + 0.5f), 0f, 0f);
                         o.GoPrevious = true;
                     });
@@ -279,7 +282,7 @@ namespace SceneTest
                 this.nextLevelConnector = objectResolver.Resolve<LevelConnector, LevelConnector.Description>(o =>
                 {
                     o.Scale = new Vector3(3.0f, 0.05f, 3.0f);
-                    o.Texture = description.FloorTexture;
+                    o.Texture = biome.FloorTexture;
                     o.Translation = EndPoint + new Vector3(mapUnits.x / 2f + 0.5f, 0f, 0f);
                     o.GoPrevious = false;
                 });
@@ -353,6 +356,8 @@ namespace SceneTest
             this.previousLevelConnector?.SetPosition(StartPoint + new Vector3(-(mapUnits.x / 2f + 0.5f), 0f, 0f));
             this.nextLevelConnector?.SetPosition(EndPoint + new Vector3((mapUnits.x / 2f + 0.5f), 0f, 0f));
         }
+
+        public Biome Biome => biome;
 
         /// <summary>
         /// Add physics shapes to scene. Should wait until the level generation is complete first.
