@@ -25,7 +25,7 @@ namespace SceneTest
         private Player player;
         private IObjectResolver objectResolver;
 
-        public event Action<LevelManager> LevelChanged;
+        public event Action<ILevelManager> LevelChanged;
 
         public bool ChangingLevels => changingLevels;
 

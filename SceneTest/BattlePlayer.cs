@@ -14,7 +14,7 @@ namespace SceneTest
     class BattlePlayer : IDisposable
     {
         private readonly PlayerSprite playerSpriteInfo;
-        private readonly SceneObjectManager<BattleManager> sceneObjectManager;
+        private readonly SceneObjectManager<IBattleManager> sceneObjectManager;
         private readonly SpriteManager sprites;
         private readonly IDestructionRequest destructionRequest;
         private readonly ISpriteMaterialManager spriteMaterialManager;
@@ -29,6 +29,9 @@ namespace SceneTest
         private GamepadId gamepadId;
         private FrameEventSprite sprite;
 
+        private Attachment<IBattleManager> sword;
+        private Attachment<IBattleManager> shield;
+
         public class Description : SceneObjectDesc
         {
             public int PrimaryHand = Player.RightHand;
@@ -38,7 +41,7 @@ namespace SceneTest
         }
 
         public BattlePlayer(PlayerSprite playerSpriteInfo,
-            SceneObjectManager<BattleManager> sceneObjectManager,
+            SceneObjectManager<IBattleManager> sceneObjectManager,
             SpriteManager sprites,
             Plane plane,
             IDestructionRequest destructionRequest,
@@ -67,6 +70,50 @@ namespace SceneTest
             var startPos = description.Translation;
             startPos.y += halfScale;
 
+            sword = objectResolver.Resolve<Attachment<IBattleManager>, Attachment<IBattleManager>.Description>(o =>
+            {
+                o.Orientation = new Quaternion(0, MathFloat.PI / 4f, 0);
+                o.Sprite = new Sprite(new Dictionary<string, SpriteAnimation>()
+                {
+                    { "default", new SpriteAnimation((int)(0.7f * Clock.SecondsToMicro),
+                        new SpriteFrame(0, 0, 1, 1)
+                        {
+                            Attachments = new List<SpriteFrameAttachment>()
+                            {
+                                SpriteFrameAttachment.FromFramePosition(6, 25, 0, 32, 32), //Center of grip
+                            }
+                        } )
+                    },
+                })
+                { BaseScale = new Vector3(0.75f, 0.75f, 0.75f) };
+                o.SpriteMaterial = new SpriteMaterialDescription
+                (
+                    colorMap: "original/greatsword_01.png",
+                    //colorMap: "opengameart/Dungeon Crawl Stone Soup Full/misc/cursor_red.png",
+                    materials: new HashSet<SpriteMaterialTextureItem>
+                    {
+                        new SpriteMaterialTextureItem(0xff802000, "cc0Textures/Leather001_1K", "jpg"), //Hilt (brown)
+                        new SpriteMaterialTextureItem(0xffadadad, "cc0Textures/Metal032_1K", "jpg"), //Blade (grey)
+                        new SpriteMaterialTextureItem(0xff5e5e5f, "cc0Textures/Metal032_1K", "jpg"), //Blade (grey)
+                        new SpriteMaterialTextureItem(0xffe4ac26, "cc0Textures/Metal038_1K", "jpg"), //Blade (grey)
+                    }
+                );
+            });
+
+            shield = objectResolver.Resolve<Attachment<IBattleManager>, Attachment<IBattleManager>.Description>(o =>
+            {
+                o.Sprite = new Sprite() { BaseScale = new Vector3(0.75f, 0.75f, 0.75f) };
+                o.SpriteMaterial = new SpriteMaterialDescription
+                (
+                    colorMap: "original/shield_of_reflection.png",
+                    //colorMap: "opengameart/Dungeon Crawl Stone Soup Full/misc/cursor_red.png",
+                    materials: new HashSet<SpriteMaterialTextureItem>
+                    {
+                        new SpriteMaterialTextureItem(0xffa0a0a0, "cc0Textures/Pipe002_1K", "jpg"), //Blade (grey)
+                    }
+                );
+            });
+
             sceneObject = new SceneObject()
             {
                 vertexBuffer = plane.VertexBuffer,
@@ -80,6 +127,8 @@ namespace SceneTest
                 RenderShadow = true,
                 Sprite = sprite,
             };
+
+            Sprite_FrameChanged(sprite);
 
             coroutine.RunTask(async () =>
             {
@@ -102,11 +151,6 @@ namespace SceneTest
             });
         }
 
-        public void RequestDestruction()
-        {
-            destructionRequest.RequestDestruction();
-        }
-
         public void Dispose()
         {
             sprite.FrameChanged -= Sprite_FrameChanged;
@@ -116,9 +160,29 @@ namespace SceneTest
             objectResolver.Dispose();
         }
 
+        public void RequestDestruction()
+        {
+            destructionRequest.RequestDestruction();
+        }
+
         private void Sprite_FrameChanged(FrameEventSprite obj)
         {
-            
+            var frame = obj.GetCurrentFrame();
+
+            var scale = sprite.BaseScale * this.sceneObject.scale;
+            {
+                var primaryAttach = frame.Attachments[this.primaryHand];
+                var offset = scale * primaryAttach.translate;
+                offset = Quaternion.quatRotate(this.sceneObject.orientation, offset) + this.sceneObject.position;
+                sword.SetPosition(ref offset, ref this.sceneObject.orientation, ref scale);
+            }
+
+            {
+                var secondaryAttach = frame.Attachments[this.secondaryHand];
+                var offset = scale * secondaryAttach.translate;
+                offset = Quaternion.quatRotate(this.sceneObject.orientation, offset) + this.sceneObject.position;
+                shield.SetPosition(ref offset, ref this.sceneObject.orientation, ref scale);
+            }
         }
     }
 }

@@ -62,8 +62,8 @@ namespace SceneTest
             services.AddSingleton<SceneTestUpdateListener>();
             services.AddSingleton<TimeClock>();
             services.AddSingleton<SpriteManager>();
-            services.AddSingleton<SceneObjectManager<LevelManager>>();
-            services.AddSingleton<SceneObjectManager<BattleManager>>();
+            services.AddSingleton<SceneObjectManager<ILevelManager>>();
+            services.AddSingleton<SceneObjectManager<IBattleManager>>();
             services.AddSingleton<ISpriteMaterialManager, SpriteMaterialManager>();
             services.AddSingleton<ICC0TextureManager, CC0TextureManager>();
             services.AddSingleton<ISpriteMaterialTextureManager, SpriteMaterialTextureManager>();
@@ -74,8 +74,10 @@ namespace SceneTest
             services.AddScoped<PlayerSprite>();
             services.AddScoped<Enemy>();
             services.AddScoped<Enemy.Desc>();
-            services.AddScoped<Attachment>();
-            services.AddScoped<Attachment.Description>();
+            services.AddScoped<Attachment<ILevelManager>>();
+            services.AddScoped<Attachment<ILevelManager>.Description>();
+            services.AddScoped<Attachment<IBattleManager>>();
+            services.AddScoped<Attachment<IBattleManager>.Description>();
             services.AddScoped<Brick>();
             services.AddScoped<Brick.Description>();
             services.AddScoped<Level>();
@@ -84,14 +86,14 @@ namespace SceneTest
             services.AddScoped<LevelConnector.Description>();
             services.AddScoped<Sky>();
             services.AddSingleton<ILevelManager, LevelManager>();
-            services.AddSingleton<BattleManager>();
-            services.AddScoped<BattleArena>();
-            services.AddScoped<BattleArena.Description>();
-            services.AddSingleton<IBiomeManager, BiomeManager>();
             services.AddSingleton<LevelManager.Desc>(new LevelManager.Desc()
             {
                 RandomSeed = 0
             });
+            services.AddSingleton<IBattleManager, BattleManager>();
+            services.AddScoped<BattleArena>();
+            services.AddScoped<BattleArena.Description>();
+            services.AddSingleton<IBiomeManager, BiomeManager>();
             services.AddSingleton<CameraMover>();
             services.AddSingleton<ICollidableTypeIdentifier, CollidableTypeIdentifier>();
 

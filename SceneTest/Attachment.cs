@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace SceneTest
 {
-    class Attachment : IDisposable
+    class Attachment<TSceneObjectManager> : IDisposable
     {
         public class Description
         {
@@ -26,7 +26,7 @@ namespace SceneTest
         private const int PrimaryAttachment = 0;
 
         private ISpriteMaterial spriteMaterial;
-        private SceneObjectManager<LevelManager> sceneObjectManager;
+        private SceneObjectManager<TSceneObjectManager> sceneObjectManager;
         private SpriteManager sprites;
         private IDestructionRequest destructionRequest;
         private readonly ISpriteMaterialManager spriteMaterialManager;
@@ -37,7 +37,7 @@ namespace SceneTest
         private Quaternion orientation;
 
         public Attachment(
-            SceneObjectManager<LevelManager> sceneObjectManager,
+            SceneObjectManager<TSceneObjectManager> sceneObjectManager,
             SpriteManager sprites,
             Plane plane,
             IDestructionRequest destructionRequest,

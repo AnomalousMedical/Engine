@@ -51,7 +51,7 @@ namespace SceneTest
         }
 
         private ISpriteMaterial spriteMaterial;
-        private SceneObjectManager<BattleManager> sceneObjectManager;
+        private SceneObjectManager<IBattleManager> sceneObjectManager;
         private SpriteManager sprites;
         private IDestructionRequest destructionRequest;
         private readonly ISpriteMaterialManager spriteMaterialManager;
@@ -60,7 +60,7 @@ namespace SceneTest
         private bool disposed;
 
         public Enemy(
-            SceneObjectManager<BattleManager> sceneObjectManager,
+            SceneObjectManager<IBattleManager> sceneObjectManager,
             SpriteManager sprites,
             Plane plane,
             IDestructionRequest destructionRequest,

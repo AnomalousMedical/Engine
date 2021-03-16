@@ -37,8 +37,8 @@ namespace SceneTest
         private readonly PbrRenderAttribs pbrRenderAttribs = PbrRenderAttribs.CreateDefault();
 
         private readonly SoundManager soundManager;
-        private readonly SceneObjectManager<LevelManager> levelSceneObjects;
-        private readonly SceneObjectManager<BattleManager> battleSceneObjects;
+        private readonly SceneObjectManager<ILevelManager> levelSceneObjects;
+        private readonly SceneObjectManager<IBattleManager> battleSceneObjects;
         private readonly SpriteManager sprites;
         private readonly IObjectResolverFactory objectResolverFactory;
         private readonly ICoroutineRunner coroutineRunner;
@@ -46,7 +46,7 @@ namespace SceneTest
         private readonly CameraMover cameraMover;
         private readonly ILevelManager levelManager;
         private readonly Sky sky;
-        private readonly BattleManager battleManager;
+        private readonly IBattleManager battleManager;
         private readonly IObjectResolver objectResolver;
         private SoundAndSource bgMusicSound;
 
@@ -75,8 +75,8 @@ namespace SceneTest
             ISharpGui sharpGui,
             IScaleHelper scaleHelper,
             SoundManager soundManager,
-            SceneObjectManager<LevelManager> sceneObjects,
-            SceneObjectManager<BattleManager> battleSceneObjects,
+            SceneObjectManager<ILevelManager> sceneObjects,
+            SceneObjectManager<IBattleManager> battleSceneObjects,
             SpriteManager sprites,
             IObjectResolverFactory objectResolverFactory,
             ICoroutineRunner coroutineRunner,
@@ -84,7 +84,7 @@ namespace SceneTest
             CameraMover cameraMover,
             ILevelManager levelManager,
             Sky sky,
-            BattleManager battleManager)
+            IBattleManager battleManager)
         {
             cameraControls.Position = new Vector3(0, 0, -12);
 

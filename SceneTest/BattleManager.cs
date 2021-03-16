@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SceneTest
 {
-    class BattleManager : IDisposable
+    class BattleManager : IDisposable, IBattleManager
     {
         private readonly EventManager eventManager;
         private readonly ISharpGui sharpGui;
@@ -129,7 +129,7 @@ namespace SceneTest
             eventLayer.alertEventsHandled();
         }
 
-        private void LevelManager_LevelChanged(LevelManager levelManager)
+        private void LevelManager_LevelChanged(ILevelManager levelManager)
         {
             battleArena?.RequestDestruction();
 

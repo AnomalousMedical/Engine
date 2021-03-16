@@ -32,7 +32,7 @@ namespace SceneTest
         public const int LeftHand = 1;
 
         private ISpriteMaterial spriteMaterial;
-        private SceneObjectManager<LevelManager> sceneObjectManager;
+        private SceneObjectManager<ILevelManager> sceneObjectManager;
         private SpriteManager sprites;
         private IDestructionRequest destructionRequest;
         private readonly ISpriteMaterialManager spriteMaterialManager;
@@ -46,8 +46,8 @@ namespace SceneTest
 
         private FrameEventSprite sprite;
 
-        private Attachment sword;
-        private Attachment shield;
+        private Attachment<ILevelManager> sword;
+        private Attachment<ILevelManager> shield;
 
         private CharacterMover characterMover;
         private TypedIndex shapeIndex;
@@ -69,7 +69,7 @@ namespace SceneTest
         private Quaternion cameraAngle = new Quaternion(Vector3.Left, -MathF.PI / 14f);
 
         public Player(
-            SceneObjectManager<LevelManager> sceneObjectManager,
+            SceneObjectManager<ILevelManager> sceneObjectManager,
             SpriteManager sprites,
             Plane plane,
             IDestructionRequest destructionRequest,
@@ -112,7 +112,7 @@ namespace SceneTest
             //Sub objects
             objectResolver = objectResolverFactory.Create();
 
-            sword = objectResolver.Resolve<Attachment, Attachment.Description>(o =>
+            sword = objectResolver.Resolve<Attachment<ILevelManager>, Attachment<ILevelManager>.Description>(o =>
             {
                 o.Orientation = new Quaternion(0, MathFloat.PI / 4f, 0);
                 o.Sprite = new Sprite(new Dictionary<string, SpriteAnimation>()
@@ -142,7 +142,7 @@ namespace SceneTest
                 );
             });
 
-            shield = objectResolver.Resolve<Attachment, Attachment.Description>(o =>
+            shield = objectResolver.Resolve<Attachment<ILevelManager>, Attachment<ILevelManager>.Description>(o =>
             {
                 o.Sprite = new Sprite() { BaseScale = new Vector3(0.75f, 0.75f, 0.75f) };
                 o.SpriteMaterial = new SpriteMaterialDescription

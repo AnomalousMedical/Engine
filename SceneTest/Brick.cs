@@ -24,7 +24,7 @@ namespace SceneTest
             public bool GetShadow { get; set; } = false;
         }
 
-        private readonly SceneObjectManager<LevelManager> sceneObjectManager;
+        private readonly SceneObjectManager<ILevelManager> sceneObjectManager;
         private readonly IBepuScene bepuScene;
         private readonly ICC0TextureManager textureManager;
         private IShaderResourceBinding matBinding;
@@ -34,7 +34,7 @@ namespace SceneTest
         private bool disposed;
 
         public Brick(
-            SceneObjectManager<LevelManager> sceneObjectManager,
+            SceneObjectManager<ILevelManager> sceneObjectManager,
             Cube cube,
             IDestructionRequest destructionRequest,
             IScopedCoroutine coroutine,

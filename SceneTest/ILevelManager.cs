@@ -6,7 +6,7 @@ namespace SceneTest
     interface ILevelManager
     {
 
-        event Action<LevelManager> LevelChanged;
+        event Action<ILevelManager> LevelChanged;
 
         bool ChangingLevels { get; }
         Level CurrentLevel { get; }

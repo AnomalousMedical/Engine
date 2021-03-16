@@ -24,7 +24,7 @@ namespace SceneTest
             public bool GetShadow { get; set; } = true;
         }
 
-        private readonly SceneObjectManager<BattleManager> sceneObjectManager;
+        private readonly SceneObjectManager<IBattleManager> sceneObjectManager;
         private readonly IDestructionRequest destructionRequest;
 
         private readonly ICC0TextureManager textureManager;
@@ -33,7 +33,7 @@ namespace SceneTest
         private bool disposed;
 
         public BattleArena(
-            SceneObjectManager<BattleManager> sceneObjectManager,
+            SceneObjectManager<IBattleManager> sceneObjectManager,
             Cube cube,
             IDestructionRequest destructionRequest,
             IScopedCoroutine coroutine,

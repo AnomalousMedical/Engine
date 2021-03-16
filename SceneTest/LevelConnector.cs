@@ -29,7 +29,7 @@ namespace SceneTest
             public bool GoPrevious { get; set; }
         }
 
-        private readonly SceneObjectManager<LevelManager> sceneObjectManager;
+        private readonly SceneObjectManager<ILevelManager> sceneObjectManager;
         private readonly IBepuScene bepuScene;
         private readonly ICC0TextureManager textureManager;
         private readonly ICollidableTypeIdentifier collidableIdentifier;
@@ -43,7 +43,7 @@ namespace SceneTest
         private bool goPrevious;
 
         public LevelConnector(
-            SceneObjectManager<LevelManager> sceneObjectManager,
+            SceneObjectManager<ILevelManager> sceneObjectManager,
             Cube cube,
             IDestructionRequest destructionRequest,
             IScopedCoroutine coroutine,
