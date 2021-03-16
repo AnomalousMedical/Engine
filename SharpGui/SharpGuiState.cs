@@ -11,6 +11,8 @@ namespace SharpGui
     {
         private static readonly Guid EmptySpace = Guid.NewGuid(); //A guid for when the user clicks on empty space. This gets considered to be active
 
+        private bool sawFocusedItem = false;
+
         public Guid HoverItem { get; private set; }
         public Guid ActiveItem { get; private set; }
         public int MouseX { get; private set; }
@@ -27,6 +29,7 @@ namespace SharpGui
 
         public void Begin(int mouseX, int mouseY, bool mouseDown, KeyboardButtonCode lastKeyPressed, uint lastKeyChar, bool isShift, bool isAlt, bool isCtrl, GamepadButtonCode lastGamepadKey)
         {
+            sawFocusedItem = false;
             this.LastKeyChar = lastKeyChar;
             this.KeyEntered = lastKeyPressed;
             this.GamepadButtonEntered = lastGamepadKey;
@@ -53,6 +56,11 @@ namespace SharpGui
             else
             {
                 ActiveItem = Guid.Empty;
+            }
+
+            if (!sawFocusedItem)
+            {
+                FocusedItem = Guid.Empty;
             }
 
             KeyEntered = KeyboardButtonCode.KC_UNASSIGNED;
@@ -121,6 +129,7 @@ namespace SharpGui
             bool callerHandlesInput = false;
             if (FocusedItem == id)
             {
+                sawFocusedItem = true;
                 callerHandlesInput = true;
                 //If tab is pressed, drop to allow next widget to pick it up.
                 switch (KeyEntered)
