@@ -33,7 +33,6 @@ namespace SceneTest
 
         private ISpriteMaterial spriteMaterial;
         private SceneObjectManager<LevelManager> sceneObjectManager;
-        private readonly SceneObjectManager<BattleManager> sceneObjectManagerBattle;
         private SpriteManager sprites;
         private IDestructionRequest destructionRequest;
         private readonly ISpriteMaterialManager spriteMaterialManager;
@@ -71,7 +70,6 @@ namespace SceneTest
 
         public Player(
             SceneObjectManager<LevelManager> sceneObjectManager,
-            SceneObjectManager<BattleManager> sceneObjectManagerBattle,
             SpriteManager sprites,
             Plane plane,
             IDestructionRequest destructionRequest,
@@ -161,7 +159,6 @@ namespace SceneTest
             sprite.FrameChanged += Sprite_FrameChanged;
 
             this.sceneObjectManager = sceneObjectManager;
-            this.sceneObjectManagerBattle = sceneObjectManagerBattle;
             this.sprites = sprites;
             this.destructionRequest = destructionRequest;
             this.spriteMaterialManager = spriteMaterialManager;

@@ -69,6 +69,8 @@ namespace SceneTest
             services.AddSingleton<ISpriteMaterialTextureManager, SpriteMaterialTextureManager>();
             services.AddScoped<Player>();
             services.AddScoped<Player.Description>();
+            services.AddScoped<BattlePlayer>();
+            services.AddScoped<BattlePlayer.Description>();
             services.AddScoped<PlayerSprite>();
             services.AddScoped<Enemy>();
             services.AddScoped<Enemy.Desc>();

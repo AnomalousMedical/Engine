@@ -24,6 +24,7 @@ namespace SceneTest
         private SharpButton endBattle = new SharpButton() { Text = "End Battle" };
 
         private List<Enemy> enemies = new List<Enemy>();
+        private List<BattlePlayer> players = new List<BattlePlayer>();
 
         public BattleManager(EventManager eventManager,
             ISharpGui sharpGui,
@@ -52,6 +53,11 @@ namespace SceneTest
 
         public void SetupBattle()
         {
+            players.Add(this.objectResolver.Resolve<BattlePlayer, BattlePlayer.Description>(c =>
+            {
+                c.Translation = new Vector3(4, 0, -1);
+            }));
+
             enemies.Add(this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
                 Enemy.Desc.MakeTinyDino(c);
@@ -87,7 +93,11 @@ namespace SceneTest
                 }
                 else
                 {
-                    foreach(var enemy in enemies)
+                    foreach (var player in players)
+                    {
+                        player.RequestDestruction();
+                    }
+                    foreach (var enemy in enemies)
                     {
                         enemy.RequestDestruction();
                     }
