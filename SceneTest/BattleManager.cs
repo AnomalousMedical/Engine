@@ -36,6 +36,11 @@ namespace SceneTest
             this.window = window;
             this.cameraMover = cameraMover;
             this.objectResolver = objectResolverFactory.Create();
+            objectResolver.Resolve<BattleArena, BattleArena.Description>(o =>
+            {
+                o.Scale = new Vector3(20, 0.1f, 20);
+                o.Texture = "cc0Textures/Snow006_1K";
+            });
         }
 
         public void Dispose()
@@ -48,22 +53,22 @@ namespace SceneTest
             enemies.Add(this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
                 Enemy.Desc.MakeTinyDino(c);
-                c.Translation = new Vector3(-4, 0, -1);
+                c.Translation = new Vector3(-4, 0.55f, -1);
             }));
             enemies.Add(this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
                 Enemy.Desc.MakeTinyDino(c, skinMaterial: "cc0Textures/Leather011_1K");
-                c.Translation = new Vector3(-5, 0, -2);
+                c.Translation = new Vector3(-5, 0.55f, -2);
             }));
             enemies.Add(this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
                 Enemy.Desc.MakeSkeleton(c);
-                c.Translation = new Vector3(0, 0, -3);
+                c.Translation = new Vector3(0, 0.55f, -3);
             }));
             enemies.Add(this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
                 Enemy.Desc.MakeTinyDino(c);
-                c.Translation = new Vector3(-6, 0, -3);
+                c.Translation = new Vector3(-6, 0.55f, -3);
             }));
         }
 

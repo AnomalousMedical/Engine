@@ -19,13 +19,13 @@ namespace SceneTest
         {
             public String Texture { get; set; } = "cc0Textures/Bricks045_1K";
 
-            public bool RenderShadow { get; set; } = true;
+            public bool RenderShadow { get; set; } = false;
 
-            public bool GetShadow { get; set; } = false;
+            public bool GetShadow { get; set; } = true;
         }
 
         private readonly SceneObjectManager<BattleManager> sceneObjectManager;
-        private readonly IBepuScene bepuScene;
+        //private readonly IBepuScene bepuScene;
         private readonly ICC0TextureManager textureManager;
         private IShaderResourceBinding matBinding;
         private SceneObject sceneObject;
@@ -38,12 +38,12 @@ namespace SceneTest
             Cube cube,
             IDestructionRequest destructionRequest,
             IScopedCoroutine coroutine,
-            IBepuScene bepuScene,
+            //IBepuScene bepuScene,
             ICC0TextureManager textureManager,
             Description description)
         {
             this.sceneObjectManager = sceneObjectManager;
-            this.bepuScene = bepuScene;
+            //this.bepuScene = bepuScene;
             this.textureManager = textureManager;
             sceneObject = new SceneObject()
             {
@@ -59,14 +59,14 @@ namespace SceneTest
                 GetShadows = description.GetShadow
             };
 
-            var shape = new Box(description.Scale.x, description.Scale.y, description.Scale.z); //Each one creates its own, try to load from resources
-            shapeIndex = bepuScene.Simulation.Shapes.Add(shape);
+            //var shape = new Box(description.Scale.x, description.Scale.y, description.Scale.z); //Each one creates its own, try to load from resources
+            //shapeIndex = bepuScene.Simulation.Shapes.Add(shape);
 
-            staticHandle = bepuScene.Simulation.Statics.Add(
-                new StaticDescription(
-                    new System.Numerics.Vector3(description.Translation.x, description.Translation.y, description.Translation.z),
-                    new System.Numerics.Quaternion(description.Orientation.x, description.Orientation.y, description.Orientation.z, description.Orientation.w),
-                    new CollidableDescription(shapeIndex, 0.1f)));
+            //staticHandle = bepuScene.Simulation.Statics.Add(
+            //    new StaticDescription(
+            //        new System.Numerics.Vector3(description.Translation.x, description.Translation.y, description.Translation.z),
+            //        new System.Numerics.Quaternion(description.Orientation.x, description.Orientation.y, description.Orientation.z, description.Orientation.w),
+            //        new CollidableDescription(shapeIndex, 0.1f)));
 
             coroutine.RunTask(async () =>
             {
@@ -90,8 +90,8 @@ namespace SceneTest
         public void Dispose()
         {
             disposed = true;
-            bepuScene.Simulation.Shapes.Remove(shapeIndex);
-            bepuScene.Simulation.Statics.Remove(staticHandle);
+            //bepuScene.Simulation.Shapes.Remove(shapeIndex);
+            //bepuScene.Simulation.Statics.Remove(staticHandle);
             sceneObjectManager.Remove(sceneObject);
             textureManager.TryReturn(matBinding);
         }
