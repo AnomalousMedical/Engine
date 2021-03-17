@@ -154,27 +154,27 @@ namespace SceneTest
             layout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
 
             //Buttons
-            if (sharpGui.Button(playMusic))
+            if (sharpGui.Button(playMusic, navUp: battle.Id, navDown: goNextLevel.Id))
             {
                 PlaySong("freepd/Rafael Krux - The Range-10.ogg");
             }
 
-            if (!levelManager.ChangingLevels && sharpGui.Button(goNextLevel))
+            if (!levelManager.ChangingLevels && sharpGui.Button(goNextLevel, navUp: playMusic.Id, navDown: goPreviousLevel.Id))
             {
                 coroutineRunner.RunTask(levelManager.GoNextLevel());
             }
 
-            if (!levelManager.ChangingLevels && sharpGui.Button(goPreviousLevel))
+            if (!levelManager.ChangingLevels && sharpGui.Button(goPreviousLevel, navUp: goNextLevel.Id, navDown: toggleCamera.Id))
             {
                 coroutineRunner.RunTask(levelManager.GoPreviousLevel());
             }
 
-            if (sharpGui.Button(toggleCamera))
+            if (sharpGui.Button(toggleCamera, navUp: goPreviousLevel.Id, navDown: battle.Id))
             {
                 useFirstPersonCamera = !useFirstPersonCamera;
             }
 
-            if (sharpGui.Button(battle))
+            if (sharpGui.Button(battle, navUp: toggleCamera.Id, navDown: playMusic.Id))
             {
                 //PlaySong("freepd/Rafael Krux - Hit n Smash.ogg");
                 battleManager.SetupBattle();
