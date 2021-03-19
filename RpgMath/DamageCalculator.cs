@@ -20,18 +20,18 @@ namespace RpgMath
             return ((power * (512UL - def) * baseDamage) / (16UL * 512UL));
         }
 
-        public bool PhysicalHit(ulong attDex, ulong attLck, ulong attPct, ulong attDefPct, ulong targDefPct, ulong targetLck, bool allowLuckyEvade)
+        public bool PhysicalHit(ICharacterStats attacker, ICharacterStats target)
         {
-            ulong hitPct = ((attDex / 4UL) + attPct) + attDefPct - targDefPct;
+            ulong hitPct = ((attacker.Dexterity / 4UL) + attacker.AttackPercent) + attacker.DefensePercent - target.DefensePercent;
             ulong luckRoll = (ulong)random.Next(99);
             //Lucky hit
-            if(luckRoll < attLck / 4)
+            if(luckRoll < attacker.Luck / 4)
             {
                 hitPct = 255;
             }
-            else if (allowLuckyEvade)
+            else if (target.AllowLuckyEvade)
             {
-                ulong evadeChance = targetLck / 4 - attLck / 4;
+                ulong evadeChance = target.Luck / 4 - attacker.Luck / 4;
                 if(luckRoll < evadeChance)
                 {
                     hitPct = 0;
