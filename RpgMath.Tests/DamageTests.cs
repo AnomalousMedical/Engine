@@ -258,26 +258,146 @@ namespace RpgMath.Tests
         }
 
         [Fact]
-        public void MagicalDamage()
+        public void MagicalDamageEqual()
         {
             var calc = new DamageCalculator();
 
-            var result = calc.Magical(20, 9, 16, 18);
+            var result = calc.Magical(level10, level10, 16);
             output.WriteLine(result.ToString());
 
-            result = calc.Magical(52, 22, 16, 25);
+            result = calc.Magical(level20, level20, 16);
             output.WriteLine(result.ToString());
 
-            result = calc.Magical(75, 39, 16, 66);
+            result = calc.Magical(level30, level30, 16);
             output.WriteLine(result.ToString());
 
-            result = calc.Magical(93, 48, 16, 25);
+            result = calc.Magical(level40, level40, 16);
             output.WriteLine(result.ToString());
 
-            result = calc.Magical(150, 75, 16, 100);
+            result = calc.Magical(level50, level50, 16);
             output.WriteLine(result.ToString());
 
-            result = calc.Magical(200, 99, 16, 100);
+            result = calc.Magical(level60, level60, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level70, level70, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level80, level80, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level90, level90, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level99, level99, 16);
+            output.WriteLine(result.ToString());
+        }
+
+        [Fact]
+        public void MagicalDamageLow()
+        {
+            var calc = new DamageCalculator();
+
+            var result = calc.Magical(level10, level10, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level20, level10, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level30, level10, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level40, level10, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level50, level10, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level60, level10, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level70, level10, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level80, level10, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level90, level10, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level99, level10, 16);
+            output.WriteLine(result.ToString());
+        }
+
+        [Fact]
+        public void MagicalDamageMid()
+        {
+            var calc = new DamageCalculator();
+
+            var result = calc.Magical(level10, level50, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level20, level50, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level30, level50, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level40, level50, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level50, level50, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level60, level50, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level70, level50, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level80, level50, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level90, level50, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level99, level50, 16);
+            output.WriteLine(result.ToString());
+        }
+
+        [Fact]
+        public void MagicalDamageHigh()
+        {
+            var calc = new DamageCalculator();
+
+            var result = calc.Magical(level10, level99, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level20, level99, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level30, level99, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level40, level99, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level50, level99, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level60, level99, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level70, level99, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level80, level99, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level90, level99, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Magical(level99, level99, 16);
             output.WriteLine(result.ToString());
         }
 

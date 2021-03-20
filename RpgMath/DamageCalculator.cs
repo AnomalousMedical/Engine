@@ -42,10 +42,10 @@ namespace RpgMath
         /// <param name="power">The power of the attack. 16 is the base power. Above that is extra, below less. Usually 1 unless special effects.</param>
         /// <param name="mdef">Magic defense of target</param>
         /// <returns></returns>
-        public long Magical(long mat, long level, long power, long mdef)
+        public long Magical(ICharacterStats attacker, ICharacterStats target, long power)
         {
-            long baseDamage = 6L * (mat + level);
-            return ((power * (512L - mdef) * baseDamage) / (16L * 512L));
+            long baseDamage = 6L * (attacker.MagicAttack + attacker.Level);
+            return ((power * (512L - target.MagicDefense) * baseDamage) / (16L * 512L));
         }
 
         /// <summary>
