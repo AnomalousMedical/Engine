@@ -12,5 +12,6 @@
         long Dexterity { get; }
         long Luck { get; }
         bool AllowLuckyEvade { get; }
+        long Level { get; }
     }
 }

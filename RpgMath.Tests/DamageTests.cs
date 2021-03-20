@@ -16,26 +16,146 @@ namespace RpgMath.Tests
         }
 
         [Fact]
-        public void PhysicalDamage()
+        public void PhysicalDamageEqualLevel()
         {
             var calc = new DamageCalculator();
 
-            var result = calc.Physical(20, 9, 16, 18);
+            var result = calc.Physical(level10, level10, 16);
             output.WriteLine(result.ToString());
 
-            result = calc.Physical(52, 22, 16, 25);
+            result = calc.Physical(level20, level20, 16);
             output.WriteLine(result.ToString());
 
-            result = calc.Physical(75, 39, 16, 66);
+            result = calc.Physical(level30, level30, 16);
             output.WriteLine(result.ToString());
 
-            result = calc.Physical(93, 48, 16, 25);
+            result = calc.Physical(level40, level40, 16);
             output.WriteLine(result.ToString());
 
-            result = calc.Physical(150, 75, 16, 100);
+            result = calc.Physical(level50, level50, 16);
             output.WriteLine(result.ToString());
 
-            result = calc.Physical(200, 99, 16, 100);
+            result = calc.Physical(level60, level60, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level70, level70, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level80, level80, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level90, level90, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level99, level99, 16);
+            output.WriteLine(result.ToString());
+        }
+
+        [Fact]
+        public void PhysicalDamageLowLevel()
+        {
+            var calc = new DamageCalculator();
+
+            var result = calc.Physical(level10, level10, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level20, level10, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level30, level10, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level40, level10, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level50, level10, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level60, level10, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level70, level10, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level80, level10, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level90, level10, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level99, level10, 16);
+            output.WriteLine(result.ToString());
+        }
+
+        [Fact]
+        public void PhysicalDamageMidLevel()
+        {
+            var calc = new DamageCalculator();
+
+            var result = calc.Physical(level10, level50, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level20, level50, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level30, level50, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level40, level50, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level50, level50, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level60, level50, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level70, level50, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level80, level50, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level90, level50, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level99, level50, 16);
+            output.WriteLine(result.ToString());
+        }
+
+        [Fact]
+        public void PhysicalDamageHighLevel()
+        {
+            var calc = new DamageCalculator();
+
+            var result = calc.Physical(level10, level99, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level20, level99, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level30, level99, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level40, level99, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level50, level99, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level60, level99, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level70, level99, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level80, level99, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level90, level99, 16);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level99, level99, 16);
             output.WriteLine(result.ToString());
         }
 
@@ -96,22 +216,44 @@ namespace RpgMath.Tests
         {
             var calc = new DamageCalculator();
 
-            var result = calc.RandomVariation(calc.Physical(20, 9, 16, 18));
+            var result = calc.Physical(level10, level10, 16);
+            result = calc.RandomVariation(result);
             output.WriteLine(result.ToString());
 
-            result = calc.RandomVariation(calc.Physical(52, 22, 16, 25));
+            result = calc.Physical(level20, level20, 16);
+            result = calc.RandomVariation(result);
             output.WriteLine(result.ToString());
 
-            result = calc.RandomVariation(calc.Physical(75, 39, 16, 66));
+            result = calc.Physical(level30, level30, 16);
+            result = calc.RandomVariation(result);
             output.WriteLine(result.ToString());
 
-            result = calc.RandomVariation(calc.Physical(93, 48, 16, 25));
+            result = calc.Physical(level40, level40, 16);
+            result = calc.RandomVariation(result);
             output.WriteLine(result.ToString());
 
-            result = calc.RandomVariation(calc.Physical(150, 75, 16, 100));
+            result = calc.Physical(level50, level50, 16);
+            result = calc.RandomVariation(result);
             output.WriteLine(result.ToString());
 
-            result = calc.RandomVariation(calc.Physical(200, 99, 16, 100));
+            result = calc.Physical(level60, level60, 16);
+            result = calc.RandomVariation(result);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level70, level70, 16);
+            result = calc.RandomVariation(result);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level80, level80, 16);
+            result = calc.RandomVariation(result);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level90, level90, 16);
+            result = calc.RandomVariation(result);
+            output.WriteLine(result.ToString());
+
+            result = calc.Physical(level99, level99, 16);
+            result = calc.RandomVariation(result);
             output.WriteLine(result.ToString());
         }
 
@@ -198,7 +340,8 @@ namespace RpgMath.Tests
             MagicDefensePercent = 3,
             AllowLuckyEvade = true,
             Dexterity = 13,
-            Luck = 19
+            Luck = 19,
+            Level = 10
         };
 
         private ICharacterStats level20 = new CharacterStats()
@@ -212,7 +355,8 @@ namespace RpgMath.Tests
             MagicDefensePercent = 3,
             AllowLuckyEvade = true,
             Dexterity = 22,
-            Luck = 20
+            Luck = 20,
+            Level = 20
         };
 
         private ICharacterStats level30 = new CharacterStats()
@@ -226,7 +370,8 @@ namespace RpgMath.Tests
             MagicDefensePercent = 3,
             AllowLuckyEvade = true,
             Dexterity = 30,
-            Luck = 21
+            Luck = 21,
+            Level = 30
         };
 
         private ICharacterStats level40 = new CharacterStats()
@@ -240,7 +385,8 @@ namespace RpgMath.Tests
             MagicDefensePercent = 3,
             AllowLuckyEvade = true,
             Dexterity = 38,
-            Luck = 22
+            Luck = 22,
+            Level = 40
         };
 
         private ICharacterStats level50 = new CharacterStats()
@@ -254,7 +400,8 @@ namespace RpgMath.Tests
             MagicDefensePercent = 3,
             AllowLuckyEvade = true,
             Dexterity = 46,
-            Luck = 23
+            Luck = 23,
+            Level = 50
         };
 
         private ICharacterStats level60 = new CharacterStats()
@@ -268,7 +415,8 @@ namespace RpgMath.Tests
             MagicDefensePercent = 3,
             AllowLuckyEvade = true,
             Dexterity = 51,
-            Luck = 23
+            Luck = 23,
+            Level = 60
         };
 
         private ICharacterStats level70 = new CharacterStats()
@@ -282,7 +430,8 @@ namespace RpgMath.Tests
             MagicDefensePercent = 3,
             AllowLuckyEvade = true,
             Dexterity = 53,
-            Luck = 24
+            Luck = 24,
+            Level = 70
         };
 
         private ICharacterStats level80 = new CharacterStats()
@@ -296,7 +445,8 @@ namespace RpgMath.Tests
             MagicDefensePercent = 3,
             AllowLuckyEvade = true,
             Dexterity = 55,
-            Luck = 25
+            Luck = 25,
+            Level = 80
         };
 
         private ICharacterStats level90 = new CharacterStats()
@@ -310,7 +460,8 @@ namespace RpgMath.Tests
             MagicDefensePercent = 3,
             AllowLuckyEvade = true,
             Dexterity = 57,
-            Luck = 26
+            Luck = 26,
+            Level = 90
         };
 
         private ICharacterStats level99 = new CharacterStats()
@@ -324,7 +475,8 @@ namespace RpgMath.Tests
             MagicDefensePercent = 3,
             AllowLuckyEvade = true,
             Dexterity = 59,
-            Luck = 26
+            Luck = 26,
+            Level = 99
         };
     }
 }

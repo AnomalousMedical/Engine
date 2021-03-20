@@ -6,18 +6,10 @@ namespace RpgMath
     {
         private Random random = new Random();
 
-        /// <summary>
-        /// Physical damage formula.
-        /// </summary>
-        /// <param name="att">Total attack power</param>
-        /// <param name="level">Level of attacker</param>
-        /// <param name="power">The power of the attack. 16 is the base power. Above that is extra, below less. Usually 1 unless special effects.</param>
-        /// <param name="def">Defense of target</param>
-        /// <returns></returns>
-        public long Physical(long att, long level, long power, long def)
+        public long Physical(ICharacterStats attacker, ICharacterStats target, long power)
         {
-            long baseDamage = att + ((att + level) / 32L) * ((att * level) / 32L);
-            return ((power * (512L - def) * baseDamage) / (16L * 512L));
+            long baseDamage = attacker.Attack + ((attacker.Attack + attacker.Level) / 32L) * ((attacker.Attack * attacker.Level) / 32L);
+            return ((power * (512L - target.Defense) * baseDamage) / (16L * 512L));
         }
 
         public bool PhysicalHit(ICharacterStats attacker, ICharacterStats target)
