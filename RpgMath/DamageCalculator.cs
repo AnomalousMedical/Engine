@@ -67,10 +67,10 @@ namespace RpgMath
         /// <param name="power">The power of the item. This is 16 * Power.</param>
         /// <param name="def">Def or mdef of target.</param>
         /// <returns></returns>
-        public long Item(long power, long def)
+        public long Item(ICharacterStats target, long power)
         {
             long baseDamage = 16L * power;
-            return baseDamage * (512L - def) / 512L;
+            return baseDamage * (512L - target.Defense) / 512L;
         }
 
         /// <summary>

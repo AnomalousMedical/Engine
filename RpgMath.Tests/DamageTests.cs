@@ -524,24 +524,37 @@ namespace RpgMath.Tests
         [Fact]
         public void Item()
         {
+            const int power = 16;
             var calc = new DamageCalculator();
 
-            var result = calc.Item(16, 18);
+            var result = calc.Item(level10, power);
             output.WriteLine(result.ToString());
 
-            result = calc.Item(16, 25);
+            result = calc.Item(level20, power);
             output.WriteLine(result.ToString());
 
-            result = calc.Item(16, 66);
+            result = calc.Item(level30, power);
             output.WriteLine(result.ToString());
 
-            result = calc.Item(16, 25);
+            result = calc.Item(level40, power);
             output.WriteLine(result.ToString());
 
-            result = calc.Item(16, 100);
+            result = calc.Item(level50, power);
             output.WriteLine(result.ToString());
 
-            result = calc.Item(16, 100);
+            result = calc.Item(level60, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Item(level70, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Item(level80, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Item(level90, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Item(level99, power);
             output.WriteLine(result.ToString());
         }
 
