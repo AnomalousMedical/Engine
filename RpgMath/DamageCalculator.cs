@@ -34,6 +34,13 @@ namespace RpgMath
             return rand < hitPct;
         }
 
+        public bool CriticalHit(ICharacterStats attacker, ICharacterStats target)
+        {
+            long critPct = (attacker.Luck + attacker.Level - target.Level) / 4 + attacker.ExtraCritChance;
+            var rand = (long)random.Next(65536) * 99 / 65535 + 1;
+            return rand < critPct;
+        }
+
         /// <summary>
         /// Magical damage formula.
         /// </summary>

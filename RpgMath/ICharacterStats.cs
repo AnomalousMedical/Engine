@@ -13,5 +13,6 @@
         long Luck { get; }
         bool AllowLuckyEvade { get; }
         long Level { get; }
+        long ExtraCritChance { get; }
     }
 }

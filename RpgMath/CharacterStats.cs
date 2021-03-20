@@ -29,5 +29,6 @@ namespace RpgMath
         public bool AllowLuckyEvade { get; set; }
 
         public long Level { get; set; }
+        public long ExtraCritChance { get; set; }
     }
 }
