@@ -406,22 +406,118 @@ namespace RpgMath.Tests
         {
             var calc = new DamageCalculator();
 
-            var result = calc.Cure(20, 9, 16);
+            const int power = 5;
+            var result = calc.Cure(level10, power);
             output.WriteLine(result.ToString());
 
-            result = calc.Cure(52, 22, 16);
+            result = calc.Cure(level10, power);
             output.WriteLine(result.ToString());
 
-            result = calc.Cure(75, 39, 16);
+            result = calc.Cure(level20, power);
             output.WriteLine(result.ToString());
 
-            result = calc.Cure(93, 48, 16);
+            result = calc.Cure(level30, power);
             output.WriteLine(result.ToString());
 
-            result = calc.Cure(150, 75, 16);
+            result = calc.Cure(level40, power);
             output.WriteLine(result.ToString());
 
-            result = calc.Cure(200, 99, 16);
+            result = calc.Cure(level50, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level60, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level70, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level80, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level90, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level99, power);
+            output.WriteLine(result.ToString());
+        }
+
+        [Fact]
+        public void CureMid()
+        {
+            var calc = new DamageCalculator();
+
+            const int power = 35;
+            var result = calc.Cure(level10, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level10, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level20, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level30, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level40, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level50, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level60, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level70, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level80, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level90, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level99, power);
+            output.WriteLine(result.ToString());
+        }
+
+        [Fact]
+        public void CureHigh()
+        {
+            var calc = new DamageCalculator();
+
+            const int power = 130;
+            var result = calc.Cure(level10, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level10, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level20, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level30, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level40, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level50, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level60, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level70, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level80, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level90, power);
+            output.WriteLine(result.ToString());
+
+            result = calc.Cure(level99, power);
             output.WriteLine(result.ToString());
         }
 

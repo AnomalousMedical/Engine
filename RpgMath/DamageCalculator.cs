@@ -55,9 +55,9 @@ namespace RpgMath
         /// <param name="level">Level of attacker</param>
         /// <param name="power">The power of the cure. This is 22 * Power.</param>
         /// <returns></returns>
-        public long Cure(long mat, long level, long power)
+        public long Cure(ICharacterStats caster, long power)
         {
-            long baseDamage = 6L * (mat + level);
+            long baseDamage = 6L * (caster.MagicAttack + caster.Level);
             return baseDamage + 22L * power;
         }
 
