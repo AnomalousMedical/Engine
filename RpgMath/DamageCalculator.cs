@@ -15,7 +15,7 @@ namespace RpgMath
         public bool PhysicalHit(ICharacterStats attacker, ICharacterStats target)
         {
             long hitPct = ((attacker.Dexterity / 4L) + attacker.AttackPercent) + attacker.DefensePercent - target.DefensePercent;
-            long luckRoll = (long)random.Next(99);
+            long luckRoll = (long)random.Next(100);
             //Lucky hit
             if(luckRoll < attacker.Luck / 4)
             {
@@ -30,7 +30,7 @@ namespace RpgMath
                 }
             }
 
-            var rand = (long)random.Next(65535) * 99 / 65535 + 1;
+            var rand = (long)random.Next(65536) * 99 / 65535 + 1;
             return rand < hitPct;
         }
 
@@ -46,6 +46,29 @@ namespace RpgMath
         {
             long baseDamage = 6L * (attacker.MagicAttack + attacker.Level);
             return ((power * (512L - target.MagicDefense) * baseDamage) / (16L * 512L));
+        }
+
+        public bool MagicalHit(ICharacterStats attacker, ICharacterStats target, Resistance resistance, long magicAttackPercent)
+        {
+            long dodgeRoll = (long)random.Next(100);
+            if(dodgeRoll < target.MagicDefensePercent)
+            {
+                return false;
+            }
+
+            var hitPercent = magicAttackPercent + attacker.Level - target.Level / 2 - 1;
+            switch (resistance)
+            {
+                case Resistance.Death:
+                case Resistance.AutoHit:
+                case Resistance.Immune:
+                case Resistance.Absorb:
+                    hitPercent = 255L;
+                    break;
+            }
+
+            long rand = (long)random.Next(100);
+            return rand < hitPercent;
         }
 
         /// <summary>
@@ -80,7 +103,7 @@ namespace RpgMath
         /// <returns>A randomized damage value.</returns>
         public long RandomVariation(long damage)
         {
-            return damage * (3841L + (long)random.Next(255)) / 4096L;
+            return damage * (3841L + (long)random.Next(256)) / 4096L;
         }
 
         public long ApplyResistance(long damage, Resistance resistance)
