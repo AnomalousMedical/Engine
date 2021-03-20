@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RpgMath
 {
-    class Archetype
+    public class Archetype
     {
         public long Hp { get; set; }
 
@@ -38,6 +38,22 @@ namespace RpgMath
 
         public long LuckGrade { get; set; }
 
+        public long Xp02to11 { get; set; }
+
+        public long Xp12to21 { get; set; }
+
+        public long Xp22to31 { get; set; }
+
+        public long Xp32to41 { get; set; }
+
+        public long Xp42to51 { get; set; }
+
+        public long Xp52to61 { get; set; }
+
+        public long Xp62to81 { get; set; }
+
+        public long Xp82to99 { get; set; }
+
         public static Archetype CreateHero()
         {
             return new Archetype()
@@ -58,7 +74,16 @@ namespace RpgMath
                 VitalityGrade  = 6,
                 MagicGrade     = 3,
                 SpiritGrade    = 4,
-                DexterityGrade = 26
+                DexterityGrade = 26,
+
+                Xp02to11 = 68,
+                Xp12to21 = 71,
+                Xp22to31 = 73,
+                Xp32to41 = 74,
+                Xp42to51 = 74,
+                Xp52to61 = 74,
+                Xp62to81 = 75,
+                Xp82to99 = 77,
             };
         }
 
@@ -82,7 +107,16 @@ namespace RpgMath
                 VitalityGrade  = 2,
                 MagicGrade     = 18,
                 SpiritGrade    = 14,
-                DexterityGrade = 29
+                DexterityGrade = 29,
+
+                Xp02to11 = 70,
+                Xp12to21 = 73,
+                Xp22to31 = 75,
+                Xp32to41 = 76,
+                Xp42to51 = 77,
+                Xp52to61 = 77,
+                Xp62to81 = 77,
+                Xp82to99 = 77,
             };
         }
 
@@ -106,7 +140,16 @@ namespace RpgMath
                 VitalityGrade  = 18,
                 MagicGrade     = 16,
                 SpiritGrade    = 9,
-                DexterityGrade = 25
+                DexterityGrade = 25,
+
+                Xp02to11 = 68,
+                Xp12to21 = 71,
+                Xp22to31 = 73,
+                Xp32to41 = 74,
+                Xp42to51 = 75,
+                Xp52to61 = 75,
+                Xp62to81 = 75,
+                Xp82to99 = 76,
             };
         }
 
@@ -130,7 +173,16 @@ namespace RpgMath
                 VitalityGrade  = 20,
                 MagicGrade     = 0,
                 SpiritGrade    = 1,
-                DexterityGrade = 28
+                DexterityGrade = 28,
+
+                Xp02to11 = 67,
+                Xp12to21 = 70,
+                Xp22to31 = 72,
+                Xp32to41 = 74,
+                Xp42to51 = 74,
+                Xp52to61 = 75,
+                Xp62to81 = 76,
+                Xp82to99 = 78,
             };
         }
 
@@ -154,7 +206,16 @@ namespace RpgMath
                 VitalityGrade  = 11,
                 MagicGrade     = 13,
                 SpiritGrade    = 9,
-                DexterityGrade = 23
+                DexterityGrade = 23,
+
+                Xp02to11 = 68,
+                Xp12to21 = 71,
+                Xp22to31 = 74,
+                Xp32to41 = 75,
+                Xp42to51 = 75,
+                Xp52to61 = 75,
+                Xp62to81 = 76,
+                Xp82to99 = 76,
             };
         }
 
@@ -178,7 +239,16 @@ namespace RpgMath
                 VitalityGrade  = 19,
                 MagicGrade     = 11,
                 SpiritGrade    = 10,
-                DexterityGrade = 24
+                DexterityGrade = 24,
+
+                Xp02to11 = 69,
+                Xp12to21 = 72,
+                Xp22to31 = 75,
+                Xp32to41 = 75,
+                Xp42to51 = 76,
+                Xp52to61 = 76,
+                Xp62to81 = 77,
+                Xp82to99 = 77,
             };
         }
 
@@ -202,7 +272,16 @@ namespace RpgMath
                 VitalityGrade  = 22,
                 MagicGrade     = 6,
                 SpiritGrade    = 4,
-                DexterityGrade = 28
+                DexterityGrade = 28,
+
+                Xp02to11 = 69,
+                Xp12to21 = 72,
+                Xp22to31 = 75,
+                Xp32to41 = 75,
+                Xp42to51 = 75,
+                Xp52to61 = 76,
+                Xp62to81 = 76,
+                Xp82to99 = 76,
             };
         }
 
@@ -226,7 +305,16 @@ namespace RpgMath
                 VitalityGrade  = 22,
                 MagicGrade     = 6,
                 SpiritGrade    = 4,
-                DexterityGrade = 28
+                DexterityGrade = 28,
+
+                Xp02to11 = 70,
+                Xp12to21 = 72,
+                Xp22to31 = 75,
+                Xp32to41 = 76,
+                Xp42to51 = 76,
+                Xp52to61 = 76,
+                Xp62to81 = 76,
+                Xp82to99 = 76,
             };
         }
 
@@ -250,7 +338,16 @@ namespace RpgMath
                 VitalityGrade  = 7,
                 MagicGrade     = 17,
                 SpiritGrade    = 15,
-                DexterityGrade = 27
+                DexterityGrade = 27,
+
+                Xp02to11 = 69,
+                Xp12to21 = 72,
+                Xp22to31 = 75,
+                Xp32to41 = 75,
+                Xp42to51 = 76,
+                Xp52to61 = 76,
+                Xp62to81 = 77,
+                Xp82to99 = 77,
             };
         }
     }
