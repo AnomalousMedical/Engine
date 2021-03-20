@@ -21,8 +21,8 @@ namespace RpgMath.Tests
         [InlineData(10, 5, 20, 0)]
         [InlineData(-10, 15, 20, 20)]
         [InlineData(-10, 5, 20, 15)]
-        [InlineData(long.MinValue, 5, 20, 20)]
-        [InlineData(long.MaxValue, 5, 20, 0)]
+        [InlineData(long.MinValue, 5, 20, 20)] //Min is negative, which is healing
+        [InlineData(long.MaxValue, 5, 20, 0)] //Max is positive, which is damage
         public void PhysicalDamageEqualLevel(long damage, long currentHp, long maxHp, long expected)
         {
             var calc = new DamageCalculator();

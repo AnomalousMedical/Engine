@@ -106,6 +106,14 @@ namespace RpgMath
             return damage;
         }
 
+        /// <summary>
+        /// Apply damage. This is subtraction so positive numbers mean take damage, negative means healing.
+        /// The return value is capped at 0 and maxHp.
+        /// </summary>
+        /// <param name="damage"></param>
+        /// <param name="currentHp"></param>
+        /// <param name="maxHp"></param>
+        /// <returns></returns>
         public long ApplyDamage(long damage, long currentHp, long maxHp)
         {
             long newHp = currentHp - damage;
