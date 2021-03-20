@@ -105,5 +105,31 @@ namespace RpgMath
 
             return damage;
         }
+
+        public long ApplyDamage(long damage, long currentHp, long maxHp)
+        {
+            long newHp = currentHp - damage;
+
+            if (damage < 0)
+            {
+                //damage < 0 means healing, if we end up with less hp it overflowed, max out hp by returning maxHp
+                //Also cap newHp at maxHp
+                if(newHp < currentHp || newHp > maxHp)
+                {
+                    newHp = maxHp;
+                }
+            }
+            else
+            {
+                //damage > 0 means damage, if we end up with more hp the target is dead
+                //Also cap new hp at 0
+                if(newHp > currentHp || newHp < 0)
+                {
+                    newHp = 0;
+                }
+            }
+
+            return newHp;
+        }
     }
 }
