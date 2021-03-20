@@ -17,15 +17,9 @@ namespace RpgMath
         public long Baseline { get; }
     }
 
-    class PrimaryStatCurves
+    class LuckStatCurves
     {
-        /// <summary>
-        /// Get the stat curve for the level being attained. If you are level 1 becoming level 2 you pass 2 to this function.
-        /// </summary>
-        /// <param name="attainingLevel">The level being attained.</param>
-        /// <param name="rank">The rank of the curve. The lower the better the curve is.</param>
-        /// <returns></returns>
-        public StatCurve GetStatCurve(int attainingLevel, int rank)
+        public StatCurve GetStatCurve(long attainingLevel, int rank)
         {
             switch (attainingLevel)
             {
@@ -140,7 +134,235 @@ namespace RpgMath
             }
         }
 
-        public PrimaryStatCurveLevelRange L2to11 { get; set; } = new PrimaryStatCurveLevelRange(new List<StatCurve>()
+        public StatCurveLevelRange L2to11 { get; set; } = new StatCurveLevelRange(new List<StatCurve>()
+        {
+            new StatCurve(20,  15),
+            new StatCurve(15,  14),
+            new StatCurve(20,  14),
+            new StatCurve(18,  14),
+            new StatCurve(18,  14),
+            new StatCurve(20,  16),
+            new StatCurve(20,  14),
+            new StatCurve(20,  14),
+            new StatCurve(15,  14)
+        });
+
+        public StatCurveLevelRange L12to21 { get; set; } = new StatCurveLevelRange(new List<StatCurve>()
+        {
+            new StatCurve(10,  16),
+            new StatCurve( 8,  15),
+            new StatCurve(10,  15),
+            new StatCurve( 8,  15),
+            new StatCurve( 8,  15),
+            new StatCurve(10,  17),
+            new StatCurve(10,  15),
+            new StatCurve(10,  15),
+            new StatCurve( 8,  15)
+        });
+
+        public StatCurveLevelRange L22to31 { get; set; } = new StatCurveLevelRange(new List<StatCurve>()
+        {
+            new StatCurve(10,  16),
+            new StatCurve( 8,  15),
+            new StatCurve(10,  15),
+            new StatCurve( 8,  15),
+            new StatCurve( 8,  15),
+            new StatCurve(10,  17),
+            new StatCurve(10,  15),
+            new StatCurve(10,  15),
+            new StatCurve( 8,  15)
+        });
+
+        public StatCurveLevelRange L32to41 { get; set; } = new StatCurveLevelRange(new List<StatCurve>()
+        {
+            new StatCurve( 8,  17),
+            new StatCurve( 7,  15),
+            new StatCurve( 9,  16),
+            new StatCurve( 8,  16),
+            new StatCurve( 8,  16),
+            new StatCurve(10,  17),
+            new StatCurve( 9,  16),
+            new StatCurve( 9,  16),
+            new StatCurve( 7,  15)
+        });
+
+        public StatCurveLevelRange L42to51 { get; set; } = new StatCurveLevelRange(new List<StatCurve>()
+        {
+            new StatCurve(8,  17),
+            new StatCurve(6,  16),
+            new StatCurve(9,  17),
+            new StatCurve(8,  16),
+            new StatCurve(8,  16),
+            new StatCurve(8,  18),
+            new StatCurve(9,  17),
+            new StatCurve(9,  17),
+            new StatCurve(6,  16)
+        });
+
+        public StatCurveLevelRange L52to61 { get; set; } = new StatCurveLevelRange(new List<StatCurve>()
+        {
+            new StatCurve( 8,  17),
+            new StatCurve( 5,  17),
+            new StatCurve(10,  17),
+            new StatCurve( 5,  18),
+            new StatCurve( 5,  18),
+            new StatCurve(10,  18),
+            new StatCurve(10,  17),
+            new StatCurve(10,  17),
+            new StatCurve( 5,  17)
+        });
+
+        public StatCurveLevelRange L62to81 { get; set; } = new StatCurveLevelRange(new List<StatCurve>()
+        {
+            new StatCurve( 7,  18),
+            new StatCurve( 4,  18),
+            new StatCurve(10,  17),
+            new StatCurve( 7,  17),
+            new StatCurve( 7,  17),
+            new StatCurve(10,  18),
+            new StatCurve(10,  17),
+            new StatCurve(10,  17),
+            new StatCurve( 4,  18)
+        });
+
+        public StatCurveLevelRange L82to99 { get; set; } = new StatCurveLevelRange(new List<StatCurve>()
+        {
+            new StatCurve(6,  19),
+            new StatCurve(3,  20),
+            new StatCurve(6,  20),
+            new StatCurve(7,  17),
+            new StatCurve(7,  17),
+            new StatCurve(9,  19),
+            new StatCurve(6,  20),
+            new StatCurve(6,  20),
+            new StatCurve(3,  20)
+        });
+    }
+
+    class PrimaryStatCurves
+    {
+        /// <summary>
+        /// Get the stat curve for the level being attained. If you are level 1 becoming level 2 you pass 2 to this function.
+        /// </summary>
+        /// <param name="attainingLevel">The level being attained.</param>
+        /// <param name="rank">The rank of the curve. The lower the better the curve is.</param>
+        /// <returns></returns>
+        public StatCurve GetStatCurve(long attainingLevel, int rank)
+        {
+            switch (attainingLevel)
+            {
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                case 10:
+                case 11:
+                    return L2to11[rank];
+                case 12:
+                case 13:
+                case 14:
+                case 15:
+                case 16:
+                case 17:
+                case 18:
+                case 19:
+                case 20:
+                case 21:
+                    return L12to21[rank];
+                case 22:
+                case 23:
+                case 24:
+                case 25:
+                case 26:
+                case 27:
+                case 28:
+                case 29:
+                case 30:
+                case 31:
+                    return L22to31[rank];
+                case 32:
+                case 33:
+                case 34:
+                case 35:
+                case 36:
+                case 37:
+                case 38:
+                case 39:
+                case 40:
+                case 41:
+                    return L32to41[rank];
+                case 42:
+                case 43:
+                case 44:
+                case 45:
+                case 46:
+                case 47:
+                case 48:
+                case 49:
+                case 50:
+                case 51:
+                    return L42to51[rank];
+                case 52:
+                case 53:
+                case 54:
+                case 55:
+                case 56:
+                case 57:
+                case 58:
+                case 59:
+                case 60:
+                case 61:
+                    return L52to61[rank];
+                case 62:
+                case 63:
+                case 64:
+                case 65:
+                case 66:
+                case 67:
+                case 68:
+                case 69:
+                case 70:
+                case 71:
+                case 72:
+                case 73:
+                case 74:
+                case 75:
+                case 76:
+                case 77:
+                case 78:
+                case 79:
+                case 80:
+                case 81:
+                    return L62to81[rank];
+                case 82:
+                case 83:
+                case 84:
+                case 85:
+                case 86:
+                case 87:
+                case 88:
+                case 89:
+                case 90:
+                case 91:
+                case 92:
+                case 93:
+                case 94:
+                case 95:
+                case 96:
+                case 97:
+                case 98:
+                case 99:
+                    return L82to99[rank];
+                default:
+                    throw new InvalidOperationException($"Invalid level {attainingLevel}");
+            }
+        }
+
+        public StatCurveLevelRange L2to11 { get; set; } = new StatCurveLevelRange(new List<StatCurve>()
         {
             new StatCurve(130, 12),
             new StatCurve(120, 13),
@@ -174,7 +396,7 @@ namespace RpgMath
             new StatCurve( 65,  5)
         });
 
-        public PrimaryStatCurveLevelRange L12to21 { get; set; } = new PrimaryStatCurveLevelRange(new List<StatCurve>()
+        public StatCurveLevelRange L12to21 { get; set; } = new StatCurveLevelRange(new List<StatCurve>()
         {
             new StatCurve(160,  9),
             new StatCurve(130, 12),
@@ -208,7 +430,7 @@ namespace RpgMath
             new StatCurve( 63,  6)
         });
 
-        public PrimaryStatCurveLevelRange L22to31 { get; set; } = new PrimaryStatCurveLevelRange(new List<StatCurve>()
+        public StatCurveLevelRange L22to31 { get; set; } = new StatCurveLevelRange(new List<StatCurve>()
         {
             new StatCurve(160,  9),
             new StatCurve(133, 11),
@@ -242,7 +464,7 @@ namespace RpgMath
             new StatCurve( 76,  4)
         });
 
-        public PrimaryStatCurveLevelRange L32to41 { get; set; } = new PrimaryStatCurveLevelRange(new List<StatCurve>()
+        public StatCurveLevelRange L32to41 { get; set; } = new StatCurveLevelRange(new List<StatCurve>()
         {
             new StatCurve(120, 21),
             new StatCurve(135, 11),
@@ -276,7 +498,7 @@ namespace RpgMath
             new StatCurve( 61,  9)
         });
 
-        public PrimaryStatCurveLevelRange L42to51 { get; set; } = new PrimaryStatCurveLevelRange(new List<StatCurve>()
+        public StatCurveLevelRange L42to51 { get; set; } = new StatCurveLevelRange(new List<StatCurve>()
         {
             new StatCurve( 70, 44),
             new StatCurve(120, 17),
@@ -310,7 +532,7 @@ namespace RpgMath
             new StatCurve( 49, 14)
         });
 
-        public PrimaryStatCurveLevelRange L52to61 { get; set; } = new PrimaryStatCurveLevelRange(new List<StatCurve>()
+        public StatCurveLevelRange L52to61 { get; set; } = new StatCurveLevelRange(new List<StatCurve>()
         {
             new StatCurve(60, 50),
             new StatCurve(72, 43),
@@ -344,7 +566,7 @@ namespace RpgMath
             new StatCurve(36, 20)
         });
 
-        public PrimaryStatCurveLevelRange L62to81 { get; set; } = new PrimaryStatCurveLevelRange(new List<StatCurve>()
+        public StatCurveLevelRange L62to81 { get; set; } = new StatCurveLevelRange(new List<StatCurve>()
         {
             new StatCurve(50, 57),
             new StatCurve(55, 53),
@@ -378,7 +600,7 @@ namespace RpgMath
             new StatCurve(28, 24)
         });
 
-        public PrimaryStatCurveLevelRange L82to99 { get; set; } = new PrimaryStatCurveLevelRange(new List<StatCurve>()
+        public StatCurveLevelRange L82to99 { get; set; } = new StatCurveLevelRange(new List<StatCurve>()
         {
             new StatCurve(30, 73),
             new StatCurve(21, 80),
@@ -413,11 +635,11 @@ namespace RpgMath
         });
     }
 
-    class PrimaryStatCurveLevelRange
+    class StatCurveLevelRange
     {
         private readonly List<StatCurve> ranks;
 
-        public PrimaryStatCurveLevelRange(List<StatCurve> ranks)
+        public StatCurveLevelRange(List<StatCurve> ranks)
         {
             this.ranks = ranks;
         }
@@ -430,4 +652,4 @@ namespace RpgMath
             }
         }
     }
-}
+}                       

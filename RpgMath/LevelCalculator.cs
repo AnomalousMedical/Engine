@@ -9,19 +9,31 @@ namespace RpgMath
         private Random random = new Random();
 
         private PrimaryStatCurves primaryStatCurves = new PrimaryStatCurves();
+        private LuckStatCurves luckStatCurves = new LuckStatCurves();
 
-        public long ComputePrimaryStatGain(int level, int rank, int current)
+        public long ComputePrimaryStatGain(long level, int rank, long current)
         {
             var curve = primaryStatCurves.GetStatCurve(level, rank);
+            return ComputeStatGain(level, current, curve);
+        }
+
+        public long ComputeLuckGain(long level, int rank, long current)
+        {
+            var curve = luckStatCurves.GetStatCurve(level, rank);
+            return ComputeStatGain(level, current, curve);
+        }
+
+        private long ComputeStatGain(long level, long current, StatCurve curve)
+        {
             long baselineStat = curve.Baseline + (curve.Gradient * level / 100);
 
             long diff = (random.Next(8) + 1) + baselineStat - current;
 
-            if(diff < 0)
+            if (diff < 0)
             {
                 diff = 0;
             }
-            else if(diff > 11)
+            else if (diff > 11)
             {
                 diff = 11;
             }
