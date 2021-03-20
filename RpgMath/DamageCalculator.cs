@@ -14,16 +14,16 @@ namespace RpgMath
         /// <param name="power">The power of the attack. 16 is the base power. Above that is extra, below less. Usually 1 unless special effects.</param>
         /// <param name="def">Defense of target</param>
         /// <returns></returns>
-        public ulong Physical(ulong att, ulong level, ulong power, ulong def)
+        public long Physical(long att, long level, long power, long def)
         {
-            ulong baseDamage = att + ((att + level) / 32UL) * ((att * level) / 32UL);
-            return ((power * (512UL - def) * baseDamage) / (16UL * 512UL));
+            long baseDamage = att + ((att + level) / 32L) * ((att * level) / 32L);
+            return ((power * (512L - def) * baseDamage) / (16L * 512L));
         }
 
         public bool PhysicalHit(ICharacterStats attacker, ICharacterStats target)
         {
-            ulong hitPct = ((attacker.Dexterity / 4UL) + attacker.AttackPercent) + attacker.DefensePercent - target.DefensePercent;
-            ulong luckRoll = (ulong)random.Next(99);
+            long hitPct = ((attacker.Dexterity / 4L) + attacker.AttackPercent) + attacker.DefensePercent - target.DefensePercent;
+            long luckRoll = (long)random.Next(99);
             //Lucky hit
             if(luckRoll < attacker.Luck / 4)
             {
@@ -31,14 +31,14 @@ namespace RpgMath
             }
             else if (target.AllowLuckyEvade)
             {
-                ulong evadeChance = target.Luck / 4 - attacker.Luck / 4;
+                long evadeChance = target.Luck / 4 - attacker.Luck / 4;
                 if(luckRoll < evadeChance)
                 {
                     hitPct = 0;
                 }
             }
 
-            var rand = (ulong)random.Next(65535) * 99 / 65535 + 1;
+            var rand = (long)random.Next(65535) * 99 / 65535 + 1;
             return rand < hitPct;
         }
 
@@ -50,10 +50,10 @@ namespace RpgMath
         /// <param name="power">The power of the attack. 16 is the base power. Above that is extra, below less. Usually 1 unless special effects.</param>
         /// <param name="mdef">Magic defense of target</param>
         /// <returns></returns>
-        public ulong Magical(ulong mat, ulong level, ulong power, ulong mdef)
+        public long Magical(long mat, long level, long power, long mdef)
         {
-            ulong baseDamage = 6UL * (mat + level);
-            return ((power * (512UL - mdef) * baseDamage) / (16UL * 512UL));
+            long baseDamage = 6L * (mat + level);
+            return ((power * (512L - mdef) * baseDamage) / (16L * 512L));
         }
 
         /// <summary>
@@ -63,10 +63,10 @@ namespace RpgMath
         /// <param name="level">Level of attacker</param>
         /// <param name="power">The power of the cure. This is 22 * Power.</param>
         /// <returns></returns>
-        public ulong Cure(ulong mat, ulong level, ulong power)
+        public long Cure(long mat, long level, long power)
         {
-            ulong baseDamage = 6UL * (mat + level);
-            return baseDamage + 22UL * power;
+            long baseDamage = 6L * (mat + level);
+            return baseDamage + 22L * power;
         }
 
         /// <summary>
@@ -75,10 +75,10 @@ namespace RpgMath
         /// <param name="power">The power of the item. This is 16 * Power.</param>
         /// <param name="def">Def or mdef of target.</param>
         /// <returns></returns>
-        public ulong Item(ulong power, ulong def)
+        public long Item(long power, long def)
         {
-            ulong baseDamage = 16UL * power;
-            return baseDamage * (512UL - def) / 512UL;
+            long baseDamage = 16L * power;
+            return baseDamage * (512L - def) / 512L;
         }
 
         /// <summary>
@@ -86,9 +86,9 @@ namespace RpgMath
         /// </summary>
         /// <param name="damage">The calculated damage to randomize.</param>
         /// <returns>A randomized damage value.</returns>
-        public ulong RandomVariation(ulong damage)
+        public long RandomVariation(long damage)
         {
-            return damage * (3841UL + (ulong)random.Next(255)) / 4096UL;
+            return damage * (3841L + (long)random.Next(255)) / 4096L;
         }
     }
 }

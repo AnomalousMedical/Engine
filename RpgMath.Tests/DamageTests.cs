@@ -74,15 +74,21 @@ namespace RpgMath.Tests
             result = calc.PhysicalHit(level99, level99);
             output.WriteLine(result.ToString());
 
+            result = calc.PhysicalHit(level99, level10);
+            output.WriteLine(result.ToString());
+
             //Make sure it can fail
             output.WriteLine("---Start fail test---");
             bool hit = true;
             int sanity = 0;
+            const int sanityMax = 10000;
             while (hit)
             {
-                hit = calc.PhysicalHit(level10, level99) && sanity++ < 1000000000; //Some kind of sanity check
-                output.WriteLine(hit.ToString());
+                hit = calc.PhysicalHit(level10, level99) && ++sanity < sanityMax; //Some kind of sanity check
             }
+            output.WriteLine($"{hit.ToString()} took {sanity} tries");
+
+            Assert.NotEqual(sanity, sanityMax);
         }
 
         [Fact]

@@ -2,15 +2,15 @@
 {
     public interface ICharacterStats
     {
-        ulong Attack { get; }
-        ulong AttackPercent { get; }
-        ulong Defense { get; }
-        ulong DefensePercent { get; }
-        ulong MagicAttack { get; }
-        ulong MagicDefense { get; }
-        ulong MagicDefensePercent { get; }
-        ulong Dexterity { get; }
-        ulong Luck { get; }
+        long Attack { get; }
+        long AttackPercent { get; }
+        long Defense { get; }
+        long DefensePercent { get; }
+        long MagicAttack { get; }
+        long MagicDefense { get; }
+        long MagicDefensePercent { get; }
+        long Dexterity { get; }
+        long Luck { get; }
         bool AllowLuckyEvade { get; }
     }
 }

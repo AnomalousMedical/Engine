@@ -8,23 +8,23 @@ namespace RpgMath
 {
     public class CharacterStats : ICharacterStats
     {
-        public ulong Attack { get; set; }
+        public long Attack { get; set; }
 
-        public ulong AttackPercent { get; set; }
+        public long AttackPercent { get; set; }
 
-        public ulong Defense { get; set; }
+        public long Defense { get; set; }
 
-        public ulong DefensePercent { get; set; }
+        public long DefensePercent { get; set; }
 
-        public ulong MagicAttack { get; set; }
+        public long MagicAttack { get; set; }
 
-        public ulong MagicDefense { get; set; }
+        public long MagicDefense { get; set; }
 
-        public ulong MagicDefensePercent { get; set; }
+        public long MagicDefensePercent { get; set; }
 
-        public ulong Dexterity { get; set; }
+        public long Dexterity { get; set; }
 
-        public ulong Luck { get; set; }
+        public long Luck { get; set; }
 
         public bool AllowLuckyEvade { get; set; }
     }
