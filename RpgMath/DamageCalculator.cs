@@ -82,5 +82,28 @@ namespace RpgMath
         {
             return damage * (3841L + (long)random.Next(255)) / 4096L;
         }
+
+        public long ApplyResistance(long damage, Resistance resistance)
+        {
+            switch (resistance)
+            {
+                case Resistance.Absorb:
+                    return -damage;
+                case Resistance.Death:
+                    return long.MaxValue;
+                case Resistance.Immune:
+                    return 0;
+                case Resistance.Normal:
+                    return damage;
+                case Resistance.Resist:
+                    return damage / 2;
+                case Resistance.Weak:
+                    return damage * 2;
+                case Resistance.Recovery:
+                    return long.MinValue;
+            }
+
+            return damage;
+        }
     }
 }
