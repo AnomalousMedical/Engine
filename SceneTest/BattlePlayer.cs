@@ -2,6 +2,7 @@
 using DiligentEngine.GltfPbr.Shapes;
 using Engine;
 using Engine.Platform;
+using RpgMath;
 using SceneTest.Sprites;
 using SharpGui;
 using System;
@@ -26,6 +27,7 @@ namespace SceneTest
         private readonly SceneObject sceneObject;
         private readonly IObjectResolver objectResolver;
         private ISpriteMaterial spriteMaterial;
+        private CharacterSheet characterSheet;
 
         private bool disposed = false;
         private int primaryHand;
@@ -47,7 +49,8 @@ namespace SceneTest
             public int SecondaryHand = Player.LeftHand;
             public EventLayers EventLayer = EventLayers.Battle;
             public GamepadId Gamepad = GamepadId.Pad1;
-            public BattleManager battleManager;
+            public BattleManager BattleManager;
+            public CharacterSheet CharacterSheet;
         }
 
         public BattlePlayer(PlayerSprite playerSpriteInfo,
@@ -62,6 +65,7 @@ namespace SceneTest
             IScaleHelper scaleHelper,
             IScreenPositioner screenPositioner)
         {
+            this.characterSheet = description.CharacterSheet ?? throw new InvalidOperationException("You must include a character sheet in the description");
             this.playerSpriteInfo = playerSpriteInfo;
             this.sceneObjectManager = sceneObjectManager;
             this.sprites = sprites;
@@ -70,7 +74,7 @@ namespace SceneTest
             this.coroutine = coroutine;
             this.scaleHelper = scaleHelper;
             this.screenPositioner = screenPositioner;
-            this.battleManager = description.battleManager ?? throw new InvalidOperationException("You must include a battle manager in the description");
+            this.battleManager = description.BattleManager ?? throw new InvalidOperationException("You must include a battle manager in the description");
             this.primaryHand = description.PrimaryHand;
             this.secondaryHand = description.SecondaryHand;
             this.gamepadId = description.Gamepad;

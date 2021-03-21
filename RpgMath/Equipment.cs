@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RpgMath
 {
-    class Equipment
+    public class Equipment
     {
         public long Attack { get; set; }
 

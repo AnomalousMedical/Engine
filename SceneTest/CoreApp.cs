@@ -4,6 +4,7 @@ using Engine.Platform;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using RpgMath;
 using SceneTest.Sprites;
 using System;
 using System.Globalization;
@@ -96,6 +97,60 @@ namespace SceneTest
             services.AddSingleton<IBiomeManager, BiomeManager>();
             services.AddSingleton<CameraMover>();
             services.AddSingleton<ICollidableTypeIdentifier, CollidableTypeIdentifier>();
+            services.AddSingleton<Party>(s =>
+            {
+                //Hardcoded to new every time, but this needs to be managed somehow
+                var party = new Party();
+                {
+                    var arch = Archetype.CreateHero();
+                    party.AddCharacter(new CharacterSheet()
+                    {
+                        Name = "Hero",
+                        Archetype = arch,
+                        Level = 1,
+                        CurrentHp = arch.Hp,
+                        CurrentMp = arch.Mp,
+                    });
+                }
+
+                {
+                    var arch = Archetype.CreateSage();
+                    party.AddCharacter(new CharacterSheet()
+                    {
+                        Name = "Sage",
+                        Archetype = arch,
+                        Level = 1,
+                        CurrentHp = arch.Hp,
+                        CurrentMp = arch.Mp,
+                    });
+                }
+
+                {
+                    var arch = Archetype.CreateTank();
+                    party.AddCharacter(new CharacterSheet()
+                    {
+                        Name = "Tank",
+                        Archetype = arch,
+                        Level = 1,
+                        CurrentHp = arch.Hp,
+                        CurrentMp = arch.Mp,
+                    });
+                }
+
+                {
+                    var arch = Archetype.CreateGuardian();
+                    party.AddCharacter(new CharacterSheet()
+                    {
+                        Name = "Guardian",
+                        Archetype = arch,
+                        Level = 1,
+                        CurrentHp = arch.Hp,
+                        CurrentMp = arch.Mp,
+                    });
+                }
+
+                return party;
+            });
 
             return true;
         }

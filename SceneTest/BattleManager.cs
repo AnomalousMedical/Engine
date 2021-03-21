@@ -1,6 +1,7 @@
 ﻿using Anomalous.OSPlatform;
 using Engine;
 using Engine.Platform;
+using RpgMath;
 using SharpGui;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace SceneTest
         private readonly IScaleHelper scaleHelper;
         private readonly CameraMover cameraMover;
         private readonly ILevelManager levelManager;
+        private readonly Party party;
         private readonly IObjectResolver objectResolver;
         private BattleArena battleArena;
 
@@ -30,13 +32,15 @@ namespace SceneTest
             IScaleHelper scaleHelper,
             IObjectResolverFactory objectResolverFactory,
             CameraMover cameraMover,
-            ILevelManager levelManager)
+            ILevelManager levelManager,
+            Party party)
         {
             this.eventManager = eventManager;
             this.sharpGui = sharpGui;
             this.scaleHelper = scaleHelper;
             this.cameraMover = cameraMover;
             this.levelManager = levelManager;
+            this.party = party;
             this.objectResolver = objectResolverFactory.Create();
 
             levelManager.LevelChanged += LevelManager_LevelChanged;
@@ -50,29 +54,18 @@ namespace SceneTest
 
         public void SetupBattle()
         {
-            players.Add(this.objectResolver.Resolve<BattlePlayer, BattlePlayer.Description>(c =>
+            var currentZ = -2;
+            foreach(var member in party.ActiveCharacters)
             {
-                c.Translation = new Vector3(4, 0, -2);
-                c.battleManager = this;
-            }));
+                players.Add(this.objectResolver.Resolve<BattlePlayer, BattlePlayer.Description>(c =>
+                {
+                    c.Translation = new Vector3(4, 0, currentZ);
+                    c.BattleManager = this;
+                    c.CharacterSheet = member;
+                }));
 
-            players.Add(this.objectResolver.Resolve<BattlePlayer, BattlePlayer.Description>(c =>
-            {
-                c.Translation = new Vector3(4, 0, 0);
-                c.battleManager = this;
-            }));
-
-            players.Add(this.objectResolver.Resolve<BattlePlayer, BattlePlayer.Description>(c =>
-            {
-                c.Translation = new Vector3(4, 0, 2);
-                c.battleManager = this;
-            }));
-
-            players.Add(this.objectResolver.Resolve<BattlePlayer, BattlePlayer.Description>(c =>
-            {
-                c.Translation = new Vector3(4, 0, 4);
-                c.battleManager = this;
-            }));
+                currentZ += 2;
+            }
 
             enemies.Add(this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {

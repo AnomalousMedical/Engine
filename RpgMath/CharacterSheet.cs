@@ -5,12 +5,14 @@ using System.Text;
 
 namespace RpgMath
 {
-    class CharacterSheet : IBattleStats
+    public class CharacterSheet : IBattleStats
     {
         public CharacterSheet()
         {
 
         }
+
+        public String Name { get; set; }
 
         public Archetype Archetype { get; set; }
 
