@@ -7,7 +7,7 @@ namespace RpgMath.Tests
 {
     public class Characters
     {
-        public static readonly ICharacterStats level10 = new CharacterStats()
+        public static readonly IBattleStats level10 = new BattleStats()
         {
             Attack = 50,
             AttackPercent = 100,
@@ -22,7 +22,7 @@ namespace RpgMath.Tests
             Level = 10
         };
 
-        public static readonly ICharacterStats level20 = new CharacterStats()
+        public static readonly IBattleStats level20 = new BattleStats()
         {
             Attack = 76,
             AttackPercent = 100,
@@ -37,7 +37,7 @@ namespace RpgMath.Tests
             Level = 20
         };
 
-        public static readonly ICharacterStats level30 = new CharacterStats()
+        public static readonly IBattleStats level30 = new BattleStats()
         {
             Attack = 100,
             AttackPercent = 100,
@@ -52,7 +52,7 @@ namespace RpgMath.Tests
             Level = 30
         };
 
-        public static readonly ICharacterStats level40 = new CharacterStats()
+        public static readonly IBattleStats level40 = new BattleStats()
         {
             Attack = 130,
             AttackPercent = 100,
@@ -67,7 +67,7 @@ namespace RpgMath.Tests
             Level = 40
         };
 
-        public static readonly ICharacterStats level50 = new CharacterStats()
+        public static readonly IBattleStats level50 = new BattleStats()
         {
             Attack = 154,
             AttackPercent = 100,
@@ -82,7 +82,7 @@ namespace RpgMath.Tests
             Level = 50
         };
 
-        public static readonly ICharacterStats level60 = new CharacterStats()
+        public static readonly IBattleStats level60 = new BattleStats()
         {
             Attack = 176,
             AttackPercent = 100,
@@ -97,7 +97,7 @@ namespace RpgMath.Tests
             Level = 60
         };
 
-        public static readonly ICharacterStats level70 = new CharacterStats()
+        public static readonly IBattleStats level70 = new BattleStats()
         {
             Attack = 186,
             AttackPercent = 100,
@@ -112,7 +112,7 @@ namespace RpgMath.Tests
             Level = 70
         };
 
-        public static readonly ICharacterStats level80 = new CharacterStats()
+        public static readonly IBattleStats level80 = new BattleStats()
         {
             Attack = 198,
             AttackPercent = 100,
@@ -127,7 +127,7 @@ namespace RpgMath.Tests
             Level = 80
         };
 
-        public static readonly ICharacterStats level90 = new CharacterStats()
+        public static readonly IBattleStats level90 = new BattleStats()
         {
             Attack = 200,
             AttackPercent = 100,
@@ -142,7 +142,7 @@ namespace RpgMath.Tests
             Level = 90
         };
 
-        public static readonly ICharacterStats level99 = new CharacterStats()
+        public static readonly IBattleStats level99 = new BattleStats()
         {
             Attack = 200,
             AttackPercent = 100,

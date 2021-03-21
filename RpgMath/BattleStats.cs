@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RpgMath
 {
-    public class CharacterStats : ICharacterStats
+    public class BattleStats : IBattleStats
     {
         public long Attack { get; set; }
 
@@ -29,6 +29,7 @@ namespace RpgMath
         public bool AllowLuckyEvade { get; set; }
 
         public long Level { get; set; }
+
         public long ExtraCritChance { get; set; }
     }
 }

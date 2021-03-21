@@ -1,6 +1,6 @@
 ﻿namespace RpgMath
 {
-    public interface ICharacterStats
+    public interface IBattleStats
     {
         long Attack { get; }
         long AttackPercent { get; }

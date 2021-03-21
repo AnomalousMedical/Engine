@@ -6,13 +6,13 @@ namespace RpgMath
     {
         private Random random = new Random();
 
-        public long Physical(ICharacterStats attacker, ICharacterStats target, long power)
+        public long Physical(IBattleStats attacker, IBattleStats target, long power)
         {
             long baseDamage = attacker.Attack + ((attacker.Attack + attacker.Level) / 32L) * ((attacker.Attack * attacker.Level) / 32L);
             return ((power * (512L - target.Defense) * baseDamage) / (16L * 512L));
         }
 
-        public bool PhysicalHit(ICharacterStats attacker, ICharacterStats target)
+        public bool PhysicalHit(IBattleStats attacker, IBattleStats target)
         {
             long hitPct = ((attacker.Dexterity / 4L) + attacker.AttackPercent) + attacker.DefensePercent - target.DefensePercent;
             long luckRoll = (long)random.Next(100);
@@ -34,7 +34,7 @@ namespace RpgMath
             return rand < hitPct;
         }
 
-        public bool CriticalHit(ICharacterStats attacker, ICharacterStats target)
+        public bool CriticalHit(IBattleStats attacker, IBattleStats target)
         {
             long critPct = (attacker.Luck + attacker.Level - target.Level) / 4 + attacker.ExtraCritChance;
             var rand = (long)random.Next(65536) * 99 / 65535 + 1;
@@ -49,13 +49,13 @@ namespace RpgMath
         /// <param name="power">The power of the attack. 16 is the base power. Above that is extra, below less. Usually 1 unless special effects.</param>
         /// <param name="mdef">Magic defense of target</param>
         /// <returns></returns>
-        public long Magical(ICharacterStats attacker, ICharacterStats target, long power)
+        public long Magical(IBattleStats attacker, IBattleStats target, long power)
         {
             long baseDamage = 6L * (attacker.MagicAttack + attacker.Level);
             return ((power * (512L - target.MagicDefense) * baseDamage) / (16L * 512L));
         }
 
-        public bool MagicalHit(ICharacterStats attacker, ICharacterStats target, Resistance resistance, long magicAttackPercent)
+        public bool MagicalHit(IBattleStats attacker, IBattleStats target, Resistance resistance, long magicAttackPercent)
         {
             long dodgeRoll = (long)random.Next(100);
             if(dodgeRoll < target.MagicDefensePercent)
@@ -85,7 +85,7 @@ namespace RpgMath
         /// <param name="level">Level of attacker</param>
         /// <param name="power">The power of the cure. This is 22 * Power.</param>
         /// <returns></returns>
-        public long Cure(ICharacterStats caster, long power)
+        public long Cure(IBattleStats caster, long power)
         {
             long baseDamage = 6L * (caster.MagicAttack + caster.Level);
             return baseDamage + 22L * power;
@@ -97,7 +97,7 @@ namespace RpgMath
         /// <param name="power">The power of the item. This is 16 * Power.</param>
         /// <param name="def">Def or mdef of target.</param>
         /// <returns></returns>
-        public long Item(ICharacterStats target, long power)
+        public long Item(IBattleStats target, long power)
         {
             long baseDamage = 16L * power;
             return baseDamage * (512L - target.Defense) / 512L;

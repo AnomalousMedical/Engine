@@ -30,6 +30,7 @@
     <ProjectReference Include="..\NativeLibs64\NativeLibs64.csproj" />
     <ProjectReference Include="..\OSPlatform.Win32\OSPlatform.Win32.csproj" />
     <ProjectReference Include="..\OSPlatform\OSPlatform.csproj" />
+    <ProjectReference Include="..\RpgMath\RpgMath.csproj" />
     <ProjectReference Include="..\SharpGui\SharpGui.csproj" />
     <ProjectReference Include="..\SoundPlugin\SoundPlugin.csproj" />
   </ItemGroup>
