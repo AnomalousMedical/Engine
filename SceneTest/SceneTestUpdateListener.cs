@@ -148,10 +148,17 @@ namespace SceneTest
             var layout =
                 new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
                 new MaxWidthLayout(scaleHelper.Scaled(300),
-                new ColumnLayout(playMusic, goNextLevel, goPreviousLevel, toggleCamera, battle) { Margin = new IntPad(10) }
+                new ColumnLayout(battle, playMusic, goNextLevel, goPreviousLevel, toggleCamera) { Margin = new IntPad(10) }
                 ));
             var desiredSize = layout.GetDesiredSize(sharpGui);
             layout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
+
+            if (sharpGui.Button(battle, navUp: toggleCamera.Id, navDown: playMusic.Id))
+            {
+                //PlaySong("freepd/Rafael Krux - Hit n Smash.ogg");
+                battleManager.SetupBattle();
+                battleManager.SetActive(true);
+            }
 
             //Buttons
             if (sharpGui.Button(playMusic, navUp: battle.Id, navDown: goNextLevel.Id))
@@ -172,13 +179,6 @@ namespace SceneTest
             if (sharpGui.Button(toggleCamera, navUp: goPreviousLevel.Id, navDown: battle.Id))
             {
                 useFirstPersonCamera = !useFirstPersonCamera;
-            }
-
-            if (sharpGui.Button(battle, navUp: toggleCamera.Id, navDown: playMusic.Id))
-            {
-                //PlaySong("freepd/Rafael Krux - Hit n Smash.ogg");
-                battleManager.SetupBattle();
-                battleManager.SetActive(true);
             }
 
             int currentTime = (int)(timeClock.CurrentTimeMicro * Clock.MicroToSeconds / (60 * 60));
