@@ -3,6 +3,7 @@ using DiligentEngine.GltfPbr.Shapes;
 using Engine;
 using Engine.Platform;
 using SceneTest.Sprites;
+using SharpGui;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,9 @@ namespace SceneTest
         private readonly IDestructionRequest destructionRequest;
         private readonly ISpriteMaterialManager spriteMaterialManager;
         private readonly IScopedCoroutine coroutine;
+        private readonly IScaleHelper scaleHelper;
+        private readonly IScreenPositioner screenPositioner;
+        private readonly BattleManager battleManager;
         private readonly SceneObject sceneObject;
         private readonly IObjectResolver objectResolver;
         private ISpriteMaterial spriteMaterial;
@@ -32,12 +36,18 @@ namespace SceneTest
         private Attachment<IBattleManager> sword;
         private Attachment<IBattleManager> shield;
 
+        private SharpButton attackButton = new SharpButton() { Text = "Attack" };
+        private SharpButton magicButton = new SharpButton() { Text = "Magic" };
+        private SharpButton itemButton = new SharpButton() { Text = "Item" };
+        private SharpButton defendButton = new SharpButton() { Text = "Defend" };
+
         public class Description : SceneObjectDesc
         {
             public int PrimaryHand = Player.RightHand;
             public int SecondaryHand = Player.LeftHand;
             public EventLayers EventLayer = EventLayers.Battle;
             public GamepadId Gamepad = GamepadId.Pad1;
+            public BattleManager battleManager;
         }
 
         public BattlePlayer(PlayerSprite playerSpriteInfo,
@@ -48,7 +58,9 @@ namespace SceneTest
             Description description,
             ISpriteMaterialManager spriteMaterialManager,
             IObjectResolverFactory objectResolverFactory,
-            IScopedCoroutine coroutine)
+            IScopedCoroutine coroutine,
+            IScaleHelper scaleHelper,
+            IScreenPositioner screenPositioner)
         {
             this.playerSpriteInfo = playerSpriteInfo;
             this.sceneObjectManager = sceneObjectManager;
@@ -56,6 +68,9 @@ namespace SceneTest
             this.destructionRequest = destructionRequest;
             this.spriteMaterialManager = spriteMaterialManager;
             this.coroutine = coroutine;
+            this.scaleHelper = scaleHelper;
+            this.screenPositioner = screenPositioner;
+            this.battleManager = description.battleManager ?? throw new InvalidOperationException("You must include a battle manager in the description");
             this.primaryHand = description.PrimaryHand;
             this.secondaryHand = description.SecondaryHand;
             this.gamepadId = description.Gamepad;
@@ -158,6 +173,38 @@ namespace SceneTest
             sceneObjectManager.Remove(sceneObject);
             spriteMaterialManager.TryReturn(spriteMaterial);
             objectResolver.Dispose();
+        }
+
+        public void UpdateGui(ISharpGui sharpGui)
+        {
+            var layout =
+                new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
+                new MaxWidthLayout(scaleHelper.Scaled(300),
+                new ColumnLayout(attackButton, magicButton, itemButton, defendButton) { Margin = new IntPad(10) }
+                ));
+            var desiredSize = layout.GetDesiredSize(sharpGui);
+            layout.SetRect(screenPositioner.GetBottomRightRect(desiredSize));
+
+            if (sharpGui.Button(attackButton))
+            {
+                battleManager.Attack();
+            }
+
+            if (sharpGui.Button(magicButton))
+            {
+
+            }
+
+            if (sharpGui.Button(itemButton))
+            {
+
+            }
+
+            if (sharpGui.Button(defendButton))
+            {
+
+            }
+
         }
 
         public void RequestDestruction()

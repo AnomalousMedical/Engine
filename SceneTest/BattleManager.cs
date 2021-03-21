@@ -15,7 +15,6 @@ namespace SceneTest
         private readonly EventManager eventManager;
         private readonly ISharpGui sharpGui;
         private readonly IScaleHelper scaleHelper;
-        private readonly NativeOSWindow window;
         private readonly CameraMover cameraMover;
         private readonly ILevelManager levelManager;
         private readonly IObjectResolver objectResolver;
@@ -29,7 +28,6 @@ namespace SceneTest
         public BattleManager(EventManager eventManager,
             ISharpGui sharpGui,
             IScaleHelper scaleHelper,
-            NativeOSWindow window,
             IObjectResolverFactory objectResolverFactory,
             CameraMover cameraMover,
             ILevelManager levelManager)
@@ -37,7 +35,6 @@ namespace SceneTest
             this.eventManager = eventManager;
             this.sharpGui = sharpGui;
             this.scaleHelper = scaleHelper;
-            this.window = window;
             this.cameraMover = cameraMover;
             this.levelManager = levelManager;
             this.objectResolver = objectResolverFactory.Create();
@@ -55,28 +52,47 @@ namespace SceneTest
         {
             players.Add(this.objectResolver.Resolve<BattlePlayer, BattlePlayer.Description>(c =>
             {
-                c.Translation = new Vector3(4, 0, -1);
+                c.Translation = new Vector3(4, 0, -2);
+                c.battleManager = this;
+            }));
+
+            players.Add(this.objectResolver.Resolve<BattlePlayer, BattlePlayer.Description>(c =>
+            {
+                c.Translation = new Vector3(4, 0, 0);
+                c.battleManager = this;
+            }));
+
+            players.Add(this.objectResolver.Resolve<BattlePlayer, BattlePlayer.Description>(c =>
+            {
+                c.Translation = new Vector3(4, 0, 2);
+                c.battleManager = this;
+            }));
+
+            players.Add(this.objectResolver.Resolve<BattlePlayer, BattlePlayer.Description>(c =>
+            {
+                c.Translation = new Vector3(4, 0, 4);
+                c.battleManager = this;
             }));
 
             enemies.Add(this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
                 Enemy.Desc.MakeTinyDino(c);
-                c.Translation = new Vector3(-4, 0.55f, -1);
+                c.Translation = new Vector3(-4, 0.55f, -2);
             }));
             enemies.Add(this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
                 Enemy.Desc.MakeTinyDino(c, skinMaterial: "cc0Textures/Leather011_1K");
-                c.Translation = new Vector3(-5, 0.55f, -2);
+                c.Translation = new Vector3(-5, 0.55f, 0);
             }));
             enemies.Add(this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
                 Enemy.Desc.MakeSkeleton(c);
-                c.Translation = new Vector3(0, 0.55f, -3);
+                c.Translation = new Vector3(0, 0.55f, 2);
             }));
             enemies.Add(this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
                 Enemy.Desc.MakeTinyDino(c);
-                c.Translation = new Vector3(-6, 0.55f, -3);
+                c.Translation = new Vector3(-6, 0.55f, 4);
             }));
         }
 
@@ -88,7 +104,8 @@ namespace SceneTest
                 if (active)
                 {
                     eventManager[EventLayers.Battle].OnUpdate += eventManager_OnUpdate;
-                    cameraMover.Position = new Vector3(0f, 5f, -12f);
+                    cameraMover.Position = new Vector3(-1.0354034f, 2.958224f, -12.394701f);
+                    cameraMover.Orientation = new Quaternion(0.057467595f, 0.0049917176f, -0.00028734046f, 0.9983348f);
                     cameraMover.SceneCenter = new Vector3(0f, 0f, 0f);
                 }
                 else
@@ -108,18 +125,20 @@ namespace SceneTest
 
         public void UpdateGui()
         {
-            var layout =
-                new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
-                new MaxWidthLayout(scaleHelper.Scaled(300),
-                new ColumnLayout(endBattle) { Margin = new IntPad(10) }
-                ));
-            var desiredSize = layout.GetDesiredSize(sharpGui);
-            layout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
+            //var layout =
+            //    new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
+            //    new MaxWidthLayout(scaleHelper.Scaled(300),
+            //    new ColumnLayout(endBattle) { Margin = new IntPad(10) }
+            //    ));
+            //var desiredSize = layout.GetDesiredSize(sharpGui);
+            //layout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
 
-            if (sharpGui.Button(endBattle))
-            {
-                this.SetActive(false);
-            }
+            //if (sharpGui.Button(endBattle))
+            //{
+            //    this.SetActive(false);
+            //}
+
+            players[0].UpdateGui(sharpGui);
         }
 
         public bool Active { get; private set; }
@@ -138,6 +157,17 @@ namespace SceneTest
                 o.Scale = new Vector3(20, 0.1f, 20);
                 o.Texture = levelManager.CurrentLevel.Biome.FloorTexture;
             });
+        }
+
+        internal void Attack()
+        {
+            var enemy = enemies[0];
+            enemy.RequestDestruction();
+            enemies.Remove(enemy);
+            if(enemies.Count == 0)
+            {
+                this.SetActive(false);
+            }
         }
     }
 }
