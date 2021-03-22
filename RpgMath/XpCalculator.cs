@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RpgMath
 {
-    public class XpCalculator
+    public class XpCalculator : IXpCalculator
     {
         private XpTable xpTable = new XpTable();
 
@@ -13,7 +13,7 @@ namespace RpgMath
             var mod = xpTable.GetRank(archetype, level);
 
             long xp = 0;
-            for(var i = 0; i < level; ++i)
+            for (var i = 0; i < level; ++i)
             {
                 xp += mod * i * i / 10;
             }

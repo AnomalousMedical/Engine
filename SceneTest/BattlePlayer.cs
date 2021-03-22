@@ -191,7 +191,7 @@ namespace SceneTest
 
             if (sharpGui.Button(attackButton))
             {
-                battleManager.Attack();
+                battleManager.Attack(this.characterSheet);
             }
 
             if (sharpGui.Button(magicButton))

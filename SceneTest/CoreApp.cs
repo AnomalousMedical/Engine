@@ -58,6 +58,7 @@ namespace SceneTest
                 o.EventLayer = EventLayers.Exploration;
             });
             services.AddBepuPlugin();
+            services.AddRpgMath();
 
             //Add this app's services
             services.AddSingleton<SceneTestUpdateListener>();
@@ -110,6 +111,11 @@ namespace SceneTest
                         Level = 1,
                         CurrentHp = arch.Hp,
                         CurrentMp = arch.Mp,
+                        MainHand = new Equipment()
+                        {
+                            AttackPercent = 100,
+                            Attack = 18
+                        }
                     });
                 }
 
@@ -122,6 +128,11 @@ namespace SceneTest
                         Level = 1,
                         CurrentHp = arch.Hp,
                         CurrentMp = arch.Mp,
+                        MainHand = new Equipment()
+                        {
+                            AttackPercent = 100,
+                            Attack = 18
+                        }
                     });
                 }
 
@@ -134,6 +145,11 @@ namespace SceneTest
                         Level = 1,
                         CurrentHp = arch.Hp,
                         CurrentMp = arch.Mp,
+                        MainHand = new Equipment()
+                        {
+                            AttackPercent = 100,
+                            Attack = 18
+                        }
                     });
                 }
 
@@ -146,6 +162,11 @@ namespace SceneTest
                         Level = 1,
                         CurrentHp = arch.Hp,
                         CurrentMp = arch.Mp,
+                        MainHand = new Equipment()
+                        {
+                            AttackPercent = 100,
+                            Attack = 18
+                        }
                     });
                 }
 

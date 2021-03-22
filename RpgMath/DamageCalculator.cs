@@ -2,7 +2,7 @@
 
 namespace RpgMath
 {
-    public class DamageCalculator
+    public class DamageCalculator : IDamageCalculator
     {
         private Random random = new Random();
 
@@ -17,14 +17,14 @@ namespace RpgMath
             long hitPct = ((attacker.Dexterity / 4L) + attacker.AttackPercent) + attacker.DefensePercent - target.DefensePercent;
             long luckRoll = (long)random.Next(100);
             //Lucky hit
-            if(luckRoll < attacker.Luck / 4)
+            if (luckRoll < attacker.Luck / 4)
             {
                 hitPct = 255;
             }
             else if (target.AllowLuckyEvade)
             {
                 long evadeChance = target.Luck / 4 - attacker.Luck / 4;
-                if(luckRoll < evadeChance)
+                if (luckRoll < evadeChance)
                 {
                     hitPct = 0;
                 }
@@ -58,7 +58,7 @@ namespace RpgMath
         public bool MagicalHit(IBattleStats attacker, IBattleStats target, Resistance resistance, long magicAttackPercent)
         {
             long dodgeRoll = (long)random.Next(100);
-            if(dodgeRoll < target.MagicDefensePercent)
+            if (dodgeRoll < target.MagicDefensePercent)
             {
                 return false;
             }
@@ -152,7 +152,7 @@ namespace RpgMath
             {
                 //damage < 0 means healing, if we end up with less hp it overflowed, max out hp by returning maxHp
                 //Also cap newHp at maxHp
-                if(newHp < currentHp || newHp > maxHp)
+                if (newHp < currentHp || newHp > maxHp)
                 {
                     newHp = maxHp;
                 }
@@ -161,7 +161,7 @@ namespace RpgMath
             {
                 //damage > 0 means damage, if we end up with more hp the target is dead
                 //Also cap new hp at 0
-                if(newHp > currentHp || newHp < 0)
+                if (newHp > currentHp || newHp < 0)
                 {
                     newHp = 0;
                 }

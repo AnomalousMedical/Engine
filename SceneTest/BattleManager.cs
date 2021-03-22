@@ -19,6 +19,7 @@ namespace SceneTest
         private readonly CameraMover cameraMover;
         private readonly ILevelManager levelManager;
         private readonly Party party;
+        private readonly IDamageCalculator damageCalculator;
         private readonly IObjectResolver objectResolver;
         private BattleArena battleArena;
 
@@ -33,7 +34,8 @@ namespace SceneTest
             IObjectResolverFactory objectResolverFactory,
             CameraMover cameraMover,
             ILevelManager levelManager,
-            Party party)
+            Party party,
+            IDamageCalculator damageCalculator)
         {
             this.eventManager = eventManager;
             this.sharpGui = sharpGui;
@@ -41,6 +43,7 @@ namespace SceneTest
             this.cameraMover = cameraMover;
             this.levelManager = levelManager;
             this.party = party;
+            this.damageCalculator = damageCalculator;
             this.objectResolver = objectResolverFactory.Create();
 
             levelManager.LevelChanged += LevelManager_LevelChanged;
@@ -152,14 +155,26 @@ namespace SceneTest
             });
         }
 
-        internal void Attack()
+        internal void Attack(IBattleStats attacker)
         {
             var enemy = enemies[0];
-            enemy.RequestDestruction();
-            enemies.Remove(enemy);
-            if(enemies.Count == 0)
+            var target = enemy.BattleStats;
+
+            if(damageCalculator.PhysicalHit(attacker, target))
             {
-                this.SetActive(false);
+                var damage = damageCalculator.Physical(attacker, target, 16);
+                damage = damageCalculator.RandomVariation(damage);
+                Console.WriteLine(damage);
+                target.CurrentHp = damageCalculator.ApplyDamage(damage, target.CurrentHp, target.Hp);
+                if(target.CurrentHp <= 0)
+                {
+                    enemy.RequestDestruction();
+                    enemies.Remove(enemy);
+                    if (enemies.Count == 0)
+                    {
+                        this.SetActive(false);
+                    }
+                }
             }
         }
     }

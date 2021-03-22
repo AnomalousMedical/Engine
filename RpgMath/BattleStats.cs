@@ -8,6 +8,14 @@ namespace RpgMath
 {
     public class BattleStats : IBattleStats
     {
+        public long Hp { get; set; }
+
+        public long Mp { get; set; }
+
+        public long CurrentHp { get; set; }
+
+        public long CurrentMp { get; set; }
+
         public long Attack { get; set; }
 
         public long AttackPercent { get; set; }

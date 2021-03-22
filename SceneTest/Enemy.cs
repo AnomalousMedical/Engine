@@ -4,6 +4,7 @@ using DiligentEngine.GltfPbr.Shapes;
 using Engine;
 using Engine.Platform;
 using FreeImageAPI;
+using RpgMath;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,8 @@ namespace SceneTest
 
             public SpriteMaterialDescription SpriteMaterial { get; set; }
 
+            public BattleStats BattleStats { get; set; }
+
             public static void MakeTinyDino(Desc desc, String skinMaterial = "cc0Textures/Leather008_1K", String spineMaterial = "cc0Textures/SheetMetal004_1K")
             {
                 desc.Sprite = new Sprite() { BaseScale = new Vector3(1.466666666666667f, 1, 1) };
@@ -32,6 +35,22 @@ namespace SceneTest
                         new SpriteMaterialTextureItem(0xffff0000, spineMaterial, "jpg"),//Spines (red)
                     }
                 );
+                desc.BattleStats = new BattleStats()
+                {
+                    Hp = 314,
+                    Mp = 54,
+                    CurrentHp = 314,
+                    CurrentMp = 54,
+                    Attack = 20,
+                    AttackPercent = 95,
+                    Defense = 16,
+                    MagicAttack = 19,
+                    MagicDefensePercent = 0,
+                    MagicDefense = 17,
+                    Dexterity = 6,
+                    Luck = 14,
+                    Level = 1,
+                };
             }
 
             public static void MakeSkeleton(Desc desc)
@@ -47,6 +66,22 @@ namespace SceneTest
                         new SpriteMaterialTextureItem(0xffefefef, "cc0Textures/Rock022_1K", "jpg"),//Bone (almost white)
                     }
                 );
+                desc.BattleStats = new BattleStats()
+                {
+                    Hp = 314,
+                    Mp = 54,
+                    CurrentHp = 314,
+                    CurrentMp = 54,
+                    Attack = 20,
+                    AttackPercent = 95,
+                    Defense = 16,
+                    MagicAttack = 19,
+                    MagicDefensePercent = 0,
+                    MagicDefense = 17,
+                    Dexterity = 6,
+                    Luck = 14,
+                    Level = 1,
+                };
             }
         }
 
@@ -74,6 +109,7 @@ namespace SceneTest
             this.spriteMaterialManager = spriteMaterialManager;
 
             this.sprite = description.Sprite;
+            this.BattleStats = description.BattleStats ?? throw new InvalidOperationException("You must include battle stats in an enemy description.");
 
             sceneObject = new SceneObject()
             {
@@ -124,5 +160,7 @@ namespace SceneTest
             sceneObjectManager.Remove(sceneObject);
             spriteMaterialManager.TryReturn(spriteMaterial);
         }
+
+        public BattleStats BattleStats { get; }
     }
 }
