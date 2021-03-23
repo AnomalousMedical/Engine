@@ -25,8 +25,17 @@ namespace Anomalous.OSPlatform.Win32
         [DllImport("user32.dll", SetLastError = true)]
         static extern bool SetProcessDPIAware();
 
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        static extern ExecutionState SetThreadExecutionState(ExecutionState esFlags);
+
+        /// <summary>
+        /// This should be called from the main thread right as the program starts.
+        /// </summary>
         public static void Initialize()
         {
+            //Important that this is called on the main thread so the state remains until the app is closed
+            SetThreadExecutionState(ExecutionState.ES_CONTINUOUS | ExecutionState.ES_DISPLAY_REQUIRED);
+
             SetProcessDPIAware();
 
             new WindowsRuntimePlatformInfo();
