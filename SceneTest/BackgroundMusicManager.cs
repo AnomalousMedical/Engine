@@ -42,7 +42,7 @@ namespace SceneTest
 
             if (songFile == null)
             {
-                if (bgMusicSound != null)
+                if (bgMusicSound != null && !bgMusicSound.Source.Playing)
                 {
                     bgMusicSound.Source.resume();
                 }
