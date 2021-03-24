@@ -24,6 +24,7 @@ namespace SceneTest
 
         private Player player;
         private IObjectResolver objectResolver;
+        private readonly IBackgroundMusicManager backgroundMusicManager;
 
         public event Action<ILevelManager> LevelChanged;
 
@@ -31,12 +32,18 @@ namespace SceneTest
 
         public Level CurrentLevel => currentLevel;
 
-        public LevelManager(Desc description, IObjectResolverFactory objectResolverFactory)
+        public LevelManager(
+            Desc description, 
+            IObjectResolverFactory objectResolverFactory,
+            IBackgroundMusicManager backgroundMusicManager)
         {
             objectResolver = objectResolverFactory.Create();
             levelRandom = new Random(description.RandomSeed);
             createdLevelSeeds.Add(levelRandom.Next(int.MinValue, int.MaxValue));
             createdLevelSeeds.Add(levelRandom.Next(int.MinValue, int.MaxValue));
+
+            backgroundMusicManager.SetBackgroundSong("freepd/Rafael Krux - The Range-10.ogg");
+            this.backgroundMusicManager = backgroundMusicManager;
         }
 
         public async Task Initialize()

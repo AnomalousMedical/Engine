@@ -20,6 +20,8 @@ namespace SceneTest
         private readonly ILevelManager levelManager;
         private readonly Party party;
         private readonly IDamageCalculator damageCalculator;
+        private readonly IBackgroundMusicManager backgroundMusicManager;
+        private readonly IScreenPositioner screenPositioner;
         private readonly IObjectResolver objectResolver;
         private BattleArena battleArena;
 
@@ -35,7 +37,9 @@ namespace SceneTest
             CameraMover cameraMover,
             ILevelManager levelManager,
             Party party,
-            IDamageCalculator damageCalculator)
+            IDamageCalculator damageCalculator,
+            IBackgroundMusicManager backgroundMusicManager,
+            IScreenPositioner screenPositioner)
         {
             this.eventManager = eventManager;
             this.sharpGui = sharpGui;
@@ -44,6 +48,8 @@ namespace SceneTest
             this.levelManager = levelManager;
             this.party = party;
             this.damageCalculator = damageCalculator;
+            this.backgroundMusicManager = backgroundMusicManager;
+            this.screenPositioner = screenPositioner;
             this.objectResolver = objectResolverFactory.Create();
 
             levelManager.LevelChanged += LevelManager_LevelChanged;
@@ -99,6 +105,8 @@ namespace SceneTest
                 this.Active = active;
                 if (active)
                 {
+                    backgroundMusicManager.SetBattleTrack("freepd/Rafael Krux - Hit n Smash.ogg");
+
                     eventManager[EventLayers.Battle].OnUpdate += eventManager_OnUpdate;
                     cameraMover.Position = new Vector3(-1.0354034f, 2.958224f, -12.394701f);
                     cameraMover.Orientation = new Quaternion(0.057467595f, 0.0049917176f, -0.00028734046f, 0.9983348f);
@@ -106,6 +114,8 @@ namespace SceneTest
                 }
                 else
                 {
+                    backgroundMusicManager.SetBattleTrack(null);
+
                     foreach (var player in players)
                     {
                         player.RequestDestruction();
@@ -121,20 +131,26 @@ namespace SceneTest
 
         public void UpdateGui()
         {
-            //var layout =
-            //    new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
-            //    new MaxWidthLayout(scaleHelper.Scaled(300),
-            //    new ColumnLayout(endBattle) { Margin = new IntPad(10) }
-            //    ));
-            //var desiredSize = layout.GetDesiredSize(sharpGui);
-            //layout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
+            if (enemies.Count == 0)
+            {
+                var layout =
+                    new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
+                    new MaxWidthLayout(scaleHelper.Scaled(300),
+                    new ColumnLayout(endBattle) { Margin = new IntPad(10) }
+                    ));
+                var desiredSize = layout.GetDesiredSize(sharpGui);
 
-            //if (sharpGui.Button(endBattle))
-            //{
-            //    this.SetActive(false);
-            //}
+                layout.SetRect(screenPositioner.GetBottomRightRect(desiredSize));
 
-            players[0].UpdateGui(sharpGui);
+                if (sharpGui.Button(endBattle))
+                {
+                    this.SetActive(false);
+                }
+            }
+            else
+            {
+                players[0].UpdateGui(sharpGui);
+            }
         }
 
         public bool Active { get; private set; }
@@ -172,7 +188,7 @@ namespace SceneTest
                     enemies.Remove(enemy);
                     if (enemies.Count == 0)
                     {
-                        this.SetActive(false);
+                        backgroundMusicManager.SetBattleTrack("freepd/Alexander Nakarada - Fanfare X.ogg");
                     }
                 }
             }

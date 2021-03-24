@@ -48,12 +48,10 @@ namespace SceneTest
         private readonly Sky sky;
         private readonly IBattleManager battleManager;
         private readonly IObjectResolver objectResolver;
-        private SoundAndSource bgMusicSound;
 
         private PbrRenderer pbrRenderer;
         private AutoPtr<ITextureView> environmentMapSRV;
 
-        SharpButton playMusic = new SharpButton() { Text = "Play Music" };
         SharpButton goNextLevel = new SharpButton() { Text = "Next Level" };
         SharpButton goPreviousLevel = new SharpButton() { Text = "Previous Level" };
         SharpButton toggleCamera = new SharpButton() { Text = "Toggle Camera" };
@@ -120,7 +118,6 @@ namespace SceneTest
         public void Dispose()
         {
             objectResolver.Dispose();
-            bgMusicSound?.Dispose();
             environmentMapSRV.Dispose();
         }
 
@@ -148,25 +145,18 @@ namespace SceneTest
             var layout =
                 new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
                 new MaxWidthLayout(scaleHelper.Scaled(300),
-                new ColumnLayout(battle, playMusic, goNextLevel, goPreviousLevel, toggleCamera) { Margin = new IntPad(10) }
+                new ColumnLayout(battle, goNextLevel, goPreviousLevel, toggleCamera) { Margin = new IntPad(10) }
                 ));
             var desiredSize = layout.GetDesiredSize(sharpGui);
             layout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
 
-            if (sharpGui.Button(battle, navUp: toggleCamera.Id, navDown: playMusic.Id))
+            if (sharpGui.Button(battle, navUp: toggleCamera.Id, navDown: goNextLevel.Id))
             {
-                //PlaySong("freepd/Rafael Krux - Hit n Smash.ogg");
                 battleManager.SetupBattle();
                 battleManager.SetActive(true);
             }
 
-            //Buttons
-            if (sharpGui.Button(playMusic, navUp: battle.Id, navDown: goNextLevel.Id))
-            {
-                PlaySong("freepd/Rafael Krux - The Range-10.ogg");
-            }
-
-            if (!levelManager.ChangingLevels && sharpGui.Button(goNextLevel, navUp: playMusic.Id, navDown: goPreviousLevel.Id))
+            if (!levelManager.ChangingLevels && sharpGui.Button(goNextLevel, navUp: battle.Id, navDown: goPreviousLevel.Id))
             {
                 coroutineRunner.RunTask(levelManager.GoNextLevel());
             }
@@ -188,14 +178,6 @@ namespace SceneTest
             }
             var time = TimeSpan.FromMilliseconds(timeClock.CurrentTimeMicro * Clock.MicroToMilliseconds);
             sharpGui.Text(currentHour.Rect.Right, currentHour.Rect.Top, timeClock.IsDay ? Engine.Color.Black : Engine.Color.White, $"Time: {time}");
-        }
-
-        private void PlaySong(String songFile)
-        {
-            bgMusicSound?.Dispose();
-            var stream = virtualFileSystem.openStream(songFile, FileMode.Open, FileAccess.Read, FileShare.Read);
-            bgMusicSound = soundManager.StreamPlaySound(stream);
-            bgMusicSound.Sound.Repeat = true;
         }
 
         private void UpdateSprites(Clock clock)

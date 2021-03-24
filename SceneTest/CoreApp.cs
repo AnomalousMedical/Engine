@@ -98,6 +98,7 @@ namespace SceneTest
             services.AddSingleton<IBiomeManager, BiomeManager>();
             services.AddSingleton<CameraMover>();
             services.AddSingleton<ICollidableTypeIdentifier, CollidableTypeIdentifier>();
+            services.AddSingleton<IBackgroundMusicManager, BackgroundMusicManager>();
             services.AddSingleton<Party>(s =>
             {
                 //Hardcoded to new every time, but this needs to be managed somehow
