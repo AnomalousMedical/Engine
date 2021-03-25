@@ -13,27 +13,60 @@ namespace SceneTest
     {
         private readonly VirtualFileSystem virtualFileSystem;
         private readonly SoundManager soundManager;
+        private readonly ICoroutineRunner coroutineRunner;
         private SoundAndSource bgMusicSound;
         private SoundAndSource battleMusicSound;
+        private bool bgMusicFinished = false;
+        private String currentBackgroundSong;
 
-        public BackgroundMusicManager(VirtualFileSystem virtualFileSystem, SoundManager soundManager)
+        public BackgroundMusicManager(
+            VirtualFileSystem virtualFileSystem, 
+            SoundManager soundManager,
+            ICoroutineRunner coroutineRunner)
         {
             this.virtualFileSystem = virtualFileSystem;
             this.soundManager = soundManager;
+            this.coroutineRunner = coroutineRunner;
         }
 
         public void Dispose()
         {
-            bgMusicSound?.Dispose();
+            DisposeBgSound();
             battleMusicSound?.Dispose();
+        }
+
+        private void DisposeBgSound()
+        {
+            if (bgMusicSound != null)
+            {
+                bgMusicSound.Source.PlaybackFinished -= BgMusic_PlaybackFinished;
+                bgMusicSound?.Dispose();
+            }
         }
 
         public void SetBackgroundSong(String songFile)
         {
-            bgMusicSound?.Dispose();
+            DisposeBgSound();
             var stream = virtualFileSystem.openStream(songFile, FileMode.Open, FileAccess.Read, FileShare.Read);
             bgMusicSound = soundManager.StreamPlaySound(stream);
             bgMusicSound.Sound.Repeat = true;
+            bgMusicSound.Source.PlaybackFinished += BgMusic_PlaybackFinished;
+            bgMusicFinished = false;
+            currentBackgroundSong = songFile;
+        }
+
+        private void BgMusic_PlaybackFinished(Source source)
+        {
+            bgMusicFinished = true;
+            IEnumerator<YieldAction> co()
+            {
+                yield return coroutineRunner.WaitSeconds(0);
+                if (bgMusicFinished) //Double check that the song was not changed.
+                {
+                    SetBackgroundSong(currentBackgroundSong);
+                }
+            }
+            coroutineRunner.Run(co());
         }
 
         public void SetBattleTrack(String songFile)
@@ -42,7 +75,7 @@ namespace SceneTest
 
             if (songFile == null)
             {
-                if (bgMusicSound != null && !bgMusicSound.Source.Playing)
+                if (bgMusicSound != null && !bgMusicFinished && !bgMusicSound.Source.Playing)
                 {
                     bgMusicSound.Source.resume();
                 }

@@ -42,7 +42,7 @@ namespace SceneTest
             createdLevelSeeds.Add(levelRandom.Next(int.MinValue, int.MaxValue));
             createdLevelSeeds.Add(levelRandom.Next(int.MinValue, int.MaxValue));
 
-            backgroundMusicManager.SetBackgroundSong("freepd/Rafael Krux - The Range-10.ogg");
+            backgroundMusicManager.SetBackgroundSong("freepd/Rafael Krux - Black Knight.ogg");
             this.backgroundMusicManager = backgroundMusicManager;
         }
 
