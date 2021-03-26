@@ -68,6 +68,11 @@ namespace SceneTest
         private Vector3 cameraOffset = new Vector3(0, 3, -12);
         private Quaternion cameraAngle = new Quaternion(Vector3.Left, -MathF.PI / 14f);
 
+        private System.Numerics.Vector2 movementDir;
+        private const float MovingBoundary = 0.001f;
+        public bool IsMoving => !(movementDir.X < MovingBoundary && movementDir.X > -MovingBoundary
+                             && movementDir.Y < MovingBoundary && movementDir.Y > -MovingBoundary);
+
         public Player(
             SceneObjectManager<ILevelManager> sceneObjectManager,
             SpriteManager sprites,
@@ -375,7 +380,7 @@ namespace SceneTest
             this.characterMover.SetVelocity(new System.Numerics.Vector3(0f, 0f, 0f));
         }
 
-        internal void RequestDestruction()
+        public void RequestDestruction()
         {
             destructionRequest.RequestDestruction();
         }
@@ -405,6 +410,7 @@ namespace SceneTest
             {
                 sprite.SetAnimation("left");
             }
+            this.movementDir = movementDir;
         }
 
         private void EventLayer_OnUpdate(EventLayer eventLayer)

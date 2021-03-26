@@ -32,6 +32,8 @@ namespace SceneTest
 
         public Level CurrentLevel => currentLevel;
 
+        public bool IsPlayerMoving => player?.IsMoving == true;
+
         public LevelManager(
             Desc description, 
             IObjectResolverFactory objectResolverFactory,

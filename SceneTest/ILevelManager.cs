@@ -10,6 +10,7 @@ namespace SceneTest
 
         bool ChangingLevels { get; }
         Level CurrentLevel { get; }
+        bool IsPlayerMoving { get; }
 
         Task GoNextLevel();
         Task GoPreviousLevel();

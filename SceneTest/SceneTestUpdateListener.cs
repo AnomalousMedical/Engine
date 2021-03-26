@@ -59,6 +59,12 @@ namespace SceneTest
         SharpSliderHorizontal currentHour;
 
         private bool useFirstPersonCamera = false;
+        private bool showDebugGui = false;
+
+        private int dangerCounter = 0;
+        private long dangerCounterAccumulator = 0;
+        private const long DangerCounterTick = Clock.SecondsToMicro / 3;
+        private Random battleRandom = new Random();
 
         public unsafe SceneTestUpdateListener(
             GraphicsEngine graphicsEngine,
@@ -152,8 +158,7 @@ namespace SceneTest
 
             if (sharpGui.Button(battle, navUp: toggleCamera.Id, navDown: goNextLevel.Id))
             {
-                battleManager.SetupBattle();
-                battleManager.SetActive(true);
+                StartBattle();
             }
 
             if (!levelManager.ChangingLevels && sharpGui.Button(goNextLevel, navUp: battle.Id, navDown: goPreviousLevel.Id))
@@ -180,6 +185,12 @@ namespace SceneTest
             sharpGui.Text(currentHour.Rect.Right, currentHour.Rect.Top, timeClock.IsDay ? Engine.Color.Black : Engine.Color.White, $"Time: {time}");
         }
 
+        private void StartBattle()
+        {
+            battleManager.SetupBattle();
+            battleManager.SetActive(true);
+        }
+
         private void UpdateSprites(Clock clock)
         {
             foreach (var sprite in sprites)
@@ -202,9 +213,13 @@ namespace SceneTest
             }
             else
             {
+                UpdateRandomEncounter(clock);
                 sceneObjects = levelSceneObjects;
                 bepuScene.Update(clock, new System.Numerics.Vector3(0, 0, 1));
-                UpdateDebugGui();
+                if (showDebugGui)
+                {
+                    UpdateDebugGui();
+                }
             }
             sharpGui.End();
             sky.UpdateLight(clock);
@@ -276,6 +291,35 @@ namespace SceneTest
             RenderGui();
 
             this.swapChain.Present(1);
+        }
+
+        private unsafe void UpdateRandomEncounter(Clock clock)
+        {
+            dangerCounterAccumulator += clock.DeltaTimeMicro;
+            if (dangerCounterAccumulator > DangerCounterTick)
+            {
+                dangerCounterAccumulator -= DangerCounterTick;
+                if (levelManager.IsPlayerMoving)
+                {
+                    dangerCounter += 4096 / 64; //This will be encounter value
+                    Console.WriteLine(dangerCounter);
+                    int battleChance = battleRandom.Next(256);
+                    var check = dangerCounter / 256;
+                    if (battleChance < check)
+                    {
+                        IEnumerator<YieldAction> co()
+                        {
+                            StartBattle();
+                            dangerCounter = 0;
+                            Console.WriteLine("Battle started");
+                            yield break;
+                        }
+
+                        coroutineRunner.Queue(co());
+                    }
+                }
+
+            }
         }
 
         private void RenderGui()
