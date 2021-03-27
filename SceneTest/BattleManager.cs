@@ -16,44 +16,6 @@ namespace SceneTest
     {
         const long NumberDisplayTime = (long)(0.9f * Clock.SecondsToMicro);
 
-        class BattleNumber
-        {
-            public BattleNumber(string number, long timeRemaining, Vector2 position, IScaleHelper scaleHelper)
-            {
-                this.StartPosition = position;
-                this.EndPosition = position + new Vector2(0, scaleHelper.Scaled(-15));
-                TimeRemaining = timeRemaining;
-                HalfDuration = timeRemaining / 2;
-                this.Text = new SharpText(number.ToString()) { Rect = new IntRect(0, 0, 10000, 10000) };
-                UpdatePosition();
-            }
-
-            public void UpdatePosition()
-            {
-                Vector2 position;
-                if (TimeRemaining > HalfDuration)
-                {
-                    position = StartPosition.lerp(EndPosition, 1f - (float)TimeRemaining / HalfDuration);
-                }
-                else
-                {
-                    position = EndPosition.lerp(StartPosition, 1f - (float)(TimeRemaining - HalfDuration) / HalfDuration);
-                }
-                this.Text.Rect.Left = (int)position.x;
-                this.Text.Rect.Top = (int)position.y;
-            }
-
-            public long HalfDuration { get; }
-
-            public long TimeRemaining { get; set; }
-
-            public Vector2 EndPosition { get; }
-
-            public Vector2 StartPosition { get; }
-
-            public SharpText Text { get; }
-        }
-
         private readonly EventManager eventManager;
         private readonly ISharpGui sharpGui;
         private readonly IScaleHelper scaleHelper;
@@ -71,7 +33,7 @@ namespace SceneTest
 
         private List<Enemy> enemies = new List<Enemy>(20);
         private List<BattlePlayer> players = new List<BattlePlayer>(4);
-        private List<BattleNumber> numbers = new List<BattleNumber>(10);
+        private List<DamageNumber> numbers = new List<DamageNumber>(10);
 
         public BattleManager(EventManager eventManager,
             ISharpGui sharpGui,
@@ -246,7 +208,7 @@ namespace SceneTest
 
                 var damage = damageCalculator.Physical(attacker, target, 16);
                 damage = damageCalculator.RandomVariation(damage);
-                numbers.Add(new BattleNumber(damage.ToString(), NumberDisplayTime, screenPos, scaleHelper));
+                numbers.Add(new DamageNumber(damage.ToString(), NumberDisplayTime, screenPos, scaleHelper));
                 target.CurrentHp = damageCalculator.ApplyDamage(damage, target.CurrentHp, target.Hp);
                 if (target.CurrentHp <= 0)
                 {
