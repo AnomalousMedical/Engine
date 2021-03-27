@@ -41,17 +41,21 @@ namespace SceneTest
             {
                 bgMusicSound.Source.PlaybackFinished -= BgMusic_PlaybackFinished;
                 bgMusicSound?.Dispose();
+                bgMusicSound = null;
             }
         }
 
         public void SetBackgroundSong(String songFile)
         {
             DisposeBgSound();
-            var stream = virtualFileSystem.openStream(songFile, FileMode.Open, FileAccess.Read, FileShare.Read);
-            bgMusicSound = soundManager.StreamPlaySound(stream);
-            bgMusicSound.Sound.Repeat = true;
-            bgMusicSound.Source.PlaybackFinished += BgMusic_PlaybackFinished;
-            bgMusicFinished = false;
+            if (battleMusicSound == null && songFile != null)
+            {
+                var stream = virtualFileSystem.openStream(songFile, FileMode.Open, FileAccess.Read, FileShare.Read);
+                bgMusicSound = soundManager.StreamPlaySound(stream);
+                bgMusicSound.Sound.Repeat = true;
+                bgMusicSound.Source.PlaybackFinished += BgMusic_PlaybackFinished;
+                bgMusicFinished = false;
+            }
             currentBackgroundSong = songFile;
         }
 
@@ -72,12 +76,18 @@ namespace SceneTest
         public void SetBattleTrack(String songFile)
         {
             battleMusicSound?.Dispose();
+            battleMusicSound = null;
 
             if (songFile == null)
             {
                 if (bgMusicSound != null && !bgMusicFinished && !bgMusicSound.Source.Playing)
                 {
                     bgMusicSound.Source.resume();
+                }
+                else if (bgMusicSound == null && currentBackgroundSong != null)
+                {
+                    //If we should play a song, but it hasn't started yet, this would happen if the bg music changes during a battle.
+                    SetBackgroundSong(currentBackgroundSong);
                 }
             }
             else
