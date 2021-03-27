@@ -27,7 +27,7 @@ namespace SceneTest
             return new Vector2
             (
                 (clipPos.x + 1f) / 2f * osWindow.WindowWidth,
-                (clipPos.y + 1f) / 2f * osWindow.WindowHeight
+                (1f - (clipPos.y + 1f) / 2f) * osWindow.WindowHeight
             );
         }
     }
