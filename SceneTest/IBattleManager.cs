@@ -1,4 +1,6 @@
-﻿namespace SceneTest
+﻿using Engine.Platform;
+
+namespace SceneTest
 {
     interface IBattleManager
     {
@@ -6,6 +8,6 @@
 
         void SetActive(bool active);
         void SetupBattle();
-        void UpdateGui();
+        void UpdateGui(Clock clock);
     }
 }

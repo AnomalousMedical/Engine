@@ -1,4 +1,5 @@
 ﻿using Anomalous.OSPlatform;
+using DiligentEngine.GltfPbr;
 using Engine;
 using Engine.Platform;
 using RpgMath;
@@ -13,6 +14,21 @@ namespace SceneTest
 {
     class BattleManager : IDisposable, IBattleManager
     {
+        const long NumberDisplayTime = (long)(1f / 4f * Clock.SecondsToMicro);
+
+        class BattleNumber
+        {
+            public BattleNumber(string number, long timeRemaining, Vector2 position)
+            {
+                TimeRemaining = timeRemaining;
+                this.Text = new SharpText(number.ToString()) { Rect = new IntRect((int)position.x, (int)position.y, 10000, 10000) };
+            }
+
+            public long TimeRemaining { get; set; }
+
+            public SharpText Text { get; set; }
+        }
+
         private readonly EventManager eventManager;
         private readonly ISharpGui sharpGui;
         private readonly IScaleHelper scaleHelper;
@@ -22,13 +38,15 @@ namespace SceneTest
         private readonly IDamageCalculator damageCalculator;
         private readonly IBackgroundMusicManager backgroundMusicManager;
         private readonly IScreenPositioner screenPositioner;
+        private readonly ICameraProjector cameraProjector;
         private readonly IObjectResolver objectResolver;
         private BattleArena battleArena;
 
         private SharpButton endBattle = new SharpButton() { Text = "End Battle" };
 
-        private List<Enemy> enemies = new List<Enemy>();
-        private List<BattlePlayer> players = new List<BattlePlayer>();
+        private List<Enemy> enemies = new List<Enemy>(20);
+        private List<BattlePlayer> players = new List<BattlePlayer>(4);
+        private List<BattleNumber> numbers = new List<BattleNumber>(10);
 
         public BattleManager(EventManager eventManager,
             ISharpGui sharpGui,
@@ -39,7 +57,8 @@ namespace SceneTest
             Party party,
             IDamageCalculator damageCalculator,
             IBackgroundMusicManager backgroundMusicManager,
-            IScreenPositioner screenPositioner)
+            IScreenPositioner screenPositioner,
+            ICameraProjector cameraProjector)
         {
             this.eventManager = eventManager;
             this.sharpGui = sharpGui;
@@ -50,6 +69,7 @@ namespace SceneTest
             this.damageCalculator = damageCalculator;
             this.backgroundMusicManager = backgroundMusicManager;
             this.screenPositioner = screenPositioner;
+            this.cameraProjector = cameraProjector;
             this.objectResolver = objectResolverFactory.Create();
 
             levelManager.LevelChanged += LevelManager_LevelChanged;
@@ -105,6 +125,8 @@ namespace SceneTest
                 this.Active = active;
                 if (active)
                 {
+                    numbers.Clear();
+
                     backgroundMusicManager.SetBattleTrack("freepd/Rafael Krux - Hit n Smash.ogg");
 
                     eventManager[EventLayers.Battle].OnUpdate += eventManager_OnUpdate;
@@ -129,7 +151,7 @@ namespace SceneTest
             }
         }
 
-        public void UpdateGui()
+        public void UpdateGui(Clock clock)
         {
             if (enemies.Count == 0)
             {
@@ -150,6 +172,21 @@ namespace SceneTest
             else
             {
                 players[0].UpdateGui(sharpGui);
+
+                for (var i = 0; i < numbers.Count;)
+                {
+                    var number = numbers[i];
+                    sharpGui.Text(number.Text);
+                    number.TimeRemaining -= clock.DeltaTimeMicro;
+                    if(number.TimeRemaining < 0)
+                    {
+                        numbers.RemoveAt(i);
+                    }
+                    else
+                    {
+                        ++i;
+                    }
+                }
             }
         }
 
@@ -171,16 +208,19 @@ namespace SceneTest
             });
         }
 
-        internal void Attack(IBattleStats attacker)
+        public void Attack(IBattleStats attacker)
         {
             var enemy = enemies[0];
             var target = enemy.BattleStats;
 
             if(damageCalculator.PhysicalHit(attacker, target))
             {
+                var enemyPos = enemy.Position - cameraMover.SceneCenter;
+                var screenPos = cameraProjector.Project(enemyPos);
+
                 var damage = damageCalculator.Physical(attacker, target, 16);
                 damage = damageCalculator.RandomVariation(damage);
-                Console.WriteLine(damage);
+                numbers.Add(new BattleNumber(damage.ToString(), NumberDisplayTime, screenPos));
                 target.CurrentHp = damageCalculator.ApplyDamage(damage, target.CurrentHp, target.Hp);
                 if(target.CurrentHp <= 0)
                 {

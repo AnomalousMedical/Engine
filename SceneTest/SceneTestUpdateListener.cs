@@ -59,7 +59,7 @@ namespace SceneTest
         SharpSliderHorizontal currentHour;
 
         private bool useFirstPersonCamera = false;
-        private bool showDebugGui = false;
+        private bool showDebugGui = true;
 
         private int dangerCounter = 0;
         private long dangerCounterAccumulator = 0;
@@ -209,7 +209,7 @@ namespace SceneTest
             if (battleManager.Active)
             {
                 sceneObjects = battleSceneObjects;
-                battleManager.UpdateGui();
+                battleManager.UpdateGui(clock);
             }
             else
             {

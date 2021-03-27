@@ -73,8 +73,12 @@ namespace DiligentEngine.GltfPbr
         public IBuffer LightAttribs => m_LightAttribsCB.Obj;
         public IBuffer EnvMapRenderAttribs => m_EnvMapRenderAttribsCB.Obj;
 
+        public Matrix4x4 CurrentViewProj { get; private set; }
+
         public unsafe void SetCameraMatrices(in Matrix4x4 CameraProj, in Matrix4x4 CameraViewProj, in Vector3 CameraWorldPos)
         {
+            this.CurrentViewProj = CameraViewProj;
+
             IntPtr data = m_pImmediateContext.MapBuffer(m_CameraAttribsCB.Obj, MAP_TYPE.MAP_WRITE, MAP_FLAGS.MAP_FLAG_DISCARD);
 
             var CamAttribs = (CameraAttribs*)data.ToPointer();

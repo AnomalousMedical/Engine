@@ -164,5 +164,7 @@ namespace SceneTest
         }
 
         public BattleStats BattleStats { get; }
+
+        public Vector3 Position => sceneObject.position;
     }
 }

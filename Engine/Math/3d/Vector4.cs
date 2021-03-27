@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using System.Globalization;
 
 namespace Engine
 {
@@ -67,6 +68,16 @@ namespace Engine
         public static Vector4 operator *(float s, Vector4 v)
         {
             return v * s;
+        }
+
+        public static Vector4 operator /(Vector4 v, float s)
+        {
+            return v * (1.0f / s);
+        }
+
+        public override string ToString()
+        {
+            return String.Format(CultureInfo.InvariantCulture, "{0}, {1}, {2}, {3}", x, y, z, w);
         }
     }
 }

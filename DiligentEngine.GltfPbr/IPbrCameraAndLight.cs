@@ -7,6 +7,7 @@ namespace DiligentEngine.GltfPbr
         IBuffer CameraAttribs { get; }
         IBuffer LightAttribs { get; }
         IBuffer EnvMapRenderAttribs { get; }
+        Matrix4x4 CurrentViewProj { get; }
 
         /// <summary>
         /// Set the camera from a given position and rotation. Must include the pretransform and projection matrix as well.
