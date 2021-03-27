@@ -14,19 +14,44 @@ namespace SceneTest
 {
     class BattleManager : IDisposable, IBattleManager
     {
-        const long NumberDisplayTime = (long)(1f / 4f * Clock.SecondsToMicro);
+        const long NumberDisplayTime = (long)(0.9f * Clock.SecondsToMicro);
 
         class BattleNumber
         {
-            public BattleNumber(string number, long timeRemaining, Vector2 position)
+            public BattleNumber(string number, long timeRemaining, Vector2 position, IScaleHelper scaleHelper)
             {
+                this.StartPosition = position;
+                this.EndPosition = position + new Vector2(0, scaleHelper.Scaled(-15));
                 TimeRemaining = timeRemaining;
-                this.Text = new SharpText(number.ToString()) { Rect = new IntRect((int)position.x, (int)position.y, 10000, 10000) };
+                HalfDuration = timeRemaining / 2;
+                this.Text = new SharpText(number.ToString()) { Rect = new IntRect(0, 0, 10000, 10000) };
+                UpdatePosition();
             }
+
+            public void UpdatePosition()
+            {
+                Vector2 position;
+                if (TimeRemaining > HalfDuration)
+                {
+                    position = StartPosition.lerp(EndPosition, 1f - (float)TimeRemaining / HalfDuration);
+                }
+                else
+                {
+                    position = EndPosition.lerp(StartPosition, 1f - (float)(TimeRemaining - HalfDuration) / HalfDuration);
+                }
+                this.Text.Rect.Left = (int)position.x;
+                this.Text.Rect.Top = (int)position.y;
+            }
+
+            public long HalfDuration { get; }
 
             public long TimeRemaining { get; set; }
 
-            public SharpText Text { get; set; }
+            public Vector2 EndPosition { get; }
+
+            public Vector2 StartPosition { get; }
+
+            public SharpText Text { get; }
         }
 
         private readonly EventManager eventManager;
@@ -84,7 +109,7 @@ namespace SceneTest
         public void SetupBattle()
         {
             var currentZ = -2;
-            foreach(var member in party.ActiveCharacters)
+            foreach (var member in party.ActiveCharacters)
             {
                 players.Add(this.objectResolver.Resolve<BattlePlayer, BattlePlayer.Description>(c =>
                 {
@@ -178,7 +203,8 @@ namespace SceneTest
                     var number = numbers[i];
                     sharpGui.Text(number.Text);
                     number.TimeRemaining -= clock.DeltaTimeMicro;
-                    if(number.TimeRemaining < 0)
+                    number.UpdatePosition();
+                    if (number.TimeRemaining < 0)
                     {
                         numbers.RemoveAt(i);
                     }
@@ -213,16 +239,16 @@ namespace SceneTest
             var enemy = enemies[0];
             var target = enemy.BattleStats;
 
-            if(damageCalculator.PhysicalHit(attacker, target))
+            if (damageCalculator.PhysicalHit(attacker, target))
             {
-                var enemyPos = enemy.Position - cameraMover.SceneCenter;
+                var enemyPos = enemy.DamageDisplayLocation - cameraMover.SceneCenter;
                 var screenPos = cameraProjector.Project(enemyPos);
 
                 var damage = damageCalculator.Physical(attacker, target, 16);
                 damage = damageCalculator.RandomVariation(damage);
-                numbers.Add(new BattleNumber(damage.ToString(), NumberDisplayTime, screenPos));
+                numbers.Add(new BattleNumber(damage.ToString(), NumberDisplayTime, screenPos, scaleHelper));
                 target.CurrentHp = damageCalculator.ApplyDamage(damage, target.CurrentHp, target.Hp);
-                if(target.CurrentHp <= 0)
+                if (target.CurrentHp <= 0)
                 {
                     enemy.RequestDestruction();
                     enemies.Remove(enemy);

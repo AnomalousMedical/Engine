@@ -165,6 +165,6 @@ namespace SceneTest
 
         public BattleStats BattleStats { get; }
 
-        public Vector3 Position => sceneObject.position;
+        public Vector3 DamageDisplayLocation => sceneObject.position + new Vector3(0.5f * sceneObject.scale.x, 0.5f * sceneObject.scale.y, 0f);
     }
 }

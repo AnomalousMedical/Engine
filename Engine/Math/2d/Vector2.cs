@@ -124,6 +124,12 @@ namespace Engine
             return obj.GetType() == typeof(Vector2) && this == (Vector2)obj;
         }
 
+        public Vector2 lerp(in Vector2 v, float t)
+        {
+            return new Vector2(x + (v.x - x) * t,
+                y + (v.y - y) * t);
+        }
+
         /// <summary>
         /// Hash code function.
         /// </summary>

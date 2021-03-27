@@ -292,25 +292,12 @@ namespace Engine
 	    /// <param name="v0">The source vector.</param>
 	    /// <param name="v1">The destination vector.</param>
 	    /// <param name="rt">The amount to interpolate.</param>
-        public void setInterpolate3(ref Vector3 v0, ref Vector3 v1, float rt)
+        public void setInterpolate3(in Vector3 v0, in Vector3 v1, float rt)
 	    {
 		    float s = 1.0f - rt;
 		    x = s * v0.x + rt * v1.x;
 		    y = s * v0.y + rt * v1.y;
 		    z = s * v0.z + rt * v1.z;
-	    }
-
-	    /// <summary>
-	    /// Liner interpolation between this vector and v over t
-	    /// </summary>
-	    /// <param name="v">Destination vector</param>
-	    /// <param name="t">Time factor 0-1</param>
-	    /// <returns></returns>
-        public Vector3 lerp(ref Vector3 v, ref float t)  
-	    {
-		    return new Vector3(x + (v.x - x) * t,
-			    y + (v.y - y) * t,
-			    z + (v.z - z) * t);
 	    }
 
         /// <summary>
@@ -319,7 +306,7 @@ namespace Engine
         /// <param name="v">Destination vector</param>
         /// <param name="t">Time factor 0-1</param>
         /// <returns></returns>
-        public Vector3 lerp(Vector3 v, float t)
+        public Vector3 lerp(in Vector3 v, float t)
         {
             return new Vector3(x + (v.x - x) * t,
                 y + (v.y - y) * t,
