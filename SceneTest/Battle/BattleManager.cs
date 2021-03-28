@@ -172,20 +172,42 @@ namespace SceneTest
                     switch (sharpGui.GamepadButtonEntered)
                     {
                         case GamepadButtonCode.XInput_A:
-                            getTargetTask.SetResult(enemy);
+                            SetTarget(enemy);
                             break;
                         case GamepadButtonCode.XInput_B:
-                            getTargetTask.SetResult(null);
+                            SetTarget(null);
                             break;
                         case GamepadButtonCode.XInput_DPadUp:
-                            ++cursor.TargetIndex;
+                            NextTarget();
                             break;
                         case GamepadButtonCode.XInput_DPadDown:
-                            --cursor.TargetIndex;
+                            PreviousTarget();
                             break;
                         case GamepadButtonCode.XInput_DPadLeft:
                         case GamepadButtonCode.XInput_DPadRight:
-                            cursor.TargetPlayers = !cursor.TargetPlayers;
+                            ChangeRow();
+                            break;
+                        default:
+                            //Handle keyboard
+                            switch (sharpGui.KeyEntered)
+                            {
+                                case KeyboardButtonCode.KC_RETURN:
+                                    SetTarget(enemy);
+                                    break;
+                                case KeyboardButtonCode.KC_ESCAPE:
+                                    SetTarget(null);
+                                    break;
+                                case KeyboardButtonCode.KC_UP:
+                                    NextTarget();
+                                    break;
+                                case KeyboardButtonCode.KC_DOWN:
+                                    PreviousTarget();
+                                    break;
+                                case KeyboardButtonCode.KC_LEFT:
+                                case KeyboardButtonCode.KC_RIGHT:
+                                    ChangeRow();
+                                    break;
+                            }
                             break;
                     }
                 }
@@ -211,6 +233,26 @@ namespace SceneTest
                     }
                 }
             }
+        }
+
+        private void ChangeRow()
+        {
+            cursor.TargetPlayers = !cursor.TargetPlayers;
+        }
+
+        private void PreviousTarget()
+        {
+            --cursor.TargetIndex;
+        }
+
+        private void NextTarget()
+        {
+            ++cursor.TargetIndex;
+        }
+
+        private void SetTarget(Enemy enemy)
+        {
+            getTargetTask.SetResult(enemy);
         }
 
         public bool Active { get; private set; }
