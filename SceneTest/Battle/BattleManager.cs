@@ -291,6 +291,7 @@ namespace SceneTest
 
         public void QueueTurn(Func<Clock, bool> turn)
         {
+            activePlayers.Dequeue(); //The player is queuing a turn, so dequeue them from the active players
             this.turnQueue.Enqueue(turn);
         }
 
@@ -304,12 +305,7 @@ namespace SceneTest
 
         public Task<IBattleTarget> GetTarget()
         {
-            return cursor.GetTarget()
-                .ContinueWith(t =>
-                {
-                    var activePlayer = activePlayers.Dequeue();
-                    return t.Result;
-                });
+            return cursor.GetTarget();
         }
     }
 }

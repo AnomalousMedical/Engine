@@ -225,7 +225,14 @@ namespace SceneTest
 
             if (sharpGui.Button(attackButton))
             {
-                coroutine.RunTask(Attack());
+                coroutine.RunTask(async() =>
+                {
+                    var target = await battleManager.GetTarget();
+                    if (target != null)
+                    {
+                        Attack(target);
+                    }
+                });
                 didSomething = true;
             }
 
@@ -247,10 +254,8 @@ namespace SceneTest
             return didSomething;
         }
 
-        private async Task Attack()
+        private void Attack(IBattleTarget target)
         {
-            var target = await battleManager.GetTarget();
-            if (target == null) { return; }
             long remainingTime = 2 * Clock.SecondsToMicro;
             long halfRemainingTime = remainingTime / 2;
             bool needsAttack = true;
@@ -283,7 +288,6 @@ namespace SceneTest
                     interpolate = (remainingTime - halfRemainingTime) / (float)halfRemainingTime;
                 }
                 this.sceneObject.position = end.lerp(start, interpolate);
-                Sprite_FrameChanged(sprite);
 
                 if (remainingTime < 0)
                 {
@@ -291,6 +295,8 @@ namespace SceneTest
                     battleManager.TurnComplete(this);
                     done = true;
                 }
+
+                Sprite_FrameChanged(sprite);
 
                 return done;
             });
