@@ -146,6 +146,7 @@ namespace SceneTest
         {
             if (enemies.Count == 0)
             {
+                cursor.Visible = false;
                 var layout =
                     new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
                     new MaxWidthLayout(scaleHelper.Scaled(300),
@@ -164,31 +165,28 @@ namespace SceneTest
             {
                 if (getTargetTask != null)
                 {
-                    if (enemies.Count > 0)
+                    cursor.Visible = true;
+                    var enemy = enemies[(int)(cursor.TargetIndex % enemies.Count)];
+                    var enemyPos = enemy.DamageDisplayLocation;
+                    cursor.SetPosition(enemyPos);
+                    switch (sharpGui.GamepadButtonEntered)
                     {
-                        cursor.Visible = true;
-                        var enemy = enemies[(int)(cursor.TargetIndex % enemies.Count)];
-                        var enemyPos = enemy.DamageDisplayLocation;
-                        cursor.SetPosition(enemyPos);
-                        switch (sharpGui.GamepadButtonEntered)
-                        {
-                            case GamepadButtonCode.XInput_A:
-                                getTargetTask.SetResult(enemy);
-                                break;
-                            case GamepadButtonCode.XInput_B:
-                                getTargetTask.SetResult(null);
-                                break;
-                            case GamepadButtonCode.XInput_DPadUp:
-                                ++cursor.TargetIndex;
-                                break;
-                            case GamepadButtonCode.XInput_DPadDown:
-                                --cursor.TargetIndex;
-                                break;
-                            case GamepadButtonCode.XInput_DPadLeft:
-                            case GamepadButtonCode.XInput_DPadRight:
-                                cursor.TargetPlayers = !cursor.TargetPlayers;
-                                break;
-                        }
+                        case GamepadButtonCode.XInput_A:
+                            getTargetTask.SetResult(enemy);
+                            break;
+                        case GamepadButtonCode.XInput_B:
+                            getTargetTask.SetResult(null);
+                            break;
+                        case GamepadButtonCode.XInput_DPadUp:
+                            ++cursor.TargetIndex;
+                            break;
+                        case GamepadButtonCode.XInput_DPadDown:
+                            --cursor.TargetIndex;
+                            break;
+                        case GamepadButtonCode.XInput_DPadLeft:
+                        case GamepadButtonCode.XInput_DPadRight:
+                            cursor.TargetPlayers = !cursor.TargetPlayers;
+                            break;
                     }
                 }
                 else
