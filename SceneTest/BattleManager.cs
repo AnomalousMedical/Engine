@@ -35,6 +35,8 @@ namespace SceneTest
         private List<BattlePlayer> players = new List<BattlePlayer>(4);
         private List<DamageNumber> numbers = new List<DamageNumber>(10);
 
+        private Cursor cursor;
+
         public BattleManager(EventManager eventManager,
             ISharpGui sharpGui,
             IScaleHelper scaleHelper,
@@ -58,6 +60,8 @@ namespace SceneTest
             this.screenPositioner = screenPositioner;
             this.cameraProjector = cameraProjector;
             this.objectResolver = objectResolverFactory.Create();
+
+            cursor = this.objectResolver.Resolve<Cursor>();
 
             levelManager.LevelChanged += LevelManager_LevelChanged;
         }
