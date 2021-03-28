@@ -191,7 +191,12 @@ namespace SceneTest
 
             if (sharpGui.Button(attackButton))
             {
-                battleManager.Attack(this.characterSheet);
+                coroutine.RunTask(async () =>
+                {
+                    var target = await battleManager.GetTarget();
+                    if(target == null) { return; }
+                    battleManager.Attack(this.characterSheet);
+                });
             }
 
             if (sharpGui.Button(magicButton))

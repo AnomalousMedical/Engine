@@ -42,7 +42,7 @@ namespace Engine.Platform
             DownAndUpThisFrame = false;
         }
 
-        public ButtonEvent(object eventLayerKey, MessageEventCallback frameDown = null, MessageEventCallback frameUp = null, IEnumerable<KeyboardButtonCode> keys = null, IEnumerable<MouseButtonCode> mouseButtons = null)
+        public ButtonEvent(object eventLayerKey, MessageEventCallback frameDown = null, MessageEventCallback frameUp = null, IEnumerable<KeyboardButtonCode> keys = null, IEnumerable<MouseButtonCode> mouseButtons = null, IEnumerable<GamepadButtonCode> gamepadButtons = null)
             : this(eventLayerKey)
         {
             FirstFrameDownEvent += frameDown;
@@ -59,6 +59,13 @@ namespace Engine.Platform
                 foreach (MouseButtonCode mouseButton in mouseButtons)
                 {
                     this.mouseButtons.Add(mouseButton);
+                }
+            }
+            if (gamepadButtons != null)
+            {
+                foreach (GamepadButtonCode button in gamepadButtons)
+                {
+                    this.gamepadButtons.Add(button);
                 }
             }
         }

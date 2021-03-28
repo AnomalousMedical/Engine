@@ -35,7 +35,7 @@ namespace SceneTest
         private List<BattlePlayer> players = new List<BattlePlayer>(4);
         private List<DamageNumber> numbers = new List<DamageNumber>(10);
 
-        private Cursor cursor;
+        private TargetCursor cursor;
 
         public BattleManager(EventManager eventManager,
             ISharpGui sharpGui,
@@ -61,7 +61,7 @@ namespace SceneTest
             this.cameraProjector = cameraProjector;
             this.objectResolver = objectResolverFactory.Create();
 
-            cursor = this.objectResolver.Resolve<Cursor>();
+            cursor = this.objectResolver.Resolve<TargetCursor>();
 
             levelManager.LevelChanged += LevelManager_LevelChanged;
         }
@@ -162,7 +162,18 @@ namespace SceneTest
             }
             else
             {
-                players[0].UpdateGui(sharpGui);
+                if (getTargetTask != null)
+                {
+                    cursor.Visible = true;
+                    var enemy = enemies[0];
+                    var enemyPos = enemy.DamageDisplayLocation;
+                    cursor.SetPosition(enemyPos);
+                }
+                else
+                {
+                    cursor.Visible = false;
+                    players[0].UpdateGui(sharpGui);
+                }
 
                 for (var i = 0; i < numbers.Count;)
                 {
@@ -224,6 +235,32 @@ namespace SceneTest
                     }
                 }
             }
+        }
+
+        TaskCompletionSource<IBattleStats> getTargetTask;
+
+        public Task<IBattleStats> GetTarget()
+        {
+            cursor.Confirm += Cursor_Confirm;
+            cursor.Cancel += Cursor_Cancel;
+            getTargetTask = new TaskCompletionSource<IBattleStats>();
+            return getTargetTask.Task.ContinueWith(t =>
+            {
+                cursor.Confirm -= Cursor_Confirm;
+                cursor.Cancel -= Cursor_Cancel;
+                getTargetTask = null;
+                return t.Result;
+            });
+        }
+
+        private void Cursor_Confirm(TargetCursor obj)
+        {
+            getTargetTask.SetResult(enemies[0].BattleStats);
+        }
+
+        private void Cursor_Cancel(TargetCursor obj)
+        {
+            getTargetTask.SetResult(null);
         }
     }
 }
