@@ -23,5 +23,6 @@ namespace SceneTest
         public void ApplyDamage(IDamageCalculator calculator, long damage);
 
         public bool IsDead { get; }
+        Vector3 MeleeAttackLocation { get; }
     }
 }

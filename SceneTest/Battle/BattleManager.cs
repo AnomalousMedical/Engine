@@ -239,7 +239,7 @@ namespace SceneTest
             });
         }
 
-        public void Attack(IBattleTarget attacker, IBattleTarget target)
+        public IBattleTarget ValidateTarget(IBattleTarget attacker, IBattleTarget target)
         {
             //Make sure target still exists
             switch (target.BattleTargetType)
@@ -251,6 +251,13 @@ namespace SceneTest
                     }
                     break;
             }
+
+            return target;
+        }
+
+        public void Attack(IBattleTarget attacker, IBattleTarget target)
+        {
+            target = ValidateTarget(attacker, target);
 
             var enemyPos = target.DamageDisplayLocation - cameraMover.SceneCenter;
             var screenPos = cameraProjector.Project(enemyPos);

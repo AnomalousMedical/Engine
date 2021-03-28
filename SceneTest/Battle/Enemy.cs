@@ -92,6 +92,8 @@ namespace SceneTest
         private Sprite sprite;
         private bool disposed;
 
+        public Vector3 MeleeAttackLocation => this.sceneObject.position + new Vector3(sprite.BaseScale.x, 0, 0);
+
         private long currentHp;
         private long currentMp;
 

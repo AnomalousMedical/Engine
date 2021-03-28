@@ -49,6 +49,8 @@ namespace SceneTest
 
         public Vector3 CursorDisplayLocation => this.sceneObject.position;
 
+        public Vector3 MeleeAttackLocation => this.sceneObject.position - new Vector3(sprite.BaseScale.x, 0, 0);
+
         public BattleTargetType BattleTargetType => BattleTargetType.Player;
 
         public bool IsDead => false;
@@ -223,25 +225,7 @@ namespace SceneTest
 
             if (sharpGui.Button(attackButton))
             {
-                coroutine.RunTask(async () =>
-                {
-                    var target = await battleManager.GetTarget();
-                    if(target == null) { return; }
-                    long remainingTime = 2 * Clock.SecondsToMicro;
-                    battleManager.QueueTurn(c =>
-                    {
-                        var done = false;
-                        remainingTime -= c.DeltaTimeMicro;
-                        if(remainingTime < 0)
-                        {
-                            battleManager.Attack(this, target);
-                            battleManager.TurnComplete(this);
-                            done = true;
-                        }
-                        
-                        return done;
-                    });
-                });
+                coroutine.RunTask(Attack());
                 didSomething = true;
             }
 
@@ -261,6 +245,55 @@ namespace SceneTest
             }
 
             return didSomething;
+        }
+
+        private async Task Attack()
+        {
+            var target = await battleManager.GetTarget();
+            if (target == null) { return; }
+            long remainingTime = 2 * Clock.SecondsToMicro;
+            long halfRemainingTime = remainingTime / 2;
+            bool needsAttack = true;
+            battleManager.QueueTurn(c =>
+            {
+                var done = false;
+                remainingTime -= c.DeltaTimeMicro;
+                Vector3 start;
+                Vector3 end;
+                float interpolate;
+                if (remainingTime < halfRemainingTime)
+                {
+                    sprite.SetAnimation("right");
+                    if (needsAttack)
+                    {
+                        needsAttack = false;
+                        battleManager.Attack(this, target);
+                    }
+
+                    start = target.MeleeAttackLocation;
+                    end = this.startPosition;
+                    interpolate = remainingTime / (float)halfRemainingTime;
+                }
+                else
+                {
+                    sprite.SetAnimation("left");
+                    target = battleManager.ValidateTarget(this, target);
+                    start = this.startPosition;
+                    end = target.MeleeAttackLocation;
+                    interpolate = (remainingTime - halfRemainingTime) / (float)halfRemainingTime;
+                }
+                this.sceneObject.position = end.lerp(start, interpolate);
+                Sprite_FrameChanged(sprite);
+
+                if (remainingTime < 0)
+                {
+                    sprite.SetAnimation("stand-left");
+                    battleManager.TurnComplete(this);
+                    done = true;
+                }
+
+                return done;
+            });
         }
 
         public void RequestDestruction()
