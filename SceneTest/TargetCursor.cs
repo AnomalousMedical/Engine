@@ -36,7 +36,19 @@ namespace SceneTest
             this.sprites = sprites;
             this.destructionRequest = destructionRequest;
             this.spriteMaterialManager = spriteMaterialManager;
-            this.sprite = new Sprite() { BaseScale = new Vector3(0.5f, 0.5f, 1f) };
+            this.sprite = new Sprite(new Dictionary<string, SpriteAnimation>()
+            {
+                { "default", new SpriteAnimation(1,
+                    new SpriteFrame(0, 0, 1, 1)
+                    {
+                        Attachments = new List<SpriteFrameAttachment>()
+                        {
+                            SpriteFrameAttachment.FromFramePosition(0, 9, -0.01f, 32, 32),
+                        }
+                    } )
+                }
+            })
+            { BaseScale = new Vector3(0.5f, 0.5f, 1f) };
 
             sceneObject = new SceneObject()
             {
@@ -88,7 +100,7 @@ namespace SceneTest
             }
             set
             {
-                if(visible != value)
+                if (visible != value)
                 {
                     visible = value;
                     if (visible)
@@ -113,7 +125,7 @@ namespace SceneTest
 
         public void SetPosition(Vector3 targetPosition)
         {
-            this.sceneObject.position = targetPosition;
+            this.sceneObject.position = targetPosition - sprite.GetCurrentFrame().Attachments[0].translate * sprite.BaseScale;
         }
     }
 }
