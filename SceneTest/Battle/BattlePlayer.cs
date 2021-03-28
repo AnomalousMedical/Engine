@@ -51,6 +51,8 @@ namespace SceneTest
 
         public bool IsDead => false;
 
+        private Vector3 startPosition;
+
         public class Description : SceneObjectDesc
         {
             public int PrimaryHand = Player.RightHand;
@@ -141,6 +143,7 @@ namespace SceneTest
                 );
             });
 
+            this.startPosition = startPos;
             sceneObject = new SceneObject()
             {
                 vertexBuffer = plane.VertexBuffer,
@@ -178,6 +181,24 @@ namespace SceneTest
             });
         }
 
+        private bool guiActive = false;
+        internal void SetGuiActive(bool active)
+        {
+            if (guiActive != active)
+            {
+                guiActive = active;
+                if (guiActive)
+                {
+                    this.sceneObject.position = this.startPosition + new Vector3(-1f, 0f, 0f);
+                }
+                else
+                {
+                    this.sceneObject.position = this.startPosition;
+                }
+                Sprite_FrameChanged(sprite);
+            }
+        }
+
         public void Dispose()
         {
             sprite.FrameChanged -= Sprite_FrameChanged;
@@ -187,8 +208,9 @@ namespace SceneTest
             objectResolver.Dispose();
         }
 
-        public void UpdateGui(ISharpGui sharpGui)
+        public bool UpdateGui(ISharpGui sharpGui)
         {
+            bool didSomething = false;
             var layout =
                 new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
                 new MaxWidthLayout(scaleHelper.Scaled(300),
@@ -205,23 +227,25 @@ namespace SceneTest
                     if(target == null) { return; }
                     battleManager.Attack(this, target);
                 });
+                didSomething = true;
             }
 
             if (sharpGui.Button(magicButton))
             {
-
+                didSomething = true;
             }
 
             if (sharpGui.Button(itemButton))
             {
-
+                didSomething = true;
             }
 
             if (sharpGui.Button(defendButton))
             {
-
+                didSomething = true;
             }
 
+            return didSomething;
         }
 
         public void RequestDestruction()

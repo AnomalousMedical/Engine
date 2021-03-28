@@ -34,6 +34,7 @@ namespace SceneTest
         private List<Enemy> enemies = new List<Enemy>(20);
         private List<BattlePlayer> players = new List<BattlePlayer>(4);
         private List<DamageNumber> numbers = new List<DamageNumber>(10);
+        private Queue<BattlePlayer> activePlayers = new Queue<BattlePlayer>(4);
 
         private TargetCursor cursor;
 
@@ -125,19 +126,27 @@ namespace SceneTest
                     cameraMover.Position = new Vector3(-1.0354034f, 2.958224f, -12.394701f);
                     cameraMover.Orientation = new Quaternion(0.057467595f, 0.0049917176f, -0.00028734046f, 0.9983348f);
                     cameraMover.SceneCenter = new Vector3(0f, 0f, 0f);
+
+                    foreach (var player in players)
+                    {
+                        activePlayers.Enqueue(player); //Needs to be on a timer
+                    }
                 }
                 else
                 {
+                    activePlayers.Clear();
                     backgroundMusicManager.SetBattleTrack(null);
 
                     foreach (var player in players)
                     {
                         player.RequestDestruction();
                     }
+                    players.Clear();
                     foreach (var enemy in enemies)
                     {
                         enemy.RequestDestruction();
                     }
+                    enemies.Clear();
                     eventManager[EventLayers.Battle].OnUpdate -= eventManager_OnUpdate;
                 }
             }
@@ -164,6 +173,7 @@ namespace SceneTest
             }
             else
             {
+                BattlePlayer activePlayer = activePlayers.Count > 0 ? activePlayers.Peek() : null;
                 if (cursor.Targeting)
                 {
                     cursor.Visible = true;
@@ -174,7 +184,12 @@ namespace SceneTest
                 else
                 {
                     cursor.Visible = false;
-                    players[0].UpdateGui(sharpGui);
+                    activePlayer?.UpdateGui(sharpGui);
+                }
+
+                foreach (var player in players)
+                {
+                    player.SetGuiActive(player == activePlayer);
                 }
 
                 for (var i = 0; i < numbers.Count;)
@@ -245,7 +260,14 @@ namespace SceneTest
 
         public Task<IBattleTarget> GetTarget()
         {
-            return cursor.GetTarget();
+            return cursor.GetTarget()
+                .ContinueWith(t =>
+                {
+                    var activePlayer = activePlayers.Dequeue();
+                    activePlayers.Enqueue(activePlayer); //Need to put this on timer
+
+                    return t.Result;
+                });
         }
     }
 }
