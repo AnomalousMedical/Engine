@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace SceneTest
 {
-    class BattlePlayer : IDisposable
+    class BattlePlayer : IDisposable, IBattleTarget
     {
         private readonly PlayerSprite playerSpriteInfo;
         private readonly SceneObjectManager<IBattleManager> sceneObjectManager;
@@ -42,6 +42,14 @@ namespace SceneTest
         private SharpButton magicButton = new SharpButton() { Text = "Magic" };
         private SharpButton itemButton = new SharpButton() { Text = "Item" };
         private SharpButton defendButton = new SharpButton() { Text = "Defend" };
+
+        public IBattleStats Stats => this.characterSheet;
+
+        public Vector3 DamageDisplayLocation => this.sceneObject.position;
+
+        public Vector3 CursorDisplayLocation => this.sceneObject.position;
+
+        public bool IsDead => false;
 
         public class Description : SceneObjectDesc
         {
@@ -195,7 +203,7 @@ namespace SceneTest
                 {
                     var target = await battleManager.GetTarget();
                     if(target == null) { return; }
-                    battleManager.Attack(this.characterSheet);
+                    battleManager.Attack(this, target);
                 });
             }
 
@@ -239,6 +247,11 @@ namespace SceneTest
                 offset = Quaternion.quatRotate(this.sceneObject.orientation, offset) + this.sceneObject.position;
                 shield.SetPosition(ref offset, ref this.sceneObject.orientation, ref scale);
             }
+        }
+
+        public void ApplyDamage(IDamageCalculator calculator, long damage)
+        {
+            
         }
     }
 }

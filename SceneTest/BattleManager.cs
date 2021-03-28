@@ -164,18 +164,31 @@ namespace SceneTest
             {
                 if (getTargetTask != null)
                 {
-                    cursor.Visible = true;
-                    var enemy = enemies[0];
-                    var enemyPos = enemy.DamageDisplayLocation;
-                    cursor.SetPosition(enemyPos);
-                    switch (sharpGui.GamepadButtonEntered)
+                    if (enemies.Count > 0)
                     {
-                        case GamepadButtonCode.XInput_A:
-                            getTargetTask.SetResult(enemies[0].BattleStats);
-                            break;
-                        case GamepadButtonCode.XInput_B:
-                            getTargetTask.SetResult(null);
-                            break;
+                        cursor.Visible = true;
+                        var enemy = enemies[(int)(cursor.TargetIndex % enemies.Count)];
+                        var enemyPos = enemy.DamageDisplayLocation;
+                        cursor.SetPosition(enemyPos);
+                        switch (sharpGui.GamepadButtonEntered)
+                        {
+                            case GamepadButtonCode.XInput_A:
+                                getTargetTask.SetResult(enemy);
+                                break;
+                            case GamepadButtonCode.XInput_B:
+                                getTargetTask.SetResult(null);
+                                break;
+                            case GamepadButtonCode.XInput_DPadUp:
+                                ++cursor.TargetIndex;
+                                break;
+                            case GamepadButtonCode.XInput_DPadDown:
+                                --cursor.TargetIndex;
+                                break;
+                            case GamepadButtonCode.XInput_DPadLeft:
+                            case GamepadButtonCode.XInput_DPadRight:
+                                cursor.TargetPlayers = !cursor.TargetPlayers;
+                                break;
+                        }
                     }
                 }
                 else
@@ -220,37 +233,41 @@ namespace SceneTest
             });
         }
 
-        public void Attack(IBattleStats attacker)
+        public void Attack(IBattleTarget attacker, IBattleTarget target)
         {
-            var enemy = enemies[0];
-            var target = enemy.BattleStats;
+            var enemyPos = target.DamageDisplayLocation - cameraMover.SceneCenter;
+            var screenPos = cameraProjector.Project(enemyPos);
 
-            if (damageCalculator.PhysicalHit(attacker, target))
+            if (damageCalculator.PhysicalHit(attacker.Stats, target.Stats))
             {
-                var enemyPos = enemy.DamageDisplayLocation - cameraMover.SceneCenter;
-                var screenPos = cameraProjector.Project(enemyPos);
-
-                var damage = damageCalculator.Physical(attacker, target, 16);
+                var damage = damageCalculator.Physical(attacker.Stats, target.Stats, 16);
                 damage = damageCalculator.RandomVariation(damage);
                 numbers.Add(new DamageNumber(damage.ToString(), NumberDisplayTime, screenPos, scaleHelper));
-                target.CurrentHp = damageCalculator.ApplyDamage(damage, target.CurrentHp, target.Hp);
-                if (target.CurrentHp <= 0)
+                target.ApplyDamage(damageCalculator, damage);
+                if (target.IsDead)
                 {
-                    enemy.RequestDestruction();
-                    enemies.Remove(enemy);
-                    if (enemies.Count == 0)
+                    if (enemies.Contains(target))
                     {
-                        backgroundMusicManager.SetBattleTrack("freepd/Alexander Nakarada - Fanfare X.ogg");
+                        target.RequestDestruction();
+                        enemies.Remove(target as Enemy);
+                        if (enemies.Count == 0)
+                        {
+                            backgroundMusicManager.SetBattleTrack("freepd/Alexander Nakarada - Fanfare X.ogg");
+                        }
                     }
                 }
             }
+            else
+            {
+                numbers.Add(new DamageNumber("Miss", NumberDisplayTime, screenPos, scaleHelper));
+            }
         }
 
-        TaskCompletionSource<IBattleStats> getTargetTask;
+        TaskCompletionSource<IBattleTarget> getTargetTask;
 
-        public Task<IBattleStats> GetTarget()
+        public Task<IBattleTarget> GetTarget()
         {
-            getTargetTask = new TaskCompletionSource<IBattleStats>();
+            getTargetTask = new TaskCompletionSource<IBattleTarget>();
             return getTargetTask.Task.ContinueWith(t =>
             {
                 getTargetTask = null;

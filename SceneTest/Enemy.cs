@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace SceneTest
 {
-    class Enemy : IDisposable
+    class Enemy : IDisposable, IBattleTarget
     {
         public class Desc : SceneObjectDesc
         {
@@ -39,8 +39,6 @@ namespace SceneTest
                 {
                     Hp = 40,
                     Mp = 54,
-                    CurrentHp = 40,
-                    CurrentMp = 54,
                     Attack = 12,
                     AttackPercent = 100,
                     Defense = 10,
@@ -71,8 +69,6 @@ namespace SceneTest
                 {
                     Hp = 40,
                     Mp = 54,
-                    CurrentHp = 40,
-                    CurrentMp = 54,
                     Attack = 12,
                     AttackPercent = 100,
                     Defense = 10,
@@ -96,6 +92,9 @@ namespace SceneTest
         private Sprite sprite;
         private bool disposed;
 
+        private long currentHp;
+        private long currentMp;
+
         public Enemy(
             SceneObjectManager<IBattleManager> sceneObjectManager,
             SpriteManager sprites,
@@ -111,7 +110,9 @@ namespace SceneTest
             this.spriteMaterialManager = spriteMaterialManager;
 
             this.sprite = description.Sprite;
-            this.BattleStats = description.BattleStats ?? throw new InvalidOperationException("You must include battle stats in an enemy description.");
+            this.Stats = description.BattleStats ?? throw new InvalidOperationException("You must include battle stats in an enemy description.");
+            this.currentHp = Stats.Hp;
+            this.currentMp = Stats.Mp;
 
             sceneObject = new SceneObject()
             {
@@ -163,8 +164,17 @@ namespace SceneTest
             spriteMaterialManager.TryReturn(spriteMaterial);
         }
 
-        public BattleStats BattleStats { get; }
+        public void ApplyDamage(IDamageCalculator calculator, long damage)
+        {
+            currentHp = calculator.ApplyDamage(damage, currentHp, Stats.Hp);
+        }
 
         public Vector3 DamageDisplayLocation => sceneObject.position + new Vector3(0.5f * sceneObject.scale.x, 0.5f * sceneObject.scale.y, 0f);
+
+        public IBattleStats Stats { get; }
+
+        public Vector3 CursorDisplayLocation => DamageDisplayLocation;
+
+        public bool IsDead => this.currentHp == 0;
     }
 }

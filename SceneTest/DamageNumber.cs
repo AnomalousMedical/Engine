@@ -11,7 +11,7 @@ namespace SceneTest
             this.EndPosition = position + new Vector2(0, scaleHelper.Scaled(-15));
             TimeRemaining = timeRemaining;
             HalfDuration = timeRemaining / 2;
-            this.Text = new SharpText(number.ToString()) { Rect = new IntRect(0, 0, 10000, 10000) };
+            this.Text = new SharpText(number.ToString()) { Rect = new IntRect(0, 0, 10000, 10000), color = Color.White };
             UpdatePosition();
         }
 

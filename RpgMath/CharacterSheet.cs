@@ -74,6 +74,10 @@ namespace RpgMath
             }
         }
 
+        public long Hp { get; set; }
+
+        public long Mp { get; set; }
+
         public long CurrentHp { get; set; }
 
         public long CurrentMp { get; set; }

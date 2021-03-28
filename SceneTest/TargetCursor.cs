@@ -16,31 +16,26 @@ namespace SceneTest
         private readonly SpriteManager sprites;
         private readonly IDestructionRequest destructionRequest;
         private readonly ISpriteMaterialManager spriteMaterialManager;
-        private readonly EventManager eventManager;
         private ISpriteMaterial spriteMaterial;
         private SceneObject sceneObject;
         private Sprite sprite;
         private bool disposed;
 
-        ButtonEvent confirm;
-        ButtonEvent cancel;
+        public uint TargetIndex { get; set; }
 
-        public event Action<TargetCursor> Confirm;
-        public event Action<TargetCursor> Cancel;
+        public bool TargetPlayers { get; set; }
 
         public TargetCursor(SceneObjectManager<IBattleManager> sceneObjectManager,
             SpriteManager sprites,
             Plane plane,
             IScopedCoroutine coroutine,
             IDestructionRequest destructionRequest,
-            ISpriteMaterialManager spriteMaterialManager,
-            EventManager eventManager)
+            ISpriteMaterialManager spriteMaterialManager)
         {
             this.sceneObjectManager = sceneObjectManager;
             this.sprites = sprites;
             this.destructionRequest = destructionRequest;
             this.spriteMaterialManager = spriteMaterialManager;
-            this.eventManager = eventManager;
             this.sprite = new Sprite() { BaseScale = new Vector3(0.5f, 0.5f, 1f) };
 
             sceneObject = new SceneObject()
@@ -53,11 +48,9 @@ namespace SceneTest
                 position = Vector3.Zero,
                 orientation = Quaternion.Identity,
                 scale = sprite.BaseScale * Vector3.ScaleIdentity,
-                RenderShadow = true,
+                RenderShadow = false,
                 Sprite = sprite,
             };
-
-            SetupInput();
 
             coroutine.RunTask(async () =>
             {
@@ -100,14 +93,10 @@ namespace SceneTest
                     visible = value;
                     if (visible)
                     {
-                        this.eventManager.addEvent(confirm);
-                        this.eventManager.addEvent(cancel);
                         sceneObjectManager.Add(sceneObject);
                     }
                     else
                     {
-                        this.eventManager.removeEvent(confirm);
-                        this.eventManager.removeEvent(cancel);
                         sceneObjectManager.Remove(sceneObject);
                     }
                 }
@@ -117,35 +106,9 @@ namespace SceneTest
         public void Dispose()
         {
             disposed = true;
-            this.eventManager.removeEvent(confirm);
-            this.eventManager.removeEvent(cancel);
             sprites.Remove(sprite);
             sceneObjectManager.Remove(sceneObject);
             spriteMaterialManager.TryReturn(spriteMaterial);
-        }
-
-        private void SetupInput()
-        {
-            this.confirm = new ButtonEvent(EventLayers.Battle, gamepadButtons: new GamepadButtonCode[] { GamepadButtonCode.XInput_A });
-            this.cancel = new ButtonEvent(EventLayers.Battle, gamepadButtons: new GamepadButtonCode[] { GamepadButtonCode.XInput_B });
-
-            //These events are owned by this class, so don't have to unsubscribe
-            confirm.FirstFrameUpEvent += l =>
-            {
-                if (l.EventProcessingAllowed)
-                {
-                    Confirm?.Invoke(this);
-                    l.alertEventsHandled();
-                }
-            };
-            cancel.FirstFrameUpEvent += l =>
-            {
-                if (l.EventProcessingAllowed)
-                {
-                    Cancel?.Invoke(this);
-                    l.alertEventsHandled();
-                }
-            };
         }
 
         public void SetPosition(Vector3 targetPosition)
