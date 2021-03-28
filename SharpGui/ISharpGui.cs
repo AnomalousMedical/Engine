@@ -31,6 +31,10 @@ namespace SharpGui
 
         Guid FocusedItem { get; }
 
+        KeyboardButtonCode KeyEntered { get; }
+
+        GamepadButtonCode GamepadButtonEntered { get; }
+
         /// <summary>
         /// Draw a slider. Returns true if the passed in value changed.
         /// </summary>

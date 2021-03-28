@@ -168,6 +168,15 @@ namespace SceneTest
                     var enemy = enemies[0];
                     var enemyPos = enemy.DamageDisplayLocation;
                     cursor.SetPosition(enemyPos);
+                    switch (sharpGui.GamepadButtonEntered)
+                    {
+                        case GamepadButtonCode.XInput_A:
+                            getTargetTask.SetResult(enemies[0].BattleStats);
+                            break;
+                        case GamepadButtonCode.XInput_B:
+                            getTargetTask.SetResult(null);
+                            break;
+                    }
                 }
                 else
                 {
@@ -241,26 +250,12 @@ namespace SceneTest
 
         public Task<IBattleStats> GetTarget()
         {
-            cursor.Confirm += Cursor_Confirm;
-            cursor.Cancel += Cursor_Cancel;
             getTargetTask = new TaskCompletionSource<IBattleStats>();
             return getTargetTask.Task.ContinueWith(t =>
             {
-                cursor.Confirm -= Cursor_Confirm;
-                cursor.Cancel -= Cursor_Cancel;
                 getTargetTask = null;
                 return t.Result;
             });
-        }
-
-        private void Cursor_Confirm(TargetCursor obj)
-        {
-            getTargetTask.SetResult(enemies[0].BattleStats);
-        }
-
-        private void Cursor_Cancel(TargetCursor obj)
-        {
-            getTargetTask.SetResult(null);
         }
     }
 }

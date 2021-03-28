@@ -255,5 +255,9 @@ namespace SharpGui
         public Guid HoverItem => state.HoverItem;
 
         public Guid FocusedItem => state.FocusedItem;
+
+        public KeyboardButtonCode KeyEntered => state.KeyEntered;
+
+        public GamepadButtonCode GamepadButtonEntered => state.GamepadButtonEntered;
     }
 }
