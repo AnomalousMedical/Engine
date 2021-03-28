@@ -12,7 +12,7 @@ namespace SharpGui
     class SharpGuiImpl : ISharpGui, IDisposable
     {
         private const int StartRepeatMs = 300;
-        private const int RepeatMs = 100;
+        private const int RepeatMs = 200;
 
         private readonly SharpGuiBuffer buffer;
         private readonly SharpGuiRenderer renderer;
