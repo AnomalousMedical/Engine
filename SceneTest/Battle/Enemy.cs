@@ -176,5 +176,7 @@ namespace SceneTest
         public Vector3 CursorDisplayLocation => DamageDisplayLocation;
 
         public bool IsDead => this.currentHp == 0;
+
+        public BattleTargetType BattleTargetType => BattleTargetType.Enemy;
     }
 }

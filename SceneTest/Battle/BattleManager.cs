@@ -35,8 +35,11 @@ namespace SceneTest
         private List<BattlePlayer> players = new List<BattlePlayer>(4);
         private List<DamageNumber> numbers = new List<DamageNumber>(10);
         private Queue<BattlePlayer> activePlayers = new Queue<BattlePlayer>(4);
+        private Queue<Func<Clock, bool>> turnQueue = new Queue<Func<Clock, bool>>(30);
 
         private TargetCursor cursor;
+
+        private Random targetRandom = new Random();
 
         public BattleManager(EventManager eventManager,
             ISharpGui sharpGui,
@@ -134,7 +137,6 @@ namespace SceneTest
                 }
                 else
                 {
-                    activePlayers.Clear();
                     backgroundMusicManager.SetBattleTrack(null);
 
                     foreach (var player in players)
@@ -154,6 +156,15 @@ namespace SceneTest
 
         public void UpdateGui(Clock clock)
         {
+            if (turnQueue.Count > 0)
+            {
+                var turn = turnQueue.Peek();
+                if (turn.Invoke(clock) && turnQueue.Count > 0) //Turn queue can be cleared during a turn if all enemies are killed or other conditions
+                {
+                    turnQueue.Dequeue();
+                }
+            }
+
             if (enemies.Count == 0)
             {
                 cursor.Visible = false;
@@ -230,6 +241,17 @@ namespace SceneTest
 
         public void Attack(IBattleTarget attacker, IBattleTarget target)
         {
+            //Make sure target still exists
+            switch (target.BattleTargetType)
+            {
+                case BattleTargetType.Enemy:
+                    if (!enemies.Contains(target))
+                    {
+                        target = enemies[targetRandom.Next(enemies.Count)];
+                    }
+                    break;
+            }
+
             var enemyPos = target.DamageDisplayLocation - cameraMover.SceneCenter;
             var screenPos = cameraProjector.Project(enemyPos);
 
@@ -247,6 +269,8 @@ namespace SceneTest
                         enemies.Remove(target as Enemy);
                         if (enemies.Count == 0)
                         {
+                            turnQueue.Clear();
+                            activePlayers.Clear();
                             backgroundMusicManager.SetBattleTrack("freepd/Alexander Nakarada - Fanfare X.ogg");
                         }
                     }
@@ -258,14 +282,25 @@ namespace SceneTest
             }
         }
 
+        public void QueueTurn(Func<Clock, bool> turn)
+        {
+            this.turnQueue.Enqueue(turn);
+        }
+
+        public void TurnComplete(BattlePlayer player)
+        {
+            if (enemies.Count > 0)
+            {
+                this.activePlayers.Enqueue(player); //Add them to timer to get new turn
+            }
+        }
+
         public Task<IBattleTarget> GetTarget()
         {
             return cursor.GetTarget()
                 .ContinueWith(t =>
                 {
                     var activePlayer = activePlayers.Dequeue();
-                    activePlayers.Enqueue(activePlayer); //Need to put this on timer
-
                     return t.Result;
                 });
         }

@@ -49,6 +49,8 @@ namespace SceneTest
 
         public Vector3 CursorDisplayLocation => this.sceneObject.position;
 
+        public BattleTargetType BattleTargetType => BattleTargetType.Player;
+
         public bool IsDead => false;
 
         private Vector3 startPosition;
@@ -225,7 +227,20 @@ namespace SceneTest
                 {
                     var target = await battleManager.GetTarget();
                     if(target == null) { return; }
-                    battleManager.Attack(this, target);
+                    long remainingTime = 2 * Clock.SecondsToMicro;
+                    battleManager.QueueTurn(c =>
+                    {
+                        var done = false;
+                        remainingTime -= c.DeltaTimeMicro;
+                        if(remainingTime < 0)
+                        {
+                            battleManager.Attack(this, target);
+                            battleManager.TurnComplete(this);
+                            done = true;
+                        }
+                        
+                        return done;
+                    });
                 });
                 didSomething = true;
             }

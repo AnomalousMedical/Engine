@@ -16,6 +16,8 @@ namespace SceneTest
 
         Vector3 CursorDisplayLocation { get; }
 
+        public BattleTargetType BattleTargetType { get; }
+
         public void RequestDestruction();
 
         public void ApplyDamage(IDamageCalculator calculator, long damage);

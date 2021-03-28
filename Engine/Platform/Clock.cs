@@ -13,7 +13,7 @@ namespace Engine.Platform
         public const float MicroToSeconds = 0.000001f;
         public const float MicroToMilliseconds = 0.001f;
         public const int MilliToMicroseconds = 1000;
-        public const int SecondsToMicro = 1000000;
+        public const long SecondsToMicro = 1000000;
 
         private Int64 deltaMicro;
         private Int64 currentTimeMicro;
