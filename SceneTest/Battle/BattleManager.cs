@@ -116,6 +116,7 @@ namespace SceneTest
                 this.Active = active;
                 if (active)
                 {
+                    cursor.BattleStarted();
                     numbers.Clear();
 
                     backgroundMusicManager.SetBattleTrack("freepd/Rafael Krux - Hit n Smash.ogg");
@@ -163,53 +164,12 @@ namespace SceneTest
             }
             else
             {
-                if (getTargetTask != null)
+                if (cursor.Targeting)
                 {
                     cursor.Visible = true;
                     var enemy = enemies[(int)(cursor.TargetIndex % enemies.Count)];
                     var enemyPos = enemy.DamageDisplayLocation;
-                    cursor.SetPosition(enemyPos);
-                    switch (sharpGui.GamepadButtonEntered)
-                    {
-                        case GamepadButtonCode.XInput_A:
-                            SetTarget(enemy);
-                            break;
-                        case GamepadButtonCode.XInput_B:
-                            SetTarget(null);
-                            break;
-                        case GamepadButtonCode.XInput_DPadUp:
-                            NextTarget();
-                            break;
-                        case GamepadButtonCode.XInput_DPadDown:
-                            PreviousTarget();
-                            break;
-                        case GamepadButtonCode.XInput_DPadLeft:
-                        case GamepadButtonCode.XInput_DPadRight:
-                            ChangeRow();
-                            break;
-                        default:
-                            //Handle keyboard
-                            switch (sharpGui.KeyEntered)
-                            {
-                                case KeyboardButtonCode.KC_RETURN:
-                                    SetTarget(enemy);
-                                    break;
-                                case KeyboardButtonCode.KC_ESCAPE:
-                                    SetTarget(null);
-                                    break;
-                                case KeyboardButtonCode.KC_UP:
-                                    NextTarget();
-                                    break;
-                                case KeyboardButtonCode.KC_DOWN:
-                                    PreviousTarget();
-                                    break;
-                                case KeyboardButtonCode.KC_LEFT:
-                                case KeyboardButtonCode.KC_RIGHT:
-                                    ChangeRow();
-                                    break;
-                            }
-                            break;
-                    }
+                    cursor.UpdateCursor(sharpGui, enemy, enemyPos);
                 }
                 else
                 {
@@ -233,26 +193,6 @@ namespace SceneTest
                     }
                 }
             }
-        }
-
-        private void ChangeRow()
-        {
-            cursor.TargetPlayers = !cursor.TargetPlayers;
-        }
-
-        private void PreviousTarget()
-        {
-            --cursor.TargetIndex;
-        }
-
-        private void NextTarget()
-        {
-            ++cursor.TargetIndex;
-        }
-
-        private void SetTarget(Enemy enemy)
-        {
-            getTargetTask.SetResult(enemy);
         }
 
         public bool Active { get; private set; }
@@ -303,16 +243,9 @@ namespace SceneTest
             }
         }
 
-        TaskCompletionSource<IBattleTarget> getTargetTask;
-
         public Task<IBattleTarget> GetTarget()
         {
-            getTargetTask = new TaskCompletionSource<IBattleTarget>();
-            return getTargetTask.Task.ContinueWith(t =>
-            {
-                getTargetTask = null;
-                return t.Result;
-            });
+            return cursor.GetTarget();
         }
     }
 }

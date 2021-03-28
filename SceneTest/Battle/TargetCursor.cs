@@ -2,6 +2,7 @@
 using DiligentEngine.GltfPbr.Shapes;
 using Engine;
 using Engine.Platform;
+using SharpGui;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +22,13 @@ namespace SceneTest
         private Sprite sprite;
         private bool disposed;
 
-        public uint TargetIndex { get; set; }
+        public uint TargetIndex { get; private set; }
 
-        public bool TargetPlayers { get; set; }
+        public bool TargetPlayers { get; private set; }
+
+        public bool Targeting => getTargetTask != null;
+
+        TaskCompletionSource<IBattleTarget> getTargetTask;
 
         public TargetCursor(SceneObjectManager<IBattleManager> sceneObjectManager,
             SpriteManager sprites,
@@ -123,9 +128,90 @@ namespace SceneTest
             spriteMaterialManager.TryReturn(spriteMaterial);
         }
 
+        internal void BattleStarted()
+        {
+            TargetIndex = 0;
+        }
+
         public void SetPosition(Vector3 targetPosition)
         {
             this.sceneObject.position = targetPosition - sprite.GetCurrentFrame().Attachments[0].translate * sprite.BaseScale;
+        }
+
+        public Task<IBattleTarget> GetTarget()
+        {
+            getTargetTask = new TaskCompletionSource<IBattleTarget>();
+            return getTargetTask.Task.ContinueWith(t =>
+            {
+                getTargetTask = null;
+                return t.Result;
+            });
+        }
+
+        public void UpdateCursor(ISharpGui sharpGui, IBattleTarget target, Vector3 enemyPos)
+        {
+            SetPosition(enemyPos);
+            switch (sharpGui.GamepadButtonEntered)
+            {
+                case GamepadButtonCode.XInput_A:
+                    SetTarget(target);
+                    break;
+                case GamepadButtonCode.XInput_B:
+                    SetTarget(null);
+                    break;
+                case GamepadButtonCode.XInput_DPadUp:
+                    NextTarget();
+                    break;
+                case GamepadButtonCode.XInput_DPadDown:
+                    PreviousTarget();
+                    break;
+                case GamepadButtonCode.XInput_DPadLeft:
+                case GamepadButtonCode.XInput_DPadRight:
+                    ChangeRow();
+                    break;
+                default:
+                    //Handle keyboard
+                    switch (sharpGui.KeyEntered)
+                    {
+                        case KeyboardButtonCode.KC_RETURN:
+                            SetTarget(target);
+                            break;
+                        case KeyboardButtonCode.KC_ESCAPE:
+                            SetTarget(null);
+                            break;
+                        case KeyboardButtonCode.KC_UP:
+                            NextTarget();
+                            break;
+                        case KeyboardButtonCode.KC_DOWN:
+                            PreviousTarget();
+                            break;
+                        case KeyboardButtonCode.KC_LEFT:
+                        case KeyboardButtonCode.KC_RIGHT:
+                            ChangeRow();
+                            break;
+                    }
+                    break;
+            }
+        }
+
+        private void ChangeRow()
+        {
+            TargetPlayers = !TargetPlayers;
+        }
+
+        private void PreviousTarget()
+        {
+            --TargetIndex;
+        }
+
+        private void NextTarget()
+        {
+            ++TargetIndex;
+        }
+
+        private void SetTarget(IBattleTarget enemy)
+        {
+            getTargetTask.SetResult(enemy);
         }
     }
 }
