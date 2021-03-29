@@ -105,7 +105,7 @@ namespace SceneTest
 
             sword = objectResolver.Resolve<Attachment<IBattleManager>, Attachment<IBattleManager>.Description>(o =>
             {
-                o.Orientation = new Quaternion(0, MathFloat.PI / 4f, 0);
+                o.Orientation = new Quaternion(0, MathF.PI / 4f, 0);
                 o.Sprite = new Sprite(new Dictionary<string, SpriteAnimation>()
                 {
                     { "default", new SpriteAnimation((int)(0.7f * Clock.SecondsToMicro),
@@ -256,8 +256,14 @@ namespace SceneTest
 
         private void Attack(IBattleTarget target)
         {
-            long remainingTime = 2 * Clock.SecondsToMicro;
-            long halfRemainingTime = remainingTime / 2;
+            var swingEnd = Quaternion.Identity;
+            var swingStart = new Quaternion(0f, MathF.PI / 2.1f, 0f);
+
+            long remainingTime = (long)(1.8f * Clock.SecondsToMicro);
+            long standTime = (long)(0.2f * Clock.SecondsToMicro);
+            long standStartTime = remainingTime / 2;
+            long swingTime = standStartTime - standTime / 3;
+            long standEndTime = standStartTime - standTime;
             bool needsAttack = true;
             battleManager.QueueTurn(c =>
             {
@@ -266,27 +272,41 @@ namespace SceneTest
                 Vector3 start;
                 Vector3 end;
                 float interpolate;
-                if (remainingTime < halfRemainingTime)
-                {
-                    sprite.SetAnimation("right");
-                    if (needsAttack)
-                    {
-                        needsAttack = false;
-                        battleManager.Attack(this, target);
-                    }
 
-                    start = target.MeleeAttackLocation;
-                    end = this.startPosition;
-                    interpolate = remainingTime / (float)halfRemainingTime;
-                }
-                else
+                if (remainingTime > standStartTime)
                 {
                     sprite.SetAnimation("left");
                     target = battleManager.ValidateTarget(this, target);
                     start = this.startPosition;
                     end = target.MeleeAttackLocation;
-                    interpolate = (remainingTime - halfRemainingTime) / (float)halfRemainingTime;
+                    interpolate = (remainingTime - standStartTime) / (float)standStartTime;
                 }
+                else if(remainingTime > standEndTime)
+                {
+                    var slerpAmount = (remainingTime - standEndTime) / (float)standEndTime;
+                    sword.SetAdditionalRotation(swingStart.slerp(swingEnd, slerpAmount));
+                    sprite.SetAnimation("stand-left");
+                    interpolate = 0.0f;
+                    start = target.MeleeAttackLocation;
+                    end = target.MeleeAttackLocation;
+
+                    if(needsAttack && remainingTime < swingTime)
+                    {
+                        needsAttack = false;
+                        battleManager.Attack(this, target);
+                    }
+                }
+                else
+                {
+                    sprite.SetAnimation("right");
+
+                    sword.SetAdditionalRotation(Quaternion.Identity);
+
+                    start = target.MeleeAttackLocation;
+                    end = this.startPosition;
+                    interpolate = remainingTime / (float)standEndTime;
+                }
+                
                 this.sceneObject.position = end.lerp(start, interpolate);
 
                 if (remainingTime < 0)
@@ -316,14 +336,14 @@ namespace SceneTest
                 var primaryAttach = frame.Attachments[this.primaryHand];
                 var offset = scale * primaryAttach.translate;
                 offset = Quaternion.quatRotate(this.sceneObject.orientation, offset) + this.sceneObject.position;
-                sword.SetPosition(ref offset, ref this.sceneObject.orientation, ref scale);
+                sword.SetPosition(offset, this.sceneObject.orientation, scale);
             }
 
             {
                 var secondaryAttach = frame.Attachments[this.secondaryHand];
                 var offset = scale * secondaryAttach.translate;
                 offset = Quaternion.quatRotate(this.sceneObject.orientation, offset) + this.sceneObject.position;
-                shield.SetPosition(ref offset, ref this.sceneObject.orientation, ref scale);
+                shield.SetPosition(offset, this.sceneObject.orientation, scale);
             }
         }
 

@@ -163,7 +163,7 @@ namespace Engine
         /// </summary>
         /// <param name="q">The Quaternion to compute the dot product of.</param>
         /// <returns>The dot product.</returns>
-        public float dot(ref Quaternion q)
+        public float dot(in Quaternion q)
         {
             return x * q.x + y * q.y + z * q.z + w * q.w;
         }
@@ -174,7 +174,7 @@ namespace Engine
         /// <returns>The squared length of this Quaternion.</returns>
         public float length2()
         {
-            return dot(ref this);
+            return dot(this);
         }
 
         /// <summary>
@@ -209,10 +209,10 @@ namespace Engine
         /// </summary>
         /// <param name="q">The other quaterinon.</param>
         /// <returns>The angle between these two quaternions.</returns>
-        public float angle(ref Quaternion q)
+        public float angle(in Quaternion q)
         {
-            float s = (float)System.Math.Sqrt(length2() * q.length2());
-            return (float)System.Math.Acos(dot(ref q) / s);
+            float s = MathF.Sqrt(length2() * q.length2());
+            return MathF.Acos(dot(q) / s);
         }
 
         /// <summary>
@@ -267,7 +267,7 @@ namespace Engine
             Quaternion diff, sum;
             diff = this - qd;
             sum = this + qd;
-            if (diff.dot(ref diff) > sum.dot(ref sum))
+            if (diff.dot(diff) > sum.dot(sum))
                 return qd;
             return (-qd);
         }
@@ -313,39 +313,9 @@ namespace Engine
         /// <param name="q">The goal quaternion.</param>
         /// <param name="t">The amount of time passed between 0 and 1.</param>
         /// <returns></returns>
-        public Quaternion slerp(ref Quaternion q, float t)
+        public Quaternion slerp(in Quaternion q, float t)
         {
-            float theta = angle(ref q);
-            if (theta != 0.0f && !float.IsNaN(theta))
-            {
-                float d = 1.0f / (float)System.Math.Sin(theta);
-                float s0 = (float)System.Math.Sin((1.0f - t) * theta);
-                float sinYaw = (float)System.Math.Sin(t * theta);
-                return new Quaternion((x * s0 + q.x * sinYaw) * d,
-                    (y * s0 + q.y * sinYaw) * d,
-                    (z * s0 + q.z * sinYaw) * d,
-                    (w * s0 + q.w * sinYaw) * d);
-            }
-            else
-            {
-                return this;
-            }
-        }
-
-        /// <summary>
-        /// Compute a spherical linear interpolation for this quaternion to rotate
-        /// to q over t.
-        /// </summary>
-        /// <remarks>
-        /// This will do a slerp, which is constant velocity and torque-minimal, but 
-        /// is not commutative, be careful what order you put in the arguments.
-        /// </remarks>
-        /// <param name="q">The goal quaternion.</param>
-        /// <param name="t">The amount of time passed between 0 and 1.</param>
-        /// <returns></returns>
-        public Quaternion slerp(Quaternion q, float t)
-        {
-            float theta = angle(ref q);
+            float theta = angle(q);
             if (theta != 0.0f && !float.IsNaN(theta))
             {
                 float d = 1.0f / (float)System.Math.Sin(theta);
@@ -369,12 +339,12 @@ namespace Engine
         /// <param name="t"></param>
         /// <param name="shortestPath"></param>
         /// <returns></returns>
-        public Quaternion slerp(ref Quaternion q, float fT, bool shortestPath)
+        public Quaternion slerp(in Quaternion q, float fT, bool shortestPath)
         {
             Quaternion rkP = this;
             Quaternion rkQ = q;
 
-            float fCos = rkP.dot(ref rkQ);
+            float fCos = rkP.dot(rkQ);
             Quaternion rkT;
 
             // Do we need to invert rotation?

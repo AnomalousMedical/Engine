@@ -35,6 +35,7 @@ namespace SceneTest
         private bool disposed;
 
         private Quaternion orientation;
+        private Quaternion additionalRotation = Quaternion.Identity;
 
         public Attachment(
             SceneObjectManager<TSceneObjectManager> sceneObjectManager,
@@ -88,7 +89,12 @@ namespace SceneTest
             });
         }
 
-        public void SetPosition(ref Vector3 parentPosition, ref Quaternion parentRotation, ref Vector3 parentScale)
+        public void SetAdditionalRotation(in Quaternion additionalRotation)
+        {
+            this.additionalRotation = additionalRotation;
+        }
+
+        public void SetPosition(in Vector3 parentPosition, in Quaternion parentRotation, in Vector3 parentScale)
         {
             var frame = sprite.GetCurrentFrame();
             var primaryAttach = frame.Attachments[PrimaryAttachment];
@@ -96,7 +102,7 @@ namespace SceneTest
             //Get the primary attachment out of sprite space into world space
             var scale = sprite.BaseScale * parentScale;
             var translate = scale * primaryAttach.translate;
-            var fullRot = parentRotation * this.orientation;
+            var fullRot = parentRotation * this.orientation * additionalRotation;
             translate = Quaternion.quatRotate(fullRot, translate);
 
             this.sceneObject.position = parentPosition - translate; //The attachment point on the sprite is an offset to where that sprite attaches, subtract it
