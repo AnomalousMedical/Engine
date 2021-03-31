@@ -8,6 +8,6 @@ namespace SceneTest
 
         void SetActive(bool active);
         void SetupBattle();
-        void UpdateGui(Clock clock);
+        void Update(Clock clock);
     }
 }

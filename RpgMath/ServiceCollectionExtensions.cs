@@ -10,8 +10,10 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddRpgMath(this IServiceCollection services)
         {
-            services.TryAddSingleton<IDamageCalculator, DamageCalculator>();
-            services.TryAddSingleton<IXpCalculator, XpCalculator>();
+            services.AddSingleton<IDamageCalculator, DamageCalculator>();
+            services.AddSingleton<IXpCalculator, XpCalculator>();
+            services.AddSingleton<ITurnTimer, TurnTimer>();
+            services.AddScoped<ICharacterTimer, CharacterTimer>();
 
             return services;
         }

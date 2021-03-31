@@ -96,6 +96,8 @@ namespace RpgMath
 
         public long MagicDefensePercent => EquippedItems().Sum(i => i.MagicDefensePercent);
 
+        public long BaseDexterity => Archetype.Dexterity;
+
         public long Dexterity => Archetype.Dexterity + EquippedItems().Sum(i => i.Dexterity);
 
         public long Luck => Archetype.Luck + EquippedItems().Sum(i => i.Luck);

@@ -26,6 +26,7 @@ namespace SceneTest
         private readonly IBackgroundMusicManager backgroundMusicManager;
         private readonly IScreenPositioner screenPositioner;
         private readonly ICameraProjector cameraProjector;
+        private readonly ITurnTimer turnTimer;
         private readonly IObjectResolver objectResolver;
         private BattleArena battleArena;
 
@@ -51,7 +52,8 @@ namespace SceneTest
             IDamageCalculator damageCalculator,
             IBackgroundMusicManager backgroundMusicManager,
             IScreenPositioner screenPositioner,
-            ICameraProjector cameraProjector)
+            ICameraProjector cameraProjector,
+            ITurnTimer turnTimer)
         {
             this.eventManager = eventManager;
             this.sharpGui = sharpGui;
@@ -63,6 +65,7 @@ namespace SceneTest
             this.backgroundMusicManager = backgroundMusicManager;
             this.screenPositioner = screenPositioner;
             this.cameraProjector = cameraProjector;
+            this.turnTimer = turnTimer;
             this.objectResolver = objectResolverFactory.Create();
 
             cursor = this.objectResolver.Resolve<TargetCursor>();
@@ -124,6 +127,7 @@ namespace SceneTest
                     numbers.Clear();
 
                     backgroundMusicManager.SetBattleTrack("freepd/Rafael Krux - Hit n Smash.ogg");
+                    turnTimer.Restart(0, players.Sum(i => i.BaseDexterity), players.Select(i => i.CharacterTimer));
 
                     eventManager[EventLayers.Battle].OnUpdate += eventManager_OnUpdate;
                     cameraMover.Position = new Vector3(-1.0354034f, 2.958224f, -12.394701f);
@@ -133,6 +137,7 @@ namespace SceneTest
                     foreach (var player in players)
                     {
                         activePlayers.Enqueue(player); //Needs to be on a timer
+                        player.CharacterTimer.TurnTimerActive = false;
                     }
                 }
                 else
@@ -154,7 +159,7 @@ namespace SceneTest
             }
         }
 
-        public void UpdateGui(Clock clock)
+        public void Update(Clock clock)
         {
             if (turnQueue.Count > 0)
             {
@@ -184,6 +189,8 @@ namespace SceneTest
             }
             else
             {
+                turnTimer.Update(clock);
+
                 BattlePlayer activePlayer = activePlayers.Count > 0 ? activePlayers.Peek() : null;
                 if (cursor.Targeting)
                 {
@@ -297,10 +304,12 @@ namespace SceneTest
 
         public void TurnComplete(BattlePlayer player)
         {
-            if (enemies.Count > 0)
-            {
-                this.activePlayers.Enqueue(player); //Add them to timer to get new turn
-            }
+            
+        }
+
+        public void AddToActivePlayers(BattlePlayer player)
+        {
+            this.activePlayers.Enqueue(player);
         }
 
         public Task<IBattleTarget> GetTarget()

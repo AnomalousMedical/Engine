@@ -209,7 +209,7 @@ namespace SceneTest
             if (battleManager.Active)
             {
                 sceneObjects = battleSceneObjects;
-                battleManager.UpdateGui(clock);
+                battleManager.Update(clock);
             }
             else
             {

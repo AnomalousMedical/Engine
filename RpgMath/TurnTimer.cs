@@ -5,66 +5,9 @@ using System.Text;
 
 namespace RpgMath
 {
-    class CharacterTimer
+    class TurnTimer : ITurnTimer
     {
-        public event Action<CharacterTimer> TurnReady;
-
-        public const long VTimerUnit = 8192L;
-        public const long CTimerUnit = 4096L;
-        public const long TurnTimerUnit = 65535L;
-
-        private long vTimer;
-        private long cTimer;
-        private long turnTimer;
-
-        public long VTimer => vTimer;
-        public long CTimer => cTimer;
-        public long TurnTimer => turnTimer;
-
-        /// <summary>
-        /// The speed modifier.
-        /// </summary>
-        public long Modifier { get; set; }
-
-        /// <summary>
-        /// True to multiply by the modifier, false to divide.
-        /// </summary>
-        public bool ModifierMultiplies { get; set; }
-
-        /// <summary>
-        /// The character's entire dexterity score.
-        /// </summary>
-        public long TotalDex { get; set; }
-
-        public void Tick(long speedValue, long normalSpeed)
-        {
-            long vTimerIncrease = 0;
-            if (Modifier != 0)
-            {
-                vTimerIncrease = 2 * speedValue;
-                if (ModifierMultiplies)
-                {
-                    vTimerIncrease *= Modifier;
-                }
-                else
-                {
-                    vTimerIncrease /= Modifier;
-                }
-                vTimer += vTimerIncrease;
-            }
-            cTimer += 68;
-            turnTimer += TotalDex * vTimerIncrease / normalSpeed;
-            if(turnTimer > TurnTimerUnit)
-            {
-                TurnReady?.Invoke(this);
-                turnTimer = 0;
-            }
-        }
-    }
-
-    class TurnTimer
-    {
-        public const long TickTime = (long)(1f / 30f * Clock.SecondsToMicro);
+        public const long TickTime = (long)(1f / 120f * Clock.SecondsToMicro);
         public const long GlobalTimerUnit = 8192L;
 
         private long speedValue;
@@ -72,7 +15,7 @@ namespace RpgMath
         private long globalTimer;
         private long normalSpeed;
 
-        private List<CharacterTimer> characterTimers;
+        private List<ICharacterTimer> characterTimers = new List<ICharacterTimer>();
 
         /// <summary>
         /// Restart the timer.
@@ -80,13 +23,23 @@ namespace RpgMath
         /// <param name="battleSpeed">The battle speed chosen by the player's config. 0 is fastest 255 is slowest and 128 is middle.</param>
         /// <param name="baseDexSum">The sum of the base dex of all characters in the party. This is</param>
         /// <param name="characterTimers"></param>
-        public void Restart(long battleSpeed, long baseDexSum, List<CharacterTimer> characterTimers)
+        public void Restart(long battleSpeed, long baseDexSum, IEnumerable<ICharacterTimer> characterTimers)
         {
-            this.characterTimers = characterTimers;
+            this.characterTimers.AddRange(characterTimers);
             speedValue = 32768L / (120L + battleSpeed * 15L / 8L);
             accumulator = 0;
             globalTimer = 0;
             normalSpeed = (long)MathF.Ceiling(baseDexSum / 2f) + 50;
+        }
+
+        public void End()
+        {
+            this.characterTimers.Clear();
+        }
+
+        public void RemoveTimer(ICharacterTimer timer)
+        {
+            this.characterTimers.Remove(timer);
         }
 
         public void Update(Clock clock)

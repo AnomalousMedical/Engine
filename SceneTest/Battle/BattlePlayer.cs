@@ -23,6 +23,7 @@ namespace SceneTest
         private readonly IScopedCoroutine coroutine;
         private readonly IScaleHelper scaleHelper;
         private readonly IScreenPositioner screenPositioner;
+        private readonly ICharacterTimer characterTimer;
         private readonly BattleManager battleManager;
         private readonly SceneObject sceneObject;
         private readonly IObjectResolver objectResolver;
@@ -53,7 +54,11 @@ namespace SceneTest
 
         public BattleTargetType BattleTargetType => BattleTargetType.Player;
 
+        public ICharacterTimer CharacterTimer => characterTimer;
+
         public bool IsDead => false;
+
+        public int BaseDexterity { get; internal set; }
 
         private Vector3 startPosition;
 
@@ -77,7 +82,8 @@ namespace SceneTest
             IObjectResolverFactory objectResolverFactory,
             IScopedCoroutine coroutine,
             IScaleHelper scaleHelper,
-            IScreenPositioner screenPositioner)
+            IScreenPositioner screenPositioner,
+            ICharacterTimer characterTimer)
         {
             this.characterSheet = description.CharacterSheet ?? throw new InvalidOperationException("You must include a character sheet in the description");
             this.playerSpriteInfo = playerSpriteInfo;
@@ -88,11 +94,15 @@ namespace SceneTest
             this.coroutine = coroutine;
             this.scaleHelper = scaleHelper;
             this.screenPositioner = screenPositioner;
+            this.characterTimer = characterTimer;
             this.battleManager = description.BattleManager ?? throw new InvalidOperationException("You must include a battle manager in the description");
             this.primaryHand = description.PrimaryHand;
             this.secondaryHand = description.SecondaryHand;
             this.gamepadId = description.Gamepad;
             this.objectResolver = objectResolverFactory.Create();
+
+            characterTimer.TurnReady += CharacterTimer_TurnReady;
+            characterTimer.TotalDex = characterSheet.Dexterity;
 
             sprite = new FrameEventSprite(playerSpriteInfo.Animations);
             sprite.FrameChanged += Sprite_FrameChanged;
@@ -122,7 +132,6 @@ namespace SceneTest
                 o.SpriteMaterial = new SpriteMaterialDescription
                 (
                     colorMap: "original/greatsword_01.png",
-                    //colorMap: "opengameart/Dungeon Crawl Stone Soup Full/misc/cursor_red.png",
                     materials: new HashSet<SpriteMaterialTextureItem>
                     {
                         new SpriteMaterialTextureItem(0xff802000, "cc0Textures/Leather001_1K", "jpg"), //Hilt (brown)
@@ -139,7 +148,6 @@ namespace SceneTest
                 o.SpriteMaterial = new SpriteMaterialDescription
                 (
                     colorMap: "original/shield_of_reflection.png",
-                    //colorMap: "opengameart/Dungeon Crawl Stone Soup Full/misc/cursor_red.png",
                     materials: new HashSet<SpriteMaterialTextureItem>
                     {
                         new SpriteMaterialTextureItem(0xffa0a0a0, "cc0Textures/Pipe002_1K", "jpg"), //Blade (grey)
@@ -205,6 +213,7 @@ namespace SceneTest
 
         public void Dispose()
         {
+            characterTimer.TurnReady -= CharacterTimer_TurnReady;
             sprite.FrameChanged -= Sprite_FrameChanged;
             sprites.Remove(sprite);
             sceneObjectManager.Remove(sceneObject);
@@ -312,7 +321,7 @@ namespace SceneTest
                 if (remainingTime < 0)
                 {
                     sprite.SetAnimation("stand-left");
-                    battleManager.TurnComplete(this);
+                    TurnComplete();
                     done = true;
                 }
 
@@ -320,6 +329,18 @@ namespace SceneTest
 
                 return done;
             });
+        }
+
+        private void CharacterTimer_TurnReady(ICharacterTimer timer)
+        {
+            battleManager.AddToActivePlayers(this);
+            characterTimer.TurnTimerActive = false;
+        }
+
+        private void TurnComplete()
+        {
+            battleManager.TurnComplete(this);
+            characterTimer.TurnTimerActive = true;
         }
 
         public void RequestDestruction()
