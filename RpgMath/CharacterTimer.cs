@@ -18,7 +18,12 @@ namespace RpgMath
 
         public long VTimer => vTimer;
         public long CTimer => cTimer;
-        public long TurnTimer => turnTimer;
+        public long TurnTimer
+        {
+            get { return turnTimer; }
+            set { turnTimer = value; }
+        }
+
         public float TurnTimerPct => (float)turnTimer / TurnTimerUnit;
 
         /// <summary>

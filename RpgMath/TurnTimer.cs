@@ -7,7 +7,7 @@ namespace RpgMath
 {
     class TurnTimer : ITurnTimer
     {
-        public const long TickTime = (long)(1f / 120f * Clock.SecondsToMicro);
+        public const long TickTime = (long)(1f / 200f * Clock.SecondsToMicro);
         public const long GlobalTimerUnit = 8192L;
 
         private long speedValue;
@@ -45,7 +45,7 @@ namespace RpgMath
         public void Update(Clock clock)
         {
             accumulator += clock.DeltaTimeMicro;
-            if (accumulator > TickTime)
+            while (accumulator > TickTime)
             {
                 accumulator -= TickTime;
                 globalTimer += speedValue;

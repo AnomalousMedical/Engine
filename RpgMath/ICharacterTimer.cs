@@ -9,7 +9,7 @@ namespace RpgMath
         bool ModifierMultiplies { get; set; }
         long TotalDex { get; set; }
         bool TurnTimerActive { get; set; }
-        long TurnTimer { get; }
+        long TurnTimer { get; set; }
         long VTimer { get; }
 
         event Action<ICharacterTimer> TurnReady;

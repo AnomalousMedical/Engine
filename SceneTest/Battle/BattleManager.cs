@@ -134,10 +134,32 @@ namespace SceneTest
                     cameraMover.Orientation = new Quaternion(0.057467595f, 0.0049917176f, -0.00028734046f, 0.9983348f);
                     cameraMover.SceneCenter = new Vector3(0f, 0f, 0f);
 
-                    foreach (var player in players)
+                    var instantAttackChance = targetRandom.Next(100);
+                    if(instantAttackChance < 3)
                     {
-                        activePlayers.Enqueue(player); //Needs to be on a timer
-                        player.CharacterTimer.TurnTimerActive = false;
+                        //Instant attack, players start with turns and enemies start at 0
+                        foreach (var player in players)
+                        {
+                            activePlayers.Enqueue(player); //Needs to be on a timer
+                            player.CharacterTimer.TurnTimerActive = false;
+                        }
+                    }
+                    else
+                    {
+                        long highestTimer = 0;
+                        foreach (var timer in players.Select(i => i.CharacterTimer)) //Look at everything with a timer
+                        {
+                            timer.TurnTimer = targetRandom.Next(32767);
+                            if(timer.TurnTimer > highestTimer)
+                            {
+                                highestTimer = timer.TurnTimer;
+                            }
+                        }
+                        long adjustment = 57344 - highestTimer;
+                        foreach (var timer in players.Select(i => i.CharacterTimer)) //Look at everything with a timer
+                        {
+                            timer.TurnTimer += adjustment;
+                        }
                     }
                 }
                 else
