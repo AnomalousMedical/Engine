@@ -280,6 +280,12 @@ namespace SceneTest
                         target = enemies[targetRandom.Next(enemies.Count)];
                     }
                     break;
+                case BattleTargetType.Player:
+                    if (!players.Contains(target))
+                    {
+                        target = GetRandomPlayer();
+                    }
+                    break;
             }
 
             return target;
@@ -330,6 +336,11 @@ namespace SceneTest
         }
 
         public void TurnComplete(BattlePlayer player)
+        {
+
+        }
+
+        public void TurnComplete(Enemy player)
         {
 
         }

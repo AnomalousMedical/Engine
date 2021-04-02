@@ -43,6 +43,7 @@ namespace RpgMath
 
         /// <summary>
         /// Set this to true while the character is running or waiting for their turn.
+        /// When a turn occurs this becomes false before the <see cref="TurnReady"/> call.
         /// </summary>
         public bool TurnTimerActive { get; set; } = true;
 
@@ -70,6 +71,7 @@ namespace RpgMath
             }
             if (turnTimer > TurnTimerUnit)
             {
+                TurnTimerActive = false;
                 TurnReady?.Invoke(this);
                 turnTimer = 0;
             }

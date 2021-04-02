@@ -94,6 +94,8 @@ namespace SceneTest
         private readonly ICharacterTimer characterTimer;
         private readonly IBattleManager battleManager;
 
+        private Vector3 startPosition;
+
         public Vector3 MeleeAttackLocation => this.sceneObject.position + new Vector3(sprite.BaseScale.x, 0, 0);
 
         public ICharacterTimer CharacterTimer => characterTimer;
@@ -140,6 +142,8 @@ namespace SceneTest
                 Sprite = sprite,
             };
 
+            this.startPosition = sceneObject.position;
+
             coroutine.RunTask(async () =>
             {
                 using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until coroutine is finished and this is disposed.
@@ -165,20 +169,82 @@ namespace SceneTest
 
         private void CharacterTimer_TurnReady(ICharacterTimer obj)
         {
-            long remainingTime = (long)(2f * Clock.SecondsToMicro);
+            var swingEnd = Quaternion.Identity;
+            var swingStart = new Quaternion(0f, MathF.PI / 2.1f, 0f);
+
+            long remainingTime = (long)(1.8f * Clock.SecondsToMicro);
+            long standTime = (long)(0.2f * Clock.SecondsToMicro);
+            long standStartTime = remainingTime / 2;
+            long swingTime = standStartTime - standTime / 3;
+            long standEndTime = standStartTime - standTime;
             bool needsAttack = true;
+            var target = battleManager.GetRandomPlayer();
             battleManager.QueueTurn(c =>
             {
-                remainingTime -= c.DeltaTimeMicro;
-                var done = remainingTime > 0;
-                if (needsAttack)
+                if (IsDead)
                 {
-                    var target = battleManager.GetRandomPlayer();
-                    battleManager.Attack(this, target);
+                    return true;
                 }
+
+                var done = false;
+                remainingTime -= c.DeltaTimeMicro;
+                Vector3 start;
+                Vector3 end;
+                float interpolate;
+
+                if (remainingTime > standStartTime)
+                {
+                    //sprite.SetAnimation("left");
+                    target = battleManager.ValidateTarget(this, target);
+                    start = this.startPosition;
+                    end = target.MeleeAttackLocation;
+                    interpolate = (remainingTime - standStartTime) / (float)standStartTime;
+                }
+                else if (remainingTime > standEndTime)
+                {
+                    var slerpAmount = (remainingTime - standEndTime) / (float)standEndTime;
+                    //sword.SetAdditionalRotation(swingStart.slerp(swingEnd, slerpAmount));
+                    //sprite.SetAnimation("stand-left");
+                    interpolate = 0.0f;
+                    start = target.MeleeAttackLocation;
+                    end = target.MeleeAttackLocation;
+
+                    if (needsAttack && remainingTime < swingTime)
+                    {
+                        needsAttack = false;
+                        battleManager.Attack(this, target);
+                    }
+                }
+                else
+                {
+                    //sprite.SetAnimation("right");
+
+                    //sword.SetAdditionalRotation(Quaternion.Identity);
+
+                    start = target.MeleeAttackLocation;
+                    end = this.startPosition;
+                    interpolate = remainingTime / (float)standEndTime;
+                }
+
+                this.sceneObject.position = end.lerp(start, interpolate);
+
+                if (remainingTime < 0)
+                {
+                    sprite.SetAnimation("stand-left");
+                    TurnComplete();
+                    done = true;
+                }
+
+                //Sprite_FrameChanged(sprite);
 
                 return done;
             });
+        }
+
+        private void TurnComplete()
+        {
+            battleManager.TurnComplete(this);
+            characterTimer.TurnTimerActive = true;
         }
 
         public void RequestDestruction()

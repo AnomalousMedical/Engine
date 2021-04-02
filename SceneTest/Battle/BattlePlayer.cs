@@ -277,6 +277,11 @@ namespace SceneTest
             battleManager.DeactivateCurrentPlayer();
             battleManager.QueueTurn(c =>
             {
+                if (IsDead)
+                {
+                    return true;
+                }
+
                 var done = false;
                 remainingTime -= c.DeltaTimeMicro;
                 Vector3 start;
@@ -335,7 +340,6 @@ namespace SceneTest
         private void CharacterTimer_TurnReady(ICharacterTimer timer)
         {
             battleManager.AddToActivePlayers(this);
-            characterTimer.TurnTimerActive = false;
         }
 
         private void TurnComplete()
