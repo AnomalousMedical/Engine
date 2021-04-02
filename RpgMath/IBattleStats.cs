@@ -2,8 +2,8 @@
 {
     public interface IBattleStats
     {
-        long Hp { get; set; }
-        long Mp { get; set; }
+        long Hp { get; }
+        long Mp { get; }
         long Attack { get; }
         long AttackPercent { get; }
         long Defense { get; }

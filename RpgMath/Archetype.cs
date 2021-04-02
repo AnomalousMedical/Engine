@@ -6,21 +6,40 @@ namespace RpgMath
 {
     public class Archetype
     {
-        public long Hp { get; set; }
+        public long BaseHp { get; set; }
 
-        public long Mp { get; set; }
+        public long BonusHp { get; set; }
 
-        public long Strength { get; set; }
+        public long BaseMp { get; set; }
 
-        public long Vitality { get; set; }
+        public long BonusMp { get; set; }
 
-        public long Magic { get; set; }
+        public long BaseStrength { get; set; }
 
-        public long Spirit { get; set; }
+        public long BonusStrength { get; set; }
 
-        public long Dexterity { get; set; }
+        public long BaseVitality { get; set; }
 
-        public long Luck { get; set; }
+        public long BonusVitality { get; set; }
+
+        public long BaseMagic { get; set; }
+
+        public long BonusMagic { get; set; }
+
+        public long BaseSpirit { get; set; }
+
+        public long BonusSpirit { get; set; }
+
+        /// <summary>
+        /// This is used to determine base battle timing. Raise it with the dex equation but don't ever modify it by anything.
+        /// </summary>
+        public long BaseDexterity { get; set; }
+
+        public long BonusDexterity { get; set; }
+
+        public long BaseLuck { get; set; }
+
+        public long BonusLuck { get; set; }
 
         public long HpGrade { get; set; }
 
@@ -58,14 +77,14 @@ namespace RpgMath
         {
             return new Archetype()
             {
-                Hp        = 314,
-                Mp        = 54,
-                Strength  = 20,
-                Vitality  = 16,
-                Magic     = 19,
-                Spirit    = 17,
-                Dexterity = 6,
-                Luck      = 14,
+                BaseHp        = 314,
+                BaseMp        = 54,
+                BaseStrength  = 20,
+                BaseVitality  = 16,
+                BaseMagic     = 19,
+                BaseSpirit    = 17,
+                BaseDexterity = 6,
+                BaseLuck      = 14,
 
                 HpGrade        = 0,
                 MpGrade        = 0,
@@ -91,14 +110,14 @@ namespace RpgMath
         {
             return new Archetype()
             {
-                Hp        = 222,
-                Mp        = 15,
-                Strength  = 15,
-                Vitality  = 13,
-                Magic     = 11,
-                Spirit    = 9,
-                Dexterity = 5,
-                Luck      = 13,
+                BaseHp        = 222,
+                BaseMp        = 15,
+                BaseStrength  = 15,
+                BaseVitality  = 13,
+                BaseMagic     = 11,
+                BaseSpirit    = 9,
+                BaseDexterity = 5,
+                BaseLuck      = 13,
 
                 HpGrade        = 1,
                 MpGrade        = 1,
@@ -124,14 +143,14 @@ namespace RpgMath
         {
             return new Archetype()
             {
-                Hp        = 219,
-                Mp        = 16,
-                Strength  = 11,
-                Vitality  = 11,
-                Magic     = 11,
-                Spirit    = 10,
-                Dexterity = 7,
-                Luck      = 14,
+                BaseHp        = 219,
+                BaseMp        = 16,
+                BaseStrength  = 11,
+                BaseVitality  = 11,
+                BaseMagic     = 11,
+                BaseSpirit    = 10,
+                BaseDexterity = 7,
+                BaseLuck      = 14,
 
                 HpGrade        = 2,
                 MpGrade        = 2,
@@ -157,14 +176,14 @@ namespace RpgMath
         {
             return new Archetype()
             {
-                Hp        = 177,
-                Mp        = 23,
-                Strength  = 10,
-                Vitality  = 11,
-                Magic     = 13,
-                Spirit    = 14,
-                Dexterity = 5,
-                Luck      = 14,
+                BaseHp        = 177,
+                BaseMp        = 23,
+                BaseStrength  = 10,
+                BaseVitality  = 11,
+                BaseMagic     = 13,
+                BaseSpirit    = 14,
+                BaseDexterity = 5,
+                BaseLuck      = 14,
 
                 HpGrade        = 3,
                 MpGrade        = 3,
@@ -190,14 +209,14 @@ namespace RpgMath
         {
             return new Archetype()
             {
-                Hp        = 221,
-                Mp        = 17,
-                Strength  = 10,
-                Vitality  = 12,
-                Magic     = 11,
-                Spirit    = 10,
-                Dexterity = 10,
-                Luck      = 14,
+                BaseHp        = 221,
+                BaseMp        = 17,
+                BaseStrength  = 10,
+                BaseVitality  = 12,
+                BaseMagic     = 11,
+                BaseSpirit    = 10,
+                BaseDexterity = 10,
+                BaseLuck      = 14,
 
                 HpGrade        = 4,
                 MpGrade        = 4,
@@ -223,14 +242,14 @@ namespace RpgMath
         {
             return new Archetype()
             {
-                Hp        = 100,
-                Mp        = 5,
-                Strength  = 1,
-                Vitality  = 1,
-                Magic     = 1,
-                Spirit    = 1,
-                Dexterity = 1,
-                Luck      = 1,
+                BaseHp        = 100,
+                BaseMp        = 5,
+                BaseStrength  = 1,
+                BaseVitality  = 1,
+                BaseMagic     = 1,
+                BaseSpirit    = 1,
+                BaseDexterity = 1,
+                BaseLuck      = 1,
 
                 HpGrade        = 5,
                 MpGrade        = 5,
@@ -256,14 +275,14 @@ namespace RpgMath
         {
             return new Archetype()
             {
-                Hp        = 224,
-                Mp        = 18,
-                Strength  = 10,
-                Vitality  = 11,
-                Magic     = 13,
-                Spirit    = 11,
-                Dexterity = 5,
-                Luck      = 15,
+                BaseHp        = 224,
+                BaseMp        = 18,
+                BaseStrength  = 10,
+                BaseVitality  = 11,
+                BaseMagic     = 13,
+                BaseSpirit    = 11,
+                BaseDexterity = 5,
+                BaseLuck      = 15,
 
                 HpGrade        = 6,
                 MpGrade        = 6,
@@ -289,14 +308,14 @@ namespace RpgMath
         {
             return new Archetype()
             {
-                Hp        = 178,
-                Mp        = 18,
-                Strength  = 9,
-                Vitality  = 10,
-                Magic     = 11,
-                Spirit    = 11,
-                Dexterity = 5,
-                Luck      = 14,
+                BaseHp        = 178,
+                BaseMp        = 18,
+                BaseStrength  = 9,
+                BaseVitality  = 10,
+                BaseMagic     = 11,
+                BaseSpirit    = 11,
+                BaseDexterity = 5,
+                BaseLuck      = 14,
 
                 HpGrade        = 7,
                 MpGrade        = 7,
@@ -322,14 +341,14 @@ namespace RpgMath
         {
             return new Archetype()
             {
-                Hp        = 223,
-                Mp        = 15,
-                Strength  = 12,
-                Vitality  = 12,
-                Magic     = 11,
-                Spirit    = 10,
-                Dexterity = 6,
-                Luck      = 14,
+                BaseHp        = 223,
+                BaseMp        = 15,
+                BaseStrength  = 12,
+                BaseVitality  = 12,
+                BaseMagic     = 11,
+                BaseSpirit    = 10,
+                BaseDexterity = 6,
+                BaseLuck      = 14,
 
                 HpGrade        = 8,
                 MpGrade        = 8,

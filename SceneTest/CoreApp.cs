@@ -112,8 +112,8 @@ namespace SceneTest
                         Name = "Hero",
                         Archetype = arch,
                         Level = 1,
-                        CurrentHp = arch.Hp,
-                        CurrentMp = arch.Mp,
+                        CurrentHp = arch.BaseHp + arch.BonusHp,
+                        CurrentMp = arch.BaseMp + arch.BonusMp,
                         MainHand = new Equipment()
                         {
                             AttackPercent = 100,
@@ -129,8 +129,8 @@ namespace SceneTest
                         Name = "Sage",
                         Archetype = arch,
                         Level = 1,
-                        CurrentHp = arch.Hp,
-                        CurrentMp = arch.Mp,
+                        CurrentHp = arch.BaseHp + arch.BonusHp,
+                        CurrentMp = arch.BaseMp + arch.BonusMp,
                         MainHand = new Equipment()
                         {
                             AttackPercent = 100,
@@ -146,8 +146,8 @@ namespace SceneTest
                         Name = "Tank",
                         Archetype = arch,
                         Level = 1,
-                        CurrentHp = arch.Hp,
-                        CurrentMp = arch.Mp,
+                        CurrentHp = arch.BaseHp + arch.BonusHp,
+                        CurrentMp = arch.BaseMp + arch.BonusMp,
                         MainHand = new Equipment()
                         {
                             AttackPercent = 100,
@@ -163,8 +163,8 @@ namespace SceneTest
                         Name = "Guardian",
                         Archetype = arch,
                         Level = 1,
-                        CurrentHp = arch.Hp,
-                        CurrentMp = arch.Mp,
+                        CurrentHp = arch.BaseHp + arch.BonusHp,
+                        CurrentMp = arch.BaseMp + arch.BonusMp,
                         MainHand = new Equipment()
                         {
                             AttackPercent = 100,

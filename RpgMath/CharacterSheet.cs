@@ -74,33 +74,33 @@ namespace RpgMath
             }
         }
 
-        public long Hp { get; set; }
+        public long Hp => Archetype.BaseHp + Archetype.BonusHp;
 
-        public long Mp { get; set; }
+        public long Mp => Archetype.BaseMp + Archetype.BonusMp;
 
         public long CurrentHp { get; set; }
 
         public long CurrentMp { get; set; }
 
-        public long Attack => Archetype.Strength + EquippedItems().Sum(i => i.Strength + i.Attack);
+        public long Attack => Archetype.BaseStrength + Archetype.BonusStrength + EquippedItems().Sum(i => i.Strength + i.Attack);
 
         public long AttackPercent => EquippedItems().Sum(i => i.AttackPercent);
 
-        public long Defense => Archetype.Vitality + EquippedItems().Sum(i => i.Vitality + i.Defense);
+        public long Defense => Archetype.BaseVitality + Archetype.BonusVitality + EquippedItems().Sum(i => i.Vitality + i.Defense);
 
         public long DefensePercent => EquippedItems().Sum(i => i.DefensePercent);
 
-        public long MagicAttack => Archetype.Magic + EquippedItems().Sum(i => i.Magic + i.MagicAttack);
+        public long MagicAttack => Archetype.BaseMagic + Archetype.BonusMagic + EquippedItems().Sum(i => i.Magic + i.MagicAttack);
 
-        public long MagicDefense => Archetype.Spirit + EquippedItems().Sum(i => i.Spirit + i.MagicDefense);
+        public long MagicDefense => Archetype.BaseSpirit + Archetype.BonusSpirit + EquippedItems().Sum(i => i.Spirit + i.MagicDefense);
 
         public long MagicDefensePercent => EquippedItems().Sum(i => i.MagicDefensePercent);
 
-        public long BaseDexterity => Archetype.Dexterity;
+        public long BaseDexterity => Archetype.BaseDexterity;
 
-        public long Dexterity => Archetype.Dexterity + EquippedItems().Sum(i => i.Dexterity);
+        public long Dexterity => Archetype.BaseDexterity + Archetype.BonusDexterity + EquippedItems().Sum(i => i.Dexterity);
 
-        public long Luck => Archetype.Luck + EquippedItems().Sum(i => i.Luck);
+        public long Luck => Archetype.BaseLuck + Archetype.BonusLuck + EquippedItems().Sum(i => i.Luck);
 
         public bool AllowLuckyEvade => true;
 
