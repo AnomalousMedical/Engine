@@ -24,7 +24,7 @@ namespace SceneTest
         private readonly IScaleHelper scaleHelper;
         private readonly IScreenPositioner screenPositioner;
         private readonly ICharacterTimer characterTimer;
-        private readonly BattleManager battleManager;
+        private readonly IBattleManager battleManager;
         private readonly SceneObject sceneObject;
         private readonly IObjectResolver objectResolver;
         private ISpriteMaterial spriteMaterial;
@@ -68,7 +68,6 @@ namespace SceneTest
             public int SecondaryHand = Player.LeftHand;
             public EventLayers EventLayer = EventLayers.Battle;
             public GamepadId Gamepad = GamepadId.Pad1;
-            public BattleManager BattleManager;
             public CharacterSheet CharacterSheet;
         }
 
@@ -83,7 +82,8 @@ namespace SceneTest
             IScopedCoroutine coroutine,
             IScaleHelper scaleHelper,
             IScreenPositioner screenPositioner,
-            ICharacterTimer characterTimer)
+            ICharacterTimer characterTimer,
+            IBattleManager battleManager)
         {
             this.characterSheet = description.CharacterSheet ?? throw new InvalidOperationException("You must include a character sheet in the description");
             this.playerSpriteInfo = playerSpriteInfo;
@@ -95,7 +95,7 @@ namespace SceneTest
             this.scaleHelper = scaleHelper;
             this.screenPositioner = screenPositioner;
             this.characterTimer = characterTimer;
-            this.battleManager = description.BattleManager ?? throw new InvalidOperationException("You must include a battle manager in the description");
+            this.battleManager = battleManager;
             this.primaryHand = description.PrimaryHand;
             this.secondaryHand = description.SecondaryHand;
             this.gamepadId = description.Gamepad;
@@ -274,6 +274,7 @@ namespace SceneTest
             long swingTime = standStartTime - standTime / 3;
             long standEndTime = standStartTime - standTime;
             bool needsAttack = true;
+            battleManager.DeactivateCurrentPlayer();
             battleManager.QueueTurn(c =>
             {
                 var done = false;

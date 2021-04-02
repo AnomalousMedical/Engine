@@ -87,7 +87,6 @@ namespace SceneTest
                 players.Add(this.objectResolver.Resolve<BattlePlayer, BattlePlayer.Description>(c =>
                 {
                     c.Translation = new Vector3(4, 0, currentZ);
-                    c.BattleManager = this;
                     c.CharacterSheet = member;
                 }));
 
@@ -127,7 +126,8 @@ namespace SceneTest
                     numbers.Clear();
 
                     backgroundMusicManager.SetBattleTrack("freepd/Rafael Krux - Hit n Smash.ogg");
-                    turnTimer.Restart(0, players.Sum(i => i.BaseDexterity), players.Select(i => i.CharacterTimer));
+                    var allTimers = players.Select(i => i.CharacterTimer).Concat(enemies.Select(i => i.CharacterTimer));
+                    turnTimer.Restart(0, players.Sum(i => i.BaseDexterity), allTimers);
 
                     eventManager[EventLayers.Battle].OnUpdate += eventManager_OnUpdate;
                     cameraMover.Position = new Vector3(-1.0354034f, 2.958224f, -12.394701f);
@@ -135,7 +135,7 @@ namespace SceneTest
                     cameraMover.SceneCenter = new Vector3(0f, 0f, 0f);
 
                     var instantAttackChance = targetRandom.Next(100);
-                    if(instantAttackChance < 3)
+                    if (instantAttackChance < 3)
                     {
                         //Instant attack, players start with turns and enemies start at 0
                         foreach (var player in players)
@@ -146,17 +146,18 @@ namespace SceneTest
                     }
                     else
                     {
+                        //Adjust highest timer until it is 57344, adjust all others the same amount
                         long highestTimer = 0;
-                        foreach (var timer in players.Select(i => i.CharacterTimer)) //Look at everything with a timer
+                        foreach (var timer in allTimers)
                         {
                             timer.TurnTimer = targetRandom.Next(32767);
-                            if(timer.TurnTimer > highestTimer)
+                            if (timer.TurnTimer > highestTimer)
                             {
                                 highestTimer = timer.TurnTimer;
                             }
                         }
                         long adjustment = 57344 - highestTimer;
-                        foreach (var timer in players.Select(i => i.CharacterTimer)) //Look at everything with a timer
+                        foreach (var timer in allTimers)
                         {
                             timer.TurnTimer += adjustment;
                         }
@@ -318,15 +319,19 @@ namespace SceneTest
             }
         }
 
+        public void DeactivateCurrentPlayer()
+        {
+            activePlayers.Dequeue();
+        }
+
         public void QueueTurn(Func<Clock, bool> turn)
         {
-            activePlayers.Dequeue(); //The player is queuing a turn, so dequeue them from the active players
             this.turnQueue.Enqueue(turn);
         }
 
         public void TurnComplete(BattlePlayer player)
         {
-            
+
         }
 
         public void AddToActivePlayers(BattlePlayer player)
@@ -337,6 +342,14 @@ namespace SceneTest
         public Task<IBattleTarget> GetTarget()
         {
             return cursor.GetTarget();
+        }
+
+        public IBattleTarget GetRandomPlayer()
+        {
+            //get number of living players
+            var living = players.Where(i => !i.IsDead).ToList();
+            var rand = targetRandom.Next(living.Count);
+            return living[rand];
         }
     }
 }

@@ -91,8 +91,12 @@ namespace SceneTest
         private SceneObject sceneObject;
         private Sprite sprite;
         private bool disposed;
+        private readonly ICharacterTimer characterTimer;
+        private readonly IBattleManager battleManager;
 
         public Vector3 MeleeAttackLocation => this.sceneObject.position + new Vector3(sprite.BaseScale.x, 0, 0);
+
+        public ICharacterTimer CharacterTimer => characterTimer;
 
         private long currentHp;
         private long currentMp;
@@ -104,17 +108,23 @@ namespace SceneTest
             IDestructionRequest destructionRequest,
             IScopedCoroutine coroutine,
             ISpriteMaterialManager spriteMaterialManager,
-            Desc description)
+            Desc description,
+            ICharacterTimer characterTimer,
+            IBattleManager battleManager)
         {
             this.sceneObjectManager = sceneObjectManager;
             this.sprites = sprites;
             this.destructionRequest = destructionRequest;
             this.spriteMaterialManager = spriteMaterialManager;
-
+            this.characterTimer = characterTimer;
+            this.battleManager = battleManager;
             this.sprite = description.Sprite;
             this.Stats = description.BattleStats ?? throw new InvalidOperationException("You must include battle stats in an enemy description.");
             this.currentHp = Stats.Hp;
             this.currentMp = Stats.Mp;
+
+            characterTimer.TurnReady += CharacterTimer_TurnReady; ;
+            characterTimer.TotalDex = Stats.Dexterity;
 
             sceneObject = new SceneObject()
             {
@@ -150,6 +160,24 @@ namespace SceneTest
                     sprites.Add(sprite);
                     sceneObjectManager.Add(sceneObject);
                 }
+            });
+        }
+
+        private void CharacterTimer_TurnReady(ICharacterTimer obj)
+        {
+            long remainingTime = (long)(2f * Clock.SecondsToMicro);
+            bool needsAttack = true;
+            battleManager.QueueTurn(c =>
+            {
+                remainingTime -= c.DeltaTimeMicro;
+                var done = remainingTime > 0;
+                if (needsAttack)
+                {
+                    var target = battleManager.GetRandomPlayer();
+                    battleManager.Attack(this, target);
+                }
+
+                return done;
             });
         }
 
