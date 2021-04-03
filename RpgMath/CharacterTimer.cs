@@ -75,8 +75,6 @@ namespace RpgMath
                 TurnReady?.Invoke(this);
                 turnTimer = 0;
             }
-
-            Console.WriteLine(turnTimer);
         }
     }
 }
