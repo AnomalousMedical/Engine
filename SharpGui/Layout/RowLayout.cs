@@ -50,7 +50,7 @@ namespace SharpGui
             {
                 int width = item.DesiredWidth;
                 item.LayoutItem.SetRect(new IntRect(left + Margin.Left, top + Margin.Top, width - Margin.Left - Margin.Right, height - Margin.Top - Margin.Bottom));
-                top += height;
+                left += width;
             }
         }
 

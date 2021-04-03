@@ -112,20 +112,8 @@ namespace SceneTest
 
         public void LayoutCommonItems()
         {
-            //var desiredSize = infoRow.GetDesiredSize(sharpGui);
-            //infoRow.SetRect(screenPositioner.GetBottomRightRect(desiredSize));
-
-            var desiredSize = ProgressColumn.GetDesiredSize(sharpGui);
-            ProgressColumn.SetRect(screenPositioner.GetBottomRightRect(desiredSize));
-
-            //desiredSize = HpColumn.GetDesiredSize(sharpGui);
-            //HpColumn.SetRect(screenPositioner.GetBottomRightRect(desiredSize));
-
-            //desiredSize = MpColumn.GetDesiredSize(sharpGui);
-            //MpColumn.SetRect(screenPositioner.GetBottomRightRect(desiredSize));
-
-            //desiredSize = NameColumn.GetDesiredSize(sharpGui);
-            //NameColumn.SetRect(screenPositioner.GetBottomRightRect(desiredSize));
+            var desiredSize = infoRow.GetDesiredSize(sharpGui);
+            infoRow.SetRect(screenPositioner.GetBottomRightRect(desiredSize));
         }
 
         public ScreenColumn ProgressColumn { get; }

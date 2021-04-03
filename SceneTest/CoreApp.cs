@@ -110,7 +110,7 @@ namespace SceneTest
                     var arch = Archetype.CreateHero();
                     party.AddCharacter(new CharacterSheet()
                     {
-                        Name = "Hero",
+                        Name = "Bob",
                         Archetype = arch,
                         Level = 1,
                         CurrentHp = arch.BaseHp + arch.BonusHp,
@@ -127,7 +127,7 @@ namespace SceneTest
                     var arch = Archetype.CreateSage();
                     party.AddCharacter(new CharacterSheet()
                     {
-                        Name = "Sage",
+                        Name = "Magic Joe",
                         Archetype = arch,
                         Level = 1,
                         CurrentHp = arch.BaseHp + arch.BonusHp,
@@ -144,7 +144,7 @@ namespace SceneTest
                     var arch = Archetype.CreateTank();
                     party.AddCharacter(new CharacterSheet()
                     {
-                        Name = "Tank",
+                        Name = "Stabby McStabface",
                         Archetype = arch,
                         Level = 1,
                         CurrentHp = arch.BaseHp + arch.BonusHp,
@@ -161,7 +161,7 @@ namespace SceneTest
                     var arch = Archetype.CreateGuardian();
                     party.AddCharacter(new CharacterSheet()
                     {
-                        Name = "Guardian",
+                        Name = "Archibald",
                         Archetype = arch,
                         Level = 1,
                         CurrentHp = arch.BaseHp + arch.BonusHp,
