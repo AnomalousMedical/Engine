@@ -195,6 +195,11 @@ namespace SharpGui
             return slider.Process(ref value, state, buffer, sliderStyle, navLeft, navRight);
         }
 
+        public void Progress(SharpProgressHorizontal progress, float percent)
+        {
+            progress.Process(percent, state, buffer, sliderStyle);
+        }
+
         public void Panel(SharpPanel panel)
         {
             panel.Process(state, buffer, panelStyle);

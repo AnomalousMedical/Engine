@@ -52,6 +52,13 @@ namespace SharpGui
         public bool Slider(SharpSliderVertical slider, ref int value, Guid? navLeft = null, Guid? navRight = null);
 
         /// <summary>
+        /// Draw a progress bar. Does not take input or foucs.
+        /// </summary>
+        /// <param name="progress"></param>
+        /// <param name="percent"></param>
+        void Progress(SharpProgressHorizontal progress, float percent);
+
+        /// <summary>
         /// Draw some text of unlimited width.
         /// </summary>
         /// <param name="x"></param>

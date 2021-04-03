@@ -37,10 +37,14 @@ namespace SharpImGuiTest
         private SharpText displayLabel = new SharpText();
         private SharpText lastUpdateLabel = new SharpText();
 
+        private SharpProgressHorizontal progressHorz;
+
         public SharpImGuiUpdateListener(GraphicsEngine graphicsEngine, NativeOSWindow window, ISharpGui sharpGui, IScaleHelper scaleHelper)
         {
             sliderVert = new SharpSliderVertical() { Rect = scaleHelper.Scaled(new IntRect(10, 10, 35, 500)), Max = 15 };
             sliderHorz = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 10, 500, 35)), Max = 15 };
+
+            progressHorz = new SharpProgressHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 50, 500, 35)) };
 
             PerformanceMonitor.Enabled = true;
 
@@ -114,6 +118,8 @@ namespace SharpImGuiTest
             {
                 displayText = $"New slider value {sliderValue}";
             }
+
+            sharpGui.Progress(progressHorz, (float)sliderValue / (sliderHorz.Max - 1));
 
             var textColumn = new ColumnLayout(
                 runtimeLabel.UpdateText($"Program has been running for {TimeSpan.FromMilliseconds(clock.CurrentTimeMicro * Clock.MicroToMilliseconds)}"),
