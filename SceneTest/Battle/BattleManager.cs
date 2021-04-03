@@ -84,7 +84,7 @@ namespace SceneTest
 
         public void SetupBattle()
         {
-            var currentZ = -2;
+            var currentZ = 3;
             foreach (var member in party.ActiveCharacters)
             {
                 players.Add(this.objectResolver.Resolve<BattlePlayer, BattlePlayer.Description>(c =>
@@ -93,7 +93,7 @@ namespace SceneTest
                     c.CharacterSheet = member;
                 }));
 
-                currentZ += 2;
+                currentZ -= 2;
             }
 
             enemies.Add(this.objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
