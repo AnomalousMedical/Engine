@@ -144,7 +144,7 @@ namespace SceneTest
                         foreach (var player in players)
                         {
                             activePlayers.Enqueue(player);
-                            player.CharacterTimer.TurnTimerActive = false;
+                            player.CharacterTimer.SetInstantTurn();
                         }
                     }
                     else

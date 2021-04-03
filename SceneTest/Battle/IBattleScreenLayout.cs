@@ -4,10 +4,7 @@ namespace SceneTest
 {
     interface IBattleScreenLayout
     {
-        ScreenColumn HpColumn { get; }
-        ScreenColumn MpColumn { get; }
-        ScreenColumn NameColumn { get; }
-        ScreenColumn ProgressColumn { get; }
+        ColumnLayout InfoColumn { get; }
 
         void LayoutBattleMenu(params ILayoutItem[] items);
         void LayoutCommonItems();

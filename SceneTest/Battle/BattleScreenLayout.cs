@@ -8,38 +8,6 @@ using System.Threading.Tasks;
 
 namespace SceneTest
 {
-    class ScreenColumn
-    {
-        private ILayoutItem layout;
-        private ColumnLayout column;
-
-        public ScreenColumn(ColumnLayout column, ILayoutItem layout)
-        {
-            this.layout = layout;
-            this.column = column;
-        }
-
-        public void Add(ILayoutItem item)
-        {
-            column.Add(item);
-        }
-
-        public void Remove(ILayoutItem item)
-        {
-            column.Remove(item);
-        }
-
-        public IntSize2 GetDesiredSize(ISharpGui sharpGui)
-        {
-            return layout.GetDesiredSize(sharpGui);
-        }
-
-        public void SetRect(IntRect rect)
-        {
-            layout.SetRect(rect);
-        }
-    }
-
     class BattleScreenLayout : IBattleScreenLayout
     {
         private readonly IScreenPositioner screenPositioner;
@@ -49,7 +17,8 @@ namespace SceneTest
         private ILayoutItem battleMenuLayout;
         private ColumnLayout battleMenuColumn;
 
-        private RowLayout infoRow;
+        private ILayoutItem infoColumnLayout;
+        private ColumnLayout infoColumn;
 
         public BattleScreenLayout(
             IScreenPositioner screenPositioner,
@@ -67,39 +36,11 @@ namespace SceneTest
                 battleMenuColumn
                 ));
 
-            var progressColumn = new ColumnLayout() { Margin = new IntPad(10) };
-            var progressColumnLayout =
+            infoColumn = new ColumnLayout() { Margin = new IntPad(10) };
+            infoColumnLayout =
                 new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
-                new MaxWidthLayout(scaleHelper.Scaled(300),
-                progressColumn
-                ));
-            ProgressColumn = new ScreenColumn(progressColumn, progressColumnLayout);
-
-            var mpColumn = new ColumnLayout() { Margin = new IntPad(10) };
-            var mpColumnLayout =
-                new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
-                new MaxWidthLayout(scaleHelper.Scaled(300),
-                mpColumn
-                ));
-            MpColumn = new ScreenColumn(mpColumn, mpColumnLayout);
-
-            var hpColumn = new ColumnLayout() { Margin = new IntPad(10) };
-            var hpColumnLayout =
-                new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
-                new MaxWidthLayout(scaleHelper.Scaled(300),
-                hpColumn
-                ));
-            HpColumn = new ScreenColumn(hpColumn, hpColumnLayout);
-
-            var nameColumn = new ColumnLayout() { Margin = new IntPad(10) };
-            var nameColumnLayout =
-                new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
-                new MaxWidthLayout(scaleHelper.Scaled(300),
-                nameColumn
-                ));
-            NameColumn = new ScreenColumn(nameColumn, nameColumnLayout);
-
-            infoRow = new RowLayout(nameColumn, hpColumn, mpColumn, progressColumn);
+                infoColumn
+                );
         }
 
         public void LayoutBattleMenu(params ILayoutItem[] items)
@@ -112,16 +53,10 @@ namespace SceneTest
 
         public void LayoutCommonItems()
         {
-            var desiredSize = infoRow.GetDesiredSize(sharpGui);
-            infoRow.SetRect(screenPositioner.GetBottomRightRect(desiredSize));
+            var desiredSize = infoColumnLayout.GetDesiredSize(sharpGui);
+            infoColumnLayout.SetRect(screenPositioner.GetBottomRightRect(desiredSize));
         }
 
-        public ScreenColumn ProgressColumn { get; }
-
-        public ScreenColumn HpColumn { get; }
-
-        public ScreenColumn MpColumn { get; }
-
-        public ScreenColumn NameColumn { get; }
+        public ColumnLayout InfoColumn => infoColumn;
     }
 }

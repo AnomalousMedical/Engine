@@ -45,9 +45,10 @@ namespace SceneTest
         private SharpButton defendButton = new SharpButton() { Text = "Defend" };
 
         private SharpProgressHorizontal turnProgress = new SharpProgressHorizontal();
-        private SharpText name = new SharpText();
-        private SharpText currentHp = new SharpText();
-        private SharpText currentMp = new SharpText();
+        private SharpText name = new SharpText() { color = Color.White };
+        private SharpText currentHp = new SharpText() { color = Color.White };
+        private SharpText currentMp = new SharpText() { color = Color.White };
+        private ILayoutItem infoRowLayout;
 
         public IBattleStats Stats => this.characterSheet;
 
@@ -106,11 +107,13 @@ namespace SceneTest
             this.gamepadId = description.Gamepad;
             this.objectResolver = objectResolverFactory.Create();
 
-            turnProgress.DesiredSize = scaleHelper.Scaled(new IntSize2(200, 50));
-            battleScreenLayout.NameColumn.Add(name);
-            battleScreenLayout.HpColumn.Add(currentHp);
-            battleScreenLayout.MpColumn.Add(currentMp);
-            battleScreenLayout.ProgressColumn.Add(turnProgress);
+            turnProgress.DesiredSize = scaleHelper.Scaled(new IntSize2(200, 25));
+            infoRowLayout = new RowLayout(
+                new FixedWidthLayout(scaleHelper.Scaled(250), name),
+                new FixedWidthLayout(scaleHelper.Scaled(75), currentHp),
+                new FixedWidthLayout(scaleHelper.Scaled(50), currentMp),
+                new FixedWidthLayout(scaleHelper.Scaled(250), turnProgress));
+            battleScreenLayout.InfoColumn.Add(infoRowLayout);
 
             name.Text = description.CharacterSheet.Name;
             currentHp.Text = description.CharacterSheet.CurrentHp.ToString();
@@ -228,10 +231,7 @@ namespace SceneTest
 
         public void Dispose()
         {
-            battleScreenLayout.NameColumn.Remove(name);
-            battleScreenLayout.HpColumn.Remove(currentHp);
-            battleScreenLayout.MpColumn.Remove(currentMp);
-            battleScreenLayout.ProgressColumn.Remove(turnProgress);
+            battleScreenLayout.InfoColumn.Remove(infoRowLayout);
             characterTimer.TurnReady -= CharacterTimer_TurnReady;
             sprite.FrameChanged -= Sprite_FrameChanged;
             sprites.Remove(sprite);
@@ -255,7 +255,7 @@ namespace SceneTest
 
             if (sharpGui.Button(attackButton))
             {
-                coroutine.RunTask(async() =>
+                coroutine.RunTask(async () =>
                 {
                     var target = await battleManager.GetTarget();
                     if (target != null)
@@ -317,7 +317,7 @@ namespace SceneTest
                     end = target.MeleeAttackLocation;
                     interpolate = (remainingTime - standStartTime) / (float)standStartTime;
                 }
-                else if(remainingTime > standEndTime)
+                else if (remainingTime > standEndTime)
                 {
                     var slerpAmount = (remainingTime - standEndTime) / (float)standEndTime;
                     sword.SetAdditionalRotation(swingStart.slerp(swingEnd, slerpAmount));
@@ -326,7 +326,7 @@ namespace SceneTest
                     start = target.MeleeAttackLocation;
                     end = target.MeleeAttackLocation;
 
-                    if(needsAttack && remainingTime < swingTime)
+                    if (needsAttack && remainingTime < swingTime)
                     {
                         needsAttack = false;
                         battleManager.Attack(this, target);
@@ -342,7 +342,7 @@ namespace SceneTest
                     end = this.startPosition;
                     interpolate = remainingTime / (float)standEndTime;
                 }
-                
+
                 this.sceneObject.position = end.lerp(start, interpolate);
 
                 if (remainingTime < 0)
@@ -396,7 +396,7 @@ namespace SceneTest
 
         public void ApplyDamage(IDamageCalculator calculator, long damage)
         {
-            
+
         }
     }
 }

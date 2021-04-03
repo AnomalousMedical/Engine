@@ -12,6 +12,7 @@ namespace RpgMath
         long TurnTimer { get; set; }
         long VTimer { get; }
         float TurnTimerPct { get; }
+        void SetInstantTurn();
 
         event Action<ICharacterTimer> TurnReady;
         void Reset();

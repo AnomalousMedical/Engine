@@ -24,6 +24,11 @@ namespace RpgMath
             set { turnTimer = value; }
         }
 
+        public void SetInstantTurn()
+        {
+            this.turnTimer = TurnTimerUnit - 1L;
+        }
+
         public float TurnTimerPct => (float)turnTimer / TurnTimerUnit;
 
         /// <summary>
