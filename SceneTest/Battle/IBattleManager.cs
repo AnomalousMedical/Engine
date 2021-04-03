@@ -29,8 +29,6 @@ namespace SceneTest
         /// <param name="active"></param>
         void SetActive(bool active);
         void SetupBattle();
-        void TurnComplete(BattlePlayer player);
-        void TurnComplete(Enemy player);
         void Update(Clock clock);
         IBattleTarget ValidateTarget(IBattleTarget attacker, IBattleTarget target);
         IBattleTarget GetRandomPlayer();

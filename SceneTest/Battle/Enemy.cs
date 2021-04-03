@@ -243,7 +243,6 @@ namespace SceneTest
 
         private void TurnComplete()
         {
-            battleManager.TurnComplete(this);
             characterTimer.TurnTimerActive = true;
         }
 

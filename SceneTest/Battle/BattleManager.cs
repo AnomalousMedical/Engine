@@ -187,7 +187,7 @@ namespace SceneTest
             if (turnQueue.Count > 0)
             {
                 var turn = turnQueue.Peek();
-                if (turn.Invoke(clock) && turnQueue.Count > 0) //Turn queue can be cleared during a turn if all enemies are killed or other conditions
+                if (turn.Invoke(clock) && turnQueue.Count > 0)
                 {
                     turnQueue.Dequeue();
                 }
@@ -333,16 +333,6 @@ namespace SceneTest
         public void QueueTurn(Func<Clock, bool> turn)
         {
             this.turnQueue.Enqueue(turn);
-        }
-
-        public void TurnComplete(BattlePlayer player)
-        {
-
-        }
-
-        public void TurnComplete(Enemy player)
-        {
-
         }
 
         public void AddToActivePlayers(BattlePlayer player)
