@@ -45,6 +45,11 @@ namespace Engine
             return new IntVector2(Scaled(originalValue.x), Scaled(originalValue.y));
         }
 
+        public IntSize2 Scaled(IntSize2 originalValue)
+        {
+            return new IntSize2(Scaled(originalValue.Width), Scaled(originalValue.Height));
+        }
+
         public IntPad Scaled(IntPad originalValue)
         {
             return new IntPad(Scaled(originalValue.Left), Scaled(originalValue.Top), Scaled(originalValue.Right), Scaled(originalValue.Bottom));

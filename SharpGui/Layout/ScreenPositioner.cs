@@ -15,9 +15,24 @@ namespace SharpGui
             this.window = window;
         }
 
+        public IntRect GetTopLeftRect(in IntSize2 size)
+        {
+            return new IntRect(0, 0, size.Width, size.Height);
+        }
+
+        public IntRect GetTopRightRect(in IntSize2 size)
+        {
+            return new IntRect(window.WindowWidth - size.Width, 0, size.Width, size.Height);
+        }
+
         public IntRect GetBottomRightRect(in IntSize2 size)
         {
             return new IntRect(window.WindowWidth - size.Width, window.WindowHeight - size.Height, size.Width, size.Height);
+        }
+
+        public IntRect GetBottomLeftRect(in IntSize2 size)
+        {
+            return new IntRect(0, window.WindowHeight - size.Height, size.Width, size.Height);
         }
     }
 }

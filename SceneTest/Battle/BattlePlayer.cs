@@ -103,6 +103,9 @@ namespace SceneTest
             this.gamepadId = description.Gamepad;
             this.objectResolver = objectResolverFactory.Create();
 
+            turnProgress.DesiredSize = scaleHelper.Scaled(new IntSize2(200, 50));
+            battleScreenLayout.AddProgressColumnItem(turnProgress);
+
             characterTimer.TurnReady += CharacterTimer_TurnReady;
             characterTimer.TotalDex = characterSheet.Dexterity;
 
@@ -197,7 +200,7 @@ namespace SceneTest
 
         internal void DrawInfoGui(Clock clock, ISharpGui sharpGui)
         {
-            
+            sharpGui.Progress(turnProgress, characterTimer.TurnTimerPct);
         }
 
         private bool guiActive = false;
@@ -220,6 +223,7 @@ namespace SceneTest
 
         public void Dispose()
         {
+            battleScreenLayout.RemoveProgressColumnItem(turnProgress);
             characterTimer.TurnReady -= CharacterTimer_TurnReady;
             sprite.FrameChanged -= Sprite_FrameChanged;
             sprites.Remove(sprite);

@@ -27,6 +27,7 @@ namespace SceneTest
         private readonly IScreenPositioner screenPositioner;
         private readonly ICameraProjector cameraProjector;
         private readonly ITurnTimer turnTimer;
+        private readonly IBattleScreenLayout battleScreenLayout;
         private readonly IObjectResolver objectResolver;
         private BattleArena battleArena;
 
@@ -53,7 +54,8 @@ namespace SceneTest
             IBackgroundMusicManager backgroundMusicManager,
             IScreenPositioner screenPositioner,
             ICameraProjector cameraProjector,
-            ITurnTimer turnTimer)
+            ITurnTimer turnTimer,
+            IBattleScreenLayout battleScreenLayout)
         {
             this.eventManager = eventManager;
             this.sharpGui = sharpGui;
@@ -66,6 +68,7 @@ namespace SceneTest
             this.screenPositioner = screenPositioner;
             this.cameraProjector = cameraProjector;
             this.turnTimer = turnTimer;
+            this.battleScreenLayout = battleScreenLayout;
             this.objectResolver = objectResolverFactory.Create();
 
             cursor = this.objectResolver.Resolve<TargetCursor>();
@@ -184,11 +187,6 @@ namespace SceneTest
 
         public void Update(Clock clock)
         {
-            foreach (var player in players)
-            {
-                player.DrawInfoGui(clock, sharpGui);
-            }
-
             if (turnQueue.Count > 0)
             {
                 var turn = turnQueue.Peek();
@@ -229,6 +227,12 @@ namespace SceneTest
                 }
                 else
                 {
+                    battleScreenLayout.LayoutCommonItems();
+                    foreach (var player in players)
+                    {
+                        player.DrawInfoGui(clock, sharpGui);
+                    }
+
                     cursor.Visible = false;
                     activePlayer?.UpdateActivePlayerGui(sharpGui);
                 }
