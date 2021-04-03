@@ -22,7 +22,7 @@ namespace SceneTest
         private readonly ISpriteMaterialManager spriteMaterialManager;
         private readonly IScopedCoroutine coroutine;
         private readonly IScaleHelper scaleHelper;
-        private readonly IScreenPositioner screenPositioner;
+        private readonly IBattleScreenLayout battleScreenLayout;
         private readonly ICharacterTimer characterTimer;
         private readonly IBattleManager battleManager;
         private readonly SceneObject sceneObject;
@@ -43,6 +43,8 @@ namespace SceneTest
         private SharpButton magicButton = new SharpButton() { Text = "Magic" };
         private SharpButton itemButton = new SharpButton() { Text = "Item" };
         private SharpButton defendButton = new SharpButton() { Text = "Defend" };
+
+        private SharpProgressHorizontal turnProgress = new SharpProgressHorizontal();
 
         public IBattleStats Stats => this.characterSheet;
 
@@ -81,7 +83,7 @@ namespace SceneTest
             IObjectResolverFactory objectResolverFactory,
             IScopedCoroutine coroutine,
             IScaleHelper scaleHelper,
-            IScreenPositioner screenPositioner,
+            IBattleScreenLayout battleScreenLayout,
             ICharacterTimer characterTimer,
             IBattleManager battleManager)
         {
@@ -93,7 +95,7 @@ namespace SceneTest
             this.spriteMaterialManager = spriteMaterialManager;
             this.coroutine = coroutine;
             this.scaleHelper = scaleHelper;
-            this.screenPositioner = screenPositioner;
+            this.battleScreenLayout = battleScreenLayout;
             this.characterTimer = characterTimer;
             this.battleManager = battleManager;
             this.primaryHand = description.PrimaryHand;
@@ -193,6 +195,11 @@ namespace SceneTest
             });
         }
 
+        internal void DrawInfoGui(Clock clock, ISharpGui sharpGui)
+        {
+            
+        }
+
         private bool guiActive = false;
         internal void SetGuiActive(bool active)
         {
@@ -221,16 +228,10 @@ namespace SceneTest
             objectResolver.Dispose();
         }
 
-        public bool UpdateGui(ISharpGui sharpGui)
+        public bool UpdateActivePlayerGui(ISharpGui sharpGui)
         {
             bool didSomething = false;
-            var layout =
-                new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
-                new MaxWidthLayout(scaleHelper.Scaled(300),
-                new ColumnLayout(attackButton, magicButton, itemButton, defendButton) { Margin = new IntPad(10) }
-                ));
-            var desiredSize = layout.GetDesiredSize(sharpGui);
-            layout.SetRect(screenPositioner.GetBottomRightRect(desiredSize));
+            battleScreenLayout.LayoutBattleMenu(attackButton, magicButton, itemButton, defendButton);
 
             if (sharpGui.Button(attackButton))
             {

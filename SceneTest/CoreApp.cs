@@ -101,6 +101,7 @@ namespace SceneTest
             services.AddSingleton<ICollidableTypeIdentifier, CollidableTypeIdentifier>();
             services.AddSingleton<IBackgroundMusicManager, BackgroundMusicManager>();
             services.AddSingleton<ICameraProjector, CameraProjector>();
+            services.AddSingleton<IBattleScreenLayout, BattleScreenLayout>();
             services.AddSingleton<Party>(s =>
             {
                 //Hardcoded to new every time, but this needs to be managed somehow

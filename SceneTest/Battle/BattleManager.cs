@@ -140,7 +140,7 @@ namespace SceneTest
                         //Instant attack, players start with turns and enemies start at 0
                         foreach (var player in players)
                         {
-                            activePlayers.Enqueue(player); //Needs to be on a timer
+                            activePlayers.Enqueue(player);
                             player.CharacterTimer.TurnTimerActive = false;
                         }
                     }
@@ -184,6 +184,11 @@ namespace SceneTest
 
         public void Update(Clock clock)
         {
+            foreach (var player in players)
+            {
+                player.DrawInfoGui(clock, sharpGui);
+            }
+
             if (turnQueue.Count > 0)
             {
                 var turn = turnQueue.Peek();
@@ -225,7 +230,7 @@ namespace SceneTest
                 else
                 {
                     cursor.Visible = false;
-                    activePlayer?.UpdateGui(sharpGui);
+                    activePlayer?.UpdateActivePlayerGui(sharpGui);
                 }
 
                 foreach (var player in players)
