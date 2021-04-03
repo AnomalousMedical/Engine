@@ -141,9 +141,8 @@ namespace SceneTest
                     if (instantAttackChance < 3)
                     {
                         //Instant attack, players start with turns and enemies start at 0
-                        foreach (var player in players)
+                        foreach (var player in players.Where(i => !i.IsDead))
                         {
-                            activePlayers.Enqueue(player);
                             player.CharacterTimer.SetInstantTurn();
                         }
                     }
@@ -151,7 +150,12 @@ namespace SceneTest
                     {
                         //Adjust highest timer until it is 57344, adjust all others the same amount
                         long highestTimer = 0;
-                        foreach (var timer in allTimers)
+                        var allLivingTimers = players
+                            .Where(i => !i.IsDead)
+                            .Select(i => i.CharacterTimer)
+                            .Concat(enemies.Select(i => i.CharacterTimer));
+
+                        foreach (var timer in allLivingTimers)
                         {
                             timer.TurnTimer = targetRandom.Next(32767);
                             if (timer.TurnTimer > highestTimer)
@@ -159,8 +163,9 @@ namespace SceneTest
                                 highestTimer = timer.TurnTimer;
                             }
                         }
+
                         long adjustment = 57344 - highestTimer;
-                        foreach (var timer in allTimers)
+                        foreach (var timer in allLivingTimers)
                         {
                             timer.TurnTimer += adjustment;
                         }
@@ -217,7 +222,12 @@ namespace SceneTest
             {
                 turnTimer.Update(clock);
 
-                BattlePlayer activePlayer = activePlayers.Count > 0 ? activePlayers.Peek() : null;
+                BattlePlayer activePlayer = GetActivePlayer();
+                while (activePlayer?.IsDead == true && activePlayers.Count > 0)
+                {
+                    activePlayers.Dequeue();
+                    activePlayer = GetActivePlayer();
+                }
                 if (cursor.Targeting)
                 {
                     cursor.Visible = true;
@@ -260,6 +270,15 @@ namespace SceneTest
             }
         }
 
+        private BattlePlayer GetActivePlayer()
+        {
+            if(activePlayers.Count == 0)
+            {
+                return null;
+            }
+            return activePlayers.Peek();
+        }
+
         public bool Active { get; private set; }
 
         private void eventManager_OnUpdate(EventLayer eventLayer)
@@ -290,7 +309,7 @@ namespace SceneTest
                     }
                     break;
                 case BattleTargetType.Player:
-                    if (!players.Contains(target))
+                    if (!players.Contains(target) || (target as BattlePlayer).IsDead)
                     {
                         target = GetRandomPlayer();
                     }
@@ -321,8 +340,7 @@ namespace SceneTest
                         enemies.Remove(target as Enemy);
                         if (enemies.Count == 0)
                         {
-                            turnQueue.Clear();
-                            activePlayers.Clear();
+                            BattleEnded();
                             backgroundMusicManager.SetBattleTrack("freepd/Alexander Nakarada - Fanfare X.ogg");
                         }
                     }
@@ -360,6 +378,28 @@ namespace SceneTest
             var living = players.Where(i => !i.IsDead).ToList();
             var rand = targetRandom.Next(living.Count);
             return living[rand];
+        }
+
+        public void PlayerDead(BattlePlayer battlePlayer)
+        {
+            if(battlePlayer == GetActivePlayer())
+            {
+                cursor.Cancel();
+                activePlayers.Dequeue();
+            }
+
+            var living = players.Where(i => !i.IsDead).Sum(i => 1);
+            if(living == 0)
+            {
+                BattleEnded();
+                this.SetActive(false);
+            }
+        }
+
+        private void BattleEnded()
+        {
+            turnQueue.Clear();
+            activePlayers.Clear();
         }
     }
 }

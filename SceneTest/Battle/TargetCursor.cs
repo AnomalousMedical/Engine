@@ -148,6 +148,14 @@ namespace SceneTest
             });
         }
 
+        public void Cancel()
+        {
+            if (getTargetTask != null)
+            {
+                SetTarget(null);
+            }
+        }
+
         public void UpdateCursor(ISharpGui sharpGui, IBattleTarget target, Vector3 enemyPos)
         {
             SetPosition(enemyPos);

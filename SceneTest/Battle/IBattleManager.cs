@@ -32,5 +32,6 @@ namespace SceneTest
         void Update(Clock clock);
         IBattleTarget ValidateTarget(IBattleTarget attacker, IBattleTarget target);
         IBattleTarget GetRandomPlayer();
+        void PlayerDead(BattlePlayer battlePlayer);
     }
 }

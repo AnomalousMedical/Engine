@@ -62,7 +62,7 @@ namespace SceneTest
 
         public ICharacterTimer CharacterTimer => characterTimer;
 
-        public bool IsDead => false;
+        public bool IsDead => characterSheet.CurrentHp == 0;
 
         public int BaseDexterity { get; internal set; }
 
@@ -396,8 +396,18 @@ namespace SceneTest
 
         public void ApplyDamage(IDamageCalculator calculator, long damage)
         {
-            characterSheet.CurrentHp -= damage;
+            if (IsDead) { return; } //Do nothing if dead
+
+            characterSheet.CurrentHp = calculator.ApplyDamage(damage, characterSheet.CurrentHp, characterSheet.Hp);
             currentHp.UpdateText(characterSheet.CurrentHp.ToString());
+
+            //Player died from applied damage
+            if (IsDead)
+            {
+                battleManager.PlayerDead(this);
+                characterTimer.TurnTimerActive = false;
+                characterTimer.Reset();
+            }
         }
     }
 }
