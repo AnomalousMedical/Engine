@@ -14,6 +14,7 @@ namespace RpgMath
         float TurnTimerPct { get; }
 
         event Action<ICharacterTimer> TurnReady;
+        void Reset();
 
         void Tick(long speedValue, long normalSpeed);
     }

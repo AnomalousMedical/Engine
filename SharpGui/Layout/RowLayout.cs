@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SharpGui
 {
-    public class ColumnLayout : ILayoutItem
+    public class RowLayout : ILayoutItem
     {
         class Entry
         {
@@ -17,7 +17,7 @@ namespace SharpGui
 
             public ILayoutItem LayoutItem { get; set; }
 
-            public int DesiredHeight { get; set; }
+            public int DesiredWidth { get; set; }
         }
 
         public IntPad Margin;
@@ -32,34 +32,34 @@ namespace SharpGui
             foreach (var item in items)
             {
                 var itemSize = item.LayoutItem.GetDesiredSize(sharpGui);
-                width = Math.Max(width, itemSize.Width);
-                item.DesiredHeight = itemSize.Height + Margin.Top + Margin.Bottom;
-                height += item.DesiredHeight;
+                height = Math.Max(height, itemSize.Height);
+                item.DesiredWidth = itemSize.Width + Margin.Left + Margin.Right;
+                width += item.DesiredWidth;
             }
 
-            return new IntSize2(width + Margin.Left + Margin.Right, height);
+            return new IntSize2(width, height + Margin.Top + Margin.Bottom);
         }
 
         public void SetRect(IntRect rect)
         {
             int left = rect.Left;
             int top = rect.Top;
-            int width = rect.Width;
+            int height = rect.Height;
 
             foreach (var item in items)
             {
-                int height = item.DesiredHeight;
+                int width = item.DesiredWidth;
                 item.LayoutItem.SetRect(new IntRect(left + Margin.Left, top + Margin.Top, width - Margin.Left - Margin.Right, height - Margin.Top - Margin.Bottom));
                 top += height;
             }
         }
 
-        public ColumnLayout(int capacity = 10)
+        public RowLayout(int capacity = 10)
         {
             this.items = new List<Entry>(capacity);
         }
 
-        public ColumnLayout(params ILayoutItem[] items)
+        public RowLayout(params ILayoutItem[] items)
         {
             this.items = new List<Entry>(items.Select(i => new Entry(i)));
         }
@@ -85,7 +85,7 @@ namespace SharpGui
             for (var i = 0; i < itemCount; ++i)
             {
                 var current = this.items[i];
-                if(current.LayoutItem == item)
+                if (current.LayoutItem == item)
                 {
                     items.RemoveAt(i);
                     return; //Done

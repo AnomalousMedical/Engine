@@ -45,6 +45,9 @@ namespace SceneTest
         private SharpButton defendButton = new SharpButton() { Text = "Defend" };
 
         private SharpProgressHorizontal turnProgress = new SharpProgressHorizontal();
+        private SharpText name = new SharpText();
+        private SharpText currentHp = new SharpText();
+        private SharpText currentMp = new SharpText();
 
         public IBattleStats Stats => this.characterSheet;
 
@@ -104,7 +107,14 @@ namespace SceneTest
             this.objectResolver = objectResolverFactory.Create();
 
             turnProgress.DesiredSize = scaleHelper.Scaled(new IntSize2(200, 50));
-            battleScreenLayout.AddProgressColumnItem(turnProgress);
+            battleScreenLayout.NameColumn.Add(name);
+            battleScreenLayout.HpColumn.Add(currentHp);
+            battleScreenLayout.MpColumn.Add(currentMp);
+            battleScreenLayout.ProgressColumn.Add(turnProgress);
+
+            name.Text = description.CharacterSheet.Name;
+            currentHp.Text = description.CharacterSheet.CurrentHp.ToString();
+            currentMp.Text = description.CharacterSheet.CurrentMp.ToString();
 
             characterTimer.TurnReady += CharacterTimer_TurnReady;
             characterTimer.TotalDex = characterSheet.Dexterity;
@@ -198,11 +208,6 @@ namespace SceneTest
             });
         }
 
-        internal void DrawInfoGui(Clock clock, ISharpGui sharpGui)
-        {
-            sharpGui.Progress(turnProgress, characterTimer.TurnTimerPct);
-        }
-
         private bool guiActive = false;
         internal void SetGuiActive(bool active)
         {
@@ -223,13 +228,24 @@ namespace SceneTest
 
         public void Dispose()
         {
-            battleScreenLayout.RemoveProgressColumnItem(turnProgress);
+            battleScreenLayout.NameColumn.Remove(name);
+            battleScreenLayout.HpColumn.Remove(currentHp);
+            battleScreenLayout.MpColumn.Remove(currentMp);
+            battleScreenLayout.ProgressColumn.Remove(turnProgress);
             characterTimer.TurnReady -= CharacterTimer_TurnReady;
             sprite.FrameChanged -= Sprite_FrameChanged;
             sprites.Remove(sprite);
             sceneObjectManager.Remove(sceneObject);
             spriteMaterialManager.TryReturn(spriteMaterial);
             objectResolver.Dispose();
+        }
+
+        public void DrawInfoGui(Clock clock, ISharpGui sharpGui)
+        {
+            sharpGui.Text(name);
+            sharpGui.Text(currentHp);
+            sharpGui.Text(currentMp);
+            sharpGui.Progress(turnProgress, characterTimer.TurnTimerPct);
         }
 
         public bool UpdateActivePlayerGui(ISharpGui sharpGui)
@@ -349,6 +365,7 @@ namespace SceneTest
 
         private void TurnComplete()
         {
+            characterTimer.Reset();
             characterTimer.TurnTimerActive = true;
         }
 

@@ -243,6 +243,7 @@ namespace SceneTest
 
         private void TurnComplete()
         {
+            characterTimer.Reset();
             characterTimer.TurnTimerActive = true;
         }
 

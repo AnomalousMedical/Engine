@@ -4,9 +4,12 @@ namespace SceneTest
 {
     interface IBattleScreenLayout
     {
-        void AddProgressColumnItem(ILayoutItem item);
+        ScreenColumn HpColumn { get; }
+        ScreenColumn MpColumn { get; }
+        ScreenColumn NameColumn { get; }
+        ScreenColumn ProgressColumn { get; }
+
         void LayoutBattleMenu(params ILayoutItem[] items);
         void LayoutCommonItems();
-        void RemoveProgressColumnItem(ILayoutItem item);
     }
 }

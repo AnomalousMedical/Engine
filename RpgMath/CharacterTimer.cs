@@ -47,6 +47,11 @@ namespace RpgMath
         /// </summary>
         public bool TurnTimerActive { get; set; } = true;
 
+        public void Reset()
+        {
+            this.turnTimer = 0;
+        }
+
         public void Tick(long speedValue, long normalSpeed)
         {
             long vTimerIncrease = 0;
@@ -62,7 +67,7 @@ namespace RpgMath
                     vTimerIncrease /= Modifier;
                 }
                 vTimer += vTimerIncrease;
-                
+
             }
             cTimer += 68;
             if (TurnTimerActive)
@@ -73,7 +78,7 @@ namespace RpgMath
             {
                 TurnTimerActive = false;
                 TurnReady?.Invoke(this);
-                turnTimer = 0;
+                turnTimer = TurnTimerUnit;
             }
         }
     }
