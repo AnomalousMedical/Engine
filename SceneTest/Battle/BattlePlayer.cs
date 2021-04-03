@@ -109,10 +109,10 @@ namespace SceneTest
 
             turnProgress.DesiredSize = scaleHelper.Scaled(new IntSize2(200, 25));
             infoRowLayout = new RowLayout(
-                new FixedWidthLayout(scaleHelper.Scaled(250), name),
-                new FixedWidthLayout(scaleHelper.Scaled(75), currentHp),
-                new FixedWidthLayout(scaleHelper.Scaled(50), currentMp),
-                new FixedWidthLayout(scaleHelper.Scaled(250), turnProgress));
+                new FixedWidthLayout(scaleHelper.Scaled(240), name),
+                new FixedWidthLayout(scaleHelper.Scaled(85), currentHp),
+                new FixedWidthLayout(scaleHelper.Scaled(70), currentMp),
+                new FixedWidthLayout(scaleHelper.Scaled(210), turnProgress));
             battleScreenLayout.InfoColumn.Add(infoRowLayout);
 
             name.Text = description.CharacterSheet.Name;
@@ -396,7 +396,8 @@ namespace SceneTest
 
         public void ApplyDamage(IDamageCalculator calculator, long damage)
         {
-
+            characterSheet.CurrentHp -= damage;
+            currentHp.UpdateText(characterSheet.CurrentHp.ToString());
         }
     }
 }
