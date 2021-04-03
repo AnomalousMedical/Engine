@@ -21,6 +21,7 @@ namespace SharpImGuiTest
         private readonly IDeviceContext immediateContext;
         private String displayText = "Click on something!";
         private StringBuilder lastUpdateTimeBuilder = new StringBuilder();
+        private ILayoutItem layout;
 
         SharpButton button1 = new SharpButton() { Text = "Button 1" };
         SharpButton button2 = new SharpButton() { Text = "Button 2" };
@@ -52,7 +53,14 @@ namespace SharpImGuiTest
             this.sharpGui = sharpGui;
             this.scaleHelper = scaleHelper;
             this.swapChain = graphicsEngine.SwapChain;
-            this.immediateContext = graphicsEngine.ImmediateContext;            
+            this.immediateContext = graphicsEngine.ImmediateContext;
+
+            layout =
+                new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
+                new PanelLayout(panel,
+                new MaxWidthLayout(scaleHelper.Scaled(300),
+                new ColumnLayout(button1, button2, button3, input) { Margin = new IntPad(10) }
+                )));
         }
 
         public void Dispose()
@@ -76,12 +84,6 @@ namespace SharpImGuiTest
             //Put things on the gui
             sharpGui.Begin(clock);
 
-            var layout =
-                new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
-                new PanelLayout(panel,
-                new MaxWidthLayout(scaleHelper.Scaled(300),
-                new ColumnLayout(button1, button2, button3, input) { Margin = new IntPad(10) }
-                )));
             var desiredSize = layout.GetDesiredSize(sharpGui);
             layout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
 
