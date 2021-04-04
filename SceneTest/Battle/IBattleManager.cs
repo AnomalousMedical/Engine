@@ -6,6 +6,13 @@ namespace SceneTest
 {
     interface IBattleManager
     {
+        public enum Result
+        {
+            ContinueBattle,
+            ReturnToExploration,
+            GameOver
+        }
+
         bool Active { get; }
 
         void AddToActivePlayers(BattlePlayer player);
@@ -29,7 +36,7 @@ namespace SceneTest
         /// <param name="active"></param>
         void SetActive(bool active);
         void SetupBattle();
-        bool Update(Clock clock);
+        Result Update(Clock clock);
         IBattleTarget ValidateTarget(IBattleTarget attacker, IBattleTarget target);
         IBattleTarget GetRandomPlayer();
         void PlayerDead(BattlePlayer battlePlayer);

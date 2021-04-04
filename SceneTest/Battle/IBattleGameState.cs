@@ -5,6 +5,9 @@ namespace SceneTest
 {
     interface IBattleGameState : IGameState
     {
-        IGameState AfterBattleState { get; set; }
+        /// <summary>
+        /// This is a circular link, so it must be set by the ExplorationGameState itself, which injects this class.
+        /// </summary>
+        void LinkExplorationState(IGameState explorationState);
     }
 }

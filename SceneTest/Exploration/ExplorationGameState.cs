@@ -36,7 +36,7 @@ namespace SceneTest
             this.sceneObjects = sceneObjects;
             this.battleGameState = battleGameState;
             this.debugGui = debugGui;
-            this.battleGameState.AfterBattleState = this;
+            this.battleGameState.LinkExplorationState(this);
 
             coroutineRunner.RunTask(levelManager.Initialize());
         }

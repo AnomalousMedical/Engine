@@ -190,9 +190,9 @@ namespace SceneTest
             }
         }
 
-        public bool Update(Clock clock)
+        public IBattleManager.Result Update(Clock clock)
         {
-            bool battleFinished = false;
+            var result = IBattleManager.Result.ContinueBattle;
             if (turnQueue.Count > 0)
             {
                 var turn = turnQueue.Peek();
@@ -202,6 +202,8 @@ namespace SceneTest
                 }
             }
 
+            //This order means if all the players and enemies die it is not a game over.
+            //But all players wil have 0 hp. This is probably not what we want.
             if (enemies.Count == 0)
             {
                 cursor.Visible = false;
@@ -216,7 +218,7 @@ namespace SceneTest
 
                 if (sharpGui.Button(endBattle))
                 {
-                    battleFinished = true;
+                    result = IBattleManager.Result.ReturnToExploration;
                 }
             }
             else
@@ -248,9 +250,15 @@ namespace SceneTest
                     activePlayer?.UpdateActivePlayerGui(sharpGui);
                 }
 
+                bool allDead = true;
                 foreach (var player in players)
                 {
+                    allDead &= player.IsDead;
                     player.SetGuiActive(player == activePlayer);
+                }
+                if (allDead)
+                {
+                    result = IBattleManager.Result.GameOver;
                 }
 
                 for (var i = 0; i < numbers.Count;)
@@ -269,7 +277,7 @@ namespace SceneTest
                     }
                 }
             }
-            return battleFinished;
+            return result;
         }
 
         private BattlePlayer GetActivePlayer()
@@ -394,7 +402,6 @@ namespace SceneTest
             if(living == 0)
             {
                 BattleEnded();
-                this.SetActive(false);
             }
         }
 

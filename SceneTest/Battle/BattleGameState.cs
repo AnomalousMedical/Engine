@@ -1,4 +1,5 @@
 ﻿using Engine.Platform;
+using SceneTest.GameOver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,20 +12,27 @@ namespace SceneTest
     {
         private readonly IBattleManager battleManager;
         private readonly SceneObjectManager<IBattleManager> sceneObjects;
+        private readonly IGameOverGameState gameOverGameState;
+        private IGameState explorationState;
 
         public BattleGameState
         (
             IBattleManager battleManager,
-            SceneObjectManager<IBattleManager> sceneObjects
+            SceneObjectManager<IBattleManager> sceneObjects,
+            IGameOverGameState gameOverGameState
         )
         {
             this.battleManager = battleManager;
             this.sceneObjects = sceneObjects;
+            this.gameOverGameState = gameOverGameState;
         }
 
         public IEnumerable<SceneObject> SceneObjects => sceneObjects;
 
-        public IGameState AfterBattleState { get; set; }
+        public void LinkExplorationState(IGameState explorationState)
+        {
+            this.explorationState = explorationState;
+        }
 
         public void SetActive(bool active)
         {
@@ -38,9 +46,15 @@ namespace SceneTest
         public IGameState Update(Clock clock)
         {
             IGameState nextState = this;
-            if (battleManager.Update(clock))
+            var result = battleManager.Update(clock);
+            switch(result)
             {
-                nextState = AfterBattleState;
+                case IBattleManager.Result.GameOver:
+                    nextState = gameOverGameState;
+                    break;
+                case IBattleManager.Result.ReturnToExploration:
+                    nextState = explorationState;
+                    break;
             }
             return nextState;
         }
