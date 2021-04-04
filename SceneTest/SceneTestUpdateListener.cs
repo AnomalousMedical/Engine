@@ -33,7 +33,6 @@ namespace SceneTest
         private readonly SpriteManager sprites;
         private readonly IObjectResolverFactory objectResolverFactory;
         private readonly CameraMover cameraMover;
-        private readonly ILevelManager levelManager;
         private readonly Sky sky;
         private readonly IEnvMapManager envMapManager;
         private IGameState gameState;
@@ -53,9 +52,7 @@ namespace SceneTest
             ISharpGui sharpGui,
             SpriteManager sprites,
             IObjectResolverFactory objectResolverFactory,
-            ICoroutineRunner coroutineRunner,
             CameraMover cameraMover,
-            ILevelManager levelManager,
             Sky sky,
             IFirstGameStateBuilder startState,
             IEnvMapManager envMapManager)
@@ -75,17 +72,9 @@ namespace SceneTest
             this.sprites = sprites;
             this.objectResolverFactory = objectResolverFactory;
             this.cameraMover = cameraMover;
-            this.levelManager = levelManager;
             this.sky = sky;
             this.envMapManager = envMapManager;
             this.gameState = startState.GetFirstGameState();
-            
-            coroutineRunner.RunTask(Initialize());
-        }
-
-        async Task Initialize()
-        {
-            await levelManager.Initialize();
         }
 
         public void exceededMaxDelta()

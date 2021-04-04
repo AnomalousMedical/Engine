@@ -24,7 +24,7 @@ namespace SceneTest
                 if (moving)
                 {
                     dangerCounter += 4096 / 64; //This will be encounter value
-                    //Console.WriteLine(dangerCounter);
+                    //Console.WriteLine(dangerCounter / 256);
                     int battleChance = battleRandom.Next(256);
                     var check = dangerCounter / 256;
                     retVal = battleChance < check;

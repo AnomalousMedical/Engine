@@ -37,6 +37,8 @@ namespace SceneTest
             this.battleGameState = battleGameState;
             this.debugGui = debugGui;
             this.battleGameState.AfterBattleState = this;
+
+            coroutineRunner.RunTask(levelManager.Initialize());
         }
 
         public IEnumerable<SceneObject> SceneObjects => sceneObjects;
