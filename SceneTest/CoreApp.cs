@@ -65,6 +65,7 @@ namespace SceneTest
             services.AddSingleton<ITimeClock, TimeClock>();
             services.AddSingleton<IDebugGui, DebugGui>();
             services.AddSingleton<IBattleGameState, BattleGameState>();
+            services.AddSingleton<IEnvMapManager, EnvMapManager>();
             services.AddSingleton<SpriteManager>();
             services.AddSingleton<SceneObjectManager<ILevelManager>>();
             services.AddSingleton<SceneObjectManager<IBattleManager>>();
@@ -135,7 +136,7 @@ namespace SceneTest
                         Name = "Magic Joe",
                         Archetype = arch,
                         Level = 1,
-                        CurrentHp =1,// arch.BaseHp + arch.BonusHp,
+                        CurrentHp = arch.BaseHp + arch.BonusHp,
                         CurrentMp = arch.BaseMp + arch.BonusMp,
                         MainHand = new Equipment()
                         {
@@ -152,7 +153,7 @@ namespace SceneTest
                         Name = "Stabby McStabface",
                         Archetype = arch,
                         Level = 1,
-                        CurrentHp = 1,//arch.BaseHp + arch.BonusHp,
+                        CurrentHp = arch.BaseHp + arch.BonusHp,
                         CurrentMp = arch.BaseMp + arch.BonusMp,
                         MainHand = new Equipment()
                         {
@@ -169,7 +170,7 @@ namespace SceneTest
                         Name = "Archibald",
                         Archetype = arch,
                         Level = 1,
-                        CurrentHp = 1,//arch.BaseHp + arch.BonusHp,
+                        CurrentHp = arch.BaseHp + arch.BonusHp,
                         CurrentMp = arch.BaseMp + arch.BonusMp,
                         MainHand = new Equipment()
                         {

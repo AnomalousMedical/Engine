@@ -1,5 +1,4 @@
 ﻿using Anomalous.OSPlatform;
-using BepuPlugin;
 using DiligentEngine;
 using DiligentEngine.GltfPbr;
 using Engine;
@@ -9,13 +8,12 @@ using SharpGui;
 using SoundPlugin;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace SceneTest
 {
-    class SceneTestUpdateListener : UpdateListener, IDisposable
+    class SceneTestUpdateListener : UpdateListener
     {
         //Camera Settings
         float YFov = MathFloat.PI / 4.0f;
@@ -23,7 +21,6 @@ namespace SceneTest
         float ZFar = 350f;
 
         private readonly NativeOSWindow window;
-        private readonly EnvironmentMapBuilder envMapBuilder;
         private readonly IPbrCameraAndLight pbrCameraAndLight;
         private readonly VirtualFileSystem virtualFileSystem;
         private readonly FirstPersonFlyCamera cameraControls;
@@ -43,20 +40,17 @@ namespace SceneTest
         private readonly CameraMover cameraMover;
         private readonly ILevelManager levelManager;
         private readonly Sky sky;
-        private readonly IObjectResolver objectResolver;
-
+        private readonly IEnvMapManager envMapManager;
         private IGameState gameState;
 
         private PbrRenderer pbrRenderer;
-        private AutoPtr<ITextureView> environmentMapSRV;
 
         private bool useFirstPersonCamera = false;
 
         public unsafe SceneTestUpdateListener(
             GraphicsEngine graphicsEngine,
             NativeOSWindow window,
-            PbrRenderer m_GLTFRenderer,
-            EnvironmentMapBuilder envMapBuilder,
+            PbrRenderer pbrRenderer,
             IPbrCameraAndLight pbrCameraAndLight,
             VirtualFileSystem virtualFileSystem,
             FirstPersonFlyCamera cameraControls,
@@ -71,16 +65,16 @@ namespace SceneTest
             CameraMover cameraMover,
             ILevelManager levelManager,
             Sky sky,
-            IFirstGameStateBuilder startState)
+            IFirstGameStateBuilder startState,
+            IEnvMapManager envMapManager)
         {
             cameraControls.Position = new Vector3(0, 0, -12);
 
-            this.pbrRenderer = m_GLTFRenderer;
+            this.pbrRenderer = pbrRenderer;
             this.swapChain = graphicsEngine.SwapChain;
             this.renderDevice = graphicsEngine.RenderDevice;
             this.immediateContext = graphicsEngine.ImmediateContext;
             this.window = window;
-            this.envMapBuilder = envMapBuilder;
             this.pbrCameraAndLight = pbrCameraAndLight;
             this.virtualFileSystem = virtualFileSystem;
             this.cameraControls = cameraControls;
@@ -95,24 +89,14 @@ namespace SceneTest
             this.cameraMover = cameraMover;
             this.levelManager = levelManager;
             this.sky = sky;
+            this.envMapManager = envMapManager;
             this.gameState = startState.GetFirstGameState();
-            this.objectResolver = objectResolverFactory.Create();
             
             coroutineRunner.RunTask(Initialize());
         }
 
-        public void Dispose()
-        {
-            objectResolver.Dispose();
-            environmentMapSRV.Dispose();
-        }
-
         async Task Initialize()
         {
-            environmentMapSRV = envMapBuilder.BuildEnvMapView(renderDevice, immediateContext, "papermill/Fixed-", "png");
-
-            pbrRenderer.PrecomputeCubemaps(renderDevice, immediateContext, environmentMapSRV.Obj);
-
             await levelManager.Initialize();
         }
 
