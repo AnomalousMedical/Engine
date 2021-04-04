@@ -5,7 +5,6 @@ using Engine;
 using Engine.CameraMovement;
 using Engine.Platform;
 using SharpGui;
-using SoundPlugin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,21 +21,17 @@ namespace SceneTest
 
         private readonly NativeOSWindow window;
         private readonly IPbrCameraAndLight pbrCameraAndLight;
-        private readonly VirtualFileSystem virtualFileSystem;
         private readonly FirstPersonFlyCamera cameraControls;
         private readonly SimpleShadowMapRenderer shadowMapRenderer;
         private readonly ITimeClock timeClock;
         private readonly ISharpGui sharpGui;
-        private readonly IScaleHelper scaleHelper;
         private readonly ISwapChain swapChain;
         private readonly IRenderDevice renderDevice;
         private readonly IDeviceContext immediateContext;
         private readonly PbrRenderAttribs pbrRenderAttribs = PbrRenderAttribs.CreateDefault();
 
-        private readonly SoundManager soundManager;
         private readonly SpriteManager sprites;
         private readonly IObjectResolverFactory objectResolverFactory;
-        private readonly ICoroutineRunner coroutineRunner;
         private readonly CameraMover cameraMover;
         private readonly ILevelManager levelManager;
         private readonly Sky sky;
@@ -52,13 +47,10 @@ namespace SceneTest
             NativeOSWindow window,
             PbrRenderer pbrRenderer,
             IPbrCameraAndLight pbrCameraAndLight,
-            VirtualFileSystem virtualFileSystem,
             FirstPersonFlyCamera cameraControls,
             SimpleShadowMapRenderer shadowMapRenderer,
             ITimeClock timeClock,
             ISharpGui sharpGui,
-            IScaleHelper scaleHelper,
-            SoundManager soundManager,
             SpriteManager sprites,
             IObjectResolverFactory objectResolverFactory,
             ICoroutineRunner coroutineRunner,
@@ -76,16 +68,12 @@ namespace SceneTest
             this.immediateContext = graphicsEngine.ImmediateContext;
             this.window = window;
             this.pbrCameraAndLight = pbrCameraAndLight;
-            this.virtualFileSystem = virtualFileSystem;
             this.cameraControls = cameraControls;
             this.shadowMapRenderer = shadowMapRenderer;
             this.timeClock = timeClock;
             this.sharpGui = sharpGui;
-            this.scaleHelper = scaleHelper;
-            this.soundManager = soundManager;
             this.sprites = sprites;
             this.objectResolverFactory = objectResolverFactory;
-            this.coroutineRunner = coroutineRunner;
             this.cameraMover = cameraMover;
             this.levelManager = levelManager;
             this.sky = sky;
