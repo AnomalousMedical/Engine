@@ -28,7 +28,7 @@ namespace SceneTest
         private readonly VirtualFileSystem virtualFileSystem;
         private readonly FirstPersonFlyCamera cameraControls;
         private readonly SimpleShadowMapRenderer shadowMapRenderer;
-        private readonly TimeClock timeClock;
+        private readonly ITimeClock timeClock;
         private readonly ISharpGui sharpGui;
         private readonly IScaleHelper scaleHelper;
         private readonly ISwapChain swapChain;
@@ -37,34 +37,20 @@ namespace SceneTest
         private readonly PbrRenderAttribs pbrRenderAttribs = PbrRenderAttribs.CreateDefault();
 
         private readonly SoundManager soundManager;
-        private readonly SceneObjectManager<ILevelManager> levelSceneObjects;
-        private readonly SceneObjectManager<IBattleManager> battleSceneObjects;
         private readonly SpriteManager sprites;
         private readonly IObjectResolverFactory objectResolverFactory;
         private readonly ICoroutineRunner coroutineRunner;
-        private readonly IBepuScene bepuScene;
         private readonly CameraMover cameraMover;
         private readonly ILevelManager levelManager;
         private readonly Sky sky;
-        private readonly IBattleManager battleManager;
         private readonly IObjectResolver objectResolver;
+
+        private IGameState gameState;
 
         private PbrRenderer pbrRenderer;
         private AutoPtr<ITextureView> environmentMapSRV;
 
-        SharpButton goNextLevel = new SharpButton() { Text = "Next Level" };
-        SharpButton goPreviousLevel = new SharpButton() { Text = "Previous Level" };
-        SharpButton toggleCamera = new SharpButton() { Text = "Toggle Camera" };
-        SharpButton battle = new SharpButton() { Text = "Battle" };
-        SharpSliderHorizontal currentHour;
-
         private bool useFirstPersonCamera = false;
-        private bool showDebugGui = true;
-
-        private int dangerCounter = 0;
-        private long dangerCounterAccumulator = 0;
-        private const long DangerCounterTick = Clock.SecondsToMicro / 3;
-        private Random battleRandom = new Random();
 
         public unsafe SceneTestUpdateListener(
             GraphicsEngine graphicsEngine,
@@ -75,20 +61,17 @@ namespace SceneTest
             VirtualFileSystem virtualFileSystem,
             FirstPersonFlyCamera cameraControls,
             SimpleShadowMapRenderer shadowMapRenderer,
-            TimeClock timeClock,
+            ITimeClock timeClock,
             ISharpGui sharpGui,
             IScaleHelper scaleHelper,
             SoundManager soundManager,
-            SceneObjectManager<ILevelManager> sceneObjects,
-            SceneObjectManager<IBattleManager> battleSceneObjects,
             SpriteManager sprites,
             IObjectResolverFactory objectResolverFactory,
             ICoroutineRunner coroutineRunner,
-            IBepuScene bepuScene,
             CameraMover cameraMover,
             ILevelManager levelManager,
             Sky sky,
-            IBattleManager battleManager)
+            IFirstGameStateBuilder startState)
         {
             cameraControls.Position = new Vector3(0, 0, -12);
 
@@ -106,18 +89,15 @@ namespace SceneTest
             this.sharpGui = sharpGui;
             this.scaleHelper = scaleHelper;
             this.soundManager = soundManager;
-            this.levelSceneObjects = sceneObjects;
-            this.battleSceneObjects = battleSceneObjects;
             this.sprites = sprites;
             this.objectResolverFactory = objectResolverFactory;
             this.coroutineRunner = coroutineRunner;
-            this.bepuScene = bepuScene;
             this.cameraMover = cameraMover;
             this.levelManager = levelManager;
             this.sky = sky;
-            this.battleManager = battleManager;
+            this.gameState = startState.GetFirstGameState();
             this.objectResolver = objectResolverFactory.Create();
-            currentHour = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 10, 500, 35)), Max = 24 };
+            
             coroutineRunner.RunTask(Initialize());
         }
 
@@ -146,51 +126,6 @@ namespace SceneTest
 
         }
 
-        private void UpdateDebugGui()
-        {
-            var layout =
-                new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
-                new MaxWidthLayout(scaleHelper.Scaled(300),
-                new ColumnLayout(battle, goNextLevel, goPreviousLevel, toggleCamera) { Margin = new IntPad(10) }
-                ));
-            var desiredSize = layout.GetDesiredSize(sharpGui);
-            layout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
-
-            if (sharpGui.Button(battle, navUp: toggleCamera.Id, navDown: goNextLevel.Id))
-            {
-                StartBattle();
-            }
-
-            if (!levelManager.ChangingLevels && sharpGui.Button(goNextLevel, navUp: battle.Id, navDown: goPreviousLevel.Id))
-            {
-                coroutineRunner.RunTask(levelManager.GoNextLevel());
-            }
-
-            if (!levelManager.ChangingLevels && sharpGui.Button(goPreviousLevel, navUp: goNextLevel.Id, navDown: toggleCamera.Id))
-            {
-                coroutineRunner.RunTask(levelManager.GoPreviousLevel());
-            }
-
-            if (sharpGui.Button(toggleCamera, navUp: goPreviousLevel.Id, navDown: battle.Id))
-            {
-                useFirstPersonCamera = !useFirstPersonCamera;
-            }
-
-            int currentTime = (int)(timeClock.CurrentTimeMicro * Clock.MicroToSeconds / (60 * 60));
-            if (sharpGui.Slider(currentHour, ref currentTime) || sharpGui.ActiveItem == currentHour.Id)
-            {
-                timeClock.CurrentTimeMicro = (long)currentTime * 60L * 60L * Clock.SecondsToMicro;
-            }
-            var time = TimeSpan.FromMilliseconds(timeClock.CurrentTimeMicro * Clock.MicroToMilliseconds);
-            sharpGui.Text(currentHour.Rect.Right, currentHour.Rect.Top, timeClock.IsDay ? Engine.Color.Black : Engine.Color.White, $"Time: {time}");
-        }
-
-        private void StartBattle()
-        {
-            battleManager.SetupBattle();
-            battleManager.SetActive(true);
-        }
-
         private void UpdateSprites(Clock clock)
         {
             foreach (var sprite in sprites)
@@ -201,25 +136,17 @@ namespace SceneTest
 
         public unsafe void sendUpdate(Clock clock)
         {
-            IEnumerable<SceneObject> sceneObjects;
+            IEnumerable<SceneObject> sceneObjects = gameState.SceneObjects;
 
             //Update
             timeClock.Update(clock);
             sharpGui.Begin(clock);
-            if (battleManager.Active)
+            var nextState = this.gameState.Update(clock);
+            if(nextState != this.gameState)
             {
-                sceneObjects = battleSceneObjects;
-                battleManager.Update(clock);
-            }
-            else
-            {
-                UpdateRandomEncounter(clock);
-                sceneObjects = levelSceneObjects;
-                bepuScene.Update(clock, new System.Numerics.Vector3(0, 0, 1));
-                if (showDebugGui)
-                {
-                    UpdateDebugGui();
-                }
+                this.gameState.SetActive(false);
+                nextState.SetActive(true);
+                this.gameState = nextState;
             }
             sharpGui.End();
             sky.UpdateLight(clock);
@@ -291,35 +218,6 @@ namespace SceneTest
             RenderGui();
 
             this.swapChain.Present(1);
-        }
-
-        private unsafe void UpdateRandomEncounter(Clock clock)
-        {
-            dangerCounterAccumulator += clock.DeltaTimeMicro;
-            if (dangerCounterAccumulator > DangerCounterTick)
-            {
-                dangerCounterAccumulator -= DangerCounterTick;
-                if (levelManager.IsPlayerMoving)
-                {
-                    dangerCounter += 4096 / 64; //This will be encounter value
-                    Console.WriteLine(dangerCounter);
-                    int battleChance = battleRandom.Next(256);
-                    var check = dangerCounter / 256;
-                    if (battleChance < check)
-                    {
-                        IEnumerator<YieldAction> co()
-                        {
-                            StartBattle();
-                            dangerCounter = 0;
-                            Console.WriteLine("Battle started");
-                            yield break;
-                        }
-
-                        coroutineRunner.Queue(co());
-                    }
-                }
-
-            }
         }
 
         private void RenderGui()

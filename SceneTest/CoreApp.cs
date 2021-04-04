@@ -62,7 +62,9 @@ namespace SceneTest
 
             //Add this app's services
             services.AddSingleton<SceneTestUpdateListener>();
-            services.AddSingleton<TimeClock>();
+            services.AddSingleton<ITimeClock, TimeClock>();
+            services.AddSingleton<IDebugGui, DebugGui>();
+            services.AddSingleton<IBattleGameState, BattleGameState>();
             services.AddSingleton<SpriteManager>();
             services.AddSingleton<SceneObjectManager<ILevelManager>>();
             services.AddSingleton<SceneObjectManager<IBattleManager>>();
@@ -102,6 +104,9 @@ namespace SceneTest
             services.AddSingleton<IBackgroundMusicManager, BackgroundMusicManager>();
             services.AddSingleton<ICameraProjector, CameraProjector>();
             services.AddSingleton<IBattleScreenLayout, BattleScreenLayout>();
+            services.AddSingleton<IBattleTrigger, BattleTrigger>();
+            services.AddSingleton<IFirstGameStateBuilder, FirstGameStateBuilder>();
+            services.AddSingleton<ExplorationGameState>();
             services.AddSingleton<Party>(s =>
             {
                 //Hardcoded to new every time, but this needs to be managed somehow
@@ -130,7 +135,7 @@ namespace SceneTest
                         Name = "Magic Joe",
                         Archetype = arch,
                         Level = 1,
-                        CurrentHp = arch.BaseHp + arch.BonusHp,
+                        CurrentHp =1,// arch.BaseHp + arch.BonusHp,
                         CurrentMp = arch.BaseMp + arch.BonusMp,
                         MainHand = new Equipment()
                         {
@@ -147,7 +152,7 @@ namespace SceneTest
                         Name = "Stabby McStabface",
                         Archetype = arch,
                         Level = 1,
-                        CurrentHp = arch.BaseHp + arch.BonusHp,
+                        CurrentHp = 1,//arch.BaseHp + arch.BonusHp,
                         CurrentMp = arch.BaseMp + arch.BonusMp,
                         MainHand = new Equipment()
                         {
@@ -164,7 +169,7 @@ namespace SceneTest
                         Name = "Archibald",
                         Archetype = arch,
                         Level = 1,
-                        CurrentHp = arch.BaseHp + arch.BonusHp,
+                        CurrentHp = 1,//arch.BaseHp + arch.BonusHp,
                         CurrentMp = arch.BaseMp + arch.BonusMp,
                         MainHand = new Equipment()
                         {

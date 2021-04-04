@@ -15,7 +15,7 @@ namespace SceneTest
         readonly Color NightSky = Color.FromARGB(0xff030303);
         readonly Color DawnSky = Color.FromARGB(0xff242148);
         readonly Color DuskSky = Color.FromARGB(0xff242148);
-        private readonly TimeClock timeClock;
+        private readonly ITimeClock timeClock;
 
         //Clear Color
         Color clearColor = Color.FromARGB(0xff2a63cc);
@@ -34,7 +34,7 @@ namespace SceneTest
 
         public float AverageLogLum => averageLogLum;
 
-        public Sky(TimeClock timeClock)
+        public Sky(ITimeClock timeClock)
         {
             this.timeClock = timeClock;
         }

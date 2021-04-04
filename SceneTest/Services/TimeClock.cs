@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SceneTest
 {
-    class TimeClock
+    class TimeClock : ITimeClock
     {
         const long HoursToMicro = 60L * 60L * Clock.SecondsToMicro;
         const long HoursPerDay = 24L;

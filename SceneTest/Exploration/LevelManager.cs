@@ -1,4 +1,5 @@
-﻿using Engine;
+﻿using BepuPlugin;
+using Engine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace SceneTest
         private Player player;
         private IObjectResolver objectResolver;
         private readonly IBackgroundMusicManager backgroundMusicManager;
+        private readonly IBepuScene bepuScene;
 
         public event Action<ILevelManager> LevelChanged;
 
@@ -37,7 +39,9 @@ namespace SceneTest
         public LevelManager(
             Desc description, 
             IObjectResolverFactory objectResolverFactory,
-            IBackgroundMusicManager backgroundMusicManager)
+            IBackgroundMusicManager backgroundMusicManager,
+            IBepuScene bepuScene //Inject this so it is created earlier and destroyed later
+        )
         {
             objectResolver = objectResolverFactory.Create();
             levelRandom = new Random(description.RandomSeed);
@@ -46,6 +50,7 @@ namespace SceneTest
 
             backgroundMusicManager.SetBackgroundSong("freepd/Rafael Krux - Black Knight.ogg");
             this.backgroundMusicManager = backgroundMusicManager;
+            this.bepuScene = bepuScene;
         }
 
         public async Task Initialize()

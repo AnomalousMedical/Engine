@@ -190,8 +190,9 @@ namespace SceneTest
             }
         }
 
-        public void Update(Clock clock)
+        public bool Update(Clock clock)
         {
+            bool battleFinished = false;
             if (turnQueue.Count > 0)
             {
                 var turn = turnQueue.Peek();
@@ -215,7 +216,7 @@ namespace SceneTest
 
                 if (sharpGui.Button(endBattle))
                 {
-                    this.SetActive(false);
+                    battleFinished = true;
                 }
             }
             else
@@ -268,6 +269,7 @@ namespace SceneTest
                     }
                 }
             }
+            return battleFinished;
         }
 
         private BattlePlayer GetActivePlayer()
