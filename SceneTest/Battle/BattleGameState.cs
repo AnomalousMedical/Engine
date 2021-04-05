@@ -12,26 +12,25 @@ namespace SceneTest
     {
         private readonly IBattleManager battleManager;
         private readonly SceneObjectManager<IBattleManager> sceneObjects;
-        private readonly IGameOverGameState gameOverGameState;
+        private IGameState gameOverState;
         private IGameState explorationState;
 
         public BattleGameState
         (
             IBattleManager battleManager,
-            SceneObjectManager<IBattleManager> sceneObjects,
-            IGameOverGameState gameOverGameState
+            SceneObjectManager<IBattleManager> sceneObjects
         )
         {
             this.battleManager = battleManager;
             this.sceneObjects = sceneObjects;
-            this.gameOverGameState = gameOverGameState;
         }
 
         public IEnumerable<SceneObject> SceneObjects => sceneObjects;
 
-        public void LinkExplorationState(IGameState explorationState)
+        public void Link(IGameState explorationState, IGameState gameOver)
         {
             this.explorationState = explorationState;
+            this.gameOverState = gameOver;
         }
 
         public void SetActive(bool active)
@@ -50,7 +49,7 @@ namespace SceneTest
             switch(result)
             {
                 case IBattleManager.Result.GameOver:
-                    nextState = gameOverGameState;
+                    nextState = gameOverState;
                     break;
                 case IBattleManager.Result.ReturnToExploration:
                     nextState = explorationState;

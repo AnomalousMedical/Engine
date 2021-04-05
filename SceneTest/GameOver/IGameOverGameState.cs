@@ -5,5 +5,6 @@ namespace SceneTest.GameOver
 {
     interface IGameOverGameState : IGameState
     {
+        void Link(IGameState explorationState);
     }
 }

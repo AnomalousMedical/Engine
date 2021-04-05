@@ -41,7 +41,8 @@ namespace SceneTest
 
         private bool useFirstPersonCamera = false;
 
-        public unsafe SceneTestUpdateListener(
+        public unsafe SceneTestUpdateListener
+        (
             GraphicsEngine graphicsEngine,
             NativeOSWindow window,
             PbrRenderer pbrRenderer,
@@ -55,7 +56,8 @@ namespace SceneTest
             CameraMover cameraMover,
             Sky sky,
             IFirstGameStateBuilder startState,
-            IEnvMapManager envMapManager)
+            IEnvMapManager envMapManager
+        )
         {
             cameraControls.Position = new Vector3(0, 0, -12);
 

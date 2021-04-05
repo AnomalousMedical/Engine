@@ -14,7 +14,7 @@ namespace SceneTest
 
         Task GoNextLevel();
         Task GoPreviousLevel();
-        Task Initialize();
+        Task Restart();
         Task WaitForCurrentLevel();
         Task WaitForNextLevel();
         Task WaitForPreviousLevel();

@@ -1,0 +1,6 @@
+﻿namespace SceneTest
+{
+    interface IGameStateLinker
+    {
+    }
+}

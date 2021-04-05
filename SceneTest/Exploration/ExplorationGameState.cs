@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace SceneTest
 {
-    class ExplorationGameState : IGameState
+    class ExplorationGameState : IExplorationGameState
     {
         private readonly ICoroutineRunner coroutineRunner;
         private readonly IBepuScene bepuScene;
         private readonly IBattleTrigger battleTrigger;
         private readonly ILevelManager levelManager;
         private readonly SceneObjectManager<ILevelManager> sceneObjects;
-        private readonly IBattleGameState battleGameState;
         private readonly IDebugGui debugGui;
+        private IGameState battleState;
         private bool showDebugGui = true;
 
         public ExplorationGameState(
@@ -26,7 +26,6 @@ namespace SceneTest
             IBattleTrigger battleTrigger,
             ILevelManager levelManager,
             SceneObjectManager<ILevelManager> sceneObjects,
-            IBattleGameState battleGameState,
             IDebugGui debugGui)
         {
             this.coroutineRunner = coroutineRunner;
@@ -34,18 +33,21 @@ namespace SceneTest
             this.battleTrigger = battleTrigger;
             this.levelManager = levelManager;
             this.sceneObjects = sceneObjects;
-            this.battleGameState = battleGameState;
             this.debugGui = debugGui;
-            this.battleGameState.LinkExplorationState(this);
 
-            coroutineRunner.RunTask(levelManager.Initialize());
+            coroutineRunner.RunTask(levelManager.Restart());
+        }
+
+        public void Link(IGameState battleState)
+        {
+            this.battleState = battleState;
         }
 
         public IEnumerable<SceneObject> SceneObjects => sceneObjects;
 
         public void SetActive(bool active)
         {
-            
+
         }
 
         public IGameState Update(Clock clock)
@@ -54,7 +56,7 @@ namespace SceneTest
 
             if (battleTrigger.UpdateRandomEncounter(clock, levelManager.IsPlayerMoving))
             {
-                nextState = battleGameState;
+                nextState = battleState;
             }
             else
             {
@@ -67,7 +69,7 @@ namespace SceneTest
                 switch (result)
                 {
                     case IDebugGui.Result.StartBattle:
-                        nextState = battleGameState;
+                        nextState = battleState;
                         break;
                 }
             }

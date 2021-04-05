@@ -53,10 +53,40 @@ namespace SceneTest
             this.bepuScene = bepuScene;
         }
 
-        public async Task Initialize()
+        public async Task Restart()
         {
-            currentLevel = CreateLevel(createdLevelSeeds[0], new Vector3(0, 0, 0), false);
-            nextLevel = CreateLevel(createdLevelSeeds[1], new Vector3(150, 0, 0), true);
+            if (changingLevels)
+            {
+                return;
+            }
+
+            changingLevels = true;
+
+            if(previousLevel != null)
+            {
+                await previousLevel.WaitForLevelGeneration();
+                previousLevel.RequestDestruction();
+            }
+
+            if(currentLevel != null)
+            {
+                await currentLevel.WaitForLevelGeneration();
+                currentLevel.RequestDestruction();
+            }
+
+            if(nextLevel != null)
+            {
+                await nextLevel.WaitForLevelGeneration();
+                nextLevel.RequestDestruction();
+            }
+
+            currentLevelIndex = 0;
+            currentLevel = CreateLevel(createdLevelSeeds[currentLevelIndex], new Vector3(0, 0, 0), false);
+            nextLevel = CreateLevel(createdLevelSeeds[currentLevelIndex + 1], new Vector3(150, 0, 0), true);
+            if(currentLevelIndex - 1 >= 0)
+            {
+                previousLevel = CreateLevel(createdLevelSeeds[currentLevelIndex - 1], new Vector3(-150, 0, 0), true);
+            }
 
             await currentLevel.WaitForLevelGeneration();
 
@@ -70,6 +100,12 @@ namespace SceneTest
             LevelChanged?.Invoke(this);
 
             await nextLevel.WaitForLevelGeneration();
+            if(previousLevel != null)
+            {
+                await previousLevel.WaitForLevelGeneration();
+            }
+
+            changingLevels = false;
         }
 
         public void Dispose()

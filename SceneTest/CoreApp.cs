@@ -102,6 +102,7 @@ namespace SceneTest
             services.AddScoped<BattleArena>();
             services.AddScoped<BattleArena.Description>();
             services.AddSingleton<IBiomeManager, BiomeManager>();
+            services.AddSingleton<IGameStateLinker, GameStateLinker>();
             services.AddSingleton<CameraMover>();
             services.AddSingleton<ICollidableTypeIdentifier, CollidableTypeIdentifier>();
             services.AddSingleton<IBackgroundMusicManager, BackgroundMusicManager>();
@@ -109,7 +110,7 @@ namespace SceneTest
             services.AddSingleton<IBattleScreenLayout, BattleScreenLayout>();
             services.AddSingleton<IBattleTrigger, BattleTrigger>();
             services.AddSingleton<IFirstGameStateBuilder, FirstGameStateBuilder>();
-            services.AddSingleton<ExplorationGameState>();
+            services.AddSingleton<IExplorationGameState, ExplorationGameState>();
             services.AddSingleton<Party>(s =>
             {
                 //Hardcoded to new every time, but this needs to be managed somehow
@@ -200,6 +201,7 @@ namespace SceneTest
 
             mainTimer = serviceProvider.GetRequiredService<UpdateTimer>();
 
+            var linker = serviceProvider.GetRequiredService<IGameStateLinker>(); //This links the game states together.
             var updateListener = serviceProvider.GetRequiredService<SceneTestUpdateListener>();
             mainTimer.addUpdateListener(updateListener);
 

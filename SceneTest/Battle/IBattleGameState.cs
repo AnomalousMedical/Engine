@@ -8,6 +8,6 @@ namespace SceneTest
         /// <summary>
         /// This is a circular link, so it must be set by the ExplorationGameState itself, which injects this class.
         /// </summary>
-        void LinkExplorationState(IGameState explorationState);
+        void Link(IGameState explorationState, IGameState gameOver);
     }
 }
