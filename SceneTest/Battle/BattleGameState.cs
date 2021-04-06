@@ -13,7 +13,7 @@ namespace SceneTest
         private readonly IBattleManager battleManager;
         private readonly SceneObjectManager<IBattleManager> sceneObjects;
         private IGameState gameOverState;
-        private IGameState explorationState;
+        private IGameState returnState;
 
         public BattleGameState
         (
@@ -27,9 +27,9 @@ namespace SceneTest
 
         public IEnumerable<SceneObject> SceneObjects => sceneObjects;
 
-        public void Link(IGameState explorationState, IGameState gameOver)
+        public void Link(IGameState returnState, IGameState gameOver)
         {
-            this.explorationState = explorationState;
+            this.returnState = returnState;
             this.gameOverState = gameOver;
         }
 
@@ -52,7 +52,7 @@ namespace SceneTest
                     nextState = gameOverState;
                     break;
                 case IBattleManager.Result.ReturnToExploration:
-                    nextState = explorationState;
+                    nextState = returnState;
                     break;
             }
             return nextState;

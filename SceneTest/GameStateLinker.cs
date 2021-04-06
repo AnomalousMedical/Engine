@@ -13,12 +13,14 @@ namespace SceneTest
         (
             IExplorationGameState exploration,
             IBattleGameState battle,
-            IGameOverGameState gameOver
+            IGameOverGameState gameOver,
+            ISetupGameState setup
         )
         {
+            setup.Link(exploration);
             exploration.Link(battle);
             battle.Link(exploration, gameOver);
-            gameOver.Link(exploration);
+            gameOver.Link(setup);
         }
     }
 }

@@ -77,6 +77,7 @@ namespace SceneTest
             this.sky = sky;
             this.envMapManager = envMapManager;
             this.gameState = startState.GetFirstGameState();
+            this.gameState.SetActive(true);
         }
 
         public void exceededMaxDelta()

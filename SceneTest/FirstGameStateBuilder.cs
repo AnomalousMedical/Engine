@@ -8,9 +8,9 @@ namespace SceneTest
 {
     class FirstGameStateBuilder : IFirstGameStateBuilder
     {
-        private readonly IExplorationGameState gameState;
+        private readonly IGameState gameState;
 
-        public FirstGameStateBuilder(IExplorationGameState gameState)
+        public FirstGameStateBuilder(ISetupGameState gameState)
         {
             this.gameState = gameState;
         }

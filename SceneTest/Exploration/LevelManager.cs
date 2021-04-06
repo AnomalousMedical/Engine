@@ -92,10 +92,17 @@ namespace SceneTest
 
             currentLevel.SetupPhysics();
 
-            player = this.objectResolver.Resolve<Player, Player.Description>(c =>
+            if (player == null)
             {
-                c.Translation = currentLevel.StartPoint;
-            });
+                player = this.objectResolver.Resolve<Player, Player.Description>(c =>
+                {
+                    c.Translation = currentLevel.StartPoint;
+                });
+            }
+            else
+            {
+                player.SetLocation(currentLevel.StartPoint);
+            }
 
             LevelChanged?.Invoke(this);
 

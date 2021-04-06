@@ -111,80 +111,8 @@ namespace SceneTest
             services.AddSingleton<IBattleTrigger, BattleTrigger>();
             services.AddSingleton<IFirstGameStateBuilder, FirstGameStateBuilder>();
             services.AddSingleton<IExplorationGameState, ExplorationGameState>();
-            services.AddSingleton<Party>(s =>
-            {
-                //Hardcoded to new every time, but this needs to be managed somehow
-                var party = new Party();
-                {
-                    var arch = Archetype.CreateHero();
-                    party.AddCharacter(new CharacterSheet()
-                    {
-                        Name = "Bob",
-                        Archetype = arch,
-                        Level = 1,
-                        CurrentHp =1,// arch.BaseHp + arch.BonusHp,
-                        CurrentMp = arch.BaseMp + arch.BonusMp,
-                        MainHand = new Equipment()
-                        {
-                            AttackPercent = 100,
-                            Attack = 18
-                        }
-                    });
-                }
-
-                {
-                    var arch = Archetype.CreateSage();
-                    party.AddCharacter(new CharacterSheet()
-                    {
-                        Name = "Magic Joe",
-                        Archetype = arch,
-                        Level = 1,
-                        CurrentHp = 1,// arch.BaseHp + arch.BonusHp,
-                        CurrentMp = arch.BaseMp + arch.BonusMp,
-                        MainHand = new Equipment()
-                        {
-                            AttackPercent = 100,
-                            Attack = 18
-                        }
-                    });
-                }
-
-                {
-                    var arch = Archetype.CreateTank();
-                    party.AddCharacter(new CharacterSheet()
-                    {
-                        Name = "Stabby McStabface",
-                        Archetype = arch,
-                        Level = 1,
-                        CurrentHp = 1,// arch.BaseHp + arch.BonusHp,
-                        CurrentMp = arch.BaseMp + arch.BonusMp,
-                        MainHand = new Equipment()
-                        {
-                            AttackPercent = 100,
-                            Attack = 18
-                        }
-                    });
-                }
-
-                {
-                    var arch = Archetype.CreateGuardian();
-                    party.AddCharacter(new CharacterSheet()
-                    {
-                        Name = "Archibald",
-                        Archetype = arch,
-                        Level = 1,
-                        CurrentHp = 1,// arch.BaseHp + arch.BonusHp,
-                        CurrentMp = arch.BaseMp + arch.BonusMp,
-                        MainHand = new Equipment()
-                        {
-                            AttackPercent = 100,
-                            Attack = 18
-                        }
-                    });
-                }
-
-                return party;
-            });
+            services.AddSingleton<Party>();
+            services.AddSingleton<ISetupGameState, SetupGameState>();
 
             return true;
         }
