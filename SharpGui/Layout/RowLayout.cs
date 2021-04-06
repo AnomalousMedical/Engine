@@ -40,7 +40,7 @@ namespace SharpGui
             return new IntSize2(width, height + Margin.Top + Margin.Bottom);
         }
 
-        public void SetRect(IntRect rect)
+        public void SetRect(in IntRect rect)
         {
             int left = rect.Left;
             int top = rect.Top;

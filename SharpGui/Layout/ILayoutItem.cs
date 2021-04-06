@@ -9,6 +9,6 @@ namespace SharpGui
     {
         IntSize2 GetDesiredSize(ISharpGui sharpGui);
 
-        void SetRect(IntRect rect);
+        void SetRect(in IntRect rect);
     }
 }

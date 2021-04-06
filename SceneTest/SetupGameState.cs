@@ -22,7 +22,7 @@ namespace SceneTest
 
         public IEnumerable<SceneObject> SceneObjects => Enumerable.Empty<SceneObject>();
 
-        private SharpText loading = new SharpText("Loading") { color = Color.White };
+        private SharpText loading = new SharpText("Loading") { Color = Color.White };
 
         public SetupGameState
         (

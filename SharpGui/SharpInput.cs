@@ -33,7 +33,7 @@ namespace SharpGui
             return sharpGui.MeasureInput(this);
         }
 
-        public void SetRect(IntRect rect)
+        public void SetRect(in IntRect rect)
         {
             this.Rect = rect;
         }

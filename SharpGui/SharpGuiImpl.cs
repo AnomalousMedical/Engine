@@ -217,7 +217,7 @@ namespace SharpGui
 
         public void Text(SharpText text)
         {
-            buffer.DrawText(text.Rect.Left, text.Rect.Top, text.Rect.Right, text.color, text.Text, renderer.Font);
+            buffer.DrawText(text.Rect.Left, text.Rect.Top, text.Rect.Right, text.Color, text.Text, renderer.Font);
         }
 
         public void Render(IDeviceContext immediateContext)

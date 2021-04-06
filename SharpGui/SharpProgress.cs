@@ -25,7 +25,7 @@ namespace SharpGui
             return DesiredSize;
         }
 
-        public void SetRect(IntRect rect)
+        public void SetRect(in IntRect rect)
         {
             this.Rect = rect;
         }

@@ -23,7 +23,7 @@ namespace SharpGui
             return size;
         }
 
-        public void SetRect(IntRect rect)
+        public void SetRect(in IntRect rect)
         {
             Child.SetRect(rect);
         }

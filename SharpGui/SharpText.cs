@@ -9,7 +9,7 @@ namespace SharpGui
     {
         public string Text;
         public IntRect Rect;
-        public Color color;
+        public Color Color;
         public int Width = int.MaxValue;
 
         public SharpText()
@@ -36,7 +36,7 @@ namespace SharpGui
             return sharpGui.MeasureText(Text);
         }
 
-        public void SetRect(IntRect rect)
+        public void SetRect(in IntRect rect)
         {
             this.Rect = rect;
         }

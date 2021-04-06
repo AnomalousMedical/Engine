@@ -27,7 +27,7 @@ namespace SharpGui
             return sharpGui.MeasureButton(this);
         }
 
-        public void SetRect(IntRect rect)
+        public void SetRect(in IntRect rect)
         {
             this.Rect = rect;
         }

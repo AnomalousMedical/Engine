@@ -32,7 +32,7 @@ namespace SharpGui
             return new IntSize2(width, height);
         }
 
-        public void SetRect(IntRect rect)
+        public void SetRect(in IntRect rect)
         {
             if(items.Count == 0)
             {

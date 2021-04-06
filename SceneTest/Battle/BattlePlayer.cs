@@ -45,9 +45,9 @@ namespace SceneTest
         private SharpButton defendButton = new SharpButton() { Text = "Defend" };
 
         private SharpProgressHorizontal turnProgress = new SharpProgressHorizontal();
-        private SharpText name = new SharpText() { color = Color.White };
-        private SharpText currentHp = new SharpText() { color = Color.White };
-        private SharpText currentMp = new SharpText() { color = Color.White };
+        private SharpText name = new SharpText() { Color = Color.White };
+        private SharpText currentHp = new SharpText() { Color = Color.White };
+        private SharpText currentMp = new SharpText() { Color = Color.White };
         private ILayoutItem infoRowLayout;
 
         public IBattleStats Stats => this.characterSheet;
