@@ -25,6 +25,7 @@ namespace SceneTest
         private readonly IBattleScreenLayout battleScreenLayout;
         private readonly ICharacterTimer characterTimer;
         private readonly IBattleManager battleManager;
+        private readonly ITurnTimer turnTimer;
         private readonly SceneObject sceneObject;
         private readonly IObjectResolver objectResolver;
         private ISpriteMaterial spriteMaterial;
@@ -89,7 +90,8 @@ namespace SceneTest
             IScaleHelper scaleHelper,
             IBattleScreenLayout battleScreenLayout,
             ICharacterTimer characterTimer,
-            IBattleManager battleManager)
+            IBattleManager battleManager,
+            ITurnTimer turnTimer)
         {
             this.characterSheet = description.CharacterSheet ?? throw new InvalidOperationException("You must include a character sheet in the description");
             this.playerSpriteInfo = playerSpriteInfo;
@@ -102,6 +104,7 @@ namespace SceneTest
             this.battleScreenLayout = battleScreenLayout;
             this.characterTimer = characterTimer;
             this.battleManager = battleManager;
+            this.turnTimer = turnTimer;
             this.primaryHand = description.PrimaryHand;
             this.secondaryHand = description.SecondaryHand;
             this.gamepadId = description.Gamepad;
@@ -119,6 +122,7 @@ namespace SceneTest
             currentHp.Text = description.CharacterSheet.CurrentHp.ToString();
             currentMp.Text = description.CharacterSheet.CurrentMp.ToString();
 
+            turnTimer.AddTimer(characterTimer);
             characterTimer.TurnReady += CharacterTimer_TurnReady;
             characterTimer.TotalDex = characterSheet.Dexterity;
 
@@ -231,6 +235,7 @@ namespace SceneTest
 
         public void Dispose()
         {
+            turnTimer.RemoveTimer(characterTimer);
             battleScreenLayout.InfoColumn.Remove(infoRowLayout);
             characterTimer.TurnReady -= CharacterTimer_TurnReady;
             sprite.FrameChanged -= Sprite_FrameChanged;

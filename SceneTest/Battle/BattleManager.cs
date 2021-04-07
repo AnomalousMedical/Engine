@@ -130,7 +130,13 @@ namespace SceneTest
 
                     backgroundMusicManager.SetBattleTrack("freepd/Rafael Krux - Hit n Smash.ogg");
                     var allTimers = players.Select(i => i.CharacterTimer).Concat(enemies.Select(i => i.CharacterTimer));
-                    turnTimer.Restart(0, players.Sum(i => i.BaseDexterity), allTimers);
+                    var baseDexTotal = 0;
+                    foreach(var player in players)
+                    {
+                        baseDexTotal += player.BaseDexterity;
+                        player.CharacterTimer.TurnTimerActive = !player.IsDead;
+                    }
+                    turnTimer.Restart(0, baseDexTotal);
 
                     eventManager[EventLayers.Battle].OnUpdate += eventManager_OnUpdate;
                     cameraMover.Position = new Vector3(-1.0354034f, 2.958224f, -12.394701f);

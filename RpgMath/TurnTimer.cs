@@ -23,9 +23,8 @@ namespace RpgMath
         /// <param name="battleSpeed">The battle speed chosen by the player's config. 0 is fastest 255 is slowest and 128 is middle.</param>
         /// <param name="baseDexSum">The sum of the base dex of all characters in the party. This is</param>
         /// <param name="characterTimers"></param>
-        public void Restart(long battleSpeed, long baseDexSum, IEnumerable<ICharacterTimer> characterTimers)
+        public void Restart(long battleSpeed, long baseDexSum)
         {
-            this.characterTimers.AddRange(characterTimers);
             speedValue = 32768L / (120L + battleSpeed * 15L / 8L);
             accumulator = 0;
             globalTimer = 0;
@@ -35,6 +34,11 @@ namespace RpgMath
         public void End()
         {
             this.characterTimers.Clear();
+        }
+
+        public void AddTimer(ICharacterTimer timer)
+        {
+            this.characterTimers.Add(timer);
         }
 
         public void RemoveTimer(ICharacterTimer timer)

@@ -93,7 +93,7 @@ namespace SceneTest
         private bool disposed;
         private readonly ICharacterTimer characterTimer;
         private readonly IBattleManager battleManager;
-
+        private readonly ITurnTimer turnTimer;
         private Vector3 startPosition;
 
         public Vector3 MeleeAttackLocation => this.sceneObject.position + new Vector3(sprite.BaseScale.x, 0, 0);
@@ -112,7 +112,8 @@ namespace SceneTest
             ISpriteMaterialManager spriteMaterialManager,
             Desc description,
             ICharacterTimer characterTimer,
-            IBattleManager battleManager)
+            IBattleManager battleManager,
+            ITurnTimer turnTimer)
         {
             this.sceneObjectManager = sceneObjectManager;
             this.sprites = sprites;
@@ -120,11 +121,13 @@ namespace SceneTest
             this.spriteMaterialManager = spriteMaterialManager;
             this.characterTimer = characterTimer;
             this.battleManager = battleManager;
+            this.turnTimer = turnTimer;
             this.sprite = description.Sprite;
             this.Stats = description.BattleStats ?? throw new InvalidOperationException("You must include battle stats in an enemy description.");
             this.currentHp = Stats.Hp;
             this.currentMp = Stats.Mp;
 
+            turnTimer.AddTimer(characterTimer);
             characterTimer.TurnReady += CharacterTimer_TurnReady; ;
             characterTimer.TotalDex = Stats.Dexterity;
 
@@ -254,6 +257,7 @@ namespace SceneTest
 
         public void Dispose()
         {
+            turnTimer.RemoveTimer(characterTimer);
             disposed = true;
             sprites.Remove(sprite);
             sceneObjectManager.Remove(sceneObject);
