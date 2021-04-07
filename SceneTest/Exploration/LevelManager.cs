@@ -247,5 +247,10 @@ namespace SceneTest
                 o.GoPrevious = goPrevious;
             });
         }
+
+        public void StopPlayer()
+        {
+            player.StopMovement();
+        }
     }
 }

@@ -113,6 +113,8 @@ namespace SceneTest
                 {
                     character.CurrentHp = character.Hp;
                     character.CurrentMp = character.Mp;
+
+                    //character.CurrentHp = 1;
                 }
                 coroutineRunner.RunTask(async () =>
                 {

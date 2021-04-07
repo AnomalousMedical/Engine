@@ -18,5 +18,6 @@ namespace SceneTest
         Task WaitForCurrentLevel();
         Task WaitForNextLevel();
         Task WaitForPreviousLevel();
+        void StopPlayer();
     }
 }

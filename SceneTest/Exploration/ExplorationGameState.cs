@@ -47,7 +47,8 @@ namespace SceneTest
 
         public void SetActive(bool active)
         {
-
+            //Stopping them both directions
+            levelManager.StopPlayer();
         }
 
         public IGameState Update(Clock clock)

@@ -7,7 +7,6 @@ using DiligentEngine.GltfPbr;
 using DiligentEngine.GltfPbr.Shapes;
 using Engine;
 using Engine.Platform;
-using FreeImageAPI;
 using SceneTest.Sprites;
 using System;
 using System.Collections.Generic;
@@ -259,6 +258,12 @@ namespace SceneTest
             sceneObjectManager.Remove(sceneObject);
             spriteMaterialManager.TryReturn(spriteMaterial);
             objectResolver.Dispose();
+        }
+
+        public void StopMovement()
+        {
+            characterMover.movementDirection.X = 0;
+            characterMover.movementDirection.Y = 0;
         }
 
         private void SetupInput()
