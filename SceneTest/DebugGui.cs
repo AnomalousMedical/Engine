@@ -1,5 +1,6 @@
 ﻿using Engine;
 using Engine.Platform;
+using RpgMath;
 using SharpGui;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,12 @@ namespace SceneTest
         private readonly ILevelManager levelManager;
         private readonly ITimeClock timeClock;
         private readonly ICoroutineRunner coroutineRunner;
-        SharpButton goNextLevel = new SharpButton() { Text = "Next Level" };
-        SharpButton goPreviousLevel = new SharpButton() { Text = "Previous Level" };
-        SharpButton toggleCamera = new SharpButton() { Text = "Toggle Camera" };
+        private readonly Party party;
+        private readonly ILevelCalculator levelCalculator;
+        SharpButton goNextLevel = new SharpButton() { Text = "Next Stage" };
+        SharpButton goPreviousLevel = new SharpButton() { Text = "Previous Stage" };
+        //SharpButton toggleCamera = new SharpButton() { Text = "Toggle Camera" };
+        SharpButton levelUp = new SharpButton() { Text = "Level Up" };
         SharpButton battle = new SharpButton() { Text = "Battle" };
         SharpSliderHorizontal currentHour;
 
@@ -30,7 +34,9 @@ namespace SceneTest
             IScreenPositioner screenPositioner,
             ILevelManager levelManager,
             ITimeClock timeClock,
-            ICoroutineRunner coroutineRunner
+            ICoroutineRunner coroutineRunner,
+            Party party,
+            ILevelCalculator levelCalculator
         )
         {
             this.sharpGui = sharpGui;
@@ -39,6 +45,8 @@ namespace SceneTest
             this.levelManager = levelManager;
             this.timeClock = timeClock;
             this.coroutineRunner = coroutineRunner;
+            this.party = party;
+            this.levelCalculator = levelCalculator;
             currentHour = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 10, 500, 35)), Max = 24 };
         }
 
@@ -49,30 +57,38 @@ namespace SceneTest
             var layout =
                 new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
                 new MaxWidthLayout(scaleHelper.Scaled(300),
-                new ColumnLayout(battle, goNextLevel, goPreviousLevel, toggleCamera) { Margin = new IntPad(10) }
+                new ColumnLayout(battle, levelUp, goNextLevel, goPreviousLevel/*, toggleCamera*/) { Margin = new IntPad(10) }
                 ));
             var desiredSize = layout.GetDesiredSize(sharpGui);
             layout.SetRect(screenPositioner.GetBottomRightRect(desiredSize));
 
-            if (sharpGui.Button(battle, navUp: toggleCamera.Id, navDown: goNextLevel.Id))
+            if (sharpGui.Button(battle, navUp: goPreviousLevel.Id, navDown: levelUp.Id))
             {
                 result = IDebugGui.Result.StartBattle;
             }
 
-            if (!levelManager.ChangingLevels && sharpGui.Button(goNextLevel, navUp: battle.Id, navDown: goPreviousLevel.Id))
+            if (sharpGui.Button(levelUp, navUp: battle.Id, navDown: goNextLevel.Id))
+            {
+                foreach(var c in party.ActiveCharacters)
+                {
+                    c.LevelUp(levelCalculator);
+                }
+            }
+
+            if (!levelManager.ChangingLevels && sharpGui.Button(goNextLevel, navUp: levelUp.Id, navDown: goPreviousLevel.Id))
             {
                 coroutineRunner.RunTask(levelManager.GoNextLevel());
             }
 
-            if (!levelManager.ChangingLevels && sharpGui.Button(goPreviousLevel, navUp: goNextLevel.Id, navDown: toggleCamera.Id))
+            if (!levelManager.ChangingLevels && sharpGui.Button(goPreviousLevel, navUp: goNextLevel.Id, navDown: battle.Id))
             {
                 coroutineRunner.RunTask(levelManager.GoPreviousLevel());
             }
 
-            if (sharpGui.Button(toggleCamera, navUp: goPreviousLevel.Id, navDown: battle.Id))
-            {
-                //useFirstPersonCamera = !useFirstPersonCamera;
-            }
+            //if (sharpGui.Button(toggleCamera, navUp: goPreviousLevel.Id, navDown: battle.Id))
+            //{
+            //    useFirstPersonCamera = !useFirstPersonCamera;
+            //}
 
             int currentTime = (int)(timeClock.CurrentTimeMicro * Clock.MicroToSeconds / (60 * 60));
             if (sharpGui.Slider(currentHour, ref currentTime) || sharpGui.ActiveItem == currentHour.Id)

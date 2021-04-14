@@ -7,11 +7,6 @@ namespace RpgMath
 {
     public class CharacterSheet : IBattleStats
     {
-        public CharacterSheet()
-        {
-
-        }
-
         public String Name { get; set; }
 
         public Archetype Archetype { get; set; }
@@ -33,8 +28,6 @@ namespace RpgMath
             }
         }
 
-        public Equipment Body { get; set; }
-
         private Equipment offHand;
         public Equipment OffHand
         {
@@ -51,6 +44,8 @@ namespace RpgMath
                 }
             }
         }
+
+        public Equipment Body { get; set; }
 
         public Equipment Accessory { get; set; }
 
@@ -107,5 +102,26 @@ namespace RpgMath
         public long Level { get; set; } = 1;
 
         public long ExtraCritChance => EquippedItems().Sum(i => i.CritChance);
+
+        public void LevelUp(ILevelCalculator levelCalculator)
+        {
+            ++Level;
+            if(Level > 99)
+            {
+                Level = 99;
+            }
+            var hpGain = levelCalculator.ComputeHpGain(Level, Archetype.HpGrade, Archetype.BaseHp);
+            var mpGain = levelCalculator.ComputeMpGain(Level, Archetype.MpGrade, Archetype.BaseMp); ;
+            Archetype.BaseHp += hpGain;
+            CurrentHp += hpGain;
+            Archetype.BaseMp += mpGain;
+            CurrentMp += mpGain;
+            Archetype.BaseStrength  += levelCalculator.ComputePrimaryStatGain(Level, Archetype.StrengthGrade, Archetype.BaseStrength);
+            Archetype.BaseVitality  += levelCalculator.ComputePrimaryStatGain(Level, Archetype.VitalityGrade, Archetype.BaseVitality);
+            Archetype.BaseMagic     += levelCalculator.ComputePrimaryStatGain(Level, Archetype.MagicGrade, Archetype.BaseMagic);
+            Archetype.BaseSpirit    += levelCalculator.ComputePrimaryStatGain(Level, Archetype.SpiritGrade, Archetype.BaseSpirit);
+            Archetype.BaseDexterity += levelCalculator.ComputePrimaryStatGain(Level, Archetype.DexterityGrade, Archetype.BaseDexterity);
+            Archetype.BaseLuck      += levelCalculator.ComputeLuckGain(Level, Archetype.LuckGrade, Archetype.BaseLuck);
+        }
     }
 }

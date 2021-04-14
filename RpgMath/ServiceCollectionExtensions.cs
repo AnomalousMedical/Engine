@@ -14,6 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<IXpCalculator, XpCalculator>();
             services.AddSingleton<ITurnTimer, TurnTimer>();
             services.AddScoped<ICharacterTimer, CharacterTimer>();
+            services.AddScoped<ILevelCalculator, LevelCalculator>();
 
             return services;
         }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RpgMath
 {
-    public class LevelCalculator
+    public class LevelCalculator : ILevelCalculator
     {
         private Random random = new Random();
 

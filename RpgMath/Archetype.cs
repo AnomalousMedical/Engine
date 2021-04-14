@@ -41,21 +41,21 @@ namespace RpgMath
 
         public long BonusLuck { get; set; }
 
-        public long HpGrade { get; set; }
+        public int HpGrade { get; set; }
 
-        public long MpGrade { get; set; }
+        public int MpGrade { get; set; }
 
-        public long StrengthGrade { get; set; }
+        public int StrengthGrade { get; set; }
 
-        public long VitalityGrade { get; set; }
+        public int VitalityGrade { get; set; }
 
-        public long MagicGrade { get; set; }
+        public int MagicGrade { get; set; }
 
-        public long SpiritGrade { get; set; }
+        public int SpiritGrade { get; set; }
 
-        public long DexterityGrade { get; set; }
+        public int DexterityGrade { get; set; }
 
-        public long LuckGrade { get; set; }
+        public int LuckGrade { get; set; }
 
         public long Xp02to11 { get; set; }
 
