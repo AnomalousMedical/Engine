@@ -51,6 +51,15 @@ namespace SceneTest
                             SpriteFrameAttachment.FromFramePosition(0, 9, -0.01f, 32, 32),
                         }
                     } )
+                },
+                { "reverse", new SpriteAnimation(1,
+                    new SpriteFrame(1, 0, 0, 1)
+                    {
+                        Attachments = new List<SpriteFrameAttachment>()
+                        {
+                            SpriteFrameAttachment.FromFramePosition(31, 9, -0.01f, 32, 32),
+                        }
+                    } )
                 }
             })
             { BaseScale = new Vector3(0.5f, 0.5f, 1f) };
@@ -205,16 +214,38 @@ namespace SceneTest
         private void ChangeRow()
         {
             TargetPlayers = !TargetPlayers;
+            if (TargetPlayers)
+            {
+                sprite.SetAnimation("reverse");
+            }
+            else
+            {
+                sprite.SetAnimation("default");
+            }
         }
 
         private void PreviousTarget()
         {
-            --TargetIndex;
+            if (TargetPlayers)
+            {
+                ++TargetIndex;
+            }
+            else
+            {
+                --TargetIndex;
+            }
         }
 
         private void NextTarget()
         {
-            ++TargetIndex;
+            if (TargetPlayers)
+            {
+                --TargetIndex;
+            }
+            else
+            {
+                ++TargetIndex;
+            }
         }
 
         private void SetTarget(IBattleTarget enemy)

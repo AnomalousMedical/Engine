@@ -55,7 +55,7 @@ namespace SceneTest
 
         public Vector3 DamageDisplayLocation => this.sceneObject.position;
 
-        public Vector3 CursorDisplayLocation => this.sceneObject.position;
+        public Vector3 CursorDisplayLocation => this.sceneObject.position + new Vector3(-0.5f * sceneObject.scale.x, 0.5f * sceneObject.scale.y, 0f);
 
         public Vector3 MeleeAttackLocation => this.sceneObject.position - new Vector3(sprite.BaseScale.x, 0, 0);
 

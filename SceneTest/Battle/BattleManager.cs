@@ -245,12 +245,12 @@ namespace SceneTest
                     if (cursor.TargetPlayers)
                     {
                         target = players[(int)(cursor.TargetIndex % enemies.Count)];
-                        targetPos = target.DamageDisplayLocation;
+                        targetPos = target.CursorDisplayLocation;
                     }
                     else
                     {
                         target = enemies[(int)(cursor.TargetIndex % enemies.Count)];
-                        targetPos = target.DamageDisplayLocation;
+                        targetPos = target.CursorDisplayLocation;
                     }
                     
                     cursor.UpdateCursor(sharpGui, target, targetPos);
