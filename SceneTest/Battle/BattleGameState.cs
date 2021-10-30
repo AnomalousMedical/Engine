@@ -25,7 +25,7 @@ namespace SceneTest
             this.sceneObjects = sceneObjects;
         }
 
-        public IEnumerable<SceneObject> SceneObjects => sceneObjects;
+        public IEnumerable<SceneObject> SceneObjects => sceneObjects.SceneObjects;
 
         public void Link(IGameState returnState, IGameState gameOver)
         {

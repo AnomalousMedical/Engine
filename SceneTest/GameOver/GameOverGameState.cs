@@ -21,7 +21,7 @@ namespace SceneTest.GameOver
         private SharpText gameOver = new SharpText("Game Over");
         private ILayoutItem layout;
 
-        public IEnumerable<SceneObject> SceneObjects => sceneObjects;
+        public IEnumerable<SceneObject> SceneObjects => sceneObjects.SceneObjects;
 
         public GameOverGameState
         (

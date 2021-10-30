@@ -43,7 +43,7 @@ namespace SceneTest
             this.battleState = battleState;
         }
 
-        public IEnumerable<SceneObject> SceneObjects => sceneObjects;
+        public IEnumerable<SceneObject> SceneObjects => sceneObjects.SceneObjects;
 
         public void SetActive(bool active)
         {
