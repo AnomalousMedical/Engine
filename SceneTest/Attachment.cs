@@ -21,6 +21,8 @@ namespace SceneTest
             public Sprite Sprite { get; set; }
 
             public SpriteMaterialDescription SpriteMaterial { get; set; }
+
+            public bool RenderShadow { get; set; } = true;
         }
 
         private const int PrimaryAttachment = 0;
@@ -64,7 +66,7 @@ namespace SceneTest
                 position = Vector3.Zero,
                 orientation = this.orientation,
                 scale = sprite.BaseScale,
-                RenderShadow = true,
+                RenderShadow = attachmentDescription.RenderShadow,
                 Sprite = sprite,
             };
 
