@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace SceneTest.Assets.PixelEffects
 {
-    class Vortex : ISpriteAsset
+    class FlameLash : ISpriteAsset
     {
         public SpriteMaterialDescription CreateMaterial()
         {
             return new SpriteMaterialDescription
             (
-                colorMap: "FreePixelEffectsPack/13_vortex_spritesheet.png",
+                colorMap: "FreePixelEffectsPack/6_flamelash_spritesheet.png",
                 materials: new HashSet<SpriteMaterialTextureItem>()
             );
         }
@@ -24,7 +24,7 @@ namespace SceneTest.Assets.PixelEffects
         {
             return new Sprite(new Dictionary<string, SpriteAnimation>()
             {
-                 { "default", new SpriteAnimation((int)(0.1f * Clock.SecondsToMicro), SpriteBuilder.CreateAnimatedSprite(100, 100, 8, 60)) },
+                 { "default", new SpriteAnimation((int)(0.1f * Clock.SecondsToMicro), SpriteBuilder.CreateAnimatedSprite(100, 100, 7, 46)) },
             })
             { BaseScale = new Vector3(1, 1, 1) };
         }

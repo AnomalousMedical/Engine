@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace SceneTest.Assets.PixelEffects
 {
-    class Vortex : ISpriteAsset
+    class Fire : ISpriteAsset
     {
         public SpriteMaterialDescription CreateMaterial()
         {
             return new SpriteMaterialDescription
             (
-                colorMap: "FreePixelEffectsPack/13_vortex_spritesheet.png",
+                colorMap: "FreePixelEffectsPack/11_fire_spritesheet.png",
                 materials: new HashSet<SpriteMaterialTextureItem>()
             );
         }
