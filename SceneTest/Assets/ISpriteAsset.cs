@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Engine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,10 @@ namespace SceneTest.Assets
 {
     interface ISpriteAsset
     {
-        public Sprite CreateSprite();
+        Quaternion GetOrientation() => Quaternion.Identity;
 
-        public SpriteMaterialDescription CreateMaterial();
+        Sprite CreateSprite();
+
+        SpriteMaterialDescription CreateMaterial();
     }
 }
