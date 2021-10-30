@@ -240,9 +240,20 @@ namespace SceneTest
                 if (cursor.Targeting)
                 {
                     cursor.Visible = true;
-                    var enemy = enemies[(int)(cursor.TargetIndex % enemies.Count)];
-                    var enemyPos = enemy.DamageDisplayLocation;
-                    cursor.UpdateCursor(sharpGui, enemy, enemyPos);
+                    IBattleTarget target;
+                    Vector3 targetPos;
+                    if (cursor.TargetPlayers)
+                    {
+                        target = players[(int)(cursor.TargetIndex % enemies.Count)];
+                        targetPos = target.DamageDisplayLocation;
+                    }
+                    else
+                    {
+                        target = enemies[(int)(cursor.TargetIndex % enemies.Count)];
+                        targetPos = target.DamageDisplayLocation;
+                    }
+                    
+                    cursor.UpdateCursor(sharpGui, target, targetPos);
                 }
                 else
                 {
