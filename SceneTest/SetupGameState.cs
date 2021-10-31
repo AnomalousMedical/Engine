@@ -95,8 +95,8 @@ namespace SceneTest
                             Attack = 18
                         }
                     },
-                    PrimaryHandAsset = new Assets.Original.Greatsword01(),
-                    SecondaryHandAsset = new Assets.Original.ShieldOfReflection()
+                    PrimaryHandAsset = new Assets.Original.DaggerNew(),
+                    SecondaryHandAsset = new Assets.Original.DaggerNew()
                 });
             }
 

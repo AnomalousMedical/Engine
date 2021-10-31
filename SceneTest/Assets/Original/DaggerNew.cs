@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace SceneTest.Assets.Original
 {
-    class Staff07 : ISpriteAsset
+    class DaggerNew : ISpriteAsset
     {
         public Quaternion GetOrientation()
         {
@@ -16,11 +16,12 @@ namespace SceneTest.Assets.Original
         {
             return new SpriteMaterialDescription
                 (
-                    colorMap: "original/staff_7.png",
+                    colorMap: "original/dagger_new.png",
                     materials: new HashSet<SpriteMaterialTextureItem>
                     {
-                        new SpriteMaterialTextureItem(0xff9f7f66, "cc0Textures/AcousticFoam003_1K", "jpg"),
-                        new SpriteMaterialTextureItem(0xff6a5db6, "cc0Textures/MetalPlates008_1K", "jpg"),
+                        new SpriteMaterialTextureItem(0xff692c0c, "cc0Textures/Leather001_1K", "jpg"), //Hilt (brown)
+                        new SpriteMaterialTextureItem(0xffa3a3a3, "cc0Textures/Metal032_1K", "jpg"), //Blade (grey)
+                        new SpriteMaterialTextureItem(0xff535353, "cc0Textures/Metal032_1K", "jpg"), //Other Metal (grey)
                     }
                 );
         }
@@ -34,12 +35,12 @@ namespace SceneTest.Assets.Original
                         {
                             Attachments = new List<SpriteFrameAttachment>()
                             {
-                                SpriteFrameAttachment.FromFramePosition(6, 25, 0, 32, 32), //Center of grip
+                                SpriteFrameAttachment.FromFramePosition(11, 20, 0, 32, 32), //Center of grip
                             }
                         } )
                     },
                 })
-            { BaseScale = new Vector3(1f, 1f, 1f) };
+            { BaseScale = new Vector3(0.65f, 0.65f, 0.65f) };
         }
     }
 }
