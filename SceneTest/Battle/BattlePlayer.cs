@@ -51,6 +51,8 @@ namespace SceneTest
         private SharpText currentMp = new SharpText() { Color = Color.White };
         private ILayoutItem infoRowLayout;
 
+        private IMagicAbilities magicAbilities;
+
         public IBattleStats Stats => this.characterSheet;
 
         public Vector3 DamageDisplayLocation => this.sceneObject.position;
@@ -94,10 +96,12 @@ namespace SceneTest
             IBattleScreenLayout battleScreenLayout,
             ICharacterTimer characterTimer,
             IBattleManager battleManager,
-            ITurnTimer turnTimer)
+            ITurnTimer turnTimer,
+            IMagicAbilities magicAbilities)
         {
             this.characterSheet = description.CharacterSheet ?? throw new InvalidOperationException("You must include a character sheet in the description");
             this.playerSpriteInfo = description.PlayerSpriteInfo ?? throw new InvalidOperationException($"You must include the {nameof(description.PlayerSpriteInfo)} property in your description.");
+            this.magicAbilities = magicAbilities;
             this.sceneObjectManager = sceneObjectManager;
             this.sprites = sprites;
             this.destructionRequest = destructionRequest;
@@ -236,12 +240,36 @@ namespace SceneTest
             sharpGui.Progress(turnProgress, characterTimer.TurnTimerPct);
         }
 
+        public enum MenuMode
+        {
+            Root,
+            Magic
+        }
+
+        private MenuMode currentMenuMode = MenuMode.Root;
+
         public bool UpdateActivePlayerGui(ISharpGui sharpGui)
         {
             bool didSomething = false;
+
+            switch (currentMenuMode)
+            {
+                case MenuMode.Root:
+                    didSomething = UpdateRootMenu(sharpGui, didSomething);
+                    break;
+                case MenuMode.Magic:
+                    didSomething = magicAbilities.UpdateGui(sharpGui, coroutine, ref currentMenuMode);
+                    break;
+            }
+
+            return didSomething;
+        }
+
+        private bool UpdateRootMenu(ISharpGui sharpGui, bool didSomething)
+        {
             battleScreenLayout.LayoutBattleMenu(attackButton, magicButton, itemButton, defendButton);
 
-            if (sharpGui.Button(attackButton))
+            if (sharpGui.Button(attackButton, navUp: defendButton.Id, navDown: magicButton.Id))
             {
                 coroutine.RunTask(async () =>
                 {
@@ -254,17 +282,18 @@ namespace SceneTest
                 didSomething = true;
             }
 
-            if (sharpGui.Button(magicButton))
+            if (sharpGui.Button(magicButton, navUp: attackButton.Id, navDown: itemButton.Id))
+            {
+                currentMenuMode = MenuMode.Magic;
+                didSomething = true;
+            }
+
+            if (sharpGui.Button(itemButton, navUp: magicButton.Id, navDown: defendButton.Id))
             {
                 didSomething = true;
             }
 
-            if (sharpGui.Button(itemButton))
-            {
-                didSomething = true;
-            }
-
-            if (sharpGui.Button(defendButton))
+            if (sharpGui.Button(defendButton, navUp: itemButton.Id, navDown: attackButton.Id))
             {
                 didSomething = true;
             }
