@@ -144,6 +144,26 @@ namespace SceneTest.Assets.Original
                     }
                 })
             },
+            { "cast-left", new SpriteAnimation(spriteWalkFrameSpeed,
+                new SpriteFrame(SpriteStepX * 2, SpriteStepY * 0, SpriteStepX * 3, SpriteStepY * 1)
+                {
+                    Attachments = new List<SpriteFrameAttachment>()
+                    {
+                        SpriteFrameAttachment.FromFramePosition(9, 21, +0.01f, 32, 32), //Right Hand
+                        SpriteFrameAttachment.FromFramePosition(20, 24, -0.01f, 32, 32), //Left Hand
+                    }
+                })
+            },
+            { "cast-right", new SpriteAnimation(spriteWalkFrameSpeed,
+                new SpriteFrame(SpriteStepX * 3, SpriteStepY * 0, SpriteStepX * 2, SpriteStepY * 1)
+                {
+                    Attachments = new List<SpriteFrameAttachment>()
+                    {
+                        SpriteFrameAttachment.FromFramePosition(12, 24, -0.01f, 32, 32), //Right Hand
+                        SpriteFrameAttachment.FromFramePosition(23, 21, +0.01f, 32, 32), //Left Hand
+                    }
+                })
+            },
         };
     }
 }

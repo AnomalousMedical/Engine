@@ -423,8 +423,8 @@ namespace SceneTest.Battle
                 else if (remainingTime > standEndTime)
                 {
                     var slerpAmount = (remainingTime - standEndTime) / (float)standEndTime;
-                    sword?.SetAdditionalRotation(swingStart.slerp(swingEnd, slerpAmount));
-                    sprite.SetAnimation("stand-left");
+                    //sword?.SetAdditionalRotation(swingStart.slerp(swingEnd, slerpAmount));
+                    sprite.SetAnimation("cast-left");
                     interpolate = 0.0f;
                     start = target.MeleeAttackLocation;
                     end = target.MeleeAttackLocation;
