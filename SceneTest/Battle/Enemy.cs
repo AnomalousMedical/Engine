@@ -22,65 +22,6 @@ namespace SceneTest
             public SpriteMaterialDescription SpriteMaterial { get; set; }
 
             public BattleStats BattleStats { get; set; }
-
-            public static void MakeTinyDino(Desc desc, String skinMaterial = "cc0Textures/Leather008_1K", String spineMaterial = "cc0Textures/SheetMetal004_1K")
-            {
-                desc.Sprite = new Sprite() { BaseScale = new Vector3(1.466666666666667f, 1, 1) };
-                desc.SpriteMaterial = new SpriteMaterialDescription
-                (
-                    colorMap: "original/TinyDino_Color.png",
-                    materials: new HashSet<SpriteMaterialTextureItem>
-                    {
-                        new SpriteMaterialTextureItem(0xff168516, skinMaterial, "jpg"),//Skin (green)
-                        new SpriteMaterialTextureItem(0xffff0000, spineMaterial, "jpg"),//Spines (red)
-                    }
-                );
-                desc.BattleStats = new BattleStats()
-                {
-                    Hp = 40,
-                    Mp = 54,
-                    Attack = 12,
-                    AttackPercent = 100,
-                    Defense = 10,
-                    DefensePercent = 4,
-                    MagicAttack = 2,
-                    MagicDefensePercent = 0,
-                    MagicDefense = 2,
-                    Dexterity = 6,
-                    Luck = 14,
-                    Level = 1,
-                };
-            }
-
-            public static void MakeSkeleton(Desc desc)
-            {
-                desc.Sprite = new Sprite() { BaseScale = new Vector3(1, 1, 1) };
-                desc.SpriteMaterial = new SpriteMaterialDescription
-                (
-                    colorMap: "original/skeletal_warrior_new.png",
-                    materials: new HashSet<SpriteMaterialTextureItem>
-                    {
-                        new SpriteMaterialTextureItem(0xffd0873a, "cc0Textures/Metal040_1K", "jpg"),//Armor Highlight (copper)
-                        new SpriteMaterialTextureItem(0xff453c31, "cc0Textures/Leather001_1K", "jpg"),//Armor (brown)
-                        new SpriteMaterialTextureItem(0xffefefef, "cc0Textures/Rock022_1K", "jpg"),//Bone (almost white)
-                    }
-                );
-                desc.BattleStats = new BattleStats()
-                {
-                    Hp = 40,
-                    Mp = 54,
-                    Attack = 12,
-                    AttackPercent = 100,
-                    Defense = 10,
-                    DefensePercent = 4,
-                    MagicAttack = 2,
-                    MagicDefensePercent = 0,
-                    MagicDefense = 2,
-                    Dexterity = 6,
-                    Luck = 14,
-                    Level = 1,
-                };
-            }
         }
 
         private ISpriteMaterial spriteMaterial;
