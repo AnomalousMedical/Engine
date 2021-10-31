@@ -9,6 +9,7 @@
         long Defense { get; }
         long DefensePercent { get; }
         long MagicAttack { get; }
+        long MagicAttackPercent { get; }
         long MagicDefense { get; }
         long MagicDefensePercent { get; }
         long Dexterity { get; }

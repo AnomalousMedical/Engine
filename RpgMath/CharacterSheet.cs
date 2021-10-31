@@ -87,6 +87,8 @@ namespace RpgMath
 
         public long MagicAttack => Archetype.BaseMagic + Archetype.BonusMagic + EquippedItems().Sum(i => i.Magic + i.MagicAttack);
 
+        public long MagicAttackPercent => EquippedItems().Sum(i => i.MagicAttackPercent);
+
         public long MagicDefense => Archetype.BaseSpirit + Archetype.BonusSpirit + EquippedItems().Sum(i => i.Spirit + i.MagicDefense);
 
         public long MagicDefensePercent => EquippedItems().Sum(i => i.MagicDefensePercent);

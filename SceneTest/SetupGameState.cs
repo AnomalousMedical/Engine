@@ -71,8 +71,9 @@ namespace SceneTest
                         Level = 1,
                         MainHand = new Equipment()
                         {
-                            AttackPercent = 100,
-                            Attack = 18
+                            AttackPercent = 35,
+                            MagicAttackPercent = 100,
+                            Attack = 9
                         }
                     },
                     PrimaryHandAsset = new Assets.Original.Staff07(),
@@ -113,7 +114,7 @@ namespace SceneTest
                         MainHand = new Equipment()
                         {
                             AttackPercent = 100,
-                            Attack = 18
+                            Attack = 25
                         }
                     },
                     PrimaryHandAsset = new Assets.Original.BattleAxe6()

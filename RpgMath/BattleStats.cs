@@ -22,6 +22,8 @@ namespace RpgMath
 
         public long MagicAttack { get; set; }
 
+        public long MagicAttackPercent { get; set; }
+
         public long MagicDefense { get; set; }
 
         public long MagicDefensePercent { get; set; }

@@ -13,7 +13,9 @@ namespace SceneTest.Battle
     {
         private readonly IBattleScreenLayout battleScreenLayout;
         private readonly IBattleManager battleManager;
+
         private SharpButton cureButton = new SharpButton() { Text = "Cure" };
+        private SharpButton fireButton = new SharpButton() { Text = "Fire" };
 
         public MagicAbilities(IBattleScreenLayout battleScreenLayout, IBattleManager battleManager)
         {
@@ -25,9 +27,9 @@ namespace SceneTest.Battle
         {
             var didSomething = false;
 
-            battleScreenLayout.LayoutBattleMenu(cureButton);
+            battleScreenLayout.LayoutBattleMenu(cureButton, fireButton);
 
-            if (sharpGui.Button(cureButton))
+            if (sharpGui.Button(cureButton, navUp: fireButton.Id, navDown: fireButton.Id))
             {
                 coroutine.RunTask(async () =>
                 {
@@ -35,6 +37,20 @@ namespace SceneTest.Battle
                     if (target != null)
                     {
                         spellSelectedCb(target, new Spells.Cure());
+                    }
+                });
+                menuMode = BattlePlayer.MenuMode.Root;
+                didSomething = true;
+            }
+
+            if (sharpGui.Button(fireButton, navUp: cureButton.Id, navDown: cureButton.Id))
+            {
+                coroutine.RunTask(async () =>
+                {
+                    var target = await battleManager.GetTarget(false);
+                    if (target != null)
+                    {
+                        spellSelectedCb(target, new Spells.Fire());
                     }
                 });
                 menuMode = BattlePlayer.MenuMode.Root;

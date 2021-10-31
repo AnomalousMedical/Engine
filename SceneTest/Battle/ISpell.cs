@@ -12,5 +12,7 @@ namespace SceneTest.Battle
         void Apply(IBattleManager battleManager, IObjectResolver objectResolver, IScopedCoroutine coroutine, IBattleTarget attacker, IBattleTarget target);
 
         bool DefaultTargetPlayers => false;
+
+        string Name { get; }
     }
 }
