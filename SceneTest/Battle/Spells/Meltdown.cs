@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SceneTest.Battle.Spells
 {
-    class Fire : ISpell
+    class Meltdown : ISpell
     {
         public void Apply(IBattleManager battleManager, IObjectResolver objectResolver, IScopedCoroutine coroutine, IBattleTarget attacker, IBattleTarget target)
         {
@@ -18,7 +18,7 @@ namespace SceneTest.Battle.Spells
 
             if (battleManager.DamageCalculator.MagicalHit(attacker.Stats, target.Stats, resistance, attacker.Stats.MagicAttackPercent))
             {
-                var damage = battleManager.DamageCalculator.Magical(attacker.Stats, target.Stats, 8);
+                var damage = battleManager.DamageCalculator.Magical(attacker.Stats, target.Stats, 64);
                 damage = battleManager.DamageCalculator.ApplyResistance(damage, resistance);
                 damage = battleManager.DamageCalculator.RandomVariation(damage);
 
@@ -50,6 +50,6 @@ namespace SceneTest.Battle.Spells
 
         public bool DefaultTargetPlayers => true;
 
-        public string Name => "Fire";
+        public string Name => "Meltdown";
     }
 }

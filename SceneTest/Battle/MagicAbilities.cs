@@ -15,7 +15,9 @@ namespace SceneTest.Battle
         private readonly IBattleManager battleManager;
 
         private SharpButton cureButton = new SharpButton() { Text = "Cure" };
-        private SharpButton fireButton = new SharpButton() { Text = "Fire" };
+        private SharpButton firButton = new SharpButton() { Text = "Fir" };
+        private SharpButton fyreButton = new SharpButton() { Text = "Fyre" };
+        private SharpButton meltdownButton = new SharpButton() { Text = "Meltdown" };
 
         public MagicAbilities(IBattleScreenLayout battleScreenLayout, IBattleManager battleManager)
         {
@@ -27,9 +29,9 @@ namespace SceneTest.Battle
         {
             var didSomething = false;
 
-            battleScreenLayout.LayoutBattleMenu(cureButton, fireButton);
+            battleScreenLayout.LayoutBattleMenu(cureButton, firButton, fyreButton, meltdownButton);
 
-            if (sharpGui.Button(cureButton, navUp: fireButton.Id, navDown: fireButton.Id))
+            if (sharpGui.Button(cureButton, navUp: meltdownButton.Id, navDown: firButton.Id))
             {
                 coroutine.RunTask(async () =>
                 {
@@ -43,14 +45,42 @@ namespace SceneTest.Battle
                 didSomething = true;
             }
 
-            if (sharpGui.Button(fireButton, navUp: cureButton.Id, navDown: cureButton.Id))
+            if (sharpGui.Button(firButton, navUp: cureButton.Id, navDown: fyreButton.Id))
             {
                 coroutine.RunTask(async () =>
                 {
                     var target = await battleManager.GetTarget(false);
                     if (target != null)
                     {
-                        spellSelectedCb(target, new Spells.Fire());
+                        spellSelectedCb(target, new Spells.Fir());
+                    }
+                });
+                menuMode = BattlePlayer.MenuMode.Root;
+                didSomething = true;
+            }
+
+            if (sharpGui.Button(fyreButton, navUp: firButton.Id, navDown: meltdownButton.Id))
+            {
+                coroutine.RunTask(async () =>
+                {
+                    var target = await battleManager.GetTarget(false);
+                    if (target != null)
+                    {
+                        spellSelectedCb(target, new Spells.Fyre());
+                    }
+                });
+                menuMode = BattlePlayer.MenuMode.Root;
+                didSomething = true;
+            }
+
+            if (sharpGui.Button(meltdownButton, navUp: fyreButton.Id, navDown: cureButton.Id))
+            {
+                coroutine.RunTask(async () =>
+                {
+                    var target = await battleManager.GetTarget(false);
+                    if (target != null)
+                    {
+                        spellSelectedCb(target, new Spells.Meltdown());
                     }
                 });
                 menuMode = BattlePlayer.MenuMode.Root;
