@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SceneTest
+namespace SceneTest.Battle
 {
     class BattlePlayer : IDisposable, IBattleTarget
     {
@@ -258,7 +258,7 @@ namespace SceneTest
                     didSomething = UpdateRootMenu(sharpGui, didSomething);
                     break;
                 case MenuMode.Magic:
-                    didSomething = magicAbilities.UpdateGui(sharpGui, coroutine, ref currentMenuMode);
+                    didSomething = magicAbilities.UpdateGui(sharpGui, coroutine, ref currentMenuMode, Cast);
                     break;
             }
 
@@ -302,6 +302,80 @@ namespace SceneTest
         }
 
         private void Attack(IBattleTarget target)
+        {
+            var swingEnd = Quaternion.Identity;
+            var swingStart = new Quaternion(0f, MathF.PI / 2.1f, 0f);
+
+            long remainingTime = (long)(1.8f * Clock.SecondsToMicro);
+            long standTime = (long)(0.2f * Clock.SecondsToMicro);
+            long standStartTime = remainingTime / 2;
+            long swingTime = standStartTime - standTime / 3;
+            long standEndTime = standStartTime - standTime;
+            bool needsAttack = true;
+            battleManager.DeactivateCurrentPlayer();
+            battleManager.QueueTurn(c =>
+            {
+                if (IsDead)
+                {
+                    return true;
+                }
+
+                var done = false;
+                remainingTime -= c.DeltaTimeMicro;
+                Vector3 start;
+                Vector3 end;
+                float interpolate;
+
+                if (remainingTime > standStartTime)
+                {
+                    sprite.SetAnimation("left");
+                    target = battleManager.ValidateTarget(this, target);
+                    start = this.startPosition;
+                    end = target.MeleeAttackLocation;
+                    interpolate = (remainingTime - standStartTime) / (float)standStartTime;
+                }
+                else if (remainingTime > standEndTime)
+                {
+                    var slerpAmount = (remainingTime - standEndTime) / (float)standEndTime;
+                    sword?.SetAdditionalRotation(swingStart.slerp(swingEnd, slerpAmount));
+                    sprite.SetAnimation("stand-left");
+                    interpolate = 0.0f;
+                    start = target.MeleeAttackLocation;
+                    end = target.MeleeAttackLocation;
+
+                    if (needsAttack && remainingTime < swingTime)
+                    {
+                        needsAttack = false;
+                        battleManager.Attack(this, target);
+                    }
+                }
+                else
+                {
+                    sprite.SetAnimation("right");
+
+                    sword?.SetAdditionalRotation(Quaternion.Identity);
+
+                    start = target.MeleeAttackLocation;
+                    end = this.startPosition;
+                    interpolate = remainingTime / (float)standEndTime;
+                }
+
+                this.sceneObject.position = end.lerp(start, interpolate);
+
+                if (remainingTime < 0)
+                {
+                    sprite.SetAnimation("stand-left");
+                    TurnComplete();
+                    done = true;
+                }
+
+                Sprite_FrameChanged(sprite);
+
+                return done;
+            });
+        }
+
+        private void Cast(IBattleTarget target, ISpell magic)
         {
             var swingEnd = Quaternion.Identity;
             var swingStart = new Quaternion(0f, MathF.PI / 2.1f, 0f);

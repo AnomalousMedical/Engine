@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace SceneTest.Battle
 {
-    enum BattleTargetType
+    interface ISpell
     {
-        Player,
-        Enemy
     }
 }

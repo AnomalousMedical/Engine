@@ -1,7 +1,7 @@
 ﻿using Engine.Platform;
 using System.Collections.Generic;
 
-namespace SceneTest
+namespace SceneTest.Battle
 {
     interface IBattleGameState : IGameState
     {

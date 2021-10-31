@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using RpgMath;
+using SceneTest.Battle;
 using SceneTest.GameOver;
 using System;
 using System.Globalization;

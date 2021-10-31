@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SceneTest.Battle
+namespace SceneTest.Battle.Spells
 {
-    enum BattleTargetType
+    class Cure : ISpell
     {
-        Player,
-        Enemy
     }
 }

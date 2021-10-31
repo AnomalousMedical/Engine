@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SceneTest
+namespace SceneTest.Battle
 {
     class MagicAbilities : IMagicAbilities
     {
@@ -21,7 +21,7 @@ namespace SceneTest
             this.battleManager = battleManager;
         }
 
-        public bool UpdateGui(ISharpGui sharpGui, IScopedCoroutine coroutine, ref BattlePlayer.MenuMode menuMode)
+        public bool UpdateGui(ISharpGui sharpGui, IScopedCoroutine coroutine, ref BattlePlayer.MenuMode menuMode, Action<IBattleTarget, ISpell> spellSelectedCb)
         {
             var didSomething = false;
 
@@ -34,7 +34,7 @@ namespace SceneTest
                     var target = await battleManager.GetTarget();
                     if (target != null)
                     {
-                        //Attack(target);
+                        spellSelectedCb(target, new Spells.Cure());
                     }
                 });
                 menuMode = BattlePlayer.MenuMode.Root;

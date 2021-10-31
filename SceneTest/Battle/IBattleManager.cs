@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace SceneTest
+namespace SceneTest.Battle
 {
     interface IBattleManager
     {

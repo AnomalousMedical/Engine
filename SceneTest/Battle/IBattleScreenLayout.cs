@@ -1,6 +1,6 @@
 ﻿using SharpGui;
 
-namespace SceneTest
+namespace SceneTest.Battle
 {
     interface IBattleScreenLayout
     {
