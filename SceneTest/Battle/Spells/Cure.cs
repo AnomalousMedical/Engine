@@ -16,7 +16,7 @@ namespace SceneTest.Battle.Spells
 
             damage *= -1; //Make it healing
             
-            battleManager.AddDamageNumber(target, damage.ToString());
+            battleManager.AddDamageNumber(target, damage);
             target.ApplyDamage(battleManager.DamageCalculator, damage);
             battleManager.HandleDeath(target);
         }

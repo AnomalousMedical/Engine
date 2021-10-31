@@ -1,4 +1,5 @@
-﻿using Engine.Platform;
+﻿using Engine;
+using Engine.Platform;
 using RpgMath;
 using System;
 using System.Threading.Tasks;
@@ -46,6 +47,8 @@ namespace SceneTest.Battle
 
         void HandleDeath(IBattleTarget target);
 
-        void AddDamageNumber(IBattleTarget target, String damage);
+        public void AddDamageNumber(IBattleTarget target, long damage);
+
+        public void AddDamageNumber(IBattleTarget target, String damage, Color color);
     }
 }

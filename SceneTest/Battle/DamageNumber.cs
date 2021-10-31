@@ -5,13 +5,13 @@ namespace SceneTest.Battle
 {
     class DamageNumber
     {
-        public DamageNumber(string number, long timeRemaining, Vector2 position, IScaleHelper scaleHelper)
+        public DamageNumber(string number, long timeRemaining, Vector2 position, IScaleHelper scaleHelper, Color color)
         {
             this.StartPosition = position;
             this.EndPosition = position + new Vector2(0, scaleHelper.Scaled(-15));
             TimeRemaining = timeRemaining;
             HalfDuration = timeRemaining / 2;
-            this.Text = new SharpText(number.ToString()) { Rect = new IntRect(0, 0, 10000, 10000), Color = Color.White };
+            this.Text = new SharpText(number.ToString()) { Rect = new IntRect(0, 0, 10000, 10000), Color = color };
             UpdatePosition();
         }
 

@@ -339,13 +339,13 @@ namespace SceneTest.Battle
             {
                 var damage = damageCalculator.Physical(attacker.Stats, target.Stats, 16);
                 damage = damageCalculator.RandomVariation(damage);
-                AddDamageNumber(target, damage.ToString());
+                AddDamageNumber(target, damage);
                 target.ApplyDamage(damageCalculator, damage);
                 HandleDeath(target);
             }
             else
             {
-                AddDamageNumber(target, "Miss");
+                AddDamageNumber(target, "Miss", Color.White);
             }
         }
 
@@ -366,12 +366,23 @@ namespace SceneTest.Battle
             }
         }
 
-        public void AddDamageNumber(IBattleTarget target, String damage)
+        public void AddDamageNumber(IBattleTarget target, long damage)
+        {
+            var color = Color.White;
+            if(damage < 0)
+            {
+                color = Color.Green;
+                damage *= -1;
+            }
+            AddDamageNumber(target, damage.ToString(), color);
+        }
+
+        public void AddDamageNumber(IBattleTarget target, String damage, Color color)
         {
             var targetPos = target.DamageDisplayLocation - cameraMover.SceneCenter;
             var screenPos = cameraProjector.Project(targetPos);
 
-            numbers.Add(new DamageNumber(damage.ToString(), NumberDisplayTime, screenPos, scaleHelper));
+            numbers.Add(new DamageNumber(damage.ToString(), NumberDisplayTime, screenPos, scaleHelper, color));
         }
 
         public void DeactivateCurrentPlayer()
