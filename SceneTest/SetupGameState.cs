@@ -53,7 +53,9 @@ namespace SceneTest
                             AttackPercent = 100,
                             Attack = 18
                         }
-                    }
+                    },
+                    PrimaryHandAsset = new Assets.Original.Greatsword01(),
+                    SecondaryHandAsset = new Assets.Original.ShieldOfReflection()
                 });
             }
 

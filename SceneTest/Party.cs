@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SceneTest
 {
-    public class Party
+    class Party
     {
         private List<Character> characters = new List<Character>();
 

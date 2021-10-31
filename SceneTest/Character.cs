@@ -8,10 +8,14 @@ using System.Threading.Tasks;
 
 namespace SceneTest
 {
-    public class Character
+    class Character
     {
         public CharacterSheet CharacterSheet { get; set; }
 
         public IPlayerSprite PlayerSprite { get; set; }
+
+        public ISpriteAsset PrimaryHandAsset { get; set; }
+
+        public ISpriteAsset SecondaryHandAsset { get; set; }
     }
 }

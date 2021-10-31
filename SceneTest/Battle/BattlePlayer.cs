@@ -77,6 +77,8 @@ namespace SceneTest
             public GamepadId Gamepad = GamepadId.Pad1;
             public CharacterSheet CharacterSheet;
             public IPlayerSprite PlayerSpriteInfo { get; set; }
+            public ISpriteAsset PrimaryHandItem { get; set; }
+            public ISpriteAsset SecondaryHandItem { get; set; }
         }
 
         public BattlePlayer(
@@ -136,21 +138,27 @@ namespace SceneTest
             var startPos = description.Translation;
             startPos.y += halfScale;
 
-            sword = objectResolver.Resolve<Attachment<IBattleManager>, Attachment<IBattleManager>.Description>(o =>
+            if (description.PrimaryHandItem != null)
             {
-                Assets.ISpriteAsset asset = new Assets.Original.Greatsword01();
-                o.Orientation = asset.GetOrientation();
-                o.Sprite = asset.CreateSprite();
-                o.SpriteMaterial = asset.CreateMaterial();
-            });
+                sword = objectResolver.Resolve<Attachment<IBattleManager>, Attachment<IBattleManager>.Description>(o =>
+                {
+                    var asset = description.PrimaryHandItem;
+                    o.Orientation = asset.GetOrientation();
+                    o.Sprite = asset.CreateSprite();
+                    o.SpriteMaterial = asset.CreateMaterial();
+                });
+            }
 
-            shield = objectResolver.Resolve<Attachment<IBattleManager>, Attachment<IBattleManager>.Description>(o =>
+            if (description.SecondaryHandItem != null)
             {
-                Assets.ISpriteAsset asset = new Assets.Original.ShieldOfReflection();
-                o.Orientation = asset.GetOrientation();
-                o.Sprite = asset.CreateSprite();
-                o.SpriteMaterial = asset.CreateMaterial();
-            });
+                shield = objectResolver.Resolve<Attachment<IBattleManager>, Attachment<IBattleManager>.Description>(o =>
+                {
+                    var asset = description.SecondaryHandItem;
+                    o.Orientation = asset.GetOrientation();
+                    o.Sprite = asset.CreateSprite();
+                    o.SpriteMaterial = asset.CreateMaterial();
+                });
+            }
 
             this.startPosition = startPos;
             sceneObject = new SceneObject()
@@ -300,7 +308,7 @@ namespace SceneTest
                 else if (remainingTime > standEndTime)
                 {
                     var slerpAmount = (remainingTime - standEndTime) / (float)standEndTime;
-                    sword.SetAdditionalRotation(swingStart.slerp(swingEnd, slerpAmount));
+                    sword?.SetAdditionalRotation(swingStart.slerp(swingEnd, slerpAmount));
                     sprite.SetAnimation("stand-left");
                     interpolate = 0.0f;
                     start = target.MeleeAttackLocation;
@@ -316,7 +324,7 @@ namespace SceneTest
                 {
                     sprite.SetAnimation("right");
 
-                    sword.SetAdditionalRotation(Quaternion.Identity);
+                    sword?.SetAdditionalRotation(Quaternion.Identity);
 
                     start = target.MeleeAttackLocation;
                     end = this.startPosition;
@@ -359,6 +367,8 @@ namespace SceneTest
             var frame = obj.GetCurrentFrame();
 
             var scale = sprite.BaseScale * this.sceneObject.scale;
+
+            if(sword != null)
             {
                 var primaryAttach = frame.Attachments[this.primaryHand];
                 var offset = scale * primaryAttach.translate;
@@ -366,6 +376,7 @@ namespace SceneTest
                 sword.SetPosition(offset, this.sceneObject.orientation, scale);
             }
 
+            if(shield != null)
             {
                 var secondaryAttach = frame.Attachments[this.secondaryHand];
                 var offset = scale * secondaryAttach.translate;

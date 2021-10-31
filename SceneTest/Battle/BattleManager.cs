@@ -92,6 +92,8 @@ namespace SceneTest
                     c.Translation = new Vector3(4, 0, currentZ);
                     c.CharacterSheet = character.CharacterSheet;
                     c.PlayerSpriteInfo = character.PlayerSprite;
+                    c.PrimaryHandItem = character.PrimaryHandAsset;
+                    c.SecondaryHandItem = character.SecondaryHandAsset;
                 }));
 
                 currentZ -= 2;

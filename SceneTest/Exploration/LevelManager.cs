@@ -100,7 +100,10 @@ namespace SceneTest
                 player = this.objectResolver.Resolve<Player, Player.Description>(c =>
                 {
                     c.Translation = currentLevel.StartPoint;
-                    c.PlayerSpriteInfo = party.ActiveCharacters.First().PlayerSprite;
+                    var leader = party.ActiveCharacters.First();
+                    c.PlayerSpriteInfo = leader.PlayerSprite;
+                    c.PrimaryHandItem = leader.PrimaryHandAsset;
+                    c.SecondaryHandItem = leader.SecondaryHandAsset;
                 });
             }
             else
