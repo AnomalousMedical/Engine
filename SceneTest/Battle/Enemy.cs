@@ -39,6 +39,8 @@ namespace SceneTest.Battle
 
         public Vector3 MeleeAttackLocation => this.sceneObject.position + new Vector3(sprite.BaseScale.x, 0, 0);
 
+        public Vector3 MagicHitLocation => this.sceneObject.position + new Vector3(0f, 0f, -0.1f);
+
         public ICharacterTimer CharacterTimer => characterTimer;
 
         private long currentHp;

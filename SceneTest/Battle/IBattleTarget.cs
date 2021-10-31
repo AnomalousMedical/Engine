@@ -16,6 +16,8 @@ namespace SceneTest.Battle
 
         Vector3 CursorDisplayLocation { get; }
 
+        Vector3 MagicHitLocation { get; }
+
         public BattleTargetType BattleTargetType { get; }
 
         public void RequestDestruction();

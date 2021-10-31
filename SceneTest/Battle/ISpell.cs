@@ -9,7 +9,7 @@ namespace SceneTest.Battle
 {
     interface ISpell
     {
-        void Apply(IBattleManager battleManager, IObjectResolver objectResolver, IBattleTarget attacker, IBattleTarget target);
+        void Apply(IBattleManager battleManager, IObjectResolver objectResolver, IScopedCoroutine coroutine, IBattleTarget attacker, IBattleTarget target);
 
         bool DefaultTargetPlayers => false;
     }

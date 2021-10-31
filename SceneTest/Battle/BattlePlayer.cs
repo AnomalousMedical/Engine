@@ -62,6 +62,8 @@ namespace SceneTest.Battle
 
         public Vector3 MeleeAttackLocation => this.sceneObject.position - new Vector3(sprite.BaseScale.x, 0, 0);
 
+        public Vector3 MagicHitLocation => this.sceneObject.position + new Vector3(0f, 0f, -0.1f);
+
         public BattleTargetType BattleTargetType => BattleTargetType.Player;
 
         public ICharacterTimer CharacterTimer => characterTimer;
@@ -430,7 +432,7 @@ namespace SceneTest.Battle
                     if (needsAttack && remainingTime < swingTime)
                     {
                         needsAttack = false;
-                        spell.Apply(battleManager, objectResolver, this, target);
+                        spell.Apply(battleManager, objectResolver, coroutine, this, target);
 
                         DestroyCastEffect();
                     }
