@@ -22,7 +22,7 @@ namespace SceneTest.Assets.PixelEffects
             {
                  { "default", new SpriteAnimation((int)(0.1f * Clock.SecondsToMicro), SpriteBuilder.CreateAnimatedSprite(100, 100, 8, 60)) },
             })
-            { BaseScale = new Vector3(1, 1, 1) };
+            { BaseScale = new Vector3(0.4f, 0.4f, 0.4f) };
         }
     }
 }

@@ -91,6 +91,11 @@ namespace SceneTest
             });
         }
 
+        public void RequestDestruction()
+        {
+            destructionRequest.RequestDestruction();
+        }
+
         public void SetAdditionalRotation(in Quaternion additionalRotation)
         {
             this.additionalRotation = additionalRotation;

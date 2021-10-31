@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Engine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace SceneTest.Battle.Spells
 {
     class Cure : ISpell
     {
-        public void Apply(IBattleManager battleManager, IBattleTarget attacker, IBattleTarget target)
+        public void Apply(IBattleManager battleManager, IObjectResolver objectResolver, IBattleTarget attacker, IBattleTarget target)
         {
             target = battleManager.ValidateTarget(attacker, target);
             var damage = battleManager.DamageCalculator.Cure(attacker.Stats, 5);

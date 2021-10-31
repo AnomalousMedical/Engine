@@ -39,6 +39,7 @@ namespace SceneTest.Battle
 
         private Attachment<IBattleManager> sword;
         private Attachment<IBattleManager> shield;
+        private Attachment<IBattleManager> castEffect;
 
         private SharpButton attackButton = new SharpButton() { Text = "Attack" };
         private SharpButton magicButton = new SharpButton() { Text = "Magic" };
@@ -377,6 +378,15 @@ namespace SceneTest.Battle
 
         private void Cast(IBattleTarget target, ISpell spell)
         {
+            castEffect?.RequestDestruction();
+            castEffect = objectResolver.Resolve<Attachment<IBattleManager>, Attachment<IBattleManager>.Description>(o =>
+            {
+                ISpriteAsset asset = new Assets.PixelEffects.Nebula();
+                o.RenderShadow = false;
+                o.Sprite = asset.CreateSprite();
+                o.SpriteMaterial = asset.CreateMaterial();
+            });
+
             var swingEnd = Quaternion.Identity;
             var swingStart = new Quaternion(0f, MathF.PI / 2.1f, 0f);
 
@@ -402,7 +412,7 @@ namespace SceneTest.Battle
 
                 if (remainingTime > standStartTime)
                 {
-                    sprite.SetAnimation("left");
+                    sprite.SetAnimation("stand-left");
                     target = battleManager.ValidateTarget(this, target);
                     start = this.startPosition;
                     end = target.MeleeAttackLocation;
@@ -420,12 +430,14 @@ namespace SceneTest.Battle
                     if (needsAttack && remainingTime < swingTime)
                     {
                         needsAttack = false;
-                        spell.Apply(battleManager, this, target);
+                        spell.Apply(battleManager, objectResolver, this, target);
+
+                        DestroyCastEffect();
                     }
                 }
                 else
                 {
-                    sprite.SetAnimation("right");
+                    sprite.SetAnimation("stand-left");
 
                     sword?.SetAdditionalRotation(Quaternion.Identity);
 
@@ -433,8 +445,6 @@ namespace SceneTest.Battle
                     end = this.startPosition;
                     interpolate = remainingTime / (float)standEndTime;
                 }
-
-                this.sceneObject.position = end.lerp(start, interpolate);
 
                 if (remainingTime < 0)
                 {
@@ -447,6 +457,12 @@ namespace SceneTest.Battle
 
                 return done;
             });
+        }
+
+        private void DestroyCastEffect()
+        {
+            castEffect?.RequestDestruction();
+            castEffect = null;
         }
 
         private void CharacterTimer_TurnReady(ICharacterTimer timer)
@@ -485,6 +501,14 @@ namespace SceneTest.Battle
                 var offset = scale * secondaryAttach.translate;
                 offset = Quaternion.quatRotate(this.sceneObject.orientation, offset) + this.sceneObject.position;
                 shield.SetPosition(offset, this.sceneObject.orientation, scale);
+            }
+
+            if(castEffect != null)
+            {
+                var secondaryAttach = frame.Attachments[this.secondaryHand];
+                var offset = scale * secondaryAttach.translate;
+                offset = Quaternion.quatRotate(this.sceneObject.orientation, offset) + this.sceneObject.position;
+                castEffect.SetPosition(offset, this.sceneObject.orientation, scale);
             }
         }
 
