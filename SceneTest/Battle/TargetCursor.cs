@@ -24,7 +24,26 @@ namespace SceneTest.Battle
 
         public uint TargetIndex { get; private set; }
 
-        public bool TargetPlayers { get; private set; }
+        private bool __targetPlayers;
+        public bool TargetPlayers
+        {
+            get
+            {
+                return __targetPlayers;
+            }
+            private set
+            {
+                __targetPlayers = value;
+                if (__targetPlayers)
+                {
+                    sprite.SetAnimation("reverse");
+                }
+                else
+                {
+                    sprite.SetAnimation("default");
+                }
+            }
+        }
 
         public bool Targeting => getTargetTask != null;
 
@@ -147,8 +166,9 @@ namespace SceneTest.Battle
             this.sceneObject.position = targetPosition - sprite.GetCurrentFrame().Attachments[0].translate * sprite.BaseScale;
         }
 
-        public Task<IBattleTarget> GetTarget()
+        public Task<IBattleTarget> GetTarget(bool targetPlayers)
         {
+            TargetPlayers = targetPlayers;
             getTargetTask = new TaskCompletionSource<IBattleTarget>();
             return getTargetTask.Task.ContinueWith(t =>
             {
@@ -214,14 +234,6 @@ namespace SceneTest.Battle
         private void ChangeRow()
         {
             TargetPlayers = !TargetPlayers;
-            if (TargetPlayers)
-            {
-                sprite.SetAnimation("reverse");
-            }
-            else
-            {
-                sprite.SetAnimation("default");
-            }
         }
 
         private void PreviousTarget()

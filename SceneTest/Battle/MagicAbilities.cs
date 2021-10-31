@@ -31,7 +31,7 @@ namespace SceneTest.Battle
             {
                 coroutine.RunTask(async () =>
                 {
-                    var target = await battleManager.GetTarget();
+                    var target = await battleManager.GetTarget(true);
                     if (target != null)
                     {
                         spellSelectedCb(target, new Spells.Cure());

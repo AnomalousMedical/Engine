@@ -8,5 +8,8 @@ namespace SceneTest.Battle
 {
     interface ISpell
     {
+        void Apply(IBattleManager battleManager, IBattleTarget attacker, IBattleTarget target);
+
+        bool DefaultTargetPlayers => false;
     }
 }

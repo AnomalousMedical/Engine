@@ -273,7 +273,7 @@ namespace SceneTest.Battle
             {
                 coroutine.RunTask(async () =>
                 {
-                    var target = await battleManager.GetTarget();
+                    var target = await battleManager.GetTarget(false);
                     if (target != null)
                     {
                         Attack(target);
@@ -375,7 +375,7 @@ namespace SceneTest.Battle
             });
         }
 
-        private void Cast(IBattleTarget target, ISpell magic)
+        private void Cast(IBattleTarget target, ISpell spell)
         {
             var swingEnd = Quaternion.Identity;
             var swingStart = new Quaternion(0f, MathF.PI / 2.1f, 0f);
@@ -420,7 +420,7 @@ namespace SceneTest.Battle
                     if (needsAttack && remainingTime < swingTime)
                     {
                         needsAttack = false;
-                        battleManager.Attack(this, target);
+                        spell.Apply(battleManager, this, target);
                     }
                 }
                 else

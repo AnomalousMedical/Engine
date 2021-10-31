@@ -1,4 +1,5 @@
 ﻿using Engine.Platform;
+using RpgMath;
 using System;
 using System.Threading.Tasks;
 
@@ -17,7 +18,7 @@ namespace SceneTest.Battle
 
         void AddToActivePlayers(BattlePlayer player);
         void Attack(IBattleTarget attacker, IBattleTarget target);
-        Task<IBattleTarget> GetTarget();
+        Task<IBattleTarget> GetTarget(bool targetPlayers);
 
         /// <summary>
         /// Called by players before they queue their turn to remove them from the active player list.
@@ -40,5 +41,11 @@ namespace SceneTest.Battle
         IBattleTarget ValidateTarget(IBattleTarget attacker, IBattleTarget target);
         IBattleTarget GetRandomPlayer();
         void PlayerDead(BattlePlayer battlePlayer);
+
+        IDamageCalculator DamageCalculator { get; }
+
+        void HandleDeath(IBattleTarget target);
+
+        void AddDamageNumber(IBattleTarget target, String damage);
     }
 }

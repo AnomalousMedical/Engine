@@ -335,33 +335,43 @@ namespace SceneTest.Battle
         {
             target = ValidateTarget(attacker, target);
 
-            var enemyPos = target.DamageDisplayLocation - cameraMover.SceneCenter;
-            var screenPos = cameraProjector.Project(enemyPos);
-
             if (damageCalculator.PhysicalHit(attacker.Stats, target.Stats))
             {
                 var damage = damageCalculator.Physical(attacker.Stats, target.Stats, 16);
                 damage = damageCalculator.RandomVariation(damage);
-                numbers.Add(new DamageNumber(damage.ToString(), NumberDisplayTime, screenPos, scaleHelper));
+                AddDamageNumber(target, damage.ToString());
                 target.ApplyDamage(damageCalculator, damage);
-                if (target.IsDead)
-                {
-                    if (enemies.Contains(target))
-                    {
-                        target.RequestDestruction();
-                        enemies.Remove(target as Enemy);
-                        if (enemies.Count == 0)
-                        {
-                            BattleEnded();
-                            backgroundMusicManager.SetBattleTrack("freepd/Alexander Nakarada - Fanfare X.ogg");
-                        }
-                    }
-                }
+                HandleDeath(target);
             }
             else
             {
-                numbers.Add(new DamageNumber("Miss", NumberDisplayTime, screenPos, scaleHelper));
+                AddDamageNumber(target, "Miss");
             }
+        }
+
+        public void HandleDeath(IBattleTarget target)
+        {
+            if (target.IsDead)
+            {
+                if (enemies.Contains(target))
+                {
+                    target.RequestDestruction();
+                    enemies.Remove(target as Enemy);
+                    if (enemies.Count == 0)
+                    {
+                        BattleEnded();
+                        backgroundMusicManager.SetBattleTrack("freepd/Alexander Nakarada - Fanfare X.ogg");
+                    }
+                }
+            }
+        }
+
+        public void AddDamageNumber(IBattleTarget target, String damage)
+        {
+            var targetPos = target.DamageDisplayLocation - cameraMover.SceneCenter;
+            var screenPos = cameraProjector.Project(targetPos);
+
+            numbers.Add(new DamageNumber(damage.ToString(), NumberDisplayTime, screenPos, scaleHelper));
         }
 
         public void DeactivateCurrentPlayer()
@@ -379,9 +389,9 @@ namespace SceneTest.Battle
             this.activePlayers.Enqueue(player);
         }
 
-        public Task<IBattleTarget> GetTarget()
+        public Task<IBattleTarget> GetTarget(bool targetPlayers)
         {
-            return cursor.GetTarget();
+            return cursor.GetTarget(targetPlayers);
         }
 
         public IBattleTarget GetRandomPlayer()
@@ -412,5 +422,7 @@ namespace SceneTest.Battle
             turnQueue.Clear();
             activePlayers.Clear();
         }
+
+        public IDamageCalculator DamageCalculator => damageCalculator;
     }
 }
