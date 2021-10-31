@@ -40,60 +40,76 @@ namespace SceneTest
             this.screenPositioner = screenPositioner;
             {
                 var arch = Archetype.CreateHero();
-                party.AddCharacter(new CharacterSheet()
+                party.AddCharacter(new Character()
                 {
-                    Name = "Bob",
-                    Archetype = arch,
-                    Level = 1,
-                    MainHand = new Equipment()
+                    PlayerSprite = new Assets.Original.PlayerSprite(),
+                    CharacterSheet = new CharacterSheet()
                     {
-                        AttackPercent = 100,
-                        Attack = 18
+                        Name = "Bob",
+                        Archetype = arch,
+                        Level = 1,
+                        MainHand = new Equipment()
+                        {
+                            AttackPercent = 100,
+                            Attack = 18
+                        }
                     }
                 });
             }
 
             {
                 var arch = Archetype.CreateSage();
-                party.AddCharacter(new CharacterSheet()
+                party.AddCharacter(new Character()
                 {
-                    Name = "Magic Joe",
-                    Archetype = arch,
-                    Level = 1,
-                    MainHand = new Equipment()
+                    PlayerSprite = new Assets.Original.PlayerSprite(),
+                    CharacterSheet = new CharacterSheet()
                     {
-                        AttackPercent = 100,
-                        Attack = 18
+                        Name = "Magic Joe",
+                        Archetype = arch,
+                        Level = 1,
+                        MainHand = new Equipment()
+                        {
+                            AttackPercent = 100,
+                            Attack = 18
+                        }
                     }
                 });
             }
 
             {
                 var arch = Archetype.CreateTank();
-                party.AddCharacter(new CharacterSheet()
+                party.AddCharacter(new Character()
                 {
-                    Name = "Stabby McStabface",
-                    Archetype = arch,
-                    Level = 1,
-                    MainHand = new Equipment()
+                    PlayerSprite = new Assets.Original.PlayerSprite(),
+                    CharacterSheet = new CharacterSheet()
                     {
-                        AttackPercent = 100,
-                        Attack = 18
+                        Name = "Stabby McStabface",
+                        Archetype = arch,
+                        Level = 1,
+                        MainHand = new Equipment()
+                        {
+                            AttackPercent = 100,
+                            Attack = 18
+                        }
                     }
                 });
             }
 
             {
                 var arch = Archetype.CreateGuardian();
-                party.AddCharacter(new CharacterSheet()
+                party.AddCharacter(new Character()
                 {
-                    Name = "Archibald",
-                    Archetype = arch,
-                    Level = 1,
-                    MainHand = new Equipment()
+                    PlayerSprite = new Assets.Original.PlayerSprite(),
+                    CharacterSheet = new CharacterSheet()
                     {
-                        AttackPercent = 100,
-                        Attack = 18
+                        Name = "Archibald",
+                        Archetype = arch,
+                        Level = 1,
+                        MainHand = new Equipment()
+                        {
+                            AttackPercent = 100,
+                            Attack = 18
+                        }
                     }
                 });
             }
@@ -111,8 +127,8 @@ namespace SceneTest
                 finished = false;
                 foreach (var character in party.ActiveCharacters)
                 {
-                    character.CurrentHp = character.Hp;
-                    character.CurrentMp = character.Mp;
+                    character.CharacterSheet.CurrentHp = character.CharacterSheet.Hp;
+                    character.CharacterSheet.CurrentMp = character.CharacterSheet.Mp;
 
                     //character.CurrentHp = 1;
                 }

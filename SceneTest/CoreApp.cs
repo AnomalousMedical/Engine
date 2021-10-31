@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using RpgMath;
 using SceneTest.GameOver;
-using SceneTest.Sprites;
 using System;
 using System.Globalization;
 using System.IO;
@@ -78,7 +77,6 @@ namespace SceneTest
             services.AddScoped<Player.Description>();
             services.AddScoped<BattlePlayer>();
             services.AddScoped<BattlePlayer.Description>();
-            services.AddScoped<PlayerSprite>();
             services.AddScoped<Enemy>();
             services.AddScoped<Enemy.Desc>();
             services.AddScoped<Attachment<ILevelManager>>();

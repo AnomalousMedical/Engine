@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SceneTest.Sprites
+namespace SceneTest.Assets.Original
 {
-    public class PlayerSprite
+    public class PlayerSprite : IPlayerSprite
     {
         const float SpriteStepX = 32f / 128f;
         const float SpriteStepY = 32f / 64f;

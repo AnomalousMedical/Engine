@@ -85,12 +85,13 @@ namespace SceneTest
         public void SetupBattle()
         {
             var currentZ = 3;
-            foreach (var member in party.ActiveCharacters)
+            foreach (var character in party.ActiveCharacters)
             {
                 players.Add(this.objectResolver.Resolve<BattlePlayer, BattlePlayer.Description>(c =>
                 {
                     c.Translation = new Vector3(4, 0, currentZ);
-                    c.CharacterSheet = member;
+                    c.CharacterSheet = character.CharacterSheet;
+                    c.PlayerSpriteInfo = character.PlayerSprite;
                 }));
 
                 currentZ -= 2;

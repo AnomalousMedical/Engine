@@ -71,7 +71,7 @@ namespace SceneTest
             {
                 foreach(var c in party.ActiveCharacters)
                 {
-                    c.LevelUp(levelCalculator);
+                    c.CharacterSheet.LevelUp(levelCalculator);
                 }
             }
 

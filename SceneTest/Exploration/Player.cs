@@ -7,7 +7,7 @@ using DiligentEngine.GltfPbr;
 using DiligentEngine.GltfPbr.Shapes;
 using Engine;
 using Engine.Platform;
-using SceneTest.Sprites;
+using SceneTest.Assets;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,6 +25,7 @@ namespace SceneTest
             public int SecondaryHand = LeftHand;
             public EventLayers EventLayer = EventLayers.Exploration;
             public GamepadId Gamepad = GamepadId.Pad1;
+            public IPlayerSprite PlayerSpriteInfo { get; set; }
         }
 
         public const int RightHand = 0;
@@ -84,9 +85,10 @@ namespace SceneTest
             EventManager eventManager,
             Description description,
             CameraMover cameraMover,
-            ICollidableTypeIdentifier collidableIdentifier,
-            PlayerSprite playerSpriteInfo)
+            ICollidableTypeIdentifier collidableIdentifier)
         {
+            var playerSpriteInfo = description.PlayerSpriteInfo ?? throw new InvalidOperationException($"You must include the {nameof(description.PlayerSpriteInfo)} property in your description.");
+
             this.moveForward = new ButtonEvent(description.EventLayer, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_W });
             this.moveBackward = new ButtonEvent(description.EventLayer, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_S });
             this.moveRight = new ButtonEvent(description.EventLayer, keys: new KeyboardButtonCode[] { KeyboardButtonCode.KC_D });

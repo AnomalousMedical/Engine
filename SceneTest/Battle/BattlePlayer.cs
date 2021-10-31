@@ -3,7 +3,7 @@ using DiligentEngine.GltfPbr.Shapes;
 using Engine;
 using Engine.Platform;
 using RpgMath;
-using SceneTest.Sprites;
+using SceneTest.Assets;
 using SharpGui;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace SceneTest
 {
     class BattlePlayer : IDisposable, IBattleTarget
     {
-        private readonly PlayerSprite playerSpriteInfo;
+        private readonly IPlayerSprite playerSpriteInfo;
         private readonly SceneObjectManager<IBattleManager> sceneObjectManager;
         private readonly SpriteManager sprites;
         private readonly IDestructionRequest destructionRequest;
@@ -76,9 +76,10 @@ namespace SceneTest
             public EventLayers EventLayer = EventLayers.Battle;
             public GamepadId Gamepad = GamepadId.Pad1;
             public CharacterSheet CharacterSheet;
+            public IPlayerSprite PlayerSpriteInfo { get; set; }
         }
 
-        public BattlePlayer(PlayerSprite playerSpriteInfo,
+        public BattlePlayer(
             SceneObjectManager<IBattleManager> sceneObjectManager,
             SpriteManager sprites,
             Plane plane,
@@ -94,7 +95,7 @@ namespace SceneTest
             ITurnTimer turnTimer)
         {
             this.characterSheet = description.CharacterSheet ?? throw new InvalidOperationException("You must include a character sheet in the description");
-            this.playerSpriteInfo = playerSpriteInfo;
+            this.playerSpriteInfo = description.PlayerSpriteInfo ?? throw new InvalidOperationException($"You must include the {nameof(description.PlayerSpriteInfo)} property in your description.");
             this.sceneObjectManager = sceneObjectManager;
             this.sprites = sprites;
             this.destructionRequest = destructionRequest;

@@ -25,6 +25,7 @@ namespace SceneTest
 
         private Player player;
         private IObjectResolver objectResolver;
+        private readonly Party party;
         private readonly IBackgroundMusicManager backgroundMusicManager;
         private readonly IBepuScene bepuScene;
 
@@ -37,7 +38,8 @@ namespace SceneTest
         public bool IsPlayerMoving => player?.IsMoving == true;
 
         public LevelManager(
-            Desc description, 
+            Desc description,
+            Party party,
             IObjectResolverFactory objectResolverFactory,
             IBackgroundMusicManager backgroundMusicManager,
             IBepuScene bepuScene //Inject this so it is created earlier and destroyed later
@@ -49,6 +51,7 @@ namespace SceneTest
             createdLevelSeeds.Add(levelRandom.Next(int.MinValue, int.MaxValue));
 
             backgroundMusicManager.SetBackgroundSong("freepd/Rafael Krux - Black Knight.ogg");
+            this.party = party;
             this.backgroundMusicManager = backgroundMusicManager;
             this.bepuScene = bepuScene;
         }
@@ -97,6 +100,7 @@ namespace SceneTest
                 player = this.objectResolver.Resolve<Player, Player.Description>(c =>
                 {
                     c.Translation = currentLevel.StartPoint;
+                    c.PlayerSpriteInfo = party.ActiveCharacters.First().PlayerSprite;
                 });
             }
             else
