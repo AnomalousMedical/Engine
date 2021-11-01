@@ -125,5 +125,10 @@ namespace RpgMath
             Archetype.BaseDexterity += levelCalculator.ComputePrimaryStatGain(Level, Archetype.DexterityGrade, Archetype.BaseDexterity);
             Archetype.BaseLuck      += levelCalculator.ComputeLuckGain(Level, Archetype.LuckGrade, Archetype.BaseLuck);
         }
+
+        public Resistance GetResistance(Element element)
+        {
+            return Resistance.Normal;
+        }
     }
 }

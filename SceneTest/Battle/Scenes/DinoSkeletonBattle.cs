@@ -81,6 +81,7 @@ namespace SceneTest.Battle.Scenes
                     Dexterity = 6,
                     Luck = 14,
                     Level = 1,
+                    Resistances = new Dictionary<Element, Resistance>() { { Element.Fire, Resistance.Weak }, { Element.Healing, Resistance.Absorb } }
                 };
                 c.Translation = new Vector3(0, 0.55f, 2);
             });

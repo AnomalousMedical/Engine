@@ -13,8 +13,8 @@ namespace SceneTest.Battle.Spells
     {
         public void Apply(IBattleManager battleManager, IObjectResolver objectResolver, IScopedCoroutine coroutine, IBattleTarget attacker, IBattleTarget target)
         {
-            var resistance = Resistance.Normal;
             target = battleManager.ValidateTarget(attacker, target);
+            var resistance = target.Stats.GetResistance(Element.Fire);
 
             if (battleManager.DamageCalculator.MagicalHit(attacker.Stats, target.Stats, resistance, attacker.Stats.MagicAttackPercent))
             {

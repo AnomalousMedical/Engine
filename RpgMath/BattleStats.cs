@@ -37,5 +37,16 @@ namespace RpgMath
         public long Level { get; set; }
 
         public long ExtraCritChance { get; set; }
+
+        public Dictionary<Element, Resistance> Resistances { get; set; }
+
+        public Resistance GetResistance(Element element)
+        {
+            if (Resistances != null && Resistances.TryGetValue(element, out var resistance))
+            {
+                return resistance;
+            }
+            return Resistance.Normal;
+        }
     }
 }

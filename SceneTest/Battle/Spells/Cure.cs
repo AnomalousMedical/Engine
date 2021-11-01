@@ -17,6 +17,10 @@ namespace SceneTest.Battle.Spells
             damage = battleManager.DamageCalculator.RandomVariation(damage);
 
             damage *= -1; //Make it healing
+
+            //Apply resistance
+            var resistance = target.Stats.GetResistance(RpgMath.Element.Healing);
+            damage = battleManager.DamageCalculator.ApplyResistance(damage, resistance);
             
             battleManager.AddDamageNumber(target, damage);
             target.ApplyDamage(battleManager.DamageCalculator, damage);

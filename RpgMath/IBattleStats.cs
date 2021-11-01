@@ -17,5 +17,6 @@
         bool AllowLuckyEvade { get; }
         long Level { get; }
         long ExtraCritChance { get; }
+        Resistance GetResistance(Element element);
     }
 }

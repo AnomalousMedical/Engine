@@ -31,7 +31,7 @@ namespace RpgMath
         /// </summary>
         Immune = 5,
         /// <summary>
-        /// The Target is healed by this Element.
+        /// The Target is healed by this Element if it would cause damage or damaged if it would heal. Negates incoming value essentially.
         /// </summary>
         Absorb = 6,
         /// <summary>
