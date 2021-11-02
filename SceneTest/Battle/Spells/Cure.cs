@@ -46,5 +46,7 @@ namespace SceneTest.Battle.Spells
         public bool DefaultTargetPlayers => true;
 
         public string Name => "Cure";
+
+        public long MpCost => 5;
     }
 }

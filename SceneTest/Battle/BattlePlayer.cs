@@ -432,9 +432,17 @@ namespace SceneTest.Battle
                     if (needsAttack && remainingTime < swingTime)
                     {
                         needsAttack = false;
-                        spell.Apply(battleManager, objectResolver, coroutine, this, target);
-
                         DestroyCastEffect();
+
+                        if (characterSheet.CurrentMp < spell.MpCost)
+                        {
+                            battleManager.AddDamageNumber(this, "Not Enough MP", Color.Red);
+                        }
+                        else
+                        {
+                            TakeMp(spell.MpCost);
+                            spell.Apply(battleManager, objectResolver, coroutine, this, target);
+                        }
                     }
                 }
                 else
@@ -528,6 +536,12 @@ namespace SceneTest.Battle
                 characterTimer.TurnTimerActive = false;
                 characterTimer.Reset();
             }
+        }
+
+        public void TakeMp(long mp)
+        {
+            characterSheet.CurrentMp -= mp;
+            currentMp.UpdateText(characterSheet.CurrentMp.ToString());
         }
     }
 }

@@ -14,5 +14,7 @@ namespace SceneTest.Battle
         bool DefaultTargetPlayers => false;
 
         string Name { get; }
+
+        long MpCost { get; }
     }
 }

@@ -51,5 +51,7 @@ namespace SceneTest.Battle.Spells
         public bool DefaultTargetPlayers => true;
 
         public string Name => "Meltdown";
+
+        public long MpCost => 52;
     }
 }
