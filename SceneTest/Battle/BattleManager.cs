@@ -257,7 +257,7 @@ namespace SceneTest.Battle
                     Vector3 targetPos;
                     if (cursor.TargetPlayers)
                     {
-                        target = players[(int)(cursor.TargetIndex % enemies.Count)];
+                        target = players[(int)(cursor.TargetIndex % players.Count)];
                         targetPos = target.CursorDisplayLocation;
                     }
                     else
@@ -266,7 +266,7 @@ namespace SceneTest.Battle
                         targetPos = target.CursorDisplayLocation;
                     }
                     
-                    cursor.UpdateCursor(sharpGui, target, targetPos);
+                    cursor.UpdateCursor(this, sharpGui, target, targetPos);
                 }
                 else
                 {
@@ -308,6 +308,13 @@ namespace SceneTest.Battle
                 }
             }
             return result;
+        }
+
+        public void SwitchPlayer()
+        {
+            var activePlayer = GetActivePlayer();
+            activePlayers.Dequeue();
+            activePlayers.Enqueue(activePlayer);
         }
 
         private BattlePlayer GetActivePlayer()

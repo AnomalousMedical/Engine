@@ -50,5 +50,7 @@ namespace SceneTest.Battle
         public void AddDamageNumber(IBattleTarget target, long damage);
 
         public void AddDamageNumber(IBattleTarget target, String damage, Color color);
+
+        void SwitchPlayer();
     }
 }

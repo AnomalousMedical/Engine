@@ -271,6 +271,25 @@ namespace SceneTest.Battle
                     break;
             }
 
+            if (!didSomething)
+            {
+                switch (sharpGui.GamepadButtonEntered)
+                {
+                    case GamepadButtonCode.XInput_Y:
+                        battleManager.SwitchPlayer();
+                        break;
+                    default:
+                        //Handle keyboard
+                        switch (sharpGui.KeyEntered)
+                        {
+                            case KeyboardButtonCode.KC_LSHIFT:
+                                battleManager.SwitchPlayer();
+                                break;
+                        }
+                        break;
+                }
+            }
+
             return didSomething;
         }
 

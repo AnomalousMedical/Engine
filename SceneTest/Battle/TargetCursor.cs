@@ -185,7 +185,7 @@ namespace SceneTest.Battle
             }
         }
 
-        public void UpdateCursor(ISharpGui sharpGui, IBattleTarget target, Vector3 enemyPos)
+        public void UpdateCursor(IBattleManager battleManager, ISharpGui sharpGui, IBattleTarget target, Vector3 enemyPos)
         {
             SetPosition(enemyPos);
             switch (sharpGui.GamepadButtonEntered)
@@ -206,6 +206,10 @@ namespace SceneTest.Battle
                 case GamepadButtonCode.XInput_DPadRight:
                     ChangeRow();
                     break;
+                case GamepadButtonCode.XInput_Y:
+                    battleManager.SwitchPlayer();
+                    SetTarget(null);
+                    break;
                 default:
                     //Handle keyboard
                     switch (sharpGui.KeyEntered)
@@ -225,6 +229,10 @@ namespace SceneTest.Battle
                         case KeyboardButtonCode.KC_LEFT:
                         case KeyboardButtonCode.KC_RIGHT:
                             ChangeRow();
+                            break;
+                        case KeyboardButtonCode.KC_LSHIFT:
+                            battleManager.SwitchPlayer();
+                            SetTarget(null);
                             break;
                     }
                     break;
