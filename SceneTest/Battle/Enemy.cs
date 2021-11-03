@@ -22,6 +22,10 @@ namespace SceneTest.Battle
             public SpriteMaterialDescription SpriteMaterial { get; set; }
 
             public BattleStats BattleStats { get; set; }
+
+            public long XpReward { get; set; }
+
+            public long GoldReward { get; set; }
         }
 
         private ISpriteMaterial spriteMaterial;
@@ -69,6 +73,8 @@ namespace SceneTest.Battle
             this.Stats = description.BattleStats ?? throw new InvalidOperationException("You must include battle stats in an enemy description.");
             this.currentHp = Stats.Hp;
             this.currentMp = Stats.Mp;
+            this.XpReward = description.XpReward;
+            this.GoldReward = description.GoldReward;
 
             turnTimer.AddTimer(characterTimer);
             characterTimer.TurnReady += CharacterTimer_TurnReady; ;
@@ -221,5 +227,9 @@ namespace SceneTest.Battle
         public bool IsDead => this.currentHp == 0;
 
         public BattleTargetType BattleTargetType => BattleTargetType.Enemy;
+
+        public long XpReward { get; private set; }
+
+        public long GoldReward { get; private set; }
     }
 }

@@ -34,6 +34,7 @@ namespace SceneTest.Battle
         private SharpButton endBattle = new SharpButton() { Text = "End Battle" };
 
         private List<Enemy> enemies = new List<Enemy>(20);
+        private List<Enemy> killedEnemies = new List<Enemy>(20);
         private List<BattlePlayer> players = new List<BattlePlayer>(4);
         private List<DamageNumber> numbers = new List<DamageNumber>(10);
         private Queue<BattlePlayer> activePlayers = new Queue<BattlePlayer>(4);
@@ -176,6 +177,7 @@ namespace SceneTest.Battle
                         enemy.RequestDestruction();
                     }
                     enemies.Clear();
+                    killedEnemies.Clear();
                     eventManager[EventLayers.Battle].OnUpdate -= eventManager_OnUpdate;
                 }
             }
@@ -207,8 +209,25 @@ namespace SceneTest.Battle
 
                 layout.SetRect(screenPositioner.GetBottomRightRect(desiredSize));
 
+                var xpReward = 0L;
+                var goldReward = 0L;
+                foreach (var killed in killedEnemies)
+                {
+                    xpReward += killed.XpReward;
+                    goldReward += killed.GoldReward;
+                }
+
                 if (sharpGui.Button(endBattle))
                 {
+                    foreach(var player in players)
+                    {
+                        if (!player.IsDead)
+                        {
+                            player.AddXp(xpReward);
+                        }
+                    }
+                    party.Gold += goldReward;
+
                     result = IBattleManager.Result.ReturnToExploration;
                 }
             }
@@ -355,8 +374,10 @@ namespace SceneTest.Battle
             {
                 if (enemies.Contains(target))
                 {
+                    var enemy = target as Enemy;
                     target.RequestDestruction();
-                    enemies.Remove(target as Enemy);
+                    enemies.Remove(enemy);
+                    killedEnemies.Add(enemy);
                     if (enemies.Count == 0)
                     {
                         BattleEnded();

@@ -11,6 +11,8 @@ namespace SceneTest
 
         public IEnumerable<Character> ActiveCharacters => characters;
 
+        public long Gold { get; set; }
+
         public void AddCharacter(Character character)
         {
             characters.Add(character);

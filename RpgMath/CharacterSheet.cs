@@ -7,6 +7,8 @@ namespace RpgMath
 {
     public class CharacterSheet : IBattleStats
     {
+        public const int MaxLevel = 99;
+
         public String Name { get; set; }
 
         public Archetype Archetype { get; set; }
@@ -101,6 +103,8 @@ namespace RpgMath
 
         public bool AllowLuckyEvade => true;
 
+        public long CurrentXp { get; set; }
+
         public long Level { get; set; } = 1;
 
         public long ExtraCritChance => EquippedItems().Sum(i => i.CritChance);
@@ -108,9 +112,9 @@ namespace RpgMath
         public void LevelUp(ILevelCalculator levelCalculator)
         {
             ++Level;
-            if(Level > 99)
+            if(Level > MaxLevel)
             {
-                Level = 99;
+                Level = MaxLevel;
             }
             var hpGain = levelCalculator.ComputeHpGain(Level, Archetype.HpGrade, Archetype.BaseHp);
             var mpGain = levelCalculator.ComputeMpGain(Level, Archetype.MpGrade, Archetype.BaseMp); ;

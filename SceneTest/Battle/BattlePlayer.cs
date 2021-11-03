@@ -53,6 +53,8 @@ namespace SceneTest.Battle
         private ILayoutItem infoRowLayout;
 
         private IMagicAbilities magicAbilities;
+        private readonly IXpCalculator xpCalculator;
+        private readonly ILevelCalculator levelCalculator;
 
         public IBattleStats Stats => this.characterSheet;
 
@@ -100,11 +102,15 @@ namespace SceneTest.Battle
             ICharacterTimer characterTimer,
             IBattleManager battleManager,
             ITurnTimer turnTimer,
-            IMagicAbilities magicAbilities)
+            IMagicAbilities magicAbilities,
+            IXpCalculator xpCalculator,
+            ILevelCalculator levelCalculator)
         {
             this.characterSheet = description.CharacterSheet ?? throw new InvalidOperationException("You must include a character sheet in the description");
             this.playerSpriteInfo = description.PlayerSpriteInfo ?? throw new InvalidOperationException($"You must include the {nameof(description.PlayerSpriteInfo)} property in your description.");
             this.magicAbilities = magicAbilities;
+            this.xpCalculator = xpCalculator;
+            this.levelCalculator = levelCalculator;
             this.sceneObjectManager = sceneObjectManager;
             this.sprites = sprites;
             this.destructionRequest = destructionRequest;
@@ -542,6 +548,22 @@ namespace SceneTest.Battle
         {
             characterSheet.CurrentMp -= mp;
             currentMp.UpdateText(characterSheet.CurrentMp.ToString());
+        }
+
+        public void AddXp(long xp)
+        {
+            if (characterSheet.Level < CharacterSheet.MaxLevel)
+            {
+                characterSheet.CurrentXp += xp;
+                var xpNeeded = xpCalculator.GetXpNeeded(characterSheet.Archetype, characterSheet.Level + 1);
+                while (characterSheet.CurrentXp > xpNeeded && characterSheet.Level < CharacterSheet.MaxLevel)
+                {
+                    characterSheet.LevelUp(levelCalculator);
+                    characterSheet.CurrentXp -= xpNeeded;
+
+                    xpNeeded = xpCalculator.GetXpNeeded(characterSheet.Archetype, characterSheet.Level + 1);
+                }
+            }
         }
     }
 }

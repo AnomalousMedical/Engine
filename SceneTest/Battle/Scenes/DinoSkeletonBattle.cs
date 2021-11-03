@@ -34,6 +34,8 @@ namespace SceneTest.Battle.Scenes
                     Level = 1,
                 };
                 c.Translation = new Vector3(-4, 0.55f, -2);
+                c.XpReward = 50;
+                c.GoldReward = 50;
             });
             yield return objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
@@ -60,6 +62,8 @@ namespace SceneTest.Battle.Scenes
                     Level = 1,
                 };
                 c.Translation = new Vector3(-5, 0.55f, 0);
+                c.XpReward = 50;
+                c.GoldReward = 50;
             });
             yield return objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
@@ -84,6 +88,8 @@ namespace SceneTest.Battle.Scenes
                     Resistances = new Dictionary<Element, Resistance>() { { Element.Fire, Resistance.Weak }, { Element.Healing, Resistance.Absorb } }
                 };
                 c.Translation = new Vector3(0, 0.55f, 2);
+                c.XpReward = 50;
+                c.GoldReward = 50;
             });
             yield return objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
@@ -107,6 +113,8 @@ namespace SceneTest.Battle.Scenes
                     Level = 1,
                 };
                 c.Translation = new Vector3(-6, 0.55f, 4);
+                c.XpReward = 50;
+                c.GoldReward = 50;
             });
         }
     }
