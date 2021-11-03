@@ -32,6 +32,8 @@ namespace SceneTest.Battle
         private BattleArena battleArena;
 
         private SharpButton endBattle = new SharpButton() { Text = "End Battle" };
+        private SharpText xpRewardText = new SharpText() { Color = Color.White };
+        private SharpText goldRewardText = new SharpText() { Color = Color.White };
 
         private List<Enemy> enemies = new List<Enemy>(20);
         private List<Enemy> killedEnemies = new List<Enemy>(20);
@@ -199,16 +201,6 @@ namespace SceneTest.Battle
             //But all players wil have 0 hp. This is probably not what we want.
             if (enemies.Count == 0)
             {
-                cursor.Visible = false;
-                var layout =
-                    new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
-                    new MaxWidthLayout(scaleHelper.Scaled(300),
-                    new ColumnLayout(endBattle) { Margin = new IntPad(10) }
-                    ));
-                var desiredSize = layout.GetDesiredSize(sharpGui);
-
-                layout.SetRect(screenPositioner.GetBottomRightRect(desiredSize));
-
                 var xpReward = 0L;
                 var goldReward = 0L;
                 foreach (var killed in killedEnemies)
@@ -216,6 +208,23 @@ namespace SceneTest.Battle
                     xpReward += killed.XpReward;
                     goldReward += killed.GoldReward;
                 }
+
+                xpRewardText.Text = $"Xp: {xpReward}";
+                goldRewardText.Text = $"Gold: {goldReward}";
+
+                cursor.Visible = false;
+
+                var layout =
+                    new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
+                    new MaxWidthLayout(scaleHelper.Scaled(300),
+                    new ColumnLayout(xpRewardText, goldRewardText, endBattle) { Margin = new IntPad(10) }
+                    ));
+                var desiredSize = layout.GetDesiredSize(sharpGui);
+
+                layout.SetRect(screenPositioner.GetBottomRightRect(desiredSize));
+
+                sharpGui.Text(xpRewardText);
+                sharpGui.Text(goldRewardText);
 
                 if (sharpGui.Button(endBattle))
                 {
