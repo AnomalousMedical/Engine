@@ -354,12 +354,16 @@ namespace SceneTest.Battle
                 Vector3 end;
                 float interpolate;
 
+                var targetAttackLocation = target.MeleeAttackLocation;
+                targetAttackLocation.x += sprite.BaseScale.x / 2;
+                targetAttackLocation.y = sprite.BaseScale.y / 2.0f;
+
                 if (remainingTime > standStartTime)
                 {
                     sprite.SetAnimation("left");
                     target = battleManager.ValidateTarget(this, target);
                     start = this.startPosition;
-                    end = target.MeleeAttackLocation;
+                    end = targetAttackLocation;
                     interpolate = (remainingTime - standStartTime) / (float)standStartTime;
                 }
                 else if (remainingTime > standEndTime)
@@ -368,8 +372,8 @@ namespace SceneTest.Battle
                     sword?.SetAdditionalRotation(swingStart.slerp(swingEnd, slerpAmount));
                     sprite.SetAnimation("stand-left");
                     interpolate = 0.0f;
-                    start = target.MeleeAttackLocation;
-                    end = target.MeleeAttackLocation;
+                    start = targetAttackLocation;
+                    end = targetAttackLocation;
 
                     if (needsAttack && remainingTime < swingTime)
                     {
@@ -383,7 +387,7 @@ namespace SceneTest.Battle
 
                     sword?.SetAdditionalRotation(Quaternion.Identity);
 
-                    start = target.MeleeAttackLocation;
+                    start = targetAttackLocation;
                     end = this.startPosition;
                     interpolate = remainingTime / (float)standEndTime;
                 }
