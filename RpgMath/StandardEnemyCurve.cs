@@ -300,7 +300,6 @@ namespace RpgMath
 
         public long GetMagicAttack(int level)
         {
-            //This is not a very powerful magic user, just average
             if (level < 10)
             {
                 //1-10
@@ -345,6 +344,62 @@ namespace RpgMath
             {
                 //80-90
                 return (long)NumberFunctions.lerp(175f, 225f, (level - 80) / 10f);
+            }
+            else if (level < 100)
+            {
+                //90-99
+                return (long)NumberFunctions.lerp(225f, 255f, (level - 90) / 10f);
+            }
+
+            throw new InvalidOperationException($"Level '{level}' is not supported.");
+        }
+
+        public long GetMagicDefense(int level)
+        {
+            if (level < 10)
+            {
+                //1-10
+                return (long)NumberFunctions.lerp(5f, 20f, (level) / 10f);
+            }
+            else if (level < 20)
+            {
+                //10-20
+                return (long)NumberFunctions.lerp(20f, 35f, (level - 10) / 10f);
+            }
+            else if (level < 30)
+            {
+                //20-30
+                return (long)NumberFunctions.lerp(35f, 50f, (level - 20) / 10f);
+            }
+            else if (level < 40)
+            {
+                //30-40
+                return (long)NumberFunctions.lerp(50f, 75f, (level - 30) / 10f);
+            }
+            else if (level < 50)
+            {
+                //40-50
+                return (long)NumberFunctions.lerp(75f, 110f, (level - 40) / 10f);
+            }
+            else if (level < 60)
+            {
+                //50-60
+                return (long)NumberFunctions.lerp(110f, 135f, (level - 50) / 10f);
+            }
+            else if (level < 70)
+            {
+                //60-70
+                return (long)NumberFunctions.lerp(135f, 165f, (level - 60) / 10f);
+            }
+            else if (level < 80)
+            {
+                //70-80
+                return (long)NumberFunctions.lerp(165f, 200f, (level - 70) / 10f);
+            }
+            else if (level < 90)
+            {
+                //80-90
+                return (long)NumberFunctions.lerp(200f, 225f, (level - 80) / 10f);
             }
             else if (level < 100)
             {

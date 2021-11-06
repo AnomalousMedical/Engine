@@ -30,7 +30,7 @@ namespace SceneTest.Battle.Scenes
                     MagicAttack = curve.GetMagicAttack(level),
                     MagicAttackPercent = curve.GetMagicAttackPercent(level),
                     MagicDefensePercent = curve.GetMagicDefensePercent(level),
-                    MagicDefense = 2,
+                    MagicDefense = curve.GetMagicDefense(level),
                     Dexterity = curve.GetDexterity(level),
                     Luck = curve.GetLuck(level),
                     Level = level,
