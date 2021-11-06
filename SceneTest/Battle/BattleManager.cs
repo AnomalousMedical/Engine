@@ -342,6 +342,7 @@ namespace SceneTest.Battle
             battleArena = objectResolver.Resolve<BattleArena, BattleArena.Description>(o =>
             {
                 o.Scale = new Vector3(20, 0.1f, 20);
+                o.Translation = new Vector3(0f, o.Scale.y / -2f, 0f);
                 o.Texture = levelManager.CurrentLevel.Biome.FloorTexture;
             });
         }
