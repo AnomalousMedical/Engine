@@ -17,12 +17,12 @@ namespace SceneTest.Battle
         public BattleBuilder(ITimeClock timeClock)
         {
             this.timeClock = timeClock;
-            enemyLocations.Add(new Vector3(-4f, 0f, -2f));
-            enemyLocations.Add(new Vector3(-5f, 0f, 0f));
-            enemyLocations.Add(new Vector3(0f, 0f, 2f));
-            enemyLocations.Add(new Vector3(-4f, 0f, 4f));
-            enemyLocations.Add(new Vector3(-4f, 0f, 6f));
-            enemyLocations.Add(new Vector3(-4f, 0f, 8f));
+            enemyLocations.Add(new Vector3(-5f, 0f, -4f));
+            enemyLocations.Add(new Vector3(-4.5f, 0f, -2f));
+            enemyLocations.Add(new Vector3(-4f, 0f,  0f));
+            enemyLocations.Add(new Vector3(-3.5f, 0f,  2f));
+            enemyLocations.Add(new Vector3(-3f, 0f,  4f));
+            enemyLocations.Add(new Vector3(-2.5f, 0f,  6f));
         }
 
         public IEnumerable<Enemy> CreateEnemies(IObjectResolver objectResolver, Party party)
