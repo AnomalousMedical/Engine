@@ -4,6 +4,6 @@
     {
         int Count { get; }
 
-        Biome GetBiome(int index);
+        IBiome GetBiome(int index);
     }
 }

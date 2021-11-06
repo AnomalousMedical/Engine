@@ -25,7 +25,7 @@ namespace SceneTest.Battle
             enemyLocations.Add(new Vector3(-2.5f, 0f,  6f));
         }
 
-        public IEnumerable<Enemy> CreateEnemies(IObjectResolver objectResolver, Party party, Biome biome)
+        public IEnumerable<Enemy> CreateEnemies(IObjectResolver objectResolver, Party party, IBiome biome)
         {
             var level = party.ActiveCharacters.GetAverageLevel() * 4 / 5;
             if(level < 1)
@@ -39,20 +39,7 @@ namespace SceneTest.Battle
                 yield return objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
                 {
                     var location = enemyLocations[index];
-                    BiomeEnemy biomeEnemy;
-                    switch (enemyType)
-                    {
-                        case EnemyType.Badass:
-                            biomeEnemy = biome.BadassEnemy;
-                            break;
-                        case EnemyType.Peon:
-                            biomeEnemy = biome.PeonEnemy;
-                            break;
-                        default:
-                            biomeEnemy = biome.RegularEnemy;
-                            break;
-                    }
-
+                    var biomeEnemy = biome.GetEnemy(enemyType);
                     var curve = biomeEnemy.EnemyCurve;
                     c.Sprite = biomeEnemy.Asset.CreateSprite();
                     c.SpriteMaterial = biomeEnemy.Asset.CreateMaterial();

@@ -115,7 +115,7 @@ namespace SceneTest
         private IObjectResolver objectResolver;
         private LevelConnector nextLevelConnector;
         private LevelConnector previousLevelConnector;
-        private Biome biome;
+        private IBiome biome;
 
         private Task levelGenerationTask;
         private Vector3 mapUnits;
@@ -357,7 +357,7 @@ namespace SceneTest
             this.nextLevelConnector?.SetPosition(EndPoint + new Vector3((mapUnits.x / 2f + 0.5f), 0f, 0f));
         }
 
-        public Biome Biome => biome;
+        public IBiome Biome => biome;
 
         /// <summary>
         /// Add physics shapes to scene. Should wait until the level generation is complete first.

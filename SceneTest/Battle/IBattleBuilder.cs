@@ -9,6 +9,6 @@ namespace SceneTest.Battle
 {
     interface IBattleBuilder
     {
-        IEnumerable<Enemy> CreateEnemies(IObjectResolver objectResolver, Party party, Biome biome);
+        IEnumerable<Enemy> CreateEnemies(IObjectResolver objectResolver, Party party, IBiome biome);
     }
 }

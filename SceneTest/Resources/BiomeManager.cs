@@ -8,11 +8,30 @@ using System.Threading.Tasks;
 
 namespace SceneTest
 {
-    class Biome
+    class Biome : IBiome
     {
         public string FloorTexture { get; set; }
 
         public string WallTexture { get; set; }
+
+        public BiomeEnemy GetEnemy(EnemyType type)
+        {
+            BiomeEnemy biomeEnemy;
+            switch (type)
+            {
+                case EnemyType.Badass:
+                    biomeEnemy = BadassEnemy;
+                    break;
+                case EnemyType.Peon:
+                    biomeEnemy = PeonEnemy;
+                    break;
+                default:
+                    biomeEnemy = RegularEnemy;
+                    break;
+            }
+
+            return biomeEnemy ?? RegularEnemy;
+        }
 
         public BiomeEnemy RegularEnemy { get; set; }
 
@@ -30,7 +49,7 @@ namespace SceneTest
 
     class BiomeManager : IBiomeManager
     {
-        private List<Biome> biomes = new List<Biome>()
+        private List<IBiome> biomes = new List<IBiome>()
         {
             //Countryside
             new Biome
@@ -103,7 +122,7 @@ namespace SceneTest
             }
         };
 
-        public Biome GetBiome(int index)
+        public IBiome GetBiome(int index)
         {
             return biomes[index];
         }
