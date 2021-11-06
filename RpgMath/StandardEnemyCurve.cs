@@ -201,6 +201,18 @@ namespace RpgMath
             throw new InvalidOperationException($"Level '{level}' is not supported.");
         }
 
+        public long GetLuck(int level)
+        {
+            if (level < 100)
+            {
+                //Luck is not really level based, just have lucky enemies
+                //Consider 0-10, 20-30, 40 and 50
+                return 3L;
+            }
+
+            throw new InvalidOperationException($"Level '{level}' is not supported.");
+        }
+
         public long GetDefensePercent(int level)
         {
             if (level < 100)
@@ -275,12 +287,69 @@ namespace RpgMath
             else if (level < 90)
             {
                 //80-90
-                return (long)NumberFunctions.lerp(158f, 275f, (level - 80) / 10f);
+                return (long)NumberFunctions.lerp(158f, 175f, (level - 80) / 10f);
             }
             else if (level < 100)
             {
                 //90-99
-                return (long)NumberFunctions.lerp(275f, 200f, (level - 90) / 10f);
+                return (long)NumberFunctions.lerp(175f, 200f, (level - 90) / 10f);
+            }
+
+            throw new InvalidOperationException($"Level '{level}' is not supported.");
+        }
+
+        public long GetMagicAttack(int level)
+        {
+            //This is not a very powerful magic user, just average
+            if (level < 10)
+            {
+                //1-10
+                return (long)NumberFunctions.lerp(5f, 20f, (level) / 10f);
+            }
+            else if (level < 20)
+            {
+                //10-20
+                return (long)NumberFunctions.lerp(20f, 25f, (level - 10) / 10f);
+            }
+            else if (level < 30)
+            {
+                //20-30
+                return (long)NumberFunctions.lerp(25f, 45f, (level - 20) / 10f);
+            }
+            else if (level < 40)
+            {
+                //30-40
+                return (long)NumberFunctions.lerp(45f, 60f, (level - 30) / 10f);
+            }
+            else if (level < 50)
+            {
+                //40-50
+                return (long)NumberFunctions.lerp(60f, 90f, (level - 40) / 10f);
+            }
+            else if (level < 60)
+            {
+                //50-60
+                return (long)NumberFunctions.lerp(90f, 120f, (level - 50) / 10f);
+            }
+            else if (level < 70)
+            {
+                //60-70
+                return (long)NumberFunctions.lerp(120f, 145f, (level - 60) / 10f);
+            }
+            else if (level < 80)
+            {
+                //70-80
+                return (long)NumberFunctions.lerp(145f, 175f, (level - 70) / 10f);
+            }
+            else if (level < 90)
+            {
+                //80-90
+                return (long)NumberFunctions.lerp(175f, 225f, (level - 80) / 10f);
+            }
+            else if (level < 100)
+            {
+                //90-99
+                return (long)NumberFunctions.lerp(225f, 255f, (level - 90) / 10f);
             }
 
             throw new InvalidOperationException($"Level '{level}' is not supported.");

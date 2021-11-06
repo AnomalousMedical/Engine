@@ -27,12 +27,12 @@ namespace SceneTest.Battle.Scenes
                     AttackPercent = curve.GetAttackPercent(level),
                     Defense = curve.GetDefense(level),
                     DefensePercent = curve.GetDefensePercent(level),
-                    MagicAttack = 2,
+                    MagicAttack = curve.GetMagicAttack(level),
                     MagicAttackPercent = curve.GetMagicAttackPercent(level),
                     MagicDefensePercent = curve.GetMagicDefensePercent(level),
                     MagicDefense = 2,
                     Dexterity = curve.GetDexterity(level),
-                    Luck = 14,
+                    Luck = curve.GetLuck(level),
                     Level = level,
                 };
                 c.Translation = new Vector3(-4, 0.55f, -2);
