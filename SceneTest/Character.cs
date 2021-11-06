@@ -18,4 +18,21 @@ namespace SceneTest
 
         public ISpriteAsset SecondaryHandAsset { get; set; }
     }
+
+    static class CharacterExtensions
+    {
+        public static int GetAverageLevel(this IEnumerable<Character> characters)
+        {
+            var level = (int)characters.Average(i => i.CharacterSheet.Level);
+            if (level < 1)
+            {
+                level = 1;
+            }
+            else if (level > CharacterSheet.MaxLevel)
+            {
+                level = CharacterSheet.MaxLevel;
+            }
+            return level;
+        }
+    }
 }

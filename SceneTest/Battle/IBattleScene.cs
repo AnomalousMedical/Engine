@@ -9,6 +9,6 @@ namespace SceneTest.Battle
 {
     interface IBattleScene
     {
-        IEnumerable<Enemy> CreateEnemies(IObjectResolver objectResolver);
+        IEnumerable<Enemy> CreateEnemies(IObjectResolver objectResolver, Party party);
     }
 }

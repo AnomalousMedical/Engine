@@ -41,7 +41,7 @@ namespace SceneTest.Battle
         private readonly ITurnTimer turnTimer;
         private Vector3 startPosition;
 
-        public Vector3 MeleeAttackLocation => this.sceneObject.position + new Vector3(sprite.BaseScale.x, 0, 0);
+        public Vector3 MeleeAttackLocation => this.sceneObject.position + new Vector3(sprite.BaseScale.x * sceneObject.scale.x, 0, 0);
 
         public Vector3 MagicHitLocation => this.sceneObject.position + new Vector3(0f, 0f, -0.1f);
 
@@ -194,9 +194,10 @@ namespace SceneTest.Battle
 
         private Vector3 GetAttackLocation(IBattleTarget target)
         {
+            var totalScale = sprite.BaseScale * sceneObject.scale;
             var targetAttackLocation = target.MeleeAttackLocation;
-            targetAttackLocation.x -= sprite.BaseScale.x / 2;
-            targetAttackLocation.y = sprite.BaseScale.y / 2.0f;
+            targetAttackLocation.x -= totalScale.x / 2;
+            targetAttackLocation.y = totalScale.y / 2.0f;
             return targetAttackLocation;
         }
 

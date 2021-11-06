@@ -404,9 +404,10 @@ namespace SceneTest.Battle
 
         private Vector3 GetAttackLocation(IBattleTarget target)
         {
+            var totalScale = sprite.BaseScale * sceneObject.scale;
             var targetAttackLocation = target.MeleeAttackLocation;
-            targetAttackLocation.x += sprite.BaseScale.x / 2;
-            targetAttackLocation.y = sprite.BaseScale.y / 2.0f;
+            targetAttackLocation.x += totalScale.x / 2;
+            targetAttackLocation.y = totalScale.y / 2.0f;
             return targetAttackLocation;
         }
 

@@ -103,7 +103,7 @@ namespace SceneTest.Battle
             }
 
             var battle = new Battle.Scenes.DinoSkeletonBattle();
-            enemies.AddRange(battle.CreateEnemies(this.objectResolver));
+            enemies.AddRange(battle.CreateEnemies(this.objectResolver, party));
         }
 
         public void SetActive(bool active)
