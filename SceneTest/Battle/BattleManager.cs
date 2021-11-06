@@ -28,6 +28,7 @@ namespace SceneTest.Battle
         private readonly ICameraProjector cameraProjector;
         private readonly ITurnTimer turnTimer;
         private readonly IBattleScreenLayout battleScreenLayout;
+        private readonly IBattleBuilder battleBuilder;
         private readonly IObjectResolver objectResolver;
         private BattleArena battleArena;
 
@@ -58,7 +59,8 @@ namespace SceneTest.Battle
             IScreenPositioner screenPositioner,
             ICameraProjector cameraProjector,
             ITurnTimer turnTimer,
-            IBattleScreenLayout battleScreenLayout)
+            IBattleScreenLayout battleScreenLayout,
+            IBattleBuilder battleBuilder)
         {
             this.eventManager = eventManager;
             this.sharpGui = sharpGui;
@@ -72,6 +74,7 @@ namespace SceneTest.Battle
             this.cameraProjector = cameraProjector;
             this.turnTimer = turnTimer;
             this.battleScreenLayout = battleScreenLayout;
+            this.battleBuilder = battleBuilder;
             this.objectResolver = objectResolverFactory.Create();
 
             cursor = this.objectResolver.Resolve<TargetCursor>();
@@ -102,8 +105,7 @@ namespace SceneTest.Battle
                 currentZ -= 2;
             }
 
-            var battle = new Battle.Scenes.DinoSkeletonBattle();
-            enemies.AddRange(battle.CreateEnemies(this.objectResolver, party));
+            enemies.AddRange(battleBuilder.CreateEnemies(this.objectResolver, party));
         }
 
         public void SetActive(bool active)

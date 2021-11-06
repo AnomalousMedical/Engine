@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SceneTest.Battle
 {
-    interface IBattleScene
+    interface IBattleBuilder
     {
         IEnumerable<Enemy> CreateEnemies(IObjectResolver objectResolver, Party party);
     }

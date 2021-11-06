@@ -84,6 +84,7 @@ namespace SceneTest
             services.AddScoped<Attachment<ILevelManager>.Description>();
             services.AddScoped<Attachment<IBattleManager>>();
             services.AddScoped<Attachment<IBattleManager>.Description>();
+            services.AddScoped<IBattleBuilder, BattleBuilder>();
             services.AddScoped<Brick>();
             services.AddScoped<Brick.Description>();
             services.AddScoped<Level>();
