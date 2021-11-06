@@ -25,6 +25,7 @@ namespace SceneTest
         //SharpButton toggleCamera = new SharpButton() { Text = "Toggle Camera" };
         SharpButton levelUp = new SharpButton() { Text = "Level Up" };
         SharpButton battle = new SharpButton() { Text = "Battle" };
+        SharpText averageLevel = new SharpText() { Color = Color.White };
         SharpSliderHorizontal currentHour;
 
         public DebugGui
@@ -52,15 +53,19 @@ namespace SceneTest
 
         public IDebugGui.Result Update()
         {
+            averageLevel.Text = $"Level: {party.ActiveCharacters.GetAverageLevel()}";
+
             var result = IDebugGui.Result.None;
 
             var layout =
                 new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
                 new MaxWidthLayout(scaleHelper.Scaled(300),
-                new ColumnLayout(battle, levelUp, goNextLevel, goPreviousLevel/*, toggleCamera*/) { Margin = new IntPad(10) }
+                new ColumnLayout(averageLevel, battle, levelUp, goNextLevel, goPreviousLevel/*, toggleCamera*/) { Margin = new IntPad(10) }
                 ));
             var desiredSize = layout.GetDesiredSize(sharpGui);
             layout.SetRect(screenPositioner.GetBottomRightRect(desiredSize));
+
+            sharpGui.Text(averageLevel);
 
             if (sharpGui.Button(battle, navUp: goPreviousLevel.Id, navDown: levelUp.Id))
             {

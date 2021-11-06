@@ -12,7 +12,11 @@ namespace SceneTest.Battle.Scenes
     {
         public IEnumerable<Enemy> CreateEnemies(IObjectResolver objectResolver, Party party)
         {
-            var level = party.ActiveCharacters.GetAverageLevel();
+            var level = party.ActiveCharacters.GetAverageLevel() * 4 / 5;
+            if(level < 1)
+            {
+                level = 1;
+            }
 
             yield return objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
@@ -37,8 +41,8 @@ namespace SceneTest.Battle.Scenes
                     Level = level,
                 };
                 c.Translation = new Vector3(-4, 0.55f, -2);
-                c.XpReward = 50;
-                c.GoldReward = 50;
+                c.XpReward = curve.GetXp(level);
+                c.GoldReward = curve.GetGold(level);
             });
             yield return objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
@@ -67,8 +71,8 @@ namespace SceneTest.Battle.Scenes
                 };
                 c.Scale = new Vector3(1.5f, 1.5f, 1f);
                 c.Translation = new Vector3(-5, c.Sprite.BaseScale.y * c.Scale.y / 2.0f, 0);
-                c.XpReward = 50;
-                c.GoldReward = 50;
+                c.XpReward = curve.GetXp(level);
+                c.GoldReward = curve.GetGold(level);
             });
             yield return objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
@@ -94,8 +98,8 @@ namespace SceneTest.Battle.Scenes
                     Resistances = new Dictionary<Element, Resistance>() { { Element.Fire, Resistance.Weak }, { Element.Healing, Resistance.Absorb } }
                 };
                 c.Translation = new Vector3(0, 0.55f, 2);
-                c.XpReward = 50;
-                c.GoldReward = 50;
+                c.XpReward = curve.GetXp(level);
+                c.GoldReward = curve.GetGold(level);
             });
             yield return objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
@@ -120,8 +124,8 @@ namespace SceneTest.Battle.Scenes
                     Level = level,
                 };
                 c.Translation = new Vector3(-4, 0.55f, 4);
-                c.XpReward = 50;
-                c.GoldReward = 50;
+                c.XpReward = curve.GetXp(level);
+                c.GoldReward = curve.GetGold(level);
             });
         }
     }
