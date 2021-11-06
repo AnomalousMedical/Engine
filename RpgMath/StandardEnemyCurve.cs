@@ -179,12 +179,18 @@ namespace RpgMath
             throw new InvalidOperationException($"Level '{level}' is not supported.");
         }
 
-        /// <summary>
-        /// Get the attack percent for the level
-        /// </summary>
-        /// <param name="level"></param>
-        /// <returns></returns>
         public long GetAttackPercent(int level)
+        {
+            if (level < 100)
+            {
+                //Just always 100
+                return 100L;
+            }
+
+            throw new InvalidOperationException($"Level '{level}' is not supported.");
+        }
+
+        public long GetMagicAttackPercent(int level)
         {
             if (level < 100)
             {
@@ -204,6 +210,20 @@ namespace RpgMath
                 //Consider also 20, 40 or 100 (out of 255) for other good dodge percents to try
                 //Some between 1 -20 too, but this is more enemy type dependent, not scaling per level
                 return 1L;
+            }
+
+            throw new InvalidOperationException($"Level '{level}' is not supported.");
+        }
+
+        public long GetMagicDefensePercent(int level)
+        {
+            if (level < 100)
+            {
+                //This is how dodgy the target is. All magic has a built in dodge, so this is 0 by default.
+                //Could increase for badass or have dodgier enemies
+                //Consider also 20, 40 or 100 (out of 255) for other good dodge percents to try
+                //Some between 1 -20 too, but this is more enemy type dependent, not scaling per level
+                return 0L;
             }
 
             throw new InvalidOperationException($"Level '{level}' is not supported.");
