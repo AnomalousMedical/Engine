@@ -35,8 +35,16 @@ namespace SceneTest
 
         public BiomeEnemy RegularEnemy { get; set; }
 
+        /// <summary>
+        /// Set this to control the badass version of the enemy separately. You will get a badass enemy
+        /// stat-wise no matter what.
+        /// </summary>
         public BiomeEnemy BadassEnemy { get; set; }
 
+        /// <summary>
+        /// Set this to control the peon version of the enemy separately. You will get a peon enemy
+        /// stat-wise no matter what.
+        /// </summary>
         public BiomeEnemy PeonEnemy { get; set; }
     }
 
@@ -45,6 +53,8 @@ namespace SceneTest
         public ISpriteAsset Asset { get; set; }
 
         public IEnemyCurve EnemyCurve { get; set; }
+
+        public Dictionary<Element, Resistance> Resistances { get; set; }
     }
 
     class BiomeManager : IBiomeManager
@@ -83,17 +93,12 @@ namespace SceneTest
                 RegularEnemy = new BiomeEnemy()
                 {
                     Asset = new Assets.Original.Skeleton(),
-                    EnemyCurve = new StandardEnemyCurve()
-                },
-                BadassEnemy = new BiomeEnemy()
-                {
-                    Asset = new Assets.Original.Skeleton(),
-                    EnemyCurve = new StandardEnemyCurve()
-                },
-                PeonEnemy = new BiomeEnemy()
-                {
-                    Asset =  new Assets.Original.Skeleton(),
-                    EnemyCurve = new StandardEnemyCurve()
+                    EnemyCurve = new StandardEnemyCurve(),
+                    Resistances = new Dictionary<Element, Resistance>
+                    {
+                        { Element.Healing, Resistance.Absorb },
+                        { Element.Fire, Resistance.Weak }
+                    }
                 }
             },
             //Snowy

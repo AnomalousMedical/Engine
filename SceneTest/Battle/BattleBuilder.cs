@@ -58,6 +58,7 @@ namespace SceneTest.Battle
                         Dexterity = curve.GetDexterity(level),
                         Luck = curve.GetLuck(level),
                         Level = level,
+                        Resistances = biomeEnemy.Resistances
                     };
                     c.Scale = curve.GetScale(level, enemyType);
                     c.Translation = new Vector3(location.x, c.Sprite.BaseScale.y * c.Scale.y / 2.0f, location.z);
