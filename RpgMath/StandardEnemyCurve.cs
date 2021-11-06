@@ -577,5 +577,61 @@ namespace RpgMath
 
             throw new InvalidOperationException($"Level '{level}' is not supported.");
         }
+
+        public Vector3 GetScale(int level, EnemyType enemyType)
+        {
+            Vector3 scale;
+            if (level < 10)
+            {
+                //1-10
+                scale = new Vector3(0.75f, 0.75f, 0.75f);
+            }
+            else if (level < 20)
+            {
+                //10-20
+                scale = new Vector3(0.84f, 0.84f, 0.84f);
+            }
+            else if (level < 40)
+            {
+                //20-40
+                scale = new Vector3(0.9f, 0.9f, 0.9f);
+            }
+            else if (level < 60)
+            {
+                //40-60
+                scale = new Vector3(1.1f, 1.1f, 1.1f);
+            }
+            else if (level < 75)
+            {
+                //60-75
+                scale = new Vector3(1.2f, 1.2f, 1.2f);
+            }
+            else if (level < 90)
+            {
+                //75-90
+                scale = new Vector3(1.28f, 1.28f, 1.28f);
+            }
+            else if (level < 100)
+            {
+                //90-99
+                scale = new Vector3(1.4f, 1.4f, 1.4f);
+            }
+            else
+            {
+                throw new InvalidOperationException($"Level '{level}' is not supported.");
+            }
+
+            switch (enemyType)
+            {
+                case EnemyType.Badass:
+                    scale *= 1.16666f;
+                    break;
+                case EnemyType.Peon:
+                    scale *= 0.75f;
+                    break;
+            }
+
+            return scale;
+        }
     }
 }

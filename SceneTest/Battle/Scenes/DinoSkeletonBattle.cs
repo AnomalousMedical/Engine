@@ -20,6 +20,8 @@ namespace SceneTest.Battle.Scenes
 
             yield return objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
+                var location = new Vector3(-4f, 0f, -2f);
+                var enemyType = EnemyType.Normal;
                 var curve = new StandardEnemyCurve();
                 var spriteAsset = new Assets.Original.TinyDino();
                 c.Sprite = spriteAsset.CreateSprite();
@@ -40,12 +42,15 @@ namespace SceneTest.Battle.Scenes
                     Luck = curve.GetLuck(level),
                     Level = level,
                 };
-                c.Translation = new Vector3(-4, 0.55f, -2);
+                c.Scale = curve.GetScale(level, enemyType);
+                c.Translation = new Vector3(location.x, c.Sprite.BaseScale.y * c.Scale.y / 2.0f, location.z);
                 c.XpReward = curve.GetXp(level);
                 c.GoldReward = curve.GetGold(level);
             });
             yield return objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
+                var location = new Vector3(-5, 0, 0);
+                var enemyType = EnemyType.Normal;
                 var curve = new StandardEnemyCurve();
                 var spriteAsset = new Assets.Original.TinyDino()
                 {
@@ -69,13 +74,15 @@ namespace SceneTest.Battle.Scenes
                     Luck = curve.GetLuck(level),
                     Level = level,
                 };
-                c.Scale = new Vector3(1.5f, 1.5f, 1f);
-                c.Translation = new Vector3(-5, c.Sprite.BaseScale.y * c.Scale.y / 2.0f, 0);
+                c.Scale = curve.GetScale(level, enemyType);
+                c.Translation = new Vector3(location.x, c.Sprite.BaseScale.y * c.Scale.y / 2.0f, location.z);
                 c.XpReward = curve.GetXp(level);
                 c.GoldReward = curve.GetGold(level);
             });
             yield return objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
+                var location = new Vector3(0, 0, 2);
+                var enemyType = EnemyType.Normal;
                 var curve = new StandardEnemyCurve();
                 var spriteAsset = new Assets.Original.Skeleton();
                 c.Sprite = spriteAsset.CreateSprite();
@@ -97,12 +104,15 @@ namespace SceneTest.Battle.Scenes
                     Level = level,
                     Resistances = new Dictionary<Element, Resistance>() { { Element.Fire, Resistance.Weak }, { Element.Healing, Resistance.Absorb } }
                 };
-                c.Translation = new Vector3(0, 0.55f, 2);
+                c.Scale = curve.GetScale(level, enemyType);
+                c.Translation = new Vector3(location.x, c.Sprite.BaseScale.y * c.Scale.y / 2.0f, location.z);
                 c.XpReward = curve.GetXp(level);
                 c.GoldReward = curve.GetGold(level);
             });
             yield return objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
+                var location = new Vector3(-4, 0, 4);
+                var enemyType = EnemyType.Normal;
                 var curve = new StandardEnemyCurve();
                 var spriteAsset = new Assets.Original.TinyDino();
                 c.Sprite = spriteAsset.CreateSprite();
@@ -123,7 +133,8 @@ namespace SceneTest.Battle.Scenes
                     Luck = curve.GetLuck(level),
                     Level = level,
                 };
-                c.Translation = new Vector3(-4, 0.55f, 4);
+                c.Scale = curve.GetScale(level, enemyType);
+                c.Translation = new Vector3(location.x, c.Sprite.BaseScale.y * c.Scale.y / 2.0f, location.z);
                 c.XpReward = curve.GetXp(level);
                 c.GoldReward = curve.GetGold(level);
             });
