@@ -4,20 +4,20 @@ namespace RpgMath
 {
     public interface IEnemyCurve
     {
-        long GetAttack(int level);
-        long GetAttackPercent(int level);
-        long GetDefense(int level);
-        long GetDefensePercent(int level);
-        long GetDexterity(int level);
-        long GetGold(int level);
-        long GetHp(int level);
-        long GetLuck(int level);
-        long GetMagicAttack(int level);
-        long GetMagicAttackPercent(int level);
-        long GetMagicDefense(int level);
-        long GetMagicDefensePercent(int level);
-        long GetMp(int level);
+        long GetAttack(int level, EnemyType enemyType);
+        long GetAttackPercent(int level, EnemyType enemyType);
+        long GetDefense(int level, EnemyType enemyType);
+        long GetDefensePercent(int level, EnemyType enemyType);
+        long GetDexterity(int level, EnemyType enemyType);
+        long GetGold(int level, EnemyType enemyType);
+        long GetHp(int level, EnemyType enemyType);
+        long GetLuck(int level, EnemyType enemyType);
+        long GetMagicAttack(int level, EnemyType enemyType);
+        long GetMagicAttackPercent(int level, EnemyType enemyType);
+        long GetMagicDefense(int level, EnemyType enemyType);
+        long GetMagicDefensePercent(int level, EnemyType enemyType);
+        long GetMp(int level, EnemyType enemyType);
         Vector3 GetScale(int level, EnemyType enemyType);
-        long GetXp(int level);
+        long GetXp(int level, EnemyType enemyType);
     }
 }

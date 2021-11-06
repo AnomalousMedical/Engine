@@ -9,7 +9,7 @@ namespace RpgMath
 {
     public class StandardEnemyCurve : IEnemyCurve
     {
-        public long GetHp(int level)
+        public long GetHp(int level, EnemyType enemyType)
         {
             if (level < 10)
             {
@@ -65,7 +65,7 @@ namespace RpgMath
             throw new InvalidOperationException($"Level '{level}' is not supported.");
         }
 
-        public long GetAttack(int level)
+        public long GetAttack(int level, EnemyType enemyType)
         {
             //Pretty linear overall
             if (level < 10)
@@ -122,7 +122,7 @@ namespace RpgMath
             throw new InvalidOperationException($"Level '{level}' is not supported.");
         }
 
-        public long GetDefense(int level)
+        public long GetDefense(int level, EnemyType enemyType)
         {
             //Defense could go up to 2x for badass enemies
             if (level < 10)
@@ -179,7 +179,7 @@ namespace RpgMath
             throw new InvalidOperationException($"Level '{level}' is not supported.");
         }
 
-        public long GetAttackPercent(int level)
+        public long GetAttackPercent(int level, EnemyType enemyType)
         {
             if (level < 100)
             {
@@ -190,7 +190,7 @@ namespace RpgMath
             throw new InvalidOperationException($"Level '{level}' is not supported.");
         }
 
-        public long GetMagicAttackPercent(int level)
+        public long GetMagicAttackPercent(int level, EnemyType enemyType)
         {
             if (level < 100)
             {
@@ -201,7 +201,7 @@ namespace RpgMath
             throw new InvalidOperationException($"Level '{level}' is not supported.");
         }
 
-        public long GetLuck(int level)
+        public long GetLuck(int level, EnemyType enemyType)
         {
             if (level < 100)
             {
@@ -213,7 +213,7 @@ namespace RpgMath
             throw new InvalidOperationException($"Level '{level}' is not supported.");
         }
 
-        public long GetDefensePercent(int level)
+        public long GetDefensePercent(int level, EnemyType enemyType)
         {
             if (level < 100)
             {
@@ -227,7 +227,7 @@ namespace RpgMath
             throw new InvalidOperationException($"Level '{level}' is not supported.");
         }
 
-        public long GetMagicDefensePercent(int level)
+        public long GetMagicDefensePercent(int level, EnemyType enemyType)
         {
             if (level < 100)
             {
@@ -241,7 +241,7 @@ namespace RpgMath
             throw new InvalidOperationException($"Level '{level}' is not supported.");
         }
 
-        public long GetDexterity(int level)
+        public long GetDexterity(int level, EnemyType enemyType)
         {
             //Dexterity is mostly flat
             if (level < 10)
@@ -298,7 +298,7 @@ namespace RpgMath
             throw new InvalidOperationException($"Level '{level}' is not supported.");
         }
 
-        public long GetMagicAttack(int level)
+        public long GetMagicAttack(int level, EnemyType enemyType)
         {
             if (level < 10)
             {
@@ -354,7 +354,7 @@ namespace RpgMath
             throw new InvalidOperationException($"Level '{level}' is not supported.");
         }
 
-        public long GetMagicDefense(int level)
+        public long GetMagicDefense(int level, EnemyType enemyType)
         {
             if (level < 10)
             {
@@ -410,7 +410,7 @@ namespace RpgMath
             throw new InvalidOperationException($"Level '{level}' is not supported.");
         }
 
-        public long GetMp(int level)
+        public long GetMp(int level, EnemyType enemyType)
         {
             if (level < 10)
             {
@@ -466,7 +466,7 @@ namespace RpgMath
             throw new InvalidOperationException($"Level '{level}' is not supported.");
         }
 
-        public long GetGold(int level)
+        public long GetGold(int level, EnemyType enemyType)
         {
             if (level < 10)
             {
@@ -522,7 +522,7 @@ namespace RpgMath
             throw new InvalidOperationException($"Level '{level}' is not supported.");
         }
 
-        public long GetXp(int level)
+        public long GetXp(int level, EnemyType enemyType)
         {
             if (level < 10)
             {

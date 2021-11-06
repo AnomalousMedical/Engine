@@ -45,25 +45,25 @@ namespace SceneTest.Battle
                     c.SpriteMaterial = biomeEnemy.Asset.CreateMaterial();
                     c.BattleStats = new BattleStats()
                     {
-                        Hp = curve.GetHp(level),
-                        Mp = curve.GetMp(level),
-                        Attack = curve.GetAttack(level),
-                        AttackPercent = curve.GetAttackPercent(level),
-                        Defense = curve.GetDefense(level),
-                        DefensePercent = curve.GetDefensePercent(level),
-                        MagicAttack = curve.GetMagicAttack(level),
-                        MagicAttackPercent = curve.GetMagicAttackPercent(level),
-                        MagicDefensePercent = curve.GetMagicDefensePercent(level),
-                        MagicDefense = curve.GetMagicDefense(level),
-                        Dexterity = curve.GetDexterity(level),
-                        Luck = curve.GetLuck(level),
+                        Hp = curve.GetHp(level, enemyType),
+                        Mp = curve.GetMp(level, enemyType),
+                        Attack = curve.GetAttack(level, enemyType),
+                        AttackPercent = curve.GetAttackPercent(level, enemyType),
+                        Defense = curve.GetDefense(level, enemyType),
+                        DefensePercent = curve.GetDefensePercent(level, enemyType),
+                        MagicAttack = curve.GetMagicAttack(level, enemyType),
+                        MagicAttackPercent = curve.GetMagicAttackPercent(level, enemyType),
+                        MagicDefensePercent = curve.GetMagicDefensePercent(level, enemyType),
+                        MagicDefense = curve.GetMagicDefense(level, enemyType),
+                        Dexterity = curve.GetDexterity(level, enemyType),
+                        Luck = curve.GetLuck(level, enemyType),
                         Level = level,
                         Resistances = biomeEnemy.Resistances
                     };
                     c.Scale = curve.GetScale(level, enemyType);
                     c.Translation = new Vector3(location.x, c.Sprite.BaseScale.y * c.Scale.y / 2.0f, location.z);
-                    c.XpReward = curve.GetXp(level);
-                    c.GoldReward = curve.GetGold(level);
+                    c.XpReward = curve.GetXp(level, enemyType);
+                    c.GoldReward = curve.GetGold(level, enemyType);
                 });
                 ++index;
             }
