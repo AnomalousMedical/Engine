@@ -65,7 +65,7 @@ namespace RpgMath
             throw new InvalidOperationException($"Level '{level}' is not supported.");
         }
 
-        public long GetAtt(int level)
+        public long GetAttack(int level)
         {
             //Pretty linear overall
             if (level < 10)
@@ -122,7 +122,7 @@ namespace RpgMath
             throw new InvalidOperationException($"Level '{level}' is not supported.");
         }
 
-        public long GetDef(int level)
+        public long GetDefense(int level)
         {
             //Defense could go up to 2x for badass enemies
             if (level < 10)
@@ -174,6 +174,93 @@ namespace RpgMath
             {
                 //90-99
                 return (long)NumberFunctions.lerp(215f, 250f, (level - 90) / 10f);
+            }
+
+            throw new InvalidOperationException($"Level '{level}' is not supported.");
+        }
+
+        /// <summary>
+        /// Get the attack percent for the level
+        /// </summary>
+        /// <param name="level"></param>
+        /// <returns></returns>
+        public long GetAttackPercent(int level)
+        {
+            if (level < 100)
+            {
+                //Just always 100
+                return 100L;
+            }
+
+            throw new InvalidOperationException($"Level '{level}' is not supported.");
+        }
+
+        public long GetDefensePercent(int level)
+        {
+            if (level < 100)
+            {
+                //This is how dodgy the target is. This is at least 1 for everything, so the default curve is just 1
+                //Could increase for badass or have dodgier enemies
+                //Consider also 20, 40 or 100 (out of 255) for other good dodge percents to try
+                //Some between 1 -20 too, but this is more enemy type dependent, not scaling per level
+                return 1L;
+            }
+
+            throw new InvalidOperationException($"Level '{level}' is not supported.");
+        }
+
+        public long GetDexterity(int level)
+        {
+            //Dexterity is mostly flat
+            if (level < 10)
+            {
+                //1-10
+                return (long)NumberFunctions.lerp(50f, 50f, (level) / 10f);
+            }
+            else if (level < 20)
+            {
+                //10-20
+                return (long)NumberFunctions.lerp(50f, 50f, (level - 10) / 10f);
+            }
+            else if (level < 30)
+            {
+                //20-30
+                return (long)NumberFunctions.lerp(50f, 58f, (level - 20) / 10f);
+            }
+            else if (level < 40)
+            {
+                //30-40
+                return (long)NumberFunctions.lerp(58f, 75f, (level - 30) / 10f);
+            }
+            else if (level < 50)
+            {
+                //40-50
+                return (long)NumberFunctions.lerp(75f, 100f, (level - 40) / 10f);
+            }
+            else if (level < 60)
+            {
+                //50-60
+                return (long)NumberFunctions.lerp(100f, 120f, (level - 50) / 10f);
+            }
+            else if (level < 70)
+            {
+                //60-70
+                return (long)NumberFunctions.lerp(120f, 140f, (level - 60) / 10f);
+            }
+            else if (level < 80)
+            {
+                //70-80
+                return (long)NumberFunctions.lerp(140f, 158f, (level - 70) / 10f);
+            }
+            else if (level < 90)
+            {
+                //80-90
+                return (long)NumberFunctions.lerp(158f, 275f, (level - 80) / 10f);
+            }
+            else if (level < 100)
+            {
+                //90-99
+                return (long)NumberFunctions.lerp(275f, 200f, (level - 90) / 10f);
             }
 
             throw new InvalidOperationException($"Level '{level}' is not supported.");

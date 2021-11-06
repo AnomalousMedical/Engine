@@ -14,25 +14,26 @@ namespace SceneTest.Battle.Scenes
         {
             yield return objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
             {
+                var level = 1;
                 var curve = new StandardEnemyCurve();
                 var spriteAsset = new Assets.Original.TinyDino();
                 c.Sprite = spriteAsset.CreateSprite();
                 c.SpriteMaterial = spriteAsset.CreateMaterial();
                 c.BattleStats = new BattleStats()
                 {
-                    Hp = curve.GetHp(1),
+                    Hp = curve.GetHp(level),
                     Mp = 54,
-                    Attack = curve.GetAtt(1),
-                    AttackPercent = 100,
-                    Defense = curve.GetDef(1),
-                    DefensePercent = 4,
+                    Attack = curve.GetAttack(level),
+                    AttackPercent = curve.GetAttackPercent(level),
+                    Defense = curve.GetDefense(level),
+                    DefensePercent = curve.GetDefensePercent(level),
                     MagicAttack = 2,
                     MagicAttackPercent = 100,
                     MagicDefensePercent = 0,
                     MagicDefense = 2,
-                    Dexterity = 6,
+                    Dexterity = curve.GetDexterity(level),
                     Luck = 14,
-                    Level = 1,
+                    Level = level,
                 };
                 c.Translation = new Vector3(-4, 0.55f, -2);
                 c.XpReward = 50;
