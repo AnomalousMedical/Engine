@@ -25,7 +25,7 @@ namespace SceneTest.Battle
             enemyLocations.Add(new Vector3(-2.5f, 0f,  6f));
         }
 
-        public IEnumerable<Enemy> CreateEnemies(IObjectResolver objectResolver, Party party)
+        public IEnumerable<Enemy> CreateEnemies(IObjectResolver objectResolver, Party party, Biome biome)
         {
             var level = party.ActiveCharacters.GetAverageLevel() * 4 / 5;
             if(level < 1)
@@ -39,14 +39,23 @@ namespace SceneTest.Battle
                 yield return objectResolver.Resolve<Enemy, Enemy.Desc>(c =>
                 {
                     var location = enemyLocations[index];
-                    var curve = new StandardEnemyCurve();
-                    var spriteAsset = new Assets.Original.TinyDino();
-                    if(enemyType == EnemyType.Badass)
+                    BiomeEnemy biomeEnemy;
+                    switch (enemyType)
                     {
-                        spriteAsset.SkinMaterial = "cc0Textures/Leather011_1K";
+                        case EnemyType.Badass:
+                            biomeEnemy = biome.BadassEnemy;
+                            break;
+                        case EnemyType.Peon:
+                            biomeEnemy = biome.PeonEnemy;
+                            break;
+                        default:
+                            biomeEnemy = biome.RegularEnemy;
+                            break;
                     }
-                    c.Sprite = spriteAsset.CreateSprite();
-                    c.SpriteMaterial = spriteAsset.CreateMaterial();
+
+                    var curve = biomeEnemy.EnemyCurve;
+                    c.Sprite = biomeEnemy.Asset.CreateSprite();
+                    c.SpriteMaterial = biomeEnemy.Asset.CreateMaterial();
                     c.BattleStats = new BattleStats()
                     {
                         Hp = curve.GetHp(level),

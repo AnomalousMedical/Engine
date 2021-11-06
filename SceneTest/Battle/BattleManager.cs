@@ -105,7 +105,7 @@ namespace SceneTest.Battle
                 currentZ -= 2;
             }
 
-            enemies.AddRange(battleBuilder.CreateEnemies(this.objectResolver, party));
+            enemies.AddRange(battleBuilder.CreateEnemies(this.objectResolver, party, levelManager.CurrentLevel.Biome));
         }
 
         public void SetActive(bool active)

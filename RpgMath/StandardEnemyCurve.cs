@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace RpgMath
 {
-    public class StandardEnemyCurve
+    public class StandardEnemyCurve : IEnemyCurve
     {
         public long GetHp(int level)
         {
-            if(level < 10)
+            if (level < 10)
             {
                 //1-10
                 return (long)NumberFunctions.lerp(40f, 200f, (level) / 10f);
             }
-            else if(level < 20)
+            else if (level < 20)
             {
                 //10-20
                 return (long)NumberFunctions.lerp(150f, 300f, (level - 10) / 10f);
