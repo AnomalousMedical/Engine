@@ -470,6 +470,7 @@ namespace SceneTest.Battle
 
         private void BattleEnded()
         {
+            cursor.Cancel();
             turnQueue.Clear();
             activePlayers.Clear();
         }
