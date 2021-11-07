@@ -583,9 +583,14 @@ namespace SceneTest.Battle
             {
                 characterSheet.CurrentXp += xp;
                 var xpNeeded = xpCalculator.GetXpNeeded(characterSheet.Archetype, characterSheet.Level + 1);
-                while (characterSheet.CurrentXp > xpNeeded && characterSheet.Level < CharacterSheet.MaxLevel)
+                while (characterSheet.CurrentXp > xpNeeded)
                 {
                     characterSheet.LevelUp(levelCalculator);
+                    if(characterSheet.Level >= CharacterSheet.MaxLevel)
+                    {
+                        break;
+                    }
+
                     characterSheet.CurrentXp -= xpNeeded;
 
                     xpNeeded = xpCalculator.GetXpNeeded(characterSheet.Archetype, characterSheet.Level + 1);
