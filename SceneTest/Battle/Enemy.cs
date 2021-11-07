@@ -77,7 +77,7 @@ namespace SceneTest.Battle
             this.GoldReward = description.GoldReward;
 
             turnTimer.AddTimer(characterTimer);
-            characterTimer.TurnReady += CharacterTimer_TurnReady; ;
+            characterTimer.TurnReady += CharacterTimer_TurnReady;
             characterTimer.TotalDex = Stats.Dexterity;
 
             sceneObject = new SceneObject()
