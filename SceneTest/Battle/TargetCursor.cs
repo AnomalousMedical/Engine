@@ -17,10 +17,16 @@ namespace SceneTest.Battle
         private readonly SpriteManager sprites;
         private readonly IDestructionRequest destructionRequest;
         private readonly ISpriteMaterialManager spriteMaterialManager;
+        private readonly ISharpGui sharpGui;
+        private readonly IBattleScreenLayout battleScreenLayout;
         private ISpriteMaterial spriteMaterial;
         private SceneObject sceneObject;
         private Sprite sprite;
         private bool disposed;
+
+        private SharpButton nextTargetButton = new SharpButton() { Text = "Next" };
+        private SharpButton previousTargetButton = new SharpButton() { Text = "Previous" };
+        private SharpButton selectTargetButton = new SharpButton() { Text = "Select" };
 
         public uint TargetIndex { get; private set; }
 
@@ -54,12 +60,16 @@ namespace SceneTest.Battle
             Plane plane,
             IScopedCoroutine coroutine,
             IDestructionRequest destructionRequest,
-            ISpriteMaterialManager spriteMaterialManager)
+            ISpriteMaterialManager spriteMaterialManager,
+            ISharpGui sharpGui,
+            IBattleScreenLayout battleScreenLayout)
         {
             this.sceneObjectManager = sceneObjectManager;
             this.sprites = sprites;
             this.destructionRequest = destructionRequest;
             this.spriteMaterialManager = spriteMaterialManager;
+            this.sharpGui = sharpGui;
+            this.battleScreenLayout = battleScreenLayout;
             this.sprite = new Sprite(new Dictionary<string, SpriteAnimation>()
             {
                 { "default", new SpriteAnimation(1,
@@ -185,57 +195,75 @@ namespace SceneTest.Battle
             }
         }
 
-        public void UpdateCursor(IBattleManager battleManager, ISharpGui sharpGui, IBattleTarget target, Vector3 enemyPos)
+        public void UpdateCursor(IBattleManager battleManager, IBattleTarget target, Vector3 enemyPos)
         {
             SetPosition(enemyPos);
-            switch (sharpGui.GamepadButtonEntered)
+
+            battleScreenLayout.LayoutBattleMenu(selectTargetButton, nextTargetButton, previousTargetButton);
+
+            if (sharpGui.Button(selectTargetButton))
             {
-                case GamepadButtonCode.XInput_A:
-                    SetTarget(target);
-                    break;
-                case GamepadButtonCode.XInput_B:
-                    SetTarget(null);
-                    break;
-                case GamepadButtonCode.XInput_DPadUp:
-                    NextTarget();
-                    break;
-                case GamepadButtonCode.XInput_DPadDown:
-                    PreviousTarget();
-                    break;
-                case GamepadButtonCode.XInput_DPadLeft:
-                case GamepadButtonCode.XInput_DPadRight:
-                    ChangeRow();
-                    break;
-                case GamepadButtonCode.XInput_Y:
-                    battleManager.SwitchPlayer();
-                    SetTarget(null);
-                    break;
-                default:
-                    //Handle keyboard
-                    switch (sharpGui.KeyEntered)
-                    {
-                        case KeyboardButtonCode.KC_RETURN:
-                            SetTarget(target);
-                            break;
-                        case KeyboardButtonCode.KC_ESCAPE:
-                            SetTarget(null);
-                            break;
-                        case KeyboardButtonCode.KC_UP:
-                            NextTarget();
-                            break;
-                        case KeyboardButtonCode.KC_DOWN:
-                            PreviousTarget();
-                            break;
-                        case KeyboardButtonCode.KC_LEFT:
-                        case KeyboardButtonCode.KC_RIGHT:
-                            ChangeRow();
-                            break;
-                        case KeyboardButtonCode.KC_LSHIFT:
-                            battleManager.SwitchPlayer();
-                            SetTarget(null);
-                            break;
-                    }
-                    break;
+                SetTarget(target);
+            }
+            else if (sharpGui.Button(nextTargetButton))
+            {
+                NextTarget();
+            }
+            else if (sharpGui.Button(previousTargetButton))
+            {
+                PreviousTarget();
+            }
+            else
+            {
+                switch (sharpGui.GamepadButtonEntered)
+                {
+                    case GamepadButtonCode.XInput_A:
+                        SetTarget(target);
+                        break;
+                    case GamepadButtonCode.XInput_B:
+                        SetTarget(null);
+                        break;
+                    case GamepadButtonCode.XInput_DPadUp:
+                        NextTarget();
+                        break;
+                    case GamepadButtonCode.XInput_DPadDown:
+                        PreviousTarget();
+                        break;
+                    case GamepadButtonCode.XInput_DPadLeft:
+                    case GamepadButtonCode.XInput_DPadRight:
+                        ChangeRow();
+                        break;
+                    case GamepadButtonCode.XInput_Y:
+                        battleManager.SwitchPlayer();
+                        SetTarget(null);
+                        break;
+                    default:
+                        //Handle keyboard
+                        switch (sharpGui.KeyEntered)
+                        {
+                            case KeyboardButtonCode.KC_RETURN:
+                                SetTarget(target);
+                                break;
+                            case KeyboardButtonCode.KC_ESCAPE:
+                                SetTarget(null);
+                                break;
+                            case KeyboardButtonCode.KC_UP:
+                                NextTarget();
+                                break;
+                            case KeyboardButtonCode.KC_DOWN:
+                                PreviousTarget();
+                                break;
+                            case KeyboardButtonCode.KC_LEFT:
+                            case KeyboardButtonCode.KC_RIGHT:
+                                ChangeRow();
+                                break;
+                            case KeyboardButtonCode.KC_LSHIFT:
+                                battleManager.SwitchPlayer();
+                                SetTarget(null);
+                                break;
+                        }
+                        break;
+                }
             }
         }
 

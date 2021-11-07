@@ -268,7 +268,7 @@ namespace SceneTest.Battle
                         targetPos = target.CursorDisplayLocation;
                     }
                     
-                    cursor.UpdateCursor(this, sharpGui, target, targetPos);
+                    cursor.UpdateCursor(this, target, targetPos);
                 }
                 else
                 {
