@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using RpgMath;
 using SceneTest.Battle;
+using SceneTest.Exploration.Menu;
 using SceneTest.GameOver;
 using System;
 using System.Globalization;
@@ -114,6 +115,7 @@ namespace SceneTest
             services.AddSingleton<IExplorationGameState, ExplorationGameState>();
             services.AddSingleton<Party>();
             services.AddSingleton<ISetupGameState, SetupGameState>();
+            services.AddSingleton<IExplorationMenu, ExplorationMenu>();
 
             return true;
         }

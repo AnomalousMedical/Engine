@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SceneTest
+namespace SceneTest.Exploration.Menu
 {
     class DebugGui : IDebugGui
     {
@@ -51,11 +51,9 @@ namespace SceneTest
             currentHour = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 10, 500, 35)), Max = 24 };
         }
 
-        public IDebugGui.Result Update()
+        public void Update(ExplorationGameState explorationGameState)
         {
             averageLevel.Text = $"Level: {party.ActiveCharacters.GetAverageLevel()}";
-
-            var result = IDebugGui.Result.None;
 
             var layout =
                 new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
@@ -69,7 +67,7 @@ namespace SceneTest
 
             if (sharpGui.Button(battle, navUp: goPreviousLevel.Id, navDown: levelUp.Id))
             {
-                result = IDebugGui.Result.StartBattle;
+                explorationGameState.RequestBattle();
             }
 
             if (sharpGui.Button(levelUp, navUp: battle.Id, navDown: goNextLevel.Id))
@@ -102,8 +100,6 @@ namespace SceneTest
             }
             var time = TimeSpan.FromMilliseconds(timeClock.CurrentTimeMicro * Clock.MicroToMilliseconds);
             sharpGui.Text(currentHour.Rect.Right, currentHour.Rect.Top, timeClock.IsDay ? Engine.Color.Black : Engine.Color.White, $"Time: {time}");
-
-            return result;
         }
     }
 }

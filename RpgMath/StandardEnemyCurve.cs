@@ -722,6 +722,9 @@ namespace RpgMath
                     break;
             }
 
+            //temp bonus xp
+            value *= 100;
+
             return value;
         }
 

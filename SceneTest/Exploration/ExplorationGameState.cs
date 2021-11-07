@@ -1,6 +1,7 @@
 ﻿using BepuPlugin;
 using Engine;
 using Engine.Platform;
+using SceneTest.Exploration.Menu;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +17,9 @@ namespace SceneTest
         private readonly IBattleTrigger battleTrigger;
         private readonly ILevelManager levelManager;
         private readonly SceneObjectManager<ILevelManager> sceneObjects;
-        private readonly IDebugGui debugGui;
+        private readonly IExplorationMenu explorationMenu;
         private IGameState battleState;
-        private bool showDebugGui = true;
+        private IGameState nextState; //This is changed per update to be the next game state
 
         public ExplorationGameState(
             ICoroutineRunner coroutineRunner,
@@ -26,14 +27,14 @@ namespace SceneTest
             IBattleTrigger battleTrigger,
             ILevelManager levelManager,
             SceneObjectManager<ILevelManager> sceneObjects,
-            IDebugGui debugGui)
+            IExplorationMenu explorationMenu)
         {
             this.coroutineRunner = coroutineRunner;
             this.bepuScene = bepuScene;
             this.battleTrigger = battleTrigger;
             this.levelManager = levelManager;
             this.sceneObjects = sceneObjects;
-            this.debugGui = debugGui;
+            this.explorationMenu = explorationMenu;
 
             coroutineRunner.RunTask(levelManager.Restart());
         }
@@ -51,27 +52,28 @@ namespace SceneTest
             levelManager.StopPlayer();
         }
 
+        public void RequestBattle()
+        {
+            nextState = battleState;
+        }
+
         public IGameState Update(Clock clock)
         {
-            IGameState nextState = this;
+            nextState = this;
 
-            if (battleTrigger.UpdateRandomEncounter(clock, levelManager.IsPlayerMoving))
+            if (explorationMenu.Update(this))
             {
-                nextState = battleState;
+                //If menu did something
             }
             else
             {
-                bepuScene.Update(clock, new System.Numerics.Vector3(0, 0, 1));
-            }
-
-            if (showDebugGui)
-            {
-                var result = this.debugGui.Update();
-                switch (result)
+                if (battleTrigger.UpdateRandomEncounter(clock, levelManager.IsPlayerMoving))
                 {
-                    case IDebugGui.Result.StartBattle:
-                        nextState = battleState;
-                        break;
+                    nextState = battleState;
+                }
+                else
+                {
+                    bepuScene.Update(clock, new System.Numerics.Vector3(0, 0, 1));
                 }
             }
 

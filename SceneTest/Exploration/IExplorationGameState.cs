@@ -3,5 +3,7 @@
     interface IExplorationGameState : IGameState
     {
         void Link(IGameState battleState);
+
+        void RequestBattle();
     }
 }
