@@ -9,14 +9,20 @@ namespace SceneTest.Exploration.Menu
 {
     class ExplorationMenu : IExplorationMenu
     {
-        private bool visible;
         private readonly ISharpGui sharpGui;
         private readonly IDebugGui debugGui;
+        private readonly IRootMenu rootMenu;
+        
+        private IExplorationSubMenu currentMenu = null;
 
-        public ExplorationMenu(ISharpGui sharpGui, IDebugGui debugGui)
+        public IDebugGui DebugGui => debugGui;
+        public IRootMenu RootMenu => rootMenu;
+
+        public ExplorationMenu(ISharpGui sharpGui, IDebugGui debugGui, IRootMenu rootMenu)
         {
             this.sharpGui = sharpGui;
             this.debugGui = debugGui;
+            this.rootMenu = rootMenu;
         }
 
         /// <summary>
@@ -25,24 +31,26 @@ namespace SceneTest.Exploration.Menu
         /// <returns></returns>
         public bool Update(ExplorationGameState explorationGameState)
         {
-            bool handled = visible;
-            if (visible)
+            bool handled = false;
+            if (currentMenu != null)
             {
-                debugGui.Update(explorationGameState);
-                if (sharpGui.GamepadButtonEntered == Engine.Platform.GamepadButtonCode.XInput_B || sharpGui.KeyEntered == Engine.Platform.KeyboardButtonCode.KC_ESCAPE)
-                {
-                    visible = false;
-                }
+                handled = true;
+                currentMenu.Update(explorationGameState, this);
             }
             else
             {
                 if (sharpGui.GamepadButtonEntered == Engine.Platform.GamepadButtonCode.XInput_Y || sharpGui.KeyEntered == Engine.Platform.KeyboardButtonCode.KC_TAB)
                 {
-                    visible = true;
+                    RequsetSubMenu(rootMenu);
                     handled = true;
                 }
             }
             return handled;
+        }
+
+        public void RequsetSubMenu(IExplorationSubMenu subMenu)
+        {
+            currentMenu = subMenu;
         }
     }
 }

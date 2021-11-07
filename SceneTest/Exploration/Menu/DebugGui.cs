@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SceneTest.Exploration.Menu
 {
-    class DebugGui : IDebugGui
+    class DebugGui : IDebugGui, IExplorationSubMenu
     {
         private readonly ISharpGui sharpGui;
         private readonly IScaleHelper scaleHelper;
@@ -51,7 +51,7 @@ namespace SceneTest.Exploration.Menu
             currentHour = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 10, 500, 35)), Max = 24 };
         }
 
-        public void Update(ExplorationGameState explorationGameState)
+        public void Update(IExplorationGameState explorationGameState, IExplorationMenu explorationMenu)
         {
             averageLevel.Text = $"Level: {party.ActiveCharacters.GetAverageLevel()}";
 
@@ -59,7 +59,7 @@ namespace SceneTest.Exploration.Menu
                 new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
                 new MaxWidthLayout(scaleHelper.Scaled(300),
                 new ColumnLayout(averageLevel, battle, levelUp, goNextLevel, goPreviousLevel/*, toggleCamera*/) { Margin = new IntPad(10) }
-                ));
+            ));
             var desiredSize = layout.GetDesiredSize(sharpGui);
             layout.SetRect(screenPositioner.GetBottomRightRect(desiredSize));
 
@@ -100,6 +100,11 @@ namespace SceneTest.Exploration.Menu
             }
             var time = TimeSpan.FromMilliseconds(timeClock.CurrentTimeMicro * Clock.MicroToMilliseconds);
             sharpGui.Text(currentHour.Rect.Right, currentHour.Rect.Top, timeClock.IsDay ? Engine.Color.Black : Engine.Color.White, $"Time: {time}");
+
+            if (sharpGui.GamepadButtonEntered == GamepadButtonCode.XInput_B || sharpGui.KeyEntered == KeyboardButtonCode.KC_ESCAPE)
+            {
+                explorationMenu.RequsetSubMenu(explorationMenu.RootMenu);
+            }
         }
     }
 }

@@ -66,6 +66,7 @@ namespace SceneTest
             services.AddSingleton<SceneTestUpdateListener>();
             services.AddSingleton<ITimeClock, TimeClock>();
             services.AddSingleton<IDebugGui, DebugGui>();
+            services.AddSingleton<IRootMenu, RootMenu>();
             services.AddSingleton<IBattleGameState, BattleGameState>();
             services.AddSingleton<IEnvMapManager, EnvMapManager>();
             services.AddSingleton<SpriteManager>();
