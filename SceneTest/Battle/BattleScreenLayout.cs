@@ -47,14 +47,18 @@ namespace SceneTest.Battle
         {
             battleMenuColumn.Add(items);
             var desiredSize = battleMenuLayout.GetDesiredSize(sharpGui);
-            battleMenuLayout.SetRect(screenPositioner.GetBottomLeftRect(desiredSize));
+            var rect = screenPositioner.GetBottomRightRect(desiredSize);
+            rect.Left -= infoColumnRect.Width;
+            battleMenuLayout.SetRect(rect);
             battleMenuColumn.Clear();
         }
 
+        private IntRect infoColumnRect;
         public void LayoutCommonItems()
         {
             var desiredSize = infoColumnLayout.GetDesiredSize(sharpGui);
-            infoColumnLayout.SetRect(screenPositioner.GetBottomRightRect(desiredSize));
+            infoColumnRect = screenPositioner.GetBottomRightRect(desiredSize);
+            infoColumnLayout.SetRect(infoColumnRect);
         }
 
         public ColumnLayout InfoColumn => infoColumn;

@@ -220,10 +220,12 @@ namespace SceneTest.Battle
                 if (guiActive)
                 {
                     this.sceneObject.position = this.startPosition + new Vector3(-1f, 0f, 0f);
+                    name.Color = Color.LightBlue;
                 }
                 else
                 {
                     this.sceneObject.position = this.startPosition;
+                    name.Color = Color.White;
                 }
                 Sprite_FrameChanged(sprite);
             }
