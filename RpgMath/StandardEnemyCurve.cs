@@ -305,52 +305,52 @@ namespace RpgMath
             if (level < 10)
             {
                 //1-10
-                value = (long)NumberFunctions.lerp(50f, 50f, (level) / 10f);
+                value = (long)NumberFunctions.lerp(2f, 11f, (level) / 10f);
             }
             else if (level < 20)
             {
                 //10-20
-                value = (long)NumberFunctions.lerp(50f, 50f, (level - 10) / 10f);
+                value = (long)NumberFunctions.lerp(11f, 20f, (level - 10) / 10f);
             }
             else if (level < 30)
             {
                 //20-30
-                value = (long)NumberFunctions.lerp(50f, 58f, (level - 20) / 10f);
+                value = (long)NumberFunctions.lerp(20f, 28f, (level - 20) / 10f);
             }
             else if (level < 40)
             {
                 //30-40
-                value = (long)NumberFunctions.lerp(58f, 75f, (level - 30) / 10f);
+                value = (long)NumberFunctions.lerp(28f, 36f, (level - 30) / 10f);
             }
             else if (level < 50)
             {
                 //40-50
-                value = (long)NumberFunctions.lerp(75f, 100f, (level - 40) / 10f);
+                value = (long)NumberFunctions.lerp(36f, 44f, (level - 40) / 10f);
             }
             else if (level < 60)
             {
                 //50-60
-                value = (long)NumberFunctions.lerp(100f, 120f, (level - 50) / 10f);
+                value = (long)NumberFunctions.lerp(44f, 49f, (level - 50) / 10f);
             }
             else if (level < 70)
             {
                 //60-70
-                value = (long)NumberFunctions.lerp(120f, 140f, (level - 60) / 10f);
+                value = (long)NumberFunctions.lerp(49f, 51f, (level - 60) / 10f);
             }
             else if (level < 80)
             {
                 //70-80
-                value = (long)NumberFunctions.lerp(140f, 158f, (level - 70) / 10f);
+                value = (long)NumberFunctions.lerp(51f, 53f, (level - 70) / 10f);
             }
             else if (level < 90)
             {
                 //80-90
-                value = (long)NumberFunctions.lerp(158f, 175f, (level - 80) / 10f);
+                value = (long)NumberFunctions.lerp(53f, 55f, (level - 80) / 10f);
             }
             else if (level < 100)
             {
                 //90-99
-                value = (long)NumberFunctions.lerp(175f, 200f, (level - 90) / 10f);
+                value = (long)NumberFunctions.lerp(55f, 57f, (level - 90) / 10f);
             }
             else
             {
