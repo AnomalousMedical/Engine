@@ -68,6 +68,7 @@ namespace SceneTest.Exploration.Menu
             if (sharpGui.Button(battle, navUp: goPreviousLevel.Id, navDown: levelUp.Id))
             {
                 explorationGameState.RequestBattle();
+                explorationMenu.RequsetSubMenu(null);
             }
 
             if (sharpGui.Button(levelUp, navUp: battle.Id, navDown: goNextLevel.Id))
@@ -81,11 +82,13 @@ namespace SceneTest.Exploration.Menu
             if (!levelManager.ChangingLevels && sharpGui.Button(goNextLevel, navUp: levelUp.Id, navDown: goPreviousLevel.Id))
             {
                 coroutineRunner.RunTask(levelManager.GoNextLevel());
+                explorationMenu.RequsetSubMenu(null);
             }
 
             if (!levelManager.ChangingLevels && sharpGui.Button(goPreviousLevel, navUp: goNextLevel.Id, navDown: battle.Id))
             {
                 coroutineRunner.RunTask(levelManager.GoPreviousLevel());
+                explorationMenu.RequsetSubMenu(null);
             }
 
             //if (sharpGui.Button(toggleCamera, navUp: goPreviousLevel.Id, navDown: battle.Id))
