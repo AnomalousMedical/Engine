@@ -51,6 +51,14 @@ namespace RogueLikeMapBuilder
 
         public List<Point> Corridors => lBuilltCorridors;
 
+        public UInt16 WestConnectorIndex { get; private set; } = NullCell;
+
+        public UInt16 EastConnectorIndex { get; private set; } = NullCell;
+
+        public UInt16 NorthConnectorIndex { get; private set; } = NullCell;
+
+        public UInt16 SouthConnectorIndex { get; private set; } = NullCell;
+
 
         #region builder public properties
 
@@ -133,6 +141,7 @@ namespace RogueLikeMapBuilder
         public const UInt16 CorridorCell = UInt16.MaxValue / 3;
         public const UInt16 OtherCorridorCell = (UInt16)((int)UInt16.MaxValue * 2 / 3);
         public const UInt16 MainCorridorCell = CorridorCell;
+        public const UInt16 NullCell = UInt16.MaxValue;
 
         private UInt16 currentRoomCell = RoomCell;
         private UInt16 currentCorridorCell = CorridorCell;
@@ -327,6 +336,8 @@ namespace RogueLikeMapBuilder
 
             if (lPotentialCorridor.Count > 0)
             {
+                NorthConnectorIndex = currentCorridorCell;
+                corridorTerminatingRooms[currentCorridorCell] = map[x, y];
                 Corridor_Build(true);
             }
         }
@@ -365,6 +376,8 @@ namespace RogueLikeMapBuilder
 
             if (lPotentialCorridor.Count > 0)
             {
+                SouthConnectorIndex = currentCorridorCell;
+                corridorTerminatingRooms[currentCorridorCell] = map[x, y];
                 Corridor_Build(true);
             }
         }
@@ -403,6 +416,8 @@ namespace RogueLikeMapBuilder
 
             if (lPotentialCorridor.Count > 0)
             {
+                WestConnectorIndex = currentCorridorCell;
+                corridorTerminatingRooms[currentCorridorCell] = map[x, y];
                 Corridor_Build(true);
             }
         }
@@ -442,6 +457,8 @@ namespace RogueLikeMapBuilder
 
             if (lPotentialCorridor.Count > 0)
             {
+                EastConnectorIndex = currentCorridorCell;
+                corridorTerminatingRooms[currentCorridorCell] = map[x, y];
                 Corridor_Build(true);
             }
         }

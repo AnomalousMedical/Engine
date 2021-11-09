@@ -104,6 +104,17 @@ namespace DungeonGenerator
                                 {
                                     previousCorridor = new IntVector2(mapX - 1, mapY);
                                 }
+                                else
+                                {
+                                    //Do a special check for the north, south, east, west connecting corridors
+                                    //Use their terminating rooms as the room previous as well
+                                    if (cellType == mapbuilder.WestConnectorIndex || cellType == mapbuilder.EastConnectorIndex || cellType == mapbuilder.NorthConnectorIndex || cellType == mapbuilder.SouthConnectorIndex)
+                                    {
+                                        var roomId = mapbuilder.GetCorridorTerminatingRoom(cellType); //This is where you could handle connecting to a corridor too.
+                                        var room = mapbuilder.Rooms[roomId];
+                                        previousCorridor = new IntVector2(room.Left, room.Top);
+                                    }
+                                }
                             }
                         }
                     }
@@ -114,19 +125,22 @@ namespace DungeonGenerator
                     PreviousPoint = previousCorridor
                 };
                 previousCorridor = corridor;
-                if (north == cellType || north == csMapbuilder.EmptyCell)
+                if (cellType != mapbuilder.WestConnectorIndex && cellType != mapbuilder.EastConnectorIndex && cellType != mapbuilder.NorthConnectorIndex && cellType != mapbuilder.SouthConnectorIndex)
                 {
-                    if (south == cellType || south == csMapbuilder.EmptyCell)
+                    if (north == cellType || north == csMapbuilder.EmptyCell)
                     {
-                        if (east == cellType || east == csMapbuilder.EmptyCell)
+                        if (south == cellType || south == csMapbuilder.EmptyCell)
                         {
-                            if (west == cellType || west == csMapbuilder.EmptyCell)
+                            if (east == cellType || east == csMapbuilder.EmptyCell)
                             {
-                                //Allowed to slope if going in 1 direction, not a corner
-                                if ((north == cellType && south == cellType)
-                                    || (east == cellType && west == cellType))
+                                if (west == cellType || west == csMapbuilder.EmptyCell)
                                 {
-                                    slope.YOffset = corridorSlope;
+                                    //Allowed to slope if going in 1 direction, not a corner and not a connector corridor
+                                    if ((north == cellType && south == cellType)
+                                        || (east == cellType && west == cellType))
+                                    {
+                                        slope.YOffset = corridorSlope;
+                                    }
                                 }
                             }
                         }
@@ -368,13 +382,13 @@ namespace DungeonGenerator
                                     ++denominator;
                                 }
                             }
-                            
+
                             if (!finished)
                             {
                                 square.LeftFarY = accumulatedY / denominator;
                             }
                         }
-                        
+
                         {
                             bool finished = false;
                             float accumulatedY = square.RightFarY;
@@ -429,13 +443,13 @@ namespace DungeonGenerator
                                     ++denominator;
                                 }
                             }
-                            
+
                             if (!finished)
                             {
                                 square.RightFarY = accumulatedY / denominator;
                             }
                         }
-                        
+
                         {
                             bool finished = false;
                             float accumulatedY = square.RightNearY;
@@ -490,13 +504,13 @@ namespace DungeonGenerator
                                     ++denominator;
                                 }
                             }
-                            
+
                             if (!finished)
                             {
                                 square.RightNearY = accumulatedY / denominator;
                             }
                         }
-                        
+
                         {
                             bool finished = false;
                             float accumulatedY = square.LeftNearY;
@@ -551,7 +565,7 @@ namespace DungeonGenerator
                                     ++denominator;
                                 }
                             }
-                            
+
                             if (!finished)
                             {
                                 square.LeftNearY = accumulatedY / denominator;
