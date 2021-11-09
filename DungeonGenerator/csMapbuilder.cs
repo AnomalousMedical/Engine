@@ -357,13 +357,90 @@ namespace RogueLikeMapBuilder
 
             for (var fillY = 0; fillY < y; ++fillY)
             {
-                if(map[x, fillY] == csMapbuilder.EmptyCell)
+                if (map[x, fillY] == csMapbuilder.EmptyCell)
                 {
                     lPotentialCorridor.Add(new Point(x, fillY));
                 }
             }
 
-            if(lPotentialCorridor.Count > 0)
+            if (lPotentialCorridor.Count > 0)
+            {
+                Corridor_Build(true);
+            }
+        }
+
+        public void AddWestConnector()
+        {
+            var width = Map_Size.Width;
+            var height = Map_Size.Height;
+
+            bool looking = true;
+            int lookX = 0, lookY = 0;
+            int x = 0, y = 0;
+            for (lookX = 0; looking && lookX < width; ++lookX)
+            {
+                for (lookY = 0; looking && lookY < height; ++lookY)
+                {
+                    if (map[lookX, lookY] != csMapbuilder.EmptyCell)
+                    {
+                        x = lookX;
+                        y = lookY;
+                        looking = false;
+                    }
+                }
+            }
+
+            //Make sure there was nothing left over
+            lPotentialCorridor.Clear();
+
+            for (var fillX = 0; fillX < x; ++fillX)
+            {
+                if (map[fillX, y] == csMapbuilder.EmptyCell)
+                {
+                    lPotentialCorridor.Add(new Point(fillX, y));
+                }
+            }
+
+            if (lPotentialCorridor.Count > 0)
+            {
+                Corridor_Build(true);
+            }
+        }
+
+        public void AddEastConnector()
+        {
+            var width = Map_Size.Width;
+            var height = Map_Size.Height;
+            var startX = width - 1;
+
+            bool looking = true;
+            int lookX = startX, lookY = 0;
+            int x = startX, y = 0;
+            for (lookX = startX; looking && lookX > -1; --lookX)
+            {
+                for (lookY = 0; looking && lookY < height; ++lookY)
+                {
+                    if (map[lookX, lookY] != csMapbuilder.EmptyCell)
+                    {
+                        x = lookX;
+                        y = lookY;
+                        looking = false;
+                    }
+                }
+            }
+
+            //Make sure there was nothing left over
+            lPotentialCorridor.Clear();
+
+            for (var fillX = startX; fillX > x; --fillX)
+            {
+                if (map[fillX, y] == csMapbuilder.EmptyCell)
+                {
+                    lPotentialCorridor.Add(new Point(fillX, y));
+                }
+            }
+
+            if (lPotentialCorridor.Count > 0)
             {
                 Corridor_Build(true);
             }

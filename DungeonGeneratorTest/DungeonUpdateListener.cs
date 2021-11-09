@@ -64,7 +64,7 @@ namespace DungeonGeneratorTest
 
         private SharpButton nextScene = new SharpButton() { Text = "Next Scene" };
         private bool loadingLevel = false;
-        private int currentSeed = 18;
+        private int currentSeed = 20;
 
         //BEPU
         //If you intend to reuse the BufferPool, disposing the simulation is a good idea- it returns all the buffers to the pool for reuse.
@@ -135,6 +135,8 @@ namespace DungeonGeneratorTest
                     mapBuilder.Build_ConnectedStartRooms();
                     mapBuilder.AddNorthConnector();
                     mapBuilder.AddSouthConnector();
+                    mapBuilder.AddWestConnector();
+                    mapBuilder.AddEastConnector();
                     sw.Stop();
                     var map = mapBuilder.map;
                     var mapWidth = mapBuilder.Map_Size.Width;
