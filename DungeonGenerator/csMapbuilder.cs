@@ -296,21 +296,61 @@ namespace RogueLikeMapBuilder
         {
             var width = Map_Size.Width;
             var height = Map_Size.Height;
+            var yStart = height - 1;
 
             bool looking = true;
+            int lookX = 0, lookY = yStart;
             int x = 0, y = 0;
-            for (y = 0; looking && y < height; ++y)
+            for (lookY = yStart; looking && lookY > -1; --lookY)
             {
-                for (x = 0; looking && x < width; ++x)
+                for (lookX = 0; looking && lookX < width; ++lookX)
                 {
-                    if (map[x, y] != csMapbuilder.EmptyCell)
+                    if (map[lookX, lookY] != csMapbuilder.EmptyCell)
                     {
+                        x = lookX;
+                        y = lookY;
                         looking = false;
                     }
                 }
             }
 
-            ++y; //Increase y so it works like a max
+            //Make sure there was nothing left over
+            lPotentialCorridor.Clear();
+
+            for (var fillY = yStart; fillY > y; --fillY)
+            {
+                if (map[x, fillY] == csMapbuilder.EmptyCell)
+                {
+                    lPotentialCorridor.Add(new Point(x, fillY));
+                }
+            }
+
+            if (lPotentialCorridor.Count > 0)
+            {
+                Corridor_Build(true);
+            }
+        }
+
+        public void AddSouthConnector()
+        {
+            var width = Map_Size.Width;
+            var height = Map_Size.Height;
+
+            bool looking = true;
+            int lookX = 0, lookY = 0;
+            int x = 0, y = 0;
+            for (lookY = 0; looking && lookY < height; ++lookY)
+            {
+                for (lookX = 0; looking && lookX < width; ++lookX)
+                {
+                    if (map[lookX, lookY] != csMapbuilder.EmptyCell)
+                    {
+                        x = lookX;
+                        y = lookY;
+                        looking = false;
+                    }
+                }
+            }
 
             //Make sure there was nothing left over
             lPotentialCorridor.Clear();

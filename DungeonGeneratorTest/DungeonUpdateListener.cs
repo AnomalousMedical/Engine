@@ -134,6 +134,7 @@ namespace DungeonGeneratorTest
                     mapBuilder.Horizontal = false;
                     mapBuilder.Build_ConnectedStartRooms();
                     mapBuilder.AddNorthConnector();
+                    mapBuilder.AddSouthConnector();
                     sw.Stop();
                     var map = mapBuilder.map;
                     var mapWidth = mapBuilder.Map_Size.Width;
@@ -186,7 +187,7 @@ namespace DungeonGeneratorTest
                     Console.WriteLine(mapBuilder.EndRoom);
                     Console.WriteLine("--------------------------------------------------");
 
-                    newMapMesh = new MapMesh(mapBuilder, random, renderDevice);
+                    newMapMesh = new MapMesh(mapBuilder, random, renderDevice, mapUnitY: 0.1f);
                     loadingLevel = false;
                 });
 
