@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29123.88
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Engine", "Engine\Engine.csproj", "{57C253F1-157F-4A6A-9FED-345A776B97D5}"
 EndProject
@@ -1012,8 +1012,8 @@ Global
 		{57D5DDE1-5ED0-47B8-835F-25A3C05A62B0}.DebugAOT|x86.Build.0 = Debug|Any CPU
 		{57D5DDE1-5ED0-47B8-835F-25A3C05A62B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57D5DDE1-5ED0-47B8-835F-25A3C05A62B0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{57D5DDE1-5ED0-47B8-835F-25A3C05A62B0}.Release|x64.ActiveCfg = ReleaseStrip|Any CPU
-		{57D5DDE1-5ED0-47B8-835F-25A3C05A62B0}.Release|x64.Build.0 = ReleaseStrip|Any CPU
+		{57D5DDE1-5ED0-47B8-835F-25A3C05A62B0}.Release|x64.ActiveCfg = Release|Any CPU
+		{57D5DDE1-5ED0-47B8-835F-25A3C05A62B0}.Release|x64.Build.0 = Release|Any CPU
 		{57D5DDE1-5ED0-47B8-835F-25A3C05A62B0}.Release|x86.ActiveCfg = Release|Any CPU
 		{57D5DDE1-5ED0-47B8-835F-25A3C05A62B0}.Release|x86.Build.0 = Release|Any CPU
 		{57D5DDE1-5ED0-47B8-835F-25A3C05A62B0}.ReleaseAOT|Any CPU.ActiveCfg = Release|Any CPU
@@ -1054,8 +1054,8 @@ Global
 		{71DFC188-91D5-446A-B3B8-22C7F8392C59}.DebugAOT|x86.Build.0 = Debug|Any CPU
 		{71DFC188-91D5-446A-B3B8-22C7F8392C59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71DFC188-91D5-446A-B3B8-22C7F8392C59}.Release|Any CPU.Build.0 = Release|Any CPU
-		{71DFC188-91D5-446A-B3B8-22C7F8392C59}.Release|x64.ActiveCfg = ReleaseStrip|Any CPU
-		{71DFC188-91D5-446A-B3B8-22C7F8392C59}.Release|x64.Build.0 = ReleaseStrip|Any CPU
+		{71DFC188-91D5-446A-B3B8-22C7F8392C59}.Release|x64.ActiveCfg = Release|Any CPU
+		{71DFC188-91D5-446A-B3B8-22C7F8392C59}.Release|x64.Build.0 = Release|Any CPU
 		{71DFC188-91D5-446A-B3B8-22C7F8392C59}.Release|x86.ActiveCfg = Release|Any CPU
 		{71DFC188-91D5-446A-B3B8-22C7F8392C59}.Release|x86.Build.0 = Release|Any CPU
 		{71DFC188-91D5-446A-B3B8-22C7F8392C59}.ReleaseAOT|Any CPU.ActiveCfg = Release|Any CPU

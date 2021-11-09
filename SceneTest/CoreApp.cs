@@ -134,7 +134,7 @@ namespace SceneTest
             if (!Directory.Exists(assetPath))
             {
                 //If no local assets, load from dev location
-                assetPath = Path.GetFullPath("../../../../../Engine-Next-Assets");
+                assetPath = Path.GetFullPath("../../../../../../Engine-Next-Assets");
             }
             vfs.addArchive(assetPath);
 
