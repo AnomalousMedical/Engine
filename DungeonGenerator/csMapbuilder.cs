@@ -292,6 +292,43 @@ namespace RogueLikeMapBuilder
 
         }
 
+        public void AddNorthConnector()
+        {
+            var width = Map_Size.Width;
+            var height = Map_Size.Height;
+
+            bool looking = true;
+            int x = 0, y = 0;
+            for (y = 0; looking && y < height; ++y)
+            {
+                for (x = 0; looking && x < width; ++x)
+                {
+                    if (map[x, y] != csMapbuilder.EmptyCell)
+                    {
+                        looking = false;
+                    }
+                }
+            }
+
+            ++y; //Increase y so it works like a max
+
+            //Make sure there was nothing left over
+            lPotentialCorridor.Clear();
+
+            for (var fillY = 0; fillY < y; ++fillY)
+            {
+                if(map[x, fillY] == csMapbuilder.EmptyCell)
+                {
+                    lPotentialCorridor.Add(new Point(x, fillY));
+                }
+            }
+
+            if(lPotentialCorridor.Count > 0)
+            {
+                Corridor_Build(true);
+            }
+        }
+
         /// <summary>
         /// Get the terminating room for the given corridor id. If the corridor does not terminate in a room
         /// you will get <see cref="csMapbuilder.CorridorCell"/>. This does not mean that it terminates in that

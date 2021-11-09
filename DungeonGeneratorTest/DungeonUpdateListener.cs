@@ -22,7 +22,8 @@ namespace DungeonGeneratorTest
 {
     class BepuUpdateListener : UpdateListener, IDisposable
     {
-        private const string CC0TexturePath = "cc0Textures/Wood049_1K";
+        private const string FloorTexturePath = "cc0Textures/Wood049_1K";
+        private const string WallTexturePath = "cc0Textures/Ground042_1K";
 
         //Camera Settings
         float YFov = MathFloat.PI / 4.0f;
@@ -56,7 +57,8 @@ namespace DungeonGeneratorTest
 
         private PbrRenderer pbrRenderer;
         private AutoPtr<ITextureView> environmentMapSRV;
-        private AutoPtr<IShaderResourceBinding> pboMatBinding;
+        private AutoPtr<IShaderResourceBinding> floorTexture;
+        private AutoPtr<IShaderResourceBinding> wallTexture;
 
         private MapMesh mapMesh;
 
@@ -131,6 +133,7 @@ namespace DungeonGeneratorTest
                     mapBuilder.Corridor_Max = 4;
                     mapBuilder.Horizontal = false;
                     mapBuilder.Build_ConnectedStartRooms();
+                    mapBuilder.AddNorthConnector();
                     sw.Stop();
                     var map = mapBuilder.map;
                     var mapWidth = mapBuilder.Map_Size.Width;
@@ -203,7 +206,8 @@ namespace DungeonGeneratorTest
 
             mapMesh?.Dispose();
 
-            pboMatBinding.Dispose();
+            floorTexture.Dispose();
+            wallTexture.Dispose();
             environmentMapSRV.Dispose();
         }
 
@@ -238,14 +242,24 @@ namespace DungeonGeneratorTest
 
         private unsafe void LoadCCoTexture()
         {
-            using var ccoTextures = cc0TextureLoader.LoadTextureSet(CC0TexturePath);
-            pboMatBinding = pbrRenderer.CreateMaterialSRB(
+            using var floorTextures = cc0TextureLoader.LoadTextureSet(FloorTexturePath);
+            floorTexture = pbrRenderer.CreateMaterialSRB(
                 pCameraAttribs: pbrCameraAndLight.CameraAttribs,
                 pLightAttribs: pbrCameraAndLight.LightAttribs,
-                baseColorMap: ccoTextures.BaseColorMap,
-                normalMap: ccoTextures.NormalMap,
-                physicalDescriptorMap: ccoTextures.PhysicalDescriptorMap,
-                aoMap: ccoTextures.AmbientOcclusionMap
+                baseColorMap: floorTextures.BaseColorMap,
+                normalMap: floorTextures.NormalMap,
+                physicalDescriptorMap: floorTextures.PhysicalDescriptorMap,
+                aoMap: floorTextures.AmbientOcclusionMap
+            );
+
+            using var wallTextures = cc0TextureLoader.LoadTextureSet(WallTexturePath);
+            wallTexture = pbrRenderer.CreateMaterialSRB(
+                pCameraAttribs: pbrCameraAndLight.CameraAttribs,
+                pLightAttribs: pbrCameraAndLight.LightAttribs,
+                baseColorMap: wallTextures.BaseColorMap,
+                normalMap: wallTextures.NormalMap,
+                physicalDescriptorMap: wallTextures.PhysicalDescriptorMap,
+                aoMap: wallTextures.AmbientOcclusionMap
             );
         }
 
@@ -334,15 +348,15 @@ namespace DungeonGeneratorTest
             cubeOrientation = Quaternion.Identity;
 
             pbrRenderer.Begin(immediateContext);
-            pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, ref cubePosition, ref cubeOrientation, pbrRenderAttribs);
+            pbrRenderer.Render(immediateContext, floorTexture.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, ref cubePosition, ref cubeOrientation, pbrRenderAttribs);
 
             if (mapMesh != null)
             {
                 var mesh = mapMesh.FloorMesh;
-                pbrRenderer.Render(immediateContext, pboMatBinding.Obj, mesh.VertexBuffer, mesh.SkinVertexBuffer, mesh.IndexBuffer, mesh.NumIndices, ref Vector3.Zero, ref Quaternion.Identity, pbrRenderAttribs);
+                pbrRenderer.Render(immediateContext, floorTexture.Obj, mesh.VertexBuffer, mesh.SkinVertexBuffer, mesh.IndexBuffer, mesh.NumIndices, ref Vector3.Zero, ref Quaternion.Identity, pbrRenderAttribs);
 
                 mesh = mapMesh.WallMesh;
-                pbrRenderer.Render(immediateContext, pboMatBinding.Obj, mesh.VertexBuffer, mesh.SkinVertexBuffer, mesh.IndexBuffer, mesh.NumIndices, ref Vector3.Zero, ref Quaternion.Identity, pbrRenderAttribs);
+                pbrRenderer.Render(immediateContext, wallTexture.Obj, mesh.VertexBuffer, mesh.SkinVertexBuffer, mesh.IndexBuffer, mesh.NumIndices, ref Vector3.Zero, ref Quaternion.Identity, pbrRenderAttribs);
             }
 
             RenderGui();
