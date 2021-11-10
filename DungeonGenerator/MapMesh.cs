@@ -110,7 +110,7 @@ namespace DungeonGenerator
                                     //Use their terminating rooms as the room previous as well
                                     if (cellType == mapbuilder.WestConnectorIndex || cellType == mapbuilder.EastConnectorIndex || cellType == mapbuilder.NorthConnectorIndex || cellType == mapbuilder.SouthConnectorIndex)
                                     {
-                                        var roomId = mapbuilder.GetCorridorTerminatingRoom(cellType); //This is where you could handle connecting to a corridor too.
+                                        var roomId = mapbuilder.GetCorridorTerminatingRoom(cellType);
                                         var room = mapbuilder.Rooms[roomId];
                                         previousCorridor = new IntVector2(room.Left, room.Top);
                                     }

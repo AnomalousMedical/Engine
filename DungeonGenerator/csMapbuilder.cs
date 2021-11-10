@@ -314,7 +314,8 @@ namespace RogueLikeMapBuilder
             {
                 for (lookX = 0; looking && lookX < width; ++lookX)
                 {
-                    if (map[lookX, lookY] != csMapbuilder.EmptyCell)
+                    var cell = map[lookX, lookY];
+                    if (cell >= RoomCell && cell < CorridorCell)
                     {
                         x = lookX;
                         y = lookY;
@@ -354,7 +355,8 @@ namespace RogueLikeMapBuilder
             {
                 for (lookX = 0; looking && lookX < width; ++lookX)
                 {
-                    if (map[lookX, lookY] != csMapbuilder.EmptyCell)
+                    var cell = map[lookX, lookY];
+                    if (cell >= RoomCell && cell < CorridorCell)
                     {
                         x = lookX;
                         y = lookY;
@@ -394,7 +396,8 @@ namespace RogueLikeMapBuilder
             {
                 for (lookY = 0; looking && lookY < height; ++lookY)
                 {
-                    if (map[lookX, lookY] != csMapbuilder.EmptyCell)
+                    var cell = map[lookX, lookY];
+                    if (cell >= RoomCell && cell < CorridorCell)
                     {
                         x = lookX;
                         y = lookY;
@@ -435,7 +438,8 @@ namespace RogueLikeMapBuilder
             {
                 for (lookY = 0; looking && lookY < height; ++lookY)
                 {
-                    if (map[lookX, lookY] != csMapbuilder.EmptyCell)
+                    var cell = map[lookX, lookY];
+                    if (cell >= RoomCell && cell < CorridorCell)
                     {
                         x = lookX;
                         y = lookY;

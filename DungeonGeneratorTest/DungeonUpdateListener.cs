@@ -133,8 +133,8 @@ namespace DungeonGeneratorTest
                     mapBuilder.Corridor_Max = 4;
                     mapBuilder.Horizontal = false;
                     mapBuilder.Build_ConnectedStartRooms();
-                    //mapBuilder.AddNorthConnector();
-                    //mapBuilder.AddSouthConnector();
+                    mapBuilder.AddNorthConnector();
+                    mapBuilder.AddSouthConnector();
                     mapBuilder.AddWestConnector();
                     mapBuilder.AddEastConnector();
                     sw.Stop();
