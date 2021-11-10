@@ -33,7 +33,7 @@ namespace DungeonGeneratorTest
         {
             mainWindow = EasyNativeWindow.Create(services, this, o =>
             {
-                o.Title = "BEPU Physics 2";
+                o.Title = "Dungeon Generator Test";
             });
 
             services.AddLogging(o =>
