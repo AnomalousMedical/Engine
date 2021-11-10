@@ -22,6 +22,8 @@ namespace SceneTest.Exploration.Menu
         private readonly ILevelCalculator levelCalculator;
         SharpButton goNextLevel = new SharpButton() { Text = "Next Stage" };
         SharpButton goPreviousLevel = new SharpButton() { Text = "Previous Stage" };
+        SharpButton goStart = new SharpButton() { Text = "Go Start" };
+        SharpButton goEnd = new SharpButton() { Text = "Go End" };
         //SharpButton toggleCamera = new SharpButton() { Text = "Toggle Camera" };
         SharpButton levelUp = new SharpButton() { Text = "Level Up" };
         SharpButton battle = new SharpButton() { Text = "Battle" };
@@ -58,7 +60,7 @@ namespace SceneTest.Exploration.Menu
             var layout =
                 new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
                 new MaxWidthLayout(scaleHelper.Scaled(300),
-                new ColumnLayout(averageLevel, battle, levelUp, goNextLevel, goPreviousLevel/*, toggleCamera*/) { Margin = new IntPad(10) }
+                new ColumnLayout(averageLevel, battle, levelUp, goStart, goEnd, goNextLevel, goPreviousLevel /*, toggleCamera*/) { Margin = new IntPad(10) }
             ));
             var desiredSize = layout.GetDesiredSize(sharpGui);
             layout.SetRect(screenPositioner.GetBottomRightRect(desiredSize));
@@ -71,7 +73,7 @@ namespace SceneTest.Exploration.Menu
                 explorationMenu.RequsetSubMenu(null);
             }
 
-            if (sharpGui.Button(levelUp, navUp: battle.Id, navDown: goNextLevel.Id))
+            if (sharpGui.Button(levelUp, navUp: battle.Id, navDown: goStart.Id))
             {
                 foreach(var c in party.ActiveCharacters)
                 {
@@ -79,7 +81,19 @@ namespace SceneTest.Exploration.Menu
                 }
             }
 
-            if (!levelManager.ChangingLevels && sharpGui.Button(goNextLevel, navUp: levelUp.Id, navDown: goPreviousLevel.Id))
+            if(sharpGui.Button(goStart, navUp: levelUp.Id, navDown: goEnd.Id))
+            {
+                levelManager.GoStartPoint();
+                explorationMenu.RequsetSubMenu(null);
+            }
+
+            if (sharpGui.Button(goEnd, navUp: goStart.Id, navDown: goNextLevel.Id))
+            {
+                levelManager.GoEndPoint();
+                explorationMenu.RequsetSubMenu(null);
+            }
+
+            if (!levelManager.ChangingLevels && sharpGui.Button(goNextLevel, navUp: goEnd.Id, navDown: goPreviousLevel.Id))
             {
                 coroutineRunner.RunTask(levelManager.GoNextLevel());
                 explorationMenu.RequsetSubMenu(null);

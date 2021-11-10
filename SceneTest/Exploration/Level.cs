@@ -125,6 +125,9 @@ namespace SceneTest
         public Vector3 StartPoint => startPointLocal + wallSceneObject.position;
         public Vector3 EndPoint => endPointLocal + wallSceneObject.position;
 
+        public Vector3 LocalStartPoint => startPointLocal;
+        public Vector3 LocalEndPoint => endPointLocal;
+
         public Level(
             SceneObjectManager<ILevelManager> sceneObjectManager,
             IDestructionRequest destructionRequest,
@@ -191,75 +194,16 @@ namespace SceneTest
                         Room_Min = description.RoomMin
                     };
                     mapBuilder.Build_ConnectedStartRooms();
-
-                    Rectangle eastmostRoom = new Rectangle(int.MaxValue, 0, 0, 0);
-                    Rectangle westmostRoom = new Rectangle(0, 0, 0, 0);
-                    foreach(var room in mapBuilder.Rooms)
-                    {
-                        if(room.Left < eastmostRoom.Left)
-                        {
-                            eastmostRoom = room;
-                        }
-                        if(room.Right > westmostRoom.Right)
-                        {
-                            westmostRoom = room;
-                        }
-                    }
+                    mapBuilder.AddEastConnector();
+                    mapBuilder.AddWestConnector();
 
                     mapMesh = new MapMesh(mapBuilder, random, graphicsEngine.RenderDevice, mapUnitX: description.MapUnitX, mapUnitY: description.MapUnitY, mapUnitZ: description.MapUnitZ);
-                    var startRoom = eastmostRoom;
-                    var startX = startRoom.Left;
-                    var startY = startRoom.Top + startRoom.Height / 2;
-                    if(startX > 0)
-                    {
-                        var xOffset = startX - 1;
-                        var cell = mapBuilder.map[xOffset, startY];
-                        if(cell >= csMapbuilder.CorridorCell)
-                        {
-                            startY = startRoom.Top;
-                            cell = mapBuilder.map[xOffset, startY];
-                            var bottom = startRoom.Bottom;
-                            while(cell >= csMapbuilder.CorridorCell && startY < startRoom.Bottom)
-                            {
-                                cell = mapBuilder.map[xOffset, ++startY];
-                            }
 
-                            if(startY == startRoom.Bottom)
-                            {
-                                //Pretty unlikely, but use center of room in this case, this means the whole east wall is corridors
-                                startX = startRoom.Left + startRoom.Width / 2;
-                                startY = startRoom.Top + startRoom.Height / 2;
-                            }
-                        }
-                    }
-                    startPointLocal = mapMesh.PointToVector(startX, startY);
+                    var startConnector = mapBuilder.WestConnector.Value;
+                    startPointLocal = mapMesh.PointToVector(startConnector.x, startConnector.y);
+                    var endConnector = mapBuilder.EastConnector.Value;
+                    endPointLocal = mapMesh.PointToVector(endConnector.x, endConnector.y);
 
-                    var endRoom = westmostRoom;
-                    var endX = endRoom.Right;
-                    var endY = endRoom.Top + endRoom.Height / 2;
-                    if (endX + 1 < mapBuilder.Map_Size.Width)
-                    {
-                        var xOffset = endX + 1;
-                        var cell = mapBuilder.map[xOffset, endY];
-                        if (cell >= csMapbuilder.CorridorCell)
-                        {
-                            endY = endRoom.Top;
-                            cell = mapBuilder.map[xOffset, endY];
-                            var bottom = endRoom.Bottom;
-                            while (cell >= csMapbuilder.CorridorCell && endY < endRoom.Bottom)
-                            {
-                                cell = mapBuilder.map[xOffset, ++endY];
-                            }
-
-                            if (endY == endRoom.Bottom)
-                            {
-                                //Pretty unlikely, but use center of room in this case, this means the whole east wall is corridors
-                                endX = endRoom.Left + endRoom.Width / 2;
-                                endY = endRoom.Top + endRoom.Height / 2;
-                            }
-                        }
-                    }
-                    endPointLocal = mapMesh.PointToVector(endX, endY);
                     sw.Stop();
                     logger.LogInformation($"Generated level {description.RandomSeed} in {sw.ElapsedMilliseconds} ms.");
                 });
@@ -272,18 +216,18 @@ namespace SceneTest
                 {
                     this.previousLevelConnector = objectResolver.Resolve<LevelConnector, LevelConnector.Description>(o =>
                     {
-                        o.Scale = new Vector3(description.MapUnitX, 0.05f, description.MapUnitZ);
+                        o.Scale = new Vector3(description.MapUnitX / 3f, 0.05f, description.MapUnitZ);
                         o.Texture = biome.FloorTexture;
-                        o.Translation = StartPoint + new Vector3(-(mapUnits.x / 2f + 0.5f), 0f, 0f);
+                        o.Translation = StartPoint + new Vector3(-(mapUnits.x / 2f), 0f, 0f);
                         o.GoPrevious = true;
                     });
                 }
 
                 this.nextLevelConnector = objectResolver.Resolve<LevelConnector, LevelConnector.Description>(o =>
                 {
-                    o.Scale = new Vector3(3.0f, 0.05f, 3.0f);
+                    o.Scale = new Vector3(description.MapUnitX / 3f, 0.05f, description.MapUnitZ);
                     o.Texture = biome.FloorTexture;
-                    o.Translation = EndPoint + new Vector3(mapUnits.x / 2f + 0.5f, 0f, 0f);
+                    o.Translation = EndPoint + new Vector3(mapUnits.x / 2f, 0f, 0f);
                     o.GoPrevious = false;
                 });
 

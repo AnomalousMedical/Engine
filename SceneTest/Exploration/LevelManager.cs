@@ -114,9 +114,13 @@ namespace SceneTest
             LevelChanged?.Invoke(this);
 
             await nextLevel.WaitForLevelGeneration();
-            if(previousLevel != null)
+            var nextOffset = currentLevel.LocalEndPoint - nextLevel.LocalStartPoint;
+            nextLevel.SetPosition(new Vector3(150, nextOffset.y, nextOffset.z));
+            if (previousLevel != null)
             {
                 await previousLevel.WaitForLevelGeneration();
+                var previousOffset = currentLevel.LocalStartPoint - previousLevel.LocalEndPoint;
+                previousLevel.SetPosition(new Vector3(-150, previousOffset.y, previousOffset.z));
             }
 
             changingLevels = false;
@@ -175,7 +179,8 @@ namespace SceneTest
 
             //Physics changeover
             previousLevel.DestroyPhysics();
-            previousLevel.SetPosition(new Vector3(-150, 0, 0));
+            var previousOffset = currentLevel.LocalStartPoint - previousLevel.LocalEndPoint;
+            previousLevel.SetPosition(new Vector3(-150, previousOffset.y, previousOffset.z));
             currentLevel.SetPosition(new Vector3(0, 0, 0));
             currentLevel.SetupPhysics();
 
@@ -184,6 +189,11 @@ namespace SceneTest
             LevelChanged?.Invoke(this);
 
             changingLevels = false;
+
+            //Keep this last after setting changingLevels
+            await nextLevel.WaitForLevelGeneration();
+            var nextOffset = currentLevel.LocalEndPoint - nextLevel.LocalStartPoint;
+            nextLevel.SetPosition(new Vector3(150, nextOffset.y, nextOffset.z));
         }
 
         public async Task GoPreviousLevel()
@@ -227,7 +237,8 @@ namespace SceneTest
 
             //Physics changeover
             nextLevel.DestroyPhysics();
-            nextLevel.SetPosition(new Vector3(150, 0, 0));
+            var nextOffset = currentLevel.LocalEndPoint - nextLevel.LocalStartPoint;
+            nextLevel.SetPosition(new Vector3(150, nextOffset.y, nextOffset.z));
             currentLevel.SetPosition(new Vector3(0, 0, 0));
             currentLevel.SetupPhysics();
 
@@ -236,6 +247,14 @@ namespace SceneTest
             LevelChanged?.Invoke(this);
 
             changingLevels = false;
+
+            //Keep this last after the changingLevels = false;
+            if(previousLevel != null)
+            {
+                await previousLevel.WaitForLevelGeneration();
+                var previousOffset = currentLevel.LocalStartPoint - previousLevel.LocalEndPoint;
+                previousLevel.SetPosition(new Vector3(-150, previousOffset.y, previousOffset.z));
+            }
         }
 
         private Level CreateLevel(int levelSeed, Vector3 translation, bool goPrevious)
@@ -253,6 +272,16 @@ namespace SceneTest
                 o.CorridorMaxLength = 4;
                 o.GoPrevious = goPrevious;
             });
+        }
+
+        public void GoStartPoint()
+        {
+            player.SetLocation(currentLevel.StartPoint);
+        }
+
+        public void GoEndPoint()
+        {
+            player.SetLocation(currentLevel.EndPoint);
         }
 
         public void StopPlayer()

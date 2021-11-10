@@ -43,6 +43,14 @@ namespace RogueLikeMapBuilder
         private Rectangle startRoom;
         private Rectangle endRoom;
 
+        public Point? EastConnector { get; set; }
+
+        public Point? WestConnector { get; set; }
+
+        public Point? NorthConnector { get; set; }
+
+        public Point? SouthConnector { get; set; }
+
         public Rectangle StartRoom => startRoom;
 
         public Rectangle EndRoom => endRoom;
@@ -341,6 +349,8 @@ namespace RogueLikeMapBuilder
                 corridorTerminatingRooms[currentCorridorCell] = map[x, y];
                 Corridor_Build(true);
             }
+
+            NorthConnector = new Point(x, yStart);
         }
 
         public void AddSouthConnector()
@@ -382,6 +392,8 @@ namespace RogueLikeMapBuilder
                 corridorTerminatingRooms[currentCorridorCell] = map[x, y];
                 Corridor_Build(true);
             }
+
+            SouthConnector = new Point(x, 0);
         }
 
         public void AddWestConnector()
@@ -423,6 +435,8 @@ namespace RogueLikeMapBuilder
                 corridorTerminatingRooms[currentCorridorCell] = map[x, y];
                 Corridor_Build(true);
             }
+
+            WestConnector = new Point(0, y);
         }
 
         public void AddEastConnector()
@@ -465,6 +479,8 @@ namespace RogueLikeMapBuilder
                 corridorTerminatingRooms[currentCorridorCell] = map[x, y];
                 Corridor_Build(true);
             }
+
+            EastConnector = new Point(startX, y);
         }
 
         /// <summary>
