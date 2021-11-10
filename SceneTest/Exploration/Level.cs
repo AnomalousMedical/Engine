@@ -195,12 +195,32 @@ namespace SceneTest
                     };
                     mapBuilder.Build_ConnectedStartRooms();
                     mapBuilder.AddEastConnector();
-                    mapBuilder.AddWestConnector();
+                    int startX, startY;
+                    if (description.GoPrevious)
+                    {
+                        mapBuilder.AddWestConnector();
+                        var startConnector = mapBuilder.WestConnector.Value;
+                        startX = startConnector.x;
+                        startY = startConnector.y;
+                    }
+                    else
+                    {
+                        Rectangle startRoom = new Rectangle(int.MaxValue, 0, 0, 0);
+                        foreach (var room in mapBuilder.Rooms)
+                        {
+                            if (room.Left < startRoom.Left)
+                            {
+                                startRoom = room;
+                            }
+                        }
+
+                        startX = startRoom.Left + startRoom.Width / 2;
+                        startY = startRoom.Top + startRoom.Height / 2;
+                    }
 
                     mapMesh = new MapMesh(mapBuilder, random, graphicsEngine.RenderDevice, mapUnitX: description.MapUnitX, mapUnitY: description.MapUnitY, mapUnitZ: description.MapUnitZ);
 
-                    var startConnector = mapBuilder.WestConnector.Value;
-                    startPointLocal = mapMesh.PointToVector(startConnector.x, startConnector.y);
+                    startPointLocal = mapMesh.PointToVector(startX, startY);
                     var endConnector = mapBuilder.EastConnector.Value;
                     endPointLocal = mapMesh.PointToVector(endConnector.x, endConnector.y);
 
