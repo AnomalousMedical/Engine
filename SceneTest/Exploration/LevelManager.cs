@@ -185,8 +185,7 @@ namespace SceneTest
             currentLevel.SetupPhysics();
 
             var playerLoc = player.GetLocation();
-            playerLoc.y = currentLevel.StartPoint.y;
-            playerLoc -= new Vector3(150f, 0, -previousOffset.z);
+            playerLoc += new Vector3(-150f, previousOffset.y, previousOffset.z);
             player.SetLocation(playerLoc);
 
             LevelChanged?.Invoke(this);
@@ -246,8 +245,7 @@ namespace SceneTest
             currentLevel.SetupPhysics();
 
             var playerLoc = player.GetLocation();
-            playerLoc.y = currentLevel.EndPoint.y;
-            playerLoc += new Vector3(150f, 0, nextOffset.z);
+            playerLoc += new Vector3(150f, nextOffset.y, nextOffset.z);
             player.SetLocation(playerLoc);
 
             LevelChanged?.Invoke(this);
