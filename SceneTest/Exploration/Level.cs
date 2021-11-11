@@ -116,6 +116,7 @@ namespace SceneTest
         private LevelConnector nextLevelConnector;
         private LevelConnector previousLevelConnector;
         private IBiome biome;
+        private bool goPrevious;
 
         private Task levelGenerationTask;
         private Vector3 mapUnits;
@@ -148,6 +149,7 @@ namespace SceneTest
             this.textureManager = textureManager;
             this.logger = logger;
             this.biomeManager = biomeManager;
+            this.goPrevious = description.GoPrevious;
             wallSceneObject = new SceneObject()
             {
                 pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE,
@@ -231,25 +233,6 @@ namespace SceneTest
                 var floorTextureTask = textureManager.Checkout(new CCOTextureBindingDescription(biome.FloorTexture, getShadow: true));
 
                 await levelGenerationTask;
-
-                if (description.GoPrevious)
-                {
-                    this.previousLevelConnector = objectResolver.Resolve<LevelConnector, LevelConnector.Description>(o =>
-                    {
-                        o.Scale = new Vector3(description.MapUnitX / 3f, 0.05f, description.MapUnitZ);
-                        o.Texture = biome.FloorTexture;
-                        o.Translation = StartPoint + new Vector3(-(mapUnits.x / 2f), 0f, 0f);
-                        o.GoPrevious = true;
-                    });
-                }
-
-                this.nextLevelConnector = objectResolver.Resolve<LevelConnector, LevelConnector.Description>(o =>
-                {
-                    o.Scale = new Vector3(description.MapUnitX / 3f, 0.05f, description.MapUnitZ);
-                    o.Texture = biome.FloorTexture;
-                    o.Translation = EndPoint + new Vector3(mapUnits.x / 2f, 0f, 0f);
-                    o.GoPrevious = false;
-                });
 
                 wallMatBinding = await wallTextureTask;
                 floorMatBinding = await floorTextureTask;
@@ -370,6 +353,25 @@ namespace SceneTest
 
                 staticHandles.Add(staticHandle);
             }
+
+            if (goPrevious)
+            {
+                this.previousLevelConnector = objectResolver.Resolve<LevelConnector, LevelConnector.Description>(o =>
+                {
+                    o.Scale = new Vector3(mapUnits.x / 3f, 0.05f, mapUnits.z);
+                    o.Texture = biome.FloorTexture;
+                    o.Translation = StartPoint + new Vector3(-(mapUnits.x / 2f), 0f, 0f);
+                    o.GoPrevious = true;
+                });
+            }
+
+            this.nextLevelConnector = objectResolver.Resolve<LevelConnector, LevelConnector.Description>(o =>
+            {
+                o.Scale = new Vector3(mapUnits.x / 3f, 0.05f, mapUnits.z);
+                o.Texture = biome.FloorTexture;
+                o.Translation = EndPoint + new Vector3(mapUnits.x / 2f, 0f, 0f);
+                o.GoPrevious = false;
+            });
         }
 
         /// <summary>
@@ -383,6 +385,12 @@ namespace SceneTest
                 return;
             }
             physicsActive = false;
+
+            this.previousLevelConnector?.RequestDestruction();
+            this.nextLevelConnector?.RequestDestruction();
+
+            this.previousLevelConnector = null;
+            this.nextLevelConnector = null;
 
             var statics = bepuScene.Simulation.Statics;
             foreach (var staticHandle in staticHandles)

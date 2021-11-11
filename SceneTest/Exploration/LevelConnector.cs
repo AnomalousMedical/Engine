@@ -30,6 +30,7 @@ namespace SceneTest
         }
 
         private readonly SceneObjectManager<ILevelManager> sceneObjectManager;
+        private readonly IDestructionRequest destructionRequest;
         private readonly IBepuScene bepuScene;
         private readonly ICC0TextureManager textureManager;
         private readonly ICollidableTypeIdentifier collidableIdentifier;
@@ -56,6 +57,7 @@ namespace SceneTest
         {
             this.goPrevious = description.GoPrevious;
             this.sceneObjectManager = sceneObjectManager;
+            this.destructionRequest = destructionRequest;
             this.bepuScene = bepuScene;
             this.textureManager = textureManager;
             this.collidableIdentifier = collidableIdentifier;
@@ -113,6 +115,11 @@ namespace SceneTest
             bepuScene.Simulation.Statics.Remove(staticHandle);
             sceneObjectManager.Remove(sceneObject);
             textureManager.TryReturn(matBinding);
+        }
+
+        public void RequestDestruction()
+        {
+            this.destructionRequest.RequestDestruction();
         }
 
         internal void SetPosition(in Vector3 position)
