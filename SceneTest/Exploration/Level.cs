@@ -358,18 +358,18 @@ namespace SceneTest
             {
                 this.previousLevelConnector = objectResolver.Resolve<LevelConnector, LevelConnector.Description>(o =>
                 {
-                    o.Scale = new Vector3(mapUnits.x / 3f, 0.05f, mapUnits.z);
+                    o.Scale = new Vector3(mapUnits.x, 50f, mapUnits.z);
                     o.Texture = biome.FloorTexture;
-                    o.Translation = StartPoint + new Vector3(-(mapUnits.x / 2f), 0f, 0f);
+                    o.Translation = StartPoint + new Vector3(-mapUnits.x * 2f, 0f, 0f);
                     o.GoPrevious = true;
                 });
             }
 
             this.nextLevelConnector = objectResolver.Resolve<LevelConnector, LevelConnector.Description>(o =>
             {
-                o.Scale = new Vector3(mapUnits.x / 3f, 0.05f, mapUnits.z);
+                o.Scale = new Vector3(mapUnits.x, 50f, mapUnits.z);
                 o.Texture = biome.FloorTexture;
-                o.Translation = EndPoint + new Vector3(mapUnits.x / 2f, 0f, 0f);
+                o.Translation = EndPoint + new Vector3(mapUnits.x * 2f, 0f, 0f);
                 o.GoPrevious = false;
             });
         }
