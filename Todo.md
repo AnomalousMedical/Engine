@@ -1,5 +1,17 @@
 # TODO
 
+## Make border rooms transition
+If a room is on a border it will get a barrier and prevent going to the next room. Either ensure there is always a 1x1 grid around the outside (best) or put the corridor id in place of a room tile
+
+## Add north - south transitions
+Make it so levels can go north and south too
+
+## Add variable width and height to levels
+Levels are hardcoded to 150, increase this size and allow it to change.
+
+## Smooth out player transition
+The player will stop a bit between levels. See if the velocity needs to be preserved or something.
+
 ## Level -65271249 puts start location in a bad spot
 This level will make the connection in a corridor, since the easternmost room could have an
 eastern corridor this will have to be delt with somehow. Same for other directions too.
