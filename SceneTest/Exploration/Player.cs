@@ -365,7 +365,10 @@ namespace SceneTest
         {
             var finalLoc = location + new Vector3(0f, sprite.BaseScale.y / 2f, 0f);
 
+            bepuScene.RemoveFromInterpolation(characterMover.BodyHandle);
             this.characterMover.SetLocation(finalLoc.ToSystemNumerics());
+            bepuScene.AddToInterpolation(characterMover.BodyHandle);
+
             this.sceneObject.position = finalLoc;
             Sprite_FrameChanged(sprite);
             cameraMover.Position = finalLoc + cameraOffset;
@@ -375,7 +378,7 @@ namespace SceneTest
 
         public Vector3 GetLocation()
         {
-            return this.sceneObject.position;
+            return this.sceneObject.position - new Vector3(0f, sprite.BaseScale.y / 2f, 0f);
         }
 
         public void RequestDestruction()
