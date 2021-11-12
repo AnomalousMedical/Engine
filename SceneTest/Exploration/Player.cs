@@ -368,12 +368,6 @@ namespace SceneTest
             bepuScene.RemoveFromInterpolation(characterMover.BodyHandle);
             this.characterMover.SetLocation(finalLoc.ToSystemNumerics());
             bepuScene.AddToInterpolation(characterMover.BodyHandle);
-
-            this.sceneObject.position = finalLoc;
-            Sprite_FrameChanged(sprite);
-            cameraMover.Position = finalLoc + cameraOffset;
-            cameraMover.Orientation = cameraAngle;
-            cameraMover.SceneCenter = finalLoc;
         }
 
         public Vector3 GetLocation()
