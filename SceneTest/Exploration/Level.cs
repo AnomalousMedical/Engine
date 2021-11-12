@@ -359,7 +359,6 @@ namespace SceneTest
                 this.previousLevelConnector = objectResolver.Resolve<LevelConnector, LevelConnector.Description>(o =>
                 {
                     o.Scale = new Vector3(mapUnits.x, 50f, mapUnits.z);
-                    o.Texture = biome.FloorTexture;
                     o.Translation = StartPoint + new Vector3(-mapUnits.x * 2f, 0f, 0f);
                     o.GoPrevious = true;
                 });
@@ -368,7 +367,6 @@ namespace SceneTest
             this.nextLevelConnector = objectResolver.Resolve<LevelConnector, LevelConnector.Description>(o =>
             {
                 o.Scale = new Vector3(mapUnits.x, 50f, mapUnits.z);
-                o.Texture = biome.FloorTexture;
                 o.Translation = EndPoint + new Vector3(mapUnits.x * 2f, 0f, 0f);
                 o.GoPrevious = false;
             });
