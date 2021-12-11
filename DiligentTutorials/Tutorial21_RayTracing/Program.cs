@@ -2,7 +2,7 @@
 using Anomalous.OSPlatform.Win32;
 using System;
 
-namespace DiligentEngineCube
+namespace DiligentEngineRayTracing
 {
     class Program
     {

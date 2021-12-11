@@ -8,7 +8,7 @@ using System;
 using System.Globalization;
 using System.IO;
 
-namespace DiligentEngineCube
+namespace DiligentEngineRayTracing
 {
     public class CoreApp : App
     {
@@ -33,7 +33,7 @@ namespace DiligentEngineCube
         {
             mainWindow = EasyNativeWindow.Create(services, this, o =>
             {
-                o.Title = "Diligent - Tutorial 01 - Hello Triangle";
+                o.Title = "Diligent - Tutorial 21 - Ray Tracing";
             });
 
             services.AddLogging(o =>
@@ -45,7 +45,7 @@ namespace DiligentEngineCube
             services.AddOSPlatform(pluginManager);
 
             //Add this app's services
-            services.TryAddSingleton<HelloTriangleUpdateListener>();
+            services.TryAddSingleton<RayTracingUpdateListener>();
 
             return true;
         }
@@ -57,7 +57,7 @@ namespace DiligentEngineCube
 
             mainTimer = serviceProvider.GetRequiredService<UpdateTimer>();
 
-            var updateListener = serviceProvider.GetRequiredService<HelloTriangleUpdateListener>();
+            var updateListener = serviceProvider.GetRequiredService<RayTracingUpdateListener>();
             mainTimer.addUpdateListener(updateListener);
 
             PerformanceMonitor.setupEnabledState(serviceProvider.GetRequiredService<SystemTimer>());
