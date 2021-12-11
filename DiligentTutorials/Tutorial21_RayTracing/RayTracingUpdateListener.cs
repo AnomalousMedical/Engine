@@ -23,6 +23,7 @@ namespace DiligentEngineRayTracing
         private AutoPtr<IBuffer> m_ConstantsCB;
         private Constants m_Constants;
         private AutoPtr<IPipelineState> m_pRayTracingPSO;
+        private AutoPtr<IShaderResourceBinding> m_pRayTracingSRB;
 
         public unsafe RayTracingUpdateListener(GraphicsEngine graphicsEngine, ShaderLoader<RayTracingUpdateListener> shaderLoader)
         {
@@ -365,16 +366,17 @@ namespace DiligentEngineRayTracing
             this.m_pRayTracingPSO = m_pDevice.CreateRayTracingPipelineState(PSOCreateInfo);
             //VERIFY_EXPR(m_pRayTracingPSO != nullptr);
 
-            //m_pRayTracingPSO->GetStaticVariableByName(SHADER_TYPE_RAY_GEN, "g_ConstantsCB")->Set(m_ConstantsCB);
-            //m_pRayTracingPSO->GetStaticVariableByName(SHADER_TYPE_RAY_MISS, "g_ConstantsCB")->Set(m_ConstantsCB);
-            //m_pRayTracingPSO->GetStaticVariableByName(SHADER_TYPE_RAY_CLOSEST_HIT, "g_ConstantsCB")->Set(m_ConstantsCB);
+            m_pRayTracingPSO.Obj.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_GEN, "g_ConstantsCB").Set(m_ConstantsCB.Obj);
+            m_pRayTracingPSO.Obj.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_MISS, "g_ConstantsCB").Set(m_ConstantsCB.Obj);
+            m_pRayTracingPSO.Obj.GetStaticVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_ConstantsCB").Set(m_ConstantsCB.Obj);
 
-            //m_pRayTracingPSO->CreateShaderResourceBinding(&m_pRayTracingSRB, true);
+            m_pRayTracingSRB = m_pRayTracingPSO.Obj.CreateShaderResourceBinding(true);
             //VERIFY_EXPR(m_pRayTracingSRB != nullptr);
         }
 
         public void Dispose()
         {
+            m_pRayTracingSRB.Dispose();
             m_pRayTracingPSO.Dispose();
             m_ConstantsCB.Dispose();
         }
