@@ -52,6 +52,8 @@ extern "C" _AnomalousExport IShader* IRenderDevice_CreateShader(
 	, Char* ShaderCI_Desc_Name
 	, SHADER_SOURCE_LANGUAGE ShaderCI_SourceLanguage
 	, SHADER_COMPILER ShaderCI_ShaderCompiler
+	, Uint8 ShaderCI_HLSLVersion_Major
+	, Uint8 ShaderCI_HLSLVersion_Minor
 )
 {
 	ShaderCreateInfo ShaderCI;
@@ -64,6 +66,8 @@ extern "C" _AnomalousExport IShader* IRenderDevice_CreateShader(
 	ShaderCI.Desc.Name = ShaderCI_Desc_Name;
 	ShaderCI.SourceLanguage = ShaderCI_SourceLanguage;
 	ShaderCI.ShaderCompiler = ShaderCI_ShaderCompiler;
+	ShaderCI.HLSLVersion.Major = ShaderCI_HLSLVersion_Major;
+	ShaderCI.HLSLVersion.Minor = ShaderCI_HLSLVersion_Minor;
 	IShader* theReturnValue = nullptr;
 	objPtr->CreateShader(
 		ShaderCI

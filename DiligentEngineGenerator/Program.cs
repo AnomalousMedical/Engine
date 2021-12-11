@@ -521,9 +521,18 @@ namespace DiligentEngineGenerator
             //End RT
 
             {
+                var ShaderVersion = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Shader.h", 198, 207);
+                codeTypeInfo.Structs[nameof(ShaderVersion)] = ShaderVersion;
+                var skip = new List<String> { };
+                ShaderVersion.Properties = ShaderVersion.Properties
+                    .Where(i => !skip.Contains(i.Name)).ToList();
+                codeWriter.AddWriter(new StructCsWriter(ShaderVersion), Path.Combine(baseStructDir, $"{nameof(ShaderVersion)}.cs"));
+            }
+
+            {
                 var ShaderCreateInfo = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Shader.h", 223, 331);
                 codeTypeInfo.Structs[nameof(ShaderCreateInfo)] = ShaderCreateInfo;
-                var skip = new List<String> { "pShaderSourceStreamFactory", "ppConversionStream", "ByteCode", "ByteCodeSize", "Macros", "HLSLVersion", "GLSLVersion", "GLESSLVersion", "ppCompilerOutput" };
+                var skip = new List<String> { "pShaderSourceStreamFactory", "ppConversionStream", "ByteCode", "ByteCodeSize", "Macros", "GLSLVersion", "GLESSLVersion", "ppCompilerOutput" };
                 ShaderCreateInfo.Properties = ShaderCreateInfo.Properties
                     .Where(i => !skip.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new StructCsWriter(ShaderCreateInfo), Path.Combine(baseStructDir, $"{nameof(ShaderCreateInfo)}.cs"));

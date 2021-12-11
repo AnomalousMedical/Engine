@@ -34,6 +34,7 @@ namespace DiligentEngine
         public ShaderDesc Desc { get; set; } = new ShaderDesc();
         public SHADER_SOURCE_LANGUAGE SourceLanguage { get; set; } = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_DEFAULT;
         public SHADER_COMPILER ShaderCompiler { get; set; } = SHADER_COMPILER.SHADER_COMPILER_DEFAULT;
+        public ShaderVersion HLSLVersion { get; set; } = new ShaderVersion();
 
 
     }

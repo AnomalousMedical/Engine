@@ -88,6 +88,8 @@ namespace DiligentEngine
                 , ShaderCI.Desc.Name
                 , ShaderCI.SourceLanguage
                 , ShaderCI.ShaderCompiler
+                , ShaderCI.HLSLVersion.Major
+                , ShaderCI.HLSLVersion.Minor
             );
             return theReturnValue != IntPtr.Zero ? new AutoPtr<IShader>(new IShader(theReturnValue), false) : null;
         }
@@ -285,6 +287,8 @@ namespace DiligentEngine
             , String ShaderCI_Desc_Name
             , SHADER_SOURCE_LANGUAGE ShaderCI_SourceLanguage
             , SHADER_COMPILER ShaderCI_ShaderCompiler
+            , Uint8 ShaderCI_HLSLVersion_Major
+            , Uint8 ShaderCI_HLSLVersion_Minor
         );
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr IRenderDevice_CreateTexture(

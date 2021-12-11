@@ -1,6 +1,8 @@
 ﻿using Anomalous.OSPlatform;
+using DiligentEngine;
 using Engine;
 using Engine.Platform;
+using Engine.Resources;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
@@ -46,6 +48,9 @@ namespace DiligentEngineRayTracing
 
             //Add this app's services
             services.TryAddSingleton<RayTracingUpdateListener>();
+
+            services.AddSingleton<IResourceProvider<ShaderLoader<RayTracingUpdateListener>>>(s =>
+                new FilesystemResourceProvider<ShaderLoader<RayTracingUpdateListener>>(FolderFinder.ExecutableFolder));
 
             return true;
         }
