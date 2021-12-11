@@ -95,7 +95,10 @@ $@"    {{
             {
                 if (context.CodeTypeInfo.Structs.ContainsKey(item.LookupType))
                 {
-                    writer.Write($" = new {item.Type}();");
+                    if (item.DefaultValue != "nullptr") 
+                    { 
+                        writer.Write($" = new {item.Type}();");
+                    }
                 }
                 else if (!String.IsNullOrWhiteSpace(item.DefaultValue))
                 {
