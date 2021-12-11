@@ -45,6 +45,9 @@ extern "C" _AnomalousExport IShader * IRenderDevice_CreateShader_Macros(
 	, SHADER_TYPE ShaderCI_Desc_ShaderType
 	, Char * ShaderCI_Desc_Name
 	, SHADER_SOURCE_LANGUAGE ShaderCI_SourceLanguage
+	, SHADER_COMPILER ShaderCI_ShaderCompiler
+	, Uint8 ShaderCI_HLSLVersion_Major
+	, Uint8 ShaderCI_HLSLVersion_Minor
 	, MacroPassStruct* macros
 	, Uint32 macrosCount
 )
@@ -58,6 +61,9 @@ extern "C" _AnomalousExport IShader * IRenderDevice_CreateShader_Macros(
 	ShaderCI.Desc.ShaderType = ShaderCI_Desc_ShaderType;
 	ShaderCI.Desc.Name = ShaderCI_Desc_Name;
 	ShaderCI.SourceLanguage = ShaderCI_SourceLanguage;
+	ShaderCI.ShaderCompiler = ShaderCI_ShaderCompiler;
+	ShaderCI.HLSLVersion.Major = ShaderCI_HLSLVersion_Major;
+	ShaderCI.HLSLVersion.Minor = ShaderCI_HLSLVersion_Minor;
 
 	ShaderMacroHelper Macros;
 	for (Uint32 i = 0; i < macrosCount; ++i)

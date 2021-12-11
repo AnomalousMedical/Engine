@@ -66,6 +66,9 @@ namespace DiligentEngine
                 , ShaderCI.Desc.ShaderType
                 , ShaderCI.Desc.Name
                 , ShaderCI.SourceLanguage
+                , ShaderCI.ShaderCompiler
+                , ShaderCI.HLSLVersion.Major
+                , ShaderCI.HLSLVersion.Minor
                 , macrosArray
                 , (Uint32)macrosArray.Length
             );
@@ -82,6 +85,9 @@ namespace DiligentEngine
             , SHADER_TYPE ShaderCI_Desc_ShaderType
             , String ShaderCI_Desc_Name
             , SHADER_SOURCE_LANGUAGE ShaderCI_SourceLanguage
+            , SHADER_COMPILER ShaderCI_ShaderCompiler
+            , Uint8 ShaderCI_HLSLVersion_Major
+            , Uint8 ShaderCI_HLSLVersion_Minor
             , MacroPassStruct[] macros
             , Uint32 macrosCount
         );
