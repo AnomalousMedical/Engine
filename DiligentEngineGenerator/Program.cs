@@ -85,6 +85,12 @@ namespace DiligentEngineGenerator
             }
 
             {
+                var SHADER_COMPILER = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Shader.h", 94, 117);
+                codeTypeInfo.Enums[nameof(SHADER_COMPILER)] = SHADER_COMPILER;
+                EnumWriter.Write(SHADER_COMPILER, Path.Combine(baseEnumDir, $"{nameof(SHADER_COMPILER)}.cs"));
+            }
+
+            {
                 var PRIMITIVE_TOPOLOGY = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 943, 1100);
                 codeTypeInfo.Enums[nameof(PRIMITIVE_TOPOLOGY)] = PRIMITIVE_TOPOLOGY;
                 EnumWriter.Write(PRIMITIVE_TOPOLOGY, Path.Combine(baseEnumDir, $"{nameof(PRIMITIVE_TOPOLOGY)}.cs"));
@@ -517,7 +523,7 @@ namespace DiligentEngineGenerator
             {
                 var ShaderCreateInfo = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Shader.h", 223, 331);
                 codeTypeInfo.Structs[nameof(ShaderCreateInfo)] = ShaderCreateInfo;
-                var skip = new List<String> { "pShaderSourceStreamFactory", "ppConversionStream", "ByteCode", "ByteCodeSize", "Macros", "HLSLVersion", "ShaderCompiler", "GLSLVersion", "GLESSLVersion", "ppCompilerOutput" };
+                var skip = new List<String> { "pShaderSourceStreamFactory", "ppConversionStream", "ByteCode", "ByteCodeSize", "Macros", "HLSLVersion", "GLSLVersion", "GLESSLVersion", "ppCompilerOutput" };
                 ShaderCreateInfo.Properties = ShaderCreateInfo.Properties
                     .Where(i => !skip.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new StructCsWriter(ShaderCreateInfo), Path.Combine(baseStructDir, $"{nameof(ShaderCreateInfo)}.cs"));

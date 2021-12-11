@@ -51,6 +51,7 @@ extern "C" _AnomalousExport IShader* IRenderDevice_CreateShader(
 	, SHADER_TYPE ShaderCI_Desc_ShaderType
 	, Char* ShaderCI_Desc_Name
 	, SHADER_SOURCE_LANGUAGE ShaderCI_SourceLanguage
+	, SHADER_COMPILER ShaderCI_ShaderCompiler
 )
 {
 	ShaderCreateInfo ShaderCI;
@@ -62,6 +63,7 @@ extern "C" _AnomalousExport IShader* IRenderDevice_CreateShader(
 	ShaderCI.Desc.ShaderType = ShaderCI_Desc_ShaderType;
 	ShaderCI.Desc.Name = ShaderCI_Desc_Name;
 	ShaderCI.SourceLanguage = ShaderCI_SourceLanguage;
+	ShaderCI.ShaderCompiler = ShaderCI_ShaderCompiler;
 	IShader* theReturnValue = nullptr;
 	objPtr->CreateShader(
 		ShaderCI
