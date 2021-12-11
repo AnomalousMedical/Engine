@@ -84,3 +84,8 @@ extern "C" _AnomalousExport NDCAttribsPassStruct IRenderDevice_GetDeviceCaps_Get
 	result.ZtoDepthScale = attribs.ZtoDepthScale;
 	return result;
 }
+
+extern "C" _AnomalousExport Uint32 IRenderDevice_DeviceProperties_MaxRayTracingRecursionDepth(IRenderDevice * objPtr)
+{
+	return objPtr->GetDeviceProperties().MaxRayTracingRecursionDepth;
+}

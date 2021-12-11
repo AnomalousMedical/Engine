@@ -100,5 +100,10 @@ namespace DiligentEngine
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern NDCAttribsPassStruct IRenderDevice_GetDeviceCaps_GetNDCAttribs(IntPtr objPtr);
+
+        public Uint32 DeviceProperties_MaxRayTracingRecursionDepth => IRenderDevice_DeviceProperties_MaxRayTracingRecursionDepth(this.objPtr);
+
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern Uint32 IRenderDevice_DeviceProperties_MaxRayTracingRecursionDepth(IntPtr objPtr);
     }
 }
