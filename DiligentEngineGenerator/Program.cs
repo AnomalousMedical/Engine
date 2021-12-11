@@ -516,6 +516,42 @@ namespace DiligentEngineGenerator
                 RayTracingPipelineStateCreateInfo.Properties = RayTracingPipelineStateCreateInfo.Properties
                     .Where(i => !skip.Contains(i.Name)).ToList();
 
+                {
+                    var pGeneralShaders = RayTracingPipelineStateCreateInfo.Properties.First(i => i.Name == "pGeneralShaders");
+                    pGeneralShaders.IsArray = true;
+                    pGeneralShaders.PutAutoSize = "GeneralShaderCount";
+                }
+
+                {
+                    var pGeneralShaders = RayTracingPipelineStateCreateInfo.Properties.First(i => i.Name == "GeneralShaderCount");
+                    pGeneralShaders.IsArray = true;
+                    pGeneralShaders.TakeAutoSize = "pGeneralShaders";
+                }
+
+                {
+                    var pGeneralShaders = RayTracingPipelineStateCreateInfo.Properties.First(i => i.Name == "pTriangleHitShaders");
+                    pGeneralShaders.IsArray = true;
+                    pGeneralShaders.PutAutoSize = "TriangleHitShaderCount";
+                }
+
+                {
+                    var pGeneralShaders = RayTracingPipelineStateCreateInfo.Properties.First(i => i.Name == "TriangleHitShaderCount");
+                    pGeneralShaders.IsArray = true;
+                    pGeneralShaders.TakeAutoSize = "pTriangleHitShaders";
+                }
+
+                {
+                    var pGeneralShaders = RayTracingPipelineStateCreateInfo.Properties.First(i => i.Name == "pProceduralHitShaders");
+                    pGeneralShaders.IsArray = true;
+                    pGeneralShaders.PutAutoSize = "ProceduralHitShaderCount";
+                }
+
+                {
+                    var pGeneralShaders = RayTracingPipelineStateCreateInfo.Properties.First(i => i.Name == "ProceduralHitShaderCount");
+                    pGeneralShaders.IsArray = true;
+                    pGeneralShaders.TakeAutoSize = "pProceduralHitShaders";
+                }
+
                 codeWriter.AddWriter(new StructCsWriter(RayTracingPipelineStateCreateInfo), Path.Combine(baseStructDir, $"{nameof(RayTracingPipelineStateCreateInfo)}.cs"));
             }
             //End RT

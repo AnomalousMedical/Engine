@@ -208,7 +208,7 @@ namespace DiligentEngineRayTracing
 
             // Shader model 6.3 is required for DXR 1.0, shader model 6.5 is required for DXR 1.1 and enables additional features.
             // Use 6.3 for compatibility with DXR 1.0 and VK_NV_ray_tracing.
-            ShaderCI.HLSLVersion = new ShaderVersion{ Major = 6, Minor = 3 };
+            ShaderCI.HLSLVersion = new ShaderVersion { Major = 6, Minor = 3 };
             ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
 
             // Create a shader source stream factory to load shaders from files.
@@ -224,132 +224,142 @@ namespace DiligentEngineRayTracing
             ShaderCI.EntryPoint = "main";
             using var pRayGen = m_pDevice.CreateShader(ShaderCI, Macros);
             //VERIFY_EXPR(pRayGen != nullptr);
-            
 
-            //// Create miss shaders.
-            //ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_MISS;
-            //ShaderCI.Desc.Name = "Primary ray miss shader";
+
+            // Create miss shaders.
+            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_MISS;
+            ShaderCI.Desc.Name = "Primary ray miss shader";
             //ShaderCI.FilePath = "PrimaryMiss.rmiss";
-            //ShaderCI.EntryPoint = "main";
-            //using var pPrimaryMiss = m_pDevice.CreateShader(ShaderCI, Macros);
-            ////VERIFY_EXPR(pPrimaryMiss != nullptr);
+            ShaderCI.Source = shaderLoader.LoadShader("assets/PrimaryMiss.rmiss");
+            ShaderCI.EntryPoint = "main";
+            using var pPrimaryMiss = m_pDevice.CreateShader(ShaderCI, Macros);
+            //VERIFY_EXPR(pPrimaryMiss != nullptr);
 
-            //ShaderCI.Desc.Name = "Shadow ray miss shader";
+            ShaderCI.Desc.Name = "Shadow ray miss shader";
             //ShaderCI.FilePath = "ShadowMiss.rmiss";
-            //ShaderCI.EntryPoint = "main";
-            //using var pShadowMiss = m_pDevice.CreateShader(ShaderCI, Macros);
-            ////VERIFY_EXPR(pShadowMiss != nullptr);
+            ShaderCI.Source = shaderLoader.LoadShader("assets/ShadowMiss.rmiss");
+            ShaderCI.EntryPoint = "main";
+            using var pShadowMiss = m_pDevice.CreateShader(ShaderCI, Macros);
+            //VERIFY_EXPR(pShadowMiss != nullptr);
 
             //// Create closest hit shaders.
             //RefCntAutoPtr<IShader> pCubePrimaryHit, pGroundHit, pGlassPrimaryHit, pSpherePrimaryHit;
             //{
-            //    ShaderCI.Desc.ShaderType = SHADER_TYPE_RAY_CLOSEST_HIT;
-            //    ShaderCI.Desc.Name = "Cube primary ray closest hit shader";
-            //    ShaderCI.FilePath = "CubePrimaryHit.rchit";
-            //    ShaderCI.EntryPoint = "main";
-            //    m_pDevice->CreateShader(ShaderCI, &pCubePrimaryHit);
-            //    VERIFY_EXPR(pCubePrimaryHit != nullptr);
+            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT;
+            ShaderCI.Desc.Name = "Cube primary ray closest hit shader";
+            //ShaderCI.FilePath = "CubePrimaryHit.rchit";
+            ShaderCI.Source = shaderLoader.LoadShader("assets/CubePrimaryHit.rchit");
+            ShaderCI.EntryPoint = "main";
+            using var pCubePrimaryHit = m_pDevice.CreateShader(ShaderCI, Macros);
+            //VERIFY_EXPR(pCubePrimaryHit != nullptr);
 
-            //    ShaderCI.Desc.Name = "Ground primary ray closest hit shader";
-            //    ShaderCI.FilePath = "Ground.rchit";
-            //    ShaderCI.EntryPoint = "main";
-            //    m_pDevice->CreateShader(ShaderCI, &pGroundHit);
+            ShaderCI.Desc.Name = "Ground primary ray closest hit shader";
+            //ShaderCI.FilePath = "Ground.rchit";
+            ShaderCI.Source = shaderLoader.LoadShader("assets/Ground.rchit");
+            ShaderCI.EntryPoint = "main";
+            using var pGroundHit = m_pDevice.CreateShader(ShaderCI, Macros);
             //    VERIFY_EXPR(pGroundHit != nullptr);
 
-            //    ShaderCI.Desc.Name = "Glass primary ray closest hit shader";
-            //    ShaderCI.FilePath = "GlassPrimaryHit.rchit";
-            //    ShaderCI.EntryPoint = "main";
-            //    m_pDevice->CreateShader(ShaderCI, &pGlassPrimaryHit);
+            ShaderCI.Desc.Name = "Glass primary ray closest hit shader";
+            //ShaderCI.FilePath = "GlassPrimaryHit.rchit";
+            ShaderCI.Source = shaderLoader.LoadShader("assets/GlassPrimaryHit.rchit");
+            ShaderCI.EntryPoint = "main";
+            using var pGlassPrimaryHit = m_pDevice.CreateShader(ShaderCI, Macros);
             //    VERIFY_EXPR(pGlassPrimaryHit != nullptr);
 
-            //    ShaderCI.Desc.Name = "Sphere primary ray closest hit shader";
-            //    ShaderCI.FilePath = "SpherePrimaryHit.rchit";
-            //    ShaderCI.EntryPoint = "main";
-            //    m_pDevice->CreateShader(ShaderCI, &pSpherePrimaryHit);
+            ShaderCI.Desc.Name = "Sphere primary ray closest hit shader";
+            //ShaderCI.FilePath = "SpherePrimaryHit.rchit";
+            ShaderCI.Source = shaderLoader.LoadShader("assets/SpherePrimaryHit.rchit");
+            ShaderCI.EntryPoint = "main";
+            using var pSpherePrimaryHit = m_pDevice.CreateShader(ShaderCI, Macros);
             //    VERIFY_EXPR(pSpherePrimaryHit != nullptr);
             //}
 
             //// Create intersection shader for a procedural sphere.
             //RefCntAutoPtr<IShader> pSphereIntersection;
             //{
-            //    ShaderCI.Desc.ShaderType = SHADER_TYPE_RAY_INTERSECTION;
-            //    ShaderCI.Desc.Name = "Sphere intersection shader";
-            //    ShaderCI.FilePath = "SphereIntersection.rint";
-            //    ShaderCI.EntryPoint = "main";
-            //    m_pDevice->CreateShader(ShaderCI, &pSphereIntersection);
+            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_INTERSECTION;
+            ShaderCI.Desc.Name = "Sphere intersection shader";
+            //ShaderCI.FilePath = "SphereIntersection.rint";
+            ShaderCI.Source = shaderLoader.LoadShader("assets/SphereIntersection.rint");
+            ShaderCI.EntryPoint = "main";
+            using var pSphereIntersection = m_pDevice.CreateShader(ShaderCI, Macros);
             //    VERIFY_EXPR(pSphereIntersection != nullptr);
             //}
 
-            //// Setup shader groups
-            //const RayTracingGeneralShaderGroup GeneralShaders[] = //
-            //    {
-            //        // Ray generation shader is an entry point for a ray tracing pipeline.
-            //        {"Main", pRayGen},
-            //        // Primary ray miss shader.
-            //        {"PrimaryMiss", pPrimaryMiss},
-            //        // Shadow ray miss shader.
-            //        {"ShadowMiss", pShadowMiss} //
-            //    };
-            //const RayTracingTriangleHitShaderGroup TriangleHitShaders[] = //
-            //    {
-            //        // Primary ray hit group for the textured cube.
-            //        {"CubePrimaryHit", pCubePrimaryHit},
-            //        // Primary ray hit group for the ground.
-            //        {"GroundHit", pGroundHit},
-            //        // Primary ray hit group for the glass cube.
-            //        {"GlassPrimaryHit", pGlassPrimaryHit} //
-            //    };
-            //const RayTracingProceduralHitShaderGroup ProceduralHitShaders[] = //
-            //    {
-            //        // Intersection and closest hit shaders for the procedural sphere.
-            //        {"SpherePrimaryHit", pSphereIntersection, pSpherePrimaryHit},
-            //        // Only intersection shader is needed for shadows.
-            //        {"SphereShadowHit", pSphereIntersection} //
-            //    };
+            // Setup shader groups
+            PSOCreateInfo.pGeneralShaders = new List<RayTracingGeneralShaderGroup>
+            {
+                // Ray generation shader is an entry point for a ray tracing pipeline.
+                new RayTracingGeneralShaderGroup { Name = "Main", pShader = pRayGen.Obj },
+                // Primary ray miss shader.
+                new RayTracingGeneralShaderGroup { Name = "PrimaryMiss", pShader = pPrimaryMiss.Obj },
+                // Shadow ray miss shader.
+                new RayTracingGeneralShaderGroup { Name = "ShadowMiss", pShader = pShadowMiss.Obj }
+            };
 
-            //PSOCreateInfo.pGeneralShaders = GeneralShaders;
-            //PSOCreateInfo.GeneralShaderCount = _countof(GeneralShaders);
-            //PSOCreateInfo.pTriangleHitShaders = TriangleHitShaders;
-            //PSOCreateInfo.TriangleHitShaderCount = _countof(TriangleHitShaders);
-            //PSOCreateInfo.pProceduralHitShaders = ProceduralHitShaders;
-            //PSOCreateInfo.ProceduralHitShaderCount = _countof(ProceduralHitShaders);
+            PSOCreateInfo.pTriangleHitShaders = new List<RayTracingTriangleHitShaderGroup>
+            {
+                // Primary ray hit group for the textured cube.
+                new RayTracingTriangleHitShaderGroup { Name = "CubePrimaryHit", pClosestHitShader = pCubePrimaryHit.Obj },
+                // Primary ray hit group for the ground.
+                new RayTracingTriangleHitShaderGroup { Name = "GroundHit", pClosestHitShader = pGroundHit.Obj },
+                // Primary ray hit group for the glass cube.
+                new RayTracingTriangleHitShaderGroup { Name = "GlassPrimaryHit", pClosestHitShader = pGlassPrimaryHit.Obj }
+            };
 
-            //// Specify the maximum ray recursion depth.
-            //// WARNING: the driver does not track the recursion depth and it is the
-            ////          application's responsibility to not exceed the specified limit.
-            ////          The value is used to reserve the necessary stack size and
-            ////          exceeding it will likely result in driver crash.
-            //PSOCreateInfo.RayTracingPipeline.MaxRecursionDepth = static_cast<Uint8>(m_MaxRecursionDepth);
+            PSOCreateInfo.pProceduralHitShaders = new List<RayTracingProceduralHitShaderGroup>
+            {
+                // Intersection and closest hit shaders for the procedural sphere.
+                new RayTracingProceduralHitShaderGroup { Name = "SpherePrimaryHit", pIntersectionShader = pSphereIntersection.Obj, pClosestHitShader = pSpherePrimaryHit.Obj },
+                // Only intersection shader is needed for shadows.
+                new RayTracingProceduralHitShaderGroup { Name = "SphereShadowHit", pIntersectionShader = pSphereIntersection.Obj }
+            };
 
-            //// Per-shader data is not used.
-            //PSOCreateInfo.RayTracingPipeline.ShaderRecordSize = 0;
+            // GeneralShaders;
+            ////PSOCreateInfo.GeneralShaderCount = _countof(GeneralShaders);
+            // = TriangleHitShaders;
+            ////PSOCreateInfo.TriangleHitShaderCount = _countof(TriangleHitShaders);
+            // = ProceduralHitShaders;
+            ////PSOCreateInfo.ProceduralHitShaderCount = _countof(ProceduralHitShaders);
 
+            // Specify the maximum ray recursion depth.
+            // WARNING: the driver does not track the recursion depth and it is the
+            //          application's responsibility to not exceed the specified limit.
+            //          The value is used to reserve the necessary stack size and
+            //          exceeding it will likely result in driver crash.
+            PSOCreateInfo.RayTracingPipeline.MaxRecursionDepth = (byte)m_MaxRecursionDepth;
+
+            // Per-shader data is not used.
+            PSOCreateInfo.RayTracingPipeline.ShaderRecordSize = 0;
+
+            //--- START POTENTIAL BLOCK ---
+            //  Might want this part
             //// DirectX 12 only: set attribute and payload size. Values should be as small as possible to minimize the memory usage.
             //PSOCreateInfo.MaxAttributeSize = std::max<Uint32>(sizeof(/*BuiltInTriangleIntersectionAttributes*/ float2), sizeof(HLSL::ProceduralGeomIntersectionAttribs));
             //PSOCreateInfo.MaxPayloadSize = std::max<Uint32>(sizeof(HLSL::PrimaryRayPayload), sizeof(HLSL::ShadowRayPayload));
+            //--- END POTENTIAL BLOCK ---
 
-            //// Define immutable sampler for g_Texture and g_GroundTexture. Immutable samplers should be used whenever possible
-            //SamplerDesc SamLinearWrapDesc{
-            //    FILTER_TYPE_LINEAR, FILTER_TYPE_LINEAR, FILTER_TYPE_LINEAR,
-            //    TEXTURE_ADDRESS_WRAP, TEXTURE_ADDRESS_WRAP, TEXTURE_ADDRESS_WRAP //
-            //};
-            //ImmutableSamplerDesc ImmutableSamplers[] = //
-            //    {
-            //        {SHADER_TYPE_RAY_CLOSEST_HIT, "g_SamLinearWrap", SamLinearWrapDesc} //
-            //    };
+            // Define immutable sampler for g_Texture and g_GroundTexture. Immutable samplers should be used whenever possible
+            var SamLinearWrapDesc = new SamplerDesc
+            {
+                MinFilter = FILTER_TYPE.FILTER_TYPE_LINEAR, MagFilter = FILTER_TYPE.FILTER_TYPE_LINEAR, MipFilter = FILTER_TYPE.FILTER_TYPE_LINEAR,
+                AddressU = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_WRAP, AddressV = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_WRAP, AddressW = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_WRAP //
+            };
+            var ImmutableSamplers = new List<ImmutableSamplerDesc>
+            {
+                new ImmutableSamplerDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, SamplerOrTextureName = "g_SamLinearWrap", Desc = SamLinearWrapDesc} //
+            };
 
-            //ShaderResourceVariableDesc Variables[] = //
-            //    {
-            //        {SHADER_TYPE_RAY_GEN | SHADER_TYPE_RAY_MISS | SHADER_TYPE_RAY_CLOSEST_HIT, "g_ConstantsCB", SHADER_RESOURCE_VARIABLE_TYPE_STATIC},
-            //        {SHADER_TYPE_RAY_GEN, "g_ColorBuffer", SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC}
-            //        //
-            //    };
+            var Variables = new List<ShaderResourceVariableDesc> //
+            {
+                new ShaderResourceVariableDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_MISS | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = "g_ConstantsCB", Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC},
+                new ShaderResourceVariableDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN, Name = "g_ColorBuffer", Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC}
+            };
 
-            //PSOCreateInfo.PSODesc.ResourceLayout.Variables = Variables;
-            //PSOCreateInfo.PSODesc.ResourceLayout.NumVariables = _countof(Variables);
-            //PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers = ImmutableSamplers;
-            //PSOCreateInfo.PSODesc.ResourceLayout.NumImmutableSamplers = _countof(ImmutableSamplers);
-            //PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE;
+            PSOCreateInfo.PSODesc.ResourceLayout.Variables = Variables;
+            PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers = ImmutableSamplers;
+            PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE;
 
             //m_pDevice->CreateRayTracingPipelineState(PSOCreateInfo, &m_pRayTracingPSO);
             //VERIFY_EXPR(m_pRayTracingPSO != nullptr);

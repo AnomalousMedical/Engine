@@ -26,12 +26,9 @@ namespace DiligentEngine
 
         }
         public RayTracingPipelineDesc RayTracingPipeline { get; set; } = new RayTracingPipelineDesc();
-        public RayTracingGeneralShaderGroup pGeneralShaders { get; set; }
-        public Uint32 GeneralShaderCount { get; set; } = 0;
-        public RayTracingTriangleHitShaderGroup pTriangleHitShaders { get; set; }
-        public Uint32 TriangleHitShaderCount { get; set; } = 0;
-        public RayTracingProceduralHitShaderGroup pProceduralHitShaders { get; set; }
-        public Uint32 ProceduralHitShaderCount { get; set; } = 0;
+        public List<RayTracingGeneralShaderGroup> pGeneralShaders { get; set; }
+        public List<RayTracingTriangleHitShaderGroup> pTriangleHitShaders { get; set; }
+        public List<RayTracingProceduralHitShaderGroup> pProceduralHitShaders { get; set; }
         public String pShaderRecordName { get; set; }
         public Uint32 MaxAttributeSize { get; set; } = 0;
         public Uint32 MaxPayloadSize { get; set; } = 0;
