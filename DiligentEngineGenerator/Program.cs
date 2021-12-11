@@ -488,6 +488,8 @@ namespace DiligentEngineGenerator
                 var skip = new List<String> { };
                 RayTracingGeneralShaderGroup.Properties = RayTracingGeneralShaderGroup.Properties
                     .Where(i => !skip.Contains(i.Name)).ToList();
+                codeWriter.AddWriter(new StructCsPassStructWriter(RayTracingGeneralShaderGroup), Path.Combine(baseStructDir, $"{nameof(RayTracingGeneralShaderGroup)}.PassStruct.cs"));
+                codeWriter.AddWriter(new StructCppPassStructWriter(RayTracingGeneralShaderGroup), Path.Combine(baseCPlusPlusOutDir, $"{nameof(RayTracingGeneralShaderGroup)}.PassStruct.h"));
                 codeWriter.AddWriter(new StructCsWriter(RayTracingGeneralShaderGroup), Path.Combine(baseStructDir, $"{nameof(RayTracingGeneralShaderGroup)}.cs"));
             }
 
@@ -497,6 +499,8 @@ namespace DiligentEngineGenerator
                 var skip = new List<String> { };
                 RayTracingTriangleHitShaderGroup.Properties = RayTracingTriangleHitShaderGroup.Properties
                     .Where(i => !skip.Contains(i.Name)).ToList();
+                codeWriter.AddWriter(new StructCsPassStructWriter(RayTracingTriangleHitShaderGroup), Path.Combine(baseStructDir, $"{nameof(RayTracingTriangleHitShaderGroup)}.PassStruct.cs"));
+                codeWriter.AddWriter(new StructCppPassStructWriter(RayTracingTriangleHitShaderGroup), Path.Combine(baseCPlusPlusOutDir, $"{nameof(RayTracingTriangleHitShaderGroup)}.PassStruct.h"));
                 codeWriter.AddWriter(new StructCsWriter(RayTracingTriangleHitShaderGroup), Path.Combine(baseStructDir, $"{nameof(RayTracingTriangleHitShaderGroup)}.cs"));
             }
 
@@ -506,6 +510,8 @@ namespace DiligentEngineGenerator
                 var skip = new List<String> { };
                 RayTracingProceduralHitShaderGroup.Properties = RayTracingProceduralHitShaderGroup.Properties
                     .Where(i => !skip.Contains(i.Name)).ToList();
+                codeWriter.AddWriter(new StructCsPassStructWriter(RayTracingProceduralHitShaderGroup), Path.Combine(baseStructDir, $"{nameof(RayTracingProceduralHitShaderGroup)}.PassStruct.cs"));
+                codeWriter.AddWriter(new StructCppPassStructWriter(RayTracingProceduralHitShaderGroup), Path.Combine(baseCPlusPlusOutDir, $"{nameof(RayTracingProceduralHitShaderGroup)}.PassStruct.h"));
                 codeWriter.AddWriter(new StructCsWriter(RayTracingProceduralHitShaderGroup), Path.Combine(baseStructDir, $"{nameof(RayTracingProceduralHitShaderGroup)}.cs"));
             }
 
@@ -524,7 +530,6 @@ namespace DiligentEngineGenerator
 
                 {
                     var pGeneralShaders = RayTracingPipelineStateCreateInfo.Properties.First(i => i.Name == "GeneralShaderCount");
-                    pGeneralShaders.IsArray = true;
                     pGeneralShaders.TakeAutoSize = "pGeneralShaders";
                 }
 
@@ -536,7 +541,6 @@ namespace DiligentEngineGenerator
 
                 {
                     var pGeneralShaders = RayTracingPipelineStateCreateInfo.Properties.First(i => i.Name == "TriangleHitShaderCount");
-                    pGeneralShaders.IsArray = true;
                     pGeneralShaders.TakeAutoSize = "pTriangleHitShaders";
                 }
 
@@ -548,10 +552,14 @@ namespace DiligentEngineGenerator
 
                 {
                     var pGeneralShaders = RayTracingPipelineStateCreateInfo.Properties.First(i => i.Name == "ProceduralHitShaderCount");
-                    pGeneralShaders.IsArray = true;
                     pGeneralShaders.TakeAutoSize = "pProceduralHitShaders";
                 }
 
+                {
+                    var pShaderRecordName = RayTracingPipelineStateCreateInfo.Properties.First(i => i.Name == "pShaderRecordName");
+                    pShaderRecordName.Type = "Char*";
+                }
+                
                 codeWriter.AddWriter(new StructCsWriter(RayTracingPipelineStateCreateInfo), Path.Combine(baseStructDir, $"{nameof(RayTracingPipelineStateCreateInfo)}.cs"));
             }
             //End RT
@@ -707,6 +715,17 @@ namespace DiligentEngineGenerator
                 }
 
                 {
+                    var CreateRayTracingPipelineState = IRenderDevice.Methods.First(i => i.Name == "CreateRayTracingPipelineState");
+                    CreateRayTracingPipelineState.ReturnType = "IPipelineState*";
+                    CreateRayTracingPipelineState.ReturnAsAutoPtr = true;
+                    {
+                        var ppPipelineState = CreateRayTracingPipelineState.Args.First(i => i.Name == "ppPipelineState");
+                        ppPipelineState.MakeReturnVal = true;
+                        ppPipelineState.Type = "IPipelineState*";
+                    }
+                }
+
+                {
                     var CreateBuffer = IRenderDevice.Methods.First(i => i.Name == "CreateBuffer");
                     CreateBuffer.ReturnType = "IBuffer*";
                     CreateBuffer.ReturnAsAutoPtr = true;
@@ -749,7 +768,7 @@ namespace DiligentEngineGenerator
                     }
                 }
 
-                var allowedMethods = new List<String> { "CreateShader", "CreateGraphicsPipelineState", "CreateBuffer", "CreateTexture", "CreateSampler" };
+                var allowedMethods = new List<String> { "CreateShader", "CreateGraphicsPipelineState", "CreateBuffer", "CreateTexture", "CreateSampler", "CreateRayTracingPipelineState" };
                 IRenderDevice.Methods = IRenderDevice.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(IRenderDevice), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IRenderDevice)}.cs"));
@@ -761,7 +780,10 @@ namespace DiligentEngineGenerator
                     "ShaderResourceVariableDesc.PassStruct.h",
                     "ImmutableSamplerDesc.PassStruct.h",
                     "TextureSubResData.PassStruct.h",
-                    "RenderTargetBlendDesc.PassStruct.h"
+                    "RenderTargetBlendDesc.PassStruct.h",
+                    "RayTracingGeneralShaderGroup.PassStruct.h",
+                    "RayTracingProceduralHitShaderGroup.PassStruct.h",
+                    "RayTracingTriangleHitShaderGroup.PassStruct.h"
                 });
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IRenderDevice)}.cpp"));
             }

@@ -259,6 +259,43 @@ namespace DiligentEngine
             );
             return theReturnValue != IntPtr.Zero ? new AutoPtr<IPipelineState>(new IPipelineState(theReturnValue), false) : null;
         }
+        /// <summary>
+        /// Creates a new ray tracing pipeline state object
+        /// \param [in]  PSOCreateInfo   - Ray tracing pipeline state create info, see Diligent::RayTracingPipelineStateCreateInfo for details.
+        /// \param [out] ppPipelineState - Address of the memory location where the pointer to the
+        /// pipeline state interface will be stored.
+        /// The function calls AddRef(), so that the new object will contain
+        /// one reference.
+        /// </summary>
+        public AutoPtr<IPipelineState> CreateRayTracingPipelineState(RayTracingPipelineStateCreateInfo PSOCreateInfo)
+        {
+            var theReturnValue = 
+            IRenderDevice_CreateRayTracingPipelineState(
+                this.objPtr
+                , PSOCreateInfo.RayTracingPipeline.ShaderRecordSize
+                , PSOCreateInfo.RayTracingPipeline.MaxRecursionDepth
+                , RayTracingGeneralShaderGroupPassStruct.ToStruct(PSOCreateInfo?.pGeneralShaders)
+                , PSOCreateInfo?.pGeneralShaders != null ? (Uint32)PSOCreateInfo.pGeneralShaders.Count : 0
+                , RayTracingTriangleHitShaderGroupPassStruct.ToStruct(PSOCreateInfo?.pTriangleHitShaders)
+                , PSOCreateInfo?.pTriangleHitShaders != null ? (Uint32)PSOCreateInfo.pTriangleHitShaders.Count : 0
+                , RayTracingProceduralHitShaderGroupPassStruct.ToStruct(PSOCreateInfo?.pProceduralHitShaders)
+                , PSOCreateInfo?.pProceduralHitShaders != null ? (Uint32)PSOCreateInfo.pProceduralHitShaders.Count : 0
+                , PSOCreateInfo.pShaderRecordName
+                , PSOCreateInfo.MaxAttributeSize
+                , PSOCreateInfo.MaxPayloadSize
+                , PSOCreateInfo.PSODesc.PipelineType
+                , PSOCreateInfo.PSODesc.SRBAllocationGranularity
+                , PSOCreateInfo.PSODesc.CommandQueueMask
+                , PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType
+                , PSOCreateInfo.PSODesc.ResourceLayout?.Variables != null ? (Uint32)PSOCreateInfo.PSODesc.ResourceLayout.Variables.Count : 0
+                , ShaderResourceVariableDescPassStruct.ToStruct(PSOCreateInfo.PSODesc.ResourceLayout?.Variables)
+                , PSOCreateInfo.PSODesc.ResourceLayout?.ImmutableSamplers != null ? (Uint32)PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers.Count : 0
+                , ImmutableSamplerDescPassStruct.ToStruct(PSOCreateInfo.PSODesc.ResourceLayout?.ImmutableSamplers)
+                , PSOCreateInfo.PSODesc.Name
+                , PSOCreateInfo.Flags
+            );
+            return theReturnValue != IntPtr.Zero ? new AutoPtr<IPipelineState>(new IPipelineState(theReturnValue), false) : null;
+        }
 
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -391,6 +428,31 @@ namespace DiligentEngine
             , IntPtr PSOCreateInfo_pGS
             , IntPtr PSOCreateInfo_pAS
             , IntPtr PSOCreateInfo_pMS
+            , PIPELINE_TYPE PSOCreateInfo_PSODesc_PipelineType
+            , Uint32 PSOCreateInfo_PSODesc_SRBAllocationGranularity
+            , Uint64 PSOCreateInfo_PSODesc_CommandQueueMask
+            , SHADER_RESOURCE_VARIABLE_TYPE PSOCreateInfo_PSODesc_ResourceLayout_DefaultVariableType
+            , Uint32 PSOCreateInfo_PSODesc_ResourceLayout_NumVariables
+            , ShaderResourceVariableDescPassStruct[] PSOCreateInfo_PSODesc_ResourceLayout_Variables
+            , Uint32 PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers
+            , ImmutableSamplerDescPassStruct[] PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers
+            , String PSOCreateInfo_PSODesc_Name
+            , PSO_CREATE_FLAGS PSOCreateInfo_Flags
+        );
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr IRenderDevice_CreateRayTracingPipelineState(
+            IntPtr objPtr
+            , Uint16 PSOCreateInfo_RayTracingPipeline_ShaderRecordSize
+            , Uint8 PSOCreateInfo_RayTracingPipeline_MaxRecursionDepth
+            , RayTracingGeneralShaderGroupPassStruct[] PSOCreateInfo_pGeneralShaders
+            , Uint32 PSOCreateInfo_GeneralShaderCount
+            , RayTracingTriangleHitShaderGroupPassStruct[] PSOCreateInfo_pTriangleHitShaders
+            , Uint32 PSOCreateInfo_TriangleHitShaderCount
+            , RayTracingProceduralHitShaderGroupPassStruct[] PSOCreateInfo_pProceduralHitShaders
+            , Uint32 PSOCreateInfo_ProceduralHitShaderCount
+            , String PSOCreateInfo_pShaderRecordName
+            , Uint32 PSOCreateInfo_MaxAttributeSize
+            , Uint32 PSOCreateInfo_MaxPayloadSize
             , PIPELINE_TYPE PSOCreateInfo_PSODesc_PipelineType
             , Uint32 PSOCreateInfo_PSODesc_SRBAllocationGranularity
             , Uint64 PSOCreateInfo_PSODesc_CommandQueueMask

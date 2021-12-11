@@ -6,6 +6,9 @@
 #include "ImmutableSamplerDesc.PassStruct.h"
 #include "TextureSubResData.PassStruct.h"
 #include "RenderTargetBlendDesc.PassStruct.h"
+#include "RayTracingGeneralShaderGroup.PassStruct.h"
+#include "RayTracingProceduralHitShaderGroup.PassStruct.h"
+#include "RayTracingTriangleHitShaderGroup.PassStruct.h"
 using namespace Diligent;
 extern "C" _AnomalousExport IBuffer* IRenderDevice_CreateBuffer(
 	IRenderDevice* objPtr
@@ -376,6 +379,114 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipeline
 		, &theReturnValue
 	);
     delete[] PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array;
+    delete[] PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array;
+    delete[] PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array;
+	return theReturnValue;
+}
+extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateRayTracingPipelineState(
+	IRenderDevice* objPtr
+	, Uint16 PSOCreateInfo_RayTracingPipeline_ShaderRecordSize
+	, Uint8 PSOCreateInfo_RayTracingPipeline_MaxRecursionDepth
+	, RayTracingGeneralShaderGroupPassStruct* PSOCreateInfo_pGeneralShaders
+	, Uint32 PSOCreateInfo_GeneralShaderCount
+	, RayTracingTriangleHitShaderGroupPassStruct* PSOCreateInfo_pTriangleHitShaders
+	, Uint32 PSOCreateInfo_TriangleHitShaderCount
+	, RayTracingProceduralHitShaderGroupPassStruct* PSOCreateInfo_pProceduralHitShaders
+	, Uint32 PSOCreateInfo_ProceduralHitShaderCount
+	, Char* PSOCreateInfo_pShaderRecordName
+	, Uint32 PSOCreateInfo_MaxAttributeSize
+	, Uint32 PSOCreateInfo_MaxPayloadSize
+	, PIPELINE_TYPE PSOCreateInfo_PSODesc_PipelineType
+	, Uint32 PSOCreateInfo_PSODesc_SRBAllocationGranularity
+	, Uint64 PSOCreateInfo_PSODesc_CommandQueueMask
+	, SHADER_RESOURCE_VARIABLE_TYPE PSOCreateInfo_PSODesc_ResourceLayout_DefaultVariableType
+	, Uint32 PSOCreateInfo_PSODesc_ResourceLayout_NumVariables
+	, ShaderResourceVariableDescPassStruct* PSOCreateInfo_PSODesc_ResourceLayout_Variables
+	, Uint32 PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers
+	, ImmutableSamplerDescPassStruct* PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers
+	, Char* PSOCreateInfo_PSODesc_Name
+	, PSO_CREATE_FLAGS PSOCreateInfo_Flags
+)
+{
+	RayTracingPipelineStateCreateInfo PSOCreateInfo;
+	PSOCreateInfo.RayTracingPipeline.ShaderRecordSize = PSOCreateInfo_RayTracingPipeline_ShaderRecordSize;
+	PSOCreateInfo.RayTracingPipeline.MaxRecursionDepth = PSOCreateInfo_RayTracingPipeline_MaxRecursionDepth;
+	RayTracingGeneralShaderGroup* PSOCreateInfo_pGeneralShaders_Native_Array = new RayTracingGeneralShaderGroup[PSOCreateInfo_GeneralShaderCount];
+	for (Uint32 i = 0; i < PSOCreateInfo_GeneralShaderCount; ++i)
+	{
+	    PSOCreateInfo_pGeneralShaders_Native_Array[i].Name = PSOCreateInfo_pGeneralShaders[i].Name;
+	    PSOCreateInfo_pGeneralShaders_Native_Array[i].pShader = PSOCreateInfo_pGeneralShaders[i].pShader;
+	}
+	PSOCreateInfo.pGeneralShaders = PSOCreateInfo_pGeneralShaders_Native_Array;
+	PSOCreateInfo.GeneralShaderCount = PSOCreateInfo_GeneralShaderCount;
+	RayTracingTriangleHitShaderGroup* PSOCreateInfo_pTriangleHitShaders_Native_Array = new RayTracingTriangleHitShaderGroup[PSOCreateInfo_TriangleHitShaderCount];
+	for (Uint32 i = 0; i < PSOCreateInfo_TriangleHitShaderCount; ++i)
+	{
+	    PSOCreateInfo_pTriangleHitShaders_Native_Array[i].Name = PSOCreateInfo_pTriangleHitShaders[i].Name;
+	    PSOCreateInfo_pTriangleHitShaders_Native_Array[i].pClosestHitShader = PSOCreateInfo_pTriangleHitShaders[i].pClosestHitShader;
+	    PSOCreateInfo_pTriangleHitShaders_Native_Array[i].pAnyHitShader = PSOCreateInfo_pTriangleHitShaders[i].pAnyHitShader;
+	}
+	PSOCreateInfo.pTriangleHitShaders = PSOCreateInfo_pTriangleHitShaders_Native_Array;
+	PSOCreateInfo.TriangleHitShaderCount = PSOCreateInfo_TriangleHitShaderCount;
+	RayTracingProceduralHitShaderGroup* PSOCreateInfo_pProceduralHitShaders_Native_Array = new RayTracingProceduralHitShaderGroup[PSOCreateInfo_ProceduralHitShaderCount];
+	for (Uint32 i = 0; i < PSOCreateInfo_ProceduralHitShaderCount; ++i)
+	{
+	    PSOCreateInfo_pProceduralHitShaders_Native_Array[i].Name = PSOCreateInfo_pProceduralHitShaders[i].Name;
+	    PSOCreateInfo_pProceduralHitShaders_Native_Array[i].pIntersectionShader = PSOCreateInfo_pProceduralHitShaders[i].pIntersectionShader;
+	    PSOCreateInfo_pProceduralHitShaders_Native_Array[i].pClosestHitShader = PSOCreateInfo_pProceduralHitShaders[i].pClosestHitShader;
+	    PSOCreateInfo_pProceduralHitShaders_Native_Array[i].pAnyHitShader = PSOCreateInfo_pProceduralHitShaders[i].pAnyHitShader;
+	}
+	PSOCreateInfo.pProceduralHitShaders = PSOCreateInfo_pProceduralHitShaders_Native_Array;
+	PSOCreateInfo.ProceduralHitShaderCount = PSOCreateInfo_ProceduralHitShaderCount;
+	PSOCreateInfo.pShaderRecordName = PSOCreateInfo_pShaderRecordName;
+	PSOCreateInfo.MaxAttributeSize = PSOCreateInfo_MaxAttributeSize;
+	PSOCreateInfo.MaxPayloadSize = PSOCreateInfo_MaxPayloadSize;
+	PSOCreateInfo.PSODesc.PipelineType = PSOCreateInfo_PSODesc_PipelineType;
+	PSOCreateInfo.PSODesc.SRBAllocationGranularity = PSOCreateInfo_PSODesc_SRBAllocationGranularity;
+	PSOCreateInfo.PSODesc.CommandQueueMask = PSOCreateInfo_PSODesc_CommandQueueMask;
+	PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = PSOCreateInfo_PSODesc_ResourceLayout_DefaultVariableType;
+	PSOCreateInfo.PSODesc.ResourceLayout.NumVariables = PSOCreateInfo_PSODesc_ResourceLayout_NumVariables;
+	ShaderResourceVariableDesc* PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array = new ShaderResourceVariableDesc[PSOCreateInfo_PSODesc_ResourceLayout_NumVariables];
+	for (Uint32 i = 0; i < PSOCreateInfo_PSODesc_ResourceLayout_NumVariables; ++i)
+	{
+	    PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array[i].ShaderStages = PSOCreateInfo_PSODesc_ResourceLayout_Variables[i].ShaderStages;
+	    PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array[i].Name = PSOCreateInfo_PSODesc_ResourceLayout_Variables[i].Name;
+	    PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array[i].Type = PSOCreateInfo_PSODesc_ResourceLayout_Variables[i].Type;
+	}
+	PSOCreateInfo.PSODesc.ResourceLayout.Variables = PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array;
+	PSOCreateInfo.PSODesc.ResourceLayout.NumImmutableSamplers = PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers;
+	ImmutableSamplerDesc* PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array = new ImmutableSamplerDesc[PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers];
+	for (Uint32 i = 0; i < PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers; ++i)
+	{
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].ShaderStages = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].ShaderStages;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].SamplerOrTextureName = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].SamplerOrTextureName;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MinFilter = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_MinFilter;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MagFilter = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_MagFilter;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MipFilter = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_MipFilter;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.AddressU = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_AddressU;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.AddressV = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_AddressV;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.AddressW = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_AddressW;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MipLODBias = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_MipLODBias;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MaxAnisotropy = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_MaxAnisotropy;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.ComparisonFunc = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_ComparisonFunc;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.BorderColor[0] = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_BorderColor[0];
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.BorderColor[1] = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_BorderColor[1];
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.BorderColor[2] = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_BorderColor[2];
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.BorderColor[3] = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_BorderColor[3];
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MinLOD = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_MinLOD;
+	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MaxLOD = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_MaxLOD;
+	}
+	PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array;
+	PSOCreateInfo.PSODesc.Name = PSOCreateInfo_PSODesc_Name;
+	PSOCreateInfo.Flags = PSOCreateInfo_Flags;
+	IPipelineState* theReturnValue = nullptr;
+	objPtr->CreateRayTracingPipelineState(
+		PSOCreateInfo
+		, &theReturnValue
+	);
+    delete[] PSOCreateInfo_pGeneralShaders_Native_Array;
+    delete[] PSOCreateInfo_pTriangleHitShaders_Native_Array;
+    delete[] PSOCreateInfo_pProceduralHitShaders_Native_Array;
     delete[] PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array;
     delete[] PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array;
 	return theReturnValue;

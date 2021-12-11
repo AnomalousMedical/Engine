@@ -22,6 +22,7 @@ namespace DiligentEngineRayTracing
 
         private AutoPtr<IBuffer> m_ConstantsCB;
         private Constants m_Constants;
+        private AutoPtr<IPipelineState> m_pRayTracingPSO;
 
         public unsafe RayTracingUpdateListener(GraphicsEngine graphicsEngine, ShaderLoader<RayTracingUpdateListener> shaderLoader)
         {
@@ -361,7 +362,7 @@ namespace DiligentEngineRayTracing
             PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers = ImmutableSamplers;
             PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE;
 
-            //m_pDevice->CreateRayTracingPipelineState(PSOCreateInfo, &m_pRayTracingPSO);
+            this.m_pRayTracingPSO = m_pDevice.CreateRayTracingPipelineState(PSOCreateInfo);
             //VERIFY_EXPR(m_pRayTracingPSO != nullptr);
 
             //m_pRayTracingPSO->GetStaticVariableByName(SHADER_TYPE_RAY_GEN, "g_ConstantsCB")->Set(m_ConstantsCB);
@@ -374,6 +375,7 @@ namespace DiligentEngineRayTracing
 
         public void Dispose()
         {
+            m_pRayTracingPSO.Dispose();
             m_ConstantsCB.Dispose();
         }
 
