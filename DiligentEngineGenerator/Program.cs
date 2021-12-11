@@ -466,6 +466,53 @@ namespace DiligentEngineGenerator
                 codeWriter.AddWriter(new StructCppPassStructWriter(RenderTargetBlendDesc), Path.Combine(baseCPlusPlusOutDir, $"{nameof(RenderTargetBlendDesc)}.PassStruct.h"));
             }
 
+            //StartRT
+            {
+                var RayTracingPipelineDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 303, 316);
+                codeTypeInfo.Structs[nameof(RayTracingPipelineDesc)] = RayTracingPipelineDesc;
+                var skip = new List<String> { };
+                RayTracingPipelineDesc.Properties = RayTracingPipelineDesc.Properties
+                    .Where(i => !skip.Contains(i.Name)).ToList();
+                codeWriter.AddWriter(new StructCsWriter(RayTracingPipelineDesc), Path.Combine(baseStructDir, $"{nameof(RayTracingPipelineDesc)}.cs"));
+            }
+
+            {
+                var RayTracingGeneralShaderGroup = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 217, 226);
+                codeTypeInfo.Structs[nameof(RayTracingGeneralShaderGroup)] = RayTracingGeneralShaderGroup;
+                var skip = new List<String> { };
+                RayTracingGeneralShaderGroup.Properties = RayTracingGeneralShaderGroup.Properties
+                    .Where(i => !skip.Contains(i.Name)).ToList();
+                codeWriter.AddWriter(new StructCsWriter(RayTracingGeneralShaderGroup), Path.Combine(baseStructDir, $"{nameof(RayTracingGeneralShaderGroup)}.cs"));
+            }
+
+            {
+                var RayTracingTriangleHitShaderGroup = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 239, 253);
+                codeTypeInfo.Structs[nameof(RayTracingTriangleHitShaderGroup)] = RayTracingTriangleHitShaderGroup;
+                var skip = new List<String> { };
+                RayTracingTriangleHitShaderGroup.Properties = RayTracingTriangleHitShaderGroup.Properties
+                    .Where(i => !skip.Contains(i.Name)).ToList();
+                codeWriter.AddWriter(new StructCsWriter(RayTracingTriangleHitShaderGroup), Path.Combine(baseStructDir, $"{nameof(RayTracingTriangleHitShaderGroup)}.cs"));
+            }
+
+            {
+                var RayTracingProceduralHitShaderGroup = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 268, 286);
+                codeTypeInfo.Structs[nameof(RayTracingProceduralHitShaderGroup)] = RayTracingProceduralHitShaderGroup;
+                var skip = new List<String> { };
+                RayTracingProceduralHitShaderGroup.Properties = RayTracingProceduralHitShaderGroup.Properties
+                    .Where(i => !skip.Contains(i.Name)).ToList();
+                codeWriter.AddWriter(new StructCsWriter(RayTracingProceduralHitShaderGroup), Path.Combine(baseStructDir, $"{nameof(RayTracingProceduralHitShaderGroup)}.cs"));
+            }
+
+            {
+                var RayTracingPipelineStateCreateInfo = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 448, 487);
+                codeTypeInfo.Structs[nameof(RayTracingPipelineStateCreateInfo)] = RayTracingPipelineStateCreateInfo;
+                var skip = new List<String> { };
+                RayTracingPipelineStateCreateInfo.Properties = RayTracingPipelineStateCreateInfo.Properties
+                    .Where(i => !skip.Contains(i.Name)).ToList();
+
+                codeWriter.AddWriter(new StructCsWriter(RayTracingPipelineStateCreateInfo), Path.Combine(baseStructDir, $"{nameof(RayTracingPipelineStateCreateInfo)}.cs"));
+            }
+            //End RT
 
             {
                 var ShaderCreateInfo = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Shader.h", 223, 331);
