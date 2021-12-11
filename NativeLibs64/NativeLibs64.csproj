@@ -4,6 +4,13 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+	<ItemGroup>
+		<Content Include="C:/VulkanSDK/1.2.198.1/Lib/../Bin/dxcompiler.dll">
+			<Link>x64\spv_dxcompiler.dll</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
   <ItemGroup Condition="'$(Configuration)'=='Debug'">
     <!--<Content Include="..\..\Dependencies\OgreDeps\Win64Install\bin\Debug\FreeImage_d.dll">
       <Link>x64\FreeImage_d.dll</Link>
@@ -111,6 +118,7 @@
       <Link>x64\Zip.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+	  
   </ItemGroup>
 
   <!--Items only needed for diligent in dx / opengl mode-->

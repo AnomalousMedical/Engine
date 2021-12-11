@@ -14,6 +14,12 @@ namespace DiligentEngine
 {
     public class GraphicsEngine : IDisposable
     {
+        public enum FeatureFlags : Uint32
+        {
+            None = 0,
+            RayTracing = 1 << 1,
+        };
+
         AutoPtr<IRenderDevice> RenderDevicePtr;
         AutoPtr<IDeviceContext> ImmediateContextPtr;
         AutoPtr<ISwapChain> SwapChainPtr;
@@ -35,10 +41,11 @@ namespace DiligentEngine
             this.SwapChainPtr.Dispose();
         }
 
-        internal void CreateDeviceAndSwapChain(IntPtr hwnd, SwapChainDesc swapChainDesc)
+        internal void CreateDeviceAndSwapChain(IntPtr hwnd, SwapChainDesc swapChainDesc, FeatureFlags features = FeatureFlags.None)
         {
             var result = GenericEngineFactory_CreateDeviceAndSwapChain(
-                hwnd
+            hwnd
+            , features
             , swapChainDesc.Width
             , swapChainDesc.Height
             , swapChainDesc.ColorBufferFormat
@@ -64,6 +71,7 @@ namespace DiligentEngine
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern CreateDeviceAndSwapChainResult GenericEngineFactory_CreateDeviceAndSwapChain(
             IntPtr hWnd
+            , FeatureFlags features
             , Uint32 Width                       
             , Uint32 Height                      
             , TEXTURE_FORMAT ColorBufferFormat   
@@ -73,7 +81,7 @@ namespace DiligentEngine
             , Uint32 BufferCount                 
             , Float32 DefaultDepthValue          
             , Uint8 DefaultStencilValue          
-            , [MarshalAs(UnmanagedType.I1)] bool IsPrimary                     
+            , [MarshalAs(UnmanagedType.I1)] bool IsPrimary
             );
     }
 }

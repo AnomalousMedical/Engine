@@ -12,6 +12,11 @@
 
 using namespace Diligent;
 
+enum FeatureFlags : Uint32 {
+	FeatureFlags_NONE = 0,
+	FeatureFlags_RAY_TRACING = 1 << 1,
+};
+
 struct CreateDeviceAndSwapChainResult
 {
 	IRenderDevice* m_pDevice;
@@ -21,6 +26,7 @@ struct CreateDeviceAndSwapChainResult
 
 extern "C" _AnomalousExport CreateDeviceAndSwapChainResult GenericEngineFactory_CreateDeviceAndSwapChain(
 	void* hWnd
+	, FeatureFlags features
 	, Uint32 Width
 	, Uint32 Height
 	, TEXTURE_FORMAT ColorBufferFormat
@@ -52,6 +58,7 @@ extern "C" _AnomalousExport CreateDeviceAndSwapChainResult GenericEngineFactory_
 #   endif
 
 	EngineVkCreateInfo EngineCI;
+	EngineCI.Features.RayTracing = (features & FeatureFlags_RAY_TRACING) == FeatureFlags_RAY_TRACING ? DEVICE_FEATURE_STATE_ENABLED : DEVICE_FEATURE_STATE_DISABLED;
 
 #   ifdef DILIGENT_DEBUG
 	EngineCI.EnableValidation = true;

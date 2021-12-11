@@ -43,7 +43,10 @@ namespace DiligentEngineRayTracing
                 o.AddConsole();
             });
 
-            services.AddDiligentEngine(pluginManager);
+            services.AddDiligentEngine(pluginManager, o =>
+            {
+                o.Features = GraphicsEngine.FeatureFlags.RayTracing;
+            });
             services.AddOSPlatform(pluginManager);
 
             //Add this app's services
