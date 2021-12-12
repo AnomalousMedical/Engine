@@ -93,6 +93,7 @@ namespace DiligentEngineGenerator
 
             switch (item.Type)
             {
+                case "char*":
                 case "Char*":
                     return "String";
                 case "void*":

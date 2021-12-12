@@ -327,6 +327,30 @@ namespace DiligentEngine
                 , MapType
             );
         }
+        /// <summary>
+        /// Builds a bottom-level acceleration structure with the specified geometries.
+        /// \param [in] Attribs - Structure describing build BLAS command attributes, see Diligent::BuildBLASAttribs for details.
+        /// 
+        /// \note Don't call build or copy operation on the same BLAS in a different contexts, because BLAS has CPU-side data
+        /// that will not match with GPU-side, so shader binding were incorrect.
+        /// </summary>
+        public void BuildBLAS(BuildBLASAttribs Attribs)
+        {
+            IDeviceContext_BuildBLAS(
+                this.objPtr
+                , Attribs.pBLAS?.objPtr ?? IntPtr.Zero
+                , Attribs.BLASTransitionMode
+                , Attribs.GeometryTransitionMode
+                , BLASBuildTriangleDataPassStruct.ToStruct(Attribs?.pTriangleData)
+                , Attribs?.pTriangleData != null ? (Uint32)Attribs.pTriangleData.Count : 0
+                , BLASBuildBoundingBoxDataPassStruct.ToStruct(Attribs?.pBoxData)
+                , Attribs?.pBoxData != null ? (Uint32)Attribs.pBoxData.Count : 0
+                , Attribs.pScratchBuffer?.objPtr ?? IntPtr.Zero
+                , Attribs.ScratchBufferOffset
+                , Attribs.ScratchBufferTransitionMode
+                , Attribs.Update
+            );
+        }
 
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -409,6 +433,21 @@ namespace DiligentEngine
             IntPtr objPtr
             , IntPtr pBuffer
             , MAP_TYPE MapType
+        );
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void IDeviceContext_BuildBLAS(
+            IntPtr objPtr
+            , IntPtr Attribs_pBLAS
+            , RESOURCE_STATE_TRANSITION_MODE Attribs_BLASTransitionMode
+            , RESOURCE_STATE_TRANSITION_MODE Attribs_GeometryTransitionMode
+            , BLASBuildTriangleDataPassStruct[] Attribs_pTriangleData
+            , Uint32 Attribs_TriangleDataCount
+            , BLASBuildBoundingBoxDataPassStruct[] Attribs_pBoxData
+            , Uint32 Attribs_BoxDataCount
+            , IntPtr Attribs_pScratchBuffer
+            , Uint32 Attribs_ScratchBufferOffset
+            , RESOURCE_STATE_TRANSITION_MODE Attribs_ScratchBufferTransitionMode
+            , [MarshalAs(UnmanagedType.I1)]Bool Attribs_Update
         );
     }
 }

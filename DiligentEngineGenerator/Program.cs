@@ -724,17 +724,44 @@ namespace DiligentEngineGenerator
                 var BLASBuildTriangleData = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 784, 840);
                 codeTypeInfo.Structs[nameof(BLASBuildTriangleData)] = BLASBuildTriangleData;
                 codeWriter.AddWriter(new StructCsWriter(BLASBuildTriangleData), Path.Combine(baseStructDir, $"{nameof(BLASBuildTriangleData)}.cs"));
+                codeWriter.AddWriter(new StructCsPassStructWriter(BLASBuildTriangleData), Path.Combine(baseStructDir, $"{nameof(BLASBuildTriangleData)}.PassStruct.cs"));
+                codeWriter.AddWriter(new StructCppPassStructWriter(BLASBuildTriangleData), Path.Combine(baseCPlusPlusOutDir, $"{nameof(BLASBuildTriangleData)}.PassStruct.h"));
             }
 
             {
                 var BLASBuildBoundingBoxData = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 847, 873);
                 codeTypeInfo.Structs[nameof(BLASBuildBoundingBoxData)] = BLASBuildBoundingBoxData;
                 codeWriter.AddWriter(new StructCsWriter(BLASBuildBoundingBoxData), Path.Combine(baseStructDir, $"{nameof(BLASBuildBoundingBoxData)}.cs"));
+                codeWriter.AddWriter(new StructCsPassStructWriter(BLASBuildBoundingBoxData), Path.Combine(baseStructDir, $"{nameof(BLASBuildBoundingBoxData)}.PassStruct.cs"));
+                codeWriter.AddWriter(new StructCppPassStructWriter(BLASBuildBoundingBoxData), Path.Combine(baseCPlusPlusOutDir, $"{nameof(BLASBuildBoundingBoxData)}.PassStruct.h"));
             }
 
             {
                 var BuildBLASAttribs = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 880, 934);
                 codeTypeInfo.Structs[nameof(BuildBLASAttribs)] = BuildBLASAttribs;
+
+                {
+                    var pTriangleData = BuildBLASAttribs.Properties.First(i => i.Name == "pTriangleData");
+                    pTriangleData.IsArray = true;
+                    pTriangleData.PutAutoSize = "TriangleDataCount";
+                }
+
+                {
+                    var TriangleDataCount = BuildBLASAttribs.Properties.First(i => i.Name == "TriangleDataCount");
+                    TriangleDataCount.TakeAutoSize = "pTriangleData";
+                }
+
+                {
+                    var pBoxData = BuildBLASAttribs.Properties.First(i => i.Name == "pBoxData");
+                    pBoxData.IsArray = true;
+                    pBoxData.PutAutoSize = "BoxDataCount";
+                }
+
+                {
+                    var TriangleDataCount = BuildBLASAttribs.Properties.First(i => i.Name == "BoxDataCount");
+                    TriangleDataCount.TakeAutoSize = "pBoxData";
+                }
+
                 codeWriter.AddWriter(new StructCsWriter(BuildBLASAttribs), Path.Combine(baseStructDir, $"{nameof(BuildBLASAttribs)}.cs"));
             }
 
@@ -916,7 +943,7 @@ namespace DiligentEngineGenerator
                     }
                 }
 
-                var allowedMethods = new List<String> { "DrawIndexed", "CommitShaderResources", "SetIndexBuffer", "Flush", "ClearRenderTarget", "ClearDepthStencil", "Draw", "SetPipelineState", "MapBuffer", "UnmapBuffer", "SetVertexBuffers" };
+                var allowedMethods = new List<String> { "BuildBLAS", "DrawIndexed", "CommitShaderResources", "SetIndexBuffer", "Flush", "ClearRenderTarget", "ClearDepthStencil", "Draw", "SetPipelineState", "MapBuffer", "UnmapBuffer", "SetVertexBuffers" };
                 //The following have custom implementations: "SetRenderTargets"
                 IDeviceContext.Methods = IDeviceContext.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
@@ -928,7 +955,9 @@ namespace DiligentEngineGenerator
                 var cppWriter = new InterfaceCppWriter(IDeviceContext, new List<String>()
                 {
                     "Graphics/GraphicsEngine/interface/DeviceContext.h",
-                    "Color.h"
+                    "Color.h",
+                    "BLASBuildBoundingBoxData.PassStruct.h",
+                    "BLASBuildTriangleData.PassStruct.h"
                 });
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IDeviceContext)}.cpp"));
             }

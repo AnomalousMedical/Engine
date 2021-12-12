@@ -618,8 +618,7 @@ namespace DiligentEngineRayTracing
 
                 var Attribs = new BuildBLASAttribs();
                 Attribs.pBLAS = m_pCubeBLAS.Obj;
-                Attribs.pTriangleData = TriangleData;
-                Attribs.TriangleDataCount = 1;
+                Attribs.pTriangleData = new List<BLASBuildTriangleData> { TriangleData };
 
                 // Scratch buffer will be used to store temporary data during BLAS build.
                 // Previous content in the scratch buffer will be discarded.
@@ -630,7 +629,7 @@ namespace DiligentEngineRayTracing
                 Attribs.GeometryTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
                 Attribs.ScratchBufferTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
 
-                //m_pImmediateContext.BuildBLAS(Attribs);
+                m_pImmediateContext.BuildBLAS(Attribs); //There is a potential problem here where the managed strings are deallocated, then diligent will error with "Cube" hashes the same as "" and then be unable to find the geometry. Need to figure out how to use strings with pass structs.
             }
         }
 

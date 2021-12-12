@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "Graphics/GraphicsEngine/interface/DeviceContext.h"
 #include "Color.h"
+#include "BLASBuildBoundingBoxData.PassStruct.h"
+#include "BLASBuildTriangleData.PassStruct.h"
 using namespace Diligent;
 extern "C" _AnomalousExport void IDeviceContext_SetPipelineState(
 	IDeviceContext* objPtr
@@ -134,4 +136,65 @@ extern "C" _AnomalousExport void IDeviceContext_UnmapBuffer(
 		pBuffer
 		, MapType
 	);
+}
+extern "C" _AnomalousExport void IDeviceContext_BuildBLAS(
+	IDeviceContext* objPtr
+	, IBottomLevelAS* Attribs_pBLAS
+	, RESOURCE_STATE_TRANSITION_MODE Attribs_BLASTransitionMode
+	, RESOURCE_STATE_TRANSITION_MODE Attribs_GeometryTransitionMode
+	, BLASBuildTriangleDataPassStruct* Attribs_pTriangleData
+	, Uint32 Attribs_TriangleDataCount
+	, BLASBuildBoundingBoxDataPassStruct* Attribs_pBoxData
+	, Uint32 Attribs_BoxDataCount
+	, IBuffer* Attribs_pScratchBuffer
+	, Uint32 Attribs_ScratchBufferOffset
+	, RESOURCE_STATE_TRANSITION_MODE Attribs_ScratchBufferTransitionMode
+	, Bool Attribs_Update
+)
+{
+	BuildBLASAttribs Attribs;
+	Attribs.pBLAS = Attribs_pBLAS;
+	Attribs.BLASTransitionMode = Attribs_BLASTransitionMode;
+	Attribs.GeometryTransitionMode = Attribs_GeometryTransitionMode;
+	BLASBuildTriangleData* Attribs_pTriangleData_Native_Array = new BLASBuildTriangleData[Attribs_TriangleDataCount];
+	for (Uint32 i = 0; i < Attribs_TriangleDataCount; ++i)
+	{
+	    Attribs_pTriangleData_Native_Array[i].GeometryName = Attribs_pTriangleData[i].GeometryName;
+	    Attribs_pTriangleData_Native_Array[i].pVertexBuffer = Attribs_pTriangleData[i].pVertexBuffer;
+	    Attribs_pTriangleData_Native_Array[i].VertexOffset = Attribs_pTriangleData[i].VertexOffset;
+	    Attribs_pTriangleData_Native_Array[i].VertexStride = Attribs_pTriangleData[i].VertexStride;
+	    Attribs_pTriangleData_Native_Array[i].VertexCount = Attribs_pTriangleData[i].VertexCount;
+	    Attribs_pTriangleData_Native_Array[i].VertexValueType = Attribs_pTriangleData[i].VertexValueType;
+	    Attribs_pTriangleData_Native_Array[i].VertexComponentCount = Attribs_pTriangleData[i].VertexComponentCount;
+	    Attribs_pTriangleData_Native_Array[i].PrimitiveCount = Attribs_pTriangleData[i].PrimitiveCount;
+	    Attribs_pTriangleData_Native_Array[i].pIndexBuffer = Attribs_pTriangleData[i].pIndexBuffer;
+	    Attribs_pTriangleData_Native_Array[i].IndexOffset = Attribs_pTriangleData[i].IndexOffset;
+	    Attribs_pTriangleData_Native_Array[i].IndexType = Attribs_pTriangleData[i].IndexType;
+	    Attribs_pTriangleData_Native_Array[i].pTransformBuffer = Attribs_pTriangleData[i].pTransformBuffer;
+	    Attribs_pTriangleData_Native_Array[i].TransformBufferOffset = Attribs_pTriangleData[i].TransformBufferOffset;
+	    Attribs_pTriangleData_Native_Array[i].Flags = Attribs_pTriangleData[i].Flags;
+	}
+	Attribs.pTriangleData = Attribs_pTriangleData_Native_Array;
+	Attribs.TriangleDataCount = Attribs_TriangleDataCount;
+	BLASBuildBoundingBoxData* Attribs_pBoxData_Native_Array = new BLASBuildBoundingBoxData[Attribs_BoxDataCount];
+	for (Uint32 i = 0; i < Attribs_BoxDataCount; ++i)
+	{
+	    Attribs_pBoxData_Native_Array[i].GeometryName = Attribs_pBoxData[i].GeometryName;
+	    Attribs_pBoxData_Native_Array[i].pBoxBuffer = Attribs_pBoxData[i].pBoxBuffer;
+	    Attribs_pBoxData_Native_Array[i].BoxOffset = Attribs_pBoxData[i].BoxOffset;
+	    Attribs_pBoxData_Native_Array[i].BoxStride = Attribs_pBoxData[i].BoxStride;
+	    Attribs_pBoxData_Native_Array[i].BoxCount = Attribs_pBoxData[i].BoxCount;
+	    Attribs_pBoxData_Native_Array[i].Flags = Attribs_pBoxData[i].Flags;
+	}
+	Attribs.pBoxData = Attribs_pBoxData_Native_Array;
+	Attribs.BoxDataCount = Attribs_BoxDataCount;
+	Attribs.pScratchBuffer = Attribs_pScratchBuffer;
+	Attribs.ScratchBufferOffset = Attribs_ScratchBufferOffset;
+	Attribs.ScratchBufferTransitionMode = Attribs_ScratchBufferTransitionMode;
+	Attribs.Update = Attribs_Update;
+	objPtr->BuildBLAS(
+		Attribs
+	);
+    delete[] Attribs_pTriangleData_Native_Array;
+    delete[] Attribs_pBoxData_Native_Array;
 }

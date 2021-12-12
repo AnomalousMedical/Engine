@@ -29,10 +29,8 @@ namespace DiligentEngine
         public IBottomLevelAS pBLAS { get; set; }
         public RESOURCE_STATE_TRANSITION_MODE BLASTransitionMode { get; set; } = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_NONE;
         public RESOURCE_STATE_TRANSITION_MODE GeometryTransitionMode { get; set; } = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_NONE;
-        public BLASBuildTriangleData pTriangleData { get; set; }
-        public Uint32 TriangleDataCount { get; set; } = 0;
-        public BLASBuildBoundingBoxData pBoxData { get; set; }
-        public Uint32 BoxDataCount { get; set; } = 0;
+        public List<BLASBuildTriangleData> pTriangleData { get; set; }
+        public List<BLASBuildBoundingBoxData> pBoxData { get; set; }
         public IBuffer pScratchBuffer { get; set; }
         public Uint32 ScratchBufferOffset { get; set; } = 0;
         public RESOURCE_STATE_TRANSITION_MODE ScratchBufferTransitionMode { get; set; } = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_NONE;
