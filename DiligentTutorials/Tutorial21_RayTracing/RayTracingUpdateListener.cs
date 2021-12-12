@@ -678,7 +678,6 @@ namespace DiligentEngineRayTracing
                 }
 
                 // Create scratch buffer
-
                 using var pScratchBuffer = m_pDevice.CreateBuffer(new BufferDesc()
                 {
                     Name = "BLAS Scratch Buffer",
@@ -737,18 +736,14 @@ namespace DiligentEngineRayTracing
                 m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_TLAS").Set(m_pTLAS.Obj);
             }
 
-            //// Create scratch buffer
-            //if (!m_ScratchBuffer)
-            //{
-            //    BufferDesc BuffDesc;
-            //    BuffDesc.Name          = "TLAS Scratch Buffer";
-            //    BuffDesc.Usage         = USAGE_DEFAULT;
-            //    BuffDesc.BindFlags     = BIND_RAY_TRACING;
-            //    BuffDesc.uiSizeInBytes = std::max(m_pTLAS->GetScratchBufferSizes().Build, m_pTLAS->GetScratchBufferSizes().Update);
-
-            //    m_pDevice->CreateBuffer(BuffDesc, nullptr, &m_ScratchBuffer);
-            //    VERIFY_EXPR(m_ScratchBuffer != nullptr);
-            //}
+            // Create scratch buffer
+            using var pScratchBuffer = m_pDevice.CreateBuffer(new BufferDesc()
+            {
+                Name = "TLAS Scratch Buffer",
+                Usage = USAGE.USAGE_DEFAULT,
+                BindFlags = BIND_FLAGS.BIND_RAY_TRACING,
+                uiSizeInBytes = Math.Max(m_pTLAS.Obj.ScratchBufferSizes_Build, m_pTLAS.Obj.ScratchBufferSizes_Update)
+            }, new BufferData());
 
             //// Create instance buffer
             //if (!m_InstanceBuffer)

@@ -173,6 +173,7 @@
     <ClCompile Include="IBottomLevelAS.cpp" />
     <ClCompile Include="IBottomLevelAS.Custom.cpp" />
     <ClCompile Include="IBuffer.cpp" />
+    <ClCompile Include="IBufferView.cpp" />
     <ClCompile Include="IDeviceContext.cpp" />
     <ClCompile Include="IDeviceContext.Custom.cpp" />
     <ClCompile Include="IDeviceObject.cpp" />
@@ -190,6 +191,8 @@
     <ClCompile Include="ITexture.cpp" />
     <ClCompile Include="ITexture.Custom.cpp" />
     <ClCompile Include="ITextureView.cpp" />
+    <ClCompile Include="ITopLevelAS.cpp" />
+    <ClCompile Include="ITopLevelAS.Custom.cpp" />
     <ClCompile Include="ShaderCreateInfo.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -199,6 +202,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BLASBoundingBoxDesc.PassStruct.h" />
+    <ClInclude Include="BLASBuildBoundingBoxData.PassStruct.h" />
+    <ClInclude Include="BLASBuildTriangleData.PassStruct.h" />
+    <ClInclude Include="BLASTriangleDesc.PassStruct.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="DeviceCaps.PassStruct.h" />
     <ClInclude Include="GraphicsAdapterInfo.PassStruct.h" />
