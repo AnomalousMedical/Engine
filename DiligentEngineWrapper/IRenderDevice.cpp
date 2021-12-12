@@ -129,15 +129,18 @@ extern "C" _AnomalousExport ITexture* IRenderDevice_CreateTexture(
 	TexDesc.Name = TexDesc_Name;
 	TextureData pData;
 	TextureSubResData* pData_pSubResources_Native_Array = new TextureSubResData[pData_NumSubresources];
-	for (Uint32 i = 0; i < pData_NumSubresources; ++i)
+	if(pData_NumSubresources > 0)
 	{
+		for (Uint32 i = 0; i < pData_NumSubresources; ++i)
+		{
 	    pData_pSubResources_Native_Array[i].pData = pData_pSubResources[i].pData;
 	    pData_pSubResources_Native_Array[i].pSrcBuffer = pData_pSubResources[i].pSrcBuffer;
 	    pData_pSubResources_Native_Array[i].SrcOffset = pData_pSubResources[i].SrcOffset;
 	    pData_pSubResources_Native_Array[i].Stride = pData_pSubResources[i].Stride;
 	    pData_pSubResources_Native_Array[i].DepthStride = pData_pSubResources[i].DepthStride;
+		}
+		pData.pSubResources = pData_pSubResources_Native_Array;  
 	}
-	pData.pSubResources = pData_pSubResources_Native_Array;
 	pData.NumSubresources = pData_NumSubresources;
 	ITexture* theReturnValue = nullptr;
 	objPtr->CreateTexture(
@@ -299,8 +302,10 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipeline
 	PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.BackFace.StencilPassOp = PSOCreateInfo_GraphicsPipeline_DepthStencilDesc_BackFace_StencilPassOp;
 	PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.BackFace.StencilFunc = PSOCreateInfo_GraphicsPipeline_DepthStencilDesc_BackFace_StencilFunc;
 	LayoutElement* PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array = new LayoutElement[PSOCreateInfo_GraphicsPipeline_InputLayout_NumElements];
-	for (Uint32 i = 0; i < PSOCreateInfo_GraphicsPipeline_InputLayout_NumElements; ++i)
+	if(PSOCreateInfo_GraphicsPipeline_InputLayout_NumElements > 0)
 	{
+		for (Uint32 i = 0; i < PSOCreateInfo_GraphicsPipeline_InputLayout_NumElements; ++i)
+		{
 	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].HLSLSemantic = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].HLSLSemantic;
 	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].InputIndex = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].InputIndex;
 	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].BufferSlot = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].BufferSlot;
@@ -311,8 +316,9 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipeline
 	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].Stride = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].Stride;
 	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].Frequency = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].Frequency;
 	    PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array[i].InstanceDataStepRate = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements[i].InstanceDataStepRate;
+		}
+		PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array;  
 	}
-	PSOCreateInfo.GraphicsPipeline.InputLayout.LayoutElements = PSOCreateInfo_GraphicsPipeline_InputLayout_LayoutElements_Native_Array;
 	PSOCreateInfo.GraphicsPipeline.InputLayout.NumElements = PSOCreateInfo_GraphicsPipeline_InputLayout_NumElements;
 	PSOCreateInfo.GraphicsPipeline.PrimitiveTopology = PSOCreateInfo_GraphicsPipeline_PrimitiveTopology;
 	PSOCreateInfo.GraphicsPipeline.NumViewports = PSOCreateInfo_GraphicsPipeline_NumViewports;
@@ -343,17 +349,22 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipeline
 	PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = PSOCreateInfo_PSODesc_ResourceLayout_DefaultVariableType;
 	PSOCreateInfo.PSODesc.ResourceLayout.NumVariables = PSOCreateInfo_PSODesc_ResourceLayout_NumVariables;
 	ShaderResourceVariableDesc* PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array = new ShaderResourceVariableDesc[PSOCreateInfo_PSODesc_ResourceLayout_NumVariables];
-	for (Uint32 i = 0; i < PSOCreateInfo_PSODesc_ResourceLayout_NumVariables; ++i)
+	if(PSOCreateInfo_PSODesc_ResourceLayout_NumVariables > 0)
 	{
+		for (Uint32 i = 0; i < PSOCreateInfo_PSODesc_ResourceLayout_NumVariables; ++i)
+		{
 	    PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array[i].ShaderStages = PSOCreateInfo_PSODesc_ResourceLayout_Variables[i].ShaderStages;
 	    PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array[i].Name = PSOCreateInfo_PSODesc_ResourceLayout_Variables[i].Name;
 	    PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array[i].Type = PSOCreateInfo_PSODesc_ResourceLayout_Variables[i].Type;
+		}
+		PSOCreateInfo.PSODesc.ResourceLayout.Variables = PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array;  
 	}
-	PSOCreateInfo.PSODesc.ResourceLayout.Variables = PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array;
 	PSOCreateInfo.PSODesc.ResourceLayout.NumImmutableSamplers = PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers;
 	ImmutableSamplerDesc* PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array = new ImmutableSamplerDesc[PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers];
-	for (Uint32 i = 0; i < PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers; ++i)
+	if(PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers > 0)
 	{
+		for (Uint32 i = 0; i < PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers; ++i)
+		{
 	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].ShaderStages = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].ShaderStages;
 	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].SamplerOrTextureName = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].SamplerOrTextureName;
 	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MinFilter = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_MinFilter;
@@ -371,8 +382,9 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateGraphicsPipeline
 	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.BorderColor[3] = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_BorderColor[3];
 	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MinLOD = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_MinLOD;
 	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MaxLOD = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_MaxLOD;
+		}
+		PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array;  
 	}
-	PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array;
 	PSOCreateInfo.PSODesc.Name = PSOCreateInfo_PSODesc_Name;
 	PSOCreateInfo.Flags = PSOCreateInfo_Flags;
 	IPipelineState* theReturnValue = nullptr;
@@ -414,31 +426,40 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateRayTracingPipeli
 	PSOCreateInfo.RayTracingPipeline.ShaderRecordSize = PSOCreateInfo_RayTracingPipeline_ShaderRecordSize;
 	PSOCreateInfo.RayTracingPipeline.MaxRecursionDepth = PSOCreateInfo_RayTracingPipeline_MaxRecursionDepth;
 	RayTracingGeneralShaderGroup* PSOCreateInfo_pGeneralShaders_Native_Array = new RayTracingGeneralShaderGroup[PSOCreateInfo_GeneralShaderCount];
-	for (Uint32 i = 0; i < PSOCreateInfo_GeneralShaderCount; ++i)
+	if(PSOCreateInfo_GeneralShaderCount > 0)
 	{
+		for (Uint32 i = 0; i < PSOCreateInfo_GeneralShaderCount; ++i)
+		{
 	    PSOCreateInfo_pGeneralShaders_Native_Array[i].Name = PSOCreateInfo_pGeneralShaders[i].Name;
 	    PSOCreateInfo_pGeneralShaders_Native_Array[i].pShader = PSOCreateInfo_pGeneralShaders[i].pShader;
+		}
+		PSOCreateInfo.pGeneralShaders = PSOCreateInfo_pGeneralShaders_Native_Array;  
 	}
-	PSOCreateInfo.pGeneralShaders = PSOCreateInfo_pGeneralShaders_Native_Array;
 	PSOCreateInfo.GeneralShaderCount = PSOCreateInfo_GeneralShaderCount;
 	RayTracingTriangleHitShaderGroup* PSOCreateInfo_pTriangleHitShaders_Native_Array = new RayTracingTriangleHitShaderGroup[PSOCreateInfo_TriangleHitShaderCount];
-	for (Uint32 i = 0; i < PSOCreateInfo_TriangleHitShaderCount; ++i)
+	if(PSOCreateInfo_TriangleHitShaderCount > 0)
 	{
+		for (Uint32 i = 0; i < PSOCreateInfo_TriangleHitShaderCount; ++i)
+		{
 	    PSOCreateInfo_pTriangleHitShaders_Native_Array[i].Name = PSOCreateInfo_pTriangleHitShaders[i].Name;
 	    PSOCreateInfo_pTriangleHitShaders_Native_Array[i].pClosestHitShader = PSOCreateInfo_pTriangleHitShaders[i].pClosestHitShader;
 	    PSOCreateInfo_pTriangleHitShaders_Native_Array[i].pAnyHitShader = PSOCreateInfo_pTriangleHitShaders[i].pAnyHitShader;
+		}
+		PSOCreateInfo.pTriangleHitShaders = PSOCreateInfo_pTriangleHitShaders_Native_Array;  
 	}
-	PSOCreateInfo.pTriangleHitShaders = PSOCreateInfo_pTriangleHitShaders_Native_Array;
 	PSOCreateInfo.TriangleHitShaderCount = PSOCreateInfo_TriangleHitShaderCount;
 	RayTracingProceduralHitShaderGroup* PSOCreateInfo_pProceduralHitShaders_Native_Array = new RayTracingProceduralHitShaderGroup[PSOCreateInfo_ProceduralHitShaderCount];
-	for (Uint32 i = 0; i < PSOCreateInfo_ProceduralHitShaderCount; ++i)
+	if(PSOCreateInfo_ProceduralHitShaderCount > 0)
 	{
+		for (Uint32 i = 0; i < PSOCreateInfo_ProceduralHitShaderCount; ++i)
+		{
 	    PSOCreateInfo_pProceduralHitShaders_Native_Array[i].Name = PSOCreateInfo_pProceduralHitShaders[i].Name;
 	    PSOCreateInfo_pProceduralHitShaders_Native_Array[i].pIntersectionShader = PSOCreateInfo_pProceduralHitShaders[i].pIntersectionShader;
 	    PSOCreateInfo_pProceduralHitShaders_Native_Array[i].pClosestHitShader = PSOCreateInfo_pProceduralHitShaders[i].pClosestHitShader;
 	    PSOCreateInfo_pProceduralHitShaders_Native_Array[i].pAnyHitShader = PSOCreateInfo_pProceduralHitShaders[i].pAnyHitShader;
+		}
+		PSOCreateInfo.pProceduralHitShaders = PSOCreateInfo_pProceduralHitShaders_Native_Array;  
 	}
-	PSOCreateInfo.pProceduralHitShaders = PSOCreateInfo_pProceduralHitShaders_Native_Array;
 	PSOCreateInfo.ProceduralHitShaderCount = PSOCreateInfo_ProceduralHitShaderCount;
 	PSOCreateInfo.pShaderRecordName = PSOCreateInfo_pShaderRecordName;
 	PSOCreateInfo.MaxAttributeSize = PSOCreateInfo_MaxAttributeSize;
@@ -449,17 +470,22 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateRayTracingPipeli
 	PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = PSOCreateInfo_PSODesc_ResourceLayout_DefaultVariableType;
 	PSOCreateInfo.PSODesc.ResourceLayout.NumVariables = PSOCreateInfo_PSODesc_ResourceLayout_NumVariables;
 	ShaderResourceVariableDesc* PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array = new ShaderResourceVariableDesc[PSOCreateInfo_PSODesc_ResourceLayout_NumVariables];
-	for (Uint32 i = 0; i < PSOCreateInfo_PSODesc_ResourceLayout_NumVariables; ++i)
+	if(PSOCreateInfo_PSODesc_ResourceLayout_NumVariables > 0)
 	{
+		for (Uint32 i = 0; i < PSOCreateInfo_PSODesc_ResourceLayout_NumVariables; ++i)
+		{
 	    PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array[i].ShaderStages = PSOCreateInfo_PSODesc_ResourceLayout_Variables[i].ShaderStages;
 	    PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array[i].Name = PSOCreateInfo_PSODesc_ResourceLayout_Variables[i].Name;
 	    PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array[i].Type = PSOCreateInfo_PSODesc_ResourceLayout_Variables[i].Type;
+		}
+		PSOCreateInfo.PSODesc.ResourceLayout.Variables = PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array;  
 	}
-	PSOCreateInfo.PSODesc.ResourceLayout.Variables = PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array;
 	PSOCreateInfo.PSODesc.ResourceLayout.NumImmutableSamplers = PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers;
 	ImmutableSamplerDesc* PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array = new ImmutableSamplerDesc[PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers];
-	for (Uint32 i = 0; i < PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers; ++i)
+	if(PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers > 0)
 	{
+		for (Uint32 i = 0; i < PSOCreateInfo_PSODesc_ResourceLayout_NumImmutableSamplers; ++i)
+		{
 	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].ShaderStages = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].ShaderStages;
 	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].SamplerOrTextureName = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].SamplerOrTextureName;
 	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MinFilter = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_MinFilter;
@@ -477,8 +503,9 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateRayTracingPipeli
 	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.BorderColor[3] = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_BorderColor[3];
 	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MinLOD = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_MinLOD;
 	    PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array[i].Desc.MaxLOD = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers[i].Desc_MaxLOD;
+		}
+		PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array;  
 	}
-	PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers = PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array;
 	PSOCreateInfo.PSODesc.Name = PSOCreateInfo_PSODesc_Name;
 	PSOCreateInfo.Flags = PSOCreateInfo_Flags;
 	IPipelineState* theReturnValue = nullptr;
@@ -507,8 +534,10 @@ extern "C" _AnomalousExport IBottomLevelAS* IRenderDevice_CreateBLAS(
 {
 	BottomLevelASDesc Desc;
 	BLASTriangleDesc* Desc_pTriangles_Native_Array = new BLASTriangleDesc[Desc_TriangleCount];
-	for (Uint32 i = 0; i < Desc_TriangleCount; ++i)
+	if(Desc_TriangleCount > 0)
 	{
+		for (Uint32 i = 0; i < Desc_TriangleCount; ++i)
+		{
 	    Desc_pTriangles_Native_Array[i].GeometryName = Desc_pTriangles[i].GeometryName;
 	    Desc_pTriangles_Native_Array[i].MaxVertexCount = Desc_pTriangles[i].MaxVertexCount;
 	    Desc_pTriangles_Native_Array[i].VertexValueType = Desc_pTriangles[i].VertexValueType;
@@ -516,16 +545,20 @@ extern "C" _AnomalousExport IBottomLevelAS* IRenderDevice_CreateBLAS(
 	    Desc_pTriangles_Native_Array[i].MaxPrimitiveCount = Desc_pTriangles[i].MaxPrimitiveCount;
 	    Desc_pTriangles_Native_Array[i].IndexType = Desc_pTriangles[i].IndexType;
 	    Desc_pTriangles_Native_Array[i].AllowsTransforms = Desc_pTriangles[i].AllowsTransforms;
+		}
+		Desc.pTriangles = Desc_pTriangles_Native_Array;  
 	}
-	Desc.pTriangles = Desc_pTriangles_Native_Array;
 	Desc.TriangleCount = Desc_TriangleCount;
 	BLASBoundingBoxDesc* Desc_pBoxes_Native_Array = new BLASBoundingBoxDesc[Desc_BoxCount];
-	for (Uint32 i = 0; i < Desc_BoxCount; ++i)
+	if(Desc_BoxCount > 0)
 	{
+		for (Uint32 i = 0; i < Desc_BoxCount; ++i)
+		{
 	    Desc_pBoxes_Native_Array[i].GeometryName = Desc_pBoxes[i].GeometryName;
 	    Desc_pBoxes_Native_Array[i].MaxBoxCount = Desc_pBoxes[i].MaxBoxCount;
+		}
+		Desc.pBoxes = Desc_pBoxes_Native_Array;  
 	}
-	Desc.pBoxes = Desc_pBoxes_Native_Array;
 	Desc.BoxCount = Desc_BoxCount;
 	Desc.Flags = Desc_Flags;
 	Desc.CompactedSize = Desc_CompactedSize;

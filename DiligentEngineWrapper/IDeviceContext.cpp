@@ -157,8 +157,10 @@ extern "C" _AnomalousExport void IDeviceContext_BuildBLAS(
 	Attribs.BLASTransitionMode = Attribs_BLASTransitionMode;
 	Attribs.GeometryTransitionMode = Attribs_GeometryTransitionMode;
 	BLASBuildTriangleData* Attribs_pTriangleData_Native_Array = new BLASBuildTriangleData[Attribs_TriangleDataCount];
-	for (Uint32 i = 0; i < Attribs_TriangleDataCount; ++i)
+	if(Attribs_TriangleDataCount > 0)
 	{
+		for (Uint32 i = 0; i < Attribs_TriangleDataCount; ++i)
+		{
 	    Attribs_pTriangleData_Native_Array[i].GeometryName = Attribs_pTriangleData[i].GeometryName;
 	    Attribs_pTriangleData_Native_Array[i].pVertexBuffer = Attribs_pTriangleData[i].pVertexBuffer;
 	    Attribs_pTriangleData_Native_Array[i].VertexOffset = Attribs_pTriangleData[i].VertexOffset;
@@ -173,20 +175,24 @@ extern "C" _AnomalousExport void IDeviceContext_BuildBLAS(
 	    Attribs_pTriangleData_Native_Array[i].pTransformBuffer = Attribs_pTriangleData[i].pTransformBuffer;
 	    Attribs_pTriangleData_Native_Array[i].TransformBufferOffset = Attribs_pTriangleData[i].TransformBufferOffset;
 	    Attribs_pTriangleData_Native_Array[i].Flags = Attribs_pTriangleData[i].Flags;
+		}
+		Attribs.pTriangleData = Attribs_pTriangleData_Native_Array;  
 	}
-	Attribs.pTriangleData = Attribs_pTriangleData_Native_Array;
 	Attribs.TriangleDataCount = Attribs_TriangleDataCount;
 	BLASBuildBoundingBoxData* Attribs_pBoxData_Native_Array = new BLASBuildBoundingBoxData[Attribs_BoxDataCount];
-	for (Uint32 i = 0; i < Attribs_BoxDataCount; ++i)
+	if(Attribs_BoxDataCount > 0)
 	{
+		for (Uint32 i = 0; i < Attribs_BoxDataCount; ++i)
+		{
 	    Attribs_pBoxData_Native_Array[i].GeometryName = Attribs_pBoxData[i].GeometryName;
 	    Attribs_pBoxData_Native_Array[i].pBoxBuffer = Attribs_pBoxData[i].pBoxBuffer;
 	    Attribs_pBoxData_Native_Array[i].BoxOffset = Attribs_pBoxData[i].BoxOffset;
 	    Attribs_pBoxData_Native_Array[i].BoxStride = Attribs_pBoxData[i].BoxStride;
 	    Attribs_pBoxData_Native_Array[i].BoxCount = Attribs_pBoxData[i].BoxCount;
 	    Attribs_pBoxData_Native_Array[i].Flags = Attribs_pBoxData[i].Flags;
+		}
+		Attribs.pBoxData = Attribs_pBoxData_Native_Array;  
 	}
-	Attribs.pBoxData = Attribs_pBoxData_Native_Array;
 	Attribs.BoxDataCount = Attribs_BoxDataCount;
 	Attribs.pScratchBuffer = Attribs_pScratchBuffer;
 	Attribs.ScratchBufferOffset = Attribs_ScratchBufferOffset;
