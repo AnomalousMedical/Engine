@@ -279,6 +279,12 @@ namespace DiligentEngineGenerator
                 EnumWriter.Write(RAYTRACING_BUILD_AS_FLAGS, Path.Combine(baseEnumDir, $"{nameof(RAYTRACING_BUILD_AS_FLAGS)}.cs"));
             }
 
+            {
+                var RAYTRACING_GEOMETRY_FLAGS = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 767, 781);
+                codeTypeInfo.Enums[nameof(RAYTRACING_GEOMETRY_FLAGS)] = RAYTRACING_GEOMETRY_FLAGS;
+                EnumWriter.Write(RAYTRACING_GEOMETRY_FLAGS, Path.Combine(baseEnumDir, $"{nameof(RAYTRACING_GEOMETRY_FLAGS)}.cs"));
+            }
+
             //////////// Structs
 
             var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
@@ -712,6 +718,24 @@ namespace DiligentEngineGenerator
                 var OptimizedClearValue = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 1122, 1134);
                 codeTypeInfo.Structs[nameof(OptimizedClearValue)] = OptimizedClearValue;
                 codeWriter.AddWriter(new StructCsWriter(OptimizedClearValue), Path.Combine(baseStructDir, $"{nameof(OptimizedClearValue)}.cs"));
+            }
+
+            {
+                var BLASBuildTriangleData = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 784, 840);
+                codeTypeInfo.Structs[nameof(BLASBuildTriangleData)] = BLASBuildTriangleData;
+                codeWriter.AddWriter(new StructCsWriter(BLASBuildTriangleData), Path.Combine(baseStructDir, $"{nameof(BLASBuildTriangleData)}.cs"));
+            }
+
+            {
+                var BLASBuildBoundingBoxData = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 847, 873);
+                codeTypeInfo.Structs[nameof(BLASBuildBoundingBoxData)] = BLASBuildBoundingBoxData;
+                codeWriter.AddWriter(new StructCsWriter(BLASBuildBoundingBoxData), Path.Combine(baseStructDir, $"{nameof(BLASBuildBoundingBoxData)}.cs"));
+            }
+
+            {
+                var BuildBLASAttribs = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 880, 934);
+                codeTypeInfo.Structs[nameof(BuildBLASAttribs)] = BuildBLASAttribs;
+                codeWriter.AddWriter(new StructCsWriter(BuildBLASAttribs), Path.Combine(baseStructDir, $"{nameof(BuildBLASAttribs)}.cs"));
             }
 
             {

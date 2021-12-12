@@ -455,6 +455,7 @@ namespace DiligentEngineRayTracing
         unsafe void CreateCubeBLAS()
         {
             var m_pDevice = graphicsEngine.RenderDevice;
+            var m_pImmediateContext = graphicsEngine.ImmediateContext;
 
             // clang-format off
             var CubePos = new Vector3[]
@@ -572,8 +573,8 @@ namespace DiligentEngineRayTracing
             // Create & build bottom level acceleration structure
             {
                 // Create BLAS
+                var Triangles = new BLASTriangleDesc();
                 {
-                    var Triangles = new BLASTriangleDesc();
                     Triangles.GeometryName = "Cube";
                     Triangles.MaxVertexCount = (uint)CubePos.Length;
                     Triangles.VertexValueType = VALUE_TYPE.VT_FLOAT32;
@@ -602,34 +603,34 @@ namespace DiligentEngineRayTracing
                     //VERIFY_EXPR(pScratchBuffer != nullptr);
                 }
 
-                //// Build BLAS
-                //BLASBuildTriangleData TriangleData;
-                //TriangleData.GeometryName = Triangles.GeometryName;
-                //TriangleData.pVertexBuffer = pCubeVertexBuffer;
-                //TriangleData.VertexStride = sizeof(CubePos[0]);
-                //TriangleData.VertexCount = Triangles.MaxVertexCount;
-                //TriangleData.VertexValueType = Triangles.VertexValueType;
-                //TriangleData.VertexComponentCount = Triangles.VertexComponentCount;
-                //TriangleData.pIndexBuffer = pCubeIndexBuffer;
-                //TriangleData.PrimitiveCount = Triangles.MaxPrimitiveCount;
-                //TriangleData.IndexType = Triangles.IndexType;
-                //TriangleData.Flags = RAYTRACING_GEOMETRY_FLAG_OPAQUE;
+                // Build BLAS
+                var TriangleData = new BLASBuildTriangleData();
+                TriangleData.GeometryName = Triangles.GeometryName;
+                TriangleData.pVertexBuffer = pCubeVertexBuffer.Obj;
+                TriangleData.VertexStride = (uint)sizeof(Vector3);
+                TriangleData.VertexCount = Triangles.MaxVertexCount;
+                TriangleData.VertexValueType = Triangles.VertexValueType;
+                TriangleData.VertexComponentCount = Triangles.VertexComponentCount;
+                TriangleData.pIndexBuffer = pCubeIndexBuffer.Obj;
+                TriangleData.PrimitiveCount = Triangles.MaxPrimitiveCount;
+                TriangleData.IndexType = Triangles.IndexType;
+                TriangleData.Flags = RAYTRACING_GEOMETRY_FLAGS.RAYTRACING_GEOMETRY_FLAG_OPAQUE;
 
-                //BuildBLASAttribs Attribs;
-                //Attribs.pBLAS = m_pCubeBLAS;
-                //Attribs.pTriangleData = &TriangleData;
-                //Attribs.TriangleDataCount = 1;
+                var Attribs = new BuildBLASAttribs();
+                Attribs.pBLAS = m_pCubeBLAS.Obj;
+                Attribs.pTriangleData = TriangleData;
+                Attribs.TriangleDataCount = 1;
 
-                //// Scratch buffer will be used to store temporary data during BLAS build.
-                //// Previous content in the scratch buffer will be discarded.
-                //Attribs.pScratchBuffer = pScratchBuffer;
+                // Scratch buffer will be used to store temporary data during BLAS build.
+                // Previous content in the scratch buffer will be discarded.
+                Attribs.pScratchBuffer = pScratchBuffer.Obj;
 
-                //// Allow engine to change resource states.
-                //Attribs.BLASTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
-                //Attribs.GeometryTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
-                //Attribs.ScratchBufferTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+                // Allow engine to change resource states.
+                Attribs.BLASTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+                Attribs.GeometryTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+                Attribs.ScratchBufferTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
 
-                //m_pImmediateContext->BuildBLAS(Attribs);
+                //m_pImmediateContext.BuildBLAS(Attribs);
             }
         }
 
