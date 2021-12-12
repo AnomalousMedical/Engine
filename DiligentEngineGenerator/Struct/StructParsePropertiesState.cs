@@ -17,7 +17,7 @@ namespace DiligentEngineGenerator
                 var propertyParse = line.Trim().Replace(",", "").Replace("{", "").Replace("}", "").Replace("enum", "");
                 if (!String.IsNullOrWhiteSpace(propertyParse))
                 {
-                    propertyParse = propertyParse.Replace("const", "").Replace("struct", "").Trim();
+                    propertyParse = propertyParse.Replace("const*", "").Replace("const", "").Replace("struct", "").Trim();
 
                     var typeAndName = propertyParse.Split(null).Where(i => !String.IsNullOrWhiteSpace(i)); //Split on whitespace
 
