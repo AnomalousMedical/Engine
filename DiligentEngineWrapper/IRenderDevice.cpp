@@ -9,6 +9,7 @@
 #include "RayTracingGeneralShaderGroup.PassStruct.h"
 #include "RayTracingProceduralHitShaderGroup.PassStruct.h"
 #include "RayTracingTriangleHitShaderGroup.PassStruct.h"
+#include "BLASTriangleDesc.PassStruct.h"
 using namespace Diligent;
 extern "C" _AnomalousExport IBuffer* IRenderDevice_CreateBuffer(
 	IRenderDevice* objPtr
@@ -489,5 +490,43 @@ extern "C" _AnomalousExport IPipelineState* IRenderDevice_CreateRayTracingPipeli
     delete[] PSOCreateInfo_pProceduralHitShaders_Native_Array;
     delete[] PSOCreateInfo_PSODesc_ResourceLayout_Variables_Native_Array;
     delete[] PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers_Native_Array;
+	return theReturnValue;
+}
+extern "C" _AnomalousExport IBottomLevelAS* IRenderDevice_CreateBLAS(
+	IRenderDevice* objPtr
+	, BLASTriangleDescPassStruct* Desc_pTriangles
+	, Uint32 Desc_TriangleCount
+	, Uint32 Desc_BoxCount
+	, RAYTRACING_BUILD_AS_FLAGS Desc_Flags
+	, Uint32 Desc_CompactedSize
+	, Uint64 Desc_CommandQueueMask
+	, Char* Desc_Name
+)
+{
+	BottomLevelASDesc Desc;
+	BLASTriangleDesc* Desc_pTriangles_Native_Array = new BLASTriangleDesc[Desc_TriangleCount];
+	for (Uint32 i = 0; i < Desc_TriangleCount; ++i)
+	{
+	    Desc_pTriangles_Native_Array[i].GeometryName = Desc_pTriangles[i].GeometryName;
+	    Desc_pTriangles_Native_Array[i].MaxVertexCount = Desc_pTriangles[i].MaxVertexCount;
+	    Desc_pTriangles_Native_Array[i].VertexValueType = Desc_pTriangles[i].VertexValueType;
+	    Desc_pTriangles_Native_Array[i].VertexComponentCount = Desc_pTriangles[i].VertexComponentCount;
+	    Desc_pTriangles_Native_Array[i].MaxPrimitiveCount = Desc_pTriangles[i].MaxPrimitiveCount;
+	    Desc_pTriangles_Native_Array[i].IndexType = Desc_pTriangles[i].IndexType;
+	    Desc_pTriangles_Native_Array[i].AllowsTransforms = Desc_pTriangles[i].AllowsTransforms;
+	}
+	Desc.pTriangles = Desc_pTriangles_Native_Array;
+	Desc.TriangleCount = Desc_TriangleCount;
+	Desc.BoxCount = Desc_BoxCount;
+	Desc.Flags = Desc_Flags;
+	Desc.CompactedSize = Desc_CompactedSize;
+	Desc.CommandQueueMask = Desc_CommandQueueMask;
+	Desc.Name = Desc_Name;
+	IBottomLevelAS* theReturnValue = nullptr;
+	objPtr->CreateBLAS(
+		Desc
+		, &theReturnValue
+	);
+    delete[] Desc_pTriangles_Native_Array;
 	return theReturnValue;
 }

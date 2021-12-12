@@ -30,6 +30,10 @@ namespace DiligentEngineRayTracing
         AutoPtr<IShaderResourceBinding> m_pImageBlitSRB;
 
         AutoPtr<IBuffer> m_CubeAttribsCB;
+        AutoPtr<IBuffer> pCubeVertexBuffer;
+        AutoPtr<IBuffer> pCubeIndexBuffer;
+
+        AutoPtr<IBottomLevelAS> m_pCubeBLAS;
 
         public unsafe RayTracingUpdateListener(GraphicsEngine graphicsEngine, ShaderLoader<RayTracingUpdateListener> shaderLoader, TextureLoader textureLoader)
         {
@@ -528,102 +532,112 @@ namespace DiligentEngineRayTracing
                 m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_CubeAttribsCB").Set(m_CubeAttribsCB.Obj);
             }
 
-            //// Create vertex buffer
-            //RefCntAutoPtr<IBuffer> pCubeVertexBuffer;
-            //{
-            //    BufferData BufData = { CubePos, sizeof(CubePos) };
-            //    BufferDesc BuffDesc;
-            //    BuffDesc.Name = "Cube vertices";
-            //    BuffDesc.Usage = USAGE_IMMUTABLE;
-            //    BuffDesc.BindFlags = BIND_RAY_TRACING;
-            //    BuffDesc.uiSizeInBytes = sizeof(CubePos);
+            // Create vertex buffer
+            {
+                var BuffDesc = new BufferDesc();
+                BuffDesc.Name = "Cube vertices";
+                BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
+                BuffDesc.BindFlags = BIND_FLAGS.BIND_RAY_TRACING;
 
-            //    m_pDevice->CreateBuffer(BuffDesc, &BufData, &pCubeVertexBuffer);
-            //    VERIFY_EXPR(pCubeVertexBuffer != nullptr);
-            //}
+                BufferData BufData = new BufferData();
+                fixed (Vector3* vertices = CubePos)
+                {
+                    BufData.pData = new IntPtr(vertices);
+                    BufData.DataSize = BuffDesc.uiSizeInBytes = (uint)(sizeof(Vector3) * CubePos.Length);
+                    pCubeVertexBuffer = m_pDevice.CreateBuffer(BuffDesc, BufData);
+                }
+                
+                //VERIFY_EXPR(pCubeVertexBuffer != nullptr);
+            }
 
-            //// Create index buffer
-            //RefCntAutoPtr<IBuffer> pCubeIndexBuffer;
-            //{
-            //    BufferData BufData = { Indices, sizeof(Indices) };
-            //    BufferDesc BuffDesc;
-            //    BuffDesc.Name = "Cube indices";
-            //    BuffDesc.Usage = USAGE_IMMUTABLE;
-            //    BuffDesc.BindFlags = BIND_RAY_TRACING;
-            //    BuffDesc.uiSizeInBytes = sizeof(Indices);
+            // Create index buffer
+            {
+                var BuffDesc = new BufferDesc();
+                BuffDesc.Name = "Cube indices";
+                BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
+                BuffDesc.BindFlags = BIND_FLAGS.BIND_RAY_TRACING;
 
-            //    m_pDevice->CreateBuffer(BuffDesc, &BufData, &pCubeIndexBuffer);
-            //    VERIFY_EXPR(pCubeIndexBuffer != nullptr);
-            //}
+                BufferData BufData = new BufferData();
+                fixed (uint* vertices = Indices)
+                {
+                    BufData.pData = new IntPtr(vertices);
+                    BufData.DataSize = BuffDesc.uiSizeInBytes = (uint)(sizeof(uint) * Indices.Length);
+                    pCubeIndexBuffer = m_pDevice.CreateBuffer(BuffDesc, BufData);
+                }
 
-            //// Create & build bottom level acceleration structure
-            //{
-            //    // Create BLAS
-            //    BLASTriangleDesc Triangles;
-            //    {
-            //        Triangles.GeometryName = "Cube";
-            //        Triangles.MaxVertexCount = _countof(CubePos);
-            //        Triangles.VertexValueType = VT_FLOAT32;
-            //        Triangles.VertexComponentCount = 3;
-            //        Triangles.MaxPrimitiveCount = _countof(Indices) / 3;
-            //        Triangles.IndexType = VT_UINT32;
+                //VERIFY_EXPR(pCubeIndexBuffer != nullptr);
+            }
 
-            //        BottomLevelASDesc ASDesc;
-            //        ASDesc.Name = "Cube BLAS";
-            //        ASDesc.Flags = RAYTRACING_BUILD_AS_PREFER_FAST_TRACE;
-            //        ASDesc.pTriangles = &Triangles;
-            //        ASDesc.TriangleCount = 1;
+            // Create & build bottom level acceleration structure
+            {
+                // Create BLAS
+                {
+                    var Triangles = new BLASTriangleDesc();
+                    Triangles.GeometryName = "Cube";
+                    Triangles.MaxVertexCount = (uint)CubePos.Length;
+                    Triangles.VertexValueType = VALUE_TYPE.VT_FLOAT32;
+                    Triangles.VertexComponentCount = 3;
+                    Triangles.MaxPrimitiveCount = (uint)(Indices.Length / 3);
+                    Triangles.IndexType = VALUE_TYPE.VT_UINT32;
 
-            //        m_pDevice->CreateBLAS(ASDesc, &m_pCubeBLAS);
-            //        VERIFY_EXPR(m_pCubeBLAS != nullptr);
-            //    }
+                    var ASDesc = new BottomLevelASDesc();
+                    ASDesc.Name = "Cube BLAS";
+                    ASDesc.Flags = RAYTRACING_BUILD_AS_FLAGS.RAYTRACING_BUILD_AS_PREFER_FAST_TRACE;
+                    ASDesc.pTriangles = new List<BLASTriangleDesc> { Triangles };
 
-            //    // Create scratch buffer
-            //    RefCntAutoPtr<IBuffer> pScratchBuffer;
-            //    {
-            //        BufferDesc BuffDesc;
-            //        BuffDesc.Name = "BLAS Scratch Buffer";
-            //        BuffDesc.Usage = USAGE_DEFAULT;
-            //        BuffDesc.BindFlags = BIND_RAY_TRACING;
-            //        BuffDesc.uiSizeInBytes = m_pCubeBLAS->GetScratchBufferSizes().Build;
+                    m_pCubeBLAS = m_pDevice.CreateBLAS(ASDesc);
+                    //VERIFY_EXPR(m_pCubeBLAS != nullptr);
+                }
 
-            //        m_pDevice->CreateBuffer(BuffDesc, nullptr, &pScratchBuffer);
-            //        VERIFY_EXPR(pScratchBuffer != nullptr);
-            //    }
+                // Create scratch buffer
+                //RefCntAutoPtr<IBuffer> pScratchBuffer;
+                //{
+                //    BufferDesc BuffDesc;
+                //    BuffDesc.Name = "BLAS Scratch Buffer";
+                //    BuffDesc.Usage = USAGE_DEFAULT;
+                //    BuffDesc.BindFlags = BIND_RAY_TRACING;
+                //    BuffDesc.uiSizeInBytes = m_pCubeBLAS->GetScratchBufferSizes().Build;
 
-            //    // Build BLAS
-            //    BLASBuildTriangleData TriangleData;
-            //    TriangleData.GeometryName = Triangles.GeometryName;
-            //    TriangleData.pVertexBuffer = pCubeVertexBuffer;
-            //    TriangleData.VertexStride = sizeof(CubePos[0]);
-            //    TriangleData.VertexCount = Triangles.MaxVertexCount;
-            //    TriangleData.VertexValueType = Triangles.VertexValueType;
-            //    TriangleData.VertexComponentCount = Triangles.VertexComponentCount;
-            //    TriangleData.pIndexBuffer = pCubeIndexBuffer;
-            //    TriangleData.PrimitiveCount = Triangles.MaxPrimitiveCount;
-            //    TriangleData.IndexType = Triangles.IndexType;
-            //    TriangleData.Flags = RAYTRACING_GEOMETRY_FLAG_OPAQUE;
+                //    m_pDevice->CreateBuffer(BuffDesc, nullptr, &pScratchBuffer);
+                //    VERIFY_EXPR(pScratchBuffer != nullptr);
+                //}
 
-            //    BuildBLASAttribs Attribs;
-            //    Attribs.pBLAS = m_pCubeBLAS;
-            //    Attribs.pTriangleData = &TriangleData;
-            //    Attribs.TriangleDataCount = 1;
+                //// Build BLAS
+                //BLASBuildTriangleData TriangleData;
+                //TriangleData.GeometryName = Triangles.GeometryName;
+                //TriangleData.pVertexBuffer = pCubeVertexBuffer;
+                //TriangleData.VertexStride = sizeof(CubePos[0]);
+                //TriangleData.VertexCount = Triangles.MaxVertexCount;
+                //TriangleData.VertexValueType = Triangles.VertexValueType;
+                //TriangleData.VertexComponentCount = Triangles.VertexComponentCount;
+                //TriangleData.pIndexBuffer = pCubeIndexBuffer;
+                //TriangleData.PrimitiveCount = Triangles.MaxPrimitiveCount;
+                //TriangleData.IndexType = Triangles.IndexType;
+                //TriangleData.Flags = RAYTRACING_GEOMETRY_FLAG_OPAQUE;
 
-            //    // Scratch buffer will be used to store temporary data during BLAS build.
-            //    // Previous content in the scratch buffer will be discarded.
-            //    Attribs.pScratchBuffer = pScratchBuffer;
+                //BuildBLASAttribs Attribs;
+                //Attribs.pBLAS = m_pCubeBLAS;
+                //Attribs.pTriangleData = &TriangleData;
+                //Attribs.TriangleDataCount = 1;
 
-            //    // Allow engine to change resource states.
-            //    Attribs.BLASTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
-            //    Attribs.GeometryTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
-            //    Attribs.ScratchBufferTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+                //// Scratch buffer will be used to store temporary data during BLAS build.
+                //// Previous content in the scratch buffer will be discarded.
+                //Attribs.pScratchBuffer = pScratchBuffer;
 
-            //    m_pImmediateContext->BuildBLAS(Attribs);
-            //}
+                //// Allow engine to change resource states.
+                //Attribs.BLASTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+                //Attribs.GeometryTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+                //Attribs.ScratchBufferTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+
+                //m_pImmediateContext->BuildBLAS(Attribs);
+            }
         }
 
         public void Dispose()
         {
+            m_pCubeBLAS.Dispose();
+            pCubeIndexBuffer.Dispose();
+            pCubeVertexBuffer.Dispose();
             m_CubeAttribsCB.Dispose();
             m_pRayTracingSRB.Dispose();
             m_pRayTracingPSO.Dispose();

@@ -273,9 +273,15 @@ namespace DiligentEngineGenerator
                 EnumWriter.Write(RENDER_DEVICE_TYPE, Path.Combine(baseEnumDir, $"{nameof(RENDER_DEVICE_TYPE)}.cs"));
             }
 
-           //////////// Structs
+            {
+                var RAYTRACING_BUILD_AS_FLAGS = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/BottomLevelAS.h", 112, 140);
+                codeTypeInfo.Enums[nameof(RAYTRACING_BUILD_AS_FLAGS)] = RAYTRACING_BUILD_AS_FLAGS;
+                EnumWriter.Write(RAYTRACING_BUILD_AS_FLAGS, Path.Combine(baseEnumDir, $"{nameof(RAYTRACING_BUILD_AS_FLAGS)}.cs"));
+            }
 
-           var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
+            //////////// Structs
+
+            var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
             {
                 var ShaderResourceVariableDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 73, 85);
                 codeTypeInfo.Structs[nameof(ShaderResourceVariableDesc)] = ShaderResourceVariableDesc;
@@ -516,6 +522,38 @@ namespace DiligentEngineGenerator
             }
 
             {
+                var BLASTriangleDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/BottomLevelAS.h", 51, 85);
+                codeTypeInfo.Structs[nameof(BLASTriangleDesc)] = BLASTriangleDesc;
+                var skip = new List<String> {  };
+                BLASTriangleDesc.Properties = BLASTriangleDesc.Properties
+                    .Where(i => !skip.Contains(i.Name)).ToList();
+                codeWriter.AddWriter(new StructCsPassStructWriter(BLASTriangleDesc), Path.Combine(baseStructDir, $"{nameof(BLASTriangleDesc)}.PassStruct.cs"));
+                codeWriter.AddWriter(new StructCppPassStructWriter(BLASTriangleDesc), Path.Combine(baseCPlusPlusOutDir, $"{nameof(BLASTriangleDesc)}.PassStruct.h"));
+                codeWriter.AddWriter(new StructCsWriter(BLASTriangleDesc), Path.Combine(baseStructDir, $"{nameof(BLASTriangleDesc)}.cs"));
+            }
+
+            {
+                var BottomLevelASDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/BottomLevelAS.h", 143, 168);
+                codeTypeInfo.Structs[nameof(BottomLevelASDesc)] = BottomLevelASDesc;
+                var skip = new List<String> { "pBoxes" };
+                BottomLevelASDesc.Properties = BottomLevelASDesc.Properties
+                    .Where(i => !skip.Contains(i.Name)).ToList();
+
+                {
+                    var pTriangles = BottomLevelASDesc.Properties.First(i => i.Name == "pTriangles");
+                    pTriangles.IsArray = true;
+                    pTriangles.PutAutoSize = "TriangleCount";
+                }
+
+                {
+                    var TriangleCount = BottomLevelASDesc.Properties.First(i => i.Name == "TriangleCount");
+                    TriangleCount.TakeAutoSize = "pTriangles";
+                }
+
+                codeWriter.AddWriter(new StructCsWriter(BottomLevelASDesc), Path.Combine(baseStructDir, $"{nameof(BottomLevelASDesc)}.cs"));
+            }
+
+            {
                 var RayTracingPipelineStateCreateInfo = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 448, 487);
                 codeTypeInfo.Structs[nameof(RayTracingPipelineStateCreateInfo)] = RayTracingPipelineStateCreateInfo;
                 var skip = new List<String> { };
@@ -695,6 +733,15 @@ namespace DiligentEngineGenerator
                 codeTypeInfo.Interfaces[nameof(IRenderDevice)] = IRenderDevice;
 
                 {
+                    var CreateBLAS = IRenderDevice.Methods.First(i => i.Name == "CreateBLAS");
+                    CreateBLAS.ReturnType = "IBottomLevelAS*";
+                    CreateBLAS.ReturnAsAutoPtr = true;
+                    var ppShader = CreateBLAS.Args.First(i => i.Name == "ppBLAS");
+                    ppShader.MakeReturnVal = true;
+                    ppShader.Type = "IBottomLevelAS*";
+                }
+
+                {
                     var CreateShader = IRenderDevice.Methods.First(i => i.Name == "CreateShader");
                     CreateShader.ReturnType = "IShader*";
                     CreateShader.ReturnAsAutoPtr = true;
@@ -768,7 +815,7 @@ namespace DiligentEngineGenerator
                     }
                 }
 
-                var allowedMethods = new List<String> { "CreateShader", "CreateGraphicsPipelineState", "CreateBuffer", "CreateTexture", "CreateSampler", "CreateRayTracingPipelineState" };
+                var allowedMethods = new List<String> { "CreateBLAS", "CreateShader", "CreateGraphicsPipelineState", "CreateBuffer", "CreateTexture", "CreateSampler", "CreateRayTracingPipelineState" };
                 IRenderDevice.Methods = IRenderDevice.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(IRenderDevice), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IRenderDevice)}.cs"));
@@ -783,7 +830,8 @@ namespace DiligentEngineGenerator
                     "RenderTargetBlendDesc.PassStruct.h",
                     "RayTracingGeneralShaderGroup.PassStruct.h",
                     "RayTracingProceduralHitShaderGroup.PassStruct.h",
-                    "RayTracingTriangleHitShaderGroup.PassStruct.h"
+                    "RayTracingTriangleHitShaderGroup.PassStruct.h",
+                    "BLASTriangleDesc.PassStruct.h"
                 });
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IRenderDevice)}.cpp"));
             }
@@ -1016,6 +1064,20 @@ namespace DiligentEngineGenerator
                     "Graphics/GraphicsEngine/interface/ShaderResourceBinding.h"
                 });
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IShaderResourceBinding)}.cpp"));
+            }
+
+            {
+                var IBottomLevelAS = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/BottomLevelAS.h", 205, 269, Sequence(209, 213));
+                codeTypeInfo.Interfaces[nameof(IBottomLevelAS)] = IBottomLevelAS;
+                var allowedMethods = new List<String> {  };
+                IBottomLevelAS.Methods = IBottomLevelAS.Methods
+                    .Where(i => allowedMethods.Contains(i.Name)).ToList();
+                codeWriter.AddWriter(new InterfaceCsWriter(IBottomLevelAS), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IBottomLevelAS)}.cs"));
+                var cppWriter = new InterfaceCppWriter(IBottomLevelAS, new List<String>()
+                {
+                    "Graphics/GraphicsEngine/interface/DeviceObject.h"
+                });
+                codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IBottomLevelAS)}.cpp"));
             }
 
             codeWriter.WriteFiles(new CodeRendererContext(codeTypeInfo));

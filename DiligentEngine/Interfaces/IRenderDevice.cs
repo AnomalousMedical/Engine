@@ -296,6 +296,29 @@ namespace DiligentEngine
             );
             return theReturnValue != IntPtr.Zero ? new AutoPtr<IPipelineState>(new IPipelineState(theReturnValue), false) : null;
         }
+        /// <summary>
+        /// Creates a bottom-level acceleration structure object (BLAS).
+        /// \param [in]  Desc    - BLAS description, see Diligent::BottomLevelASDesc for details.
+        /// \param [out] ppBLAS  - Address of the memory location where the pointer to the
+        /// BLAS interface will be stored.
+        /// The function calls AddRef(), so that the new object will contain
+        /// one reference.
+        /// </summary>
+        public AutoPtr<IBottomLevelAS> CreateBLAS(BottomLevelASDesc Desc)
+        {
+            var theReturnValue = 
+            IRenderDevice_CreateBLAS(
+                this.objPtr
+                , BLASTriangleDescPassStruct.ToStruct(Desc?.pTriangles)
+                , Desc?.pTriangles != null ? (Uint32)Desc.pTriangles.Count : 0
+                , Desc.BoxCount
+                , Desc.Flags
+                , Desc.CompactedSize
+                , Desc.CommandQueueMask
+                , Desc.Name
+            );
+            return theReturnValue != IntPtr.Zero ? new AutoPtr<IBottomLevelAS>(new IBottomLevelAS(theReturnValue), false) : null;
+        }
 
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -463,6 +486,17 @@ namespace DiligentEngine
             , ImmutableSamplerDescPassStruct[] PSOCreateInfo_PSODesc_ResourceLayout_ImmutableSamplers
             , String PSOCreateInfo_PSODesc_Name
             , PSO_CREATE_FLAGS PSOCreateInfo_Flags
+        );
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr IRenderDevice_CreateBLAS(
+            IntPtr objPtr
+            , BLASTriangleDescPassStruct[] Desc_pTriangles
+            , Uint32 Desc_TriangleCount
+            , Uint32 Desc_BoxCount
+            , RAYTRACING_BUILD_AS_FLAGS Desc_Flags
+            , Uint32 Desc_CompactedSize
+            , Uint64 Desc_CommandQueueMask
+            , String Desc_Name
         );
     }
 }
