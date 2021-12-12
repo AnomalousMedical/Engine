@@ -35,7 +35,6 @@ namespace DiligentEngineRayTracing
         AutoPtr<IBuffer> pCubeIndexBuffer;
 
         AutoPtr<IBottomLevelAS> m_pCubeBLAS;
-        AutoPtr<IBuffer> pScratchBuffer;
 
         AutoPtr<IBottomLevelAS> m_pProceduralBLAS;
 
@@ -595,16 +594,13 @@ namespace DiligentEngineRayTracing
                 }
 
                 // Create scratch buffer
+                using var pScratchBuffer = m_pDevice.CreateBuffer(new BufferDesc()
                 {
-                    var BuffDesc = new BufferDesc();
-                    BuffDesc.Name = "BLAS Scratch Buffer";
-                    BuffDesc.Usage = USAGE.USAGE_DEFAULT;
-                    BuffDesc.BindFlags = BIND_FLAGS.BIND_RAY_TRACING;
-                    BuffDesc.uiSizeInBytes = m_pCubeBLAS.Obj.ScratchBufferSizes_Build;
-
-                    pScratchBuffer = m_pDevice.CreateBuffer(BuffDesc, new BufferData());
-                    //VERIFY_EXPR(pScratchBuffer != nullptr);
-                }
+                    Name = "BLAS Scratch Buffer",
+                    Usage = USAGE.USAGE_DEFAULT,
+                    BindFlags = BIND_FLAGS.BIND_RAY_TRACING,
+                    uiSizeInBytes = m_pCubeBLAS.Obj.ScratchBufferSizes_Build,
+                }, new BufferData());
 
                 // Build BLAS
                 var TriangleData = new BLASBuildTriangleData();
@@ -639,6 +635,7 @@ namespace DiligentEngineRayTracing
         unsafe void CreateProceduralBLAS()
         {
             var m_pDevice = graphicsEngine.RenderDevice;
+            var m_pImmediateContext = graphicsEngine.ImmediateContext;
 
             //static_assert(sizeof(HLSL::BoxAttribs) % 16 == 0, "BoxAttribs must be aligned by 16 bytes");
 
@@ -678,41 +675,37 @@ namespace DiligentEngineRayTracing
                     //VERIFY_EXPR(m_pProceduralBLAS != nullptr);
                 }
 
-                //    // Create scratch buffer
-                //    RefCntAutoPtr<IBuffer> pScratchBuffer;
-                //    {
-                //        BufferDesc BuffDesc;
-                //        BuffDesc.Name = "BLAS Scratch Buffer";
-                //        BuffDesc.Usage = USAGE_DEFAULT;
-                //        BuffDesc.BindFlags = BIND_RAY_TRACING;
-                //        BuffDesc.uiSizeInBytes = m_pProceduralBLAS->GetScratchBufferSizes().Build;
+                // Create scratch buffer
 
-                //        m_pDevice->CreateBuffer(BuffDesc, nullptr, &pScratchBuffer);
-                //        VERIFY_EXPR(pScratchBuffer != nullptr);
-                //    }
+                using var pScratchBuffer = m_pDevice.CreateBuffer(new BufferDesc()
+                {
+                    Name = "BLAS Scratch Buffer",
+                    Usage = USAGE.USAGE_DEFAULT,
+                    BindFlags = BIND_FLAGS.BIND_RAY_TRACING,
+                    uiSizeInBytes = m_pProceduralBLAS.Obj.ScratchBufferSizes_Build,
+                }, new BufferData());
 
-                //    // Build BLAS
-                //    BLASBuildBoundingBoxData BoxData;
-                //    BoxData.GeometryName = BoxInfo.GeometryName;
-                //    BoxData.BoxCount = 1;
-                //    BoxData.BoxStride = sizeof(Boxes[0]);
-                //    BoxData.pBoxBuffer = m_BoxAttribsCB;
+                // Build BLAS
+                var BoxData = new BLASBuildBoundingBoxData();
+                BoxData.GeometryName = BoxInfo.GeometryName;
+                BoxData.BoxCount = 1;
+                BoxData.BoxStride = (uint)sizeof(BoxAttribs);
+                BoxData.pBoxBuffer = m_BoxAttribsCB.Obj;
 
-                //    BuildBLASAttribs Attribs;
-                //    Attribs.pBLAS = m_pProceduralBLAS;
-                //    Attribs.pBoxData = &BoxData;
-                //    Attribs.BoxDataCount = 1;
+                var Attribs = new BuildBLASAttribs();
+                Attribs.pBLAS = m_pProceduralBLAS.Obj;
+                Attribs.pBoxData = new List<BLASBuildBoundingBoxData> { BoxData };
 
-                //    // Scratch buffer will be used to store temporary data during BLAS build.
-                //    // Previous content in the scratch buffer will be discarded.
-                //    Attribs.pScratchBuffer = pScratchBuffer;
+                // Scratch buffer will be used to store temporary data during BLAS build.
+                // Previous content in the scratch buffer will be discarded.
+                Attribs.pScratchBuffer = pScratchBuffer.Obj;
 
-                //    // Allow engine to change resource states.
-                //    Attribs.BLASTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
-                //    Attribs.GeometryTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
-                //    Attribs.ScratchBufferTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+                // Allow engine to change resource states.
+                Attribs.BLASTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+                Attribs.GeometryTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+                Attribs.ScratchBufferTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
 
-                //    m_pImmediateContext->BuildBLAS(Attribs);
+                m_pImmediateContext.BuildBLAS(Attribs);
             }
         }
 
@@ -720,7 +713,6 @@ namespace DiligentEngineRayTracing
         {
             m_pProceduralBLAS.Dispose();
             m_BoxAttribsCB.Dispose();
-            pScratchBuffer.Dispose();
             m_pCubeBLAS.Dispose();
             pCubeIndexBuffer.Dispose();
             pCubeVertexBuffer.Dispose();
