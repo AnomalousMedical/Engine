@@ -767,10 +767,10 @@ namespace DiligentEngineRayTracing
             }
 
             // Setup instances
-            var Instances = new TLASBuildInstanceData[NumInstances];
+            var Instances = new List<TLASBuildInstanceData>(NumInstances);
             for(var i = 0; i < NumInstances; i++)
             {
-                Instances[i] = new TLASBuildInstanceData();
+                Instances.Add(new TLASBuildInstanceData());
             }
 
             var CubeInstData = new CubeInstanceData[] // clang-format off
@@ -838,33 +838,31 @@ namespace DiligentEngineRayTracing
             Instances[6].Transform.setRotation(Matrix3x3.Scale(1.5f, 1.5f, 1.5f)); // * Matrix3x3.RotationY(m_AnimationTime * MathF.PI * 0.25f)
             Instances[6].Transform.SetTranslation(3.0f, 4.0f, -5.0f);
 
+            // Build or update TLAS
+            var Attribs = new BuildTLASAttribs();
+            Attribs.pTLAS = m_pTLAS.Obj;
+            Attribs.Update = NeedUpdate;
 
-            //// Build or update TLAS
-            //BuildTLASAttribs Attribs;
-            //Attribs.pTLAS  = m_pTLAS;
-            //Attribs.Update = NeedUpdate;
+            // Scratch buffer will be used to store temporary data during TLAS build or update.
+            // Previous content in the scratch buffer will be discarded.
+            Attribs.pScratchBuffer = m_ScratchBuffer.Obj;
 
-            //// Scratch buffer will be used to store temporary data during TLAS build or update.
-            //// Previous content in the scratch buffer will be discarded.
-            //Attribs.pScratchBuffer = m_ScratchBuffer;
+            // Instance buffer will store instance data during TLAS build or update.
+            // Previous content in the instance buffer will be discarded.
+            Attribs.pInstanceBuffer = m_InstanceBuffer.Obj;
 
-            //// Instance buffer will store instance data during TLAS build or update.
-            //// Previous content in the instance buffer will be discarded.
-            //Attribs.pInstanceBuffer = m_InstanceBuffer;
+            // Instances will be converted to the format that is required by the graphics driver and copied to the instance buffer.
+            Attribs.pInstances = Instances;
 
-            //// Instances will be converted to the format that is required by the graphics driver and copied to the instance buffer.
-            //Attribs.pInstances    = Instances;
-            //Attribs.InstanceCount = _countof(Instances);
+            // Bind hit shaders per instance, it allows you to change the number of geometries in BLAS without invalidating the shader binding table.
+            Attribs.BindingMode = HIT_GROUP_BINDING_MODE.HIT_GROUP_BINDING_MODE_PER_INSTANCE;
+            Attribs.HitGroupStride = RtStructures.HIT_GROUP_STRIDE;
 
-            //// Bind hit shaders per instance, it allows you to change the number of geometries in BLAS without invalidating the shader binding table.
-            //Attribs.BindingMode    = HIT_GROUP_BINDING_MODE_PER_INSTANCE;
-            //Attribs.HitGroupStride = HIT_GROUP_STRIDE;
-
-            //// Allow engine to change resource states.
-            //Attribs.TLASTransitionMode           = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
-            //Attribs.BLASTransitionMode           = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
-            //Attribs.InstanceBufferTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
-            //Attribs.ScratchBufferTransitionMode  = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+            // Allow engine to change resource states.
+            Attribs.TLASTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+            Attribs.BLASTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+            Attribs.InstanceBufferTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+            Attribs.ScratchBufferTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
 
             //m_pImmediateContext->BuildTLAS(Attribs);
         }

@@ -103,6 +103,12 @@ namespace DiligentEngineGenerator
             }
 
             {
+                var HIT_GROUP_BINDING_MODE = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/TopLevelAS.h", 70, 97);
+                codeTypeInfo.Enums[nameof(HIT_GROUP_BINDING_MODE)] = HIT_GROUP_BINDING_MODE;
+                EnumWriter.Write(HIT_GROUP_BINDING_MODE, Path.Combine(baseEnumDir, $"{nameof(HIT_GROUP_BINDING_MODE)}.cs"));
+            }
+
+            {
                 var TEXTURE_FORMAT = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 277, 814);
                 codeTypeInfo.Enums[nameof(TEXTURE_FORMAT)] = TEXTURE_FORMAT;
                 EnumWriter.Write(TEXTURE_FORMAT, Path.Combine(baseEnumDir, $"{nameof(TEXTURE_FORMAT)}.cs"));
@@ -771,6 +777,24 @@ namespace DiligentEngineGenerator
                 codeWriter.AddWriter(new StructCsWriter(BLASBuildBoundingBoxData), Path.Combine(baseStructDir, $"{nameof(BLASBuildBoundingBoxData)}.cs"));
                 codeWriter.AddWriter(new StructCsPassStructWriter(BLASBuildBoundingBoxData), Path.Combine(baseStructDir, $"{nameof(BLASBuildBoundingBoxData)}.PassStruct.cs"));
                 codeWriter.AddWriter(new StructCppPassStructWriter(BLASBuildBoundingBoxData), Path.Combine(baseCPlusPlusOutDir, $"{nameof(BLASBuildBoundingBoxData)}.PassStruct.h"));
+            }
+
+            {
+                var BuildTLASAttribs = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 1037, 1107);
+                codeTypeInfo.Structs[nameof(BuildTLASAttribs)] = BuildTLASAttribs;
+
+                {
+                    var pInstances = BuildTLASAttribs.Properties.First(i => i.Name == "pInstances");
+                    pInstances.IsArray = true;
+                    pInstances.PutAutoSize = "InstanceCount";
+                }
+
+                {
+                    var InstanceCount = BuildTLASAttribs.Properties.First(i => i.Name == "InstanceCount");
+                    InstanceCount.TakeAutoSize = "pInstances";
+                }
+
+                codeWriter.AddWriter(new StructCsWriter(BuildTLASAttribs), Path.Combine(baseStructDir, $"{nameof(BuildTLASAttribs)}.cs"));
             }
 
             {
