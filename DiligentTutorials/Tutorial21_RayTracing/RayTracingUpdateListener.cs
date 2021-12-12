@@ -40,6 +40,7 @@ namespace DiligentEngineRayTracing
 
         AutoPtr<ITopLevelAS> m_pTLAS;
         AutoPtr<IBuffer> m_ScratchBuffer;
+        AutoPtr<IBuffer> m_InstanceBuffer;
 
         public unsafe RayTracingUpdateListener(GraphicsEngine graphicsEngine, ShaderLoader<RayTracingUpdateListener> shaderLoader, TextureLoader textureLoader)
         {
@@ -750,17 +751,17 @@ namespace DiligentEngineRayTracing
             }
 
             // Create instance buffer
-            //if (m_InstanceBuffer == null)
-            //{
-            //    BufferDesc BuffDesc;
-            //    BuffDesc.Name = "TLAS Instance Buffer";
-            //    BuffDesc.Usage = USAGE_DEFAULT;
-            //    BuffDesc.BindFlags = BIND_RAY_TRACING;
-            //    BuffDesc.uiSizeInBytes = TLAS_INSTANCE_DATA_SIZE * NumInstances;
+            if (m_InstanceBuffer == null)
+            {
+                var BuffDesc = new BufferDesc();
+                BuffDesc.Name = "TLAS Instance Buffer";
+                BuffDesc.Usage = USAGE.USAGE_DEFAULT;
+                BuffDesc.BindFlags = BIND_FLAGS.BIND_RAY_TRACING;
+                BuffDesc.uiSizeInBytes = ITopLevelAS.TLAS_INSTANCE_DATA_SIZE * NumInstances;
 
-            //    m_pDevice->CreateBuffer(BuffDesc, nullptr, &m_InstanceBuffer);
-            //    VERIFY_EXPR(m_InstanceBuffer != nullptr);
-            //}
+                m_InstanceBuffer = m_pDevice.CreateBuffer(BuffDesc, new BufferData());
+                //VERIFY_EXPR(m_InstanceBuffer != nullptr);
+            }
 
             //// Setup instances
             //TLASBuildInstanceData Instances[NumInstances] = {};
@@ -867,6 +868,7 @@ namespace DiligentEngineRayTracing
 
         public void Dispose()
         {
+            m_InstanceBuffer?.Dispose();
             m_ScratchBuffer?.Dispose();
             m_pTLAS?.Dispose();
             m_pProceduralBLAS.Dispose();

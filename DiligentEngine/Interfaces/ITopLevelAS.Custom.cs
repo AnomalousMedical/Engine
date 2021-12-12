@@ -26,6 +26,8 @@ namespace DiligentEngine
     /// </summary>
     public partial class ITopLevelAS :  IDeviceObject
     {
+        public const Uint32 TLAS_INSTANCE_DATA_SIZE = 64;
+
         public UInt32 ScratchBufferSizes_Build => ITopLevelAS_GetScratchBufferSizes_Build(this.objPtr);
 
         public UInt32 ScratchBufferSizes_Update => ITopLevelAS_GetScratchBufferSizes_Update(this.objPtr);
