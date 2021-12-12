@@ -523,6 +523,15 @@ namespace DiligentEngineGenerator
             }
 
             {
+                var TopLevelASDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/TopLevelAS.h", 47, 63);
+                codeTypeInfo.Structs[nameof(TopLevelASDesc)] = TopLevelASDesc;
+                var skip = new List<String> { };
+                TopLevelASDesc.Properties = TopLevelASDesc.Properties
+                    .Where(i => !skip.Contains(i.Name)).ToList();
+                codeWriter.AddWriter(new StructCsWriter(TopLevelASDesc), Path.Combine(baseStructDir, $"{nameof(TopLevelASDesc)}.cs"));
+            }
+
+            {
                 var RayTracingProceduralHitShaderGroup = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 268, 286);
                 codeTypeInfo.Structs[nameof(RayTracingProceduralHitShaderGroup)] = RayTracingProceduralHitShaderGroup;
                 var skip = new List<String> { };
@@ -810,6 +819,15 @@ namespace DiligentEngineGenerator
             {
                 var IRenderDevice = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/RenderDevice.h", 72, 330);
                 codeTypeInfo.Interfaces[nameof(IRenderDevice)] = IRenderDevice;
+                
+                {
+                    var CreateTLAS = IRenderDevice.Methods.First(i => i.Name == "CreateTLAS");
+                    CreateTLAS.ReturnType = "ITopLevelAS*";
+                    CreateTLAS.ReturnAsAutoPtr = true;
+                    var ppShader = CreateTLAS.Args.First(i => i.Name == "ppTLAS");
+                    ppShader.MakeReturnVal = true;
+                    ppShader.Type = "ITopLevelAS*";
+                }
 
                 {
                     var CreateBLAS = IRenderDevice.Methods.First(i => i.Name == "CreateBLAS");
@@ -894,7 +912,7 @@ namespace DiligentEngineGenerator
                     }
                 }
 
-                var allowedMethods = new List<String> { "CreateBLAS", "CreateShader", "CreateGraphicsPipelineState", "CreateBuffer", "CreateTexture", "CreateSampler", "CreateRayTracingPipelineState" };
+                var allowedMethods = new List<String> { "CreateTLAS", "CreateBLAS", "CreateShader", "CreateGraphicsPipelineState", "CreateBuffer", "CreateTexture", "CreateSampler", "CreateRayTracingPipelineState" };
                 IRenderDevice.Methods = IRenderDevice.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(IRenderDevice), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IRenderDevice)}.cs"));
@@ -1160,6 +1178,20 @@ namespace DiligentEngineGenerator
                     "Graphics/GraphicsEngine/interface/BottomLevelAS.h"
                 });
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IBottomLevelAS)}.cpp"));
+            }
+
+            {
+                var ITopLevelAS = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/TopLevelAS.h", 149, 204, Sequence(153, 156));
+                codeTypeInfo.Interfaces[nameof(ITopLevelAS)] = ITopLevelAS;
+                var allowedMethods = new List<String> { };
+                ITopLevelAS.Methods = ITopLevelAS.Methods
+                    .Where(i => allowedMethods.Contains(i.Name)).ToList();
+                codeWriter.AddWriter(new InterfaceCsWriter(ITopLevelAS), Path.Combine(baseCSharpInterfaceDir, $"{nameof(ITopLevelAS)}.cs"));
+                var cppWriter = new InterfaceCppWriter(ITopLevelAS, new List<String>()
+                {
+                    "Graphics/GraphicsEngine/interface/TopLevelAS.h"
+                });
+                codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(ITopLevelAS)}.cpp"));
             }
 
             {

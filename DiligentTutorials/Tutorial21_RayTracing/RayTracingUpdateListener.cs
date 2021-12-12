@@ -38,6 +38,8 @@ namespace DiligentEngineRayTracing
 
         AutoPtr<IBottomLevelAS> m_pProceduralBLAS;
 
+        AutoPtr<ITopLevelAS> m_pTLAS;
+
         public unsafe RayTracingUpdateListener(GraphicsEngine graphicsEngine, ShaderLoader<RayTracingUpdateListener> shaderLoader, TextureLoader textureLoader)
         {
             this.graphicsEngine = graphicsEngine;
@@ -62,7 +64,7 @@ namespace DiligentEngineRayTracing
             LoadTextures(textureLoader);
             CreateCubeBLAS();
             CreateProceduralBLAS();
-            //UpdateTLAS();
+            UpdateTLAS();
             //CreateSBT();
 
             // Setup camera.
@@ -708,9 +710,165 @@ namespace DiligentEngineRayTracing
                 m_pImmediateContext.BuildBLAS(Attribs);
             }
         }
+        
+        void UpdateTLAS()
+        {
+            var m_pDevice = graphicsEngine.RenderDevice;
+            // Create or update top-level acceleration structure
+
+            const int NumInstances = NumCubes + 3;
+
+            bool NeedUpdate = true;
+
+            // Create TLAS
+            if (m_pTLAS == null)
+            {
+                var TLASDesc = new TopLevelASDesc();
+                TLASDesc.Name = "TLAS";
+                TLASDesc.MaxInstanceCount = NumInstances;
+                TLASDesc.Flags = RAYTRACING_BUILD_AS_FLAGS.RAYTRACING_BUILD_AS_ALLOW_UPDATE | RAYTRACING_BUILD_AS_FLAGS.RAYTRACING_BUILD_AS_PREFER_FAST_TRACE;
+
+                m_pTLAS = m_pDevice.CreateTLAS(TLASDesc);
+                //VERIFY_EXPR(m_pTLAS != nullptr);
+
+                NeedUpdate = false; // build on first run
+
+                m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_GEN, "g_TLAS").Set(m_pTLAS.Obj);
+                m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_TLAS").Set(m_pTLAS.Obj);
+            }
+
+            //// Create scratch buffer
+            //if (!m_ScratchBuffer)
+            //{
+            //    BufferDesc BuffDesc;
+            //    BuffDesc.Name          = "TLAS Scratch Buffer";
+            //    BuffDesc.Usage         = USAGE_DEFAULT;
+            //    BuffDesc.BindFlags     = BIND_RAY_TRACING;
+            //    BuffDesc.uiSizeInBytes = std::max(m_pTLAS->GetScratchBufferSizes().Build, m_pTLAS->GetScratchBufferSizes().Update);
+
+            //    m_pDevice->CreateBuffer(BuffDesc, nullptr, &m_ScratchBuffer);
+            //    VERIFY_EXPR(m_ScratchBuffer != nullptr);
+            //}
+
+            //// Create instance buffer
+            //if (!m_InstanceBuffer)
+            //{
+            //    BufferDesc BuffDesc;
+            //    BuffDesc.Name          = "TLAS Instance Buffer";
+            //    BuffDesc.Usage         = USAGE_DEFAULT;
+            //    BuffDesc.BindFlags     = BIND_RAY_TRACING;
+            //    BuffDesc.uiSizeInBytes = TLAS_INSTANCE_DATA_SIZE * NumInstances;
+
+            //    m_pDevice->CreateBuffer(BuffDesc, nullptr, &m_InstanceBuffer);
+            //    VERIFY_EXPR(m_InstanceBuffer != nullptr);
+            //}
+
+            //// Setup instances
+            //TLASBuildInstanceData Instances[NumInstances] = {};
+
+            //struct CubeInstanceData
+            //{
+            //    float3 BasePos;
+            //    float  TimeOffset;
+            //} CubeInstData[] = // clang-format off
+            //{
+            //        {float3{ 1, 1,  1}, 0.00f},
+            //        {float3{ 2, 0, -1}, 0.53f},
+            //        {float3{-1, 1,  2}, 1.27f},
+            //        {float3{-2, 0, -1}, 4.16f}
+            //};
+            //// clang-format on
+            //static_assert(_countof(CubeInstData) == NumCubes, "Cube instance data array size mismatch");
+
+            //const auto AnimateOpaqueCube = [&](TLASBuildInstanceData& Dst) //
+            //{
+            //    float  t     = sin(m_AnimationTime * PI_F * 0.5f) + CubeInstData[Dst.CustomId].TimeOffset;
+            //    float3 Pos   = CubeInstData[Dst.CustomId].BasePos * 2.0f + float3(sin(t * 1.13f), sin(t * 0.77f), sin(t * 2.15f)) * 0.5f;
+            //    float  angle = 0.1f * PI_F * (m_AnimationTime + CubeInstData[Dst.CustomId].TimeOffset * 2.0f);
+
+            //    if (!m_EnableCubes[Dst.CustomId])
+            //        Dst.Mask = 0;
+
+            //    Dst.Transform.SetTranslation(Pos.x, Pos.y, Pos.z);
+            //    Dst.Transform.SetRotation(float3x3::RotationY(angle).Data());
+            //};
+
+            //Instances[0].InstanceName = "Cube Instance 1";
+            //Instances[0].CustomId     = 0; // texture index
+            //Instances[0].pBLAS        = m_pCubeBLAS;
+            //Instances[0].Mask         = OPAQUE_GEOM_MASK;
+            //AnimateOpaqueCube(Instances[0]);
+
+            //Instances[1].InstanceName = "Cube Instance 2";
+            //Instances[1].CustomId     = 1; // texture index
+            //Instances[1].pBLAS        = m_pCubeBLAS;
+            //Instances[1].Mask         = OPAQUE_GEOM_MASK;
+            //AnimateOpaqueCube(Instances[1]);
+
+            //Instances[2].InstanceName = "Cube Instance 3";
+            //Instances[2].CustomId     = 2; // texture index
+            //Instances[2].pBLAS        = m_pCubeBLAS;
+            //Instances[2].Mask         = OPAQUE_GEOM_MASK;
+            //AnimateOpaqueCube(Instances[2]);
+
+            //Instances[3].InstanceName = "Cube Instance 4";
+            //Instances[3].CustomId     = 3; // texture index
+            //Instances[3].pBLAS        = m_pCubeBLAS;
+            //Instances[3].Mask         = OPAQUE_GEOM_MASK;
+            //AnimateOpaqueCube(Instances[3]);
+
+            //Instances[4].InstanceName = "Ground Instance";
+            //Instances[4].pBLAS        = m_pCubeBLAS;
+            //Instances[4].Mask         = OPAQUE_GEOM_MASK;
+            //Instances[4].Transform.SetRotation(float3x3::Scale(100.0f, 0.1f, 100.0f).Data());
+            //Instances[4].Transform.SetTranslation(0.0f, 6.0f, 0.0f);
+
+            //Instances[5].InstanceName = "Sphere Instance";
+            //Instances[5].CustomId     = 0; // box index
+            //Instances[5].pBLAS        = m_pProceduralBLAS;
+            //Instances[5].Mask         = OPAQUE_GEOM_MASK;
+            //Instances[5].Transform.SetTranslation(-3.0f, 3.0f, -5.f);
+
+            //Instances[6].InstanceName = "Glass Instance";
+            //Instances[6].pBLAS        = m_pCubeBLAS;
+            //Instances[6].Mask         = TRANSPARENT_GEOM_MASK;
+            //Instances[6].Transform.SetRotation((float3x3::Scale(1.5f, 1.5f, 1.5f) * float3x3::RotationY(m_AnimationTime * PI_F * 0.25f)).Data());
+            //Instances[6].Transform.SetTranslation(3.0f, 4.0f, -5.0f);
+
+
+            //// Build or update TLAS
+            //BuildTLASAttribs Attribs;
+            //Attribs.pTLAS  = m_pTLAS;
+            //Attribs.Update = NeedUpdate;
+
+            //// Scratch buffer will be used to store temporary data during TLAS build or update.
+            //// Previous content in the scratch buffer will be discarded.
+            //Attribs.pScratchBuffer = m_ScratchBuffer;
+
+            //// Instance buffer will store instance data during TLAS build or update.
+            //// Previous content in the instance buffer will be discarded.
+            //Attribs.pInstanceBuffer = m_InstanceBuffer;
+
+            //// Instances will be converted to the format that is required by the graphics driver and copied to the instance buffer.
+            //Attribs.pInstances    = Instances;
+            //Attribs.InstanceCount = _countof(Instances);
+
+            //// Bind hit shaders per instance, it allows you to change the number of geometries in BLAS without invalidating the shader binding table.
+            //Attribs.BindingMode    = HIT_GROUP_BINDING_MODE_PER_INSTANCE;
+            //Attribs.HitGroupStride = HIT_GROUP_STRIDE;
+
+            //// Allow engine to change resource states.
+            //Attribs.TLASTransitionMode           = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+            //Attribs.BLASTransitionMode           = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+            //Attribs.InstanceBufferTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+            //Attribs.ScratchBufferTransitionMode  = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+
+            //m_pImmediateContext->BuildTLAS(Attribs);
+        }
 
         public void Dispose()
         {
+            m_pTLAS?.Dispose();
             m_pProceduralBLAS.Dispose();
             m_BoxAttribsCB.Dispose();
             m_pCubeBLAS.Dispose();

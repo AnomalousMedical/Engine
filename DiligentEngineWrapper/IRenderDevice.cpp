@@ -573,3 +573,25 @@ extern "C" _AnomalousExport IBottomLevelAS* IRenderDevice_CreateBLAS(
     delete[] Desc_pBoxes_Native_Array;
 	return theReturnValue;
 }
+extern "C" _AnomalousExport ITopLevelAS* IRenderDevice_CreateTLAS(
+	IRenderDevice* objPtr
+	, Uint32 Desc_MaxInstanceCount
+	, RAYTRACING_BUILD_AS_FLAGS Desc_Flags
+	, Uint32 Desc_CompactedSize
+	, Uint64 Desc_CommandQueueMask
+	, Char* Desc_Name
+)
+{
+	TopLevelASDesc Desc;
+	Desc.MaxInstanceCount = Desc_MaxInstanceCount;
+	Desc.Flags = Desc_Flags;
+	Desc.CompactedSize = Desc_CompactedSize;
+	Desc.CommandQueueMask = Desc_CommandQueueMask;
+	Desc.Name = Desc_Name;
+	ITopLevelAS* theReturnValue = nullptr;
+	objPtr->CreateTLAS(
+		Desc
+		, &theReturnValue
+	);
+	return theReturnValue;
+}

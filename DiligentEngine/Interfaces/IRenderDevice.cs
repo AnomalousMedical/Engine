@@ -320,6 +320,27 @@ namespace DiligentEngine
             );
             return theReturnValue != IntPtr.Zero ? new AutoPtr<IBottomLevelAS>(new IBottomLevelAS(theReturnValue), false) : null;
         }
+        /// <summary>
+        /// Creates a top-level acceleration structure object (TLAS).
+        /// \param [in]  Desc    - TLAS description, see Diligent::TopLevelASDesc for details.
+        /// \param [out] ppTLAS  - Address of the memory location where the pointer to the
+        /// TLAS interface will be stored.
+        /// The function calls AddRef(), so that the new object will contain
+        /// one reference.
+        /// </summary>
+        public AutoPtr<ITopLevelAS> CreateTLAS(TopLevelASDesc Desc)
+        {
+            var theReturnValue = 
+            IRenderDevice_CreateTLAS(
+                this.objPtr
+                , Desc.MaxInstanceCount
+                , Desc.Flags
+                , Desc.CompactedSize
+                , Desc.CommandQueueMask
+                , Desc.Name
+            );
+            return theReturnValue != IntPtr.Zero ? new AutoPtr<ITopLevelAS>(new ITopLevelAS(theReturnValue), false) : null;
+        }
 
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -495,6 +516,15 @@ namespace DiligentEngine
             , Uint32 Desc_TriangleCount
             , BLASBoundingBoxDescPassStruct[] Desc_pBoxes
             , Uint32 Desc_BoxCount
+            , RAYTRACING_BUILD_AS_FLAGS Desc_Flags
+            , Uint32 Desc_CompactedSize
+            , Uint64 Desc_CommandQueueMask
+            , String Desc_Name
+        );
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr IRenderDevice_CreateTLAS(
+            IntPtr objPtr
+            , Uint32 Desc_MaxInstanceCount
             , RAYTRACING_BUILD_AS_FLAGS Desc_Flags
             , Uint32 Desc_CompactedSize
             , Uint64 Desc_CommandQueueMask
