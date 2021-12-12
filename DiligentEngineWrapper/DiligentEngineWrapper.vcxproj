@@ -167,22 +167,28 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DilligentObject.cpp" />
     <ClCompile Include="GenericEngineFactory.cpp" />
+    <ClCompile Include="GraphicsPipelineStateCreateInfo.cpp" />
     <ClCompile Include="IBuffer.cpp" />
     <ClCompile Include="IDeviceContext.cpp" />
     <ClCompile Include="IDeviceContext.Custom.cpp" />
+    <ClCompile Include="IDeviceObject.cpp" />
     <ClCompile Include="IObject.cpp" />
     <ClCompile Include="IPipelineState.cpp" />
     <ClCompile Include="IRenderDevice.cpp" />
     <ClCompile Include="IRenderDeviceCustom.cpp" />
+    <ClCompile Include="ISampler.cpp" />
     <ClCompile Include="IShader.cpp" />
     <ClCompile Include="IShaderResourceBinding.cpp" />
     <ClCompile Include="IShaderResourceVariable.cpp" />
+    <ClCompile Include="IShaderResourceVariable.Custom.cpp" />
     <ClCompile Include="ISwapChain.cpp" />
     <ClCompile Include="ISwapChain.Custom.cpp" />
     <ClCompile Include="ITexture.cpp" />
     <ClCompile Include="ITexture.Custom.cpp" />
     <ClCompile Include="ITextureView.cpp" />
+    <ClCompile Include="ShaderCreateInfo.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -192,9 +198,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Color.h" />
+    <ClInclude Include="DeviceCaps.PassStruct.h" />
+    <ClInclude Include="GraphicsAdapterInfo.PassStruct.h" />
+    <ClInclude Include="ImmutableSamplerDesc.PassStruct.h" />
     <ClInclude Include="LayoutElement.PassStruct.h" />
     <ClInclude Include="MacroPassStruct.h" />
+    <ClInclude Include="NDCAttribs.PassStruct.h" />
+    <ClInclude Include="RayTracingGeneralShaderGroup.PassStruct.h" />
+    <ClInclude Include="RayTracingProceduralHitShaderGroup.PassStruct.h" />
+    <ClInclude Include="RayTracingTriangleHitShaderGroup.PassStruct.h" />
+    <ClInclude Include="RenderTargetBlendDesc.PassStruct.h" />
+    <ClInclude Include="ShaderResourceVariableDesc.PassStruct.h" />
+    <ClInclude Include="StateTransitionDesc.PassStruct.h" />
     <ClInclude Include="Stdafx.h" />
+    <ClInclude Include="TextureSubResData.PassStruct.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
