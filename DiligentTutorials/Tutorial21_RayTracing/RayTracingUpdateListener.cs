@@ -49,6 +49,9 @@ namespace DiligentEngineRayTracing
 
         AutoPtr<IShaderBindingTable> m_pSBT;
 
+        TEXTURE_FORMAT m_ColorBufferFormat = TEXTURE_FORMAT.TEX_FORMAT_RGBA8_UNORM;
+        AutoPtr<ITexture> m_pColorRT;
+
         public unsafe RayTracingUpdateListener(GraphicsEngine graphicsEngine, ShaderLoader<RayTracingUpdateListener> shaderLoader, TextureLoader textureLoader, NativeOSWindow window)
         {
             this.graphicsEngine = graphicsEngine;
@@ -76,6 +79,9 @@ namespace DiligentEngineRayTracing
             CreateProceduralBLAS();
             UpdateTLAS();
             CreateSBT();
+
+            WindowResize((uint)window.WindowWidth, (uint)window.WindowHeight);
+            window.Resized += _ => WindowResize((uint)window.WindowWidth, (uint)window.WindowHeight);
 
             // Setup camera.
             //m_Camera.SetPos(float3(-7.f, -0.5f, 16.5f));
@@ -911,6 +917,7 @@ namespace DiligentEngineRayTracing
 
         public void Dispose()
         {
+            m_pColorRT?.Dispose();
             m_pSBT.Dispose();
             m_InstanceBuffer?.Dispose();
             m_ScratchBuffer?.Dispose();
@@ -1015,9 +1022,9 @@ namespace DiligentEngineRayTracing
                 }
             }
 
-            //// Trace rays
+            // Trace rays
             //{
-            //    m_pRayTracingSRB->GetVariableByName(SHADER_TYPE_RAY_GEN, "g_ColorBuffer")->Set(m_pColorRT->GetDefaultView(TEXTURE_VIEW_UNORDERED_ACCESS));
+            //    m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_GEN, "g_ColorBuffer").Set(m_pColorRT.GetDefaultView(TEXTURE_VIEW_UNORDERED_ACCESS));
 
             //    m_pImmediateContext->SetPipelineState(m_pRayTracingPSO);
             //    m_pImmediateContext->CommitShaderResources(m_pRayTracingSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
@@ -1099,6 +1106,41 @@ namespace DiligentEngineRayTracing
             Frustum.FarPlane.Normal.y = Matrix.m13 - Matrix.m12;
             Frustum.FarPlane.Normal.z = Matrix.m23 - Matrix.m22;
             Frustum.FarPlane.Distance = Matrix.m33 - Matrix.m32;
+        }
+
+        void WindowResize(UInt32 Width, UInt32 Height)
+        {
+            var m_pDevice = graphicsEngine.RenderDevice;
+            // Update projection matrix.
+            float AspectRatio = (float)Width / (float)Height;
+            //m_Camera.SetProjAttribs(m_Constants.ClipPlanes.x, m_Constants.ClipPlanes.y, AspectRatio, PI_F / 4.f,
+            //                        m_pSwapChain->GetDesc().PreTransform, m_pDevice->GetDeviceCaps().IsGLDevice());
+
+            // Check if the image needs to be recreated.
+            if (m_pColorRT != null &&
+                m_pColorRT.Obj.GetDesc_Width == Width &&
+                m_pColorRT.Obj.GetDesc_Height == Height)
+            {
+                return;
+            }
+
+            if (Width == 0 || Height == 0)
+                return;
+
+            m_pColorRT?.Dispose();
+            m_pColorRT = null;
+
+            // Create window-size color image.
+            var RTDesc = new TextureDesc();
+            RTDesc.Name = "Color buffer";
+            RTDesc.Type = RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D;
+            RTDesc.Width = Width;
+            RTDesc.Height = Height;
+            RTDesc.BindFlags = BIND_FLAGS.BIND_UNORDERED_ACCESS | BIND_FLAGS.BIND_SHADER_RESOURCE;
+            RTDesc.ClearValue.Format = m_ColorBufferFormat;
+            RTDesc.Format = m_ColorBufferFormat;
+
+            m_pColorRT = m_pDevice.CreateTexture(RTDesc, null);
         }
     }
 }

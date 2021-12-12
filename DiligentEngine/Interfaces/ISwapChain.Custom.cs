@@ -63,6 +63,10 @@ namespace DiligentEngine
 
         public Uint32 GetDesc_BufferCount => ISwapChain_GetDesc_BufferCount(objPtr);
 
+        public Uint32 GetDesc_Width => ISwapChain_GetDesc_Width(objPtr);
+
+        public Uint32 GetDesc_Height => ISwapChain_GetDesc_Height(objPtr);
+
         public SURFACE_TRANSFORM GetDesc_PreTransform => ISwapChain_GetDesc_PreTransform(objPtr);
 
 
@@ -76,6 +80,14 @@ namespace DiligentEngine
         );
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern Uint32 ISwapChain_GetDesc_BufferCount(
+            IntPtr objPtr
+        );
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern Uint32 ISwapChain_GetDesc_Width(
+            IntPtr objPtr
+        );
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern Uint32 ISwapChain_GetDesc_Height(
             IntPtr objPtr
         );
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]

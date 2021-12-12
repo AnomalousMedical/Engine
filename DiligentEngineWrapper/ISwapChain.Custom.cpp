@@ -23,6 +23,20 @@ extern "C" _AnomalousExport Uint32 ISwapChain_GetDesc_BufferCount(
 	return objPtr->GetDesc().BufferCount;
 }
 
+extern "C" _AnomalousExport Uint32 ISwapChain_GetDesc_Width(
+	ISwapChain * objPtr
+)
+{
+	return objPtr->GetDesc().Width;
+}
+
+extern "C" _AnomalousExport Uint32 ISwapChain_GetDesc_Height(
+	ISwapChain * objPtr
+)
+{
+	return objPtr->GetDesc().Height;
+}
+
 extern "C" _AnomalousExport SURFACE_TRANSFORM ISwapChain_GetDesc_PreTransform(
 	ISwapChain * objPtr
 )
