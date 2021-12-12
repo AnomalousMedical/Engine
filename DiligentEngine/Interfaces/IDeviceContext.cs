@@ -297,6 +297,25 @@ namespace DiligentEngine
             );
         }
         /// <summary>
+        /// Updates the data in the buffer.
+        /// \param [in] pBuffer             - Pointer to the buffer to updates.
+        /// \param [in] Offset              - Offset in bytes from the beginning of the buffer to the update region.
+        /// \param [in] Size                - Size in bytes of the data region to update.
+        /// \param [in] pData               - Pointer to the data to write to the buffer.
+        /// \param [in] StateTransitionMode - Buffer state transition mode (see Diligent::RESOURCE_STATE_TRANSITION_MODE)
+        /// </summary>
+        public void UpdateBuffer(IBuffer pBuffer, Uint32 Offset, Uint32 Size, IntPtr pData, RESOURCE_STATE_TRANSITION_MODE StateTransitionMode)
+        {
+            IDeviceContext_UpdateBuffer(
+                this.objPtr
+                , pBuffer.objPtr
+                , Offset
+                , Size
+                , pData
+                , StateTransitionMode
+            );
+        }
+        /// <summary>
         /// Maps the buffer.
         /// \param [in] pBuffer      - Pointer to the buffer to map.
         /// \param [in] MapType      - Type of the map operation. See Diligent::MAP_TYPE.
@@ -448,6 +467,15 @@ namespace DiligentEngine
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void IDeviceContext_Flush(
             IntPtr objPtr
+        );
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void IDeviceContext_UpdateBuffer(
+            IntPtr objPtr
+            , IntPtr pBuffer
+            , Uint32 Offset
+            , Uint32 Size
+            , IntPtr pData
+            , RESOURCE_STATE_TRANSITION_MODE StateTransitionMode
         );
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern PVoid IDeviceContext_MapBuffer(

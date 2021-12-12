@@ -116,6 +116,18 @@ extern "C" _AnomalousExport void IDeviceContext_Flush(
 	objPtr->Flush(
 	);
 }
+extern "C" _AnomalousExport void IDeviceContext_UpdateBuffer(
+	IDeviceContext* objPtr
+, IBuffer* pBuffer, Uint32 Offset, Uint32 Size, void* pData, RESOURCE_STATE_TRANSITION_MODE StateTransitionMode)
+{
+	objPtr->UpdateBuffer(
+		pBuffer
+		, Offset
+		, Size
+		, pData
+		, StateTransitionMode
+	);
+}
 extern "C" _AnomalousExport PVoid IDeviceContext_MapBuffer(
 	IDeviceContext* objPtr
 , IBuffer* pBuffer, MAP_TYPE MapType, MAP_FLAGS MapFlags)

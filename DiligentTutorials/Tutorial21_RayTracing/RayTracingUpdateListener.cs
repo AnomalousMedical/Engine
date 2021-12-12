@@ -1,4 +1,5 @@
-﻿using DiligentEngine;
+﻿using Anomalous.OSPlatform;
+using DiligentEngine;
 using Engine;
 using Engine.Platform;
 using System;
@@ -13,6 +14,7 @@ namespace DiligentEngineRayTracing
     class RayTracingUpdateListener : UpdateListener, IDisposable
     {
         private readonly GraphicsEngine graphicsEngine;
+        private readonly NativeOSWindow window;
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext immediateContext;
 
@@ -47,9 +49,10 @@ namespace DiligentEngineRayTracing
 
         AutoPtr<IShaderBindingTable> m_pSBT;
 
-        public unsafe RayTracingUpdateListener(GraphicsEngine graphicsEngine, ShaderLoader<RayTracingUpdateListener> shaderLoader, TextureLoader textureLoader)
+        public unsafe RayTracingUpdateListener(GraphicsEngine graphicsEngine, ShaderLoader<RayTracingUpdateListener> shaderLoader, TextureLoader textureLoader, NativeOSWindow window)
         {
             this.graphicsEngine = graphicsEngine;
+            this.window = window;
             this.swapChain = graphicsEngine.SwapChain;
             this.immediateContext = graphicsEngine.ImmediateContext;
 
@@ -937,18 +940,165 @@ namespace DiligentEngineRayTracing
 
         public void sendUpdate(Clock clock)
         {
-            var pRTV = swapChain.GetCurrentBackBufferRTV();
-            var pDSV = swapChain.GetDepthBufferDSV();
-            immediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            //var pRTV = swapChain.GetCurrentBackBufferRTV();
+            //var pDSV = swapChain.GetDepthBufferDSV();
+            //immediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            var ClearColor = new Color(0.350f, 0.350f, 0.350f, 1.0f);
+            //var ClearColor = new Color(0.350f, 0.350f, 0.350f, 1.0f);
 
-            // Clear the back buffer
-            // Let the engine perform required state transitions
-            immediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-            immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            //// Clear the back buffer
+            //// Let the engine perform required state transitions
+            //immediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            //immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            this.swapChain.Present(1);
+            //this.swapChain.Present(1);
+
+
+            /// ------ RT
+            /// 
+            Render();
+            
+        }
+
+        private unsafe void Render()
+        {
+            var m_pImmediateContext = graphicsEngine.ImmediateContext;
+
+            UpdateTLAS();
+
+            // Update constants
+            {
+
+                var pDSV = swapChain.GetDepthBufferDSV();
+                var preTransform = swapChain.GetDesc_PreTransform;
+
+                var CameraWorldPos = Vector3.Zero;// Vector3::MakeVector(m_Camera.GetWorldMatrix()[3]);
+                var CameraViewProj = CameraHelpers.GetAdjustedProjectionMatrix(MathFloat.PI / 4.0f, 0.1f, 100f, window.WindowWidth, window.WindowHeight, preTransform); //m_Camera.GetViewMatrix() * m_Camera.GetProjMatrix();
+
+                var Frustum = new ViewFrustum();
+                ExtractViewFrustumPlanesFromMatrix(CameraViewProj, Frustum, false);
+
+                // Normalize frustum planes.
+                for (ViewFrustum.PLANE_IDX i = 0; i < ViewFrustum.PLANE_IDX.NUM_PLANES; ++i)
+                {
+                    Plane3D plane = Frustum.GetPlane(i);
+                    float invlen = 1.0f / plane.Normal.length();
+                    plane.Normal *= invlen;
+                    plane.Distance *= invlen;
+                }
+
+                // Calculate ray formed by the intersection two planes.
+                void GetPlaneIntersection (ViewFrustum.PLANE_IDX lhs, ViewFrustum.PLANE_IDX rhs, out Vector4 result) {
+                    var lp = Frustum.GetPlane(lhs);
+                    var rp = Frustum.GetPlane(rhs);
+
+                    Vector3 dir = lp.Normal.cross(rp.Normal);
+                    float len = dir.length2();
+
+                    //VERIFY_EXPR(len > 1.0e-5);
+
+                    var v3result = dir * (1.0f / MathF.Sqrt(len));
+                    result = new Vector4(v3result.x, v3result.y, v3result.z, 0);
+                };
+
+                // clang-format off
+                GetPlaneIntersection(ViewFrustum.PLANE_IDX.BOTTOM_PLANE_IDX, ViewFrustum.PLANE_IDX.LEFT_PLANE_IDX, out m_Constants.FrustumRayLB);
+                GetPlaneIntersection(ViewFrustum.PLANE_IDX.LEFT_PLANE_IDX, ViewFrustum.PLANE_IDX.TOP_PLANE_IDX, out m_Constants.FrustumRayLT);
+                GetPlaneIntersection(ViewFrustum.PLANE_IDX.RIGHT_PLANE_IDX, ViewFrustum.PLANE_IDX.BOTTOM_PLANE_IDX, out m_Constants.FrustumRayRB);
+                GetPlaneIntersection(ViewFrustum.PLANE_IDX.TOP_PLANE_IDX, ViewFrustum.PLANE_IDX.RIGHT_PLANE_IDX, out m_Constants.FrustumRayRT);
+                // clang-format on
+                m_Constants.CameraPos = new Vector4(CameraWorldPos.x, CameraWorldPos.y, CameraWorldPos.z, 1.0f) * -1.0f;
+
+                fixed (Constants* constantsPtr = &m_Constants) 
+                {
+                    m_pImmediateContext.UpdateBuffer(m_ConstantsCB.Obj, 0, (uint)sizeof(Constants), new IntPtr(constantsPtr), RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+                }
+            }
+
+            //// Trace rays
+            //{
+            //    m_pRayTracingSRB->GetVariableByName(SHADER_TYPE_RAY_GEN, "g_ColorBuffer")->Set(m_pColorRT->GetDefaultView(TEXTURE_VIEW_UNORDERED_ACCESS));
+
+            //    m_pImmediateContext->SetPipelineState(m_pRayTracingPSO);
+            //    m_pImmediateContext->CommitShaderResources(m_pRayTracingSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+
+            //    TraceRaysAttribs Attribs;
+            //    Attribs.DimensionX = m_pColorRT->GetDesc().Width;
+            //    Attribs.DimensionY = m_pColorRT->GetDesc().Height;
+            //    Attribs.pSBT = m_pSBT;
+
+            //    m_pImmediateContext->TraceRays(Attribs);
+            //}
+
+            //// Blit to swapchain image
+            //{
+            //    m_pImageBlitSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_Texture")->Set(m_pColorRT->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE));
+
+            //    auto* pRTV = m_pSwapChain->GetCurrentBackBufferRTV();
+            //    m_pImmediateContext->SetRenderTargets(1, &pRTV, nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+
+            //    m_pImmediateContext->SetPipelineState(m_pImageBlitPSO);
+            //    m_pImmediateContext->CommitShaderResources(m_pImageBlitSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+
+            //    DrawAttribs Attribs;
+            //    Attribs.NumVertices = 4;
+            //    m_pImmediateContext->Draw(Attribs);
+            //}
+        }
+
+        private void ExtractViewFrustumPlanesFromMatrix(in Matrix4x4 Matrix, ViewFrustum Frustum, bool bIsOpenGL)
+        {
+            // For more details, see Gribb G., Hartmann K., "Fast Extraction of Viewing Frustum Planes from the
+            // World-View-Projection Matrix" (the paper is available at
+            // http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf)
+
+            // Left clipping plane
+            Frustum.LeftPlane.Normal.x = Matrix.m03 + Matrix.m00;
+            Frustum.LeftPlane.Normal.y = Matrix.m13 + Matrix.m10;
+            Frustum.LeftPlane.Normal.z = Matrix.m23 + Matrix.m20;
+            Frustum.LeftPlane.Distance = Matrix.m33 + Matrix.m30;
+
+            // Right clipping plane
+            Frustum.RightPlane.Normal.x = Matrix.m03 - Matrix.m00;
+            Frustum.RightPlane.Normal.y = Matrix.m13 - Matrix.m10;
+            Frustum.RightPlane.Normal.z = Matrix.m23 - Matrix.m20;
+            Frustum.RightPlane.Distance = Matrix.m33 - Matrix.m30;
+
+            // Top clipping plane
+            Frustum.TopPlane.Normal.x = Matrix.m03 - Matrix.m01;
+            Frustum.TopPlane.Normal.y = Matrix.m13 - Matrix.m11;
+            Frustum.TopPlane.Normal.z = Matrix.m23 - Matrix.m21;
+            Frustum.TopPlane.Distance = Matrix.m33 - Matrix.m31;
+
+            // Bottom clipping plane
+            Frustum.BottomPlane.Normal.x = Matrix.m03 + Matrix.m01;
+            Frustum.BottomPlane.Normal.y = Matrix.m13 + Matrix.m11;
+            Frustum.BottomPlane.Normal.z = Matrix.m23 + Matrix.m21;
+            Frustum.BottomPlane.Distance = Matrix.m33 + Matrix.m31;
+
+            // Near clipping plane
+            if (bIsOpenGL)
+            {
+                // -w <= z <= w
+                Frustum.NearPlane.Normal.x = Matrix.m03 + Matrix.m02;
+                Frustum.NearPlane.Normal.y = Matrix.m13 + Matrix.m12;
+                Frustum.NearPlane.Normal.z = Matrix.m23 + Matrix.m22;
+                Frustum.NearPlane.Distance = Matrix.m33 + Matrix.m32;
+            }
+            else
+            {
+                // 0 <= z <= w
+                Frustum.NearPlane.Normal.x = Matrix.m02;
+                Frustum.NearPlane.Normal.y = Matrix.m12;
+                Frustum.NearPlane.Normal.z = Matrix.m22;
+                Frustum.NearPlane.Distance = Matrix.m32;
+            }
+
+            // Far clipping plane
+            Frustum.FarPlane.Normal.x = Matrix.m03 - Matrix.m02;
+            Frustum.FarPlane.Normal.y = Matrix.m13 - Matrix.m12;
+            Frustum.FarPlane.Normal.z = Matrix.m23 - Matrix.m22;
+            Frustum.FarPlane.Distance = Matrix.m33 - Matrix.m32;
         }
     }
 }
