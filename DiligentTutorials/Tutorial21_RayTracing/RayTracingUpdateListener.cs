@@ -662,6 +662,9 @@ namespace DiligentEngineRayTracing
                 Attribs.ScratchBufferTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
 
                 m_pImmediateContext.BuildBLAS(Attribs); //TODO: There is a potential problem here where the managed strings are deallocated, then diligent will error with "Cube" hashes the same as "" and then be unable to find the geometry. Need to figure out how to use strings with pass structs.
+                                                        //There is a hint in it is the 'RHS.Str' that is messed up
+                                                        //This is from m_NameToIndex, so it is the one being stored earlier when calling CreateBLAS, not the one from this line
+                                                        //So it is string gc, but we need to make a copy for CreateBLAS so it can be used here later in BuildBLAS
             }
         }
 

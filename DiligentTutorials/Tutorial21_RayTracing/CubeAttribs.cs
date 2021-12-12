@@ -58,10 +58,11 @@ namespace DiligentEngineRayTracing
 
         public void SetPrimitive(int i, uint x, uint y, uint z, uint w)
         {
-            _Primitives[i] = x;
-            _Primitives[i + 1] = y;
-            _Primitives[i + 2] = z;
-            _Primitives[i + 3] = w;
+            var insert = i * 4;
+            _Primitives[insert] = x;
+            _Primitives[insert + 1] = y;
+            _Primitives[insert + 2] = z;
+            _Primitives[insert + 3] = w;
         }
     };
 }
