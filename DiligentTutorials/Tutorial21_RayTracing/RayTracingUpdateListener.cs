@@ -29,6 +29,8 @@ namespace DiligentEngineRayTracing
         AutoPtr<IPipelineState> m_pImageBlitPSO;
         AutoPtr<IShaderResourceBinding> m_pImageBlitSRB;
 
+        AutoPtr<IBuffer> m_CubeAttribsCB;
+
         public unsafe RayTracingUpdateListener(GraphicsEngine graphicsEngine, ShaderLoader<RayTracingUpdateListener> shaderLoader, TextureLoader textureLoader)
         {
             this.graphicsEngine = graphicsEngine;
@@ -175,9 +177,9 @@ namespace DiligentEngineRayTracing
                 AddressW = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_CLAMP
             };
 
-            var ImmutableSamplers = new List<ImmutableSamplerDesc> 
+            var ImmutableSamplers = new List<ImmutableSamplerDesc>
             {
-                new ImmutableSamplerDesc{ ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, SamplerOrTextureName = "g_Texture", Desc = SamLinearClampDesc } 
+                new ImmutableSamplerDesc{ ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, SamplerOrTextureName = "g_Texture", Desc = SamLinearClampDesc }
             };
 
             PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers = ImmutableSamplers;
@@ -419,7 +421,7 @@ namespace DiligentEngineRayTracing
                     // Get shader resource view from the texture
                     var pTextureSRV = pTex[tex].Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
                     pTexSRVs.Add(pTextureSRV);
-                    Barriers.Add(new StateTransitionDesc{ pResource = pTex[tex].Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true });
+                    Barriers.Add(new StateTransitionDesc { pResource = pTex[tex].Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true });
                 }
                 m_pImmediateContext.TransitionResourceStates(Barriers);
 
@@ -438,15 +440,17 @@ namespace DiligentEngineRayTracing
             }
             finally
             {
-                foreach(var i in pTex)
+                foreach (var i in pTex)
                 {
                     i.Dispose();
                 }
             }
         }
 
-        void CreateCubeBLAS()
+        unsafe void CreateCubeBLAS()
         {
+            var m_pDevice = graphicsEngine.RenderDevice;
+
             // clang-format off
             var CubePos = new Vector3[]
             {
@@ -507,17 +511,21 @@ namespace DiligentEngineRayTracing
                     Attribs.SetPrimitive(i / 3, Indices[i], Indices[i + 1], Indices[i + 2], 0);
                 }
 
-                //BufferData BufData = { &Attribs, sizeof(Attribs) };
-                //BufferDesc BuffDesc;
-                //BuffDesc.Name = "Cube Attribs";
-                //BuffDesc.Usage = USAGE_IMMUTABLE;
-                //BuffDesc.BindFlags = BIND_UNIFORM_BUFFER;
-                //BuffDesc.uiSizeInBytes = sizeof(Attribs);
+                var BufData = new BufferData()
+                {
+                    pData = new IntPtr(&Attribs), //This is stack allocated, so just get the pointer, everything else complains
+                    DataSize = (uint)sizeof(CubeAttribs)
+                };
+                var BuffDesc = new BufferDesc();
+                BuffDesc.Name = "Cube Attribs";
+                BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
+                BuffDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
+                BuffDesc.uiSizeInBytes = BufData.DataSize;
 
-                //m_pDevice->CreateBuffer(BuffDesc, &BufData, &m_CubeAttribsCB);
+                m_CubeAttribsCB = m_pDevice.CreateBuffer(BuffDesc, BufData);
                 //VERIFY_EXPR(m_CubeAttribsCB != nullptr);
 
-                //m_pRayTracingSRB->GetVariableByName(SHADER_TYPE_RAY_CLOSEST_HIT, "g_CubeAttribsCB")->Set(m_CubeAttribsCB);
+                m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_CubeAttribsCB").Set(m_CubeAttribsCB.Obj);
             }
 
             //// Create vertex buffer
@@ -616,6 +624,7 @@ namespace DiligentEngineRayTracing
 
         public void Dispose()
         {
+            m_CubeAttribsCB.Dispose();
             m_pRayTracingSRB.Dispose();
             m_pRayTracingPSO.Dispose();
             m_pImageBlitPSO.Dispose();
