@@ -39,6 +39,7 @@ namespace DiligentEngineRayTracing
         AutoPtr<IBottomLevelAS> m_pProceduralBLAS;
 
         AutoPtr<ITopLevelAS> m_pTLAS;
+        AutoPtr<IBuffer> m_ScratchBuffer;
 
         public unsafe RayTracingUpdateListener(GraphicsEngine graphicsEngine, ShaderLoader<RayTracingUpdateListener> shaderLoader, TextureLoader textureLoader)
         {
@@ -737,21 +738,24 @@ namespace DiligentEngineRayTracing
             }
 
             // Create scratch buffer
-            using var pScratchBuffer = m_pDevice.CreateBuffer(new BufferDesc()
+            if (m_ScratchBuffer == null)
             {
-                Name = "TLAS Scratch Buffer",
-                Usage = USAGE.USAGE_DEFAULT,
-                BindFlags = BIND_FLAGS.BIND_RAY_TRACING,
-                uiSizeInBytes = Math.Max(m_pTLAS.Obj.ScratchBufferSizes_Build, m_pTLAS.Obj.ScratchBufferSizes_Update)
-            }, new BufferData());
+                m_ScratchBuffer = m_pDevice.CreateBuffer(new BufferDesc()
+                {
+                    Name = "TLAS Scratch Buffer",
+                    Usage = USAGE.USAGE_DEFAULT,
+                    BindFlags = BIND_FLAGS.BIND_RAY_TRACING,
+                    uiSizeInBytes = Math.Max(m_pTLAS.Obj.ScratchBufferSizes_Build, m_pTLAS.Obj.ScratchBufferSizes_Update)
+                }, new BufferData());
+            }
 
-            //// Create instance buffer
-            //if (!m_InstanceBuffer)
+            // Create instance buffer
+            //if (m_InstanceBuffer == null)
             //{
             //    BufferDesc BuffDesc;
-            //    BuffDesc.Name          = "TLAS Instance Buffer";
-            //    BuffDesc.Usage         = USAGE_DEFAULT;
-            //    BuffDesc.BindFlags     = BIND_RAY_TRACING;
+            //    BuffDesc.Name = "TLAS Instance Buffer";
+            //    BuffDesc.Usage = USAGE_DEFAULT;
+            //    BuffDesc.BindFlags = BIND_RAY_TRACING;
             //    BuffDesc.uiSizeInBytes = TLAS_INSTANCE_DATA_SIZE * NumInstances;
 
             //    m_pDevice->CreateBuffer(BuffDesc, nullptr, &m_InstanceBuffer);
@@ -863,6 +867,7 @@ namespace DiligentEngineRayTracing
 
         public void Dispose()
         {
+            m_ScratchBuffer?.Dispose();
             m_pTLAS?.Dispose();
             m_pProceduralBLAS.Dispose();
             m_BoxAttribsCB.Dispose();
