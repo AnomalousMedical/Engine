@@ -3,6 +3,7 @@
 #include "Color.h"
 #include "BLASBuildBoundingBoxData.PassStruct.h"
 #include "BLASBuildTriangleData.PassStruct.h"
+#include "TLASBuildInstanceData.PassStruct.h"
 using namespace Diligent;
 extern "C" _AnomalousExport void IDeviceContext_SetPipelineState(
 	IDeviceContext* objPtr
@@ -203,4 +204,57 @@ extern "C" _AnomalousExport void IDeviceContext_BuildBLAS(
 	);
     delete[] Attribs_pTriangleData_Native_Array;
     delete[] Attribs_pBoxData_Native_Array;
+}
+extern "C" _AnomalousExport void IDeviceContext_BuildTLAS(
+	IDeviceContext* objPtr
+	, ITopLevelAS* Attribs_pTLAS
+	, RESOURCE_STATE_TRANSITION_MODE Attribs_TLASTransitionMode
+	, RESOURCE_STATE_TRANSITION_MODE Attribs_BLASTransitionMode
+	, TLASBuildInstanceDataPassStruct* Attribs_pInstances
+	, Uint32 Attribs_InstanceCount
+	, IBuffer* Attribs_pInstanceBuffer
+	, Uint32 Attribs_InstanceBufferOffset
+	, RESOURCE_STATE_TRANSITION_MODE Attribs_InstanceBufferTransitionMode
+	, Uint32 Attribs_HitGroupStride
+	, Uint32 Attribs_BaseContributionToHitGroupIndex
+	, HIT_GROUP_BINDING_MODE Attribs_BindingMode
+	, IBuffer* Attribs_pScratchBuffer
+	, Uint32 Attribs_ScratchBufferOffset
+	, RESOURCE_STATE_TRANSITION_MODE Attribs_ScratchBufferTransitionMode
+	, Bool Attribs_Update
+)
+{
+	BuildTLASAttribs Attribs;
+	Attribs.pTLAS = Attribs_pTLAS;
+	Attribs.TLASTransitionMode = Attribs_TLASTransitionMode;
+	Attribs.BLASTransitionMode = Attribs_BLASTransitionMode;
+	TLASBuildInstanceData* Attribs_pInstances_Native_Array = new TLASBuildInstanceData[Attribs_InstanceCount];
+	if(Attribs_InstanceCount > 0)
+	{
+		for (Uint32 i = 0; i < Attribs_InstanceCount; ++i)
+		{
+	    Attribs_pInstances_Native_Array[i].InstanceName = Attribs_pInstances[i].InstanceName;
+	    Attribs_pInstances_Native_Array[i].pBLAS = Attribs_pInstances[i].pBLAS;
+	    Attribs_pInstances_Native_Array[i].CustomId = Attribs_pInstances[i].CustomId;
+	    Attribs_pInstances_Native_Array[i].Flags = Attribs_pInstances[i].Flags;
+	    Attribs_pInstances_Native_Array[i].Mask = Attribs_pInstances[i].Mask;
+	    Attribs_pInstances_Native_Array[i].ContributionToHitGroupIndex = Attribs_pInstances[i].ContributionToHitGroupIndex;
+		}
+		Attribs.pInstances = Attribs_pInstances_Native_Array;  
+	}
+	Attribs.InstanceCount = Attribs_InstanceCount;
+	Attribs.pInstanceBuffer = Attribs_pInstanceBuffer;
+	Attribs.InstanceBufferOffset = Attribs_InstanceBufferOffset;
+	Attribs.InstanceBufferTransitionMode = Attribs_InstanceBufferTransitionMode;
+	Attribs.HitGroupStride = Attribs_HitGroupStride;
+	Attribs.BaseContributionToHitGroupIndex = Attribs_BaseContributionToHitGroupIndex;
+	Attribs.BindingMode = Attribs_BindingMode;
+	Attribs.pScratchBuffer = Attribs_pScratchBuffer;
+	Attribs.ScratchBufferOffset = Attribs_ScratchBufferOffset;
+	Attribs.ScratchBufferTransitionMode = Attribs_ScratchBufferTransitionMode;
+	Attribs.Update = Attribs_Update;
+	objPtr->BuildTLAS(
+		Attribs
+	);
+    delete[] Attribs_pInstances_Native_Array;
 }

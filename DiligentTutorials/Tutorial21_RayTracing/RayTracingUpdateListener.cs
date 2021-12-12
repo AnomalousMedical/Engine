@@ -718,6 +718,7 @@ namespace DiligentEngineRayTracing
         void UpdateTLAS()
         {
             var m_pDevice = graphicsEngine.RenderDevice;
+            var m_pImmediateContext = graphicsEngine.ImmediateContext;
             // Create or update top-level acceleration structure
 
             const int NumInstances = NumCubes + 3;
@@ -864,7 +865,7 @@ namespace DiligentEngineRayTracing
             Attribs.InstanceBufferTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
             Attribs.ScratchBufferTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
 
-            //m_pImmediateContext->BuildTLAS(Attribs);
+            m_pImmediateContext.BuildTLAS(Attribs);
         }
 
         public void Dispose()

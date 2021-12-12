@@ -351,6 +351,34 @@ namespace DiligentEngine
                 , Attribs.Update
             );
         }
+        /// <summary>
+        /// Builds a top-level acceleration structure with the specified instances.
+        /// \param [in] Attribs - Structure describing build TLAS command attributes, see Diligent::BuildTLASAttribs for details.
+        /// 
+        /// \note Don't call build or copy operation on the same TLAS in a different contexts, because TLAS has CPU-side data
+        /// that will not match with GPU-side, so shader binding were incorrect.
+        /// </summary>
+        public void BuildTLAS(BuildTLASAttribs Attribs)
+        {
+            IDeviceContext_BuildTLAS(
+                this.objPtr
+                , Attribs.pTLAS?.objPtr ?? IntPtr.Zero
+                , Attribs.TLASTransitionMode
+                , Attribs.BLASTransitionMode
+                , TLASBuildInstanceDataPassStruct.ToStruct(Attribs?.pInstances)
+                , Attribs?.pInstances != null ? (Uint32)Attribs.pInstances.Count : 0
+                , Attribs.pInstanceBuffer?.objPtr ?? IntPtr.Zero
+                , Attribs.InstanceBufferOffset
+                , Attribs.InstanceBufferTransitionMode
+                , Attribs.HitGroupStride
+                , Attribs.BaseContributionToHitGroupIndex
+                , Attribs.BindingMode
+                , Attribs.pScratchBuffer?.objPtr ?? IntPtr.Zero
+                , Attribs.ScratchBufferOffset
+                , Attribs.ScratchBufferTransitionMode
+                , Attribs.Update
+            );
+        }
 
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -444,6 +472,25 @@ namespace DiligentEngine
             , Uint32 Attribs_TriangleDataCount
             , BLASBuildBoundingBoxDataPassStruct[] Attribs_pBoxData
             , Uint32 Attribs_BoxDataCount
+            , IntPtr Attribs_pScratchBuffer
+            , Uint32 Attribs_ScratchBufferOffset
+            , RESOURCE_STATE_TRANSITION_MODE Attribs_ScratchBufferTransitionMode
+            , [MarshalAs(UnmanagedType.I1)]Bool Attribs_Update
+        );
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void IDeviceContext_BuildTLAS(
+            IntPtr objPtr
+            , IntPtr Attribs_pTLAS
+            , RESOURCE_STATE_TRANSITION_MODE Attribs_TLASTransitionMode
+            , RESOURCE_STATE_TRANSITION_MODE Attribs_BLASTransitionMode
+            , TLASBuildInstanceDataPassStruct[] Attribs_pInstances
+            , Uint32 Attribs_InstanceCount
+            , IntPtr Attribs_pInstanceBuffer
+            , Uint32 Attribs_InstanceBufferOffset
+            , RESOURCE_STATE_TRANSITION_MODE Attribs_InstanceBufferTransitionMode
+            , Uint32 Attribs_HitGroupStride
+            , Uint32 Attribs_BaseContributionToHitGroupIndex
+            , HIT_GROUP_BINDING_MODE Attribs_BindingMode
             , IntPtr Attribs_pScratchBuffer
             , Uint32 Attribs_ScratchBufferOffset
             , RESOURCE_STATE_TRANSITION_MODE Attribs_ScratchBufferTransitionMode

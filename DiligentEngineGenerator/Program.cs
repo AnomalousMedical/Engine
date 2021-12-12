@@ -320,6 +320,8 @@ namespace DiligentEngineGenerator
                     .Where(i => !skip.Contains(i.Name)).ToList();
 
                 codeWriter.AddWriter(new StructCsWriter(TLASBuildInstanceData), Path.Combine(baseStructDir, $"{nameof(TLASBuildInstanceData)}.cs"));
+                codeWriter.AddWriter(new StructCsPassStructWriter(TLASBuildInstanceData), Path.Combine(baseStructDir, $"{nameof(TLASBuildInstanceData)}.PassStruct.cs"));
+                codeWriter.AddWriter(new StructCppPassStructWriter(TLASBuildInstanceData), Path.Combine(baseCPlusPlusOutDir, $"{nameof(TLASBuildInstanceData)}.PassStruct.h"));
             }
 
             {
@@ -1013,7 +1015,7 @@ namespace DiligentEngineGenerator
                     }
                 }
 
-                var allowedMethods = new List<String> { "BuildBLAS", "DrawIndexed", "CommitShaderResources", "SetIndexBuffer", "Flush", "ClearRenderTarget", "ClearDepthStencil", "Draw", "SetPipelineState", "MapBuffer", "UnmapBuffer", "SetVertexBuffers" };
+                var allowedMethods = new List<String> { "BuildTLAS", "BuildBLAS", "DrawIndexed", "CommitShaderResources", "SetIndexBuffer", "Flush", "ClearRenderTarget", "ClearDepthStencil", "Draw", "SetPipelineState", "MapBuffer", "UnmapBuffer", "SetVertexBuffers" };
                 //The following have custom implementations: "SetRenderTargets"
                 IDeviceContext.Methods = IDeviceContext.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
@@ -1027,7 +1029,8 @@ namespace DiligentEngineGenerator
                     "Graphics/GraphicsEngine/interface/DeviceContext.h",
                     "Color.h",
                     "BLASBuildBoundingBoxData.PassStruct.h",
-                    "BLASBuildTriangleData.PassStruct.h"
+                    "BLASBuildTriangleData.PassStruct.h",
+                    "TLASBuildInstanceData.PassStruct.h"
                 });
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IDeviceContext)}.cpp"));
             }
