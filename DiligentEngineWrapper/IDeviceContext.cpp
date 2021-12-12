@@ -247,6 +247,7 @@ extern "C" _AnomalousExport void IDeviceContext_BuildTLAS(
 		{
 	    Attribs_pInstances_Native_Array[i].InstanceName = Attribs_pInstances[i].InstanceName;
 	    Attribs_pInstances_Native_Array[i].pBLAS = Attribs_pInstances[i].pBLAS;
+	    Attribs_pInstances_Native_Array[i].Transform = Attribs_pInstances[i].Transform;
 	    Attribs_pInstances_Native_Array[i].CustomId = Attribs_pInstances[i].CustomId;
 	    Attribs_pInstances_Native_Array[i].Flags = Attribs_pInstances[i].Flags;
 	    Attribs_pInstances_Native_Array[i].Mask = Attribs_pInstances[i].Mask;

@@ -28,6 +28,7 @@ namespace DiligentEngine
         }
         public String InstanceName { get; set; }
         public IBottomLevelAS pBLAS { get; set; }
+        public InstanceMatrix Transform { get; set; }
         public Uint32 CustomId { get; set; } = 0;
         public RAYTRACING_INSTANCE_FLAGS Flags { get; set; } = RAYTRACING_INSTANCE_FLAGS.RAYTRACING_INSTANCE_NONE;
         public Uint8 Mask { get; set; } = 0xFF;

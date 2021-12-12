@@ -819,8 +819,10 @@ namespace DiligentEngineRayTracing
                 if (!m_EnableCubes[Dst.CustomId])
                     Dst.Mask = 0;
 
-                Dst.Transform = Matrix4x4.RotationY(angle);
-                Dst.Transform.SetTranslation(Pos.x, Pos.y, Pos.z);
+                var mat = Matrix4x4.RotationY(angle);
+                mat.SetTranslation(Pos.x, Pos.y, Pos.z);
+
+                Dst.Transform = new InstanceMatrix(mat);
             };
 
             Instances[0].InstanceName = "Cube Instance 1";
@@ -850,19 +852,18 @@ namespace DiligentEngineRayTracing
             Instances[4].InstanceName = "Ground Instance";
             Instances[4].pBLAS = m_pCubeBLAS.Obj;
             Instances[4].Mask = RtStructures.OPAQUE_GEOM_MASK;
-            Instances[4].Transform.setRotation(Matrix3x3.Scale(100.0f, 0.1f, 100.0f));
-            Instances[4].Transform.SetTranslation(0.0f, 6.0f, 0.0f);
+            Instances[4].Transform = new InstanceMatrix(Matrix3x3.Scale(100.0f, 0.1f, 100.0f), 0.0f, 6.0f, 0.0f);
 
             Instances[5].InstanceName = "Sphere Instance";
             Instances[5].CustomId = 0; // box index
             Instances[5].pBLAS = m_pProceduralBLAS.Obj;
             Instances[5].Mask = RtStructures.OPAQUE_GEOM_MASK;
-            Instances[5].Transform.SetTranslation(-3.0f, 3.0f, -5f);
+            Instances[5].Transform = new InstanceMatrix(-3.0f, 3.0f, -5f);
 
             Instances[6].InstanceName = "Glass Instance";
             Instances[6].pBLAS = m_pCubeBLAS.Obj;
             Instances[6].Mask = RtStructures.TRANSPARENT_GEOM_MASK;
-            Instances[6].Transform.setRotation(Matrix3x3.Scale(1.5f, 1.5f, 1.5f)); // * Matrix3x3.RotationY(m_AnimationTime * MathF.PI * 0.25f)
+            Instances[6].Transform.SetRotation(Matrix3x3.Scale(1.5f, 1.5f, 1.5f)); // * Matrix3x3.RotationY(m_AnimationTime * MathF.PI * 0.25f)
             Instances[6].Transform.SetTranslation(3.0f, 4.0f, -5.0f);
 
             // Build or update TLAS

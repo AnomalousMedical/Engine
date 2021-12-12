@@ -315,7 +315,7 @@ namespace DiligentEngineGenerator
                     ContributionToHitGroupIndex.DefaultValue = $"ITopLevelAS.{ContributionToHitGroupIndex.DefaultValue}";
                 }
 
-                var skip = new[] { "Transform" };
+                var skip = new string[] {  };
                 TLASBuildInstanceData.Properties = TLASBuildInstanceData.Properties
                     .Where(i => !skip.Contains(i.Name)).ToList();
 

@@ -8,6 +8,7 @@ struct TLASBuildInstanceDataPassStruct
 {
         char* InstanceName;
         IBottomLevelAS* pBLAS;
+        InstanceMatrix Transform;
         Uint32 CustomId;
         RAYTRACING_INSTANCE_FLAGS Flags;
         Uint8 Mask;

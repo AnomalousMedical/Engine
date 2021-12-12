@@ -25,6 +25,7 @@ namespace DiligentEngine
     {
         public String InstanceName;
         public IntPtr pBLAS;
+        public InstanceMatrix Transform;
         public Uint32 CustomId;
         public RAYTRACING_INSTANCE_FLAGS Flags;
         public Uint8 Mask;
@@ -40,6 +41,7 @@ namespace DiligentEngine
             {
                 InstanceName = i.InstanceName,
                 pBLAS = i.pBLAS == null ? IntPtr.Zero : i.pBLAS.objPtr,
+                Transform = i.Transform,
                 CustomId = i.CustomId,
                 Flags = i.Flags,
                 Mask = i.Mask,
