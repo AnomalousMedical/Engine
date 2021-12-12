@@ -533,9 +533,20 @@ namespace DiligentEngineGenerator
             }
 
             {
+                var BLASBoundingBoxDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/BottomLevelAS.h", 96, 105);
+                codeTypeInfo.Structs[nameof(BLASBoundingBoxDesc)] = BLASBoundingBoxDesc;
+                var skip = new List<String> { };
+                BLASBoundingBoxDesc.Properties = BLASBoundingBoxDesc.Properties
+                    .Where(i => !skip.Contains(i.Name)).ToList();
+                codeWriter.AddWriter(new StructCsPassStructWriter(BLASBoundingBoxDesc), Path.Combine(baseStructDir, $"{nameof(BLASBoundingBoxDesc)}.PassStruct.cs"));
+                codeWriter.AddWriter(new StructCppPassStructWriter(BLASBoundingBoxDesc), Path.Combine(baseCPlusPlusOutDir, $"{nameof(BLASBoundingBoxDesc)}.PassStruct.h"));
+                codeWriter.AddWriter(new StructCsWriter(BLASBoundingBoxDesc), Path.Combine(baseStructDir, $"{nameof(BLASBoundingBoxDesc)}.cs"));
+            }
+
+            {
                 var BottomLevelASDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/BottomLevelAS.h", 143, 168);
                 codeTypeInfo.Structs[nameof(BottomLevelASDesc)] = BottomLevelASDesc;
-                var skip = new List<String> { "pBoxes" };
+                var skip = new List<String> {  };
                 BottomLevelASDesc.Properties = BottomLevelASDesc.Properties
                     .Where(i => !skip.Contains(i.Name)).ToList();
 
@@ -548,6 +559,17 @@ namespace DiligentEngineGenerator
                 {
                     var TriangleCount = BottomLevelASDesc.Properties.First(i => i.Name == "TriangleCount");
                     TriangleCount.TakeAutoSize = "pTriangles";
+                }
+
+                {
+                    var pTriangles = BottomLevelASDesc.Properties.First(i => i.Name == "pBoxes");
+                    pTriangles.IsArray = true;
+                    pTriangles.PutAutoSize = "BoxCount";
+                }
+
+                {
+                    var TriangleCount = BottomLevelASDesc.Properties.First(i => i.Name == "BoxCount");
+                    TriangleCount.TakeAutoSize = "pBoxes";
                 }
 
                 codeWriter.AddWriter(new StructCsWriter(BottomLevelASDesc), Path.Combine(baseStructDir, $"{nameof(BottomLevelASDesc)}.cs"));
@@ -831,7 +853,8 @@ namespace DiligentEngineGenerator
                     "RayTracingGeneralShaderGroup.PassStruct.h",
                     "RayTracingProceduralHitShaderGroup.PassStruct.h",
                     "RayTracingTriangleHitShaderGroup.PassStruct.h",
-                    "BLASTriangleDesc.PassStruct.h"
+                    "BLASTriangleDesc.PassStruct.h",
+                    "BLASBoundingBoxDesc.PassStruct.h"
                 });
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IRenderDevice)}.cpp"));
             }

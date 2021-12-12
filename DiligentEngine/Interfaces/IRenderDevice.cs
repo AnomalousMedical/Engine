@@ -311,7 +311,8 @@ namespace DiligentEngine
                 this.objPtr
                 , BLASTriangleDescPassStruct.ToStruct(Desc?.pTriangles)
                 , Desc?.pTriangles != null ? (Uint32)Desc.pTriangles.Count : 0
-                , Desc.BoxCount
+                , BLASBoundingBoxDescPassStruct.ToStruct(Desc?.pBoxes)
+                , Desc?.pBoxes != null ? (Uint32)Desc.pBoxes.Count : 0
                 , Desc.Flags
                 , Desc.CompactedSize
                 , Desc.CommandQueueMask
@@ -492,6 +493,7 @@ namespace DiligentEngine
             IntPtr objPtr
             , BLASTriangleDescPassStruct[] Desc_pTriangles
             , Uint32 Desc_TriangleCount
+            , BLASBoundingBoxDescPassStruct[] Desc_pBoxes
             , Uint32 Desc_BoxCount
             , RAYTRACING_BUILD_AS_FLAGS Desc_Flags
             , Uint32 Desc_CompactedSize

@@ -10,6 +10,7 @@
 #include "RayTracingProceduralHitShaderGroup.PassStruct.h"
 #include "RayTracingTriangleHitShaderGroup.PassStruct.h"
 #include "BLASTriangleDesc.PassStruct.h"
+#include "BLASBoundingBoxDesc.PassStruct.h"
 using namespace Diligent;
 extern "C" _AnomalousExport IBuffer* IRenderDevice_CreateBuffer(
 	IRenderDevice* objPtr
@@ -496,6 +497,7 @@ extern "C" _AnomalousExport IBottomLevelAS* IRenderDevice_CreateBLAS(
 	IRenderDevice* objPtr
 	, BLASTriangleDescPassStruct* Desc_pTriangles
 	, Uint32 Desc_TriangleCount
+	, BLASBoundingBoxDescPassStruct* Desc_pBoxes
 	, Uint32 Desc_BoxCount
 	, RAYTRACING_BUILD_AS_FLAGS Desc_Flags
 	, Uint32 Desc_CompactedSize
@@ -517,6 +519,13 @@ extern "C" _AnomalousExport IBottomLevelAS* IRenderDevice_CreateBLAS(
 	}
 	Desc.pTriangles = Desc_pTriangles_Native_Array;
 	Desc.TriangleCount = Desc_TriangleCount;
+	BLASBoundingBoxDesc* Desc_pBoxes_Native_Array = new BLASBoundingBoxDesc[Desc_BoxCount];
+	for (Uint32 i = 0; i < Desc_BoxCount; ++i)
+	{
+	    Desc_pBoxes_Native_Array[i].GeometryName = Desc_pBoxes[i].GeometryName;
+	    Desc_pBoxes_Native_Array[i].MaxBoxCount = Desc_pBoxes[i].MaxBoxCount;
+	}
+	Desc.pBoxes = Desc_pBoxes_Native_Array;
 	Desc.BoxCount = Desc_BoxCount;
 	Desc.Flags = Desc_Flags;
 	Desc.CompactedSize = Desc_CompactedSize;
@@ -528,5 +537,6 @@ extern "C" _AnomalousExport IBottomLevelAS* IRenderDevice_CreateBLAS(
 		, &theReturnValue
 	);
     delete[] Desc_pTriangles_Native_Array;
+    delete[] Desc_pBoxes_Native_Array;
 	return theReturnValue;
 }

@@ -19,17 +19,15 @@ using BOOL = System.Boolean;
 
 namespace DiligentEngine
 {
-    public partial class BottomLevelASDesc : DeviceObjectAttribs
+    public partial class BLASBoundingBoxDesc
     {
-        public BottomLevelASDesc()
-        {
 
+        public BLASBoundingBoxDesc()
+        {
+            
         }
-        public List<BLASTriangleDesc> pTriangles { get; set; }
-        public List<BLASBoundingBoxDesc> pBoxes { get; set; }
-        public RAYTRACING_BUILD_AS_FLAGS Flags { get; set; } = RAYTRACING_BUILD_AS_FLAGS.RAYTRACING_BUILD_AS_NONE;
-        public Uint32 CompactedSize { get; set; } = 0;
-        public Uint64 CommandQueueMask { get; set; } = 1;
+        public String GeometryName { get; set; }
+        public Uint32 MaxBoxCount { get; set; } = 0;
 
 
     }
