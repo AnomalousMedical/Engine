@@ -37,6 +37,12 @@ namespace DiligentEngineGenerator
             }
 
             {
+                var RAYTRACING_INSTANCE_FLAGS = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 722, 745);
+                codeTypeInfo.Enums[nameof(RAYTRACING_INSTANCE_FLAGS)] = RAYTRACING_INSTANCE_FLAGS;
+                EnumWriter.Write(RAYTRACING_INSTANCE_FLAGS, Path.Combine(baseEnumDir, $"{nameof(RAYTRACING_INSTANCE_FLAGS)}.cs"));
+            }
+
+            {
                 var USAGE = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 93, 140);
                 codeTypeInfo.Enums[nameof(USAGE)] = USAGE;
                 EnumWriter.Write(USAGE, Path.Combine(baseEnumDir, $"{nameof(USAGE)}.cs"));
@@ -292,8 +298,24 @@ namespace DiligentEngineGenerator
             }
 
             //////////// Structs
-
             var baseStructDir = Path.Combine(baseCSharpOutDir, "Structs");
+
+            {
+                var TLASBuildInstanceData = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 995, 1025);
+                codeTypeInfo.Structs[nameof(TLASBuildInstanceData)] = TLASBuildInstanceData;
+
+                {
+                    var ContributionToHitGroupIndex = TLASBuildInstanceData.Properties.First(i => i.Name == "ContributionToHitGroupIndex");
+                    ContributionToHitGroupIndex.DefaultValue = $"ITopLevelAS.{ContributionToHitGroupIndex.DefaultValue}";
+                }
+
+                var skip = new[] { "Transform" };
+                TLASBuildInstanceData.Properties = TLASBuildInstanceData.Properties
+                    .Where(i => !skip.Contains(i.Name)).ToList();
+
+                codeWriter.AddWriter(new StructCsWriter(TLASBuildInstanceData), Path.Combine(baseStructDir, $"{nameof(TLASBuildInstanceData)}.cs"));
+            }
+
             {
                 var ShaderResourceVariableDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/PipelineState.h", 73, 85);
                 codeTypeInfo.Structs[nameof(ShaderResourceVariableDesc)] = ShaderResourceVariableDesc;

@@ -134,5 +134,34 @@ namespace Engine
             //}
             //return kNeg;
         }
+
+        /// <summary>
+        /// D3D-style left-handed matrix that rotates a point around the y axis. Angle (in radians)
+        /// is measured clockwise when looking along the rotation axis toward the origin:
+        /// (x' y' z' 1) = (x y z 1) * RotationY
+        /// </summary>
+        /// <param name="angleInRadians">The angle on the z axis in radians.</param>
+        public static Matrix3x3 RotationY(float angleInRadians)
+        {
+            float s = (float)Math.Sin(angleInRadians);
+            float c = (float)Math.Cos(angleInRadians);
+
+            return new Matrix3x3
+            (
+                c, 0, -s,
+                0, 1, 0,
+                s, 0, c
+            );
+        }
+
+        public static Matrix3x3 Scale(float x, float y, float z)
+        {
+            return new Matrix3x3
+            (
+                x, 0, 0,
+                0, y, 0,
+                0, 0, z
+            );
+        }
     }
 }

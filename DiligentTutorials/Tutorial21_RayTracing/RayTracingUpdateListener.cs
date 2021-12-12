@@ -42,6 +42,9 @@ namespace DiligentEngineRayTracing
         AutoPtr<IBuffer> m_ScratchBuffer;
         AutoPtr<IBuffer> m_InstanceBuffer;
 
+        float m_AnimationTime = 0.0f;
+        bool[] m_EnableCubes = new bool[]{ true, true, true, true };
+
         public unsafe RayTracingUpdateListener(GraphicsEngine graphicsEngine, ShaderLoader<RayTracingUpdateListener> shaderLoader, TextureLoader textureLoader)
         {
             this.graphicsEngine = graphicsEngine;
@@ -711,7 +714,7 @@ namespace DiligentEngineRayTracing
                 m_pImmediateContext.BuildBLAS(Attribs);
             }
         }
-        
+
         void UpdateTLAS()
         {
             var m_pDevice = graphicsEngine.RenderDevice;
@@ -763,77 +766,77 @@ namespace DiligentEngineRayTracing
                 //VERIFY_EXPR(m_InstanceBuffer != nullptr);
             }
 
-            //// Setup instances
-            //TLASBuildInstanceData Instances[NumInstances] = {};
+            // Setup instances
+            var Instances = new TLASBuildInstanceData[NumInstances];
+            for(var i = 0; i < NumInstances; i++)
+            {
+                Instances[i] = new TLASBuildInstanceData();
+            }
 
-            //struct CubeInstanceData
-            //{
-            //    float3 BasePos;
-            //    float  TimeOffset;
-            //} CubeInstData[] = // clang-format off
-            //{
-            //        {float3{ 1, 1,  1}, 0.00f},
-            //        {float3{ 2, 0, -1}, 0.53f},
-            //        {float3{-1, 1,  2}, 1.27f},
-            //        {float3{-2, 0, -1}, 4.16f}
-            //};
+            var CubeInstData = new CubeInstanceData[] // clang-format off
+            {
+                new CubeInstanceData{ BasePos = new Vector3( 1, 1,  1), TimeOffset = 0.00f},
+                new CubeInstanceData{ BasePos = new Vector3( 2, 0, -1), TimeOffset = 0.53f},
+                new CubeInstanceData{ BasePos = new Vector3( -1, 1,  2), TimeOffset = 1.27f},
+                new CubeInstanceData{ BasePos = new Vector3( -2, 0, -1), TimeOffset = 4.16f}
+            };
             //// clang-format on
             //static_assert(_countof(CubeInstData) == NumCubes, "Cube instance data array size mismatch");
 
-            //const auto AnimateOpaqueCube = [&](TLASBuildInstanceData& Dst) //
-            //{
-            //    float  t     = sin(m_AnimationTime * PI_F * 0.5f) + CubeInstData[Dst.CustomId].TimeOffset;
-            //    float3 Pos   = CubeInstData[Dst.CustomId].BasePos * 2.0f + float3(sin(t * 1.13f), sin(t * 0.77f), sin(t * 2.15f)) * 0.5f;
-            //    float  angle = 0.1f * PI_F * (m_AnimationTime + CubeInstData[Dst.CustomId].TimeOffset * 2.0f);
+            void AnimateOpaqueCube(TLASBuildInstanceData Dst) //
+            {
+                float t = MathF.Sin(m_AnimationTime * MathF.PI * 0.5f) + CubeInstData[Dst.CustomId].TimeOffset;
+                Vector3 Pos = CubeInstData[Dst.CustomId].BasePos * 2.0f + new Vector3(MathF.Sin(t * 1.13f), MathF.Sin(t * 0.77f), MathF.Sin(t * 2.15f)) * 0.5f;
+                float angle = 0.1f * MathF.PI * (m_AnimationTime + CubeInstData[Dst.CustomId].TimeOffset * 2.0f);
 
-            //    if (!m_EnableCubes[Dst.CustomId])
-            //        Dst.Mask = 0;
+                if (!m_EnableCubes[Dst.CustomId])
+                    Dst.Mask = 0;
 
-            //    Dst.Transform.SetTranslation(Pos.x, Pos.y, Pos.z);
-            //    Dst.Transform.SetRotation(float3x3::RotationY(angle).Data());
-            //};
+                Dst.Transform = Matrix4x4.RotationY(angle);
+                Dst.Transform.SetTranslation(Pos.x, Pos.y, Pos.z);
+            };
 
-            //Instances[0].InstanceName = "Cube Instance 1";
-            //Instances[0].CustomId     = 0; // texture index
-            //Instances[0].pBLAS        = m_pCubeBLAS;
-            //Instances[0].Mask         = OPAQUE_GEOM_MASK;
-            //AnimateOpaqueCube(Instances[0]);
+            Instances[0].InstanceName = "Cube Instance 1";
+            Instances[0].CustomId = 0; // texture index
+            Instances[0].pBLAS = m_pCubeBLAS.Obj;
+            Instances[0].Mask = RtStructures.OPAQUE_GEOM_MASK;
+            AnimateOpaqueCube(Instances[0]);
 
-            //Instances[1].InstanceName = "Cube Instance 2";
-            //Instances[1].CustomId     = 1; // texture index
-            //Instances[1].pBLAS        = m_pCubeBLAS;
-            //Instances[1].Mask         = OPAQUE_GEOM_MASK;
-            //AnimateOpaqueCube(Instances[1]);
+            Instances[1].InstanceName = "Cube Instance 2";
+            Instances[1].CustomId = 1; // texture index
+            Instances[1].pBLAS = m_pCubeBLAS.Obj;
+            Instances[1].Mask = RtStructures.OPAQUE_GEOM_MASK;
+            AnimateOpaqueCube(Instances[1]);
 
-            //Instances[2].InstanceName = "Cube Instance 3";
-            //Instances[2].CustomId     = 2; // texture index
-            //Instances[2].pBLAS        = m_pCubeBLAS;
-            //Instances[2].Mask         = OPAQUE_GEOM_MASK;
-            //AnimateOpaqueCube(Instances[2]);
+            Instances[2].InstanceName = "Cube Instance 3";
+            Instances[2].CustomId = 2; // texture index
+            Instances[2].pBLAS = m_pCubeBLAS.Obj;
+            Instances[2].Mask = RtStructures.OPAQUE_GEOM_MASK;
+            AnimateOpaqueCube(Instances[2]);
 
-            //Instances[3].InstanceName = "Cube Instance 4";
-            //Instances[3].CustomId     = 3; // texture index
-            //Instances[3].pBLAS        = m_pCubeBLAS;
-            //Instances[3].Mask         = OPAQUE_GEOM_MASK;
-            //AnimateOpaqueCube(Instances[3]);
+            Instances[3].InstanceName = "Cube Instance 4";
+            Instances[3].CustomId = 3; // texture index
+            Instances[3].pBLAS = m_pCubeBLAS.Obj;
+            Instances[3].Mask = RtStructures.OPAQUE_GEOM_MASK;
+            AnimateOpaqueCube(Instances[3]);
 
-            //Instances[4].InstanceName = "Ground Instance";
-            //Instances[4].pBLAS        = m_pCubeBLAS;
-            //Instances[4].Mask         = OPAQUE_GEOM_MASK;
-            //Instances[4].Transform.SetRotation(float3x3::Scale(100.0f, 0.1f, 100.0f).Data());
-            //Instances[4].Transform.SetTranslation(0.0f, 6.0f, 0.0f);
+            Instances[4].InstanceName = "Ground Instance";
+            Instances[4].pBLAS = m_pCubeBLAS.Obj;
+            Instances[4].Mask = RtStructures.OPAQUE_GEOM_MASK;
+            Instances[4].Transform.setRotation(Matrix3x3.Scale(100.0f, 0.1f, 100.0f));
+            Instances[4].Transform.SetTranslation(0.0f, 6.0f, 0.0f);
 
-            //Instances[5].InstanceName = "Sphere Instance";
-            //Instances[5].CustomId     = 0; // box index
-            //Instances[5].pBLAS        = m_pProceduralBLAS;
-            //Instances[5].Mask         = OPAQUE_GEOM_MASK;
-            //Instances[5].Transform.SetTranslation(-3.0f, 3.0f, -5.f);
+            Instances[5].InstanceName = "Sphere Instance";
+            Instances[5].CustomId = 0; // box index
+            Instances[5].pBLAS = m_pProceduralBLAS.Obj;
+            Instances[5].Mask = RtStructures.OPAQUE_GEOM_MASK;
+            Instances[5].Transform.SetTranslation(-3.0f, 3.0f, -5f);
 
-            //Instances[6].InstanceName = "Glass Instance";
-            //Instances[6].pBLAS        = m_pCubeBLAS;
-            //Instances[6].Mask         = TRANSPARENT_GEOM_MASK;
-            //Instances[6].Transform.SetRotation((float3x3::Scale(1.5f, 1.5f, 1.5f) * float3x3::RotationY(m_AnimationTime * PI_F * 0.25f)).Data());
-            //Instances[6].Transform.SetTranslation(3.0f, 4.0f, -5.0f);
+            Instances[6].InstanceName = "Glass Instance";
+            Instances[6].pBLAS = m_pCubeBLAS.Obj;
+            Instances[6].Mask = RtStructures.TRANSPARENT_GEOM_MASK;
+            Instances[6].Transform.setRotation(Matrix3x3.Scale(1.5f, 1.5f, 1.5f)); // * Matrix3x3.RotationY(m_AnimationTime * MathF.PI * 0.25f)
+            Instances[6].Transform.SetTranslation(3.0f, 4.0f, -5.0f);
 
 
             //// Build or update TLAS
