@@ -595,3 +595,19 @@ extern "C" _AnomalousExport ITopLevelAS* IRenderDevice_CreateTLAS(
 	);
 	return theReturnValue;
 }
+extern "C" _AnomalousExport IShaderBindingTable* IRenderDevice_CreateSBT(
+	IRenderDevice* objPtr
+	, IPipelineState* Desc_pPSO
+	, Char* Desc_Name
+)
+{
+	ShaderBindingTableDesc Desc;
+	Desc.pPSO = Desc_pPSO;
+	Desc.Name = Desc_Name;
+	IShaderBindingTable* theReturnValue = nullptr;
+	objPtr->CreateSBT(
+		Desc
+		, &theReturnValue
+	);
+	return theReturnValue;
+}

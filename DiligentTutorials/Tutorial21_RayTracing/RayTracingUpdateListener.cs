@@ -45,6 +45,8 @@ namespace DiligentEngineRayTracing
         float m_AnimationTime = 0.0f;
         bool[] m_EnableCubes = new bool[]{ true, true, true, true };
 
+        AutoPtr<IShaderBindingTable> m_pSBT;
+
         public unsafe RayTracingUpdateListener(GraphicsEngine graphicsEngine, ShaderLoader<RayTracingUpdateListener> shaderLoader, TextureLoader textureLoader)
         {
             this.graphicsEngine = graphicsEngine;
@@ -70,7 +72,7 @@ namespace DiligentEngineRayTracing
             CreateCubeBLAS();
             CreateProceduralBLAS();
             UpdateTLAS();
-            //CreateSBT();
+            CreateSBT();
 
             // Setup camera.
             //m_Camera.SetPos(float3(-7.f, -0.5f, 16.5f));
@@ -867,9 +869,46 @@ namespace DiligentEngineRayTracing
 
             m_pImmediateContext.BuildTLAS(Attribs);
         }
+        void CreateSBT()
+        {
+            var m_pDevice = graphicsEngine.RenderDevice;
+            var m_pImmediateContext = graphicsEngine.ImmediateContext;
+            // Create shader binding table.
+
+            var SBTDesc = new ShaderBindingTableDesc();
+            SBTDesc.Name = "SBT";
+            SBTDesc.pPSO = m_pRayTracingPSO.Obj;
+
+            m_pSBT = m_pDevice.CreateSBT(SBTDesc);
+            //VERIFY_EXPR(m_pSBT != nullptr);
+
+            //m_pSBT.BindRayGenShader("Main");
+
+            //m_pSBT.BindMissShader("PrimaryMiss", PRIMARY_RAY_INDEX);
+            //m_pSBT.BindMissShader("ShadowMiss", SHADOW_RAY_INDEX);
+
+            //// Hit groups for primary ray
+            //// clang-format off
+            //m_pSBT.BindHitGroupForInstance(m_pTLAS, "Cube Instance 1", PRIMARY_RAY_INDEX, "CubePrimaryHit");
+            //m_pSBT.BindHitGroupForInstance(m_pTLAS, "Cube Instance 2", PRIMARY_RAY_INDEX, "CubePrimaryHit");
+            //m_pSBT.BindHitGroupForInstance(m_pTLAS, "Cube Instance 3", PRIMARY_RAY_INDEX, "CubePrimaryHit");
+            //m_pSBT.BindHitGroupForInstance(m_pTLAS, "Cube Instance 4", PRIMARY_RAY_INDEX, "CubePrimaryHit");
+            //m_pSBT.BindHitGroupForInstance(m_pTLAS, "Ground Instance", PRIMARY_RAY_INDEX, "GroundHit");
+            //m_pSBT.BindHitGroupForInstance(m_pTLAS, "Glass Instance", PRIMARY_RAY_INDEX, "GlassPrimaryHit");
+            //m_pSBT.BindHitGroupForInstance(m_pTLAS, "Sphere Instance", PRIMARY_RAY_INDEX, "SpherePrimaryHit");
+            //// clang-format on
+
+            //// Hit groups for shadow ray.
+            //// null means no shaders are bound and hit shader invocation will be skipped.
+            //m_pSBT.BindHitGroupForTLAS(m_pTLAS, SHADOW_RAY_INDEX, nullptr);
+
+            //// We must specify the intersection shader for procedural geometry.
+            //m_pSBT.BindHitGroupForInstance(m_pTLAS, "Sphere Instance", SHADOW_RAY_INDEX, "SphereShadowHit");
+        }
 
         public void Dispose()
         {
+            m_pSBT.Dispose();
             m_InstanceBuffer?.Dispose();
             m_ScratchBuffer?.Dispose();
             m_pTLAS?.Dispose();

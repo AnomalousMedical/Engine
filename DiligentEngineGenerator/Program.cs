@@ -358,6 +358,12 @@ namespace DiligentEngineGenerator
             }
 
             {
+                var ShaderBindingTableDesc = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/ShaderBindingTable.h", 48, 54);
+                codeTypeInfo.Structs[nameof(ShaderBindingTableDesc)] = ShaderBindingTableDesc;
+                codeWriter.AddWriter(new StructCsWriter(ShaderBindingTableDesc), Path.Combine(baseStructDir, $"{nameof(ShaderBindingTableDesc)}.cs"));
+            }
+
+            {
                 var DeviceObjectAttribs = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 1150, 1159);
                 codeTypeInfo.Structs[nameof(DeviceObjectAttribs)] = DeviceObjectAttribs;
                 codeWriter.AddWriter(new StructCsWriter(DeviceObjectAttribs), Path.Combine(baseStructDir, $"{nameof(DeviceObjectAttribs)}.cs"));
@@ -960,7 +966,18 @@ namespace DiligentEngineGenerator
                     }
                 }
 
-                var allowedMethods = new List<String> { "CreateTLAS", "CreateBLAS", "CreateShader", "CreateGraphicsPipelineState", "CreateBuffer", "CreateTexture", "CreateSampler", "CreateRayTracingPipelineState" };
+                {
+                    var CreateSBT = IRenderDevice.Methods.First(i => i.Name == "CreateSBT");
+                    CreateSBT.ReturnType = "IShaderBindingTable*";
+                    CreateSBT.ReturnAsAutoPtr = true;
+                    {
+                        var ppSBT = CreateSBT.Args.First(i => i.Name == "ppSBT");
+                        ppSBT.MakeReturnVal = true;
+                        ppSBT.Type = "IShaderBindingTable*";
+                    }
+                }
+
+                var allowedMethods = new List<String> { "CreateSBT", "CreateTLAS", "CreateBLAS", "CreateShader", "CreateGraphicsPipelineState", "CreateBuffer", "CreateTexture", "CreateSampler", "CreateRayTracingPipelineState" };
                 IRenderDevice.Methods = IRenderDevice.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(IRenderDevice), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IRenderDevice)}.cs"));
@@ -1255,6 +1272,21 @@ namespace DiligentEngineGenerator
                     "Graphics/GraphicsEngine/interface/BufferView.h"
                 });
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IBufferView)}.cpp"));
+            }
+
+            {
+                var IShaderBindingTable = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/ShaderBindingTable.h", 91, 273, Sequence(95, 98));
+                codeTypeInfo.Interfaces[nameof(IShaderBindingTable)] = IShaderBindingTable;
+
+                var allowedMethods = new List<String> {  };
+                IShaderBindingTable.Methods = IShaderBindingTable.Methods
+                    .Where(i => allowedMethods.Contains(i.Name)).ToList();
+                codeWriter.AddWriter(new InterfaceCsWriter(IShaderBindingTable), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IShaderBindingTable)}.cs"));
+                var cppWriter = new InterfaceCppWriter(IShaderBindingTable, new List<String>()
+                {
+                    "Graphics/GraphicsEngine/interface/ShaderBindingTable.h"
+                });
+                codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IShaderBindingTable)}.cpp"));
             }
 
             codeWriter.WriteFiles(new CodeRendererContext(codeTypeInfo));

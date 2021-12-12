@@ -341,6 +341,24 @@ namespace DiligentEngine
             );
             return theReturnValue != IntPtr.Zero ? new AutoPtr<ITopLevelAS>(new ITopLevelAS(theReturnValue), false) : null;
         }
+        /// <summary>
+        /// Creates a shader resource binding table object (SBT).
+        /// \param [in]  Desc    - SBT description, see Diligent::ShaderBindingTableDesc for details.
+        /// \param [out] ppSBT   - Address of the memory location where the pointer to the
+        /// SBT interface will be stored.
+        /// The function calls AddRef(), so that the new object will contain
+        /// one reference.
+        /// </summary>
+        public AutoPtr<IShaderBindingTable> CreateSBT(ShaderBindingTableDesc Desc)
+        {
+            var theReturnValue = 
+            IRenderDevice_CreateSBT(
+                this.objPtr
+                , Desc.pPSO?.objPtr ?? IntPtr.Zero
+                , Desc.Name
+            );
+            return theReturnValue != IntPtr.Zero ? new AutoPtr<IShaderBindingTable>(new IShaderBindingTable(theReturnValue), false) : null;
+        }
 
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -528,6 +546,12 @@ namespace DiligentEngine
             , RAYTRACING_BUILD_AS_FLAGS Desc_Flags
             , Uint32 Desc_CompactedSize
             , Uint64 Desc_CommandQueueMask
+            , String Desc_Name
+        );
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr IRenderDevice_CreateSBT(
+            IntPtr objPtr
+            , IntPtr Desc_pPSO
             , String Desc_Name
         );
     }
