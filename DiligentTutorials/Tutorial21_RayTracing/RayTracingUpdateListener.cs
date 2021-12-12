@@ -979,8 +979,8 @@ namespace DiligentEngineRayTracing
                 var pDSV = swapChain.GetDepthBufferDSV();
                 var preTransform = swapChain.GetDesc_PreTransform;
 
-                var CameraWorldPos = new Vector3(-7.0f, -0.5f, 16.5f);// Vector3.Zero;// Vector3::MakeVector(m_Camera.GetWorldMatrix()[3]);
-                var CameraViewProj = CameraHelpers.GetAdjustedProjectionMatrix(MathFloat.PI / 4.0f, 0.1f, 100f, window.WindowWidth, window.WindowHeight, preTransform); //m_Camera.GetViewMatrix() * m_Camera.GetProjMatrix();
+                var CameraWorldPos = new Vector3(0f, 0f, -15f);
+                var CameraViewProj = CameraHelpers.GetAdjustedProjectionMatrix(MathFloat.PI / 4.0f, 0.1f, 100f, window.WindowWidth, window.WindowHeight, preTransform);
 
                 var Frustum = new ViewFrustum();
                 ExtractViewFrustumPlanesFromMatrix(CameraViewProj, Frustum, false);
