@@ -232,6 +232,12 @@ namespace DiligentEngineGenerator
             }
 
             {
+                var BUFFER_VIEW_TYPE = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 256, 274);
+                codeTypeInfo.Enums[nameof(BUFFER_VIEW_TYPE)] = BUFFER_VIEW_TYPE;
+                EnumWriter.Write(BUFFER_VIEW_TYPE, Path.Combine(baseEnumDir, $"{nameof(BUFFER_VIEW_TYPE)}.cs"));
+            }
+            
+            {
                 var RESOURCE_DIMENSION = CodeEnum.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/GraphicsTypes.h", 206, 224);
                 codeTypeInfo.Enums[nameof(RESOURCE_DIMENSION)] = RESOURCE_DIMENSION;
                 EnumWriter.Write(RESOURCE_DIMENSION, Path.Combine(baseEnumDir, $"{nameof(RESOURCE_DIMENSION)}.cs"));
@@ -1103,7 +1109,7 @@ namespace DiligentEngineGenerator
             {
                 var IBuffer = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Buffer.h", 185, 241);
                 codeTypeInfo.Interfaces[nameof(IBuffer)] = IBuffer;
-                var allowedMethods = new List<String> { };
+                var allowedMethods = new List<String> { "GetDefaultView" };
                 IBuffer.Methods = IBuffer.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(IBuffer), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IBuffer)}.cs"));
@@ -1154,6 +1160,20 @@ namespace DiligentEngineGenerator
                     "Graphics/GraphicsEngine/interface/BottomLevelAS.h"
                 });
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IBottomLevelAS)}.cpp"));
+            }
+
+            {
+                var IBufferView = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/BufferView.h", 150, 167, Sequence(157, 160));
+                codeTypeInfo.Interfaces[nameof(IBufferView)] = IBufferView;
+                var allowedMethods = new List<String> { };
+                IBufferView.Methods = IBufferView.Methods
+                    .Where(i => allowedMethods.Contains(i.Name)).ToList();
+                codeWriter.AddWriter(new InterfaceCsWriter(IBufferView), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IBufferView)}.cs"));
+                var cppWriter = new InterfaceCppWriter(IBufferView, new List<String>()
+                {
+                    "Graphics/GraphicsEngine/interface/BufferView.h"
+                });
+                codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IBufferView)}.cpp"));
             }
 
             codeWriter.WriteFiles(new CodeRendererContext(codeTypeInfo));

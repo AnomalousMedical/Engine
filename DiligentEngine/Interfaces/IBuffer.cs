@@ -32,7 +32,32 @@ namespace DiligentEngine
             this._ConstructorCalled();
         }
         partial void _ConstructorCalled();
+        /// <summary>
+        /// Returns the pointer to the default view.
+        /// \param [in] ViewType - Type of the requested view. See Diligent::BUFFER_VIEW_TYPE.
+        /// \return Pointer to the interface
+        /// 
+        /// \remarks Default views are only created for structured and raw buffers. As for formatted buffers
+        /// the view format is unknown at buffer initialization time, no default views are created.
+        /// 
+        /// \note The function does not increase the reference counter for the returned interface, so
+        /// Release() must *NOT* be called.
+        /// </summary>
+        public IBufferView GetDefaultView(BUFFER_VIEW_TYPE ViewType)
+        {
+            var theReturnValue = 
+            IBuffer_GetDefaultView(
+                this.objPtr
+                , ViewType
+            );
+            return theReturnValue != IntPtr.Zero ? new IBufferView(theReturnValue) : null;
+        }
 
 
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr IBuffer_GetDefaultView(
+            IntPtr objPtr
+            , BUFFER_VIEW_TYPE ViewType
+        );
     }
 }

@@ -30,6 +30,7 @@ namespace DiligentEngineRayTracing
         AutoPtr<IShaderResourceBinding> m_pImageBlitSRB;
 
         AutoPtr<IBuffer> m_CubeAttribsCB;
+        AutoPtr<IBuffer> m_BoxAttribsCB;
         AutoPtr<IBuffer> pCubeVertexBuffer;
         AutoPtr<IBuffer> pCubeIndexBuffer;
 
@@ -59,7 +60,7 @@ namespace DiligentEngineRayTracing
             CreateRayTracingPSO(shaderLoader);
             LoadTextures(textureLoader);
             CreateCubeBLAS();
-            //CreateProceduralBLAS();
+            CreateProceduralBLAS();
             //UpdateTLAS();
             //CreateSBT();
 
@@ -629,12 +630,94 @@ namespace DiligentEngineRayTracing
                 Attribs.GeometryTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
                 Attribs.ScratchBufferTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
 
-                m_pImmediateContext.BuildBLAS(Attribs); //There is a potential problem here where the managed strings are deallocated, then diligent will error with "Cube" hashes the same as "" and then be unable to find the geometry. Need to figure out how to use strings with pass structs.
+                m_pImmediateContext.BuildBLAS(Attribs); //TODO: There is a potential problem here where the managed strings are deallocated, then diligent will error with "Cube" hashes the same as "" and then be unable to find the geometry. Need to figure out how to use strings with pass structs.
             }
+        }
+
+        unsafe void CreateProceduralBLAS()
+        {
+            var m_pDevice = graphicsEngine.RenderDevice;
+
+            //static_assert(sizeof(HLSL::BoxAttribs) % 16 == 0, "BoxAttribs must be aligned by 16 bytes");
+
+            var Boxes = new BoxAttribs(){ minX = -2.5f, minY = -2.5f, minZ = -2.5f, maxX = 2.5f, maxY = 2.5f, maxZ = 2.5f };
+
+            // Create box buffer
+            {
+                var BufData = new BufferData{ pData = new IntPtr(&Boxes), DataSize = (uint)sizeof(BoxAttribs) };
+                var BuffDesc = new BufferDesc();
+                BuffDesc.Name = "AABB Buffer";
+                BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
+                BuffDesc.BindFlags = BIND_FLAGS.BIND_RAY_TRACING | BIND_FLAGS.BIND_SHADER_RESOURCE;
+                BuffDesc.uiSizeInBytes = BufData.DataSize;
+                BuffDesc.ElementByteStride = (uint)sizeof(BoxAttribs);
+                BuffDesc.Mode = BUFFER_MODE.BUFFER_MODE_STRUCTURED;
+
+                m_BoxAttribsCB = m_pDevice.CreateBuffer(BuffDesc, BufData);
+                //VERIFY_EXPR(m_BoxAttribsCB != nullptr);
+
+                m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_INTERSECTION, "g_BoxAttribs").Set(m_BoxAttribsCB.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
+            }
+
+            //// Create & build bottom level acceleration structure
+            //{
+            //    // Create BLAS
+            //    BLASBoundingBoxDesc BoxInfo;
+            //    {
+            //        BoxInfo.GeometryName = "Box";
+            //        BoxInfo.MaxBoxCount = 1;
+
+            //        BottomLevelASDesc ASDesc;
+            //        ASDesc.Name = "Procedural BLAS";
+            //        ASDesc.Flags = RAYTRACING_BUILD_AS_PREFER_FAST_TRACE;
+            //        ASDesc.pBoxes = &BoxInfo;
+            //        ASDesc.BoxCount = 1;
+
+            //        m_pDevice->CreateBLAS(ASDesc, &m_pProceduralBLAS);
+            //        VERIFY_EXPR(m_pProceduralBLAS != nullptr);
+            //    }
+
+            //    // Create scratch buffer
+            //    RefCntAutoPtr<IBuffer> pScratchBuffer;
+            //    {
+            //        BufferDesc BuffDesc;
+            //        BuffDesc.Name = "BLAS Scratch Buffer";
+            //        BuffDesc.Usage = USAGE_DEFAULT;
+            //        BuffDesc.BindFlags = BIND_RAY_TRACING;
+            //        BuffDesc.uiSizeInBytes = m_pProceduralBLAS->GetScratchBufferSizes().Build;
+
+            //        m_pDevice->CreateBuffer(BuffDesc, nullptr, &pScratchBuffer);
+            //        VERIFY_EXPR(pScratchBuffer != nullptr);
+            //    }
+
+            //    // Build BLAS
+            //    BLASBuildBoundingBoxData BoxData;
+            //    BoxData.GeometryName = BoxInfo.GeometryName;
+            //    BoxData.BoxCount = 1;
+            //    BoxData.BoxStride = sizeof(Boxes[0]);
+            //    BoxData.pBoxBuffer = m_BoxAttribsCB;
+
+            //    BuildBLASAttribs Attribs;
+            //    Attribs.pBLAS = m_pProceduralBLAS;
+            //    Attribs.pBoxData = &BoxData;
+            //    Attribs.BoxDataCount = 1;
+
+            //    // Scratch buffer will be used to store temporary data during BLAS build.
+            //    // Previous content in the scratch buffer will be discarded.
+            //    Attribs.pScratchBuffer = pScratchBuffer;
+
+            //    // Allow engine to change resource states.
+            //    Attribs.BLASTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+            //    Attribs.GeometryTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+            //    Attribs.ScratchBufferTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+
+            //    m_pImmediateContext->BuildBLAS(Attribs);
+            //}
         }
 
         public void Dispose()
         {
+            m_BoxAttribsCB.Dispose();
             pScratchBuffer.Dispose();
             m_pCubeBLAS.Dispose();
             pCubeIndexBuffer.Dispose();
