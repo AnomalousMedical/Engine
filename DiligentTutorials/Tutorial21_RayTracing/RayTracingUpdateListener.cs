@@ -25,6 +25,9 @@ namespace DiligentEngineRayTracing
         private AutoPtr<IPipelineState> m_pRayTracingPSO;
         private AutoPtr<IShaderResourceBinding> m_pRayTracingSRB;
 
+        AutoPtr<IPipelineState> m_pImageBlitPSO;
+        AutoPtr<IShaderResourceBinding> m_pImageBlitSRB;
+
         public unsafe RayTracingUpdateListener(GraphicsEngine graphicsEngine, ShaderLoader<RayTracingUpdateListener> shaderLoader)
         {
             this.graphicsEngine = graphicsEngine;
@@ -44,7 +47,7 @@ namespace DiligentEngineRayTracing
             m_ConstantsCB = m_pDevice.CreateBuffer(BuffDesc);
             //VERIFY_EXPR(m_ConstantsCB != nullptr);
 
-            //CreateGraphicsPSO(); //Skip for now to create rt stuff instead
+            CreateGraphicsPSO(shaderLoader);
             CreateRayTracingPSO(shaderLoader);
             //LoadTextures();
             //CreateCubeBLAS();
@@ -114,73 +117,77 @@ namespace DiligentEngineRayTracing
             };
         }
 
-        //void CreateGraphicsPSO()
-        //{
-        //    var m_pDevice = graphicsEngine.RenderDevice;
-        //    var m_pSwapChain = graphicsEngine.SwapChain;
+        void CreateGraphicsPSO(ShaderLoader shaderLoader)
+        {
+            var m_pDevice = graphicsEngine.RenderDevice;
+            var m_pSwapChain = graphicsEngine.SwapChain;
 
-        //    // Create graphics pipeline to blit render target into swapchain image.
+            // Create graphics pipeline to blit render target into swapchain image.
 
-        //    GraphicsPipelineStateCreateInfo PSOCreateInfo = new GraphicsPipelineStateCreateInfo();
+            GraphicsPipelineStateCreateInfo PSOCreateInfo = new GraphicsPipelineStateCreateInfo();
 
-        //    PSOCreateInfo.PSODesc.Name         = "Image blit PSO";
-        //    PSOCreateInfo.PSODesc.PipelineType = PIPELINE_TYPE.PIPELINE_TYPE_GRAPHICS;
+            PSOCreateInfo.PSODesc.Name = "Image blit PSO";
+            PSOCreateInfo.PSODesc.PipelineType = PIPELINE_TYPE.PIPELINE_TYPE_GRAPHICS;
 
-        //    PSOCreateInfo.GraphicsPipeline.NumRenderTargets             = 1;
-        //    PSOCreateInfo.GraphicsPipeline.RTVFormats_0                 = m_pSwapChain.GetDesc_ColorBufferFormat;
-        //    PSOCreateInfo.GraphicsPipeline.PrimitiveTopology            = PRIMITIVE_TOPOLOGY.PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
-        //    PSOCreateInfo.GraphicsPipeline.RasterizerDesc.CullMode      = CULL_MODE.CULL_MODE_NONE;
-        //    PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.DepthEnable = false;
+            PSOCreateInfo.GraphicsPipeline.NumRenderTargets = 1;
+            PSOCreateInfo.GraphicsPipeline.RTVFormats_0 = m_pSwapChain.GetDesc_ColorBufferFormat;
+            PSOCreateInfo.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY.PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
+            PSOCreateInfo.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE.CULL_MODE_NONE;
+            PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.DepthEnable = false;
 
-        //    ShaderCreateInfo ShaderCI = new ShaderCreateInfo();
-        //    ShaderCI.UseCombinedTextureSamplers = true;
-        //    ShaderCI.SourceLanguage             = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
-        //    ShaderCI.ShaderCompiler             = SHADER_COMPILER.SHADER_COMPILER_DXC;
+            ShaderCreateInfo ShaderCI = new ShaderCreateInfo();
+            ShaderCI.UseCombinedTextureSamplers = true;
+            ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
+            ShaderCI.ShaderCompiler = SHADER_COMPILER.SHADER_COMPILER_DXC;
 
-        //    // Create a shader source stream factory to load shaders from files.
-        //    //RefCntAutoPtr<IShaderSourceInputStreamFactory> pShaderSourceFactory;
-        //    //m_pEngineFactory->CreateDefaultShaderSourceStreamFactory(nullptr, &pShaderSourceFactory);
-        //    //ShaderCI.pShaderSourceStreamFactory = pShaderSourceFactory;
+            // Create a shader source stream factory to load shaders from files.
+            //RefCntAutoPtr<IShaderSourceInputStreamFactory> pShaderSourceFactory;
+            //m_pEngineFactory->CreateDefaultShaderSourceStreamFactory(nullptr, &pShaderSourceFactory);
+            //ShaderCI.pShaderSourceStreamFactory = pShaderSourceFactory;
 
-        //    RefCntAutoPtr<IShader> pVS;
-        //    {
-        //        ShaderCI.Desc.ShaderType = SHADER_TYPE_VERTEX;
-        //        ShaderCI.EntryPoint      = "main";
-        //        ShaderCI.Desc.Name       = "Image blit VS";
-        //        ShaderCI.FilePath        = "ImageBlit.vsh";
-        //        m_pDevice->CreateShader(ShaderCI, &pVS);
-        //        VERIFY_EXPR(pVS != nullptr);
-        //    }
+            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
+            ShaderCI.EntryPoint = "main";
+            ShaderCI.Desc.Name = "Image blit VS";
+            //ShaderCI.FilePath = "ImageBlit.vsh";
+            ShaderCI.Source = shaderLoader.LoadShader("assets/ImageBlit.vsh");
+            using var pVS = m_pDevice.CreateShader(ShaderCI);
+            //VERIFY_EXPR(pVS != nullptr);
 
-        //    RefCntAutoPtr<IShader> pPS;
-        //    {
-        //        ShaderCI.Desc.ShaderType = SHADER_TYPE_PIXEL;
-        //        ShaderCI.EntryPoint      = "main";
-        //        ShaderCI.Desc.Name       = "Image blit PS";
-        //        ShaderCI.FilePath        = "ImageBlit.psh";
-        //        m_pDevice->CreateShader(ShaderCI, &pPS);
-        //        VERIFY_EXPR(pPS != nullptr);
-        //    }
+            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_PIXEL;
+            ShaderCI.EntryPoint = "main";
+            ShaderCI.Desc.Name = "Image blit PS";
+            //ShaderCI.FilePath = "ImageBlit.psh";
+            ShaderCI.Source = shaderLoader.LoadShader("assets/ImageBlit.psh");
+            using var pPS = m_pDevice.CreateShader(ShaderCI);
+            //VERIFY_EXPR(pPS != nullptr);
 
-        //    PSOCreateInfo.pVS = pVS;
-        //    PSOCreateInfo.pPS = pPS;
+            PSOCreateInfo.pVS = pVS.Obj;
+            PSOCreateInfo.pPS = pPS.Obj;
 
-        //    SamplerDesc SamLinearClampDesc{
-        //        FILTER_TYPE_LINEAR, FILTER_TYPE_LINEAR, FILTER_TYPE_LINEAR,
-        //        TEXTURE_ADDRESS_CLAMP, TEXTURE_ADDRESS_CLAMP, TEXTURE_ADDRESS_CLAMP};
+            var SamLinearClampDesc = new SamplerDesc
+            {
+                MinFilter = FILTER_TYPE.FILTER_TYPE_LINEAR,
+                MagFilter = FILTER_TYPE.FILTER_TYPE_LINEAR,
+                MipFilter = FILTER_TYPE.FILTER_TYPE_LINEAR,
+                AddressU = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_CLAMP,
+                AddressV = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_CLAMP,
+                AddressW = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_CLAMP
+            };
 
-        //    ImmutableSamplerDesc ImmutableSamplers[] = {{SHADER_TYPE_PIXEL, "g_Texture", SamLinearClampDesc}};
+            var ImmutableSamplers = new List<ImmutableSamplerDesc> 
+            {
+                new ImmutableSamplerDesc{ ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, SamplerOrTextureName = "g_Texture", Desc = SamLinearClampDesc } 
+            };
 
-        //    PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers    = ImmutableSamplers;
-        //    PSOCreateInfo.PSODesc.ResourceLayout.NumImmutableSamplers = _countof(ImmutableSamplers);
-        //    PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType  = SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC;
+            PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers = ImmutableSamplers;
+            PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC;
 
-        //    m_pDevice->CreateGraphicsPipelineState(PSOCreateInfo, &m_pImageBlitPSO);
-        //    VERIFY_EXPR(m_pImageBlitPSO != nullptr);
+            m_pImageBlitPSO = m_pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
+            //VERIFY_EXPR(m_pImageBlitPSO != nullptr);
 
-        //    m_pImageBlitPSO->CreateShaderResourceBinding(&m_pImageBlitSRB, true);
-        //    VERIFY_EXPR(m_pImageBlitSRB != nullptr);
-        //}
+            m_pImageBlitSRB = m_pImageBlitPSO.Obj.CreateShaderResourceBinding(true);
+            //VERIFY_EXPR(m_pImageBlitSRB != nullptr);
+        }
 
         void CreateRayTracingPSO(ShaderLoader shaderLoader)
         {
@@ -345,8 +352,12 @@ namespace DiligentEngineRayTracing
             // Define immutable sampler for g_Texture and g_GroundTexture. Immutable samplers should be used whenever possible
             var SamLinearWrapDesc = new SamplerDesc
             {
-                MinFilter = FILTER_TYPE.FILTER_TYPE_LINEAR, MagFilter = FILTER_TYPE.FILTER_TYPE_LINEAR, MipFilter = FILTER_TYPE.FILTER_TYPE_LINEAR,
-                AddressU = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_WRAP, AddressV = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_WRAP, AddressW = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_WRAP //
+                MinFilter = FILTER_TYPE.FILTER_TYPE_LINEAR,
+                MagFilter = FILTER_TYPE.FILTER_TYPE_LINEAR,
+                MipFilter = FILTER_TYPE.FILTER_TYPE_LINEAR,
+                AddressU = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_WRAP,
+                AddressV = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_WRAP,
+                AddressW = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_WRAP
             };
             var ImmutableSamplers = new List<ImmutableSamplerDesc>
             {
@@ -378,6 +389,8 @@ namespace DiligentEngineRayTracing
         {
             m_pRayTracingSRB.Dispose();
             m_pRayTracingPSO.Dispose();
+            m_pImageBlitPSO.Dispose();
+            m_pImageBlitSRB.Dispose();
             m_ConstantsCB.Dispose();
         }
 
