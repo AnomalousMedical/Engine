@@ -1,6 +1,7 @@
 ﻿using Anomalous.OSPlatform;
 using DiligentEngine;
 using Engine;
+using Engine.CameraMovement;
 using Engine.Platform;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,14 @@ namespace DiligentEngineRayTracing
 {
     class RayTracingUpdateListener : UpdateListener, IDisposable
     {
+        //Camera Settings
+        float YFov = MathFloat.PI / 4.0f;
+        float ZNear = 0.1f;
+        float ZFar = 100f;
+
         private readonly GraphicsEngine graphicsEngine;
         private readonly NativeOSWindow window;
+        private readonly FirstPersonFlyCamera cameraControls;
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext immediateContext;
 
@@ -52,10 +59,18 @@ namespace DiligentEngineRayTracing
         TEXTURE_FORMAT m_ColorBufferFormat = TEXTURE_FORMAT.TEX_FORMAT_RGBA8_UNORM;
         AutoPtr<ITexture> m_pColorRT;
 
-        public unsafe RayTracingUpdateListener(GraphicsEngine graphicsEngine, ShaderLoader<RayTracingUpdateListener> shaderLoader, TextureLoader textureLoader, NativeOSWindow window)
+        public unsafe RayTracingUpdateListener
+        (
+            GraphicsEngine graphicsEngine, 
+            ShaderLoader<RayTracingUpdateListener> shaderLoader, 
+            TextureLoader textureLoader, 
+            NativeOSWindow window,
+            FirstPersonFlyCamera cameraControls
+        )
         {
             this.graphicsEngine = graphicsEngine;
             this.window = window;
+            this.cameraControls = cameraControls;
             this.swapChain = graphicsEngine.SwapChain;
             this.immediateContext = graphicsEngine.ImmediateContext;
 
@@ -947,6 +962,8 @@ namespace DiligentEngineRayTracing
 
         public void sendUpdate(Clock clock)
         {
+            cameraControls.UpdateInput(clock);
+
             //var pRTV = swapChain.GetCurrentBackBufferRTV();
             //var pDSV = swapChain.GetDepthBufferDSV();
             //immediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
@@ -966,6 +983,22 @@ namespace DiligentEngineRayTracing
             this.swapChain.Present(1);
         }
 
+        public void GetCameraPosition(Vector3 position, Quaternion rotation, in Matrix4x4 preTransformMatrix, in Matrix4x4 CameraProj, out Vector3 CameraWorldPos, out Matrix4x4 CameraViewProj)
+        {
+            //TODO: See how messed up math is
+            //For some reason camera defined backward, so take -position
+            var CameraView = Matrix4x4.Translation(-position) * rotation.toRotationMatrix4x4();
+
+            // Apply pretransform matrix that rotates the scene according the surface orientation
+            CameraView *= preTransformMatrix;
+
+            var CameraWorld = CameraView.inverse();
+
+            // Get projection matrix adjusted to the current screen orientation
+            CameraViewProj = CameraView * CameraProj;
+            CameraWorldPos = CameraWorld.GetTranslation();
+        }
+
         private unsafe void Render()
         {
             var m_pSwapChain = graphicsEngine.SwapChain;
@@ -979,8 +1012,10 @@ namespace DiligentEngineRayTracing
                 var pDSV = swapChain.GetDepthBufferDSV();
                 var preTransform = swapChain.GetDesc_PreTransform;
 
-                var CameraWorldPos = new Vector3(0f, 0f, -15f);
-                var CameraViewProj = CameraHelpers.GetAdjustedProjectionMatrix(MathFloat.PI / 4.0f, 0.1f, 100f, window.WindowWidth, window.WindowHeight, preTransform);
+                 //= new Vector3(0f, 0f, -15f);
+                var preTransformMatrix = CameraHelpers.GetSurfacePretransformMatrix(new Vector3(0, 0, 1), preTransform);
+                var cameraProj = CameraHelpers.GetAdjustedProjectionMatrix(YFov, ZNear, ZFar, window.WindowWidth, window.WindowHeight, preTransform);
+                GetCameraPosition(cameraControls.Position, cameraControls.Orientation, preTransformMatrix, cameraProj, out var CameraWorldPos, out var CameraViewProj);
 
                 var Frustum = new ViewFrustum();
                 ExtractViewFrustumPlanesFromMatrix(CameraViewProj, Frustum, false);
