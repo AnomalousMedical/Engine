@@ -51,8 +51,10 @@ namespace DiligentEngineGenerator
 
                         writer.WriteLine(
 @$"{tabs}{item.LookupType}* {nativeArrayName} = new {item.LookupType}[{argName}_{item.PutAutoSize}];
-{tabs}for (Uint32 i = 0; i < {argName}_{item.PutAutoSize}; ++i)
-{tabs}{{");
+{tabs}if({argName}_{item.PutAutoSize} > 0)
+{tabs}{{
+{tabs}{tabs}for (Uint32 i = 0; i < {argName}_{item.PutAutoSize}; ++i)
+{tabs}{tabs}{{");
 
                         foreach(var nestedProp in st.Properties)
                         {
@@ -60,8 +62,9 @@ namespace DiligentEngineGenerator
                         }
 
                         writer.WriteLine(
-@$"{tabs}}}
-{tabs}{setName}.{item.Name} = {nativeArrayName};");
+@$"{tabs}{tabs}}}
+{tabs}{tabs}{setName}.{item.Name} = {nativeArrayName};  
+{tabs}}}");
                     }
                     else
                     {
