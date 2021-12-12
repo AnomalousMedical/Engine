@@ -1278,7 +1278,7 @@ namespace DiligentEngineGenerator
                 var IShaderBindingTable = CodeInterface.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/ShaderBindingTable.h", 91, 273, Sequence(95, 98));
                 codeTypeInfo.Interfaces[nameof(IShaderBindingTable)] = IShaderBindingTable;
 
-                var allowedMethods = new List<String> {  };
+                var allowedMethods = new List<String> { "BindRayGenShader", "BindMissShader", "BindHitGroupForInstance", "BindHitGroupForTLAS" };
                 IShaderBindingTable.Methods = IShaderBindingTable.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();
                 codeWriter.AddWriter(new InterfaceCsWriter(IShaderBindingTable), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IShaderBindingTable)}.cs"));

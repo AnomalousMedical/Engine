@@ -183,6 +183,7 @@
     <ClCompile Include="IRenderDeviceCustom.cpp" />
     <ClCompile Include="ISampler.cpp" />
     <ClCompile Include="IShader.cpp" />
+    <ClCompile Include="IShaderBindingTable.cpp" />
     <ClCompile Include="IShaderResourceBinding.cpp" />
     <ClCompile Include="IShaderResourceVariable.cpp" />
     <ClCompile Include="IShaderResourceVariable.Custom.cpp" />
@@ -221,6 +222,7 @@
     <ClInclude Include="StateTransitionDesc.PassStruct.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="TextureSubResData.PassStruct.h" />
+    <ClInclude Include="TLASBuildInstanceData.PassStruct.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

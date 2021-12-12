@@ -882,28 +882,28 @@ namespace DiligentEngineRayTracing
             m_pSBT = m_pDevice.CreateSBT(SBTDesc);
             //VERIFY_EXPR(m_pSBT != nullptr);
 
-            //m_pSBT.BindRayGenShader("Main");
+            m_pSBT.Obj.BindRayGenShader("Main", IntPtr.Zero);
 
-            //m_pSBT.BindMissShader("PrimaryMiss", PRIMARY_RAY_INDEX);
-            //m_pSBT.BindMissShader("ShadowMiss", SHADOW_RAY_INDEX);
+            m_pSBT.Obj.BindMissShader("PrimaryMiss", RtStructures.PRIMARY_RAY_INDEX, IntPtr.Zero);
+            m_pSBT.Obj.BindMissShader("ShadowMiss", RtStructures.SHADOW_RAY_INDEX, IntPtr.Zero);
 
-            //// Hit groups for primary ray
-            //// clang-format off
-            //m_pSBT.BindHitGroupForInstance(m_pTLAS, "Cube Instance 1", PRIMARY_RAY_INDEX, "CubePrimaryHit");
-            //m_pSBT.BindHitGroupForInstance(m_pTLAS, "Cube Instance 2", PRIMARY_RAY_INDEX, "CubePrimaryHit");
-            //m_pSBT.BindHitGroupForInstance(m_pTLAS, "Cube Instance 3", PRIMARY_RAY_INDEX, "CubePrimaryHit");
-            //m_pSBT.BindHitGroupForInstance(m_pTLAS, "Cube Instance 4", PRIMARY_RAY_INDEX, "CubePrimaryHit");
-            //m_pSBT.BindHitGroupForInstance(m_pTLAS, "Ground Instance", PRIMARY_RAY_INDEX, "GroundHit");
-            //m_pSBT.BindHitGroupForInstance(m_pTLAS, "Glass Instance", PRIMARY_RAY_INDEX, "GlassPrimaryHit");
-            //m_pSBT.BindHitGroupForInstance(m_pTLAS, "Sphere Instance", PRIMARY_RAY_INDEX, "SpherePrimaryHit");
-            //// clang-format on
+            // Hit groups for primary ray
+            // clang-format off
+            m_pSBT.Obj.BindHitGroupForInstance(m_pTLAS.Obj, "Cube Instance 1", RtStructures.PRIMARY_RAY_INDEX, "CubePrimaryHit", IntPtr.Zero);
+            m_pSBT.Obj.BindHitGroupForInstance(m_pTLAS.Obj, "Cube Instance 2", RtStructures.PRIMARY_RAY_INDEX, "CubePrimaryHit", IntPtr.Zero);
+            m_pSBT.Obj.BindHitGroupForInstance(m_pTLAS.Obj, "Cube Instance 3", RtStructures.PRIMARY_RAY_INDEX, "CubePrimaryHit", IntPtr.Zero);
+            m_pSBT.Obj.BindHitGroupForInstance(m_pTLAS.Obj, "Cube Instance 4", RtStructures.PRIMARY_RAY_INDEX, "CubePrimaryHit", IntPtr.Zero);
+            m_pSBT.Obj.BindHitGroupForInstance(m_pTLAS.Obj, "Ground Instance", RtStructures.PRIMARY_RAY_INDEX, "GroundHit", IntPtr.Zero);
+            m_pSBT.Obj.BindHitGroupForInstance(m_pTLAS.Obj, "Glass Instance", RtStructures.PRIMARY_RAY_INDEX, "GlassPrimaryHit", IntPtr.Zero);
+            m_pSBT.Obj.BindHitGroupForInstance(m_pTLAS.Obj, "Sphere Instance", RtStructures.PRIMARY_RAY_INDEX, "SpherePrimaryHit", IntPtr.Zero);
+            // clang-format on
 
-            //// Hit groups for shadow ray.
-            //// null means no shaders are bound and hit shader invocation will be skipped.
-            //m_pSBT.BindHitGroupForTLAS(m_pTLAS, SHADOW_RAY_INDEX, nullptr);
+            // Hit groups for shadow ray.
+            // null means no shaders are bound and hit shader invocation will be skipped.
+            m_pSBT.Obj.BindHitGroupForTLAS(m_pTLAS.Obj, RtStructures.SHADOW_RAY_INDEX, null, IntPtr.Zero);
 
-            //// We must specify the intersection shader for procedural geometry.
-            //m_pSBT.BindHitGroupForInstance(m_pTLAS, "Sphere Instance", SHADOW_RAY_INDEX, "SphereShadowHit");
+            // We must specify the intersection shader for procedural geometry.
+            m_pSBT.Obj.BindHitGroupForInstance(m_pTLAS.Obj, "Sphere Instance", RtStructures.SHADOW_RAY_INDEX, "SphereShadowHit", IntPtr.Zero);
         }
 
         public void Dispose()
