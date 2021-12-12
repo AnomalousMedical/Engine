@@ -7,9 +7,10 @@ using System.Globalization;
 
 namespace Engine
 {
-    [StructLayout(LayoutKind.Explicit, Size = 16)]
+    [StructLayout(LayoutKind.Explicit, Size = Vector4.Size)]
     public unsafe struct Vector4
     {
+        public const int Size = 16;
         public static readonly Vector4 Zero = new Vector4(0.0f, 0.0f, 0.0f, 0.0f);
 
         [FieldOffset(0)]

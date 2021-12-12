@@ -3,6 +3,7 @@ using Engine;
 using Engine.Platform;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace DiligentEngineRayTracing
         AutoPtr<IPipelineState> m_pImageBlitPSO;
         AutoPtr<IShaderResourceBinding> m_pImageBlitSRB;
 
-        public unsafe RayTracingUpdateListener(GraphicsEngine graphicsEngine, ShaderLoader<RayTracingUpdateListener> shaderLoader)
+        public unsafe RayTracingUpdateListener(GraphicsEngine graphicsEngine, ShaderLoader<RayTracingUpdateListener> shaderLoader, TextureLoader textureLoader)
         {
             this.graphicsEngine = graphicsEngine;
             this.swapChain = graphicsEngine.SwapChain;
@@ -49,8 +50,8 @@ namespace DiligentEngineRayTracing
 
             CreateGraphicsPSO(shaderLoader);
             CreateRayTracingPSO(shaderLoader);
-            //LoadTextures();
-            //CreateCubeBLAS();
+            LoadTextures(textureLoader);
+            CreateCubeBLAS();
             //CreateProceduralBLAS();
             //UpdateTLAS();
             //CreateSBT();
@@ -383,6 +384,234 @@ namespace DiligentEngineRayTracing
 
             m_pRayTracingSRB = m_pRayTracingPSO.Obj.CreateShaderResourceBinding(true);
             //VERIFY_EXPR(m_pRayTracingSRB != nullptr);
+        }
+
+        void LoadTextures(TextureLoader textureLoader)
+        {
+            var m_pDevice = graphicsEngine.RenderDevice;
+            var m_pSwapChain = graphicsEngine.SwapChain;
+            var m_pImmediateContext = graphicsEngine.ImmediateContext;
+
+            // Load textures
+            var pTexSRVs = new List<IDeviceObject>(NumTextures);
+            var pTex = new List<AutoPtr<ITexture>>(NumTextures);
+            var Barriers = new List<StateTransitionDesc>(NumTextures);
+            try
+            {
+                for (int tex = 0; tex < NumTextures; ++tex)
+                {
+                    //// Load current texture
+                    //TextureLoadInfo loadInfo;
+                    //loadInfo.IsSRGB = true;
+
+                    //std::stringstream FileNameSS;
+                    //FileNameSS << "DGLogo" << tex << ".png";
+                    //auto FileName = FileNameSS.str();
+                    //CreateTextureFromFile(FileName.c_str(), loadInfo, m_pDevice, &pTex[tex]);
+
+
+                    var logo = Path.GetFullPath($"assets/DGLogo{tex}.png");
+                    Console.WriteLine(logo);
+
+                    using var logoStream = File.Open(logo, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    pTex.Add(textureLoader.LoadTexture(logoStream, $"Logo {tex} Texture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true));
+
+                    // Get shader resource view from the texture
+                    var pTextureSRV = pTex[tex].Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
+                    pTexSRVs.Add(pTextureSRV);
+                    Barriers.Add(new StateTransitionDesc{ pResource = pTex[tex].Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true });
+                }
+                m_pImmediateContext.TransitionResourceStates(Barriers);
+
+                m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_CubeTextures").SetArray(pTexSRVs);
+
+                // Load ground texture
+                var ground = Path.GetFullPath("assets/Ground.jpg");
+                Console.WriteLine(ground);
+
+                using var stream = File.Open(ground, FileMode.Open, FileAccess.Read, FileShare.Read);
+                using var pGroundTex = textureLoader.LoadTexture(stream, "Ground Texture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true);
+                // Get shader resource view from the texture
+                var m_TextureSRV = pGroundTex.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
+
+                m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_GroundTexture").Set(m_TextureSRV);
+            }
+            finally
+            {
+                foreach(var i in pTex)
+                {
+                    i.Dispose();
+                }
+            }
+        }
+
+        void CreateCubeBLAS()
+        {
+            // clang-format off
+            var CubePos = new Vector3[]
+            {
+                new Vector3(-1,-1,-1), new Vector3(-1,+1,-1), new Vector3(+1,+1,-1), new Vector3(+1,-1,-1),
+                new Vector3(-1,-1,-1), new Vector3(-1,-1,+1), new Vector3(+1,-1,+1), new Vector3(+1,-1,-1),
+                new Vector3(+1,-1,-1), new Vector3(+1,-1,+1), new Vector3(+1,+1,+1), new Vector3(+1,+1,-1),
+                new Vector3(+1,+1,-1), new Vector3(+1,+1,+1), new Vector3(-1,+1,+1), new Vector3(-1,+1,-1),
+                new Vector3(-1,+1,-1), new Vector3(-1,+1,+1), new Vector3(-1,-1,+1), new Vector3(-1,-1,-1),
+                new Vector3(-1,-1,+1), new Vector3(+1,-1,+1), new Vector3(+1,+1,+1), new Vector3(-1,+1,+1)
+            };
+
+            var CubeUV = new Vector4[]
+            {
+                new Vector4(0,0,0,0), new Vector4(0,1,0,0), new Vector4(1,1,0,0), new Vector4(1,0,0,0),
+                new Vector4(0,0,0,0), new Vector4(0,1,0,0), new Vector4(1,1,0,0), new Vector4(1,0,0,0),
+                new Vector4(0,0,0,0), new Vector4(1,0,0,0), new Vector4(1,1,0,0), new Vector4(0,1,0,0),
+                new Vector4(0,0,0,0), new Vector4(0,1,0,0), new Vector4(1,1,0,0), new Vector4(1,0,0,0),
+                new Vector4(1,1,0,0), new Vector4(0,1,0,0), new Vector4(0,0,0,0), new Vector4(1,0,0,0),
+                new Vector4(1,0,0,0), new Vector4(0,0,0,0), new Vector4(0,1,0,0), new Vector4(1,1,0,0)
+            };
+
+            var CubeNormals = new Vector4[]
+            {
+                new Vector4(0, 0, -1, 0), new Vector4(0, 0, -1, 0), new Vector4(0, 0, -1, 0), new Vector4(0, 0, -1, 0),
+                new Vector4(0, -1, 0, 0), new Vector4(0, -1, 0, 0), new Vector4(0, -1, 0, 0), new Vector4(0, -1, 0, 0),
+                new Vector4(+1, 0, 0, 0), new Vector4(+1, 0, 0, 0), new Vector4(+1, 0, 0, 0), new Vector4(+1, 0, 0, 0),
+                new Vector4(0, +1, 0, 0), new Vector4(0, +1, 0, 0), new Vector4(0, +1, 0, 0), new Vector4(0, +1, 0, 0),
+                new Vector4(-1, 0, 0, 0), new Vector4(-1, 0, 0, 0), new Vector4(-1, 0, 0, 0), new Vector4(-1, 0, 0, 0),
+                new Vector4(0, 0, +1, 0), new Vector4(0, 0, +1, 0), new Vector4(0, 0, +1, 0), new Vector4(0, 0, +1, 0)
+            };
+
+            var Indices = new uint[]
+            {
+                2,0,1,    2,3,0,
+                4,6,5,    4,7,6,
+                8,10,9,   8,11,10,
+                12,14,13, 12,15,14,
+                16,18,17, 16,19,18,
+                20,21,22, 20,22,23
+            };
+            // clang-format on
+
+            // Create a buffer with cube attributes.
+            // These attributes will be used in the hit shader to calculate UVs and normal for intersection point.
+            {
+                var Attribs = new CubeAttribs();
+
+                //static_assert(sizeof(Attribs.UVs) == sizeof(CubeUV), "size mismatch");
+                //std::memcpy(Attribs.UVs, CubeUV, sizeof(CubeUV));
+                Attribs.SetUvs(CubeUV);
+
+                //static_assert(sizeof(Attribs.Normals) == sizeof(CubeNormals), "size mismatch");
+                //std::memcpy(Attribs.Normals, CubeNormals, sizeof(CubeNormals));
+                Attribs.SetNormals(CubeNormals);
+
+                for (int i = 0; i < Indices.Length; i += 3)
+                {
+                    Attribs.SetPrimitive(i / 3, Indices[i], Indices[i + 1], Indices[i + 2], 0);
+                }
+
+                //BufferData BufData = { &Attribs, sizeof(Attribs) };
+                //BufferDesc BuffDesc;
+                //BuffDesc.Name = "Cube Attribs";
+                //BuffDesc.Usage = USAGE_IMMUTABLE;
+                //BuffDesc.BindFlags = BIND_UNIFORM_BUFFER;
+                //BuffDesc.uiSizeInBytes = sizeof(Attribs);
+
+                //m_pDevice->CreateBuffer(BuffDesc, &BufData, &m_CubeAttribsCB);
+                //VERIFY_EXPR(m_CubeAttribsCB != nullptr);
+
+                //m_pRayTracingSRB->GetVariableByName(SHADER_TYPE_RAY_CLOSEST_HIT, "g_CubeAttribsCB")->Set(m_CubeAttribsCB);
+            }
+
+            //// Create vertex buffer
+            //RefCntAutoPtr<IBuffer> pCubeVertexBuffer;
+            //{
+            //    BufferData BufData = { CubePos, sizeof(CubePos) };
+            //    BufferDesc BuffDesc;
+            //    BuffDesc.Name = "Cube vertices";
+            //    BuffDesc.Usage = USAGE_IMMUTABLE;
+            //    BuffDesc.BindFlags = BIND_RAY_TRACING;
+            //    BuffDesc.uiSizeInBytes = sizeof(CubePos);
+
+            //    m_pDevice->CreateBuffer(BuffDesc, &BufData, &pCubeVertexBuffer);
+            //    VERIFY_EXPR(pCubeVertexBuffer != nullptr);
+            //}
+
+            //// Create index buffer
+            //RefCntAutoPtr<IBuffer> pCubeIndexBuffer;
+            //{
+            //    BufferData BufData = { Indices, sizeof(Indices) };
+            //    BufferDesc BuffDesc;
+            //    BuffDesc.Name = "Cube indices";
+            //    BuffDesc.Usage = USAGE_IMMUTABLE;
+            //    BuffDesc.BindFlags = BIND_RAY_TRACING;
+            //    BuffDesc.uiSizeInBytes = sizeof(Indices);
+
+            //    m_pDevice->CreateBuffer(BuffDesc, &BufData, &pCubeIndexBuffer);
+            //    VERIFY_EXPR(pCubeIndexBuffer != nullptr);
+            //}
+
+            //// Create & build bottom level acceleration structure
+            //{
+            //    // Create BLAS
+            //    BLASTriangleDesc Triangles;
+            //    {
+            //        Triangles.GeometryName = "Cube";
+            //        Triangles.MaxVertexCount = _countof(CubePos);
+            //        Triangles.VertexValueType = VT_FLOAT32;
+            //        Triangles.VertexComponentCount = 3;
+            //        Triangles.MaxPrimitiveCount = _countof(Indices) / 3;
+            //        Triangles.IndexType = VT_UINT32;
+
+            //        BottomLevelASDesc ASDesc;
+            //        ASDesc.Name = "Cube BLAS";
+            //        ASDesc.Flags = RAYTRACING_BUILD_AS_PREFER_FAST_TRACE;
+            //        ASDesc.pTriangles = &Triangles;
+            //        ASDesc.TriangleCount = 1;
+
+            //        m_pDevice->CreateBLAS(ASDesc, &m_pCubeBLAS);
+            //        VERIFY_EXPR(m_pCubeBLAS != nullptr);
+            //    }
+
+            //    // Create scratch buffer
+            //    RefCntAutoPtr<IBuffer> pScratchBuffer;
+            //    {
+            //        BufferDesc BuffDesc;
+            //        BuffDesc.Name = "BLAS Scratch Buffer";
+            //        BuffDesc.Usage = USAGE_DEFAULT;
+            //        BuffDesc.BindFlags = BIND_RAY_TRACING;
+            //        BuffDesc.uiSizeInBytes = m_pCubeBLAS->GetScratchBufferSizes().Build;
+
+            //        m_pDevice->CreateBuffer(BuffDesc, nullptr, &pScratchBuffer);
+            //        VERIFY_EXPR(pScratchBuffer != nullptr);
+            //    }
+
+            //    // Build BLAS
+            //    BLASBuildTriangleData TriangleData;
+            //    TriangleData.GeometryName = Triangles.GeometryName;
+            //    TriangleData.pVertexBuffer = pCubeVertexBuffer;
+            //    TriangleData.VertexStride = sizeof(CubePos[0]);
+            //    TriangleData.VertexCount = Triangles.MaxVertexCount;
+            //    TriangleData.VertexValueType = Triangles.VertexValueType;
+            //    TriangleData.VertexComponentCount = Triangles.VertexComponentCount;
+            //    TriangleData.pIndexBuffer = pCubeIndexBuffer;
+            //    TriangleData.PrimitiveCount = Triangles.MaxPrimitiveCount;
+            //    TriangleData.IndexType = Triangles.IndexType;
+            //    TriangleData.Flags = RAYTRACING_GEOMETRY_FLAG_OPAQUE;
+
+            //    BuildBLASAttribs Attribs;
+            //    Attribs.pBLAS = m_pCubeBLAS;
+            //    Attribs.pTriangleData = &TriangleData;
+            //    Attribs.TriangleDataCount = 1;
+
+            //    // Scratch buffer will be used to store temporary data during BLAS build.
+            //    // Previous content in the scratch buffer will be discarded.
+            //    Attribs.pScratchBuffer = pScratchBuffer;
+
+            //    // Allow engine to change resource states.
+            //    Attribs.BLASTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+            //    Attribs.GeometryTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+            //    Attribs.ScratchBufferTransitionMode = RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+
+            //    m_pImmediateContext->BuildBLAS(Attribs);
+            //}
         }
 
         public void Dispose()
