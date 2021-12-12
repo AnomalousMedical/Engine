@@ -170,6 +170,8 @@
     <ClCompile Include="DilligentObject.cpp" />
     <ClCompile Include="GenericEngineFactory.cpp" />
     <ClCompile Include="GraphicsPipelineStateCreateInfo.cpp" />
+    <ClCompile Include="IBottomLevelAS.cpp" />
+    <ClCompile Include="IBottomLevelAS.Custom.cpp" />
     <ClCompile Include="IBuffer.cpp" />
     <ClCompile Include="IDeviceContext.cpp" />
     <ClCompile Include="IDeviceContext.Custom.cpp" />

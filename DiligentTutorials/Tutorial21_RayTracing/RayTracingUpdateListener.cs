@@ -34,6 +34,7 @@ namespace DiligentEngineRayTracing
         AutoPtr<IBuffer> pCubeIndexBuffer;
 
         AutoPtr<IBottomLevelAS> m_pCubeBLAS;
+        AutoPtr<IBuffer> pScratchBuffer;
 
         public unsafe RayTracingUpdateListener(GraphicsEngine graphicsEngine, ShaderLoader<RayTracingUpdateListener> shaderLoader, TextureLoader textureLoader)
         {
@@ -590,17 +591,16 @@ namespace DiligentEngineRayTracing
                 }
 
                 // Create scratch buffer
-                //RefCntAutoPtr<IBuffer> pScratchBuffer;
-                //{
-                //    BufferDesc BuffDesc;
-                //    BuffDesc.Name = "BLAS Scratch Buffer";
-                //    BuffDesc.Usage = USAGE_DEFAULT;
-                //    BuffDesc.BindFlags = BIND_RAY_TRACING;
-                //    BuffDesc.uiSizeInBytes = m_pCubeBLAS->GetScratchBufferSizes().Build;
+                {
+                    var BuffDesc = new BufferDesc();
+                    BuffDesc.Name = "BLAS Scratch Buffer";
+                    BuffDesc.Usage = USAGE.USAGE_DEFAULT;
+                    BuffDesc.BindFlags = BIND_FLAGS.BIND_RAY_TRACING;
+                    BuffDesc.uiSizeInBytes = m_pCubeBLAS.Obj.ScratchBufferSizes_Build;
 
-                //    m_pDevice->CreateBuffer(BuffDesc, nullptr, &pScratchBuffer);
-                //    VERIFY_EXPR(pScratchBuffer != nullptr);
-                //}
+                    pScratchBuffer = m_pDevice.CreateBuffer(BuffDesc, new BufferData());
+                    //VERIFY_EXPR(pScratchBuffer != nullptr);
+                }
 
                 //// Build BLAS
                 //BLASBuildTriangleData TriangleData;
@@ -635,6 +635,7 @@ namespace DiligentEngineRayTracing
 
         public void Dispose()
         {
+            pScratchBuffer.Dispose();
             m_pCubeBLAS.Dispose();
             pCubeIndexBuffer.Dispose();
             pCubeVertexBuffer.Dispose();

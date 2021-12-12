@@ -1098,7 +1098,7 @@ namespace DiligentEngineGenerator
                 codeWriter.AddWriter(new InterfaceCsWriter(IBottomLevelAS), Path.Combine(baseCSharpInterfaceDir, $"{nameof(IBottomLevelAS)}.cs"));
                 var cppWriter = new InterfaceCppWriter(IBottomLevelAS, new List<String>()
                 {
-                    "Graphics/GraphicsEngine/interface/DeviceObject.h"
+                    "Graphics/GraphicsEngine/interface/BottomLevelAS.h"
                 });
                 codeWriter.AddWriter(cppWriter, Path.Combine(baseCPlusPlusOutDir, $"{nameof(IBottomLevelAS)}.cpp"));
             }
