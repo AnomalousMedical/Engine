@@ -398,6 +398,23 @@ namespace DiligentEngine
                 , Attribs.Update
             );
         }
+        /// <summary>
+        /// Executes a trace rays command.
+        /// \param [in] Attribs - Trace rays command attributes, see Diligent::TraceRaysAttribs for details.
+        /// 
+        /// \remarks  The method is not thread-safe. An application must externally synchronize the access
+        /// to the shader binding table passed as an argument to the function.
+        /// </summary>
+        public void TraceRays(TraceRaysAttribs Attribs)
+        {
+            IDeviceContext_TraceRays(
+                this.objPtr
+                , Attribs.pSBT?.objPtr ?? IntPtr.Zero
+                , Attribs.DimensionX
+                , Attribs.DimensionY
+                , Attribs.DimensionZ
+            );
+        }
 
 
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -523,6 +540,14 @@ namespace DiligentEngine
             , Uint32 Attribs_ScratchBufferOffset
             , RESOURCE_STATE_TRANSITION_MODE Attribs_ScratchBufferTransitionMode
             , [MarshalAs(UnmanagedType.I1)]Bool Attribs_Update
+        );
+        [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern void IDeviceContext_TraceRays(
+            IntPtr objPtr
+            , IntPtr Attribs_pSBT
+            , Uint32 Attribs_DimensionX
+            , Uint32 Attribs_DimensionY
+            , Uint32 Attribs_DimensionZ
         );
     }
 }

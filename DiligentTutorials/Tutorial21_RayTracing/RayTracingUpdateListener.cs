@@ -45,7 +45,7 @@ namespace DiligentEngineRayTracing
         AutoPtr<IBuffer> m_InstanceBuffer;
 
         float m_AnimationTime = 0.0f;
-        bool[] m_EnableCubes = new bool[]{ true, true, true, true };
+        bool[] m_EnableCubes = new bool[] { true, true, true, true };
 
         AutoPtr<IShaderBindingTable> m_pSBT;
 
@@ -780,7 +780,7 @@ namespace DiligentEngineRayTracing
 
             // Setup instances
             var Instances = new List<TLASBuildInstanceData>(NumInstances);
-            for(var i = 0; i < NumInstances; i++)
+            for (var i = 0; i < NumInstances; i++)
             {
                 Instances.Add(new TLASBuildInstanceData());
             }
@@ -963,12 +963,13 @@ namespace DiligentEngineRayTracing
 
             /// ------ RT
             /// 
-            Render();
-            
+            //Render();
+
         }
 
         private unsafe void Render()
         {
+            var m_pSwapChain = graphicsEngine.SwapChain;
             var m_pImmediateContext = graphicsEngine.ImmediateContext;
 
             UpdateTLAS();
@@ -995,7 +996,8 @@ namespace DiligentEngineRayTracing
                 }
 
                 // Calculate ray formed by the intersection two planes.
-                void GetPlaneIntersection (ViewFrustum.PLANE_IDX lhs, ViewFrustum.PLANE_IDX rhs, out Vector4 result) {
+                void GetPlaneIntersection(ViewFrustum.PLANE_IDX lhs, ViewFrustum.PLANE_IDX rhs, out Vector4 result)
+                {
                     var lp = Frustum.GetPlane(lhs);
                     var rp = Frustum.GetPlane(rhs);
 
@@ -1016,41 +1018,41 @@ namespace DiligentEngineRayTracing
                 // clang-format on
                 m_Constants.CameraPos = new Vector4(CameraWorldPos.x, CameraWorldPos.y, CameraWorldPos.z, 1.0f) * -1.0f;
 
-                fixed (Constants* constantsPtr = &m_Constants) 
+                fixed (Constants* constantsPtr = &m_Constants)
                 {
                     m_pImmediateContext.UpdateBuffer(m_ConstantsCB.Obj, 0, (uint)sizeof(Constants), new IntPtr(constantsPtr), RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
                 }
             }
 
-            // Trace rays
-            //{
-            //    m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_GEN, "g_ColorBuffer").Set(m_pColorRT.GetDefaultView(TEXTURE_VIEW_UNORDERED_ACCESS));
+            //Trace rays
+            {
+                m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_GEN, "g_ColorBuffer").Set(m_pColorRT.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_UNORDERED_ACCESS));
 
-            //    m_pImmediateContext->SetPipelineState(m_pRayTracingPSO);
-            //    m_pImmediateContext->CommitShaderResources(m_pRayTracingSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+                m_pImmediateContext.SetPipelineState(m_pRayTracingPSO.Obj);
+                m_pImmediateContext.CommitShaderResources(m_pRayTracingSRB.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            //    TraceRaysAttribs Attribs;
-            //    Attribs.DimensionX = m_pColorRT->GetDesc().Width;
-            //    Attribs.DimensionY = m_pColorRT->GetDesc().Height;
-            //    Attribs.pSBT = m_pSBT;
+                var Attribs = new TraceRaysAttribs();
+                Attribs.DimensionX = m_pColorRT.Obj.GetDesc_Width;
+                Attribs.DimensionY = m_pColorRT.Obj.GetDesc_Height;
+                Attribs.pSBT = m_pSBT.Obj;
 
-            //    m_pImmediateContext->TraceRays(Attribs);
-            //}
+                m_pImmediateContext.TraceRays(Attribs);
+            }
 
-            //// Blit to swapchain image
-            //{
-            //    m_pImageBlitSRB->GetVariableByName(SHADER_TYPE_PIXEL, "g_Texture")->Set(m_pColorRT->GetDefaultView(TEXTURE_VIEW_SHADER_RESOURCE));
+            // Blit to swapchain image
+            {
+                m_pImageBlitSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_Texture").Set(m_pColorRT.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
 
-            //    auto* pRTV = m_pSwapChain->GetCurrentBackBufferRTV();
-            //    m_pImmediateContext->SetRenderTargets(1, &pRTV, nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+                var pRTV = m_pSwapChain.GetCurrentBackBufferRTV();
+                m_pImmediateContext.SetRenderTarget(pRTV, null, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            //    m_pImmediateContext->SetPipelineState(m_pImageBlitPSO);
-            //    m_pImmediateContext->CommitShaderResources(m_pImageBlitSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+                m_pImmediateContext.SetPipelineState(m_pImageBlitPSO.Obj);
+                m_pImmediateContext.CommitShaderResources(m_pImageBlitSRB.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            //    DrawAttribs Attribs;
-            //    Attribs.NumVertices = 4;
-            //    m_pImmediateContext->Draw(Attribs);
-            //}
+                var Attribs = new DrawAttribs();
+                Attribs.NumVertices = 4;
+                m_pImmediateContext.Draw(Attribs);
+            }
         }
 
         private void ExtractViewFrustumPlanesFromMatrix(in Matrix4x4 Matrix, ViewFrustum Frustum, bool bIsOpenGL)

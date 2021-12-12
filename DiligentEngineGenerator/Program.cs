@@ -333,6 +333,12 @@ namespace DiligentEngineGenerator
             }
 
             {
+                var TraceRaysAttribs = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/DeviceContext.h", 1222, 1232);
+                codeTypeInfo.Structs[nameof(TraceRaysAttribs)] = TraceRaysAttribs;
+                codeWriter.AddWriter(new StructCsWriter(TraceRaysAttribs), Path.Combine(baseStructDir, $"{nameof(TraceRaysAttribs)}.cs"));
+            }
+
+            {
                 var TextureData = CodeStruct.Find(baseDir + "/DiligentCore/Graphics/GraphicsEngine/interface/Texture.h", 219, 232);
                 codeTypeInfo.Structs[nameof(TextureData)] = TextureData;
 
@@ -1032,7 +1038,7 @@ namespace DiligentEngineGenerator
                     }
                 }
 
-                var allowedMethods = new List<String> { "UpdateBuffer", "BuildTLAS", "BuildBLAS", "DrawIndexed", "CommitShaderResources", "SetIndexBuffer", "Flush", "ClearRenderTarget", "ClearDepthStencil", "Draw", "SetPipelineState", "MapBuffer", "UnmapBuffer", "SetVertexBuffers" };
+                var allowedMethods = new List<String> { "TraceRays", "UpdateBuffer", "BuildTLAS", "BuildBLAS", "DrawIndexed", "CommitShaderResources", "SetIndexBuffer", "Flush", "ClearRenderTarget", "ClearDepthStencil", "Draw", "SetPipelineState", "MapBuffer", "UnmapBuffer", "SetVertexBuffers" };
                 //The following have custom implementations: "SetRenderTargets"
                 IDeviceContext.Methods = IDeviceContext.Methods
                     .Where(i => allowedMethods.Contains(i.Name)).ToList();

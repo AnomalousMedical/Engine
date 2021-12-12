@@ -270,3 +270,20 @@ extern "C" _AnomalousExport void IDeviceContext_BuildTLAS(
 	);
     delete[] Attribs_pInstances_Native_Array;
 }
+extern "C" _AnomalousExport void IDeviceContext_TraceRays(
+	IDeviceContext* objPtr
+	, IShaderBindingTable* Attribs_pSBT
+	, Uint32 Attribs_DimensionX
+	, Uint32 Attribs_DimensionY
+	, Uint32 Attribs_DimensionZ
+)
+{
+	TraceRaysAttribs Attribs;
+	Attribs.pSBT = Attribs_pSBT;
+	Attribs.DimensionX = Attribs_DimensionX;
+	Attribs.DimensionY = Attribs_DimensionY;
+	Attribs.DimensionZ = Attribs_DimensionZ;
+	objPtr->TraceRays(
+		Attribs
+	);
+}
