@@ -874,8 +874,7 @@ namespace DiligentEngineRayTracing
             Instances[6].InstanceName = "Glass Instance";
             Instances[6].pBLAS = m_pCubeBLAS.Obj;
             Instances[6].Mask = RtStructures.TRANSPARENT_GEOM_MASK;
-            Instances[6].Transform.SetRotation(Matrix3x3.Scale(1.5f, 1.5f, 1.5f)); // * Matrix3x3.RotationY(m_AnimationTime * MathF.PI * 0.25f)
-            Instances[6].Transform.SetTranslation(3.0f, 4.0f, -5.0f);
+            Instances[6].Transform = new InstanceMatrix(Matrix3x3.Scale(1.5f, 1.5f, 1.5f), 3.0f, 4.0f, -5.0f); // * Matrix3x3.RotationY(m_AnimationTime * MathF.PI * 0.25f)
 
             // Build or update TLAS
             var Attribs = new BuildTLASAttribs();
