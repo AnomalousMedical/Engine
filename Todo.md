@@ -1,5 +1,31 @@
 # TODO
 
+## Diligent Engine BLAS String Fix
+This will show up as sometimes blases not finding their geometry. There will be a log error that the hashes don't match and debug asserts. The objects will also not show in the scene. This is because strings are being deallocated coming across p/invoke. The fix requires a DiligentEngine modification.
+
+Currently the diligent engine needs a small patch to work with c#. In Graphics/GraphicsEngine/src/BottomLevelASBase.cpp change line ~139 in `CopyBLASGeometryDesc` from
+```
+bool IsUniqueName = DstNameToIndex.emplace(SrcGeoName, BLASGeomIndex{i, ActualIndex}).second;
+```
+to
+```
+bool IsUniqueName = DstNameToIndex.emplace(pTriangles[i].GeometryName, BLASGeomIndex{i, ActualIndex}).second;
+```
+
+This is an issue where sometimes the blas GeometryNames from CreateBLAS are already garbage collected before we can call BuildBLAS. This is a problem anyway, since we don't want
+to use strings that are gc'd on the native side. The fix here is that the description is creating copies of all the strings anyway. Instead of using the original string from c#
+this mod changes it to use the copied string. That keeps the memory allocated. It also does not cause a leak since the "desc" lives with the object. This has the advantage of allocating
+the string with diligent's allocater too.
+
+The comment string below are some more notes about the problem, but this is the issue and fix.
+
+//TODO: There is a potential problem here where the managed strings are deallocated, then diligent will error with "Cube" hashes the same as "" and then be unable to find the geometry. Need to figure out how to use strings with pass structs.
+//There is a hint in it is the 'RHS.Str' that is messed up
+//This is from m_NameToIndex, so it is the one being stored earlier when calling CreateBLAS, not the one from this line
+//So it is string gc, but we need to make a copy for CreateBLAS so it can be used here later in BuildBLAS
+//In BottomLevelASBase.cpp line 139 in CopyBLASGeometryDesc. You can see the string being added to the hash map is the
+//one we are passing from c++. A Copy is made, so can we use that copy in the struct instead.
+
 ## Make border rooms transition
 If a room is on a border it will get a barrier and prevent going to the next room. Either ensure there is always a 1x1 grid around the outside (best) or put the corridor id in place of a room tile
 
