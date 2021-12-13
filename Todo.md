@@ -1,6 +1,8 @@
 # TODO
 
 ## Diligent Engine BLAS String Fix
+This is fixed in the anomalous diligent branch.
+
 This will show up as sometimes blases not finding their geometry. There will be a log error that the hashes don't match and debug asserts. The objects will also not show in the scene. This is because strings are being deallocated coming across p/invoke. The fix requires a DiligentEngine modification.
 
 Currently the diligent engine needs a small patch to work with c#. In Graphics/GraphicsEngine/src/BottomLevelASBase.cpp change line ~139 in `CopyBLASGeometryDesc` from
@@ -10,6 +12,11 @@ bool IsUniqueName = DstNameToIndex.emplace(SrcGeoName, BLASGeomIndex{i, ActualIn
 to
 ```
 bool IsUniqueName = DstNameToIndex.emplace(pTriangles[i].GeometryName, BLASGeomIndex{i, ActualIndex}).second;
+```
+
+This also needs to be done to a similar line for the boxes on ~174
+```
+bool IsUniqueName = DstNameToIndex.emplace(pBoxes[i].GeometryName, BLASGeomIndex{i, ActualIndex}).second;
 ```
 
 This is an issue where sometimes the blas GeometryNames from CreateBLAS are already garbage collected before we can call BuildBLAS. This is a problem anyway, since we don't want
