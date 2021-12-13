@@ -29,25 +29,25 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="assets\AnomalousEngine.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="assets\AnomalousEngine0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="assets\AnomalousEngine1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="assets\AnomalousEngine2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="assets\AnomalousEngine3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="assets\CubePrimaryHit.rchit">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="assets\DGLogo0.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="assets\DGLogo1.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="assets\DGLogo2.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="assets\DGLogo3.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="assets\GlassPrimaryHit.rchit">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="assets\Ground.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="assets\Ground.rchit">
@@ -67,6 +67,13 @@
     </None>
     <None Update="assets\RayUtils.fxh">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+	  <!-- The Roofing Tile Textures are from cc0textures.com -->
+    <None Update="assets\RoofingTiles006_1K_Color.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="assets\RoofingTiles006_1K_Normal.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="assets\ShadowMiss.rmiss">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

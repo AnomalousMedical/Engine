@@ -452,7 +452,7 @@ namespace DiligentEngineRayTracing
                     //CreateTextureFromFile(FileName.c_str(), loadInfo, m_pDevice, &pTex[tex]);
 
 
-                    var logo = Path.GetFullPath($"assets/DGLogo{tex}.png");
+                    var logo = Path.GetFullPath($"assets/AnomalousEngine{tex}.png");
                     Console.WriteLine(logo);
 
                     using var logoStream = File.Open(logo, FileMode.Open, FileAccess.Read, FileShare.Read);
@@ -468,15 +468,26 @@ namespace DiligentEngineRayTracing
                 m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_CubeTextures").SetArray(pTexSRVs);
 
                 // Load ground texture
-                var ground = Path.GetFullPath("assets/Ground.jpg");
-                Console.WriteLine(ground);
+                {
+                    var ground = Path.GetFullPath("assets/RoofingTiles006_1K_Color.jpg");
 
-                using var stream = File.Open(ground, FileMode.Open, FileAccess.Read, FileShare.Read);
-                using var pGroundTex = textureLoader.LoadTexture(stream, "Ground Texture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true);
-                // Get shader resource view from the texture
-                var m_TextureSRV = pGroundTex.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
+                    using var stream = File.Open(ground, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    using var pGroundTex = textureLoader.LoadTexture(stream, "Ground Texture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true);
+                    // Get shader resource view from the texture
+                    var m_TextureSRV = pGroundTex.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
 
-                m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_GroundTexture").Set(m_TextureSRV);
+                    m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_GroundTexture").Set(m_TextureSRV);
+                }
+                {
+                    var ground = Path.GetFullPath("assets/RoofingTiles006_1K_Normal.jpg");
+
+                    using var stream = File.Open(ground, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    using var pGroundTex = textureLoader.LoadTexture(stream, "Ground Texture Normal", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true);
+                    // Get shader resource view from the texture
+                    var m_TextureSRV = pGroundTex.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
+
+                    m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_GroundNormalTexture").Set(m_TextureSRV);
+                }
             }
             finally
             {
