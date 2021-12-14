@@ -22,6 +22,7 @@ namespace RTSandbox
         private readonly GraphicsEngine graphicsEngine;
         private readonly NativeOSWindow window;
         private readonly FirstPersonFlyCamera cameraControls;
+        private readonly VirtualFileSystem virtualFileSystem;
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext immediateContext;
 
@@ -65,12 +66,14 @@ namespace RTSandbox
             ShaderLoader<RayTracingUpdateListener> shaderLoader, 
             TextureLoader textureLoader, 
             NativeOSWindow window,
-            FirstPersonFlyCamera cameraControls
+            FirstPersonFlyCamera cameraControls,
+            VirtualFileSystem virtualFileSystem
         )
         {
             this.graphicsEngine = graphicsEngine;
             this.window = window;
             this.cameraControls = cameraControls;
+            this.virtualFileSystem = virtualFileSystem;
             this.swapChain = graphicsEngine.SwapChain;
             this.immediateContext = graphicsEngine.ImmediateContext;
 
@@ -440,22 +443,19 @@ namespace RTSandbox
             var Barriers = new List<StateTransitionDesc>(NumTextures);
             try
             {
+                var fileNames = new[]
+                {
+                    "Rock019",
+                    "Rock029",
+                    "MetalPlates001",
+                    "Fabric021"
+                };
+
                 for (int tex = 0; tex < NumTextures; ++tex)
                 {
-                    //// Load current texture
-                    //TextureLoadInfo loadInfo;
-                    //loadInfo.IsSRGB = true;
+                    var logo = $"cc0Textures/{fileNames[tex]}_1K_Color.jpg";
 
-                    //std::stringstream FileNameSS;
-                    //FileNameSS << "DGLogo" << tex << ".png";
-                    //auto FileName = FileNameSS.str();
-                    //CreateTextureFromFile(FileName.c_str(), loadInfo, m_pDevice, &pTex[tex]);
-
-
-                    var logo = Path.GetFullPath($"assets/AnomalousEngine{tex}.png");
-                    Console.WriteLine(logo);
-
-                    using var logoStream = File.Open(logo, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    using var logoStream = virtualFileSystem.openStream(logo, FileMode.Open);
                     pTex.Add(textureLoader.LoadTexture(logoStream, $"Logo {tex} Texture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true));
 
                     // Get shader resource view from the texture
@@ -469,9 +469,9 @@ namespace RTSandbox
 
                 // Load ground texture
                 {
-                    var ground = Path.GetFullPath("assets/RoofingTiles006_1K_Color.jpg");
+                    var ground = "cc0Textures/RoofingTiles006_1K_Color.jpg";
 
-                    using var stream = File.Open(ground, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    using var stream = virtualFileSystem.openStream(ground, FileMode.Open, FileAccess.Read, FileShare.Read);
                     using var pGroundTex = textureLoader.LoadTexture(stream, "Ground Texture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true);
                     // Get shader resource view from the texture
                     var m_TextureSRV = pGroundTex.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
@@ -479,9 +479,9 @@ namespace RTSandbox
                     m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_GroundTexture").Set(m_TextureSRV);
                 }
                 {
-                    var ground = Path.GetFullPath("assets/RoofingTiles006_1K_Normal.jpg");
+                    var ground = "cc0Textures/RoofingTiles006_1K_Normal.jpg";
 
-                    using var stream = File.Open(ground, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    using var stream = virtualFileSystem.openStream(ground, FileMode.Open, FileAccess.Read, FileShare.Read);
                     using var pGroundTex = textureLoader.LoadTexture(stream, "Ground Texture Normal", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true);
                     // Get shader resource view from the texture
                     var m_TextureSRV = pGroundTex.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
