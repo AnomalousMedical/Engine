@@ -101,13 +101,6 @@ namespace RTSandbox
             WindowResize((uint)window.WindowWidth, (uint)window.WindowHeight);
             window.Resized += _ => WindowResize((uint)window.WindowWidth, (uint)window.WindowHeight);
 
-            // Setup camera.
-            //m_Camera.SetPos(float3(-7.f, -0.5f, 16.5f));
-            //m_Camera.SetRotation(-2.67f, -0.145f);
-            //m_Camera.SetRotationSpeed(0.005f);
-            //m_Camera.SetMoveSpeed(5.f);
-            //m_Camera.SetSpeedUpScales(5.f, 10.f);
-
             // Initialize constants.
             m_Constants = new Constants
             {
@@ -185,11 +178,6 @@ namespace RTSandbox
             ShaderCI.UseCombinedTextureSamplers = true;
             ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
             ShaderCI.ShaderCompiler = SHADER_COMPILER.SHADER_COMPILER_DXC;
-
-            // Create a shader source stream factory to load shaders from files.
-            //RefCntAutoPtr<IShaderSourceInputStreamFactory> pShaderSourceFactory;
-            //m_pEngineFactory->CreateDefaultShaderSourceStreamFactory(nullptr, &pShaderSourceFactory);
-            //ShaderCI.pShaderSourceStreamFactory = pShaderSourceFactory;
 
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
             ShaderCI.EntryPoint = "main";
@@ -371,13 +359,6 @@ namespace RTSandbox
                 new RayTracingProceduralHitShaderGroup { Name = "SphereShadowHit", pIntersectionShader = pSphereIntersection.Obj }
             };
 
-            // GeneralShaders;
-            ////PSOCreateInfo.GeneralShaderCount = _countof(GeneralShaders);
-            // = TriangleHitShaders;
-            ////PSOCreateInfo.TriangleHitShaderCount = _countof(TriangleHitShaders);
-            // = ProceduralHitShaders;
-            ////PSOCreateInfo.ProceduralHitShaderCount = _countof(ProceduralHitShaders);
-
             // Specify the maximum ray recursion depth.
             // WARNING: the driver does not track the recursion depth and it is the
             //          application's responsibility to not exceed the specified limit.
@@ -439,6 +420,7 @@ namespace RTSandbox
 
             // Load textures
             var pTexSRVs = new List<IDeviceObject>(NumTextures);
+            var pTexNormalSRVs = new List<IDeviceObject>(NumTextures);
             var pTex = new List<AutoPtr<ITexture>>(NumTextures);
             var Barriers = new List<StateTransitionDesc>(NumTextures);
             try
@@ -453,19 +435,36 @@ namespace RTSandbox
 
                 for (int tex = 0; tex < NumTextures; ++tex)
                 {
-                    var logo = $"cc0Textures/{fileNames[tex]}_1K_Color.jpg";
+                    {
+                        var textureFile = $"cc0Textures/{fileNames[tex]}_1K_Color.jpg";
 
-                    using var logoStream = virtualFileSystem.openStream(logo, FileMode.Open);
-                    pTex.Add(textureLoader.LoadTexture(logoStream, $"Logo {tex} Texture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true));
+                        using var logoStream = virtualFileSystem.openStream(textureFile, FileMode.Open);
+                        var color = textureLoader.LoadTexture(logoStream, $"Color {tex} Texture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true);
+                        pTex.Add(color);
 
-                    // Get shader resource view from the texture
-                    var pTextureSRV = pTex[tex].Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
-                    pTexSRVs.Add(pTextureSRV);
-                    Barriers.Add(new StateTransitionDesc { pResource = pTex[tex].Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true });
+                        // Get shader resource view from the texture
+                        var pTextureSRV = color.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
+                        pTexSRVs.Add(pTextureSRV);
+                        Barriers.Add(new StateTransitionDesc { pResource = color.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true });
+                    }
+
+                    {
+                        var textureFile = $"cc0Textures/{fileNames[tex]}_1K_Normal.jpg";
+
+                        using var logoStream = virtualFileSystem.openStream(textureFile, FileMode.Open);
+                        var normal = textureLoader.LoadTexture(logoStream, $"Normal {tex} Texture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true);
+                        pTex.Add(normal);
+
+                        // Get shader resource view from the texture
+                        var pTextureSRV = normal.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
+                        pTexNormalSRVs.Add(pTextureSRV);
+                        Barriers.Add(new StateTransitionDesc { pResource = normal.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true });
+                    }
                 }
                 m_pImmediateContext.TransitionResourceStates(Barriers);
 
                 m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_CubeTextures").SetArray(pTexSRVs);
+                m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_CubeNormalTextures").SetArray(pTexNormalSRVs);
 
                 // Load ground texture
                 {

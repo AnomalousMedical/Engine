@@ -5,6 +5,7 @@
 ConstantBuffer<CubeAttribs>  g_CubeAttribsCB;
 
 Texture2D    g_CubeTextures[NUM_TEXTURES];
+Texture2D    g_CubeNormalTextures[NUM_TEXTURES];
 SamplerState g_SamLinearWrap;
 
 [shader("closesthit")]
@@ -21,10 +22,13 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
                 g_CubeAttribsCB.UVs[primitive.y].xy * barycentrics.y +
                 g_CubeAttribsCB.UVs[primitive.z].xy * barycentrics.z;
 
-    // Calculate and transform triangle normal.
-    float3 normal = g_CubeAttribsCB.Normals[primitive.x].xyz * barycentrics.x +
-                    g_CubeAttribsCB.Normals[primitive.y].xyz * barycentrics.y +
-                    g_CubeAttribsCB.Normals[primitive.z].xyz * barycentrics.z;
+    //Probably need a sampler just for normal maps
+    float3 sampleNormal = g_CubeNormalTextures[InstanceID()].SampleLevel(g_SamLinearWrap, uv, 0).rgb * float3(2.0, 2.0, 2.0) - float3(1.0, 1.0, 1.0);
+
+    //Calculate and transform triangle normal.
+    float3 normal = sampleNormal.xyz * barycentrics.x +
+                    sampleNormal.xyz * barycentrics.y +
+                    sampleNormal.xyz * barycentrics.z;
     normal        = normalize(mul((float3x3) ObjectToWorld3x4(), normal));
 
     // Sample texturing. Ray tracing shaders don't support LOD calculation, so we must specify LOD and apply filtering.
