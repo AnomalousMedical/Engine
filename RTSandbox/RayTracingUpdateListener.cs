@@ -23,6 +23,7 @@ namespace RTSandbox
         private readonly NativeOSWindow window;
         private readonly FirstPersonFlyCamera cameraControls;
         private readonly VirtualFileSystem virtualFileSystem;
+        private readonly RTImageBlitter imageBlitter;
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext immediateContext;
 
@@ -35,9 +36,6 @@ namespace RTSandbox
         private Constants m_Constants;
         private AutoPtr<IPipelineState> m_pRayTracingPSO;
         private AutoPtr<IShaderResourceBinding> m_pRayTracingSRB;
-
-        AutoPtr<IPipelineState> m_pImageBlitPSO;
-        AutoPtr<IShaderResourceBinding> m_pImageBlitSRB;
 
         AutoPtr<IBuffer> m_CubeAttribsCB;
         AutoPtr<IBuffer> m_BoxAttribsCB;
@@ -57,23 +55,22 @@ namespace RTSandbox
 
         AutoPtr<IShaderBindingTable> m_pSBT;
 
-        TEXTURE_FORMAT m_ColorBufferFormat = TEXTURE_FORMAT.TEX_FORMAT_RGBA8_UNORM;
-        AutoPtr<ITexture> m_pColorRT;
-
         public unsafe RayTracingUpdateListener
         (
             GraphicsEngine graphicsEngine, 
-            ShaderLoader<RayTracingUpdateListener> shaderLoader, 
+            ShaderLoader<RTShaders> shaderLoader, 
             TextureLoader textureLoader, 
             NativeOSWindow window,
             FirstPersonFlyCamera cameraControls,
-            VirtualFileSystem virtualFileSystem
+            VirtualFileSystem virtualFileSystem,
+            RTImageBlitter imageBlitter
         )
         {
             this.graphicsEngine = graphicsEngine;
             this.window = window;
             this.cameraControls = cameraControls;
             this.virtualFileSystem = virtualFileSystem;
+            this.imageBlitter = imageBlitter;
             this.swapChain = graphicsEngine.SwapChain;
             this.immediateContext = graphicsEngine.ImmediateContext;
 
@@ -90,16 +87,12 @@ namespace RTSandbox
             m_ConstantsCB = m_pDevice.CreateBuffer(BuffDesc);
             //VERIFY_EXPR(m_ConstantsCB != nullptr);
 
-            CreateGraphicsPSO(shaderLoader);
             CreateRayTracingPSO(shaderLoader);
             LoadTextures(textureLoader);
             CreateCubeBLAS();
             CreateProceduralBLAS();
             UpdateTLAS();
             CreateSBT();
-
-            WindowResize((uint)window.WindowWidth, (uint)window.WindowHeight);
-            window.Resized += _ => WindowResize((uint)window.WindowWidth, (uint)window.WindowHeight);
 
             // Initialize constants.
             m_Constants = new Constants
@@ -156,72 +149,7 @@ namespace RTSandbox
             };
         }
 
-        void CreateGraphicsPSO(ShaderLoader shaderLoader)
-        {
-            var m_pDevice = graphicsEngine.RenderDevice;
-            var m_pSwapChain = graphicsEngine.SwapChain;
-
-            // Create graphics pipeline to blit render target into swapchain image.
-
-            GraphicsPipelineStateCreateInfo PSOCreateInfo = new GraphicsPipelineStateCreateInfo();
-
-            PSOCreateInfo.PSODesc.Name = "Image blit PSO";
-            PSOCreateInfo.PSODesc.PipelineType = PIPELINE_TYPE.PIPELINE_TYPE_GRAPHICS;
-
-            PSOCreateInfo.GraphicsPipeline.NumRenderTargets = 1;
-            PSOCreateInfo.GraphicsPipeline.RTVFormats_0 = m_pSwapChain.GetDesc_ColorBufferFormat;
-            PSOCreateInfo.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY.PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
-            PSOCreateInfo.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE.CULL_MODE_NONE;
-            PSOCreateInfo.GraphicsPipeline.DepthStencilDesc.DepthEnable = false;
-
-            ShaderCreateInfo ShaderCI = new ShaderCreateInfo();
-            ShaderCI.UseCombinedTextureSamplers = true;
-            ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
-            ShaderCI.ShaderCompiler = SHADER_COMPILER.SHADER_COMPILER_DXC;
-
-            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_VERTEX;
-            ShaderCI.EntryPoint = "main";
-            ShaderCI.Desc.Name = "Image blit VS";
-            //ShaderCI.FilePath = "ImageBlit.vsh";
-            ShaderCI.Source = shaderLoader.LoadShader("assets/ImageBlit.vsh");
-            using var pVS = m_pDevice.CreateShader(ShaderCI);
-            //VERIFY_EXPR(pVS != nullptr);
-
-            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_PIXEL;
-            ShaderCI.EntryPoint = "main";
-            ShaderCI.Desc.Name = "Image blit PS";
-            //ShaderCI.FilePath = "ImageBlit.psh";
-            ShaderCI.Source = shaderLoader.LoadShader("assets/ImageBlit.psh");
-            using var pPS = m_pDevice.CreateShader(ShaderCI);
-            //VERIFY_EXPR(pPS != nullptr);
-
-            PSOCreateInfo.pVS = pVS.Obj;
-            PSOCreateInfo.pPS = pPS.Obj;
-
-            var SamLinearClampDesc = new SamplerDesc
-            {
-                MinFilter = FILTER_TYPE.FILTER_TYPE_LINEAR,
-                MagFilter = FILTER_TYPE.FILTER_TYPE_LINEAR,
-                MipFilter = FILTER_TYPE.FILTER_TYPE_LINEAR,
-                AddressU = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_CLAMP,
-                AddressV = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_CLAMP,
-                AddressW = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_CLAMP
-            };
-
-            var ImmutableSamplers = new List<ImmutableSamplerDesc>
-            {
-                new ImmutableSamplerDesc{ ShaderStages = SHADER_TYPE.SHADER_TYPE_PIXEL, SamplerOrTextureName = "g_Texture", Desc = SamLinearClampDesc }
-            };
-
-            PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers = ImmutableSamplers;
-            PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC;
-
-            m_pImageBlitPSO = m_pDevice.CreateGraphicsPipelineState(PSOCreateInfo);
-            //VERIFY_EXPR(m_pImageBlitPSO != nullptr);
-
-            m_pImageBlitSRB = m_pImageBlitPSO.Obj.CreateShaderResourceBinding(true);
-            //VERIFY_EXPR(m_pImageBlitSRB != nullptr);
-        }
+        
 
         void CreateRayTracingPSO(ShaderLoader shaderLoader)
         {
@@ -942,7 +870,6 @@ namespace RTSandbox
 
         public void Dispose()
         {
-            m_pColorRT?.Dispose();
             m_pSBT.Dispose();
             m_InstanceBuffer?.Dispose();
             m_ScratchBuffer?.Dispose();
@@ -955,8 +882,6 @@ namespace RTSandbox
             m_CubeAttribsCB.Dispose();
             m_pRayTracingSRB.Dispose();
             m_pRayTracingPSO.Dispose();
-            m_pImageBlitPSO.Dispose();
-            m_pImageBlitSRB.Dispose();
             m_ConstantsCB.Dispose();
         }
 
@@ -1070,33 +995,21 @@ namespace RTSandbox
 
             //Trace rays
             {
-                m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_GEN, "g_ColorBuffer").Set(m_pColorRT.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_UNORDERED_ACCESS));
+                m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_GEN, "g_ColorBuffer").Set(imageBlitter.TextureView);
 
                 m_pImmediateContext.SetPipelineState(m_pRayTracingPSO.Obj);
                 m_pImmediateContext.CommitShaderResources(m_pRayTracingSRB.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
                 var Attribs = new TraceRaysAttribs();
-                Attribs.DimensionX = m_pColorRT.Obj.GetDesc_Width;
-                Attribs.DimensionY = m_pColorRT.Obj.GetDesc_Height;
+                Attribs.DimensionX = imageBlitter.Width;
+                Attribs.DimensionY = imageBlitter.Height;
                 Attribs.pSBT = m_pSBT.Obj;
 
                 m_pImmediateContext.TraceRays(Attribs);
             }
 
             // Blit to swapchain image
-            {
-                m_pImageBlitSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_PIXEL, "g_Texture").Set(m_pColorRT.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
-
-                var pRTV = m_pSwapChain.GetCurrentBackBufferRTV();
-                m_pImmediateContext.SetRenderTarget(pRTV, null, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-
-                m_pImmediateContext.SetPipelineState(m_pImageBlitPSO.Obj);
-                m_pImmediateContext.CommitShaderResources(m_pImageBlitSRB.Obj, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-
-                var Attribs = new DrawAttribs();
-                Attribs.NumVertices = 4;
-                m_pImmediateContext.Draw(Attribs);
-            }
+            imageBlitter.Blit();
         }
 
         private void ExtractViewFrustumPlanesFromMatrix(in Matrix4x4 Matrix, ViewFrustum Frustum, bool bIsOpenGL)
@@ -1152,41 +1065,6 @@ namespace RTSandbox
             Frustum.FarPlane.Normal.y = Matrix.m13 - Matrix.m12;
             Frustum.FarPlane.Normal.z = Matrix.m23 - Matrix.m22;
             Frustum.FarPlane.Distance = Matrix.m33 - Matrix.m32;
-        }
-
-        void WindowResize(UInt32 Width, UInt32 Height)
-        {
-            var m_pDevice = graphicsEngine.RenderDevice;
-            // Update projection matrix.
-            float AspectRatio = (float)Width / (float)Height;
-            //m_Camera.SetProjAttribs(m_Constants.ClipPlanes.x, m_Constants.ClipPlanes.y, AspectRatio, PI_F / 4.f,
-            //                        m_pSwapChain->GetDesc().PreTransform, m_pDevice->GetDeviceCaps().IsGLDevice());
-
-            // Check if the image needs to be recreated.
-            if (m_pColorRT != null &&
-                m_pColorRT.Obj.GetDesc_Width == Width &&
-                m_pColorRT.Obj.GetDesc_Height == Height)
-            {
-                return;
-            }
-
-            if (Width == 0 || Height == 0)
-                return;
-
-            m_pColorRT?.Dispose();
-            m_pColorRT = null;
-
-            // Create window-size color image.
-            var RTDesc = new TextureDesc();
-            RTDesc.Name = "Color buffer";
-            RTDesc.Type = RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D;
-            RTDesc.Width = Width;
-            RTDesc.Height = Height;
-            RTDesc.BindFlags = BIND_FLAGS.BIND_UNORDERED_ACCESS | BIND_FLAGS.BIND_SHADER_RESOURCE;
-            RTDesc.ClearValue.Format = m_ColorBufferFormat;
-            RTDesc.Format = m_ColorBufferFormat;
-
-            m_pColorRT = m_pDevice.CreateTexture(RTDesc, null);
         }
     }
 }

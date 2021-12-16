@@ -54,8 +54,10 @@ namespace RTSandbox
             //Add this app's services
             services.TryAddSingleton<RayTracingUpdateListener>();
 
-            services.AddSingleton<IResourceProvider<ShaderLoader<RayTracingUpdateListener>>>(s =>
-                new FilesystemResourceProvider<ShaderLoader<RayTracingUpdateListener>>(FolderFinder.ExecutableFolder));
+            services.AddSingleton<IResourceProvider<ShaderLoader<RTShaders>>>(s =>
+                new FilesystemResourceProvider<ShaderLoader<RTShaders>>(FolderFinder.ExecutableFolder));
+
+            services.AddSingleton<RTImageBlitter>();
 
             return true;
         }
