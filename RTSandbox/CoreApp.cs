@@ -52,7 +52,7 @@ namespace RTSandbox
             services.AddFirstPersonFlyCamera();
 
             //Add this app's services
-            services.TryAddSingleton<RayTracingUpdateListener>();
+            services.TryAddSingleton<RTSandboxUpdateListener>();
 
             services.AddSingleton<IResourceProvider<ShaderLoader<RTShaders>>>(s =>
                 new FilesystemResourceProvider<ShaderLoader<RTShaders>>(FolderFinder.ExecutableFolder));
@@ -81,7 +81,7 @@ namespace RTSandbox
 
             mainTimer = serviceProvider.GetRequiredService<UpdateTimer>();
 
-            var updateListener = serviceProvider.GetRequiredService<RayTracingUpdateListener>();
+            var updateListener = serviceProvider.GetRequiredService<RTSandboxUpdateListener>();
             mainTimer.addUpdateListener(updateListener);
 
             PerformanceMonitor.setupEnabledState(serviceProvider.GetRequiredService<SystemTimer>());

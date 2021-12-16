@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace RTSandbox
 {
-    class RayTracingUpdateListener : UpdateListener, IDisposable
+    class RTSandboxUpdateListener : UpdateListener, IDisposable
     {
         //Camera Settings
         float YFov = MathFloat.PI / 4.0f;
@@ -55,7 +55,7 @@ namespace RTSandbox
 
         AutoPtr<IShaderBindingTable> m_pSBT;
 
-        public unsafe RayTracingUpdateListener
+        public unsafe RTSandboxUpdateListener
         (
             GraphicsEngine graphicsEngine, 
             ShaderLoader<RTShaders> shaderLoader, 
