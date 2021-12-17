@@ -58,6 +58,7 @@ namespace RTSandbox
                 new FilesystemResourceProvider<ShaderLoader<RTShaders>>(FolderFinder.ExecutableFolder));
 
             services.AddSingleton<RTImageBlitter>();
+            services.AddSingleton<CubeBLAS>();
 
             return true;
         }

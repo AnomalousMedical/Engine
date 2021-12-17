@@ -24,6 +24,7 @@ namespace RTSandbox
         private readonly FirstPersonFlyCamera cameraControls;
         private readonly VirtualFileSystem virtualFileSystem;
         private readonly RTImageBlitter imageBlitter;
+        private readonly CubeBLAS cubeBLAS;
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext immediateContext;
 
@@ -37,12 +38,8 @@ namespace RTSandbox
         private AutoPtr<IPipelineState> m_pRayTracingPSO;
         private AutoPtr<IShaderResourceBinding> m_pRayTracingSRB;
 
-        AutoPtr<IBuffer> m_CubeAttribsCB;
-        AutoPtr<IBuffer> m_BoxAttribsCB;
-        AutoPtr<IBuffer> pCubeVertexBuffer;
-        AutoPtr<IBuffer> pCubeIndexBuffer;
 
-        AutoPtr<IBottomLevelAS> m_pCubeBLAS;
+        AutoPtr<IBuffer> m_BoxAttribsCB;
 
         AutoPtr<IBottomLevelAS> m_pProceduralBLAS;
 
@@ -63,7 +60,8 @@ namespace RTSandbox
             NativeOSWindow window,
             FirstPersonFlyCamera cameraControls,
             VirtualFileSystem virtualFileSystem,
-            RTImageBlitter imageBlitter
+            RTImageBlitter imageBlitter,
+            CubeBLAS cubeBLAS
         )
         {
             this.graphicsEngine = graphicsEngine;
@@ -71,6 +69,7 @@ namespace RTSandbox
             this.cameraControls = cameraControls;
             this.virtualFileSystem = virtualFileSystem;
             this.imageBlitter = imageBlitter;
+            this.cubeBLAS = cubeBLAS;
             this.swapChain = graphicsEngine.SwapChain;
             this.immediateContext = graphicsEngine.ImmediateContext;
 
@@ -89,7 +88,7 @@ namespace RTSandbox
 
             CreateRayTracingPSO(shaderLoader);
             LoadTextures(textureLoader);
-            CreateCubeBLAS();
+            m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_CubeAttribsCB").Set(cubeBLAS.CubeAttribs);
             CreateProceduralBLAS();
             UpdateTLAS();
             CreateSBT();
@@ -425,183 +424,6 @@ namespace RTSandbox
             }
         }
 
-        unsafe void CreateCubeBLAS()
-        {
-            var m_pDevice = graphicsEngine.RenderDevice;
-            var m_pImmediateContext = graphicsEngine.ImmediateContext;
-
-            // clang-format off
-            var CubePos = new Vector3[]
-            {
-                new Vector3(-1,-1,-1), new Vector3(-1,+1,-1), new Vector3(+1,+1,-1), new Vector3(+1,-1,-1),
-                new Vector3(-1,-1,-1), new Vector3(-1,-1,+1), new Vector3(+1,-1,+1), new Vector3(+1,-1,-1),
-                new Vector3(+1,-1,-1), new Vector3(+1,-1,+1), new Vector3(+1,+1,+1), new Vector3(+1,+1,-1),
-                new Vector3(+1,+1,-1), new Vector3(+1,+1,+1), new Vector3(-1,+1,+1), new Vector3(-1,+1,-1),
-                new Vector3(-1,+1,-1), new Vector3(-1,+1,+1), new Vector3(-1,-1,+1), new Vector3(-1,-1,-1),
-                new Vector3(-1,-1,+1), new Vector3(+1,-1,+1), new Vector3(+1,+1,+1), new Vector3(-1,+1,+1)
-            };
-
-            var CubeUV = new Vector4[]
-            {
-                new Vector4(0,0,0,0), new Vector4(0,1,0,0), new Vector4(1,1,0,0), new Vector4(1,0,0,0),
-                new Vector4(0,0,0,0), new Vector4(0,1,0,0), new Vector4(1,1,0,0), new Vector4(1,0,0,0),
-                new Vector4(0,0,0,0), new Vector4(1,0,0,0), new Vector4(1,1,0,0), new Vector4(0,1,0,0),
-                new Vector4(0,0,0,0), new Vector4(0,1,0,0), new Vector4(1,1,0,0), new Vector4(1,0,0,0),
-                new Vector4(1,1,0,0), new Vector4(0,1,0,0), new Vector4(0,0,0,0), new Vector4(1,0,0,0),
-                new Vector4(1,0,0,0), new Vector4(0,0,0,0), new Vector4(0,1,0,0), new Vector4(1,1,0,0)
-            };
-
-            var CubeNormals = new Vector4[]
-            {
-                new Vector4(0, 0, -1, 0), new Vector4(0, 0, -1, 0), new Vector4(0, 0, -1, 0), new Vector4(0, 0, -1, 0),
-                new Vector4(0, -1, 0, 0), new Vector4(0, -1, 0, 0), new Vector4(0, -1, 0, 0), new Vector4(0, -1, 0, 0),
-                new Vector4(+1, 0, 0, 0), new Vector4(+1, 0, 0, 0), new Vector4(+1, 0, 0, 0), new Vector4(+1, 0, 0, 0),
-                new Vector4(0, +1, 0, 0), new Vector4(0, +1, 0, 0), new Vector4(0, +1, 0, 0), new Vector4(0, +1, 0, 0),
-                new Vector4(-1, 0, 0, 0), new Vector4(-1, 0, 0, 0), new Vector4(-1, 0, 0, 0), new Vector4(-1, 0, 0, 0),
-                new Vector4(0, 0, +1, 0), new Vector4(0, 0, +1, 0), new Vector4(0, 0, +1, 0), new Vector4(0, 0, +1, 0)
-            };
-
-            var Indices = new uint[]
-            {
-                2,0,1,    2,3,0,
-                4,6,5,    4,7,6,
-                8,10,9,   8,11,10,
-                12,14,13, 12,15,14,
-                16,18,17, 16,19,18,
-                20,21,22, 20,22,23
-            };
-            // clang-format on
-
-            // Create a buffer with cube attributes.
-            // These attributes will be used in the hit shader to calculate UVs and normal for intersection point.
-            {
-                var Attribs = new CubeAttribs();
-
-                //static_assert(sizeof(Attribs.UVs) == sizeof(CubeUV), "size mismatch");
-                //std::memcpy(Attribs.UVs, CubeUV, sizeof(CubeUV));
-                Attribs.SetUvs(CubeUV);
-
-                //static_assert(sizeof(Attribs.Normals) == sizeof(CubeNormals), "size mismatch");
-                //std::memcpy(Attribs.Normals, CubeNormals, sizeof(CubeNormals));
-                Attribs.SetNormals(CubeNormals);
-
-                for (int i = 0; i < Indices.Length; i += 3)
-                {
-                    Attribs.SetPrimitive(i / 3, Indices[i], Indices[i + 1], Indices[i + 2], 0);
-                }
-
-                var BufData = new BufferData()
-                {
-                    pData = new IntPtr(&Attribs), //This is stack allocated, so just get the pointer, everything else complains
-                    DataSize = (uint)sizeof(CubeAttribs)
-                };
-                var BuffDesc = new BufferDesc();
-                BuffDesc.Name = "Cube Attribs";
-                BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
-                BuffDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
-                BuffDesc.uiSizeInBytes = BufData.DataSize;
-
-                m_CubeAttribsCB = m_pDevice.CreateBuffer(BuffDesc, BufData);
-                //VERIFY_EXPR(m_CubeAttribsCB != nullptr);
-
-                m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_CubeAttribsCB").Set(m_CubeAttribsCB.Obj);
-            }
-
-            // Create vertex buffer
-            {
-                var BuffDesc = new BufferDesc();
-                BuffDesc.Name = "Cube vertices";
-                BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
-                BuffDesc.BindFlags = BIND_FLAGS.BIND_RAY_TRACING;
-
-                BufferData BufData = new BufferData();
-                fixed (Vector3* vertices = CubePos)
-                {
-                    BufData.pData = new IntPtr(vertices);
-                    BufData.DataSize = BuffDesc.uiSizeInBytes = (uint)(sizeof(Vector3) * CubePos.Length);
-                    pCubeVertexBuffer = m_pDevice.CreateBuffer(BuffDesc, BufData);
-                }
-
-                //VERIFY_EXPR(pCubeVertexBuffer != nullptr);
-            }
-
-            // Create index buffer
-            {
-                var BuffDesc = new BufferDesc();
-                BuffDesc.Name = "Cube indices";
-                BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
-                BuffDesc.BindFlags = BIND_FLAGS.BIND_RAY_TRACING;
-
-                BufferData BufData = new BufferData();
-                fixed (uint* vertices = Indices)
-                {
-                    BufData.pData = new IntPtr(vertices);
-                    BufData.DataSize = BuffDesc.uiSizeInBytes = (uint)(sizeof(uint) * Indices.Length);
-                    pCubeIndexBuffer = m_pDevice.CreateBuffer(BuffDesc, BufData);
-                }
-
-                //VERIFY_EXPR(pCubeIndexBuffer != nullptr);
-            }
-
-            // Create & build bottom level acceleration structure
-            {
-                // Create BLAS
-                var Triangles = new BLASTriangleDesc();
-                {
-                    Triangles.GeometryName = "Cube";
-                    Triangles.MaxVertexCount = (uint)CubePos.Length;
-                    Triangles.VertexValueType = VALUE_TYPE.VT_FLOAT32;
-                    Triangles.VertexComponentCount = 3;
-                    Triangles.MaxPrimitiveCount = (uint)(Indices.Length / 3);
-                    Triangles.IndexType = VALUE_TYPE.VT_UINT32;
-
-                    var ASDesc = new BottomLevelASDesc();
-                    ASDesc.Name = "Cube BLAS";
-                    ASDesc.Flags = RAYTRACING_BUILD_AS_FLAGS.RAYTRACING_BUILD_AS_PREFER_FAST_TRACE;
-                    ASDesc.pTriangles = new List<BLASTriangleDesc> { Triangles };
-
-                    m_pCubeBLAS = m_pDevice.CreateBLAS(ASDesc);
-                    //VERIFY_EXPR(m_pCubeBLAS != nullptr);
-                }
-
-                // Create scratch buffer
-                using var pScratchBuffer = m_pDevice.CreateBuffer(new BufferDesc()
-                {
-                    Name = "BLAS Scratch Buffer",
-                    Usage = USAGE.USAGE_DEFAULT,
-                    BindFlags = BIND_FLAGS.BIND_RAY_TRACING,
-                    uiSizeInBytes = m_pCubeBLAS.Obj.ScratchBufferSizes_Build,
-                }, new BufferData());
-
-                // Build BLAS
-                var TriangleData = new BLASBuildTriangleData();
-                TriangleData.GeometryName = Triangles.GeometryName;
-                TriangleData.pVertexBuffer = pCubeVertexBuffer.Obj;
-                TriangleData.VertexStride = (uint)sizeof(Vector3);
-                TriangleData.VertexCount = Triangles.MaxVertexCount;
-                TriangleData.VertexValueType = Triangles.VertexValueType;
-                TriangleData.VertexComponentCount = Triangles.VertexComponentCount;
-                TriangleData.pIndexBuffer = pCubeIndexBuffer.Obj;
-                TriangleData.PrimitiveCount = Triangles.MaxPrimitiveCount;
-                TriangleData.IndexType = Triangles.IndexType;
-                TriangleData.Flags = RAYTRACING_GEOMETRY_FLAGS.RAYTRACING_GEOMETRY_FLAG_OPAQUE;
-
-                var Attribs = new BuildBLASAttribs();
-                Attribs.pBLAS = m_pCubeBLAS.Obj;
-                Attribs.pTriangleData = new List<BLASBuildTriangleData> { TriangleData };
-
-                // Scratch buffer will be used to store temporary data during BLAS build.
-                // Previous content in the scratch buffer will be discarded.
-                Attribs.pScratchBuffer = pScratchBuffer.Obj;
-
-                // Allow engine to change resource states.
-                Attribs.BLASTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
-                Attribs.GeometryTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
-                Attribs.ScratchBufferTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
-
-                m_pImmediateContext.BuildBLAS(Attribs);
-            }
-        }
 
         unsafe void CreateProceduralBLAS()
         {
@@ -765,30 +587,30 @@ namespace RTSandbox
 
             Instances[0].InstanceName = "Cube Instance 1";
             Instances[0].CustomId = 0; // texture index
-            Instances[0].pBLAS = m_pCubeBLAS.Obj;
+            Instances[0].pBLAS = cubeBLAS.BLAS;
             Instances[0].Mask = RtStructures.OPAQUE_GEOM_MASK;
             AnimateOpaqueCube(Instances[0]);
 
             Instances[1].InstanceName = "Cube Instance 2";
             Instances[1].CustomId = 1; // texture index
-            Instances[1].pBLAS = m_pCubeBLAS.Obj;
+            Instances[1].pBLAS = cubeBLAS.BLAS;
             Instances[1].Mask = RtStructures.OPAQUE_GEOM_MASK;
             AnimateOpaqueCube(Instances[1]);
 
             Instances[2].InstanceName = "Cube Instance 3";
             Instances[2].CustomId = 2; // texture index
-            Instances[2].pBLAS = m_pCubeBLAS.Obj;
+            Instances[2].pBLAS = cubeBLAS.BLAS;
             Instances[2].Mask = RtStructures.OPAQUE_GEOM_MASK;
             AnimateOpaqueCube(Instances[2]);
 
             Instances[3].InstanceName = "Cube Instance 4";
             Instances[3].CustomId = 3; // texture index
-            Instances[3].pBLAS = m_pCubeBLAS.Obj;
+            Instances[3].pBLAS = cubeBLAS.BLAS;
             Instances[3].Mask = RtStructures.OPAQUE_GEOM_MASK;
             AnimateOpaqueCube(Instances[3]);
 
             Instances[4].InstanceName = "Ground Instance";
-            Instances[4].pBLAS = m_pCubeBLAS.Obj;
+            Instances[4].pBLAS = cubeBLAS.BLAS;
             Instances[4].Mask = RtStructures.OPAQUE_GEOM_MASK;
             Instances[4].Transform = new InstanceMatrix(Matrix3x3.Scale(100.0f, 0.1f, 100.0f), 0.0f, 6.0f, 0.0f);
 
@@ -799,7 +621,7 @@ namespace RTSandbox
             Instances[5].Transform = new InstanceMatrix(-3.0f, 3.0f, -5f);
 
             Instances[6].InstanceName = "Glass Instance";
-            Instances[6].pBLAS = m_pCubeBLAS.Obj;
+            Instances[6].pBLAS = cubeBLAS.BLAS;
             Instances[6].Mask = RtStructures.TRANSPARENT_GEOM_MASK;
             Instances[6].Transform = new InstanceMatrix(Matrix3x3.Scale(1.5f, 1.5f, 1.5f), 3.0f, 4.0f, -5.0f); // * Matrix3x3.RotationY(m_AnimationTime * MathF.PI * 0.25f)
 
@@ -876,10 +698,6 @@ namespace RTSandbox
             m_pTLAS?.Dispose();
             m_pProceduralBLAS.Dispose();
             m_BoxAttribsCB.Dispose();
-            m_pCubeBLAS.Dispose();
-            pCubeIndexBuffer.Dispose();
-            pCubeVertexBuffer.Dispose();
-            m_CubeAttribsCB.Dispose();
             m_pRayTracingSRB.Dispose();
             m_pRayTracingPSO.Dispose();
             m_ConstantsCB.Dispose();
