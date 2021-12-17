@@ -74,7 +74,7 @@ float3 DirectionWithinCone(float3 dir, float2 offset)
 }
 
 // Calculate lighting.
-void LightingPass(inout float3 Color, float3 Pos, float3 Norm, uint Recursion)
+void LightingPass(inout float3 Color, float3 Pos, float3 Norm, float3 pertbNorm, uint Recursion)
 {
     RayDesc ray;
     float3  col = float3(0.0, 0.0, 0.0);
@@ -89,7 +89,7 @@ void LightingPass(inout float3 Color, float3 Pos, float3 Norm, uint Recursion)
         ray.TMax = distance(g_ConstantsCB.LightPos[i].xyz, Pos) * 1.01;
 
         float3 rayDir = normalize(g_ConstantsCB.LightPos[i].xyz - Pos);
-        float  NdotL   = max(0.0, dot(Norm, rayDir));
+        float  NdotL   = max(0.0, dot(pertbNorm, rayDir));
 
         // Optimization - don't trace rays if NdotL is zero or negative
         if (NdotL > 0.0)

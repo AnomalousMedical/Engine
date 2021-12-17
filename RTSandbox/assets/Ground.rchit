@@ -28,9 +28,11 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
 
     // Setup ray origing and direction for shadow casting.
     float3  origin = WorldRayOrigin() + WorldRayDirection() * RayTCurrent();
-    //float3  normal = float3(0.0, -1.0, 0.0); //This is the original line. Modified to use normal map instead
+    float3  normal = float3(0.0, -1.0, 0.0); //This is the original line. Modified to use normal map instead
     //Not sure if this is the best way to do it. This just uses the same sampler as the color map
-    float3  normal = g_GroundNormalTexture.SampleLevel(g_SamLinearWrap, uv, 0).rgb * float3(2.0, 2.0, 2.0) - float3(1.0, 1.0, 1.0);
+    float3  pertNormal = g_GroundNormalTexture.SampleLevel(g_SamLinearWrap, uv, 0).rgb * float3(2.0, 2.0, 2.0) - float3(1.0, 1.0, 1.0);
 
-    LightingPass(payload.Color, origin, normal, payload.Recursion + 1);
+    pertNormal = normal;
+
+    LightingPass(payload.Color, origin, normal, pertNormal, payload.Recursion + 1);
 }

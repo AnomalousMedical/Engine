@@ -12,58 +12,60 @@ namespace RTSandbox
     {
         private readonly IObjectResolver objectResolver;
 
+        private static readonly Matrix3x3 PlaneScale = Matrix3x3.Scale(1, 1, 1f);
+
         public PlaneScene(IObjectResolverFactory objectResolverFactory)
         {
             objectResolver = objectResolverFactory.Create();
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
-                o.Transform = new InstanceMatrix(Matrix3x3.Scale(1, 1, 0.01f), 0, 0, 0);
+                o.Transform = new InstanceMatrix(PlaneScale, 0, 0, 0);
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
-                o.Transform = new InstanceMatrix(Matrix3x3.Scale(1, 1, 0.01f), 3, 3, 0);
+                o.Transform = new InstanceMatrix(PlaneScale, 3, 3, 0);
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
-                o.Transform = new InstanceMatrix(Matrix3x3.Scale(1, 1, 0.01f), 6, 3, 0);
+                o.Transform = new InstanceMatrix(PlaneScale, 6, 3, 0);
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
-                o.Transform = new InstanceMatrix(Matrix3x3.Scale(1, 1, 0.01f), 9, 3, 0);
+                o.Transform = new InstanceMatrix(PlaneScale, 9, 3, 0);
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
-                o.Transform = new InstanceMatrix(Matrix3x3.Scale(1, 1, 0.01f), 12, 3, 0);
+                o.Transform = new InstanceMatrix(PlaneScale, 12, 3, 0);
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
-                o.Transform = new InstanceMatrix(Matrix3x3.Scale(1, 1, 0.01f), 3, 6, 0);
+                o.Transform = new InstanceMatrix(PlaneScale, 3, 6, 0);
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
-                o.Transform = new InstanceMatrix(Matrix3x3.Scale(1, 1, 0.01f), -3, 0, 0);
+                o.Transform = new InstanceMatrix(PlaneScale, -3, 0, 0);
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
-                o.Transform = new InstanceMatrix(Matrix3x3.Scale(1, 1, 0.01f), -3, -3, 0);
+                o.Transform = new InstanceMatrix(PlaneScale, -3, -3, 0);
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
-                o.Transform = new InstanceMatrix(Matrix3x3.Scale(1, 1, 0.01f), -3, -6, 0);
+                o.Transform = new InstanceMatrix(PlaneScale, -3, -6, 0);
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
-                o.Transform = new InstanceMatrix(Matrix3x3.Scale(1, 1, 0.01f), -3, -9, 0);
+                o.Transform = new InstanceMatrix(PlaneScale, -3, -9, 0);
             });
 
             objectResolver.Resolve<SceneGround, SceneGround.Desc>(o =>
