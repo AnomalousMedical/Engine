@@ -27,6 +27,7 @@ namespace RTSandbox
         private readonly CubeBLAS cubeBLAS;
         private readonly ProceduralBLAS proceduralBLAS;
         private readonly RTCameraAndLight cameraAndLight;
+        private readonly RTInstances rtInstances;
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext immediateContext;
 
@@ -44,9 +45,6 @@ namespace RTSandbox
         AutoPtr<IBuffer> m_ScratchBuffer;
         AutoPtr<IBuffer> m_InstanceBuffer;
 
-        float m_AnimationTime = 0.0f;
-        bool[] m_EnableCubes = new bool[] { true, true, true, true };
-
         AutoPtr<IShaderBindingTable> m_pSBT;
 
         public unsafe RTSandboxUpdateListener
@@ -60,7 +58,9 @@ namespace RTSandbox
             RTImageBlitter imageBlitter,
             CubeBLAS cubeBLAS,
             ProceduralBLAS proceduralBLAS,
-            RTCameraAndLight cameraAndLight
+            RTCameraAndLight cameraAndLight,
+            RTInstances blasInstances,
+            DemoScene cubeScene
         )
         {
             this.graphicsEngine = graphicsEngine;
@@ -71,11 +71,11 @@ namespace RTSandbox
             this.cubeBLAS = cubeBLAS;
             this.proceduralBLAS = proceduralBLAS;
             this.cameraAndLight = cameraAndLight;
+            this.rtInstances = blasInstances;
             this.swapChain = graphicsEngine.SwapChain;
             this.immediateContext = graphicsEngine.ImmediateContext;
 
             var m_pDevice = graphicsEngine.RenderDevice;
-            var m_pSwapChain = graphicsEngine.SwapChain;
 
             // Create a buffer with shared constants.
             BufferDesc BuffDesc = new BufferDesc();
@@ -268,8 +268,6 @@ namespace RTSandbox
 
         void LoadTextures(TextureLoader textureLoader)
         {
-            var m_pDevice = graphicsEngine.RenderDevice;
-            var m_pSwapChain = graphicsEngine.SwapChain;
             var m_pImmediateContext = graphicsEngine.ImmediateContext;
 
             // Load textures
@@ -357,16 +355,16 @@ namespace RTSandbox
             var m_pImmediateContext = graphicsEngine.ImmediateContext;
             // Create or update top-level acceleration structure
 
-            const int NumInstances = NumCubes + 3;
-
             bool NeedUpdate = true;
+
+            uint numInstances = (uint)rtInstances.Instances.Count;
 
             // Create TLAS
             if (m_pTLAS == null)
             {
                 var TLASDesc = new TopLevelASDesc();
                 TLASDesc.Name = "TLAS";
-                TLASDesc.MaxInstanceCount = NumInstances;
+                TLASDesc.MaxInstanceCount = numInstances;
                 TLASDesc.Flags = RAYTRACING_BUILD_AS_FLAGS.RAYTRACING_BUILD_AS_ALLOW_UPDATE | RAYTRACING_BUILD_AS_FLAGS.RAYTRACING_BUILD_AS_PREFER_FAST_TRACE;
 
                 m_pTLAS = m_pDevice.CreateTLAS(TLASDesc);
@@ -397,81 +395,11 @@ namespace RTSandbox
                 BuffDesc.Name = "TLAS Instance Buffer";
                 BuffDesc.Usage = USAGE.USAGE_DEFAULT;
                 BuffDesc.BindFlags = BIND_FLAGS.BIND_RAY_TRACING;
-                BuffDesc.uiSizeInBytes = ITopLevelAS.TLAS_INSTANCE_DATA_SIZE * NumInstances;
+                BuffDesc.uiSizeInBytes = ITopLevelAS.TLAS_INSTANCE_DATA_SIZE * numInstances;
 
                 m_InstanceBuffer = m_pDevice.CreateBuffer(BuffDesc, new BufferData());
                 //VERIFY_EXPR(m_InstanceBuffer != nullptr);
             }
-
-            // Setup instances
-            var Instances = new List<TLASBuildInstanceData>(NumInstances);
-            for (var i = 0; i < NumInstances; i++)
-            {
-                Instances.Add(new TLASBuildInstanceData());
-            }
-
-            var CubeInstData = new CubeInstanceData[]
-            {
-                new CubeInstanceData{ BasePos = new Vector3( 1, 1,  1), TimeOffset = 0.00f },
-                new CubeInstanceData{ BasePos = new Vector3( 2, 0, -1), TimeOffset = 0.53f },
-                new CubeInstanceData{ BasePos = new Vector3( -1, 1,  2), TimeOffset = 1.27f },
-                new CubeInstanceData{ BasePos = new Vector3( -2, 0, -1), TimeOffset = 4.16f }
-            };
-
-            void AnimateOpaqueCube(TLASBuildInstanceData Dst) //
-            {
-                float t = MathF.Sin(m_AnimationTime * MathF.PI * 0.5f) + CubeInstData[Dst.CustomId].TimeOffset;
-                Vector3 Pos = CubeInstData[Dst.CustomId].BasePos * 2.0f + new Vector3(MathF.Sin(t * 1.13f), MathF.Sin(t * 0.77f), MathF.Sin(t * 2.15f)) * 0.5f;
-                float angle = 0.1f * MathF.PI * (m_AnimationTime + CubeInstData[Dst.CustomId].TimeOffset * 2.0f);
-
-                if (!m_EnableCubes[Dst.CustomId])
-                    Dst.Mask = 0;
-
-                var mat = Matrix4x4.RotationY(angle);
-                mat.SetTranslation(Pos.x, Pos.y, Pos.z);
-
-                Dst.Transform = new InstanceMatrix(mat);
-            };
-
-            Instances[0].InstanceName = "Cube Instance 1";
-            Instances[0].CustomId = 0; // texture index
-            Instances[0].pBLAS = cubeBLAS.BLAS;
-            Instances[0].Mask = RtStructures.OPAQUE_GEOM_MASK;
-            AnimateOpaqueCube(Instances[0]);
-
-            Instances[1].InstanceName = "Cube Instance 2";
-            Instances[1].CustomId = 1; // texture index
-            Instances[1].pBLAS = cubeBLAS.BLAS;
-            Instances[1].Mask = RtStructures.OPAQUE_GEOM_MASK;
-            AnimateOpaqueCube(Instances[1]);
-
-            Instances[2].InstanceName = "Cube Instance 3";
-            Instances[2].CustomId = 2; // texture index
-            Instances[2].pBLAS = cubeBLAS.BLAS;
-            Instances[2].Mask = RtStructures.OPAQUE_GEOM_MASK;
-            AnimateOpaqueCube(Instances[2]);
-
-            Instances[3].InstanceName = "Cube Instance 4";
-            Instances[3].CustomId = 3; // texture index
-            Instances[3].pBLAS = cubeBLAS.BLAS;
-            Instances[3].Mask = RtStructures.OPAQUE_GEOM_MASK;
-            AnimateOpaqueCube(Instances[3]);
-
-            Instances[4].InstanceName = "Ground Instance";
-            Instances[4].pBLAS = cubeBLAS.BLAS;
-            Instances[4].Mask = RtStructures.OPAQUE_GEOM_MASK;
-            Instances[4].Transform = new InstanceMatrix(Matrix3x3.Scale(100.0f, 0.1f, 100.0f), 0.0f, 6.0f, 0.0f);
-
-            Instances[5].InstanceName = "Sphere Instance";
-            Instances[5].CustomId = 0; // box index
-            Instances[5].pBLAS = proceduralBLAS.BLAS;
-            Instances[5].Mask = RtStructures.OPAQUE_GEOM_MASK;
-            Instances[5].Transform = new InstanceMatrix(-3.0f, 3.0f, -5f);
-
-            Instances[6].InstanceName = "Glass Instance";
-            Instances[6].pBLAS = cubeBLAS.BLAS;
-            Instances[6].Mask = RtStructures.TRANSPARENT_GEOM_MASK;
-            Instances[6].Transform = new InstanceMatrix(Matrix3x3.Scale(1.5f, 1.5f, 1.5f), 3.0f, 4.0f, -5.0f); // * Matrix3x3.RotationY(m_AnimationTime * MathF.PI * 0.25f)
 
             // Build or update TLAS
             var Attribs = new BuildTLASAttribs();
@@ -487,7 +415,7 @@ namespace RTSandbox
             Attribs.pInstanceBuffer = m_InstanceBuffer.Obj;
 
             // Instances will be converted to the format that is required by the graphics driver and copied to the instance buffer.
-            Attribs.pInstances = Instances;
+            Attribs.pInstances = rtInstances.Instances;
 
             // Bind hit shaders per instance, it allows you to change the number of geometries in BLAS without invalidating the shader binding table.
             Attribs.BindingMode = HIT_GROUP_BINDING_MODE.HIT_GROUP_BINDING_MODE_PER_INSTANCE;
@@ -504,7 +432,6 @@ namespace RTSandbox
         void CreateSBT()
         {
             var m_pDevice = graphicsEngine.RenderDevice;
-            var m_pImmediateContext = graphicsEngine.ImmediateContext;
             // Create shader binding table.
 
             var SBTDesc = new ShaderBindingTableDesc();
@@ -520,20 +447,11 @@ namespace RTSandbox
             m_pSBT.Obj.BindMissShader("ShadowMiss", RtStructures.SHADOW_RAY_INDEX, IntPtr.Zero);
 
             // Hit groups for primary ray
-            m_pSBT.Obj.BindHitGroupForInstance(m_pTLAS.Obj, "Cube Instance 1", RtStructures.PRIMARY_RAY_INDEX, "CubePrimaryHit", IntPtr.Zero);
-            m_pSBT.Obj.BindHitGroupForInstance(m_pTLAS.Obj, "Cube Instance 2", RtStructures.PRIMARY_RAY_INDEX, "CubePrimaryHit", IntPtr.Zero);
-            m_pSBT.Obj.BindHitGroupForInstance(m_pTLAS.Obj, "Cube Instance 3", RtStructures.PRIMARY_RAY_INDEX, "CubePrimaryHit", IntPtr.Zero);
-            m_pSBT.Obj.BindHitGroupForInstance(m_pTLAS.Obj, "Cube Instance 4", RtStructures.PRIMARY_RAY_INDEX, "CubePrimaryHit", IntPtr.Zero);
-            m_pSBT.Obj.BindHitGroupForInstance(m_pTLAS.Obj, "Ground Instance", RtStructures.PRIMARY_RAY_INDEX, "GroundHit", IntPtr.Zero);
-            m_pSBT.Obj.BindHitGroupForInstance(m_pTLAS.Obj, "Glass Instance", RtStructures.PRIMARY_RAY_INDEX, "GlassPrimaryHit", IntPtr.Zero);
-            m_pSBT.Obj.BindHitGroupForInstance(m_pTLAS.Obj, "Sphere Instance", RtStructures.PRIMARY_RAY_INDEX, "SpherePrimaryHit", IntPtr.Zero);
+            rtInstances.BindShaders(m_pSBT.Obj, m_pTLAS.Obj);
 
             // Hit groups for shadow ray.
             // null means no shaders are bound and hit shader invocation will be skipped.
             m_pSBT.Obj.BindHitGroupForTLAS(m_pTLAS.Obj, RtStructures.SHADOW_RAY_INDEX, null, IntPtr.Zero);
-
-            // We must specify the intersection shader for procedural geometry.
-            m_pSBT.Obj.BindHitGroupForInstance(m_pTLAS.Obj, "Sphere Instance", RtStructures.SHADOW_RAY_INDEX, "SphereShadowHit", IntPtr.Zero);
         }
 
         public void Dispose()
@@ -626,12 +544,10 @@ namespace RTSandbox
                     result = new Vector4(v3result.x, v3result.y, v3result.z, 0);
                 };
 
-                // clang-format off
                 GetPlaneIntersection(ViewFrustum.PLANE_IDX.BOTTOM_PLANE_IDX, ViewFrustum.PLANE_IDX.LEFT_PLANE_IDX, out m_Constants.FrustumRayLB);
                 GetPlaneIntersection(ViewFrustum.PLANE_IDX.LEFT_PLANE_IDX, ViewFrustum.PLANE_IDX.TOP_PLANE_IDX, out m_Constants.FrustumRayLT);
                 GetPlaneIntersection(ViewFrustum.PLANE_IDX.RIGHT_PLANE_IDX, ViewFrustum.PLANE_IDX.BOTTOM_PLANE_IDX, out m_Constants.FrustumRayRB);
                 GetPlaneIntersection(ViewFrustum.PLANE_IDX.TOP_PLANE_IDX, ViewFrustum.PLANE_IDX.RIGHT_PLANE_IDX, out m_Constants.FrustumRayRT);
-                // clang-format on
                 m_Constants.CameraPos = new Vector4(CameraWorldPos.x, CameraWorldPos.y, CameraWorldPos.z, 1.0f) * -1.0f;
 
                 fixed (Constants* constantsPtr = &m_Constants)

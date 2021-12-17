@@ -160,5 +160,7 @@ namespace DiligentEngine
             this.m13 = y;
             this.m23 = z;
         }
+
+        public static readonly InstanceMatrix Identity = new InstanceMatrix(0, 0, 0);
     }
 }

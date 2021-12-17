@@ -61,6 +61,17 @@ namespace RTSandbox
             services.AddSingleton<CubeBLAS>();
             services.AddSingleton<ProceduralBLAS>();
             services.AddSingleton<RTCameraAndLight>();
+            services.AddSingleton<RTInstances>();
+            services.AddSingleton<DemoScene>();
+
+            services.AddScoped<SceneCube>();
+            services.AddScoped<SceneCube.Desc>();
+            services.AddScoped<SceneGlassCube>();
+            services.AddScoped<SceneGlassCube.Desc>();
+            services.AddScoped<SceneSphere>();
+            services.AddScoped<SceneSphere.Desc>();
+            services.AddScoped<SceneGround>();
+            services.AddScoped<SceneGround.Desc>();
 
             return true;
         }
