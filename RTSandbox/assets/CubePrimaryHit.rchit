@@ -22,14 +22,18 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
                 g_CubeAttribsCB.UVs[primitive.y].xy * barycentrics.y +
                 g_CubeAttribsCB.UVs[primitive.z].xy * barycentrics.z;
 
-    //Probably need a sampler just for normal maps
+    //Unpack map normal.
     float3 sampleNormal = g_CubeNormalTextures[InstanceID()].SampleLevel(g_SamLinearWrap, uv, 0).rgb * float3(2.0, 2.0, 2.0) - float3(1.0, 1.0, 1.0);
 
-    //Calculate and transform triangle normal.
-    float3 normal = sampleNormal.xyz * barycentrics.x +
-                    sampleNormal.xyz * barycentrics.y +
-                    sampleNormal.xyz * barycentrics.z;
-    normal        = normalize(mul((float3x3) ObjectToWorld3x4(), normal));
+    // Calculate vertex normal.
+    // float3 normal = g_CubeAttribsCB.Normals[primitive.x].xyz * barycentrics.x +
+    //                 g_CubeAttribsCB.Normals[primitive.y].xyz * barycentrics.y +
+    //                 g_CubeAttribsCB.Normals[primitive.z].xyz * barycentrics.z;
+
+    //Do TBN here
+    float3 finalNormal = sampleNormal;
+
+    finalNormal        = normalize(mul((float3x3) ObjectToWorld3x4(), finalNormal));
 
     // Sample texturing. Ray tracing shaders don't support LOD calculation, so we must specify LOD and apply filtering.
     payload.Color = g_CubeTextures[InstanceID()].SampleLevel(g_SamLinearWrap, uv, 0).rgb;
@@ -37,5 +41,5 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
     
     // Apply lighting.
     float3 rayOrigin = WorldRayOrigin() + WorldRayDirection() * RayTCurrent();
-    LightingPass(payload.Color, rayOrigin, normal, payload.Recursion + 1);
+    LightingPass(payload.Color, rayOrigin, finalNormal, payload.Recursion + 1);
 }

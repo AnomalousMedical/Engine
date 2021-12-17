@@ -49,10 +49,10 @@ namespace RTSandbox
 
             var normals = new Vector4[]
             {
-                new Vector4(0, 0, +1, 0), 
-                new Vector4(0, 0, +1, 0), 
-                new Vector4(0, 0, +1, 0), 
-                new Vector4(0, 0, +1, 0)
+                new Vector4(0, 0, -1, 0), 
+                new Vector4(0, 0, -1, 0), 
+                new Vector4(0, 0, -1, 0), 
+                new Vector4(0, 0, -1, 0)
             };
 
             var indices = new uint[]
