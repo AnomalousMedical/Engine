@@ -289,7 +289,7 @@ namespace RTSandbox
             {
                 var fileNames = new[]
                 {
-                    "Rock019",
+                    "ChristmasTreeOrnament007",
                     "Rock029",
                     "MetalPlates001",
                     "Fabric021"
@@ -560,8 +560,6 @@ namespace RTSandbox
                 m_Constants.CameraPos = new Vector4(CameraWorldPos.x, CameraWorldPos.y, CameraWorldPos.z, 1.0f) * -1.0f;
                 m_Constants.LightPos_0 = gui.LightPos;
                 m_Constants.LightPos_1 = gui.LightPos;
-
-                Console.WriteLine(m_Constants.LightPos_0);
 
                 fixed (Constants* constantsPtr = &m_Constants)
                 {

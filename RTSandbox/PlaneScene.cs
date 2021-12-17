@@ -20,6 +20,16 @@ namespace RTSandbox
             {
                 
             });
+
+            objectResolver.Resolve<ScenePlane, ScenePlane.Desc>(o =>
+            {
+                o.Transform = new InstanceMatrix(3, 3, 0);
+            });
+
+            objectResolver.Resolve<ScenePlane, ScenePlane.Desc>(o =>
+            {
+                o.Transform = new InstanceMatrix(-3, 0, 0);
+            });
         }
 
         public void Dispose()
