@@ -75,6 +75,8 @@ namespace RTSandbox
             this.swapChain = graphicsEngine.SwapChain;
             this.immediateContext = graphicsEngine.ImmediateContext;
 
+            cameraControls.Position = new Vector3(0, 0, -10);
+
             var m_pDevice = graphicsEngine.RenderDevice;
 
             // Create a buffer with shared constants.

@@ -21,25 +21,43 @@ namespace RTSandbox
             var m_pDevice = graphicsEngine.RenderDevice;
             var m_pImmediateContext = graphicsEngine.ImmediateContext;
 
+            /*
+             *    Doesn't matter, but clockwise
+             *   
+             *    (+1, -1)------(-1, -1) 
+             *        |      /      |
+             *        |    /        |
+             *    (+1, +1)------(-1, +1)
+             */
+
             // clang-format off
             var pos = new Vector3[]
             {
-                new Vector3(-1,-1,0), new Vector3(+1,-1,0), new Vector3(+1,+1,0), new Vector3(-1,+1,0)
+                new Vector3(-1,-1,0), 
+                new Vector3(-1,+1,0), 
+                new Vector3(+1,+1,0), 
+                new Vector3(+1,-1,0)
             };
 
             var uvs = new Vector4[]
             {
-                new Vector4(1,0,0,0), new Vector4(0,0,0,0), new Vector4(0,1,0,0), new Vector4(1,1,0,0)
+                new Vector4(0,0,0,0),
+                new Vector4(0,1,0,0), 
+                new Vector4(1,1,0,0),
+                new Vector4(1,0,0,0)
             };
 
             var normals = new Vector4[]
             {
-                new Vector4(0, 0, +1, 0), new Vector4(0, 0, +1, 0), new Vector4(0, 0, +1, 0), new Vector4(0, 0, +1, 0)
+                new Vector4(0, 0, +1, 0), 
+                new Vector4(0, 0, +1, 0), 
+                new Vector4(0, 0, +1, 0), 
+                new Vector4(0, 0, +1, 0)
             };
 
             var indices = new uint[]
             {
-                2,0,1,    2,3,0,
+               2,0,1,    2,3,0,
             };
             // clang-format on
 
