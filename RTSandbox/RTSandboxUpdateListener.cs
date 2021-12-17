@@ -94,67 +94,13 @@ namespace RTSandbox
             UpdateTLAS();
             CreateSBT();
 
-            // Initialize constants.
-            m_Constants = new Constants
-            {
-                ClipPlanes = new Vector2(0.1f, 100.0f),
-                ShadowPCF = 1,
-                MaxRecursion = Math.Min(6, m_MaxRecursionDepth),
-
-                // Sphere constants.
-                SphereReflectionColorMask = new Vector3(0.81f, 1.0f, 0.45f),
-                SphereReflectionBlur = 1,
-
-                // Glass cube constants.
-                GlassReflectionColorMask = new Vector3(0.22f, 0.83f, 0.93f),
-                GlassAbsorption = 0.5f,
-                GlassMaterialColor = new Vector4(0.33f, 0.93f, 0.29f, 0f),
-                GlassIndexOfRefraction = new Vector2(1.5f, 1.02f),
-                GlassEnableDispersion = 0,
-
-                // Wavelength to RGB and index of refraction interpolation factor.
-                DispersionSamples_0 = new Vector4(0.140000f, 0.000000f, 0.266667f, 0.53f),
-                DispersionSamples_1 = new Vector4(0.130031f, 0.037556f, 0.612267f, 0.25f),
-                DispersionSamples_2 = new Vector4(0.100123f, 0.213556f, 0.785067f, 0.16f),
-                DispersionSamples_3 = new Vector4(0.050277f, 0.533556f, 0.785067f, 0.00f),
-                DispersionSamples_4 = new Vector4(0.000000f, 0.843297f, 0.619682f, 0.13f),
-                DispersionSamples_5 = new Vector4(0.000000f, 0.927410f, 0.431834f, 0.38f),
-                DispersionSamples_6 = new Vector4(0.000000f, 0.972325f, 0.270893f, 0.27f),
-                DispersionSamples_7 = new Vector4(0.000000f, 0.978042f, 0.136858f, 0.19f),
-                DispersionSamples_8 = new Vector4(0.324000f, 0.944560f, 0.029730f, 0.47f),
-                DispersionSamples_9 = new Vector4(0.777600f, 0.871879f, 0.000000f, 0.64f),
-                DispersionSamples_10 = new Vector4(0.972000f, 0.762222f, 0.000000f, 0.77f),
-                DispersionSamples_11 = new Vector4(0.971835f, 0.482222f, 0.000000f, 0.62f),
-                DispersionSamples_12 = new Vector4(0.886744f, 0.202222f, 0.000000f, 0.73f),
-                DispersionSamples_13 = new Vector4(0.715967f, 0.000000f, 0.000000f, 0.68f),
-                DispersionSamples_14 = new Vector4(0.459920f, 0.000000f, 0.000000f, 0.91f),
-                DispersionSamples_15 = new Vector4(0.218000f, 0.000000f, 0.000000f, 0.99f),
-                DispersionSampleCount = 4,
-
-                AmbientColor = new Vector4(1f, 1f, 1f, 0f) * 0.015f,
-                LightPos_0 = new Vector4(8.00f, -8.0f, +0.00f, 0f),
-                LightColor_0 = new Vector4(1.00f, +0.8f, +0.80f, 0f),
-                LightPos_1 = new Vector4(0.00f, -4.0f, -5.00f, 0f),
-                LightColor_1 = new Vector4(0.85f, +1.0f, +0.85f, 0f),
-
-                // Random points on disc.
-                DiscPoints_0 = new Vector4(+0.0f, +0.0f, +0.9f, -0.9f),
-                DiscPoints_1 = new Vector4(-0.8f, +1.0f, -1.1f, -0.8f),
-                DiscPoints_2 = new Vector4(+1.5f, +1.2f, -2.1f, +0.7f),
-                DiscPoints_3 = new Vector4(+0.1f, -2.2f, -0.2f, +2.4f),
-                DiscPoints_4 = new Vector4(+2.4f, -0.3f, -3.0f, +2.8f),
-                DiscPoints_5 = new Vector4(+2.0f, -2.6f, +0.7f, +3.5f),
-                DiscPoints_6 = new Vector4(-3.2f, -1.6f, +3.4f, +2.2f),
-                DiscPoints_7 = new Vector4(-1.8f, -3.2f, -1.1f, +3.6f),
-            };
+            // Initialize constants, uses stuff setup above so order is important.
+            m_Constants = Constants.CreateDefault(m_MaxRecursionDepth);
         }
-
-        
 
         void CreateRayTracingPSO(ShaderLoader shaderLoader)
         {
             var m_pDevice = graphicsEngine.RenderDevice;
-            var m_pSwapChain = graphicsEngine.SwapChain;
 
             m_MaxRecursionDepth = Math.Min(m_MaxRecursionDepth, m_pDevice.DeviceProperties_MaxRayTracingRecursionDepth);
 
@@ -182,15 +128,9 @@ namespace RTSandbox
             ShaderCI.HLSLVersion = new ShaderVersion { Major = 6, Minor = 3 };
             ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
 
-            // Create a shader source stream factory to load shaders from files.
-            //RefCntAutoPtr<IShaderSourceInputStreamFactory> pShaderSourceFactory;
-            //m_pEngineFactory->CreateDefaultShaderSourceStreamFactory(nullptr, &pShaderSourceFactory);
-            //ShaderCI.pShaderSourceStreamFactory = pShaderSourceFactory;
-
             // Create ray generation shader.
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_GEN;
             ShaderCI.Desc.Name = "Ray tracing RG";
-            //ShaderCI.FilePath = "RayTrace.rgen";
             ShaderCI.Source = shaderLoader.LoadShader("assets/RayTrace.rgen");
             ShaderCI.EntryPoint = "main";
             using var pRayGen = m_pDevice.CreateShader(ShaderCI, Macros);
@@ -200,63 +140,51 @@ namespace RTSandbox
             // Create miss shaders.
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_MISS;
             ShaderCI.Desc.Name = "Primary ray miss shader";
-            //ShaderCI.FilePath = "PrimaryMiss.rmiss";
             ShaderCI.Source = shaderLoader.LoadShader("assets/PrimaryMiss.rmiss");
             ShaderCI.EntryPoint = "main";
             using var pPrimaryMiss = m_pDevice.CreateShader(ShaderCI, Macros);
             //VERIFY_EXPR(pPrimaryMiss != nullptr);
 
             ShaderCI.Desc.Name = "Shadow ray miss shader";
-            //ShaderCI.FilePath = "ShadowMiss.rmiss";
             ShaderCI.Source = shaderLoader.LoadShader("assets/ShadowMiss.rmiss");
             ShaderCI.EntryPoint = "main";
             using var pShadowMiss = m_pDevice.CreateShader(ShaderCI, Macros);
             //VERIFY_EXPR(pShadowMiss != nullptr);
 
-            //// Create closest hit shaders.
-            //RefCntAutoPtr<IShader> pCubePrimaryHit, pGroundHit, pGlassPrimaryHit, pSpherePrimaryHit;
-            //{
+            // Create closest hit shaders.
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT;
             ShaderCI.Desc.Name = "Cube primary ray closest hit shader";
-            //ShaderCI.FilePath = "CubePrimaryHit.rchit";
             ShaderCI.Source = shaderLoader.LoadShader("assets/CubePrimaryHit.rchit");
             ShaderCI.EntryPoint = "main";
             using var pCubePrimaryHit = m_pDevice.CreateShader(ShaderCI, Macros);
             //VERIFY_EXPR(pCubePrimaryHit != nullptr);
 
             ShaderCI.Desc.Name = "Ground primary ray closest hit shader";
-            //ShaderCI.FilePath = "Ground.rchit";
             ShaderCI.Source = shaderLoader.LoadShader("assets/Ground.rchit");
             ShaderCI.EntryPoint = "main";
             using var pGroundHit = m_pDevice.CreateShader(ShaderCI, Macros);
-            //    VERIFY_EXPR(pGroundHit != nullptr);
+            //VERIFY_EXPR(pGroundHit != nullptr);
 
             ShaderCI.Desc.Name = "Glass primary ray closest hit shader";
             //ShaderCI.FilePath = "GlassPrimaryHit.rchit";
             ShaderCI.Source = shaderLoader.LoadShader("assets/GlassPrimaryHit.rchit");
             ShaderCI.EntryPoint = "main";
             using var pGlassPrimaryHit = m_pDevice.CreateShader(ShaderCI, Macros);
-            //    VERIFY_EXPR(pGlassPrimaryHit != nullptr);
+            //VERIFY_EXPR(pGlassPrimaryHit != nullptr);
 
             ShaderCI.Desc.Name = "Sphere primary ray closest hit shader";
-            //ShaderCI.FilePath = "SpherePrimaryHit.rchit";
             ShaderCI.Source = shaderLoader.LoadShader("assets/SpherePrimaryHit.rchit");
             ShaderCI.EntryPoint = "main";
             using var pSpherePrimaryHit = m_pDevice.CreateShader(ShaderCI, Macros);
-            //    VERIFY_EXPR(pSpherePrimaryHit != nullptr);
-            //}
+            //VERIFY_EXPR(pSpherePrimaryHit != nullptr);
 
             //// Create intersection shader for a procedural sphere.
-            //RefCntAutoPtr<IShader> pSphereIntersection;
-            //{
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_INTERSECTION;
             ShaderCI.Desc.Name = "Sphere intersection shader";
-            //ShaderCI.FilePath = "SphereIntersection.rint";
             ShaderCI.Source = shaderLoader.LoadShader("assets/SphereIntersection.rint");
             ShaderCI.EntryPoint = "main";
             using var pSphereIntersection = m_pDevice.CreateShader(ShaderCI, Macros);
-            //    VERIFY_EXPR(pSphereIntersection != nullptr);
-            //}
+            //VERIFY_EXPR(pSphereIntersection != nullptr);
 
             // Setup shader groups
             PSOCreateInfo.pGeneralShaders = new List<RayTracingGeneralShaderGroup>
@@ -484,15 +412,13 @@ namespace RTSandbox
                 Instances.Add(new TLASBuildInstanceData());
             }
 
-            var CubeInstData = new CubeInstanceData[] // clang-format off
+            var CubeInstData = new CubeInstanceData[]
             {
-                new CubeInstanceData{ BasePos = new Vector3( 1, 1,  1), TimeOffset = 0.00f},
-                new CubeInstanceData{ BasePos = new Vector3( 2, 0, -1), TimeOffset = 0.53f},
-                new CubeInstanceData{ BasePos = new Vector3( -1, 1,  2), TimeOffset = 1.27f},
-                new CubeInstanceData{ BasePos = new Vector3( -2, 0, -1), TimeOffset = 4.16f}
+                new CubeInstanceData{ BasePos = new Vector3( 1, 1,  1), TimeOffset = 0.00f },
+                new CubeInstanceData{ BasePos = new Vector3( 2, 0, -1), TimeOffset = 0.53f },
+                new CubeInstanceData{ BasePos = new Vector3( -1, 1,  2), TimeOffset = 1.27f },
+                new CubeInstanceData{ BasePos = new Vector3( -2, 0, -1), TimeOffset = 4.16f }
             };
-            //// clang-format on
-            //static_assert(_countof(CubeInstData) == NumCubes, "Cube instance data array size mismatch");
 
             void AnimateOpaqueCube(TLASBuildInstanceData Dst) //
             {
@@ -596,7 +522,6 @@ namespace RTSandbox
             m_pSBT.Obj.BindMissShader("ShadowMiss", RtStructures.SHADOW_RAY_INDEX, IntPtr.Zero);
 
             // Hit groups for primary ray
-            // clang-format off
             m_pSBT.Obj.BindHitGroupForInstance(m_pTLAS.Obj, "Cube Instance 1", RtStructures.PRIMARY_RAY_INDEX, "CubePrimaryHit", IntPtr.Zero);
             m_pSBT.Obj.BindHitGroupForInstance(m_pTLAS.Obj, "Cube Instance 2", RtStructures.PRIMARY_RAY_INDEX, "CubePrimaryHit", IntPtr.Zero);
             m_pSBT.Obj.BindHitGroupForInstance(m_pTLAS.Obj, "Cube Instance 3", RtStructures.PRIMARY_RAY_INDEX, "CubePrimaryHit", IntPtr.Zero);
@@ -604,7 +529,6 @@ namespace RTSandbox
             m_pSBT.Obj.BindHitGroupForInstance(m_pTLAS.Obj, "Ground Instance", RtStructures.PRIMARY_RAY_INDEX, "GroundHit", IntPtr.Zero);
             m_pSBT.Obj.BindHitGroupForInstance(m_pTLAS.Obj, "Glass Instance", RtStructures.PRIMARY_RAY_INDEX, "GlassPrimaryHit", IntPtr.Zero);
             m_pSBT.Obj.BindHitGroupForInstance(m_pTLAS.Obj, "Sphere Instance", RtStructures.PRIMARY_RAY_INDEX, "SpherePrimaryHit", IntPtr.Zero);
-            // clang-format on
 
             // Hit groups for shadow ray.
             // null means no shaders are bound and hit shader invocation will be skipped.
@@ -639,6 +563,8 @@ namespace RTSandbox
         {
             cameraControls.UpdateInput(clock);
 
+            //This is the old clear loop, leaving in place in case we want or need the screen clear, but I think with pure rt there is no need
+            //since we blit a texture to the full screen over and over.
             //var pRTV = swapChain.GetCurrentBackBufferRTV();
             //var pDSV = swapChain.GetDepthBufferDSV();
             //immediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
@@ -734,7 +660,5 @@ namespace RTSandbox
             // Blit to swapchain image
             imageBlitter.Blit();
         }
-
-        
     }
 }
