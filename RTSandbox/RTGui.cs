@@ -19,7 +19,7 @@ namespace RTSandbox
         private readonly OSWindow window;
         private Vector4 lightPos = new Vector4(0, -5, -1, 0);
 
-        private SharpButton nextScene = new SharpButton() { Text = "Next Scene" };
+        private SharpText lightPosText = new SharpText() { Text = "" };
 
         SharpSliderHorizontal lightPosX;
         SharpSliderHorizontal lightPosY;
@@ -41,19 +41,6 @@ namespace RTSandbox
             sharpGui.Begin(clock);
 
 
-            var layout =
-                new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
-                new MaxWidthLayout(scaleHelper.Scaled(300),
-                new ColumnLayout(nextScene) { Margin = new IntPad(10) }
-                ));
-            var desiredSize = layout.GetDesiredSize(sharpGui);
-            layout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
-
-            //Buttons
-            if (sharpGui.Button(nextScene))
-            {
-
-            }
 
             int light = ToSlider(constants.LightPos_0.x);
             if (sharpGui.Slider(lightPosX, ref light) || sharpGui.ActiveItem == lightPosX.Id)
@@ -72,6 +59,19 @@ namespace RTSandbox
             {
                 lightPos.z = FromSlider(light);
             }
+
+            lightPosText.Text = lightPos.ToString();
+
+            var layout =
+                new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
+                new MaxWidthLayout(scaleHelper.Scaled(300),
+                new ColumnLayout(lightPosText) { Margin = new IntPad(10) }
+                ));
+            var desiredSize = layout.GetDesiredSize(sharpGui);
+            layout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
+
+            //Buttons
+            sharpGui.Text(lightPosText);
 
             sharpGui.End();
         }
