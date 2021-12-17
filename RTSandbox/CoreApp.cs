@@ -60,6 +60,7 @@ namespace RTSandbox
             services.AddSingleton<RTImageBlitter>();
             services.AddSingleton<CubeBLAS>();
             services.AddSingleton<ProceduralBLAS>();
+            services.AddSingleton<RTCameraAndLight>();
 
             return true;
         }
