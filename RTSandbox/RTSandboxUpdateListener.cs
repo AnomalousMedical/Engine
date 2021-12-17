@@ -3,6 +3,7 @@ using DiligentEngine;
 using Engine;
 using Engine.CameraMovement;
 using Engine.Platform;
+using SharpGui;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -28,6 +29,8 @@ namespace RTSandbox
         private readonly ProceduralBLAS proceduralBLAS;
         private readonly RTCameraAndLight cameraAndLight;
         private readonly RTInstances rtInstances;
+        private readonly ISharpGui sharpGui;
+        private readonly RTGui gui;
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext immediateContext;
 
@@ -60,7 +63,10 @@ namespace RTSandbox
             ProceduralBLAS proceduralBLAS,
             RTCameraAndLight cameraAndLight,
             RTInstances blasInstances,
-            IRTSandboxScene scene
+            IRTSandboxScene scene,
+
+            ISharpGui sharpGui,
+            RTGui gui
         )
         {
             this.graphicsEngine = graphicsEngine;
@@ -72,6 +78,8 @@ namespace RTSandbox
             this.proceduralBLAS = proceduralBLAS;
             this.cameraAndLight = cameraAndLight;
             this.rtInstances = blasInstances;
+            this.sharpGui = sharpGui;
+            this.gui = gui;
             this.swapChain = graphicsEngine.SwapChain;
             this.immediateContext = graphicsEngine.ImmediateContext;
 
@@ -480,24 +488,23 @@ namespace RTSandbox
         public void sendUpdate(Clock clock)
         {
             cameraControls.UpdateInput(clock);
+            gui.Update(clock);
+
+            Render();
 
             //This is the old clear loop, leaving in place in case we want or need the screen clear, but I think with pure rt there is no need
             //since we blit a texture to the full screen over and over.
-            //var pRTV = swapChain.GetCurrentBackBufferRTV();
-            //var pDSV = swapChain.GetDepthBufferDSV();
-            //immediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            var pRTV = swapChain.GetCurrentBackBufferRTV();
+            var pDSV = swapChain.GetDepthBufferDSV();
+            immediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
             //var ClearColor = new Color(0.350f, 0.350f, 0.350f, 1.0f);
 
-            //// Clear the back buffer
-            //// Let the engine perform required state transitions
+            // Clear the back buffer
+            // Let the engine perform required state transitions
             //immediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-            //immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-
-
-            /// ------ RT
-            /// 
-            Render();
+            immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            sharpGui.Render(immediateContext);
 
             this.swapChain.Present(1);
         }

@@ -26,6 +26,7 @@
     <ProjectReference Include="..\NativeLibs64\NativeLibs64.csproj" />
     <ProjectReference Include="..\OSPlatform.Win32\OSPlatform.Win32.csproj" />
     <ProjectReference Include="..\OSPlatform\OSPlatform.csproj" />
+    <ProjectReference Include="..\SharpGui\SharpGui.csproj" />
   </ItemGroup>
 
   <ItemGroup>

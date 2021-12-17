@@ -48,6 +48,7 @@ namespace RTSandbox
                 o.Features = GraphicsEngine.FeatureFlags.RayTracing;
             });
             services.AddOSPlatform(pluginManager);
+            services.AddSharpGui();
 
             services.AddFirstPersonFlyCamera();
 
@@ -64,6 +65,7 @@ namespace RTSandbox
             services.AddSingleton<RTCameraAndLight>();
             services.AddSingleton<RTInstances>();
             services.AddSingleton<IRTSandboxScene, PlaneScene>();
+            services.AddSingleton<RTGui>();
             //services.AddSingleton<IRTSandboxScene, DemoScene>();
 
             services.AddScoped<SceneCube>();
