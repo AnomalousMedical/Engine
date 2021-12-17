@@ -98,7 +98,7 @@ namespace RTSandbox
             m_Constants = Constants.CreateDefault(m_MaxRecursionDepth);
         }
 
-        void CreateRayTracingPSO(ShaderLoader shaderLoader)
+        unsafe void CreateRayTracingPSO(ShaderLoader shaderLoader)
         {
             var m_pDevice = graphicsEngine.RenderDevice;
 
@@ -225,12 +225,10 @@ namespace RTSandbox
             // Per-shader data is not used.
             PSOCreateInfo.RayTracingPipeline.ShaderRecordSize = 0;
 
-            //--- START POTENTIAL BLOCK ---
-            //  Might want this part
-            //// DirectX 12 only: set attribute and payload size. Values should be as small as possible to minimize the memory usage.
-            //PSOCreateInfo.MaxAttributeSize = std::max<Uint32>(sizeof(/*BuiltInTriangleIntersectionAttributes*/ float2), sizeof(HLSL::ProceduralGeomIntersectionAttribs));
-            //PSOCreateInfo.MaxPayloadSize = std::max<Uint32>(sizeof(HLSL::PrimaryRayPayload), sizeof(HLSL::ShadowRayPayload));
-            //--- END POTENTIAL BLOCK ---
+            // DirectX 12 only: set attribute and payload size. Values should be as small as possible to minimize the memory usage.
+            PSOCreateInfo.MaxAttributeSize = (uint)Math.Max(sizeof(/*BuiltInTriangleIntersectionAttributes*/ Vector2), sizeof(HLSL.ProceduralGeomIntersectionAttribs));
+            PSOCreateInfo.MaxPayloadSize = (uint)Math.Max(sizeof(HLSL.PrimaryRayPayload), sizeof(HLSL.ShadowRayPayload));
+
 
             // Define immutable sampler for g_Texture and g_GroundTexture. Immutable samplers should be used whenever possible
             var SamLinearWrapDesc = new SamplerDesc
