@@ -11,8 +11,8 @@ namespace RTSandbox
 {
     internal class RTGui
     {
-        const float LightRange = 10f;
-        const float LightConversion = 30;
+        const float LightRange = 80f;
+        const float LightConversion = 1;
 
         private readonly IScaleHelper scaleHelper;
         private readonly ISharpGui sharpGui;
@@ -31,9 +31,9 @@ namespace RTSandbox
             this.sharpGui = sharpGui;
             this.window = window;
 
-            lightPosX = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 10, 500, 35)), Max = ToSlider(LightRange * 2) };
-            lightPosY = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 50, 500, 35)), Max = ToSlider(LightRange * 2) };
-            lightPosZ = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 90, 500, 35)), Max = ToSlider(LightRange * 2) };
+            lightPosX = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 10, 500, 35)), Max = ToSlider(LightRange) };
+            lightPosY = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 50, 500, 35)), Max = ToSlider(LightRange) };
+            lightPosZ = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 90, 500, 35)), Max = ToSlider(LightRange) };
         }
 
         public void Update(Clock clock, in Constants constants)

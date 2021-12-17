@@ -65,6 +65,11 @@ namespace RTSandbox
             {
                 o.Transform = new InstanceMatrix(-3, -9, 0);
             });
+
+            objectResolver.Resolve<SceneGround, SceneGround.Desc>(o =>
+            {
+                o.Transform = new InstanceMatrix(Matrix3x3.Scale(100.0f, 0.1f, 100.0f), 0.0f, 6.0f, 0.0f);
+            });
         }
 
         public void Dispose()
