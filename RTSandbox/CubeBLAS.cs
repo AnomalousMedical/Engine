@@ -202,7 +202,7 @@ namespace RTSandbox
             m_CubeAttribsCB.Dispose();
         }
 
-        public IBuffer CubeAttribs => m_CubeAttribsCB.Obj;
+        public IBuffer Attribs => m_CubeAttribsCB.Obj;
 
         public IBottomLevelAS BLAS => m_pCubeBLAS.Obj;
     }

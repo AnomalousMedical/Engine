@@ -25,6 +25,7 @@ namespace RTSandbox
         private readonly VirtualFileSystem virtualFileSystem;
         private readonly RTImageBlitter imageBlitter;
         private readonly CubeBLAS cubeBLAS;
+        private readonly ProceduralBLAS proceduralBLAS;
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext immediateContext;
 
@@ -37,11 +38,6 @@ namespace RTSandbox
         private Constants m_Constants;
         private AutoPtr<IPipelineState> m_pRayTracingPSO;
         private AutoPtr<IShaderResourceBinding> m_pRayTracingSRB;
-
-
-        AutoPtr<IBuffer> m_BoxAttribsCB;
-
-        AutoPtr<IBottomLevelAS> m_pProceduralBLAS;
 
         AutoPtr<ITopLevelAS> m_pTLAS;
         AutoPtr<IBuffer> m_ScratchBuffer;
@@ -61,7 +57,8 @@ namespace RTSandbox
             FirstPersonFlyCamera cameraControls,
             VirtualFileSystem virtualFileSystem,
             RTImageBlitter imageBlitter,
-            CubeBLAS cubeBLAS
+            CubeBLAS cubeBLAS,
+            ProceduralBLAS proceduralBLAS
         )
         {
             this.graphicsEngine = graphicsEngine;
@@ -70,6 +67,7 @@ namespace RTSandbox
             this.virtualFileSystem = virtualFileSystem;
             this.imageBlitter = imageBlitter;
             this.cubeBLAS = cubeBLAS;
+            this.proceduralBLAS = proceduralBLAS;
             this.swapChain = graphicsEngine.SwapChain;
             this.immediateContext = graphicsEngine.ImmediateContext;
 
@@ -88,8 +86,8 @@ namespace RTSandbox
 
             CreateRayTracingPSO(shaderLoader);
             LoadTextures(textureLoader);
-            m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_CubeAttribsCB").Set(cubeBLAS.CubeAttribs);
-            CreateProceduralBLAS();
+            m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_CubeAttribsCB").Set(cubeBLAS.Attribs);
+            m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_INTERSECTION, "g_BoxAttribs").Set(proceduralBLAS.Attribs.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
             UpdateTLAS();
             CreateSBT();
 
@@ -425,81 +423,7 @@ namespace RTSandbox
         }
 
 
-        unsafe void CreateProceduralBLAS()
-        {
-            var m_pDevice = graphicsEngine.RenderDevice;
-            var m_pImmediateContext = graphicsEngine.ImmediateContext;
-
-            //static_assert(sizeof(HLSL::BoxAttribs) % 16 == 0, "BoxAttribs must be aligned by 16 bytes");
-
-            var Boxes = new BoxAttribs() { minX = -2.5f, minY = -2.5f, minZ = -2.5f, maxX = 2.5f, maxY = 2.5f, maxZ = 2.5f };
-
-            // Create box buffer
-            {
-                var BufData = new BufferData { pData = new IntPtr(&Boxes), DataSize = (uint)sizeof(BoxAttribs) };
-                var BuffDesc = new BufferDesc();
-                BuffDesc.Name = "AABB Buffer";
-                BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
-                BuffDesc.BindFlags = BIND_FLAGS.BIND_RAY_TRACING | BIND_FLAGS.BIND_SHADER_RESOURCE;
-                BuffDesc.uiSizeInBytes = BufData.DataSize;
-                BuffDesc.ElementByteStride = (uint)sizeof(BoxAttribs);
-                BuffDesc.Mode = BUFFER_MODE.BUFFER_MODE_STRUCTURED;
-
-                m_BoxAttribsCB = m_pDevice.CreateBuffer(BuffDesc, BufData);
-                //VERIFY_EXPR(m_BoxAttribsCB != nullptr);
-
-                m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_INTERSECTION, "g_BoxAttribs").Set(m_BoxAttribsCB.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
-            }
-
-            // Create & build bottom level acceleration structure
-            {
-                // Create BLAS
-                var BoxInfo = new BLASBoundingBoxDesc();
-                {
-                    BoxInfo.GeometryName = "Box";
-                    BoxInfo.MaxBoxCount = 1;
-
-                    var ASDesc = new BottomLevelASDesc();
-                    ASDesc.Name = "Procedural BLAS";
-                    ASDesc.Flags = RAYTRACING_BUILD_AS_FLAGS.RAYTRACING_BUILD_AS_PREFER_FAST_TRACE;
-                    ASDesc.pBoxes = new List<BLASBoundingBoxDesc>() { BoxInfo };
-
-                    m_pProceduralBLAS = m_pDevice.CreateBLAS(ASDesc);
-                    //VERIFY_EXPR(m_pProceduralBLAS != nullptr);
-                }
-
-                // Create scratch buffer
-                using var pScratchBuffer = m_pDevice.CreateBuffer(new BufferDesc()
-                {
-                    Name = "BLAS Scratch Buffer",
-                    Usage = USAGE.USAGE_DEFAULT,
-                    BindFlags = BIND_FLAGS.BIND_RAY_TRACING,
-                    uiSizeInBytes = m_pProceduralBLAS.Obj.ScratchBufferSizes_Build,
-                }, new BufferData());
-
-                // Build BLAS
-                var BoxData = new BLASBuildBoundingBoxData();
-                BoxData.GeometryName = BoxInfo.GeometryName;
-                BoxData.BoxCount = 1;
-                BoxData.BoxStride = (uint)sizeof(BoxAttribs);
-                BoxData.pBoxBuffer = m_BoxAttribsCB.Obj;
-
-                var Attribs = new BuildBLASAttribs();
-                Attribs.pBLAS = m_pProceduralBLAS.Obj;
-                Attribs.pBoxData = new List<BLASBuildBoundingBoxData> { BoxData };
-
-                // Scratch buffer will be used to store temporary data during BLAS build.
-                // Previous content in the scratch buffer will be discarded.
-                Attribs.pScratchBuffer = pScratchBuffer.Obj;
-
-                // Allow engine to change resource states.
-                Attribs.BLASTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
-                Attribs.GeometryTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
-                Attribs.ScratchBufferTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
-
-                m_pImmediateContext.BuildBLAS(Attribs);
-            }
-        }
+        
 
         void UpdateTLAS()
         {
@@ -616,7 +540,7 @@ namespace RTSandbox
 
             Instances[5].InstanceName = "Sphere Instance";
             Instances[5].CustomId = 0; // box index
-            Instances[5].pBLAS = m_pProceduralBLAS.Obj;
+            Instances[5].pBLAS = proceduralBLAS.BLAS;
             Instances[5].Mask = RtStructures.OPAQUE_GEOM_MASK;
             Instances[5].Transform = new InstanceMatrix(-3.0f, 3.0f, -5f);
 
@@ -696,8 +620,6 @@ namespace RTSandbox
             m_InstanceBuffer?.Dispose();
             m_ScratchBuffer?.Dispose();
             m_pTLAS?.Dispose();
-            m_pProceduralBLAS.Dispose();
-            m_BoxAttribsCB.Dispose();
             m_pRayTracingSRB.Dispose();
             m_pRayTracingPSO.Dispose();
             m_ConstantsCB.Dispose();

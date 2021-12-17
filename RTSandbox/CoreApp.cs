@@ -59,6 +59,7 @@ namespace RTSandbox
 
             services.AddSingleton<RTImageBlitter>();
             services.AddSingleton<CubeBLAS>();
+            services.AddSingleton<ProceduralBLAS>();
 
             return true;
         }
