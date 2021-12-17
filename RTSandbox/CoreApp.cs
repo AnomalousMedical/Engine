@@ -59,10 +59,12 @@ namespace RTSandbox
 
             services.AddSingleton<RTImageBlitter>();
             services.AddSingleton<CubeBLAS>();
+            services.AddSingleton<PlaneBLAS>();
             services.AddSingleton<ProceduralBLAS>();
             services.AddSingleton<RTCameraAndLight>();
             services.AddSingleton<RTInstances>();
-            services.AddSingleton<DemoScene>();
+            services.AddSingleton<IRTSandboxScene, PlaneScene>();
+            //services.AddSingleton<IRTSandboxScene, DemoScene>();
 
             services.AddScoped<SceneCube>();
             services.AddScoped<SceneCube.Desc>();
@@ -72,6 +74,8 @@ namespace RTSandbox
             services.AddScoped<SceneSphere.Desc>();
             services.AddScoped<SceneGround>();
             services.AddScoped<SceneGround.Desc>();
+            services.AddScoped<ScenePlane>();
+            services.AddScoped<ScenePlane.Desc>();
 
             return true;
         }

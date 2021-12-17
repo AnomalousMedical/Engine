@@ -60,7 +60,7 @@ namespace RTSandbox
             ProceduralBLAS proceduralBLAS,
             RTCameraAndLight cameraAndLight,
             RTInstances blasInstances,
-            DemoScene cubeScene
+            IRTSandboxScene scene
         )
         {
             this.graphicsEngine = graphicsEngine;

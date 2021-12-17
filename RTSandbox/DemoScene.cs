@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RTSandbox
 {
-    internal class DemoScene : IDisposable
+    internal class DemoScene : IDisposable, IRTSandboxScene
     {
         private readonly IObjectResolver objectResolver;
 
