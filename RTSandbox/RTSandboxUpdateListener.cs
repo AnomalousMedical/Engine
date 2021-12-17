@@ -488,7 +488,7 @@ namespace RTSandbox
         public void sendUpdate(Clock clock)
         {
             cameraControls.UpdateInput(clock);
-            gui.Update(clock);
+            gui.Update(clock, m_Constants);
 
             Render();
 
@@ -558,6 +558,10 @@ namespace RTSandbox
                 GetPlaneIntersection(ViewFrustum.PLANE_IDX.RIGHT_PLANE_IDX, ViewFrustum.PLANE_IDX.BOTTOM_PLANE_IDX, out m_Constants.FrustumRayRB);
                 GetPlaneIntersection(ViewFrustum.PLANE_IDX.TOP_PLANE_IDX, ViewFrustum.PLANE_IDX.RIGHT_PLANE_IDX, out m_Constants.FrustumRayRT);
                 m_Constants.CameraPos = new Vector4(CameraWorldPos.x, CameraWorldPos.y, CameraWorldPos.z, 1.0f) * -1.0f;
+                m_Constants.LightPos_0 = gui.LightPos;
+                m_Constants.LightPos_1 = gui.LightPos;
+
+                Console.WriteLine(m_Constants.LightPos_0);
 
                 fixed (Constants* constantsPtr = &m_Constants)
                 {
