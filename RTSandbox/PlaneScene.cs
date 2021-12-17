@@ -28,7 +28,42 @@ namespace RTSandbox
 
             objectResolver.Resolve<ScenePlane, ScenePlane.Desc>(o =>
             {
+                o.Transform = new InstanceMatrix(6, 3, 0);
+            });
+
+            objectResolver.Resolve<ScenePlane, ScenePlane.Desc>(o =>
+            {
+                o.Transform = new InstanceMatrix(9, 3, 0);
+            });
+
+            objectResolver.Resolve<ScenePlane, ScenePlane.Desc>(o =>
+            {
+                o.Transform = new InstanceMatrix(12, 3, 0);
+            });
+
+            objectResolver.Resolve<ScenePlane, ScenePlane.Desc>(o =>
+            {
+                o.Transform = new InstanceMatrix(3, 6, 0);
+            });
+
+            objectResolver.Resolve<ScenePlane, ScenePlane.Desc>(o =>
+            {
                 o.Transform = new InstanceMatrix(-3, 0, 0);
+            });
+
+            objectResolver.Resolve<ScenePlane, ScenePlane.Desc>(o =>
+            {
+                o.Transform = new InstanceMatrix(-3, -3, 0);
+            });
+
+            objectResolver.Resolve<ScenePlane, ScenePlane.Desc>(o =>
+            {
+                o.Transform = new InstanceMatrix(-3, -6, 0);
+            });
+
+            objectResolver.Resolve<ScenePlane, ScenePlane.Desc>(o =>
+            {
+                o.Transform = new InstanceMatrix(-3, -9, 0);
             });
         }
 

@@ -524,7 +524,7 @@ namespace RTSandbox
                  //= new Vector3(0f, 0f, -15f);
                 var preTransformMatrix = CameraHelpers.GetSurfacePretransformMatrix(new Vector3(0, 0, 1), preTransform);
                 var cameraProj = CameraHelpers.GetAdjustedProjectionMatrix(YFov, ZNear, ZFar, window.WindowWidth, window.WindowHeight, preTransform);
-                cameraAndLight.GetCameraPosition(cameraControls.Position, cameraControls.Orientation, preTransformMatrix, cameraProj, out var CameraWorldPos, out var CameraViewProj);
+                cameraAndLight.GetCameraPosition(cameraControls.Position, cameraControls.Orientation, preTransformMatrix, cameraProj, out var CameraViewProj);
 
                 var Frustum = new ViewFrustum();
                 cameraAndLight.ExtractViewFrustumPlanesFromMatrix(CameraViewProj, Frustum, false);
@@ -557,6 +557,7 @@ namespace RTSandbox
                 GetPlaneIntersection(ViewFrustum.PLANE_IDX.LEFT_PLANE_IDX, ViewFrustum.PLANE_IDX.TOP_PLANE_IDX, out m_Constants.FrustumRayLT);
                 GetPlaneIntersection(ViewFrustum.PLANE_IDX.RIGHT_PLANE_IDX, ViewFrustum.PLANE_IDX.BOTTOM_PLANE_IDX, out m_Constants.FrustumRayRB);
                 GetPlaneIntersection(ViewFrustum.PLANE_IDX.TOP_PLANE_IDX, ViewFrustum.PLANE_IDX.RIGHT_PLANE_IDX, out m_Constants.FrustumRayRT);
+                var CameraWorldPos = cameraControls.Position;
                 m_Constants.CameraPos = new Vector4(CameraWorldPos.x, CameraWorldPos.y, CameraWorldPos.z, 1.0f) * -1.0f;
                 m_Constants.LightPos_0 = gui.LightPos;
                 m_Constants.LightPos_1 = gui.LightPos;

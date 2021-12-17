@@ -9,20 +9,16 @@ namespace RTSandbox
 {
     internal class RTCameraAndLight
     {
-        public void GetCameraPosition(Vector3 position, Quaternion rotation, in Matrix4x4 preTransformMatrix, in Matrix4x4 CameraProj, out Vector3 CameraWorldPos, out Matrix4x4 CameraViewProj)
+        public void GetCameraPosition(Vector3 position, Quaternion rotation, in Matrix4x4 preTransformMatrix, in Matrix4x4 CameraProj, out Matrix4x4 CameraViewProj)
         {
             //TODO: See how messed up math is
             //For some reason camera defined backward, so take -position
-            var CameraView = Matrix4x4.Translation(-position) * rotation.toRotationMatrix4x4();
+            var CameraView = Matrix4x4.Translation(position) * rotation.toRotationMatrix4x4();
 
             // Apply pretransform matrix that rotates the scene according the surface orientation
-            CameraView *= preTransformMatrix;
-
-            var CameraWorld = CameraView.inverse();
 
             // Get projection matrix adjusted to the current screen orientation
-            CameraViewProj = CameraView * CameraProj;
-            CameraWorldPos = CameraWorld.GetTranslation();
+            CameraViewProj = CameraView * preTransformMatrix * CameraProj;
         }
 
         public void ExtractViewFrustumPlanesFromMatrix(in Matrix4x4 Matrix, ViewFrustum Frustum, bool bIsOpenGL)
