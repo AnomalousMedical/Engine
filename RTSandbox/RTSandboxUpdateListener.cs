@@ -1,8 +1,10 @@
 ﻿using Anomalous.OSPlatform;
 using DiligentEngine;
+using DiligentEngine.RTHack;
 using Engine;
 using Engine.CameraMovement;
 using Engine.Platform;
+using FreeImageAPI;
 using SharpGui;
 using System;
 using System.Collections.Generic;
@@ -314,7 +316,10 @@ namespace RTSandbox
                         var textureFile = $"cc0Textures/{fileNames[tex]}_1K_Normal.jpg";
 
                         using var logoStream = virtualFileSystem.openStream(textureFile, FileMode.Open);
-                        var normal = textureLoader.LoadTexture(logoStream, $"Normal {tex} Texture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true);
+                        using var bmp = FreeImageBitmap.FromStream(logoStream);
+                        bmp.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_32_BPP); //Cheat and convert color depth
+                        //CC0TextureLoader.FixCC0Normal(bmp);
+                        var normal = textureLoader.CreateTextureFromImage(bmp, 0, $"Normal {tex} Texture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, false); //SRGB breaks normal maps
                         pTex.Add(normal);
 
                         // Get shader resource view from the texture
@@ -325,8 +330,8 @@ namespace RTSandbox
                 }
                 m_pImmediateContext.TransitionResourceStates(Barriers);
 
-                m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_CubeTextures").SetArray(pTexSRVs);
-                m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_CubeNormalTextures").SetArray(pTexNormalSRVs);
+                m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_CubeTextures")?.SetArray(pTexSRVs);
+                m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_CubeNormalTextures")?.SetArray(pTexNormalSRVs);
 
                 // Load ground texture
                 {
@@ -337,17 +342,18 @@ namespace RTSandbox
                     // Get shader resource view from the texture
                     var m_TextureSRV = pGroundTex.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
 
-                    m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_GroundTexture").Set(m_TextureSRV);
+                    m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_GroundTexture")?.Set(m_TextureSRV);
                 }
                 {
                     var ground = "cc0Textures/RoofingTiles006_1K_Normal.jpg";
 
                     using var stream = virtualFileSystem.openStream(ground, FileMode.Open, FileAccess.Read, FileShare.Read);
-                    using var pGroundTex = textureLoader.LoadTexture(stream, "Ground Texture Normal", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true);
+                    using var pGroundTex = textureLoader.LoadTexture(stream, "Ground Texture Normal", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, false);
+                    //This is missing stuff from above, unify texture loading
                     // Get shader resource view from the texture
                     var m_TextureSRV = pGroundTex.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
 
-                    //m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_GroundNormalTexture").Set(m_TextureSRV);
+                    m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_GroundNormalTexture")?.Set(m_TextureSRV);
                 }
             }
             finally
