@@ -14,6 +14,8 @@ namespace DiligentEngine.RTHack
     /// </summary>
     public class CC0TextureLoader
     {
+        const uint FixIndex = 0x00ff0000; //Fixes x
+        const byte FixShift = 16;
 
         /// <summary>
         /// CC0 textures use an inverted y axis compared to our lights, so invert it here.
@@ -29,11 +31,11 @@ namespace DiligentEngine.RTHack
                 for (var i = 0; i < lastPixel; ++i)
                 {
                     uint pixelValue = firstPixel[i];
-                    uint normalX = 0x00ff0000 & pixelValue;
-                    normalX >>= 8;
-                    normalX = 255 - normalX;
-                    normalX <<= 8;
-                    firstPixel[i] = (pixelValue & 0xff00ffff) + normalX;
+                    uint fixItem = FixIndex & pixelValue;
+                    fixItem >>= FixShift;
+                    fixItem = 255 - fixItem;
+                    fixItem <<= FixShift;
+                    firstPixel[i] = (pixelValue & ~FixIndex) + fixItem;
                 }
             }
         }
