@@ -23,18 +23,17 @@ namespace DiligentEngine.RTHack
         {
             unsafe
             {
-                //This is assuming axgx layout like everything else, dont really care about r and b since g is
-                //always the same and that is what we want to flip.
+                //Even though this alters x, this might not really be the correct math, but it does look right
                 var firstPixel = (uint*)((byte*)map.Scan0.ToPointer() + (map.Height - 1) * map.Stride);
                 var lastPixel = map.Width * map.Height;
                 for (var i = 0; i < lastPixel; ++i)
                 {
                     uint pixelValue = firstPixel[i];
-                    uint normalY = 0x0000ff00 & pixelValue;
-                    normalY >>= 8;
-                    normalY = 255 - normalY;
-                    normalY <<= 8;
-                    firstPixel[i] = (pixelValue & 0xffff00ff) + normalY;
+                    uint normalX = 0x00ff0000 & pixelValue;
+                    normalX >>= 8;
+                    normalX = 255 - normalX;
+                    normalX <<= 8;
+                    firstPixel[i] = (pixelValue & 0xff00ffff) + normalX;
                 }
             }
         }

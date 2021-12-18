@@ -318,7 +318,7 @@ namespace RTSandbox
                         using var logoStream = virtualFileSystem.openStream(textureFile, FileMode.Open);
                         using var bmp = FreeImageBitmap.FromStream(logoStream);
                         bmp.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_32_BPP); //Cheat and convert color depth
-                        //CC0TextureLoader.FixCC0Normal(bmp);
+                        CC0TextureLoader.FixCC0Normal(bmp);
                         var normal = textureLoader.CreateTextureFromImage(bmp, 0, $"Normal {tex} Texture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, false); //SRGB breaks normal maps
                         pTex.Add(normal);
 
