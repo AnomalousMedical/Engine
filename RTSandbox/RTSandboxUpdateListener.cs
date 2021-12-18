@@ -348,8 +348,10 @@ namespace RTSandbox
                     var ground = "cc0Textures/RoofingTiles006_1K_Normal.jpg";
 
                     using var stream = virtualFileSystem.openStream(ground, FileMode.Open, FileAccess.Read, FileShare.Read);
-                    using var pGroundTex = textureLoader.LoadTexture(stream, "Ground Texture Normal", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, false);
-                    //This is missing stuff from above, unify texture loading
+                    using var bmp = FreeImageBitmap.FromStream(stream);
+                    bmp.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_32_BPP); //Cheat and convert color depth
+                    CC0TextureLoader.FixCC0Normal(bmp);
+                    using var pGroundTex = textureLoader.CreateTextureFromImage(bmp, 0, "Ground Texture Normal", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, false);
                     // Get shader resource view from the texture
                     var m_TextureSRV = pGroundTex.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
 

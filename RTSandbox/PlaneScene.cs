@@ -26,16 +26,19 @@ namespace RTSandbox
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
                 o.Transform = new InstanceMatrix(PlaneScale, 3, 3, 0);
+                o.TextureIndex = 1;
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
                 o.Transform = new InstanceMatrix(PlaneScale, 6, 3, 0);
+                o.TextureIndex = 2;
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
                 o.Transform = new InstanceMatrix(PlaneScale, 9, 3, 0);
+                o.TextureIndex = 3;
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
