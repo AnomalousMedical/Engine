@@ -31,6 +31,7 @@ namespace RTSandbox
         private readonly ProceduralBLAS proceduralBLAS;
         private readonly RTCameraAndLight cameraAndLight;
         private readonly RTInstances rtInstances;
+        private readonly IRTSandboxScene scene;
         private readonly ISharpGui sharpGui;
         private readonly RTGui gui;
         private readonly ISwapChain swapChain;
@@ -80,6 +81,7 @@ namespace RTSandbox
             this.proceduralBLAS = proceduralBLAS;
             this.cameraAndLight = cameraAndLight;
             this.rtInstances = blasInstances;
+            this.scene = scene;
             this.sharpGui = sharpGui;
             this.gui = gui;
             this.swapChain = graphicsEngine.SwapChain;
@@ -495,6 +497,7 @@ namespace RTSandbox
 
         public void sendUpdate(Clock clock)
         {
+            scene.Update(clock);
             cameraControls.UpdateInput(clock);
             gui.Update(clock);
 

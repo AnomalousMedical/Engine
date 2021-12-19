@@ -51,6 +51,11 @@ namespace RTSandbox
             instances.RemoveTlasBuild(instanceData);
         }
 
+        public void SetTransform(InstanceMatrix matrix)
+        {
+            this.instanceData.Transform = matrix;
+        }
+
         public void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
         {
             sbt.BindHitGroupForInstance(tlas, instanceData.InstanceName, RtStructures.PRIMARY_RAY_INDEX, "CubePrimaryHit", IntPtr.Zero);

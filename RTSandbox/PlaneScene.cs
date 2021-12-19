@@ -1,5 +1,6 @@
 ﻿using DiligentEngine;
 using Engine;
+using Engine.Platform;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,14 @@ namespace RTSandbox
         private static readonly Matrix4x4 PlaneScale = Matrix4x4.Scale(1, 1, 1);
         private static readonly Matrix4x4 Rot = new Quaternion(Vector3.UnitX, 0).inverse().toRotationMatrix4x4();
 
+        private SceneCube rotateCube;
+        private Matrix4x4 currentPos = Matrix4x4.Identity;
+
         public PlaneScene(IObjectResolverFactory objectResolverFactory)
         {
             objectResolver = objectResolverFactory.Create();
 
-            objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
+            rotateCube = objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
                 o.Transform = new InstanceMatrix(PlaneScale * Rot * Matrix4x4.Translation(0, 0, 0));
             });
@@ -76,6 +80,12 @@ namespace RTSandbox
             {
                 o.Transform = new InstanceMatrix(Matrix3x3.Scale(100.0f, 0.1f, 100.0f), 0.0f, 6.0f, 0.0f);
             });
+        }
+
+        public void Update(Clock clock)
+        {
+            currentPos *= Matrix4x4.RotationY(0.35f * clock.DeltaSeconds);
+            rotateCube.SetTransform(new InstanceMatrix(currentPos));
         }
 
         public void Dispose()
