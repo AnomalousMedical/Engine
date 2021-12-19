@@ -173,12 +173,6 @@ namespace RTSandbox
             using var pCubePrimaryHit = m_pDevice.CreateShader(ShaderCI, Macros);
             //VERIFY_EXPR(pCubePrimaryHit != nullptr);
 
-            ShaderCI.Desc.Name = "Ground primary ray closest hit shader";
-            ShaderCI.Source = shaderLoader.LoadShader("assets/Ground.rchit");
-            ShaderCI.EntryPoint = "main";
-            using var pGroundHit = m_pDevice.CreateShader(ShaderCI, Macros);
-            //VERIFY_EXPR(pGroundHit != nullptr);
-
             ShaderCI.Desc.Name = "Glass primary ray closest hit shader";
             //ShaderCI.FilePath = "GlassPrimaryHit.rchit";
             ShaderCI.Source = shaderLoader.LoadShader("assets/GlassPrimaryHit.rchit");
@@ -215,8 +209,6 @@ namespace RTSandbox
             {
                 // Primary ray hit group for the textured cube.
                 new RayTracingTriangleHitShaderGroup { Name = "CubePrimaryHit", pClosestHitShader = pCubePrimaryHit.Obj },
-                // Primary ray hit group for the ground.
-                new RayTracingTriangleHitShaderGroup { Name = "GroundHit", pClosestHitShader = pGroundHit.Obj },
                 // Primary ray hit group for the glass cube.
                 new RayTracingTriangleHitShaderGroup { Name = "GlassPrimaryHit", pClosestHitShader = pGlassPrimaryHit.Obj }
             };
@@ -333,30 +325,6 @@ namespace RTSandbox
 
                 m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_CubeTextures")?.SetArray(pTexSRVs);
                 m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_CubeNormalTextures")?.SetArray(pTexNormalSRVs);
-
-                // Load ground texture
-                {
-                    var ground = "cc0Textures/RoofingTiles006_1K_Color.jpg";
-
-                    using var stream = virtualFileSystem.openStream(ground, FileMode.Open, FileAccess.Read, FileShare.Read);
-                    using var pGroundTex = textureLoader.LoadTexture(stream, "Ground Texture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true);
-                    // Get shader resource view from the texture
-                    var m_TextureSRV = pGroundTex.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
-
-                    m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_GroundTexture")?.Set(m_TextureSRV);
-                }
-                {
-                    var ground = "cc0Textures/RoofingTiles006_1K_Normal.jpg";
-
-                    using var stream = virtualFileSystem.openStream(ground, FileMode.Open, FileAccess.Read, FileShare.Read);
-                    using var bmp = FreeImageBitmap.FromStream(stream);
-                    bmp.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_32_BPP); //Cheat and convert color depth
-                    using var pGroundTex = textureLoader.CreateTextureFromImage(bmp, 0, "Ground Texture Normal", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, false);
-                    // Get shader resource view from the texture
-                    var m_TextureSRV = pGroundTex.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
-
-                    m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_GroundNormalTexture")?.Set(m_TextureSRV);
-                }
             }
             finally
             {

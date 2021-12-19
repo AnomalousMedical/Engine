@@ -76,10 +76,16 @@ namespace RTSandbox
                 o.Transform = new InstanceMatrix(PlaneScale * Rot * Matrix4x4.Translation(-3, -9, 0));
             });
 
-            objectResolver.Resolve<SceneGround, SceneGround.Desc>(o =>
+            for(var x = -10; x < 20; ++x)
             {
-                o.Transform = new InstanceMatrix(Matrix3x3.Scale(100.0f, 0.1f, 100.0f), 0.0f, 6.0f, 0.0f);
-            });
+                for (var z = -10; z < 20; ++z)
+                {
+                    objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
+                    {
+                        o.Transform = new InstanceMatrix(x, 6.0f, z);
+                    });
+                }
+            }
         }
 
         public void Update(Clock clock)
