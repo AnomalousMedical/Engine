@@ -76,6 +76,11 @@ namespace Engine
             return v * (1.0f / s);
         }
 
+
+        public static Vector4 operator -(Vector4 v1, Vector4 v2)
+        {
+            return new Vector4(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w - v2.w);
+        }
         public override string ToString()
         {
             return String.Format(CultureInfo.InvariantCulture, "{0}, {1}, {2}, {3}", x, y, z, w);

@@ -23,18 +23,18 @@ namespace DiligentEngine.RTHack
         /// <param name="map"></param>
         public unsafe static void FixCC0Normal(FreeImageBitmap map)
         {
-            //Even though this alters x, this might not really be the correct math, but it does look right
-            var firstPixel = (uint*)((byte*)map.Scan0.ToPointer() + (map.Height - 1) * map.Stride);
-            var lastPixel = map.Width * map.Height;
-            for (var i = 0; i < lastPixel; ++i)
-            {
-                uint pixelValue = firstPixel[i];
-                uint fixItem = FixIndex & pixelValue;
-                fixItem >>= FixShift;
-                fixItem = 255 - fixItem;
-                fixItem <<= FixShift;
-                firstPixel[i] = (pixelValue & ~FixIndex) + fixItem;
-            }
+            ////Even though this alters x, this might not really be the correct math, but it does look right
+            //var firstPixel = (uint*)((byte*)map.Scan0.ToPointer() + (map.Height - 1) * map.Stride);
+            //var lastPixel = map.Width * map.Height;
+            //for (var i = 0; i < lastPixel; ++i)
+            //{
+            //    uint pixelValue = firstPixel[i];
+            //    uint fixItem = FixIndex & pixelValue;
+            //    fixItem >>= FixShift;
+            //    fixItem = 255 - fixItem;
+            //    fixItem <<= FixShift;
+            //    firstPixel[i] = (pixelValue & ~FixIndex) + fixItem;
+            //}
         }
     }
 }
