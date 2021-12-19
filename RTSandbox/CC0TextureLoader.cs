@@ -14,29 +14,26 @@ namespace DiligentEngine.RTHack
     /// </summary>
     public class CC0TextureLoader
     {
-        const uint FixIndex = 0x00ff0000; //Fixes x
-        const byte FixShift = 16;
+        const uint FixIndex = 0x0000ff00; //Fixes y
+        const byte FixShift = 8;
 
         /// <summary>
         /// CC0 textures use an inverted y axis compared to our lights, so invert it here.
         /// </summary>
         /// <param name="map"></param>
-        public static void FixCC0Normal(FreeImageBitmap map)
+        public unsafe static void FixCC0Normal(FreeImageBitmap map)
         {
-            unsafe
+            //Even though this alters x, this might not really be the correct math, but it does look right
+            var firstPixel = (uint*)((byte*)map.Scan0.ToPointer() + (map.Height - 1) * map.Stride);
+            var lastPixel = map.Width * map.Height;
+            for (var i = 0; i < lastPixel; ++i)
             {
-                //Even though this alters x, this might not really be the correct math, but it does look right
-                var firstPixel = (uint*)((byte*)map.Scan0.ToPointer() + (map.Height - 1) * map.Stride);
-                var lastPixel = map.Width * map.Height;
-                for (var i = 0; i < lastPixel; ++i)
-                {
-                    uint pixelValue = firstPixel[i];
-                    uint fixItem = FixIndex & pixelValue;
-                    fixItem >>= FixShift;
-                    fixItem = 255 - fixItem;
-                    fixItem <<= FixShift;
-                    firstPixel[i] = (pixelValue & ~FixIndex) + fixItem;
-                }
+                uint pixelValue = firstPixel[i];
+                uint fixItem = FixIndex & pixelValue;
+                fixItem >>= FixShift;
+                fixItem = 255 - fixItem;
+                fixItem <<= FixShift;
+                firstPixel[i] = (pixelValue & ~FixIndex) + fixItem;
             }
         }
     }

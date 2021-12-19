@@ -26,6 +26,8 @@ namespace RTSandbox
     unsafe struct CubeAttribs
     {
         public const int UVSize = float4.Size * 24;
+        public const int TangentSize = float4.Size * 24;
+        public const int BinormalSize = float4.Size * 24;
         public const int NormalSize = float4.Size * 24;
         public const int PrimitivesSize = sizeof(uint) * 4 * 12;
 
@@ -33,9 +35,15 @@ namespace RTSandbox
         fixed float _UVs[UVSize]; //float4[24]
 
         [FieldOffset(UVSize)]
+        fixed float _Tangents[TangentSize];//float4[24]
+
+        [FieldOffset(UVSize + TangentSize)]
+        fixed float _Binormals[BinormalSize];//float4[24]
+
+        [FieldOffset(UVSize + TangentSize + BinormalSize)]
         fixed float _Normals[NormalSize];//float4[24]
 
-        [FieldOffset(UVSize + NormalSize)]
+        [FieldOffset(UVSize + TangentSize + BinormalSize + NormalSize)]
         fixed uint _Primitives[PrimitivesSize];//uint4[12]
 
         public void SetUvs(Span<float4> uvs)
@@ -43,6 +51,24 @@ namespace RTSandbox
             fixed(float* fdst = &_UVs[0])
             {
                 var dest = new Span<float4>(fdst, UVSize / sizeof(float4));
+                uvs.CopyTo(dest);
+            }
+        }
+
+        public void SetTangents(Span<float4> uvs)
+        {
+            fixed (float* fdst = &_Tangents[0])
+            {
+                var dest = new Span<float4>(fdst, TangentSize / sizeof(float4));
+                uvs.CopyTo(dest);
+            }
+        }
+
+        public void SetBinormals(Span<float4> uvs)
+        {
+            fixed (float* fdst = &_Binormals[0])
+            {
+                var dest = new Span<float4>(fdst, BinormalSize / sizeof(float4));
                 uvs.CopyTo(dest);
             }
         }
