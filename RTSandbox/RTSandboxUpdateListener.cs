@@ -1,6 +1,5 @@
 ﻿using Anomalous.OSPlatform;
 using DiligentEngine;
-using DiligentEngine.RTHack;
 using Engine;
 using Engine.CameraMovement;
 using Engine.Platform;
@@ -320,7 +319,6 @@ namespace RTSandbox
                         using var logoStream = virtualFileSystem.openStream(textureFile, FileMode.Open);
                         using var bmp = FreeImageBitmap.FromStream(logoStream);
                         bmp.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_32_BPP); //Cheat and convert color depth
-                        CC0TextureLoader.FixCC0Normal(bmp);
                         var normal = textureLoader.CreateTextureFromImage(bmp, 0, $"Normal {tex} Texture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, false); //SRGB breaks normal maps
                         pTex.Add(normal);
 
@@ -352,7 +350,6 @@ namespace RTSandbox
                     using var stream = virtualFileSystem.openStream(ground, FileMode.Open, FileAccess.Read, FileShare.Read);
                     using var bmp = FreeImageBitmap.FromStream(stream);
                     bmp.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_32_BPP); //Cheat and convert color depth
-                    CC0TextureLoader.FixCC0Normal(bmp);
                     using var pGroundTex = textureLoader.CreateTextureFromImage(bmp, 0, "Ground Texture Normal", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, false);
                     // Get shader resource view from the texture
                     var m_TextureSRV = pGroundTex.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);

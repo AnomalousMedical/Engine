@@ -1,72 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Configurations>Debug;Release;RelMDeb</Configurations>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Configurations>Debug;Release;RelMDeb</Configurations>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='RelMDeb'">
-    <Optimize>false</Optimize>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='RelMDeb'">
+		<Optimize>false</Optimize>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\DiligentEngine\DiligentEngine.csproj" />
-    <ProjectReference Include="..\Engine\Engine.csproj" />
-    <ProjectReference Include="..\NativeLibs64\NativeLibs64.csproj" />
-    <ProjectReference Include="..\OSPlatform.Win32\OSPlatform.Win32.csproj" />
-    <ProjectReference Include="..\OSPlatform\OSPlatform.csproj" />
-    <ProjectReference Include="..\SharpGui\SharpGui.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\DiligentEngine\DiligentEngine.csproj" />
+		<ProjectReference Include="..\Engine\Engine.csproj" />
+		<ProjectReference Include="..\OSPlatform\OSPlatform.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="assets\CubePrimaryHit.rchit">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="assets\GlassPrimaryHit.rchit">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="assets\Ground.rchit">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="assets\ImageBlit.psh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="assets\ImageBlit.vsh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="assets\PrimaryMiss.rmiss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="assets\RayTrace.rgen">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="assets\RayUtils.fxh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-	  <!-- The Roofing Tile Textures are from cc0textures.com -->
-    <None Update="assets\RoofingTiles006_1K_Color.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="assets\RoofingTiles006_1K_Normal.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="assets\ShadowMiss.rmiss">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="assets\SphereIntersection.rint">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="assets\SpherePrimaryHit.rchit">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="assets\structures.fxh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="assets\**\*">
+		</EmbeddedResource>
+	</ItemGroup>
 
 </Project>
