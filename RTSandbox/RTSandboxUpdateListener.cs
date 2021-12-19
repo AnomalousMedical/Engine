@@ -567,8 +567,8 @@ namespace RTSandbox
                 GetPlaneIntersection(ViewFrustum.PLANE_IDX.TOP_PLANE_IDX, ViewFrustum.PLANE_IDX.RIGHT_PLANE_IDX, out m_Constants.FrustumRayRT);
                 
                 m_Constants.CameraPos = new Vector4(CameraWorldPos.x, CameraWorldPos.y, CameraWorldPos.z, 1.0f);
-                m_Constants.LightPos_0 = gui.LightPos;
-                m_Constants.LightPos_1 = gui.LightPos;
+                m_Constants.LightPos_0 = gui.LightPos * -1; //Need to invert going into the shader
+                m_Constants.LightPos_1 = gui.LightPos * -1; //Need to invert going into the shader
 
                 fixed (Constants* constantsPtr = &m_Constants)
                 {

@@ -45,10 +45,10 @@ namespace RTSandbox
 
 
 
-            int light = ToSlider(-constants.LightPos_0.x);
+            int light = ToSlider(constants.LightPos_0.x);
             if (sharpGui.Slider(lightPosX, ref light) || sharpGui.ActiveItem == lightPosX.Id)
             {
-                lightPos.x = -FromSlider(light);
+                lightPos.x = FromSlider(light);
             }
 
             light = ToSlider(constants.LightPos_0.y);
