@@ -22,23 +22,28 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
                 g_CubeAttribsCB.UVs[primitive.y].xy * barycentrics.y +
                 g_CubeAttribsCB.UVs[primitive.z].xy * barycentrics.z;
 
+    // Calculate vertex tangent.
+    float3 tangent = g_CubeAttribsCB.Tangents[primitive.x].xyz * barycentrics.x +
+                    g_CubeAttribsCB.Tangents[primitive.y].xyz * barycentrics.y +
+                    g_CubeAttribsCB.Tangents[primitive.z].xyz * barycentrics.z;
+
+    // Calculate vertex binormal.
+    float3 binormal = g_CubeAttribsCB.Binormals[primitive.x].xyz * barycentrics.x +
+                    g_CubeAttribsCB.Binormals[primitive.y].xyz * barycentrics.y +
+                    g_CubeAttribsCB.Binormals[primitive.z].xyz * barycentrics.z;
 
     // Calculate vertex normal.
     float3 normal = g_CubeAttribsCB.Normals[primitive.x].xyz * barycentrics.x +
                     g_CubeAttribsCB.Normals[primitive.y].xyz * barycentrics.y +
                     g_CubeAttribsCB.Normals[primitive.z].xyz * barycentrics.z;
-
-    normal        = normalize(mul((float3x3) ObjectToWorld3x4(), normal));
-
     
-    //Unpack map normal.
+    //Get Mapped normal
     float3 pertNormal = g_CubeNormalTextures[InstanceID()].SampleLevel(g_SamLinearWrap, uv, 0).rgb * float3(2.0, 2.0, 2.0) - float3(1.0, 1.0, 1.0);
-    
-    float3 t = float3(-1, 0, 0);
-    float3 b = float3(0, -1, 0);
-    float3x3 tbn = MatrixFromRows(t, b, normal);
-
+    float3x3 tbn = MatrixFromRows(tangent, binormal, normal);
     pertNormal = normalize(mul(pertNormal, tbn));
+
+    //Convert to world space
+    normal = normalize(mul((float3x3) ObjectToWorld3x4(), normal));
     pertNormal = normalize(mul((float3x3) ObjectToWorld3x4(), pertNormal));
 
     // Sample texturing. Ray tracing shaders don't support LOD calculation, so we must specify LOD and apply filtering.
@@ -49,5 +54,5 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
     float3 rayOrigin = WorldRayOrigin() + WorldRayDirection() * RayTCurrent();
     LightingPass(payload.Color, rayOrigin, normal, pertNormal, payload.Recursion + 1);
 
-    //payload.Color = normal;
+    payload.Color = tangent;
 }
