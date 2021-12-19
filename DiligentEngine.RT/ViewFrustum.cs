@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace DiligentEngine.RT
 {
-    class Plane3D
+    public class Plane3D
     {
         public Vector3 Normal;
         public float Distance = 0; //Distance from the coordinate system origin to the plane along the normal direction
     }
 
-    class ViewFrustum
+    public class ViewFrustum
     {
         public enum PLANE_IDX
         {

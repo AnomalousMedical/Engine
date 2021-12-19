@@ -55,17 +55,10 @@ namespace RTSandbox
             //Add this app's services
             services.TryAddSingleton<RTSandboxUpdateListener>();
 
-            services.AddSingleton<IResourceProvider<ShaderLoader<RTShaders>>>(s =>
-                new FilesystemResourceProvider<ShaderLoader<RTShaders>>(FolderFinder.ExecutableFolder));
-
-            services.AddSingleton<RTImageBlitter>();
-            services.AddSingleton<CubeBLAS>();
-            services.AddSingleton<ProceduralBLAS>();
-            services.AddSingleton<RTCameraAndLight>();
-            services.AddSingleton<RTInstances>();
             services.AddSingleton<IRTSandboxScene, PlaneScene>();
             services.AddSingleton<RTGui>();
             //services.AddSingleton<IRTSandboxScene, DemoScene>();
+            services.AddDiligentEngineRt();
 
             services.AddScoped<SceneCube>();
             services.AddScoped<SceneCube.Desc>();

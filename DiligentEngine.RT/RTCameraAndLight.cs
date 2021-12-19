@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DiligentEngine.RT
 {
-    internal class RTCameraAndLight
+    public class RTCameraAndLight
     {
         public void GetCameraPosition(Vector3 position, Quaternion rotation, in Matrix4x4 preTransformMatrix, in Matrix4x4 CameraProj, out Vector3 CameraWorldPos, out Matrix4x4 CameraViewProj)
         {

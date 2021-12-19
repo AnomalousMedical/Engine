@@ -23,7 +23,7 @@ using Engine;
 namespace DiligentEngine.RT
 {
     [StructLayout(LayoutKind.Sequential)]
-    struct Constants
+    public struct Constants
     {
         // Camera world position
         public float4 CameraPos;

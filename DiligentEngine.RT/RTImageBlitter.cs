@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DiligentEngine.RT
 {
-    class RTImageBlitter : IDisposable
+    public class RTImageBlitter : IDisposable
     {
         const TEXTURE_FORMAT ColorBufferFormat = TEXTURE_FORMAT.TEX_FORMAT_RGBA8_UNORM;
 

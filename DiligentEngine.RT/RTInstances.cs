@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DiligentEngine.RT
 {
-    interface IShaderTableBinder
+    public interface IShaderTableBinder
     {
         /// <summary>
         /// Bind a shader to a shader binding table for the given TopLevelAS. Do not store copies of the inputs.
@@ -17,7 +17,7 @@ namespace DiligentEngine.RT
         void Bind(IShaderBindingTable sbt, ITopLevelAS tlas);
     }
 
-    internal class RTInstances
+    public class RTInstances
     {
         List<TLASBuildInstanceData> instances = new List<TLASBuildInstanceData>();
         List<IShaderTableBinder> shaderTableBinders = new List<IShaderTableBinder>();
@@ -42,7 +42,7 @@ namespace DiligentEngine.RT
             shaderTableBinders.Remove(shaderTableBinder);
         }
 
-        internal List<TLASBuildInstanceData> Instances => instances;
+        public List<TLASBuildInstanceData> Instances => instances;
 
         public void BindShaders(IShaderBindingTable sbt, ITopLevelAS tlas)
         {

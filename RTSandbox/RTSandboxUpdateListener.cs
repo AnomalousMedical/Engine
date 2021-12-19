@@ -1,5 +1,6 @@
 ﻿using Anomalous.OSPlatform;
 using DiligentEngine;
+using DiligentEngine.RT;
 using Engine;
 using Engine.CameraMovement;
 using Engine.Platform;
@@ -239,8 +240,8 @@ namespace RTSandbox
             PSOCreateInfo.RayTracingPipeline.ShaderRecordSize = 0;
 
             // DirectX 12 only: set attribute and payload size. Values should be as small as possible to minimize the memory usage.
-            PSOCreateInfo.MaxAttributeSize = (uint)Math.Max(sizeof(/*BuiltInTriangleIntersectionAttributes*/ Vector2), sizeof(HLSL.ProceduralGeomIntersectionAttribs));
-            PSOCreateInfo.MaxPayloadSize = (uint)Math.Max(sizeof(HLSL.PrimaryRayPayload), sizeof(HLSL.ShadowRayPayload));
+            PSOCreateInfo.MaxAttributeSize = (uint)Math.Max(sizeof(/*BuiltInTriangleIntersectionAttributes*/ Vector2), sizeof(DiligentEngine.RT.HLSL.ProceduralGeomIntersectionAttribs));
+            PSOCreateInfo.MaxPayloadSize = (uint)Math.Max(sizeof(DiligentEngine.RT.HLSL.PrimaryRayPayload), sizeof(DiligentEngine.RT.HLSL.ShadowRayPayload));
 
 
             // Define immutable sampler for g_Texture and g_GroundTexture. Immutable samplers should be used whenever possible

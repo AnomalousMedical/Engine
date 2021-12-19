@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DiligentEngine.RT
 {
-    class CubeBLAS : IDisposable
+    public class CubeBLAS : IDisposable
     {
         AutoPtr<IBottomLevelAS> m_pCubeBLAS;
 

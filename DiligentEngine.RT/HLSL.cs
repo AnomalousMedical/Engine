@@ -22,13 +22,13 @@ using System.Runtime.InteropServices;
 namespace DiligentEngine.RT.HLSL
 {
     [StructLayout(LayoutKind.Sequential)]
-    struct ProceduralGeomIntersectionAttribs
+    public struct ProceduralGeomIntersectionAttribs
     {
         float3 Normal;
     };
 
     [StructLayout(LayoutKind.Sequential)]
-    struct PrimaryRayPayload
+    public struct PrimaryRayPayload
     {
         float3 Color;
         float Depth;
@@ -36,7 +36,7 @@ namespace DiligentEngine.RT.HLSL
     };
 
     [StructLayout(LayoutKind.Sequential)]
-    struct ShadowRayPayload
+    public struct ShadowRayPayload
     {
         float Shading;   // 0 - fully shadowed, 1 - fully in light, 0..1 - for semi-transparent objects
         uint Recursion; // Current recusrsion depth

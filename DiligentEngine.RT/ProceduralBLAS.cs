@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DiligentEngine.RT
 {
-    class ProceduralBLAS : IDisposable
+    public class ProceduralBLAS : IDisposable
     {
         AutoPtr<IBuffer> m_BoxAttribsCB;
         AutoPtr<IBottomLevelAS> m_pProceduralBLAS;
