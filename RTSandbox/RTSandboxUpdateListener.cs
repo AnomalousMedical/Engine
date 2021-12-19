@@ -17,15 +17,7 @@ namespace RTSandbox
 {
     class RTSandboxUpdateListener : UpdateListener
     {
-        private readonly GraphicsEngine graphicsEngine;
-        private readonly NativeOSWindow window;
         private readonly FirstPersonFlyCamera cameraControls;
-        private readonly VirtualFileSystem virtualFileSystem;
-        private readonly RTImageBlitter imageBlitter;
-        private readonly CubeBLAS cubeBLAS;
-        private readonly ProceduralBLAS proceduralBLAS;
-        private readonly RTCameraAndLight cameraAndLight;
-        private readonly RTInstances rtInstances;
         private readonly IRTSandboxScene scene;
         private readonly RayTracingRenderer rayTracingRenderer;
         private readonly ISharpGui sharpGui;
@@ -37,32 +29,15 @@ namespace RTSandbox
 
         public unsafe RTSandboxUpdateListener
         (
-            GraphicsEngine graphicsEngine, 
-            ShaderLoader<RTShaders> shaderLoader, 
-            TextureLoader textureLoader, 
-            NativeOSWindow window,
+            GraphicsEngine graphicsEngine,
             FirstPersonFlyCamera cameraControls,
-            VirtualFileSystem virtualFileSystem,
-            RTImageBlitter imageBlitter,
-            CubeBLAS cubeBLAS,
-            ProceduralBLAS proceduralBLAS,
-            RTCameraAndLight cameraAndLight,
-            RTInstances blasInstances,
             IRTSandboxScene scene,
             RayTracingRenderer rayTracingRenderer,
             ISharpGui sharpGui,
             RTGui gui
         )
         {
-            this.graphicsEngine = graphicsEngine;
-            this.window = window;
             this.cameraControls = cameraControls;
-            this.virtualFileSystem = virtualFileSystem;
-            this.imageBlitter = imageBlitter;
-            this.cubeBLAS = cubeBLAS;
-            this.proceduralBLAS = proceduralBLAS;
-            this.cameraAndLight = cameraAndLight;
-            this.rtInstances = blasInstances;
             this.scene = scene;
             this.rayTracingRenderer = rayTracingRenderer;
             this.sharpGui = sharpGui;
