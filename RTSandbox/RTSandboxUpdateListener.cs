@@ -496,7 +496,7 @@ namespace RTSandbox
         public void sendUpdate(Clock clock)
         {
             cameraControls.UpdateInput(clock);
-            gui.Update(clock, m_Constants);
+            gui.Update(clock);
 
             Render();
 

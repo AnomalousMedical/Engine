@@ -39,25 +39,23 @@ namespace RTSandbox
             lightPosZ = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 90, 500, 35)), Max = ToSlider(LightRange) };
         }
 
-        public void Update(Clock clock, in Constants constants)
+        public void Update(Clock clock)
         {
             sharpGui.Begin(clock);
 
-
-
-            int light = ToSlider(constants.LightPos_0.x);
+            int light = ToSlider(lightPos.x);
             if (sharpGui.Slider(lightPosX, ref light) || sharpGui.ActiveItem == lightPosX.Id)
             {
                 lightPos.x = FromSlider(light);
             }
 
-            light = ToSlider(constants.LightPos_0.y);
+            light = ToSlider(lightPos.y);
             if (sharpGui.Slider(lightPosY, ref light) || sharpGui.ActiveItem == lightPosY.Id)
             {
                 lightPos.y = FromSlider(light);
             }
 
-            light = ToSlider(constants.LightPos_0.z);
+            light = ToSlider(lightPos.z);
             if (sharpGui.Slider(lightPosZ, ref light) || sharpGui.ActiveItem == lightPosZ.Id)
             {
                 lightPos.z = FromSlider(light);
