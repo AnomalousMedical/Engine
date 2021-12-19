@@ -19,7 +19,7 @@ using float4x4 = Engine.Matrix4x4;
 using BOOL = System.Boolean;
 using System.Runtime.InteropServices;
 
-namespace RTSandbox.HLSL
+namespace DiligentEngine.RT.HLSL
 {
     [StructLayout(LayoutKind.Sequential)]
     struct ProceduralGeomIntersectionAttribs

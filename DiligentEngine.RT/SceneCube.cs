@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RTSandbox
+namespace DiligentEngine.RT
 {
     internal class SceneCube : IDisposable, IShaderTableBinder
     {

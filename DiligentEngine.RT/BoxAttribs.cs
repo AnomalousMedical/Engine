@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RTSandbox
+namespace DiligentEngine.RT
 {
     [StructLayout(LayoutKind.Sequential)]
     struct BoxAttribs

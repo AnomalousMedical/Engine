@@ -20,7 +20,7 @@ using BOOL = System.Boolean;
 using System.Runtime.InteropServices;
 using Engine;
 
-namespace RTSandbox
+namespace DiligentEngine.RT
 {
     [StructLayout(LayoutKind.Explicit, Size = UVSize + NormalSize + PrimitivesSize)]
     unsafe struct CubeAttribs
