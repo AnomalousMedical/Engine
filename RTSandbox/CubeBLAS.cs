@@ -34,9 +34,9 @@ namespace RTSandbox
             var CubeUV = new Vector4[]
             {
                 new Vector4(0,0,0,0), new Vector4(0,1,0,0), new Vector4(1,1,0,0), new Vector4(1,0,0,0), //Back -z
-                new Vector4(0,0,0,0), new Vector4(0,1,0,0), new Vector4(1,1,0,0), new Vector4(1,0,0,0), //Top -y
+                new Vector4(1,0,0,0), new Vector4(1,1,0,0), new Vector4(0,1,0,0), new Vector4(0,0,0,0), //Top -y
                 new Vector4(0,0,0,0), new Vector4(1,0,0,0), new Vector4(1,1,0,0), new Vector4(0,1,0,0), //Left +x
-                new Vector4(0,0,0,0), new Vector4(0,1,0,0), new Vector4(1,1,0,0), new Vector4(1,0,0,0), //Bottom +y
+                new Vector4(1,0,0,0), new Vector4(1,1,0,0), new Vector4(0,1,0,0), new Vector4(0,0,0,0), //Bottom +y
                 new Vector4(1,1,0,0), new Vector4(0,1,0,0), new Vector4(0,0,0,0), new Vector4(1,0,0,0), //Right -x
                 new Vector4(1,0,0,0), new Vector4(0,0,0,0), new Vector4(0,1,0,0), new Vector4(1,1,0,0)  //Front +z
             };
