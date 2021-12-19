@@ -53,6 +53,4 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
     // Apply lighting.
     float3 rayOrigin = WorldRayOrigin() + WorldRayDirection() * RayTCurrent();
     LightingPass(payload.Color, rayOrigin, normal, pertNormal, payload.Recursion + 1);
-
-    payload.Color = tangent;
 }
