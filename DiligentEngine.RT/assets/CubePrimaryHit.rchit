@@ -40,7 +40,7 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
     //Get Mapped normal
     float3 pertNormal = g_CubeNormalTextures[InstanceID()].SampleLevel(g_SamLinearWrap, uv, 0).rgb * float3(2.0, 2.0, 2.0) - float3(1.0, 1.0, 1.0);
     float3x3 tbn = MatrixFromRows(tangent, binormal, normal);
-    pertNormal = normalize(mul(pertNormal, tbn));
+    pertNormal = normalize(mul(pertNormal, tbn)); //Can probably skip this normalize
 
     //Convert to world space
     normal = normalize(mul((float3x3) ObjectToWorld3x4(), normal));

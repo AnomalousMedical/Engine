@@ -22,6 +22,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<ProceduralBLAS>();
             services.AddSingleton<RTCameraAndLight>();
             services.AddSingleton<RTInstances>();
+            services.AddSingleton<TextureManager>();
+            services.AddSingleton<RayTracingRenderer>();
 
             return services;
         }
