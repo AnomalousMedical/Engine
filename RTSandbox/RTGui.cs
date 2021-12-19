@@ -1,4 +1,5 @@
 ﻿using Engine;
+using Engine.CameraMovement;
 using Engine.Platform;
 using SharpGui;
 using System;
@@ -17,20 +18,22 @@ namespace RTSandbox
         private readonly IScaleHelper scaleHelper;
         private readonly ISharpGui sharpGui;
         private readonly OSWindow window;
+        private readonly FirstPersonFlyCamera cameraControls;
         private Vector4 lightPos = new Vector4(0, -5, -1, 0);
 
         private SharpText lightPosText = new SharpText() { Text = "" };
+        private SharpText cameraPosText = new SharpText() { Text = "" };
 
         SharpSliderHorizontal lightPosX;
         SharpSliderHorizontal lightPosY;
         SharpSliderHorizontal lightPosZ;
 
-        public RTGui(IScaleHelper scaleHelper, ISharpGui sharpGui, OSWindow window)
+        public RTGui(IScaleHelper scaleHelper, ISharpGui sharpGui, OSWindow window, FirstPersonFlyCamera cameraControls)
         {
             this.scaleHelper = scaleHelper;
             this.sharpGui = sharpGui;
             this.window = window;
-
+            this.cameraControls = cameraControls;
             lightPosX = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 10, 500, 35)), Max = ToSlider(LightRange) };
             lightPosY = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 50, 500, 35)), Max = ToSlider(LightRange) };
             lightPosZ = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 90, 500, 35)), Max = ToSlider(LightRange) };
@@ -61,17 +64,19 @@ namespace RTSandbox
             }
 
             lightPosText.Text = lightPos.ToString();
+            cameraPosText.Text = cameraControls.Position.ToString();
 
             var layout =
                 new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
-                new MaxWidthLayout(scaleHelper.Scaled(300),
-                new ColumnLayout(lightPosText) { Margin = new IntPad(10) }
+                new MaxWidthLayout(scaleHelper.Scaled(700),
+                new ColumnLayout(lightPosText, cameraPosText) { Margin = new IntPad(10) }
                 ));
             var desiredSize = layout.GetDesiredSize(sharpGui);
             layout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
 
             //Buttons
             sharpGui.Text(lightPosText);
+            sharpGui.Text(cameraPosText);
 
             sharpGui.End();
         }
