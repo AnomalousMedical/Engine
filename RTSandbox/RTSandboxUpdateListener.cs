@@ -39,9 +39,6 @@ namespace RTSandbox
 
         UInt32 m_MaxRecursionDepth = 8;
 
-        const int NumTextures = 4;
-        const int NumCubes = 4;
-
         private AutoPtr<IBuffer> m_ConstantsCB;
         private Constants m_Constants;
         private AutoPtr<IPipelineState> m_pRayTracingPSO;
@@ -52,6 +49,15 @@ namespace RTSandbox
         AutoPtr<IBuffer> m_InstanceBuffer;
 
         AutoPtr<IShaderBindingTable> m_pSBT;
+
+        List<String> textureFiles = new List<String>
+        {
+            "ChristmasTreeOrnament007",
+            "Rock029",
+            "MetalPlates001",
+            "Fabric021",
+            "Ground037"
+        };
 
         public unsafe RTSandboxUpdateListener
         (
@@ -126,7 +132,7 @@ namespace RTSandbox
 
             // Define shader macros
             ShaderMacroHelper Macros = new ShaderMacroHelper();
-            Macros.AddShaderMacro("NUM_TEXTURES", NumTextures);
+            Macros.AddShaderMacro("NUM_TEXTURES", textureFiles.Count);
 
             ShaderCreateInfo ShaderCI = new ShaderCreateInfo();
             // We will not be using combined texture samplers as they
@@ -275,26 +281,19 @@ namespace RTSandbox
         void LoadTextures(TextureLoader textureLoader)
         {
             var m_pImmediateContext = graphicsEngine.ImmediateContext;
+            var pTex = new List<AutoPtr<ITexture>>(textureFiles.Count);
 
             // Load textures
-            var pTexSRVs = new List<IDeviceObject>(NumTextures);
-            var pTexNormalSRVs = new List<IDeviceObject>(NumTextures);
-            var pTex = new List<AutoPtr<ITexture>>(NumTextures);
-            var Barriers = new List<StateTransitionDesc>(NumTextures);
             try
             {
-                var fileNames = new[]
-                {
-                    "ChristmasTreeOrnament007",
-                    "Rock029",
-                    "MetalPlates001",
-                    "Fabric021"
-                };
+                var pTexSRVs = new List<IDeviceObject>(textureFiles.Count);
+                var pTexNormalSRVs = new List<IDeviceObject>(textureFiles.Count);
+                var Barriers = new List<StateTransitionDesc>(textureFiles.Count);
 
-                for (int tex = 0; tex < NumTextures; ++tex)
+                for (int tex = 0; tex < textureFiles.Count; ++tex)
                 {
                     {
-                        var textureFile = $"cc0Textures/{fileNames[tex]}_1K_Color.jpg";
+                        var textureFile = $"cc0Textures/{textureFiles[tex]}_1K_Color.jpg";
 
                         using var logoStream = virtualFileSystem.openStream(textureFile, FileMode.Open);
                         var color = textureLoader.LoadTexture(logoStream, $"Color {tex} Texture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true);
@@ -307,7 +306,7 @@ namespace RTSandbox
                     }
 
                     {
-                        var textureFile = $"cc0Textures/{fileNames[tex]}_1K_Normal.jpg";
+                        var textureFile = $"cc0Textures/{textureFiles[tex]}_1K_Normal.jpg";
 
                         using var logoStream = virtualFileSystem.openStream(textureFile, FileMode.Open);
                         using var bmp = FreeImageBitmap.FromStream(logoStream);

@@ -83,6 +83,7 @@ namespace RTSandbox
                     objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
                     {
                         o.Transform = new InstanceMatrix(x, 6.0f, z);
+                        o.TextureIndex = 4;
                     });
                 }
             }
