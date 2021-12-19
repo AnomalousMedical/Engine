@@ -4,51 +4,23 @@ using Engine;
 using Engine.Platform;
 using System;
 using System.Collections.Generic;
-using DiligentEngine.GltfPbr;
-using DiligentEngine.GltfPbr.Shapes;
 using BepuPhysics;
 using BepuUtilities;
 using BepuUtilities.Memory;
 using BepuPhysics.Collidables;
 using Microsoft.Extensions.Logging;
 using Engine.CameraMovement;
+using DiligentEngine.RT;
 
 namespace RTBepuDemo
 {
     class BepuUpdateListener : UpdateListener, IDisposable
     {
-        private const string CC0TexturePath = "cc0Textures/Wood049_1K";
-
-        //Camera Settings
-        float YFov = MathFloat.PI / 4.0f;
-        float ZNear = 0.1f;
-        float ZFar = 100f;
-
-        //Clear Color
-        Engine.Color ClearColor = new Engine.Color(0.032f, 0.032f, 0.032f, 1.0f);
-
-        //Light
-        Vector3 lightDirection = Vector3.Forward;
-        Vector4 lightColor = new Vector4(1, 1, 1, 1);
-        float lightIntensity = 1f;
 
         private readonly NativeOSWindow window;
-        private readonly Cube shape;
-        private readonly TextureLoader textureLoader;
-        private readonly CC0TextureLoader cc0TextureLoader;
-        private readonly EnvironmentMapBuilder envMapBuilder;
-        private readonly IPbrCameraAndLight pbrCameraAndLight;
-        private readonly ILogger<BepuUpdateListener> logger;
-        private readonly EventManager eventManager;
+        private readonly RayTracingRenderer renderer;
         private readonly FirstPersonFlyCamera cameraControls;
-        private ISwapChain swapChain;
-        private IRenderDevice renderDevice;
-        private IDeviceContext immediateContext;
-        private PbrRenderAttribs pbrRenderAttribs = PbrRenderAttribs.CreateDefault();
-
-        private PbrRenderer pbrRenderer;
-        private AutoPtr<ITextureView> environmentMapSRV;
-        private AutoPtr<IShaderResourceBinding> pboMatBinding;
+        private readonly GraphicsEngine graphicsEngine;
 
         //BEPU
         //If you intend to reuse the BufferPool, disposing the simulation is a good idea- it returns all the buffers to the pool for reuse.
@@ -64,33 +36,15 @@ namespace RTBepuDemo
         //END
 
         public unsafe BepuUpdateListener(
-            GraphicsEngine graphicsEngine,
             NativeOSWindow window,
-            PbrRenderer m_GLTFRenderer,
-            Cube shape,
-            TextureLoader textureLoader,
-            CC0TextureLoader cc0TextureLoader,
-            EnvironmentMapBuilder envMapBuilder,
-            IPbrCameraAndLight pbrCameraAndLight,
-            ILogger<BepuUpdateListener> logger,
-            EventManager eventManager,
-            FirstPersonFlyCamera cameraControls)
+            RayTracingRenderer renderer,
+            FirstPersonFlyCamera cameraControls,
+            GraphicsEngine graphicsEngine)
         {
-
-
-            this.pbrRenderer = m_GLTFRenderer;
-            this.swapChain = graphicsEngine.SwapChain;
-            this.renderDevice = graphicsEngine.RenderDevice;
-            this.immediateContext = graphicsEngine.ImmediateContext;
             this.window = window;
-            this.shape = shape;
-            this.textureLoader = textureLoader;
-            this.cc0TextureLoader = cc0TextureLoader;
-            this.envMapBuilder = envMapBuilder;
-            this.pbrCameraAndLight = pbrCameraAndLight;
-            this.logger = logger;
-            this.eventManager = eventManager;
+            this.renderer = renderer;
             this.cameraControls = cameraControls;
+            this.graphicsEngine = graphicsEngine;
             cameraControls.Position = new Vector3(0, 2, -11);
             Initialize();
         }
@@ -103,59 +57,12 @@ namespace RTBepuDemo
             simulation.Dispose();
             threadDispatcher.Dispose();
             bufferPool.Clear();
-
-            pboMatBinding.Dispose();
-            environmentMapSRV.Dispose();
         }
 
         unsafe void Initialize()
         {
-            environmentMapSRV = envMapBuilder.BuildEnvMapView(renderDevice, immediateContext, "papermill/Fixed-", "png");
-
-            
-
-            pbrRenderer.PrecomputeCubemaps(renderDevice, immediateContext, environmentMapSRV.Obj);
-
-
-            //Only one of these
-            //Load a cc0 texture
-            LoadCCoTexture();
-            //CreateShinyTexture();
 
             SetupBepu();
-        }
-
-        private unsafe void CreateShinyTexture()
-        {
-            const uint texDim = 10;
-            var physDesc = new UInt32[texDim * texDim];
-            var physDescSpan = new Span<UInt32>(physDesc);
-            physDescSpan.Fill(0xff0000ff);
-
-            var TexDesc = new TextureDesc();
-            TexDesc.Type = RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D;
-            TexDesc.Usage = USAGE.USAGE_IMMUTABLE;
-            TexDesc.BindFlags = BIND_FLAGS.BIND_SHADER_RESOURCE;
-            TexDesc.Depth = 1;
-            TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_BGRA8_UNORM;
-            TexDesc.MipLevels = 1;
-            TexDesc.Format = TEXTURE_FORMAT.TEX_FORMAT_BGRA8_UNORM;
-            TexDesc.Width = 10;
-            TexDesc.Height = 10;
-
-            fixed (UInt32* pPhysDesc = physDesc)
-            {
-                var Level0Data = new TextureSubResData { pData = new IntPtr(pPhysDesc), Stride = texDim * 4 };
-                var InitData = new TextureData { pSubResources = new List<TextureSubResData> { Level0Data } };
-
-                using var physicalDescriptorMap = renderDevice.CreateTexture(TexDesc, InitData);
-
-                pboMatBinding = pbrRenderer.CreateMaterialSRB(
-                    pCameraAttribs: pbrCameraAndLight.CameraAttribs,
-                    pLightAttribs: pbrCameraAndLight.LightAttribs,
-                    physicalDescriptorMap: physicalDescriptorMap.Obj
-                );
-            }
         }
 
         private void SetupBepu()
@@ -194,19 +101,6 @@ namespace RTBepuDemo
             spherePositionSyncs.Add(spherePositionSync);
         }
 
-        private unsafe void LoadCCoTexture()
-        {
-            using var ccoTextures = cc0TextureLoader.LoadTextureSet(CC0TexturePath);
-            pboMatBinding = pbrRenderer.CreateMaterialSRB(
-                pCameraAttribs: pbrCameraAndLight.CameraAttribs,
-                pLightAttribs: pbrCameraAndLight.LightAttribs,
-                baseColorMap: ccoTextures.BaseColorMap,
-                normalMap: ccoTextures.NormalMap,
-                physicalDescriptorMap: ccoTextures.PhysicalDescriptorMap,
-                aoMap: ccoTextures.AmbientOcclusionMap
-            );
-        }
-
         public void exceededMaxDelta()
         {
 
@@ -222,9 +116,30 @@ namespace RTBepuDemo
 
         public unsafe void sendUpdate(Clock clock)
         {
+            var swapChain = graphicsEngine.SwapChain;
+            var immediateContext = graphicsEngine.ImmediateContext;
+
             cameraControls.UpdateInput(clock);
             UpdatePhysics(clock);
-            Render();
+            //gui.Update(clock);
+
+            renderer.Render(cameraControls.Position, cameraControls.Orientation, new Vector4(0, 0, -10, 0), new Vector4(0, 0, -10, 0));
+
+            //This is the old clear loop, leaving in place in case we want or need the screen clear, but I think with pure rt there is no need
+            //since we blit a texture to the full screen over and over.
+            var pRTV = swapChain.GetCurrentBackBufferRTV();
+            var pDSV = swapChain.GetDepthBufferDSV();
+            immediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+
+            //var ClearColor = new Color(0.350f, 0.350f, 0.350f, 1.0f);
+
+            // Clear the back buffer
+            // Let the engine perform required state transitions
+            //immediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+            //sharpGui.Render(immediateContext);
+
+            swapChain.Present(1);
         }
 
         private unsafe void UpdatePhysics(Clock clock)
@@ -253,45 +168,45 @@ namespace RTBepuDemo
             simulation.Timestep(clock.DeltaSeconds, threadDispatcher); //Careful of variable timestep here, not so good
         }
 
-        private unsafe void Render()
-        {
-            //Render
-            var pRTV = swapChain.GetCurrentBackBufferRTV();
-            var pDSV = swapChain.GetDepthBufferDSV();
-            var PreTransform = swapChain.GetDesc_PreTransform;
-            immediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-            // Clear the back buffer
-            immediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-            immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+        //private unsafe void Render()
+        //{
+        //    //Render
+        //    var pRTV = swapChain.GetCurrentBackBufferRTV();
+        //    var pDSV = swapChain.GetDepthBufferDSV();
+        //    var PreTransform = swapChain.GetDesc_PreTransform;
+        //    immediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+        //    // Clear the back buffer
+        //    immediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+        //    immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-            // Set Camera
-            var preTransform = CameraHelpers.GetSurfacePretransformMatrix(new Vector3(0, 0, 1), PreTransform);
-            var cameraProj = CameraHelpers.GetAdjustedProjectionMatrix(YFov, ZNear, ZFar, window.WindowWidth, window.WindowHeight, PreTransform);
-            pbrCameraAndLight.SetCameraPosition(cameraControls.Position, cameraControls.Orientation, preTransform, cameraProj);
+        //    // Set Camera
+        //    var preTransform = CameraHelpers.GetSurfacePretransformMatrix(new Vector3(0, 0, 1), PreTransform);
+        //    var cameraProj = CameraHelpers.GetAdjustedProjectionMatrix(YFov, ZNear, ZFar, window.WindowWidth, window.WindowHeight, PreTransform);
+        //    pbrCameraAndLight.SetCameraPosition(cameraControls.Position, cameraControls.Orientation, preTransform, cameraProj);
 
-            // Set Light
-            pbrCameraAndLight.SetLight(lightDirection, lightColor, lightIntensity);
+        //    // Set Light
+        //    pbrCameraAndLight.SetLight(lightDirection, lightColor, lightIntensity);
 
-            //Draw cubes
-            Vector3 cubePosition;
-            Quaternion cubeOrientation;
+        //    //Draw cubes
+        //    Vector3 cubePosition;
+        //    Quaternion cubeOrientation;
 
-            foreach (var spherePositionSync in spherePositionSyncs)
-            {
-                cubePosition = spherePositionSync.GetWorldPosition();
-                cubeOrientation = spherePositionSync.GetWorldOrientation();
+        //    foreach (var spherePositionSync in spherePositionSyncs)
+        //    {
+        //        cubePosition = spherePositionSync.GetWorldPosition();
+        //        cubeOrientation = spherePositionSync.GetWorldOrientation();
 
-                pbrRenderer.Begin(immediateContext);
-                pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, ref cubePosition, ref cubeOrientation, pbrRenderAttribs);
-            }
+        //        pbrRenderer.Begin(immediateContext);
+        //        pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, ref cubePosition, ref cubeOrientation, pbrRenderAttribs);
+        //    }
 
-            cubePosition = Vector3.Zero;
-            cubeOrientation = Quaternion.Identity;
+        //    cubePosition = Vector3.Zero;
+        //    cubeOrientation = Quaternion.Identity;
 
-            pbrRenderer.Begin(immediateContext);
-            pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, ref cubePosition, ref cubeOrientation, pbrRenderAttribs);
+        //    pbrRenderer.Begin(immediateContext);
+        //    pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, ref cubePosition, ref cubeOrientation, pbrRenderAttribs);
 
-            this.swapChain.Present(1);
-        }
+        //    this.swapChain.Present(1);
+        //}
     }
 }

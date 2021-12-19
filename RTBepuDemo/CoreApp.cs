@@ -1,4 +1,5 @@
 ﻿using Anomalous.OSPlatform;
+using DiligentEngine;
 using Engine;
 using Engine.Platform;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,7 +34,7 @@ namespace RTBepuDemo
         {
             mainWindow = EasyNativeWindow.Create(services, this, o =>
             {
-                o.Title = "BEPU Physics 2";
+                o.Title = "RT BEPU Physics 2";
             });
 
             services.AddLogging(o =>
@@ -41,16 +42,14 @@ namespace RTBepuDemo
                 o.AddConsole();
             });
 
-            services.AddDiligentEngine(pluginManager)
-                    .AddDiligentEnginePbr(o =>
-                    {
-                        o.CustomizePbrOptions = RendererCI =>
-                        {
-                            //RendererCI.AllowDebugView = true;
-                            RendererCI.UseIBL = true;
-                        };
-                    })
-                    .AddDiligentEnginePbrShapes();
+            services.AddDiligentEngine(pluginManager, o =>
+            {
+                o.Features = GraphicsEngine.FeatureFlags.RayTracing;
+            })
+            .AddDiligentEngineRt(o =>
+            {
+
+            });
 
             services.AddOSPlatform(pluginManager);
 
