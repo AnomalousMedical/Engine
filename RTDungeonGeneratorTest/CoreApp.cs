@@ -41,16 +41,16 @@ namespace RTDungeonGeneratorTest
                 o.AddConsole();
             });
 
-            services.AddDiligentEngine(pluginManager)
-                    .AddDiligentEnginePbr(o =>
-                    {
-                        o.CustomizePbrOptions = RendererCI =>
-                        {
-                            //RendererCI.AllowDebugView = true;
-                            RendererCI.UseIBL = true;
-                        };
-                    })
-                    .AddDiligentEnginePbrShapes();
+            services.AddDiligentEngine(pluginManager, o =>
+            {
+                o.Features = DiligentEngine.GraphicsEngine.FeatureFlags.RayTracing;
+            })
+            .AddDiligentEngineRt(o =>
+            {
+
+            });
+
+            services.AddBepuPlugin();
 
             services.AddOSPlatform(pluginManager);
             services.AddSharpGui();
