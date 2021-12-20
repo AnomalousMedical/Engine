@@ -25,9 +25,9 @@ namespace DiligentEngine.RT
         private AutoPtr<IPipelineState> m_pRayTracingPSO;
         private AutoPtr<IShaderResourceBinding> m_pRayTracingSRB;
         private AutoPtr<IShaderBindingTable> m_pSBT;
-        AutoPtr<ITopLevelAS> m_pTLAS;
         AutoPtr<IBuffer> m_ScratchBuffer;
         AutoPtr<IBuffer> m_InstanceBuffer;
+        uint lastNumInstances = 0;
 
         public unsafe RayTracingRenderer
         (
@@ -54,7 +54,6 @@ namespace DiligentEngine.RT
             m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_INTERSECTION, "g_BoxAttribs").Set(proceduralBLAS.Attribs.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
 
             // Startup and initialize constants, order is important.
-            UpdateTLAS();
             CreateSBT();
             m_Constants = Constants.CreateDefault(m_MaxRecursionDepth);
         }
@@ -63,7 +62,6 @@ namespace DiligentEngine.RT
             m_pSBT.Dispose();
             m_InstanceBuffer?.Dispose();
             m_ScratchBuffer?.Dispose();
-            m_pTLAS?.Dispose();
             m_pRayTracingSRB.Dispose();
             m_pRayTracingPSO.Dispose();
             m_ConstantsCB.Dispose();
@@ -221,6 +219,7 @@ namespace DiligentEngine.RT
             var Variables = new List<ShaderResourceVariableDesc> //
             {
                 new ShaderResourceVariableDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_MISS | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = "g_ConstantsCB", Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC},
+                new ShaderResourceVariableDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = "g_TLAS", Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC},
                 new ShaderResourceVariableDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN, Name = "g_ColorBuffer", Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC}
             };
 
@@ -255,41 +254,34 @@ namespace DiligentEngine.RT
 
             m_pSBT.Obj.BindMissShader("PrimaryMiss", RtStructures.PRIMARY_RAY_INDEX, IntPtr.Zero);
             m_pSBT.Obj.BindMissShader("ShadowMiss", RtStructures.SHADOW_RAY_INDEX, IntPtr.Zero);
-
-            // Hit groups for primary ray
-            rtInstances.BindShaders(m_pSBT.Obj, m_pTLAS.Obj);
-
-            // Hit groups for shadow ray.
-            // null means no shaders are bound and hit shader invocation will be skipped.
-            m_pSBT.Obj.BindHitGroupForTLAS(m_pTLAS.Obj, RtStructures.SHADOW_RAY_INDEX, null, IntPtr.Zero);
         }
 
-        void UpdateTLAS()
+        AutoPtr<ITopLevelAS> UpdateTLAS()
         {
             var m_pDevice = graphicsEngine.RenderDevice;
             var m_pImmediateContext = graphicsEngine.ImmediateContext;
             // Create or update top-level acceleration structure
 
-            bool NeedUpdate = true;
-
             uint numInstances = (uint)rtInstances.Instances.Count;
+            if(numInstances != lastNumInstances) //If instance count changes invalidate buffers
+            {
+                m_ScratchBuffer?.Dispose();
+                m_ScratchBuffer = null;
+                m_InstanceBuffer?.Dispose();
+                m_InstanceBuffer = null;
+            }
 
             // Create TLAS
-            if (m_pTLAS == null)
-            {
-                var TLASDesc = new TopLevelASDesc();
-                TLASDesc.Name = "TLAS";
-                TLASDesc.MaxInstanceCount = numInstances;
-                TLASDesc.Flags = RAYTRACING_BUILD_AS_FLAGS.RAYTRACING_BUILD_AS_ALLOW_UPDATE | RAYTRACING_BUILD_AS_FLAGS.RAYTRACING_BUILD_AS_PREFER_FAST_TRACE;
+            var TLASDesc = new TopLevelASDesc();
+            TLASDesc.Name = "TLAS";
+            TLASDesc.MaxInstanceCount = numInstances;
+            TLASDesc.Flags = RAYTRACING_BUILD_AS_FLAGS.RAYTRACING_BUILD_AS_ALLOW_UPDATE | RAYTRACING_BUILD_AS_FLAGS.RAYTRACING_BUILD_AS_PREFER_FAST_TRACE;
 
-                m_pTLAS = m_pDevice.CreateTLAS(TLASDesc);
-                //VERIFY_EXPR(m_pTLAS != nullptr);
+            var m_pTLAS = m_pDevice.CreateTLAS(TLASDesc);
+            //VERIFY_EXPR(m_pTLAS != nullptr);
 
-                NeedUpdate = false; // build on first run
-
-                m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_GEN, "g_TLAS").Set(m_pTLAS.Obj);
-                m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_TLAS").Set(m_pTLAS.Obj);
-            }
+            m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_GEN, "g_TLAS").Set(m_pTLAS.Obj);
+            m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_TLAS").Set(m_pTLAS.Obj);
 
             // Create scratch buffer
             if (m_ScratchBuffer == null)
@@ -319,7 +311,7 @@ namespace DiligentEngine.RT
             // Build or update TLAS
             var Attribs = new BuildTLASAttribs();
             Attribs.pTLAS = m_pTLAS.Obj;
-            Attribs.Update = NeedUpdate;
+            Attribs.Update = false;
 
             // Scratch buffer will be used to store temporary data during TLAS build or update.
             // Previous content in the scratch buffer will be discarded.
@@ -343,6 +335,15 @@ namespace DiligentEngine.RT
             Attribs.ScratchBufferTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
 
             m_pImmediateContext.BuildTLAS(Attribs);
+
+            // Hit groups for primary ray
+            rtInstances.BindShaders(m_pSBT.Obj, m_pTLAS.Obj);
+
+            // Hit groups for shadow ray.
+            // null means no shaders are bound and hit shader invocation will be skipped.
+            m_pSBT.Obj.BindHitGroupForTLAS(m_pTLAS.Obj, RtStructures.SHADOW_RAY_INDEX, null, IntPtr.Zero);
+
+            return m_pTLAS;
         }
 
         public unsafe void Render(Vector3 cameraPos, Quaternion cameraRot, Vector4 light1Pos, Vector4 ligth2Pos)
@@ -350,7 +351,9 @@ namespace DiligentEngine.RT
             var swapChain = graphicsEngine.SwapChain;
             var m_pImmediateContext = graphicsEngine.ImmediateContext;
 
-            UpdateTLAS();
+            //TODO: Might be able to avoid recreating this like the other buffers, this also seems ok
+            //So really need more info about behavior to decide here
+            using var tlas = UpdateTLAS();
 
             // Update constants
             {

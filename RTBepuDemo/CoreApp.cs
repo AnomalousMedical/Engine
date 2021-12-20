@@ -54,6 +54,7 @@ namespace RTBepuDemo
             services.AddOSPlatform(pluginManager);
 
             services.AddFirstPersonFlyCamera();
+            services.AddBepuPlugin();
 
             //Add this app's services
             services.TryAddSingleton<BepuUpdateListener>();
@@ -61,6 +62,8 @@ namespace RTBepuDemo
             services.AddSingleton<DemoScene>();
             services.AddScoped<SceneCube>();
             services.AddScoped<SceneCube.Desc>();
+            services.AddScoped<BodyPositionSync>();
+            services.AddScoped<BodyPositionSync.Desc>();
 
             return true;
         }

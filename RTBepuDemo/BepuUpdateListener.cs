@@ -11,6 +11,7 @@ using BepuPhysics.Collidables;
 using Microsoft.Extensions.Logging;
 using Engine.CameraMovement;
 using DiligentEngine.RT;
+using BepuPlugin;
 
 namespace RTBepuDemo
 {
@@ -20,18 +21,13 @@ namespace RTBepuDemo
         private readonly RayTracingRenderer renderer;
         private readonly FirstPersonFlyCamera cameraControls;
         private readonly GraphicsEngine graphicsEngine;
-
-        //BEPU
-        //If you intend to reuse the BufferPool, disposing the simulation is a good idea- it returns all the buffers to the pool for reuse.
-        //Here, we dispose it, but it's not really required; we immediately thereafter clear the BufferPool of all held memory.
-        //Note that failing to dispose buffer pools can result in memory leaks.
-        Simulation simulation;
-        SimpleThreadDispatcher threadDispatcher;
-        BufferPool bufferPool;
+        private readonly RTInstances instances;
+        private readonly IBepuScene bepuScene;
+        private IObjectResolver objectResolver;
+        private List<BodyPositionSync> bodyPositionSyncs = new List<BodyPositionSync>();
 
         Box boxShape;
         BodyInertia boxInertia;
-        private List<BodyPositionSync> spherePositionSyncs = new List<BodyPositionSync>();
         //END
 
         public unsafe BepuUpdateListener(
@@ -39,43 +35,30 @@ namespace RTBepuDemo
             DemoScene scene,
             RayTracingRenderer renderer,
             FirstPersonFlyCamera cameraControls,
-            GraphicsEngine graphicsEngine)
+            GraphicsEngine graphicsEngine,
+            RTInstances instances,
+            IObjectResolverFactory objectResolverFactory,
+            IBepuScene bepuScene)
         {
             this.window = window;
             this.renderer = renderer;
             this.cameraControls = cameraControls;
             this.graphicsEngine = graphicsEngine;
+            this.instances = instances;
+            this.bepuScene = bepuScene;
             cameraControls.Position = new Vector3(0, 2, -11);
-            Initialize();
+            SetupBepu();
+            this.objectResolver = objectResolverFactory.Create();
         }
 
         public void Dispose()
         {
-            //If you intend to reuse the BufferPool, disposing the simulation is a good idea- it returns all the buffers to the pool for reuse.
-            //Here, we dispose it, but it's not really required; we immediately thereafter clear the BufferPool of all held memory.
-            //Note that failing to dispose buffer pools can result in memory leaks.
-            simulation.Dispose();
-            threadDispatcher.Dispose();
-            bufferPool.Clear();
-        }
-
-        unsafe void Initialize()
-        {
-
-            SetupBepu();
+            this.objectResolver.Dispose();
         }
 
         private void SetupBepu()
         {
-            //The buffer pool is a source of raw memory blobs for the engine to use.
-            bufferPool = new BufferPool();
-            //Note that you can also control the order of internal stage execution using a different ITimestepper implementation.
-            //The PositionFirstTimestepper is the simplest timestepping mode in a technical sense, but since it integrates velocity into position at the start of the frame, 
-            //directly modified velocities outside of the timestep will be integrated before collision detection or the solver has a chance to intervene.
-            //PositionLastTimestepper avoids that by running collision detection and the solver first at the cost of a tiny amount of overhead.
-            //(You could avoid the issue with PositionFirstTimestepper by modifying velocities in the PositionFirstTimestepper's BeforeCollisionDetection callback 
-            //instead of outside the timestep, too, but it's a little more complicated.)
-            simulation = Simulation.Create(bufferPool, new NarrowPhaseCallbacks(), new PoseIntegratorCallbacks(new System.Numerics.Vector3(0, -10, 0)), new PositionLastTimestepper());
+            var simulation = bepuScene.Simulation;
 
             //Drop boxes on a big static box.
             boxShape = new Box(1, 1, 1);
@@ -84,21 +67,18 @@ namespace RTBepuDemo
             simulation.Statics.Add(new StaticDescription(new System.Numerics.Vector3(0, 0, 0), new CollidableDescription(simulation.Shapes.Add(new Box(1, 1, 1)), 0.1f)));
 
             simulation.Statics.Add(new StaticDescription(new System.Numerics.Vector3(0, -6, 0), new CollidableDescription(simulation.Shapes.Add(new Box(100, 10, 100)), 0.1f)));
-
-            //Taking off 1 thread could help stability https://github.com/bepu/bepuphysics2/blob/master/Documentation/PerformanceTips.md#general
-            var numThreads = Math.Max(Environment.ProcessorCount - 1, 1);
-            threadDispatcher = new SimpleThreadDispatcher(numThreads); 
         }
 
         private void CreateBox(Box box, BodyInertia boxInertia, System.Numerics.Vector3 position)
         {
-            var bodyHandle = simulation.Bodies.Add(
-                BodyDescription.CreateDynamic(
-                    position,
-                    boxInertia, new CollidableDescription(simulation.Shapes.Add(box), 0.1f), new BodyActivityDescription(0.01f)));
+            var body = objectResolver.Resolve<BodyPositionSync, BodyPositionSync.Desc>(o =>
+            {
+                o.position = position;
+                o.box = box;
+                o.boxInertia = boxInertia;
+            });
 
-            var spherePositionSync = new BodyPositionSync(bodyHandle, simulation);
-            spherePositionSyncs.Add(spherePositionSync);
+            bodyPositionSyncs.Add(body);
         }
 
         public void exceededMaxDelta()
@@ -148,7 +128,7 @@ namespace RTBepuDemo
             {
                 float highest = 2;
                 //Find highest box
-                foreach(var body in spherePositionSyncs)
+                foreach(var body in bodyPositionSyncs) //Need a more generic way to handle the instances, more like the other method
                 {
                     var world = body.GetWorldPosition();
                     world.y += 1.5f;
@@ -160,12 +140,15 @@ namespace RTBepuDemo
 
                 CreateBox(boxShape, boxInertia, new System.Numerics.Vector3(-0.8f, highest, 0.8f));
                 nextCubeSpawnTime += nextCubeSpawnFrequency;
-                window.Title = $"RTBepuDemo - {spherePositionSyncs.Count} boxes.";
+                window.Title = $"RTBepuDemo - {bodyPositionSyncs.Count} boxes.";
             }
 
-            //Multithreading is pretty pointless for a simulation of one ball, but passing a IThreadDispatcher instance is all you have to do to enable multithreading.
-            //If you don't want to use multithreading, don't pass a IThreadDispatcher.
-            simulation.Timestep(clock.DeltaSeconds, threadDispatcher); //Careful of variable timestep here, not so good
+            bepuScene.Update(clock, new System.Numerics.Vector3(0, 0, 1));
+
+            foreach (var body in bodyPositionSyncs)
+            {
+                body.SyncPhysics(bepuScene);
+            }
         }
     }
 }

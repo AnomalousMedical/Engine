@@ -84,7 +84,13 @@ namespace DiligentEngine
             this.m23 = input.m32;
         }
 
-        public InstanceMatrix(in Matrix3x3 rot, in Vector3 trans)
+        public InstanceMatrix(in Vector3 trans, in Quaternion rot)
+            : this(trans, rot.toRotationMatrix3x3())
+        {
+            
+        }
+
+        public InstanceMatrix(in Vector3 trans, in Matrix3x3 rot)
         {
             this.m00 = rot.m00;
             this.m01 = rot.m01;
@@ -101,7 +107,7 @@ namespace DiligentEngine
             this.m23 = trans.z;
         }
 
-        public InstanceMatrix(in Matrix3x3 rot, float x, float y, float z)
+        public InstanceMatrix(float x, float y, float z, in Matrix3x3 rot)
         {
             this.m00 = rot.m00;
             this.m01 = rot.m01;
