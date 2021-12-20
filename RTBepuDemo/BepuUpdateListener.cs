@@ -103,7 +103,7 @@ namespace RTBepuDemo
             UpdatePhysics(clock);
             //gui.Update(clock);
 
-            renderer.Render(cameraControls.Position, cameraControls.Orientation, new Vector4(0, 0, -10, 0), new Vector4(0, 0, -10, 0));
+            renderer.Render(cameraControls.Position, cameraControls.Orientation, new Vector4(0, 10, -10, 0), new Vector4(0, 0, -10, 0));
 
             //This is the old clear loop, leaving in place in case we want or need the screen clear, but I think with pure rt there is no need
             //since we blit a texture to the full screen over and over.

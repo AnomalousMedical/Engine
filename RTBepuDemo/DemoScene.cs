@@ -1,4 +1,5 @@
-﻿using Engine;
+﻿using DiligentEngine;
+using Engine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,18 @@ namespace RTBepuDemo
             {
 
             });
+
+            for (var x = -20; x < 20; ++x)
+            {
+                for (var z = -20; z < 20; ++z)
+                {
+                    objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
+                    {
+                        o.Transform = new InstanceMatrix(new Vector3(x, -1.5f, z), Quaternion.Identity);
+                        o.TextureIndex = 4;
+                    });
+                }
+            }
         }
 
         public void Dispose()
