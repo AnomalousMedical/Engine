@@ -833,7 +833,7 @@ namespace DiligentEngineRayTracing
                 var mat = Matrix4x4.RotationY(angle);
                 mat.SetTranslation(Pos.x, Pos.y, Pos.z);
 
-                Dst.Transform = new InstanceMatrix(mat);
+                Dst.Transform = CreateInstanceMatrix(mat);
             };
 
             Instances[0].InstanceName = "Cube Instance 1";
@@ -863,18 +863,18 @@ namespace DiligentEngineRayTracing
             Instances[4].InstanceName = "Ground Instance";
             Instances[4].pBLAS = m_pCubeBLAS.Obj;
             Instances[4].Mask = RtStructures.OPAQUE_GEOM_MASK;
-            Instances[4].Transform = new InstanceMatrix(0.0f, 6.0f, 0.0f, Matrix3x3.Scale(100.0f, 0.1f, 100.0f));
+            Instances[4].Transform = CreateInstanceMatrix(0.0f, 6.0f, 0.0f, Matrix3x3.Scale(100.0f, 0.1f, 100.0f));
 
             Instances[5].InstanceName = "Sphere Instance";
             Instances[5].CustomId = 0; // box index
             Instances[5].pBLAS = m_pProceduralBLAS.Obj;
             Instances[5].Mask = RtStructures.OPAQUE_GEOM_MASK;
-            Instances[5].Transform = new InstanceMatrix(-3.0f, 3.0f, -5f);
+            Instances[5].Transform = CreateInstanceMatrix(-3.0f, 3.0f, -5f, Matrix3x3.RotationY(0));
 
             Instances[6].InstanceName = "Glass Instance";
             Instances[6].pBLAS = m_pCubeBLAS.Obj;
             Instances[6].Mask = RtStructures.TRANSPARENT_GEOM_MASK;
-            Instances[6].Transform = new InstanceMatrix(3.0f, 4.0f, -5.0f, Matrix3x3.Scale(1.5f, 1.5f, 1.5f)); // * Matrix3x3.RotationY(m_AnimationTime * MathF.PI * 0.25f)
+            Instances[6].Transform = CreateInstanceMatrix(3.0f, 4.0f, -5.0f, Matrix3x3.Scale(1.5f, 1.5f, 1.5f)); // * Matrix3x3.RotationY(m_AnimationTime * MathF.PI * 0.25f)
 
             // Build or update TLAS
             var Attribs = new BuildTLASAttribs();
@@ -904,6 +904,52 @@ namespace DiligentEngineRayTracing
 
             m_pImmediateContext.BuildTLAS(Attribs);
         }
+
+        public static InstanceMatrix CreateInstanceMatrix(in Matrix4x4 input)
+        {
+            //All of the normal instance matrix constructors do conversion, this is good for general use, but this
+            //project's purpose is to track the c++ code more closely. Therefore we want to keep the math in its original
+            //form as much as possible.
+            return new InstanceMatrix()
+            {
+                m00 = input.m00,
+                m01 = input.m01,
+                m02 = input.m02,
+                m10 = input.m10,
+                m11 = input.m11,
+                m12 = input.m12,
+                m20 = input.m20,
+                m21 = input.m21,
+                m22 = input.m22,
+
+                m03 = input.m30,
+                m13 = input.m31,
+                m23 = input.m32
+            };
+        }
+
+        public InstanceMatrix CreateInstanceMatrix(float x, float y, float z, in Matrix3x3 rot)
+        {
+            //All of the normal instance matrix constructors do conversion, this is good for general use, but this
+            //project's purpose is to track the c++ code more closely. Therefore we want to keep the math in its original
+            //form as much as possible.
+            return new InstanceMatrix()
+            {
+                m00 = rot.m00,
+                m01 = rot.m01,
+                m02 = rot.m02,
+                m10 = rot.m10,
+                m11 = rot.m11,
+                m12 = rot.m12,
+                m20 = rot.m20,
+                m21 = rot.m21,
+                m22 = rot.m22,
+                m03 = x,
+                m13 = y,
+                m23 = z
+            };
+        }
+
         void CreateSBT()
         {
             var m_pDevice = graphicsEngine.RenderDevice;
