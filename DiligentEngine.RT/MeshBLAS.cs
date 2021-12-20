@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DiligentEngine.RT
 {
-    public class Mesh : IDisposable
+    public class MeshBLAS : IDisposable
     {
         private BLASInstance instance;
 
@@ -23,7 +23,7 @@ namespace DiligentEngine.RT
         private readonly BLASDesc blasDesc = new BLASDesc();
         private readonly BLASBuilder blasBuilder;
 
-        public Mesh(BLASBuilder blasBuilder)
+        public MeshBLAS(BLASBuilder blasBuilder)
         {
             this.blasBuilder = blasBuilder;
         }

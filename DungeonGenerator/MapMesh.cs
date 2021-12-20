@@ -11,8 +11,8 @@ namespace DungeonGenerator
 {
     public class MapMesh : IDisposable
     {
-        private Mesh floorMesh;
-        private Mesh wallMesh;
+        private MeshBLAS floorMesh;
+        private MeshBLAS wallMesh;
         private List<MapMeshPosition> floorCubeCenterPoints;
         private List<Vector3> boundaryCubeCenterPoints;
         private MapMeshSquareInfo[,] squareInfo; //This array is 1 larger in each dimension, use accessor to translate points
@@ -177,8 +177,8 @@ namespace DungeonGenerator
             squareInfo = new MapMeshSquareInfo[squareCenterMapWidth, squareCenterMapHeight];
             MapMeshTempSquareInfo[,] tempSquareInfo = new MapMeshTempSquareInfo[squareCenterMapWidth, squareCenterMapHeight];
 
-            this.floorMesh = new Mesh(blasBuilder);
-            this.wallMesh = new Mesh(blasBuilder);
+            this.floorMesh = new MeshBLAS(blasBuilder);
+            this.wallMesh = new MeshBLAS(blasBuilder);
 
             //Figure out number of quads
             uint numFloorQuads = 0;
@@ -605,9 +605,9 @@ namespace DungeonGenerator
             return squareInfo[x + 1, y + 1].Center;
         }
 
-        public Mesh FloorMesh => floorMesh;
+        public MeshBLAS FloorMesh => floorMesh;
 
-        public Mesh WallMesh => wallMesh;
+        public MeshBLAS WallMesh => wallMesh;
 
         private void ProcessRoom(csMapbuilder mapbuilder, float halfUnitX, float halfUnitY, float halfUnitZ, int mapWidth, int mapHeight, ushort[,] map, Slope[,] slopeMap, MapMeshTempSquareInfo[,] tempSquareInfo, float yUvBottom, bool[,] processedSquares, ushort roomId)
         {
