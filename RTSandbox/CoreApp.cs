@@ -62,10 +62,6 @@ namespace RTSandbox
 
             services.AddScoped<SceneCube>();
             services.AddScoped<SceneCube.Desc>();
-            services.AddScoped<SceneGlassCube>();
-            services.AddScoped<SceneGlassCube.Desc>();
-            services.AddScoped<SceneSphere>();
-            services.AddScoped<SceneSphere.Desc>();
 
             return true;
         }
