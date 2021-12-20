@@ -58,8 +58,10 @@ namespace RTDungeonGeneratorTest
             services.AddFirstPersonFlyCamera();
 
             //Add this app's services
-            services.TryAddSingleton<DungeonUpdateListener>();
+            services.AddSingleton<DungeonUpdateListener>();
             services.AddSingleton<RTGui>();
+            services.AddSingleton<SceneDungeon>();
+            services.AddSingleton<SceneDungeon.Desc>();
 
             return true;
         }
