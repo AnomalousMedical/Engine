@@ -23,8 +23,10 @@ namespace RTBepuDemo
         private readonly GraphicsEngine graphicsEngine;
         private readonly RTInstances instances;
         private readonly IBepuScene bepuScene;
+        private readonly TextureManager textureManager;
         private IObjectResolver objectResolver;
         private List<BodyPositionSync> bodyPositionSyncs = new List<BodyPositionSync>();
+        private Random Random = new Random();
 
         Box boxShape;
         BodyInertia boxInertia;
@@ -38,7 +40,8 @@ namespace RTBepuDemo
             GraphicsEngine graphicsEngine,
             RTInstances instances,
             IObjectResolverFactory objectResolverFactory,
-            IBepuScene bepuScene)
+            IBepuScene bepuScene,
+            TextureManager textureManager)
         {
             this.window = window;
             this.renderer = renderer;
@@ -46,6 +49,7 @@ namespace RTBepuDemo
             this.graphicsEngine = graphicsEngine;
             this.instances = instances;
             this.bepuScene = bepuScene;
+            this.textureManager = textureManager;
             cameraControls.Position = new Vector3(0, 2, -11);
             SetupBepu();
             this.objectResolver = objectResolverFactory.Create();
@@ -76,6 +80,7 @@ namespace RTBepuDemo
                 o.position = position;
                 o.box = box;
                 o.boxInertia = boxInertia;
+                o.TextureIndex = (uint)Random.Next(textureManager.NumTextures - 1);
             });
 
             bodyPositionSyncs.Add(body);
