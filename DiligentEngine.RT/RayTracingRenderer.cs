@@ -35,7 +35,6 @@ namespace DiligentEngine.RT
             GraphicsEngine graphicsEngine, 
             TextureManager textureManager,
             CubeBLAS cubeBLAS,
-            ProceduralBLAS proceduralBLAS,
             RTInstances rtInstances,
             RTImageBlitter imageBlitter,
             RTCameraAndLight cameraAndLight
@@ -53,7 +52,6 @@ namespace DiligentEngine.RT
             //m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_CubeAttribsCB").Set(cubeBLAS.Attribs);
             m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_Vertices").Set(cubeBLAS.AttrVertices.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
             m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_Indices").Set(cubeBLAS.Indices.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
-            m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_INTERSECTION, "g_BoxAttribs").Set(proceduralBLAS.Attribs.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
 
             // Startup and initialize constants, order is important.
             CreateSBT();
@@ -140,27 +138,6 @@ namespace DiligentEngine.RT
             using var pCubePrimaryHit = m_pDevice.CreateShader(ShaderCI, Macros);
             //VERIFY_EXPR(pCubePrimaryHit != nullptr);
 
-            ShaderCI.Desc.Name = "Glass primary ray closest hit shader";
-            //ShaderCI.FilePath = "GlassPrimaryHit.rchit";
-            ShaderCI.Source = shaderLoader.LoadShader("assets/GlassPrimaryHit.rchit");
-            ShaderCI.EntryPoint = "main";
-            using var pGlassPrimaryHit = m_pDevice.CreateShader(ShaderCI, Macros);
-            //VERIFY_EXPR(pGlassPrimaryHit != nullptr);
-
-            ShaderCI.Desc.Name = "Sphere primary ray closest hit shader";
-            ShaderCI.Source = shaderLoader.LoadShader("assets/SpherePrimaryHit.rchit");
-            ShaderCI.EntryPoint = "main";
-            using var pSpherePrimaryHit = m_pDevice.CreateShader(ShaderCI, Macros);
-            //VERIFY_EXPR(pSpherePrimaryHit != nullptr);
-
-            //// Create intersection shader for a procedural sphere.
-            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_INTERSECTION;
-            ShaderCI.Desc.Name = "Sphere intersection shader";
-            ShaderCI.Source = shaderLoader.LoadShader("assets/SphereIntersection.rint");
-            ShaderCI.EntryPoint = "main";
-            using var pSphereIntersection = m_pDevice.CreateShader(ShaderCI, Macros);
-            //VERIFY_EXPR(pSphereIntersection != nullptr);
-
             // Setup shader groups
             PSOCreateInfo.pGeneralShaders = new List<RayTracingGeneralShaderGroup>
             {
@@ -176,16 +153,11 @@ namespace DiligentEngine.RT
             {
                 // Primary ray hit group for the textured cube.
                 new RayTracingTriangleHitShaderGroup { Name = "CubePrimaryHit", pClosestHitShader = pCubePrimaryHit.Obj },
-                // Primary ray hit group for the glass cube.
-                new RayTracingTriangleHitShaderGroup { Name = "GlassPrimaryHit", pClosestHitShader = pGlassPrimaryHit.Obj }
             };
 
             PSOCreateInfo.pProceduralHitShaders = new List<RayTracingProceduralHitShaderGroup>
             {
-                // Intersection and closest hit shaders for the procedural sphere.
-                new RayTracingProceduralHitShaderGroup { Name = "SpherePrimaryHit", pIntersectionShader = pSphereIntersection.Obj, pClosestHitShader = pSpherePrimaryHit.Obj },
-                // Only intersection shader is needed for shadows.
-                new RayTracingProceduralHitShaderGroup { Name = "SphereShadowHit", pIntersectionShader = pSphereIntersection.Obj }
+                
             };
 
             // Specify the maximum ray recursion depth.

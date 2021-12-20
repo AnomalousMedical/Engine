@@ -1,12 +1,3 @@
-struct CubeAttribs
-{
-    float4 UVs[24];
-    float4 Tangents[24];
-    float4 Binormals[24];
-    float4 Normals[24];
-    uint4  Primitives[36];
-};
-
 struct CubeAttribVertex {
   float4 uv;
   float4 tangent;

@@ -20,7 +20,6 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<BLASBuilder>();
             services.AddSingleton<RTImageBlitter>();
             services.AddSingleton<CubeBLAS>();
-            services.AddSingleton<ProceduralBLAS>();
             services.AddSingleton<RTCameraAndLight>();
             services.AddSingleton<RTInstances>();
             services.AddSingleton<TextureManager>();
