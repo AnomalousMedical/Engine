@@ -1,5 +1,5 @@
 ﻿using DiligentEngine;
-using DiligentEngine.GltfPbr.Shapes;
+using DiligentEngine.RT;
 using Engine;
 using RogueLikeMapBuilder;
 using System;
@@ -38,7 +38,7 @@ namespace DungeonGenerator
 
         public float MaxSlopeY { get; set; } = 1f;
 
-        public MapMesh(csMapbuilder mapbuilder, Random random, IRenderDevice renderDevice, float mapUnitX = 2f, float mapUnitY = 2f, float mapUnitZ = 2f)
+        public MapMesh(csMapbuilder mapbuilder, Random random, BLASBuilder blasBuilder, float mapUnitX = 2f, float mapUnitY = 2f, float mapUnitZ = 2f)
         {
             if (mapbuilder.AllowOtherCorridors)
             {
@@ -177,8 +177,8 @@ namespace DungeonGenerator
             squareInfo = new MapMeshSquareInfo[squareCenterMapWidth, squareCenterMapHeight];
             MapMeshTempSquareInfo[,] tempSquareInfo = new MapMeshTempSquareInfo[squareCenterMapWidth, squareCenterMapHeight];
 
-            this.floorMesh = new Mesh();
-            this.wallMesh = new Mesh();
+            this.floorMesh = new Mesh(blasBuilder);
+            this.wallMesh = new Mesh(blasBuilder);
 
             //Figure out number of quads
             uint numFloorQuads = 0;
@@ -590,8 +590,8 @@ namespace DungeonGenerator
                 }
             }
 
-            floorMesh.End(renderDevice);
-            wallMesh.End(renderDevice);
+            floorMesh.End();
+            wallMesh.End();
         }
 
         public void Dispose()

@@ -37,7 +37,7 @@ namespace RTBepuDemo
             {
                 InstanceName = description.InstanceName,
                 CustomId = description.TextureIndex, // texture index
-                pBLAS = cubeBLAS.BLAS,
+                pBLAS = cubeBLAS.Instance.BLAS.Obj,
                 Mask = description.Mask,
                 Transform = description.Transform
             };

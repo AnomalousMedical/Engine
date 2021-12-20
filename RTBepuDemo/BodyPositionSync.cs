@@ -48,7 +48,7 @@ namespace RTBepuDemo
             {
                 InstanceName = description.InstanceName,
                 CustomId = description.TextureIndex,
-                pBLAS = cubeBLAS.BLAS,
+                pBLAS = cubeBLAS.Instance.BLAS.Obj,
                 Mask = description.Mask,
                 Transform = new InstanceMatrix(new Vector3(description.position.X, description.position.Y, description.position.Z), Quaternion.Identity)
             };

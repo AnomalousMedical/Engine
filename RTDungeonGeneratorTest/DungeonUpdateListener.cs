@@ -34,7 +34,7 @@ namespace RTDungeonGeneratorTest
         private readonly BLASBuilder blasBuilder;
         private readonly IBepuScene bepuScene;
         private readonly RayTracingRenderer renderer;
-
+        private readonly RTInstances instances;
         private MapMesh mapMesh;
 
         private SharpButton nextScene = new SharpButton() { Text = "Next Scene" };
@@ -53,7 +53,8 @@ namespace RTDungeonGeneratorTest
             ICoroutineRunner coroutineRunner,
             BLASBuilder blasBuilder,
             IBepuScene bepuScene,
-            RayTracingRenderer renderer)
+            RayTracingRenderer renderer,
+            RTInstances instances)
         {
             this.graphicsEngine = graphicsEngine;
             this.window = window;
@@ -66,6 +67,7 @@ namespace RTDungeonGeneratorTest
             this.blasBuilder = blasBuilder;
             this.bepuScene = bepuScene;
             this.renderer = renderer;
+            this.instances = instances;
             cameraControls.Position = new Vector3(0, 2, -11);
             Initialize();
             LoadNextScene();
@@ -154,6 +156,23 @@ namespace RTDungeonGeneratorTest
 
                 mapMesh?.Dispose();
                 mapMesh = newMapMesh;
+
+                renderer.BindBlas(newMapMesh.WallMesh.Instance);
+
+                var instanceData = new TLASBuildInstanceData()
+                {
+                    InstanceName = Guid.NewGuid().ToString(),
+                    CustomId = 0, //Texture index
+                    pBLAS = newMapMesh.WallMesh.Instance.BLAS.Obj,
+                    Mask = RtStructures.OPAQUE_GEOM_MASK,
+                    Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity)
+                };
+                instances.AddTlasBuild(instanceData);
+
+                instances.AddShaderTableBinder(new CallbackShaderTableBinder((sbt, tlas) =>
+                {
+                    sbt.BindHitGroupForInstance(tlas, instanceData.InstanceName, RtStructures.PRIMARY_RAY_INDEX, "CubePrimaryHit", IntPtr.Zero);
+                }));
             });
         }
 
@@ -219,8 +238,6 @@ namespace RTDungeonGeneratorTest
             var swapChain = graphicsEngine.SwapChain;
             var immediateContext = graphicsEngine.ImmediateContext;
 
-            RenderGui();
-
             renderer.Render(cameraControls.Position, cameraControls.Orientation, new Vector4(0, 10, -10, 0), new Vector4(0, 0, -10, 0));
 
             //This is the old clear loop, leaving in place in case we want or need the screen clear, but I think with pure rt there is no need
@@ -235,20 +252,9 @@ namespace RTDungeonGeneratorTest
             // Let the engine perform required state transitions
             //immediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-            //sharpGui.Render(immediateContext);
+            sharpGui.Render(immediateContext);
 
             swapChain.Present(1);
-        }
-
-        private void RenderGui()
-        {
-            var swapChain = graphicsEngine.SwapChain;
-            var immediateContext = graphicsEngine.ImmediateContext;
-
-            //Draw the gui
-            var pDSV = swapChain.GetDepthBufferDSV();
-            immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-            sharpGui.Render(immediateContext);
         }
     }
 }

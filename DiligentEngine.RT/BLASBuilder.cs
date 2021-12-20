@@ -20,17 +20,17 @@ namespace DiligentEngine.RT
 
     public class BLASInstance : IDisposable
     {
-        public AutoPtr<IBottomLevelAS> m_pCubeBLAS {get; internal set; }
-        public AutoPtr<IBuffer> pCubeAttrVertexBuffer {get; internal set; }
-        public AutoPtr<IBuffer> pCubeVertexBuffer { get; internal set; }
-        public AutoPtr<IBuffer> pCubeIndexBuffer { get; internal set; }
+        public AutoPtr<IBottomLevelAS> BLAS {get; internal set; }
+        public AutoPtr<IBuffer> AttrVertexBuffer {get; internal set; }
+        public AutoPtr<IBuffer> VertexBuffer { get; internal set; }
+        public AutoPtr<IBuffer> IndexBuffer { get; internal set; }
 
         public void Dispose()
         {
-            m_pCubeBLAS.Dispose();
-            pCubeIndexBuffer.Dispose();
-            pCubeVertexBuffer.Dispose();
-            pCubeAttrVertexBuffer.Dispose();
+            BLAS.Dispose();
+            IndexBuffer.Dispose();
+            VertexBuffer.Dispose();
+            AttrVertexBuffer.Dispose();
         }
     }
 
@@ -102,7 +102,7 @@ namespace DiligentEngine.RT
                 {
                     BufData.pData = new IntPtr(p_vertices);
                     BufData.DataSize = BuffDesc.uiSizeInBytes = BuffDesc.ElementByteStride * (uint)attrVertices.Length;
-                    result.pCubeAttrVertexBuffer = m_pDevice.CreateBuffer(BuffDesc, BufData);
+                    result.AttrVertexBuffer = m_pDevice.CreateBuffer(BuffDesc, BufData);
                 }
 
                 //VERIFY_EXPR(pCubeVertexBuffer != nullptr);
@@ -120,7 +120,7 @@ namespace DiligentEngine.RT
                 {
                     BufData.pData = new IntPtr(vertices);
                     BufData.DataSize = BuffDesc.uiSizeInBytes = (uint)(sizeof(Vector3) * blasMeshDesc.CubePos.Length);
-                    result.pCubeVertexBuffer = m_pDevice.CreateBuffer(BuffDesc, BufData);
+                    result.VertexBuffer = m_pDevice.CreateBuffer(BuffDesc, BufData);
                 }
 
                 //VERIFY_EXPR(pCubeVertexBuffer != nullptr);
@@ -140,7 +140,7 @@ namespace DiligentEngine.RT
                 {
                     BufData.pData = new IntPtr(p_indices);
                     BufData.DataSize = BuffDesc.uiSizeInBytes = BuffDesc.ElementByteStride * (uint)Indices.Length;
-                    result.pCubeIndexBuffer = m_pDevice.CreateBuffer(BuffDesc, BufData);
+                    result.IndexBuffer = m_pDevice.CreateBuffer(BuffDesc, BufData);
                 }
 
                 //VERIFY_EXPR(pCubeIndexBuffer != nullptr);
@@ -163,7 +163,7 @@ namespace DiligentEngine.RT
                     ASDesc.Flags = RAYTRACING_BUILD_AS_FLAGS.RAYTRACING_BUILD_AS_PREFER_FAST_TRACE;
                     ASDesc.pTriangles = new List<BLASTriangleDesc> { Triangles };
 
-                    result.m_pCubeBLAS = m_pDevice.CreateBLAS(ASDesc);
+                    result.BLAS = m_pDevice.CreateBLAS(ASDesc);
                     //VERIFY_EXPR(m_pCubeBLAS != nullptr);
                 }
 
@@ -173,24 +173,24 @@ namespace DiligentEngine.RT
                     Name = "BLAS Scratch Buffer",
                     Usage = USAGE.USAGE_DEFAULT,
                     BindFlags = BIND_FLAGS.BIND_RAY_TRACING,
-                    uiSizeInBytes = result.m_pCubeBLAS.Obj.ScratchBufferSizes_Build,
+                    uiSizeInBytes = result.BLAS.Obj.ScratchBufferSizes_Build,
                 }, new BufferData());
 
                 // Build BLAS
                 var TriangleData = new BLASBuildTriangleData();
                 TriangleData.GeometryName = Triangles.GeometryName;
-                TriangleData.pVertexBuffer = result.pCubeVertexBuffer.Obj;
+                TriangleData.pVertexBuffer = result.VertexBuffer.Obj;
                 TriangleData.VertexStride = (uint)sizeof(Vector3);
                 TriangleData.VertexCount = Triangles.MaxVertexCount;
                 TriangleData.VertexValueType = Triangles.VertexValueType;
                 TriangleData.VertexComponentCount = Triangles.VertexComponentCount;
-                TriangleData.pIndexBuffer = result.pCubeIndexBuffer.Obj;
+                TriangleData.pIndexBuffer = result.IndexBuffer.Obj;
                 TriangleData.PrimitiveCount = Triangles.MaxPrimitiveCount;
                 TriangleData.IndexType = Triangles.IndexType;
                 TriangleData.Flags = RAYTRACING_GEOMETRY_FLAGS.RAYTRACING_GEOMETRY_FLAG_OPAQUE;
 
                 var Attribs = new BuildBLASAttribs();
-                Attribs.pBLAS = result.m_pCubeBLAS.Obj;
+                Attribs.pBLAS = result.BLAS.Obj;
                 Attribs.pTriangleData = new List<BLASBuildTriangleData> { TriangleData };
 
                 // Scratch buffer will be used to store temporary data during BLAS build.

@@ -34,7 +34,6 @@ namespace DiligentEngine.RT
             ShaderLoader<RTShaders> shaderLoader,
             GraphicsEngine graphicsEngine, 
             TextureManager textureManager,
-            CubeBLAS cubeBLAS,
             RTInstances rtInstances,
             RTImageBlitter imageBlitter,
             RTCameraAndLight cameraAndLight
@@ -49,10 +48,6 @@ namespace DiligentEngine.RT
 
             textureManager.BindTextures(m_pRayTracingSRB.Obj);
 
-            //m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_CubeAttribsCB").Set(cubeBLAS.Attribs);
-            m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_Vertices").Set(cubeBLAS.AttrVertices.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
-            m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_Indices").Set(cubeBLAS.Indices.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
-
             // Startup and initialize constants, order is important.
             CreateSBT();
             m_Constants = Constants.CreateDefault(m_MaxRecursionDepth);
@@ -65,6 +60,12 @@ namespace DiligentEngine.RT
             m_pRayTracingSRB.Dispose();
             m_pRayTracingPSO.Dispose();
             m_ConstantsCB.Dispose();
+        }
+
+        public void BindBlas(BLASInstance bLASInstance)
+        {
+            m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_Vertices").Set(bLASInstance.AttrVertexBuffer.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
+            m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_Indices").Set(bLASInstance.IndexBuffer.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
         }
 
         unsafe void CreateRayTracingPSO(ShaderLoader shaderLoader, int numTextures)

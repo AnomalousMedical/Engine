@@ -10,7 +10,9 @@ namespace DiligentEngine.RT
 {
     public class CubeBLAS : IDisposable
     {
-        private BLASInstance mesh;
+        private BLASInstance instance;
+
+        public BLASInstance Instance => instance;
 
         public unsafe CubeBLAS(BLASBuilder blasBuilder)
         {
@@ -76,18 +78,12 @@ namespace DiligentEngine.RT
                 20,21,22, 20,22,23  //Front +z
             };
 
-            mesh = blasBuilder.CreateBLAS(blasDesc);
+            instance = blasBuilder.CreateBLAS(blasDesc);
         }
 
         public void Dispose()
         {
-            mesh.Dispose();
+            instance.Dispose();
         }
-
-        public IBuffer AttrVertices => mesh.pCubeAttrVertexBuffer.Obj;
-
-        public IBuffer Indices => mesh.pCubeIndexBuffer.Obj;
-
-        public IBottomLevelAS BLAS => mesh.m_pCubeBLAS.Obj;
     }
 }

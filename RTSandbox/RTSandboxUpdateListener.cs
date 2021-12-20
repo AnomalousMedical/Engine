@@ -32,7 +32,8 @@ namespace RTSandbox
             IRTSandboxScene scene,
             RayTracingRenderer rayTracingRenderer,
             ISharpGui sharpGui,
-            RTGui gui
+            RTGui gui,
+            CubeBLAS cubeBLAS //Don't really want to pass like this
         )
         {
             this.cameraControls = cameraControls;
@@ -42,6 +43,8 @@ namespace RTSandbox
             this.gui = gui;
             this.swapChain = graphicsEngine.SwapChain;
             this.immediateContext = graphicsEngine.ImmediateContext;
+
+            this.rayTracingRenderer.BindBlas(cubeBLAS.Instance);
 
             cameraControls.Position = new Vector3(0, 0, -10);
         }

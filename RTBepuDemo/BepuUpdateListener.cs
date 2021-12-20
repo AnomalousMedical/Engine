@@ -41,8 +41,11 @@ namespace RTBepuDemo
             RTInstances instances,
             IObjectResolverFactory objectResolverFactory,
             IBepuScene bepuScene,
-            TextureManager textureManager)
+            TextureManager textureManager,
+            CubeBLAS cubeBLAS //Don't really want to pass like this
+        )
         {
+            renderer.BindBlas(cubeBLAS.Instance);
             this.window = window;
             this.renderer = renderer;
             this.cameraControls = cameraControls;

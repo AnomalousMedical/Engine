@@ -17,6 +17,21 @@ namespace DiligentEngine.RT
         void Bind(IShaderBindingTable sbt, ITopLevelAS tlas);
     }
 
+    public class CallbackShaderTableBinder : IShaderTableBinder
+    {
+        Action<IShaderBindingTable, ITopLevelAS> action;
+
+        public CallbackShaderTableBinder(Action<IShaderBindingTable, ITopLevelAS> action)
+        {
+            this.action = action;
+        }
+
+        public void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
+        {
+            this.action(sbt, tlas);
+        }
+    }
+
     public class RTInstances
     {
         List<TLASBuildInstanceData> instances = new List<TLASBuildInstanceData>();

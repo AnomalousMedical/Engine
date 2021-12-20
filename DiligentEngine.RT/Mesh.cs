@@ -9,7 +9,9 @@ namespace DiligentEngine.RT
 {
     public class Mesh : IDisposable
     {
-        private BLASInstance mesh;
+        private BLASInstance instance;
+
+        public BLASInstance Instance => instance;
 
         public uint NumIndices => numIndices;
 
@@ -28,7 +30,7 @@ namespace DiligentEngine.RT
 
         public void Dispose()
         {
-            mesh?.Dispose();
+            instance?.Dispose();
         }
 
         public void Begin(uint numQuads)
@@ -80,7 +82,7 @@ namespace DiligentEngine.RT
 
         public unsafe void End()
         {
-            mesh = blasBuilder.CreateBLAS(blasDesc);
+            instance = blasBuilder.CreateBLAS(blasDesc);
         }
     }
 }
