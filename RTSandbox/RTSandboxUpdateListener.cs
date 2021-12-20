@@ -25,8 +25,6 @@ namespace RTSandbox
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext immediateContext;
 
-
-
         public unsafe RTSandboxUpdateListener
         (
             GraphicsEngine graphicsEngine,
