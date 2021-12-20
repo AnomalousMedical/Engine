@@ -60,8 +60,9 @@ namespace RTDungeonGeneratorTest
             //Add this app's services
             services.AddSingleton<DungeonUpdateListener>();
             services.AddSingleton<RTGui>();
-            services.AddSingleton<SceneDungeon>();
-            services.AddSingleton<SceneDungeon.Desc>();
+
+            services.AddScoped<SceneDungeon>();
+            services.AddScoped<SceneDungeon.Desc>();
 
             return true;
         }

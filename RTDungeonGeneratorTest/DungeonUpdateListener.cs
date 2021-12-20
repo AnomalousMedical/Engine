@@ -33,6 +33,7 @@ namespace RTDungeonGeneratorTest
         private readonly RTGui gui;
         private readonly IObjectResolver objectResolver;
 
+        private SceneDungeon currentDungeon;
         private SharpButton nextScene = new SharpButton() { Text = "Next Scene" };
         private bool loadingLevel = false;
         private int currentSeed = 23;
@@ -68,13 +69,16 @@ namespace RTDungeonGeneratorTest
         {
             coroutineRunner.RunTask(async () =>
             {
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
                     loadingLevel = true;
-                    this.objectResolver.Resolve<SceneDungeon, SceneDungeon.Desc>(o =>
+                    var dungeon = this.objectResolver.Resolve<SceneDungeon, SceneDungeon.Desc>(o =>
                     {
                         o.Seed = currentSeed++;
                     });
+                    await dungeon.LoadingTask;
+                    currentDungeon?.RequestDestruction();
+                    currentDungeon = dungeon;
                     loadingLevel = false;
                 });
             });

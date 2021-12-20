@@ -30,7 +30,9 @@ namespace RTDungeonGeneratorTest
         private TLASBuildInstanceData instanceData;
         private readonly RTInstances instances;
         private readonly RayTracingRenderer renderer;
+        private readonly IDestructionRequest destructionRequest;
         private MapMesh mapMesh;
+        private Task loadingTask;
 
         public SceneDungeon
         (
@@ -38,15 +40,18 @@ namespace RTDungeonGeneratorTest
             RTInstances instances,
             ICoroutineRunner coroutineRunner,
             BLASBuilder blasBuilder,
-            RayTracingRenderer renderer
+            RayTracingRenderer renderer,
+            IDestructionRequest destructionRequest
         )
         {
             this.instances = instances;
             this.renderer = renderer;
+            this.destructionRequest = destructionRequest;
             coroutineRunner.RunTask(async () =>
             {
-                await Task.Run(() =>
+                loadingTask = Task.Run(() =>
                 {
+                    using var destructionBlock = destructionRequest.BlockDestruction();
                     var sw = new Stopwatch();
                     sw.Start();
                     //Quick test with the console
@@ -118,6 +123,8 @@ namespace RTDungeonGeneratorTest
                     mapMesh = new MapMesh(mapBuilder, random, blasBuilder, mapUnitY: 0.1f);
                 });
 
+                await loadingTask;
+
                 this.instanceData = new TLASBuildInstanceData()
                 {
                     InstanceName = Guid.NewGuid().ToString(),
@@ -130,6 +137,11 @@ namespace RTDungeonGeneratorTest
                 instances.AddTlasBuild(instanceData);
                 instances.AddShaderTableBinder(this);
             });
+        }
+
+        public void RequestDestruction()
+        {
+            destructionRequest.RequestDestruction();
         }
 
         public void Dispose()
@@ -148,5 +160,7 @@ namespace RTDungeonGeneratorTest
         {
             sbt.BindHitGroupForInstance(tlas, instanceData.InstanceName, RtStructures.PRIMARY_RAY_INDEX, "CubePrimaryHit", IntPtr.Zero);
         }
+
+        public Task LoadingTask => loadingTask;
     }
 }
