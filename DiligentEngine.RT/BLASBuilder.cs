@@ -64,27 +64,29 @@ namespace DiligentEngine.RT
                 var vertex = new CubeAttribVertex();
                 vertex.uv = blasMeshDesc.CubeUV[i];
                 vertex.normal = blasMeshDesc.CubeNormals[i];
-                vertex.tangent = new Vector4(1, 0, 0, 0);
-                vertex.binormal = new Vector4(1, 0, 0, 0);
                 attrVertices[i] = vertex;
             }
 
-            //for (int i = 0; i < Indices.Length; i += 3)
-            //{
-            //    var index1 = Indices[i];
-            //    var index2 = Indices[i + 1];
-            //    var index3 = Indices[i + 2];
+            for (int i = 0; i < Indices.Length; i += 3)
+            {
+                var index1 = Indices[i];
+                var index2 = Indices[i + 1];
+                var index3 = Indices[i + 2];
 
-            //    var vertex1 = attrVertices[index1];
-            //    var vertex2 = attrVertices[index2];
-            //    var vertex3 = attrVertices[index3];
+                var pos1 = blasMeshDesc.CubePos[index1];
+                var pos2 = blasMeshDesc.CubePos[index2];
+                var pos3 = blasMeshDesc.CubePos[index3];
 
-            //    CalculateTangentBitangent(ref vertex1, ref vertex2, ref vertex3);
+                var vertex1 = attrVertices[index1];
+                var vertex2 = attrVertices[index2];
+                var vertex3 = attrVertices[index3];
 
-            //    attrVertices[index1] = vertex1;
-            //    attrVertices[index2] = vertex2;
-            //    attrVertices[index3] = vertex3;
-            //}
+                CalculateTangentBitangent(pos1, pos2, pos3, ref vertex1, ref vertex2, ref vertex3);
+
+                attrVertices[index1] = vertex1;
+                attrVertices[index2] = vertex2;
+                attrVertices[index3] = vertex3;
+            }
 
             // Create attribs vertex buffer
             {
@@ -230,13 +232,13 @@ namespace DiligentEngine.RT
             bitangent.y = f * (-deltaUV2.x * edge1.y + deltaUV1.x * edge2.y);
             bitangent.z = f * (-deltaUV2.x * edge1.z + deltaUV1.x * edge2.z);
 
-            //v1.tangent = tangent;
-            //v2.tangent = tangent;
-            //v3.tangent = tangent;
+            v1.tangent = tangent;
+            v2.tangent = tangent;
+            v3.tangent = tangent;
 
-            //v1.binormal = bitangent;
-            //v2.binormal = bitangent;
-            //v3.binormal = bitangent;
+            v1.binormal = bitangent;
+            v2.binormal = bitangent;
+            v3.binormal = bitangent;
         }
     }
 }
