@@ -94,8 +94,6 @@ namespace DiligentEngine.RT
             // Define shader macros
             ShaderMacroHelper Macros = new ShaderMacroHelper();
             Macros.AddShaderMacro("NUM_TEXTURES", numTextures);
-            Macros.AddShaderMacro("NUM_VERTICES", CubeAttribs.NumVertices);
-            Macros.AddShaderMacro("NUM_INDICES", CubeAttribs.NumIndices);
 
             ShaderCreateInfo ShaderCI = new ShaderCreateInfo();
             // We will not be using combined texture samplers as they

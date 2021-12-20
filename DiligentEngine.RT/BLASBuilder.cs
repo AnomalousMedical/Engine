@@ -62,28 +62,27 @@ namespace DiligentEngine.RT
             for(var i = 0; i < blasMeshDesc.CubePos.Length; ++i)
             {
                 var vertex = new CubeAttribVertex();
-                vertex.pos = blasMeshDesc.CubePos[i];
                 vertex.uv = blasMeshDesc.CubeUV[i];
                 vertex.normal = blasMeshDesc.CubeNormals[i];
                 attrVertices[i] = vertex;
             }
 
-            for (int i = 0; i < Indices.Length; i += 3)
-            {
-                var index1 = Indices[i];
-                var index2 = Indices[i + 1];
-                var index3 = Indices[i + 2];
+            //for (int i = 0; i < Indices.Length; i += 3)
+            //{
+            //    var index1 = Indices[i];
+            //    var index2 = Indices[i + 1];
+            //    var index3 = Indices[i + 2];
 
-                var vertex1 = attrVertices[index1];
-                var vertex2 = attrVertices[index2];
-                var vertex3 = attrVertices[index3];
+            //    var vertex1 = attrVertices[index1];
+            //    var vertex2 = attrVertices[index2];
+            //    var vertex3 = attrVertices[index3];
 
-                CalculateTangentBitangent(ref vertex1, ref vertex2, ref vertex3);
+            //    CalculateTangentBitangent(ref vertex1, ref vertex2, ref vertex3);
 
-                attrVertices[index1] = vertex1;
-                attrVertices[index2] = vertex2;
-                attrVertices[index3] = vertex3;
-            }
+            //    attrVertices[index1] = vertex1;
+            //    attrVertices[index2] = vertex2;
+            //    attrVertices[index3] = vertex3;
+            //}
 
             // Create attribs vertex buffer
             {
@@ -205,13 +204,15 @@ namespace DiligentEngine.RT
             }
         }
 
-        public void CalculateTangentBitangent(ref CubeAttribVertex v1, ref CubeAttribVertex v2, ref CubeAttribVertex v3)
+        public void CalculateTangentBitangent(
+            in Vector3 pos1, in Vector3 pos2, in Vector3 pos3, 
+            ref CubeAttribVertex v1, ref CubeAttribVertex v2, ref CubeAttribVertex v3)
         {
             //This is adapted from
             //https://learnopengl.com/Advanced-Lighting/Normal-Mapping
 
-            var edge1 = v2.pos - v1.pos;
-            var edge2 = v3.pos - v1.pos;
+            var edge1 = pos2 - pos1;
+            var edge2 = pos3 - pos1;
             var deltaUV1 = v2.uv - v1.uv;
             var deltaUV2 = v3.uv - v1.uv;
 
@@ -227,13 +228,13 @@ namespace DiligentEngine.RT
             bitangent.y = f * (-deltaUV2.x * edge1.y + deltaUV1.x * edge2.y);
             bitangent.z = f * (-deltaUV2.x * edge1.z + deltaUV1.x * edge2.z);
 
-            v1.tangent = tangent;
-            v2.tangent = tangent;
-            v3.tangent = tangent;
+            //v1.tangent = tangent;
+            //v2.tangent = tangent;
+            //v3.tangent = tangent;
 
-            v1.binormal = bitangent;
-            v2.binormal = bitangent;
-            v3.binormal = bitangent;
+            //v1.binormal = bitangent;
+            //v2.binormal = bitangent;
+            //v3.binormal = bitangent;
         }
     }
 }
