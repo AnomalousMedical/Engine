@@ -16,6 +16,26 @@ namespace DiligentEngine.RT
         {
             var blasDesc = new BLASDesc();
 
+            //blasDesc.CubePos = new Vector3[]
+            //{
+            //    new Vector3(-0.5f,-0.5f,-0.5f), new Vector3(-0.5f,+0.5f,-0.5f), new Vector3(+0.5f,+0.5f,-0.5f)
+            //};
+
+            //blasDesc.CubeUV = new Vector4[]
+            //{
+            //    new Vector4(0,0,0,0), new Vector4(0,1,0,0), new Vector4(1,1,0,0)
+            //};
+
+            //blasDesc.CubeNormals = new Vector4[]
+            //{
+            //    new Vector4(0, 0, -1, 0), new Vector4(0, 0, -1, 0), new Vector4(0, 0, -1, 0)
+            //};
+
+            //blasDesc.Indices = new uint[]
+            //{
+            //    2,0,1
+            //};
+
             blasDesc.CubePos = new Vector3[]
             {
                 new Vector3(-0.5f,-0.5f,-0.5f), new Vector3(-0.5f,+0.5f,-0.5f), new Vector3(+0.5f,+0.5f,-0.5f), new Vector3(+0.5f,-0.5f,-0.5f), //Back -z
@@ -64,7 +84,9 @@ namespace DiligentEngine.RT
             mesh.Dispose();
         }
 
-        public IBuffer Attribs => mesh.m_CubeAttribsCB.Obj;
+        public IBuffer AttrVertices => mesh.pCubeAttrVertexBuffer.Obj;
+
+        public IBuffer Indices => mesh.pCubeIndexBuffer.Obj;
 
         public IBottomLevelAS BLAS => mesh.m_pCubeBLAS.Obj;
     }

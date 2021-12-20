@@ -7,6 +7,14 @@ struct CubeAttribs
     uint4  Primitives[NUM_INDICES];
 };
 
+struct CubeAttribVertex {
+  float3 vertex;
+  float4 uv;
+  float4 tangent;
+  float4 binormal;
+  float4 normal;
+};
+
 struct PrimaryRayPayload
 {
     float3 Color;

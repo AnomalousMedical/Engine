@@ -2,7 +2,8 @@
 #include "structures.fxh"
 #include "RayUtils.fxh"
 
-ConstantBuffer<CubeAttribs>  g_CubeAttribsCB;
+StructuredBuffer<CubeAttribVertex> g_Vertices;
+StructuredBuffer<uint> g_Indices;
 
 Texture2D    g_CubeTextures[NUM_TEXTURES];
 Texture2D    g_CubeNormalTextures[NUM_TEXTURES];
@@ -14,28 +15,31 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
     // Calculate triangle barycentrics.
     float3 barycentrics = float3(1.0 - attr.barycentrics.x - attr.barycentrics.y, attr.barycentrics.x, attr.barycentrics.y);
 
-    // Get vertex indices for primitive.
-    uint3 primitive = g_CubeAttribsCB.Primitives[PrimitiveIndex()].xyz;
+    uint vertId = 3 * PrimitiveIndex();
+
+    CubeAttribVertex posX = g_Vertices[g_Indices[vertId + 0]];
+    CubeAttribVertex posY = g_Vertices[g_Indices[vertId + 1]];
+    CubeAttribVertex posZ = g_Vertices[g_Indices[vertId + 2]];
 
     // Calculate texture coordinates.
-    float2 uv = g_CubeAttribsCB.UVs[primitive.x].xy * barycentrics.x +
-                g_CubeAttribsCB.UVs[primitive.y].xy * barycentrics.y +
-                g_CubeAttribsCB.UVs[primitive.z].xy * barycentrics.z;
+    float2 uv = posX.uv.xy * barycentrics.x +
+                posY.uv.xy * barycentrics.y +
+                posZ.uv.xy * barycentrics.z;
 
     // Calculate vertex tangent.
-    float3 tangent = g_CubeAttribsCB.Tangents[primitive.x].xyz * barycentrics.x +
-                    g_CubeAttribsCB.Tangents[primitive.y].xyz * barycentrics.y +
-                    g_CubeAttribsCB.Tangents[primitive.z].xyz * barycentrics.z;
+    float3 tangent = posX.tangent.xyz * barycentrics.x +
+                     posY.tangent.xyz * barycentrics.y +
+                     posZ.tangent.xyz * barycentrics.z;
 
     // Calculate vertex binormal.
-    float3 binormal = g_CubeAttribsCB.Binormals[primitive.x].xyz * barycentrics.x +
-                    g_CubeAttribsCB.Binormals[primitive.y].xyz * barycentrics.y +
-                    g_CubeAttribsCB.Binormals[primitive.z].xyz * barycentrics.z;
+    float3 binormal = posX.binormal.xyz * barycentrics.x +
+                      posY.binormal.xyz * barycentrics.y +
+                      posZ.binormal.xyz * barycentrics.z;
 
     // Calculate vertex normal.
-    float3 normal = g_CubeAttribsCB.Normals[primitive.x].xyz * barycentrics.x +
-                    g_CubeAttribsCB.Normals[primitive.y].xyz * barycentrics.y +
-                    g_CubeAttribsCB.Normals[primitive.z].xyz * barycentrics.z;
+    float3 normal = posX.normal.xyz * barycentrics.x +
+                    posY.normal.xyz * barycentrics.y +
+                    posZ.normal.xyz * barycentrics.z;
     
     //Get Mapped normal
     float3 pertNormal = g_CubeNormalTextures[InstanceID()].SampleLevel(g_SamLinearWrap, uv, 0).rgb * float3(2.0, 2.0, 2.0) - float3(1.0, 1.0, 1.0);

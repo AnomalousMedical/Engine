@@ -21,8 +21,8 @@ namespace DiligentEngine.RT
     public class BLASInstance : IDisposable
     {
         public AutoPtr<IBottomLevelAS> m_pCubeBLAS {get; internal set; }
-        public AutoPtr<IBuffer> m_CubeAttribsCB {get; internal set; }
-        public AutoPtr<IBuffer> pCubeVertexBuffer {get; internal set; }
+        public AutoPtr<IBuffer> pCubeAttrVertexBuffer {get; internal set; }
+        public AutoPtr<IBuffer> pCubeVertexBuffer { get; internal set; }
         public AutoPtr<IBuffer> pCubeIndexBuffer { get; internal set; }
 
         public void Dispose()
@@ -30,7 +30,7 @@ namespace DiligentEngine.RT
             m_pCubeBLAS.Dispose();
             pCubeIndexBuffer.Dispose();
             pCubeVertexBuffer.Dispose();
-            m_CubeAttribsCB.Dispose();
+            pCubeAttrVertexBuffer.Dispose();
         }
     }
 
@@ -55,13 +55,18 @@ namespace DiligentEngine.RT
 
             var result = new BLASInstance();
 
-            var CubePos = blasMeshDesc.CubePos;
-            var CubeUV = blasMeshDesc.CubeUV;
-            var CubeNormals = blasMeshDesc.CubeNormals;
+            var attrVertices = new CubeAttribVertex[blasMeshDesc.CubePos.Length];
+
             var Indices = blasMeshDesc.Indices;
 
-            var CubeTangents = new Vector4[CubeNormals.Length];
-            var CubeBinormals = new Vector4[CubeNormals.Length];
+            for(var i = 0; i < blasMeshDesc.CubePos.Length; ++i)
+            {
+                var vertex = new CubeAttribVertex();
+                vertex.pos = blasMeshDesc.CubePos[i];
+                vertex.uv = blasMeshDesc.CubeUV[i];
+                vertex.normal = blasMeshDesc.CubeNormals[i];
+                attrVertices[i] = vertex;
+            }
 
             for (int i = 0; i < Indices.Length; i += 3)
             {
@@ -69,47 +74,35 @@ namespace DiligentEngine.RT
                 var index2 = Indices[i + 1];
                 var index3 = Indices[i + 2];
 
-                CalculateTangentBitangent(
-                    CubePos[index1], CubePos[index2], CubePos[index3],
-                    CubeUV[index1], CubeUV[index2], CubeUV[index3],
-                    out var tangent, out var binormal);
+                var vertex1 = attrVertices[index1];
+                var vertex2 = attrVertices[index2];
+                var vertex3 = attrVertices[index3];
 
-                CubeTangents[index1] = tangent;
-                CubeTangents[index2] = tangent;
-                CubeTangents[index3] = tangent;
+                CalculateTangentBitangent(ref vertex1, ref vertex2, ref vertex3);
 
-                CubeBinormals[index1] = binormal;
-                CubeBinormals[index2] = binormal;
-                CubeBinormals[index3] = binormal;
+                attrVertices[index1] = vertex1;
+                attrVertices[index2] = vertex2;
+                attrVertices[index3] = vertex3;
             }
 
-            // Create a buffer with cube attributes.
-            // These attributes will be used in the hit shader to calculate UVs and normal for intersection point.
+            // Create attribs vertex buffer
             {
-                var Attribs = new CubeAttribs();
-                Attribs.SetUvs(CubeUV);
-                Attribs.SetTangents(CubeTangents);
-                Attribs.SetBinormals(CubeBinormals);
-                Attribs.SetNormals(CubeNormals);
+                var BuffDesc = new BufferDesc();
+                BuffDesc.Name = "Cube attrib vertices";
+                BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
+                BuffDesc.BindFlags = BIND_FLAGS.BIND_SHADER_RESOURCE;
+                BuffDesc.ElementByteStride = (uint)sizeof(CubeAttribVertex);
+                BuffDesc.Mode = BUFFER_MODE.BUFFER_MODE_STRUCTURED;
 
-                for (int i = 0; i < Indices.Length; i += 3)
+                BufferData BufData = new BufferData();
+                fixed (CubeAttribVertex* p_vertices = attrVertices)
                 {
-                    Attribs.SetPrimitive(i / 3, Indices[i], Indices[i + 1], Indices[i + 2], 0);
+                    BufData.pData = new IntPtr(p_vertices);
+                    BufData.DataSize = BuffDesc.uiSizeInBytes = BuffDesc.ElementByteStride * (uint)attrVertices.Length;
+                    result.pCubeAttrVertexBuffer = m_pDevice.CreateBuffer(BuffDesc, BufData);
                 }
 
-                var BufData = new BufferData()
-                {
-                    pData = new IntPtr(&Attribs), //This is stack allocated, so just get the pointer, everything else complains
-                    DataSize = (uint)sizeof(CubeAttribs)
-                };
-                var BuffDesc = new BufferDesc();
-                BuffDesc.Name = "Cube Attribs";
-                BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
-                BuffDesc.BindFlags = BIND_FLAGS.BIND_UNIFORM_BUFFER;
-                BuffDesc.uiSizeInBytes = BufData.DataSize;
-
-                result.m_CubeAttribsCB = m_pDevice.CreateBuffer(BuffDesc, BufData);
-                //VERIFY_EXPR(m_CubeAttribsCB != nullptr);
+                //VERIFY_EXPR(pCubeVertexBuffer != nullptr);
             }
 
             // Create vertex buffer
@@ -120,10 +113,10 @@ namespace DiligentEngine.RT
                 BuffDesc.BindFlags = BIND_FLAGS.BIND_RAY_TRACING;
 
                 BufferData BufData = new BufferData();
-                fixed (Vector3* vertices = CubePos)
+                fixed (Vector3* vertices = blasMeshDesc.CubePos)
                 {
                     BufData.pData = new IntPtr(vertices);
-                    BufData.DataSize = BuffDesc.uiSizeInBytes = (uint)(sizeof(Vector3) * CubePos.Length);
+                    BufData.DataSize = BuffDesc.uiSizeInBytes = (uint)(sizeof(Vector3) * blasMeshDesc.CubePos.Length);
                     result.pCubeVertexBuffer = m_pDevice.CreateBuffer(BuffDesc, BufData);
                 }
 
@@ -135,13 +128,15 @@ namespace DiligentEngine.RT
                 var BuffDesc = new BufferDesc();
                 BuffDesc.Name = "Cube indices";
                 BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
-                BuffDesc.BindFlags = BIND_FLAGS.BIND_RAY_TRACING;
+                BuffDesc.BindFlags = BIND_FLAGS.BIND_RAY_TRACING | BIND_FLAGS.BIND_SHADER_RESOURCE;
+                BuffDesc.ElementByteStride = (uint)sizeof(uint);
+                BuffDesc.Mode = BUFFER_MODE.BUFFER_MODE_STRUCTURED;
 
                 BufferData BufData = new BufferData();
-                fixed (uint* vertices = Indices)
+                fixed (uint* p_indices = Indices)
                 {
-                    BufData.pData = new IntPtr(vertices);
-                    BufData.DataSize = BuffDesc.uiSizeInBytes = (uint)(sizeof(uint) * Indices.Length);
+                    BufData.pData = new IntPtr(p_indices);
+                    BufData.DataSize = BuffDesc.uiSizeInBytes = BuffDesc.ElementByteStride * (uint)Indices.Length;
                     result.pCubeIndexBuffer = m_pDevice.CreateBuffer(BuffDesc, BufData);
                 }
 
@@ -154,7 +149,7 @@ namespace DiligentEngine.RT
                 var Triangles = new BLASTriangleDesc();
                 {
                     Triangles.GeometryName = "Cube";
-                    Triangles.MaxVertexCount = (uint)CubePos.Length;
+                    Triangles.MaxVertexCount = (uint)attrVertices.Length;
                     Triangles.VertexValueType = VALUE_TYPE.VT_FLOAT32;
                     Triangles.VertexComponentCount = 3;
                     Triangles.MaxPrimitiveCount = (uint)(Indices.Length / 3);
@@ -210,32 +205,35 @@ namespace DiligentEngine.RT
             }
         }
 
-        public void CalculateTangentBitangent
-        (
-            Vector3 pos1, Vector3 pos2, Vector3 pos3,
-            Vector4 uv1, Vector4 uv2, Vector4 uv3,
-            out Vector4 tangent, out Vector4 bitangent
-        )
+        public void CalculateTangentBitangent(ref CubeAttribVertex v1, ref CubeAttribVertex v2, ref CubeAttribVertex v3)
         {
             //This is adapted from
             //https://learnopengl.com/Advanced-Lighting/Normal-Mapping
 
-            var edge1 = pos2 - pos1;
-            var edge2 = pos3 - pos1;
-            var deltaUV1 = uv2 - uv1;
-            var deltaUV2 = uv3 - uv1;
+            var edge1 = v2.pos - v1.pos;
+            var edge2 = v3.pos - v1.pos;
+            var deltaUV1 = v2.uv - v1.uv;
+            var deltaUV2 = v3.uv - v1.uv;
 
             float f = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV2.x * deltaUV1.y);
 
-            tangent = new Vector4();
+            var tangent = new Vector4();
             tangent.x = f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x);
             tangent.y = f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y);
             tangent.z = f * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z);
 
-            bitangent = new Vector4();
+            var bitangent = new Vector4();
             bitangent.x = f * (-deltaUV2.x * edge1.x + deltaUV1.x * edge2.x);
             bitangent.y = f * (-deltaUV2.x * edge1.y + deltaUV1.x * edge2.y);
             bitangent.z = f * (-deltaUV2.x * edge1.z + deltaUV1.x * edge2.z);
+
+            v1.tangent = tangent;
+            v2.tangent = tangent;
+            v3.tangent = tangent;
+
+            v1.binormal = bitangent;
+            v2.binormal = bitangent;
+            v3.binormal = bitangent;
         }
     }
 }
