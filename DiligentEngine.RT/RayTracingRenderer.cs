@@ -251,6 +251,7 @@ namespace DiligentEngine.RT
                 m_ScratchBuffer = null;
                 m_InstanceBuffer?.Dispose();
                 m_InstanceBuffer = null;
+                lastNumInstances = numInstances;
             }
 
             // Create TLAS

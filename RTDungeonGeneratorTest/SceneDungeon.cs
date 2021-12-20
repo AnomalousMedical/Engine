@@ -124,6 +124,7 @@ namespace RTDungeonGeneratorTest
                 });
 
                 await loadingTask;
+                mapMesh.CreateMesh();
 
                 this.instanceData = new TLASBuildInstanceData()
                 {
