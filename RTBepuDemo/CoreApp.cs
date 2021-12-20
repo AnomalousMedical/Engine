@@ -58,6 +58,10 @@ namespace RTBepuDemo
             //Add this app's services
             services.TryAddSingleton<BepuUpdateListener>();
 
+            services.AddSingleton<DemoScene>();
+            services.AddScoped<SceneCube>();
+            services.AddScoped<SceneCube.Desc>();
+
             return true;
         }
 

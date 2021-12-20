@@ -16,7 +16,6 @@ namespace RTBepuDemo
 {
     class BepuUpdateListener : UpdateListener, IDisposable
     {
-
         private readonly NativeOSWindow window;
         private readonly RayTracingRenderer renderer;
         private readonly FirstPersonFlyCamera cameraControls;
@@ -37,6 +36,7 @@ namespace RTBepuDemo
 
         public unsafe BepuUpdateListener(
             NativeOSWindow window,
+            DemoScene scene,
             RayTracingRenderer renderer,
             FirstPersonFlyCamera cameraControls,
             GraphicsEngine graphicsEngine)
@@ -167,46 +167,5 @@ namespace RTBepuDemo
             //If you don't want to use multithreading, don't pass a IThreadDispatcher.
             simulation.Timestep(clock.DeltaSeconds, threadDispatcher); //Careful of variable timestep here, not so good
         }
-
-        //private unsafe void Render()
-        //{
-        //    //Render
-        //    var pRTV = swapChain.GetCurrentBackBufferRTV();
-        //    var pDSV = swapChain.GetDepthBufferDSV();
-        //    var PreTransform = swapChain.GetDesc_PreTransform;
-        //    immediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-        //    // Clear the back buffer
-        //    immediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-        //    immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-
-        //    // Set Camera
-        //    var preTransform = CameraHelpers.GetSurfacePretransformMatrix(new Vector3(0, 0, 1), PreTransform);
-        //    var cameraProj = CameraHelpers.GetAdjustedProjectionMatrix(YFov, ZNear, ZFar, window.WindowWidth, window.WindowHeight, PreTransform);
-        //    pbrCameraAndLight.SetCameraPosition(cameraControls.Position, cameraControls.Orientation, preTransform, cameraProj);
-
-        //    // Set Light
-        //    pbrCameraAndLight.SetLight(lightDirection, lightColor, lightIntensity);
-
-        //    //Draw cubes
-        //    Vector3 cubePosition;
-        //    Quaternion cubeOrientation;
-
-        //    foreach (var spherePositionSync in spherePositionSyncs)
-        //    {
-        //        cubePosition = spherePositionSync.GetWorldPosition();
-        //        cubeOrientation = spherePositionSync.GetWorldOrientation();
-
-        //        pbrRenderer.Begin(immediateContext);
-        //        pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, ref cubePosition, ref cubeOrientation, pbrRenderAttribs);
-        //    }
-
-        //    cubePosition = Vector3.Zero;
-        //    cubeOrientation = Quaternion.Identity;
-
-        //    pbrRenderer.Begin(immediateContext);
-        //    pbrRenderer.Render(immediateContext, pboMatBinding.Obj, shape.VertexBuffer, shape.SkinVertexBuffer, shape.IndexBuffer, shape.NumIndices, ref cubePosition, ref cubeOrientation, pbrRenderAttribs);
-
-        //    this.swapChain.Present(1);
-        //}
     }
 }
