@@ -52,6 +52,7 @@ namespace RTBepuDemo
             });
 
             services.AddOSPlatform(pluginManager);
+            services.AddSharpGui();
 
             services.AddFirstPersonFlyCamera();
             services.AddBepuPlugin();
@@ -64,6 +65,7 @@ namespace RTBepuDemo
             services.AddScoped<SceneCube.Desc>();
             services.AddScoped<BodyPositionSync>();
             services.AddScoped<BodyPositionSync.Desc>();
+            services.AddSingleton<RTGui>();
 
             return true;
         }

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Engine.CameraMovement;
 using DiligentEngine.RT;
 using BepuPlugin;
+using SharpGui;
 
 namespace RTBepuDemo
 {
@@ -24,6 +25,8 @@ namespace RTBepuDemo
         private readonly RTInstances instances;
         private readonly IBepuScene bepuScene;
         private readonly TextureManager textureManager;
+        private readonly RTGui gui;
+        private readonly ISharpGui sharpGui;
         private IObjectResolver objectResolver;
         private List<BodyPositionSync> bodyPositionSyncs = new List<BodyPositionSync>();
         private Random Random = new Random();
@@ -42,6 +45,8 @@ namespace RTBepuDemo
             IObjectResolverFactory objectResolverFactory,
             IBepuScene bepuScene,
             TextureManager textureManager,
+            RTGui gui,
+            ISharpGui sharpGui,
             CubeBLAS cubeBLAS //Don't really want to pass like this
         )
         {
@@ -53,6 +58,8 @@ namespace RTBepuDemo
             this.instances = instances;
             this.bepuScene = bepuScene;
             this.textureManager = textureManager;
+            this.gui = gui;
+            this.sharpGui = sharpGui;
             cameraControls.Position = new Vector3(0, 2, -11);
             SetupBepu();
             this.objectResolver = objectResolverFactory.Create();
@@ -109,9 +116,11 @@ namespace RTBepuDemo
 
             cameraControls.UpdateInput(clock);
             UpdatePhysics(clock);
-            //gui.Update(clock);
+            sharpGui.Begin(clock);
+            gui.Update(clock);
+            sharpGui.End();
 
-            renderer.Render(cameraControls.Position, cameraControls.Orientation, new Vector4(0, 10, -10, 0), new Vector4(0, 0, -10, 0));
+            renderer.Render(cameraControls.Position, cameraControls.Orientation, gui.LightPos, gui.LightPos);
 
             //This is the old clear loop, leaving in place in case we want or need the screen clear, but I think with pure rt there is no need
             //since we blit a texture to the full screen over and over.
@@ -125,7 +134,7 @@ namespace RTBepuDemo
             // Let the engine perform required state transitions
             //immediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-            //sharpGui.Render(immediateContext);
+            sharpGui.Render(immediateContext);
 
             swapChain.Present(1);
         }
