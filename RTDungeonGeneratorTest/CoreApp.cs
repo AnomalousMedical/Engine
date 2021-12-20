@@ -58,7 +58,7 @@ namespace RTDungeonGeneratorTest
             services.AddFirstPersonFlyCamera();
 
             //Add this app's services
-            services.TryAddSingleton<BepuUpdateListener>();
+            services.TryAddSingleton<DungeonUpdateListener>();
             services.AddSingleton<RTGui>();
 
             return true;
@@ -76,7 +76,7 @@ namespace RTDungeonGeneratorTest
 
             mainTimer = serviceProvider.GetRequiredService<UpdateTimer>();
 
-            var updateListener = serviceProvider.GetRequiredService<BepuUpdateListener>();
+            var updateListener = serviceProvider.GetRequiredService<DungeonUpdateListener>();
             mainTimer.addUpdateListener(updateListener);
 
             PerformanceMonitor.setupEnabledState(serviceProvider.GetRequiredService<SystemTimer>());

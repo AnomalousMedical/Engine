@@ -20,12 +20,12 @@ using BepuPlugin;
 
 namespace RTDungeonGeneratorTest
 {
-    class BepuUpdateListener : UpdateListener, IDisposable
+    class DungeonUpdateListener : UpdateListener, IDisposable
     {
         private readonly GraphicsEngine graphicsEngine;
         private readonly NativeOSWindow window;
         //private readonly Cube shape;
-        private readonly ILogger<BepuUpdateListener> logger;
+        private readonly ILogger<DungeonUpdateListener> logger;
         private readonly EventManager eventManager;
         private readonly FirstPersonFlyCamera cameraControls;
         private readonly ISharpGui sharpGui;
@@ -42,11 +42,11 @@ namespace RTDungeonGeneratorTest
         private bool loadingLevel = false;
         private int currentSeed = 23;
 
-        public BepuUpdateListener(
+        public DungeonUpdateListener(
             GraphicsEngine graphicsEngine,
             NativeOSWindow window,
             //Cube shape,
-            ILogger<BepuUpdateListener> logger,
+            ILogger<DungeonUpdateListener> logger,
             EventManager eventManager,
             FirstPersonFlyCamera cameraControls,
             ISharpGui sharpGui,
