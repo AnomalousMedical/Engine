@@ -64,6 +64,8 @@ namespace DiligentEngine.RT
                 var vertex = new CubeAttribVertex();
                 vertex.uv = blasMeshDesc.CubeUV[i];
                 vertex.normal = blasMeshDesc.CubeNormals[i];
+                vertex.tangent = new Vector4(1, 0, 0, 0);
+                vertex.binormal = new Vector4(1, 0, 0, 0);
                 attrVertices[i] = vertex;
             }
 

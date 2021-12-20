@@ -26,8 +26,8 @@ namespace DiligentEngine.RT
     public struct CubeAttribVertex
     {
         public float4 uv;
-        //public float4 tangent;
-        //public float4 binormal;
+        public float4 tangent;
+        public float4 binormal;
         public float4 normal;
     };
 }

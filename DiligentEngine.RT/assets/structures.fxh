@@ -9,8 +9,8 @@ struct CubeAttribs
 
 struct CubeAttribVertex {
   float4 uv;
-  //float4 tangent;
-  //float4 binormal;
+  float4 tangent;
+  float4 binormal;
   float4 normal;
 };
 

@@ -26,16 +26,16 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
                 posY.uv.xy * barycentrics.y +
                 posZ.uv.xy * barycentrics.z;
 
-    //// Calculate vertex tangent.
-    //float3 tangent = posX.tangent.xyz * barycentrics.x +
-    //                 posY.tangent.xyz * barycentrics.y +
-    //                 posZ.tangent.xyz * barycentrics.z;
-    //
-    //// Calculate vertex binormal.
-    //float3 binormal = posX.binormal.xyz * barycentrics.x +
-    //                  posY.binormal.xyz * barycentrics.y +
-    //                  posZ.binormal.xyz * barycentrics.z;
-    //
+    // Calculate vertex tangent.
+    float3 tangent = posX.tangent.xyz * barycentrics.x +
+                     posY.tangent.xyz * barycentrics.y +
+                     posZ.tangent.xyz * barycentrics.z;
+    
+    // Calculate vertex binormal.
+    float3 binormal = posX.binormal.xyz * barycentrics.x +
+                      posY.binormal.xyz * barycentrics.y +
+                      posZ.binormal.xyz * barycentrics.z;
+    
     // Calculate vertex normal.
     float3 normal = posX.normal.xyz * barycentrics.x +
                     posY.normal.xyz * barycentrics.y +
@@ -60,4 +60,6 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
 
     //Hacked lighting pass with just vertex normal
     LightingPass(payload.Color, rayOrigin, normal, normal, payload.Recursion + 1);
+
+    payload.Color = binormal;
 }
