@@ -50,7 +50,7 @@ namespace RTBepuDemo
                 CustomId = description.TextureIndex,
                 pBLAS = cubeBLAS.BLAS,
                 Mask = description.Mask,
-                Transform = new InstanceMatrix(new Vector3(description.position.X, description.position.Y, description.position.Z))
+                Transform = new InstanceMatrix(new Vector3(description.position.X, description.position.Y, description.position.Z), Quaternion.Identity)
             };
 
             instances.AddTlasBuild(instanceData);

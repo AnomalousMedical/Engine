@@ -13,11 +13,8 @@ namespace RTSandbox
     {
         private readonly IObjectResolver objectResolver;
 
-        private static readonly Matrix4x4 PlaneScale = Matrix4x4.Scale(1, 1, 1);
-        private static readonly Matrix4x4 Rot = new Quaternion(Vector3.UnitX, 0).inverse().toRotationMatrix4x4();
-
         private SceneCube rotateCube;
-        private Matrix4x4 currentPos = Matrix4x4.Identity;
+        private Quaternion currentRot = Quaternion.Identity;
 
         public PlaneScene(IObjectResolverFactory objectResolverFactory)
         {
@@ -25,64 +22,64 @@ namespace RTSandbox
 
             rotateCube = objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
-                o.Transform = new InstanceMatrix(PlaneScale * Rot * Matrix4x4.Translation(0, 0, 0));
+                o.Transform = new InstanceMatrix(new Vector3(0, 0, 0), Quaternion.Identity);
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
-                o.Transform = new InstanceMatrix(PlaneScale * Rot * Matrix4x4.Translation(3, 3, 0));
+                o.Transform = new InstanceMatrix(new Vector3(-3, -3, 0), Quaternion.Identity);
                 o.TextureIndex = 1;
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
-                o.Transform = new InstanceMatrix(PlaneScale * Rot * Matrix4x4.Translation(6, 3, 0));
+                o.Transform = new InstanceMatrix(new Vector3(-6, -3, 0), Quaternion.Identity);
                 o.TextureIndex = 2;
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
-                o.Transform = new InstanceMatrix(PlaneScale * Rot * Matrix4x4.Translation(9, 3, 0));
+                o.Transform = new InstanceMatrix(new Vector3(-9, -3, 0), Quaternion.Identity);
                 o.TextureIndex = 3;
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
-                o.Transform = new InstanceMatrix(PlaneScale * Rot * Matrix4x4.Translation(12, 3, 0));
+                o.Transform = new InstanceMatrix(new Vector3(-12, -3, 0), Quaternion.Identity);
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
-                o.Transform = new InstanceMatrix(PlaneScale * Rot * Matrix4x4.Translation(3, 6, 0));
+                o.Transform = new InstanceMatrix(new Vector3(-3, -6, 0), Quaternion.Identity);
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
-                o.Transform = new InstanceMatrix(PlaneScale * Rot * Matrix4x4.Translation(-3, 0, 0));
+                o.Transform = new InstanceMatrix(new Vector3(3, 0, 0), Quaternion.Identity);
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
-                o.Transform = new InstanceMatrix(PlaneScale * Rot * Matrix4x4.Translation(-3, -3, 0));
+                o.Transform = new InstanceMatrix(new Vector3(3, 3, 0), Quaternion.Identity);
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
-                o.Transform = new InstanceMatrix(PlaneScale * Rot * Matrix4x4.Translation(-3, -6, 0));
+                o.Transform = new InstanceMatrix(new Vector3(3, 6, 0), Quaternion.Identity);
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
-                o.Transform = new InstanceMatrix(PlaneScale * Rot * Matrix4x4.Translation(-3, -9, 0));
+                o.Transform = new InstanceMatrix(new Vector3(3, 9, 0), Quaternion.Identity);
             });
 
-            for(var x = -10; x < 20; ++x)
+            for (var x = -20; x < 20; ++x)
             {
-                for (var z = -10; z < 20; ++z)
+                for (var z = -20; z < 20; ++z)
                 {
                     objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
                     {
-                        o.Transform = new InstanceMatrix(x, 6.0f, z);
+                        o.Transform = new InstanceMatrix(new Vector3(x, -6.0f, z), Quaternion.Identity);
                         o.TextureIndex = 4;
                     });
                 }
@@ -91,8 +88,8 @@ namespace RTSandbox
 
         public void Update(Clock clock)
         {
-            currentPos *= Matrix4x4.RotationY(0.35f * clock.DeltaSeconds);
-            rotateCube.SetTransform(new InstanceMatrix(currentPos));
+            currentRot *= new Quaternion(new Vector3(0, 1, 0), 0.35f * clock.DeltaSeconds);
+            rotateCube.SetTransform(Vector3.Zero, currentRot);
         }
 
         public void Dispose()

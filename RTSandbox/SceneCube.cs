@@ -52,9 +52,9 @@ namespace RTSandbox
             instances.RemoveTlasBuild(instanceData);
         }
 
-        public void SetTransform(InstanceMatrix matrix)
+        public void SetTransform(in Vector3 trans, in Quaternion rot)
         {
-            this.instanceData.Transform = matrix;
+            this.instanceData.Transform = new InstanceMatrix(trans, rot);
         }
 
         public void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
