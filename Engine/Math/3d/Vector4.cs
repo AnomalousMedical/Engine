@@ -33,14 +33,6 @@ namespace Engine
             this.w = w;
         }
 
-        public Vector4(Vector3 vector3)
-        {
-            this.x = vector3.x;
-            this.y = vector3.y;
-            this.z = vector3.z;
-            this.w = 0f;
-        }
-
         internal float this[int i]
         {
             get

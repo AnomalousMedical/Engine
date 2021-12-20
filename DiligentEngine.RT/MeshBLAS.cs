@@ -47,22 +47,22 @@ namespace DiligentEngine.RT
         public void AddQuad(in Vector3 topLeft, in Vector3 topRight, in Vector3 bottomRight, in Vector3 bottomLeft, in Vector3 topLeftNormal, in Vector3 topRightNormal, in Vector3 bottomRightNormal, in Vector3 bottomLeftNormal, in Vector2 uvTopLeft, in Vector2 uvBottomRight)
         {
             blasDesc.CubePos[currentVert] = topLeft;
-            blasDesc.CubeNormals[currentVert] = new Vector4(topLeftNormal);
+            blasDesc.CubeNormals[currentVert] = ConvertVector(topLeftNormal);
             blasDesc.CubeUV[currentVert] = new Vector4(uvTopLeft.x, uvTopLeft.y, 0, 0);
 
             ++currentVert;
             blasDesc.CubePos[currentVert] = topRight;
-            blasDesc.CubeNormals[currentVert] = new Vector4(topRightNormal);
+            blasDesc.CubeNormals[currentVert] = ConvertVector(topRightNormal);
             blasDesc.CubeUV[currentVert] = new Vector4(uvBottomRight.x, uvTopLeft.y, 0, 0);
 
             ++currentVert;
             blasDesc.CubePos[currentVert] = bottomRight;
-            blasDesc.CubeNormals[currentVert] = new Vector4(bottomRightNormal);
+            blasDesc.CubeNormals[currentVert] = ConvertVector(bottomRightNormal);
             blasDesc.CubeUV[currentVert] = new Vector4(uvBottomRight.x, uvBottomRight.y, 0, 0);
 
             ++currentVert;
             blasDesc.CubePos[currentVert] = bottomLeft;
-            blasDesc.CubeNormals[currentVert] = new Vector4(bottomLeftNormal);
+            blasDesc.CubeNormals[currentVert] = ConvertVector(bottomLeftNormal);
             blasDesc.CubeUV[currentVert] = new Vector4(uvTopLeft.x, uvBottomRight.y, 0, 0);
 
             ++currentVert;
@@ -78,6 +78,11 @@ namespace DiligentEngine.RT
 
             indexBlock += 4;
             currentIndex += 6;
+        }
+        
+        private Vector4 ConvertVector(in Vector3 input)
+        {
+            return new Vector4(-input.x, -input.y, -input.z, 0);
         }
 
         public unsafe void End()
