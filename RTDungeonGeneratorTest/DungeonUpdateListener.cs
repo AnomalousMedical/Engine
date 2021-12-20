@@ -35,6 +35,7 @@ namespace RTDungeonGeneratorTest
         private readonly IBepuScene bepuScene;
         private readonly RayTracingRenderer renderer;
         private readonly RTInstances instances;
+        private readonly RTGui gui;
         private MapMesh mapMesh;
 
         private SharpButton nextScene = new SharpButton() { Text = "Next Scene" };
@@ -54,7 +55,8 @@ namespace RTDungeonGeneratorTest
             BLASBuilder blasBuilder,
             IBepuScene bepuScene,
             RayTracingRenderer renderer,
-            RTInstances instances)
+            RTInstances instances,
+            RTGui gui)
         {
             this.graphicsEngine = graphicsEngine;
             this.window = window;
@@ -68,6 +70,7 @@ namespace RTDungeonGeneratorTest
             this.bepuScene = bepuScene;
             this.renderer = renderer;
             this.instances = instances;
+            this.gui = gui;
             cameraControls.Position = new Vector3(0, 2, -11);
             Initialize();
             LoadNextScene();
@@ -230,6 +233,8 @@ namespace RTDungeonGeneratorTest
                 }
             }
 
+            gui.Update(clock);
+
             sharpGui.End();
         }
 
@@ -238,7 +243,7 @@ namespace RTDungeonGeneratorTest
             var swapChain = graphicsEngine.SwapChain;
             var immediateContext = graphicsEngine.ImmediateContext;
 
-            renderer.Render(cameraControls.Position, cameraControls.Orientation, new Vector4(0, 10, -10, 0), new Vector4(0, 0, -10, 0));
+            renderer.Render(cameraControls.Position, cameraControls.Orientation, gui.LightPos, gui.LightPos);
 
             //This is the old clear loop, leaving in place in case we want or need the screen clear, but I think with pure rt there is no need
             //since we blit a texture to the full screen over and over.

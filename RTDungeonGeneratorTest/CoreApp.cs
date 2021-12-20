@@ -59,6 +59,7 @@ namespace RTDungeonGeneratorTest
 
             //Add this app's services
             services.TryAddSingleton<BepuUpdateListener>();
+            services.AddSingleton<RTGui>();
 
             return true;
         }
