@@ -23,6 +23,7 @@ namespace RTBepuDemo
         private readonly FirstPersonFlyCamera cameraControls;
         private readonly GraphicsEngine graphicsEngine;
         private readonly RTInstances instances;
+        private readonly IObjectResolverFactory objectResolverFactory;
         private readonly IBepuScene bepuScene;
         private readonly TextureManager textureManager;
         private readonly RTGui gui;
@@ -56,6 +57,7 @@ namespace RTBepuDemo
             this.cameraControls = cameraControls;
             this.graphicsEngine = graphicsEngine;
             this.instances = instances;
+            this.objectResolverFactory = objectResolverFactory;
             this.bepuScene = bepuScene;
             this.textureManager = textureManager;
             this.gui = gui;
@@ -119,6 +121,7 @@ namespace RTBepuDemo
             sharpGui.Begin(clock);
             gui.Update(clock);
             sharpGui.End();
+            objectResolverFactory.Flush();
 
             renderer.Render(cameraControls.Position, cameraControls.Orientation, gui.LightPos, gui.LightPos);
 

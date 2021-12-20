@@ -29,6 +29,7 @@ namespace RTDungeonGeneratorTest
         private readonly IScaleHelper scaleHelper;
         private readonly ICoroutineRunner coroutineRunner;
         private readonly IBepuScene bepuScene;
+        private readonly IObjectResolverFactory objectResolverFactory;
         private readonly RayTracingRenderer renderer;
         private readonly RTGui gui;
         private readonly IObjectResolver objectResolver;
@@ -57,6 +58,7 @@ namespace RTDungeonGeneratorTest
             this.scaleHelper = scaleHelper;
             this.coroutineRunner = coroutineRunner;
             this.bepuScene = bepuScene;
+            this.objectResolverFactory = objectResolverFactory;
             this.renderer = renderer;
             this.gui = gui;
             this.objectResolver = objectResolverFactory.Create();
@@ -114,6 +116,7 @@ namespace RTDungeonGeneratorTest
             cameraControls.UpdateInput(clock);
             bepuScene.Update(clock, new System.Numerics.Vector3(0, 0, 1));
             UpdateGui(clock);
+            objectResolverFactory.Flush();
             Render();
         }
 
