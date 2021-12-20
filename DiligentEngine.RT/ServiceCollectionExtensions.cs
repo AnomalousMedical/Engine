@@ -17,6 +17,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<IResourceProvider<ShaderLoader<RTShaders>>>(s =>
                 new EmbeddedResourceProvider<ShaderLoader<RTShaders>>(Assembly.GetExecutingAssembly(), "DiligentEngine.RT."));
 
+            services.AddSingleton<BLASBuilder>();
             services.AddSingleton<RTImageBlitter>();
             services.AddSingleton<CubeBLAS>();
             services.AddSingleton<ProceduralBLAS>();

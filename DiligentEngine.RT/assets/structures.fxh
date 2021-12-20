@@ -1,11 +1,10 @@
-
 struct CubeAttribs
 {
-    float4 UVs[24];
-    float4 Tangents[24];
-    float4 Binormals[24];
-    float4 Normals[24];
-    uint4  Primitives[12];
+    float4 UVs[NUM_VERTICES];
+    float4 Tangents[NUM_VERTICES];
+    float4 Binormals[NUM_VERTICES];
+    float4 Normals[NUM_VERTICES];
+    uint4  Primitives[NUM_INDICES];
 };
 
 struct PrimaryRayPayload

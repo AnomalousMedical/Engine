@@ -92,6 +92,8 @@ namespace DiligentEngine.RT
             // Define shader macros
             ShaderMacroHelper Macros = new ShaderMacroHelper();
             Macros.AddShaderMacro("NUM_TEXTURES", numTextures);
+            Macros.AddShaderMacro("NUM_VERTICES", CubeAttribs.NumVertices);
+            Macros.AddShaderMacro("NUM_INDICES", CubeAttribs.NumIndices);
 
             ShaderCreateInfo ShaderCI = new ShaderCreateInfo();
             // We will not be using combined texture samplers as they
@@ -263,6 +265,11 @@ namespace DiligentEngine.RT
             // Create or update top-level acceleration structure
 
             uint numInstances = (uint)rtInstances.Instances.Count;
+            if(numInstances == 0)
+            {
+                return null;
+            }
+
             if(numInstances != lastNumInstances) //If instance count changes invalidate buffers
             {
                 m_ScratchBuffer?.Dispose();
@@ -354,6 +361,10 @@ namespace DiligentEngine.RT
             //TODO: Might be able to avoid recreating this like the other buffers, this also seems ok
             //So really need more info about behavior to decide here
             using var tlas = UpdateTLAS();
+            if(tlas == null)
+            {
+                return;
+            }
 
             // Update constants
             {

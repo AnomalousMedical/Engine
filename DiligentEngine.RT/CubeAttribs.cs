@@ -22,14 +22,18 @@ using Engine;
 
 namespace DiligentEngine.RT
 {
-    [StructLayout(LayoutKind.Explicit, Size = UVSize + NormalSize + PrimitivesSize)]
+    [StructLayout(LayoutKind.Explicit, Size = UVSize + TangentSize + BinormalSize + NormalSize + PrimitivesSize)]
     unsafe struct CubeAttribs
     {
-        public const int UVSize = float4.Size * 24;
-        public const int TangentSize = float4.Size * 24;
-        public const int BinormalSize = float4.Size * 24;
-        public const int NormalSize = float4.Size * 24;
-        public const int PrimitivesSize = sizeof(uint) * 4 * 12;
+        public const int NumQuads = 6;
+        public const int NumVertices = NumQuads * 4;
+        public const int NumIndices = NumQuads * 6;
+        
+        public const int UVSize = float4.Size * NumVertices;
+        public const int TangentSize = float4.Size * NumVertices;
+        public const int BinormalSize = float4.Size * NumVertices;
+        public const int NormalSize = float4.Size * NumVertices;
+        public const int PrimitivesSize = sizeof(uint) * 4 * NumIndices;
 
         [FieldOffset(0)]
         fixed float _UVs[UVSize]; //float4[24]
