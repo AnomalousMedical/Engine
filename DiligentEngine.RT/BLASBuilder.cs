@@ -9,6 +9,8 @@ namespace DiligentEngine.RT
 {
     public class BLASDesc
     {
+        public String Name { get; set; } = Guid.NewGuid().ToString();
+
         public Vector3[] CubePos { get; set; }
 
         public Vector4[] CubeUV { get; set; }
@@ -91,7 +93,7 @@ namespace DiligentEngine.RT
             // Create attribs vertex buffer
             {
                 var BuffDesc = new BufferDesc();
-                BuffDesc.Name = "Cube attrib vertices";
+                BuffDesc.Name = $"{blasMeshDesc.Name} attrib vertices";
                 BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
                 BuffDesc.BindFlags = BIND_FLAGS.BIND_SHADER_RESOURCE;
                 BuffDesc.ElementByteStride = (uint)sizeof(CubeAttribVertex);
@@ -111,7 +113,7 @@ namespace DiligentEngine.RT
             // Create vertex buffer
             {
                 var BuffDesc = new BufferDesc();
-                BuffDesc.Name = "Cube vertices";
+                BuffDesc.Name = $"{blasMeshDesc.Name} vertices";
                 BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
                 BuffDesc.BindFlags = BIND_FLAGS.BIND_RAY_TRACING;
 
@@ -129,7 +131,7 @@ namespace DiligentEngine.RT
             // Create index buffer
             {
                 var BuffDesc = new BufferDesc();
-                BuffDesc.Name = "Cube indices";
+                BuffDesc.Name = $"{blasMeshDesc.Name} indices";
                 BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
                 BuffDesc.BindFlags = BIND_FLAGS.BIND_RAY_TRACING | BIND_FLAGS.BIND_SHADER_RESOURCE;
                 BuffDesc.ElementByteStride = (uint)sizeof(uint);
@@ -151,7 +153,7 @@ namespace DiligentEngine.RT
                 // Create BLAS
                 var Triangles = new BLASTriangleDesc();
                 {
-                    Triangles.GeometryName = "Cube";
+                    Triangles.GeometryName = blasMeshDesc.Name;
                     Triangles.MaxVertexCount = (uint)attrVertices.Length;
                     Triangles.VertexValueType = VALUE_TYPE.VT_FLOAT32;
                     Triangles.VertexComponentCount = 3;
@@ -159,7 +161,7 @@ namespace DiligentEngine.RT
                     Triangles.IndexType = VALUE_TYPE.VT_UINT32;
 
                     var ASDesc = new BottomLevelASDesc();
-                    ASDesc.Name = "Cube BLAS";
+                    ASDesc.Name = $"{blasMeshDesc.Name} BLAS";
                     ASDesc.Flags = RAYTRACING_BUILD_AS_FLAGS.RAYTRACING_BUILD_AS_PREFER_FAST_TRACE;
                     ASDesc.pTriangles = new List<BLASTriangleDesc> { Triangles };
 
@@ -170,7 +172,7 @@ namespace DiligentEngine.RT
                 // Create scratch buffer
                 using var pScratchBuffer = m_pDevice.CreateBuffer(new BufferDesc()
                 {
-                    Name = "BLAS Scratch Buffer",
+                    Name = $"{blasMeshDesc.Name} BLAS Scratch Buffer",
                     Usage = USAGE.USAGE_DEFAULT,
                     BindFlags = BIND_FLAGS.BIND_RAY_TRACING,
                     uiSizeInBytes = result.BLAS.Obj.ScratchBufferSizes_Build,
