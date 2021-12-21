@@ -9,7 +9,7 @@ using System.Text;
 
 namespace DungeonGenerator
 {
-    public class MapMesh : IDisposable
+    public class MapMesh
     {
         private MeshBLAS floorMesh;
         private MeshBLAS wallMesh;
@@ -589,12 +589,6 @@ namespace DungeonGenerator
                     }
                 }
             }
-        }
-
-        public void Dispose()
-        {
-            this.floorMesh.Dispose();
-            this.wallMesh.Dispose();
         }
 
         /// <summary>

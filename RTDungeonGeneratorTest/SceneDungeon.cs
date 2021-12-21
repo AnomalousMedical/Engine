@@ -27,7 +27,8 @@ namespace RTDungeonGeneratorTest
             public int Seed { get; set; }
         }
 
-        private TLASBuildInstanceData instanceData;
+        private TLASBuildInstanceData wallInstanceData;
+        private TLASBuildInstanceData floorInstanceData;
         private readonly RayTracingRenderer renderer;
         private readonly IDestructionRequest destructionRequest;
         private MapMesh mapMesh;
@@ -127,7 +128,7 @@ namespace RTDungeonGeneratorTest
 
                     mapMesh.CreateMesh();
 
-                    this.instanceData = new TLASBuildInstanceData()
+                    this.wallInstanceData = new TLASBuildInstanceData()
                     {
                         InstanceName = Guid.NewGuid().ToString(),
                         CustomId = 0, //Texture index
@@ -135,7 +136,16 @@ namespace RTDungeonGeneratorTest
                         Mask = RtStructures.OPAQUE_GEOM_MASK,
                         Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity)
                     };
-                    renderer.AddTlasBuild(instanceData);
+                    this.floorInstanceData = new TLASBuildInstanceData()
+                    {
+                        InstanceName = Guid.NewGuid().ToString(),
+                        CustomId = 0, //Texture index
+                        pBLAS = mapMesh.FloorMesh.Instance.BLAS.Obj,
+                        Mask = RtStructures.OPAQUE_GEOM_MASK,
+                        Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity)
+                    };
+                    renderer.AddTlasBuild(wallInstanceData);
+                    renderer.AddTlasBuild(floorInstanceData);
                     renderer.AddShaderTableBinder(this);
 
                     completion.SetResult();
@@ -155,19 +165,20 @@ namespace RTDungeonGeneratorTest
         public void Dispose()
         {
             renderer.RemoveShaderTableBinder(this);
-            renderer.RemoveTlasBuild(instanceData);
-            mapMesh?.Dispose();
+            renderer.RemoveTlasBuild(floorInstanceData);
+            renderer.RemoveTlasBuild(wallInstanceData);
         }
 
         public void SetTransform(InstanceMatrix matrix)
         {
-            this.instanceData.Transform = matrix;
+            this.wallInstanceData.Transform = matrix;
+            this.floorInstanceData.Transform = matrix;
         }
 
         public void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
         {
-            sbt.BindHitGroupForInstance(tlas, instanceData.InstanceName, RtStructures.PRIMARY_RAY_INDEX, mapMesh.FloorMesh.ShaderGroupName, IntPtr.Zero);
-            sbt.BindHitGroupForInstance(tlas, instanceData.InstanceName, RtStructures.PRIMARY_RAY_INDEX, mapMesh.WallMesh.ShaderGroupName, IntPtr.Zero);
+            sbt.BindHitGroupForInstance(tlas, wallInstanceData.InstanceName, RtStructures.PRIMARY_RAY_INDEX, mapMesh.FloorMesh.ShaderGroupName, IntPtr.Zero);
+            sbt.BindHitGroupForInstance(tlas, floorInstanceData.InstanceName, RtStructures.PRIMARY_RAY_INDEX, mapMesh.WallMesh.ShaderGroupName, IntPtr.Zero);
         }
 
         public Task LoadingTask => loadingTask;
