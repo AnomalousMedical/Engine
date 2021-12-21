@@ -1,4 +1,5 @@
-﻿using Engine;
+﻿using DiligentEngine.RT.ShaderSets;
+using Engine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace DiligentEngine.RT
         private readonly RTInstances rtInstances;
         private readonly RTImageBlitter imageBlitter;
         private readonly RTCameraAndLight cameraAndLight;
+        private readonly RTShaders shaders;
         private UInt32 m_MaxRecursionDepth = 8;
 
         private AutoPtr<IBuffer> m_ConstantsCB;
@@ -29,22 +31,25 @@ namespace DiligentEngine.RT
         AutoPtr<IBuffer> m_InstanceBuffer;
         uint lastNumInstances = 0;
 
+        private GeneralShaders generalShaders;
+        private PrimaryHitShader primaryHitShader;
+
         public unsafe RayTracingRenderer
         (
-            ShaderLoader<RTShaders> shaderLoader,
             GraphicsEngine graphicsEngine, 
             TextureManager textureManager,
             RTInstances rtInstances,
             RTImageBlitter imageBlitter,
-            RTCameraAndLight cameraAndLight
+            RTCameraAndLight cameraAndLight,
+            RTShaders shaders
         )
         {
             this.graphicsEngine = graphicsEngine;
             this.rtInstances = rtInstances;
             this.imageBlitter = imageBlitter;
             this.cameraAndLight = cameraAndLight;
-
-            CreateRayTracingPSO(shaderLoader, textureManager.NumTextures);
+            this.shaders = shaders;
+            CreateRayTracingPSO(textureManager.NumTextures);
 
             textureManager.BindTextures(m_pRayTracingSRB.Obj);
 
@@ -59,6 +64,8 @@ namespace DiligentEngine.RT
             m_ScratchBuffer?.Dispose();
             m_pRayTracingSRB.Dispose();
             m_pRayTracingPSO.Dispose();
+            primaryHitShader?.Dispose();
+            generalShaders?.Dispose();
             m_ConstantsCB.Dispose();
         }
 
@@ -68,7 +75,7 @@ namespace DiligentEngine.RT
             m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_Indices").Set(bLASInstance.IndexBuffer.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
         }
 
-        unsafe void CreateRayTracingPSO(ShaderLoader shaderLoader, int numTextures)
+        unsafe void CreateRayTracingPSO(int numTextures)
         {
             var m_pDevice = graphicsEngine.RenderDevice;
 
@@ -82,137 +89,22 @@ namespace DiligentEngine.RT
             m_ConstantsCB = m_pDevice.CreateBuffer(BuffDesc);
             //VERIFY_EXPR(m_ConstantsCB != nullptr);
 
-            m_MaxRecursionDepth = Math.Min(m_MaxRecursionDepth, m_pDevice.DeviceProperties_MaxRayTracingRecursionDepth);
-
-            // Prepare ray tracing pipeline description.
-            RayTracingPipelineStateCreateInfo PSOCreateInfo = new RayTracingPipelineStateCreateInfo();
-
-            PSOCreateInfo.PSODesc.Name = "Ray tracing PSO";
-            PSOCreateInfo.PSODesc.PipelineType = PIPELINE_TYPE.PIPELINE_TYPE_RAY_TRACING;
-
-            var shaderVars = new Dictionary<string, string>()
+            generalShaders = shaders.CreateGeneralShaders();
+            primaryHitShader = shaders.CreatePrimaryHitShader(new PrimaryHitShader.Desc()
             {
-                { "NUM_TEXTURES", numTextures.ToString() },
-                { "VERTICES", "g_Vertices" },
-                { "INDICES", "g_Indices" },
-                { "COLOR_TEXTURES", "g_CubeTextures" },
-                { "NORMAL_TEXTURES", "g_CubeNormalTextures" }
-            };
+                NumTextures = numTextures
+            });
 
-            // Define shader macros
-            ShaderMacroHelper Macros = new ShaderMacroHelper();
-
-            ShaderCreateInfo ShaderCI = new ShaderCreateInfo();
-            // We will not be using combined texture samplers as they
-            // are only required for compatibility with OpenGL, and ray
-            // tracing is not supported in OpenGL backend.
-            ShaderCI.UseCombinedTextureSamplers = false;
-
-            // Only new DXC compiler can compile HLSL ray tracing shaders.
-            ShaderCI.ShaderCompiler = SHADER_COMPILER.SHADER_COMPILER_DXC;
-
-            // Shader model 6.3 is required for DXR 1.0, shader model 6.5 is required for DXR 1.1 and enables additional features.
-            // Use 6.3 for compatibility with DXR 1.0 and VK_NV_ray_tracing.
-            ShaderCI.HLSLVersion = new ShaderVersion { Major = 6, Minor = 3 };
-            ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
-
-            // Create ray generation shader.
-            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_GEN;
-            ShaderCI.Desc.Name = "Ray tracing RG";
-            ShaderCI.Source = shaderLoader.LoadShader(shaderVars, "assets/RayTrace.rgen");
-            ShaderCI.EntryPoint = "main";
-            using var pRayGen = m_pDevice.CreateShader(ShaderCI, Macros);
-            //VERIFY_EXPR(pRayGen != nullptr);
-
-
-            // Create miss shaders.
-            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_MISS;
-            ShaderCI.Desc.Name = "Primary ray miss shader";
-            ShaderCI.Source = shaderLoader.LoadShader(shaderVars, "assets/PrimaryMiss.rmiss");
-            ShaderCI.EntryPoint = "main";
-            using var pPrimaryMiss = m_pDevice.CreateShader(ShaderCI, Macros);
-            //VERIFY_EXPR(pPrimaryMiss != nullptr);
-
-            ShaderCI.Desc.Name = "Shadow ray miss shader";
-            ShaderCI.Source = shaderLoader.LoadShader(shaderVars, "assets/ShadowMiss.rmiss");
-            ShaderCI.EntryPoint = "main";
-            using var pShadowMiss = m_pDevice.CreateShader(ShaderCI, Macros);
-            //VERIFY_EXPR(pShadowMiss != nullptr);
-
-            // Create closest hit shaders.
-            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT;
-            ShaderCI.Desc.Name = "Cube primary ray closest hit shader";
-            ShaderCI.Source = shaderLoader.LoadShader(shaderVars, "assets/CubePrimaryHit.rchit");
-            ShaderCI.EntryPoint = "main";
-            using var pCubePrimaryHit = m_pDevice.CreateShader(ShaderCI, Macros);
-            //VERIFY_EXPR(pCubePrimaryHit != nullptr);
-
-            // Setup shader groups
-            PSOCreateInfo.pGeneralShaders = new List<RayTracingGeneralShaderGroup>
-            {
-                // Ray generation shader is an entry point for a ray tracing pipeline.
-                new RayTracingGeneralShaderGroup { Name = "Main", pShader = pRayGen.Obj },
-                // Primary ray miss shader.
-                new RayTracingGeneralShaderGroup { Name = "PrimaryMiss", pShader = pPrimaryMiss.Obj },
-                // Shadow ray miss shader.
-                new RayTracingGeneralShaderGroup { Name = "ShadowMiss", pShader = pShadowMiss.Obj }
-            };
-
-            PSOCreateInfo.pTriangleHitShaders = new List<RayTracingTriangleHitShaderGroup>
-            {
-                // Primary ray hit group for the textured cube.
-                new RayTracingTriangleHitShaderGroup { Name = "CubePrimaryHit", pClosestHitShader = pCubePrimaryHit.Obj },
-                // Primary ray hit group for the textured cube.
-                //new RayTracingTriangleHitShaderGroup { Name = "CubeSecondaryHit", pClosestHitShader = pCubePrimaryHit.Obj },
-            };
-
-            PSOCreateInfo.pProceduralHitShaders = new List<RayTracingProceduralHitShaderGroup>
-            {
-                
-            };
+            var PSOCreateInfo = shaders.PSOCreateInfo;
 
             // Specify the maximum ray recursion depth.
             // WARNING: the driver does not track the recursion depth and it is the
             //          application's responsibility to not exceed the specified limit.
             //          The value is used to reserve the necessary stack size and
             //          exceeding it will likely result in driver crash.
+            // This is only kept here since we need to use it for constants too
+            m_MaxRecursionDepth = Math.Min(m_MaxRecursionDepth, m_pDevice.DeviceProperties_MaxRayTracingRecursionDepth);
             PSOCreateInfo.RayTracingPipeline.MaxRecursionDepth = (byte)m_MaxRecursionDepth;
-
-            // Per-shader data is not used.
-            PSOCreateInfo.RayTracingPipeline.ShaderRecordSize = 0;
-
-            // DirectX 12 only: set attribute and payload size. Values should be as small as possible to minimize the memory usage.
-            PSOCreateInfo.MaxAttributeSize = (uint)Math.Max(sizeof(/*BuiltInTriangleIntersectionAttributes*/ Vector2), sizeof(DiligentEngine.RT.HLSL.ProceduralGeomIntersectionAttribs));
-            PSOCreateInfo.MaxPayloadSize = (uint)Math.Max(sizeof(DiligentEngine.RT.HLSL.PrimaryRayPayload), sizeof(DiligentEngine.RT.HLSL.ShadowRayPayload));
-
-
-            // Define immutable sampler for g_Texture and g_GroundTexture. Immutable samplers should be used whenever possible
-            var SamLinearWrapDesc = new SamplerDesc
-            {
-                MinFilter = FILTER_TYPE.FILTER_TYPE_LINEAR,
-                MagFilter = FILTER_TYPE.FILTER_TYPE_LINEAR,
-                MipFilter = FILTER_TYPE.FILTER_TYPE_LINEAR,
-                AddressU = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_WRAP,
-                AddressV = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_WRAP,
-                AddressW = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_WRAP
-            };
-            var ImmutableSamplers = new List<ImmutableSamplerDesc>
-            {
-                new ImmutableSamplerDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, SamplerOrTextureName = "g_SamLinearWrap", Desc = SamLinearWrapDesc} //
-            };
-
-            var Variables = new List<ShaderResourceVariableDesc> //
-            {
-                new ShaderResourceVariableDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_MISS | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = "g_ConstantsCB", Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC},
-                new ShaderResourceVariableDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = "g_TLAS", Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC},
-                new ShaderResourceVariableDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = "g_Vertices", Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC},
-                new ShaderResourceVariableDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = "g_Indices", Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC},
-                new ShaderResourceVariableDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN, Name = "g_ColorBuffer", Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC}
-            };
-
-            PSOCreateInfo.PSODesc.ResourceLayout.Variables = Variables;
-            PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers = ImmutableSamplers;
-            PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE;
 
             this.m_pRayTracingPSO = m_pDevice.CreateRayTracingPipelineState(PSOCreateInfo);
             //VERIFY_EXPR(m_pRayTracingPSO != nullptr);

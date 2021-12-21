@@ -24,6 +24,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<RTInstances>();
             services.AddSingleton<TextureManager>();
             services.AddSingleton<RayTracingRenderer>();
+            services.AddSingleton<RTShaders>();
 
             return services;
         }
