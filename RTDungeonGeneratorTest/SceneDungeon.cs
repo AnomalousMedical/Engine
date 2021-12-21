@@ -49,94 +49,104 @@ namespace RTDungeonGeneratorTest
             this.destructionRequest = destructionRequest;
             coroutineRunner.RunTask(async () =>
             {
-                loadingTask = Task.Run(() =>
+                var completion = new TaskCompletionSource();
+                loadingTask = completion.Task;
+                try
                 {
-                    using var destructionBlock = destructionRequest.BlockDestruction();
-                    var sw = new Stopwatch();
-                    sw.Start();
-                    //Quick test with the console
-                    var random = new Random(description.Seed);
-                    var mapBuilder = new csMapbuilder(random, 50, 50);
-                    mapBuilder.CorridorSpace = 10;
-                    mapBuilder.RoomDistance = 3;
-                    mapBuilder.Room_Min = new IntSize2(2, 2);
-                    mapBuilder.Room_Max = new IntSize2(6, 6); //Between 3-6 is good here, 3 for more cityish with small rooms, 6 for more open with more big rooms, sometimes connected
-                    mapBuilder.Corridor_Max = 4;
-                    mapBuilder.Horizontal = false;
-                    mapBuilder.Build_ConnectedStartRooms();
-                    mapBuilder.AddNorthConnector();
-                    mapBuilder.AddSouthConnector();
-                    mapBuilder.AddWestConnector();
-                    mapBuilder.AddEastConnector();
-                    sw.Stop();
-                    var map = mapBuilder.map;
-                    var mapWidth = mapBuilder.Map_Size.Width;
-                    var mapHeight = mapBuilder.Map_Size.Height;
-
-                    for (int mapY = mapBuilder.Map_Size.Height - 1; mapY > -1; --mapY)
+                    await Task.Run(() =>
                     {
-                        for (int mapX = 0; mapX < mapWidth; ++mapX)
+                        using var destructionBlock = destructionRequest.BlockDestruction();
+                        var sw = new Stopwatch();
+                        sw.Start();
+                        //Quick test with the console
+                        var random = new Random(description.Seed);
+                        var mapBuilder = new csMapbuilder(random, 50, 50);
+                        mapBuilder.CorridorSpace = 10;
+                        mapBuilder.RoomDistance = 3;
+                        mapBuilder.Room_Min = new IntSize2(2, 2);
+                        mapBuilder.Room_Max = new IntSize2(6, 6); //Between 3-6 is good here, 3 for more cityish with small rooms, 6 for more open with more big rooms, sometimes connected
+                        mapBuilder.Corridor_Max = 4;
+                        mapBuilder.Horizontal = false;
+                        mapBuilder.Build_ConnectedStartRooms();
+                        mapBuilder.AddNorthConnector();
+                        mapBuilder.AddSouthConnector();
+                        mapBuilder.AddWestConnector();
+                        mapBuilder.AddEastConnector();
+                        sw.Stop();
+                        var map = mapBuilder.map;
+                        var mapWidth = mapBuilder.Map_Size.Width;
+                        var mapHeight = mapBuilder.Map_Size.Height;
+
+                        for (int mapY = mapBuilder.Map_Size.Height - 1; mapY > -1; --mapY)
                         {
-                            switch (map[mapX, mapY])
+                            for (int mapX = 0; mapX < mapWidth; ++mapX)
                             {
-                                case csMapbuilder.EmptyCell:
+                                switch (map[mapX, mapY])
+                                {
+                                    case csMapbuilder.EmptyCell:
+                                        Console.Write(' ');
+                                        break;
+                                    case csMapbuilder.MainCorridorCell:
+                                        Console.Write('M');
+                                        break;
+                                    case csMapbuilder.RoomCell:
+                                        Console.Write('S');
+                                        break;
+                                    case csMapbuilder.RoomCell + 1:
+                                        Console.Write('E');
+                                        break;
+                                    default:
+                                        Console.Write('X');
+                                        break;
+                                }
+                            }
+                            Console.WriteLine();
+                        }
+
+                        for (int mapY = mapBuilder.Map_Size.Height - 1; mapY > -1; --mapY)
+                        {
+                            for (int mapX = 0; mapX < mapWidth; ++mapX)
+                            {
+                                if (map[mapX, mapY] == csMapbuilder.EmptyCell)
+                                {
                                     Console.Write(' ');
-                                    break;
-                                case csMapbuilder.MainCorridorCell:
-                                    Console.Write('M');
-                                    break;
-                                case csMapbuilder.RoomCell:
-                                    Console.Write('S');
-                                    break;
-                                case csMapbuilder.RoomCell + 1:
-                                    Console.Write('E');
-                                    break;
-                                default:
-                                    Console.Write('X');
-                                    break;
+                                }
+                                else
+                                {
+                                    Console.Write(map[mapX, mapY]);
+                                }
                             }
+                            Console.WriteLine();
                         }
-                        Console.WriteLine();
-                    }
+                        Console.WriteLine($"Level seed {description.Seed}");
+                        Console.WriteLine($"Created in {sw.ElapsedMilliseconds}");
+                        Console.WriteLine(mapBuilder.StartRoom);
+                        Console.WriteLine(mapBuilder.EndRoom);
+                        Console.WriteLine("--------------------------------------------------");
 
-                    for (int mapY = mapBuilder.Map_Size.Height - 1; mapY > -1; --mapY)
+                        mapMesh = new MapMesh(mapBuilder, random, blasBuilder, mapUnitY: 0.1f);
+                    });
+
+                    mapMesh.CreateMesh();
+
+                    this.instanceData = new TLASBuildInstanceData()
                     {
-                        for (int mapX = 0; mapX < mapWidth; ++mapX)
-                        {
-                            if (map[mapX, mapY] == csMapbuilder.EmptyCell)
-                            {
-                                Console.Write(' ');
-                            }
-                            else
-                            {
-                                Console.Write(map[mapX, mapY]);
-                            }
-                        }
-                        Console.WriteLine();
-                    }
-                    Console.WriteLine($"Level seed {description.Seed}");
-                    Console.WriteLine($"Created in {sw.ElapsedMilliseconds}");
-                    Console.WriteLine(mapBuilder.StartRoom);
-                    Console.WriteLine(mapBuilder.EndRoom);
-                    Console.WriteLine("--------------------------------------------------");
+                        InstanceName = Guid.NewGuid().ToString(),
+                        CustomId = 0, //Texture index
+                        pBLAS = mapMesh.WallMesh.Instance.BLAS.Obj,
+                        Mask = RtStructures.OPAQUE_GEOM_MASK,
+                        Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity)
+                    };
+                    renderer.BindBlas(mapMesh.WallMesh.Instance);
+                    instances.AddTlasBuild(instanceData);
+                    instances.AddShaderTableBinder(this);
 
-                    mapMesh = new MapMesh(mapBuilder, random, blasBuilder, mapUnitY: 0.1f);
-                });
-
-                await loadingTask;
-                mapMesh.CreateMesh();
-
-                this.instanceData = new TLASBuildInstanceData()
+                    completion.SetResult();
+                }
+                catch (Exception ex)
                 {
-                    InstanceName = Guid.NewGuid().ToString(),
-                    CustomId = 0, //Texture index
-                    pBLAS = mapMesh.WallMesh.Instance.BLAS.Obj,
-                    Mask = RtStructures.OPAQUE_GEOM_MASK,
-                    Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity)
-                };
-                renderer.BindBlas(mapMesh.WallMesh.Instance);
-                instances.AddTlasBuild(instanceData);
-                instances.AddShaderTableBinder(this);
+                    completion.SetException(ex);
+                }
             });
         }
 

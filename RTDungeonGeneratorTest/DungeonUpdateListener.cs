@@ -71,18 +71,15 @@ namespace RTDungeonGeneratorTest
         {
             coroutineRunner.RunTask(async () =>
             {
-                await Task.Run(async () =>
+                loadingLevel = true;
+                var dungeon = this.objectResolver.Resolve<SceneDungeon, SceneDungeon.Desc>(o =>
                 {
-                    loadingLevel = true;
-                    var dungeon = this.objectResolver.Resolve<SceneDungeon, SceneDungeon.Desc>(o =>
-                    {
-                        o.Seed = currentSeed++;
-                    });
-                    await dungeon.LoadingTask;
-                    currentDungeon?.RequestDestruction();
-                    currentDungeon = dungeon;
-                    loadingLevel = false;
+                    o.Seed = currentSeed++;
                 });
+                await dungeon.LoadingTask;
+                currentDungeon?.RequestDestruction();
+                currentDungeon = dungeon;
+                loadingLevel = false;
             });
         }
 
