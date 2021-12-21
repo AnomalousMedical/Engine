@@ -47,11 +47,9 @@ namespace RTBepuDemo
             IBepuScene bepuScene,
             TextureManager textureManager,
             RTGui gui,
-            ISharpGui sharpGui,
-            CubeBLAS cubeBLAS //Don't really want to pass like this
+            ISharpGui sharpGui
         )
         {
-            renderer.BindBlas(cubeBLAS.Instance);
             this.window = window;
             this.renderer = renderer;
             this.cameraControls = cameraControls;
