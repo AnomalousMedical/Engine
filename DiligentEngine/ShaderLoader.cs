@@ -32,9 +32,20 @@ namespace DiligentEngine
             return combined;
         }
 
+        public String LoadShader(Dictionary<String, String> variables, String file, params String[] additionalIncludeDirs)
+        {
+            return LoadShaderInclude(variables, file, additionalIncludeDirs);
+        }
+
         public String LoadShader(String file, params String[] additionalIncludeDirs)
         {
             return LoadShaderInclude(file, additionalIncludeDirs);
+        }
+
+        public String LoadShaderInclude(Dictionary<String, String> variables, String file, IEnumerable<String> additionalIncludeDirs)
+        {
+            var shaderString = LoadShaderInclude(file, additionalIncludeDirs);
+            return ReplaceVariables(variables, new StringBuilder(shaderString)).ToString();
         }
 
         public String LoadShaderInclude(String file, IEnumerable<String> additionalIncludeDirs)
@@ -64,6 +75,12 @@ namespace DiligentEngine
                     }
                     return LoadShaderInclude(incPath, additionalIncludeDirs);
                 });
+        }
+
+        public String LoadShader(Dictionary<String, String> variables, Stream stream, Func<String, String> getIncludeContent)
+        {
+            var shaderString = LoadShader(stream, getIncludeContent);
+            return ReplaceVariables(variables, new StringBuilder(shaderString)).ToString();
         }
 
         public String LoadShader(Stream stream, Func<String, String> getIncludeContent)
@@ -138,6 +155,17 @@ namespace DiligentEngine
             }
 
             return hasInclude;
+        }
+
+        private static StringBuilder ReplaceVariables(Dictionary<string, string> variables, StringBuilder shaderString)
+        {
+            //TODO: Replace this with good variable replacement algo from Edity McEditface
+            foreach (var i in variables)
+            {
+                shaderString = shaderString.Replace($"$$({i.Key})", i.Value);
+            }
+
+            return shaderString;
         }
     }
 }

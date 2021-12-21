@@ -90,9 +90,13 @@ namespace DiligentEngine.RT
             PSOCreateInfo.PSODesc.Name = "Ray tracing PSO";
             PSOCreateInfo.PSODesc.PipelineType = PIPELINE_TYPE.PIPELINE_TYPE_RAY_TRACING;
 
+            var shaderVars = new Dictionary<string, string>()
+            {
+                { "NUM_TEXTURES", numTextures.ToString() }
+            };
+
             // Define shader macros
             ShaderMacroHelper Macros = new ShaderMacroHelper();
-            Macros.AddShaderMacro("NUM_TEXTURES", numTextures);
 
             ShaderCreateInfo ShaderCI = new ShaderCreateInfo();
             // We will not be using combined texture samplers as they
@@ -111,7 +115,7 @@ namespace DiligentEngine.RT
             // Create ray generation shader.
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_GEN;
             ShaderCI.Desc.Name = "Ray tracing RG";
-            ShaderCI.Source = shaderLoader.LoadShader("assets/RayTrace.rgen");
+            ShaderCI.Source = shaderLoader.LoadShader(shaderVars, "assets/RayTrace.rgen");
             ShaderCI.EntryPoint = "main";
             using var pRayGen = m_pDevice.CreateShader(ShaderCI, Macros);
             //VERIFY_EXPR(pRayGen != nullptr);
@@ -120,13 +124,13 @@ namespace DiligentEngine.RT
             // Create miss shaders.
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_MISS;
             ShaderCI.Desc.Name = "Primary ray miss shader";
-            ShaderCI.Source = shaderLoader.LoadShader("assets/PrimaryMiss.rmiss");
+            ShaderCI.Source = shaderLoader.LoadShader(shaderVars, "assets/PrimaryMiss.rmiss");
             ShaderCI.EntryPoint = "main";
             using var pPrimaryMiss = m_pDevice.CreateShader(ShaderCI, Macros);
             //VERIFY_EXPR(pPrimaryMiss != nullptr);
 
             ShaderCI.Desc.Name = "Shadow ray miss shader";
-            ShaderCI.Source = shaderLoader.LoadShader("assets/ShadowMiss.rmiss");
+            ShaderCI.Source = shaderLoader.LoadShader(shaderVars, "assets/ShadowMiss.rmiss");
             ShaderCI.EntryPoint = "main";
             using var pShadowMiss = m_pDevice.CreateShader(ShaderCI, Macros);
             //VERIFY_EXPR(pShadowMiss != nullptr);
@@ -134,7 +138,7 @@ namespace DiligentEngine.RT
             // Create closest hit shaders.
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT;
             ShaderCI.Desc.Name = "Cube primary ray closest hit shader";
-            ShaderCI.Source = shaderLoader.LoadShader("assets/CubePrimaryHit.rchit");
+            ShaderCI.Source = shaderLoader.LoadShader(shaderVars, "assets/CubePrimaryHit.rchit");
             ShaderCI.EntryPoint = "main";
             using var pCubePrimaryHit = m_pDevice.CreateShader(ShaderCI, Macros);
             //VERIFY_EXPR(pCubePrimaryHit != nullptr);
@@ -154,6 +158,8 @@ namespace DiligentEngine.RT
             {
                 // Primary ray hit group for the textured cube.
                 new RayTracingTriangleHitShaderGroup { Name = "CubePrimaryHit", pClosestHitShader = pCubePrimaryHit.Obj },
+                // Primary ray hit group for the textured cube.
+                //new RayTracingTriangleHitShaderGroup { Name = "CubeSecondaryHit", pClosestHitShader = pCubePrimaryHit.Obj },
             };
 
             PSOCreateInfo.pProceduralHitShaders = new List<RayTracingProceduralHitShaderGroup>

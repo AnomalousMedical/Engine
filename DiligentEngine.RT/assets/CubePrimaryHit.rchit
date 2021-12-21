@@ -5,8 +5,8 @@
 StructuredBuffer<CubeAttribVertex> g_Vertices;
 StructuredBuffer<uint> g_Indices;
 
-Texture2D    g_CubeTextures[NUM_TEXTURES];
-Texture2D    g_CubeNormalTextures[NUM_TEXTURES];
+Texture2D    g_CubeTextures[$$(NUM_TEXTURES)];
+Texture2D    g_CubeNormalTextures[$$(NUM_TEXTURES)];
 SamplerState g_SamLinearWrap;
 
 [shader("closesthit")]
