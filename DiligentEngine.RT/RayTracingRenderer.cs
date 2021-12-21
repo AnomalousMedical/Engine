@@ -32,12 +32,10 @@ namespace DiligentEngine.RT
         uint lastNumInstances = 0;
 
         private GeneralShaders generalShaders;
-        private PrimaryHitShader primaryHitShader;
 
         public unsafe RayTracingRenderer
         (
-            GraphicsEngine graphicsEngine, 
-            TextureManager textureManager,
+            GraphicsEngine graphicsEngine,
             RTInstances rtInstances,
             RTImageBlitter imageBlitter,
             RTCameraAndLight cameraAndLight,
@@ -49,9 +47,7 @@ namespace DiligentEngine.RT
             this.imageBlitter = imageBlitter;
             this.cameraAndLight = cameraAndLight;
             this.shaders = shaders;
-            CreateRayTracingPSO(textureManager.NumTextures);
-
-            primaryHitShader.BindTextures(m_pRayTracingSRB.Obj, textureManager);
+            CreateRayTracingPSO();
 
             // Startup and initialize constants, order is important.
             CreateSBT();
@@ -64,17 +60,11 @@ namespace DiligentEngine.RT
             m_ScratchBuffer?.Dispose();
             m_pRayTracingSRB.Dispose();
             m_pRayTracingPSO.Dispose();
-            primaryHitShader?.Dispose();
             generalShaders?.Dispose();
             m_ConstantsCB.Dispose();
         }
 
-        public void BindBlas(BLASInstance bLASInstance)
-        {
-            primaryHitShader.BindBlas(bLASInstance, m_pRayTracingSRB.Obj);
-        }
-
-        unsafe void CreateRayTracingPSO(int numTextures)
+        unsafe void CreateRayTracingPSO()
         {
             var m_pDevice = graphicsEngine.RenderDevice;
 
@@ -89,11 +79,6 @@ namespace DiligentEngine.RT
             //VERIFY_EXPR(m_ConstantsCB != nullptr);
 
             generalShaders = shaders.CreateGeneralShaders();
-            primaryHitShader = shaders.CreatePrimaryHitShader(new PrimaryHitShader.Desc()
-            {
-                NumTextures = numTextures,
-                BaseName = Guid.NewGuid().ToString("N"),
-            });
 
             var PSOCreateInfo = shaders.PSOCreateInfo;
 
@@ -115,6 +100,8 @@ namespace DiligentEngine.RT
 
             m_pRayTracingSRB = m_pRayTracingPSO.Obj.CreateShaderResourceBinding(true);
             //VERIFY_EXPR(m_pRayTracingSRB != nullptr);
+
+            rtInstances.BindShaderResources(m_pRayTracingSRB.Obj);
         }
 
         void CreateSBT()

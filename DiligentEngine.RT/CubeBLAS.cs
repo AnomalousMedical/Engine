@@ -1,4 +1,5 @@
 ﻿using DiligentEngine;
+using DiligentEngine.RT.ShaderSets;
 using Engine;
 using System;
 using System.Collections.Generic;
@@ -8,14 +9,21 @@ using System.Threading.Tasks;
 
 namespace DiligentEngine.RT
 {
-    public class CubeBLAS : IDisposable
+    public class CubeBLAS : IDisposable, IShaderResourceBinder
     {
         private BLASInstance instance;
+        private PrimaryHitShader primaryHitShader;
+        private readonly TextureManager textureManager;
+        private readonly RTInstances rtInstances;
 
         public BLASInstance Instance => instance;
 
-        public unsafe CubeBLAS(BLASBuilder blasBuilder)
+        public unsafe CubeBLAS(BLASBuilder blasBuilder, RTShaders shaders, TextureManager textureManager, RTInstances rtInstances)
         {
+
+            this.textureManager = textureManager;
+            this.rtInstances = rtInstances;
+
             var blasDesc = new BLASDesc();
 
             blasDesc.CubePos = new Vector3[]
@@ -59,11 +67,27 @@ namespace DiligentEngine.RT
             };
 
             instance = blasBuilder.CreateBLAS(blasDesc);
+
+            primaryHitShader = shaders.CreatePrimaryHitShader(new PrimaryHitShader.Desc()
+            {
+                NumTextures = 5,
+                BaseName = blasDesc.Name,
+            });
+
+            rtInstances.AddShaderResourceBinder(this);
         }
 
         public void Dispose()
         {
+            rtInstances.RemoveShaderResourceBinder(this);
+            primaryHitShader?.Dispose();
             instance.Dispose();
+        }
+
+        public void Bind(IShaderResourceBinding rayTracingSRB)
+        {
+            primaryHitShader.BindBlas(instance, rayTracingSRB);
+            primaryHitShader.BindTextures(rayTracingSRB, textureManager);
         }
     }
 }

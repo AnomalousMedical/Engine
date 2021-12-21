@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace DiligentEngine.RT
 {
+    public interface IShaderResourceBinder
+    {
+        void Bind(IShaderResourceBinding rayTracingSRB);
+    }
+
     public interface IShaderTableBinder
     {
         /// <summary>
@@ -36,6 +41,7 @@ namespace DiligentEngine.RT
     {
         List<TLASBuildInstanceData> instances = new List<TLASBuildInstanceData>();
         List<IShaderTableBinder> shaderTableBinders = new List<IShaderTableBinder>();
+        List<IShaderResourceBinder> shaderResourceBinders = new List<IShaderResourceBinder>();
 
         public void AddTlasBuild(TLASBuildInstanceData instance)
         {
@@ -57,6 +63,16 @@ namespace DiligentEngine.RT
             shaderTableBinders.Remove(shaderTableBinder);
         }
 
+        public void AddShaderResourceBinder(IShaderResourceBinder shaderTableBinder)
+        {
+            shaderResourceBinders.Add(shaderTableBinder);
+        }
+
+        public void RemoveShaderResourceBinder(IShaderResourceBinder shaderTableBinder)
+        {
+            shaderResourceBinders.Remove(shaderTableBinder);
+        }
+
         public List<TLASBuildInstanceData> Instances => instances;
 
         public void BindShaders(IShaderBindingTable sbt, ITopLevelAS tlas)
@@ -64,6 +80,14 @@ namespace DiligentEngine.RT
             foreach(var i in shaderTableBinders)
             {
                 i.Bind(sbt, tlas);
+            }
+        }
+
+        public void BindShaderResources(IShaderResourceBinding rayTracingSRB)
+        {
+            foreach (var i in shaderResourceBinders)
+            {
+                i.Bind(rayTracingSRB);
             }
         }
     }
