@@ -653,12 +653,16 @@ namespace DungeonGenerator
             float xHeightStep = slope.YOffset * xInfluence;
             float yHeightStep = slope.YOffset * yInfluence;
 
+            var floorCubeRot = Quaternion.Identity;
             Vector3 dirInfluence = new Vector3(xHeightStep, 0, yHeightStep).normalized();
-            Vector3 floorCubeRotationVec = new Vector3(halfUnitX * dirInfluence.x, halfYOffset, halfUnitZ * dirInfluence.z).normalized();
-            var floorCubeRot = Quaternion.shortestArcQuat(ref dirInfluence, ref floorCubeRotationVec);
-            if (positivePrevious)
+            if (dirInfluence.isNumber())
             {
-                floorCubeRot = floorCubeRot.inverse();
+                Vector3 floorCubeRotationVec = new Vector3(halfUnitX * dirInfluence.x, halfYOffset, halfUnitZ * dirInfluence.z).normalized();
+                floorCubeRot = Quaternion.shortestArcQuat(ref dirInfluence, ref floorCubeRotationVec);
+                if (positivePrevious)
+                {
+                    floorCubeRot = floorCubeRot.inverse();
+                }
             }
 
             //Get previous square center
