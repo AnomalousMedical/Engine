@@ -92,7 +92,11 @@ namespace DiligentEngine.RT
 
             var shaderVars = new Dictionary<string, string>()
             {
-                { "NUM_TEXTURES", numTextures.ToString() }
+                { "NUM_TEXTURES", numTextures.ToString() },
+                { "VERTICES", "g_Vertices" },
+                { "INDICES", "g_Indices" },
+                { "COLOR_TEXTURES", "g_CubeTextures" },
+                { "NORMAL_TEXTURES", "g_CubeNormalTextures" }
             };
 
             // Define shader macros

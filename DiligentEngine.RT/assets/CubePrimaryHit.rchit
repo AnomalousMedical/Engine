@@ -2,11 +2,11 @@
 #include "structures.fxh"
 #include "RayUtils.fxh"
 
-StructuredBuffer<CubeAttribVertex> g_Vertices;
-StructuredBuffer<uint> g_Indices;
+StructuredBuffer<CubeAttribVertex> $$(VERTICES);
+StructuredBuffer<uint> $$(INDICES);
 
-Texture2D    g_CubeTextures[$$(NUM_TEXTURES)];
-Texture2D    g_CubeNormalTextures[$$(NUM_TEXTURES)];
+Texture2D    $$(COLOR_TEXTURES)[$$(NUM_TEXTURES)];
+Texture2D    $$(NORMAL_TEXTURES)[$$(NUM_TEXTURES)];
 SamplerState g_SamLinearWrap;
 
 [shader("closesthit")]
@@ -17,16 +17,16 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
 
     uint vertId = 3 * PrimitiveIndex();
 
-    CubeAttribVertex posX = g_Vertices[g_Indices[vertId + 0]];
-    CubeAttribVertex posY = g_Vertices[g_Indices[vertId + 1]];
-    CubeAttribVertex posZ = g_Vertices[g_Indices[vertId + 2]];
+    CubeAttribVertex posX = $$(VERTICES)[$$(INDICES)[vertId + 0]];
+    CubeAttribVertex posY = $$(VERTICES)[$$(INDICES)[vertId + 1]];
+    CubeAttribVertex posZ = $$(VERTICES)[$$(INDICES)[vertId + 2]];
 
     LightAndShade
     (
         payload, barycentrics, 
         posX, posY, posZ, 
-        g_CubeTextures[InstanceID()],
-        g_CubeNormalTextures[InstanceID()],
+        $$(COLOR_TEXTURES)[InstanceID()],
+        $$(NORMAL_TEXTURES)[InstanceID()],
         g_SamLinearWrap
     );
 }
