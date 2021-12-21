@@ -71,8 +71,7 @@ namespace DiligentEngine.RT
 
         public void BindBlas(BLASInstance bLASInstance)
         {
-            m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_Vertices").Set(bLASInstance.AttrVertexBuffer.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
-            m_pRayTracingSRB.Obj.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_Indices").Set(bLASInstance.IndexBuffer.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
+            primaryHitShader.BindBlas(bLASInstance, m_pRayTracingSRB.Obj);
         }
 
         unsafe void CreateRayTracingPSO(int numTextures)

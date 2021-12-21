@@ -76,9 +76,10 @@ namespace DiligentEngine.RT.ShaderSets
 
         public void Dispose()
         {
-            PSOCreateInfo.pGeneralShaders.Remove(rayGenShaderGroup);
-            PSOCreateInfo.pGeneralShaders.Remove(primaryMissShaderGroup);
             PSOCreateInfo.pGeneralShaders.Remove(shadowMissShaderGroup);
+            PSOCreateInfo.pGeneralShaders.Remove(primaryMissShaderGroup);
+            PSOCreateInfo.pGeneralShaders.Remove(rayGenShaderGroup);
+
             pRayGen.Dispose();
             pPrimaryMiss.Dispose();
             pShadowMiss.Dispose();

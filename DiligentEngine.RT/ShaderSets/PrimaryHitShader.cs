@@ -17,6 +17,10 @@ namespace DiligentEngine.RT.ShaderSets
         private readonly AutoPtr<IShader> pCubePrimaryHit;
         private readonly RayTracingTriangleHitShaderGroup primaryHitShaderGroup;
 
+        private readonly ShaderResourceVariableDesc verticesDesc;
+        private readonly ShaderResourceVariableDesc indicesDesc;
+
+
         public PrimaryHitShader(GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RayTracingPipelineStateCreateInfo PSOCreateInfo, Desc desc)
         {
             this.PSOCreateInfo = PSOCreateInfo;
@@ -53,16 +57,32 @@ namespace DiligentEngine.RT.ShaderSets
             // Primary ray hit group for the textured cube.
             primaryHitShaderGroup = new RayTracingTriangleHitShaderGroup { Name = "CubePrimaryHit", pClosestHitShader = pCubePrimaryHit.Obj };
 
+            verticesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = "g_Vertices", Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
+            indicesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = "g_Indices", Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
+
             PSOCreateInfo.pTriangleHitShaders.Add(primaryHitShaderGroup);
+
+            PSOCreateInfo.PSODesc.ResourceLayout.Variables.Add(verticesDesc);
+            PSOCreateInfo.PSODesc.ResourceLayout.Variables.Add(indicesDesc);
         }
 
         public void Dispose()
         {
+            PSOCreateInfo.PSODesc.ResourceLayout.Variables.Remove(indicesDesc);
+            PSOCreateInfo.PSODesc.ResourceLayout.Variables.Remove(verticesDesc);
+
             PSOCreateInfo.pTriangleHitShaders.Remove(primaryHitShaderGroup);
+
             pCubePrimaryHit.Dispose();
         }
 
-        public Dictionary<String, String> CreateShaderVars(Desc description)
+        public void BindBlas(BLASInstance bLASInstance, IShaderResourceBinding rayTracingSRB)
+        {
+            rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_Vertices").Set(bLASInstance.AttrVertexBuffer.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
+            rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_Indices").Set(bLASInstance.IndexBuffer.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
+        }
+
+        private Dictionary<String, String> CreateShaderVars(Desc description)
         {
             var shaderVars = new Dictionary<string, string>()
             {
