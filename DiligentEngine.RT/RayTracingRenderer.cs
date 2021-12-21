@@ -29,6 +29,7 @@ namespace DiligentEngine.RT
         AutoPtr<IBuffer> m_ScratchBuffer;
         AutoPtr<IBuffer> m_InstanceBuffer;
         uint lastNumInstances = 0;
+        bool rebuildPipeline = true;
 
         private GeneralShaders generalShaders;
 
@@ -55,13 +56,18 @@ namespace DiligentEngine.RT
 
         public void Dispose()
         {
-            m_pSBT.Dispose();
+            DestroyPSO();
+        }
+
+        private void DestroyPSO()
+        {
+            m_pSBT?.Dispose();
             m_InstanceBuffer?.Dispose();
             m_ScratchBuffer?.Dispose();
-            m_pRayTracingSRB.Dispose();
-            m_pRayTracingPSO.Dispose();
+            m_pRayTracingSRB?.Dispose();
+            m_pRayTracingPSO?.Dispose();
             generalShaders?.Dispose();
-            m_ConstantsCB.Dispose();
+            m_ConstantsCB?.Dispose();
         }
 
         unsafe void CreateRayTracingPSO()
@@ -132,10 +138,16 @@ namespace DiligentEngine.RT
                 return null;
             }
 
-            if (m_pRayTracingPSO == null)
+            if (rebuildPipeline)
             {
+                DestroyPSO();
+                //These are disposed now, set them to null so they are recreated below
+                m_ScratchBuffer = null;
+                m_InstanceBuffer = null;
+
                 CreateRayTracingPSO();
                 CreateSBT();
+                rebuildPipeline = false;
             }
 
             if (numInstances != lastNumInstances) //If instance count changes invalidate buffers
@@ -328,11 +340,7 @@ namespace DiligentEngine.RT
 
         public void AddShaderResourceBinder(IShaderResourceBinder binder)
         {
-            //The srb might already exist, in which case fire the binder
-            if(m_pRayTracingSRB != null)
-            {
-                binder.Bind(m_pRayTracingSRB.Obj);
-            }
+            rebuildPipeline = true;
             shaderResourceBinders.Add(binder);
         }
 
