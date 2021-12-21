@@ -50,6 +50,8 @@ namespace DiligentEngine.RT
             this.cameraAndLight = cameraAndLight;
             this.shaders = shaders;
 
+            generalShaders = shaders.CreateGeneralShaders();
+
             maxRecursionDepth = Math.Min(maxRecursionDepth, graphicsEngine.RenderDevice.DeviceProperties_MaxRayTracingRecursionDepth);
             m_Constants = Constants.CreateDefault(maxRecursionDepth);
         }
@@ -57,6 +59,7 @@ namespace DiligentEngine.RT
         public void Dispose()
         {
             DestroyPSO();
+            generalShaders?.Dispose();
         }
 
         private void DestroyPSO()
@@ -66,7 +69,6 @@ namespace DiligentEngine.RT
             m_ScratchBuffer?.Dispose();
             m_pRayTracingSRB?.Dispose();
             m_pRayTracingPSO?.Dispose();
-            generalShaders?.Dispose();
             m_ConstantsCB?.Dispose();
         }
 
@@ -83,8 +85,6 @@ namespace DiligentEngine.RT
 
             m_ConstantsCB = m_pDevice.CreateBuffer(BuffDesc);
             //VERIFY_EXPR(m_ConstantsCB != nullptr);
-
-            generalShaders = shaders.CreateGeneralShaders();
 
             var PSOCreateInfo = shaders.PSOCreateInfo;
 
