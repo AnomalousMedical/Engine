@@ -139,7 +139,7 @@ namespace RTDungeonGeneratorTest
                     this.floorInstanceData = new TLASBuildInstanceData()
                     {
                         InstanceName = Guid.NewGuid().ToString(),
-                        CustomId = 0, //Texture index
+                        CustomId = 1, //Texture index
                         pBLAS = mapMesh.FloorMesh.Instance.BLAS.Obj,
                         Mask = RtStructures.OPAQUE_GEOM_MASK,
                         Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity)
@@ -177,8 +177,8 @@ namespace RTDungeonGeneratorTest
 
         public void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
         {
-            sbt.BindHitGroupForInstance(tlas, wallInstanceData.InstanceName, RtStructures.PRIMARY_RAY_INDEX, mapMesh.FloorMesh.ShaderGroupName, IntPtr.Zero);
-            sbt.BindHitGroupForInstance(tlas, floorInstanceData.InstanceName, RtStructures.PRIMARY_RAY_INDEX, mapMesh.WallMesh.ShaderGroupName, IntPtr.Zero);
+            sbt.BindHitGroupForInstance(tlas, wallInstanceData.InstanceName, RtStructures.PRIMARY_RAY_INDEX, mapMesh.WallMesh.ShaderGroupName, IntPtr.Zero);
+            sbt.BindHitGroupForInstance(tlas, floorInstanceData.InstanceName, RtStructures.PRIMARY_RAY_INDEX, mapMesh.FloorMesh.ShaderGroupName, IntPtr.Zero);
         }
 
         public Task LoadingTask => loadingTask;
