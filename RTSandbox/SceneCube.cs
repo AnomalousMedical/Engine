@@ -13,7 +13,7 @@ namespace RTSandbox
     {
         public class Desc
         {
-            public string InstanceName { get; set; } = Guid.NewGuid().ToString();
+            public string InstanceName { get; set; } = Guid.NewGuid().ToString("N");
 
             public uint TextureIndex { get; set; } = 0;
 

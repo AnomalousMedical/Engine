@@ -11,6 +11,8 @@ namespace DiligentEngine.RT.ShaderSets
         public class Desc
         {
             public int NumTextures { get; set; } = 1;
+
+            public String BaseName { get; set; }
         }
 
         private readonly RayTracingPipelineStateCreateInfo PSOCreateInfo;
@@ -20,10 +22,19 @@ namespace DiligentEngine.RT.ShaderSets
         private readonly ShaderResourceVariableDesc verticesDesc;
         private readonly ShaderResourceVariableDesc indicesDesc;
 
+        private readonly String verticesName;
+        private readonly String indicesName;
+        private readonly String colorTexturesName;
+        private readonly String normalTexturesName;
 
         public PrimaryHitShader(GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RayTracingPipelineStateCreateInfo PSOCreateInfo, Desc desc)
         {
             this.PSOCreateInfo = PSOCreateInfo;
+
+            this.verticesName = $"vert_{desc.BaseName}";
+            this.indicesName = $"idx_{desc.BaseName}";
+            this.colorTexturesName = $"tex_{desc.BaseName}";
+            this.normalTexturesName = $"nrmltex_{desc.BaseName}";
 
             var m_pDevice = graphicsEngine.RenderDevice;
 
@@ -57,8 +68,8 @@ namespace DiligentEngine.RT.ShaderSets
             // Primary ray hit group for the textured cube.
             primaryHitShaderGroup = new RayTracingTriangleHitShaderGroup { Name = "CubePrimaryHit", pClosestHitShader = pCubePrimaryHit.Obj };
 
-            verticesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = "g_Vertices", Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
-            indicesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = "g_Indices", Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
+            verticesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = verticesName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
+            indicesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = indicesName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
 
             PSOCreateInfo.pTriangleHitShaders.Add(primaryHitShaderGroup);
 
@@ -78,14 +89,14 @@ namespace DiligentEngine.RT.ShaderSets
 
         public void BindBlas(BLASInstance bLASInstance, IShaderResourceBinding rayTracingSRB)
         {
-            rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_Vertices").Set(bLASInstance.AttrVertexBuffer.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
-            rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_Indices").Set(bLASInstance.IndexBuffer.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
+            rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, verticesName).Set(bLASInstance.AttrVertexBuffer.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
+            rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, indicesName).Set(bLASInstance.IndexBuffer.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
         }
 
         public void BindTextures(IShaderResourceBinding m_pRayTracingSRB, TextureManager textureManager)
         {
-            m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_CubeTextures")?.SetArray(textureManager.TexSRVs);
-            m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_CubeNormalTextures")?.SetArray(textureManager.TexNormalSRVs);
+            m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, colorTexturesName)?.SetArray(textureManager.TexSRVs);
+            m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, normalTexturesName)?.SetArray(textureManager.TexNormalSRVs);
         }
 
         private Dictionary<String, String> CreateShaderVars(Desc description)
@@ -93,10 +104,10 @@ namespace DiligentEngine.RT.ShaderSets
             var shaderVars = new Dictionary<string, string>()
             {
                 { "NUM_TEXTURES", description.NumTextures.ToString() },
-                { "VERTICES", "g_Vertices" },
-                { "INDICES", "g_Indices" },
-                { "COLOR_TEXTURES", "g_CubeTextures" },
-                { "NORMAL_TEXTURES", "g_CubeNormalTextures" }
+                { "VERTICES", verticesName },
+                { "INDICES", indicesName },
+                { "COLOR_TEXTURES", colorTexturesName },
+                { "NORMAL_TEXTURES", normalTexturesName }
             };
 
             return shaderVars;

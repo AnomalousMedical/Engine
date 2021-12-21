@@ -91,7 +91,8 @@ namespace DiligentEngine.RT
             generalShaders = shaders.CreateGeneralShaders();
             primaryHitShader = shaders.CreatePrimaryHitShader(new PrimaryHitShader.Desc()
             {
-                NumTextures = numTextures
+                NumTextures = numTextures,
+                BaseName = Guid.NewGuid().ToString("N"),
             });
 
             var PSOCreateInfo = shaders.PSOCreateInfo;
