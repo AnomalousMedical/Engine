@@ -14,10 +14,10 @@ namespace DiligentEngine.RT
         List<String> textureFiles = new List<String>
         {
             "ChristmasTreeOrnament007",
-            "Rock029",
             "MetalPlates001",
             "Fabric021",
-            "Ground037"
+            "Wood049",
+            "Ground042"
         };
         private readonly TextureLoader textureLoader;
         private readonly GraphicsEngine graphicsEngine;

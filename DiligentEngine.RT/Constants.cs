@@ -127,7 +127,7 @@ namespace DiligentEngine.RT
                 DispersionSamples_15 = new Vector4(0.218000f, 0.000000f, 0.000000f, 0.99f),
                 DispersionSampleCount = 4,
 
-                AmbientColor = new Vector4(1f, 1f, 1f, 0f) * 0.015f,
+                AmbientColor = new Vector4(1f, 1f, 1f, 0f) * 0f,
                 LightPos_0 = new Vector4(8.00f, -8.0f, +0.00f, 0f),
                 LightColor_0 = new Vector4(1.00f, +0.8f, +0.80f, 0f),
                 LightPos_1 = new Vector4(0.00f, -4.0f, -5.00f, 0f),

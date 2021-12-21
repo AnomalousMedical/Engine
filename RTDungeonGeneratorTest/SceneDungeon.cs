@@ -131,7 +131,7 @@ namespace RTDungeonGeneratorTest
                     this.wallInstanceData = new TLASBuildInstanceData()
                     {
                         InstanceName = Guid.NewGuid().ToString(),
-                        CustomId = 0, //Texture index
+                        CustomId = 4, //Texture index
                         pBLAS = mapMesh.WallMesh.Instance.BLAS.Obj,
                         Mask = RtStructures.OPAQUE_GEOM_MASK,
                         Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity)
@@ -139,7 +139,7 @@ namespace RTDungeonGeneratorTest
                     this.floorInstanceData = new TLASBuildInstanceData()
                     {
                         InstanceName = Guid.NewGuid().ToString(),
-                        CustomId = 1, //Texture index
+                        CustomId = 3, //Texture index
                         pBLAS = mapMesh.FloorMesh.Instance.BLAS.Obj,
                         Mask = RtStructures.OPAQUE_GEOM_MASK,
                         Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity)
