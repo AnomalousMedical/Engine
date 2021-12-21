@@ -51,7 +51,7 @@ namespace DiligentEngine.RT
             this.shaders = shaders;
             CreateRayTracingPSO(textureManager.NumTextures);
 
-            textureManager.BindTextures(m_pRayTracingSRB.Obj);
+            primaryHitShader.BindTextures(m_pRayTracingSRB.Obj, textureManager);
 
             // Startup and initialize constants, order is important.
             CreateSBT();

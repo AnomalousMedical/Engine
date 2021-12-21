@@ -74,11 +74,20 @@ namespace DiligentEngine.RT
             return PSOCreateInfo;
         }
 
+        /// <summary>
+        /// Create a new GeneralShaders group. The caller is responsible for disposing the returned object.
+        /// </summary>
+        /// <returns></returns>
         public GeneralShaders CreateGeneralShaders()
         {
             return new GeneralShaders(graphicsEngine, shaderLoader, PSOCreateInfo);
         }
 
+        /// <summary>
+        /// Create a new PrimaryHitShader group. The caller is responsible for disposing the returned object.
+        /// </summary>
+        /// <param name="description"></param>
+        /// <returns></returns>
         public PrimaryHitShader CreatePrimaryHitShader(PrimaryHitShader.Desc description)
         {
             return new PrimaryHitShader(graphicsEngine, shaderLoader, PSOCreateInfo, description);

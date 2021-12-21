@@ -82,6 +82,12 @@ namespace DiligentEngine.RT.ShaderSets
             rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_Indices").Set(bLASInstance.IndexBuffer.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
         }
 
+        public void BindTextures(IShaderResourceBinding m_pRayTracingSRB, TextureManager textureManager)
+        {
+            m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_CubeTextures")?.SetArray(textureManager.TexSRVs);
+            m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, "g_CubeNormalTextures")?.SetArray(textureManager.TexNormalSRVs);
+        }
+
         private Dictionary<String, String> CreateShaderVars(Desc description)
         {
             var shaderVars = new Dictionary<string, string>()
