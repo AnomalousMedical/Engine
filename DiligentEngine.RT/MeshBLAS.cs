@@ -82,6 +82,7 @@ namespace DiligentEngine.RT
         
         private Vector4 ConvertVector(in Vector3 input)
         {
+            //TODO: This isn't right, need another layer between this mesh and the dungeon generator that can convert or fix it so it works directly
             return new Vector4(-input.x, -input.y, -input.z, 0);
         }
 
