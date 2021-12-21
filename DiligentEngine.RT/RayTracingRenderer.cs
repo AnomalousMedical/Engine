@@ -16,7 +16,6 @@ namespace DiligentEngine.RT
         float ZFar = 100f;
 
         private readonly GraphicsEngine graphicsEngine;
-        private readonly RTInstances rtInstances;
         private readonly RTImageBlitter imageBlitter;
         private readonly RTCameraAndLight cameraAndLight;
         private readonly RTShaders shaders;
@@ -33,26 +32,24 @@ namespace DiligentEngine.RT
 
         private GeneralShaders generalShaders;
 
+        List<TLASBuildInstanceData> instances = new List<TLASBuildInstanceData>();
+        List<IShaderTableBinder> shaderTableBinders = new List<IShaderTableBinder>();
+        List<IShaderResourceBinder> shaderResourceBinders = new List<IShaderResourceBinder>();
+
         public unsafe RayTracingRenderer
         (
             GraphicsEngine graphicsEngine,
-            RTInstances rtInstances,
             RTImageBlitter imageBlitter,
             RTCameraAndLight cameraAndLight,
             RTShaders shaders
         )
         {
             this.graphicsEngine = graphicsEngine;
-            this.rtInstances = rtInstances;
             this.imageBlitter = imageBlitter;
             this.cameraAndLight = cameraAndLight;
             this.shaders = shaders;
-            CreateRayTracingPSO();
-
-            // Startup and initialize constants, order is important.
-            CreateSBT();
-            m_Constants = Constants.CreateDefault(m_MaxRecursionDepth);
         }
+
         public void Dispose()
         {
             m_pSBT.Dispose();
@@ -101,7 +98,7 @@ namespace DiligentEngine.RT
             m_pRayTracingSRB = m_pRayTracingPSO.Obj.CreateShaderResourceBinding(true);
             //VERIFY_EXPR(m_pRayTracingSRB != nullptr);
 
-            rtInstances.BindShaderResources(m_pRayTracingSRB.Obj);
+            BindShaderResources(m_pRayTracingSRB.Obj);
         }
 
         void CreateSBT()
@@ -128,7 +125,7 @@ namespace DiligentEngine.RT
             var m_pImmediateContext = graphicsEngine.ImmediateContext;
             // Create or update top-level acceleration structure
 
-            uint numInstances = (uint)rtInstances.Instances.Count;
+            uint numInstances = (uint)instances.Count;
             if(numInstances == 0)
             {
                 return null;
@@ -194,7 +191,7 @@ namespace DiligentEngine.RT
             Attribs.pInstanceBuffer = m_InstanceBuffer.Obj;
 
             // Instances will be converted to the format that is required by the graphics driver and copied to the instance buffer.
-            Attribs.pInstances = rtInstances.Instances;
+            Attribs.pInstances = instances;
 
             // Bind hit shaders per instance, it allows you to change the number of geometries in BLAS without invalidating the shader binding table.
             Attribs.BindingMode = HIT_GROUP_BINDING_MODE.HIT_GROUP_BINDING_MODE_PER_INSTANCE;
@@ -209,7 +206,7 @@ namespace DiligentEngine.RT
             m_pImmediateContext.BuildTLAS(Attribs);
 
             // Hit groups for primary ray
-            rtInstances.BindShaders(m_pSBT.Obj, m_pTLAS.Obj);
+            BindShaders(m_pSBT.Obj, m_pTLAS.Obj);
 
             // Hit groups for shadow ray.
             // null means no shaders are bound and hit shader invocation will be skipped.
@@ -220,6 +217,15 @@ namespace DiligentEngine.RT
 
         public unsafe void Render(Vector3 cameraPos, Quaternion cameraRot, Vector4 light1Pos, Vector4 ligth2Pos)
         {
+            if(m_pRayTracingPSO == null)
+            {
+                CreateRayTracingPSO();
+
+                // Startup and initialize constants, order is important.
+                CreateSBT();
+                m_Constants = Constants.CreateDefault(m_MaxRecursionDepth);
+            }
+
             var swapChain = graphicsEngine.SwapChain;
             var m_pImmediateContext = graphicsEngine.ImmediateContext;
 
@@ -300,6 +306,54 @@ namespace DiligentEngine.RT
 
             // Blit to swapchain image
             imageBlitter.Blit();
+        }
+
+        public void AddTlasBuild(TLASBuildInstanceData instance)
+        {
+            instances.Add(instance);
+        }
+
+        public void RemoveTlasBuild(TLASBuildInstanceData instance)
+        {
+            instances.Remove(instance);
+        }
+
+        public void AddShaderTableBinder(IShaderTableBinder shaderTableBinder)
+        {
+            shaderTableBinders.Add(shaderTableBinder);
+        }
+
+        public void RemoveShaderTableBinder(IShaderTableBinder shaderTableBinder)
+        {
+            shaderTableBinders.Remove(shaderTableBinder);
+        }
+
+        public void AddShaderResourceBinder(IShaderResourceBinder shaderTableBinder)
+        {
+            shaderResourceBinders.Add(shaderTableBinder);
+        }
+
+        public void RemoveShaderResourceBinder(IShaderResourceBinder shaderTableBinder)
+        {
+            shaderResourceBinders.Remove(shaderTableBinder);
+        }
+
+        public List<TLASBuildInstanceData> Instances => instances;
+
+        private void BindShaders(IShaderBindingTable sbt, ITopLevelAS tlas)
+        {
+            foreach (var i in shaderTableBinders)
+            {
+                i.Bind(sbt, tlas);
+            }
+        }
+
+        private void BindShaderResources(IShaderResourceBinding rayTracingSRB)
+        {
+            foreach (var i in shaderResourceBinders)
+            {
+                i.Bind(rayTracingSRB);
+            }
         }
     }
 }

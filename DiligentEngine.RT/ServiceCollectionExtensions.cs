@@ -21,7 +21,6 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<RTImageBlitter>();
             services.AddSingleton<CubeBLAS>();
             services.AddSingleton<RTCameraAndLight>();
-            services.AddSingleton<RTInstances>();
             services.AddSingleton<TextureManager>();
             services.AddSingleton<RayTracingRenderer>();
             services.AddSingleton<RTShaders>();

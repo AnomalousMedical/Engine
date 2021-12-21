@@ -14,16 +14,15 @@ namespace DiligentEngine.RT
         private BLASInstance instance;
         private PrimaryHitShader primaryHitShader;
         private readonly TextureManager textureManager;
-        private readonly RTInstances rtInstances;
+        private readonly RayTracingRenderer renderer;
 
         public BLASInstance Instance => instance;
 
-        public unsafe CubeBLAS(BLASBuilder blasBuilder, RTShaders shaders, TextureManager textureManager, RTInstances rtInstances)
+        public unsafe CubeBLAS(BLASBuilder blasBuilder, RTShaders shaders, TextureManager textureManager, RayTracingRenderer renderer)
         {
 
             this.textureManager = textureManager;
-            this.rtInstances = rtInstances;
-
+            this.renderer = renderer;
             var blasDesc = new BLASDesc();
 
             blasDesc.CubePos = new Vector3[]
@@ -74,12 +73,12 @@ namespace DiligentEngine.RT
                 BaseName = blasDesc.Name,
             });
 
-            rtInstances.AddShaderResourceBinder(this);
+            renderer.AddShaderResourceBinder(this);
         }
 
         public void Dispose()
         {
-            rtInstances.RemoveShaderResourceBinder(this);
+            renderer.RemoveShaderResourceBinder(this);
             primaryHitShader?.Dispose();
             instance.Dispose();
         }

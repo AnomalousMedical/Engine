@@ -22,7 +22,6 @@ namespace RTBepuDemo
         private readonly RayTracingRenderer renderer;
         private readonly FirstPersonFlyCamera cameraControls;
         private readonly GraphicsEngine graphicsEngine;
-        private readonly RTInstances instances;
         private readonly IObjectResolverFactory objectResolverFactory;
         private readonly IBepuScene bepuScene;
         private readonly TextureManager textureManager;
@@ -42,7 +41,6 @@ namespace RTBepuDemo
             RayTracingRenderer renderer,
             FirstPersonFlyCamera cameraControls,
             GraphicsEngine graphicsEngine,
-            RTInstances instances,
             IObjectResolverFactory objectResolverFactory,
             IBepuScene bepuScene,
             TextureManager textureManager,
@@ -54,7 +52,6 @@ namespace RTBepuDemo
             this.renderer = renderer;
             this.cameraControls = cameraControls;
             this.graphicsEngine = graphicsEngine;
-            this.instances = instances;
             this.objectResolverFactory = objectResolverFactory;
             this.bepuScene = bepuScene;
             this.textureManager = textureManager;

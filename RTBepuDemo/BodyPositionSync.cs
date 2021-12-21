@@ -33,16 +33,16 @@ namespace RTBepuDemo
         private BodyHandle bodyHandle;
 
         private readonly TLASBuildInstanceData instanceData;
-        private readonly RTInstances instances;
+        private readonly RayTracingRenderer renderer;
         private readonly IBepuScene bepuScene;
 
         public BodyPositionSync( 
             Desc description,
-            RTInstances instances,
             CubeBLAS cubeBLAS,
+            RayTracingRenderer renderer,
             IBepuScene bepuScene)
         {
-            this.instances = instances;
+            this.renderer = renderer;
             this.bepuScene = bepuScene;
             this.instanceData = new TLASBuildInstanceData()
             {
@@ -53,8 +53,8 @@ namespace RTBepuDemo
                 Transform = new InstanceMatrix(new Vector3(description.position.X, description.position.Y, description.position.Z), Quaternion.Identity)
             };
 
-            instances.AddTlasBuild(instanceData);
-            instances.AddShaderTableBinder(this);
+            renderer.AddTlasBuild(instanceData);
+            renderer.AddShaderTableBinder(this);
 
             var bodyDesc = BodyDescription.CreateDynamic(
                     description.position,
@@ -69,8 +69,8 @@ namespace RTBepuDemo
         {
             bepuScene.Simulation.Bodies.Remove(this.bodyHandle);
 
-            instances.RemoveShaderTableBinder(this);
-            instances.RemoveTlasBuild(instanceData);
+            renderer.RemoveShaderTableBinder(this);
+            renderer.RemoveTlasBuild(instanceData);
         }
 
         public Vector3 GetWorldPosition()

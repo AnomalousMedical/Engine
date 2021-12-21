@@ -23,16 +23,16 @@ namespace RTBepuDemo
         }
 
         private readonly TLASBuildInstanceData instanceData;
-        private readonly RTInstances instances;
+        private readonly RayTracingRenderer renderer;
 
         public SceneCube
         (
             Desc description,
-            RTInstances instances, 
-            CubeBLAS cubeBLAS
+            CubeBLAS cubeBLAS,
+            RayTracingRenderer renderer
         )
         {
-            this.instances = instances;
+            this.renderer = renderer;
             this.instanceData = new TLASBuildInstanceData()
             {
                 InstanceName = description.InstanceName,
@@ -42,14 +42,14 @@ namespace RTBepuDemo
                 Transform = description.Transform
             };
 
-            instances.AddTlasBuild(instanceData);
-            instances.AddShaderTableBinder(this);
+            renderer.AddTlasBuild(instanceData);
+            renderer.AddShaderTableBinder(this);
         }
 
         public void Dispose()
         {
-            instances.RemoveShaderTableBinder(this);
-            instances.RemoveTlasBuild(instanceData);
+            renderer.RemoveShaderTableBinder(this);
+            renderer.RemoveTlasBuild(instanceData);
         }
 
         public void SetTransform(InstanceMatrix matrix)
