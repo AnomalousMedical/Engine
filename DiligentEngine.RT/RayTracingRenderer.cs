@@ -19,7 +19,7 @@ namespace DiligentEngine.RT
         private readonly RTImageBlitter imageBlitter;
         private readonly RTCameraAndLight cameraAndLight;
         private readonly RTShaders shaders;
-        private UInt32 m_MaxRecursionDepth = 8;
+        private UInt32 maxRecursionDepth = 8;
 
         private AutoPtr<IBuffer> m_ConstantsCB;
         private Constants m_Constants;
@@ -48,6 +48,9 @@ namespace DiligentEngine.RT
             this.imageBlitter = imageBlitter;
             this.cameraAndLight = cameraAndLight;
             this.shaders = shaders;
+
+            maxRecursionDepth = Math.Min(maxRecursionDepth, graphicsEngine.RenderDevice.DeviceProperties_MaxRayTracingRecursionDepth);
+            m_Constants = Constants.CreateDefault(maxRecursionDepth);
         }
 
         public void Dispose()
@@ -84,9 +87,7 @@ namespace DiligentEngine.RT
             //          application's responsibility to not exceed the specified limit.
             //          The value is used to reserve the necessary stack size and
             //          exceeding it will likely result in driver crash.
-            // This is only kept here since we need to use it for constants too
-            m_MaxRecursionDepth = Math.Min(m_MaxRecursionDepth, m_pDevice.DeviceProperties_MaxRayTracingRecursionDepth);
-            PSOCreateInfo.RayTracingPipeline.MaxRecursionDepth = (byte)m_MaxRecursionDepth;
+            PSOCreateInfo.RayTracingPipeline.MaxRecursionDepth = (byte)maxRecursionDepth;
 
             this.m_pRayTracingPSO = m_pDevice.CreateRayTracingPipelineState(PSOCreateInfo);
             //VERIFY_EXPR(m_pRayTracingPSO != nullptr);
@@ -220,10 +221,7 @@ namespace DiligentEngine.RT
             if(m_pRayTracingPSO == null)
             {
                 CreateRayTracingPSO();
-
-                // Startup and initialize constants, order is important.
                 CreateSBT();
-                m_Constants = Constants.CreateDefault(m_MaxRecursionDepth);
             }
 
             var swapChain = graphicsEngine.SwapChain;
