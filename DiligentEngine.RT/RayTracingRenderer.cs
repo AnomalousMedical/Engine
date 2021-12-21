@@ -132,7 +132,13 @@ namespace DiligentEngine.RT
                 return null;
             }
 
-            if(numInstances != lastNumInstances) //If instance count changes invalidate buffers
+            if (m_pRayTracingPSO == null)
+            {
+                CreateRayTracingPSO();
+                CreateSBT();
+            }
+
+            if (numInstances != lastNumInstances) //If instance count changes invalidate buffers
             {
                 m_ScratchBuffer?.Dispose();
                 m_ScratchBuffer = null;
@@ -218,12 +224,6 @@ namespace DiligentEngine.RT
 
         public unsafe void Render(Vector3 cameraPos, Quaternion cameraRot, Vector4 light1Pos, Vector4 ligth2Pos)
         {
-            if(m_pRayTracingPSO == null)
-            {
-                CreateRayTracingPSO();
-                CreateSBT();
-            }
-
             var swapChain = graphicsEngine.SwapChain;
             var m_pImmediateContext = graphicsEngine.ImmediateContext;
 
@@ -316,24 +316,29 @@ namespace DiligentEngine.RT
             instances.Remove(instance);
         }
 
-        public void AddShaderTableBinder(IShaderTableBinder shaderTableBinder)
+        public void AddShaderTableBinder(IShaderTableBinder binder)
         {
-            shaderTableBinders.Add(shaderTableBinder);
+            shaderTableBinders.Add(binder);
         }
 
-        public void RemoveShaderTableBinder(IShaderTableBinder shaderTableBinder)
+        public void RemoveShaderTableBinder(IShaderTableBinder binder)
         {
-            shaderTableBinders.Remove(shaderTableBinder);
+            shaderTableBinders.Remove(binder);
         }
 
-        public void AddShaderResourceBinder(IShaderResourceBinder shaderTableBinder)
+        public void AddShaderResourceBinder(IShaderResourceBinder binder)
         {
-            shaderResourceBinders.Add(shaderTableBinder);
+            //The srb might already exist, in which case fire the binder
+            if(m_pRayTracingSRB != null)
+            {
+                binder.Bind(m_pRayTracingSRB.Obj);
+            }
+            shaderResourceBinders.Add(binder);
         }
 
-        public void RemoveShaderResourceBinder(IShaderResourceBinder shaderTableBinder)
+        public void RemoveShaderResourceBinder(IShaderResourceBinder binder)
         {
-            shaderResourceBinders.Remove(shaderTableBinder);
+            shaderResourceBinders.Remove(binder);
         }
 
         public List<TLASBuildInstanceData> Instances => instances;

@@ -38,7 +38,7 @@ namespace DungeonGenerator
 
         public float MaxSlopeY { get; set; } = 1f;
 
-        public MapMesh(csMapbuilder mapbuilder, Random random, BLASBuilder blasBuilder, float mapUnitX = 2f, float mapUnitY = 2f, float mapUnitZ = 2f)
+        public MapMesh(csMapbuilder mapbuilder, Random random, MeshBLAS floorMesh, MeshBLAS wallMesh, float mapUnitX = 2f, float mapUnitY = 2f, float mapUnitZ = 2f)
         {
             if (mapbuilder.AllowOtherCorridors)
             {
@@ -177,8 +177,8 @@ namespace DungeonGenerator
             squareInfo = new MapMeshSquareInfo[squareCenterMapWidth, squareCenterMapHeight];
             MapMeshTempSquareInfo[,] tempSquareInfo = new MapMeshTempSquareInfo[squareCenterMapWidth, squareCenterMapHeight];
 
-            this.floorMesh = new MeshBLAS(blasBuilder);
-            this.wallMesh = new MeshBLAS(blasBuilder);
+            this.floorMesh = floorMesh;
+            this.wallMesh = wallMesh;
 
             //Figure out number of quads
             uint numFloorQuads = 0;

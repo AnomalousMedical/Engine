@@ -26,6 +26,9 @@ namespace DiligentEngine.RT.ShaderSets
         private readonly String indicesName;
         private readonly String colorTexturesName;
         private readonly String normalTexturesName;
+        private readonly String shaderGroupName;
+
+        public String ShaderGroupName => shaderGroupName;
 
         public PrimaryHitShader(GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RayTracingPipelineStateCreateInfo PSOCreateInfo, Desc desc)
         {
@@ -35,6 +38,7 @@ namespace DiligentEngine.RT.ShaderSets
             this.indicesName = $"idx_{desc.BaseName}";
             this.colorTexturesName = $"tex_{desc.BaseName}";
             this.normalTexturesName = $"nrmltex_{desc.BaseName}";
+            this.shaderGroupName = $"{desc.BaseName}PrimaryHit";
 
             var m_pDevice = graphicsEngine.RenderDevice;
 
@@ -66,7 +70,7 @@ namespace DiligentEngine.RT.ShaderSets
             //VERIFY_EXPR(pCubePrimaryHit != nullptr);
 
             // Primary ray hit group for the textured cube.
-            primaryHitShaderGroup = new RayTracingTriangleHitShaderGroup { Name = "CubePrimaryHit", pClosestHitShader = pCubePrimaryHit.Obj };
+            primaryHitShaderGroup = new RayTracingTriangleHitShaderGroup { Name = shaderGroupName, pClosestHitShader = pCubePrimaryHit.Obj };
 
             verticesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = verticesName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
             indicesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = indicesName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };

@@ -1,4 +1,5 @@
-﻿using Engine;
+﻿using DiligentEngine.RT.ShaderSets;
+using Engine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,13 @@ using System.Threading.Tasks;
 
 namespace DiligentEngine.RT
 {
-    public class MeshBLAS : IDisposable
+    public class MeshBLAS : IDisposable, IShaderResourceBinder
     {
         private BLASInstance instance;
 
         public BLASInstance Instance => instance;
+
+        public String ShaderGroupName => primaryHitShader.ShaderGroupName;
 
         public uint NumIndices => numIndices;
 
@@ -22,14 +25,23 @@ namespace DiligentEngine.RT
 
         private readonly BLASDesc blasDesc = new BLASDesc();
         private readonly BLASBuilder blasBuilder;
+        private readonly RayTracingRenderer renderer;
+        private readonly RTShaders shaders;
+        private readonly TextureManager textureManager;
+        private PrimaryHitShader primaryHitShader;
 
-        public MeshBLAS(BLASBuilder blasBuilder)
+        public MeshBLAS(BLASBuilder blasBuilder, RayTracingRenderer renderer, RTShaders shaders, TextureManager textureManager)
         {
             this.blasBuilder = blasBuilder;
+            this.renderer = renderer;
+            this.shaders = shaders;
+            this.textureManager = textureManager;
         }
 
         public void Dispose()
         {
+            renderer.RemoveShaderResourceBinder(this);
+            primaryHitShader?.Dispose();
             instance?.Dispose();
         }
 
@@ -89,6 +101,20 @@ namespace DiligentEngine.RT
         public unsafe void End()
         {
             instance = blasBuilder.CreateBLAS(blasDesc);
+
+            primaryHitShader = shaders.CreatePrimaryHitShader(new PrimaryHitShader.Desc()
+            {
+                NumTextures = 5,
+                BaseName = blasDesc.Name,
+            });
+
+            renderer.AddShaderResourceBinder(this);
+        }
+
+        public void Bind(IShaderResourceBinding rayTracingSRB)
+        {
+            primaryHitShader.BindBlas(instance, rayTracingSRB);
+            primaryHitShader.BindTextures(rayTracingSRB, textureManager);
         }
     }
 }

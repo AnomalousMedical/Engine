@@ -23,6 +23,7 @@ namespace RTBepuDemo
         }
 
         private readonly TLASBuildInstanceData instanceData;
+        private readonly CubeBLAS cubeBLAS;
         private readonly RayTracingRenderer renderer;
 
         public SceneCube
@@ -32,6 +33,7 @@ namespace RTBepuDemo
             RayTracingRenderer renderer
         )
         {
+            this.cubeBLAS = cubeBLAS;
             this.renderer = renderer;
             this.instanceData = new TLASBuildInstanceData()
             {
@@ -59,7 +61,7 @@ namespace RTBepuDemo
 
         public void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
         {
-            sbt.BindHitGroupForInstance(tlas, instanceData.InstanceName, RtStructures.PRIMARY_RAY_INDEX, "CubePrimaryHit", IntPtr.Zero);
+            sbt.BindHitGroupForInstance(tlas, instanceData.InstanceName, RtStructures.PRIMARY_RAY_INDEX, cubeBLAS.ShaderGroupName, IntPtr.Zero);
         }
     }
 }

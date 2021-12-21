@@ -28,7 +28,6 @@ namespace RTDungeonGeneratorTest
         }
 
         private TLASBuildInstanceData instanceData;
-        private readonly RTInstances instances;
         private readonly RayTracingRenderer renderer;
         private readonly IDestructionRequest destructionRequest;
         private MapMesh mapMesh;
@@ -37,14 +36,13 @@ namespace RTDungeonGeneratorTest
         public SceneDungeon
         (
             Desc description,
-            RTInstances instances,
             ICoroutineRunner coroutineRunner,
-            BLASBuilder blasBuilder,
             RayTracingRenderer renderer,
-            IDestructionRequest destructionRequest
+            IDestructionRequest destructionRequest,
+            MeshBLAS floorMesh,
+            MeshBLAS wallMesh
         )
         {
-            this.instances = instances;
             this.renderer = renderer;
             this.destructionRequest = destructionRequest;
             coroutineRunner.RunTask(async () =>
@@ -124,7 +122,7 @@ namespace RTDungeonGeneratorTest
                         Console.WriteLine(mapBuilder.EndRoom);
                         Console.WriteLine("--------------------------------------------------");
 
-                        mapMesh = new MapMesh(mapBuilder, random, blasBuilder, mapUnitY: 0.1f);
+                        mapMesh = new MapMesh(mapBuilder, random, floorMesh, wallMesh, mapUnitY: 0.1f);
                     });
 
                     mapMesh.CreateMesh();
@@ -137,9 +135,8 @@ namespace RTDungeonGeneratorTest
                         Mask = RtStructures.OPAQUE_GEOM_MASK,
                         Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity)
                     };
-                    renderer.BindBlas(mapMesh.WallMesh.Instance);
-                    instances.AddTlasBuild(instanceData);
-                    instances.AddShaderTableBinder(this);
+                    renderer.AddTlasBuild(instanceData);
+                    renderer.AddShaderTableBinder(this);
 
                     completion.SetResult();
                 }
@@ -157,8 +154,8 @@ namespace RTDungeonGeneratorTest
 
         public void Dispose()
         {
-            instances.RemoveShaderTableBinder(this);
-            instances.RemoveTlasBuild(instanceData);
+            renderer.RemoveShaderTableBinder(this);
+            renderer.RemoveTlasBuild(instanceData);
             mapMesh?.Dispose();
         }
 
@@ -169,7 +166,8 @@ namespace RTDungeonGeneratorTest
 
         public void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
         {
-            sbt.BindHitGroupForInstance(tlas, instanceData.InstanceName, RtStructures.PRIMARY_RAY_INDEX, "CubePrimaryHit", IntPtr.Zero);
+            sbt.BindHitGroupForInstance(tlas, instanceData.InstanceName, RtStructures.PRIMARY_RAY_INDEX, mapMesh.FloorMesh.ShaderGroupName, IntPtr.Zero);
+            sbt.BindHitGroupForInstance(tlas, instanceData.InstanceName, RtStructures.PRIMARY_RAY_INDEX, mapMesh.WallMesh.ShaderGroupName, IntPtr.Zero);
         }
 
         public Task LoadingTask => loadingTask;

@@ -18,6 +18,8 @@ namespace DiligentEngine.RT
 
         public BLASInstance Instance => instance;
 
+        public String ShaderGroupName => primaryHitShader.ShaderGroupName;
+
         public unsafe CubeBLAS(BLASBuilder blasBuilder, RTShaders shaders, TextureManager textureManager, RayTracingRenderer renderer)
         {
 
