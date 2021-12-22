@@ -28,6 +28,8 @@ namespace RTBepuDemo
             public uint TextureIndex { get; set; } = 0;
 
             public byte Mask { get; set; } = RtStructures.OPAQUE_GEOM_MASK;
+
+            public RAYTRACING_INSTANCE_FLAGS Flags { get; set; } = RAYTRACING_INSTANCE_FLAGS.RAYTRACING_INSTANCE_NONE;
         }
 
         private BodyHandle bodyHandle;
@@ -52,7 +54,8 @@ namespace RTBepuDemo
                 CustomId = description.TextureIndex,
                 pBLAS = cubeBLAS.Instance.BLAS.Obj,
                 Mask = description.Mask,
-                Transform = new InstanceMatrix(new Vector3(description.position.X, description.position.Y, description.position.Z), Quaternion.Identity)
+                Transform = new InstanceMatrix(new Vector3(description.position.X, description.position.Y, description.position.Z), Quaternion.Identity),
+                Flags = description.Flags,
             };
 
             renderer.AddTlasBuild(instanceData);

@@ -88,6 +88,10 @@ namespace RTBepuDemo
                 o.box = box;
                 o.boxInertia = boxInertia;
                 o.TextureIndex = (uint)Random.Next(textureManager.NumTextures - 1);
+                if(o.TextureIndex == 1)
+                {
+                    o.Flags = RAYTRACING_INSTANCE_FLAGS.RAYTRACING_INSTANCE_FORCE_NO_OPAQUE;
+                }
             });
 
             bodyPositionSyncs.Add(body);
