@@ -113,6 +113,12 @@ void LightingPass(inout float3 Color, float3 Pos, float3 Norm, float3 pertbNorm,
     Color = col * (1.0 / float(NUM_LIGHTS)) + g_ConstantsCB.AmbientColor.rgb;
 }
 
+//int GetMip(float depth) 
+//{
+//    //Lame mip calculation, but looks tons better than just mip0. This needs to be an input value
+//    int mip = min(depth / 4, 4);
+//}
+
 void LightAndShade(
 inout PrimaryRayPayload payload, float3 barycentrics, 
 CubeAttribVertex posX, CubeAttribVertex posY, CubeAttribVertex posZ, 

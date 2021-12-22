@@ -17,6 +17,7 @@ namespace DiligentEngine.RT.ShaderSets
 
         private readonly RayTracingPipelineStateCreateInfo PSOCreateInfo;
         private readonly AutoPtr<IShader> pCubePrimaryHit;
+        private readonly AutoPtr<IShader> pCubeAnyHit;
         private readonly RayTracingTriangleHitShaderGroup primaryHitShaderGroup;
 
         private readonly ShaderResourceVariableDesc verticesDesc;
@@ -69,8 +70,16 @@ namespace DiligentEngine.RT.ShaderSets
             pCubePrimaryHit = m_pDevice.CreateShader(ShaderCI, Macros);
             //VERIFY_EXPR(pCubePrimaryHit != nullptr);
 
+            // Create any hit shaders.
+            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT;
+            ShaderCI.Desc.Name = "Cube primary ray any hit shader";
+            ShaderCI.Source = shaderLoader.LoadShader(shaderVars, "assets/CubeAnyHit.hlsl");
+            ShaderCI.EntryPoint = "main";
+            pCubeAnyHit = m_pDevice.CreateShader(ShaderCI, Macros);
+            //VERIFY_EXPR(pCubeAnyHit != nullptr);
+
             // Primary ray hit group for the textured cube.
-            primaryHitShaderGroup = new RayTracingTriangleHitShaderGroup { Name = shaderGroupName, pClosestHitShader = pCubePrimaryHit.Obj };
+            primaryHitShaderGroup = new RayTracingTriangleHitShaderGroup { Name = shaderGroupName, pClosestHitShader = pCubePrimaryHit.Obj, pAnyHitShader = pCubeAnyHit.Obj };
 
             verticesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = verticesName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
             indicesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = indicesName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
@@ -88,6 +97,7 @@ namespace DiligentEngine.RT.ShaderSets
 
             PSOCreateInfo.pTriangleHitShaders.Remove(primaryHitShaderGroup);
 
+            pCubeAnyHit.Dispose();
             pCubePrimaryHit.Dispose();
         }
 
@@ -95,12 +105,17 @@ namespace DiligentEngine.RT.ShaderSets
         {
             rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, verticesName).Set(bLASInstance.AttrVertexBuffer.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
             rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, indicesName).Set(bLASInstance.IndexBuffer.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
+
+            rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, verticesName).Set(bLASInstance.AttrVertexBuffer.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
+            rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, indicesName).Set(bLASInstance.IndexBuffer.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
         }
 
         public void BindTextures(IShaderResourceBinding m_pRayTracingSRB, TextureManager textureManager)
         {
             m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, colorTexturesName)?.SetArray(textureManager.TexSRVs);
             m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, normalTexturesName)?.SetArray(textureManager.TexNormalSRVs);
+
+            m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, colorTexturesName)?.SetArray(textureManager.TexSRVs);
         }
 
         private Dictionary<String, String> CreateShaderVars(Desc description)

@@ -19,6 +19,9 @@ namespace RTSandbox
 
             public byte Mask { get; set; } = RtStructures.OPAQUE_GEOM_MASK;
 
+            public RAYTRACING_INSTANCE_FLAGS Flags { get; set; } = RAYTRACING_INSTANCE_FLAGS.RAYTRACING_INSTANCE_NONE;
+
+
             public InstanceMatrix Transform = InstanceMatrix.Identity;
         }
 
@@ -41,7 +44,8 @@ namespace RTSandbox
                 CustomId = description.TextureIndex, // texture index
                 pBLAS = cubeBLAS.Instance.BLAS.Obj,
                 Mask = description.Mask,
-                Transform = description.Transform
+                Transform = description.Transform,
+                Flags = description.Flags,
             };
 
             renderer.AddTlasBuild(instanceData);

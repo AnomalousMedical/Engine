@@ -29,6 +29,7 @@ namespace RTSandbox
             {
                 o.Transform = new InstanceMatrix(new Vector3(-3, -3, 0), Quaternion.Identity);
                 o.TextureIndex = 1;
+                o.Flags = RAYTRACING_INSTANCE_FLAGS.RAYTRACING_INSTANCE_FORCE_NO_OPAQUE;
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>

@@ -14,7 +14,7 @@ namespace DiligentEngine.RT
         List<String> textureFiles = new List<String>
         {
             "ChristmasTreeOrnament007",
-            "MetalPlates001",
+            "SheetMetal002",
             "Fabric021",
             "Wood049",
             "Ground042"
@@ -54,9 +54,20 @@ namespace DiligentEngine.RT
             {
                 {
                     var textureFile = $"cc0Textures/{textureFiles[tex]}_1K_Color.jpg";
+                    var opacityFile = $"cc0Textures/{textureFiles[tex]}_1K_Opacity.jpg";
 
                     using var logoStream = virtualFileSystem.openStream(textureFile, FileMode.Open);
-                    var color = textureLoader.LoadTexture(logoStream, $"Color {tex} Texture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true);
+                    using var bmp = FreeImageBitmap.FromStream(logoStream);
+                    if (virtualFileSystem.exists(opacityFile))
+                    {
+                        //Jam opacity map into color alpha channel if it exists
+                        bmp.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_32_BPP); //Cheat and convert color depth
+                        using var opacityStream = virtualFileSystem.openStream(opacityFile, FileMode.Open);
+                        using var opacityBmp = FreeImageBitmap.FromStream(opacityStream);
+                        opacityBmp.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_08_BPP);
+                        bmp.SetChannel(opacityBmp, FREE_IMAGE_COLOR_CHANNEL.FICC_ALPHA);
+                    }
+                    var color = textureLoader.CreateTextureFromImage(bmp, 0, $"Color {tex} Texture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true);
                     pTex.Add(color);
 
                     // Get shader resource view from the texture
