@@ -1,6 +1,6 @@
 
-#include "structures.fxh"
-#include "RayUtils.fxh"
+#include "Structures.hlsl"
+#include "RayUtils.hlsl"
 
 StructuredBuffer<CubeAttribVertex> $$(VERTICES);
 StructuredBuffer<uint> $$(INDICES);

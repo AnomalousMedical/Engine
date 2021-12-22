@@ -1,5 +1,5 @@
 
-#include "structures.fxh"
+#include "Structures.hlsl"
 
 [shader("miss")]
 void main(inout ShadowRayPayload payload)

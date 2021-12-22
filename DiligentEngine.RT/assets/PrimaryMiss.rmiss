@@ -1,5 +1,5 @@
 
-#include "structures.fxh"
+#include "Structures.hlsl"
 
 ConstantBuffer<Constants> g_ConstantsCB;
 
