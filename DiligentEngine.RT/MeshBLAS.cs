@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace DiligentEngine.RT
 {
-    public class MeshBLAS : IDisposable, IShaderResourceBinder
+    public class MeshBLAS : IDisposable
     {
         private BLASInstance instance;
 
         public BLASInstance Instance => instance;
 
-        public String ShaderGroupName => primaryHitShader.ShaderGroupName;
+        public String Name => blasDesc.Name;
 
         public uint NumIndices => numIndices;
 
@@ -25,21 +25,14 @@ namespace DiligentEngine.RT
 
         private readonly BLASDesc blasDesc = new BLASDesc();
         private readonly BLASBuilder blasBuilder;
-        private readonly RayTracingRenderer renderer;
-        private readonly TextureManager textureManager;
-        private PrimaryHitShader primaryHitShader;
 
-        public MeshBLAS(BLASBuilder blasBuilder, RayTracingRenderer renderer, TextureManager textureManager, PrimaryHitShader primaryHitShader)
+        public MeshBLAS(BLASBuilder blasBuilder)
         {
-            this.primaryHitShader = primaryHitShader;
             this.blasBuilder = blasBuilder;
-            this.renderer = renderer;
-            this.textureManager = textureManager;
         }
 
         public void Dispose()
         {
-            renderer.RemoveShaderResourceBinder(this);
             instance?.Dispose();
         }
 
@@ -100,15 +93,7 @@ namespace DiligentEngine.RT
         {
             instance = blasBuilder.CreateBLAS(blasDesc);
 
-            primaryHitShader.Setup(blasDesc.Name, 5);
-
-            renderer.AddShaderResourceBinder(this);
-        }
-
-        public void Bind(IShaderResourceBinding rayTracingSRB)
-        {
-            primaryHitShader.BindBlas(instance, rayTracingSRB);
-            primaryHitShader.BindTextures(rayTracingSRB, textureManager);
+            
         }
     }
 }
