@@ -19,7 +19,7 @@ namespace RTDungeonGeneratorTest
         private readonly ISharpGui sharpGui;
         private readonly OSWindow window;
         private readonly FirstPersonFlyCamera cameraControls;
-        private Vector4 lightPos = new Vector4(0, -5, -1, 0);
+        private Vector4 lightPos = new Vector4(0, 24, -40, 0);
 
         private SharpText lightPosText = new SharpText() { Text = "" };
         private SharpText cameraPosText = new SharpText() { Text = "" };
