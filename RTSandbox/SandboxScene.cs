@@ -1,4 +1,5 @@
 ﻿using DiligentEngine;
+using DiligentEngine.RT;
 using Engine;
 using Engine.Platform;
 using System;
@@ -12,90 +13,124 @@ namespace RTSandbox
     internal class SandboxScene : IDisposable
     {
         private readonly IObjectResolver objectResolver;
+        private readonly RayTracingRenderer renderer;
+        private readonly CubeBLAS cubeBLAS;
+        private readonly TextureSet textureSet;
 
         private SceneCube rotateCube;
         private Quaternion currentRot = Quaternion.Identity;
 
-        public SandboxScene(IObjectResolverFactory objectResolverFactory)
+        public SandboxScene
+        (
+            IObjectResolverFactory objectResolverFactory, 
+            RayTracingRenderer renderer, 
+            CubeBLAS cubeBLAS,
+            ICoroutineRunner coroutine,
+            TextureSet textureSet
+        )
         {
+            this.renderer = renderer;
+            this.cubeBLAS = cubeBLAS;
+            this.textureSet = textureSet;
             objectResolver = objectResolverFactory.Create();
 
-            rotateCube = objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
+            coroutine.RunTask(async () =>
             {
-                o.Transform = new InstanceMatrix(new Vector3(0, 0, 0), Quaternion.Identity);
-            });
-
-            objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
-            {
-                o.Transform = new InstanceMatrix(new Vector3(-3, -3, 0), Quaternion.Identity);
-                o.TextureIndex = 1;
-                o.Flags = RAYTRACING_INSTANCE_FLAGS.RAYTRACING_INSTANCE_FORCE_NO_OPAQUE;
-            });
-
-            objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
-            {
-                o.Transform = new InstanceMatrix(new Vector3(-6, -3, 0), Quaternion.Identity);
-                o.TextureIndex = 2;
-            });
-
-            objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
-            {
-                o.Transform = new InstanceMatrix(new Vector3(-9, -3, 0), Quaternion.Identity);
-                o.TextureIndex = 3;
-            });
-
-            objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
-            {
-                o.Transform = new InstanceMatrix(new Vector3(-12, -3, 0), Quaternion.Identity);
-            });
-
-            objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
-            {
-                o.Transform = new InstanceMatrix(new Vector3(-3, -6, 0), Quaternion.Identity);
-            });
-
-            objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
-            {
-                o.Transform = new InstanceMatrix(new Vector3(3, 0, 0), Quaternion.Identity);
-            });
-
-            objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
-            {
-                o.Transform = new InstanceMatrix(new Vector3(3, 3, 0), Quaternion.Identity);
-            });
-
-            objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
-            {
-                o.Transform = new InstanceMatrix(new Vector3(3, 6, 0), Quaternion.Identity);
-            });
-
-            objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
-            {
-                o.Transform = new InstanceMatrix(new Vector3(3, 9, 0), Quaternion.Identity);
-            });
-
-            for (var x = -20; x < 20; ++x)
-            {
-                for (var z = -20; z < 20; ++z)
+                textureSet.Setup(new string[]
                 {
-                    objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
+                    "ChristmasTreeOrnament007",
+                    "SheetMetal002",
+                    "Fabric021",
+                    "Wood049",
+                    "Ground042"
+                });
+                await cubeBLAS.WaitForLoad();
+
+                renderer.AddShaderResourceBinder(Bind);
+
+                rotateCube = objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
+                {
+                    o.Transform = new InstanceMatrix(new Vector3(0, 0, 0), Quaternion.Identity);
+                });
+
+                objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
+                {
+                    o.Transform = new InstanceMatrix(new Vector3(-3, -3, 0), Quaternion.Identity);
+                    o.TextureIndex = 1;
+                    o.Flags = RAYTRACING_INSTANCE_FLAGS.RAYTRACING_INSTANCE_FORCE_NO_OPAQUE;
+                });
+
+                objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
+                {
+                    o.Transform = new InstanceMatrix(new Vector3(-6, -3, 0), Quaternion.Identity);
+                    o.TextureIndex = 2;
+                });
+
+                objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
+                {
+                    o.Transform = new InstanceMatrix(new Vector3(-9, -3, 0), Quaternion.Identity);
+                    o.TextureIndex = 3;
+                });
+
+                objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
+                {
+                    o.Transform = new InstanceMatrix(new Vector3(-12, -3, 0), Quaternion.Identity);
+                });
+
+                objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
+                {
+                    o.Transform = new InstanceMatrix(new Vector3(-3, -6, 0), Quaternion.Identity);
+                });
+
+                objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
+                {
+                    o.Transform = new InstanceMatrix(new Vector3(3, 0, 0), Quaternion.Identity);
+                });
+
+                objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
+                {
+                    o.Transform = new InstanceMatrix(new Vector3(3, 3, 0), Quaternion.Identity);
+                });
+
+                objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
+                {
+                    o.Transform = new InstanceMatrix(new Vector3(3, 6, 0), Quaternion.Identity);
+                });
+
+                objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
+                {
+                    o.Transform = new InstanceMatrix(new Vector3(3, 9, 0), Quaternion.Identity);
+                });
+
+                for (var x = -20; x < 20; ++x)
+                {
+                    for (var z = -20; z < 20; ++z)
                     {
-                        o.Transform = new InstanceMatrix(new Vector3(x, -6.0f, z), Quaternion.Identity);
-                        o.TextureIndex = 4;
-                    });
+                        objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
+                        {
+                            o.Transform = new InstanceMatrix(new Vector3(x, -6.0f, z), Quaternion.Identity);
+                            o.TextureIndex = 4;
+                        });
+                    }
                 }
-            }
+            });
         }
 
         public void Update(Clock clock)
         {
             currentRot *= new Quaternion(new Vector3(0, 1, 0), 0.35f * clock.DeltaSeconds);
-            rotateCube.SetTransform(Vector3.Zero, currentRot);
+            rotateCube?.SetTransform(Vector3.Zero, currentRot);
         }
 
         public void Dispose()
         {
+            renderer.RemoveShaderResourceBinder(Bind);
             objectResolver.Dispose();
+        }
+
+        private void Bind(IShaderResourceBinding rayTracingSRB)
+        {
+            cubeBLAS.PrimaryHitShader.BindTextures(rayTracingSRB, textureSet);
         }
     }
 }

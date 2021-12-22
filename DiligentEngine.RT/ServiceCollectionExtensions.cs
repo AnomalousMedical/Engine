@@ -26,11 +26,11 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<CubeBLAS>();
             services.AddTransient<MeshBLAS>();
             services.AddSingleton<RTCameraAndLight>();
-            services.AddSingleton<TextureManager>();
             services.AddSingleton<RayTracingRenderer>();
             services.AddSingleton<GeneralShaders>();
 
             services.AddTransient<PrimaryHitShader>();
+            services.AddTransient<TextureSet>();
 
             return services;
         }

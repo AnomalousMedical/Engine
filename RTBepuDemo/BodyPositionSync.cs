@@ -113,7 +113,7 @@ namespace RTBepuDemo
 
         public void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
         {
-            sbt.BindHitGroupForInstance(tlas, instanceData.InstanceName, RtStructures.PRIMARY_RAY_INDEX, cubeBLAS.ShaderGroupName, IntPtr.Zero);
+            sbt.BindHitGroupForInstance(tlas, instanceData.InstanceName, RtStructures.PRIMARY_RAY_INDEX, cubeBLAS.PrimaryHitShader.ShaderGroupName, IntPtr.Zero);
         }
     }
 }

@@ -121,14 +121,6 @@ namespace DiligentEngine.RT.ShaderSets
             rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, indicesName).Set(bLASInstance.IndexBuffer.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
         }
 
-        public void BindTextures(IShaderResourceBinding m_pRayTracingSRB, TextureManager textureManager)
-        {
-            m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, colorTexturesName)?.SetArray(textureManager.TexSRVs);
-            m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, normalTexturesName)?.SetArray(textureManager.TexNormalSRVs);
-
-            m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, colorTexturesName)?.SetArray(textureManager.TexSRVs);
-        }
-
         public void BindTextures(IShaderResourceBinding m_pRayTracingSRB, TextureSet textureSet)
         {
             m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, colorTexturesName)?.SetArray(textureSet.TexSRVs);

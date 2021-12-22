@@ -13,25 +13,22 @@ namespace DiligentEngine.RT
     {
         private BLASInstance instance;
         private PrimaryHitShader primaryHitShader;
-        private readonly TextureManager textureManager;
         private readonly RayTracingRenderer renderer;
         private TaskCompletionSource loadingTask = new TaskCompletionSource();
 
         public BLASInstance Instance => instance;
 
-        public String ShaderGroupName => primaryHitShader.ShaderGroupName;
+        public PrimaryHitShader PrimaryHitShader => primaryHitShader;
 
         public CubeBLAS
         (
-            BLASBuilder blasBuilder, 
-            TextureManager textureManager, 
+            BLASBuilder blasBuilder,
             RayTracingRenderer renderer, 
             PrimaryHitShader primaryHitShader,
             IScopedCoroutine coroutineRunner
         )
         {
             this.primaryHitShader = primaryHitShader;
-            this.textureManager = textureManager;
             this.renderer = renderer;
 
 
@@ -111,7 +108,6 @@ namespace DiligentEngine.RT
         private void Bind(IShaderResourceBinding rayTracingSRB)
         {
             primaryHitShader.BindBlas(instance, rayTracingSRB);
-            primaryHitShader.BindTextures(rayTracingSRB, textureManager);
         }
     }
 }
