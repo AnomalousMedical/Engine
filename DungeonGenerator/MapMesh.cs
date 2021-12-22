@@ -591,17 +591,6 @@ namespace DungeonGenerator
             }
         }
 
-        /// <summary>
-        /// Call this on the main thread to build the mesh, need to improve this lifecycle, remove knowledge of final mesh.
-        /// You can probably even do some of these steps in the bg, but the lists are getting modified during rendering sometimes
-        /// without this.
-        /// </summary>
-        public void CreateMesh()
-        {
-            floorMesh.End();
-            wallMesh.End();
-        }
-
         public Vector3 PointToVector(int x, int y)
         {
             return squareInfo[x + 1, y + 1].Center;

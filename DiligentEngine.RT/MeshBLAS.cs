@@ -92,8 +92,6 @@ namespace DiligentEngine.RT
         public unsafe void End()
         {
             instance = blasBuilder.CreateBLAS(blasDesc);
-
-            
         }
     }
 }

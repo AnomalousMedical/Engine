@@ -137,7 +137,8 @@ namespace RTDungeonGeneratorTest
                         mapMesh = new MapMesh(mapBuilder, random, floorMesh, wallMesh, mapUnitY: 0.1f);
                     });
 
-                    mapMesh.CreateMesh(); 
+                    floorMesh.End();
+                    wallMesh.End();
                     floorShader.Setup(floorMesh.Name, textureManager.NumTextures);
                     wallShader.Setup(wallMesh.Name, textureManager.NumTextures);
 
