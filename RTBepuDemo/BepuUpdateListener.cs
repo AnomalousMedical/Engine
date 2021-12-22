@@ -24,7 +24,6 @@ namespace RTBepuDemo
         private readonly GraphicsEngine graphicsEngine;
         private readonly IObjectResolverFactory objectResolverFactory;
         private readonly IBepuScene bepuScene;
-        private readonly TextureManager textureManager;
         private readonly RTGui gui;
         private readonly ISharpGui sharpGui;
         private IObjectResolver objectResolver;
@@ -43,7 +42,6 @@ namespace RTBepuDemo
             GraphicsEngine graphicsEngine,
             IObjectResolverFactory objectResolverFactory,
             IBepuScene bepuScene,
-            TextureManager textureManager,
             RTGui gui,
             ISharpGui sharpGui
         )
@@ -54,7 +52,6 @@ namespace RTBepuDemo
             this.graphicsEngine = graphicsEngine;
             this.objectResolverFactory = objectResolverFactory;
             this.bepuScene = bepuScene;
-            this.textureManager = textureManager;
             this.gui = gui;
             this.sharpGui = sharpGui;
             cameraControls.Position = new Vector3(0, 2, -11);
@@ -87,7 +84,6 @@ namespace RTBepuDemo
                 o.position = position;
                 o.box = box;
                 o.boxInertia = boxInertia;
-                o.TextureIndex = (uint)Random.Next(textureManager.NumTextures - 1);
                 if(o.TextureIndex == 1)
                 {
                     o.Flags = RAYTRACING_INSTANCE_FLAGS.RAYTRACING_INSTANCE_FORCE_NO_OPAQUE;
