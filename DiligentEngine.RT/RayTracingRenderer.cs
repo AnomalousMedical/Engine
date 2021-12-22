@@ -33,14 +33,18 @@ namespace DiligentEngine.RT
         public RayTracingPipelineStateCreateInfo PSOCreateInfo { get; private set; } = CreatePSOCreateInfo();
 
         List<TLASBuildInstanceData> instances = new List<TLASBuildInstanceData>();
-        List<IShaderTableBinder> shaderTableBinders = new List<IShaderTableBinder>();
-        List<IShaderResourceBinder> shaderResourceBinders = new List<IShaderResourceBinder>();
+        List<ShaderTableBinder> shaderTableBinders = new List<ShaderTableBinder>();
+        List<ShaderResourceBinder> shaderResourceBinders = new List<ShaderResourceBinder>();
+
+        public delegate void ShaderResourceBinder(IShaderResourceBinding rayTracingSRB);
+
+        public delegate void ShaderTableBinder(IShaderBindingTable sbt, ITopLevelAS tlas);
 
         public unsafe RayTracingRenderer
         (
             GraphicsEngine graphicsEngine,
             RTImageBlitter imageBlitter,
-            RTCameraAndLight cameraAndLight, 
+            RTCameraAndLight cameraAndLight,
             GeneralShaders generalShaders
         )
         {
@@ -181,7 +185,7 @@ namespace DiligentEngine.RT
             // Create or update top-level acceleration structure
 
             uint numInstances = (uint)instances.Count;
-            if(numInstances == 0)
+            if (numInstances == 0)
             {
                 return null;
             }
@@ -290,7 +294,7 @@ namespace DiligentEngine.RT
             //TODO: Might be able to avoid recreating this like the other buffers, this also seems ok
             //So really need more info about behavior to decide here
             using var tlas = UpdateTLAS();
-            if(tlas == null)
+            if (tlas == null)
             {
                 return;
             }
@@ -376,23 +380,23 @@ namespace DiligentEngine.RT
             instances.Remove(instance);
         }
 
-        public void AddShaderTableBinder(IShaderTableBinder binder)
+        public void AddShaderTableBinder(ShaderTableBinder binder)
         {
             shaderTableBinders.Add(binder);
         }
 
-        public void RemoveShaderTableBinder(IShaderTableBinder binder)
+        public void RemoveShaderTableBinder(ShaderTableBinder binder)
         {
             shaderTableBinders.Remove(binder);
         }
 
-        public void AddShaderResourceBinder(IShaderResourceBinder binder)
+        public void AddShaderResourceBinder(ShaderResourceBinder binder)
         {
             rebuildPipeline = true;
             shaderResourceBinders.Add(binder);
         }
 
-        public void RemoveShaderResourceBinder(IShaderResourceBinder binder)
+        public void RemoveShaderResourceBinder(ShaderResourceBinder binder)
         {
             shaderResourceBinders.Remove(binder);
         }
@@ -403,7 +407,7 @@ namespace DiligentEngine.RT
         {
             foreach (var i in shaderTableBinders)
             {
-                i.Bind(sbt, tlas);
+                i(sbt, tlas);
             }
         }
 
@@ -411,7 +415,7 @@ namespace DiligentEngine.RT
         {
             foreach (var i in shaderResourceBinders)
             {
-                i.Bind(rayTracingSRB);
+                i(rayTracingSRB);
             }
         }
     }

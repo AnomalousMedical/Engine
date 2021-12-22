@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DiligentEngine.RT
 {
-    public class CubeBLAS : IDisposable, IShaderResourceBinder
+    public class CubeBLAS : IDisposable
     {
         private BLASInstance instance;
         private PrimaryHitShader primaryHitShader;
@@ -85,7 +85,7 @@ namespace DiligentEngine.RT
                     instance = await blasBuilder.CreateBLAS(blasDesc);
                     await setupShader;
 
-                    renderer.AddShaderResourceBinder(this);
+                    renderer.AddShaderResourceBinder(Bind);
 
                     loadingTask.SetResult();
                 }
@@ -98,7 +98,7 @@ namespace DiligentEngine.RT
 
         public void Dispose()
         {
-            renderer.RemoveShaderResourceBinder(this);
+            renderer.RemoveShaderResourceBinder(Bind);
             instance.Dispose();
         }
 
@@ -108,7 +108,7 @@ namespace DiligentEngine.RT
             return loadingTask.Task;
         }
 
-        public void Bind(IShaderResourceBinding rayTracingSRB)
+        private void Bind(IShaderResourceBinding rayTracingSRB)
         {
             primaryHitShader.BindBlas(instance, rayTracingSRB);
             primaryHitShader.BindTextures(rayTracingSRB, textureManager);

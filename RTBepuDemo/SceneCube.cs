@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RTBepuDemo
 {
-    internal class SceneCube : IDisposable, IShaderTableBinder
+    internal class SceneCube : IDisposable
     {
         public class Desc
         {
@@ -51,13 +51,13 @@ namespace RTBepuDemo
                 instanceData.pBLAS = cubeBLAS.Instance.BLAS.Obj;
 
                 renderer.AddTlasBuild(instanceData);
-                renderer.AddShaderTableBinder(this);
+                renderer.AddShaderTableBinder(Bind);
             });
         }
 
         public void Dispose()
         {
-            renderer.RemoveShaderTableBinder(this);
+            renderer.RemoveShaderTableBinder(Bind);
             renderer.RemoveTlasBuild(instanceData);
         }
 
@@ -66,7 +66,7 @@ namespace RTBepuDemo
             this.instanceData.Transform = matrix;
         }
 
-        public void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
+        private void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
         {
             sbt.BindHitGroupForInstance(tlas, instanceData.InstanceName, RtStructures.PRIMARY_RAY_INDEX, cubeBLAS.ShaderGroupName, IntPtr.Zero);
         }

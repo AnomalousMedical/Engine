@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RTSandbox
 {
-    internal class SceneCube : IDisposable, IShaderTableBinder
+    internal class SceneCube : IDisposable
     {
         public class Desc
         {
@@ -54,13 +54,13 @@ namespace RTSandbox
                 this.instanceData.pBLAS = cubeBLAS.Instance.BLAS.Obj;
 
                 renderer.AddTlasBuild(instanceData);
-                renderer.AddShaderTableBinder(this);
+                renderer.AddShaderTableBinder(Bind);
             });
         }
 
         public void Dispose()
         {
-            renderer.RemoveShaderTableBinder(this);
+            renderer.RemoveShaderTableBinder(Bind);
             renderer.RemoveTlasBuild(instanceData);
         }
 

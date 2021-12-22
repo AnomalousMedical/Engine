@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace RTDungeonGeneratorTest
 {
-    internal class SceneDungeon : IDisposable, IShaderTableBinder, IShaderResourceBinder
+    internal class SceneDungeon : IDisposable
     {
         public class Desc
         {
@@ -115,8 +115,8 @@ namespace RTDungeonGeneratorTest
                     {
                         renderer.AddTlasBuild(floorInstanceData);
                         renderer.AddTlasBuild(wallInstanceData);
-                        renderer.AddShaderTableBinder(this);
-                        renderer.AddShaderResourceBinder(this);
+                        renderer.AddShaderTableBinder(Bind);
+                        renderer.AddShaderResourceBinder(Bind);
                     }
 
                     loadingTask.SetResult();
@@ -135,8 +135,8 @@ namespace RTDungeonGeneratorTest
 
         public void Dispose()
         {
-            renderer.RemoveShaderResourceBinder(this);
-            renderer.RemoveShaderTableBinder(this);
+            renderer.RemoveShaderResourceBinder(Bind);
+            renderer.RemoveShaderTableBinder(Bind);
             renderer.RemoveTlasBuild(floorInstanceData);
             renderer.RemoveTlasBuild(wallInstanceData);
         }

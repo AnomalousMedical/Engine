@@ -15,7 +15,7 @@ namespace RTBepuDemo
     /// <summary>
     /// This class helps keep the position in sync between physics objects and their owner.
     /// </summary>
-    class BodyPositionSync : IDisposable, IShaderTableBinder
+    class BodyPositionSync : IDisposable
     {
         public class Desc
         {
@@ -77,7 +77,7 @@ namespace RTBepuDemo
                 instanceData.pBLAS = cubeBLAS.Instance.BLAS.Obj;
 
                 renderer.AddTlasBuild(instanceData);
-                renderer.AddShaderTableBinder(this);
+                renderer.AddShaderTableBinder(Bind);
             });
         }
 
@@ -85,7 +85,7 @@ namespace RTBepuDemo
         {
             bepuScene.Simulation.Bodies.Remove(this.bodyHandle);
 
-            renderer.RemoveShaderTableBinder(this);
+            renderer.RemoveShaderTableBinder(Bind);
             renderer.RemoveTlasBuild(instanceData);
         }
 
