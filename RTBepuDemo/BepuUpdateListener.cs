@@ -26,24 +26,31 @@ namespace RTBepuDemo
         private readonly IBepuScene bepuScene;
         private readonly RTGui gui;
         private readonly ISharpGui sharpGui;
+        private readonly TextureSet textureSet;
+        private readonly CubeBLAS cubeBLAS;
         private IObjectResolver objectResolver;
         private List<BodyPositionSync> bodyPositionSyncs = new List<BodyPositionSync>();
         private Random Random = new Random();
+
+        private long nextCubeSpawnTime = long.MaxValue;
+        private long nextCubeSpawnFrequency = 1 * Clock.SecondsToMicro;
 
         Box boxShape;
         BodyInertia boxInertia;
         //END
 
-        public unsafe BepuUpdateListener(
+        public BepuUpdateListener(
             NativeOSWindow window,
-            DemoScene scene,
             RayTracingRenderer renderer,
             FirstPersonFlyCamera cameraControls,
             GraphicsEngine graphicsEngine,
             IObjectResolverFactory objectResolverFactory,
             IBepuScene bepuScene,
             RTGui gui,
-            ISharpGui sharpGui
+            ISharpGui sharpGui,
+            TextureSet textureSet,
+            CubeBLAS cubeBLAS,
+            ICoroutineRunner coroutine
         )
         {
             this.window = window;
@@ -54,13 +61,50 @@ namespace RTBepuDemo
             this.bepuScene = bepuScene;
             this.gui = gui;
             this.sharpGui = sharpGui;
-            cameraControls.Position = new Vector3(0, 2, -11);
-            SetupBepu();
-            this.objectResolver = objectResolverFactory.Create();
+            this.textureSet = textureSet;
+            this.cubeBLAS = cubeBLAS;
+            coroutine.RunTask(async () =>
+            {
+                textureSet.Setup(new string[]
+                {
+                    "ChristmasTreeOrnament007",
+                    "SheetMetal002",
+                    "Fabric021",
+                    "Wood049",
+                    "Ground042"
+                });
+                await cubeBLAS.WaitForLoad();
+
+                renderer.AddShaderResourceBinder(Bind);
+
+                cameraControls.Position = new Vector3(0, 2, -11);
+                SetupBepu();
+                this.objectResolver = objectResolverFactory.Create();
+
+                objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
+                {
+
+                });
+
+                for (var x = -20; x < 20; ++x)
+                {
+                    for (var z = -20; z < 20; ++z)
+                    {
+                        objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
+                        {
+                            o.Transform = new InstanceMatrix(new Vector3(x, -1.5f, z), Quaternion.Identity);
+                            o.TextureIndex = 4;
+                        });
+                    }
+                }
+
+                nextCubeSpawnTime = 0; //Start cubes spawining
+            });
         }
 
         public void Dispose()
         {
+            renderer.RemoveShaderResourceBinder(Bind);
             this.objectResolver.Dispose();
         }
 
@@ -84,6 +128,7 @@ namespace RTBepuDemo
                 o.position = position;
                 o.box = box;
                 o.boxInertia = boxInertia;
+                o.TextureIndex = (uint)Random.Next(textureSet.NumTextures - 1);
             });
 
             bodyPositionSyncs.Add(body);
@@ -98,9 +143,6 @@ namespace RTBepuDemo
         {
 
         }
-
-        private long nextCubeSpawnTime = 0;
-        private long nextCubeSpawnFrequency = 1 * Clock.SecondsToMicro;
 
         public unsafe void sendUpdate(Clock clock)
         {
@@ -160,6 +202,11 @@ namespace RTBepuDemo
             {
                 body.SyncPhysics(bepuScene);
             }
+        }
+
+        private void Bind(IShaderResourceBinding rayTracingSRB)
+        {
+            cubeBLAS.PrimaryHitShader.BindTextures(rayTracingSRB, textureSet);
         }
     }
 }
