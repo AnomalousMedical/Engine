@@ -42,20 +42,7 @@ struct Constants
     // Maximum ray recursion depth
     int      MaxRecursion;
     float2   Padding2;
-
-    // Reflection sphere properties
-    float3  SphereReflectionColorMask;
-    int     SphereReflectionBlur;
-
-    // Refraction cube properties
-    float3  GlassReflectionColorMask;
-    float   GlassAbsorption;
-    float4  GlassMaterialColor;
-    float2  GlassIndexOfRefraction;  // min and max IOR
-    int     GlassEnableDispersion;
-    uint    DispersionSampleCount; // 1..16
-    float4  DispersionSamples[MAX_DISPERS_SAMPLES]; // [rgb color] [IOR scale]
-
+    
     float4  DiscPoints[8]; // packed float2[16]
 
     // Light properties
