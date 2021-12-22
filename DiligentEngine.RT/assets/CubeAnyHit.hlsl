@@ -38,9 +38,8 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
     if (opacity < 0.5f) {
         IgnoreHit();
     }
-    else {
-        AcceptHitAndEndSearch();
-    }
+
+    //Doing nothing lets the ray tracer continue as normal
 }
 
 
