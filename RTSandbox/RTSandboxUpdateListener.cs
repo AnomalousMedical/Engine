@@ -18,7 +18,7 @@ namespace RTSandbox
     class RTSandboxUpdateListener : UpdateListener
     {
         private readonly FirstPersonFlyCamera cameraControls;
-        private readonly IRTSandboxScene scene;
+        private readonly SandboxScene scene;
         private readonly RayTracingRenderer rayTracingRenderer;
         private readonly ISharpGui sharpGui;
         private readonly RTGui gui;
@@ -29,7 +29,7 @@ namespace RTSandbox
         (
             GraphicsEngine graphicsEngine,
             FirstPersonFlyCamera cameraControls,
-            IRTSandboxScene scene,
+            SandboxScene scene,
             RayTracingRenderer rayTracingRenderer,
             ISharpGui sharpGui,
             RTGui gui

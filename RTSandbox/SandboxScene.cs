@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace RTSandbox
 {
-    internal class PlaneScene : IDisposable, IRTSandboxScene
+    internal class SandboxScene : IDisposable
     {
         private readonly IObjectResolver objectResolver;
 
         private SceneCube rotateCube;
         private Quaternion currentRot = Quaternion.Identity;
 
-        public PlaneScene(IObjectResolverFactory objectResolverFactory)
+        public SandboxScene(IObjectResolverFactory objectResolverFactory)
         {
             objectResolver = objectResolverFactory.Create();
 
@@ -30,6 +30,12 @@ namespace RTSandbox
                 o.Transform = new InstanceMatrix(new Vector3(-3, -3, 0), Quaternion.Identity);
                 o.TextureIndex = 1;
                 o.Flags = RAYTRACING_INSTANCE_FLAGS.RAYTRACING_INSTANCE_FORCE_NO_OPAQUE;
+            });
+
+            objectResolver.Resolve<ScenePlane, ScenePlane.Desc>(o =>
+            {
+                o.Transform = new InstanceMatrix(new Vector3(-3, 0, 0), Quaternion.Identity);
+                o.TextureIndex = 0;
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>

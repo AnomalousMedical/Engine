@@ -55,13 +55,15 @@ namespace RTSandbox
             //Add this app's services
             services.TryAddSingleton<RTSandboxUpdateListener>();
 
-            services.AddSingleton<IRTSandboxScene, PlaneScene>();
+            services.AddSingleton<SandboxScene>();
             services.AddSingleton<RTGui>();
             //services.AddSingleton<IRTSandboxScene, DemoScene>();
             services.AddDiligentEngineRt();
 
             services.AddScoped<SceneCube>();
             services.AddScoped<SceneCube.Desc>();
+            services.AddScoped<ScenePlane>();
+            services.AddScoped<ScenePlane.Desc>();
 
             return true;
         }
