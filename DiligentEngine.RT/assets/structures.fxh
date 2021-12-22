@@ -51,19 +51,6 @@ struct Constants
     float4  LightColor[NUM_LIGHTS];
 };
 
-struct BoxAttribs
-{
-    float minX, minY, minZ;
-    float maxX, maxY, maxZ;
-    float padding0, padding1;
-};
-
-struct ProceduralGeomIntersectionAttribs
-{
-    float3 Normal;
-};
-
-
 // Instance mask.
 #define OPAQUE_GEOM_MASK      0x01
 #define TRANSPARENT_GEOM_MASK 0x02
@@ -74,13 +61,6 @@ struct ProceduralGeomIntersectionAttribs
 #define SHADOW_RAY_INDEX  1
 
 
-#ifndef __cplusplus
-
 // Small offset between ray intersection and new ray origin to avoid self-intersections.
 #    define SMALL_OFFSET 0.0001
 
-// For procedural intersections you must add custom hit kind.
-#    define RAY_KIND_PROCEDURAL_FRONT_FACE 1
-#    define RAY_KIND_PROCEDURAL_BACK_FACE  2
-
-#endif

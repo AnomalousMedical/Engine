@@ -41,7 +41,7 @@ namespace DiligentEngine.RT
             PSOCreateInfo.RayTracingPipeline.ShaderRecordSize = 0;
 
             // DirectX 12 only: set attribute and payload size. Values should be as small as possible to minimize the memory usage.
-            PSOCreateInfo.MaxAttributeSize = (uint)Math.Max(sizeof(/*BuiltInTriangleIntersectionAttributes*/ Vector2), sizeof(DiligentEngine.RT.HLSL.ProceduralGeomIntersectionAttribs));
+            PSOCreateInfo.MaxAttributeSize = (uint)sizeof(/*BuiltInTriangleIntersectionAttributes*/ Vector2);
             PSOCreateInfo.MaxPayloadSize = (uint)Math.Max(sizeof(DiligentEngine.RT.HLSL.PrimaryRayPayload), sizeof(DiligentEngine.RT.HLSL.ShadowRayPayload));
 
 

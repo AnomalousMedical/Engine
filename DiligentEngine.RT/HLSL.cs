@@ -22,12 +22,6 @@ using System.Runtime.InteropServices;
 namespace DiligentEngine.RT.HLSL
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct ProceduralGeomIntersectionAttribs
-    {
-        float3 Normal;
-    };
-
-    [StructLayout(LayoutKind.Sequential)]
     public struct PrimaryRayPayload
     {
         float3 Color;
