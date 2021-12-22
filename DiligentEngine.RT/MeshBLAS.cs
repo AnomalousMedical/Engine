@@ -89,9 +89,9 @@ namespace DiligentEngine.RT
             return new Vector4(input.x, input.y, input.z, 0);
         }
 
-        public unsafe void End()
+        public async Task End()
         {
-            instance = blasBuilder.CreateBLAS(blasDesc);
+            instance = await blasBuilder.CreateBLAS(blasDesc);
         }
     }
 }

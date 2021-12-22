@@ -68,7 +68,6 @@ namespace RTDungeonGeneratorTest
                         using var destructionBlock = destructionRequest.BlockDestruction();
                         var sw = new Stopwatch();
                         sw.Start();
-                        //Quick test with the console
                         var random = new Random(description.Seed);
                         var mapBuilder = new csMapbuilder(random, 50, 50);
                         mapBuilder.CorridorSpace = 10;
@@ -83,65 +82,19 @@ namespace RTDungeonGeneratorTest
                         mapBuilder.AddWestConnector();
                         mapBuilder.AddEastConnector();
                         sw.Stop();
-                        var map = mapBuilder.map;
-                        var mapWidth = mapBuilder.Map_Size.Width;
-                        var mapHeight = mapBuilder.Map_Size.Height;
 
-                        for (int mapY = mapBuilder.Map_Size.Height - 1; mapY > -1; --mapY)
-                        {
-                            for (int mapX = 0; mapX < mapWidth; ++mapX)
-                            {
-                                switch (map[mapX, mapY])
-                                {
-                                    case csMapbuilder.EmptyCell:
-                                        Console.Write(' ');
-                                        break;
-                                    case csMapbuilder.MainCorridorCell:
-                                        Console.Write('M');
-                                        break;
-                                    case csMapbuilder.RoomCell:
-                                        Console.Write('S');
-                                        break;
-                                    case csMapbuilder.RoomCell + 1:
-                                        Console.Write('E');
-                                        break;
-                                    default:
-                                        Console.Write('X');
-                                        break;
-                                }
-                            }
-                            Console.WriteLine();
-                        }
-
-                        for (int mapY = mapBuilder.Map_Size.Height - 1; mapY > -1; --mapY)
-                        {
-                            for (int mapX = 0; mapX < mapWidth; ++mapX)
-                            {
-                                if (map[mapX, mapY] == csMapbuilder.EmptyCell)
-                                {
-                                    Console.Write(' ');
-                                }
-                                else
-                                {
-                                    Console.Write(map[mapX, mapY]);
-                                }
-                            }
-                            Console.WriteLine();
-                        }
-                        Console.WriteLine($"Level seed {description.Seed}");
-                        Console.WriteLine($"Created in {sw.ElapsedMilliseconds}");
-                        Console.WriteLine(mapBuilder.StartRoom);
-                        Console.WriteLine(mapBuilder.EndRoom);
-                        Console.WriteLine("--------------------------------------------------");
+                        //DumpDungeon(mapBuilder, description.Seed, sw.ElapsedMilliseconds);
 
                         mapMesh = new MapMesh(mapBuilder, random, floorMesh, wallMesh, mapUnitY: 0.1f);
                     });
 
-                    floorMesh.End();
-                    wallMesh.End();
-                    floorShader.Setup(floorMesh.Name, textureManager.NumTextures);
-                    wallShader.Setup(wallMesh.Name, textureManager.NumTextures);
-
+                    await Task.WhenAll
+                    (
+                        floorMesh.End(), 
+                        wallMesh.End(), 
+                        floorShader.Setup(floorMesh.Name, textureManager.NumTextures), 
+                        wallShader.Setup(wallMesh.Name, textureManager.NumTextures)
+                    );
 
                     this.floorInstanceData = new TLASBuildInstanceData()
                     {
@@ -208,5 +161,59 @@ namespace RTDungeonGeneratorTest
         }
 
         public Task LoadingTask => loadingTask;
+
+        private void DumpDungeon(csMapbuilder mapBuilder, int seed, long creationTime)
+        {
+            var map = mapBuilder.map;
+            var mapWidth = mapBuilder.Map_Size.Width;
+            var mapHeight = mapBuilder.Map_Size.Height;
+
+            for (int mapY = mapBuilder.Map_Size.Height - 1; mapY > -1; --mapY)
+            {
+                for (int mapX = 0; mapX < mapWidth; ++mapX)
+                {
+                    switch (map[mapX, mapY])
+                    {
+                        case csMapbuilder.EmptyCell:
+                            Console.Write(' ');
+                            break;
+                        case csMapbuilder.MainCorridorCell:
+                            Console.Write('M');
+                            break;
+                        case csMapbuilder.RoomCell:
+                            Console.Write('S');
+                            break;
+                        case csMapbuilder.RoomCell + 1:
+                            Console.Write('E');
+                            break;
+                        default:
+                            Console.Write('X');
+                            break;
+                    }
+                }
+                Console.WriteLine();
+            }
+
+            for (int mapY = mapBuilder.Map_Size.Height - 1; mapY > -1; --mapY)
+            {
+                for (int mapX = 0; mapX < mapWidth; ++mapX)
+                {
+                    if (map[mapX, mapY] == csMapbuilder.EmptyCell)
+                    {
+                        Console.Write(' ');
+                    }
+                    else
+                    {
+                        Console.Write(map[mapX, mapY]);
+                    }
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine($"Level seed {seed}");
+            Console.WriteLine($"Created in {creationTime}");
+            Console.WriteLine(mapBuilder.StartRoom);
+            Console.WriteLine(mapBuilder.EndRoom);
+            Console.WriteLine("--------------------------------------------------");
+        }
     }
 }

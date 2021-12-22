@@ -67,7 +67,8 @@ namespace DiligentEngine.RT
                 20,21,22, 20,22,23  //Front +z
             };
 
-            instance = blasBuilder.CreateBLAS(blasDesc);
+            throw new NotImplementedException();
+            //instance = blasBuilder.CreateBLAS(blasDesc);
 
             primaryHitShader.Setup(blasDesc.Name, 5);
 

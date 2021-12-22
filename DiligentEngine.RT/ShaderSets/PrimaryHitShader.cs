@@ -33,64 +33,68 @@ namespace DiligentEngine.RT.ShaderSets
             this.PSOCreateInfo = rayTracingRenderer.PSOCreateInfo;        
         }
 
-        public void Setup(String baseName, int numTextures)
+        public async Task Setup(String baseName, int numTextures)
         {
-            this.verticesName = $"vert_{baseName}";
-            this.indicesName = $"idx_{baseName}";
-            this.colorTexturesName = $"tex_{baseName}";
-            this.normalTexturesName = $"nrmltex_{baseName}";
-            this.shaderGroupName = $"{baseName}PrimaryHit";
-
-            var m_pDevice = graphicsEngine.RenderDevice;
-
-            // Define shader macros
-            ShaderMacroHelper Macros = new ShaderMacroHelper();
-
-            ShaderCreateInfo ShaderCI = new ShaderCreateInfo();
-            // We will not be using combined texture samplers as they
-            // are only required for compatibility with OpenGL, and ray
-            // tracing is not supported in OpenGL backend.
-            ShaderCI.UseCombinedTextureSamplers = false;
-
-            // Only new DXC compiler can compile HLSL ray tracing shaders.
-            ShaderCI.ShaderCompiler = SHADER_COMPILER.SHADER_COMPILER_DXC;
-
-            // Shader model 6.3 is required for DXR 1.0, shader model 6.5 is required for DXR 1.1 and enables additional features.
-            // Use 6.3 for compatibility with DXR 1.0 and VK_NV_ray_tracing.
-            ShaderCI.HLSLVersion = new ShaderVersion { Major = 6, Minor = 3 };
-            ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
-
-            var shaderVars = new Dictionary<string, string>()
+            await Task.Run(() =>
             {
-                { "NUM_TEXTURES", numTextures.ToString() },
-                { "VERTICES", verticesName },
-                { "INDICES", indicesName },
-                { "COLOR_TEXTURES", colorTexturesName },
-                { "NORMAL_TEXTURES", normalTexturesName }
-            };
+                this.verticesName = $"vert_{baseName}";
+                this.indicesName = $"idx_{baseName}";
+                this.colorTexturesName = $"tex_{baseName}";
+                this.normalTexturesName = $"nrmltex_{baseName}";
+                this.shaderGroupName = $"{baseName}PrimaryHit";
 
-            // Create closest hit shaders.
-            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT;
-            ShaderCI.Desc.Name = "Cube primary ray closest hit shader";
-            ShaderCI.Source = shaderLoader.LoadShader(shaderVars, "assets/CubePrimaryHit.rchit");
-            ShaderCI.EntryPoint = "main";
-            pCubePrimaryHit = m_pDevice.CreateShader(ShaderCI, Macros);
-            //VERIFY_EXPR(pCubePrimaryHit != nullptr);
+                var m_pDevice = graphicsEngine.RenderDevice;
 
-            // Create any hit shaders.
-            ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT;
-            ShaderCI.Desc.Name = "Cube primary ray any hit shader";
-            ShaderCI.Source = shaderLoader.LoadShader(shaderVars, "assets/CubeAnyHit.hlsl");
-            ShaderCI.EntryPoint = "main";
-            pCubeAnyHit = m_pDevice.CreateShader(ShaderCI, Macros);
-            //VERIFY_EXPR(pCubeAnyHit != nullptr);
+                // Define shader macros
+                ShaderMacroHelper Macros = new ShaderMacroHelper();
 
-            // Primary ray hit group for the textured cube.
-            primaryHitShaderGroup = new RayTracingTriangleHitShaderGroup { Name = shaderGroupName, pClosestHitShader = pCubePrimaryHit.Obj, pAnyHitShader = pCubeAnyHit.Obj };
+                ShaderCreateInfo ShaderCI = new ShaderCreateInfo();
+                // We will not be using combined texture samplers as they
+                // are only required for compatibility with OpenGL, and ray
+                // tracing is not supported in OpenGL backend.
+                ShaderCI.UseCombinedTextureSamplers = false;
 
-            verticesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = verticesName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
-            indicesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = indicesName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
+                // Only new DXC compiler can compile HLSL ray tracing shaders.
+                ShaderCI.ShaderCompiler = SHADER_COMPILER.SHADER_COMPILER_DXC;
 
+                // Shader model 6.3 is required for DXR 1.0, shader model 6.5 is required for DXR 1.1 and enables additional features.
+                // Use 6.3 for compatibility with DXR 1.0 and VK_NV_ray_tracing.
+                ShaderCI.HLSLVersion = new ShaderVersion { Major = 6, Minor = 3 };
+                ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
+
+                var shaderVars = new Dictionary<string, string>()
+                {
+                    { "NUM_TEXTURES", numTextures.ToString() },
+                    { "VERTICES", verticesName },
+                    { "INDICES", indicesName },
+                    { "COLOR_TEXTURES", colorTexturesName },
+                    { "NORMAL_TEXTURES", normalTexturesName }
+                };
+
+                // Create closest hit shaders.
+                ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT;
+                ShaderCI.Desc.Name = "Cube primary ray closest hit shader";
+                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, "assets/CubePrimaryHit.rchit");
+                ShaderCI.EntryPoint = "main";
+                pCubePrimaryHit = m_pDevice.CreateShader(ShaderCI, Macros);
+                //VERIFY_EXPR(pCubePrimaryHit != nullptr);
+
+                // Create any hit shaders.
+                ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT;
+                ShaderCI.Desc.Name = "Cube primary ray any hit shader";
+                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, "assets/CubeAnyHit.hlsl");
+                ShaderCI.EntryPoint = "main";
+                pCubeAnyHit = m_pDevice.CreateShader(ShaderCI, Macros);
+                //VERIFY_EXPR(pCubeAnyHit != nullptr);
+
+                // Primary ray hit group for the textured cube.
+                primaryHitShaderGroup = new RayTracingTriangleHitShaderGroup { Name = shaderGroupName, pClosestHitShader = pCubePrimaryHit.Obj, pAnyHitShader = pCubeAnyHit.Obj };
+
+                verticesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = verticesName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
+                indicesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = indicesName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
+            });
+
+            //Do these back on the main thread since they change the state of the renderer
             PSOCreateInfo.pTriangleHitShaders.Add(primaryHitShaderGroup);
 
             PSOCreateInfo.PSODesc.ResourceLayout.Variables.Add(verticesDesc);

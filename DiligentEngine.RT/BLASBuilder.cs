@@ -22,8 +22,8 @@ namespace DiligentEngine.RT
 
     public class BLASInstance : IDisposable
     {
-        public AutoPtr<IBottomLevelAS> BLAS {get; internal set; }
-        public AutoPtr<IBuffer> AttrVertexBuffer {get; internal set; }
+        public AutoPtr<IBottomLevelAS> BLAS { get; internal set; }
+        public AutoPtr<IBuffer> AttrVertexBuffer { get; internal set; }
         public AutoPtr<IBuffer> VertexBuffer { get; internal set; }
         public AutoPtr<IBuffer> IndexBuffer { get; internal set; }
 
@@ -50,168 +50,182 @@ namespace DiligentEngine.RT
         /// </summary>
         /// <param name="blasMeshDesc">The description of the mesh to create.</param>
         /// <returns></returns>
-        public unsafe BLASInstance CreateBLAS(BLASDesc blasMeshDesc)
+        public async Task<BLASInstance> CreateBLAS(BLASDesc blasMeshDesc)
         {
-            var m_pImmediateContext = graphicsEngine.ImmediateContext;
             var m_pDevice = graphicsEngine.RenderDevice;
 
+            var Attribs = new BuildBLASAttribs();
             var result = new BLASInstance();
+            AutoPtr<IBuffer> pScratchBuffer = null;
 
-            var attrVertices = new CubeAttribVertex[blasMeshDesc.CubePos.Length];
-
-            var Indices = blasMeshDesc.Indices;
-
-            for(var i = 0; i < blasMeshDesc.CubePos.Length; ++i)
+            try
             {
-                var vertex = new CubeAttribVertex();
-                vertex.uv = blasMeshDesc.CubeUV[i];
-                vertex.normal = blasMeshDesc.CubeNormals[i];
-                attrVertices[i] = vertex;
-            }
-
-            for (int i = 0; i < Indices.Length; i += 3)
-            {
-                var index1 = Indices[i];
-                var index2 = Indices[i + 1];
-                var index3 = Indices[i + 2];
-
-                var pos1 = blasMeshDesc.CubePos[index1];
-                var pos2 = blasMeshDesc.CubePos[index2];
-                var pos3 = blasMeshDesc.CubePos[index3];
-
-                var vertex1 = attrVertices[index1];
-                var vertex2 = attrVertices[index2];
-                var vertex3 = attrVertices[index3];
-
-                CalculateTangentBitangent(pos1, pos2, pos3, ref vertex1, ref vertex2, ref vertex3);
-
-                attrVertices[index1] = vertex1;
-                attrVertices[index2] = vertex2;
-                attrVertices[index3] = vertex3;
-            }
-
-            // Create attribs vertex buffer
-            {
-                var BuffDesc = new BufferDesc();
-                BuffDesc.Name = $"{blasMeshDesc.Name} attrib vertices";
-                BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
-                BuffDesc.BindFlags = BIND_FLAGS.BIND_SHADER_RESOURCE;
-                BuffDesc.ElementByteStride = (uint)sizeof(CubeAttribVertex);
-                BuffDesc.Mode = BUFFER_MODE.BUFFER_MODE_STRUCTURED;
-
-                BufferData BufData = new BufferData();
-                fixed (CubeAttribVertex* p_vertices = attrVertices)
+                await Task.Run(() =>
                 {
-                    BufData.pData = new IntPtr(p_vertices);
-                    BufData.DataSize = BuffDesc.uiSizeInBytes = BuffDesc.ElementByteStride * (uint)attrVertices.Length;
-                    result.AttrVertexBuffer = m_pDevice.CreateBuffer(BuffDesc, BufData);
-                }
+                    var attrVertices = new CubeAttribVertex[blasMeshDesc.CubePos.Length];
 
-                //VERIFY_EXPR(pCubeVertexBuffer != nullptr);
-            }
+                    var Indices = blasMeshDesc.Indices;
 
-            // Create vertex buffer
-            {
-                var BuffDesc = new BufferDesc();
-                BuffDesc.Name = $"{blasMeshDesc.Name} vertices";
-                BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
-                BuffDesc.BindFlags = BIND_FLAGS.BIND_RAY_TRACING;
+                    for (var i = 0; i < blasMeshDesc.CubePos.Length; ++i)
+                    {
+                        var vertex = new CubeAttribVertex();
+                        vertex.uv = blasMeshDesc.CubeUV[i];
+                        vertex.normal = blasMeshDesc.CubeNormals[i];
+                        attrVertices[i] = vertex;
+                    }
 
-                BufferData BufData = new BufferData();
-                fixed (Vector3* vertices = blasMeshDesc.CubePos)
-                {
-                    BufData.pData = new IntPtr(vertices);
-                    BufData.DataSize = BuffDesc.uiSizeInBytes = (uint)(sizeof(Vector3) * blasMeshDesc.CubePos.Length);
-                    result.VertexBuffer = m_pDevice.CreateBuffer(BuffDesc, BufData);
-                }
+                    for (int i = 0; i < Indices.Length; i += 3)
+                    {
+                        var index1 = Indices[i];
+                        var index2 = Indices[i + 1];
+                        var index3 = Indices[i + 2];
 
-                //VERIFY_EXPR(pCubeVertexBuffer != nullptr);
-            }
+                        var pos1 = blasMeshDesc.CubePos[index1];
+                        var pos2 = blasMeshDesc.CubePos[index2];
+                        var pos3 = blasMeshDesc.CubePos[index3];
 
-            // Create index buffer
-            {
-                var BuffDesc = new BufferDesc();
-                BuffDesc.Name = $"{blasMeshDesc.Name} indices";
-                BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
-                BuffDesc.BindFlags = BIND_FLAGS.BIND_RAY_TRACING | BIND_FLAGS.BIND_SHADER_RESOURCE;
-                BuffDesc.ElementByteStride = (uint)sizeof(uint);
-                BuffDesc.Mode = BUFFER_MODE.BUFFER_MODE_STRUCTURED;
+                        var vertex1 = attrVertices[index1];
+                        var vertex2 = attrVertices[index2];
+                        var vertex3 = attrVertices[index3];
 
-                BufferData BufData = new BufferData();
-                fixed (uint* p_indices = Indices)
-                {
-                    BufData.pData = new IntPtr(p_indices);
-                    BufData.DataSize = BuffDesc.uiSizeInBytes = BuffDesc.ElementByteStride * (uint)Indices.Length;
-                    result.IndexBuffer = m_pDevice.CreateBuffer(BuffDesc, BufData);
-                }
+                        CalculateTangentBitangent(pos1, pos2, pos3, ref vertex1, ref vertex2, ref vertex3);
 
-                //VERIFY_EXPR(pCubeIndexBuffer != nullptr);
-            }
+                        attrVertices[index1] = vertex1;
+                        attrVertices[index2] = vertex2;
+                        attrVertices[index3] = vertex3;
+                    }
 
-            // Create & build bottom level acceleration structure
-            {
-                // Create BLAS
-                var Triangles = new BLASTriangleDesc();
-                {
-                    Triangles.GeometryName = blasMeshDesc.Name;
-                    Triangles.MaxVertexCount = (uint)attrVertices.Length;
-                    Triangles.VertexValueType = VALUE_TYPE.VT_FLOAT32;
-                    Triangles.VertexComponentCount = 3;
-                    Triangles.MaxPrimitiveCount = (uint)(Indices.Length / 3);
-                    Triangles.IndexType = VALUE_TYPE.VT_UINT32;
+                    // Create attribs vertex buffer
+                    unsafe
+                    {
+                        var BuffDesc = new BufferDesc();
+                        BuffDesc.Name = $"{blasMeshDesc.Name} attrib vertices";
+                        BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
+                        BuffDesc.BindFlags = BIND_FLAGS.BIND_SHADER_RESOURCE;
+                        BuffDesc.ElementByteStride = (uint)sizeof(CubeAttribVertex);
+                        BuffDesc.Mode = BUFFER_MODE.BUFFER_MODE_STRUCTURED;
 
-                    var ASDesc = new BottomLevelASDesc();
-                    ASDesc.Name = $"{blasMeshDesc.Name} BLAS";
-                    ASDesc.Flags = RAYTRACING_BUILD_AS_FLAGS.RAYTRACING_BUILD_AS_PREFER_FAST_TRACE;
-                    ASDesc.pTriangles = new List<BLASTriangleDesc> { Triangles };
+                        BufferData BufData = new BufferData();
+                        fixed (CubeAttribVertex* p_vertices = attrVertices)
+                        {
+                            BufData.pData = new IntPtr(p_vertices);
+                            BufData.DataSize = BuffDesc.uiSizeInBytes = BuffDesc.ElementByteStride * (uint)attrVertices.Length;
+                            result.AttrVertexBuffer = m_pDevice.CreateBuffer(BuffDesc, BufData);
+                        }
 
-                    result.BLAS = m_pDevice.CreateBLAS(ASDesc);
-                    //VERIFY_EXPR(m_pCubeBLAS != nullptr);
-                }
+                        //VERIFY_EXPR(pCubeVertexBuffer != nullptr);
+                    }
 
-                // Create scratch buffer
-                using var pScratchBuffer = m_pDevice.CreateBuffer(new BufferDesc()
-                {
-                    Name = $"{blasMeshDesc.Name} BLAS Scratch Buffer",
-                    Usage = USAGE.USAGE_DEFAULT,
-                    BindFlags = BIND_FLAGS.BIND_RAY_TRACING,
-                    uiSizeInBytes = result.BLAS.Obj.ScratchBufferSizes_Build,
-                }, new BufferData());
+                    // Create vertex buffer
+                    unsafe
+                    {
+                        var BuffDesc = new BufferDesc();
+                        BuffDesc.Name = $"{blasMeshDesc.Name} vertices";
+                        BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
+                        BuffDesc.BindFlags = BIND_FLAGS.BIND_RAY_TRACING;
 
-                // Build BLAS
-                var TriangleData = new BLASBuildTriangleData();
-                TriangleData.GeometryName = Triangles.GeometryName;
-                TriangleData.pVertexBuffer = result.VertexBuffer.Obj;
-                TriangleData.VertexStride = (uint)sizeof(Vector3);
-                TriangleData.VertexCount = Triangles.MaxVertexCount;
-                TriangleData.VertexValueType = Triangles.VertexValueType;
-                TriangleData.VertexComponentCount = Triangles.VertexComponentCount;
-                TriangleData.pIndexBuffer = result.IndexBuffer.Obj;
-                TriangleData.PrimitiveCount = Triangles.MaxPrimitiveCount;
-                TriangleData.IndexType = Triangles.IndexType;
-                TriangleData.Flags = RAYTRACING_GEOMETRY_FLAGS.RAYTRACING_GEOMETRY_FLAG_OPAQUE;
+                        BufferData BufData = new BufferData();
+                        fixed (Vector3* vertices = blasMeshDesc.CubePos)
+                        {
+                            BufData.pData = new IntPtr(vertices);
+                            BufData.DataSize = BuffDesc.uiSizeInBytes = (uint)(sizeof(Vector3) * blasMeshDesc.CubePos.Length);
+                            result.VertexBuffer = m_pDevice.CreateBuffer(BuffDesc, BufData);
+                        }
 
-                var Attribs = new BuildBLASAttribs();
-                Attribs.pBLAS = result.BLAS.Obj;
-                Attribs.pTriangleData = new List<BLASBuildTriangleData> { TriangleData };
+                        //VERIFY_EXPR(pCubeVertexBuffer != nullptr);
+                    }
 
-                // Scratch buffer will be used to store temporary data during BLAS build.
-                // Previous content in the scratch buffer will be discarded.
-                Attribs.pScratchBuffer = pScratchBuffer.Obj;
+                    // Create index buffer
+                    unsafe
+                    {
+                        var BuffDesc = new BufferDesc();
+                        BuffDesc.Name = $"{blasMeshDesc.Name} indices";
+                        BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
+                        BuffDesc.BindFlags = BIND_FLAGS.BIND_RAY_TRACING | BIND_FLAGS.BIND_SHADER_RESOURCE;
+                        BuffDesc.ElementByteStride = (uint)sizeof(uint);
+                        BuffDesc.Mode = BUFFER_MODE.BUFFER_MODE_STRUCTURED;
 
-                // Allow engine to change resource states.
-                Attribs.BLASTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
-                Attribs.GeometryTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
-                Attribs.ScratchBufferTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+                        BufferData BufData = new BufferData();
+                        fixed (uint* p_indices = Indices)
+                        {
+                            BufData.pData = new IntPtr(p_indices);
+                            BufData.DataSize = BuffDesc.uiSizeInBytes = BuffDesc.ElementByteStride * (uint)Indices.Length;
+                            result.IndexBuffer = m_pDevice.CreateBuffer(BuffDesc, BufData);
+                        }
 
+                        //VERIFY_EXPR(pCubeIndexBuffer != nullptr);
+                    }
+
+                    // Create & build bottom level acceleration structure
+                    unsafe
+                    {
+                        // Create BLAS
+                        var Triangles = new BLASTriangleDesc();
+                        {
+                            Triangles.GeometryName = blasMeshDesc.Name;
+                            Triangles.MaxVertexCount = (uint)attrVertices.Length;
+                            Triangles.VertexValueType = VALUE_TYPE.VT_FLOAT32;
+                            Triangles.VertexComponentCount = 3;
+                            Triangles.MaxPrimitiveCount = (uint)(Indices.Length / 3);
+                            Triangles.IndexType = VALUE_TYPE.VT_UINT32;
+
+                            var ASDesc = new BottomLevelASDesc();
+                            ASDesc.Name = $"{blasMeshDesc.Name} BLAS";
+                            ASDesc.Flags = RAYTRACING_BUILD_AS_FLAGS.RAYTRACING_BUILD_AS_PREFER_FAST_TRACE;
+                            ASDesc.pTriangles = new List<BLASTriangleDesc> { Triangles };
+
+                            result.BLAS = m_pDevice.CreateBLAS(ASDesc);
+                            //VERIFY_EXPR(m_pCubeBLAS != nullptr);
+                        }
+
+                        // Create scratch buffer
+                        pScratchBuffer = m_pDevice.CreateBuffer(new BufferDesc()
+                        {
+                            Name = $"{blasMeshDesc.Name} BLAS Scratch Buffer",
+                            Usage = USAGE.USAGE_DEFAULT,
+                            BindFlags = BIND_FLAGS.BIND_RAY_TRACING,
+                            uiSizeInBytes = result.BLAS.Obj.ScratchBufferSizes_Build,
+                        }, new BufferData());
+
+                        // Build BLAS
+                        var TriangleData = new BLASBuildTriangleData();
+                        TriangleData.GeometryName = Triangles.GeometryName;
+                        TriangleData.pVertexBuffer = result.VertexBuffer.Obj;
+                        TriangleData.VertexStride = (uint)sizeof(Vector3);
+                        TriangleData.VertexCount = Triangles.MaxVertexCount;
+                        TriangleData.VertexValueType = Triangles.VertexValueType;
+                        TriangleData.VertexComponentCount = Triangles.VertexComponentCount;
+                        TriangleData.pIndexBuffer = result.IndexBuffer.Obj;
+                        TriangleData.PrimitiveCount = Triangles.MaxPrimitiveCount;
+                        TriangleData.IndexType = Triangles.IndexType;
+                        TriangleData.Flags = RAYTRACING_GEOMETRY_FLAGS.RAYTRACING_GEOMETRY_FLAG_OPAQUE;
+
+                        Attribs.pBLAS = result.BLAS.Obj;
+                        Attribs.pTriangleData = new List<BLASBuildTriangleData> { TriangleData };
+
+                        // Scratch buffer will be used to store temporary data during BLAS build.
+                        // Previous content in the scratch buffer will be discarded.
+                        Attribs.pScratchBuffer = pScratchBuffer.Obj;
+
+                        // Allow engine to change resource states.
+                        Attribs.BLASTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+                        Attribs.GeometryTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+                        Attribs.ScratchBufferTransitionMode = RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION;
+                    }
+                });
+
+                var m_pImmediateContext = graphicsEngine.ImmediateContext;
                 m_pImmediateContext.BuildBLAS(Attribs);
-
                 return result;
+            }
+            finally
+            {
+                pScratchBuffer?.Dispose();
             }
         }
 
         public void CalculateTangentBitangent(
-            in Vector3 pos1, in Vector3 pos2, in Vector3 pos3, 
+            in Vector3 pos1, in Vector3 pos2, in Vector3 pos3,
             ref CubeAttribVertex v1, ref CubeAttribVertex v2, ref CubeAttribVertex v3)
         {
             //This is adapted from
