@@ -36,12 +36,12 @@ namespace RTDungeonGeneratorTest
         private readonly PrimaryHitShader floorShader;
         private readonly PrimaryHitShader wallShader;
         private MapMesh mapMesh;
-        private Task loadingTask;
+        TaskCompletionSource loadingTask = new TaskCompletionSource();
 
         public SceneDungeon
         (
             Desc description,
-            ICoroutineRunner coroutineRunner,
+            IScopedCoroutine coroutineRunner,
             RayTracingRenderer renderer,
             IDestructionRequest destructionRequest,
             MeshBLAS floorMesh,
@@ -59,13 +59,11 @@ namespace RTDungeonGeneratorTest
 
             coroutineRunner.RunTask(async () =>
             {
-                var completion = new TaskCompletionSource();
-                loadingTask = completion.Task;
+                using var destructionBlock = destructionRequest.BlockDestruction();
                 try
                 {
                     await Task.Run(() =>
                     {
-                        using var destructionBlock = destructionRequest.BlockDestruction();
                         var sw = new Stopwatch();
                         sw.Start();
                         var random = new Random(description.Seed);
@@ -112,16 +110,20 @@ namespace RTDungeonGeneratorTest
                         Mask = RtStructures.OPAQUE_GEOM_MASK,
                         Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity)
                     };
-                    renderer.AddTlasBuild(floorInstanceData);
-                    renderer.AddTlasBuild(wallInstanceData);
-                    renderer.AddShaderTableBinder(this);
-                    renderer.AddShaderResourceBinder(this);
 
-                    completion.SetResult();
+                    if (!destructionRequest.DestructionRequested)
+                    {
+                        renderer.AddTlasBuild(floorInstanceData);
+                        renderer.AddTlasBuild(wallInstanceData);
+                        renderer.AddShaderTableBinder(this);
+                        renderer.AddShaderResourceBinder(this);
+                    }
+
+                    loadingTask.SetResult();
                 }
                 catch (Exception ex)
                 {
-                    completion.SetException(ex);
+                    loadingTask.SetException(ex);
                 }
             });
         }
@@ -160,7 +162,10 @@ namespace RTDungeonGeneratorTest
             wallShader.BindTextures(rayTracingSRB, textureManager);
         }
 
-        public Task LoadingTask => loadingTask;
+        public Task WaitForLoad()
+        {
+            return loadingTask.Task;
+        }
 
         private void DumpDungeon(csMapbuilder mapBuilder, int seed, long creationTime)
         {

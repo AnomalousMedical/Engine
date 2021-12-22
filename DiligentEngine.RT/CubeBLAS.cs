@@ -15,70 +15,97 @@ namespace DiligentEngine.RT
         private PrimaryHitShader primaryHitShader;
         private readonly TextureManager textureManager;
         private readonly RayTracingRenderer renderer;
+        private TaskCompletionSource loadingTask = new TaskCompletionSource();
 
         public BLASInstance Instance => instance;
 
         public String ShaderGroupName => primaryHitShader.ShaderGroupName;
 
-        public unsafe CubeBLAS(BLASBuilder blasBuilder, TextureManager textureManager, RayTracingRenderer renderer, PrimaryHitShader primaryHitShader)
+        public CubeBLAS
+        (
+            BLASBuilder blasBuilder, 
+            TextureManager textureManager, 
+            RayTracingRenderer renderer, 
+            PrimaryHitShader primaryHitShader,
+            IScopedCoroutine coroutineRunner
+        )
         {
             this.primaryHitShader = primaryHitShader;
             this.textureManager = textureManager;
             this.renderer = renderer;
-            var blasDesc = new BLASDesc();
 
-            blasDesc.CubePos = new Vector3[]
+
+            coroutineRunner.RunTask(async () =>
             {
-                new Vector3(-0.5f,-0.5f,-0.5f), new Vector3(-0.5f,+0.5f,-0.5f), new Vector3(+0.5f,+0.5f,-0.5f), new Vector3(+0.5f,-0.5f,-0.5f), //Back -z
-                new Vector3(-0.5f,-0.5f,-0.5f), new Vector3(-0.5f,-0.5f,+0.5f), new Vector3(+0.5f,-0.5f,+0.5f), new Vector3(+0.5f,-0.5f,-0.5f), //Top -y
-                new Vector3(+0.5f,-0.5f,-0.5f), new Vector3(+0.5f,-0.5f,+0.5f), new Vector3(+0.5f,+0.5f,+0.5f), new Vector3(+0.5f,+0.5f,-0.5f), //Left +x
-                new Vector3(+0.5f,+0.5f,-0.5f), new Vector3(+0.5f,+0.5f,+0.5f), new Vector3(-0.5f,+0.5f,+0.5f), new Vector3(-0.5f,+0.5f,-0.5f), //Bottom +y
-                new Vector3(-0.5f,+0.5f,-0.5f), new Vector3(-0.5f,+0.5f,+0.5f), new Vector3(-0.5f,-0.5f,+0.5f), new Vector3(-0.5f,-0.5f,-0.5f), //Right -x
-                new Vector3(-0.5f,-0.5f,+0.5f), new Vector3(+0.5f,-0.5f,+0.5f), new Vector3(+0.5f,+0.5f,+0.5f), new Vector3(-0.5f,+0.5f,+0.5f), //Front +z
-            };
+                try
+                {
+                    var blasDesc = new BLASDesc();
 
-            blasDesc.CubeUV = new Vector4[]
-            {
-                new Vector4(0,0,0,0), new Vector4(0,1,0,0), new Vector4(1,1,0,0), new Vector4(1,0,0,0), //Back -z
-                new Vector4(1,0,0,0), new Vector4(1,1,0,0), new Vector4(0,1,0,0), new Vector4(0,0,0,0), //Top -y
-                new Vector4(0,0,0,0), new Vector4(1,0,0,0), new Vector4(1,1,0,0), new Vector4(0,1,0,0), //Left +x
-                new Vector4(1,0,0,0), new Vector4(1,1,0,0), new Vector4(0,1,0,0), new Vector4(0,0,0,0), //Bottom +y
-                new Vector4(1,1,0,0), new Vector4(0,1,0,0), new Vector4(0,0,0,0), new Vector4(1,0,0,0), //Right -x
-                new Vector4(1,0,0,0), new Vector4(0,0,0,0), new Vector4(0,1,0,0), new Vector4(1,1,0,0)  //Front +z
-            };
+                    blasDesc.CubePos = new Vector3[]
+                    {
+                    new Vector3(-0.5f,-0.5f,-0.5f), new Vector3(-0.5f,+0.5f,-0.5f), new Vector3(+0.5f,+0.5f,-0.5f), new Vector3(+0.5f,-0.5f,-0.5f), //Back -z
+                    new Vector3(-0.5f,-0.5f,-0.5f), new Vector3(-0.5f,-0.5f,+0.5f), new Vector3(+0.5f,-0.5f,+0.5f), new Vector3(+0.5f,-0.5f,-0.5f), //Top -y
+                    new Vector3(+0.5f,-0.5f,-0.5f), new Vector3(+0.5f,-0.5f,+0.5f), new Vector3(+0.5f,+0.5f,+0.5f), new Vector3(+0.5f,+0.5f,-0.5f), //Left +x
+                    new Vector3(+0.5f,+0.5f,-0.5f), new Vector3(+0.5f,+0.5f,+0.5f), new Vector3(-0.5f,+0.5f,+0.5f), new Vector3(-0.5f,+0.5f,-0.5f), //Bottom +y
+                    new Vector3(-0.5f,+0.5f,-0.5f), new Vector3(-0.5f,+0.5f,+0.5f), new Vector3(-0.5f,-0.5f,+0.5f), new Vector3(-0.5f,-0.5f,-0.5f), //Right -x
+                    new Vector3(-0.5f,-0.5f,+0.5f), new Vector3(+0.5f,-0.5f,+0.5f), new Vector3(+0.5f,+0.5f,+0.5f), new Vector3(-0.5f,+0.5f,+0.5f), //Front +z
+                    };
 
-            blasDesc.CubeNormals = new Vector4[]
-            {
-                new Vector4(0, 0, -1, 0), new Vector4(0, 0, -1, 0), new Vector4(0, 0, -1, 0), new Vector4(0, 0, -1, 0), //Back -z
-                new Vector4(0, -1, 0, 0), new Vector4(0, -1, 0, 0), new Vector4(0, -1, 0, 0), new Vector4(0, -1, 0, 0), //Top -y
-                new Vector4(+1, 0, 0, 0), new Vector4(+1, 0, 0, 0), new Vector4(+1, 0, 0, 0), new Vector4(+1, 0, 0, 0), //Left +x
-                new Vector4(0, +1, 0, 0), new Vector4(0, +1, 0, 0), new Vector4(0, +1, 0, 0), new Vector4(0, +1, 0, 0), //Bottom +y
-                new Vector4(-1, 0, 0, 0), new Vector4(-1, 0, 0, 0), new Vector4(-1, 0, 0, 0), new Vector4(-1, 0, 0, 0), //Right -x
-                new Vector4(0, 0, +1, 0), new Vector4(0, 0, +1, 0), new Vector4(0, 0, +1, 0), new Vector4(0, 0, +1, 0)  //Front +z
-            };
+                    blasDesc.CubeUV = new Vector4[]
+                    {
+                    new Vector4(0,0,0,0), new Vector4(0,1,0,0), new Vector4(1,1,0,0), new Vector4(1,0,0,0), //Back -z
+                    new Vector4(1,0,0,0), new Vector4(1,1,0,0), new Vector4(0,1,0,0), new Vector4(0,0,0,0), //Top -y
+                    new Vector4(0,0,0,0), new Vector4(1,0,0,0), new Vector4(1,1,0,0), new Vector4(0,1,0,0), //Left +x
+                    new Vector4(1,0,0,0), new Vector4(1,1,0,0), new Vector4(0,1,0,0), new Vector4(0,0,0,0), //Bottom +y
+                    new Vector4(1,1,0,0), new Vector4(0,1,0,0), new Vector4(0,0,0,0), new Vector4(1,0,0,0), //Right -x
+                    new Vector4(1,0,0,0), new Vector4(0,0,0,0), new Vector4(0,1,0,0), new Vector4(1,1,0,0)  //Front +z
+                    };
 
-            blasDesc.Indices = new uint[]
-            {
-                2,0,1,    2,3,0, //Back -z
-                4,6,5,    4,7,6,
-                8,10,9,   8,11,10,
-                12,14,13, 12,15,14,
-                16,18,17, 16,19,18,
-                20,21,22, 20,22,23  //Front +z
-            };
+                    blasDesc.CubeNormals = new Vector4[]
+                    {
+                    new Vector4(0, 0, -1, 0), new Vector4(0, 0, -1, 0), new Vector4(0, 0, -1, 0), new Vector4(0, 0, -1, 0), //Back -z
+                    new Vector4(0, -1, 0, 0), new Vector4(0, -1, 0, 0), new Vector4(0, -1, 0, 0), new Vector4(0, -1, 0, 0), //Top -y
+                    new Vector4(+1, 0, 0, 0), new Vector4(+1, 0, 0, 0), new Vector4(+1, 0, 0, 0), new Vector4(+1, 0, 0, 0), //Left +x
+                    new Vector4(0, +1, 0, 0), new Vector4(0, +1, 0, 0), new Vector4(0, +1, 0, 0), new Vector4(0, +1, 0, 0), //Bottom +y
+                    new Vector4(-1, 0, 0, 0), new Vector4(-1, 0, 0, 0), new Vector4(-1, 0, 0, 0), new Vector4(-1, 0, 0, 0), //Right -x
+                    new Vector4(0, 0, +1, 0), new Vector4(0, 0, +1, 0), new Vector4(0, 0, +1, 0), new Vector4(0, 0, +1, 0)  //Front +z
+                    };
 
-            throw new NotImplementedException();
-            //instance = blasBuilder.CreateBLAS(blasDesc);
+                    blasDesc.Indices = new uint[]
+                    {
+                    2,0,1,    2,3,0, //Back -z
+                    4,6,5,    4,7,6,
+                    8,10,9,   8,11,10,
+                    12,14,13, 12,15,14,
+                    16,18,17, 16,19,18,
+                    20,21,22, 20,22,23  //Front +z
+                    };
 
-            primaryHitShader.Setup(blasDesc.Name, 5);
+                    var setupShader = primaryHitShader.Setup(blasDesc.Name, 5);
+                    instance = await blasBuilder.CreateBLAS(blasDesc);
+                    await setupShader;
 
-            renderer.AddShaderResourceBinder(this);
+                    renderer.AddShaderResourceBinder(this);
+
+                    loadingTask.SetResult();
+                }
+                catch (Exception ex)
+                {
+                    loadingTask.TrySetException(ex);
+                }
+            });
         }
 
         public void Dispose()
         {
             renderer.RemoveShaderResourceBinder(this);
             instance.Dispose();
+        }
+
+        public Task WaitForLoad()
+        {
+            //This should be called by anything using this class, but it will have already started its setup in its constructor.
+            return loadingTask.Task;
         }
 
         public void Bind(IShaderResourceBinding rayTracingSRB)

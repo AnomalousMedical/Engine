@@ -41,7 +41,8 @@ namespace RTBepuDemo
             Desc description,
             CubeBLAS cubeBLAS,
             RayTracingRenderer renderer,
-            IBepuScene bepuScene)
+            IBepuScene bepuScene,
+            IScopedCoroutine scopedCoroutine)
         {
             this.cubeBLAS = cubeBLAS;
             this.renderer = renderer;
@@ -56,14 +57,10 @@ namespace RTBepuDemo
             {
                 InstanceName = description.InstanceName,
                 CustomId = description.TextureIndex,
-                pBLAS = cubeBLAS.Instance.BLAS.Obj,
                 Mask = description.Mask,
                 Transform = new InstanceMatrix(new Vector3(description.position.X, description.position.Y, description.position.Z), Quaternion.Identity),
                 Flags = flags,
             };
-
-            renderer.AddTlasBuild(instanceData);
-            renderer.AddShaderTableBinder(this);
 
             var bodyDesc = BodyDescription.CreateDynamic(
                     description.position,
@@ -72,6 +69,16 @@ namespace RTBepuDemo
             bodyHandle = bepuScene.Simulation.Bodies.Add(bodyDesc);
 
             bepuScene.AddToInterpolation(bodyHandle);
+
+            scopedCoroutine.RunTask(async () =>
+            {
+                await cubeBLAS.WaitForLoad();
+
+                instanceData.pBLAS = cubeBLAS.Instance.BLAS.Obj;
+
+                renderer.AddTlasBuild(instanceData);
+                renderer.AddShaderTableBinder(this);
+            });
         }
 
         public void Dispose()

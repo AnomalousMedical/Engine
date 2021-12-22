@@ -33,7 +33,8 @@ namespace RTSandbox
         (
             Desc description,
             CubeBLAS cubeBLAS,
-            RayTracingRenderer renderer
+            RayTracingRenderer renderer,
+            IScopedCoroutine coroutine
         )
         {
             this.cubeBLAS = cubeBLAS;
@@ -42,14 +43,19 @@ namespace RTSandbox
             {
                 InstanceName = description.InstanceName,
                 CustomId = description.TextureIndex, // texture index
-                pBLAS = cubeBLAS.Instance.BLAS.Obj,
                 Mask = description.Mask,
                 Transform = description.Transform,
                 Flags = description.Flags,
             };
 
-            renderer.AddTlasBuild(instanceData);
-            renderer.AddShaderTableBinder(this);
+            coroutine.RunTask(async () =>
+            {
+                await this.cubeBLAS.WaitForLoad();
+                this.instanceData.pBLAS = cubeBLAS.Instance.BLAS.Obj;
+
+                renderer.AddTlasBuild(instanceData);
+                renderer.AddShaderTableBinder(this);
+            });
         }
 
         public void Dispose()

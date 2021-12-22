@@ -76,7 +76,7 @@ namespace RTDungeonGeneratorTest
                 {
                     o.Seed = currentSeed++;
                 });
-                await dungeon.LoadingTask;
+                await dungeon.WaitForLoad();
                 currentDungeon?.RequestDestruction();
                 currentDungeon = dungeon;
                 loadingLevel = false;

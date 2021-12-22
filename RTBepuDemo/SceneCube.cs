@@ -30,7 +30,8 @@ namespace RTBepuDemo
         (
             Desc description,
             CubeBLAS cubeBLAS,
-            RayTracingRenderer renderer
+            RayTracingRenderer renderer,
+            IScopedCoroutine coroutine
         )
         {
             this.cubeBLAS = cubeBLAS;
@@ -39,13 +40,19 @@ namespace RTBepuDemo
             {
                 InstanceName = description.InstanceName,
                 CustomId = description.TextureIndex, // texture index
-                pBLAS = cubeBLAS.Instance.BLAS.Obj,
                 Mask = description.Mask,
                 Transform = description.Transform
             };
 
-            renderer.AddTlasBuild(instanceData);
-            renderer.AddShaderTableBinder(this);
+            coroutine.RunTask(async () =>
+            {
+                await cubeBLAS.WaitForLoad();
+
+                instanceData.pBLAS = cubeBLAS.Instance.BLAS.Obj;
+
+                renderer.AddTlasBuild(instanceData);
+                renderer.AddShaderTableBinder(this);
+            });
         }
 
         public void Dispose()
