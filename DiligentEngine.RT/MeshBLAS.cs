@@ -26,22 +26,20 @@ namespace DiligentEngine.RT
         private readonly BLASDesc blasDesc = new BLASDesc();
         private readonly BLASBuilder blasBuilder;
         private readonly RayTracingRenderer renderer;
-        private readonly RTShaders shaders;
         private readonly TextureManager textureManager;
         private PrimaryHitShader primaryHitShader;
 
-        public MeshBLAS(BLASBuilder blasBuilder, RayTracingRenderer renderer, RTShaders shaders, TextureManager textureManager)
+        public MeshBLAS(BLASBuilder blasBuilder, RayTracingRenderer renderer, TextureManager textureManager, PrimaryHitShader primaryHitShader)
         {
+            this.primaryHitShader = primaryHitShader;
             this.blasBuilder = blasBuilder;
             this.renderer = renderer;
-            this.shaders = shaders;
             this.textureManager = textureManager;
         }
 
         public void Dispose()
         {
             renderer.RemoveShaderResourceBinder(this);
-            primaryHitShader?.Dispose();
             instance?.Dispose();
         }
 
@@ -102,11 +100,7 @@ namespace DiligentEngine.RT
         {
             instance = blasBuilder.CreateBLAS(blasDesc);
 
-            primaryHitShader = shaders.CreatePrimaryHitShader(new PrimaryHitShader.Desc()
-            {
-                NumTextures = 5,
-                BaseName = blasDesc.Name,
-            });
+            primaryHitShader.Setup(blasDesc.Name, 5);
 
             renderer.AddShaderResourceBinder(this);
         }

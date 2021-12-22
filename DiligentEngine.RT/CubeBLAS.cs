@@ -20,9 +20,9 @@ namespace DiligentEngine.RT
 
         public String ShaderGroupName => primaryHitShader.ShaderGroupName;
 
-        public unsafe CubeBLAS(BLASBuilder blasBuilder, RTShaders shaders, TextureManager textureManager, RayTracingRenderer renderer)
+        public unsafe CubeBLAS(BLASBuilder blasBuilder, TextureManager textureManager, RayTracingRenderer renderer, PrimaryHitShader primaryHitShader)
         {
-
+            this.primaryHitShader = primaryHitShader;
             this.textureManager = textureManager;
             this.renderer = renderer;
             var blasDesc = new BLASDesc();
@@ -69,11 +69,7 @@ namespace DiligentEngine.RT
 
             instance = blasBuilder.CreateBLAS(blasDesc);
 
-            primaryHitShader = shaders.CreatePrimaryHitShader(new PrimaryHitShader.Desc()
-            {
-                NumTextures = 5,
-                BaseName = blasDesc.Name,
-            });
+            primaryHitShader.Setup(blasDesc.Name, 5);
 
             renderer.AddShaderResourceBinder(this);
         }
@@ -81,7 +77,6 @@ namespace DiligentEngine.RT
         public void Dispose()
         {
             renderer.RemoveShaderResourceBinder(this);
-            primaryHitShader?.Dispose();
             instance.Dispose();
         }
 

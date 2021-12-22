@@ -1,5 +1,6 @@
 ﻿using DiligentEngine;
 using DiligentEngine.RT;
+using DiligentEngine.RT.ShaderSets;
 using Engine;
 using Engine.Resources;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -14,6 +15,9 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddDiligentEngineRt(this IServiceCollection services, Action<RTOptions> configure = null)
         {
+            var options = new RTOptions();
+            configure?.Invoke(options);
+
             services.AddSingleton<IResourceProvider<ShaderLoader<RTShaders>>>(s =>
                 new EmbeddedResourceProvider<ShaderLoader<RTShaders>>(Assembly.GetExecutingAssembly(), "DiligentEngine.RT."));
 
@@ -25,7 +29,9 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<RTCameraAndLight>();
             services.AddSingleton<TextureManager>();
             services.AddSingleton<RayTracingRenderer>();
-            services.AddSingleton<RTShaders>();
+            services.AddSingleton<GeneralShaders>();
+
+            services.AddTransient<PrimaryHitShader>();
 
             return services;
         }

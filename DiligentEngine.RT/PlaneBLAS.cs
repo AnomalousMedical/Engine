@@ -12,7 +12,7 @@ namespace DiligentEngine.RT
     public class PlaneBLAS : IDisposable, IShaderResourceBinder
     {
         private BLASInstance instance;
-        private PrimaryHitShader primaryHitShader;
+        private readonly PrimaryHitShader primaryHitShader;
         private readonly TextureManager textureManager;
         private readonly RayTracingRenderer renderer;
 
@@ -20,11 +20,11 @@ namespace DiligentEngine.RT
 
         public String ShaderGroupName => primaryHitShader.ShaderGroupName;
 
-        public unsafe PlaneBLAS(BLASBuilder blasBuilder, RTShaders shaders, TextureManager textureManager, RayTracingRenderer renderer)
+        public unsafe PlaneBLAS(BLASBuilder blasBuilder, TextureManager textureManager, RayTracingRenderer renderer, PrimaryHitShader primaryHitShader)
         {
-
             this.textureManager = textureManager;
             this.renderer = renderer;
+            this.primaryHitShader = primaryHitShader;
             var blasDesc = new BLASDesc();
 
             blasDesc.CubePos = new Vector3[]
@@ -49,11 +49,7 @@ namespace DiligentEngine.RT
 
             instance = blasBuilder.CreateBLAS(blasDesc);
 
-            primaryHitShader = shaders.CreatePrimaryHitShader(new PrimaryHitShader.Desc()
-            {
-                NumTextures = 5,
-                BaseName = blasDesc.Name,
-            });
+            primaryHitShader.Setup(blasDesc.Name, 5);
 
             renderer.AddShaderResourceBinder(this);
         }
@@ -61,8 +57,7 @@ namespace DiligentEngine.RT
         public void Dispose()
         {
             renderer.RemoveShaderResourceBinder(this);
-            primaryHitShader?.Dispose();
-            instance.Dispose();
+            instance?.Dispose();
         }
 
         public void Bind(IShaderResourceBinding rayTracingSRB)

@@ -18,7 +18,6 @@ namespace DiligentEngine.RT
         private readonly GraphicsEngine graphicsEngine;
         private readonly RTImageBlitter imageBlitter;
         private readonly RTCameraAndLight cameraAndLight;
-        private readonly RTShaders shaders;
         private UInt32 maxRecursionDepth = 8;
 
         private AutoPtr<IBuffer> m_ConstantsCB;
@@ -31,7 +30,7 @@ namespace DiligentEngine.RT
         uint lastNumInstances = 0;
         bool rebuildPipeline = true;
 
-        private GeneralShaders generalShaders;
+        public RayTracingPipelineStateCreateInfo PSOCreateInfo { get; private set; } = CreatePSOCreateInfo();
 
         List<TLASBuildInstanceData> instances = new List<TLASBuildInstanceData>();
         List<IShaderTableBinder> shaderTableBinders = new List<IShaderTableBinder>();
@@ -41,25 +40,30 @@ namespace DiligentEngine.RT
         (
             GraphicsEngine graphicsEngine,
             RTImageBlitter imageBlitter,
-            RTCameraAndLight cameraAndLight,
-            RTShaders shaders
+            RTCameraAndLight cameraAndLight, 
+            GeneralShaders generalShaders
         )
         {
             this.graphicsEngine = graphicsEngine;
             this.imageBlitter = imageBlitter;
             this.cameraAndLight = cameraAndLight;
-            this.shaders = shaders;
-
-            generalShaders = shaders.CreateGeneralShaders();
 
             maxRecursionDepth = Math.Min(maxRecursionDepth, graphicsEngine.RenderDevice.DeviceProperties_MaxRayTracingRecursionDepth);
             m_Constants = Constants.CreateDefault(maxRecursionDepth);
+
+            // Specify the maximum ray recursion depth.
+            // WARNING: the driver does not track the recursion depth and it is the
+            //          application's responsibility to not exceed the specified limit.
+            //          The value is used to reserve the necessary stack size and
+            //          exceeding it will likely result in driver crash.
+            PSOCreateInfo.RayTracingPipeline.MaxRecursionDepth = (byte)maxRecursionDepth;
+
+            generalShaders.Setup(PSOCreateInfo);
         }
 
         public void Dispose()
         {
             DestroyPSO();
-            generalShaders?.Dispose();
         }
 
         private void DestroyPSO()
@@ -70,6 +74,59 @@ namespace DiligentEngine.RT
             m_pRayTracingSRB?.Dispose();
             m_pRayTracingPSO?.Dispose();
             m_ConstantsCB?.Dispose();
+        }
+
+        private unsafe static RayTracingPipelineStateCreateInfo CreatePSOCreateInfo()
+        {
+            // Prepare ray tracing pipeline description.
+            var PSOCreateInfo = new RayTracingPipelineStateCreateInfo();
+
+            PSOCreateInfo.PSODesc.Name = "Ray tracing PSO";
+            PSOCreateInfo.PSODesc.PipelineType = PIPELINE_TYPE.PIPELINE_TYPE_RAY_TRACING;
+
+            // Setup shader groups
+            PSOCreateInfo.pGeneralShaders = new List<RayTracingGeneralShaderGroup>();
+
+            PSOCreateInfo.pTriangleHitShaders = new List<RayTracingTriangleHitShaderGroup>();
+
+            PSOCreateInfo.pProceduralHitShaders = new List<RayTracingProceduralHitShaderGroup>();
+
+            // Per-shader data is not used.
+            PSOCreateInfo.RayTracingPipeline.ShaderRecordSize = 0;
+
+            // DirectX 12 only: set attribute and payload size. Values should be as small as possible to minimize the memory usage.
+            PSOCreateInfo.MaxAttributeSize = (uint)sizeof(/*BuiltInTriangleIntersectionAttributes*/ Vector2);
+            PSOCreateInfo.MaxPayloadSize = (uint)Math.Max(sizeof(DiligentEngine.RT.HLSL.PrimaryRayPayload), sizeof(DiligentEngine.RT.HLSL.ShadowRayPayload));
+
+
+            // Define immutable sampler for g_Texture and g_GroundTexture. Immutable samplers should be used whenever possible
+            var SamLinearWrapDesc = new SamplerDesc
+            {
+                MinFilter = FILTER_TYPE.FILTER_TYPE_LINEAR,
+                MagFilter = FILTER_TYPE.FILTER_TYPE_LINEAR,
+                MipFilter = FILTER_TYPE.FILTER_TYPE_LINEAR,
+                AddressU = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_WRAP,
+                AddressV = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_WRAP,
+                AddressW = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_WRAP
+            };
+            var ImmutableSamplers = new List<ImmutableSamplerDesc>
+            {
+                new ImmutableSamplerDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, SamplerOrTextureName = "g_SamLinearWrap", Desc = SamLinearWrapDesc},
+                new ImmutableSamplerDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, SamplerOrTextureName = "g_SamLinearWrap", Desc = SamLinearWrapDesc}
+            };
+
+            var Variables = new List<ShaderResourceVariableDesc> //
+            {
+                new ShaderResourceVariableDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_MISS | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = "g_ConstantsCB", Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_STATIC},
+                new ShaderResourceVariableDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = "g_TLAS", Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC},
+                new ShaderResourceVariableDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN, Name = "g_ColorBuffer", Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC} //This is the buffer where the rays are written
+            };
+
+            PSOCreateInfo.PSODesc.ResourceLayout.Variables = Variables;
+            PSOCreateInfo.PSODesc.ResourceLayout.ImmutableSamplers = ImmutableSamplers;
+            PSOCreateInfo.PSODesc.ResourceLayout.DefaultVariableType = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_MUTABLE;
+
+            return PSOCreateInfo;
         }
 
         unsafe void CreateRayTracingPSO()
@@ -85,15 +142,6 @@ namespace DiligentEngine.RT
 
             m_ConstantsCB = m_pDevice.CreateBuffer(BuffDesc);
             //VERIFY_EXPR(m_ConstantsCB != nullptr);
-
-            var PSOCreateInfo = shaders.PSOCreateInfo;
-
-            // Specify the maximum ray recursion depth.
-            // WARNING: the driver does not track the recursion depth and it is the
-            //          application's responsibility to not exceed the specified limit.
-            //          The value is used to reserve the necessary stack size and
-            //          exceeding it will likely result in driver crash.
-            PSOCreateInfo.RayTracingPipeline.MaxRecursionDepth = (byte)maxRecursionDepth;
 
             this.m_pRayTracingPSO = m_pDevice.CreateRayTracingPipelineState(PSOCreateInfo);
             //VERIFY_EXPR(m_pRayTracingPSO != nullptr);

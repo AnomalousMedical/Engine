@@ -8,38 +8,38 @@ namespace DiligentEngine.RT.ShaderSets
 {
     public class PrimaryHitShader : IDisposable
     {
-        public class Desc
-        {
-            public int NumTextures { get; set; } = 1;
-
-            public String BaseName { get; set; }
-        }
-
+        private readonly GraphicsEngine graphicsEngine;
+        private readonly ShaderLoader shaderLoader;
         private readonly RayTracingPipelineStateCreateInfo PSOCreateInfo;
-        private readonly AutoPtr<IShader> pCubePrimaryHit;
-        private readonly AutoPtr<IShader> pCubeAnyHit;
-        private readonly RayTracingTriangleHitShaderGroup primaryHitShaderGroup;
+        private AutoPtr<IShader> pCubePrimaryHit;
+        private AutoPtr<IShader> pCubeAnyHit;
+        private RayTracingTriangleHitShaderGroup primaryHitShaderGroup;
 
-        private readonly ShaderResourceVariableDesc verticesDesc;
-        private readonly ShaderResourceVariableDesc indicesDesc;
+        private ShaderResourceVariableDesc verticesDesc;
+        private ShaderResourceVariableDesc indicesDesc;
 
-        private readonly String verticesName;
-        private readonly String indicesName;
-        private readonly String colorTexturesName;
-        private readonly String normalTexturesName;
-        private readonly String shaderGroupName;
+        private String verticesName;
+        private String indicesName;
+        private String colorTexturesName;
+        private String normalTexturesName;
+        private String shaderGroupName;
 
         public String ShaderGroupName => shaderGroupName;
 
-        public PrimaryHitShader(GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RayTracingPipelineStateCreateInfo PSOCreateInfo, Desc desc)
+        public PrimaryHitShader(GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RayTracingRenderer rayTracingRenderer)
         {
-            this.PSOCreateInfo = PSOCreateInfo;
+            this.graphicsEngine = graphicsEngine;
+            this.shaderLoader = shaderLoader;
+            this.PSOCreateInfo = rayTracingRenderer.PSOCreateInfo;        
+        }
 
-            this.verticesName = $"vert_{desc.BaseName}";
-            this.indicesName = $"idx_{desc.BaseName}";
-            this.colorTexturesName = $"tex_{desc.BaseName}";
-            this.normalTexturesName = $"nrmltex_{desc.BaseName}";
-            this.shaderGroupName = $"{desc.BaseName}PrimaryHit";
+        public void Setup(String baseName, int numTextures)
+        {
+            this.verticesName = $"vert_{baseName}";
+            this.indicesName = $"idx_{baseName}";
+            this.colorTexturesName = $"tex_{baseName}";
+            this.normalTexturesName = $"nrmltex_{baseName}";
+            this.shaderGroupName = $"{baseName}PrimaryHit";
 
             var m_pDevice = graphicsEngine.RenderDevice;
 
@@ -60,7 +60,14 @@ namespace DiligentEngine.RT.ShaderSets
             ShaderCI.HLSLVersion = new ShaderVersion { Major = 6, Minor = 3 };
             ShaderCI.SourceLanguage = SHADER_SOURCE_LANGUAGE.SHADER_SOURCE_LANGUAGE_HLSL;
 
-            var shaderVars = CreateShaderVars(desc);
+            var shaderVars = new Dictionary<string, string>()
+            {
+                { "NUM_TEXTURES", numTextures.ToString() },
+                { "VERTICES", verticesName },
+                { "INDICES", indicesName },
+                { "COLOR_TEXTURES", colorTexturesName },
+                { "NORMAL_TEXTURES", normalTexturesName }
+            };
 
             // Create closest hit shaders.
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT;
@@ -97,8 +104,8 @@ namespace DiligentEngine.RT.ShaderSets
 
             PSOCreateInfo.pTriangleHitShaders.Remove(primaryHitShaderGroup);
 
-            pCubeAnyHit.Dispose();
-            pCubePrimaryHit.Dispose();
+            pCubeAnyHit?.Dispose();
+            pCubePrimaryHit?.Dispose();
         }
 
         public void BindBlas(BLASInstance bLASInstance, IShaderResourceBinding rayTracingSRB)
@@ -118,18 +125,12 @@ namespace DiligentEngine.RT.ShaderSets
             m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, colorTexturesName)?.SetArray(textureManager.TexSRVs);
         }
 
-        private Dictionary<String, String> CreateShaderVars(Desc description)
+        public void BindTextures(IShaderResourceBinding m_pRayTracingSRB, TextureSet textureSet)
         {
-            var shaderVars = new Dictionary<string, string>()
-            {
-                { "NUM_TEXTURES", description.NumTextures.ToString() },
-                { "VERTICES", verticesName },
-                { "INDICES", indicesName },
-                { "COLOR_TEXTURES", colorTexturesName },
-                { "NORMAL_TEXTURES", normalTexturesName }
-            };
+            m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, colorTexturesName)?.SetArray(textureSet.TexSRVs);
+            m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, normalTexturesName)?.SetArray(textureSet.TexNormalSRVs);
 
-            return shaderVars;
+            m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, colorTexturesName)?.SetArray(textureSet.TexSRVs);
         }
     }
 }

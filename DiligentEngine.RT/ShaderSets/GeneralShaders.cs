@@ -8,19 +8,26 @@ namespace DiligentEngine.RT.ShaderSets
 {
     public class GeneralShaders : IDisposable
     {
-        private readonly RayTracingPipelineStateCreateInfo PSOCreateInfo;
-        private readonly AutoPtr<IShader> pRayGen;
-        private readonly AutoPtr<IShader> pPrimaryMiss;
-        private readonly AutoPtr<IShader> pShadowMiss;
+        private RayTracingPipelineStateCreateInfo PSOCreateInfo;
+        private AutoPtr<IShader> pRayGen;
+        private AutoPtr<IShader> pPrimaryMiss;
+        private AutoPtr<IShader> pShadowMiss;
 
-        private readonly RayTracingGeneralShaderGroup rayGenShaderGroup;
-        private readonly RayTracingGeneralShaderGroup primaryMissShaderGroup;
-        private readonly RayTracingGeneralShaderGroup shadowMissShaderGroup;
+        private RayTracingGeneralShaderGroup rayGenShaderGroup;
+        private RayTracingGeneralShaderGroup primaryMissShaderGroup;
+        private RayTracingGeneralShaderGroup shadowMissShaderGroup;
+        private readonly GraphicsEngine graphicsEngine;
+        private readonly ShaderLoader shaderLoader;
 
-        public GeneralShaders(GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RayTracingPipelineStateCreateInfo PSOCreateInfo)
+        public GeneralShaders(GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader)
         {
-            this.PSOCreateInfo = PSOCreateInfo;
+            this.graphicsEngine = graphicsEngine;
+            this.shaderLoader = shaderLoader;
+        }
 
+        public void Setup(RayTracingPipelineStateCreateInfo PSOCreateInfo)
+        { 
+            this.PSOCreateInfo = PSOCreateInfo;
             var m_pDevice = graphicsEngine.RenderDevice;
 
             // Define shader macros
