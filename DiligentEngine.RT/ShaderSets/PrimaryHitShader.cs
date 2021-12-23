@@ -9,9 +9,7 @@ namespace DiligentEngine.RT.ShaderSets
 {
     public class PrimaryHitShader : IDisposable
     {
-        private readonly GraphicsEngine graphicsEngine;
-        private readonly ShaderLoader shaderLoader;
-        private readonly RayTracingPipelineStateCreateInfo PSOCreateInfo;
+        private RayTracingPipelineStateCreateInfo PSOCreateInfo;
         private AutoPtr<IShader> pCubePrimaryHit;
         private AutoPtr<IShader> pCubeAnyHit;
         private RayTracingTriangleHitShaderGroup primaryHitShaderGroup;
@@ -28,15 +26,13 @@ namespace DiligentEngine.RT.ShaderSets
 
         public String ShaderGroupName => shaderGroupName;
 
-        public PrimaryHitShader(GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RayTracingRenderer rayTracingRenderer)
-        {
-            this.graphicsEngine = graphicsEngine;
-            this.shaderLoader = shaderLoader;
-            this.PSOCreateInfo = rayTracingRenderer.PSOCreateInfo;        
+        public PrimaryHitShader()
+        {      
         }
 
-        public async Task Setup(String baseName, int numTextures)
+        public async Task SetupShaders(String baseName, int numTextures, GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RayTracingRenderer rayTracingRenderer)
         {
+            this.PSOCreateInfo = rayTracingRenderer.PSOCreateInfo;
             this.numTextures = numTextures;
             await Task.Run(() =>
             {

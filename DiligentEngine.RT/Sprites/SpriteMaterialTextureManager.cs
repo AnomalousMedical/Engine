@@ -54,7 +54,7 @@ namespace DiligentEngine.RT.Sprites
         }
     }
 
-    class SpriteMaterialTextures : IDisposable
+    public class SpriteMaterialTextures : IDisposable
     {
         AutoPtr<ITexture> normalTexture;
         AutoPtr<ITexture> physicalTexture;

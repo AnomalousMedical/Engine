@@ -78,7 +78,7 @@ namespace DiligentEngine.RT.Sprites
         }
     }
 
-    class SpriteMaterialManager : ISpriteMaterialManager
+    public class SpriteMaterialManager : ISpriteMaterialManager
     {
         private readonly PooledResourceManager<SpriteMaterialDescription, ISpriteMaterial> pooledResources
             = new PooledResourceManager<SpriteMaterialDescription, ISpriteMaterial>();

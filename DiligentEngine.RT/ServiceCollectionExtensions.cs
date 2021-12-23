@@ -2,6 +2,7 @@
 using DiligentEngine.RT;
 using DiligentEngine.RT.Resources;
 using DiligentEngine.RT.ShaderSets;
+using DiligentEngine.RT.Sprites;
 using Engine;
 using Engine.Resources;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -32,8 +33,11 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<CC0TextureLoader>();
             services.AddSingleton<TextureManager>();
 
-            services.AddTransient<PrimaryHitShader>();
+            services.AddSingleton<PrimaryHitShaderFactory>();
             services.AddTransient<TextureSet>();
+
+            services.AddSingleton<ISpriteMaterialManager, SpriteMaterialManager>();
+            services.AddSingleton<ISpriteMaterialTextureManager, SpriteMaterialTextureManager>();
 
             return services;
         }

@@ -23,14 +23,12 @@ namespace DiligentEngine.RT
         public CubeBLAS
         (
             BLASBuilder blasBuilder,
-            RayTracingRenderer renderer, 
-            PrimaryHitShader primaryHitShader,
+            RayTracingRenderer renderer,
+            PrimaryHitShaderFactory primaryHitShaderFactory,
             IScopedCoroutine coroutineRunner
         )
         {
-            this.primaryHitShader = primaryHitShader;
             this.renderer = renderer;
-
 
             coroutineRunner.RunTask(async () =>
             {
@@ -78,9 +76,9 @@ namespace DiligentEngine.RT
                     20,21,22, 20,22,23  //Front +z
                     };
 
-                    var setupShader = primaryHitShader.Setup(blasDesc.Name, 5);
+                    var setupShader = primaryHitShaderFactory.Create(blasDesc.Name, 5);
                     instance = await blasBuilder.CreateBLAS(blasDesc);
-                    await setupShader;
+                    this.primaryHitShader = await setupShader;
 
                     renderer.AddShaderResourceBinder(Bind);
 
@@ -96,7 +94,8 @@ namespace DiligentEngine.RT
         public void Dispose()
         {
             renderer.RemoveShaderResourceBinder(Bind);
-            instance.Dispose();
+            this.primaryHitShader?.Dispose();
+            instance?.Dispose();
         }
 
         public Task WaitForLoad()
