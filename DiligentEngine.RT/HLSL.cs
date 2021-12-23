@@ -35,4 +35,17 @@ namespace DiligentEngine.RT.HLSL
         float Shading;   // 0 - fully shadowed, 1 - fully in light, 0..1 - for semi-transparent objects
         uint Recursion; // Current recusrsion depth
     };
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct SpriteFrame
+    {
+        public float u;
+        public float v;
+        public float u2;
+        public float v2;
+        public float p1;
+        public float p2;
+        public float p3;
+        public float p4;
+    };
 }

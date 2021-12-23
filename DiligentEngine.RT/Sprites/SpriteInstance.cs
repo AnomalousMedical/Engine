@@ -50,9 +50,12 @@ namespace DiligentEngine.RT.Sprites
             primaryHitShader.BindTextures(rayTracingSRB, spriteMaterial);
         }
 
-        public void Bind(String instanceName, IShaderBindingTable sbt, ITopLevelAS tlas)
+        static int count = 0; //Cheaty way to get some dynamic data
+
+        public unsafe void Bind(String instanceName, IShaderBindingTable sbt, ITopLevelAS tlas)
         {
-            sbt.BindHitGroupForInstance(tlas, instanceName, RtStructures.PRIMARY_RAY_INDEX, primaryHitShader.ShaderGroupName, IntPtr.Zero, 0);
+            var info = new HLSL.SpriteFrame() { u = count++ % 2 == 0 ? 0.1f : 0.9f };
+            sbt.BindHitGroupForInstance(tlas, instanceName, RtStructures.PRIMARY_RAY_INDEX, primaryHitShader.ShaderGroupName, new IntPtr(&info), (uint)sizeof(HLSL.SpriteFrame));
         }
     }
 }

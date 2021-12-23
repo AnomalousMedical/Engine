@@ -10,6 +10,9 @@ Texture2D    $$(NORMAL_TEXTURES);
 SamplerState g_SamLinearWrap;
 SamplerState g_SamPointWrap;
 
+[[vk::shader_record_nv]]
+ConstantBuffer<SpriteFrame> spriteFrame;
+
 [shader("closesthit")]
 void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttributes attr)
 {
@@ -31,4 +34,6 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
         g_SamPointWrap,
         g_SamLinearWrap
     );
+
+    //payload.Color.rgb = spriteFrame.u;
 }

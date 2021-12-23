@@ -1,3 +1,14 @@
+struct SpriteFrame {
+    float u;
+    float v;
+    float u2;
+    float v2;
+    float p1;
+    float p2;
+    float p3;
+    float p4;
+};
+
 struct CubeAttribVertex {
   float4 uv;
   float4 tangent;
