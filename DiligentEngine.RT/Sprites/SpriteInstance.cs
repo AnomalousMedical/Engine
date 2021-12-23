@@ -46,7 +46,6 @@ namespace DiligentEngine.RT.Sprites
             renderer.RemoveShaderTableBinder(Bind);
             renderer.RemoveShaderResourceBinder(Bind);
             primaryHitShader.Dispose();
-            instance.Dispose();
             spriteMaterialManager.Return(spriteMaterial);
         }
 
