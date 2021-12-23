@@ -27,6 +27,7 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
         posX, posY, posZ, 
         $$(COLOR_TEXTURES)[InstanceID()],
         $$(NORMAL_TEXTURES)[InstanceID()],
+        g_SamLinearWrap,
         g_SamLinearWrap
     );
 }
