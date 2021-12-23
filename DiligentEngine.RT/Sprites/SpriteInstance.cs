@@ -15,14 +15,12 @@ namespace DiligentEngine.RT.Sprites
         private readonly SpriteMaterial spriteMaterial;
         private readonly ISpriteMaterialManager spriteMaterialManager;
         private PrimaryHitShader primaryHitShader;
-        private readonly string instanceName;
         private readonly RayTracingRenderer renderer;
 
         public BLASInstance Instance => instance;
 
         public SpriteInstance
         (
-            String instanceName,
             RayTracingRenderer renderer, 
             PrimaryHitShader primaryHitShader,
             BLASInstance blas,
@@ -34,16 +32,13 @@ namespace DiligentEngine.RT.Sprites
             this.instance = blas;
             this.spriteMaterial = spriteMaterial;
             this.spriteMaterialManager = spriteMaterialManager;
-            this.instanceName = instanceName;
             this.renderer = renderer;
 
             renderer.AddShaderResourceBinder(Bind);
-            renderer.AddShaderTableBinder(Bind);
         }
 
         public void Dispose()
         {
-            renderer.RemoveShaderTableBinder(Bind);
             renderer.RemoveShaderResourceBinder(Bind);
             primaryHitShader.Dispose();
             spriteMaterialManager.Return(spriteMaterial);
@@ -55,7 +50,7 @@ namespace DiligentEngine.RT.Sprites
             primaryHitShader.BindTextures(rayTracingSRB, spriteMaterial);
         }
 
-        public void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
+        public void Bind(String instanceName, IShaderBindingTable sbt, ITopLevelAS tlas)
         {
             sbt.BindHitGroupForInstance(tlas, instanceName, RtStructures.PRIMARY_RAY_INDEX, primaryHitShader.ShaderGroupName, IntPtr.Zero);
         }

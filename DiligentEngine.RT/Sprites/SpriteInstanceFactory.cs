@@ -15,6 +15,9 @@ namespace DiligentEngine.RT.Sprites
         private readonly PrimaryHitShaderFactory primaryHitShaderFactory;
         private readonly RayTracingRenderer rayTracingRenderer;
 
+        private readonly PooledResourceManager<SpriteMaterialDescription, SpriteInstance> pooledResources
+            = new PooledResourceManager<SpriteMaterialDescription, SpriteInstance>();
+
         public SpriteInstanceFactory(SpritePlaneBLAS spriteBLAS, ISpriteMaterialManager spriteMaterialManager, PrimaryHitShaderFactory primaryHitShaderFactory, RayTracingRenderer rayTracingRenderer)
         {
             this.spriteBLAS = spriteBLAS;
@@ -23,12 +26,27 @@ namespace DiligentEngine.RT.Sprites
             this.rayTracingRenderer = rayTracingRenderer;
         }
 
-        public async Task<SpriteInstance> CreateSprite(String instanceName, SpriteMaterialDescription materialDescription)
+        public Task<SpriteInstance> Checkout(SpriteMaterialDescription desc)
         {
-            var shader = primaryHitShaderFactory.Create(instanceName, 1, PrimaryHitShaderType.Sprite);
-            var material = spriteMaterialManager.Checkout(materialDescription);
+            return pooledResources.Checkout(desc, async () =>
+            {
+                var instanceName = Guid.NewGuid().ToString("N");
 
-            return new SpriteInstance(instanceName, rayTracingRenderer, await shader, spriteBLAS.Instance, await material, spriteMaterialManager);
+                //TODO: This gives one shader each time we change the materials. To pool the shaders do it here.
+                var shader = primaryHitShaderFactory.Create(instanceName, 1, PrimaryHitShaderType.Sprite);
+                var material = spriteMaterialManager.Checkout(desc);
+
+                var instance = new SpriteInstance(rayTracingRenderer, await shader, spriteBLAS.Instance, await material, spriteMaterialManager);
+                return pooledResources.CreateResult(instance);
+            });
+        }
+
+        public void TryReturn(SpriteInstance item)
+        {
+            if (item != null)
+            {
+                pooledResources.Return(item);
+            }
         }
     }
 }

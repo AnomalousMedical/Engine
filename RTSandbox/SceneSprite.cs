@@ -21,6 +21,7 @@ namespace RTSandbox
 
         private TLASBuildInstanceData instanceData;
         private readonly RayTracingRenderer renderer;
+        private readonly SpriteInstanceFactory spriteInstanceFactory;
         private SpriteInstance spriteInstance;
 
         public SceneSprite
@@ -40,7 +41,7 @@ namespace RTSandbox
 
             coroutine.RunTask(async () =>
             {
-                this.spriteInstance = await spriteInstanceFactory.CreateSprite(instanceData.InstanceName, new SpriteMaterialDescription
+                this.spriteInstance = await spriteInstanceFactory.Checkout(new SpriteMaterialDescription
                 (
                     colorMap: "original/amg1_full4.png",
                     materials: new HashSet<SpriteMaterialTextureItem>
@@ -54,19 +55,27 @@ namespace RTSandbox
                 this.instanceData.pBLAS = spriteInstance.Instance.BLAS.Obj;
 
                 renderer.AddTlasBuild(instanceData);
+                renderer.AddShaderTableBinder(Bind);
             });
             this.renderer = renderer;
+            this.spriteInstanceFactory = spriteInstanceFactory;
         }
 
         public void Dispose()
         {
-            spriteInstance.Dispose();
+            this.spriteInstanceFactory.TryReturn(spriteInstance);
+            renderer.RemoveShaderTableBinder(Bind);
             renderer.RemoveTlasBuild(instanceData);
         }
 
         public void SetTransform(in Vector3 trans, in Quaternion rot)
         {
             this.instanceData.Transform = new InstanceMatrix(trans, rot);
+        }
+
+        public void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
+        {
+            spriteInstance.Bind(this.instanceData.InstanceName, sbt, tlas);
         }
     }
 }
