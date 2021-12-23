@@ -23,23 +23,7 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
     // Sample texturing. Ray tracing shaders don't support LOD calculation, so we must specify LOD and apply filtering.
     Texture2D opacityTexture = $$(COLOR_TEXTURES)[InstanceID()];
 
-    //-----------
-
-    //Lame mip calculation, but looks tons better than just mip0. This needs to be an input value
-    int mip = min(payload.Depth / 4, 4);
-
-    // Calculate texture coordinates.
-    float2 uv = posX.uv.xy * barycentrics.x +
-        posY.uv.xy * barycentrics.y +
-        posZ.uv.xy * barycentrics.z;
-
-    float opacity = opacityTexture.SampleLevel(g_SamLinearWrap, uv, mip).a;
-
-    if (opacity < 0.5f) {
-        IgnoreHit();
-    }
-
-    //Doing nothing lets the ray tracer continue as normal
+    AnyHitOpacityMap(barycentrics, posX, posY, posZ, opacityTexture, g_SamLinearWrap);
 }
 
 

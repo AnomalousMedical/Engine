@@ -122,16 +122,30 @@ void LightingPass(inout float3 Color, float3 Pos, float3 Norm, float3 pertbNorm,
     Color = col * (1.0 / float(NUM_LIGHTS)) + g_ConstantsCB.AmbientColor.rgb;
 }
 
-//int GetMip(float depth) 
-//{
-//    //Lame mip calculation, but looks tons better than just mip0. This needs to be an input value
-//    int mip = min(depth / 4, 4);
-//}
+void AnyHitOpacityMap(float3 barycentrics,
+    CubeAttribVertex posX, CubeAttribVertex posY, CubeAttribVertex posZ,
+    Texture2D opacityTexture, SamplerState mySampler)
+{
+    int mip = GetMip(RayTCurrent());
+
+    // Calculate texture coordinates.
+    float2 uv = posX.uv.xy * barycentrics.x +
+        posY.uv.xy * barycentrics.y +
+        posZ.uv.xy * barycentrics.z;
+
+    float opacity = opacityTexture.SampleLevel(mySampler, uv, mip).a;
+
+    if (opacity < 0.5f) {
+        IgnoreHit();
+    }
+
+    //Doing nothing lets the ray tracer continue as normal
+}
 
 void LightAndShade(
 inout PrimaryRayPayload payload, float3 barycentrics, 
 CubeAttribVertex posX, CubeAttribVertex posY, CubeAttribVertex posZ, 
-Texture2D colorTexture, Texture2D normalTexture, SamplerState sampler)
+Texture2D colorTexture, Texture2D normalTexture, SamplerState mySampler)
 {
     payload.Depth = RayTCurrent();
 
@@ -158,7 +172,7 @@ Texture2D colorTexture, Texture2D normalTexture, SamplerState sampler)
                     posZ.normal.xyz * barycentrics.z;
 
     //Get Mapped normal
-    float3 pertNormal = normalTexture.SampleLevel(sampler, uv, mip).rgb * float3(2.0, 2.0, 2.0) - float3(1.0, 1.0, 1.0);
+    float3 pertNormal = normalTexture.SampleLevel(mySampler, uv, mip).rgb * float3(2.0, 2.0, 2.0) - float3(1.0, 1.0, 1.0);
     float3x3 tbn = MatrixFromRows(tangent, binormal, normal);
     pertNormal = normalize(mul(pertNormal, tbn)); //Can probably skip this normalize
     
@@ -167,7 +181,7 @@ Texture2D colorTexture, Texture2D normalTexture, SamplerState sampler)
     pertNormal = normalize(mul((float3x3) ObjectToWorld3x4(), pertNormal));
     
     // Sample texturing. Ray tracing shaders don't support LOD calculation, so we must specify LOD and apply filtering.
-    payload.Color = colorTexture.SampleLevel(sampler, uv, mip).rgb;
+    payload.Color = colorTexture.SampleLevel(mySampler, uv, mip).rgb;
     
     // Apply lighting.
     float3 rayOrigin = WorldRayOrigin() + WorldRayDirection() * RayTCurrent();
