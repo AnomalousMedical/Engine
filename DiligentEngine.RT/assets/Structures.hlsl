@@ -1,12 +1,5 @@
 struct SpriteFrame {
-    float u;
-    float v;
-    float u2;
-    float v2;
-    float p1;
-    float p2;
-    float p3;
-    float p4;
+    float2 uvs[4];
 };
 
 struct CubeAttribVertex {

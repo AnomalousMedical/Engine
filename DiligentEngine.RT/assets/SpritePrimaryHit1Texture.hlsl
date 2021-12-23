@@ -10,7 +10,7 @@ Texture2D    $$(NORMAL_TEXTURES);
 SamplerState g_SamLinearWrap;
 SamplerState g_SamPointWrap;
 
-[[vk::shader_record_nv]]
+[[vk::shader_record_ext]]
 ConstantBuffer<SpriteFrame> spriteFrame;
 
 [shader("closesthit")]
@@ -25,15 +25,22 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
     CubeAttribVertex posY = $$(VERTICES)[$$(INDICES)[vertId + 1]];
     CubeAttribVertex posZ = $$(VERTICES)[$$(INDICES)[vertId + 2]];
 
-    LightAndShade
+    float2 frameVertX = spriteFrame.uvs[$$(INDICES)[vertId + 0]];
+    float2 frameVertY = spriteFrame.uvs[$$(INDICES)[vertId + 1]];
+    float2 frameVertZ = spriteFrame.uvs[$$(INDICES)[vertId + 2]];
+
+    float2 uv = frameVertX.xy * barycentrics.x +
+        frameVertY.xy * barycentrics.y +
+        frameVertZ.xy * barycentrics.z;
+
+    LightAndShadeUV
     (
         payload, barycentrics, 
         posX, posY, posZ, 
         $$(COLOR_TEXTURES),
         $$(NORMAL_TEXTURES),
         g_SamPointWrap,
-        g_SamLinearWrap
+        g_SamLinearWrap,
+        uv
     );
-
-    //payload.Color.rgb = spriteFrame.u;
 }

@@ -8,6 +8,9 @@ StructuredBuffer<uint> $$(INDICES);
 Texture2D    $$(COLOR_TEXTURES); //This might be better loaded independently
 SamplerState g_SamPointWrap;
 
+//[[vk::shader_record_ext]]
+//ConstantBuffer<SpriteFrame> spriteFrame2;
+
 [shader("anyhit")]
 void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttributes attr)
 {
@@ -19,6 +22,14 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
     CubeAttribVertex posX = $$(VERTICES)[$$(INDICES)[vertId + 0]];
     CubeAttribVertex posY = $$(VERTICES)[$$(INDICES)[vertId + 1]];
     CubeAttribVertex posZ = $$(VERTICES)[$$(INDICES)[vertId + 2]];
+
+    //float2 frameVertX = spriteFrame2.uvs[$$(INDICES)[vertId + 0]];
+    //float2 frameVertY = spriteFrame2.uvs[$$(INDICES)[vertId + 1]];
+    //float2 frameVertZ = spriteFrame2.uvs[$$(INDICES)[vertId + 2]];
+
+    //float2 uv = frameVertX.xy * barycentrics.x +
+    //    frameVertY.xy * barycentrics.y +
+    //    frameVertZ.xy * barycentrics.z;
 
     // Sample texturing. Ray tracing shaders don't support LOD calculation, so we must specify LOD and apply filtering.
     Texture2D opacityTexture = $$(COLOR_TEXTURES);

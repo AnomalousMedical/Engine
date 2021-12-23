@@ -122,16 +122,11 @@ void LightingPass(inout float3 Color, float3 Pos, float3 Norm, float3 pertbNorm,
     Color = col * (1.0 / float(NUM_LIGHTS)) + g_ConstantsCB.AmbientColor.rgb;
 }
 
-void AnyHitOpacityMap(float3 barycentrics,
+void AnyHitOpacityMapUV(float3 barycentrics,
     CubeAttribVertex posX, CubeAttribVertex posY, CubeAttribVertex posZ,
-    Texture2D opacityTexture, SamplerState mySampler)
+    Texture2D opacityTexture, SamplerState mySampler, float2 uv)
 {
     int mip = GetMip(RayTCurrent());
-
-    // Calculate texture coordinates.
-    float2 uv = posX.uv.xy * barycentrics.x +
-        posY.uv.xy * barycentrics.y +
-        posZ.uv.xy * barycentrics.z;
 
     float opacity = opacityTexture.SampleLevel(mySampler, uv, mip).a;
 
@@ -142,19 +137,29 @@ void AnyHitOpacityMap(float3 barycentrics,
     //Doing nothing lets the ray tracer continue as normal
 }
 
-void LightAndShade(
+void AnyHitOpacityMap(float3 barycentrics,
+    CubeAttribVertex posX, CubeAttribVertex posY, CubeAttribVertex posZ,
+    Texture2D opacityTexture, SamplerState mySampler)
+{
+    // Calculate texture coordinates.
+    float2 uv = posX.uv.xy * barycentrics.x +
+        posY.uv.xy * barycentrics.y +
+        posZ.uv.xy * barycentrics.z;
+
+    AnyHitOpacityMapUV(barycentrics,
+        posX, posY, posZ,
+        opacityTexture, mySampler, uv);
+}
+
+void LightAndShadeUV(
 inout PrimaryRayPayload payload, float3 barycentrics, 
 CubeAttribVertex posX, CubeAttribVertex posY, CubeAttribVertex posZ, 
-Texture2D colorTexture, Texture2D normalTexture, SamplerState colorSampler, SamplerState normalSampler)
+Texture2D colorTexture, Texture2D normalTexture, SamplerState colorSampler, SamplerState normalSampler,
+float2 uv)
 {
     payload.Depth = RayTCurrent();
 
     int mip = GetMip(payload.Depth);
-
-    // Calculate texture coordinates.
-    float2 uv = posX.uv.xy * barycentrics.x +
-                posY.uv.xy * barycentrics.y +
-                posZ.uv.xy * barycentrics.z;
 
     // Calculate vertex tangent.
     float3 tangent = posX.tangent.xyz * barycentrics.x +
@@ -186,4 +191,21 @@ Texture2D colorTexture, Texture2D normalTexture, SamplerState colorSampler, Samp
     // Apply lighting.
     float3 rayOrigin = WorldRayOrigin() + WorldRayDirection() * RayTCurrent();
     LightingPass(payload.Color, rayOrigin, normal, pertNormal, payload.Recursion + 1);
+}
+
+void LightAndShade(
+    inout PrimaryRayPayload payload, float3 barycentrics,
+    CubeAttribVertex posX, CubeAttribVertex posY, CubeAttribVertex posZ,
+    Texture2D colorTexture, Texture2D normalTexture, SamplerState colorSampler, SamplerState normalSampler)
+{
+
+    // Calculate texture coordinates.
+    float2 uv = posX.uv.xy * barycentrics.x +
+        posY.uv.xy * barycentrics.y +
+        posZ.uv.xy * barycentrics.z;
+
+    LightAndShadeUV(payload, barycentrics,
+        posX, posY, posZ,
+        colorTexture, normalTexture, colorSampler, normalSampler,
+        uv);
 }

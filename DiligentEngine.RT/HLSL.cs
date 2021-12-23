@@ -39,13 +39,13 @@ namespace DiligentEngine.RT.HLSL
     [StructLayout(LayoutKind.Sequential)]
     public struct SpriteFrame
     {
-        public float u;
-        public float v;
+        public float u1;
+        public float v1;
         public float u2;
         public float v2;
-        public float p1;
-        public float p2;
-        public float p3;
-        public float p4;
+        public float u3;
+        public float v3;
+        public float u4;
+        public float v4;
     };
 }
