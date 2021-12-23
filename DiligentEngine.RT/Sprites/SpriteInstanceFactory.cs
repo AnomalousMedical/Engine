@@ -26,7 +26,10 @@ namespace DiligentEngine.RT.Sprites
         public async Task<SpriteInstance> CreateSprite(String instanceName, SpriteMaterialDescription materialDescription)
         {
             //This is in the diligent coords
-            var blasDesc = new BLASDesc();
+            var blasDesc = new BLASDesc()
+            {
+                Flags = RAYTRACING_GEOMETRY_FLAGS.RAYTRACING_GEOMETRY_FLAG_NONE
+            };
 
             blasDesc.CubePos = new Vector3[]
             {

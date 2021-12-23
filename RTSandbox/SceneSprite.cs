@@ -35,7 +35,6 @@ namespace RTSandbox
             {
                 InstanceName = description.InstanceName,
                 Mask = RtStructures.OPAQUE_GEOM_MASK,
-                Flags = RAYTRACING_INSTANCE_FLAGS.RAYTRACING_INSTANCE_FORCE_OPAQUE,
                 Transform = description.Transform,
             };
 

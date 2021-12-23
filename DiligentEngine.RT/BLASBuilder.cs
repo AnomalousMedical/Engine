@@ -18,6 +18,10 @@ namespace DiligentEngine.RT
         public Vector4[] CubeNormals { get; set; }
 
         public UInt32[] Indices { get; set; }
+
+        public RAYTRACING_BUILD_AS_FLAGS BuildAsFlags { get; set; } = RAYTRACING_BUILD_AS_FLAGS.RAYTRACING_BUILD_AS_PREFER_FAST_TRACE;
+
+        public RAYTRACING_GEOMETRY_FLAGS Flags { get; internal set; } = RAYTRACING_GEOMETRY_FLAGS.RAYTRACING_GEOMETRY_FLAG_OPAQUE;
     }
 
     public class BLASInstance : IDisposable
@@ -171,7 +175,7 @@ namespace DiligentEngine.RT
 
                             var ASDesc = new BottomLevelASDesc();
                             ASDesc.Name = $"{blasMeshDesc.Name} BLAS";
-                            ASDesc.Flags = RAYTRACING_BUILD_AS_FLAGS.RAYTRACING_BUILD_AS_PREFER_FAST_TRACE;
+                            ASDesc.Flags = blasMeshDesc.BuildAsFlags;
                             ASDesc.pTriangles = new List<BLASTriangleDesc> { Triangles };
 
                             result.BLAS = m_pDevice.CreateBLAS(ASDesc);
@@ -198,7 +202,7 @@ namespace DiligentEngine.RT
                         TriangleData.pIndexBuffer = result.IndexBuffer.Obj;
                         TriangleData.PrimitiveCount = Triangles.MaxPrimitiveCount;
                         TriangleData.IndexType = Triangles.IndexType;
-                        TriangleData.Flags = RAYTRACING_GEOMETRY_FLAGS.RAYTRACING_GEOMETRY_FLAG_OPAQUE;
+                        TriangleData.Flags = blasMeshDesc.Flags;
 
                         Attribs.pBLAS = result.BLAS.Obj;
                         Attribs.pTriangleData = new List<BLASBuildTriangleData> { TriangleData };
