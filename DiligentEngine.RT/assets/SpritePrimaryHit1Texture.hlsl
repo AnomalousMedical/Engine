@@ -35,8 +35,8 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
 
     LightAndShadeUV
     (
-        payload, barycentrics, 
-        posX, posY, posZ, 
+        payload, barycentrics,
+        posX, posY, posZ,
         $$(COLOR_TEXTURES),
         $$(NORMAL_TEXTURES),
         g_SamPointWrap,
