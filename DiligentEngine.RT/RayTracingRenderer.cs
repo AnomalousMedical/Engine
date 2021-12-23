@@ -186,10 +186,10 @@ namespace DiligentEngine.RT
             m_pSBT = m_pDevice.CreateSBT(SBTDesc);
             //VERIFY_EXPR(m_pSBT != nullptr);
 
-            m_pSBT.Obj.BindRayGenShader("Main", IntPtr.Zero);
+            m_pSBT.Obj.BindRayGenShader("Main", IntPtr.Zero, 0);
 
-            m_pSBT.Obj.BindMissShader("PrimaryMiss", RtStructures.PRIMARY_RAY_INDEX, IntPtr.Zero);
-            m_pSBT.Obj.BindMissShader("ShadowMiss", RtStructures.SHADOW_RAY_INDEX, IntPtr.Zero);
+            m_pSBT.Obj.BindMissShader("PrimaryMiss", RtStructures.PRIMARY_RAY_INDEX, IntPtr.Zero, 0);
+            m_pSBT.Obj.BindMissShader("ShadowMiss", RtStructures.SHADOW_RAY_INDEX, IntPtr.Zero, 0);
         }
 
         AutoPtr<ITopLevelAS> UpdateTLAS()
@@ -295,7 +295,7 @@ namespace DiligentEngine.RT
 
             // Hit groups for shadow ray.
             // null means no shaders are bound and hit shader invocation will be skipped.
-            m_pSBT.Obj.BindHitGroupForTLAS(m_pTLAS.Obj, RtStructures.SHADOW_RAY_INDEX, null, IntPtr.Zero);
+            m_pSBT.Obj.BindHitGroupForTLAS(m_pTLAS.Obj, RtStructures.SHADOW_RAY_INDEX, null, IntPtr.Zero, 0);
 
             return m_pTLAS;
         }

@@ -41,12 +41,13 @@ namespace DiligentEngine
         /// 
         /// \note Access to the SBT must be externally synchronized.
         /// </summary>
-        public void BindRayGenShader(String pShaderGroupName, IntPtr pData)
+        public void BindRayGenShader(String pShaderGroupName, IntPtr pData, Uint32 DataSize)
         {
             IShaderBindingTable_BindRayGenShader(
                 this.objPtr
                 , pShaderGroupName
                 , pData
+                , DataSize
             );
         }
         /// <summary>
@@ -61,13 +62,14 @@ namespace DiligentEngine
         /// 
         /// \note Access to the SBT must be externally synchronized.
         /// </summary>
-        public void BindMissShader(String pShaderGroupName, Uint32 MissIndex, IntPtr pData)
+        public void BindMissShader(String pShaderGroupName, Uint32 MissIndex, IntPtr pData, Uint32 DataSize)
         {
             IShaderBindingTable_BindMissShader(
                 this.objPtr
                 , pShaderGroupName
                 , MissIndex
                 , pData
+                , DataSize
             );
         }
         /// <summary>
@@ -88,7 +90,7 @@ namespace DiligentEngine
         /// \note Access to the SBT must be externally synchronized.
         /// Access to the TLAS must be externally synchronized.
         /// </summary>
-        public void BindHitGroupForInstance(ITopLevelAS pTLAS, String pInstanceName, Uint32 RayOffsetInHitGroupIndex, String pShaderGroupName, IntPtr pData)
+        public void BindHitGroupForInstance(ITopLevelAS pTLAS, String pInstanceName, Uint32 RayOffsetInHitGroupIndex, String pShaderGroupName, IntPtr pData, Uint32 DataSize)
         {
             IShaderBindingTable_BindHitGroupForInstance(
                 this.objPtr
@@ -97,6 +99,7 @@ namespace DiligentEngine
                 , RayOffsetInHitGroupIndex
                 , pShaderGroupName
                 , pData
+                , DataSize
             );
         }
         /// <summary>
@@ -115,7 +118,7 @@ namespace DiligentEngine
         /// \note Access to the SBT must be externally synchronized.
         /// Access to the TLAS must be externally synchronized.
         /// </summary>
-        public void BindHitGroupForTLAS(ITopLevelAS pTLAS, Uint32 RayOffsetInHitGroupIndex, String pShaderGroupName, IntPtr pData)
+        public void BindHitGroupForTLAS(ITopLevelAS pTLAS, Uint32 RayOffsetInHitGroupIndex, String pShaderGroupName, IntPtr pData, Uint32 DataSize)
         {
             IShaderBindingTable_BindHitGroupForTLAS(
                 this.objPtr
@@ -123,6 +126,7 @@ namespace DiligentEngine
                 , RayOffsetInHitGroupIndex
                 , pShaderGroupName
                 , pData
+                , DataSize
             );
         }
 
@@ -132,6 +136,7 @@ namespace DiligentEngine
             IntPtr objPtr
             , String pShaderGroupName
             , IntPtr pData
+            , Uint32 DataSize
         );
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void IShaderBindingTable_BindMissShader(
@@ -139,6 +144,7 @@ namespace DiligentEngine
             , String pShaderGroupName
             , Uint32 MissIndex
             , IntPtr pData
+            , Uint32 DataSize
         );
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void IShaderBindingTable_BindHitGroupForInstance(
@@ -148,6 +154,7 @@ namespace DiligentEngine
             , Uint32 RayOffsetInHitGroupIndex
             , String pShaderGroupName
             , IntPtr pData
+            , Uint32 DataSize
         );
         [DllImport(LibraryInfo.LibraryName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void IShaderBindingTable_BindHitGroupForTLAS(
@@ -156,6 +163,7 @@ namespace DiligentEngine
             , Uint32 RayOffsetInHitGroupIndex
             , String pShaderGroupName
             , IntPtr pData
+            , Uint32 DataSize
         );
     }
 }

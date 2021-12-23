@@ -8,6 +8,7 @@ namespace DiligentEngineGenerator
     class InterfaceParseMethodState : ICodeInterfaceParserState
     {
         private readonly InterfaceMethod method;
+        private bool firstLine = true;
 
         public InterfaceParseMethodState(InterfaceMethod method)
         {
@@ -16,6 +17,8 @@ namespace DiligentEngineGenerator
 
         public ICodeInterfaceParserState Parse(string line, List<String> comments, CodeInterface code)
         {
+            var wasFirstLine = firstLine;
+            firstLine = false;
             if (!String.IsNullOrWhiteSpace(line))
             {
                 var propertyParse = line.Trim().Replace(",", "").Replace("{", "").Replace("}", "");
@@ -46,7 +49,33 @@ namespace DiligentEngineGenerator
                 }
             }
 
-            if (line.Contains(")"))
+            //Just checking for a ) worked for a long time to detect function end.
+            //Now this is better, count () on the line with a special case for the
+            //first line
+            int parenCount = 0;
+            bool hasParen = false;
+            foreach (var parenMatch in line)
+            {
+                switch (parenMatch)
+                {
+                    case '(':
+                        hasParen = true;
+                        ++parenCount;
+                        break;
+                    case ')':
+                        hasParen = true;
+                        --parenCount;
+                        break;
+                }
+            }
+
+            if(hasParen && wasFirstLine)
+            {
+                //Penalize paren count on the first line to make this pass if everything is 1 line
+                --parenCount;
+            }
+
+            if (parenCount < 0)
             {
                 return new InterfaceParseAllMethodsState();
             }

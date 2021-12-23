@@ -52,7 +52,7 @@ namespace DiligentEngine.RT.Sprites
 
         public void Bind(String instanceName, IShaderBindingTable sbt, ITopLevelAS tlas)
         {
-            sbt.BindHitGroupForInstance(tlas, instanceName, RtStructures.PRIMARY_RAY_INDEX, primaryHitShader.ShaderGroupName, IntPtr.Zero);
+            sbt.BindHitGroupForInstance(tlas, instanceName, RtStructures.PRIMARY_RAY_INDEX, primaryHitShader.ShaderGroupName, IntPtr.Zero, 0);
         }
     }
 }
