@@ -415,8 +415,6 @@ namespace DiligentEngine.RT
             shaderResourceBinders.Remove(binder);
         }
 
-        public List<TLASBuildInstanceData> Instances => instances;
-
         private void BindShaders(IShaderBindingTable sbt, ITopLevelAS tlas)
         {
             foreach (var i in shaderTableBinders)
