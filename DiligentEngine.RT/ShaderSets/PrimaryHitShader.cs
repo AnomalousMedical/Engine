@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DiligentEngine.RT.Resources;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,7 @@ namespace DiligentEngine.RT.ShaderSets
 
         private ShaderResourceVariableDesc verticesDesc;
         private ShaderResourceVariableDesc indicesDesc;
+        private int numTextures;
 
         private String verticesName;
         private String indicesName;
@@ -35,6 +37,7 @@ namespace DiligentEngine.RT.ShaderSets
 
         public async Task Setup(String baseName, int numTextures)
         {
+            this.numTextures = numTextures;
             await Task.Run(() =>
             {
                 this.verticesName = $"vert_{baseName}";
@@ -72,9 +75,10 @@ namespace DiligentEngine.RT.ShaderSets
                 };
 
                 // Create closest hit shaders.
+                var textureSuffix = numTextures == 1 ? "1Texture" : "";
                 ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT;
                 ShaderCI.Desc.Name = "Cube primary ray closest hit shader";
-                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, "assets/CubePrimaryHit.rchit");
+                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, $"assets/CubePrimaryHit{textureSuffix}.rchit");
                 ShaderCI.EntryPoint = "main";
                 pCubePrimaryHit = m_pDevice.CreateShader(ShaderCI, Macros);
                 //VERIFY_EXPR(pCubePrimaryHit != nullptr);
@@ -82,7 +86,7 @@ namespace DiligentEngine.RT.ShaderSets
                 // Create any hit shaders.
                 ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT;
                 ShaderCI.Desc.Name = "Cube primary ray any hit shader";
-                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, "assets/CubeAnyHit.hlsl");
+                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, $"assets/CubeAnyHit{textureSuffix}.hlsl");
                 ShaderCI.EntryPoint = "main";
                 pCubeAnyHit = m_pDevice.CreateShader(ShaderCI, Macros);
                 //VERIFY_EXPR(pCubeAnyHit != nullptr);
@@ -127,6 +131,24 @@ namespace DiligentEngine.RT.ShaderSets
             m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, normalTexturesName)?.SetArray(textureSet.TexNormalSRVs);
 
             m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, colorTexturesName)?.SetArray(textureSet.TexSRVs);
+        }
+
+        public void BindTextures(IShaderResourceBinding m_pRayTracingSRB, CC0TextureResult textureSet)
+        {
+            if (numTextures == 1)
+            {
+                m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, colorTexturesName)?.Set(textureSet.BaseColorSRVs[0]);
+                m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, normalTexturesName)?.Set(textureSet.NormalMapSRVs[0]);
+
+                m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, colorTexturesName)?.Set(textureSet.BaseColorSRVs[0]);
+            }
+            else
+            {
+                m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, colorTexturesName)?.SetArray(textureSet.BaseColorSRVs);
+                m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, normalTexturesName)?.SetArray(textureSet.NormalMapSRVs);
+
+                m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, colorTexturesName)?.SetArray(textureSet.BaseColorSRVs);
+            }
         }
     }
 }

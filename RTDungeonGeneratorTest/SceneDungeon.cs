@@ -1,5 +1,6 @@
 ﻿using DiligentEngine;
 using DiligentEngine.RT;
+using DiligentEngine.RT.Resources;
 using DiligentEngine.RT.ShaderSets;
 using DungeonGenerator;
 using Engine;
@@ -38,6 +39,9 @@ namespace RTDungeonGeneratorTest
         private MapMesh mapMesh;
         TaskCompletionSource loadingTask = new TaskCompletionSource();
 
+        CC0TextureResult floorTexture;
+        CC0TextureResult wallTexture;
+
         public SceneDungeon
         (
             Desc description,
@@ -62,6 +66,12 @@ namespace RTDungeonGeneratorTest
                 using var destructionBlock = destructionRequest.BlockDestruction();
                 try
                 {
+                    var floorTextureDesc = new CCOTextureBindingDescription("Ground025");
+                    var wallTextureDesc = new CCOTextureBindingDescription("Ground042");
+
+                    var floorTextureTask = textureManager.Checkout(floorTextureDesc);
+                    var wallTextureTask = textureManager.Checkout(wallTextureDesc);
+
                     await Task.Run(() =>
                     {
                         var sw = new Stopwatch();
@@ -88,11 +98,16 @@ namespace RTDungeonGeneratorTest
 
                     await Task.WhenAll
                     (
+                        floorTextureTask,
+                        wallTextureTask,
                         floorMesh.End(), 
                         wallMesh.End(), 
-                        floorShader.Setup(floorMesh.Name, textureManager.NumTextures), 
-                        wallShader.Setup(wallMesh.Name, textureManager.NumTextures)
+                        floorShader.Setup(floorMesh.Name, floorTextureDesc.NumTextures), 
+                        wallShader.Setup(wallMesh.Name, floorTextureDesc.NumTextures)
                     );
+
+                    floorTexture = floorTextureTask.Result;
+                    wallTexture = wallTextureTask.Result;
 
                     this.floorInstanceData = new TLASBuildInstanceData()
                     {
@@ -135,6 +150,8 @@ namespace RTDungeonGeneratorTest
 
         public void Dispose()
         {
+            textureManager.TryReturn(wallTexture);
+            textureManager.TryReturn(floorTexture);
             renderer.RemoveShaderResourceBinder(Bind);
             renderer.RemoveShaderTableBinder(Bind);
             renderer.RemoveTlasBuild(floorInstanceData);
@@ -156,10 +173,10 @@ namespace RTDungeonGeneratorTest
         public void Bind(IShaderResourceBinding rayTracingSRB)
         {
             floorShader.BindBlas(mapMesh.FloorMesh.Instance, rayTracingSRB);
-            floorShader.BindTextures(rayTracingSRB, textureManager);
+            floorShader.BindTextures(rayTracingSRB, floorTexture);
 
             wallShader.BindBlas(mapMesh.WallMesh.Instance, rayTracingSRB);
-            wallShader.BindTextures(rayTracingSRB, textureManager);
+            wallShader.BindTextures(rayTracingSRB, wallTexture);
         }
 
         public Task WaitForLoad()

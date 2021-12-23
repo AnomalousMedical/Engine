@@ -1,5 +1,6 @@
 ﻿using DiligentEngine;
 using DiligentEngine.RT;
+using DiligentEngine.RT.Resources;
 using DiligentEngine.RT.ShaderSets;
 using Engine;
 using Engine.Resources;
@@ -28,6 +29,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<RTCameraAndLight>();
             services.AddSingleton<RayTracingRenderer>();
             services.AddSingleton<GeneralShaders>();
+            services.AddSingleton<CC0TextureLoader>();
+            services.AddSingleton<TextureManager>();
 
             services.AddTransient<PrimaryHitShader>();
             services.AddTransient<TextureSet>();
