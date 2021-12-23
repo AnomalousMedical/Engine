@@ -80,8 +80,8 @@ namespace DiligentEngine.RT.Sprites
 
     public class SpriteMaterialManager : ISpriteMaterialManager
     {
-        private readonly PooledResourceManager<SpriteMaterialDescription, ISpriteMaterial> pooledResources
-            = new PooledResourceManager<SpriteMaterialDescription, ISpriteMaterial>();
+        private readonly PooledResourceManager<SpriteMaterialDescription, SpriteMaterial> pooledResources
+            = new PooledResourceManager<SpriteMaterialDescription, SpriteMaterial>();
 
         private readonly IResourceProvider<SpriteMaterialManager> resourceProvider;
         private readonly TextureLoader textureLoader;
@@ -98,7 +98,7 @@ namespace DiligentEngine.RT.Sprites
             this.spriteMaterialTextureManager = spriteMaterialTextureManager;
         }
 
-        public Task<ISpriteMaterial> Checkout(SpriteMaterialDescription desc)
+        public Task<SpriteMaterial> Checkout(SpriteMaterialDescription desc)
         {
             return pooledResources.Checkout(desc, async () =>
             {
@@ -125,7 +125,7 @@ namespace DiligentEngine.RT.Sprites
             });
         }
 
-        public void TryReturn(ISpriteMaterial item)
+        public void TryReturn(SpriteMaterial item)
         {
             if (item != null)
             {
@@ -133,7 +133,7 @@ namespace DiligentEngine.RT.Sprites
             }
         }
 
-        public void Return(ISpriteMaterial item)
+        public void Return(SpriteMaterial item)
         {
             pooledResources.Return(item);
         }

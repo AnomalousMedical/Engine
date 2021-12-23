@@ -66,6 +66,11 @@ namespace RTSandbox
                     o.TextureIndex = 2;
                 });
 
+                objectResolver.Resolve<SceneSprite, SceneSprite.Desc>(o =>
+                {
+                    o.Transform = new InstanceMatrix(new Vector3(0, -3, 0), Quaternion.Identity);
+                });
+
                 objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
                 {
                     o.Transform = new InstanceMatrix(new Vector3(-9, -3, 0), Quaternion.Identity);

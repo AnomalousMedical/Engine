@@ -1,4 +1,5 @@
 ﻿using DiligentEngine.RT.Resources;
+using DiligentEngine.RT.Sprites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -127,6 +128,14 @@ namespace DiligentEngine.RT.ShaderSets
             m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, normalTexturesName)?.SetArray(textureSet.TexNormalSRVs);
 
             m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, colorTexturesName)?.SetArray(textureSet.TexSRVs);
+        }
+
+        public void BindTextures(IShaderResourceBinding m_pRayTracingSRB, SpriteMaterial spriteMaterial)
+        {
+            m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, colorTexturesName)?.Set(spriteMaterial.ColorSRV);
+            m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, normalTexturesName)?.Set(spriteMaterial.NormalSRV);
+
+            m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, colorTexturesName)?.Set(spriteMaterial.ColorSRV);
         }
 
         public void BindTextures(IShaderResourceBinding m_pRayTracingSRB, CC0TextureResult textureSet)

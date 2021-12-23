@@ -38,6 +38,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddSingleton<ISpriteMaterialManager, SpriteMaterialManager>();
             services.AddSingleton<ISpriteMaterialTextureManager, SpriteMaterialTextureManager>();
+            services.AddSingleton<SpriteInstanceFactory>();
+            services.AddSingleton<CC0MaterialTextureBuilder>();
 
             return services;
         }

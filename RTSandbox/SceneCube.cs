@@ -21,7 +21,6 @@ namespace RTSandbox
 
             public RAYTRACING_INSTANCE_FLAGS Flags { get; set; } = RAYTRACING_INSTANCE_FLAGS.RAYTRACING_INSTANCE_NONE;
 
-
             public InstanceMatrix Transform = InstanceMatrix.Identity;
         }
 

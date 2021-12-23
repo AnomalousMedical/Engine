@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DiligentEngine.RT.Sprites
 {
-    class SpriteMaterial : ISpriteMaterial, IDisposable
+    public class SpriteMaterial : IDisposable
     {
         private readonly ISpriteMaterialTextureManager spriteMaterialTextureManager;
         private readonly SpriteMaterialTextures textures;
@@ -25,6 +25,8 @@ namespace DiligentEngine.RT.Sprites
             this.spriteMaterialTextureManager = spriteMaterialTextureManager;
             this.textures = textures;
             this.colorTexture = new AutoPtr<ITexture>(colorTexture);
+            ColorSRV = colorTexture.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
+            NormalSRV = textures.NormalTexture.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
         }
 
         public void Dispose()
@@ -36,5 +38,9 @@ namespace DiligentEngine.RT.Sprites
         public int ImageWidth { get; }
 
         public int ImageHeight { get; }
+
+        public IDeviceObject ColorSRV { get; }
+
+        public IDeviceObject NormalSRV { get; }
     }
 }

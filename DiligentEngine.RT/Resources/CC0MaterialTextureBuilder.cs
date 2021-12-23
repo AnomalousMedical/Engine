@@ -121,6 +121,7 @@ namespace DiligentEngine.RT.Resources
                 using (var stream = resourceProvider.openFile(normalMapPath))
                 {
                     var map = FreeImageBitmap.FromStream(stream);
+                    map.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_32_BPP); //Needs to be 32 bit for later
                     result.SetNormalMap(map); //Pointer handled by returned collection
                 }
             }
@@ -183,7 +184,7 @@ namespace DiligentEngine.RT.Resources
 
             if (resourceProvider.fileExists(ambientOcclusionMapPath))
             {
-                using (var stream = resourceProvider.openFile(normalMapPath))
+                using (var stream = resourceProvider.openFile(ambientOcclusionMapPath))
                 {
                     var map = FreeImageBitmap.FromStream(stream);
                     map.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_32_BPP); //Cheat and convert color depth

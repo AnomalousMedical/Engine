@@ -2,10 +2,10 @@
 
 namespace DiligentEngine.RT.Sprites
 {
-    interface ISpriteMaterialManager
+    public interface ISpriteMaterialManager
     {
-        Task<ISpriteMaterial> Checkout(SpriteMaterialDescription desc);
-        public void TryReturn(ISpriteMaterial item);
-        void Return(ISpriteMaterial item);
+        Task<SpriteMaterial> Checkout(SpriteMaterialDescription desc);
+        public void TryReturn(SpriteMaterial item);
+        void Return(SpriteMaterial item);
     }
 }
