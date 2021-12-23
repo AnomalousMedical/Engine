@@ -75,7 +75,7 @@ namespace DiligentEngine.RT.ShaderSets
                 var textureSuffix = numTextures == 1 ? "1Texture" : "";
                 ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT;
                 ShaderCI.Desc.Name = "Cube primary ray closest hit shader";
-                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, $"assets/CubePrimaryHit{textureSuffix}.rchit");
+                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, $"assets/CubePrimaryHit{textureSuffix}.hlsl");
                 ShaderCI.EntryPoint = "main";
                 pCubePrimaryHit = m_pDevice.CreateShader(ShaderCI, Macros);
                 //VERIFY_EXPR(pCubePrimaryHit != nullptr);

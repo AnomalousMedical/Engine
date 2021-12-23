@@ -50,7 +50,7 @@ namespace DiligentEngine.RT.ShaderSets
             // Create ray generation shader.
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_GEN;
             ShaderCI.Desc.Name = "Ray tracing RG";
-            ShaderCI.Source = shaderLoader.LoadShader("assets/RayTrace.rgen");
+            ShaderCI.Source = shaderLoader.LoadShader("assets/RayTrace.hlsl");
             ShaderCI.EntryPoint = "main";
             pRayGen = m_pDevice.CreateShader(ShaderCI, Macros);
             //VERIFY_EXPR(pRayGen != nullptr);
@@ -58,13 +58,13 @@ namespace DiligentEngine.RT.ShaderSets
             // Create miss shaders.
             ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_MISS;
             ShaderCI.Desc.Name = "Primary ray miss shader";
-            ShaderCI.Source = shaderLoader.LoadShader("assets/PrimaryMiss.rmiss");
+            ShaderCI.Source = shaderLoader.LoadShader("assets/PrimaryMiss.hlsl");
             ShaderCI.EntryPoint = "main";
             pPrimaryMiss = m_pDevice.CreateShader(ShaderCI, Macros);
             //VERIFY_EXPR(pPrimaryMiss != nullptr);
 
             ShaderCI.Desc.Name = "Shadow ray miss shader";
-            ShaderCI.Source = shaderLoader.LoadShader("assets/ShadowMiss.rmiss");
+            ShaderCI.Source = shaderLoader.LoadShader("assets/ShadowMiss.hlsl");
             ShaderCI.EntryPoint = "main";
             pShadowMiss = m_pDevice.CreateShader(ShaderCI, Macros);
             //VERIFY_EXPR(pShadowMiss != nullptr);
