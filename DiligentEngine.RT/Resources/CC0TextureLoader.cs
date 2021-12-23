@@ -59,7 +59,7 @@ namespace DiligentEngine.RT.Resources
                     using (var stream = resourceProvider.openFile(normalMapPath))
                     {
                         using var map = FreeImageBitmap.FromStream(stream);
-                        map.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_32_BPP); //Cheat and convert color depth, this may not be needed
+                        map.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_32_BPP); //TODO: Cheat and convert color depth, this may not be needed
 
                         var normalMap = textureLoader.CreateTextureFromImage(map, 0, "normalTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, false);
                         result.SetNormalMap(normalMap);
