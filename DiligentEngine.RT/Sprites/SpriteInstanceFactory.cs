@@ -51,7 +51,7 @@ namespace DiligentEngine.RT.Sprites
                 0,1,2, 0,2,3  //Front +z
             };
 
-            var shader = primaryHitShaderFactory.Create(blasDesc.Name, 5);
+            var shader = primaryHitShaderFactory.Create(blasDesc.Name, 1);
             var instance = blasBuilder.CreateBLAS(blasDesc);
             var material = spriteMaterialManager.Checkout(materialDescription);
 
