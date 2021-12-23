@@ -25,9 +25,4 @@
 		</EmbeddedResource>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <None Remove="assets\CubeAnyHit1Texture.hlsl" />
-	  <None Remove="assets\CubePrimaryHit1Texture.rchit" />
-	</ItemGroup>
-
 </Project>

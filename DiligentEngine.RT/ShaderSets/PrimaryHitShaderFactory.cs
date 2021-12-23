@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace DiligentEngine.RT.ShaderSets
 {
+    public enum PrimaryHitShaderType
+    {
+        Cube,
+        Sprite
+    }
+
     public class PrimaryHitShaderFactory
     {
         private readonly GraphicsEngine graphicsEngine;
@@ -25,10 +31,10 @@ namespace DiligentEngine.RT.ShaderSets
         /// <param name="baseName"></param>
         /// <param name="numTextures"></param>
         /// <returns></returns>
-        public async Task<PrimaryHitShader> Create(String baseName, int numTextures)
+        public async Task<PrimaryHitShader> Create(String baseName, int numTextures, PrimaryHitShaderType shaderType)
         {
             var shader = new PrimaryHitShader();
-            await shader.SetupShaders(baseName, numTextures, graphicsEngine, shaderLoader, rayTracingRenderer);
+            await shader.SetupShaders(baseName, numTextures, graphicsEngine, shaderLoader, rayTracingRenderer, shaderType);
             return shader;
         }
     }

@@ -31,7 +31,7 @@ namespace DiligentEngine.RT.ShaderSets
         {      
         }
 
-        public async Task SetupShaders(String baseName, int numTextures, GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RayTracingRenderer rayTracingRenderer)
+        public async Task SetupShaders(String baseName, int numTextures, GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RayTracingRenderer rayTracingRenderer, PrimaryHitShaderType shaderType)
         {
             this.PSOCreateInfo = rayTracingRenderer.PSOCreateInfo;
             this.numTextures = numTextures;
@@ -73,9 +73,10 @@ namespace DiligentEngine.RT.ShaderSets
 
                 // Create closest hit shaders.
                 var textureSuffix = numTextures == 1 ? "1Texture" : "";
+
                 ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT;
                 ShaderCI.Desc.Name = "Cube primary ray closest hit shader";
-                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, $"assets/CubePrimaryHit{textureSuffix}.hlsl");
+                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, $"assets/{shaderType}PrimaryHit{textureSuffix}.hlsl");
                 ShaderCI.EntryPoint = "main";
                 pCubePrimaryHit = m_pDevice.CreateShader(ShaderCI, Macros);
                 //VERIFY_EXPR(pCubePrimaryHit != nullptr);
@@ -83,7 +84,7 @@ namespace DiligentEngine.RT.ShaderSets
                 // Create any hit shaders.
                 ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT;
                 ShaderCI.Desc.Name = "Cube primary ray any hit shader";
-                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, $"assets/CubeAnyHit{textureSuffix}.hlsl");
+                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, $"assets/{shaderType}AnyHit{textureSuffix}.hlsl");
                 ShaderCI.EntryPoint = "main";
                 pCubeAnyHit = m_pDevice.CreateShader(ShaderCI, Macros);
                 //VERIFY_EXPR(pCubeAnyHit != nullptr);

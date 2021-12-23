@@ -113,10 +113,24 @@ namespace DiligentEngine.RT
                 AddressV = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_WRAP,
                 AddressW = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_WRAP
             };
+
+            var SamPointWrapDesc = new SamplerDesc
+            {
+                MinFilter = FILTER_TYPE.FILTER_TYPE_POINT,
+                MagFilter = FILTER_TYPE.FILTER_TYPE_POINT,
+                MipFilter = FILTER_TYPE.FILTER_TYPE_POINT,
+                AddressU = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_WRAP,
+                AddressV = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_WRAP,
+                AddressW = TEXTURE_ADDRESS_MODE.TEXTURE_ADDRESS_WRAP
+            };
+
             var ImmutableSamplers = new List<ImmutableSamplerDesc>
             {
                 new ImmutableSamplerDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, SamplerOrTextureName = "g_SamLinearWrap", Desc = SamLinearWrapDesc},
-                new ImmutableSamplerDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, SamplerOrTextureName = "g_SamLinearWrap", Desc = SamLinearWrapDesc}
+                new ImmutableSamplerDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, SamplerOrTextureName = "g_SamLinearWrap", Desc = SamLinearWrapDesc},
+
+                new ImmutableSamplerDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, SamplerOrTextureName = "g_SamPointWrap", Desc = SamPointWrapDesc},
+                new ImmutableSamplerDesc{ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, SamplerOrTextureName = "g_SamPointWrap", Desc = SamPointWrapDesc}
             };
 
             var Variables = new List<ShaderResourceVariableDesc> //
