@@ -193,9 +193,6 @@ namespace SceneTest
                 var floorTextureTask = textureManager.Checkout(floorTextureDesc);
                 var wallTextureTask = textureManager.Checkout(wallTextureDesc);
 
-                var floorShaderSetup = primaryHitShaderFactory.Create(floorMesh.Name, floorTextureDesc.NumTextures, PrimaryHitShaderType.Cube);
-                var wallShaderSetup = primaryHitShaderFactory.Create(wallMesh.Name, wallTextureDesc.NumTextures, PrimaryHitShaderType.Cube);
-
                 this.levelGenerationTask = Task.Run(() =>
                 {
                     var sw = new Stopwatch();
@@ -254,10 +251,18 @@ namespace SceneTest
 
                 await Task.WhenAll
                 (
+                    floorMesh.End("LevelFloor"),
+                    wallMesh.End("LevelWall")
+                );
+
+                //TODO: The level BLASes must be loaded before the shaders, see todo in PrimaryHitShader
+                var floorShaderSetup = primaryHitShaderFactory.Create(floorMesh.Name, floorTextureDesc.NumTextures, PrimaryHitShaderType.Cube);
+                var wallShaderSetup = primaryHitShaderFactory.Create(wallMesh.Name, wallTextureDesc.NumTextures, PrimaryHitShaderType.Cube);
+
+                await Task.WhenAll
+                (
                     floorTextureTask,
                     wallTextureTask,
-                    floorMesh.End("LevelFloor"),
-                    wallMesh.End("LevelWall"),
                     floorShaderSetup,
                     wallShaderSetup
                 );
@@ -272,10 +277,10 @@ namespace SceneTest
                     this.floorInstanceData.pBLAS = mapMesh.FloorMesh.Instance.BLAS.Obj;
                     this.wallInstanceData.pBLAS = mapMesh.WallMesh.Instance.BLAS.Obj;
 
-                    rtInstances.AddTlasBuild(floorInstanceData);
-                    rtInstances.AddTlasBuild(wallInstanceData);
                     rtInstances.AddShaderTableBinder(Bind);
                     renderer.AddShaderResourceBinder(Bind);
+                    rtInstances.AddTlasBuild(floorInstanceData);
+                    rtInstances.AddTlasBuild(wallInstanceData);
                 }
             });
         }

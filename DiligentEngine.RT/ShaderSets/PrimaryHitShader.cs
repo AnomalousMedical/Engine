@@ -171,6 +171,7 @@ namespace DiligentEngine.RT.ShaderSets
 
             //Do these back on the main thread since they change the state of the renderer
             PSOCreateInfo.pTriangleHitShaders.Add(primaryHitShaderGroup);
+            //TODO: Adding this to the triangle hit shaders here assumes the BLAS is already created. This is setup to work ok now, but hopefully this can be unbound later
 
             PSOCreateInfo.PSODesc.ResourceLayout.Variables.Add(verticesDesc);
             PSOCreateInfo.PSODesc.ResourceLayout.Variables.Add(indicesDesc);
