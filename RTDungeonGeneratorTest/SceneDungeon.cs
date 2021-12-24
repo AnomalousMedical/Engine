@@ -65,8 +65,8 @@ namespace RTDungeonGeneratorTest
                 using var destructionBlock = destructionRequest.BlockDestruction();
                 try
                 {
-                    var floorTextureDesc = new CCOTextureBindingDescription("Ground025");
-                    var wallTextureDesc = new CCOTextureBindingDescription("Ground042");
+                    var floorTextureDesc = new CCOTextureBindingDescription("cc0Textures/Ground025_1K");
+                    var wallTextureDesc = new CCOTextureBindingDescription("cc0Textures/Ground042_1K");
 
                     var floorTextureTask = textureManager.Checkout(floorTextureDesc);
                     var wallTextureTask = textureManager.Checkout(wallTextureDesc);
@@ -113,25 +113,25 @@ namespace RTDungeonGeneratorTest
                     this.floorTexture = floorTextureTask.Result;
                     this.wallTexture = wallTextureTask.Result;
 
-                    this.floorInstanceData = new TLASBuildInstanceData()
-                    {
-                        InstanceName = Guid.NewGuid().ToString(),
-                        CustomId = 3, //Texture index
-                        pBLAS = mapMesh.FloorMesh.Instance.BLAS.Obj,
-                        Mask = RtStructures.OPAQUE_GEOM_MASK,
-                        Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity)
-                    };
-                    this.wallInstanceData = new TLASBuildInstanceData()
-                    {
-                        InstanceName = Guid.NewGuid().ToString(),
-                        CustomId = 4, //Texture index
-                        pBLAS = mapMesh.WallMesh.Instance.BLAS.Obj,
-                        Mask = RtStructures.OPAQUE_GEOM_MASK,
-                        Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity)
-                    };
-
                     if (!destructionRequest.DestructionRequested)
                     {
+                        this.floorInstanceData = new TLASBuildInstanceData()
+                        {
+                            InstanceName = Guid.NewGuid().ToString(),
+                            CustomId = 3, //Texture index
+                            pBLAS = mapMesh.FloorMesh.Instance.BLAS.Obj,
+                            Mask = RtStructures.OPAQUE_GEOM_MASK,
+                            Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity)
+                        };
+                        this.wallInstanceData = new TLASBuildInstanceData()
+                        {
+                            InstanceName = Guid.NewGuid().ToString(),
+                            CustomId = 4, //Texture index
+                            pBLAS = mapMesh.WallMesh.Instance.BLAS.Obj,
+                            Mask = RtStructures.OPAQUE_GEOM_MASK,
+                            Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity)
+                        };
+
                         rtInstances.AddTlasBuild(floorInstanceData);
                         rtInstances.AddTlasBuild(wallInstanceData);
                         rtInstances.AddShaderTableBinder(Bind);

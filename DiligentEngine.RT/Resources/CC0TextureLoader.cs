@@ -34,11 +34,11 @@ namespace DiligentEngine.RT.Resources
             //In this function the auto pointers are handed off to the result, which will be managed by the caller to erase the resources.
             var result = new CC0TextureResult();
 
-            var colorMapPath = $"cc0Textures/{colorPath ?? basePath}_1K_Color.{colorExt ?? ext}";
-            var normalMapPath = $"cc0Textures/{basePath}_1K_Normal.{ext}";
-            var roughnessMapPath = $"cc0Textures/{basePath}_1K_Roughness.{ext}";
-            var metalnessMapPath = $"cc0Textures/{basePath}_1K_Metalness.{ext}";
-            var ambientOcclusionMapPath = $"cc0Textures/{basePath}_1K_AmbientOcclusion.{ext}";
+            var colorMapPath = $"{colorPath ?? basePath}_Color.{colorExt ?? ext}";
+            var normalMapPath = $"{basePath}_Normal.{ext}";
+            var roughnessMapPath = $"{basePath}_Roughness.{ext}";
+            var metalnessMapPath = $"{basePath}_Metalness.{ext}";
+            var ambientOcclusionMapPath = $"{basePath}_AmbientOcclusion.{ext}";
 
             var Barriers = new List<StateTransitionDesc>(5);
 
