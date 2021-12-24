@@ -90,6 +90,7 @@ namespace SceneTest
             services.AddScoped<LevelConnector>();
             services.AddScoped<LevelConnector.Description>();
             services.AddScoped<Sky>();
+            services.AddScoped<RTGui>();
             services.AddScoped<TargetCursor>();
             services.AddScoped<IMagicAbilities, MagicAbilities>();
             services.AddSingleton<ILevelManager, LevelManager>();

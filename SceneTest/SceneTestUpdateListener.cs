@@ -4,6 +4,7 @@ using DiligentEngine.RT;
 using Engine;
 using Engine.CameraMovement;
 using Engine.Platform;
+using SceneTest.Exploration.Menu;
 using SharpGui;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace SceneTest
         private readonly CameraMover cameraMover;
         private readonly Sky sky;
         private readonly FirstPersonFlyCamera flyCamera;
+        private readonly RTGui rtGui;
         private IGameState gameState;
 
         public unsafe SceneTestUpdateListener
@@ -36,7 +38,8 @@ namespace SceneTest
             CameraMover cameraMover,
             Sky sky,
             IFirstGameStateBuilder startState,
-            FirstPersonFlyCamera flyCamera
+            FirstPersonFlyCamera flyCamera,
+            RTGui rtGui
         )
         {
             flyCamera.Position = new Vector3(0, 0, -10);
@@ -50,6 +53,7 @@ namespace SceneTest
             this.cameraMover = cameraMover;
             this.sky = sky;
             this.flyCamera = flyCamera;
+            this.rtGui = rtGui;
             this.gameState = startState.GetFirstGameState();
             this.gameState.SetActive(true);
         }
@@ -78,6 +82,7 @@ namespace SceneTest
                 nextState.SetActive(true);
                 this.gameState = nextState;
             }
+            rtGui.Update(clock);
             sharpGui.End();
             sky.UpdateLight(clock);
 
@@ -87,8 +92,9 @@ namespace SceneTest
 
             //pbrRenderAttribs.AverageLogLum = sky.AverageLogLum;
             //Upate sun here
-            var lightPos = cameraMover.SceneCenter + new Vector3(10, 25, -20);
-            rayTracingRenderer.Render(rtInstances, cameraMover.Position, cameraMover.Orientation, new Vector4(lightPos.x, lightPos.y, lightPos.z, 0), new Vector4(lightPos.x, lightPos.y, lightPos.z, 0));
+            var sceneCenter = cameraMover.SceneCenter + new Vector3(rtGui.LightPos.x, rtGui.LightPos.y, rtGui.LightPos.z);
+            var lightPos = new Vector4(sceneCenter.x, sceneCenter.y, sceneCenter.z, 0);
+            rayTracingRenderer.Render(rtInstances, cameraMover.Position, cameraMover.Orientation, lightPos, lightPos);
 
             var pRTV = swapChain.GetCurrentBackBufferRTV();
             var pDSV = swapChain.GetDepthBufferDSV();
