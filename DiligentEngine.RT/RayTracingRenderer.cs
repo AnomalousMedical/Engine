@@ -30,15 +30,13 @@ namespace DiligentEngine.RT
         uint lastNumInstances = 0;
         bool rebuildPipeline = true;
 
-        public RayTracingPipelineStateCreateInfo PSOCreateInfo { get; private set; } = CreatePSOCreateInfo();
+        private RTInstances activeInstances;
 
-        List<TLASBuildInstanceData> instances = new List<TLASBuildInstanceData>();
-        List<ShaderTableBinder> shaderTableBinders = new List<ShaderTableBinder>();
-        List<ShaderResourceBinder> shaderResourceBinders = new List<ShaderResourceBinder>();
+        public RayTracingPipelineStateCreateInfo PSOCreateInfo { get; private set; } = CreatePSOCreateInfo();
 
         public delegate void ShaderResourceBinder(IShaderResourceBinding rayTracingSRB);
 
-        public delegate void ShaderTableBinder(IShaderBindingTable sbt, ITopLevelAS tlas);
+        List<ShaderResourceBinder> shaderResourceBinders = new List<ShaderResourceBinder>();
 
         public unsafe RayTracingRenderer
         (
@@ -63,6 +61,11 @@ namespace DiligentEngine.RT
             PSOCreateInfo.RayTracingPipeline.MaxRecursionDepth = (byte)maxRecursionDepth;
 
             generalShaders.Setup(PSOCreateInfo);
+        }
+
+        public void SetInstances(RTInstances activeInstances)
+        {
+            this.activeInstances = activeInstances;
         }
 
         public void Dispose()
@@ -196,7 +199,13 @@ namespace DiligentEngine.RT
         {
             var m_pDevice = graphicsEngine.RenderDevice;
             var m_pImmediateContext = graphicsEngine.ImmediateContext;
-            // Create or update top-level acceleration structure
+
+            if(activeInstances == null)
+            {
+                return null;
+            }
+
+            var instances = activeInstances.Instances;
 
             uint numInstances = (uint)instances.Count;
             if (numInstances == 0)
@@ -291,7 +300,7 @@ namespace DiligentEngine.RT
             m_pImmediateContext.BuildTLAS(Attribs);
 
             // Hit groups for primary ray
-            BindShaders(m_pSBT.Obj, m_pTLAS.Obj);
+            activeInstances.BindShaders(m_pSBT.Obj, m_pTLAS.Obj);
 
             // Hit groups for shadow ray.
             // null means no shaders are bound and hit shader invocation will be skipped.
@@ -384,26 +393,6 @@ namespace DiligentEngine.RT
             imageBlitter.Blit();
         }
 
-        public void AddTlasBuild(TLASBuildInstanceData instance)
-        {
-            instances.Add(instance);
-        }
-
-        public void RemoveTlasBuild(TLASBuildInstanceData instance)
-        {
-            instances.Remove(instance);
-        }
-
-        public void AddShaderTableBinder(ShaderTableBinder binder)
-        {
-            shaderTableBinders.Add(binder);
-        }
-
-        public void RemoveShaderTableBinder(ShaderTableBinder binder)
-        {
-            shaderTableBinders.Remove(binder);
-        }
-
         public void AddShaderResourceBinder(ShaderResourceBinder binder)
         {
             rebuildPipeline = true;
@@ -413,14 +402,6 @@ namespace DiligentEngine.RT
         public void RemoveShaderResourceBinder(ShaderResourceBinder binder)
         {
             shaderResourceBinders.Remove(binder);
-        }
-
-        private void BindShaders(IShaderBindingTable sbt, ITopLevelAS tlas)
-        {
-            foreach (var i in shaderTableBinders)
-            {
-                i(sbt, tlas);
-            }
         }
 
         private void BindShaderResources(IShaderResourceBinding rayTracingSRB)

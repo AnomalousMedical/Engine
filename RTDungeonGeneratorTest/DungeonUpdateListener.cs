@@ -39,7 +39,8 @@ namespace RTDungeonGeneratorTest
         private bool loadingLevel = false;
         private int currentSeed = 23;
 
-        public DungeonUpdateListener(
+        public DungeonUpdateListener
+        (
             GraphicsEngine graphicsEngine,
             NativeOSWindow window,
             FirstPersonFlyCamera cameraControls,
@@ -49,7 +50,9 @@ namespace RTDungeonGeneratorTest
             IBepuScene bepuScene,
             IObjectResolverFactory objectResolverFactory,
             RayTracingRenderer renderer,
-            RTGui gui)
+            RTInstances rtInstances,
+            RTGui gui
+        )
         {
             this.graphicsEngine = graphicsEngine;
             this.window = window;
@@ -62,6 +65,9 @@ namespace RTDungeonGeneratorTest
             this.renderer = renderer;
             this.gui = gui;
             this.objectResolver = objectResolverFactory.Create();
+
+            renderer.SetInstances(rtInstances);
+
             cameraControls.Position = new Vector3(0, 2, -11);
             Initialize();
             LoadNextScene();

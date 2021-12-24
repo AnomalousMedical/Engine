@@ -19,19 +19,22 @@ namespace RTSandbox
             public InstanceMatrix Transform = InstanceMatrix.Identity;
         }
 
-        private TLASBuildInstanceData instanceData;
-        private readonly RayTracingRenderer renderer;
+        private readonly TLASBuildInstanceData instanceData;
         private readonly SpriteInstanceFactory spriteInstanceFactory;
+        private readonly RTInstances rtInstances;
         private SpriteInstance spriteInstance;
 
         public SceneSprite
         (
             Desc description,
-            RayTracingRenderer renderer,
             SpriteInstanceFactory spriteInstanceFactory,
-            IScopedCoroutine coroutine
+            IScopedCoroutine coroutine,
+            RTInstances rtInstances
         )
         {
+            this.spriteInstanceFactory = spriteInstanceFactory;
+            this.rtInstances = rtInstances;
+
             this.instanceData = new TLASBuildInstanceData()
             {
                 InstanceName = description.InstanceName,
@@ -54,18 +57,16 @@ namespace RTSandbox
                 ));
                 this.instanceData.pBLAS = spriteInstance.Instance.BLAS.Obj;
 
-                renderer.AddTlasBuild(instanceData);
-                renderer.AddShaderTableBinder(Bind);
+                rtInstances.AddTlasBuild(instanceData);
+                rtInstances.AddShaderTableBinder(Bind);
             });
-            this.renderer = renderer;
-            this.spriteInstanceFactory = spriteInstanceFactory;
         }
 
         public void Dispose()
         {
             this.spriteInstanceFactory.TryReturn(spriteInstance);
-            renderer.RemoveShaderTableBinder(Bind);
-            renderer.RemoveTlasBuild(instanceData);
+            rtInstances.RemoveShaderTableBinder(Bind);
+            rtInstances.RemoveTlasBuild(instanceData);
         }
 
         public void SetTransform(in Vector3 trans, in Quaternion rot)
@@ -73,7 +74,7 @@ namespace RTSandbox
             this.instanceData.Transform = new InstanceMatrix(trans, rot);
         }
 
-        public void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
+        private void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
         {
             spriteInstance.Bind(this.instanceData.InstanceName, sbt, tlas);
         }

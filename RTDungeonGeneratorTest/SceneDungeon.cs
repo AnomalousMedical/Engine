@@ -31,9 +31,10 @@ namespace RTDungeonGeneratorTest
 
         private TLASBuildInstanceData wallInstanceData;
         private TLASBuildInstanceData floorInstanceData;
-        private readonly RayTracingRenderer renderer;
         private readonly IDestructionRequest destructionRequest;
         private readonly TextureManager textureManager;
+        private readonly RTInstances rtInstances;
+        private readonly RayTracingRenderer renderer;
         private PrimaryHitShader floorShader;
         private PrimaryHitShader wallShader;
         private MapMesh mapMesh;
@@ -46,18 +47,19 @@ namespace RTDungeonGeneratorTest
         (
             Desc description,
             IScopedCoroutine coroutineRunner,
-            RayTracingRenderer renderer,
             IDestructionRequest destructionRequest,
             MeshBLAS floorMesh,
             MeshBLAS wallMesh,
             TextureManager textureManager, 
-            PrimaryHitShaderFactory primaryHitShaderFactory
+            PrimaryHitShaderFactory primaryHitShaderFactory,
+            RTInstances rtInstances,
+            RayTracingRenderer renderer
         )
         {
-            this.renderer = renderer;
             this.destructionRequest = destructionRequest;
             this.textureManager = textureManager;
-
+            this.rtInstances = rtInstances;
+            this.renderer = renderer;
             coroutineRunner.RunTask(async () =>
             {
                 using var destructionBlock = destructionRequest.BlockDestruction();
@@ -130,9 +132,9 @@ namespace RTDungeonGeneratorTest
 
                     if (!destructionRequest.DestructionRequested)
                     {
-                        renderer.AddTlasBuild(floorInstanceData);
-                        renderer.AddTlasBuild(wallInstanceData);
-                        renderer.AddShaderTableBinder(Bind);
+                        rtInstances.AddTlasBuild(floorInstanceData);
+                        rtInstances.AddTlasBuild(wallInstanceData);
+                        rtInstances.AddShaderTableBinder(Bind);
                         renderer.AddShaderResourceBinder(Bind);
                     }
 
@@ -155,11 +157,11 @@ namespace RTDungeonGeneratorTest
             textureManager.TryReturn(wallTexture);
             textureManager.TryReturn(floorTexture);
             renderer.RemoveShaderResourceBinder(Bind);
-            renderer.RemoveShaderTableBinder(Bind);
+            rtInstances.RemoveShaderTableBinder(Bind);
             this.wallShader?.Dispose();
             this.floorShader?.Dispose();
-            renderer.RemoveTlasBuild(floorInstanceData);
-            renderer.RemoveTlasBuild(wallInstanceData);
+            rtInstances.RemoveTlasBuild(floorInstanceData);
+            rtInstances.RemoveTlasBuild(wallInstanceData);
         }
 
         public void SetTransform(InstanceMatrix matrix)

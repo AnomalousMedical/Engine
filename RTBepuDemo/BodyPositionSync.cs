@@ -34,20 +34,19 @@ namespace RTBepuDemo
 
         private readonly TLASBuildInstanceData instanceData;
         private readonly CubeBLAS cubeBLAS;
-        private readonly RayTracingRenderer renderer;
         private readonly IBepuScene bepuScene;
+        private readonly RTInstances rtInstances;
 
         public BodyPositionSync( 
             Desc description,
             CubeBLAS cubeBLAS,
-            RayTracingRenderer renderer,
             IBepuScene bepuScene,
-            IScopedCoroutine scopedCoroutine)
+            IScopedCoroutine scopedCoroutine,
+            RTInstances rtInstances)
         {
             this.cubeBLAS = cubeBLAS;
-            this.renderer = renderer;
             this.bepuScene = bepuScene;
-
+            this.rtInstances = rtInstances;
             var flags = RAYTRACING_INSTANCE_FLAGS.RAYTRACING_INSTANCE_NONE;
             if (description.TextureIndex == 1)
             {
@@ -76,8 +75,8 @@ namespace RTBepuDemo
 
                 instanceData.pBLAS = cubeBLAS.Instance.BLAS.Obj;
 
-                renderer.AddTlasBuild(instanceData);
-                renderer.AddShaderTableBinder(Bind);
+                rtInstances.AddTlasBuild(instanceData);
+                rtInstances.AddShaderTableBinder(Bind);
             });
         }
 
@@ -85,8 +84,8 @@ namespace RTBepuDemo
         {
             bepuScene.Simulation.Bodies.Remove(this.bodyHandle);
 
-            renderer.RemoveShaderTableBinder(Bind);
-            renderer.RemoveTlasBuild(instanceData);
+            rtInstances.RemoveShaderTableBinder(Bind);
+            rtInstances.RemoveTlasBuild(instanceData);
         }
 
         public Vector3 GetWorldPosition()

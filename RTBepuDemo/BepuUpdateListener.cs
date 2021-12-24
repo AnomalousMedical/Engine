@@ -50,7 +50,8 @@ namespace RTBepuDemo
             ISharpGui sharpGui,
             TextureSet textureSet,
             CubeBLAS cubeBLAS,
-            ICoroutineRunner coroutine
+            ICoroutineRunner coroutine,
+            RTInstances rtInstances
         )
         {
             this.window = window;
@@ -63,6 +64,9 @@ namespace RTBepuDemo
             this.sharpGui = sharpGui;
             this.textureSet = textureSet;
             this.cubeBLAS = cubeBLAS;
+
+            renderer.SetInstances(rtInstances);
+
             coroutine.RunTask(async () =>
             {
                 textureSet.Setup(new string[]

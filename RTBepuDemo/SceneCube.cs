@@ -24,18 +24,18 @@ namespace RTBepuDemo
 
         private readonly TLASBuildInstanceData instanceData;
         private readonly CubeBLAS cubeBLAS;
-        private readonly RayTracingRenderer renderer;
+        private readonly RTInstances rtInstances;
 
         public SceneCube
         (
             Desc description,
             CubeBLAS cubeBLAS,
-            RayTracingRenderer renderer,
+            RTInstances rtInstances,
             IScopedCoroutine coroutine
         )
         {
             this.cubeBLAS = cubeBLAS;
-            this.renderer = renderer;
+            this.rtInstances = rtInstances;
             this.instanceData = new TLASBuildInstanceData()
             {
                 InstanceName = description.InstanceName,
@@ -50,15 +50,15 @@ namespace RTBepuDemo
 
                 instanceData.pBLAS = cubeBLAS.Instance.BLAS.Obj;
 
-                renderer.AddTlasBuild(instanceData);
-                renderer.AddShaderTableBinder(Bind);
+                rtInstances.AddTlasBuild(instanceData);
+                rtInstances.AddShaderTableBinder(Bind);
             });
         }
 
         public void Dispose()
         {
-            renderer.RemoveShaderTableBinder(Bind);
-            renderer.RemoveTlasBuild(instanceData);
+            rtInstances.RemoveShaderTableBinder(Bind);
+            rtInstances.RemoveTlasBuild(instanceData);
         }
 
         public void SetTransform(InstanceMatrix matrix)

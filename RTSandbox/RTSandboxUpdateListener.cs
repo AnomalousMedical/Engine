@@ -22,6 +22,7 @@ namespace RTSandbox
         private readonly RayTracingRenderer rayTracingRenderer;
         private readonly ISharpGui sharpGui;
         private readonly RTGui gui;
+        private readonly RTInstances rtInstances;
         private readonly ISwapChain swapChain;
         private readonly IDeviceContext immediateContext;
 
@@ -32,7 +33,8 @@ namespace RTSandbox
             SandboxScene scene,
             RayTracingRenderer rayTracingRenderer,
             ISharpGui sharpGui,
-            RTGui gui
+            RTGui gui,
+            RTInstances rtInstances
         )
         {
             this.cameraControls = cameraControls;
@@ -40,8 +42,11 @@ namespace RTSandbox
             this.rayTracingRenderer = rayTracingRenderer;
             this.sharpGui = sharpGui;
             this.gui = gui;
+            this.rtInstances = rtInstances;
             this.swapChain = graphicsEngine.SwapChain;
             this.immediateContext = graphicsEngine.ImmediateContext;
+
+            rayTracingRenderer.SetInstances(rtInstances);
 
             cameraControls.Position = new Vector3(0, 0, -10);
         }
