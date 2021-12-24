@@ -1,4 +1,5 @@
-﻿using Engine;
+﻿using DiligentEngine.RT;
+using Engine;
 using Engine.Platform;
 using RpgMath;
 using SharpGui;
@@ -17,10 +18,11 @@ namespace SceneTest
         private readonly ICoroutineRunner coroutineRunner;
         private readonly ISharpGui sharpGui;
         private readonly IScreenPositioner screenPositioner;
+        private readonly RTInstances<ISetupGameState> rtInstances;
         private IGameState nextState;
         private bool finished = false;
 
-        public IEnumerable<SceneObject> SceneObjects => Enumerable.Empty<SceneObject>();
+        public RTInstances Instances => rtInstances;
 
         private SharpText loading = new SharpText("Loading") { Color = Color.White };
 
@@ -30,7 +32,8 @@ namespace SceneTest
             Party party,
             ICoroutineRunner coroutineRunner,
             ISharpGui sharpGui,
-            IScreenPositioner screenPositioner
+            IScreenPositioner screenPositioner,
+            RTInstances<ISetupGameState> rtInstances
         )
         {
             this.levelManager = levelManager;
@@ -38,6 +41,7 @@ namespace SceneTest
             this.coroutineRunner = coroutineRunner;
             this.sharpGui = sharpGui;
             this.screenPositioner = screenPositioner;
+            this.rtInstances = rtInstances;
             {
                 var arch = Archetype.CreateHero();
                 party.AddCharacter(new Character()

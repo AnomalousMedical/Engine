@@ -1,4 +1,5 @@
 ﻿using BepuPlugin;
+using DiligentEngine.RT;
 using Engine;
 using Engine.Platform;
 using SceneTest.Exploration.Menu;
@@ -16,24 +17,26 @@ namespace SceneTest
         private readonly IBepuScene bepuScene;
         private readonly IBattleTrigger battleTrigger;
         private readonly ILevelManager levelManager;
-        private readonly SceneObjectManager<ILevelManager> sceneObjects;
+        private readonly RTInstances<ILevelManager> rtInstances;
         private readonly IExplorationMenu explorationMenu;
         private IGameState battleState;
         private IGameState nextState; //This is changed per update to be the next game state
+
+        public RTInstances Instances => rtInstances;
 
         public ExplorationGameState(
             ICoroutineRunner coroutineRunner,
             IBepuScene bepuScene,
             IBattleTrigger battleTrigger,
             ILevelManager levelManager,
-            SceneObjectManager<ILevelManager> sceneObjects,
+            RTInstances<ILevelManager> rtInstances,
             IExplorationMenu explorationMenu)
         {
             this.coroutineRunner = coroutineRunner;
             this.bepuScene = bepuScene;
             this.battleTrigger = battleTrigger;
             this.levelManager = levelManager;
-            this.sceneObjects = sceneObjects;
+            this.rtInstances = rtInstances;
             this.explorationMenu = explorationMenu;
 
             coroutineRunner.RunTask(levelManager.Restart());
@@ -43,8 +46,6 @@ namespace SceneTest
         {
             this.battleState = battleState;
         }
-
-        public IEnumerable<SceneObject> SceneObjects => sceneObjects.SceneObjects;
 
         public void SetActive(bool active)
         {

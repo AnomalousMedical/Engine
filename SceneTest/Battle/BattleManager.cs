@@ -1,5 +1,4 @@
 ﻿using Anomalous.OSPlatform;
-using DiligentEngine.GltfPbr;
 using Engine;
 using Engine.Platform;
 using RpgMath;

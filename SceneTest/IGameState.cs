@@ -1,4 +1,5 @@
-﻿using Engine.Platform;
+﻿using DiligentEngine.RT;
+using Engine.Platform;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,6 @@ namespace SceneTest
 
         public IGameState Update(Clock clock);
 
-        IEnumerable<SceneObject> SceneObjects { get; }
+        public RTInstances Instances { get; }
     }
 }

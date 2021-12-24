@@ -1,4 +1,5 @@
-﻿using Engine;
+﻿using DiligentEngine.RT;
+using Engine;
 using Engine.Platform;
 using SceneTest.Battle;
 using SharpGui;
@@ -13,7 +14,7 @@ namespace SceneTest.GameOver
     class GameOverGameState : IGameOverGameState
     {
         private readonly ISharpGui sharpGui;
-        private readonly SceneObjectManager<IBattleManager> sceneObjects;
+        private readonly RTInstances<IBattleManager> rtInstances;
         private readonly IScreenPositioner screenPositioner;
         private readonly ICoroutineRunner coroutineRunner;
         private readonly ILevelManager levelManager;
@@ -22,19 +23,19 @@ namespace SceneTest.GameOver
         private SharpText gameOver = new SharpText("Game Over");
         private ILayoutItem layout;
 
-        public IEnumerable<SceneObject> SceneObjects => sceneObjects.SceneObjects;
+        public RTInstances Instances => rtInstances;
 
         public GameOverGameState
         (
             ISharpGui sharpGui,
-            SceneObjectManager<IBattleManager> sceneObjects,
+            RTInstances<IBattleManager> rtInstances,
             IScreenPositioner screenPositioner,
             ICoroutineRunner coroutineRunner,
             ILevelManager levelManager
         )
         {
             this.sharpGui = sharpGui;
-            this.sceneObjects = sceneObjects;
+            this.rtInstances = rtInstances;
             this.screenPositioner = screenPositioner;
             this.coroutineRunner = coroutineRunner;
             this.levelManager = levelManager;

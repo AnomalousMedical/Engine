@@ -1,4 +1,5 @@
-﻿using Engine.Platform;
+﻿using DiligentEngine.RT;
+using Engine.Platform;
 using SceneTest.GameOver;
 using System;
 using System.Collections.Generic;
@@ -11,21 +12,21 @@ namespace SceneTest.Battle
     class BattleGameState : IBattleGameState
     {
         private readonly IBattleManager battleManager;
-        private readonly SceneObjectManager<IBattleManager> sceneObjects;
+        private readonly RTInstances<IBattleManager> rtInstances;
         private IGameState gameOverState;
         private IGameState returnState;
 
         public BattleGameState
         (
             IBattleManager battleManager,
-            SceneObjectManager<IBattleManager> sceneObjects
+            RTInstances<IBattleManager> rtInstances
         )
         {
             this.battleManager = battleManager;
-            this.sceneObjects = sceneObjects;
+            this.rtInstances = rtInstances;
         }
 
-        public IEnumerable<SceneObject> SceneObjects => sceneObjects.SceneObjects;
+        public RTInstances Instances => rtInstances;
 
         public void Link(IGameState returnState, IGameState gameOver)
         {
