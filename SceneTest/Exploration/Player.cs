@@ -3,8 +3,8 @@ using BepuPhysics.Collidables;
 using BepuPlugin;
 using BepuPlugin.Characters;
 using DiligentEngine;
-using DiligentEngine.GltfPbr;
-using DiligentEngine.GltfPbr.Shapes;
+using DiligentEngine.RT;
+using DiligentEngine.RT.Sprites;
 using Engine;
 using Engine.Platform;
 using SceneTest.Assets;
@@ -33,20 +33,19 @@ namespace SceneTest
         public const int RightHand = 0;
         public const int LeftHand = 1;
 
-        private ISpriteMaterial spriteMaterial;
-        private SceneObjectManager<ILevelManager> sceneObjectManager;
-        private SpriteManager sprites;
-        private IDestructionRequest destructionRequest;
-        private readonly ISpriteMaterialManager spriteMaterialManager;
+        private readonly RTInstances<ILevelManager> rtInstances;
+        private readonly TLASBuildInstanceData tlasData;
+        private readonly IDestructionRequest destructionRequest;
+        private readonly SpriteInstanceFactory spriteInstanceFactory;
         private readonly IBepuScene bepuScene;
         private readonly EventManager eventManager;
         private readonly CameraMover cameraMover;
         private readonly ICollidableTypeIdentifier collidableIdentifier;
         private readonly EventLayer eventLayer;
-        private SceneObject sceneObject;
-        private IObjectResolver objectResolver;
+        private readonly IObjectResolver objectResolver;
 
         private FrameEventSprite sprite;
+        private SpriteInstance spriteInstance;
 
         private Attachment<ILevelManager> sword;
         private Attachment<ILevelManager> shield;
@@ -70,24 +69,28 @@ namespace SceneTest
         private Vector3 cameraOffset = new Vector3(0, 3, -12);
         private Quaternion cameraAngle = new Quaternion(Vector3.Left, -MathF.PI / 14f);
 
+        private Vector3 currentPosition;
+        private Quaternion currentOrientation;
+        private Vector3 currentScale;
+
         private System.Numerics.Vector2 movementDir;
         private const float MovingBoundary = 0.001f;
         public bool IsMoving => !(movementDir.X < MovingBoundary && movementDir.X > -MovingBoundary
                              && movementDir.Y < MovingBoundary && movementDir.Y > -MovingBoundary);
 
-        public Player(
-            SceneObjectManager<ILevelManager> sceneObjectManager,
-            SpriteManager sprites,
-            Plane plane,
+        public Player
+        (
+            RTInstances<ILevelManager> rtInstances,
             IDestructionRequest destructionRequest,
             IScopedCoroutine coroutine,
-            ISpriteMaterialManager spriteMaterialManager,
+            SpriteInstanceFactory spriteInstanceFactory,
             IObjectResolverFactory objectResolverFactory,
             IBepuScene bepuScene,
             EventManager eventManager,
             Description description,
             CameraMover cameraMover,
-            ICollidableTypeIdentifier collidableIdentifier)
+            ICollidableTypeIdentifier collidableIdentifier
+        )
         {
             var playerSpriteInfo = description.PlayerSpriteInfo ?? throw new InvalidOperationException($"You must include the {nameof(description.PlayerSpriteInfo)} property in your description.");
 
@@ -144,10 +147,9 @@ namespace SceneTest
 
             sprite.FrameChanged += Sprite_FrameChanged;
 
-            this.sceneObjectManager = sceneObjectManager;
-            this.sprites = sprites;
+            this.rtInstances = rtInstances;
             this.destructionRequest = destructionRequest;
-            this.spriteMaterialManager = spriteMaterialManager;
+            this.spriteInstanceFactory = spriteInstanceFactory;
             this.bepuScene = bepuScene;
             this.bepuScene.OnUpdated += BepuScene_OnUpdated;
             this.eventManager = eventManager;
@@ -158,18 +160,15 @@ namespace SceneTest
             var startPos = description.Translation;
             startPos.y += halfScale;
 
-            sceneObject = new SceneObject()
+            this.currentPosition = startPos;
+            this.currentOrientation = description.Orientation;
+            this.currentScale = scale;
+
+            this.tlasData = new TLASBuildInstanceData()
             {
-                vertexBuffer = plane.VertexBuffer,
-                skinVertexBuffer = plane.SkinVertexBuffer,
-                indexBuffer = plane.IndexBuffer,
-                numIndices = plane.NumIndices,
-                pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
-                position = startPos,
-                orientation = description.Orientation,
-                scale = scale,
-                RenderShadow = true,
-                Sprite = sprite,
+                InstanceName = Guid.NewGuid().ToString("N"),
+                Mask = RtStructures.OPAQUE_GEOM_MASK,
+                Transform = new InstanceMatrix(currentPosition, currentOrientation, currentScale)
             };
 
             Sprite_FrameChanged(sprite);
@@ -201,19 +200,20 @@ namespace SceneTest
             {
                 using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until coroutine is finished and this is disposed.
 
-                spriteMaterial = await this.spriteMaterialManager.Checkout(playerSpriteInfo.SpriteMaterialDescription);
+                this.spriteInstance = await spriteInstanceFactory.Checkout(playerSpriteInfo.SpriteMaterialDescription);
 
-                if (disposed)
+                if (this.disposed)
                 {
-                    spriteMaterialManager.Return(spriteMaterial);
+                    this.spriteInstanceFactory.TryReturn(spriteInstance);
                     return; //Stop loading
                 }
 
                 if (!destructionRequest.DestructionRequested)
                 {
-                    sceneObject.shaderResourceBinding = spriteMaterial.ShaderResourceBinding;
-                    sprites.Add(sprite);
-                    sceneObjectManager.Add(sceneObject);
+                    this.tlasData.pBLAS = spriteInstance.Instance.BLAS.Obj;
+                    rtInstances.AddTlasBuild(tlasData);
+                    rtInstances.AddShaderTableBinder(Bind);
+                    rtInstances.AddSprite(sprite);
                 }
             });
         }
@@ -236,9 +236,10 @@ namespace SceneTest
             bepuScene.DestroyCharacterMover(characterMover);
             bepuScene.Simulation.Shapes.Remove(shapeIndex);
             sprite.FrameChanged -= Sprite_FrameChanged;
-            sprites.Remove(sprite);
-            sceneObjectManager.Remove(sceneObject);
-            spriteMaterialManager.TryReturn(spriteMaterial);
+            this.spriteInstanceFactory.TryReturn(spriteInstance);
+            rtInstances.RemoveSprite(sprite);
+            rtInstances.RemoveShaderTableBinder(Bind);
+            rtInstances.RemoveTlasBuild(tlasData);
             objectResolver.Dispose();
         }
 
@@ -372,7 +373,7 @@ namespace SceneTest
 
         public Vector3 GetLocation()
         {
-            return this.sceneObject.position - new Vector3(0f, sprite.BaseScale.y / 2f, 0f);
+            return this.currentPosition - new Vector3(0f, sprite.BaseScale.y / 2f, 0f);
         }
 
         public void RequestDestruction()
@@ -382,11 +383,12 @@ namespace SceneTest
 
         private void BepuScene_OnUpdated(IBepuScene obj)
         {
-            bepuScene.GetInterpolatedPosition(characterMover.BodyHandle, ref this.sceneObject.position, ref this.sceneObject.orientation);
+            bepuScene.GetInterpolatedPosition(characterMover.BodyHandle, ref this.currentPosition, ref this.currentOrientation);
+            this.tlasData.Transform = new InstanceMatrix(this.currentPosition, this.currentOrientation, this.currentScale);
             Sprite_FrameChanged(sprite);
-            cameraMover.Position = this.sceneObject.position + cameraOffset;
+            cameraMover.Position = this.currentPosition + cameraOffset;
             cameraMover.Orientation = cameraAngle;
-            cameraMover.SceneCenter = this.sceneObject.position;
+            cameraMover.SceneCenter = this.currentPosition;
 
             var movementDir = characterMover.movementDirection;
             if (movementDir.Y > 0.3f)
@@ -435,23 +437,28 @@ namespace SceneTest
         {
             var frame = obj.GetCurrentFrame();
 
-            var scale = sprite.BaseScale * this.sceneObject.scale;
+            var scale = sprite.BaseScale * this.currentScale;
 
             if(sword != null)
             {
                 var primaryAttach = frame.Attachments[this.primaryHand];
                 var offset = scale * primaryAttach.translate;
-                offset = Quaternion.quatRotate(this.sceneObject.orientation, offset) + this.sceneObject.position;
-                sword.SetPosition(offset, this.sceneObject.orientation, scale);
+                offset = Quaternion.quatRotate(this.currentOrientation, offset) + this.currentPosition;
+                sword.SetPosition(offset, this.currentOrientation, scale);
             }
 
             if(shield != null)
             {
                 var secondaryAttach = frame.Attachments[this.secondaryHand];
                 var offset = scale * secondaryAttach.translate;
-                offset = Quaternion.quatRotate(this.sceneObject.orientation, offset) + this.sceneObject.position;
-                shield.SetPosition(offset, this.sceneObject.orientation, scale);
+                offset = Quaternion.quatRotate(this.currentOrientation, offset) + this.currentPosition;
+                shield.SetPosition(offset, this.currentOrientation, scale);
             }
+        }
+
+        private void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
+        {
+            spriteInstance.Bind(this.tlasData.InstanceName, sbt, tlas);
         }
     }
 }
