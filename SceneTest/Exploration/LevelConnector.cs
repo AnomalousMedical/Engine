@@ -2,8 +2,6 @@
 using BepuPhysics.Collidables;
 using BepuPlugin;
 using DiligentEngine;
-using DiligentEngine.GltfPbr;
-using DiligentEngine.GltfPbr.Shapes;
 using Engine;
 using System;
 using System.Collections.Generic;
