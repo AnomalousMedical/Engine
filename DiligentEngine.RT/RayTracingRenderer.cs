@@ -63,12 +63,12 @@ namespace DiligentEngine.RT
 
         public void Dispose()
         {
+            m_pSBT?.Dispose();
             DestroyPSO();
         }
 
         private void DestroyPSO()
         {
-            m_pSBT?.Dispose();
             m_InstanceBuffer?.Dispose();
             m_ScratchBuffer?.Dispose();
             m_pRayTracingSRB?.Dispose();
@@ -188,10 +188,20 @@ namespace DiligentEngine.RT
             m_pSBT.Obj.BindMissShader("ShadowMiss", RtStructures.SHADOW_RAY_INDEX, IntPtr.Zero, 0);
         }
 
+        private RTInstances lastInstances;
+
         AutoPtr<ITopLevelAS> UpdateTLAS(RTInstances activeInstances)
         {
             var m_pDevice = graphicsEngine.RenderDevice;
             var m_pImmediateContext = graphicsEngine.ImmediateContext;
+            bool rebuildScratchBuffers = rebuildPipeline;
+            bool rebuildSbt = rebuildPipeline;
+
+            if(lastInstances != activeInstances)
+            {
+                rebuildSbt = true;
+                lastInstances = activeInstances;
+            }
 
             if(activeInstances == null)
             {
@@ -206,6 +216,18 @@ namespace DiligentEngine.RT
                 return null;
             }
 
+            if (numInstances != lastNumInstances)
+            {
+                rebuildSbt = true; //Not 100% sure about this, but its good for now
+                rebuildScratchBuffers = true;
+                lastNumInstances = numInstances;
+            }
+
+            if (rebuildSbt)
+            {
+                m_pSBT?.Dispose();
+            }
+
             if (rebuildPipeline)
             {
                 DestroyPSO();
@@ -214,17 +236,20 @@ namespace DiligentEngine.RT
                 m_InstanceBuffer = null;
 
                 CreateRayTracingPSO();
-                CreateSBT();
                 rebuildPipeline = false;
             }
 
-            if (numInstances != lastNumInstances) //If instance count changes invalidate buffers
+            if (rebuildSbt)
+            {
+                CreateSBT();
+            }
+
+            if (rebuildScratchBuffers)
             {
                 m_ScratchBuffer?.Dispose();
                 m_ScratchBuffer = null;
                 m_InstanceBuffer?.Dispose();
                 m_InstanceBuffer = null;
-                lastNumInstances = numInstances;
             }
 
             // Create TLAS
