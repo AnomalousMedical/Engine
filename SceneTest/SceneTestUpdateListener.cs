@@ -1,6 +1,6 @@
 ﻿using Anomalous.OSPlatform;
 using DiligentEngine;
-using DiligentEngine.GltfPbr;
+using DiligentEngine.RT;
 using Engine;
 using Engine.CameraMovement;
 using Engine.Platform;
@@ -18,64 +18,52 @@ namespace SceneTest
         float YFov = MathFloat.PI / 4.0f;
         float ZNear = 0.1f;
         float ZFar = 350f;
-
+        private readonly RayTracingRenderer rayTracingRenderer;
+        private readonly RTInstances rtInstances;
         private readonly NativeOSWindow window;
-        private readonly IPbrCameraAndLight pbrCameraAndLight;
         private readonly FirstPersonFlyCamera cameraControls;
-        private readonly SimpleShadowMapRenderer shadowMapRenderer;
         private readonly ITimeClock timeClock;
         private readonly ISharpGui sharpGui;
         private readonly ISwapChain swapChain;
         private readonly IRenderDevice renderDevice;
         private readonly IDeviceContext immediateContext;
-        private readonly PbrRenderAttribs pbrRenderAttribs = PbrRenderAttribs.CreateDefault();
 
-        private readonly SpriteManager sprites;
         private readonly IObjectResolverFactory objectResolverFactory;
         private readonly CameraMover cameraMover;
         private readonly Sky sky;
-        private readonly IEnvMapManager envMapManager;
         private IGameState gameState;
-
-        private PbrRenderer pbrRenderer;
 
         private bool useFirstPersonCamera = false;
 
         public unsafe SceneTestUpdateListener
         (
             GraphicsEngine graphicsEngine,
+            RayTracingRenderer rayTracingRenderer,
+            RTInstances rtInstances,
             NativeOSWindow window,
-            PbrRenderer pbrRenderer,
-            IPbrCameraAndLight pbrCameraAndLight,
             FirstPersonFlyCamera cameraControls,
-            SimpleShadowMapRenderer shadowMapRenderer,
             ITimeClock timeClock,
             ISharpGui sharpGui,
-            SpriteManager sprites,
             IObjectResolverFactory objectResolverFactory,
             CameraMover cameraMover,
             Sky sky,
-            IFirstGameStateBuilder startState,
-            IEnvMapManager envMapManager
+            IFirstGameStateBuilder startState
         )
         {
             cameraControls.Position = new Vector3(0, 0, -12);
 
-            this.pbrRenderer = pbrRenderer;
             this.swapChain = graphicsEngine.SwapChain;
             this.renderDevice = graphicsEngine.RenderDevice;
             this.immediateContext = graphicsEngine.ImmediateContext;
+            this.rayTracingRenderer = rayTracingRenderer;
+            this.rtInstances = rtInstances;
             this.window = window;
-            this.pbrCameraAndLight = pbrCameraAndLight;
             this.cameraControls = cameraControls;
-            this.shadowMapRenderer = shadowMapRenderer;
             this.timeClock = timeClock;
             this.sharpGui = sharpGui;
-            this.sprites = sprites;
             this.objectResolverFactory = objectResolverFactory;
             this.cameraMover = cameraMover;
             this.sky = sky;
-            this.envMapManager = envMapManager;
             this.gameState = startState.GetFirstGameState();
             this.gameState.SetActive(true);
         }
@@ -90,17 +78,9 @@ namespace SceneTest
 
         }
 
-        private void UpdateSprites(Clock clock)
-        {
-            foreach (var sprite in sprites)
-            {
-                sprite.Update(clock);
-            }
-        }
-
         public unsafe void sendUpdate(Clock clock)
         {
-            IEnumerable<SceneObject> sceneObjects = gameState.SceneObjects;
+            rayTracingRenderer.SetInstances(gameState.Instances);
 
             //Update
             timeClock.Update(clock);
@@ -114,82 +94,28 @@ namespace SceneTest
             }
             sharpGui.End();
             sky.UpdateLight(clock);
-            UpdateSprites(clock);
+            rtInstances.UpdateSprites(clock);
 
-            pbrRenderAttribs.AverageLogLum = sky.AverageLogLum;
+            //pbrRenderAttribs.AverageLogLum = sky.AverageLogLum;
+            //Upate sun here
 
-            objectResolverFactory.Flush();
+            rayTracingRenderer.Render(cameraControls.Position, cameraControls.Orientation, new Vector4(0, 20f, -10f, 0f), new Vector4(0f, 20f, -10f, 0f));
 
-            //Render
             var pRTV = swapChain.GetCurrentBackBufferRTV();
             var pDSV = swapChain.GetDepthBufferDSV();
-            var PreTransform = swapChain.GetDesc_PreTransform;
-            var preTransformMatrix = CameraHelpers.GetSurfacePretransformMatrix(new Vector3(0, 0, 1), PreTransform);
-            var cameraProjMatrix = CameraHelpers.GetAdjustedProjectionMatrix(YFov, ZNear, ZFar, window.WindowWidth, window.WindowHeight, PreTransform);
-
-            //Draw Scene
-            // Render shadow map
-            shadowMapRenderer.BeginShadowMap(renderDevice, immediateContext, sky.LightDirection, Vector3.Zero, 90); //Centering scene on player seems to work the best
-            foreach (var sceneObj in sceneObjects.Where(i => i.RenderShadow))
-            {
-                var pos = sceneObj.position - cameraMover.SceneCenter;
-                shadowMapRenderer.RenderShadowMap(immediateContext, sceneObj.vertexBuffer, sceneObj.skinVertexBuffer, sceneObj.indexBuffer, sceneObj.numIndices, ref pos, ref sceneObj.orientation, ref sceneObj.scale);
-            }
-
-            //Render scene colors
-            pbrRenderer.Begin(immediateContext);
             immediateContext.SetRenderTarget(pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+
+            //var ClearColor = new Color(0.350f, 0.350f, 0.350f, 1.0f);
+
             // Clear the back buffer
-            immediateContext.ClearRenderTarget(pRTV, sky.ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-            immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
-
-            // Set Light
-            var WorldToShadowMapUVDepthMatrix = shadowMapRenderer.WorldToShadowMapUVDepthMatr;
-            pbrCameraAndLight.SetLightAndShadow(sky.LightDirection, sky.LightColor, sky.LightIntensity, WorldToShadowMapUVDepthMatrix);
-
-            // Set Camera
-            if (useFirstPersonCamera)
-            {
-                cameraControls.UpdateInput(clock);
-                pbrCameraAndLight.SetCameraPosition(cameraControls.Position, cameraControls.Orientation, preTransformMatrix, cameraProjMatrix);
-            }
-            else
-            {
-                pbrCameraAndLight.SetCameraPosition(cameraMover.Position - cameraMover.SceneCenter, cameraMover.Orientation, preTransformMatrix, cameraProjMatrix);
-            }
-
-            foreach (var sceneObj in sceneObjects)
-            {
-                pbrRenderAttribs.AlphaMode = sceneObj.pbrAlphaMode;
-                pbrRenderAttribs.GetShadows = sceneObj.GetShadows;
-                pbrRenderAttribs.IsSprite = sceneObj.Sprite != null;
-                if (pbrRenderAttribs.IsSprite)
-                {
-                    var frame = sceneObj.Sprite.GetCurrentFrame();
-                    pbrRenderAttribs.SpriteUVLeft = frame.Left;
-                    pbrRenderAttribs.SpriteUVTop = frame.Top;
-                    pbrRenderAttribs.SpriteUVRight = frame.Right;
-                    pbrRenderAttribs.SpriteUVBottom = frame.Bottom;
-                }
-
-                var pos = sceneObj.position - cameraMover.SceneCenter;
-
-                pbrRenderer.Render(immediateContext, sceneObj.shaderResourceBinding, sceneObj.vertexBuffer, sceneObj.skinVertexBuffer, sceneObj.indexBuffer, sceneObj.numIndices, ref pos, ref sceneObj.orientation, ref sceneObj.scale, pbrRenderAttribs);
-            }
-
-            this.shadowMapRenderer.RenderShadowMapVis(immediateContext);
-
-            RenderGui();
-
-            this.swapChain.Present(1);
-        }
-
-        private void RenderGui()
-        {
-            //Draw the gui
-            var pDSV = swapChain.GetDepthBufferDSV();
+            // Let the engine perform required state transitions
+            //immediateContext.ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             immediateContext.ClearDepthStencil(pDSV, CLEAR_DEPTH_STENCIL_FLAGS.CLEAR_DEPTH_FLAG, 1.0f, 0, RESOURCE_STATE_TRANSITION_MODE.RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
             sharpGui.Render(immediateContext);
+
+            this.swapChain.Present(1);
+
+            objectResolverFactory.Flush();
         }
     }
 }

@@ -70,9 +70,6 @@ namespace SceneTest
             services.AddSingleton<IDebugGui, DebugGui>();
             services.AddSingleton<IRootMenu, RootMenu>();
             services.AddSingleton<IBattleGameState, BattleGameState>();
-            services.AddSingleton<IEnvMapManager, EnvMapManager>();
-            services.AddSingleton<SceneObjectManager<ILevelManager>>();
-            services.AddSingleton<SceneObjectManager<IBattleManager>>();
             services.AddSingleton<IGameOverGameState, GameOverGameState>();
             services.AddScoped<Player>();
             services.AddScoped<Player.Description>();
