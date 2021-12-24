@@ -6,7 +6,7 @@ using System;
 
 namespace SceneTest
 {
-    class Attachment<TSceneObjectManager> : IDisposable
+    class Attachment<T> : IDisposable
     {
         public class Description
         {
@@ -24,12 +24,12 @@ namespace SceneTest
         
         private const int PrimaryAttachment = 0;
 
-        private readonly TLASBuildInstanceData instanceData;
         private readonly IDestructionRequest destructionRequest;
-        private readonly RTInstances<TSceneObjectManager> rtInstances;
+        private readonly RTInstances<T> rtInstances;
         private readonly SpriteInstanceFactory spriteInstanceFactory;
         private readonly Sprite sprite;
 
+        private TLASBuildInstanceData instanceData;
         private SpriteInstance spriteInstance;
         private bool disposed;
 
@@ -39,7 +39,7 @@ namespace SceneTest
         public Attachment
         (
             IDestructionRequest destructionRequest,
-            RTInstances<TSceneObjectManager> rtInstances,
+            RTInstances<T> rtInstances,
             SpriteInstanceFactory spriteInstanceFactory,
             IScopedCoroutine coroutine,
             Description attachmentDescription
@@ -51,19 +51,11 @@ namespace SceneTest
             this.rtInstances = rtInstances;
             this.spriteInstanceFactory = spriteInstanceFactory;
 
-            this.instanceData = new TLASBuildInstanceData()
-            {
-                InstanceName = attachmentDescription.InstanceName,
-                Mask = RtStructures.OPAQUE_GEOM_MASK,
-                Transform = new InstanceMatrix(Vector3.Zero, attachmentDescription.Orientation)
-            };
-
             coroutine.RunTask(async () =>
             {
                 using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until task is finished and this is disposed.
 
                 this.spriteInstance = await spriteInstanceFactory.Checkout(attachmentDescription.SpriteMaterial);
-                this.instanceData.pBLAS = spriteInstance.Instance.BLAS.Obj;
 
                 if (this.disposed)
                 {
@@ -73,8 +65,17 @@ namespace SceneTest
 
                 if (!destructionRequest.DestructionRequested) //This is more to prevent a flash for 1 frame of the object
                 {
+                    this.instanceData = new TLASBuildInstanceData()
+                    {
+                        InstanceName = attachmentDescription.InstanceName,
+                        Mask = RtStructures.OPAQUE_GEOM_MASK,
+                        pBLAS = spriteInstance.Instance.BLAS.Obj,
+                        Transform = new InstanceMatrix(Vector3.Zero, attachmentDescription.Orientation)
+                    };
+
                     rtInstances.AddTlasBuild(instanceData);
                     rtInstances.AddShaderTableBinder(Bind);
+                    rtInstances.AddSprite(sprite);
                 }
             });
         }
@@ -83,6 +84,7 @@ namespace SceneTest
         {
             disposed = true;
             this.spriteInstanceFactory.TryReturn(spriteInstance);
+            rtInstances.RemoveSprite(sprite);
             rtInstances.RemoveShaderTableBinder(Bind);
             rtInstances.RemoveTlasBuild(instanceData);
         }

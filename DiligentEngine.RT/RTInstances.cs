@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DiligentEngine.RT.Sprites;
+using Engine.Platform;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +14,7 @@ namespace DiligentEngine.RT
 
         List<TLASBuildInstanceData> instances = new List<TLASBuildInstanceData>();
         List<ShaderTableBinder> shaderTableBinders = new List<ShaderTableBinder>();
+        List<Sprite> sprites = new List<Sprite>();
 
         internal List<TLASBuildInstanceData> Instances => instances;
 
@@ -33,6 +36,24 @@ namespace DiligentEngine.RT
         public void RemoveShaderTableBinder(ShaderTableBinder binder)
         {
             shaderTableBinders.Remove(binder);
+        }
+
+        public void AddSprite(Sprite sprite)
+        {
+            sprites.Add(sprite);
+        }
+
+        public void RemoveSprite(Sprite sprite)
+        {
+            sprites.Remove(sprite);
+        }
+
+        public void UpdateSprites(Clock clock)
+        {
+            foreach (var sprite in sprites)
+            {
+                sprite.Update(clock);
+            }
         }
 
         internal void BindShaders(IShaderBindingTable sbt, ITopLevelAS tlas)
