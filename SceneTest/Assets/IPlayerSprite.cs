@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DiligentEngine.RT.Sprites;
+using System.Collections.Generic;
 
 namespace SceneTest.Assets
 {

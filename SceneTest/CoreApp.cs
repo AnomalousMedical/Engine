@@ -45,9 +45,11 @@ namespace SceneTest
                 o.AddConsole();
             });
 
-            services.AddDiligentEngine(pluginManager)
-                    .AddDiligentEnginePbr()
-                    .AddDiligentEnginePbrShapes();
+            services.AddDiligentEngine(pluginManager, o =>
+            {
+                o.Features = DiligentEngine.GraphicsEngine.FeatureFlags.RayTracing;
+            })
+            .AddDiligentEngineRt();
 
             services.AddOSPlatform(pluginManager, o =>
             {
@@ -69,12 +71,8 @@ namespace SceneTest
             services.AddSingleton<IRootMenu, RootMenu>();
             services.AddSingleton<IBattleGameState, BattleGameState>();
             services.AddSingleton<IEnvMapManager, EnvMapManager>();
-            services.AddSingleton<SpriteManager>();
             services.AddSingleton<SceneObjectManager<ILevelManager>>();
             services.AddSingleton<SceneObjectManager<IBattleManager>>();
-            services.AddSingleton<ISpriteMaterialManager, SpriteMaterialManager>();
-            services.AddSingleton<ICC0TextureManager, CC0TextureManager>();
-            services.AddSingleton<ISpriteMaterialTextureManager, SpriteMaterialTextureManager>();
             services.AddSingleton<IGameOverGameState, GameOverGameState>();
             services.AddScoped<Player>();
             services.AddScoped<Player.Description>();

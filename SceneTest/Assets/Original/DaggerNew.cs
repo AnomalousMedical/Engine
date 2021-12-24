@@ -1,6 +1,6 @@
-﻿using Engine;
+﻿using DiligentEngine.RT.Sprites;
+using Engine;
 using Engine.Platform;
-using SceneTest.Resources;
 using System.Collections.Generic;
 
 namespace SceneTest.Assets.Original
