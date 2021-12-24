@@ -36,7 +36,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<RTInstances>();
             services.AddSingleton(typeof(RTInstances<>));
 
-            services.AddSingleton<PrimaryHitShaderFactory>();
+            services.AddSingleton<PrimaryHitShader.Factory>();
             services.AddTransient<TextureSet>();
 
             services.AddSingleton<ISpriteMaterialManager, SpriteMaterialManager>();

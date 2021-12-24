@@ -39,7 +39,7 @@ namespace SceneTest.Battle
             IDestructionRequest destructionRequest,
             MeshBLAS floorMesh,
             TextureManager textureManager,
-            PrimaryHitShaderFactory primaryHitShaderFactory,
+            PrimaryHitShader.Factory primaryHitShaderFactory,
             RTInstances rtInstances,
             RayTracingRenderer renderer
         )

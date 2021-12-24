@@ -8,8 +8,48 @@ using System.Threading.Tasks;
 
 namespace DiligentEngine.RT.ShaderSets
 {
+    public enum PrimaryHitShaderType
+    {
+        Cube,
+        Sprite
+    }
+
     public class PrimaryHitShader : IDisposable
     {
+        public class Desc
+        {
+            public String baseName { get; set; }
+            public int numTextures { get; set; }
+            public PrimaryHitShaderType shaderType { get; set; }
+        }
+
+        public class Factory
+        {
+            private readonly GraphicsEngine graphicsEngine;
+            private readonly ShaderLoader<RTShaders> shaderLoader;
+            private readonly RayTracingRenderer rayTracingRenderer;
+
+            public Factory(GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RayTracingRenderer rayTracingRenderer)
+            {
+                this.graphicsEngine = graphicsEngine;
+                this.shaderLoader = shaderLoader;
+                this.rayTracingRenderer = rayTracingRenderer;
+            }
+
+            /// <summary>
+            /// Create a shader. The caller is responsible for disposing the instance.
+            /// </summary>
+            /// <param name="baseName"></param>
+            /// <param name="numTextures"></param>
+            /// <returns></returns>
+            public async Task<PrimaryHitShader> Create(String baseName, int numTextures, PrimaryHitShaderType shaderType)
+            {
+                var shader = new PrimaryHitShader();
+                await shader.SetupShaders(baseName, numTextures, graphicsEngine, shaderLoader, rayTracingRenderer, shaderType);
+                return shader;
+            }
+        }
+
         private RayTracingPipelineStateCreateInfo PSOCreateInfo;
         private AutoPtr<IShader> pCubePrimaryHit;
         private AutoPtr<IShader> pCubeAnyHit;
@@ -31,7 +71,7 @@ namespace DiligentEngine.RT.ShaderSets
         {      
         }
 
-        public async Task SetupShaders(String baseName, int numTextures, GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RayTracingRenderer rayTracingRenderer, PrimaryHitShaderType shaderType)
+        private async Task SetupShaders(String baseName, int numTextures, GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RayTracingRenderer rayTracingRenderer, PrimaryHitShaderType shaderType)
         {
             this.PSOCreateInfo = rayTracingRenderer.PSOCreateInfo;
             this.numTextures = numTextures;

@@ -47,7 +47,7 @@ namespace RTDungeonGeneratorTest
             MeshBLAS floorMesh,
             MeshBLAS wallMesh,
             TextureManager textureManager, 
-            PrimaryHitShaderFactory primaryHitShaderFactory,
+            PrimaryHitShader.Factory primaryHitShaderFactory,
             RTInstances rtInstances,
             RayTracingRenderer renderer
         )

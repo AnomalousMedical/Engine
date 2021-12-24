@@ -12,13 +12,13 @@ namespace DiligentEngine.RT.Sprites
     {
         private readonly SpritePlaneBLAS spriteBLAS;
         private readonly ISpriteMaterialManager spriteMaterialManager;
-        private readonly PrimaryHitShaderFactory primaryHitShaderFactory;
+        private readonly PrimaryHitShader.Factory primaryHitShaderFactory;
         private readonly RayTracingRenderer rayTracingRenderer;
 
         private readonly PooledResourceManager<SpriteMaterialDescription, SpriteInstance> pooledResources
             = new PooledResourceManager<SpriteMaterialDescription, SpriteInstance>();
 
-        public SpriteInstanceFactory(SpritePlaneBLAS spriteBLAS, ISpriteMaterialManager spriteMaterialManager, PrimaryHitShaderFactory primaryHitShaderFactory, RayTracingRenderer rayTracingRenderer)
+        public SpriteInstanceFactory(SpritePlaneBLAS spriteBLAS, ISpriteMaterialManager spriteMaterialManager, PrimaryHitShader.Factory primaryHitShaderFactory, RayTracingRenderer rayTracingRenderer)
         {
             this.spriteBLAS = spriteBLAS;
             this.spriteMaterialManager = spriteMaterialManager;

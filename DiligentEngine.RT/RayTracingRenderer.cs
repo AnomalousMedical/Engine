@@ -13,7 +13,7 @@ namespace DiligentEngine.RT
         //Camera Settings
         float YFov = MathFloat.PI / 4.0f;
         float ZNear = 0.1f;
-        float ZFar = 100f;
+        float ZFar = 350f;
 
         private readonly GraphicsEngine graphicsEngine;
         private readonly RTImageBlitter imageBlitter;

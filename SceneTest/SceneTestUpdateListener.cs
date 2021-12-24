@@ -14,14 +14,9 @@ namespace SceneTest
 {
     class SceneTestUpdateListener : UpdateListener
     {
-        //Camera Settings
-        float YFov = MathFloat.PI / 4.0f;
-        float ZNear = 0.1f;
-        float ZFar = 350f;
         private readonly RayTracingRenderer rayTracingRenderer;
         private readonly RTInstances rtInstances;
         private readonly NativeOSWindow window;
-        private readonly FirstPersonFlyCamera cameraControls;
         private readonly ITimeClock timeClock;
         private readonly ISharpGui sharpGui;
         private readonly ISwapChain swapChain;
@@ -33,15 +28,12 @@ namespace SceneTest
         private readonly Sky sky;
         private IGameState gameState;
 
-        private bool useFirstPersonCamera = false;
-
         public unsafe SceneTestUpdateListener
         (
             GraphicsEngine graphicsEngine,
             RayTracingRenderer rayTracingRenderer,
             RTInstances rtInstances,
             NativeOSWindow window,
-            FirstPersonFlyCamera cameraControls,
             ITimeClock timeClock,
             ISharpGui sharpGui,
             IObjectResolverFactory objectResolverFactory,
@@ -50,7 +42,7 @@ namespace SceneTest
             IFirstGameStateBuilder startState
         )
         {
-            cameraControls.Position = new Vector3(0, 0, -12);
+            //cameraMover.Position = new Vector3(0, 0, -12);
 
             this.swapChain = graphicsEngine.SwapChain;
             this.renderDevice = graphicsEngine.RenderDevice;
@@ -58,7 +50,6 @@ namespace SceneTest
             this.rayTracingRenderer = rayTracingRenderer;
             this.rtInstances = rtInstances;
             this.window = window;
-            this.cameraControls = cameraControls;
             this.timeClock = timeClock;
             this.sharpGui = sharpGui;
             this.objectResolverFactory = objectResolverFactory;
@@ -99,7 +90,7 @@ namespace SceneTest
             //pbrRenderAttribs.AverageLogLum = sky.AverageLogLum;
             //Upate sun here
 
-            rayTracingRenderer.Render(cameraControls.Position, cameraControls.Orientation, new Vector4(0, 20f, -10f, 0f), new Vector4(0f, 20f, -10f, 0f));
+            rayTracingRenderer.Render(cameraMover.Position - cameraMover.SceneCenter, cameraMover.Orientation, new Vector4(0, 20f, -10f, 0f), new Vector4(0f, 20f, -10f, 0f));
 
             var pRTV = swapChain.GetCurrentBackBufferRTV();
             var pDSV = swapChain.GetDepthBufferDSV();

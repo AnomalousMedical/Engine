@@ -24,7 +24,7 @@ namespace DiligentEngine.RT
         (
             BLASBuilder blasBuilder,
             RayTracingRenderer renderer,
-            PrimaryHitShaderFactory primaryHitShaderFactory,
+            PrimaryHitShader.Factory primaryHitShaderFactory,
             IScopedCoroutine coroutineRunner
         )
         {
