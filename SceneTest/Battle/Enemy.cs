@@ -181,6 +181,7 @@ namespace SceneTest.Battle
                     done = true;
                 }
 
+                this.tlasData.Transform = new InstanceMatrix(this.currentPosition, this.currentOrientation, this.currentScale);
                 //Sprite_FrameChanged(sprite);
 
                 return done;

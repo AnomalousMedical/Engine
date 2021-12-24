@@ -533,6 +533,7 @@ namespace SceneTest.Battle
             var frame = obj.GetCurrentFrame();
 
             var scale = sprite.BaseScale * this.currentScale;
+            this.tlasData.Transform = new InstanceMatrix(this.currentPosition, this.currentOrientation, scale);
 
             if(sword != null)
             {
