@@ -70,12 +70,13 @@ namespace SceneTest.Battle
                                       new Vector2(0, 0),
                                       new Vector2(1, 1));
 
+                    await floorMesh.End("BattleArenaFloor");
+
                     var floorShaderSetup = primaryHitShaderFactory.Create(floorMesh.Name, floorTextureDesc.NumTextures, PrimaryHitShaderType.Cube);
 
                     await Task.WhenAll
                     (
                         floorTextureTask,
-                        floorMesh.End("BattleArenaFloor"),
                         floorShaderSetup
                     );
 
