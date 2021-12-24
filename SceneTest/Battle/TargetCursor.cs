@@ -1,5 +1,6 @@
-﻿using DiligentEngine.GltfPbr;
-using DiligentEngine.GltfPbr.Shapes;
+﻿using DiligentEngine;
+using DiligentEngine.RT;
+using DiligentEngine.RT.Sprites;
 using Engine;
 using Engine.Platform;
 using SharpGui;
@@ -13,15 +14,15 @@ namespace SceneTest.Battle
 {
     class TargetCursor : IDisposable
     {
-        private readonly SceneObjectManager<IBattleManager> sceneObjectManager;
-        private readonly SpriteManager sprites;
         private readonly IDestructionRequest destructionRequest;
-        private readonly ISpriteMaterialManager spriteMaterialManager;
+        private readonly RTInstances<IBattleManager> rtInstances;
+        private readonly SpriteInstanceFactory spriteInstanceFactory;
         private readonly ISharpGui sharpGui;
         private readonly IBattleScreenLayout battleScreenLayout;
-        private ISpriteMaterial spriteMaterial;
-        private SceneObject sceneObject;
-        private Sprite sprite;
+        private readonly Sprite sprite;
+
+        private TLASBuildInstanceData tlasData;
+        private SpriteInstance spriteInstance;
         private bool disposed;
 
         private SharpButton nextTargetButton = new SharpButton() { Text = "Next" };
@@ -55,19 +56,19 @@ namespace SceneTest.Battle
 
         TaskCompletionSource<IBattleTarget> getTargetTask;
 
-        public TargetCursor(SceneObjectManager<IBattleManager> sceneObjectManager,
-            SpriteManager sprites,
-            Plane plane,
-            IScopedCoroutine coroutine,
+        public TargetCursor
+        (
             IDestructionRequest destructionRequest,
-            ISpriteMaterialManager spriteMaterialManager,
+            RTInstances<IBattleManager> rtInstances,
+            SpriteInstanceFactory spriteInstanceFactory,
+            IScopedCoroutine coroutine,
             ISharpGui sharpGui,
-            IBattleScreenLayout battleScreenLayout)
+            IBattleScreenLayout battleScreenLayout
+        )
         {
-            this.sceneObjectManager = sceneObjectManager;
-            this.sprites = sprites;
             this.destructionRequest = destructionRequest;
-            this.spriteMaterialManager = spriteMaterialManager;
+            this.rtInstances = rtInstances;
+            this.spriteInstanceFactory = spriteInstanceFactory;
             this.sharpGui = sharpGui;
             this.battleScreenLayout = battleScreenLayout;
             this.sprite = new Sprite(new Dictionary<string, SpriteAnimation>()
@@ -93,20 +94,6 @@ namespace SceneTest.Battle
             })
             { BaseScale = new Vector3(0.5f, 0.5f, 1f) };
 
-            sceneObject = new SceneObject()
-            {
-                vertexBuffer = plane.VertexBuffer,
-                skinVertexBuffer = plane.SkinVertexBuffer,
-                indexBuffer = plane.IndexBuffer,
-                numIndices = plane.NumIndices,
-                pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
-                position = Vector3.Zero,
-                orientation = Quaternion.Identity,
-                scale = sprite.BaseScale * Vector3.ScaleIdentity,
-                RenderShadow = false,
-                Sprite = sprite,
-            };
-
             coroutine.RunTask(async () =>
             {
                 using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until coroutine is finished and this is disposed.
@@ -115,23 +102,37 @@ namespace SceneTest.Battle
                     colorMap: "original/pointingfinger.png",
                     materials: new HashSet<SpriteMaterialTextureItem>());
 
-                spriteMaterial = await this.spriteMaterialManager.Checkout(matDesc);
+                this.spriteInstance = await spriteInstanceFactory.Checkout(matDesc);
 
                 if (disposed)
                 {
-                    spriteMaterialManager.Return(spriteMaterial);
-                }
-                else
-                {
-                    sceneObject.shaderResourceBinding = spriteMaterial.ShaderResourceBinding;
+                    spriteInstanceFactory.TryReturn(spriteInstance);
+                    return; //Stop loading
                 }
 
                 if (!destructionRequest.DestructionRequested)
                 {
-                    sprites.Add(sprite);
-                    sceneObjectManager.Add(sceneObject);
+                    this.tlasData = new TLASBuildInstanceData()
+                    {
+                        InstanceName = Guid.NewGuid().ToString("N"),
+                        Mask = RtStructures.OPAQUE_GEOM_MASK,
+                        pBLAS = spriteInstance.Instance.BLAS.Obj,
+                        Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity, sprite.BaseScale)
+                    };
+
+                    if (visible)
+                    {
+                        AddToScene();
+                    }
                 }
             });
+        }
+
+        public void Dispose()
+        {
+            disposed = true;
+            this.spriteInstanceFactory.TryReturn(spriteInstance);
+            RemoveFromScene();
         }
 
         private bool visible = true;
@@ -148,22 +149,28 @@ namespace SceneTest.Battle
                     visible = value;
                     if (visible)
                     {
-                        sceneObjectManager.Add(sceneObject);
+                        AddToScene();
                     }
                     else
                     {
-                        sceneObjectManager.Remove(sceneObject);
+                        RemoveFromScene();
                     }
                 }
             }
         }
 
-        public void Dispose()
+        private void RemoveFromScene()
         {
-            disposed = true;
-            sprites.Remove(sprite);
-            sceneObjectManager.Remove(sceneObject);
-            spriteMaterialManager.TryReturn(spriteMaterial);
+            rtInstances.RemoveSprite(sprite);
+            rtInstances.RemoveShaderTableBinder(Bind);
+            rtInstances.RemoveTlasBuild(tlasData);
+        }
+
+        private void AddToScene()
+        {
+            rtInstances.AddTlasBuild(tlasData);
+            rtInstances.AddShaderTableBinder(Bind);
+            rtInstances.AddSprite(sprite);
         }
 
         internal void BattleStarted()
@@ -173,7 +180,8 @@ namespace SceneTest.Battle
 
         public void SetPosition(Vector3 targetPosition)
         {
-            this.sceneObject.position = targetPosition - sprite.GetCurrentFrame().Attachments[0].translate * sprite.BaseScale;
+            var position = targetPosition - sprite.GetCurrentFrame().Attachments[0].translate * sprite.BaseScale;
+            this.tlasData.Transform = new InstanceMatrix(position, sprite.BaseScale);
         }
 
         public Task<IBattleTarget> GetTarget(bool targetPlayers)
@@ -299,6 +307,11 @@ namespace SceneTest.Battle
         private void SetTarget(IBattleTarget enemy)
         {
             getTargetTask.SetResult(enemy);
+        }
+
+        private void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
+        {
+            spriteInstance.Bind(this.tlasData.InstanceName, sbt, tlas);
         }
     }
 }

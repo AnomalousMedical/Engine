@@ -95,6 +95,30 @@ namespace DiligentEngine
             this.m23 = -trans.z;
         }
 
+        /// <summary>
+        /// Set using a vector3 and quaternion. Will convert to camera space.
+        /// </summary>
+        /// <param name="trans"></param>
+        /// <param name="rot"></param>
+        public InstanceMatrix(in Vector3 trans, in Vector3 scale)
+        {
+            var scaleMat = Matrix3x3.Scale(scale.x, scale.y, scale.z);
+
+            this.m00 = scaleMat.m00;
+            this.m01 = scaleMat.m01;
+            this.m02 = scaleMat.m02;
+            this.m10 = scaleMat.m10;
+            this.m11 = scaleMat.m11;
+            this.m12 = scaleMat.m12;
+            this.m20 = scaleMat.m20;
+            this.m21 = scaleMat.m21;
+            this.m22 = scaleMat.m22;
+
+            this.m03 = -trans.x;
+            this.m13 = -trans.y;
+            this.m23 = -trans.z;
+        }
+
         public static readonly InstanceMatrix Identity = new InstanceMatrix(new Vector3(0, 0, 0), Quaternion.Identity);
     }
 }
