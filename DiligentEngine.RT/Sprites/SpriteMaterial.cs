@@ -26,7 +26,7 @@ namespace DiligentEngine.RT.Sprites
             this.textures = textures;
             this.colorTexture = new AutoPtr<ITexture>(colorTexture);
             ColorSRV = colorTexture.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
-            NormalSRV = textures.NormalTexture.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
+            NormalSRV = textures.NormalTexture?.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
         }
 
         public void Dispose()

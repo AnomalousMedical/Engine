@@ -32,11 +32,18 @@ namespace DiligentEngine.RT.Sprites
             {
                 var instanceName = Guid.NewGuid().ToString("N");
 
-                //TODO: This gives one shader each time we change the materials. To pool the shaders do it here.
-                var shader = primaryHitShaderFactory.Create(instanceName, 1, PrimaryHitShaderType.Sprite);
-                var material = spriteMaterialManager.Checkout(desc);
+                var material = await spriteMaterialManager.Checkout(desc);
 
-                var instance = new SpriteInstance(rayTracingRenderer, await shader, spriteBLAS.Instance, await material, spriteMaterialManager);
+                //TODO: This gives one shader each time we change the materials. To pool the shaders do it here.
+                var shader = await primaryHitShaderFactory.Create(new PrimaryHitShader.Desc()
+                {
+                    baseName = instanceName,
+                    numTextures = 1,
+                    shaderType = PrimaryHitShaderType.Sprite,
+                    HasNormalMap = material.NormalSRV != null
+                });
+
+                var instance = new SpriteInstance(rayTracingRenderer, shader, spriteBLAS.Instance, material, spriteMaterialManager);
                 return pooledResources.CreateResult(instance);
             });
         }

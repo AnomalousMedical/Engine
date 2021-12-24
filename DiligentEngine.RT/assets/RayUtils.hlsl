@@ -193,6 +193,32 @@ float2 uv)
     LightingPass(payload.Color, rayOrigin, normal, pertNormal, payload.Recursion + 1);
 }
 
+void LightAndShadeUVColorOnly(
+    inout PrimaryRayPayload payload, float3 barycentrics,
+    CubeAttribVertex posX, CubeAttribVertex posY, CubeAttribVertex posZ,
+    Texture2D colorTexture, SamplerState colorSampler,
+    float2 uv)
+{
+    payload.Depth = RayTCurrent();
+
+    int mip = GetMip(payload.Depth);
+
+    // Calculate vertex normal.
+    float3 normal = posX.normal.xyz * barycentrics.x +
+        posY.normal.xyz * barycentrics.y +
+        posZ.normal.xyz * barycentrics.z;
+
+    //Convert to world space
+    normal = normalize(mul((float3x3) ObjectToWorld3x4(), normal));
+
+    // Sample texturing.
+    payload.Color = colorTexture.SampleLevel(colorSampler, uv, mip).rgb;
+
+    // Apply lighting.
+    float3 rayOrigin = WorldRayOrigin() + WorldRayDirection() * RayTCurrent();
+    LightingPass(payload.Color, rayOrigin, normal, normal, payload.Recursion + 1);
+}
+
 void LightAndShade(
     inout PrimaryRayPayload payload, float3 barycentrics,
     CubeAttribVertex posX, CubeAttribVertex posY, CubeAttribVertex posZ,

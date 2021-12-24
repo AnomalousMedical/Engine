@@ -19,8 +19,12 @@ namespace DiligentEngine.RT.ShaderSets
         public class Desc
         {
             public String baseName { get; set; }
+
             public int numTextures { get; set; }
+
             public PrimaryHitShaderType shaderType { get; set; }
+
+            public bool HasNormalMap { get; set; }
         }
 
         public class Factory
@@ -37,15 +41,34 @@ namespace DiligentEngine.RT.ShaderSets
             }
 
             /// <summary>
+            /// Create a shader. The caller is responsible for disposing the instance. This is a backward compatability version
+            /// that assumes there is a normal map.
+            /// </summary>
+            /// <param name="baseName"></param>
+            /// <param name="numTextures"></param>
+            /// <returns></returns>
+            [Obsolete]
+            public Task<PrimaryHitShader> Create(String baseName, int numTextures, PrimaryHitShaderType shaderType)
+            {
+                return Create(new Desc()
+                {
+                    baseName = baseName,
+                    numTextures = numTextures,
+                    shaderType = shaderType,
+                    HasNormalMap = true
+                });
+            }
+
+            /// <summary>
             /// Create a shader. The caller is responsible for disposing the instance.
             /// </summary>
             /// <param name="baseName"></param>
             /// <param name="numTextures"></param>
             /// <returns></returns>
-            public async Task<PrimaryHitShader> Create(String baseName, int numTextures, PrimaryHitShaderType shaderType)
+            public async Task<PrimaryHitShader> Create(Desc desc)
             {
                 var shader = new PrimaryHitShader();
-                await shader.SetupShaders(baseName, numTextures, graphicsEngine, shaderLoader, rayTracingRenderer, shaderType);
+                await shader.SetupShaders(desc, graphicsEngine, shaderLoader, rayTracingRenderer);
                 return shader;
             }
         }
@@ -64,6 +87,7 @@ namespace DiligentEngine.RT.ShaderSets
         private String colorTexturesName;
         private String normalTexturesName;
         private String shaderGroupName;
+        private bool hasNormalMap;
 
         public String ShaderGroupName => shaderGroupName;
 
@@ -71,10 +95,14 @@ namespace DiligentEngine.RT.ShaderSets
         {      
         }
 
-        private async Task SetupShaders(String baseName, int numTextures, GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RayTracingRenderer rayTracingRenderer, PrimaryHitShaderType shaderType)
+        private async Task SetupShaders(Desc desc, GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RayTracingRenderer rayTracingRenderer)
         {
             this.PSOCreateInfo = rayTracingRenderer.PSOCreateInfo;
-            this.numTextures = numTextures;
+            this.numTextures = desc.numTextures;
+            var baseName = desc.baseName;
+            var shaderType = desc.shaderType;
+            this.hasNormalMap = desc.HasNormalMap;
+
             await Task.Run(() =>
             {
                 this.verticesName = $"vert_{baseName}";
@@ -113,10 +141,15 @@ namespace DiligentEngine.RT.ShaderSets
 
                 // Create closest hit shaders.
                 var textureSuffix = numTextures == 1 ? "1Texture" : "";
+                var colorMapSuffix = textureSuffix;
+                if (!desc.HasNormalMap)
+                {
+                    colorMapSuffix += "ColorOnly";
+                }
 
                 ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT;
                 ShaderCI.Desc.Name = "Cube primary ray closest hit shader";
-                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, $"assets/{shaderType}PrimaryHit{textureSuffix}.hlsl");
+                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, $"assets/{shaderType}PrimaryHit{colorMapSuffix}.hlsl");
                 ShaderCI.EntryPoint = "main";
                 pCubePrimaryHit = m_pDevice.CreateShader(ShaderCI, Macros);
                 //VERIFY_EXPR(pCubePrimaryHit != nullptr);
@@ -174,7 +207,11 @@ namespace DiligentEngine.RT.ShaderSets
         public void BindTextures(IShaderResourceBinding m_pRayTracingSRB, SpriteMaterial spriteMaterial)
         {
             m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, colorTexturesName)?.Set(spriteMaterial.ColorSRV);
-            m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, normalTexturesName)?.Set(spriteMaterial.NormalSRV);
+
+            if (hasNormalMap)
+            {
+                m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, normalTexturesName)?.Set(spriteMaterial.NormalSRV);
+            }
 
             m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, colorTexturesName)?.Set(spriteMaterial.ColorSRV);
         }
