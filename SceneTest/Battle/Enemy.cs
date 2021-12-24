@@ -238,7 +238,7 @@ namespace SceneTest.Battle
 
         private void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
         {
-            spriteInstance.Bind(this.tlasData.InstanceName, sbt, tlas);
+            spriteInstance.Bind(this.tlasData.InstanceName, sbt, tlas, sprite.GetCurrentFrame());
         }
     }
 }
