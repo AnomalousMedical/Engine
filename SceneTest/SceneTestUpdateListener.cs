@@ -15,7 +15,6 @@ namespace SceneTest
     class SceneTestUpdateListener : UpdateListener
     {
         private readonly RayTracingRenderer rayTracingRenderer;
-        private readonly RTInstances rtInstances;
         private readonly ITimeClock timeClock;
         private readonly ISharpGui sharpGui;
         private readonly ISwapChain swapChain;
@@ -31,7 +30,6 @@ namespace SceneTest
         (
             GraphicsEngine graphicsEngine,
             RayTracingRenderer rayTracingRenderer,
-            RTInstances rtInstances,
             ITimeClock timeClock,
             ISharpGui sharpGui,
             IObjectResolverFactory objectResolverFactory,
@@ -46,7 +44,6 @@ namespace SceneTest
             this.swapChain = graphicsEngine.SwapChain;
             this.immediateContext = graphicsEngine.ImmediateContext;
             this.rayTracingRenderer = rayTracingRenderer;
-            this.rtInstances = rtInstances;
             this.timeClock = timeClock;
             this.sharpGui = sharpGui;
             this.objectResolverFactory = objectResolverFactory;
@@ -83,14 +80,15 @@ namespace SceneTest
             }
             sharpGui.End();
             sky.UpdateLight(clock);
-            rtInstances.UpdateSprites(clock);
 
-            rayTracingRenderer.SetInstances(gameState.Instances);
+            var rtInstances = this.gameState.Instances;
+
+            rtInstances.UpdateSprites(clock);
 
             //pbrRenderAttribs.AverageLogLum = sky.AverageLogLum;
             //Upate sun here
             var lightPos = cameraMover.SceneCenter + new Vector3(10, 25, -20);
-            rayTracingRenderer.Render(cameraMover.Position, cameraMover.Orientation, new Vector4(lightPos.x, lightPos.y, lightPos.z, 0), new Vector4(lightPos.x, lightPos.y, lightPos.z, 0));
+            rayTracingRenderer.Render(rtInstances, cameraMover.Position, cameraMover.Orientation, new Vector4(lightPos.x, lightPos.y, lightPos.z, 0), new Vector4(lightPos.x, lightPos.y, lightPos.z, 0));
 
             var pRTV = swapChain.GetCurrentBackBufferRTV();
             var pDSV = swapChain.GetDepthBufferDSV();

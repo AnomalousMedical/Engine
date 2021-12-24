@@ -30,8 +30,6 @@ namespace DiligentEngine.RT
         uint lastNumInstances = 0;
         bool rebuildPipeline = true;
 
-        private RTInstances activeInstances;
-
         public RayTracingPipelineStateCreateInfo PSOCreateInfo { get; private set; } = CreatePSOCreateInfo();
 
         public delegate void ShaderResourceBinder(IShaderResourceBinding rayTracingSRB);
@@ -61,11 +59,6 @@ namespace DiligentEngine.RT
             PSOCreateInfo.RayTracingPipeline.MaxRecursionDepth = (byte)maxRecursionDepth;
 
             generalShaders.Setup(PSOCreateInfo);
-        }
-
-        public void SetInstances(RTInstances activeInstances)
-        {
-            this.activeInstances = activeInstances;
         }
 
         public void Dispose()
@@ -195,7 +188,7 @@ namespace DiligentEngine.RT
             m_pSBT.Obj.BindMissShader("ShadowMiss", RtStructures.SHADOW_RAY_INDEX, IntPtr.Zero, 0);
         }
 
-        AutoPtr<ITopLevelAS> UpdateTLAS()
+        AutoPtr<ITopLevelAS> UpdateTLAS(RTInstances activeInstances)
         {
             var m_pDevice = graphicsEngine.RenderDevice;
             var m_pImmediateContext = graphicsEngine.ImmediateContext;
@@ -309,14 +302,14 @@ namespace DiligentEngine.RT
             return m_pTLAS;
         }
 
-        public unsafe void Render(Vector3 cameraPos, Quaternion cameraRot, Vector4 light1Pos, Vector4 ligth2Pos)
+        public unsafe void Render(RTInstances activeInstances, Vector3 cameraPos, Quaternion cameraRot, Vector4 light1Pos, Vector4 ligth2Pos)
         {
             var swapChain = graphicsEngine.SwapChain;
             var m_pImmediateContext = graphicsEngine.ImmediateContext;
 
             //TODO: Might be able to avoid recreating this like the other buffers, this also seems ok
             //So really need more info about behavior to decide here
-            using var tlas = UpdateTLAS();
+            using var tlas = UpdateTLAS(activeInstances);
             if (tlas == null)
             {
                 return;

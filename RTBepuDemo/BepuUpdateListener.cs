@@ -28,6 +28,7 @@ namespace RTBepuDemo
         private readonly ISharpGui sharpGui;
         private readonly TextureSet textureSet;
         private readonly CubeBLAS cubeBLAS;
+        private readonly RTInstances rtInstances;
         private IObjectResolver objectResolver;
         private List<BodyPositionSync> bodyPositionSyncs = new List<BodyPositionSync>();
         private Random Random = new Random();
@@ -64,9 +65,7 @@ namespace RTBepuDemo
             this.sharpGui = sharpGui;
             this.textureSet = textureSet;
             this.cubeBLAS = cubeBLAS;
-
-            renderer.SetInstances(rtInstances);
-
+            this.rtInstances = rtInstances;
             coroutine.RunTask(async () =>
             {
                 textureSet.Setup(new string[]
@@ -160,7 +159,7 @@ namespace RTBepuDemo
             sharpGui.End();
             objectResolverFactory.Flush();
 
-            renderer.Render(cameraControls.Position, cameraControls.Orientation, gui.LightPos, gui.LightPos);
+            renderer.Render(rtInstances, cameraControls.Position, cameraControls.Orientation, gui.LightPos, gui.LightPos);
 
             //This is the old clear loop, leaving in place in case we want or need the screen clear, but I think with pure rt there is no need
             //since we blit a texture to the full screen over and over.

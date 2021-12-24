@@ -46,8 +46,6 @@ namespace RTSandbox
             this.swapChain = graphicsEngine.SwapChain;
             this.immediateContext = graphicsEngine.ImmediateContext;
 
-            rayTracingRenderer.SetInstances(rtInstances);
-
             cameraControls.Position = new Vector3(0, 0, -10);
         }
 
@@ -67,7 +65,7 @@ namespace RTSandbox
             cameraControls.UpdateInput(clock);
             gui.Update(clock);
 
-            rayTracingRenderer.Render(cameraControls.Position, cameraControls.Orientation, gui.LightPos, gui.LightPos);
+            rayTracingRenderer.Render(rtInstances, cameraControls.Position, cameraControls.Orientation, gui.LightPos, gui.LightPos);
 
             //This is the old clear loop, leaving in place in case we want or need the screen clear, but I think with pure rt there is no need
             //since we blit a texture to the full screen over and over.
