@@ -20,10 +20,6 @@ namespace RTDungeonGeneratorTest
         {
             public string InstanceName { get; set; } = Guid.NewGuid().ToString();
 
-            public uint TextureIndex { get; set; } = 0;
-
-            public byte Mask { get; set; } = RtStructures.OPAQUE_GEOM_MASK;
-
             public InstanceMatrix Transform = InstanceMatrix.Identity;
 
             public int Seed { get; set; }
