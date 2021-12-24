@@ -25,8 +25,8 @@ namespace RTDungeonGeneratorTest
             public int Seed { get; set; }
         }
 
-        private TLASBuildInstanceData wallInstanceData;
-        private TLASBuildInstanceData floorInstanceData;
+        private readonly TLASBuildInstanceData wallInstanceData;
+        private readonly TLASBuildInstanceData floorInstanceData;
         private readonly IDestructionRequest destructionRequest;
         private readonly TextureManager textureManager;
         private readonly RTInstances rtInstances;
@@ -56,6 +56,20 @@ namespace RTDungeonGeneratorTest
             this.textureManager = textureManager;
             this.rtInstances = rtInstances;
             this.renderer = renderer;
+
+            this.floorInstanceData = new TLASBuildInstanceData()
+            {
+                InstanceName = Guid.NewGuid().ToString(),
+                Mask = RtStructures.OPAQUE_GEOM_MASK,
+                Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity)
+            };
+            this.wallInstanceData = new TLASBuildInstanceData()
+            {
+                InstanceName = Guid.NewGuid().ToString(),
+                Mask = RtStructures.OPAQUE_GEOM_MASK,
+                Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity)
+            };
+
             coroutineRunner.RunTask(async () =>
             {
                 using var destructionBlock = destructionRequest.BlockDestruction();
@@ -66,6 +80,9 @@ namespace RTDungeonGeneratorTest
 
                     var floorTextureTask = textureManager.Checkout(floorTextureDesc);
                     var wallTextureTask = textureManager.Checkout(wallTextureDesc);
+
+                    var floorShaderSetup = primaryHitShaderFactory.Create(floorMesh.Name, floorTextureDesc.NumTextures, PrimaryHitShaderType.Cube);
+                    var wallShaderSetup = primaryHitShaderFactory.Create(wallMesh.Name, wallTextureDesc.NumTextures, PrimaryHitShaderType.Cube);
 
                     await Task.Run(() =>
                     {
@@ -91,9 +108,6 @@ namespace RTDungeonGeneratorTest
                         mapMesh = new MapMesh(mapBuilder, random, floorMesh, wallMesh, mapUnitY: 0.1f);
                     });
 
-                    var floorShaderSetup = primaryHitShaderFactory.Create(floorMesh.Name, floorTextureDesc.NumTextures, PrimaryHitShaderType.Cube);
-                    var wallShaderSetup = primaryHitShaderFactory.Create(wallMesh.Name, wallTextureDesc.NumTextures, PrimaryHitShaderType.Cube);
-
                     await Task.WhenAll
                     (
                         floorTextureTask,
@@ -111,22 +125,8 @@ namespace RTDungeonGeneratorTest
 
                     if (!destructionRequest.DestructionRequested)
                     {
-                        this.floorInstanceData = new TLASBuildInstanceData()
-                        {
-                            InstanceName = Guid.NewGuid().ToString(),
-                            CustomId = 3, //Texture index
-                            pBLAS = mapMesh.FloorMesh.Instance.BLAS.Obj,
-                            Mask = RtStructures.OPAQUE_GEOM_MASK,
-                            Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity)
-                        };
-                        this.wallInstanceData = new TLASBuildInstanceData()
-                        {
-                            InstanceName = Guid.NewGuid().ToString(),
-                            CustomId = 4, //Texture index
-                            pBLAS = mapMesh.WallMesh.Instance.BLAS.Obj,
-                            Mask = RtStructures.OPAQUE_GEOM_MASK,
-                            Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity)
-                        };
+                        this.floorInstanceData.pBLAS = mapMesh.FloorMesh.Instance.BLAS.Obj;
+                        this.wallInstanceData.pBLAS = mapMesh.WallMesh.Instance.BLAS.Obj;
 
                         rtInstances.AddTlasBuild(floorInstanceData);
                         rtInstances.AddTlasBuild(wallInstanceData);
