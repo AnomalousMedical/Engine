@@ -29,7 +29,7 @@ namespace SceneTest
         private readonly SpriteInstanceFactory spriteInstanceFactory;
         private readonly Sprite sprite;
 
-        private TLASBuildInstanceData instanceData;
+        private TLASBuildInstanceData tlasData;
         private SpriteInstance spriteInstance;
         private bool disposed;
 
@@ -65,7 +65,7 @@ namespace SceneTest
 
                 if (!destructionRequest.DestructionRequested) //This is more to prevent a flash for 1 frame of the object
                 {
-                    this.instanceData = new TLASBuildInstanceData()
+                    this.tlasData = new TLASBuildInstanceData()
                     {
                         InstanceName = attachmentDescription.InstanceName,
                         Mask = RtStructures.OPAQUE_GEOM_MASK,
@@ -73,7 +73,7 @@ namespace SceneTest
                         Transform = new InstanceMatrix(Vector3.Zero, attachmentDescription.Orientation)
                     };
 
-                    rtInstances.AddTlasBuild(instanceData);
+                    rtInstances.AddTlasBuild(tlasData);
                     rtInstances.AddShaderTableBinder(Bind);
                     rtInstances.AddSprite(sprite);
                 }
@@ -86,7 +86,7 @@ namespace SceneTest
             this.spriteInstanceFactory.TryReturn(spriteInstance);
             rtInstances.RemoveSprite(sprite);
             rtInstances.RemoveShaderTableBinder(Bind);
-            rtInstances.RemoveTlasBuild(instanceData);
+            rtInstances.RemoveTlasBuild(tlasData);
         }
 
         public void RequestDestruction()
@@ -114,12 +114,12 @@ namespace SceneTest
             var finalOrientation = fullRot;
             var finalScale = scale;
 
-            this.instanceData.Transform = new InstanceMatrix(finalPosition, finalOrientation, finalScale);
+            this.tlasData.Transform = new InstanceMatrix(finalPosition, finalOrientation, finalScale);
         }
 
         private void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
         {
-            spriteInstance.Bind(this.instanceData.InstanceName, sbt, tlas);
+            spriteInstance.Bind(this.tlasData.InstanceName, sbt, tlas);
         }
     }
 }
