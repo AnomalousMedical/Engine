@@ -1,6 +1,6 @@
 ﻿using DiligentEngine;
-using DiligentEngine.GltfPbr;
-using DiligentEngine.GltfPbr.Shapes;
+using DiligentEngine.RT;
+using DiligentEngine.RT.Sprites;
 using Engine;
 using Engine.Platform;
 using FreeImageAPI;
@@ -28,22 +28,25 @@ namespace SceneTest.Battle
             public long GoldReward { get; set; }
         }
 
-        private ISpriteMaterial spriteMaterial;
-        private SceneObjectManager<IBattleManager> sceneObjectManager;
-        private SpriteManager sprites;
-        private IDestructionRequest destructionRequest;
-        private readonly ISpriteMaterialManager spriteMaterialManager;
-        private SceneObject sceneObject;
-        private Sprite sprite;
+        private readonly RTInstances<IBattleManager> rtInstances;
+        private readonly IDestructionRequest destructionRequest;
+        private readonly SpriteInstanceFactory spriteInstanceFactory;
+        private SpriteInstance spriteInstance;
+        private readonly Sprite sprite;
+        private readonly TLASBuildInstanceData tlasData;
         private bool disposed;
         private readonly ICharacterTimer characterTimer;
         private readonly IBattleManager battleManager;
         private readonly ITurnTimer turnTimer;
+
         private Vector3 startPosition;
+        private Vector3 currentPosition;
+        private Quaternion currentOrientation;
+        private Vector3 currentScale;
 
-        public Vector3 MeleeAttackLocation => this.sceneObject.position + new Vector3(sprite.BaseScale.x * sceneObject.scale.x, 0, 0);
+        public Vector3 MeleeAttackLocation => this.currentPosition + new Vector3(sprite.BaseScale.x * currentScale.x, 0, 0);
 
-        public Vector3 MagicHitLocation => this.sceneObject.position + new Vector3(0f, 0f, -0.1f);
+        public Vector3 MagicHitLocation => this.currentPosition + new Vector3(0f, 0f, -0.1f);
 
         public ICharacterTimer CharacterTimer => characterTimer;
 
@@ -51,21 +54,18 @@ namespace SceneTest.Battle
         private long currentMp;
 
         public Enemy(
-            SceneObjectManager<IBattleManager> sceneObjectManager,
-            SpriteManager sprites,
-            Plane plane,
+            RTInstances<IBattleManager> rtInstances,
             IDestructionRequest destructionRequest,
             IScopedCoroutine coroutine,
-            ISpriteMaterialManager spriteMaterialManager,
+            SpriteInstanceFactory spriteInstanceFactory,
             Desc description,
             ICharacterTimer characterTimer,
             IBattleManager battleManager,
             ITurnTimer turnTimer)
         {
-            this.sceneObjectManager = sceneObjectManager;
-            this.sprites = sprites;
+            this.rtInstances = rtInstances;
             this.destructionRequest = destructionRequest;
-            this.spriteMaterialManager = spriteMaterialManager;
+            this.spriteInstanceFactory = spriteInstanceFactory;
             this.characterTimer = characterTimer;
             this.battleManager = battleManager;
             this.turnTimer = turnTimer;
@@ -80,41 +80,36 @@ namespace SceneTest.Battle
             characterTimer.TurnReady += CharacterTimer_TurnReady;
             characterTimer.TotalDex = Stats.Dexterity;
 
-            sceneObject = new SceneObject()
-            {
-                vertexBuffer = plane.VertexBuffer,
-                skinVertexBuffer = plane.SkinVertexBuffer,
-                indexBuffer = plane.IndexBuffer,
-                numIndices = plane.NumIndices,
-                pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
-                position = description.Translation,
-                orientation = description.Orientation,
-                scale = sprite.BaseScale * description.Scale,
-                RenderShadow = true,
-                Sprite = sprite,
-            };
+            this.currentPosition = description.Translation;
+            this.currentOrientation = description.Orientation;
+            this.currentScale = sprite.BaseScale * description.Scale;
+            this.startPosition = currentPosition;
 
-            this.startPosition = sceneObject.position;
+            this.tlasData = new TLASBuildInstanceData()
+            {
+                InstanceName = Guid.NewGuid().ToString("N"),
+                Mask = RtStructures.OPAQUE_GEOM_MASK,
+                Transform = new InstanceMatrix(currentPosition, currentOrientation, currentScale)
+            };
 
             coroutine.RunTask(async () =>
             {
                 using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until coroutine is finished and this is disposed.
 
-                spriteMaterial = await this.spriteMaterialManager.Checkout(description.SpriteMaterial);
+                this.spriteInstance = await spriteInstanceFactory.Checkout(description.SpriteMaterial);
 
-                if (disposed)
+                if (this.disposed)
                 {
-                    spriteMaterialManager.Return(spriteMaterial);
-                }
-                else
-                {
-                    sceneObject.shaderResourceBinding = spriteMaterial.ShaderResourceBinding;
+                    this.spriteInstanceFactory.TryReturn(spriteInstance);
+                    return; //Stop loading
                 }
 
-                if (!destructionRequest.DestructionRequested)
+                if (!destructionRequest.DestructionRequested) //This is more to prevent a flash for 1 frame of the object
                 {
-                    sprites.Add(sprite);
-                    sceneObjectManager.Add(sceneObject);
+                    this.tlasData.pBLAS = spriteInstance.Instance.BLAS.Obj;
+                    rtInstances.AddTlasBuild(tlasData);
+                    rtInstances.AddShaderTableBinder(Bind);
+                    rtInstances.AddSprite(sprite);
                 }
             });
         }
@@ -177,7 +172,7 @@ namespace SceneTest.Battle
                     interpolate = remainingTime / (float)standEndTime;
                 }
 
-                this.sceneObject.position = end.lerp(start, interpolate);
+                this.currentPosition = end.lerp(start, interpolate);
 
                 if (remainingTime < 0)
                 {
@@ -194,7 +189,7 @@ namespace SceneTest.Battle
 
         private Vector3 GetAttackLocation(IBattleTarget target)
         {
-            var totalScale = sprite.BaseScale * sceneObject.scale;
+            var totalScale = sprite.BaseScale * currentScale;
             var targetAttackLocation = target.MeleeAttackLocation;
             targetAttackLocation.x -= totalScale.x / 2;
             targetAttackLocation.y = totalScale.y / 2.0f;
@@ -216,9 +211,10 @@ namespace SceneTest.Battle
         {
             turnTimer.RemoveTimer(characterTimer);
             disposed = true;
-            sprites.Remove(sprite);
-            sceneObjectManager.Remove(sceneObject);
-            spriteMaterialManager.TryReturn(spriteMaterial);
+            this.spriteInstanceFactory.TryReturn(spriteInstance);
+            rtInstances.RemoveSprite(sprite);
+            rtInstances.RemoveShaderTableBinder(Bind);
+            rtInstances.RemoveTlasBuild(tlasData);
         }
 
         public void ApplyDamage(IDamageCalculator calculator, long damage)
@@ -226,7 +222,7 @@ namespace SceneTest.Battle
             currentHp = calculator.ApplyDamage(damage, currentHp, Stats.Hp);
         }
 
-        public Vector3 DamageDisplayLocation => sceneObject.position + new Vector3(0.5f * sceneObject.scale.x, 0.5f * sceneObject.scale.y, 0f);
+        public Vector3 DamageDisplayLocation => currentPosition + new Vector3(0.5f * currentScale.x, 0.5f * currentScale.y, 0f);
 
         public IBattleStats Stats { get; }
 
@@ -239,5 +235,10 @@ namespace SceneTest.Battle
         public long XpReward { get; private set; }
 
         public long GoldReward { get; private set; }
+
+        private void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
+        {
+            spriteInstance.Bind(this.tlasData.InstanceName, sbt, tlas);
+        }
     }
 }
