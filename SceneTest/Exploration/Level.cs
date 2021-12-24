@@ -2,8 +2,9 @@
 using BepuPhysics.Collidables;
 using BepuPlugin;
 using DiligentEngine;
-using DiligentEngine.GltfPbr;
-using DiligentEngine.GltfPbr.Shapes;
+using DiligentEngine.RT;
+using DiligentEngine.RT.Resources;
+using DiligentEngine.RT.ShaderSets;
 using DungeonGenerator;
 using Engine;
 using RogueLikeMapBuilder;
@@ -23,8 +24,10 @@ namespace SceneTest
 {
     class Level : IDisposable
     {
-        public class Description : SceneObjectDesc
+        public class Description
         {
+            public Vector3 Translation { get; set; } = Vector3.Zero;
+
             public int RandomSeed { get; set; } = 0;
 
             public int Width { get; set; } = 50;
@@ -96,16 +99,19 @@ namespace SceneTest
             public bool GoPrevious { get; set; } = true;
         }
 
-        private readonly SceneObjectManager<ILevelManager> sceneObjectManager;
+        private readonly RTInstances rtInstances;
+        private readonly RayTracingRenderer renderer;
         private readonly IDestructionRequest destructionRequest;
         private readonly IBepuScene bepuScene;
-        private readonly ICC0TextureManager textureManager;
+        private readonly TextureManager textureManager;
         private readonly ILogger<Level> logger;
         private readonly IBiomeManager biomeManager;
-        private IShaderResourceBinding wallMatBinding;
-        private IShaderResourceBinding floorMatBinding;
-        private SceneObject wallSceneObject;
-        private SceneObject floorSceneObject;
+        private PrimaryHitShader floorShader;
+        private PrimaryHitShader wallShader;
+        private CC0TextureResult floorTexture;
+        private CC0TextureResult wallTexture;
+        private readonly TLASBuildInstanceData wallInstanceData;
+        private readonly TLASBuildInstanceData floorInstanceData;
         private List<StaticHandle> staticHandles = new List<StaticHandle>();
         private TypedIndex boundaryCubeShapeIndex;
         private TypedIndex floorCubeShapeIndex;
@@ -123,50 +129,55 @@ namespace SceneTest
 
         private Vector3 endPointLocal;
         private Vector3 startPointLocal;
-        public Vector3 StartPoint => startPointLocal + wallSceneObject.position;
-        public Vector3 EndPoint => endPointLocal + wallSceneObject.position;
+        private Vector3 currentPosition;
+
+        public Vector3 StartPoint => startPointLocal + currentPosition;
+        public Vector3 EndPoint => endPointLocal + currentPosition;
 
         public Vector3 LocalStartPoint => startPointLocal;
         public Vector3 LocalEndPoint => endPointLocal;
 
-        public Level(
-            SceneObjectManager<ILevelManager> sceneObjectManager,
+        public Level
+        (
             IDestructionRequest destructionRequest,
             IScopedCoroutine coroutine,
             IBepuScene bepuScene,
-            ICC0TextureManager textureManager,
             Description description,
-            GraphicsEngine graphicsEngine,
             ILogger<Level> logger,
             IObjectResolverFactory objectResolverFactory,
-            IBiomeManager biomeManager)
+            IBiomeManager biomeManager,
+            MeshBLAS floorMesh,
+            MeshBLAS wallMesh,
+            TextureManager textureManager,
+            PrimaryHitShaderFactory primaryHitShaderFactory,
+            RTInstances rtInstances,
+            RayTracingRenderer renderer
+        )
         {
             this.mapUnits = new Vector3(description.MapUnitX, description.MapUnitY, description.MapUnitZ);
             this.objectResolver = objectResolverFactory.Create();
-            this.sceneObjectManager = sceneObjectManager;
             this.destructionRequest = destructionRequest;
             this.bepuScene = bepuScene;
-            this.textureManager = textureManager;
             this.logger = logger;
             this.biomeManager = biomeManager;
+            this.textureManager = textureManager;
+            this.rtInstances = rtInstances;
+            this.renderer = renderer;
             this.goPrevious = description.GoPrevious;
-            wallSceneObject = new SceneObject()
+
+            this.currentPosition = description.Translation;
+
+            this.floorInstanceData = new TLASBuildInstanceData()
             {
-                pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE,
-                position = description.Translation,
-                orientation = description.Orientation,
-                scale = description.Scale,
-                RenderShadow = false,
-                GetShadows = true
+                InstanceName = Guid.NewGuid().ToString(),
+                Mask = RtStructures.OPAQUE_GEOM_MASK,
+                Transform = new InstanceMatrix(currentPosition, Quaternion.Identity)
             };
-            floorSceneObject = new SceneObject()
+            this.wallInstanceData = new TLASBuildInstanceData()
             {
-                pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE,
-                position = description.Translation,
-                orientation = description.Orientation,
-                scale = description.Scale,
-                RenderShadow = false,
-                GetShadows = true
+                InstanceName = Guid.NewGuid().ToString(),
+                Mask = RtStructures.OPAQUE_GEOM_MASK,
+                Transform = new InstanceMatrix(currentPosition, Quaternion.Identity)
             };
 
             var random = new Random(description.RandomSeed);
@@ -175,6 +186,15 @@ namespace SceneTest
             coroutine.RunTask(async () =>
             {
                 using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until coroutine is finished and this is disposed.
+
+                var floorTextureDesc = new CCOTextureBindingDescription(biome.FloorTexture);
+                var wallTextureDesc = new CCOTextureBindingDescription(biome.WallTexture);
+
+                var floorTextureTask = textureManager.Checkout(floorTextureDesc);
+                var wallTextureTask = textureManager.Checkout(wallTextureDesc);
+
+                var floorShaderSetup = primaryHitShaderFactory.Create(floorMesh.Name, floorTextureDesc.NumTextures, PrimaryHitShaderType.Cube);
+                var wallShaderSetup = primaryHitShaderFactory.Create(wallMesh.Name, wallTextureDesc.NumTextures, PrimaryHitShaderType.Cube);
 
                 this.levelGenerationTask = Task.Run(() =>
                 {
@@ -220,7 +240,7 @@ namespace SceneTest
                         startY = startRoom.Top + startRoom.Height / 2;
                     }
 
-                    mapMesh = new MapMesh(mapBuilder, random, graphicsEngine.RenderDevice, mapUnitX: description.MapUnitX, mapUnitY: description.MapUnitY, mapUnitZ: description.MapUnitZ);
+                    mapMesh = new MapMesh(mapBuilder, random, floorMesh, wallMesh, mapUnitX: description.MapUnitX, mapUnitY: description.MapUnitY, mapUnitZ: description.MapUnitZ);
 
                     startPointLocal = mapMesh.PointToVector(startX, startY);
                     var endConnector = mapBuilder.EastConnector.Value;
@@ -229,39 +249,33 @@ namespace SceneTest
                     sw.Stop();
                     logger.LogInformation($"Generated level {description.RandomSeed} in {sw.ElapsedMilliseconds} ms.");
                 });
-                var wallTextureTask = textureManager.Checkout(new CCOTextureBindingDescription(biome.WallTexture, getShadow: true));
-                var floorTextureTask = textureManager.Checkout(new CCOTextureBindingDescription(biome.FloorTexture, getShadow: true));
 
-                await levelGenerationTask;
+                await levelGenerationTask; //Need the level before kicking off the calls to End() below.
 
-                wallMatBinding = await wallTextureTask;
-                floorMatBinding = await floorTextureTask;
-                if (disposed)
-                {
-                    mapMesh.Dispose();
-                    textureManager.Return(wallMatBinding);
-                    textureManager.Return(floorMatBinding);
-                    return; //Stop loading
-                }
+                await Task.WhenAll
+                (
+                    floorTextureTask,
+                    wallTextureTask,
+                    floorMesh.End(),
+                    wallMesh.End(),
+                    floorShaderSetup,
+                    wallShaderSetup
+                );
 
-                //Setup vertex buffers
-                wallSceneObject.vertexBuffer = mapMesh.WallMesh.VertexBuffer;
-                wallSceneObject.skinVertexBuffer = mapMesh.WallMesh.SkinVertexBuffer;
-                wallSceneObject.indexBuffer = mapMesh.WallMesh.IndexBuffer;
-                wallSceneObject.numIndices = mapMesh.WallMesh.NumIndices;
-
-                floorSceneObject.vertexBuffer = mapMesh.FloorMesh.VertexBuffer;
-                floorSceneObject.skinVertexBuffer = mapMesh.FloorMesh.SkinVertexBuffer;
-                floorSceneObject.indexBuffer = mapMesh.FloorMesh.IndexBuffer;
-                floorSceneObject.numIndices = mapMesh.FloorMesh.NumIndices;
+                this.floorShader = floorShaderSetup.Result;
+                this.wallShader = wallShaderSetup.Result;
+                this.floorTexture = floorTextureTask.Result;
+                this.wallTexture = wallTextureTask.Result;
 
                 if (!destructionRequest.DestructionRequested)
                 {
-                    wallSceneObject.shaderResourceBinding = wallMatBinding;
-                    this.sceneObjectManager.Add(wallSceneObject);
+                    this.floorInstanceData.pBLAS = mapMesh.FloorMesh.Instance.BLAS.Obj;
+                    this.wallInstanceData.pBLAS = mapMesh.WallMesh.Instance.BLAS.Obj;
 
-                    floorSceneObject.shaderResourceBinding = floorMatBinding;
-                    this.sceneObjectManager.Add(floorSceneObject);
+                    rtInstances.AddTlasBuild(floorInstanceData);
+                    rtInstances.AddTlasBuild(wallInstanceData);
+                    rtInstances.AddShaderTableBinder(Bind);
+                    renderer.AddShaderResourceBinder(Bind);
                 }
             });
         }
@@ -276,11 +290,14 @@ namespace SceneTest
             disposed = true;
             objectResolver.Dispose();
             DestroyPhysics();
-            sceneObjectManager.Remove(wallSceneObject);
-            sceneObjectManager.Remove(floorSceneObject);
-            textureManager.TryReturn(wallMatBinding);
-            textureManager.TryReturn(floorMatBinding);
-            mapMesh?.Dispose();
+            textureManager.TryReturn(wallTexture);
+            textureManager.TryReturn(floorTexture);
+            renderer.RemoveShaderResourceBinder(Bind);
+            rtInstances.RemoveShaderTableBinder(Bind);
+            this.wallShader?.Dispose();
+            this.floorShader?.Dispose();
+            rtInstances.RemoveTlasBuild(floorInstanceData);
+            rtInstances.RemoveTlasBuild(wallInstanceData);
         }
 
         /// <summary>
@@ -298,8 +315,9 @@ namespace SceneTest
 
         public void SetPosition(in Vector3 position)
         {
-            this.floorSceneObject.position = position;
-            this.wallSceneObject.position = position;
+            this.currentPosition = position;
+            this.wallInstanceData.Transform = new InstanceMatrix(position, Quaternion.Identity);
+            this.floorInstanceData.Transform = new InstanceMatrix(position, Quaternion.Identity);
             this.previousLevelConnector?.SetPosition(StartPoint + new Vector3(-(mapUnits.x / 2f + 0.5f), 0f, 0f));
             this.nextLevelConnector?.SetPosition(EndPoint + new Vector3((mapUnits.x / 2f + 0.5f), 0f, 0f));
         }
@@ -336,7 +354,7 @@ namespace SceneTest
                 var orientation = boundary.Orientation.isNumber() ? boundary.Orientation : Quaternion.Identity;
                 var staticHandle = bepuScene.Simulation.Statics.Add(
                     new StaticDescription(
-                        (boundary.Position + wallSceneObject.position).ToSystemNumerics(),
+                        (boundary.Position + currentPosition).ToSystemNumerics(),
                         orientation.ToSystemNumerics(),
                         new CollidableDescription(floorCubeShapeIndex, 0.1f)));
 
@@ -347,7 +365,7 @@ namespace SceneTest
             {
                 var staticHandle = bepuScene.Simulation.Statics.Add(
                     new StaticDescription(
-                        (boundary + wallSceneObject.position).ToSystemNumerics(),
+                        (boundary + currentPosition).ToSystemNumerics(),
                         boundaryOrientation,
                         new CollidableDescription(boundaryCubeShapeIndex, 0.1f)));
 
@@ -398,6 +416,21 @@ namespace SceneTest
             bepuScene.Simulation.Shapes.Remove(boundaryCubeShapeIndex);
             bepuScene.Simulation.Shapes.Remove(floorCubeShapeIndex);
             staticHandles.Clear();
+        }
+
+        public void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
+        {
+            sbt.BindHitGroupForInstance(tlas, floorInstanceData.InstanceName, RtStructures.PRIMARY_RAY_INDEX, floorShader.ShaderGroupName, IntPtr.Zero, 0);
+            sbt.BindHitGroupForInstance(tlas, wallInstanceData.InstanceName, RtStructures.PRIMARY_RAY_INDEX, wallShader.ShaderGroupName, IntPtr.Zero, 0);
+        }
+
+        public void Bind(IShaderResourceBinding rayTracingSRB)
+        {
+            floorShader.BindBlas(mapMesh.FloorMesh.Instance, rayTracingSRB);
+            floorShader.BindTextures(rayTracingSRB, floorTexture);
+
+            wallShader.BindBlas(mapMesh.WallMesh.Instance, rayTracingSRB);
+            wallShader.BindTextures(rayTracingSRB, wallTexture);
         }
     }
 }
