@@ -10,8 +10,6 @@ namespace SceneTest
     {
         public class Description
         {
-            public string InstanceName { get; set; } = Guid.NewGuid().ToString("N");
-
             public Quaternion Orientation { get; set; } = Quaternion.Identity;
 
             public Sprite Sprite { get; set; }
@@ -28,8 +26,8 @@ namespace SceneTest
         private readonly RTInstances<T> rtInstances;
         private readonly SpriteInstanceFactory spriteInstanceFactory;
         private readonly Sprite sprite;
+        private readonly TLASBuildInstanceData tlasData;
 
-        private TLASBuildInstanceData tlasData;
         private SpriteInstance spriteInstance;
         private bool disposed;
 
@@ -51,6 +49,13 @@ namespace SceneTest
             this.rtInstances = rtInstances;
             this.spriteInstanceFactory = spriteInstanceFactory;
 
+            this.tlasData = new TLASBuildInstanceData()
+            {
+                InstanceName = Guid.NewGuid().ToString("N"),
+                Mask = RtStructures.OPAQUE_GEOM_MASK,
+                Transform = new InstanceMatrix(Vector3.Zero, attachmentDescription.Orientation, sprite.BaseScale) //It might be worth it to skip this line
+            };
+
             coroutine.RunTask(async () =>
             {
                 using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until task is finished and this is disposed.
@@ -65,14 +70,7 @@ namespace SceneTest
 
                 if (!destructionRequest.DestructionRequested) //This is more to prevent a flash for 1 frame of the object
                 {
-                    this.tlasData = new TLASBuildInstanceData()
-                    {
-                        InstanceName = attachmentDescription.InstanceName,
-                        Mask = RtStructures.OPAQUE_GEOM_MASK,
-                        pBLAS = spriteInstance.Instance.BLAS.Obj,
-                        Transform = new InstanceMatrix(Vector3.Zero, attachmentDescription.Orientation)
-                    };
-
+                    this.tlasData.pBLAS = spriteInstance.Instance.BLAS.Obj;
                     rtInstances.AddTlasBuild(tlasData);
                     rtInstances.AddShaderTableBinder(Bind);
                     rtInstances.AddSprite(sprite);

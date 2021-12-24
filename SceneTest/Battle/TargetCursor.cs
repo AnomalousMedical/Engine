@@ -20,8 +20,7 @@ namespace SceneTest.Battle
         private readonly ISharpGui sharpGui;
         private readonly IBattleScreenLayout battleScreenLayout;
         private readonly Sprite sprite;
-
-        private TLASBuildInstanceData tlasData;
+        private readonly TLASBuildInstanceData tlasData;
         private SpriteInstance spriteInstance;
         private bool disposed;
 
@@ -94,6 +93,13 @@ namespace SceneTest.Battle
             })
             { BaseScale = new Vector3(0.5f, 0.5f, 1f) };
 
+            this.tlasData = new TLASBuildInstanceData()
+            {
+                InstanceName = Guid.NewGuid().ToString("N"),
+                Mask = RtStructures.OPAQUE_GEOM_MASK,
+                Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity, sprite.BaseScale)
+            };
+
             coroutine.RunTask(async () =>
             {
                 using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until coroutine is finished and this is disposed.
@@ -112,14 +118,7 @@ namespace SceneTest.Battle
 
                 if (!destructionRequest.DestructionRequested)
                 {
-                    this.tlasData = new TLASBuildInstanceData()
-                    {
-                        InstanceName = Guid.NewGuid().ToString("N"),
-                        Mask = RtStructures.OPAQUE_GEOM_MASK,
-                        pBLAS = spriteInstance.Instance.BLAS.Obj,
-                        Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity, sprite.BaseScale)
-                    };
-
+                    this.tlasData.pBLAS = spriteInstance.Instance.BLAS.Obj;
                     if (visible)
                     {
                         AddToScene();

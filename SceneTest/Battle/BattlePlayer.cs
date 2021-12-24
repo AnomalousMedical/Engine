@@ -1,5 +1,6 @@
-﻿using DiligentEngine.GltfPbr;
-using DiligentEngine.GltfPbr.Shapes;
+﻿using DiligentEngine;
+using DiligentEngine.RT;
+using DiligentEngine.RT.Sprites;
 using Engine;
 using Engine.Platform;
 using RpgMath;
@@ -16,21 +17,20 @@ namespace SceneTest.Battle
     class BattlePlayer : IDisposable, IBattleTarget
     {
         private readonly IPlayerSprite playerSpriteInfo;
-        private readonly SceneObjectManager<IBattleManager> sceneObjectManager;
-        private readonly SpriteManager sprites;
+        private readonly RTInstances<IBattleManager> rtInstances;
         private readonly IDestructionRequest destructionRequest;
-        private readonly ISpriteMaterialManager spriteMaterialManager;
         private readonly IScopedCoroutine coroutine;
         private readonly IScaleHelper scaleHelper;
         private readonly IBattleScreenLayout battleScreenLayout;
         private readonly ICharacterTimer characterTimer;
         private readonly IBattleManager battleManager;
         private readonly ITurnTimer turnTimer;
-        private readonly SceneObject sceneObject;
         private readonly IObjectResolver objectResolver;
-        private ISpriteMaterial spriteMaterial;
         private CharacterSheet characterSheet;
+        private readonly SpriteInstanceFactory spriteInstanceFactory;
 
+        private readonly TLASBuildInstanceData tlasData;
+        private SpriteInstance spriteInstance;
         private bool disposed = false;
         private int primaryHand;
         private int secondaryHand;
@@ -58,13 +58,17 @@ namespace SceneTest.Battle
 
         public IBattleStats Stats => this.characterSheet;
 
-        public Vector3 DamageDisplayLocation => this.sceneObject.position;
+        private Vector3 currentPosition;
+        private Quaternion currentOrientation;
+        private Vector3 currentScale;
 
-        public Vector3 CursorDisplayLocation => this.sceneObject.position + new Vector3(-0.5f * sceneObject.scale.x, 0.5f * sceneObject.scale.y, 0f);
+        public Vector3 DamageDisplayLocation => this.currentPosition;
 
-        public Vector3 MeleeAttackLocation => this.sceneObject.position - new Vector3(sprite.BaseScale.x, 0, 0);
+        public Vector3 CursorDisplayLocation => this.currentPosition + new Vector3(-0.5f * currentScale.x, 0.5f * currentScale.y, 0f);
 
-        public Vector3 MagicHitLocation => this.sceneObject.position + new Vector3(0f, 0f, -0.1f);
+        public Vector3 MeleeAttackLocation => this.currentPosition - new Vector3(sprite.BaseScale.x, 0, 0);
+
+        public Vector3 MagicHitLocation => this.currentPosition + new Vector3(0f, 0f, -0.1f);
 
         public BattleTargetType BattleTargetType => BattleTargetType.Player;
 
@@ -89,9 +93,8 @@ namespace SceneTest.Battle
         }
 
         public BattlePlayer(
-            SceneObjectManager<IBattleManager> sceneObjectManager,
-            SpriteManager sprites,
-            Plane plane,
+            RTInstances<IBattleManager> rtInstances,
+            SpriteInstanceFactory spriteInstanceFactory,
             IDestructionRequest destructionRequest,
             Description description,
             ISpriteMaterialManager spriteMaterialManager,
@@ -111,10 +114,9 @@ namespace SceneTest.Battle
             this.magicAbilities = magicAbilities;
             this.xpCalculator = xpCalculator;
             this.levelCalculator = levelCalculator;
-            this.sceneObjectManager = sceneObjectManager;
-            this.sprites = sprites;
+            this.rtInstances = rtInstances;
+            this.spriteInstanceFactory = spriteInstanceFactory;
             this.destructionRequest = destructionRequest;
-            this.spriteMaterialManager = spriteMaterialManager;
             this.coroutine = coroutine;
             this.scaleHelper = scaleHelper;
             this.battleScreenLayout = battleScreenLayout;
@@ -174,18 +176,15 @@ namespace SceneTest.Battle
             }
 
             this.startPosition = startPos;
-            sceneObject = new SceneObject()
+            this.currentPosition = startPos;
+            this.currentOrientation = description.Orientation;
+            this.currentScale = scale;
+
+            this.tlasData = new TLASBuildInstanceData()
             {
-                vertexBuffer = plane.VertexBuffer,
-                skinVertexBuffer = plane.SkinVertexBuffer,
-                indexBuffer = plane.IndexBuffer,
-                numIndices = plane.NumIndices,
-                pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
-                position = startPos,
-                orientation = description.Orientation,
-                scale = scale,
-                RenderShadow = true,
-                Sprite = sprite,
+                InstanceName = Guid.NewGuid().ToString("N"),
+                Mask = RtStructures.OPAQUE_GEOM_MASK,
+                Transform = new InstanceMatrix(this.currentPosition, this.currentOrientation, this.currentScale)
             };
 
             Sprite_FrameChanged(sprite);
@@ -194,19 +193,21 @@ namespace SceneTest.Battle
             {
                 using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until coroutine is finished and this is disposed.
 
-                spriteMaterial = await this.spriteMaterialManager.Checkout(playerSpriteInfo.SpriteMaterialDescription);
+                this.spriteInstance = await spriteInstanceFactory.Checkout(playerSpriteInfo.SpriteMaterialDescription);
 
-                if (disposed)
+                if (this.disposed)
                 {
-                    spriteMaterialManager.Return(spriteMaterial);
+                    this.spriteInstanceFactory.TryReturn(spriteInstance);
                     return; //Stop loading
                 }
 
                 if (!destructionRequest.DestructionRequested)
                 {
-                    sceneObject.shaderResourceBinding = spriteMaterial.ShaderResourceBinding;
-                    sprites.Add(sprite);
-                    sceneObjectManager.Add(sceneObject);
+                    this.tlasData.pBLAS = spriteInstance.Instance.BLAS.Obj;
+
+                    rtInstances.AddTlasBuild(tlasData);
+                    rtInstances.AddShaderTableBinder(Bind);
+                    rtInstances.AddSprite(sprite);
                 }
             });
         }
@@ -219,12 +220,12 @@ namespace SceneTest.Battle
                 guiActive = active;
                 if (guiActive)
                 {
-                    this.sceneObject.position = this.startPosition + new Vector3(-1f, 0f, 0f);
+                    this.currentPosition = this.startPosition + new Vector3(-1f, 0f, 0f);
                     name.Color = Color.LightBlue;
                 }
                 else
                 {
-                    this.sceneObject.position = this.startPosition;
+                    this.currentPosition = this.startPosition;
                     name.Color = Color.White;
                 }
                 Sprite_FrameChanged(sprite);
@@ -237,9 +238,10 @@ namespace SceneTest.Battle
             battleScreenLayout.InfoColumn.Remove(infoRowLayout);
             characterTimer.TurnReady -= CharacterTimer_TurnReady;
             sprite.FrameChanged -= Sprite_FrameChanged;
-            sprites.Remove(sprite);
-            sceneObjectManager.Remove(sceneObject);
-            spriteMaterialManager.TryReturn(spriteMaterial);
+            spriteInstanceFactory.TryReturn(spriteInstance);
+            rtInstances.RemoveSprite(sprite);
+            rtInstances.RemoveShaderTableBinder(Bind);
+            rtInstances.RemoveTlasBuild(tlasData);
             objectResolver.Dispose();
         }
 
@@ -389,7 +391,7 @@ namespace SceneTest.Battle
                     interpolate = remainingTime / (float)standEndTime;
                 }
 
-                this.sceneObject.position = end.lerp(start, interpolate);
+                this.currentPosition = end.lerp(start, interpolate);
 
                 if (remainingTime < 0)
                 {
@@ -406,7 +408,7 @@ namespace SceneTest.Battle
 
         private Vector3 GetAttackLocation(IBattleTarget target)
         {
-            var totalScale = sprite.BaseScale * sceneObject.scale;
+            var totalScale = sprite.BaseScale * currentScale;
             var targetAttackLocation = target.MeleeAttackLocation;
             targetAttackLocation.x += totalScale.x / 2;
             targetAttackLocation.y = totalScale.y / 2.0f;
@@ -530,30 +532,30 @@ namespace SceneTest.Battle
         {
             var frame = obj.GetCurrentFrame();
 
-            var scale = sprite.BaseScale * this.sceneObject.scale;
+            var scale = sprite.BaseScale * this.currentScale;
 
             if(sword != null)
             {
                 var primaryAttach = frame.Attachments[this.primaryHand];
                 var offset = scale * primaryAttach.translate;
-                offset = Quaternion.quatRotate(this.sceneObject.orientation, offset) + this.sceneObject.position;
-                sword.SetPosition(offset, this.sceneObject.orientation, scale);
+                offset = Quaternion.quatRotate(this.currentOrientation, offset) + this.currentPosition;
+                sword.SetPosition(offset, this.currentOrientation, scale);
             }
 
             if(shield != null)
             {
                 var secondaryAttach = frame.Attachments[this.secondaryHand];
                 var offset = scale * secondaryAttach.translate;
-                offset = Quaternion.quatRotate(this.sceneObject.orientation, offset) + this.sceneObject.position;
-                shield.SetPosition(offset, this.sceneObject.orientation, scale);
+                offset = Quaternion.quatRotate(this.currentOrientation, offset) + this.currentPosition;
+                shield.SetPosition(offset, this.currentOrientation, scale);
             }
 
             if(castEffect != null)
             {
                 var secondaryAttach = frame.Attachments[this.secondaryHand];
                 var offset = scale * secondaryAttach.translate;
-                offset = Quaternion.quatRotate(this.sceneObject.orientation, offset) + this.sceneObject.position;
-                castEffect.SetPosition(offset, this.sceneObject.orientation, scale);
+                offset = Quaternion.quatRotate(this.currentOrientation, offset) + this.currentPosition;
+                castEffect.SetPosition(offset, this.currentOrientation, scale);
             }
         }
 
@@ -598,6 +600,11 @@ namespace SceneTest.Battle
                     xpNeeded = xpCalculator.GetXpNeeded(characterSheet.Archetype, characterSheet.Level + 1);
                 }
             }
+        }
+
+        private void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
+        {
+            spriteInstance.Bind(this.tlasData.InstanceName, sbt, tlas);
         }
     }
 }
