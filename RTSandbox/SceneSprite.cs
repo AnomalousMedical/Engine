@@ -14,7 +14,7 @@ namespace RTSandbox
     {
         public class Desc
         {
-            public string InstanceName { get; set; } = Guid.NewGuid().ToString("N");
+            public string InstanceName { get; set; } = RTId.CreateId("SceneSprite");
 
             public InstanceMatrix Transform = InstanceMatrix.Identity;
         }

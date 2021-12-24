@@ -23,7 +23,7 @@ namespace RTBepuDemo
             public BodyInertia boxInertia;
             public System.Numerics.Vector3 position;
 
-            public string InstanceName { get; set; } = Guid.NewGuid().ToString();
+            public string InstanceName { get; set; } = RTId.CreateId("BodyPosition");
 
             public uint TextureIndex { get; set; } = 0;
 

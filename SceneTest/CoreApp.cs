@@ -1,4 +1,5 @@
 ﻿using Anomalous.OSPlatform;
+using DiligentEngine.RT;
 using Engine;
 using Engine.Platform;
 using Microsoft.Extensions.DependencyInjection;
@@ -77,6 +78,8 @@ namespace SceneTest
             services.AddScoped<BattlePlayer.Description>();
             services.AddScoped<Enemy>();
             services.AddScoped<Enemy.Desc>();
+            services.AddSingleton<RTInstances<ILevelManager>>();
+            services.AddSingleton<RTInstances<IBattleManager>>();
             services.AddScoped<Attachment<ILevelManager>>();
             services.AddScoped<Attachment<ILevelManager>.Description>();
             services.AddScoped<Attachment<IBattleManager>>();

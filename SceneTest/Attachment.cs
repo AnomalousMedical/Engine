@@ -51,7 +51,7 @@ namespace SceneTest
 
             this.tlasData = new TLASBuildInstanceData()
             {
-                InstanceName = Guid.NewGuid().ToString("N"),
+                InstanceName = RTId.CreateId("Attachment"),
                 Mask = RtStructures.OPAQUE_GEOM_MASK,
                 Transform = new InstanceMatrix(Vector3.Zero, attachmentDescription.Orientation, sprite.BaseScale) //It might be worth it to skip this line
             };

@@ -16,16 +16,15 @@ namespace SceneTest
     {
         private readonly RayTracingRenderer rayTracingRenderer;
         private readonly RTInstances rtInstances;
-        private readonly NativeOSWindow window;
         private readonly ITimeClock timeClock;
         private readonly ISharpGui sharpGui;
         private readonly ISwapChain swapChain;
-        private readonly IRenderDevice renderDevice;
         private readonly IDeviceContext immediateContext;
 
         private readonly IObjectResolverFactory objectResolverFactory;
         private readonly CameraMover cameraMover;
         private readonly Sky sky;
+        private readonly FirstPersonFlyCamera flyCamera;
         private IGameState gameState;
 
         public unsafe SceneTestUpdateListener
@@ -33,28 +32,27 @@ namespace SceneTest
             GraphicsEngine graphicsEngine,
             RayTracingRenderer rayTracingRenderer,
             RTInstances rtInstances,
-            NativeOSWindow window,
             ITimeClock timeClock,
             ISharpGui sharpGui,
             IObjectResolverFactory objectResolverFactory,
             CameraMover cameraMover,
             Sky sky,
-            IFirstGameStateBuilder startState
+            IFirstGameStateBuilder startState,
+            FirstPersonFlyCamera flyCamera
         )
         {
-            //cameraMover.Position = new Vector3(0, 0, -12);
+            flyCamera.Position = new Vector3(0, 0, -10);
 
             this.swapChain = graphicsEngine.SwapChain;
-            this.renderDevice = graphicsEngine.RenderDevice;
             this.immediateContext = graphicsEngine.ImmediateContext;
             this.rayTracingRenderer = rayTracingRenderer;
             this.rtInstances = rtInstances;
-            this.window = window;
             this.timeClock = timeClock;
             this.sharpGui = sharpGui;
             this.objectResolverFactory = objectResolverFactory;
             this.cameraMover = cameraMover;
             this.sky = sky;
+            this.flyCamera = flyCamera;
             this.gameState = startState.GetFirstGameState();
             this.gameState.SetActive(true);
         }
@@ -74,6 +72,7 @@ namespace SceneTest
             rayTracingRenderer.SetInstances(gameState.Instances);
 
             //Update
+            flyCamera.UpdateInput(clock);
             timeClock.Update(clock);
             sharpGui.Begin(clock);
             var nextState = this.gameState.Update(clock);
@@ -90,7 +89,7 @@ namespace SceneTest
             //pbrRenderAttribs.AverageLogLum = sky.AverageLogLum;
             //Upate sun here
 
-            rayTracingRenderer.Render(cameraMover.Position - cameraMover.SceneCenter, cameraMover.Orientation, new Vector4(0, 20f, -10f, 0f), new Vector4(0f, 20f, -10f, 0f));
+            rayTracingRenderer.Render(flyCamera.Position, flyCamera.Orientation, new Vector4(0, 20f, -10f, 0f), new Vector4(0f, 20f, -10f, 0f));
 
             var pRTV = swapChain.GetCurrentBackBufferRTV();
             var pDSV = swapChain.GetDepthBufferDSV();

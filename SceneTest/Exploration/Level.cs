@@ -99,7 +99,7 @@ namespace SceneTest
             public bool GoPrevious { get; set; } = true;
         }
 
-        private readonly RTInstances rtInstances;
+        private readonly RTInstances<ILevelManager> rtInstances;
         private readonly RayTracingRenderer renderer;
         private readonly IDestructionRequest destructionRequest;
         private readonly IBepuScene bepuScene;
@@ -150,7 +150,7 @@ namespace SceneTest
             MeshBLAS wallMesh,
             TextureManager textureManager,
             PrimaryHitShader.Factory primaryHitShaderFactory,
-            RTInstances rtInstances,
+            RTInstances<ILevelManager> rtInstances,
             RayTracingRenderer renderer
         )
         {
@@ -169,13 +169,13 @@ namespace SceneTest
 
             this.floorInstanceData = new TLASBuildInstanceData()
             {
-                InstanceName = Guid.NewGuid().ToString(),
+                InstanceName = RTId.CreateId("LevelFloor"),
                 Mask = RtStructures.OPAQUE_GEOM_MASK,
                 Transform = new InstanceMatrix(currentPosition, Quaternion.Identity)
             };
             this.wallInstanceData = new TLASBuildInstanceData()
             {
-                InstanceName = Guid.NewGuid().ToString(),
+                InstanceName = RTId.CreateId("LevelWall"),
                 Mask = RtStructures.OPAQUE_GEOM_MASK,
                 Transform = new InstanceMatrix(currentPosition, Quaternion.Identity)
             };
@@ -256,8 +256,8 @@ namespace SceneTest
                 (
                     floorTextureTask,
                     wallTextureTask,
-                    floorMesh.End(),
-                    wallMesh.End(),
+                    floorMesh.End("LevelFloor"),
+                    wallMesh.End("LevelWall"),
                     floorShaderSetup,
                     wallShaderSetup
                 );

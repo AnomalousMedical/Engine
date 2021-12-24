@@ -26,7 +26,7 @@ namespace DiligentEngine.RT
             {
                 try
                 {
-                    var blasDesc = new BLASDesc()
+                    var blasDesc = new BLASDesc(RTId.CreateId("SpritePlaneBLAS"))
                     {
                         Flags = RAYTRACING_GEOMETRY_FLAGS.RAYTRACING_GEOMETRY_FLAG_NONE
                     };

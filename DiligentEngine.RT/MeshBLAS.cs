@@ -23,7 +23,7 @@ namespace DiligentEngine.RT
         private uint indexBlock = 0;
         private uint currentIndex = 0;
 
-        private readonly BLASDesc blasDesc = new BLASDesc();
+        private readonly BLASDesc blasDesc = new BLASDesc(RTId.CreateId("MeshBLAS"));
         private readonly BLASBuilder blasBuilder;
 
         public MeshBLAS(BLASBuilder blasBuilder)
@@ -89,7 +89,7 @@ namespace DiligentEngine.RT
             return new Vector4(input.x, input.y, input.z, 0);
         }
 
-        public async Task End()
+        public async Task End(String debugName)
         {
             instance = await blasBuilder.CreateBLAS(blasDesc);
         }

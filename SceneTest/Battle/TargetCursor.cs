@@ -95,7 +95,7 @@ namespace SceneTest.Battle
 
             this.tlasData = new TLASBuildInstanceData()
             {
-                InstanceName = Guid.NewGuid().ToString("N"),
+                InstanceName = RTId.CreateId("TargetCursor"),
                 Mask = RtStructures.OPAQUE_GEOM_MASK,
                 Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity, sprite.BaseScale)
             };

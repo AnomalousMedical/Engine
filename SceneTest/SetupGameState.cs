@@ -18,7 +18,7 @@ namespace SceneTest
         private readonly ICoroutineRunner coroutineRunner;
         private readonly ISharpGui sharpGui;
         private readonly IScreenPositioner screenPositioner;
-        private readonly RTInstances<ISetupGameState> rtInstances;
+        private readonly RTInstances rtInstances;
         private IGameState nextState;
         private bool finished = false;
 
@@ -33,7 +33,7 @@ namespace SceneTest
             ICoroutineRunner coroutineRunner,
             ISharpGui sharpGui,
             IScreenPositioner screenPositioner,
-            RTInstances<ISetupGameState> rtInstances
+            RTInstances<ILevelManager> rtInstances
         )
         {
             this.levelManager = levelManager;

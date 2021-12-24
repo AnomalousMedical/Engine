@@ -18,7 +18,7 @@ namespace RTDungeonGeneratorTest
     {
         public class Desc
         {
-            public string InstanceName { get; set; } = Guid.NewGuid().ToString();
+            public string InstanceName { get; set; } = RTId.CreateId("SceneDungeon");
 
             public InstanceMatrix Transform = InstanceMatrix.Identity;
 
@@ -59,13 +59,13 @@ namespace RTDungeonGeneratorTest
 
             this.floorInstanceData = new TLASBuildInstanceData()
             {
-                InstanceName = Guid.NewGuid().ToString(),
+                InstanceName = RTId.CreateId("SceneDungeonFloor"),
                 Mask = RtStructures.OPAQUE_GEOM_MASK,
                 Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity)
             };
             this.wallInstanceData = new TLASBuildInstanceData()
             {
-                InstanceName = Guid.NewGuid().ToString(),
+                InstanceName = RTId.CreateId("SceneDungeonWall"),
                 Mask = RtStructures.OPAQUE_GEOM_MASK,
                 Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity)
             };
@@ -112,8 +112,8 @@ namespace RTDungeonGeneratorTest
                     (
                         floorTextureTask,
                         wallTextureTask,
-                        floorMesh.End(), 
-                        wallMesh.End(),
+                        floorMesh.End("SceneDungeonFloor"), 
+                        wallMesh.End("SceneDungeonWall"),
                         floorShaderSetup,
                         wallShaderSetup
                     );

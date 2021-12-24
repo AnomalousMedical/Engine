@@ -30,7 +30,7 @@ namespace DiligentEngine.RT.Sprites
         {
             return pooledResources.Checkout(desc, async () =>
             {
-                var instanceName = Guid.NewGuid().ToString("N");
+                var instanceName = RTId.CreateId("SpriteInstanceFactory");
 
                 var material = await spriteMaterialManager.Checkout(desc);
 

@@ -87,7 +87,7 @@ namespace SceneTest.Battle
 
             this.tlasData = new TLASBuildInstanceData()
             {
-                InstanceName = Guid.NewGuid().ToString("N"),
+                InstanceName = RTId.CreateId("Enemy"),
                 Mask = RtStructures.OPAQUE_GEOM_MASK,
                 Transform = new InstanceMatrix(currentPosition, currentOrientation, currentScale)
             };

@@ -9,7 +9,12 @@ namespace DiligentEngine.RT
 {
     public class BLASDesc
     {
-        public String Name { get; set; } = Guid.NewGuid().ToString("N");
+        public String Name { get; private set; }
+
+        public BLASDesc(String name)
+        {
+            this.Name = name;
+        }
 
         public Vector3[] CubePos { get; set; }
 

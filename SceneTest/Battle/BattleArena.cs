@@ -75,7 +75,7 @@ namespace SceneTest.Battle
                     await Task.WhenAll
                     (
                         floorTextureTask,
-                        floorMesh.End(),
+                        floorMesh.End("BattleArenaFloor"),
                         floorShaderSetup
                     );
 
@@ -86,7 +86,7 @@ namespace SceneTest.Battle
                     {
                         this.floorInstanceData = new TLASBuildInstanceData()
                         {
-                            InstanceName = Guid.NewGuid().ToString(),
+                            InstanceName = RTId.CreateId("BattleArenaFloor"),
                             CustomId = 3, //Texture index
                             pBLAS = floorMesh.Instance.BLAS.Obj,
                             Mask = RtStructures.OPAQUE_GEOM_MASK,

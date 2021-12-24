@@ -34,7 +34,7 @@ namespace DiligentEngine.RT
             {
                 try
                 {
-                    var blasDesc = new BLASDesc();
+                    var blasDesc = new BLASDesc(RTId.CreateId("CubeBLAS"));
 
                     blasDesc.CubePos = new Vector3[]
                     {

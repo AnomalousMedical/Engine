@@ -13,7 +13,7 @@ namespace RTBepuDemo
     {
         public class Desc
         {
-            public string InstanceName { get; set; } = Guid.NewGuid().ToString();
+            public string InstanceName { get; set; } = RTId.CreateId("SceneCube");
 
             public uint TextureIndex { get; set; } = 0;
 
