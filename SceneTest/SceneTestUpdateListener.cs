@@ -69,14 +69,13 @@ namespace SceneTest
 
         public unsafe void sendUpdate(Clock clock)
         {
-            rayTracingRenderer.SetInstances(gameState.Instances);
 
             //Update
             //flyCamera.UpdateInput(clock);
             timeClock.Update(clock);
             sharpGui.Begin(clock);
             var nextState = this.gameState.Update(clock);
-            if(nextState != this.gameState)
+            if (nextState != this.gameState)
             {
                 this.gameState.SetActive(false);
                 nextState.SetActive(true);
@@ -86,10 +85,12 @@ namespace SceneTest
             sky.UpdateLight(clock);
             rtInstances.UpdateSprites(clock);
 
+            rayTracingRenderer.SetInstances(gameState.Instances);
+
             //pbrRenderAttribs.AverageLogLum = sky.AverageLogLum;
             //Upate sun here
-
-            rayTracingRenderer.Render(cameraMover.Position, cameraMover.Orientation, new Vector4(0, 20f, -10f, 0f), new Vector4(0f, 20f, -10f, 0f));
+            var lightPos = cameraMover.SceneCenter + new Vector3(10, 25, -20);
+            rayTracingRenderer.Render(cameraMover.Position, cameraMover.Orientation, new Vector4(lightPos.x, lightPos.y, lightPos.z, 0), new Vector4(lightPos.x, lightPos.y, lightPos.z, 0));
 
             var pRTV = swapChain.GetCurrentBackBufferRTV();
             var pDSV = swapChain.GetDepthBufferDSV();
