@@ -9,6 +9,8 @@ namespace DiligentEngine.RT
 {
     public class RTCameraAndLight
     {
+        public Matrix4x4 CurrentViewProj { get; private set; }
+
         public void GetCameraPosition(Vector3 position, Quaternion rotation, in Matrix4x4 preTransformMatrix, in Matrix4x4 CameraProj, out Vector3 CameraWorldPos, out Matrix4x4 CameraViewProj)
         {
             var CameraView = Matrix4x4.Translation(position) * rotation.toRotationMatrix4x4();
@@ -20,6 +22,7 @@ namespace DiligentEngine.RT
 
             // Get projection matrix adjusted to the current screen orientation
             CameraViewProj = CameraView * CameraProj;
+            this.CurrentViewProj = CameraViewProj;
             CameraWorldPos = CameraWorld.GetTranslation();
         }
 

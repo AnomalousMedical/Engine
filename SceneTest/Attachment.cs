@@ -1,14 +1,8 @@
 ﻿using DiligentEngine;
-using DiligentEngine.GltfPbr;
-using DiligentEngine.GltfPbr.Shapes;
+using DiligentEngine.RT;
+using DiligentEngine.RT.Sprites;
 using Engine;
-using Engine.Platform;
-using FreeImageAPI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SceneTest
 {
@@ -16,6 +10,8 @@ namespace SceneTest
     {
         public class Description
         {
+            public string InstanceName { get; set; } = Guid.NewGuid().ToString("N");
+
             public Quaternion Orientation { get; set; } = Quaternion.Identity;
 
             public Sprite Sprite { get; set; }
@@ -25,70 +21,70 @@ namespace SceneTest
             public bool RenderShadow { get; set; } = true;
         }
 
+        
         private const int PrimaryAttachment = 0;
 
-        private ISpriteMaterial spriteMaterial;
-        private SceneObjectManager<TSceneObjectManager> sceneObjectManager;
-        private SpriteManager sprites;
-        private IDestructionRequest destructionRequest;
-        private readonly ISpriteMaterialManager spriteMaterialManager;
-        private SceneObject sceneObject;
-        private Sprite sprite;
+        private readonly TLASBuildInstanceData instanceData;
+        private readonly IDestructionRequest destructionRequest;
+        private readonly RTInstances<TSceneObjectManager> rtInstances;
+        private readonly SpriteInstanceFactory spriteInstanceFactory;
+        private readonly Sprite sprite;
+
+        private SpriteInstance spriteInstance;
         private bool disposed;
 
         private Quaternion orientation;
         private Quaternion additionalRotation = Quaternion.Identity;
 
-        public Attachment(
-            SceneObjectManager<TSceneObjectManager> sceneObjectManager,
-            SpriteManager sprites,
-            Plane plane,
+        public Attachment
+        (
             IDestructionRequest destructionRequest,
+            RTInstances<TSceneObjectManager> rtInstances,
+            SpriteInstanceFactory spriteInstanceFactory,
             IScopedCoroutine coroutine,
-            ISpriteMaterialManager spriteMaterialManager,
-            Description attachmentDescription)
+            Description attachmentDescription
+        )
         {
             this.orientation = attachmentDescription.Orientation;
             this.sprite = attachmentDescription.Sprite;
-
-            this.sceneObjectManager = sceneObjectManager;
-            this.sprites = sprites;
             this.destructionRequest = destructionRequest;
-            this.spriteMaterialManager = spriteMaterialManager;
+            this.rtInstances = rtInstances;
+            this.spriteInstanceFactory = spriteInstanceFactory;
 
-            sceneObject = new SceneObject()
+            this.instanceData = new TLASBuildInstanceData()
             {
-                vertexBuffer = plane.VertexBuffer,
-                skinVertexBuffer = plane.SkinVertexBuffer,
-                indexBuffer = plane.IndexBuffer,
-                numIndices = plane.NumIndices,
-                pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_MASK,
-                position = Vector3.Zero,
-                orientation = this.orientation,
-                scale = sprite.BaseScale,
-                RenderShadow = attachmentDescription.RenderShadow,
-                Sprite = sprite,
+                InstanceName = attachmentDescription.InstanceName,
+                Mask = RtStructures.OPAQUE_GEOM_MASK,
+                Transform = new InstanceMatrix(Vector3.Zero, attachmentDescription.Orientation)
             };
 
             coroutine.RunTask(async () =>
             {
                 using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until task is finished and this is disposed.
 
-                spriteMaterial = await this.spriteMaterialManager.Checkout(attachmentDescription.SpriteMaterial);
+                this.spriteInstance = await spriteInstanceFactory.Checkout(attachmentDescription.SpriteMaterial);
+                this.instanceData.pBLAS = spriteInstance.Instance.BLAS.Obj;
 
                 if (this.disposed)
                 {
-                    this.spriteMaterialManager.Return(spriteMaterial);
+                    this.spriteInstanceFactory.TryReturn(spriteInstance);
                     return; //Stop loading
                 }
 
                 if (!destructionRequest.DestructionRequested) //This is more to prevent a flash for 1 frame of the object
                 {
-                    sceneObject.shaderResourceBinding = spriteMaterial.ShaderResourceBinding;
-                    sprites.Add(sprite);
-                    sceneObjectManager.Add(sceneObject);
+                    rtInstances.AddTlasBuild(instanceData);
+                    rtInstances.AddShaderTableBinder(Bind);
                 }
             });
+        }
+
+        public void Dispose()
+        {
+            disposed = true;
+            this.spriteInstanceFactory.TryReturn(spriteInstance);
+            rtInstances.RemoveShaderTableBinder(Bind);
+            rtInstances.RemoveTlasBuild(instanceData);
         }
 
         public void RequestDestruction()
@@ -112,17 +108,16 @@ namespace SceneTest
             var fullRot = parentRotation * this.orientation * additionalRotation;
             translate = Quaternion.quatRotate(fullRot, translate);
 
-            this.sceneObject.position = parentPosition - translate; //The attachment point on the sprite is an offset to where that sprite attaches, subtract it
-            this.sceneObject.orientation = fullRot;
-            this.sceneObject.scale = scale;
+            var finalPosition = parentPosition - translate; //The attachment point on the sprite is an offset to where that sprite attaches, subtract it
+            var finalOrientation = fullRot;
+            var finalScale = scale;
+
+            this.instanceData.Transform = new InstanceMatrix(finalPosition, finalOrientation, finalScale);
         }
 
-        public void Dispose()
+        private void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
         {
-            disposed = true;
-            sprites.Remove(sprite);
-            sceneObjectManager.Remove(sceneObject);
-            spriteMaterialManager.TryReturn(spriteMaterial);
+            spriteInstance.Bind(this.instanceData.InstanceName, sbt, tlas);
         }
     }
 }

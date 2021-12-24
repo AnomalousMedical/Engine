@@ -1,4 +1,4 @@
-﻿using DiligentEngine.GltfPbr;
+﻿using DiligentEngine.RT;
 using Engine;
 using Engine.Platform;
 using System;
@@ -11,18 +11,18 @@ namespace SceneTest
 {
     class CameraProjector : ICameraProjector
     {
-        private readonly IPbrCameraAndLight pbrCameraAndLight;
+        private readonly RTCameraAndLight cameraAndLight;
         private readonly OSWindow osWindow;
 
-        public CameraProjector(IPbrCameraAndLight pbrCameraAndLight, OSWindow osWindow)
+        public CameraProjector(RTCameraAndLight cameraAndLight, OSWindow osWindow)
         {
-            this.pbrCameraAndLight = pbrCameraAndLight;
+            this.cameraAndLight = cameraAndLight;
             this.osWindow = osWindow;
         }
 
         public Vector2 Project(in Vector3 position)
         {
-            var clipPos = new Vector4(position.x, position.y, position.z, 1.0f) * pbrCameraAndLight.CurrentViewProj;
+            var clipPos = new Vector4(position.x, position.y, position.z, 1.0f) * cameraAndLight.CurrentViewProj;
             clipPos /= clipPos.w;
             return new Vector2
             (

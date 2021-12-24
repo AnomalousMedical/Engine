@@ -2,8 +2,9 @@
 using BepuPhysics.Collidables;
 using BepuPlugin;
 using DiligentEngine;
-using DiligentEngine.GltfPbr;
-using DiligentEngine.GltfPbr.Shapes;
+using DiligentEngine.RT;
+using DiligentEngine.RT.Resources;
+using DiligentEngine.RT.ShaderSets;
 using Engine;
 using System;
 using System.Collections.Generic;
@@ -18,74 +19,127 @@ namespace SceneTest.Battle
         public class Description : SceneObjectDesc
         {
             public String Texture { get; set; } = "cc0Textures/Bricks045_1K";
-
-            public bool RenderShadow { get; set; } = false;
-
-            public bool GetShadow { get; set; } = true;
         }
 
-        private readonly SceneObjectManager<IBattleManager> sceneObjectManager;
+        private TLASBuildInstanceData floorInstanceData;
         private readonly IDestructionRequest destructionRequest;
+        private readonly MeshBLAS floorMesh;
+        private readonly TextureManager textureManager;
+        private readonly RTInstances rtInstances;
+        private readonly RayTracingRenderer renderer;
+        private PrimaryHitShader floorShader;
+        TaskCompletionSource loadingTask = new TaskCompletionSource();
 
-        private readonly ICC0TextureManager textureManager;
-        private IShaderResourceBinding matBinding;
-        private SceneObject sceneObject;
-        private bool disposed;
+        CC0TextureResult floorTexture;
 
-        public BattleArena(
-            SceneObjectManager<IBattleManager> sceneObjectManager,
-            Cube cube,
+        public BattleArena
+        (
+            Description description,
+            IScopedCoroutine coroutineRunner,
             IDestructionRequest destructionRequest,
-            IScopedCoroutine coroutine,
-            ICC0TextureManager textureManager,
-            Description description)
+            MeshBLAS floorMesh,
+            TextureManager textureManager,
+            PrimaryHitShaderFactory primaryHitShaderFactory,
+            RTInstances rtInstances,
+            RayTracingRenderer renderer
+        )
         {
-            this.sceneObjectManager = sceneObjectManager;
             this.destructionRequest = destructionRequest;
+            this.floorMesh = floorMesh;
             this.textureManager = textureManager;
-            sceneObject = new SceneObject()
+            this.rtInstances = rtInstances;
+            this.renderer = renderer;
+            coroutineRunner.RunTask(async () =>
             {
-                vertexBuffer = cube.VertexBuffer,
-                skinVertexBuffer = cube.SkinVertexBuffer,
-                indexBuffer = cube.IndexBuffer,
-                numIndices = cube.NumIndices,
-                pbrAlphaMode = PbrAlphaMode.ALPHA_MODE_OPAQUE,
-                position = description.Translation,
-                orientation = description.Orientation,
-                scale = description.Scale,
-                RenderShadow = description.RenderShadow,
-                GetShadows = description.GetShadow
-            };
-
-            coroutine.RunTask(async () =>
-            {
-                using var destructionBlock = destructionRequest.BlockDestruction(); //Block destruction until coroutine is finished and this is disposed.
-
-                matBinding = await textureManager.Checkout(new CCOTextureBindingDescription(description.Texture, getShadow: description.GetShadow));
-                if (disposed)
+                using var destructionBlock = destructionRequest.BlockDestruction();
+                try
                 {
-                    textureManager.Return(matBinding);
-                    return; //Stop loading
+                    var floorTextureDesc = new CCOTextureBindingDescription(description.Texture);
+
+                    var floorTextureTask = textureManager.Checkout(floorTextureDesc);
+
+                    //Right now this just makes a plane, which does make one per arena request, but whatever for now
+                    //Will replace this with more dynamic geometry later that will make this worth it
+                    //Note this all happens on the main thread too, but can be backgrounded if it becomes more complex
+                    floorMesh.Begin(1);
+
+                    var size = 10f;
+
+                    floorMesh.AddQuad(new Vector3(-size, size, 0), new Vector3(size, size, 0), new Vector3(size, -size, 0), new Vector3(-size, -size, 0),
+                                      Vector3.Up, Vector3.Up, Vector3.Up, Vector3.Up,
+                                      new Vector2(0, 0),
+                                      new Vector2(1, 1));
+
+                    var floorShaderSetup = primaryHitShaderFactory.Create(floorMesh.Name, floorTextureDesc.NumTextures, PrimaryHitShaderType.Cube);
+
+                    await Task.WhenAll
+                    (
+                        floorTextureTask,
+                        floorMesh.End(),
+                        floorShaderSetup
+                    );
+
+                    this.floorShader = floorShaderSetup.Result;
+                    this.floorTexture = floorTextureTask.Result;
+
+                    if (!destructionRequest.DestructionRequested)
+                    {
+                        this.floorInstanceData = new TLASBuildInstanceData()
+                        {
+                            InstanceName = Guid.NewGuid().ToString(),
+                            CustomId = 3, //Texture index
+                            pBLAS = floorMesh.Instance.BLAS.Obj,
+                            Mask = RtStructures.OPAQUE_GEOM_MASK,
+                            Transform = new InstanceMatrix(Vector3.Zero, Quaternion.Identity)
+                        };
+
+                        rtInstances.AddTlasBuild(floorInstanceData);
+                        rtInstances.AddShaderTableBinder(Bind);
+                        renderer.AddShaderResourceBinder(Bind);
+                    }
+
+                    loadingTask.SetResult();
                 }
-
-                if (!destructionRequest.DestructionRequested)
+                catch (Exception ex)
                 {
-                    sceneObject.shaderResourceBinding = matBinding;
-                    this.sceneObjectManager.Add(sceneObject);
+                    loadingTask.SetException(ex);
                 }
             });
         }
 
-        public void Dispose()
-        {
-            disposed = true;
-            sceneObjectManager.Remove(sceneObject);
-            textureManager.TryReturn(matBinding);
-        }
-
-        internal void RequestDestruction()
+        public void RequestDestruction()
         {
             destructionRequest.RequestDestruction();
+        }
+
+        public void Dispose()
+        {
+            textureManager.TryReturn(floorTexture);
+            renderer.RemoveShaderResourceBinder(Bind);
+            rtInstances.RemoveShaderTableBinder(Bind);
+            this.floorShader?.Dispose();
+            rtInstances.RemoveTlasBuild(floorInstanceData);
+        }
+
+        public void SetTransform(InstanceMatrix matrix)
+        {
+            this.floorInstanceData.Transform = matrix;
+        }
+
+        public void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
+        {
+            sbt.BindHitGroupForInstance(tlas, floorInstanceData.InstanceName, RtStructures.PRIMARY_RAY_INDEX, floorShader.ShaderGroupName, IntPtr.Zero, 0);
+        }
+
+        public void Bind(IShaderResourceBinding rayTracingSRB)
+        {
+            floorShader.BindBlas(floorMesh.Instance, rayTracingSRB);
+            floorShader.BindTextures(rayTracingSRB, floorTexture);
+        }
+
+        public Task WaitForLoad()
+        {
+            return loadingTask.Task;
         }
     }
 }
