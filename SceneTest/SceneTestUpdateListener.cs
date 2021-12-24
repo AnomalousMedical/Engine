@@ -72,7 +72,7 @@ namespace SceneTest
             rayTracingRenderer.SetInstances(gameState.Instances);
 
             //Update
-            flyCamera.UpdateInput(clock);
+            //flyCamera.UpdateInput(clock);
             timeClock.Update(clock);
             sharpGui.Begin(clock);
             var nextState = this.gameState.Update(clock);
@@ -89,7 +89,7 @@ namespace SceneTest
             //pbrRenderAttribs.AverageLogLum = sky.AverageLogLum;
             //Upate sun here
 
-            rayTracingRenderer.Render(flyCamera.Position, flyCamera.Orientation, new Vector4(0, 20f, -10f, 0f), new Vector4(0f, 20f, -10f, 0f));
+            rayTracingRenderer.Render(cameraMover.Position, cameraMover.Orientation, new Vector4(0, 20f, -10f, 0f), new Vector4(0f, 20f, -10f, 0f));
 
             var pRTV = swapChain.GetCurrentBackBufferRTV();
             var pDSV = swapChain.GetDepthBufferDSV();
