@@ -1,5 +1,6 @@
 ﻿using Anomalous.OSPlatform;
 using DiligentEngine;
+using DiligentEngine.RT;
 using Engine;
 using Engine.Platform;
 using Engine.Resources;
@@ -57,8 +58,8 @@ namespace RTSandbox
 
             services.AddSingleton<SandboxScene>();
             services.AddSingleton<RTGui>();
-            //services.AddSingleton<IRTSandboxScene, DemoScene>();
             services.AddDiligentEngineRt();
+            services.AddSingleton<RTInstances>();
 
             services.AddScoped<SceneCube>();
             services.AddScoped<SceneCube.Desc>();

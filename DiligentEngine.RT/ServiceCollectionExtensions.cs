@@ -33,7 +33,6 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<GeneralShaders>();
             services.AddSingleton<CC0TextureLoader>();
             services.AddSingleton<TextureManager>();
-            services.AddSingleton<RTInstances>();
 
             services.AddSingleton<PrimaryHitShader.Factory>();
             services.AddTransient<TextureSet>();

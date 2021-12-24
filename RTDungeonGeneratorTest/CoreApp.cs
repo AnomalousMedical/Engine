@@ -1,4 +1,5 @@
 ﻿using Anomalous.OSPlatform;
+using DiligentEngine.RT;
 using Engine;
 using Engine.Platform;
 using Microsoft.Extensions.DependencyInjection;
@@ -49,6 +50,7 @@ namespace RTDungeonGeneratorTest
             {
 
             });
+            services.AddSingleton<RTInstances>();
 
             services.AddBepuPlugin();
 

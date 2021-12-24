@@ -40,7 +40,7 @@ namespace SceneTest.Battle
             MeshBLAS floorMesh,
             TextureManager textureManager,
             PrimaryHitShader.Factory primaryHitShaderFactory,
-            RTInstances rtInstances,
+            RTInstances<IBattleManager> rtInstances,
             RayTracingRenderer renderer
         )
         {
@@ -65,7 +65,7 @@ namespace SceneTest.Battle
 
                     var size = 10f;
 
-                    floorMesh.AddQuad(new Vector3(-size, size, 0), new Vector3(size, size, 0), new Vector3(size, -size, 0), new Vector3(-size, -size, 0),
+                    floorMesh.AddQuad(new Vector3(-size, 0, size), new Vector3(size, 0, size), new Vector3(size, 0, -size), new Vector3(-size, 0, -size),
                                       Vector3.Up, Vector3.Up, Vector3.Up, Vector3.Up,
                                       new Vector2(0, 0),
                                       new Vector2(1, 1));
@@ -120,11 +120,6 @@ namespace SceneTest.Battle
             rtInstances.RemoveShaderTableBinder(Bind);
             this.floorShader?.Dispose();
             rtInstances.RemoveTlasBuild(floorInstanceData);
-        }
-
-        public void SetTransform(InstanceMatrix matrix)
-        {
-            this.floorInstanceData.Transform = matrix;
         }
 
         public void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)

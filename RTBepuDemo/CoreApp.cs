@@ -1,5 +1,6 @@
 ﻿using Anomalous.OSPlatform;
 using DiligentEngine;
+using DiligentEngine.RT;
 using Engine;
 using Engine.Platform;
 using Microsoft.Extensions.DependencyInjection;
@@ -50,6 +51,7 @@ namespace RTBepuDemo
             {
 
             });
+            services.AddSingleton<RTInstances>();
 
             services.AddOSPlatform(pluginManager);
             services.AddSharpGui();
