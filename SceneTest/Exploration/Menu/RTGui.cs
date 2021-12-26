@@ -34,9 +34,9 @@ namespace SceneTest.Exploration.Menu
             this.sharpGui = sharpGui;
             this.window = window;
             this.cameraControls = cameraControls;
-            lightPosX = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 10, 500, 35)), Max = ToSlider(LightRange) };
-            lightPosY = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 50, 500, 35)), Max = ToSlider(LightRange) };
-            lightPosZ = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 90, 500, 35)), Max = ToSlider(LightRange) };
+            lightPosX = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 50, 500, 35)), Max = ToSlider(LightRange) };
+            lightPosY = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 90, 500, 35)), Max = ToSlider(LightRange) };
+            lightPosZ = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 130, 500, 35)), Max = ToSlider(LightRange) };
         }
 
         public void Update(Clock clock)
@@ -68,7 +68,7 @@ namespace SceneTest.Exploration.Menu
                 new ColumnLayout(lightPosText, cameraPosText) { Margin = new IntPad(10) }
                 ));
             var desiredSize = layout.GetDesiredSize(sharpGui);
-            layout.SetRect(new IntRect(0, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
+            layout.SetRect(new IntRect(0, window.WindowHeight - desiredSize.Height , desiredSize.Width, desiredSize.Height));
 
             //Buttons
             sharpGui.Text(lightPosText);

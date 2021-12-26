@@ -73,7 +73,7 @@ namespace DiligentEngine.RT
                 LightPos_0 = new Vector4(8.00f, -8.0f, +0.00f, 0f),
                 LightColor_0 = new Vector4(1.00f, +0.8f, +0.80f, 0f),
                 LightPos_1 = new Vector4(0.00f, -4.0f, -5.00f, 0f),
-                LightColor_1 = new Vector4(0, +0, +0, 0f),
+                LightColor_1 = new Vector4(0.4f, +0.4f, +0.6f, 0f),
 
                 // Random points on disc. packed float2[16]
                 DiscPoints_0 = new Vector4(+0.0f, +0.0f, +0.9f, -0.9f),

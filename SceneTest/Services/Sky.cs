@@ -21,14 +21,17 @@ namespace SceneTest
         Color clearColor = Color.FromARGB(0xff2a63cc);
 
         //Light
-        Vector3 lightDirection = Vector3.Up;
+        private Vector3 sunPosition;
+        private Vector3 moonPosition;
         Vector4 lightColor = new Vector4(1, 1, 1, 1);
         float lightIntensity = 3;
         float averageLogLum = 0.3f;
 
         public Color ClearColor => clearColor;
 
-        public Vector3 LightDirection => lightDirection;
+        public Vector3 SunPosition => sunPosition;
+
+        public Vector3 MoonPosition => moonPosition;
         public Vector4 LightColor => lightColor;
         public float LightIntensity => lightIntensity;
 
@@ -41,11 +44,17 @@ namespace SceneTest
 
         public unsafe void UpdateLight(Clock clock)
         {
+            var rotation = new Quaternion(Vector3.UnitZ, timeClock.TimeFactor * 2 * MathF.PI);
+            sunPosition = Quaternion.quatRotate(rotation, Vector3.Down) * 40;
+            sunPosition += new Vector3(0f, 0f, -20f);
+
+            moonPosition = Quaternion.quatRotate(rotation, Vector3.Up) * 40;
+            moonPosition += new Vector3(0f, 0f, -20f);
+
             if (timeClock.IsDay)
             {
                 var dayFactor = (timeClock.DayFactor - 0.5f) * 2.0f;
                 var noonFactor = 1.0f - Math.Abs(dayFactor);
-                lightDirection = new Vector3(dayFactor, -0.5f * noonFactor - 0.1f, 1f).normalized();
                 lightIntensity = 5f * noonFactor + 2.0f;
 
                 averageLogLum = 0.3f;
@@ -67,7 +76,6 @@ namespace SceneTest
             {
                 var nightFactor = (timeClock.NightFactor - 0.5f) * 2.0f;
                 var midnightFactor = 1.0f - Math.Abs(nightFactor);
-                lightDirection = new Vector3(nightFactor, -0.5f * midnightFactor - 0.1f, 1f).normalized();
 
                 lightIntensity = 0.7f * midnightFactor + 2.0f;
 

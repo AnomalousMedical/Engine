@@ -50,6 +50,8 @@ namespace SceneTest
             }
         }
 
+        public float TimeFactor => currentTime / (float)period;
+
         public long DayStart
         {
             get

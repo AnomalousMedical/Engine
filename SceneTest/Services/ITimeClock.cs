@@ -5,6 +5,7 @@ namespace SceneTest
     interface ITimeClock
     {
         long CurrentTimeMicro { get; set; }
+        float TimeFactor { get; }
         long DayEnd { get; set; }
         float DayFactor { get; }
         long DayStart { get; set; }

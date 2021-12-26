@@ -92,9 +92,9 @@ namespace SceneTest
 
             //pbrRenderAttribs.AverageLogLum = sky.AverageLogLum;
             //Upate sun here
-            var sceneCenter = cameraMover.SceneCenter + new Vector3(rtGui.LightPos.x, rtGui.LightPos.y, rtGui.LightPos.z);
-            var lightPos = new Vector4(sceneCenter.x, sceneCenter.y, sceneCenter.z, 0);
-            rayTracingRenderer.Render(rtInstances, cameraMover.Position, cameraMover.Orientation, lightPos, lightPos);
+            var sunPos = cameraMover.SceneCenter + new Vector3(sky.SunPosition.x, sky.SunPosition.y, sky.SunPosition.z);
+            var moonPos = cameraMover.SceneCenter + new Vector3(sky.MoonPosition.x, sky.MoonPosition.y, sky.MoonPosition.z);
+            rayTracingRenderer.Render(rtInstances, cameraMover.Position, cameraMover.Orientation, new Vector4(sunPos.x, sunPos.y, sunPos.z, 0), new Vector4(moonPos.x, moonPos.y, moonPos.z, 0));
 
             var pRTV = swapChain.GetCurrentBackBufferRTV();
             var pDSV = swapChain.GetDepthBufferDSV();
