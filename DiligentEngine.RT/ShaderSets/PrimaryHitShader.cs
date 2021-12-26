@@ -26,7 +26,7 @@ namespace DiligentEngine.RT.ShaderSets
 
             public bool HasNormalMap { get; set; }
 
-            public bool IsShiny { get; set; }
+            public bool HasPhysicalDescriptorMap { get; set; }
         }
 
         public class Factory
@@ -88,8 +88,10 @@ namespace DiligentEngine.RT.ShaderSets
         private String indicesName;
         private String colorTexturesName;
         private String normalTexturesName;
+        private String physicalTexturesName;
         private String shaderGroupName;
         private bool hasNormalMap;
+        private bool hasPhysicalMap;
 
         public String ShaderGroupName => shaderGroupName;
 
@@ -104,6 +106,7 @@ namespace DiligentEngine.RT.ShaderSets
             var baseName = desc.baseName;
             var shaderType = desc.shaderType;
             this.hasNormalMap = desc.HasNormalMap;
+            this.hasPhysicalMap = desc.HasPhysicalDescriptorMap;
 
             await Task.Run(() =>
             {
@@ -111,6 +114,7 @@ namespace DiligentEngine.RT.ShaderSets
                 this.indicesName = $"idx_{baseName}";
                 this.colorTexturesName = $"tex_{baseName}";
                 this.normalTexturesName = $"nrmltex_{baseName}";
+                this.physicalTexturesName = $"phystex_{baseName}";
                 this.shaderGroupName = $"{baseName}PrimaryHit";
 
                 var m_pDevice = graphicsEngine.RenderDevice;
@@ -149,7 +153,7 @@ namespace DiligentEngine.RT.ShaderSets
                     primaryHitSuffix += "ColorOnly";
                 }
 
-                if (desc.IsShiny)
+                if (desc.HasPhysicalDescriptorMap)
                 {
                     primaryHitSuffix = "Shiny";
                 }
@@ -207,7 +211,15 @@ namespace DiligentEngine.RT.ShaderSets
         public void BindTextures(IShaderResourceBinding m_pRayTracingSRB, TextureSet textureSet)
         {
             m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, colorTexturesName)?.SetArray(textureSet.TexSRVs);
-            m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, normalTexturesName)?.SetArray(textureSet.TexNormalSRVs);
+            if (hasNormalMap)
+            {
+                m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, normalTexturesName)?.SetArray(textureSet.TexNormalSRVs);
+            }
+
+            if (hasPhysicalMap)
+            {
+                m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, physicalTexturesName)?.SetArray(textureSet.TexPhysicalSRVs);
+            }
 
             m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, colorTexturesName)?.SetArray(textureSet.TexSRVs);
         }
@@ -221,6 +233,11 @@ namespace DiligentEngine.RT.ShaderSets
                 m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, normalTexturesName)?.Set(spriteMaterial.NormalSRV);
             }
 
+            //if (hasPhysicalMap)
+            //{
+            //    m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, physicalTexturesName)?.SetArray(spriteMaterial.TexPhysicalSRVs);
+            //}
+
             m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, colorTexturesName)?.Set(spriteMaterial.ColorSRV);
         }
 
@@ -229,14 +246,30 @@ namespace DiligentEngine.RT.ShaderSets
             if (numTextures == 1)
             {
                 m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, colorTexturesName)?.Set(textureSet.BaseColorSRVs[0]);
-                m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, normalTexturesName)?.Set(textureSet.NormalMapSRVs[0]);
+                if (hasNormalMap)
+                {
+                    m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, normalTexturesName)?.Set(textureSet.NormalMapSRVs[0]);
+                }
+
+                //if (hasPhysicalMap)
+                //{
+                //    m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, physicalTexturesName)?.SetArray(textureSet.TexPhysicalSRVs[0]);
+                //}
 
                 m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, colorTexturesName)?.Set(textureSet.BaseColorSRVs[0]);
             }
             else
             {
                 m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, colorTexturesName)?.SetArray(textureSet.BaseColorSRVs);
-                m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, normalTexturesName)?.SetArray(textureSet.NormalMapSRVs);
+                if (hasNormalMap)
+                {
+                    m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, normalTexturesName)?.SetArray(textureSet.NormalMapSRVs);
+                }
+
+                //if (hasPhysicalMap)
+                //{
+                //    m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, physicalTexturesName)?.SetArray(textureSet.TexPhysicalSRVs);
+                //}
 
                 m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, colorTexturesName)?.SetArray(textureSet.BaseColorSRVs);
             }

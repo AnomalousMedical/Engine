@@ -1,4 +1,5 @@
-﻿using Engine;
+﻿using DiligentEngine.RT.Resources;
+using Engine;
 using FreeImageAPI;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,8 @@ namespace DiligentEngine.RT
 {
     public class TextureSet : IDisposable
     {
-        private List<AutoPtr<ITexture>> pTex;
-        private readonly TextureLoader textureLoader;
-        private readonly GraphicsEngine graphicsEngine;
-        private readonly VirtualFileSystem virtualFileSystem;
+        private List<CC0TextureResult> pTex;
+        private readonly CC0TextureLoader textureLoader;
         private int numTextures; //The number of textues in the set, multiple texture files may be loaded
         private bool hasOpacity;
 
@@ -26,14 +25,14 @@ namespace DiligentEngine.RT
 
         public List<IDeviceObject> TexNormalSRVs { get; private set; }
 
-        public TextureSet(TextureLoader textureLoader, GraphicsEngine graphicsEngine, VirtualFileSystem virtualFileSystem)
+        public List<IDeviceObject> TexPhysicalSRVs { get; private set; }
+
+        public TextureSet(CC0TextureLoader texturelLoader)
         {
-            this.textureLoader = textureLoader;
-            this.graphicsEngine = graphicsEngine;
-            this.virtualFileSystem = virtualFileSystem;
+            this.textureLoader = texturelLoader;
         }
 
-        public void Setup(IEnumerable<String> textureFiles, int numTexturesHint = 1) 
+        public async Task Setup(IEnumerable<String> textureFiles, int numTexturesHint = 1) 
         { 
             if(pTex != null)
             {
@@ -43,58 +42,31 @@ namespace DiligentEngine.RT
             numTextures = 0;
             hasOpacity = false;
 
-            var m_pImmediateContext = graphicsEngine.ImmediateContext;
-
-            pTex = new List<AutoPtr<ITexture>>(numTexturesHint * 2);
+            pTex = new List<CC0TextureResult>(numTexturesHint);
             TexSRVs = new List<IDeviceObject>(numTexturesHint);
             TexNormalSRVs = new List<IDeviceObject>(numTexturesHint);
-            var Barriers = new List<StateTransitionDesc>(numTexturesHint);
+            TexPhysicalSRVs = new List<IDeviceObject>(numTexturesHint);
 
             // Load textures
             foreach (var texture in textureFiles)
             {
                 ++numTextures;
+                //TODO: This isn't very good, we really don't need this layer at all
+                var result = await textureLoader.LoadTextureSet(texture);
+                pTex.Add(result);
+                if(result.BaseColorSRVs.Count > 0)
                 {
-                    var textureFile = $"cc0Textures/{texture}_1K_Color.jpg";
-                    var opacityFile = $"cc0Textures/{texture}_1K_Opacity.jpg";
-
-                    using var logoStream = virtualFileSystem.openStream(textureFile, FileMode.Open);
-                    using var bmp = FreeImageBitmap.FromStream(logoStream);
-                    if (virtualFileSystem.exists(opacityFile))
-                    {
-                        hasOpacity = true;
-                        //Jam opacity map into color alpha channel if it exists
-                        bmp.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_32_BPP); //Cheat and convert color depth
-                        using var opacityStream = virtualFileSystem.openStream(opacityFile, FileMode.Open);
-                        using var opacityBmp = FreeImageBitmap.FromStream(opacityStream);
-                        opacityBmp.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_08_BPP);
-                        bmp.SetChannel(opacityBmp, FREE_IMAGE_COLOR_CHANNEL.FICC_ALPHA);
-                    }
-                    var color = textureLoader.CreateTextureFromImage(bmp, 0, $"Color {texture} Texture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true);
-                    pTex.Add(color);
-
-                    // Get shader resource view from the texture
-                    var pTextureSRV = color.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
-                    TexSRVs.Add(pTextureSRV);
-                    Barriers.Add(new StateTransitionDesc { pResource = color.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true });
+                    TexSRVs.AddRange(result.BaseColorSRVs);
                 }
-
+                if(result.NormalMapSRVs.Count > 0)
                 {
-                    var textureFile = $"cc0Textures/{texture}_1K_Normal.jpg";
-
-                    using var logoStream = virtualFileSystem.openStream(textureFile, FileMode.Open);
-                    using var bmp = FreeImageBitmap.FromStream(logoStream);
-                    var normal = textureLoader.CreateTextureFromImage(bmp, 0, $"Normal {texture} Texture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, false); //SRGB breaks normal maps
-                    pTex.Add(normal);
-
-                    // Get shader resource view from the texture
-                    var pTextureSRV = normal.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
-                    TexNormalSRVs.Add(pTextureSRV);
-                    Barriers.Add(new StateTransitionDesc { pResource = normal.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true });
+                    TexNormalSRVs.AddRange(result.NormalMapSRVs);
+                }
+                if (result.PhysicalDescriptorMapSRVs.Count > 0)
+                {
+                    TexPhysicalSRVs.AddRange(result.PhysicalDescriptorMapSRVs);
                 }
             }
-
-            m_pImmediateContext.TransitionResourceStates(Barriers);
         }
 
         public void Dispose()

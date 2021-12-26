@@ -29,7 +29,7 @@ namespace DiligentEngine.RT.Resources
             this.graphicsEngine = graphicsEngine;
         }
 
-        public async Task<CC0TextureResult> LoadTextureSet(String basePath, String ext = "jpg", string colorPath = null, string colorExt = null)
+        public async Task<CC0TextureResult> LoadTextureSet(String basePath, String ext = "jpg", string colorPath = null, string colorExt = null, bool allowOpacityMapLoad = true)
         {
             //In this function the auto pointers are handed off to the result, which will be managed by the caller to erase the resources.
             var result = new CC0TextureResult();
@@ -39,6 +39,7 @@ namespace DiligentEngine.RT.Resources
             var roughnessMapPath = $"{basePath}_Roughness.{ext}";
             var metalnessMapPath = $"{basePath}_Metalness.{ext}";
             var ambientOcclusionMapPath = $"{basePath}_AmbientOcclusion.{ext}";
+            var opacityFile = $"{basePath}_Opacity.jpg";
 
             var Barriers = new List<StateTransitionDesc>(5);
 
@@ -48,7 +49,17 @@ namespace DiligentEngine.RT.Resources
                 {
                     using (var stream = resourceProvider.openFile(colorMapPath))
                     {
-                        var baseColorMap = textureLoader.LoadTexture(stream, "baseColorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true);
+                        using var bmp = FreeImageBitmap.FromStream(stream);
+                        if (allowOpacityMapLoad && resourceProvider.exists(opacityFile))
+                        {
+                            //Jam opacity map into color alpha channel if it exists
+                            bmp.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_32_BPP);
+                            using var opacityStream = resourceProvider.openFile(opacityFile);
+                            using var opacityBmp = FreeImageBitmap.FromStream(opacityStream);
+                            opacityBmp.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_08_BPP);
+                            bmp.SetChannel(opacityBmp, FREE_IMAGE_COLOR_CHANNEL.FICC_ALPHA);
+                        }
+                        var baseColorMap = textureLoader.CreateTextureFromImage(bmp, 0, "baseColorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true);
                         result.SetBaseColorMap(baseColorMap);
                         Barriers.Add(new StateTransitionDesc { pResource = baseColorMap.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true });
                     }

@@ -34,7 +34,7 @@ namespace DiligentEngine.RT
             {
                 try
                 {
-                    var blasDesc = new BLASDesc(RTId.CreateId("CubeBLAS"));
+                    var blasDesc = new BLASDesc(RTId.CreateId("ShinyCubeBLAS"));
 
                     blasDesc.CubePos = new Vector3[]
                     {
@@ -79,7 +79,8 @@ namespace DiligentEngine.RT
                     var setupShader = primaryHitShaderFactory.Create(new PrimaryHitShader.Desc()
                     {
                         baseName = blasDesc.Name,
-                        IsShiny = true,
+                        HasNormalMap = true,
+                        HasPhysicalDescriptorMap = true, //A bit hacky
                         numTextures = 5
                     });
                     instance = await blasBuilder.CreateBLAS(blasDesc);

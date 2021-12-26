@@ -68,13 +68,13 @@ namespace RTBepuDemo
             this.rtInstances = rtInstances;
             coroutine.RunTask(async () =>
             {
-                textureSet.Setup(new string[]
+                await textureSet.Setup(new string[]
                 {
-                    "ChristmasTreeOrnament007",
-                    "SheetMetal002",
-                    "Fabric021",
-                    "Wood049",
-                    "Ground042"
+                    "cc0Textures/ChristmasTreeOrnament007_1K",
+                    "cc0Textures/SheetMetal002_1K",
+                    "cc0Textures/Fabric021_1K",
+                    "cc0Textures/Wood049_1K",
+                    "cc0Textures/Ground042_1K"
                 });
                 await cubeBLAS.WaitForLoad();
 
