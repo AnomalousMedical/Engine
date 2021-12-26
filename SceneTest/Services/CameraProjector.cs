@@ -22,7 +22,8 @@ namespace SceneTest
 
         public Vector2 Project(in Vector3 position)
         {
-            var clipPos = new Vector4(position.x, position.y, position.z, 1.0f) * cameraAndLight.CurrentViewProj;
+            //Need to adjust to diligent coords by negating
+            var clipPos = new Vector4(-position.x, -position.y, -position.z, 1.0f) * cameraAndLight.CurrentViewProj;
             clipPos /= clipPos.w;
             return new Vector2
             (
