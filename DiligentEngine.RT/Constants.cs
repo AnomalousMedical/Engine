@@ -43,7 +43,8 @@ namespace DiligentEngine.RT
         public int ShadowPCF;
         // Maximum ray recursion depth
         public uint MaxRecursion;
-        public float2 Padding2;
+        public float Darkness;
+        public float Padding2;
 
         public float4 DiscPoints_0;
         public float4 DiscPoints_1;
@@ -70,6 +71,7 @@ namespace DiligentEngine.RT
                 MaxRecursion = Math.Min(6, maxRecursionDepth),
 
                 AmbientColor = new Vector4(1f, 1f, 1f, 0f) * 0f,
+                Darkness = 0.125f,
                 LightPos_0 = new Vector4(8.00f, -8.0f, +0.00f, 0f),
                 LightColor_0 = new Vector4(1.00f, +0.8f, +0.80f, 0f),
                 LightPos_1 = new Vector4(0.00f, -4.0f, -5.00f, 0f),

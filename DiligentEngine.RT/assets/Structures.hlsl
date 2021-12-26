@@ -45,7 +45,8 @@ struct Constants
     int      ShadowPCF; 
     // Maximum ray recursion depth
     int      MaxRecursion;
-    float2   Padding2;
+    float    Darkness;
+    float1   Padding2;
     
     float4  DiscPoints[8]; // packed float2[16]
 

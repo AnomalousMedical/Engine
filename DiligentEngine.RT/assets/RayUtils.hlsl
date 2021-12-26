@@ -18,7 +18,7 @@ PrimaryRayPayload CastPrimaryRay(RayDesc ray, uint Recursion)
     if (Recursion >= g_ConstantsCB.MaxRecursion)
     {
         // set pink color for debugging
-        payload.Color = float3(0.95, 0.18, 0.95);
+        //payload.Color = float3(0.95, 0.18, 0.95);
         return payload;
     }
     TraceRay(g_TLAS,            // Acceleration structure
@@ -117,7 +117,7 @@ void LightingPass(inout float3 Color, float3 Pos, float3 Norm, float3 pertbNorm,
 
             col += Color * g_ConstantsCB.LightColor[i].rgb * NdotL * shading;
         }
-        col += Color * 0.125;
+        col += Color * g_ConstantsCB.Darkness;
     }
     Color = col * (1.0 / float(NUM_LIGHTS)) + g_ConstantsCB.AmbientColor.rgb;
 }
@@ -289,7 +289,7 @@ void LightAndShadeShinyUV
     LightingPass(payload.Color, rayOrigin, normal, pertNormal, payload.Recursion + 1);
 
     // Reflect normal.
-    float3 rayDir = reflect(WorldRayDirection(), normal);
+    float3 rayDir = reflect(WorldRayDirection(), pertNormal);
 
     RayDesc ray;
     ray.Origin = WorldRayOrigin() + WorldRayDirection() * RayTCurrent() + normal * SMALL_OFFSET;
@@ -311,7 +311,7 @@ void LightAndShadeShinyUV
     // Apply color mask for reflected color.
     //color *= g_ConstantsCB.SphereReflectionColorMask;, can use original color here somehow combined with shinyness maybe?
     //color *= payload.Color; // float3(0.81f, 1.0f, 0.45f);
-    color *= float3(0.81f, 1.0f, 0.45f);
+    //color *= float3(0.81f, 1.0f, 0.45f);
 
     payload.Color = color;
     payload.Depth = RayTCurrent();
