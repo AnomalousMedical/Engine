@@ -281,12 +281,6 @@ void LightAndShadeShinyUV
     normal = normalize(mul((float3x3) ObjectToWorld3x4(), normal));
     pertNormal = normalize(mul((float3x3) ObjectToWorld3x4(), pertNormal));
 
-    // Sample texturing.
-    payload.Color = colorTexture.SampleLevel(colorSampler, uv, mip).rgb;
-
-    // Apply lighting.
-    float3 rayOrigin = WorldRayOrigin() + WorldRayDirection() * RayTCurrent();
-    LightingPass(payload.Color, rayOrigin, normal, pertNormal, payload.Recursion + 1);
 
     // Reflect normal.
     float3 rayDir = reflect(WorldRayDirection(), pertNormal);
@@ -308,12 +302,17 @@ void LightAndShadeShinyUV
 
     color /= float(ReflBlur);
 
-    // Apply color mask for reflected color.
-    //color *= g_ConstantsCB.SphereReflectionColorMask;, can use original color here somehow combined with shinyness maybe?
-    //color *= payload.Color; // float3(0.81f, 1.0f, 0.45f);
-    //color *= float3(0.81f, 1.0f, 0.45f);
+    // Sample texturing.
+    float3 texColor = colorTexture.SampleLevel(colorSampler, uv, mip).rgb;
 
-    payload.Color = color;
+    float reflectivity = 0.3f;
+
+    payload.Color = texColor * (1.0f - reflectivity) + color * reflectivity;
+
+    // Apply lighting.
+    float3 rayOrigin = WorldRayOrigin() + WorldRayDirection() * RayTCurrent();
+    LightingPass(payload.Color, rayOrigin, normal, pertNormal, payload.Recursion + 1);
+
     payload.Depth = RayTCurrent();
 }
 
