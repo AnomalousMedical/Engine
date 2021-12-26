@@ -81,7 +81,7 @@ namespace RTSandbox
 
                 objectResolver.Resolve<SceneShinyCube, SceneShinyCube.Desc>(o =>
                 {
-                    o.Transform = new InstanceMatrix(new Vector3(-3, 0, 10), Quaternion.Identity, new Vector3(15, 5, 1));
+                    o.Transform = new InstanceMatrix(new Vector3(-3, 0, 10), Quaternion.Identity, new Vector3(1, 1, 1));
                 });
 
                 objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>

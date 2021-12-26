@@ -306,7 +306,7 @@ void LightAndShadeShinyUV
     // Sample texturing.
     float3 texColor = colorTexture.SampleLevel(colorSampler, uv, mip).rgb;
 
-    float reflectivity = 0.3f;
+    float reflectivity = physicalTexture.SampleLevel(colorSampler, uv, mip).g;
 
     payload.Color = texColor * (1.0f - reflectivity) + color * reflectivity;
 
