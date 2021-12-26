@@ -117,7 +117,7 @@ namespace DiligentEngine.RT.Sprites
 
                 return await Task.Run(() =>
                 {
-                    using var colorTexture = textureLoader.CreateTextureFromImage(image, 1, "colorTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, false);
+                    using var colorTexture = textureLoader.CreateTextureFromImage(image, 1, "colorTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true);
 
                     var result = new SpriteMaterial(image.Width, image.Height, spriteMaterialTextureManager, spriteMatTextures, colorTexture.Obj);
                     return pooledResources.CreateResult(result);
