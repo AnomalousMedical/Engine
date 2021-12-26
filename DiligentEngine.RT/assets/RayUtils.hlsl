@@ -283,18 +283,19 @@ void LightAndShadeShinyUV
     pertNormal = normalize(mul((float3x3) ObjectToWorld3x4(), pertNormal));
 
     float3 color = float3(0.0f, 0.0f, 0.0f);
-    float reflectivity = physicalTexture.SampleLevel(colorSampler, uv, mip).g;
+    float reflectivity = physicalTexture.SampleLevel(colorSampler, uv, mip).g * 0.3f;
 
     // Reflect from the normal, unless its just not that shiny.
-    if(reflectivity < 0.99f)
-    {
+    // /This does not seem to do much
+    //if(reflectivity < 0.99f)
+    //{
         RayDesc ray;
         ray.Origin = WorldRayOrigin() + WorldRayDirection() * RayTCurrent() + normal * SMALL_OFFSET;
         ray.TMin = 0.0;
         ray.TMax = 100.0;
         ray.Direction = reflect(WorldRayDirection(), pertNormal);
         color = CastPrimaryRay(ray, payload.Recursion + 1).Color;
-    }
+    //}
 
     // Sample texturing.
     float3 texColor = colorTexture.SampleLevel(colorSampler, uv, mip).rgb;

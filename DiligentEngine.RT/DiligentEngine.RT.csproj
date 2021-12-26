@@ -25,8 +25,4 @@
 		</EmbeddedResource>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <None Remove="assets\CubePrimaryHitShiny.hlsl" />
-	</ItemGroup>
-
 </Project>

@@ -82,7 +82,7 @@ namespace SceneTest
                 nextState.SetActive(true);
                 this.gameState = nextState;
             }
-            rtGui.Update(clock);
+            //rtGui.Update(clock);
             sharpGui.End();
             sky.UpdateLight(clock);
 

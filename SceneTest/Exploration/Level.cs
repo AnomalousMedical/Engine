@@ -256,8 +256,22 @@ namespace SceneTest
                 );
 
                 //TODO: The level BLASes must be loaded before the shaders, see todo in PrimaryHitShader
-                var floorShaderSetup = primaryHitShaderFactory.Create(floorMesh.Name, floorTextureDesc.NumTextures, PrimaryHitShaderType.Cube);
-                var wallShaderSetup = primaryHitShaderFactory.Create(wallMesh.Name, wallTextureDesc.NumTextures, PrimaryHitShaderType.Cube);
+                var floorShaderSetup = primaryHitShaderFactory.Create(new PrimaryHitShader.Desc
+                {
+                    baseName = floorMesh.Name,
+                    numTextures = floorTextureDesc.NumTextures,
+                    shaderType = PrimaryHitShaderType.Cube,
+                    HasNormalMap = true,
+                    HasPhysicalDescriptorMap = biome.ReflectFloor //Just hardcode for now
+                });
+                var wallShaderSetup = primaryHitShaderFactory.Create(new PrimaryHitShader.Desc
+                {
+                    baseName = wallMesh.Name,
+                    numTextures = wallTextureDesc.NumTextures,
+                    shaderType = PrimaryHitShaderType.Cube,
+                    HasNormalMap = true,
+                    HasPhysicalDescriptorMap = false //Just hardcode for now
+                });
 
                 await Task.WhenAll
                 (
