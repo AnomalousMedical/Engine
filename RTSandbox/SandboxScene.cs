@@ -15,6 +15,7 @@ namespace RTSandbox
         private readonly IObjectResolver objectResolver;
         private readonly RayTracingRenderer renderer;
         private readonly CubeBLAS cubeBLAS;
+        private readonly ShinyCubeBLAS shinyCubeBLAS;
         private readonly TextureSet textureSet;
 
         private SceneCube rotateCube;
@@ -25,12 +26,14 @@ namespace RTSandbox
             IObjectResolverFactory objectResolverFactory, 
             RayTracingRenderer renderer, 
             CubeBLAS cubeBLAS,
+            ShinyCubeBLAS shinyCubeBLAS,
             ICoroutineRunner coroutine,
             TextureSet textureSet
         )
         {
             this.renderer = renderer;
             this.cubeBLAS = cubeBLAS;
+            this.shinyCubeBLAS = shinyCubeBLAS;
             this.textureSet = textureSet;
             objectResolver = objectResolverFactory.Create();
 
@@ -74,6 +77,11 @@ namespace RTSandbox
                 objectResolver.Resolve<SceneSprite, SceneSprite.Desc>(o =>
                 {
                     o.Transform = new InstanceMatrix(new Vector3(0, -3, 0), Quaternion.Identity);
+                });
+
+                objectResolver.Resolve<SceneShinyCube, SceneShinyCube.Desc>(o =>
+                {
+                    o.Transform = new InstanceMatrix(new Vector3(-3, 0, 10), Quaternion.Identity, new Vector3(15, 5, 1));
                 });
 
                 objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
@@ -141,6 +149,7 @@ namespace RTSandbox
         private void Bind(IShaderResourceBinding rayTracingSRB)
         {
             cubeBLAS.PrimaryHitShader.BindTextures(rayTracingSRB, textureSet);
+            shinyCubeBLAS.PrimaryHitShader.BindTextures(rayTracingSRB, textureSet);
         }
     }
 }

@@ -151,41 +151,59 @@ void AnyHitOpacityMap(float3 barycentrics,
         opacityTexture, mySampler, uv);
 }
 
-void LightAndShadeUV(
-inout PrimaryRayPayload payload, float3 barycentrics, 
-CubeAttribVertex posX, CubeAttribVertex posY, CubeAttribVertex posZ, 
-Texture2D colorTexture, Texture2D normalTexture, SamplerState colorSampler, SamplerState normalSampler,
-float2 uv)
+float3 GetPerterbedNormal(
+    float3 barycentrics, float3 normal,
+    CubeAttribVertex posX, CubeAttribVertex posY, CubeAttribVertex posZ,
+     Texture2D normalTexture, SamplerState normalSampler,
+    float2 uv, float mip
+)
 {
-    payload.Depth = RayTCurrent();
-
-    int mip = GetMip(payload.Depth);
-
     // Calculate vertex tangent.
     float3 tangent = posX.tangent.xyz * barycentrics.x +
-                     posY.tangent.xyz * barycentrics.y +
-                     posZ.tangent.xyz * barycentrics.z;
-    
+        posY.tangent.xyz * barycentrics.y +
+        posZ.tangent.xyz * barycentrics.z;
+
     // Calculate vertex binormal.
     float3 binormal = posX.binormal.xyz * barycentrics.x +
-                      posY.binormal.xyz * barycentrics.y +
-                      posZ.binormal.xyz * barycentrics.z;
-    
-    // Calculate vertex normal.
-    float3 normal = posX.normal.xyz * barycentrics.x +
-                    posY.normal.xyz * barycentrics.y +
-                    posZ.normal.xyz * barycentrics.z;
+        posY.binormal.xyz * barycentrics.y +
+        posZ.binormal.xyz * barycentrics.z;
 
     //Get Mapped normal
     float3 pertNormal = normalTexture.SampleLevel(normalSampler, uv, mip).rgb * float3(2.0, 2.0, 2.0) - float3(1.0, 1.0, 1.0);
     float3x3 tbn = MatrixFromRows(tangent, binormal, normal);
     pertNormal = normalize(mul(pertNormal, tbn)); //Can probably skip this normalize
+
+    return pertNormal;
+}
+
+void LightAndShadeUV
+(
+inout PrimaryRayPayload payload, float3 barycentrics, 
+CubeAttribVertex posX, CubeAttribVertex posY, CubeAttribVertex posZ, 
+Texture2D colorTexture, Texture2D normalTexture, SamplerState colorSampler, SamplerState normalSampler,
+float2 uv
+)
+{
+    payload.Depth = RayTCurrent();
+
+    int mip = GetMip(payload.Depth);
+
+    // Calculate vertex normal.
+    float3 normal = posX.normal.xyz * barycentrics.x +
+        posY.normal.xyz * barycentrics.y +
+        posZ.normal.xyz * barycentrics.z;
+
+    //Get Mapped normal
+    float3 pertNormal = GetPerterbedNormal(barycentrics, normal,
+        posX, posY, posZ,
+        normalTexture, normalSampler,
+        uv, mip);
     
     //Convert to world space
     normal = normalize(mul((float3x3) ObjectToWorld3x4(), normal));
     pertNormal = normalize(mul((float3x3) ObjectToWorld3x4(), pertNormal));
     
-    // Sample texturing. Ray tracing shaders don't support LOD calculation, so we must specify LOD and apply filtering.
+    // Sample texturing.
     payload.Color = colorTexture.SampleLevel(colorSampler, uv, mip).rgb;
     
     // Apply lighting.
@@ -231,6 +249,86 @@ void LightAndShade(
         posZ.uv.xy * barycentrics.z;
 
     LightAndShadeUV(payload, barycentrics,
+        posX, posY, posZ,
+        colorTexture, normalTexture, colorSampler, normalSampler,
+        uv);
+}
+
+void LightAndShadeShinyUV
+(
+    inout PrimaryRayPayload payload, float3 barycentrics,
+    CubeAttribVertex posX, CubeAttribVertex posY, CubeAttribVertex posZ,
+    Texture2D colorTexture, Texture2D normalTexture, SamplerState colorSampler, SamplerState normalSampler,
+    float2 uv
+)
+{
+    payload.Depth = RayTCurrent();
+
+    int mip = GetMip(payload.Depth);
+
+    // Calculate vertex normal.
+    float3 normal = posX.normal.xyz * barycentrics.x +
+        posY.normal.xyz * barycentrics.y +
+        posZ.normal.xyz * barycentrics.z;
+
+    //Get Mapped normal
+    float3 pertNormal = GetPerterbedNormal(barycentrics, normal,
+        posX, posY, posZ,
+        normalTexture, normalSampler,
+        uv, mip);
+
+    //Convert to world space
+    normal = normalize(mul((float3x3) ObjectToWorld3x4(), normal));
+    pertNormal = normalize(mul((float3x3) ObjectToWorld3x4(), pertNormal));
+
+    // Sample texturing.
+    payload.Color = colorTexture.SampleLevel(colorSampler, uv, mip).rgb;
+
+    // Apply lighting.
+    float3 rayOrigin = WorldRayOrigin() + WorldRayDirection() * RayTCurrent();
+    LightingPass(payload.Color, rayOrigin, normal, pertNormal, payload.Recursion + 1);
+
+    // Reflect normal.
+    float3 rayDir = reflect(WorldRayDirection(), normal);
+
+    RayDesc ray;
+    ray.Origin = WorldRayOrigin() + WorldRayDirection() * RayTCurrent() + normal * SMALL_OFFSET;
+    ray.TMin = 0.0;
+    ray.TMax = 100.0;
+
+    // Cast multiple rays that are distributed within a cone.
+    float3    color = float3(0.0, 0.0, 0.0);
+    const int ReflBlur = payload.Recursion > 1 ? 1 : 1;// g_ConstantsCB.SphereReflectionBlur;, can use roughness texture here
+    for (int j = 0; j < ReflBlur; ++j)
+    {
+        float2 offset = float2(g_ConstantsCB.DiscPoints[j / 2][(j % 2) * 2], g_ConstantsCB.DiscPoints[j / 2][(j % 2) * 2 + 1]);
+        ray.Direction = DirectionWithinCone(rayDir, offset * 0.01);
+        color += CastPrimaryRay(ray, payload.Recursion + 1).Color;
+    }
+
+    color /= float(ReflBlur);
+
+    // Apply color mask for reflected color.
+    //color *= g_ConstantsCB.SphereReflectionColorMask;, can use original color here somehow combined with shinyness maybe?
+    //color *= payload.Color; // float3(0.81f, 1.0f, 0.45f);
+    color *= float3(0.81f, 1.0f, 0.45f);
+
+    payload.Color = color;
+    payload.Depth = RayTCurrent();
+}
+
+void LightAndShadeShiny(
+    inout PrimaryRayPayload payload, float3 barycentrics,
+    CubeAttribVertex posX, CubeAttribVertex posY, CubeAttribVertex posZ,
+    Texture2D colorTexture, Texture2D normalTexture, SamplerState colorSampler, SamplerState normalSampler)
+{
+
+    // Calculate texture coordinates.
+    float2 uv = posX.uv.xy * barycentrics.x +
+        posY.uv.xy * barycentrics.y +
+        posZ.uv.xy * barycentrics.z;
+
+    LightAndShadeShinyUV(payload, barycentrics,
         posX, posY, posZ,
         colorTexture, normalTexture, colorSampler, normalSampler,
         uv);

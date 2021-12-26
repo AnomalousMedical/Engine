@@ -25,6 +25,8 @@ namespace DiligentEngine.RT.ShaderSets
             public PrimaryHitShaderType shaderType { get; set; }
 
             public bool HasNormalMap { get; set; }
+
+            public bool IsShiny { get; set; }
         }
 
         public class Factory
@@ -141,15 +143,20 @@ namespace DiligentEngine.RT.ShaderSets
 
                 // Create closest hit shaders.
                 var textureSuffix = numTextures == 1 ? "1Texture" : "";
-                var colorMapSuffix = textureSuffix;
+                var primaryHitSuffix = textureSuffix;
                 if (!desc.HasNormalMap)
                 {
-                    colorMapSuffix += "ColorOnly";
+                    primaryHitSuffix += "ColorOnly";
+                }
+
+                if (desc.IsShiny)
+                {
+                    primaryHitSuffix = "Shiny";
                 }
 
                 ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT;
                 ShaderCI.Desc.Name = "Cube primary ray closest hit shader";
-                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, $"assets/{shaderType}PrimaryHit{colorMapSuffix}.hlsl");
+                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, $"assets/{shaderType}PrimaryHit{primaryHitSuffix}.hlsl");
                 ShaderCI.EntryPoint = "main";
                 pCubePrimaryHit = m_pDevice.CreateShader(ShaderCI, Macros);
                 //VERIFY_EXPR(pCubePrimaryHit != nullptr);
