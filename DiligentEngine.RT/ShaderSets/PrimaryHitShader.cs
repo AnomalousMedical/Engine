@@ -142,7 +142,8 @@ namespace DiligentEngine.RT.ShaderSets
                     { "VERTICES", verticesName },
                     { "INDICES", indicesName },
                     { "COLOR_TEXTURES", colorTexturesName },
-                    { "NORMAL_TEXTURES", normalTexturesName }
+                    { "NORMAL_TEXTURES", normalTexturesName },
+                    { "PHYSICAL_TEXTURES", physicalTexturesName }
                 };
 
                 // Create closest hit shaders.

@@ -258,7 +258,8 @@ void LightAndShadeShinyUV
 (
     inout PrimaryRayPayload payload, float3 barycentrics,
     CubeAttribVertex posX, CubeAttribVertex posY, CubeAttribVertex posZ,
-    Texture2D colorTexture, Texture2D normalTexture, SamplerState colorSampler, SamplerState normalSampler,
+    Texture2D colorTexture, Texture2D normalTexture, Texture2D physicalTexture,
+    SamplerState colorSampler, SamplerState normalSampler,
     float2 uv
 )
 {
@@ -316,12 +317,14 @@ void LightAndShadeShinyUV
     payload.Depth = RayTCurrent();
 }
 
-void LightAndShadeShiny(
+void LightAndShadeShiny
+(
     inout PrimaryRayPayload payload, float3 barycentrics,
     CubeAttribVertex posX, CubeAttribVertex posY, CubeAttribVertex posZ,
-    Texture2D colorTexture, Texture2D normalTexture, SamplerState colorSampler, SamplerState normalSampler)
+    Texture2D colorTexture, Texture2D normalTexture, Texture2D physicalTexture, 
+    SamplerState colorSampler, SamplerState normalSampler
+)
 {
-
     // Calculate texture coordinates.
     float2 uv = posX.uv.xy * barycentrics.x +
         posY.uv.xy * barycentrics.y +
@@ -329,6 +332,7 @@ void LightAndShadeShiny(
 
     LightAndShadeShinyUV(payload, barycentrics,
         posX, posY, posZ,
-        colorTexture, normalTexture, colorSampler, normalSampler,
+        colorTexture, normalTexture, physicalTexture,
+        colorSampler, normalSampler,
         uv);
 }

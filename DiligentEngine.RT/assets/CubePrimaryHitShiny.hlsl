@@ -7,6 +7,7 @@ StructuredBuffer<uint> $$(INDICES);
 
 Texture2D    $$(COLOR_TEXTURES)[$$(NUM_TEXTURES)];
 Texture2D    $$(NORMAL_TEXTURES)[$$(NUM_TEXTURES)];
+Texture2D    $$(PHYSICAL_TEXTURES)[$$(NUM_TEXTURES)];
 SamplerState g_SamLinearWrap;
 
 [shader("closesthit")]
@@ -27,6 +28,7 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
         posX, posY, posZ, 
         $$(COLOR_TEXTURES)[InstanceID()],
         $$(NORMAL_TEXTURES)[InstanceID()],
+        $$(PHYSICAL_TEXTURES)[InstanceID()],
         g_SamLinearWrap,
         g_SamLinearWrap
     );
