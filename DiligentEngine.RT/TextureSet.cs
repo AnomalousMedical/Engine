@@ -54,18 +54,9 @@ namespace DiligentEngine.RT
                 //TODO: This isn't very good, we really don't need this layer at all
                 var result = await textureLoader.LoadTextureSet(texture);
                 pTex.Add(result);
-                if(result.BaseColorSRVs.Count > 0)
-                {
-                    TexSRVs.AddRange(result.BaseColorSRVs);
-                }
-                if(result.NormalMapSRVs.Count > 0)
-                {
-                    TexNormalSRVs.AddRange(result.NormalMapSRVs);
-                }
-                if (result.PhysicalDescriptorMapSRVs.Count > 0)
-                {
-                    TexPhysicalSRVs.AddRange(result.PhysicalDescriptorMapSRVs);
-                }
+                TexSRVs.AddRange(result.BaseColorSRVs);
+                TexNormalSRVs.AddRange(result.NormalMapSRVs);
+                TexPhysicalSRVs.AddRange(result.PhysicalDescriptorMapSRVs);
             }
         }
 
