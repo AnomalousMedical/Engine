@@ -276,7 +276,7 @@ void LightAndShadeShinyUV
 
     float3 baseColor = colorTexture.SampleLevel(colorSampler, uv, mip).rgb;
     float3 physical = physicalTexture.SampleLevel(normalSampler, uv, mip);
-    float reflectivity = physical.g;
+    float roughness = physical.g;
 
     // Reflect from the normal
     RayDesc ray;
@@ -287,7 +287,7 @@ void LightAndShadeShinyUV
     float3 reflectedColor = CastPrimaryRay(ray, payload.Recursion + 1).Color;
 
     // Calculate final color
-    payload.Color = baseColor * reflectivity + reflectedColor * (1.0f - reflectivity);
+    payload.Color = baseColor * roughness + reflectedColor * (1.0f - roughness);
 
     // Apply lighting.
     float3 rayOrigin = WorldRayOrigin() + WorldRayDirection() * RayTCurrent();
