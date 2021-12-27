@@ -104,16 +104,8 @@ void LightingPass(inout float3 Color, float3 Pos, float3 Norm, float3 pertbNorm,
         if (NdotL > 0.0)
         {
             // Cast multiple rays that are distributed within a cone.
-            int   PCFSamples = Recursion > 1 ? min(1, g_ConstantsCB.ShadowPCF) : g_ConstantsCB.ShadowPCF;
-            float shading    = 0.0;
-            for (int j = 0; j < PCFSamples; ++j)
-            {
-                float2 offset = float2(g_ConstantsCB.DiscPoints[j / 2][(j % 2) * 2], g_ConstantsCB.DiscPoints[j / 2][(j % 2) * 2 + 1]);
-                ray.Direction = DirectionWithinCone(rayDir, offset * 0.005);
-                shading       += saturate(CastShadow(ray, Recursion).Shading);
-            }
-            
-            shading = PCFSamples > 0 ? shading / float(PCFSamples) : 1.0;
+            ray.Direction = rayDir;
+            float shading = saturate(CastShadow(ray, Recursion).Shading);
 
             col += Color * g_ConstantsCB.LightColor[i].rgb * NdotL * shading;
         }
