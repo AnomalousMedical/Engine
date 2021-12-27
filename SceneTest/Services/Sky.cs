@@ -45,11 +45,11 @@ namespace SceneTest
         public unsafe void UpdateLight(Clock clock)
         {
             var rotation = new Quaternion(Vector3.UnitZ, timeClock.TimeFactor * 2 * MathF.PI);
-            sunPosition = Quaternion.quatRotate(rotation, Vector3.Down) * 40;
-            sunPosition += new Vector3(0f, 0f, -20f);
+            sunPosition = Quaternion.quatRotate(rotation, Vector3.Down) * 300;
+            sunPosition += new Vector3(0f, 0f, -300f);
 
-            moonPosition = Quaternion.quatRotate(rotation, Vector3.Up) * 40;
-            moonPosition += new Vector3(0f, 0f, -20f);
+            moonPosition = Quaternion.quatRotate(rotation, Vector3.Up) * 300;
+            moonPosition += new Vector3(0f, 0f, -300f);
 
             if (timeClock.IsDay)
             {
