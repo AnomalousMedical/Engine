@@ -275,7 +275,7 @@ void LightAndShadeShinyUV
     pertNormal = normalize(mul((float3x3) ObjectToWorld3x4(), pertNormal));
 
     float3 baseColor = colorTexture.SampleLevel(colorSampler, uv, mip).rgb;
-    float3 physical = physicalTexture.SampleLevel(normalSampler, uv, mip);
+    float3 physical = physicalTexture.SampleLevel(normalSampler, uv, mip).rgb;
     float roughness = physical.g;
 
     // Reflect from the normal
