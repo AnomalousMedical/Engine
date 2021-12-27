@@ -92,6 +92,8 @@ void LightingPass(inout float3 Color, float3 Pos, float3 Norm, float3 pertbNorm,
     ray.Origin = Pos + Norm * SMALL_OFFSET;
     ray.TMin   = 0.0;
 
+    //float3 eyeDir = normalize(g_ConstantsCB.CameraPos - Pos);
+
     for (int i = 0; i < NUM_LIGHTS; ++i)
     {
         // Limit max ray length by distance to light source.
@@ -108,6 +110,10 @@ void LightingPass(inout float3 Color, float3 Pos, float3 Norm, float3 pertbNorm,
             float shading = saturate(CastShadow(ray, Recursion).Shading);
 
             col += Color * g_ConstantsCB.LightColor[i].rgb * NdotL * shading;
+            //These commented lines and the eyeDir above give crappy specular highlights
+            //float3 halfVec = normalize(eyeDir + rayDir);
+            //float specularLight = pow(saturate(dot(pertbNorm, halfVec)), 250);
+            //col += specularLight;
         }
         col += Color * g_ConstantsCB.Darkness;
     }
