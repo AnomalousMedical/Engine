@@ -41,7 +41,7 @@ namespace RTSandbox
             {
                 await textureSet.Setup(new string[]
                 {
-                    "cc0Textures/ChristmasTreeOrnament007_1K",
+                    "cc0Textures/MetalPlates006_1K",
                     "cc0Textures/SheetMetal002_1K",
                     "cc0Textures/Fabric021_1K",
                     "cc0Textures/Wood049_1K",
