@@ -40,7 +40,8 @@ namespace DiligentEngine.RT.Sprites
                     baseName = instanceName,
                     numTextures = 1,
                     shaderType = PrimaryHitShaderType.Sprite,
-                    HasNormalMap = material.NormalSRV != null
+                    HasNormalMap = material.NormalSRV != null,
+                    HasPhysicalDescriptorMap = desc.Shiny && material.PhysicalSRV != null
                 });
 
                 var instance = new SpriteInstance(rayTracingRenderer, shader, spriteBLAS.Instance, material, spriteMaterialManager);

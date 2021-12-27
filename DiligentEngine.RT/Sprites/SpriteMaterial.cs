@@ -27,6 +27,7 @@ namespace DiligentEngine.RT.Sprites
             this.colorTexture = new AutoPtr<ITexture>(colorTexture);
             ColorSRV = colorTexture.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
             NormalSRV = textures.NormalTexture?.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
+            PhysicalSRV = textures.PhysicalTexture?.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
         }
 
         public void Dispose()
@@ -42,5 +43,7 @@ namespace DiligentEngine.RT.Sprites
         public IDeviceObject ColorSRV { get; }
 
         public IDeviceObject NormalSRV { get; }
+
+        public IDeviceObject PhysicalSRV { get; }
     }
 }

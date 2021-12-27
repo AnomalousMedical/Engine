@@ -234,10 +234,10 @@ namespace DiligentEngine.RT.ShaderSets
                 m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, normalTexturesName)?.Set(spriteMaterial.NormalSRV);
             }
 
-            //if (hasPhysicalMap)
-            //{
-            //    m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, physicalTexturesName)?.SetArray(spriteMaterial.TexPhysicalSRVs);
-            //}
+            if (hasPhysicalMap)
+            {
+                m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, physicalTexturesName)?.Set(spriteMaterial.PhysicalSRV);
+            }
 
             m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, colorTexturesName)?.Set(spriteMaterial.ColorSRV);
         }

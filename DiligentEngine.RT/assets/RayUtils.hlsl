@@ -283,7 +283,7 @@ void LightAndShadeShinyUV
     pertNormal = normalize(mul((float3x3) ObjectToWorld3x4(), pertNormal));
 
     float3 color = float3(0.0f, 0.0f, 0.0f);
-    float reflectivity = physicalTexture.SampleLevel(colorSampler, uv, mip).g * 0.3f;
+    float reflectivity = physicalTexture.SampleLevel(colorSampler, uv, mip).g;
 
     // Reflect from the normal, unless its just not that shiny.
     // /This does not seem to do much

@@ -16,6 +16,8 @@ namespace SceneTest
 
         public bool ReflectFloor { get; set; }
 
+        public bool ReflectWall { get; set; }
+
         public BiomeEnemy GetEnemy(EnemyType type)
         {
             BiomeEnemy biomeEnemy;
@@ -108,7 +110,7 @@ namespace SceneTest
             {
                 FloorTexture = "cc0Textures/Snow006_1K",
                 WallTexture = "cc0Textures/Rock022_1K",
-                ReflectFloor = true,
+                ReflectFloor = false,
                 RegularEnemy = new BiomeEnemy()
                 {
                     Asset = new Assets.Original.TinyDino(),

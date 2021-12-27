@@ -262,7 +262,7 @@ namespace SceneTest
                     numTextures = floorTextureDesc.NumTextures,
                     shaderType = PrimaryHitShaderType.Cube,
                     HasNormalMap = true,
-                    HasPhysicalDescriptorMap = biome.ReflectFloor //Just hardcode for now
+                    HasPhysicalDescriptorMap = biome.ReflectFloor
                 });
                 var wallShaderSetup = primaryHitShaderFactory.Create(new PrimaryHitShader.Desc
                 {
@@ -270,7 +270,7 @@ namespace SceneTest
                     numTextures = wallTextureDesc.NumTextures,
                     shaderType = PrimaryHitShaderType.Cube,
                     HasNormalMap = true,
-                    HasPhysicalDescriptorMap = false //Just hardcode for now
+                    HasPhysicalDescriptorMap = biome.ReflectWall
                 });
 
                 await Task.WhenAll
