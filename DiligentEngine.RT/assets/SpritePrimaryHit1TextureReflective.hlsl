@@ -33,7 +33,7 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
         frameVertY.xy * barycentrics.y +
         frameVertZ.xy * barycentrics.z;
 
-    LightAndShadeShinyUV
+    LightAndShadeReflectiveUV
     (
         payload, barycentrics,
         posX, posY, posZ,

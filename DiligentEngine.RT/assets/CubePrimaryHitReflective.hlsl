@@ -22,7 +22,7 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
     CubeAttribVertex posY = $$(VERTICES)[$$(INDICES)[vertId + 1]];
     CubeAttribVertex posZ = $$(VERTICES)[$$(INDICES)[vertId + 2]];
 
-    LightAndShadeShiny
+    LightAndShadeReflective
     (
         payload, barycentrics, 
         posX, posY, posZ, 

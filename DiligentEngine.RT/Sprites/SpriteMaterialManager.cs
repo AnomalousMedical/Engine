@@ -39,16 +39,16 @@ namespace DiligentEngine.RT.Sprites
 
     public class SpriteMaterialDescription
     {
-        public SpriteMaterialDescription(string colorMap, HashSet<SpriteMaterialTextureItem> materials, bool shiny = false)
+        public SpriteMaterialDescription(string colorMap, HashSet<SpriteMaterialTextureItem> materials, bool reflective = false)
         {
             ColorMap = colorMap;
             Materials = materials;
-            Shiny = shiny;
+            Reflective = reflective;
         }
 
         public String ColorMap { get; }
 
-        public bool Shiny { get; }
+        public bool Reflective { get; }
 
         public HashSet<SpriteMaterialTextureItem> Materials { get; }
 
@@ -56,7 +56,7 @@ namespace DiligentEngine.RT.Sprites
         {
             return obj is SpriteMaterialDescription description &&
                    ColorMap == description.ColorMap &&
-                   Shiny == description.Shiny &&
+                   Reflective == description.Reflective &&
                     (
                         (Materials == null && description.Materials == null) ||
                         (Materials?.SetEquals(description.Materials) == true)
@@ -67,7 +67,7 @@ namespace DiligentEngine.RT.Sprites
         {
             var hashCode = new HashCode();
             hashCode.Add(ColorMap);
-            hashCode.Add(Shiny);
+            hashCode.Add(Reflective);
             if (Materials != null && Materials.Count > 0) //Null and empty considered the same
             {
                 foreach (var mat in Materials.OrderBy(i => i.Color))

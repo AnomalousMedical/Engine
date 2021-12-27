@@ -17,7 +17,7 @@ namespace SceneTest.Assets.Original
                     {
                         new SpriteMaterialTextureItem(0xffa0a0a0, "cc0Textures/Pipe002_1K", "jpg"), //Blade (grey)
                     },
-                    shiny: true
+                    reflective: true
                 );
         }
 

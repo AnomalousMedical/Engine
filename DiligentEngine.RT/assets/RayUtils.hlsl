@@ -252,7 +252,7 @@ void LightAndShade(
         uv);
 }
 
-void LightAndShadeShinyUV
+void LightAndShadeReflectiveUV
 (
     inout PrimaryRayPayload payload, float3 barycentrics,
     CubeAttribVertex posX, CubeAttribVertex posY, CubeAttribVertex posZ,
@@ -302,7 +302,7 @@ void LightAndShadeShinyUV
     payload.Depth = RayTCurrent();
 }
 
-void LightAndShadeShiny
+void LightAndShadeReflective
 (
     inout PrimaryRayPayload payload, float3 barycentrics,
     CubeAttribVertex posX, CubeAttribVertex posY, CubeAttribVertex posZ,
@@ -315,7 +315,7 @@ void LightAndShadeShiny
         posY.uv.xy * barycentrics.y +
         posZ.uv.xy * barycentrics.z;
 
-    LightAndShadeShinyUV(payload, barycentrics,
+    LightAndShadeReflectiveUV(payload, barycentrics,
         posX, posY, posZ,
         colorTexture, normalTexture, physicalTexture,
         colorSampler, normalSampler,

@@ -23,7 +23,7 @@ namespace SceneTest.Assets.Original
                         new SpriteMaterialTextureItem(0xff949494, "cc0Textures/Metal032_1K", "jpg"), //Blade (grey)
                         new SpriteMaterialTextureItem(0xff545454, "cc0Textures/Metal032_1K", "jpg"), //Other Metal (grey)
                     },
-                    shiny: true
+                    reflective: true
                 );
         }
 

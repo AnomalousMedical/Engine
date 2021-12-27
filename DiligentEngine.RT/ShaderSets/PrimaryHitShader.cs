@@ -156,7 +156,7 @@ namespace DiligentEngine.RT.ShaderSets
 
                 if (desc.HasPhysicalDescriptorMap)
                 {
-                    primaryHitSuffix += "Shiny";
+                    primaryHitSuffix += "Reflective";
                 }
 
                 ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT;
