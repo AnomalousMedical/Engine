@@ -72,7 +72,14 @@ namespace SceneTest.Battle
 
                     await floorMesh.End("BattleArenaFloor");
 
-                    var floorShaderSetup = primaryHitShaderFactory.Create(floorMesh.Name, floorTextureDesc.NumTextures, PrimaryHitShaderType.Cube);
+                    var floorShaderSetup = primaryHitShaderFactory.Create(new PrimaryHitShader.Desc
+                    {
+                        baseName = floorMesh.Name, 
+                        numTextures = floorTextureDesc.NumTextures, 
+                        shaderType = PrimaryHitShaderType.Cube,
+                        HasNormalMap = true,
+                        HasPhysicalDescriptorMap = true
+                    });
 
                     await Task.WhenAll
                     (
