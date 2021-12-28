@@ -128,14 +128,6 @@ SurfaceReflectanceInfo GetSurfaceReflectance(   //int Workflow, //Not including 
     return SrfInfo;
 }
 
-
-// Lambertian diffuse
-// see https://seblagarde.wordpress.com/2012/01/08/pi-or-not-to-pi-in-game-lighting-equation/
-float3 LambertianDiffuse(float3 DiffuseColor)
-{
-    return DiffuseColor / PI;
-}
-
 // The following equation models the Fresnel reflectance term of the spec equation (aka F())
 // Implementation of fresnel from "An Inexpensive BRDF Model for Physically based Rendering" by Christophe Schlick
 // (https://www.cs.virginia.edu/~jdl/bib/appearance/analytic%20models/schlick94b.pdf), Equation 15
@@ -187,13 +179,11 @@ void BRDF(in float3                 PointToLight,
     in float3                 Normal,
     in float3                 View,
     in SurfaceReflectanceInfo SrfInfo,
-    out float3                DiffuseContrib,
     out float3                SpecContrib,
     out float                 NdotL)
 {
     AngularInfo angularInfo = GetAngularInfo(PointToLight, Normal, View);
 
-    DiffuseContrib = float3(0.0, 0.0, 0.0);
     SpecContrib = float3(0.0, 0.0, 0.0);
     NdotL = angularInfo.NdotL;
     // If one of the dot products is larger than zero, no division by zero can happen. Avoids black borders.
@@ -214,7 +204,6 @@ void BRDF(in float3                 PointToLight,
         float  Vis = SmithGGXVisibilityCorrelated(angularInfo.NdotL, angularInfo.NdotV, AlphaRoughness);
         float3 F = SchlickReflection(angularInfo.VdotH, SrfInfo.Reflectance0, SrfInfo.Reflectance90);
 
-        DiffuseContrib = (1.0 - F) * LambertianDiffuse(SrfInfo.DiffuseColor);
         SpecContrib = F * Vis * D;
     }
 }
@@ -295,9 +284,9 @@ void LightingPass(inout float3 Color, float3 Pos, float3 Norm, float3 pertbNorm,
 
         float3 rayDir = normalize(g_ConstantsCB.LightPos[i].xyz - Pos);
         float  NdotL;// = max(0.0, dot(pertbNorm, rayDir));
-        float3 DiffuseContrib, SpecContrib;
+        float3 SpecContrib;
             BRDF(rayDir, pertbNorm, view, surfInfo,
-                DiffuseContrib, SpecContrib, NdotL);
+                SpecContrib, NdotL);
 
         // Optimization - don't trace rays if NdotL is zero or negative
         if (NdotL > 0.0)
@@ -306,7 +295,7 @@ void LightingPass(inout float3 Color, float3 Pos, float3 Norm, float3 pertbNorm,
             ray.Direction = rayDir;
             float shading = saturate(CastShadow(ray, Recursion).Shading);
 
-            col += (DiffuseContrib + SpecContrib) * g_ConstantsCB.LightColor[i].rgb * NdotL * shading;
+            col += (Color + SpecContrib) * g_ConstantsCB.LightColor[i].rgb * NdotL * shading;
         }
         col += Color * g_ConstantsCB.Darkness;
     }
