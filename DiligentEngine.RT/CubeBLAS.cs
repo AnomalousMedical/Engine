@@ -76,7 +76,15 @@ namespace DiligentEngine.RT
                     20,21,22, 20,22,23  //Front +z
                     };
 
-                    var setupShader = primaryHitShaderFactory.Create(blasDesc.Name, 5, PrimaryHitShaderType.Cube);
+                    var setupShader = primaryHitShaderFactory.Create(new PrimaryHitShader.Desc
+                    {
+                        baseName = blasDesc.Name,
+                        numTextures = 5,
+                        shaderType = PrimaryHitShaderType.Cube,
+                        HasNormalMap = true,
+                        HasPhysicalDescriptorMap = true,
+                        Reflective = false
+                    });
                     instance = await blasBuilder.CreateBLAS(blasDesc);
                     this.primaryHitShader = await setupShader;
 
