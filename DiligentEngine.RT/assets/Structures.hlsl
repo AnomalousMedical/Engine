@@ -56,6 +56,23 @@ struct Constants
     float4  LightColor[NUM_LIGHTS];
 };
 
+struct SurfaceReflectanceInfo
+{
+    float  PerceptualRoughness;
+    float3 Reflectance0;
+    float3 Reflectance90;
+    float3 DiffuseColor;
+};
+
+struct AngularInfo
+{
+    float NdotL;   // cos angle between normal and light direction
+    float NdotV;   // cos angle between normal and view direction
+    float NdotH;   // cos angle between normal and half vector
+    float LdotH;   // cos angle between light direction and half vector
+    float VdotH;   // cos angle between view direction and half vector
+};
+
 // Instance mask.
 #define OPAQUE_GEOM_MASK      0x01
 #define TRANSPARENT_GEOM_MASK 0x02

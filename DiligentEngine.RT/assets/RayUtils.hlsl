@@ -1,3 +1,6 @@
+#ifndef PI
+#   define  PI 3.141592653589793
+#endif
 
 RaytracingAccelerationStructure g_TLAS;
 ConstantBuffer<Constants>       g_ConstantsCB;
@@ -63,6 +66,159 @@ ShadowRayPayload CastShadow(RayDesc ray, uint Recursion)
     return payload;
 }
 
+SurfaceReflectanceInfo GetSurfaceReflectance(   //int Workflow, //Not including workflow option, make separate function if needed
+    float3     BaseColor,
+    float4     PhysicalDesc
+)
+{
+    float Metallic;
+
+    //This is from the GLTF_PBR shader
+    SurfaceReflectanceInfo SrfInfo;
+
+    float3 specularColor;
+
+    float3 f0 = float3(0.04, 0.04, 0.04);
+
+    // Metallic and Roughness material properties are packed together
+    // In glTF, these factors can be specified by fixed scalar values
+    // or from a metallic-roughness map
+    //if (Workflow == PBR_WORKFLOW_SPECULAR_GLOSINESS)
+    //{
+    //    SrfInfo.PerceptualRoughness = 1.0 - PhysicalDesc.a; // glossiness to roughness
+    //    f0 = PhysicalDesc.rgb;
+
+    //    // f0 = specular
+    //    specularColor = f0;
+    //    float oneMinusSpecularStrength = 1.0 - max(max(f0.r, f0.g), f0.b);
+    //    SrfInfo.DiffuseColor = BaseColor.rgb * oneMinusSpecularStrength;
+
+    //    // do conversion between metallic M-R and S-G metallic
+    //    Metallic = GLTF_PBR_SolveMetallic(BaseColor.rgb, specularColor, oneMinusSpecularStrength);
+    //}
+    //else if (Workflow == PBR_WORKFLOW_METALLIC_ROUGHNESS)
+    //{
+        // Roughness is stored in the 'g' channel, metallic is stored in the 'b' channel.
+        // This layout intentionally reserves the 'r' channel for (optional) occlusion map data
+    SrfInfo.PerceptualRoughness = PhysicalDesc.g;
+    Metallic = PhysicalDesc.b;
+
+    SrfInfo.DiffuseColor = BaseColor.rgb * (float3(1.0, 1.0, 1.0) - f0) * (1.0 - Metallic);
+    specularColor = lerp(f0, BaseColor.rgb, Metallic);
+    //}
+
+    //#ifdef ALPHAMODE_OPAQUE
+    //    baseColor.a = 1.0;
+    //#endif
+    //
+    //#ifdef MATERIAL_UNLIT
+    //    gl_FragColor = float4(gammaCorrection(baseColor.rgb), baseColor.a);
+    //    return;
+    //#endif
+
+    SrfInfo.PerceptualRoughness = clamp(SrfInfo.PerceptualRoughness, 0.0, 1.0);
+
+    // Compute reflectance.
+    float reflectance = max(max(specularColor.r, specularColor.g), specularColor.b);
+
+    SrfInfo.Reflectance0 = specularColor.rgb;
+    // Anything less than 2% is physically impossible and is instead considered to be shadowing. Compare to "Real-Time-Rendering" 4th editon on page 325.
+    SrfInfo.Reflectance90 = clamp(reflectance * 50.0, 0.0, 1.0) * float3(1.0, 1.0, 1.0);
+
+    return SrfInfo;
+}
+
+
+// Lambertian diffuse
+// see https://seblagarde.wordpress.com/2012/01/08/pi-or-not-to-pi-in-game-lighting-equation/
+float3 LambertianDiffuse(float3 DiffuseColor)
+{
+    return DiffuseColor / PI;
+}
+
+// The following equation models the Fresnel reflectance term of the spec equation (aka F())
+// Implementation of fresnel from "An Inexpensive BRDF Model for Physically based Rendering" by Christophe Schlick
+// (https://www.cs.virginia.edu/~jdl/bib/appearance/analytic%20models/schlick94b.pdf), Equation 15
+float3 SchlickReflection(float VdotH, float3 Reflectance0, float3 Reflectance90)
+{
+    return Reflectance0 + (Reflectance90 - Reflectance0) * pow(clamp(1.0 - VdotH, 0.0, 1.0), 5.0);
+}
+
+// Visibility = G(v,l,a) / (4 * (n,v) * (n,l))
+// see https://google.github.io/filament/Filament.md.html#materialsystem/specularbrdf/geometricshadowing(specularg)
+float SmithGGXVisibilityCorrelated(float NdotL, float NdotV, float AlphaRoughness)
+{
+    float a2 = AlphaRoughness * AlphaRoughness;
+
+    float GGXV = NdotL * sqrt(max(NdotV * NdotV * (1.0 - a2) + a2, 1e-7));
+    float GGXL = NdotV * sqrt(max(NdotL * NdotL * (1.0 - a2) + a2, 1e-7));
+
+    return 0.5 / (GGXV + GGXL);
+}
+
+AngularInfo GetAngularInfo(float3 PointToLight, float3 Normal, float3 View)
+{
+    float3 n = normalize(Normal);       // Outward direction of surface point
+    float3 v = normalize(View);         // Direction from surface point to camera
+    float3 l = normalize(PointToLight); // Direction from surface point to light
+    float3 h = normalize(l + v);        // Direction of the vector between l and v
+
+    AngularInfo info;
+    info.NdotL = clamp(dot(n, l), 0.0, 1.0);
+    info.NdotV = clamp(dot(n, v), 0.0, 1.0);
+    info.NdotH = clamp(dot(n, h), 0.0, 1.0);
+    info.LdotH = clamp(dot(l, h), 0.0, 1.0);
+    info.VdotH = clamp(dot(v, h), 0.0, 1.0);
+
+    return info;
+}
+
+// The following equation(s) model the distribution of microfacet normals across the area being drawn (aka D())
+// Implementation from "Average Irregularity Representation of a Roughened Surface for Ray Reflection" by T. S. Trowbridge, and K. P. Reitz
+// Follows the distribution function recommended in the SIGGRAPH 2013 course notes from EPIC Games [1], Equation 3.
+float NormalDistribution_GGX(float NdotH, float AlphaRoughness)
+{
+    float a2 = AlphaRoughness * AlphaRoughness;
+    float f = NdotH * NdotH * (a2 - 1.0) + 1.0;
+    return a2 / (PI * f * f);
+}
+
+void BRDF(in float3                 PointToLight,
+    in float3                 Normal,
+    in float3                 View,
+    in SurfaceReflectanceInfo SrfInfo,
+    out float3                DiffuseContrib,
+    out float3                SpecContrib,
+    out float                 NdotL)
+{
+    AngularInfo angularInfo = GetAngularInfo(PointToLight, Normal, View);
+
+    DiffuseContrib = float3(0.0, 0.0, 0.0);
+    SpecContrib = float3(0.0, 0.0, 0.0);
+    NdotL = angularInfo.NdotL;
+    // If one of the dot products is larger than zero, no division by zero can happen. Avoids black borders.
+    if (angularInfo.NdotL > 0.0 || angularInfo.NdotV > 0.0)
+    {
+        //           D(h,a) * G(v,l,a) * F(v,h,f0)
+        // f(v,l) = -------------------------------- = D(h,a) * Vis(v,l,a) * F(v,h,f0)
+        //               4 * (n,v) * (n,l)
+        // where
+        //
+        // Vis(v,l,a) = G(v,l,a) / (4 * (n,v) * (n,l))
+
+        // It is not a mistake that AlphaRoughness = PerceptualRoughness ^ 2 and that
+        // SmithGGXVisibilityCorrelated and NormalDistribution_GGX then use a2 = AlphaRoughness ^ 2.
+        // See eq. 3 in https://blog.selfshadow.com/publications/s2013-shading-course/karis/s2013_pbs_epic_notes_v2.pdf
+        float AlphaRoughness = SrfInfo.PerceptualRoughness * SrfInfo.PerceptualRoughness;
+        float  D = NormalDistribution_GGX(angularInfo.NdotH, AlphaRoughness);
+        float  Vis = SmithGGXVisibilityCorrelated(angularInfo.NdotL, angularInfo.NdotV, AlphaRoughness);
+        float3 F = SchlickReflection(angularInfo.VdotH, SrfInfo.Reflectance0, SrfInfo.Reflectance90);
+
+        DiffuseContrib = (1.0 - F) * LambertianDiffuse(SrfInfo.DiffuseColor);
+        SpecContrib = F * Vis * D;
+    }
+}
+
 // Calculate perpendicular to specified direction.
 void GetRayPerpendicular(float3 dir, out float3 outLeft, out float3 outUp)
 {
@@ -114,6 +270,43 @@ void LightingPass(inout float3 Color, float3 Pos, float3 Norm, float3 pertbNorm,
             //float3 halfVec = normalize(eyeDir + rayDir);
             //float specularLight = pow(saturate(dot(pertbNorm, halfVec)), 250);
             //col += specularLight;
+        }
+        col += Color * g_ConstantsCB.Darkness;
+    }
+    Color = col * (1.0 / float(NUM_LIGHTS)) + g_ConstantsCB.AmbientColor.rgb;
+}
+
+void LightingPass(inout float3 Color, float3 Pos, float3 Norm, float3 pertbNorm, uint Recursion, float4 physicalInfo)
+{
+    RayDesc ray;
+    float3  col = float3(0.0, 0.0, 0.0);
+
+    // Add a small offset to avoid self-intersections.
+    ray.Origin = Pos + Norm * SMALL_OFFSET;
+    ray.TMin = 0.0;
+
+    float3 view = g_ConstantsCB.CameraPos - Pos;
+    SurfaceReflectanceInfo surfInfo = GetSurfaceReflectance(Color, physicalInfo);
+
+    for (int i = 0; i < NUM_LIGHTS; ++i)
+    {
+        // Limit max ray length by distance to light source.
+        ray.TMax = distance(g_ConstantsCB.LightPos[i].xyz, Pos) * 1.01;
+
+        float3 rayDir = normalize(g_ConstantsCB.LightPos[i].xyz - Pos);
+        float  NdotL;// = max(0.0, dot(pertbNorm, rayDir));
+        float3 DiffuseContrib, SpecContrib;
+            BRDF(rayDir, pertbNorm, view, surfInfo,
+                DiffuseContrib, SpecContrib, NdotL);
+
+        // Optimization - don't trace rays if NdotL is zero or negative
+        if (NdotL > 0.0)
+        {
+            // Cast multiple rays that are distributed within a cone.
+            ray.Direction = rayDir;
+            float shading = saturate(CastShadow(ray, Recursion).Shading);
+
+            col += (DiffuseContrib + SpecContrib) * g_ConstantsCB.LightColor[i].rgb * NdotL * shading;
         }
         col += Color * g_ConstantsCB.Darkness;
     }
@@ -281,7 +474,7 @@ void LightAndShadeReflectiveUV
     pertNormal = normalize(mul((float3x3) ObjectToWorld3x4(), pertNormal));
 
     float3 baseColor = colorTexture.SampleLevel(colorSampler, uv, mip).rgb;
-    float3 physical = physicalTexture.SampleLevel(normalSampler, uv, mip).rgb;
+    float4 physical = physicalTexture.SampleLevel(normalSampler, uv, mip);
     float roughness = physical.g;
 
     // Reflect from the normal
@@ -297,7 +490,7 @@ void LightAndShadeReflectiveUV
 
     // Apply lighting.
     float3 rayOrigin = WorldRayOrigin() + WorldRayDirection() * RayTCurrent();
-    LightingPass(payload.Color, rayOrigin, normal, pertNormal, payload.Recursion + 1);
+    LightingPass(payload.Color, rayOrigin, normal, pertNormal, payload.Recursion + 1, physical);
 
     payload.Depth = RayTCurrent();
 }
