@@ -248,7 +248,7 @@ void LightingPass(inout float3 Color, float3 Pos, float3 Norm, float3 pertbNorm,
     ray.Origin = Pos + Norm * SMALL_OFFSET;
     ray.TMin   = 0.0;
 
-    //float3 eyeDir = normalize(g_ConstantsCB.CameraPos - Pos);
+    //float3 eyeDir = normalize(g_ConstantsCB.CameraPos.xyz - Pos);
 
     for (int i = 0; i < NUM_LIGHTS; ++i)
     {
@@ -285,7 +285,7 @@ void LightingPass(inout float3 Color, float3 Pos, float3 Norm, float3 pertbNorm,
     ray.Origin = Pos + Norm * SMALL_OFFSET;
     ray.TMin = 0.0;
 
-    float3 view = g_ConstantsCB.CameraPos - Pos;
+    float3 view = g_ConstantsCB.CameraPos.xyz - Pos;
     SurfaceReflectanceInfo surfInfo = GetSurfaceReflectance(Color, physicalInfo);
 
     for (int i = 0; i < NUM_LIGHTS; ++i)
@@ -402,6 +402,42 @@ float2 uv
     LightingPass(payload.Color, rayOrigin, normal, pertNormal, payload.Recursion + 1);
 }
 
+void LightAndShadePhysicalUV
+(
+    inout PrimaryRayPayload payload, float3 barycentrics,
+    CubeAttribVertex posX, CubeAttribVertex posY, CubeAttribVertex posZ,
+    Texture2D colorTexture, Texture2D normalTexture, Texture2D physicalTexture, SamplerState colorSampler, SamplerState normalSampler,
+    float2 uv
+)
+{
+    payload.Depth = RayTCurrent();
+
+    int mip = GetMip(payload.Depth);
+
+    // Calculate vertex normal.
+    float3 normal = posX.normal.xyz * barycentrics.x +
+        posY.normal.xyz * barycentrics.y +
+        posZ.normal.xyz * barycentrics.z;
+
+    //Get Mapped normal
+    float3 pertNormal = GetPerterbedNormal(barycentrics, normal,
+        posX, posY, posZ,
+        normalTexture, normalSampler,
+        uv, mip);
+
+    //Convert to world space
+    normal = normalize(mul((float3x3) ObjectToWorld3x4(), normal));
+    pertNormal = normalize(mul((float3x3) ObjectToWorld3x4(), pertNormal));
+
+    // Sample texturing.
+    payload.Color = colorTexture.SampleLevel(colorSampler, uv, mip).rgb;
+    float4 physical = physicalTexture.SampleLevel(normalSampler, uv, mip);
+
+    // Apply lighting.
+    float3 rayOrigin = WorldRayOrigin() + WorldRayDirection() * RayTCurrent();
+    LightingPass(payload.Color, rayOrigin, normal, pertNormal, payload.Recursion + 1, physical);
+}
+
 void LightAndShadeUVColorOnly(
     inout PrimaryRayPayload payload, float3 barycentrics,
     CubeAttribVertex posX, CubeAttribVertex posY, CubeAttribVertex posZ,
@@ -442,6 +478,23 @@ void LightAndShade(
     LightAndShadeUV(payload, barycentrics,
         posX, posY, posZ,
         colorTexture, normalTexture, colorSampler, normalSampler,
+        uv);
+}
+
+void LightAndShadePhysical(
+    inout PrimaryRayPayload payload, float3 barycentrics,
+    CubeAttribVertex posX, CubeAttribVertex posY, CubeAttribVertex posZ,
+    Texture2D colorTexture, Texture2D normalTexture, Texture2D physicalTexture, SamplerState colorSampler, SamplerState normalSampler)
+{
+
+    // Calculate texture coordinates.
+    float2 uv = posX.uv.xy * barycentrics.x +
+        posY.uv.xy * barycentrics.y +
+        posZ.uv.xy * barycentrics.z;
+
+    LightAndShadePhysicalUV(payload, barycentrics,
+        posX, posY, posZ,
+        colorTexture, normalTexture, physicalTexture, colorSampler, normalSampler,
         uv);
 }
 

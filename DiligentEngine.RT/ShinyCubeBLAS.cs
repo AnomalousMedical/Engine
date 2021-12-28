@@ -81,6 +81,7 @@ namespace DiligentEngine.RT
                         baseName = blasDesc.Name,
                         HasNormalMap = true,
                         HasPhysicalDescriptorMap = true, //A bit hacky
+                        Reflective = true,
                         numTextures = 5
                     });
                     instance = await blasBuilder.CreateBLAS(blasDesc);

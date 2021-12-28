@@ -27,6 +27,8 @@ namespace DiligentEngine.RT.ShaderSets
             public bool HasNormalMap { get; set; }
 
             public bool HasPhysicalDescriptorMap { get; set; }
+
+            public bool Reflective { get; set; }
         }
 
         public class Factory
@@ -156,7 +158,14 @@ namespace DiligentEngine.RT.ShaderSets
 
                 if (desc.HasPhysicalDescriptorMap)
                 {
-                    primaryHitSuffix += "Reflective";
+                    if (desc.Reflective)
+                    {
+                        primaryHitSuffix += "Reflective";
+                    }
+                    else
+                    {
+                        primaryHitSuffix += "Physical";
+                    }
                 }
 
                 ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT;
