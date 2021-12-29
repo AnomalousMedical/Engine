@@ -59,7 +59,7 @@ ShadowRayPayload CastShadow(RayDesc ray, uint Recursion)
              PRIMARY_RAY_INDEX,  // Ray contribution to hit group index (aka ray type)
              HIT_GROUP_STRIDE,  // Multiplier for geometry contribution to hit 
                                 // group index (aka the number of ray types)
-             PRIMARY_RAY_INDEX,  // Miss shader index
+             SHADOW_RAY_INDEX,  // Miss shader index
              ray,
              payload);
 
