@@ -11,9 +11,15 @@ namespace DiligentEngine.RT
     {
         public Matrix4x4 CurrentViewProj { get; private set; }
 
-        public Vector4 light1Pos;
+        public readonly int NumLights = 2;
 
-        public Vector4 light2Pos;
+        public Vector4 Light1Pos;
+
+        public Vector4 Light2Pos;
+
+        public Color Light1Color = new Color(1.00f, +0.8f, +0.80f);
+
+        public Color Light2Color = Color.Black;
 
         public void GetCameraPosition(Vector3 position, Quaternion rotation, in Matrix4x4 preTransformMatrix, in Matrix4x4 CameraProj, out Vector3 CameraWorldPos, out Matrix4x4 CameraViewProj)
         {

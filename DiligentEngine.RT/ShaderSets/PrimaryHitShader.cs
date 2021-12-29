@@ -36,12 +36,14 @@ namespace DiligentEngine.RT.ShaderSets
             private readonly GraphicsEngine graphicsEngine;
             private readonly ShaderLoader<RTShaders> shaderLoader;
             private readonly RayTracingRenderer rayTracingRenderer;
+            private readonly RTCameraAndLight cameraAndLight;
 
-            public Factory(GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RayTracingRenderer rayTracingRenderer)
+            public Factory(GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RayTracingRenderer rayTracingRenderer, RTCameraAndLight cameraAndLight)
             {
                 this.graphicsEngine = graphicsEngine;
                 this.shaderLoader = shaderLoader;
                 this.rayTracingRenderer = rayTracingRenderer;
+                this.cameraAndLight = cameraAndLight;
             }
 
             /// <summary>
@@ -72,7 +74,7 @@ namespace DiligentEngine.RT.ShaderSets
             public async Task<PrimaryHitShader> Create(Desc desc)
             {
                 var shader = new PrimaryHitShader();
-                await shader.SetupShaders(desc, graphicsEngine, shaderLoader, rayTracingRenderer);
+                await shader.SetupShaders(desc, graphicsEngine, shaderLoader, rayTracingRenderer, cameraAndLight);
                 return shader;
             }
         }
@@ -101,7 +103,7 @@ namespace DiligentEngine.RT.ShaderSets
         {      
         }
 
-        private async Task SetupShaders(Desc desc, GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RayTracingRenderer rayTracingRenderer)
+        private async Task SetupShaders(Desc desc, GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RayTracingRenderer rayTracingRenderer, RTCameraAndLight cameraAndLight)
         {
             this.PSOCreateInfo = rayTracingRenderer.PSOCreateInfo;
             this.numTextures = desc.numTextures;
@@ -123,6 +125,7 @@ namespace DiligentEngine.RT.ShaderSets
 
                 // Define shader macros
                 ShaderMacroHelper Macros = new ShaderMacroHelper();
+                Macros.AddShaderMacro("NUM_LIGHTS", cameraAndLight.NumLights);
 
                 ShaderCreateInfo ShaderCI = new ShaderCreateInfo();
                 // We will not be using combined texture samplers as they

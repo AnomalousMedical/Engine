@@ -25,13 +25,14 @@ namespace DiligentEngine.RT.ShaderSets
             this.shaderLoader = shaderLoader;
         }
 
-        public void Setup(RayTracingPipelineStateCreateInfo PSOCreateInfo)
+        public void Setup(RayTracingPipelineStateCreateInfo PSOCreateInfo, RTCameraAndLight cameraAndLight)
         { 
             this.PSOCreateInfo = PSOCreateInfo;
             var m_pDevice = graphicsEngine.RenderDevice;
 
             // Define shader macros
             ShaderMacroHelper Macros = new ShaderMacroHelper();
+            Macros.AddShaderMacro("NUM_LIGHTS", cameraAndLight.NumLights);
 
             ShaderCreateInfo ShaderCI = new ShaderCreateInfo();
             // We will not be using combined texture samplers as they

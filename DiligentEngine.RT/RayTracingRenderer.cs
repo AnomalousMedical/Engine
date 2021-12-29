@@ -58,7 +58,7 @@ namespace DiligentEngine.RT
             //          exceeding it will likely result in driver crash.
             PSOCreateInfo.RayTracingPipeline.MaxRecursionDepth = (byte)maxRecursionDepth;
 
-            generalShaders.Setup(PSOCreateInfo);
+            generalShaders.Setup(PSOCreateInfo, cameraAndLight);
         }
 
         public void Dispose()
@@ -383,8 +383,12 @@ namespace DiligentEngine.RT
                 GetPlaneIntersection(ViewFrustum.PLANE_IDX.TOP_PLANE_IDX, ViewFrustum.PLANE_IDX.RIGHT_PLANE_IDX, out m_Constants.FrustumRayRT);
 
                 m_Constants.CameraPos = new Vector4(CameraWorldPos.x, CameraWorldPos.y, CameraWorldPos.z, 1.0f);
-                m_Constants.LightPos_0 = cameraAndLight.light1Pos * -1; //Need to invert going into the shader
-                m_Constants.LightPos_1 = cameraAndLight.light2Pos * -1; //Need to invert going into the shader
+                m_Constants.LightPos_0 = cameraAndLight.Light1Pos * -1; //Need to invert going into the shader
+                m_Constants.LightPos_1 = cameraAndLight.Light2Pos * -1; //Need to invert going into the shader
+                var color = cameraAndLight.Light1Color;
+                m_Constants.LightColor_0 = new Vector4(color.r * cameraAndLight.NumLights, color.b * cameraAndLight.NumLights, color.g * cameraAndLight.NumLights, 0);
+                color = cameraAndLight.Light2Color;
+                m_Constants.LightColor_1 = new Vector4(color.r * cameraAndLight.NumLights, color.b * cameraAndLight.NumLights, color.g * cameraAndLight.NumLights, 0);
 
                 fixed (Constants* constantsPtr = &m_Constants)
                 {

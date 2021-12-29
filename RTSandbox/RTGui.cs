@@ -42,7 +42,7 @@ namespace RTSandbox
 
         public void Update(Clock clock)
         {
-            var lightPos = cameraAndLight.light1Pos;
+            var lightPos = cameraAndLight.Light1Pos;
             int light = ToSlider(lightPos.x);
             if (sharpGui.Slider(lightPosX, ref light) || sharpGui.ActiveItem == lightPosX.Id)
             {
@@ -76,8 +76,8 @@ namespace RTSandbox
             sharpGui.Text(lightPosText);
             sharpGui.Text(cameraPosText);
 
-            cameraAndLight.light1Pos = lightPos;
-            cameraAndLight.light2Pos = lightPos;
+            cameraAndLight.Light1Pos = lightPos;
+            cameraAndLight.Light2Pos = lightPos;
         }
 
         private int ToSlider(float pos)

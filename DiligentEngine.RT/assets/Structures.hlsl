@@ -22,9 +22,6 @@ struct ShadowRayPayload
     uint   Recursion; // Current recusrsion depth
 };
 
-#define NUM_LIGHTS          2
-#define MAX_DISPERS_SAMPLES 16
-
 struct Constants
 {
     // Camera world position

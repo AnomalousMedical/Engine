@@ -98,8 +98,8 @@ namespace SceneTest
                 }
             }
 
-            cameraAndLight.light1Pos = new Vector4(sunPosition.x, sunPosition.y, sunPosition.z, 0);
-            cameraAndLight.light2Pos = new Vector4(moonPosition.x, moonPosition.y, moonPosition.z, 0);
+            cameraAndLight.Light1Pos = new Vector4(sunPosition.x, sunPosition.y, sunPosition.z, 0);
+            cameraAndLight.Light2Pos = new Vector4(moonPosition.x, moonPosition.y, moonPosition.z, 0);
         }
     }
 }
