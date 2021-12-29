@@ -54,6 +54,9 @@ struct Constants
     float4  AmbientColor;
     float4  LightPos[NUM_LIGHTS];
     float4  LightColor[NUM_LIGHTS];
+
+    //Sky properties
+    float4 Pallete[6];
 };
 
 struct SurfaceReflectanceInfo
