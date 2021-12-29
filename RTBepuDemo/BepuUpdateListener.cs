@@ -159,7 +159,7 @@ namespace RTBepuDemo
             sharpGui.End();
             objectResolverFactory.Flush();
 
-            renderer.Render(rtInstances, cameraControls.Position, cameraControls.Orientation, gui.LightPos, gui.LightPos);
+            renderer.Render(rtInstances, cameraControls.Position, cameraControls.Orientation);
 
             //This is the old clear loop, leaving in place in case we want or need the screen clear, but I think with pure rt there is no need
             //since we blit a texture to the full screen over and over.

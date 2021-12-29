@@ -1,4 +1,5 @@
-﻿using Engine;
+﻿using DiligentEngine.RT;
+using Engine;
 using Engine.CameraMovement;
 using Engine.Platform;
 using SharpGui;
@@ -19,8 +20,7 @@ namespace RTDungeonGeneratorTest
         private readonly ISharpGui sharpGui;
         private readonly OSWindow window;
         private readonly FirstPersonFlyCamera cameraControls;
-        private Vector4 lightPos = new Vector4(0, 24, -40, 0);
-
+        private readonly RTCameraAndLight cameraAndLight;
         private SharpText lightPosText = new SharpText() { Text = "" };
         private SharpText cameraPosText = new SharpText() { Text = "" };
 
@@ -28,12 +28,13 @@ namespace RTDungeonGeneratorTest
         SharpSliderHorizontal lightPosY;
         SharpSliderHorizontal lightPosZ;
 
-        public RTGui(IScaleHelper scaleHelper, ISharpGui sharpGui, OSWindow window, FirstPersonFlyCamera cameraControls)
+        public RTGui(IScaleHelper scaleHelper, ISharpGui sharpGui, OSWindow window, FirstPersonFlyCamera cameraControls, RTCameraAndLight cameraAndLight)
         {
             this.scaleHelper = scaleHelper;
             this.sharpGui = sharpGui;
             this.window = window;
             this.cameraControls = cameraControls;
+            this.cameraAndLight = cameraAndLight;
             lightPosX = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 10, 500, 35)), Max = ToSlider(LightRange) };
             lightPosY = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 50, 500, 35)), Max = ToSlider(LightRange) };
             lightPosZ = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 90, 500, 35)), Max = ToSlider(LightRange) };
@@ -41,6 +42,7 @@ namespace RTDungeonGeneratorTest
 
         public void Update(Clock clock)
         {
+            var lightPos = cameraAndLight.light1Pos;
             int light = ToSlider(lightPos.x);
             if (sharpGui.Slider(lightPosX, ref light) || sharpGui.ActiveItem == lightPosX.Id)
             {
@@ -73,6 +75,9 @@ namespace RTDungeonGeneratorTest
             //Buttons
             sharpGui.Text(lightPosText);
             sharpGui.Text(cameraPosText);
+
+            cameraAndLight.light1Pos = lightPos;
+            cameraAndLight.light2Pos = lightPos;
         }
 
         private int ToSlider(float pos)
@@ -84,7 +89,5 @@ namespace RTDungeonGeneratorTest
         {
             return pos / LightConversion - LightRange;
         }
-
-        public Vector4 LightPos => lightPos;
     }
 }

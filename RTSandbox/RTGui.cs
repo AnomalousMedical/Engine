@@ -1,4 +1,5 @@
-﻿using Engine;
+﻿using DiligentEngine.RT;
+using Engine;
 using Engine.CameraMovement;
 using Engine.Platform;
 using SharpGui;
@@ -19,8 +20,7 @@ namespace RTSandbox
         private readonly ISharpGui sharpGui;
         private readonly OSWindow window;
         private readonly FirstPersonFlyCamera cameraControls;
-        private Vector4 lightPos = new Vector4(-3, -3, 0, 0);
-
+        private readonly RTCameraAndLight cameraAndLight;
         private SharpText lightPosText = new SharpText() { Text = "" };
         private SharpText cameraPosText = new SharpText() { Text = "" };
 
@@ -28,12 +28,13 @@ namespace RTSandbox
         SharpSliderHorizontal lightPosY;
         SharpSliderHorizontal lightPosZ;
 
-        public RTGui(IScaleHelper scaleHelper, ISharpGui sharpGui, OSWindow window, FirstPersonFlyCamera cameraControls)
+        public RTGui(IScaleHelper scaleHelper, ISharpGui sharpGui, OSWindow window, FirstPersonFlyCamera cameraControls, RTCameraAndLight cameraAndLight)
         {
             this.scaleHelper = scaleHelper;
             this.sharpGui = sharpGui;
             this.window = window;
             this.cameraControls = cameraControls;
+            this.cameraAndLight = cameraAndLight;
             lightPosX = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 10, 500, 35)), Max = ToSlider(LightRange) };
             lightPosY = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 50, 500, 35)), Max = ToSlider(LightRange) };
             lightPosZ = new SharpSliderHorizontal() { Rect = scaleHelper.Scaled(new IntRect(100, 90, 500, 35)), Max = ToSlider(LightRange) };
@@ -41,8 +42,7 @@ namespace RTSandbox
 
         public void Update(Clock clock)
         {
-            sharpGui.Begin(clock);
-
+            var lightPos = cameraAndLight.light1Pos;
             int light = ToSlider(lightPos.x);
             if (sharpGui.Slider(lightPosX, ref light) || sharpGui.ActiveItem == lightPosX.Id)
             {
@@ -70,13 +70,14 @@ namespace RTSandbox
                 new ColumnLayout(lightPosText, cameraPosText) { Margin = new IntPad(10) }
                 ));
             var desiredSize = layout.GetDesiredSize(sharpGui);
-            layout.SetRect(new IntRect(window.WindowWidth - desiredSize.Width, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
+            layout.SetRect(new IntRect(0, window.WindowHeight - desiredSize.Height, desiredSize.Width, desiredSize.Height));
 
             //Buttons
             sharpGui.Text(lightPosText);
             sharpGui.Text(cameraPosText);
 
-            sharpGui.End();
+            cameraAndLight.light1Pos = lightPos;
+            cameraAndLight.light2Pos = lightPos;
         }
 
         private int ToSlider(float pos)
@@ -88,7 +89,5 @@ namespace RTSandbox
         {
             return pos / LightConversion - LightRange;
         }
-
-        public Vector4 LightPos => lightPos;
     }
 }

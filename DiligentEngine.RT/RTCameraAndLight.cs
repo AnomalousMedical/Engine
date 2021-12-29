@@ -11,6 +11,10 @@ namespace DiligentEngine.RT
     {
         public Matrix4x4 CurrentViewProj { get; private set; }
 
+        public Vector4 light1Pos;
+
+        public Vector4 light2Pos;
+
         public void GetCameraPosition(Vector3 position, Quaternion rotation, in Matrix4x4 preTransformMatrix, in Matrix4x4 CameraProj, out Vector3 CameraWorldPos, out Matrix4x4 CameraViewProj)
         {
             var CameraView = Matrix4x4.Translation(position) * rotation.toRotationMatrix4x4();

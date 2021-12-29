@@ -61,11 +61,13 @@ namespace RTSandbox
 
         public void sendUpdate(Clock clock)
         {
+            sharpGui.Begin(clock);
             scene.Update(clock);
             cameraControls.UpdateInput(clock);
             gui.Update(clock);
+            sharpGui.End();
 
-            rayTracingRenderer.Render(rtInstances, cameraControls.Position, cameraControls.Orientation, gui.LightPos, gui.LightPos);
+            rayTracingRenderer.Render(rtInstances, cameraControls.Position, cameraControls.Orientation);
 
             //This is the old clear loop, leaving in place in case we want or need the screen clear, but I think with pure rt there is no need
             //since we blit a texture to the full screen over and over.

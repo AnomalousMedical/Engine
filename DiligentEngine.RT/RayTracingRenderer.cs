@@ -327,7 +327,7 @@ namespace DiligentEngine.RT
             return m_pTLAS;
         }
 
-        public unsafe void Render(RTInstances activeInstances, Vector3 cameraPos, Quaternion cameraRot, Vector4 light1Pos, Vector4 ligth2Pos)
+        public unsafe void Render(RTInstances activeInstances, Vector3 cameraPos, Quaternion cameraRot)
         {
             var swapChain = graphicsEngine.SwapChain;
             var m_pImmediateContext = graphicsEngine.ImmediateContext;
@@ -383,8 +383,8 @@ namespace DiligentEngine.RT
                 GetPlaneIntersection(ViewFrustum.PLANE_IDX.TOP_PLANE_IDX, ViewFrustum.PLANE_IDX.RIGHT_PLANE_IDX, out m_Constants.FrustumRayRT);
 
                 m_Constants.CameraPos = new Vector4(CameraWorldPos.x, CameraWorldPos.y, CameraWorldPos.z, 1.0f);
-                m_Constants.LightPos_0 = light1Pos * -1; //Need to invert going into the shader
-                m_Constants.LightPos_1 = ligth2Pos * -1; //Need to invert going into the shader
+                m_Constants.LightPos_0 = cameraAndLight.light1Pos * -1; //Need to invert going into the shader
+                m_Constants.LightPos_1 = cameraAndLight.light2Pos * -1; //Need to invert going into the shader
 
                 fixed (Constants* constantsPtr = &m_Constants)
                 {

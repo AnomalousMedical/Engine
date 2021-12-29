@@ -1,4 +1,5 @@
-﻿using Engine;
+﻿using DiligentEngine.RT;
+using Engine;
 using Engine.Platform;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace SceneTest
         readonly Color DawnSky = Color.FromARGB(0xff242148);
         readonly Color DuskSky = Color.FromARGB(0xff242148);
         private readonly ITimeClock timeClock;
+        private readonly RTCameraAndLight cameraAndLight;
 
         //Clear Color
         Color clearColor = Color.FromARGB(0xff2a63cc);
@@ -37,9 +39,10 @@ namespace SceneTest
 
         public float AverageLogLum => averageLogLum;
 
-        public Sky(ITimeClock timeClock)
+        public Sky(ITimeClock timeClock, RTCameraAndLight cameraAndLight)
         {
             this.timeClock = timeClock;
+            this.cameraAndLight = cameraAndLight;
         }
 
         public unsafe void UpdateLight(Clock clock)
@@ -94,6 +97,9 @@ namespace SceneTest
                     clearColor = Color.FadeColors(timeFactor, DuskSky, NightSky);
                 }
             }
+
+            cameraAndLight.light1Pos = new Vector4(sunPosition.x, sunPosition.y, sunPosition.z, 0);
+            cameraAndLight.light2Pos = new Vector4(moonPosition.x, moonPosition.y, moonPosition.z, 0);
         }
     }
 }
