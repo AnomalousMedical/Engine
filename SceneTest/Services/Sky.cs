@@ -34,7 +34,9 @@ namespace SceneTest
         public Vector3 SunPosition => sunPosition;
 
         public Vector3 MoonPosition => moonPosition;
+
         public Vector4 LightColor => lightColor;
+
         public float LightIntensity => lightIntensity;
 
         public float AverageLogLum => averageLogLum;
@@ -45,14 +47,16 @@ namespace SceneTest
             this.cameraAndLight = cameraAndLight;
         }
 
+        const float LightDistance = 10000.0f;
+
         public unsafe void UpdateLight(Clock clock)
         {
             var rotation = new Quaternion(Vector3.UnitZ, timeClock.TimeFactor * 2 * MathF.PI);
-            sunPosition = Quaternion.quatRotate(rotation, Vector3.Down) * 300;
-            sunPosition += new Vector3(0f, 0f, -300f);
+            sunPosition = Quaternion.quatRotate(rotation, Vector3.Down) * LightDistance;
+            sunPosition += new Vector3(0f, 0f, -LightDistance);
 
-            moonPosition = Quaternion.quatRotate(rotation, Vector3.Up) * 300;
-            moonPosition += new Vector3(0f, 0f, -300f);
+            moonPosition = Quaternion.quatRotate(rotation, Vector3.Up) * LightDistance;
+            moonPosition += new Vector3(0f, 0f, -LightDistance);
 
             if (timeClock.IsDay)
             {
@@ -100,6 +104,11 @@ namespace SceneTest
 
             cameraAndLight.Light1Pos = new Vector4(sunPosition.x, sunPosition.y, sunPosition.z, 0);
             cameraAndLight.Light2Pos = new Vector4(moonPosition.x, moonPosition.y, moonPosition.z, 0);
+
+            for(var i = 0; i < cameraAndLight.MissPallete.Length; ++i)
+            {
+                cameraAndLight.MissPallete[i] = clearColor;
+            }
         }
     }
 }

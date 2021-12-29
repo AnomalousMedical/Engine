@@ -21,6 +21,17 @@ namespace DiligentEngine.RT
 
         public Color Light2Color = Color.Black;
 
+        public Color[] MissPallete = new Color[6]
+        {
+            new Color(0.32f, 0.00f, 0.92f),
+            new Color(0.00f, 0.22f, 0.90f),
+            new Color(0.02f, 0.67f, 0.98f),
+            new Color(0.41f, 0.79f, 1.00f),
+            new Color(0.78f, 1.00f, 1.00f),
+            new Color(1.00f, 1.00f, 1.00f),
+
+        };
+
         public void GetCameraPosition(Vector3 position, Quaternion rotation, in Matrix4x4 preTransformMatrix, in Matrix4x4 CameraProj, out Vector3 CameraWorldPos, out Matrix4x4 CameraViewProj)
         {
             var CameraView = Matrix4x4.Translation(position) * rotation.toRotationMatrix4x4();
