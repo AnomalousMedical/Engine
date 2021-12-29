@@ -38,22 +38,12 @@ namespace DiligentEngine.RT
         public float4 FrustumRayRT;
         public float4 FrustumRayRB;
 
-
         // The number of shadow PCF samples
         public int ShadowPCF;
         // Maximum ray recursion depth
         public uint MaxRecursion;
         public float Darkness;
         public float Padding2;
-
-        public float4 DiscPoints_0;
-        public float4 DiscPoints_1;
-        public float4 DiscPoints_2;
-        public float4 DiscPoints_3;
-        public float4 DiscPoints_4;
-        public float4 DiscPoints_5;
-        public float4 DiscPoints_6;
-        public float4 DiscPoints_7;
 
         // Light properties
         public float4 AmbientColor;
@@ -62,14 +52,12 @@ namespace DiligentEngine.RT
         public float4 LightColor_0;
         public float4 LightColor_1;
 
-        //public float4 Pallete_0;
-        //public float4 Pallete_1;
-        //public float4 Pallete_2;
-        //public float4 Pallete_3;
-        //public float4 Pallete_4;
-        //public float4 Pallete_5;
-        //public float4 Padding3;
-        //public float4 Padding4;
+        public float4 Pallete_0;
+        public float4 Pallete_1;
+        public float4 Pallete_2;
+        public float4 Pallete_3;
+        public float4 Pallete_4;
+        public float4 Pallete_5;
 
         public static Constants CreateDefault(uint maxRecursionDepth)
         {
@@ -86,22 +74,12 @@ namespace DiligentEngine.RT
                 LightPos_1 = new Vector4(0.00f, -4.0f, -5.00f, 0f),
                 LightColor_1 = new Vector4(0.4f, +0.4f, +0.6f, 0f),
 
-                // Random points on disc. packed float2[16]
-                DiscPoints_0 = new Vector4(+0.0f, +0.0f, +0.9f, -0.9f),
-                DiscPoints_1 = new Vector4(-0.8f, +1.0f, -1.1f, -0.8f),
-                DiscPoints_2 = new Vector4(+1.5f, +1.2f, -2.1f, +0.7f),
-                DiscPoints_3 = new Vector4(+0.1f, -2.2f, -0.2f, +2.4f),
-                DiscPoints_4 = new Vector4(+2.4f, -0.3f, -3.0f, +2.8f),
-                DiscPoints_5 = new Vector4(+2.0f, -2.6f, +0.7f, +3.5f),
-                DiscPoints_6 = new Vector4(-3.2f, -1.6f, +3.4f, +2.2f),
-                DiscPoints_7 = new Vector4(-1.8f, -3.2f, -1.1f, +3.6f),
-
-                //Pallete_0 = new float4(0.32f, 0.00f, 0.92f, 0f),
-                //Pallete_1 = new float4(0.00f, 0.22f, 0.90f, 0f),
-                //Pallete_2 = new float4(0.02f, 0.67f, 0.98f, 0f),
-                //Pallete_3 = new float4(0.41f, 0.79f, 1.00f, 0f),
-                //Pallete_4 = new float4(0.78f, 1.00f, 1.00f, 0f),
-                //Pallete_5 = new float4(1.00f, 1.00f, 1.00f, 0f),
+                Pallete_0 = new float4(0.32f, 0.00f, 0.92f, 0f),
+                Pallete_1 = new float4(0.00f, 0.22f, 0.90f, 0f),
+                Pallete_2 = new float4(0.02f, 0.67f, 0.98f, 0f),
+                Pallete_3 = new float4(0.41f, 0.79f, 1.00f, 0f),
+                Pallete_4 = new float4(0.78f, 1.00f, 1.00f, 0f),
+                Pallete_5 = new float4(1.00f, 1.00f, 1.00f, 0f),
             };
         }
     }

@@ -19,7 +19,7 @@ namespace DiligentEngine.RT
 
         public Color Light1Color = new Color(1.00f, +0.8f, +0.80f);
 
-        public Color Light2Color = Color.Black;
+        public Color Light2Color = new Color(0.2f, 0.2f, 0.4f);
 
         public Color[] MissPallete = new Color[6]
         {

@@ -44,8 +44,6 @@ struct Constants
     int      MaxRecursion;
     float    Darkness;
     float1   Padding2;
-    
-    float4  DiscPoints[8]; // packed float2[16]
 
     // Light properties
     float4  AmbientColor;
@@ -53,9 +51,7 @@ struct Constants
     float4  LightColor[NUM_LIGHTS];
 
     //Sky properties
-    //float4 Pallete[6];
-    //float4 Padding3;
-    //float4 Padding4;
+    float4 Pallete[6];
 };
 
 struct SurfaceReflectanceInfo
