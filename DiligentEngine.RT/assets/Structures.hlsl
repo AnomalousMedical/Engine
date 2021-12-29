@@ -53,7 +53,9 @@ struct Constants
     float4  LightColor[NUM_LIGHTS];
 
     //Sky properties
-    float4 Pallete[6];
+    //float4 Pallete[6];
+    //float4 Padding3;
+    //float4 Padding4;
 };
 
 struct SurfaceReflectanceInfo

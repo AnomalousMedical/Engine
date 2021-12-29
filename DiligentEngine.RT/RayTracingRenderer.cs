@@ -390,12 +390,12 @@ namespace DiligentEngine.RT
                 color = cameraAndLight.Light2Color;
                 m_Constants.LightColor_1 = new Vector4(color.r * cameraAndLight.NumLights, color.g * cameraAndLight.NumLights, color.b * cameraAndLight.NumLights, 0);
 
-                color = cameraAndLight.MissPallete[0]; m_Constants.Pallete_0 = new Vector4(color.r, color.g, color.b, 0);
-                color = cameraAndLight.MissPallete[1]; m_Constants.Pallete_1 = new Vector4(color.r, color.g, color.b, 0);
-                color = cameraAndLight.MissPallete[2]; m_Constants.Pallete_2 = new Vector4(color.r, color.g, color.b, 0);
-                color = cameraAndLight.MissPallete[3]; m_Constants.Pallete_3 = new Vector4(color.r, color.g, color.b, 0);
-                color = cameraAndLight.MissPallete[4]; m_Constants.Pallete_4 = new Vector4(color.r, color.g, color.b, 0);
-                color = cameraAndLight.MissPallete[5]; m_Constants.Pallete_5 = new Vector4(color.r, color.g, color.b, 0);
+                //color = cameraAndLight.MissPallete[0]; m_Constants.Pallete_0 = new Vector4(color.r, color.g, color.b, 0);
+                //color = cameraAndLight.MissPallete[1]; m_Constants.Pallete_1 = new Vector4(color.r, color.g, color.b, 0);
+                //color = cameraAndLight.MissPallete[2]; m_Constants.Pallete_2 = new Vector4(color.r, color.g, color.b, 0);
+                //color = cameraAndLight.MissPallete[3]; m_Constants.Pallete_3 = new Vector4(color.r, color.g, color.b, 0);
+                //color = cameraAndLight.MissPallete[4]; m_Constants.Pallete_4 = new Vector4(color.r, color.g, color.b, 0);
+                //color = cameraAndLight.MissPallete[5]; m_Constants.Pallete_5 = new Vector4(color.r, color.g, color.b, 0);
 
                 fixed (Constants* constantsPtr = &m_Constants)
                 {

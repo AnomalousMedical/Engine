@@ -29,18 +29,6 @@ namespace SceneTest
         float lightIntensity = 3;
         float averageLogLum = 0.3f;
 
-        public Color ClearColor => clearColor;
-
-        public Vector3 SunPosition => sunPosition;
-
-        public Vector3 MoonPosition => moonPosition;
-
-        public Vector4 LightColor => lightColor;
-
-        public float LightIntensity => lightIntensity;
-
-        public float AverageLogLum => averageLogLum;
-
         public Sky(ITimeClock timeClock, RTCameraAndLight cameraAndLight)
         {
             this.timeClock = timeClock;
