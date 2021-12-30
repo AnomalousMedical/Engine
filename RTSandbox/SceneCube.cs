@@ -81,17 +81,21 @@ namespace RTSandbox
             coroutine.RunTask(async () =>
             {
                 description.Shader.numTextures = activeTextures.MaxTextures;
-                var setupShader = primaryHitShaderFactory.Create(description.Shader);
-                var textureTask = textureManager.Checkout(description.Texture);
+                var primaryHitShaderTask = primaryHitShaderFactory.Create(description.Shader);
+                var cubeTextureTask = textureManager.Checkout(description.Texture);
 
-                this.primaryHitShader = await setupShader;
-                this.cubeTexture = await textureTask;
+                await Task.WhenAll
+                (
+                    this.cubeBLAS.WaitForLoad(),
+                    primaryHitShaderTask,
+                    cubeTextureTask
+                );
 
-                blasInstanceData = this.activeTextures.AddActiveTexture(this.cubeTexture);
-
-                await this.cubeBLAS.WaitForLoad();
                 this.instanceData.pBLAS = cubeBLAS.Instance.BLAS.Obj;
-                
+                this.primaryHitShader = primaryHitShaderTask.Result;
+                this.cubeTexture = cubeTextureTask.Result;
+                this.primaryHitShader.Activate();
+                blasInstanceData = this.activeTextures.AddActiveTexture(this.cubeTexture);
                 rtInstances.AddTlasBuild(instanceData);
                 rtInstances.AddShaderTableBinder(Bind);
                 renderer.AddShaderResourceBinder(Bind);

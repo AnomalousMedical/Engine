@@ -200,8 +200,13 @@ namespace DiligentEngine.RT.ShaderSets
                 verticesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = verticesName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
                 indicesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = indicesName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
             });
+        }
 
-            //Do these back on the main thread since they change the state of the renderer
+        /// <summary>
+        /// Call this on the main thread to start using the shader. This only needs to be done once.
+        /// </summary>
+        public void Activate()
+        {
             PSOCreateInfo.pTriangleHitShaders.Add(primaryHitShaderGroup);
             PSOCreateInfo.pTriangleHitShaders.Add(emissiveHitShaderGroup);
             //TODO: Adding this to the triangle hit shaders here assumes the BLAS is already created. This is setup to work ok now, but hopefully this can be unbound later
