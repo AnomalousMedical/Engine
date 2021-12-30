@@ -12,10 +12,12 @@ namespace DiligentEngine.RT.ShaderSets
         private AutoPtr<IShader> pRayGen;
         private AutoPtr<IShader> pPrimaryMiss;
         private AutoPtr<IShader> pShadowMiss;
+        private AutoPtr<IShader> pEmissiveMiss;
 
         private RayTracingGeneralShaderGroup rayGenShaderGroup;
         private RayTracingGeneralShaderGroup primaryMissShaderGroup;
         private RayTracingGeneralShaderGroup shadowMissShaderGroup;
+        private RayTracingGeneralShaderGroup emissiveMissShaderGroup;
         private readonly GraphicsEngine graphicsEngine;
         private readonly ShaderLoader shaderLoader;
 
@@ -70,24 +72,35 @@ namespace DiligentEngine.RT.ShaderSets
             pShadowMiss = m_pDevice.CreateShader(ShaderCI, Macros);
             //VERIFY_EXPR(pShadowMiss != nullptr);
 
+            ShaderCI.Desc.Name = "Emissive ray miss shader";
+            ShaderCI.Source = shaderLoader.LoadShader("assets/EmissiveMiss.hlsl");
+            ShaderCI.EntryPoint = "main";
+            pEmissiveMiss = m_pDevice.CreateShader(ShaderCI, Macros);
+            //VERIFY_EXPR(pEmissiveMiss != nullptr);
+
             // Ray generation shader is an entry point for a ray tracing pipeline.
             rayGenShaderGroup = new RayTracingGeneralShaderGroup { Name = "Main", pShader = pRayGen.Obj };
             // Primary ray miss shader.
             primaryMissShaderGroup = new RayTracingGeneralShaderGroup { Name = "PrimaryMiss", pShader = pPrimaryMiss.Obj };
             // Shadow ray miss shader.
             shadowMissShaderGroup = new RayTracingGeneralShaderGroup { Name = "ShadowMiss", pShader = pShadowMiss.Obj };
+            // Emissive ray miss shader.
+            emissiveMissShaderGroup = new RayTracingGeneralShaderGroup { Name = "EmissiveMiss", pShader = pEmissiveMiss.Obj };
 
             PSOCreateInfo.pGeneralShaders.Add(rayGenShaderGroup);
             PSOCreateInfo.pGeneralShaders.Add(primaryMissShaderGroup);
             PSOCreateInfo.pGeneralShaders.Add(shadowMissShaderGroup);
+            PSOCreateInfo.pGeneralShaders.Add(emissiveMissShaderGroup);
         }
 
         public void Dispose()
         {
+            PSOCreateInfo.pGeneralShaders.Remove(emissiveMissShaderGroup);
             PSOCreateInfo.pGeneralShaders.Remove(shadowMissShaderGroup);
             PSOCreateInfo.pGeneralShaders.Remove(primaryMissShaderGroup);
             PSOCreateInfo.pGeneralShaders.Remove(rayGenShaderGroup);
 
+            pEmissiveMiss.Dispose();
             pRayGen.Dispose();
             pPrimaryMiss.Dispose();
             pShadowMiss.Dispose();

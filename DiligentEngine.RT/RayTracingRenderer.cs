@@ -96,7 +96,7 @@ namespace DiligentEngine.RT
 
             // DirectX 12 only: set attribute and payload size. Values should be as small as possible to minimize the memory usage.
             PSOCreateInfo.MaxAttributeSize = (uint)sizeof(/*BuiltInTriangleIntersectionAttributes*/ Vector2);
-            PSOCreateInfo.MaxPayloadSize = (uint)Math.Max(sizeof(DiligentEngine.RT.HLSL.PrimaryRayPayload), sizeof(DiligentEngine.RT.HLSL.ShadowRayPayload));
+            PSOCreateInfo.MaxPayloadSize = (uint)Math.Max(Math.Max(sizeof(HLSL.PrimaryRayPayload), sizeof(HLSL.ShadowRayPayload)), sizeof(HLSL.EmissiveRayPayload));
 
 
             // Define immutable sampler for g_Texture and g_GroundTexture. Immutable samplers should be used whenever possible
@@ -186,6 +186,7 @@ namespace DiligentEngine.RT
 
             m_pSBT.Obj.BindMissShader("PrimaryMiss", RtStructures.PRIMARY_RAY_INDEX, IntPtr.Zero, 0);
             m_pSBT.Obj.BindMissShader("ShadowMiss", RtStructures.SHADOW_RAY_INDEX, IntPtr.Zero, 0);
+            m_pSBT.Obj.BindMissShader("EmissiveMiss", RtStructures.EMISSIVE_RAY_INDEX, IntPtr.Zero, 0);
         }
 
         private RTInstances lastInstances;

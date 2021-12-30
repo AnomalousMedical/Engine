@@ -81,8 +81,10 @@ namespace DiligentEngine.RT.ShaderSets
 
         private RayTracingPipelineStateCreateInfo PSOCreateInfo;
         private AutoPtr<IShader> pCubePrimaryHit;
+        private AutoPtr<IShader> pCubeEmissiveHit;
         private AutoPtr<IShader> pCubeAnyHit;
         private RayTracingTriangleHitShaderGroup primaryHitShaderGroup;
+        private RayTracingTriangleHitShaderGroup emissiveHitShaderGroup;
 
         private ShaderResourceVariableDesc verticesDesc;
         private ShaderResourceVariableDesc indicesDesc;
@@ -94,10 +96,9 @@ namespace DiligentEngine.RT.ShaderSets
         private String normalTexturesName;
         private String physicalTexturesName;
         private String shaderGroupName;
+        private String emissiveShaderGroupName;
         private bool hasNormalMap;
         private bool hasPhysicalMap;
-
-        public String ShaderGroupName => shaderGroupName;
 
         public PrimaryHitShader()
         {      
@@ -120,6 +121,7 @@ namespace DiligentEngine.RT.ShaderSets
                 this.normalTexturesName = $"nrmltex_{baseName}";
                 this.physicalTexturesName = $"phystex_{baseName}";
                 this.shaderGroupName = $"{baseName}PrimaryHit";
+                this.emissiveShaderGroupName = $"{baseName}EmissiveHit";
 
                 var m_pDevice = graphicsEngine.RenderDevice;
 
@@ -178,6 +180,13 @@ namespace DiligentEngine.RT.ShaderSets
                 pCubePrimaryHit = m_pDevice.CreateShader(ShaderCI, Macros);
                 //VERIFY_EXPR(pCubePrimaryHit != nullptr);
 
+                ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT;
+                ShaderCI.Desc.Name = "Cube emissive ray closest hit shader";
+                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, $"assets/EmissiveHitNone.hlsl");
+                ShaderCI.EntryPoint = "main";
+                pCubeEmissiveHit = m_pDevice.CreateShader(ShaderCI, Macros);
+                //VERIFY_EXPR(pCubeEmissiveHit != nullptr);
+
                 // Create any hit shaders.
                 ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT;
                 ShaderCI.Desc.Name = "Cube primary ray any hit shader";
@@ -188,6 +197,7 @@ namespace DiligentEngine.RT.ShaderSets
 
                 // Primary ray hit group for the textured cube.
                 primaryHitShaderGroup = new RayTracingTriangleHitShaderGroup { Name = shaderGroupName, pClosestHitShader = pCubePrimaryHit.Obj, pAnyHitShader = pCubeAnyHit.Obj };
+                emissiveHitShaderGroup = new RayTracingTriangleHitShaderGroup { Name = emissiveShaderGroupName, pClosestHitShader = pCubeEmissiveHit.Obj, pAnyHitShader = pCubeAnyHit.Obj };
 
                 verticesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = verticesName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
                 indicesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = indicesName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
@@ -195,6 +205,7 @@ namespace DiligentEngine.RT.ShaderSets
 
             //Do these back on the main thread since they change the state of the renderer
             PSOCreateInfo.pTriangleHitShaders.Add(primaryHitShaderGroup);
+            PSOCreateInfo.pTriangleHitShaders.Add(emissiveHitShaderGroup);
             //TODO: Adding this to the triangle hit shaders here assumes the BLAS is already created. This is setup to work ok now, but hopefully this can be unbound later
 
             PSOCreateInfo.PSODesc.ResourceLayout.Variables.Add(verticesDesc);
@@ -206,9 +217,11 @@ namespace DiligentEngine.RT.ShaderSets
             PSOCreateInfo.PSODesc.ResourceLayout.Variables.Remove(indicesDesc);
             PSOCreateInfo.PSODesc.ResourceLayout.Variables.Remove(verticesDesc);
 
+            PSOCreateInfo.pTriangleHitShaders.Remove(emissiveHitShaderGroup);
             PSOCreateInfo.pTriangleHitShaders.Remove(primaryHitShaderGroup);
 
             pCubeAnyHit?.Dispose();
+            pCubeEmissiveHit.Dispose();
             pCubePrimaryHit?.Dispose();
         }
 
@@ -219,6 +232,12 @@ namespace DiligentEngine.RT.ShaderSets
 
             rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, verticesName)?.Set(bLASInstance.AttrVertexBuffer.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
             rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, indicesName)?.Set(bLASInstance.IndexBuffer.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
+        }
+
+        public void BindSbt(String instanceName, IShaderBindingTable sbt, ITopLevelAS tlas, IntPtr data, uint size)
+        {
+            sbt.BindHitGroupForInstance(tlas, instanceName, RtStructures.PRIMARY_RAY_INDEX, shaderGroupName, data, size);
+            sbt.BindHitGroupForInstance(tlas, instanceName, RtStructures.EMISSIVE_RAY_INDEX, emissiveShaderGroupName, data, size);
         }
 
         public void BindTextures(IShaderResourceBinding m_pRayTracingSRB, TextureSet textureSet)

@@ -44,7 +44,7 @@ namespace RTSandbox
                     "cc0Textures/MetalPlates006_1K",
                     "cc0Textures/SheetMetal002_1K",
                     "cc0Textures/Fabric021_1K",
-                    "cc0Textures/Wood049_1K",
+                    "cc0Textures/Lava004_1K",
                     "cc0Textures/Ground042_1K"
                 });
                 await cubeBLAS.WaitForLoad();

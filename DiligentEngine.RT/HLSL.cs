@@ -30,6 +30,13 @@ namespace DiligentEngine.RT.HLSL
     };
 
     [StructLayout(LayoutKind.Sequential)]
+    struct EmissiveRayPayload
+    {
+        float3 Color;
+        uint Recursion;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
     public struct ShadowRayPayload
     {
         float Shading;   // 0 - fully shadowed, 1 - fully in light, 0..1 - for semi-transparent objects

@@ -66,6 +66,30 @@ ShadowRayPayload CastShadow(RayDesc ray, uint Recursion)
     return payload;
 }
 
+float3 GetNearbyEmissiveLighting(RayDesc ray, uint Recursion)
+{
+    EmissiveRayPayload payload = { float3(0.0, 0.0, 0.0), Recursion };
+
+    // Manually terminate the recusrion as the driver doesn't check the recursion depth.
+    if (Recursion >= g_ConstantsCB.MaxRecursion)
+    {
+        payload.Color = float3(0.0, 0.0, 0.0);
+        return payload.Color;
+    }
+    //This was modified to use PRIMARY_RAY_INDEX, which makes the any hit opacity shaders work
+    TraceRay(g_TLAS,            // Acceleration structure
+        RAY_FLAG_NONE,
+        OPAQUE_GEOM_MASK,  // Instance inclusion mask - only opaque instances are visible
+        EMISSIVE_RAY_INDEX,  // Ray contribution to hit group index (aka ray type)
+        HIT_GROUP_STRIDE,  // Multiplier for geometry contribution to hit 
+                           // group index (aka the number of ray types)
+        EMISSIVE_RAY_INDEX,  // Miss shader index
+        ray,
+        payload);
+
+    return payload.Color;
+}
+
 SurfaceReflectanceInfo GetSurfaceReflectance(   //int Workflow, //Not including workflow option, make separate function if needed
     float3     BaseColor,
     float4     PhysicalDesc
@@ -239,6 +263,10 @@ void LightingPass(inout float3 Color, float3 Pos, float3 Norm, float3 pertbNorm,
 
     //float3 eyeDir = normalize(g_ConstantsCB.CameraPos.xyz - Pos);
 
+    ray.TMax = 100; //Make this configurable
+    ray.Direction = normalize(Norm);
+    float3 emissive = GetNearbyEmissiveLighting(ray, Recursion);
+
     for (int i = 0; i < NUM_LIGHTS; ++i)
     {
         // Limit max ray length by distance to light source.
@@ -262,7 +290,7 @@ void LightingPass(inout float3 Color, float3 Pos, float3 Norm, float3 pertbNorm,
         }
         col += Color * g_ConstantsCB.Darkness;
     }
-    Color = col * (1.0 / float(NUM_LIGHTS)) + g_ConstantsCB.AmbientColor.rgb;
+    Color = col * (1.0 / float(NUM_LIGHTS)) + g_ConstantsCB.AmbientColor.rgb + emissive;
 }
 
 void LightingPass(inout float3 Color, float3 Pos, float3 Norm, float3 pertbNorm, uint Recursion, float4 physicalInfo)
@@ -276,6 +304,10 @@ void LightingPass(inout float3 Color, float3 Pos, float3 Norm, float3 pertbNorm,
 
     float3 view = g_ConstantsCB.CameraPos.xyz - Pos;
     SurfaceReflectanceInfo surfInfo = GetSurfaceReflectance(Color, physicalInfo);
+
+    ray.TMax = 100; //Make this configurable
+    ray.Direction = normalize(Norm);
+    float3 emissive = GetNearbyEmissiveLighting(ray, Recursion);
 
     for (int i = 0; i < NUM_LIGHTS; ++i)
     {
@@ -299,7 +331,7 @@ void LightingPass(inout float3 Color, float3 Pos, float3 Norm, float3 pertbNorm,
         }
         col += Color * g_ConstantsCB.Darkness;
     }
-    Color = col * (1.0 / float(NUM_LIGHTS)) + g_ConstantsCB.AmbientColor.rgb;
+    Color = col * (1.0 / float(NUM_LIGHTS)) + g_ConstantsCB.AmbientColor.rgb + emissive;
 }
 
 void AnyHitOpacityMapUV(float3 barycentrics,

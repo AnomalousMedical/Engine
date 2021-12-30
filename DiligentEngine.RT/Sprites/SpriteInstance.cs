@@ -60,7 +60,7 @@ namespace DiligentEngine.RT.Sprites
                 u4 = 1f, v4 = 1f,
             };
 
-            sbt.BindHitGroupForInstance(tlas, instanceName, RtStructures.PRIMARY_RAY_INDEX, primaryHitShader.ShaderGroupName, new IntPtr(&info), (uint)sizeof(HLSL.SpriteFrame));
+            primaryHitShader.BindSbt(instanceName, sbt, tlas, new IntPtr(&info), (uint)sizeof(HLSL.SpriteFrame));
         }
 
         public unsafe void Bind(String instanceName, IShaderBindingTable sbt, ITopLevelAS tlas, SpriteFrame frame)
@@ -73,7 +73,7 @@ namespace DiligentEngine.RT.Sprites
                 u4 = frame.Right, v4 = frame.Bottom,
             };
 
-            sbt.BindHitGroupForInstance(tlas, instanceName, RtStructures.PRIMARY_RAY_INDEX, primaryHitShader.ShaderGroupName, new IntPtr(&info), (uint)sizeof(HLSL.SpriteFrame));
+            primaryHitShader.BindSbt(instanceName, sbt, tlas, new IntPtr(&info), (uint)sizeof(HLSL.SpriteFrame));
         }
     }
 }
