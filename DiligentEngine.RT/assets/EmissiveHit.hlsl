@@ -1,11 +1,13 @@
-
 #include "Structures.hlsl"
 #include "RayUtils.hlsl"
 
 StructuredBuffer<CubeAttribVertex> $$(VERTICES);
 StructuredBuffer<uint> $$(INDICES);
 
-Texture2D    $$(EMISSIVE_TEXTURES)[$$(NUM_TEXTURES)];
+[[vk::shader_record_ext]]
+ConstantBuffer<BlasInstanceData> instanceData;
+
+Texture2D    g_textures[$$(NUM_TEXTURES)];
 SamplerState g_SamLinearWrap;
 
 [shader("closesthit")]
@@ -23,8 +25,8 @@ void main(inout EmissiveRayPayload payload, in BuiltInTriangleIntersectionAttrib
     GetEmissiveLighting
     (
         payload, barycentrics, 
-        posX, posY, posZ, 
-        $$(EMISSIVE_TEXTURES)[InstanceID()],
+        posX, posY, posZ,
+        g_textures[instanceData.emissiveTexture],
         g_SamLinearWrap
     );
 }

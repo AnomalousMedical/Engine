@@ -33,9 +33,9 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<GeneralShaders>();
             services.AddSingleton<CC0TextureLoader>();
             services.AddSingleton<TextureManager>();
+            services.AddSingleton<ActiveTextures>();
 
             services.AddSingleton<PrimaryHitShader.Factory>();
-            services.AddTransient<TextureSet>();
 
             services.AddSingleton<ISpriteMaterialManager, SpriteMaterialManager>();
             services.AddSingleton<ISpriteMaterialTextureManager, SpriteMaterialTextureManager>();

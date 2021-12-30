@@ -11,12 +11,6 @@ namespace DiligentEngine.RT.Resources
     {
         private List<AutoPtr<ITexture>> texturePointers = new List<AutoPtr<ITexture>>();
 
-        private List<IDeviceObject> baseColorSRVs = new List<IDeviceObject>();
-        private List<IDeviceObject> normalSRVs = new List<IDeviceObject>();
-        private List<IDeviceObject> physicalDescriptorSRVs = new List<IDeviceObject>();
-        private List<IDeviceObject> ambientOcclusionSRVs = new List<IDeviceObject>();
-        private List<IDeviceObject> emissiveSRVs = new List<IDeviceObject>();
-
         internal CC0TextureResult()
         {
         }
@@ -26,42 +20,40 @@ namespace DiligentEngine.RT.Resources
             foreach (var i in texturePointers) { i.Dispose(); }
         }
 
-        public int NumTextures => baseColorSRVs.Count;
-
-        public List<IDeviceObject> BaseColorSRVs => baseColorSRVs;
+        public IDeviceObject BaseColorSRV { get; private set; }
         internal void SetBaseColorMap(AutoPtr<ITexture> value)
         {
-            this.baseColorSRVs.Add(value.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
+            this.BaseColorSRV = value.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
             this.texturePointers.Add(value);
         }
 
-        public List<IDeviceObject> NormalMapSRVs => normalSRVs;
+        public IDeviceObject NormalMapSRV { get; private set; }
         internal void SetNormalMap(AutoPtr<ITexture> value)
         {
-            this.normalSRVs.Add(value.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
+            this.NormalMapSRV = value.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
             this.texturePointers.Add(value);
         }
 
-        public List<IDeviceObject> PhysicalDescriptorMapSRVs => physicalDescriptorSRVs;
+        public IDeviceObject PhysicalDescriptorMapSRV { get; private set; }
         internal void SetPhysicalDescriptorMap(AutoPtr<ITexture> value)
         {
-            this.physicalDescriptorSRVs.Add(value.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
+            this.PhysicalDescriptorMapSRV = value.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
             this.texturePointers.Add(value);
         }
 
-        public List<IDeviceObject> AmbientOcclusionMapSRVs => ambientOcclusionSRVs;
+        public IDeviceObject AmbientOcclusionMapSRV { get; private set; }
 
         internal void SetAmbientOcclusionMap(AutoPtr<ITexture> value)
         {
-            this.ambientOcclusionSRVs.Add(value.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
+            this.AmbientOcclusionMapSRV = value.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
             this.texturePointers.Add(value);
         }
 
-        public List<IDeviceObject> EmissiveSRVs => emissiveSRVs;
+        public IDeviceObject EmissiveSRV { get; private set; }
 
         internal void SetEmissiveMap(AutoPtr<ITexture> value)
         {
-            this.emissiveSRVs.Add(value.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
+            this.EmissiveSRV = value.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
             this.texturePointers.Add(value);
         }
     }

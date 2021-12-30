@@ -2,6 +2,18 @@ struct SpriteFrame {
     float2 uvs[4];
 };
 
+struct BlasInstanceData
+{
+    int baseTexture;
+    int normalTexture;
+    int physicalTexture;
+    int emissiveTexture;
+    float pad1;
+    float pad2;
+    float pad3;
+    float pad4;
+};
+
 struct CubeAttribVertex {
   float4 uv;
   float4 tangent;

@@ -5,7 +5,10 @@
 StructuredBuffer<CubeAttribVertex> $$(VERTICES);
 StructuredBuffer<uint> $$(INDICES);
 
-Texture2D    $$(COLOR_TEXTURES)[$$(NUM_TEXTURES)]; //This might be better loaded independently
+[[vk::shader_record_ext]]
+ConstantBuffer<BlasInstanceData> instanceData;
+
+Texture2D    g_textures[$$(NUM_TEXTURES)];
 SamplerState g_SamLinearWrap;
 
 [shader("anyhit")]
@@ -21,7 +24,7 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
     CubeAttribVertex posZ = $$(VERTICES)[$$(INDICES)[vertId + 2]];
 
     // Sample texturing. Ray tracing shaders don't support LOD calculation, so we must specify LOD and apply filtering.
-    Texture2D opacityTexture = $$(COLOR_TEXTURES)[InstanceID()];
+    Texture2D opacityTexture = g_textures[instanceData.baseTexture];
 
     AnyHitOpacityMap(barycentrics, posX, posY, posZ, opacityTexture, g_SamLinearWrap);
 }

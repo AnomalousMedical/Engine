@@ -1,13 +1,13 @@
-
 #include "Structures.hlsl"
 #include "RayUtils.hlsl"
 
 StructuredBuffer<CubeAttribVertex> $$(VERTICES);
 StructuredBuffer<uint> $$(INDICES);
 
-Texture2D    $$(COLOR_TEXTURES)[$$(NUM_TEXTURES)];
-Texture2D    $$(NORMAL_TEXTURES)[$$(NUM_TEXTURES)];
-Texture2D    $$(PHYSICAL_TEXTURES)[$$(NUM_TEXTURES)];
+[[vk::shader_record_ext]]
+ConstantBuffer<BlasInstanceData> instanceData;
+
+Texture2D    g_textures[$$(NUM_TEXTURES)];
 SamplerState g_SamLinearWrap;
 
 [shader("closesthit")]
@@ -26,9 +26,9 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
     (
         payload, barycentrics, 
         posX, posY, posZ, 
-        $$(COLOR_TEXTURES)[InstanceID()],
-        $$(NORMAL_TEXTURES)[InstanceID()],
-        $$(PHYSICAL_TEXTURES)[InstanceID()],
+        g_textures[instanceData.baseTexture],
+        g_textures[instanceData.normalTexture],
+        g_textures[instanceData.physicalTexture],
         g_SamLinearWrap,
         g_SamLinearWrap
     );
