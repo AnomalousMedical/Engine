@@ -28,6 +28,8 @@ namespace DiligentEngine.RT.ShaderSets
 
             public bool HasPhysicalDescriptorMap { get; set; }
 
+            public bool HasEmissiveMap { get; set; }
+
             public bool Reflective { get; set; }
         }
 
@@ -95,10 +97,12 @@ namespace DiligentEngine.RT.ShaderSets
         private String colorTexturesName;
         private String normalTexturesName;
         private String physicalTexturesName;
+        private String emissiveTexturesName;
         private String shaderGroupName;
         private String emissiveShaderGroupName;
         private bool hasNormalMap;
         private bool hasPhysicalMap;
+        private bool hasEmissiveMap;
 
         public PrimaryHitShader()
         {      
@@ -112,6 +116,7 @@ namespace DiligentEngine.RT.ShaderSets
             var shaderType = desc.shaderType;
             this.hasNormalMap = desc.HasNormalMap;
             this.hasPhysicalMap = desc.HasPhysicalDescriptorMap;
+            this.hasEmissiveMap = desc.HasEmissiveMap;
 
             await Task.Run(() =>
             {
@@ -120,6 +125,7 @@ namespace DiligentEngine.RT.ShaderSets
                 this.colorTexturesName = $"tex_{baseName}";
                 this.normalTexturesName = $"nrmltex_{baseName}";
                 this.physicalTexturesName = $"phystex_{baseName}";
+                this.emissiveTexturesName = $"emstex_{baseName}";
                 this.shaderGroupName = $"{baseName}PrimaryHit";
                 this.emissiveShaderGroupName = $"{baseName}EmissiveHit";
 
@@ -150,12 +156,21 @@ namespace DiligentEngine.RT.ShaderSets
                     { "INDICES", indicesName },
                     { "COLOR_TEXTURES", colorTexturesName },
                     { "NORMAL_TEXTURES", normalTexturesName },
-                    { "PHYSICAL_TEXTURES", physicalTexturesName }
+                    { "PHYSICAL_TEXTURES", physicalTexturesName },
+                    { "EMISSIVE_TEXTURES", emissiveTexturesName }
                 };
 
                 // Create closest hit shaders.
                 var textureSuffix = numTextures == 1 ? "1Texture" : "";
                 var primaryHitSuffix = textureSuffix;
+
+                var emissiveSuffix = "None";
+                if (desc.HasEmissiveMap)
+                {
+                    emissiveSuffix = textureSuffix;
+                }
+                var emissiveHitShader = $"assets/EmissiveHit{emissiveSuffix}.hlsl";
+
                 if (!desc.HasNormalMap)
                 {
                     primaryHitSuffix += "ColorOnly";
@@ -182,7 +197,7 @@ namespace DiligentEngine.RT.ShaderSets
 
                 ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT;
                 ShaderCI.Desc.Name = "Cube emissive ray closest hit shader";
-                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, $"assets/EmissiveHitNone.hlsl");
+                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, emissiveHitShader);
                 ShaderCI.EntryPoint = "main";
                 pCubeEmissiveHit = m_pDevice.CreateShader(ShaderCI, Macros);
                 //VERIFY_EXPR(pCubeEmissiveHit != nullptr);
@@ -253,6 +268,11 @@ namespace DiligentEngine.RT.ShaderSets
                 m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, physicalTexturesName)?.SetArray(textureSet.TexPhysicalSRVs);
             }
 
+            if (hasEmissiveMap)
+            {
+                m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, emissiveTexturesName)?.SetArray(textureSet.TexEmissiveSRVs);
+            }
+
             m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, colorTexturesName)?.SetArray(textureSet.TexSRVs);
         }
 
@@ -269,6 +289,11 @@ namespace DiligentEngine.RT.ShaderSets
             {
                 m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, physicalTexturesName)?.Set(spriteMaterial.PhysicalSRV);
             }
+
+            //if (hasEmissiveMap)
+            //{
+            //    m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, emissiveTexturesName)?.SetArray(textureSet.TexEmissiveSRVs);
+            //}
 
             m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, colorTexturesName)?.Set(spriteMaterial.ColorSRV);
         }
@@ -288,6 +313,11 @@ namespace DiligentEngine.RT.ShaderSets
                     m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, physicalTexturesName)?.Set(textureSet.PhysicalDescriptorMapSRVs[0]);
                 }
 
+                if (hasEmissiveMap)
+                {
+                    m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, emissiveTexturesName)?.Set(textureSet.EmissiveSRVs[0]);
+                }
+
                 m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, colorTexturesName)?.Set(textureSet.BaseColorSRVs[0]);
             }
             else
@@ -301,6 +331,11 @@ namespace DiligentEngine.RT.ShaderSets
                 if (hasPhysicalMap)
                 {
                     m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, physicalTexturesName)?.SetArray(textureSet.PhysicalDescriptorMapSRVs);
+                }
+
+                if (hasEmissiveMap)
+                {
+                    m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, emissiveTexturesName)?.SetArray(textureSet.EmissiveSRVs);
                 }
 
                 m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, colorTexturesName)?.SetArray(textureSet.BaseColorSRVs);

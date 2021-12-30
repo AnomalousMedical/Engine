@@ -15,6 +15,7 @@ namespace DiligentEngine.RT.Resources
         private List<IDeviceObject> normalSRVs = new List<IDeviceObject>();
         private List<IDeviceObject> physicalDescriptorSRVs = new List<IDeviceObject>();
         private List<IDeviceObject> ambientOcclusionSRVs = new List<IDeviceObject>();
+        private List<IDeviceObject> emissiveSRVs = new List<IDeviceObject>();
 
         internal CC0TextureResult()
         {
@@ -53,6 +54,14 @@ namespace DiligentEngine.RT.Resources
         internal void SetAmbientOcclusionMap(AutoPtr<ITexture> value)
         {
             this.ambientOcclusionSRVs.Add(value.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
+            this.texturePointers.Add(value);
+        }
+
+        public List<IDeviceObject> EmissiveSRVs => emissiveSRVs;
+
+        internal void SetEmissiveMap(AutoPtr<ITexture> value)
+        {
+            this.emissiveSRVs.Add(value.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE));
             this.texturePointers.Add(value);
         }
     }

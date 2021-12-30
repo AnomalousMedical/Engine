@@ -40,6 +40,7 @@ namespace DiligentEngine.RT.Resources
             var metalnessMapPath = $"{basePath}_Metalness.{ext}";
             var ambientOcclusionMapPath = $"{basePath}_AmbientOcclusion.{ext}";
             var opacityFile = $"{basePath}_Opacity.jpg";
+            var emissiveMapPath = $"{basePath}_Emission.jpg";
 
             var Barriers = new List<StateTransitionDesc>(5);
 
@@ -143,10 +144,20 @@ namespace DiligentEngine.RT.Resources
 
                 if (resourceProvider.fileExists(ambientOcclusionMapPath))
                 {
-                    using (var stream = resourceProvider.openFile(normalMapPath))
+                    using (var stream = resourceProvider.openFile(ambientOcclusionMapPath))
                     {
                         var map = textureLoader.LoadTexture(stream, "ambientOcclusionMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, false);
                         result.SetAmbientOcclusionMap(map);
+                        Barriers.Add(new StateTransitionDesc { pResource = map.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true });
+                    }
+                }
+
+                if (resourceProvider.fileExists(emissiveMapPath))
+                {
+                    using (var stream = resourceProvider.openFile(emissiveMapPath))
+                    {
+                        var map = textureLoader.LoadTexture(stream, "emissiveMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, false);
+                        result.SetEmissiveMap(map);
                         Barriers.Add(new StateTransitionDesc { pResource = map.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true });
                     }
                 }

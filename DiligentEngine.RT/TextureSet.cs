@@ -27,6 +27,8 @@ namespace DiligentEngine.RT
 
         public List<IDeviceObject> TexPhysicalSRVs { get; private set; }
 
+        public List<IDeviceObject> TexEmissiveSRVs { get; private set; }
+
         public TextureSet(CC0TextureLoader texturelLoader)
         {
             this.textureLoader = texturelLoader;
@@ -46,6 +48,7 @@ namespace DiligentEngine.RT
             TexSRVs = new List<IDeviceObject>(numTexturesHint);
             TexNormalSRVs = new List<IDeviceObject>(numTexturesHint);
             TexPhysicalSRVs = new List<IDeviceObject>(numTexturesHint);
+            TexEmissiveSRVs = new List<IDeviceObject>(numTexturesHint);
 
             // Load textures
             foreach (var texture in textureFiles)
@@ -57,6 +60,7 @@ namespace DiligentEngine.RT
                 TexSRVs.AddRange(result.BaseColorSRVs);
                 TexNormalSRVs.AddRange(result.NormalMapSRVs);
                 TexPhysicalSRVs.AddRange(result.PhysicalDescriptorMapSRVs);
+                TexEmissiveSRVs.AddRange(result.EmissiveSRVs);
             }
         }
 

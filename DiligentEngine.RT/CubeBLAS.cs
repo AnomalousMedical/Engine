@@ -12,19 +12,15 @@ namespace DiligentEngine.RT
     public class CubeBLAS : IDisposable
     {
         private BLASInstance instance;
-        private PrimaryHitShader primaryHitShader;
         private readonly RayTracingRenderer renderer;
         private TaskCompletionSource loadingTask = new TaskCompletionSource();
 
         public BLASInstance Instance => instance;
 
-        public PrimaryHitShader PrimaryHitShader => primaryHitShader;
-
         public CubeBLAS
         (
             BLASBuilder blasBuilder,
             RayTracingRenderer renderer,
-            PrimaryHitShader.Factory primaryHitShaderFactory,
             IScopedCoroutine coroutineRunner
         )
         {
@@ -76,19 +72,7 @@ namespace DiligentEngine.RT
                     20,21,22, 20,22,23  //Front +z
                     };
 
-                    var setupShader = primaryHitShaderFactory.Create(new PrimaryHitShader.Desc
-                    {
-                        baseName = blasDesc.Name,
-                        numTextures = 5,
-                        shaderType = PrimaryHitShaderType.Cube,
-                        HasNormalMap = true,
-                        HasPhysicalDescriptorMap = true,
-                        Reflective = false
-                    });
                     instance = await blasBuilder.CreateBLAS(blasDesc);
-                    this.primaryHitShader = await setupShader;
-
-                    renderer.AddShaderResourceBinder(Bind);
 
                     loadingTask.SetResult();
                 }
@@ -101,8 +85,6 @@ namespace DiligentEngine.RT
 
         public void Dispose()
         {
-            renderer.RemoveShaderResourceBinder(Bind);
-            this.primaryHitShader?.Dispose();
             instance?.Dispose();
         }
 
@@ -110,11 +92,6 @@ namespace DiligentEngine.RT
         {
             //This should be called by anything using this class, but it will have already started its setup in its constructor.
             return loadingTask.Task;
-        }
-
-        private void Bind(IShaderResourceBinding rayTracingSRB)
-        {
-            primaryHitShader.BindBlas(instance, rayTracingSRB);
         }
     }
 }

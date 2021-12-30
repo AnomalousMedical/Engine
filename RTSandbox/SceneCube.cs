@@ -1,5 +1,7 @@
 ﻿using DiligentEngine;
 using DiligentEngine.RT;
+using DiligentEngine.RT.Resources;
+using DiligentEngine.RT.ShaderSets;
 using Engine;
 using System;
 using System.Collections.Generic;
@@ -22,22 +24,48 @@ namespace RTSandbox
             public RAYTRACING_INSTANCE_FLAGS Flags { get; set; } = RAYTRACING_INSTANCE_FLAGS.RAYTRACING_INSTANCE_NONE;
 
             public InstanceMatrix Transform = InstanceMatrix.Identity;
+
+            public CCOTextureBindingDescription Texture { get; set; } = new CCOTextureBindingDescription("cc0Textures/Ground025_1K");
+
+            public PrimaryHitShader.Desc Shader { get; set; }
+
+            public Desc()
+            {
+                Shader = new PrimaryHitShader.Desc
+                {
+                    baseName = InstanceName,
+                    numTextures = 1,
+                    shaderType = PrimaryHitShaderType.Cube,
+                    HasNormalMap = true,
+                    HasPhysicalDescriptorMap = true,
+                    Reflective = false
+                };
+            }
         }
 
         private readonly TLASBuildInstanceData instanceData;
         private readonly CubeBLAS cubeBLAS;
         private readonly RTInstances rtInstances;
+        private readonly RayTracingRenderer renderer;
+        private readonly TextureManager textureManager;
+        private PrimaryHitShader primaryHitShader;
+        CC0TextureResult cubeTexture;
 
         public SceneCube
         (
             Desc description,
             CubeBLAS cubeBLAS,
             IScopedCoroutine coroutine,
-            RTInstances rtInstances
+            RTInstances rtInstances,
+            PrimaryHitShader.Factory primaryHitShaderFactory,
+            RayTracingRenderer renderer,
+            TextureManager textureManager
         )
         {
             this.cubeBLAS = cubeBLAS;
             this.rtInstances = rtInstances;
+            this.renderer = renderer;
+            this.textureManager = textureManager;
             this.instanceData = new TLASBuildInstanceData()
             {
                 InstanceName = description.InstanceName,
@@ -49,16 +77,26 @@ namespace RTSandbox
 
             coroutine.RunTask(async () =>
             {
+                var setupShader = primaryHitShaderFactory.Create(description.Shader);
+                var textureTask = textureManager.Checkout(description.Texture);
+
+                this.primaryHitShader = await setupShader;
+                this.cubeTexture = await textureTask;
+
                 await this.cubeBLAS.WaitForLoad();
                 this.instanceData.pBLAS = cubeBLAS.Instance.BLAS.Obj;
-
+                
                 rtInstances.AddTlasBuild(instanceData);
                 rtInstances.AddShaderTableBinder(Bind);
+                renderer.AddShaderResourceBinder(Bind);
             });
         }
 
         public void Dispose()
         {
+            this.primaryHitShader?.Dispose();
+            textureManager.TryReturn(cubeTexture);
+            renderer.RemoveShaderResourceBinder(Bind);
             rtInstances.RemoveShaderTableBinder(Bind);
             rtInstances.RemoveTlasBuild(instanceData);
         }
@@ -70,7 +108,13 @@ namespace RTSandbox
 
         public void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
         {
-            cubeBLAS.PrimaryHitShader.BindSbt(instanceData.InstanceName, sbt, tlas, IntPtr.Zero, 0);
+            primaryHitShader.BindSbt(instanceData.InstanceName, sbt, tlas, IntPtr.Zero, 0);
+        }
+
+        private void Bind(IShaderResourceBinding rayTracingSRB)
+        {
+            primaryHitShader.BindBlas(cubeBLAS.Instance, rayTracingSRB);
+            primaryHitShader.BindTextures(rayTracingSRB, cubeTexture);
         }
     }
 }

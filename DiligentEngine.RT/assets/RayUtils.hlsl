@@ -588,3 +588,37 @@ void LightAndShadeReflective
         colorSampler, normalSampler,
         uv);
 }
+
+void GetEmissiveLightingUV
+(
+    inout EmissiveRayPayload payload, float3 barycentrics,
+    CubeAttribVertex posX, CubeAttribVertex posY, CubeAttribVertex posZ,
+    Texture2D emissiveTexture, SamplerState emissiveSampler,
+    float2 uv
+)
+{
+    float Depth = RayTCurrent();
+
+    int mip = GetMip(Depth);
+
+    // Calculate final color
+    payload.Color = emissiveTexture.SampleLevel(emissiveSampler, uv, mip).rgb;
+}
+
+void GetEmissiveLighting
+(
+    inout EmissiveRayPayload payload, float3 barycentrics,
+    CubeAttribVertex posX, CubeAttribVertex posY, CubeAttribVertex posZ,
+    Texture2D emissiveTexture, SamplerState emissiveSampler
+)
+{
+    // Calculate texture coordinates.
+    float2 uv = posX.uv.xy * barycentrics.x +
+        posY.uv.xy * barycentrics.y +
+        posZ.uv.xy * barycentrics.z;
+
+    GetEmissiveLightingUV(payload, barycentrics,
+        posX, posY, posZ,
+        emissiveTexture, emissiveSampler,
+        uv);
+}
