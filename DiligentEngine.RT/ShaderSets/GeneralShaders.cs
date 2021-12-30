@@ -8,7 +8,6 @@ namespace DiligentEngine.RT.ShaderSets
 {
     public class GeneralShaders : IDisposable
     {
-        private RayTracingPipelineStateCreateInfo PSOCreateInfo;
         private AutoPtr<IShader> pRayGen;
         private AutoPtr<IShader> pPrimaryMiss;
         private AutoPtr<IShader> pShadowMiss;
@@ -27,9 +26,8 @@ namespace DiligentEngine.RT.ShaderSets
             this.shaderLoader = shaderLoader;
         }
 
-        public void Setup(RayTracingPipelineStateCreateInfo PSOCreateInfo, RTCameraAndLight cameraAndLight)
-        { 
-            this.PSOCreateInfo = PSOCreateInfo;
+        public void Setup(RTCameraAndLight cameraAndLight)
+        {
             var m_pDevice = graphicsEngine.RenderDevice;
 
             // Define shader macros
@@ -86,7 +84,10 @@ namespace DiligentEngine.RT.ShaderSets
             shadowMissShaderGroup = new RayTracingGeneralShaderGroup { Name = "ShadowMiss", pShader = pShadowMiss.Obj };
             // Emissive ray miss shader.
             emissiveMissShaderGroup = new RayTracingGeneralShaderGroup { Name = "EmissiveMiss", pShader = pEmissiveMiss.Obj };
+        }
 
+        public void AddToCreateInfo(RayTracingPipelineStateCreateInfo PSOCreateInfo)
+        {
             PSOCreateInfo.pGeneralShaders.Add(rayGenShaderGroup);
             PSOCreateInfo.pGeneralShaders.Add(primaryMissShaderGroup);
             PSOCreateInfo.pGeneralShaders.Add(shadowMissShaderGroup);
@@ -95,11 +96,6 @@ namespace DiligentEngine.RT.ShaderSets
 
         public void Dispose()
         {
-            PSOCreateInfo.pGeneralShaders.Remove(emissiveMissShaderGroup);
-            PSOCreateInfo.pGeneralShaders.Remove(shadowMissShaderGroup);
-            PSOCreateInfo.pGeneralShaders.Remove(primaryMissShaderGroup);
-            PSOCreateInfo.pGeneralShaders.Remove(rayGenShaderGroup);
-
             pEmissiveMiss.Dispose();
             pRayGen.Dispose();
             pPrimaryMiss.Dispose();

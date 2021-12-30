@@ -81,12 +81,12 @@ namespace DiligentEngine.RT.ShaderSets
             }
         }
 
-        private RayTracingPipelineStateCreateInfo PSOCreateInfo;
         private AutoPtr<IShader> pCubePrimaryHit;
         private AutoPtr<IShader> pCubeEmissiveHit;
         private AutoPtr<IShader> pCubeAnyHit;
         private RayTracingTriangleHitShaderGroup primaryHitShaderGroup;
         private RayTracingTriangleHitShaderGroup emissiveHitShaderGroup;
+        private RayTracingRenderer renderer;
 
         private ShaderResourceVariableDesc verticesDesc;
         private ShaderResourceVariableDesc indicesDesc;
@@ -103,9 +103,9 @@ namespace DiligentEngine.RT.ShaderSets
         {      
         }
 
-        private async Task SetupShaders(Desc desc, GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RayTracingRenderer rayTracingRenderer, RTCameraAndLight cameraAndLight)
+        private async Task SetupShaders(Desc desc, GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RayTracingRenderer renderer, RTCameraAndLight cameraAndLight)
         {
-            this.PSOCreateInfo = rayTracingRenderer.PSOCreateInfo;
+            this.renderer = renderer;
             this.numTextures = desc.numTextures;
             var baseName = desc.baseName;
             var shaderType = desc.shaderType;
@@ -200,6 +200,8 @@ namespace DiligentEngine.RT.ShaderSets
                 verticesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = verticesName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
                 indicesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = indicesName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
             });
+
+            
         }
 
         /// <summary>
@@ -207,25 +209,27 @@ namespace DiligentEngine.RT.ShaderSets
         /// </summary>
         public void Activate()
         {
+
+            renderer.OnSetupCreateInfo += Renderer_OnSetupCreateInfo;
+        }
+
+        public void Dispose()
+        {
+            renderer.OnSetupCreateInfo -= Renderer_OnSetupCreateInfo;
+
+            pCubeAnyHit?.Dispose();
+            pCubeEmissiveHit.Dispose();
+            pCubePrimaryHit?.Dispose();
+        }
+
+        private void Renderer_OnSetupCreateInfo(RayTracingPipelineStateCreateInfo PSOCreateInfo)
+        {
             PSOCreateInfo.pTriangleHitShaders.Add(primaryHitShaderGroup);
             PSOCreateInfo.pTriangleHitShaders.Add(emissiveHitShaderGroup);
             //TODO: Adding this to the triangle hit shaders here assumes the BLAS is already created. This is setup to work ok now, but hopefully this can be unbound later
 
             PSOCreateInfo.PSODesc.ResourceLayout.Variables.Add(verticesDesc);
             PSOCreateInfo.PSODesc.ResourceLayout.Variables.Add(indicesDesc);
-        }
-
-        public void Dispose()
-        {
-            PSOCreateInfo.PSODesc.ResourceLayout.Variables.Remove(indicesDesc);
-            PSOCreateInfo.PSODesc.ResourceLayout.Variables.Remove(verticesDesc);
-
-            PSOCreateInfo.pTriangleHitShaders.Remove(emissiveHitShaderGroup);
-            PSOCreateInfo.pTriangleHitShaders.Remove(primaryHitShaderGroup);
-
-            pCubeAnyHit?.Dispose();
-            pCubeEmissiveHit.Dispose();
-            pCubePrimaryHit?.Dispose();
         }
 
         public void BindBlas(BLASInstance bLASInstance, IShaderResourceBinding rayTracingSRB)
