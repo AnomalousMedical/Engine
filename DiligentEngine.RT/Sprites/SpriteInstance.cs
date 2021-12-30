@@ -46,7 +46,6 @@ namespace DiligentEngine.RT.Sprites
 
         private void Bind(IShaderResourceBinding rayTracingSRB)
         {
-            primaryHitShader.BindBlas(instance, rayTracingSRB);
             primaryHitShader.BindTextures(rayTracingSRB, spriteMaterial);
         }
 

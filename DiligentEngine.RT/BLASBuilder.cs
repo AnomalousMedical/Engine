@@ -31,23 +31,108 @@ namespace DiligentEngine.RT
 
     public class BLASInstance : IDisposable
     {
+        internal BLASInstance(BLASBuilder builder)
+        {
+            this.builder = builder;
+        }
+
         public AutoPtr<IBottomLevelAS> BLAS { get; internal set; }
-        public AutoPtr<IBuffer> AttrVertexBuffer { get; internal set; }
-        public AutoPtr<IBuffer> VertexBuffer { get; internal set; }
-        public AutoPtr<IBuffer> IndexBuffer { get; internal set; }
+        internal AutoPtr<IBuffer> VertexBuffer { get; set; }
+        internal AutoPtr<IBuffer> IndexBuffer { get; set; }
+
+        public int AttrVertexStart { get; internal set; }
+
+        public int IndexStart { get; internal set; }
+
+        internal CubeAttribVertex[] AttrVertices;
+
+        internal uint[] Indices;
+
+        private readonly BLASBuilder builder;
 
         public void Dispose()
         {
+            builder.Remove(this);
             BLAS.Dispose();
             IndexBuffer.Dispose();
             VertexBuffer.Dispose();
-            AttrVertexBuffer.Dispose();
         }
     }
 
-    public class BLASBuilder
+    public class BLASBuilder : IDisposable
     {
+        class BLASInstanceManager
+        {
+            private List<BLASInstance> instances = new List<BLASInstance>();
+            private int vertexCount = 0;
+            private int indexCount = 0;
+
+            public int VertexCount => vertexCount;
+
+            public int IndexCount => indexCount;
+
+            public void Add(BLASInstance instance)
+            {
+                this.instances.Add(instance);
+                vertexCount += instance.AttrVertices.Length;
+                indexCount += instance.Indices.Length;
+            }
+
+            public void Remove(BLASInstance instance)
+            {
+                var index = instances.IndexOf(instance);
+                if (index != -1)
+                {
+                    this.instances.RemoveAt(index);
+                    vertexCount -= instance.AttrVertices.Length;
+                    indexCount -= instance.Indices.Length;
+                }
+            }
+
+            public CubeAttribVertex[] CreateAttrVerticesArray()
+            {
+                //TODO: For now just do a lame copy of the array, can improve this later once everything is working
+                var array = new CubeAttribVertex[vertexCount];
+                var offset = 0;
+                foreach(var instance in instances)
+                {
+                    instance.AttrVertexStart = offset;
+                    var length = instance.AttrVertices.Length;
+                    var target = new Span<CubeAttribVertex>(array, offset, length);
+                    var source = new Span<CubeAttribVertex>(instance.AttrVertices);
+                    source.CopyTo(target);
+                    offset += length;
+                }
+                return array;
+            }
+
+            public uint[] CreateAttrIndicesArray()
+            {
+                //TODO: For now just do a lame copy of the array, can improve this later once everything is working
+                var array = new uint[indexCount];
+                var offset = 0;
+                foreach (var instance in instances)
+                {
+                    instance.IndexStart = offset;
+                    var length = instance.Indices.Length;
+                    var target = new Span<uint>(array, offset, length);
+                    var source = new Span<uint>(instance.Indices);
+                    source.CopyTo(target);
+                    offset += length;
+                }
+                return array;
+            }
+        }
+
         private readonly GraphicsEngine graphicsEngine;
+        private readonly BLASInstanceManager manager = new BLASInstanceManager();
+
+        AutoPtr<IBuffer> attrBuffer;
+        AutoPtr<IBuffer> indexBuffer;
+
+        public IBuffer AttrBuffer => attrBuffer.Obj;
+
+        public IBuffer IndexBuffer => indexBuffer.Obj;
 
         public BLASBuilder(GraphicsEngine graphicsEngine)
         {
@@ -64,7 +149,7 @@ namespace DiligentEngine.RT
             var m_pDevice = graphicsEngine.RenderDevice;
 
             var Attribs = new BuildBLASAttribs();
-            var result = new BLASInstance();
+            var result = new BLASInstance(this);
             AutoPtr<IBuffer> pScratchBuffer = null;
 
             try
@@ -72,8 +157,10 @@ namespace DiligentEngine.RT
                 await Task.Run(() =>
                 {
                     var attrVertices = new CubeAttribVertex[blasMeshDesc.CubePos.Length];
-
                     var Indices = blasMeshDesc.Indices;
+
+                    result.AttrVertices = attrVertices;
+                    result.Indices = Indices;
 
                     for (var i = 0; i < blasMeshDesc.CubePos.Length; ++i)
                     {
@@ -104,32 +191,11 @@ namespace DiligentEngine.RT
                         attrVertices[index3] = vertex3;
                     }
 
-                    // Create attribs vertex buffer
-                    unsafe
-                    {
-                        var BuffDesc = new BufferDesc();
-                        BuffDesc.Name = $"{blasMeshDesc.Name} attrib vertices";
-                        BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
-                        BuffDesc.BindFlags = BIND_FLAGS.BIND_SHADER_RESOURCE;
-                        BuffDesc.ElementByteStride = (uint)sizeof(CubeAttribVertex);
-                        BuffDesc.Mode = BUFFER_MODE.BUFFER_MODE_STRUCTURED;
-
-                        BufferData BufData = new BufferData();
-                        fixed (CubeAttribVertex* p_vertices = attrVertices)
-                        {
-                            BufData.pData = new IntPtr(p_vertices);
-                            BufData.DataSize = BuffDesc.uiSizeInBytes = BuffDesc.ElementByteStride * (uint)attrVertices.Length;
-                            result.AttrVertexBuffer = m_pDevice.CreateBuffer(BuffDesc, BufData);
-                        }
-
-                        //VERIFY_EXPR(pCubeVertexBuffer != nullptr);
-                    }
-
                     // Create vertex buffer
                     unsafe
                     {
                         var BuffDesc = new BufferDesc();
-                        BuffDesc.Name = $"{blasMeshDesc.Name} vertices";
+                        BuffDesc.Name = $"Vertices buffer";
                         BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
                         BuffDesc.BindFlags = BIND_FLAGS.BIND_RAY_TRACING;
 
@@ -148,7 +214,7 @@ namespace DiligentEngine.RT
                     unsafe
                     {
                         var BuffDesc = new BufferDesc();
-                        BuffDesc.Name = $"{blasMeshDesc.Name} indices";
+                        BuffDesc.Name = $"Indices buffer";
                         BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
                         BuffDesc.BindFlags = BIND_FLAGS.BIND_RAY_TRACING | BIND_FLAGS.BIND_SHADER_RESOURCE;
                         BuffDesc.ElementByteStride = (uint)sizeof(uint);
@@ -223,6 +289,10 @@ namespace DiligentEngine.RT
                     }
                 });
 
+                //TODO: For now this has no synchronization, so do it on the main thread, but this could be changed
+                manager.Add(result);
+                UpdateSharedBuffers();
+
                 var m_pImmediateContext = graphicsEngine.ImmediateContext;
                 m_pImmediateContext.BuildBLAS(Attribs);
                 return result;
@@ -231,6 +301,11 @@ namespace DiligentEngine.RT
             {
                 pScratchBuffer?.Dispose();
             }
+        }
+
+        public void Dispose()
+        {
+            DestroyShaderBuffers();
         }
 
         public void CalculateTangentBitangent(
@@ -264,6 +339,81 @@ namespace DiligentEngine.RT
             v1.binormal = bitangent;
             v2.binormal = bitangent;
             v3.binormal = bitangent;
+        }
+
+        private void DestroyShaderBuffers()
+        {
+            attrBuffer?.Dispose();
+            indexBuffer?.Dispose();
+            attrBuffer = null;
+            indexBuffer = null;
+        }
+
+        private void UpdateSharedBuffers()
+        {
+            var m_pDevice = graphicsEngine.RenderDevice;
+
+            DestroyShaderBuffers();
+
+            // Create attribs vertex buffer
+            unsafe
+            {
+                var attrVertices = manager.CreateAttrVerticesArray();
+                if(attrVertices.Length == 0)
+                {
+                    return; //No vertices, bail
+                }
+                
+                var BuffDesc = new BufferDesc();
+                BuffDesc.Name = $"Attrib vertices buffer";
+                BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
+                BuffDesc.BindFlags = BIND_FLAGS.BIND_SHADER_RESOURCE;
+                BuffDesc.ElementByteStride = (uint)sizeof(CubeAttribVertex);
+                BuffDesc.Mode = BUFFER_MODE.BUFFER_MODE_STRUCTURED;
+
+                BufferData BufData = new BufferData();
+                fixed (CubeAttribVertex* p_vertices = attrVertices)
+                {
+                    BufData.pData = new IntPtr(p_vertices);
+                    BufData.DataSize = BuffDesc.uiSizeInBytes = BuffDesc.ElementByteStride * (uint)attrVertices.Length;
+                    attrBuffer = m_pDevice.CreateBuffer(BuffDesc, BufData);
+                }
+
+                //VERIFY_EXPR(pCubeVertexBuffer != nullptr);
+            }
+
+            // Create index buffer
+            unsafe
+            {
+                var Indices = manager.CreateAttrIndicesArray();
+                if(Indices.Length == 0)
+                {
+                    return; //No Indices, bail
+                }
+
+                var BuffDesc = new BufferDesc();
+                BuffDesc.Name = $"Indices buffer";
+                BuffDesc.Usage = USAGE.USAGE_IMMUTABLE;
+                BuffDesc.BindFlags = BIND_FLAGS.BIND_RAY_TRACING | BIND_FLAGS.BIND_SHADER_RESOURCE;
+                BuffDesc.ElementByteStride = (uint)sizeof(uint);
+                BuffDesc.Mode = BUFFER_MODE.BUFFER_MODE_STRUCTURED;
+
+                BufferData BufData = new BufferData();
+                fixed (uint* p_indices = Indices)
+                {
+                    BufData.pData = new IntPtr(p_indices);
+                    BufData.DataSize = BuffDesc.uiSizeInBytes = BuffDesc.ElementByteStride * (uint)Indices.Length;
+                    indexBuffer = m_pDevice.CreateBuffer(BuffDesc, BufData);
+                }
+
+                //VERIFY_EXPR(pCubeIndexBuffer != nullptr);
+            }
+        }
+
+        internal void Remove(BLASInstance blas)
+        {
+            manager.Remove(blas);
+            UpdateSharedBuffers();
         }
     }
 }

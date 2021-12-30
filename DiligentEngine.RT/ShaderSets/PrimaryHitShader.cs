@@ -39,13 +39,25 @@ namespace DiligentEngine.RT.ShaderSets
             private readonly ShaderLoader<RTShaders> shaderLoader;
             private readonly RayTracingRenderer rayTracingRenderer;
             private readonly RTCameraAndLight cameraAndLight;
+            private readonly BLASBuilder blasBuilder;
+            private readonly ActiveTextures activeTextures;
 
-            public Factory(GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RayTracingRenderer rayTracingRenderer, RTCameraAndLight cameraAndLight)
+            public Factory
+            (
+                GraphicsEngine graphicsEngine, 
+                ShaderLoader<RTShaders> shaderLoader, 
+                RayTracingRenderer rayTracingRenderer, 
+                RTCameraAndLight cameraAndLight,
+                BLASBuilder blasBuilder,
+                ActiveTextures activeTextures
+            )
             {
                 this.graphicsEngine = graphicsEngine;
                 this.shaderLoader = shaderLoader;
                 this.rayTracingRenderer = rayTracingRenderer;
                 this.cameraAndLight = cameraAndLight;
+                this.blasBuilder = blasBuilder;
+                this.activeTextures = activeTextures;
             }
 
             /// <summary>
@@ -75,8 +87,8 @@ namespace DiligentEngine.RT.ShaderSets
             /// <returns></returns>
             public async Task<PrimaryHitShader> Create(Desc desc)
             {
-                var shader = new PrimaryHitShader();
-                await shader.SetupShaders(desc, graphicsEngine, shaderLoader, rayTracingRenderer, cameraAndLight);
+                var shader = new PrimaryHitShader(activeTextures, rayTracingRenderer, blasBuilder);
+                await shader.SetupShaders(desc, graphicsEngine, shaderLoader, cameraAndLight);
                 return shader;
             }
         }
@@ -87,25 +99,28 @@ namespace DiligentEngine.RT.ShaderSets
         private RayTracingTriangleHitShaderGroup primaryHitShaderGroup;
         private RayTracingTriangleHitShaderGroup emissiveHitShaderGroup;
         private RayTracingRenderer renderer;
+        private BLASBuilder builder;
 
         private ShaderResourceVariableDesc verticesDesc;
         private ShaderResourceVariableDesc indicesDesc;
         private int numTextures;
 
         public const String TextureVarName = "g_textures";
-
+        private readonly ActiveTextures activeTextures;
         private String verticesName;
         private String indicesName;
         private String shaderGroupName;
         private String emissiveShaderGroupName;
 
-        public PrimaryHitShader()
-        {      
+        public PrimaryHitShader(ActiveTextures activeTextures, RayTracingRenderer renderer, BLASBuilder builder)
+        {
+            this.builder = builder;
+            this.renderer = renderer;
+            this.activeTextures = activeTextures;
         }
 
-        private async Task SetupShaders(Desc desc, GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RayTracingRenderer renderer, RTCameraAndLight cameraAndLight)
+        private async Task SetupShaders(Desc desc, GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RTCameraAndLight cameraAndLight)
         {
-            this.renderer = renderer;
             this.numTextures = desc.numTextures;
             var baseName = desc.baseName;
             var shaderType = desc.shaderType;
@@ -201,21 +216,14 @@ namespace DiligentEngine.RT.ShaderSets
                 indicesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = indicesName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
             });
 
-            
-        }
-
-        /// <summary>
-        /// Call this on the main thread to start using the shader. This only needs to be done once.
-        /// </summary>
-        public void Activate()
-        {
-
+            renderer.AddShaderResourceBinder(Bind);
             renderer.OnSetupCreateInfo += Renderer_OnSetupCreateInfo;
         }
 
         public void Dispose()
         {
             renderer.OnSetupCreateInfo -= Renderer_OnSetupCreateInfo;
+            renderer.RemoveShaderResourceBinder(Bind);
 
             pCubeAnyHit?.Dispose();
             pCubeEmissiveHit.Dispose();
@@ -230,15 +238,6 @@ namespace DiligentEngine.RT.ShaderSets
 
             PSOCreateInfo.PSODesc.ResourceLayout.Variables.Add(verticesDesc);
             PSOCreateInfo.PSODesc.ResourceLayout.Variables.Add(indicesDesc);
-        }
-
-        public void BindBlas(BLASInstance bLASInstance, IShaderResourceBinding rayTracingSRB)
-        {
-            rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, verticesName).Set(bLASInstance.AttrVertexBuffer.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
-            rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, indicesName).Set(bLASInstance.IndexBuffer.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
-
-            rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, verticesName)?.Set(bLASInstance.AttrVertexBuffer.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
-            rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, indicesName)?.Set(bLASInstance.IndexBuffer.Obj.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
         }
 
         public void BindSbt(String instanceName, IShaderBindingTable sbt, ITopLevelAS tlas, IntPtr data, uint size)
@@ -273,8 +272,22 @@ namespace DiligentEngine.RT.ShaderSets
 
         public void BindTextures(IShaderResourceBinding m_pRayTracingSRB, ActiveTextures activeTextures)
         {
-            m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, TextureVarName)?.SetArray(activeTextures.Textures);
-            m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, TextureVarName)?.SetArray(activeTextures.Textures);
+            
+        }
+
+        private void Bind(IShaderResourceBinding rayTracingSRB)
+        {
+            if (builder.AttrBuffer != null)
+            {
+                rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, verticesName).Set(builder.AttrBuffer.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
+                rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, indicesName).Set(builder.IndexBuffer.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
+
+                rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, verticesName)?.Set(builder.AttrBuffer.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
+                rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, indicesName)?.Set(builder.IndexBuffer.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
+            }
+
+            rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, TextureVarName)?.SetArray(activeTextures.Textures);
+            rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, TextureVarName)?.SetArray(activeTextures.Textures);
         }
     }
 }

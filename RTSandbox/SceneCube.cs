@@ -44,7 +44,6 @@ namespace RTSandbox
         }
 
         private readonly TLASBuildInstanceData instanceData;
-        private readonly CubeBLAS cubeBLAS;
         private readonly RTInstances rtInstances;
         private readonly RayTracingRenderer renderer;
         private readonly TextureManager textureManager;
@@ -65,7 +64,6 @@ namespace RTSandbox
             ActiveTextures activeTextures
         )
         {
-            this.cubeBLAS = cubeBLAS;
             this.rtInstances = rtInstances;
             this.renderer = renderer;
             this.textureManager = textureManager;
@@ -86,7 +84,7 @@ namespace RTSandbox
 
                 await Task.WhenAll
                 (
-                    this.cubeBLAS.WaitForLoad(),
+                    cubeBLAS.WaitForLoad(),
                     primaryHitShaderTask,
                     cubeTextureTask
                 );
@@ -94,11 +92,9 @@ namespace RTSandbox
                 this.instanceData.pBLAS = cubeBLAS.Instance.BLAS.Obj;
                 this.primaryHitShader = primaryHitShaderTask.Result;
                 this.cubeTexture = cubeTextureTask.Result;
-                this.primaryHitShader.Activate();
                 blasInstanceData = this.activeTextures.AddActiveTexture(this.cubeTexture);
                 rtInstances.AddTlasBuild(instanceData);
                 rtInstances.AddShaderTableBinder(Bind);
-                renderer.AddShaderResourceBinder(Bind);
             });
         }
 
@@ -107,7 +103,6 @@ namespace RTSandbox
             this.activeTextures.RemoveActiveTexture(this.cubeTexture);
             this.primaryHitShader?.Dispose();
             textureManager.TryReturn(cubeTexture);
-            renderer.RemoveShaderResourceBinder(Bind);
             rtInstances.RemoveShaderTableBinder(Bind);
             rtInstances.RemoveTlasBuild(instanceData);
         }
@@ -123,12 +118,6 @@ namespace RTSandbox
             {
                 primaryHitShader.BindSbt(instanceData.InstanceName, sbt, tlas, new IntPtr(ptr), (uint)sizeof(BlasInstanceData));
             }
-        }
-
-        private void Bind(IShaderResourceBinding rayTracingSRB)
-        {
-            primaryHitShader.BindBlas(cubeBLAS.Instance, rayTracingSRB);
-            primaryHitShader.BindTextures(rayTracingSRB, activeTextures);
         }
     }
 }
