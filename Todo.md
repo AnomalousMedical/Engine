@@ -1,5 +1,11 @@
 # TODO
 
+## Fix Map Mesh Normals
+The map mesh gets a bit triangly for some shadows. This is because the normals need to be averaged for each vertex. Once this is done the lighting should smooth out. As it is
+now each triangle is similar to the face of a cube and lights in the same way. Thats why the triangles appear.
+
+The meshes themselves seem to be converted between coords ok, this issue is related to the averaging.
+
 ## Diligent Engine BLAS String Fix
 This is fixed in the anomalous diligent branch.
 
