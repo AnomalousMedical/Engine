@@ -68,7 +68,7 @@ namespace SceneTest.Battle
                     floorMesh.AddQuad(new Vector3(-size, 0, size), new Vector3(size, 0, size), new Vector3(size, 0, -size), new Vector3(-size, 0, -size),
                                       Vector3.Up, Vector3.Up, Vector3.Up, Vector3.Up,
                                       new Vector2(0, 0),
-                                      new Vector2(1, 1));
+                                      new Vector2(size, size));
 
                     await floorMesh.End("BattleArenaFloor");
 
