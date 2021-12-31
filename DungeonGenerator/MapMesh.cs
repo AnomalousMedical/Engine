@@ -1016,6 +1016,7 @@ namespace DungeonGenerator
 
         private void GetUvs(int mapX, int mapY, out Vector2 leftTop, out Vector2 rightBottom)
         {
+            //TODO: Can this be kept between 0 and 1? For now the uvs will be large numbers, this is ok with our sampler
             leftTop = new Vector2(mapX * uvXStride, mapY * uvYStride);
             rightBottom = new Vector2((mapX + 1) * uvXStride, (mapY + 1) * uvYStride);
         }
