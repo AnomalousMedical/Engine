@@ -39,7 +39,7 @@ namespace SceneTest
 
             public float MapUnitY { get; set; } = 0.1f;
 
-            public float MapUnitZ { get; set; } = 3.0f;
+            public float MapUnitZ { get; set; } = 1.5f;
 
             /// <summary>
             /// Room minimum size

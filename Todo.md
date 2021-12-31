@@ -1,11 +1,13 @@
 # TODO
 
-## Finish Move to Single Vertex/Index Buffer
-This is working, but since we aren't updating the texture and vertex/index bindings its not 100%. Also need to update instance data to include the offsets in addition to the texture info.
+## Make Emissive colors work
+The emissive lighting is not applied to the object that actually does the lighting. Sample the emissive shader and add it.
 
-Add events to the texture manager and blas builder to alert the shaders to refresh their bindings. This may have to fire through the renderer.
+## Make a reflectiveness map
+Make a reflectiveness map that can work like metalness (on or off), but change whether or not this part of the object casts reflection rays
 
-Also need to actually pool shaders.
+## Add occlusion map
+Add the occlusion maps to at least see what they look like.
 
 ## Fix Map Mesh Normals
 The map mesh gets a bit triangly for some shadows. This is because the normals need to be averaged for each vertex. Once this is done the lighting should smooth out. As it is
