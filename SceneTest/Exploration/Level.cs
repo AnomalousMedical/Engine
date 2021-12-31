@@ -19,6 +19,7 @@ using Point = Engine.IntVector2;
 using Size = Engine.IntSize2;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using DiligentEngine.RT.HLSL;
 
 namespace SceneTest
 {
@@ -104,6 +105,8 @@ namespace SceneTest
         private readonly IDestructionRequest destructionRequest;
         private readonly IBepuScene bepuScene;
         private readonly TextureManager textureManager;
+        private readonly ActiveTextures activeTextures;
+        private readonly PrimaryHitShader.Factory primaryHitShaderFactory;
         private readonly ILogger<Level> logger;
         private readonly IBiomeManager biomeManager;
         private PrimaryHitShader floorShader;
@@ -115,7 +118,6 @@ namespace SceneTest
         private List<StaticHandle> staticHandles = new List<StaticHandle>();
         private TypedIndex boundaryCubeShapeIndex;
         private TypedIndex floorCubeShapeIndex;
-        private bool disposed;
         private MapMesh mapMesh;
         private bool physicsActive = false;
         private IObjectResolver objectResolver;
@@ -123,6 +125,8 @@ namespace SceneTest
         private LevelConnector previousLevelConnector;
         private IBiome biome;
         private bool goPrevious;
+        private BlasInstanceData floorBlasInstanceData;
+        private BlasInstanceData wallBlasInstanceData;
 
         private Task levelGenerationTask;
         private Vector3 mapUnits;
@@ -149,6 +153,7 @@ namespace SceneTest
             MeshBLAS floorMesh,
             MeshBLAS wallMesh,
             TextureManager textureManager,
+            ActiveTextures activeTextures,
             PrimaryHitShader.Factory primaryHitShaderFactory,
             RTInstances<ILevelManager> rtInstances,
             RayTracingRenderer renderer
@@ -161,6 +166,8 @@ namespace SceneTest
             this.logger = logger;
             this.biomeManager = biomeManager;
             this.textureManager = textureManager;
+            this.activeTextures = activeTextures;
+            this.primaryHitShaderFactory = primaryHitShaderFactory;
             this.rtInstances = rtInstances;
             this.renderer = renderer;
             this.goPrevious = description.GoPrevious;
@@ -256,20 +263,16 @@ namespace SceneTest
                 );
 
                 //TODO: The level BLASes must be loaded before the shaders, see todo in PrimaryHitShader
-                var floorShaderSetup = primaryHitShaderFactory.Create(new PrimaryHitShader.Desc
+                var floorShaderSetup = primaryHitShaderFactory.Checkout(new PrimaryHitShader.Desc
                 {
-                    baseName = floorMesh.Name,
-                    numTextures = floorTextureDesc.NumTextures,
-                    shaderType = PrimaryHitShaderType.Cube,
+                    ShaderType = PrimaryHitShaderType.Cube,
                     HasNormalMap = true,
                     HasPhysicalDescriptorMap = true,
                     Reflective = biome.ReflectFloor
                 });
-                var wallShaderSetup = primaryHitShaderFactory.Create(new PrimaryHitShader.Desc
+                var wallShaderSetup = primaryHitShaderFactory.Checkout(new PrimaryHitShader.Desc
                 {
-                    baseName = wallMesh.Name,
-                    numTextures = wallTextureDesc.NumTextures,
-                    shaderType = PrimaryHitShaderType.Cube,
+                    ShaderType = PrimaryHitShaderType.Cube,
                     HasNormalMap = true,
                     HasPhysicalDescriptorMap = true,
                     Reflective = biome.ReflectWall
@@ -294,7 +297,8 @@ namespace SceneTest
                     this.wallInstanceData.pBLAS = mapMesh.WallMesh.Instance.BLAS.Obj;
 
                     rtInstances.AddShaderTableBinder(Bind);
-                    renderer.AddShaderResourceBinder(Bind);
+                    floorBlasInstanceData = activeTextures.AddActiveTexture(floorTexture);
+                    wallBlasInstanceData = activeTextures.AddActiveTexture(wallTexture);
                     rtInstances.AddTlasBuild(floorInstanceData);
                     rtInstances.AddTlasBuild(wallInstanceData);
                 }
@@ -308,15 +312,15 @@ namespace SceneTest
 
         public void Dispose()
         {
-            disposed = true;
             objectResolver.Dispose();
             DestroyPhysics();
+            activeTextures.RemoveActiveTexture(wallTexture);
+            activeTextures.RemoveActiveTexture(floorTexture);
             textureManager.TryReturn(wallTexture);
             textureManager.TryReturn(floorTexture);
-            renderer.RemoveShaderResourceBinder(Bind);
             rtInstances.RemoveShaderTableBinder(Bind);
-            this.wallShader?.Dispose();
-            this.floorShader?.Dispose();
+            primaryHitShaderFactory.TryReturn(floorShader);
+            primaryHitShaderFactory.TryReturn(wallShader);
             rtInstances.RemoveTlasBuild(floorInstanceData);
             rtInstances.RemoveTlasBuild(wallInstanceData);
         }
@@ -439,19 +443,21 @@ namespace SceneTest
             staticHandles.Clear();
         }
 
-        public void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
+        private unsafe void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
         {
-            floorShader.BindSbt(floorInstanceData.InstanceName, sbt, tlas, IntPtr.Zero, 0);
-            wallShader.BindSbt(wallInstanceData.InstanceName, sbt, tlas, IntPtr.Zero, 0);
-        }
+            floorBlasInstanceData.vertexOffset = mapMesh.FloorMesh.Instance.VertexOffset;
+            floorBlasInstanceData.indexOffset = mapMesh.FloorMesh.Instance.IndexOffset;
+            fixed (BlasInstanceData* ptr = &floorBlasInstanceData)
+            {
+                floorShader.BindSbt(floorInstanceData.InstanceName, sbt, tlas, new IntPtr(ptr), (uint)sizeof(BlasInstanceData));
+            }
 
-        public void Bind(IShaderResourceBinding rayTracingSRB)
-        {
-            floorShader.BindBlas(mapMesh.FloorMesh.Instance, rayTracingSRB);
-            floorShader.BindTextures(rayTracingSRB, floorTexture);
-
-            wallShader.BindBlas(mapMesh.WallMesh.Instance, rayTracingSRB);
-            wallShader.BindTextures(rayTracingSRB, wallTexture);
+            wallBlasInstanceData.vertexOffset = mapMesh.WallMesh.Instance.VertexOffset;
+            wallBlasInstanceData.indexOffset = mapMesh.WallMesh.Instance.IndexOffset;
+            fixed (BlasInstanceData* ptr = &wallBlasInstanceData)
+            {
+                wallShader.BindSbt(wallInstanceData.InstanceName, sbt, tlas, new IntPtr(ptr), (uint)sizeof(BlasInstanceData));
+            }
         }
     }
 }

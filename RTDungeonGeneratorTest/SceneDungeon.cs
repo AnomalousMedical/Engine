@@ -181,7 +181,7 @@ namespace RTDungeonGeneratorTest
             this.wallInstanceData.Transform = matrix;
         }
 
-        public unsafe void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
+        private unsafe void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
         {
             floorBlasInstanceData.vertexOffset = mapMesh.FloorMesh.Instance.VertexOffset;
             floorBlasInstanceData.indexOffset = mapMesh.FloorMesh.Instance.IndexOffset;

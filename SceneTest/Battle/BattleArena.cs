@@ -3,6 +3,7 @@ using BepuPhysics.Collidables;
 using BepuPlugin;
 using DiligentEngine;
 using DiligentEngine.RT;
+using DiligentEngine.RT.HLSL;
 using DiligentEngine.RT.Resources;
 using DiligentEngine.RT.ShaderSets;
 using Engine;
@@ -25,12 +26,13 @@ namespace SceneTest.Battle
         private readonly IDestructionRequest destructionRequest;
         private readonly MeshBLAS floorMesh;
         private readonly TextureManager textureManager;
+        private readonly ActiveTextures activeTextures;
+        private readonly PrimaryHitShader.Factory primaryHitShaderFactory;
         private readonly RTInstances rtInstances;
-        private readonly RayTracingRenderer renderer;
         private PrimaryHitShader floorShader;
-        TaskCompletionSource loadingTask = new TaskCompletionSource();
-
-        CC0TextureResult floorTexture;
+        private TaskCompletionSource loadingTask = new TaskCompletionSource();
+        private CC0TextureResult floorTexture;
+        private BlasInstanceData blasInstanceData;
 
         public BattleArena
         (
@@ -39,16 +41,17 @@ namespace SceneTest.Battle
             IDestructionRequest destructionRequest,
             MeshBLAS floorMesh,
             TextureManager textureManager,
+            ActiveTextures activeTextures,
             PrimaryHitShader.Factory primaryHitShaderFactory,
-            RTInstances<IBattleManager> rtInstances,
-            RayTracingRenderer renderer
+            RTInstances<IBattleManager> rtInstances
         )
         {
             this.destructionRequest = destructionRequest;
             this.floorMesh = floorMesh;
             this.textureManager = textureManager;
+            this.activeTextures = activeTextures;
+            this.primaryHitShaderFactory = primaryHitShaderFactory;
             this.rtInstances = rtInstances;
-            this.renderer = renderer;
             coroutineRunner.RunTask(async () =>
             {
                 using var destructionBlock = destructionRequest.BlockDestruction();
@@ -72,11 +75,9 @@ namespace SceneTest.Battle
 
                     await floorMesh.End("BattleArenaFloor");
 
-                    var floorShaderSetup = primaryHitShaderFactory.Create(new PrimaryHitShader.Desc
+                    var floorShaderSetup = primaryHitShaderFactory.Checkout(new PrimaryHitShader.Desc
                     {
-                        baseName = floorMesh.Name, 
-                        numTextures = floorTextureDesc.NumTextures, 
-                        shaderType = PrimaryHitShaderType.Cube,
+                        ShaderType = PrimaryHitShaderType.Cube,
                         HasNormalMap = true,
                         HasPhysicalDescriptorMap = true
                     });
@@ -103,7 +104,7 @@ namespace SceneTest.Battle
 
                         rtInstances.AddTlasBuild(floorInstanceData);
                         rtInstances.AddShaderTableBinder(Bind);
-                        renderer.AddShaderResourceBinder(Bind);
+                        blasInstanceData = activeTextures.AddActiveTexture(floorTexture);
                     }
 
                     loadingTask.SetResult();
@@ -122,22 +123,21 @@ namespace SceneTest.Battle
 
         public void Dispose()
         {
+            activeTextures.RemoveActiveTexture(floorTexture);
             textureManager.TryReturn(floorTexture);
-            renderer.RemoveShaderResourceBinder(Bind);
             rtInstances.RemoveShaderTableBinder(Bind);
-            this.floorShader?.Dispose();
+            primaryHitShaderFactory.TryReturn(floorShader);
             rtInstances.RemoveTlasBuild(floorInstanceData);
         }
 
-        public void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
+        private unsafe void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
         {
-            floorShader.BindSbt(floorInstanceData.InstanceName, sbt, tlas, IntPtr.Zero, 0);
-        }
-
-        public void Bind(IShaderResourceBinding rayTracingSRB)
-        {
-            floorShader.BindBlas(floorMesh.Instance, rayTracingSRB);
-            floorShader.BindTextures(rayTracingSRB, floorTexture);
+            blasInstanceData.vertexOffset = floorMesh.Instance.VertexOffset;
+            blasInstanceData.indexOffset = floorMesh.Instance.IndexOffset;
+            fixed (BlasInstanceData* ptr = &blasInstanceData)
+            {
+                floorShader.BindSbt(floorInstanceData.InstanceName, sbt, tlas, new IntPtr(ptr), (uint)sizeof(BlasInstanceData));
+            }
         }
 
         public Task WaitForLoad()
