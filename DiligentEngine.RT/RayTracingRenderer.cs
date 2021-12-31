@@ -30,6 +30,7 @@ namespace DiligentEngine.RT
         AutoPtr<IBuffer> m_InstanceBuffer;
         uint lastNumInstances = 0;
         bool rebuildPipeline = true;
+        bool rebindShaderResources;
 
         public event Action<RayTracingPipelineStateCreateInfo> OnSetupCreateInfo;
 
@@ -170,8 +171,6 @@ namespace DiligentEngine.RT
 
             m_pRayTracingSRB = m_pRayTracingPSO.Obj.CreateShaderResourceBinding(true);
             //VERIFY_EXPR(m_pRayTracingSRB != nullptr);
-
-            BindShaderResources(m_pRayTracingSRB.Obj);
         }
 
         void CreateSBT()
@@ -242,6 +241,13 @@ namespace DiligentEngine.RT
 
                 CreateRayTracingPSO();
                 rebuildPipeline = false;
+                rebindShaderResources = true;
+            }
+
+            if (rebindShaderResources && m_pRayTracingSRB != null)
+            {
+                BindShaderResources(m_pRayTracingSRB.Obj);
+                rebindShaderResources = false;
             }
 
             if (rebuildSbt)
@@ -427,6 +433,11 @@ namespace DiligentEngine.RT
 
             // Blit to swapchain image
             imageBlitter.Blit();
+        }
+
+        public void RequestRebind()
+        {
+            rebindShaderResources = true;
         }
 
         public void AddShaderResourceBinder(ShaderResourceBinder binder)

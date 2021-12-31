@@ -125,6 +125,7 @@ namespace DiligentEngine.RT
         }
 
         private readonly GraphicsEngine graphicsEngine;
+        private readonly RayTracingRenderer renderer;
         private readonly BLASInstanceManager manager = new BLASInstanceManager();
 
         AutoPtr<IBuffer> attrBuffer;
@@ -134,9 +135,10 @@ namespace DiligentEngine.RT
 
         public IBuffer IndexBuffer => indexBuffer.Obj;
 
-        public BLASBuilder(GraphicsEngine graphicsEngine)
+        public BLASBuilder(GraphicsEngine graphicsEngine, RayTracingRenderer renderer)
         {
             this.graphicsEngine = graphicsEngine;
+            this.renderer = renderer;
         }
 
         /// <summary>
@@ -408,6 +410,8 @@ namespace DiligentEngine.RT
 
                 //VERIFY_EXPR(pCubeIndexBuffer != nullptr);
             }
+
+            renderer.RequestRebind();
         }
 
         internal void Remove(BLASInstance blas)

@@ -103,6 +103,7 @@ namespace DiligentEngine.RT.ShaderSets
 
         private ShaderResourceVariableDesc verticesDesc;
         private ShaderResourceVariableDesc indicesDesc;
+        private ShaderResourceVariableDesc texturesDesc;
         private int numTextures;
 
         public const String TextureVarName = "g_textures";
@@ -214,6 +215,7 @@ namespace DiligentEngine.RT.ShaderSets
 
                 verticesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = verticesName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
                 indicesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = indicesName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
+                texturesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT | SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, Name = TextureVarName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
             });
 
             renderer.AddShaderResourceBinder(Bind);
@@ -238,6 +240,7 @@ namespace DiligentEngine.RT.ShaderSets
 
             PSOCreateInfo.PSODesc.ResourceLayout.Variables.Add(verticesDesc);
             PSOCreateInfo.PSODesc.ResourceLayout.Variables.Add(indicesDesc);
+            PSOCreateInfo.PSODesc.ResourceLayout.Variables.Add(texturesDesc);
         }
 
         public void BindSbt(String instanceName, IShaderBindingTable sbt, ITopLevelAS tlas, IntPtr data, uint size)
@@ -268,11 +271,6 @@ namespace DiligentEngine.RT.ShaderSets
             ////}
 
             //m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, colorTexturesName)?.Set(spriteMaterial.ColorSRV);
-        }
-
-        public void BindTextures(IShaderResourceBinding m_pRayTracingSRB, ActiveTextures activeTextures)
-        {
-            
         }
 
         private void Bind(IShaderResourceBinding rayTracingSRB)

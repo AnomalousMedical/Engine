@@ -25,8 +25,9 @@ namespace DiligentEngine.RT.Resources
         private List<IDeviceObject> textures;
         private AutoPtr<ITexture> placeholderTexture;
         private IDeviceObject placeholderTextureDeviceObject;
+        private readonly RayTracingRenderer renderer;
 
-        public ActiveTextures(TextureLoader textureLoader, IResourceProvider<ShaderLoader<RTShaders>> resourceProvider)
+        public ActiveTextures(TextureLoader textureLoader, IResourceProvider<ShaderLoader<RTShaders>> resourceProvider, RayTracingRenderer renderer)
         {
             using var placeholderStream = resourceProvider.openFile("assets/Placeholder.png");
             placeholderTexture = textureLoader.LoadTexture(placeholderStream, "Placeholder", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, false);
@@ -40,6 +41,8 @@ namespace DiligentEngine.RT.Resources
                 availableSlots.Push(i);
                 textures.Add(placeholderTextureDeviceObject);
             }
+
+            this.renderer = renderer;
         }
 
         public void Dispose()
@@ -78,6 +81,7 @@ namespace DiligentEngine.RT.Resources
                     binding.data.emissiveTexture = GetTextureSlot();
                     textures[binding.data.emissiveTexture] = texture.EmissiveSRV;
                 }
+                renderer.RequestRebind();
             }
             binding.count++;
             return binding.data;
@@ -116,6 +120,7 @@ namespace DiligentEngine.RT.Resources
                     }
                     textureLookup.Remove(texture);
                 }
+                renderer.RequestRebind();
             }
         }
 
