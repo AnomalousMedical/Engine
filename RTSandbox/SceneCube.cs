@@ -34,8 +34,7 @@ namespace RTSandbox
             {
                 Shader = new PrimaryHitShader.Desc
                 {
-                    baseName = InstanceName,
-                    shaderType = PrimaryHitShaderType.Cube,
+                    ShaderType = PrimaryHitShaderType.Cube,
                     HasNormalMap = true,
                     HasPhysicalDescriptorMap = true,
                     Reflective = false
@@ -45,6 +44,7 @@ namespace RTSandbox
 
         private readonly TLASBuildInstanceData instanceData;
         private readonly RTInstances rtInstances;
+        private readonly PrimaryHitShader.Factory primaryHitShaderFactory;
         private readonly RayTracingRenderer renderer;
         private readonly TextureManager textureManager;
         private readonly ActiveTextures activeTextures;
@@ -65,6 +65,7 @@ namespace RTSandbox
         )
         {
             this.rtInstances = rtInstances;
+            this.primaryHitShaderFactory = primaryHitShaderFactory;
             this.renderer = renderer;
             this.textureManager = textureManager;
             this.activeTextures = activeTextures;
@@ -78,8 +79,7 @@ namespace RTSandbox
 
             coroutine.RunTask(async () =>
             {
-                description.Shader.numTextures = activeTextures.MaxTextures;
-                var primaryHitShaderTask = primaryHitShaderFactory.Create(description.Shader);
+                var primaryHitShaderTask = primaryHitShaderFactory.Checkout(description.Shader);
                 var cubeTextureTask = textureManager.Checkout(description.Texture);
 
                 await Task.WhenAll
@@ -101,7 +101,7 @@ namespace RTSandbox
         public void Dispose()
         {
             this.activeTextures.RemoveActiveTexture(this.cubeTexture);
-            this.primaryHitShader?.Dispose();
+            primaryHitShaderFactory.TryReturn(primaryHitShader);
             textureManager.TryReturn(cubeTexture);
             rtInstances.RemoveShaderTableBinder(Bind);
             rtInstances.RemoveTlasBuild(instanceData);

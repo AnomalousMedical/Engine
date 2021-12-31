@@ -1,5 +1,6 @@
 ﻿using DiligentEngine.RT.Resources;
 using DiligentEngine.RT.Sprites;
+using Engine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +19,7 @@ namespace DiligentEngine.RT.ShaderSets
     {
         public class Desc
         {
-            public String baseName { get; set; }
-
-            public int numTextures { get; set; }
-
-            public PrimaryHitShaderType shaderType { get; set; }
+            public PrimaryHitShaderType ShaderType { get; set; }
 
             public bool HasNormalMap { get; set; }
 
@@ -31,10 +28,34 @@ namespace DiligentEngine.RT.ShaderSets
             public bool HasEmissiveMap { get; set; }
 
             public bool Reflective { get; set; }
+
+            public override bool Equals(object obj)
+            {
+                return obj is Desc description &&
+                       ShaderType == description.ShaderType &&
+                       HasNormalMap == description.HasNormalMap &&
+                       HasPhysicalDescriptorMap == description.HasPhysicalDescriptorMap &&
+                       HasEmissiveMap == description.HasEmissiveMap &&
+                       Reflective == description.Reflective;
+            }
+
+            public override int GetHashCode()
+            {
+                var hashCode = new HashCode();
+                hashCode.Add(ShaderType);
+                hashCode.Add(HasNormalMap);
+                hashCode.Add(HasPhysicalDescriptorMap);
+                hashCode.Add(HasEmissiveMap);
+                hashCode.Add(Reflective);
+                return hashCode.ToHashCode();
+            }
         }
 
         public class Factory
         {
+            private readonly PooledResourceManager<Desc, PrimaryHitShader> pooledResources
+                = new PooledResourceManager<Desc, PrimaryHitShader>();
+
             private readonly GraphicsEngine graphicsEngine;
             private readonly ShaderLoader<RTShaders> shaderLoader;
             private readonly RayTracingRenderer rayTracingRenderer;
@@ -61,35 +82,27 @@ namespace DiligentEngine.RT.ShaderSets
             }
 
             /// <summary>
-            /// Create a shader. The caller is responsible for disposing the instance. This is a backward compatability version
-            /// that assumes there is a normal map.
+            /// Create a shader. The caller is responsible for calling return.
             /// </summary>
             /// <param name="baseName"></param>
             /// <param name="numTextures"></param>
             /// <returns></returns>
-            [Obsolete]
-            public Task<PrimaryHitShader> Create(String baseName, int numTextures, PrimaryHitShaderType shaderType)
+            public Task<PrimaryHitShader> Checkout(Desc desc)
             {
-                return Create(new Desc()
+                return pooledResources.Checkout(desc, async () =>
                 {
-                    baseName = baseName,
-                    numTextures = numTextures,
-                    shaderType = shaderType,
-                    HasNormalMap = true
+                    var shader = new PrimaryHitShader(activeTextures, rayTracingRenderer, blasBuilder);
+                    await shader.SetupShaders(desc, graphicsEngine, shaderLoader, cameraAndLight);
+                    return pooledResources.CreateResult(shader);
                 });
             }
 
-            /// <summary>
-            /// Create a shader. The caller is responsible for disposing the instance.
-            /// </summary>
-            /// <param name="baseName"></param>
-            /// <param name="numTextures"></param>
-            /// <returns></returns>
-            public async Task<PrimaryHitShader> Create(Desc desc)
+            public void TryReturn(PrimaryHitShader item)
             {
-                var shader = new PrimaryHitShader(activeTextures, rayTracingRenderer, blasBuilder);
-                await shader.SetupShaders(desc, graphicsEngine, shaderLoader, cameraAndLight);
-                return shader;
+                if (item != null)
+                {
+                    pooledResources.Return(item);
+                }
             }
         }
 
@@ -123,14 +136,13 @@ namespace DiligentEngine.RT.ShaderSets
 
         private async Task SetupShaders(Desc desc, GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RTCameraAndLight cameraAndLight)
         {
-            this.numTextures = desc.numTextures;
-            var baseName = desc.baseName;
-            var shaderType = desc.shaderType;
+            this.numTextures = activeTextures.MaxTextures;
+            var shaderType = desc.ShaderType;
 
             await Task.Run(() =>
             {
-                this.shaderGroupName = $"{baseName}PrimaryHit";
-                this.emissiveShaderGroupName = $"{baseName}EmissiveHit";
+                this.shaderGroupName = $"{Guid.NewGuid()}PrimaryHit";
+                this.emissiveShaderGroupName = $"{Guid.NewGuid()}EmissiveHit";
 
                 var m_pDevice = graphicsEngine.RenderDevice;
 

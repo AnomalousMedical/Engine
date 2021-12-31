@@ -15,6 +15,7 @@ namespace DiligentEngine.RT.Sprites
         private readonly SpriteMaterial spriteMaterial;
         private readonly ISpriteMaterialManager spriteMaterialManager;
         private PrimaryHitShader primaryHitShader;
+        private readonly PrimaryHitShader.Factory primaryHitShaderFactory;
         private readonly RayTracingRenderer renderer;
 
         public BLASInstance Instance => instance;
@@ -23,12 +24,14 @@ namespace DiligentEngine.RT.Sprites
         (
             RayTracingRenderer renderer, 
             PrimaryHitShader primaryHitShader,
+            PrimaryHitShader.Factory primaryHitShaderFactory,
             BLASInstance blas,
             SpriteMaterial spriteMaterial,
             ISpriteMaterialManager spriteMaterialManager
         )
         {
             this.primaryHitShader = primaryHitShader;
+            this.primaryHitShaderFactory = primaryHitShaderFactory;
             this.instance = blas;
             this.spriteMaterial = spriteMaterial;
             this.spriteMaterialManager = spriteMaterialManager;
@@ -40,7 +43,7 @@ namespace DiligentEngine.RT.Sprites
         public void Dispose()
         {
             renderer.RemoveShaderResourceBinder(Bind);
-            primaryHitShader.Dispose();
+            primaryHitShaderFactory.TryReturn(primaryHitShader);
             spriteMaterialManager.Return(spriteMaterial);
         }
 
