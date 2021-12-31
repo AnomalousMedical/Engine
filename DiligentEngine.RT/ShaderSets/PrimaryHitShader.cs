@@ -107,9 +107,10 @@ namespace DiligentEngine.RT.ShaderSets
         private int numTextures;
 
         public const String TextureVarName = "g_textures";
+        public const String VerticesVarName = "g_vertices";
+        public const String IndicesVarName = "g_indices";
+
         private readonly ActiveTextures activeTextures;
-        private String verticesName;
-        private String indicesName;
         private String shaderGroupName;
         private String emissiveShaderGroupName;
 
@@ -128,8 +129,6 @@ namespace DiligentEngine.RT.ShaderSets
 
             await Task.Run(() =>
             {
-                this.verticesName = $"vert_{baseName}";
-                this.indicesName = $"idx_{baseName}";
                 this.shaderGroupName = $"{baseName}PrimaryHit";
                 this.emissiveShaderGroupName = $"{baseName}EmissiveHit";
 
@@ -156,8 +155,6 @@ namespace DiligentEngine.RT.ShaderSets
                 var shaderVars = new Dictionary<string, string>()
                 {
                     { "NUM_TEXTURES", numTextures.ToString() },
-                    { "VERTICES", verticesName },
-                    { "INDICES", indicesName },
                 };
 
                 // Create closest hit shaders.
@@ -213,8 +210,8 @@ namespace DiligentEngine.RT.ShaderSets
                 primaryHitShaderGroup = new RayTracingTriangleHitShaderGroup { Name = shaderGroupName, pClosestHitShader = pCubePrimaryHit.Obj, pAnyHitShader = pCubeAnyHit.Obj };
                 emissiveHitShaderGroup = new RayTracingTriangleHitShaderGroup { Name = emissiveShaderGroupName, pClosestHitShader = pCubeEmissiveHit.Obj, pAnyHitShader = pCubeAnyHit.Obj };
 
-                verticesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = verticesName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
-                indicesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = indicesName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
+                verticesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = VerticesVarName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
+                indicesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, Name = IndicesVarName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
                 texturesDesc = new ShaderResourceVariableDesc { ShaderStages = SHADER_TYPE.SHADER_TYPE_RAY_GEN | SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT | SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, Name = TextureVarName, Type = SHADER_RESOURCE_VARIABLE_TYPE.SHADER_RESOURCE_VARIABLE_TYPE_DYNAMIC };
             });
 
@@ -277,11 +274,11 @@ namespace DiligentEngine.RT.ShaderSets
         {
             if (builder.AttrBuffer != null)
             {
-                rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, verticesName).Set(builder.AttrBuffer.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
-                rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, indicesName).Set(builder.IndexBuffer.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
+                rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, VerticesVarName).Set(builder.AttrBuffer.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
+                rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, IndicesVarName).Set(builder.IndexBuffer.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
 
-                rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, verticesName)?.Set(builder.AttrBuffer.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
-                rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, indicesName)?.Set(builder.IndexBuffer.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
+                rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, VerticesVarName)?.Set(builder.AttrBuffer.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
+                rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, IndicesVarName)?.Set(builder.IndexBuffer.GetDefaultView(BUFFER_VIEW_TYPE.BUFFER_VIEW_SHADER_RESOURCE));
             }
 
             rayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, TextureVarName)?.SetArray(activeTextures.Textures);
