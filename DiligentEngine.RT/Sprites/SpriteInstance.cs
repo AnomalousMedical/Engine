@@ -1,4 +1,5 @@
 ﻿using DiligentEngine;
+using DiligentEngine.RT.Resources;
 using DiligentEngine.RT.ShaderSets;
 using Engine;
 using System;
@@ -11,71 +12,54 @@ namespace DiligentEngine.RT.Sprites
 {
     public class SpriteInstance : IDisposable
     {
-        private BLASInstance instance;
         private readonly SpriteMaterial spriteMaterial;
         private readonly ISpriteMaterialManager spriteMaterialManager;
+        private readonly ActiveTextures activeTextures;
+        private readonly SpritePlaneBLAS spritePlaneBLAS;
         private PrimaryHitShader primaryHitShader;
         private readonly PrimaryHitShader.Factory primaryHitShaderFactory;
-        private readonly RayTracingRenderer renderer;
+        private HLSL.BlasInstanceData blasInstanceData;
 
-        public BLASInstance Instance => instance;
+        public BLASInstance Instance => spritePlaneBLAS.Instance;
 
         public SpriteInstance
         (
-            RayTracingRenderer renderer, 
+            SpritePlaneBLAS spritePlaneBLAS,
             PrimaryHitShader primaryHitShader,
             PrimaryHitShader.Factory primaryHitShaderFactory,
-            BLASInstance blas,
             SpriteMaterial spriteMaterial,
-            ISpriteMaterialManager spriteMaterialManager
+            ISpriteMaterialManager spriteMaterialManager,
+            ActiveTextures activeTextures
         )
         {
+            this.spritePlaneBLAS = spritePlaneBLAS;
             this.primaryHitShader = primaryHitShader;
             this.primaryHitShaderFactory = primaryHitShaderFactory;
-            this.instance = blas;
             this.spriteMaterial = spriteMaterial;
             this.spriteMaterialManager = spriteMaterialManager;
-            this.renderer = renderer;
-
-            renderer.AddShaderResourceBinder(Bind);
+            this.activeTextures = activeTextures;
+            blasInstanceData = this.activeTextures.AddActiveTexture(spriteMaterial);
         }
 
         public void Dispose()
         {
-            renderer.RemoveShaderResourceBinder(Bind);
+            this.activeTextures.RemoveActiveTexture(spriteMaterial);
             primaryHitShaderFactory.TryReturn(primaryHitShader);
             spriteMaterialManager.Return(spriteMaterial);
         }
 
-        private void Bind(IShaderResourceBinding rayTracingSRB)
-        {
-            primaryHitShader.BindTextures(rayTracingSRB, spriteMaterial);
-        }
-
-        public unsafe void Bind(String instanceName, IShaderBindingTable sbt, ITopLevelAS tlas)
-        {
-            var info = new HLSL.SpriteFrame()
-            {
-                u1 = 1f, v1 = 0f,
-                u2 = 0f, v2 = 0f,
-                u3 = 0f, v3 = 1f,
-                u4 = 1f, v4 = 1f,
-            };
-
-            primaryHitShader.BindSbt(instanceName, sbt, tlas, new IntPtr(&info), (uint)sizeof(HLSL.SpriteFrame));
-        }
-
         public unsafe void Bind(String instanceName, IShaderBindingTable sbt, ITopLevelAS tlas, SpriteFrame frame)
         {
-            var info = new HLSL.SpriteFrame()
+            blasInstanceData.vertexOffset = spritePlaneBLAS.Instance.VertexOffset;
+            blasInstanceData.indexOffset = spritePlaneBLAS.Instance.IndexOffset;
+            blasInstanceData.u1 = frame.Right; blasInstanceData.v1 = frame.Top;
+            blasInstanceData.u2 = frame.Left; blasInstanceData.v2 = frame.Top;
+            blasInstanceData.u3 = frame.Left; blasInstanceData.v3 = frame.Bottom;
+            blasInstanceData.u4 = frame.Right; blasInstanceData.v4 = frame.Bottom;
+            fixed (HLSL.BlasInstanceData* ptr = &this.blasInstanceData)
             {
-                u1 = frame.Right, v1 = frame.Top,
-                u2 = frame.Left, v2 = frame.Top,
-                u3 = frame.Left, v3 = frame.Bottom,
-                u4 = frame.Right, v4 = frame.Bottom,
-            };
-
-            primaryHitShader.BindSbt(instanceName, sbt, tlas, new IntPtr(&info), (uint)sizeof(HLSL.SpriteFrame));
+                primaryHitShader.BindSbt(instanceName, sbt, tlas, new IntPtr(ptr), (uint)sizeof(HLSL.BlasInstanceData));
+            }
         }
     }
 }

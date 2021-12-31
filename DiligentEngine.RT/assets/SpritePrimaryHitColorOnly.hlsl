@@ -5,7 +5,7 @@
 Texture2D    g_textures[$$(NUM_TEXTURES)];
 SamplerState g_SamPointWrap;
 
-[shader("anyhit")]
+[shader("closesthit")]
 void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttributes attr)
 {
     float3 barycentrics;
@@ -13,7 +13,12 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
     float2 uv;
     GetSpriteData(attr, barycentrics, posX, posY, posZ, uv);
 
-    Texture2D opacityTexture = g_textures[spriteFrame.baseTexture];
-
-    AnyHitOpacityMapUV(barycentrics, posX, posY, posZ, opacityTexture, g_SamPointWrap, uv);
+    LightAndShadeUVColorOnly
+    (
+        payload, barycentrics,
+        posX, posY, posZ,
+        g_textures[spriteFrame.baseTexture],
+        g_SamPointWrap,
+        uv
+    );
 }

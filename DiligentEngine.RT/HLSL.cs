@@ -44,7 +44,7 @@ namespace DiligentEngine.RT.HLSL
     };
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct SpriteFrame
+    public struct BlasInstanceData
     {
         public float u1;
         public float v1;
@@ -54,11 +54,7 @@ namespace DiligentEngine.RT.HLSL
         public float v3;
         public float u4;
         public float v4;
-    };
 
-    [StructLayout(LayoutKind.Sequential)]
-    public struct BlasInstanceData
-    {
         public int baseTexture;
         public int normalTexture;
         public int physicalTexture;

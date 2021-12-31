@@ -1,4 +1,5 @@
-﻿using DiligentEngine.RT.ShaderSets;
+﻿using DiligentEngine.RT.Resources;
+using DiligentEngine.RT.ShaderSets;
 using Engine;
 using System;
 using System.Collections.Generic;
@@ -13,17 +14,23 @@ namespace DiligentEngine.RT.Sprites
         private readonly SpritePlaneBLAS spriteBLAS;
         private readonly ISpriteMaterialManager spriteMaterialManager;
         private readonly PrimaryHitShader.Factory primaryHitShaderFactory;
-        private readonly RayTracingRenderer rayTracingRenderer;
+        private readonly ActiveTextures activeTextures;
 
         private readonly PooledResourceManager<SpriteMaterialDescription, SpriteInstance> pooledResources
             = new PooledResourceManager<SpriteMaterialDescription, SpriteInstance>();
 
-        public SpriteInstanceFactory(SpritePlaneBLAS spriteBLAS, ISpriteMaterialManager spriteMaterialManager, PrimaryHitShader.Factory primaryHitShaderFactory, RayTracingRenderer rayTracingRenderer)
+        public SpriteInstanceFactory
+        (
+            SpritePlaneBLAS spriteBLAS, 
+            ISpriteMaterialManager spriteMaterialManager, 
+            PrimaryHitShader.Factory primaryHitShaderFactory,
+            ActiveTextures activeTextures
+        )
         {
             this.spriteBLAS = spriteBLAS;
             this.spriteMaterialManager = spriteMaterialManager;
             this.primaryHitShaderFactory = primaryHitShaderFactory;
-            this.rayTracingRenderer = rayTracingRenderer;
+            this.activeTextures = activeTextures;
         }
 
         public Task<SpriteInstance> Checkout(SpriteMaterialDescription desc)
@@ -42,7 +49,7 @@ namespace DiligentEngine.RT.Sprites
                     Reflective = desc.Reflective
                 });
 
-                var instance = new SpriteInstance(rayTracingRenderer, shader, primaryHitShaderFactory, spriteBLAS.Instance, material, spriteMaterialManager);
+                var instance = new SpriteInstance(spriteBLAS, shader, primaryHitShaderFactory, material, spriteMaterialManager, activeTextures);
                 return pooledResources.CreateResult(instance);
             });
         }

@@ -1,9 +1,6 @@
-struct SpriteFrame {
-    float2 uvs[4];
-};
-
 struct BlasInstanceData
 {
+    float2 uvs[4];
     int baseTexture;
     int normalTexture;
     int physicalTexture;

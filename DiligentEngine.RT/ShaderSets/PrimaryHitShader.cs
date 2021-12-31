@@ -197,14 +197,14 @@ namespace DiligentEngine.RT.ShaderSets
                 }
 
                 ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT;
-                ShaderCI.Desc.Name = "Cube primary ray closest hit shader";
+                ShaderCI.Desc.Name = $"{shaderType} primary ray closest hit shader {primaryHitSuffix}";
                 ShaderCI.Source = shaderLoader.LoadShader(shaderVars, $"assets/{shaderType}PrimaryHit{primaryHitSuffix}.hlsl");
                 ShaderCI.EntryPoint = "main";
                 pCubePrimaryHit = m_pDevice.CreateShader(ShaderCI, Macros);
                 //VERIFY_EXPR(pCubePrimaryHit != nullptr);
 
                 ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT;
-                ShaderCI.Desc.Name = "Cube emissive ray closest hit shader";
+                ShaderCI.Desc.Name = $"{shaderType} emissive ray closest hit shader";
                 ShaderCI.Source = shaderLoader.LoadShader(shaderVars, emissiveHitShader);
                 ShaderCI.EntryPoint = "main";
                 pCubeEmissiveHit = m_pDevice.CreateShader(ShaderCI, Macros);
@@ -212,7 +212,7 @@ namespace DiligentEngine.RT.ShaderSets
 
                 // Create any hit shaders.
                 ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT;
-                ShaderCI.Desc.Name = "Cube primary ray any hit shader";
+                ShaderCI.Desc.Name = $"{shaderType} primary ray any hit shader";
                 ShaderCI.Source = shaderLoader.LoadShader(shaderVars, $"assets/{shaderType}AnyHit.hlsl");
                 ShaderCI.EntryPoint = "main";
                 pCubeAnyHit = m_pDevice.CreateShader(ShaderCI, Macros);
@@ -256,30 +256,6 @@ namespace DiligentEngine.RT.ShaderSets
         {
             sbt.BindHitGroupForInstance(tlas, instanceName, RtStructures.PRIMARY_RAY_INDEX, shaderGroupName, data, size);
             sbt.BindHitGroupForInstance(tlas, instanceName, RtStructures.EMISSIVE_RAY_INDEX, emissiveShaderGroupName, data, size);
-        }
-
-        public void BindTextures(IShaderResourceBinding m_pRayTracingSRB, SpriteMaterial spriteMaterial)
-        {
-            throw new NotImplementedException();
-
-            //m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, colorTexturesName)?.Set(spriteMaterial.ColorSRV);
-
-            //if (hasNormalMap)
-            //{
-            //    m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, normalTexturesName)?.Set(spriteMaterial.NormalSRV);
-            //}
-
-            //if (hasPhysicalMap)
-            //{
-            //    m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, physicalTexturesName)?.Set(spriteMaterial.PhysicalSRV);
-            //}
-
-            ////if (hasEmissiveMap)
-            ////{
-            ////    m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT, emissiveTexturesName)?.SetArray(textureSet.TexEmissiveSRVs);
-            ////}
-
-            //m_pRayTracingSRB.GetVariableByName(SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT, colorTexturesName)?.Set(spriteMaterial.ColorSRV);
         }
 
         private void Bind(IShaderResourceBinding rayTracingSRB)

@@ -1,4 +1,5 @@
-﻿using Engine.Resources;
+﻿using DiligentEngine.RT.Sprites;
+using Engine.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,8 @@ namespace DiligentEngine.RT.Resources
 
         private Stack<int> availableSlots;
 
-        private Dictionary<CC0TextureResult, TextureBinding> textureLookup;
+        private Dictionary<CC0TextureResult, TextureBinding> cc0Textures;
+        private Dictionary<SpriteMaterial, TextureBinding> spriteTextures;
 
         private List<IDeviceObject> textures;
         private AutoPtr<ITexture> placeholderTexture;
@@ -33,7 +35,8 @@ namespace DiligentEngine.RT.Resources
             placeholderTexture = textureLoader.LoadTexture(placeholderStream, "Placeholder", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, false);
             placeholderTextureDeviceObject = placeholderTexture.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
 
-            textureLookup = new Dictionary<CC0TextureResult, TextureBinding>(MaxTextures);
+            cc0Textures = new Dictionary<CC0TextureResult, TextureBinding>(MaxTextures);
+            spriteTextures = new Dictionary<SpriteMaterial, TextureBinding>(MaxTextures);
             textures = new List<IDeviceObject>(MaxTextures);
             availableSlots = new Stack<int>(MaxTextures);
             for (var i = 0; i < MaxTextures; ++i)
@@ -57,10 +60,10 @@ namespace DiligentEngine.RT.Resources
         public HLSL.BlasInstanceData AddActiveTexture(CC0TextureResult texture)
         {
             TextureBinding binding;
-            if(!textureLookup.TryGetValue(texture, out binding))
+            if(!cc0Textures.TryGetValue(texture, out binding))
             {
                 binding = new TextureBinding();
-                textureLookup.Add(texture, binding);
+                cc0Textures.Add(texture, binding);
                 if(texture.BaseColorSRV != null)
                 {
                     binding.data.baseTexture = GetTextureSlot();
@@ -93,7 +96,7 @@ namespace DiligentEngine.RT.Resources
         /// <param name="texture"></param>
         public void RemoveActiveTexture(CC0TextureResult texture)
         {
-            if(textureLookup.TryGetValue(texture, out var binding))
+            if(cc0Textures.TryGetValue(texture, out var binding))
             {
                 binding.count--;
                 if(binding.count == 0)
@@ -118,9 +121,83 @@ namespace DiligentEngine.RT.Resources
                         ReturnTextureSlot(binding.data.emissiveTexture);
                         textures[binding.data.emissiveTexture] = placeholderTextureDeviceObject;
                     }
-                    textureLookup.Remove(texture);
+                    cc0Textures.Remove(texture);
+                    renderer.RequestRebind();
                 }
+            }
+        }
+
+        /// <summary>
+        /// Add an active texture. Must be done from main thread.
+        /// </summary>
+        /// <param name="texture"></param>
+        public HLSL.BlasInstanceData AddActiveTexture(SpriteMaterial texture)
+        {
+            TextureBinding binding;
+            if (!spriteTextures.TryGetValue(texture, out binding))
+            {
+                binding = new TextureBinding();
+                spriteTextures.Add(texture, binding);
+                if (texture.ColorSRV != null)
+                {
+                    binding.data.baseTexture = GetTextureSlot();
+                    textures[binding.data.baseTexture] = texture.ColorSRV;
+                }
+                if (texture.NormalSRV != null)
+                {
+                    binding.data.normalTexture = GetTextureSlot();
+                    textures[binding.data.normalTexture] = texture.NormalSRV;
+                }
+                if (texture.PhysicalSRV != null)
+                {
+                    binding.data.physicalTexture = GetTextureSlot();
+                    textures[binding.data.physicalTexture] = texture.PhysicalSRV;
+                }
+                //if (texture.EmissiveSRV != null)
+                //{
+                //    binding.data.emissiveTexture = GetTextureSlot();
+                //    textures[binding.data.emissiveTexture] = texture.EmissiveSRV;
+                //}
                 renderer.RequestRebind();
+            }
+            binding.count++;
+            return binding.data;
+        }
+
+        /// <summary>
+        /// Remove an active texture. Must be done from main thread.
+        /// </summary>
+        /// <param name="texture"></param>
+        public void RemoveActiveTexture(SpriteMaterial texture)
+        {
+            if (spriteTextures.TryGetValue(texture, out var binding))
+            {
+                binding.count--;
+                if (binding.count == 0)
+                {
+                    if (texture.ColorSRV != null)
+                    {
+                        ReturnTextureSlot(binding.data.baseTexture);
+                        textures[binding.data.baseTexture] = placeholderTextureDeviceObject;
+                    }
+                    if (texture.NormalSRV != null)
+                    {
+                        ReturnTextureSlot(binding.data.normalTexture);
+                        textures[binding.data.normalTexture] = placeholderTextureDeviceObject;
+                    }
+                    if (texture.PhysicalSRV != null)
+                    {
+                        ReturnTextureSlot(binding.data.physicalTexture);
+                        textures[binding.data.physicalTexture] = placeholderTextureDeviceObject;
+                    }
+                    //if (texture.EmissiveSRV != null)
+                    //{
+                    //    ReturnTextureSlot(binding.data.emissiveTexture);
+                    //    textures[binding.data.emissiveTexture] = placeholderTextureDeviceObject;
+                    //}
+                    spriteTextures.Remove(texture);
+                    renderer.RequestRebind();
+                }
             }
         }
 

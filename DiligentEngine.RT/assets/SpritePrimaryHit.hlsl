@@ -1,34 +1,27 @@
-
 #include "Structures.hlsl"
 #include "RayUtils.hlsl"
+#include "SpriteData.hlsl"
 
-StructuredBuffer<CubeAttribVertex> g_vertices;
-StructuredBuffer<uint> g_indices;
-
-Texture2D    $$(COLOR_TEXTURES)[$$(NUM_TEXTURES)];
-Texture2D    $$(NORMAL_TEXTURES)[$$(NUM_TEXTURES)];
-SamplerState g_SamLinearWrap;
+Texture2D    g_textures[$$(NUM_TEXTURES)];
 SamplerState g_SamPointWrap;
+SamplerState g_SamLinearWrap;
 
 [shader("closesthit")]
 void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttributes attr)
 {
-    // Calculate triangle barycentrics.
-    float3 barycentrics = float3(1.0 - attr.barycentrics.x - attr.barycentrics.y, attr.barycentrics.x, attr.barycentrics.y);
+    float3 barycentrics;
+    CubeAttribVertex posX, posY, posZ;
+    float2 uv;
+    GetSpriteData(attr, barycentrics, posX, posY, posZ, uv);
 
-    uint vertId = 3 * PrimitiveIndex();
-
-    CubeAttribVertex posX = g_vertices[g_indices[vertId + 0]];
-    CubeAttribVertex posY = g_vertices[g_indices[vertId + 1]];
-    CubeAttribVertex posZ = g_vertices[g_indices[vertId + 2]];
-
-    LightAndShade
+    LightAndShadeUV
     (
-        payload, barycentrics, 
-        posX, posY, posZ, 
-        $$(COLOR_TEXTURES)[InstanceID()],
-        $$(NORMAL_TEXTURES)[InstanceID()],
+        payload, barycentrics,
+        posX, posY, posZ,
+        g_textures[spriteFrame.baseTexture],
+        g_textures[spriteFrame.normalTexture],
         g_SamPointWrap,
-        g_SamLinearWrap
+        g_SamLinearWrap,
+        uv
     );
 }

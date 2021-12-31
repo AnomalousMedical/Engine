@@ -88,7 +88,7 @@ namespace DiligentEngine.RT
             PSOCreateInfo.pProceduralHitShaders = new List<RayTracingProceduralHitShaderGroup>();
 
             //Set this to the size of the largest root shader record size
-            PSOCreateInfo.RayTracingPipeline.ShaderRecordSize = (ushort)Math.Max(sizeof(HLSL.SpriteFrame), sizeof(HLSL.BlasInstanceData));
+            PSOCreateInfo.RayTracingPipeline.ShaderRecordSize = (ushort)sizeof(HLSL.BlasInstanceData);
 
             // DirectX 12 only: set attribute and payload size. Values should be as small as possible to minimize the memory usage.
             PSOCreateInfo.MaxAttributeSize = (uint)sizeof(/*BuiltInTriangleIntersectionAttributes*/ Vector2);
