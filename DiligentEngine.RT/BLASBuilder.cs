@@ -40,9 +40,9 @@ namespace DiligentEngine.RT
         internal AutoPtr<IBuffer> VertexBuffer { get; set; }
         internal AutoPtr<IBuffer> IndexBuffer { get; set; }
 
-        public int AttrVertexStart { get; internal set; }
+        public uint VertexOffset { get; internal set; }
 
-        public int IndexStart { get; internal set; }
+        public uint IndexOffset { get; internal set; }
 
         internal CubeAttribVertex[] AttrVertices;
 
@@ -93,10 +93,10 @@ namespace DiligentEngine.RT
             {
                 //TODO: For now just do a lame copy of the array, can improve this later once everything is working
                 var array = new CubeAttribVertex[vertexCount];
-                var offset = 0;
+                int offset = 0;
                 foreach(var instance in instances)
                 {
-                    instance.AttrVertexStart = offset;
+                    instance.VertexOffset = (uint)offset;
                     var length = instance.AttrVertices.Length;
                     var target = new Span<CubeAttribVertex>(array, offset, length);
                     var source = new Span<CubeAttribVertex>(instance.AttrVertices);
@@ -110,10 +110,10 @@ namespace DiligentEngine.RT
             {
                 //TODO: For now just do a lame copy of the array, can improve this later once everything is working
                 var array = new uint[indexCount];
-                var offset = 0;
+                int offset = 0;
                 foreach (var instance in instances)
                 {
-                    instance.IndexStart = offset;
+                    instance.IndexOffset = (uint)offset;
                     var length = instance.Indices.Length;
                     var target = new Span<uint>(array, offset, length);
                     var source = new Span<uint>(instance.Indices);

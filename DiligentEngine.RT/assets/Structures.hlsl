@@ -8,8 +8,8 @@ struct BlasInstanceData
     int normalTexture;
     int physicalTexture;
     int emissiveTexture;
-    float pad1;
-    float pad2;
+    uint indexOffset;
+    uint vertexOffset;
     float pad3;
     float pad4;
 };

@@ -43,6 +43,7 @@ namespace RTSandbox
         }
 
         private readonly TLASBuildInstanceData instanceData;
+        private readonly CubeBLAS cubeBLAS;
         private readonly RTInstances rtInstances;
         private readonly PrimaryHitShader.Factory primaryHitShaderFactory;
         private readonly RayTracingRenderer renderer;
@@ -64,6 +65,7 @@ namespace RTSandbox
             ActiveTextures activeTextures
         )
         {
+            this.cubeBLAS = cubeBLAS;
             this.rtInstances = rtInstances;
             this.primaryHitShaderFactory = primaryHitShaderFactory;
             this.renderer = renderer;
@@ -114,6 +116,8 @@ namespace RTSandbox
 
         public unsafe void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
         {
+            blasInstanceData.vertexOffset = cubeBLAS.Instance.VertexOffset;
+            blasInstanceData.indexOffset = cubeBLAS.Instance.IndexOffset;
             fixed (BlasInstanceData* ptr = &blasInstanceData)
             {
                 primaryHitShader.BindSbt(instanceData.InstanceName, sbt, tlas, new IntPtr(ptr), (uint)sizeof(BlasInstanceData));

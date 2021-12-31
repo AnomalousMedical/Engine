@@ -63,8 +63,8 @@ namespace DiligentEngine.RT.HLSL
         public int normalTexture;
         public int physicalTexture;
         public int emissiveTexture;
-        public float pad1;
-        public float pad2;
+        public uint indexOffset;
+        public uint vertexOffset;
         public float pad3;
         public float pad4;
     };
