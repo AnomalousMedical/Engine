@@ -47,8 +47,8 @@ namespace RTSandbox
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
                 o.Transform = new InstanceMatrix(new Vector3(0, -3, 0), Quaternion.Identity);
-                o.Texture = new CCOTextureBindingDescription("cc0Textures/Leather003_1K");
-                //o.Texture = new CCOTextureBindingDescription("cc0Textures/Ice004_1K");
+                //o.Texture = new CCOTextureBindingDescription("cc0Textures/Leather003_1K");
+                o.Texture = new CCOTextureBindingDescription("cc0Textures/Ice004_1K");
             });
 
             //objectResolver.Resolve<SceneSprite, SceneSprite.Desc>(o =>
@@ -70,17 +70,20 @@ namespace RTSandbox
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
+                o.Transform = new InstanceMatrix(new Vector3(-6, -3, 0), Quaternion.Identity);
+                o.Texture = new CCOTextureBindingDescription("cc0Textures/Rock034_1K");
+            });
+
+            objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
+            {
                 o.Transform = new InstanceMatrix(new Vector3(-9, -3, 0), Quaternion.Identity);
+                o.Texture = new CCOTextureBindingDescription("cc0Textures/Fabric021_1K");
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
                 o.Transform = new InstanceMatrix(new Vector3(-12, -3, 0), Quaternion.Identity);
-            });
-
-            objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
-            {
-                o.Transform = new InstanceMatrix(new Vector3(-3, -6, 0), Quaternion.Identity);
+                o.Texture = new CCOTextureBindingDescription("cc0Textures/SolarPanel003_1K");
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
@@ -91,29 +94,33 @@ namespace RTSandbox
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
                 o.Transform = new InstanceMatrix(new Vector3(3, 3, 0), Quaternion.Identity);
+                o.Texture = new CCOTextureBindingDescription("cc0Textures/Chip005_1K");
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
                 o.Transform = new InstanceMatrix(new Vector3(3, 6, 0), Quaternion.Identity);
+                o.Texture = new CCOTextureBindingDescription("cc0Textures/ChristmasTreeOrnament007_1K");
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
                 o.Transform = new InstanceMatrix(new Vector3(3, 9, 0), Quaternion.Identity);
+                o.Texture = new CCOTextureBindingDescription("cc0Textures/AcousticFoam003_1K");
             });
 
-            //for (var x = -20; x < 20; ++x)
-            //{
-            //    for (var z = -20; z < 20; ++z)
-            //    {
-            //        objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
-            //        {
-            //            o.Transform = new InstanceMatrix(new Vector3(x, -6.0f, z), Quaternion.Identity);
-            //            o.TextureIndex = 4;
-            //        });
-            //    }
-            //}
+            for (var x = -20; x < 20; ++x)
+            {
+                for (var z = -20; z < 20; ++z)
+                {
+                    objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
+                    {
+                        o.Transform = new InstanceMatrix(new Vector3(x, -6.0f, z), Quaternion.Identity);
+                        o.TextureIndex = 4;
+                        o.Texture = new CCOTextureBindingDescription("cc0Textures/Ground037_1K");
+                    });
+                }
+            }
         }
 
         public void Update(Clock clock)
