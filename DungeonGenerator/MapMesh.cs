@@ -17,6 +17,9 @@ namespace DungeonGenerator
         private List<Vector3> boundaryCubeCenterPoints;
         private MapMeshSquareInfo[,] squareInfo; //This array is 1 larger in each dimension, use accessor to translate points
 
+        private readonly float uvXStride;
+        private readonly float uvYStride;
+
         public IEnumerable<MapMeshPosition> FloorCubeCenterPoints => floorCubeCenterPoints;
 
         public IEnumerable<Vector3> BoundaryCubeCenterPoints => boundaryCubeCenterPoints;
@@ -56,6 +59,10 @@ namespace DungeonGenerator
             var halfUnitZ = MapUnitZ / 2.0f;
             var mapWidth = mapbuilder.Map_Size.Width;
             var mapHeight = mapbuilder.Map_Size.Height;
+
+            //Use the ratio of z to x to determine the uv stride
+            uvXStride = 1.0f;
+            uvYStride = uvXStride * (mapUnitZ / mapUnitX);
 
             var map = mapbuilder.map;
             var slopeMap = new Slope[mapWidth, mapHeight];
@@ -716,6 +723,7 @@ namespace DungeonGenerator
             if (map[mapX, mapY] >= csMapbuilder.RoomCell)
             {
                 //Floor
+                GetUvs(mapX, mapY, out var topLeft, out var bottomRight);
                 floorMesh.AddQuad(
                     new Vector3(left, floorFarLeftY, far),
                     new Vector3(right, floorFarRightY, far),
@@ -725,8 +733,8 @@ namespace DungeonGenerator
                     floorNormal,
                     floorNormal,
                     floorNormal,
-                    new Vector2(0, 0),
-                    new Vector2(1, 1));
+                    topLeft,
+                    bottomRight);
 
                 floorCubeCenterPoints.Add(new MapMeshPosition(new Vector3(left + halfUnitX, floorY - halfUnitY, far - halfUnitZ), floorCubeRot));
 
@@ -987,6 +995,8 @@ namespace DungeonGenerator
 
             //var cross = u.cross(v).normalized();
 
+            GetUvs(mapX, mapY, out var topLeft, out var bottomRight);
+
             wallMesh.AddQuad(
                 leftFar,
                 rightFar,
@@ -1000,8 +1010,14 @@ namespace DungeonGenerator
                 //cross,
                 //cross,
                 //cross,
-                new Vector2(0, 0),
-                new Vector2(1, 1));
+                topLeft,
+                bottomRight);
+        }
+
+        private void GetUvs(int mapX, int mapY, out Vector2 leftTop, out Vector2 rightBottom)
+        {
+            leftTop = new Vector2(mapX * uvXStride, mapY * uvYStride);
+            rightBottom = new Vector2((mapX + 1) * uvXStride, (mapY + 1) * uvYStride);
         }
 
         private Vector3 ComputeNormal(float zLeft, float zRight, float zDown, float zUp, float zUpleft, float zDownright, float ax, float ay)
