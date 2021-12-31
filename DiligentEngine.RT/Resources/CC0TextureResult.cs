@@ -21,8 +21,12 @@ namespace DiligentEngine.RT.Resources
         }
 
         public IDeviceObject BaseColorSRV { get; private set; }
-        internal void SetBaseColorMap(AutoPtr<ITexture> value)
+
+        public bool HasOpacity { get ; private set; }
+
+        internal void SetBaseColorMap(AutoPtr<ITexture> value, bool hasOpacity)
         {
+            this.HasOpacity = hasOpacity;
             this.BaseColorSRV = value.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
             this.texturePointers.Add(value);
         }

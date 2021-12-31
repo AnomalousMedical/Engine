@@ -51,6 +51,7 @@ namespace DiligentEngine.RT.Resources
                     using (var stream = resourceProvider.openFile(colorMapPath))
                     {
                         using var bmp = FreeImageBitmap.FromStream(stream);
+                        bool hasOpacity = false;
                         if (allowOpacityMapLoad && resourceProvider.exists(opacityFile))
                         {
                             //Jam opacity map into color alpha channel if it exists
@@ -59,9 +60,10 @@ namespace DiligentEngine.RT.Resources
                             using var opacityBmp = FreeImageBitmap.FromStream(opacityStream);
                             opacityBmp.ConvertColorDepth(FREE_IMAGE_COLOR_DEPTH.FICD_08_BPP);
                             bmp.SetChannel(opacityBmp, FREE_IMAGE_COLOR_CHANNEL.FICC_ALPHA);
+                            hasOpacity = true;
                         }
                         var baseColorMap = textureLoader.CreateTextureFromImage(bmp, 0, "baseColorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true);
-                        result.SetBaseColorMap(baseColorMap);
+                        result.SetBaseColorMap(baseColorMap, hasOpacity);
                         Barriers.Add(new StateTransitionDesc { pResource = baseColorMap.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true });
                     }
                 }
