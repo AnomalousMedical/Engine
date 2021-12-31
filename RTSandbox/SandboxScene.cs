@@ -22,8 +22,7 @@ namespace RTSandbox
         public SandboxScene
         (
             IObjectResolverFactory objectResolverFactory, 
-            RayTracingRenderer renderer, 
-            ICoroutineRunner coroutine
+            RayTracingRenderer renderer
         )
         {
             this.renderer = renderer;
@@ -47,18 +46,17 @@ namespace RTSandbox
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
             {
                 o.Transform = new InstanceMatrix(new Vector3(0, -3, 0), Quaternion.Identity);
-                //o.Texture = new CCOTextureBindingDescription("cc0Textures/Leather003_1K");
                 o.Texture = new CCOTextureBindingDescription("cc0Textures/Ice004_1K");
             });
 
-            //objectResolver.Resolve<SceneSprite, SceneSprite.Desc>(o =>
-            //{
-            //    o.Transform = new InstanceMatrix(new Vector3(0, -3, -10), Quaternion.Identity, new Vector3(5, 5, 1));
-            //});
+            objectResolver.Resolve<SceneSprite, SceneSprite.Desc>(o =>
+            {
+                o.Transform = new InstanceMatrix(new Vector3(0, -3, -10), Quaternion.Identity, new Vector3(5, 5, 1));
+            });
 
             objectResolver.Resolve<SceneSprite, SceneSprite.Desc>(o =>
             {
-                o.Transform = new InstanceMatrix(new Vector3(0, 0, 0), Quaternion.Identity);
+                o.Transform = new InstanceMatrix(new Vector3(3, -3, 0), Quaternion.Identity);
             });
 
             objectResolver.Resolve<SceneCube, SceneCube.Desc>(o =>
@@ -126,7 +124,7 @@ namespace RTSandbox
         public void Update(Clock clock)
         {
             currentRot *= new Quaternion(new Vector3(0, 1, 0), 0.35f * clock.DeltaSeconds);
-            rotateCube?.SetTransform(new Vector3(10, 0, 0), currentRot);
+            rotateCube?.SetTransform(Vector3.Zero, currentRot);
         }
 
         public void Dispose()
