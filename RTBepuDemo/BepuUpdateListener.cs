@@ -26,8 +26,6 @@ namespace RTBepuDemo
         private readonly IBepuScene bepuScene;
         private readonly RTGui gui;
         private readonly ISharpGui sharpGui;
-        private readonly TextureSet textureSet;
-        private readonly CubeBLAS cubeBLAS;
         private readonly RTInstances rtInstances;
         private IObjectResolver objectResolver;
         private List<BodyPositionSync> bodyPositionSyncs = new List<BodyPositionSync>();
@@ -49,7 +47,6 @@ namespace RTBepuDemo
             IBepuScene bepuScene,
             RTGui gui,
             ISharpGui sharpGui,
-            TextureSet textureSet,
             CubeBLAS cubeBLAS,
             ICoroutineRunner coroutine,
             RTInstances rtInstances
@@ -63,22 +60,10 @@ namespace RTBepuDemo
             this.bepuScene = bepuScene;
             this.gui = gui;
             this.sharpGui = sharpGui;
-            this.textureSet = textureSet;
-            this.cubeBLAS = cubeBLAS;
             this.rtInstances = rtInstances;
             coroutine.RunTask(async () =>
             {
-                await textureSet.Setup(new string[]
-                {
-                    "cc0Textures/ChristmasTreeOrnament007_1K",
-                    "cc0Textures/SheetMetal002_1K",
-                    "cc0Textures/Fabric021_1K",
-                    "cc0Textures/Wood049_1K",
-                    "cc0Textures/Ground042_1K"
-                });
                 await cubeBLAS.WaitForLoad();
-
-                renderer.AddShaderResourceBinder(Bind);
 
                 cameraControls.Position = new Vector3(0, 2, -11);
                 SetupBepu();
@@ -107,7 +92,6 @@ namespace RTBepuDemo
 
         public void Dispose()
         {
-            renderer.RemoveShaderResourceBinder(Bind);
             this.objectResolver.Dispose();
         }
 
@@ -131,7 +115,6 @@ namespace RTBepuDemo
                 o.position = position;
                 o.box = box;
                 o.boxInertia = boxInertia;
-                o.TextureIndex = (uint)Random.Next(textureSet.NumTextures - 1);
             });
 
             bodyPositionSyncs.Add(body);
@@ -205,11 +188,6 @@ namespace RTBepuDemo
             {
                 body.SyncPhysics(bepuScene);
             }
-        }
-
-        private void Bind(IShaderResourceBinding rayTracingSRB)
-        {
-            cubeBLAS.PrimaryHitShader.BindTextures(rayTracingSRB, textureSet);
         }
     }
 }

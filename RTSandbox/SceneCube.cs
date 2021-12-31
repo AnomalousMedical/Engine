@@ -50,7 +50,7 @@ namespace RTSandbox
         private readonly TextureManager textureManager;
         private readonly ActiveTextures activeTextures;
         private PrimaryHitShader primaryHitShader;
-        CC0TextureResult cubeTexture;
+        private CC0TextureResult cubeTexture;
         private BlasInstanceData blasInstanceData;
 
         public SceneCube
@@ -114,7 +114,7 @@ namespace RTSandbox
             this.instanceData.Transform = new InstanceMatrix(trans, rot);
         }
 
-        public unsafe void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
+        private unsafe void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
         {
             blasInstanceData.vertexOffset = cubeBLAS.Instance.VertexOffset;
             blasInstanceData.indexOffset = cubeBLAS.Instance.IndexOffset;
