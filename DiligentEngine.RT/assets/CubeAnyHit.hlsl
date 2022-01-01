@@ -1,6 +1,6 @@
 
 #include "Structures.hlsl"
-#include "RayUtils.hlsl"
+#include "RayUtils_OldShim.hlsl"
 #include "MeshData.hlsl"
 
 Texture2D    g_textures[$$(NUM_TEXTURES)];

@@ -1,6 +1,6 @@
 
 #include "Structures.hlsl"
-#include "RayUtils.hlsl"
+#include "RayUtils_OldShim.hlsl"
 
 //This is a shader for an object with no emissive materials
 //It just returns black
