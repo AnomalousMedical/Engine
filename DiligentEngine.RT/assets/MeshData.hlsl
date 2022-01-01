@@ -4,7 +4,7 @@ StructuredBuffer<uint> g_indices;
 [[vk::shader_record_ext]]
 ConstantBuffer<BlasInstanceData> instanceData;
 
-void GetMeshData
+void GetInstanceData
 (
     in BuiltInTriangleIntersectionAttributes attr,
     out float3 barycentrics,
