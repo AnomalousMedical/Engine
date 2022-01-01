@@ -40,3 +40,13 @@ float4 GetPhysical(in int mip, in float2 uv)
 {
 	return g_textures[instanceData.physicalTexture].SampleLevel(g_SamLinearWrap, uv, mip);
 }
+
+float3 GetEmissive(in int mip, in float2 uv)
+{
+	return g_textures[instanceData.emissiveTexture].SampleLevel(g_SamLinearWrap, uv, mip).rgb;
+}
+
+float3 GetSpriteEmissive(in int mip, in float2 uv)
+{
+	return g_textures[instanceData.emissiveTexture].SampleLevel(g_SamPointWrap, uv, mip).rgb;
+}

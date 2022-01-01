@@ -1,9 +1,6 @@
 #include "Structures.hlsl"
-#include "RayUtils_OldShim.hlsl"
 #include "MeshData.hlsl"
-
-Texture2D    g_textures[$$(NUM_TEXTURES)];
-SamplerState g_SamLinearWrap;
+#include "Textures.hlsl"
 
 [shader("closesthit")]
 void main(inout EmissiveRayPayload payload, in BuiltInTriangleIntersectionAttributes attr)
@@ -13,11 +10,7 @@ void main(inout EmissiveRayPayload payload, in BuiltInTriangleIntersectionAttrib
     float2 uv;
     GetMeshData(attr, barycentrics, posX, posY, posZ, uv);
 
-    GetEmissiveLighting
-    (
-        payload, barycentrics, 
-        posX, posY, posZ,
-        g_textures[instanceData.emissiveTexture],
-        g_SamLinearWrap
-    );
+    int mip = GetMip();
+
+    payload.Color = GetEmissive(mip, uv);
 }
