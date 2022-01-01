@@ -265,14 +265,14 @@ namespace SceneTest
                 //TODO: The level BLASes must be loaded before the shaders, see todo in PrimaryHitShader
                 var floorShaderSetup = primaryHitShaderFactory.Checkout(new PrimaryHitShader.Desc
                 {
-                    ShaderType = PrimaryHitShaderType.Cube,
+                    ShaderType = PrimaryHitShaderType.Mesh,
                     HasNormalMap = true,
                     HasPhysicalDescriptorMap = true,
                     Reflective = biome.ReflectFloor
                 });
                 var wallShaderSetup = primaryHitShaderFactory.Checkout(new PrimaryHitShader.Desc
                 {
-                    ShaderType = PrimaryHitShaderType.Cube,
+                    ShaderType = PrimaryHitShaderType.Mesh,
                     HasNormalMap = true,
                     HasPhysicalDescriptorMap = true,
                     Reflective = biome.ReflectWall

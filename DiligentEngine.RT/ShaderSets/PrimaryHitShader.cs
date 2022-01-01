@@ -11,7 +11,7 @@ namespace DiligentEngine.RT.ShaderSets
 {
     public enum PrimaryHitShaderType
     {
-        Cube,
+        Mesh,
         Sprite
     }
 
@@ -150,7 +150,7 @@ namespace DiligentEngine.RT.ShaderSets
                 Macros.AddShaderMacro("NUM_LIGHTS", cameraAndLight.NumLights);
                 switch (desc.ShaderType)
                 {
-                    case PrimaryHitShaderType.Cube:
+                    case PrimaryHitShaderType.Mesh:
                         Macros.AddShaderMacro("DATA_TYPE_MESH", 1);
                         break;
                     case PrimaryHitShaderType.Sprite:
