@@ -10,7 +10,8 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
 {
     float3 barycentrics;
     CubeAttribVertex posX, posY, posZ;
-    GetMeshData(attr, barycentrics, posX, posY, posZ);
+    float2 uv;
+    GetMeshData(attr, barycentrics, posX, posY, posZ, uv);
 
     LightAndShadePhysical
     (

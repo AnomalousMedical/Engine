@@ -10,7 +10,8 @@ void main(inout EmissiveRayPayload payload, in BuiltInTriangleIntersectionAttrib
 {
     float3 barycentrics;
     CubeAttribVertex posX, posY, posZ;
-    GetMeshData(attr, barycentrics, posX, posY, posZ);
+    float2 uv;
+    GetMeshData(attr, barycentrics, posX, posY, posZ, uv);
 
     GetEmissiveLighting
     (
