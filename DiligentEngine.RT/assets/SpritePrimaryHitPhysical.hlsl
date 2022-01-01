@@ -1,10 +1,8 @@
 #include "Structures.hlsl"
-#include "RayUtils_OldShim.hlsl"
+#include "RayUtils.hlsl"
+#include "Lighting.hlsl"
 #include "SpriteData.hlsl"
-
-Texture2D    g_textures[$$(NUM_TEXTURES)];
-SamplerState g_SamPointWrap;
-SamplerState g_SamLinearWrap;
+#include "Textures.hlsl"
 
 [shader("closesthit")]
 void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttributes attr)
@@ -14,15 +12,14 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
     float2 uv;
     GetSpriteData(attr, barycentrics, posX, posY, posZ, uv);
 
-    LightAndShadePhysicalUV
+    int mip = GetMip();
+
+    LightAndShadeBaseNormalPhysical
     (
         payload, barycentrics,
         posX, posY, posZ,
-        g_textures[instanceData.baseTexture],
-        g_textures[instanceData.normalTexture],
-        g_textures[instanceData.physicalTexture],
-        g_SamPointWrap,
-        g_SamLinearWrap,
-        uv
+        GetSpriteBaseColor(mip, uv),
+        GetSampledNormal(mip, uv),
+        GetPhysical(mip, uv)
     );
 }
