@@ -196,25 +196,34 @@ void LightingPass(inout float3 Color, float3 Pos, float3 Norm, float3 pertbNorm,
 }
 
 float3 GetPerterbedNormal(
-    float3 barycentrics, float3 normal,
+    float3 barycentrics, out float3 normal,
     CubeAttribVertex posX, CubeAttribVertex posY, CubeAttribVertex posZ,
     float3 sampledNormal
 )
 {
     // Calculate vertex tangent.
     float3 tangent = posX.tangent.xyz * barycentrics.x +
-        posY.tangent.xyz * barycentrics.y +
-        posZ.tangent.xyz * barycentrics.z;
+                     posY.tangent.xyz * barycentrics.y +
+                     posZ.tangent.xyz * barycentrics.z;
 
     // Calculate vertex binormal.
     float3 binormal = posX.binormal.xyz * barycentrics.x +
-        posY.binormal.xyz * barycentrics.y +
-        posZ.binormal.xyz * barycentrics.z;
+                      posY.binormal.xyz * barycentrics.y +
+                      posZ.binormal.xyz * barycentrics.z;
+
+    // Calculate vertex normal.
+    normal = posX.normal.xyz * barycentrics.x +
+             posY.normal.xyz * barycentrics.y +
+             posZ.normal.xyz * barycentrics.z;
 
     //Get Mapped normal
     float3 pertNormal = sampledNormal * float3(2.0, 2.0, 2.0) - float3(1.0, 1.0, 1.0);
     float3x3 tbn = MatrixFromRows(tangent, binormal, normal);
     pertNormal = normalize(mul(pertNormal, tbn)); //Can probably skip this normalize
+
+    //Convert to world space
+    normal = normalize(mul((float3x3) ObjectToWorld3x4(), normal));
+    pertNormal = normalize(mul((float3x3) ObjectToWorld3x4(), pertNormal));
 
     return pertNormal;
 }
@@ -252,18 +261,10 @@ void LightAndShadeBaseNormal
     payload.Depth = RayTCurrent();
 
     // Calculate vertex normal.
-    float3 normal = posX.normal.xyz * barycentrics.x +
-        posY.normal.xyz * barycentrics.y +
-        posZ.normal.xyz * barycentrics.z;
-
-    //Get Mapped normal
+    float3 normal;
     float3 pertNormal = GetPerterbedNormal(barycentrics, normal,
         posX, posY, posZ,
         sampleNormal);
-
-    //Convert to world space
-    normal = normalize(mul((float3x3) ObjectToWorld3x4(), normal));
-    pertNormal = normalize(mul((float3x3) ObjectToWorld3x4(), pertNormal));
 
     // Sample texturing.
     payload.Color = baseColor;
@@ -283,18 +284,10 @@ void LightAndShadeBaseNormalPhysical
     payload.Depth = RayTCurrent();
 
     // Calculate vertex normal.
-    float3 normal = posX.normal.xyz * barycentrics.x +
-        posY.normal.xyz * barycentrics.y +
-        posZ.normal.xyz * barycentrics.z;
-
-    //Get Mapped normal
+    float3 normal;
     float3 pertNormal = GetPerterbedNormal(barycentrics, normal,
         posX, posY, posZ,
         sampleNormal);
-
-    //Convert to world space
-    normal = normalize(mul((float3x3) ObjectToWorld3x4(), normal));
-    pertNormal = normalize(mul((float3x3) ObjectToWorld3x4(), pertNormal));
 
     // Sample texturing.
     payload.Color = baseColor;
@@ -314,18 +307,10 @@ void LightAndShadeBaseNormalPhysicalReflective
     payload.Depth = RayTCurrent();
 
     // Calculate vertex normal.
-    float3 normal = posX.normal.xyz * barycentrics.x +
-        posY.normal.xyz * barycentrics.y +
-        posZ.normal.xyz * barycentrics.z;
-
-    //Get Mapped normal
+    float3 normal;
     float3 pertNormal = GetPerterbedNormal(barycentrics, normal,
         posX, posY, posZ,
         sampleNormal);
-
-    //Convert to world space
-    normal = normalize(mul((float3x3) ObjectToWorld3x4(), normal));
-    pertNormal = normalize(mul((float3x3) ObjectToWorld3x4(), pertNormal));
 
     float roughness = physical.g;
 
