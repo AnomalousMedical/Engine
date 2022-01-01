@@ -2,7 +2,7 @@
 #include "RayUtils.hlsl"
 #include "Lighting.hlsl"
 #include "SpriteData.hlsl"
-#include "Textures.hlsl"
+#include "SpriteTextures.hlsl"
 
 [shader("closesthit")]
 void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttributes attr)
@@ -18,7 +18,7 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
     (
         payload, barycentrics,
         posX, posY, posZ,
-        GetSpriteBaseColor(mip, uv),
+        GetBaseColor(mip, uv),
         GetSampledNormal(mip, uv),
         GetPhysical(mip, uv)
     );

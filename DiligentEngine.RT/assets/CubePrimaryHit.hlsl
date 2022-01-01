@@ -2,7 +2,7 @@
 #include "RayUtils.hlsl"
 #include "Lighting.hlsl"
 #include "MeshData.hlsl"
-#include "Textures.hlsl"
+#include "MeshTextures.hlsl"
 
 [shader("closesthit")]
 void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttributes attr)

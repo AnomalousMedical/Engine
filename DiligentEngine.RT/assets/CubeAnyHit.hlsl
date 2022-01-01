@@ -1,7 +1,7 @@
 #include "Structures.hlsl"
 #include "RayUtils.hlsl"
 #include "MeshData.hlsl"
-#include "Textures.hlsl"
+#include "MeshTextures.hlsl"
 
 [shader("anyhit")]
 void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttributes attr)
