@@ -11,14 +11,24 @@ int GetMip()
 	return mip;
 }
 
+float3 GetBaseColor(in int mip, in float2 uv)
+{
+	return g_textures[instanceData.baseTexture].SampleLevel(g_SamLinearWrap, uv, mip).rgb;
+}
+
 float3 GetSpriteBaseColor(in int mip, in float2 uv)
 {
 	return g_textures[instanceData.baseTexture].SampleLevel(g_SamPointWrap, uv, mip).rgb;
 }
 
-float3 GetBaseColor(in int mip, in float2 uv)
+float GetOpacity(in int mip, in float2 uv)
 {
-	return g_textures[instanceData.baseTexture].SampleLevel(g_SamLinearWrap, uv, mip).rgb;
+	return g_textures[instanceData.baseTexture].SampleLevel(g_SamLinearWrap, uv, mip).a;
+}
+
+float GetSpriteOpacity(in int mip, in float2 uv)
+{
+	return g_textures[instanceData.baseTexture].SampleLevel(g_SamPointWrap, uv, mip).a;
 }
 
 float3 GetSampledNormal(in int mip, in float2 uv)

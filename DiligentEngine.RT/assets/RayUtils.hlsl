@@ -100,3 +100,12 @@ float3 DirectionWithinCone(float3 dir, float2 offset)
     GetRayPerpendicular(dir, left, up);
     return normalize(dir + left * offset.x + up * offset.y);
 }
+
+void AnyHitOpacityTest(float opacity)
+{
+    if (opacity < 0.5f) {
+        IgnoreHit();
+    }
+
+    //Doing nothing lets the ray tracer continue as normal
+}

@@ -1,9 +1,7 @@
 #include "Structures.hlsl"
-#include "RayUtils_OldShim.hlsl"
+#include "RayUtils.hlsl"
 #include "SpriteData.hlsl"
-
-Texture2D    g_textures[$$(NUM_TEXTURES)];
-SamplerState g_SamPointWrap;
+#include "Textures.hlsl"
 
 [shader("anyhit")]
 void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttributes attr)
@@ -13,7 +11,7 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
     float2 uv;
     GetSpriteData(attr, barycentrics, posX, posY, posZ, uv);
 
-    Texture2D opacityTexture = g_textures[instanceData.baseTexture];
+    int mip = GetMip();
 
-    AnyHitOpacityMapUV(barycentrics, posX, posY, posZ, opacityTexture, g_SamPointWrap, uv);
+    AnyHitOpacityTest(GetSpriteOpacity(mip, uv));
 }
