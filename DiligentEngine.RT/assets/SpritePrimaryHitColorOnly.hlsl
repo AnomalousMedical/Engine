@@ -17,7 +17,7 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
     (
         payload, barycentrics,
         posX, posY, posZ,
-        g_textures[spriteFrame.baseTexture],
+        g_textures[instanceData.baseTexture],
         g_SamPointWrap,
         uv
     );
