@@ -1,6 +1,6 @@
 
 #include "Structures.hlsl"
-#include "RayUtils_OldShim.hlsl"
+#include "RayUtils.hlsl"
 
 RWTexture2D<float4> g_ColorBuffer;
 
