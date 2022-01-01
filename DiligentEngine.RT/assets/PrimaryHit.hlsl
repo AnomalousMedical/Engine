@@ -21,11 +21,25 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
 
     int mip = GetMip();
 
-    LightAndShadeBaseNormal
+    $$(LIGHTING_FUNCTION)
     (
         payload, barycentrics,
-        posX, posY, posZ,
-        GetBaseColor(mip, uv),
-        GetSampledNormal(mip, uv)
+        posX, posY, posZ
+
+#if HAS_BASE_COLOR
+        ,GetBaseColor(mip, uv)
+#endif
+
+#if HAS_NORMAL_MAP
+        ,GetSampledNormal(mip, uv)
+#endif
+
+#if HAS_PHYSICAL_MAP
+        ,GetPhysical(mip, uv)
+#endif
     );
+
+#if HAS_EMISSIVE_MAP
+    payload.Color += GetEmissive(mip, uv);
+#endif
 }

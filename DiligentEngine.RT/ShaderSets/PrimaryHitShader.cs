@@ -180,39 +180,45 @@ namespace DiligentEngine.RT.ShaderSets
                 };
 
                 // Create closest hit shaders.
-                var primaryHitSuffix = "";
-                if (!desc.HasNormalMap)
+                var lightingFunction = "LightAndShadeBase"; //Assuming base map for now
+                Macros.AddShaderMacro("HAS_BASE_COLOR", 1);
+                if (desc.HasNormalMap)
                 {
-                    primaryHitSuffix += "ColorOnly";
+                    lightingFunction += "Normal";
+                    Macros.AddShaderMacro("HAS_NORMAL_MAP", 1);
                 }
 
                 if (desc.HasPhysicalDescriptorMap)
                 {
-                    if (desc.Reflective)
-                    {
-                        primaryHitSuffix += "Reflective";
-                    }
-                    else
-                    {
-                        primaryHitSuffix += "Physical";
-                    }
+                    lightingFunction += "Physical";
+                    Macros.AddShaderMacro("HAS_PHYSICAL_MAP", 1);
+                }
+
+                if (desc.Reflective)
+                {
+                    //This does not exist for all versions
+                    //If you get compiler errors add the function
+                    lightingFunction += "Reflective";
                 }
 
                 var emissiveSuffix = "None";
                 if (desc.HasEmissiveMap)
                 {
                     emissiveSuffix = "";
-                    primaryHitSuffix += "Emissive";
+                    Macros.AddShaderMacro("HAS_EMISSIVE_MAP", 1);
                 }
                 var emissiveHitShader = $"assets/EmissiveHit{emissiveSuffix}.hlsl";
+                shaderVars.Add("LIGHTING_FUNCTION", lightingFunction);
 
                 ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT;
-                ShaderCI.Desc.Name = $"{desc.ShaderType} primary ray closest hit shader {primaryHitSuffix}";
-                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, $"assets/PrimaryHit{primaryHitSuffix}.hlsl");
+                ShaderCI.Desc.Name = $"{desc.ShaderType} primary ray closest hit shader {lightingFunction}";
+                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, $"assets/PrimaryHit.hlsl");
                 ShaderCI.EntryPoint = "main";
                 pCubePrimaryHit = m_pDevice.CreateShader(ShaderCI, Macros);
                 //VERIFY_EXPR(pCubePrimaryHit != nullptr);
 
+                //TODO: This and the one below it can probably be shared between all instances
+                //Note that multiple emissives can load here
                 ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT;
                 ShaderCI.Desc.Name = $"{desc.ShaderType} emissive ray closest hit shader";
                 ShaderCI.Source = shaderLoader.LoadShader(shaderVars, emissiveHitShader);
@@ -221,6 +227,7 @@ namespace DiligentEngine.RT.ShaderSets
                 //VERIFY_EXPR(pCubeEmissiveHit != nullptr);
 
                 // Create any hit shaders.
+                //TODO: Any hit is always the same and is turned on and off by the opaque flag. This can be shared between all instances.
                 ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT;
                 ShaderCI.Desc.Name = $"{desc.ShaderType} primary ray any hit shader";
                 ShaderCI.Source = shaderLoader.LoadShader(shaderVars, $"assets/AnyHit.hlsl");
