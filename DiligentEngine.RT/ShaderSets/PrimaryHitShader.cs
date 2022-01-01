@@ -171,14 +171,6 @@ namespace DiligentEngine.RT.ShaderSets
 
                 // Create closest hit shaders.
                 var primaryHitSuffix = "";
-
-                var emissiveSuffix = "None";
-                if (desc.HasEmissiveMap)
-                {
-                    emissiveSuffix = "";
-                }
-                var emissiveHitShader = $"assets/EmissiveHit{emissiveSuffix}.hlsl";
-
                 if (!desc.HasNormalMap)
                 {
                     primaryHitSuffix += "ColorOnly";
@@ -195,6 +187,14 @@ namespace DiligentEngine.RT.ShaderSets
                         primaryHitSuffix += "Physical";
                     }
                 }
+
+                var emissiveSuffix = "None";
+                if (desc.HasEmissiveMap)
+                {
+                    emissiveSuffix = "";
+                    primaryHitSuffix += "Emissive";
+                }
+                var emissiveHitShader = $"assets/EmissiveHit{emissiveSuffix}.hlsl";
 
                 ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT;
                 ShaderCI.Desc.Name = $"{shaderType} primary ray closest hit shader {primaryHitSuffix}";
