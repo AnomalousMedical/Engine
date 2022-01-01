@@ -137,7 +137,6 @@ namespace DiligentEngine.RT.ShaderSets
         private async Task SetupShaders(Desc desc, GraphicsEngine graphicsEngine, ShaderLoader<RTShaders> shaderLoader, RTCameraAndLight cameraAndLight)
         {
             this.numTextures = activeTextures.MaxTextures;
-            var shaderType = desc.ShaderType;
 
             await Task.Run(() =>
             {
@@ -149,6 +148,17 @@ namespace DiligentEngine.RT.ShaderSets
                 // Define shader macros
                 ShaderMacroHelper Macros = new ShaderMacroHelper();
                 Macros.AddShaderMacro("NUM_LIGHTS", cameraAndLight.NumLights);
+                switch (desc.ShaderType)
+                {
+                    case PrimaryHitShaderType.Cube:
+                        Macros.AddShaderMacro("DATA_TYPE_MESH", 1);
+                        break;
+                    case PrimaryHitShaderType.Sprite:
+                        Macros.AddShaderMacro("DATA_TYPE_SPRITE", 1);
+                        break;
+                    default:
+                        throw new InvalidOperationException($"'{desc.ShaderType}' not supported.");
+                }
 
                 ShaderCreateInfo ShaderCI = new ShaderCreateInfo();
                 // We will not be using combined texture samplers as they
@@ -197,14 +207,14 @@ namespace DiligentEngine.RT.ShaderSets
                 var emissiveHitShader = $"assets/EmissiveHit{emissiveSuffix}.hlsl";
 
                 ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT;
-                ShaderCI.Desc.Name = $"{shaderType} primary ray closest hit shader {primaryHitSuffix}";
-                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, $"assets/{shaderType}PrimaryHit{primaryHitSuffix}.hlsl");
+                ShaderCI.Desc.Name = $"{desc.ShaderType} primary ray closest hit shader {primaryHitSuffix}";
+                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, $"assets/PrimaryHit{primaryHitSuffix}.hlsl");
                 ShaderCI.EntryPoint = "main";
                 pCubePrimaryHit = m_pDevice.CreateShader(ShaderCI, Macros);
                 //VERIFY_EXPR(pCubePrimaryHit != nullptr);
 
                 ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_CLOSEST_HIT;
-                ShaderCI.Desc.Name = $"{shaderType} emissive ray closest hit shader";
+                ShaderCI.Desc.Name = $"{desc.ShaderType} emissive ray closest hit shader";
                 ShaderCI.Source = shaderLoader.LoadShader(shaderVars, emissiveHitShader);
                 ShaderCI.EntryPoint = "main";
                 pCubeEmissiveHit = m_pDevice.CreateShader(ShaderCI, Macros);
@@ -212,8 +222,8 @@ namespace DiligentEngine.RT.ShaderSets
 
                 // Create any hit shaders.
                 ShaderCI.Desc.ShaderType = SHADER_TYPE.SHADER_TYPE_RAY_ANY_HIT;
-                ShaderCI.Desc.Name = $"{shaderType} primary ray any hit shader";
-                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, $"assets/{shaderType}AnyHit.hlsl");
+                ShaderCI.Desc.Name = $"{desc.ShaderType} primary ray any hit shader";
+                ShaderCI.Source = shaderLoader.LoadShader(shaderVars, $"assets/AnyHit.hlsl");
                 ShaderCI.EntryPoint = "main";
                 pCubeAnyHit = m_pDevice.CreateShader(ShaderCI, Macros);
                 //VERIFY_EXPR(pCubeAnyHit != nullptr);

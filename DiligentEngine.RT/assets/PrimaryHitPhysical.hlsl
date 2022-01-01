@@ -1,9 +1,17 @@
 #include "Structures.hlsl"
 #include "RayUtils.hlsl"
+#include "Lighting.hlsl"
+#if DATA_TYPE_MESH
 #include "MeshData.hlsl"
 #include "MeshTextures.hlsl"
+#endif
 
-[shader("anyhit")]
+#if DATA_TYPE_SPRITE
+#include "SpriteData.hlsl"
+#include "SpriteTextures.hlsl"
+#endif
+
+[shader("closesthit")]
 void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttributes attr)
 {
     float3 barycentrics;
@@ -13,5 +21,12 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
 
     int mip = GetMip();
 
-    AnyHitOpacityTest(GetOpacity(mip, uv));
+    LightAndShadeBaseNormalPhysical
+    (
+        payload, barycentrics, 
+        posX, posY, posZ, 
+        GetBaseColor(mip, uv),
+        GetSampledNormal(mip, uv),
+        GetPhysical(mip, uv)
+    );
 }

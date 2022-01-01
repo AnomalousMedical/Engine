@@ -1,6 +1,13 @@
 #include "Structures.hlsl"
+#if DATA_TYPE_MESH
 #include "MeshData.hlsl"
 #include "MeshTextures.hlsl"
+#endif
+
+#if DATA_TYPE_SPRITE
+#include "SpriteData.hlsl"
+#include "SpriteTextures.hlsl"
+#endif
 
 [shader("closesthit")]
 void main(inout EmissiveRayPayload payload, in BuiltInTriangleIntersectionAttributes attr)

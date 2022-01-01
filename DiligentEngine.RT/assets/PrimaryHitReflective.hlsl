@@ -1,8 +1,15 @@
 #include "Structures.hlsl"
 #include "RayUtils.hlsl"
 #include "Lighting.hlsl"
+#if DATA_TYPE_MESH
 #include "MeshData.hlsl"
 #include "MeshTextures.hlsl"
+#endif
+
+#if DATA_TYPE_SPRITE
+#include "SpriteData.hlsl"
+#include "SpriteTextures.hlsl"
+#endif
 
 [shader("closesthit")]
 void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttributes attr)
@@ -14,11 +21,12 @@ void main(inout PrimaryRayPayload payload, in BuiltInTriangleIntersectionAttribu
 
     int mip = GetMip();
 
-    LightAndShadeBaseNormal
+    LightAndShadeBaseNormalPhysicalReflective
     (
         payload, barycentrics,
         posX, posY, posZ,
         GetBaseColor(mip, uv),
-        GetSampledNormal(mip, uv)
+        GetSampledNormal(mip, uv),
+        GetPhysical(mip, uv)
     );
 }
