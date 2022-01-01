@@ -5,14 +5,6 @@
 RaytracingAccelerationStructure g_TLAS;
 ConstantBuffer<Constants>       g_ConstantsCB;
 
-int GetMip(float depth)
-{
-    //Lame mip calculation, but looks tons better than just mip0.
-    //Need to add screen size and some more info
-    int mip = min(depth / 4, 4);
-    return mip;
-}
-
 PrimaryRayPayload CastPrimaryRay(RayDesc ray, uint Recursion)
 {
     PrimaryRayPayload payload = {float3(0, 0, 0), 0.0, Recursion};

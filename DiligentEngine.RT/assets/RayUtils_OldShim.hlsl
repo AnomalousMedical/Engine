@@ -1,5 +1,13 @@
 #include "RayUtils.hlsl"
 
+int GetMip(float depth)
+{
+    //Lame mip calculation, but looks tons better than just mip0.
+    //Need to add screen size and some more info
+    int mip = min(depth / 4, 4);
+    return mip;
+}
+
 SurfaceReflectanceInfo GetSurfaceReflectance(   //int Workflow, //Not including workflow option, make separate function if needed
     float3     BaseColor,
     float4     PhysicalDesc
