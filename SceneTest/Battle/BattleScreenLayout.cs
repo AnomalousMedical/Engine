@@ -48,7 +48,7 @@ namespace SceneTest.Battle
             battleMenuColumn.Add(items);
             var desiredSize = battleMenuLayout.GetDesiredSize(sharpGui);
             var rect = screenPositioner.GetBottomRightRect(desiredSize);
-            rect.Left -= infoColumnRect.Width;
+            rect.Top -= infoColumnRect.Height;
             battleMenuLayout.SetRect(rect);
             battleMenuColumn.Clear();
         }
