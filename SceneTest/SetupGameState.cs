@@ -88,7 +88,7 @@ namespace SceneTest
                 var arch = Archetype.CreateTank();
                 party.AddCharacter(new Character()
                 {
-                    PlayerSprite = new Assets.Original.MagePlayerSprite(),
+                    PlayerSprite = new Assets.Original.ThiefPlayerSprite(),
                     CharacterSheet = new CharacterSheet()
                     {
                         Name = "Stabby McStabface",
@@ -109,10 +109,10 @@ namespace SceneTest
                 var arch = Archetype.CreateGuardian();
                 party.AddCharacter(new Character()
                 {
-                    PlayerSprite = new Assets.Original.FighterPlayerSprite(),
+                    PlayerSprite = new Assets.Original.ClericPlayerSprite(),
                     CharacterSheet = new CharacterSheet()
                     {
-                        Name = "Archibald",
+                        Name = "Wendy",
                         Archetype = arch,
                         Level = 1,
                         MainHand = new Equipment()
