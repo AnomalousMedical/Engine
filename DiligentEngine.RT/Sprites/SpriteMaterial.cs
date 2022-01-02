@@ -24,6 +24,7 @@ namespace DiligentEngine.RT.Sprites
             this.ImageHeight = imageHeight;
             this.spriteMaterialTextureManager = spriteMaterialTextureManager;
             this.textures = textures;
+            Reflective = textures.Reflective;
             this.colorTexture = new AutoPtr<ITexture>(colorTexture);
             ColorSRV = colorTexture.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
             NormalSRV = textures.NormalTexture?.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
@@ -39,6 +40,8 @@ namespace DiligentEngine.RT.Sprites
         public int ImageWidth { get; }
 
         public int ImageHeight { get; }
+
+        public bool Reflective { get; }
 
         public IDeviceObject ColorSRV { get; }
 

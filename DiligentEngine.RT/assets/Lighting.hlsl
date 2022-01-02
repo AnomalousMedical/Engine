@@ -313,17 +313,25 @@ void LightAndShadeBaseNormalPhysicalReflective
         sampleNormal);
 
     float roughness = physical.g;
+    float reflective = physical.a;
 
-    // Reflect from the normal
-    RayDesc ray;
-    ray.Origin = WorldRayOrigin() + WorldRayDirection() * RayTCurrent() + normal * SMALL_OFFSET;
-    ray.TMin = 0.0;
-    ray.TMax = 100.0;
-    ray.Direction = reflect(WorldRayDirection(), pertNormal);
-    float3 reflectedColor = CastPrimaryRay(ray, payload.Recursion + 1).Color;
+    if (reflective > 0.5)
+    {
+        // Reflect from the normal
+        RayDesc ray;
+        ray.Origin = WorldRayOrigin() + WorldRayDirection() * RayTCurrent() + normal * SMALL_OFFSET;
+        ray.TMin = 0.0;
+        ray.TMax = 100.0;
+        ray.Direction = reflect(WorldRayDirection(), pertNormal);
+        float3 reflectedColor = CastPrimaryRay(ray, payload.Recursion + 1).Color;
 
-    // Calculate final color
-    payload.Color = baseColor * roughness + reflectedColor * (1.0f - roughness);
+        // Calculate final color
+        payload.Color = baseColor * roughness + reflectedColor * (1.0f - roughness);
+    }
+    else 
+    {
+        payload.Color = baseColor;
+    }
 
     // Apply lighting.
     float3 rayOrigin = WorldRayOrigin() + WorldRayDirection() * RayTCurrent();

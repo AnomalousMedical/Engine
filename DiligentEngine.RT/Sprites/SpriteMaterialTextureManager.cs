@@ -60,11 +60,12 @@ namespace DiligentEngine.RT.Sprites
         AutoPtr<ITexture> physicalTexture;
         AutoPtr<ITexture> aoTexture;
 
-        public SpriteMaterialTextures(AutoPtr<ITexture> normalTexture, AutoPtr<ITexture> physicalTexture, AutoPtr<ITexture> aoTexture)
+        public SpriteMaterialTextures(AutoPtr<ITexture> normalTexture, AutoPtr<ITexture> physicalTexture, AutoPtr<ITexture> aoTexture, bool reflective)
         {
             this.normalTexture = normalTexture;
             this.physicalTexture = physicalTexture;
             this.aoTexture = aoTexture;
+            this.Reflective = reflective;
         }
 
         public void Dispose()
@@ -78,6 +79,7 @@ namespace DiligentEngine.RT.Sprites
         public ITexture NormalTexture => normalTexture?.Obj;
         public ITexture PhysicalTexture => physicalTexture?.Obj;
         public ITexture AoTexture => aoTexture?.Obj;
+        public bool Reflective { get; internal set; }
     }
 
     class SpriteMaterialTextureManager : ISpriteMaterialTextureManager
@@ -110,7 +112,7 @@ namespace DiligentEngine.RT.Sprites
                     sw.Start();
                     var scale = Math.Min(1024 / image.Width, 1024 / image.Height); //This needs to become configurable
 
-                    using var ccoTextures = cc0MaterialTextureBuilder.CreateMaterialSet(image, scale, desc.Materials?.ToDictionary(k => k.Color, e => (e.BasePath, e.Ext)));
+                    using var ccoTextures = cc0MaterialTextureBuilder.CreateMaterialSet(image, scale, desc.Materials?.ToDictionary(k => k.Color, e => new CC0MaterialDesc(e.BasePath, e.Ext, e.Reflective)));
 
                     var normalTexture = ccoTextures.NormalMap != null ?
                         textureLoader.CreateTextureFromImage(ccoTextures.NormalMap, 1, "normalTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, false) : null;
@@ -121,7 +123,7 @@ namespace DiligentEngine.RT.Sprites
                     var aoTexture = ccoTextures.AmbientOcclusionMap != null ?
                         textureLoader.CreateTextureFromImage(ccoTextures.AmbientOcclusionMap, 1, "aoTexture", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, false) : null;
 
-                    var result = new SpriteMaterialTextures(normalTexture, physicalTexture, aoTexture);
+                    var result = new SpriteMaterialTextures(normalTexture, physicalTexture, aoTexture, desc.Materials.Any(i => i.Reflective));
 
                     sw.Stop();
                     logger.LogInformation($"Loaded sprite texture in {sw.ElapsedMilliseconds} ms.");

@@ -20,10 +20,9 @@ namespace SceneTest.Assets.Original
                     materials: new HashSet<SpriteMaterialTextureItem>
                     {
                         new SpriteMaterialTextureItem(0xff865f41, "cc0Textures/Leather001_1K", "jpg"), //Hilt (brown)
-                        new SpriteMaterialTextureItem(0xff949494, "cc0Textures/Metal032_1K", "jpg"), //Blade (grey)
-                        new SpriteMaterialTextureItem(0xff545454, "cc0Textures/Metal032_1K", "jpg"), //Other Metal (grey)
-                    },
-                    reflective: true
+                        new SpriteMaterialTextureItem(0xff949494, "cc0Textures/Metal032_1K", "jpg", reflective: true), //Blade (grey)
+                        new SpriteMaterialTextureItem(0xff545454, "cc0Textures/Metal032_1K", "jpg", reflective: true), //Other Metal (grey)
+                    }
                 );
         }
 

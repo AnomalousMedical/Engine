@@ -43,6 +43,11 @@ namespace DiligentEngine.RT.Resources
         }
     }
 
+    public record CC0MaterialDesc(String BasePath, String Ext, bool Reflective)
+    {
+
+    }
+
     /// <summary>
     /// This class builds a texture out of other cc0 textures.
     /// </summary>
@@ -55,11 +60,11 @@ namespace DiligentEngine.RT.Resources
             this.resourceProvider = resourceProvider;
         }
 
-        public CC0MaterialTextureBuffers CreateMaterialSet(FreeImageBitmap indexImage, int scale, Dictionary<uint, (String basePath, String ext)> materialIds)
+        public CC0MaterialTextureBuffers CreateMaterialSet(FreeImageBitmap indexImage, int scale, Dictionary<uint, CC0MaterialDesc> materialIds)
         {
             if(materialIds == null)
             {
-                materialIds = new Dictionary<uint, (string basePath, string ext)>();
+                materialIds = new Dictionary<uint, CC0MaterialDesc>();
             }
 
             var destSize = new IntSize2(indexImage.Width * scale, indexImage.Height * scale);
@@ -69,10 +74,10 @@ namespace DiligentEngine.RT.Resources
             {
                 foreach (var textureSet in materialIds.Values)
                 {
-                    if (!materialSets.ContainsKey(textureSet.basePath))
+                    if (!materialSets.ContainsKey(textureSet.BasePath))
                     {
-                        var textures = LoadTextureSet(textureSet.basePath, textureSet.ext ?? "jpg");
-                        materialSets.Add(textureSet.basePath, textures);
+                        var textures = LoadTextureSet(textureSet.BasePath, textureSet.Ext ?? "jpg", CC0TextureLoader.GetDefaultPhysicalPixel(textureSet.Reflective));
+                        materialSets.Add(textureSet.BasePath, textures);
                     }
                 }
 
@@ -85,7 +90,7 @@ namespace DiligentEngine.RT.Resources
                         for (var x = 0; x < indexImage.Width; ++x)
                         {
                             if (materialIds.TryGetValue(scanline[x], out var mat)
-                             && materialSets.TryGetValue(mat.basePath, out var matSet))
+                             && materialSets.TryGetValue(mat.BasePath, out var matSet))
                             {
                                 var scaledX = x * scale;
                                 var scaledY = y * scale;
@@ -106,7 +111,7 @@ namespace DiligentEngine.RT.Resources
             return result;
         }
 
-        private CC0MaterialTextureBuffers LoadTextureSet(String basePath, String ext)
+        private CC0MaterialTextureBuffers LoadTextureSet(String basePath, String ext, uint physicalPixelDefault)
         {
             //In this function the auto pointers are handed off to the result, which will be managed by the caller to erase the resources.
             var result = new CC0MaterialTextureBuffers();
@@ -161,7 +166,7 @@ namespace DiligentEngine.RT.Resources
                         }
 
                         var physicalDescriptorBmp = new FreeImageBitmap(width, height, PixelFormat.Format32bppArgb);
-                        FillWithColor(CC0TextureLoader.DefaultPhysical, physicalDescriptorBmp);
+                        FillWithColor(physicalPixelDefault, physicalDescriptorBmp);
                         if (metalnessBmp != null)
                         {
                             physicalDescriptorBmp.SetChannel(metalnessBmp, FREE_IMAGE_COLOR_CHANNEL.FICC_BLUE);
@@ -237,7 +242,8 @@ namespace DiligentEngine.RT.Resources
                 if (dest.PhysicalDescriptorMap == null)
                 {
                     var bmp = new FreeImageBitmap(destSize.Width, destSize.Height, src.PhysicalDescriptorMap.PixelFormat);
-                    FillWithColor(CC0TextureLoader.DefaultPhysical, bmp);
+                    var physicalColor = CC0TextureLoader.GetDefaultPhysicalPixel(false); //This is ok to hardcode, since its just a base color for the whole map
+                    FillWithColor(physicalColor, bmp);
                     dest.SetPhysicalDescriptorMap(bmp);
                 }
 

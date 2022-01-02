@@ -46,7 +46,7 @@ namespace DiligentEngine.RT.Sprites
                     ShaderType = PrimaryHitShaderType.Sprite,
                     HasNormalMap = material.NormalSRV != null,
                     HasPhysicalDescriptorMap = material.PhysicalSRV != null,
-                    Reflective = desc.Reflective
+                    Reflective = material.Reflective
                 });
 
                 var instance = new SpriteInstance(spriteBLAS, shader, primaryHitShaderFactory, material, spriteMaterialManager, activeTextures);

@@ -15,8 +15,18 @@ namespace DiligentEngine.RT.Resources
     /// </summary>
     public class CC0TextureLoader
     {
-        public const int DefaultNormal = 0x00FF7F7F;
-        public const int DefaultPhysical = 0x0000FF00;
+        public const uint DefaultNormal = 0x00FF7F7F;
+        private const uint DefaultPhysicalReflective = 0xFF00FF00; //Reflective loads the alpha channel
+        private const uint DefaultPhysicalNoReflect = 0x0000FF00;
+
+        public static uint GetDefaultPhysicalPixel(bool reflective)
+        {
+            if (reflective)
+            {
+                return DefaultPhysicalReflective;
+            }
+            return DefaultPhysicalNoReflect;
+        }
 
         private readonly TextureLoader textureLoader;
         private readonly IResourceProvider<CC0TextureLoader> resourceProvider;
@@ -29,7 +39,7 @@ namespace DiligentEngine.RT.Resources
             this.graphicsEngine = graphicsEngine;
         }
 
-        public async Task<CC0TextureResult> LoadTextureSet(String basePath, String ext = "jpg", string colorPath = null, string colorExt = null, bool allowOpacityMapLoad = true)
+        public async Task<CC0TextureResult> LoadTextureSet(String basePath, String ext = "jpg", string colorPath = null, string colorExt = null, bool allowOpacityMapLoad = true, bool defaultReflective = false)
         {
             //In this function the auto pointers are handed off to the result, which will be managed by the caller to erase the resources.
             var result = new CC0TextureResult();
@@ -120,7 +130,12 @@ namespace DiligentEngine.RT.Resources
                                 var firstPixel = ((uint*)physicalDescriptorBmp.Scan0.ToPointer()) - ((physicalDescriptorBmp.Height - 1) * physicalDescriptorBmp.Width);
                                 var size = physicalDescriptorBmp.Width * physicalDescriptorBmp.Height;
                                 var span = new Span<UInt32>(firstPixel, size);
-                                span.Fill(DefaultPhysical);
+                                var fillColor = DefaultPhysicalNoReflect;
+                                if (defaultReflective)
+                                {
+                                    fillColor = DefaultPhysicalReflective;
+                                }
+                                span.Fill(fillColor);
                             }
                             if (metalnessBmp != null)
                             {

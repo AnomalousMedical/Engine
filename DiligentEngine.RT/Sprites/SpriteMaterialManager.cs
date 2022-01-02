@@ -15,12 +15,14 @@ namespace DiligentEngine.RT.Sprites
         public uint Color { get; }
         public String BasePath { get; }
         public String Ext { get; }
+        public bool Reflective { get; set; }
 
-        public SpriteMaterialTextureItem(uint color, string basePath, string ext)
+        public SpriteMaterialTextureItem(uint color, string basePath, string ext, bool reflective = false)
         {
             this.Color = color;
             this.BasePath = basePath;
             this.Ext = ext;
+            this.Reflective = reflective;
         }
 
         public override bool Equals(object obj)
@@ -28,27 +30,25 @@ namespace DiligentEngine.RT.Sprites
             return obj is SpriteMaterialTextureItem description &&
                    Color == description.Color &&
                    BasePath == description.BasePath &&
-                   Ext == description.Ext;
+                   Ext == description.Ext &&
+                   Reflective == description.Reflective;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Color, BasePath, Ext);
+            return HashCode.Combine(Color, BasePath, Ext, Reflective);
         }
     }
 
     public class SpriteMaterialDescription
     {
-        public SpriteMaterialDescription(string colorMap, HashSet<SpriteMaterialTextureItem> materials, bool reflective = false)
+        public SpriteMaterialDescription(string colorMap, HashSet<SpriteMaterialTextureItem> materials)
         {
             ColorMap = colorMap;
             Materials = materials;
-            Reflective = reflective;
         }
 
         public String ColorMap { get; }
-
-        public bool Reflective { get; }
 
         public HashSet<SpriteMaterialTextureItem> Materials { get; }
 
@@ -56,18 +56,16 @@ namespace DiligentEngine.RT.Sprites
         {
             return obj is SpriteMaterialDescription description &&
                    ColorMap == description.ColorMap &&
-                   Reflective == description.Reflective &&
-                    (
-                        (Materials == null && description.Materials == null) ||
-                        (Materials?.SetEquals(description.Materials) == true)
-                    );
+                   (
+                       (Materials == null && description.Materials == null) ||
+                       (Materials?.SetEquals(description.Materials) == true)
+                   );
         }
 
         public override int GetHashCode()
         {
             var hashCode = new HashCode();
             hashCode.Add(ColorMap);
-            hashCode.Add(Reflective);
             if (Materials != null && Materials.Count > 0) //Null and empty considered the same
             {
                 foreach (var mat in Materials.OrderBy(i => i.Color))
