@@ -39,12 +39,12 @@ namespace DiligentEngine.RT.Resources
             this.graphicsEngine = graphicsEngine;
         }
 
-        public async Task<CC0TextureResult> LoadTextureSet(String basePath, String ext = "jpg", string colorPath = null, string colorExt = null, bool allowOpacityMapLoad = true, bool defaultReflective = false)
+        public async Task<CC0TextureResult> LoadTextureSet(String basePath, bool reflective, String ext = "jpg", bool allowOpacityMapLoad = true)
         {
             //In this function the auto pointers are handed off to the result, which will be managed by the caller to erase the resources.
             var result = new CC0TextureResult();
 
-            var colorMapPath = $"{colorPath ?? basePath}_Color.{colorExt ?? ext}";
+            var colorMapPath = $"{basePath}_Color.{ext}";
             var normalMapPath = $"{basePath}_Normal.{ext}";
             var roughnessMapPath = $"{basePath}_Roughness.{ext}";
             var metalnessMapPath = $"{basePath}_Metalness.{ext}";
@@ -73,7 +73,7 @@ namespace DiligentEngine.RT.Resources
                             hasOpacity = true;
                         }
                         var baseColorMap = textureLoader.CreateTextureFromImage(bmp, 0, "baseColorMap", RESOURCE_DIMENSION.RESOURCE_DIM_TEX_2D, true);
-                        result.SetBaseColorMap(baseColorMap, hasOpacity);
+                        result.SetBaseColorMap(baseColorMap, hasOpacity, reflective);
                         Barriers.Add(new StateTransitionDesc { pResource = baseColorMap.Obj, OldState = RESOURCE_STATE.RESOURCE_STATE_UNKNOWN, NewState = RESOURCE_STATE.RESOURCE_STATE_SHADER_RESOURCE, UpdateResourceState = true });
                     }
                 }
@@ -131,7 +131,7 @@ namespace DiligentEngine.RT.Resources
                                 var size = physicalDescriptorBmp.Width * physicalDescriptorBmp.Height;
                                 var span = new Span<UInt32>(firstPixel, size);
                                 var fillColor = DefaultPhysicalNoReflect;
-                                if (defaultReflective)
+                                if (reflective)
                                 {
                                     fillColor = DefaultPhysicalReflective;
                                 }

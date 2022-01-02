@@ -16,24 +16,26 @@ namespace DiligentEngine.RT.Resources
         {
         }
 
-        public CCOTextureBindingDescription(string baseName)
+        public CCOTextureBindingDescription(string baseName, bool reflective = false)
         {
             this.BaseName = baseName;
+            Reflective = reflective;
         }
 
         public String BaseName { get; }
 
-        public int NumTextures => 1;
+        public bool Reflective { get; }
 
         public override bool Equals(object obj)
         {
-            return obj is CCOTextureBindingDescription description &&
-                   BaseName == description.BaseName;
+            return obj is CCOTextureBindingDescription description
+                    && BaseName == description.BaseName
+                    && Reflective == description.Reflective;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(BaseName);
+            return HashCode.Combine(BaseName, Reflective);
         }
     }
 
@@ -59,7 +61,7 @@ namespace DiligentEngine.RT.Resources
                 var sw = new Stopwatch();
                 sw.Start();
                 CC0TextureResult result = null;
-                result = await textureLoader.LoadTextureSet(desc.BaseName);
+                result = await textureLoader.LoadTextureSet(desc.BaseName, desc.Reflective);
                 sw.Stop();
                 logger.LogInformation($"Loaded cc0 texture '{desc.BaseName}' in {sw.ElapsedMilliseconds} ms.");
 

@@ -27,19 +27,6 @@ namespace RTSandbox
             public InstanceMatrix Transform = InstanceMatrix.Identity;
 
             public CCOTextureBindingDescription Texture { get; set; } = new CCOTextureBindingDescription("cc0Textures/Ground025_1K");
-
-            public PrimaryHitShader.Desc Shader { get; set; }
-
-            public Desc()
-            {
-                Shader = new PrimaryHitShader.Desc
-                {
-                    ShaderType = PrimaryHitShaderType.Mesh,
-                    HasNormalMap = true,
-                    HasPhysicalDescriptorMap = true,
-                    Reflective = false
-                };
-            }
         }
 
         private readonly TLASBuildInstanceData instanceData;
@@ -81,19 +68,26 @@ namespace RTSandbox
 
             coroutine.RunTask(async () =>
             {
-                var primaryHitShaderTask = primaryHitShaderFactory.Checkout(description.Shader);
-                var cubeTextureTask = textureManager.Checkout(description.Texture);
+                this.cubeTexture = await textureManager.Checkout(description.Texture);
+
+                var shaderDesc = new PrimaryHitShader.Desc
+                {
+                    ShaderType = PrimaryHitShaderType.Mesh,
+                    HasNormalMap = cubeTexture.NormalMapSRV != null,
+                    HasPhysicalDescriptorMap = cubeTexture.PhysicalDescriptorMapSRV != null,
+                    HasEmissiveMap = cubeTexture.EmissiveSRV != null,
+                    Reflective = cubeTexture.Reflective
+                };
+                var primaryHitShaderTask = primaryHitShaderFactory.Checkout(shaderDesc);
 
                 await Task.WhenAll
                 (
                     cubeBLAS.WaitForLoad(),
-                    primaryHitShaderTask,
-                    cubeTextureTask
+                    primaryHitShaderTask
                 );
 
                 this.instanceData.pBLAS = cubeBLAS.Instance.BLAS.Obj;
                 this.primaryHitShader = primaryHitShaderTask.Result;
-                this.cubeTexture = cubeTextureTask.Result;
                 blasInstanceData = this.activeTextures.AddActiveTexture(this.cubeTexture);
                 rtInstances.AddTlasBuild(instanceData);
                 rtInstances.AddShaderTableBinder(Bind);

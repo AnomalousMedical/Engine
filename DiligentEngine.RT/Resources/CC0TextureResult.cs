@@ -22,11 +22,14 @@ namespace DiligentEngine.RT.Resources
 
         public IDeviceObject BaseColorSRV { get; private set; }
 
-        public bool HasOpacity { get ; private set; }
+        public bool HasOpacity { get; private set; }
 
-        internal void SetBaseColorMap(AutoPtr<ITexture> value, bool hasOpacity)
+        public bool Reflective { get; private set; }
+
+        internal void SetBaseColorMap(AutoPtr<ITexture> value, bool hasOpacity, bool reflective)
         {
             this.HasOpacity = hasOpacity;
+            this.Reflective = reflective;
             this.BaseColorSRV = value.Obj.GetDefaultView(TEXTURE_VIEW_TYPE.TEXTURE_VIEW_SHADER_RESOURCE);
             this.texturePointers.Add(value);
         }
