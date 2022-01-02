@@ -46,7 +46,7 @@ namespace SceneTest
                 var arch = Archetype.CreateHero();
                 party.AddCharacter(new Character()
                 {
-                    PlayerSprite = new Assets.Original.PlayerSprite(),
+                    PlayerSprite = new Assets.Original.FighterPlayerSprite(),
                     CharacterSheet = new CharacterSheet()
                     {
                         Name = "Bob",
@@ -67,7 +67,7 @@ namespace SceneTest
                 var arch = Archetype.CreateSage();
                 party.AddCharacter(new Character()
                 {
-                    PlayerSprite = new Assets.Original.PlayerSprite(),
+                    PlayerSprite = new Assets.Original.MagePlayerSprite(),
                     CharacterSheet = new CharacterSheet()
                     {
                         Name = "Magic Joe",
@@ -88,7 +88,7 @@ namespace SceneTest
                 var arch = Archetype.CreateTank();
                 party.AddCharacter(new Character()
                 {
-                    PlayerSprite = new Assets.Original.PlayerSprite(),
+                    PlayerSprite = new Assets.Original.MagePlayerSprite(),
                     CharacterSheet = new CharacterSheet()
                     {
                         Name = "Stabby McStabface",
@@ -109,7 +109,7 @@ namespace SceneTest
                 var arch = Archetype.CreateGuardian();
                 party.AddCharacter(new Character()
                 {
-                    PlayerSprite = new Assets.Original.PlayerSprite(),
+                    PlayerSprite = new Assets.Original.FighterPlayerSprite(),
                     CharacterSheet = new CharacterSheet()
                     {
                         Name = "Archibald",

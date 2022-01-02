@@ -8,28 +8,33 @@ using System.Threading.Tasks;
 
 namespace SceneTest.Assets.Original
 {
-    public class PlayerSprite : IPlayerSprite
+    public abstract class PlayerSprite : IPlayerSprite
     {
         const float SpriteStepX = 32f / 128f;
         const float SpriteStepY = 32f / 64f;
 
         const int spriteWalkFrameSpeed = (int)(0.2f * Clock.SecondsToMicro);
 
-        public SpriteMaterialDescription SpriteMaterialDescription => spriteMaterialDescription;
-
-        private SpriteMaterialDescription spriteMaterialDescription = new SpriteMaterialDescription
-        (
-            colorMap: "original/amg1_full4.png",
-            materials: new HashSet<SpriteMaterialTextureItem>
-            {
-                new SpriteMaterialTextureItem(0xffa854ff, "cc0Textures/Fabric012_1K", "jpg"),
-                new SpriteMaterialTextureItem(0xff909090, "cc0Textures/Fabric020_1K", "jpg"),
-                new SpriteMaterialTextureItem(0xff8c4800, "cc0Textures/Leather026_1K", "jpg"),
-                new SpriteMaterialTextureItem(0xffffe254, "cc0Textures/Metal038_1K", "jpg"),
-            }
-        );
+        public SpriteMaterialDescription SpriteMaterialDescription { get; protected set; }
 
         public Dictionary<String, SpriteAnimation> Animations => animations;
+
+        /*********************************************
+         * 
+         * To make a sprite for this animation add the textures in the following order to the image atlas packer
+         * 
+         * Back right dominant
+         * Back left dominant
+         * Front left dominant
+         * Front right dominant
+         * Side wide
+         * Side narrow
+         * Front stand
+         * Back stand
+         * 
+         * 128 x 64
+         * 
+         ********************************************/
 
         private Dictionary<string, SpriteAnimation> animations = new Dictionary<string, SpriteAnimation>()
         {
