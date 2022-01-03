@@ -96,6 +96,11 @@ namespace DiligentEngine.RT.Resources
         /// <param name="texture"></param>
         public void RemoveActiveTexture(CC0TextureResult texture)
         {
+            if(texture == null)
+            {
+                return; //Do nothing if we get null
+            }
+
             if(cc0Textures.TryGetValue(texture, out var binding))
             {
                 binding.count--;
@@ -170,6 +175,11 @@ namespace DiligentEngine.RT.Resources
         /// <param name="texture"></param>
         public void RemoveActiveTexture(SpriteMaterial texture)
         {
+            if (texture == null)
+            {
+                return; //Do nothing if we get null
+            }
+
             if (spriteTextures.TryGetValue(texture, out var binding))
             {
                 binding.count--;
