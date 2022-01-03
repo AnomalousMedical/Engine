@@ -77,10 +77,7 @@ namespace SceneTest
                 },
                 BadassEnemy = new BiomeEnemy()
                 {
-                    Asset = new Assets.Original.TinyDino()
-                    {
-                        SkinMaterial = "cc0Textures/Leather011_1K"
-                    },
+                    Asset = new Assets.Original.TinyDino(),
                     EnemyCurve = new StandardEnemyCurve()
                 },
                 PeonEnemy = new BiomeEnemy()
@@ -118,10 +115,7 @@ namespace SceneTest
                 },
                 BadassEnemy = new BiomeEnemy()
                 {
-                    Asset = new Assets.Original.TinyDino()
-                    {
-                        SkinMaterial = "cc0Textures/Leather011_1K"
-                    },
+                    Asset = new Assets.Original.TinyDino(),
                     EnemyCurve = new StandardEnemyCurve()
                 },
                 PeonEnemy = new BiomeEnemy()
