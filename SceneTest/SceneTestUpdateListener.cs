@@ -5,6 +5,7 @@ using Engine;
 using Engine.CameraMovement;
 using Engine.Platform;
 using SceneTest.Exploration.Menu;
+using SceneTest.Services;
 using SharpGui;
 using System;
 using System.Collections.Generic;
@@ -39,7 +40,8 @@ namespace SceneTest
             Sky sky,
             IFirstGameStateBuilder startState,
             FirstPersonFlyCamera flyCamera,
-            RTGui rtGui
+            RTGui rtGui,
+            ShaderPreloader shaderPreloader
         )
         {
             flyCamera.Position = new Vector3(0, 0, -10);

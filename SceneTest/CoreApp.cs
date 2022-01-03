@@ -9,6 +9,7 @@ using RpgMath;
 using SceneTest.Battle;
 using SceneTest.Exploration.Menu;
 using SceneTest.GameOver;
+using SceneTest.Services;
 using System;
 using System.Globalization;
 using System.IO;
@@ -78,6 +79,7 @@ namespace SceneTest
             services.AddScoped<BattlePlayer.Description>();
             services.AddScoped<Enemy>();
             services.AddScoped<Enemy.Desc>();
+            services.AddSingleton<ShaderPreloader>();
             services.AddSingleton<RTInstances<ILevelManager>>();
             services.AddSingleton<RTInstances<IBattleManager>>();
             services.AddScoped<Attachment<ILevelManager>>();
