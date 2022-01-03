@@ -1,10 +1,7 @@
 # TODO
 
-## Make Emissive colors work
-The emissive lighting is not applied to the object that actually does the lighting. Sample the emissive shader and add it.
-
-## Make a reflectiveness map
-Make a reflectiveness map that can work like metalness (on or off), but change whether or not this part of the object casts reflection rays
+## Finish emissive lighting
+The emissive lighting is not very good. It still needs to light up nearby objects more accurately and have a limit in length for this.
 
 ## Add occlusion map
 Add the occlusion maps to at least see what they look like.
@@ -70,9 +67,6 @@ Random seen 40 or 19 has a hole in the geometry. The collision seems ok though.
 ## Don't forget mipmaps
 Have mipmaps, but need to renormalize normals when creating normal mipmaps.
 
-## Refactor Sprites to have better vertex shader
-Right now the sprite info is hacked into the bone matrix. Refactor the shader to have better input for sprites and take out what it doesnt need like the bones
-
 ## Add wrapping support for material textures
 Right now the material textures only work if the dest size is smaller than the source size
 make it so the source can be wrapped to get pixels that would lay outside it, the groundwork is there
@@ -82,10 +76,6 @@ This will do a copy on the native side into a pass struct then into a class on t
 Seems like you could pass a pass struct as ref then fill it out and have it "returned" that way. Not sure about putting that into a class. That still
 seems smart to avoid passing around huge c# structs, even with some overhead. Depends on if its per frame or not (and you could pass the struct in as ref
 if you had a big one per frame).
-
-## Computing vertex position a 2nd time in RenderGLTF_PBR.vsh
-To fix shadows the locPos had to be calculated again. This makes them work, but its a duplicate of what is already done in the vertex shader transform func, we just
-can't get that value.
 
 ## Figure out SRGB
 Figure out how to deal with srgb. The colors for the UI have been shifted with a ToSrgb function on Color. This can be found easily enough.
