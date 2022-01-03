@@ -42,7 +42,7 @@ namespace Engine.Resources
         public Stream openFile(string filename)
         {
             var file = baseResourceString + convertToNamespacePath(filename);
-            return assembly.GetManifestResourceStream(file);
+            return assembly.GetManifestResourceStream(file) ?? throw new FileNotFoundException($"Cannot find embedded resource '{file}' original name '{filename}'");
         }
 
         public Stream openWriteStream(String filename)
