@@ -11,7 +11,7 @@ namespace SceneTest.Assets.Original
     class TinyDino : ISpriteAsset
     {
         public string SkinMaterial { get; set; } = "cc0Textures/Leather008_1K";
-        public string SpineMaterial { get; set; } = "cc0Textures/SheetMetal004_1K";
+        public string SpineMaterial { get; set; } = "cc0Textures/Leather008_1K";
 
         public SpriteMaterialDescription CreateMaterial()
         {

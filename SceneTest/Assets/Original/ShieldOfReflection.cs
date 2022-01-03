@@ -15,7 +15,7 @@ namespace SceneTest.Assets.Original
                     //colorMap: "opengameart/Dungeon Crawl Stone Soup Full/misc/cursor_red.png",
                     materials: new HashSet<SpriteMaterialTextureItem>
                     {
-                        new SpriteMaterialTextureItem(0xffa0a0a0, "cc0Textures/Pipe002_1K", "jpg", reflective: true), //Blade (grey)
+                        new SpriteMaterialTextureItem(0xffa0a0a0, "cc0Textures/Metal032_1K", "jpg", reflective: true), //Blade (grey)
                     }
                 );
         }

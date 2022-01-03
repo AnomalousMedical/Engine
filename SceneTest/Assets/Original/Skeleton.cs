@@ -17,7 +17,7 @@ namespace SceneTest.Assets.Original
                 colorMap: "original/skeletal_warrior_new.png",
                 materials: new HashSet<SpriteMaterialTextureItem>
                 {
-                    new SpriteMaterialTextureItem(0xffd0873a, "cc0Textures/Metal040_1K", "jpg"),//Armor Highlight (copper)
+                    new SpriteMaterialTextureItem(0xffd0873a, "cc0Textures/Metal032_1K", "jpg"),//Armor Highlight (copper)
                     new SpriteMaterialTextureItem(0xff453c31, "cc0Textures/Leather001_1K", "jpg"),//Armor (brown)
                     new SpriteMaterialTextureItem(0xffefefef, "cc0Textures/Rock022_1K", "jpg"),//Bone (almost white)
                 }

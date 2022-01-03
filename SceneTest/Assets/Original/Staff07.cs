@@ -19,8 +19,8 @@ namespace SceneTest.Assets.Original
                     colorMap: "original/staff_7.png",
                     materials: new HashSet<SpriteMaterialTextureItem>
                     {
-                        new SpriteMaterialTextureItem(0xff9f7f66, "cc0Textures/AcousticFoam003_1K", "jpg"),
-                        new SpriteMaterialTextureItem(0xff6a5db6, "cc0Textures/MetalPlates008_1K", "jpg"),
+                        new SpriteMaterialTextureItem(0xff9f7f66, "cc0Textures/Leather001_1K", "jpg"),
+                        new SpriteMaterialTextureItem(0xff6a5db6, "cc0Textures/Metal032_1K", "jpg"),
                     }
                 );
         }
