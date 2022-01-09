@@ -45,9 +45,6 @@ The comment string below are some more notes about the problem, but this is the 
 //In BottomLevelASBase.cpp line 139 in CopyBLASGeometryDesc. You can see the string being added to the hash map is the
 //one we are passing from c++. A Copy is made, so can we use that copy in the struct instead.
 
-## Make border rooms transition
-If a room is on a border it will get a barrier and prevent going to the next room. Either ensure there is always a 1x1 grid around the outside (best) or put the corridor id in place of a room tile
-
 ## Add north - south transitions
 Make it so levels can go north and south too
 
