@@ -345,12 +345,12 @@ namespace RogueLikeMapBuilder
 
             if (lPotentialCorridor.Count > 0)
             {
-                NorthConnectorIndex = currentCorridorCell;
                 corridorTerminatingRooms[currentCorridorCell] = map[x, y];
                 Corridor_Build(true);
             }
 
             NorthConnector = new Point(x, yStart);
+            NorthConnectorIndex = map[x, yStart];
         }
 
         public void AddSouthConnector()
@@ -388,12 +388,12 @@ namespace RogueLikeMapBuilder
 
             if (lPotentialCorridor.Count > 0)
             {
-                SouthConnectorIndex = currentCorridorCell;
                 corridorTerminatingRooms[currentCorridorCell] = map[x, y];
                 Corridor_Build(true);
             }
 
             SouthConnector = new Point(x, 0);
+            SouthConnectorIndex = map[x, 0];
         }
 
         public void AddWestConnector()
@@ -431,12 +431,12 @@ namespace RogueLikeMapBuilder
 
             if (lPotentialCorridor.Count > 0)
             {
-                WestConnectorIndex = currentCorridorCell;
                 corridorTerminatingRooms[currentCorridorCell] = map[x, y];
                 Corridor_Build(true);
             }
 
             WestConnector = new Point(0, y);
+            WestConnectorIndex = map[0, y];
         }
 
         public void AddEastConnector()
@@ -475,12 +475,12 @@ namespace RogueLikeMapBuilder
 
             if (lPotentialCorridor.Count > 0)
             {
-                EastConnectorIndex = currentCorridorCell;
                 corridorTerminatingRooms[currentCorridorCell] = map[x, y];
                 Corridor_Build(true);
             }
 
             EastConnector = new Point(startX, y);
+            EastConnectorIndex = map[startX, y];
         }
 
         /// <summary>

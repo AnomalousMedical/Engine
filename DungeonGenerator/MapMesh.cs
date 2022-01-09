@@ -760,7 +760,8 @@ namespace DungeonGenerator
                 test = mapX - 1;
                 if (test < 0 || map[test, mapY] == csMapbuilder.EmptyCell)
                 {
-                    if (map[mapX, mapY] == mapbuilder.WestConnectorIndex)
+                    if (map[mapX, mapY] == mapbuilder.WestConnectorIndex
+                        && mapbuilder.WestConnector.Value.x == mapX && mapbuilder.WestConnector.Value.y == mapY)
                     {
                         var unitXOffset = left - halfUnitX;
                         floorCubeCenterPoints.Add(new MapMeshPosition(new Vector3(unitXOffset, floorY - halfUnitY, far - halfUnitZ), floorCubeRot));
@@ -777,7 +778,8 @@ namespace DungeonGenerator
                 test = mapX + 1;
                 if (test >= mapWidth || map[test, mapY] == csMapbuilder.EmptyCell)
                 {
-                    if (map[mapX, mapY] == mapbuilder.EastConnectorIndex)
+                    if (map[mapX, mapY] == mapbuilder.EastConnectorIndex
+                        && mapbuilder.EastConnector.Value.x == mapX && mapbuilder.EastConnector.Value.y == mapY)
                     {
                         var unitXOffset = left + 3 * halfUnitX;
                         floorCubeCenterPoints.Add(new MapMeshPosition(new Vector3(unitXOffset, floorY - halfUnitY, far - halfUnitZ), floorCubeRot));
