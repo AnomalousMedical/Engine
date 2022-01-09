@@ -12,9 +12,9 @@ namespace SceneTest
     class Sky
     {
         const long OneHour = 60L * 60L * Clock.SecondsToMicro;
-        readonly Color[] DaySky = new Color[6] { Color.FromARGB(0xff2a63cc), Color.FromARGB(0xff2a63cc), Color.FromARGB(0xff2a63cc), Color.FromARGB(0xff2a63cc), Color.FromARGB(0xff2a63cc), Color.FromARGB(0xff2a63cc) };// Color.FromARGB(0xff2a63cc);
+        readonly Color[] DaySky = new Color[6] { Color.FromARGB(0xff2a63cc), Color.FromARGB(0xff2a63cc), Color.FromARGB(0xff2a63cc), Color.FromARGB(0xff2a63cc), Color.FromARGB(0xff2a63cc), Color.FromARGB(0xff2a63cc) };
         readonly Color[] NightSky = new Color[6] { Color.FromARGB(0xff030303), Color.FromARGB(0xff030303), Color.FromARGB(0xff030303), Color.FromARGB(0xff030303), Color.FromARGB(0xff030303), Color.FromARGB(0xff030303) };
-        readonly Color[] DawnSky = new Color[6] { Color.FromARGB(0xff242148), Color.FromARGB(0xff242148), Color.FromARGB(0xff242148), Color.FromARGB(0xff242148), Color.FromARGB(0xff242148), Color.FromARGB(0xff242148) };
+        readonly Color[] DawnSky = new Color[6] { Color.FromARGB(0xff1f2b5f), Color.FromARGB(0xff7a5c9c), Color.FromARGB(0xff7a5c9c), Color.FromARGB(0xff7a5c9c), Color.FromARGB(0xff7a5c9c), Color.FromARGB(0xff7a5c9c) };
         readonly Color[] DuskSky = new Color[6] { Color.FromARGB(0xff811d5e), Color.FromARGB(0xff983275), Color.FromARGB(0xfffd2f24), Color.FromARGB(0xffff6f01), Color.FromARGB(0xfffed800), Color.FromARGB(0xfffed800) };
         private readonly ITimeClock timeClock;
         private readonly RTCameraAndLight cameraAndLight;
