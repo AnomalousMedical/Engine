@@ -12,15 +12,15 @@ namespace SceneTest
     class Sky
     {
         const long OneHour = 60L * 60L * Clock.SecondsToMicro;
-        readonly Color DaySky = Color.FromARGB(0xff2a63cc);
-        readonly Color NightSky = Color.FromARGB(0xff030303);
-        readonly Color DawnSky = Color.FromARGB(0xff242148);
-        readonly Color DuskSky = Color.FromARGB(0xff242148);
+        readonly Color[] DaySky = new Color[6] { Color.FromARGB(0xff2a63cc), Color.FromARGB(0xff2a63cc), Color.FromARGB(0xff2a63cc), Color.FromARGB(0xff2a63cc), Color.FromARGB(0xff2a63cc), Color.FromARGB(0xff2a63cc) };// Color.FromARGB(0xff2a63cc);
+        readonly Color[] NightSky = new Color[6] { Color.FromARGB(0xff030303), Color.FromARGB(0xff030303), Color.FromARGB(0xff030303), Color.FromARGB(0xff030303), Color.FromARGB(0xff030303), Color.FromARGB(0xff030303) };
+        readonly Color[] DawnSky = new Color[6] { Color.FromARGB(0xff242148), Color.FromARGB(0xff242148), Color.FromARGB(0xff242148), Color.FromARGB(0xff242148), Color.FromARGB(0xff242148), Color.FromARGB(0xff242148) };
+        readonly Color[] DuskSky = new Color[6] { Color.FromARGB(0xff811d5e), Color.FromARGB(0xff983275), Color.FromARGB(0xfffd2f24), Color.FromARGB(0xffff6f01), Color.FromARGB(0xfffed800), Color.FromARGB(0xfffed800) };
         private readonly ITimeClock timeClock;
         private readonly RTCameraAndLight cameraAndLight;
 
         //Clear Color
-        Color clearColor = Color.FromARGB(0xff2a63cc);
+        //private Color[] skyPallet = new Color[6];
 
         //Light
         private Vector3 sunPosition;
@@ -53,18 +53,20 @@ namespace SceneTest
                 lightIntensity = 5f * noonFactor + 2.0f;
 
                 averageLogLum = 0.3f;
-                clearColor = DaySky;
 
                 if (timeClock.CurrentTimeMicro < timeClock.DayStart + OneHour)
                 {
                     float timeFactor = (timeClock.CurrentTimeMicro - timeClock.DayStart) / (float)OneHour;
-                    clearColor = Color.FadeColors(timeFactor, DawnSky, DaySky);
+                    BlendSetPallet(timeFactor, DawnSky, DaySky, cameraAndLight.MissPallete);
                 }
-
-                if (timeClock.CurrentTimeMicro > timeClock.DayEnd - OneHour)
+                else if (timeClock.CurrentTimeMicro > timeClock.DayEnd - OneHour)
                 {
                     float timeFactor = (timeClock.CurrentTimeMicro - (timeClock.DayEnd - OneHour)) / (float)OneHour;
-                    clearColor = Color.FadeColors(timeFactor, DaySky, DuskSky);
+                    BlendSetPallet(timeFactor, DaySky, DuskSky, cameraAndLight.MissPallete);
+                }
+                else
+                {
+                    SetPallet(DaySky, cameraAndLight.MissPallete);
                 }
             }
             else
@@ -75,27 +77,42 @@ namespace SceneTest
                 lightIntensity = 0.7f * midnightFactor + 2.0f;
 
                 averageLogLum = 0.8f;
-                clearColor = NightSky;
 
                 if (timeClock.CurrentTimeMicro > timeClock.DayStart - OneHour && timeClock.CurrentTimeMicro <= timeClock.DayStart)
                 {
                     float timeFactor = (timeClock.CurrentTimeMicro - (timeClock.DayStart - OneHour)) / (float)OneHour;
-                    clearColor = Color.FadeColors(timeFactor, NightSky, DawnSky);
+                    BlendSetPallet(timeFactor, NightSky, DawnSky, cameraAndLight.MissPallete);
                 }
-
-                if (timeClock.CurrentTimeMicro >= timeClock.DayEnd && timeClock.CurrentTimeMicro < timeClock.DayEnd + OneHour)
+                else if (timeClock.CurrentTimeMicro >= timeClock.DayEnd && timeClock.CurrentTimeMicro < timeClock.DayEnd + OneHour)
                 {
                     float timeFactor = (timeClock.CurrentTimeMicro - timeClock.DayEnd) / (float)OneHour;
-                    clearColor = Color.FadeColors(timeFactor, DuskSky, NightSky);
+                    BlendSetPallet(timeFactor, DuskSky, NightSky, cameraAndLight.MissPallete);
+                }
+                else
+                {
+                    SetPallet(NightSky, cameraAndLight.MissPallete);
                 }
             }
 
             cameraAndLight.Light1Pos = new Vector4(sunPosition.x, sunPosition.y, sunPosition.z, 0);
             cameraAndLight.Light2Pos = new Vector4(moonPosition.x, moonPosition.y, moonPosition.z, 0);
+        }
 
-            for(var i = 0; i < cameraAndLight.MissPallete.Length; ++i)
+        private void SetPallet(Color[] src, Color[] dest)
+        {
+            var length = src.Length;
+            for (var i = 0; i < length; ++i)
             {
-                cameraAndLight.MissPallete[i] = clearColor;
+                dest[i] = src[i];
+            }
+        }
+
+        private void BlendSetPallet(float factor, Color[] color1, Color[] color2, Color[] dest)
+        {
+            var length = color1.Length;
+            for(var i = 0; i < length; ++i)
+            {
+                dest[i] = Color.FadeColors(factor, color1[i], color2[i]);
             }
         }
     }
