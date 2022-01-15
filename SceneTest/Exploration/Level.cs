@@ -260,22 +260,22 @@ namespace SceneTest
                     var endConnector = mapBuilder.EastConnector.Value;
                     endPointLocal = mapMesh.PointToVector(endConnector.x, endConnector.y);
 
+                    //Ensure we can't have more fights than corridors
+                    if (maxFights > mapMesh.MapBuilder.Corridors.Count)
+                    {
+                        maxFights = mapMesh.MapBuilder.Corridors.Count;
+                        minFights = maxFights - 5;
+                        if (minFights < 0)
+                        {
+                            minFights = 0;
+                        }
+                    }
+
                     sw.Stop();
                     logger.LogInformation($"Generated level {description.RandomSeed} in {sw.ElapsedMilliseconds} ms.");
                 });
 
                 await levelGenerationTask; //Need the level before kicking off the calls to End() below.
-
-                //Ensure we can't have more fights than corridors
-                if(maxFights > mapMesh.MapBuilder.Corridors.Count)
-                {
-                    maxFights = mapMesh.MapBuilder.Corridors.Count;
-                    minFights = maxFights - 5;
-                    if(minFights < 0)
-                    {
-                        minFights = 0;
-                    }
-                }
 
                 await Task.WhenAll
                 (
@@ -454,7 +454,7 @@ namespace SceneTest
                     {
                         //If we generate too many bad random numbers, just get the first index we can from the list
                         for (corridorIndex = 0; corridorIndex < corridorMax && usedCorridors.Contains(corridorIndex); ++corridorIndex) { }
-                        if (usedCorridors.Contains(corridorIndex))
+                        if (corridorIndex >= corridorMax)
                         {
                             throw new InvalidOperationException("This should not happen, but ran out of corridors trying to place enemies. This is guarded in the constructor.");
                         }
