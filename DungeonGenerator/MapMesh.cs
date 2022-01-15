@@ -11,6 +11,9 @@ namespace DungeonGenerator
 {
     public class MapMesh
     {
+        private readonly csMapbuilder mapbuilder;
+        public csMapbuilder MapBuilder => mapbuilder;
+
         private MeshBLAS floorMesh;
         private MeshBLAS wallMesh;
         private List<MapMeshPosition> floorCubeCenterPoints;
@@ -183,7 +186,7 @@ namespace DungeonGenerator
             var squareCenterMapHeight = mapHeight + 2;
             squareInfo = new MapMeshSquareInfo[squareCenterMapWidth, squareCenterMapHeight];
             MapMeshTempSquareInfo[,] tempSquareInfo = new MapMeshTempSquareInfo[squareCenterMapWidth, squareCenterMapHeight];
-
+            this.mapbuilder = mapbuilder;
             this.floorMesh = floorMesh;
             this.wallMesh = wallMesh;
 

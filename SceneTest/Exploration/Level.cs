@@ -83,7 +83,6 @@ namespace SceneTest
             /// </summary>
             public int CorridorSpace { get; set; } = 10;
 
-
             /// <summary>
             /// Probability of building a corridor from a room or corridor. Greater than value = room
             /// </summary>
@@ -98,6 +97,10 @@ namespace SceneTest
             /// True if this level has a go previous level connector. Default: true
             /// </summary>
             public bool GoPrevious { get; set; } = true;
+
+            public int MinFights { get; set; } = 5;
+
+            public int MaxFigths { get; set; } = 15;
         }
 
         private readonly RTInstances<ILevelManager> rtInstances;
@@ -123,10 +126,14 @@ namespace SceneTest
         private IObjectResolver objectResolver;
         private LevelConnector nextLevelConnector;
         private LevelConnector previousLevelConnector;
+        private List<BattleTrigger> battleTriggers = new List<BattleTrigger>();
         private IBiome biome;
         private bool goPrevious;
         private BlasInstanceData floorBlasInstanceData;
         private BlasInstanceData wallBlasInstanceData;
+        private int seed;
+        private int minFights;
+        private int maxFights;
 
         private Task levelGenerationTask;
         private Vector3 mapUnits;
@@ -159,6 +166,9 @@ namespace SceneTest
             RayTracingRenderer renderer
         )
         {
+            this.seed = description.RandomSeed;
+            this.minFights = description.MinFights;
+            this.maxFights = description.MaxFigths;
             this.mapUnits = new Vector3(description.MapUnitX, description.MapUnitY, description.MapUnitZ);
             this.objectResolver = objectResolverFactory.Create();
             this.destructionRequest = destructionRequest;
@@ -345,6 +355,10 @@ namespace SceneTest
             this.floorInstanceData.Transform = new InstanceMatrix(position, Quaternion.Identity);
             this.previousLevelConnector?.SetPosition(StartPoint + new Vector3(-(mapUnits.x / 2f + 0.5f), 0f, 0f));
             this.nextLevelConnector?.SetPosition(EndPoint + new Vector3((mapUnits.x / 2f + 0.5f), 0f, 0f));
+            foreach(var trigger in battleTriggers)
+            {
+                trigger.SetLevelPosition(position);
+            }
         }
 
         public IBiome Biome => biome;
@@ -413,6 +427,26 @@ namespace SceneTest
                 o.Translation = EndPoint + new Vector3(mapUnits.x * 2f, 0f, 0f);
                 o.GoPrevious = false;
             });
+
+            //Setup enemies
+            var enemyRandom = new Random(seed);
+            var numFights = enemyRandom.Next(minFights, maxFights);
+            var corridorMax = mapMesh.MapBuilder.Corridors.Count;
+            for (var i = 0; i < numFights; ++i)
+            {
+                var corridorIndex = enemyRandom.Next(corridorMax);
+                var point = mapMesh.MapBuilder.Corridors[corridorIndex];
+
+                var battleTrigger = objectResolver.Resolve<BattleTrigger, BattleTrigger.Description>(o =>
+                {
+                    o.MapOffset = mapMesh.PointToVector(point.x, point.y);
+                    o.Translation = currentPosition + o.MapOffset;
+                    var enemy = biome.GetEnemy(RpgMath.EnemyType.Normal);
+                    o.Sprite = enemy.Asset.CreateSprite();
+                    o.SpriteMaterial = enemy.Asset.CreateMaterial();
+                });
+                battleTriggers.Add(battleTrigger);
+            }
         }
 
         /// <summary>
@@ -426,6 +460,12 @@ namespace SceneTest
                 return;
             }
             physicsActive = false;
+
+            foreach(var battleTrigger in battleTriggers)
+            {
+                battleTrigger.RequestDestruction();
+            }
+            battleTriggers.Clear();
 
             this.previousLevelConnector?.RequestDestruction();
             this.nextLevelConnector?.RequestDestruction();

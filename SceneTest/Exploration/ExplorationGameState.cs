@@ -15,7 +15,6 @@ namespace SceneTest
     {
         private readonly ICoroutineRunner coroutineRunner;
         private readonly IBepuScene bepuScene;
-        private readonly IBattleTrigger battleTrigger;
         private readonly ILevelManager levelManager;
         private readonly RTInstances<ILevelManager> rtInstances;
         private readonly IExplorationMenu explorationMenu;
@@ -27,14 +26,12 @@ namespace SceneTest
         public ExplorationGameState(
             ICoroutineRunner coroutineRunner,
             IBepuScene bepuScene,
-            IBattleTrigger battleTrigger,
             ILevelManager levelManager,
             RTInstances<ILevelManager> rtInstances,
             IExplorationMenu explorationMenu)
         {
             this.coroutineRunner = coroutineRunner;
             this.bepuScene = bepuScene;
-            this.battleTrigger = battleTrigger;
             this.levelManager = levelManager;
             this.rtInstances = rtInstances;
             this.explorationMenu = explorationMenu;
@@ -68,14 +65,7 @@ namespace SceneTest
             }
             else
             {
-                if (battleTrigger.UpdateRandomEncounter(clock, levelManager.IsPlayerMoving))
-                {
-                    nextState = battleState;
-                }
-                else
-                {
-                    bepuScene.Update(clock, new System.Numerics.Vector3(0, 0, 1));
-                }
+                bepuScene.Update(clock, new System.Numerics.Vector3(0, 0, 1));
             }
 
             return nextState;

@@ -91,6 +91,8 @@ namespace SceneTest
             services.AddScoped<Level.Description>();
             services.AddScoped<LevelConnector>();
             services.AddScoped<LevelConnector.Description>();
+            services.AddScoped<BattleTrigger>();
+            services.AddScoped<BattleTrigger.Description>();
             services.AddScoped<Sky>();
             services.AddScoped<RTGui>();
             services.AddScoped<TargetCursor>();
@@ -110,7 +112,6 @@ namespace SceneTest
             services.AddSingleton<IBackgroundMusicManager, BackgroundMusicManager>();
             services.AddSingleton<ICameraProjector, CameraProjector>();
             services.AddSingleton<IBattleScreenLayout, BattleScreenLayout>();
-            services.AddSingleton<IBattleTrigger, BattleTrigger>();
             services.AddSingleton<IFirstGameStateBuilder, FirstGameStateBuilder>();
             services.AddSingleton<IExplorationGameState, ExplorationGameState>();
             services.AddSingleton<Party>();
