@@ -266,6 +266,17 @@ namespace SceneTest
 
                 await levelGenerationTask; //Need the level before kicking off the calls to End() below.
 
+                //Ensure we can't have more fights than corridors
+                if(maxFights > mapMesh.MapBuilder.Corridors.Count)
+                {
+                    maxFights = mapMesh.MapBuilder.Corridors.Count;
+                    minFights = maxFights - 5;
+                    if(minFights < 0)
+                    {
+                        minFights = 0;
+                    }
+                }
+
                 await Task.WhenAll
                 (
                     floorMesh.End("LevelFloor"),
@@ -432,9 +443,28 @@ namespace SceneTest
             var enemyRandom = new Random(seed);
             var numFights = enemyRandom.Next(minFights, maxFights);
             var corridorMax = mapMesh.MapBuilder.Corridors.Count;
+            var usedCorridors = new HashSet<int>();
             for (var i = 0; i < numFights; ++i)
             {
+                var corridorTry = 0;
                 var corridorIndex = enemyRandom.Next(corridorMax);
+                while (usedCorridors.Contains(corridorIndex))
+                {
+                    if(++corridorTry > 50)
+                    {
+                        //If we generate too many bad random numbers, just get the first index we can from the list
+                        for (corridorIndex = 0; corridorIndex < corridorMax && usedCorridors.Contains(corridorIndex); ++corridorIndex) { }
+                        if (usedCorridors.Contains(corridorIndex))
+                        {
+                            throw new InvalidOperationException("This should not happen, but ran out of corridors trying to place enemies. This is guarded in the constructor.");
+                        }
+                    }
+                    else
+                    {
+                        corridorIndex = enemyRandom.Next(corridorMax);
+                    }
+                }
+                usedCorridors.Add(corridorIndex);
                 var point = mapMesh.MapBuilder.Corridors[corridorIndex];
 
                 var battleTrigger = objectResolver.Resolve<BattleTrigger, BattleTrigger.Description>(o =>
