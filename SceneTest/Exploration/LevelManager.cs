@@ -84,11 +84,11 @@ namespace SceneTest
             }
 
             currentLevelIndex = 0;
-            currentLevel = CreateLevel(createdLevelSeeds[currentLevelIndex], new Vector3(0, 0, 0), false);
-            nextLevel = CreateLevel(createdLevelSeeds[currentLevelIndex + 1], new Vector3(150, 0, 0), true);
+            currentLevel = CreateLevel(createdLevelSeeds[currentLevelIndex], new Vector3(0, 0, 0), false, currentLevelIndex);
+            nextLevel = CreateLevel(createdLevelSeeds[currentLevelIndex + 1], new Vector3(150, 0, 0), true, currentLevelIndex + 1);
             if(currentLevelIndex - 1 >= 0)
             {
-                previousLevel = CreateLevel(createdLevelSeeds[currentLevelIndex - 1], new Vector3(-150, 0, 0), true);
+                previousLevel = CreateLevel(createdLevelSeeds[currentLevelIndex - 1], new Vector3(-150, 0, 0), true, currentLevelIndex - 1);
             }
 
             await currentLevel.WaitForLevelGeneration();
@@ -175,7 +175,7 @@ namespace SceneTest
             var levelSeed = createdLevelSeeds[nextLevelIndex];
 
             //Create new level
-            nextLevel = CreateLevel(levelSeed, new Vector3(150, 0, 0), true);
+            nextLevel = CreateLevel(levelSeed, new Vector3(150, 0, 0), true, nextLevelIndex);
 
             //Physics changeover
             previousLevel.DestroyPhysics();
@@ -230,7 +230,7 @@ namespace SceneTest
             {
                 var previousLevelIndex = currentLevelIndex - 1;
                 var levelSeed = createdLevelSeeds[previousLevelIndex];
-                previousLevel = CreateLevel(levelSeed, new Vector3(-150, 0, 0), previousLevelIndex > 0);
+                previousLevel = CreateLevel(levelSeed, new Vector3(-150, 0, 0), previousLevelIndex > 0, previousLevelIndex);
             }
             else
             {
@@ -261,10 +261,11 @@ namespace SceneTest
             }
         }
 
-        private Level CreateLevel(int levelSeed, Vector3 translation, bool goPrevious)
+        private Level CreateLevel(int levelSeed, Vector3 translation, bool goPrevious, int levelIndex)
         {
             return this.objectResolver.Resolve<Level, Level.Description>(o =>
             {
+                o.Index = levelIndex;
                 o.Translation = translation;
                 o.RandomSeed = levelSeed;
                 o.Width = 50;

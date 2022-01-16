@@ -27,6 +27,8 @@ namespace SceneTest
     {
         public class Description
         {
+            public int Index { get; set; }
+
             public Vector3 Translation { get; set; } = Vector3.Zero;
 
             public int RandomSeed { get; set; } = 0;
@@ -272,7 +274,7 @@ namespace SceneTest
                     }
 
                     sw.Stop();
-                    logger.LogInformation($"Generated level {description.RandomSeed} in {sw.ElapsedMilliseconds} ms.");
+                    logger.LogInformation($"Generated level {description.Index} seed {description.RandomSeed} in {sw.ElapsedMilliseconds} ms.");
                 });
 
                 await levelGenerationTask; //Need the level before kicking off the calls to End() below.
