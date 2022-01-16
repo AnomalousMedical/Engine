@@ -109,7 +109,7 @@ namespace BepuPlugin
                 }
 
                 events.Flush();
-                collisionEventHandler.FireCollisionEvents();
+                collisionEventHandler.FireEvents();
             }
 
             interpolationValue = (float)timestepAccumulator / timestepMicro;
@@ -183,16 +183,21 @@ namespace BepuPlugin
             orientation.w = orienSlerp.W;
         }
 
-        public void RegisterCollisionListener(CollidableReference collidable, Action<CollisionEvent> eventHandler)
+        public void RegisterCollisionListener(CollidableReference collidable, Action<CollisionEvent> collisionEvent, Action<CollisionEvent> continueEvent = null)
         {
             events.RegisterListener(collidable);
-            collisionEventHandler.AddEventHandler(collidable, eventHandler);
+            collisionEventHandler.AddContactHandler(collidable, collisionEvent);
+            if(continueEvent != null)
+            {
+                collisionEventHandler.AddContinueHandler(collidable, continueEvent);
+            }
         }
 
         public void UnregisterCollisionListener(CollidableReference collidable)
         {
             events.UnregisterListener(collidable);
-            collisionEventHandler.RemoveEventHandler(collidable);
+            collisionEventHandler.RemoveContactHandler(collidable);
+            collisionEventHandler.RemoveContinueHandler(collidable);
         }
 
         public Simulation Simulation => simulation;

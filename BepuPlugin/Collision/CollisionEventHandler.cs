@@ -13,9 +13,11 @@ namespace BepuPlugin
     {
         internal Simulation Simulation;
 
-        private ConcurrentBag<CollisionEvent> currentEvents;
+        private ConcurrentBag<CollisionEvent> contactEvents;
+        private ConcurrentBag<CollisionEvent> continueEvents;
         private ThreadSafePool<CollisionEvent> eventPool;
         private Dictionary<CollidableReference, Action<CollisionEvent>> collisionEventHandlers;
+        private Dictionary<CollidableReference, Action<CollisionEvent>> continueEventHandlers;
 
         /// <summary>
         /// You must call this constructor. The value of callMe does not matter.
@@ -23,10 +25,20 @@ namespace BepuPlugin
         /// <param name="callMe"></param>
         public CollisionEventHandler(bool callMe)
         {
-            currentEvents = new ConcurrentBag<CollisionEvent>();
+            contactEvents = new ConcurrentBag<CollisionEvent>();
+            continueEvents = new ConcurrentBag<CollisionEvent>();
             eventPool = new ThreadSafePool<CollisionEvent>(() => new CollisionEvent());
             collisionEventHandlers = new Dictionary<CollidableReference, Action<CollisionEvent>>();
+            continueEventHandlers = new Dictionary<CollidableReference, Action<CollisionEvent>>();
             Simulation = null;
+        }
+
+        public void OnContactContinues<TManifold>(CollidableReference eventSource, CollidablePair pair, ref TManifold contactManifold,
+            in Vector3 contactOffset, in Vector3 contactNormal, float depth, int featureId, int contactIndex, int workerIndex) where TManifold : struct, IContactManifold<TManifold>
+        {
+            var evt = eventPool.Get();
+            evt.Update(eventSource, pair, contactOffset, contactNormal, depth, featureId, contactIndex, workerIndex);
+            continueEvents.Add(evt);
         }
 
         public void OnContactAdded<TManifold>(CollidableReference eventSource, CollidablePair pair, ref TManifold contactManifold,
@@ -51,24 +63,42 @@ namespace BepuPlugin
             //}
             var evt = eventPool.Get();
             evt.Update(eventSource, pair, contactOffset, contactNormal, depth, featureId, contactIndex, workerIndex);
-            currentEvents.Add(evt);
+            contactEvents.Add(evt);
         }
 
-        public void AddEventHandler(CollidableReference collidable, Action<CollisionEvent> handler)
+        public void AddContactHandler(CollidableReference collidable, Action<CollisionEvent> handler)
         {
             collisionEventHandlers.Add(collidable, handler);
         }
 
-        public void RemoveEventHandler(CollidableReference collidable)
+        public void RemoveContactHandler(CollidableReference collidable)
         {
             collisionEventHandlers.Remove(collidable);
         }
 
-        public void FireCollisionEvents()
+        public void AddContinueHandler(CollidableReference collidable, Action<CollisionEvent> handler)
         {
-            while(currentEvents.TryTake(out var evt))
+            continueEventHandlers.Add(collidable, handler);
+        }
+
+        public void RemoveContinueHandler(CollidableReference collidable)
+        {
+            continueEventHandlers.Remove(collidable);
+        }
+
+        public void FireEvents()
+        {
+            while(contactEvents.TryTake(out var evt))
             {
                 if(collisionEventHandlers.TryGetValue(evt.EventSource, out var handler))
+                {
+                    handler.Invoke(evt);
+                }
+                eventPool.Return(evt);
+            }
+            while(continueEvents.TryTake(out var evt))
+            {
+                if (continueEventHandlers.TryGetValue(evt.EventSource, out var handler))
                 {
                     handler.Invoke(evt);
                 }

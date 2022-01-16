@@ -134,10 +134,16 @@ namespace BepuPlugin
                                     break;
                                 }
                             }
+
+                            manifold.GetContact(contactIndex, out var offset, out var normal, out var depth, out _);
+
                             if (!featureIdIsOld)
-                            {
-                                manifold.GetContact(contactIndex, out var offset, out var normal, out var depth, out _);
+                            {    
                                 EventHandler.OnContactAdded(source, pair, ref manifold, offset, normal, depth, featureId, contactIndex, workerIndex);
+                            }
+                            else
+                            {
+                                EventHandler.OnContactContinues(source, pair, ref manifold, offset, normal, depth, featureId, contactIndex, workerIndex);
                             }
                         }
                         UpdatePreviousCollision(ref collision, ref manifold);

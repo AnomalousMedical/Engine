@@ -1,5 +1,6 @@
 ﻿using BepuPhysics.Collidables;
 using BepuPhysics.CollisionDetection;
+using System;
 using System.Numerics;
 
 namespace BepuPlugin
@@ -26,7 +27,12 @@ namespace BepuPlugin
 
     public interface IContactEventHandler
     {
+        void OnContactContinues<TManifold>(CollidableReference eventSource, CollidablePair pair, ref TManifold contactManifold,
+            in Vector3 contactOffset, in Vector3 contactNormal, float depth, int featureId, int contactIndex, int workerIndex) where TManifold : struct, IContactManifold<TManifold>;
+
         void OnContactAdded<TManifold>(CollidableReference eventSource, CollidablePair pair, ref TManifold contactManifold,
             in Vector3 contactOffset, in Vector3 contactNormal, float depth, int featureId, int contactIndex, int workerIndex) where TManifold : struct, IContactManifold<TManifold>;
+        void AddContinueHandler(CollidableReference collidable, Action<CollisionEvent> handler);
+        void RemoveContinueHandler(CollidableReference collidable);
     }
 }
