@@ -66,7 +66,7 @@ namespace SceneTest
                     new System.Numerics.Quaternion(description.Orientation.x, description.Orientation.y, description.Orientation.z, description.Orientation.w),
                     new CollidableDescription(shapeIndex, 0.1f)));
 
-            bepuScene.RegisterCollisionListener(new CollidableReference(staticHandle), HandleCollision, HandleCollisionContinues, HandleCollisionEnd);
+            RegisterCollision();
 
             this.currentPosition = description.Translation;
             this.currentOrientation = description.Orientation;
@@ -137,10 +137,15 @@ namespace SceneTest
                 currentPosition.ToSystemNumerics(),
                 Quaternion.Identity.ToSystemNumerics(),
                 new CollidableDescription(shapeIndex, 0.1f)));
-            bepuScene.RegisterCollisionListener(new CollidableReference(staticHandle), HandleCollision, HandleCollisionContinues, HandleCollisionEnd);
+            RegisterCollision();
 
             var totalScale = sprite.BaseScale * currentScale;
             currentPosition.y += totalScale.y / 2;
+        }
+
+        private void RegisterCollision()
+        {
+            bepuScene.RegisterCollisionListener(new CollidableReference(staticHandle), HandleCollision, HandleCollisionContinues, HandleCollisionEnd);
         }
 
         private void HandleCollision(CollisionEvent evt)
