@@ -18,6 +18,23 @@ namespace BepuPlugin
         private ThreadSafePool<CollisionEvent> eventPool;
         private Dictionary<CollidableReference, Action<CollisionEvent>> collisionEventHandlers;
         private Dictionary<CollidableReference, Action<CollisionEvent>> continueEventHandlers;
+        private Dictionary<CollidableReference, EndCollisionHandler> endEventHandlers;
+
+        class EndCollisionHandler
+        {
+            public bool VisitThisFrame { get; set; }
+
+            public bool InContact { get; set; }
+
+            public Action CollisionEvent { get; }
+
+            public EndCollisionHandler(Action evt) { CollisionEvent = evt; }
+
+            public void NextFrame()
+            {
+                VisitThisFrame = false;
+            }
+        }
 
         /// <summary>
         /// You must call this constructor. The value of callMe does not matter.
@@ -30,6 +47,7 @@ namespace BepuPlugin
             eventPool = new ThreadSafePool<CollisionEvent>(() => new CollisionEvent());
             collisionEventHandlers = new Dictionary<CollidableReference, Action<CollisionEvent>>();
             continueEventHandlers = new Dictionary<CollidableReference, Action<CollisionEvent>>();
+            endEventHandlers = new Dictionary<CollidableReference, EndCollisionHandler>();
             Simulation = null;
         }
 
@@ -86,6 +104,16 @@ namespace BepuPlugin
             continueEventHandlers.Remove(collidable);
         }
 
+        public void AddEndHandler(CollidableReference collidable, Action handler)
+        {
+            endEventHandlers.Add(collidable, new EndCollisionHandler(handler));
+        }
+
+        public void RemoveEndHandler(CollidableReference collidable)
+        {
+            endEventHandlers.Remove(collidable);
+        }
+
         public void FireEvents()
         {
             while(contactEvents.TryTake(out var evt))
@@ -93,6 +121,11 @@ namespace BepuPlugin
                 if(collisionEventHandlers.TryGetValue(evt.EventSource, out var handler))
                 {
                     handler.Invoke(evt);
+                }
+                if (endEventHandlers.TryGetValue(evt.EventSource, out var endHandler))
+                {
+                    endHandler.InContact = true;
+                    endHandler.VisitThisFrame = true;
                 }
                 eventPool.Return(evt);
             }
@@ -102,7 +135,20 @@ namespace BepuPlugin
                 {
                     handler.Invoke(evt);
                 }
+                if(endEventHandlers.TryGetValue(evt.EventSource, out var endHandler))
+                {
+                    endHandler.VisitThisFrame = true;
+                }
                 eventPool.Return(evt);
+            }
+            foreach (var endHandler in endEventHandlers.Values)
+            {
+                if (endHandler.InContact && !endHandler.VisitThisFrame)
+                {
+                    endHandler.CollisionEvent.Invoke();
+                    endHandler.InContact = false;
+                }
+                endHandler.NextFrame();
             }
         }
     }

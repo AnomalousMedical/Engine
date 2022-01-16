@@ -34,5 +34,7 @@ namespace BepuPlugin
             in Vector3 contactOffset, in Vector3 contactNormal, float depth, int featureId, int contactIndex, int workerIndex) where TManifold : struct, IContactManifold<TManifold>;
         void AddContinueHandler(CollidableReference collidable, Action<CollisionEvent> handler);
         void RemoveContinueHandler(CollidableReference collidable);
+        void AddEndHandler(CollidableReference collidable, Action handler);
+        void RemoveEndHandler(CollidableReference collidable);
     }
 }

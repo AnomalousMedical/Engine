@@ -66,7 +66,7 @@ namespace SceneTest
                     new System.Numerics.Quaternion(description.Orientation.x, description.Orientation.y, description.Orientation.z, description.Orientation.w),
                     new CollidableDescription(shapeIndex, 0.1f)));
 
-            bepuScene.RegisterCollisionListener(new CollidableReference(staticHandle), HandleCollision, HandleCollisionContinues);
+            bepuScene.RegisterCollisionListener(new CollidableReference(staticHandle), HandleCollision, HandleCollisionContinues, HandleCollisionEnd);
 
             this.currentPosition = description.Translation;
             this.currentOrientation = description.Orientation;
@@ -137,7 +137,7 @@ namespace SceneTest
                 currentPosition.ToSystemNumerics(),
                 Quaternion.Identity.ToSystemNumerics(),
                 new CollidableDescription(shapeIndex, 0.1f)));
-            bepuScene.RegisterCollisionListener(new CollidableReference(staticHandle), HandleCollision, HandleCollisionContinues);
+            bepuScene.RegisterCollisionListener(new CollidableReference(staticHandle), HandleCollision, HandleCollisionContinues, HandleCollisionEnd);
 
             var totalScale = sprite.BaseScale * currentScale;
             currentPosition.y += totalScale.y / 2;
@@ -159,6 +159,11 @@ namespace SceneTest
             {
                 Console.WriteLine("Hitting chest continues");
             }
+        }
+
+        private void HandleCollisionEnd()
+        {
+            Console.WriteLine("Hitting chest end");
         }
 
         private void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)

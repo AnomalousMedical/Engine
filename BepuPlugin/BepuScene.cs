@@ -183,13 +183,17 @@ namespace BepuPlugin
             orientation.w = orienSlerp.W;
         }
 
-        public void RegisterCollisionListener(CollidableReference collidable, Action<CollisionEvent> collisionEvent, Action<CollisionEvent> continueEvent = null)
+        public void RegisterCollisionListener(CollidableReference collidable, Action<CollisionEvent> collisionEvent, Action<CollisionEvent> continueEvent = null, Action endEvent = null)
         {
             events.RegisterListener(collidable);
             collisionEventHandler.AddContactHandler(collidable, collisionEvent);
             if(continueEvent != null)
             {
                 collisionEventHandler.AddContinueHandler(collidable, continueEvent);
+            }
+            if(endEvent != null)
+            {
+                collisionEventHandler.AddEndHandler(collidable, endEvent);
             }
         }
 
@@ -198,6 +202,7 @@ namespace BepuPlugin
             events.UnregisterListener(collidable);
             collisionEventHandler.RemoveContactHandler(collidable);
             collisionEventHandler.RemoveContinueHandler(collidable);
+            collisionEventHandler.RemoveEndHandler(collidable);
         }
 
         public Simulation Simulation => simulation;
