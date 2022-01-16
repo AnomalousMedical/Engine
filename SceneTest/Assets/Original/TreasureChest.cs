@@ -19,6 +19,11 @@ namespace SceneTest.Assets.Original
                     colorMap: "original/treasure_chests_32x32.png",
                     materials: new HashSet<SpriteMaterialTextureItem>
                     {
+                        new SpriteMaterialTextureItem(0xff979ca0, "cc0Textures/Metal032_1K", "jpg", reflective: true), // (grey)
+                        new SpriteMaterialTextureItem(0xff971a1a, "cc0Textures/Wood049_1K", "jpg"), // (red)
+                        new SpriteMaterialTextureItem(0xffbe2121, "cc0Textures/Wood049_1K", "jpg"), // (red)
+                        new SpriteMaterialTextureItem(0xff691212, "cc0Textures/Wood049_1K", "jpg"), // (red)
+                        new SpriteMaterialTextureItem(0xff450c0c, "cc0Textures/Wood049_1K", "jpg"), // (red)
                     }
                 );
         }
