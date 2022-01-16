@@ -18,6 +18,7 @@ namespace SceneTest
         private readonly ILevelManager levelManager;
         private readonly RTInstances<ILevelManager> rtInstances;
         private readonly IExplorationMenu explorationMenu;
+        private readonly IContextMenu contextMenu;
         private IBattleGameState battleState;
         private IGameState nextState; //This is changed per update to be the next game state
 
@@ -28,13 +29,14 @@ namespace SceneTest
             IBepuScene bepuScene,
             ILevelManager levelManager,
             RTInstances<ILevelManager> rtInstances,
-            IExplorationMenu explorationMenu)
+            IExplorationMenu explorationMenu,
+            IContextMenu contextMenu)
         {
             this.bepuScene = bepuScene;
             this.levelManager = levelManager;
             this.rtInstances = rtInstances;
             this.explorationMenu = explorationMenu;
-
+            this.contextMenu = contextMenu;
             coroutineRunner.RunTask(levelManager.Restart());
         }
 
@@ -75,6 +77,7 @@ namespace SceneTest
             else
             {
                 bepuScene.Update(clock, new System.Numerics.Vector3(0, 0, 1));
+                contextMenu.Update();
             }
 
             return nextState;

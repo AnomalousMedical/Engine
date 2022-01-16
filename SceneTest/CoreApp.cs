@@ -119,6 +119,7 @@ namespace SceneTest
             services.AddSingleton<Party>();
             services.AddSingleton<ISetupGameState, SetupGameState>();
             services.AddSingleton<IExplorationMenu, ExplorationMenu>();
+            services.AddSingleton<IContextMenu, ContextMenu>();
 
             return true;
         }

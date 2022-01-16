@@ -5,6 +5,8 @@ using DiligentEngine;
 using DiligentEngine.RT;
 using DiligentEngine.RT.Sprites;
 using Engine;
+using SceneTest.Exploration.Menu;
+using SharpGui;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +29,7 @@ namespace SceneTest
         private readonly RTInstances<ILevelManager> rtInstances;
         private readonly IDestructionRequest destructionRequest;
         private readonly SpriteInstanceFactory spriteInstanceFactory;
+        private readonly IContextMenu contextMenu;
         private SpriteInstance spriteInstance;
         private readonly Sprite sprite;
         private readonly TLASBuildInstanceData tlasData;
@@ -48,7 +51,8 @@ namespace SceneTest
             IBepuScene bepuScene,
             Description description,
             ICollidableTypeIdentifier collidableIdentifier,
-            SpriteInstanceFactory spriteInstanceFactory)
+            SpriteInstanceFactory spriteInstanceFactory,
+            IContextMenu contextMenu)
         {
             this.sprite = description.Sprite;
             this.rtInstances = rtInstances;
@@ -56,6 +60,7 @@ namespace SceneTest
             this.bepuScene = bepuScene;
             this.collidableIdentifier = collidableIdentifier;
             this.spriteInstanceFactory = spriteInstanceFactory;
+            this.contextMenu = contextMenu;
             this.mapOffset = description.MapOffset;
             var shape = new Box(description.Scale.x, 1000, description.Scale.z); //TODO: Each one creates its own, try to load from resources
             shapeIndex = bepuScene.Simulation.Shapes.Add(shape);
@@ -154,7 +159,13 @@ namespace SceneTest
                 || collidableIdentifier.TryGetIdentifier<Player>(evt.Pair.B, out var _))
             {
                 Console.WriteLine("Hitting chest");
+                contextMenu.HandleContext("Open", Open);
             }
+        }
+
+        private void Open()
+        {
+            Console.WriteLine("Open");
         }
 
         private void HandleCollisionContinues(CollisionEvent evt)
@@ -169,6 +180,7 @@ namespace SceneTest
         private void HandleCollisionEnd(CollisionEvent evt)
         {
             Console.WriteLine("Hitting chest end");
+            contextMenu.ClearContext(Open);
         }
 
         private void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
