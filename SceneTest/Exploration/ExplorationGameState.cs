@@ -2,6 +2,7 @@
 using DiligentEngine.RT;
 using Engine;
 using Engine.Platform;
+using SceneTest.Battle;
 using SceneTest.Exploration.Menu;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,11 @@ namespace SceneTest
 {
     class ExplorationGameState : IExplorationGameState
     {
-        private readonly ICoroutineRunner coroutineRunner;
         private readonly IBepuScene bepuScene;
         private readonly ILevelManager levelManager;
         private readonly RTInstances<ILevelManager> rtInstances;
         private readonly IExplorationMenu explorationMenu;
-        private IGameState battleState;
+        private IBattleGameState battleState;
         private IGameState nextState; //This is changed per update to be the next game state
 
         public RTInstances Instances => rtInstances;
@@ -30,7 +30,6 @@ namespace SceneTest
             RTInstances<ILevelManager> rtInstances,
             IExplorationMenu explorationMenu)
         {
-            this.coroutineRunner = coroutineRunner;
             this.bepuScene = bepuScene;
             this.levelManager = levelManager;
             this.rtInstances = rtInstances;
@@ -39,7 +38,7 @@ namespace SceneTest
             coroutineRunner.RunTask(levelManager.Restart());
         }
 
-        public void Link(IGameState battleState)
+        public void Link(IBattleGameState battleState)
         {
             this.battleState = battleState;
         }
@@ -50,8 +49,9 @@ namespace SceneTest
             levelManager.StopPlayer();
         }
 
-        public void RequestBattle()
+        public void RequestBattle(BattleTrigger battleTrigger)
         {
+            battleState.SetBattleTrigger(battleTrigger);
             nextState = battleState;
         }
 

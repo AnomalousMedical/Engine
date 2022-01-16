@@ -15,6 +15,7 @@ namespace SceneTest.Battle
         private readonly RTInstances<IBattleManager> rtInstances;
         private IGameState gameOverState;
         private IGameState returnState;
+        private BattleTrigger battleTrigger;
 
         public BattleGameState
         (
@@ -32,6 +33,11 @@ namespace SceneTest.Battle
         {
             this.returnState = returnState;
             this.gameOverState = gameOver;
+        }
+
+        public void SetBattleTrigger(BattleTrigger battleTrigger)
+        {
+            this.battleTrigger = battleTrigger;
         }
 
         public void SetActive(bool active)
@@ -54,8 +60,15 @@ namespace SceneTest.Battle
                     break;
                 case IBattleManager.Result.ReturnToExploration:
                     nextState = returnState;
+                    battleTrigger?.BattleWon();
                     break;
             }
+
+            if(nextState != this)
+            {
+                battleTrigger = null;
+            }
+
             return nextState;
         }
     }

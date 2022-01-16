@@ -107,6 +107,11 @@ namespace SceneTest
             });
         }
 
+        public void BattleWon()
+        {
+            this.RequestDestruction();
+        }
+
         public void Dispose()
         {
             disposed = true;
@@ -146,7 +151,7 @@ namespace SceneTest
             if (collidableIdentifier.TryGetIdentifier<Player>(evt.Pair.A, out var _)
                 || collidableIdentifier.TryGetIdentifier<Player>(evt.Pair.B, out var _))
             {
-                explorationGameState.RequestBattle();
+                explorationGameState.RequestBattle(this);
             }
         }
 

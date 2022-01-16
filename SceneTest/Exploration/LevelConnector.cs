@@ -28,7 +28,6 @@ namespace SceneTest
         private readonly ILevelManager levelManager;
         private StaticHandle staticHandle;
         private TypedIndex shapeIndex;
-        private bool disposed;
         private bool goPrevious;
 
         public LevelConnector(
@@ -61,7 +60,6 @@ namespace SceneTest
 
         public void Dispose()
         {
-            disposed = true;
             bepuScene.UnregisterCollisionListener(new CollidableReference(staticHandle));
             bepuScene.Simulation.Shapes.Remove(shapeIndex);
             bepuScene.Simulation.Statics.Remove(staticHandle);

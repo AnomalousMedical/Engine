@@ -9,5 +9,6 @@ namespace SceneTest.Battle
         /// This is a circular link, so it must be set by the ExplorationGameState itself, which injects this class.
         /// </summary>
         void Link(IGameState returnState, IGameState gameOver);
+        void SetBattleTrigger(BattleTrigger battleTrigger);
     }
 }
