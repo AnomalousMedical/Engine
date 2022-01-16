@@ -21,7 +21,7 @@ namespace BepuPlugin
         /// Starts listening for events related to the given collidable. When an event is fired call the given event handler.
         /// </summary>
         /// <param name="collidable">Collidable to start listening for.</param>
-        void RegisterCollisionListener(CollidableReference collidable, Action<CollisionEvent> eventHandler, Action<CollisionEvent> continueEvent = null, Action endEvent = null);
+        void RegisterCollisionListener(CollidableReference collidable, Action<CollisionEvent> collisionEvent = null, Action<CollisionEvent> continueEvent = null, Action<CollisionEvent> endEvent = null);
 
         /// <summary>
         /// Stops listening for events related to the given collidable.

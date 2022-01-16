@@ -145,7 +145,7 @@ namespace SceneTest
 
         private void RegisterCollision()
         {
-            bepuScene.RegisterCollisionListener(new CollidableReference(staticHandle), HandleCollision, HandleCollisionContinues, HandleCollisionEnd);
+            bepuScene.RegisterCollisionListener(new CollidableReference(staticHandle), collisionEvent: HandleCollision, continueEvent: HandleCollisionContinues, endEvent: HandleCollisionEnd);
         }
 
         private void HandleCollision(CollisionEvent evt)
@@ -166,7 +166,7 @@ namespace SceneTest
             }
         }
 
-        private void HandleCollisionEnd()
+        private void HandleCollisionEnd(CollisionEvent evt)
         {
             Console.WriteLine("Hitting chest end");
         }

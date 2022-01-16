@@ -189,7 +189,10 @@ namespace BepuPlugin
                 //Pairs involved with inactive bodies do not need to be checked for freshness. If we did, it would result in inactive manifolds being considered a removal, and 
                 //more contact added events would fire when the bodies woke up.
                 if (collidable.Mobility != CollidableMobility.Static && bodies.HandleToLocation[collidable.BodyHandle.Value].SetIndex > 0)
+                {
                     continue;
+                }
+
                 ref var collisions = ref listeners.Values[i];
                 //Note reverse order. We remove during iteration.
                 for (int j = collisions.Count - 1; j >= 0; --j)
@@ -197,9 +200,13 @@ namespace BepuPlugin
                     ref var collision = ref collisions[j];
                     //Again, any pair involving inactive bodies does not need to be examined.
                     if (collision.Collidable.Mobility != CollidableMobility.Static && bodies.HandleToLocation[collision.Collidable.BodyHandle.Value].SetIndex > 0)
+                    {
                         continue;
+                    }
+
                     if (!collision.Fresh)
                     {
+                        EventHandler.OnContactEnd(collidable);
                         //This collision was not updated since the last flush despite being active. It should be removed.
                         collisions.FastRemoveAt(j);
                         if (collisions.Count == 0)

@@ -15,26 +15,11 @@ namespace BepuPlugin
 
         private ConcurrentBag<CollisionEvent> contactEvents;
         private ConcurrentBag<CollisionEvent> continueEvents;
+        private ConcurrentBag<CollisionEvent> endEvents;
         private ThreadSafePool<CollisionEvent> eventPool;
         private Dictionary<CollidableReference, Action<CollisionEvent>> collisionEventHandlers;
         private Dictionary<CollidableReference, Action<CollisionEvent>> continueEventHandlers;
-        private Dictionary<CollidableReference, EndCollisionHandler> endEventHandlers;
-
-        class EndCollisionHandler
-        {
-            public bool VisitThisFrame { get; set; }
-
-            public bool InContact { get; set; }
-
-            public Action CollisionEvent { get; }
-
-            public EndCollisionHandler(Action evt) { CollisionEvent = evt; }
-
-            public void NextFrame()
-            {
-                VisitThisFrame = false;
-            }
-        }
+        private Dictionary<CollidableReference, Action<CollisionEvent>> endEventHandlers;
 
         /// <summary>
         /// You must call this constructor. The value of callMe does not matter.
@@ -44,19 +29,12 @@ namespace BepuPlugin
         {
             contactEvents = new ConcurrentBag<CollisionEvent>();
             continueEvents = new ConcurrentBag<CollisionEvent>();
+            endEvents = new ConcurrentBag<CollisionEvent>();
             eventPool = new ThreadSafePool<CollisionEvent>(() => new CollisionEvent());
             collisionEventHandlers = new Dictionary<CollidableReference, Action<CollisionEvent>>();
             continueEventHandlers = new Dictionary<CollidableReference, Action<CollisionEvent>>();
-            endEventHandlers = new Dictionary<CollidableReference, EndCollisionHandler>();
+            endEventHandlers = new Dictionary<CollidableReference, Action<CollisionEvent>>();
             Simulation = null;
-        }
-
-        public void OnContactContinues<TManifold>(CollidableReference eventSource, CollidablePair pair, ref TManifold contactManifold,
-            in Vector3 contactOffset, in Vector3 contactNormal, float depth, int featureId, int contactIndex, int workerIndex) where TManifold : struct, IContactManifold<TManifold>
-        {
-            var evt = eventPool.Get();
-            evt.Update(eventSource, pair, contactOffset, contactNormal, depth, featureId, contactIndex, workerIndex);
-            continueEvents.Add(evt);
         }
 
         public void OnContactAdded<TManifold>(CollidableReference eventSource, CollidablePair pair, ref TManifold contactManifold,
@@ -84,6 +62,21 @@ namespace BepuPlugin
             contactEvents.Add(evt);
         }
 
+        public void OnContactContinues<TManifold>(CollidableReference eventSource, CollidablePair pair, ref TManifold contactManifold,
+            in Vector3 contactOffset, in Vector3 contactNormal, float depth, int featureId, int contactIndex, int workerIndex) where TManifold : struct, IContactManifold<TManifold>
+        {
+            var evt = eventPool.Get();
+            evt.Update(eventSource, pair, contactOffset, contactNormal, depth, featureId, contactIndex, workerIndex);
+            continueEvents.Add(evt);
+        }
+
+        public void OnContactEnd(CollidableReference eventSource)
+        {
+            var evt = eventPool.Get();
+            evt.Update(eventSource, default, default, default, default, default, default, default);
+            endEvents.Add(evt);
+        }
+
         public void AddContactHandler(CollidableReference collidable, Action<CollisionEvent> handler)
         {
             collisionEventHandlers.Add(collidable, handler);
@@ -104,9 +97,9 @@ namespace BepuPlugin
             continueEventHandlers.Remove(collidable);
         }
 
-        public void AddEndHandler(CollidableReference collidable, Action handler)
+        public void AddEndHandler(CollidableReference collidable, Action<CollisionEvent> handler)
         {
-            endEventHandlers.Add(collidable, new EndCollisionHandler(handler));
+            endEventHandlers.Add(collidable, handler);
         }
 
         public void RemoveEndHandler(CollidableReference collidable)
@@ -122,33 +115,25 @@ namespace BepuPlugin
                 {
                     handler.Invoke(evt);
                 }
-                if (endEventHandlers.TryGetValue(evt.EventSource, out var endHandler))
-                {
-                    endHandler.InContact = true;
-                    endHandler.VisitThisFrame = true;
-                }
                 eventPool.Return(evt);
             }
+
             while(continueEvents.TryTake(out var evt))
             {
                 if (continueEventHandlers.TryGetValue(evt.EventSource, out var handler))
                 {
                     handler.Invoke(evt);
                 }
-                if(endEventHandlers.TryGetValue(evt.EventSource, out var endHandler))
-                {
-                    endHandler.VisitThisFrame = true;
-                }
                 eventPool.Return(evt);
             }
-            foreach (var endHandler in endEventHandlers.Values)
+
+            while (endEvents.TryTake(out var evt))
             {
-                if (endHandler.InContact && !endHandler.VisitThisFrame)
+                if (endEventHandlers.TryGetValue(evt.EventSource, out var handler))
                 {
-                    endHandler.CollisionEvent.Invoke();
-                    endHandler.InContact = false;
+                    handler.Invoke(evt);
                 }
-                endHandler.NextFrame();
+                eventPool.Return(evt);
             }
         }
     }

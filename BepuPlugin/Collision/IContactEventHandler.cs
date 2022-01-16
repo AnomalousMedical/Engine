@@ -27,14 +27,14 @@ namespace BepuPlugin
 
     public interface IContactEventHandler
     {
-        void OnContactContinues<TManifold>(CollidableReference eventSource, CollidablePair pair, ref TManifold contactManifold,
-            in Vector3 contactOffset, in Vector3 contactNormal, float depth, int featureId, int contactIndex, int workerIndex) where TManifold : struct, IContactManifold<TManifold>;
-
         void OnContactAdded<TManifold>(CollidableReference eventSource, CollidablePair pair, ref TManifold contactManifold,
             in Vector3 contactOffset, in Vector3 contactNormal, float depth, int featureId, int contactIndex, int workerIndex) where TManifold : struct, IContactManifold<TManifold>;
+        void OnContactContinues<TManifold>(CollidableReference eventSource, CollidablePair pair, ref TManifold contactManifold,
+            in Vector3 contactOffset, in Vector3 contactNormal, float depth, int featureId, int contactIndex, int workerIndex) where TManifold : struct, IContactManifold<TManifold>;
+        void OnContactEnd(CollidableReference eventSource);
         void AddContinueHandler(CollidableReference collidable, Action<CollisionEvent> handler);
         void RemoveContinueHandler(CollidableReference collidable);
-        void AddEndHandler(CollidableReference collidable, Action handler);
+        void AddEndHandler(CollidableReference collidable, Action<CollisionEvent> handler);
         void RemoveEndHandler(CollidableReference collidable);
     }
 }
