@@ -47,7 +47,7 @@ namespace SceneTest
             this.coroutineRunner = coroutineRunner;
             this.levelManager = levelManager;
 
-            var shape = new Box(description.Scale.x, description.Scale.y, description.Scale.z); //Each one creates its own, try to load from resources
+            var shape = new Box(description.Scale.x, description.Scale.y, description.Scale.z); //TODO: Each one creates its own, try to load from resources
             shapeIndex = bepuScene.Simulation.Shapes.Add(shape);
 
             staticHandle = bepuScene.Simulation.Statics.Add(
