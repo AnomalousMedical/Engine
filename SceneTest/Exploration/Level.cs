@@ -129,6 +129,7 @@ namespace SceneTest
         private LevelConnector nextLevelConnector;
         private LevelConnector previousLevelConnector;
         private List<BattleTrigger> battleTriggers = new List<BattleTrigger>();
+        private List<TreasureTrigger> treasureTriggers = new List<TreasureTrigger>();
         private IBiome biome;
         private bool goPrevious;
         private BlasInstanceData floorBlasInstanceData;
@@ -372,6 +373,10 @@ namespace SceneTest
             {
                 trigger.SetLevelPosition(position);
             }
+            foreach (var trigger in treasureTriggers)
+            {
+                trigger.SetLevelPosition(position);
+            }
         }
 
         public IBiome Biome => biome;
@@ -479,6 +484,22 @@ namespace SceneTest
                 });
                 battleTriggers.Add(battleTrigger);
             }
+
+            //Setup treasure, just put one in each room for now
+            foreach(var room in mapMesh.MapBuilder.Rooms)
+            {
+                var point = new Point(room.Left + room.Width / 2, room.Top + room.Height / 2);
+
+                var treasureTrigger = objectResolver.Resolve<TreasureTrigger, TreasureTrigger.Description>(o =>
+                {
+                    o.MapOffset = mapMesh.PointToVector(point.x, point.y);
+                    o.Translation = currentPosition + o.MapOffset;
+                    var treasure = biome.Treasure;
+                    o.Sprite = treasure.Asset.CreateSprite();
+                    o.SpriteMaterial = treasure.Asset.CreateMaterial();
+                });
+                this.treasureTriggers.Add(treasureTrigger);
+            }
         }
 
         /// <summary>
@@ -498,6 +519,12 @@ namespace SceneTest
                 battleTrigger.RequestDestruction();
             }
             battleTriggers.Clear();
+
+            foreach (var treasureTrigger in treasureTriggers)
+            {
+                treasureTrigger.RequestDestruction();
+            }
+            treasureTriggers.Clear();
 
             this.previousLevelConnector?.RequestDestruction();
             this.nextLevelConnector?.RequestDestruction();

@@ -8,6 +8,7 @@ namespace SceneTest
         string WallTexture { get; set; }
         bool ReflectFloor { get; }
         bool ReflectWall { get; }
+        BiomeTreasure Treasure { get; set; }
 
         BiomeEnemy GetEnemy(EnemyType type);
     }

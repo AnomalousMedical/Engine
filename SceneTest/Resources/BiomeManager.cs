@@ -50,6 +50,11 @@ namespace SceneTest
         /// stat-wise no matter what.
         /// </summary>
         public BiomeEnemy PeonEnemy { get; set; }
+
+        /// <summary>
+        /// The treasure to use for the biome.
+        /// </summary>
+        public BiomeTreasure Treasure { get; set; }
     }
 
     class BiomeEnemy
@@ -59,6 +64,11 @@ namespace SceneTest
         public IEnemyCurve EnemyCurve { get; set; }
 
         public Dictionary<Element, Resistance> Resistances { get; set; }
+    }
+
+    class BiomeTreasure
+    {
+        public ISpriteAsset Asset { get; set; }
     }
 
     class BiomeManager : IBiomeManager
@@ -84,6 +94,10 @@ namespace SceneTest
                 {
                     Asset =  new Assets.Original.TinyDino(),
                     EnemyCurve = new StandardEnemyCurve()
+                },
+                Treasure = new BiomeTreasure()
+                {
+                    Asset = new Assets.Original.TreasureChest(),
                 }
             },
             //Desert
@@ -100,6 +114,10 @@ namespace SceneTest
                         { Element.Healing, Resistance.Absorb },
                         { Element.Fire, Resistance.Weak }
                     }
+                },
+                Treasure = new BiomeTreasure()
+                {
+                    Asset = new Assets.Original.TreasureChest(),
                 }
             },
             //Snowy
@@ -122,6 +140,10 @@ namespace SceneTest
                 {
                     Asset =  new Assets.Original.TinyDino(),
                     EnemyCurve = new StandardEnemyCurve()
+                },
+                Treasure = new BiomeTreasure()
+                {
+                    Asset = new Assets.Original.TreasureChest(),
                 }
             }
         };
