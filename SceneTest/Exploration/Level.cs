@@ -490,15 +490,20 @@ namespace SceneTest
             {
                 var point = new Point(room.Left + room.Width / 2, room.Top + room.Height / 2);
 
-                var treasureTrigger = objectResolver.Resolve<TreasureTrigger, TreasureTrigger.Description>(o =>
+                //Special case for first room, a bit hacky, but the computation should work out the same as the start point
+                var mapLoc = mapMesh.PointToVector(point.x, point.y);
+                if (goPrevious || mapLoc != startPointLocal)
                 {
-                    o.MapOffset = mapMesh.PointToVector(point.x, point.y);
-                    o.Translation = currentPosition + o.MapOffset;
-                    var treasure = biome.Treasure;
-                    o.Sprite = treasure.Asset.CreateSprite();
-                    o.SpriteMaterial = treasure.Asset.CreateMaterial();
-                });
-                this.treasureTriggers.Add(treasureTrigger);
+                    var treasureTrigger = objectResolver.Resolve<TreasureTrigger, TreasureTrigger.Description>(o =>
+                    {
+                        o.MapOffset = mapLoc;
+                        o.Translation = currentPosition + o.MapOffset;
+                        var treasure = biome.Treasure;
+                        o.Sprite = treasure.Asset.CreateSprite();
+                        o.SpriteMaterial = treasure.Asset.CreateMaterial();
+                    });
+                    this.treasureTriggers.Add(treasureTrigger);
+                }
             }
         }
 
