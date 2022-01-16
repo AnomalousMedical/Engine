@@ -41,14 +41,14 @@ namespace SceneTest.Exploration.Menu
             {
                 if (sharpGui.GamepadButtonEntered == Engine.Platform.GamepadButtonCode.XInput_Y || sharpGui.KeyEntered == Engine.Platform.KeyboardButtonCode.KC_TAB)
                 {
-                    RequsetSubMenu(rootMenu);
+                    RequestSubMenu(rootMenu);
                     handled = true;
                 }
             }
             return handled;
         }
 
-        public void RequsetSubMenu(IExplorationSubMenu subMenu)
+        public void RequestSubMenu(IExplorationSubMenu subMenu)
         {
             currentMenu = subMenu;
         }

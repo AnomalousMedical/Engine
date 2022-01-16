@@ -5,7 +5,7 @@
         IDebugGui DebugGui { get; }
         IRootMenu RootMenu { get; }
 
-        void RequsetSubMenu(IExplorationSubMenu subMenu);
+        void RequestSubMenu(IExplorationSubMenu subMenu);
         bool Update(ExplorationGameState explorationGameState);
     }
 }

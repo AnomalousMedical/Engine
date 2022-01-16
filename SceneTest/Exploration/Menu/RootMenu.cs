@@ -38,11 +38,11 @@ namespace SceneTest.Exploration.Menu
 
             if (sharpGui.Button(debug))
             {
-                explorationMenu.RequsetSubMenu(explorationMenu.DebugGui);
+                explorationMenu.RequestSubMenu(explorationMenu.DebugGui);
             }
             else if (sharpGui.GamepadButtonEntered == Engine.Platform.GamepadButtonCode.XInput_B || sharpGui.KeyEntered == Engine.Platform.KeyboardButtonCode.KC_ESCAPE)
             {
-                explorationMenu.RequsetSubMenu(null);
+                explorationMenu.RequestSubMenu(null);
             }
         }
     }

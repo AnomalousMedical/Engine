@@ -70,7 +70,7 @@ namespace SceneTest.Exploration.Menu
             if (sharpGui.Button(battle, navUp: goPreviousLevel.Id, navDown: levelUp.Id))
             {
                 explorationGameState.RequestBattle();
-                explorationMenu.RequsetSubMenu(null);
+                explorationMenu.RequestSubMenu(null);
             }
 
             if (sharpGui.Button(levelUp, navUp: battle.Id, navDown: goStart.Id))
@@ -84,25 +84,25 @@ namespace SceneTest.Exploration.Menu
             if(sharpGui.Button(goStart, navUp: levelUp.Id, navDown: goEnd.Id))
             {
                 levelManager.GoStartPoint();
-                explorationMenu.RequsetSubMenu(null);
+                explorationMenu.RequestSubMenu(null);
             }
 
             if (sharpGui.Button(goEnd, navUp: goStart.Id, navDown: goNextLevel.Id))
             {
                 levelManager.GoEndPoint();
-                explorationMenu.RequsetSubMenu(null);
+                explorationMenu.RequestSubMenu(null);
             }
 
             if (!levelManager.ChangingLevels && sharpGui.Button(goNextLevel, navUp: goEnd.Id, navDown: goPreviousLevel.Id))
             {
                 coroutineRunner.RunTask(levelManager.GoNextLevel());
-                explorationMenu.RequsetSubMenu(null);
+                explorationMenu.RequestSubMenu(null);
             }
 
             if (!levelManager.ChangingLevels && sharpGui.Button(goPreviousLevel, navUp: goNextLevel.Id, navDown: battle.Id))
             {
                 coroutineRunner.RunTask(levelManager.GoPreviousLevel());
-                explorationMenu.RequsetSubMenu(null);
+                explorationMenu.RequestSubMenu(null);
             }
 
             //if (sharpGui.Button(toggleCamera, navUp: goPreviousLevel.Id, navDown: battle.Id))
@@ -120,7 +120,7 @@ namespace SceneTest.Exploration.Menu
 
             if (sharpGui.GamepadButtonEntered == GamepadButtonCode.XInput_B || sharpGui.KeyEntered == KeyboardButtonCode.KC_ESCAPE)
             {
-                explorationMenu.RequsetSubMenu(explorationMenu.RootMenu);
+                explorationMenu.RequestSubMenu(explorationMenu.RootMenu);
             }
         }
     }
