@@ -150,37 +150,23 @@ namespace SceneTest
 
         private void RegisterCollision()
         {
-            bepuScene.RegisterCollisionListener(new CollidableReference(staticHandle), collisionEvent: HandleCollision, continueEvent: HandleCollisionContinues, endEvent: HandleCollisionEnd);
+            bepuScene.RegisterCollisionListener(new CollidableReference(staticHandle), collisionEvent: HandleCollision, endEvent: HandleCollisionEnd);
         }
 
         private void HandleCollision(CollisionEvent evt)
         {
-            if (collidableIdentifier.TryGetIdentifier<Player>(evt.Pair.A, out var _)
-                || collidableIdentifier.TryGetIdentifier<Player>(evt.Pair.B, out var _))
-            {
-                Console.WriteLine("Hitting chest");
-                contextMenu.HandleContext("Open", Open);
-            }
-        }
-
-        private void Open()
-        {
-            Console.WriteLine("Open");
-        }
-
-        private void HandleCollisionContinues(CollisionEvent evt)
-        {
-            if (collidableIdentifier.TryGetIdentifier<Player>(evt.Pair.A, out var _)
-                || collidableIdentifier.TryGetIdentifier<Player>(evt.Pair.B, out var _))
-            {
-                Console.WriteLine("Hitting chest continues");
-            }
+            contextMenu.HandleContext("Open", Open);
         }
 
         private void HandleCollisionEnd(CollisionEvent evt)
         {
-            Console.WriteLine("Hitting chest end");
             contextMenu.ClearContext(Open);
+        }
+
+        private void Open()
+        {
+            contextMenu.ClearContext(Open);
+            sprite.SetAnimation("open");
         }
 
         private void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)

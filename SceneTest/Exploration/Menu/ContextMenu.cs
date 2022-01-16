@@ -67,7 +67,6 @@ namespace SceneTest.Exploration.Menu
             if (sharpGui.Button(contextButton))
             {
                 activatedCallback();
-                activatedCallback = null;
             }
         }
     }
