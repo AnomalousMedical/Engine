@@ -457,7 +457,6 @@ namespace SceneTest
         {
             var numFightableSquares = Math.Min(currentIndex - corridorStartIndex, 30);
             var numEnemies = enemyRandom.Next(numFightableSquares) / 3;
-            Console.WriteLine($"{currentIndex} {corridorStartIndex} {numEnemies}");
             if(numEnemies < 1)
             {
                 numEnemies = 1;
