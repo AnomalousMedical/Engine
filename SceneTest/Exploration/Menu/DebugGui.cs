@@ -61,26 +61,26 @@ namespace SceneTest.Exploration.Menu
 
             var layout =
                 new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
-                new MaxWidthLayout(scaleHelper.Scaled(300),
-                new ColumnLayout(averageLevel, battle, allowBattle, levelUp, goStart, goEnd, goNextLevel, goPreviousLevel /*, toggleCamera*/) { Margin = new IntPad(10) }
+                new MaxWidthLayout(scaleHelper.Scaled(800),
+                new ColumnLayout(averageLevel, new RowLayout(battle, allowBattle), new RowLayout(levelUp), new RowLayout(goStart, goEnd), new RowLayout(goNextLevel, goPreviousLevel) /*, toggleCamera*/) { Margin = new IntPad(10) }
             ));
             var desiredSize = layout.GetDesiredSize(sharpGui);
             layout.SetRect(screenPositioner.GetBottomRightRect(desiredSize));
 
             sharpGui.Text(averageLevel);
 
-            if (sharpGui.Button(battle, navUp: goPreviousLevel.Id, navDown: allowBattle.Id))
+            if (sharpGui.Button(battle, navUp: goNextLevel.Id, navDown: levelUp.Id, navRight: allowBattle.Id, navLeft: allowBattle.Id))
             {
                 explorationGameState.RequestBattle();
                 explorationMenu.RequestSubMenu(null);
             }
 
-            if (sharpGui.Button(allowBattle, navUp: battle.Id, navDown: levelUp.Id))
+            if (sharpGui.Button(allowBattle, navUp: goPreviousLevel.Id, navDown: levelUp.Id, navRight: battle.Id, navLeft: battle.Id))
             {
                 explorationGameState.AllowBattles = !explorationGameState.AllowBattles;
             }
 
-            if (sharpGui.Button(levelUp, navUp: allowBattle.Id, navDown: goStart.Id))
+            if (sharpGui.Button(levelUp, navUp: battle.Id, navDown: goStart.Id))
             {
                 foreach(var c in party.ActiveCharacters)
                 {
@@ -88,25 +88,25 @@ namespace SceneTest.Exploration.Menu
                 }
             }
 
-            if(sharpGui.Button(goStart, navUp: levelUp.Id, navDown: goEnd.Id))
+            if(sharpGui.Button(goStart, navUp: levelUp.Id, navDown: goNextLevel.Id, navLeft: goEnd.Id, navRight: goEnd.Id))
             {
                 levelManager.GoStartPoint();
                 explorationMenu.RequestSubMenu(null);
             }
 
-            if (sharpGui.Button(goEnd, navUp: goStart.Id, navDown: goNextLevel.Id))
+            if (sharpGui.Button(goEnd, navUp: levelUp.Id, navDown: goPreviousLevel.Id, navLeft: goStart.Id, navRight: goStart.Id))
             {
                 levelManager.GoEndPoint();
                 explorationMenu.RequestSubMenu(null);
             }
 
-            if (!levelManager.ChangingLevels && sharpGui.Button(goNextLevel, navUp: goEnd.Id, navDown: goPreviousLevel.Id))
+            if (!levelManager.ChangingLevels && sharpGui.Button(goNextLevel, navUp: goStart.Id, navDown: battle.Id, navLeft: goPreviousLevel.Id, navRight: goPreviousLevel.Id))
             {
                 coroutineRunner.RunTask(levelManager.GoNextLevel());
                 explorationMenu.RequestSubMenu(null);
             }
 
-            if (!levelManager.ChangingLevels && sharpGui.Button(goPreviousLevel, navUp: goNextLevel.Id, navDown: battle.Id))
+            if (!levelManager.ChangingLevels && sharpGui.Button(goPreviousLevel, navUp: goEnd.Id, navDown: allowBattle.Id, navLeft: goNextLevel.Id, navRight: goNextLevel.Id))
             {
                 coroutineRunner.RunTask(levelManager.GoPreviousLevel());
                 explorationMenu.RequestSubMenu(null);
