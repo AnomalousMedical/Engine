@@ -75,11 +75,14 @@ namespace SceneTest
             this.currentOrientation = description.Orientation;
             this.currentScale = sprite.BaseScale * description.Scale;
 
+            var finalPosition = currentPosition;
+            finalPosition.y += currentScale.y / 2.0f;
+
             this.tlasData = new TLASBuildInstanceData()
             {
                 InstanceName = RTId.CreateId("BattleTrigger"),
                 Mask = RtStructures.OPAQUE_GEOM_MASK,
-                Transform = new InstanceMatrix(currentPosition, currentOrientation, currentScale)
+                Transform = new InstanceMatrix(finalPosition, currentOrientation, currentScale)
             };
 
             coroutine.RunTask(async () =>
@@ -133,6 +136,9 @@ namespace SceneTest
                 Quaternion.Identity.ToSystemNumerics(),
                 new CollidableDescription(shapeIndex, 0.1f)));
             bepuScene.RegisterCollisionListener(new CollidableReference(staticHandle), HandleCollision);
+
+            var totalScale = sprite.BaseScale * currentScale;
+            currentPosition.y += totalScale.y / 2;
         }
 
         private void HandleCollision(CollisionEvent evt)
