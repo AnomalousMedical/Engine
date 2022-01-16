@@ -670,7 +670,6 @@ namespace DungeonGenerator
             var totalYOffset = previousSlope.HalfYOffset + realHalfY;
             var centerY = previousSlope.Center.y + totalYOffset;
 
-            var floorY = centerY - halfUnitY;
             float floorFarLeftY = 0;
             float floorFarRightY = 0;
             float floorNearRightY = 0;
@@ -679,17 +678,17 @@ namespace DungeonGenerator
             {
                 if (xDir)
                 {
-                    floorFarLeftY = floorY - halfYOffset;
-                    floorFarRightY = floorY + halfYOffset;
-                    floorNearRightY = floorY + halfYOffset;
-                    floorNearLeftY = floorY - halfYOffset;
+                    floorFarLeftY = centerY - halfYOffset;
+                    floorFarRightY = centerY + halfYOffset;
+                    floorNearRightY = centerY + halfYOffset;
+                    floorNearLeftY = centerY - halfYOffset;
                 }
                 else
                 {
-                    floorFarLeftY = floorY + halfYOffset;
-                    floorFarRightY = floorY + halfYOffset;
-                    floorNearRightY = floorY - halfYOffset;
-                    floorNearLeftY = floorY - halfYOffset;
+                    floorFarLeftY = centerY + halfYOffset;
+                    floorFarRightY = centerY + halfYOffset;
+                    floorNearRightY = centerY - halfYOffset;
+                    floorNearLeftY = centerY - halfYOffset;
                 }
             }
             else
@@ -697,17 +696,17 @@ namespace DungeonGenerator
                 if (xDir)
                 {
 
-                    floorFarLeftY = floorY + halfYOffset;
-                    floorFarRightY = floorY - halfYOffset;
-                    floorNearRightY = floorY - halfYOffset;
-                    floorNearLeftY = floorY + halfYOffset;
+                    floorFarLeftY = centerY + halfYOffset;
+                    floorFarRightY = centerY - halfYOffset;
+                    floorNearRightY = centerY - halfYOffset;
+                    floorNearLeftY = centerY + halfYOffset;
                 }
                 else
                 {
-                    floorFarLeftY = floorY - halfYOffset;
-                    floorFarRightY = floorY - halfYOffset;
-                    floorNearRightY = floorY + halfYOffset;
-                    floorNearLeftY = floorY + halfYOffset;
+                    floorFarLeftY = centerY - halfYOffset;
+                    floorFarRightY = centerY - halfYOffset;
+                    floorNearRightY = centerY + halfYOffset;
+                    floorNearLeftY = centerY + halfYOffset;
                 }
             }
 
@@ -739,7 +738,7 @@ namespace DungeonGenerator
                     topLeft,
                     bottomRight);
 
-                floorCubeCenterPoints.Add(new MapMeshPosition(new Vector3(left + halfUnitX, floorY - halfUnitY, far - halfUnitZ), floorCubeRot));
+                floorCubeCenterPoints.Add(new MapMeshPosition(new Vector3(left + halfUnitX, centerY - halfUnitY, far - halfUnitZ), floorCubeRot));
 
                 int test;
 
@@ -767,7 +766,7 @@ namespace DungeonGenerator
                         && mapbuilder.WestConnector.Value.x == mapX && mapbuilder.WestConnector.Value.y == mapY)
                     {
                         var unitXOffset = left - halfUnitX;
-                        floorCubeCenterPoints.Add(new MapMeshPosition(new Vector3(unitXOffset, floorY - halfUnitY, far - halfUnitZ), floorCubeRot));
+                        floorCubeCenterPoints.Add(new MapMeshPosition(new Vector3(unitXOffset, centerY - halfUnitY, far - halfUnitZ), floorCubeRot));
                         boundaryCubeCenterPoints.Add(new Vector3(unitXOffset, centerY, near - halfUnitZ));
                         boundaryCubeCenterPoints.Add(new Vector3(unitXOffset, centerY, far + halfUnitZ));
                     }
@@ -785,7 +784,7 @@ namespace DungeonGenerator
                         && mapbuilder.EastConnector.Value.x == mapX && mapbuilder.EastConnector.Value.y == mapY)
                     {
                         var unitXOffset = left + 3 * halfUnitX;
-                        floorCubeCenterPoints.Add(new MapMeshPosition(new Vector3(unitXOffset, floorY - halfUnitY, far - halfUnitZ), floorCubeRot));
+                        floorCubeCenterPoints.Add(new MapMeshPosition(new Vector3(unitXOffset, centerY - halfUnitY, far - halfUnitZ), floorCubeRot));
                         boundaryCubeCenterPoints.Add(new Vector3(unitXOffset, centerY, near - halfUnitZ));
                         boundaryCubeCenterPoints.Add(new Vector3(unitXOffset, centerY, far + halfUnitZ));
                     }
