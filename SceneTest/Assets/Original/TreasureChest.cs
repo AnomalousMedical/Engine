@@ -46,7 +46,7 @@ namespace SceneTest.Assets.Original
                         } )
                     },
                 })
-            { BaseScale = new Vector3(1f, 1f, 1f) };
+            { BaseScale = new Vector3(0.55f, 0.55f, 0.55f) };
         }
     }
 }
