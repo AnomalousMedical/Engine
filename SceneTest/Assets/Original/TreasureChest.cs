@@ -42,7 +42,7 @@ namespace SceneTest.Assets.Original
                         } )
                     },
                     { "open", new SpriteAnimation((int)(0.7f * Clock.SecondsToMicro),
-                        new SpriteFrame(25f / 64f, 0, 48f / 64f, 28f / 32f)
+                        new SpriteFrame(24f / 64f, 0, 48f / 64f, 28f / 32f)
                         {
                             Attachments = new List<SpriteFrameAttachment>()
                             {
