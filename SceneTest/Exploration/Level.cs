@@ -99,10 +99,6 @@ namespace SceneTest
             /// True if this level has a go previous level connector. Default: true
             /// </summary>
             public bool GoPrevious { get; set; } = true;
-
-            public int MinFights { get; set; } = 5;
-
-            public int MaxFigths { get; set; } = 15;
         }
 
         private readonly RTInstances<ILevelManager> rtInstances;
@@ -135,8 +131,6 @@ namespace SceneTest
         private BlasInstanceData floorBlasInstanceData;
         private BlasInstanceData wallBlasInstanceData;
         private int seed;
-        private int minFights;
-        private int maxFights;
 
         private Task levelGenerationTask;
         private Vector3 mapUnits;
@@ -170,8 +164,6 @@ namespace SceneTest
         )
         {
             this.seed = description.RandomSeed;
-            this.minFights = description.MinFights;
-            this.maxFights = description.MaxFigths;
             this.mapUnits = new Vector3(description.MapUnitX, description.MapUnitY, description.MapUnitZ);
             this.objectResolver = objectResolverFactory.Create();
             this.destructionRequest = destructionRequest;
@@ -262,17 +254,6 @@ namespace SceneTest
                     startPointLocal = mapMesh.PointToVector(startX, startY);
                     var endConnector = mapBuilder.EastConnector.Value;
                     endPointLocal = mapMesh.PointToVector(endConnector.x, endConnector.y);
-
-                    //Ensure we can't have more fights than corridors
-                    if (maxFights > mapMesh.MapBuilder.Corridors.Count)
-                    {
-                        maxFights = mapMesh.MapBuilder.Corridors.Count;
-                        minFights = maxFights - 5;
-                        if (minFights < 0)
-                        {
-                            minFights = 0;
-                        }
-                    }
 
                     sw.Stop();
                     logger.LogInformation($"Generated level {description.Index} seed {description.RandomSeed} in {sw.ElapsedMilliseconds} ms.");
@@ -446,29 +427,59 @@ namespace SceneTest
                 o.GoPrevious = false;
             });
 
-            //Setup enemies
+            SetupCorridors();
+            SetupRooms();
+        }
+
+        private void SetupCorridors()
+        {
             var enemyRandom = new Random(seed);
-            var numFights = enemyRandom.Next(minFights, maxFights);
-            var corridorMax = mapMesh.MapBuilder.Corridors.Count;
             var usedCorridors = new HashSet<int>();
-            for (var i = 0; i < numFights; ++i)
+            var corridorStartIndex = 0;
+            var corridors = mapMesh.MapBuilder.Corridors;
+            var numCorridors = corridors.Count;
+            var firstPoint = corridors[0];
+            var currentCorridor = mapMesh.MapBuilder.map[firstPoint.x, firstPoint.y];
+            for(var currentIndex = 0; currentIndex < numCorridors; ++currentIndex)
+            {
+                var corridorPoint = corridors[currentIndex];
+                var testCorridor = mapMesh.MapBuilder.map[corridorPoint.x, corridorPoint.y];
+                if (currentCorridor != testCorridor)
+                {
+                    PopulateCorridor(enemyRandom, usedCorridors, corridorStartIndex, currentIndex);
+                    corridorStartIndex = currentIndex;
+                    currentCorridor = testCorridor;
+                }
+            }
+        }
+
+        private void PopulateCorridor(Random enemyRandom, HashSet<int> usedCorridors, int corridorStartIndex, int currentIndex)
+        {
+            var numFightableSquares = Math.Min(currentIndex - corridorStartIndex, 30);
+            var numEnemies = enemyRandom.Next(numFightableSquares) / 3;
+            Console.WriteLine($"{currentIndex} {corridorStartIndex} {numEnemies}");
+            if(numEnemies < 1)
+            {
+                numEnemies = 1;
+            }
+            for(int i = 0; i < numEnemies; ++i)
             {
                 var corridorTry = 0;
-                var corridorIndex = enemyRandom.Next(corridorMax);
+                var corridorIndex = enemyRandom.Next(corridorStartIndex, currentIndex);
                 while (usedCorridors.Contains(corridorIndex))
                 {
-                    if(++corridorTry > 50)
+                    if (++corridorTry > 50)
                     {
                         //If we generate too many bad random numbers, just get the first index we can from the list
-                        for (corridorIndex = 0; corridorIndex < corridorMax && usedCorridors.Contains(corridorIndex); ++corridorIndex) { }
-                        if (corridorIndex >= corridorMax)
+                        for (corridorIndex = corridorStartIndex; corridorIndex < currentIndex && usedCorridors.Contains(corridorIndex); ++corridorIndex) { }
+                        if (corridorIndex >= currentIndex)
                         {
                             throw new InvalidOperationException("This should not happen, but ran out of corridors trying to place enemies. This is guarded in the constructor.");
                         }
                     }
                     else
                     {
-                        corridorIndex = enemyRandom.Next(corridorMax);
+                        corridorIndex = enemyRandom.Next(corridorStartIndex, currentIndex);
                     }
                 }
                 usedCorridors.Add(corridorIndex);
@@ -484,26 +495,33 @@ namespace SceneTest
                 });
                 battleTriggers.Add(battleTrigger);
             }
+        }
 
-            //Setup treasure, just put one in each room for now
-            foreach(var room in mapMesh.MapBuilder.Rooms)
+        private void SetupRooms()
+        {
+            foreach (var room in mapMesh.MapBuilder.Rooms)
             {
-                var point = new Point(room.Left + room.Width / 2, room.Top + room.Height / 2);
+                PopulateRoom(room);
+            }
+        }
 
-                //Special case for first room, a bit hacky, but the computation should work out the same as the start point
-                var mapLoc = mapMesh.PointToVector(point.x, point.y);
-                if (goPrevious || mapLoc != startPointLocal)
+        private void PopulateRoom(Rectangle room)
+        {
+            var point = new Point(room.Left + room.Width / 2, room.Top + room.Height / 2);
+
+            //Special case for first room, a bit hacky, but the computation should work out the same as the start point
+            var mapLoc = mapMesh.PointToVector(point.x, point.y);
+            if (goPrevious || mapLoc != startPointLocal)
+            {
+                var treasureTrigger = objectResolver.Resolve<TreasureTrigger, TreasureTrigger.Description>(o =>
                 {
-                    var treasureTrigger = objectResolver.Resolve<TreasureTrigger, TreasureTrigger.Description>(o =>
-                    {
-                        o.MapOffset = mapLoc;
-                        o.Translation = currentPosition + o.MapOffset;
-                        var treasure = biome.Treasure;
-                        o.Sprite = treasure.Asset.CreateSprite();
-                        o.SpriteMaterial = treasure.Asset.CreateMaterial();
-                    });
-                    this.treasureTriggers.Add(treasureTrigger);
-                }
+                    o.MapOffset = mapLoc;
+                    o.Translation = currentPosition + o.MapOffset;
+                    var treasure = biome.Treasure;
+                    o.Sprite = treasure.Asset.CreateSprite();
+                    o.SpriteMaterial = treasure.Asset.CreateMaterial();
+                });
+                this.treasureTriggers.Add(treasureTrigger);
             }
         }
 
