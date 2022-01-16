@@ -49,10 +49,19 @@ namespace SceneTest
             levelManager.StopPlayer();
         }
 
+        public bool AllowBattles { get; set; } = true;
+
         public void RequestBattle(BattleTrigger battleTrigger)
         {
-            battleState.SetBattleTrigger(battleTrigger);
-            nextState = battleState;
+            if (AllowBattles)
+            {
+                battleState.SetBattleTrigger(battleTrigger);
+                nextState = battleState;
+            }
+            else
+            {
+                battleTrigger?.RequestDestruction();
+            }
         }
 
         public IGameState Update(Clock clock)

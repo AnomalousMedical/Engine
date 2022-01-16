@@ -4,6 +4,8 @@ namespace SceneTest
 {
     interface IExplorationGameState : IGameState
     {
+        bool AllowBattles { get; set; }
+
         void Link(IBattleGameState battleState);
 
         /// <summary>

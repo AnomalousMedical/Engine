@@ -27,6 +27,7 @@ namespace SceneTest.Exploration.Menu
         //SharpButton toggleCamera = new SharpButton() { Text = "Toggle Camera" };
         SharpButton levelUp = new SharpButton() { Text = "Level Up" };
         SharpButton battle = new SharpButton() { Text = "Battle" };
+        SharpButton allowBattle = new SharpButton() { Text = "Allow Battle" };
         SharpText averageLevel = new SharpText() { Color = Color.White };
         SharpSliderHorizontal currentHour;
 
@@ -56,24 +57,30 @@ namespace SceneTest.Exploration.Menu
         public void Update(IExplorationGameState explorationGameState, IExplorationMenu explorationMenu)
         {
             averageLevel.Text = $"Level: {party.ActiveCharacters.GetAverageLevel()}";
+            allowBattle.Text = explorationGameState.AllowBattles ? "Battles Allowed" : "Battles Disabled";
 
             var layout =
                 new MarginLayout(new IntPad(scaleHelper.Scaled(10)),
                 new MaxWidthLayout(scaleHelper.Scaled(300),
-                new ColumnLayout(averageLevel, battle, levelUp, goStart, goEnd, goNextLevel, goPreviousLevel /*, toggleCamera*/) { Margin = new IntPad(10) }
+                new ColumnLayout(averageLevel, battle, allowBattle, levelUp, goStart, goEnd, goNextLevel, goPreviousLevel /*, toggleCamera*/) { Margin = new IntPad(10) }
             ));
             var desiredSize = layout.GetDesiredSize(sharpGui);
             layout.SetRect(screenPositioner.GetBottomRightRect(desiredSize));
 
             sharpGui.Text(averageLevel);
 
-            if (sharpGui.Button(battle, navUp: goPreviousLevel.Id, navDown: levelUp.Id))
+            if (sharpGui.Button(battle, navUp: goPreviousLevel.Id, navDown: allowBattle.Id))
             {
                 explorationGameState.RequestBattle();
                 explorationMenu.RequestSubMenu(null);
             }
 
-            if (sharpGui.Button(levelUp, navUp: battle.Id, navDown: goStart.Id))
+            if (sharpGui.Button(allowBattle, navUp: battle.Id, navDown: levelUp.Id))
+            {
+                explorationGameState.AllowBattles = !explorationGameState.AllowBattles;
+            }
+
+            if (sharpGui.Button(levelUp, navUp: allowBattle.Id, navDown: goStart.Id))
             {
                 foreach(var c in party.ActiveCharacters)
                 {
