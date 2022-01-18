@@ -6,6 +6,7 @@ using DiligentEngine.RT;
 using DiligentEngine.RT.Sprites;
 using Engine;
 using SceneTest.Exploration.Menu;
+using SceneTest.Services;
 using SharpGui;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,10 @@ namespace SceneTest
     {
         public class Description : SceneObjectDesc
         {
+            public int LevelIndex { get; set; }
+
+            public int InstanceId { get; set; }
+
             public Vector3 MapOffset { get; set; }
 
             public Sprite Sprite { get; set; }
@@ -26,10 +31,13 @@ namespace SceneTest
             public SpriteMaterialDescription SpriteMaterial { get; set; }
         }
 
+        record struct PersistenceData(bool Open);
+
         private readonly RTInstances<ILevelManager> rtInstances;
         private readonly IDestructionRequest destructionRequest;
         private readonly SpriteInstanceFactory spriteInstanceFactory;
         private readonly IContextMenu contextMenu;
+        private readonly Persistence persistence;
         private SpriteInstance spriteInstance;
         private readonly Sprite sprite;
         private readonly TLASBuildInstanceData tlasData;
@@ -39,6 +47,9 @@ namespace SceneTest
         private StaticHandle staticHandle;
         private TypedIndex shapeIndex;
         private bool disposed = false;
+        private int levelIndex;
+        private int instanceId;
+        private PersistenceData state;
 
         private Vector3 currentPosition;
         private Quaternion currentOrientation;
@@ -52,15 +63,19 @@ namespace SceneTest
             Description description,
             ICollidableTypeIdentifier collidableIdentifier,
             SpriteInstanceFactory spriteInstanceFactory,
-            IContextMenu contextMenu)
+            IContextMenu contextMenu,
+            Persistence persistence)
         {
             this.sprite = description.Sprite;
+            this.levelIndex = description.LevelIndex;
+            this.instanceId = description.InstanceId;
             this.rtInstances = rtInstances;
             this.destructionRequest = destructionRequest;
             this.bepuScene = bepuScene;
             this.collidableIdentifier = collidableIdentifier;
             this.spriteInstanceFactory = spriteInstanceFactory;
             this.contextMenu = contextMenu;
+            this.persistence = persistence;
             this.mapOffset = description.MapOffset;
             var shape = new Box(description.Scale.x, 1000, description.Scale.z); //TODO: Each one creates its own, try to load from resources
             shapeIndex = bepuScene.Simulation.Shapes.Add(shape);
@@ -105,6 +120,12 @@ namespace SceneTest
                     rtInstances.AddTlasBuild(tlasData);
                     rtInstances.AddShaderTableBinder(Bind);
                     rtInstances.AddSprite(sprite);
+
+                    state = persistence.GetData<PersistenceData>(levelIndex, "TreasureTrigger", instanceId);
+                    if (state.Open)
+                    {
+                        sprite.SetAnimation("open");
+                    }
                 }
             });
         }
@@ -121,7 +142,10 @@ namespace SceneTest
             rtInstances.RemoveSprite(sprite);
             rtInstances.RemoveShaderTableBinder(Bind);
             rtInstances.RemoveTlasBuild(tlasData);
-            bepuScene.UnregisterCollisionListener(new CollidableReference(staticHandle));
+            if (!state.Open)
+            {
+                bepuScene.UnregisterCollisionListener(new CollidableReference(staticHandle));
+            }
             bepuScene.Simulation.Shapes.Remove(shapeIndex);
             bepuScene.Simulation.Statics.Remove(staticHandle);
         }
@@ -150,12 +174,18 @@ namespace SceneTest
 
         private void RegisterCollision()
         {
-            bepuScene.RegisterCollisionListener(new CollidableReference(staticHandle), collisionEvent: HandleCollision, endEvent: HandleCollisionEnd);
+            if (!state.Open)
+            {
+                bepuScene.RegisterCollisionListener(new CollidableReference(staticHandle), collisionEvent: HandleCollision, endEvent: HandleCollisionEnd);
+            }
         }
 
         private void HandleCollision(CollisionEvent evt)
         {
-            contextMenu.HandleContext("Open", Open);
+            if (!state.Open)
+            {
+                contextMenu.HandleContext("Open", Open);
+            }
         }
 
         private void HandleCollisionEnd(CollisionEvent evt)
@@ -167,6 +197,9 @@ namespace SceneTest
         {
             contextMenu.ClearContext(Open);
             sprite.SetAnimation("open");
+            state.Open = true;
+            persistence.SetData(levelIndex, "TreasureTrigger", instanceId, state);
+            bepuScene.UnregisterCollisionListener(new CollidableReference(staticHandle));
         }
 
         private void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)

@@ -120,6 +120,7 @@ namespace SceneTest
             services.AddSingleton<ISetupGameState, SetupGameState>();
             services.AddSingleton<IExplorationMenu, ExplorationMenu>();
             services.AddSingleton<IContextMenu, ContextMenu>();
+            services.AddSingleton<Persistence>();
 
             return true;
         }

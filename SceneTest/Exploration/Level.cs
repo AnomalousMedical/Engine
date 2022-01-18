@@ -131,6 +131,7 @@ namespace SceneTest
         private BlasInstanceData floorBlasInstanceData;
         private BlasInstanceData wallBlasInstanceData;
         private int seed;
+        private int index;
 
         private Task levelGenerationTask;
         private Vector3 mapUnits;
@@ -163,6 +164,7 @@ namespace SceneTest
             RayTracingRenderer renderer
         )
         {
+            this.index = description.Index;
             this.seed = description.RandomSeed;
             this.mapUnits = new Vector3(description.MapUnitX, description.MapUnitY, description.MapUnitZ);
             this.objectResolver = objectResolverFactory.Create();
@@ -427,8 +429,15 @@ namespace SceneTest
                 o.GoPrevious = false;
             });
 
+            ResetPlacementData();
             SetupCorridors();
             SetupRooms();
+        }
+
+        private int treasureIndex = 0;
+        private void ResetPlacementData()
+        {
+            treasureIndex = 0;
         }
 
         private void SetupCorridors()
@@ -514,6 +523,8 @@ namespace SceneTest
             {
                 var treasureTrigger = objectResolver.Resolve<TreasureTrigger, TreasureTrigger.Description>(o =>
                 {
+                    o.InstanceId = treasureIndex++;
+                    o.LevelIndex = index;
                     o.MapOffset = mapLoc;
                     o.Translation = currentPosition + o.MapOffset;
                     var treasure = biome.Treasure;
