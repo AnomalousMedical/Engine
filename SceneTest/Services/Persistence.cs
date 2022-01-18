@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using DataDictionary = System.Collections.Generic.Dictionary<int, System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<object, object>>>;
+using DataDictionary = System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<int, System.Collections.Generic.Dictionary<object, object>>>;
 
 namespace SceneTest.Services
 {
@@ -13,14 +13,14 @@ namespace SceneTest.Services
     {
         private DataDictionary data = new DataDictionary();
 
-        public T GetData<T>(int level, String type, object key)
+        public T GetData<T>(String type, int level, object key)
             where T : struct
         {
-            if (data.TryGetValue(level, out var levelData))
+            if (data.TryGetValue(type, out var typeData))
             {
-                if (levelData.TryGetValue(type, out var typeData))
+                if (typeData.TryGetValue(level, out var levelData))
                 {
-                    if (typeData.TryGetValue(key, out var val))
+                    if (levelData.TryGetValue(key, out var val))
                     {
                         return (T)val;
                     }
@@ -30,44 +30,21 @@ namespace SceneTest.Services
             return default(T);
         }
 
-        public void SetData<T>(int level, String type, object key, T value)
+        public void SetData<T>(String type, int level, object key, T value)
         {
-            Dictionary<string, Dictionary<object, object>> levelData;
-            if (!data.TryGetValue(level, out levelData))
+            Dictionary<int, Dictionary<object, object>> typeData;
+            if (!data.TryGetValue(type, out typeData))
             {
-                levelData = new Dictionary<string, Dictionary<object, object>>();
-                data[level] = levelData;
+                typeData = new Dictionary<int, Dictionary<object, object>>();
+                data[type] = typeData;
             }
-            Dictionary<object, object> typeData;
-            if (!levelData.TryGetValue(type, out typeData))
+            Dictionary<object, object> levelData;
+            if (!typeData.TryGetValue(level, out levelData))
             {
-                typeData = new Dictionary<object, object>();
-                levelData[type] = typeData;
+                levelData = new Dictionary<object, object>();
+                typeData[level] = levelData;
             }
-            typeData[key] = value;
-        }
-
-        public void DeleteData(int level, String type, object key)
-        {
-            if (data.TryGetValue(level, out var levelData))
-            {
-                if (levelData.TryGetValue(type, out var typeData))
-                {
-                    if (typeData.Remove(key))
-                    {
-                        if (typeData.Count == 0)
-                        {
-                            if (levelData.Remove(type))
-                            {
-                                if (levelData.Count == 0)
-                                {
-                                    data.Remove(level);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            levelData[key] = value;
         }
 
         public void SaveData(Stream stream)

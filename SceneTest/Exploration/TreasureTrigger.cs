@@ -69,6 +69,7 @@ namespace SceneTest
             this.sprite = description.Sprite;
             this.levelIndex = description.LevelIndex;
             this.instanceId = description.InstanceId;
+            this.state = persistence.GetData<PersistenceData>("TreasureTrigger", levelIndex, instanceId);
             this.rtInstances = rtInstances;
             this.destructionRequest = destructionRequest;
             this.bepuScene = bepuScene;
@@ -121,7 +122,6 @@ namespace SceneTest
                     rtInstances.AddShaderTableBinder(Bind);
                     rtInstances.AddSprite(sprite);
 
-                    state = persistence.GetData<PersistenceData>(levelIndex, "TreasureTrigger", instanceId);
                     if (state.Open)
                     {
                         sprite.SetAnimation("open");
@@ -142,10 +142,7 @@ namespace SceneTest
             rtInstances.RemoveSprite(sprite);
             rtInstances.RemoveShaderTableBinder(Bind);
             rtInstances.RemoveTlasBuild(tlasData);
-            if (!state.Open)
-            {
-                bepuScene.UnregisterCollisionListener(new CollidableReference(staticHandle));
-            }
+            bepuScene.UnregisterCollisionListener(new CollidableReference(staticHandle));
             bepuScene.Simulation.Shapes.Remove(shapeIndex);
             bepuScene.Simulation.Statics.Remove(staticHandle);
         }
@@ -174,10 +171,7 @@ namespace SceneTest
 
         private void RegisterCollision()
         {
-            if (!state.Open)
-            {
-                bepuScene.RegisterCollisionListener(new CollidableReference(staticHandle), collisionEvent: HandleCollision, endEvent: HandleCollisionEnd);
-            }
+            bepuScene.RegisterCollisionListener(new CollidableReference(staticHandle), collisionEvent: HandleCollision, endEvent: HandleCollisionEnd);
         }
 
         private void HandleCollision(CollisionEvent evt)
@@ -198,8 +192,7 @@ namespace SceneTest
             contextMenu.ClearContext(Open);
             sprite.SetAnimation("open");
             state.Open = true;
-            persistence.SetData(levelIndex, "TreasureTrigger", instanceId, state);
-            bepuScene.UnregisterCollisionListener(new CollidableReference(staticHandle));
+            persistence.SetData("TreasureTrigger", levelIndex, instanceId, state);
         }
 
         private void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)
