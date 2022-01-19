@@ -62,6 +62,7 @@ namespace SceneTest
             }
             else
             {
+                battleTrigger.BattleWon();
                 battleTrigger?.RequestDestruction();
             }
         }
