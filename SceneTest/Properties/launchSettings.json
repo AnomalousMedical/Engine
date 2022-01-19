@@ -3,6 +3,10 @@
     "Run App": {
       "commandName": "Project",
       "nativeDebugging": false
+    },
+    "Run App Native Debug": {
+      "commandName": "Project",
+      "nativeDebugging": true
     }
   }
 }
