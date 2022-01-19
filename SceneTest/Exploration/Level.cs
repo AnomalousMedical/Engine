@@ -434,10 +434,12 @@ namespace SceneTest
             SetupRooms();
         }
 
-        private int treasureIndex = 0;
+        private int treasureIndex;
+        private int enemyIndex;
         private void ResetPlacementData()
         {
             treasureIndex = 0;
+            enemyIndex = 0;
         }
 
         private void SetupCorridors()
@@ -500,6 +502,8 @@ namespace SceneTest
                     var enemy = biome.GetEnemy(RpgMath.EnemyType.Normal);
                     o.Sprite = enemy.Asset.CreateSprite();
                     o.SpriteMaterial = enemy.Asset.CreateMaterial();
+                    o.Level = index;
+                    o.Index = enemyIndex++;
                 });
                 battleTriggers.Add(battleTrigger);
             }

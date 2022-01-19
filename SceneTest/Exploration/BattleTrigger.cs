@@ -5,6 +5,7 @@ using DiligentEngine;
 using DiligentEngine.RT;
 using DiligentEngine.RT.Sprites;
 using Engine;
+using SceneTest.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,14 @@ namespace SceneTest
             public Sprite Sprite { get; set; }
 
             public SpriteMaterialDescription SpriteMaterial { get; set; }
+
+            public int Level { get; set; }
+
+            public int Index { get; set; }
         }
+
+        record struct PersistenceData(bool Dead);
+        private PersistenceData state;
 
         private readonly RTInstances<ILevelManager> rtInstances;
         private readonly IDestructionRequest destructionRequest;
@@ -31,8 +39,10 @@ namespace SceneTest
         private readonly Sprite sprite;
         private readonly TLASBuildInstanceData tlasData;
         private readonly IBepuScene bepuScene;
+        private readonly Description description;
         private readonly ICollidableTypeIdentifier collidableIdentifier;
         private readonly IExplorationGameState explorationGameState;
+        private readonly Persistence persistence;
         private readonly Vector3 mapOffset;
         private StaticHandle staticHandle;
         private TypedIndex shapeIndex;
@@ -42,6 +52,8 @@ namespace SceneTest
         private Quaternion currentOrientation;
         private Vector3 currentScale;
 
+        private bool created = false;
+
         public BattleTrigger(
             RTInstances<ILevelManager> rtInstances,
             IDestructionRequest destructionRequest,
@@ -50,15 +62,25 @@ namespace SceneTest
             Description description,
             ICollidableTypeIdentifier collidableIdentifier,
             SpriteInstanceFactory spriteInstanceFactory,
-            IExplorationGameState explorationGameState)
+            IExplorationGameState explorationGameState,
+            Persistence persistence)
         {
+            state = persistence.GetData<PersistenceData>("BattleTrigger", description.Level, description.Index);
+            if (state.Dead)
+            {
+                return;
+            }
+
+            this.created = true;
             this.sprite = description.Sprite;
             this.rtInstances = rtInstances;
             this.destructionRequest = destructionRequest;
             this.bepuScene = bepuScene;
+            this.description = description;
             this.collidableIdentifier = collidableIdentifier;
             this.spriteInstanceFactory = spriteInstanceFactory;
             this.explorationGameState = explorationGameState;
+            this.persistence = persistence;
             this.mapOffset = description.MapOffset;
             var shape = new Box(description.Scale.x, 1000, description.Scale.z); //TODO: Each one creates its own, try to load from resources
             shapeIndex = bepuScene.Simulation.Shapes.Add(shape);
@@ -109,11 +131,18 @@ namespace SceneTest
 
         public void BattleWon()
         {
+            state.Dead = true;
+            persistence.SetData("BattleTrigger", description.Level, description.Index, state);
             this.RequestDestruction();
         }
 
         public void Dispose()
         {
+            if (!this.created)
+            {
+                return;
+            }
+
             disposed = true;
             spriteInstanceFactory.TryReturn(spriteInstance);
             rtInstances.RemoveSprite(sprite);
@@ -126,11 +155,20 @@ namespace SceneTest
 
         public void RequestDestruction()
         {
+            if (!this.created)
+            {
+                return;
+            }
             this.destructionRequest.RequestDestruction();
         }
 
-        internal void SetLevelPosition(in Vector3 levelPosition)
+        public void SetLevelPosition(in Vector3 levelPosition)
         {
+            if (!this.created)
+            {
+                return;
+            }
+
             bepuScene.UnregisterCollisionListener(new CollidableReference(staticHandle));
             bepuScene.Simulation.Statics.Remove(this.staticHandle);
             currentPosition = levelPosition + mapOffset;
