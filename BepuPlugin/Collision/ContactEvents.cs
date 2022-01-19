@@ -76,8 +76,12 @@ namespace BepuPlugin
         {
             var exists = listeners.GetTableIndices(ref collidable, out var tableIndex, out var elementIndex);
             Debug.Assert(exists, "Should only try to unregister listeners that actually exist.");
-            listeners.Values[elementIndex].Dispose(pool);
-            listeners.FastRemove(tableIndex, elementIndex);
+            var listener = listeners.Values[elementIndex];
+            if (listener.Span.Allocated)
+            {
+                listener.Dispose(pool);
+                listeners.FastRemove(tableIndex, elementIndex);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
