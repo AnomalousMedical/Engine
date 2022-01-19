@@ -52,7 +52,7 @@ namespace SceneTest
         private Quaternion currentOrientation;
         private Vector3 currentScale;
 
-        private bool created = false;
+        private bool notCreated = true;
 
         public BattleTrigger(
             RTInstances<ILevelManager> rtInstances,
@@ -71,7 +71,7 @@ namespace SceneTest
                 return;
             }
 
-            this.created = true;
+            this.notCreated = false;
             this.sprite = description.Sprite;
             this.rtInstances = rtInstances;
             this.destructionRequest = destructionRequest;
@@ -138,10 +138,7 @@ namespace SceneTest
 
         public void Dispose()
         {
-            if (!this.created)
-            {
-                return;
-            }
+            if (this.notCreated) { return; }
 
             disposed = true;
             spriteInstanceFactory.TryReturn(spriteInstance);
@@ -155,19 +152,14 @@ namespace SceneTest
 
         public void RequestDestruction()
         {
-            if (!this.created)
-            {
-                return;
-            }
+            if (this.notCreated) { return; }
+
             this.destructionRequest.RequestDestruction();
         }
 
         public void SetLevelPosition(in Vector3 levelPosition)
         {
-            if (!this.created)
-            {
-                return;
-            }
+            if (this.notCreated) { return; }
 
             bepuScene.UnregisterCollisionListener(new CollidableReference(staticHandle));
             bepuScene.Simulation.Statics.Remove(this.staticHandle);
