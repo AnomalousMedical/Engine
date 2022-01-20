@@ -38,4 +38,9 @@ namespace SharpGui
         
         public String Text { get; set; }
     }
+
+    public class SharpButton<T> : SharpButton
+    {
+        public T UserObject { get; set; }
+    }
 }
