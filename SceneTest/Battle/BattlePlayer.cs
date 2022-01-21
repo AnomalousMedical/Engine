@@ -304,14 +304,14 @@ namespace SceneTest.Battle
                 switch (sharpGui.GamepadButtonEntered)
                 {
                     case GamepadButtonCode.XInput_Y:
-                        battleManager.SwitchPlayer();
+                        SwitchPlayer();
                         break;
                     default:
                         //Handle keyboard
                         switch (sharpGui.KeyEntered)
                         {
                             case KeyboardButtonCode.KC_LSHIFT:
-                                battleManager.SwitchPlayer();
+                                SwitchPlayer();
                                 break;
                         }
                         break;
@@ -319,6 +319,12 @@ namespace SceneTest.Battle
             }
 
             return didSomething;
+        }
+
+        private void SwitchPlayer()
+        {
+            currentMenuMode = MenuMode.Root;
+            battleManager.SwitchPlayer();
         }
 
         private bool UpdateRootMenu(ISharpGui sharpGui, bool didSomething)
