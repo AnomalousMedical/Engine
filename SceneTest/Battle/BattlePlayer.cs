@@ -134,13 +134,13 @@ namespace SceneTest.Battle
             turnProgress.DesiredSize = scaleHelper.Scaled(new IntSize2(200, 25));
             infoRowLayout = new RowLayout(
                 new FixedWidthLayout(scaleHelper.Scaled(240), name),
-                new FixedWidthLayout(scaleHelper.Scaled(85), currentHp),
+                new FixedWidthLayout(scaleHelper.Scaled(185), currentHp),
                 new FixedWidthLayout(scaleHelper.Scaled(70), currentMp),
                 new FixedWidthLayout(scaleHelper.Scaled(210), turnProgress));
             battleScreenLayout.InfoColumn.Add(infoRowLayout);
 
             name.Text = description.CharacterSheet.Name;
-            currentHp.Text = description.CharacterSheet.CurrentHp.ToString();
+            currentHp.Text = GetCurrentHpText();
             currentMp.Text = description.CharacterSheet.CurrentMp.ToString();
 
             turnTimer.AddTimer(characterTimer);
@@ -213,6 +213,11 @@ namespace SceneTest.Battle
                     rtInstances.AddSprite(sprite);
                 }
             });
+        }
+
+        private String GetCurrentHpText()
+        {
+            return $"{characterSheet.CurrentHp} / {characterSheet.Hp}";
         }
 
         private bool guiActive = false;
@@ -584,7 +589,7 @@ namespace SceneTest.Battle
             if (IsDead) { return; } //Do nothing if dead
 
             characterSheet.CurrentHp = calculator.ApplyDamage(damage, characterSheet.CurrentHp, characterSheet.Hp);
-            currentHp.UpdateText(characterSheet.CurrentHp.ToString());
+            currentHp.UpdateText(GetCurrentHpText());
 
             //Player died from applied damage
             if (IsDead)
