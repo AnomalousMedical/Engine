@@ -29,7 +29,7 @@ namespace SceneTest
             public int Index { get; set; }
         }
 
-        record struct PersistenceData(bool Dead);
+        public record struct PersistenceData(bool Dead);
         private PersistenceData state;
 
         private readonly RTInstances<ILevelManager> rtInstances;
@@ -65,7 +65,7 @@ namespace SceneTest
             IExplorationGameState explorationGameState,
             Persistence persistence)
         {
-            state = persistence.GetData<PersistenceData>("BattleTrigger", description.Level, description.Index);
+            state = persistence.BattleTriggers.GetData(description.Level, description.Index);
             if (state.Dead)
             {
                 return;
@@ -132,7 +132,7 @@ namespace SceneTest
         public void BattleWon()
         {
             state.Dead = true;
-            persistence.SetData("BattleTrigger", description.Level, description.Index, state);
+            persistence.BattleTriggers.SetData(description.Level, description.Index, state);
             this.RequestDestruction();
         }
 

@@ -31,7 +31,7 @@ namespace SceneTest
             public SpriteMaterialDescription SpriteMaterial { get; set; }
         }
 
-        record struct PersistenceData(bool Open);
+        public record struct PersistenceData(bool Open);
 
         private readonly RTInstances<ILevelManager> rtInstances;
         private readonly IDestructionRequest destructionRequest;
@@ -69,7 +69,7 @@ namespace SceneTest
             this.sprite = description.Sprite;
             this.levelIndex = description.LevelIndex;
             this.instanceId = description.InstanceId;
-            this.state = persistence.GetData<PersistenceData>("TreasureTrigger", levelIndex, instanceId);
+            this.state = persistence.TreasureTriggers.GetData(levelIndex, instanceId);
             this.rtInstances = rtInstances;
             this.destructionRequest = destructionRequest;
             this.bepuScene = bepuScene;
@@ -192,7 +192,7 @@ namespace SceneTest
             contextMenu.ClearContext(Open);
             sprite.SetAnimation("open");
             state.Open = true;
-            persistence.SetData("TreasureTrigger", levelIndex, instanceId, state);
+            persistence.TreasureTriggers.SetData(levelIndex, instanceId, state);
         }
 
         private void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)

@@ -5,59 +5,43 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using DataDictionary = System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<int, System.Collections.Generic.Dictionary<object, object>>>;
 
 namespace SceneTest.Services
 {
-    public class Persistence
-    {
-        private DataDictionary data = new DataDictionary();
-
-        public T GetData<T>(String type, int level, object key)
+    class PersistenceEntry<T>
             where T : struct
+    {
+        private Dictionary<int, Dictionary<int, T>> entryDictionary = new Dictionary<int, Dictionary<int, T>>();
+
+        public T GetData(int level, int key)
         {
-            if (data.TryGetValue(type, out var typeData))
+            if (entryDictionary.TryGetValue(level, out var levelData))
             {
-                if (typeData.TryGetValue(level, out var levelData))
+                if (levelData.TryGetValue(key, out var val))
                 {
-                    if (levelData.TryGetValue(key, out var val))
-                    {
-                        return (T)val;
-                    }
+                    return (T)val;
                 }
             }
 
             return default(T);
         }
 
-        public void SetData<T>(String type, int level, object key, T value)
+        public void SetData(int level, int key, T value)
         {
-            Dictionary<int, Dictionary<object, object>> typeData;
-            if (!data.TryGetValue(type, out typeData))
+            Dictionary<int, T> levelData;
+            if (!entryDictionary.TryGetValue(level, out levelData))
             {
-                typeData = new Dictionary<int, Dictionary<object, object>>();
-                data[type] = typeData;
-            }
-            Dictionary<object, object> levelData;
-            if (!typeData.TryGetValue(level, out levelData))
-            {
-                levelData = new Dictionary<object, object>();
-                typeData[level] = levelData;
+                levelData = new Dictionary<int, T>();
+                entryDictionary[level] = levelData;
             }
             levelData[key] = value;
         }
+    }
 
-        public void SaveData(Stream stream)
-        {
-            JsonSerializer.Serialize(stream, data, new JsonSerializerOptions()
-            {
-                WriteIndented = true,
-            });
-        }
+    class Persistence
+    {
+        public PersistenceEntry<BattleTrigger.PersistenceData> BattleTriggers { get; } = new PersistenceEntry<BattleTrigger.PersistenceData>();
 
-        public void LoadData(Stream stream)
-        {
-            data = JsonSerializer.Deserialize<DataDictionary>(stream);
-        }
+        public PersistenceEntry<TreasureTrigger.PersistenceData> TreasureTriggers { get; } = new PersistenceEntry<TreasureTrigger.PersistenceData>();
     }
 }
