@@ -134,14 +134,14 @@ namespace SceneTest.Battle
             turnProgress.DesiredSize = scaleHelper.Scaled(new IntSize2(200, 25));
             infoRowLayout = new RowLayout(
                 new FixedWidthLayout(scaleHelper.Scaled(240), name),
-                new FixedWidthLayout(scaleHelper.Scaled(185), currentHp),
-                new FixedWidthLayout(scaleHelper.Scaled(70), currentMp),
+                new FixedWidthLayout(scaleHelper.Scaled(165), currentHp),
+                new FixedWidthLayout(scaleHelper.Scaled(125), currentMp),
                 new FixedWidthLayout(scaleHelper.Scaled(210), turnProgress));
             battleScreenLayout.InfoColumn.Add(infoRowLayout);
 
             name.Text = description.CharacterSheet.Name;
             currentHp.Text = GetCurrentHpText();
-            currentMp.Text = description.CharacterSheet.CurrentMp.ToString();
+            currentMp.Text = GetCurrentMpText();
 
             turnTimer.AddTimer(characterTimer);
             characterTimer.TurnReady += CharacterTimer_TurnReady;
@@ -218,6 +218,11 @@ namespace SceneTest.Battle
         private String GetCurrentHpText()
         {
             return $"{characterSheet.CurrentHp} / {characterSheet.Hp}";
+        }
+
+        private String GetCurrentMpText()
+        {
+            return $"{characterSheet.CurrentMp} / {characterSheet.Mp}";
         }
 
         private bool guiActive = false;
@@ -609,7 +614,7 @@ namespace SceneTest.Battle
         public void TakeMp(long mp)
         {
             characterSheet.CurrentMp -= mp;
-            currentMp.UpdateText(characterSheet.CurrentMp.ToString());
+            currentMp.UpdateText(GetCurrentMpText());
         }
 
         public void AddXp(long xp)
