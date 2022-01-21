@@ -248,8 +248,24 @@ namespace SceneTest.Battle
             objectResolver.Dispose();
         }
 
-        public void DrawInfoGui(Clock clock, ISharpGui sharpGui)
+        public void DrawInfoGui(Clock clock, ISharpGui sharpGui, bool currentTarget = false)
         {
+            if (currentTarget)
+            {
+                name.Color = Color.Red;
+            }
+            else
+            {
+                if (guiActive)
+                {
+                    name.Color = Color.LightBlue;
+                }
+                else
+                {
+                    name.Color = Color.White;
+                }
+            }
+
             sharpGui.Text(name);
             sharpGui.Text(currentHp);
             sharpGui.Text(currentMp);

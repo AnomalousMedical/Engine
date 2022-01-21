@@ -261,6 +261,11 @@ namespace SceneTest.Battle
                     {
                         target = players[(int)(cursor.TargetIndex % players.Count)];
                         targetPos = target.CursorDisplayLocation;
+
+                        foreach (var player in players)
+                        {
+                            player.DrawInfoGui(clock, sharpGui, target == player);
+                        }
                     }
                     else
                     {
