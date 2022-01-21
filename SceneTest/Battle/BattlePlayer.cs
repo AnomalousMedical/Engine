@@ -90,6 +90,7 @@ namespace SceneTest.Battle
             public IPlayerSprite PlayerSpriteInfo { get; set; }
             public ISpriteAsset PrimaryHandItem { get; set; }
             public ISpriteAsset SecondaryHandItem { get; set; }
+            public IEnumerable<ISpell> Spells { get; set; }
         }
 
         public BattlePlayer(
@@ -127,6 +128,8 @@ namespace SceneTest.Battle
             this.secondaryHand = description.SecondaryHand;
             this.gamepadId = description.Gamepad;
             this.objectResolver = objectResolverFactory.Create();
+
+            this.magicAbilities.AddSpells(description.Spells);
 
             turnProgress.DesiredSize = scaleHelper.Scaled(new IntSize2(200, 25));
             infoRowLayout = new RowLayout(

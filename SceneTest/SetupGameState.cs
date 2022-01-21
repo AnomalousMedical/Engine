@@ -2,6 +2,8 @@
 using Engine;
 using Engine.Platform;
 using RpgMath;
+using SceneTest.Battle;
+using SceneTest.Battle.Spells;
 using SharpGui;
 using System;
 using System.Collections.Generic;
@@ -81,6 +83,7 @@ namespace SceneTest
                         }
                     },
                     PrimaryHandAsset = new Assets.Original.Staff07(),
+                    Spells = new ISpell[] { new Fir(), new Fyre(), new Meltdown() }
                 });
             }
 
@@ -121,7 +124,8 @@ namespace SceneTest
                             Attack = 25
                         }
                     },
-                    PrimaryHandAsset = new Assets.Original.BattleAxe6()
+                    PrimaryHandAsset = new Assets.Original.BattleAxe6(),
+                    Spells = new ISpell[] { new Cure() }
                 });
             }
         }

@@ -45,6 +45,11 @@ namespace SceneTest.Battle
 
         public void LayoutBattleMenu(params ILayoutItem[] items)
         {
+            LayoutBattleMenu((IEnumerable<ILayoutItem>)items);
+        }
+
+        public void LayoutBattleMenu(IEnumerable<ILayoutItem> items)
+        {
             battleMenuColumn.Add(items);
             var desiredSize = battleMenuLayout.GetDesiredSize(sharpGui);
             var rect = screenPositioner.GetBottomRightRect(desiredSize);

@@ -99,6 +99,7 @@ namespace SceneTest.Battle
                     c.PlayerSpriteInfo = character.PlayerSprite;
                     c.PrimaryHandItem = character.PrimaryHandAsset;
                     c.SecondaryHandItem = character.SecondaryHandAsset;
+                    c.Spells = character.Spells ?? Enumerable.Empty<ISpell>();
                 }));
 
                 currentZ -= 2;

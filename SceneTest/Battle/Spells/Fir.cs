@@ -48,8 +48,6 @@ namespace SceneTest.Battle.Spells
             }
         }
 
-        public bool DefaultTargetPlayers => true;
-
         public string Name => "Fir";
 
         public long MpCost => 4;

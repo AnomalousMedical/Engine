@@ -1,5 +1,6 @@
 ﻿using RpgMath;
 using SceneTest.Assets;
+using SceneTest.Battle;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,8 @@ namespace SceneTest
         public ISpriteAsset PrimaryHandAsset { get; set; }
 
         public ISpriteAsset SecondaryHandAsset { get; set; }
+
+        public IEnumerable<ISpell> Spells { get; set; }
     }
 
     static class CharacterExtensions

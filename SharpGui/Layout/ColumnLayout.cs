@@ -79,6 +79,11 @@ namespace SharpGui
             this.items.AddRange(items.Select(i => new Entry(i)));
         }
 
+        public void Add(IEnumerable<ILayoutItem> items)
+        {
+            this.items.AddRange(items.Select(i => new Entry(i)));
+        }
+
         public void Remove(ILayoutItem item)
         {
             var itemCount = items.Count;
