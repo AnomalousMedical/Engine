@@ -282,7 +282,7 @@ namespace SceneTest
             player.StopMovement();
         }
 
-        public void Rest()
+        public void RebuildPhysics()
         {
             currentLevel.DestroyPhysics();
             currentLevel.SetupPhysics();

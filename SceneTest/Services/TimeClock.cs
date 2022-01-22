@@ -16,7 +16,8 @@ namespace SceneTest
         long currentTime;
         //long timeFactor = 25000L; //Pretty Fast
         //long timeFactor = 10000L;
-        long timeFactor = 100L;
+        const long RegularTimeFactor = 100L;
+        long timeFactor = RegularTimeFactor;
         long period = HoursPerDay * HoursToMicro;
         long halfPeriod;
         long dayStart = 6L * HoursToMicro;
@@ -38,6 +39,16 @@ namespace SceneTest
             currentTime += clock.DeltaTimeMicro * timeFactor;
             currentTime %= period;
             persistence.Time.Current = currentTime;
+        }
+
+        public void ResetTimeFactor()
+        {
+            timeFactor = 100L;
+        }
+
+        public void SetTimeRatio(long speedup)
+        {
+            timeFactor = RegularTimeFactor * speedup;
         }
 
         public bool IsDay => currentTime > dayStart && currentTime <= dayEnd;

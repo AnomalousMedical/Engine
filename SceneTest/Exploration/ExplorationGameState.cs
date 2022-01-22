@@ -21,6 +21,7 @@ namespace SceneTest
         private readonly IContextMenu contextMenu;
         private IBattleGameState battleState;
         private IGameState nextState; //This is changed per update to be the next game state
+        private Func<Clock, bool> explorationEvent;
 
         public RTInstances Instances => rtInstances;
 
@@ -67,11 +68,23 @@ namespace SceneTest
             }
         }
 
+        public void SetExplorationEvent(Func<Clock, bool> explorationEvent)
+        {
+            this.explorationEvent = explorationEvent;
+        }
+
         public IGameState Update(Clock clock)
         {
             nextState = this;
 
-            if (explorationMenu.Update(this))
+            if(explorationEvent != null)
+            {
+                if (!explorationEvent.Invoke(clock))
+                {
+                    explorationEvent = null;
+                }
+            }
+            else if (explorationMenu.Update(this))
             {
                 //If menu did something
             }

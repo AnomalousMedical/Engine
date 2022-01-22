@@ -5,6 +5,7 @@ using DiligentEngine;
 using DiligentEngine.RT;
 using DiligentEngine.RT.Sprites;
 using Engine;
+using Engine.Platform;
 using SceneTest.Exploration.Menu;
 using SceneTest.Services;
 using SharpGui;
@@ -37,6 +38,8 @@ namespace SceneTest
         private readonly IContextMenu contextMenu;
         private readonly Persistence persistence;
         private readonly ILevelManager levelManager;
+        private readonly IExplorationGameState explorationGameState;
+        private readonly ITimeClock timeClock;
         private SpriteInstance spriteInstance;
         private readonly Sprite sprite;
         private readonly TLASBuildInstanceData tlasData;
@@ -63,7 +66,9 @@ namespace SceneTest
             SpriteInstanceFactory spriteInstanceFactory,
             IContextMenu contextMenu,
             Persistence persistence,
-            ILevelManager levelManager)
+            ILevelManager levelManager,
+            IExplorationGameState explorationGameState,
+            ITimeClock timeClock)
         {
             this.sprite = description.Sprite;
             this.levelIndex = description.LevelIndex;
@@ -76,6 +81,8 @@ namespace SceneTest
             this.contextMenu = contextMenu;
             this.persistence = persistence;
             this.levelManager = levelManager;
+            this.explorationGameState = explorationGameState;
+            this.timeClock = timeClock;
             this.mapOffset = description.MapOffset;
             var shape = new Box(description.Scale.x, 1000, description.Scale.z); //TODO: Each one creates its own, try to load from resources
             shapeIndex = bepuScene.Simulation.Shapes.Add(shape);
@@ -180,13 +187,35 @@ namespace SceneTest
 
         private void Rest()
         {
-            persistence.BattleTriggers.ClearData();
-            foreach(var member in persistence.Party.Members)
-            {
-                member.CharacterSheet.Rest();
-            }
             contextMenu.ClearContext(Rest);
-            levelManager.Rest();
+            persistence.BattleTriggers.ClearData();
+            timeClock.SetTimeRatio(100);
+
+            long? endTime = null;
+
+            explorationGameState.SetExplorationEvent(c =>
+            {
+                if(endTime == null)
+                {
+                    endTime = c.CurrentTimeMicro + (long)(Clock.SecondsToMicro * 1.3f);
+                }
+
+                if(c.CurrentTimeMicro > endTime)
+                {
+
+                    levelManager.RebuildPhysics();
+
+                    foreach (var member in persistence.Party.Members)
+                    {
+                        member.CharacterSheet.Rest();
+                    }
+
+                    timeClock.ResetTimeFactor();
+                    return false;
+                }
+
+                return true;
+            });
         }
 
         private void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)

@@ -12,6 +12,8 @@ namespace SceneTest
         bool IsDay { get; }
         float NightFactor { get; }
 
+        void ResetTimeFactor();
+        void SetTimeRatio(long speedup);
         void Update(Clock clock);
     }
 }

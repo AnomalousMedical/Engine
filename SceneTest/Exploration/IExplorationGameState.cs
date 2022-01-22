@@ -1,4 +1,6 @@
-﻿using SceneTest.Battle;
+﻿using Engine.Platform;
+using SceneTest.Battle;
+using System;
 
 namespace SceneTest
 {
@@ -13,5 +15,6 @@ namespace SceneTest
         /// </summary>
         /// <param name="battleTrigger"></param>
         void RequestBattle(BattleTrigger battleTrigger = null);
+        void SetExplorationEvent(Func<Clock, bool> explorationEvent);
     }
 }
