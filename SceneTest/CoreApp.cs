@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using RpgMath;
 using SceneTest.Battle;
+using SceneTest.Exploration;
 using SceneTest.Exploration.Menu;
 using SceneTest.GameOver;
 using SceneTest.Services;
@@ -100,7 +101,8 @@ namespace SceneTest
             services.AddScoped<TargetCursor>();
             services.AddScoped<IMagicAbilities, MagicAbilities>();
             services.AddSingleton<ILevelManager, LevelManager>();
-            services.AddSingleton<LevelManager.Desc>(new LevelManager.Desc()
+            services.AddSingleton<IWorldManager, WorldManager>();
+            services.AddSingleton<WorldManager.Desc>(new WorldManager.Desc()
             {
                 RandomSeed = 0
             });

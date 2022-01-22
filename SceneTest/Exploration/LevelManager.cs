@@ -1,5 +1,6 @@
 ﻿using BepuPlugin;
 using Engine;
+using SceneTest.Exploration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +11,8 @@ namespace SceneTest
 {
     class LevelManager : IDisposable, ILevelManager
     {
-        public class Desc
-        {
-            public int RandomSeed { get; set; } = 0;
-        }
-
         private bool changingLevels = false;
-        private List<int> createdLevelSeeds = new List<int>();
         private int currentLevelIndex = 0;
-        private Random levelRandom;
         private Level currentLevel;
         private Level nextLevel;
         private Level previousLevel;
@@ -26,6 +20,7 @@ namespace SceneTest
         private Player player;
         private IObjectResolver objectResolver;
         private readonly Party party;
+        private readonly IWorldManager worldManager;
         private readonly IBackgroundMusicManager backgroundMusicManager;
         private readonly IBepuScene bepuScene;
 
@@ -38,20 +33,18 @@ namespace SceneTest
         public bool IsPlayerMoving => player?.IsMoving == true;
 
         public LevelManager(
-            Desc description,
             Party party,
+            IWorldManager worldManager,
             IObjectResolverFactory objectResolverFactory,
             IBackgroundMusicManager backgroundMusicManager,
             IBepuScene bepuScene //Inject this so it is created earlier and destroyed later
         )
         {
             objectResolver = objectResolverFactory.Create();
-            levelRandom = new Random(description.RandomSeed);
-            createdLevelSeeds.Add(levelRandom.Next(int.MinValue, int.MaxValue));
-            createdLevelSeeds.Add(levelRandom.Next(int.MinValue, int.MaxValue));
 
             backgroundMusicManager.SetBackgroundSong("freepd/Rafael Krux - Black Knight.ogg");
             this.party = party;
+            this.worldManager = worldManager;
             this.backgroundMusicManager = backgroundMusicManager;
             this.bepuScene = bepuScene;
         }
@@ -84,11 +77,11 @@ namespace SceneTest
             }
 
             currentLevelIndex = 0;
-            currentLevel = CreateLevel(createdLevelSeeds[currentLevelIndex], new Vector3(0, 0, 0), false, currentLevelIndex);
-            nextLevel = CreateLevel(createdLevelSeeds[currentLevelIndex + 1], new Vector3(150, 0, 0), true, currentLevelIndex + 1);
+            currentLevel = CreateLevel(worldManager.GetLevelSeed(currentLevelIndex), new Vector3(0, 0, 0), false, currentLevelIndex);
+            nextLevel = CreateLevel(worldManager.GetLevelSeed(currentLevelIndex + 1), new Vector3(150, 0, 0), true, currentLevelIndex + 1);
             if(currentLevelIndex - 1 >= 0)
             {
-                previousLevel = CreateLevel(createdLevelSeeds[currentLevelIndex - 1], new Vector3(-150, 0, 0), true, currentLevelIndex - 1);
+                previousLevel = CreateLevel(worldManager.GetLevelSeed(currentLevelIndex - 1), new Vector3(-150, 0, 0), true, currentLevelIndex - 1);
             }
 
             await currentLevel.WaitForLevelGeneration();
@@ -168,11 +161,7 @@ namespace SceneTest
             //Change level index
             ++currentLevelIndex;
             var nextLevelIndex = currentLevelIndex + 1;
-            if (nextLevelIndex == createdLevelSeeds.Count)
-            {
-                createdLevelSeeds.Add(levelRandom.Next(int.MinValue, int.MaxValue));
-            }
-            var levelSeed = createdLevelSeeds[nextLevelIndex];
+            var levelSeed = worldManager.GetLevelSeed(nextLevelIndex);
 
             //Create new level
             nextLevel = CreateLevel(levelSeed, new Vector3(150, 0, 0), true, nextLevelIndex);
@@ -229,7 +218,7 @@ namespace SceneTest
             if (currentLevelIndex > 0)
             {
                 var previousLevelIndex = currentLevelIndex - 1;
-                var levelSeed = createdLevelSeeds[previousLevelIndex];
+                var levelSeed = worldManager.GetLevelSeed(previousLevelIndex);
                 previousLevel = CreateLevel(levelSeed, new Vector3(-150, 0, 0), previousLevelIndex > 0, previousLevelIndex);
             }
             else
