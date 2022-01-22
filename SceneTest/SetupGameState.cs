@@ -44,90 +44,6 @@ namespace SceneTest
             this.sharpGui = sharpGui;
             this.screenPositioner = screenPositioner;
             this.rtInstances = rtInstances;
-            {
-                var arch = Archetype.CreateHero();
-                party.AddCharacter(new Character()
-                {
-                    PlayerSprite = new Assets.Original.FighterPlayerSprite(),
-                    CharacterSheet = new CharacterSheet()
-                    {
-                        Name = "Bob",
-                        Archetype = arch,
-                        Level = 1,
-                        MainHand = new Equipment()
-                        {
-                            AttackPercent = 100,
-                            Attack = 18
-                        }
-                    },
-                    PrimaryHandAsset = new Assets.Original.Greatsword01(),
-                    SecondaryHandAsset = new Assets.Original.ShieldOfReflection()
-                });
-            }
-
-            {
-                var arch = Archetype.CreateSage();
-                party.AddCharacter(new Character()
-                {
-                    PlayerSprite = new Assets.Original.MagePlayerSprite(),
-                    CharacterSheet = new CharacterSheet()
-                    {
-                        Name = "Magic Joe",
-                        Archetype = arch,
-                        Level = 1,
-                        MainHand = new Equipment()
-                        {
-                            AttackPercent = 35,
-                            MagicAttackPercent = 100,
-                            Attack = 9
-                        }
-                    },
-                    PrimaryHandAsset = new Assets.Original.Staff07(),
-                    Spells = new ISpell[] { new Fir(), new Fyre(), new Meltdown() }
-                });
-            }
-
-            {
-                var arch = Archetype.CreateTank();
-                party.AddCharacter(new Character()
-                {
-                    PlayerSprite = new Assets.Original.ThiefPlayerSprite(),
-                    CharacterSheet = new CharacterSheet()
-                    {
-                        Name = "Stabby McStabface",
-                        Archetype = arch,
-                        Level = 1,
-                        MainHand = new Equipment()
-                        {
-                            AttackPercent = 100,
-                            Attack = 18
-                        }
-                    },
-                    PrimaryHandAsset = new Assets.Original.DaggerNew(),
-                    SecondaryHandAsset = new Assets.Original.DaggerNew()
-                });
-            }
-
-            {
-                var arch = Archetype.CreateGuardian();
-                party.AddCharacter(new Character()
-                {
-                    PlayerSprite = new Assets.Original.ClericPlayerSprite(),
-                    CharacterSheet = new CharacterSheet()
-                    {
-                        Name = "Wendy",
-                        Archetype = arch,
-                        Level = 1,
-                        MainHand = new Equipment()
-                        {
-                            AttackPercent = 100,
-                            Attack = 25
-                        }
-                    },
-                    PrimaryHandAsset = new Assets.Original.BattleAxe6(),
-                    Spells = new ISpell[] { new Cure() }
-                });
-            }
         }
 
         public void Link(IGameState nextState)
@@ -140,12 +56,10 @@ namespace SceneTest
             if (active)
             {
                 finished = false;
-                foreach (var character in party.ActiveCharacters)
+                foreach (var character in party.ActiveCharacterSheets)
                 {
-                    character.CharacterSheet.CurrentHp = character.CharacterSheet.Hp;
-                    character.CharacterSheet.CurrentMp = character.CharacterSheet.Mp;
-
-                    //character.CurrentHp = 1;
+                    character.CurrentHp = character.Hp;
+                    character.CurrentMp = character.Mp;
                 }
                 coroutineRunner.RunTask(async () =>
                 {

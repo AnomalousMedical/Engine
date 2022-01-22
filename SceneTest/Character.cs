@@ -24,9 +24,9 @@ namespace SceneTest
 
     static class CharacterExtensions
     {
-        public static int GetAverageLevel(this IEnumerable<Character> characters)
+        public static int GetAverageLevel(this IEnumerable<CharacterSheet> characters)
         {
-            var level = (int)characters.Average(i => i.CharacterSheet.Level);
+            var level = (int)characters.Average(i => i.Level);
             if (level < 1)
             {
                 level = 1;

@@ -27,7 +27,7 @@ namespace SceneTest.Battle
 
         public IEnumerable<Enemy> CreateEnemies(IObjectResolver objectResolver, Party party, IBiome biome)
         {
-            var level = party.ActiveCharacters.GetAverageLevel() * 4 / 5;
+            var level = party.ActiveCharacterSheets.GetAverageLevel() * 4 / 5;
             if(level < 1)
             {
                 level = 1;

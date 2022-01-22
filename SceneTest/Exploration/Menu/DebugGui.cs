@@ -56,7 +56,7 @@ namespace SceneTest.Exploration.Menu
 
         public void Update(IExplorationGameState explorationGameState, IExplorationMenu explorationMenu)
         {
-            averageLevel.Text = $"Level: {party.ActiveCharacters.GetAverageLevel()}";
+            averageLevel.Text = $"Level: {party.ActiveCharacterSheets.GetAverageLevel()}";
             allowBattle.Text = explorationGameState.AllowBattles ? "Battles Allowed" : "Battles Disabled";
 
             var layout =
@@ -82,9 +82,9 @@ namespace SceneTest.Exploration.Menu
 
             if (sharpGui.Button(levelUp, navUp: battle.Id, navDown: goStart.Id))
             {
-                foreach(var c in party.ActiveCharacters)
+                foreach(var c in party.ActiveCharacterSheets)
                 {
-                    c.CharacterSheet.LevelUp(levelCalculator);
+                    c.LevelUp(levelCalculator);
                 }
             }
 

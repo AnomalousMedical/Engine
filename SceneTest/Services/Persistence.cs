@@ -1,4 +1,5 @@
 ﻿using Engine;
+using RpgMath;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,6 +24,8 @@ namespace SceneTest.Services
         public TimeData Time { get; } = new TimeData();
 
         public WorldData World { get; set; } = new WorldData();
+
+        public PartyData Party { get; set; } = new PartyData();
 
         public class PersistenceEntry<T>
                 where T : struct
@@ -74,6 +77,24 @@ namespace SceneTest.Services
         public class WorldData
         {
             public int Seed { get; set; }
+        }
+
+        public class CharacterData
+        {
+            public CharacterSheet CharacterSheet { get; set; }
+
+            public String PlayerSprite { get; set; }
+
+            public String PrimaryHandAsset { get; set; }
+
+            public String SecondaryHandAsset { get; set; }
+
+            public IEnumerable<String> Spells { get; set; }
+        }
+
+        public class PartyData
+        {
+            public List<CharacterData> Members { get; set; } = new List<CharacterData>();
         }
     }
 }
