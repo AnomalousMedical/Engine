@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SceneTest.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,20 +14,15 @@ namespace SceneTest.Exploration
 
     class WorldManager : IWorldManager
     {
-        public class Desc
-        {
-            public int RandomSeed { get; set; } = 0;
-        }
-
         private List<int> createdLevelSeeds = new List<int>();
         private Random levelRandom;
 
         public WorldManager
         (
-            Desc description
+            Persistence persistence
         )
         {
-            levelRandom = new Random(description.RandomSeed);
+            levelRandom = new Random(persistence.World.Seed);
         }
 
         public int GetLevelSeed(int index)

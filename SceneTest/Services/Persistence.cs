@@ -22,6 +22,8 @@ namespace SceneTest.Services
 
         public TimeData Time { get; } = new TimeData();
 
+        public WorldData World { get; set; } = new WorldData();
+
         public class PersistenceEntry<T>
                 where T : struct
         {
@@ -67,6 +69,11 @@ namespace SceneTest.Services
         public class TimeData
         {
             public long? Current { get; set; }
+        }
+
+        public class WorldData
+        {
+            public int Seed { get; set; }
         }
     }
 }
