@@ -8,37 +8,19 @@ using System.Threading.Tasks;
 
 namespace SceneTest.Services
 {
+
     class Persistence
     {
-        public event Action<Persistence> DataModified;
+        public PersistenceEntry<BattleTrigger.PersistenceData> BattleTriggers { get; } = new PersistenceEntry<BattleTrigger.PersistenceData>();
 
-        public PersistenceEntry<BattleTrigger.PersistenceData> BattleTriggers { get; }
+        public PersistenceEntry<TreasureTrigger.PersistenceData> TreasureTriggers { get; } = new PersistenceEntry<TreasureTrigger.PersistenceData>();
 
-        public PersistenceEntry<TreasureTrigger.PersistenceData> TreasureTriggers { get; }
-
-        public LevelData Level { get; }
-
-        public Persistence()
-        {
-            this.BattleTriggers = new PersistenceEntry<BattleTrigger.PersistenceData>(this);
-            this.TreasureTriggers = new PersistenceEntry<TreasureTrigger.PersistenceData>(this);
-            this.Level = new LevelData(this);
-        }
-
-        private void FireDataModified()
-        {
-            DataModified?.Invoke(this);
-        }
+        public LevelStatus Level { get; } = new LevelStatus();
 
         public class PersistenceEntry<T>
                 where T : struct
         {
-            private Persistence persistence;
-
-            public PersistenceEntry(Persistence persistence)
-            {
-                this.persistence = persistence;
-            }
+            public Dictionary<int, Dictionary<int, T>> Entries => entryDictionary;
 
             private Dictionary<int, Dictionary<int, T>> entryDictionary = new Dictionary<int, Dictionary<int, T>>();
 
@@ -64,32 +46,12 @@ namespace SceneTest.Services
                     entryDictionary[level] = levelData;
                 }
                 levelData[key] = value;
-                persistence.FireDataModified();
             }
         }
 
-        public class LevelData
+        public class LevelStatus
         {
-            private Persistence persistence;
-
-            public LevelData(Persistence persistence)
-            {
-                this.persistence = persistence;
-            }
-
-            private int _currentLevelIndex;
-            public int CurrentLevelIndex
-            {
-                get
-                {
-                    return _currentLevelIndex;
-                }
-                set
-                {
-                    _currentLevelIndex = value;
-                    persistence.FireDataModified();
-                }
-            }
+            public int CurrentLevelIndex { get; set; }
         }
     }
 }

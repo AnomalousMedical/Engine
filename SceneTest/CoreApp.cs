@@ -122,7 +122,12 @@ namespace SceneTest
             services.AddSingleton<ISetupGameState, SetupGameState>();
             services.AddSingleton<IExplorationMenu, ExplorationMenu>();
             services.AddSingleton<IContextMenu, ContextMenu>();
-            services.AddSingleton<Persistence>();
+            services.AddSingleton<IPersistenceWriter, PersistenceWriter>();
+            services.AddSingleton<Persistence>(s =>
+            {
+                var writer = s.GetRequiredService<IPersistenceWriter>();
+                return writer.Load();
+            });
 
             return true;
         }
