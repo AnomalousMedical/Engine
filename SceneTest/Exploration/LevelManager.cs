@@ -75,7 +75,7 @@ namespace SceneTest
                 nextLevel.RequestDestruction();
             }
 
-            var currentLevelIndex = persistence.LevelStatus.CurrentLevelIndex;
+            var currentLevelIndex = persistence.Level.CurrentLevelIndex;
             currentLevel = CreateLevel(worldManager.GetLevelSeed(currentLevelIndex), new Vector3(0, 0, 0), currentLevelIndex);
             nextLevel = CreateLevel(worldManager.GetLevelSeed(currentLevelIndex + 1), new Vector3(150, 0, 0), currentLevelIndex + 1);
             if(currentLevelIndex - 1 >= 0)
@@ -158,8 +158,8 @@ namespace SceneTest
             currentLevel = nextLevel;
 
             //Change level index
-            ++persistence.LevelStatus.CurrentLevelIndex;
-            var nextLevelIndex = persistence.LevelStatus.CurrentLevelIndex + 1;
+            ++persistence.Level.CurrentLevelIndex;
+            var nextLevelIndex = persistence.Level.CurrentLevelIndex + 1;
             var levelSeed = worldManager.GetLevelSeed(nextLevelIndex);
 
             //Create new level
@@ -194,11 +194,11 @@ namespace SceneTest
             }
 
             //Change level index
-            --persistence.LevelStatus.CurrentLevelIndex;
-            if (persistence.LevelStatus.CurrentLevelIndex < 0)
+            --persistence.Level.CurrentLevelIndex;
+            if (persistence.Level.CurrentLevelIndex < 0)
             {
                 //Below 0, do nothing
-                persistence.LevelStatus.CurrentLevelIndex = 0;
+                persistence.Level.CurrentLevelIndex = 0;
                 return;
             }
 
@@ -214,9 +214,9 @@ namespace SceneTest
             nextLevel = currentLevel;
             currentLevel = previousLevel;
 
-            if (persistence.LevelStatus.CurrentLevelIndex > 0)
+            if (persistence.Level.CurrentLevelIndex > 0)
             {
-                var previousLevelIndex = persistence.LevelStatus.CurrentLevelIndex - 1;
+                var previousLevelIndex = persistence.Level.CurrentLevelIndex - 1;
                 var levelSeed = worldManager.GetLevelSeed(previousLevelIndex);
                 previousLevel = CreateLevel(levelSeed, new Vector3(-150, 0, 0), previousLevelIndex);
             }
