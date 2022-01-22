@@ -38,10 +38,17 @@ namespace SceneTest.Services
         }
     }
 
+    class LevelStatus
+    {
+        public int CurrentLevelIndex { get; set; }
+    }
+
     class Persistence
     {
         public PersistenceEntry<BattleTrigger.PersistenceData> BattleTriggers { get; } = new PersistenceEntry<BattleTrigger.PersistenceData>();
 
         public PersistenceEntry<TreasureTrigger.PersistenceData> TreasureTriggers { get; } = new PersistenceEntry<TreasureTrigger.PersistenceData>();
+
+        public LevelStatus LevelStatus { get; set; } = new LevelStatus();
     }
 }

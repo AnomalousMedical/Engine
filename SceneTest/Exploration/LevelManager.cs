@@ -1,6 +1,7 @@
 ﻿using BepuPlugin;
 using Engine;
 using SceneTest.Exploration;
+using SceneTest.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,6 @@ namespace SceneTest
     class LevelManager : IDisposable, ILevelManager
     {
         private bool changingLevels = false;
-        private int currentLevelIndex = 0;
         private Level currentLevel;
         private Level nextLevel;
         private Level previousLevel;
@@ -21,8 +21,7 @@ namespace SceneTest
         private IObjectResolver objectResolver;
         private readonly Party party;
         private readonly IWorldManager worldManager;
-        private readonly IBackgroundMusicManager backgroundMusicManager;
-        private readonly IBepuScene bepuScene;
+        private readonly Persistence persistence;
 
         public event Action<ILevelManager> LevelChanged;
 
@@ -37,6 +36,7 @@ namespace SceneTest
             IWorldManager worldManager,
             IObjectResolverFactory objectResolverFactory,
             IBackgroundMusicManager backgroundMusicManager,
+            Persistence persistence,
             IBepuScene bepuScene //Inject this so it is created earlier and destroyed later
         )
         {
@@ -45,8 +45,7 @@ namespace SceneTest
             backgroundMusicManager.SetBackgroundSong("freepd/Rafael Krux - Black Knight.ogg");
             this.party = party;
             this.worldManager = worldManager;
-            this.backgroundMusicManager = backgroundMusicManager;
-            this.bepuScene = bepuScene;
+            this.persistence = persistence;
         }
 
         public async Task Restart()
@@ -76,7 +75,7 @@ namespace SceneTest
                 nextLevel.RequestDestruction();
             }
 
-            currentLevelIndex = 0;
+            var currentLevelIndex = persistence.LevelStatus.CurrentLevelIndex;
             currentLevel = CreateLevel(worldManager.GetLevelSeed(currentLevelIndex), new Vector3(0, 0, 0), currentLevelIndex);
             nextLevel = CreateLevel(worldManager.GetLevelSeed(currentLevelIndex + 1), new Vector3(150, 0, 0), currentLevelIndex + 1);
             if(currentLevelIndex - 1 >= 0)
@@ -159,8 +158,8 @@ namespace SceneTest
             currentLevel = nextLevel;
 
             //Change level index
-            ++currentLevelIndex;
-            var nextLevelIndex = currentLevelIndex + 1;
+            ++persistence.LevelStatus.CurrentLevelIndex;
+            var nextLevelIndex = persistence.LevelStatus.CurrentLevelIndex + 1;
             var levelSeed = worldManager.GetLevelSeed(nextLevelIndex);
 
             //Create new level
@@ -195,11 +194,11 @@ namespace SceneTest
             }
 
             //Change level index
-            --currentLevelIndex;
-            if (currentLevelIndex < 0)
+            --persistence.LevelStatus.CurrentLevelIndex;
+            if (persistence.LevelStatus.CurrentLevelIndex < 0)
             {
                 //Below 0, do nothing
-                currentLevelIndex = 0;
+                persistence.LevelStatus.CurrentLevelIndex = 0;
                 return;
             }
 
@@ -215,9 +214,9 @@ namespace SceneTest
             nextLevel = currentLevel;
             currentLevel = previousLevel;
 
-            if (currentLevelIndex > 0)
+            if (persistence.LevelStatus.CurrentLevelIndex > 0)
             {
-                var previousLevelIndex = currentLevelIndex - 1;
+                var previousLevelIndex = persistence.LevelStatus.CurrentLevelIndex - 1;
                 var levelSeed = worldManager.GetLevelSeed(previousLevelIndex);
                 previousLevel = CreateLevel(levelSeed, new Vector3(-150, 0, 0), previousLevelIndex);
             }
