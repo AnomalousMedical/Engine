@@ -40,7 +40,7 @@ namespace SceneTest
         {
             mainWindow = EasyNativeWindow.Create(services, this, o =>
             {
-                o.Title = "Scene Test";
+                o.Title = "Anomalous Adventure";
             });
 
             services.AddLogging(o =>
@@ -102,10 +102,6 @@ namespace SceneTest
             services.AddScoped<IMagicAbilities, MagicAbilities>();
             services.AddSingleton<ILevelManager, LevelManager>();
             services.AddSingleton<IWorldManager, WorldManager>();
-            services.AddSingleton<WorldManager.Desc>(new WorldManager.Desc()
-            {
-                RandomSeed = 0
-            });
             services.AddSingleton<IBattleManager, BattleManager>();
             services.AddScoped<BattleArena>();
             services.AddScoped<BattleArena.Description>();
