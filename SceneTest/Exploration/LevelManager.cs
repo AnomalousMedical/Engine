@@ -77,11 +77,11 @@ namespace SceneTest
             }
 
             currentLevelIndex = 0;
-            currentLevel = CreateLevel(worldManager.GetLevelSeed(currentLevelIndex), new Vector3(0, 0, 0), currentLevelIndex != 0, currentLevelIndex);
-            nextLevel = CreateLevel(worldManager.GetLevelSeed(currentLevelIndex + 1), new Vector3(150, 0, 0), true, currentLevelIndex + 1);
+            currentLevel = CreateLevel(worldManager.GetLevelSeed(currentLevelIndex), new Vector3(0, 0, 0), currentLevelIndex);
+            nextLevel = CreateLevel(worldManager.GetLevelSeed(currentLevelIndex + 1), new Vector3(150, 0, 0), currentLevelIndex + 1);
             if(currentLevelIndex - 1 >= 0)
             {
-                previousLevel = CreateLevel(worldManager.GetLevelSeed(currentLevelIndex - 1), new Vector3(-150, 0, 0), true, currentLevelIndex - 1);
+                previousLevel = CreateLevel(worldManager.GetLevelSeed(currentLevelIndex - 1), new Vector3(-150, 0, 0), currentLevelIndex - 1);
             }
 
             await currentLevel.WaitForLevelGeneration();
@@ -164,7 +164,7 @@ namespace SceneTest
             var levelSeed = worldManager.GetLevelSeed(nextLevelIndex);
 
             //Create new level
-            nextLevel = CreateLevel(levelSeed, new Vector3(150, 0, 0), true, nextLevelIndex);
+            nextLevel = CreateLevel(levelSeed, new Vector3(150, 0, 0), nextLevelIndex);
 
             //Physics changeover
             previousLevel.DestroyPhysics();
@@ -219,7 +219,7 @@ namespace SceneTest
             {
                 var previousLevelIndex = currentLevelIndex - 1;
                 var levelSeed = worldManager.GetLevelSeed(previousLevelIndex);
-                previousLevel = CreateLevel(levelSeed, new Vector3(-150, 0, 0), previousLevelIndex > 0, previousLevelIndex);
+                previousLevel = CreateLevel(levelSeed, new Vector3(-150, 0, 0), previousLevelIndex);
             }
             else
             {
@@ -250,7 +250,7 @@ namespace SceneTest
             }
         }
 
-        private Level CreateLevel(int levelSeed, Vector3 translation, bool goPrevious, int levelIndex)
+        private Level CreateLevel(int levelSeed, Vector3 translation, int levelIndex)
         {
             return this.objectResolver.Resolve<Level, Level.Description>(o =>
             {
@@ -264,7 +264,7 @@ namespace SceneTest
                 o.RoomMin = new IntSize2(2, 2);
                 o.RoomMax = new IntSize2(6, 6); //Between 3-6 is good here, 3 for more cityish with small rooms, 6 for more open with more big rooms, sometimes connected
                 o.CorridorMaxLength = 4;
-                o.GoPrevious = goPrevious;
+                o.GoPrevious = levelIndex != 0;
             });
         }
 
