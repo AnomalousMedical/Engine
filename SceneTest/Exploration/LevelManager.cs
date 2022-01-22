@@ -77,7 +77,7 @@ namespace SceneTest
             }
 
             currentLevelIndex = 0;
-            currentLevel = CreateLevel(worldManager.GetLevelSeed(currentLevelIndex), new Vector3(0, 0, 0), false, currentLevelIndex);
+            currentLevel = CreateLevel(worldManager.GetLevelSeed(currentLevelIndex), new Vector3(0, 0, 0), currentLevelIndex != 0, currentLevelIndex);
             nextLevel = CreateLevel(worldManager.GetLevelSeed(currentLevelIndex + 1), new Vector3(150, 0, 0), true, currentLevelIndex + 1);
             if(currentLevelIndex - 1 >= 0)
             {
