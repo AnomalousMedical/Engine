@@ -1,4 +1,5 @@
 ﻿using Engine.Platform;
+using SceneTest.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,8 @@ namespace SceneTest
     {
         const long HoursToMicro = 60L * 60L * Clock.SecondsToMicro;
         const long HoursPerDay = 24L;
-
-        long currentTime = 6L * HoursToMicro;
+        private readonly Persistence persistence;
+        long currentTime;
         //long timeFactor = 25000L; //Pretty Fast
         //long timeFactor = 10000L;
         long timeFactor = 100L;
@@ -23,17 +24,20 @@ namespace SceneTest
         float dayEndFactor;
         float nightEndFactor;
 
-        public TimeClock()
+        public TimeClock(Persistence persistence)
         {
+            currentTime = persistence.Time.Current ?? 6L * HoursToMicro;
             halfPeriod = period / 2;
             dayEndFactor = (dayEnd - dayStart) * Clock.MicroToSeconds;
             nightEndFactor = (dayStart + period - dayEnd) * Clock.MicroToSeconds;
+            this.persistence = persistence;
         }
 
         public void Update(Clock clock)
         {
             currentTime += clock.DeltaTimeMicro * timeFactor;
             currentTime %= period;
+            persistence.Time.Current = currentTime;
         }
 
         public bool IsDay => currentTime > dayStart && currentTime <= dayEnd;

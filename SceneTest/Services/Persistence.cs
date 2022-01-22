@@ -16,9 +16,11 @@ namespace SceneTest.Services
 
         public PersistenceEntry<TreasureTrigger.PersistenceData> TreasureTriggers { get; } = new PersistenceEntry<TreasureTrigger.PersistenceData>();
 
-        public LevelStatus Level { get; } = new LevelStatus();
+        public LevelData Level { get; } = new LevelData();
 
-        public PlayerStatus PlayerData { get; } = new PlayerStatus();
+        public PlayerData Player { get; } = new PlayerData();
+
+        public TimeData Time { get; } = new TimeData();
 
         public class PersistenceEntry<T>
                 where T : struct
@@ -52,14 +54,19 @@ namespace SceneTest.Services
             }
         }
 
-        public class LevelStatus
+        public class LevelData
         {
             public int CurrentLevelIndex { get; set; }
         }
 
-        public class PlayerStatus
+        public class PlayerData
         {
             public Vector3? Position { get; set; }
+        }
+
+        public class TimeData
+        {
+            public long? Current { get; set; }
         }
     }
 }
