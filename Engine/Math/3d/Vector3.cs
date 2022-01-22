@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.Globalization;
+using Newtonsoft.Json;
 
 namespace Engine
 {
@@ -377,6 +378,7 @@ namespace Engine
 		    return !float.IsNaN(x) && !float.IsNaN(y) && !float.IsNaN(z);
 	    }
 
+        [JsonIgnore]
         public bool IsWithinEpsilonToZero
         {
             get
