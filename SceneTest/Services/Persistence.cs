@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Engine;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace SceneTest.Services
         public PersistenceEntry<TreasureTrigger.PersistenceData> TreasureTriggers { get; } = new PersistenceEntry<TreasureTrigger.PersistenceData>();
 
         public LevelStatus Level { get; } = new LevelStatus();
+
+        public PlayerStatus PlayerData { get; } = new PlayerStatus();
 
         public class PersistenceEntry<T>
                 where T : struct
@@ -52,6 +55,11 @@ namespace SceneTest.Services
         public class LevelStatus
         {
             public int CurrentLevelIndex { get; set; }
+        }
+
+        public class PlayerStatus
+        {
+            public Vector3? Position { get; set; }
         }
     }
 }

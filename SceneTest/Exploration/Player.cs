@@ -8,6 +8,7 @@ using DiligentEngine.RT.Sprites;
 using Engine;
 using Engine.Platform;
 using SceneTest.Assets;
+using SceneTest.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -41,6 +42,7 @@ namespace SceneTest
         private readonly EventManager eventManager;
         private readonly CameraMover cameraMover;
         private readonly ICollidableTypeIdentifier collidableIdentifier;
+        private readonly Persistence persistence;
         private readonly EventLayer eventLayer;
         private readonly IObjectResolver objectResolver;
 
@@ -78,6 +80,11 @@ namespace SceneTest
         public bool IsMoving => !(movementDir.X < MovingBoundary && movementDir.X > -MovingBoundary
                              && movementDir.Y < MovingBoundary && movementDir.Y > -MovingBoundary);
 
+        public record struct PersistedData
+        {
+            public Vector3? Location { get; set; }
+        }
+
         public Player
         (
             RTInstances<ILevelManager> rtInstances,
@@ -89,7 +96,8 @@ namespace SceneTest
             EventManager eventManager,
             Description description,
             CameraMover cameraMover,
-            ICollidableTypeIdentifier collidableIdentifier
+            ICollidableTypeIdentifier collidableIdentifier,
+            Persistence persistence
         )
         {
             var playerSpriteInfo = description.PlayerSpriteInfo ?? throw new InvalidOperationException($"You must include the {nameof(description.PlayerSpriteInfo)} property in your description.");
@@ -155,10 +163,10 @@ namespace SceneTest
             this.eventManager = eventManager;
             this.cameraMover = cameraMover;
             this.collidableIdentifier = collidableIdentifier;
+            this.persistence = persistence;
             var scale = description.Scale * sprite.BaseScale;
             var halfScale = scale.y / 2f;
-            var startPos = description.Translation;
-            startPos.y += halfScale;
+            var startPos = persistence.PlayerData.Position ?? description.Translation + new Vector3(0f, halfScale, 0f);
 
             this.currentPosition = startPos;
             this.currentOrientation = description.Orientation;
@@ -220,6 +228,8 @@ namespace SceneTest
 
         public void Dispose()
         {
+            persistence.PlayerData.Position = currentPosition;
+
             disposed = true;
             eventManager.removeEvent(moveForward);
             eventManager.removeEvent(moveBackward);
