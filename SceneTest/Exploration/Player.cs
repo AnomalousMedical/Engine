@@ -228,8 +228,6 @@ namespace SceneTest
 
         public void Dispose()
         {
-            persistence.PlayerData.Position = currentPosition;
-
             disposed = true;
             eventManager.removeEvent(moveForward);
             eventManager.removeEvent(moveBackward);
@@ -394,6 +392,7 @@ namespace SceneTest
         private void BepuScene_OnUpdated(IBepuScene obj)
         {
             bepuScene.GetInterpolatedPosition(characterMover.BodyHandle, ref this.currentPosition, ref this.currentOrientation);
+            this.persistence.PlayerData.Position = this.currentPosition;
             this.tlasData.Transform = new InstanceMatrix(this.currentPosition, this.currentOrientation, this.currentScale);
             Sprite_FrameChanged(sprite);
             cameraMover.Position = this.currentPosition + cameraOffset;
