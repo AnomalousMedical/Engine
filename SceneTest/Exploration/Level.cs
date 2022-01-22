@@ -587,6 +587,8 @@ namespace SceneTest
             {
                 restArea.RequestDestruction();
             }
+            restAreas.Clear();
+
             foreach (var battleTrigger in battleTriggers)
             {
                 battleTrigger.RequestDestruction();

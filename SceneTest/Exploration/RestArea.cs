@@ -202,7 +202,6 @@ namespace SceneTest
 
                 if(c.CurrentTimeMicro > endTime)
                 {
-
                     levelManager.RebuildPhysics();
 
                     foreach (var member in persistence.Party.Members)
