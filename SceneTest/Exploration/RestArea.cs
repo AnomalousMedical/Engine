@@ -36,6 +36,7 @@ namespace SceneTest
         private readonly SpriteInstanceFactory spriteInstanceFactory;
         private readonly IContextMenu contextMenu;
         private readonly Persistence persistence;
+        private readonly ILevelManager levelManager;
         private SpriteInstance spriteInstance;
         private readonly Sprite sprite;
         private readonly TLASBuildInstanceData tlasData;
@@ -61,7 +62,8 @@ namespace SceneTest
             ICollidableTypeIdentifier collidableIdentifier,
             SpriteInstanceFactory spriteInstanceFactory,
             IContextMenu contextMenu,
-            Persistence persistence)
+            Persistence persistence,
+            ILevelManager levelManager)
         {
             this.sprite = description.Sprite;
             this.levelIndex = description.LevelIndex;
@@ -73,6 +75,7 @@ namespace SceneTest
             this.spriteInstanceFactory = spriteInstanceFactory;
             this.contextMenu = contextMenu;
             this.persistence = persistence;
+            this.levelManager = levelManager;
             this.mapOffset = description.MapOffset;
             var shape = new Box(description.Scale.x, 1000, description.Scale.z); //TODO: Each one creates its own, try to load from resources
             shapeIndex = bepuScene.Simulation.Shapes.Add(shape);
@@ -177,7 +180,13 @@ namespace SceneTest
 
         private void Rest()
         {
+            persistence.BattleTriggers.ClearData();
+            foreach(var member in persistence.Party.Members)
+            {
+                member.CharacterSheet.Rest();
+            }
             contextMenu.ClearContext(Rest);
+            levelManager.Rest();
         }
 
         private void Bind(IShaderBindingTable sbt, ITopLevelAS tlas)

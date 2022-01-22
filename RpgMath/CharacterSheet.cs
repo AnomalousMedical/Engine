@@ -134,5 +134,11 @@ namespace RpgMath
         {
             return Resistance.Normal;
         }
+
+        public void Rest()
+        {
+            this.CurrentHp = Hp;
+            this.CurrentMp = Mp;
+        }
     }
 }

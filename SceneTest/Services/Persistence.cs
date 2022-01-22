@@ -57,6 +57,11 @@ namespace SceneTest.Services
                 }
                 levelData[key] = value;
             }
+
+            internal void ClearData()
+            {
+                entryDictionary.Clear();
+            }
         }
 
         public class LevelData

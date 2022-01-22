@@ -21,5 +21,6 @@ namespace SceneTest
         void StopPlayer();
         void GoStartPoint();
         void GoEndPoint();
+        void Rest();
     }
 }

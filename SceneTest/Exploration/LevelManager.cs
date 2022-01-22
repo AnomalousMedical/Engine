@@ -281,5 +281,11 @@ namespace SceneTest
         {
             player.StopMovement();
         }
+
+        public void Rest()
+        {
+            currentLevel.DestroyPhysics();
+            currentLevel.SetupPhysics();
+        }
     }
 }
