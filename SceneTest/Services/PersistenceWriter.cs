@@ -58,7 +58,7 @@ namespace SceneTest.Services
 
                 {
                     var arch = Archetype.CreateHero();
-                    persistence.Party.Members.Add(new Persistence.CharacterData()
+                    var hero = new Persistence.CharacterData()
                     {
                         PlayerSprite = nameof(Assets.Original.FighterPlayerSprite),
                         CharacterSheet = new CharacterSheet()
@@ -74,12 +74,14 @@ namespace SceneTest.Services
                         },
                         PrimaryHandAsset = nameof(Assets.Original.Greatsword01),
                         SecondaryHandAsset = nameof(Assets.Original.ShieldOfReflection)
-                    });
+                    };
+                    hero.CharacterSheet.Rest();
+                    persistence.Party.Members.Add(hero);
                 }
 
                 {
                     var arch = Archetype.CreateSage();
-                    persistence.Party.Members.Add(new Persistence.CharacterData()
+                    var hero = new Persistence.CharacterData()
                     {
                         PlayerSprite = nameof(Assets.Original.MagePlayerSprite),
                         CharacterSheet = new CharacterSheet()
@@ -96,12 +98,14 @@ namespace SceneTest.Services
                         },
                         PrimaryHandAsset = nameof(Assets.Original.Staff07),
                         Spells = new string[] { nameof(Fir), nameof(Fyre), nameof(Meltdown) }
-                    });
+                    };
+                    hero.CharacterSheet.Rest();
+                    persistence.Party.Members.Add(hero);
                 }
 
                 {
                     var arch = Archetype.CreateTank();
-                    persistence.Party.Members.Add(new Persistence.CharacterData()
+                    var hero = new Persistence.CharacterData()
                     {
                         PlayerSprite = nameof(Assets.Original.ThiefPlayerSprite),
                         CharacterSheet = new CharacterSheet()
@@ -117,12 +121,14 @@ namespace SceneTest.Services
                         },
                         PrimaryHandAsset = nameof(Assets.Original.DaggerNew),
                         SecondaryHandAsset = nameof(Assets.Original.DaggerNew)
-                    });
+                    };
+                    hero.CharacterSheet.Rest();
+                    persistence.Party.Members.Add(hero);
                 }
 
                 {
                     var arch = Archetype.CreateGuardian();
-                    persistence.Party.Members.Add(new Persistence.CharacterData()
+                    var hero = new Persistence.CharacterData()
                     {
                         PlayerSprite = nameof(Assets.Original.ClericPlayerSprite),
                         CharacterSheet = new CharacterSheet()
@@ -138,7 +144,9 @@ namespace SceneTest.Services
                         },
                         PrimaryHandAsset = nameof(Assets.Original.BattleAxe6),
                         Spells = new String[] { nameof(Cure) }
-                    });
+                    };
+                    hero.CharacterSheet.Rest();
+                    persistence.Party.Members.Add(hero);
                 }
             }
             else

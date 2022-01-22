@@ -53,7 +53,14 @@ namespace SceneTest.GameOver
 
         public void SetActive(bool active)
         {
+            persistence.Level.CurrentLevelIndex = persistence.Player.RespawnLevel ?? 0;
+            persistence.Player.Position = persistence.Player.RespawnPosition;
+            persistence.BattleTriggers.ClearData();
 
+            foreach (var character in persistence.Party.Members)
+            {
+                character.CharacterSheet.Rest();
+            }
         }
 
         public IGameState Update(Clock clock)
@@ -68,8 +75,6 @@ namespace SceneTest.GameOver
             sharpGui.Text(gameOver);
             if (sharpGui.Button(restart))
             {
-                persistence.Level.CurrentLevelIndex = persistence.Player.RespawnLevel ?? 0;
-                persistence.Player.Position = persistence.Player.RespawnPosition;
 
                 coroutineRunner.RunTask(levelManager.Restart());
                 nextState = explorationState;
