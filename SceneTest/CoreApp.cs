@@ -96,6 +96,8 @@ namespace SceneTest
             services.AddScoped<BattleTrigger.Description>();
             services.AddScoped<TreasureTrigger>();
             services.AddScoped<TreasureTrigger.Description>();
+            services.AddScoped<RestArea>();
+            services.AddScoped<RestArea.Description>();
             services.AddScoped<Sky>();
             services.AddScoped<RTGui>();
             services.AddScoped<TargetCursor>();

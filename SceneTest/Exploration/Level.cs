@@ -99,6 +99,11 @@ namespace SceneTest
             /// True if this level has a go previous level connector. Default: true
             /// </summary>
             public bool GoPrevious { get; set; } = true;
+
+            /// <summary>
+            /// Set this to true to make a rest area in this zone.
+            /// </summary>
+            public bool MakeRest { get; set; } = true;
         }
 
         private readonly RTInstances<ILevelManager> rtInstances;
@@ -126,12 +131,14 @@ namespace SceneTest
         private LevelConnector previousLevelConnector;
         private List<BattleTrigger> battleTriggers = new List<BattleTrigger>();
         private List<TreasureTrigger> treasureTriggers = new List<TreasureTrigger>();
+        private List<RestArea> restAreas = new List<RestArea>();
         private IBiome biome;
         private bool goPrevious;
         private BlasInstanceData floorBlasInstanceData;
         private BlasInstanceData wallBlasInstanceData;
         private int seed;
         private int index;
+        private bool makeRestArea;
 
         private Task levelGenerationTask;
         private Vector3 mapUnits;
@@ -166,6 +173,7 @@ namespace SceneTest
         {
             this.index = description.Index;
             this.seed = description.RandomSeed;
+            this.makeRestArea = description.MakeRest;
             this.mapUnits = new Vector3(description.MapUnitX, description.MapUnitY, description.MapUnitZ);
             this.objectResolver = objectResolverFactory.Create();
             this.destructionRequest = destructionRequest;
@@ -360,6 +368,10 @@ namespace SceneTest
             {
                 trigger.SetLevelPosition(position);
             }
+            foreach (var restArea in restAreas)
+            {
+                restArea.SetLevelPosition(position);
+            }
         }
 
         public IBiome Biome => biome;
@@ -436,10 +448,12 @@ namespace SceneTest
 
         private int treasureIndex;
         private int enemyIndex;
+        private bool placeRestArea;
         private void ResetPlacementData()
         {
             treasureIndex = 0;
             enemyIndex = 0;
+            placeRestArea = this.makeRestArea;
         }
 
         private void SetupCorridors()
@@ -525,17 +539,35 @@ namespace SceneTest
             var mapLoc = mapMesh.PointToVector(point.x, point.y);
             if (goPrevious || mapLoc != startPointLocal)
             {
-                var treasureTrigger = objectResolver.Resolve<TreasureTrigger, TreasureTrigger.Description>(o =>
+                if (placeRestArea)
                 {
-                    o.InstanceId = treasureIndex++;
-                    o.LevelIndex = index;
-                    o.MapOffset = mapLoc;
-                    o.Translation = currentPosition + o.MapOffset;
-                    var treasure = biome.Treasure;
-                    o.Sprite = treasure.Asset.CreateSprite();
-                    o.SpriteMaterial = treasure.Asset.CreateMaterial();
-                });
-                this.treasureTriggers.Add(treasureTrigger);
+                    placeRestArea = false;
+                    var restArea = objectResolver.Resolve<RestArea, RestArea.Description>(o =>
+                    {
+                        o.InstanceId = treasureIndex++;
+                        o.LevelIndex = index;
+                        o.MapOffset = mapLoc;
+                        o.Translation = currentPosition + o.MapOffset;
+                        var asset = biome.RestAsset;
+                        o.Sprite = asset.CreateSprite();
+                        o.SpriteMaterial = asset.CreateMaterial();
+                    });
+                    this.restAreas.Add(restArea);
+                }
+                else
+                {
+                    var treasureTrigger = objectResolver.Resolve<TreasureTrigger, TreasureTrigger.Description>(o =>
+                    {
+                        o.InstanceId = treasureIndex++;
+                        o.LevelIndex = index;
+                        o.MapOffset = mapLoc;
+                        o.Translation = currentPosition + o.MapOffset;
+                        var treasure = biome.Treasure;
+                        o.Sprite = treasure.Asset.CreateSprite();
+                        o.SpriteMaterial = treasure.Asset.CreateMaterial();
+                    });
+                    this.treasureTriggers.Add(treasureTrigger);
+                }
             }
         }
 
@@ -551,7 +583,11 @@ namespace SceneTest
             }
             physicsActive = false;
 
-            foreach(var battleTrigger in battleTriggers)
+            foreach (var restArea in restAreas)
+            {
+                restArea.RequestDestruction();
+            }
+            foreach (var battleTrigger in battleTriggers)
             {
                 battleTrigger.RequestDestruction();
             }

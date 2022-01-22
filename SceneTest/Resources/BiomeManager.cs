@@ -55,6 +55,11 @@ namespace SceneTest
         /// The treasure to use for the biome.
         /// </summary>
         public BiomeTreasure Treasure { get; set; }
+
+        /// <summary>
+        /// The tent asset to use for this biome.
+        /// </summary>
+        public ISpriteAsset RestAsset { get; set; } = new Assets.Original.Tent();
     }
 
     class BiomeEnemy

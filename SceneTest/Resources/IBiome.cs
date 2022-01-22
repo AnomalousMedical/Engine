@@ -1,4 +1,5 @@
 ﻿using RpgMath;
+using SceneTest.Assets;
 
 namespace SceneTest
 {
@@ -9,6 +10,7 @@ namespace SceneTest
         bool ReflectFloor { get; }
         bool ReflectWall { get; }
         BiomeTreasure Treasure { get; set; }
+        ISpriteAsset RestAsset { get; set; }
 
         BiomeEnemy GetEnemy(EnemyType type);
     }

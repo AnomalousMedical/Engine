@@ -8,29 +8,27 @@ using System.Threading.Tasks;
 
 namespace SceneTest.Assets.Original
 {
-    class TinyDino : ISpriteAsset
+    class Tent : ISpriteAsset
     {
         //Threax drew this one
 
-        public string SkinMaterial { get; set; } = "cc0Textures/Leather008_1K";
-        public string SpineMaterial { get; set; } = "cc0Textures/Leather008_1K";
+        public string TentMaterial { get; set; } = "cc0Textures/Fabric045_1K";
 
         public SpriteMaterialDescription CreateMaterial()
         {
             return new SpriteMaterialDescription
             (
-                colorMap: "original/TinyDino_Color.png",
+                colorMap: "original/Tent.png",
                 materials: new HashSet<SpriteMaterialTextureItem>
                 {
-                    new SpriteMaterialTextureItem(0xff168516, SkinMaterial, "jpg"),//Skin (green)
-                    new SpriteMaterialTextureItem(0xffff0000, SpineMaterial, "jpg"),//Spines (red)
+                    new SpriteMaterialTextureItem(0xff2476cf, TentMaterial, "jpg"),//blue
                 }
             );
         }
 
         public Sprite CreateSprite()
         {
-            return new Sprite() { BaseScale = new Vector3(1.466666666666667f, 1, 1) };
+            return new Sprite() { BaseScale = new Vector3(2, 1, 1) };
         }
     }
 }
