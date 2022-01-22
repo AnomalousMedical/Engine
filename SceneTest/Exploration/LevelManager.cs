@@ -100,7 +100,7 @@ namespace SceneTest
             }
             else
             {
-                player.SetLocation(currentLevel.StartPoint);
+                player.SetLocation(persistence.Player.Position ?? currentLevel.StartPoint);
             }
 
             LevelChanged?.Invoke(this);
@@ -281,6 +281,8 @@ namespace SceneTest
         {
             player.StopMovement();
         }
+
+        public Vector3 GetPlayerLoc() => player.GetLocation();
 
         public void RebuildPhysics()
         {

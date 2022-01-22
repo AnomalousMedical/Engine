@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Engine;
+using System;
 using System.Threading.Tasks;
 
 namespace SceneTest
@@ -11,7 +12,6 @@ namespace SceneTest
         bool ChangingLevels { get; }
         Level CurrentLevel { get; }
         bool IsPlayerMoving { get; }
-
         Task GoNextLevel();
         Task GoPreviousLevel();
         Task Restart();
@@ -22,5 +22,6 @@ namespace SceneTest
         void GoStartPoint();
         void GoEndPoint();
         void RebuildPhysics();
+        Vector3 GetPlayerLoc();
     }
 }

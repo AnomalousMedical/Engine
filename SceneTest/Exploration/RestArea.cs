@@ -191,6 +191,9 @@ namespace SceneTest
             persistence.BattleTriggers.ClearData();
             timeClock.SetTimeRatio(100);
 
+            persistence.Player.RespawnLevel = levelIndex;
+            persistence.Player.RespawnPosition = levelManager.GetPlayerLoc();
+
             long? endTime = null;
 
             explorationGameState.SetExplorationEvent(c =>

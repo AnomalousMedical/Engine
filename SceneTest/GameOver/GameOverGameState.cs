@@ -2,6 +2,7 @@
 using Engine;
 using Engine.Platform;
 using SceneTest.Battle;
+using SceneTest.Services;
 using SharpGui;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace SceneTest.GameOver
         private readonly IScreenPositioner screenPositioner;
         private readonly ICoroutineRunner coroutineRunner;
         private readonly ILevelManager levelManager;
+        private readonly Persistence persistence;
         private IGameState explorationState;
         private SharpButton restart = new SharpButton() { Text = "Restart" };
         private SharpText gameOver = new SharpText("Game Over");
@@ -31,7 +33,8 @@ namespace SceneTest.GameOver
             RTInstances<IBattleManager> rtInstances,
             IScreenPositioner screenPositioner,
             ICoroutineRunner coroutineRunner,
-            ILevelManager levelManager
+            ILevelManager levelManager,
+            Persistence persistence
         )
         {
             this.sharpGui = sharpGui;
@@ -39,6 +42,7 @@ namespace SceneTest.GameOver
             this.screenPositioner = screenPositioner;
             this.coroutineRunner = coroutineRunner;
             this.levelManager = levelManager;
+            this.persistence = persistence;
             layout = new ColumnLayout(gameOver, restart) { Margin = new IntPad(10) };
         }
 
@@ -64,6 +68,9 @@ namespace SceneTest.GameOver
             sharpGui.Text(gameOver);
             if (sharpGui.Button(restart))
             {
+                persistence.Level.CurrentLevelIndex = persistence.Player.RespawnLevel ?? 0;
+                persistence.Player.Position = persistence.Player.RespawnPosition;
+
                 coroutineRunner.RunTask(levelManager.Restart());
                 nextState = explorationState;
             }

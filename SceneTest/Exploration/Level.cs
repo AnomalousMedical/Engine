@@ -446,11 +446,13 @@ namespace SceneTest
             SetupRooms();
         }
 
+        private int restIndex;
         private int treasureIndex;
         private int enemyIndex;
         private bool placeRestArea;
         private void ResetPlacementData()
         {
+            restIndex = 0;
             treasureIndex = 0;
             enemyIndex = 0;
             placeRestArea = this.makeRestArea;
@@ -544,7 +546,7 @@ namespace SceneTest
                     placeRestArea = false;
                     var restArea = objectResolver.Resolve<RestArea, RestArea.Description>(o =>
                     {
-                        o.InstanceId = treasureIndex++;
+                        o.InstanceId = restIndex++;
                         o.LevelIndex = index;
                         o.MapOffset = mapLoc;
                         o.Translation = currentPosition + o.MapOffset;

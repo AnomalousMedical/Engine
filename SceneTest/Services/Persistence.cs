@@ -72,6 +72,10 @@ namespace SceneTest.Services
         public class PlayerData
         {
             public Vector3? Position { get; set; }
+
+            public int? RespawnLevel { get; set; }
+
+            public Vector3? RespawnPosition { get; set; }
         }
 
         public class TimeData

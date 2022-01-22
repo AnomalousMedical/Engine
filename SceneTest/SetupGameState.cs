@@ -56,11 +56,6 @@ namespace SceneTest
             if (active)
             {
                 finished = false;
-                foreach (var character in party.ActiveCharacterSheets)
-                {
-                    character.CurrentHp = character.Hp;
-                    character.CurrentMp = character.Mp;
-                }
                 coroutineRunner.RunTask(async () =>
                 {
                     await levelManager.WaitForCurrentLevel();
